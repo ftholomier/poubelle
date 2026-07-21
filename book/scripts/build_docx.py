@@ -127,6 +127,11 @@ def main():
         elif k == "figure":
             add_figure(doc, b["which"], b.get("caption"))
             first_after_head = False
+        elif k == "figures":
+            p = doc.add_paragraph(T(b["idx"]))
+            style_para(p, 11, BODYFONT, RGBColor(0x33,0x31,0x2c),
+                       align=WD_ALIGN_PARAGRAPH.CENTER, before=6, after=6)
+            first_after_head = False
         elif k == "citation":
             txt = " ".join(T(x) for x in b["idxs"])
             p = doc.add_paragraph(txt)

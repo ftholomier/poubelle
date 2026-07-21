@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Logique commune : paras.json + struct/*.json -> liste ordonnée de blocs.
 Le corps du texte reste identique au mot près ; on n'ajoute que la structure."""
-import json, os
+import json, os, re
 
 BOOK = os.environ.get("BOOK_DIR") or os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 BUILD = os.path.join(BOOK, "build")
@@ -30,6 +30,15 @@ SKIP_BODY = {0, 3, 4, 7, 8}       # consommés par la couverture
 # [pic] -> figure reconstruite ; caption_idx = paragraphe source utilisé comme légende
 FIG = {42: ("durer", 47), 51: ("ordre5", None)}
 FIG_CAP = {cap for (_, cap) in FIG.values() if cap is not None}  # légendes -> retirées du corps
+
+_NUMFIG = re.compile(r'^[\d\s.,€%+\-×x/()°:]+$')
+def is_figline(t):
+    """Ligne purement numérique (reliquat de tableau/compte en T aplati) — à centrer."""
+    if not t or len(t) >= 40 or not any(c.isdigit() for c in t):
+        return False
+    if not _NUMFIG.match(t) or re.fullmatch(r'\d+\)', t):
+        return False
+    return ('€' in t) or bool(re.search(r'\d\s+\d', t))
 
 def load_heads():
     heads = {}
@@ -106,7 +115,11 @@ def build_blocks():
             if run:
                 blocks.append(dict(kind="citation", idxs=list(run)))
                 consumed_until = run[-1] + 1; i = run[-1] + 1; continue
-            blocks.append(dict(kind="body", idx=i)); i += 1
+            if is_figline(t):
+                blocks.append(dict(kind="figures", idx=i))
+            else:
+                blocks.append(dict(kind="body", idx=i))
+            i += 1
 
     return blocks, chapter_titles
 

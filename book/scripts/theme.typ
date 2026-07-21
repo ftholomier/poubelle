@@ -56,6 +56,12 @@
   #body
 ]
 
+// Ligne de valeurs (reliquat de compte en T / tableau) présentée proprement
+#let figline(body) = block(width: 100%, spacing: 9pt, above: 9pt, below: 9pt)[
+  #set align(center)
+  #text(font: "Spectral", size: 11pt, fill: rgb("#33312c"), tracking: 0.12em, number-width: "tabular")[#body]
+]
+
 // ---------- Figures : carrés magiques ----------
 #let magic-cell(n, s: 13mm) = box(width: s, height: s, fill: white, stroke: 0.5pt + rgb("#c9bfa8"))[
   #set align(center + horizon)
@@ -180,6 +186,7 @@
 //  CONFIG GLOBALE
 // =====================================================================
 #let livre(titre-court: "La magie des sociétés", doc) = {
+  set document(title: "La magie des sociétés — Le triangle magique", author: "LEMAIRE")
   set text(font: "Spectral", size: 10.8pt, fill: INK, lang: "fr", region: "fr", hyphenate: true)
   set par(justify: true, leading: 0.78em, spacing: 0.8em,
           first-line-indent: (amount: 1.1em, all: false))

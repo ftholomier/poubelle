@@ -58,6 +58,8 @@ def main():
             caparg = f'caption: [{esc(b["caption"])}]' if b.get("caption") else ''
             out.append(f'#{fn}({caparg})')
             want_dropcap = False
+        elif k == "figures":
+            out.append(f'#figline[{esc(T(b["idx"]))}]'); want_dropcap = False
         elif k == "citation":
             txt = " ".join(T(x) for x in b["idxs"])
             out.append(f'#citation[{esc(txt)}]'); want_dropcap = False
