@@ -185,15 +185,17 @@ def add_back_cover(doc):
         pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
         pf.space_before = Pt(before); pf.space_after = Pt(after)
 
-    line("L'ART DE L'ENTREPRENEUR", 9, GOLD_L, font=HEADFONT, before=6, after=20)
-    line(f"« {hook} »", 16, PAPER_C, italic=True, after=6)
-    line("DICTIONNAIRE LAROUSSE", 8, MUT, font=HEADFONT, after=24)
-    line(COVER["s1"], 12, GOLD_L, italic=True, after=22)
-    line("LES QUATRE MONDES", 9, GOLD_L, font=HEADFONT, after=12)
+    # Groupe 1 : épigraphe (soudée), puis grand écart
+    line("L'ART DE L'ENTREPRENEUR", 9, GOLD_L, font=HEADFONT, before=6, after=10)
+    line(f"« {hook} »", 16, PAPER_C, italic=True, after=5)
+    line("— DICTIONNAIRE LAROUSSE", 8, MUT, font=HEADFONT, after=42)
+    # Groupe 2 : le parcours (label soudé à sa liste), puis grand écart
+    line("UN PARCOURS EN QUATRE MONDES", 9, GOLD_L, font=HEADFONT, after=8)
     for m in mondes:
-        line(m, 12, PAPER_C, after=6)
-    line(COVER["t2"], 16, PAPER_C, bold=True, before=22, after=4)
-    line(COVER["s2"], 9.5, GOLD_L, italic=True, after=18)
+        line(m, 12, PAPER_C, after=5)
+    # Groupe 3 : identité (titre + sous-titre soudés)
+    line(COVER["t2"], 16, PAPER_C, bold=True, before=42, after=4)
+    line(COVER["s2"], 9.5, GOLD_L, italic=True, after=32)
     line(COVER["auteur"].upper(), 9, PAPER_C, font=HEADFONT, after=0)
 
 def add_figure(doc, which, caption=None):

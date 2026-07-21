@@ -140,36 +140,36 @@
     #place(top + left, dx: 13mm, dy: 13mm,
       rect(width: 100% - 26mm, height: 100% - 26mm, stroke: 0.6pt + GOLD.darken(5%)))
 
-    // ── GROUPE 1 : épigraphe (haut) ──
-    #place(top + center, dy: 32mm)[
+    // ── GROUPE 1 : épigraphe — tout soudé ──
+    #place(top + center, dy: 34mm)[
       #set align(center)
       #eyebrow("L'art de l'entrepreneur", color: GOLD.lighten(22%))
-      #v(10mm)
+      #v(7mm)
       #block(width: 114mm)[
         #text(font: "Fraunces", size: 19pt, style: "italic", fill: PAPER)[« #hook »]
       ]
-      #v(5mm)
+      #v(4mm)
       #text(font: "Inter", size: 8.5pt, tracking: 0.14em, fill: GOLD.lighten(24%))[— #upper(attribution)]
     ]
 
-    // ── GROUPE 2 : les quatre mondes (milieu) ──
-    #place(top + center, dy: 99mm)[
+    // ── GROUPE 2 : le parcours — label soudé à sa liste ──
+    #place(top + center, dy: 104mm)[
       #set align(center)
       #eyebrow("Un parcours en quatre mondes", color: GOLD.lighten(20%))
-      #v(9mm)
-      #stack(spacing: 6mm, ..mondes.map(m =>
+      #v(4mm)
+      #stack(spacing: 5mm, ..mondes.map(m =>
         block(width: 120mm)[#text(font: "Fraunces", size: 11.5pt, fill: PAPER)[#m]]))
     ]
 
-    // ── GROUPE 3 : identité (bas) ──
-    #place(bottom + center, dy: -22mm)[
+    // ── GROUPE 3 : identité — motif + titre + sous-titre soudés ──
+    #place(bottom + center, dy: -19mm)[
       #set align(center)
       #polygon.regular(vertices: 3, size: 12mm, stroke: 0.7pt + GOLD, fill: none)
-      #v(6mm)
+      #v(5mm)
       #text(font: "Fraunces", size: 18pt, weight: 700, fill: PAPER)[#t2]
-      #v(3mm)
+      #v(2.5mm)
       #text(font: "Inter", size: 9pt, tracking: 0.05em, fill: GOLD.lighten(28%))[#s2]
-      #v(10mm)
+      #v(13mm)
       #text(font: "Inter", size: 9pt, weight: 500, tracking: 0.2em, fill: PAPER.darken(6%))[#upper(auteur)]
     ]
   ]
