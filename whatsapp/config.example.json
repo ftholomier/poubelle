@@ -1,0 +1,13 @@
+{
+    "graph_api_version": "v22.0",
+    "graph_base_url": "https://graph.facebook.com",
+
+    "phone_number_id": "REMPLACE_PAR_TON_PHONE_NUMBER_ID",
+    "access_token": "REMPLACE_PAR_TON_ACCESS_TOKEN",
+
+    "verify_token": "REMPLACE_PAR_UN_TOKEN_SECRET_DE_TON_CHOIX",
+    "app_secret": "REMPLACE_PAR_TON_APP_SECRET",
+
+    "business_name": "Mon Business",
+    "default_recipient": ""
+}

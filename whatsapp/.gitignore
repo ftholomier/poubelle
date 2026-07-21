@@ -1,0 +1,5 @@
+# Secrets — NE JAMAIS committer (contient token & app secret)
+/config.json
+
+# Logs runtime
+/logs/*.log
