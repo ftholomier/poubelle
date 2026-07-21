@@ -45,13 +45,18 @@ def main():
                 out.append(f'#partie("{b["num"]}", [{esc(b["title"])}], [{esc(DESC.get(b["num"],""))}], {COLORMAP[b["color"]]})')
             want_dropcap = True
         elif k == "chapter":
-            out.append(f'== {esc(b["title"])}'); want_dropcap = True
+            numval = f'"{b["num"]}"' if b.get("num") else "none"
+            out.append(f'#chapnum.update({numval})')
+            out.append(f'== {esc(b["title"])}')
+            want_dropcap = True
         elif k == "section":
             out.append(f'=== {esc(b["title"])}')
         elif k == "subsection":
             out.append(f'==== {esc(b["title"])}')
         elif k == "figure":
-            out.append('#carre-durer()' if b["which"] == "durer" else '#carre-ordre5()')
+            fn = 'carre-durer' if b["which"] == "durer" else 'carre-ordre5'
+            caparg = f'caption: [{esc(b["caption"])}]' if b.get("caption") else ''
+            out.append(f'#{fn}({caparg})')
             want_dropcap = False
         elif k == "citation":
             txt = " ".join(T(x) for x in b["idxs"])

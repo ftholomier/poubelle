@@ -27,7 +27,9 @@ INTRO_SECTIONS = {
 }
 COVER = dict(t1=T(3), s1=T(4), t2=T(7), s2=T(8), auteur="LEMAIRE")
 SKIP_BODY = {0, 3, 4, 7, 8}       # consommés par la couverture
-FIG = {42: "durer", 51: "ordre5"} # [pic] -> figures reconstruites
+# [pic] -> figure reconstruite ; caption_idx = paragraphe source utilisé comme légende
+FIG = {42: ("durer", 47), 51: ("ordre5", None)}
+FIG_CAP = {cap for (_, cap) in FIG.values() if cap is not None}  # légendes -> retirées du corps
 
 def load_heads():
     heads = {}
@@ -75,10 +77,12 @@ def build_blocks():
             t = T(i)
             if not t:
                 i += 1; continue
-            if i in SKIP_BODY or i in PART_HEAD_IDX:
+            if i in SKIP_BODY or i in PART_HEAD_IDX or i in FIG_CAP:
                 i += 1; continue
             if i in FIG:
-                blocks.append(dict(kind="figure", which=FIG[i])); i += 1; continue
+                which, capidx = FIG[i]
+                cap = T(capidx) if capidx is not None else None
+                blocks.append(dict(kind="figure", which=which, caption=cap)); i += 1; continue
             spec = heads.get(i); intro_sec = INTRO_SECTIONS.get(i)
             if spec or intro_sec:
                 if intro_sec:
@@ -86,9 +90,12 @@ def build_blocks():
                 else:
                     lvl, title, action = spec["level"], spec["title"], spec["action"]
                 if lvl == 2:
-                    chapter_no += 1
-                    chapter_titles.append((chapter_no, title))
-                    blocks.append(dict(kind="chapter", num=chapter_no, title=title, color=part["color"]))
+                    if title.strip().lower() in ("remerciements", "conclusion"):
+                        blocks.append(dict(kind="chapter", num=None, title=title, color=part["color"]))
+                    else:
+                        chapter_no += 1
+                        chapter_titles.append((chapter_no, title))
+                        blocks.append(dict(kind="chapter", num=chapter_no, title=title, color=part["color"]))
                 elif lvl == 3:
                     blocks.append(dict(kind="section", title=title))
                 else:

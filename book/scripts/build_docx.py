@@ -112,7 +112,8 @@ def main():
             first_after_head = True
         elif k == "chapter":
             page_break(doc)
-            p = doc.add_paragraph(f'Chapitre {b["num"]} — {b["title"]}', style="Heading 2")
+            label = f'Chapitre {b["num"]} — {b["title"]}' if b.get("num") else b["title"]
+            p = doc.add_paragraph(label, style="Heading 2")
             style_para(p, 18, HEADFONT, cur_color, bold=True, before=12, after=10)
             first_after_head = True
         elif k == "section":
@@ -124,7 +125,7 @@ def main():
             style_para(p, 11.5, HEADFONT, cur_color, bold=True, before=8, after=2)
             first_after_head = True
         elif k == "figure":
-            add_figure(doc, b["which"])
+            add_figure(doc, b["which"], b.get("caption"))
             first_after_head = False
         elif k == "citation":
             txt = " ".join(T(x) for x in b["idxs"])
@@ -146,10 +147,11 @@ def main():
     doc.save(os.path.join(OUT, "livre.docx"))
     print(f"écrit {OUT}/livre.docx | chapitres={len(chapter_titles)}")
 
-def add_figure(doc, which):
+def add_figure(doc, which, caption=None):
     grid = ([[16,3,2,13],[5,10,11,8],[9,6,7,12],[4,15,14,1]] if which == "durer"
             else [[5*r+c+1 for c in range(5)] for r in range(5)])
-    cap = ("Le carré magique d'ordre 4 gravé par Albrecht Dürer dans « Melencolia » — constante magique : 34."
+    cap = caption if caption else (
+           "Le carré magique d'ordre 4 gravé par Albrecht Dürer dans « Melencolia » — constante magique : 34."
            if which == "durer" else
            "Un carré d'ordre 5 numéroté selon la formule 5 × p + e + 1 (plans d'expériences).")
     n = len(grid)

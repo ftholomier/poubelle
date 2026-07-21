@@ -18,7 +18,7 @@
 #let C-IV    = rgb("#8a6d2a")
 
 #let part-color = state("part-color", GOLD)
-#let chapctr = counter("chapitre")
+#let chapnum = state("chapnum", none)  // numéro de chapitre courant (none = hors numérotation)
 
 // ---------- Helpers ----------
 #let eyebrow(txt, color: GOLD) = text(
@@ -62,8 +62,8 @@
   #text(font: "Fraunces", size: 13pt, weight: 500, fill: INK)[#n]
 ]
 
-#let carre-durer() = figure(
-  caption: [Le carré magique d'ordre 4 gravé par Albrecht Dürer dans « Melencolia » — constante magique : 34.],
+#let carre-durer(caption: none) = figure(
+  caption: if caption != none { caption } else [Le carré magique d'ordre 4 gravé par Albrecht Dürer dans « Melencolia » — constante magique : 34.],
 )[
   #let g = (16,3,2,13, 5,10,11,8, 9,6,7,12, 4,15,14,1)
   #block(stroke: 1pt + GOLD, inset: 0pt, clip: true)[
@@ -71,8 +71,8 @@
   ]
 ]
 
-#let carre-ordre5() = figure(
-  caption: [Un carré d'ordre 5 numéroté selon la formule 5 × p + e + 1 (application aux plans d'expériences).],
+#let carre-ordre5(caption: none) = figure(
+  caption: if caption != none { caption } else [Un carré d'ordre 5 numéroté selon la formule 5 × p + e + 1 (application aux plans d'expériences).],
 )[
   #block(stroke: 1pt + GOLD, inset: 0pt, clip: true)[
     #grid(columns: 5, ..range(1,26).map(n => magic-cell(n, s: 11mm)))
@@ -208,22 +208,23 @@
   // Niveau 1 = PARTIE (mise en page par partie())
   show heading.where(level: 1): it => {
     set text(font: "Fraunces", size: 33pt, weight: 900, fill: PAPER)
-    set par(leading: 0.34em)
+    set par(leading: 0.34em, justify: false)
     block(width: 84%, below: 0pt)[#it.body]
   }
   // Niveau 2 = CHAPITRE
   show heading.where(level: 2): it => {
     pagebreak(weak: true)
-    chapctr.step()
     context {
       let pc = part-color.get()
-      let n = chapctr.get().at(0)
+      let cn = chapnum.get()
       v(15mm)
       block(spacing: 0pt, breakable: false)[
-        #eyebrow("Chapitre " + str(n), color: pc)
-        #v(5mm)
+        #if cn != none {
+          eyebrow("Chapitre " + cn, color: pc)
+          v(5mm)
+        }
         #set text(font: "Fraunces", size: 27pt, weight: 700, fill: INK)
-        #set par(leading: 0.36em)
+        #set par(leading: 0.36em, justify: false)
         #it.body
         #v(5mm)
         #line(length: 32mm, stroke: 1.2pt + pc)
