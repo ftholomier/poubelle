@@ -32,8 +32,7 @@
       font: "Fraunces", weight: 900, size: 3.0em, fill: part-color.get(),
     )[#initial]]
   h(0.05em)
-  text(font: "Spectral", size: 0.98em, tracking: 0.02em)[#smallcaps(restword)]
-  tail
+  [#text(font: "Spectral", size: 0.98em, tracking: 0.02em)[#smallcaps(restword)] #tail]
 }
 
 // ---------- Callouts ----------
@@ -86,33 +85,39 @@
 #let couverture(t1, s1, t2, s2, auteur) = {
   page(fill: INK, margin: 0pt, header: none, footer: none, numbering: none)[
     #set text(fill: PAPER)
-    #place(top + left, dx: 14mm, dy: 14mm,
-      rect(width: 100% - 28mm, height: 100% - 28mm, stroke: 0.6pt + GOLD.darken(5%)))
-    #place(center + horizon, dy: 6mm,
-      polygon.regular(vertices: 3, size: 66mm, stroke: 0.8pt + GOLD, fill: none))
-    #place(center + horizon, dy: 17mm,
-      polygon.regular(vertices: 3, size: 30mm, stroke: 0.5pt + GOLD.lighten(12%), fill: none))
-    #place(center + horizon, dx: 0mm, dy: -30mm)[#eyebrow("Particulier", color: GOLD.lighten(25%))]
-    #place(center + horizon, dx: -40mm, dy: 30mm)[#eyebrow("Société", color: GOLD.lighten(25%))]
-    #place(center + horizon, dx: 40mm, dy: 30mm)[#eyebrow("Holding", color: GOLD.lighten(25%))]
+    #set par(justify: false)
+    #place(top + left, dx: 13mm, dy: 13mm,
+      rect(width: 100% - 26mm, height: 100% - 26mm, stroke: 0.6pt + GOLD.darken(5%)))
 
-    #place(top + center, dy: 38mm)[
+    // Motif « Triangle magique » (centre-bas) + libellés aux sommets
+    #place(center + horizon, dy: 26mm,
+      polygon.regular(vertices: 3, size: 56mm, stroke: 0.9pt + GOLD, fill: none))
+    #place(center + horizon, dy: 34mm,
+      polygon.regular(vertices: 3, size: 24mm, stroke: 0.5pt + GOLD.lighten(12%), fill: none))
+    #place(center + horizon, dy: -12mm)[#align(center)[#eyebrow("Particulier", color: GOLD.lighten(30%))]]
+    #place(center + horizon, dx: -37mm, dy: 50mm)[#eyebrow("Société", color: GOLD.lighten(30%))]
+    #place(center + horizon, dx: 37mm, dy: 50mm)[#eyebrow("Holding", color: GOLD.lighten(30%))]
+
+    // Haut : sur-titre + titre + sous-titre
+    #place(top + center, dy: 29mm)[
       #set align(center)
-      #eyebrow("L'art de l'entrepreneur", color: GOLD.lighten(20%))
+      #eyebrow("L'art de l'entrepreneur", color: GOLD.lighten(22%))
       #v(9mm)
-      #text(font: "Fraunces", size: 44pt, weight: 900, fill: PAPER)[#t1]
-      #v(3mm)
-      #text(font: "Fraunces", size: 15pt, weight: 400, style: "italic", fill: GOLD.lighten(24%))[#s1]
+      #box(width: 134mm)[#text(font: "Fraunces", size: 36pt, weight: 900, fill: PAPER, hyphenate: false)[#t1]]
+      #v(4mm)
+      #text(font: "Fraunces", size: 14pt, weight: 400, style: "italic", fill: GOLD.lighten(26%))[#s1]
     ]
-    #place(bottom + center, dy: -32mm)[
+
+    // Bas : titre secondaire + auteur
+    #place(bottom + center, dy: -30mm)[
       #set align(center)
-      #line(length: 24mm, stroke: 0.6pt + GOLD)
+      #line(length: 22mm, stroke: 0.6pt + GOLD)
       #v(6mm)
-      #text(font: "Fraunces", size: 21pt, weight: 700, fill: PAPER)[#t2]
+      #text(font: "Fraunces", size: 20pt, weight: 700, fill: PAPER)[#t2]
       #v(2mm)
-      #text(font: "Inter", size: 9.5pt, fill: GOLD.lighten(26%), tracking: 0.06em)[#s2]
+      #text(font: "Inter", size: 9.5pt, fill: GOLD.lighten(28%), tracking: 0.05em)[#s2]
     ]
-    #place(bottom + center, dy: -15mm)[
+    #place(bottom + center, dy: -14mm)[
       #text(font: "Inter", size: 9pt, weight: 500, tracking: 0.18em, fill: PAPER.darken(6%))[#upper(auteur)]
     ]
   ]
@@ -123,7 +128,7 @@
 // =====================================================================
 #let partie(numeral, titre, descriptif, color) = {
   part-color.update(color)
-  pagebreak(to: "odd", weak: true)
+  pagebreak(weak: true)
   page(fill: color, margin: (x: 24mm, y: 30mm), header: none, footer: none, numbering: none)[
     #set text(fill: PAPER)
     #if numeral != "" {
@@ -151,7 +156,7 @@
 //  SOMMAIRE
 // =====================================================================
 #let sommaire() = {
-  pagebreak(to: "odd", weak: true)
+  pagebreak(weak: true)
   page(header: none, footer: none, numbering: none)[
     #v(8mm)
     #text(font: "Fraunces", size: 30pt, weight: 900, fill: INK)[Sommaire]
@@ -208,7 +213,7 @@
   }
   // Niveau 2 = CHAPITRE
   show heading.where(level: 2): it => {
-    pagebreak(to: "odd", weak: true)
+    pagebreak(weak: true)
     chapctr.step()
     context {
       let pc = part-color.get()

@@ -35,7 +35,7 @@ def main():
                f'[{esc(COVER["t2"])}], [{esc(COVER["s2"])}], [{esc(COVER["auteur"])}])')
     out.append("#sommaire()")
     out.append("")
-    first_after_head = False
+    want_dropcap = False
     for b in blocks:
         k = b["kind"]
         if k == "part":
@@ -43,28 +43,29 @@ def main():
                 out.append(f'#partie("", [Introduction], [{esc(DESC[""])}], {COLORMAP["INTRO"]})')
             else:
                 out.append(f'#partie("{b["num"]}", [{esc(b["title"])}], [{esc(DESC.get(b["num"],""))}], {COLORMAP[b["color"]]})')
-            first_after_head = True
+            want_dropcap = True
         elif k == "chapter":
-            out.append(f'== {esc(b["title"])}'); first_after_head = True
+            out.append(f'== {esc(b["title"])}'); want_dropcap = True
         elif k == "section":
-            out.append(f'=== {esc(b["title"])}'); first_after_head = True
+            out.append(f'=== {esc(b["title"])}')
         elif k == "subsection":
-            out.append(f'==== {esc(b["title"])}'); first_after_head = True
+            out.append(f'==== {esc(b["title"])}')
         elif k == "figure":
-            out.append(f'#carre-{b["which"]}()' if b["which"] == "durer" else '#carre-ordre5()')
+            out.append('#carre-durer()' if b["which"] == "durer" else '#carre-ordre5()')
+            want_dropcap = False
         elif k == "citation":
             txt = " ".join(T(x) for x in b["idxs"])
-            out.append(f'#citation[{esc(txt)}]'); first_after_head = False
+            out.append(f'#citation[{esc(txt)}]'); want_dropcap = False
         elif k == "body":
             txt = T(b["idx"])
-            if first_after_head and re.match(r"^[A-Za-zÀ-ÿ]", txt):
+            if want_dropcap and len(txt) > 60 and re.match(r"^[A-Za-zÀ-ÿ]", txt):
                 m = re.match(r"^(\S+)(.*)$", txt, re.S)
                 fw, rest = m.group(1), m.group(2)
                 q = lambda x: esc(x).replace('"', '\\"')
                 out.append(f'#chapstart("{q(fw[0])}", "{q(fw[1:])}", [{body_line(rest.lstrip())}])')
             else:
                 out.append(body_line(txt))
-            first_after_head = False
+            want_dropcap = False
         out.append("")
     open(f"{BUILD}/livre.typ", "w", encoding="utf-8").write("\n".join(out))
     print(f"écrit {BUILD}/livre.typ | blocs={len(blocks)} chapitres={len(chapter_titles)}")
