@@ -1,3 +1,10 @@
+# Artefacts régénérables (via setup.sh + assemble.py) — non versionnés
 build/fonts/
-build/*.pdf
+build/fonts_dl/
+build/preview/
 build/wv_export/
+build/*.pdf
+build/livre.typ
+build/theme.typ
+build/livre_docbook.xml
+out/*_partial.pdf
