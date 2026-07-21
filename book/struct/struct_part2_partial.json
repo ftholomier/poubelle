@@ -1,0 +1,12 @@
+{
+  "part": "II. Le monde des particuliers et entrepreneurs individuels",
+  "_note": "PARTIEL — 6 chapitres connus (indices sûrs). Les 26 sous-sections (niveau 3) doivent être re-dérivées depuis la tranche part2_particuliers.txt : leurs indices ont été perdus lors d'un reset conteneur. Descriptions ci-dessous en indice.",
+  "chapters": [
+    {"idx": 418,  "action": "promote",       "level": 2, "title": "La fiscalité du particulier", "orig": "2 La fiscalité du particulier", "subsections_hint": ["IR / contexte LF2018", "tranches & CSG/CRDS", "traitements et salaires", "CITE & Pinel", "prélèvement à la source", "PFU"]},
+    {"idx": 626,  "action": "promote",       "level": 2, "title": "Les différentes impositions de l'investisseur immobilier", "orig": "2.2 Les différentes impositions de l'investisseur immobilier", "subsections_hint": ["réel vs micro", "micro-BNC", "micro-BIC", "réel"]},
+    {"idx": 727,  "action": "insert_before", "level": 2, "title": "L'investissement immobilier", "orig": null, "subsections_hint": ["passion & lectures", "méthode Zonta", "règles d'or & choix du statut"]},
+    {"idx": 803,  "action": "insert_before", "level": 2, "title": "La location meublée (LMNP)", "orig": null, "subsections_hint": ["atouts & amortissements", "cadre juridique & obligations", "fixation du loyer", "régimes d'imposition", "statut social"]},
+    {"idx": 983,  "action": "promote",       "level": 2, "title": "L'imposition de la plus-value immobilière", "orig": "Imposition sur la plus-value immobilière", "subsections_hint": ["plus-values professionnelles LMP", "plus-values des particuliers LMNP", "résidence principale", "achat-revente de la RP"]},
+    {"idx": 1058, "action": "promote",       "level": 2, "title": "La taxation de l'immobilier", "orig": "3 Taxation de l'immobilier", "subsections_hint": ["TVA", "taxes foncière & d'habitation", "CFE & autres taxes locales", "transition Vers le patrimoine en sociétés"]}
+  ]
+}

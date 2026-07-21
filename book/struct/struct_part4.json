@@ -1,0 +1,15 @@
+{
+  "part": "IV. La holding",
+  "headings": [
+    {"idx": 2077, "action": "insert_before", "level": 2, "title": "Le principe général de la holding", "orig": null},
+    {"idx": 2150, "action": "insert_before", "level": 3, "title": "Le régime fiscal des sociétés mère et filiales", "orig": null},
+    {"idx": 2166, "action": "promote",       "level": 2, "title": "Les différents types de holding", "orig": "Différents types de holding"},
+    {"idx": 2206, "action": "promote",       "level": 2, "title": "Le commissaire aux comptes", "orig": "Le Commissaire aux comptes"},
+    {"idx": 2235, "action": "insert_before", "level": 3, "title": "Le commissaire aux apports", "orig": null},
+    {"idx": 2270, "action": "insert_before", "level": 3, "title": "Le commissaire à la transformation", "orig": null},
+    {"idx": 2282, "action": "insert_before", "level": 3, "title": "Quelques exemples de montages en holding", "orig": null},
+    {"idx": 2303, "action": "promote",       "level": 2, "title": "La holding offshore", "orig": "La Holding OFFSHORE"},
+    {"idx": 2328, "action": "insert_before", "level": 3, "title": "Conclusion", "orig": null},
+    {"idx": 2368, "action": "insert_before", "level": 2, "title": "Remerciements", "orig": null}
+  ]
+}

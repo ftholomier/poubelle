@@ -1,0 +1,21 @@
+{
+  "part": "I. Le monde de la comptabilité",
+  "headings": [
+    {"idx": 85,  "action": "promote",       "level": 2, "title": "Les principes généraux de la comptabilité", "orig": "1 Principes généraux de la comptabilité"},
+    {"idx": 86,  "action": "insert_before", "level": 3, "title": "L'importance et le cadre légal de la comptabilité", "orig": null},
+    {"idx": 131, "action": "insert_before", "level": 3, "title": "Le bilan, le résultat et la logique de la partie double", "orig": null},
+    {"idx": 175, "action": "insert_before", "level": 3, "title": "Le plan comptable général et les documents de synthèse", "orig": null},
+    {"idx": 192, "action": "insert_before", "level": 2, "title": "Les travaux d'inventaire et la TVA", "orig": null},
+    {"idx": 194, "action": "insert_before", "level": 3, "title": "Les amortissements", "orig": null},
+    {"idx": 237, "action": "insert_before", "level": 3, "title": "Les provisions pour dépréciation", "orig": null},
+    {"idx": 246, "action": "insert_before", "level": 3, "title": "Le réajustement des charges et des produits", "orig": null},
+    {"idx": 273, "action": "insert_before", "level": 3, "title": "Le stock", "orig": null},
+    {"idx": 309, "action": "insert_before", "level": 3, "title": "La TVA", "orig": null},
+    {"idx": 322, "action": "insert_before", "level": 2, "title": "Lire, analyser et exploiter sa comptabilité", "orig": null},
+    {"idx": 323, "action": "insert_before", "level": 3, "title": "La structure du bilan et du compte de résultat", "orig": null},
+    {"idx": 348, "action": "insert_before", "level": 3, "title": "Lire ses états financiers avec discernement", "orig": null},
+    {"idx": 356, "action": "insert_before", "level": 3, "title": "L'analyse par les soldes intermédiaires de gestion", "orig": null},
+    {"idx": 368, "action": "insert_before", "level": 3, "title": "L'impact de la fiscalité", "orig": null},
+    {"idx": 389, "action": "insert_before", "level": 3, "title": "Choisir et travailler avec son expert-comptable", "orig": null}
+  ]
+}
