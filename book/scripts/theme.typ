@@ -109,7 +109,7 @@
       #set align(center)
       #eyebrow("L'art de l'entrepreneur", color: GOLD.lighten(22%))
       #v(9mm)
-      #box(width: 134mm)[#text(font: "Fraunces", size: 36pt, weight: 900, fill: PAPER, hyphenate: false)[#t1]]
+      #box(width: 124mm)[#text(font: "Fraunces", size: 35pt, weight: 900, fill: PAPER, hyphenate: false)[#t1]]
       #v(4mm)
       #text(font: "Fraunces", size: 14pt, weight: 400, style: "italic", fill: GOLD.lighten(26%))[#s1]
     ]
@@ -123,7 +123,7 @@
       #v(2mm)
       #text(font: "Inter", size: 9.5pt, fill: GOLD.lighten(28%), tracking: 0.05em)[#s2]
     ]
-    #place(bottom + center, dy: -14mm)[
+    #place(bottom + center, dy: -18mm)[
       #text(font: "Inter", size: 9pt, weight: 500, tracking: 0.18em, fill: PAPER.darken(6%))[#upper(auteur)]
     ]
   ]
@@ -132,7 +132,7 @@
 // =====================================================================
 //  QUATRIÈME DE COUVERTURE
 // =====================================================================
-#let quatrieme(hook, attribution, sub, mondes, t2, s2, auteur) = {
+#let quatrieme(hook, attribution, mondes, t2, s2, auteur) = {
   pagebreak(weak: true)
   page(fill: INK, margin: 0pt, header: none, footer: none, numbering: none)[
     #set text(fill: PAPER)
@@ -140,40 +140,37 @@
     #place(top + left, dx: 13mm, dy: 13mm,
       rect(width: 100% - 26mm, height: 100% - 26mm, stroke: 0.6pt + GOLD.darken(5%)))
 
-    // Épigraphe (mots du livre)
-    #place(top + center, dy: 30mm)[
+    // ── GROUPE 1 : épigraphe (haut) ──
+    #place(top + center, dy: 32mm)[
       #set align(center)
       #eyebrow("L'art de l'entrepreneur", color: GOLD.lighten(22%))
-      #v(13mm)
-      #block(width: 116mm)[
+      #v(10mm)
+      #block(width: 114mm)[
         #text(font: "Fraunces", size: 19pt, style: "italic", fill: PAPER)[« #hook »]
       ]
-      #v(6mm)
-      #text(font: "Inter", size: 8.5pt, tracking: 0.16em, fill: GOLD.lighten(24%))[#upper(attribution)]
-      #v(11mm)
-      #text(font: "Fraunces", size: 13pt, style: "italic", fill: GOLD.lighten(26%))[#sub]
+      #v(5mm)
+      #text(font: "Inter", size: 8.5pt, tracking: 0.14em, fill: GOLD.lighten(24%))[— #upper(attribution)]
     ]
 
-    // Les quatre mondes (titres des parties)
-    #place(top + center, dy: 113mm)[
+    // ── GROUPE 2 : les quatre mondes (milieu) ──
+    #place(top + center, dy: 99mm)[
       #set align(center)
-      #eyebrow("Les quatre mondes", color: GOLD.lighten(20%))
-      #v(8mm)
+      #eyebrow("Un parcours en quatre mondes", color: GOLD.lighten(20%))
+      #v(9mm)
       #stack(spacing: 6mm, ..mondes.map(m =>
-        text(font: "Fraunces", size: 12.5pt, fill: PAPER)[#m]))
+        block(width: 120mm)[#text(font: "Fraunces", size: 11.5pt, fill: PAPER)[#m]]))
     ]
 
-    // Bas : motif + titre + sous-titre + auteur
-    #place(bottom + center, dy: -26mm)[
+    // ── GROUPE 3 : identité (bas) ──
+    #place(bottom + center, dy: -22mm)[
       #set align(center)
-      #polygon.regular(vertices: 3, size: 15mm, stroke: 0.7pt + GOLD, fill: none)
-      #v(7mm)
+      #polygon.regular(vertices: 3, size: 12mm, stroke: 0.7pt + GOLD, fill: none)
+      #v(6mm)
       #text(font: "Fraunces", size: 18pt, weight: 700, fill: PAPER)[#t2]
       #v(3mm)
       #text(font: "Inter", size: 9pt, tracking: 0.05em, fill: GOLD.lighten(28%))[#s2]
-    ]
-    #place(bottom + center, dy: -13mm)[
-      #text(font: "Inter", size: 9pt, weight: 500, tracking: 0.18em, fill: PAPER.darken(6%))[#upper(auteur)]
+      #v(10mm)
+      #text(font: "Inter", size: 9pt, weight: 500, tracking: 0.2em, fill: PAPER.darken(6%))[#upper(auteur)]
     ]
   ]
 }
@@ -235,7 +232,7 @@
 //  CONFIG GLOBALE
 // =====================================================================
 #let livre(titre-court: "La magie des sociétés", doc) = {
-  set document(title: "La magie des sociétés — Le triangle magique", author: "LEMAIRE")
+  set document(title: "La magie des sociétés — Le triangle magique", author: "Romain Lemaire")
   set text(font: "Spectral", size: 10.8pt, fill: INK, lang: "fr", region: "fr", hyphenate: true)
   set par(justify: true, leading: 0.72em, spacing: 1.55em,
           first-line-indent: (amount: 0.9em, all: false))

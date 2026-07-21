@@ -79,7 +79,7 @@ def main():
     mondes = [p["title"] for p in PARTS if not p.get("intro")]
     hook = T(16).strip("«» ").strip()
     mondes_typ = ", ".join("[" + esc(m) + "]" for m in mondes)
-    out.append(f'#quatrieme([{esc(hook)}], [Dictionnaire Larousse], [{esc(COVER["s1"])}], '
+    out.append(f'#quatrieme([{esc(hook)}], [Dictionnaire Larousse], '
                f'({mondes_typ}), [{esc(COVER["t2"])}], [{esc(COVER["s2"])}], [{esc(COVER["auteur"])}])')
 
     open(f"{BUILD}/livre.typ", "w", encoding="utf-8").write("\n".join(out))

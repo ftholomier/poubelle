@@ -25,7 +25,7 @@ INTRO_SECTIONS = {
     34: "Les carrés magiques, une inspiration",
     55: "Du carré magique au Triangle Magique",
 }
-COVER = dict(t1=T(3), s1=T(4), t2=T(7), s2=T(8), auteur="LEMAIRE")
+COVER = dict(t1=T(3), s1=T(4), t2=T(7), s2=T(8), auteur="Romain Lemaire")
 SKIP_BODY = {0, 3, 4, 7, 8}       # consommés par la couverture
 # [pic] -> figure reconstruite ; caption_idx = paragraphe source utilisé comme légende
 FIG = {42: ("durer", 47), 51: ("ordre5", None)}
