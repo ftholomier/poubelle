@@ -118,11 +118,11 @@ def main():
             first_after_head = True
         elif k == "section":
             p = doc.add_paragraph(b["title"], style="Heading 3")
-            style_para(p, 13.5, HEADFONT, INK, bold=True, before=10, after=4)
+            style_para(p, 13.5, HEADFONT, INK, bold=True, before=20, after=5)
             first_after_head = True
         elif k == "subsection":
             p = doc.add_paragraph(b["title"], style="Heading 4")
-            style_para(p, 11.5, HEADFONT, cur_color, bold=True, before=8, after=2)
+            style_para(p, 11.5, HEADFONT, cur_color, bold=True, before=16, after=3)
             first_after_head = True
         elif k == "figure":
             add_figure(doc, b["which"], b.get("caption"))
@@ -136,7 +136,8 @@ def main():
             txt = " ".join(T(x) for x in b["idxs"])
             p = doc.add_paragraph(txt)
             style_para(p, 10.5, BODYFONT, RGBColor(0x3c,0x3a,0x34), italic=True,
-                       align=WD_ALIGN_PARAGRAPH.JUSTIFY, indent=Cm(0.7), after=8, spacing=1.1)
+                       align=WD_ALIGN_PARAGRAPH.JUSTIFY, indent=Cm(0.7),
+                       before=10, after=12, spacing=1.2)
             left_border(p, "b08d3e")
             first_after_head = False
         elif k == "body":
@@ -144,7 +145,7 @@ def main():
             p = doc.add_paragraph(txt)
             fi = None if first_after_head else Cm(0.6)
             style_para(p, 11, BODYFONT, INK, align=WD_ALIGN_PARAGRAPH.JUSTIFY,
-                       after=2, first_indent=fi, spacing=1.18)
+                       after=9, first_indent=fi, spacing=1.1)
             first_after_head = False
 
     doc.save(os.path.join(OUT, "livre.docx"))
@@ -174,7 +175,7 @@ def add_figure(doc, which, caption=None):
             cell.width = Cm(1.4)
     p = doc.add_paragraph(cap)
     style_para(p, 9, HEADFONT, RGBColor(0x5a,0x57,0x50), italic=True,
-               align=WD_ALIGN_PARAGRAPH.CENTER, before=4, after=10)
+               align=WD_ALIGN_PARAGRAPH.CENTER, before=6, after=18)
 
 if __name__ == "__main__":
     main()

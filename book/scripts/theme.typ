@@ -188,8 +188,8 @@
 #let livre(titre-court: "La magie des sociétés", doc) = {
   set document(title: "La magie des sociétés — Le triangle magique", author: "LEMAIRE")
   set text(font: "Spectral", size: 10.8pt, fill: INK, lang: "fr", region: "fr", hyphenate: true)
-  set par(justify: true, leading: 0.78em, spacing: 0.8em,
-          first-line-indent: (amount: 1.1em, all: false))
+  set par(justify: true, leading: 0.72em, spacing: 1.55em,
+          first-line-indent: (amount: 0.9em, all: false))
 
   set page(
     width: 160mm, height: 240mm,
@@ -239,21 +239,25 @@
       v(9mm)
     }
   }
-  // Niveau 3 = SECTION
+  // Niveau 3 = SECTION (bien décollée du texte précédent, proche du texte suivant)
   show heading.where(level: 3): it => {
-    v(8pt, weak: true)
-    block(spacing: 6pt, breakable: false)[
+    block(above: 22pt, below: 7pt, breakable: false)[
       #set text(font: "Fraunces", size: 14.5pt, weight: 600, fill: INK)
+      #set par(justify: false)
       #it.body
     ]
   }
   // Niveau 4 = SOUS-SECTION
   show heading.where(level: 4): it => context {
-    v(6pt, weak: true)
-    block(spacing: 4pt)[
+    block(above: 17pt, below: 5pt, breakable: false)[
       #text(font: "Inter", size: 9.5pt, weight: 700, tracking: 0.05em, fill: part-color.get())[#it.body]
     ]
   }
+
+  // Figures : bien aérées, texte détaché de la légende
+  set figure(gap: 10pt)
+  show figure: set block(above: 15pt, below: 18pt)
+  show figure.caption: set text(font: "Inter", size: 8.5pt, fill: MUTED)
 
   doc
 }
