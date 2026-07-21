@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Émetteur TYPST : blocs -> build/livre.typ (corps identique au mot près)."""
 import re, os
-from blocks import build_blocks, T, COVER, BUILD
+from blocks import build_blocks, T, COVER, BUILD, PARTS
 
 COLORMAP = {"INTRO": "C-INTRO", "I": "C-I", "II": "C-II", "III": "C-III", "IV": "C-IV"}
 DESC = {
@@ -74,6 +74,14 @@ def main():
                 out.append(body_line(txt))
             want_dropcap = False
         out.append("")
+
+    # 4e de couverture (composée avec les mots du livre)
+    mondes = [p["title"] for p in PARTS if not p.get("intro")]
+    hook = T(16).strip("«» ").strip()
+    mondes_typ = ", ".join("[" + esc(m) + "]" for m in mondes)
+    out.append(f'#quatrieme([{esc(hook)}], [Dictionnaire Larousse], [{esc(COVER["s1"])}], '
+               f'({mondes_typ}), [{esc(COVER["t2"])}], [{esc(COVER["s2"])}], [{esc(COVER["auteur"])}])')
+
     open(f"{BUILD}/livre.typ", "w", encoding="utf-8").write("\n".join(out))
     print(f"écrit {BUILD}/livre.typ | blocs={len(blocks)} chapitres={len(chapter_titles)}")
 

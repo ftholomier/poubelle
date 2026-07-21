@@ -6,10 +6,10 @@ import os
 from docx import Document
 from docx.shared import Pt, Cm, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ROW_HEIGHT_RULE, WD_CELL_VERTICAL_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
-from blocks import build_blocks, T, COVER, BOOK
+from blocks import build_blocks, T, COVER, BOOK, PARTS
 
 OUT = os.path.join(BOOK, "out"); os.makedirs(OUT, exist_ok=True)
 
@@ -148,10 +148,53 @@ def main():
                        after=9, first_indent=fi, spacing=1.1)
             first_after_head = False
 
+    add_back_cover(doc)
     doc.save(os.path.join(OUT, "livre.docx"))
     enable_update_fields(doc)
     doc.save(os.path.join(OUT, "livre.docx"))
     print(f"écrit {OUT}/livre.docx | chapitres={len(chapter_titles)}")
+
+def add_back_cover(doc):
+    """4e de couverture colorée (page finale) : cellule pleine sombre + texte clair."""
+    doc.add_page_break()
+    INK_HEX = "141a21"
+    GOLD_L = RGBColor(0xc9, 0xa9, 0x5b)
+    PAPER_C = RGBColor(0xfa, 0xf7, 0xf1)
+    MUT = RGBColor(0x9a, 0x86, 0x50)
+    mondes = [p["title"] for p in PARTS if not p.get("intro")]
+    hook = T(16).strip("«» ").strip()
+
+    tbl = doc.add_table(rows=1, cols=1)
+    tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
+    cell = tbl.rows[0].cells[0]
+    cell.width = Cm(15.2)
+    set_cell_bg(cell, INK_HEX)
+    cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+    row = tbl.rows[0]
+    row.height = Cm(20.5)
+    row.height_rule = WD_ROW_HEIGHT_RULE.EXACTLY
+
+    first = [True]
+    def line(txt, size, color, font=BODYFONT, bold=False, italic=False, before=0, after=6):
+        p = cell.paragraphs[0] if first[0] else cell.add_paragraph()
+        first[0] = False
+        r = p.add_run(txt)
+        r.font.name = font; r.font.size = Pt(size); r.font.color.rgb = color
+        r.bold = bold; r.italic = italic
+        pf = p.paragraph_format
+        pf.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        pf.space_before = Pt(before); pf.space_after = Pt(after)
+
+    line("L'ART DE L'ENTREPRENEUR", 9, GOLD_L, font=HEADFONT, before=6, after=20)
+    line(f"« {hook} »", 16, PAPER_C, italic=True, after=6)
+    line("DICTIONNAIRE LAROUSSE", 8, MUT, font=HEADFONT, after=24)
+    line(COVER["s1"], 12, GOLD_L, italic=True, after=22)
+    line("LES QUATRE MONDES", 9, GOLD_L, font=HEADFONT, after=12)
+    for m in mondes:
+        line(m, 12, PAPER_C, after=6)
+    line(COVER["t2"], 16, PAPER_C, bold=True, before=22, after=4)
+    line(COVER["s2"], 9.5, GOLD_L, italic=True, after=18)
+    line(COVER["auteur"].upper(), 9, PAPER_C, font=HEADFONT, after=0)
 
 def add_figure(doc, which, caption=None):
     grid = ([[16,3,2,13],[5,10,11,8],[9,6,7,12],[4,15,14,1]] if which == "durer"

@@ -130,6 +130,55 @@
 }
 
 // =====================================================================
+//  QUATRIÈME DE COUVERTURE
+// =====================================================================
+#let quatrieme(hook, attribution, sub, mondes, t2, s2, auteur) = {
+  pagebreak(weak: true)
+  page(fill: INK, margin: 0pt, header: none, footer: none, numbering: none)[
+    #set text(fill: PAPER)
+    #set par(justify: false)
+    #place(top + left, dx: 13mm, dy: 13mm,
+      rect(width: 100% - 26mm, height: 100% - 26mm, stroke: 0.6pt + GOLD.darken(5%)))
+
+    // Épigraphe (mots du livre)
+    #place(top + center, dy: 30mm)[
+      #set align(center)
+      #eyebrow("L'art de l'entrepreneur", color: GOLD.lighten(22%))
+      #v(13mm)
+      #block(width: 116mm)[
+        #text(font: "Fraunces", size: 19pt, style: "italic", fill: PAPER)[« #hook »]
+      ]
+      #v(6mm)
+      #text(font: "Inter", size: 8.5pt, tracking: 0.16em, fill: GOLD.lighten(24%))[#upper(attribution)]
+      #v(11mm)
+      #text(font: "Fraunces", size: 13pt, style: "italic", fill: GOLD.lighten(26%))[#sub]
+    ]
+
+    // Les quatre mondes (titres des parties)
+    #place(top + center, dy: 113mm)[
+      #set align(center)
+      #eyebrow("Les quatre mondes", color: GOLD.lighten(20%))
+      #v(8mm)
+      #stack(spacing: 6mm, ..mondes.map(m =>
+        text(font: "Fraunces", size: 12.5pt, fill: PAPER)[#m]))
+    ]
+
+    // Bas : motif + titre + sous-titre + auteur
+    #place(bottom + center, dy: -26mm)[
+      #set align(center)
+      #polygon.regular(vertices: 3, size: 15mm, stroke: 0.7pt + GOLD, fill: none)
+      #v(7mm)
+      #text(font: "Fraunces", size: 18pt, weight: 700, fill: PAPER)[#t2]
+      #v(3mm)
+      #text(font: "Inter", size: 9pt, tracking: 0.05em, fill: GOLD.lighten(28%))[#s2]
+    ]
+    #place(bottom + center, dy: -13mm)[
+      #text(font: "Inter", size: 9pt, weight: 500, tracking: 0.18em, fill: PAPER.darken(6%))[#upper(auteur)]
+    ]
+  ]
+}
+
+// =====================================================================
 //  OUVERTURE DE PARTIE
 // =====================================================================
 #let partie(numeral, titre, descriptif, color) = {
