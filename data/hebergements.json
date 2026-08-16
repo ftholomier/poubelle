@@ -1,0 +1,32 @@
+{
+  "_note": "Structure de démonstration — contenu et visuels à reprendre du site source.",
+  "items": [
+    {
+      "slug": "lodge-lindus",
+      "nom": "La Lodge L'Indus",
+      "resume": "Style industriel, spa privatif, jusqu'à 4 personnes.",
+      "capacite": 4,
+      "prix_a_partir_de": 230,
+      "equipements": [],
+      "photos": []
+    },
+    {
+      "slug": "lodge-la-carelie",
+      "nom": "La Lodge La Carélie",
+      "resume": "Design scandinave lumineux, spa privatif, jusqu'à 4 personnes.",
+      "capacite": 4,
+      "prix_a_partir_de": 230,
+      "equipements": [],
+      "photos": []
+    },
+    {
+      "slug": "le-gite",
+      "nom": "Le Gîte",
+      "resume": "Ancien gîte d'étape entièrement rénové en 2022, jusqu'à 4 personnes.",
+      "capacite": 4,
+      "prix_a_partir_de": 270,
+      "equipements": [],
+      "photos": []
+    }
+  ]
+}

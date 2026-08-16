@@ -1,0 +1,27 @@
+{
+  "_note": "Données provisoires issues d'annuaires tiers — à remplacer par le contenu du site source dès que l'accès réseau sera ouvert.",
+  "nom": "Étang Fourchu",
+  "baseline": "Nature & Loisirs",
+  "accroche": "Lodges avec spa privatif, gîte et pêche sportive au cœur d'un domaine préservé, entre Belfort et l'Alsace.",
+  "adresse": {
+    "rue": "Écarts de la Chapelle",
+    "cp": "90100",
+    "ville": "Florimont",
+    "pays": "France"
+  },
+  "contact": {
+    "telephone": "03 84 29 61 59",
+    "mobile": "06 68 81 80 00",
+    "email": ""
+  },
+  "reseaux": [],
+  "menu": [
+    { "libelle": "Hébergements", "url": "/hebergements" },
+    { "libelle": "Pêche", "url": "/peche" },
+    { "libelle": "La Ferme", "url": "/la-ferme" },
+    { "libelle": "Tarifs", "url": "/tarifs" },
+    { "libelle": "Galerie", "url": "/galerie" },
+    { "libelle": "Accès", "url": "/acces" },
+    { "libelle": "Contact", "url": "/contact" }
+  ]
+}

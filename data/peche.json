@@ -1,0 +1,21 @@
+{
+  "_note": "Structure de démonstration — contenu et visuels à reprendre du site source.",
+  "items": [
+    {
+      "slug": "etang-fourchu",
+      "nom": "L'Étang Fourchu",
+      "resume": "10 hectares, 13 postes élargis pouvant accueillir 2 pêcheurs chacun.",
+      "postes": 13,
+      "surface_ha": 10,
+      "photos": []
+    },
+    {
+      "slug": "etang-florimont",
+      "nom": "L'Étang Florimont",
+      "resume": "Ouvert à la pêche depuis 2018, riche en carpes et silures, barques autorisées.",
+      "postes": null,
+      "surface_ha": null,
+      "photos": []
+    }
+  ]
+}
