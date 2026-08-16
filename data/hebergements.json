@@ -1,32 +1,354 @@
 {
-  "_note": "Structure de démonstration — contenu et visuels à reprendre du site source.",
+  "intro": {
+    "titre": "Nos Hébergements",
+    "texte": "Offrez-vous une parenthèse de calme au cœur de la nature dans nos lodges tout confort, nichés au bord de l'étang. Spa privatif, terrasse avec vue, équipements haut de gamme et ambiance chaleureuse vous attendent pour un séjour placé sous le signe de la détente."
+  },
   "items": [
+    {
+      "slug": "lodge-carelie",
+      "nom": "La Lodge Carélie",
+      "sous_titre": "Situé au cœur d'un site exceptionnel propice au calme et au bien-être",
+      "resume": "Offrez-vous une parenthèse de calme au cœur de la nature dans nos lodges tout confort, nichés au bord de l'étang. Spa privatif, terrasse avec vue, équipements haut de gamme et ambiance chaleureuse vous attendent pour un séjour placé sous le signe de la détente. Découvrez un lieu unique où nature, bien-être et déconnexion se rencontrent.",
+      "capacite": 4,
+      "prix_a_partir_de": 230,
+      "image": "assets/img/site/t-frey-9304-1.jpg",
+      "images_avant": ["assets/img/site/t-frey-9304.jpg", "assets/img/site/t-frey-9360-1.jpg", "assets/img/site/t-frey-9336-1.jpg"],
+      "sections": [
+        {
+          "titre": "Séjourner au cœur de la nature",
+          "paragraphes": [
+            "Le Domaine de l'Étang Fourchu vous ouvre ses portes pour des séjours en Lodge tout confort vous garantissant intimité et tranquillité.",
+            "Chaque Lodge étant conçu pour limiter l'impact environnemental, nous vous proposons un tourisme permettant de rester en harmonie avec la nature.",
+            "Les randonneurs équestres et leurs chevaux seront aussi les bienvenus avec mise à disposition de paddocks sur demande.",
+            "Grâce à des prestations de qualité, nous tentons de rendre vos escapades inoubliables au cœur d'un site insolite propice au calme et à la détente."
+          ]
+        },
+        {
+          "titre": "De véritables nids douillets",
+          "paragraphes": [
+            "Nichés au cœur de la nature, nos lodges peuvent accueillir jusqu'à 4 personnes.",
+            "Chacun dispose d'une cuisine aménagée avec des équipements de qualité (plaque induction, four, frigo à distribution d'eau, lave-vaisselle, cafetière à grains, grille-pain…), d'une salle de bain avec douche à l'italienne spacieuse, une chambre avec lit Queen size et dressing. Le salon est composé d'un canapé-lit grand confort, fauteuil et d'une TV LED."
+          ],
+          "images": ["assets/img/site/t-frey-9347-1.jpg", "assets/img/site/t-frey-9228.jpg"]
+        },
+        {
+          "titre": "Face à l'étang",
+          "paragraphes": [
+            "Deux grandes baies vitrées vous offrent une vue imprenable sur l'étang et la nature environnante donnant sur une terrasse avec table à manger et fauteuils.",
+            "Afin de vous offrir un moment de grande détente, chaque lodge est équipé d'un spa privatif, de bains de soleil et brasero.",
+            "Grâce à un ponton, vous pourrez vous rendre au plus proche de la nature pour vous adonner à la détente, partie de pêche, promenade en barque…"
+          ],
+          "images": ["assets/img/site/t-frey-9322-1.jpg"]
+        }
+      ],
+      "theme": {
+        "titre": "Le thème Carélie",
+        "galerie": [
+          "assets/img/site/t-frey-9324-1.jpg",
+          "assets/img/site/t-frey-9341-1.jpg",
+          "assets/img/site/t-frey-9344-1.jpg",
+          "assets/img/site/t-frey-9352-1.jpg",
+          "assets/img/site/t-frey-9332-1.jpg",
+          "assets/img/site/t-frey-9329-1.jpg",
+          "assets/img/site/t-frey-9356-1.jpg",
+          "assets/img/site/t-frey-9360-1b.jpg",
+          "assets/img/site/copie-de-t-frey-9209-1.jpg",
+          "assets/img/site/copie-de-t-frey-9311-1.jpg",
+          "assets/img/site/copie-de-t-frey-9380-1.jpg",
+          "assets/img/site/t-frey-9211-1.jpg",
+          "assets/img/site/t-frey-9216-1.jpg",
+          "assets/img/site/t-frey-9228-1.jpg",
+          "assets/img/site/t-frey-9392-1.jpg",
+          "assets/img/site/t-frey-9233-1.jpg",
+          "assets/img/site/t-frey-9307-1.jpg",
+          "assets/img/site/t-frey-9319-1.jpg"
+        ]
+      },
+      "prestations": {
+        "titre": "Nos Prestations",
+        "intro": "Pour votre confort, nous mettons à votre disposition de nombreux équipements :",
+        "groupes": [
+          {
+            "titre": "",
+            "items": [
+              "Cuisine équipée (plaque induction, four, machine à café à grains, grille-pain, lave-vaisselle, frigo-congélateur à distribution d'eau…)",
+              "Salle de bain avec douche à l'italienne, sèche-serviette, sèche-cheveux",
+              "Chambre avec lit Queen size et dressing, prise USB…",
+              "Salon avec canapé-lit grand confort, fauteuil, TV LED",
+              "Terrasse privative avec table à manger et fauteuils",
+              "SPA privatif grande taille",
+              "Bains de soleil",
+              "Brasero / barbecue",
+              "Barque"
+            ]
+          }
+        ],
+        "complement": [
+          "Afin de faciliter votre séjour, vous disposerez gratuitement du linge de lit en satin de coton, de linge de bain (draps de bain, peignoirs, chaussons et serviettes…), des produits d'hygiène (gel douche, savon…) ainsi que des produits alimentaires de base (sel, poivre, huile, vinaigre, café en grains, thé, sucre…), permettant ainsi d'alléger vos bagages.",
+          "La température intérieure est réglable grâce à la télécommande mise à votre disposition (chauffage en hiver et climatisation l'été)."
+        ]
+      },
+      "supplements": {
+        "titre": "Prestations en supplément",
+        "items": [
+          "Petit-déjeuner 12 €/personne",
+          "Composé principalement de produits Bio et locaux, le petit-déjeuner vous ravira par sa grande diversité",
+          "Des produits Bio et locaux sont disponibles à la boutique de vente directe à la ferme située à l'entrée du Domaine de l'Étang Fourchu"
+        ]
+      },
+      "activites": {
+        "titre": "Les activités à faire",
+        "intro": "De nombreuses activités sont possibles sur place pour vous reconnecter avec la nature :",
+        "items": [
+          "Pêche sur l'étang depuis votre ponton privatif",
+          "Baignade dans l'étang",
+          "Promenade en barque",
+          "Découverte de l'élevage d'alpagas",
+          "Visite de la ferme",
+          "Multiples itinéraires de randonnée à proximité",
+          "Immersion au cœur de la faune et flore du site Natura 2000 (idéal pour les amateurs de photos et autres passionnés…)"
+        ]
+      },
+      "tarification": {
+        "texte": "À partir de 230 € la nuit, tarif dégressif à partir de 2 nuits.",
+        "note": "* Les tarifs évoluent en fonction des dates de séjour (semaine, week-end, jours fériés et vacances scolaires…)"
+      },
+      "meta": {
+        "description": "La Lodge Carélie au Domaine de l'Étang Fourchu : lodge tout confort avec spa privatif face à l'étang, jusqu'à 4 personnes, à Florimont (90)."
+      }
+    },
     {
       "slug": "lodge-lindus",
       "nom": "La Lodge L'Indus",
-      "resume": "Style industriel, spa privatif, jusqu'à 4 personnes.",
+      "sous_titre": "Situé au cœur d'un site exceptionnel propice au calme et au bien-être",
+      "resume": "Offrez-vous une parenthèse de calme au cœur de la nature dans nos lodges tout confort, nichés au bord de l'étang. Spa privatif, terrasse avec vue, équipements haut de gamme et ambiance chaleureuse vous attendent pour un séjour placé sous le signe de la détente. Découvrez un lieu unique où nature, bien-être et déconnexion se rencontrent.",
       "capacite": 4,
       "prix_a_partir_de": 230,
-      "equipements": [],
-      "photos": []
-    },
-    {
-      "slug": "lodge-la-carelie",
-      "nom": "La Lodge La Carélie",
-      "resume": "Design scandinave lumineux, spa privatif, jusqu'à 4 personnes.",
-      "capacite": 4,
-      "prix_a_partir_de": 230,
-      "equipements": [],
-      "photos": []
+      "image": "assets/img/site/copie-de-t-frey-9311-2.jpg",
+      "images_avant": ["assets/img/site/t-frey-9304.jpg", "assets/img/site/t-frey-9360-1.jpg", "assets/img/site/t-frey-9265-1.jpg"],
+      "sections": [
+        {
+          "titre": "Séjourner au cœur de la nature",
+          "paragraphes": [
+            "Le Domaine de l'Étang Fourchu vous ouvre ses portes pour des séjours en Lodge tout confort vous garantissant intimité et tranquillité.",
+            "Chaque Lodge étant conçu pour limiter l'impact environnemental, nous vous proposons un tourisme permettant de rester en harmonie avec la nature.",
+            "Les randonneurs équestres et leurs chevaux seront aussi les bienvenus avec mise à disposition de paddocks sur demande.",
+            "Grâce à des prestations de qualité, nous tentons de rendre vos escapades inoubliables au cœur d'un site insolite propice au calme et à la détente."
+          ]
+        },
+        {
+          "titre": "De véritables nids douillets",
+          "paragraphes": [
+            "Nichés au cœur de la nature, nos lodges peuvent accueillir jusqu'à 4 personnes.",
+            "Chacun dispose d'une cuisine aménagée avec des équipements de qualité (plaque induction, four, frigo à distribution d'eau, lave-vaisselle, cafetière à grains, grille-pain…), d'une salle de bain avec douche à l'italienne spacieuse, une chambre avec lit Queen size et dressing. Le salon est composé d'un canapé-lit grand confort, fauteuil et d'une TV LED."
+          ],
+          "images": ["assets/img/site/t-frey-9282-1.jpg", "assets/img/site/t-frey-9228.jpg"]
+        },
+        {
+          "titre": "Face à l'étang",
+          "paragraphes": [
+            "Deux grandes baies vitrées vous offrent une vue imprenable sur l'étang et la nature environnante donnant sur une terrasse avec table à manger et fauteuils.",
+            "Afin de vous offrir un moment de grande détente, chaque lodge est équipé d'un spa privatif, de bains de soleil et brasero.",
+            "Grâce à un ponton, vous pourrez vous rendre au plus proche de la nature pour vous adonner à la détente, partie de pêche, promenade en barque…"
+          ],
+          "images": ["assets/img/site/t-frey-9241-1.jpg", "assets/img/site/t-frey-9293-1.jpg"]
+        }
+      ],
+      "theme": {
+        "titre": "Le thème L'Indus",
+        "galerie": [
+          "assets/img/site/t-frey-9240-1.jpg",
+          "assets/img/site/t-frey-9304-1.jpg",
+          "assets/img/site/t-frey-9273-1.jpg",
+          "assets/img/site/t-frey-9252-1.jpg",
+          "assets/img/site/t-frey-9255-1.jpg",
+          "assets/img/site/t-frey-9248-1.jpg",
+          "assets/img/site/t-frey-9263-1.jpg",
+          "assets/img/site/t-frey-9269-1.jpg",
+          "assets/img/site/t-frey-9261-1.jpg",
+          "assets/img/site/t-frey-9277-1.jpg",
+          "assets/img/site/t-frey-9278-1.jpg",
+          "assets/img/site/t-frey-9285-1.jpg",
+          "assets/img/site/t-frey-9281-1.jpg",
+          "assets/img/site/copie-de-t-frey-9311-2.jpg",
+          "assets/img/site/copie-de-t-frey-9380-2.jpg",
+          "assets/img/site/t-frey-9300-1.jpg",
+          "assets/img/site/copie-de-t-frey-9209-2.jpg"
+        ]
+      },
+      "prestations": {
+        "titre": "Nos Prestations",
+        "intro": "Pour votre confort, nous mettons à votre disposition de nombreux équipements :",
+        "groupes": [
+          {
+            "titre": "",
+            "items": [
+              "Cuisine équipée (plaque induction, four, machine à café à grains, grille-pain, lave-vaisselle, frigo-congélateur à distribution d'eau…)",
+              "Salle de bain avec douche à l'italienne, sèche-serviette, sèche-cheveux",
+              "Chambre avec lit Queen size et dressing, prise USB…",
+              "Salon avec canapé-lit grand confort, fauteuil, TV LED",
+              "Terrasse privative avec table à manger et fauteuils",
+              "SPA privatif grande taille",
+              "Bains de soleil",
+              "Brasero / barbecue",
+              "Barque"
+            ]
+          }
+        ],
+        "complement": [
+          "Afin de faciliter votre séjour, vous disposerez gratuitement du linge de lit en satin de coton, de linge de bain (draps de bain, peignoirs, chaussons et serviettes…), des produits d'hygiène (gel douche, savon…) ainsi que des produits alimentaires de base (sel, poivre, huile, vinaigre, café en grains, thé, sucre…), permettant ainsi d'alléger vos bagages.",
+          "La température intérieure est réglable grâce à la télécommande mise à votre disposition (chauffage en hiver et climatisation l'été)."
+        ]
+      },
+      "supplements": {
+        "titre": "Prestations en supplément",
+        "items": [
+          "Petit-déjeuner 12 €/personne",
+          "Composé principalement de produits Bio et locaux, le petit-déjeuner vous ravira par sa grande diversité",
+          "Des produits Bio et locaux sont disponibles à la boutique de vente directe à la ferme située à l'entrée du Domaine de l'Étang Fourchu"
+        ]
+      },
+      "activites": {
+        "titre": "Les activités à faire",
+        "intro": "De nombreuses activités sont possibles sur place pour vous reconnecter avec la nature :",
+        "items": [
+          "Pêche sur l'étang depuis votre ponton privatif",
+          "Baignade dans l'étang",
+          "Promenade en barque",
+          "Découverte de l'élevage d'alpagas",
+          "Visite de la ferme",
+          "Multiples itinéraires de randonnée à proximité",
+          "Immersion au cœur de la faune et flore du site Natura 2000 (idéal pour les amateurs de photos et autres passionnés…)"
+        ]
+      },
+      "tarification": {
+        "texte": "À partir de 230 € la nuit, tarif dégressif à partir de 2 nuits.",
+        "note": "* Les tarifs évoluent en fonction des dates de séjour (semaine, week-end, jours fériés et vacances scolaires…)"
+      },
+      "meta": {
+        "description": "La Lodge L'Indus au Domaine de l'Étang Fourchu : lodge de style industriel avec spa privatif face à l'étang, jusqu'à 4 personnes, à Florimont (90)."
+      }
     },
     {
       "slug": "le-gite",
       "nom": "Le Gîte",
-      "resume": "Ancien gîte d'étape entièrement rénové en 2022, jusqu'à 4 personnes.",
+      "sous_titre": "Situé au cœur d'un site exceptionnel propice au calme et au bien-être",
+      "resume": "Séjournez dans un gîte entièrement rénové, niché au cœur d'un environnement naturel exceptionnel. Confort, équipements de qualité, spa privatif et nombreuses activités sur le domaine vous attendent pour une véritable parenthèse de détente. Idéal pour se ressourcer, seul, en couple ou en famille. Découvrez ce lieu unique et tout ce qu'il a à vous offrir.",
       "capacite": 4,
       "prix_a_partir_de": 270,
-      "equipements": [],
-      "photos": []
+      "image": "assets/img/site/img-2197-1.jpg",
+      "images_avant": ["assets/img/site/img-2197-1.jpg", "assets/img/site/t-frey-9735-1.jpg", "assets/img/site/img-2212-1.jpg"],
+      "sections": [
+        {
+          "titre": "Un ancien gîte d'étape rénové pour votre confort",
+          "paragraphes": [
+            "Historiquement « gîte d'étape » pour les randonnées à cheval, cet hébergement a été entièrement rénové en 2022 dans le même esprit que nos lodges, afin d'apporter confort et bien-être à ses occupants.",
+            "L'accueil des randonneurs équestres et leurs chevaux est toujours possible sur le domaine avec la mise à disposition de paddocks sur demande."
+          ]
+        },
+        {
+          "titre": "Confort et nature réunis",
+          "paragraphes": [
+            "Situé au cœur d'un site exceptionnel propice au calme et au bien-être, le gîte peut accueillir jusqu'à 4 personnes, il est idéal pour se reposer et déconnecter.",
+            "Doté d'équipements de standing et d'un aménagement extérieur privatif, il offre également une ouverture sur la nature environnante : tout pour un séjour ressourçant."
+          ],
+          "images": ["assets/img/site/t-frey-9654-1.jpg", "assets/img/site/t-frey-9699-1.jpg"]
+        },
+        {
+          "titre": "Un endroit chaleureux idéal pour partager de bons moments à plusieurs.",
+          "paragraphes": [],
+          "images": ["assets/img/site/t-frey-9675-1.jpg", "assets/img/site/t-frey-9657-1.jpg"]
+        }
+      ],
+      "theme": {
+        "titre": "Le gîte en images",
+        "galerie": [
+          "assets/img/site/t-frey-9662-1.jpg",
+          "assets/img/site/t-frey-9650-1.jpg",
+          "assets/img/site/t-frey-9645-1.jpg",
+          "assets/img/site/t-frey-9642-1.jpg",
+          "assets/img/site/img-2235-1.jpg",
+          "assets/img/site/img-2232-1.jpg",
+          "assets/img/site/img-2228-1.jpg",
+          "assets/img/site/img-2218-1.jpg",
+          "assets/img/site/img-2196-1.jpg",
+          "assets/img/site/t-frey-9734-1.jpg",
+          "assets/img/site/t-frey-9726-1.jpg",
+          "assets/img/site/t-frey-9725-1.jpg",
+          "assets/img/site/t-frey-9719-1.jpg",
+          "assets/img/site/t-frey-9713-1.jpg",
+          "assets/img/site/t-frey-9710-1.jpg",
+          "assets/img/site/t-frey-9694-1.jpg"
+        ]
+      },
+      "prestations": {
+        "titre": "Nos Prestations",
+        "intro": "Pour votre confort, nous mettons à votre disposition de nombreux équipements :",
+        "groupes": [
+          {
+            "titre": "À l'étage :",
+            "items": [
+              "2 chambres avec lit Queen size, rangements et penderie, prise USB…",
+              "Salle de bain avec douche à l'italienne, sèche-serviette, sèche-cheveux",
+              "Toilette séparé",
+              "Espace de travail en mezzanine"
+            ]
+          },
+          {
+            "titre": "Au rez-de-chaussée :",
+            "items": [
+              "Cuisine équipée (plaque induction, four, machine à café à grains, grille-pain, lave-vaisselle, frigo-congélateur à distribution d'eau…)",
+              "Salon avec canapé grande taille, fauteuil, TV LED",
+              "Billard",
+              "Espace détente avec sauna, chiliennes",
+              "Douche à l'italienne",
+              "Toilette séparé"
+            ]
+          },
+          {
+            "titre": "En extérieur :",
+            "items": [
+              "Terrasse privative avec table à manger et fauteuils",
+              "SPA privatif grande taille",
+              "Bains de soleil",
+              "Brasero / barbecue",
+              "Terrain entièrement clôturé"
+            ]
+          }
+        ],
+        "complement": [
+          "Afin de faciliter votre séjour, vous disposerez gratuitement du linge de lit en satin de coton, de linge de bain (draps de bain, peignoirs, chaussons et serviettes…), des produits d'hygiène (gel douche, savon…) ainsi que des produits alimentaires de base (sel, poivre, huile, vinaigre, café en grains, thé, sucre…), permettant ainsi d'alléger vos bagages.",
+          "La température intérieure est réglable grâce à la télécommande mise à votre disposition (chauffage en hiver et climatisation l'été)."
+        ]
+      },
+      "supplements": {
+        "titre": "Prestations en supplément",
+        "items": [
+          "Petit-déjeuner 12 €/personne",
+          "Composé principalement de produits Bio et locaux, le petit-déjeuner vous ravira par sa grande diversité",
+          "Des produits Bio et locaux sont disponibles à la boutique de vente directe à la ferme située à l'entrée du Domaine de l'Étang Fourchu"
+        ]
+      },
+      "activites": {
+        "titre": "Les activités à faire",
+        "intro": "De nombreuses activités sont possibles sur place pour vous reconnecter avec la nature :",
+        "items": [
+          "Pêche sur l'étang depuis votre ponton privatif",
+          "Baignade dans l'étang",
+          "Promenade en barque",
+          "Découverte de l'élevage d'alpagas",
+          "Visite de la ferme",
+          "Multiples itinéraires de randonnée à proximité",
+          "Immersion au cœur de la faune et flore du site Natura 2000 (idéal pour les amateurs de photos et autres passionnés…)"
+        ]
+      },
+      "tarification": {
+        "texte": "À partir de 270 € la nuit, tarif dégressif à partir de 2 nuits.",
+        "note": "* Les tarifs évoluent en fonction des dates de séjour (semaine, week-end, jours fériés et vacances scolaires…)"
+      },
+      "meta": {
+        "description": "Le Gîte du Domaine de l'Étang Fourchu : ancien gîte d'étape entièrement rénové en 2022, spa privatif, sauna, billard, jusqu'à 4 personnes, à Florimont (90)."
+      }
     }
   ]
 }

@@ -1,1 +1,214 @@
-{ "medias": [] }
+{
+ "medias": [
+  {
+   "src": "assets/img/site/hero-domaine.jpg",
+   "alt": "Le domaine",
+   "cat": "domaine"
+  },
+  {
+   "src": "assets/img/site/image-10.jpg",
+   "alt": "Le domaine",
+   "cat": "domaine"
+  },
+  {
+   "src": "assets/img/site/image-9.jpg",
+   "alt": "Le domaine",
+   "cat": "domaine"
+  },
+  {
+   "src": "assets/img/site/image-12-1.jpg",
+   "alt": "Le domaine",
+   "cat": "domaine"
+  },
+  {
+   "src": "assets/img/site/hf-20260311-130806-a3116831-68d7-4d9e-ac3a-e7ebc3bbf633-1.jpg",
+   "alt": "Le domaine",
+   "cat": "domaine"
+  },
+  {
+   "src": "assets/img/site/t-frey-9324-1.jpg",
+   "alt": "Lodge Carélie",
+   "cat": "carelie"
+  },
+  {
+   "src": "assets/img/site/t-frey-9341-1.jpg",
+   "alt": "Lodge Carélie",
+   "cat": "carelie"
+  },
+  {
+   "src": "assets/img/site/t-frey-9344-1.jpg",
+   "alt": "Lodge Carélie",
+   "cat": "carelie"
+  },
+  {
+   "src": "assets/img/site/t-frey-9352-1.jpg",
+   "alt": "Lodge Carélie",
+   "cat": "carelie"
+  },
+  {
+   "src": "assets/img/site/t-frey-9332-1.jpg",
+   "alt": "Lodge Carélie",
+   "cat": "carelie"
+  },
+  {
+   "src": "assets/img/site/t-frey-9329-1.jpg",
+   "alt": "Lodge Carélie",
+   "cat": "carelie"
+  },
+  {
+   "src": "assets/img/site/t-frey-9356-1.jpg",
+   "alt": "Lodge Carélie",
+   "cat": "carelie"
+  },
+  {
+   "src": "assets/img/site/t-frey-9322-1.jpg",
+   "alt": "Lodge Carélie",
+   "cat": "carelie"
+  },
+  {
+   "src": "assets/img/site/t-frey-9347-1.jpg",
+   "alt": "Lodge Carélie",
+   "cat": "carelie"
+  },
+  {
+   "src": "assets/img/site/t-frey-9240-1.jpg",
+   "alt": "Lodge L'Indus",
+   "cat": "indus"
+  },
+  {
+   "src": "assets/img/site/t-frey-9304-1.jpg",
+   "alt": "Lodge L'Indus",
+   "cat": "indus"
+  },
+  {
+   "src": "assets/img/site/t-frey-9273-1.jpg",
+   "alt": "Lodge L'Indus",
+   "cat": "indus"
+  },
+  {
+   "src": "assets/img/site/t-frey-9252-1.jpg",
+   "alt": "Lodge L'Indus",
+   "cat": "indus"
+  },
+  {
+   "src": "assets/img/site/t-frey-9255-1.jpg",
+   "alt": "Lodge L'Indus",
+   "cat": "indus"
+  },
+  {
+   "src": "assets/img/site/t-frey-9248-1.jpg",
+   "alt": "Lodge L'Indus",
+   "cat": "indus"
+  },
+  {
+   "src": "assets/img/site/t-frey-9263-1.jpg",
+   "alt": "Lodge L'Indus",
+   "cat": "indus"
+  },
+  {
+   "src": "assets/img/site/t-frey-9269-1.jpg",
+   "alt": "Lodge L'Indus",
+   "cat": "indus"
+  },
+  {
+   "src": "assets/img/site/t-frey-9282-1.jpg",
+   "alt": "Lodge L'Indus",
+   "cat": "indus"
+  },
+  {
+   "src": "assets/img/site/t-frey-9241-1.jpg",
+   "alt": "Lodge L'Indus",
+   "cat": "indus"
+  },
+  {
+   "src": "assets/img/site/t-frey-9293-1.jpg",
+   "alt": "Lodge L'Indus",
+   "cat": "indus"
+  },
+  {
+   "src": "assets/img/site/img-2197-1.jpg",
+   "alt": "Le Gîte",
+   "cat": "gite"
+  },
+  {
+   "src": "assets/img/site/t-frey-9735-1.jpg",
+   "alt": "Le Gîte",
+   "cat": "gite"
+  },
+  {
+   "src": "assets/img/site/img-2212-1.jpg",
+   "alt": "Le Gîte",
+   "cat": "gite"
+  },
+  {
+   "src": "assets/img/site/t-frey-9654-1.jpg",
+   "alt": "Le Gîte",
+   "cat": "gite"
+  },
+  {
+   "src": "assets/img/site/t-frey-9699-1.jpg",
+   "alt": "Le Gîte",
+   "cat": "gite"
+  },
+  {
+   "src": "assets/img/site/t-frey-9675-1.jpg",
+   "alt": "Le Gîte",
+   "cat": "gite"
+  },
+  {
+   "src": "assets/img/site/t-frey-9662-1.jpg",
+   "alt": "Le Gîte",
+   "cat": "gite"
+  },
+  {
+   "src": "assets/img/site/t-frey-9650-1.jpg",
+   "alt": "Le Gîte",
+   "cat": "gite"
+  },
+  {
+   "src": "assets/img/site/img-2235-1.jpg",
+   "alt": "Le Gîte",
+   "cat": "gite"
+  },
+  {
+   "src": "assets/img/site/t-frey-9734-1.jpg",
+   "alt": "Le Gîte",
+   "cat": "gite"
+  },
+  {
+   "src": "assets/img/site/image-5.jpg",
+   "alt": "La ferme",
+   "cat": "ferme"
+  },
+  {
+   "src": "assets/img/site/image-7-1.jpg",
+   "alt": "La ferme",
+   "cat": "ferme"
+  },
+  {
+   "src": "assets/img/site/image-8.jpg",
+   "alt": "La ferme",
+   "cat": "ferme"
+  },
+  {
+   "src": "assets/img/site/image-6.jpg",
+   "alt": "La ferme",
+   "cat": "ferme"
+  },
+  {
+   "src": "assets/img/site/juspom-1.jpg",
+   "alt": "La ferme",
+   "cat": "ferme"
+  },
+  {
+   "src": "assets/img/site/legume-hiver-1000.jpg",
+   "alt": "La ferme",
+   "cat": "ferme"
+  },
+  {
+   "src": "assets/img/site/qualite-viande-800x533-1.jpg",
+   "alt": "La ferme",
+   "cat": "ferme"
+  }
+ ]
+}

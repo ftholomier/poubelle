@@ -1,0 +1,11 @@
+{
+  "titre": "Galerie",
+  "meta": {
+    "description": "La galerie photo du Domaine de l'Étang Fourchu : lodges, gîte, étangs de pêche et ferme biologique à Florimont (90)."
+  },
+  "hero": {
+    "image": "assets/img/site/hero-domaine.jpg",
+    "surtitre": "Le domaine en images",
+    "titre": "Galerie"
+  }
+}

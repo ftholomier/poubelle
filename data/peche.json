@@ -1,21 +1,106 @@
 {
-  "_note": "Structure de démonstration — contenu et visuels à reprendre du site source.",
+  "intro": {
+    "titre": "La Pêche",
+    "texte": "Profitez d'un étang riche en espèces pour vivre une expérience de pêche sportive dans un cadre naturel préservé."
+  },
+  "regles_communes": {
+    "titre": "Un lieu sauvage et paisible !",
+    "surtitre": "Au cœur de la nature",
+    "paragraphes": [
+      "Merci de vous signaler au poste de garde dès votre arrivée et avant toute installation. Cette étape permet d'assurer le bon fonctionnement du site et l'organisation des postes de pêche. Pour garantir une session agréable pour tous, il est strictement interdit de changer de poste en cours de session.",
+      "Un emplacement est spécifiquement dédié aux personnes à mobilité réduite. En cas d'installation sur un autre poste, aucun privilège ne pourra être accordé. Les pêcheurs peuvent décharger leur matériel au plus près du poste de pêche lorsque cela est possible. Toutefois, avant tout montage du matériel, le véhicule doit impérativement être ramené au parking.",
+      "Les poubelles doivent obligatoirement être évacuées par le pêcheur et ne doivent pas rester sur le site. Avant le départ, tout le matériel doit être rangé avant de ramener le véhicule au poste pour le chargement. Après chaque session, le poste est inspecté par la direction. Le non-respect du règlement pourra entraîner des sanctions.",
+      "L'amorçage à la graine est interdit pendant la période hivernale du 1er novembre au 15 mars.",
+      "Il est néanmoins possible d'amorcer avec de la petite graine (chènevis, orge, blé) et de pêcher avec du maïs doux et des graines eschées sur cheveux. Les gardes seront intransigeants sur ce point-là et sur la cuisson des graines utilisées."
+    ],
+    "attention": {
+      "titre": "ATTENTION !",
+      "texte": "Concernant l'interdiction d'emporter ou de mutiler le poisson, tout contrevenant s'expose à des poursuites judiciaires et pénales. La direction du domaine de l'Étang Fourchu dégage toute responsabilité en cas d'accident, de vol, dégradation de matériel ou de dégâts naturels."
+    }
+  },
   "items": [
     {
       "slug": "etang-fourchu",
       "nom": "L'Étang Fourchu",
-      "resume": "10 hectares, 13 postes élargis pouvant accueillir 2 pêcheurs chacun.",
-      "postes": 13,
-      "surface_ha": 10,
-      "photos": []
+      "titre": "La pêche à l'étang Fourchu",
+      "sous_titre": "Le site est ouvert tous les jours de l'année, hors période de gel.",
+      "resume": "L'Étang Fourchu est limité à 13 postes pour votre confort, chaque poste pouvant accueillir un ou deux pêcheurs, pour une expérience de pêche sportive dans un cadre naturel préservé.",
+      "image": "assets/img/site/image-10.jpg",
+      "image_secondaire": "assets/img/site/image-9.jpg",
+      "reservation": {
+        "titre": "Réservation",
+        "paragraphes": [
+          "La réservation est obligatoire pour toute session de pêche quelle qu'en soit la durée. Elle se fait depuis le site où vous pourrez procéder directement au paiement qui confirmera votre séjour.",
+          "L'Étang Fourchu est limité à 13 postes pour votre confort. Chaque poste pouvant accueillir un ou deux pêcheurs, il est impératif de préciser à la réservation le nombre de postes. Il n'est pas possible de choisir son poste lors de la réservation. En périodes d'affluence (ponts, congés, jours fériés…), pensez à anticiper. Aucun remboursement ne pourra être effectué en cas de désistement."
+        ]
+      },
+      "tarification": {
+        "titre": "Tarification",
+        "intro": "Tarif en vigueur par poste (quatre cannes). Les accompagnants adultes devront s'acquitter de la somme de 5,00 € par nuit.",
+        "saison": "PLEINE SAISON :",
+        "precision": "Prix du poste pour un pêcheur.",
+        "tableau": {
+          "entetes": ["1 journée", "1 nuit", "2 nuits", "3 nuits", "4 nuits", "5 nuits", "6 nuits", "Semaine"],
+          "valeurs": ["20 €", "45 €", "70 €", "95 €", "120 €", "145 €", "170 €", "195 €"]
+        },
+        "attention": "Attention : une session de week-end est au prix fixe de 70 € (du vendredi 14h au dimanche 16h)"
+      },
+      "droits": {
+        "titre": "Droits",
+        "items": [
+          "Bas de ligne en tresse autorisé à hauteur de 30 cm maximum.",
+          "Remettre les poissons à plat à l'eau.",
+          "Décrocher l'hameçon dans l'épuisette."
+        ]
+      },
+      "interdictions": {
+        "titre": "Interdictions",
+        "items": [
+          "Montage plomb bloqué interdit. (Le poisson doit pouvoir se libérer en cas de casse.)",
+          "Interdiction de sortir de l'eau les amours blancs et les esturgeons."
+        ]
+      },
+      "meta": {
+        "description": "La pêche à l'étang Fourchu à Florimont (90) : 13 postes, pêche no-kill, ouvert toute l'année hors gel. Tarifs et réservation en ligne."
+      }
     },
     {
       "slug": "etang-florimont",
       "nom": "L'Étang Florimont",
-      "resume": "Ouvert à la pêche depuis 2018, riche en carpes et silures, barques autorisées.",
-      "postes": null,
-      "surface_ha": null,
-      "photos": []
+      "titre": "La pêche à l'étang Florimont",
+      "sous_titre": "Le site est ouvert tous les jours de l'année, hors période de gel.",
+      "resume": "Situé en amont de l'Étang Fourchu, l'Étang Florimont offre une surface de pêche de 3,75 hectares riche en carpes et silures, avec embarcations autorisées et deux postes exclusifs.",
+      "image": "assets/img/site/image-10.jpg",
+      "image_secondaire": "assets/img/site/image-9.jpg",
+      "reservation": {
+        "titre": "Réservation",
+        "paragraphes": [
+          "Situé en amont de l'Étang Fourchu, l'Étang Florimont offre une surface de pêche de 3,75 hectares au cœur d'une nature sauvage et préservée.",
+          "Ouvert depuis 2018, ce site d'exception se distingue par sa richesse en carpes et silures. Il propose une expérience unique, différente des sites voisins, grâce à l'autorisation des embarcations. L'étang dispose de deux postes de pêche exclusifs pour garantir calme et sérénité."
+        ]
+      },
+      "tarification": {
+        "titre": "Tarification",
+        "intro": "Tarif en vigueur par poste (quatre cannes). Les accompagnants adultes devront s'acquitter de la somme de 5,00 € par nuit.",
+        "saison": "PLEINE SAISON :",
+        "precision": "Prix du poste pour un pêcheur.",
+        "tableau": {
+          "entetes": ["1 nuit", "2 nuits", "3 nuits", "4 nuits", "5 nuits", "6 nuits", "Semaine"],
+          "valeurs": ["45 €", "70 €", "95 €", "120 €", "145 €", "170 €", "195 €"]
+        },
+        "attention": "Attention : une session de week-end est au prix fixe de 70 € (du vendredi 14h au dimanche 16h)"
+      },
+      "specificites": {
+        "titre": "Embarcations",
+        "items": [
+          "La barque et autre embarcation, bateau amorceur sont autorisés sous votre entière responsabilité.",
+          "Gilet de sauvetage obligatoire en cas d'utilisation d'embarcation"
+        ]
+      },
+      "recapitulatif": "Barque autorisée. Gilets obligatoires. Limité à 4 cannes.",
+      "meta": {
+        "description": "La pêche à l'étang Florimont (90) : 3,75 ha riches en carpes et silures, embarcations autorisées, deux postes exclusifs. Tarifs et réservation."
+      }
     }
   ]
 }

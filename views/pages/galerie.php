@@ -1,9 +1,37 @@
-<?php /** @var array|null $page @var array $medias */ ?>
-<article class="page">
-  <h1><?= e($page['titre'] ?? 'Galerie') ?></h1>
-  <div class="galerie">
-    <?php foreach ($medias as $m): ?>
-      <figure><img src="<?= asset($m['src']) ?>" alt="<?= e($m['alt'] ?? '') ?>" loading="lazy"></figure>
-    <?php endforeach; ?>
+<?php
+/**
+ * Galerie photo filtrable.
+ *
+ * @var array $page
+ * @var array $medias
+ * @var App\Core\View $view
+ */
+$categories = [
+  'tout'    => 'Tout',
+  'domaine' => 'Le domaine',
+  'carelie' => 'Lodge Carélie',
+  'indus'   => "Lodge L'Indus",
+  'gite'    => 'Le Gîte',
+  'ferme'   => 'La ferme',
+];
+?>
+<?= $view->partial('hero-page', ['hero' => $page['hero']]) ?>
+
+<section class="section section--noire">
+  <div class="conteneur">
+    <div class="filtres reveler" role="group" aria-label="Filtrer la galerie">
+      <?php foreach ($categories as $cle => $libelle): ?>
+        <button data-filtre="<?= e($cle) ?>" aria-pressed="<?= $cle === 'tout' ? 'true' : 'false' ?>"><?= e($libelle) ?></button>
+      <?php endforeach; ?>
+    </div>
+    <div class="galerie-grille">
+      <?php foreach ($medias as $m): ?>
+        <a href="<?= asset($m['src']) ?>" data-visionneuse data-cat="<?= e($m['cat']) ?>" data-alt="<?= e($m['alt']) ?>">
+          <img src="<?= asset(str_replace('.jpg', '-mini.jpg', $m['src'])) ?>" alt="<?= e($m['alt']) ?>" loading="lazy">
+        </a>
+      <?php endforeach; ?>
+    </div>
   </div>
-</article>
+</section>
+
+<?= $view->partial('bande-cta') ?>

@@ -1,0 +1,36 @@
+{
+  "titre": "Règlement général",
+  "meta": {
+    "description": "Règlement général du Domaine de l'Étang Fourchu : règles de vie et consignes communes à tous les sites de pêche du domaine."
+  },
+  "hero": {
+    "image": "assets/img/site/image-9.jpg",
+    "surtitre": "Le domaine",
+    "titre": "Règles de vie et consignes du Domaine"
+  },
+  "sous_titre": "(Commun à tous les sites du domaine)",
+  "regles": [
+    "La pêche se pratique en no kill sur toutes les espèces.",
+    "Baignade interdite.",
+    "Les clients mineurs doivent être accompagnés d'un adulte pendant toute la durée du séjour. Dans le cas contraire une décharge écrite du représentant légal sera demandée avant.",
+    "Le nombre d'accompagnants est limité à deux par poste, ceux-ci restant sous l'entière responsabilité du pêcheur.",
+    "Le domaine est un endroit calme et paisible, le volume des équipements ne devra pas dépasser la limite du poste pêche ainsi que les éclairages.",
+    "Les drogues et excès de boissons alcoolisées sont interdits sous peine de poursuite judiciaire et d'exclusion immédiate sans remboursement",
+    "En semaine les arrivées et départs ne devront se faire que de jour (lever et coucher du soleil)",
+    "Les départs du vendredi devront obligatoirement avoir lieu avant 12h (midi)",
+    "Les arrivées du week-end seront autorisées à partir du vendredi 14h jusqu'au dimanche 16h. Aucune dérogation de ces horaires ne pourra être tolérée.",
+    "Toute circulation de voiture sur le site est interdite en dehors des arrivées et des départs. Vitesse maximum 10 km/heure",
+    "Les visiteurs devront obligatoirement laisser leur véhicule sur le parking qui leur est réservé",
+    "La direction décline toute responsabilité en cas de vol, dégradation sur le site ou accident de toute nature",
+    "Aucun recours ne pourra être fait auprès du propriétaire",
+    "Des toilettes « nature » sont à disposition autour du domaine",
+    "Les barbecues, réchauds et camping gaz sont autorisés, les feux au sol sont interdits sous peine d'exclusion immédiate.",
+    "Il est strictement interdit de détériorer la nature en coupant des branches et arbres environnants.",
+    "Les postes vous sont attribués propres à votre arrivée, ils devront le rester pendant toute la durée du séjour ainsi qu'à votre départ. Les déchets et mégots devront être enlevés par vos soins.",
+    "Nos amis les chiens sont acceptés sous réserve de ne créer aucune nuisance envers les autres usagers. Ils devront être attachés et leurs excréments devront être ramassés par vos soins."
+  ],
+  "conclusion": [
+    "Le paiement de votre session vaut acceptation des règlements régissant les différents sites du « Domaine de l'Étang Fourchu ».",
+    "La direction se réserve le droit d'expulser tout pêcheur ne respectant pas les règlements sans remboursement du séjour."
+  ]
+}

@@ -1,7 +1,82 @@
 {
-  "titre": "Étang Fourchu",
-  "accroche": "Lodges avec spa privatif, gîte et pêche sportive au cœur d'un domaine préservé.",
+  "titre": "Accueil",
   "meta": {
-    "description": "Domaine de l'Étang Fourchu à Florimont : lodges avec spa privatif, gîte, pêche sportive et ferme bio, entre Belfort, Mulhouse et l'Alsace."
+    "description": "Le Domaine de l'Étang Fourchu à Florimont (90) : lodges avec spa privatif, gîte, pêche sportive et ferme biologique, entre Territoire de Belfort et Alsace."
+  },
+  "hero": {
+    "image": "assets/img/site/hero-domaine.jpg",
+    "surtitre": "Domaine de l'Étang Fourchu — Florimont, Territoire de Belfort",
+    "titre": "Vivez une expérience au cœur de la nature",
+    "texte": "Le Domaine de l'Étang Fourchu vous accueille dans un cadre naturel préservé, entre étang, forêts et paysages paisibles. Profitez d'un lieu idéal pour vous ressourcer, pratiquer la pêche ou découvrir des produits fermiers locaux issus d'une agriculture biologique. Un endroit authentique où nature, détente et terroir se rencontrent."
+  },
+  "piliers": {
+    "titre": "Un lieu sauvage et paisible !",
+    "surtitre": "Au cœur de la nature",
+    "items": [
+      {
+        "icone": "nature",
+        "texte": "Un domaine naturel préservé dédié aux amoureux de calme et de grands espaces. L'Étang Fourchu offre un cadre idéal pour se détendre et profiter d'un environnement authentique."
+      },
+      {
+        "icone": "hebergement",
+        "texte": "Le Domaine vous accueille pour des séjours en hébergement tout confort, pensés pour vous offrir intimité, tranquillité et une véritable parenthèse au cœur de la nature."
+      },
+      {
+        "icone": "peche",
+        "texte": "L'Étang Fourchu, c'est aussi la pêche sportive avec un cheptel de poissons variés, ainsi qu'une ferme biologique proposant découverte des animaux et vente directe de produits fermiers locaux."
+      }
+    ],
+    "cta": "Offrez-vous dès aujourd'hui un moment de nature et de détente."
+  },
+  "activites": {
+    "surtitre": "Le domaine",
+    "titre": "Activités et hébergement",
+    "items": [
+      {
+        "image": "assets/img/site/image-3-1.jpg",
+        "titre": "Hébergements",
+        "texte": "Séjournez au cœur de la nature dans des hébergements tout confort offrant calme, intimité et une vue privilégiée sur le domaine.",
+        "url": "/hebergements"
+      },
+      {
+        "image": "assets/img/site/image-2.jpg",
+        "titre": "Pêche sportive",
+        "texte": "Profitez d'un étang riche en espèces pour vivre une expérience de pêche sportive dans un cadre naturel préservé.",
+        "url": "/peche/etang-fourchu"
+      },
+      {
+        "image": "assets/img/site/image-1.jpg",
+        "titre": "Vente directe",
+        "texte": "Découvrez les produits fermiers biologiques de la ferme et une sélection de produits locaux disponibles en vente directe au magasin.",
+        "url": "/boutique"
+      }
+    ]
+  },
+  "citation": {
+    "titre": "Depuis plusieurs années, le Domaine de l'Étang Fourchu accueille les amoureux de nature dans un cadre préservé, entre hébergements tout confort, pêche sportive et ferme biologique.",
+    "texte": "Chaque séjour est une invitation à ralentir, profiter du calme et découvrir les saveurs locales issues de notre ferme.",
+    "image": "assets/img/site/hf-20260311-130806-a3116831-68d7-4d9e-ac3a-e7ebc3bbf633-1.jpg"
+  },
+  "ferme": {
+    "surtitre": "La ferme",
+    "titre": "Vente directe de produits fermiers biologiques et locaux",
+    "images": [
+      "assets/img/site/legume-hiver-1000.jpg",
+      "assets/img/site/choisir-produits-laitiers.jpg",
+      "assets/img/site/juspom-1.jpg",
+      "assets/img/site/volaille-de-licques-2-scaled-1.jpg",
+      "assets/img/site/article-seo-jouet-en-bois-cadeau-noel-mobile.jpg"
+    ],
+    "sous_titre": "Nos produits fermiers :",
+    "produits": [
+      "Viande bovine",
+      "Œufs fermiers",
+      "Jus de pomme",
+      "Fruits et légumes de saison",
+      "Volailles",
+      "Produits laitiers",
+      "Épicerie",
+      "Produits non alimentaires"
+    ]
   }
 }

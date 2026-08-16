@@ -29,16 +29,17 @@ final class PageController
     }
 
     /**
-     * Page de contenu simple pilotée par data/pages/<slug>.json.
+     * Page de contenu pilotée par data/pages/<slug>.json.
+     * $gabarit permet d'utiliser une vue dédiée (ex. boutique).
      */
-    public function simple(string $slug): string
+    public function simple(string $slug, string $gabarit = 'simple'): string
     {
         $page = $this->page($slug);
         if ($page === null) {
             return $this->introuvable();
         }
 
-        return $this->view->render('simple', ['page' => $page]);
+        return $this->view->render($gabarit, ['page' => $page]);
     }
 
     public function hebergements(): string

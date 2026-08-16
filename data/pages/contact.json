@@ -1,0 +1,15 @@
+{
+  "titre": "Contact",
+  "meta": {
+    "description": "Contactez le Domaine de l'Étang Fourchu à Florimont (90) : réservation de lodges, sessions de pêche, produits de la ferme. Téléphone : 07 44 96 73 10."
+  },
+  "hero": {
+    "image": "assets/img/site/t-frey-9228-1.jpg",
+    "surtitre": "Le domaine",
+    "titre": "Contactez-nous !"
+  },
+  "telephone": "07 44 96 73 10",
+  "formulaire": {
+    "titre": "Une question ? Écrivez-nous !"
+  }
+}

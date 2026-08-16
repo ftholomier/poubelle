@@ -1,0 +1,106 @@
+{
+  "titre": "Boutique",
+  "meta": {
+    "description": "La boutique de la Ferme de l'Étang Fourchu à Florimont (90) : viande bovine bio, œufs fermiers, jus de pomme, fruits et légumes de saison et produits locaux en vente directe."
+  },
+  "hero": {
+    "image": "assets/img/site/image-1.jpg",
+    "surtitre": "Vente directe à la ferme",
+    "titre": "Une ferme familiale depuis 1864"
+  },
+  "histoire": {
+    "titre": "Depuis 1864, la Ferme de l'Étang Fourchu fait vivre un savoir-faire agricole ancré dans le Territoire de Belfort.",
+    "paragraphes": [
+      "Élevage bovin, cultures fourragères, respect de la nature… notre exploitation a évolué au fil du temps pour rester fidèle à l'essentiel : produire mieux, en harmonie avec son environnement.",
+      "Engagés en agriculture biologique depuis 2010 et situés en zone Natura 2000, nous avons fait le choix d'une production responsable, respectueuse des terres et des animaux. En 2013, nous avons ouvert notre magasin à la ferme pour permettre à chacun d'accéder facilement à des produits locaux, sains et de qualité."
+    ],
+    "images": ["assets/img/site/image-5.jpg", "assets/img/site/image-7-1.jpg"]
+  },
+  "production": {
+    "titre": "Une production issue de notre ferme",
+    "paragraphes": [
+      "Notre viande bovine, principalement de race limousine, est née et élevée sur l'exploitation. Les animaux sont nourris exclusivement avec l'herbe, le foin et les céréales produits sur place. Veau rose élevé au lait maternel, bœuf issu de génisses ou de primipares : chaque pièce reflète notre exigence et notre engagement.",
+      "Nos œufs proviennent de poules élevées en plein air et nourries avec les céréales de la ferme. Notre jus de pomme, élaboré à partir de variétés biologiques, est pressé puis pasteurisé avec soin."
+    ]
+  },
+  "bio_local": {
+    "titre": "Le meilleur du bio local",
+    "paragraphes": [
+      "Au fil des années, des producteurs partenaires engagés en agriculture biologique ont rejoint notre magasin. Vous y trouverez chaque semaine des fruits et légumes de saison, des volailles sur commande, ainsi qu'un large choix de produits laitiers : fromages de vache, chèvre ou brebis, beurre, crème et spécialités régionales.",
+      "Notre épicerie complète l'offre avec farines, pâtes, confitures, sirops, miels, tisanes, vins et bières artisanales. Nous proposons également quelques articles non alimentaires comme des jouets en bois, savons et objets de décoration."
+    ],
+    "image": "assets/img/site/image-8.jpg"
+  },
+  "horaires": "Le magasin est ouvert le vendredi de 16h à 19h et le samedi de 9h à 12h.",
+  "produits": [
+    {
+      "nom": "Viande Bovine",
+      "image": "assets/img/site/qualite-viande-800x533-1.jpg",
+      "texte": "De race à viande limousine et croisée, née et élevée sur l'exploitation, nourrie à 100 % de la production de la ferme",
+      "details": [
+        "VEAU ROSE nourri au lait maternel, herbe, foin et céréales — Colis de 10 kg : 17,50 € le kilo ou au détail (tarif en magasin)",
+        "BŒUF génisse ou primipare, âgée de 2 à 4 ans — Colis de 10 kg : 16,50 € le kilo ou au détail (tarif en magasin)"
+      ]
+    },
+    {
+      "nom": "Œufs",
+      "image": "assets/img/site/image-6.jpg",
+      "texte": "Poules plein air nourries aux céréales produites sur la ferme",
+      "details": [
+        "6 œufs : 2,10 €",
+        "Douzaine : 4,10 €",
+        "Plateau de 30 œufs : 10,00 €"
+      ]
+    },
+    {
+      "nom": "Jus de pomme",
+      "image": "assets/img/site/juspom-1.jpg",
+      "texte": "Mélange de variétés toutes issues de l'agriculture biologique, notre jus est pasteurisé.",
+      "details": [
+        "1 litre : 3,00 € avec une consigne de 0,30 € soit 2,70 € le litre"
+      ]
+    },
+    {
+      "nom": "Légumes et fruits",
+      "image": "assets/img/site/legume-hiver-1000.jpg",
+      "texte": "Chaque semaine le magasin vous propose des fruits et légumes de saison issus de l'agriculture biologique de production locale (Territoire de Belfort, Alsace)",
+      "details": []
+    },
+    {
+      "nom": "Volaille",
+      "image": "assets/img/site/volaille-de-licques-2-scaled-1.jpg",
+      "texte": "Sur commande, date selon disponibilités",
+      "details": [
+        "Poulet entier",
+        "Escalopes",
+        "Blancs",
+        "Cuisses",
+        "Gésiers",
+        "Foies",
+        "Pintade suprême ou cuisses"
+      ]
+    },
+    {
+      "nom": "Produits laitiers",
+      "image": "assets/img/site/choisir-produits-laitiers.jpg",
+      "texte": "Selon disponibilités",
+      "details": [
+        "Comté, Morbier, bleu de Gex, crème, beurre, cancoillotte, Munster, tome de vache nature ou aromatisée, divers fromages de chèvre…"
+      ]
+    },
+    {
+      "nom": "Épicerie diverse",
+      "image": "assets/img/site/orlando-fl-usa-2-8-20-l-allee-de-farine-d-une-epicerie-publix-avec-une-variete-de-paquets-de-farine-de-divers-fabricants-2ax3ych.jpg",
+      "texte": "Farine (blé, seigle, épeautre, petit épeautre, sarrasin…), pâtes, confitures, sirops, tisanes, vinaigre, miel, bière, vin blanc et rouge, crémant…",
+      "details": []
+    },
+    {
+      "nom": "Non Alimentaire",
+      "image": "assets/img/site/article-seo-jouet-en-bois-cadeau-noel-mobile.jpg",
+      "texte": "Jouets en bois, savons, et décoration diverse",
+      "details": [
+        "Pour toute occasion spéciale, nous confectionnons des paniers garnis à la demande."
+      ]
+    }
+  ]
+}

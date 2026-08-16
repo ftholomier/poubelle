@@ -6,6 +6,14 @@ declare(strict_types=1);
  * Tout le reste de l'application vit hors de ce répertoire.
  */
 
+// Serveur de développement intégré : laisser passer les fichiers statiques.
+if (PHP_SAPI === 'cli-server') {
+    $fichier = __DIR__ . (parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/');
+    if ($fichier !== __DIR__ . '/' && is_file($fichier)) {
+        return false;
+    }
+}
+
 $config = require dirname(__DIR__) . '/app/bootstrap.php';
 $GLOBALS['config'] = $config;
 
