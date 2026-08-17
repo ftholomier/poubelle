@@ -66,7 +66,11 @@ final class Mailer
         string $nom,
         string $repondreA,
     ): void {
-        $entetes = ['MIME-Version: 1.0', 'Content-Type: text/plain; charset=UTF-8'];
+        $entetes = [
+            'MIME-Version: 1.0',
+            'Content-Type: text/plain; charset=UTF-8',
+            'Content-Language: fr',
+        ];
         if ($expediteur !== '') {
             $entetes[] = 'From: ' . $this->adresse($nom, $expediteur);
         }
@@ -214,6 +218,9 @@ final class Mailer
             'MIME-Version: 1.0',
             'Content-Type: text/plain; charset=UTF-8',
             'Content-Transfer-Encoding: 8bit',
+            // sans cette ligne, les messageries devinent la langue d'après le
+            // texte, et se trompent sur un message court et très étiqueté
+            'Content-Language: fr',
         ];
         if ($repondreA !== '' && filter_var($repondreA, FILTER_VALIDATE_EMAIL)) {
             $lignes[] = 'Reply-To: ' . $this->adresse($nomRepondreA, $repondreA);

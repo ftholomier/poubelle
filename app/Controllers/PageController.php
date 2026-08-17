@@ -164,7 +164,10 @@ final class PageController
         try {
             $this->mailer->envoyer(
                 $destinataire,
-                'Demande depuis le site — ' . ($valeurs['sujet'] !== '' ? $valeurs['sujet'] : 'Contact'),
+                // « Contact » seul se lit aussi bien en anglais : on garde un
+                // sujet de repli en français, la détection de langue s'appuie
+                // aussi sur cette ligne
+                'Nouvelle demande depuis le site' . ($valeurs['sujet'] !== '' ? ' — ' . $valeurs['sujet'] : ''),
                 $this->corpsDemande($valeurs),
                 $valeurs['email'],
                 trim($valeurs['prenom'] . ' ' . $valeurs['nom'])
@@ -206,19 +209,30 @@ final class PageController
      */
     private function corpsDemande(array $v): string
     {
+        // Rédigé en phrases complètes : un corps réduit à des étiquettes
+        // courtes (« Nom », « Message ») se lit aussi bien en anglais, et les
+        // messageries proposent alors de le traduire.
         $lignes = [
-            'Nouvelle demande depuis le site Étang Fourchu.',
+            'Bonjour,',
             '',
-            'Nom      : ' . trim($v['prenom'] . ' ' . $v['nom']),
-            'E-mail   : ' . $v['email'],
-            'Téléphone: ' . ($v['tel'] !== '' ? $v['tel'] : '—'),
-            'Sujet    : ' . ($v['sujet'] !== '' ? $v['sujet'] : '—'),
+            'Vous venez de recevoir une nouvelle demande envoyée depuis le',
+            'formulaire de contact du site du Domaine de l’Étang Fourchu.',
             '',
-            'Message :',
+            'Coordonnées de la personne :',
+            '',
+            '  Nom et prénom       : ' . trim($v['prenom'] . ' ' . $v['nom']),
+            '  Adresse électronique : ' . $v['email'],
+            '  Numéro de téléphone  : ' . ($v['tel'] !== '' ? $v['tel'] : 'non communiqué'),
+            '  Objet de la demande  : ' . ($v['sujet'] !== '' ? $v['sujet'] : 'non précisé'),
+            '',
+            'Voici le message qu’elle vous a laissé :',
+            '',
             $v['message'],
             '',
-            '---',
-            'Reçue le ' . date('d/m/Y à H:i'),
+            '—',
+            'Demande reçue le ' . date('d/m/Y') . ' à ' . date('H\hi') . '.',
+            'Vous pouvez répondre directement à cet e-mail : votre réponse',
+            'parviendra à la personne qui vous a écrit.',
         ];
         return implode("\n", $lignes) . "\n";
     }

@@ -121,9 +121,13 @@ final class ParametreController
         try {
             $this->mailer->envoyer(
                 $destinataire,
-                'Test d’envoi — site Étang Fourchu',
-                "Ce message confirme que l'envoi d'e-mails du site fonctionne.\n\n"
-                . 'Envoyé le ' . date('d/m/Y à H:i') . ' depuis ' . ($_SERVER['HTTP_HOST'] ?? 'le serveur') . ".\n"
+                'Test d’envoi — site du Domaine de l’Étang Fourchu',
+                "Bonjour,\n\n"
+                . "Ce message confirme que l’envoi des e-mails du site fonctionne\n"
+                . "correctement. Les demandes envoyées depuis le formulaire de contact\n"
+                . "vous parviendront donc bien.\n\n"
+                . 'Message envoyé le ' . date('d/m/Y') . ' à ' . date('H\hi')
+                . ' depuis ' . ($_SERVER['HTTP_HOST'] ?? 'le serveur') . ".\n"
             );
             Session::flash('succes', 'E-mail de test envoyé à ' . $destinataire . '. Vérifiez la boîte de réception (et les indésirables).');
         } catch (Throwable $e) {
