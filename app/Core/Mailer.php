@@ -263,7 +263,7 @@ final class Mailer
         $hote = preg_replace('/^www\./', '', $hote) ?? $hote;
 
         return preg_match('/^[a-z0-9.-]+\.[a-z]{2,}$/', $hote)
-            ? 'no-reply@' . $hote
+            ? 'nepasrepondre@' . $hote
             : '';
     }
 

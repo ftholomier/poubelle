@@ -108,10 +108,14 @@ final class Parametres
         $this->cache = null;
     }
 
+    /**
+     * L'adresse expéditrice n'est pas exigée : le Mailer en déduit une du
+     * domaine servant le site. L'omettre ne doit pas désactiver le SMTP
+     * alors que le serveur et les identifiants sont renseignés.
+     */
     public function smtpConfigure(): bool
     {
         return (bool) $this->get('smtp.actif')
-            && $this->get('smtp.hote') !== ''
-            && $this->get('smtp.expediteur') !== '';
+            && $this->get('smtp.hote') !== '';
     }
 }
