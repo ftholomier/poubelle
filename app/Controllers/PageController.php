@@ -94,7 +94,7 @@ final class PageController
     {
         return $this->view->render('galerie', [
             'page'   => $this->page('galerie'),
-            'medias' => $this->content->load('galerie')['medias'] ?? [],
+            'medias' => $this->content->publies('galerie', 'medias'),
         ]);
     }
 

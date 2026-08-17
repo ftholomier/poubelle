@@ -95,6 +95,9 @@ $router->post('/admin/reglement', $protege(fn() => $edition->reglementEnvoi()));
 
 $router->get('/admin/galerie',          $protege(fn() => $media->galerie()));
 $router->post('/admin/galerie/ajout',   $protege(fn() => $media->ajout()));
+$router->post('/admin/galerie/publication', $protege(fn() => $media->publication()));
+$router->post('/admin/galerie/categorie',   $protege(fn() => $media->categorie()));
+$router->post('/admin/galerie/ordre',       $protege(fn() => $media->ordre()));
 $router->post('/admin/galerie/retrait', $protege(fn() => $media->retrait()));
 
 $router->get('/admin/parametres',            $protege(fn() => $reglage->ecran()));

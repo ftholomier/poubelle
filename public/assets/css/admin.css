@@ -420,3 +420,67 @@ button { font: inherit; cursor: pointer; }
   transition: color .2s;
 }
 .bo-lien-bascule:hover { color: var(--or); }
+
+/* ---------- Galerie : dépôt, filtres, classement ---------- */
+.bo-depot {
+  display: grid; justify-items: center; gap: .4rem;
+  padding: 2.2rem 1.4rem; cursor: pointer; text-align: center;
+  border: 2px dashed var(--trait); background: rgba(201, 162, 75, .03);
+  transition: border-color .25s, background .25s;
+}
+.bo-depot:hover { border-color: var(--or); background: rgba(201, 162, 75, .07); }
+.bo-depot--survol { border-color: var(--or); background: rgba(201, 162, 75, .14); }
+.bo-depot input[type="file"] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.bo-depot__icone { font-size: 1.6rem; color: var(--or); line-height: 1; }
+.bo-depot__titre { font-family: var(--serif); font-size: 1.1rem; color: var(--ivoire); }
+.bo-depot__aide { font-size: .85rem; color: var(--texte-2); }
+.bo-depot__liste { font-size: .82rem; color: var(--or-clair); margin-top: .4rem; }
+
+.bo-filtres { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.3rem; }
+.bo-filtres button {
+  background: none; border: 1px solid var(--trait); color: var(--texte-2);
+  padding: .42rem .9rem; font-size: .84rem;
+  transition: color .2s, border-color .2s, background .2s;
+}
+.bo-filtres button span { opacity: .6; font-size: .78rem; margin-left: .3rem; }
+.bo-filtres button:hover { color: var(--or-clair); border-color: var(--or); }
+.bo-filtres button[aria-pressed="true"] {
+  color: var(--noir); background: var(--or); border-color: var(--or); font-weight: 600;
+}
+
+.bo-galerie {
+  display: grid; gap: .9rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+.bo-media {
+  position: relative; background: var(--noir-2); border: 1px solid var(--trait);
+  cursor: grab; transition: border-color .2s, opacity .2s, transform .15s;
+}
+.bo-media:hover { border-color: var(--or); }
+.bo-media--porte { opacity: .45; cursor: grabbing; transform: scale(.97); }
+.bo-media img { aspect-ratio: 4 / 3; width: 100%; object-fit: cover; pointer-events: none; }
+.bo-media--masque img { filter: grayscale(1) brightness(.55); }
+.bo-media__masque {
+  position: absolute; top: .5rem; left: .5rem;
+  font-size: .62rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--noir); background: var(--texte-2); padding: .15rem .45rem;
+}
+.bo-media figcaption { padding: .5rem .6rem; display: grid; gap: .45rem; }
+.bo-media__cat select {
+  width: 100%; font: inherit; font-size: .76rem; padding: .25rem .35rem;
+  color: var(--texte-2); background: rgba(244, 239, 230, .05);
+  border: 1px solid var(--trait);
+}
+.bo-media__actions { display: flex; justify-content: space-between; gap: .5rem; }
+.bo-media__actions button {
+  background: none; border: 0; padding: 0; font-size: .76rem;
+  color: var(--or-clair); text-decoration: underline; text-underline-offset: 2px;
+}
+.bo-media__actions button:hover { color: var(--or); }
+.bo-media__actions .retirer { color: var(--texte-2); }
+.bo-media__actions .retirer:hover { color: var(--rouge); }
+
+/* le classement porte sur la galerie entière : on le signale quand elle est filtrée */
+.bo-galerie--filtree .bo-media { cursor: default; }
+.bo-ordre-etat { margin-top: .9rem; font-size: .85rem; color: var(--vert); min-height: 1.2em; }
+.bo-ordre-etat--erreur { color: var(--rouge); }
