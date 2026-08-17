@@ -36,6 +36,35 @@ final class Seo
     /** Slugs qu'on ne peut pas prendre : ils appartiennent à l'application. */
     private const RESERVES = ['admin', 'api', 'assets', 'sitemap.xml', 'robots.txt'];
 
+    /** Longueur au-delà de laquelle un slug est coupé, sur un tiret. */
+    private const SLUG_MAX = 90;
+
+    /**
+     * Translittération des lettres accentuées et ligatures vers l'ASCII.
+     * Couvre le français, et par la même occasion les langues voisines.
+     */
+    private const TRANSLIT = [
+        'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Ā' => 'A',
+        'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'ā' => 'a',
+        'Æ' => 'AE', 'æ' => 'ae', 'Œ' => 'OE', 'œ' => 'oe',
+        'Ç' => 'C', 'ç' => 'c', 'Ć' => 'C', 'ć' => 'c', 'Č' => 'C', 'č' => 'c',
+        'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E', 'Ē' => 'E', 'Ę' => 'E',
+        'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ē' => 'e', 'ę' => 'e',
+        'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ī' => 'I',
+        'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ī' => 'i',
+        'Ñ' => 'N', 'ñ' => 'n', 'Ń' => 'N', 'ń' => 'n',
+        'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O', 'Ō' => 'O',
+        'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ø' => 'o', 'ō' => 'o',
+        'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ū' => 'U',
+        'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'ū' => 'u',
+        'Ý' => 'Y', 'Ÿ' => 'Y', 'ý' => 'y', 'ÿ' => 'y',
+        'Š' => 'S', 'š' => 's', 'Ś' => 'S', 'ś' => 's',
+        'Ž' => 'Z', 'ž' => 'z', 'Ź' => 'Z', 'ź' => 'z', 'Ż' => 'Z', 'ż' => 'z',
+        'Ł' => 'L', 'ł' => 'l', 'Đ' => 'D', 'đ' => 'd', 'Ð' => 'D', 'ð' => 'd',
+        'Þ' => 'TH', 'þ' => 'th', 'ß' => 'ss',
+        '’' => '', '\'' => '', '«' => '', '»' => '', '°' => '',
+    ];
+
     /** Fichiers de contenu susceptibles de contenir des liens internes. */
     private const CONTENUS = [
         'site', 'galerie', 'hebergements', 'peche',
@@ -259,18 +288,75 @@ final class Seo
 
     /**
      * Normalise une saisie libre en slug d'URL.
+     *
+     * « Hébergements Territoire de Belfort, lodge » devient
+     * « hebergements-territoire-de-belfort-lodge » : accents remplacés,
+     * ponctuation et espaces réduits à des tirets, tout en minuscules.
+     * Une adresse complète collée depuis la barre du navigateur est ramenée
+     * à son chemin.
+     *
+     * La table de translittération est explicite à dessein : iconv avec
+     * //TRANSLIT dépend de la locale du serveur et rend « h?bergement » sous
+     * locale C ou POSIX — ce qui donnerait le slug « h-bergement » sans que
+     * personne ne s'en aperçoive avant la mise en ligne.
      */
     public static function normaliser(string $valeur): string
     {
-        $valeur = trim($valeur, " \t\n\r\0\x0B/");
-        if (function_exists('iconv')) {
-            $translit = @iconv('UTF-8', 'ASCII//TRANSLIT', $valeur);
+        $valeur = self::dechausser(trim($valeur));
+        $valeur = strtr($valeur, self::TRANSLIT);
+
+        // repli pour un alphabet non couvert par la table (cyrillique, grec…)
+        if (preg_match('/[^\x00-\x7F]/', $valeur) === 1 && function_exists('iconv')) {
+            $translit = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $valeur);
             if ($translit !== false) {
                 $valeur = $translit;
             }
         }
-        $valeur = strtolower(preg_replace('/[^a-z0-9]+/i', '-', $valeur) ?? '');
-        return trim(preg_replace('/-+/', '-', $valeur) ?? '', '-');
+
+        $valeur = strtolower($valeur);
+        $valeur = preg_replace('/[^a-z0-9]+/', '-', $valeur) ?? '';
+        $valeur = trim(preg_replace('/-+/', '-', $valeur) ?? '', '-');
+
+        // une adresse à rallonge dessert autant le lecteur que le moteur
+        if (strlen($valeur) > self::SLUG_MAX) {
+            $valeur = substr($valeur, 0, self::SLUG_MAX);
+            $coupe  = strrpos($valeur, '-');
+            if ($coupe !== false && $coupe > self::SLUG_MAX / 2) {
+                $valeur = substr($valeur, 0, $coupe);
+            }
+            $valeur = trim($valeur, '-');
+        }
+
+        return $valeur;
+    }
+
+    /**
+     * Nettoie un chemin de redirection sans en toucher les caractères :
+     * une ancienne adresse doit être reproduite telle qu'elle circule,
+     * extension « .html » comprise.
+     */
+    public static function normaliserChemin(string $valeur): string
+    {
+        $valeur = self::dechausser(trim($valeur));
+        // une adresse ne contient pas d'espace : on suppose un tiret manquant
+        $valeur = preg_replace('/\s+/', '-', $valeur) ?? '';
+        $valeur = preg_replace('#/+#', '/', $valeur) ?? '';
+        $valeur = rtrim($valeur, '/');
+
+        return $valeur === '' ? '/' : '/' . ltrim($valeur, '/');
+    }
+
+    /**
+     * Retire l'enveloppe d'une adresse collée : protocole, domaine,
+     * paramètres et ancre ne font pas partie du chemin.
+     */
+    private static function dechausser(string $valeur): string
+    {
+        if (preg_match('#^[a-z][a-z0-9+.-]*://[^/]*(/.*)?$#i', $valeur, $m) === 1) {
+            $valeur = $m[1] ?? '';
+        }
+
+        return preg_split('/[?#]/', $valeur)[0] ?? '';
     }
 
     /**
@@ -295,9 +381,13 @@ final class Seo
 
         // l'accueil est servi à la racine : son slug n'est pas modifiable
         if ($cle !== 'accueil' && array_key_exists('slug', $valeurs)) {
-            $apres = self::normaliser((string) $valeurs['slug']);
+            $saisie = trim((string) $valeurs['slug']);
+            $apres  = self::normaliser($saisie);
             if ($apres === '') {
-                throw new RuntimeException('Le slug ne peut pas être vide.');
+                throw new RuntimeException($saisie === ''
+                    ? 'L’adresse ne peut pas être vide.'
+                    : '« ' . $saisie . ' » ne laisse aucune adresse utilisable : '
+                      . 'il faut au moins une lettre ou un chiffre.');
             }
             if (in_array($apres, self::RESERVES, true)) {
                 throw new RuntimeException('« ' . $apres . ' » est réservé par l’application.');
@@ -315,7 +405,10 @@ final class Seo
         $tout['pages'][$cle]['image']       = trim((string) ($valeurs['image'] ?? ''));
         $tout['pages'][$cle]['indexer']     = (bool) ($valeurs['indexer'] ?? false);
 
-        $message = 'Page « ' . $tout['pages'][$cle]['nom'] . ' » enregistrée.';
+        // l'adresse retenue est annoncée : la saisie a pu être réécrite
+        // (accents, espaces, majuscules) et l'utilisateur doit la voir
+        $message = 'Page « ' . $tout['pages'][$cle]['nom'] . ' » enregistrée'
+            . ($cle === 'accueil' ? '.' : ' — adresse : /' . $apres . '.');
 
         if ($apres !== $avant) {
             $ancienChemin = '/' . $avant;
@@ -359,9 +452,13 @@ final class Seo
             throw new RuntimeException('Fiche introuvable : ' . $slug);
         }
 
-        $apres = self::normaliser((string) ($valeurs['slug'] ?? $slug));
+        $saisie = trim((string) ($valeurs['slug'] ?? $slug));
+        $apres  = self::normaliser($saisie);
         if ($apres === '') {
-            throw new RuntimeException('L’adresse ne peut pas être vide.');
+            throw new RuntimeException($saisie === ''
+                ? 'L’adresse ne peut pas être vide.'
+                : '« ' . $saisie . ' » ne laisse aucune adresse utilisable : '
+                  . 'il faut au moins une lettre ou un chiffre.');
         }
         foreach ($donnees['items'] as $i => $item) {
             if ($i !== $rang && ($item['slug'] ?? '') === $apres) {
@@ -377,7 +474,7 @@ final class Seo
         }
         $this->content->save($collection, $donnees);
 
-        $message = '« ' . $nom .' » enregistré.';
+        $message = '« ' . $nom . ' » enregistré — adresse : ' . $this->chemin($cle, $apres) . '.';
         if ($apres !== $slug) {
             $ancien = $this->chemin($cle, $slug);
             $this->noterRedirection($ancien, $this->chemin($cle, $apres));
@@ -407,8 +504,8 @@ final class Seo
      */
     public function ajouterRedirection(string $depuis, string $vers): void
     {
-        $depuis = '/' . trim($depuis, " \t/");
-        $vers   = '/' . trim($vers, " \t/");
+        $depuis = self::normaliserChemin($depuis);
+        $vers   = self::normaliserChemin($vers);
 
         if ($depuis === '/') {
             throw new RuntimeException('L’adresse de départ ne peut pas être la racine du site.');

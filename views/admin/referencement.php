@@ -98,11 +98,13 @@ $libelles = ['hebergements' => 'Hébergements', 'peche' => 'Étangs de pêche'];
             <div class="bo-prefixe">
               <span><?= e(rtrim(url('/'), '/')) ?>/</span>
               <input id="slug-<?= e($cle) ?>" type="text" name="slug" value="<?= e($p['slug']) ?>"
-                     required pattern="[A-Za-z0-9\-]+"
+                     required data-slug spellcheck="false" autocapitalize="off" autocomplete="off"
                      aria-describedby="aide-slug-<?= e($cle) ?>">
             </div>
-            <span class="aide" id="aide-slug-<?= e($cle) ?>">Lettres, chiffres et tirets.
-              Des mots clairs et lisibles valent mieux qu’une suite de mots-clés.
+            <span class="aide" id="aide-slug-<?= e($cle) ?>">Écrivez comme vous parlez —
+              « Hébergements Territoire de Belfort » devient
+              <code>hebergements-territoire-de-belfort</code>. Accents, majuscules,
+              espaces et ponctuation sont convertis à l’enregistrement.
               <?php if (isset($p['collection'])): ?>
                 Cette adresse préfixe aussi celle des fiches
                 (<code><?= e($p['chemin']) ?>/nom-de-la-fiche</code>).
@@ -194,8 +196,11 @@ $libelles = ['hebergements' => 'Hébergements', 'peche' => 'Étangs de pêche'];
             <div class="bo-prefixe">
               <span><?= e(rtrim(url($pages[$cle]['chemin']), '/')) ?>/</span>
               <input id="fs-<?= e($cle . '-' . $f['slug']) ?>" type="text" name="slug"
-                     value="<?= e($f['slug']) ?>" required pattern="[A-Za-z0-9\-]+">
+                     value="<?= e($f['slug']) ?>" required data-slug
+                     spellcheck="false" autocapitalize="off" autocomplete="off">
             </div>
+            <span class="aide">Accents, majuscules et espaces sont convertis à
+              l’enregistrement.</span>
           </div>
 
           <div class="bo-champ">

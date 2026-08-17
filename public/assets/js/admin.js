@@ -4,6 +4,65 @@
 (function () {
   'use strict';
 
+  /* ---------- Aperçu de l'adresse (écran Référencement) ----------
+     Reproduit App\Core\Seo::normaliser() pour montrer, pendant la frappe,
+     l'adresse qui sera réellement enregistrée. Le serveur normalise de
+     toute façon : ceci n'est qu'un aperçu. */
+  var LIGATURES = { 'æ': 'ae', 'Æ': 'ae', 'œ': 'oe', 'Œ': 'oe', 'ß': 'ss', 'ø': 'o', 'Ø': 'o',
+                    'ł': 'l', 'Ł': 'l', 'đ': 'd', 'Đ': 'd', 'ð': 'd', 'Ð': 'd', 'þ': 'th', 'Þ': 'th' };
+
+  var enSlug = function (valeur) {
+    valeur = String(valeur).trim();
+
+    // adresse complète collée depuis le navigateur : on garde le chemin
+    var complete = valeur.match(/^[a-z][a-z0-9+.-]*:\/\/[^/]*(\/.*)?$/i);
+    if (complete) { valeur = complete[1] || ''; }
+    valeur = valeur.split(/[?#]/)[0];
+
+    valeur = valeur.replace(/[æÆœŒßøØłŁđĐðÐþÞ]/g, function (c) { return LIGATURES[c]; });
+    valeur = valeur.replace(/[’'«»°]/g, '');
+
+    // décomposition Unicode : « é » devient « e » + accent, que l'on retire
+    if (valeur.normalize) {
+      valeur = valeur.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    valeur = valeur.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-')
+                   .replace(/^-|-$/g, '');
+
+    if (valeur.length > 90) {
+      valeur = valeur.slice(0, 90);
+      var coupe = valeur.lastIndexOf('-');
+      if (coupe > 45) { valeur = valeur.slice(0, coupe); }
+      valeur = valeur.replace(/^-|-$/g, '');
+    }
+    return valeur;
+  };
+
+  [].forEach.call(document.querySelectorAll('[data-slug]'), function (champ) {
+    var apercu = document.createElement('span');
+    apercu.className = 'bo-slug-apercu';
+    champ.parentNode.parentNode.insertBefore(apercu, champ.parentNode.nextSibling);
+
+    var montrer = function () {
+      var propre = enSlug(champ.value);
+      if (propre === champ.value) { apercu.textContent = ''; return; }
+      apercu.textContent = propre === ''
+        ? 'Cette saisie ne laisse aucune adresse valable.'
+        : 'Sera enregistré comme : /' + propre;
+      apercu.className = 'bo-slug-apercu' + (propre === '' ? ' bo-slug-apercu--vide' : '');
+    };
+
+    champ.addEventListener('input', montrer);
+    // la saisie est normalisée en quittant le champ : plus de surprise
+    champ.addEventListener('blur', function () {
+      var propre = enSlug(champ.value);
+      if (propre !== '') { champ.value = propre; }
+      montrer();
+    });
+    montrer();
+  });
+
   /* ---------- Compteurs de caractères (écran Référencement) ---------- */
   [].forEach.call(document.querySelectorAll('[data-compteur]'), function (champ) {
     var limite = parseInt(champ.getAttribute('data-compteur'), 10);

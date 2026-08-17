@@ -570,3 +570,9 @@ button { font: inherit; cursor: pointer; }
   .bo-prefixe { flex-wrap: wrap; }
   .bo-prefixe > span { border-right: 1px solid var(--trait); border-bottom: 0; flex-basis: 100%; }
 }
+.bo-slug-apercu {
+  display: block; margin-top: .4rem; font-size: .8rem; color: var(--vert);
+  font-family: ui-monospace, Consolas, monospace; word-break: break-all;
+}
+.bo-slug-apercu:empty { display: none; }
+.bo-slug-apercu--vide { color: var(--rouge); font-family: inherit; }

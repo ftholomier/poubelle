@@ -196,7 +196,14 @@ Puis, à la main :
 L'écran **Référencement** du back-office regroupe tout ce que Google lit.
 
 **Adresses des pages.** Chaque page a son slug — la partie de l'adresse après
-le nom de domaine. Le modifier crée automatiquement une **redirection
+le nom de domaine. Écrivez-le en toutes lettres : « Hébergements Territoire de
+Belfort » est enregistré comme `hebergements-territoire-de-belfort`. Accents,
+majuscules, espaces, ponctuation et apostrophes sont convertis, et une adresse
+complète collée depuis le navigateur est ramenée à son chemin. Un aperçu
+affiche le résultat pendant la frappe, et le message de confirmation rappelle
+l'adresse retenue.
+
+Le modifier crée automatiquement une **redirection
 permanente (301)** depuis l'ancienne adresse, réécrit les liens du menu et des
 blocs d'accueil, et fait suivre les sous-pages : renommer `/hebergements` en
 `/nos-hebergements` redirige aussi `/hebergements/le-gite`. Aucun lien déjà
