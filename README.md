@@ -4,6 +4,10 @@ Site vitrine du Domaine de l'Étang Fourchu (Florimont, 90) : lodges avec spa
 privatif, gîte, pêche sportive et ferme biologique. PHP natif, contenu en
 JSON, aucune dépendance (ni Composer, ni base de données).
 
+> **Reprendre ce socle pour un autre projet ?** Voir **[KIT.md](KIT.md)** :
+> architecture, conventions, modèle de contenu, marche à suivre pour adapter,
+> et les pièges rencontrés en chemin.
+
 ## Arborescence
 
 ```
