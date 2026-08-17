@@ -307,14 +307,28 @@ body.menu-ouvert .voile {
   border-right: 1px solid rgba(201, 162, 75, 0);
   box-shadow: none;
   transform: translateX(-102%);
-  opacity: .35;
+  opacity: .1;
   transition: transform .42s cubic-bezier(.4, 0, .2, 1),
               opacity .3s ease,
               border-color .3s ease,
               box-shadow .3s ease;
   display: flex; flex-direction: column;
   overflow-y: auto; overscroll-behavior: contain;
+  /* La place de l'ascenseur est réservée en permanence : sans cela, son
+     apparition au déroulé d'un sous-menu décale tout le contenu d'un cran. */
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 162, 75, .42) transparent;
 }
+/* ascenseur discret, noir & or — le gris du système jurait avec le panneau */
+.panneau::-webkit-scrollbar { width: 5px; }
+.panneau::-webkit-scrollbar-track { background: transparent; }
+.panneau::-webkit-scrollbar-thumb {
+  background: rgba(201, 162, 75, .42); border-radius: 999px;
+  transition: background var(--transition);
+}
+.panneau:hover::-webkit-scrollbar-thumb { background: rgba(201, 162, 75, .58); }
+.panneau::-webkit-scrollbar-thumb:hover { background: rgba(201, 162, 75, .6); }
 body.menu-ouvert .panneau {
   transform: translateX(0);
   opacity: 1;
@@ -323,7 +337,7 @@ body.menu-ouvert .panneau {
   box-shadow: 30px 0 90px -30px rgba(2, 2, 1, .85);
   /* courbe expo-out : élan franc, puis dépose lente */
   transition: transform .95s cubic-bezier(.16, 1, .3, 1),
-              opacity .5s ease,
+              opacity .75s ease,
               border-color .7s ease .35s,
               box-shadow .9s ease;
 }
@@ -332,13 +346,15 @@ body.menu-ouvert .panneau {
   display: flex; align-items: center; justify-content: space-between;
   padding: 1.4rem clamp(1.4rem, 5vw, 2.6rem);
   border-bottom: 1px solid rgba(201, 162, 75, .18);
-  /* descend en place juste après le panneau */
-  opacity: 0; transform: translateY(-12px);
-  transition: opacity .25s ease, transform .25s ease;
+  /* descend en place juste après le panneau, en se dénouant du flou */
+  opacity: 0; transform: translateY(-14px); filter: blur(6px);
+  transition: opacity .25s ease, transform .25s ease, filter .25s ease;
 }
 body.menu-ouvert .panneau__tete {
-  opacity: 1; transform: none;
-  transition: opacity .7s ease .2s, transform .8s cubic-bezier(.16, 1, .3, 1) .2s;
+  opacity: 1; transform: none; filter: none;
+  transition: opacity .8s ease .2s,
+              transform .8s cubic-bezier(.16, 1, .3, 1) .2s,
+              filter .9s ease .2s;
 }
 /* Logo complet, or clair en aplat : l'emblème seul se perdait sur le fond
    très sombre du panneau. */
@@ -397,13 +413,19 @@ body.menu-ouvert .panneau__tete {
 
 /* Apparition étagée des liens : ils se lèvent en venant de la gauche, dans
    le prolongement du glissement du panneau, à un rythme régulier. */
+/* Uniquement un décalage horizontal : un décalage vers le bas allonge la
+   zone défilable du panneau le temps de l'animation, et l'ascenseur
+   apparaissait puis disparaissait — l'à-coup visible en fin d'ouverture.
+   Le flou qui se dissipe donne le même relief, sans toucher à la mise en page. */
 .panneau__corps > * {
-  opacity: 0; transform: translate3d(-22px, 10px, 0);
-  transition: opacity .22s ease, transform .22s ease;
+  opacity: 0; transform: translate3d(-30px, 0, 0); filter: blur(7px);
+  transition: opacity .22s ease, transform .22s ease, filter .22s ease;
 }
 body.menu-ouvert .panneau__corps > * {
-  opacity: 1; transform: none;
-  transition: opacity .75s ease, transform .85s cubic-bezier(.16, 1, .3, 1);
+  opacity: 1; transform: none; filter: none;
+  transition: opacity .85s ease,
+              transform .9s cubic-bezier(.16, 1, .3, 1),
+              filter .95s ease;
 }
 body.menu-ouvert .panneau__corps > :nth-child(1) { transition-delay: .26s; }
 body.menu-ouvert .panneau__corps > :nth-child(2) { transition-delay: .33s; }
@@ -422,13 +444,17 @@ body.menu-ouvert .panneau__num { opacity: 1; transition: opacity .9s ease .55s; 
   padding: 1.6rem clamp(1.4rem, 5vw, 2.6rem) 2rem;
   border-top: 1px solid rgba(201, 162, 75, .18);
   display: grid; gap: .9rem;
-  /* dernier à entrer, une fois la liste posée */
-  opacity: 0; transform: translateY(16px);
-  transition: opacity .22s ease, transform .22s ease;
+  /* Dernier à entrer, une fois la liste posée. Il se contente d'un fondu et
+     d'un léger resserrement : le pousser vers le bas ferait déborder le
+     panneau et clignoter l'ascenseur. */
+  opacity: 0; transform: scale(.97); filter: blur(8px);
+  transition: opacity .22s ease, transform .22s ease, filter .22s ease;
 }
 body.menu-ouvert .panneau__pied {
-  opacity: 1; transform: none;
-  transition: opacity .8s ease .62s, transform .9s cubic-bezier(.16, 1, .3, 1) .62s;
+  opacity: 1; transform: none; filter: none;
+  transition: opacity .9s ease .62s,
+              transform .9s cubic-bezier(.16, 1, .3, 1) .62s,
+              filter 1s ease .62s;
 }
 .panneau__pied .btn { display: block; }
 .panneau__coordonnees {
@@ -1202,5 +1228,5 @@ body.menu-ouvert .panneau__pied {
   body.menu-ouvert .panneau__corps > :nth-child(n) {
     transition-delay: 0s; transition-duration: .15s;
   }
-  .panneau__corps > *, .panneau__tete, .panneau__pied { transform: none; }
+  .panneau__corps > *, .panneau__tete, .panneau__pied { transform: none; filter: none; }
 }
