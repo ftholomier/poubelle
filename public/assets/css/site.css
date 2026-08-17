@@ -74,7 +74,7 @@
   --garamond: "Cormorant Garamond", Georgia, serif;
   --script: "Allura", cursive;
   --transition: .45s cubic-bezier(.25, .8, .25, 1);
-  --entete-h: 124px;
+  --entete-h: 92px;
   --entete-h-compact: 68px;
   --gouttiere: clamp(1.25rem, 4vw, 3rem);
   --largeur: 1240px;
@@ -197,18 +197,25 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.15;
   height: var(--entete-h-compact);
 }
 .entete__barre {
+  position: relative;
   width: 100%; max-width: none;
   padding-inline: clamp(1rem, 3vw, 2.4rem);
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
 }
 
-.entete__logo { flex: 0 0 auto; }
-/* En haut de page l'en-tête respire : le logo est mis en avant.
-   Il se réduit dès que la page défile (.entete--pleine). */
+/* Le logo est sorti du flux et ancré par son bord haut : il peut donc
+   grandir en débordant sous la barre, sans jamais l'épaissir. Dès que la
+   page défile, il rentre dans la barre compacte. */
+.entete__logo {
+  position: absolute; left: 50%; top: 6px;
+  transform: translateX(-50%);
+  transition: top var(--transition);
+}
 .entete__logo img {
-  height: 96px; width: auto;
+  height: 150px; width: auto;
   transition: height var(--transition);
 }
+.entete--pleine .entete__logo { top: 10px; }
 .entete--pleine .entete__logo img { height: 48px; }
 
 .entete__droite { display: flex; align-items: center; gap: 1.6rem; }
@@ -886,14 +893,17 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 
 /* ---------- Divers responsive ---------- */
 @media (max-width: 860px) {
-  :root { --entete-h: 104px; }
+  :root { --entete-h: 88px; }
   .entete__tel { display: none; }
-  .entete__logo img { height: 78px; }
+  .entete__logo img { height: 118px; }
 }
 @media (max-width: 560px) {
-  :root { --entete-h: 88px; --entete-h-compact: 62px; }
-  .entete__logo img { height: 62px; }
-  .entete--pleine .entete__logo img { height: 44px; }
+  :root { --entete-h: 78px; --entete-h-compact: 62px; }
+  /* Trop peu de place entre le burger et le bouton pour un logo centré sur
+     la fenêtre : on le remet dans le flux, le flex garantit l'espacement. */
+  .entete__logo { position: static; transform: none; }
+  .entete__logo img { height: 56px; }
+  .entete--pleine .entete__logo img { height: 42px; }
   .resa__btn { padding: .85rem 1.2rem; letter-spacing: .18em; }
   .heros__actions .btn { width: 100%; }
 }
