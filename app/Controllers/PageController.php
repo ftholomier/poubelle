@@ -145,9 +145,13 @@ final class PageController
             ]);
         }
 
-        $destinataire = (string) $this->parametres->get('contact.destinataire');
+        // à défaut de destinataire dédié, l'e-mail public du site suffit :
+        // le formulaire fonctionne ainsi sans aucun réglage préalable
+        $destinataire = (string) $this->parametres->get('contact.destinataire')
+            ?: (string) $this->content->get('site', 'contact.email', '');
+
         if ($destinataire === '') {
-            error_log('Formulaire de contact : aucun destinataire réglé dans Paramètres.');
+            error_log('Formulaire de contact : ni destinataire dans Paramètres, ni e-mail dans Coordonnées.');
             http_response_code(500);
             return $this->view->render('contact', [
                 'page'    => $this->page('contact'),

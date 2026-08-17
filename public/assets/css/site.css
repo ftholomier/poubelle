@@ -74,7 +74,7 @@
   --garamond: "Cormorant Garamond", Georgia, serif;
   --script: "Allura", cursive;
   --transition: .45s cubic-bezier(.25, .8, .25, 1);
-  --entete-h: 92px;
+  --entete-h: 124px;
   --entete-h-compact: 68px;
   --gouttiere: clamp(1.25rem, 4vw, 3rem);
   --largeur: 1240px;
@@ -203,8 +203,10 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.15;
 }
 
 .entete__logo { flex: 0 0 auto; }
+/* En haut de page l'en-tête respire : le logo est mis en avant.
+   Il se réduit dès que la page défile (.entete--pleine). */
 .entete__logo img {
-  height: 64px; width: auto;
+  height: 96px; width: auto;
   transition: height var(--transition);
 }
 .entete--pleine .entete__logo img { height: 48px; }
@@ -407,7 +409,13 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   display: flex; flex-direction: column; align-items: center; gap: .7rem;
   font-family: var(--garamond); font-size: .72rem; font-weight: 600;
   letter-spacing: .34em; text-transform: uppercase; color: var(--or-clair);
+  /* zone de clic confortable sans décaler le repère visuel */
+  padding: .6rem 1.4rem 0; margin-inline: -1.4rem;
+  transition: color var(--transition), opacity var(--transition);
 }
+.heros__defiler:hover { color: var(--ivoire); opacity: .9; }
+/* l'ancre s'arrête sous l'en-tête réduit, pas dessous */
+#decouvrir { scroll-margin-top: var(--entete-h-compact); }
 .heros__defiler::after {
   content: ""; width: 1px; height: 52px;
   background: linear-gradient(var(--or), transparent);
@@ -828,7 +836,10 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   padding-bottom: 3rem;
 }
+/* Colonne de gauche : le logo, et juste dessous les boutons de réservation. */
+.pied__marque { display: grid; gap: 2rem; align-content: start; justify-items: start; }
 .pied__logo img { height: 150px; width: auto; }
+.pied__marque .pied__resa { width: 100%; max-width: 300px; }
 .pied h3 {
   font-family: var(--garamond); font-weight: 600; font-size: .8rem;
   letter-spacing: .3em; text-transform: uppercase;
@@ -875,11 +886,14 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 
 /* ---------- Divers responsive ---------- */
 @media (max-width: 860px) {
+  :root { --entete-h: 104px; }
   .entete__tel { display: none; }
+  .entete__logo img { height: 78px; }
 }
 @media (max-width: 560px) {
-  :root { --entete-h: 74px; --entete-h-compact: 62px; }
-  .entete__logo img { height: 50px; }
+  :root { --entete-h: 88px; --entete-h-compact: 62px; }
+  .entete__logo img { height: 62px; }
+  .entete--pleine .entete__logo img { height: 44px; }
   .resa__btn { padding: .85rem 1.2rem; letter-spacing: .18em; }
   .heros__actions .btn { width: 100%; }
 }

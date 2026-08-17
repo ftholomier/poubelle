@@ -44,7 +44,7 @@ final class Mailer
             throw new RuntimeException('Destinataire invalide : « ' . $destinataire . ' ».');
         }
 
-        $expediteur = (string) $this->parametres->get('smtp.expediteur');
+        $expediteur = (string) $this->parametres->get('smtp.expediteur') ?: $this->expediteurParDefaut();
         $nom        = (string) $this->parametres->get('smtp.nom_expediteur', 'Étang Fourchu');
 
         if (!$this->parametres->smtpConfigure()) {
@@ -243,6 +243,21 @@ final class Mailer
     private function normaliser(string $corps): string
     {
         return preg_replace('/\R/u', "\r\n", $corps) ?? $corps;
+    }
+
+    /**
+     * Expéditeur de repli quand aucun SMTP n'est réglé : une adresse du
+     * domaine servant le site, pour que mail() produise un From valide.
+     */
+    private function expediteurParDefaut(): string
+    {
+        $hote = (string) ($_SERVER['HTTP_HOST'] ?? '');
+        $hote = strtolower(preg_replace('/:\d+$/', '', $hote) ?? '');
+        $hote = preg_replace('/^www\./', '', $hote) ?? $hote;
+
+        return preg_match('/^[a-z0-9.-]+\.[a-z]{2,}$/', $hote)
+            ? 'no-reply@' . $hote
+            : '';
     }
 
     private function domaineLocal(string $expediteur): string

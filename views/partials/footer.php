@@ -10,9 +10,17 @@ $resa = $site['reservation'];
 <footer class="pied">
   <div class="conteneur">
     <div class="pied__haut">
-      <div class="pied__logo">
-        <img src="<?= asset('assets/img/logo/logo-etang-fourchu.svg') ?>"
-             alt="<?= e($site['nom']) ?> — <?= e($site['baseline']) ?>" loading="lazy">
+      <div class="pied__marque">
+        <div class="pied__logo">
+          <img src="<?= asset('assets/img/logo/logo-etang-fourchu.svg') ?>"
+               alt="<?= e($site['nom']) ?> — <?= e($site['baseline']) ?>" loading="lazy">
+        </div>
+
+        <div class="pied__resa">
+          <h3>Réservation</h3>
+          <a class="btn btn--or" href="<?= e($resa['hebergement']['url']) ?>" target="_blank" rel="noopener"><?= e($resa['hebergement']['libelle']) ?></a>
+          <a class="btn btn--contour" href="<?= e($resa['etang']['url']) ?>" target="_blank" rel="noopener"><?= e($resa['etang']['libelle']) ?></a>
+        </div>
       </div>
 
       <nav aria-label="Navigation pied de page">
@@ -33,12 +41,6 @@ $resa = $site['reservation'];
           <?= e($site['adresse']['cp']) ?> <?= e($site['adresse']['ville']) ?><br>
           <a href="tel:+33<?= e(substr(preg_replace('/\D+/', '', $site['contact']['telephone']), 1)) ?>"><?= e($site['contact']['telephone']) ?></a>
         </address>
-      </div>
-
-      <div class="pied__resa">
-        <h3>Réservation</h3>
-        <a class="btn btn--or" href="<?= e($resa['hebergement']['url']) ?>" target="_blank" rel="noopener"><?= e($resa['hebergement']['libelle']) ?></a>
-        <a class="btn btn--contour" href="<?= e($resa['etang']['url']) ?>" target="_blank" rel="noopener"><?= e($resa['etang']['libelle']) ?></a>
       </div>
     </div>
 

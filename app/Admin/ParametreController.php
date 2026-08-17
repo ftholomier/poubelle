@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Admin;
 
 use App\Core\Auth;
+use App\Core\Content;
 use App\Core\Csrf;
 use App\Core\Mailer;
 use App\Core\Parametres;
@@ -24,6 +25,7 @@ final class ParametreController
     public function __construct(
         private readonly View $view,
         private readonly Parametres $parametres,
+        private readonly Content $content,
         private readonly Auth $auth,
         private readonly Mailer $mailer,
         private readonly string $racine,
@@ -46,8 +48,19 @@ final class ParametreController
             'identifiant' => $this->auth->identifiant(),
             'diagnostic'  => $this->diagnostic(),
             'droits'      => $this->permissions->analyser(),
+            'destinataireEffectif' => $this->destinataireEffectif(),
             'trace'       => Session::flash('trace_smtp'),
         ], 'admin/layout');
+    }
+
+    /**
+     * Destinataire réellement utilisé : celui des Paramètres, ou à défaut
+     * l'e-mail public saisi dans Coordonnées.
+     */
+    private function destinataireEffectif(): string
+    {
+        return (string) $this->parametres->get('contact.destinataire')
+            ?: (string) $this->content->get('site', 'contact.email', '');
     }
 
     // ------------------------------------------------------------ envoi mails
@@ -103,7 +116,7 @@ final class ParametreController
         }
 
         $destinataire = trim((string) ($_POST['destinataire_test'] ?? ''))
-            ?: (string) $this->parametres->get('contact.destinataire');
+            ?: $this->destinataireEffectif();
 
         try {
             $this->mailer->envoyer(

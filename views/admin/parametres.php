@@ -6,6 +6,7 @@
  * @var string $identifiant
  * @var array $diagnostic
  * @var array $droits
+ * @var string $destinataireEffectif
  * @var string|null $trace
  */
 use App\Core\Csrf;
@@ -24,6 +25,16 @@ $contact = $parametres['contact'];
         <label for="p-dest">Adresse qui reçoit les messages du formulaire</label>
         <input id="p-dest" type="email" name="destinataire" value="<?= e($contact['destinataire']) ?>"
                placeholder="contact@etang-fourchu.com">
+        <span class="aide">
+          <?php if ($contact['destinataire'] === '' && $destinataireEffectif !== ''): ?>
+            Vide : les demandes partent vers <strong><?= e($destinataireEffectif) ?></strong>,
+            l'e-mail saisi dans <em>Coordonnées</em>.
+          <?php elseif ($contact['destinataire'] === ''): ?>
+            Vide, et aucun e-mail dans <em>Coordonnées</em> : le formulaire ne peut rien envoyer.
+          <?php else: ?>
+            Laissez vide pour utiliser l'e-mail saisi dans <em>Coordonnées</em>.
+          <?php endif; ?>
+        </span>
       </div>
       <div class="bo-champ">
         <label for="p-copie">Copie (facultatif)</label>

@@ -23,10 +23,10 @@ $hero = $page['hero'];
       <a class="btn btn--contour" href="<?= e($resa['etang']['url']) ?>" target="_blank" rel="noopener"><?= e($resa['etang']['libelle']) ?></a>
     </div>
   </div>
-  <p class="heros__defiler" aria-hidden="true">Découvrir</p>
+  <a class="heros__defiler" href="#decouvrir">Découvrir</a>
 </section>
 
-<section class="section section--ivoire">
+<section class="section section--ivoire" id="decouvrir">
   <div class="conteneur centre">
     <p class="surtitre surtitre--centre reveler"><?= e($page['piliers']['surtitre']) ?></p>
     <h2 class="titre-section reveler"><?= e($page['piliers']['titre']) ?></h2>

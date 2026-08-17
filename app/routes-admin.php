@@ -37,7 +37,7 @@ $edition = new EditionController($view, $content);
 $media   = new MediaController($view, $content, $mediatheque);
 $photo   = new PhotoController($view, $content, $mediatheque);
 $majour  = new MiseAJourController($view, $deploiement);
-$reglage = new ParametreController($view, $parametres, $auth, $mailer, $config['paths']['root'], $config['paths']['public']);
+$reglage = new ParametreController($view, $parametres, $content, $auth, $mailer, $config['paths']['root'], $config['paths']['public']);
 
 $view->share('auth', $auth);
 
