@@ -210,3 +210,63 @@ php -S localhost:8080 -t public public/index.php
 Puis `http://localhost:8080`. La redirection HTTPS du `.htaccess` ne
 s'applique pas au serveur intégré de PHP, et `localhost` en est de toute
 façon exempté.
+
+---
+
+## 9. Mettre à jour le site par FTP
+
+Une fois le site en ligne, deux natures de fichiers cohabitent : le **code**,
+qui vient du dépôt, et l'**état vivant** du site, qui n'existe que sur le
+serveur. La règle tient en une phrase :
+
+> Le dépôt fait foi pour le code, le serveur fait foi pour le contenu.
+
+### À ne jamais écraser
+
+| Chemin | Contenu |
+|---|---|
+| `data/admin/` | Compte administrateur et mot de passe SMTP |
+| `data/*.json` et `data/pages/*.json` | Tout le contenu édité au back-office |
+| `public/assets/img/site/` | Photos envoyées au back-office |
+| `storage/` | Sauvegardes de contenu et compteur anti-force-brute |
+
+Écraser `data/admin/` fait perdre l'accès au back-office **et** les réglages
+d'envoi. Écraser `data/` remet le contenu dans son état d'origine et annule
+tout ce que le client a saisi.
+
+### À transférer à chaque mise à jour
+
+```
+app/
+config/
+views/
+public/index.php
+public/.htaccess
+public/assets/css/
+public/assets/js/
+public/assets/fonts/
+public/assets/img/logo/
+```
+
+Dans FileZilla, sélectionnez ces éléments uniquement. `data/`,
+`public/assets/img/site/` et `storage/` restent intacts sur le serveur.
+
+### Avant chaque mise à jour
+
+Téléchargez `data/` en local — quelques centaines de kilo-octets, et c'est
+la totalité du contenu du site. Un transfert interrompu au mauvais moment
+devient alors sans conséquence.
+
+### Quand une version change la structure du contenu
+
+Si une évolution ajoute une page ou un champ dans les fichiers JSON, ne
+transférez pas `data/` pour autant : ajoutez la clé manquante depuis
+*Éditeur avancé*, qui valide le JSON avant d'écrire et sauvegarde la version
+précédente. Ces cas sont signalés au moment de la livraison.
+
+### Après le transfert
+
+Videz le cache de votre navigateur, ou ouvrez le site en navigation privée :
+les CSS et JS portent une empreinte de version, mais les gabarits peuvent
+rester en cache côté navigateur. Puis vérifiez l'écran *Paramètres* — le
+diagnostic confirme que les droits d'écriture n'ont pas bougé.
