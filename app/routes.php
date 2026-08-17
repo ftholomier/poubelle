@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 use App\Controllers\ApiController;
 use App\Controllers\PageController;
+use App\Core\Mailer;
+use App\Core\Parametres;
 
-$pages = new PageController($view, $content);
+$parametresSite = new Parametres($config['paths']['data'] . '/admin/parametres.json');
+$pages = new PageController($view, $content, $parametresSite, new Mailer($parametresSite));
 $api   = new ApiController($content);
 
 // --- pages éditoriales ---------------------------------------------------

@@ -1,0 +1,262 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Admin;
+
+use App\Core\Auth;
+use App\Core\Csrf;
+use App\Core\Mailer;
+use App\Core\Parametres;
+use App\Core\Session;
+use App\Core\View;
+use RuntimeException;
+use Throwable;
+
+/**
+ * Écran Paramètres : envoi des e-mails, compte administrateur, diagnostic
+ * du serveur. C'est ici que se règle tout ce qui dépend de l'hébergement.
+ */
+final class ParametreController
+{
+    public function __construct(
+        private readonly View $view,
+        private readonly Parametres $parametres,
+        private readonly Auth $auth,
+        private readonly Mailer $mailer,
+        private readonly string $racine,
+        private readonly string $racineWeb,
+    ) {
+    }
+
+    private function rediriger(string $chemin = '/admin/parametres'): string
+    {
+        header('Location: ' . url($chemin), true, 303);
+        return '';
+    }
+
+    public function ecran(): string
+    {
+        return $this->view->render('admin/parametres', [
+            'page'        => ['titre' => 'Paramètres'],
+            'parametres'  => $this->parametres->tout(),
+            'identifiant' => $this->auth->identifiant(),
+            'diagnostic'  => $this->diagnostic(),
+            'trace'       => Session::flash('trace_smtp'),
+        ], 'admin/layout');
+    }
+
+    // ------------------------------------------------------------ envoi mails
+
+    public function messagerieEnvoi(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger();
+        }
+
+        $actuel = $this->parametres->tout();
+        $securite = (string) ($_POST['securite'] ?? 'tls');
+
+        $motDePasse = (string) ($_POST['mot_de_passe'] ?? '');
+        // champ laissé vide = on conserve le mot de passe déjà enregistré
+        if ($motDePasse === '') {
+            $motDePasse = (string) $actuel['smtp']['mot_de_passe'];
+        }
+
+        $actuel['smtp'] = [
+            'actif'          => isset($_POST['actif']),
+            'hote'           => trim((string) ($_POST['hote'] ?? '')),
+            'port'           => max(1, min(65535, (int) ($_POST['port'] ?? 587))),
+            'securite'       => in_array($securite, ['tls', 'ssl', 'aucune'], true) ? $securite : 'tls',
+            'identifiant'    => trim((string) ($_POST['identifiant'] ?? '')),
+            'mot_de_passe'   => $motDePasse,
+            'expediteur'     => trim((string) ($_POST['expediteur'] ?? '')),
+            'nom_expediteur' => trim((string) ($_POST['nom_expediteur'] ?? '')) ?: 'Étang Fourchu',
+        ];
+        $actuel['contact'] = [
+            'destinataire' => trim((string) ($_POST['destinataire'] ?? '')),
+            'copie'        => trim((string) ($_POST['copie'] ?? '')),
+        ];
+
+        try {
+            $this->parametres->enregistrer($actuel);
+            Session::flash('succes', 'Paramètres d’envoi enregistrés.');
+        } catch (RuntimeException $e) {
+            Session::flash('erreur', $e->getMessage());
+        }
+
+        return $this->rediriger();
+    }
+
+    /**
+     * Envoie un message de test au destinataire des demandes et conserve la
+     * trace du dialogue SMTP pour comprendre un échec.
+     */
+    public function test(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger();
+        }
+
+        $destinataire = trim((string) ($_POST['destinataire_test'] ?? ''))
+            ?: (string) $this->parametres->get('contact.destinataire');
+
+        try {
+            $this->mailer->envoyer(
+                $destinataire,
+                'Test d’envoi — site Étang Fourchu',
+                "Ce message confirme que l'envoi d'e-mails du site fonctionne.\n\n"
+                . 'Envoyé le ' . date('d/m/Y à H:i') . ' depuis ' . ($_SERVER['HTTP_HOST'] ?? 'le serveur') . ".\n"
+            );
+            Session::flash('succes', 'E-mail de test envoyé à ' . $destinataire . '. Vérifiez la boîte de réception (et les indésirables).');
+        } catch (Throwable $e) {
+            Session::flash('erreur', 'Échec de l’envoi : ' . $e->getMessage());
+        }
+
+        $journal = $this->mailer->journal();
+        if ($journal !== []) {
+            Session::flash('trace_smtp', implode("\n", $journal));
+        }
+
+        return $this->rediriger();
+    }
+
+    // -------------------------------------------------------------- le compte
+
+    public function compteEnvoi(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger();
+        }
+
+        $actuelMdp    = (string) ($_POST['mot_de_passe_actuel'] ?? '');
+        $identifiant  = trim((string) ($_POST['identifiant'] ?? ''));
+        $nouveau      = (string) ($_POST['nouveau_mot_de_passe'] ?? '');
+        $confirmation = (string) ($_POST['confirmation'] ?? '');
+
+        if (!$this->auth->verifier($this->auth->identifiant(), $actuelMdp)) {
+            Session::flash('erreur', 'Mot de passe actuel incorrect.');
+            return $this->rediriger();
+        }
+        if (mb_strlen($identifiant) < 3) {
+            Session::flash('erreur', 'L’identifiant doit contenir au moins 3 caractères.');
+            return $this->rediriger();
+        }
+        if ($nouveau !== '' && mb_strlen($nouveau) < 12) {
+            Session::flash('erreur', 'Le nouveau mot de passe doit contenir au moins 12 caractères.');
+            return $this->rediriger();
+        }
+        if ($nouveau !== $confirmation) {
+            Session::flash('erreur', 'La confirmation ne correspond pas au nouveau mot de passe.');
+            return $this->rediriger();
+        }
+
+        try {
+            $this->auth->modifierCompte($identifiant, $nouveau);
+            Session::flash('succes', $nouveau !== ''
+                ? 'Identifiant et mot de passe mis à jour.'
+                : 'Identifiant mis à jour.');
+        } catch (Throwable $e) {
+            Session::flash('erreur', $e->getMessage());
+        }
+
+        return $this->rediriger();
+    }
+
+    // ------------------------------------------------------------ diagnostic
+
+    /**
+     * Contrôles utiles au moment de l'installation sur l'hébergement.
+     *
+     * @return array<int, array{libelle:string, valeur:string, ok:bool|null}>
+     */
+    private function diagnostic(): array
+    {
+        $controles = [];
+
+        $phpOk = PHP_VERSION_ID >= 80100;
+        $controles[] = ['libelle' => 'Version de PHP', 'valeur' => PHP_VERSION, 'ok' => $phpOk];
+
+        foreach (['gd' => 'Traitement des images', 'fileinfo' => 'Contrôle des fichiers envoyés',
+                  'mbstring' => 'Textes accentués', 'openssl' => 'SMTP chiffré'] as $ext => $role) {
+            $controles[] = [
+                'libelle' => 'Extension ' . $ext . ' — ' . $role,
+                'valeur'  => extension_loaded($ext) ? 'présente' : 'absente',
+                'ok'      => extension_loaded($ext),
+            ];
+        }
+
+        $dossiers = [
+            'Contenu'               => $this->racine . '/data',
+            'Compte et paramètres'  => $this->racine . '/data/admin',
+            'Sauvegardes'           => $this->racine . '/storage',
+            'Photos'                => $this->racineWeb . '/assets/img/site',
+        ];
+        foreach ($dossiers as $role => $chemin) {
+            $inscriptible = is_dir($chemin) && is_writable($chemin);
+            $controles[] = [
+                'libelle' => $role . ' — écriture dans ' . $this->relatif($chemin),
+                'valeur'  => !is_dir($chemin) ? 'dossier absent' : ($inscriptible ? 'autorisée' : 'refusée'),
+                'ok'      => $inscriptible,
+            ];
+        }
+
+        // data/ sous la racine web = contenu, compte et mot de passe SMTP
+        // atteignables par URL si Apache ne bloque pas
+        $data = realpath($this->racine . '/data');
+        $web  = realpath($this->racineWeb);
+        $exposee = $data !== false && $web !== false
+            && ($data === $web || str_starts_with($data, $web . DIRECTORY_SEPARATOR));
+        $controles[] = [
+            'libelle' => 'Dossier data hors de la racine web',
+            'valeur'  => $exposee
+                ? 'exposé — vérifiez que /data/site.json renvoie une erreur 403'
+                : 'protégé',
+            'ok'      => !$exposee,
+        ];
+
+        // 8 Mo : en dessous, les photos d'appareil passent mal
+        foreach (['upload_max_filesize' => 'Taille maximale d’une photo envoyée',
+                  'post_max_size' => 'Taille maximale d’un formulaire'] as $cle => $role) {
+            $brut = ini_get($cle) ?: '';
+            $controles[] = [
+                'libelle' => $role . ' (' . $cle . ')',
+                'valeur'  => $brut !== '' ? $brut : 'inconnue',
+                'ok'      => $brut !== '' ? $this->enOctets($brut) >= 8 * 1024 * 1024 : null,
+            ];
+        }
+        $controles[] = [
+            'libelle' => 'Envoi par SMTP',
+            'valeur'  => $this->parametres->smtpConfigure() ? 'configuré' : 'non configuré — mail() de PHP utilisé',
+            'ok'      => $this->parametres->smtpConfigure() ? true : null,
+        ];
+
+        return $controles;
+    }
+
+    /**
+     * Chemin affiché relativement à la racine du projet.
+     */
+    private function relatif(string $chemin): string
+    {
+        $racine = realpath($this->racine);
+        $reel   = realpath($chemin) ?: $chemin;
+        return $racine !== false && str_starts_with($reel, $racine)
+            ? '/' . ltrim(substr($reel, strlen($racine)), '/')
+            : $reel;
+    }
+
+    /**
+     * Convertit une valeur php.ini (« 2M », « 512K », « 1G ») en octets.
+     */
+    private function enOctets(string $valeur): int
+    {
+        $valeur = trim($valeur);
+        $nombre = (int) $valeur;
+        return match (strtolower(substr($valeur, -1))) {
+            'g'     => $nombre * 1024 ** 3,
+            'm'     => $nombre * 1024 ** 2,
+            'k'     => $nombre * 1024,
+            default => $nombre,
+        };
+    }
+}

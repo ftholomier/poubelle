@@ -1,0 +1,212 @@
+# Déploiement sur o2switch
+
+## Avant de commencer : il n'y a pas de base de données
+
+Le site n'utilise **ni MySQL, ni SQL, ni phpMyAdmin**. Tout le contenu est
+stocké dans des fichiers JSON sous `data/`. Il n'y a donc aucun fichier
+`.sql` à importer, ni identifiants de base à renseigner.
+
+Ce que ça change concrètement :
+
+- **Sauvegarder le site** = copier les dossiers `data/` et
+  `public/assets/img/site/`. Rien d'autre.
+- **Dupliquer le site** (préprod, test) = copier l'arborescence.
+- **Restaurer une bêtise** = le back-office garde les 20 dernières versions
+  de chaque fichier de contenu, restaurables en un clic.
+- Aucun risque de perte de connexion à la base, aucune migration à gérer.
+
+Les seuls réglages techniques (SMTP, destinataire des demandes) se saisissent
+**dans le back-office**, écran *Paramètres* — pas dans un fichier.
+
+---
+
+## 1. Où poser les fichiers
+
+Le point critique : **seul le dossier `public/` doit être accessible depuis
+le web**. Le reste (`app/`, `config/`, `data/`, `views/`, `storage/`) contient
+le contenu, le compte administrateur et les mots de passe SMTP.
+
+### Méthode recommandée — racine web déplacée
+
+Envoyez tout le projet dans votre espace, **à côté** de `public_html` :
+
+```
+/home/VOTRECOMPTE/
+├── public_html/          ← ne sert plus, laissez-le vide
+├── etangfourchu/         ← le projet complet
+│   ├── app/
+│   ├── config/
+│   ├── data/
+│   ├── public/           ← c'est CE dossier qui doit être la racine web
+│   ├── storage/
+│   └── views/
+```
+
+Puis dans **cPanel → Domaines** (ou *Domaines additionnels* / *Sous-domaines*
+selon le cas), modifiez la **racine du document** du domaine et pointez-la
+sur `etangfourchu/public`.
+
+### Méthode de repli — tout dans public_html
+
+Si vous ne pouvez pas déplacer la racine web, envoyez le projet dans
+`public_html/`. Des fichiers `.htaccess` de protection sont déjà présents
+dans `app/`, `config/`, `data/`, `views/`, `storage/` et `tools/` : ils
+bloquent tout accès direct.
+
+**Cette méthode est moins sûre** — elle repose entièrement sur Apache. Après
+installation, vérifiez que `https://votredomaine.fr/data/site.json` renvoie
+bien une erreur 403. Si le fichier s'affiche, **arrêtez tout** et repassez à
+la méthode recommandée : votre mot de passe SMTP serait lisible publiquement.
+
+---
+
+## 2. Réglages cPanel
+
+**PHP 8.1 minimum** (8.2 ou 8.3 conseillé) via *MultiPHP Manager*.
+
+Extensions nécessaires, actives par défaut chez o2switch — à vérifier dans
+*Sélectionner une version de PHP → Extensions* :
+
+| Extension | Rôle |
+|---|---|
+| `gd` | redimensionnement des photos |
+| `fileinfo` | contrôle des fichiers envoyés |
+| `mbstring` | textes accentués |
+| `openssl` | connexion SMTP chiffrée |
+
+**Taille des envois** — par défaut o2switch autorise largement de quoi
+envoyer des photos, mais si l'écran *Paramètres* signale un problème,
+augmentez dans *MultiPHP INI Editor* :
+
+```
+upload_max_filesize = 16M
+post_max_size = 20M
+```
+
+---
+
+## 3. Permissions
+
+```bash
+find . -type d -exec chmod 755 {} \;
+find . -type f -exec chmod 644 {} \;
+chmod -R 775 data storage public/assets/img/site
+```
+
+Ces trois dossiers doivent être **inscriptibles** : ils reçoivent le contenu
+édité, les sauvegardes et les photos envoyées. L'écran *Paramètres* le
+vérifie et vous le dira.
+
+---
+
+## 4. Premier lancement
+
+1. Ouvrez **`https://votredomaine.fr/`** — le site doit s'afficher.
+2. Ouvrez **`https://votredomaine.fr/admin`**.
+
+### Il n'y a pas d'identifiants par défaut
+
+C'est volontaire : un mot de passe livré par défaut est la première chose
+qu'un robot essaie. À la place, la toute première visite de `/admin` affiche
+un écran **Première configuration** où vous créez vous-même le compte
+(identifiant libre, mot de passe de 12 caractères minimum).
+
+Cet écran **disparaît définitivement** dès que le compte existe : personne ne
+peut le rejouer pour créer un second compte.
+
+> **Faites-le tout de suite après la mise en ligne.** Tant que le compte
+> n'existe pas, n'importe quel visiteur tombant sur `/admin` pourrait le
+> créer à votre place.
+
+Vous changerez identifiant et mot de passe quand vous voulez depuis
+*Paramètres → Compte administrateur* (le mot de passe actuel est exigé).
+
+Le compte est stocké dans `data/admin/compte.json`, mot de passe **haché en
+bcrypt** — il n'est jamais lisible, même en ouvrant le fichier.
+
+---
+
+## 5. Configurer l'envoi des e-mails
+
+Le formulaire de contact n'envoie rien tant que ce n'est pas réglé.
+
+1. Créez une adresse dans **cPanel → Comptes de messagerie**, par exemple
+   `contact@votredomaine.fr`.
+2. Dans le back-office, allez dans **Paramètres**.
+3. **Destinataire des demandes** : l'adresse qui recevra les messages du
+   formulaire.
+4. **Serveur d'envoi (SMTP)** : cochez *Envoyer les e-mails via SMTP* et
+   renseignez les valeurs o2switch :
+
+| Champ | Valeur |
+|---|---|
+| Serveur | `votredomaine.fr` (ou `mail.votredomaine.fr`) |
+| Port | `587` |
+| Chiffrement | STARTTLS |
+| Identifiant | l'adresse complète, ex. `contact@votredomaine.fr` |
+| Mot de passe | celui du compte de messagerie |
+| Adresse expéditrice | la même adresse |
+
+> Port `465` avec *SSL/TLS* fonctionne aussi. L'adresse expéditrice **doit**
+> appartenir à votre domaine, sinon les messages partiront en indésirables.
+
+5. Enregistrez, puis utilisez **Tester l'envoi**. En cas d'échec, dépliez
+   *Détail de la dernière tentative* : le dialogue complet avec le serveur y
+   figure (mots de passe masqués), ce qui montre exactement où ça bloque.
+
+Sans SMTP, le site retombe sur la fonction `mail()` de PHP — ça marche
+parfois, mais les messages finissent souvent en spam. **Configurez le SMTP.**
+
+Les demandes arrivent avec le visiteur en `Reply-To` : vous répondez
+directement depuis votre boîte, la réponse part chez lui.
+
+---
+
+## 6. Vérifier que tout va bien
+
+L'écran **Paramètres** se termine par un **Diagnostic du serveur** qui
+contrôle version de PHP, extensions, droits d'écriture, exposition du dossier
+`data/` et taille maximale des envois. Tout doit être au vert.
+
+Puis, à la main :
+
+- [ ] Le site s'affiche, le menu fonctionne
+- [ ] Une fiche hébergement et une fiche étang s'ouvrent
+- [ ] Les photos s'affichent
+- [ ] Les boutons *Réserver* ouvrent bien Reservit
+- [ ] Le formulaire de contact envoie un message qui arrive
+- [ ] `https://votredomaine.fr/data/site.json` renvoie une **erreur 403**
+- [ ] `/admin` demande une connexion
+- [ ] Une modification dans le back-office apparaît sur le site
+
+---
+
+## 7. Points de vigilance
+
+**HTTPS** — le `.htaccess` force la redirection vers HTTPS. Activez le
+certificat SSL gratuit dans *cPanel → SSL/TLS Status* avant la mise en ligne,
+sinon vous obtiendrez une boucle de redirection.
+
+**Sauvegarde** — copiez `data/` et `public/assets/img/site/` régulièrement.
+C'est tout le site. o2switch fait aussi des sauvegardes automatiques via
+JetBackup.
+
+**Ne modifiez pas les fichiers JSON à la main sur le serveur** si le
+back-office peut le faire : il crée une sauvegarde à chaque enregistrement,
+pas vous. Si vous devez vraiment intervenir, passez par *Éditeur avancé* —
+il valide le JSON avant d'écrire.
+
+**`data/admin/`** contient le compte et le mot de passe SMTP. Ce dossier est
+exclu de git et ne doit jamais être partagé ni versionné.
+
+---
+
+## 8. Tester en local avant d'envoyer
+
+```bash
+php -S localhost:8080 -t public public/index.php
+```
+
+Puis `http://localhost:8080`. La redirection HTTPS du `.htaccess` ne
+s'applique pas au serveur intégré de PHP, et `localhost` en est de toute
+façon exempté.

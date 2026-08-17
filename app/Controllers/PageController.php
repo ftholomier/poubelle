@@ -4,8 +4,11 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\Content;
+use App\Core\Mailer;
+use App\Core\Parametres;
 use App\Core\View;
 use RuntimeException;
+use Throwable;
 
 /**
  * Rendu des pages éditoriales. Chaque page tire son contenu de /data,
@@ -16,6 +19,8 @@ final class PageController
     public function __construct(
         private readonly View $view,
         private readonly Content $content,
+        private readonly Parametres $parametres,
+        private readonly Mailer $mailer,
     ) {
     }
 
@@ -102,13 +107,14 @@ final class PageController
     }
 
     /**
-     * Traitement du formulaire de demande. La validation vit ici ; l'envoi
-     * effectif sera branché sur le transport retenu (SMTP ou service tiers).
+     * Traitement du formulaire de demande : validation, puis envoi au
+     * destinataire réglé dans Paramètres.
      */
     public function contactEnvoi(): string
     {
         $valeurs = [
             'nom'     => trim((string) ($_POST['nom'] ?? '')),
+            'prenom'  => trim((string) ($_POST['prenom'] ?? '')),
             'email'   => trim((string) ($_POST['email'] ?? '')),
             'tel'     => trim((string) ($_POST['tel'] ?? '')),
             'message' => trim((string) ($_POST['message'] ?? '')),
@@ -139,10 +145,78 @@ final class PageController
             ]);
         }
 
+        $destinataire = (string) $this->parametres->get('contact.destinataire');
+        if ($destinataire === '') {
+            error_log('Formulaire de contact : aucun destinataire réglé dans Paramètres.');
+            http_response_code(500);
+            return $this->view->render('contact', [
+                'page'    => $this->page('contact'),
+                'erreurs' => ['envoi' => 'Le formulaire n’est pas encore configuré. '
+                    . 'Merci de nous joindre par téléphone en attendant.'],
+                'valeurs' => $valeurs,
+            ]);
+        }
+
+        try {
+            $this->mailer->envoyer(
+                $destinataire,
+                'Demande depuis le site — ' . ($valeurs['sujet'] !== '' ? $valeurs['sujet'] : 'Contact'),
+                $this->corpsDemande($valeurs),
+                $valeurs['email'],
+                trim($valeurs['prenom'] . ' ' . $valeurs['nom'])
+            );
+
+            $copie = (string) $this->parametres->get('contact.copie');
+            if ($copie !== '') {
+                try {
+                    $this->mailer->envoyer(
+                        $copie,
+                        'Copie — demande depuis le site',
+                        $this->corpsDemande($valeurs),
+                        $valeurs['email'],
+                        trim($valeurs['prenom'] . ' ' . $valeurs['nom'])
+                    );
+                } catch (Throwable $e) {
+                    // la copie n'est pas critique : la demande principale est partie
+                    error_log('Copie du formulaire non envoyée : ' . $e->getMessage());
+                }
+            }
+        } catch (Throwable $e) {
+            error_log('Envoi du formulaire de contact impossible : ' . $e->getMessage());
+            http_response_code(500);
+            return $this->view->render('contact', [
+                'page'    => $this->page('contact'),
+                'erreurs' => ['envoi' => 'L’envoi a échoué. Merci de réessayer ou de nous appeler.'],
+                'valeurs' => $valeurs,
+            ]);
+        }
+
         return $this->view->render('contact-confirmation', [
             'page'    => ['titre' => 'Demande envoyée'],
             'valeurs' => $valeurs,
         ]);
+    }
+
+    /**
+     * @param array<string, string> $v
+     */
+    private function corpsDemande(array $v): string
+    {
+        $lignes = [
+            'Nouvelle demande depuis le site Étang Fourchu.',
+            '',
+            'Nom      : ' . trim($v['prenom'] . ' ' . $v['nom']),
+            'E-mail   : ' . $v['email'],
+            'Téléphone: ' . ($v['tel'] !== '' ? $v['tel'] : '—'),
+            'Sujet    : ' . ($v['sujet'] !== '' ? $v['sujet'] : '—'),
+            '',
+            'Message :',
+            $v['message'],
+            '',
+            '---',
+            'Reçue le ' . date('d/m/Y à H:i'),
+        ];
+        return implode("\n", $lignes) . "\n";
     }
 
     public function introuvable(): string

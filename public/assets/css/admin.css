@@ -322,3 +322,33 @@ button { font: inherit; cursor: pointer; }
   display: grid; gap: .9rem;
 }
 .bo-ligne__liens { display: grid; gap: .3rem; text-align: right; font-size: .88rem; flex: 0 0 auto; }
+
+/* ---------- Paramètres ---------- */
+.bo-champ--case label {
+  display: flex; align-items: center; gap: .55rem;
+  text-transform: none; letter-spacing: 0; font-size: .95rem;
+  color: var(--texte); font-weight: 400;
+}
+.bo-champ--case input { width: auto; accent-color: var(--or); }
+.bo-champ code {
+  font-family: ui-monospace, Consolas, monospace; font-size: .85em;
+  background: rgba(201, 162, 75, .12); padding: .05em .35em; color: var(--or-clair);
+}
+.bo-trace { margin-top: 1rem; }
+.bo-trace summary { cursor: pointer; color: var(--or-clair); font-size: .85rem; }
+.bo-trace pre {
+  margin-top: .7rem; padding: .9rem 1rem; overflow-x: auto;
+  background: var(--noir); border: 1px solid var(--trait);
+  font-family: ui-monospace, Consolas, monospace; font-size: .78rem;
+  color: var(--texte-2); line-height: 1.6; white-space: pre-wrap; word-break: break-all;
+}
+.bo-diag { margin-top: 2.2rem; border-top: 1px solid var(--trait); padding-top: 1.5rem; }
+.bo-diag h2 { font-family: var(--serif); font-size: 1.1rem; color: var(--or-clair); margin-bottom: .9rem; }
+.bo-diag table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.bo-diag tr { border-bottom: 1px solid rgba(201, 162, 75, .12); }
+.bo-diag th { text-align: left; font-weight: 400; color: var(--texte-2); padding: .55rem .8rem .55rem 0; }
+.bo-diag td { padding: .55rem .8rem .55rem 0; color: var(--texte); }
+.bo-diag .etat { text-align: right; white-space: nowrap; }
+.bo-diag .ok { color: var(--vert); }
+.bo-diag .ko { color: var(--rouge); font-weight: 600; }
+.bo-diag .neutre { color: var(--texte-2); }

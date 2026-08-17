@@ -13,9 +13,12 @@ declare(strict_types=1);
 use App\Admin\AdminController;
 use App\Admin\EditionController;
 use App\Admin\MediaController;
+use App\Admin\ParametreController;
 use App\Admin\PhotoController;
 use App\Core\Auth;
+use App\Core\Mailer;
 use App\Core\Mediatheque;
+use App\Core\Parametres;
 
 $auth = new Auth(
     $config['paths']['data'] . '/admin/compte.json',
@@ -23,11 +26,14 @@ $auth = new Auth(
 );
 
 $mediatheque = new Mediatheque($config['paths']['public'] . '/assets/img/site');
+$parametres  = new Parametres($config['paths']['data'] . '/admin/parametres.json');
+$mailer      = new Mailer($parametres);
 
 $admin   = new AdminController($view, $content, $auth);
 $edition = new EditionController($view, $content);
 $media   = new MediaController($view, $content, $mediatheque);
 $photo   = new PhotoController($view, $content, $mediatheque);
+$reglage = new ParametreController($view, $parametres, $auth, $mailer, $config['paths']['root'], $config['paths']['public']);
 
 $view->share('auth', $auth);
 
@@ -83,6 +89,11 @@ $router->post('/admin/reglement', $protege(fn() => $edition->reglementEnvoi()));
 $router->get('/admin/galerie',          $protege(fn() => $media->galerie()));
 $router->post('/admin/galerie/ajout',   $protege(fn() => $media->ajout()));
 $router->post('/admin/galerie/retrait', $protege(fn() => $media->retrait()));
+
+$router->get('/admin/parametres',            $protege(fn() => $reglage->ecran()));
+$router->post('/admin/parametres/messagerie', $protege(fn() => $reglage->messagerieEnvoi()));
+$router->post('/admin/parametres/test',       $protege(fn() => $reglage->test()));
+$router->post('/admin/parametres/compte',     $protege(fn() => $reglage->compteEnvoi()));
 
 $router->get('/admin/avance',  $protege(fn() => $edition->avance($_GET['nom'] ?? null)));
 $router->post('/admin/avance', $protege(fn() => $edition->avanceEnvoi()));

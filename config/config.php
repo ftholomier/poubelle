@@ -16,14 +16,21 @@ return [
         'timezone' => 'Europe/Paris',
     ],
 
-    'paths' => [
-        'root'   => dirname(__DIR__),
-        'app'    => dirname(__DIR__) . '/app',
-        'data'   => dirname(__DIR__) . '/data',
-        'views'  => dirname(__DIR__) . '/views',
-        'public' => dirname(__DIR__) . '/public',
-        'cache'  => dirname(__DIR__) . '/storage/cache',
-    ],
+    'paths' => (static function (): array {
+        // config/ se trouve toujours directement sous la racine du projet
+        $racine = dirname(__DIR__);
+        // implantation à plat (tout dans public_html) : pas de sous-dossier public/
+        $web = is_dir($racine . '/public') ? $racine . '/public' : $racine;
+
+        return [
+            'root'   => $racine,
+            'app'    => $racine . '/app',
+            'data'   => $racine . '/data',
+            'views'  => $racine . '/views',
+            'public' => $web,
+            'cache'  => $racine . '/storage/cache',
+        ];
+    })(),
 
     // Renseigné depuis le site source dès que l'accès réseau est ouvert.
     'reservation' => [

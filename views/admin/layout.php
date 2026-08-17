@@ -23,6 +23,7 @@ $menu = [
   ['/admin/reglement',    'Règlement'],
   ['/admin/galerie',      'Galerie'],
   ['/admin/avance',       'Éditeur avancé'],
+  ['/admin/parametres',   'Paramètres'],
 ];
 ?>
 <!doctype html>

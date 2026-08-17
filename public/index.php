@@ -14,7 +14,21 @@ if (PHP_SAPI === 'cli-server') {
     }
 }
 
-$config = require dirname(__DIR__) . '/app/bootstrap.php';
+/*
+ * Deux implantations possibles sur un hébergement mutualisé :
+ *  - recommandée : la racine web pointe sur public/, l'application est au-dessus
+ *  - repli       : tout est dans public_html/, ce fichier est alors à la racine
+ */
+$amorce = dirname(__DIR__) . '/app/bootstrap.php';
+if (!is_file($amorce)) {
+    $amorce = __DIR__ . '/app/bootstrap.php';
+}
+if (!is_file($amorce)) {
+    http_response_code(500);
+    exit('Installation incomplète : le dossier app/ est introuvable.');
+}
+
+$config = require $amorce;
 $GLOBALS['config'] = $config;
 
 use App\Core\Content;

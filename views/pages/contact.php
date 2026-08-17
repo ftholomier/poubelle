@@ -44,6 +44,9 @@ $site = $content->load('site');
     </div>
 
     <form class="formulaire reveler" method="post" action="<?= url('/contact') ?>" novalidate>
+      <?php if (!empty($erreurs['envoi'])): ?>
+        <p class="form__alerte" role="alert"><?= e($erreurs['envoi']) ?></p>
+      <?php endif; ?>
       <p hidden aria-hidden="true"><label>Ne pas remplir <input type="text" name="site" tabindex="-1" autocomplete="off"></label></p>
       <div class="rangee">
         <div class="champ">

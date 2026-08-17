@@ -16,6 +16,10 @@ storage/    Cache, sauvegardes de contenu (hors git)
 tools/      Scripts utilitaires (génération du logo)
 ```
 
+> **Pas de base de données.** Aucun fichier SQL à importer : le contenu vit
+> dans `data/*.json`. Sauvegarder le site = copier `data/` et
+> `public/assets/img/site/`.
+
 ## Déploiement
 
 1. PHP 8.1+ avec les extensions `gd`, `fileinfo`, `session` (incluses par défaut).
@@ -23,7 +27,11 @@ tools/      Scripts utilitaires (génération du logo)
    réécriture, la redirection HTTPS et les en-têtes de sécurité).
 3. Donner au serveur web les droits d'écriture sur `data/` et `storage/`.
 4. Ouvrir `/admin` : l'écran de première configuration crée le compte
-   administrateur (aucun compte par défaut).
+   administrateur (aucun identifiant par défaut, par sécurité).
+5. Régler l'envoi des e-mails dans **Paramètres** (SMTP + destinataire du
+   formulaire), puis lancer le test d'envoi.
+
+Guide pas à pas pour o2switch : **[DEPLOIEMENT.md](DEPLOIEMENT.md)**.
 
 En local : `php -S localhost:8080 -t public public/index.php`
 

@@ -72,6 +72,37 @@ final class Auth
         return $ok;
     }
 
+    /**
+     * Change l'identifiant et/ou le mot de passe du compte existant.
+     * La session est régénérée pour invalider un éventuel vol de cookie.
+     */
+    public function modifierCompte(string $identifiant, string $nouveauMotDePasse): void
+    {
+        if (!$this->compteExiste()) {
+            throw new \RuntimeException('Aucun compte à modifier.');
+        }
+        $compte = json_decode((string) file_get_contents($this->fichierCompte), true);
+        if (!is_array($compte)) {
+            throw new \RuntimeException('Compte illisible.');
+        }
+
+        $compte['identifiant'] = $identifiant;
+        if ($nouveauMotDePasse !== '') {
+            $compte['hash'] = password_hash($nouveauMotDePasse, PASSWORD_DEFAULT);
+        }
+        $compte['modifie_le'] = date('c');
+
+        file_put_contents(
+            $this->fichierCompte,
+            json_encode($compte, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n",
+            LOCK_EX
+        );
+        @chmod($this->fichierCompte, 0640);
+
+        Session::regenerer();
+        Session::set('admin', ['identifiant' => $identifiant, 'depuis' => time()]);
+    }
+
     public function connecter(string $identifiant): void
     {
         Session::regenerer();
