@@ -126,9 +126,9 @@ $cleEnregistree = ($reglages['cle_api'] ?? '') !== '';
       Afficher le nombre total d’avis à côté de la note
     </label>
     <p class="bo-aide">
-      Coché : « 4,8 ★★★★★ sur 27 avis Google ». Décoché, seule la note et son
-      échelle restent : « 4,8 ★★★★★ sur 5 — avis Google ». Utile tant que les avis
-      sont peu nombreux, une moyenne excellente pesant plus qu’un total modeste.
+      Coché : « 4,8 ★★★★★ sur 27 avis Google ». Décoché : « 4,8 ★★★★★ avis Google » —
+      plus aucun nombre, seule la provenance subsiste. Utile tant que les avis sont
+      peu nombreux, une moyenne excellente pesant plus qu’un total modeste.
     </p>
   </fieldset>
 

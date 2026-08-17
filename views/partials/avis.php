@@ -47,13 +47,12 @@ $totalVisible = $avis->totalVisible() && $total > 0;
               </span>
             <?php endfor; ?>
           </span>
-          <?php if ($totalVisible): ?>
-            <span class="avis__total"><?= e(sprintf(t('sur %d avis Google'), $total)) ?></span>
-          <?php else: ?>
-            <?php /* Sans le total, la note perd son unité : « 4,0 » seul ne dit
-                     pas sur quelle échelle. */ ?>
-            <span class="avis__total"><?= e(t('sur 5 — avis Google')) ?></span>
-          <?php endif; ?>
+          <?php /* Total masqué : il ne reste que la provenance. Toute mention
+                   de l'échelle (« sur 5 ») se lirait comme un nombre d'avis —
+                   et les cinq étoiles la donnent déjà. */ ?>
+          <span class="avis__total">
+            <?= $totalVisible ? e(sprintf(t('sur %d avis Google'), $total)) : e(t('avis Google')) ?>
+          </span>
         </p>
       <?php endif; ?>
     </div>

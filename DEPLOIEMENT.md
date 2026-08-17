@@ -374,7 +374,7 @@ Trois réglages, dans le bloc *Présentation* du même écran :
 |---|---|
 | **Temps de pause** | Secondes pendant lesquelles un avis reste affiché avant que le carrousel n'avance. Les avis défilent de la droite vers la gauche, puis reviennent au début d'un seul mouvement une fois le dernier atteint. **0 arrête le défilement automatique** ; les flèches, les pastilles et le glissement du doigt continuent de fonctionner. Hors 0, la valeur est ramenée entre 3 et 30 secondes. |
 | **Date de parution** | Masque la date sous le nom de l'auteur. Utile quand les avis les plus élogieux datent un peu : la date reste visible sur votre fiche Google, mais n'attire plus l'œil sur le site. |
-| **Nombre total d'avis** | Coché : « 4,8 ★★★★★ sur 27 avis Google ». Décoché, seule la note et son échelle subsistent : « 4,8 ★★★★★ sur 5 — avis Google ». Utile tant que les avis sont peu nombreux. |
+| **Nombre total d'avis** | Coché : « 4,8 ★★★★★ sur 27 avis Google ». Décoché : « 4,8 ★★★★★ avis Google » — plus aucun nombre, seule la provenance subsiste. Utile tant que les avis sont peu nombreux. |
 
 Le défilement s'interrompt dès que le visiteur survole le carrousel, y place le
 curseur au clavier ou y pose le doigt : un avis ne se dérobe jamais en cours de
