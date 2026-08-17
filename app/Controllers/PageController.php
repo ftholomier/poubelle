@@ -264,7 +264,7 @@ final class PageController
         $cible  = $this->seo->cible($chemin);
         if ($cible !== null) {
             http_response_code(301);
-            header('Location: ' . url($cible));
+            header('Location: ' . lien($cible));
             return '';
         }
 

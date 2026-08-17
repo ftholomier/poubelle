@@ -13,6 +13,7 @@ declare(strict_types=1);
 use App\Admin\AdminController;
 use App\Admin\EditionController;
 use App\Admin\MediaController;
+use App\Admin\LangueController;
 use App\Admin\MiseAJourController;
 use App\Admin\ParametreController;
 use App\Admin\PhotoController;
@@ -20,6 +21,7 @@ use App\Admin\SeoController;
 use App\Core\Auth;
 use App\Core\Deploiement;
 use App\Core\Mailer;
+use App\Core\Langues;
 use App\Core\Mediatheque;
 use App\Core\Parametres;
 use App\Core\Seo;
@@ -33,12 +35,16 @@ $mediatheque = new Mediatheque($config['paths']['public'] . '/assets/img/site');
 $parametres  = new Parametres($config['paths']['data'] . '/admin/parametres.json');
 $mailer      = new Mailer($parametres);
 $deploiement = new Deploiement($config['paths']['root'], $parametres);
+$languesAdmin = new Langues($config['paths']['data'] . '/langues.json');
+$traducteurAdmin = new App\Core\Traducteur($config['paths']['data'] . '/traductions');
 
 $admin   = new AdminController($view, $content, $auth);
 $edition = new EditionController($view, $content, $mediatheque);
 $media   = new MediaController($view, $content, $mediatheque);
 $photo   = new PhotoController($view, $content, $mediatheque);
 $majour  = new MiseAJourController($view, $deploiement);
+$ctrlLangues = new LangueController($view, $content, $languesAdmin, $traducteurAdmin,
+                                new App\Core\TraductionAuto(), $config['paths']['views']);
 $refer   = new SeoController($view, $content, $seo, $mediatheque);
 $reglage = new ParametreController($view, $parametres, $content, $auth, $mailer, $config['paths']['root'], $config['paths']['public']);
 
@@ -128,6 +134,14 @@ $router->post('/admin/referencement/page/{cle}', $protege(fn(array $p) => $refer
 $router->post('/admin/referencement/fiche/{cle}/{slug}', $protege(fn(array $p) => $refer->ficheEnvoi($p['cle'], $p['slug'])));
 $router->post('/admin/referencement/redirection',         $protege(fn() => $refer->redirectionAjout()));
 $router->post('/admin/referencement/redirection/retrait', $protege(fn() => $refer->redirectionRetrait()));
+
+$router->get('/admin/langues',                    $protege(fn() => $ctrlLangues->ecran()));
+$router->post('/admin/langues/ajouter',           $protege(fn() => $ctrlLangues->ajouter()));
+$router->get('/admin/langues/{code}',             $protege(fn(array $p) => $ctrlLangues->traductions($p['code'])));
+$router->post('/admin/langues/{code}/publication', $protege(fn(array $p) => $ctrlLangues->basculer($p['code'])));
+$router->post('/admin/langues/{code}/supprimer',  $protege(fn(array $p) => $ctrlLangues->supprimer($p['code'])));
+$router->post('/admin/langues/{code}/enregistrer', $protege(fn(array $p) => $ctrlLangues->enregistrer($p['code'])));
+$router->post('/admin/langues/{code}/auto',       $protege(fn(array $p) => $ctrlLangues->auto($p['code'])));
 
 $router->get('/admin/mises-a-jour',             $protege(fn() => $majour->ecran()));
 $router->post('/admin/mises-a-jour/verifier',    $protege(fn() => $majour->verifier()));

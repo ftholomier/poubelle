@@ -20,7 +20,7 @@ use App\Core\Liste;
         <?php endif; ?>
       </div>
       <div class="duo__texte reveler" data-delai="1">
-        <p class="surtitre">Notre histoire</p>
+        <p class="surtitre"><?= e(t('Notre histoire')) ?></p>
         <h2 class="titre-section" style="font-size:clamp(1.6rem,2.9vw,2.2rem);"><?= e($page['histoire']['titre']) ?></h2>
         <hr class="filet-or">
         <?php foreach ($page['histoire']['paragraphes'] as $p): ?>
@@ -53,8 +53,8 @@ use App\Core\Liste;
 <section class="section section--noire">
   <div class="conteneur">
     <div class="centre">
-      <p class="surtitre surtitre--centre reveler">Vente directe</p>
-      <h2 class="titre-section reveler">Nos produits</h2>
+      <p class="surtitre surtitre--centre reveler"><?= e(t('Vente directe')) ?></p>
+      <h2 class="titre-section reveler"><?= e(t('Nos produits')) ?></h2>
       <hr class="filet-or filet-or--centre">
     </div>
     <div class="produits">

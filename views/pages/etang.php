@@ -25,7 +25,7 @@ $tarif  = $item['tarification'];
         <img class="im-1" src="<?= image($item['image_secondaire']) ?>" alt="<?= e($item['nom']) ?>" loading="lazy" style="aspect-ratio:4/3;">
       </div>
       <div class="duo__texte reveler" data-delai="1">
-        <p class="surtitre">Réservation</p>
+        <p class="surtitre"><?= e(t('Réservation')) ?></p>
         <h2 class="titre-section" style="font-size:clamp(1.7rem,3vw,2.4rem);"><?= e($item['reservation']['titre']) ?></h2>
         <hr class="filet-or">
         <?php foreach ($item['reservation']['paragraphes'] as $p): ?>
@@ -40,7 +40,7 @@ $tarif  = $item['tarification'];
 <section class="section section--noire-2">
   <div class="conteneur conteneur--etroit">
     <div class="centre">
-      <p class="surtitre surtitre--centre reveler">Tarifs</p>
+      <p class="surtitre surtitre--centre reveler"><?= e(t('Tarifs')) ?></p>
       <h2 class="titre-section reveler"><?= e($tarif['titre']) ?></h2>
       <hr class="filet-or filet-or--centre">
       <p class="reveler"><?= e($tarif['intro']) ?></p>

@@ -698,3 +698,48 @@ button { font: inherit; cursor: pointer; }
   font-size: .84rem; color: var(--texte-2);
   background: rgba(244, 239, 230, .04); border: 1px solid var(--trait);
 }
+
+/* ---------- Langues et traductions ---------- */
+.bo-etiquette--source { background: var(--or); }
+.bo-jauge {
+  margin-top: .5rem; height: 6px; max-width: 320px;
+  background: rgba(244, 239, 230, .1); border: 1px solid var(--trait);
+}
+.bo-jauge span { display: block; height: 100%; background: var(--or); transition: width .3s; }
+
+.bo-barre-actions {
+  display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
+  padding-bottom: 1.2rem; margin-bottom: 1rem; border-bottom: 1px solid var(--trait);
+}
+.bo-compte-groupe { float: right; font-size: .76rem; color: var(--texte-2); }
+
+.bo-trad { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.bo-trad th {
+  text-align: left; padding: .5rem .8rem .5rem 0;
+  font-size: .68rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--texte-2); border-bottom: 1px solid var(--trait);
+}
+.bo-trad td {
+  padding: .6rem .8rem .6rem 0; vertical-align: top; width: 50%;
+  border-bottom: 1px solid rgba(201, 162, 75, .12);
+}
+.bo-trad td:last-child { padding-right: 0; }
+.bo-trad__fr { display: block; color: var(--texte); line-height: 1.5; }
+.bo-trad__cle {
+  display: block; margin-top: .25rem; font-size: .68rem; color: rgba(233, 227, 214, .38);
+  font-family: ui-monospace, Consolas, monospace; word-break: break-all;
+}
+.bo-trad input, .bo-trad textarea {
+  width: 100%; font: inherit; font-size: .88rem; padding: .45rem .6rem; line-height: 1.5;
+  color: var(--texte); background: rgba(244, 239, 230, .05); border: 1px solid var(--trait);
+}
+.bo-trad input:focus, .bo-trad textarea:focus { outline: 0; border-color: var(--or); }
+.bo-trad textarea { resize: vertical; min-height: 68px; }
+.bo-trad--vide input, .bo-trad--vide textarea { border-left: 3px solid rgba(226, 195, 122, .7); }
+
+@media (max-width: 720px) {
+  .bo-trad, .bo-trad tbody, .bo-trad tr, .bo-trad td { display: block; width: 100%; }
+  .bo-trad thead { display: none; }
+  .bo-trad tr { padding: .7rem 0; border-bottom: 1px solid rgba(201, 162, 75, .12); }
+  .bo-trad td { border: 0; padding: .3rem 0; }
+}

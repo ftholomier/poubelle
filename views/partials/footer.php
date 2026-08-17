@@ -17,24 +17,24 @@ $resa = $site['reservation'];
         </div>
 
         <div class="pied__resa">
-          <h3>Réservation</h3>
+          <h3><?= e(t('Réservation')) ?></h3>
           <a class="btn btn--or" href="<?= e($resa['hebergement']['url']) ?>" target="_blank" rel="noopener"><?= e($resa['hebergement']['libelle']) ?></a>
           <a class="btn btn--contour" href="<?= e($resa['etang']['url']) ?>" target="_blank" rel="noopener"><?= e($resa['etang']['libelle']) ?></a>
         </div>
       </div>
 
       <nav aria-label="Navigation pied de page">
-        <h3>Le domaine</h3>
+        <h3><?= e(t('Le domaine')) ?></h3>
         <ul class="pied__liens">
           <?php foreach ($site['menu'] as $item): ?>
-            <li><a href="<?= url($item['url']) ?>"><?= e($item['libelle']) ?></a></li>
+            <li><a href="<?= lien($item['url']) ?>"><?= e($item['libelle']) ?></a></li>
           <?php endforeach; ?>
           <li><a href="<?= route('reglement') ?>">Règlement général</a></li>
         </ul>
       </nav>
 
       <div>
-        <h3>Contact</h3>
+        <h3><?= e(t('Contact')) ?></h3>
         <address>
           <?= e($site['nom']) ?><br>
           <?= e($site['adresse']['rue']) ?><br>
@@ -54,7 +54,7 @@ $resa = $site['reservation'];
       <p>
         <a href="<?= route('mentions-legales') ?>">Mentions légales</a>
         <span aria-hidden="true"> · </span>
-        <a href="#" data-cookies-reglages>Gestion des cookies</a>
+        <a href="#" data-cookies-reglages><?= e(t('Gestion des cookies')) ?></a>
       </p>
     </div>
   </div>

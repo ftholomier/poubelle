@@ -340,7 +340,61 @@ l'accord du visiteur, et affichera sinon un bouton qui lui laisse le choix :
 
 ---
 
-## 10. Points de vigilance
+## 10. Site en plusieurs langues
+
+Le français est la langue du site : c'est lui que vous éditez partout. Chaque
+autre langue en est une traduction, servie sur sa propre adresse —
+`votredomaine.fr/en/hebergements` pour l'anglais.
+
+### Ajouter une langue
+
+*Langues → Ajouter une langue*, saisissez son code (`en`, `de`, `nl`, `es`…).
+La langue est créée **hors ligne** : personne ne la voit encore.
+
+1. Ouvrez-la, cliquez **Traduire les N textes manquants**. Comptez une
+   quarantaine de secondes pour l'ensemble du site.
+2. **Relisez.** Une traduction automatique se trompe souvent sur les noms
+   propres — « Lodge Carélie » devient parfois « Karelia Lodge ». Corrigez
+   directement dans les champs, puis *Enregistrer les traductions*.
+3. Mettez la langue **en ligne**. Un sélecteur FR / EN apparaît alors dans
+   l'en-tête, et le plan du site déclare les deux versions.
+
+Un champ de traduction laissé vide affiche le texte français : une phrase
+ajoutée plus tard côté français reste lisible, elle n'apparaît pas en blanc.
+Relancez *Traduire les textes manquants* pour la rattraper — cette commande
+ne touche jamais ce que vous avez corrigé à la main.
+
+### Ce qu'il faut savoir sur la traduction automatique
+
+Elle passe par le point d'entrée public de Google Traduction : **gratuit et
+sans inscription**, mais non documenté par Google, il peut se limiter ou
+changer sans préavis. C'est sans conséquence pour le site : la traduction
+**n'a lieu qu'une fois**, au moment où vous cliquez, et le résultat est
+enregistré sur le serveur. Les pages `/en` sont de vraies pages servies depuis
+vos fichiers — aucun visiteur ne déclenche d'appel vers Google.
+
+Si le bouton échoue un jour, deux recours : relancer plus tard, ou traduire à
+la main dans les mêmes champs. Le site continue de fonctionner dans tous les cas.
+
+### Référencement des langues
+
+C'est automatique : chaque page déclare ses équivalents (`hreflang`), la
+balise `canonical` pointe sur la bonne version, et `sitemap.xml` liste toutes
+les adresses dans toutes les langues en ligne. Google comprend qu'il s'agit
+d'une même page traduite, et non de doublons.
+
+Les redirections restent dans la langue demandée : `/en/lodge-carelie` mène à
+`/en/hebergements/lodge-carelie`, pas à la version française.
+
+### Retirer une langue
+
+*Mettre hors ligne* la retire du site sans rien perdre : `/en` renvoie une page
+introuvable, le sélecteur disparaît, les traductions restent. *Supprimer*
+efface aussi les traductions.
+
+---
+
+## 11. Points de vigilance
 
 **HTTPS** — le `.htaccess` force la redirection vers HTTPS. Activez le
 certificat SSL gratuit dans *cPanel → SSL/TLS Status* avant la mise en ligne,
@@ -360,7 +414,7 @@ exclu de git et ne doit jamais être partagé ni versionné.
 
 ---
 
-## 11. Tester en local avant d'envoyer
+## 12. Tester en local avant d'envoyer
 
 ```bash
 php -S localhost:8080 -t public public/index.php
@@ -372,7 +426,7 @@ façon exempté.
 
 ---
 
-## 12. Mettre à jour le site par FTP
+## 13. Mettre à jour le site par FTP
 
 Une fois le site en ligne, deux natures de fichiers cohabitent : le **code**,
 qui vient du dépôt, et l'**état vivant** du site, qui n'existe que sur le
@@ -432,7 +486,7 @@ diagnostic confirme que les droits d'écriture n'ont pas bougé.
 
 ---
 
-## 13. Mises à jour automatiques par git (recommandé)
+## 14. Mises à jour automatiques par git (recommandé)
 
 Le FTP de la section 9 reste possible, mais l'écran **Mises à jour** du
 back-office fait la même chose sans risque d'erreur de manipulation : il ne
@@ -548,7 +602,7 @@ de toute façon hors de portée de git.
 
 ---
 
-## 14. Droits d'accès
+## 15. Droits d'accès
 
 Trois choses défont les droits sans prévenir : un transfert FTP (qui applique
 les réglages du client FTP), le `umask` du serveur (qui rabote les droits des

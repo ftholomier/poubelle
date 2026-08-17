@@ -75,10 +75,26 @@ final class Seo
     /** @var array<string, mixed>|null */
     private ?array $cache = null;
 
+    /** Préfixe d'adresse de la langue servie : '' en français, '/en' sinon. */
+    private string $prefixe = '';
+
     public function __construct(
         private readonly string $fichier,
         private readonly Content $content,
     ) {
+    }
+
+    /**
+     * Toutes les adresses produites porteront ce préfixe de langue.
+     */
+    public function prefixerPar(string $prefixe): void
+    {
+        $this->prefixe = rtrim($prefixe, '/');
+    }
+
+    public function prefixe(): string
+    {
+        return $this->prefixe;
     }
 
     // ---------------------------------------------------------------- lecture
@@ -144,13 +160,40 @@ final class Seo
     }
 
     /**
-     * Chemin d'une page, éventuellement d'une fiche de collection.
+     * Chemin d'une page, éventuellement d'une fiche de collection, dans la
+     * langue servie.
      */
     public function chemin(string $cle, ?string $item = null): string
     {
+        $chemin = $this->cheminSource($cle, $item);
+
+        return $this->prefixe === ''
+            ? $chemin
+            : $this->prefixe . ($chemin === '/' ? '' : $chemin);
+    }
+
+    /**
+     * Chemin sans préfixe de langue : celui que le routeur déclare, et celui
+     * qui sert de repère aux redirections.
+     */
+    public function cheminSource(string $cle, ?string $item = null): string
+    {
         $slug = $this->slug($cle);
         $base = $slug === '' ? '/' : '/' . $slug;
+
         return $item !== null ? rtrim($base, '/') . '/' . $item : $base;
+    }
+
+    /**
+     * Même chemin, dans une autre langue — pour les liens hreflang et le
+     * sélecteur de langue.
+     */
+    public function cheminEn(string $langue, string $cle, ?string $item = null): string
+    {
+        $chemin = $this->cheminSource($cle, $item);
+        $prefixe = $langue === Langues::SOURCE ? '' : '/' . $langue;
+
+        return $prefixe === '' ? $chemin : $prefixe . ($chemin === '/' ? '' : $chemin);
     }
 
     /**
@@ -171,7 +214,7 @@ final class Seo
     {
         $bases = [];
         foreach (self::COLLECTIONS as $cle => $collection) {
-            $bases[rtrim($this->chemin($cle), '/')] = $collection;
+            $bases[rtrim($this->cheminSource($cle), '/')] = $collection;
         }
         return $bases;
     }
@@ -474,12 +517,12 @@ final class Seo
         }
         $this->content->save($collection, $donnees);
 
-        $message = '« ' . $nom . ' » enregistré — adresse : ' . $this->chemin($cle, $apres) . '.';
+        $message = '« ' . $nom . ' » enregistré — adresse : ' . $this->cheminSource($cle, $apres) . '.';
         if ($apres !== $slug) {
-            $ancien = $this->chemin($cle, $slug);
-            $this->noterRedirection($ancien, $this->chemin($cle, $apres));
+            $ancien = $this->cheminSource($cle, $slug);
+            $this->noterRedirection($ancien, $this->cheminSource($cle, $apres));
             $message .= ' L’ancienne adresse ' . $ancien . ' redirige désormais vers '
-                . $this->chemin($cle, $apres) . '.';
+                . $this->cheminSource($cle, $apres) . '.';
         }
 
         return $message;
@@ -630,20 +673,26 @@ final class Seo
 
     /**
      * Plan du site, limité aux pages indexables et aux fiches publiées.
+     *
+     * Chaque adresse est déclarée dans toutes les langues en ligne, et porte
+     * les liens vers ses équivalents : c'est ainsi que les moteurs
+     * comprennent qu'il s'agit d'une même page, et non de doublons.
+     *
+     * @param string[] $langues codes des langues servies
      */
-    public function sitemap(string $base): string
+    public function sitemap(string $base, array $langues = [Langues::SOURCE]): string
     {
         $base = rtrim($base, '/');
-        $urls = [];
+        $langues = $langues !== [] ? $langues : [Langues::SOURCE];
+
+        /** @var array<int, array{cle: string, item: string|null, priorite: string}> $pages */
+        $pages = [];
 
         foreach ($this->pages() as $cle => $page) {
-            if (!$this->indexable($cle)) {
-                continue;
+            if ($this->indexable($cle)) {
+                $pages[] = ['cle' => $cle, 'item' => null,
+                            'priorite' => $cle === 'accueil' ? '1.0' : '0.8'];
             }
-            $urls[] = [
-                'loc'      => $base . $this->chemin($cle),
-                'priorite' => $cle === 'accueil' ? '1.0' : '0.8',
-            ];
         }
 
         foreach (self::COLLECTIONS as $cle => $collection) {
@@ -651,24 +700,30 @@ final class Seo
                 continue;
             }
             foreach ($this->content->publies($collection) as $item) {
-                if (($item['slug'] ?? '') === '') {
-                    continue;
+                if (($item['slug'] ?? '') !== '') {
+                    $pages[] = ['cle' => $cle, 'item' => (string) $item['slug'], 'priorite' => '0.7'];
                 }
-                $urls[] = [
-                    'loc'      => $base . $this->chemin($cle, $item['slug']),
-                    'priorite' => '0.7',
-                ];
             }
         }
 
         $lignes = ['<?xml version="1.0" encoding="UTF-8"?>',
-                   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
-        foreach ($urls as $u) {
-            $lignes[] = '  <url>';
-            $lignes[] = '    <loc>' . htmlspecialchars($u['loc'], ENT_XML1) . '</loc>';
-            $lignes[] = '    <changefreq>weekly</changefreq>';
-            $lignes[] = '    <priority>' . $u['priorite'] . '</priority>';
-            $lignes[] = '  </url>';
+                   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"'
+                   . ' xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
+
+        foreach ($pages as $p) {
+            foreach ($langues as $langue) {
+                $lignes[] = '  <url>';
+                $lignes[] = '    <loc>' . htmlspecialchars(
+                    $base . $this->cheminEn($langue, $p['cle'], $p['item']), ENT_XML1) . '</loc>';
+                foreach ($langues as $autre) {
+                    $lignes[] = '    <xhtml:link rel="alternate" hreflang="' . htmlspecialchars($autre, ENT_XML1)
+                        . '" href="' . htmlspecialchars(
+                            $base . $this->cheminEn($autre, $p['cle'], $p['item']), ENT_XML1) . '"/>';
+                }
+                $lignes[] = '    <changefreq>weekly</changefreq>';
+                $lignes[] = '    <priority>' . $p['priorite'] . '</priority>';
+                $lignes[] = '  </url>';
+            }
         }
         $lignes[] = '</urlset>';
 
@@ -865,7 +920,7 @@ final class Seo
         $lignes = ['User-agent: *', 'Disallow: /admin', 'Disallow: /api'];
         foreach ($this->pages() as $cle => $page) {
             if (!$page['indexer'] && $cle !== 'accueil') {
-                $lignes[] = 'Disallow: ' . $this->chemin($cle);
+                $lignes[] = 'Disallow: ' . $this->cheminSource($cle);
             }
         }
         $lignes[] = '';

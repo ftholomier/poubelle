@@ -51,7 +51,7 @@ $resaUrl = $site['reservation']['hebergement']['url'];
 <section class="section section--noire-2">
   <div class="conteneur">
     <div class="centre">
-      <p class="surtitre surtitre--centre reveler">Galerie</p>
+      <p class="surtitre surtitre--centre reveler"><?= e(t('Galerie')) ?></p>
       <h2 class="titre-section reveler"><?= e($item['theme']['titre']) ?></h2>
       <hr class="filet-or filet-or--centre">
     </div>
@@ -68,7 +68,7 @@ $resaUrl = $site['reservation']['hebergement']['url'];
 <section class="section section--ivoire">
   <div class="conteneur conteneur--etroit">
     <div class="centre">
-      <p class="surtitre surtitre--centre reveler">Confort</p>
+      <p class="surtitre surtitre--centre reveler"><?= e(t('Confort')) ?></p>
       <h2 class="titre-section reveler"><?= e($item['prestations']['titre']) ?></h2>
       <hr class="filet-or filet-or--centre">
       <p class="reveler"><?= e($item['prestations']['intro']) ?></p>
@@ -113,7 +113,7 @@ $resaUrl = $site['reservation']['hebergement']['url'];
     </div>
 
     <div class="encadre reveler" style="border-color:rgba(165,129,58,.5);background:rgba(201,162,75,.09);">
-      <h3 style="color:var(--or-texte);">Tarification</h3>
+      <h3 style="color:var(--or-texte);"><?= e(t('Tarification')) ?></h3>
       <p style="font-family:var(--serif);font-size:1.3rem;"><?= e($item['tarification']['texte']) ?></p>
       <p style="font-size:.98rem;font-style:italic;"><?= e($item['tarification']['note']) ?></p>
     </div>

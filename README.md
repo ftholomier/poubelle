@@ -50,6 +50,17 @@ les redirections permanentes. Connexion protégée : mot de passe haché, verrou
 15 min après 5 échecs, jetons CSRF sur tous les formulaires, sessions
 HttpOnly/SameSite.
 
+## Multilingue
+
+Le français est la langue source. Chaque autre langue est une traduction
+mémorisée dans `data/traductions/<code>.json` et servie sur son propre
+préfixe d'adresse : `/en/hebergements`. Ce qui n'est pas traduit retombe sur
+le français, jamais sur du vide.
+
+Écran **Langues** : ajout d'une langue, traduction automatique sans clé d'API
+(le résultat est enregistré puis relu à la main), mise en ligne, suppression.
+Le site public ne contacte aucun service extérieur — il lit les fichiers.
+
 ## API JSON (lecture)
 
 `/api/hebergements`, `/api/hebergements/{slug}`, `/api/peche`,

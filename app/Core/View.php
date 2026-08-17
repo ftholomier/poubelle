@@ -59,8 +59,11 @@ final class View
             throw new RuntimeException("Gabarit introuvable : {$template}.php");
         }
 
+        // Les données du rendu priment sur celles partagées : un contrôleur
+        // qui passe explicitement une valeur doit l'emporter sur le repli
+        // global, sans quoi elle serait silencieusement ignorée.
         // $view reste disponible dans le gabarit pour les inclusions imbriquées.
-        extract($this->shared + $data + ['view' => $this], EXTR_SKIP);
+        extract($data + $this->shared + ['view' => $this], EXTR_SKIP);
 
         ob_start();
         try {

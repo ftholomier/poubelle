@@ -105,6 +105,43 @@ if (!function_exists('route')) {
     }
 }
 
+if (!function_exists('lien')) {
+    /**
+     * Adresse interne enregistrée dans le contenu (menu, boutons), remise
+     * dans la langue servie : /hebergements devient /en/hebergements.
+     */
+    function lien(string $chemin): string
+    {
+        $seo = $GLOBALS['seo'] ?? null;
+        $prefixe = $seo instanceof \App\Core\Seo ? $seo->prefixe() : '';
+        $chemin = '/' . ltrim($chemin, '/');
+
+        return url($prefixe === '' ? $chemin : $prefixe . ($chemin === '/' ? '' : $chemin));
+    }
+}
+
+if (!function_exists('t')) {
+    /**
+     * Texte d'interface traduit — les mots des gabarits, par opposition au
+     * contenu éditorial qui vient de /data.
+     *
+     * Le français passé en argument est à la fois la clé et la valeur par
+     * défaut : une phrase non traduite s'affiche en français plutôt que de
+     * disparaître, et rien ne casse quand on en ajoute une.
+     */
+    function t(string $texte): string
+    {
+        $traducteur = $GLOBALS['traducteur'] ?? null;
+        $langue = $GLOBALS['langue'] ?? \App\Core\Langues::SOURCE;
+
+        if ($langue === \App\Core\Langues::SOURCE || !$traducteur instanceof \App\Core\Traducteur) {
+            return $texte;
+        }
+
+        return $traducteur->texte($langue, 'interface.' . $texte, $texte);
+    }
+}
+
 if (!function_exists('image')) {
     /**
      * URL d'une image de contenu, avec repli sur un visuel d'attente.

@@ -1094,3 +1094,28 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   .cookies__bandeau { animation: none; }
 }
 .cookies__panneau:focus { outline: 0; }
+
+/* ---------- Sélecteur de langue ---------- */
+.langues { display: flex; align-items: center; gap: .5rem; }
+.langues__nom {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+.langues ul { list-style: none; display: flex; align-items: center; gap: .15rem; }
+.langues a {
+  display: block; padding: .32rem .5rem;
+  font-family: var(--garamond); font-size: .76rem; font-weight: 600;
+  letter-spacing: .16em; color: rgba(244, 239, 230, .62);
+  transition: color var(--transition), background var(--transition);
+}
+.langues a:hover { color: var(--or-clair); }
+.langues a[aria-current="true"] { color: var(--noir); background: var(--or); }
+.langues li + li { border-left: 1px solid rgba(201, 162, 75, .3); }
+
+.langues--panneau { margin-bottom: 1.2rem; }
+.langues--panneau a { font-size: .82rem; padding: .4rem .65rem; }
+
+@media (max-width: 900px) {
+  /* le sélecteur reste dans le panneau, où il y a la place */
+  .langues--entete { display: none; }
+}

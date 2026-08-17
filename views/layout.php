@@ -31,13 +31,22 @@ $partage   = absolu(image($fiche['image'] ?? $seo->imagePartage($cle)));
 $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex';
 ?>
 <!doctype html>
-<html lang="fr">
+<html lang="<?= e($langue) ?>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($titre) ?></title>
 <meta name="description" content="<?= e($desc) ?>">
 <link rel="canonical" href="<?= e($canonique) ?>">
+<?php $publiees = $langues->publiees(); ?>
+<?php if (count($publiees) > 1): ?>
+  <?php foreach ($publiees as $code => $l): ?>
+    <link rel="alternate" hreflang="<?= e($code) ?>"
+          href="<?= e(absolu(url($seo->cheminEn($code, $cle, $fiche['slug'] ?? null)))) ?>">
+  <?php endforeach; ?>
+  <link rel="alternate" hreflang="x-default"
+        href="<?= e(absolu(url($seo->cheminEn(App\Core\Langues::SOURCE, $cle, $fiche['slug'] ?? null)))) ?>">
+<?php endif; ?>
 <?php if (!$indexer): ?>
 <meta name="robots" content="noindex, follow">
 <?php endif; ?>
@@ -47,7 +56,7 @@ $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex
 <meta property="og:type" content="<?= $fiche !== null ? 'article' : 'website' ?>">
 <meta property="og:url" content="<?= e($canonique) ?>">
 <meta property="og:image" content="<?= e($partage) ?>">
-<meta property="og:locale" content="fr_FR">
+<meta property="og:locale" content="<?= e($langue === 'fr' ? 'fr_FR' : $langue) ?>">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0c0b09">
 <link rel="icon" href="<?= asset('assets/img/logo/favicon-512.png') ?>" type="image/png">
@@ -58,9 +67,9 @@ $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex
 </head>
 <body>
 <a class="evitement" href="#contenu">Aller au contenu</a>
-<?= $view->partial('header', ['site' => $site]) ?>
+<?= $view->partial('header', ['site' => $site, 'cle' => $cle, 'fiche' => $fiche]) ?>
 <main id="contenu"><?= $slot ?></main>
-<?= $view->partial('footer', ['site' => $site]) ?>
+<?= $view->partial('footer', ['site' => $site, 'cle' => $cle, 'fiche' => $fiche]) ?>
 <?= $view->partial('cookies', ['site' => $site, 'categories' => App\Core\Cookies::categories()]) ?>
 <?php $mesure = trim((string) $parametres->get('mesure.identifiant')); ?>
 <?php if ($mesure !== ''): ?>

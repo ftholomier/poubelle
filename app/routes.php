@@ -16,21 +16,43 @@ declare(strict_types=1);
 
 use App\Controllers\ApiController;
 use App\Controllers\PageController;
+use App\Core\Langues;
 use App\Core\Mailer;
 use App\Core\Parametres;
 use App\Core\Seo;
+use App\Core\Traducteur;
 
 $parametresSite = new Parametres($config['paths']['data'] . '/admin/parametres.json');
-$seo   = new Seo($config['paths']['data'] . '/seo.json', $content);
+$langues    = new Langues($config['paths']['data'] . '/langues.json');
+$traducteur = new Traducteur($config['paths']['data'] . '/traductions');
+
+// La langue se lit dans l'adresse : /en/hebergements est servi en anglais,
+// /hebergements en français. Le préfixe est retiré avant le routage, si bien
+// qu'une seule table de routes sert toutes les langues.
+[$langue, $cheminSansLangue] = $langues->detecter(
+    parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/'
+);
+if ($langue !== Langues::SOURCE) {
+    $_SERVER['REQUEST_URI'] = $cheminSansLangue;
+    $content->traduireEn($langue, $traducteur);
+}
+
+$seo = new Seo($config['paths']['data'] . '/seo.json', $content);
+$seo->prefixerPar($langues->prefixe($langue));
+
 $pages = new PageController($view, $content, $parametresSite, new Mailer($parametresSite), $seo);
 $api   = new ApiController($content);
 
 $view->share('seo', $seo);
 $view->share('parametres', $parametresSite);
+$view->share('langues', $langues);
+$view->share('langue', $langue);
 $GLOBALS['seo'] = $seo;
+$GLOBALS['langue'] = $langue;
+$GLOBALS['traducteur'] = $traducteur;
 
-/** Chemin courant d'une page, slug éventuellement personnalisé. */
-$c = static fn(string $cle): string => $seo->chemin($cle);
+/** Chemin d'une page sans préfixe de langue : c'est ce que le routeur voit. */
+$c = static fn(string $cle): string => $seo->cheminSource($cle);
 
 // --- pages éditoriales ---------------------------------------------------
 $router->get($c('accueil'),          fn() => $pages->accueil());
@@ -52,9 +74,9 @@ $router->get($c('contact'),  fn() => $pages->contact());
 $router->post($c('contact'), fn() => $pages->contactEnvoi());
 
 // --- référencement -------------------------------------------------------
-$router->get('/sitemap.xml', function () use ($seo): string {
+$router->get('/sitemap.xml', function () use ($seo, $langues): string {
     header('Content-Type: application/xml; charset=utf-8');
-    return $seo->sitemap(base_absolue());
+    return $seo->sitemap(base_absolue(), array_keys($langues->publiees()));
 });
 $router->get('/robots.txt', function () use ($seo): string {
     header('Content-Type: text/plain; charset=utf-8');
@@ -77,7 +99,9 @@ foreach ($redirections as $ancienne => $nouvelle) {
     }
     $router->get($ancienne, function () use ($nouvelle): string {
         http_response_code(301);
-        header('Location: ' . url($nouvelle));
+        // lien() conserve le préfixe de langue : /en/lodge-carelie doit
+        // arriver sur /en/hebergements/lodge-carelie, pas sur le français
+        header('Location: ' . lien($nouvelle));
         return '';
     });
 }

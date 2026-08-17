@@ -16,7 +16,7 @@
   <div class="cookies__bandeau" data-cookies-bandeau role="dialog"
        aria-modal="false" aria-labelledby="cookies-titre" aria-describedby="cookies-texte">
     <div class="cookies__corps">
-      <h2 class="cookies__titre" id="cookies-titre">Votre vie privée</h2>
+      <h2 class="cookies__titre" id="cookies-titre"><?= e(t('Votre vie privée')) ?></h2>
       <p class="cookies__texte" id="cookies-texte">
         Ce site utilise uniquement les cookies nécessaires à son fonctionnement.
         Avec votre accord, nous mesurerions aussi son audience et pourrions afficher
@@ -26,9 +26,9 @@
       </p>
     </div>
     <div class="cookies__actions">
-      <button class="btn btn--or" type="button" data-cookies-tout>Tout accepter</button>
-      <button class="btn btn--or" type="button" data-cookies-rien>Tout refuser</button>
-      <button class="cookies__reglages" type="button" data-cookies-ouvrir>Personnaliser</button>
+      <button class="btn btn--or" type="button" data-cookies-tout><?= e(t('Tout accepter')) ?></button>
+      <button class="btn btn--or" type="button" data-cookies-rien><?= e(t('Tout refuser')) ?></button>
+      <button class="cookies__reglages" type="button" data-cookies-ouvrir><?= e(t('Personnaliser')) ?></button>
     </div>
   </div>
 
@@ -37,7 +37,7 @@
   <div class="cookies__panneau" data-cookies-panneau hidden role="dialog" aria-modal="true"
        aria-labelledby="cookies-panneau-titre" tabindex="-1">
     <div class="cookies__panneau-tete">
-      <h2 id="cookies-panneau-titre">Vos préférences</h2>
+      <h2 id="cookies-panneau-titre"><?= e(t('Vos préférences')) ?></h2>
       <button class="cookies__fermer" type="button" data-cookies-fermer aria-label="Fermer">×</button>
     </div>
 
@@ -47,7 +47,7 @@
           <div class="cookies__categorie-tete">
             <h3><?= e($cat['titre']) ?></h3>
             <?php if (!empty($cat['obligatoire'])): ?>
-              <span class="cookies__toujours">Toujours actifs</span>
+              <span class="cookies__toujours"><?= e(t('Toujours actifs')) ?></span>
             <?php else: ?>
               <label class="cookies__bascule">
                 <input type="checkbox" data-cookies-categorie="<?= e($cle) ?>">
@@ -62,9 +62,9 @@
     </div>
 
     <div class="cookies__panneau-pied">
-      <button class="btn btn--contour" type="button" data-cookies-rien>Tout refuser</button>
-      <button class="btn btn--contour" type="button" data-cookies-tout>Tout accepter</button>
-      <button class="btn btn--or" type="button" data-cookies-enregistrer>Enregistrer mes choix</button>
+      <button class="btn btn--contour" type="button" data-cookies-rien><?= e(t('Tout refuser')) ?></button>
+      <button class="btn btn--contour" type="button" data-cookies-tout><?= e(t('Tout accepter')) ?></button>
+      <button class="btn btn--or" type="button" data-cookies-enregistrer><?= e(t('Enregistrer mes choix')) ?></button>
     </div>
   </div>
 </div>

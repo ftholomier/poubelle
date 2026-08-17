@@ -40,7 +40,7 @@ $pause = max(3, min(30, (int) ($hero['pause'] ?? 7)));   // secondes par photo
       <a class="btn btn--contour" href="<?= e($resa['etang']['url']) ?>" target="_blank" rel="noopener"><?= e($resa['etang']['libelle']) ?></a>
     </div>
   </div>
-  <a class="heros__defiler" href="#decouvrir">Découvrir</a>
+  <a class="heros__defiler" href="#decouvrir"><?= e(t('Découvrir')) ?></a>
 </section>
 
 <section class="section section--ivoire" id="decouvrir">
@@ -80,7 +80,7 @@ $pause = max(3, min(30, (int) ($hero['pause'] ?? 7)));   // secondes par photo
           <div class="carte__corps">
             <h3 class="carte__titre"><?= e($act['titre']) ?></h3>
             <p><?= e($act['texte']) ?></p>
-            <a class="lien-fleche" href="<?= url($act['url']) ?>">En savoir plus</a>
+            <a class="lien-fleche" href="<?= lien($act['url']) ?>"><?= e(t('En savoir plus')) ?></a>
           </div>
         </article>
       <?php endforeach; ?>
@@ -91,8 +91,8 @@ $pause = max(3, min(30, (int) ($hero['pause'] ?? 7)));   // secondes par photo
 <section class="section section--noire-2">
   <div class="conteneur">
     <div class="centre">
-      <p class="surtitre surtitre--centre reveler">Hébergements</p>
-      <h2 class="titre-section reveler">Lodges &amp; Gîte de charme</h2>
+      <p class="surtitre surtitre--centre reveler"><?= e(t('Hébergements')) ?></p>
+      <h2 class="titre-section reveler"><?= e(t('Lodges &amp; Gîte de charme')) ?></h2>
       <hr class="filet-or filet-or--centre">
     </div>
     <div class="cartes">

@@ -16,8 +16,30 @@ final class Content
     /** @var array<string, array<mixed>> */
     private array $cache = [];
 
+    private ?Traducteur $traducteur = null;
+
+    private string $langue = Langues::SOURCE;
+
     public function __construct(private readonly string $dir)
     {
+    }
+
+    /**
+     * Sert le contenu dans une autre langue que le français.
+     *
+     * Seul le site public en fait usage : le back-office édite toujours la
+     * version française, qui reste la source de vérité.
+     */
+    public function traduireEn(string $langue, Traducteur $traducteur): void
+    {
+        $this->langue = $langue;
+        $this->traducteur = $langue === Langues::SOURCE ? null : $traducteur;
+        $this->cache = [];
+    }
+
+    public function langue(): string
+    {
+        return $this->langue;
     }
 
     /**
@@ -44,6 +66,10 @@ final class Content
         $data = json_decode($raw, true, 512, JSON_THROW_ON_ERROR);
         if (!is_array($data)) {
             throw new RuntimeException("JSON invalide : {$name}.json");
+        }
+
+        if ($this->traducteur !== null) {
+            $data = $this->traducteur->appliquer($data, $this->langue, $name);
         }
 
         return $this->cache[$name] = $data;
