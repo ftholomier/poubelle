@@ -116,6 +116,15 @@ final class Traducteur
         foreach ($donnees as $cle => $valeur) {
             $nom = is_int($cle) ? (string) $cle : $cle;
 
+            // Une clé technique écarte toute sa descendance, pas seulement sa
+            // valeur immédiate : « images_avant » est une liste, et ses
+            // éléments ont des indices numériques. Sans cette coupure, les
+            // chemins de photos partaient à la traduction — et revenaient
+            // abîmés, « assets/img/… » devenant « asset/img/… » en allemand.
+            if (is_string($cle) && in_array($cle, self::IGNOREES, true)) {
+                continue;
+            }
+
             if (is_array($valeur)) {
                 $repere = is_int($cle) && isset($valeur['slug']) && is_string($valeur['slug'])
                     ? $valeur['slug']
@@ -124,12 +133,7 @@ final class Traducteur
                 continue;
             }
 
-            if (!is_string($valeur) || trim($valeur) === '') {
-                continue;
-            }
-            // les clés techniques d'un objet ne se traduisent pas ; dans une
-            // liste de textes, en revanche, l'indice numérique n'est pas une clé
-            if (is_string($cle) && in_array($cle, self::IGNOREES, true)) {
+            if (!is_string($valeur) || !self::traduisible($valeur)) {
                 continue;
             }
 
@@ -137,6 +141,30 @@ final class Traducteur
         }
 
         return $donnees;
+    }
+
+    /**
+     * Cette chaîne se traduit-elle ?
+     *
+     * Second garde-fou, sur la valeur cette fois : une clé technique que
+     * personne n'aurait pensé à déclarer laisserait sinon passer un chemin de
+     * fichier ou une adresse, que le traducteur abîmerait sans prévenir.
+     */
+    private static function traduisible(string $valeur): bool
+    {
+        $valeur = trim($valeur);
+
+        if ($valeur === '' || preg_match('/\p{L}{2,}/u', $valeur) !== 1) {
+            return false;   // vide, ou sans le moindre mot
+        }
+
+        // chemin de fichier, adresse web, e-mail, code couleur
+        return preg_match(
+            '#^(?:[a-z]+://|/|\.{1,2}/|assets/|data/|public/|\#[0-9a-f]{3,8}$)#i',
+            $valeur
+        ) !== 1
+            && preg_match('/\.(?:jpe?g|png|webp|gif|svg|ico|pdf|css|js|json|woff2?)$/i', $valeur) !== 1
+            && filter_var($valeur, FILTER_VALIDATE_EMAIL) === false;
     }
 
     /**

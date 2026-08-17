@@ -10,7 +10,9 @@ $site = $content->load('site');
 $resaUrl = $site['reservation']['hebergement']['url'];
 ?>
 <?= $view->partial('hero-page', ['hero' => [
-    'image'    => $item['images_avant'][0] ?? $item['image'],
+    // la photo propre à la fiche d'abord : images_avant est une bande de
+    // trois vues, parfois partagée entre deux hébergements
+    'image'    => $item['image'] ?: ($item['images_avant'][0] ?? ''),
     'surtitre' => 'À partir de ' . $item['prix_a_partir_de'] . ' € / nuit — ' . $item['capacite'] . ' personnes',
     'titre'    => $item['nom'],
     'texte'    => $item['sous_titre'] ?? '',

@@ -425,23 +425,30 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 /* Sans JavaScript, seule la première photo s'affiche — le bandeau reste
    correct, il ne défile simplement pas. */
 
-.heros__points {
-  position: absolute; left: 50%; bottom: 6.2rem; transform: translateX(-50%);
-  display: flex; gap: .6rem; z-index: 1;
+/* Filet de progression du diaporama. Posé sur l'arête basse du bandeau, il
+   ne recouvre aucun texte — contrairement aux pastilles qu'il remplace, qui
+   tombaient sur le mot « Découvrir ». */
+.heros__minuteur {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
+  height: 2px; overflow: hidden;
+  background: rgba(244, 239, 230, .12);
 }
-.heros__points button {
-  width: 9px; height: 9px; padding: 0; border-radius: 50%;
-  background: rgba(244, 239, 230, .34);
-  border: 1px solid rgba(244, 239, 230, .55);
-  transition: background var(--transition), transform var(--transition);
+.heros__minuteur span {
+  display: block; width: 100%; height: 100%;
+  background: linear-gradient(90deg, rgba(201, 162, 75, .35), var(--or));
+  transform: scaleX(0); transform-origin: left center;
 }
-.heros__points button[aria-current="true"] { background: var(--or); border-color: var(--or); transform: scale(1.25); }
-.heros__points button:hover { background: var(--or-clair); border-color: var(--or-clair); }
+.heros__minuteur--court span {
+  animation: heros-minuteur var(--heros-pause, 7s) linear forwards;
+}
+@keyframes heros-minuteur { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 @media (prefers-reduced-motion: reduce) {
   /* mouvement supprimé : la photo reste nette et fixe */
   .heros__photo--anime { animation: none; }
   .heros__photo { transition-duration: .01ms; }
+  /* le diaporama ne défile pas : un compte à rebours n'aurait aucun sens */
+  .heros__minuteur { display: none; }
 }
 .heros::after {
   content: ""; position: absolute; inset: 0; z-index: -1;

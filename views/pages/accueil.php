@@ -41,6 +41,12 @@ $pause = max(3, min(30, (int) ($hero['pause'] ?? 7)));   // secondes par photo
     </div>
   </div>
   <a class="heros__defiler" href="#decouvrir"><?= e(t('Découvrir')) ?></a>
+
+  <?php if (count($photos) > 1): ?>
+    <?php /* filet de progression : signale qu'une autre photo suit, sans
+             rien recouvrir — il tient sur le bord bas du bandeau */ ?>
+    <div class="heros__minuteur" aria-hidden="true"><span></span></div>
+  <?php endif; ?>
 </section>
 
 <section class="section section--ivoire" id="decouvrir">

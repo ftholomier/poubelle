@@ -5,7 +5,14 @@
  */
 ?>
 <section class="heros heros--page">
-  <div class="heros__fond" style="background-image:url('<?= image($hero['image']) ?>')"></div>
+  <?php /* même structure que le bandeau d'accueil : la photo vit dans un
+           .heros__photo, seul porteur du cadrage « cover » et du lent
+           mouvement d'approche. La poser sur .heros__fond la laissait se
+           répéter en mosaïque. */ ?>
+  <div class="heros__fond">
+    <div class="heros__photo heros__photo--visible heros__photo--anime"
+         style="background-image:url('<?= image($hero['image']) ?>')"></div>
+  </div>
   <div class="heros__contenu">
     <?php if (!empty($hero['surtitre'])): ?>
       <p class="surtitre surtitre--centre"><?= e($hero['surtitre']) ?></p>

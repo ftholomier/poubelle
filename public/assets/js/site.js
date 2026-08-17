@@ -212,21 +212,18 @@
       var minuteur = null;
       var DUREE = pause;
 
-      // repères cliquables, annoncés proprement aux lecteurs d'écran
-      var points = document.createElement("div");
-      points.className = "heros__points";
-      points.setAttribute("role", "tablist");
-      points.setAttribute("aria-label", "Photos du domaine");
-      vues.forEach(function (_, i) {
-        var b = document.createElement("button");
-        b.type = "button";
-        b.setAttribute("role", "tab");
-        b.setAttribute("aria-label", "Photo " + (i + 1) + " sur " + vues.length);
-        b.setAttribute("aria-current", i === 0 ? "true" : "false");
-        b.addEventListener("click", function () { afficher(i); relancer(); });
-        points.appendChild(b);
-      });
-      diaporama.parentNode.appendChild(points);
+      // filet de progression : la seule indication qu'une photo suit
+      var filet = document.querySelector(".heros__minuteur");
+      var relancerFilet = function () {
+        if (!filet) return;
+        // retirer puis remettre la classe fait repartir l'animation de zéro
+        filet.classList.remove("heros__minuteur--court");
+        void filet.offsetWidth;
+        filet.classList.add("heros__minuteur--court");
+      };
+      if (filet) {
+        filet.style.setProperty("--heros-pause", (pause / 1000) + "s");
+      }
 
       var afficher = function (i) {
         i = (i + vues.length) % vues.length;
@@ -252,14 +249,16 @@
         suivante.classList.add("heros__photo--anime", "heros__photo--visible");
         suivante.removeAttribute("aria-hidden");
 
-        points.children[courante].setAttribute("aria-current", "false");
-        points.children[i].setAttribute("aria-current", "true");
         courante = i;
       };
 
       var relancer = function () {
         clearInterval(minuteur);
-        minuteur = setInterval(function () { afficher(courante + 1); }, DUREE);
+        relancerFilet();
+        minuteur = setInterval(function () {
+          afficher(courante + 1);
+          relancerFilet();
+        }, DUREE);
       };
 
       if (!lent) {
