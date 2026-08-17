@@ -31,7 +31,8 @@ En local : `php -S localhost:8080 -t public public/index.php`
 
 `/admin` — édition de tout le contenu (coordonnées, liens Reservit, accueil,
 hébergements, étangs et tarifs, boutique, règlement, galerie avec upload
-d'images optimisées automatiquement). Chaque enregistrement sauvegarde la
+d'images optimisées automatiquement, photos de chaque hébergement et étang).
+Chaque enregistrement sauvegarde la
 version précédente (20 conservées par contenu), restaurables depuis
 l'Éditeur avancé. Connexion protégée : mot de passe haché, verrouillage
 15 min après 5 échecs, jetons CSRF sur tous les formulaires, sessions

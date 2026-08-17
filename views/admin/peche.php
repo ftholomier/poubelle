@@ -7,14 +7,17 @@ use App\Core\Csrf;
 ?>
 <div class="bo-liste">
   <?php foreach ($donnees['items'] as $et): ?>
-    <a class="bo-ligne" href="<?= url('/admin/peche/' . rawurlencode($et['slug'])) ?>">
+    <div class="bo-ligne">
       <img class="bo-ligne__vignette" src="<?= asset(str_replace('.jpg', '-mini.jpg', $et['image'])) ?>" alt="">
       <div class="bo-ligne__corps">
         <h2><?= e($et['nom']) ?></h2>
         <p><?= e($et['resume']) ?></p>
       </div>
-      <span>Modifier →</span>
-    </a>
+      <div class="bo-ligne__liens">
+        <a href="<?= url('/admin/peche/' . rawurlencode($et['slug'])) ?>">Textes →</a>
+        <a href="<?= url('/admin/peche/' . rawurlencode($et['slug']) . '/photos') ?>">Photos →</a>
+      </div>
+    </div>
   <?php endforeach; ?>
 </div>
 

@@ -5,12 +5,14 @@ namespace App\Admin;
 
 use App\Core\Content;
 use App\Core\Csrf;
+use App\Core\Mediatheque;
 use App\Core\Session;
 use App\Core\View;
+use RuntimeException;
 
 /**
- * Galerie et médias : upload avec optimisation GD (1920 px + vignette
- * 640 px), rattachement à une catégorie, retrait de la galerie.
+ * Galerie publique du site : ajout d'images (optimisées par la
+ * médiathèque), rattachement à une catégorie, retrait.
  */
 final class MediaController
 {
@@ -22,12 +24,10 @@ final class MediaController
         'ferme'   => 'La ferme',
     ];
 
-    private const MAX_OCTETS = 15_000_000;
-
     public function __construct(
         private readonly View $view,
         private readonly Content $content,
-        private readonly string $dossierImages,
+        private readonly Mediatheque $mediatheque,
     ) {
     }
 
@@ -52,53 +52,21 @@ final class MediaController
             return $this->rediriger('/admin/galerie');
         }
 
-        $fichier = $_FILES['image'] ?? null;
         $categorie = (string) ($_POST['categorie'] ?? 'domaine');
         if (!isset(self::CATEGORIES[$categorie])) {
             $categorie = 'domaine';
         }
         $alt = trim((string) ($_POST['alt'] ?? '')) ?: self::CATEGORIES[$categorie];
 
-        if (!is_array($fichier) || ($fichier['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
-            Session::flash('erreur', 'Aucun fichier reçu (ou fichier trop lourd pour le serveur).');
+        try {
+            $chemin = $this->mediatheque->televerser($_FILES['image'] ?? []);
+        } catch (RuntimeException $e) {
+            Session::flash('erreur', $e->getMessage());
             return $this->rediriger('/admin/galerie');
         }
-        if (($fichier['size'] ?? 0) > self::MAX_OCTETS) {
-            Session::flash('erreur', 'Image trop lourde (15 Mo maximum).');
-            return $this->rediriger('/admin/galerie');
-        }
-
-        $mime = (new \finfo(FILEINFO_MIME_TYPE))->file($fichier['tmp_name']) ?: '';
-        $source = match ($mime) {
-            'image/jpeg' => imagecreatefromjpeg($fichier['tmp_name']),
-            'image/png'  => imagecreatefrompng($fichier['tmp_name']),
-            'image/webp' => imagecreatefromwebp($fichier['tmp_name']),
-            default      => false,
-        };
-        if ($source === false) {
-            Session::flash('erreur', 'Format non pris en charge (JPEG, PNG ou WebP attendu).');
-            return $this->rediriger('/admin/galerie');
-        }
-
-        // nom de fichier propre et unique
-        $base = pathinfo($fichier['name'] ?? 'image', PATHINFO_FILENAME);
-        $base = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $base) ?? '', '-')) ?: 'image';
-        $slug = $base;
-        $n = 1;
-        while (is_file($this->dossierImages . '/' . $slug . '.jpg')) {
-            $slug = $base . '-' . (++$n);
-        }
-
-        $this->enregistrerJpeg($source, $this->dossierImages . '/' . $slug . '.jpg', 1920, 82);
-        $this->enregistrerJpeg($source, $this->dossierImages . '/' . $slug . '-mini.jpg', 640, 78);
-        imagedestroy($source);
 
         $galerie = $this->content->load('galerie');
-        $galerie['medias'][] = [
-            'src' => 'assets/img/site/' . $slug . '.jpg',
-            'alt' => $alt,
-            'cat' => $categorie,
-        ];
+        $galerie['medias'][] = ['src' => $chemin, 'alt' => $alt, 'cat' => $categorie];
         $this->content->save('galerie', $galerie);
 
         Session::flash('succes', 'Image ajoutée à la galerie.');
@@ -124,28 +92,5 @@ final class MediaController
             Session::flash('succes', 'Image retirée de la galerie. Le fichier reste disponible sur le serveur.');
         }
         return $this->rediriger('/admin/galerie');
-    }
-
-    /**
-     * Redimensionne (sans agrandir) et écrit un JPEG progressif.
-     *
-     * @param \GdImage $source
-     */
-    private function enregistrerJpeg(\GdImage $source, string $destination, int $maxCote, int $qualite): void
-    {
-        $l = imagesx($source);
-        $h = imagesy($source);
-        $ratio = min(1, $maxCote / max($l, $h));
-        $nl = max(1, (int) round($l * $ratio));
-        $nh = max(1, (int) round($h * $ratio));
-
-        $image = imagecreatetruecolor($nl, $nh);
-        // fond blanc pour les PNG transparents convertis en JPEG
-        $blanc = imagecolorallocate($image, 255, 255, 255);
-        imagefill($image, 0, 0, $blanc);
-        imagecopyresampled($image, $source, 0, 0, 0, 0, $nl, $nh, $l, $h);
-        imageinterlace($image, true);
-        imagejpeg($image, $destination, $qualite);
-        imagedestroy($image);
     }
 }

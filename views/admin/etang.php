@@ -6,6 +6,7 @@
 use App\Core\Csrf;
 ?>
 <p style="margin-bottom:1.2rem;"><a href="<?= url('/admin/peche') ?>">← Pêche</a>
+   · <a href="<?= url('/admin/peche/' . rawurlencode($item['slug']) . '/photos') ?>">Gérer les photos</a>
    · <a href="<?= url('/peche/' . rawurlencode($item['slug'])) ?>" target="_blank" rel="noopener">Voir la page ↗</a></p>
 
 <form class="bo-form" method="post" action="<?= url('/admin/peche/' . rawurlencode($item['slug'])) ?>">

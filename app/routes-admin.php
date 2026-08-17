@@ -13,16 +13,21 @@ declare(strict_types=1);
 use App\Admin\AdminController;
 use App\Admin\EditionController;
 use App\Admin\MediaController;
+use App\Admin\PhotoController;
 use App\Core\Auth;
+use App\Core\Mediatheque;
 
 $auth = new Auth(
     $config['paths']['data'] . '/admin/compte.json',
     dirname($config['paths']['data']) . '/storage/cache/tentatives.json'
 );
 
+$mediatheque = new Mediatheque($config['paths']['public'] . '/assets/img/site');
+
 $admin   = new AdminController($view, $content, $auth);
 $edition = new EditionController($view, $content);
-$media   = new MediaController($view, $content, $config['paths']['public'] . '/assets/img/site');
+$media   = new MediaController($view, $content, $mediatheque);
+$photo   = new PhotoController($view, $content, $mediatheque);
 
 $view->share('auth', $auth);
 
@@ -57,14 +62,18 @@ $router->post('/admin/site',      $protege(fn() => $edition->siteEnvoi()));
 $router->get('/admin/accueil',    $protege(fn() => $edition->accueil()));
 $router->post('/admin/accueil',   $protege(fn() => $edition->accueilEnvoi()));
 
-$router->get('/admin/hebergements',         $protege(fn() => $edition->hebergements()));
-$router->get('/admin/hebergements/{slug}',  $protege(fn(array $p) => $edition->hebergement($p['slug'])));
-$router->post('/admin/hebergements/{slug}', $protege(fn(array $p) => $edition->hebergementEnvoi($p['slug'])));
+$router->get('/admin/hebergements',                $protege(fn() => $edition->hebergements()));
+$router->get('/admin/hebergements/{slug}/photos',  $protege(fn(array $p) => $photo->hebergement($p['slug'])));
+$router->post('/admin/hebergements/{slug}/photos', $protege(fn(array $p) => $photo->envoi('hebergements', $p['slug'])));
+$router->get('/admin/hebergements/{slug}',         $protege(fn(array $p) => $edition->hebergement($p['slug'])));
+$router->post('/admin/hebergements/{slug}',        $protege(fn(array $p) => $edition->hebergementEnvoi($p['slug'])));
 
-$router->get('/admin/peche',         $protege(fn() => $edition->peche()));
-$router->post('/admin/peche/regles', $protege(fn() => $edition->pecheReglesEnvoi()));
-$router->get('/admin/peche/{slug}',  $protege(fn(array $p) => $edition->etang($p['slug'])));
-$router->post('/admin/peche/{slug}', $protege(fn(array $p) => $edition->etangEnvoi($p['slug'])));
+$router->get('/admin/peche',                $protege(fn() => $edition->peche()));
+$router->post('/admin/peche/regles',        $protege(fn() => $edition->pecheReglesEnvoi()));
+$router->get('/admin/peche/{slug}/photos',  $protege(fn(array $p) => $photo->etang($p['slug'])));
+$router->post('/admin/peche/{slug}/photos', $protege(fn(array $p) => $photo->envoi('peche', $p['slug'])));
+$router->get('/admin/peche/{slug}',         $protege(fn(array $p) => $edition->etang($p['slug'])));
+$router->post('/admin/peche/{slug}',        $protege(fn(array $p) => $edition->etangEnvoi($p['slug'])));
 
 $router->get('/admin/boutique',   $protege(fn() => $edition->boutique()));
 $router->post('/admin/boutique',  $protege(fn() => $edition->boutiqueEnvoi()));
