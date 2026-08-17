@@ -151,8 +151,12 @@ VARIANTS = {
     "logo-etang-fourchu-or":       dict(gold="#D9B45F", word_fill="#D9B45F", grad=False),
     "logo-etang-fourchu-blanc":    dict(gold="#FFFFFF", word_fill="#FFFFFF", grad=False),
     "logo-etang-fourchu-noir":     dict(gold="#111111", word_fill="#111111", grad=False),
+    # Or clair en aplat + texte blanc : le dégradé passe par des tons sombres
+    # qui disparaissent sur fond très foncé, et le petit format les accentue.
+    "logo-etang-fourchu-clair":    dict(gold="#E6CD8F", word_fill="#FFFFFF", grad=False),
     "embleme-etang-fourchu":       dict(emblem_only=True),
     "embleme-etang-fourchu-or":    dict(emblem_only=True, gold="#D9B45F", grad=False),
+    "embleme-etang-fourchu-clair": dict(emblem_only=True, gold="#E6CD8F", grad=False),
 }
 
 if __name__ == "__main__":

@@ -302,7 +302,14 @@ body.menu-ouvert .panneau { transform: translateX(0); }
   padding: 1.4rem clamp(1.4rem, 5vw, 2.6rem);
   border-bottom: 1px solid rgba(201, 162, 75, .18);
 }
-.panneau__tete img { height: 52px; width: auto; }
+/* Logo complet, or clair en aplat : l'emblème seul se perdait sur le fond
+   très sombre du panneau. */
+.panneau__logo { flex: 0 0 auto; }
+.panneau__tete img {
+  height: 96px; width: auto;
+  transition: opacity var(--transition);
+}
+.panneau__logo:hover img { opacity: .82; }
 .panneau__fermer {
   font-family: var(--garamond); font-weight: 600; font-size: .78rem;
   letter-spacing: .3em; text-transform: uppercase; color: var(--or);

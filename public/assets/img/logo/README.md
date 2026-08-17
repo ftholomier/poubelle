@@ -12,8 +12,10 @@ Vectorisation du logo fourni. **Fond transparent**, textes convertis en courbes
 | `logo-etang-fourchu-or.svg` | Monochrome or aplat |
 | `logo-etang-fourchu-blanc.svg` | Monochrome blanc — fond photo, filigrane |
 | `logo-etang-fourchu-noir.svg` | Monochrome noir — impression, fax, gravure |
+| `logo-etang-fourchu-clair.svg` | **Or clair en aplat + texte blanc** — fond très sombre et petits formats |
 | `embleme-etang-fourchu.svg` | Emblème seul (cercle + vague), sans texte |
 | `embleme-etang-fourchu-or.svg` | Emblème seul, or aplat |
+| `embleme-etang-fourchu-clair.svg` | Emblème seul, or clair aplat |
 | `logo-etang-fourchu@{400,800,1600}.png` | Exports PNG transparents |
 | `favicon-512.png` | Emblème 512 px, transparent |
 
@@ -21,6 +23,7 @@ Vectorisation du logo fourni. **Fond transparent**, textes convertis en courbes
 
 **Or (dégradé)** — `#C9A24B` → `#F2DFA4` → `#DCB863` → `#F7EBC4` → `#C79E42`
 **Or (aplat)** — `#D9B45F`
+**Or clair (aplat)** — `#E6CD8F`, pour les fonds très sombres
 **Noir** — `#111111` (texte) / `#141414` (fond)
 
 ## Typographie
@@ -29,6 +32,15 @@ Vectorisation du logo fourni. **Fond transparent**, textes convertis en courbes
 - Baseline : **Allura** 400 (anglaise calligraphique)
 
 Les deux sont sous licence SIL Open Font License 1.1, libres d'usage commercial.
+
+## Quelle version choisir
+
+Sur un fond **très sombre** ou en **petit format**, préférez la version
+`-clair` : le dégradé traverse des tons soutenus (`#C9A24B`, `#C79E42`) qui
+se confondent avec le fond, d'autant plus que le tracé est fin. L'aplat clair
+garde un contraste constant.
+
+Le dégradé reste préférable en grand format, où il donne au tracé son relief.
 
 ## Zone de protection
 

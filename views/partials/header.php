@@ -38,7 +38,10 @@ $resa = $site['reservation'];
 
 <nav id="panneau-nav" class="panneau" aria-label="Navigation principale">
   <div class="panneau__tete">
-    <img src="<?= asset('assets/img/logo/embleme-etang-fourchu.svg') ?>" alt="" aria-hidden="true">
+    <a class="panneau__logo" href="<?= url('/') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
+      <img src="<?= asset('assets/img/logo/logo-etang-fourchu-clair.svg') ?>"
+           alt="<?= e($site['nom']) ?> — <?= e($site['baseline']) ?>">
+    </a>
     <button class="panneau__fermer">Fermer</button>
   </div>
 
