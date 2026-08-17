@@ -28,8 +28,8 @@ final class PageController
     {
         return $this->view->render('accueil', [
             'page'         => $this->page('accueil'),
-            'hebergements' => $this->content->load('hebergements')['items'] ?? [],
-            'etangs'       => $this->content->load('peche')['items'] ?? [],
+            'hebergements' => $this->content->publies('hebergements'),
+            'etangs'       => $this->content->publies('peche'),
         ]);
     }
 
@@ -51,14 +51,15 @@ final class PageController
     {
         return $this->view->render('hebergements', [
             'page'  => $this->page('hebergements'),
-            'items' => $this->content->load('hebergements')['items'] ?? [],
+            'items' => $this->content->publies('hebergements'),
         ]);
     }
 
     public function hebergement(string $slug): string
     {
         $item = $this->content->find('hebergements', $slug);
-        if ($item === null) {
+        // désactivée = invisible, y compris par son adresse directe
+        if ($item === null || !Content::estPublie($item)) {
             return $this->introuvable();
         }
 
@@ -72,14 +73,14 @@ final class PageController
     {
         return $this->view->render('peche', [
             'page'  => $this->page('peche'),
-            'items' => $this->content->load('peche')['items'] ?? [],
+            'items' => $this->content->publies('peche'),
         ]);
     }
 
     public function etang(string $slug): string
     {
         $item = $this->content->find('peche', $slug);
-        if ($item === null) {
+        if ($item === null || !Content::estPublie($item)) {
             return $this->introuvable();
         }
 

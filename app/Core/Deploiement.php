@@ -32,6 +32,7 @@ final class Deploiement
         'public/assets/js',
         'public/assets/fonts',
         'public/assets/img/logo',
+        'public/assets/img/ui',
         'data/.htaccess',
         'storage/.htaccess',
         'README.md',

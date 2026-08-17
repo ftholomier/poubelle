@@ -4,7 +4,14 @@
  * @var array $items
  */
 ?>
-<?php use App\Core\Csrf; ?>
+<?php
+/**
+ * Liste des hébergements : ajout, édition, mise en ligne, suppression.
+ * @var array $items
+ */
+use App\Core\Content;
+use App\Core\Csrf;
+?>
 
 <form class="bo-form" method="post" action="<?= url('/admin/hebergements/creer') ?>" style="margin-bottom:1.8rem;">
   <?= Csrf::champ() ?>
@@ -23,15 +30,25 @@
 
 <div class="bo-liste">
   <?php foreach ($items as $h): ?>
-    <div class="bo-ligne">
-      <img class="bo-ligne__vignette" src="<?= asset(str_replace('.jpg', '-mini.jpg', $h['images_avant'][0] ?? $h['image'])) ?>" alt="">
+    <?php $enLigne = Content::estPublie($h); ?>
+    <div class="bo-ligne<?= $enLigne ? '' : ' bo-ligne--hors-ligne' ?>">
+      <img class="bo-ligne__vignette" src="<?= image($h['images_avant'][0] ?? $h['image'], true) ?>" alt="">
       <div class="bo-ligne__corps">
-        <h2><?= e($h['nom']) ?></h2>
+        <h2>
+          <?= e($h['nom']) ?>
+          <?php if (!$enLigne): ?><span class="bo-etiquette">hors ligne</span><?php endif; ?>
+        </h2>
         <p>À partir de <?= e($h['prix_a_partir_de']) ?> € / nuit — <?= e($h['capacite']) ?> personnes</p>
       </div>
       <div class="bo-ligne__liens">
         <a href="<?= url('/admin/hebergements/' . rawurlencode($h['slug'])) ?>">Textes →</a>
         <a href="<?= url('/admin/hebergements/' . rawurlencode($h['slug']) . '/photos') ?>">Photos →</a>
+        <form method="post" action="<?= url('/admin/hebergements/' . rawurlencode($h['slug']) . '/publication') ?>">
+          <?= Csrf::champ() ?>
+          <button class="bo-lien-bascule" type="submit">
+            <?= $enLigne ? 'Mettre hors ligne' : 'Mettre en ligne' ?>
+          </button>
+        </form>
         <?php if (count($items) > 1): ?>
           <form method="post" action="<?= url('/admin/hebergements/' . rawurlencode($h['slug']) . '/supprimer') ?>"
                 onsubmit="return confirm('Supprimer « <?= e($h['nom']) ?> » ? Sa fiche disparaîtra du site. Les photos restent dans la médiathèque.')">

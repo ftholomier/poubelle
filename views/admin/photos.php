@@ -32,7 +32,7 @@ $action = url('/admin/' . $type . '/' . rawurlencode($item['slug']) . '/photos')
       <div class="bo-zone__photos">
         <?php foreach ($zone['images'] as $i => $chemin): ?>
           <figure class="bo-photo">
-            <img src="<?= asset($media->vignette($chemin)) ?>" alt="" loading="lazy">
+            <img src="<?= image($chemin, true) ?>" alt="" loading="lazy">
             <figcaption>
               <span class="bo-photo__role">
                 <?= e($zone['roles'][$i] ?? 'Photo ' . ($i + 1) . ' — non utilisée') ?>
@@ -67,7 +67,7 @@ $action = url('/admin/' . $type . '/' . rawurlencode($item['slug']) . '/photos')
           <?php foreach ($mediatheque as $n => $chemin): ?>
             <label class="bo-choix__vignette">
               <input type="<?= $zone['max'] === 1 ? 'radio' : 'checkbox' ?>" name="ajout[]" value="<?= e($chemin) ?>">
-              <img src="<?= asset($media->vignette($chemin)) ?>" alt="<?= e(basename($chemin)) ?>" loading="lazy">
+              <img src="<?= image($chemin, true) ?>" alt="<?= e(basename($chemin)) ?>" loading="lazy">
             </label>
           <?php endforeach; ?>
         </div>

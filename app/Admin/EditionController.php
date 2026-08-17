@@ -153,6 +153,9 @@ final class EditionController
         return [
             'slug'             => $slug,
             'nom'              => $nom,
+            // hors ligne au départ : on la remplit et on l'illustre avant
+            // de la rendre visible du public
+            'actif'            => false,
             'sous_titre'       => '',
             'resume'           => '',
             'capacite'         => 4,
@@ -221,8 +224,33 @@ final class EditionController
         $donnees['items'][] = $this->hebergementVierge($slug, $nom);
         $this->content->save('hebergements', $donnees);
 
-        Session::flash('succes', $nom . ' a été créé. Complétez sa fiche, puis ajoutez ses photos.');
+        Session::flash('succes', $nom . ' a été créé, hors ligne. Complétez la fiche, '
+            . 'ajoutez les photos, puis mettez-la en ligne depuis la liste.');
         return $this->rediriger('/admin/hebergements/' . rawurlencode($slug));
+    }
+
+    public function hebergementPublication(string $slug): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/hebergements');
+        }
+
+        $donnees = $this->content->load('hebergements');
+        foreach ($donnees['items'] as $i => $item) {
+            if (($item['slug'] ?? '') !== $slug) {
+                continue;
+            }
+            $enLigne = !\App\Core\Content::estPublie($item);
+            $donnees['items'][$i]['actif'] = $enLigne;
+            $this->content->save('hebergements', $donnees);
+
+            Session::flash('succes', ($item['nom'] ?? $slug) . ($enLigne
+                ? ' est désormais visible sur le site.'
+                : ' est passé hors ligne : la fiche disparaît du site et du menu.'));
+            break;
+        }
+
+        return $this->rediriger('/admin/hebergements');
     }
 
     public function hebergementSupprimer(string $slug): string

@@ -12,9 +12,9 @@
   <div class="conteneur">
     <div class="duo">
       <div class="duo__medias reveler">
-        <img class="im-1" src="<?= asset($page['histoire']['images'][0]) ?>" alt="La ferme de l'Étang Fourchu" loading="lazy">
+        <img class="im-1" src="<?= image($page['histoire']['images'][0]) ?>" alt="La ferme de l'Étang Fourchu" loading="lazy">
         <?php if (!empty($page['histoire']['images'][1])): ?>
-          <img class="im-2" src="<?= asset(str_replace('.jpg', '-mini.jpg', $page['histoire']['images'][1])) ?>" alt="" loading="lazy">
+          <img class="im-2" src="<?= image($page['histoire']['images'][1], true) ?>" alt="" loading="lazy">
         <?php endif; ?>
       </div>
       <div class="duo__texte reveler" data-delai="1">
@@ -29,7 +29,7 @@
 
     <div class="duo duo--inverse" style="margin-top:clamp(3.5rem,7vw,5.5rem);">
       <div class="duo__medias reveler">
-        <img class="im-1" src="<?= asset($page['bio_local']['image']) ?>" alt="Le magasin à la ferme" loading="lazy">
+        <img class="im-1" src="<?= image($page['bio_local']['image']) ?>" alt="Le magasin à la ferme" loading="lazy">
       </div>
       <div class="duo__texte reveler" data-delai="1">
         <h2 class="titre-section" style="font-size:clamp(1.6rem,2.9vw,2.2rem);"><?= e($page['production']['titre']) ?></h2>
@@ -59,7 +59,7 @@
       <?php foreach ($page['produits'] as $i => $prod): ?>
         <article class="produit reveler" data-delai="<?= ($i % 3) + 1 ?>">
           <div class="produit__media">
-            <img src="<?= asset(str_replace('.jpg', '-mini.jpg', $prod['image'])) ?>" alt="<?= e($prod['nom']) ?>" loading="lazy">
+            <img src="<?= image($prod['image'], true) ?>" alt="<?= e($prod['nom']) ?>" loading="lazy">
           </div>
           <div class="produit__corps">
             <h3><?= e($prod['nom']) ?></h3>

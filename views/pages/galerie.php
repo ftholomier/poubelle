@@ -27,7 +27,7 @@ $categories = [
     <div class="galerie-grille">
       <?php foreach ($medias as $m): ?>
         <a href="<?= asset($m['src']) ?>" data-visionneuse data-cat="<?= e($m['cat']) ?>" data-alt="<?= e($m['alt']) ?>">
-          <img src="<?= asset(str_replace('.jpg', '-mini.jpg', $m['src'])) ?>" alt="<?= e($m['alt']) ?>" loading="lazy">
+          <img src="<?= image($m['src'], true) ?>" alt="<?= e($m['alt']) ?>" loading="lazy">
         </a>
       <?php endforeach; ?>
     </div>

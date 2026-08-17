@@ -22,7 +22,7 @@ $tarif  = $item['tarification'];
   <div class="conteneur">
     <div class="duo">
       <div class="duo__medias reveler">
-        <img class="im-1" src="<?= asset($item['image_secondaire']) ?>" alt="<?= e($item['nom']) ?>" loading="lazy" style="aspect-ratio:4/3;">
+        <img class="im-1" src="<?= image($item['image_secondaire']) ?>" alt="<?= e($item['nom']) ?>" loading="lazy" style="aspect-ratio:4/3;">
       </div>
       <div class="duo__texte reveler" data-delai="1">
         <p class="surtitre">Réservation</p>

@@ -22,9 +22,9 @@ $intro = $content->load('hebergements')['intro'] ?? null;
     <?php foreach ($items as $i => $h): $inverse = $i % 2 === 1; ?>
       <div class="duo<?= $inverse ? ' duo--inverse' : '' ?>" style="margin-top:<?= $i === 0 ? '3.4rem' : 'clamp(4rem, 8vw, 6rem)' ?>;">
         <div class="duo__medias reveler">
-          <img class="im-1" src="<?= asset($h['images_avant'][0] ?? $h['image']) ?>" alt="<?= e($h['nom']) ?>" loading="lazy">
+          <img class="im-1" src="<?= image($h['images_avant'][0] ?? $h['image']) ?>" alt="<?= e($h['nom']) ?>" loading="lazy">
           <?php if (!empty($h['images_avant'][2])): ?>
-            <img class="im-2" src="<?= asset(str_replace('.jpg', '-mini.jpg', $h['images_avant'][2])) ?>" alt="" loading="lazy">
+            <img class="im-2" src="<?= image($h['images_avant'][2], true) ?>" alt="" loading="lazy">
           <?php endif; ?>
         </div>
         <div class="duo__texte reveler" data-delai="1">

@@ -13,7 +13,7 @@ $resa = $site['reservation'];
 $hero = $page['hero'];
 ?>
 <section class="heros">
-  <div class="heros__fond" style="background-image:url('<?= asset($hero['image']) ?>')"></div>
+  <div class="heros__fond" style="background-image:url('<?= image($hero['image']) ?>')"></div>
   <div class="heros__contenu">
     <p class="surtitre surtitre--centre"><?= e($hero['surtitre']) ?></p>
     <h1 class="heros__titre"><?= e($hero['titre']) ?></h1>
@@ -58,7 +58,7 @@ $hero = $page['hero'];
       <?php foreach ($page['activites']['items'] as $i => $act): ?>
         <article class="carte reveler" data-delai="<?= $i + 1 ?>">
           <div class="carte__media">
-            <img src="<?= asset($act['image']) ?>" alt="<?= e($act['titre']) ?>" loading="lazy">
+            <img src="<?= image($act['image']) ?>" alt="<?= e($act['titre']) ?>" loading="lazy">
           </div>
           <div class="carte__corps">
             <h3 class="carte__titre"><?= e($act['titre']) ?></h3>
@@ -82,7 +82,7 @@ $hero = $page['hero'];
       <?php foreach ($hebergements as $i => $h): ?>
         <article class="carte reveler" data-delai="<?= $i + 1 ?>">
           <div class="carte__media">
-            <img src="<?= asset($h['image']) ?>" alt="<?= e($h['nom']) ?>" loading="lazy">
+            <img src="<?= image($h['image']) ?>" alt="<?= e($h['nom']) ?>" loading="lazy">
           </div>
           <div class="carte__corps">
             <p class="carte__prix">À partir de <?= e($h['prix_a_partir_de']) ?> € / nuit</p>
@@ -96,7 +96,7 @@ $hero = $page['hero'];
   </div>
 </section>
 
-<section class="citation" style="background-image:url('<?= asset($page['citation']['image']) ?>')">
+<section class="citation" style="background-image:url('<?= image($page['citation']['image']) ?>')">
   <div class="conteneur reveler">
     <h2 class="citation__titre">« <?= e($page['citation']['titre']) ?> »</h2>
     <p><?= e($page['citation']['texte']) ?></p>
@@ -114,7 +114,7 @@ $hero = $page['hero'];
     <div class="mosaique reveler">
       <?php foreach ($page['ferme']['images'] as $img): ?>
         <a href="<?= asset($img) ?>" data-visionneuse data-alt="La ferme — vente directe">
-          <img src="<?= asset(str_replace('.jpg', '-mini.jpg', $img)) ?>" alt="La ferme — vente directe" loading="lazy">
+          <img src="<?= image($img, true) ?>" alt="La ferme — vente directe" loading="lazy">
         </a>
       <?php endforeach; ?>
     </div>

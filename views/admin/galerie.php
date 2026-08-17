@@ -35,7 +35,7 @@ use App\Core\Csrf;
 <div class="bo-galerie">
   <?php foreach ($medias as $m): ?>
     <figure class="bo-media">
-      <img src="<?= asset(str_replace('.jpg', '-mini.jpg', $m['src'])) ?>" alt="<?= e($m['alt']) ?>" loading="lazy">
+      <img src="<?= image($m['src'], true) ?>" alt="<?= e($m['alt']) ?>" loading="lazy">
       <figcaption>
         <span class="cat"><?= e($categories[$m['cat']] ?? $m['cat']) ?></span>
         <form method="post" action="<?= url('/admin/galerie/retrait') ?>"

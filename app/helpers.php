@@ -40,6 +40,37 @@ if (!function_exists('asset')) {
     }
 }
 
+if (!function_exists('image')) {
+    /**
+     * URL d'une image de contenu, avec repli sur un visuel d'attente.
+     *
+     * Une fiche créée mais pas encore illustrée, ou une photo retirée de la
+     * médiathèque, laisserait sinon une image cassée sur le site comme dans
+     * le back-office.
+     *
+     * @param string|null $chemin  chemin relatif à /public
+     * @param bool $vignette       utiliser la version -mini si elle existe
+     */
+    function image(?string $chemin, bool $vignette = false): string
+    {
+        $chemin = trim((string) $chemin);
+        $racine = $GLOBALS['config']['paths']['public'] ?? '';
+
+        if ($chemin !== '' && $vignette) {
+            $mini = preg_replace('/\.(jpe?g|png|webp)$/i', '-mini.jpg', $chemin) ?? $chemin;
+            if ($mini !== $chemin && is_file($racine . '/' . $mini)) {
+                $chemin = $mini;
+            }
+        }
+
+        if ($chemin === '' || !is_file($racine . '/' . $chemin)) {
+            return asset('assets/img/ui/photo-a-venir.svg');
+        }
+
+        return asset($chemin);
+    }
+}
+
 if (!function_exists('json_response')) {
     /**
      * Réponse JSON pour les points d'entrée d'API.

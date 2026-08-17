@@ -8,7 +8,7 @@ use App\Core\Csrf;
 <div class="bo-liste">
   <?php foreach ($donnees['items'] as $et): ?>
     <div class="bo-ligne">
-      <img class="bo-ligne__vignette" src="<?= asset(str_replace('.jpg', '-mini.jpg', $et['image'])) ?>" alt="">
+      <img class="bo-ligne__vignette" src="<?= image($et['image'], true) ?>" alt="">
       <div class="bo-ligne__corps">
         <h2><?= e($et['nom']) ?></h2>
         <p><?= e($et['resume']) ?></p>

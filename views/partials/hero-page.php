@@ -5,7 +5,7 @@
  */
 ?>
 <section class="heros heros--page">
-  <div class="heros__fond" style="background-image:url('<?= asset($hero['image']) ?>')"></div>
+  <div class="heros__fond" style="background-image:url('<?= image($hero['image']) ?>')"></div>
   <div class="heros__contenu">
     <?php if (!empty($hero['surtitre'])): ?>
       <p class="surtitre surtitre--centre"><?= e($hero['surtitre']) ?></p>

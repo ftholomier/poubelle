@@ -405,3 +405,18 @@ button { font: inherit; cursor: pointer; }
   transition: color .2s;
 }
 .bo-lien-danger:hover { color: var(--rouge); }
+.bo-ligne--hors-ligne { opacity: .62; border-style: dashed; }
+.bo-ligne--hors-ligne:hover { opacity: 1; }
+.bo-etiquette {
+  display: inline-block; margin-left: .6rem; vertical-align: middle;
+  font-family: system-ui, sans-serif; font-size: .62rem; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--noir); background: var(--texte-2);
+  padding: .15rem .45rem;
+}
+.bo-lien-bascule {
+  background: none; border: 0; padding: 0; font-size: .82rem;
+  color: var(--or-clair); text-decoration: underline; text-underline-offset: 3px;
+  transition: color .2s;
+}
+.bo-lien-bascule:hover { color: var(--or); }

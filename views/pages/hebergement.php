@@ -22,14 +22,14 @@ $resaUrl = $site['reservation']['hebergement']['url'];
       <div class="duo<?= $inverse ? ' duo--inverse' : '' ?>" style="margin-top:<?= $i === 0 ? '0' : 'clamp(3.5rem, 7vw, 5.5rem)' ?>;">
         <?php if (!empty($sec['images'])): ?>
           <div class="duo__medias reveler">
-            <img class="im-1" src="<?= asset($sec['images'][0]) ?>" alt="<?= e($item['nom']) ?> — <?= e($sec['titre']) ?>" loading="lazy">
+            <img class="im-1" src="<?= image($sec['images'][0]) ?>" alt="<?= e($item['nom']) ?> — <?= e($sec['titre']) ?>" loading="lazy">
             <?php if (!empty($sec['images'][1])): ?>
-              <img class="im-2" src="<?= asset(str_replace('.jpg', '-mini.jpg', $sec['images'][1])) ?>" alt="" loading="lazy">
+              <img class="im-2" src="<?= image($sec['images'][1], true) ?>" alt="" loading="lazy">
             <?php endif; ?>
           </div>
         <?php else: ?>
           <div class="duo__medias reveler">
-            <img class="im-1" src="<?= asset($item['images_avant'][1] ?? $item['image']) ?>" alt="<?= e($item['nom']) ?>" loading="lazy">
+            <img class="im-1" src="<?= image($item['images_avant'][1] ?? $item['image']) ?>" alt="<?= e($item['nom']) ?>" loading="lazy">
           </div>
         <?php endif; ?>
         <div class="duo__texte reveler" data-delai="1">
@@ -58,7 +58,7 @@ $resaUrl = $site['reservation']['hebergement']['url'];
     <div class="galerie-grille reveler">
       <?php foreach ($item['theme']['galerie'] as $img): ?>
         <a href="<?= asset($img) ?>" data-visionneuse data-alt="<?= e($item['nom']) ?>">
-          <img src="<?= asset(str_replace('.jpg', '-mini.jpg', $img)) ?>" alt="<?= e($item['nom']) ?>" loading="lazy">
+          <img src="<?= image($img, true) ?>" alt="<?= e($item['nom']) ?>" loading="lazy">
         </a>
       <?php endforeach; ?>
     </div>

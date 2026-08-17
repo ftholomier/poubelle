@@ -80,6 +80,32 @@ final class Content
     }
 
     /**
+     * Une entrée est-elle visible du public ?
+     *
+     * Les contenus antérieurs à la mise en place du réglage n'ont pas la clé
+     * et restent donc visibles.
+     *
+     * @param array<mixed> $item
+     */
+    public static function estPublie(array $item): bool
+    {
+        return (bool) ($item['actif'] ?? true);
+    }
+
+    /**
+     * Entrées d'une collection visibles du public.
+     *
+     * @return array<int, array<mixed>>
+     */
+    public function publies(string $name, string $collection = 'items'): array
+    {
+        return array_values(array_filter(
+            $this->load($name)[$collection] ?? [],
+            fn($item) => is_array($item) && self::estPublie($item)
+        ));
+    }
+
+    /**
      * Menu du site, dont les sous-menus de collection sont reconstruits à
      * partir des données.
      *
@@ -109,7 +135,7 @@ final class Content
             }
 
             $liens = [];
-            foreach ($this->load($collection)['items'] ?? [] as $item) {
+            foreach ($this->publies($collection) as $item) {
                 if (($item['slug'] ?? '') === '') {
                     continue;
                 }
