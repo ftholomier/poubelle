@@ -275,7 +275,13 @@
   /* ---------- Consentement aux cookies ----------
      Rien n'est déposé ni chargé avant un choix explicite. Les scripts et
      contenus soumis à consentement sont écrits en <script type="text/plain">
-     ou <template>, et n'sont activés qu'ensuite, catégorie par catégorie. */
+     ou <template>, et ne sont activés qu'ensuite, catégorie par catégorie.
+
+     Ce bloc est enfermé dans sa propre portée. var appartient à la fonction,
+     pas au bloc : sans cette enveloppe, le « var panneau » écrit ici écrasait
+     celui du menu de navigation déclaré en haut du fichier. Le menu restait
+     alors inerte, et le moindre clic dessus le refermait. */
+  (function () {
   var boite = document.querySelector("[data-cookies]");
   if (boite) {
     var NOM = "ef_consentement";
@@ -427,4 +433,5 @@
       boite.hidden = false;
     }
   }
+  })();
 })();

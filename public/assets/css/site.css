@@ -986,7 +986,9 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 .cookies[hidden] { display: none; }
 
 .cookies__bandeau {
-  position: fixed; z-index: 200; left: 0; right: 0; bottom: 0;
+  /* sous le menu de navigation (190/200) : quand celui-ci est ouvert, le
+     bandeau passe derrière son voile au lieu de masquer le bas du panneau */
+  position: fixed; z-index: 180; left: 0; right: 0; bottom: 0;
   display: flex; align-items: center; justify-content: space-between;
   gap: clamp(1.2rem, 3vw, 2.6rem); flex-wrap: wrap;
   padding: clamp(1.3rem, 2.6vw, 1.9rem) var(--gouttiere);
