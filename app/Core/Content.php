@@ -80,6 +80,59 @@ final class Content
     }
 
     /**
+     * Menu du site, dont les sous-menus de collection sont reconstruits à
+     * partir des données.
+     *
+     * Sans cela, ajouter un hébergement dans le back-office le ferait
+     * apparaître sur la page liste mais pas dans la navigation, qui resterait
+     * figée sur ce qu'un ancien enregistrement de site.json contient.
+     *
+     * Les entrées de sous-menu qui ne viennent pas de la collection — le
+     * règlement général sous Pêche, par exemple — sont conservées telles
+     * quelles, à leur place.
+     *
+     * @return array<mixed>
+     */
+    public function menu(): array
+    {
+        $menu = $this->load('site')['menu'] ?? [];
+
+        foreach ($menu as $i => $entree) {
+            $base = rtrim((string) ($entree['url'] ?? ''), '/');
+            $collection = match ($base) {
+                '/hebergements' => 'hebergements',
+                '/peche'        => 'peche',
+                default         => null,
+            };
+            if ($collection === null || !isset($entree['sous_menu'])) {
+                continue;
+            }
+
+            $liens = [];
+            foreach ($this->load($collection)['items'] ?? [] as $item) {
+                if (($item['slug'] ?? '') === '') {
+                    continue;
+                }
+                $liens[] = [
+                    'libelle' => $item['nom'] ?? $item['slug'],
+                    'url'     => $base . '/' . $item['slug'],
+                ];
+            }
+
+            // les liens ajoutés à la main restent après ceux de la collection
+            foreach ($entree['sous_menu'] as $lien) {
+                if (!str_starts_with(rtrim((string) ($lien['url'] ?? ''), '/'), $base . '/')) {
+                    $liens[] = $lien;
+                }
+            }
+
+            $menu[$i]['sous_menu'] = $liens;
+        }
+
+        return $menu;
+    }
+
+    /**
      * Écriture atomique avec sauvegarde de la version précédente.
      *
      * @param array<mixed> $data

@@ -140,6 +140,125 @@ final class EditionController
         ], 'admin/layout');
     }
 
+    /**
+     * Squelette complet d'un nouvel hébergement.
+     *
+     * Toutes les clés lues par les gabarits publics sont présentes : une
+     * fiche créée ici s'affiche sans erreur avant même d'être remplie.
+     *
+     * @return array<mixed>
+     */
+    private function hebergementVierge(string $slug, string $nom): array
+    {
+        return [
+            'slug'             => $slug,
+            'nom'              => $nom,
+            'sous_titre'       => '',
+            'resume'           => '',
+            'capacite'         => 4,
+            'prix_a_partir_de' => 0,
+            'image'            => '',
+            'images_avant'     => [],
+            'sections'         => [
+                ['titre' => 'Présentation', 'paragraphes' => []],
+                ['titre' => 'Le confort',   'paragraphes' => []],
+                ['titre' => 'Le cadre',     'paragraphes' => []],
+            ],
+            'theme'        => ['titre' => 'En images', 'galerie' => []],
+            'prestations'  => [
+                'titre'      => 'Nos prestations',
+                'intro'      => '',
+                'groupes'    => [['titre' => '', 'items' => []]],
+                'complement' => [],
+            ],
+            'supplements'  => ['titre' => 'En supplément', 'items' => []],
+            'activites'    => ['titre' => 'Les activités à faire', 'intro' => '', 'items' => []],
+            'tarification' => ['texte' => '', 'note' => ''],
+            'meta'         => ['description' => ''],
+        ];
+    }
+
+    /**
+     * Transforme un nom libre en identifiant d'URL, unique dans la collection.
+     *
+     * @param string[] $existants
+     */
+    private function slugUnique(string $nom, array $existants): string
+    {
+        $base = $nom;
+        if (function_exists('iconv')) {
+            $translit = @iconv('UTF-8', 'ASCII//TRANSLIT', $base);
+            if ($translit !== false) {
+                $base = $translit;
+            }
+        }
+        $base = strtolower(preg_replace('/[^a-z0-9]+/i', '-', $base) ?? '');
+        $base = trim(preg_replace('/-+/', '-', $base) ?? '', '-') ?: 'hebergement';
+
+        $slug = $base;
+        $n = 1;
+        while (in_array($slug, $existants, true)) {
+            $slug = $base . '-' . (++$n);
+        }
+        return $slug;
+    }
+
+    public function hebergementCreer(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/hebergements');
+        }
+
+        $nom = trim((string) ($_POST['nom'] ?? ''));
+        if (mb_strlen($nom) < 2) {
+            Session::flash('erreur', 'Donnez un nom d’au moins 2 caractères au nouvel hébergement.');
+            return $this->rediriger('/admin/hebergements');
+        }
+
+        $donnees = $this->content->load('hebergements');
+        $slug = $this->slugUnique($nom, array_column($donnees['items'], 'slug'));
+
+        $donnees['items'][] = $this->hebergementVierge($slug, $nom);
+        $this->content->save('hebergements', $donnees);
+
+        Session::flash('succes', $nom . ' a été créé. Complétez sa fiche, puis ajoutez ses photos.');
+        return $this->rediriger('/admin/hebergements/' . rawurlencode($slug));
+    }
+
+    public function hebergementSupprimer(string $slug): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/hebergements');
+        }
+
+        $donnees = $this->content->load('hebergements');
+        $restants = array_values(array_filter(
+            $donnees['items'],
+            fn(array $i) => ($i['slug'] ?? '') !== $slug
+        ));
+
+        if (count($restants) === count($donnees['items'])) {
+            return $this->rediriger('/admin/hebergements');
+        }
+        if ($restants === []) {
+            Session::flash('erreur', 'Impossible de supprimer le dernier hébergement.');
+            return $this->rediriger('/admin/hebergements');
+        }
+
+        $nom = '';
+        foreach ($donnees['items'] as $i) {
+            if (($i['slug'] ?? '') === $slug) {
+                $nom = $i['nom'] ?? $slug;
+            }
+        }
+
+        $donnees['items'] = $restants;
+        $this->content->save('hebergements', $donnees);
+
+        Session::flash('succes', $nom . ' a été supprimé. Les photos restent dans la médiathèque.');
+        return $this->rediriger('/admin/hebergements');
+    }
+
     public function hebergement(string $slug): string
     {
         $item = $this->content->find('hebergements', $slug);

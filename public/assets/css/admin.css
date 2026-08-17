@@ -399,3 +399,9 @@ button { font: inherit; cursor: pointer; }
 .bo-droits .mode { color: var(--rouge); font-family: ui-monospace, Consolas, monospace; }
 .bo-droits .chemin { flex: 1; min-width: 200px; color: var(--texte); font-family: ui-monospace, Consolas, monospace; font-size: .8rem; }
 .bo-droits .probleme { color: var(--texte-2); font-size: .8rem; }
+.bo-lien-danger {
+  background: none; border: 0; padding: 0; font-size: .82rem;
+  color: var(--texte-2); text-decoration: underline; text-underline-offset: 3px;
+  transition: color .2s;
+}
+.bo-lien-danger:hover { color: var(--rouge); }

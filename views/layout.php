@@ -9,6 +9,9 @@
  * @var array|null $page
  */
 $site  = $content->load('site');
+// sous-menus reconstruits depuis les collections : un hébergement ajouté au
+// back-office apparaît aussitôt dans la navigation
+$site['menu'] = $content->menu();
 $titre = ($page['titre'] ?? null) ? $page['titre'] . ' - ' . $site['titre_seo'] : $site['titre_seo'];
 $desc  = $page['meta']['description'] ?? $site['accroche'];
 ?>

@@ -73,6 +73,8 @@ $router->get('/admin/accueil',    $protege(fn() => $edition->accueil()));
 $router->post('/admin/accueil',   $protege(fn() => $edition->accueilEnvoi()));
 
 $router->get('/admin/hebergements',                $protege(fn() => $edition->hebergements()));
+$router->post('/admin/hebergements/creer',         $protege(fn() => $edition->hebergementCreer()));
+$router->post('/admin/hebergements/{slug}/supprimer', $protege(fn(array $p) => $edition->hebergementSupprimer($p['slug'])));
 $router->get('/admin/hebergements/{slug}/photos',  $protege(fn(array $p) => $photo->hebergement($p['slug'])));
 $router->post('/admin/hebergements/{slug}/photos', $protege(fn(array $p) => $photo->envoi('hebergements', $p['slug'])));
 $router->get('/admin/hebergements/{slug}',         $protege(fn(array $p) => $edition->hebergement($p['slug'])));
