@@ -611,9 +611,15 @@ git clone --branch claude/villard-site-redesign-v85zvb \
   https://github.com/ftholomier/poubelle.git depot-temporaire && \
 mv depot-temporaire/.git . && rm -rf depot-temporaire && \
 git checkout -- app config views tools public/index.php public/.htaccess \
-  public/assets/css public/assets/js public/assets/fonts public/assets/img/logo \
-  data/.htaccess storage/.htaccess
+  public/assets/css public/assets/js public/assets/fonts \
+  public/assets/img/logo public/assets/img/ui \
+  data/.htaccess storage/.htaccess README.md DEPLOIEMENT.md
 ```
+
+> Cette liste est exactement celle de `Deploiement::CODE`, que l'écran
+> *Mises à jour* applique ensuite. Pour l'obtenir sans risque de la recopier
+> de travers :
+> `php -r 'require "app/bootstrap.php"; echo implode(" ", App\Core\Deploiement::cheminsCode()), "\n";'`
 
 La dernière commande aligne le code sur le dépôt. Elle liste explicitement
 les chemins de code : `data/` et `public/assets/img/site/` n'y figurent pas,
