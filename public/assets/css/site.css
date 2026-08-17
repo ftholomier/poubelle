@@ -430,16 +430,18 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
    attirer l'œil ni recouvrir le mot « Découvrir », ce que faisaient les
    pastilles qu'il remplace. */
 .heros__minuteur {
-  position: absolute; left: 50%; bottom: 0; z-index: 1;
+  position: absolute; left: 50%; bottom: 1.1rem; z-index: 1;
   transform: translateX(-50%);
-  width: 88px; height: 1px; overflow: hidden;
-  background: rgba(244, 239, 230, .1);
+  width: min(240px, 42vw); height: 2px;
+  background: rgba(244, 239, 230, .16);
 }
 .heros__minuteur span {
   display: block; width: 100%; height: 100%;
-  /* dégradé qui s'éteint aux deux bouts : pas d'arête franche */
+  /* dégradé qui s'éteint aux deux bouts : le trait s'ouvre depuis le centre
+     sans jamais montrer d'arête franche */
   background: linear-gradient(90deg,
-    rgba(201, 162, 75, 0), rgba(201, 162, 75, .55) 45%, rgba(201, 162, 75, 0));
+    rgba(230, 205, 143, 0), var(--or-clair) 22%, var(--or-clair) 78%, rgba(230, 205, 143, 0));
+  box-shadow: 0 0 8px rgba(201, 162, 75, .45);
   transform: scaleX(0); transform-origin: center;
 }
 .heros__minuteur--court span {
