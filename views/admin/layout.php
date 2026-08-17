@@ -71,5 +71,6 @@ $menu = [
     <?= $slot ?>
   </main>
 </div>
+<script src="<?= asset('assets/js/admin.js') ?>" defer></script>
 </body>
 </html>

@@ -109,5 +109,3 @@ use App\Core\Csrf;
     <p class="bo-ordre-etat" data-ordre-etat role="status"></p>
   <?php endif; ?>
 </section>
-
-<script src="<?= asset('assets/js/admin.js') ?>" defer></script>

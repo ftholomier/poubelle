@@ -86,20 +86,24 @@ $produits = $boutique['produits'];
           <?php if (!$enLigne): ?><span class="bo-etiquette">hors ligne</span><?php endif; ?>
         </h3>
 
-        <form class="bo-photo-choix" method="post" enctype="multipart/form-data"
+        <form method="post" enctype="multipart/form-data"
               action="<?= url('/admin/boutique/' . $i . '/photo') ?>">
           <?= Csrf::champ() ?>
-          <select name="photo" aria-label="Photo de <?= e($produit['nom']) ?> depuis la médiathèque">
-            <option value="">Choisir dans la médiathèque…</option>
-            <?php foreach ($medias as $media): ?>
-              <option value="<?= e($media) ?>"<?= ($produit['image'] ?? '') === $media ? ' selected' : '' ?>>
-                <?= e(basename($media)) ?>
-              </option>
-            <?php endforeach; ?>
-          </select>
-          <input type="file" name="photo" accept="image/jpeg,image/png,image/webp"
-                 aria-label="Envoyer une nouvelle photo pour <?= e($produit['nom']) ?>">
-          <button class="bo-btn bo-btn--mince" type="submit">Changer la photo</button>
+          <details class="bo-repli">
+            <summary>Changer la photo</summary>
+            <?= $view->partial('admin/choix-photo', [
+                  'medias'  => $medias,
+                  'nom'     => 'photo',
+                  'id'      => 'prod-' . $i,
+                  'choisie' => (string) ($produit['image'] ?? ''),
+                ]) ?>
+            <div class="bo-champ">
+              <label for="b-fichier-<?= $i ?>">Ou envoyer une nouvelle photo</label>
+              <input id="b-fichier-<?= $i ?>" type="file" name="photo"
+                     accept="image/jpeg,image/png,image/webp">
+            </div>
+            <button class="bo-btn bo-btn--mince" type="submit">Enregistrer la photo</button>
+          </details>
         </form>
       </div>
 

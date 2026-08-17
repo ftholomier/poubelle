@@ -4,6 +4,35 @@
 (function () {
   'use strict';
 
+  /* ---------- Filtre de la mosaïque de photos ----------
+     Confort quand la médiathèque s'allonge : le choix lui-même repose sur
+     des boutons radio et fonctionne sans JavaScript. */
+  [].forEach.call(document.querySelectorAll('[data-choix]'), function (bloc) {
+    var champ = bloc.querySelector('[data-choix-filtre]');
+    var compte = bloc.querySelector('[data-choix-compte]');
+    var tuiles = [].slice.call(bloc.querySelectorAll('.bo-tuile'));
+    if (!champ) return;
+
+    var filtrer = function () {
+      var q = champ.value.trim().toLowerCase();
+      var vus = 0;
+      tuiles.forEach(function (t) {
+        var nom = (t.getAttribute('data-nom') || '').toLowerCase();
+        // le choix « aucune » et la photo retenue restent toujours visibles
+        var garde = nom === '' || t.querySelector('input:checked');
+        var ok = garde || q === '' || nom.indexOf(q) !== -1;
+        t.hidden = !ok;
+        if (ok && nom !== '') vus++;
+      });
+      if (compte) {
+        compte.textContent = vus + ' photo' + (vus > 1 ? 's' : '');
+      }
+    };
+
+    champ.addEventListener('input', filtrer);
+    filtrer();
+  });
+
   /* ---------- Aperçu de l'adresse (écran Référencement) ----------
      Reproduit App\Core\Seo::normaliser() pour montrer, pendant la frappe,
      l'adresse qui sera réellement enregistrée. Le serveur normalise de

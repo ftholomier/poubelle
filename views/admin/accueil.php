@@ -53,21 +53,16 @@ use App\Core\Csrf;
     <?= Csrf::champ() ?>
     <fieldset>
       <legend>Ajouter une photo</legend>
-      <div class="bo-rangee">
-        <div class="bo-champ">
-          <label for="hero-media">Depuis la médiathèque</label>
-          <select id="hero-media" name="photo">
-            <option value="">—</option>
-            <?php foreach ($medias as $media): ?>
-              <option value="<?= e($media) ?>"><?= e(basename($media)) ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-        <div class="bo-champ">
-          <label for="hero-fichier">Ou envoyer une nouvelle photo</label>
-          <input id="hero-fichier" type="file" name="photo" accept="image/jpeg,image/png,image/webp">
-          <span class="aide">Format paysage, 1920 px de large au minimum.</span>
-        </div>
+      <div class="bo-champ">
+        <span class="bo-etiquette-champ">Depuis la médiathèque</span>
+        <?= $view->partial('admin/choix-photo', [
+              'medias' => $medias, 'nom' => 'photo', 'id' => 'hero', 'choisie' => '',
+            ]) ?>
+      </div>
+      <div class="bo-champ">
+        <label for="hero-fichier">Ou envoyer une nouvelle photo</label>
+        <input id="hero-fichier" type="file" name="photo" accept="image/jpeg,image/png,image/webp">
+        <span class="aide">Format paysage, 1920 px de large au minimum.</span>
       </div>
       <button class="bo-btn" type="submit">Ajouter au diaporama</button>
     </fieldset>

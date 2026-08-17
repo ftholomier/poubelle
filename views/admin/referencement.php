@@ -39,17 +39,17 @@ $libelles = ['hebergements' => 'Hébergements', 'peche' => 'Étangs de pêche'];
     </div>
 
     <div class="bo-champ">
-      <label for="image-partage">Image de partage par défaut</label>
-      <select id="image-partage" name="image_partage">
-        <option value="">Grande photo de la page d’accueil</option>
-        <?php foreach ($photos as $photo): ?>
-          <option value="<?= e($photo) ?>"<?= $general['image_partage'] === $photo ? ' selected' : '' ?>>
-            <?= e(basename($photo)) ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
+      <span class="bo-etiquette-champ">Image de partage par défaut</span>
       <span class="aide">Visuel affiché quand un lien du site est partagé sur Facebook, WhatsApp
         ou dans un e-mail. Une photo large (paysage) donne le meilleur rendu.</span>
+      <details class="bo-repli">
+        <summary>Choisir l’image de partage</summary>
+        <?= $view->partial('admin/choix-photo', [
+              'medias'  => $photos, 'nom' => 'image_partage', 'id' => 'partage',
+              'choisie' => $general['image_partage'],
+              'vide'    => 'Grande photo de la page d’accueil',
+            ]) ?>
+      </details>
     </div>
 
     <button class="bo-btn" type="submit">Enregistrer</button>
@@ -132,15 +132,15 @@ $libelles = ['hebergements' => 'Hébergements', 'peche' => 'Étangs de pêche'];
         </div>
 
         <div class="bo-champ">
-          <label for="img-<?= e($cle) ?>">Image de partage de cette page</label>
-          <select id="img-<?= e($cle) ?>" name="image">
-            <option value="">Image de partage par défaut</option>
-            <?php foreach ($photos as $photo): ?>
-              <option value="<?= e($photo) ?>"<?= $p['image'] === $photo ? ' selected' : '' ?>>
-                <?= e(basename($photo)) ?>
-              </option>
-            <?php endforeach; ?>
-          </select>
+          <span class="bo-etiquette-champ">Image de partage de cette page</span>
+          <details class="bo-repli">
+            <summary>Choisir une image propre à cette page</summary>
+            <?= $view->partial('admin/choix-photo', [
+                  'medias'  => $photos, 'nom' => 'image', 'id' => 'img-' . $cle,
+                  'choisie' => $p['image'],
+                  'vide'    => 'Image de partage par défaut',
+                ]) ?>
+          </details>
         </div>
 
         <div class="bo-champ bo-champ--case">
@@ -267,5 +267,3 @@ $libelles = ['hebergements' => 'Hébergements', 'peche' => 'Étangs de pêche'];
     </fieldset>
   </form>
 </section>
-
-<script src="<?= asset('assets/js/admin.js') ?>" defer></script>
