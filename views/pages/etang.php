@@ -128,7 +128,7 @@ $tarif  = $item['tarification'];
       <p><?= e($regles['attention']['texte']) ?></p>
     </div>
     <div class="centre reveler" style="margin-top:2.8rem;">
-      <a class="btn btn--contour" href="<?= url('/reglement-general') ?>">Règlement général</a>
+      <a class="btn btn--contour" href="<?= route('reglement') ?>">Règlement général</a>
     </div>
   </div>
 </section>

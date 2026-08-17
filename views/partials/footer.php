@@ -29,7 +29,7 @@ $resa = $site['reservation'];
           <?php foreach ($site['menu'] as $item): ?>
             <li><a href="<?= url($item['url']) ?>"><?= e($item['libelle']) ?></a></li>
           <?php endforeach; ?>
-          <li><a href="<?= url('/reglement-general') ?>">Règlement général</a></li>
+          <li><a href="<?= route('reglement') ?>">Règlement général</a></li>
         </ul>
       </nav>
 
@@ -51,7 +51,7 @@ $resa = $site['reservation'];
 
     <div class="pied__bas">
       <p><?= e($site['pied']['copyright']) ?></p>
-      <p><a href="<?= url('/mentions-legales') ?>">Mentions légales</a></p>
+      <p><a href="<?= route('mentions-legales') ?>">Mentions légales</a></p>
     </div>
   </div>
 </footer>

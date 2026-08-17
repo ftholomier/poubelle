@@ -88,7 +88,7 @@ $hero = $page['hero'];
             <p class="carte__prix">À partir de <?= e($h['prix_a_partir_de']) ?> € / nuit</p>
             <h3 class="carte__titre"><?= e($h['nom']) ?></h3>
             <p><?= e(mb_strimwidth($h['resume'], 0, 190, '…')) ?></p>
-            <a class="lien-fleche" href="<?= url('/hebergements/' . $h['slug']) ?>">Découvrir</a>
+            <a class="lien-fleche" href="<?= route('hebergements', $h['slug']) ?>">Découvrir</a>
           </div>
         </article>
       <?php endforeach; ?>
@@ -100,7 +100,7 @@ $hero = $page['hero'];
   <div class="conteneur reveler">
     <h2 class="citation__titre">« <?= e($page['citation']['titre']) ?> »</h2>
     <p><?= e($page['citation']['texte']) ?></p>
-    <a class="btn btn--contour" href="<?= url('/contact') ?>">Contactez-nous</a>
+    <a class="btn btn--contour" href="<?= route('contact') ?>">Contactez-nous</a>
   </div>
 </section>
 
@@ -125,7 +125,7 @@ $hero = $page['hero'];
           <li><?= e($p) ?></li>
         <?php endforeach; ?>
       </ul>
-      <a class="btn btn--contour-sombre" href="<?= url('/boutique') ?>" style="margin-top:2.4rem;">Découvrir les produits</a>
+      <a class="btn btn--contour-sombre" href="<?= route('boutique') ?>" style="margin-top:2.4rem;">Découvrir les produits</a>
     </div>
   </div>
 </section>

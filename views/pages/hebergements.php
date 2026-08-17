@@ -32,7 +32,7 @@ $intro = $content->load('hebergements')['intro'] ?? null;
           <h2 class="titre-section"><?= e($h['nom']) ?></h2>
           <hr class="filet-or">
           <p><?= e($h['resume']) ?></p>
-          <a class="btn btn--contour" href="<?= url('/hebergements/' . $h['slug']) ?>">Découvrir</a>
+          <a class="btn btn--contour" href="<?= route('hebergements', $h['slug']) ?>">Découvrir</a>
         </div>
       </div>
     <?php endforeach; ?>

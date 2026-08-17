@@ -1,0 +1,71 @@
+{
+    "pages": {
+        "accueil": {
+            "nom": "Accueil",
+            "slug": "",
+            "titre": "",
+            "description": "",
+            "image": "",
+            "indexer": true
+        },
+        "hebergements": {
+            "nom": "Hébergements",
+            "slug": "hebergements",
+            "titre": "",
+            "description": "",
+            "image": "",
+            "indexer": true
+        },
+        "peche": {
+            "nom": "Pêche",
+            "slug": "peche",
+            "titre": "",
+            "description": "",
+            "image": "",
+            "indexer": true
+        },
+        "boutique": {
+            "nom": "Boutique",
+            "slug": "boutique",
+            "titre": "",
+            "description": "",
+            "image": "",
+            "indexer": true
+        },
+        "galerie": {
+            "nom": "Galerie",
+            "slug": "galerie",
+            "titre": "",
+            "description": "",
+            "image": "",
+            "indexer": true
+        },
+        "contact": {
+            "nom": "Contact",
+            "slug": "contact",
+            "titre": "",
+            "description": "",
+            "image": "",
+            "indexer": true
+        },
+        "reglement": {
+            "nom": "Règlement général",
+            "slug": "reglement-general",
+            "titre": "",
+            "description": "",
+            "image": "",
+            "indexer": true
+        },
+        "mentions-legales": {
+            "nom": "Mentions légales",
+            "slug": "mentions-legales",
+            "titre": "",
+            "description": "",
+            "image": "",
+            "indexer": true
+        }
+    },
+    "redirections": [],
+    "image_partage": "",
+    "indexer_site": true
+}

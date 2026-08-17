@@ -27,13 +27,13 @@ $peche = $content->load('peche');
           <h2 class="titre-section"><?= e($et['nom']) ?></h2>
           <hr class="filet-or">
           <p><?= e($et['resume']) ?></p>
-          <a class="btn btn--contour" href="<?= url('/peche/' . $et['slug']) ?>">Découvrir</a>
+          <a class="btn btn--contour" href="<?= route('peche', $et['slug']) ?>">Découvrir</a>
         </div>
       </div>
     <?php endforeach; ?>
 
     <div class="centre reveler" style="margin-top:4rem;">
-      <a class="lien-fleche" href="<?= url('/reglement-general') ?>">Consulter le règlement général</a>
+      <a class="lien-fleche" href="<?= route('reglement') ?>">Consulter le règlement général</a>
     </div>
   </div>
 </section>

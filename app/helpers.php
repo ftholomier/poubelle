@@ -40,6 +40,71 @@ if (!function_exists('asset')) {
     }
 }
 
+if (!function_exists('origine')) {
+    /**
+     * Protocole et domaine seuls (https://exemple.fr), sans le chemin de base.
+     */
+    function origine(): string
+    {
+        $config = (string) ($GLOBALS['config']['app']['base_url'] ?? '');
+
+        if (str_starts_with($config, 'http')) {
+            $parties = parse_url($config) ?: [];
+            return ($parties['scheme'] ?? 'https') . '://' . ($parties['host'] ?? 'localhost')
+                . (isset($parties['port']) ? ':' . $parties['port'] : '');
+        }
+
+        $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https';
+
+        return ($https ? 'https://' : 'http://') . (string) ($_SERVER['HTTP_HOST'] ?? 'localhost');
+    }
+}
+
+if (!function_exists('base_absolue')) {
+    /**
+     * Racine absolue du site, sous-répertoire d'installation compris : le plan
+     * du site et la balise canonical exigent des adresses complètes.
+     */
+    function base_absolue(): string
+    {
+        $config = rtrim((string) ($GLOBALS['config']['app']['base_url'] ?? ''), '/');
+
+        return str_starts_with($config, 'http') ? $config : origine() . $config;
+    }
+}
+
+if (!function_exists('absolu')) {
+    /**
+     * Rend absolue une adresse déjà produite par url(), asset() ou image().
+     */
+    function absolu(string $adresse): string
+    {
+        if ($adresse === '' || str_starts_with($adresse, 'http')) {
+            return $adresse;
+        }
+
+        return origine() . '/' . ltrim($adresse, '/');
+    }
+}
+
+if (!function_exists('route')) {
+    /**
+     * Adresse d'une page du site, slug personnalisé compris.
+     *
+     * route('contact') plutôt que url('/contact') : le lien suit
+     * automatiquement un slug modifié dans le back-office.
+     */
+    function route(string $cle, ?string $item = null): string
+    {
+        $seo = $GLOBALS['seo'] ?? null;
+        if (!$seo instanceof \App\Core\Seo) {
+            return url('/' . trim($cle, '/'));
+        }
+        return url($seo->chemin($cle, $item));
+    }
+}
+
 if (!function_exists('image')) {
     /**
      * URL d'une image de contenu, avec repli sur un visuel d'attente.

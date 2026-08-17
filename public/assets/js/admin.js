@@ -1,7 +1,32 @@
-/* Back-office — galerie : dépôt de fichiers, filtres, classement.
+/* Back-office — galerie (dépôt, filtres, classement) et référencement
+   (compteurs de caractères).
    Tout fonctionne sans JavaScript : ce fichier n'ajoute que du confort. */
 (function () {
   'use strict';
+
+  /* ---------- Compteurs de caractères (écran Référencement) ---------- */
+  [].forEach.call(document.querySelectorAll('[data-compteur]'), function (champ) {
+    var limite = parseInt(champ.getAttribute('data-compteur'), 10);
+    var jauge = document.createElement('span');
+    jauge.className = 'bo-compteur';
+
+    var aide = champ.parentNode.querySelector('.aide');
+    if (aide) { aide.parentNode.insertBefore(jauge, aide); }
+    else { champ.parentNode.appendChild(jauge); }
+
+    var mesurer = function () {
+      // à vide, c'est la valeur héritée — affichée en gris dans le champ —
+      // qui sera publiée : c'est donc elle que l'on mesure
+      var texte = champ.value || champ.getAttribute('placeholder') || '';
+      var n = texte.length;
+      jauge.textContent = n + ' / ' + limite + ' caractères'
+        + (champ.value ? '' : ' (valeur héritée)');
+      jauge.className = 'bo-compteur' + (n > limite ? ' bo-compteur--trop' : '');
+    };
+
+    champ.addEventListener('input', mesurer);
+    mesurer();
+  });
 
   /* ---------- Dépôt de fichiers par glisser-déposer ---------- */
   var depot = document.querySelector('[data-depot]');

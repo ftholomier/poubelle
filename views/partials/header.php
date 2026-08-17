@@ -14,7 +14,7 @@ $resa = $site['reservation'];
       <span></span><span></span><span></span>
     </button>
 
-    <a class="entete__logo" href="<?= url('/') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
+    <a class="entete__logo" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
       <img src="<?= asset('assets/img/logo/logo-etang-fourchu.svg') ?>"
            alt="<?= e($site['nom']) ?> — <?= e($site['baseline']) ?>" width="180" height="152">
     </a>
@@ -38,7 +38,7 @@ $resa = $site['reservation'];
 
 <nav id="panneau-nav" class="panneau" aria-label="Navigation principale">
   <div class="panneau__tete">
-    <a class="panneau__logo" href="<?= url('/') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
+    <a class="panneau__logo" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
       <img src="<?= asset('assets/img/logo/logo-etang-fourchu-clair.svg') ?>"
            alt="<?= e($site['nom']) ?> — <?= e($site['baseline']) ?>">
     </a>

@@ -22,6 +22,7 @@ $menu = [
   ['/admin/boutique',     'Boutique'],
   ['/admin/reglement',    'Règlement'],
   ['/admin/galerie',      'Galerie'],
+  ['/admin/referencement', 'Référencement'],
   ['/admin/avance',       'Éditeur avancé'],
   ['/admin/parametres',   'Paramètres'],
   ['/admin/mises-a-jour', 'Mises à jour'],

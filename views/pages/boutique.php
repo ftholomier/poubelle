@@ -71,7 +71,7 @@
                 <?php endforeach; ?>
               </ul>
             <?php endif; ?>
-            <a class="lien-fleche" href="<?= url('/contact') ?>" style="margin-top:auto;color:var(--or-sombre);">Réserver en ligne</a>
+            <a class="lien-fleche" href="<?= route('contact') ?>" style="margin-top:auto;color:var(--or-sombre);">Réserver en ligne</a>
           </div>
         </article>
       <?php endforeach; ?>

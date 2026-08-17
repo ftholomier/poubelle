@@ -8,5 +8,5 @@
 <div class="erreur-page">
   <p class="code"><?= e($code) ?></p>
   <h1><?= e($titre) ?></h1>
-  <a class="btn btn--or" href="<?= url('/') ?>">Retour à l'accueil</a>
+  <a class="btn btn--or" href="<?= route('accueil') ?>">Retour à l'accueil</a>
 </div>

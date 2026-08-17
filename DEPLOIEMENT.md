@@ -187,10 +187,57 @@ Puis, à la main :
 - [ ] `https://votredomaine.fr/data/site.json` renvoie une **erreur 403**
 - [ ] `/admin` demande une connexion
 - [ ] Une modification dans le back-office apparaît sur le site
+- [ ] `/sitemap.xml` liste bien les pages, `/robots.txt` s'affiche
 
 ---
 
-## 7. Points de vigilance
+## 7. Référencement
+
+L'écran **Référencement** du back-office regroupe tout ce que Google lit.
+
+**Adresses des pages.** Chaque page a son slug — la partie de l'adresse après
+le nom de domaine. Le modifier crée automatiquement une **redirection
+permanente (301)** depuis l'ancienne adresse, réécrit les liens du menu et des
+blocs d'accueil, et fait suivre les sous-pages : renommer `/hebergements` en
+`/nos-hebergements` redirige aussi `/hebergements/le-gite`. Aucun lien déjà
+partagé ou indexé ne se casse. Les fiches (hébergements, étangs) ont la même
+mécanique dans la section *Fiches*.
+
+L'accueil fait exception : il est servi à la racine, son adresse n'est pas
+modifiable.
+
+**Titres et descriptions.** Laissés vides, ils reprennent le titre de la page
+suivi du nom du domaine, et la description du contenu. Un aperçu montre le
+rendu dans les résultats Google, et un compteur signale les longueurs qui
+seront coupées (60 caractères pour le titre, 158 pour la description).
+
+**Indexation.** La case générale *Autoriser les moteurs de recherche* coupe
+tout le site d'un coup — utile pendant les travaux, **à recocher à la mise en
+ligne**, sinon `robots.txt` interdira tout et le site restera invisible. Page
+par page, décocher retire la page du plan du site et demande aux moteurs de ne
+pas l'afficher.
+
+**Ce que le site publie tout seul :**
+
+| Adresse | Contenu |
+|---|---|
+| `/sitemap.xml` | plan du site : pages indexables et fiches en ligne |
+| `/robots.txt` | règles d'exploration, avec le lien vers le plan |
+
+Les fiches hors ligne et les pages non indexables en sortent automatiquement.
+Chaque page publie aussi sa balise `canonical`, ses balises de partage
+(Facebook, WhatsApp, e-mail) et ses **données structurées JSON-LD** décrivant
+le domaine, l'hébergement affiché avec son tarif et sa capacité, et le fil
+d'Ariane.
+
+**À faire une fois le site en ligne :** déclarez `https://votredomaine.fr/sitemap.xml`
+dans [Google Search Console](https://search.google.com/search-console) — c'est
+ce qui accélère la prise en compte du nouveau site et remonte les erreurs
+d'exploration.
+
+---
+
+## 8. Points de vigilance
 
 **HTTPS** — le `.htaccess` force la redirection vers HTTPS. Activez le
 certificat SSL gratuit dans *cPanel → SSL/TLS Status* avant la mise en ligne,
@@ -210,7 +257,7 @@ exclu de git et ne doit jamais être partagé ni versionné.
 
 ---
 
-## 8. Tester en local avant d'envoyer
+## 9. Tester en local avant d'envoyer
 
 ```bash
 php -S localhost:8080 -t public public/index.php
@@ -222,7 +269,7 @@ façon exempté.
 
 ---
 
-## 9. Mettre à jour le site par FTP
+## 10. Mettre à jour le site par FTP
 
 Une fois le site en ligne, deux natures de fichiers cohabitent : le **code**,
 qui vient du dépôt, et l'**état vivant** du site, qui n'existe que sur le
@@ -282,7 +329,7 @@ diagnostic confirme que les droits d'écriture n'ont pas bougé.
 
 ---
 
-## 10. Mises à jour automatiques par git (recommandé)
+## 11. Mises à jour automatiques par git (recommandé)
 
 Le FTP de la section 9 reste possible, mais l'écran **Mises à jour** du
 back-office fait la même chose sans risque d'erreur de manipulation : il ne
@@ -398,7 +445,7 @@ de toute façon hors de portée de git.
 
 ---
 
-## 11. Droits d'accès
+## 12. Droits d'accès
 
 Trois choses défont les droits sans prévenir : un transfert FTP (qui applique
 les réglages du client FTP), le `umask` du serveur (qui rabote les droits des

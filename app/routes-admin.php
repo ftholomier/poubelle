@@ -16,11 +16,13 @@ use App\Admin\MediaController;
 use App\Admin\MiseAJourController;
 use App\Admin\ParametreController;
 use App\Admin\PhotoController;
+use App\Admin\SeoController;
 use App\Core\Auth;
 use App\Core\Deploiement;
 use App\Core\Mailer;
 use App\Core\Mediatheque;
 use App\Core\Parametres;
+use App\Core\Seo;
 
 $auth = new Auth(
     $config['paths']['data'] . '/admin/compte.json',
@@ -37,6 +39,7 @@ $edition = new EditionController($view, $content);
 $media   = new MediaController($view, $content, $mediatheque);
 $photo   = new PhotoController($view, $content, $mediatheque);
 $majour  = new MiseAJourController($view, $deploiement);
+$refer   = new SeoController($view, $content, $seo, $mediatheque);
 $reglage = new ParametreController($view, $parametres, $content, $auth, $mailer, $config['paths']['root'], $config['paths']['public']);
 
 $view->share('auth', $auth);
@@ -105,6 +108,13 @@ $router->post('/admin/parametres/messagerie', $protege(fn() => $reglage->message
 $router->post('/admin/parametres/test',       $protege(fn() => $reglage->test()));
 $router->post('/admin/parametres/compte',     $protege(fn() => $reglage->compteEnvoi()));
 $router->post('/admin/parametres/droits',     $protege(fn() => $reglage->droitsEnvoi()));
+
+$router->get('/admin/referencement',  $protege(fn() => $refer->ecran()));
+$router->post('/admin/referencement/general', $protege(fn() => $refer->generalEnvoi()));
+$router->post('/admin/referencement/page/{cle}', $protege(fn(array $p) => $refer->pageEnvoi($p['cle'])));
+$router->post('/admin/referencement/fiche/{cle}/{slug}', $protege(fn(array $p) => $refer->ficheEnvoi($p['cle'], $p['slug'])));
+$router->post('/admin/referencement/redirection',         $protege(fn() => $refer->redirectionAjout()));
+$router->post('/admin/referencement/redirection/retrait', $protege(fn() => $refer->redirectionRetrait()));
 
 $router->get('/admin/mises-a-jour',             $protege(fn() => $majour->ecran()));
 $router->post('/admin/mises-a-jour/verifier',    $protege(fn() => $majour->verifier()));

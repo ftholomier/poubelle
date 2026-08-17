@@ -17,5 +17,6 @@
   <a href="<?= url('/admin/site') ?>">→ Modifier le téléphone, l'adresse ou les liens de réservation</a>
   <a href="<?= url('/admin/accueil') ?>">→ Modifier les textes de la page d'accueil</a>
   <a href="<?= url('/admin/galerie') ?>">→ Ajouter des photos à la galerie</a>
+  <a href="<?= url('/admin/referencement') ?>">→ Référencement : adresses des pages, titres et descriptions Google</a>
   <a href="<?= url('/admin/avance') ?>">→ Éditeur avancé (tous les contenus, sauvegardes et restauration)</a>
 </div>

@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Core\Content;
 use App\Core\Mailer;
 use App\Core\Parametres;
+use App\Core\Seo;
 use App\Core\View;
 use RuntimeException;
 use Throwable;
@@ -21,12 +22,28 @@ final class PageController
         private readonly Content $content,
         private readonly Parametres $parametres,
         private readonly Mailer $mailer,
+        private readonly Seo $seo,
     ) {
+    }
+
+    /**
+     * Rendu d'une page publique, avec le contexte dont le gabarit a besoin
+     * pour ses balises : quelle page du référencement, quelle fiche.
+     *
+     * @param array<string, mixed> $donnees
+     * @param array<string, mixed>|null $fiche
+     */
+    private function rendre(string $gabarit, string $cleSeo, array $donnees, ?array $fiche = null): string
+    {
+        return $this->view->render($gabarit, $donnees + [
+            'seoCle'  => $cleSeo,
+            'seoItem' => $fiche,
+        ]);
     }
 
     public function accueil(): string
     {
-        return $this->view->render('accueil', [
+        return $this->rendre('accueil', 'accueil', [
             'page'         => $this->page('accueil'),
             'hebergements' => $this->content->publies('hebergements'),
             'etangs'       => $this->content->publies('peche'),
@@ -44,12 +61,12 @@ final class PageController
             return $this->introuvable();
         }
 
-        return $this->view->render($gabarit, ['page' => $page]);
+        return $this->rendre($gabarit, $slug, ['page' => $page]);
     }
 
     public function hebergements(): string
     {
-        return $this->view->render('hebergements', [
+        return $this->rendre('hebergements', 'hebergements', [
             'page'  => $this->page('hebergements'),
             'items' => $this->content->publies('hebergements'),
         ]);
@@ -63,15 +80,15 @@ final class PageController
             return $this->introuvable();
         }
 
-        return $this->view->render('hebergement', [
+        return $this->rendre('hebergement', 'hebergements', [
             'page' => ['titre' => $item['nom'] ?? '', 'meta' => $item['meta'] ?? []],
             'item' => $item,
-        ]);
+        ], $item);
     }
 
     public function peche(): string
     {
-        return $this->view->render('peche', [
+        return $this->rendre('peche', 'peche', [
             'page'  => $this->page('peche'),
             'items' => $this->content->publies('peche'),
         ]);
@@ -84,15 +101,15 @@ final class PageController
             return $this->introuvable();
         }
 
-        return $this->view->render('etang', [
+        return $this->rendre('etang', 'peche', [
             'page' => ['titre' => $item['nom'] ?? '', 'meta' => $item['meta'] ?? []],
             'item' => $item,
-        ]);
+        ], $item);
     }
 
     public function galerie(): string
     {
-        return $this->view->render('galerie', [
+        return $this->rendre('galerie', 'galerie', [
             'page'   => $this->page('galerie'),
             'medias' => $this->content->publies('galerie', 'medias'),
         ]);
@@ -100,7 +117,7 @@ final class PageController
 
     public function contact(): string
     {
-        return $this->view->render('contact', [
+        return $this->rendre('contact', 'contact', [
             'page'   => $this->page('contact'),
             'erreurs' => [],
             'valeurs' => [],
@@ -139,7 +156,7 @@ final class PageController
 
         if ($erreurs !== []) {
             http_response_code(422);
-            return $this->view->render('contact', [
+            return $this->rendre('contact', 'contact', [
                 'page'    => $this->page('contact'),
                 'erreurs' => $erreurs,
                 'valeurs' => $valeurs,
@@ -154,7 +171,7 @@ final class PageController
         if ($destinataire === '') {
             error_log('Formulaire de contact : ni destinataire dans Paramètres, ni e-mail dans Coordonnées.');
             http_response_code(500);
-            return $this->view->render('contact', [
+            return $this->rendre('contact', 'contact', [
                 'page'    => $this->page('contact'),
                 'erreurs' => ['envoi' => 'Le formulaire n’est pas encore configuré. '
                     . 'Merci de nous joindre par téléphone en attendant.'],
@@ -192,15 +209,15 @@ final class PageController
         } catch (Throwable $e) {
             error_log('Envoi du formulaire de contact impossible : ' . $e->getMessage());
             http_response_code(500);
-            return $this->view->render('contact', [
+            return $this->rendre('contact', 'contact', [
                 'page'    => $this->page('contact'),
                 'erreurs' => ['envoi' => 'L’envoi a échoué. Merci de réessayer ou de nous appeler.'],
                 'valeurs' => $valeurs,
             ]);
         }
 
-        return $this->view->render('contact-confirmation', [
-            'page'    => ['titre' => 'Demande envoyée'],
+        return $this->rendre('contact-confirmation', 'contact', [
+            'page'    => ['titre' => 'Demande envoyée', 'meta' => ['robots' => 'noindex']],
             'valeurs' => $valeurs,
         ]);
     }
@@ -240,9 +257,20 @@ final class PageController
 
     public function introuvable(): string
     {
+        // Une fiche renommée reste captée par /hebergements/{slug} : la route
+        // de redirection, déclarée après, ne serait jamais atteinte. On
+        // consulte donc la table avant de conclure à une page absente.
+        $chemin = rtrim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/', '/') ?: '/';
+        $cible  = $this->seo->cible($chemin);
+        if ($cible !== null) {
+            http_response_code(301);
+            header('Location: ' . url($cible));
+            return '';
+        }
+
         http_response_code(404);
-        return $this->view->render('erreur', [
-            'page'  => ['titre' => 'Page introuvable'],
+        return $this->rendre('erreur', 'accueil', [
+            'page'  => ['titre' => 'Page introuvable', 'meta' => ['robots' => 'noindex']],
             'code'  => 404,
             'titre' => 'Cette page n’existe pas',
         ]);

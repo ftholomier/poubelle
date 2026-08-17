@@ -16,6 +16,6 @@
     <div class="msg-succes reveler">
       <p>Votre demande a bien été enregistrée. Nous vous répondrons dans les meilleurs délais.</p>
     </div>
-    <a class="btn btn--contour" href="<?= url('/') ?>" style="margin-top:2.4rem;">Retour à l'accueil</a>
+    <a class="btn btn--contour" href="<?= route('accueil') ?>" style="margin-top:2.4rem;">Retour à l'accueil</a>
   </div>
 </section>

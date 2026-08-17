@@ -43,7 +43,7 @@ $site = $content->load('site');
       <hr class="filet-or filet-or--centre">
     </div>
 
-    <form class="formulaire reveler" method="post" action="<?= url('/contact') ?>" novalidate>
+    <form class="formulaire reveler" method="post" action="<?= route('contact') ?>" novalidate>
       <?php if (!empty($erreurs['envoi'])): ?>
         <p class="form__alerte" role="alert"><?= e($erreurs['envoi']) ?></p>
       <?php endif; ?>

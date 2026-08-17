@@ -117,19 +117,22 @@ final class Content
      * règlement général sous Pêche, par exemple — sont conservées telles
      * quelles, à leur place.
      *
+     * @param array<string, string> $collections chemin de base => collection
      * @return array<mixed>
      */
-    public function menu(): array
+    public function menu(array $collections = []): array
     {
+        // les adresses de base sont modifiables : Seo les fournit, la table
+        // livrée d'origine ne sert que de repli
+        $collections = $collections !== []
+            ? $collections
+            : ['/hebergements' => 'hebergements', '/peche' => 'peche'];
+
         $menu = $this->load('site')['menu'] ?? [];
 
         foreach ($menu as $i => $entree) {
             $base = rtrim((string) ($entree['url'] ?? ''), '/');
-            $collection = match ($base) {
-                '/hebergements' => 'hebergements',
-                '/peche'        => 'peche',
-                default         => null,
-            };
+            $collection = $collections[$base] ?? null;
             if ($collection === null || !isset($entree['sous_menu'])) {
                 continue;
             }
