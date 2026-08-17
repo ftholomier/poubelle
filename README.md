@@ -40,6 +40,8 @@ En local : `php -S localhost:8080 -t public public/index.php`
 `/admin` — édition de tout le contenu (coordonnées, liens Reservit, accueil,
 hébergements, étangs et tarifs, boutique, règlement, galerie avec upload
 d'images optimisées automatiquement, photos de chaque hébergement et étang).
+Hébergements, produits de la boutique et photos du bandeau d'accueil
+s'ajoutent, se réordonnent, se masquent et se suppriment depuis l'admin.
 Chaque enregistrement sauvegarde la
 version précédente (20 conservées par contenu), restaurables depuis
 l'Éditeur avancé. L'écran **Référencement** pilote l'adresse (slug) de chaque

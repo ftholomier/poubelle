@@ -113,7 +113,7 @@ $resaUrl = $site['reservation']['hebergement']['url'];
     </div>
 
     <div class="encadre reveler" style="border-color:rgba(165,129,58,.5);background:rgba(201,162,75,.09);">
-      <h3 style="color:var(--or-sombre);">Tarification</h3>
+      <h3 style="color:var(--or-texte);">Tarification</h3>
       <p style="font-family:var(--serif);font-size:1.3rem;"><?= e($item['tarification']['texte']) ?></p>
       <p style="font-size:.98rem;font-style:italic;"><?= e($item['tarification']['note']) ?></p>
     </div>

@@ -5,6 +5,8 @@
  * @var array $page
  * @var App\Core\View $view
  */
+use App\Core\Liste;
+
 ?>
 <?= $view->partial('hero-page', ['hero' => $page['hero']]) ?>
 
@@ -56,7 +58,7 @@
       <hr class="filet-or filet-or--centre">
     </div>
     <div class="produits">
-      <?php foreach ($page['produits'] as $i => $prod): ?>
+      <?php foreach (Liste::publiees($page['produits']) as $i => $prod): ?>
         <article class="produit reveler" data-delai="<?= ($i % 3) + 1 ?>">
           <div class="produit__media">
             <img src="<?= image($prod['image'], true) ?>" alt="<?= e($prod['nom']) ?>" loading="lazy">
@@ -71,7 +73,7 @@
                 <?php endforeach; ?>
               </ul>
             <?php endif; ?>
-            <a class="lien-fleche" href="<?= route('contact') ?>" style="margin-top:auto;color:var(--or-sombre);">Réserver en ligne</a>
+            <a class="lien-fleche" href="<?= route('contact') ?>" style="margin-top:auto;">Réserver en ligne</a>
           </div>
         </article>
       <?php endforeach; ?>

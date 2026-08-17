@@ -189,4 +189,68 @@
       });
     });
   }
+
+  /* ---------- Diaporama du bandeau d'accueil ----------
+     Fondu enchaîné d'une photo à l'autre, puis lent mouvement d'approche.
+     Sans JavaScript, la première photo reste affichée : rien n'est cassé. */
+  var diaporama = document.querySelector("[data-diaporama]");
+  if (diaporama) {
+    var vues = [].slice.call(diaporama.querySelectorAll(".heros__photo"));
+    var lent = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (vues.length > 1) {
+      var courante = 0;
+      var minuteur = null;
+      var DUREE = 7000;
+
+      // repères cliquables, annoncés proprement aux lecteurs d'écran
+      var points = document.createElement("div");
+      points.className = "heros__points";
+      points.setAttribute("role", "tablist");
+      points.setAttribute("aria-label", "Photos du domaine");
+      vues.forEach(function (_, i) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.setAttribute("role", "tab");
+        b.setAttribute("aria-label", "Photo " + (i + 1) + " sur " + vues.length);
+        b.setAttribute("aria-current", i === 0 ? "true" : "false");
+        b.addEventListener("click", function () { afficher(i); relancer(); });
+        points.appendChild(b);
+      });
+      diaporama.parentNode.appendChild(points);
+
+      var afficher = function (i) {
+        i = (i + vues.length) % vues.length;
+        if (i === courante) return;
+
+        vues[courante].classList.remove("heros__photo--vue");
+        vues[courante].setAttribute("aria-hidden", "true");
+        vues[courante].removeAttribute("aria-label");
+
+        var suivante = vues[i];
+        // retirer puis remettre la classe relance le mouvement d'approche
+        suivante.classList.remove("heros__photo--vue");
+        void suivante.offsetWidth;
+        suivante.classList.add("heros__photo--vue");
+        suivante.removeAttribute("aria-hidden");
+
+        points.children[courante].setAttribute("aria-current", "false");
+        points.children[i].setAttribute("aria-current", "true");
+        courante = i;
+      };
+
+      var relancer = function () {
+        clearInterval(minuteur);
+        minuteur = setInterval(function () { afficher(courante + 1); }, DUREE);
+      };
+
+      if (!lent) {
+        relancer();
+        // inutile de faire tourner le diaporama quand l'onglet est en veille
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden) { clearInterval(minuteur); } else { relancer(); }
+        });
+      }
+    }
+  }
 })();

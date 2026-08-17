@@ -8,12 +8,28 @@
  * @var App\Core\View $view
  * @var App\Core\Content $content
  */
+use App\Core\Liste;
+
 $site = $content->load('site');
 $resa = $site['reservation'];
 $hero = $page['hero'];
+
+// diaporama : les photos masquées au back-office ne sont pas rendues du tout
+$photos = Liste::publiees(Liste::photos($hero['images'] ?? null, (string) ($hero['image'] ?? '')));
+if ($photos === []) {
+    $photos = [['src' => '', 'actif' => true]];   // repli : visuel d'attente
+}
 ?>
 <section class="heros">
-  <div class="heros__fond" style="background-image:url('<?= image($hero['image']) ?>')"></div>
+  <div class="heros__fond<?= count($photos) > 1 ? ' heros__fond--diaporama' : '' ?>"
+       <?= count($photos) > 1 ? 'data-diaporama' : '' ?>>
+    <?php foreach ($photos as $i => $photo): ?>
+      <div class="heros__photo<?= $i === 0 ? ' heros__photo--vue' : '' ?>"
+           style="background-image:url('<?= image($photo['src']) ?>')"
+           role="img" aria-label="<?= $i === 0 ? e($site['nom'] . ' — ' . $site['baseline']) : '' ?>"
+           <?= $i === 0 ? '' : 'aria-hidden="true"' ?>></div>
+    <?php endforeach; ?>
+  </div>
   <div class="heros__contenu">
     <p class="surtitre surtitre--centre"><?= e($hero['surtitre']) ?></p>
     <h1 class="heros__titre"><?= e($hero['titre']) ?></h1>

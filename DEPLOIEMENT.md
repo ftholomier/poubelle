@@ -244,7 +244,49 @@ d'exploration.
 
 ---
 
-## 8. Points de vigilance
+## 8. Ajouter, masquer, supprimer
+
+Trois listes se gèrent de la même façon, chacune depuis son écran :
+
+| Écran | Ce que vous pilotez |
+|---|---|
+| **Accueil** → *Photos du bandeau* | les photos du diaporama d'accueil |
+| **Hébergements** | les fiches d'hébergement |
+| **Boutique** | les produits en vente directe |
+
+Partout, la même logique :
+
+- **Ajouter** crée l'élément **hors ligne**. Il n'apparaît pas sur le site tant
+  que vous ne l'avez pas mis en ligne : vous pouvez donc le préparer
+  tranquillement. (Une photo ajoutée au bandeau, elle, est visible aussitôt.)
+- **Masquer / mettre hors ligne** le retire du site sans rien perdre — utile
+  pour un produit de saison ou un hébergement en travaux. Il reste modifiable
+  dans l'admin, et son adresse directe renvoie une page introuvable.
+- **Supprimer** l'efface définitivement. **Les photos, elles, restent dans la
+  médiathèque** : rien n'est perdu côté images.
+- **Monter / descendre** change l'ordre d'affichage sur le site.
+
+Deux garde-fous vous empêchent de vider une page par mégarde : le bandeau
+d'accueil garde toujours au moins une photo affichée, et sa dernière photo ne
+peut pas être retirée — remplacez-la plutôt.
+
+### Le diaporama du bandeau
+
+Avec une seule photo, le bandeau se comporte comme avant : la photo s'affiche
+avec un lent mouvement d'approche. Dès la deuxième, il devient un diaporama —
+fondu enchaîné toutes les 7 secondes, mouvement d'approche sur chaque photo, et
+des repères cliquables sous le bandeau.
+
+Préférez des photos **en format paysage, 1920 px de large au minimum** : elles
+occupent tout l'écran. Le site les redimensionne et les optimise à l'envoi.
+
+Le diaporama s'arrête de lui-même quand le visiteur a demandé à son système de
+réduire les animations, et la première photo reste affichée si JavaScript est
+indisponible : la page ne se casse dans aucun cas.
+
+---
+
+## 9. Points de vigilance
 
 **HTTPS** — le `.htaccess` force la redirection vers HTTPS. Activez le
 certificat SSL gratuit dans *cPanel → SSL/TLS Status* avant la mise en ligne,
@@ -264,7 +306,7 @@ exclu de git et ne doit jamais être partagé ni versionné.
 
 ---
 
-## 9. Tester en local avant d'envoyer
+## 10. Tester en local avant d'envoyer
 
 ```bash
 php -S localhost:8080 -t public public/index.php
@@ -276,7 +318,7 @@ façon exempté.
 
 ---
 
-## 10. Mettre à jour le site par FTP
+## 11. Mettre à jour le site par FTP
 
 Une fois le site en ligne, deux natures de fichiers cohabitent : le **code**,
 qui vient du dépôt, et l'**état vivant** du site, qui n'existe que sur le
@@ -336,7 +378,7 @@ diagnostic confirme que les droits d'écriture n'ont pas bougé.
 
 ---
 
-## 11. Mises à jour automatiques par git (recommandé)
+## 12. Mises à jour automatiques par git (recommandé)
 
 Le FTP de la section 9 reste possible, mais l'écran **Mises à jour** du
 back-office fait la même chose sans risque d'erreur de manipulation : il ne
@@ -452,7 +494,7 @@ de toute façon hors de portée de git.
 
 ---
 
-## 12. Droits d'accès
+## 13. Droits d'accès
 
 Trois choses défont les droits sans prévenir : un transfert FTP (qui applique
 les réglages du client FTP), le `umask` du serveur (qui rabote les droits des

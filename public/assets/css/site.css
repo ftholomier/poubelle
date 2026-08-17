@@ -68,6 +68,11 @@
   --or-clair: #e6cd8f;
   --or-pale: #f2dfa4;
   --or-sombre: #a5813a;
+  /* Doré lisible en texte sur fond clair : --or tombe à 2.1:1 sur l'ivoire et
+     --or-sombre à 3.4:1, sous le seuil WCAG AA de 4.5:1. Celui-ci tient
+     5.4:1 sur blanc-doux, 5.0:1 sur ivoire, 4.7:1 sur l'encadré clair.
+     Réservé au texte : filets, puces et bordures gardent --or / --or-sombre. */
+  --or-texte: #7f6124;
   --blanc-doux: #faf7f0;
   --degrade-or: linear-gradient(115deg, #b18a3d 0%, #e6cd8f 30%, #c9a24b 55%, #f2dfa4 80%, #b18a3d 100%);
   --serif: "Playfair Display", "Times New Roman", serif;
@@ -389,12 +394,39 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   padding: calc(var(--entete-h) + 3rem) var(--gouttiere) 5rem;
 }
 .heros--page { min-height: 66svh; padding-bottom: 4rem; }
-.heros__fond {
-  position: absolute; inset: 0; z-index: -2;
+.heros__fond { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.heros__photo {
+  position: absolute; inset: 0;
   background-size: cover; background-position: center;
-  animation: heros-zoom 14s ease-out forwards;
+  opacity: 0; transition: opacity 1.6s ease;
+  will-change: opacity, transform;
 }
+/* Fondu puis lent mouvement d'approche sur la photo affichée. L'animation
+   repart à chaque passage : le JS retire puis remet la classe. */
+.heros__photo--vue { opacity: 1; animation: heros-zoom 14s ease-out forwards; }
 @keyframes heros-zoom { from { transform: scale(1.09); } to { transform: scale(1); } }
+
+/* Sans JavaScript, seule la première photo s'affiche — le bandeau reste
+   correct, il ne défile simplement pas. */
+
+.heros__points {
+  position: absolute; left: 50%; bottom: 6.2rem; transform: translateX(-50%);
+  display: flex; gap: .6rem; z-index: 1;
+}
+.heros__points button {
+  width: 9px; height: 9px; padding: 0; border-radius: 50%;
+  background: rgba(244, 239, 230, .34);
+  border: 1px solid rgba(244, 239, 230, .55);
+  transition: background var(--transition), transform var(--transition);
+}
+.heros__points button[aria-current="true"] { background: var(--or); border-color: var(--or); transform: scale(1.25); }
+.heros__points button:hover { background: var(--or-clair); border-color: var(--or-clair); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* mouvement supprimé : la photo reste nette et fixe */
+  .heros__photo--vue { animation: none; }
+  .heros__photo { transition-duration: .01ms; }
+}
 .heros::after {
   content: ""; position: absolute; inset: 0; z-index: -1;
   background:
@@ -449,6 +481,10 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 .section--noire-2 { background: var(--noir-2); color: var(--ivoire); }
 .section--noire .titre-section, .section--noire-2 .titre-section { color: var(--blanc-doux); }
 .section--ivoire .titre-section { color: var(--encre); }
+/* le doré des sections sombres n'est pas lisible sur l'ivoire */
+.section--ivoire .surtitre,
+.section--ivoire .lien-fleche,
+.section--ivoire .encadre h3 { color: var(--or-texte); }
 
 .section--noire p, .section--noire-2 p { color: rgba(244, 239, 230, .82); }
 
@@ -764,13 +800,21 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 .produit__media { aspect-ratio: 16 / 10; overflow: hidden; }
 .produit__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s ease; }
 .produit:hover .produit__media img { transform: scale(1.05); }
-.produit__corps { padding: 1.6rem 1.6rem 1.8rem; flex: 1; display: flex; flex-direction: column; gap: .7rem; }
-.produit__corps h3 { font-size: 1.4rem; }
+/* Fond clair dans une section sombre : la carte fixe sa propre couleur de
+   texte, sinon titre et listes héritent de l'ivoire de la section et
+   deviennent illisibles (blanc sur blanc). */
+.produit__corps {
+  padding: 1.6rem 1.6rem 1.8rem; flex: 1; display: flex; flex-direction: column; gap: .7rem;
+  color: var(--encre);
+}
+.produit__corps h3 { font-size: 1.4rem; color: var(--encre); }
 .produit__corps > p { font-size: 1.02rem; color: var(--encre-2); }
 .produit__corps ul { display: grid; gap: .35rem; }
 .produit__corps li {
   position: relative; padding-left: 1.4rem; font-size: .98rem;
+  color: var(--encre-2);
 }
+.produit__corps .lien-fleche { color: var(--or-texte); }
 .produit__corps li::before {
   content: "◆"; position: absolute; left: 0; top: .5em;
   font-size: .5rem; color: var(--or-sombre);

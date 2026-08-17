@@ -5,6 +5,8 @@ namespace App\Admin;
 
 use App\Core\Content;
 use App\Core\Csrf;
+use App\Core\Liste;
+use App\Core\Mediatheque;
 use App\Core\Session;
 use App\Core\View;
 use RuntimeException;
@@ -19,7 +21,36 @@ final class EditionController
     public function __construct(
         private readonly View $view,
         private readonly Content $content,
+        private readonly Mediatheque $mediatheque,
     ) {
+    }
+
+    /**
+     * Photo choisie dans la médiathèque, ou envoyée dans la foulée.
+     *
+     * Rend null en ayant posé le message qui explique pourquoi : l'appelant
+     * n'a plus qu'à rediriger. (Relire le flash pour le vérifier le
+     * consommerait, et l'écran n'afficherait plus rien.)
+     */
+    private function photoSoumise(string $champ): ?string
+    {
+        $envoi = $_FILES[$champ] ?? null;
+        if (is_array($envoi) && ($envoi['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+            try {
+                return $this->mediatheque->televerser($envoi);
+            } catch (RuntimeException $e) {
+                Session::flash('erreur', $e->getMessage());
+                return null;
+            }
+        }
+
+        $choix = trim((string) ($_POST[$champ] ?? ''));
+        if ($choix !== '' && $this->mediatheque->existe($choix)) {
+            return $choix;
+        }
+
+        Session::flash('erreur', 'Choisissez une photo de la médiathèque, ou envoyez-en une.');
+        return null;
     }
 
     private function rediriger(string $chemin): string
@@ -95,10 +126,128 @@ final class EditionController
 
     public function accueil(): string
     {
+        $accueil = $this->content->load('pages/accueil');
+
         return $this->view->render('admin/accueil', [
             'page'    => ['titre' => 'Page d\'accueil'],
-            'accueil' => $this->content->load('pages/accueil'),
+            'accueil' => $accueil,
+            'photos'  => self::photosHero($accueil),
+            'medias'  => $this->mediatheque->lister(),
         ], 'admin/layout');
+    }
+
+    /**
+     * Photos du bandeau d'accueil, ramenées à une liste ordonnée.
+     *
+     * @param array<string, mixed> $accueil
+     * @return array<int, array{src: string, actif: bool}>
+     */
+    private static function photosHero(array $accueil): array
+    {
+        return Liste::photos(
+            $accueil['hero']['images'] ?? null,
+            (string) ($accueil['hero']['image'] ?? '')
+        );
+    }
+
+    /**
+     * Enregistre les photos du bandeau. hero.image reste synchronisé sur la
+     * première photo publiée : les partages sociaux et les anciens gabarits
+     * continuent d'y trouver un visuel.
+     *
+     * @param array<int, array{src: string, actif: bool}> $photos
+     */
+    private function enregistrerPhotosHero(array $photos, string $message): string
+    {
+        $accueil = $this->content->load('pages/accueil');
+        $accueil['hero']['images'] = array_values($photos);
+
+        $publiees = Liste::publiees($photos);
+        $accueil['hero']['image'] = (string) (($publiees[0] ?? $photos[0] ?? [])['src'] ?? '');
+
+        $this->content->save('pages/accueil', $accueil);
+        Session::flash($message === '' ? 'erreur' : 'succes', $message);
+
+        return $this->rediriger('/admin/accueil#bandeau');
+    }
+
+    public function heroAjout(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/accueil');
+        }
+
+        $chemin = $this->photoSoumise('photo');
+        if ($chemin === null) {
+            return $this->rediriger('/admin/accueil#bandeau');
+        }
+
+        $photos = self::photosHero($this->content->load('pages/accueil'));
+        foreach ($photos as $photo) {
+            if ($photo['src'] === $chemin) {
+                Session::flash('erreur', 'Cette photo est déjà dans le diaporama.');
+                return $this->rediriger('/admin/accueil#bandeau');
+            }
+        }
+
+        $photos[] = ['src' => $chemin, 'actif' => true];
+        return $this->enregistrerPhotosHero($photos, 'Photo ajoutée au diaporama.');
+    }
+
+    public function heroPublication(int $rang): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/accueil');
+        }
+
+        $photos = self::photosHero($this->content->load('pages/accueil'));
+        [$photos, $enLigne] = Liste::basculer($photos, $rang);
+
+        // un diaporama sans aucune photo laisserait un bandeau noir
+        if (!$enLigne && Liste::publiees($photos) === []) {
+            Session::flash('erreur', 'Gardez au moins une photo affichée : '
+                . 'le bandeau d’accueil serait vide.');
+            return $this->rediriger('/admin/accueil#bandeau');
+        }
+
+        return $this->enregistrerPhotosHero(
+            $photos,
+            $enLigne ? 'Photo affichée dans le diaporama.' : 'Photo masquée du diaporama.'
+        );
+    }
+
+    public function heroOrdre(int $rang): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/accueil');
+        }
+
+        $photos = self::photosHero($this->content->load('pages/accueil'));
+        $sens   = ($_POST['sens'] ?? '') === 'monter' ? -1 : 1;
+
+        return $this->enregistrerPhotosHero(
+            Liste::deplacer($photos, $rang, $sens),
+            'Ordre du diaporama mis à jour.'
+        );
+    }
+
+    public function heroSupprimer(int $rang): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/accueil');
+        }
+
+        $photos = self::photosHero($this->content->load('pages/accueil'));
+        if (count($photos) < 2) {
+            Session::flash('erreur', 'C’est la seule photo du bandeau : remplacez-la '
+                . 'plutôt que de la retirer.');
+            return $this->rediriger('/admin/accueil#bandeau');
+        }
+
+        return $this->enregistrerPhotosHero(
+            Liste::retirer($photos, $rang),
+            'Photo retirée du diaporama. Elle reste dans la médiathèque.'
+        );
     }
 
     public function accueilEnvoi(): string
@@ -445,7 +594,122 @@ final class EditionController
         return $this->view->render('admin/boutique', [
             'page'     => ['titre' => 'Boutique'],
             'boutique' => $this->content->load('pages/boutique'),
+            'medias'   => $this->mediatheque->lister(),
         ], 'admin/layout');
+    }
+
+    /**
+     * Produit vierge, hors ligne le temps d'être complété.
+     *
+     * @return array<string, mixed>
+     */
+    private static function produitVierge(string $nom): array
+    {
+        return [
+            'nom'     => $nom,
+            'image'   => '',
+            'texte'   => '',
+            'details' => [],
+            'actif'   => false,
+        ];
+    }
+
+    public function boutiqueCreer(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/boutique');
+        }
+
+        $nom = trim((string) ($_POST['nom'] ?? ''));
+        if ($nom === '') {
+            Session::flash('erreur', 'Indiquez le nom du produit à créer.');
+            return $this->rediriger('/admin/boutique');
+        }
+
+        $b = $this->content->load('pages/boutique');
+        $b['produits'][] = self::produitVierge($nom);
+        $rang = count($b['produits']) - 1;
+        $this->content->save('pages/boutique', $b);
+
+        Session::flash('succes', $nom . ' a été créé, hors ligne. '
+            . 'Complétez la fiche puis mettez-la en ligne.');
+        return $this->rediriger('/admin/boutique#produit-' . $rang);
+    }
+
+    public function boutiquePublication(int $rang): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/boutique');
+        }
+
+        $b = $this->content->load('pages/boutique');
+        if (!isset($b['produits'][$rang])) {
+            return $this->rediriger('/admin/boutique');
+        }
+
+        [$b['produits'], $enLigne] = Liste::basculer($b['produits'], $rang);
+        $this->content->save('pages/boutique', $b);
+
+        Session::flash('succes', ($b['produits'][$rang]['nom'] ?? 'Le produit')
+            . ($enLigne ? ' est en ligne.' : ' est hors ligne : il disparaît de la boutique.'));
+        return $this->rediriger('/admin/boutique#produit-' . $rang);
+    }
+
+    public function boutiqueSupprimer(int $rang): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/boutique');
+        }
+
+        $b = $this->content->load('pages/boutique');
+        if (!isset($b['produits'][$rang])) {
+            return $this->rediriger('/admin/boutique');
+        }
+
+        $nom = (string) ($b['produits'][$rang]['nom'] ?? 'Le produit');
+        $b['produits'] = Liste::retirer($b['produits'], $rang);
+        $this->content->save('pages/boutique', $b);
+
+        Session::flash('succes', $nom . ' a été supprimé. La photo reste dans la médiathèque.');
+        return $this->rediriger('/admin/boutique');
+    }
+
+    public function boutiqueOrdre(int $rang): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/boutique');
+        }
+
+        $b = $this->content->load('pages/boutique');
+        $sens = ($_POST['sens'] ?? '') === 'monter' ? -1 : 1;
+        $b['produits'] = Liste::deplacer($b['produits'], $rang, $sens);
+        $this->content->save('pages/boutique', $b);
+
+        Session::flash('succes', 'Ordre des produits mis à jour.');
+        return $this->rediriger('/admin/boutique');
+    }
+
+    public function boutiquePhoto(int $rang): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/boutique');
+        }
+
+        $b = $this->content->load('pages/boutique');
+        if (!isset($b['produits'][$rang])) {
+            return $this->rediriger('/admin/boutique');
+        }
+
+        $chemin = $this->photoSoumise('photo');
+        if ($chemin === null) {
+            return $this->rediriger('/admin/boutique#produit-' . $rang);
+        }
+
+        $b['produits'][$rang]['image'] = $chemin;
+        $this->content->save('pages/boutique', $b);
+
+        Session::flash('succes', 'Photo du produit mise à jour.');
+        return $this->rediriger('/admin/boutique#produit-' . $rang);
     }
 
     public function boutiqueEnvoi(): string
@@ -461,7 +725,7 @@ final class EditionController
             if ($nom !== '') {
                 $b['produits'][$i]['nom'] = $nom;
             }
-            $b['produits'][$i]['texte'] = trim((string) ($_POST['produit_texte_' . $i] ?? $produit['texte']));
+            $b['produits'][$i]['texte'] = trim((string) ($_POST['produit_texte_' . $i] ?? ($produit['texte'] ?? '')));
             if (isset($_POST['produit_details_' . $i])) {
                 $b['produits'][$i]['details'] = self::lignes((string) $_POST['produit_details_' . $i]);
             }

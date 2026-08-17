@@ -35,7 +35,7 @@ $mailer      = new Mailer($parametres);
 $deploiement = new Deploiement($config['paths']['root'], $parametres);
 
 $admin   = new AdminController($view, $content, $auth);
-$edition = new EditionController($view, $content);
+$edition = new EditionController($view, $content, $mediatheque);
 $media   = new MediaController($view, $content, $mediatheque);
 $photo   = new PhotoController($view, $content, $mediatheque);
 $majour  = new MiseAJourController($view, $deploiement);
@@ -75,6 +75,12 @@ $router->post('/admin/site',      $protege(fn() => $edition->siteEnvoi()));
 $router->get('/admin/accueil',    $protege(fn() => $edition->accueil()));
 $router->post('/admin/accueil',   $protege(fn() => $edition->accueilEnvoi()));
 
+// diaporama du bandeau d'accueil
+$router->post('/admin/accueil/hero/ajout',                $protege(fn() => $edition->heroAjout()));
+$router->post('/admin/accueil/hero/{rang}/publication',   $protege(fn(array $p) => $edition->heroPublication((int) $p['rang'])));
+$router->post('/admin/accueil/hero/{rang}/ordre',         $protege(fn(array $p) => $edition->heroOrdre((int) $p['rang'])));
+$router->post('/admin/accueil/hero/{rang}/supprimer',     $protege(fn(array $p) => $edition->heroSupprimer((int) $p['rang'])));
+
 $router->get('/admin/hebergements',                $protege(fn() => $edition->hebergements()));
 $router->post('/admin/hebergements/creer',         $protege(fn() => $edition->hebergementCreer()));
 $router->post('/admin/hebergements/{slug}/publication', $protege(fn(array $p) => $edition->hebergementPublication($p['slug'])));
@@ -93,6 +99,11 @@ $router->post('/admin/peche/{slug}',        $protege(fn(array $p) => $edition->e
 
 $router->get('/admin/boutique',   $protege(fn() => $edition->boutique()));
 $router->post('/admin/boutique',  $protege(fn() => $edition->boutiqueEnvoi()));
+$router->post('/admin/boutique/creer',                  $protege(fn() => $edition->boutiqueCreer()));
+$router->post('/admin/boutique/{rang}/publication',     $protege(fn(array $p) => $edition->boutiquePublication((int) $p['rang'])));
+$router->post('/admin/boutique/{rang}/ordre',           $protege(fn(array $p) => $edition->boutiqueOrdre((int) $p['rang'])));
+$router->post('/admin/boutique/{rang}/photo',           $protege(fn(array $p) => $edition->boutiquePhoto((int) $p['rang'])));
+$router->post('/admin/boutique/{rang}/supprimer',       $protege(fn(array $p) => $edition->boutiqueSupprimer((int) $p['rang'])));
 $router->get('/admin/reglement',  $protege(fn() => $edition->reglement()));
 $router->post('/admin/reglement', $protege(fn() => $edition->reglementEnvoi()));
 

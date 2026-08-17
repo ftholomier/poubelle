@@ -576,3 +576,47 @@ button { font: inherit; cursor: pointer; }
 }
 .bo-slug-apercu:empty { display: none; }
 .bo-slug-apercu--vide { color: var(--rouge); font-family: inherit; }
+
+/* ---------- Diaporama du bandeau d'accueil ---------- */
+.bo-diapos {
+  display: grid; gap: .9rem;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}
+.bo-diapo {
+  position: relative; border: 1px solid var(--trait); background: var(--noir);
+}
+.bo-diapo img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+.bo-diapo--masquee img { filter: grayscale(1) brightness(.55); }
+.bo-diapo figcaption { padding: .5rem .6rem; display: grid; gap: .4rem; }
+.bo-diapo__rang { font-size: .74rem; color: var(--texte-2); }
+.bo-diapo__actions { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
+.bo-diapo__actions form { display: flex; gap: .3rem; }
+.bo-diapo__actions form:first-child button {
+  width: 24px; height: 24px; padding: 0; line-height: 1;
+  color: var(--or-clair); background: rgba(244, 239, 230, .05);
+  border: 1px solid var(--trait);
+}
+.bo-diapo__actions form:first-child button:hover:not(:disabled) { background: rgba(201, 162, 75, .18); }
+.bo-diapo__actions button:disabled { opacity: .3; cursor: not-allowed; }
+
+/* ---------- Boutique ---------- */
+.bo-produit { display: flex; gap: 1.1rem; align-items: flex-start; }
+.bo-produit__vignette {
+  width: 128px; aspect-ratio: 16 / 10; object-fit: cover; flex: none;
+  border: 1px solid var(--trait); background: var(--noir);
+}
+.bo-produit__champs { flex: 1; display: grid; gap: 1.1rem; min-width: 0; }
+.bo-hors-ligne { opacity: .68; border-style: dashed; }
+.bo-hors-ligne:focus-within { opacity: 1; }
+.bo-photo-choix { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin-top: .5rem; }
+.bo-photo-choix select, .bo-photo-choix input[type="file"] {
+  font: inherit; font-size: .8rem; padding: .3rem .4rem; max-width: 230px;
+  color: var(--texte-2); background: rgba(244, 239, 230, .05); border: 1px solid var(--trait);
+}
+.bo-btn--mince { padding: .45rem .9rem; font-size: .72rem; }
+.bo-ligne__liens form { display: flex; gap: .8rem; flex-wrap: wrap; }
+
+@media (max-width: 560px) {
+  .bo-produit { flex-direction: column; }
+  .bo-produit__vignette { width: 100%; }
+}
