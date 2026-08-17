@@ -27,16 +27,25 @@ $dateFr = static function (string $iso): string {
         <h2>Installer le site depuis git</h2>
         <p>À faire une seule fois, en SSH. Ensuite les mises à jour se font depuis cet écran.</p>
       </header>
-      <p class="bo-aide-bloc">Depuis le dossier parent du site, récupérez le dépôt dans un dossier
-        temporaire, déplacez le dossier <code>.git</code> dans le site existant, puis
+      <p class="bo-aide-bloc">En SSH, <strong>depuis le dossier du site</strong> (celui qui
+        contient <code>app/</code> et <code>public/</code>), récupérez le dépôt dans un
+        dossier temporaire, déplacez son <code>.git</code> à la racine du site, puis
         alignez le code :</p>
-      <pre class="bo-code">git clone --branch main VOTRE_DEPOT depot-temporaire
+      <pre class="bo-code">cd ~/<var>dossier-du-site</var>
+git clone --branch <var>BRANCHE</var> <var>ADRESSE_DU_DEPOT</var>.git depot-temporaire
 mv depot-temporaire/.git .
 rm -rf depot-temporaire
-git checkout -- $(git ls-files | grep -v '^data/' | grep -v '^public/assets/img/site/')</pre>
-      <p class="bo-aide-bloc">Le contenu déjà en place (<code>data/</code>, photos) reste intact :
-        il apparaîtra simplement comme modifié vis-à-vis du dépôt, ce qui est normal
-        et sans conséquence.</p>
+git checkout -- app config views tools public/index.php public/.htaccess \
+  public/assets/css public/assets/js public/assets/fonts public/assets/img/logo \
+  data/.htaccess storage/.htaccess</pre>
+      <p class="bo-aide-bloc">L'adresse du dépôt est celle qui se termine par
+        <code>.git</code>, pas celle affichée dans la barre du navigateur : une adresse
+        contenant <code>/tree/…</code> n'est pas clonable. Vérifiez aussi le nom exact de
+        la branche.</p>
+      <p class="bo-aide-bloc">La dernière commande ne liste que des chemins de code :
+        <code>data/</code> et les photos envoyées n'y figurent pas et restent donc
+        intacts. Ils apparaîtront simplement comme modifiés vis-à-vis du dépôt, ce qui
+        est normal.</p>
     </section>
   <?php endif; ?>
 <?php else: ?>

@@ -295,16 +295,48 @@ Cette étape se fait en SSH (o2switch fournit un accès SSH dans cPanel), ou
 via *cPanel → Git™ Version Control*. Si le site est déjà en place, on ajoute
 simplement le dépôt par-dessus :
 
+**Le site n'est pas encore en place** — tout vient du dépôt :
+
+```bash
+cd ~
+git clone --branch claude/web-address-analysis-lw79mp \
+  https://github.com/ftholomier/poubelle.git etangfourchu
+cd etangfourchu
+mkdir -p storage/cache data/admin
+```
+
+Puis pointez la racine du document du domaine sur `etangfourchu/public`
+(section 1).
+
+**Le site est déjà en place** (envoyé par FTP) — on greffe le dépôt par
+dessus, sans toucher au contenu :
+
 ```bash
 cd ~/etangfourchu
-git clone --branch main VOTRE_DEPOT depot-temporaire
+git clone --branch claude/web-address-analysis-lw79mp \
+  https://github.com/ftholomier/poubelle.git depot-temporaire
 mv depot-temporaire/.git .
 rm -rf depot-temporaire
+git checkout -- app config views tools public/index.php public/.htaccess \
+  public/assets/css public/assets/js public/assets/fonts public/assets/img/logo \
+  data/.htaccess storage/.htaccess
 ```
+
+La dernière commande aligne le code sur le dépôt. Elle liste explicitement
+les chemins de code : `data/` et `public/assets/img/site/` n'y figurent pas,
+donc le contenu déjà saisi et les photos restent intacts.
+
+> **L'adresse du dépôt est celle qui finit par `.git`**, pas celle affichée
+> dans la barre du navigateur. Une adresse en `/tree/<branche>` sert à
+> naviguer sur GitHub et n'est pas clonable.
 
 Le contenu déjà saisi reste intact ; git le verra simplement comme
 « modifié » par rapport au dépôt, ce qui est le comportement attendu et
 n'a aucune conséquence.
+
+**Dépôt public** : rien de plus à faire, le serveur clone directement.
+Les secrets ne sont de toute façon pas dans le dépôt — `data/admin/`, qui
+contient le mot de passe SMTP et l'empreinte du compte, en est exclu.
 
 **Dépôt privé** : le serveur doit pouvoir s'authentifier. Deux options, au
 choix — une clé SSH de déploiement (`ssh-keygen` sur le serveur, clé publique
