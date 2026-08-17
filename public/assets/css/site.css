@@ -39,6 +39,12 @@
   --magenta-vif: #d9268f;
   --magenta-sombre: #9c1462;
   --magenta-clair: #e984bb;
+  /* Rose des grands chiffres décoratifs (01, 02…) sur fond clair. Ils portent
+     une information — l'ordre — donc ils restent du texte à part entière :
+     --magenta-clair n'y tenait que 2,3:1, sous le seuil de 3:1 des grandes
+     tailles. Celui-ci atteint 3,6:1 en restant nettement plus doux que
+     --magenta. */
+  --magenta-chiffre: #d9569e;
   --rose-pale: #fdf2f8;
   --rose-voile: #f7e2ef;
 
@@ -50,7 +56,10 @@
   --fond: #ffffff;
   --fond-teinte: #faf5f9;
 
-  --degrade-magenta: linear-gradient(120deg, #a8175f 0%, #c51d7f 45%, #e05fa5 100%);
+  /* Dégradé porteur de texte blanc (les initiales des avis) : son extrémité
+     la plus claire doit rester au-dessus de 4,5:1. #e05fa5 y tombait à 3,3:1,
+     #cf2f88 tient 4,8:1 pour un rendu à peine moins lumineux. */
+  --degrade-magenta: linear-gradient(120deg, #a8175f 0%, #c51d7f 55%, #cf2f88 100%);
 
   --titre: "Playfair Display", Georgia, "Times New Roman", serif;
   --texte-police: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -672,7 +681,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 .points__numero {
   flex: 0 0 auto;
   font-family: var(--titre); font-size: 1.5rem;
-  color: var(--magenta-clair);
+  color: var(--magenta-chiffre);
   line-height: 1;
 }
 .points__titre { font-size: 1.16rem; margin-bottom: .35rem; }
@@ -690,7 +699,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 .pilier__media img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
 .pilier__corps { padding: clamp(1.6rem, 3vw, 2.2rem); }
 .pilier__entete { display: flex; align-items: baseline; gap: .8rem; margin-bottom: .7rem; }
-.pilier__numero { font-family: var(--titre); font-size: 1.6rem; color: var(--magenta-clair); line-height: 1; }
+.pilier__numero { font-family: var(--titre); font-size: 1.6rem; color: var(--magenta-chiffre); line-height: 1; }
 .pilier__label {
   font-size: .74rem; font-weight: 700; letter-spacing: .18em;
   text-transform: uppercase; color: var(--magenta);
@@ -751,9 +760,11 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   width: 100%; aspect-ratio: 5 / 4; object-fit: cover;
   border-radius: var(--rayon-carte);
 }
-.valeur__numero {
+/* Sélecteur doublé : la règle « .valeur__texte p » qui suit porte la couleur
+   du corps de texte et l'emporterait sinon sur celle-ci. */
+.valeur__texte .valeur__numero {
   font-family: var(--titre); font-size: 2.4rem;
-  color: var(--rose-voile);
+  color: var(--magenta-chiffre);
   line-height: 1; margin-bottom: .3rem;
 }
 .valeur__titre { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: .9rem; }
