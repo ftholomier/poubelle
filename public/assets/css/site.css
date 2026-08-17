@@ -193,12 +193,18 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.15;
   position: fixed; inset: 0 0 auto 0; z-index: 100;
   height: var(--entete-h);
   display: flex; align-items: center;
-  transition: height var(--transition), background var(--transition), box-shadow var(--transition);
+  transition: height var(--transition), background var(--transition),
+              box-shadow var(--transition), backdrop-filter var(--transition);
   background: linear-gradient(rgba(6, 5, 3, .62), rgba(6, 5, 3, 0));
+  /* flou nul plutôt qu'absent : c'est ce qui rend la transition continue */
+  backdrop-filter: blur(0px);
 }
 .entete--pleine {
-  background: rgba(9, 8, 6, .96);
-  box-shadow: 0 1px 0 rgba(201, 162, 75, .28), 0 12px 34px rgba(0, 0, 0, .45);
+  /* fond translucide sur flou : la photo transparaît sans nuire à la
+     lisibilité, et la bande se détache mieux qu'avec un aplat opaque */
+  background: rgba(9, 8, 6, .68);
+  backdrop-filter: blur(18px) saturate(1.12);
+  box-shadow: 0 1px 0 rgba(201, 162, 75, .28), 0 12px 34px rgba(0, 0, 0, .4);
   height: var(--entete-h-compact);
 }
 .entete__barre {
@@ -214,14 +220,20 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.15;
 .entete__logo {
   position: absolute; left: 50%; top: 6px;
   transform: translateX(-50%);
-  transition: top var(--transition);
+  transition: top var(--transition), transform var(--transition);
 }
 .entete__logo img {
   height: 150px; width: auto;
   transition: height var(--transition);
 }
-.entete--pleine .entete__logo { top: 10px; }
-.entete--pleine .entete__logo img { height: 48px; }
+/* Une fois la barre compacte, le logo se centre sur elle. Un décalage fixe
+   depuis le haut ne pouvait pas y parvenir : le repère est .entete__barre,
+   dont la hauteur dépend de son contenu. */
+.entete--pleine .entete__logo {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.entete--pleine .entete__logo img { height: 56px; }
 
 .entete__droite { display: flex; align-items: center; gap: 1.6rem; }
 .entete__tel {
@@ -1062,8 +1074,9 @@ body.menu-ouvert .panneau__pied {
   /* Trop peu de place entre le burger et le bouton pour un logo centré sur
      la fenêtre : on le remet dans le flux, le flex garantit l'espacement. */
   .entete__logo { position: static; transform: none; }
+  .entete--pleine .entete__logo { transform: none; }
   .entete__logo img { height: 56px; }
-  .entete--pleine .entete__logo img { height: 42px; }
+  .entete--pleine .entete__logo img { height: 44px; }
   .resa__btn { padding: .85rem 1.2rem; letter-spacing: .18em; }
   .heros__actions .btn { width: 100%; }
 }
