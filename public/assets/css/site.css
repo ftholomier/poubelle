@@ -281,31 +281,64 @@ body.menu-ouvert .burger span:nth-child(2) { opacity: 0; width: 0; }
 body.menu-ouvert .burger span:nth-child(3) { transform: rotate(-45deg) translateY(2px); }
 
 /* ---------- Panneau de navigation (glisse depuis la gauche) ---------- */
+/* ---------- Ouverture du panneau de navigation ----------
+   L'arrivée est lente et décélérée, en couches qui se recouvrent : le voile
+   s'épaissit, le panneau glisse et se révèle, son arête dorée s'allume, puis
+   les liens montent un à un. La fermeture, elle, est brève et sans décalage —
+   on soigne l'entrée, pas la sortie. */
+
 .voile {
   position: fixed; inset: 0; z-index: 190;
-  background: rgba(4, 3, 2, .6);
-  backdrop-filter: blur(3px);
+  background: radial-gradient(ellipse at 20% 50%, rgba(4, 3, 2, .5), rgba(4, 3, 2, .78));
+  backdrop-filter: blur(0px) saturate(1);
   opacity: 0; visibility: hidden;
-  transition: opacity .5s ease, visibility .5s ease;
+  transition: opacity .45s ease, visibility .45s ease, backdrop-filter .45s ease;
 }
-body.menu-ouvert .voile { opacity: 1; visibility: visible; }
+body.menu-ouvert .voile {
+  opacity: 1; visibility: visible;
+  backdrop-filter: blur(6px) saturate(.85);
+  transition: opacity .9s ease, visibility .9s ease, backdrop-filter 1s ease;
+}
 
 .panneau {
   position: fixed; top: 0; bottom: 0; left: 0; z-index: 200;
   width: min(460px, 92vw);
   background: linear-gradient(160deg, #12100c 0%, #0c0b09 60%, #0f0d0a 100%);
-  border-right: 1px solid rgba(201, 162, 75, .3);
+  border-right: 1px solid rgba(201, 162, 75, 0);
+  box-shadow: none;
   transform: translateX(-102%);
-  transition: transform .6s cubic-bezier(.77, 0, .18, 1);
+  opacity: .35;
+  transition: transform .42s cubic-bezier(.4, 0, .2, 1),
+              opacity .3s ease,
+              border-color .3s ease,
+              box-shadow .3s ease;
   display: flex; flex-direction: column;
   overflow-y: auto; overscroll-behavior: contain;
 }
-body.menu-ouvert .panneau { transform: translateX(0); }
+body.menu-ouvert .panneau {
+  transform: translateX(0);
+  opacity: 1;
+  /* l'arête dorée s'allume une fois le panneau posé */
+  border-right-color: rgba(201, 162, 75, .34);
+  box-shadow: 30px 0 90px -30px rgba(2, 2, 1, .85);
+  /* courbe expo-out : élan franc, puis dépose lente */
+  transition: transform .95s cubic-bezier(.16, 1, .3, 1),
+              opacity .5s ease,
+              border-color .7s ease .35s,
+              box-shadow .9s ease;
+}
 
 .panneau__tete {
   display: flex; align-items: center; justify-content: space-between;
   padding: 1.4rem clamp(1.4rem, 5vw, 2.6rem);
   border-bottom: 1px solid rgba(201, 162, 75, .18);
+  /* descend en place juste après le panneau */
+  opacity: 0; transform: translateY(-12px);
+  transition: opacity .25s ease, transform .25s ease;
+}
+body.menu-ouvert .panneau__tete {
+  opacity: 1; transform: none;
+  transition: opacity .7s ease .2s, transform .8s cubic-bezier(.16, 1, .3, 1) .2s;
 }
 /* Logo complet, or clair en aplat : l'emblème seul se perdait sur le fond
    très sombre du panneau. */
@@ -362,21 +395,40 @@ body.menu-ouvert .panneau { transform: translateX(0); }
 }
 .panneau__sous a:hover { color: var(--or-clair); border-color: var(--or); padding-left: 2.8rem; }
 
-/* apparition étagée des liens */
-.panneau__corps > * { opacity: 0; transform: translateX(-26px); transition: opacity .5s ease, transform .5s ease; }
-body.menu-ouvert .panneau__corps > * { opacity: 1; transform: none; }
-body.menu-ouvert .panneau__corps > :nth-child(1) { transition-delay: .16s; }
-body.menu-ouvert .panneau__corps > :nth-child(2) { transition-delay: .22s; }
-body.menu-ouvert .panneau__corps > :nth-child(3) { transition-delay: .28s; }
-body.menu-ouvert .panneau__corps > :nth-child(4) { transition-delay: .34s; }
-body.menu-ouvert .panneau__corps > :nth-child(5) { transition-delay: .4s; }
-body.menu-ouvert .panneau__corps > :nth-child(6) { transition-delay: .46s; }
-body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
+/* Apparition étagée des liens : ils se lèvent en venant de la gauche, dans
+   le prolongement du glissement du panneau, à un rythme régulier. */
+.panneau__corps > * {
+  opacity: 0; transform: translate3d(-22px, 10px, 0);
+  transition: opacity .22s ease, transform .22s ease;
+}
+body.menu-ouvert .panneau__corps > * {
+  opacity: 1; transform: none;
+  transition: opacity .75s ease, transform .85s cubic-bezier(.16, 1, .3, 1);
+}
+body.menu-ouvert .panneau__corps > :nth-child(1) { transition-delay: .26s; }
+body.menu-ouvert .panneau__corps > :nth-child(2) { transition-delay: .33s; }
+body.menu-ouvert .panneau__corps > :nth-child(3) { transition-delay: .40s; }
+body.menu-ouvert .panneau__corps > :nth-child(4) { transition-delay: .47s; }
+body.menu-ouvert .panneau__corps > :nth-child(5) { transition-delay: .54s; }
+body.menu-ouvert .panneau__corps > :nth-child(6) { transition-delay: .61s; }
+body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .68s; }
+
+/* le numéro dore un instant après son libellé */
+.panneau__num { opacity: 0; transition: opacity .2s ease; }
+body.menu-ouvert .panneau__num { opacity: 1; transition: opacity .9s ease .55s; }
+
 
 .panneau__pied {
   padding: 1.6rem clamp(1.4rem, 5vw, 2.6rem) 2rem;
   border-top: 1px solid rgba(201, 162, 75, .18);
   display: grid; gap: .9rem;
+  /* dernier à entrer, une fois la liste posée */
+  opacity: 0; transform: translateY(16px);
+  transition: opacity .22s ease, transform .22s ease;
+}
+body.menu-ouvert .panneau__pied {
+  opacity: 1; transform: none;
+  transition: opacity .8s ease .62s, transform .9s cubic-bezier(.16, 1, .3, 1) .62s;
 }
 .panneau__pied .btn { display: block; }
 .panneau__coordonnees {
@@ -1135,4 +1187,20 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 @media (max-width: 900px) {
   /* le sélecteur reste dans le panneau, où il y a la place */
   .langues--entete { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* mise en place immédiate : un simple fondu, aucun déplacement */
+  .panneau, .panneau__tete, .panneau__corps > *, .panneau__pied, .panneau__num,
+  body.menu-ouvert .panneau, body.menu-ouvert .panneau__tete,
+  body.menu-ouvert .panneau__corps > *, body.menu-ouvert .panneau__pied,
+  body.menu-ouvert .panneau__num {
+    transition-duration: .15s; transition-delay: 0s;
+  }
+  /* :nth-child(n) porte la même spécificité que les règles d'étagement
+     ci-dessus, et vient après : c'est ce qui annule leurs délais. */
+  body.menu-ouvert .panneau__corps > :nth-child(n) {
+    transition-delay: 0s; transition-duration: .15s;
+  }
+  .panneau__corps > *, .panneau__tete, .panneau__pied { transform: none; }
 }
