@@ -56,11 +56,17 @@ final class AvisController
             $cle = (string) ($actuel['avis']['cle_api'] ?? '');
         }
 
+        $pause = (int) ($_POST['pause'] ?? 6);
+
         $actuel['avis'] = [
             'actif'     => isset($_POST['actif']),
             'cle_api'   => $cle,
             'place_id'  => trim((string) ($_POST['place_id'] ?? '')),
             'note_mini' => max(1, min(5, (int) ($_POST['note_mini'] ?? 4))),
+            // 0 conserve son sens : défilement automatique à l'arrêt
+            'pause'     => $pause <= 0 ? 0 : max(3, min(30, $pause)),
+            'dates'     => isset($_POST['dates']),
+            'total'     => isset($_POST['total']),
         ];
 
         try {

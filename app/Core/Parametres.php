@@ -45,6 +45,9 @@ final class Parametres
             'cle_api'   => '',
             'place_id'  => '',
             'note_mini' => 4,             // les avis en dessous ne sont pas affichés
+            'pause'     => 6,             // secondes entre deux avis ; 0 = défilement à l'arrêt
+            'dates'     => true,          // afficher la date de parution de chaque avis
+            'total'     => true,          // afficher « sur N avis » à côté de la note
         ],
     ];
 

@@ -156,6 +156,179 @@
     reveles.forEach(function (el) { obs.observe(el); });
   })();
 
+  /* ---------- Carrousel des avis ----------
+     Les avis défilent de la droite vers la gauche, marquent une pause, puis
+     reviennent au début d'un seul mouvement une fois le dernier atteint.
+
+     Le défilement natif de la piste sert de moteur : le script ne fait que
+     l'animer. Sans lui, la piste reste parcourable au doigt, à la molette et
+     au clavier — les avis suivants ne deviennent jamais inaccessibles. */
+  (function () {
+    var carrousel = document.querySelector("[data-avis]");
+    if (!carrousel) return;
+
+    var piste = carrousel.querySelector(".avis__piste");
+    var cartes = [].slice.call(carrousel.querySelectorAll(".avis__carte"));
+    var commandes = carrousel.querySelector("[data-avis-commandes]");
+    var boutonPrec = carrousel.querySelector("[data-avis-prec]");
+    var boutonSuiv = carrousel.querySelector("[data-avis-suiv]");
+    var points = [].slice.call(carrousel.querySelectorAll("[data-avis-point]"));
+    if (!piste || !cartes.length) return;
+
+    var DUREE_PAS = 600;
+    /* Le retour parcourt toute la piste : à durée égale il paraîtrait
+       précipité, d'où ce temps plus long. */
+    var DUREE_RETOUR = 950;
+    var MARGE = 4;   // tolérance d'arrondi sur les positions de défilement
+
+    var pause = (parseInt(carrousel.getAttribute("data-pause"), 10) || 0) * 1000;
+    var lent = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var minuteur = null;
+    var animation = null;
+    var suspendu = false;
+
+    function maxDefilement() { return piste.scrollWidth - piste.clientWidth; }
+    function deborde() { return maxDefilement() > MARGE; }
+
+    /* Position de gauche de chaque carte, relative à la première. */
+    function positions() {
+      var base = cartes[0].offsetLeft;
+      return cartes.map(function (c) { return c.offsetLeft - base; });
+    }
+
+    /* Carte la plus proche du bord gauche : c'est elle que la pastille
+       active désigne. */
+    function indexCourant() {
+      var p = positions(), x = piste.scrollLeft, rang = 0, ecart = Infinity;
+      for (var i = 0; i < p.length; i++) {
+        var d = Math.abs(p[i] - x);
+        if (d < ecart) { ecart = d; rang = i; }
+      }
+      return rang;
+    }
+
+    function allerA(x, duree) {
+      if (animation) { cancelAnimationFrame(animation); animation = null; }
+
+      x = Math.max(0, Math.min(x, maxDefilement()));
+      var depart = piste.scrollLeft;
+      var delta = x - depart;
+      if (Math.abs(delta) < 1) return;
+
+      // mouvement réduit demandé : on saute, sans animer
+      if (lent || !duree) { piste.scrollLeft = x; majEtat(); return; }
+
+      var t0 = null;
+      animation = requestAnimationFrame(function pas(t) {
+        if (t0 === null) t0 = t;
+        var p = Math.min(1, (t - t0) / duree);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        piste.scrollLeft = depart + delta * e;
+        animation = p < 1 ? requestAnimationFrame(pas) : null;
+      });
+    }
+
+    function avancer() {
+      var p = positions();
+      var i = indexCourant();
+      // dernier avis atteint : retour au début, d'un seul mouvement
+      if (piste.scrollLeft >= maxDefilement() - MARGE || i + 1 >= p.length) {
+        allerA(0, DUREE_RETOUR);
+      } else {
+        allerA(p[i + 1], DUREE_PAS);
+      }
+    }
+
+    function majEtat() {
+      var p = positions();
+      var max = maxDefilement();
+      var i = indexCourant();
+
+      /* Une pastille par position réellement atteignable, et non par avis :
+         avec quatre avis dont trois tiennent à l'écran, la piste ne s'arrête
+         qu'à deux endroits. Quatre pastilles dont deux inertes laisseraient
+         croire à un défilement bloqué. */
+      points.forEach(function (b, rang) {
+        var atteignable = p[rang] <= max + MARGE;
+        b.hidden = !atteignable;
+        if (atteignable && rang === i) { b.setAttribute("aria-current", "true"); }
+        else { b.removeAttribute("aria-current"); }
+      });
+      if (boutonPrec) boutonPrec.disabled = piste.scrollLeft <= MARGE;
+      if (boutonSuiv) boutonSuiv.disabled = piste.scrollLeft >= maxDefilement() - MARGE;
+
+      var utile = deborde();
+      if (commandes) commandes.hidden = !utile;
+      // sans débordement, la piste n'a rien à faire dans l'ordre de tabulation
+      piste.setAttribute("tabindex", utile ? "0" : "-1");
+    }
+
+    function arreter() { clearInterval(minuteur); minuteur = null; }
+
+    function relancer() {
+      arreter();
+      if (suspendu || lent || pause <= 0 || !deborde()) return;
+      minuteur = setInterval(avancer, pause);
+    }
+
+    // --- commandes manuelles -------------------------------------------
+    // Les flèches ne bouclent pas : à la différence du défilement
+    // automatique, une commande volontaire ne doit pas envoyer à l'autre
+    // bout de la piste sans prévenir.
+    if (boutonSuiv) {
+      boutonSuiv.addEventListener("click", function () {
+        var p = positions(), i = indexCourant();
+        if (i + 1 < p.length) allerA(p[i + 1], DUREE_PAS);
+        relancer();
+      });
+    }
+    if (boutonPrec) {
+      boutonPrec.addEventListener("click", function () {
+        var p = positions(), i = indexCourant();
+        if (i > 0) allerA(p[i - 1], DUREE_PAS);
+        relancer();
+      });
+    }
+    points.forEach(function (b) {
+      b.addEventListener("click", function () {
+        var rang = parseInt(b.getAttribute("data-avis-point"), 10) || 0;
+        allerA(positions()[rang], DUREE_PAS);
+        relancer();
+      });
+    });
+
+    // --- la lecture prime sur le défilement -----------------------------
+    ["mouseenter", "pointerdown", "focusin"].forEach(function (ev) {
+      carrousel.addEventListener(ev, function () { suspendu = true; arreter(); });
+    });
+    ["mouseleave", "focusout"].forEach(function (ev) {
+      carrousel.addEventListener(ev, function () { suspendu = false; relancer(); });
+    });
+    piste.addEventListener("touchend", function () { suspendu = false; relancer(); }, { passive: true });
+
+    var enCours = false;
+    piste.addEventListener("scroll", function () {
+      if (enCours) return;
+      enCours = true;
+      requestAnimationFrame(function () { majEtat(); enCours = false; });
+    }, { passive: true });
+
+    // inutile de faire défiler un onglet que personne ne regarde
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) { arreter(); } else { relancer(); }
+    });
+
+    var redimension = null;
+    window.addEventListener("resize", function () {
+      clearTimeout(redimension);
+      redimension = setTimeout(function () { majEtat(); relancer(); }, 200);
+    });
+
+    majEtat();
+    relancer();
+  })();
+
   /* ---------- Consentement aux cookies ----------
      Rien n'est déposé ni chargé avant un choix explicite. Les scripts et
      contenus soumis à consentement sont écrits en <script type="text/plain">

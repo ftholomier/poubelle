@@ -81,6 +81,37 @@ final class Avis
         return (float) $this->parametres->get('avis.note_mini', 4);
     }
 
+    /**
+     * Temps d'affichage d'un avis avant de passer au suivant, en secondes.
+     *
+     * Borné : en deçà de trois secondes un avis n'a pas le temps d'être lu,
+     * au-delà de trente le défilement ne se remarque plus. 0 arrête le
+     * défilement automatique — les flèches et le glissement restent actifs.
+     */
+    public function pause(): int
+    {
+        $pause = (int) $this->parametres->get('avis.pause', 6);
+
+        return $pause <= 0 ? 0 : max(3, min(30, $pause));
+    }
+
+    /** La date de parution est-elle affichée sous le nom de l'auteur ? */
+    public function datesVisibles(): bool
+    {
+        return (bool) $this->parametres->get('avis.dates', true);
+    }
+
+    /**
+     * Le nombre total d'avis accompagne-t-il la note moyenne ?
+     *
+     * Un cabinet qui débute affiche un 5,0 flatteur mais un total modeste :
+     * pouvoir ne montrer que la note évite de souligner le second.
+     */
+    public function totalVisible(): bool
+    {
+        return (bool) $this->parametres->get('avis.total', true);
+    }
+
     // ------------------------------------------------------------------ lecture
 
     /**

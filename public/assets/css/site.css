@@ -829,15 +829,82 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 .avis__etoile--pleine { color: #f5a623; }
 .avis__total { font-size: .93rem; color: var(--texte-doux); }
 
-.avis__liste { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+/* ---------- Carrousel ----------
+   La piste défile nativement : sans JavaScript elle reste parcourable au
+   doigt, à la molette et au clavier, et le script ne fait que piloter ce
+   même défilement. Une transformation CSS aurait rendu les avis suivants
+   inaccessibles dès que le script ne se charge pas. */
+.avis__carrousel { position: relative; }
+
+.avis__piste {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* la marge intérieure laisse respirer l'ombre des cartes, que le
+     débordement masqué couperait net */
+  padding: 6px 2px 1.4rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.avis__piste::-webkit-scrollbar { display: none; }
+.avis__piste:focus-visible { outline: 2px solid var(--magenta); outline-offset: 4px; border-radius: 4px; }
+
 .avis__carte {
   display: flex; flex-direction: column;
+  /* trois cartes visibles, les gouttières déduites */
+  flex: 0 0 calc((100% - 3rem) / 3);
+  scroll-snap-align: start;
   background: #fff;
   border: 1px solid var(--ligne);
   border-radius: var(--rayon-carte);
   padding: clamp(1.5rem, 3vw, 2rem);
   box-shadow: var(--ombre-carte);
 }
+
+/* ---------- Commandes du carrousel ---------- */
+.avis__commandes {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.2rem;
+  margin-top: .6rem;
+}
+.avis__commandes[hidden] { display: none; }
+
+.avis__fleche {
+  display: grid; place-items: center;
+  width: 44px; height: 44px; flex: 0 0 auto;
+  border: 1px solid var(--ligne);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--magenta);
+  transition: background var(--transition), color var(--transition),
+              border-color var(--transition), opacity var(--transition);
+}
+.avis__fleche::before {
+  content: "";
+  width: 9px; height: 9px;
+  border-left: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(1px, -1px);
+}
+.avis__fleche--suiv::before { transform: rotate(225deg) translate(1px, -1px); }
+.avis__fleche:hover:not(:disabled) { background: var(--magenta); color: #fff; border-color: var(--magenta); }
+/* Désactivée plutôt que masquée : une commande qui disparaît déplace les
+   autres, et la cible du clic se dérobe sous le curseur. */
+.avis__fleche:disabled { opacity: .35; cursor: default; }
+
+.avis__points { display: flex; align-items: center; gap: .5rem; }
+/* Le script masque les pastilles sans position atteignable ; sans cette
+   règle, le display:flex du parent l'emporterait sur l'attribut hidden. */
+.avis__point[hidden] { display: none; }
+.avis__point {
+  width: 9px; height: 9px; padding: 0;
+  border-radius: 50%;
+  background: var(--rose-voile);
+  border: 0;
+  transition: background var(--transition), width var(--transition);
+}
+.avis__point:hover { background: var(--magenta-clair); }
+.avis__point[aria-current="true"] { background: var(--magenta); width: 26px; border-radius: 99px; }
 .avis__entete { display: flex; align-items: center; gap: .9rem; margin-bottom: 1rem; }
 /* Médaillon d'initiales : la photo de profil Google est volontairement
    écartée, elle relancerait une requête vers un domaine tiers. */
@@ -1295,7 +1362,7 @@ a.coordonnees__valeur:hover { color: var(--magenta); }
 
 @media (max-width: 1024px) {
   .cartes--services { grid-template-columns: repeat(2, 1fr); }
-  .avis__liste { grid-template-columns: 1fr; }
+  .avis__carte { flex-basis: calc((100% - 1.5rem) / 2); }
   .contact { grid-template-columns: 1fr; }
   .pied__haut { grid-template-columns: 1fr 1fr; }
 }
@@ -1324,6 +1391,7 @@ a.coordonnees__valeur:hover { color: var(--magenta); }
 
   .valeurs-apercu { grid-template-columns: repeat(2, 1fr); }
   .cartes--clients { grid-template-columns: repeat(2, 1fr); }
+  .avis__carte { flex-basis: 100%; }
 
   .formulaire { grid-template-columns: 1fr; }
   .heros { min-height: 540px; }

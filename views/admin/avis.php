@@ -95,6 +95,43 @@ $cleEnregistree = ($reglages['cle_api'] ?? '') !== '';
     </div>
   </fieldset>
 
+  <fieldset>
+    <legend>Présentation</legend>
+
+    <div class="bo-champ">
+      <label for="a-pause">Temps de pause entre deux avis</label>
+      <input id="a-pause" type="number" name="pause" min="0" max="30" step="1"
+             value="<?= e((int) ($reglages['pause'] ?? 6)) ?>">
+      <p class="bo-aide">
+        En secondes. Les avis défilent de la droite vers la gauche, marquent cette
+        pause, puis reviennent au début une fois le dernier atteint.
+        <strong>0 arrête le défilement automatique</strong> : les flèches, les
+        pastilles et le glissement du doigt restent actifs.
+        En dehors de 0, la valeur est ramenée entre 3 et 30 secondes — en deçà un avis
+        n’a pas le temps d’être lu, au-delà le défilement ne se remarque plus.
+      </p>
+    </div>
+
+    <label class="bo-case">
+      <input type="checkbox" name="dates" value="1"<?= !empty($reglages['dates']) ? ' checked' : '' ?>>
+      Afficher la date de parution sous le nom de l’auteur
+    </label>
+    <p class="bo-aide">
+      Décochez si vos avis les plus élogieux datent un peu : la date reste visible sur
+      votre fiche Google, mais n’attire plus l’œil sur le site.
+    </p>
+
+    <label class="bo-case">
+      <input type="checkbox" name="total" value="1"<?= !empty($reglages['total']) ? ' checked' : '' ?>>
+      Afficher le nombre total d’avis à côté de la note
+    </label>
+    <p class="bo-aide">
+      Coché : « 4,8 ★★★★★ sur 27 avis Google ». Décoché, seule la note et son
+      échelle restent : « 4,8 ★★★★★ sur 5 — avis Google ». Utile tant que les avis
+      sont peu nombreux, une moyenne excellente pesant plus qu’un total modeste.
+    </p>
+  </fieldset>
+
   <button class="bo-btn" type="submit">Enregistrer et récupérer les avis</button>
 </form>
 

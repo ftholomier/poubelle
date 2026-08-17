@@ -366,6 +366,26 @@ récupérés dans la foulée et l'écran affiche ce qui a été reçu.
 le site. Gardez à l'esprit que cela ne les efface pas de votre fiche Google
 publique.
 
+### Présentation
+
+Trois réglages, dans le bloc *Présentation* du même écran :
+
+| Réglage | Effet |
+|---|---|
+| **Temps de pause** | Secondes pendant lesquelles un avis reste affiché avant que le carrousel n'avance. Les avis défilent de la droite vers la gauche, puis reviennent au début d'un seul mouvement une fois le dernier atteint. **0 arrête le défilement automatique** ; les flèches, les pastilles et le glissement du doigt continuent de fonctionner. Hors 0, la valeur est ramenée entre 3 et 30 secondes. |
+| **Date de parution** | Masque la date sous le nom de l'auteur. Utile quand les avis les plus élogieux datent un peu : la date reste visible sur votre fiche Google, mais n'attire plus l'œil sur le site. |
+| **Nombre total d'avis** | Coché : « 4,8 ★★★★★ sur 27 avis Google ». Décoché, seule la note et son échelle subsistent : « 4,8 ★★★★★ sur 5 — avis Google ». Utile tant que les avis sont peu nombreux. |
+
+Le défilement s'interrompt dès que le visiteur survole le carrousel, y place le
+curseur au clavier ou y pose le doigt : un avis ne se dérobe jamais en cours de
+lecture. Il s'arrête également quand l'onglet passe en arrière-plan, et ne
+démarre pas du tout chez un visiteur ayant demandé à son système de réduire les
+animations.
+
+Le nombre de pastilles suit les positions réellement atteignables, et non le
+nombre d'avis : avec quatre avis dont trois tiennent à l'écran, la piste ne
+s'arrête qu'à deux endroits, donc deux pastilles.
+
 ### Si ça ne marche pas
 
 L'écran affiche le motif exact du refus de Google, et ce qu'il faut corriger.
