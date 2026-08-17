@@ -31,13 +31,16 @@ $dateFr = static function (string $iso): string {
         contient <code>app/</code> et <code>public/</code>), récupérez le dépôt dans un
         dossier temporaire, déplacez son <code>.git</code> à la racine du site, puis
         alignez le code :</p>
-      <pre class="bo-code">cd ~/<var>dossier-du-site</var>
-git clone --branch <var>BRANCHE</var> <var>ADRESSE_DU_DEPOT</var>.git depot-temporaire
-mv depot-temporaire/.git .
-rm -rf depot-temporaire
+      <pre class="bo-code">cd ~/<var>dossier-du-site</var> &amp;&amp; test -f app/bootstrap.php &amp;&amp; \
+git clone --branch <var>BRANCHE</var> <var>ADRESSE_DU_DEPOT</var>.git depot-temporaire &amp;&amp; \
+mv depot-temporaire/.git . &amp;&amp; rm -rf depot-temporaire &amp;&amp; \
 git checkout -- app config views tools public/index.php public/.htaccess \
   public/assets/css public/assets/js public/assets/fonts public/assets/img/logo \
   data/.htaccess storage/.htaccess</pre>
+      <p class="bo-aide-bloc"><strong>Les commandes sont enchaînées par <code>&amp;&amp;</code> à
+        dessein.</strong> Si le dossier n'existe pas ou n'est pas celui du site, rien ne
+        s'exécute — sans quoi un <code>cd</code> qui échoue transformerait votre
+        répertoire personnel en dépôt git.</p>
       <p class="bo-aide-bloc">L'adresse du dépôt est celle qui se termine par
         <code>.git</code>, pas celle affichée dans la barre du navigateur : une adresse
         contenant <code>/tree/…</code> n'est pas clonable. Vérifiez aussi le nom exact de

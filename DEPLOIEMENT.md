@@ -292,10 +292,11 @@ chemins de code.
 ### Installer le dépôt une fois
 
 Cette étape se fait en SSH (o2switch fournit un accès SSH dans cPanel), ou
-via *cPanel → Git™ Version Control*. Si le site est déjà en place, on ajoute
-simplement le dépôt par-dessus :
+via *cPanel → Git™ Version Control*. Deux situations selon que le site est
+déjà installé ou non.
 
-**Le site n'est pas encore en place** — tout vient du dépôt :
+**Cas 1 — le site n'est pas encore en place.** C'est le cas le plus simple :
+tout vient du dépôt, en une commande.
 
 ```bash
 cd ~
@@ -308,15 +309,16 @@ mkdir -p storage/cache data/admin
 Puis pointez la racine du document du domaine sur `etangfourchu/public`
 (section 1).
 
-**Le site est déjà en place** (envoyé par FTP) — on greffe le dépôt par
-dessus, sans toucher au contenu :
+**Cas 2 — le site est déjà en place** (envoyé par FTP). On greffe le dépôt
+par dessus, sans toucher au contenu. Les commandes sont **enchaînées par
+`&&`** à dessein : si le dossier n'existe pas ou n'est pas celui du site,
+rien ne s'exécute.
 
 ```bash
-cd ~/etangfourchu
+cd ~/etangfourchu && test -f app/bootstrap.php && \
 git clone --branch claude/web-address-analysis-lw79mp \
-  https://github.com/ftholomier/poubelle.git depot-temporaire
-mv depot-temporaire/.git .
-rm -rf depot-temporaire
+  https://github.com/ftholomier/poubelle.git depot-temporaire && \
+mv depot-temporaire/.git . && rm -rf depot-temporaire && \
 git checkout -- app config views tools public/index.php public/.htaccess \
   public/assets/css public/assets/js public/assets/fonts public/assets/img/logo \
   data/.htaccess storage/.htaccess
@@ -325,6 +327,12 @@ git checkout -- app config views tools public/index.php public/.htaccess \
 La dernière commande aligne le code sur le dépôt. Elle liste explicitement
 les chemins de code : `data/` et `public/assets/img/site/` n'y figurent pas,
 donc le contenu déjà saisi et les photos restent intacts.
+
+> **Ne lancez jamais ces commandes depuis votre répertoire personnel.**
+> Sans le garde-fou ci-dessus, un `cd` qui échoue laisse les commandes
+> suivantes s'exécuter dans `~` : votre répertoire personnel devient un
+> dépôt git et se retrouve rempli des fichiers du site. Voir *Réparer une
+> installation dans le mauvais dossier* en fin de section.
 
 > **L'adresse du dépôt est celle qui finit par `.git`**, pas celle affichée
 > dans la barre du navigateur. Une adresse en `/tree/<branche>` sert à
@@ -424,3 +432,28 @@ Le site s'en occupe seul :
 Le bouton **Réparer les droits** remet tout l'arbre aux valeurs ci-dessus. Si
 des refus apparaissent, c'est que les fichiers concernés appartiennent à un
 autre compte système — dans ce cas seulement, il faut passer par SSH.
+
+### Réparer une installation dans le mauvais dossier
+
+Si les commandes ont été lancées depuis `~`, le répertoire personnel contient
+maintenant un dossier `.git` et une partie des fichiers du site. Le site n'y
+fonctionne pas — le contenu et les photos manquent — et le dépôt git à cet
+endroit est gênant : toute commande git lancée depuis `~` par la suite
+s'appliquerait à l'ensemble du répertoire personnel.
+
+Vérifiez d'abord ce qui s'y trouve :
+
+```bash
+cd ~ && ls -la
+```
+
+Vous devez y voir `app`, `config`, `data`, `public`, `storage`, `tools`,
+`views` et `.git`, à côté de vos dossiers habituels (`public_html`, `mail`,
+`etc`, `logs`…). **Ces sept dossiers et le `.git` sont les seuls à retirer** —
+ne touchez à rien d'autre :
+
+```bash
+cd ~ && rm -rf .git app config data public storage tools views
+```
+
+Reprenez ensuite au **cas 1** ci-dessus.
