@@ -24,6 +24,7 @@ $menu = [
   ['/admin/galerie',      'Galerie'],
   ['/admin/avance',       'Éditeur avancé'],
   ['/admin/parametres',   'Paramètres'],
+  ['/admin/mises-a-jour', 'Mises à jour'],
 ];
 ?>
 <!doctype html>

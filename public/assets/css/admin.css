@@ -352,3 +352,41 @@ button { font: inherit; cursor: pointer; }
 .bo-diag .ok { color: var(--vert); }
 .bo-diag .ko { color: var(--rouge); font-weight: 600; }
 .bo-diag .neutre { color: var(--texte-2); }
+
+/* ---------- Mises à jour ---------- */
+.bo-message--attention {
+  color: #e2c37a; border-color: rgba(226, 195, 122, .45);
+  background: rgba(226, 195, 122, .08);
+}
+.bo-aide-bloc { font-size: .9rem; color: var(--texte-2); margin-bottom: .9rem; }
+.bo-code {
+  padding: .9rem 1.1rem; overflow-x: auto;
+  background: var(--noir); border: 1px solid var(--trait);
+  font-family: ui-monospace, Consolas, monospace; font-size: .8rem;
+  color: var(--texte-2); line-height: 1.7; white-space: pre-wrap; word-break: break-word;
+}
+.bo-version { display: grid; gap: .5rem; margin-bottom: 1.3rem; }
+.bo-version > div { display: flex; gap: 1rem; font-size: .9rem; }
+.bo-version dt { color: var(--texte-2); min-width: 150px; }
+.bo-version dd { color: var(--texte); }
+.bo-version code, .bo-zone__tete code {
+  font-family: ui-monospace, Consolas, monospace; font-size: .88em;
+  color: var(--or-clair);
+}
+.bo-commits { list-style: none; display: grid; gap: .5rem; margin-bottom: 1.3rem; }
+.bo-commits li {
+  display: flex; align-items: baseline; gap: .9rem; flex-wrap: wrap;
+  padding: .6rem .8rem; background: var(--noir); border: 1px solid var(--trait);
+  font-size: .88rem;
+}
+.bo-commits code { color: var(--or); font-family: ui-monospace, Consolas, monospace; font-size: .82rem; }
+.bo-commits .sujet { flex: 1; min-width: 220px; color: var(--texte); }
+.bo-commits .date { color: var(--texte-2); font-size: .8rem; white-space: nowrap; }
+.bo-sauvegardes-liste { list-style: none; display: grid; gap: .5rem; }
+.bo-sauvegardes-liste li {
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  padding: .6rem .8rem; background: var(--noir); border: 1px solid var(--trait);
+  font-size: .88rem;
+}
+.bo-sauvegardes-liste .date { flex: 1; min-width: 160px; color: var(--texte); }
+.bo-sauvegardes-liste .taille { color: var(--texte-2); font-size: .82rem; }

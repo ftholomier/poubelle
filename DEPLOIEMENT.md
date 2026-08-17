@@ -270,3 +270,79 @@ Videz le cache de votre navigateur, ou ouvrez le site en navigation privée :
 les CSS et JS portent une empreinte de version, mais les gabarits peuvent
 rester en cache côté navigateur. Puis vérifiez l'écran *Paramètres* — le
 diagnostic confirme que les droits d'écriture n'ont pas bougé.
+
+---
+
+## 10. Mises à jour automatiques par git (recommandé)
+
+Le FTP de la section 9 reste possible, mais l'écran **Mises à jour** du
+back-office fait la même chose sans risque d'erreur de manipulation : il ne
+peut pas toucher au contenu, parce qu'il ne remplace qu'une liste fermée de
+chemins de code.
+
+### Installer le dépôt une fois
+
+Cette étape se fait en SSH (o2switch fournit un accès SSH dans cPanel), ou
+via *cPanel → Git™ Version Control*. Si le site est déjà en place, on ajoute
+simplement le dépôt par-dessus :
+
+```bash
+cd ~/etangfourchu
+git clone --branch main VOTRE_DEPOT depot-temporaire
+mv depot-temporaire/.git .
+rm -rf depot-temporaire
+```
+
+Le contenu déjà saisi reste intact ; git le verra simplement comme
+« modifié » par rapport au dépôt, ce qui est le comportement attendu et
+n'a aucune conséquence.
+
+**Dépôt privé** : le serveur doit pouvoir s'authentifier. Deux options, au
+choix — une clé SSH de déploiement (`ssh-keygen` sur le serveur, clé publique
+ajoutée en *Deploy key* côté dépôt), ou une adresse HTTPS contenant un jeton
+d'accès en lecture seule. L'écran affiche l'adresse du dépôt sans le jeton.
+
+### Utiliser
+
+1. **Mises à jour → Vérifier les mises à jour** : le site interroge le dépôt
+   et liste ce qui n'est pas encore installé, avec la description de chaque
+   changement.
+2. **Appliquer la mise à jour** : une archive du contenu et des photos est
+   créée, puis seuls les fichiers de code sont remplacés.
+
+### Ce que la mise à jour remplace, et ce qu'elle ne touche jamais
+
+| Remplacé | Jamais touché |
+|---|---|
+| `app/` `config/` `views/` `tools/` | `data/` (tout le contenu) |
+| `public/index.php` `public/.htaccess` | `data/admin/` (compte, réglages SMTP) |
+| `public/assets/css` `js` `fonts` `img/logo` | `public/assets/img/site/` (photos) |
+| `data/.htaccess` `storage/.htaccess` | `storage/` (sauvegardes) |
+| `README.md` `DEPLOIEMENT.md` | |
+
+`data/.htaccess` et `storage/.htaccess` sont dans la liste des fichiers
+remplacés : ce sont des protections, pas du contenu.
+
+Si une version modifie aussi des fichiers de contenu dans le dépôt, l'écran
+le signale avant d'appliquer — ces modifications sont **ignorées**, et le
+champ éventuellement attendu s'ajoute depuis l'Éditeur avancé.
+
+### Revenir en arrière
+
+Chaque mise à jour archive `data/` et les photos dans
+`storage/deploiements/` (les 10 dernières sont conservées). Le bouton
+**Restaurer** remet le contenu de l'archive choisie, sans toucher au code —
+et archive l'état courant au passage.
+
+Pour revenir en arrière sur le **code**, il suffit de repointer le dépôt sur
+la version précédente en SSH (`git checkout <référence>`), le contenu restant
+de toute façon hors de portée de git.
+
+### Si l'écran affiche un blocage
+
+- *proc_open désactivée* : l'hébergement interdit l'exécution de commandes.
+  Rien à faire côté site, il faut passer par FTP.
+- *git introuvable* : demander l'activation à l'hébergeur.
+- *dossier .git absent* : le site a été installé par FTP, suivre la marche à
+  suivre affichée à l'écran.
+- *authentification refusée* : dépôt privé sans clé ni jeton, voir plus haut.
