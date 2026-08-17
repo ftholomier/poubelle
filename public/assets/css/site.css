@@ -425,18 +425,22 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 /* Sans JavaScript, seule la première photo s'affiche — le bandeau reste
    correct, il ne défile simplement pas. */
 
-/* Filet de progression du diaporama. Posé sur l'arête basse du bandeau, il
-   ne recouvre aucun texte — contrairement aux pastilles qu'il remplace, qui
-   tombaient sur le mot « Découvrir ». */
+/* Filet de progression du diaporama : un court trait centré sur l'arête basse
+   du bandeau. Volontairement ténu — il indique qu'une photo suit, sans jamais
+   attirer l'œil ni recouvrir le mot « Découvrir », ce que faisaient les
+   pastilles qu'il remplace. */
 .heros__minuteur {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
-  height: 2px; overflow: hidden;
-  background: rgba(244, 239, 230, .12);
+  position: absolute; left: 50%; bottom: 0; z-index: 1;
+  transform: translateX(-50%);
+  width: 88px; height: 1px; overflow: hidden;
+  background: rgba(244, 239, 230, .1);
 }
 .heros__minuteur span {
   display: block; width: 100%; height: 100%;
-  background: linear-gradient(90deg, rgba(201, 162, 75, .35), var(--or));
-  transform: scaleX(0); transform-origin: left center;
+  /* dégradé qui s'éteint aux deux bouts : pas d'arête franche */
+  background: linear-gradient(90deg,
+    rgba(201, 162, 75, 0), rgba(201, 162, 75, .55) 45%, rgba(201, 162, 75, 0));
+  transform: scaleX(0); transform-origin: center;
 }
 .heros__minuteur--court span {
   animation: heros-minuteur var(--heros-pause, 7s) linear forwards;
