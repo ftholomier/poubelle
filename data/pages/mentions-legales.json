@@ -1,0 +1,78 @@
+{
+    "titre": "Mentions légales",
+    "meta": {
+        "description": "Mentions légales du site du Cabinet Villard, expertise comptable à Colombier Fontaine (25260)."
+    },
+    "hero": {
+        "surtitre": "Cabinet Villard",
+        "titre": "Mentions légales"
+    },
+    "sections": [
+        {
+            "titre": "Éditeur du site",
+            "paragraphes": [
+                "Dénomination : CABINET VILLARD",
+                "Directrice de la publication : Emmanuelle VILLARD, expert-comptable et commissaire aux comptes",
+                "Siège social : 3 rue du 16 novembre 1944, 25260 Colombier Fontaine, France",
+                "Numéro SIRET : 508 697 059 00022",
+                "Téléphone : 03 81 97 60 43",
+                "Le cabinet est inscrit au Tableau de l'Ordre des experts-comptables et Emmanuelle VILLARD est inscrite sur la liste des commissaires aux comptes. (À compléter : conseil régional de rattachement et numéro d'inscription.)"
+            ]
+        },
+        {
+            "titre": "Hébergement",
+            "paragraphes": [
+                "Le site est hébergé par o2switch, SAS au capital de 100 000 €, 222-224 boulevard Gustave Flaubert, 63000 Clermont-Ferrand, France. Téléphone : 04 44 44 60 40."
+            ]
+        },
+        {
+            "titre": "Protection des données personnelles",
+            "paragraphes": [
+                "Conformément au Règlement général sur la protection des données (RGPD) et à la loi n° 78-17 du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation et d'opposition sur les informations personnelles vous concernant.",
+                "Les données transmises par le formulaire de contact servent uniquement à traiter votre demande. Elles ne sont ni cédées, ni louées, ni transmises à des tiers, à titre gratuit comme onéreux, et sont conservées le temps nécessaire au traitement de la demande puis à la durée de prescription applicable.",
+                "Ce droit s'exerce en adressant un message par l'intermédiaire du formulaire de contact du site, ou par courrier au siège du cabinet, en indiquant les informations dont la modification ou la suppression est souhaitée. Vous pouvez également introduire une réclamation auprès de la CNIL."
+            ]
+        },
+        {
+            "titre": "Cookies",
+            "paragraphes": [
+                "Le site ne dépose aucun traceur publicitaire. Seuls les cookies strictement nécessaires à son fonctionnement (session, sécurité des formulaires, mémorisation de votre choix de consentement) sont déposés sans votre accord, conformément aux recommandations de la CNIL.",
+                "Les éventuels cookies de mesure d'audience ne sont déposés qu'après votre accord explicite, révocable à tout moment depuis le lien « Gestion des cookies » en pied de page."
+            ]
+        },
+        {
+            "titre": "Avis clients",
+            "paragraphes": [
+                "Les avis affichés sur ce site proviennent de la fiche Google du cabinet. Ils sont récupérés par le serveur, puis affichés tels quels : ils ne sont ni sélectionnés manuellement, ni modifiés, ni rémunérés. Aucune donnée de navigation n'est transmise à Google du fait de leur affichage."
+            ]
+        },
+        {
+            "titre": "Responsabilité des utilisateurs",
+            "paragraphes": [
+                "L'utilisateur s'engage à utiliser les services proposés sur le site de façon loyale et honnête, et conformément à leur destination.",
+                "L'utilisateur s'engage à utiliser les services proposés sur le site pour ses seuls besoins et s'interdit d'en faire commerce auprès de tiers."
+            ]
+        },
+        {
+            "titre": "Propriété intellectuelle",
+            "paragraphes": [
+                "L'ensemble des informations, textes, illustrations et éléments graphiques figurant sur ce site est fourni par la directrice de la publication et protégé au titre du droit d'auteur.",
+                "La distribution, la modification ou la reproduction, partielle ou totale, de ce site sont interdites sans accord préalable écrit de la directrice de la publication.",
+                "Les bases de données constituées par le site sont sa propriété exclusive et sont protégées par les dispositions du Code de la propriété intellectuelle ainsi que par la directive européenne du 11 mars 1996 sur la protection juridique des bases de données. Leur extraction et leur réutilisation, en totalité ou en partie, sont interdites."
+            ]
+        },
+        {
+            "titre": "Liens vers le site",
+            "paragraphes": [
+                "Tout lien hypertexte pointant vers ce site depuis un autre site doit faire l'objet d'une autorisation expresse et préalable de la directrice de la publication.",
+                "Toute demande de lien peut être adressée par l'intermédiaire du formulaire de contact du site."
+            ]
+        },
+        {
+            "titre": "Médiation de la consommation",
+            "paragraphes": [
+                "Conformément à l'article L. 612-1 du Code de la consommation, tout client consommateur peut recourir gratuitement à un médiateur de la consommation en vue de la résolution amiable d'un litige. (À compléter : coordonnées du médiateur désigné par le cabinet.)"
+            ]
+        }
+    ]
+}

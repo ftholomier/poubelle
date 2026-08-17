@@ -1,0 +1,69 @@
+{
+  "titre": "Accueil",
+  "meta": {
+    "description": "Cabinet d'expertise comptable à Colombier Fontaine (25), fondé en 2008 par Emmanuelle Villard, expert-comptable et commissaire aux comptes. Comptabilité, audit, social et conseil."
+  },
+  "hero": {
+    "image": "assets/img/site/hero-cabinet.jpg",
+    "surtitre": "Cabinet Villard — Expertise comptable",
+    "titre": "Prenez soin de votre activité",
+    "texte": "Nous accompagnons vos projets avec rigueur et précision. Des solutions concrètes pour sécuriser vos décisions et optimiser vos performances.",
+    "bouton_principal": { "libelle": "Nous rencontrer", "url": "/contact" },
+    "bouton_secondaire": { "libelle": "Nos services", "url": "/nos-services" }
+  },
+  "indicateurs": {
+    "items": [
+      { "valeur": "99", "unite": "%", "libelle": "Dossiers maîtrisés" },
+      { "valeur": "92", "unite": "%", "libelle": "Satisfaction client" },
+      { "valeur": "200", "unite": "+", "libelle": "Clients accompagnés" },
+      { "valeur": "2008", "unite": "", "libelle": "Cabinet fondé en" }
+    ]
+  },
+  "services": {
+    "surtitre": "Nos services",
+    "titre": "Nous accompagnons chaque dimension de votre activité",
+    "texte": "De la tenue quotidienne de vos comptes aux décisions qui engagent l'avenir de votre entreprise, un interlocuteur unique vous suit tout au long de l'année.",
+    "lien": { "libelle": "Découvrir nos services", "url": "/nos-services" }
+  },
+  "cabinet": {
+    "surtitre": "Le cabinet",
+    "titre": "Depuis 2008, nous guidons les entreprises avec exigence et expertise",
+    "image": "assets/img/site/cabinet-equipe.jpg",
+    "paragraphes": [
+      "Fondé par Emmanuelle Villard, expert-comptable et commissaire aux comptes, le cabinet propose un accompagnement complet en comptabilité, audit, conseil et gestion, avec une approche rigoureuse et personnalisée.",
+      "Une équipe engagée, des outils modernes et une organisation certifiée ISO 9001 pour garantir des prestations fiables et répondre aux exigences de chaque client dans un environnement en constante évolution."
+    ],
+    "points": [
+      {
+        "numero": "01",
+        "titre": "Une expertise reconnue et certifiée",
+        "texte": "Un accompagnement rigoureux assuré par des professionnels diplômés, pour garantir la fiabilité de vos décisions et de vos obligations."
+      },
+      {
+        "numero": "02",
+        "titre": "Un suivi personnalisé et durable",
+        "texte": "Une relation de proximité pour comprendre vos enjeux et vous proposer des solutions adaptées à chaque étape de votre activité."
+      }
+    ],
+    "lien": { "libelle": "Découvrir le cabinet", "url": "/le-cabinet" }
+  },
+  "valeurs": {
+    "surtitre": "Ce qui nous guide",
+    "titre": "Nos valeurs",
+    "texte": "Cinq principes qui guident notre manière de travailler et la relation que nous construisons avec chaque client.",
+    "lien": { "libelle": "Toutes nos valeurs", "url": "/nos-valeurs" }
+  },
+  "serenite": {
+    "surtitre": "Prendre rendez-vous",
+    "titre": "Pilotez votre activité en toute sérénité",
+    "texte": "Bénéficiez d'un accompagnement expert pour structurer, sécuriser et développer votre entreprise. Des solutions adaptées à vos enjeux pour optimiser votre gestion et vos performances.",
+    "image": "assets/img/site/serenite.jpg",
+    "chiffre": "+200 clients accompagnés",
+    "legende": "Un cabinet engagé à vos côtés pour vous accompagner à chaque étape de votre développement.",
+    "arguments": [
+      "Un accompagnement sur mesure pour répondre aux enjeux spécifiques de votre activité",
+      "Des solutions fiables en comptabilité, fiscalité et gestion",
+      "Une expertise reconnue au service de votre développement"
+    ]
+  }
+}
