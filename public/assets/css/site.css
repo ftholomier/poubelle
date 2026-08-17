@@ -430,7 +430,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
    attirer l'œil ni recouvrir le mot « Découvrir », ce que faisaient les
    pastilles qu'il remplace. */
 .heros__minuteur {
-  position: absolute; left: 50%; bottom: 1.1rem; z-index: 1;
+  position: absolute; left: 50%; bottom: 0; z-index: 1;
   transform: translateX(-50%);
   width: min(240px, 42vw); height: 2px;
   background: rgba(244, 239, 230, .16);
@@ -484,8 +484,10 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   display: flex; flex-direction: column; align-items: center; gap: .7rem;
   font-family: var(--garamond); font-size: .72rem; font-weight: 600;
   letter-spacing: .34em; text-transform: uppercase; color: var(--or-clair);
-  /* zone de clic confortable sans décaler le repère visuel */
-  padding: .6rem 1.4rem 0; margin-inline: -1.4rem;
+  /* Zone de clic confortable. Le rembourrage est symétrique et l'élément est
+     centré par translateX(-50%) : rien ne se décale, et la marge négative
+     qui prétendait le compenser le décalait au contraire de 1.4rem. */
+  padding: .6rem 1.4rem 0;
   transition: color var(--transition), opacity var(--transition);
 }
 .heros__defiler:hover { color: var(--ivoire); opacity: .9; }
