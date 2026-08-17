@@ -234,6 +234,15 @@ en `translateY(10px)` font apparaître puis disparaître l'ascenseur pendant
 l'animation. Préférer un décalage horizontal, ou un flou qui se dissipe : ni
 l'un ni l'autre ne touche à la mise en page.
 
+**Envelopper du HTML existant dans une fonction d'échappement double
+l'échappement.** En passant les textes des gabarits sous `t('…')` par script,
+une entité déjà écrite en HTML — `Lodges &amp; Gîte` — s'est retrouvée dans la
+chaîne source, puis a été ré-échappée par `e()` : le visiteur lisait
+`Lodges &amp; Gîte`. Le texte source doit être du texte, jamais du HTML ;
+l'échappement est le travail du gabarit. Après correction, penser à renommer
+la clé correspondante dans `data/traductions/*.json`, sinon la traduction
+devient orpheline.
+
 **`iconv('ASCII//TRANSLIT')` dépend de la locale du serveur.** Sous locale `C`
 ou `POSIX`, « hébergement » devient « h?bergement » et le slug « h-bergement ».
 La translittération est faite par une table explicite.

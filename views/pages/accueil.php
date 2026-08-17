@@ -98,7 +98,7 @@ $pause = max(3, min(30, (int) ($hero['pause'] ?? 7)));   // secondes par photo
   <div class="conteneur">
     <div class="centre">
       <p class="surtitre surtitre--centre reveler"><?= e(t('Hébergements')) ?></p>
-      <h2 class="titre-section reveler"><?= e(t('Lodges &amp; Gîte de charme')) ?></h2>
+      <h2 class="titre-section reveler"><?= e(t('Lodges & Gîte de charme')) ?></h2>
       <hr class="filet-or filet-or--centre">
     </div>
     <div class="cartes">
