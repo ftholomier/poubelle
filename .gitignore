@@ -1,4 +1,6 @@
 storage/cache/*
 !storage/cache/.gitkeep
+storage/sauvegardes/
+data/admin/
 .DS_Store
 *.tmp

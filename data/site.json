@@ -1,55 +1,85 @@
 {
-  "nom": "Étang Fourchu",
-  "baseline": "Nature & Loisirs",
-  "titre_seo": "Étang Fourchu | Lodges, Pêche & Ferme Bio à Florimont (90)",
-  "accroche": "Profitez d'un séjour d'exception au Domaine de l'Étang Fourchu à Florimont (90). Idéalement situé en Territoire de Belfort, proche de l'Alsace, notre domaine propose la location de lodges avec jacuzzi, un étang de pêche à la carpe no-kill et la vente directe de produits bio à la ferme.",
-  "adresse": {
-    "rue": "Écarts de la Chapelle",
-    "cp": "90100",
-    "ville": "Florimont",
-    "pays": "France"
-  },
-  "contact": {
-    "telephone": "07 44 96 73 10",
-    "email": ""
-  },
-  "reservation": {
-    "hebergement": {
-      "libelle": "Réservez votre hébergement",
-      "url": "https://secure.reservit.com/engine/booking/2/436676/dates"
+    "nom": "Étang Fourchu",
+    "baseline": "Nature & Loisirs",
+    "titre_seo": "Étang Fourchu | Lodges, Pêche & Ferme Bio à Florimont (90)",
+    "accroche": "Profitez d'un séjour d'exception au Domaine de l'Étang Fourchu à Florimont (90). Idéalement situé en Territoire de Belfort, proche de l'Alsace, notre domaine propose la location de lodges avec jacuzzi, un étang de pêche à la carpe no-kill et la vente directe de produits bio à la ferme.",
+    "adresse": {
+        "rue": "Écarts de la Chapelle",
+        "cp": "90100",
+        "ville": "Florimont",
+        "pays": "France"
     },
-    "etang": {
-      "libelle": "Réservez votre étang",
-      "url": "https://secure.reservit.com/rsl/booking/indexmodal.php?customerid=2350"
+    "contact": {
+        "telephone": "07 44 96 73 10",
+        "email": ""
+    },
+    "reservation": {
+        "hebergement": {
+            "libelle": "Réservez votre hébergement",
+            "url": "https://secure.reservit.com/engine/booking/2/436676/dates"
+        },
+        "etang": {
+            "libelle": "Réservez votre étang",
+            "url": "https://secure.reservit.com/rsl/booking/indexmodal.php?customerid=2350"
+        }
+    },
+    "menu": [
+        {
+            "libelle": "Accueil",
+            "url": "/"
+        },
+        {
+            "libelle": "Hébergements",
+            "url": "/hebergements",
+            "sous_menu": [
+                {
+                    "libelle": "Lodge Carélie",
+                    "url": "/hebergements/lodge-carelie"
+                },
+                {
+                    "libelle": "Lodge L'Indus",
+                    "url": "/hebergements/lodge-lindus"
+                },
+                {
+                    "libelle": "Le Gîte",
+                    "url": "/hebergements/le-gite"
+                }
+            ]
+        },
+        {
+            "libelle": "Pêche",
+            "url": "/peche",
+            "sous_menu": [
+                {
+                    "libelle": "L'Étang Fourchu",
+                    "url": "/peche/etang-fourchu"
+                },
+                {
+                    "libelle": "L'Étang Florimont",
+                    "url": "/peche/etang-florimont"
+                },
+                {
+                    "libelle": "Règlement général",
+                    "url": "/reglement-general"
+                }
+            ]
+        },
+        {
+            "libelle": "Boutique",
+            "url": "/boutique"
+        },
+        {
+            "libelle": "Galerie",
+            "url": "/galerie"
+        },
+        {
+            "libelle": "Contact",
+            "url": "/contact"
+        }
+    ],
+    "pied": {
+        "seo": "Profitez d'un séjour d'exception au Domaine de l'Étang Fourchu à Florimont (90). Idéalement situé en Territoire de Belfort, proche de l'Alsace, notre domaine propose la location de lodges avec jacuzzi, un étang de pêche à la carpe no-kill et la vente directe de produits bio à la ferme.",
+        "proche_de": "Proche de : Delle, Belfort (90), Montbéliard, Héricourt, Altkirch, Mulhouse (Alsace), Porrentruy (Suisse), ainsi que du Ballon d'Alsace et de l'axe Franche-Comté / Haut-Rhin.",
+        "copyright": "© 2026 Étang Fourchu | Tous droits réservés"
     }
-  },
-  "menu": [
-    { "libelle": "Accueil", "url": "/" },
-    {
-      "libelle": "Hébergements",
-      "url": "/hebergements",
-      "sous_menu": [
-        { "libelle": "Lodge Carélie", "url": "/hebergements/lodge-carelie" },
-        { "libelle": "Lodge L'Indus", "url": "/hebergements/lodge-lindus" },
-        { "libelle": "Le Gîte", "url": "/hebergements/le-gite" }
-      ]
-    },
-    {
-      "libelle": "Pêche",
-      "url": "/peche",
-      "sous_menu": [
-        { "libelle": "L'Étang Fourchu", "url": "/peche/etang-fourchu" },
-        { "libelle": "L'Étang Florimont", "url": "/peche/etang-florimont" },
-        { "libelle": "Règlement général", "url": "/reglement-general" }
-      ]
-    },
-    { "libelle": "Boutique", "url": "/boutique" },
-    { "libelle": "Galerie", "url": "/galerie" },
-    { "libelle": "Contact", "url": "/contact" }
-  ],
-  "pied": {
-    "seo": "Profitez d'un séjour d'exception au Domaine de l'Étang Fourchu à Florimont (90). Idéalement situé en Territoire de Belfort, proche de l'Alsace, notre domaine propose la location de lodges avec jacuzzi, un étang de pêche à la carpe no-kill et la vente directe de produits bio à la ferme.",
-    "proche_de": "Proche de : Delle, Belfort (90), Montbéliard, Héricourt, Altkirch, Mulhouse (Alsace), Porrentruy (Suisse), ainsi que du Ballon d'Alsace et de l'axe Franche-Comté / Haut-Rhin.",
-    "copyright": "© 2026 Étang Fourchu | Tous droits réservés"
-  }
 }

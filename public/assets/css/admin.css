@@ -1,0 +1,256 @@
+/* ==========================================================================
+   Back-office Étang Fourchu — noir & or, sobre et fonctionnel.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Playfair Display";
+  src: url("../fonts/playfair-display-latin-600-normal.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("../fonts/cormorant-garamond-latin-500-normal.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  --noir: #0c0b09;
+  --noir-2: #14120e;
+  --noir-3: #1d1a15;
+  --trait: rgba(201, 162, 75, .25);
+  --or: #c9a24b;
+  --or-clair: #e6cd8f;
+  --ivoire: #f4efe6;
+  --texte: #e9e3d6;
+  --texte-2: rgba(233, 227, 214, .62);
+  --serif: "Playfair Display", serif;
+  --rouge: #d98a8a;
+  --vert: #a9c98a;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body.bo {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: .95rem; line-height: 1.55;
+  background: var(--noir); color: var(--texte);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--or-clair); text-decoration: none; }
+a:hover { color: var(--or); }
+img { max-width: 100%; display: block; }
+button { font: inherit; cursor: pointer; }
+
+:focus { outline: none; }
+:focus-visible { outline: 1px solid var(--or); outline-offset: 2px; }
+
+/* ---------- Écrans d'accès ---------- */
+.bo--centre {
+  min-height: 100svh; display: grid; place-items: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(ellipse at top, rgba(201, 162, 75, .09), transparent 55%),
+    var(--noir);
+}
+.bo-carte-acces {
+  width: min(420px, 100%);
+  background: var(--noir-2);
+  border: 1px solid var(--trait);
+  padding: 2.6rem 2.4rem;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, .5);
+}
+.bo-carte-acces__logo { height: 120px; width: auto; margin: 0 auto 1.8rem; }
+.bo-carte-acces h1 {
+  font-family: var(--serif); font-weight: 600;
+  font-size: 1.35rem; text-align: center; color: var(--ivoire);
+  margin-bottom: 1.6rem;
+}
+.bo-carte-acces p.intro { color: var(--texte-2); text-align: center; margin: -.8rem 0 1.6rem; font-size: .9rem; }
+
+/* ---------- Cadre général ---------- */
+.bo-cadre { display: grid; grid-template-columns: 250px 1fr; min-height: 100svh; }
+
+.bo-lateral {
+  background: var(--noir-2);
+  border-right: 1px solid var(--trait);
+  display: flex; flex-direction: column;
+  position: sticky; top: 0; height: 100svh;
+  padding: 1.6rem 0;
+}
+.bo-lateral__logo { padding: 0 1.6rem 1.4rem; border-bottom: 1px solid var(--trait); }
+.bo-lateral__logo img { height: 96px; width: auto; margin-inline: auto; }
+.bo-lateral__nav { flex: 1; padding: 1.2rem 0; overflow-y: auto; }
+.bo-lateral__nav a {
+  display: block; padding: .62rem 1.6rem;
+  color: var(--texte-2); letter-spacing: .02em;
+  border-left: 2px solid transparent;
+  transition: color .25s, background .25s, border-color .25s;
+}
+.bo-lateral__nav a:hover { color: var(--or-clair); background: rgba(201, 162, 75, .06); }
+.bo-lateral__nav a[aria-current="page"] {
+  color: var(--or-clair); border-left-color: var(--or);
+  background: rgba(201, 162, 75, .1);
+}
+.bo-lateral__pied {
+  padding: 1.2rem 1.6rem 0; border-top: 1px solid var(--trait);
+  display: grid; gap: .7rem; font-size: .88rem;
+}
+.bo-lateral__pied button {
+  background: none; border: 1px solid var(--trait); color: var(--texte-2);
+  padding: .5rem .9rem; width: 100%;
+  transition: color .25s, border-color .25s;
+}
+.bo-lateral__pied button:hover { color: var(--rouge); border-color: var(--rouge); }
+
+.bo-principal { padding: 2.2rem clamp(1.4rem, 4vw, 3rem) 4rem; max-width: 1080px; }
+
+.bo-entete {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+  border-bottom: 1px solid var(--trait);
+  padding-bottom: 1.2rem; margin-bottom: 1.8rem;
+}
+.bo-entete h1 { font-family: var(--serif); font-weight: 600; font-size: 1.7rem; color: var(--ivoire); }
+.bo-entete__qui { font-size: .82rem; color: var(--texte-2); }
+
+/* ---------- Messages ---------- */
+.bo-message {
+  padding: .85rem 1.1rem; margin-bottom: 1.6rem;
+  border: 1px solid; font-size: .92rem;
+}
+.bo-message--succes { color: var(--vert); border-color: rgba(169, 201, 138, .4); background: rgba(169, 201, 138, .07); }
+.bo-message--erreur { color: var(--rouge); border-color: rgba(217, 138, 138, .4); background: rgba(217, 138, 138, .07); }
+
+/* ---------- Formulaires ---------- */
+.bo-form { display: grid; gap: 1.3rem; }
+.bo-form fieldset {
+  border: 1px solid var(--trait);
+  padding: 1.5rem 1.5rem 1.7rem;
+  display: grid; gap: 1.1rem;
+}
+.bo-form legend {
+  font-family: var(--serif); font-weight: 600;
+  color: var(--or-clair); padding: 0 .6rem; font-size: 1.05rem;
+}
+.bo-rangee { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+
+.bo-champ label {
+  display: block; margin-bottom: .35rem;
+  font-size: .78rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--or);
+}
+.bo-champ .aide { display: block; margin-top: .3rem; font-size: .8rem; color: var(--texte-2); }
+.bo-champ input, .bo-champ textarea, .bo-champ select {
+  width: 100%; padding: .65rem .8rem;
+  font: inherit; color: var(--ivoire);
+  background: rgba(244, 239, 230, .05);
+  border: 1px solid var(--trait);
+  transition: border-color .25s, background .25s;
+}
+.bo-champ textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+.bo-champ textarea.code {
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  font-size: .84rem; min-height: 420px; white-space: pre; tab-size: 2;
+}
+.bo-champ input:focus, .bo-champ textarea:focus, .bo-champ select:focus {
+  outline: none; border-color: var(--or);
+  background: rgba(244, 239, 230, .08);
+}
+.bo-champ .erreur { display: block; margin-top: .35rem; color: var(--rouge); font-size: .85rem; }
+
+.bo-btn {
+  display: inline-block;
+  background: var(--or); color: var(--noir);
+  border: 1px solid var(--or);
+  font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  font-size: .78rem; padding: .8rem 1.7rem;
+  transition: background .25s, transform .25s;
+  justify-self: start;
+}
+.bo-btn:hover { background: var(--or-clair); transform: translateY(-1px); }
+.bo-btn--contour {
+  background: transparent; color: var(--or-clair);
+  border-color: var(--trait);
+}
+.bo-btn--contour:hover { background: rgba(201, 162, 75, .1); }
+.bo-btn--danger { background: transparent; color: var(--rouge); border-color: rgba(217, 138, 138, .4); }
+.bo-btn--danger:hover { background: rgba(217, 138, 138, .1); }
+.bo-btn--petit { padding: .45rem .9rem; font-size: .7rem; }
+
+/* ---------- Tableau de bord ---------- */
+.bo-stats {
+  display: grid; gap: 1.1rem;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  margin-bottom: 2rem;
+}
+.bo-stat {
+  display: block; padding: 1.4rem 1.5rem;
+  background: var(--noir-2); border: 1px solid var(--trait);
+  transition: border-color .25s, transform .25s;
+}
+.bo-stat:hover { border-color: var(--or); transform: translateY(-2px); }
+.bo-stat strong {
+  display: block; font-family: var(--serif); font-size: 2rem;
+  color: var(--or-clair); line-height: 1.2;
+}
+.bo-stat span { color: var(--texte-2); font-size: .88rem; }
+
+.bo-raccourcis { display: grid; gap: .6rem; }
+.bo-raccourcis a { font-size: .95rem; }
+
+/* ---------- Listes / cartes ---------- */
+.bo-liste { display: grid; gap: 1rem; }
+.bo-ligne {
+  display: flex; align-items: center; gap: 1.2rem;
+  background: var(--noir-2); border: 1px solid var(--trait);
+  padding: 1rem 1.2rem;
+  transition: border-color .25s;
+}
+.bo-ligne:hover { border-color: var(--or); }
+.bo-ligne__vignette { width: 92px; height: 62px; object-fit: cover; flex: 0 0 auto; }
+.bo-ligne__corps { flex: 1; min-width: 0; }
+.bo-ligne__corps h2 { font-family: var(--serif); font-weight: 600; font-size: 1.1rem; color: var(--ivoire); }
+.bo-ligne__corps p { font-size: .85rem; color: var(--texte-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- Galerie ---------- */
+.bo-galerie {
+  display: grid; gap: .9rem;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  margin-top: 1.6rem;
+}
+.bo-media { position: relative; background: var(--noir-2); border: 1px solid var(--trait); }
+.bo-media img { aspect-ratio: 4 / 3; width: 100%; object-fit: cover; }
+.bo-media figcaption {
+  padding: .5rem .6rem; font-size: .74rem; color: var(--texte-2);
+  display: flex; justify-content: space-between; align-items: center; gap: .4rem;
+}
+.bo-media .cat {
+  font-size: .66rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--or); border: 1px solid var(--trait);
+  padding: .1rem .4rem; white-space: nowrap;
+}
+.bo-media form button {
+  background: none; border: 0; color: var(--rouge); font-size: .74rem;
+  padding: 0; text-decoration: underline; text-underline-offset: 2px;
+}
+
+/* ---------- Tarifs ---------- */
+.bo-tarifs { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+.bo-tarifs .bo-champ label { font-size: .7rem; }
+
+/* ---------- Sauvegardes ---------- */
+.bo-sauvegardes { margin-top: 1.6rem; border-top: 1px solid var(--trait); padding-top: 1.4rem; }
+.bo-sauvegardes h2 { font-family: var(--serif); font-size: 1.05rem; color: var(--or-clair); margin-bottom: .8rem; }
+.bo-sauvegardes ul { list-style: none; display: grid; gap: .45rem; }
+.bo-sauvegardes li { display: flex; align-items: center; gap: 1rem; font-size: .85rem; color: var(--texte-2); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .bo-cadre { grid-template-columns: 1fr; }
+  .bo-lateral { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: .6rem; padding: .8rem 1rem; }
+  .bo-lateral__logo { border: 0; padding: 0; }
+  .bo-lateral__logo img { height: 54px; }
+  .bo-lateral__nav { display: flex; flex-wrap: wrap; gap: .1rem; padding: 0; }
+  .bo-lateral__nav a { padding: .45rem .7rem; border-left: 0; font-size: .85rem; }
+  .bo-lateral__pied { border: 0; padding: 0; grid-auto-flow: column; align-items: center; }
+}

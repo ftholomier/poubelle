@@ -80,7 +80,7 @@ final class Content
     }
 
     /**
-     * Écriture atomique — utilisée par le back-office à venir.
+     * Écriture atomique avec sauvegarde de la version précédente.
      *
      * @param array<mixed> $data
      */
@@ -93,12 +93,68 @@ final class Content
             JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR
         );
 
+        if (is_file($file)) {
+            $this->sauvegarder($name, $file);
+        }
+
         if (file_put_contents($tmp, $json . "\n", LOCK_EX) === false || !rename($tmp, $file)) {
             @unlink($tmp);
             throw new RuntimeException("Écriture impossible : {$name}.json");
         }
 
         unset($this->cache[$name]);
+    }
+
+    /**
+     * Sauvegardes disponibles pour un contenu, les plus récentes d'abord.
+     *
+     * @return string[] chemins absolus
+     */
+    public function sauvegardes(string $name): array
+    {
+        $motif = $this->dossierSauvegardes() . '/' . str_replace('/', '__', $name) . '-*.json';
+        $liste = glob($motif) ?: [];
+        rsort($liste);
+        return $liste;
+    }
+
+    /**
+     * Restaure une sauvegarde (le contenu courant est lui-même sauvegardé).
+     */
+    public function restaurer(string $name, string $fichierSauvegarde): void
+    {
+        $reel = realpath($fichierSauvegarde);
+        $base = realpath($this->dossierSauvegardes());
+        if ($reel === false || $base === false || !str_starts_with($reel, $base . '/')) {
+            throw new RuntimeException('Sauvegarde invalide.');
+        }
+        $donnees = json_decode((string) file_get_contents($reel), true, 512, JSON_THROW_ON_ERROR);
+        if (!is_array($donnees)) {
+            throw new RuntimeException('Sauvegarde illisible.');
+        }
+        $this->save($name, $donnees);
+    }
+
+    private function sauvegarder(string $name, string $file): void
+    {
+        $dossier = $this->dossierSauvegardes();
+        if (!is_dir($dossier)) {
+            mkdir($dossier, 0770, true);
+        }
+        $slug = str_replace('/', '__', $name);
+        @copy($file, $dossier . '/' . $slug . '-' . date('Ymd-His') . '.json');
+
+        // ne conserver que les 20 plus récentes par contenu
+        $liste = glob($dossier . '/' . $slug . '-*.json') ?: [];
+        rsort($liste);
+        foreach (array_slice($liste, 20) as $ancienne) {
+            @unlink($ancienne);
+        }
+    }
+
+    private function dossierSauvegardes(): string
+    {
+        return dirname($this->dir) . '/storage/sauvegardes';
     }
 
     private function path(string $name): string

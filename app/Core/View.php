@@ -29,7 +29,10 @@ final class View
      */
     public function render(string $template, array $data = [], ?string $layout = 'layout'): string
     {
-        $slot = $this->capture("pages/{$template}", $data);
+        // les gabarits de pages publiques vivent sous pages/, les autres
+        // (admin/...) sont référencés par leur chemin complet
+        $chemin = str_contains($template, '/') ? $template : "pages/{$template}";
+        $slot = $this->capture($chemin, $data);
 
         return $layout === null
             ? $slot

@@ -60,4 +60,7 @@ $router->get('/api/peche',               fn() => $api->collection('peche'));
 $router->get('/api/peche/{slug}',        fn(array $p) => $api->item('peche', $p['slug']));
 $router->get('/api/galerie',             fn() => $api->collection('galerie', 'medias'));
 
+// --- back-office ---------------------------------------------------------
+require __DIR__ . '/routes-admin.php';
+
 $router->fallback(fn() => $pages->introuvable());
