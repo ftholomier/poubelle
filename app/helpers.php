@@ -173,6 +173,23 @@ if (!function_exists('image')) {
     }
 }
 
+if (!function_exists('jetons')) {
+    /**
+     * Remplace les jetons d'un texte saisi dans le back-office.
+     *
+     * `[year]` (ou `[annee]`) devient l'année courante. Écrire l'année en dur
+     * dans la mention de copyright oblige à y repenser chaque 1er janvier —
+     * et personne n'y repense : c'est ainsi qu'un site affiche 2026 en 2029.
+     *
+     * Les deux graphies sont acceptées : le champ est rempli en français,
+     * mais `[year]` est la forme que l'on croise partout ailleurs.
+     */
+    function jetons(string $texte): string
+    {
+        return str_ireplace(['[year]', '[annee]', '[année]'], date('Y'), $texte);
+    }
+}
+
 if (!function_exists('date_fr')) {
     /**
      * Date en toutes lettres, en français.

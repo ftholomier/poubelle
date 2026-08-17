@@ -786,10 +786,26 @@ button { font: inherit; cursor: pointer; }
 .bo-btn:disabled { opacity: .35; cursor: not-allowed; }
 
 /* --- lignes de liste --- */
+
+/* Un élément de grille vaut min-width:auto par défaut : il ne peut donc pas
+   descendre sous la largeur intrinsèque de son contenu. Un texte non
+   sécable — un avis Google, par exemple — élargissait la ligne, la grille,
+   puis la page entière, jusqu'à la barre de défilement horizontale. */
+.bo-ligne { min-width: 0; }
+
 .bo-ligne__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
 .bo-ligne__actions form { margin: 0; }
 .bo-ligne__note { display: block; font-size: .82rem; color: var(--texte-2); }
-.bo-ligne__corps p { font-size: .88rem; color: var(--texte-2); margin-top: .3rem; }
+
+/* La règle générique des lignes tronque les paragraphes sur une seule ligne.
+   C'est le bon comportement pour un résumé, pas pour un avis client qu'il
+   faut pouvoir lire en entier avant de décider d'y répondre : on rétablit
+   ici le retour à la ligne, et on brise les mots interminables. */
+.bo-ligne__corps p {
+  font-size: .88rem; color: var(--texte-2); margin-top: .3rem;
+  white-space: normal; overflow: visible; text-overflow: clip;
+  overflow-wrap: anywhere;
+}
 /* Une fiche hors ligne reste lisible : l'atténuer suffit à la distinguer,
    la masquer empêcherait de la remettre en ligne. */
 .bo-ligne--masquee { opacity: .58; }

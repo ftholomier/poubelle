@@ -803,6 +803,15 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
    AVIS GOOGLE
    ========================================================================== */
 
+/* Dernier bloc de chaque page, juste au-dessus du pied.
+   Le filet supérieur est là pour le seul cas où la section qui précède est
+   elle aussi teintée — la page Contact finit sur ses questions fréquentes.
+   Ailleurs, la bande d'appel sombre le précède et le filet ne se voit pas. */
+.avis {
+  background: var(--fond-teinte);
+  border-top: 1px solid var(--ligne);
+}
+
 .avis__tete { text-align: center; max-width: 700px; margin: 0 auto 3rem; }
 .avis__tete .surtitre { justify-content: center; }
 .avis__note {

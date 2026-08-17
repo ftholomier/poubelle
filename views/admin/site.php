@@ -130,6 +130,14 @@ $menuTexte = implode("\n", array_map(
     <div class="bo-champ">
       <label for="s-copy">Mention de copyright</label>
       <input id="s-copy" type="text" name="pied_copyright" value="<?= e($site['pied']['copyright']) ?>">
+      <p class="bo-aide">
+        Écrivez <code>[year]</code> à la place de l'année : elle sera remplacée par
+        l'année en cours à chaque affichage — <?= e(date('Y')) ?> aujourd'hui. Inutile
+        d'y revenir au 1<sup>er</sup> janvier.
+        <?php if (!str_contains(mb_strtolower($site['pied']['copyright']), '[year]')): ?>
+          <strong>L'année est actuellement écrite en dur dans ce champ.</strong>
+        <?php endif; ?>
+      </p>
     </div>
   </fieldset>
 

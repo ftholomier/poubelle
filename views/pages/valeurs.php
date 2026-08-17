@@ -46,6 +46,4 @@
   </div>
 </section>
 
-<?= $view->partial('avis') ?>
-
 <?= $view->partial('bande-cta') ?>

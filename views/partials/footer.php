@@ -74,7 +74,7 @@ $tel = (string) ($site['contact']['telephone'] ?? '');
     <?php endif; ?>
 
     <div class="pied__bas">
-      <p><?= e($site['pied']['copyright']) ?></p>
+      <p><?= e(jetons($site['pied']['copyright'])) ?></p>
       <p class="pied__legal">
         <a href="<?= route('mentions-legales') ?>"><?= e(t('Mentions légales')) ?></a>
         <span aria-hidden="true"> · </span>

@@ -156,8 +156,6 @@ $hero = $page['hero'];
 </section>
 <?php endif; ?>
 
-<?= $view->partial('avis', ['fond' => 'teinte']) ?>
-
 <section class="section">
   <div class="conteneur">
     <div class="serenite">

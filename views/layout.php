@@ -69,7 +69,13 @@ $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex
 <body class="<?= $menuStyle === 'horizontal' ? 'menu-horizontal' : 'menu-lateral' ?>">
 <a class="evitement" href="#contenu">Aller au contenu</a>
 <?= $view->partial('header', ['site' => $site, 'cle' => $cle, 'fiche' => $fiche]) ?>
-<main id="contenu"><?= $slot ?></main>
+<?php /* Les avis ferment chaque page, juste au-dessus du pied. Ils sont placés
+         ici plutôt que dans chaque vue : une page ajoutée plus tard les
+         affichera sans qu'on ait à y penser, et le fragment se retire de
+         lui-même quand les avis sont désactivés ou indisponibles.
+         Le bloc reste dans <main> : hors de lui, il formerait une région
+         orpheline, ni contenu principal ni pied de page. */ ?>
+<main id="contenu"><?= $slot ?><?= $view->partial('avis') ?></main>
 <?= $view->partial('footer', ['site' => $site, 'cle' => $cle, 'fiche' => $fiche]) ?>
 <?= $view->partial('cookies', ['site' => $site, 'categories' => App\Core\Cookies::categories()]) ?>
 <?php $mesure = trim((string) $parametres->get('mesure.identifiant')); ?>

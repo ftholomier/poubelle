@@ -8,9 +8,10 @@
  * momentanément indisponibles — une section vide serait pire que pas de
  * section du tout.
  *
+ * Inclus une seule fois, par le gabarit, en dernier bloc de chaque page.
+ *
  * @var App\Core\Avis $avis
  * @var App\Core\View $view
- * @var string|null $fond   'clair' (défaut) ou 'teinte'
  */
 $donnees = $avis->donnees();
 if ($donnees === null || $donnees['avis'] === []) {
@@ -20,7 +21,7 @@ if ($donnees === null || $donnees['avis'] === []) {
 $note  = $donnees['note'];
 $total = $donnees['total'];
 ?>
-<section class="section avis <?= ($fond ?? 'clair') === 'teinte' ? 'section--teinte' : '' ?>">
+<section class="section avis">
   <div class="conteneur">
     <div class="avis__tete reveler">
       <p class="surtitre"><?= e(t('Avis clients')) ?></p>
