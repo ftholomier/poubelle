@@ -1,4 +1,4 @@
-/* Cabinet Villard — interactions.
+/* Cabinet Villard — interactions (test de mise a jour).
    En-tête au défilement, menu (panneau glissant et barre horizontale),
    révélations, consentement aux cookies.
 
