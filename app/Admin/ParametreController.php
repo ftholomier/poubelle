@@ -63,6 +63,40 @@ final class ParametreController
             ?: (string) $this->content->get('site', 'contact.email', '');
     }
 
+    // ------------------------------------------------------- mesure d'audience
+
+    public function mesureEnvoi(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger();
+        }
+
+        $identifiant = trim((string) ($_POST['mesure_identifiant'] ?? ''));
+
+        // un identifiant mal saisi ne remonterait aucune statistique, sans
+        // que rien ne le signale : autant le refuser tout de suite
+        if ($identifiant !== '' && preg_match('/^(G|UA|GTM)-[A-Z0-9\-]{4,}$/i', $identifiant) !== 1) {
+            Session::flash('erreur', 'Identifiant de mesure inattendu. Il ressemble à '
+                . '« G-XXXXXXXXXX » pour Google Analytics 4.');
+            return $this->rediriger();
+        }
+
+        $actuel = $this->parametres->tout();
+        $actuel['mesure'] = ['identifiant' => $identifiant];
+
+        try {
+            $this->parametres->enregistrer($actuel);
+            Session::flash('succes', $identifiant === ''
+                ? 'Mesure d’audience désactivée : plus aucun script de suivi n’est chargé.'
+                : 'Mesure d’audience enregistrée. Elle ne se chargera que pour les '
+                  . 'visiteurs qui l’auront acceptée dans le bandeau cookies.');
+        } catch (RuntimeException $e) {
+            Session::flash('erreur', $e->getMessage());
+        }
+
+        return $this->rediriger();
+    }
+
     // ------------------------------------------------------------ envoi mails
 
     public function messagerieEnvoi(): string

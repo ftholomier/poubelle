@@ -29,6 +29,10 @@ final class Parametres
             'destinataire' => '',
             'copie'        => '',
         ],
+        // mesure d'audience : chargée seulement après accord du visiteur
+        'mesure' => [
+            'identifiant' => '',          // ex. G-XXXXXXXXXX (Google Analytics 4)
+        ],
     ];
 
     /** @var array<string, mixed>|null */

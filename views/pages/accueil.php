@@ -19,12 +19,13 @@ $photos = Liste::publiees(Liste::photos($hero['images'] ?? null, (string) ($hero
 if ($photos === []) {
     $photos = [['src' => '', 'actif' => true]];   // repli : visuel d'attente
 }
+$pause = max(3, min(30, (int) ($hero['pause'] ?? 7)));   // secondes par photo
 ?>
 <section class="heros">
   <div class="heros__fond<?= count($photos) > 1 ? ' heros__fond--diaporama' : '' ?>"
-       <?= count($photos) > 1 ? 'data-diaporama' : '' ?>>
+       <?= count($photos) > 1 ? 'data-diaporama data-pause="' . e((string) $pause) . '"' : '' ?>>
     <?php foreach ($photos as $i => $photo): ?>
-      <div class="heros__photo<?= $i === 0 ? ' heros__photo--vue' : '' ?>"
+      <div class="heros__photo<?= $i === 0 ? ' heros__photo--visible heros__photo--anime' : '' ?>"
            style="background-image:url('<?= image($photo['src']) ?>')"
            role="img" aria-label="<?= $i === 0 ? e($site['nom'] . ' — ' . $site['baseline']) : '' ?>"
            <?= $i === 0 ? '' : 'aria-hidden="true"' ?>></div>

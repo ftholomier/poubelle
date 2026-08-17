@@ -77,6 +77,7 @@ $router->post('/admin/accueil',   $protege(fn() => $edition->accueilEnvoi()));
 
 // diaporama du bandeau d'accueil
 $router->post('/admin/accueil/hero/ajout',                $protege(fn() => $edition->heroAjout()));
+$router->post('/admin/accueil/hero/classer',               $protege(fn() => $edition->heroClasser()));
 $router->post('/admin/accueil/hero/{rang}/publication',   $protege(fn(array $p) => $edition->heroPublication((int) $p['rang'])));
 $router->post('/admin/accueil/hero/{rang}/ordre',         $protege(fn(array $p) => $edition->heroOrdre((int) $p['rang'])));
 $router->post('/admin/accueil/hero/{rang}/supprimer',     $protege(fn(array $p) => $edition->heroSupprimer((int) $p['rang'])));
@@ -117,6 +118,7 @@ $router->post('/admin/galerie/retrait', $protege(fn() => $media->retrait()));
 $router->get('/admin/parametres',            $protege(fn() => $reglage->ecran()));
 $router->post('/admin/parametres/messagerie', $protege(fn() => $reglage->messagerieEnvoi()));
 $router->post('/admin/parametres/test',       $protege(fn() => $reglage->test()));
+$router->post('/admin/parametres/mesure',      $protege(fn() => $reglage->mesureEnvoi()));
 $router->post('/admin/parametres/compte',     $protege(fn() => $reglage->compteEnvoi()));
 $router->post('/admin/parametres/droits',     $protege(fn() => $reglage->droitsEnvoi()));
 

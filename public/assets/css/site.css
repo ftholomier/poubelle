@@ -394,17 +394,33 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   padding: calc(var(--entete-h) + 3rem) var(--gouttiere) 5rem;
 }
 .heros--page { min-height: 66svh; padding-bottom: 4rem; }
-.heros__fond { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.heros__fond {
+  position: absolute; inset: 0; z-index: -2; overflow: hidden;
+  --heros-fondu: 1.6s;
+  --heros-course: 8.6s;    /* durée du mouvement = affichage + fondu */
+  --heros-echelle: 1.069;  /* départ du mouvement, calculé à vitesse constante */
+}
 .heros__photo {
   position: absolute; inset: 0;
   background-size: cover; background-position: center;
-  opacity: 0; transition: opacity 1.6s ease;
+  opacity: 0; transition: opacity var(--heros-fondu) linear;
   will-change: opacity, transform;
+  /* la composition sur le GPU évite le tressautement au changement de photo */
+  backface-visibility: hidden;
 }
-/* Fondu puis lent mouvement d'approche sur la photo affichée. L'animation
-   repart à chaque passage : le JS retire puis remet la classe. */
-.heros__photo--vue { opacity: 1; animation: heros-zoom 14s ease-out forwards; }
-@keyframes heros-zoom { from { transform: scale(1.09); } to { transform: scale(1); } }
+
+/* Deux classes distinctes, et c'est ce qui rend la transition fluide :
+   la photo sortante perd « visible » (elle s'efface) mais garde « anime »
+   le temps du fondu. Couper l'animation tout de suite ramènerait son
+   agrandissement à zéro d'un coup — c'était le saut visible. */
+.heros__photo--visible { opacity: 1; }
+.heros__photo--anime {
+  animation: heros-zoom var(--heros-course) linear forwards;
+}
+@keyframes heros-zoom {
+  from { transform: scale(var(--heros-echelle)); }
+  to   { transform: scale(1); }
+}
 
 /* Sans JavaScript, seule la première photo s'affiche — le bandeau reste
    correct, il ne défile simplement pas. */
@@ -424,7 +440,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 
 @media (prefers-reduced-motion: reduce) {
   /* mouvement supprimé : la photo reste nette et fixe */
-  .heros__photo--vue { animation: none; }
+  .heros__photo--anime { animation: none; }
   .heros__photo { transition-duration: .01ms; }
 }
 .heros::after {
@@ -965,3 +981,116 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   background: rgba(217, 138, 138, .08);
   color: #d98a8a; font-size: .95rem;
 }
+
+/* ---------- Consentement aux cookies ---------- */
+.cookies[hidden] { display: none; }
+
+.cookies__bandeau {
+  position: fixed; z-index: 200; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: clamp(1.2rem, 3vw, 2.6rem); flex-wrap: wrap;
+  padding: clamp(1.3rem, 2.6vw, 1.9rem) var(--gouttiere);
+  background: var(--noir-2); border-top: 1px solid rgba(201, 162, 75, .45);
+  box-shadow: 0 -18px 44px rgba(8, 7, 5, .55);
+  animation: cookies-monte .5s ease-out both;
+}
+@keyframes cookies-monte { from { transform: translateY(100%); } to { transform: none; } }
+.cookies__bandeau[hidden] { display: none; }
+.cookies__corps { flex: 1; min-width: 280px; max-width: 74ch; }
+.cookies__titre { font-family: var(--serif); font-size: 1.3rem; color: var(--blanc-doux); margin-bottom: .4rem; }
+.cookies__texte { font-size: .95rem; color: rgba(244, 239, 230, .82); line-height: 1.6; }
+.cookies__texte a { color: var(--or-clair); text-decoration: underline; text-underline-offset: 3px; }
+.cookies__actions { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
+/* accepter et refuser ont volontairement le même poids visuel */
+.cookies__actions .btn { white-space: nowrap; }
+.cookies__reglages {
+  background: none; border: 0; padding: .4rem;
+  font-family: var(--garamond); font-size: .82rem; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--or-clair);
+  text-decoration: underline; text-underline-offset: 4px;
+}
+.cookies__reglages:hover { color: var(--ivoire); }
+
+.cookies__voile {
+  position: fixed; inset: 0; z-index: 210;
+  background: rgba(8, 7, 5, .72); backdrop-filter: blur(2px);
+}
+.cookies__voile[hidden] { display: none; }
+
+.cookies__panneau {
+  position: fixed; z-index: 220; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(640px, calc(100vw - 2 * var(--gouttiere)));
+  max-height: min(82vh, 720px); display: flex; flex-direction: column;
+  background: var(--noir-2); border: 1px solid rgba(201, 162, 75, .45);
+  box-shadow: 0 30px 70px rgba(8, 7, 5, .7);
+}
+.cookies__panneau[hidden] { display: none; }
+.cookies__panneau-tete {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 1.4rem 1.6rem; border-bottom: 1px solid rgba(201, 162, 75, .25);
+}
+.cookies__panneau-tete h2 { font-family: var(--serif); font-size: 1.35rem; color: var(--blanc-doux); }
+.cookies__fermer {
+  background: none; border: 0; font-size: 1.7rem; line-height: 1;
+  color: var(--or-clair); padding: .2rem .5rem;
+}
+.cookies__fermer:hover { color: var(--ivoire); }
+
+.cookies__panneau-corps { padding: .4rem 1.6rem 1.2rem; overflow-y: auto; }
+.cookies__categorie { padding: 1.2rem 0; border-bottom: 1px solid rgba(201, 162, 75, .18); }
+.cookies__categorie:last-child { border-bottom: 0; }
+.cookies__categorie-tete {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .5rem;
+}
+.cookies__categorie h3 { font-size: 1.05rem; color: var(--or-clair); }
+.cookies__categorie p { font-size: .9rem; color: rgba(244, 239, 230, .75); line-height: 1.6; }
+.cookies__toujours {
+  font-family: var(--garamond); font-size: .72rem; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase; color: rgba(244, 239, 230, .5);
+  white-space: nowrap;
+}
+
+.cookies__bascule { position: relative; display: inline-flex; align-items: center; cursor: pointer; flex: none; }
+.cookies__bascule input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.cookies__bascule-nom {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+.cookies__curseur {
+  width: 48px; height: 26px; border-radius: 999px; position: relative;
+  background: rgba(244, 239, 230, .16); border: 1px solid rgba(244, 239, 230, .3);
+  transition: background .22s, border-color .22s;
+}
+.cookies__curseur::after {
+  content: ""; position: absolute; top: 3px; left: 3px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--ivoire); transition: transform .22s;
+}
+.cookies__bascule input:checked + .cookies__curseur { background: var(--or); border-color: var(--or); }
+.cookies__bascule input:checked + .cookies__curseur::after { transform: translateX(22px); }
+.cookies__bascule input:focus-visible + .cookies__curseur { outline: 2px solid var(--or-clair); outline-offset: 3px; }
+
+.cookies__panneau-pied {
+  display: flex; gap: .7rem; flex-wrap: wrap; justify-content: flex-end;
+  padding: 1.2rem 1.6rem; border-top: 1px solid rgba(201, 162, 75, .25);
+}
+
+/* substitut affiché à la place d'un contenu externe refusé */
+.cookies-substitut {
+  display: grid; place-items: center; gap: 1rem; text-align: center;
+  padding: clamp(2rem, 6vw, 3.6rem) 1.6rem; min-height: 220px;
+  background: var(--noir-3); border: 1px dashed rgba(201, 162, 75, .4);
+  color: rgba(244, 239, 230, .78); font-size: .95rem;
+}
+
+@media (max-width: 720px) {
+  .cookies__actions { width: 100%; }
+  .cookies__actions .btn { flex: 1; text-align: center; }
+  .cookies__reglages { width: 100%; text-align: center; }
+  .cookies__panneau-pied .btn { flex: 1; text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cookies__bandeau { animation: none; }
+}
+.cookies__panneau:focus { outline: 0; }

@@ -51,7 +51,11 @@ $resa = $site['reservation'];
 
     <div class="pied__bas">
       <p><?= e($site['pied']['copyright']) ?></p>
-      <p><a href="<?= route('mentions-legales') ?>">Mentions légales</a></p>
+      <p>
+        <a href="<?= route('mentions-legales') ?>">Mentions légales</a>
+        <span aria-hidden="true"> · </span>
+        <a href="#" data-cookies-reglages>Gestion des cookies</a>
+      </p>
     </div>
   </div>
 </footer>

@@ -152,6 +152,29 @@ $contact = $parametres['contact'];
 
 <section class="bo-zone" style="margin-top:1.4rem;">
   <header class="bo-zone__tete">
+    <h2>Mesure d'audience</h2>
+    <p>Le script de mesure n'est chargé que pour les visiteurs qui l'ont accepté dans
+       le bandeau cookies. Laissez le champ vide et aucun traceur n'est déposé.</p>
+  </header>
+
+  <form class="bo-form" method="post" action="<?= url('/admin/parametres/mesure') ?>">
+    <?= Csrf::champ() ?>
+    <div class="bo-champ">
+      <label for="p-mesure">Identifiant Google Analytics</label>
+      <input id="p-mesure" type="text" name="mesure_identifiant"
+             value="<?= e($parametres['mesure']['identifiant'] ?? '') ?>"
+             placeholder="G-XXXXXXXXXX" spellcheck="false" autocomplete="off">
+      <span class="aide">Se trouve dans Google Analytics, rubrique
+        <em>Administration → Flux de données</em>. L'adresse IP des visiteurs est
+        anonymisée. Vide = aucune mesure, et la catégorie reste sans effet dans
+        le bandeau cookies.</span>
+    </div>
+    <button class="bo-btn" type="submit">Enregistrer</button>
+  </form>
+</section>
+
+<section class="bo-zone" style="margin-top:1.4rem;">
+  <header class="bo-zone__tete">
     <h2>Droits d'accès</h2>
     <p>Cible : <code>0755</code> pour les dossiers, <code>0644</code> pour les fichiers,
        <code>0640</code> pour ceux qui contiennent un secret. Utile après un transfert

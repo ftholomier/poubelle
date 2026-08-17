@@ -274,8 +274,15 @@ peut pas être retirée — remplacez-la plutôt.
 
 Avec une seule photo, le bandeau se comporte comme avant : la photo s'affiche
 avec un lent mouvement d'approche. Dès la deuxième, il devient un diaporama —
-fondu enchaîné toutes les 7 secondes, mouvement d'approche sur chaque photo, et
-des repères cliquables sous le bandeau.
+fondu enchaîné, mouvement d'approche sur chaque photo, et des repères cliquables
+sous le bandeau.
+
+**Ordre des photos** : glissez les vignettes pour les réordonner. Les flèches
+↑ ↓ font la même chose, au clavier ou sans JavaScript.
+
+**Temps d'affichage** : réglable de 3 à 30 secondes dans *Bandeau principal*.
+Le mouvement d'approche s'ajuste tout seul — il garde la même vitesse quel que
+soit le temps choisi, et se termine exactement quand la photo s'efface.
 
 Préférez des photos **en format paysage, 1920 px de large au minimum** : elles
 occupent tout l'écran. Le site les redimensionne et les optimise à l'envoi.
@@ -286,7 +293,54 @@ indisponible : la page ne se casse dans aucun cas.
 
 ---
 
-## 9. Points de vigilance
+## 9. Cookies et mesure d'audience
+
+Un bandeau de consentement s'affiche à la première visite. Il suit les
+recommandations de la CNIL : **refuser est aussi simple qu'accepter** — les deux
+boutons ont le même poids visuel — et **rien n'est déposé avant un choix
+explicite**. Fermer le panneau sans choisir ne vaut pas accord : le bandeau
+revient.
+
+Trois catégories :
+
+| Catégorie | Contenu |
+|---|---|
+| **Nécessaires** | session, sécurité des formulaires, mémorisation du choix. Toujours actifs, non désactivables. |
+| **Mesure d'audience** | le script de statistiques, chargé *seulement* après accord. |
+| **Contenus externes** | plan d'accès, vidéos et autres contenus hébergés ailleurs. |
+
+Le choix est conservé six mois dans un cookie de première partie. Le lien
+**Gestion des cookies**, en bas de chaque page, rouvre le panneau à tout moment.
+
+### Activer la mesure d'audience
+
+*Paramètres → Mesure d'audience* : collez votre identifiant Google Analytics
+(`G-XXXXXXXXXX`, dans *Administration → Flux de données*). Laissez le champ vide
+et **aucun traceur n'est chargé**, quel que soit le choix du visiteur.
+
+L'adresse IP est anonymisée. Le script est écrit dans la page en
+`<script type="text/plain">` : il reste du texte inerte tant que le visiteur n'a
+pas accepté la catégorie, et n'est activé qu'ensuite. Aucune requête ne part
+vers Google avant cela.
+
+### Ajouter plus tard un contenu externe
+
+Pour une carte ou une vidéo, enveloppez-la ainsi — elle ne se chargera qu'avec
+l'accord du visiteur, et affichera sinon un bouton qui lui laisse le choix :
+
+```html
+<div data-cookies-contenu="externes">
+  <template><iframe src="https://..." title="Plan d'accès"></iframe></template>
+  <div class="cookies-substitut">
+    <p>Ce contenu est hébergé par un autre site.</p>
+    <button class="btn btn--or" type="button" data-cookies-reglages>Autoriser</button>
+  </div>
+</div>
+```
+
+---
+
+## 10. Points de vigilance
 
 **HTTPS** — le `.htaccess` force la redirection vers HTTPS. Activez le
 certificat SSL gratuit dans *cPanel → SSL/TLS Status* avant la mise en ligne,
@@ -306,7 +360,7 @@ exclu de git et ne doit jamais être partagé ni versionné.
 
 ---
 
-## 10. Tester en local avant d'envoyer
+## 11. Tester en local avant d'envoyer
 
 ```bash
 php -S localhost:8080 -t public public/index.php
@@ -318,7 +372,7 @@ façon exempté.
 
 ---
 
-## 11. Mettre à jour le site par FTP
+## 12. Mettre à jour le site par FTP
 
 Une fois le site en ligne, deux natures de fichiers cohabitent : le **code**,
 qui vient du dépôt, et l'**état vivant** du site, qui n'existe que sur le
@@ -378,7 +432,7 @@ diagnostic confirme que les droits d'écriture n'ont pas bougé.
 
 ---
 
-## 12. Mises à jour automatiques par git (recommandé)
+## 13. Mises à jour automatiques par git (recommandé)
 
 Le FTP de la section 9 reste possible, mais l'écran **Mises à jour** du
 back-office fait la même chose sans risque d'erreur de manipulation : il ne
@@ -494,7 +548,7 @@ de toute façon hors de portée de git.
 
 ---
 
-## 13. Droits d'accès
+## 14. Droits d'accès
 
 Trois choses défont les droits sans prévenir : un transfert FTP (qui applique
 les réglages du client FTP), le `umask` du serveur (qui rabote les droits des

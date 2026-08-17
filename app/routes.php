@@ -26,6 +26,7 @@ $pages = new PageController($view, $content, $parametresSite, new Mailer($parame
 $api   = new ApiController($content);
 
 $view->share('seo', $seo);
+$view->share('parametres', $parametresSite);
 $GLOBALS['seo'] = $seo;
 
 /** Chemin courant d'une page, slug éventuellement personnalisé. */

@@ -4,6 +4,75 @@
 (function () {
   'use strict';
 
+  /* ---------- Classement du diaporama par glisser-déposer ----------
+     Les flèches Monter / Descendre restent le chemin sans JavaScript. */
+  var diapos = document.querySelector('[data-diapos-classables]');
+  if (diapos) {
+    var etatD = document.querySelector('[data-diapos-etat]');
+    var porteD = null;
+    var attente = null;
+
+    var direD = function (texte, erreur) {
+      if (!etatD) return;
+      etatD.textContent = texte;
+      etatD.className = 'bo-ordre-etat' + (erreur ? ' bo-ordre-etat--erreur' : '');
+    };
+
+    var enregistrerD = function () {
+      var corps = new FormData();
+      corps.append('_csrf', diapos.getAttribute('data-csrf'));
+      [].forEach.call(diapos.querySelectorAll('.bo-diapo'), function (f) {
+        corps.append('ordre[]', f.getAttribute('data-src'));
+      });
+
+      fetch(diapos.getAttribute('data-url-ordre'), {
+        method: 'POST', body: corps, credentials: 'same-origin'
+      }).then(function (r) { return r.json(); }).then(function (r) {
+        direD(r.message, !r.ok);
+        // les numéros affichés doivent suivre le nouvel ordre
+        [].forEach.call(diapos.querySelectorAll('.bo-diapo__rang'), function (el, i) {
+          el.textContent = (i + 1) + (i === 0 ? ' — première' : '');
+        });
+      }).catch(function () {
+        direD('Enregistrement impossible. Rechargez la page.', true);
+      });
+    };
+
+    diapos.addEventListener('dragstart', function (e) {
+      porteD = e.target.closest('.bo-diapo');
+      if (!porteD) return;
+      porteD.classList.add('bo-diapo--portee');
+      e.dataTransfer.effectAllowed = 'move';
+      // Firefox n'amorce pas le glissement sans donnée transportée
+      e.dataTransfer.setData('text/plain', porteD.getAttribute('data-src'));
+    });
+
+    diapos.addEventListener('dragend', function () {
+      if (porteD) porteD.classList.remove('bo-diapo--portee');
+      porteD = null;
+    });
+
+    diapos.addEventListener('dragover', function (e) {
+      if (!porteD) return;
+      e.preventDefault();
+      var survolee = e.target.closest('.bo-diapo');
+      if (!survolee || survolee === porteD) return;
+
+      var boite = survolee.getBoundingClientRect();
+      var apres = (e.clientX - boite.left) > boite.width / 2;
+      diapos.insertBefore(porteD, apres ? survolee.nextSibling : survolee);
+
+      clearTimeout(attente);
+      attente = setTimeout(enregistrerD, 500);
+    });
+
+    diapos.addEventListener('drop', function (e) {
+      e.preventDefault();
+      clearTimeout(attente);
+      enregistrerD();
+    });
+  }
+
   /* ---------- Filtre de la mosaïque de photos ----------
      Confort quand la médiathèque s'allonge : le choix lui-même repose sur
      des boutons radio et fonctionne sans JavaScript. */

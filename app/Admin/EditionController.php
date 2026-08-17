@@ -231,6 +231,51 @@ final class EditionController
         );
     }
 
+    /**
+     * Classement du diaporama par glisser-déposer. Répond en JSON : la page
+     * n'est pas rechargée, les vignettes ont déjà bougé à l'écran.
+     */
+    public function heroClasser(): string
+    {
+        if (!Csrf::verifier()) {
+            return json_response(['ok' => false, 'message' => 'Session expirée, rechargez la page.'], 419);
+        }
+
+        $ordre = array_values(array_filter(
+            (array) ($_POST['ordre'] ?? []),
+            static fn($v): bool => is_string($v) && $v !== ''
+        ));
+        if ($ordre === []) {
+            return json_response(['ok' => false, 'message' => 'Aucun ordre reçu, rien n’a changé.'], 422);
+        }
+
+        $avant = self::photosHero($this->content->load('pages/accueil'));
+
+        $apres = [];
+        foreach ($ordre as $src) {
+            foreach ($avant as $rang => $photo) {
+                if ($photo['src'] === $src) {
+                    $apres[] = $photo;
+                    unset($avant[$rang]);
+                    break;
+                }
+            }
+        }
+        // ce que le navigateur n'a pas cité reste, à la suite : une photo
+        // ajoutée depuis un autre onglet ne disparaît pas
+        foreach ($avant as $photo) {
+            $apres[] = $photo;
+        }
+
+        $accueil = $this->content->load('pages/accueil');
+        $accueil['hero']['images'] = $apres;
+        $publiees = Liste::publiees($apres);
+        $accueil['hero']['image'] = (string) (($publiees[0] ?? $apres[0])['src'] ?? '');
+        $this->content->save('pages/accueil', $accueil);
+
+        return json_response(['ok' => true, 'message' => 'Ordre du diaporama enregistré.']);
+    }
+
     public function heroSupprimer(int $rang): string
     {
         if (!Csrf::verifier()) {
@@ -257,6 +302,10 @@ final class EditionController
         }
         $a = $this->content->load('pages/accueil');
 
+        if (isset($_POST['hero_pause'])) {
+            // bornes larges mais pas absurdes : sous 3 s on ne voit rien passer
+            $a['hero']['pause'] = max(3, min(30, (int) $_POST['hero_pause']));
+        }
         $a['hero']['surtitre'] = trim((string) ($_POST['hero_surtitre'] ?? $a['hero']['surtitre']));
         $a['hero']['titre']    = trim((string) ($_POST['hero_titre'] ?? $a['hero']['titre']));
         $a['hero']['texte']    = trim((string) ($_POST['hero_texte'] ?? $a['hero']['texte']));

@@ -61,6 +61,20 @@ $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex
 <?= $view->partial('header', ['site' => $site]) ?>
 <main id="contenu"><?= $slot ?></main>
 <?= $view->partial('footer', ['site' => $site]) ?>
+<?= $view->partial('cookies', ['site' => $site, 'categories' => App\Core\Cookies::categories()]) ?>
+<?php $mesure = trim((string) $parametres->get('mesure.identifiant')); ?>
+<?php if ($mesure !== ''): ?>
+  <!-- Chargé uniquement si le visiteur accepte la mesure d'audience : tant
+       qu'il n'a pas choisi, ce bloc reste du texte inerte. -->
+  <script type="text/plain" data-cookies="mesure"
+          src="https://www.googletagmanager.com/gtag/js?id=<?= e($mesure) ?>" async></script>
+  <script type="text/plain" data-cookies="mesure">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '<?= e($mesure) ?>', { anonymize_ip: true });
+  </script>
+<?php endif; ?>
 <script src="<?= asset('assets/js/site.js') ?>" defer></script>
 </body>
 </html>

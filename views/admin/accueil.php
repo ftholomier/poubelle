@@ -20,10 +20,18 @@ use App\Core\Csrf;
     <p class="bo-vide">Aucune photo pour l’instant : le bandeau affiche un visuel d’attente.</p>
   <?php endif; ?>
 
-  <div class="bo-diapos">
+  <?php if (count($photos) > 1): ?>
+    <p class="aide" style="margin-bottom:.7rem;">Glissez une vignette pour changer
+      l’ordre de passage. Les flèches font la même chose au clavier.</p>
+  <?php endif; ?>
+
+  <div class="bo-diapos" data-diapos-classables
+       data-url-ordre="<?= url('/admin/accueil/hero/classer') ?>"
+       data-csrf="<?= e(App\Core\Csrf::jeton()) ?>">
     <?php foreach ($photos as $i => $photo): ?>
-      <figure class="bo-diapo<?= $photo['actif'] ? '' : ' bo-diapo--masquee' ?>">
-        <img src="<?= image($photo['src'], true) ?>" alt="" loading="lazy">
+      <figure class="bo-diapo<?= $photo['actif'] ? '' : ' bo-diapo--masquee' ?>"
+              draggable="true" data-src="<?= e($photo['src']) ?>">
+        <img src="<?= image($photo['src'], true) ?>" alt="" loading="lazy" draggable="false">
         <?php if (!$photo['actif']): ?><span class="bo-media__masque">masquée</span><?php endif; ?>
         <figcaption>
           <span class="bo-diapo__rang"><?= $i + 1 ?><?= $i === 0 && $photo['actif'] ? ' — première' : '' ?></span>
@@ -47,6 +55,7 @@ use App\Core\Csrf;
       </figure>
     <?php endforeach; ?>
   </div>
+  <p class="bo-ordre-etat" data-diapos-etat role="status"></p>
 
   <form class="bo-form" method="post" action="<?= url('/admin/accueil/hero/ajout') ?>"
         enctype="multipart/form-data" style="margin-top:1.6rem;">
@@ -85,6 +94,17 @@ use App\Core\Csrf;
     <div class="bo-champ">
       <label for="a-texte">Texte</label>
       <textarea id="a-texte" name="hero_texte" rows="4"><?= e($accueil['hero']['texte']) ?></textarea>
+    </div>
+    <div class="bo-champ">
+      <label for="a-pause">Temps d’affichage de chaque photo</label>
+      <div class="bo-unite">
+        <input id="a-pause" type="number" name="hero_pause" min="3" max="30" step="1"
+               value="<?= e((string) ($accueil['hero']['pause'] ?? 7)) ?>">
+        <span>secondes</span>
+      </div>
+      <span class="aide">Entre 3 et 30 secondes. Le mouvement d’approche s’ajuste tout seul :
+        il garde la même vitesse quel que soit le temps choisi, et se termine juste
+        au moment où la photo s’efface.</span>
     </div>
   </fieldset>
 
