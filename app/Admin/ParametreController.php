@@ -7,6 +7,7 @@ use App\Core\Auth;
 use App\Core\Csrf;
 use App\Core\Mailer;
 use App\Core\Parametres;
+use App\Core\Permissions;
 use App\Core\Session;
 use App\Core\View;
 use RuntimeException;
@@ -18,6 +19,8 @@ use Throwable;
  */
 final class ParametreController
 {
+    private readonly Permissions $permissions;
+
     public function __construct(
         private readonly View $view,
         private readonly Parametres $parametres,
@@ -26,6 +29,7 @@ final class ParametreController
         private readonly string $racine,
         private readonly string $racineWeb,
     ) {
+        $this->permissions = new Permissions($racine);
     }
 
     private function rediriger(string $chemin = '/admin/parametres'): string
@@ -41,6 +45,7 @@ final class ParametreController
             'parametres'  => $this->parametres->tout(),
             'identifiant' => $this->auth->identifiant(),
             'diagnostic'  => $this->diagnostic(),
+            'droits'      => $this->permissions->analyser(),
             'trace'       => Session::flash('trace_smtp'),
         ], 'admin/layout');
     }
@@ -162,6 +167,33 @@ final class ParametreController
         return $this->rediriger();
     }
 
+    /**
+     * Remet dossiers et fichiers aux droits attendus : 0755, 0644, et 0640
+     * pour ce qui contient un secret.
+     */
+    public function droitsEnvoi(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger();
+        }
+
+        $bilan = $this->permissions->reparer();
+        $total = $bilan['dossiers'] + $bilan['fichiers'] + $bilan['secrets'];
+
+        if ($bilan['echecs'] > 0) {
+            Session::flash('erreur', $total . ' droit(s) corrigés, mais ' . $bilan['echecs']
+                . ' refus — ces fichiers appartiennent probablement à un autre compte.');
+        } elseif ($total === 0) {
+            Session::flash('succes', 'Les droits étaient déjà corrects, rien à changer.');
+        } else {
+            Session::flash('succes', $total . ' droit(s) corrigés ('
+                . $bilan['dossiers'] . ' dossiers, ' . $bilan['fichiers'] . ' fichiers, '
+                . $bilan['secrets'] . ' fichiers sensibles).');
+        }
+
+        return $this->rediriger();
+    }
+
     // ------------------------------------------------------------ diagnostic
 
     /**
@@ -224,6 +256,15 @@ final class ParametreController
                 'ok'      => $brut !== '' ? $this->enOctets($brut) >= 8 * 1024 * 1024 : null,
             ];
         }
+        $droits = $this->permissions->analyser(1);
+        $controles[] = [
+            'libelle' => 'Droits d’accès des fichiers et dossiers',
+            'valeur'  => $droits['anomalies'] === []
+                ? 'conformes'
+                : 'anomalie détectée — voir ci-dessous',
+            'ok'      => $droits['anomalies'] === [],
+        ];
+
         $controles[] = [
             'libelle' => 'Envoi par SMTP',
             'valeur'  => $this->parametres->smtpConfigure() ? 'configuré' : 'non configuré — mail() de PHP utilisé',

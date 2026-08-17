@@ -90,12 +90,21 @@ post_max_size = 20M
 ```bash
 find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
-chmod -R 775 data storage public/assets/img/site
+chmod 640 data/admin/* 2>/dev/null
 ```
 
-Ces trois dossiers doivent être **inscriptibles** : ils reçoivent le contenu
-édité, les sauvegardes et les photos envoyées. L'écran *Paramètres* le
-vérifie et vous le dira.
+Chez o2switch, PHP tourne sous votre propre compte : `755` sur un dossier
+suffit donc à le rendre inscriptible, et `644` sur un fichier à le rendre
+modifiable. **N'utilisez jamais `777`** — plusieurs hébergements mutualisés
+refusent de servir un fichier accessible en écriture à tout le monde, et
+renvoient une erreur 500.
+
+`data/admin/` contient le mot de passe SMTP et l'empreinte du compte : `640`,
+pour qu'aucun autre compte du serveur ne puisse le lire.
+
+Vous n'aurez normalement à taper ces commandes qu'une seule fois : l'écran
+*Paramètres → Droits d'accès* détecte les anomalies et les corrige d'un clic,
+sans SSH.
 
 ---
 
@@ -346,3 +355,40 @@ de toute façon hors de portée de git.
 - *dossier .git absent* : le site a été installé par FTP, suivre la marche à
   suivre affichée à l'écran.
 - *authentification refusée* : dépôt privé sans clé ni jeton, voir plus haut.
+
+---
+
+## 11. Droits d'accès
+
+Trois choses défont les droits sans prévenir : un transfert FTP (qui applique
+les réglages du client FTP), le `umask` du serveur (qui rabote les droits des
+fichiers créés par PHP), et git (qui ne mémorise que le bit exécutable).
+
+Le site s'en occupe seul :
+
+- Les fichiers écrits par le back-office reçoivent leurs droits
+  explicitement, quel que soit le `umask` du serveur.
+- Chaque mise à jour réaligne les droits des fichiers récupérés.
+- Les archives de sauvegarde sont en `640` : elles contiennent `data/admin/`,
+  donc le mot de passe SMTP.
+
+### Les cibles
+
+| Élément | Droits |
+|---|---|
+| Dossiers | `755` |
+| Fichiers | `644` |
+| `data/admin/`, archives de `storage/deploiements/` | `640` |
+| Scripts exécutables | `755` |
+
+### En cas de doute
+
+*Paramètres → Droits d'accès* liste les anomalies détectées :
+
+- accessible en écriture à tout le monde (`777`, `666`…)
+- fichier sensible lisible par tout le monde
+- dossier qui devrait être inscriptible et ne l'est pas
+
+Le bouton **Réparer les droits** remet tout l'arbre aux valeurs ci-dessus. Si
+des refus apparaissent, c'est que les fichiers concernés appartiennent à un
+autre compte système — dans ce cas seulement, il faut passer par SSH.

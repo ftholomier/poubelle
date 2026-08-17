@@ -125,5 +125,6 @@ final class Mediatheque
         imageinterlace($image, true);
         imagejpeg($image, $destination, $qualite);
         imagedestroy($image);
+        @chmod($destination, Permissions::FICHIER);
     }
 }

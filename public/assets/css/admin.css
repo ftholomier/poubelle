@@ -390,3 +390,12 @@ button { font: inherit; cursor: pointer; }
 }
 .bo-sauvegardes-liste .date { flex: 1; min-width: 160px; color: var(--texte); }
 .bo-sauvegardes-liste .taille { color: var(--texte-2); font-size: .82rem; }
+.bo-droits { list-style: none; display: grid; gap: .4rem; }
+.bo-droits li {
+  display: flex; align-items: baseline; gap: .9rem; flex-wrap: wrap;
+  padding: .5rem .7rem; background: var(--noir); border: 1px solid var(--trait);
+  font-size: .85rem;
+}
+.bo-droits .mode { color: var(--rouge); font-family: ui-monospace, Consolas, monospace; }
+.bo-droits .chemin { flex: 1; min-width: 200px; color: var(--texte); font-family: ui-monospace, Consolas, monospace; font-size: .8rem; }
+.bo-droits .probleme { color: var(--texte-2); font-size: .8rem; }

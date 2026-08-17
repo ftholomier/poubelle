@@ -43,10 +43,19 @@ final class Deploiement
 
     private const DELAI = 120;
 
+    private readonly Permissions $permissions;
+
     public function __construct(
         private readonly string $racine,
         private readonly Parametres $parametres,
     ) {
+        $this->permissions = new Permissions($racine);
+    }
+
+    /** @return string[] */
+    public static function cheminsCode(): array
+    {
+        return self::CODE;
     }
 
     // ------------------------------------------------------------ disponibilité
@@ -254,6 +263,12 @@ final class Deploiement
         }
         $journal[] = count($presents) . ' chemin(s) de code mis à jour.';
 
+        // git ne restaure pas les droits : on les réaligne sur les chemins reçus
+        $ajustes = $this->permissions->normaliser($presents);
+        if ($ajustes > 0) {
+            $journal[] = $ajustes . ' droit(s) d’accès réalignés.';
+        }
+
         // HEAD avance ; le contenu local reste tel quel et apparaîtra
         // simplement comme « modifié » vis-à-vis du dépôt, ce qui est normal
         [$code, $sortie, $erreur] = $this->git(['reset', '--mixed', '--quiet', $cible], true);
@@ -282,7 +297,7 @@ final class Deploiement
     public function sauvegarder(): string
     {
         $dossier = $this->dossierSauvegardes();
-        if (!is_dir($dossier) && !mkdir($dossier, 0770, true) && !is_dir($dossier)) {
+        if (!$this->permissions->creerDossier($dossier)) {
             throw new RuntimeException('Impossible de créer ' . $dossier);
         }
 
@@ -299,6 +314,9 @@ final class Deploiement
         if ($code !== 0 || !is_file($archive)) {
             throw new RuntimeException('Sauvegarde impossible : ' . trim($erreur ?: $sortie));
         }
+        // l'archive embarque data/admin : mot de passe SMTP et empreinte du
+        // compte. Elle ne doit jamais être lisible par d'autres comptes.
+        @chmod($archive, Permissions::SECRET);
 
         return $archive;
     }
@@ -341,6 +359,7 @@ final class Deploiement
         if ($code !== 0) {
             throw new RuntimeException('Restauration impossible : ' . trim($erreur ?: $sortie));
         }
+        $this->permissions->normaliser(self::ETAT_VIVANT);
     }
 
     /** Ne conserve que les 10 archives les plus récentes. */

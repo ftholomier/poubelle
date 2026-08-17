@@ -5,6 +5,7 @@
  * @var array $parametres
  * @var string $identifiant
  * @var array $diagnostic
+ * @var array $droits
  * @var string|null $trace
  */
 use App\Core\Csrf;
@@ -137,6 +138,37 @@ $contact = $parametres['contact'];
     <button class="bo-btn" type="submit">Mettre à jour le compte</button>
   </fieldset>
 </form>
+
+<section class="bo-zone" style="margin-top:1.4rem;">
+  <header class="bo-zone__tete">
+    <h2>Droits d'accès</h2>
+    <p>Cible : <code>0755</code> pour les dossiers, <code>0644</code> pour les fichiers,
+       <code>0640</code> pour ceux qui contiennent un secret. Utile après un transfert
+       FTP ou une mise à jour, qui ne restaurent pas les droits.</p>
+  </header>
+
+  <?php if ($droits['anomalies'] === []): ?>
+    <p class="bo-zone__vide"><?= e($droits['examines']) ?> éléments vérifiés, aucune anomalie.</p>
+  <?php else: ?>
+    <ul class="bo-droits">
+      <?php foreach ($droits['anomalies'] as $a): ?>
+        <li>
+          <code class="mode"><?= e($a['mode']) ?></code>
+          <span class="chemin"><?= e($a['chemin']) ?></span>
+          <span class="probleme"><?= e($a['probleme']) ?></span>
+        </li>
+      <?php endforeach; ?>
+    </ul>
+    <?php if ($droits['tronque']): ?>
+      <p class="bo-zone__vide">Liste tronquée — la réparation traite l'ensemble.</p>
+    <?php endif; ?>
+  <?php endif; ?>
+
+  <form method="post" action="<?= url('/admin/parametres/droits') ?>" style="margin-top:1.1rem;">
+    <?= Csrf::champ() ?>
+    <button class="bo-btn bo-btn--contour" type="submit">Réparer les droits</button>
+  </form>
+</section>
 
 <section class="bo-diag">
   <h2>Diagnostic du serveur</h2>

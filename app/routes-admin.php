@@ -98,6 +98,7 @@ $router->get('/admin/parametres',            $protege(fn() => $reglage->ecran())
 $router->post('/admin/parametres/messagerie', $protege(fn() => $reglage->messagerieEnvoi()));
 $router->post('/admin/parametres/test',       $protege(fn() => $reglage->test()));
 $router->post('/admin/parametres/compte',     $protege(fn() => $reglage->compteEnvoi()));
+$router->post('/admin/parametres/droits',     $protege(fn() => $reglage->droitsEnvoi()));
 
 $router->get('/admin/mises-a-jour',             $protege(fn() => $majour->ecran()));
 $router->post('/admin/mises-a-jour/verifier',    $protege(fn() => $majour->verifier()));

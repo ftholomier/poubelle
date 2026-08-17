@@ -101,6 +101,8 @@ final class Content
             @unlink($tmp);
             throw new RuntimeException("Écriture impossible : {$name}.json");
         }
+        // le umask du serveur est imprévisible : on fixe les droits
+        @chmod($file, Permissions::FICHIER);
 
         unset($this->cache[$name]);
     }
@@ -139,10 +141,15 @@ final class Content
     {
         $dossier = $this->dossierSauvegardes();
         if (!is_dir($dossier)) {
-            mkdir($dossier, 0770, true);
+            $ancien = umask(0);
+            @mkdir($dossier, Permissions::DOSSIER, true);
+            umask($ancien);
         }
         $slug = str_replace('/', '__', $name);
-        @copy($file, $dossier . '/' . $slug . '-' . date('Ymd-His') . '.json');
+        $copie = $dossier . '/' . $slug . '-' . date('Ymd-His') . '.json';
+        if (@copy($file, $copie)) {
+            @chmod($copie, Permissions::FICHIER);
+        }
 
         // ne conserver que les 20 plus récentes par contenu
         $liste = glob($dossier . '/' . $slug . '-*.json') ?: [];

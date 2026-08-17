@@ -84,8 +84,13 @@ final class Parametres
     public function enregistrer(array $donnees): void
     {
         $dossier = dirname($this->fichier);
-        if (!is_dir($dossier) && !mkdir($dossier, 0770, true) && !is_dir($dossier)) {
-            throw new RuntimeException('Impossible de créer ' . $dossier);
+        if (!is_dir($dossier)) {
+            $ancien = umask(0);
+            @mkdir($dossier, Permissions::DOSSIER, true);
+            umask($ancien);
+            if (!is_dir($dossier)) {
+                throw new RuntimeException('Impossible de créer ' . $dossier);
+            }
         }
 
         $json = json_encode(
@@ -98,7 +103,7 @@ final class Parametres
             @unlink($tmp);
             throw new RuntimeException('Écriture impossible : parametres.json');
         }
-        @chmod($this->fichier, 0640);
+        @chmod($this->fichier, Permissions::SECRET);
 
         $this->cache = null;
     }

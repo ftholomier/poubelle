@@ -34,7 +34,9 @@ final class Auth
     {
         $dossier = dirname($this->fichierCompte);
         if (!is_dir($dossier)) {
-            mkdir($dossier, 0770, true);
+            $ancien = umask(0);
+            @mkdir($dossier, Permissions::DOSSIER, true);
+            umask($ancien);
         }
         $donnees = [
             'identifiant' => $identifiant,
@@ -46,7 +48,7 @@ final class Auth
             json_encode($donnees, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n",
             LOCK_EX
         );
-        @chmod($this->fichierCompte, 0640);
+        @chmod($this->fichierCompte, Permissions::SECRET);
     }
 
     public function verifier(string $identifiant, string $motDePasse): bool
@@ -97,7 +99,7 @@ final class Auth
             json_encode($compte, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n",
             LOCK_EX
         );
-        @chmod($this->fichierCompte, 0640);
+        @chmod($this->fichierCompte, Permissions::SECRET);
 
         Session::regenerer();
         Session::set('admin', ['identifiant' => $identifiant, 'depuis' => time()]);
@@ -179,7 +181,9 @@ final class Auth
         }
         $dossier = dirname($this->fichierTentatives);
         if (!is_dir($dossier)) {
-            mkdir($dossier, 0770, true);
+            $ancien = umask(0);
+            @mkdir($dossier, Permissions::DOSSIER, true);
+            umask($ancien);
         }
         file_put_contents($this->fichierTentatives, json_encode($liste), LOCK_EX);
     }
