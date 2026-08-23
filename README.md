@@ -6,8 +6,10 @@ carports aluminium et fermetures. PHP natif, contenu en JSON, aucune
 dépendance (ni Composer, ni base de données, ni build front).
 
 Le site est volontairement mono-activité : il ne présente que la gamme
-pergola / carport, la société et son savoir-faire. Charte gris et orange,
-liseré bleu-blanc-rouge en tête de page, au-dessus du pied et dans le logo.
+pergola / carport, la société et son savoir-faire. Textes, caractéristiques
+techniques, photographies, logo et couleurs sont repris du site existant
+`menuiserietrehant.fr`. Liseré bleu-blanc-rouge en tête de page et au-dessus
+du pied, badge « Fabriqué en France / RGE » de l'entreprise dans le pied.
 
 Bâti sur le socle décrit dans **[KIT.md](KIT.md)** — architecture et
 conventions inchangées.
@@ -48,21 +50,38 @@ En local : `php -S localhost:8080 -t public public/index.php`
 `/` · `/pergolas-carports` (+ une page par gamme) · `/savoir-faire` ·
 `/la-societe` · `/contact` · `/mentions-legales`
 
+Les quatre gammes : pergola à lames orientables, pergola à toile rétractable,
+pergola à toiture fixe, carport.
+
 Les adresses du site précédent sont redirigées en 301 : `/pergola-carport`
 mène à `/pergolas-carports`, `/pergola` à la pergola bioclimatique et
 `/carport` au carport. Les slugs restent modifiables depuis l'écran
 **Référencement**, qui crée alors la redirection correspondante.
 
-## À renseigner avant la mise en ligne
+## Charte
 
-Le contenu éditorial est en place ; ces éléments-là ne peuvent venir que du
-client, et se saisissent dans le back-office sans toucher au code :
+| Rôle | Valeur | Origine |
+|---|---|---|
+| Orange de marque | `#f39200` | relevé sur le logo |
+| Orange des boutons du site actuel | `#f37021` | relevé sur les feuilles Elementor |
+| Orange de texte et de bouton (`--orange`) | `#b84f13` | dérivé des deux précédents |
+| Gris | `#1a1a1a` `#313131` `#616161` | relevés sur le site actuel |
+| Texte courant | Raleway | police du site actuel, auto-hébergée |
+| Titrage | Playfair Display | ajout, pour le registre demandé |
+
+Les deux oranges de la marque tiennent 2,35:1 et 2,94:1 sur blanc, sous le
+seuil WCAG AA. Ils restent donc réservés aux aplats, aux filets et aux fonds
+sombres ; le texte et les boutons sur fond clair passent par `--orange`, une
+version assombrie de la même teinte qui tient 5,04:1. Sur le fond sombre du
+back-office, l'orange du logo est repris tel quel — il y tient 6,9:1.
+
+## À renseigner avant la mise en ligne
 
 | Quoi | Où |
 |---|---|
-| Téléphone, e-mail, adresse de l'atelier | Admin → Site |
-| SIRET, dirigeant, hébergeur | Admin → Éditeur avancé → `pages/mentions-legales` |
-| Photos des réalisations, de l'atelier et des équipes | Admin → Photos |
+| Adresse e-mail et horaires d'ouverture (absents du site actuel) | Admin → Site |
+| SIRET et hébergeur | Admin → Éditeur avancé → `pages/mentions-legales` |
+| Une photo de pergola à **toile rétractable** — aucune n'existe sur le site actuel, la fiche affiche pour l'instant une pergola à lames | Admin → Photos |
 | Fiche Google pour les avis | Admin → Avis Google |
 | Réglages SMTP et destinataire du formulaire | Admin → Paramètres |
 

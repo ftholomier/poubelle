@@ -196,8 +196,8 @@ Puis, à la main :
 L'écran **Référencement** du back-office regroupe tout ce que Google lit.
 
 **Adresses des pages.** Chaque page a son slug — la partie de l'adresse après
-le nom de domaine. Écrivez-le en toutes lettres : « Expertise comptable
-Colombier Fontaine » est enregistré comme `expertise-comptable-colombier-fontaine`. Accents,
+le nom de domaine. Écrivez-le en toutes lettres : « Pergola & carport
+Vellevans » est enregistré comme `pergola-carport-vellevans`. Accents,
 majuscules, espaces, ponctuation et apostrophes sont convertis, et une adresse
 complète collée depuis le navigateur est ramenée à son chemin. Un aperçu
 affiche le résultat pendant la frappe, et le message de confirmation rappelle
@@ -356,7 +356,7 @@ Collez la clé dans l'écran **Avis Google**, puis :
 
 - si vous connaissez l'identifiant de votre fiche (Place ID), saisissez-le ;
 - sinon, utilisez la **recherche** en bas de l'écran : tapez « Menuiserie Tréhant,
-  Colombier Fontaine », et cliquez sur *Utiliser cette fiche* dans les
+  Vellevans », et cliquez sur *Utiliser cette fiche* dans les
   résultats. L'identifiant se reporte tout seul.
 
 Cochez *Afficher les avis Google sur le site*, enregistrez : les avis sont

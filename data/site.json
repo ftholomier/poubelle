@@ -1,28 +1,40 @@
 {
     "nom": "Menuiserie Tréhant",
     "baseline": "Pergolas & carports aluminium",
-    "titre_seo": "Menuiserie Tréhant | Pergolas et carports aluminium sur mesure, fabriqués en France",
-    "accroche": "Menuiserie Tréhant conçoit, fabrique et pose des pergolas bioclimatiques, pergolas à toile rétractable, toitures fixes et carports en aluminium. Fabrication française sur mesure, pose par nos équipes.",
+    "titre_seo": "Menuiserie Tréhant | Pergolas et carports aluminium sur mesure — Doubs (25)",
+    "accroche": "Menuiserie Tréhant conçoit, fournit et pose des pergolas à lames orientables, à toile rétractable ou à toiture fixe, et des carports en aluminium extrudé. Entreprise familiale depuis 1945, à Vellevans, Belleherbe et Pugey.",
     "logo": {
-        "principal": "assets/img/logo/logo-trehant.svg",
-        "clair": "assets/img/logo/logo-trehant-clair.svg",
-        "embleme": "assets/img/logo/embleme-trehant.svg"
+        "principal": "assets/img/logo/logo-trehant.png",
+        "clair": "assets/img/logo/logo-trehant.png",
+        "embleme": "assets/img/logo/embleme-trehant.png"
     },
     "adresse": {
-        "rue": "",
-        "cp": "",
-        "ville": "Vendée",
+        "rue": "39 Grande Rue",
+        "cp": "25430",
+        "ville": "Vellevans",
         "pays": "France"
     },
+    "adresses_secondaires": [
+        {
+            "rue": "3 rue de la Combe",
+            "cp": "25380",
+            "ville": "Belleherbe"
+        },
+        {
+            "rue": "15 rue de l'Église",
+            "cp": "25720",
+            "ville": "Pugey"
+        }
+    ],
     "contact": {
-        "telephone": "",
+        "telephone": "03 81 44 37 28",
         "email": "",
-        "horaires": "Du lundi au vendredi, de 8h00 à 18h00"
+        "horaires": ""
     },
     "fondation": {
-        "annee": "",
-        "fondatrice": "",
-        "qualite": "Menuiserie aluminium — fabrication française"
+        "annee": "1945",
+        "fondatrice": "Élie Tréhant",
+        "qualite": "Entreprise familiale de menuiserie, quatre générations"
     },
     "reservation": {
         "principal": {
@@ -30,8 +42,8 @@
             "url": "/contact"
         },
         "secondaire": {
-            "libelle": "Voir les gammes",
-            "url": "/pergolas-carports"
+            "libelle": "Nous appeler",
+            "url": "tel:0381443728"
         }
     },
     "menu": [
@@ -59,11 +71,12 @@
     ],
     "reseaux": {
         "linkedin": "",
-        "facebook": ""
+        "facebook": "https://www.facebook.com/olivertrehant",
+        "instagram": "https://www.instagram.com/menuiserietrehant/"
     },
     "pied": {
-        "seo": "Menuiserie Tréhant — pergolas bioclimatiques à lames orientables, pergolas à toile rétractable, toitures fixes isolées et carports aluminium, conçus, fabriqués et posés en France.",
-        "proche_de": "Nous étudions, fabriquons et posons vos projets de pergola et de carport en Vendée et dans les départements limitrophes.",
+        "seo": "Menuiserie Tréhant — pergolas à lames orientables motorisées, pergolas à toile rétractable, pergolas à toiture fixe et carports en aluminium extrudé, sur mesure jusqu'à 7 m de longueur, tenue au vent testée à 180 km/h.",
+        "proche_de": "Nous intervenons dans le Doubs, le Territoire de Belfort, la Haute-Saône et le Jura, depuis nos ateliers de Vellevans, Belleherbe et Pugey.",
         "copyright": "© [year] Menuiserie Tréhant — Tous droits réservés"
     }
 }

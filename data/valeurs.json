@@ -1,59 +1,59 @@
 {
-    "intro": "Cinq engagements qui se vérifient sur l'ouvrage fini, pas sur la plaquette.",
+    "intro": "Cinq engagements tirés de notre philosophie d'entreprise, et vérifiables sur l'ouvrage posé.",
     "items": [
         {
-            "slug": "fabrication-francaise",
-            "nom": "Fabriqué en France",
+            "slug": "le-client-son-projet",
+            "nom": "Le client, son besoin, son projet",
             "actif": true,
-            "resume": "Des profilés de gammistes français, transformés dans notre atelier : une filière courte, contrôlable, et un service après-vente qui reste joignable.",
-            "image": "assets/img/site/atout-france.jpg",
+            "resume": "Prendre le temps de définir le besoin avant de parler produit. C'est la première ligne de notre philosophie, et elle commande tout le reste.",
+            "image": "assets/img/site/pergola-jardin.jpg",
             "paragraphes": [
-                "Nos profilés en aluminium extrudé proviennent de gammistes français. La coupe, l'usinage, l'assemblage et le contrôle sont réalisés dans notre atelier. Nous savons d'où vient chaque pièce d'une pergola sortie de chez nous, et nous pouvons le dire sans consulter personne.",
-                "Ce n'est pas seulement une question de principe. Une filière courte, c'est un délai qu'on maîtrise, une pièce détachée qu'on obtient encore dans dix ans, et un interlocuteur qui parle la même langue que vous quand quelque chose doit être repris."
+                "Une pergola ne se choisit pas dans un catalogue. Ce qui décide de la gamme, ce sont les questions qu'on pose avant : que voulez-vous faire de cet espace, à quelle heure y êtes-vous, la baie vitrée surchauffe-t-elle en juillet, le vent tourne-t-il dans cet angle de la maison.",
+                "Nous prenons ce temps-là, systématiquement, et il nous arrive de conseiller autre chose que ce qui était demandé au départ — ou de dire qu'un emplacement ne convient pas. Un projet mal engagé se paie à l'usage, pas au devis."
             ]
         },
         {
-            "slug": "sur-mesure",
-            "nom": "Le sur-mesure, au millimètre",
+            "slug": "made-in-france",
+            "nom": "Le made in France, et la Franche-Comté quand c'est possible",
             "actif": true,
-            "resume": "Chaque ouvrage est fabriqué aux cotes relevées chez vous. Pas de module standard recoupé sur le chantier.",
-            "image": "assets/img/site/atout-sur-mesure.jpg",
+            "resume": "Des filières que l'on peut nommer : aluminium extrudé, visserie inox, motorisation Somfy, toiles Mermet — françaises, et régionales chaque fois que c'est possible.",
+            "image": "assets/img/site/locaux.jpg",
             "paragraphes": [
-                "Une façade n'est jamais parfaitement d'aplomb, une terrasse jamais parfaitement de niveau. Le relevé se fait donc chez vous, sur place, et la fabrication suit ces cotes-là — pas celles d'un catalogue arrondi aux dix centimètres.",
-                "C'est ce qui permet une jonction franche contre le mur, un débord régulier sur toute la longueur et une évacuation qui prend l'eau du bon côté. Un ouvrage sur mesure ne se voit pas : c'est justement à cela qu'on le reconnaît."
+                "C'est écrit dans notre vision, et ce n'est pas une formule : nous privilégions les fabrications françaises, et les fournisseurs comtois chaque fois que l'un d'eux sait faire. Une filière courte, c'est un délai que l'on maîtrise et un interlocuteur qui répond encore dix ans plus tard.",
+                "Concrètement : structure en aluminium extrudé, visserie et axes inox, bagues autolubrifiées, motorisation Somfy garantie 5 ans, toile Mermet pour les stores zip. Des noms que vous pouvez vérifier."
             ]
         },
         {
-            "slug": "pose-par-nos-equipes",
-            "nom": "Posé par ceux qui l'ont fabriqué",
+            "slug": "exigence-dans-le-geste",
+            "nom": "La qualité dans nos réalisations et l'exigence dans le geste",
             "actif": true,
-            "resume": "Nos monteurs installent, règlent et mettent en service. Ils connaissent le produit parce qu'ils l'ont vu naître.",
-            "image": "assets/img/site/atout-pose.jpg",
+            "resume": "Ce qui ne se remarque pas sur une pergola bien faite est justement ce qui a demandé le plus de soin : la gouttière intégrée, la platine cachée, la jonction franche contre le mur.",
+            "image": "assets/img/site/pergola-lames.jpg",
             "paragraphes": [
-                "La pose est assurée par nos équipes, pas par un sous-traitant de passage. Elles montent nos ouvrages toute l'année, elles en connaissent les points sensibles et elles savent régler une motorisation sans laisser le mode d'emploi sur la table.",
-                "La mise en service se fait devant vous : orientation des lames, éclairage, capteurs, entretien courant. Vous ne découvrez pas votre pergola une fois le camion parti."
+                "La gouttière est intégrée et périphérique. La descente d'eau passe à l'intérieur des poteaux de 130 × 130 mm. La fixation se fait par platine à l'intérieur du poteau. Rien ne pend, rien n'est rapporté, rien ne vieillira mal en façade.",
+                "Le store zip est intégré dans le bandeau plutôt que posé par-dessus : pas de hauteur supplémentaire, pas de coffre en saillie. Ce sont ces détails-là, invisibles une fois l'ouvrage terminé, qui séparent deux pergolas identiques en photo."
             ]
         },
         {
-            "slug": "garanties-et-durabilite",
-            "nom": "Des garanties qui tiennent",
+            "slug": "delais-et-coordination",
+            "nom": "Des délais tenus, un chantier coordonné",
             "actif": true,
-            "resume": "Dix ans sur les profilés, cinq ans sur la motorisation Somfy, et des pièces disponibles bien au-delà.",
-            "image": "assets/img/site/atout-garantie.jpg",
+            "resume": "Réaliser le projet dans les délais annoncés, en se coordonnant avec les autres corps de métier présents sur le chantier.",
+            "image": "assets/img/site/pergola-montage.jpg",
             "paragraphes": [
-                "Les profilés sont garantis dix ans, la motorisation Somfy cinq ans. Les structures sont testées au vent jusqu'à 180 km/h : ce chiffre-là n'est pas une promesse commerciale, c'est un résultat d'essai.",
-                "Au-delà de la garantie, ce qui compte est la disponibilité des pièces. Travailler avec des gammistes établis et fabriquer nous-mêmes nous permet de remplacer une lame, un moteur ou un joint des années après la pose, sans avoir à déposer l'ensemble."
+                "Une pergola arrive rarement seule : il y a le maçon qui coule la dalle, l'électricien qui tire la ligne de l'éclairage LED, parfois le paysagiste. La troisième ligne de nos missions dit exactement cela — respecter les délais et se coordonner avec les différents intervenants.",
+                "Le bâtiment de 500 m² acquis à Vellevans en 2021, équipé de racks et de cantilevers, sert précisément à cela : stocker les pergolas dans de bonnes conditions pour ne pas dépendre d'une livraison le matin de la pose."
             ]
         },
         {
-            "slug": "proximite",
-            "nom": "Une société à taille humaine",
+            "slug": "esprit-familial",
+            "nom": "Un développement à taille humaine",
             "actif": true,
-            "resume": "Un atelier que vous pouvez visiter, une équipe que vous connaîtrez par son prénom, un téléphone auquel quelqu'un répond.",
-            "image": "assets/img/site/atout-proximite.jpg",
+            "resume": "Neuf collaborateurs, trois ateliers, une entreprise familiale depuis 1945 : vous parlez à la même personne du premier rendez-vous au service après-vente.",
+            "image": "assets/img/site/equipe.jpg",
             "paragraphes": [
-                "Nous sommes une entreprise familiale, et nous tenons à le rester. Vous n'aurez pas affaire à un centre d'appels ni à un commercial qui aura changé de secteur au moment de la pose : la même personne suit votre projet du premier rendez-vous à la mise en service.",
-                "Cette proximité a un effet concret sur la qualité. Quand celui qui vous a reçu croise chaque matin celui qui fabrique et celui qui pose, une erreur se corrige en une conversation — pas en trois courriels et deux semaines."
+                "Notre vision tient en une phrase : un développement à taille humaine, pour offrir des outils performants à une équipe dynamique et soudée dans un esprit familial. Les reprises successives — Belleherbe en 2022, Pugey en 2024 — se sont faites dans cet esprit, en gardant les équipes et les savoir-faire en place.",
+                "Pour vous, cela se traduit simplement : un interlocuteur identifié, un dirigeant que vous croiserez sur le chantier, et un téléphone auquel quelqu'un répond quand il faut régler une lame ou commander une pièce, deux ans après la pose."
             ]
         }
     ]

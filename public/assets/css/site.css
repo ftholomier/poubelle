@@ -1,18 +1,21 @@
 /* ==========================================================================
    Menuiserie Tréhant — Pergolas & carports aluminium
-   Charte gris et orange, tenue sobre et haut de gamme.
-   Écrit à la main, sans build ni dépendance.
+   Charte de la marque : gris et orange, relevés sur le logo et sur le site
+   existant. Écrit à la main, sans build ni dépendance.
    ========================================================================== */
 
 /* ---------- Polices auto-hébergées ----------
    Aucune police distante : le site ne doit contacter aucun service extérieur,
-   ni pour la vitesse, ni pour la vie privée. */
+   ni pour la vitesse, ni pour la vie privée.
+   Raleway est la police du site actuel de la menuiserie ; elle est conservée
+   pour le texte courant. Playfair Display ne sert qu'au titrage, pour le
+   registre haut de gamme demandé. */
 @font-face {
-  font-family: "Manrope";
-  src: url("../fonts/manrope-latin-variable.woff2") format("woff2-variations"),
-       url("../fonts/manrope-latin-variable.woff2") format("woff2");
+  font-family: "Raleway";
+  src: url("../fonts/raleway-latin-variable.woff2") format("woff2-variations"),
+       url("../fonts/raleway-latin-variable.woff2") format("woff2");
   /* fichier variable : une seule requête couvre toutes les graisses */
-  font-weight: 200 800; font-style: normal; font-display: swap;
+  font-weight: 100 900; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: "Playfair Display";
@@ -31,43 +34,50 @@
 }
 
 /* ---------- Variables ----------
-   Chaque couleur porteuse de texte a été mesurée sur son fond d'usage et
-   tenue au-dessus du seuil WCAG AA (4,5:1, ou 3:1 pour le grand texte).
-   Les teintes plus claires sont réservées aux filets et aux fonds. */
+   Les deux oranges viennent de la marque : #f39200 est celui du logo,
+   #f37021 celui des boutons du site actuel. Aucun des deux ne tient le seuil
+   WCAG AA sur blanc (2,35:1 et 2,94:1) : ils restent donc réservés aux
+   aplats, aux filets et aux fonds sombres, et le texte orange sur blanc
+   passe par --orange, une version assombrie de la même teinte qui tient
+   5,04:1. Les gris sont ceux du site existant. */
 :root {
-  /* Orange de la charte : 4,97:1 sur blanc, et blanc dessus au même
-     rapport — il sert donc aussi bien au texte qu'au fond des boutons. */
-  --orange: #b85114;
-  --orange-vif: #c25a18;
-  --orange-sombre: #97400f;
-  /* Réservé au texte posé sur les fonds sombres : 8,5:1 sur --encre. */
-  --orange-clair: #e9a97c;
+  /* Orange de texte et de bouton sur fond clair — 5,04:1 sur blanc, et
+     blanc dessus au même rapport. */
+  --orange: #b84f13;
+  /* Orange de marque, pour les aplats et les surfaces qui ne portent pas de
+     petit texte : celui du logo, puis celui des boutons du site actuel. */
+  --orange-marque: #f39200;
+  --orange-vif: #f37021;
+  --orange-sombre: #8d3c0e;
+  /* Texte orange posé sur les fonds sombres : 7,4:1 sur --encre. */
+  --orange-clair: #f39200;
   /* Grands chiffres décoratifs (01, 02…) : ils portent l'ordre, donc ils
-     restent du texte. 3,25:1 sur blanc, au-dessus du seuil des grandes
-     tailles, tout en restant nettement plus doux que --orange. */
+     restent du texte. 3,3:1 sur blanc, au-dessus du seuil des grandes
+     tailles, tout en restant plus doux que --orange. */
   --orange-chiffre: #d2782f;
-  --sable-pale: #faf6f2;
-  --sable-voile: #f1e7de;
+  --sable-pale: #faf7f3;
+  --sable-voile: #f2e7db;
 
   /* Bleu, blanc, rouge du liseré « Fabriqué en France ». Décoratifs : ils ne
      portent jamais de texte, aucun seuil de contraste ne s'y applique. */
   --bleu-france: #10285f;
   --rouge-france: #b3222e;
 
-  --encre: #1c1b1a;
-  --encre-2: #2a2827;
-  --texte: #2e2c2b;
-  --texte-doux: #6a6663;
-  --ligne: #e4e1de;
+  /* Gris de la charte, relevés sur le site existant. */
+  --encre: #1a1a1a;
+  --encre-2: #262626;
+  --texte: #313131;
+  --texte-doux: #616161;
+  --ligne: #e3e1de;
   --fond: #ffffff;
-  --fond-teinte: #f7f5f3;
+  --fond-teinte: #f6f5f3;
 
   /* Dégradé porteur de texte blanc (les initiales des avis) : son extrémité
-     la plus claire tient 4,97:1, donc toute la course est conforme. */
-  --degrade-orange: linear-gradient(120deg, #8f3d0e 0%, #a94b14 55%, #b85114 100%);
+     la plus claire tient 5,04:1, donc toute la course est conforme. */
+  --degrade-orange: linear-gradient(120deg, #8d3c0e 0%, #a54711 55%, #b84f13 100%);
 
   --titre: "Playfair Display", Georgia, "Times New Roman", serif;
-  --texte-police: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --texte-police: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   --transition: .38s cubic-bezier(.25, .8, .25, 1);
   --entete-h: 92px;
@@ -76,8 +86,8 @@
   --largeur: 1240px;
   --rayon: 10px;
   --rayon-carte: 22px;
-  --ombre-carte: 0 2px 6px rgba(28, 27, 26, .04), 0 14px 40px rgba(28, 27, 26, .07);
-  --ombre-carte-active: 0 4px 12px rgba(184, 81, 20, .12), 0 22px 56px rgba(28, 27, 26, .12);
+  --ombre-carte: 0 2px 6px rgba(26, 26, 26, .05), 0 14px 40px rgba(26, 26, 26, .08);
+  --ombre-carte-active: 0 4px 12px rgba(184, 79, 19, .12), 0 22px 56px rgba(26, 26, 26, .13);
 }
 
 /* ---------- Base ---------- */
@@ -169,11 +179,11 @@ p + p { margin-top: 1.05rem; }
 
 .btn--orange {
   background: var(--orange); color: #fff; border-color: var(--orange);
-  box-shadow: 0 6px 18px rgba(184, 81, 20, .24);
+  box-shadow: 0 6px 18px rgba(184, 79, 19, .24);
 }
 .btn--orange:hover {
   background: var(--orange-sombre); border-color: var(--orange-sombre);
-  box-shadow: 0 10px 26px rgba(184, 81, 20, .32);
+  box-shadow: 0 10px 26px rgba(184, 79, 19, .32);
 }
 
 .btn--contour { color: var(--orange); border-color: var(--orange); background: transparent; }
@@ -246,7 +256,7 @@ p + p { margin-top: 1.05rem; }
   height: var(--entete-h-compact);
   background: rgba(255, 255, 255, .94);
   backdrop-filter: blur(16px) saturate(1.1);
-  box-shadow: 0 1px 0 var(--ligne), 0 10px 30px rgba(28, 27, 26, .07);
+  box-shadow: 0 1px 0 var(--ligne), 0 10px 30px rgba(26, 26, 26, .07);
 }
 .entete__barre {
   position: relative;
@@ -255,18 +265,32 @@ p + p { margin-top: 1.05rem; }
   display: flex; align-items: center; gap: 1.4rem;
 }
 
-/* --- le logo, en deux versions superposées --- */
-.entete__logo { position: relative; display: block; }
-.entete__logo-img {
-  height: 62px; width: auto;
-  transition: height var(--transition), opacity var(--transition);
+/* --- la marque : monogramme + nom composé ---
+   Le logo de l'entreprise est un monogramme sans mot-symbole. Le nom est donc
+   posé à côté en typographie, ce qui permet aussi de le faire changer de
+   couleur avec le fond sans avoir deux fichiers d'image à tenir. */
+.marque { display: inline-flex; align-items: center; gap: .8rem; }
+.marque__embleme {
+  height: 46px; width: auto; flex: 0 0 auto;
+  transition: height var(--transition);
 }
-/* La version sombre est posée sur la claire, sans l'expulser du flux :
-   c'est la claire qui donne sa taille au bloc, et l'échange se fait par
-   simple fondu. */
-.entete__logo-img--sombre { position: absolute; inset: 0 auto auto 0; opacity: 0; }
-.entete--pleine .entete__logo-img--sombre { opacity: 1; }
-.entete--pleine .entete__logo-img--clair { opacity: 0; }
+.marque__mots { display: flex; flex-direction: column; line-height: 1.15; }
+.marque__nom {
+  font-family: var(--titre); font-size: 1.28rem; font-weight: 500;
+  letter-spacing: .01em; color: #fff;
+  transition: color var(--transition);
+}
+.marque__baseline {
+  font-size: .62rem; font-weight: 600; letter-spacing: .17em;
+  text-transform: uppercase; color: rgba(255, 255, 255, .72);
+  transition: color var(--transition);
+}
+/* Barre devenue blanche : le nom repasse à l'encre. Les variantes --clair
+   (panneau, pied) restent sur fond sombre en permanence, elles ne suivent
+   donc pas cette bascule. */
+.entete--pleine .marque__nom { color: var(--encre); }
+.entete--pleine .marque__baseline { color: var(--texte-doux); }
+.entete__logo { display: inline-flex; }
 
 /* --- disposition latérale : burger à gauche, logo centré --- */
 .entete--lateral .entete__barre { justify-content: space-between; }
@@ -275,12 +299,12 @@ p + p { margin-top: 1.05rem; }
   transform: translate(-50%, -50%);
   transition: transform var(--transition);
 }
-.entete--lateral:not(.entete--pleine) .entete__logo-img { height: 76px; }
+.entete--lateral:not(.entete--pleine) .marque__embleme { height: 56px; }
 
 /* --- disposition horizontale : logo à gauche, navigation au centre --- */
 .entete--horizontal .entete__logo { flex: 0 0 auto; }
-.entete--horizontal .entete__logo-img { height: 60px; }
-.entete--horizontal.entete--pleine .entete__logo-img { height: 48px; }
+.entete--horizontal .marque__embleme { height: 46px; }
+.entete--horizontal.entete--pleine .marque__embleme { height: 38px; }
 
 .navbar { display: none; margin-inline: auto; }
 .navbar__liste { display: flex; align-items: center; gap: clamp(.4rem, 1.6vw, 1.5rem); }
@@ -418,8 +442,8 @@ body.menu-ouvert .panneau {
   padding: 1.5rem clamp(1.4rem, 5vw, 2.4rem);
   border-bottom: 1px solid rgba(255, 255, 255, .1);
 }
-.panneau__tete img { height: 76px; width: auto; }
-.panneau__logo:hover img { opacity: .85; }
+.panneau__logo .marque__embleme { height: 48px; }
+.panneau__logo:hover { opacity: .85; }
 .panneau__fermer {
   display: inline-flex; align-items: center; gap: .5rem;
   font-size: .74rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
@@ -525,8 +549,8 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 .heros__fond::after {
   content: ""; position: absolute; inset: 0;
   background:
-    linear-gradient(105deg, rgba(22, 20, 18, .84) 0%, rgba(22, 20, 18, .62) 46%, rgba(22, 20, 18, .38) 100%),
-    linear-gradient(rgba(22, 20, 18, .3), rgba(22, 20, 18, .55));
+    linear-gradient(105deg, rgba(21, 20, 19, .84) 0%, rgba(21, 20, 19, .62) 46%, rgba(21, 20, 19, .38) 100%),
+    linear-gradient(rgba(21, 20, 19, .3), rgba(21, 20, 19, .55));
 }
 
 .heros__contenu { position: relative; max-width: 780px; }
@@ -632,28 +656,40 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   background: #fff;
   border: 1px solid var(--ligne);
   border-radius: var(--rayon-carte);
+  overflow: hidden;
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
 .carte-service > a {
   display: flex; flex-direction: column; height: 100%;
-  padding: clamp(1.6rem, 3vw, 2.1rem);
 }
+/* La photo occupe le haut de la carte ; l'icône de gamme se pose à cheval
+   sur son bord bas, ce qui identifie la gamme sans reprendre de la hauteur. */
+.carte-service__media { position: relative; margin-bottom: 2.1rem; }
+.carte-service__media img {
+  display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+  transition: transform var(--transition);
+}
+.carte-service:hover .carte-service__media img { transform: scale(1.035); }
+.carte-service > a > :not(.carte-service__media) {
+  padding-inline: clamp(1.4rem, 2.6vw, 1.8rem);
+}
+.carte-service > a > :last-child { padding-bottom: clamp(1.4rem, 2.6vw, 1.8rem); }
 .carte-service:hover {
   transform: translateY(-4px);
   border-color: var(--sable-voile);
   box-shadow: var(--ombre-carte-active);
 }
 .carte-service__icone {
+  position: absolute; left: clamp(1.4rem, 2.6vw, 1.8rem); bottom: -26px;
   display: grid; place-items: center;
-  width: 58px; height: 58px;
-  border-radius: 16px;
-  background: var(--sable-pale);
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: #fff; border: 1px solid var(--ligne);
   color: var(--orange);
-  margin-bottom: 1.3rem;
-  transition: background var(--transition), color var(--transition);
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
 }
-.carte-service__icone svg { width: 30px; height: 30px; }
-.carte-service:hover .carte-service__icone { background: var(--orange); color: #fff; }
+.carte-service__icone svg { width: 28px; height: 28px; }
+.carte-service:hover .carte-service__icone { background: var(--orange); border-color: var(--orange); color: #fff; }
 .carte-service__titre { font-size: 1.32rem; margin-bottom: .7rem; }
 .carte-service__texte { color: var(--texte-doux); font-size: .96rem; flex: 1; }
 .carte-service__lien { margin-top: 1.4rem; }
@@ -809,7 +845,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   background: var(--orange); color: #fff;
   font-family: var(--titre); font-size: clamp(1.15rem, 2vw, 1.5rem);
   border-radius: 14px;
-  box-shadow: 0 14px 34px rgba(184, 81, 20, .3);
+  box-shadow: 0 14px 34px rgba(184, 79, 19, .3);
 }
 .serenite__texte p { color: var(--texte-doux); }
 .serenite__legende {
@@ -1002,7 +1038,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
   outline: none;
   background: #fff;
   border-color: var(--orange);
-  box-shadow: 0 0 0 3px rgba(184, 81, 20, .12);
+  box-shadow: 0 0 0 3px rgba(184, 79, 19, .12);
 }
 .champ input[aria-invalid="true"], .champ textarea[aria-invalid="true"] { border-color: #c0392b; }
 .champ__erreur { font-size: .84rem; color: #c0392b; font-weight: 600; }
@@ -1081,7 +1117,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
 .bande-cta::before {
   content: ""; position: absolute; inset: -40% 30% auto -10%;
   height: 160%;
-  background: radial-gradient(ellipse at 30% 40%, rgba(184, 81, 20, .38), transparent 62%);
+  background: radial-gradient(ellipse at 30% 40%, rgba(184, 79, 19, .38), transparent 62%);
   z-index: -1;
 }
 .bande-cta::after {
@@ -1130,7 +1166,8 @@ a.coordonnees__valeur:hover { color: var(--orange); }
   font-family: var(--texte-police);
   margin-bottom: 1.2rem;
 }
-.pied__logo img { height: 104px; width: auto; }
+.pied__logo .marque__embleme { height: 58px; }
+.pied__logo .marque__nom { font-size: 1.4rem; }
 .pied__accroche { margin-top: 1.2rem; color: rgba(255, 255, 255, .7); }
 .pied__tel {
   display: inline-block; margin-top: .7rem;
@@ -1233,7 +1270,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
   padding: clamp(1.1rem, 2.6vw, 1.7rem) var(--gouttiere);
   background: #fff;
   border-top: 2px solid var(--orange);
-  box-shadow: 0 -8px 40px rgba(28, 27, 26, .16);
+  box-shadow: 0 -8px 40px rgba(26, 26, 26, .16);
 }
 .cookies__corps { flex: 1 1 380px; }
 .cookies__titre { font-size: 1.15rem; margin-bottom: .35rem; }
@@ -1270,7 +1307,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
   display: flex; flex-direction: column;
   background: #fff;
   border-radius: 20px 20px 0 0;
-  box-shadow: 0 -12px 60px rgba(28, 27, 26, .3);
+  box-shadow: 0 -12px 60px rgba(26, 26, 26, .3);
 }
 @media (min-width: 700px) {
   .cookies__panneau {
@@ -1490,3 +1527,58 @@ a.coordonnees__valeur:hover { color: var(--orange); }
   .france__grille { grid-template-columns: 1fr; }
 }
 
+/* ---------- Ajouts Tréhant ---------- */
+
+/* Le visuel « Fabriqué en France / RGE » de l'entreprise, posé sur le fond
+   sombre du pied : un cartouche blanc l'isole, sinon son propre fond blanc
+   découperait un rectangle brut dans le pied. */
+.pied__france {
+  display: block; width: 128px; height: auto; margin-top: 1.7rem;
+  background: #fff; border-radius: 8px; padding: .55rem .7rem;
+}
+
+/* Trois ateliers dans le même bloc d'adresse : un filet les sépare sans
+   ajouter de hauteur, là où une ligne vide en aurait ajouté. */
+.pied__separateur {
+  display: block; width: 26px; height: 1px;
+  background: rgba(255, 255, 255, .22);
+  margin: .55rem 0;
+}
+
+.pied__reseaux { display: flex; gap: 1.1rem; }
+.pied__reseaux a { color: rgba(255, 255, 255, .72); transition: color var(--transition); }
+.pied__reseaux a:hover { color: #fff; }
+
+/* ---------- Frise de l'histoire ----------
+   Le filet vertical est peint par le ::before de la liste, et non par chaque
+   étape : il court ainsi d'un bout à l'autre sans interruption entre les
+   puces, et une étape ajoutée ou retirée depuis le back-office ne laisse ni
+   trou ni dépassement. */
+.frise { list-style: none; position: relative; padding-left: 5.6rem; }
+.frise::before {
+  content: ""; position: absolute; left: 4.05rem; top: .7em; bottom: .7em;
+  width: 1px; background: var(--ligne);
+}
+.frise__etape { position: relative; padding-bottom: 1.9rem; }
+.frise__etape:last-child { padding-bottom: 0; }
+.frise__annee {
+  /* Le millésime s'arrête avant le filet : sa largeur est calculée pour
+     laisser passer la puce, qui est centrée sur le trait. */
+  position: absolute; left: -5.6rem; top: -.1em; width: calc(4.05rem - 18px);
+  text-align: right;
+  font-family: var(--titre); font-size: 1.32rem; color: var(--orange);
+}
+/* La puce recouvre le filet : elle est peinte en couleur de fond, cerclée
+   d'orange, pour que le trait paraisse s'interrompre sous elle. */
+.frise__etape:not(.frise__etape--sans-date)::before {
+  content: ""; position: absolute; left: calc(-1.55rem - 6.5px); top: .48em;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--fond); border: 2px solid var(--orange);
+}
+.frise__texte { color: var(--texte-doux); }
+@media (max-width: 640px) {
+  .frise { padding-left: 1.6rem; }
+  .frise::before { left: 1px; }
+  .frise__annee { position: static; width: auto; text-align: left; margin-bottom: .2rem; }
+  .frise__etape:not(.frise__etape--sans-date)::before { left: calc(-1.6rem - 4px); top: .6em; }
+}

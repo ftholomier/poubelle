@@ -1,52 +1,47 @@
 {
   "titre": "Pergolas & carports",
   "meta": {
-    "description": "Pergola bioclimatique à lames orientables, pergola à toile rétractable, toiture fixe isolée, carport aluminium et fermetures : les gammes Menuiserie Tréhant, fabriquées en France sur mesure."
+    "description": "Pergola à lames orientables motorisées jusqu'à 150°, pergola à toile PVC rétractable, pergola à toiture fixe isotoit 63 mm et carport aluminium : les gammes Menuiserie Tréhant, sur mesure jusqu'à 7 m."
   },
   "hero": {
     "image": "assets/img/site/hero-gammes.jpg",
     "surtitre": "Nos gammes",
-    "titre": "Pergolas et carports en aluminium, à vos dimensions",
-    "texte": "Cinq façons de couvrir un extérieur, une seule exigence de fabrication. Toutes nos structures sont en aluminium extrudé, thermolaqué dans le coloris de votre choix."
+    "titre": "Pergolas et carports en aluminium extrudé",
+    "texte": "Pose en îlot sur quatre poteaux ou adossée à une ou plusieurs façades. Couverture de grandes dimensions, sur mesure. Protège du soleil, de la pluie et du vent."
   },
   "sections": [
     {
-      "titre": "Choisir sa couverture avant de choisir sa pergola",
+      "titre": "Une structure commune, quatre couvertures",
       "paragraphes": [
-        "Une pergola se choisit par sa couverture, pas par son nom commercial. Des lames orientables si vous voulez doser l'ombre et laisser passer l'air ; une toile rétractable si vous voulez retrouver le ciel en un geste ; une toiture fixe isolée si l'espace doit devenir une pièce à vivre toute l'année.",
-        "Le reste — dimensions, coloris, éclairage, fermetures latérales — se décide ensuite, une fois le principe arrêté. C'est dans cet ordre que nous menons chaque étude."
+        "Toutes nos pergolas et tous nos carports reposent sur la même ossature : aluminium extrudé, visserie et axes inox, bagues autolubrifiées, gouttière intégrée périphérique. Les poteaux de 130 × 130 mm intègrent la descente d'eau, et la fixation se fait par platine à l'intérieur du poteau — rien qui pende, rien qui se voie.",
+        "Ce qui change d'une gamme à l'autre, c'est la toiture : lames orientables si vous voulez doser l'ombre, toile rétractable si vous voulez retrouver le ciel, panneau sandwich isotoit si l'espace doit être couvert en permanence, bac acier ou isotoit pour le carport."
       ]
     },
     {
-      "titre": "Une structure dimensionnée, pas approximée",
+      "titre": "Grandes dimensions, tenue au vent testée",
       "paragraphes": [
-        "Nos poteaux de 130 × 130 mm intègrent l'évacuation des eaux de pluie : rien ne pend, rien ne se voit. Les structures sont testées au vent jusqu'à 180 km/h, et un carport peut couvrir jusqu'à 6,96 m de longueur sur 5 m de profondeur en un seul module, sans poteau intermédiaire au milieu du passage."
+        "Jusqu'à 7 m de longueur sur 5 m de profondeur en un seul module pour la pergola, 6,96 m sur 5 m pour le carport. Sur mesure dans tous les cas. La tenue au vent est testée jusqu'à 180 km/h, et les profils sont garantis 10 ans."
       ]
     }
   ],
   "methode": {
     "surtitre": "Notre méthode",
-    "titre": "De la première visite à la mise en service",
+    "titre": "Prendre le temps de définir le besoin",
     "etapes": [
       {
         "numero": "01",
-        "titre": "La visite et le relevé",
-        "texte": "Nous venons chez vous. Nous regardons la façade, la pente, l'exposition, l'évacuation existante, l'accès pour le montage. Le relevé de cotes se fait à ce moment-là, pas au téléphone."
+        "titre": "Définir votre besoin",
+        "texte": "Nous prenons le temps de comprendre ce que vous attendez de cet espace. C'est la première ligne de notre philosophie, et elle commande tout le reste : la gamme, les dimensions, la toiture, les fermetures."
       },
       {
         "numero": "02",
-        "titre": "L'étude et le devis",
-        "texte": "Vous recevez un plan et un devis détaillé, poste par poste : structure, couverture, coloris, options, motorisation et pose. Rien n'est fabriqué avant votre accord."
+        "titre": "Trouver le produit qui y répond",
+        "texte": "Fabriquer ou sélectionner la solution qui correspond réellement à vos attentes et à votre façade. Vous recevez un devis détaillé : structure, toiture, fermetures, éclairage, motorisation, laquage et pose."
       },
       {
         "numero": "03",
-        "titre": "La fabrication en atelier",
-        "texte": "Les profilés sont coupés, usinés et assemblés à vos cotes dans notre atelier, puis contrôlés avant le départ. Le délai vous est annoncé au moment de la commande."
-      },
-      {
-        "numero": "04",
-        "titre": "La pose et la mise en service",
-        "texte": "Nos monteurs installent l'ouvrage, règlent la motorisation et vous montrent son fonctionnement avant de partir. Le service après-vente reste assuré par la même équipe."
+        "titre": "Réaliser le projet dans les délais",
+        "texte": "La pose est assurée par nos équipes, en se coordonnant avec les autres intervenants du chantier — maçon, électricien, paysagiste. Un chantier annoncé est un chantier tenu."
       }
     ]
   }

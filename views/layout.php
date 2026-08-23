@@ -61,7 +61,7 @@ $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="<?= asset('assets/img/logo/favicon-512.png') ?>" type="image/png">
 <link rel="apple-touch-icon" href="<?= asset('assets/img/logo/favicon-512.png') ?>">
-<link rel="preload" href="<?= url('assets/fonts/manrope-latin-variable.woff2') ?>" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="<?= url('assets/fonts/raleway-latin-variable.woff2') ?>" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="<?= url('assets/fonts/playfair-display-latin-500-normal.woff2') ?>" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="<?= asset('assets/css/site.css') ?>">
 <script type="application/ld+json"><?= $seo->jsonLd($cle, $fiche, base_absolue(), fn(string $c): string => absolu(image($c))) ?></script>

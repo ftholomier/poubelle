@@ -62,9 +62,12 @@ $hero = $page['hero'];
       <?php foreach ($services as $service): ?>
         <li class="carte-service reveler">
           <a href="<?= route('nos-services', $service['slug']) ?>">
-            <span class="carte-service__icone" aria-hidden="true">
-              <?= $view->partial('icones', ['nom' => $service['icone'] ?? 'pergola-bioclimatique']) ?>
-            </span>
+            <figure class="carte-service__media">
+              <img src="<?= image($service['image'] ?? '', true) ?>" alt="<?= e($service['nom']) ?>" loading="lazy">
+              <span class="carte-service__icone" aria-hidden="true">
+                <?= $view->partial('icones', ['nom' => $service['icone'] ?? 'pergola-bioclimatique']) ?>
+              </span>
+            </figure>
             <h3 class="carte-service__titre"><?= e($service['nom']) ?></h3>
             <p class="carte-service__texte"><?= e($service['resume']) ?></p>
             <span class="carte-service__lien lien-fleche"><?= e(t('En savoir plus')) ?></span>

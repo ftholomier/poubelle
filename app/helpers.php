@@ -112,6 +112,13 @@ if (!function_exists('lien')) {
      */
     function lien(string $chemin): string
     {
+        // Une adresse externe ou un protocole (tel:, mailto:, https:) sort du
+        // site : ni préfixe de langue, ni base à lui ajouter. Sans ce garde-fou,
+        // un bouton « Nous appeler » réglé sur tel:… deviendrait /tel:….
+        if (preg_match('~^(?:[a-z][a-z0-9+.-]*:|//)~i', $chemin) === 1) {
+            return $chemin;
+        }
+
         $seo = $GLOBALS['seo'] ?? null;
         $prefixe = $seo instanceof \App\Core\Seo ? $seo->prefixe() : '';
         $chemin = '/' . ltrim($chemin, '/');

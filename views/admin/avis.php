@@ -143,7 +143,7 @@ $cleEnregistree = ($reglages['cle_api'] ?? '') !== '';
     <div class="bo-champ">
       <label for="a-recherche" class="bo-visuellement-cache">Nom et ville</label>
       <input id="a-recherche" type="text" name="recherche"
-             placeholder="Menuiserie Tréhant, Colombier Fontaine">
+             placeholder="Menuiserie Tréhant, Vellevans">
     </div>
     <button class="bo-btn bo-btn--fantome" type="submit">Rechercher</button>
   </form>

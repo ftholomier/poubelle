@@ -14,11 +14,26 @@
       <p class="surtitre"><?= e($page['histoire']['surtitre']) ?></p>
       <h2 class="titre-section"><?= e($page['histoire']['titre']) ?></h2>
     </div>
-    <div class="bloc-texte reveler">
+    <?php /* Chaque paragraphe de l'histoire s'ouvre sur son millésime :
+             « 1945 — De retour d'Allemagne… ». Le millésime est détaché pour
+             être composé à part, ce qui donne une frise sans demander au
+             client de saisir ses dates dans un champ séparé. Un paragraphe
+             sans date reste un paragraphe ordinaire. */ ?>
+    <ol class="frise reveler">
       <?php foreach ($page['histoire']['paragraphes'] as $p): ?>
-        <p><?= e($p) ?></p>
+        <?php
+        $jalon = preg_match('/^(\d{4})\s*[—–-]\s*(.+)$/su', trim($p), $m) === 1;
+        ?>
+        <li class="frise__etape<?= $jalon ? '' : ' frise__etape--sans-date' ?>">
+          <?php if ($jalon): ?>
+            <p class="frise__annee"><?= e($m[1]) ?></p>
+            <p class="frise__texte"><?= e($m[2]) ?></p>
+          <?php else: ?>
+            <p class="frise__texte"><?= e($p) ?></p>
+          <?php endif; ?>
+        </li>
       <?php endforeach; ?>
-    </div>
+    </ol>
   </div>
 </section>
 

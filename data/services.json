@@ -1,53 +1,54 @@
 {
-    "intro": "Cinq façons de couvrir un extérieur, toutes en aluminium extrudé, toutes fabriquées à vos dimensions dans notre atelier.",
+    "intro": "Pose en îlot « quatre poteaux » ou adossée à une ou plusieurs façades. Couverture de grandes dimensions, sur mesure. Structure en aluminium extrudé, tenue au vent testée jusqu'à 180 km/h.",
     "items": [
         {
             "slug": "pergola-bioclimatique",
-            "nom": "Pergola bioclimatique",
+            "nom": "Pergola à lames orientables",
             "icone": "pergola-bioclimatique",
             "actif": true,
-            "resume": "Des lames orientables jusqu'à 150° pour doser l'ombre, ventiler la terrasse et fermer la toiture à la première averse.",
+            "resume": "Lames motorisées pouvant s'orienter jusqu'à 150°. Doser l'ombre, ventiler la terrasse, fermer la toiture à la première averse.",
             "image": "assets/img/site/pergola-bioclimatique.jpg",
             "hero": {
                 "surtitre": "Nos gammes",
-                "titre": "La pergola qui suit le soleil et se ferme sous la pluie"
+                "titre": "La pergola bioclimatique, l'ombre que l'on règle"
             },
             "meta": {
-                "description": "Pergola bioclimatique aluminium à lames orientables motorisées jusqu'à 150°, gammes Classic et Premium, poteaux 130 × 130 mm à évacuation intégrée. Fabrication française Menuiserie Tréhant."
+                "description": "Pergola bioclimatique à lames orientables motorisées jusqu'à 150°, lame Classique 209 × 52 mm ou Premium 212 × 52 mm en 2 mm. Aluminium extrudé, jusqu'à 7 m sur 5 m. Menuiserie Tréhant, Doubs."
             },
             "sections": [
                 {
                     "titre": "Orienter les lames plutôt que subir le soleil",
                     "paragraphes": [
-                        "Une pergola bioclimatique ne se contente pas de faire de l'ombre : elle la règle. Les lames pivotent jusqu'à 150°, de l'ouverture complète — le ciel, l'air qui circule — jusqu'à la fermeture étanche qui protège la table quand l'orage arrive.",
-                        "C'est ce réglage qui rend la terrasse utilisable de mars à novembre. À midi en juillet, on ferme aux trois quarts pour couper le rayonnement sans étouffer ; à 18 h, on rouvre pour laisser tomber la lumière rasante."
+                        "Les lames sont motorisées et s'orientent jusqu'à 150°. Ouvertes, elles laissent passer l'air et la lumière ; refermées, elles protègent du soleil, de la pluie et du vent. C'est ce réglage qui rend la terrasse utilisable une grande partie de l'année, plutôt que deux mois l'été.",
+                        "Deux profils de lame sont disponibles : la lame Classique de 209 × 52 mm et la lame Premium de 212 × 52 mm, toutes deux en 2 mm d'épaisseur."
                     ]
                 },
                 {
-                    "titre": "Deux gammes de lames",
+                    "titre": "La structure",
                     "liste": [
-                        "Classic : lames de 209 × 52 mm, épaisseur 2 mm, aluminium extrudé",
-                        "Premium : lames de 212 × 52 mm, épaisseur 2 mm, pour les grandes portées",
-                        "Orientation motorisée jusqu'à 150°, commande par télécommande",
-                        "Motorisation Somfy, garantie 5 ans",
-                        "Profilés garantis 10 ans"
+                        "Pose en îlot « quatre poteaux » ou adossée à une ou plusieurs façades",
+                        "Jusqu'à 7 m de longueur sur 5 m de profondeur en un seul module, sur mesure",
+                        "Structure en aluminium extrudé, tenue au vent testée jusqu'à 180 km/h",
+                        "Visserie et axes inox, bagues autolubrifiées",
+                        "Gouttière intégrée, périphérique",
+                        "Poteaux aluminium de 130 × 130 mm intégrant la descente d'eau, fixation par platine à l'intérieur du poteau"
                     ]
                 },
                 {
-                    "titre": "Une structure qui gère l'eau sans qu'on la voie",
+                    "titre": "Fermetures latérales et options",
+                    "liste": [
+                        "Store zip intégré dans le bandeau, sans hauteur supplémentaire — ou store rapporté, coffre de 100 mm",
+                        "Motorisation Somfy, coulisses de 35 mm, toile Mermet",
+                        "Claustra à lames ou à toile",
+                        "Vitrage Doris",
+                        "Éclairage LED direct, indirect ou sur lame : blanc à variation ou RVB",
+                        "Laquage au choix"
+                    ]
+                },
+                {
+                    "titre": "Garanties",
                     "paragraphes": [
-                        "Les poteaux de 130 × 130 mm intègrent l'évacuation des eaux de pluie. Lames fermées, l'eau est collectée par les chéneaux latéraux et descend dans les poteaux : aucune descente rapportée, aucun tuyau apparent, rien qui vieillisse mal en façade.",
-                        "La structure est thermolaquée dans le coloris de votre choix, de la teinte anthracite qui se fait oublier aux tons plus clairs qui prolongent la façade."
-                    ]
-                },
-                {
-                    "titre": "Les options qui changent l'usage",
-                    "liste": [
-                        "Éclairage LED intégré dans les lames ou dans les chéneaux",
-                        "Stores verticaux à toile Zip sur un ou plusieurs côtés",
-                        "Coulissants vitrés pour fermer complètement l'espace",
-                        "Capteur de pluie et de vent pour une fermeture automatique",
-                        "Adossée à la façade ou autoportante, selon la configuration"
+                        "Motorisation Somfy garantie 5 ans. Garantie 10 ans sur les profils."
                     ]
                 }
             ]
@@ -57,158 +58,156 @@
             "nom": "Pergola à toile rétractable",
             "icone": "pergola-toile",
             "actif": true,
-            "resume": "Une toile PVC qui se replie en un geste : de l'ombre quand il faut, le ciel dégagé le reste du temps.",
+            "resume": "Toile PVC opaque particulièrement performante : à l'abri de la chaleur et des intempéries, et le ciel dégagé quand vous le décidez.",
             "image": "assets/img/site/pergola-toile.jpg",
             "hero": {
                 "surtitre": "Nos gammes",
-                "titre": "Retrouver le ciel en un geste"
+                "titre": "La toile rétractable, l'ombre que l'on efface"
             },
             "meta": {
-                "description": "Pergola aluminium à toile PVC rétractable : protection contre la chaleur et les intempéries, repli motorisé, structure française sur mesure. Menuiserie Tréhant."
+                "description": "Pergola aluminium à toile PVC opaque rétractable : protection contre la chaleur et les intempéries, structure aluminium extrudé sur mesure jusqu'à 7 m. Menuiserie Tréhant, Doubs."
             },
             "sections": [
                 {
-                    "titre": "L'ombre qu'on efface",
+                    "titre": "Se protéger sans couvrir en permanence",
                     "paragraphes": [
-                        "La toile rétractable est la réponse la plus juste quand la terrasse est déjà bien exposée mais qu'on ne veut pas la couvrir en permanence. Déployée, elle protège de la chaleur et des intempéries ; repliée, elle libère entièrement la vue et laisse la lumière entrer dans la maison en hiver.",
-                        "C'est aussi la solution la plus légère visuellement : la structure reste fine, l'ensemble ne pèse pas sur la façade."
+                        "La toile PVC opaque utilisée est particulièrement performante et vous permet de rester à l'abri de la chaleur et des intempéries. Repliée, elle libère entièrement le ciel — c'est la solution la plus juste quand la terrasse doit rester lumineuse en hiver.",
+                        "C'est aussi la couverture la plus légère visuellement : la structure reste fine et ne pèse pas sur la façade."
                     ]
                 },
                 {
-                    "titre": "Ce que comprend la gamme",
+                    "titre": "La structure",
                     "liste": [
-                        "Toile PVC traitée, résistante aux UV et à l'eau",
-                        "Repli et déploiement motorisés, commande à distance",
-                        "Structure en aluminium extrudé, thermolaquée au coloris choisi",
-                        "Poteaux 130 × 130 mm à évacuation d'eau intégrée",
-                        "Éclairage LED et stores latéraux en option"
+                        "Pose en îlot « quatre poteaux » ou adossée à une ou plusieurs façades",
+                        "Jusqu'à 7 m de longueur sur 5 m de profondeur en un seul module, sur mesure",
+                        "Structure en aluminium extrudé, tenue au vent testée jusqu'à 180 km/h",
+                        "Visserie et axes inox, bagues autolubrifiées",
+                        "Gouttière intégrée, périphérique",
+                        "Poteaux aluminium de 130 × 130 mm intégrant la descente d'eau"
                     ]
                 },
                 {
-                    "titre": "Bien la placer",
+                    "titre": "Fermetures latérales et options",
+                    "liste": [
+                        "Store zip intégré dans le bandeau ou store rapporté, coffre de 100 mm",
+                        "Motorisation Somfy, coulisses de 35 mm, toile Mermet",
+                        "Claustra à lames ou à toile",
+                        "Vitrage Doris",
+                        "Éclairage LED direct ou indirect, blanc à variation ou RVB",
+                        "Laquage au choix"
+                    ]
+                },
+                {
+                    "titre": "Garanties",
                     "paragraphes": [
-                        "Une toile n'aime ni le vent tourbillonnant ni les branchages qui la frottent. Lors de la visite, nous regardons l'exposition réelle et l'environnement immédiat : si l'emplacement ne convient pas, nous vous le disons et nous vous orientons vers les lames orientables ou la toiture fixe."
+                        "Motorisation Somfy garantie 5 ans. Garantie 10 ans sur les profils."
                     ]
                 }
             ]
         },
         {
-            "slug": "pergola-toiture-fixe",
+            "slug": "pergola-toit-fixe",
             "nom": "Pergola à toiture fixe",
             "icone": "toiture-fixe",
             "actif": true,
-            "resume": "Un panneau sandwich isolant de 63 mm, autoportant : la terrasse devient une pièce utilisable toute l'année.",
-            "image": "assets/img/site/pergola-toiture-fixe.jpg",
+            "resume": "Panneaux sandwich isotoit de 63 mm, autoportants : une couverture isolée et permanente, pour occuper l'extérieur en toute saison.",
+            "image": "assets/img/site/pergola-toit-fixe.jpg",
             "hero": {
                 "surtitre": "Nos gammes",
-                "titre": "Une couverture isolée, pour occuper l'extérieur en toute saison"
+                "titre": "La toiture fixe, l'extérieur devenu pièce à vivre"
             },
             "meta": {
-                "description": "Pergola à toiture fixe en panneau sandwich isotoit 63 mm autoportant : isolation thermique, étanchéité permanente, structure aluminium française. Menuiserie Tréhant."
+                "description": "Pergola à toiture fixe en panneaux sandwich isotoit 63 mm autoportants : isolation et étanchéité permanentes, structure aluminium extrudé sur mesure. Menuiserie Tréhant, Doubs."
             },
             "sections": [
                 {
-                    "titre": "Couvrir vraiment, pas seulement ombrer",
+                    "titre": "Couvrir vraiment, et isoler",
                     "paragraphes": [
                         "Le panneau sandwich isotoit de 63 mm est autoportant : il franchit la portée sans structure intermédiaire et isole thermiquement l'espace qu'il couvre. Sous une toiture fixe, on ne range pas le salon de jardin en octobre.",
-                        "C'est aussi la meilleure réponse quand la pergola protège une baie vitrée : elle coupe le rayonnement direct sur le vitrage et limite la surchauffe de la pièce attenante."
+                        "C'est aussi la meilleure réponse lorsque la pergola protège une baie vitrée : elle coupe le rayonnement direct sur le vitrage et limite la surchauffe de la pièce attenante."
                     ]
                 },
                 {
-                    "titre": "Les points techniques",
+                    "titre": "La structure",
                     "liste": [
-                        "Panneau sandwich isotoit 63 mm, autoportant et isolant",
-                        "Étanchéité permanente, sans réglage ni manœuvre",
-                        "Structure aluminium extrudé, poteaux 130 × 130 mm à évacuation intégrée",
-                        "Adossée ou autoportante selon la configuration",
-                        "Éclairage LED encastré et fermetures latérales en option"
+                        "Pose en îlot « quatre poteaux » ou adossée à une ou plusieurs façades",
+                        "Jusqu'à 7 m de longueur sur 5 m de profondeur en un seul module, sur mesure",
+                        "Structure en aluminium extrudé, tenue au vent testée jusqu'à 180 km/h",
+                        "Visserie et axes inox, gouttière intégrée périphérique",
+                        "Poteaux aluminium de 130 × 130 mm intégrant la descente d'eau"
                     ]
                 },
                 {
-                    "titre": "Une lecture calme depuis la maison",
+                    "titre": "Fermetures latérales et options",
+                    "liste": [
+                        "Store zip intégré dans le bandeau ou store rapporté, coffre de 100 mm",
+                        "Motorisation Somfy, coulisses de 35 mm, toile Mermet",
+                        "Claustra à lames ou à toile",
+                        "Vitrage Doris",
+                        "Éclairage LED direct ou indirect, blanc à variation ou RVB",
+                        "Laquage au choix"
+                    ]
+                },
+                {
+                    "titre": "Garanties",
                     "paragraphes": [
-                        "La sous-face du panneau est lisse et se laque dans le coloris de la structure. Vue depuis l'intérieur, la toiture prolonge le plafond plutôt que de couper la perspective : c'est ce qui distingue une extension réussie d'un abri rapporté."
+                        "Garantie 10 ans sur les profils. Motorisation Somfy garantie 5 ans lorsque des fermetures motorisées sont posées."
                     ]
                 }
             ]
         },
         {
             "slug": "carport",
-            "nom": "Carport aluminium",
+            "nom": "Carport",
             "icone": "carport",
             "actif": true,
-            "resume": "Jusqu'à 6,96 m par 5 m en un seul module, testé au vent jusqu'à 180 km/h : deux voitures à l'abri, aucun poteau au milieu.",
+            "resume": "L'abri voiture, jusqu'à 6,96 m de longueur sur 5 m de profondeur en un seul module. Aucun poteau au milieu de la manœuvre.",
             "image": "assets/img/site/carport.jpg",
             "hero": {
                 "surtitre": "Nos gammes",
-                "titre": "Abriter deux voitures sans encombrer le passage"
+                "titre": "Le carport, abriter les voitures sans encombrer le passage"
             },
             "meta": {
-                "description": "Carport aluminium sur mesure jusqu'à 6,96 m × 5 m en un seul module, testé au vent jusqu'à 180 km/h, aluminium extrudé fabriqué en France. Menuiserie Tréhant."
+                "description": "Carport aluminium sur mesure jusqu'à 6,96 m × 5 m en un seul module, tenue au vent testée à 180 km/h, toiture isotoit 63 mm ou bac acier. Menuiserie Tréhant, Doubs."
             },
             "sections": [
                 {
                     "titre": "La portée avant tout",
                     "paragraphes": [
                         "Un carport se juge à ce qu'il permet de faire en dessous. Le nôtre couvre jusqu'à 6,96 m de longueur sur 5 m de profondeur en un seul module : deux véhicules côte à côte, portières ouvertes, sans poteau planté au milieu de la manœuvre.",
-                        "La structure est en aluminium extrudé et testée au vent jusqu'à 180 km/h — le point sur lequel un abri de jardin en kit cède le premier."
+                        "Pose en îlot « quatre poteaux » ou adossée à une ou plusieurs façades. Protège des intempéries, avec une tenue au vent testée jusqu'à 180 km/h."
                     ]
                 },
                 {
-                    "titre": "Ce que le carport apporte au quotidien",
+                    "titre": "La structure",
                     "liste": [
-                        "Plus de pare-brise gelé le matin, plus de carrosserie exposée à la grêle",
-                        "Un espace couvert accessible sans permis de construire dans bien des cas",
-                        "Une évacuation des eaux intégrée aux poteaux, sans descente apparente",
-                        "Un thermolaquage au coloris de la maison ou du portail",
-                        "Adossé à la façade ou autoportant, avec ou sans fermetures latérales"
+                        "Jusqu'à 6,96 m de longueur sur 5 m de profondeur en un seul module, sur mesure",
+                        "Structure en aluminium extrudé, visserie inox",
+                        "Gouttière intégrée, périphérique",
+                        "Poteaux aluminium de 130 × 130 mm intégrant la descente d'eau, fixation par platine à l'intérieur du poteau"
                     ]
                 },
                 {
-                    "titre": "Et l'urbanisme ?",
-                    "paragraphes": [
-                        "Selon la surface créée et votre commune, une déclaration préalable de travaux peut être nécessaire. Nous vous indiquons le régime applicable dès l'étude et nous vous fournissons les plans cotés à joindre au dossier."
-                    ]
-                }
-            ]
-        },
-        {
-            "slug": "fermetures-et-options",
-            "nom": "Fermetures & options",
-            "icone": "fermetures",
-            "actif": true,
-            "resume": "Stores Zip, coulissants vitrés, éclairage LED, capteurs : ce qui transforme une couverture en véritable pièce en plus.",
-            "image": "assets/img/site/fermetures.jpg",
-            "hero": {
-                "surtitre": "Nos gammes",
-                "titre": "Fermer, éclairer, automatiser"
-            },
-            "meta": {
-                "description": "Stores verticaux à toile Zip, coulissants vitrés, éclairage LED intégré, capteurs de pluie et de vent : les options des pergolas et carports Menuiserie Tréhant."
-            },
-            "sections": [
-                {
-                    "titre": "Couper le vent, garder la vue",
-                    "paragraphes": [
-                        "Une toiture seule ne suffit pas quand le vent traverse la terrasse. Les stores verticaux à toile Zip se déroulent sur un ou plusieurs côtés, coupent le courant d'air et le soleil rasant, tout en laissant voir au travers.",
-                        "Quand l'espace doit devenir une véritable pièce, les coulissants vitrés ferment complètement la pergola et se rangent en accordéon le reste de l'année."
-                    ]
-                },
-                {
-                    "titre": "Le catalogue des options",
+                    "titre": "Toiture",
                     "liste": [
-                        "Stores verticaux à toile Zip, manuels ou motorisés",
-                        "Coulissants vitrés toute hauteur, empilables",
-                        "Éclairage LED intégré aux lames ou aux chéneaux, avec variateur",
-                        "Capteurs de pluie et de vent pour la fermeture automatique",
-                        "Commande par télécommande ou depuis le téléphone",
-                        "Thermolaquage dans la teinte RAL de votre choix, structure et lames"
+                        "Panneaux sandwich isotoit 63 mm autoportants",
+                        "Bac acier : tôle acier nervurée épaisseur 75/100e, revêtement anti-condensation en face intérieure, RAL 7016, 5008 ou 8012"
                     ]
                 },
                 {
-                    "titre": "Ajouter plus tard, sans tout refaire",
+                    "titre": "Fermetures latérales et options",
+                    "liste": [
+                        "Panneaux sandwich laqués",
+                        "Panneaux PVC effet claire-voie",
+                        "Claustra à lames ou à toile",
+                        "Éclairage LED direct à détection de mouvement",
+                        "Laquage au choix"
+                    ]
+                },
+                {
+                    "titre": "Garantie",
                     "paragraphes": [
-                        "Les fixations des stores et des coulissants sont prévues dès la fabrication de la structure. Si le budget impose de différer une option, l'ouvrage reste prêt à la recevoir : on ne perce pas une pergola posée."
+                        "Garantie 10 ans sur les profils."
                     ]
                 }
             ]

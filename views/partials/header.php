@@ -37,17 +37,19 @@ $estActif = static function (array $item) use ($chemin): bool {
       <span></span><span></span><span></span>
     </button>
 
-    <?php /* Deux fichiers superposés plutôt qu'un filtre : au-dessus de la
-             photo du bandeau, le mot-symbole orange du logo tombe à 3:1 et
-             devient illisible ; c'est la variante claire qui s'affiche là, et
-             la version d'origine une fois la barre devenue blanche. */ ?>
-    <a class="entete__logo" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
-      <img class="entete__logo-img entete__logo-img--clair"
-           src="<?= asset($site['logo']['clair'] ?? 'assets/img/logo/logo-trehant-clair.png') ?>"
-           alt="<?= e($site['nom']) ?> — <?= e($site['baseline']) ?>" width="180" height="225">
-      <img class="entete__logo-img entete__logo-img--sombre"
+    <?php /* Le logo de la marque est un monogramme seul : le nom est donc
+             composé en typographie à côté, comme sur la signalétique de
+             l'entreprise. Un seul fichier suffit — l'orange du monogramme
+             tient aussi bien sur la barre transparente que sur la blanche,
+             c'est le nom qui change de couleur. */ ?>
+    <a class="entete__logo marque" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
+      <img class="marque__embleme"
            src="<?= asset($site['logo']['principal'] ?? 'assets/img/logo/logo-trehant.png') ?>"
-           alt="" aria-hidden="true" width="180" height="225">
+           alt="" aria-hidden="true" width="500" height="454">
+      <span class="marque__mots">
+        <span class="marque__nom"><?= e($site['nom']) ?></span>
+        <span class="marque__baseline"><?= e($site['baseline']) ?></span>
+      </span>
     </a>
 
 <?php if ($horizontal): ?>
@@ -94,9 +96,14 @@ $estActif = static function (array $item) use ($chemin): bool {
 
 <nav id="panneau-nav" class="panneau" aria-label="Navigation principale">
   <div class="panneau__tete">
-    <a class="panneau__logo" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
-      <img src="<?= asset($site['logo']['clair'] ?? 'assets/img/logo/logo-trehant-clair.png') ?>"
-           alt="<?= e($site['nom']) ?> — <?= e($site['baseline']) ?>">
+    <a class="panneau__logo marque marque--clair" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
+      <img class="marque__embleme"
+           src="<?= asset($site['logo']['principal'] ?? 'assets/img/logo/logo-trehant.png') ?>"
+           alt="" aria-hidden="true" width="500" height="454">
+      <span class="marque__mots">
+        <span class="marque__nom"><?= e($site['nom']) ?></span>
+        <span class="marque__baseline"><?= e($site['baseline']) ?></span>
+      </span>
     </a>
     <button class="panneau__fermer"><?= e(t('Fermer')) ?></button>
   </div>

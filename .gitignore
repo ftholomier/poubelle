@@ -5,5 +5,3 @@ data/admin/
 .DS_Store
 *.tmp
 storage/deploiements/
-public/assets/img/site/*
-!public/assets/img/site/.gitkeep

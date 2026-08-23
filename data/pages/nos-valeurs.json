@@ -1,19 +1,19 @@
 {
   "titre": "Notre savoir-faire",
   "meta": {
-    "description": "Fabrication française, sur-mesure, pose par nos équipes, garanties tenues et proximité : les cinq engagements de Menuiserie Tréhant sur chaque pergola et chaque carport."
+    "description": "Le client et son projet, le made in France, l'exigence dans le geste, les délais tenus et l'esprit familial : les engagements de Menuiserie Tréhant sur chaque pergola et chaque carport."
   },
   "hero": {
     "image": "assets/img/site/hero-savoir-faire.jpg",
     "surtitre": "Notre savoir-faire",
-    "titre": "Ce qui se juge après trois hivers",
-    "texte": "Une pergola se choisit sur une photo et se juge quelques années plus tard. Voici ce que nous faisons pour que le jugement nous soit favorable."
+    "titre": "Neuf personnes, et le même métier depuis 1945",
+    "texte": "Notre philosophie tient en trois lignes affichées dans l'entreprise. Voici ce qu'elles donnent, concrètement, sur une pergola posée chez vous."
   },
   "sections": [
     {
-      "titre": "Cinq engagements qui se vérifient sur l'ouvrage",
+      "titre": "Une philosophie, pas un argumentaire",
       "paragraphes": [
-        "Un argument commercial ne coûte rien. Ceux-ci se contrôlent : demandez-nous l'origine d'un profilé, le nom du monteur qui viendra, la durée de disponibilité d'une pièce détachée. Nous répondons avec des noms et des chiffres."
+        "« Le client, son besoin, son projet. Le made in France, Franche-Comté quand c'est possible. La qualité dans nos réalisations et l'exigence dans le geste. » Ces trois phrases sont celles de la maison. Les cinq engagements qui suivent en découlent, et se contrôlent : demandez-nous l'origine d'un profil, le nom du poseur qui viendra, la disponibilité d'une pièce détachée."
       ]
     }
   ]

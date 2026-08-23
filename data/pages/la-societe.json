@@ -1,78 +1,84 @@
 {
   "titre": "La société Tréhant",
   "meta": {
-    "description": "Menuiserie Tréhant, atelier familial de menuiserie aluminium : conception, fabrication française et pose de pergolas et de carports sur mesure."
+    "description": "Menuiserie Tréhant, entreprise familiale du Doubs depuis 1945 : quatre générations de menuisiers, neuf collaborateurs, trois ateliers à Vellevans, Belleherbe et Pugey."
   },
   "hero": {
-    "image": "assets/img/site/hero-atelier.jpg",
+    "image": "assets/img/site/hero-societe.jpg",
     "surtitre": "La société",
-    "titre": "Une maison de menuiserie, pas une centrale d'achat",
-    "texte": "Nous fabriquons ce que nous vendons et nous posons ce que nous fabriquons. C'est la seule façon que nous connaissons de répondre de la qualité d'un ouvrage."
+    "titre": "Quatre générations de menuisiers, une même exigence dans le geste",
+    "texte": "De l'atelier d'Élie Tréhant en 1945 à l'entreprise que dirigent aujourd'hui Marie et Olivier, le métier s'est transmis sans jamais changer de nature : comprendre un besoin, et le réaliser proprement."
   },
   "histoire": {
     "surtitre": "Notre histoire",
-    "titre": "L'aluminium, un métier appris dans l'atelier",
+    "titre": "De 1945 à aujourd'hui",
     "paragraphes": [
-      "Menuiserie Tréhant s'est construite autour d'un atelier et d'une équipe restreinte. Le métier s'y transmet sur les machines : la coupe d'onglet, l'usinage des évacuations, l'assemblage qui doit rester d'équerre au millimètre après trois mètres de portée.",
-      "Cette façon de travailler nous a menés naturellement vers la pergola et le carport. Ce sont des ouvrages exposés, soumis au vent, à l'eau et au soleil, où la qualité de l'assemblage se voit à l'usage plutôt que sur le catalogue."
+      "1945 — De retour d'Allemagne où il fut prisonnier, Élie Tréhant s'installe menuisier. Il travaille à la reconstruction du pays, fabrique des outils pour l'agriculture, puis développe la menuiserie et la charpente.",
+      "1964 — Bernard, le fils d'Élie, reprend l'entreprise. Il se concentre sur la menuiserie extérieure et l'agencement, et transmet à son tour la passion du bois à son fils Olivier, qui le rejoint en 2004.",
+      "2008 — Olivier Tréhant reprend l'entreprise. Il oriente l'activité sur l'agencement et la menuiserie extérieure ; dans les locaux historiques, le parc machine est renouvelé et agrandi.",
+      "2019 — Marie Tréhant rejoint l'entreprise, forte de plus de douze années d'expérience dans la commercialisation et l'installation de menuiseries extérieures. Elle développe la pergola, la véranda et le carport.",
+      "2020 — Marie et Olivier s'associent au sein de la Menuiserie Tréhant. Le travail en couple ouvre les perspectives de développement.",
+      "2021 — Pour pallier le manque d'espace, acquisition d'un bâtiment de 500 m² à Vellevans. Équipé de racks et de cantilevers, il permet de stocker les pergolas et tous les matériaux dans des conditions adéquates.",
+      "2022 — Reprise de la Menuiserie Joly-Vieillard à Belleherbe. L'entreprise compte alors huit collaborateurs, les locaux sont restructurés, et un poste de dessinatrice est créé en 2023.",
+      "2024 — Reprise de la menuiserie Ducrot à Pugey. Spécialisé dans la menuiserie extérieure bois, M. Ducrot avait développé une fenêtre à l'ancienne, mouton gueule-de-loup avec joints et double vitrage, très adaptée au bâti ancien. Allier la qualité, les performances actuelles et le patrimoine : c'est dans l'ADN de la maison."
     ]
   },
   "piliers": {
     "items": [
       {
         "numero": "01",
-        "label": "Savoir-faire",
-        "titre": "Un aluminium travaillé, pas assemblé",
-        "texte": "Coupe, usinage, perçage, assemblage et contrôle sont réalisés chez nous. Les évacuations d'eau sont intégrées dans les poteaux de 130 × 130 mm, les jonctions sont ajustées à la main : ce que l'on ne remarque pas sur une pergola bien faite est justement ce qui a demandé le plus de travail.",
-        "image": "assets/img/site/pilier-atelier.jpg"
+        "label": "Nos missions",
+        "titre": "Définir, fabriquer, réaliser",
+        "texte": "Prendre le temps de vous aider à définir votre besoin. Fabriquer ou trouver le produit qui répond à vos attentes. Réaliser votre projet en respectant les délais et en se coordonnant avec les différents intervenants du chantier.",
+        "image": "assets/img/site/pergola-montage.jpg"
       },
       {
         "numero": "02",
-        "label": "Proximité",
-        "titre": "Le même interlocuteur du devis au réglage",
-        "texte": "Vous n'aurez jamais à réexpliquer votre projet. Celui qui vient relever les cotes chez vous est celui qui suit la fabrication et qui répond quand vous appelez, deux ans plus tard, pour régler une lame ou commander une pièce.",
-        "image": "assets/img/site/pilier-proximite.jpg"
+        "label": "Notre vision",
+        "titre": "En perpétuelle évolution pour offrir le meilleur service",
+        "texte": "Un développement à taille humaine, pour offrir des outils performants à une équipe dynamique et soudée dans un esprit familial. Neuf collaborateurs, trois ateliers, un parc machine renouvelé : la croissance sert le métier, jamais l'inverse.",
+        "image": "assets/img/site/equipe.jpg"
       }
     ]
   },
   "clients": {
-    "surtitre": "Nos engagements",
-    "titre": "Ce sur quoi nous nous engageons",
-    "texte": "Cinq points qui reviennent dans chaque devis que nous remettons, et que nous tenons sur chaque chantier.",
+    "surtitre": "Nos valeurs",
+    "titre": "Le client, son besoin, son projet",
+    "texte": "Trois principes affichés dans l'entreprise, et cinq engagements qui en découlent sur chaque pergola et chaque carport.",
     "items": [
       {
+        "icone": "proximite",
+        "nom": "Le client d'abord",
+        "texte": "Le client, son besoin, son projet. C'est le premier de nos principes, et il commande tout le reste : la gamme proposée, les dimensions, les options — et parfois le conseil de ne rien faire."
+      },
+      {
         "icone": "france",
-        "nom": "Fabrication française",
-        "texte": "Profilés d'aluminium extrudé de gammistes français, transformés dans notre atelier. Aucune sous-traitance lointaine, aucune pièce dont on ignore l'origine."
+        "nom": "Le made in France",
+        "texte": "Le made in France, et la Franche-Comté quand c'est possible. Nous privilégions les fabrications françaises et régionales chaque fois qu'un fournisseur sait faire."
       },
       {
         "icone": "sur-mesure",
-        "nom": "Sur mesure réel",
-        "texte": "Chaque ouvrage est fabriqué aux cotes relevées chez vous. Pas de modules standard à recouper, pas de finition rattrapée au silicone sur le chantier."
+        "nom": "L'exigence dans le geste",
+        "texte": "La qualité dans nos réalisations et l'exigence dans le geste. C'est ce qui distingue une pergola posée d'une pergola bien posée, et cela ne se voit qu'à l'usage."
       },
       {
         "icone": "pose",
-        "nom": "Pose par nos équipes",
-        "texte": "Nos monteurs, formés sur nos produits, assurent la pose, le réglage de la motorisation et la mise en service devant vous."
+        "nom": "Les délais tenus",
+        "texte": "Réaliser votre projet en respectant les délais, et en se coordonnant avec les autres corps de métier présents sur le chantier. Un chantier annoncé est un chantier tenu."
       },
       {
         "icone": "garantie",
-        "nom": "Garanties tenues",
-        "texte": "Dix ans sur les profilés, cinq ans sur la motorisation Somfy, et des pièces détachées disponibles bien au-delà."
-      },
-      {
-        "icone": "proximite",
-        "nom": "Une société à taille humaine",
-        "texte": "Une équipe que vous connaîtrez par son prénom, un atelier que vous pouvez visiter, un téléphone auquel quelqu'un répond."
+        "nom": "L'esprit familial",
+        "texte": "Un développement à taille humaine, une équipe soudée et un dirigeant que vous croiserez sur le chantier. Quatre générations que cela fonctionne ainsi."
       }
     ]
   },
   "engagement": {
-    "surtitre": "Notre engagement",
-    "titre": "Un devis qui dit ce qu'il chiffre",
+    "surtitre": "Nos locaux",
+    "titre": "Trois ateliers dans le Doubs",
     "paragraphes": [
-      "Nous chiffrons poste par poste : structure, dimensions, type de couverture, options, motorisation, pose. Vous savez ce que vous payez, et ce que vous pourriez retirer si le budget doit être tenu.",
-      "Nous préférons dire non à un projet que nous jugeons mal engagé — une portée trop grande pour l'appui disponible, une exposition qui rendra la toile inutilisable — plutôt que de le vendre et de le regretter avec vous."
+      "Vellevans, 39 Grande Rue : le bâtiment de 500 m² acquis en 2021, équipé de racks et de cantilevers, où sont stockées les pergolas et l'ensemble des matériaux. Belleherbe, 3 rue de la Combe : l'atelier repris en 2022, restructuré depuis. Pugey, 15 rue de l'Église : la menuiserie bois reprise en 2024.",
+      "Nous intervenons dans le Doubs, le Territoire de Belfort, la Haute-Saône et le Jura. L'atelier se visite volontiers : c'est souvent la meilleure façon de comprendre ce qui sépare deux pergolas qui se ressemblent en photo."
     ]
   }
 }

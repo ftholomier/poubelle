@@ -1,35 +1,35 @@
 {
   "titre": "Devis & contact",
   "meta": {
-    "description": "Demandez une étude et un devis gratuits pour votre pergola ou votre carport : Menuiserie Tréhant se déplace chez vous, relève les cotes et chiffre votre projet poste par poste."
+    "description": "Demandez un devis pour votre pergola ou votre carport. Menuiserie Tréhant, 39 Grande Rue à Vellevans (25430), 03 81 44 37 28. Intervention dans le Doubs, le Territoire de Belfort, la Haute-Saône et le Jura."
   },
   "hero": {
     "image": "assets/img/site/hero-contact.jpg",
-    "surtitre": "Votre projet",
-    "titre": "Parlons de votre terrasse",
-    "texte": "Décrivez-nous votre extérieur en quelques lignes. Nous revenons vers vous pour convenir d'une visite, gratuite et sans engagement."
+    "surtitre": "Vous avez un projet ?",
+    "titre": "Nous pouvons vous accompagner",
+    "texte": "Décrivez-nous votre extérieur en quelques lignes, ou appelez-nous. Nous convenons d'une visite pour relever les cotes et comprendre la façade avant de chiffrer quoi que ce soit."
   },
   "introduction": {
-    "titre": "Une étude sur place, un devis détaillé, aucune obligation",
-    "texte": "Une pergola ne se chiffre pas sérieusement au téléphone. Nous venons voir la façade, la pente, l'exposition et l'accès, puis nous vous remettons un plan coté et un devis ligne à ligne."
+    "titre": "Prendre le temps de vous aider à définir votre besoin",
+    "texte": "Une pergola ne se chiffre pas sérieusement au téléphone. Nous venons voir l'exposition, la pente, l'appui disponible et l'accès, puis nous vous remettons un devis détaillé : structure, toiture, fermetures, éclairage, motorisation, laquage et pose."
   },
   "adresse": {
-    "titre": "Nous rencontrer",
-    "complement": "Notre atelier se visite sur rendez-vous : c'est souvent la meilleure façon de comprendre ce qui sépare deux pergolas qui se ressemblent en photo.",
+    "titre": "Nos trois ateliers",
+    "complement": "Vellevans (siège) — 39 Grande Rue, 25430. Belleherbe — 3 rue de la Combe, 25380. Pugey — 15 rue de l'Église, 25720. L'atelier de Vellevans se visite sur rendez-vous : les pergolas y sont stockées, on y voit les profils et les finitions en vrai.",
     "carte": {
-      "libelle": "",
-      "url": ""
+      "libelle": "Ouvrir le plan d'accès",
+      "url": "https://www.openstreetmap.org/search?query=39%20Grande%20Rue%2C%2025430%20Vellevans"
     }
   },
   "formulaire": {
     "titre": "Décrivez-nous votre projet",
     "texte": "Dimensions approximatives, orientation, usage attendu, budget envisagé : plus votre message est précis, plus notre première réponse le sera.",
     "objets": [
-      "Pergola bioclimatique",
+      "Pergola à lames orientables",
       "Pergola à toile rétractable",
       "Pergola à toiture fixe",
       "Carport",
-      "Fermetures et options",
+      "Fermetures latérales et options",
       "Service après-vente",
       "Autre demande"
     ],
@@ -40,33 +40,37 @@
     "titre": "Ce qu'on nous demande le plus souvent",
     "items": [
       {
-        "question": "Faut-il une autorisation d'urbanisme pour une pergola ou un carport ?",
-        "reponse": "Cela dépend de la surface créée et des règles de votre commune. Au-delà de 5 m², une déclaration préalable de travaux est généralement nécessaire ; au-delà de 20 m², un permis de construire peut l'être. Nous vous indiquons le régime applicable dès l'étude et nous fournissons les plans cotés à joindre au dossier."
+        "question": "Quelle est la dimension maximale d'une pergola ou d'un carport ?",
+        "reponse": "Jusqu'à 7 m de longueur sur 5 m de profondeur en un seul module pour la pergola, 6,96 m sur 5 m pour le carport — sans poteau intermédiaire. Au-delà, on assemble plusieurs modules. Tout est réalisé sur mesure aux cotes relevées chez vous."
       },
       {
-        "question": "Quel est le délai entre la commande et la pose ?",
-        "reponse": "Le délai vous est annoncé au moment de la commande, une fois les cotes relevées et les options arrêtées. Il varie selon la saison et la gamme choisie : nous fabriquons à la commande, donc nous préférons annoncer une date que nous tiendrons plutôt qu'un délai de vitrine."
+        "question": "Une pergola à lames orientables est-elle étanche ?",
+        "reponse": "Lames fermées, elle protège du soleil, de la pluie et du vent. L'eau est reprise par la gouttière intégrée périphérique et descend à l'intérieur des poteaux de 130 × 130 mm. Si vous cherchez une couverture permanente et isolée, sans manœuvre, c'est la toiture fixe en panneau isotoit 63 mm qu'il faut choisir."
       },
       {
-        "question": "Une pergola bioclimatique est-elle étanche ?",
-        "reponse": "Lames fermées, oui. L'eau est collectée par les chéneaux latéraux puis évacuée à l'intérieur des poteaux de 130 × 130 mm. Si vous cherchez une étanchéité permanente, sans manœuvre, c'est vers la toiture fixe en panneau isotoit qu'il faut vous orienter."
+        "question": "Jusqu'à quel vent la structure tient-elle ?",
+        "reponse": "La tenue au vent est testée jusqu'à 180 km/h. C'est un résultat d'essai, pas une estimation. Les profils sont garantis 10 ans et la motorisation Somfy 5 ans."
       },
       {
-        "question": "Peut-on ajouter des fermetures latérales plus tard ?",
-        "reponse": "Oui, à condition de le prévoir dès la fabrication : les fixations des stores et des coulissants sont alors intégrées à la structure. Dites-le nous à l'étude même si l'option est différée — on ne perce pas proprement une pergola déjà posée."
+        "question": "Peut-on fermer les côtés ?",
+        "reponse": "Oui, de plusieurs façons : store zip intégré dans le bandeau — sans hauteur supplémentaire — ou store rapporté en coffre de 100 mm, avec motorisation Somfy, coulisses de 35 mm et toile Mermet ; claustra à lames ou à toile ; vitrage Doris. Sur le carport, on peut aussi poser des panneaux sandwich laqués ou des panneaux PVC effet claire-voie."
+      },
+      {
+        "question": "Faut-il une autorisation d'urbanisme ?",
+        "reponse": "Cela dépend de la surface créée et des règles de votre commune : au-delà de 5 m², une déclaration préalable de travaux est généralement nécessaire, et un permis de construire peut l'être au-delà de 20 m². Nous vous indiquons le régime applicable dès l'étude et nous fournissons les plans cotés à joindre au dossier."
+      },
+      {
+        "question": "Où intervenez-vous ?",
+        "reponse": "Dans le Doubs, le Territoire de Belfort, la Haute-Saône et le Jura, depuis nos ateliers de Vellevans, Belleherbe et Pugey."
       },
       {
         "question": "Quelles couleurs sont possibles ?",
-        "reponse": "La structure et les lames sont thermolaquées dans la teinte RAL de votre choix. Les gris anthracite restent les plus demandés parce qu'ils se font oublier, mais rien n'empêche d'accorder la pergola au portail ou aux menuiseries existantes."
-      },
-      {
-        "question": "Intervenez-vous loin de votre atelier ?",
-        "reponse": "Nous intervenons en Vendée et dans les départements limitrophes. Au-delà, dites-nous où se situe le chantier : nous vous répondrons franchement sur notre capacité à assurer la pose et le service après-vente dans de bonnes conditions."
+        "reponse": "Le laquage est au choix, structure et lames. Pour la toiture bac acier du carport, les teintes standard sont les RAL 7016, 5008 et 8012. L'éclairage LED existe en blanc à variation ou en RVB."
       }
     ],
     "relance": {
       "titre": "Une question qui n'est pas là ?",
-      "texte": "Appelez-nous ou écrivez-nous : nous préférons répondre précisément à une question précise plutôt que d'envoyer une documentation générale."
+      "texte": "Appelez-nous au 03 81 44 37 28. Nous préférons répondre précisément à une question précise plutôt que d'envoyer une documentation générale."
     }
   }
 }

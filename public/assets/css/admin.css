@@ -9,17 +9,17 @@
 }
 
 :root {
-  --fond: #0f0e0d;
-  --fond-2: #171512;
-  --fond-3: #201d19;
-  --trait: rgba(224, 138, 74, .25);
-  /* Orange éclairci pour l'écran sombre : la teinte du site (#b85114) n'y
-     tient que 2,8:1, sous le seuil AA. Celle-ci monte à 7,3:1. */
-  --accent: #e08a4a;
-  --accent-clair: #f0bb92;
-  --ivoire: #f6f1ea;
-  --texte: #ebe6df;
-  --texte-2: rgba(235, 230, 223, .64);
+  --fond: #121110;
+  --fond-2: #1b1917;
+  --fond-3: #24211e;
+  --trait: rgba(243, 146, 0, .22);
+  /* Orange du logo : sur cet écran sombre il tient 6,9:1, il est donc repris
+     tel quel — c'est la couleur exacte de la marque. */
+  --accent: #f39200;
+  --accent-clair: #f8c078;
+  --ivoire: #f6f2ec;
+  --texte: #ebe7e0;
+  --texte-2: rgba(235, 231, 224, .64);
   --serif: "Playfair Display", Georgia, serif;
   --rouge: #e59a9a;
   --vert: #9ecf9e;
@@ -50,7 +50,7 @@ button { font: inherit; cursor: pointer; }
   min-height: 100svh; display: grid; place-items: center;
   padding: 2rem 1rem;
   background:
-    radial-gradient(ellipse at top, rgba(224, 138, 74, .09), transparent 55%),
+    radial-gradient(ellipse at top, rgba(243, 146, 0, .09), transparent 55%),
     var(--fond);
 }
 .bo-carte-acces {
@@ -87,10 +87,10 @@ button { font: inherit; cursor: pointer; }
   border-left: 2px solid transparent;
   transition: color .25s, background .25s, border-color .25s;
 }
-.bo-lateral__nav a:hover { color: var(--accent-clair); background: rgba(224, 138, 74, .06); }
+.bo-lateral__nav a:hover { color: var(--accent-clair); background: rgba(243, 146, 0, .06); }
 .bo-lateral__nav a[aria-current="page"] {
   color: var(--accent-clair); border-left-color: var(--accent);
-  background: rgba(224, 138, 74, .1);
+  background: rgba(243, 146, 0, .1);
 }
 .bo-lateral__pied {
   padding: 1.2rem 1.6rem 0; border-top: 1px solid var(--trait);
@@ -173,7 +173,7 @@ button { font: inherit; cursor: pointer; }
   background: transparent; color: var(--accent-clair);
   border-color: var(--trait);
 }
-.bo-btn--contour:hover { background: rgba(224, 138, 74, .1); }
+.bo-btn--contour:hover { background: rgba(243, 146, 0, .1); }
 .bo-btn--danger { background: transparent; color: var(--rouge); border-color: rgba(217, 138, 138, .4); }
 .bo-btn--danger:hover { background: rgba(217, 138, 138, .1); }
 .bo-btn--petit { padding: .45rem .9rem; font-size: .7rem; }
@@ -333,7 +333,7 @@ button { font: inherit; cursor: pointer; }
 .bo-champ--case input { width: auto; accent-color: var(--accent); }
 .bo-champ code {
   font-family: ui-monospace, Consolas, monospace; font-size: .85em;
-  background: rgba(224, 138, 74, .12); padding: .05em .35em; color: var(--accent-clair);
+  background: rgba(243, 146, 0, .12); padding: .05em .35em; color: var(--accent-clair);
 }
 .bo-trace { margin-top: 1rem; }
 .bo-trace summary { cursor: pointer; color: var(--accent-clair); font-size: .85rem; }
@@ -346,7 +346,7 @@ button { font: inherit; cursor: pointer; }
 .bo-diag { margin-top: 2.2rem; border-top: 1px solid var(--trait); padding-top: 1.5rem; }
 .bo-diag h2 { font-family: var(--serif); font-size: 1.1rem; color: var(--accent-clair); margin-bottom: .9rem; }
 .bo-diag table { width: 100%; border-collapse: collapse; font-size: .88rem; }
-.bo-diag tr { border-bottom: 1px solid rgba(224, 138, 74, .12); }
+.bo-diag tr { border-bottom: 1px solid rgba(243, 146, 0, .12); }
 .bo-diag th { text-align: left; font-weight: 400; color: var(--texte-2); padding: .55rem .8rem .55rem 0; }
 .bo-diag td { padding: .55rem .8rem .55rem 0; color: var(--texte); }
 .bo-diag .etat { text-align: right; white-space: nowrap; }
@@ -426,11 +426,11 @@ button { font: inherit; cursor: pointer; }
 .bo-depot {
   display: grid; justify-items: center; gap: .4rem;
   padding: 2.2rem 1.4rem; cursor: pointer; text-align: center;
-  border: 2px dashed var(--trait); background: rgba(224, 138, 74, .03);
+  border: 2px dashed var(--trait); background: rgba(243, 146, 0, .03);
   transition: border-color .25s, background .25s;
 }
-.bo-depot:hover { border-color: var(--accent); background: rgba(224, 138, 74, .07); }
-.bo-depot--survol { border-color: var(--accent); background: rgba(224, 138, 74, .14); }
+.bo-depot:hover { border-color: var(--accent); background: rgba(243, 146, 0, .07); }
+.bo-depot--survol { border-color: var(--accent); background: rgba(243, 146, 0, .14); }
 .bo-depot input[type="file"] { position: absolute; width: 1px; height: 1px; opacity: 0; }
 .bo-depot__icone { font-size: 1.6rem; color: var(--accent); line-height: 1; }
 .bo-depot__titre { font-family: var(--serif); font-size: 1.1rem; color: var(--ivoire); }
@@ -558,7 +558,7 @@ button { font: inherit; cursor: pointer; }
   font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
   color: var(--texte-2); border-bottom: 1px solid var(--trait);
 }
-.bo-tableau td { padding: .55rem .8rem .55rem 0; border-bottom: 1px solid rgba(224, 138, 74, .12); }
+.bo-tableau td { padding: .55rem .8rem .55rem 0; border-bottom: 1px solid rgba(243, 146, 0, .12); }
 .bo-tableau code {
   font-family: ui-monospace, Consolas, monospace; font-size: .82rem; color: var(--accent-clair);
   word-break: break-all;
@@ -597,7 +597,7 @@ button { font: inherit; cursor: pointer; }
   color: var(--accent-clair); background: rgba(244, 239, 230, .05);
   border: 1px solid var(--trait);
 }
-.bo-diapo__actions form:first-child button:hover:not(:disabled) { background: rgba(224, 138, 74, .18); }
+.bo-diapo__actions form:first-child button:hover:not(:disabled) { background: rgba(243, 146, 0, .18); }
 .bo-diapo__actions button:disabled { opacity: .3; cursor: not-allowed; }
 
 /* ---------- Boutique ---------- */
@@ -661,7 +661,7 @@ button { font: inherit; cursor: pointer; }
   border: 2px solid transparent; background: var(--fond);
   transition: border-color .18s, transform .18s;
 }
-.bo-tuile:hover { transform: translateY(-2px); border-color: rgba(224, 138, 74, .5); }
+.bo-tuile:hover { transform: translateY(-2px); border-color: rgba(243, 146, 0, .5); }
 /* le bouton radio reste focalisable au clavier, simplement invisible */
 .bo-tuile input {
   position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;
@@ -718,7 +718,7 @@ button { font: inherit; cursor: pointer; }
 }
 .bo-trad td {
   padding: .6rem .8rem .6rem 0; vertical-align: top; width: 50%;
-  border-bottom: 1px solid rgba(224, 138, 74, .12);
+  border-bottom: 1px solid rgba(243, 146, 0, .12);
 }
 .bo-trad td:last-child { padding-right: 0; }
 .bo-trad__fr { display: block; color: var(--texte); line-height: 1.5; }
@@ -737,7 +737,7 @@ button { font: inherit; cursor: pointer; }
 @media (max-width: 720px) {
   .bo-trad, .bo-trad tbody, .bo-trad tr, .bo-trad td { display: block; width: 100%; }
   .bo-trad thead { display: none; }
-  .bo-trad tr { padding: .7rem 0; border-bottom: 1px solid rgba(224, 138, 74, .12); }
+  .bo-trad tr { padding: .7rem 0; border-bottom: 1px solid rgba(243, 146, 0, .12); }
   .bo-trad td { border: 0; padding: .3rem 0; }
 }
 
@@ -832,7 +832,7 @@ button { font: inherit; cursor: pointer; }
   transition: border-color .2s ease, background .2s ease;
 }
 .bo-option:hover { border-color: var(--accent); }
-.bo-option--active { border-color: var(--accent); background: rgba(224, 138, 74, .07); }
+.bo-option--active { border-color: var(--accent); background: rgba(243, 146, 0, .07); }
 /* Le bouton radio reste dans le document — c'est lui que le clavier atteint
    et que les lecteurs d'écran annoncent — mais il est retiré de l'affichage
    sans display:none, qui l'exclurait des deux. */
