@@ -1,0 +1,72 @@
+{
+  "titre": "Contact",
+  "meta": {
+    "description": "Contactez le Cabinet Villard, expert-comptable à Colombier Fontaine (25260) : 3 rue du 16 novembre 1944, 03 81 97 60 43, du lundi au vendredi de 8h30 à 18h00."
+  },
+  "hero": {
+    "image": "assets/img/site/hero-contact.jpg",
+    "surtitre": "Cabinet Villard",
+    "titre": "Votre partenaire pour sécuriser et développer votre entreprise",
+    "texte": "Un premier échange permet souvent d'y voir clair. Écrivez-nous ou appelez-nous : nous vous répondons sous un jour ouvré."
+  },
+  "introduction": {
+    "titre": "Un lieu où chaque entreprise bénéficie d'un accompagnement humain et sur mesure",
+    "texte": "Que vous soyez en création, en développement ou en réflexion sur l'avenir de votre entreprise, nous prenons le temps de comprendre votre situation avant de vous proposer quoi que ce soit."
+  },
+  "adresse": {
+    "titre": "Nous rencontrer",
+    "complement": "Parking gratuit devant le cabinet. Accès de plain-pied.",
+    "carte": {
+      "libelle": "Ouvrir le plan d'accès",
+      "url": "https://www.openstreetmap.org/search?query=3%20rue%20du%2016%20novembre%201944%2C%2025260%20Colombier%20Fontaine"
+    }
+  },
+  "formulaire": {
+    "titre": "Une question ? Contactez-nous",
+    "texte": "Décrivez votre situation en quelques lignes. Plus votre message est précis, plus notre réponse le sera.",
+    "objets": [
+      "Demande de rendez-vous",
+      "Création d'entreprise",
+      "Comptabilité",
+      "Audit / commissariat aux comptes",
+      "Paie et social",
+      "Conseil et gestion",
+      "Autre demande"
+    ],
+    "mention": "Les informations recueillies servent uniquement à traiter votre demande. Elles ne sont transmises à aucun tiers."
+  },
+  "faq": {
+    "surtitre": "Questions fréquentes",
+    "titre": "Vous vous posez peut-être ces questions",
+    "items": [
+      {
+        "question": "Puis-je confier plusieurs missions au cabinet ?",
+        "reponse": "Oui. Nous adaptons nos prestations à vos besoins pour vous proposer un accompagnement global en comptabilité, fiscalité, social et gestion. C'est même le cas le plus fréquent : réunir ces missions chez un seul interlocuteur évite les zones grises entre conseils."
+      },
+      {
+        "question": "Puis-je faire évoluer mes services en cours d'année ?",
+        "reponse": "Nos solutions sont flexibles et évolutives, afin de s'ajuster à votre activité et à vos besoins tout au long de votre développement. Une embauche, un changement de régime ou une croissance rapide se traitent en cours de mission."
+      },
+      {
+        "question": "Puis-je modifier ou arrêter une mission en cours ?",
+        "reponse": "Nous vous accompagnons avec transparence et vous permettons d'ajuster nos interventions selon votre situation et vos priorités. Les conditions d'interruption figurent dans la lettre de mission remise en début de collaboration."
+      },
+      {
+        "question": "Comment se déroule un changement de cabinet ?",
+        "reponse": "La procédure est encadrée par l'Ordre des experts-comptables : nous contactons votre précédent cabinet, récupérons votre dossier et assurons la continuité de vos obligations. Vous n'avez aucune démarche à faire vous-même."
+      },
+      {
+        "question": "Quels sont vos honoraires ?",
+        "reponse": "Ils dépendent du volume et de la nature des travaux. Ils sont fixés à l'avance dans la lettre de mission, et non facturés à l'heure au fil de l'eau : vous savez ce que vous payez avant de commencer."
+      },
+      {
+        "question": "Travaillez-vous avec des entreprises éloignées de Colombier Fontaine ?",
+        "reponse": "Oui. La transmission des pièces se fait désormais très largement par voie numérique, et les rendez-vous peuvent se tenir en visioconférence. Nous accompagnons des clients sur tout le Doubs et au-delà."
+      }
+    ],
+    "relance": {
+      "titre": "Vous avez encore des questions ?",
+      "texte": "Vous ne trouvez pas la réponse souhaitée ? Contactez notre équipe pour échanger simplement et rapidement."
+    }
+  }
+}

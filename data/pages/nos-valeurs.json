@@ -1,0 +1,20 @@
+{
+  "titre": "Nos valeurs",
+  "meta": {
+    "description": "Bienveillance, intégrité, efficacité, innovation, satisfaction client : les cinq valeurs qui guident le Cabinet Villard dans sa relation avec chaque entreprise accompagnée."
+  },
+  "hero": {
+    "image": "assets/img/site/hero-valeurs.jpg",
+    "surtitre": "Le cabinet",
+    "titre": "Préparez l'avenir de votre entreprise",
+    "texte": "Nous vous accompagnons avec des solutions adaptées pour structurer votre activité et sécuriser vos décisions à chaque étape de votre développement."
+  },
+  "sections": [
+    {
+      "titre": "Des principes qui se vérifient au quotidien",
+      "paragraphes": [
+        "Une valeur affichée sur un site n'engage à rien. Celles-ci décrivent la manière dont nous travaillons réellement : la façon dont nous répondons au téléphone, dont nous annonçons une mauvaise nouvelle, dont nous fixons nos honoraires."
+      ]
+    }
+  ]
+}

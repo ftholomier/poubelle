@@ -1,0 +1,69 @@
+{
+    "nom": "Cabinet Villard",
+    "baseline": "Expertise comptable",
+    "titre_seo": "Cabinet Villard | Expert-comptable à Colombier Fontaine (25)",
+    "accroche": "Cabinet d'expertise comptable fondé par Emmanuelle Villard, expert-comptable et commissaire aux comptes. Comptabilité, audit, social et conseil pour les entreprises, artisans, commerçants, professions libérales et associations du Doubs et de Franche-Comté.",
+    "logo": {
+        "principal": "assets/img/logo/logo-villard.png",
+        "clair": "assets/img/logo/logo-villard-clair.png",
+        "embleme": "assets/img/logo/embleme-villard.png"
+    },
+    "adresse": {
+        "rue": "3 rue du 16 novembre 1944",
+        "cp": "25260",
+        "ville": "Colombier Fontaine",
+        "pays": "France"
+    },
+    "contact": {
+        "telephone": "03 81 97 60 43",
+        "email": "",
+        "horaires": "Du lundi au vendredi, de 8h30 à 18h00"
+    },
+    "fondation": {
+        "annee": "2008",
+        "fondatrice": "Emmanuelle Villard",
+        "qualite": "Expert-comptable et commissaire aux comptes"
+    },
+    "reservation": {
+        "principal": {
+            "libelle": "Prendre rendez-vous",
+            "url": "/contact"
+        },
+        "secondaire": {
+            "libelle": "Nous appeler",
+            "url": ""
+        }
+    },
+    "menu": [
+        {
+            "libelle": "Accueil",
+            "url": "/"
+        },
+        {
+            "libelle": "Le cabinet",
+            "url": "/le-cabinet"
+        },
+        {
+            "libelle": "Nos services",
+            "url": "/nos-services",
+            "sous_menu": []
+        },
+        {
+            "libelle": "Nos valeurs",
+            "url": "/nos-valeurs"
+        },
+        {
+            "libelle": "Contact",
+            "url": "/contact"
+        }
+    ],
+    "reseaux": {
+        "linkedin": "",
+        "facebook": ""
+    },
+    "pied": {
+        "seo": "Cabinet Villard, expertise comptable à Colombier Fontaine (25260). Comptabilité, audit, gestion sociale et conseil pour artisans, commerçants, professions libérales, associations et industries.",
+        "proche_de": "Nous intervenons à Colombier Fontaine, Montbéliard, Audincourt, L'Isle-sur-le-Doubs, Baume-les-Dames, Besançon, Belfort et sur l'ensemble du Doubs et de la Franche-Comté.",
+        "copyright": "© [year] Cabinet Villard — Tous droits réservés"
+    }
+}

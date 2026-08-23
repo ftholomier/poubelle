@@ -1,0 +1,168 @@
+{
+    "intro": "Nous accompagnons chaque dimension de votre activité, de la tenue quotidienne de vos comptes aux décisions qui engagent l'avenir de votre entreprise.",
+    "items": [
+        {
+            "slug": "comptabilite",
+            "nom": "Comptabilité",
+            "icone": "comptabilite",
+            "actif": true,
+            "resume": "Nous assurons la gestion complète de votre comptabilité avec rigueur et précision, pour garantir la fiabilité de vos données financières.",
+            "image": "assets/img/site/service-comptabilite.jpg",
+            "hero": {
+                "surtitre": "Nos services",
+                "titre": "Une comptabilité fiable, tenue au rythme de votre activité"
+            },
+            "meta": {
+                "description": "Tenue et révision comptable, bilan, liasse fiscale, déclarations de TVA : le Cabinet Villard prend en charge la comptabilité de votre entreprise à Colombier Fontaine (25)."
+            },
+            "sections": [
+                {
+                    "titre": "Une tenue rigoureuse, des chiffres sur lesquels s'appuyer",
+                    "paragraphes": [
+                        "La comptabilité n'est pas une obligation à subir : bien tenue, elle devient le tableau de bord de votre entreprise. Nous enregistrons vos opérations, contrôlons vos comptes et vous restituons une information claire, au moment où vous en avez besoin pour décider.",
+                        "Chaque dossier est suivi par un interlocuteur identifié, qui connaît votre activité et vos échéances. Vous n'avez pas à réexpliquer votre métier à chaque appel."
+                    ]
+                },
+                {
+                    "titre": "Ce que nous prenons en charge",
+                    "liste": [
+                        "Tenue et révision de votre comptabilité, mensuelle ou trimestrielle",
+                        "Établissement du bilan, du compte de résultat et de l'annexe",
+                        "Liasse fiscale et télétransmission aux services fiscaux",
+                        "Déclarations de TVA et suivi de vos obligations déclaratives",
+                        "Situations intermédiaires et tableaux de bord de gestion",
+                        "Accompagnement à la dématérialisation et au choix de vos outils"
+                    ]
+                },
+                {
+                    "titre": "Une organisation adaptée à la vôtre",
+                    "paragraphes": [
+                        "Que vous nous transmettiez vos pièces par voie numérique ou sous forme papier, nous nous adaptons à votre organisation plutôt que de vous imposer la nôtre. La facturation électronique modifie les habitudes de toutes les entreprises : nous vous accompagnons dans cette transition, à votre rythme."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "audit",
+            "nom": "Audit",
+            "icone": "audit",
+            "actif": true,
+            "resume": "Nous réalisons des audits approfondis pour sécuriser vos opérations et vous apporter une vision claire et objective de votre situation.",
+            "image": "assets/img/site/service-audit.jpg",
+            "hero": {
+                "surtitre": "Nos services",
+                "titre": "Un regard indépendant sur la solidité de vos comptes"
+            },
+            "meta": {
+                "description": "Commissariat aux comptes, audit contractuel, audit d'acquisition : le Cabinet Villard sécurise vos opérations et certifie vos comptes en toute indépendance."
+            },
+            "sections": [
+                {
+                    "titre": "L'indépendance au service de la confiance",
+                    "paragraphes": [
+                        "Emmanuelle Villard est commissaire aux comptes, inscrite auprès de la Compagnie régionale. L'audit répond à une exigence simple : permettre à vos associés, à vos banques et à vos partenaires de s'appuyer sur vos comptes sans réserve.",
+                        "Notre démarche s'appuie sur une analyse des risques propres à votre secteur, et non sur une grille appliquée uniformément. Nous concentrons nos travaux là où ils apportent réellement de la sécurité."
+                    ]
+                },
+                {
+                    "titre": "Nos interventions",
+                    "liste": [
+                        "Commissariat aux comptes des sociétés commerciales et des associations",
+                        "Audit contractuel à la demande des dirigeants ou des associés",
+                        "Audit d'acquisition et évaluation avant reprise d'entreprise",
+                        "Examen de la fiabilité de votre organisation comptable",
+                        "Attestations et rapports particuliers prévus par la loi"
+                    ]
+                },
+                {
+                    "titre": "Un rapport qui se lit et se comprend",
+                    "paragraphes": [
+                        "Au-delà de l'opinion réglementaire, nous formalisons les points d'attention relevés en cours de mission et les recommandations qui en découlent. Un audit n'a d'intérêt que s'il vous laisse une vision claire de ce qu'il faut consolider."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "social",
+            "nom": "Social",
+            "icone": "social",
+            "actif": true,
+            "resume": "Nous prenons en charge vos obligations sociales et la gestion de vos salariés avec des solutions adaptées à votre organisation.",
+            "image": "assets/img/site/service-social.jpg",
+            "hero": {
+                "surtitre": "Nos services",
+                "titre": "La paie et le droit social, sans mauvaise surprise"
+            },
+            "meta": {
+                "description": "Bulletins de paie, DSN, contrats de travail, formalités d'embauche : le Cabinet Villard gère les obligations sociales de votre entreprise dans le Doubs."
+            },
+            "sections": [
+                {
+                    "titre": "Une matière mouvante, une veille permanente",
+                    "paragraphes": [
+                        "Le droit social change plusieurs fois par an, et chaque convention collective a ses règles propres. Nous assurons cette veille pour vous : vos bulletins de paie sont établis selon les textes en vigueur, vos déclarations partent dans les délais.",
+                        "Une erreur de paie coûte cher, en régularisations comme en climat social. Notre rôle est de faire en sorte qu'elle ne se produise pas."
+                    ]
+                },
+                {
+                    "titre": "Ce que nous gérons",
+                    "liste": [
+                        "Établissement des bulletins de paie et des documents associés",
+                        "Déclaration sociale nominative (DSN) et déclarations périodiques",
+                        "Formalités d'embauche et de fin de contrat",
+                        "Rédaction et suivi des contrats de travail",
+                        "Conseil en droit du travail et application de votre convention collective",
+                        "Accompagnement lors d'un contrôle URSSAF"
+                    ]
+                },
+                {
+                    "titre": "Un appui au moment des décisions",
+                    "paragraphes": [
+                        "Recruter, faire évoluer un poste, se séparer d'un collaborateur : ces moments engagent l'entreprise. Nous vous aidons à les préparer, à en mesurer le coût et à respecter la procédure applicable."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "conseil",
+            "nom": "Conseil",
+            "icone": "conseil",
+            "actif": true,
+            "resume": "Nous vous accompagnons dans vos décisions stratégiques pour optimiser votre gestion et développer durablement votre activité.",
+            "image": "assets/img/site/service-conseil.jpg",
+            "hero": {
+                "surtitre": "Nos services",
+                "titre": "Décider avec les bons chiffres devant soi"
+            },
+            "meta": {
+                "description": "Création d'entreprise, choix du statut, prévisionnel, transmission, optimisation fiscale : le Cabinet Villard vous conseille à chaque étape de votre développement."
+            },
+            "sections": [
+                {
+                    "titre": "Au-delà des obligations, l'accompagnement",
+                    "paragraphes": [
+                        "Créer, investir, embaucher, transmettre : ces décisions se préparent. Nous les chiffrons avec vous, nous en examinons les conséquences fiscales et sociales, et nous vous disons ce que nous en pensons.",
+                        "Notre conseil s'appuie sur la connaissance concrète de votre dossier. C'est la contrepartie d'un suivi comptable régulier : nous n'avons pas besoin de reconstituer votre situation avant de vous répondre."
+                    ]
+                },
+                {
+                    "titre": "Nos domaines d'intervention",
+                    "liste": [
+                        "Création d'entreprise, choix de la forme juridique et du régime fiscal",
+                        "Business plan et prévisionnel financier pour vos partenaires bancaires",
+                        "Optimisation fiscale du dirigeant et de l'entreprise",
+                        "Analyse de rentabilité et pilotage de la trésorerie",
+                        "Transmission, cession et évaluation d'entreprise",
+                        "Secrétariat juridique courant et assemblées générales"
+                    ]
+                },
+                {
+                    "titre": "Un rendez-vous, sans engagement",
+                    "paragraphes": [
+                        "Un premier échange permet souvent d'y voir clair. Nous prenons le temps de comprendre votre projet avant de vous proposer quoi que ce soit."
+                    ]
+                }
+            ]
+        }
+    ]
+}

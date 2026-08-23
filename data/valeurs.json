@@ -1,0 +1,60 @@
+{
+    "intro": "Cinq principes qui guident notre manière de travailler et la relation que nous construisons avec chaque client.",
+    "items": [
+        {
+            "slug": "bienveillance",
+            "nom": "Bienveillance",
+            "actif": true,
+            "resume": "L'écoute, la disponibilité et le respect font un accueil sincère, et une relation de proximité avec chaque interlocuteur.",
+            "image": "assets/img/site/valeur-bienveillance.jpg",
+            "paragraphes": [
+                "La bienveillance, l'écoute, la disponibilité, le respect et la chaleur humaine sont les piliers essentiels d'un accueil professionnel et sincère, favorisant un climat de confiance durable et une relation de proximité avec chaque interlocuteur.",
+                "L'accueil s'inscrit dans une démarche globale et continue, reflétant une culture forte et une attention constante portée à chaque détail, afin de créer un environnement où chacun se sent reconnu, considéré et pleinement valorisé."
+            ]
+        },
+        {
+            "slug": "integrite",
+            "nom": "Intégrité",
+            "actif": true,
+            "resume": "Un alignement entre les valeurs, les paroles et les actions : transparence, loyauté et justesse dans les décisions.",
+            "image": "assets/img/site/valeur-integrite.jpg",
+            "paragraphes": [
+                "L'intégrité repose sur l'alignement entre les valeurs, les paroles et les actions. Elle implique transparence, loyauté et justesse dans les décisions, afin d'instaurer un climat de confiance durable et une cohérence forte dans les relations professionnelles.",
+                "Elle s'inscrit dans une démarche continue où les engagements sont respectés, les échanges sincères et les responsabilités assumées, afin de construire une crédibilité solide et durable auprès des collaborateurs, des partenaires et des clients."
+            ]
+        },
+        {
+            "slug": "efficacite",
+            "nom": "Efficacité",
+            "actif": true,
+            "resume": "Une exigence qui s'inscrit dans la durée, en conciliant résultats, sens et responsabilité.",
+            "image": "assets/img/site/valeur-efficacite.jpg",
+            "paragraphes": [
+                "La performance repose sur l'engagement collectif et une dynamique humaine alliant rigueur, persévérance et recherche d'équilibre entre efficacité et qualité des relations.",
+                "Elle s'inscrit dans la durée en conciliant résultats, sens et responsabilité, afin de construire une réussite cohérente fondée sur la confiance et la capacité à évoluer ensemble."
+            ]
+        },
+        {
+            "slug": "innovation",
+            "nom": "Innovation",
+            "actif": true,
+            "resume": "Rigueur, créativité et coopération pour orienter les ressources vers des objectifs clairs et cohérents.",
+            "image": "assets/img/site/valeur-innovation.jpg",
+            "paragraphes": [
+                "La rigueur, la créativité, la coopération et l'engagement structurent les moyens de l'entreprise et permettent d'orienter efficacement les ressources vers des objectifs clairs et cohérents.",
+                "Ces moyens s'inscrivent dans une dynamique globale où les ressources humaines et matérielles deviennent des leviers de performance au service d'une progression durable."
+            ]
+        },
+        {
+            "slug": "satisfaction-client",
+            "nom": "Satisfaction client",
+            "actif": true,
+            "resume": "Une expérience qui se construit dans le temps et transforme chaque situation en apprentissage.",
+            "image": "assets/img/site/valeur-satisfaction.jpg",
+            "paragraphes": [
+                "L'expérience se construit dans le temps, à travers l'action, les réussites et les remises en question. Elle permet de transformer chaque situation en apprentissage et de renforcer les compétences.",
+                "Elle constitue une richesse collective qui éclaire les décisions, valorise le partage et transforme les savoir-faire en une intelligence commune au service de l'évolution."
+            ]
+        }
+    ]
+}

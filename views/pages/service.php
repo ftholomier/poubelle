@@ -1,0 +1,63 @@
+<?php
+/**
+ * Fiche d'un service.
+ *
+ * @var array $item
+ * @var array $autres  les autres services publiés
+ * @var App\Core\View $view
+ */
+$hero = ($item['hero'] ?? []) + ['image' => $item['image'] ?? '', 'titre' => $item['nom'] ?? ''];
+?>
+<?= $view->partial('hero-page', ['hero' => $hero]) ?>
+
+<section class="section">
+  <div class="conteneur conteneur--etroit">
+    <p class="chapo reveler"><?= e($item['resume'] ?? '') ?></p>
+
+    <?php foreach ($item['sections'] ?? [] as $sec): ?>
+      <div class="bloc-texte reveler">
+        <?php if (!empty($sec['titre'])): ?><h2><?= e($sec['titre']) ?></h2><?php endif; ?>
+
+        <?php foreach ($sec['paragraphes'] ?? [] as $p): ?>
+          <p><?= e($p) ?></p>
+        <?php endforeach; ?>
+
+        <?php if (!empty($sec['liste'])): ?>
+          <ul class="liste-cochee">
+            <?php foreach ($sec['liste'] as $ligne): ?>
+              <li><?= e($ligne) ?></li>
+            <?php endforeach; ?>
+          </ul>
+        <?php endif; ?>
+      </div>
+    <?php endforeach; ?>
+  </div>
+</section>
+
+<?php if ($autres !== []): ?>
+<section class="section section--teinte">
+  <div class="conteneur">
+    <div class="section__tete reveler">
+      <p class="surtitre"><?= e(t('Nos autres services')) ?></p>
+      <h2 class="titre-section"><?= e(t('Un accompagnement global')) ?></h2>
+    </div>
+
+    <ul class="cartes cartes--services">
+      <?php foreach ($autres as $service): ?>
+        <li class="carte-service reveler">
+          <a href="<?= route('nos-services', $service['slug']) ?>">
+            <span class="carte-service__icone" aria-hidden="true">
+              <?= $view->partial('icones', ['nom' => $service['icone'] ?? 'conseil']) ?>
+            </span>
+            <h3 class="carte-service__titre"><?= e($service['nom']) ?></h3>
+            <p class="carte-service__texte"><?= e($service['resume']) ?></p>
+            <span class="carte-service__lien lien-fleche"><?= e(t('En savoir plus')) ?></span>
+          </a>
+        </li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
+</section>
+<?php endif; ?>
+
+<?= $view->partial('bande-cta') ?>

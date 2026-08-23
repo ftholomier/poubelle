@@ -1,0 +1,78 @@
+{
+  "titre": "Le cabinet",
+  "meta": {
+    "description": "Fondé en 2008 par Emmanuelle Villard, expert-comptable et commissaire aux comptes. Nous accompagnons artisans, commerçants, libéraux et associations."
+  },
+  "hero": {
+    "image": "assets/img/site/hero-cabinet-interieur.jpg",
+    "surtitre": "Le cabinet",
+    "titre": "Un cabinet d'exception pour chaque client",
+    "texte": "Nous mettons notre expertise et notre engagement au service de votre activité, pour vous accompagner avec rigueur à chaque étape de votre développement."
+  },
+  "histoire": {
+    "surtitre": "Notre histoire",
+    "titre": "Depuis 2008, nous guidons les entreprises avec exigence et expertise",
+    "paragraphes": [
+      "Le Cabinet Villard s'est construit sur une conviction simple : un cabinet d'expertise comptable ne se juge pas au nombre de déclarations qu'il dépose, mais à la qualité des décisions qu'il permet de prendre.",
+      "Depuis notre implantation à Colombier Fontaine, nous accompagnons les entreprises du Doubs et de Franche-Comté, de la création à la transmission, avec la même exigence quelle que soit la taille du dossier."
+    ]
+  },
+  "piliers": {
+    "items": [
+      {
+        "numero": "01",
+        "label": "Expérience",
+        "titre": "Accompagnement et expertise",
+        "texte": "Fondé par Emmanuelle Villard, expert-comptable et commissaire aux comptes, le cabinet propose un accompagnement complet en comptabilité, audit, conseil et gestion, avec une approche rigoureuse et personnalisée.",
+        "image": "assets/img/site/pilier-experience.jpg"
+      },
+      {
+        "numero": "02",
+        "label": "Savoir-faire",
+        "titre": "Qualité et performance",
+        "texte": "Une équipe engagée, des outils modernes et une organisation certifiée ISO 9001 pour garantir des prestations fiables et répondre aux exigences de chaque client dans un environnement en constante évolution.",
+        "image": "assets/img/site/pilier-savoir-faire.jpg"
+      }
+    ]
+  },
+  "clients": {
+    "surtitre": "Ils nous font confiance",
+    "titre": "Nos clients",
+    "texte": "Nous accompagnons des structures de toutes tailles, dans des secteurs très différents. Cette diversité est une force : elle nourrit notre regard sur chaque dossier.",
+    "items": [
+      {
+        "icone": "liberal",
+        "nom": "Professions libérales",
+        "texte": "Médecins, avocats, architectes, consultants : un suivi adapté aux régimes spécifiques des professions indépendantes."
+      },
+      {
+        "icone": "commerce",
+        "nom": "Commerçants",
+        "texte": "Gestion des stocks, TVA, saisonnalité : nous connaissons les contraintes du commerce de détail."
+      },
+      {
+        "icone": "association",
+        "nom": "Associations",
+        "texte": "Comptabilité associative, subventions, obligations propres au secteur non lucratif et commissariat aux comptes."
+      },
+      {
+        "icone": "artisan",
+        "nom": "Artisans",
+        "texte": "Bâtiment, métiers de bouche, services : suivi de chantier, situations intermédiaires et gestion de trésorerie."
+      },
+      {
+        "icone": "industrie",
+        "nom": "Industrie",
+        "texte": "Comptabilité analytique, calcul de prix de revient et accompagnement des investissements industriels."
+      }
+    ]
+  },
+  "engagement": {
+    "surtitre": "Notre engagement",
+    "titre": "Un interlocuteur qui connaît votre dossier",
+    "paragraphes": [
+      "Chaque client dispose d'un interlocuteur identifié, joignable, qui suit son dossier d'une année sur l'autre. C'est ce qui nous permet de répondre vite et juste quand une décision se présente.",
+      "Nous nous engageons sur la clarté de nos honoraires, définis à l'avance et sans surprise en fin de mission."
+    ]
+  }
+}
