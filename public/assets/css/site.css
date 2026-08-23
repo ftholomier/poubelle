@@ -34,29 +34,32 @@
 }
 
 /* ---------- Variables ----------
-   Les deux oranges viennent de la marque : #f39200 est celui du logo,
-   #f37021 celui des boutons du site actuel. Aucun des deux ne tient le seuil
-   WCAG AA sur blanc (2,35:1 et 2,94:1) : ils restent donc réservés aux
-   aplats, aux filets et aux fonds sombres, et le texte orange sur blanc
-   passe par --orange, une version assombrie de la même teinte qui tient
-   5,04:1. Les gris sont ceux du site existant. */
+   L'orange de la marque est #f39200, celui du logo. C'est lui que l'on doit
+   retrouver partout : boutons, icônes, filets, puces, contours de focus.
+
+   Une seule contrainte le suit : il ne tient que 2,35:1 sur blanc, si bien
+   qu'un texte blanc posé dessus serait illisible. Le texte porté PAR l'orange
+   est donc composé à l'encre, où il tient 7,4:1 — c'est aussi ce qui donne
+   aux boutons leur tenue. Sur les fonds sombres, l'orange sert tel quel.
+
+   Reste le cas du petit texte orange posé SUR du blanc (sur-titres, liens
+   « En savoir plus ») : à 2,35:1 il ne se lit pas. Il passe par
+   --orange-texte, la même teinte assombrie. Pour un orange strictement
+   uniforme au prix de la lisibilité, il suffit d'y écrire #f39200. */
 :root {
-  /* Orange de texte et de bouton sur fond clair — 5,04:1 sur blanc, et
-     blanc dessus au même rapport. */
-  --orange: #b84f13;
-  /* Orange de marque, pour les aplats et les surfaces qui ne portent pas de
-     petit texte : celui du logo, puis celui des boutons du site actuel. */
-  --orange-marque: #f39200;
-  --orange-vif: #f37021;
-  --orange-sombre: #8d3c0e;
-  /* Texte orange posé sur les fonds sombres : 7,4:1 sur --encre. */
+  --orange: #f39200;
+  /* Survol des aplats orange : la même teinte, d'un cran plus dense. */
+  --orange-sombre: #d97f00;
+  /* Petit texte orange sur fond blanc uniquement — 5,0:1. */
+  --orange-texte: #a35f00;
+  /* Grands chiffres décoratifs (01, 02, les millésimes) : ils portent une
+     information, donc ils restent du texte, au seuil des grandes tailles
+     (3:1). Celui-ci tient 3,5:1 en restant proche de l'orange de marque. */
+  --orange-chiffre: #c97600;
+  /* Sur les fonds sombres, l'orange de marque tient 7,4:1 : rien à dériver. */
   --orange-clair: #f39200;
-  /* Grands chiffres décoratifs (01, 02…) : ils portent l'ordre, donc ils
-     restent du texte. 3,3:1 sur blanc, au-dessus du seuil des grandes
-     tailles, tout en restant plus doux que --orange. */
-  --orange-chiffre: #d2782f;
-  --sable-pale: #faf7f3;
-  --sable-voile: #f2e7db;
+  --sable-pale: #fdf6ec;
+  --sable-voile: #f7e6cd;
 
   /* Bleu, blanc, rouge du liseré « Fabriqué en France ». Décoratifs : ils ne
      portent jamais de texte, aucun seuil de contraste ne s'y applique. */
@@ -72,9 +75,9 @@
   --fond: #ffffff;
   --fond-teinte: #f6f5f3;
 
-  /* Dégradé porteur de texte blanc (les initiales des avis) : son extrémité
-     la plus claire tient 5,04:1, donc toute la course est conforme. */
-  --degrade-orange: linear-gradient(120deg, #8d3c0e 0%, #a54711 55%, #b84f13 100%);
+  /* Dégradé porteur de texte : il est fait de l'orange de marque, et le texte
+     qui s'y pose est à l'encre, comme sur les boutons. */
+  --degrade-orange: linear-gradient(120deg, #d97f00 0%, #e88800 55%, #f39200 100%);
 
   --titre: "Playfair Display", Georgia, "Times New Roman", serif;
   --texte-police: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -87,7 +90,7 @@
   --rayon: 10px;
   --rayon-carte: 22px;
   --ombre-carte: 0 2px 6px rgba(26, 26, 26, .05), 0 14px 40px rgba(26, 26, 26, .08);
-  --ombre-carte-active: 0 4px 12px rgba(184, 79, 19, .12), 0 22px 56px rgba(26, 26, 26, .13);
+  --ombre-carte-active: 0 4px 12px rgba(243, 146, 0, .12), 0 22px 56px rgba(26, 26, 26, .13);
 }
 
 /* ---------- Base ---------- */
@@ -114,7 +117,7 @@ a { color: inherit; text-decoration: none; }
 ul, ol { list-style: none; }
 button { font: inherit; background: none; border: 0; cursor: pointer; color: inherit; }
 
-::selection { background: var(--orange); color: #fff; }
+::selection { background: var(--orange); color: var(--encre); }
 
 :focus { outline: none; }
 :focus-visible {
@@ -134,7 +137,7 @@ p + p { margin-top: 1.05rem; }
 /* Lien d'évitement */
 .evitement {
   position: absolute; left: -9999px; top: 0; z-index: 300;
-  background: var(--orange); color: #fff; padding: .85rem 1.4rem;
+  background: var(--orange); color: var(--encre); padding: .85rem 1.4rem;
   font-weight: 600;
 }
 .evitement:focus { left: 0; }
@@ -144,7 +147,7 @@ p + p { margin-top: 1.05rem; }
   display: inline-flex; align-items: center; gap: .8rem;
   font-size: .74rem; font-weight: 700;
   letter-spacing: .2em; text-transform: uppercase;
-  color: var(--orange);
+  color: var(--orange-texte);
   margin-bottom: 1.1rem;
 }
 .surtitre::before { content: ""; width: 30px; height: 2px; background: currentColor; flex: 0 0 auto; }
@@ -178,16 +181,18 @@ p + p { margin-top: 1.05rem; }
 .btn:active { transform: translateY(0); }
 
 .btn--orange {
-  background: var(--orange); color: #fff; border-color: var(--orange);
-  box-shadow: 0 6px 18px rgba(184, 79, 19, .24);
+  background: var(--orange); color: var(--encre); border-color: var(--orange);
+  box-shadow: 0 6px 18px rgba(243, 146, 0, .30);
 }
 .btn--orange:hover {
   background: var(--orange-sombre); border-color: var(--orange-sombre);
-  box-shadow: 0 10px 26px rgba(184, 79, 19, .32);
+  box-shadow: 0 10px 26px rgba(243, 146, 0, .40);
 }
 
-.btn--contour { color: var(--orange); border-color: var(--orange); background: transparent; }
-.btn--contour:hover { background: var(--orange); color: #fff; }
+/* Bouton en contour : le filet est à l'orange de marque — c'est lui qu'on
+   voit — et seul le libellé est assombri pour rester lisible sur blanc. */
+.btn--contour { color: var(--orange-texte); border-color: var(--orange); background: transparent; }
+.btn--contour:hover { background: var(--orange); color: var(--encre); }
 
 .btn--contour-clair { color: #fff; border-color: rgba(255, 255, 255, .55); background: rgba(255, 255, 255, .06); }
 .btn--contour-clair:hover { background: #fff; color: var(--encre); border-color: #fff; }
@@ -196,7 +201,7 @@ p + p { margin-top: 1.05rem; }
 .lien-fleche {
   display: inline-flex; align-items: center; gap: .5rem;
   font-weight: 700; font-size: .93rem;
-  color: var(--orange);
+  color: var(--orange-texte);
   background-image: linear-gradient(currentColor, currentColor);
   background-size: 0 1px; background-position: 0 100%; background-repeat: no-repeat;
   transition: background-size var(--transition);
@@ -326,7 +331,7 @@ p + p { margin-top: 1.05rem; }
 .navbar__lien[aria-current="page"]::after { transform: scaleX(1); }
 .entete--pleine .navbar__lien { color: var(--texte); }
 .entete--pleine .navbar__item:hover > .navbar__lien,
-.entete--pleine .navbar__lien[aria-current="page"] { color: var(--orange); }
+.entete--pleine .navbar__lien[aria-current="page"] { color: var(--orange-texte); }
 .navbar__item:hover > .navbar__lien { color: var(--orange-clair); }
 
 /* Sous-menu déroulant : ouvert au survol et au focus clavier, ce qui évite
@@ -368,7 +373,7 @@ p + p { margin-top: 1.05rem; }
   font-size: .9rem; font-weight: 600; color: var(--texte);
   transition: background var(--transition), color var(--transition);
 }
-.navbar__sous a:hover { background: var(--sable-pale); color: var(--orange); }
+.navbar__sous a:hover { background: var(--sable-pale); color: var(--orange-texte); }
 
 /* --- actions à droite --- */
 .entete__droite { display: flex; align-items: center; gap: clamp(.7rem, 1.6vw, 1.5rem); margin-left: auto; }
@@ -380,7 +385,7 @@ p + p { margin-top: 1.05rem; }
 }
 .entete--pleine .entete__tel { color: var(--texte); }
 .entete__tel:hover { color: var(--orange-clair); }
-.entete--pleine .entete__tel:hover { color: var(--orange); }
+.entete--pleine .entete__tel:hover { color: var(--orange-texte); }
 .entete__cta { padding: .7rem 1.35rem; font-size: .86rem; white-space: nowrap; }
 
 /* ---------- Burger ---------- */
@@ -636,7 +641,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   font-family: var(--titre);
   font-size: clamp(2rem, 4vw, 2.9rem);
   line-height: 1;
-  color: var(--orange);
+  color: var(--orange-texte);
   margin-bottom: .5rem;
 }
 .indicateurs__unite { font-size: .55em; margin-left: .1em; }
@@ -685,11 +690,11 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   width: 52px; height: 52px;
   border-radius: 14px;
   background: #fff; border: 1px solid var(--ligne);
-  color: var(--orange);
+  color: var(--orange-texte);
   transition: background var(--transition), color var(--transition), border-color var(--transition);
 }
 .carte-service__icone svg { width: 28px; height: 28px; }
-.carte-service:hover .carte-service__icone { background: var(--orange); border-color: var(--orange); color: #fff; }
+.carte-service:hover .carte-service__icone { background: var(--orange); border-color: var(--orange); color: var(--encre); }
 .carte-service__titre { font-size: 1.32rem; margin-bottom: .7rem; }
 .carte-service__texte { color: var(--texte-doux); font-size: .96rem; flex: 1; }
 .carte-service__lien { margin-top: 1.4rem; }
@@ -707,7 +712,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   display: grid; place-items: center;
   width: 56px; height: 56px; margin: 0 auto 1.1rem;
   border-radius: 50%;
-  background: var(--sable-pale); color: var(--orange);
+  background: var(--sable-pale); color: var(--orange-texte);
 }
 .carte-client__icone svg { width: 30px; height: 30px; }
 .carte-client__titre { font-size: 1.12rem; margin-bottom: .5rem; }
@@ -759,7 +764,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 .pilier__numero { font-family: var(--titre); font-size: 1.6rem; color: var(--orange-chiffre); line-height: 1; }
 .pilier__label {
   font-size: .74rem; font-weight: 700; letter-spacing: .18em;
-  text-transform: uppercase; color: var(--orange);
+  text-transform: uppercase; color: var(--orange-texte);
 }
 .pilier__titre { font-size: 1.4rem; margin-bottom: .7rem; }
 .pilier__corps p { color: var(--texte-doux); }
@@ -776,7 +781,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   display: grid; place-items: center;
   width: 2.1rem; height: 2.1rem;
   border-radius: 50%;
-  background: var(--orange); color: #fff;
+  background: var(--orange); color: var(--encre);
   font-size: .78rem; font-weight: 700;
 }
 .etape__titre { font-size: 1.2rem; margin-bottom: .5rem; }
@@ -842,10 +847,10 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   position: absolute; left: -12px; bottom: 26px;
   max-width: 78%;
   padding: 1.1rem 1.6rem;
-  background: var(--orange); color: #fff;
+  background: var(--orange); color: var(--encre);
   font-family: var(--titre); font-size: clamp(1.15rem, 2vw, 1.5rem);
   border-radius: 14px;
-  box-shadow: 0 14px 34px rgba(184, 79, 19, .3);
+  box-shadow: 0 14px 34px rgba(243, 146, 0, .3);
 }
 .serenite__texte p { color: var(--texte-doux); }
 .serenite__legende {
@@ -933,7 +938,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   border: 1px solid var(--ligne);
   border-radius: 50%;
   background: #fff;
-  color: var(--orange);
+  color: var(--orange-texte);
   transition: background var(--transition), color var(--transition),
               border-color var(--transition), opacity var(--transition);
 }
@@ -944,7 +949,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   transform: rotate(45deg) translate(1px, -1px);
 }
 .avis__fleche--suiv::before { transform: rotate(225deg) translate(1px, -1px); }
-.avis__fleche:hover:not(:disabled) { background: var(--orange); color: #fff; border-color: var(--orange); }
+.avis__fleche:hover:not(:disabled) { background: var(--orange); color: var(--encre); border-color: var(--orange); }
 /* Désactivée plutôt que masquée : une commande qui disparaît déplace les
    autres, et la cible du clic se dérobe sous le curseur. */
 .avis__fleche:disabled { opacity: .35; cursor: default; }
@@ -969,7 +974,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   display: grid; place-items: center;
   width: 46px; height: 46px; flex: 0 0 auto;
   border-radius: 50%;
-  background: var(--degrade-orange); color: #fff;
+  background: var(--degrade-orange); color: var(--encre);
   font-size: .95rem; font-weight: 700;
 }
 .avis__auteur { font-weight: 700; font-size: 1rem; color: var(--encre); }
@@ -995,7 +1000,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   display: grid; place-items: center; flex: 0 0 auto;
   width: 50px; height: 50px;
   border-radius: 14px;
-  background: var(--sable-pale); color: var(--orange);
+  background: var(--sable-pale); color: var(--orange-texte);
 }
 .coordonnees__icone svg { width: 26px; height: 26px; }
 .coordonnees__label {
@@ -1005,7 +1010,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 }
 .coordonnees__valeur { font-size: 1.06rem; font-weight: 600; font-style: normal; color: var(--encre); line-height: 1.55; }
 a.coordonnees__valeur { transition: color var(--transition); }
-a.coordonnees__valeur:hover { color: var(--orange); }
+a.coordonnees__valeur:hover { color: var(--orange-texte); }
 .coordonnees__note { font-size: .88rem; color: var(--texte-doux); margin-top: .3rem; }
 
 /* --- formulaire --- */
@@ -1022,7 +1027,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
 .champ { display: flex; flex-direction: column; gap: .42rem; }
 .champ--large { grid-column: 1 / -1; }
 .champ label { font-size: .84rem; font-weight: 700; color: var(--encre); }
-.champ__requis { color: var(--orange); }
+.champ__requis { color: var(--orange-texte); }
 .champ input, .champ select, .champ textarea {
   width: 100%;
   padding: .8rem .95rem;
@@ -1037,14 +1042,14 @@ a.coordonnees__valeur:hover { color: var(--orange); }
 .champ input:focus, .champ select:focus, .champ textarea:focus {
   outline: none;
   background: #fff;
-  border-color: var(--orange);
-  box-shadow: 0 0 0 3px rgba(184, 79, 19, .12);
+  border-color: var(--orange-texte);
+  box-shadow: 0 0 0 3px rgba(243, 146, 0, .12);
 }
 .champ input[aria-invalid="true"], .champ textarea[aria-invalid="true"] { border-color: #c0392b; }
 .champ__erreur { font-size: .84rem; color: #c0392b; font-weight: 600; }
 
 .champ--case { flex-direction: row; align-items: flex-start; gap: .7rem; flex-wrap: wrap; }
-.champ--case input { width: auto; margin-top: .28rem; accent-color: var(--orange); flex: 0 0 auto; }
+.champ--case input { width: auto; margin-top: .28rem; accent-color: var(--orange-texte); flex: 0 0 auto; }
 .champ--case label { font-weight: 500; font-size: .9rem; line-height: 1.55; color: var(--texte-doux); flex: 1; }
 .champ--case .champ__erreur { flex-basis: 100%; }
 
@@ -1068,7 +1073,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
   border-radius: var(--rayon-carte);
   font-size: 1.08rem;
 }
-.msg-succes a { color: var(--orange); font-weight: 700; }
+.msg-succes a { color: var(--orange-texte); font-weight: 700; }
 
 /* --- FAQ --- */
 .faq { display: grid; gap: .8rem; }
@@ -1095,7 +1100,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
   transition: transform var(--transition);
 }
 .faq__item[open] .faq__question::after { transform: rotate(225deg) translateY(-2px); }
-.faq__question:hover { color: var(--orange); }
+.faq__question:hover { color: var(--orange-texte); }
 .faq__reponse {
   padding: 0 clamp(1.1rem, 2.5vw, 1.7rem) 1.4rem;
   color: var(--texte-doux); font-size: .97rem;
@@ -1117,7 +1122,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
 .bande-cta::before {
   content: ""; position: absolute; inset: -40% 30% auto -10%;
   height: 160%;
-  background: radial-gradient(ellipse at 30% 40%, rgba(184, 79, 19, .38), transparent 62%);
+  background: radial-gradient(ellipse at 30% 40%, rgba(243, 146, 0, .38), transparent 62%);
   z-index: -1;
 }
 .bande-cta::after {
@@ -1251,12 +1256,12 @@ a.coordonnees__valeur:hover { color: var(--orange); }
 }
 .entete--pleine .langues a { color: var(--texte-doux); }
 .langues a:hover { color: var(--orange-clair); }
-.entete--pleine .langues a:hover { color: var(--orange); }
-.langues a[aria-current="true"] { background: var(--orange); color: #fff; }
+.entete--pleine .langues a:hover { color: var(--orange-texte); }
+.langues a[aria-current="true"] { background: var(--orange); color: var(--encre); }
 
 .langues--panneau { margin-top: .8rem; }
 .langues--panneau a { color: rgba(255, 255, 255, .8); }
-.langues--panneau a[aria-current="true"] { background: var(--orange); color: #fff; }
+.langues--panneau a[aria-current="true"] { background: var(--orange); color: var(--encre); }
 
 /* ==========================================================================
    BANDEAU COOKIES
@@ -1275,7 +1280,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
 .cookies__corps { flex: 1 1 380px; }
 .cookies__titre { font-size: 1.15rem; margin-bottom: .35rem; }
 .cookies__texte { font-size: .9rem; line-height: 1.62; color: var(--texte-doux); max-width: 760px; }
-.cookies__texte a { color: var(--orange); font-weight: 700; text-decoration: underline; }
+.cookies__texte a { color: var(--orange-texte); font-weight: 700; text-decoration: underline; }
 .cookies__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; }
 .cookies__actions .btn { padding: .7rem 1.4rem; font-size: .85rem; }
 .cookies__reglages {
@@ -1284,7 +1289,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
   text-decoration: underline;
   transition: color var(--transition);
 }
-.cookies__reglages:hover { color: var(--orange); }
+.cookies__reglages:hover { color: var(--orange-texte); }
 
 /* --- panneau de réglage --- */
 /* Ces blocs portent l'attribut hidden tant qu'ils ne servent pas. Une règle
@@ -1328,7 +1333,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
   font-size: 1.5rem; line-height: 1; color: var(--texte-doux);
   transition: background var(--transition), color var(--transition);
 }
-.cookies__fermer:hover { background: var(--sable-pale); color: var(--orange); }
+.cookies__fermer:hover { background: var(--sable-pale); color: var(--orange-texte); }
 
 .cookies__panneau-corps {
   flex: 1; overflow-y: auto;
@@ -1349,7 +1354,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
 .cookies__categorie p { font-size: .87rem; color: var(--texte-doux); line-height: 1.62; }
 .cookies__toujours {
   font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--orange);
+  color: var(--orange-texte);
   background: var(--sable-pale);
   padding: .3rem .7rem; border-radius: 99px;
 }
@@ -1566,7 +1571,7 @@ a.coordonnees__valeur:hover { color: var(--orange); }
      laisser passer la puce, qui est centrée sur le trait. */
   position: absolute; left: -5.6rem; top: -.1em; width: calc(4.05rem - 18px);
   text-align: right;
-  font-family: var(--titre); font-size: 1.32rem; color: var(--orange);
+  font-family: var(--titre); font-size: 1.32rem; color: var(--orange-texte);
 }
 /* La puce recouvre le filet : elle est peinte en couleur de fond, cerclée
    d'orange, pour que le trait paraisse s'interrompre sous elle. */

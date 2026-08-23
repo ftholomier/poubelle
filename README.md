@@ -60,20 +60,28 @@ mène à `/pergolas-carports`, `/pergola` à la pergola bioclimatique et
 
 ## Charte
 
-| Rôle | Valeur | Origine |
+| Rôle | Jeton | Valeur |
 |---|---|---|
-| Orange de marque | `#f39200` | relevé sur le logo |
-| Orange des boutons du site actuel | `#f37021` | relevé sur les feuilles Elementor |
-| Orange de texte et de bouton (`--orange`) | `#b84f13` | dérivé des deux précédents |
-| Gris | `#1a1a1a` `#313131` `#616161` | relevés sur le site actuel |
-| Texte courant | Raleway | police du site actuel, auto-hébergée |
-| Titrage | Playfair Display | ajout, pour le registre demandé |
+| Orange de la marque — boutons, icônes, filets, puces, focus | `--orange` | `#f39200` |
+| Survol des aplats orange | `--orange-sombre` | `#d97f00` |
+| Petit texte orange sur fond blanc | `--orange-texte` | `#a35f00` |
+| Grands chiffres (01, 02, millésimes) | `--orange-chiffre` | `#c97600` |
+| Gris | `--encre` `--texte` `--texte-doux` | `#1a1a1a` `#313131` `#616161` |
+| Texte courant | | Raleway, police du site actuel, auto-hébergée |
+| Titrage | | Playfair Display |
 
-Les deux oranges de la marque tiennent 2,35:1 et 2,94:1 sur blanc, sous le
-seuil WCAG AA. Ils restent donc réservés aux aplats, aux filets et aux fonds
-sombres ; le texte et les boutons sur fond clair passent par `--orange`, une
-version assombrie de la même teinte qui tient 5,04:1. Sur le fond sombre du
-back-office, l'orange du logo est repris tel quel — il y tient 6,9:1.
+`#f39200` est l'orange du logo, et c'est lui que l'on retrouve partout : fond
+des boutons, icônes, filets, puces, contours de focus, accents sur fond
+sombre — où il tient 7,4:1, y compris dans le back-office.
+
+Une seule contrainte le suit : il ne tient que **2,35:1 sur blanc**. Un texte
+blanc posé dessus serait donc illisible ; le texte porté par l'orange est
+composé à l'encre, où il tient **7,4:1** — c'est aussi ce qui donne aux
+boutons leur tenue. Et le petit texte orange posé *sur* du blanc (sur-titres,
+liens « En savoir plus ») passe par `--orange-texte`, la même teinte
+assombrie à 5,0:1. Pour un orange strictement uniforme au prix de la
+lisibilité, il suffit d'écrire `#f39200` dans ce jeton, en tête de
+`public/assets/css/site.css`.
 
 ## À renseigner avant la mise en ligne
 
