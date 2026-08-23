@@ -217,11 +217,27 @@ p + p { margin-top: 1.05rem; }
    même, seul l'affichage change.
    ========================================================================== */
 
+
+/* ---------- Liseré bleu-blanc-rouge ----------
+   Il signe la fabrication française en haut de l'écran et au-dessus du pied.
+   Purement décoratif : trois bandes peintes en dégradé à arrêts francs, sans
+   balisage propre, donc rien à annoncer aux lecteurs d'écran. */
+.entete::before,
+.pied::before {
+  content: "";
+  position: absolute; inset-inline: 0; top: 0; height: 3px; z-index: 2;
+  background: linear-gradient(90deg,
+    var(--bleu-france) 0 33.333%,
+    #ffffff 33.333% 66.666%,
+    var(--rouge-france) 66.666% 100%);
+}
+.pied { position: relative; }
+
 .entete {
   position: fixed; inset: 0 0 auto 0; z-index: 100;
   height: var(--entete-h);
   display: flex; align-items: center;
-  background: linear-gradient(rgba(20, 12, 24, .5), rgba(20, 12, 24, 0));
+  background: linear-gradient(rgba(20, 19, 18, .5), rgba(20, 19, 18, 0));
   transition: height var(--transition), background var(--transition),
               box-shadow var(--transition), backdrop-filter var(--transition);
   backdrop-filter: blur(0px);
@@ -503,14 +519,14 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 @keyframes approche { from { transform: scale(1.06); } to { transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) { .heros__photo--anime { animation: none; } }
 
-/* Voile sombre teinté prune : c'est lui qui garantit la lisibilité du texte
+/* Voile sombre teinté gris chaud : c'est lui qui garantit la lisibilité du texte
    blanc quelle que soit la photo posée derrière, y compris l'image d'attente
    lorsqu'une photo manque encore. */
 .heros__fond::after {
   content: ""; position: absolute; inset: 0;
   background:
-    linear-gradient(105deg, rgba(23, 10, 24, .84) 0%, rgba(23, 10, 24, .62) 46%, rgba(23, 10, 24, .38) 100%),
-    linear-gradient(rgba(23, 10, 24, .3), rgba(23, 10, 24, .55));
+    linear-gradient(105deg, rgba(22, 20, 18, .84) 0%, rgba(22, 20, 18, .62) 46%, rgba(22, 20, 18, .38) 100%),
+    linear-gradient(rgba(22, 20, 18, .3), rgba(22, 20, 18, .55));
 }
 
 .heros__contenu { position: relative; max-width: 780px; }
@@ -1422,3 +1438,55 @@ a.coordonnees__valeur:hover { color: var(--orange); }
   .heros__fond { display: none; }
   .heros__titre, .heros__texte { color: #000; }
 }
+
+/* ---------- Bande « Fabriqué en France » ----------
+   Fond sombre pour trancher avec les sections claires qui l'encadrent ;
+   le liseré tricolore y est repris en petit format, au-dessus du surtitre. */
+.france {
+  position: relative;
+  background: var(--encre);
+  color: rgba(255, 255, 255, .78);
+  padding: clamp(3.2rem, 6vw, 5.2rem) 0;
+}
+.france::before {
+  content: "";
+  position: absolute; inset-inline: 0; top: 0; height: 3px;
+  background: linear-gradient(90deg,
+    var(--bleu-france) 0 33.333%,
+    #ffffff 33.333% 66.666%,
+    var(--rouge-france) 66.666% 100%);
+}
+.france__grille {
+  display: grid; gap: clamp(2rem, 4vw, 3.6rem);
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  align-items: center;
+}
+.france__drapeau { display: flex; width: 66px; margin-bottom: 1.1rem; }
+.france__bande { height: 5px; flex: 1 1 0; border-radius: 3px; }
+.france__bande--bleu  { background: #3d5fa8; }
+.france__bande--blanc { background: #ffffff; margin-inline: 3px; }
+.france__bande--rouge { background: #d4545e; }
+.france__titre {
+  font-family: var(--titre); font-weight: 500;
+  font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.22;
+  color: #fff; margin: .35rem 0 .9rem;
+}
+.france__chapo { max-width: 60ch; }
+.france__points { list-style: none; display: grid; gap: .75rem; }
+.france__points li {
+  position: relative; padding-left: 1.9rem;
+  color: rgba(255, 255, 255, .86);
+}
+/* Coche dessinée en CSS : deux traits d'une même bordure, pivotés. Aucune
+   image, aucune police d'icônes à charger. */
+.france__points li::before {
+  content: ""; position: absolute; left: 0; top: .5em;
+  width: 9px; height: 5px;
+  border-left: 2px solid var(--orange-clair);
+  border-bottom: 2px solid var(--orange-clair);
+  transform: rotate(-45deg);
+}
+@media (max-width: 860px) {
+  .france__grille { grid-template-columns: 1fr; }
+}
+

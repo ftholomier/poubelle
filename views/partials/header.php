@@ -135,7 +135,11 @@ $estActif = static function (array $item) use ($chemin): bool {
     <?php endif; ?>
     <?= $view->partial('langues', ['variante' => 'panneau', 'cle' => $cle, 'fiche' => $fiche]) ?>
     <p class="panneau__coordonnees">
-      <?= e($site['adresse']['rue']) ?>, <?= e($site['adresse']['cp']) ?> <?= e($site['adresse']['ville']) ?><br>
+      <?php $lignes = array_filter([
+          trim((string) ($site['adresse']['rue'] ?? '')),
+          trim(($site['adresse']['cp'] ?? '') . ' ' . ($site['adresse']['ville'] ?? '')),
+      ], static fn(string $l): bool => $l !== ''); ?>
+      <?= e(implode(', ', $lignes)) ?><br>
       <?php if (($site['contact']['telephone'] ?? '') !== ''): ?>
         <a href="<?= e(tel_lien($site['contact']['telephone'])) ?>"><?= e($site['contact']['telephone']) ?></a>
       <?php endif; ?>

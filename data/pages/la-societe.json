@@ -1,78 +1,78 @@
 {
-  "titre": "Le cabinet",
+  "titre": "La société Tréhant",
   "meta": {
-    "description": "Fondé en 2008 par Emmanuelle Villard, expert-comptable et commissaire aux comptes. Nous accompagnons artisans, commerçants, libéraux et associations."
+    "description": "Menuiserie Tréhant, atelier familial de menuiserie aluminium : conception, fabrication française et pose de pergolas et de carports sur mesure."
   },
   "hero": {
-    "image": "assets/img/site/hero-cabinet-interieur.jpg",
-    "surtitre": "Le cabinet",
-    "titre": "Un cabinet d'exception pour chaque client",
-    "texte": "Nous mettons notre expertise et notre engagement au service de votre activité, pour vous accompagner avec rigueur à chaque étape de votre développement."
+    "image": "assets/img/site/hero-atelier.jpg",
+    "surtitre": "La société",
+    "titre": "Une maison de menuiserie, pas une centrale d'achat",
+    "texte": "Nous fabriquons ce que nous vendons et nous posons ce que nous fabriquons. C'est la seule façon que nous connaissons de répondre de la qualité d'un ouvrage."
   },
   "histoire": {
     "surtitre": "Notre histoire",
-    "titre": "Depuis 2008, nous guidons les entreprises avec exigence et expertise",
+    "titre": "L'aluminium, un métier appris dans l'atelier",
     "paragraphes": [
-      "Le Cabinet Villard s'est construit sur une conviction simple : un cabinet d'expertise comptable ne se juge pas au nombre de déclarations qu'il dépose, mais à la qualité des décisions qu'il permet de prendre.",
-      "Depuis notre implantation à Colombier Fontaine, nous accompagnons les entreprises du Doubs et de Franche-Comté, de la création à la transmission, avec la même exigence quelle que soit la taille du dossier."
+      "Menuiserie Tréhant s'est construite autour d'un atelier et d'une équipe restreinte. Le métier s'y transmet sur les machines : la coupe d'onglet, l'usinage des évacuations, l'assemblage qui doit rester d'équerre au millimètre après trois mètres de portée.",
+      "Cette façon de travailler nous a menés naturellement vers la pergola et le carport. Ce sont des ouvrages exposés, soumis au vent, à l'eau et au soleil, où la qualité de l'assemblage se voit à l'usage plutôt que sur le catalogue."
     ]
   },
   "piliers": {
     "items": [
       {
         "numero": "01",
-        "label": "Expérience",
-        "titre": "Accompagnement et expertise",
-        "texte": "Fondé par Emmanuelle Villard, expert-comptable et commissaire aux comptes, le cabinet propose un accompagnement complet en comptabilité, audit, conseil et gestion, avec une approche rigoureuse et personnalisée.",
-        "image": "assets/img/site/pilier-experience.jpg"
+        "label": "Savoir-faire",
+        "titre": "Un aluminium travaillé, pas assemblé",
+        "texte": "Coupe, usinage, perçage, assemblage et contrôle sont réalisés chez nous. Les évacuations d'eau sont intégrées dans les poteaux de 130 × 130 mm, les jonctions sont ajustées à la main : ce que l'on ne remarque pas sur une pergola bien faite est justement ce qui a demandé le plus de travail.",
+        "image": "assets/img/site/pilier-atelier.jpg"
       },
       {
         "numero": "02",
-        "label": "Savoir-faire",
-        "titre": "Qualité et performance",
-        "texte": "Une équipe engagée, des outils modernes et une organisation certifiée ISO 9001 pour garantir des prestations fiables et répondre aux exigences de chaque client dans un environnement en constante évolution.",
-        "image": "assets/img/site/pilier-savoir-faire.jpg"
+        "label": "Proximité",
+        "titre": "Le même interlocuteur du devis au réglage",
+        "texte": "Vous n'aurez jamais à réexpliquer votre projet. Celui qui vient relever les cotes chez vous est celui qui suit la fabrication et qui répond quand vous appelez, deux ans plus tard, pour régler une lame ou commander une pièce.",
+        "image": "assets/img/site/pilier-proximite.jpg"
       }
     ]
   },
   "clients": {
-    "surtitre": "Ils nous font confiance",
-    "titre": "Nos clients",
-    "texte": "Nous accompagnons des structures de toutes tailles, dans des secteurs très différents. Cette diversité est une force : elle nourrit notre regard sur chaque dossier.",
+    "surtitre": "Nos engagements",
+    "titre": "Ce sur quoi nous nous engageons",
+    "texte": "Cinq points qui reviennent dans chaque devis que nous remettons, et que nous tenons sur chaque chantier.",
     "items": [
       {
-        "icone": "liberal",
-        "nom": "Professions libérales",
-        "texte": "Médecins, avocats, architectes, consultants : un suivi adapté aux régimes spécifiques des professions indépendantes."
+        "icone": "france",
+        "nom": "Fabrication française",
+        "texte": "Profilés d'aluminium extrudé de gammistes français, transformés dans notre atelier. Aucune sous-traitance lointaine, aucune pièce dont on ignore l'origine."
       },
       {
-        "icone": "commerce",
-        "nom": "Commerçants",
-        "texte": "Gestion des stocks, TVA, saisonnalité : nous connaissons les contraintes du commerce de détail."
+        "icone": "sur-mesure",
+        "nom": "Sur mesure réel",
+        "texte": "Chaque ouvrage est fabriqué aux cotes relevées chez vous. Pas de modules standard à recouper, pas de finition rattrapée au silicone sur le chantier."
       },
       {
-        "icone": "association",
-        "nom": "Associations",
-        "texte": "Comptabilité associative, subventions, obligations propres au secteur non lucratif et commissariat aux comptes."
+        "icone": "pose",
+        "nom": "Pose par nos équipes",
+        "texte": "Nos monteurs, formés sur nos produits, assurent la pose, le réglage de la motorisation et la mise en service devant vous."
       },
       {
-        "icone": "artisan",
-        "nom": "Artisans",
-        "texte": "Bâtiment, métiers de bouche, services : suivi de chantier, situations intermédiaires et gestion de trésorerie."
+        "icone": "garantie",
+        "nom": "Garanties tenues",
+        "texte": "Dix ans sur les profilés, cinq ans sur la motorisation Somfy, et des pièces détachées disponibles bien au-delà."
       },
       {
-        "icone": "industrie",
-        "nom": "Industrie",
-        "texte": "Comptabilité analytique, calcul de prix de revient et accompagnement des investissements industriels."
+        "icone": "proximite",
+        "nom": "Une société à taille humaine",
+        "texte": "Une équipe que vous connaîtrez par son prénom, un atelier que vous pouvez visiter, un téléphone auquel quelqu'un répond."
       }
     ]
   },
   "engagement": {
     "surtitre": "Notre engagement",
-    "titre": "Un interlocuteur qui connaît votre dossier",
+    "titre": "Un devis qui dit ce qu'il chiffre",
     "paragraphes": [
-      "Chaque client dispose d'un interlocuteur identifié, joignable, qui suit son dossier d'une année sur l'autre. C'est ce qui nous permet de répondre vite et juste quand une décision se présente.",
-      "Nous nous engageons sur la clarté de nos honoraires, définis à l'avance et sans surprise en fin de mission."
+      "Nous chiffrons poste par poste : structure, dimensions, type de couverture, options, motorisation, pose. Vous savez ce que vous payez, et ce que vous pourriez retirer si le budget doit être tenu.",
+      "Nous préférons dire non à un projet que nous jugeons mal engagé — une portée trop grande pour l'appui disponible, une exposition qui rendra la toile inutilisable — plutôt que de le vendre et de le regretter avec vous."
     ]
   }
 }

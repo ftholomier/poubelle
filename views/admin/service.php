@@ -9,10 +9,11 @@
 use App\Core\Csrf;
 
 $icones = [
-    'comptabilite' => 'Comptabilité (registre)',
-    'audit'        => 'Audit (loupe)',
-    'social'       => 'Social (personnes)',
-    'conseil'      => 'Conseil (ampoule)',
+    'pergola-bioclimatique' => 'Pergola bioclimatique (lames)',
+    'pergola-toile'         => 'Pergola à toile (store)',
+    'toiture-fixe'          => 'Toiture fixe (panneau)',
+    'carport'               => 'Carport (abri voiture)',
+    'fermetures'            => 'Fermetures et options',
 ];
 $sections = $item['sections'] ?? [];
 ?>

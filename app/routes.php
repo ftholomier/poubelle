@@ -86,11 +86,17 @@ $router->get('/robots.txt', function () use ($seo): string {
 });
 
 // --- redirections permanentes -------------------------------------------
-// anciennes adresses WordPress, plus celles créées par un changement de slug
+// anciennes adresses du site précédent, plus celles créées par un changement
+// de slug depuis le back-office. Elles sont conservées telles quelles : ce sont
+// les adresses déjà référencées et déjà partagées.
 $redirections = $seo->redirections() + [
-    '/a-propos'    => '/la-societe',
-    '/nos-valeurs/' => '/nos-valeurs',
-    '/accueil'     => '/',
+    '/pergola-carport' => '/pergolas-carports',
+    '/pergola'         => '/pergolas-carports/pergola-bioclimatique',
+    '/carport'         => '/pergolas-carports/carport',
+    '/nos-services'    => '/pergolas-carports',
+    '/nos-valeurs'     => '/savoir-faire',
+    '/a-propos'        => '/la-societe',
+    '/accueil'         => '/',
 ];
 foreach ($redirections as $ancienne => $nouvelle) {
     if ($ancienne === '' || $ancienne === $nouvelle) {

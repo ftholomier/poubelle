@@ -1,37 +1,37 @@
 {
-    "nom": "Cabinet Villard",
-    "baseline": "Expertise comptable",
-    "titre_seo": "Cabinet Villard | Expert-comptable à Colombier Fontaine (25)",
-    "accroche": "Cabinet d'expertise comptable fondé par Emmanuelle Villard, expert-comptable et commissaire aux comptes. Comptabilité, audit, social et conseil pour les entreprises, artisans, commerçants, professions libérales et associations du Doubs et de Franche-Comté.",
+    "nom": "Menuiserie Tréhant",
+    "baseline": "Pergolas & carports aluminium",
+    "titre_seo": "Menuiserie Tréhant | Pergolas et carports aluminium sur mesure, fabriqués en France",
+    "accroche": "Menuiserie Tréhant conçoit, fabrique et pose des pergolas bioclimatiques, pergolas à toile rétractable, toitures fixes et carports en aluminium. Fabrication française sur mesure, pose par nos équipes.",
     "logo": {
-        "principal": "assets/img/logo/logo-villard.png",
-        "clair": "assets/img/logo/logo-villard-clair.png",
-        "embleme": "assets/img/logo/embleme-villard.png"
+        "principal": "assets/img/logo/logo-trehant.svg",
+        "clair": "assets/img/logo/logo-trehant-clair.svg",
+        "embleme": "assets/img/logo/embleme-trehant.svg"
     },
     "adresse": {
-        "rue": "3 rue du 16 novembre 1944",
-        "cp": "25260",
-        "ville": "Colombier Fontaine",
+        "rue": "",
+        "cp": "",
+        "ville": "Vendée",
         "pays": "France"
     },
     "contact": {
-        "telephone": "03 81 97 60 43",
+        "telephone": "",
         "email": "",
-        "horaires": "Du lundi au vendredi, de 8h30 à 18h00"
+        "horaires": "Du lundi au vendredi, de 8h00 à 18h00"
     },
     "fondation": {
-        "annee": "2008",
-        "fondatrice": "Emmanuelle Villard",
-        "qualite": "Expert-comptable et commissaire aux comptes"
+        "annee": "",
+        "fondatrice": "",
+        "qualite": "Menuiserie aluminium — fabrication française"
     },
     "reservation": {
         "principal": {
-            "libelle": "Prendre rendez-vous",
+            "libelle": "Demander un devis",
             "url": "/contact"
         },
         "secondaire": {
-            "libelle": "Nous appeler",
-            "url": ""
+            "libelle": "Voir les gammes",
+            "url": "/pergolas-carports"
         }
     },
     "menu": [
@@ -40,20 +40,20 @@
             "url": "/"
         },
         {
-            "libelle": "Le cabinet",
-            "url": "/le-cabinet"
-        },
-        {
-            "libelle": "Nos services",
-            "url": "/nos-services",
+            "libelle": "Pergolas & carports",
+            "url": "/pergolas-carports",
             "sous_menu": []
         },
         {
-            "libelle": "Nos valeurs",
-            "url": "/nos-valeurs"
+            "libelle": "Notre savoir-faire",
+            "url": "/savoir-faire"
         },
         {
-            "libelle": "Contact",
+            "libelle": "La société",
+            "url": "/la-societe"
+        },
+        {
+            "libelle": "Devis",
             "url": "/contact"
         }
     ],
@@ -62,8 +62,8 @@
         "facebook": ""
     },
     "pied": {
-        "seo": "Cabinet Villard, expertise comptable à Colombier Fontaine (25260). Comptabilité, audit, gestion sociale et conseil pour artisans, commerçants, professions libérales, associations et industries.",
-        "proche_de": "Nous intervenons à Colombier Fontaine, Montbéliard, Audincourt, L'Isle-sur-le-Doubs, Baume-les-Dames, Besançon, Belfort et sur l'ensemble du Doubs et de la Franche-Comté.",
-        "copyright": "© [year] Cabinet Villard — Tous droits réservés"
+        "seo": "Menuiserie Tréhant — pergolas bioclimatiques à lames orientables, pergolas à toile rétractable, toitures fixes isolées et carports aluminium, conçus, fabriqués et posés en France.",
+        "proche_de": "Nous étudions, fabriquons et posons vos projets de pergola et de carport en Vendée et dans les départements limitrophes.",
+        "copyright": "© [year] Menuiserie Tréhant — Tous droits réservés"
     }
 }

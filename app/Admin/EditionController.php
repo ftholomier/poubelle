@@ -277,6 +277,11 @@ final class EditionController
         }
         $a['societe']['points'] = $points;
 
+        $a['france']['surtitre'] = trim((string) ($_POST['france_surtitre'] ?? ''));
+        $a['france']['titre']    = trim((string) ($_POST['france_titre'] ?? ''));
+        $a['france']['texte']    = trim((string) ($_POST['france_texte'] ?? ''));
+        $a['france']['points']   = self::lignes((string) ($_POST['france_points'] ?? ''));
+
         $a['serenite']['surtitre']  = trim((string) ($_POST['serenite_surtitre'] ?? ''));
         $a['serenite']['titre']     = trim((string) ($_POST['serenite_titre'] ?? ''));
         $a['serenite']['texte']     = trim((string) ($_POST['serenite_texte'] ?? ''));

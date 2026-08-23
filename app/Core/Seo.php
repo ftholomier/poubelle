@@ -21,9 +21,9 @@ final class Seo
      */
     public const PAGES = [
         'accueil'          => ['slug' => '',                 'nom' => 'Accueil'],
-        'la-societe'       => ['slug' => 'la-societe',       'nom' => 'La société'],
-        'nos-services'     => ['slug' => 'nos-services',     'nom' => 'Nos services'],
-        'nos-valeurs'      => ['slug' => 'nos-valeurs',      'nom' => 'Nos valeurs'],
+        'la-societe'       => ['slug' => 'la-societe',       'nom' => 'La société Tréhant'],
+        'nos-services'     => ['slug' => 'pergolas-carports', 'nom' => 'Pergolas & carports'],
+        'nos-valeurs'      => ['slug' => 'savoir-faire',     'nom' => 'Notre savoir-faire'],
         'contact'          => ['slug' => 'contact',          'nom' => 'Contact'],
         'mentions-legales' => ['slug' => 'mentions-legales', 'nom' => 'Mentions légales'],
     ];

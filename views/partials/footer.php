@@ -31,7 +31,7 @@ $tel = (string) ($site['contact']['telephone'] ?? '');
       </nav>
 
       <div class="pied__services">
-        <h2><?= e(t('Nos services')) ?></h2>
+        <h2><?= e(t('Nos gammes')) ?></h2>
         <ul class="pied__liens">
           <?php foreach ($content->publies('services') as $service): ?>
             <li><a href="<?= route('nos-services', $service['slug']) ?>"><?= e($service['nom']) ?></a></li>
@@ -46,8 +46,12 @@ $tel = (string) ($site['contact']['telephone'] ?? '');
             <span class="pied__icone" aria-hidden="true"><?= $view->partial('icones', ['nom' => 'adresse']) ?></span>
             <span>
               <?= e($site['nom']) ?><br>
-              <?= e($site['adresse']['rue']) ?><br>
-              <?= e($site['adresse']['cp']) ?> <?= e($site['adresse']['ville']) ?>
+              <?php /* Une adresse partiellement renseignée ne doit pas laisser
+                       de ligne vide ni d'espace orphelin dans le pied. */ ?>
+              <?php if (($site['adresse']['rue'] ?? '') !== ''): ?>
+                <?= e($site['adresse']['rue']) ?><br>
+              <?php endif; ?>
+              <?= e(trim(($site['adresse']['cp'] ?? '') . ' ' . ($site['adresse']['ville'] ?? ''))) ?>
             </span>
           </p>
           <?php if (($site['contact']['horaires'] ?? '') !== ''): ?>

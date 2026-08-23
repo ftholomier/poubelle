@@ -16,7 +16,7 @@
         <li class="carte-service reveler">
           <a href="<?= route('nos-services', $service['slug']) ?>">
             <span class="carte-service__icone" aria-hidden="true">
-              <?= $view->partial('icones', ['nom' => $service['icone'] ?? 'conseil']) ?>
+              <?= $view->partial('icones', ['nom' => $service['icone'] ?? 'pergola-bioclimatique']) ?>
             </span>
             <h2 class="carte-service__titre"><?= e($service['nom']) ?></h2>
             <p class="carte-service__texte"><?= e($service['resume']) ?></p>

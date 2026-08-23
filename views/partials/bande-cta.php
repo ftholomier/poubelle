@@ -11,10 +11,10 @@ $tel  = (string) ($site['contact']['telephone'] ?? '');
 ?>
 <section class="bande-cta">
   <div class="conteneur reveler">
-    <p class="surtitre surtitre--clair surtitre--centre"><?= e(t('Parlons de votre activité')) ?></p>
-    <h2 class="bande-cta__titre"><?= e(t('Un premier échange, sans engagement')) ?></h2>
+    <p class="surtitre surtitre--clair surtitre--centre"><?= e(t('Parlons de votre projet')) ?></p>
+    <h2 class="bande-cta__titre"><?= e(t('Une étude et un devis, sans engagement')) ?></h2>
     <p class="bande-cta__texte">
-      <?= e(t('Décrivez-nous votre situation en quelques lignes, ou appelez-nous directement. Nous prenons le temps de comprendre votre projet avant de vous proposer quoi que ce soit.')) ?>
+      <?= e(t('Décrivez-nous votre extérieur en quelques lignes, ou appelez-nous directement. Nous venons relever les cotes sur place avant de chiffrer quoi que ce soit.')) ?>
     </p>
     <div class="bande-cta__actions">
       <?php if (($resa['principal']['url'] ?? '') !== ''): ?>

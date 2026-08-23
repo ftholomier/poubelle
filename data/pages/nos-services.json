@@ -1,41 +1,52 @@
 {
-  "titre": "Nos services",
+  "titre": "Pergolas & carports",
   "meta": {
-    "description": "Comptabilité, audit et commissariat aux comptes, gestion sociale et paie, conseil : les quatre métiers du Cabinet Villard, expert-comptable à Colombier Fontaine (25)."
+    "description": "Pergola bioclimatique à lames orientables, pergola à toile rétractable, toiture fixe isolée, carport aluminium et fermetures : les gammes Menuiserie Tréhant, fabriquées en France sur mesure."
   },
   "hero": {
-    "image": "assets/img/site/hero-services.jpg",
-    "surtitre": "Nos services",
-    "titre": "Nous accompagnons chaque dimension de votre activité",
-    "texte": "Quatre métiers complémentaires, un seul interlocuteur. Vous n'avez pas à multiplier les prestataires pour couvrir vos obligations et préparer vos décisions."
+    "image": "assets/img/site/hero-gammes.jpg",
+    "surtitre": "Nos gammes",
+    "titre": "Pergolas et carports en aluminium, à vos dimensions",
+    "texte": "Cinq façons de couvrir un extérieur, une seule exigence de fabrication. Toutes nos structures sont en aluminium extrudé, thermolaqué dans le coloris de votre choix."
   },
   "sections": [
     {
-      "titre": "Un accompagnement global",
+      "titre": "Choisir sa couverture avant de choisir sa pergola",
       "paragraphes": [
-        "Comptabilité, audit, social et conseil ne se traitent pas en silos. Un choix de statut a des conséquences sociales, une embauche a un coût fiscal, un investissement se pilote avec la trésorerie sous les yeux.",
-        "Réunir ces quatre métiers sous le même toit, c'est vous éviter d'être le seul point de contact entre plusieurs conseils qui ne se parlent pas."
+        "Une pergola se choisit par sa couverture, pas par son nom commercial. Des lames orientables si vous voulez doser l'ombre et laisser passer l'air ; une toile rétractable si vous voulez retrouver le ciel en un geste ; une toiture fixe isolée si l'espace doit devenir une pièce à vivre toute l'année.",
+        "Le reste — dimensions, coloris, éclairage, fermetures latérales — se décide ensuite, une fois le principe arrêté. C'est dans cet ordre que nous menons chaque étude."
+      ]
+    },
+    {
+      "titre": "Une structure dimensionnée, pas approximée",
+      "paragraphes": [
+        "Nos poteaux de 130 × 130 mm intègrent l'évacuation des eaux de pluie : rien ne pend, rien ne se voit. Les structures sont testées au vent jusqu'à 180 km/h, et un carport peut couvrir jusqu'à 6,96 m de longueur sur 5 m de profondeur en un seul module, sans poteau intermédiaire au milieu du passage."
       ]
     }
   ],
   "methode": {
     "surtitre": "Notre méthode",
-    "titre": "Comment nous travaillons ensemble",
+    "titre": "De la première visite à la mise en service",
     "etapes": [
       {
         "numero": "01",
-        "titre": "Un premier rendez-vous",
-        "texte": "Nous prenons le temps de comprendre votre activité, votre organisation et ce que vous attendez d'un cabinet. Ce rendez-vous est sans engagement."
+        "titre": "La visite et le relevé",
+        "texte": "Nous venons chez vous. Nous regardons la façade, la pente, l'exposition, l'évacuation existante, l'accès pour le montage. Le relevé de cotes se fait à ce moment-là, pas au téléphone."
       },
       {
         "numero": "02",
-        "titre": "Une proposition claire",
-        "texte": "Nous vous remettons une lettre de mission qui décrit précisément les travaux pris en charge et les honoraires correspondants, arrêtés à l'avance."
+        "titre": "L'étude et le devis",
+        "texte": "Vous recevez un plan et un devis détaillé, poste par poste : structure, couverture, coloris, options, motorisation et pose. Rien n'est fabriqué avant votre accord."
       },
       {
         "numero": "03",
-        "titre": "Un suivi tout au long de l'année",
-        "texte": "Votre interlocuteur suit votre dossier en continu, vous alerte sur les échéances et reste joignable entre deux bilans."
+        "titre": "La fabrication en atelier",
+        "texte": "Les profilés sont coupés, usinés et assemblés à vos cotes dans notre atelier, puis contrôlés avant le départ. Le délai vous est annoncé au moment de la commande."
+      },
+      {
+        "numero": "04",
+        "titre": "La pose et la mise en service",
+        "texte": "Nos monteurs installent l'ouvrage, règlent la motorisation et vous montrent son fonctionnement avant de partir. Le service après-vente reste assuré par la même équipe."
       }
     ]
   }

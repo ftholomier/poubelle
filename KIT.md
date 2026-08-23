@@ -1,8 +1,8 @@
 # Kit de reprise — socle de site vitrine PHP natif
 
-> Ce dépôt sert actuellement le site du **Cabinet Villard** (expertise
-> comptable, Colombier Fontaine). Le présent fichier décrit le socle
-> lui-même, pour le reprendre sur un autre projet.
+> Ce dépôt sert actuellement le site de **Menuiserie Tréhant** (pergolas et
+> carports aluminium). Le présent fichier décrit le socle lui-même, pour le
+> reprendre sur un autre projet.
 
 Ce dossier est le code complet d'un site vitrine haut de gamme livré en
 production. Il est fourni comme **point de départ pour un projet similaire** :
@@ -175,8 +175,10 @@ Trois conventions structurantes :
 Dans l'ordre :
 
 1. **Identité** — `data/site.json` (nom, adresse, téléphone, menu, liens de
-   réservation), `public/assets/img/logo/`, et les variables de couleur en
-   tête de `public/assets/css/site.css`.
+   réservation), `public/assets/img/logo/` (logos SVG dessinés à la main,
+   `favicon-512.png` généré avec GD), et les variables de couleur en tête de
+   `public/assets/css/site.css` — puis les mêmes teintes, éclaircies pour
+   l'écran sombre, en tête de `public/assets/css/admin.css`.
 2. **Pages** — la table `Seo::PAGES` liste les pages fixes et leurs slugs. En
    ajouter une : une entrée ici, un `data/pages/<clé>.json`, une route dans
    `app/routes.php`, une vue dans `views/pages/`.

@@ -38,8 +38,8 @@ $hero = ($item['hero'] ?? []) + ['image' => $item['image'] ?? '', 'titre' => $it
 <section class="section section--teinte">
   <div class="conteneur">
     <div class="section__tete reveler">
-      <p class="surtitre"><?= e(t('Nos autres services')) ?></p>
-      <h2 class="titre-section"><?= e(t('Un accompagnement global')) ?></h2>
+      <p class="surtitre"><?= e(t('Nos autres gammes')) ?></p>
+      <h2 class="titre-section"><?= e(t('Tout ce que nous fabriquons')) ?></h2>
     </div>
 
     <ul class="cartes cartes--services">
@@ -47,7 +47,7 @@ $hero = ($item['hero'] ?? []) + ['image' => $item['image'] ?? '', 'titre' => $it
         <li class="carte-service reveler">
           <a href="<?= route('nos-services', $service['slug']) ?>">
             <span class="carte-service__icone" aria-hidden="true">
-              <?= $view->partial('icones', ['nom' => $service['icone'] ?? 'conseil']) ?>
+              <?= $view->partial('icones', ['nom' => $service['icone'] ?? 'pergola-bioclimatique']) ?>
             </span>
             <h3 class="carte-service__titre"><?= e($service['nom']) ?></h3>
             <p class="carte-service__texte"><?= e($service['resume']) ?></p>

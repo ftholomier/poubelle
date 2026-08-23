@@ -1,59 +1,59 @@
 {
-    "intro": "Cinq principes qui guident notre manière de travailler et la relation que nous construisons avec chaque client.",
+    "intro": "Cinq engagements qui se vérifient sur l'ouvrage fini, pas sur la plaquette.",
     "items": [
         {
-            "slug": "bienveillance",
-            "nom": "Bienveillance",
+            "slug": "fabrication-francaise",
+            "nom": "Fabriqué en France",
             "actif": true,
-            "resume": "L'écoute, la disponibilité et le respect font un accueil sincère, et une relation de proximité avec chaque interlocuteur.",
-            "image": "assets/img/site/valeur-bienveillance.jpg",
+            "resume": "Des profilés de gammistes français, transformés dans notre atelier : une filière courte, contrôlable, et un service après-vente qui reste joignable.",
+            "image": "assets/img/site/atout-france.jpg",
             "paragraphes": [
-                "La bienveillance, l'écoute, la disponibilité, le respect et la chaleur humaine sont les piliers essentiels d'un accueil professionnel et sincère, favorisant un climat de confiance durable et une relation de proximité avec chaque interlocuteur.",
-                "L'accueil s'inscrit dans une démarche globale et continue, reflétant une culture forte et une attention constante portée à chaque détail, afin de créer un environnement où chacun se sent reconnu, considéré et pleinement valorisé."
+                "Nos profilés en aluminium extrudé proviennent de gammistes français. La coupe, l'usinage, l'assemblage et le contrôle sont réalisés dans notre atelier. Nous savons d'où vient chaque pièce d'une pergola sortie de chez nous, et nous pouvons le dire sans consulter personne.",
+                "Ce n'est pas seulement une question de principe. Une filière courte, c'est un délai qu'on maîtrise, une pièce détachée qu'on obtient encore dans dix ans, et un interlocuteur qui parle la même langue que vous quand quelque chose doit être repris."
             ]
         },
         {
-            "slug": "integrite",
-            "nom": "Intégrité",
+            "slug": "sur-mesure",
+            "nom": "Le sur-mesure, au millimètre",
             "actif": true,
-            "resume": "Un alignement entre les valeurs, les paroles et les actions : transparence, loyauté et justesse dans les décisions.",
-            "image": "assets/img/site/valeur-integrite.jpg",
+            "resume": "Chaque ouvrage est fabriqué aux cotes relevées chez vous. Pas de module standard recoupé sur le chantier.",
+            "image": "assets/img/site/atout-sur-mesure.jpg",
             "paragraphes": [
-                "L'intégrité repose sur l'alignement entre les valeurs, les paroles et les actions. Elle implique transparence, loyauté et justesse dans les décisions, afin d'instaurer un climat de confiance durable et une cohérence forte dans les relations professionnelles.",
-                "Elle s'inscrit dans une démarche continue où les engagements sont respectés, les échanges sincères et les responsabilités assumées, afin de construire une crédibilité solide et durable auprès des collaborateurs, des partenaires et des clients."
+                "Une façade n'est jamais parfaitement d'aplomb, une terrasse jamais parfaitement de niveau. Le relevé se fait donc chez vous, sur place, et la fabrication suit ces cotes-là — pas celles d'un catalogue arrondi aux dix centimètres.",
+                "C'est ce qui permet une jonction franche contre le mur, un débord régulier sur toute la longueur et une évacuation qui prend l'eau du bon côté. Un ouvrage sur mesure ne se voit pas : c'est justement à cela qu'on le reconnaît."
             ]
         },
         {
-            "slug": "efficacite",
-            "nom": "Efficacité",
+            "slug": "pose-par-nos-equipes",
+            "nom": "Posé par ceux qui l'ont fabriqué",
             "actif": true,
-            "resume": "Une exigence qui s'inscrit dans la durée, en conciliant résultats, sens et responsabilité.",
-            "image": "assets/img/site/valeur-efficacite.jpg",
+            "resume": "Nos monteurs installent, règlent et mettent en service. Ils connaissent le produit parce qu'ils l'ont vu naître.",
+            "image": "assets/img/site/atout-pose.jpg",
             "paragraphes": [
-                "La performance repose sur l'engagement collectif et une dynamique humaine alliant rigueur, persévérance et recherche d'équilibre entre efficacité et qualité des relations.",
-                "Elle s'inscrit dans la durée en conciliant résultats, sens et responsabilité, afin de construire une réussite cohérente fondée sur la confiance et la capacité à évoluer ensemble."
+                "La pose est assurée par nos équipes, pas par un sous-traitant de passage. Elles montent nos ouvrages toute l'année, elles en connaissent les points sensibles et elles savent régler une motorisation sans laisser le mode d'emploi sur la table.",
+                "La mise en service se fait devant vous : orientation des lames, éclairage, capteurs, entretien courant. Vous ne découvrez pas votre pergola une fois le camion parti."
             ]
         },
         {
-            "slug": "innovation",
-            "nom": "Innovation",
+            "slug": "garanties-et-durabilite",
+            "nom": "Des garanties qui tiennent",
             "actif": true,
-            "resume": "Rigueur, créativité et coopération pour orienter les ressources vers des objectifs clairs et cohérents.",
-            "image": "assets/img/site/valeur-innovation.jpg",
+            "resume": "Dix ans sur les profilés, cinq ans sur la motorisation Somfy, et des pièces disponibles bien au-delà.",
+            "image": "assets/img/site/atout-garantie.jpg",
             "paragraphes": [
-                "La rigueur, la créativité, la coopération et l'engagement structurent les moyens de l'entreprise et permettent d'orienter efficacement les ressources vers des objectifs clairs et cohérents.",
-                "Ces moyens s'inscrivent dans une dynamique globale où les ressources humaines et matérielles deviennent des leviers de performance au service d'une progression durable."
+                "Les profilés sont garantis dix ans, la motorisation Somfy cinq ans. Les structures sont testées au vent jusqu'à 180 km/h : ce chiffre-là n'est pas une promesse commerciale, c'est un résultat d'essai.",
+                "Au-delà de la garantie, ce qui compte est la disponibilité des pièces. Travailler avec des gammistes établis et fabriquer nous-mêmes nous permet de remplacer une lame, un moteur ou un joint des années après la pose, sans avoir à déposer l'ensemble."
             ]
         },
         {
-            "slug": "satisfaction-client",
-            "nom": "Satisfaction client",
+            "slug": "proximite",
+            "nom": "Une société à taille humaine",
             "actif": true,
-            "resume": "Une expérience qui se construit dans le temps et transforme chaque situation en apprentissage.",
-            "image": "assets/img/site/valeur-satisfaction.jpg",
+            "resume": "Un atelier que vous pouvez visiter, une équipe que vous connaîtrez par son prénom, un téléphone auquel quelqu'un répond.",
+            "image": "assets/img/site/atout-proximite.jpg",
             "paragraphes": [
-                "L'expérience se construit dans le temps, à travers l'action, les réussites et les remises en question. Elle permet de transformer chaque situation en apprentissage et de renforcer les compétences.",
-                "Elle constitue une richesse collective qui éclaire les décisions, valorise le partage et transforme les savoir-faire en une intelligence commune au service de l'évolution."
+                "Nous sommes une entreprise familiale, et nous tenons à le rester. Vous n'aurez pas affaire à un centre d'appels ni à un commercial qui aura changé de secteur au moment de la pose : la même personne suit votre projet du premier rendez-vous à la mise en service.",
+                "Cette proximité a un effet concret sur la qualité. Quand celui qui vous a reçu croise chaque matin celui qui fabrique et celui qui pose, une erreur se corrige en une conversation — pas en trois courriels et deux semaines."
             ]
         }
     ]

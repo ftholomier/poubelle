@@ -1,72 +1,72 @@
 {
-  "titre": "Contact",
+  "titre": "Devis & contact",
   "meta": {
-    "description": "Contactez le Cabinet Villard, expert-comptable à Colombier Fontaine (25260) : 3 rue du 16 novembre 1944, 03 81 97 60 43, du lundi au vendredi de 8h30 à 18h00."
+    "description": "Demandez une étude et un devis gratuits pour votre pergola ou votre carport : Menuiserie Tréhant se déplace chez vous, relève les cotes et chiffre votre projet poste par poste."
   },
   "hero": {
     "image": "assets/img/site/hero-contact.jpg",
-    "surtitre": "Cabinet Villard",
-    "titre": "Votre partenaire pour sécuriser et développer votre entreprise",
-    "texte": "Un premier échange permet souvent d'y voir clair. Écrivez-nous ou appelez-nous : nous vous répondons sous un jour ouvré."
+    "surtitre": "Votre projet",
+    "titre": "Parlons de votre terrasse",
+    "texte": "Décrivez-nous votre extérieur en quelques lignes. Nous revenons vers vous pour convenir d'une visite, gratuite et sans engagement."
   },
   "introduction": {
-    "titre": "Un lieu où chaque entreprise bénéficie d'un accompagnement humain et sur mesure",
-    "texte": "Que vous soyez en création, en développement ou en réflexion sur l'avenir de votre entreprise, nous prenons le temps de comprendre votre situation avant de vous proposer quoi que ce soit."
+    "titre": "Une étude sur place, un devis détaillé, aucune obligation",
+    "texte": "Une pergola ne se chiffre pas sérieusement au téléphone. Nous venons voir la façade, la pente, l'exposition et l'accès, puis nous vous remettons un plan coté et un devis ligne à ligne."
   },
   "adresse": {
     "titre": "Nous rencontrer",
-    "complement": "Parking gratuit devant le cabinet. Accès de plain-pied.",
+    "complement": "Notre atelier se visite sur rendez-vous : c'est souvent la meilleure façon de comprendre ce qui sépare deux pergolas qui se ressemblent en photo.",
     "carte": {
-      "libelle": "Ouvrir le plan d'accès",
-      "url": "https://www.openstreetmap.org/search?query=3%20rue%20du%2016%20novembre%201944%2C%2025260%20Colombier%20Fontaine"
+      "libelle": "",
+      "url": ""
     }
   },
   "formulaire": {
-    "titre": "Une question ? Contactez-nous",
-    "texte": "Décrivez votre situation en quelques lignes. Plus votre message est précis, plus notre réponse le sera.",
+    "titre": "Décrivez-nous votre projet",
+    "texte": "Dimensions approximatives, orientation, usage attendu, budget envisagé : plus votre message est précis, plus notre première réponse le sera.",
     "objets": [
-      "Demande de rendez-vous",
-      "Création d'entreprise",
-      "Comptabilité",
-      "Audit / commissariat aux comptes",
-      "Paie et social",
-      "Conseil et gestion",
+      "Pergola bioclimatique",
+      "Pergola à toile rétractable",
+      "Pergola à toiture fixe",
+      "Carport",
+      "Fermetures et options",
+      "Service après-vente",
       "Autre demande"
     ],
     "mention": "Les informations recueillies servent uniquement à traiter votre demande. Elles ne sont transmises à aucun tiers."
   },
   "faq": {
     "surtitre": "Questions fréquentes",
-    "titre": "Vous vous posez peut-être ces questions",
+    "titre": "Ce qu'on nous demande le plus souvent",
     "items": [
       {
-        "question": "Puis-je confier plusieurs missions au cabinet ?",
-        "reponse": "Oui. Nous adaptons nos prestations à vos besoins pour vous proposer un accompagnement global en comptabilité, fiscalité, social et gestion. C'est même le cas le plus fréquent : réunir ces missions chez un seul interlocuteur évite les zones grises entre conseils."
+        "question": "Faut-il une autorisation d'urbanisme pour une pergola ou un carport ?",
+        "reponse": "Cela dépend de la surface créée et des règles de votre commune. Au-delà de 5 m², une déclaration préalable de travaux est généralement nécessaire ; au-delà de 20 m², un permis de construire peut l'être. Nous vous indiquons le régime applicable dès l'étude et nous fournissons les plans cotés à joindre au dossier."
       },
       {
-        "question": "Puis-je faire évoluer mes services en cours d'année ?",
-        "reponse": "Nos solutions sont flexibles et évolutives, afin de s'ajuster à votre activité et à vos besoins tout au long de votre développement. Une embauche, un changement de régime ou une croissance rapide se traitent en cours de mission."
+        "question": "Quel est le délai entre la commande et la pose ?",
+        "reponse": "Le délai vous est annoncé au moment de la commande, une fois les cotes relevées et les options arrêtées. Il varie selon la saison et la gamme choisie : nous fabriquons à la commande, donc nous préférons annoncer une date que nous tiendrons plutôt qu'un délai de vitrine."
       },
       {
-        "question": "Puis-je modifier ou arrêter une mission en cours ?",
-        "reponse": "Nous vous accompagnons avec transparence et vous permettons d'ajuster nos interventions selon votre situation et vos priorités. Les conditions d'interruption figurent dans la lettre de mission remise en début de collaboration."
+        "question": "Une pergola bioclimatique est-elle étanche ?",
+        "reponse": "Lames fermées, oui. L'eau est collectée par les chéneaux latéraux puis évacuée à l'intérieur des poteaux de 130 × 130 mm. Si vous cherchez une étanchéité permanente, sans manœuvre, c'est vers la toiture fixe en panneau isotoit qu'il faut vous orienter."
       },
       {
-        "question": "Comment se déroule un changement de cabinet ?",
-        "reponse": "La procédure est encadrée par l'Ordre des experts-comptables : nous contactons votre précédent cabinet, récupérons votre dossier et assurons la continuité de vos obligations. Vous n'avez aucune démarche à faire vous-même."
+        "question": "Peut-on ajouter des fermetures latérales plus tard ?",
+        "reponse": "Oui, à condition de le prévoir dès la fabrication : les fixations des stores et des coulissants sont alors intégrées à la structure. Dites-le nous à l'étude même si l'option est différée — on ne perce pas proprement une pergola déjà posée."
       },
       {
-        "question": "Quels sont vos honoraires ?",
-        "reponse": "Ils dépendent du volume et de la nature des travaux. Ils sont fixés à l'avance dans la lettre de mission, et non facturés à l'heure au fil de l'eau : vous savez ce que vous payez avant de commencer."
+        "question": "Quelles couleurs sont possibles ?",
+        "reponse": "La structure et les lames sont thermolaquées dans la teinte RAL de votre choix. Les gris anthracite restent les plus demandés parce qu'ils se font oublier, mais rien n'empêche d'accorder la pergola au portail ou aux menuiseries existantes."
       },
       {
-        "question": "Travaillez-vous avec des entreprises éloignées de Colombier Fontaine ?",
-        "reponse": "Oui. La transmission des pièces se fait désormais très largement par voie numérique, et les rendez-vous peuvent se tenir en visioconférence. Nous accompagnons des clients sur tout le Doubs et au-delà."
+        "question": "Intervenez-vous loin de votre atelier ?",
+        "reponse": "Nous intervenons en Vendée et dans les départements limitrophes. Au-delà, dites-nous où se situe le chantier : nous vous répondrons franchement sur notre capacité à assurer la pose et le service après-vente dans de bonnes conditions."
       }
     ],
     "relance": {
-      "titre": "Vous avez encore des questions ?",
-      "texte": "Vous ne trouvez pas la réponse souhaitée ? Contactez notre équipe pour échanger simplement et rapidement."
+      "titre": "Une question qui n'est pas là ?",
+      "texte": "Appelez-nous ou écrivez-nous : nous préférons répondre précisément à une question précise plutôt que d'envoyer une documentation générale."
     }
   }
 }

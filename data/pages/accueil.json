@@ -1,100 +1,111 @@
 {
   "titre": "Accueil",
   "meta": {
-    "description": "Cabinet d'expertise comptable à Colombier Fontaine (25), fondé en 2008 par Emmanuelle Villard. Comptabilité, audit, social et conseil."
+    "description": "Pergolas bioclimatiques à lames orientables, pergolas à toile rétractable, toitures fixes isolées et carports aluminium. Conception, fabrication française et pose par Menuiserie Tréhant."
   },
   "hero": {
-    "image": "assets/img/site/hero-cabinet.jpg",
-    "surtitre": "Cabinet Villard — Expertise comptable",
-    "titre": "Prenez soin de votre activité",
-    "texte": "Nous accompagnons vos projets avec rigueur et précision. Des solutions concrètes pour sécuriser vos décisions et optimiser vos performances.",
+    "image": "assets/img/site/hero-pergola.jpg",
+    "surtitre": "Menuiserie Tréhant — Fabricant français",
+    "titre": "Vivre dehors, plus longtemps",
+    "texte": "Pergolas et carports en aluminium, dessinés avec vous, fabriqués dans notre atelier et posés par nos équipes. Une seule maison, de l'étude à la mise en service.",
     "bouton_principal": {
-      "libelle": "Nous rencontrer",
+      "libelle": "Demander un devis",
       "url": "/contact"
     },
     "bouton_secondaire": {
-      "libelle": "Nos services",
-      "url": "/nos-services"
+      "libelle": "Voir les gammes",
+      "url": "/pergolas-carports"
     }
   },
   "indicateurs": {
     "items": [
       {
-        "valeur": "99",
+        "valeur": "180",
+        "unite": "km/h",
+        "libelle": "Résistance au vent testée"
+      },
+      {
+        "valeur": "150",
+        "unite": "°",
+        "libelle": "Orientation des lames"
+      },
+      {
+        "valeur": "10",
+        "unite": "ans",
+        "libelle": "Garantie sur les profilés"
+      },
+      {
+        "valeur": "100",
         "unite": "%",
-        "libelle": "Dossiers maîtrisés"
-      },
-      {
-        "valeur": "92",
-        "unite": "%",
-        "libelle": "Satisfaction client"
-      },
-      {
-        "valeur": "200",
-        "unite": "+",
-        "libelle": "Clients accompagnés"
-      },
-      {
-        "valeur": "2008",
-        "unite": "",
-        "libelle": "Cabinet fondé en"
+        "libelle": "Fabriqué en France"
       }
     ]
   },
   "services": {
-    "surtitre": "Nos services",
-    "titre": "Nous accompagnons chaque dimension de votre activité",
-    "texte": "De la tenue quotidienne de vos comptes aux décisions qui engagent l'avenir de votre entreprise, un interlocuteur unique vous suit tout au long de l'année.",
+    "surtitre": "Nos gammes",
+    "titre": "Une réponse pour chaque façon d'occuper l'extérieur",
+    "texte": "Ombrer une terrasse, la couvrir toute l'année, abriter deux voitures : les besoins ne se ressemblent pas. Cinq gammes, toutes en aluminium extrudé, toutes réalisées à vos dimensions.",
     "lien": {
-      "libelle": "Découvrir nos services",
-      "url": "/nos-services"
+      "libelle": "Découvrir les gammes",
+      "url": "/pergolas-carports"
     }
   },
-  "cabinet": {
-    "surtitre": "Le cabinet",
-    "titre": "Depuis 2008, nous guidons les entreprises avec exigence et expertise",
-    "image": "assets/img/site/cabinet-equipe.jpg",
+  "societe": {
+    "surtitre": "La société Tréhant",
+    "titre": "Un atelier à taille humaine, à quelques kilomètres de chez vous",
+    "image": "assets/img/site/atelier-trehant.jpg",
     "paragraphes": [
-      "Fondé par Emmanuelle Villard, expert-comptable et commissaire aux comptes, le cabinet propose un accompagnement complet en comptabilité, audit, conseil et gestion, avec une approche rigoureuse et personnalisée.",
-      "Une équipe engagée, des outils modernes et une organisation certifiée ISO 9001 pour garantir des prestations fiables et répondre aux exigences de chaque client dans un environnement en constante évolution."
+      "Menuiserie Tréhant est une entreprise familiale de menuiserie aluminium. Les profilés arrivent bruts dans notre atelier, en repartent coupés, usinés, assemblés et contrôlés : rien n'est sous-traité à l'autre bout de l'Europe.",
+      "Cette taille est un choix. Elle nous permet de recevoir chaque client, de dessiner un projet avec lui plutôt que de lui vendre un catalogue, et de faire poser l'ouvrage par ceux-là mêmes qui l'ont fabriqué."
     ],
     "points": [
       {
         "numero": "01",
-        "titre": "Une expertise reconnue et certifiée",
-        "texte": "Un accompagnement rigoureux assuré par des professionnels diplômés, pour garantir la fiabilité de vos décisions et de vos obligations."
+        "titre": "L'étude et la fabrication sous le même toit",
+        "texte": "Un dessin qui tient compte de votre façade, de votre pente et de votre exposition, puis un ouvrage fabriqué à ces cotes exactes. Aucun ajustement approximatif sur le chantier."
       },
       {
         "numero": "02",
-        "titre": "Un suivi personnalisé et durable",
-        "texte": "Une relation de proximité pour comprendre vos enjeux et vous proposer des solutions adaptées à chaque étape de votre activité."
+        "titre": "La pose par nos propres équipes",
+        "texte": "Ce sont nos monteurs qui interviennent chez vous, pas un poseur de passage. Ils connaissent le produit, ils l'ont vu naître, ils en assument le réglage et le service après-vente."
       }
     ],
     "lien": {
-      "libelle": "Découvrir le cabinet",
-      "url": "/le-cabinet"
+      "libelle": "Découvrir la société",
+      "url": "/la-societe"
     }
   },
+  "france": {
+    "surtitre": "Fabriqué en France",
+    "titre": "L'aluminium travaillé ici, du profilé au produit fini",
+    "texte": "Nos profilés en aluminium extrudé proviennent de gammistes français. La coupe, l'usinage, l'assemblage et le contrôle se font dans notre atelier. Choisir Tréhant, c'est faire travailler une filière qui se tient à quelques heures de route de votre terrasse — et savoir, dix ans plus tard, à qui téléphoner pour une pièce.",
+    "points": [
+      "Profilés en aluminium extrudé de gammistes français",
+      "Coupe, usinage et assemblage dans notre atelier",
+      "Motorisation Somfy, garantie 5 ans",
+      "Pièces détachées disponibles bien après la pose"
+    ]
+  },
   "valeurs": {
-    "surtitre": "Ce qui nous guide",
-    "titre": "Nos valeurs",
-    "texte": "Cinq principes qui guident notre manière de travailler et la relation que nous construisons avec chaque client.",
+    "surtitre": "Notre savoir-faire",
+    "titre": "Ce qui fait la différence entre une pergola et une belle pergola",
+    "texte": "Cinq engagements qui se voient sur l'ouvrage fini : la précision d'un angle, l'évacuation d'eau qu'on ne remarque pas, un moteur qui tient dix ans.",
     "lien": {
-      "libelle": "Toutes nos valeurs",
-      "url": "/nos-valeurs"
+      "libelle": "Notre savoir-faire",
+      "url": "/savoir-faire"
     }
   },
   "serenite": {
-    "surtitre": "Prendre rendez-vous",
-    "titre": "Pilotez votre activité en toute sérénité",
-    "texte": "Bénéficiez d'un accompagnement expert pour structurer, sécuriser et développer votre entreprise. Des solutions adaptées à vos enjeux pour optimiser votre gestion et vos performances.",
-    "image": "assets/img/site/serenite.jpg",
-    "chiffre": "+200 clients accompagnés",
-    "legende": "Un cabinet engagé à vos côtés pour vous accompagner à chaque étape de votre développement.",
+    "surtitre": "Votre projet",
+    "titre": "Parlons de votre terrasse avant de parler de produit",
+    "texte": "Dites-nous ce que vous voulez faire de cet espace : y déjeuner l'été, y rester en octobre, abriter les voitures du gel. La gamme, les dimensions et les options en découlent — jamais l'inverse.",
+    "image": "assets/img/site/pergola-terrasse.jpg",
+    "chiffre": "Étude et devis gratuits",
+    "legende": "Nous nous déplaçons chez vous, nous relevons les cotes et nous vous remettons un chiffrage détaillé, poste par poste.",
     "arguments": [
-      "Un accompagnement sur mesure pour répondre aux enjeux spécifiques de votre activité",
-      "Des solutions fiables en comptabilité, fiscalité et gestion",
-      "Une expertise reconnue au service de votre développement"
+      "Une visite sur place pour relever les contraintes réelles de votre façade",
+      "Un devis détaillé, dimensions et options chiffrées ligne à ligne",
+      "Un interlocuteur unique de la première visite à la mise en service"
     ]
   }
 }

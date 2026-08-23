@@ -10,11 +10,11 @@
 
   <rect width="1200" height="800" fill="url(#pv-fond)"/>
   <rect x="18" y="18" width="1164" height="764" fill="none"
-        stroke="#c9a24b" stroke-opacity=".22" stroke-width="2"/>
+        stroke="#b07a45" stroke-opacity=".22" stroke-width="2"/>
 
   <!-- emblème repris du logo : cercle ouvert et filets d'eau croisés -->
   <g transform="translate(600 355) scale(0.62) translate(-450 -330)"
-     fill="none" stroke="#c9a24b" stroke-opacity=".5" stroke-linecap="round" stroke-width="7">
+     fill="none" stroke="#b07a45" stroke-opacity=".5" stroke-linecap="round" stroke-width="7">
     <path d="M 325.13 565.03 A 266.00 266.00 0 1 1 574.87 565.03"/>
     <path d="M 342.66 549.28 A 246.00 246.00 0 1 1 557.34 549.28"/>
     <g stroke-width="8">
@@ -35,5 +35,5 @@
 
   <text x="600" y="620" text-anchor="middle"
         font-family="Georgia, 'Times New Roman', serif" font-size="42"
-        letter-spacing="10" fill="#c9a24b" fill-opacity=".72">PHOTO À VENIR</text>
+        letter-spacing="10" fill="#b07a45" fill-opacity=".72">PHOTO À VENIR</text>
 </svg>

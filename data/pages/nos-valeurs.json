@@ -1,19 +1,19 @@
 {
-  "titre": "Nos valeurs",
+  "titre": "Notre savoir-faire",
   "meta": {
-    "description": "Bienveillance, intégrité, efficacité, innovation, satisfaction client : les cinq valeurs qui guident le Cabinet Villard dans sa relation avec chaque entreprise accompagnée."
+    "description": "Fabrication française, sur-mesure, pose par nos équipes, garanties tenues et proximité : les cinq engagements de Menuiserie Tréhant sur chaque pergola et chaque carport."
   },
   "hero": {
-    "image": "assets/img/site/hero-valeurs.jpg",
-    "surtitre": "Le cabinet",
-    "titre": "Préparez l'avenir de votre entreprise",
-    "texte": "Nous vous accompagnons avec des solutions adaptées pour structurer votre activité et sécuriser vos décisions à chaque étape de votre développement."
+    "image": "assets/img/site/hero-savoir-faire.jpg",
+    "surtitre": "Notre savoir-faire",
+    "titre": "Ce qui se juge après trois hivers",
+    "texte": "Une pergola se choisit sur une photo et se juge quelques années plus tard. Voici ce que nous faisons pour que le jugement nous soit favorable."
   },
   "sections": [
     {
-      "titre": "Des principes qui se vérifient au quotidien",
+      "titre": "Cinq engagements qui se vérifient sur l'ouvrage",
       "paragraphes": [
-        "Une valeur affichée sur un site n'engage à rien. Celles-ci décrivent la manière dont nous travaillons réellement : la façon dont nous répondons au téléphone, dont nous annonçons une mauvaise nouvelle, dont nous fixons nos honoraires."
+        "Un argument commercial ne coûte rien. Ceux-ci se contrôlent : demandez-nous l'origine d'un profilé, le nom du monteur qui viendra, la durée de disponibilité d'une pièce détachée. Nous répondons avec des noms et des chiffres."
       ]
     }
   ]

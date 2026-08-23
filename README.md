@@ -1,11 +1,16 @@
-# Cabinet Villard — Expertise comptable
+# Menuiserie Tréhant — Pergolas & carports
 
-Site vitrine du Cabinet Villard (Colombier Fontaine, 25) : comptabilité,
-audit, gestion sociale et conseil. PHP natif, contenu en JSON, aucune
+Site vitrine dédié à l'activité pergola et carport de Menuiserie Tréhant :
+pergolas bioclimatiques, pergolas à toile rétractable, toitures fixes,
+carports aluminium et fermetures. PHP natif, contenu en JSON, aucune
 dépendance (ni Composer, ni base de données, ni build front).
 
-Refonte du site WordPress existant, reconstruite sur un socle sans
-dépendances. Voir **[KIT.md](KIT.md)** pour l'architecture et les conventions.
+Le site est volontairement mono-activité : il ne présente que la gamme
+pergola / carport, la société et son savoir-faire. Charte gris et orange,
+liseré bleu-blanc-rouge en tête de page, au-dessus du pied et dans le logo.
+
+Bâti sur le socle décrit dans **[KIT.md](KIT.md)** — architecture et
+conventions inchangées.
 
 ## Arborescence
 
@@ -16,7 +21,6 @@ config/     Configuration
 data/       Contenu éditorial en JSON (écrit par le back-office)
 views/      Gabarits PHP (pages publiques + back-office)
 storage/    Cache, sauvegardes de contenu (hors git)
-tools/      Scripts utilitaires (dérivation des variantes du logo)
 ```
 
 > **Pas de base de données.** Aucun fichier SQL à importer : le contenu vit
@@ -41,20 +45,39 @@ En local : `php -S localhost:8080 -t public public/index.php`
 
 ## Pages
 
-`/` · `/le-cabinet` · `/nos-services` (+ une page par service) ·
-`/nos-valeurs` · `/contact` · `/mentions-legales`
+`/` · `/pergolas-carports` (+ une page par gamme) · `/savoir-faire` ·
+`/la-societe` · `/contact` · `/mentions-legales`
 
-Les anciennes adresses WordPress sont redirigées en 301 : `/a-propos` mène à
-`/le-cabinet`.
+Les adresses du site précédent sont redirigées en 301 : `/pergola-carport`
+mène à `/pergolas-carports`, `/pergola` à la pergola bioclimatique et
+`/carport` au carport. Les slugs restent modifiables depuis l'écran
+**Référencement**, qui crée alors la redirection correspondante.
+
+## À renseigner avant la mise en ligne
+
+Le contenu éditorial est en place ; ces éléments-là ne peuvent venir que du
+client, et se saisissent dans le back-office sans toucher au code :
+
+| Quoi | Où |
+|---|---|
+| Téléphone, e-mail, adresse de l'atelier | Admin → Site |
+| SIRET, dirigeant, hébergeur | Admin → Éditeur avancé → `pages/mentions-legales` |
+| Photos des réalisations, de l'atelier et des équipes | Admin → Photos |
+| Fiche Google pour les avis | Admin → Avis Google |
+| Réglages SMTP et destinataire du formulaire | Admin → Paramètres |
+
+Tant qu'une photo manque, le visuel « photo à venir » s'affiche à sa place :
+le site reste présentable, aucune image cassée.
 
 ## Back-office
 
 `/admin` — édition de tout le contenu : coordonnées, horaires, menu, page
-d'accueil, page du cabinet, fiches de service, valeurs, page de contact avec
-ses questions fréquentes, médiathèque.
+d'accueil (bande « Fabriqué en France » comprise), page de la société, fiches
+de gamme, engagements du savoir-faire, page de contact avec ses questions
+fréquentes, médiathèque.
 
-Services et valeurs s'ajoutent, se réordonnent, se retirent du site et se
-suppriment depuis l'admin. Un service publié apparaît automatiquement dans le
+Gammes et engagements s'ajoutent, se réordonnent, se retirent du site et se
+suppriment depuis l'admin. Une gamme publiée apparaît automatiquement dans le
 sous-menu, en pied de page et sur la page d'accueil — aucun menu à tenir à
 jour à la main.
 
@@ -80,7 +103,7 @@ latéral reprend automatiquement la main.
 
 ### Avis Google
 
-L'écran **Avis Google** connecte la fiche Google du cabinet (API Places New).
+L'écran **Avis Google** connecte la fiche Google de la société (API Places New).
 Les avis sont récupérés **par le serveur** et conservés en cache douze heures :
 le navigateur du visiteur ne contacte jamais Google, donc aucun cookie tiers,
 rien à soumettre au consentement, et une page qui s'affiche à la vitesse du
@@ -102,10 +125,26 @@ réglages ne sont jamais dans cette liste : une mise à jour ne peut pas les
 
 Le français est la langue source. Chaque autre langue est une traduction
 mémorisée dans `data/traductions/<code>.json` et servie sur son propre
-préfixe d'adresse : `/en/nos-services`. Ce qui n'est pas traduit retombe sur
+préfixe d'adresse : `/en/pergolas-carports`. Ce qui n'est pas traduit retombe sur
 le français, jamais sur du vide.
 
 Le site public ne contacte aucun service extérieur — il lit les fichiers.
+
+## Correspondance des noms internes
+
+Le socle nomme ses deux collections `services` et `valeurs`. Elles portent ici
+les **gammes** (pergolas, carports, fermetures) et les **engagements** du
+savoir-faire. Les clés internes ont été conservées volontairement : elles
+n'apparaissent nulle part côté visiteur — les adresses (`/pergolas-carports`,
+`/savoir-faire`) et les libellés viennent de `Seo::PAGES` et de `data/` — et
+les renommer aurait touché des dizaines de fichiers pour un gain nul, au
+risque d'attraper au passage les `valeur` du code PHP ordinaire.
+
+| Clé interne | Ce que c'est sur le site | Adresse |
+|---|---|---|
+| `services` | Les gammes de pergolas et carports | `/pergolas-carports` |
+| `valeurs` | Les engagements du savoir-faire | `/savoir-faire` |
+| `la-societe` | La page société | `/la-societe` |
 
 ## API JSON (lecture)
 

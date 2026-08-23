@@ -33,7 +33,7 @@ Envoyez tout le projet dans votre espace, **à côté** de `public_html` :
 ```
 /home/VOTRECOMPTE/
 ├── public_html/          ← ne sert plus, laissez-le vide
-├── cabinetvillard/         ← le projet complet
+├── menuiserietrehant/         ← le projet complet
 │   ├── app/
 │   ├── config/
 │   ├── data/
@@ -44,7 +44,7 @@ Envoyez tout le projet dans votre espace, **à côté** de `public_html` :
 
 Puis dans **cPanel → Domaines** (ou *Domaines additionnels* / *Sous-domaines*
 selon le cas), modifiez la **racine du document** du domaine et pointez-la
-sur `cabinetvillard/public`.
+sur `menuiserietrehant/public`.
 
 ### Méthode de repli — tout dans public_html
 
@@ -234,7 +234,7 @@ pas l'afficher.
 Les fiches hors ligne et les pages non indexables en sortent automatiquement.
 Chaque page publie aussi sa balise `canonical`, ses balises de partage
 (Facebook, WhatsApp, e-mail) et ses **données structurées JSON-LD** décrivant
-le cabinet (type `AccountingService`, avec ses horaires et ses prestations), le service affiché, et le fil
+la société (type `AccountingService`, avec ses horaires et ses prestations), le service affiché, et le fil
 d'Ariane.
 
 **À faire une fois le site en ligne :** déclarez `https://votredomaine.fr/sitemap.xml`
@@ -251,7 +251,7 @@ Deux listes se gèrent de la même façon, chacune depuis son écran :
 | Écran | Ce que vous pilotez |
 |---|---|
 | **Services** | les fiches de prestation, chacune avec sa propre page |
-| **Valeurs** | les valeurs du cabinet |
+| **Valeurs** | les valeurs de la société |
 
 Partout, la même logique :
 
@@ -313,7 +313,7 @@ d'origine.
 ## 10. Les avis Google
 
 L'écran **Avis Google** affiche sur le site les avis déposés sur la fiche Google
-du cabinet.
+de la société.
 
 ### Comment ça marche
 
@@ -337,7 +337,7 @@ lieu.
 ### Obtenir la clé d'API
 
 1. Ouvrez [console.cloud.google.com](https://console.cloud.google.com/) avec le
-   compte Google du cabinet.
+   compte Google de la société.
 2. Créez un projet (ou reprenez-en un existant).
 3. Dans *API et services → Bibliothèque*, activez **Places API (New)**.
    Attention : « Places API » sans « (New) » est l'ancienne interface, que ce
@@ -350,12 +350,12 @@ lieu.
    uniquement. Ne mettez **pas** de restriction par site web ou par adresse IP :
    l'appel part du serveur, pas du navigateur.
 
-### Renseigner le cabinet
+### Renseigner la société
 
 Collez la clé dans l'écran **Avis Google**, puis :
 
 - si vous connaissez l'identifiant de votre fiche (Place ID), saisissez-le ;
-- sinon, utilisez la **recherche** en bas de l'écran : tapez « Cabinet Villard,
+- sinon, utilisez la **recherche** en bas de l'écran : tapez « Menuiserie Tréhant,
   Colombier Fontaine », et cliquez sur *Utiliser cette fiche* dans les
   résultats. L'identifiant se reporte tout seul.
 
@@ -461,7 +461,7 @@ La langue est créée **hors ligne** : personne ne la voit encore.
 1. Ouvrez-la, cliquez **Traduire les N textes manquants**. Comptez une
    quarantaine de secondes pour l'ensemble du site.
 2. **Relisez.** Une traduction automatique se trompe souvent sur les noms
-   propres — « Cabinet Villard » ne doit pas être traduit. Corrigez
+   propres — « Menuiserie Tréhant » ne doit pas être traduit. Corrigez
    directement dans les champs, puis *Enregistrer les traductions*.
 3. Mettez la langue **en ligne**. Un sélecteur FR / EN apparaît alors dans
    l'en-tête, et le plan du site déclare les deux versions.
@@ -491,7 +491,7 @@ les adresses dans toutes les langues en ligne. Google comprend qu'il s'agit
 d'une même page traduite, et non de doublons.
 
 Les redirections restent dans la langue demandée : `/en/a-propos` mène à
-`/en/le-cabinet`, pas à la version française.
+`/en/la-societe`, pas à la version française.
 
 ### Retirer une langue
 
@@ -611,13 +611,13 @@ tout vient du dépôt, en une commande.
 
 ```bash
 cd ~
-git clone --branch claude/villard-site-redesign-v85zvb \
-  https://github.com/ftholomier/poubelle.git cabinetvillard
-cd cabinetvillard
+git clone --branch claude/trehant-pergola-carport-site-5rowv5 \
+  https://github.com/ftholomier/poubelle.git menuiserietrehant
+cd menuiserietrehant
 mkdir -p storage/cache data/admin
 ```
 
-Puis pointez la racine du document du domaine sur `cabinetvillard/public`
+Puis pointez la racine du document du domaine sur `menuiserietrehant/public`
 (section 1).
 
 **Cas 2 — le site est déjà en place** (envoyé par FTP). On greffe le dépôt
@@ -626,8 +626,8 @@ par dessus, sans toucher au contenu. Les commandes sont **enchaînées par
 rien ne s'exécute.
 
 ```bash
-cd ~/cabinetvillard && test -f app/bootstrap.php && \
-git clone --branch claude/villard-site-redesign-v85zvb \
+cd ~/menuiserietrehant && test -f app/bootstrap.php && \
+git clone --branch claude/trehant-pergola-carport-site-5rowv5 \
   https://github.com/ftholomier/poubelle.git depot-temporaire && \
 mv depot-temporaire/.git . && rm -rf depot-temporaire && \
 git checkout -- app config views tools public/index.php public/.htaccess \

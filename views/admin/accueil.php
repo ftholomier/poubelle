@@ -107,6 +107,29 @@ $points = implode("\n", array_map(
   </fieldset>
 
   <fieldset>
+    <legend>Bloc « Fabriqué en France »</legend>
+    <div class="bo-rangee">
+      <div class="bo-champ">
+        <label for="a-fsur">Sur-titre</label>
+        <input id="a-fsur" type="text" name="france_surtitre" value="<?= e($accueil['france']['surtitre'] ?? '') ?>">
+      </div>
+      <div class="bo-champ">
+        <label for="a-ftit">Titre</label>
+        <input id="a-ftit" type="text" name="france_titre" value="<?= e($accueil['france']['titre'] ?? '') ?>">
+      </div>
+    </div>
+    <div class="bo-champ">
+      <label for="a-ftex">Texte</label>
+      <textarea id="a-ftex" name="france_texte" rows="4"><?= e($accueil['france']['texte'] ?? '') ?></textarea>
+    </div>
+    <div class="bo-champ">
+      <label for="a-fpts">Arguments</label>
+      <textarea id="a-fpts" name="france_points" rows="4"><?= e(implode("\n", $accueil['france']['points'] ?? [])) ?></textarea>
+      <p class="bo-aide">Un argument par ligne. Videz les quatre champs pour retirer la bande de la page d’accueil.</p>
+    </div>
+  </fieldset>
+
+  <fieldset>
     <legend>Bloc « Nos valeurs »</legend>
     <p class="bo-aide">Les valeurs elles-mêmes se modifient dans <a href="<?= url('/admin/valeurs') ?>">Valeurs</a>.</p>
     <div class="bo-rangee">

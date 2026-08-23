@@ -63,7 +63,7 @@ $hero = $page['hero'];
         <li class="carte-service reveler">
           <a href="<?= route('nos-services', $service['slug']) ?>">
             <span class="carte-service__icone" aria-hidden="true">
-              <?= $view->partial('icones', ['nom' => $service['icone'] ?? 'conseil']) ?>
+              <?= $view->partial('icones', ['nom' => $service['icone'] ?? 'pergola-bioclimatique']) ?>
             </span>
             <h3 class="carte-service__titre"><?= e($service['nom']) ?></h3>
             <p class="carte-service__texte"><?= e($service['resume']) ?></p>
@@ -119,6 +119,39 @@ $hero = $page['hero'];
     </div>
   </div>
 </section>
+
+<?php $france = $page['france'] ?? []; ?>
+<?php /* Vidés depuis le back-office, les champs restent présents mais vides :
+         c'est le contenu, pas la clé, qui décide de l'affichage. */ ?>
+<?php if (trim(($france['titre'] ?? '') . ($france['texte'] ?? '')) !== ''): ?>
+<?php /* Bande « Fabriqué en France ». Elle est posée juste après la
+         présentation de la société : l'origine de fabrication est un
+         argument sur l'entreprise avant d'être un argument sur le produit. */ ?>
+<section class="france">
+  <div class="conteneur">
+    <div class="france__grille reveler">
+      <div class="france__texte">
+        <p class="france__drapeau" aria-hidden="true">
+          <span class="france__bande france__bande--bleu"></span>
+          <span class="france__bande france__bande--blanc"></span>
+          <span class="france__bande france__bande--rouge"></span>
+        </p>
+        <p class="surtitre surtitre--clair"><?= e($france['surtitre']) ?></p>
+        <h2 class="france__titre"><?= e($france['titre']) ?></h2>
+        <p class="france__chapo"><?= e($france['texte']) ?></p>
+      </div>
+
+      <?php if (!empty($france['points'])): ?>
+        <ul class="france__points">
+          <?php foreach ($france['points'] as $point): ?>
+            <li><?= e($point) ?></li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
 
 <?php if ($valeurs !== []): ?>
 <section class="section">

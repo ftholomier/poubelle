@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 225" role="img" aria-label="Menuiserie Tréhant">
+  <!-- Emblème : la coupe d'une pergola à lames orientables, motif directement
+       tiré du produit — deux montants, une traverse, quatre lames inclinées. -->
+  <g fill="none" stroke="#1c1b1a" stroke-width="7" stroke-linecap="round">
+    <path d="M28 30h124"/>
+    <path d="M36 30v72M144 30v72"/>
+  </g>
+  <g fill="none" stroke="#1c1b1a" stroke-width="6" stroke-linecap="round" opacity="0.9">
+    <path d="M52 52h76M52 68h76M52 84h76"/>
+  </g>
+  <text x="90" y="152" text-anchor="middle" fill="#1c1b1a"
+        font-family="Playfair Display, Georgia, serif" font-size="40" letter-spacing="2">TRÉHANT</text>
+  <text x="90" y="176" text-anchor="middle" fill="#b85114"
+        font-family="Manrope, Helvetica, Arial, sans-serif" font-size="14.5" letter-spacing="4.4">MENUISERIE</text>
+  <!-- Liseré bleu-blanc-rouge : la fabrication française fait partie de la
+       marque, elle est donc portée par le logo lui-même. -->
+  <g>
+    <rect x="45" y="196" width="30" height="5" rx="2.5" fill="#10285f"/>
+    <rect x="75" y="196" width="30" height="5" rx="2.5" fill="#f4f1ee"/>
+    <rect x="105" y="196" width="30" height="5" rx="2.5" fill="#b3222e"/>
+  </g>
+</svg>

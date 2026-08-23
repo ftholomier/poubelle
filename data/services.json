@@ -1,165 +1,214 @@
 {
-    "intro": "Nous accompagnons chaque dimension de votre activité, de la tenue quotidienne de vos comptes aux décisions qui engagent l'avenir de votre entreprise.",
+    "intro": "Cinq façons de couvrir un extérieur, toutes en aluminium extrudé, toutes fabriquées à vos dimensions dans notre atelier.",
     "items": [
         {
-            "slug": "comptabilite",
-            "nom": "Comptabilité",
-            "icone": "comptabilite",
+            "slug": "pergola-bioclimatique",
+            "nom": "Pergola bioclimatique",
+            "icone": "pergola-bioclimatique",
             "actif": true,
-            "resume": "Nous assurons la gestion complète de votre comptabilité avec rigueur et précision, pour garantir la fiabilité de vos données financières.",
-            "image": "assets/img/site/service-comptabilite.jpg",
+            "resume": "Des lames orientables jusqu'à 150° pour doser l'ombre, ventiler la terrasse et fermer la toiture à la première averse.",
+            "image": "assets/img/site/pergola-bioclimatique.jpg",
             "hero": {
-                "surtitre": "Nos services",
-                "titre": "Une comptabilité fiable, tenue au rythme de votre activité"
+                "surtitre": "Nos gammes",
+                "titre": "La pergola qui suit le soleil et se ferme sous la pluie"
             },
             "meta": {
-                "description": "Tenue et révision comptable, bilan, liasse fiscale, déclarations de TVA : le Cabinet Villard prend en charge la comptabilité de votre entreprise à Colombier Fontaine (25)."
+                "description": "Pergola bioclimatique aluminium à lames orientables motorisées jusqu'à 150°, gammes Classic et Premium, poteaux 130 × 130 mm à évacuation intégrée. Fabrication française Menuiserie Tréhant."
             },
             "sections": [
                 {
-                    "titre": "Une tenue rigoureuse, des chiffres sur lesquels s'appuyer",
+                    "titre": "Orienter les lames plutôt que subir le soleil",
                     "paragraphes": [
-                        "La comptabilité n'est pas une obligation à subir : bien tenue, elle devient le tableau de bord de votre entreprise. Nous enregistrons vos opérations, contrôlons vos comptes et vous restituons une information claire, au moment où vous en avez besoin pour décider.",
-                        "Chaque dossier est suivi par un interlocuteur identifié, qui connaît votre activité et vos échéances. Vous n'avez pas à réexpliquer votre métier à chaque appel."
+                        "Une pergola bioclimatique ne se contente pas de faire de l'ombre : elle la règle. Les lames pivotent jusqu'à 150°, de l'ouverture complète — le ciel, l'air qui circule — jusqu'à la fermeture étanche qui protège la table quand l'orage arrive.",
+                        "C'est ce réglage qui rend la terrasse utilisable de mars à novembre. À midi en juillet, on ferme aux trois quarts pour couper le rayonnement sans étouffer ; à 18 h, on rouvre pour laisser tomber la lumière rasante."
                     ]
                 },
                 {
-                    "titre": "Ce que nous prenons en charge",
+                    "titre": "Deux gammes de lames",
                     "liste": [
-                        "Tenue et révision de votre comptabilité, mensuelle ou trimestrielle",
-                        "Établissement du bilan, du compte de résultat et de l'annexe",
-                        "Liasse fiscale et télétransmission aux services fiscaux",
-                        "Déclarations de TVA et suivi de vos obligations déclaratives",
-                        "Situations intermédiaires et tableaux de bord de gestion",
-                        "Accompagnement à la dématérialisation et au choix de vos outils"
+                        "Classic : lames de 209 × 52 mm, épaisseur 2 mm, aluminium extrudé",
+                        "Premium : lames de 212 × 52 mm, épaisseur 2 mm, pour les grandes portées",
+                        "Orientation motorisée jusqu'à 150°, commande par télécommande",
+                        "Motorisation Somfy, garantie 5 ans",
+                        "Profilés garantis 10 ans"
                     ]
                 },
                 {
-                    "titre": "Une organisation adaptée à la vôtre",
+                    "titre": "Une structure qui gère l'eau sans qu'on la voie",
                     "paragraphes": [
-                        "Que vous nous transmettiez vos pièces par voie numérique ou sous forme papier, nous nous adaptons à votre organisation plutôt que de vous imposer la nôtre. La facturation électronique modifie les habitudes de toutes les entreprises : nous vous accompagnons dans cette transition, à votre rythme."
+                        "Les poteaux de 130 × 130 mm intègrent l'évacuation des eaux de pluie. Lames fermées, l'eau est collectée par les chéneaux latéraux et descend dans les poteaux : aucune descente rapportée, aucun tuyau apparent, rien qui vieillisse mal en façade.",
+                        "La structure est thermolaquée dans le coloris de votre choix, de la teinte anthracite qui se fait oublier aux tons plus clairs qui prolongent la façade."
+                    ]
+                },
+                {
+                    "titre": "Les options qui changent l'usage",
+                    "liste": [
+                        "Éclairage LED intégré dans les lames ou dans les chéneaux",
+                        "Stores verticaux à toile Zip sur un ou plusieurs côtés",
+                        "Coulissants vitrés pour fermer complètement l'espace",
+                        "Capteur de pluie et de vent pour une fermeture automatique",
+                        "Adossée à la façade ou autoportante, selon la configuration"
                     ]
                 }
             ]
         },
         {
-            "slug": "audit",
-            "nom": "Audit",
-            "icone": "audit",
+            "slug": "pergola-toile-retractable",
+            "nom": "Pergola à toile rétractable",
+            "icone": "pergola-toile",
             "actif": true,
-            "resume": "Nous réalisons des audits approfondis pour sécuriser vos opérations et vous apporter une vision claire et objective de votre situation.",
-            "image": "assets/img/site/service-audit.jpg",
+            "resume": "Une toile PVC qui se replie en un geste : de l'ombre quand il faut, le ciel dégagé le reste du temps.",
+            "image": "assets/img/site/pergola-toile.jpg",
             "hero": {
-                "surtitre": "Nos services",
-                "titre": "Un regard indépendant sur la solidité de vos comptes"
+                "surtitre": "Nos gammes",
+                "titre": "Retrouver le ciel en un geste"
             },
             "meta": {
-                "description": "Commissariat aux comptes, audit contractuel, audit d'acquisition : le Cabinet Villard sécurise vos opérations et certifie vos comptes en toute indépendance."
+                "description": "Pergola aluminium à toile PVC rétractable : protection contre la chaleur et les intempéries, repli motorisé, structure française sur mesure. Menuiserie Tréhant."
             },
             "sections": [
                 {
-                    "titre": "L'indépendance au service de la confiance",
+                    "titre": "L'ombre qu'on efface",
                     "paragraphes": [
-                        "Emmanuelle Villard est commissaire aux comptes, inscrite auprès de la Compagnie régionale. L'audit répond à une exigence simple : permettre à vos associés, à vos banques et à vos partenaires de s'appuyer sur vos comptes sans réserve.",
-                        "Notre démarche s'appuie sur une analyse des risques propres à votre secteur, et non sur une grille appliquée uniformément. Nous concentrons nos travaux là où ils apportent réellement de la sécurité."
+                        "La toile rétractable est la réponse la plus juste quand la terrasse est déjà bien exposée mais qu'on ne veut pas la couvrir en permanence. Déployée, elle protège de la chaleur et des intempéries ; repliée, elle libère entièrement la vue et laisse la lumière entrer dans la maison en hiver.",
+                        "C'est aussi la solution la plus légère visuellement : la structure reste fine, l'ensemble ne pèse pas sur la façade."
                     ]
                 },
                 {
-                    "titre": "Nos interventions",
+                    "titre": "Ce que comprend la gamme",
                     "liste": [
-                        "Commissariat aux comptes des sociétés commerciales et des associations",
-                        "Audit contractuel à la demande des dirigeants ou des associés",
-                        "Audit d'acquisition et évaluation avant reprise d'entreprise",
-                        "Examen de la fiabilité de votre organisation comptable",
-                        "Attestations et rapports particuliers prévus par la loi"
+                        "Toile PVC traitée, résistante aux UV et à l'eau",
+                        "Repli et déploiement motorisés, commande à distance",
+                        "Structure en aluminium extrudé, thermolaquée au coloris choisi",
+                        "Poteaux 130 × 130 mm à évacuation d'eau intégrée",
+                        "Éclairage LED et stores latéraux en option"
                     ]
                 },
                 {
-                    "titre": "Un rapport qui se lit et se comprend",
+                    "titre": "Bien la placer",
                     "paragraphes": [
-                        "Au-delà de l'opinion réglementaire, nous formalisons les points d'attention relevés en cours de mission et les recommandations qui en découlent. Un audit n'a d'intérêt que s'il vous laisse une vision claire de ce qu'il faut consolider."
+                        "Une toile n'aime ni le vent tourbillonnant ni les branchages qui la frottent. Lors de la visite, nous regardons l'exposition réelle et l'environnement immédiat : si l'emplacement ne convient pas, nous vous le disons et nous vous orientons vers les lames orientables ou la toiture fixe."
                     ]
                 }
             ]
         },
         {
-            "slug": "social",
-            "nom": "Social",
-            "icone": "social",
+            "slug": "pergola-toiture-fixe",
+            "nom": "Pergola à toiture fixe",
+            "icone": "toiture-fixe",
             "actif": true,
-            "resume": "Nous prenons en charge vos obligations sociales et la gestion de vos salariés avec des solutions adaptées à votre organisation.",
-            "image": "assets/img/site/service-social.jpg",
+            "resume": "Un panneau sandwich isolant de 63 mm, autoportant : la terrasse devient une pièce utilisable toute l'année.",
+            "image": "assets/img/site/pergola-toiture-fixe.jpg",
             "hero": {
-                "surtitre": "Nos services",
-                "titre": "La paie et le droit social, sans mauvaise surprise"
+                "surtitre": "Nos gammes",
+                "titre": "Une couverture isolée, pour occuper l'extérieur en toute saison"
             },
             "meta": {
-                "description": "Bulletins de paie, DSN, contrats de travail, formalités d'embauche : le Cabinet Villard gère les obligations sociales de votre entreprise dans le Doubs."
+                "description": "Pergola à toiture fixe en panneau sandwich isotoit 63 mm autoportant : isolation thermique, étanchéité permanente, structure aluminium française. Menuiserie Tréhant."
             },
             "sections": [
                 {
-                    "titre": "Une matière mouvante, une veille permanente",
+                    "titre": "Couvrir vraiment, pas seulement ombrer",
                     "paragraphes": [
-                        "Le droit social change plusieurs fois par an, et chaque convention collective a ses règles propres. Nous assurons cette veille pour vous : vos bulletins de paie sont établis selon les textes en vigueur, vos déclarations partent dans les délais.",
-                        "Une erreur de paie coûte cher, en régularisations comme en climat social. Notre rôle est de faire en sorte qu'elle ne se produise pas."
+                        "Le panneau sandwich isotoit de 63 mm est autoportant : il franchit la portée sans structure intermédiaire et isole thermiquement l'espace qu'il couvre. Sous une toiture fixe, on ne range pas le salon de jardin en octobre.",
+                        "C'est aussi la meilleure réponse quand la pergola protège une baie vitrée : elle coupe le rayonnement direct sur le vitrage et limite la surchauffe de la pièce attenante."
                     ]
                 },
                 {
-                    "titre": "Ce que nous gérons",
+                    "titre": "Les points techniques",
                     "liste": [
-                        "Établissement des bulletins de paie et des documents associés",
-                        "Déclaration sociale nominative (DSN) et déclarations périodiques",
-                        "Formalités d'embauche et de fin de contrat",
-                        "Rédaction et suivi des contrats de travail",
-                        "Conseil en droit du travail et application de votre convention collective",
-                        "Accompagnement lors d'un contrôle URSSAF"
+                        "Panneau sandwich isotoit 63 mm, autoportant et isolant",
+                        "Étanchéité permanente, sans réglage ni manœuvre",
+                        "Structure aluminium extrudé, poteaux 130 × 130 mm à évacuation intégrée",
+                        "Adossée ou autoportante selon la configuration",
+                        "Éclairage LED encastré et fermetures latérales en option"
                     ]
                 },
                 {
-                    "titre": "Un appui au moment des décisions",
+                    "titre": "Une lecture calme depuis la maison",
                     "paragraphes": [
-                        "Recruter, faire évoluer un poste, se séparer d'un collaborateur : ces moments engagent l'entreprise. Nous vous aidons à les préparer, à en mesurer le coût et à respecter la procédure applicable."
+                        "La sous-face du panneau est lisse et se laque dans le coloris de la structure. Vue depuis l'intérieur, la toiture prolonge le plafond plutôt que de couper la perspective : c'est ce qui distingue une extension réussie d'un abri rapporté."
                     ]
                 }
             ]
         },
         {
-            "slug": "conseil",
-            "nom": "Conseil",
-            "icone": "conseil",
+            "slug": "carport",
+            "nom": "Carport aluminium",
+            "icone": "carport",
             "actif": true,
-            "resume": "Nous vous accompagnons dans vos décisions stratégiques pour optimiser votre gestion et développer durablement votre activité.",
-            "image": "assets/img/site/service-conseil.jpg",
+            "resume": "Jusqu'à 6,96 m par 5 m en un seul module, testé au vent jusqu'à 180 km/h : deux voitures à l'abri, aucun poteau au milieu.",
+            "image": "assets/img/site/carport.jpg",
             "hero": {
-                "surtitre": "Nos services",
-                "titre": "Décider avec les bons chiffres devant soi"
+                "surtitre": "Nos gammes",
+                "titre": "Abriter deux voitures sans encombrer le passage"
             },
             "meta": {
-                "description": "Création d'entreprise, choix du statut, prévisionnel, transmission, optimisation fiscale : le Cabinet Villard vous conseille à chaque étape de votre développement."
+                "description": "Carport aluminium sur mesure jusqu'à 6,96 m × 5 m en un seul module, testé au vent jusqu'à 180 km/h, aluminium extrudé fabriqué en France. Menuiserie Tréhant."
             },
             "sections": [
                 {
-                    "titre": "Au-delà des obligations, l'accompagnement",
+                    "titre": "La portée avant tout",
                     "paragraphes": [
-                        "Créer, investir, embaucher, transmettre : ces décisions se préparent. Nous les chiffrons avec vous, nous en examinons les conséquences fiscales et sociales, et nous vous disons ce que nous en pensons.",
-                        "Notre conseil s'appuie sur la connaissance concrète de votre dossier. C'est la contrepartie d'un suivi comptable régulier : nous n'avons pas besoin de reconstituer votre situation avant de vous répondre."
+                        "Un carport se juge à ce qu'il permet de faire en dessous. Le nôtre couvre jusqu'à 6,96 m de longueur sur 5 m de profondeur en un seul module : deux véhicules côte à côte, portières ouvertes, sans poteau planté au milieu de la manœuvre.",
+                        "La structure est en aluminium extrudé et testée au vent jusqu'à 180 km/h — le point sur lequel un abri de jardin en kit cède le premier."
                     ]
                 },
                 {
-                    "titre": "Nos domaines d'intervention",
+                    "titre": "Ce que le carport apporte au quotidien",
                     "liste": [
-                        "Création d'entreprise, choix de la forme juridique et du régime fiscal",
-                        "Business plan et prévisionnel financier pour vos partenaires bancaires",
-                        "Optimisation fiscale du dirigeant et de l'entreprise",
-                        "Analyse de rentabilité et pilotage de la trésorerie",
-                        "Transmission, cession et évaluation d'entreprise",
-                        "Secrétariat juridique courant et assemblées générales"
+                        "Plus de pare-brise gelé le matin, plus de carrosserie exposée à la grêle",
+                        "Un espace couvert accessible sans permis de construire dans bien des cas",
+                        "Une évacuation des eaux intégrée aux poteaux, sans descente apparente",
+                        "Un thermolaquage au coloris de la maison ou du portail",
+                        "Adossé à la façade ou autoportant, avec ou sans fermetures latérales"
                     ]
                 },
                 {
-                    "titre": "Un rendez-vous, sans engagement",
+                    "titre": "Et l'urbanisme ?",
                     "paragraphes": [
-                        "Un premier échange permet souvent d'y voir clair. Nous prenons le temps de comprendre votre projet avant de vous proposer quoi que ce soit."
+                        "Selon la surface créée et votre commune, une déclaration préalable de travaux peut être nécessaire. Nous vous indiquons le régime applicable dès l'étude et nous vous fournissons les plans cotés à joindre au dossier."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "fermetures-et-options",
+            "nom": "Fermetures & options",
+            "icone": "fermetures",
+            "actif": true,
+            "resume": "Stores Zip, coulissants vitrés, éclairage LED, capteurs : ce qui transforme une couverture en véritable pièce en plus.",
+            "image": "assets/img/site/fermetures.jpg",
+            "hero": {
+                "surtitre": "Nos gammes",
+                "titre": "Fermer, éclairer, automatiser"
+            },
+            "meta": {
+                "description": "Stores verticaux à toile Zip, coulissants vitrés, éclairage LED intégré, capteurs de pluie et de vent : les options des pergolas et carports Menuiserie Tréhant."
+            },
+            "sections": [
+                {
+                    "titre": "Couper le vent, garder la vue",
+                    "paragraphes": [
+                        "Une toiture seule ne suffit pas quand le vent traverse la terrasse. Les stores verticaux à toile Zip se déroulent sur un ou plusieurs côtés, coupent le courant d'air et le soleil rasant, tout en laissant voir au travers.",
+                        "Quand l'espace doit devenir une véritable pièce, les coulissants vitrés ferment complètement la pergola et se rangent en accordéon le reste de l'année."
+                    ]
+                },
+                {
+                    "titre": "Le catalogue des options",
+                    "liste": [
+                        "Stores verticaux à toile Zip, manuels ou motorisés",
+                        "Coulissants vitrés toute hauteur, empilables",
+                        "Éclairage LED intégré aux lames ou aux chéneaux, avec variateur",
+                        "Capteurs de pluie et de vent pour la fermeture automatique",
+                        "Commande par télécommande ou depuis le téléphone",
+                        "Thermolaquage dans la teinte RAL de votre choix, structure et lames"
+                    ]
+                },
+                {
+                    "titre": "Ajouter plus tard, sans tout refaire",
+                    "paragraphes": [
+                        "Les fixations des stores et des coulissants sont prévues dès la fabrication de la structure. Si le budget impose de différer une option, l'ouvrage reste prêt à la recevoir : on ne perce pas une pergola posée."
                     ]
                 }
             ]

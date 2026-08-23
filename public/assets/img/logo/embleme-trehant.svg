@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Menuiserie Tréhant">
+  <g fill="none" stroke="#1c1b1a" stroke-width="7" stroke-linecap="round">
+    <path d="M16 26h88"/>
+    <path d="M24 26v70M96 26v70"/>
+  </g>
+  <g fill="none" stroke="#b85114" stroke-width="6" stroke-linecap="round">
+    <path d="M38 48h44M38 64h44M38 80h44"/>
+  </g>
+</svg>
