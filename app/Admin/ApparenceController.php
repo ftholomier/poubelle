@@ -55,7 +55,7 @@ final class ApparenceController
         return $this->view->render('admin/apparence', [
             'page'    => ['titre' => 'Apparence'],
             'menus'   => self::MENUS,
-            'courant' => (string) $this->parametres->get('apparence.menu', 'lateral'),
+            'courant' => (string) $this->parametres->get('apparence.menu', 'horizontal'),
         ], 'admin/layout');
     }
 

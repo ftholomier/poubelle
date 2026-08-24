@@ -36,7 +36,7 @@ final class Parametres
         // disposition du menu : réglage de présentation, hors git, pour
         // qu'une mise à jour du code ne le remette pas à sa valeur d'origine
         'apparence' => [
-            'menu' => 'lateral',          // lateral | horizontal
+            'menu' => 'horizontal',       // lateral | horizontal
         ],
         // avis Google : la clé d'API est un secret, au même titre que le
         // mot de passe SMTP — d'où sa place dans ce fichier

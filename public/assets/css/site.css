@@ -62,7 +62,9 @@
   --bleu-france: #10285f;
   --rouge-france: #b3222e;
 
-  /* Gris de la charte, relevés sur le site existant. */
+  /* Gris de la charte, relevés sur le site existant. --gris-barre est celui
+     des visuels de l'entreprise, sur lequel le nom est composé en noir. */
+  --gris-barre: #444444;
   --encre: #1a1a1a;
   --encre-2: #262626;
   --texte: #313131;
@@ -272,16 +274,15 @@ p + p { margin-top: 1.05rem; }
   position: fixed; inset: 0 0 auto 0; z-index: 100;
   height: var(--entete-h);
   display: flex; align-items: center;
-  background: linear-gradient(rgba(20, 19, 18, .5), rgba(20, 19, 18, 0));
-  transition: height var(--transition), background var(--transition),
-              box-shadow var(--transition), backdrop-filter var(--transition);
-  backdrop-filter: blur(0px);
+  /* Fond gris plein en permanence, y compris au-dessus du bandeau photo :
+     c'est le gris des visuels de l'entreprise, et c'est lui qui fait ressortir
+     le monogramme orange. Seule la hauteur change au défilement. */
+  background: var(--gris-barre);
+  transition: height var(--transition), box-shadow var(--transition);
 }
 .entete--pleine {
   height: var(--entete-h-compact);
-  background: rgba(255, 255, 255, .94);
-  backdrop-filter: blur(16px) saturate(1.1);
-  box-shadow: 0 1px 0 var(--ligne), 0 10px 30px rgba(26, 26, 26, .07);
+  box-shadow: 0 10px 30px rgba(26, 26, 26, .22);
 }
 .entete__barre {
   position: relative;
@@ -290,46 +291,36 @@ p + p { margin-top: 1.05rem; }
   display: flex; align-items: center; gap: 1.4rem;
 }
 
-/* --- la marque : monogramme + nom composé ---
-   Le logo de l'entreprise est un monogramme sans mot-symbole. Le nom est donc
-   posé à côté en typographie, ce qui permet aussi de le faire changer de
-   couleur avec le fond sans avoir deux fichiers d'image à tenir. */
-.marque { display: inline-flex; align-items: center; gap: .8rem; }
+/* --- la marque : monogramme + nom en capitales ---
+   Reprise de la composition des visuels de l'entreprise : le monogramme
+   orange, et le nom en capitales noires posé sur le gris de la charte.
+   La composition est ici horizontale plutôt que verticale, la barre n'ayant
+   pas la hauteur d'une affiche. */
+.marque { display: inline-flex; align-items: center; gap: .85rem; }
 .marque__embleme {
-  height: 46px; width: auto; flex: 0 0 auto;
+  height: 42px; width: auto; flex: 0 0 auto;
   transition: height var(--transition);
 }
-.marque__mots { display: flex; flex-direction: column; line-height: 1.15; }
 .marque__nom {
-  font-family: var(--titre); font-size: 1.28rem; font-weight: 500;
-  letter-spacing: .01em; color: #fff;
-  transition: color var(--transition);
+  font-size: 1.02rem; font-weight: 800;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: #000;
+  white-space: nowrap;
 }
-.marque__baseline {
-  font-size: .62rem; font-weight: 600; letter-spacing: .17em;
-  text-transform: uppercase; color: rgba(255, 255, 255, .72);
-  transition: color var(--transition);
-}
-/* Barre devenue blanche : le nom repasse à l'encre. Les variantes --clair
-   (panneau, pied) restent sur fond sombre en permanence, elles ne suivent
-   donc pas cette bascule. */
-.entete--pleine .marque__nom { color: var(--encre); }
-.entete--pleine .marque__baseline { color: var(--texte-doux); }
-.entete__logo { display: inline-flex; }
+.entete__logo { display: inline-flex; margin-right: auto; }
 
-/* --- disposition latérale : burger à gauche, logo centré --- */
-.entete--lateral .entete__barre { justify-content: space-between; }
-.entete--lateral .entete__logo {
-  position: absolute; left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  transition: transform var(--transition);
-}
-.entete--lateral:not(.entete--pleine) .marque__embleme { height: 56px; }
+/* --- disposition latérale : logo à gauche, burger à droite ---
+   Le logo est calé à gauche dans les deux dispositions : c'est la place que
+   lui donne la charte de l'entreprise. Le burger passe donc à droite, avec
+   les autres actions. */
+.entete--lateral .entete__barre { justify-content: flex-start; }
+.entete--lateral .burger { order: 3; }
+.entete--lateral:not(.entete--pleine) .marque__embleme { height: 48px; }
 
 /* --- disposition horizontale : logo à gauche, navigation au centre --- */
 .entete--horizontal .entete__logo { flex: 0 0 auto; }
-.entete--horizontal .marque__embleme { height: 46px; }
-.entete--horizontal.entete--pleine .marque__embleme { height: 38px; }
+.entete--horizontal .marque__embleme { height: 42px; }
+.entete--horizontal.entete--pleine .marque__embleme { height: 34px; }
 
 .navbar { display: none; margin-inline: auto; }
 .navbar__liste { display: flex; align-items: center; gap: clamp(.4rem, 1.6vw, 1.5rem); }
@@ -349,13 +340,6 @@ p + p { margin-top: 1.05rem; }
 }
 .navbar__item:hover > .navbar__lien::after,
 .navbar__lien[aria-current="page"]::after { transform: scaleX(1); }
-.entete--pleine .navbar__lien { color: var(--texte); }
-/* Barre devenue blanche : le libellé reste à l'encre — de l'orange sur blanc
-   ne se lirait pas — et c'est le trait sous le mot, qui ne porte aucun texte,
-   qui passe à l'orange. */
-.entete--pleine .navbar__item:hover > .navbar__lien,
-.entete--pleine .navbar__lien[aria-current="page"] { color: var(--encre); }
-.entete--pleine .navbar__lien::after { background: var(--orange); }
 .navbar__item:hover > .navbar__lien { color: var(--orange); }
 
 /* Sous-menu déroulant : ouvert au survol et au focus clavier, ce qui évite
@@ -407,7 +391,6 @@ p + p { margin-top: 1.05rem; }
   transition: color var(--transition);
   white-space: nowrap;
 }
-.entete--pleine .entete__tel { color: var(--texte); }
 .entete__tel:hover { color: var(--orange); }
 .entete--pleine .entete__tel:hover { color: var(--orange); }
 .entete__cta { padding: .7rem 1.35rem; font-size: .86rem; white-space: nowrap; }
@@ -427,7 +410,6 @@ p + p { margin-top: 1.05rem; }
               width var(--transition), background var(--transition);
   transform-origin: left center;
 }
-.entete--pleine .burger span { background: var(--encre); }
 .burger span:nth-child(2) { width: 68%; }
 .burger:hover span:nth-child(2) { width: 100%; }
 body.menu-ouvert .burger span { background: #fff; }
@@ -471,7 +453,7 @@ body.menu-ouvert .panneau {
   padding: 1.5rem clamp(1.4rem, 5vw, 2.4rem);
   border-bottom: 1px solid rgba(255, 255, 255, .1);
 }
-.panneau__logo .marque__embleme { height: 48px; }
+.panneau__embleme { height: 44px; width: auto; display: block; }
 .panneau__logo:hover { opacity: .85; }
 .panneau__fermer {
   display: inline-flex; align-items: center; gap: .5rem;
@@ -1229,8 +1211,7 @@ a.coordonnees__valeur:hover {
   font-family: var(--texte-police);
   margin-bottom: 1.2rem;
 }
-.pied__logo .marque__embleme { height: 58px; }
-.pied__logo .marque__nom { font-size: 1.4rem; }
+.pied__embleme { height: 56px; width: auto; display: block; }
 .pied__accroche { margin-top: 1.2rem; color: rgba(255, 255, 255, .7); }
 .pied__tel {
   display: inline-block; margin-top: .7rem;
@@ -1312,9 +1293,8 @@ a.coordonnees__valeur:hover {
   color: rgba(255, 255, 255, .85);
   transition: background var(--transition), color var(--transition);
 }
-.entete--pleine .langues a { color: var(--texte-doux); }
 .langues a:hover { color: var(--orange); }
-.entete--pleine .langues a:hover { background: var(--encre); color: var(--orange); }
+.langues a:hover { background: var(--encre); color: var(--orange); }
 .langues a[aria-current="true"] { background: var(--orange); color: var(--encre); }
 
 .langues--panneau { margin-top: .8rem; }

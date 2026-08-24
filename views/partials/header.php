@@ -37,19 +37,15 @@ $estActif = static function (array $item) use ($chemin): bool {
       <span></span><span></span><span></span>
     </button>
 
-    <?php /* Le logo de la marque est un monogramme seul : le nom est donc
-             composé en typographie à côté, comme sur la signalétique de
-             l'entreprise. Un seul fichier suffit — l'orange du monogramme
-             tient aussi bien sur la barre transparente que sur la blanche,
-             c'est le nom qui change de couleur. */ ?>
+    <?php /* Le logo de la marque est le seul monogramme, sans mot-symbole.
+             Le nom est composé à côté en capitales, comme sur la signalétique
+             et les visuels de l'entreprise : c'est la seule composition où il
+             apparaisse, ailleurs le picto est employé seul. */ ?>
     <a class="entete__logo marque" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
       <img class="marque__embleme"
            src="<?= asset($site['logo']['principal'] ?? 'assets/img/logo/logo-trehant.png') ?>"
            alt="" aria-hidden="true" width="500" height="454">
-      <span class="marque__mots">
-        <span class="marque__nom"><?= e($site['nom']) ?></span>
-        <span class="marque__baseline"><?= e($site['baseline']) ?></span>
-      </span>
+      <span class="marque__nom"><?= e($site['nom']) ?></span>
     </a>
 
 <?php if ($horizontal): ?>
@@ -96,14 +92,12 @@ $estActif = static function (array $item) use ($chemin): bool {
 
 <nav id="panneau-nav" class="panneau" aria-label="Navigation principale">
   <div class="panneau__tete">
-    <a class="panneau__logo marque marque--clair" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
-      <img class="marque__embleme"
+    <?php /* Picto seul : dans le panneau, le nom du site est déjà porté par
+             le titre du document et par le lien d'accueil. */ ?>
+    <a class="panneau__logo" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
+      <img class="panneau__embleme"
            src="<?= asset($site['logo']['principal'] ?? 'assets/img/logo/logo-trehant.png') ?>"
-           alt="" aria-hidden="true" width="500" height="454">
-      <span class="marque__mots">
-        <span class="marque__nom"><?= e($site['nom']) ?></span>
-        <span class="marque__baseline"><?= e($site['baseline']) ?></span>
-      </span>
+           alt="" width="500" height="454">
     </a>
     <button class="panneau__fermer"><?= e(t('Fermer')) ?></button>
   </div>

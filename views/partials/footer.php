@@ -11,14 +11,12 @@ $tel = (string) ($site['contact']['telephone'] ?? '');
   <div class="conteneur">
     <div class="pied__haut">
       <div class="pied__marque">
-        <a class="pied__logo marque marque--clair" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
-          <img class="marque__embleme"
+        <?php /* Picto seul : le nom de l'entreprise est déjà écrit juste en
+                 dessous, dans le bloc d'adresse. */ ?>
+        <a class="pied__logo" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
+          <img class="pied__embleme"
                src="<?= asset($site['logo']['principal'] ?? 'assets/img/logo/logo-trehant.png') ?>"
-               alt="" aria-hidden="true" width="500" height="454" loading="lazy">
-          <span class="marque__mots">
-            <span class="marque__nom"><?= e($site['nom']) ?></span>
-            <span class="marque__baseline"><?= e($site['baseline']) ?></span>
-          </span>
+               alt="" width="500" height="454" loading="lazy">
         </a>
         <p class="pied__accroche"><?= e(t('Contactez-nous pour échanger sur votre projet.')) ?></p>
         <?php if ($tel !== ''): ?>
