@@ -36,7 +36,7 @@ final class Parametres
         // disposition du menu : réglage de présentation, hors git, pour
         // qu'une mise à jour du code ne le remette pas à sa valeur d'origine
         'apparence' => [
-            'menu' => 'horizontal',       // lateral | horizontal
+            'menu' => 'lateral',          // lateral | horizontal
         ],
         // assistant de discussion : la clé Gemini est un secret, au même
         // titre que le mot de passe SMTP — d'où sa place dans ce fichier

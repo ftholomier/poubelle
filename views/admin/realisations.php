@@ -77,6 +77,23 @@ sort($categories);
             'medias' => $medias, 'nom' => 'image_' . $slug, 'id' => 'rea' . $rang,
             'choisie' => $item['image'] ?? '', 'vide' => 'Aucune',
         ]) ?>
+        <?php if (trim((string) ($item['image'] ?? '')) !== ''): ?>
+          <?php /* Les photos de chantier arrivent souvent couchées : la
+                   rotation est ici, sur l'écran où l'on voit le résultat,
+                   plutôt qu'à faire dans la médiathèque puis à revenir. */ ?>
+          <p class="bo-aide">Photo couchée ? Redressez-la — la rotation s’applique au fichier, donc partout sur le site.</p>
+          <div class="bo-media__rotation">
+            <?php foreach (['gauche' => '⟲ Pivoter à gauche', 'droite' => '⟳ Pivoter à droite'] as $sens => $libelle): ?>
+              <form method="post" action="<?= url('/admin/photos/rotation') ?>">
+                <?= Csrf::champ() ?>
+                <input type="hidden" name="src" value="<?= e($item['image']) ?>">
+                <input type="hidden" name="sens" value="<?= $sens ?>">
+                <input type="hidden" name="retour" value="/admin/realisations">
+                <button class="bo-btn bo-btn--petit bo-btn--fantome" type="submit"><?= $libelle ?></button>
+              </form>
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
       </div>
     </fieldset>
   <?php endforeach; ?>

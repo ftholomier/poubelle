@@ -114,6 +114,75 @@ final class Mediatheque
      * d'un formulaire, et basename() seul ne suffirait pas à écarter une
      * tentative de sortir du dossier.
      */
+    /**
+     * Pivote une photo d'un quart de tour, et refait sa vignette.
+     *
+     * Les photos de chantier arrivent souvent couchées : l'appareil note
+     * l'orientation dans l'EXIF, que le redimensionnement à l'envoi ne
+     * conserve pas. Plutôt que de deviner, on laisse l'exploitant redresser
+     * ce qui doit l'être, depuis l'écran où il voit le résultat.
+     *
+     * La rotation est appliquée au fichier lui-même, non par une classe CSS :
+     * l'image part ensuite redressée partout — page publique, vignette,
+     * partage sur les réseaux — et rien n'est à recalculer à l'affichage.
+     */
+    public function pivoter(string $chemin, int $degres): void
+    {
+        if (!$this->existe($chemin)) {
+            throw new RuntimeException('Photo introuvable.');
+        }
+
+        $degres = match (true) {
+            $degres > 0 => -90,   // GD tourne dans le sens trigonométrique
+            default     => 90,
+        };
+
+        $fichier = $this->dossier . '/' . basename($chemin);
+        $source = $this->ouvrir($fichier);
+
+        $pivotee = imagerotate($source, $degres, 0);
+        imagedestroy($source);
+        if ($pivotee === false) {
+            throw new RuntimeException('La rotation a échoué.');
+        }
+
+        // On réécrit dans le format de destination du socle — JPEG — quelle
+        // que soit l'origine : c'est déjà ce que fait l'envoi.
+        $destination = preg_replace('/\.(jpe?g|png|webp)$/i', '.jpg', $fichier) ?? $fichier;
+        $this->ecrireJpeg($pivotee, $destination, self::LARGEUR_MAX, 82);
+
+        $mini = preg_replace('/\.jpg$/', '-mini.jpg', $destination) ?? '';
+        if ($mini !== '') {
+            $this->ecrireJpeg($pivotee, $mini, self::LARGEUR_MINI, 76);
+        }
+        imagedestroy($pivotee);
+
+        // Un PNG ou un WebP pivoté devient un JPEG : l'ancien fichier n'a plus
+        // lieu d'être, et le contenu qui le référence sera corrigé par
+        // l'appelant.
+        if ($destination !== $fichier) {
+            @unlink($fichier);
+        }
+    }
+
+    /** Ouvre une image, quel que soit son format d'origine. */
+    private function ouvrir(string $fichier): \GdImage
+    {
+        $type = @exif_imagetype($fichier);
+        $image = match ($type) {
+            IMAGETYPE_JPEG => @imagecreatefromjpeg($fichier),
+            IMAGETYPE_PNG  => @imagecreatefrompng($fichier),
+            IMAGETYPE_WEBP => @imagecreatefromwebp($fichier),
+            default        => false,
+        };
+
+        if ($image === false) {
+            throw new RuntimeException('Ce fichier n’est pas une image lisible.');
+        }
+
+        return $image;
+    }
+
     public function supprimer(string $chemin): bool
     {
         if (!$this->existe($chemin)) {

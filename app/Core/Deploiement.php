@@ -40,7 +40,7 @@ final class Deploiement
     ];
 
     /** Dossiers sauvegardés avant chaque mise à jour. */
-    private const ETAT_VIVANT = ['data', 'public/assets/img/site', 'public/assets/img/realisations'];
+    private const ETAT_VIVANT = ['data', 'public/assets/img/site'];
 
     private const DELAI = 120;
 

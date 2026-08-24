@@ -62,7 +62,7 @@ $view->share('avis', $avis);
 $view->share('assistant', $assistant);
 // Disposition du menu : réglée dans le back-office, lue par l'en-tête et le
 // gabarit. Partagée ici pour qu'une page n'ait pas à la redemander.
-$view->share('menuStyle', $parametresSite->get('apparence.menu', 'horizontal'));
+$view->share('menuStyle', $parametresSite->get('apparence.menu', 'lateral'));
 $GLOBALS['seo'] = $seo;
 $GLOBALS['langue'] = $langue;
 $GLOBALS['traducteur'] = $traducteur;

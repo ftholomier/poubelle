@@ -43,6 +43,19 @@ use App\Core\Csrf;
               <span class="bo-media__usage bo-media__usage--libre">Non utilisée</span>
             <?php endif; ?>
 
+            <div class="bo-media__rotation">
+              <?php foreach (['gauche' => '⟲', 'droite' => '⟳'] as $sens => $signe): ?>
+                <form method="post" action="<?= url('/admin/photos/rotation') ?>">
+                  <?= Csrf::champ() ?>
+                  <input type="hidden" name="src" value="<?= e($media) ?>">
+                  <input type="hidden" name="sens" value="<?= $sens ?>">
+                  <input type="hidden" name="retour" value="/admin/photos">
+                  <button class="bo-btn bo-btn--petit bo-btn--fantome" type="submit"
+                          aria-label="Pivoter <?= e(basename($media)) ?> vers la <?= $sens ?>"><?= $signe ?></button>
+                </form>
+              <?php endforeach; ?>
+            </div>
+
             <form method="post" action="<?= url('/admin/photos/retrait') ?>"
                   data-confirmer="Supprimer définitivement <?= e(basename($media)) ?> ?">
               <?= Csrf::champ() ?>

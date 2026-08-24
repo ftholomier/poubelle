@@ -129,6 +129,7 @@ $router->post('/admin/contact', $protege(fn() => $edition->contactEnvoi()));
 // --- médiathèque ----------------------------------------------------------
 $router->get('/admin/photos',          $protege(fn() => $media->galerie()));
 $router->post('/admin/photos/ajout',   $protege(fn() => $media->ajout()));
+$router->post('/admin/photos/rotation', $protege(fn() => $media->rotation()));
 $router->post('/admin/photos/retrait', $protege(fn() => $media->retrait()));
 
 // --- apparence et avis ----------------------------------------------------

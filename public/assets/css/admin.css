@@ -753,7 +753,7 @@ button { font: inherit; cursor: pointer; }
 .bo-bloc {
   background: var(--fond-2);
   border: 1px solid var(--trait);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 1.4rem 1.6rem;
   margin-bottom: 1.6rem;
 }
@@ -827,7 +827,7 @@ button { font: inherit; cursor: pointer; }
   padding: 1.2rem;
   background: var(--fond-3);
   border: 1px solid var(--trait);
-  border-radius: 12px;
+  border-radius: 0;
   cursor: pointer;
   transition: border-color .2s ease, background .2s ease;
 }
@@ -850,29 +850,29 @@ button { font: inherit; cursor: pointer; }
    capture d'écran à refaire à chaque évolution du site. */
 .bo-apercu {
   display: block; background: var(--fond); border: 1px solid var(--trait);
-  border-radius: 8px; padding: 8px; min-height: 108px;
+  border-radius: 0; padding: 8px; min-height: 108px;
 }
 .bo-apercu__barre {
   display: flex; align-items: center; gap: 6px;
-  padding: 7px 8px; background: var(--fond-2); border-radius: 5px;
+  padding: 7px 8px; background: var(--fond-2); border-radius: 0;
 }
 .bo-apercu__burger { display: grid; gap: 2px; flex: 0 0 auto; }
-.bo-apercu__burger i { display: block; width: 13px; height: 2px; background: var(--accent); border-radius: 2px; }
+.bo-apercu__burger i { display: block; width: 13px; height: 2px; background: var(--accent); border-radius: 0; }
 .bo-apercu__logo {
-  width: 34px; height: 16px; border-radius: 3px;
+  width: 34px; height: 16px; border-radius: 0;
   background: var(--accent); margin-inline: auto;
 }
 .bo-apercu__logo--gauche { margin-inline: 0; }
 .bo-apercu__liens { display: flex; gap: 7px; margin-inline: auto; }
-.bo-apercu__liens i { display: block; width: 21px; height: 5px; background: var(--texte-2); border-radius: 3px; }
-.bo-apercu__cta { width: 30px; height: 13px; border-radius: 3px; background: var(--accent-clair); flex: 0 0 auto; }
+.bo-apercu__liens i { display: block; width: 21px; height: 5px; background: var(--texte-2); border-radius: 0; }
+.bo-apercu__cta { width: 30px; height: 13px; border-radius: 0; background: var(--accent-clair); flex: 0 0 auto; }
 .bo-apercu__panneau {
   width: 46%; margin-top: 6px; padding: 9px 8px;
   background: var(--fond-2); border-left: 2px solid var(--accent);
   border-radius: 0 5px 5px 0;
   display: grid; gap: 6px;
 }
-.bo-apercu__panneau i { display: block; height: 5px; background: var(--texte-2); border-radius: 3px; }
+.bo-apercu__panneau i { display: block; height: 5px; background: var(--texte-2); border-radius: 0; }
 .bo-apercu__panneau i:nth-child(1) { width: 82%; }
 .bo-apercu__panneau i:nth-child(2) { width: 66%; }
 .bo-apercu__panneau i:nth-child(3) { width: 74%; }
@@ -884,7 +884,7 @@ button { font: inherit; cursor: pointer; }
 
 /* ---------- Éditeur de texte enrichi ---------- */
 .bo-editeur {
-  border: 1px solid var(--trait); border-radius: 8px;
+  border: 1px solid var(--trait); border-radius: 0;
   background: var(--fond-2); overflow: hidden;
 }
 .bo-editeur__barre {
@@ -894,7 +894,7 @@ button { font: inherit; cursor: pointer; }
 }
 .bo-editeur__barre button {
   min-width: 32px; height: 30px; padding: 0 .5rem;
-  border-radius: 6px; color: var(--texte);
+  border-radius: 0; color: var(--texte);
   font-size: .85rem;
   transition: background .15s, color .15s;
 }
@@ -912,10 +912,15 @@ button { font: inherit; cursor: pointer; }
 
 /* ---------- Essai de l'assistant ---------- */
 .bo-essai {
-  border: 1px solid var(--trait); border-radius: 8px;
+  border: 1px solid var(--trait); border-radius: 0;
   padding: 1rem; margin-bottom: 1rem; background: var(--fond-2);
 }
 .bo-essai__question {
   font-weight: 700; color: var(--accent); margin-bottom: .6rem;
 }
 .bo-essai__reponse { color: var(--texte); line-height: 1.65; }
+
+/* Rotation d'une photo : deux formulaires distincts, donc deux boutons à
+   aligner — un seul formulaire à deux submits serait plus fragile au clavier. */
+.bo-media__rotation { display: flex; flex-wrap: wrap; gap: .35rem; margin: .5rem 0; }
+.bo-media__rotation form { display: contents; }

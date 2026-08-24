@@ -26,6 +26,24 @@ final class MediaController
     ) {
     }
 
+    /**
+     * Contenus susceptibles de citer une photo : ils servent à dire où une
+     * image est employée, et à suivre un renommage.
+     */
+    private const CONTENUS = [
+        'site'                   => 'Coordonnées',
+        'services'               => 'Services',
+        'valeurs'                => 'Valeurs',
+        'realisations'           => 'Réalisations',
+        'pages/accueil'          => 'Page d’accueil',
+        'pages/la-societe'       => 'Page « La société »',
+        'pages/nos-services'     => 'Page « Nos services »',
+        'pages/nos-valeurs'      => 'Page « Nos valeurs »',
+        'pages/realisations'     => 'Page « Réalisations »',
+        'pages/faq'              => 'Page « Questions fréquentes »',
+        'pages/contact'          => 'Page « Contact »',
+    ];
+
     private function rediriger(string $chemin = '/admin/photos'): string
     {
         header('Location: ' . url($chemin), true, 303);
@@ -52,22 +70,8 @@ final class MediaController
      */
     private function usages(): array
     {
-        $sources = [
-            'site'                   => 'Coordonnées',
-            'services'               => 'Services',
-            'valeurs'                => 'Valeurs',
-            'realisations'           => 'Réalisations',
-            'pages/accueil'          => 'Page d’accueil',
-            'pages/la-societe'       => 'Page « La société »',
-            'pages/nos-services'     => 'Page « Nos services »',
-            'pages/nos-valeurs'      => 'Page « Nos valeurs »',
-            'pages/realisations'     => 'Page « Réalisations »',
-            'pages/faq'              => 'Page « Questions fréquentes »',
-            'pages/contact'          => 'Page « Contact »',
-        ];
-
         $usages = [];
-        foreach ($sources as $nom => $libelle) {
+        foreach (self::CONTENUS as $nom => $libelle) {
             try {
                 $donnees = $this->content->load($nom);
             } catch (RuntimeException) {
@@ -190,5 +194,60 @@ final class MediaController
         Session::flash('succes', 'Photo supprimée.');
 
         return $this->rediriger();
+    }
+
+    /**
+     * Pivote une photo d'un quart de tour.
+     *
+     * L'écran d'origine est repris dans le formulaire : la rotation se
+     * déclenche aussi bien depuis la médiathèque que depuis l'écran des
+     * réalisations, et l'exploitant revient là où il était.
+     */
+    public function rotation(): string
+    {
+        $retour = (string) ($_POST['retour'] ?? '/admin/photos');
+        // seule une adresse du back-office est acceptée : un champ de
+        // formulaire ne doit pas pouvoir servir de rebond vers l'extérieur
+        if (!preg_match('#^/admin/[a-z0-9/\-]*$#', $retour)) {
+            $retour = '/admin/photos';
+        }
+
+        if (!Csrf::verifier()) {
+            return $this->rediriger($retour);
+        }
+
+        $chemin = trim((string) ($_POST['src'] ?? ''));
+        $sens = ($_POST['sens'] ?? 'droite') === 'gauche' ? -1 : 1;
+
+        try {
+            $this->mediatheque->pivoter($chemin, $sens);
+            $this->corrigerExtension($chemin);
+            Session::flash('succes', 'Photo pivotée.');
+        } catch (RuntimeException $e) {
+            Session::flash('erreur', $e->getMessage());
+        }
+
+        return $this->rediriger($retour);
+    }
+
+    /**
+     * Une photo PNG ou WebP pivotée devient un JPEG : les contenus qui la
+     * citaient doivent suivre, faute de quoi l'image disparaîtrait du site.
+     */
+    private function corrigerExtension(string $ancien): void
+    {
+        $nouveau = preg_replace('/\.(png|webp|jpeg)$/i', '.jpg', $ancien) ?? $ancien;
+        if ($nouveau === $ancien) {
+            return;
+        }
+
+        foreach (array_keys(self::CONTENUS) as $nom) {
+            $donnees = $this->content->load($nom);
+            $json = json_encode($donnees, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            if ($json === false || !str_contains($json, $ancien)) {
+                continue;
+            }
+            $this->content->save($nom, json_decode(str_replace($ancien, $nouveau, $json), true));
+        }
     }
 }

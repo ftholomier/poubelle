@@ -83,10 +83,12 @@
   --transition: .38s cubic-bezier(.25, .8, .25, 1);
   --entete-h: 92px;
   --entete-h-compact: 70px;
-  --gouttiere: clamp(1.25rem, 4vw, 3rem);
+  --gouttiere: clamp(1.5rem, 5vw, 4.5rem);
   --largeur: 1240px;
-  --rayon: 10px;
-  --rayon-carte: 22px;
+  /* Aucun angle arrondi : la menuiserie aluminium est une affaire
+     d'arêtes vives, la mise en page suit. */
+  --rayon: 0;
+  --rayon-carte: 0;
   --ombre-carte: 0 2px 6px rgba(26, 26, 26, .05), 0 14px 40px rgba(26, 26, 26, .08);
   --ombre-carte-active: 0 4px 12px rgba(243, 146, 0, .12), 0 22px 56px rgba(26, 26, 26, .13);
 }
@@ -121,7 +123,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 :focus-visible {
   outline: 2px solid var(--orange);
   outline-offset: 3px;
-  border-radius: 3px;
+  border-radius: 0;
 }
 
 h1, h2, h3, h4 { font-family: var(--titre); font-weight: 500; line-height: 1.18; color: var(--encre); }
@@ -155,7 +157,7 @@ p + p { margin-top: 1.05rem; }
   color: var(--orange);
   background: var(--encre);
   padding: .42rem .95rem .42rem .75rem;
-  border-radius: 99px;
+  border-radius: 0;
   margin-bottom: 1.2rem;
 }
 .surtitre::before { content: ""; width: 18px; height: 2px; background: currentColor; flex: 0 0 auto; }
@@ -226,7 +228,7 @@ p + p { margin-top: 1.05rem; }
   color: var(--orange);
   background: var(--encre);
   padding: .5rem 1rem;
-  border-radius: 99px;
+  border-radius: 0;
   transition: background var(--transition), color var(--transition);
 }
 .lien-fleche:hover { background: var(--orange); color: var(--encre); }
@@ -291,36 +293,50 @@ p + p { margin-top: 1.05rem; }
   display: flex; align-items: center; gap: 1.4rem;
 }
 
-/* --- la marque : monogramme + nom en capitales ---
-   Reprise de la composition des visuels de l'entreprise : le monogramme
-   orange, et le nom en capitales noires posé sur le gris de la charte.
-   La composition est ici horizontale plutôt que verticale, la barre n'ayant
-   pas la hauteur d'une affiche. */
-.marque { display: inline-flex; align-items: center; gap: .85rem; }
-.marque__embleme {
-  height: 42px; width: auto; flex: 0 0 auto;
-  transition: height var(--transition);
-}
-.marque__nom {
-  font-size: 1.02rem; font-weight: 800;
-  letter-spacing: .16em; text-transform: uppercase;
+/* --- la marque de l'en-tête ---
+   Reprise de la composition de la signalétique de l'entreprise : le nom en
+   capitales, sa baseline dessous, et le monogramme orange isolé. Le nom est
+   composé en typographie plutôt qu'en image pour rester net à toute taille
+   et se laisser traduire. */
+.entete__mots {
+  display: flex; flex-direction: column; gap: .18rem;
+  margin-right: auto;
   color: #000;
+}
+.entete__nom {
+  font-size: 1rem; font-weight: 800;
+  letter-spacing: .16em; text-transform: uppercase;
   white-space: nowrap;
 }
-.entete__logo { display: inline-flex; margin-right: auto; }
+.entete__baseline {
+  font-size: .62rem; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase;
+  white-space: nowrap;
+}
 
-/* --- disposition latérale : logo à gauche, burger à droite ---
-   Le logo est calé à gauche dans les deux dispositions : c'est la place que
-   lui donne la charte de l'entreprise. Le burger passe donc à droite, avec
-   les autres actions. */
+/* Le monogramme est posé au centre de la barre, indépendamment de ce qui
+   l'entoure : il ne bouge pas quand le nom ou les actions changent de
+   largeur. */
+.entete__logo {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+}
+.entete__embleme {
+  display: block; height: 46px; width: auto;
+  transition: height var(--transition);
+}
+.entete--pleine .entete__embleme { height: 36px; }
+
+/* --- disposition latérale : burger et nom à gauche, actions à droite --- */
 .entete--lateral .entete__barre { justify-content: flex-start; }
-.entete--lateral .burger { order: 3; }
-.entete--lateral:not(.entete--pleine) .marque__embleme { height: 48px; }
 
-/* --- disposition horizontale : logo à gauche, navigation au centre --- */
-.entete--horizontal .entete__logo { flex: 0 0 auto; }
-.entete--horizontal .marque__embleme { height: 42px; }
-.entete--horizontal.entete--pleine .marque__embleme { height: 34px; }
+/* --- disposition horizontale : la navigation prend la place du centre,
+       le monogramme revient donc dans le flux, à gauche --- */
+.entete--horizontal .entete__logo {
+  position: static; transform: none; order: -1;
+}
+.entete--horizontal .entete__mots { margin-right: 1.5rem; }
 
 .navbar { display: none; margin-inline: auto; }
 .navbar__liste { display: flex; align-items: center; gap: clamp(.4rem, 1.6vw, 1.5rem); }
@@ -360,7 +376,7 @@ p + p { margin-top: 1.05rem; }
   min-width: 240px;
   background: #fff;
   border: 1px solid var(--ligne);
-  border-radius: 14px;
+  border-radius: 0;
   box-shadow: var(--ombre-carte);
   padding: .5rem;
   opacity: 0; visibility: hidden;
@@ -377,7 +393,7 @@ p + p { margin-top: 1.05rem; }
 }
 .navbar__sous a {
   display: block; padding: .68rem .95rem;
-  border-radius: 9px;
+  border-radius: 0;
   font-size: .9rem; font-weight: 600; color: var(--texte);
   transition: background var(--transition), color var(--transition);
 }
@@ -405,7 +421,7 @@ p + p { margin-top: 1.05rem; }
 .burger span {
   display: block; height: 2px; width: 100%;
   background: #fff;
-  border-radius: 2px;
+  border-radius: 0;
   transition: transform var(--transition), opacity var(--transition),
               width var(--transition), background var(--transition);
   transform-origin: left center;
@@ -445,7 +461,7 @@ body.menu-ouvert .panneau {
 }
 .panneau::-webkit-scrollbar { width: 5px; }
 .panneau::-webkit-scrollbar-track { background: transparent; }
-.panneau::-webkit-scrollbar-thumb { background: rgba(243, 146, 0, .3); border-radius: 3px; }
+.panneau::-webkit-scrollbar-thumb { background: rgba(243, 146, 0, .3); border-radius: 0; }
 .panneau:hover::-webkit-scrollbar-thumb { background: rgba(243, 146, 0, .55); }
 
 .panneau__tete {
@@ -677,7 +693,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 }
 /* La photo occupe le haut de la carte ; l'icône de gamme se pose à cheval
    sur son bord bas, ce qui identifie la gamme sans reprendre de la hauteur. */
-.carte-service__media { position: relative; margin-bottom: 2.1rem; }
+.carte-service__media { position: relative; margin-bottom: 2.4rem; }
 .carte-service__media img {
   display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
   transition: transform var(--transition);
@@ -686,19 +702,19 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 /* Marge plutôt que rembourrage : le lien en pastille a son propre fond, qui
    déborderait sur un rembourrage. La marge, elle, reste hors de sa boîte. */
 .carte-service > a > :not(.carte-service__media) {
-  margin-inline: clamp(1.4rem, 2.6vw, 1.8rem);
+  margin-inline: clamp(1.6rem, 3vw, 2.2rem);
 }
-.carte-service > a > :last-child { margin-bottom: clamp(1.4rem, 2.6vw, 1.8rem); }
+.carte-service > a > :last-child { margin-bottom: clamp(1.6rem, 3vw, 2.2rem); }
 .carte-service:hover {
   transform: translateY(-4px);
   border-color: var(--sable-voile);
   box-shadow: var(--ombre-carte-active);
 }
 .carte-service__icone {
-  position: absolute; left: clamp(1.4rem, 2.6vw, 1.8rem); bottom: -26px;
+  position: absolute; left: clamp(1.6rem, 3vw, 2.2rem); bottom: -26px;
   display: grid; place-items: center;
   width: 52px; height: 52px;
-  border-radius: 14px;
+  border-radius: 0;
   background: var(--encre); border: 1px solid var(--encre);
   color: var(--orange);
   transition: background var(--transition), color var(--transition), border-color var(--transition);
@@ -723,7 +739,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 .carte-client__icone {
   display: grid; place-items: center;
   width: 56px; height: 56px; margin: 0 auto 1.1rem;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--encre); color: var(--orange);
 }
 .carte-client__icone svg { width: 30px; height: 30px; }
@@ -758,7 +774,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 .points__numero {
   flex: 0 0 auto;
   display: grid; place-items: center;
-  width: 2.6rem; height: 2.6rem; border-radius: 50%;
+  width: 2.6rem; height: 2.6rem; border-radius: 0;
   background: var(--encre);
   font-family: var(--titre); font-size: 1.15rem;
   color: var(--orange);
@@ -782,7 +798,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
    ils forment une même étiquette. */
 .pilier__entete {
   display: inline-flex; align-items: center; gap: .6rem; margin-bottom: .9rem;
-  background: var(--encre); border-radius: 99px;
+  background: var(--encre); border-radius: 0;
   padding: .38rem .95rem .38rem .8rem;
 }
 .pilier__numero { font-family: var(--titre); font-size: 1.05rem; color: var(--orange); line-height: 1; }
@@ -804,7 +820,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   position: absolute; top: 0; left: 0;
   display: grid; place-items: center;
   width: 2.1rem; height: 2.1rem;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--orange); color: var(--encre);
   font-size: .78rem; font-weight: 700;
 }
@@ -850,7 +866,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
    du corps de texte et l'emporterait sinon sur celle-ci. */
 .valeur__texte .valeur__numero {
   display: inline-grid; place-items: center;
-  width: 3rem; height: 3rem; border-radius: 50%;
+  width: 3rem; height: 3rem; border-radius: 0;
   background: var(--encre);
   font-family: var(--titre); font-size: 1.35rem;
   color: var(--orange);
@@ -876,7 +892,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   padding: 1.1rem 1.6rem;
   background: var(--orange); color: var(--encre);
   font-family: var(--titre); font-size: clamp(1.15rem, 2vw, 1.5rem);
-  border-radius: 14px;
+  border-radius: 0;
   box-shadow: 0 14px 34px rgba(243, 146, 0, .3);
 }
 .serenite__texte p { color: var(--texte-doux); }
@@ -884,7 +900,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   margin-top: 1.8rem; padding: 1.1rem 1.4rem;
   background: var(--sable-pale);
   border-left: 3px solid var(--orange);
-  border-radius: 0 var(--rayon) var(--rayon) 0;
+  border-radius: 0;
   font-size: .95rem; font-style: italic;
 }
 
@@ -937,7 +953,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   -ms-overflow-style: none;
 }
 .avis__piste::-webkit-scrollbar { display: none; }
-.avis__piste:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; border-radius: 4px; }
+.avis__piste:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; border-radius: 0; }
 
 .avis__carte {
   display: flex; flex-direction: column;
@@ -963,7 +979,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
   display: grid; place-items: center;
   width: 44px; height: 44px; flex: 0 0 auto;
   border: 1px solid var(--ligne);
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--encre); border-color: var(--encre);
   color: var(--orange);
   transition: background var(--transition), color var(--transition),
@@ -987,20 +1003,20 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 .avis__point[hidden] { display: none; }
 .avis__point {
   width: 9px; height: 9px; padding: 0;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--sable-voile);
   border: 0;
   transition: background var(--transition), width var(--transition);
 }
 .avis__point:hover { background: var(--orange); }
-.avis__point[aria-current="true"] { background: var(--orange); width: 26px; border-radius: 99px; }
+.avis__point[aria-current="true"] { background: var(--orange); width: 26px; border-radius: 0; }
 .avis__entete { display: flex; align-items: center; gap: .9rem; margin-bottom: 1rem; }
 /* Médaillon d'initiales : la photo de profil Google est volontairement
    écartée, elle relancerait une requête vers un domaine tiers. */
 .avis__pastille {
   display: grid; place-items: center;
   width: 46px; height: 46px; flex: 0 0 auto;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--degrade-orange); color: var(--encre);
   font-size: .95rem; font-weight: 700;
 }
@@ -1026,7 +1042,7 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .52s; }
 .coordonnees__icone {
   display: grid; place-items: center; flex: 0 0 auto;
   width: 50px; height: 50px;
-  border-radius: 14px;
+  border-radius: 0;
   background: var(--encre); color: var(--orange);
 }
 .coordonnees__icone svg { width: 26px; height: 26px; }
@@ -1060,7 +1076,7 @@ a.coordonnees__valeur:hover {
 .champ__requis {
   color: var(--orange); background: var(--encre);
   display: inline-grid; place-items: center;
-  width: 1.1em; height: 1.1em; border-radius: 50%;
+  width: 1.1em; height: 1.1em; border-radius: 0;
   font-size: .72em; line-height: 1; vertical-align: .15em;
 }
 .champ input, .champ select, .champ textarea {
@@ -1230,7 +1246,7 @@ a.coordonnees__valeur:hover {
 .pied__icone {
   display: grid; place-items: center; flex: 0 0 auto;
   width: 34px; height: 34px;
-  border-radius: 9px;
+  border-radius: 0;
   background: rgba(255, 255, 255, .07);
   color: var(--orange);
 }
@@ -1288,7 +1304,7 @@ a.coordonnees__valeur:hover {
 .langues ul { display: flex; align-items: center; gap: .2rem; }
 .langues a {
   display: block; padding: .3rem .55rem;
-  border-radius: 7px;
+  border-radius: 0;
   font-size: .78rem; font-weight: 700; letter-spacing: .06em;
   color: rgba(255, 255, 255, .85);
   transition: background var(--transition), color var(--transition);
@@ -1353,14 +1369,14 @@ a.coordonnees__valeur:hover {
   max-height: 88vh;
   display: flex; flex-direction: column;
   background: #fff;
-  border-radius: 20px 20px 0 0;
+  border-radius: 0;
   box-shadow: 0 -12px 60px rgba(26, 26, 26, .3);
 }
 @media (min-width: 700px) {
   .cookies__panneau {
     inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
-    border-radius: 20px;
+    border-radius: 0;
   }
 }
 .cookies__panneau-tete {
@@ -1371,7 +1387,7 @@ a.coordonnees__valeur:hover {
 .cookies__panneau-tete h2 { font-size: 1.3rem; }
 .cookies__fermer {
   display: grid; place-items: center;
-  width: 36px; height: 36px; border-radius: 50%;
+  width: 36px; height: 36px; border-radius: 0;
   font-size: 1.5rem; line-height: 1; color: var(--texte-doux);
   transition: background var(--transition), color var(--transition);
 }
@@ -1398,7 +1414,7 @@ a.coordonnees__valeur:hover {
   font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   color: var(--orange);
   background: var(--encre);
-  padding: .3rem .7rem; border-radius: 99px;
+  padding: .3rem .7rem; border-radius: 0;
 }
 
 /* Interrupteur : la case native reste seule cible du clavier, le curseur
@@ -1411,12 +1427,12 @@ a.coordonnees__valeur:hover {
 .cookies__curseur {
   position: relative; display: block;
   width: 46px; height: 26px; flex: 0 0 auto;
-  background: #cfc7d3; border-radius: 99px;
+  background: #cfc7d3; border-radius: 0;
   transition: background var(--transition);
 }
 .cookies__curseur::after {
   content: ""; position: absolute; top: 3px; left: 3px;
-  width: 20px; height: 20px; border-radius: 50%;
+  width: 20px; height: 20px; border-radius: 0;
   background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
   transition: transform var(--transition);
 }
@@ -1546,7 +1562,7 @@ a.coordonnees__valeur:hover {
   align-items: center;
 }
 .france__drapeau { display: flex; width: 66px; margin-bottom: 1.1rem; }
-.france__bande { height: 5px; flex: 1 1 0; border-radius: 3px; }
+.france__bande { height: 5px; flex: 1 1 0; border-radius: 0; }
 .france__bande--bleu  { background: #3d5fa8; }
 .france__bande--blanc { background: #ffffff; margin-inline: 3px; }
 .france__bande--rouge { background: #d4545e; }
@@ -1581,7 +1597,7 @@ a.coordonnees__valeur:hover {
    découperait un rectangle brut dans le pied. */
 .pied__france {
   display: block; width: 128px; height: auto; margin-top: 1.7rem;
-  background: #fff; border-radius: 8px; padding: .55rem .7rem;
+  background: #fff; border-radius: 0; padding: .55rem .7rem;
 }
 
 /* Trois ateliers dans le même bloc d'adresse : un filet les sépare sans
@@ -1613,14 +1629,14 @@ a.coordonnees__valeur:hover {
      laisser passer la puce, qui est centrée sur le trait. */
   position: absolute; left: -5.6rem; top: -.35em; width: calc(4.05rem - 18px);
   text-align: center;
-  background: var(--encre); border-radius: 99px; padding: .25rem 0;
+  background: var(--encre); border-radius: 0; padding: .25rem 0;
   font-family: var(--titre); font-size: 1.05rem; color: var(--orange);
 }
 /* La puce recouvre le filet : elle est peinte en couleur de fond, cerclée
    d'orange, pour que le trait paraisse s'interrompre sous elle. */
 .frise__etape:not(.frise__etape--sans-date)::before {
   content: ""; position: absolute; left: calc(-1.55rem - 6.5px); top: .48em;
-  width: 9px; height: 9px; border-radius: 50%;
+  width: 9px; height: 9px; border-radius: 0;
   background: var(--fond); border: 2px solid var(--orange);
 }
 .frise__texte { color: var(--texte-doux); }
@@ -1645,7 +1661,7 @@ a.coordonnees__valeur:hover {
 .filtres__bouton {
   display: inline-flex; align-items: center; gap: .6rem;
   padding: .6rem 1.1rem;
-  border: 1px solid var(--ligne); border-radius: 99px;
+  border: 1px solid var(--ligne); border-radius: 0;
   background: #fff; color: var(--texte);
   font-size: .9rem; font-weight: 700;
   transition: background var(--transition), color var(--transition), border-color var(--transition);
@@ -1658,7 +1674,7 @@ a.coordonnees__valeur:hover {
   font-size: .74rem; font-weight: 700;
   color: var(--texte-doux);
   background: var(--fond-teinte);
-  padding: .1rem .45rem; border-radius: 99px;
+  padding: .1rem .45rem; border-radius: 0;
 }
 .filtres__bouton[aria-pressed="true"] .filtres__compte {
   background: rgba(255, 255, 255, .14); color: #fff;
@@ -1666,7 +1682,7 @@ a.coordonnees__valeur:hover {
 
 .galerie {
   list-style: none;
-  display: grid; gap: clamp(.8rem, 1.6vw, 1.2rem);
+  display: grid; gap: clamp(1.1rem, 2.2vw, 1.8rem);
   grid-template-columns: repeat(4, 1fr);
 }
 .galerie__item[hidden] { display: none; }
@@ -1685,7 +1701,7 @@ a.coordonnees__valeur:hover {
   position: absolute; left: .6rem; bottom: .6rem;
   font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
   color: var(--orange); background: var(--encre);
-  padding: .3rem .65rem; border-radius: 99px;
+  padding: .3rem .65rem; border-radius: 0;
 }
 .galerie__vide { margin-top: 2rem; color: var(--texte-doux); }
 .galerie__vide[hidden] { display: none; }
@@ -1719,7 +1735,7 @@ body.visionneuse-ouverte { overflow: hidden; }
 .visionneuse__fermer,
 .visionneuse__nav {
   flex: 0 0 auto;
-  width: 46px; height: 46px; border-radius: 50%;
+  width: 46px; height: 46px; border-radius: 0;
   border: 1px solid rgba(255, 255, 255, .3);
   background: rgba(255, 255, 255, .08);
   position: relative;
@@ -1768,7 +1784,7 @@ body.visionneuse-ouverte { overflow: hidden; }
 .assistant__bulle {
   display: inline-flex; align-items: center; gap: .65rem;
   padding: .85rem 1.3rem .85rem 1.1rem;
-  border-radius: 99px;
+  border-radius: 0;
   background: var(--orange); color: var(--encre);
   font-weight: 700; font-size: .93rem;
   box-shadow: 0 6px 18px rgba(243, 146, 0, .3), 0 14px 40px rgba(26, 26, 26, .18);
@@ -1778,7 +1794,7 @@ body.visionneuse-ouverte { overflow: hidden; }
 /* Bulle de dialogue dessinée en CSS : ni image ni police d'icônes. */
 .assistant__bulle-icone {
   position: relative; width: 20px; height: 16px; flex: 0 0 auto;
-  border: 2px solid currentColor; border-radius: 5px;
+  border: 2px solid currentColor; border-radius: 0;
 }
 .assistant__bulle-icone::after {
   content: ""; position: absolute; left: 3px; bottom: -6px;
@@ -1808,7 +1824,7 @@ body.visionneuse-ouverte { overflow: hidden; }
   letter-spacing: .04em;
 }
 .assistant__fermer {
-  position: relative; width: 30px; height: 30px; border-radius: 50%; flex: 0 0 auto;
+  position: relative; width: 30px; height: 30px; border-radius: 0; flex: 0 0 auto;
   background: rgba(255, 255, 255, .1);
   transition: background var(--transition);
 }
@@ -1827,19 +1843,19 @@ body.visionneuse-ouverte { overflow: hidden; }
   background: var(--fond-teinte);
 }
 .assistant__message {
-  max-width: 86%; padding: .7rem .95rem; border-radius: 14px;
+  max-width: 86%; padding: .7rem .95rem; border-radius: 0;
   font-size: .92rem; line-height: 1.6;
   white-space: pre-wrap; overflow-wrap: anywhere;
 }
 .assistant__message--robot {
   align-self: flex-start;
   background: #fff; border: 1px solid var(--ligne); color: var(--texte);
-  border-bottom-left-radius: 4px;
+  
 }
 .assistant__message--visiteur {
   align-self: flex-end;
   background: var(--encre); color: #fff;
-  border-bottom-right-radius: 4px;
+  
 }
 .assistant__message--erreur {
   align-self: flex-start;
@@ -1856,14 +1872,14 @@ body.visionneuse-ouverte { overflow: hidden; }
 .assistant__saisie textarea {
   flex: 1; resize: none; max-height: 120px;
   padding: .65rem .8rem;
-  border: 1px solid var(--ligne); border-radius: 12px;
+  border: 1px solid var(--ligne); border-radius: 0;
   font: inherit; font-size: .93rem; color: var(--texte);
   background: var(--fond-teinte);
 }
 .assistant__saisie textarea:focus { outline: 2px solid var(--orange); outline-offset: 1px; }
 .assistant__envoyer {
   position: relative; flex: 0 0 auto;
-  width: 40px; height: 40px; border-radius: 50%;
+  width: 40px; height: 40px; border-radius: 0;
   background: var(--orange);
   transition: background var(--transition), opacity var(--transition);
 }

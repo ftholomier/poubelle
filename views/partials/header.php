@@ -37,15 +37,19 @@ $estActif = static function (array $item) use ($chemin): bool {
       <span></span><span></span><span></span>
     </button>
 
-    <?php /* Le logo de la marque est le seul monogramme, sans mot-symbole.
-             Le nom est composé à côté en capitales, comme sur la signalétique
-             et les visuels de l'entreprise : c'est la seule composition où il
-             apparaisse, ailleurs le picto est employé seul. */ ?>
-    <a class="entete__logo marque" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
-      <img class="marque__embleme"
+    <?php /* Le nom est composé à côté du burger, le monogramme reste seul au
+             centre : c'est la disposition de la signalétique de l'entreprise.
+             Les deux mènent à l'accueil, mais un seul est annoncé — le second
+             est retiré du parcours pour ne pas répéter le même lien. */ ?>
+    <a class="entete__mots" href="<?= route('accueil') ?>">
+      <span class="entete__nom"><?= e($site['nom']) ?></span>
+      <span class="entete__baseline"><?= e($site['baseline']) ?></span>
+    </a>
+
+    <a class="entete__logo" href="<?= route('accueil') ?>" tabindex="-1" aria-hidden="true">
+      <img class="entete__embleme"
            src="<?= asset($site['logo']['principal'] ?? 'assets/img/logo/logo-trehant.png') ?>"
-           alt="" aria-hidden="true" width="500" height="454">
-      <span class="marque__nom"><?= e($site['nom']) ?></span>
+           alt="" width="500" height="454">
     </a>
 
 <?php if ($horizontal): ?>
