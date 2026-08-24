@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 use App\Controllers\ApiController;
 use App\Controllers\PageController;
+use App\Core\Assistant;
 use App\Core\Avis;
 use App\Core\Langues;
 use App\Core\Mailer;
@@ -43,14 +44,22 @@ $seo->prefixerPar($langues->prefixe($langue));
 
 $avis = new Avis($parametresSite, $config['paths']['cache'] . '/avis-google.json');
 
+$assistant = new Assistant(
+    $parametresSite,
+    $content,
+    $config['paths']['data'],
+    $config['paths']['cache'] . '/assistant.json'
+);
+
 $pages = new PageController($view, $content, $parametresSite, new Mailer($parametresSite), $seo);
-$api   = new ApiController($content);
+$api   = new ApiController($content, $assistant);
 
 $view->share('seo', $seo);
 $view->share('parametres', $parametresSite);
 $view->share('langues', $langues);
 $view->share('langue', $langue);
 $view->share('avis', $avis);
+$view->share('assistant', $assistant);
 // Disposition du menu : réglée dans le back-office, lue par l'en-tête et le
 // gabarit. Partagée ici pour qu'une page n'ait pas à la redemander.
 $view->share('menuStyle', $parametresSite->get('apparence.menu', 'horizontal'));
@@ -66,6 +75,7 @@ $router->get($c('accueil'),          fn() => $pages->accueil());
 $router->get($c('la-societe'),       fn() => $pages->laSociete());
 $router->get($c('nos-valeurs'),      fn() => $pages->valeurs());
 $router->get($c('realisations'),     fn() => $pages->realisations());
+$router->get($c('faq'),              fn() => $pages->faq());
 $router->get($c('mentions-legales'), fn() => $pages->simple('mentions-legales'));
 
 // --- services ------------------------------------------------------------
@@ -118,6 +128,7 @@ $router->get('/api/services',        fn() => $api->collection('services'));
 $router->get('/api/services/{slug}', fn(array $p) => $api->item('services', $p['slug']));
 $router->get('/api/valeurs',         fn() => $api->collection('valeurs'));
 $router->get('/api/realisations',    fn() => $api->collection('realisations'));
+$router->post('/api/assistant',      fn() => $api->assistant());
 
 // --- back-office ---------------------------------------------------------
 require __DIR__ . '/routes-admin.php';

@@ -25,6 +25,7 @@ final class Seo
         'nos-services'     => ['slug' => 'pergolas-carports', 'nom' => 'Pergolas & carports'],
         'nos-valeurs'      => ['slug' => 'savoir-faire',     'nom' => 'Notre savoir-faire'],
         'realisations'     => ['slug' => 'realisations',     'nom' => 'Réalisations'],
+        'faq'              => ['slug' => 'faq',              'nom' => 'Questions fréquentes'],
         'contact'          => ['slug' => 'contact',          'nom' => 'Contact'],
         'mentions-legales' => ['slug' => 'mentions-legales', 'nom' => 'Mentions légales'],
     ];
@@ -68,7 +69,7 @@ final class Seo
     private const CONTENUS = [
         'site', 'services', 'valeurs', 'realisations',
         'pages/accueil', 'pages/la-societe', 'pages/nos-services', 'pages/realisations',
-        'pages/nos-valeurs', 'pages/contact', 'pages/mentions-legales',
+        'pages/nos-valeurs', 'pages/faq', 'pages/contact', 'pages/mentions-legales',
     ];
 
     /** @var array<string, mixed>|null */

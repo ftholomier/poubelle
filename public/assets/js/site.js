@@ -434,6 +434,104 @@
     });
   })();
 
+
+  /* ---------- Assistant de discussion ---------- */
+  (function () {
+    var boite = document.querySelector("[data-assistant]");
+    if (!boite) return;
+
+    var ouvrir = boite.querySelector("[data-assistant-ouvrir]");
+    var panneau = boite.querySelector(".assistant__panneau");
+    var fermer = boite.querySelector("[data-assistant-fermer]");
+    var fil = boite.querySelector("[data-assistant-fil]");
+    var form = boite.querySelector("[data-assistant-form]");
+    var champ = form.querySelector("textarea");
+    var envoyer = form.querySelector("button[type=submit]");
+    var historique = [];
+    var enCours = false;
+
+    function basculer(etat) {
+      panneau.hidden = !etat;
+      ouvrir.setAttribute("aria-expanded", etat ? "true" : "false");
+      boite.classList.toggle("assistant--ouvert", etat);
+      if (etat) champ.focus();
+    }
+
+    ouvrir.addEventListener("click", function () { basculer(panneau.hidden); });
+    fermer.addEventListener("click", function () { basculer(false); ouvrir.focus(); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !panneau.hidden) { basculer(false); ouvrir.focus(); }
+    });
+
+    /** Le champ grandit avec le texte, jusqu'à cinq lignes. */
+    champ.addEventListener("input", function () {
+      champ.style.height = "auto";
+      champ.style.height = Math.min(champ.scrollHeight, 120) + "px";
+    });
+    champ.addEventListener("keydown", function (e) {
+      // Entrée envoie, Maj+Entrée passe à la ligne : c'est l'usage attendu
+      // d'une zone de discussion.
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); }
+    });
+
+    function ajouter(role, texte) {
+      var p = document.createElement("p");
+      p.className = "assistant__message assistant__message--" + role;
+      p.textContent = texte;
+      fil.appendChild(p);
+      fil.scrollTop = fil.scrollHeight;
+      return p;
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (enCours) return;
+
+      var question = champ.value.trim();
+      if (!question) return;
+
+      ajouter("visiteur", question);
+      historique.push({ role: "user", texte: question });
+      champ.value = "";
+      champ.style.height = "auto";
+
+      enCours = true;
+      envoyer.disabled = true;
+      var attente = ajouter("robot", "…");
+      attente.classList.add("assistant__message--attente");
+
+      // l'adresse vient du gabarit : elle reste juste si le site est
+      // installé dans un sous-répertoire
+      fetch(form.getAttribute("action"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": (form.querySelector("input[name=_csrf]") || {}).value || ""
+        },
+        body: JSON.stringify({ question: question, historique: historique.slice(0, -1) })
+      }).then(function (r) {
+        return r.json().then(function (j) { return { ok: r.ok, corps: j }; });
+      }).then(function (res) {
+        attente.remove();
+        if (res.ok && res.corps.reponse) {
+          ajouter("robot", res.corps.reponse);
+          historique.push({ role: "model", texte: res.corps.reponse });
+        } else {
+          ajouter("erreur", res.corps.erreur || "Une erreur est survenue.");
+          historique.pop();
+        }
+      }).catch(function () {
+        attente.remove();
+        ajouter("erreur", "La connexion a échoué. Réessayez.");
+        historique.pop();
+      }).then(function () {
+        enCours = false;
+        envoyer.disabled = false;
+        champ.focus();
+      });
+    });
+  })();
+
   /* ---------- Consentement aux cookies ----------
      Rien n'est déposé ni chargé avant un choix explicite. Les scripts et
      contenus soumis à consentement sont écrits en <script type="text/plain">

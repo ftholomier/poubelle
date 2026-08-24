@@ -28,8 +28,20 @@ final class Csrf
 
     public static function verifier(): bool
     {
-        $recu = $_POST['_csrf'] ?? '';
+        return self::verifierJeton($_POST['_csrf'] ?? '');
+    }
+
+    /**
+     * Vérifie un jeton reçu autrement que par un formulaire classique.
+     *
+     * Une requête au format JSON ne remplit pas $_POST : le jeton arrive
+     * alors dans le corps ou dans un en-tête, et c'est l'appelant qui sait
+     * l'y prendre.
+     */
+    public static function verifierJeton(mixed $recu): bool
+    {
         $attendu = Session::get('_csrf');
+
         return is_string($recu) && is_string($attendu)
             && $attendu !== '' && hash_equals($attendu, $recu);
     }

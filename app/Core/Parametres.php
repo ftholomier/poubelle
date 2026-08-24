@@ -38,6 +38,16 @@ final class Parametres
         'apparence' => [
             'menu' => 'horizontal',       // lateral | horizontal
         ],
+        // assistant de discussion : la clé Gemini est un secret, au même
+        // titre que le mot de passe SMTP — d'où sa place dans ce fichier
+        'assistant' => [
+            'actif'       => false,
+            'cle'         => '',
+            'modele'      => '',          // vide = modèle par défaut du socle
+            'titre'       => '',
+            'accueil'     => '',
+            'source_site' => true,        // le contenu du site fait partie du corpus
+        ],
         // avis Google : la clé d'API est un secret, au même titre que le
         // mot de passe SMTP — d'où sa place dans ce fichier
         'avis' => [

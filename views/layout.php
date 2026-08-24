@@ -78,6 +78,7 @@ $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex
 <main id="contenu"><?= $slot ?><?= $view->partial('avis') ?></main>
 <?= $view->partial('footer', ['site' => $site, 'cle' => $cle, 'fiche' => $fiche]) ?>
 <?= $view->partial('cookies', ['site' => $site, 'categories' => App\Core\Cookies::categories()]) ?>
+<?= $view->partial('assistant') ?>
 <?php $mesure = trim((string) $parametres->get('mesure.identifiant')); ?>
 <?php if ($mesure !== ''): ?>
   <!-- Chargé uniquement si le visiteur accepte la mesure d'audience : tant

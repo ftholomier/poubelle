@@ -1,17 +1,15 @@
 <?php
 /**
- * Page « Contact » : textes, formulaire et questions fréquentes.
+ * Page « Contact » : textes et formulaire de demande de devis.
+ *
+ * Les questions fréquentes ont leur propre écran, comme elles ont leur propre
+ * page : voir Questions fréquentes.
  *
  * @var array $contact
  * @var string[] $medias
  * @var App\Core\View $view
  */
 use App\Core\Csrf;
-
-$faq = implode("\n\n", array_map(
-    static fn(array $q): string => ($q['question'] ?? '') . ' || ' . ($q['reponse'] ?? ''),
-    $contact['faq']['items'] ?? []
-));
 ?>
 <form class="bo-form" method="post" action="<?= url('/admin/contact') ?>" enctype="multipart/form-data">
   <?= Csrf::champ() ?>
@@ -107,38 +105,6 @@ $faq = implode("\n\n", array_map(
     <div class="bo-champ">
       <label for="k-fmen">Mention sous le formulaire</label>
       <textarea id="k-fmen" name="form_mention" rows="2"><?= e($contact['formulaire']['mention']) ?></textarea>
-    </div>
-  </fieldset>
-
-  <fieldset>
-    <legend>Questions fréquentes</legend>
-    <div class="bo-rangee">
-      <div class="bo-champ">
-        <label for="k-qsur">Sur-titre</label>
-        <input id="k-qsur" type="text" name="faq_surtitre" value="<?= e($contact['faq']['surtitre']) ?>">
-      </div>
-      <div class="bo-champ">
-        <label for="k-qtit">Titre</label>
-        <input id="k-qtit" type="text" name="faq_titre" value="<?= e($contact['faq']['titre']) ?>">
-      </div>
-    </div>
-    <div class="bo-champ">
-      <label for="k-qitems">Questions et réponses</label>
-      <textarea id="k-qitems" name="faq_items" rows="14"><?= e($faq) ?></textarea>
-      <p class="bo-aide">
-        Une question par bloc, sous la forme <code>Question || Réponse</code>
-        (deux barres verticales). Séparez les blocs par une ligne vide.
-      </p>
-    </div>
-    <div class="bo-rangee">
-      <div class="bo-champ">
-        <label for="k-qrtit">Titre de relance</label>
-        <input id="k-qrtit" type="text" name="faq_relance_titre" value="<?= e($contact['faq']['relance']['titre'] ?? '') ?>">
-      </div>
-      <div class="bo-champ bo-champ--large">
-        <label for="k-qrtex">Texte de relance</label>
-        <input id="k-qrtex" type="text" name="faq_relance_texte" value="<?= e($contact['faq']['relance']['texte'] ?? '') ?>">
-      </div>
     </div>
   </fieldset>
 

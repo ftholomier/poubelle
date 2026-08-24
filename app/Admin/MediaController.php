@@ -62,6 +62,7 @@ final class MediaController
             'pages/nos-services'     => 'Page « Nos services »',
             'pages/nos-valeurs'      => 'Page « Nos valeurs »',
             'pages/realisations'     => 'Page « Réalisations »',
+            'pages/faq'              => 'Page « Questions fréquentes »',
             'pages/contact'          => 'Page « Contact »',
         ];
 

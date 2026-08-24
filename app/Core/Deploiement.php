@@ -25,7 +25,6 @@ final class Deploiement
         'app',
         'config',
         'views',
-        'tools',
         'public/index.php',
         'public/.htaccess',
         'public/assets/css',
@@ -34,13 +33,14 @@ final class Deploiement
         'public/assets/img/logo',
         'public/assets/img/ui',
         'data/.htaccess',
+        'data/assistant/.htaccess',
         'storage/.htaccess',
         'README.md',
         'DEPLOIEMENT.md',
     ];
 
     /** Dossiers sauvegardés avant chaque mise à jour. */
-    private const ETAT_VIVANT = ['data', 'public/assets/img/site'];
+    private const ETAT_VIVANT = ['data', 'public/assets/img/site', 'public/assets/img/realisations'];
 
     private const DELAI = 120;
 

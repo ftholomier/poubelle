@@ -1,0 +1,50 @@
+{
+  "titre": "Questions fréquentes",
+  "meta": {
+    "description": "Autorisation d'urbanisme, étanchéité des lames, tenue au vent, fermetures latérales, coloris, zone d'intervention : les questions qu'on nous pose le plus souvent sur les pergolas et les carports."
+  },
+  "hero": {
+    "image": "assets/img/site/pergola-store-zip.jpg",
+    "surtitre": "Questions fréquentes",
+    "titre": "Ce qu'on nous demande le plus souvent",
+    "texte": "Dimensions, étanchéité, urbanisme, délais, coloris : voici les réponses aux questions qui reviennent à chaque premier rendez-vous."
+  },
+  "faq": {
+    "surtitre": "Questions fréquentes",
+    "titre": "Ce qu'on nous demande le plus souvent",
+    "items": [
+      {
+        "question": "Quelle est la dimension maximale d'une pergola ou d'un carport ?",
+        "reponse": "Jusqu'à 7 m de longueur sur 5 m de profondeur en un seul module pour la pergola, 6,96 m sur 5 m pour le carport — sans poteau intermédiaire. Au-delà, on assemble plusieurs modules. Tout est réalisé sur mesure aux cotes relevées chez vous."
+      },
+      {
+        "question": "Une pergola à lames orientables est-elle étanche ?",
+        "reponse": "Lames fermées, elle protège du soleil, de la pluie et du vent. L'eau est reprise par la gouttière intégrée périphérique et descend à l'intérieur des poteaux de 130 × 130 mm. Si vous cherchez une couverture permanente et isolée, sans manœuvre, c'est la toiture fixe en panneau isotoit 63 mm qu'il faut choisir."
+      },
+      {
+        "question": "Jusqu'à quel vent la structure tient-elle ?",
+        "reponse": "La tenue au vent est testée jusqu'à 180 km/h. C'est un résultat d'essai, pas une estimation. Les profils sont garantis 10 ans et la motorisation Somfy 5 ans."
+      },
+      {
+        "question": "Peut-on fermer les côtés ?",
+        "reponse": "Oui, de plusieurs façons : store zip intégré dans le bandeau — sans hauteur supplémentaire — ou store rapporté en coffre de 100 mm, avec motorisation Somfy, coulisses de 35 mm et toile Mermet ; claustra à lames ou à toile ; vitrage Doris. Sur le carport, on peut aussi poser des panneaux sandwich laqués ou des panneaux PVC effet claire-voie."
+      },
+      {
+        "question": "Faut-il une autorisation d'urbanisme ?",
+        "reponse": "Cela dépend de la surface créée et des règles de votre commune : au-delà de 5 m², une déclaration préalable de travaux est généralement nécessaire, et un permis de construire peut l'être au-delà de 20 m². Nous vous indiquons le régime applicable dès l'étude et nous fournissons les plans cotés à joindre au dossier."
+      },
+      {
+        "question": "Où intervenez-vous ?",
+        "reponse": "Dans le Doubs, le Territoire de Belfort, la Haute-Saône et le Jura, depuis nos ateliers de Vellevans, Belleherbe et Pugey."
+      },
+      {
+        "question": "Quelles couleurs sont possibles ?",
+        "reponse": "Le laquage est au choix, structure et lames. Pour la toiture bac acier du carport, les teintes standard sont les RAL 7016, 5008 et 8012. L'éclairage LED existe en blanc à variation ou en RVB."
+      }
+    ],
+    "relance": {
+      "titre": "Une question qui n'est pas là ?",
+      "texte": "Appelez-nous au 03 81 44 37 28. Nous préférons répondre précisément à une question précise plutôt que d'envoyer une documentation générale."
+    }
+  }
+}

@@ -164,34 +164,12 @@ $v    = static fn(string $cle): string => (string) ($valeurs[$cle] ?? '');
   </div>
 </section>
 
-<?php if (!empty($page['faq']['items'])): ?>
 <section class="section section--teinte">
   <div class="conteneur conteneur--etroit">
-    <div class="section__tete reveler">
-      <p class="surtitre"><?= e($page['faq']['surtitre']) ?></p>
-      <h2 class="titre-section"><?= e($page['faq']['titre']) ?></h2>
+    <div class="encadre reveler">
+      <h3><?= e(t('Une question avant de demander un devis ?')) ?></h3>
+      <p><?= e(t('Urbanisme, dimensions, étanchéité, délais, coloris : les questions qui reviennent le plus souvent ont leur page.')) ?></p>
+      <a class="btn btn--orange" href="<?= route('faq') ?>"><?= e(t('Voir les questions fréquentes')) ?></a>
     </div>
-
-    <div class="faq reveler">
-      <?php foreach ($page['faq']['items'] as $i => $question): ?>
-        <details class="faq__item"<?= $i === 0 ? ' open' : '' ?>>
-          <summary class="faq__question"><?= e($question['question']) ?></summary>
-          <div class="faq__reponse"><p><?= e($question['reponse']) ?></p></div>
-        </details>
-      <?php endforeach; ?>
-    </div>
-
-    <?php if (!empty($page['faq']['relance']['titre'])): ?>
-      <div class="encadre reveler">
-        <h3><?= e($page['faq']['relance']['titre']) ?></h3>
-        <p><?= e($page['faq']['relance']['texte']) ?></p>
-        <?php if ($tel !== ''): ?>
-          <a class="btn btn--orange" href="<?= e(tel_lien($tel)) ?>">
-            <?= e(t('Appeler le')) ?> <?= e($tel) ?>
-          </a>
-        <?php endif; ?>
-      </div>
-    <?php endif; ?>
   </div>
 </section>
-<?php endif; ?>

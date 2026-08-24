@@ -29,6 +29,7 @@ final class EditionController
         'pages/nos-services'    => 'Page « Nos services »',
         'pages/nos-valeurs'     => 'Page « Nos valeurs »',
         'pages/realisations'    => 'Page « Réalisations »',
+        'pages/faq'             => 'Page « Questions fréquentes »',
         'pages/contact'         => 'Page « Contact »',
         'pages/mentions-legales' => 'Mentions légales',
     ];
@@ -750,30 +751,60 @@ final class EditionController
             $c['formulaire']['objets'] = $objets;
         }
 
-        $c['faq']['surtitre'] = trim((string) ($_POST['faq_surtitre'] ?? ''));
-        $c['faq']['titre']    = trim((string) ($_POST['faq_titre'] ?? ''));
-        $c['faq']['relance']['titre'] = trim((string) ($_POST['faq_relance_titre'] ?? ''));
-        $c['faq']['relance']['texte'] = trim((string) ($_POST['faq_relance_texte'] ?? ''));
+        $this->content->save('pages/contact', $c);
+        Session::flash('succes', 'Page « Contact » enregistrée.');
+        return $this->rediriger('/admin/contact');
+    }
+
+    // ================================================================== faq
+
+    public function faq(): string
+    {
+        return $this->view->render('admin/faq', [
+            'page' => ['titre' => 'Questions fréquentes'],
+            'faq'  => $this->content->load('pages/faq'),
+            'medias' => $this->mediatheque->lister(),
+        ], 'admin/layout');
+    }
+
+    public function faqEnvoi(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/faq');
+        }
+
+        $f = $this->content->load('pages/faq');
+
+        $f['meta']['description'] = trim((string) ($_POST['meta_description'] ?? ''));
+        $f['hero']['surtitre'] = trim((string) ($_POST['hero_surtitre'] ?? ''));
+        $f['hero']['titre']    = trim((string) ($_POST['hero_titre'] ?? $f['hero']['titre']));
+        $f['hero']['texte']    = trim((string) ($_POST['hero_texte'] ?? ''));
+        $f['hero']['image']    = $this->photoFacultative('hero_image', (string) ($f['hero']['image'] ?? ''));
+
+        $f['faq']['surtitre'] = trim((string) ($_POST['faq_surtitre'] ?? ''));
+        $f['faq']['titre']    = trim((string) ($_POST['faq_titre'] ?? ''));
+        $f['faq']['relance']['titre'] = trim((string) ($_POST['faq_relance_titre'] ?? ''));
+        $f['faq']['relance']['texte'] = trim((string) ($_POST['faq_relance_texte'] ?? ''));
 
         // Questions : une par bloc « question || réponse », séparés par une
         // ligne vide. Deux barres verticales, pour qu'une question contenant
         // un « | » ne soit pas coupée en deux.
-        $faq = [];
+        $questions = [];
         foreach (preg_split('/\R{2,}/', trim((string) ($_POST['faq_items'] ?? ''))) ?: [] as $bloc) {
             $p = array_map('trim', explode('||', $bloc, 2));
             if (($p[0] ?? '') === '' || ($p[1] ?? '') === '') {
                 continue;
             }
-            $faq[] = [
+            $questions[] = [
                 'question' => preg_replace('/\s+/', ' ', $p[0]) ?? '',
                 'reponse'  => preg_replace('/\s+/', ' ', $p[1]) ?? '',
             ];
         }
-        $c['faq']['items'] = $faq;
+        $f['faq']['items'] = $questions;
 
-        $this->content->save('pages/contact', $c);
-        Session::flash('succes', 'Page « Contact » enregistrée.');
-        return $this->rediriger('/admin/contact');
+        $this->content->save('pages/faq', $f);
+        Session::flash('succes', 'Page « Questions fréquentes » enregistrée.');
+        return $this->rediriger('/admin/faq');
     }
 
     // ==================================================== opérations de liste

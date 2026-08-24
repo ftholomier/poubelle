@@ -1754,3 +1754,142 @@ body.visionneuse-ouverte { overflow: hidden; }
   .visionneuse__nav--apres { right: 25%; }
   .visionneuse__cadre img { max-height: calc(100vh - 13rem); }
 }
+
+/* ==========================================================================
+   ASSISTANT DE DISCUSSION
+   ========================================================================== */
+
+.assistant {
+  position: fixed; right: clamp(1rem, 3vw, 1.8rem); bottom: clamp(1rem, 3vw, 1.8rem);
+  z-index: 250;
+  display: flex; flex-direction: column; align-items: flex-end; gap: .8rem;
+}
+
+.assistant__bulle {
+  display: inline-flex; align-items: center; gap: .65rem;
+  padding: .85rem 1.3rem .85rem 1.1rem;
+  border-radius: 99px;
+  background: var(--orange); color: var(--encre);
+  font-weight: 700; font-size: .93rem;
+  box-shadow: 0 6px 18px rgba(243, 146, 0, .3), 0 14px 40px rgba(26, 26, 26, .18);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.assistant__bulle:hover { transform: translateY(-2px); }
+/* Bulle de dialogue dessinée en CSS : ni image ni police d'icônes. */
+.assistant__bulle-icone {
+  position: relative; width: 20px; height: 16px; flex: 0 0 auto;
+  border: 2px solid currentColor; border-radius: 5px;
+}
+.assistant__bulle-icone::after {
+  content: ""; position: absolute; left: 3px; bottom: -6px;
+  border: 4px solid transparent; border-top-color: currentColor; border-bottom: 0;
+}
+.assistant--ouvert .assistant__bulle { display: none; }
+
+.assistant__panneau {
+  width: min(380px, calc(100vw - 2rem));
+  height: min(560px, calc(100vh - 6rem));
+  display: flex; flex-direction: column;
+  background: var(--fond);
+  border: 1px solid var(--ligne); border-radius: var(--rayon-carte);
+  box-shadow: 0 24px 70px rgba(26, 26, 26, .28);
+  overflow: hidden;
+}
+/* Une règle d'affichage explicite l'emporterait sur l'attribut hidden. */
+.assistant__panneau[hidden] { display: none; }
+
+.assistant__tete {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .95rem 1.1rem;
+  background: var(--encre);
+}
+.assistant__titre {
+  font-weight: 700; font-size: .95rem; color: var(--orange);
+  letter-spacing: .04em;
+}
+.assistant__fermer {
+  position: relative; width: 30px; height: 30px; border-radius: 50%; flex: 0 0 auto;
+  background: rgba(255, 255, 255, .1);
+  transition: background var(--transition);
+}
+.assistant__fermer:hover { background: var(--orange); }
+.assistant__fermer::before, .assistant__fermer::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 12px; height: 2px; margin: -1px 0 0 -6px; background: #fff;
+}
+.assistant__fermer::before { transform: rotate(45deg); }
+.assistant__fermer::after { transform: rotate(-45deg); }
+.assistant__fermer:hover::before, .assistant__fermer:hover::after { background: var(--encre); }
+
+.assistant__fil {
+  flex: 1; overflow-y: auto;
+  padding: 1.1rem; display: flex; flex-direction: column; gap: .7rem;
+  background: var(--fond-teinte);
+}
+.assistant__message {
+  max-width: 86%; padding: .7rem .95rem; border-radius: 14px;
+  font-size: .92rem; line-height: 1.6;
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.assistant__message--robot {
+  align-self: flex-start;
+  background: #fff; border: 1px solid var(--ligne); color: var(--texte);
+  border-bottom-left-radius: 4px;
+}
+.assistant__message--visiteur {
+  align-self: flex-end;
+  background: var(--encre); color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.assistant__message--erreur {
+  align-self: flex-start;
+  background: #fff; border: 1px solid var(--orange); color: var(--texte);
+}
+.assistant__message--attente { color: var(--texte-doux); letter-spacing: .2em; }
+
+.assistant__saisie {
+  display: flex; align-items: flex-end; gap: .6rem;
+  padding: .8rem; border-top: 1px solid var(--ligne);
+  background: var(--fond);
+}
+.assistant__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.assistant__saisie textarea {
+  flex: 1; resize: none; max-height: 120px;
+  padding: .65rem .8rem;
+  border: 1px solid var(--ligne); border-radius: 12px;
+  font: inherit; font-size: .93rem; color: var(--texte);
+  background: var(--fond-teinte);
+}
+.assistant__saisie textarea:focus { outline: 2px solid var(--orange); outline-offset: 1px; }
+.assistant__envoyer {
+  position: relative; flex: 0 0 auto;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--orange);
+  transition: background var(--transition), opacity var(--transition);
+}
+.assistant__envoyer:disabled { opacity: .5; }
+/* Flèche vers le haut, deux traits d'une même bordure pivotés. */
+.assistant__envoyer::before {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 10px; height: 10px; margin: -3px 0 0 -5px;
+  border-top: 2px solid var(--encre); border-left: 2px solid var(--encre);
+  transform: rotate(45deg);
+}
+.assistant__envoyer::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 2px; height: 14px; margin: -7px 0 0 -1px;
+  background: var(--encre);
+}
+
+.assistant__mention {
+  padding: 0 1.1rem .9rem;
+  font-size: .74rem; line-height: 1.5; color: var(--texte-doux);
+  background: var(--fond);
+}
+
+@media (max-width: 520px) {
+  .assistant { right: .8rem; bottom: .8rem; left: .8rem; align-items: stretch; }
+  .assistant__bulle { align-self: flex-end; }
+  .assistant__panneau { width: 100%; height: min(72vh, 560px); }
+}
+@media print { .assistant { display: none !important; } }

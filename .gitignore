@@ -5,3 +5,6 @@ data/admin/
 .DS_Store
 *.tmp
 storage/deploiements/
+data/assistant/documents/*
+!data/assistant/documents/.gitkeep
+data/assistant/notes.html

@@ -57,6 +57,13 @@ final class PageController
         ]);
     }
 
+    public function faq(): string
+    {
+        return $this->rendre('faq', 'faq', [
+            'page' => $this->page('faq'),
+        ]);
+    }
+
     public function realisations(): string
     {
         $items = $this->content->publies('realisations');

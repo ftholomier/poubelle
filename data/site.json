@@ -48,10 +48,6 @@
     },
     "menu": [
         {
-            "libelle": "Accueil",
-            "url": "/"
-        },
-        {
             "libelle": "Pergolas & carports",
             "url": "/pergolas-carports",
             "sous_menu": []
@@ -67,6 +63,10 @@
         {
             "libelle": "La société",
             "url": "/la-societe"
+        },
+        {
+            "libelle": "FAQ",
+            "url": "/faq"
         },
         {
             "libelle": "Devis",

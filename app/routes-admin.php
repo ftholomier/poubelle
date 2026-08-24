@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 use App\Admin\AdminController;
 use App\Admin\ApparenceController;
+use App\Admin\AssistantController;
 use App\Admin\AvisController;
 use App\Admin\EditionController;
 use App\Admin\LangueController;
@@ -50,6 +51,7 @@ $refer   = new SeoController($view, $content, $seo, $mediatheque);
 $reglage = new ParametreController($view, $parametres, $content, $auth, $mailer, $config['paths']['root'], $config['paths']['public']);
 $apparence = new ApparenceController($view, $parametres);
 $ctrlAvis  = new AvisController($view, $avis, $parametres);
+$ctrlIa    = new AssistantController($view, $assistant, $parametres);
 
 $view->share('auth', $auth);
 
@@ -108,6 +110,10 @@ $router->post('/admin/valeurs/{slug}/publication', $protege(fn(array $p) => $edi
 $router->post('/admin/valeurs/{slug}/ordre',       $protege(fn(array $p) => $edition->valeurOrdre($p['slug'])));
 $router->post('/admin/valeurs/{slug}/supprimer',   $protege(fn(array $p) => $edition->valeurSupprimer($p['slug'])));
 
+// --- questions fréquentes -------------------------------------------------
+$router->get('/admin/faq',  $protege(fn() => $edition->faq()));
+$router->post('/admin/faq', $protege(fn() => $edition->faqEnvoi()));
+
 // --- réalisations ---------------------------------------------------------
 $router->get('/admin/realisations',               $protege(fn() => $edition->realisations()));
 $router->post('/admin/realisations',              $protege(fn() => $edition->realisationsEnvoi()));
@@ -133,6 +139,15 @@ $router->get('/admin/avis',             $protege(fn() => $ctrlAvis->ecran()));
 $router->post('/admin/avis',            $protege(fn() => $ctrlAvis->envoi()));
 $router->post('/admin/avis/actualiser', $protege(fn() => $ctrlAvis->actualiser()));
 $router->post('/admin/avis/rechercher', $protege(fn() => $ctrlAvis->rechercher()));
+
+// --- assistant IA ---------------------------------------------------------
+$router->get('/admin/assistant',                  $protege(fn() => $ctrlIa->ecran()));
+$router->post('/admin/assistant',                 $protege(fn() => $ctrlIa->envoi()));
+$router->post('/admin/assistant/modeles',         $protege(fn() => $ctrlIa->modeles()));
+$router->post('/admin/assistant/notes',           $protege(fn() => $ctrlIa->notes()));
+$router->post('/admin/assistant/documents',       $protege(fn() => $ctrlIa->documentAjout()));
+$router->post('/admin/assistant/documents/retirer', $protege(fn() => $ctrlIa->documentSuppression()));
+$router->post('/admin/assistant/essai',           $protege(fn() => $ctrlIa->essai()));
 
 // --- réglages techniques --------------------------------------------------
 $router->get('/admin/parametres',             $protege(fn() => $reglage->ecran()));

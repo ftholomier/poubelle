@@ -19,12 +19,14 @@ $menu = [
   ['/admin/accueil',       'Page d’accueil'],
   ['/admin/societe',       'La société'],
   ['/admin/realisations',  'Réalisations'],
+  ['/admin/faq',           'Questions fréquentes'],
   ['/admin/services',      'Services'],
   ['/admin/valeurs',       'Valeurs'],
   ['/admin/contact',       'Contact'],
   ['/admin/photos',        'Photos'],
   ['/admin/apparence',     'Apparence'],
   ['/admin/avis',          'Avis Google'],
+  ['/admin/assistant',     'Assistant IA'],
   ['/admin/referencement', 'Référencement'],
   ['/admin/langues',       'Langues'],
   ['/admin/avance',        'Éditeur avancé'],
@@ -46,7 +48,7 @@ $menu = [
 <div class="bo-cadre">
   <aside class="bo-lateral">
     <a class="bo-lateral__logo" href="<?= url('/admin') ?>">
-      <img src="<?= asset('assets/img/logo/logo-trehant-clair.png') ?>" alt="Menuiserie Tréhant — back-office">
+      <img src="<?= asset('assets/img/logo/logo-trehant.png') ?>" alt="Menuiserie Tréhant — back-office">
     </a>
     <nav class="bo-lateral__nav" aria-label="Navigation du back-office">
       <?php foreach ($menu as [$url, $libelle]):

@@ -47,11 +47,16 @@ En local : `php -S localhost:8080 -t public public/index.php`
 
 ## Pages
 
-`/` · `/pergolas-carports` (+ une page par gamme) · `/savoir-faire` ·
-`/la-societe` · `/contact` · `/mentions-legales`
+`/` · `/pergolas-carports` (+ une page par gamme) · `/realisations` ·
+`/savoir-faire` · `/la-societe` · `/faq` · `/contact` · `/mentions-legales`
 
 Les quatre gammes : pergola à lames orientables, pergola à toile rétractable,
 pergola à toiture fixe, carport.
+
+**Réalisations** — une galerie filtrable par catégorie, avec visionneuse au
+clavier. Les boutons de filtre se construisent à partir des catégories
+réellement saisies : aucune liste à tenir à jour dans le code. Sans
+JavaScript, la galerie s'affiche entière et les filtres restent cachés.
 
 Les adresses du site précédent sont redirigées en 301 : `/pergola-carport`
 mène à `/pergolas-carports`, `/pergola` à la pergola bioclimatique et
@@ -91,6 +96,7 @@ lisibilité, il suffit d'écrire `#f39200` dans ce jeton, en tête de
 | SIRET et hébergeur | Admin → Éditeur avancé → `pages/mentions-legales` |
 | Une photo de pergola à **toile rétractable** — aucune n'existe sur le site actuel, la fiche affiche pour l'instant une pergola à lames | Admin → Photos |
 | Fiche Google pour les avis | Admin → Avis Google |
+| Clé d'API Gemini, si l'assistant doit être activé | Admin → Assistant IA |
 | Réglages SMTP et destinataire du formulaire | Admin → Paramètres |
 
 Tant qu'une photo manque, le visuel « photo à venir » s'affiche à sa place :
@@ -157,6 +163,41 @@ le français, jamais sur du vide.
 
 Le site public ne contacte aucun service extérieur — il lit les fichiers.
 
+## Assistant IA
+
+Une bulle de discussion, en bas à droite, adossée à l'API Gemini. Elle
+s'active depuis **Admin → Assistant IA** et disparaît entièrement du site
+quand elle est décochée — aucun code n'est alors envoyé au visiteur.
+
+**L'appel part du serveur, jamais du navigateur.** La clé d'API resterait
+sinon lisible dans le code de la page, et le visiteur ouvrirait une connexion
+vers Google — donc un traceur tiers à soumettre au consentement. Ici, le
+navigateur ne parle qu'à ce site, via `POST /api/assistant`.
+
+**Le modèle ne répond que sur trois sources**, et rien n'est laissé à ses
+connaissances générales :
+
+| Source | Où | Comment elle est lue |
+|---|---|---|
+| Le contenu du site | `data/*.json` | aplati en texte, sans les chemins d'images ni les clés techniques |
+| Des documents | `data/assistant/documents/` (hors racine web) | PDF envoyés tels quels au modèle, `.docx` extrait via ZipArchive, `.txt` / `.md` bruts |
+| Des notes | éditeur riche du back-office | balisage filtré à l'enregistrement |
+
+Trois garde-fous s'y emploient : le corpus est passé en entier dans la
+requête, la consigne système l'interdit explicitement, et **aucun outil n'est
+déclaré** — le modèle n'a ni recherche web ni exécution de code. À défaut de
+réponse dans les sources, il répond « je n'ai pas cette information » et
+renvoie vers le téléphone.
+
+La **liste des modèles est interrogée chez Google**, pas écrite en dur : les
+nouveaux modèles y apparaissent d'eux-mêmes, sans mise à jour du code. Elle
+est mise en cache 24 h, et un échec est mis au repos 30 min — une clé révoquée
+ne ralentit donc pas le back-office à chaque affichage.
+
+Garde-fous d'usage : 800 caractères par question, 30 questions par session et
+par heure, jeton CSRF vérifié sur chaque appel. L'écran d'administration
+permet de poser une question d'essai avant d'activer la bulle.
+
 ## Correspondance des noms internes
 
 Le socle nomme ses deux collections `services` et `valeurs`. Elles portent ici
@@ -172,7 +213,11 @@ risque d'attraper au passage les `valeur` du code PHP ordinaire.
 | `services` | Les gammes de pergolas et carports | `/pergolas-carports` |
 | `valeurs` | Les engagements du savoir-faire | `/savoir-faire` |
 | `la-societe` | La page société | `/la-societe` |
+| `realisations` | La galerie de chantiers | `/realisations` |
 
 ## API JSON (lecture)
 
-`/api/services`, `/api/services/{slug}`, `/api/valeurs`
+`/api/services`, `/api/services/{slug}`, `/api/valeurs`, `/api/realisations`
+
+`POST /api/assistant` répond à une question de l'assistant. Jeton CSRF exigé,
+dans le corps JSON (`_csrf`) ou dans l'en-tête `X-CSRF-Token`.
