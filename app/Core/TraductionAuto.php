@@ -170,12 +170,15 @@ final class TraductionAuto
      */
     private function viaDeepL(array $textes, string $vers, string $depuis): array
     {
-        $champs = [
-            'auth_key'    => $this->cleDeepL,
+        // la clé voyage en en-tête plutôt qu'en paramètre : certains
+        // pare-feux d'hébergement bloquent les corps de requête qui portent
+        // quelque chose ressemblant à un identifiant
+        $entetes = ['Authorization: DeepL-Auth-Key ' . $this->cleDeepL];
+
+        $corps = http_build_query([
             'source_lang' => strtoupper($depuis),
             'target_lang' => strtoupper($vers),
-        ];
-        $corps = http_build_query($champs);
+        ]);
         foreach ($textes as $texte) {
             $corps .= '&text=' . rawurlencode($texte);
         }
@@ -188,7 +191,7 @@ final class TraductionAuto
         $refus   = null;
         foreach ($serveurs as $url) {
             try {
-                $reponse = $this->appeler($url, $corps);
+                $reponse = $this->appeler($url, $corps, $entetes);
                 break;
             } catch (RuntimeException $e) {
                 $refus = $e;
@@ -274,7 +277,10 @@ final class TraductionAuto
         return $traduits;
     }
 
-    private function appeler(string $url, ?string $corpsEnvoye = null): string
+    /**
+     * @param string[] $entetes
+     */
+    private function appeler(string $url, ?string $corpsEnvoye = null, array $entetes = []): string
     {
         if (function_exists('curl_init')) {
             $ch = curl_init($url);
@@ -288,6 +294,9 @@ final class TraductionAuto
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $corpsEnvoye);
             }
+            if ($entetes !== []) {
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $entetes);
+            }
             $corps = curl_exec($ch);
             $code  = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
             $souci = curl_error($ch);
@@ -297,16 +306,19 @@ final class TraductionAuto
                 throw new RuntimeException($souci !== '' ? $souci : 'Réponse vide (HTTP ' . $code . ').');
             }
             if ($code >= 400) {
-                throw new RuntimeException($this->expliquer($code));
+                throw new RuntimeException($this->expliquer($code, $corps));
             }
             return $corps;
         }
 
-        $entetes = "User-Agent: Mozilla/5.0 (compatible; MenuiserieTrehant/1.0)\r\n";
-        $options = ['timeout' => self::DELAI, 'header' => $entetes];
+        $lignes = "User-Agent: Mozilla/5.0 (compatible; MenuiserieTrehant/1.0)\r\n";
+        foreach ($entetes as $entete) {
+            $lignes .= $entete . "\r\n";
+        }
+        $options = ['timeout' => self::DELAI, 'header' => $lignes];
         if ($corpsEnvoye !== null) {
             $options['method']  = 'POST';
-            $options['header']  = $entetes . "Content-Type: application/x-www-form-urlencoded\r\n";
+            $options['header']  = $lignes . "Content-Type: application/x-www-form-urlencoded\r\n";
             $options['content'] = $corpsEnvoye;
         }
         $contexte = stream_context_create(['http' => $options]);
@@ -321,17 +333,48 @@ final class TraductionAuto
     /**
      * Les codes que l'on rencontre vraiment ici appellent chacun une action
      * différente de l'utilisateur : le seul numéro ne le lui dit pas.
+     *
+     * Un même code peut venir du service ou d'un intermédiaire du réseau —
+     * le refus d'une clé et le blocage par un pare-feu d'hébergement se
+     * répondent tous deux 403. Ce qui les sépare est dans le corps de la
+     * réponse : le service se justifie en JSON, l'intermédiaire renvoie une
+     * page d'erreur. Il est donc rapporté tel quel plutôt qu'interprété.
      */
-    private function expliquer(int $code): string
+    private function expliquer(int $code, string $corps): string
     {
-        return match ($code) {
-            401, 403 => 'clé refusée (HTTP ' . $code . ') — recopiez la clé DeepL en entier, '
-                      . 'sans espace avant ni après, et vérifiez que le compte est bien activé.',
+        $dit = $this->citer($corps);
+
+        $lecture = match ($code) {
+            401, 403 => 'refus (HTTP ' . $code . ')',
             429      => 'quota momentanément épuisé (HTTP 429) — sans clé, ce quota est '
                       . 'compté par adresse IP et partagé avec les autres sites de '
-                      . 'l’hébergement.',
-            456      => 'quota DeepL du mois épuisé (HTTP 456).',
-            default  => 'le service a répondu HTTP ' . $code . '.',
+                      . 'l’hébergement',
+            456      => 'quota DeepL du mois épuisé (HTTP 456)',
+            default  => 'le service a répondu HTTP ' . $code,
         };
+
+        return $lecture . ($dit !== '' ? ' ; réponse : ' . $dit : '') . '.';
+    }
+
+    /**
+     * Ce que le serveur a répondu, ramené à une ligne lisible dans un
+     * bandeau : le message JSON s'il y en a un, sinon le texte de la page
+     * d'erreur débarrassé de son balisage.
+     */
+    private function citer(string $corps): string
+    {
+        $json = json_decode($corps, true);
+        if (is_array($json)) {
+            $message = $json['message'] ?? $json['error'] ?? null;
+            if (is_string($message) && $message !== '') {
+                return $message;
+            }
+        }
+
+        // strip_tags laisse le contenu des styles et des scripts, illisible ici
+        $sansCode = preg_replace('#<(style|script)\b[^>]*>.*?</\1>#is', ' ', $corps) ?? $corps;
+        $texte = trim(preg_replace('/\s+/u', ' ', strip_tags($sansCode)) ?? '');
+
+        return mb_strlen($texte) > 160 ? mb_substr($texte, 0, 160) . '…' : $texte;
     }
 }
