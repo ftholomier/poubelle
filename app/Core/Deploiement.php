@@ -20,6 +20,10 @@ final class Deploiement
      *
      * data/.htaccess et storage/.htaccess y figurent : ce sont des fichiers
      * de sécurité, pas du contenu.
+     *
+     * data-modele/ est le contenu livré avec le code, jamais celui du client :
+     * il n'est recopié dans data/ que pour un fichier qui n'y existe pas
+     * encore, si bien que le remplacer ne défait rien.
      */
     private const CODE = [
         'app',
@@ -32,6 +36,7 @@ final class Deploiement
         'public/assets/fonts',
         'public/assets/img/logo',
         'public/assets/img/ui',
+        'data-modele',
         'data/.htaccess',
         'data/assistant/.htaccess',
         'storage/.htaccess',

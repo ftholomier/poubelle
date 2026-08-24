@@ -9,3 +9,7 @@ data/assistant/documents/*
 !data/assistant/documents/.gitkeep
 data/assistant/notes.html
 paquet-maj/
+
+# le contenu vivant appartient au serveur ; le depot ne porte que data-modele/
+data/*.json
+data/pages/

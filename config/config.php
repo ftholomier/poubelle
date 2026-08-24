@@ -26,6 +26,8 @@ return [
             'root'   => $racine,
             'app'    => $racine . '/app',
             'data'   => $racine . '/data',
+            // contenu livré avec le code, recopié dans data/ à la première lecture
+            'modele' => $racine . '/data-modele',
             'views'  => $racine . '/views',
             'public' => $web,
             'cache'  => $racine . '/storage/cache',

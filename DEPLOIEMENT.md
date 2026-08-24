@@ -541,12 +541,19 @@ serveur. La règle tient en une phrase :
 
 > Le dépôt fait foi pour le code, le serveur fait foi pour le contenu.
 
+Cette règle n'est pas qu'une consigne : **le dépôt ne contient aucun fichier
+portant le même chemin que le contenu du client.** Le contenu livré vit dans
+`data-modele/`, et n'est recopié dans `data/` que pour un fichier qui n'y
+existe pas encore. Un transfert, même intégral et maladroit, ne peut donc
+pas écraser ce que le client a saisi : les photos du diaporama, les textes,
+les réalisations restent en place.
+
 ### À ne jamais écraser
 
 | Chemin | Contenu |
 |---|---|
 | `data/admin/` | Compte administrateur et mot de passe SMTP |
-| `data/*.json` et `data/pages/*.json` | Tout le contenu édité au back-office |
+| `data/*.json` et `data/pages/*.json` | Tout le contenu édité au back-office (absents du dépôt) |
 | `public/assets/img/site/` | Photos envoyées au back-office |
 | `storage/` | Sauvegardes de contenu et compteur anti-force-brute |
 

@@ -8,8 +8,14 @@ use RuntimeException;
 /**
  * Accès au contenu stocké en JSON dans /data (hors racine web).
  *
- * C'est la seule porte d'entrée vers le contenu : le futur back-office
- * écrira dans ces mêmes fichiers via save(), sans toucher aux gabarits.
+ * C'est la seule porte d'entrée vers le contenu : le back-office écrit dans
+ * ces mêmes fichiers via save(), sans toucher aux gabarits.
+ *
+ * Le contenu livré avec le code vit ailleurs, dans /data-modele, et n'est
+ * recopié dans /data qu'à défaut d'y trouver le fichier. C'est ce qui rend
+ * un transfert de code inoffensif : le dépôt ne contient aucun fichier
+ * portant le même chemin que le contenu du client, donc aucun transfert,
+ * même intégral et maladroit, ne peut l'écraser.
  */
 final class Content
 {
@@ -20,8 +26,10 @@ final class Content
 
     private string $langue = Langues::SOURCE;
 
-    public function __construct(private readonly string $dir)
-    {
+    public function __construct(
+        private readonly string $dir,
+        private readonly string $dirModele = '',
+    ) {
     }
 
     /**
@@ -55,7 +63,7 @@ final class Content
 
         $file = $this->path($name);
         if (!is_file($file)) {
-            throw new RuntimeException("Contenu introuvable : {$name}.json");
+            $file = $this->amorcer($name);
         }
 
         $raw = file_get_contents($file);
@@ -270,6 +278,29 @@ final class Content
     private function dossierSauvegardes(): string
     {
         return dirname($this->dir) . '/storage/sauvegardes';
+    }
+
+    /**
+     * Première lecture d'un contenu jamais édité : on le recopie depuis le
+     * modèle livré, puis on lit la copie. Si /data n'est pas inscriptible,
+     * on sert le modèle tel quel plutôt que de refuser la page — le
+     * diagnostic des droits, lui, est l'affaire de l'écran Paramètres.
+     */
+    private function amorcer(string $name): string
+    {
+        $modele = $this->dirModele === '' ? '' : $this->dirModele . '/' . $name . '.json';
+        if ($modele === '' || !is_file($modele)) {
+            throw new RuntimeException("Contenu introuvable : {$name}.json");
+        }
+
+        $file = $this->path($name);
+        @mkdir(dirname($file), Permissions::DOSSIER, true);
+        if (@copy($modele, $file)) {
+            @chmod($file, Permissions::FICHIER);
+            return $file;
+        }
+
+        return $modele;
     }
 
     private function path(string $name): string

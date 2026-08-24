@@ -35,7 +35,7 @@ use App\Core\Content;
 use App\Core\Router;
 use App\Core\View;
 
-$content = new Content($config['paths']['data']);
+$content = new Content($config['paths']['data'], $config['paths']['modele']);
 $view    = new View($config['paths']['views']);
 
 $view->share('config', $config);
