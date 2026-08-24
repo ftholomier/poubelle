@@ -57,6 +57,29 @@ final class PageController
         ]);
     }
 
+    public function realisations(): string
+    {
+        $items = $this->content->publies('realisations');
+
+        // Les filtres se déduisent des fiches publiées : une catégorie saisie
+        // dans le back-office apparaît d'elle-même, une catégorie vidée de ses
+        // photos disparaît. Rien à tenir à jour ailleurs.
+        $categories = [];
+        foreach ($items as $item) {
+            $categorie = trim((string) ($item['categorie'] ?? ''));
+            if ($categorie !== '' && !in_array($categorie, $categories, true)) {
+                $categories[] = $categorie;
+            }
+        }
+
+        return $this->rendre('realisations', 'realisations', [
+            'page'       => $this->page('realisations'),
+            'items'      => $items,
+            'categories' => $categories,
+            'collection' => $this->content->load('realisations'),
+        ]);
+    }
+
     public function services(): string
     {
         return $this->rendre('services', 'nos-services', [

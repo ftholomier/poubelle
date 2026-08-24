@@ -23,10 +23,12 @@ final class EditionController
         'site'                  => 'Coordonnées et menu',
         'services'              => 'Services',
         'valeurs'               => 'Valeurs',
+        'realisations'          => 'Réalisations',
         'pages/accueil'         => 'Page d’accueil',
         'pages/la-societe'      => 'Page « La société »',
         'pages/nos-services'    => 'Page « Nos services »',
         'pages/nos-valeurs'     => 'Page « Nos valeurs »',
+        'pages/realisations'    => 'Page « Réalisations »',
         'pages/contact'         => 'Page « Contact »',
         'pages/mentions-legales' => 'Mentions légales',
     ];
@@ -602,6 +604,108 @@ final class EditionController
         $this->content->save('pages/nos-valeurs', $p);
         Session::flash('succes', 'En-tête de la page « Nos valeurs » enregistré.');
         return $this->rediriger('/admin/valeurs');
+    }
+
+    // ========================================================= réalisations
+
+    public function realisations(): string
+    {
+        return $this->view->render('admin/realisations', [
+            'page'      => ['titre' => 'Réalisations'],
+            'galerie'   => $this->content->load('realisations'),
+            'pageIntro' => $this->content->load('pages/realisations'),
+            'medias'    => $this->mediatheque->lister(),
+        ], 'admin/layout');
+    }
+
+    public function realisationCreer(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/realisations');
+        }
+
+        $nom = trim((string) ($_POST['nom'] ?? ''));
+        if ($nom === '') {
+            Session::flash('erreur', 'Donnez un nom à la réalisation.');
+            return $this->rediriger('/admin/realisations');
+        }
+
+        $galerie = $this->content->load('realisations');
+        $slug = self::slugUnique($nom, array_column($galerie['items'], 'slug'));
+
+        $galerie['items'][] = [
+            'slug' => $slug, 'nom' => $nom,
+            'categorie' => trim((string) ($_POST['categorie'] ?? '')),
+            'actif' => false, 'image' => '', 'legende' => '',
+        ];
+        $this->content->save('realisations', $galerie);
+
+        Session::flash('succes', 'Réalisation créée. Ajoutez sa photo, puis publiez-la.');
+        return $this->rediriger('/admin/realisations');
+    }
+
+    public function realisationsEnvoi(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/realisations');
+        }
+
+        $galerie = $this->content->load('realisations');
+
+        foreach ($galerie['items'] as $i => $item) {
+            $slug = (string) $item['slug'];
+            $galerie['items'][$i]['nom'] = trim((string) ($_POST['nom_' . $slug] ?? $item['nom']));
+            // La catégorie est une simple chaîne : les filtres de la page
+            // publique se construisent à partir des valeurs réellement
+            // saisies, il n'y a donc aucune liste à tenir à jour ailleurs.
+            $galerie['items'][$i]['categorie'] = trim((string) ($_POST['categorie_' . $slug] ?? ''));
+            $galerie['items'][$i]['legende'] = trim((string) ($_POST['legende_' . $slug] ?? ''));
+            $galerie['items'][$i]['image'] = $this->photoFacultative(
+                'image_' . $slug,
+                (string) ($item['image'] ?? '')
+            );
+        }
+
+        $this->content->save('realisations', $galerie);
+        Session::flash('succes', 'Réalisations enregistrées.');
+        return $this->rediriger('/admin/realisations');
+    }
+
+    public function realisationPublication(string $slug): string
+    {
+        return $this->basculerFiche('realisations', $slug, '/admin/realisations');
+    }
+
+    public function realisationOrdre(string $slug): string
+    {
+        return $this->deplacerFiche('realisations', $slug, '/admin/realisations');
+    }
+
+    public function realisationSupprimer(string $slug): string
+    {
+        return $this->supprimerFiche('realisations', $slug, '/admin/realisations');
+    }
+
+    public function realisationsIntroEnvoi(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/realisations');
+        }
+
+        $p = $this->content->load('pages/realisations');
+        $p['meta']['description'] = trim((string) ($_POST['meta_description'] ?? ''));
+        $p['hero']['surtitre'] = trim((string) ($_POST['hero_surtitre'] ?? ''));
+        $p['hero']['titre']    = trim((string) ($_POST['hero_titre'] ?? $p['hero']['titre']));
+        $p['hero']['texte']    = trim((string) ($_POST['hero_texte'] ?? ''));
+        $p['hero']['image']    = $this->photoFacultative('hero_image', (string) ($p['hero']['image'] ?? ''));
+
+        $galerie = $this->content->load('realisations');
+        $galerie['intro'] = trim((string) ($_POST['intro'] ?? ''));
+        $this->content->save('realisations', $galerie);
+
+        $this->content->save('pages/realisations', $p);
+        Session::flash('succes', 'En-tête de la page « Réalisations » enregistré.');
+        return $this->rediriger('/admin/realisations');
     }
 
     // ============================================================== contact

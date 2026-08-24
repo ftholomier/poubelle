@@ -108,6 +108,15 @@ $router->post('/admin/valeurs/{slug}/publication', $protege(fn(array $p) => $edi
 $router->post('/admin/valeurs/{slug}/ordre',       $protege(fn(array $p) => $edition->valeurOrdre($p['slug'])));
 $router->post('/admin/valeurs/{slug}/supprimer',   $protege(fn(array $p) => $edition->valeurSupprimer($p['slug'])));
 
+// --- réalisations ---------------------------------------------------------
+$router->get('/admin/realisations',               $protege(fn() => $edition->realisations()));
+$router->post('/admin/realisations',              $protege(fn() => $edition->realisationsEnvoi()));
+$router->post('/admin/realisations/entete',       $protege(fn() => $edition->realisationsIntroEnvoi()));
+$router->post('/admin/realisations/creer',        $protege(fn() => $edition->realisationCreer()));
+$router->post('/admin/realisations/{slug}/publication', $protege(fn(array $p) => $edition->realisationPublication($p['slug'])));
+$router->post('/admin/realisations/{slug}/ordre',       $protege(fn(array $p) => $edition->realisationOrdre($p['slug'])));
+$router->post('/admin/realisations/{slug}/supprimer',   $protege(fn(array $p) => $edition->realisationSupprimer($p['slug'])));
+
 $router->get('/admin/contact',  $protege(fn() => $edition->contact()));
 $router->post('/admin/contact', $protege(fn() => $edition->contactEnvoi()));
 

@@ -1630,3 +1630,127 @@ a.coordonnees__valeur:hover {
   .frise__annee { position: static; width: auto; text-align: left; margin-bottom: .2rem; }
   .frise__etape:not(.frise__etape--sans-date)::before { left: calc(-1.6rem - 4px); top: .6em; }
 }
+
+/* ==========================================================================
+   RÉALISATIONS — filtres et galerie
+   ========================================================================== */
+
+.filtres {
+  display: flex; flex-wrap: wrap; gap: .6rem;
+  margin: 2.2rem 0 2.4rem;
+}
+.filtres[hidden] { display: none; }
+/* Même langage que les sur-titres et les liens : pastille sombre, libellé
+   orange une fois choisie. */
+.filtres__bouton {
+  display: inline-flex; align-items: center; gap: .6rem;
+  padding: .6rem 1.1rem;
+  border: 1px solid var(--ligne); border-radius: 99px;
+  background: #fff; color: var(--texte);
+  font-size: .9rem; font-weight: 700;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+.filtres__bouton:hover { border-color: var(--encre); }
+.filtres__bouton[aria-pressed="true"] {
+  background: var(--encre); border-color: var(--encre); color: var(--orange);
+}
+.filtres__compte {
+  font-size: .74rem; font-weight: 700;
+  color: var(--texte-doux);
+  background: var(--fond-teinte);
+  padding: .1rem .45rem; border-radius: 99px;
+}
+.filtres__bouton[aria-pressed="true"] .filtres__compte {
+  background: rgba(255, 255, 255, .14); color: #fff;
+}
+
+.galerie {
+  list-style: none;
+  display: grid; gap: clamp(.8rem, 1.6vw, 1.2rem);
+  grid-template-columns: repeat(4, 1fr);
+}
+.galerie__item[hidden] { display: none; }
+.galerie__vignette {
+  display: block; width: 100%; position: relative;
+  border-radius: var(--rayon); overflow: hidden;
+  background: var(--fond-teinte);
+  cursor: zoom-in;
+}
+.galerie__vignette img {
+  display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+  transition: transform var(--transition);
+}
+.galerie__vignette:hover img { transform: scale(1.05); }
+.galerie__etiquette {
+  position: absolute; left: .6rem; bottom: .6rem;
+  font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--orange); background: var(--encre);
+  padding: .3rem .65rem; border-radius: 99px;
+}
+.galerie__vide { margin-top: 2rem; color: var(--texte-doux); }
+.galerie__vide[hidden] { display: none; }
+
+@media (max-width: 900px) { .galerie { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 620px) { .galerie { grid-template-columns: repeat(2, 1fr); } }
+
+/* --- visionneuse --- */
+body.visionneuse-ouverte { overflow: hidden; }
+.visionneuse {
+  position: fixed; inset: 0; z-index: 300;
+  display: flex; align-items: center; justify-content: center;
+  gap: clamp(.5rem, 2vw, 1.5rem);
+  padding: clamp(1rem, 4vw, 3rem);
+  background: rgba(10, 10, 10, .93);
+}
+/* Une règle d'affichage explicite l'emporterait sur l'attribut hidden : il
+   faut le rétablir soi-même dans la portée concernée. */
+.visionneuse[hidden] { display: none; }
+.visionneuse__cadre {
+  max-width: min(1200px, 100%); max-height: 100%;
+  display: flex; flex-direction: column; gap: .9rem; align-items: center;
+}
+.visionneuse__cadre img {
+  max-width: 100%; max-height: calc(100vh - 9rem);
+  object-fit: contain; border-radius: var(--rayon);
+}
+.visionneuse__cadre figcaption {
+  color: rgba(255, 255, 255, .82); font-size: .92rem; text-align: center;
+}
+.visionneuse__fermer,
+.visionneuse__nav {
+  flex: 0 0 auto;
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .3);
+  background: rgba(255, 255, 255, .08);
+  position: relative;
+  transition: background var(--transition), border-color var(--transition);
+}
+.visionneuse__fermer:hover,
+.visionneuse__nav:hover { background: var(--orange); border-color: var(--orange); }
+.visionneuse__fermer { position: absolute; top: 1.2rem; right: 1.2rem; }
+/* Croix et chevrons dessinés en CSS : ni image ni police d'icônes. */
+.visionneuse__fermer::before,
+.visionneuse__fermer::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 16px; height: 2px; margin: -1px 0 0 -8px;
+  background: #fff;
+}
+.visionneuse__fermer::before { transform: rotate(45deg); }
+.visionneuse__fermer::after { transform: rotate(-45deg); }
+.visionneuse__fermer:hover::before,
+.visionneuse__fermer:hover::after { background: var(--encre); }
+.visionneuse__nav::before {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 11px; height: 11px; margin: -6px 0 0 -4px;
+  border-top: 2px solid #fff; border-right: 2px solid #fff;
+}
+.visionneuse__nav--avant::before { transform: rotate(-135deg); margin-left: -7px; }
+.visionneuse__nav--apres::before { transform: rotate(45deg); }
+.visionneuse__nav:hover::before { border-color: var(--encre); }
+
+@media (max-width: 720px) {
+  .visionneuse__nav { position: absolute; bottom: 1.4rem; }
+  .visionneuse__nav--avant { left: 25%; }
+  .visionneuse__nav--apres { right: 25%; }
+  .visionneuse__cadre img { max-height: calc(100vh - 13rem); }
+}

@@ -56,10 +56,12 @@ final class MediaController
             'site'                   => 'Coordonnées',
             'services'               => 'Services',
             'valeurs'                => 'Valeurs',
+            'realisations'           => 'Réalisations',
             'pages/accueil'          => 'Page d’accueil',
             'pages/la-societe'       => 'Page « La société »',
             'pages/nos-services'     => 'Page « Nos services »',
             'pages/nos-valeurs'      => 'Page « Nos valeurs »',
+            'pages/realisations'     => 'Page « Réalisations »',
             'pages/contact'          => 'Page « Contact »',
         ];
 

@@ -329,6 +329,111 @@
     relancer();
   })();
 
+
+  /* ---------- Galerie des réalisations : filtres et visionneuse ----------
+     Sa propre portée, comme chaque bloc de ce fichier : un « var » écrit ici
+     ne peut donc pas écraser celui d'une autre section. */
+  (function () {
+    var galerie = document.querySelector("[data-galerie]");
+    if (!galerie) return;
+
+    var fiches = [].slice.call(galerie.querySelectorAll(".galerie__item"));
+    var vide = document.querySelector("[data-galerie-vide]");
+
+    /* --- filtres --- */
+    var barre = document.querySelector("[data-filtres]");
+    if (barre) {
+      // les boutons ne servent à rien sans script : ils restent cachés tant
+      // que celui-ci n'a pas pris la main
+      barre.hidden = false;
+
+      var boutons = [].slice.call(barre.querySelectorAll("[data-filtre]"));
+      boutons.forEach(function (bouton) {
+        bouton.addEventListener("click", function () {
+          var choix = bouton.getAttribute("data-filtre");
+          var restants = 0;
+
+          fiches.forEach(function (fiche) {
+            var garde = choix === "" || fiche.getAttribute("data-categorie") === choix;
+            fiche.hidden = !garde;
+            if (garde) restants++;
+          });
+
+          boutons.forEach(function (b) {
+            b.setAttribute("aria-pressed", b === bouton ? "true" : "false");
+          });
+          if (vide) vide.hidden = restants > 0;
+        });
+      });
+    }
+
+    /* --- visionneuse --- */
+    var boite = document.querySelector("[data-visionneuse-boite]");
+    if (!boite) return;
+
+    var image = boite.querySelector("[data-visionneuse-image]");
+    var legende = boite.querySelector("[data-visionneuse-legende]");
+    var rang = 0;
+    var appelant = null;
+
+    /** Les vignettes visibles seulement : la navigation suit le filtre actif. */
+    function visibles() {
+      return fiches.filter(function (f) { return !f.hidden; })
+                   .map(function (f) { return f.querySelector("[data-visionneuse]"); });
+    }
+
+    function montrer(i) {
+      var liste = visibles();
+      if (!liste.length) return;
+      rang = (i + liste.length) % liste.length;
+      var v = liste[rang];
+      image.src = v.getAttribute("data-visionneuse");
+      image.alt = v.getAttribute("data-legende") || "";
+      legende.textContent = v.getAttribute("data-legende") || "";
+    }
+
+    function ouvrir(v) {
+      appelant = v;
+      montrer(visibles().indexOf(v));
+      boite.hidden = false;
+      corps.classList.add("visionneuse-ouverte");
+      boite.querySelector("[data-visionneuse-fermer]").focus();
+    }
+
+    function fermer() {
+      boite.hidden = true;
+      corps.classList.remove("visionneuse-ouverte");
+      // l'image est relâchée : une photo pleine taille n'a pas à rester en
+      // mémoire une fois la visionneuse refermée
+      image.removeAttribute("src");
+      if (appelant) appelant.focus();
+    }
+
+    galerie.addEventListener("click", function (e) {
+      var v = e.target.closest ? e.target.closest("[data-visionneuse]") : null;
+      if (v) ouvrir(v);
+    });
+
+    boite.querySelector("[data-visionneuse-fermer]").addEventListener("click", fermer);
+    boite.querySelector("[data-visionneuse-avant]").addEventListener("click", function () { montrer(rang - 1); });
+    boite.querySelector("[data-visionneuse-apres]").addEventListener("click", function () { montrer(rang + 1); });
+    boite.addEventListener("click", function (e) { if (e.target === boite) fermer(); });
+
+    document.addEventListener("keydown", function (e) {
+      if (boite.hidden) return;
+      if (e.key === "Escape") fermer();
+      else if (e.key === "ArrowLeft") montrer(rang - 1);
+      else if (e.key === "ArrowRight") montrer(rang + 1);
+      else if (e.key === "Tab") {
+        // le clavier reste enfermé dans la visionneuse tant qu'elle est ouverte
+        var f = [].slice.call(boite.querySelectorAll("button"));
+        var premier = f[0], dernier = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === premier) { e.preventDefault(); dernier.focus(); }
+        else if (!e.shiftKey && document.activeElement === dernier) { e.preventDefault(); premier.focus(); }
+      }
+    });
+  })();
+
   /* ---------- Consentement aux cookies ----------
      Rien n'est déposé ni chargé avant un choix explicite. Les scripts et
      contenus soumis à consentement sont écrits en <script type="text/plain">

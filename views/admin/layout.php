@@ -18,6 +18,7 @@ $menu = [
   ['/admin/site',          'Coordonnées & menu'],
   ['/admin/accueil',       'Page d’accueil'],
   ['/admin/societe',       'La société'],
+  ['/admin/realisations',  'Réalisations'],
   ['/admin/services',      'Services'],
   ['/admin/valeurs',       'Valeurs'],
   ['/admin/contact',       'Contact'],

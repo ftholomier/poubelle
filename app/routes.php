@@ -65,6 +65,7 @@ $c = static fn(string $cle): string => $seo->cheminSource($cle);
 $router->get($c('accueil'),          fn() => $pages->accueil());
 $router->get($c('la-societe'),       fn() => $pages->laSociete());
 $router->get($c('nos-valeurs'),      fn() => $pages->valeurs());
+$router->get($c('realisations'),     fn() => $pages->realisations());
 $router->get($c('mentions-legales'), fn() => $pages->simple('mentions-legales'));
 
 // --- services ------------------------------------------------------------
@@ -95,6 +96,7 @@ $redirections = $seo->redirections() + [
     '/carport'         => '/pergolas-carports/carport',
     '/nos-services'    => '/pergolas-carports',
     '/nos-valeurs'     => '/savoir-faire',
+    '/nos-realisations' => '/realisations',
     '/a-propos'        => '/la-societe',
     '/accueil'         => '/',
 ];
@@ -115,6 +117,7 @@ foreach ($redirections as $ancienne => $nouvelle) {
 $router->get('/api/services',        fn() => $api->collection('services'));
 $router->get('/api/services/{slug}', fn(array $p) => $api->item('services', $p['slug']));
 $router->get('/api/valeurs',         fn() => $api->collection('valeurs'));
+$router->get('/api/realisations',    fn() => $api->collection('realisations'));
 
 // --- back-office ---------------------------------------------------------
 require __DIR__ . '/routes-admin.php';

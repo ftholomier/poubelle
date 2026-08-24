@@ -24,6 +24,7 @@ final class Seo
         'la-societe'       => ['slug' => 'la-societe',       'nom' => 'La société Tréhant'],
         'nos-services'     => ['slug' => 'pergolas-carports', 'nom' => 'Pergolas & carports'],
         'nos-valeurs'      => ['slug' => 'savoir-faire',     'nom' => 'Notre savoir-faire'],
+        'realisations'     => ['slug' => 'realisations',     'nom' => 'Réalisations'],
         'contact'          => ['slug' => 'contact',          'nom' => 'Contact'],
         'mentions-legales' => ['slug' => 'mentions-legales', 'nom' => 'Mentions légales'],
     ];
@@ -65,8 +66,8 @@ final class Seo
 
     /** Fichiers de contenu susceptibles de contenir des liens internes. */
     private const CONTENUS = [
-        'site', 'services', 'valeurs',
-        'pages/accueil', 'pages/la-societe', 'pages/nos-services',
+        'site', 'services', 'valeurs', 'realisations',
+        'pages/accueil', 'pages/la-societe', 'pages/nos-services', 'pages/realisations',
         'pages/nos-valeurs', 'pages/contact', 'pages/mentions-legales',
     ];
 
