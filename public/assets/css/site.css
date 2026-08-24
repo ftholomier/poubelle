@@ -329,18 +329,21 @@ p + p { margin-top: 1.05rem; }
    capitales, sa baseline dessous, et le monogramme orange isolé. Le nom est
    composé en typographie plutôt qu'en image pour rester net à toute taille
    et se laisser traduire. */
+/* Les deux lignes forment un seul bloc : c'est leur interligne, plus que
+   l'écart déclaré, qui les éloignait — chaque ligne portait la hauteur de
+   ligne du corps de texte. */
 .entete__mots {
-  display: flex; flex-direction: column; gap: .18rem;
+  display: flex; flex-direction: column; gap: 0;
   margin-right: auto;
   color: #000;
 }
 .entete__nom {
-  font-size: 1rem; font-weight: 800;
+  font-size: 1rem; font-weight: 800; line-height: 1.05;
   letter-spacing: .16em; text-transform: uppercase;
   white-space: nowrap;
 }
 .entete__baseline {
-  font-size: .62rem; font-weight: 700;
+  font-size: .62rem; font-weight: 700; line-height: 1.1;
   letter-spacing: .2em; text-transform: uppercase;
   white-space: nowrap;
 }
@@ -634,27 +637,40 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .74s; }
 
 /* --------------------------------------------------------------- diaporama
 
-   Le fondu et le zoom sont portés par deux propriétés séparées — opacité et
-   transformation — que le navigateur compose sans repasser par la mise en
-   page : c'est ce qui évite le à-coup au changement de vue. La vue sortante
-   garde son zoom pendant tout le fondu ; elle n'est remise à zéro qu'une fois
-   devenue invisible, sinon le retour à l'échelle 1 se verrait par transparence.
+   Le fondu et le mouvement sont portés par deux propriétés séparées —
+   opacité et transformation — que le navigateur compose sans repasser par la
+   mise en page : c'est ce qui évite l'à-coup au changement de vue. La vue
+   sortante garde son mouvement pendant tout le fondu ; elle n'est remise à
+   zéro qu'une fois devenue invisible, sinon le retour à l'échelle 1 se
+   verrait par transparence.
 
-   Le zoom dure plus longtemps que la pause : une animation qui s'achève avant
-   le changement donnerait l'impression que l'image s'immobilise. */
+   Le mouvement dure plus longtemps que la pause : une animation qui s'achève
+   avant le changement donnerait l'impression que l'image s'immobilise.
+
+   Une vue sur deux se rapproche, l'autre s'éloigne. Pendant le fondu les
+   deux dérivent donc en sens contraire, ce qui donne la profondeur ; toutes
+   dans le même sens, le changement se lisait comme un retour en arrière. */
 .heros__fond--diaporama .heros__photo {
   opacity: 0;
   transform: scale(1.005);
-  transition: opacity var(--fondu, 1.4s) cubic-bezier(.4, 0, .2, 1);
+  transition: opacity var(--fondu, 1.8s) cubic-bezier(.45, 0, .3, 1);
   will-change: opacity, transform;
+  backface-visibility: hidden;
 }
 .heros__fond--diaporama .heros__photo.est-visible { opacity: 1; }
-.heros__fond--diaporama .heros__photo.est-visible.se-rapproche {
-  animation: derive calc(var(--pause, 6s) + var(--fondu, 1.4s) + 1s) linear forwards;
+.heros__fond--diaporama .heros__photo.se-rapproche {
+  animation: derive-avant calc(var(--pause, 6s) + var(--fondu, 1.8s) + 1.4s) linear forwards;
 }
-@keyframes derive {
-  from { transform: scale(1.005); }
-  to   { transform: scale(1.085); }
+.heros__fond--diaporama .heros__photo:nth-child(even).se-rapproche {
+  animation-name: derive-arriere;
+}
+@keyframes derive-avant {
+  from { transform: scale(1.005) translate3d(0, 0, 0); }
+  to   { transform: scale(1.09) translate3d(-1.1%, -.7%, 0); }
+}
+@keyframes derive-arriere {
+  from { transform: scale(1.09) translate3d(1.1%, .7%, 0); }
+  to   { transform: scale(1.005) translate3d(0, 0, 0); }
 }
 
 /* Un trait qui s'ouvre du centre vers les deux bords : il dit qu'une vue
@@ -674,21 +690,23 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .74s; }
 /* La durée couvre la pause ET le fondu qui suit : sinon le trait arrive au
    bout puis attend, et l'attente se lit comme un blocage. */
 .heros__jauge-trait.court {
-  transition: transform calc(var(--pause, 6s) + var(--fondu, 1.4s)) linear;
+  transition: transform calc(var(--pause, 6s) + var(--fondu, 1.8s)) linear;
   transform: scaleX(1);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .heros__fond--diaporama .heros__photo { transition-duration: .01ms; }
-  .heros__fond--diaporama .heros__photo.est-visible.se-rapproche { animation: none; }
+  .heros__fond--diaporama .heros__photo.se-rapproche { animation: none; }
   .heros__jauge-trait.court { transition-duration: .01ms; }
 }
 
 /* Voile sombre teinté gris chaud : c'est lui qui garantit la lisibilité du texte
    blanc quelle que soit la photo posée derrière, y compris l'image d'attente
-   lorsqu'une photo manque encore. */
+   lorsqu'une photo manque encore. Son intensité se règle depuis le back-office
+   pour la page d'accueil, dont les photos changent. */
 .heros__fond::after {
   content: ""; position: absolute; inset: 0;
+  opacity: var(--voile, 1);
   background:
     linear-gradient(105deg, rgba(21, 20, 19, .84) 0%, rgba(21, 20, 19, .62) 46%, rgba(21, 20, 19, .38) 100%),
     linear-gradient(rgba(21, 20, 19, .3), rgba(21, 20, 19, .55));

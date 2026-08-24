@@ -433,6 +433,17 @@
     if (rien) rien.addEventListener("click", function () { toutes(false); });
   })();
 
+  /* ---------- Glissières : afficher la valeur choisie ---------- */
+  (function () {
+    document.querySelectorAll("input[type=range][data-valeur-de]").forEach(function (glissiere) {
+      var vu = document.getElementById(glissiere.getAttribute("data-valeur-de"));
+      if (!vu) return;
+      glissiere.addEventListener("input", function () {
+        vu.textContent = glissiere.value + " %";
+      });
+    });
+  })();
+
   /* ---------- Diaporama d'accueil : ordre des vues ----------
 
      L'ordre envoyé au serveur est celui des champs dans la page : déplacer
@@ -444,6 +455,64 @@
     if (!liste) return;
 
     var porte = null;
+
+    var vide = function () {
+      var mot = document.querySelector("[data-diapos-vide]");
+      if (liste.querySelector("[data-diapo]")) { if (mot) mot.remove(); return; }
+      if (!mot) {
+        liste.insertAdjacentHTML("afterend",
+          '<p class="bo-vide" data-diapos-vide>Aucune vue : le bandeau affichera la photo de repli.</p>');
+      }
+    };
+
+    /* Ajouter une photo : la vue apparaît aussitôt en fin de liste, et la
+       tuile se décoche — sans quoi la même image partirait deux fois, une
+       fois par la liste et une fois par la mosaïque. */
+    document.querySelectorAll("[name='diapo_ajout[]']").forEach(function (tuile) {
+      tuile.addEventListener("change", function () {
+        if (!tuile.checked) return;
+        tuile.checked = false;
+
+        var chemin = tuile.value;
+        var deja = liste.querySelector("[name='diapo_image[]'][value=\"" + chemin + "\"]");
+        if (deja) {
+          deja.closest("[data-diapo]").scrollIntoView({ block: "center", behavior: "smooth" });
+          return;
+        }
+
+        var vignette = tuile.parentNode.querySelector("img");
+        var nom = chemin.split("/").pop();
+        var ligne = document.createElement("li");
+        ligne.className = "bo-diapo";
+        ligne.setAttribute("data-diapo", "");
+        ligne.setAttribute("draggable", "true");
+        ligne.innerHTML =
+          '<span class="bo-diapo__poignee" aria-hidden="true">⣿</span>' +
+          '<img alt="">' +
+          '<span class="bo-diapo__nom"></span>' +
+          '<input type="hidden" name="diapo_image[]">' +
+          '<input type="hidden" name="diapo_etat[]" value="1" data-diapo-etat>' +
+          '<button class="bo-bascule" type="button" role="switch" data-diapo-bascule aria-checked="true">' +
+            '<span class="bo-bascule__piste" aria-hidden="true"></span>' +
+            '<span class="bo-bascule__nom">Affichée</span>' +
+          '</button>' +
+          '<span class="bo-diapo__ordre">' +
+            '<button type="button" data-diapo-monter aria-label="Monter">▲</button>' +
+            '<button type="button" data-diapo-descendre aria-label="Descendre">▼</button>' +
+          '</span>' +
+          '<button class="bo-diapo__retrait" type="button" data-diapo-retirer>Retirer</button>';
+
+        ligne.querySelector("img").src = vignette ? vignette.src : "";
+        ligne.querySelector(".bo-diapo__nom").textContent = nom;
+        ligne.querySelector("[name='diapo_image[]']").value = chemin;
+        ligne.querySelector("[data-diapo-retirer]")
+             .setAttribute("aria-label", "Retirer " + nom + " du diaporama");
+
+        liste.appendChild(ligne);
+        vide();
+        ligne.scrollIntoView({ block: "center", behavior: "smooth" });
+      });
+    });
 
     liste.addEventListener("dragstart", function (e) {
       porte = e.target.closest("[data-diapo]");
@@ -484,6 +553,23 @@
       if (e.target.closest("[data-diapo-descendre]") && ligne.nextElementSibling) {
         liste.insertBefore(ligne.nextElementSibling, ligne);
         e.target.focus();
+      }
+
+      var bascule = e.target.closest("[data-diapo-bascule]");
+      if (bascule) {
+        var champ = ligne.querySelector("[data-diapo-etat]");
+        var affichee = bascule.getAttribute("aria-checked") !== "true";
+        bascule.setAttribute("aria-checked", affichee ? "true" : "false");
+        bascule.querySelector(".bo-bascule__nom").textContent = affichee ? "Affichée" : "Masquée";
+        champ.value = affichee ? "1" : "0";
+      }
+
+      if (e.target.closest("[data-diapo-retirer]")) {
+        var nom = ligne.querySelector(".bo-diapo__nom").textContent.trim();
+        if (!window.confirm("Retirer " + nom + " du diaporama ?")) return;
+        // la ligne quitte la page : elle ne sera plus envoyée à l'enregistrement
+        ligne.remove();
+        vide();
       }
     });
   })();

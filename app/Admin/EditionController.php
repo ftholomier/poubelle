@@ -224,23 +224,23 @@ final class EditionController
      *
      * L'ordre vient de celui des champs envoyés : déplacer une ligne dans la
      * page suffit donc à la réordonner, sans numéro de rang à tenir à jour.
-     * L'état passe par une liste déroulante et non par une case à cocher —
-     * une case décochée n'est pas envoyée, ce qui décalerait les deux listes
-     * l'une par rapport à l'autre.
+     * L'état voyage dans un champ caché piloté par l'interrupteur, et non
+     * dans une case à cocher — une case décochée n'est pas envoyée, ce qui
+     * décalerait les images et leurs états l'un par rapport à l'autre.
      *
      * @return array{pause: int, vues: array<int, array{image: string, actif: bool}>}
      */
     private function diaporama(): array
     {
-        $images  = (array) ($_POST['diapo_image'] ?? []);
-        $etats   = (array) ($_POST['diapo_etat'] ?? []);
-        $retires = array_map('intval', (array) ($_POST['diapo_retirer'] ?? []));
+        $images = (array) ($_POST['diapo_image'] ?? []);
+        $etats  = (array) ($_POST['diapo_etat'] ?? []);
 
+        // une vue retirée a quitté la page : elle n'est simplement plus envoyée
         $vues = [];
         $vus  = [];
         foreach ($images as $rang => $image) {
             $image = (string) $image;
-            if ($image === '' || in_array($rang, $retires, true) || isset($vus[$image])) {
+            if ($image === '' || isset($vus[$image])) {
                 continue;
             }
             $vus[$image] = true;
@@ -289,6 +289,7 @@ final class EditionController
         $a['hero']['titre']    = trim((string) ($_POST['hero_titre'] ?? $a['hero']['titre']));
         $a['hero']['texte']    = trim((string) ($_POST['hero_texte'] ?? ''));
         $a['hero']['image']    = $this->photoFacultative('hero_image', (string) $a['hero']['image']);
+        $a['hero']['voile']     = min(100, max(0, (int) ($_POST['hero_voile'] ?? 100)));
         $a['hero']['diaporama'] = $this->diaporama();
 
         // --- indicateurs : « valeur | unité | libellé » par ligne

@@ -34,6 +34,17 @@ $points = implode("\n", array_map(
       <label for="a-htex">Texte d’introduction</label>
       <textarea id="a-htex" name="hero_texte" rows="3"><?= e($accueil['hero']['texte']) ?></textarea>
     </div>
+    <div class="bo-champ bo-champ--court">
+      <label for="a-voile">Assombrissement de la photo</label>
+      <span class="bo-glissiere">
+        <input id="a-voile" type="range" name="hero_voile" min="0" max="100" step="5"
+               value="<?= (int) ($accueil['hero']['voile'] ?? 100) ?>" data-valeur-de="a-voile-vu">
+        <output id="a-voile-vu" for="a-voile"><?= (int) ($accueil['hero']['voile'] ?? 100) ?> %</output>
+      </span>
+      <p class="bo-aide">0 % : photo nue. 100 % : voile complet. En dessous de 60 %,
+        vérifiez que le titre blanc reste lisible sur vos photos claires.</p>
+    </div>
+
     <div class="bo-champ">
       <label>Photo du bandeau</label>
       <p class="bo-aide">Photo de repli : elle s’affiche si le diaporama ci-dessous
@@ -52,13 +63,14 @@ $points = implode("\n", array_map(
       <label for="a-pause">Temps de pause sur chaque photo</label>
       <input id="a-pause" type="number" name="diapo_pause" min="2" max="30" step="1"
              value="<?= (int) ($accueil['hero']['diaporama']['pause'] ?? 6) ?>">
-      <p class="bo-aide">En secondes, hors fondu. Le fondu dure 1,4 s de plus.</p>
+      <p class="bo-aide">En secondes, hors fondu. Le fondu dure 1,8 s de plus.</p>
     </div>
 
     <div class="bo-champ">
       <label>Photos du diaporama</label>
       <p class="bo-aide">Glissez une ligne pour la déplacer, ou servez-vous des
-        flèches. Une vue masquée reste dans la liste sans s’afficher sur le site.</p>
+        flèches. Une vue masquée reste dans la liste sans s’afficher sur le site.
+        Un retrait n’est définitif qu’une fois la page enregistrée.</p>
 
       <ol class="bo-diapos" data-diapos>
         <?php foreach ($diapos as $rang => $vue): ?>
@@ -67,30 +79,31 @@ $points = implode("\n", array_map(
             <img src="<?= image($vue['image'], true) ?>" alt="">
             <span class="bo-diapo__nom"><?= e(basename($vue['image'])) ?></span>
             <input type="hidden" name="diapo_image[]" value="<?= e($vue['image']) ?>">
-            <select name="diapo_etat[]" aria-label="État de cette vue">
-              <option value="1"<?= !empty($vue['actif']) ? ' selected' : '' ?>>Affichée</option>
-              <option value="0"<?= empty($vue['actif']) ? ' selected' : '' ?>>Masquée</option>
-            </select>
+            <input type="hidden" name="diapo_etat[]" value="<?= !empty($vue['actif']) ? '1' : '0' ?>"
+                   data-diapo-etat>
+            <button class="bo-bascule" type="button" role="switch" data-diapo-bascule
+                    aria-checked="<?= !empty($vue['actif']) ? 'true' : 'false' ?>">
+              <span class="bo-bascule__piste" aria-hidden="true"></span>
+              <span class="bo-bascule__nom"><?= !empty($vue['actif']) ? 'Affichée' : 'Masquée' ?></span>
+            </button>
             <span class="bo-diapo__ordre">
               <button type="button" data-diapo-monter aria-label="Monter">▲</button>
               <button type="button" data-diapo-descendre aria-label="Descendre">▼</button>
             </span>
-            <label class="bo-diapo__retrait">
-              <input type="checkbox" name="diapo_retirer[]" value="<?= $rang ?>">
-              Retirer
-            </label>
+            <button class="bo-diapo__retrait" type="button" data-diapo-retirer
+                    aria-label="Retirer <?= e(basename($vue['image'])) ?> du diaporama">Retirer</button>
           </li>
         <?php endforeach; ?>
       </ol>
 
       <?php if ($diapos === []): ?>
-        <p class="bo-vide">Aucune vue : le bandeau affichera la photo de repli.</p>
+        <p class="bo-vide" data-diapos-vide>Aucune vue : le bandeau affichera la photo de repli.</p>
       <?php endif; ?>
     </div>
 
     <div class="bo-champ">
       <label>Ajouter des photos au diaporama</label>
-      <p class="bo-aide">Cochez, elles s’ajouteront à la fin de la liste.</p>
+      <p class="bo-aide">Cliquez : la vue s’ajoute aussitôt en fin de liste.</p>
       <div class="bo-choix" data-choix>
         <div class="bo-choix__barre">
           <input type="search" data-choix-filtre placeholder="Filtrer par nom de fichier…"

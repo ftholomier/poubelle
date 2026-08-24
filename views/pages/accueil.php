@@ -22,9 +22,11 @@ if ($vues === []) {
     $vues = [['image' => $hero['image']]];
 }
 $pause = max(2, (int) ($hero['diaporama']['pause'] ?? 6));
+$voile = min(100, max(0, (int) ($hero['voile'] ?? 100)));
 ?>
 
-<section class="heros heros--accueil" style="--pause: <?= $pause ?>s">
+<section class="heros heros--accueil"
+         style="--pause: <?= $pause ?>s; --voile: <?= number_format($voile / 100, 2, '.', '') ?>">
   <div class="heros__fond heros__fond--diaporama" data-diaporama>
     <?php foreach ($vues as $rang => $vue): ?>
       <div class="heros__photo<?= $rang === 0 ? ' est-visible' : '' ?>" data-vue

@@ -388,7 +388,7 @@
 
     var trait = document.querySelector("[data-diaporama-trait]");
     var doux = window.matchMedia("(prefers-reduced-motion: reduce)");
-    var FONDU = 1400;
+    var FONDU = 1800;
     var pause = (parseFloat(getComputedStyle(scene).getPropertyValue("--pause")) || 6) * 1000;
     var courant = 0;
     var minuteur = null;
@@ -445,10 +445,21 @@
       lancer();
     });
 
+    /* Une image de fond n'est décodée qu'au moment où elle devient visible :
+       la toute première transition attendait donc son fichier, et cette
+       attente se voyait. Les vues suivantes sont chargées d'avance. */
+    var precharger = function () {
+      vues.forEach(function (vue) {
+        var url = (vue.style.backgroundImage.match(/url\(["']?([^"')]+)/) || [])[1];
+        if (url) new Image().src = url;
+      });
+    };
+
     // les images de fond ne déclenchent pas d'événement de chargement : on
     // attend le chargement complet pour que la première vue n'apparaisse pas
     // pendant que son fichier arrive encore
     var demarrer = function () {
+      precharger();
       relancerZoom(vues[0]);
       relancerTrait();
       lancer();

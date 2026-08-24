@@ -1085,14 +1085,45 @@ button { font: inherit; cursor: pointer; }
 }
 .bo-diapo__ordre button:hover { border-color: var(--orange, #f39200); color: var(--orange, #f39200); }
 
-/* Le style des libellés du back-office est en capitales orange : il ferait
-   passer un retrait pour une rubrique. */
-.bo-diapo label.bo-diapo__retrait {
-  display: inline-flex; align-items: center; gap: .4rem;
-  margin: 0; font-size: .82rem; font-weight: 500;
-  text-transform: none; letter-spacing: 0;
-  color: #e08a8a; white-space: nowrap; cursor: pointer;
+.bo-diapo__retrait {
+  border: 1px solid rgba(224, 138, 138, .35); background: transparent;
+  color: #e08a8a; font: inherit; font-size: .8rem;
+  padding: .35rem .75rem; cursor: pointer; white-space: nowrap;
 }
+.bo-diapo__retrait:hover { background: rgba(224, 138, 138, .14); border-color: #e08a8a; }
+
+/* Interrupteur : un état qui se lit d'un coup d'œil sur toute la liste, là
+   où une liste déroulante oblige à lire chaque ligne. L'état voyage dans un
+   champ caché — un bouton n'est pas envoyé avec le formulaire. */
+.bo-bascule {
+  display: inline-flex; align-items: center; gap: .55rem;
+  border: 0; background: transparent; color: inherit; font: inherit;
+  font-size: .82rem; padding: 0; cursor: pointer;
+}
+.bo-bascule__piste {
+  width: 40px; height: 22px; flex: none;
+  background: rgba(255, 255, 255, .16);
+  border: 1px solid rgba(255, 255, 255, .22);
+  position: relative;
+  transition: background .25s ease, border-color .25s ease;
+}
+.bo-bascule__piste::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px; background: #fff;
+  transition: transform .25s cubic-bezier(.32, .72, .3, 1);
+}
+.bo-bascule[aria-checked="true"] .bo-bascule__piste {
+  background: var(--accent, #f39200); border-color: var(--accent, #f39200);
+}
+.bo-bascule[aria-checked="true"] .bo-bascule__piste::after { transform: translateX(18px); }
+.bo-bascule__nom { min-width: 4.6rem; text-align: left; }
+.bo-bascule:focus-visible { outline: 2px solid var(--accent, #f39200); outline-offset: 3px; }
+
+/* Glissière et sa valeur sur une même ligne : lue séparément, la valeur
+   n'appartient visuellement à rien. */
+.bo-glissiere { display: flex; align-items: center; gap: .9rem; }
+.bo-glissiere input[type="range"] { flex: 1; max-width: 22rem; margin: 0; accent-color: var(--accent, #f39200); }
+.bo-glissiere output { font-variant-numeric: tabular-nums; min-width: 3.5rem; }
 .bo-diapo__retrait input { margin: 0; }
 
 .bo-champ--court input[type="number"] { max-width: 8rem; }

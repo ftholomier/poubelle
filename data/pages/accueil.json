@@ -32,7 +32,8 @@
           "actif": true
         }
       ]
-    }
+    },
+    "voile": 100
   },
   "indicateurs": {
     "items": [
