@@ -1,202 +1,92 @@
 <?php
 /**
- * Réalisations : la galerie, sur un seul écran.
+ * Réalisations : une gamme à la fois, et on coche les photos.
  *
- * Une fiche tient en trois champs — nom, catégorie, photo — donc tout est
- * édité d'un bloc plutôt qu'une page par photo, qui ferait quarante
- * allers-retours pour un simple reclassement.
- *
+ * @var array $gammes    fiches produit publiées
+ * @var string $courante slug de la gamme affichée
  * @var array $galerie
- * @var array $gammes
  * @var array $pageIntro
- * @var string[] $medias
+ * @var string[] $medias toute la médiathèque
  * @var App\Core\View $view
  */
-use App\Core\Content;
 use App\Core\Csrf;
 
-$items = $galerie['items'] ?? [];
-$dernier = count($items) - 1;
+$parGamme = (array) ($galerie['gammes'] ?? []);
+$choisies = (array) ($parGamme[$courante] ?? []);
 
-// Les catégories déjà employées servent de suggestions : la saisie reste
-// libre, mais on évite « Carport » et « carports » dans la même galerie.
-$categories = [];
-foreach ($items as $item) {
-    $c = trim((string) ($item['categorie'] ?? ''));
-    if ($c !== '' && !in_array($c, $categories, true)) {
-        $categories[] = $c;
-    }
+$nomCourant = '';
+foreach ($gammes as $g) {
+    if ($g['slug'] === $courante) { $nomCourant = (string) $g['nom']; break; }
 }
-sort($categories);
+
+// Les photos déjà cochées remontent en tête : on voit d'un coup d'œil ce que
+// contient la gamme, sans avoir à parcourir toute la médiathèque.
+$ordre = array_merge($choisies, array_values(array_diff($medias, $choisies)));
 ?>
 <p class="bo-aide">
-  Les réalisations publiées apparaissent sur la page « Réalisations ».
-  Les boutons de filtre de cette page se construisent tout seuls à partir des
-  catégories saisies ici : écrivez « Carport » sur trois photos et le filtre
-  « Carport » apparaît, videz-les et il disparaît.
-  La <strong>gamme</strong>, elle, décide de la page produit sur laquelle la
-  photo apparaît en plus — chaque page de gamme montre ses propres chantiers.
+  Choisissez une gamme, puis cochez les photos à montrer sur sa page produit.
+  Elles apparaissent aussi dans la galerie « Réalisations » du site, où elles
+  se filtrent par gamme. Une photo peut appartenir à plusieurs gammes.
 </p>
 
-<form class="bo-form" method="post" action="<?= url('/admin/realisations') ?>" enctype="multipart/form-data">
-  <?= Csrf::champ() ?>
+<?php if ($gammes === []): ?>
+  <p class="bo-vide">Aucune gamme publiée. Créez-en une dans <a href="<?= url('/admin/services') ?>">Services</a>.</p>
+<?php else: ?>
 
-  <?php if ($items === []): ?>
-    <p class="bo-vide">Aucune réalisation pour l’instant. Créez-en une ci-dessous.</p>
-  <?php endif; ?>
-
-  <?php if ($categories !== []): ?>
-    <datalist id="r-categories">
-      <?php foreach ($categories as $c): ?><option value="<?= e($c) ?>"><?php endforeach; ?>
-    </datalist>
-  <?php endif; ?>
-
-  <?php foreach ($items as $rang => $item):
-      $slug = (string) $item['slug'];
-      $publie = Content::estPublie($item); ?>
-    <fieldset<?= $publie ? '' : ' class="bo-ligne--masquee"' ?>>
-      <legend><?= e($item['nom']) ?><?= $publie ? '' : ' — hors ligne' ?></legend>
-
-      <div class="bo-rangee">
-        <div class="bo-champ">
-          <label for="r-n<?= $rang ?>">Nom</label>
-          <input id="r-n<?= $rang ?>" type="text" name="nom_<?= e($slug) ?>" value="<?= e($item['nom']) ?>">
-        </div>
-        <div class="bo-champ">
-          <label for="r-c<?= $rang ?>">Catégorie</label>
-          <input id="r-c<?= $rang ?>" type="text" name="categorie_<?= e($slug) ?>"
-                 value="<?= e($item['categorie'] ?? '') ?>" list="r-categories"
-                 placeholder="Pergola">
-          <p class="bo-aide">Sert aux boutons de filtre de la page « Réalisations ».</p>
-        </div>
-        <div class="bo-champ">
-          <label for="r-g<?= $rang ?>">Gamme</label>
-          <select id="r-g<?= $rang ?>" name="gamme_<?= e($slug) ?>">
-            <option value="">Aucune — galerie générale seulement</option>
-            <?php foreach ($gammes as $gamme): ?>
-              <option value="<?= e($gamme['slug']) ?>"<?= ($item['gamme'] ?? '') === $gamme['slug'] ? ' selected' : '' ?>>
-                <?= e($gamme['nom']) ?>
-              </option>
-            <?php endforeach; ?>
-          </select>
-          <p class="bo-aide">La photo apparaît alors sur la page de cette gamme.</p>
-        </div>
-      </div>
-      <div class="bo-champ">
-        <label for="r-l<?= $rang ?>">Légende</label>
-        <input id="r-l<?= $rang ?>" type="text" name="legende_<?= e($slug) ?>" value="<?= e($item['legende'] ?? '') ?>">
-        <p class="bo-aide">Facultative. Elle sert aussi de texte de remplacement de l’image ; à défaut, c’est le nom qui est employé.</p>
-      </div>
-      <div class="bo-champ">
-        <label>Photo</label>
-        <?= $view->partial('admin/choix-photo', [
-            'medias' => $medias, 'nom' => 'image_' . $slug, 'id' => 'rea' . $rang,
-            'choisie' => $item['image'] ?? '', 'vide' => 'Aucune',
-        ]) ?>
-        <?php if (trim((string) ($item['image'] ?? '')) !== ''): ?>
-          <?php /* Les photos de chantier arrivent souvent couchées : la
-                   rotation est ici, sur l'écran où l'on voit le résultat,
-                   plutôt qu'à faire dans la médiathèque puis à revenir. */ ?>
-          <p class="bo-aide">Photo couchée ? Redressez-la — la rotation s’applique au fichier, donc partout sur le site.</p>
-          <div class="bo-media__rotation">
-            <?php foreach (['gauche' => '⟲ Pivoter à gauche', 'droite' => '⟳ Pivoter à droite'] as $sens => $libelle): ?>
-              <form method="post" action="<?= url('/admin/photos/rotation') ?>">
-                <?= Csrf::champ() ?>
-                <input type="hidden" name="src" value="<?= e($item['image']) ?>">
-                <input type="hidden" name="sens" value="<?= $sens ?>">
-                <input type="hidden" name="retour" value="/admin/realisations">
-                <button class="bo-btn bo-btn--petit bo-btn--fantome" type="submit"><?= $libelle ?></button>
-              </form>
-            <?php endforeach; ?>
-          </div>
-        <?php endif; ?>
-      </div>
-    </fieldset>
+<nav class="bo-onglets" aria-label="Gammes">
+  <?php foreach ($gammes as $g): ?>
+    <?php $n = count((array) ($parGamme[$g['slug']] ?? [])); ?>
+    <a class="bo-onglet<?= $g['slug'] === $courante ? ' bo-onglet--actif' : '' ?>"
+       href="<?= url('/admin/realisations?gamme=' . rawurlencode((string) $g['slug'])) ?>"
+       <?= $g['slug'] === $courante ? 'aria-current="page"' : '' ?>>
+      <?= e($g['nom']) ?>
+      <span class="bo-onglet__compte"><?= $n ?></span>
+    </a>
   <?php endforeach; ?>
+</nav>
 
-  <?php if ($items !== []): ?>
-    <button class="bo-btn" type="submit">Enregistrer les réalisations</button>
-  <?php endif; ?>
+<form class="bo-form" method="post" action="<?= url('/admin/realisations') ?>">
+  <?= Csrf::champ() ?>
+  <input type="hidden" name="gamme" value="<?= e($courante) ?>">
+
+  <div class="bo-bloc">
+    <h2><?= e($nomCourant) ?></h2>
+    <p class="bo-aide">
+      <strong><?= count($choisies) ?></strong> photo(s) cochée(s) sur
+      <?= count($medias) ?> dans la médiathèque.
+      Les photos de cette gamme sont affichées en premier.
+      <?php /* Deux boutons de confort : sur quarante vignettes, cocher à la
+               main pour tout retirer est une corvée. */ ?>
+      <button type="button" class="bo-btn bo-btn--petit bo-btn--fantome" data-cocher-tout>Tout cocher</button>
+      <button type="button" class="bo-btn bo-btn--petit bo-btn--fantome" data-cocher-rien>Tout décocher</button>
+    </p>
+
+    <?php if ($medias === []): ?>
+      <p class="bo-vide">
+        Aucune photo dans la médiathèque.
+        <a href="<?= url('/admin/photos') ?>">Ajoutez-en d’abord</a>.
+      </p>
+    <?php else: ?>
+      <ul class="bo-planche">
+        <?php foreach ($ordre as $rang => $media): ?>
+          <?php $coche = in_array($media, $choisies, true); ?>
+          <li>
+            <label class="bo-planche__photo<?= $coche ? ' bo-planche__photo--choisie' : '' ?>">
+              <input type="checkbox" name="photos[]" value="<?= e($media) ?>"<?= $coche ? ' checked' : '' ?>>
+              <img src="<?= image($media, true) ?>" alt="<?= e(basename($media)) ?>" loading="lazy">
+              <span class="bo-planche__marque" aria-hidden="true"></span>
+              <span class="bo-planche__nom"><?= e(basename($media)) ?></span>
+            </label>
+          </li>
+        <?php endforeach; ?>
+      </ul>
+    <?php endif; ?>
+
+    <button class="bo-btn" type="submit">Enregistrer cette gamme</button>
+  </div>
 </form>
 
-<?php if ($items !== []): ?>
-<div class="bo-bloc">
-  <h2>Ordre et publication</h2>
-  <ul class="bo-liste">
-    <?php foreach ($items as $rang => $item):
-        $publie = Content::estPublie($item); ?>
-      <li class="bo-ligne<?= $publie ? '' : ' bo-ligne--masquee' ?>">
-        <div class="bo-ligne__corps">
-          <strong><?= e($item['nom']) ?></strong>
-          <?php
-          $nomGamme = '';
-          foreach ($gammes as $g) {
-              if ($g['slug'] === ($item['gamme'] ?? '')) { $nomGamme = $g['nom']; break; }
-          }
-          ?>
-          <span class="bo-ligne__note">
-            <?= ($item['categorie'] ?? '') !== '' ? e($item['categorie']) . ' · ' : '' ?><?= $nomGamme !== '' ? e($nomGamme) . ' · ' : '' ?><?= $publie ? 'En ligne' : 'Hors ligne' ?>
-          </span>
-        </div>
-        <div class="bo-ligne__actions">
-          <form method="post" action="<?= url('/admin/realisations/' . $item['slug'] . '/publication') ?>">
-            <?= Csrf::champ() ?>
-            <button class="bo-btn bo-btn--petit bo-btn--fantome" type="submit">
-              <?= $publie ? 'Retirer du site' : 'Publier' ?>
-            </button>
-          </form>
-          <form method="post" action="<?= url('/admin/realisations/' . $item['slug'] . '/ordre') ?>">
-            <?= Csrf::champ() ?>
-            <input type="hidden" name="sens" value="haut">
-            <button class="bo-btn bo-btn--petit bo-btn--fantome" type="submit"
-                    aria-label="Monter <?= e($item['nom']) ?>"<?= $rang === 0 ? ' disabled' : '' ?>>↑</button>
-          </form>
-          <form method="post" action="<?= url('/admin/realisations/' . $item['slug'] . '/ordre') ?>">
-            <?= Csrf::champ() ?>
-            <input type="hidden" name="sens" value="bas">
-            <button class="bo-btn bo-btn--petit bo-btn--fantome" type="submit"
-                    aria-label="Descendre <?= e($item['nom']) ?>"<?= $rang === $dernier ? ' disabled' : '' ?>>↓</button>
-          </form>
-          <form method="post" action="<?= url('/admin/realisations/' . $item['slug'] . '/supprimer') ?>"
-                data-confirmer="Supprimer la réalisation « <?= e($item['nom']) ?> » ?">
-            <?= Csrf::champ() ?>
-            <button class="bo-btn bo-btn--petit bo-btn--danger" type="submit">Supprimer</button>
-          </form>
-        </div>
-      </li>
-    <?php endforeach; ?>
-  </ul>
-</div>
 <?php endif; ?>
-
-<div class="bo-bloc">
-  <h2>Ajouter une réalisation</h2>
-  <form class="bo-form bo-form--inline" method="post" action="<?= url('/admin/realisations/creer') ?>">
-    <?= Csrf::champ() ?>
-    <div class="bo-champ">
-      <label for="r-nom" class="bo-visuellement-cache">Nom</label>
-      <input id="r-nom" type="text" name="nom" placeholder="Pergola à Vellevans" required>
-    </div>
-    <div class="bo-champ">
-      <label for="r-cat" class="bo-visuellement-cache">Catégorie</label>
-      <input id="r-cat" type="text" name="categorie" placeholder="Pergola" list="r-categories">
-    </div>
-    <div class="bo-champ">
-      <label for="r-gam" class="bo-visuellement-cache">Gamme</label>
-      <select id="r-gam" name="gamme">
-        <option value="">Aucune gamme</option>
-        <?php foreach ($gammes as $gamme): ?>
-          <option value="<?= e($gamme['slug']) ?>"><?= e($gamme['nom']) ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <button class="bo-btn" type="submit">Créer</button>
-  </form>
-  <p class="bo-aide">
-    Pour ajouter plusieurs photos d’un coup, déposez-les d’abord dans
-    <a href="<?= url('/admin/photos') ?>">Photos</a>, puis créez une fiche par photo.
-  </p>
-</div>
 
 <form class="bo-form" method="post" action="<?= url('/admin/realisations/entete') ?>" enctype="multipart/form-data">
   <?= Csrf::champ() ?>

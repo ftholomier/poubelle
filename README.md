@@ -58,19 +58,30 @@ clavier. Les boutons de filtre se construisent à partir des catégories
 réellement saisies : aucune liste à tenir à jour dans le code. Sans
 JavaScript, la galerie s'affiche entière et les filtres restent cachés.
 
-Chaque photo porte deux classements distincts, et c'est voulu :
+Chaque **page de gamme** montre ses propres chantiers, sous sa fiche
+technique, et la page « Réalisations » les montre tous, filtrables par gamme.
+Le fragment `partials/galerie` sert aux deux : même balisage, donc même script
+et même style, et l'étiquette de gamme s'efface là où toute la galerie est
+d'une seule gamme.
 
-| Champ | Sert à | Où ça se voit |
-|---|---|---|
-| `categorie` | les boutons de filtre, saisis librement | page « Réalisations » |
-| `gamme` | le rattachement à une fiche produit | la page de cette gamme |
+**Le contenu ne stocke qu'une liste de chemins par gamme** :
 
-Chaque **page de gamme** montre ainsi ses propres chantiers, sous sa fiche
-technique. Reclasser une photo dans le back-office la déplace d'une page
-produit à l'autre, sans rien toucher au code. Le fragment `partials/galerie`
-est partagé entre les deux usages : même balisage, donc même script et même
-style, et l'étiquette de catégorie s'efface là où toute la galerie est d'une
-même gamme.
+```json
+{ "gammes": { "carport": ["assets/img/site/carport-2.jpg", "…"] } }
+```
+
+Le nom affiché — étiquette de vignette et libellé de filtre — est repris de la
+fiche produit : renommer une gamme renomme son filtre, sans rien reporter
+ailleurs. Une gamme dépubliée emporte ses photos, qui n'auraient plus de page
+où mener.
+
+L'écran d'administration suit cette forme : on choisit une gamme dans une
+barre d'onglets, on coche ses photos dans une planche contact de la
+médiathèque, on enregistre. Les photos déjà retenues remontent en tête. La
+première version proposait un formulaire par photo — nom, catégorie, légende,
+ordre, publication — soit une quarantaine de blocs à parcourir pour ranger une
+image ; elle a été remplacée, le besoin réel tenant en une phrase : quelles
+photos vont sur quelle page produit.
 
 Les adresses du site précédent sont redirigées en 301 : `/pergola-carport`
 mène à `/pergolas-carports`, `/pergola` à la pergola bioclimatique et

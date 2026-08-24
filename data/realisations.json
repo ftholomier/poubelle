@@ -1,338 +1,50 @@
 {
     "intro": "Quelques chantiers réalisés par nos équipes, en pergola et en carport. Toutes les photos sont celles de nos propres réalisations.",
-    "items": [
-        {
-            "slug": "pergola-11",
-            "nom": "Pergola n° 01",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-11.jpg",
-            "legende": "",
-            "gamme": "pergola-toile-retractable"
-        },
-        {
-            "slug": "pergola-12",
-            "nom": "Pergola n° 02",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-12.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-13",
-            "nom": "Pergola n° 03",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-13.jpg",
-            "legende": "",
-            "gamme": "pergola-toile-retractable"
-        },
-        {
-            "slug": "pergola-14",
-            "nom": "Pergola n° 04",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-14.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-15",
-            "nom": "Pergola n° 05",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-15.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-17",
-            "nom": "Pergola n° 06",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-17.jpg",
-            "legende": "",
-            "gamme": "pergola-toile-retractable"
-        },
-        {
-            "slug": "pergola-18",
-            "nom": "Pergola n° 07",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-18.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-19",
-            "nom": "Pergola n° 08",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-19.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-20",
-            "nom": "Pergola n° 09",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-20.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-21",
-            "nom": "Pergola n° 10",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-21.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-23",
-            "nom": "Pergola n° 11",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-23.jpg",
-            "legende": "",
-            "gamme": "pergola-toile-retractable"
-        },
-        {
-            "slug": "pergola-26",
-            "nom": "Pergola n° 12",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-26.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-28",
-            "nom": "Pergola n° 13",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-28.jpg",
-            "legende": "",
-            "gamme": "pergola-toit-fixe"
-        },
-        {
-            "slug": "pergola-29",
-            "nom": "Pergola n° 14",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-29.jpg",
-            "legende": "",
-            "gamme": "pergola-toile-retractable"
-        },
-        {
-            "slug": "pergola-30",
-            "nom": "Pergola n° 15",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-30.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-36",
-            "nom": "Pergola n° 16",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-36.jpg",
-            "legende": "",
-            "gamme": "pergola-toit-fixe"
-        },
-        {
-            "slug": "pergola-37",
-            "nom": "Pergola n° 17",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-37.jpg",
-            "legende": "",
-            "gamme": "pergola-toile-retractable"
-        },
-        {
-            "slug": "pergola-38",
-            "nom": "Pergola n° 18",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-38.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-40",
-            "nom": "Pergola n° 19",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-40.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-41",
-            "nom": "Pergola n° 20",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-41.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola",
-            "nom": "Pergola n° 21",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola.jpg",
-            "legende": "",
-            "gamme": "pergola-toit-fixe"
-        },
-        {
-            "slug": "carport-2",
-            "nom": "Carport n° 01",
-            "categorie": "Carport",
-            "actif": true,
-            "image": "assets/img/site/carport-2.jpg",
-            "legende": "",
-            "gamme": "carport"
-        },
-        {
-            "slug": "carport-3",
-            "nom": "Carport n° 02",
-            "categorie": "Carport",
-            "actif": true,
-            "image": "assets/img/site/carport-3.jpg",
-            "legende": "",
-            "gamme": "carport"
-        },
-        {
-            "slug": "carport-4",
-            "nom": "Carport n° 03",
-            "categorie": "Carport",
-            "actif": true,
-            "image": "assets/img/site/pergola-piscine.jpg",
-            "legende": "",
-            "gamme": "carport"
-        },
-        {
-            "slug": "carport-mairot",
-            "nom": "Carport n° 04",
-            "categorie": "Carport",
-            "actif": true,
-            "image": "assets/img/site/carport-mairot.jpg",
-            "legende": "",
-            "gamme": "carport"
-        },
-        {
-            "slug": "carport-marotte",
-            "nom": "Carport n° 05",
-            "categorie": "Carport",
-            "actif": true,
-            "image": "assets/img/site/carport-marotte.jpg",
-            "legende": "",
-            "gamme": "carport"
-        },
-        {
-            "slug": "carport-mourel",
-            "nom": "Carport n° 06",
-            "categorie": "Carport",
-            "actif": true,
-            "image": "assets/img/site/carport-mourel.jpg",
-            "legende": "",
-            "gamme": "carport"
-        },
-        {
-            "slug": "carport-vuiller",
-            "nom": "Carport n° 07",
-            "categorie": "Carport",
-            "actif": true,
-            "image": "assets/img/site/carport.jpg",
-            "legende": "",
-            "gamme": "carport"
-        },
-        {
-            "slug": "carport-jobin",
-            "nom": "Carport n° 08",
-            "categorie": "Carport",
-            "actif": true,
-            "image": "assets/img/site/carport-jobin.jpg",
-            "legende": "",
-            "gamme": "carport"
-        },
-        {
-            "slug": "pergola-briot",
-            "nom": "Pergola n° 22",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/hero-gammes.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-cavatz",
-            "nom": "Pergola n° 23",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-bioclimatique.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-detouillon",
-            "nom": "Pergola n° 24",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-toit-fixe.jpg",
-            "legende": "",
-            "gamme": "pergola-toit-fixe"
-        },
-        {
-            "slug": "pergola-dromard",
-            "nom": "Pergola n° 25",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-montage.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-feuvrier",
-            "nom": "Pergola n° 26",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-store-zip.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-legrand",
-            "nom": "Pergola n° 27",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/hero-accueil.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-mougey",
-            "nom": "Pergola n° 28",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-toile.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        },
-        {
-            "slug": "pergola-binet",
-            "nom": "Pergola n° 29",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-binet.jpg",
-            "legende": "",
-            "gamme": "pergola-bioclimatique"
-        }
-    ]
+    "gammes": {
+        "pergola-bioclimatique": [
+            "assets/img/site/pergola-12.jpg",
+            "assets/img/site/pergola-14.jpg",
+            "assets/img/site/pergola-15.jpg",
+            "assets/img/site/pergola-18.jpg",
+            "assets/img/site/pergola-19.jpg",
+            "assets/img/site/pergola-20.jpg",
+            "assets/img/site/pergola-21.jpg",
+            "assets/img/site/pergola-26.jpg",
+            "assets/img/site/pergola-30.jpg",
+            "assets/img/site/pergola-38.jpg",
+            "assets/img/site/pergola-40.jpg",
+            "assets/img/site/pergola-41.jpg",
+            "assets/img/site/hero-gammes.jpg",
+            "assets/img/site/pergola-bioclimatique.jpg",
+            "assets/img/site/pergola-montage.jpg",
+            "assets/img/site/pergola-store-zip.jpg",
+            "assets/img/site/hero-accueil.jpg",
+            "assets/img/site/pergola-toile.jpg",
+            "assets/img/site/pergola-binet.jpg"
+        ],
+        "pergola-toile-retractable": [
+            "assets/img/site/pergola-11.jpg",
+            "assets/img/site/pergola-13.jpg",
+            "assets/img/site/pergola-17.jpg",
+            "assets/img/site/pergola-23.jpg",
+            "assets/img/site/pergola-29.jpg",
+            "assets/img/site/pergola-37.jpg"
+        ],
+        "pergola-toit-fixe": [
+            "assets/img/site/pergola-28.jpg",
+            "assets/img/site/pergola-36.jpg",
+            "assets/img/site/pergola.jpg",
+            "assets/img/site/pergola-toit-fixe.jpg"
+        ],
+        "carport": [
+            "assets/img/site/carport-2.jpg",
+            "assets/img/site/carport-3.jpg",
+            "assets/img/site/pergola-piscine.jpg",
+            "assets/img/site/carport-mairot.jpg",
+            "assets/img/site/carport-marotte.jpg",
+            "assets/img/site/carport-mourel.jpg",
+            "assets/img/site/carport.jpg",
+            "assets/img/site/carport-jobin.jpg"
+        ]
+    }
 }

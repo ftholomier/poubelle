@@ -924,3 +924,76 @@ button { font: inherit; cursor: pointer; }
    aligner — un seul formulaire à deux submits serait plus fragile au clavier. */
 .bo-media__rotation { display: flex; flex-wrap: wrap; gap: .35rem; margin: .5rem 0; }
 .bo-media__rotation form { display: contents; }
+
+/* ---------- Onglets de gamme ---------- */
+.bo-onglets { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.4rem; }
+.bo-onglet {
+  display: inline-flex; align-items: center; gap: .55rem;
+  padding: .6rem 1rem;
+  border: 1px solid var(--trait);
+  color: var(--texte); font-size: .92rem; font-weight: 600;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.bo-onglet:hover { border-color: var(--accent); }
+.bo-onglet--actif { background: var(--accent); border-color: var(--accent); color: #1a1a1a; }
+.bo-onglet__compte {
+  font-size: .78rem; font-weight: 700;
+  padding: .05rem .45rem;
+  background: rgba(243, 146, 0, .16); color: var(--accent);
+}
+.bo-onglet--actif .bo-onglet__compte { background: rgba(0, 0, 0, .18); color: #1a1a1a; }
+
+/* ---------- Planche à cocher ----------
+   La case native reste la cible du clavier et l'état de référence ; elle est
+   seulement sortie de l'écran. Tout l'affichage découle d'elle par :checked,
+   sans une ligne de JavaScript. */
+.bo-planche {
+  list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: .7rem; margin: 1rem 0 1.4rem;
+}
+.bo-planche__photo {
+  display: block; position: relative; cursor: pointer;
+  border: 2px solid var(--trait);
+  transition: border-color .15s, opacity .15s;
+}
+.bo-planche__photo input {
+  position: absolute; width: 1px; height: 1px; opacity: 0;
+}
+.bo-planche__photo img {
+  display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+  opacity: .5; transition: opacity .15s;
+}
+.bo-planche__nom {
+  display: block; padding: .35rem .5rem;
+  font-size: .72rem; color: var(--texte-2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+/* Pastille de coche, dessinée en CSS */
+.bo-planche__marque {
+  position: absolute; top: .45rem; right: .45rem;
+  width: 24px; height: 24px;
+  border: 2px solid rgba(255, 255, 255, .75);
+  background: rgba(0, 0, 0, .45);
+}
+.bo-planche__marque::after {
+  content: ""; position: absolute; left: 6px; top: 4px;
+  width: 6px; height: 11px;
+  border-right: 2.5px solid #1a1a1a; border-bottom: 2.5px solid #1a1a1a;
+  transform: rotate(45deg); opacity: 0;
+}
+.bo-planche__photo:has(input:checked) { border-color: var(--accent); }
+.bo-planche__photo:has(input:checked) img { opacity: 1; }
+.bo-planche__photo:has(input:checked) .bo-planche__marque {
+  background: var(--accent); border-color: var(--accent);
+}
+.bo-planche__photo:has(input:checked) .bo-planche__marque::after { opacity: 1; }
+.bo-planche__photo:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bo-planche__photo:hover img { opacity: .85; }
+
+/* :has() manque encore à quelques navigateurs : la classe posée au chargement
+   et tenue à jour par le script y pourvoit. */
+.bo-planche__photo--choisie { border-color: var(--accent); }
+.bo-planche__photo--choisie img { opacity: 1; }
+.bo-planche__photo--choisie .bo-planche__marque { background: var(--accent); border-color: var(--accent); }
+.bo-planche__photo--choisie .bo-planche__marque::after { opacity: 1; }

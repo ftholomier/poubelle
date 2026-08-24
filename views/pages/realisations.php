@@ -8,8 +8,7 @@
  * boutons de filtre, eux, ne s'affichent que si le script a pris la main.
  *
  * @var array $page
- * @var array $items
- * @var string[] $categories
+ * @var array $items       photos, avec le nom de leur gamme
  * @var array $collection
  * @var App\Core\View $view
  */
@@ -22,6 +21,17 @@
       <p class="chapo reveler"><?= e($collection['intro']) ?></p>
     <?php endif; ?>
 
+    <?php
+    // Les filtres reprennent les gammes réellement représentées, dans
+    // l'ordre où elles apparaissent : rien à tenir à jour dans le code.
+    $categories = [];
+    foreach ($items as $item) {
+        $c = (string) ($item['categorie'] ?? '');
+        if ($c !== '' && !in_array($c, $categories, true)) {
+            $categories[] = $c;
+        }
+    }
+    ?>
     <?php if (count($categories) > 1): ?>
       <div class="filtres" data-filtres hidden>
         <button type="button" class="filtres__bouton" data-filtre="" aria-pressed="true">

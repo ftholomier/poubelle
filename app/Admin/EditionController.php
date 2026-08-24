@@ -609,90 +609,66 @@ final class EditionController
 
     // ========================================================= réalisations
 
+    /**
+     * Écran Réalisations : on entre par la gamme, on coche les photos.
+     *
+     * L'écran précédent proposait un formulaire par photo — nom, catégorie,
+     * légende, ordre, publication — soit une quarantaine de blocs à parcourir
+     * pour ranger une image. Le besoin réel tient en une phrase : « quelles
+     * photos vont sur telle page produit ». C'est donc une planche à cocher,
+     * une gamme à la fois, et plus rien d'autre.
+     */
     public function realisations(): string
     {
+        $gammes = $this->content->publies('services');
+        $galerie = $this->content->load('realisations');
+
+        // gamme affichée : celle demandée, sinon la première
+        $courante = trim((string) ($_GET['gamme'] ?? ''));
+        $slugs = array_column($gammes, 'slug');
+        if ($courante === '' || !in_array($courante, $slugs, true)) {
+            $courante = (string) ($slugs[0] ?? '');
+        }
+
         return $this->view->render('admin/realisations', [
             'page'      => ['titre' => 'Réalisations'],
-            'galerie'   => $this->content->load('realisations'),
+            'gammes'    => $gammes,
+            'courante'  => $courante,
+            'galerie'   => $galerie,
             'pageIntro' => $this->content->load('pages/realisations'),
-            // les gammes publiées : chaque photo peut être rattachée à l'une
-            // d'elles, et apparaît alors sur sa page produit
-            'gammes'    => $this->content->publies('services'),
             'medias'    => $this->mediatheque->lister(),
         ], 'admin/layout');
     }
 
-    public function realisationCreer(): string
-    {
-        if (!Csrf::verifier()) {
-            return $this->rediriger('/admin/realisations');
-        }
-
-        $nom = trim((string) ($_POST['nom'] ?? ''));
-        if ($nom === '') {
-            Session::flash('erreur', 'Donnez un nom à la réalisation.');
-            return $this->rediriger('/admin/realisations');
-        }
-
-        $galerie = $this->content->load('realisations');
-        $slug = self::slugUnique($nom, array_column($galerie['items'], 'slug'));
-
-        $galerie['items'][] = [
-            'slug' => $slug, 'nom' => $nom,
-            'categorie' => trim((string) ($_POST['categorie'] ?? '')),
-            'gamme' => trim((string) ($_POST['gamme'] ?? '')),
-            'actif' => false, 'image' => '', 'legende' => '',
-        ];
-        $this->content->save('realisations', $galerie);
-
-        Session::flash('succes', 'Réalisation créée. Ajoutez sa photo, puis publiez-la.');
-        return $this->rediriger('/admin/realisations');
-    }
-
+    /** Enregistre les photos cochées pour une gamme. */
     public function realisationsEnvoi(): string
     {
-        if (!Csrf::verifier()) {
-            return $this->rediriger('/admin/realisations');
+        $gamme = trim((string) ($_POST['gamme'] ?? ''));
+        $retour = '/admin/realisations' . ($gamme !== '' ? '?gamme=' . rawurlencode($gamme) : '');
+
+        if (!Csrf::verifier() || $gamme === '') {
+            return $this->rediriger($retour);
         }
 
         $galerie = $this->content->load('realisations');
+        $galerie['gammes'] ??= [];
 
-        foreach ($galerie['items'] as $i => $item) {
-            $slug = (string) $item['slug'];
-            $galerie['items'][$i]['nom'] = trim((string) ($_POST['nom_' . $slug] ?? $item['nom']));
-            // La catégorie est une simple chaîne : les filtres de la page
-            // publique se construisent à partir des valeurs réellement
-            // saisies, il n'y a donc aucune liste à tenir à jour ailleurs.
-            $galerie['items'][$i]['categorie'] = trim((string) ($_POST['categorie_' . $slug] ?? ''));
-            $galerie['items'][$i]['legende'] = trim((string) ($_POST['legende_' . $slug] ?? ''));
-            // Le rattachement à une gamme décide de la page produit sur
-            // laquelle la photo apparaît. Laissé vide, elle ne figure que
-            // dans la galerie générale.
-            $galerie['items'][$i]['gamme'] = trim((string) ($_POST['gamme_' . $slug] ?? ''));
-            $galerie['items'][$i]['image'] = $this->photoFacultative(
-                'image_' . $slug,
-                (string) ($item['image'] ?? '')
-            );
+        // On ne garde que des photos qui existent réellement : une image
+        // supprimée de la médiathèque entre-temps laisserait sinon une case
+        // vide sur le site.
+        $choisies = [];
+        foreach ((array) ($_POST['photos'] ?? []) as $chemin) {
+            $chemin = (string) $chemin;
+            if ($this->mediatheque->existe($chemin) && !in_array($chemin, $choisies, true)) {
+                $choisies[] = $chemin;
+            }
         }
 
+        $galerie['gammes'][$gamme] = $choisies;
         $this->content->save('realisations', $galerie);
-        Session::flash('succes', 'Réalisations enregistrées.');
-        return $this->rediriger('/admin/realisations');
-    }
 
-    public function realisationPublication(string $slug): string
-    {
-        return $this->basculerFiche('realisations', $slug, '/admin/realisations');
-    }
-
-    public function realisationOrdre(string $slug): string
-    {
-        return $this->deplacerFiche('realisations', $slug, '/admin/realisations');
-    }
-
-    public function realisationSupprimer(string $slug): string
-    {
-        return $this->supprimerFiche('realisations', $slug, '/admin/realisations');
+        Session::flash('succes', count($choisies) . ' photo(s) pour cette gamme.');
+        return $this->rediriger($retour);
     }
 
     public function realisationsIntroEnvoi(): string
@@ -707,61 +683,14 @@ final class EditionController
         $p['hero']['titre']    = trim((string) ($_POST['hero_titre'] ?? $p['hero']['titre']));
         $p['hero']['texte']    = trim((string) ($_POST['hero_texte'] ?? ''));
         $p['hero']['image']    = $this->photoFacultative('hero_image', (string) ($p['hero']['image'] ?? ''));
+        $this->content->save('pages/realisations', $p);
 
         $galerie = $this->content->load('realisations');
         $galerie['intro'] = trim((string) ($_POST['intro'] ?? ''));
         $this->content->save('realisations', $galerie);
 
-        $this->content->save('pages/realisations', $p);
         Session::flash('succes', 'En-tête de la page « Réalisations » enregistré.');
         return $this->rediriger('/admin/realisations');
-    }
-
-    // ============================================================== contact
-
-    public function contact(): string
-    {
-        return $this->view->render('admin/contact', [
-            'page'    => ['titre' => 'Page « Contact »'],
-            'contact' => $this->content->load('pages/contact'),
-            'medias'  => $this->mediatheque->lister(),
-        ], 'admin/layout');
-    }
-
-    public function contactEnvoi(): string
-    {
-        if (!Csrf::verifier()) {
-            return $this->rediriger('/admin/contact');
-        }
-        $c = $this->content->load('pages/contact');
-
-        $c['meta']['description'] = trim((string) ($_POST['meta_description'] ?? ''));
-
-        $c['hero']['surtitre'] = trim((string) ($_POST['hero_surtitre'] ?? ''));
-        $c['hero']['titre']    = trim((string) ($_POST['hero_titre'] ?? $c['hero']['titre']));
-        $c['hero']['texte']    = trim((string) ($_POST['hero_texte'] ?? ''));
-        $c['hero']['image']    = $this->photoFacultative('hero_image', (string) $c['hero']['image']);
-
-        $c['introduction']['titre'] = trim((string) ($_POST['intro_titre'] ?? ''));
-        $c['introduction']['texte'] = trim((string) ($_POST['intro_texte'] ?? ''));
-
-        $c['adresse']['titre']      = trim((string) ($_POST['adresse_titre'] ?? ''));
-        $c['adresse']['complement'] = trim((string) ($_POST['adresse_complement'] ?? ''));
-        $c['adresse']['carte']['libelle'] = trim((string) ($_POST['carte_libelle'] ?? ''));
-        $carteUrl = trim((string) ($_POST['carte_url'] ?? ''));
-        $c['adresse']['carte']['url'] = filter_var($carteUrl, FILTER_VALIDATE_URL) ? $carteUrl : '';
-
-        $c['formulaire']['titre']   = trim((string) ($_POST['form_titre'] ?? ''));
-        $c['formulaire']['texte']   = trim((string) ($_POST['form_texte'] ?? ''));
-        $c['formulaire']['mention'] = trim((string) ($_POST['form_mention'] ?? ''));
-        $objets = self::lignes((string) ($_POST['form_objets'] ?? ''));
-        if ($objets !== []) {
-            $c['formulaire']['objets'] = $objets;
-        }
-
-        $this->content->save('pages/contact', $c);
-        Session::flash('succes', 'Page « Contact » enregistrée.');
-        return $this->rediriger('/admin/contact');
     }
 
     // ================================================================== faq

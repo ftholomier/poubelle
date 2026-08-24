@@ -66,25 +66,58 @@ final class PageController
 
     public function realisations(): string
     {
-        $items = $this->content->publies('realisations');
+        return $this->rendre('realisations', 'realisations', [
+            'page'       => $this->page('realisations'),
+            'items'      => $this->photosDesGammes(),
+            'collection' => $this->content->load('realisations'),
+        ]);
+    }
 
-        // Les filtres se déduisent des fiches publiées : une catégorie saisie
-        // dans le back-office apparaît d'elle-même, une catégorie vidée de ses
-        // photos disparaît. Rien à tenir à jour ailleurs.
-        $categories = [];
-        foreach ($items as $item) {
-            $categorie = trim((string) ($item['categorie'] ?? ''));
-            if ($categorie !== '' && !in_array($categorie, $categories, true)) {
-                $categories[] = $categorie;
+    /**
+     * Toutes les photos de réalisation, gamme par gamme.
+     *
+     * Le contenu ne stocke qu'une liste de chemins par gamme : le nom de la
+     * gamme, qui sert d'étiquette et de filtre, est repris de la fiche
+     * produit. Renommer une gamme renomme donc son filtre, sans rien avoir à
+     * reporter ailleurs.
+     *
+     * @return array<int, array{image: string, categorie: string, nom: string}>
+     */
+    private function photosDesGammes(?string $gammeVoulue = null): array
+    {
+        $gammes = (array) ($this->content->load('realisations')['gammes'] ?? []);
+        $noms = [];
+        foreach ($this->content->publies('services') as $service) {
+            $noms[(string) $service['slug']] = (string) ($service['nom'] ?? '');
+        }
+
+        $photos = [];
+        $vues = [];
+        foreach ($gammes as $slug => $images) {
+            if ($gammeVoulue !== null && $slug !== $gammeVoulue) {
+                continue;
+            }
+            // une gamme dépubliée emporte ses photos : elles n'ont plus de
+            // page où mener ni de nom à afficher
+            if (!isset($noms[$slug])) {
+                continue;
+            }
+            foreach ((array) $images as $image) {
+                // une même photo rattachée à deux gammes ne doit pas
+                // apparaître deux fois dans la galerie générale
+                if (isset($vues[$image])) {
+                    continue;
+                }
+                $vues[$image] = true;
+                $photos[] = [
+                    'image'     => (string) $image,
+                    'categorie' => $noms[$slug],
+                    'nom'       => $noms[$slug],
+                ];
             }
         }
 
-        return $this->rendre('realisations', 'realisations', [
-            'page'       => $this->page('realisations'),
-            'items'      => $items,
-            'categories' => $categories,
-            'collection' => $this->content->load('realisations'),
-        ]);
+        return $photos;
     }
 
     public function services(): string
@@ -106,13 +139,9 @@ final class PageController
         return $this->rendre('service', 'nos-services', [
             'page'   => ['titre' => $item['nom'] ?? '', 'meta' => $item['meta'] ?? []],
             'item'   => $item,
-            // Les réalisations rattachées à cette gamme, dans l'ordre du
-            // back-office. Le rattachement est un champ de la fiche photo :
-            // une réalisation reclassée change de page produit toute seule.
-            'realisations' => array_values(array_filter(
-                $this->content->publies('realisations'),
-                static fn(array $r): bool => ($r['gamme'] ?? '') === $slug
-            )),
+            // Les chantiers cochés pour cette gamme, dans l'ordre du
+            // back-office.
+            'realisations' => $this->photosDesGammes($slug),
             'autres' => array_values(array_filter(
                 $this->content->publies('services'),
                 static fn(array $s): bool => ($s['slug'] ?? '') !== $slug

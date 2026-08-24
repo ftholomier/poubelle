@@ -407,4 +407,30 @@
     });
   })();
 
+
+  /* ---------- Planche à cocher des réalisations ----------
+     Deux services seulement : tenir la classe de surbrillance à jour pour les
+     navigateurs sans :has(), et les boutons tout cocher / tout décocher. */
+  (function () {
+    var planche = document.querySelector(".bo-planche");
+    if (!planche) return;
+
+    var cases = [].slice.call(planche.querySelectorAll("input[type=checkbox]"));
+
+    function refleter(c) {
+      c.closest(".bo-planche__photo").classList.toggle("bo-planche__photo--choisie", c.checked);
+    }
+    cases.forEach(function (c) {
+      c.addEventListener("change", function () { refleter(c); });
+    });
+
+    function toutes(valeur) {
+      cases.forEach(function (c) { c.checked = valeur; refleter(c); });
+    }
+    var tout = document.querySelector("[data-cocher-tout]");
+    var rien = document.querySelector("[data-cocher-rien]");
+    if (tout) tout.addEventListener("click", function () { toutes(true); });
+    if (rien) rien.addEventListener("click", function () { toutes(false); });
+  })();
+
 })();
