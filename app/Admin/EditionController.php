@@ -741,6 +741,53 @@ final class EditionController
         return $this->rediriger('/admin/realisations');
     }
 
+    // ============================================================== contact
+
+    public function contact(): string
+    {
+        return $this->view->render('admin/contact', [
+            'page'    => ['titre' => 'Page « Contact »'],
+            'contact' => $this->content->load('pages/contact'),
+            'medias'  => $this->mediatheque->lister(),
+        ], 'admin/layout');
+    }
+
+    public function contactEnvoi(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger('/admin/contact');
+        }
+        $c = $this->content->load('pages/contact');
+
+        $c['meta']['description'] = trim((string) ($_POST['meta_description'] ?? ''));
+
+        $c['hero']['surtitre'] = trim((string) ($_POST['hero_surtitre'] ?? ''));
+        $c['hero']['titre']    = trim((string) ($_POST['hero_titre'] ?? $c['hero']['titre']));
+        $c['hero']['texte']    = trim((string) ($_POST['hero_texte'] ?? ''));
+        $c['hero']['image']    = $this->photoFacultative('hero_image', (string) $c['hero']['image']);
+
+        $c['introduction']['titre'] = trim((string) ($_POST['intro_titre'] ?? ''));
+        $c['introduction']['texte'] = trim((string) ($_POST['intro_texte'] ?? ''));
+
+        $c['adresse']['titre']      = trim((string) ($_POST['adresse_titre'] ?? ''));
+        $c['adresse']['complement'] = trim((string) ($_POST['adresse_complement'] ?? ''));
+        $c['adresse']['carte']['libelle'] = trim((string) ($_POST['carte_libelle'] ?? ''));
+        $carteUrl = trim((string) ($_POST['carte_url'] ?? ''));
+        $c['adresse']['carte']['url'] = filter_var($carteUrl, FILTER_VALIDATE_URL) ? $carteUrl : '';
+
+        $c['formulaire']['titre']   = trim((string) ($_POST['form_titre'] ?? ''));
+        $c['formulaire']['texte']   = trim((string) ($_POST['form_texte'] ?? ''));
+        $c['formulaire']['mention'] = trim((string) ($_POST['form_mention'] ?? ''));
+        $objets = self::lignes((string) ($_POST['form_objets'] ?? ''));
+        if ($objets !== []) {
+            $c['formulaire']['objets'] = $objets;
+        }
+
+        $this->content->save('pages/contact', $c);
+        Session::flash('succes', 'Page « Contact » enregistrée.');
+        return $this->rediriger('/admin/contact');
+    }
+
     // ================================================================== faq
 
     public function faq(): string
