@@ -276,15 +276,29 @@ p + p { margin-top: 1.05rem; }
   position: fixed; inset: 0 0 auto 0; z-index: 100;
   height: var(--entete-h);
   display: flex; align-items: center;
-  /* Fond gris plein en permanence, y compris au-dessus du bandeau photo :
-     c'est le gris des visuels de l'entreprise, et c'est lui qui fait ressortir
-     le monogramme orange. Seule la hauteur change au défilement. */
+  /* Fond gris plein en haut de page : c'est le gris des visuels de
+     l'entreprise, et c'est lui qui fait ressortir le monogramme orange. */
   background: var(--gris-barre);
-  transition: height var(--transition), box-shadow var(--transition);
+  transition: height var(--transition), background var(--transition),
+              box-shadow var(--transition), backdrop-filter var(--transition);
 }
+
+/* Barre réduite, une fois la page défilée : le gris s'ouvre légèrement sur
+   ce qui passe dessous, avec un flou qui empêche le contenu de brouiller le
+   nom. L'opacité tient à 86 % — en dessous, le nom en noir décrochait sur
+   les photos sombres, et la barre cessait d'être une barre. */
 .entete--pleine {
   height: var(--entete-h-compact);
+  background: rgba(68, 68, 68, .86);
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
   box-shadow: 0 10px 30px rgba(26, 26, 26, .22);
+}
+
+/* Sans flou disponible, la transparence laisserait passer le contenu en net
+   derrière le nom : la barre reprend alors son gris plein. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .entete--pleine { background: var(--gris-barre); }
 }
 .entete__barre {
   position: relative;
