@@ -33,18 +33,19 @@ final class TraductionAuto
      * Traduit une liste de textes.
      *
      * @param array<string, string> $textes clé => texte français
-     * @return array{textes: array<string, string>, echecs: int, service: string}
+     * @return array{textes: array<string, string>, echecs: int, service: string, souci: string}
      */
     public function traduire(array $textes, string $vers, string $depuis = 'fr'): array
     {
         $textes = array_filter($textes, static fn(string $t): bool => trim($t) !== '');
         if ($textes === []) {
-            return ['textes' => [], 'echecs' => 0, 'service' => '—'];
+            return ['textes' => [], 'echecs' => 0, 'service' => '—', 'souci' => ''];
         }
 
         $traduits = [];
         $echecs   = 0;
         $service  = '';
+        $souci    = '';
 
         foreach ($this->lots($textes) as $rang => $lot) {
             if ($rang > 0) {
@@ -66,11 +67,18 @@ final class TraductionAuto
                 }
             } catch (RuntimeException $e) {
                 error_log('Traduction automatique : ' . $e->getMessage());
+                // sans cette trace, l'écran ne peut annoncer qu'un échec sans cause
+                $souci = $e->getMessage();
                 $echecs += count($lot);
             }
         }
 
-        return ['textes' => $traduits, 'echecs' => $echecs, 'service' => $service ?: '—'];
+        return [
+            'textes'  => $traduits,
+            'echecs'  => $echecs,
+            'service' => $service ?: '—',
+            'souci'   => $souci,
+        ];
     }
 
     /**
@@ -110,9 +118,16 @@ final class TraductionAuto
     {
         try {
             return [$this->viaGoogle($textes, $vers, $depuis), 'Google Traduction'];
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException $google) {
             // un service de secours : certains hébergements bloquent l'un ou l'autre
-            return [$this->viaMyMemory($textes, $vers, $depuis), 'MyMemory'];
+            try {
+                return [$this->viaMyMemory($textes, $vers, $depuis), 'MyMemory'];
+            } catch (RuntimeException $secours) {
+                throw new RuntimeException(
+                    'Google Traduction : ' . $google->getMessage()
+                    . ' — MyMemory : ' . $secours->getMessage()
+                );
+            }
         }
     }
 

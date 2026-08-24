@@ -252,9 +252,12 @@ final class LangueController
         $resultat = $this->auto->traduire($aFaire, $code);
 
         if ($resultat['textes'] === []) {
+            $souci = $resultat['souci'] ?? '';
             Session::flash('erreur', 'Le service de traduction n’a rien renvoyé. '
-                . 'Il est peut-être momentanément indisponible, ou le serveur n’a pas '
-                . 'accès à Internet. Réessayez, ou traduisez à la main.');
+                . 'Il est peut-être momentanément indisponible, limité en débit, ou le '
+                . 'serveur n’a pas accès à Internet. Réessayez plus tard, ou traduisez à '
+                . 'la main.'
+                . ($souci !== '' ? ' Détail technique : ' . $souci : ''));
             return $this->rediriger($cible);
         }
 
