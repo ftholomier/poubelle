@@ -2107,11 +2107,44 @@ body.visionneuse-ouverte { overflow: hidden; }
    ========================================================================== */
 
 /* Le monogramme est posé au centre absolu de la barre, le nom part de la
-   gauche : sous 780 px les deux se rencontrent, et le monogramme passe
-   par-dessus le mot « TRÉHANT ». Le nom l'emporte — un monogramme seul
-   n'identifie l'entreprise que pour qui la connaît déjà. */
+   gauche : sous 780 px les deux se rencontrent, et le monogramme passait
+   par-dessus le mot « TRÉHANT ».
+
+   Le monogramme quitte donc le centre absolu pour rejoindre le nom dans le
+   flux : les deux forment un bloc, et c'est ce bloc qui est centré. Le
+   burger passe en position absolue à gauche, sinon il pousserait le bloc
+   hors de l'axe. Rien ne disparaît, rien ne se superpose. */
 @media (max-width: 780px) {
-  .entete__logo { display: none; }
+  .entete__barre { justify-content: center; gap: .8rem; }
+  .entete--lateral .entete__barre { justify-content: center; }
+
+  .burger {
+    position: absolute; left: clamp(1rem, 3vw, 2.4rem); top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .entete__logo {
+    position: static; transform: none;
+    order: -1;
+  }
+  .entete__embleme { height: 38px; }
+
+  /* Le nom se resserre pour laisser sa place au monogramme : c'est
+     l'interlettrage, très large sur grand écran, qui coûte le plus. */
+  .entete__nom { font-size: .78rem; letter-spacing: .1em; }
+  .entete__baseline { font-size: .54rem; letter-spacing: .12em; }
+  .entete__mots { margin-right: 0; }
+
+  /* La droite de la barre est vide à cette largeur : la garder dans le flux
+     décalerait le bloc central d'autant. */
+  .entete__droite { display: none; }
+}
+
+/* Sous 380 px, le burger et le bloc se touchaient encore. */
+@media (max-width: 380px) {
+  .entete__nom { font-size: .68rem; letter-spacing: .07em; }
+  .entete__baseline { font-size: .48rem; letter-spacing: .1em; }
+  .entete__embleme { height: 32px; }
 }
 
 @media (max-width: 640px) {
