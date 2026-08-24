@@ -42,16 +42,8 @@
             "legende": ""
         },
         {
-            "slug": "pergola-16",
-            "nom": "Pergola n° 06",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-16.jpg",
-            "legende": ""
-        },
-        {
             "slug": "pergola-17",
-            "nom": "Pergola n° 07",
+            "nom": "Pergola n° 06",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-17.jpg",
@@ -59,7 +51,7 @@
         },
         {
             "slug": "pergola-18",
-            "nom": "Pergola n° 08",
+            "nom": "Pergola n° 07",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-18.jpg",
@@ -67,7 +59,7 @@
         },
         {
             "slug": "pergola-19",
-            "nom": "Pergola n° 09",
+            "nom": "Pergola n° 08",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-19.jpg",
@@ -75,7 +67,7 @@
         },
         {
             "slug": "pergola-20",
-            "nom": "Pergola n° 10",
+            "nom": "Pergola n° 09",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-20.jpg",
@@ -83,63 +75,31 @@
         },
         {
             "slug": "pergola-21",
-            "nom": "Pergola n° 11",
+            "nom": "Pergola n° 10",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-21.jpg",
             "legende": ""
         },
         {
-            "slug": "pergola-22",
-            "nom": "Pergola n° 12",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-22.jpg",
-            "legende": ""
-        },
-        {
             "slug": "pergola-23",
-            "nom": "Pergola n° 13",
+            "nom": "Pergola n° 11",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-23.jpg",
             "legende": ""
         },
         {
-            "slug": "pergola-24",
-            "nom": "Pergola n° 14",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-24.jpg",
-            "legende": ""
-        },
-        {
-            "slug": "pergola-25",
-            "nom": "Pergola n° 15",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-25.jpg",
-            "legende": ""
-        },
-        {
             "slug": "pergola-26",
-            "nom": "Pergola n° 16",
+            "nom": "Pergola n° 12",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-26.jpg",
             "legende": ""
         },
         {
-            "slug": "pergola-27",
-            "nom": "Pergola n° 17",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-27.jpg",
-            "legende": ""
-        },
-        {
             "slug": "pergola-28",
-            "nom": "Pergola n° 18",
+            "nom": "Pergola n° 13",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-28.jpg",
@@ -147,7 +107,7 @@
         },
         {
             "slug": "pergola-29",
-            "nom": "Pergola n° 19",
+            "nom": "Pergola n° 14",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-29.jpg",
@@ -155,39 +115,15 @@
         },
         {
             "slug": "pergola-30",
-            "nom": "Pergola n° 20",
+            "nom": "Pergola n° 15",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-30.jpg",
             "legende": ""
         },
         {
-            "slug": "pergola-31",
-            "nom": "Pergola n° 21",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-31.jpg",
-            "legende": ""
-        },
-        {
-            "slug": "pergola-32",
-            "nom": "Pergola n° 22",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-32.jpg",
-            "legende": ""
-        },
-        {
-            "slug": "pergola-33",
-            "nom": "Pergola n° 23",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-33.jpg",
-            "legende": ""
-        },
-        {
             "slug": "pergola-36",
-            "nom": "Pergola n° 24",
+            "nom": "Pergola n° 16",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-36.jpg",
@@ -195,7 +131,7 @@
         },
         {
             "slug": "pergola-37",
-            "nom": "Pergola n° 25",
+            "nom": "Pergola n° 17",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-37.jpg",
@@ -203,23 +139,15 @@
         },
         {
             "slug": "pergola-38",
-            "nom": "Pergola n° 26",
+            "nom": "Pergola n° 18",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-38.jpg",
             "legende": ""
         },
         {
-            "slug": "pergola-39",
-            "nom": "Pergola n° 27",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-39.jpg",
-            "legende": ""
-        },
-        {
             "slug": "pergola-40",
-            "nom": "Pergola n° 28",
+            "nom": "Pergola n° 19",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-40.jpg",
@@ -227,23 +155,15 @@
         },
         {
             "slug": "pergola-41",
-            "nom": "Pergola n° 29",
+            "nom": "Pergola n° 20",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-41.jpg",
             "legende": ""
         },
         {
-            "slug": "pergola-42",
-            "nom": "Pergola n° 30",
-            "categorie": "Pergola",
-            "actif": true,
-            "image": "assets/img/site/pergola-42.jpg",
-            "legende": ""
-        },
-        {
             "slug": "pergola",
-            "nom": "Pergola n° 31",
+            "nom": "Pergola n° 21",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola.jpg",
@@ -270,7 +190,7 @@
             "nom": "Carport n° 03",
             "categorie": "Carport",
             "actif": true,
-            "image": "assets/img/site/carport-4.jpg",
+            "image": "assets/img/site/pergola-piscine.jpg",
             "legende": ""
         },
         {
@@ -302,7 +222,7 @@
             "nom": "Carport n° 07",
             "categorie": "Carport",
             "actif": true,
-            "image": "assets/img/site/carport-vuiller.jpg",
+            "image": "assets/img/site/carport.jpg",
             "legende": ""
         },
         {
@@ -315,63 +235,63 @@
         },
         {
             "slug": "pergola-briot",
-            "nom": "Pergola n° 32",
+            "nom": "Pergola n° 22",
             "categorie": "Pergola",
             "actif": true,
-            "image": "assets/img/site/pergola-briot.jpg",
+            "image": "assets/img/site/hero-gammes.jpg",
             "legende": ""
         },
         {
             "slug": "pergola-cavatz",
-            "nom": "Pergola n° 33",
+            "nom": "Pergola n° 23",
             "categorie": "Pergola",
             "actif": true,
-            "image": "assets/img/site/pergola-cavatz.jpg",
+            "image": "assets/img/site/pergola-bioclimatique.jpg",
             "legende": ""
         },
         {
             "slug": "pergola-detouillon",
-            "nom": "Pergola n° 34",
+            "nom": "Pergola n° 24",
             "categorie": "Pergola",
             "actif": true,
-            "image": "assets/img/site/pergola-detouillon.jpg",
+            "image": "assets/img/site/pergola-toit-fixe.jpg",
             "legende": ""
         },
         {
             "slug": "pergola-dromard",
-            "nom": "Pergola n° 35",
+            "nom": "Pergola n° 25",
             "categorie": "Pergola",
             "actif": true,
-            "image": "assets/img/site/pergola-dromard.jpg",
+            "image": "assets/img/site/pergola-montage.jpg",
             "legende": ""
         },
         {
             "slug": "pergola-feuvrier",
-            "nom": "Pergola n° 36",
+            "nom": "Pergola n° 26",
             "categorie": "Pergola",
             "actif": true,
-            "image": "assets/img/site/pergola-feuvrier.jpg",
+            "image": "assets/img/site/pergola-store-zip.jpg",
             "legende": ""
         },
         {
             "slug": "pergola-legrand",
-            "nom": "Pergola n° 37",
+            "nom": "Pergola n° 27",
             "categorie": "Pergola",
             "actif": true,
-            "image": "assets/img/site/pergola-legrand.jpg",
+            "image": "assets/img/site/hero-accueil.jpg",
             "legende": ""
         },
         {
             "slug": "pergola-mougey",
-            "nom": "Pergola n° 38",
+            "nom": "Pergola n° 28",
             "categorie": "Pergola",
             "actif": true,
-            "image": "assets/img/site/pergola-mougey.jpg",
+            "image": "assets/img/site/pergola-toile.jpg",
             "legende": ""
         },
         {
             "slug": "pergola-binet",
-            "nom": "Pergola n° 39",
+            "nom": "Pergola n° 29",
             "categorie": "Pergola",
             "actif": true,
             "image": "assets/img/site/pergola-binet.jpg",
