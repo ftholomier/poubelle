@@ -98,10 +98,16 @@ $tel = (string) ($site['contact']['telephone'] ?? '');
           'Instagram' => (string) ($site['reseaux']['instagram'] ?? ''),
           'LinkedIn'  => (string) ($site['reseaux']['linkedin'] ?? ''),
       ]); ?>
+      <?php /* Les marques remplacent leur nom écrit : à cette taille elles
+               se reconnaissent plus vite qu'elles ne se lisent. Le nom reste
+               dans l'intitulé, pour les lecteurs d'écran. */ ?>
       <?php if ($reseaux !== []): ?>
         <p class="pied__reseaux">
           <?php foreach ($reseaux as $nom => $url): ?>
-            <a href="<?= e($url) ?>" target="_blank" rel="noopener"><?= e($nom) ?></a>
+            <a href="<?= e($url) ?>" target="_blank" rel="noopener"
+               aria-label="<?= e($nom) ?>" title="<?= e($nom) ?>">
+              <?= $view->partial('icones', ['nom' => mb_strtolower($nom)]) ?>
+            </a>
           <?php endforeach; ?>
         </p>
       <?php endif; ?>

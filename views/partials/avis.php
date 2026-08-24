@@ -47,12 +47,12 @@ $totalVisible = $avis->totalVisible() && $total > 0;
               </span>
             <?php endfor; ?>
           </span>
-          <?php /* Total masqué : il ne reste que la provenance. Toute mention
-                   de l'échelle (« sur 5 ») se lirait comme un nombre d'avis —
-                   et les cinq étoiles la donnent déjà. */ ?>
-          <span class="avis__total">
-            <?= $totalVisible ? e(sprintf(t('sur %d avis Google'), $total)) : e(t('avis Google')) ?>
-          </span>
+          <?php /* La note et les cinq étoiles se suffisent : ajouter « avis
+                   Google » à côté du chiffre le faisait lire comme un nombre
+                   d'avis. La provenance est déjà dite par le sur-titre. */ ?>
+          <?php if ($totalVisible): ?>
+            <span class="avis__total"><?= e(sprintf(t('sur %d avis'), $total)) ?></span>
+          <?php endif; ?>
         </p>
       <?php endif; ?>
     </div>
@@ -107,12 +107,5 @@ $totalVisible = $avis->totalVisible() && $total > 0;
       </div>
     </div>
 
-    <?php if ($donnees['url'] !== ''): ?>
-      <p class="avis__source reveler">
-        <a class="lien-fleche" href="<?= e($donnees['url']) ?>" target="_blank" rel="noopener nofollow">
-          <?= e(t('Voir tous les avis sur Google')) ?>
-        </a>
-      </p>
-    <?php endif; ?>
   </div>
 </section>

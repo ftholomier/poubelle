@@ -509,10 +509,11 @@
     var points = [].slice.call(carrousel.querySelectorAll("[data-avis-point]"));
     if (!piste || !cartes.length) return;
 
-    var DUREE_PAS = 600;
+    // 600 ms se lisaient comme un saut : le glissement doit être vu
+    var DUREE_PAS = 1500;
     /* Le retour parcourt toute la piste : à durée égale il paraîtrait
        précipité, d'où ce temps plus long. */
-    var DUREE_RETOUR = 950;
+    var DUREE_RETOUR = 2200;
     var MARGE = 4;   // tolérance d'arrondi sur les positions de défilement
 
     var pause = (parseInt(carrousel.getAttribute("data-pause"), 10) || 0) * 1000;
@@ -544,6 +545,7 @@
 
     function allerA(x, duree) {
       if (animation) { cancelAnimationFrame(animation); animation = null; }
+      piste.style.scrollSnapType = "";
 
       x = Math.max(0, Math.min(x, maxDefilement()));
       var depart = piste.scrollLeft;
@@ -553,13 +555,22 @@
       // mouvement réduit demandé : on saute, sans animer
       if (lent || !duree) { piste.scrollLeft = x; majEtat(); return; }
 
+      /* L'ancrage « mandatory » ramène la piste sur le point le plus proche
+         à chaque image : les positions intermédiaires étaient annulées et le
+         déplacement se voyait comme un saut à l'arrivée. On le suspend le
+         temps du mouvement, il reprend la main pour le doigt et la molette. */
+      piste.style.scrollSnapType = "none";
+
       var t0 = null;
       animation = requestAnimationFrame(function pas(t) {
         if (t0 === null) t0 = t;
         var p = Math.min(1, (t - t0) / duree);
         var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
         piste.scrollLeft = depart + delta * e;
-        animation = p < 1 ? requestAnimationFrame(pas) : null;
+        if (p < 1) { animation = requestAnimationFrame(pas); return; }
+        animation = null;
+        piste.style.scrollSnapType = "";
+        majEtat();
       });
     }
 
@@ -573,6 +584,46 @@
         allerA(p[i + 1], DUREE_PAS);
       }
     }
+
+    /* Les témoignages trop longs sont bornés en hauteur : sans repère, rien
+       ne dit qu'il en reste. On leur adjoint une barre dessinée, la barre
+       native étant flottante donc invisible à l'arrêt. */
+    function equiperLesLongs() {
+      cartes.forEach(function (carte) {
+        var texte = carte.querySelector(".avis__texte");
+        if (!texte) return;
+
+        var deborde = texte.scrollHeight > texte.clientHeight + 1;
+        carte.classList.toggle("avis__carte--long", deborde);
+
+        var barre = texte.parentNode.querySelector(".avis__piste-texte");
+        if (!deborde) { if (barre) barre.remove(); return; }
+        if (!barre) {
+          barre = document.createElement("span");
+          barre.className = "avis__piste-texte";
+          barre.setAttribute("aria-hidden", "true");
+          barre.appendChild(document.createElement("span"));
+          texte.parentNode.appendChild(barre);
+        }
+
+        // la barre longe le seul témoignage, pas toute la carte
+        barre.style.top = texte.offsetTop + "px";
+        barre.style.height = texte.clientHeight + "px";
+
+        var pouce = barre.firstChild;
+        var majPouce = function () {
+          var part = texte.clientHeight / texte.scrollHeight;
+          var haut = texte.scrollTop / texte.scrollHeight;
+          pouce.style.height = (part * 100) + "%";
+          pouce.style.transform = "translateY(" + (haut / part * 100) + "%)";
+        };
+        majPouce();
+        texte.addEventListener("scroll", majPouce, { passive: true });
+      });
+    }
+
+    equiperLesLongs();
+    window.addEventListener("resize", equiperLesLongs);
 
     function majEtat() {
       var p = positions();

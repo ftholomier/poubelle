@@ -384,10 +384,11 @@ p + p { margin-top: 1.05rem; }
 }
 .navbar__lien::after {
   content: ""; position: absolute; left: .3rem; right: .3rem; bottom: .15rem;
-  height: 2px; background: currentColor;
+  height: 1px; background: var(--orange);
   transform: scaleX(0); transform-origin: left;
-  transition: transform var(--transition);
+  transition: transform .45s cubic-bezier(.32, .72, .3, 1);
 }
+.navbar__lien:focus-visible::after { transform: scaleX(1); }
 .navbar__item:hover > .navbar__lien::after,
 .navbar__lien[aria-current="page"]::after { transform: scaleX(1); }
 .navbar__item:hover > .navbar__lien { color: var(--orange); }
@@ -1133,15 +1134,20 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .74s; }
 /* Le script masque les pastilles sans position atteignable ; sans cette
    règle, le display:flex du parent l'emporterait sur l'attribut hidden. */
 .avis__point[hidden] { display: none; }
+/* La pastille se voit à 9 px mais ne se vise pas : la marge intérieure
+   agrandit la cible, « content-box » gardant la peinture sur le seul
+   rectangle visible. */
 .avis__point {
-  width: 9px; height: 9px; padding: 0;
+  width: 9px; height: 9px;
+  padding: 15px 0;
+  box-sizing: content-box; background-clip: content-box;
   border-radius: 0;
-  background: var(--sable-voile);
+  background-color: var(--sable-voile);
   border: 0;
-  transition: background var(--transition), width var(--transition);
+  transition: background-color var(--transition), width var(--transition);
 }
-.avis__point:hover { background: var(--orange); }
-.avis__point[aria-current="true"] { background: var(--orange); width: 26px; border-radius: 0; }
+.avis__point:hover { background-color: var(--orange); }
+.avis__point[aria-current="true"] { background-color: var(--orange); width: 26px; border-radius: 0; }
 .avis__entete { display: flex; align-items: center; gap: .9rem; margin-bottom: 1rem; }
 /* Médaillon d'initiales : la photo de profil Google est volontairement
    écartée, elle relancerait une requête vers un domaine tiers. */
@@ -1155,9 +1161,39 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .74s; }
 .avis__auteur { font-weight: 700; font-size: 1rem; color: var(--encre); }
 .avis__date { font-size: .82rem; color: var(--texte-doux); }
 .avis__etoiles--carte { margin-bottom: .9rem; }
+/* Un avis long imposait sa hauteur à toute la rangée. La carte est bornée,
+   et c'est le témoignage qui défile à l'intérieur — la barre reste discrète
+   et n'apparaît que lorsqu'il y a vraiment à lire plus bas. */
 .avis__texte {
   font-size: .97rem; line-height: 1.68; color: var(--texte-doux);
   font-style: normal;
+  max-height: 8.4em;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Le navigateur dessine des barres flottantes, invisibles tant qu'on ne
+   défile pas : rien n'annoncerait qu'il reste à lire. La barre est donc
+   dessinée à la main, sur les seuls témoignages qui débordent — repérés par
+   le script, une feuille de style ne sachant pas mesurer un débordement. */
+.avis__carte--long .avis__texte {
+  padding-right: 1rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  mask-image: linear-gradient(#000 78%, rgba(0, 0, 0, .25));
+  -webkit-mask-image: linear-gradient(#000 78%, rgba(0, 0, 0, .25));
+}
+.avis__carte--long .avis__texte::-webkit-scrollbar { display: none; }
+
+.avis__carte--long { position: relative; }
+.avis__piste-texte {
+  position: absolute; right: clamp(1.5rem, 3vw, 2rem);
+  width: 3px; background: var(--ligne);
+}
+.avis__piste-texte span {
+  position: absolute; left: 0; right: 0; top: 0;
+  background: var(--orange);
+  transition: transform .12s linear;
 }
 .avis__texte::before { content: "« "; }
 .avis__texte::after { content: " »"; }
@@ -1369,8 +1405,20 @@ a.coordonnees__valeur:hover {
 .pied__tel:hover { color: var(--orange); }
 
 .pied__liens { display: grid; gap: .6rem; }
-.pied__liens a { transition: color var(--transition), padding-left var(--transition); }
-.pied__liens a:hover { color: var(--orange); padding-left: .3rem; }
+/* Le lien reste en ligne pour que le trait s'arrête au mot et non au bord
+   de la colonne : souligner du vide ne désigne rien. */
+.pied__liens a {
+  position: relative; display: inline-block;
+  transition: color var(--transition), padding-left var(--transition);
+}
+.pied__liens a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px;
+  height: 1px; background: var(--orange);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .45s cubic-bezier(.32, .72, .3, 1);
+}
+.pied__liens a:hover, .pied__liens a:focus-visible { color: var(--orange); padding-left: .3rem; }
+.pied__liens a:hover::after, .pied__liens a:focus-visible::after { transform: scaleX(1); }
 
 .pied address { font-style: normal; display: grid; gap: 1rem; }
 .pied__ligne { display: flex; gap: .8rem; align-items: flex-start; line-height: 1.6; }
@@ -1394,11 +1442,18 @@ a.coordonnees__valeur:hover {
 }
 .pied__seo p + p { margin-top: .5rem; }
 
+/* « space-between » centrait le bloc du milieu entre ses voisins, et non
+   dans la page : les deux extrémités n'ayant pas la même largeur, il
+   penchait toujours d'un côté. Trois colonnes dont les deux extérieures
+   partagent le reste le placent sur l'axe. */
 .pied__bas {
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: .8rem;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  gap: .8rem 1.4rem;
   padding-top: 1.6rem;
   font-size: .84rem; color: rgba(255, 255, 255, .55);
 }
+.pied__bas > :last-child { justify-self: end; text-align: right; }
+.pied__bas > :first-child { justify-self: start; }
 .pied__legal a { transition: color var(--transition); }
 .pied__legal a:hover { color: var(--orange); }
 
@@ -1670,7 +1725,10 @@ a.coordonnees__valeur:hover {
   .indicateurs__item { border-right: 0; border-bottom: 1px solid var(--ligne); }
   .indicateurs__item:last-child { border-bottom: 0; }
   .pied__haut { grid-template-columns: 1fr; }
-  .pied__bas { flex-direction: column; }
+  /* Une seule colonne : les trois blocs s'empilent, alignés à gauche comme
+     le reste du pied. */
+  .pied__bas { grid-template-columns: 1fr; justify-items: start; }
+  .pied__bas > :last-child { justify-self: start; text-align: left; }
   .btn { width: 100%; }
   .heros__actions .btn, .bande-cta__actions .btn, .erreur-page__actions .btn { width: auto; flex: 1 1 auto; }
 }
@@ -1752,9 +1810,19 @@ a.coordonnees__valeur:hover {
   margin: .55rem 0;
 }
 
-.pied__reseaux { display: flex; gap: 1.1rem; }
-.pied__reseaux a { color: rgba(255, 255, 255, .72); transition: color var(--transition); }
-.pied__reseaux a:hover { color: #fff; }
+/* Les marques prennent la couleur du texte : un seul aplat orange, aucune
+   image à charger, et le même alignement optique que les autres icônes. */
+.pied__reseaux { display: flex; align-items: center; gap: .6rem; margin: 0; }
+.pied__reseaux a {
+  display: grid; place-items: center;
+  width: 40px; height: 40px;
+  color: var(--orange);
+  transition: color var(--transition), background var(--transition);
+}
+.pied__reseaux a svg { display: block; width: 20px; height: 20px; }
+.pied__reseaux a:hover, .pied__reseaux a:focus-visible {
+  color: var(--encre); background: var(--orange);
+}
 
 /* ---------- Frise de l'histoire ----------
    Le filet vertical est peint par le ::before de la liste, et non par chaque
@@ -1855,11 +1923,17 @@ a.coordonnees__valeur:hover {
 
 /* --- visionneuse --- */
 body.visionneuse-ouverte { overflow: hidden; }
+/* Les flèches étaient posées de part et d'autre de la photo, dans le même
+   flux qu'elle : une photo verticale les rapprochait, une panoramique les
+   écartait, et l'œil devait les rechercher à chaque changement. Ancrées aux
+   bords de l'écran, elles ne bougent plus d'une image à l'autre — la marge
+   intérieure leur réserve la place pour que la photo ne passe jamais
+   dessous. */
 .visionneuse {
   position: fixed; inset: 0; z-index: 300;
   display: flex; align-items: center; justify-content: center;
-  gap: clamp(.5rem, 2vw, 1.5rem);
   padding: clamp(1rem, 4vw, 3rem);
+  padding-inline: clamp(4.6rem, 9vw, 8rem);
   background: rgba(10, 10, 10, .93);
 }
 /* Une règle d'affichage explicite l'emporterait sur l'attribut hidden : il
@@ -1888,6 +1962,11 @@ body.visionneuse-ouverte { overflow: hidden; }
 .visionneuse__fermer:hover,
 .visionneuse__nav:hover { background: var(--orange); border-color: var(--orange); }
 .visionneuse__fermer { position: absolute; top: 1.2rem; right: 1.2rem; }
+.visionneuse__nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+}
+.visionneuse__nav--avant { left: clamp(1rem, 2.5vw, 2.2rem); }
+.visionneuse__nav--apres { right: clamp(1rem, 2.5vw, 2.2rem); }
 /* Croix et chevrons dessinés en CSS : ni image ni police d'icônes. */
 .visionneuse__fermer::before,
 .visionneuse__fermer::after {
@@ -1909,7 +1988,9 @@ body.visionneuse-ouverte { overflow: hidden; }
 .visionneuse__nav:hover::before { border-color: var(--encre); }
 
 @media (max-width: 720px) {
-  .visionneuse__nav { position: absolute; bottom: 1.4rem; }
+  /* Au pouce, les flèches passent en bas, mais toujours à une place fixe. */
+  .visionneuse { padding-inline: clamp(1rem, 4vw, 3rem); }
+  .visionneuse__nav { top: auto; bottom: 1.4rem; transform: none; }
   .visionneuse__nav--avant { left: 25%; }
   .visionneuse__nav--apres { right: 25%; }
   .visionneuse__cadre img { max-height: calc(100vh - 13rem); }
@@ -2199,9 +2280,9 @@ body.visionneuse-ouverte { overflow: hidden; }
   .pied__legal a,
   .pied__tel,
   .pied__contact a { display: inline-block; padding-block: .6rem; }
-  .pied__reseaux a { display: inline-grid; place-items: center; min-width: 42px; min-height: 42px; }
+  .pied__reseaux a { width: 42px; height: 42px; }
   .coordonnees__valeur { display: inline-block; padding-block: .6rem; }
-  .entete__mots { padding-block: .45rem; }
+  .entete__mots { padding-block: .55rem; }
 
   /* La case de consentement se visait au pixel près. */
   .champ--case input[type="checkbox"],
