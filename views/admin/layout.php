@@ -27,6 +27,7 @@ $menu = [
   ['/admin/apparence',     'Apparence'],
   ['/admin/avis',          'Avis Google'],
   ['/admin/assistant',     'Assistant IA'],
+  ['/admin/conversations', 'Conversations'],
   ['/admin/referencement', 'Référencement'],
   ['/admin/langues',       'Langues'],
   ['/admin/avance',        'Éditeur avancé'],
@@ -53,7 +54,15 @@ $menu = [
     <nav class="bo-lateral__nav" aria-label="Navigation du back-office">
       <?php foreach ($menu as [$url, $libelle]):
           $actif = $chemin === $url || ($url !== '/admin' && str_starts_with($chemin, $url)); ?>
-        <a href="<?= url($url) ?>"<?= $actif ? ' aria-current="page"' : '' ?>><?= e($libelle) ?></a>
+        <a href="<?= url($url) ?>"<?= $actif ? ' aria-current="page"' : '' ?>>
+          <?= e($libelle) ?>
+          <?php /* Les conversations non lues portent leur compte : c'est là que
+                   se trouvent les demandes de rappel, elles ne doivent pas
+                   attendre qu'on pense à ouvrir l'écran. */ ?>
+          <?php if ($url === '/admin/conversations' && ($nonLues ?? 0) > 0): ?>
+            <span class="bo-lateral__compte"><?= (int) $nonLues ?></span>
+          <?php endif; ?>
+        </a>
       <?php endforeach; ?>
     </nav>
     <div class="bo-lateral__pied">

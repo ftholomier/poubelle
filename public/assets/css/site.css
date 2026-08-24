@@ -1928,6 +1928,54 @@ body.visionneuse-ouverte { overflow: hidden; }
   background: var(--encre);
 }
 
+/* --- passage à l'action --- */
+.assistant__action {
+  padding: .7rem .8rem 0;
+  background: var(--fond);
+}
+.assistant__rappel {
+  display: block; width: 100%;
+  padding: .7rem 1rem;
+  background: var(--encre); color: var(--orange);
+  font-weight: 700; font-size: .9rem;
+  transition: background var(--transition), color var(--transition);
+}
+.assistant__rappel:hover { background: var(--orange); color: var(--encre); }
+
+.assistant__contact {
+  padding: .9rem .8rem .2rem;
+  background: var(--fond);
+  display: grid; gap: .35rem;
+}
+/* Une règle d'affichage explicite l'emporterait sur l'attribut hidden. */
+.assistant__contact[hidden] { display: none; }
+.assistant__contact-titre { font-weight: 700; font-size: .9rem; margin-bottom: .3rem; }
+.assistant__contact label {
+  font-size: .74rem; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--texte-doux);
+}
+.assistant__contact input {
+  padding: .55rem .7rem;
+  border: 1px solid var(--ligne); background: var(--fond-teinte);
+  font: inherit; font-size: .92rem; color: var(--texte);
+}
+.assistant__contact input:focus { outline: 2px solid var(--orange); outline-offset: 1px; }
+.assistant__contact-aide { font-size: .76rem; color: var(--texte-doux); }
+.assistant__contact-actions {
+  display: flex; align-items: center; gap: .8rem; margin-top: .5rem;
+}
+.assistant__contact-actions .btn { padding: .6rem 1.2rem; font-size: .86rem; }
+.assistant__contact-annuler { font-size: .84rem; color: var(--texte-doux); text-decoration: underline; }
+
+/* Pastille orange sur la bulle : une discussion est en cours, reprise d'une
+   page précédente. */
+.assistant--repris .assistant__bulle::after {
+  content: ""; position: absolute; top: -3px; right: -3px;
+  width: 12px; height: 12px;
+  background: var(--encre); border: 2px solid var(--orange);
+}
+.assistant__bulle { position: relative; }
+
 .assistant__mention {
   padding: 0 1.1rem .9rem;
   font-size: .74rem; line-height: 1.5; color: var(--texte-doux);

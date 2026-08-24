@@ -5,9 +5,13 @@ namespace App\Controllers;
 
 use App\Core\Assistant;
 use App\Core\Content;
+use App\Core\Conversations;
+use App\Core\Mailer;
+use App\Core\Parametres;
 use App\Core\Csrf;
 use App\Core\Session;
 use RuntimeException;
+use Throwable;
 
 /**
  * API JSON en lecture seule. Elle sert déjà le front pour les parties
@@ -19,6 +23,9 @@ final class ApiController
     public function __construct(
         private readonly Content $content,
         private readonly ?Assistant $assistant = null,
+        private readonly ?Conversations $conversations = null,
+        private readonly ?Mailer $mailer = null,
+        private readonly ?Parametres $parametres = null,
     ) {
     }
 
@@ -71,9 +78,123 @@ final class ApiController
         }
 
         try {
-            return json_response($this->assistant->repondre($question, $historique));
+            $resultat = $this->assistant->repondre($question, $historique);
         } catch (RuntimeException $e) {
             return json_response(['erreur' => $e->getMessage()], 502);
+        }
+
+        // Le journal est tenu après coup : un échec d'écriture ne doit pas
+        // priver le visiteur d'une réponse déjà obtenue.
+        try {
+            $this->conversations?->ajouter(
+                (string) ($charge['conversation'] ?? ''),
+                $question,
+                $resultat['reponse'],
+                (string) ($charge['page'] ?? '')
+            );
+        } catch (Throwable $e) {
+            error_log('Assistant : conversation non enregistrée — ' . $e->getMessage());
+        }
+
+        return json_response($resultat);
+    }
+
+    /**
+     * Demande de rappel laissée dans l'assistant : /api/assistant/contact
+     *
+     * Elle est enregistrée dans la conversation ET envoyée par e-mail. Un
+     * numéro laissé dans une bulle de discussion que personne ne relit ne
+     * vaut rien : c'est l'e-mail qui déclenche le rappel.
+     */
+    public function assistantContact(): string
+    {
+        if ($this->assistant === null || !$this->assistant->actif()) {
+            return json_response(['erreur' => 'L’assistant n’est pas disponible.'], 503);
+        }
+
+        $charge = json_decode((string) file_get_contents('php://input'), true);
+        $charge = is_array($charge) ? $charge : $_POST;
+
+        $jeton = $charge['_csrf'] ?? $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+        if (!Csrf::verifierJeton($jeton)) {
+            return json_response(['erreur' => 'Session expirée. Rechargez la page.'], 419);
+        }
+
+        $contact = [
+            'nom'       => mb_substr(trim((string) ($charge['nom'] ?? '')), 0, 80),
+            'telephone' => mb_substr(trim((string) ($charge['telephone'] ?? '')), 0, 30),
+            'email'     => mb_substr(trim((string) ($charge['email'] ?? '')), 0, 120),
+            'message'   => mb_substr(trim((string) ($charge['message'] ?? '')), 0, 600),
+        ];
+
+        if ($contact['telephone'] === '' && $contact['email'] === '') {
+            return json_response(['erreur' => 'Laissez au moins un téléphone ou un e-mail.'], 400);
+        }
+        if ($contact['email'] !== '' && !filter_var($contact['email'], FILTER_VALIDATE_EMAIL)) {
+            return json_response(['erreur' => 'Cette adresse e-mail semble incorrecte.'], 400);
+        }
+        if (!$this->quotaDeSession()) {
+            return json_response(['erreur' => 'Trop de demandes. Appelez-nous directement.'], 429);
+        }
+
+        try {
+            $this->conversations?->contact((string) ($charge['conversation'] ?? ''), array_filter($contact));
+        } catch (Throwable $e) {
+            error_log('Assistant : demande de rappel non enregistrée — ' . $e->getMessage());
+        }
+
+        $this->prevenir($contact, (array) ($charge['historique'] ?? []));
+
+        return json_response(['message' => 'Merci, nous vous rappelons rapidement.']);
+    }
+
+    /** Envoie la demande de rappel au destinataire réglé dans Paramètres. */
+    private function prevenir(array $contact, array $historique): void
+    {
+        if ($this->mailer === null || $this->parametres === null) {
+            return;
+        }
+
+        $site = $this->content->load('site');
+        $destinataire = (string) $this->parametres->get('contact.destinataire')
+            ?: (string) ($site['contact']['email'] ?? '');
+
+        if ($destinataire === '') {
+            error_log('Assistant : ni destinataire dans Paramètres, ni e-mail dans Coordonnées.');
+            return;
+        }
+
+        $lignes = ['Demande de rappel laissée dans l’assistant du site.', ''];
+        foreach (['nom' => 'Nom', 'telephone' => 'Téléphone', 'email' => 'E-mail', 'message' => 'Message'] as $cle => $libelle) {
+            if (($contact[$cle] ?? '') !== '') {
+                $lignes[] = $libelle . ' : ' . $contact[$cle];
+            }
+        }
+
+        // Les derniers échanges accompagnent la demande : ils disent ce que le
+        // visiteur cherchait, et donc par quoi commencer le rappel.
+        $derniers = array_slice($historique, -6);
+        if ($derniers !== []) {
+            $lignes[] = '';
+            $lignes[] = '--- Fin de la conversation ---';
+            foreach ($derniers as $tour) {
+                if (!is_array($tour)) {
+                    continue;
+                }
+                $qui = ($tour['role'] ?? '') === 'model' ? 'Assistant' : 'Visiteur';
+                $lignes[] = $qui . ' : ' . mb_substr((string) ($tour['texte'] ?? ''), 0, 500);
+            }
+        }
+
+        try {
+            $this->mailer->envoyer(
+                $destinataire,
+                'Demande de rappel — assistant du site',
+                implode("\n", $lignes),
+                $contact['email']
+            );
+        } catch (Throwable $e) {
+            error_log('Assistant : e-mail de rappel non envoyé — ' . $e->getMessage());
         }
     }
 

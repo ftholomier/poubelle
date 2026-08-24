@@ -18,6 +18,7 @@ use App\Controllers\ApiController;
 use App\Controllers\PageController;
 use App\Core\Assistant;
 use App\Core\Avis;
+use App\Core\Conversations;
 use App\Core\Langues;
 use App\Core\Mailer;
 use App\Core\Parametres;
@@ -52,7 +53,9 @@ $assistant = new Assistant(
 );
 
 $pages = new PageController($view, $content, $parametresSite, new Mailer($parametresSite), $seo);
-$api   = new ApiController($content, $assistant);
+$conversations = new Conversations($config['paths']['data'] . '/assistant/conversations');
+
+$api   = new ApiController($content, $assistant, $conversations, new Mailer($parametresSite), $parametresSite);
 
 $view->share('seo', $seo);
 $view->share('parametres', $parametresSite);
@@ -128,7 +131,8 @@ $router->get('/api/services',        fn() => $api->collection('services'));
 $router->get('/api/services/{slug}', fn(array $p) => $api->item('services', $p['slug']));
 $router->get('/api/valeurs',         fn() => $api->collection('valeurs'));
 $router->get('/api/realisations',    fn() => $api->collection('realisations'));
-$router->post('/api/assistant',      fn() => $api->assistant());
+$router->post('/api/assistant',         fn() => $api->assistant());
+$router->post('/api/assistant/contact', fn() => $api->assistantContact());
 
 // --- back-office ---------------------------------------------------------
 require __DIR__ . '/routes-admin.php';

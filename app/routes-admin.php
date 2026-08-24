@@ -15,6 +15,7 @@ declare(strict_types=1);
 use App\Admin\AdminController;
 use App\Admin\ApparenceController;
 use App\Admin\AssistantController;
+use App\Admin\ConversationController;
 use App\Admin\AvisController;
 use App\Admin\EditionController;
 use App\Admin\LangueController;
@@ -52,6 +53,9 @@ $reglage = new ParametreController($view, $parametres, $content, $auth, $mailer,
 $apparence = new ApparenceController($view, $parametres);
 $ctrlAvis  = new AvisController($view, $avis, $parametres);
 $ctrlIa    = new AssistantController($view, $assistant, $parametres);
+$ctrlConv  = new ConversationController($view, $conversations);
+// compteur du menu : lu une fois, partagé à tous les écrans du back-office
+$view->share('nonLues', $conversations->nonLues());
 
 $view->share('auth', $auth);
 
@@ -146,6 +150,11 @@ $router->post('/admin/assistant/notes',           $protege(fn() => $ctrlIa->note
 $router->post('/admin/assistant/documents',       $protege(fn() => $ctrlIa->documentAjout()));
 $router->post('/admin/assistant/documents/retirer', $protege(fn() => $ctrlIa->documentSuppression()));
 $router->post('/admin/assistant/essai',           $protege(fn() => $ctrlIa->essai()));
+
+// --- conversations --------------------------------------------------------
+$router->get('/admin/conversations',            $protege(fn() => $ctrlConv->ecran()));
+$router->post('/admin/conversations/supprimer', $protege(fn() => $ctrlConv->supprimer()));
+$router->post('/admin/conversations/vider',     $protege(fn() => $ctrlConv->viderMois()));
 
 // --- réglages techniques --------------------------------------------------
 $router->get('/admin/parametres',             $protege(fn() => $reglage->ecran()));

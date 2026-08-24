@@ -669,7 +669,14 @@
   })();
 
 
-  /* ---------- Assistant de discussion ---------- */
+  /* ---------- Assistant de discussion ----------
+     La conversation survit à la navigation : elle est gardée dans le
+     sessionStorage, qui suit l'onglet de page en page et s'efface à sa
+     fermeture. Un cookie n'aurait rien apporté ici — rien n'est envoyé au
+     serveur à chaque requête — et aurait demandé un consentement.
+
+     Le serveur en tient son propre journal, consultable dans le back-office :
+     celui-ci sert à l'affichage, celui-là au suivi commercial. */
   (function () {
     var boite = document.querySelector("[data-assistant]");
     if (!boite) return;
@@ -681,14 +688,37 @@
     var form = boite.querySelector("[data-assistant-form]");
     var champ = form.querySelector("textarea");
     var envoyer = form.querySelector("button[type=submit]");
+    var formContact = boite.querySelector("[data-assistant-contact]");
+    var boutonRappel = boite.querySelector("[data-assistant-rappel]");
+    var annuler = boite.querySelector("[data-assistant-annuler]");
+
     var historique = [];
     var enCours = false;
+    var CLE = "trehant.assistant";
 
-    function basculer(etat) {
-      panneau.hidden = !etat;
-      ouvrir.setAttribute("aria-expanded", etat ? "true" : "false");
-      boite.classList.toggle("assistant--ouvert", etat);
-      if (etat) champ.focus();
+    /* --- mémoire de l'onglet --- */
+    function memoire() {
+      try { return JSON.parse(sessionStorage.getItem(CLE)) || {}; } catch (e) { return {}; }
+    }
+    function retenir(donnees) {
+      // Le stockage peut refuser d'écrire (navigation privée, quota) : la
+      // discussion doit continuer sans lui.
+      try { sessionStorage.setItem(CLE, JSON.stringify(donnees)); } catch (e) {}
+    }
+
+    var etat = memoire();
+    var conversation = etat.id || (Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8));
+
+    function sauver() {
+      retenir({ id: conversation, historique: historique, ouvert: !panneau.hidden });
+    }
+
+    function basculer(etatOuvert) {
+      panneau.hidden = !etatOuvert;
+      ouvrir.setAttribute("aria-expanded", etatOuvert ? "true" : "false");
+      boite.classList.toggle("assistant--ouvert", etatOuvert);
+      if (etatOuvert) { champ.focus(); fil.scrollTop = fil.scrollHeight; }
+      sauver();
     }
 
     ouvrir.addEventListener("click", function () { basculer(panneau.hidden); });
@@ -697,7 +727,6 @@
       if (e.key === "Escape" && !panneau.hidden) { basculer(false); ouvrir.focus(); }
     });
 
-    /** Le champ grandit avec le texte, jusqu'à cinq lignes. */
     champ.addEventListener("input", function () {
       champ.style.height = "auto";
       champ.style.height = Math.min(champ.scrollHeight, 120) + "px";
@@ -717,6 +746,23 @@
       return p;
     }
 
+    /* --- reprise de la conversation en cours --- */
+    if (etat.historique && etat.historique.length) {
+      historique = etat.historique;
+      historique.forEach(function (tour) {
+        ajouter(tour.role === "model" ? "robot" : "visiteur", tour.texte);
+      });
+      // pastille discrète : une discussion est en cours, sans rouvrir de
+      // force un panneau que le visiteur avait fermé
+      boite.classList.add("assistant--repris");
+      if (etat.ouvert) basculer(true);
+    }
+
+    function jeton(f) {
+      var champJeton = f.querySelector("input[name=_csrf]");
+      return champJeton ? champJeton.value : "";
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (enCours) return;
@@ -728,21 +774,22 @@
       historique.push({ role: "user", texte: question });
       champ.value = "";
       champ.style.height = "auto";
+      sauver();
 
       enCours = true;
       envoyer.disabled = true;
       var attente = ajouter("robot", "…");
       attente.classList.add("assistant__message--attente");
 
-      // l'adresse vient du gabarit : elle reste juste si le site est
-      // installé dans un sous-répertoire
       fetch(form.getAttribute("action"), {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": (form.querySelector("input[name=_csrf]") || {}).value || ""
-        },
-        body: JSON.stringify({ question: question, historique: historique.slice(0, -1) })
+        headers: { "Content-Type": "application/json", "X-CSRF-Token": jeton(form) },
+        body: JSON.stringify({
+          question: question,
+          historique: historique.slice(0, -1),
+          conversation: conversation,
+          page: window.location.pathname
+        })
       }).then(function (r) {
         return r.json().then(function (j) { return { ok: r.ok, corps: j }; });
       }).then(function (res) {
@@ -754,15 +801,58 @@
           ajouter("erreur", res.corps.erreur || "Une erreur est survenue.");
           historique.pop();
         }
+        sauver();
       }).catch(function () {
         attente.remove();
         ajouter("erreur", "La connexion a échoué. Réessayez.");
         historique.pop();
+        sauver();
       }).then(function () {
         enCours = false;
         envoyer.disabled = false;
         champ.focus();
       });
+    });
+
+    /* --- demande de rappel --- */
+    if (!formContact || !boutonRappel) return;
+
+    function afficherContact(visible) {
+      formContact.hidden = !visible;
+      boutonRappel.setAttribute("aria-expanded", visible ? "true" : "false");
+      if (visible) formContact.querySelector("input").focus();
+    }
+    boutonRappel.addEventListener("click", function () { afficherContact(formContact.hidden); });
+    if (annuler) annuler.addEventListener("click", function () { afficherContact(false); boutonRappel.focus(); });
+
+    formContact.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var bouton = formContact.querySelector("button[type=submit]");
+      bouton.disabled = true;
+
+      fetch(formContact.getAttribute("action"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-CSRF-Token": jeton(formContact) },
+        body: JSON.stringify({
+          nom: formContact.nom.value,
+          telephone: formContact.telephone.value,
+          email: formContact.email.value,
+          conversation: conversation,
+          historique: historique
+        })
+      }).then(function (r) {
+        return r.json().then(function (j) { return { ok: r.ok, corps: j }; });
+      }).then(function (res) {
+        if (res.ok) {
+          afficherContact(false);
+          ajouter("robot", res.corps.message || "Merci, nous vous rappelons rapidement.");
+          formContact.reset();
+        } else {
+          ajouter("erreur", res.corps.erreur || "L’envoi a échoué.");
+        }
+      }).catch(function () {
+        ajouter("erreur", "La connexion a échoué. Réessayez.");
+      }).then(function () { bouton.disabled = false; });
     });
   })();
 

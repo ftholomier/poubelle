@@ -259,6 +259,49 @@ Garde-fous d'usage : 800 caractères par question, 30 questions par session et
 par heure, jeton CSRF vérifié sur chaque appel. L'écran d'administration
 permet de poser une question d'essai avant d'activer la bulle.
 
+### La conversation suit le visiteur
+
+Elle est gardée dans le `sessionStorage` : elle suit l'onglet de page en page
+et s'efface à sa fermeture. Un cookie n'aurait rien apporté — rien n'est
+envoyé au serveur à chaque requête — et aurait demandé un consentement. Le
+panneau se rouvre s'il était ouvert, et la bulle porte une pastille quand une
+discussion est en cours.
+
+### Amener à l'action
+
+Un assistant qui répond bien et laisse repartir le visiteur n'a rien produit.
+Deux dispositifs s'y emploient :
+
+- **La consigne système** demande de conclure par une phrase courte, et — dès
+  qu'une question touche un prix, un délai, des dimensions ou une
+  faisabilité — de dire franchement que seul un relevé sur place permet de
+  répondre, puis d'inviter à laisser un numéro. Jamais avant d'avoir répondu,
+  jamais deux fois de suite, et sans insister sur un refus.
+- **Un bouton « Être rappelé »** sous le fil, qui déplie nom / téléphone /
+  e-mail. À l'envoi, la demande est enregistrée **et** expédiée par e-mail au
+  destinataire réglé dans Paramètres, avec les derniers échanges en pièce
+  jointe du message : ils disent ce que le visiteur cherchait, donc par quoi
+  commencer le rappel. Un numéro laissé dans une bulle que personne ne relit
+  ne vaut rien.
+
+Un téléphone ou une adresse écrits **au fil de la discussion** sont relevés
+automatiquement et remontés sur la fiche de la conversation : ils s'y
+perdraient sinon.
+
+### Historique des conversations
+
+**Admin → Conversations** liste les échanges, du plus récent au plus ancien,
+avec les coordonnées mises en évidence et un compteur de non-lues dans le
+menu. Un fichier JSON par mois plutôt qu'un par conversation : un répertoire
+qui grossit d'un fichier par visiteur devient impossible à parcourir en FTP,
+et la purge se fait alors en supprimant des fichiers entiers.
+
+Ce sont des données personnelles. Elles vivent hors racine web, ne partent
+chez aucun tiers hors de l'appel Gemini, sont supprimables à l'unité ou au
+mois, et **purgées automatiquement au bout de douze mois** — la purge se
+déclenche à chaque écriture, sans tâche planifiée, que bien des hébergements
+mutualisés ne proposent pas. Les mentions légales décrivent le dispositif.
+
 ## Correspondance des noms internes
 
 Le socle nomme ses deux collections `services` et `valeurs`. Elles portent ici
