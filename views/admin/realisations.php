@@ -7,6 +7,7 @@
  * allers-retours pour un simple reclassement.
  *
  * @var array $galerie
+ * @var array $gammes
  * @var array $pageIntro
  * @var string[] $medias
  * @var App\Core\View $view
@@ -33,6 +34,8 @@ sort($categories);
   Les boutons de filtre de cette page se construisent tout seuls à partir des
   catégories saisies ici : écrivez « Carport » sur trois photos et le filtre
   « Carport » apparaît, videz-les et il disparaît.
+  La <strong>gamme</strong>, elle, décide de la page produit sur laquelle la
+  photo apparaît en plus — chaque page de gamme montre ses propres chantiers.
 </p>
 
 <form class="bo-form" method="post" action="<?= url('/admin/realisations') ?>" enctype="multipart/form-data">
@@ -64,6 +67,19 @@ sort($categories);
           <input id="r-c<?= $rang ?>" type="text" name="categorie_<?= e($slug) ?>"
                  value="<?= e($item['categorie'] ?? '') ?>" list="r-categories"
                  placeholder="Pergola">
+          <p class="bo-aide">Sert aux boutons de filtre de la page « Réalisations ».</p>
+        </div>
+        <div class="bo-champ">
+          <label for="r-g<?= $rang ?>">Gamme</label>
+          <select id="r-g<?= $rang ?>" name="gamme_<?= e($slug) ?>">
+            <option value="">Aucune — galerie générale seulement</option>
+            <?php foreach ($gammes as $gamme): ?>
+              <option value="<?= e($gamme['slug']) ?>"<?= ($item['gamme'] ?? '') === $gamme['slug'] ? ' selected' : '' ?>>
+                <?= e($gamme['nom']) ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
+          <p class="bo-aide">La photo apparaît alors sur la page de cette gamme.</p>
         </div>
       </div>
       <div class="bo-champ">
@@ -112,8 +128,14 @@ sort($categories);
       <li class="bo-ligne<?= $publie ? '' : ' bo-ligne--masquee' ?>">
         <div class="bo-ligne__corps">
           <strong><?= e($item['nom']) ?></strong>
+          <?php
+          $nomGamme = '';
+          foreach ($gammes as $g) {
+              if ($g['slug'] === ($item['gamme'] ?? '')) { $nomGamme = $g['nom']; break; }
+          }
+          ?>
           <span class="bo-ligne__note">
-            <?= e($item['categorie'] ?? '') !== '' ? e($item['categorie']) . ' · ' : '' ?><?= $publie ? 'En ligne' : 'Hors ligne' ?>
+            <?= ($item['categorie'] ?? '') !== '' ? e($item['categorie']) . ' · ' : '' ?><?= $nomGamme !== '' ? e($nomGamme) . ' · ' : '' ?><?= $publie ? 'En ligne' : 'Hors ligne' ?>
           </span>
         </div>
         <div class="bo-ligne__actions">
@@ -158,6 +180,15 @@ sort($categories);
     <div class="bo-champ">
       <label for="r-cat" class="bo-visuellement-cache">Catégorie</label>
       <input id="r-cat" type="text" name="categorie" placeholder="Pergola" list="r-categories">
+    </div>
+    <div class="bo-champ">
+      <label for="r-gam" class="bo-visuellement-cache">Gamme</label>
+      <select id="r-gam" name="gamme">
+        <option value="">Aucune gamme</option>
+        <?php foreach ($gammes as $gamme): ?>
+          <option value="<?= e($gamme['slug']) ?>"><?= e($gamme['nom']) ?></option>
+        <?php endforeach; ?>
+      </select>
     </div>
     <button class="bo-btn" type="submit">Créer</button>
   </form>

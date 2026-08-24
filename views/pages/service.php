@@ -3,7 +3,8 @@
  * Fiche d'un service.
  *
  * @var array $item
- * @var array $autres  les autres services publiés
+ * @var array $autres        les autres services publiés
+ * @var array $realisations  les chantiers rattachés à cette gamme
  * @var App\Core\View $view
  */
 $hero = ($item['hero'] ?? []) + ['image' => $item['image'] ?? '', 'titre' => $item['nom'] ?? ''];
@@ -33,6 +34,33 @@ $hero = ($item['hero'] ?? []) + ['image' => $item['image'] ?? '', 'titre' => $it
     <?php endforeach; ?>
   </div>
 </section>
+
+<?php if (($realisations ?? []) !== []): ?>
+<?php /* Les chantiers de cette gamme, et eux seuls : c'est ce qu'un visiteur
+         venu lire une fiche produit veut voir juste après la fiche technique.
+         Le lien de bas de section renvoie vers la galerie entière. */ ?>
+<section class="section section--teinte">
+  <div class="conteneur">
+    <div class="section__tete reveler">
+      <p class="surtitre"><?= e(t('Réalisations')) ?></p>
+      <h2 class="titre-section">
+        <?= e(t('Nos chantiers en')) ?> <?= e(mb_strtolower((string) ($item['nom'] ?? ''))) ?>
+      </h2>
+      <p class="section__chapo">
+        <?= count($realisations) ?> <?= count($realisations) > 1 ? e(t('réalisations posées par nos équipes.')) : e(t('réalisation posée par nos équipes.')) ?>
+      </p>
+    </div>
+
+    <?= $view->partial('galerie', ['items' => $realisations, 'etiquettes' => false]) ?>
+
+    <p class="section__pied reveler">
+      <a class="btn btn--contour" href="<?= route('realisations') ?>">
+        <?= e(t('Voir toutes les réalisations')) ?>
+      </a>
+    </p>
+  </div>
+</section>
+<?php endif; ?>
 
 <?php if ($autres !== []): ?>
 <section class="section section--teinte">

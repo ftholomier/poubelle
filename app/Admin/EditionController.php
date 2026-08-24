@@ -615,6 +615,9 @@ final class EditionController
             'page'      => ['titre' => 'Réalisations'],
             'galerie'   => $this->content->load('realisations'),
             'pageIntro' => $this->content->load('pages/realisations'),
+            // les gammes publiées : chaque photo peut être rattachée à l'une
+            // d'elles, et apparaît alors sur sa page produit
+            'gammes'    => $this->content->publies('services'),
             'medias'    => $this->mediatheque->lister(),
         ], 'admin/layout');
     }
@@ -637,6 +640,7 @@ final class EditionController
         $galerie['items'][] = [
             'slug' => $slug, 'nom' => $nom,
             'categorie' => trim((string) ($_POST['categorie'] ?? '')),
+            'gamme' => trim((string) ($_POST['gamme'] ?? '')),
             'actif' => false, 'image' => '', 'legende' => '',
         ];
         $this->content->save('realisations', $galerie);
@@ -661,6 +665,10 @@ final class EditionController
             // saisies, il n'y a donc aucune liste à tenir à jour ailleurs.
             $galerie['items'][$i]['categorie'] = trim((string) ($_POST['categorie_' . $slug] ?? ''));
             $galerie['items'][$i]['legende'] = trim((string) ($_POST['legende_' . $slug] ?? ''));
+            // Le rattachement à une gamme décide de la page produit sur
+            // laquelle la photo apparaît. Laissé vide, elle ne figure que
+            // dans la galerie générale.
+            $galerie['items'][$i]['gamme'] = trim((string) ($_POST['gamme_' . $slug] ?? ''));
             $galerie['items'][$i]['image'] = $this->photoFacultative(
                 'image_' . $slug,
                 (string) ($item['image'] ?? '')

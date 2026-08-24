@@ -58,6 +58,20 @@ clavier. Les boutons de filtre se construisent à partir des catégories
 réellement saisies : aucune liste à tenir à jour dans le code. Sans
 JavaScript, la galerie s'affiche entière et les filtres restent cachés.
 
+Chaque photo porte deux classements distincts, et c'est voulu :
+
+| Champ | Sert à | Où ça se voit |
+|---|---|---|
+| `categorie` | les boutons de filtre, saisis librement | page « Réalisations » |
+| `gamme` | le rattachement à une fiche produit | la page de cette gamme |
+
+Chaque **page de gamme** montre ainsi ses propres chantiers, sous sa fiche
+technique. Reclasser une photo dans le back-office la déplace d'une page
+produit à l'autre, sans rien toucher au code. Le fragment `partials/galerie`
+est partagé entre les deux usages : même balisage, donc même script et même
+style, et l'étiquette de catégorie s'efface là où toute la galerie est d'une
+même gamme.
+
 Les adresses du site précédent sont redirigées en 301 : `/pergola-carport`
 mène à `/pergolas-carports`, `/pergola` à la pergola bioclimatique et
 `/carport` au carport. Les slugs restent modifiables depuis l'écran

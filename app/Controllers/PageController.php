@@ -106,6 +106,13 @@ final class PageController
         return $this->rendre('service', 'nos-services', [
             'page'   => ['titre' => $item['nom'] ?? '', 'meta' => $item['meta'] ?? []],
             'item'   => $item,
+            // Les réalisations rattachées à cette gamme, dans l'ordre du
+            // back-office. Le rattachement est un champ de la fiche photo :
+            // une réalisation reclassée change de page produit toute seule.
+            'realisations' => array_values(array_filter(
+                $this->content->publies('realisations'),
+                static fn(array $r): bool => ($r['gamme'] ?? '') === $slug
+            )),
             'autres' => array_values(array_filter(
                 $this->content->publies('services'),
                 static fn(array $s): bool => ($s['slug'] ?? '') !== $slug
