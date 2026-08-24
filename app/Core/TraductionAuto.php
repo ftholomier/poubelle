@@ -34,8 +34,10 @@ final class TraductionAuto
     private const DELAI = 15;
 
     /**
-     * Une clé gratuite se termine par « :fx » et ne s'adresse pas au même
-     * serveur qu'une clé payante.
+     * Une clé gratuite s'adresse à un autre serveur qu'une clé payante, et
+     * le serveur qui n'est pas le sien répond 403. Le suffixe « :fx » n'est
+     * qu'un indice sur l'ordre à tenter : DeepL ne l'ajoute pas à toutes les
+     * clés gratuites, donc les deux serveurs sont essayés.
      */
     private const DEEPL_GRATUIT = 'https://api-free.deepl.com/v2/translate';
     private const DEEPL_PRO     = 'https://api.deepl.com/v2/translate';
@@ -178,8 +180,25 @@ final class TraductionAuto
             $corps .= '&text=' . rawurlencode($texte);
         }
 
-        $url = str_ends_with($this->cleDeepL, ':fx') ? self::DEEPL_GRATUIT : self::DEEPL_PRO;
-        $json = json_decode($this->appeler($url, $corps), true);
+        $serveurs = str_ends_with($this->cleDeepL, ':fx')
+            ? [self::DEEPL_GRATUIT, self::DEEPL_PRO]
+            : [self::DEEPL_PRO, self::DEEPL_GRATUIT];
+
+        $reponse = null;
+        $refus   = null;
+        foreach ($serveurs as $url) {
+            try {
+                $reponse = $this->appeler($url, $corps);
+                break;
+            } catch (RuntimeException $e) {
+                $refus = $e;
+            }
+        }
+        if ($reponse === null) {
+            throw $refus ?? new RuntimeException('DeepL injoignable.');
+        }
+
+        $json = json_decode($reponse, true);
 
         $traductions = $json['translations'] ?? null;
         if (!is_array($traductions) || count($traductions) !== count($textes)) {
@@ -306,7 +325,8 @@ final class TraductionAuto
     private function expliquer(int $code): string
     {
         return match ($code) {
-            401, 403 => 'clé refusée (HTTP ' . $code . ') — vérifiez la clé DeepL.',
+            401, 403 => 'clé refusée (HTTP ' . $code . ') — recopiez la clé DeepL en entier, '
+                      . 'sans espace avant ni après, et vérifiez que le compte est bien activé.',
             429      => 'quota momentanément épuisé (HTTP 429) — sans clé, ce quota est '
                       . 'compté par adresse IP et partagé avec les autres sites de '
                       . 'l’hébergement.',

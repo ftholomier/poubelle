@@ -99,13 +99,28 @@ final class LangueController
             return $this->rediriger();
         }
 
+        // un copier-coller depuis la documentation embarque parfois l'en-tête
+        $cle = trim((string) ($_POST['cle_deepl'] ?? ''));
+        $cle = trim(preg_replace('/^DeepL-Auth-Key\s+/i', '', $cle) ?? $cle);
+
         $tout = $this->parametres->tout();
-        $tout['traduction']['cle_deepl'] = trim((string) ($_POST['cle_deepl'] ?? ''));
+        $tout['traduction']['cle_deepl'] = $cle;
         $this->parametres->enregistrer($tout);
 
-        Session::flash('succes', $tout['traduction']['cle_deepl'] === ''
-            ? 'Clé retirée : la traduction repassera par les services gratuits.'
-            : 'Clé DeepL enregistrée.');
+        if ($cle === '') {
+            Session::flash('succes', 'Clé retirée : la traduction repassera par les services gratuits.');
+            return $this->rediriger();
+        }
+
+        // vérifier tout de suite : autrement la clé n'est jugée qu'au moment
+        // de traduire un site entier, où son échec se confond avec le reste
+        $essai = (new TraductionAuto($cle))->traduire(['essai' => 'Bonjour'], 'en');
+        if (($essai['service'] ?? '') === 'DeepL') {
+            Session::flash('succes', 'Clé DeepL enregistrée et vérifiée : le service répond.');
+        } else {
+            Session::flash('erreur', 'Clé enregistrée, mais DeepL l’a refusée. '
+                . ($essai['souci'] ?? ''));
+        }
 
         return $this->rediriger();
     }
