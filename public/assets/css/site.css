@@ -2101,3 +2101,76 @@ body.visionneuse-ouverte { overflow: hidden; }
   .assistant__panneau { width: 100%; height: min(72vh, 560px); }
 }
 @media print { .assistant { display: none !important; } }
+
+/* ==========================================================================
+   TÉLÉPHONE — corrections mesurées sur iPhone SE (320) et iPhone 12 (390)
+   ========================================================================== */
+
+/* Le monogramme est posé au centre absolu de la barre, le nom part de la
+   gauche : sous 780 px les deux se rencontrent, et le monogramme passe
+   par-dessus le mot « TRÉHANT ». Le nom l'emporte — un monogramme seul
+   n'identifie l'entreprise que pour qui la connaît déjà. */
+@media (max-width: 780px) {
+  .entete__logo { display: none; }
+}
+
+@media (max-width: 640px) {
+  /* Le libellé de la bulle occupait 55 % de la largeur d'un iPhone SE et
+     recouvrait le bouton d'appel du bandeau. Le picto seul suffit : la
+     forme et la place en bas à droite sont devenues une convention. */
+  .assistant__bulle {
+    width: 54px; height: 54px;
+    padding: 0; gap: 0;
+    justify-content: center;
+  }
+  .assistant__bulle-texte {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip-path: inset(50%);
+  }
+  .assistant__bulle-icone { width: 24px; height: 19px; }
+
+  /* Ouvert, le panneau prend l'écran : à 380 px de large dans 390 px de
+     fenêtre, il n'y a rien à gagner à le garder flottant. */
+  .assistant__panneau {
+    width: calc(100vw - 1.4rem);
+    height: min(78vh, calc(100dvh - 5.5rem));
+  }
+
+  /* Deux colonnes de réalisations tenaient dans la largeur, mais leur
+     étiquette repassait sur deux lignes et mangeait la photo. */
+  .galerie { grid-template-columns: 1fr; }
+  .galerie__etiquette { left: 0; bottom: 0; font-size: .7rem; padding: .45rem .8rem; }
+
+  /* L'astérisque tenait dans une pastille d'une dizaine de pixels : à
+     l'écran, un point sombre indéchiffrable. */
+  .champ__requis {
+    width: 1.35em; height: 1.35em; font-size: .8em;
+  }
+
+  /* Un sur-titre de trois lignes n'est plus un sur-titre : l'interlettrage
+     large, qui fait sa tenue sur grand écran, le fait déborder ici. */
+  .surtitre, .surtitre.surtitre {
+    font-size: .66rem; letter-spacing: .14em;
+    padding: .38rem .7rem .38rem .6rem;
+  }
+  .surtitre::before { width: 12px; }
+
+  /* Les liens du pied faisaient 18 px de haut : sous le doigt, on vise à
+     côté. Le pouce demande 40 px, la marge intérieure les donne sans
+     toucher à la taille du texte. */
+  .pied__liens a { display: inline-block; padding-block: .55rem; }
+
+  /* Même raison pour les autres cibles du pied et de la barre : le pouce
+     demande une quarantaine de pixels, que la marge intérieure donne sans
+     changer une seule taille de texte. */
+  .pied__legal a,
+  .pied__tel,
+  .pied__contact a { display: inline-block; padding-block: .6rem; }
+  .pied__reseaux a { display: inline-grid; place-items: center; min-width: 42px; min-height: 42px; }
+  .coordonnees__valeur { display: inline-block; padding-block: .6rem; }
+  .entete__mots { padding-block: .45rem; }
+
+  /* La case de consentement se visait au pixel près. */
+  .champ--case input[type="checkbox"],
+  input[type="checkbox"] { width: 22px; height: 22px; }
+}
