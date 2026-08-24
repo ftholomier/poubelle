@@ -90,19 +90,30 @@ use App\Core\Csrf;
   <?= Csrf::champ() ?>
   <fieldset>
     <legend>Service de traduction automatique</legend>
-    <p class="bo-intro">Sans clé, le bouton « Traduire automatiquement » passe par des services
-      gratuits dont le quota se compte par adresse IP — celle du serveur, partagée avec les autres
-      sites de l'hébergement. D'où les refus <code>HTTP 429</code> même après quelques textes.
-      Une clé DeepL rattache le quota au compte : 500 000 caractères par mois en offre gratuite,
-      largement de quoi traduire ce site plusieurs fois.</p>
+    <p class="bo-intro">La traduction essaie d’abord <strong>Google Traduction</strong>, puis
+      <strong>MyMemory</strong> : gratuits et sans limite de volume, mais comptés par adresse IP —
+      celle du serveur, partagée avec les autres sites de l’hébergement. D’où les refus
+      <code>HTTP 429</code> même après quelques textes.</p>
+    <p class="bo-intro"><strong>DeepL n’intervient qu’en dernier recours</strong>, quand les deux
+      ont refusé. Son offre gratuite n’accorde qu’un million de caractères <em>pour la vie du
+      compte</em> — pas par mois, et rien ne les recharge. D’où cet ordre : chaque caractère
+      traduit gratuitement ailleurs est un caractère gardé pour le jour où plus rien ne répond.</p>
+
+    <?php $reste = max(0, $deepLQuota - $deepLUtilise); ?>
+    <p class="bo-intro">Quota DeepL consommé depuis ce site :
+      <strong><?= number_format($deepLUtilise, 0, ',', ' ') ?></strong> caractères sur
+      <?= number_format($deepLQuota, 0, ',', ' ') ?>, soit
+      <strong><?= number_format($reste, 0, ',', ' ') ?></strong> restants.
+      <span class="bo-aide">Ce compteur ne suit que ce que ce site envoie ; le décompte qui
+      fait foi est celui de votre tableau de bord DeepL.</span></p>
     <div class="bo-champ">
       <label for="l-cle">Clé d'API DeepL</label>
       <input id="l-cle" type="text" name="cle_deepl" value="<?= e($cleDeepL) ?>"
              spellcheck="false" autocapitalize="off"
              placeholder="00000000-0000-0000-0000-000000000000:fx">
-      <span class="aide">À créer sur <code>deepl.com/pro-api</code> (offre « Free »). Les clés
-        gratuites se terminent par <code>:fx</code>. Laissez vide pour revenir aux services
-        gratuits.</span>
+      <span class="aide">À créer sur <code>deepl.com/pro-api</code> (offre « Free »). Laissez vide
+        pour vous passer du secours : la traduction s’arrêtera alors dès que Google et MyMemory
+        refuseront, sans entamer de quota.</span>
     </div>
     <button class="bo-btn" type="submit">Enregistrer la clé</button>
   </fieldset>

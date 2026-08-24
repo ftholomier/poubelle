@@ -40,6 +40,9 @@ final class LangueController
         'pages/mentions-legales'  => 'Mentions légales',
     ];
 
+    /** Offre gratuite de DeepL : un million de caractères pour la vie du compte. */
+    private const DEEPL_QUOTA = 1000000;
+
     public function __construct(
         private readonly View $view,
         private readonly Content $content,
@@ -113,16 +116,38 @@ final class LangueController
         }
 
         // vérifier tout de suite : autrement la clé n'est jugée qu'au moment
-        // de traduire un site entier, où son échec se confond avec le reste
-        $essai = (new TraductionAuto($cle))->traduire(['essai' => 'Bonjour'], 'en');
-        if (($essai['service'] ?? '') === 'DeepL') {
-            Session::flash('succes', 'Clé DeepL enregistrée et vérifiée : le service répond.');
+        // où les services gratuits ont déjà échoué, c'est-à-dire au plus
+        // mauvais moment pour découvrir qu'elle ne marche pas
+        $essai = (new TraductionAuto($cle))->verifierDeepL();
+        $this->comptabiliserDeepL((int) $essai['caracteres']);
+
+        if ($essai['ok']) {
+            Session::flash('succes', 'Clé DeepL enregistrée et vérifiée : le service répond. '
+                . 'Elle ne servira qu\'en dernier recours, si Google et MyMemory refusent.');
         } else {
-            Session::flash('erreur', 'Clé enregistrée, mais DeepL l’a refusée. '
-                . ($essai['souci'] ?? ''));
+            Session::flash('erreur', 'Clé enregistrée, mais DeepL l’a refusée. ' . $essai['souci']);
         }
 
         return $this->rediriger();
+    }
+
+    /**
+     * Le quota DeepL gratuit ne se recharge jamais : ce que l'on y prend est
+     * pris pour de bon, d'où un compteur tenu de notre côté. DeepL expose
+     * bien le sien, mais le demander suppose que le service réponde — et
+     * c'est précisément quand il ne répond plus qu'on veut savoir où l'on en
+     * est.
+     */
+    private function comptabiliserDeepL(int $caracteres): void
+    {
+        if ($caracteres <= 0) {
+            return;
+        }
+
+        $tout = $this->parametres->tout();
+        $tout['traduction']['deepl_caracteres'] =
+            (int) ($tout['traduction']['deepl_caracteres'] ?? 0) + $caracteres;
+        $this->parametres->enregistrer($tout);
     }
 
     // ------------------------------------------------------------- écrans
@@ -157,6 +182,8 @@ final class LangueController
             'total'       => $total,
             'proposees'   => array_diff_key(Langues::CONNUES, $this->langues->toutes()),
             'cleDeepL'    => (string) $this->parametres->get('traduction.cle_deepl', ''),
+            'deepLUtilise' => (int) $this->parametres->get('traduction.deepl_caracteres', 0),
+            'deepLQuota'   => self::DEEPL_QUOTA,
         ], 'admin/layout');
     }
 
@@ -290,6 +317,7 @@ final class LangueController
         @set_time_limit(300);
 
         $resultat = $this->auto->traduire($aFaire, $code);
+        $this->comptabiliserDeepL((int) ($resultat['deepl'] ?? 0));
 
         if ($resultat['textes'] === []) {
             $souci = $resultat['souci'] ?? '';

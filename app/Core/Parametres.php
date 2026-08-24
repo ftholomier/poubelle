@@ -53,6 +53,10 @@ final class Parametres
         // (HTTP 429), leur adresse IP étant partagée avec d'autres sites
         'traduction' => [
             'cle_deepl' => '',
+            // l'offre gratuite de DeepL n'accorde ce million qu'une fois, pour
+            // la vie du compte : sans compteur, on ne sait qu'on l'a épuisé
+            // qu'au moment où le service refuse
+            'deepl_caracteres' => 0,
         ],
         // avis Google : la clé d'API est un secret, au même titre que le
         // mot de passe SMTP — d'où sa place dans ce fichier

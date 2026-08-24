@@ -14,14 +14,16 @@ use RuntimeException;
  * service — s'il devient indisponible, seul le bouton « Traduire
  * automatiquement » du back-office cesse de fonctionner.
  *
- * Trois services sont tentés dans l'ordre. DeepL vient en premier dès qu'une
- * clé est renseignée : c'est le seul des trois à offrir un quota nominatif,
- * donc à ne pas dépendre de l'adresse IP du serveur. Les deux suivants sont
- * gratuits et sans inscription — le point d'entrée public de Google
- * Traduction, puis MyMemory — mais comptent par IP : sur un hébergement
- * mutualisé, cette IP est partagée avec d'autres sites et le quota peut être
- * épuisé avant le premier clic (HTTP 429). C'est précisément pourquoi rien
- * d'autre que ce bouton n'en dépend.
+ * Trois services sont tentés dans l'ordre, du moins cher au plus précieux.
+ * Les deux premiers sont gratuits et sans inscription — le point d'entrée
+ * public de Google Traduction, puis MyMemory — mais comptent par adresse IP :
+ * sur un hébergement mutualisé, cette IP est partagée avec d'autres sites et
+ * le quota peut être épuisé avant le premier clic (HTTP 429). DeepL ne vient
+ * qu'en dernier recours, quand les deux autres ont refusé : son offre
+ * gratuite n'accorde qu'un million de caractères pour la vie du compte, pas
+ * par mois, et rien ne les recharge. Chaque caractère qui peut être traduit
+ * gratuitement ailleurs est un caractère gardé pour le jour où plus rien
+ * d'autre ne répond.
  */
 final class TraductionAuto
 {
@@ -42,6 +44,9 @@ final class TraductionAuto
     private const DEEPL_GRATUIT = 'https://api-free.deepl.com/v2/translate';
     private const DEEPL_PRO     = 'https://api.deepl.com/v2/translate';
 
+    /** Caractères effectivement envoyés à DeepL pendant cette traduction. */
+    private int $deepLCaracteres = 0;
+
     public function __construct(private readonly string $cleDeepL = '')
     {
     }
@@ -50,18 +55,18 @@ final class TraductionAuto
      * Traduit une liste de textes.
      *
      * @param array<string, string> $textes clé => texte français
-     * @return array{textes: array<string, string>, echecs: int, service: string, souci: string}
+     * @return array{textes: array<string, string>, echecs: int, service: string, souci: string, deepl: int}
      */
     public function traduire(array $textes, string $vers, string $depuis = 'fr'): array
     {
         $textes = array_filter($textes, static fn(string $t): bool => trim($t) !== '');
         if ($textes === []) {
-            return ['textes' => [], 'echecs' => 0, 'service' => '—', 'souci' => ''];
+            return ['textes' => [], 'echecs' => 0, 'service' => '—', 'souci' => '', 'deepl' => 0];
         }
 
         $traduits = [];
         $echecs   = 0;
-        $service  = '';
+        $services = [];
         $souci    = '';
 
         foreach ($this->lots($textes) as $rang => $lot) {
@@ -71,7 +76,9 @@ final class TraductionAuto
 
             try {
                 [$resultat, $utilise] = $this->traduireLot(array_values($lot), $vers, $depuis);
-                $service = $service ?: $utilise;
+                // un lot peut basculer sur un autre service que le précédent :
+                // annoncer le premier laisserait croire que tout est passé par lui
+                $services[$utilise] = true;
 
                 // le service rend les textes dans l'ordre reçu : un décalage
                 // attribuerait la traduction d'une phrase à une autre
@@ -93,9 +100,35 @@ final class TraductionAuto
         return [
             'textes'  => $traduits,
             'echecs'  => $echecs,
-            'service' => $service ?: '—',
+            'service' => $services === [] ? '—' : implode(' puis ', array_keys($services)),
             'souci'   => $souci,
+            'deepl'   => $this->deepLCaracteres,
         ];
+    }
+
+    /**
+     * Vérifie la clé en s'adressant à DeepL seul.
+     *
+     * La chaîne normale ne l'atteint qu'après le refus des deux services
+     * gratuits : la faire jouer ici dirait que la traduction fonctionne, pas
+     * que la clé est bonne.
+     *
+     * @return array{ok: bool, souci: string, caracteres: int}
+     */
+    public function verifierDeepL(): array
+    {
+        if ($this->cleDeepL === '') {
+            return ['ok' => false, 'souci' => 'Aucune clé renseignée.', 'caracteres' => 0];
+        }
+
+        $sonde = 'Bonjour';
+        try {
+            $this->viaDeepL([$sonde], 'EN-GB', 'fr');
+            $this->deepLCaracteres += mb_strlen($sonde);
+            return ['ok' => true, 'souci' => '', 'caracteres' => $this->deepLCaracteres];
+        } catch (RuntimeException $e) {
+            return ['ok' => false, 'souci' => $e->getMessage(), 'caracteres' => 0];
+        }
     }
 
     /**
@@ -133,16 +166,6 @@ final class TraductionAuto
      */
     private function traduireLot(array $textes, string $vers, string $depuis): array
     {
-        $souciDeepL = '';
-        if ($this->cleDeepL !== '') {
-            try {
-                return [$this->viaDeepL($textes, $vers, $depuis), 'DeepL'];
-            } catch (RuntimeException $e) {
-                // une clé refusée ne doit pas valoir moins que pas de clé
-                $souciDeepL = 'DeepL : ' . $e->getMessage() . ' — ';
-            }
-        }
-
         try {
             return [$this->viaGoogle($textes, $vers, $depuis), 'Google Traduction'];
         } catch (RuntimeException $google) {
@@ -150,12 +173,37 @@ final class TraductionAuto
             try {
                 return [$this->viaMyMemory($textes, $vers, $depuis), 'MyMemory'];
             } catch (RuntimeException $secours) {
-                throw new RuntimeException(
-                    $souciDeepL
-                    . 'Google Traduction : ' . $google->getMessage()
-                    . ' — MyMemory : ' . $secours->getMessage()
-                );
+                return $this->viaDeepLOuEchouer($textes, $vers, $depuis, $google, $secours);
             }
+        }
+    }
+
+    /**
+     * Dernier recours, et seulement là : le quota DeepL ne se recharge pas.
+     *
+     * @param string[] $textes
+     * @return array{0: string[], 1: string}
+     */
+    private function viaDeepLOuEchouer(
+        array $textes,
+        string $vers,
+        string $depuis,
+        RuntimeException $google,
+        RuntimeException $secours,
+    ): array {
+        $gratuits = 'Google Traduction : ' . $google->getMessage()
+                  . ' — MyMemory : ' . $secours->getMessage();
+
+        if ($this->cleDeepL === '') {
+            throw new RuntimeException($gratuits);
+        }
+
+        try {
+            $traduits = $this->viaDeepL($textes, $vers, $depuis);
+            $this->deepLCaracteres += array_sum(array_map('mb_strlen', $textes));
+            return [$traduits, 'DeepL'];
+        } catch (RuntimeException $deepL) {
+            throw new RuntimeException($gratuits . ' — DeepL : ' . $deepL->getMessage());
         }
     }
 
