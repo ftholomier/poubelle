@@ -170,18 +170,18 @@ final class TraductionAuto
      */
     private function viaDeepL(array $textes, string $vers, string $depuis): array
     {
-        // la clé voyage en en-tête plutôt qu'en paramètre : certains
-        // pare-feux d'hébergement bloquent les corps de requête qui portent
-        // quelque chose ressemblant à un identifiant
-        $entetes = ['Authorization: DeepL-Auth-Key ' . $this->cleDeepL];
-
-        $corps = http_build_query([
+        // le service attend un corps JSON et rend les textes dans l'ordre
+        // reçu, ce qui évite le repère de découpe imposé par Google
+        $envoi = json_encode([
+            'text'        => array_values($textes),
             'source_lang' => strtoupper($depuis),
-            'target_lang' => strtoupper($vers),
-        ]);
-        foreach ($textes as $texte) {
-            $corps .= '&text=' . rawurlencode($texte);
-        }
+            'target_lang' => self::cibleDeepL($vers),
+        ], JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
+
+        $entetes = [
+            'Authorization: DeepL-Auth-Key ' . $this->cleDeepL,
+            'Content-Type: application/json',
+        ];
 
         $serveurs = str_ends_with($this->cleDeepL, ':fx')
             ? [self::DEEPL_GRATUIT, self::DEEPL_PRO]
@@ -191,7 +191,7 @@ final class TraductionAuto
         $refus   = null;
         foreach ($serveurs as $url) {
             try {
-                $reponse = $this->appeler($url, $corps, $entetes);
+                $reponse = $this->appeler($url, $envoi, $entetes);
                 break;
             } catch (RuntimeException $e) {
                 $refus = $e;
@@ -209,6 +209,21 @@ final class TraductionAuto
         }
 
         return array_map(static fn(array $t): string => (string) ($t['text'] ?? ''), $traductions);
+    }
+
+    /**
+     * Deux langues n'existent pour DeepL qu'en variante régionale : demander
+     * la langue seule est déprécié et finira par être refusé.
+     */
+    private static function cibleDeepL(string $vers): string
+    {
+        $code = strtoupper($vers);
+
+        return match ($code) {
+            'EN' => 'EN-GB',
+            'PT' => 'PT-PT',
+            default => $code,
+        };
     }
 
     /**
@@ -318,7 +333,10 @@ final class TraductionAuto
         $options = ['timeout' => self::DELAI, 'header' => $lignes];
         if ($corpsEnvoye !== null) {
             $options['method']  = 'POST';
-            $options['header']  = $lignes . "Content-Type: application/x-www-form-urlencoded\r\n";
+            if (!preg_grep('/^Content-Type:/i', $entetes)) {
+                $lignes .= "Content-Type: application/x-www-form-urlencoded\r\n";
+            }
+            $options['header']  = $lignes;
             $options['content'] = $corpsEnvoye;
         }
         $contexte = stream_context_create(['http' => $options]);
