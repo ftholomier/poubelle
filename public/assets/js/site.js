@@ -368,6 +368,95 @@
     });
   })();
 
+  /* ---------- Diaporama du bandeau d'accueil ----------
+
+     Le fondu et le zoom sont laissés au CSS ; ce bloc ne fait qu'ordonner les
+     tours. Deux précautions contre le à-coup : l'animation de zoom de la vue
+     entrante est relancée avant qu'elle ne devienne visible, et celle de la
+     vue sortante n'est coupée qu'une fois le fondu terminé. Le compte à
+     rebours s'arrête quand l'onglet passe en arrière-plan, sinon le retour
+     rattrape d'un coup toutes les vues manquées. */
+  (function () {
+    var scene = document.querySelector("[data-diaporama]");
+    if (!scene) return;
+
+    var vues = [].slice.call(scene.querySelectorAll("[data-vue]"));
+    if (vues.length < 2) {
+      if (vues.length === 1) vues[0].classList.add("se-rapproche");
+      return;
+    }
+
+    var trait = document.querySelector("[data-diaporama-trait]");
+    var doux = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var FONDU = 1400;
+    var pause = (parseFloat(getComputedStyle(scene).getPropertyValue("--pause")) || 6) * 1000;
+    var courant = 0;
+    var minuteur = null;
+
+    var relancerZoom = function (vue) {
+      vue.classList.remove("se-rapproche");
+      void vue.offsetWidth; // forcer la reprise de l'animation depuis son début
+      vue.classList.add("se-rapproche");
+    };
+
+    var relancerTrait = function () {
+      if (!trait) return;
+      trait.classList.remove("court");
+      void trait.offsetWidth;
+      trait.classList.add("court");
+    };
+
+    var afficher = function (rang) {
+      var sortante = vues[courant];
+      var entrante = vues[rang];
+
+      relancerZoom(entrante);
+      entrante.classList.add("est-visible");
+      sortante.classList.remove("est-visible");
+
+      // couper le zoom de la sortante trop tôt la ferait sauter à vue
+      window.setTimeout(function () {
+        if (!sortante.classList.contains("est-visible")) {
+          sortante.classList.remove("se-rapproche");
+        }
+      }, FONDU + 60);
+
+      courant = rang;
+      relancerTrait();
+    };
+
+    var suivante = function () {
+      afficher((courant + 1) % vues.length);
+    };
+
+    var lancer = function () {
+      arreter();
+      if (doux.matches) return;
+      minuteur = window.setInterval(suivante, pause + FONDU);
+    };
+
+    var arreter = function () {
+      if (minuteur) { window.clearInterval(minuteur); minuteur = null; }
+    };
+
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) { arreter(); return; }
+      relancerTrait();
+      lancer();
+    });
+
+    // les images de fond ne déclenchent pas d'événement de chargement : on
+    // attend le chargement complet pour que la première vue n'apparaisse pas
+    // pendant que son fichier arrive encore
+    var demarrer = function () {
+      relancerZoom(vues[0]);
+      relancerTrait();
+      lancer();
+    };
+    if (document.readyState === "complete") demarrer();
+    else window.addEventListener("load", demarrer);
+  })();
+
   /* ---------- Révélation au défilement ---------- */
   (function () {
     var reveles = document.querySelectorAll(".reveler");

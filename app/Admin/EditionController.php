@@ -219,13 +219,59 @@ final class EditionController
         return $seo instanceof \App\Core\Seo ? $seo->cheminSource('nos-services') : '/nos-services';
     }
 
+    /**
+     * Diaporama du bandeau, reconstruit depuis le formulaire.
+     *
+     * L'ordre vient de celui des champs envoyés : déplacer une ligne dans la
+     * page suffit donc à la réordonner, sans numéro de rang à tenir à jour.
+     * L'état passe par une liste déroulante et non par une case à cocher —
+     * une case décochée n'est pas envoyée, ce qui décalerait les deux listes
+     * l'une par rapport à l'autre.
+     *
+     * @return array{pause: int, vues: array<int, array{image: string, actif: bool}>}
+     */
+    private function diaporama(): array
+    {
+        $images  = (array) ($_POST['diapo_image'] ?? []);
+        $etats   = (array) ($_POST['diapo_etat'] ?? []);
+        $retires = array_map('intval', (array) ($_POST['diapo_retirer'] ?? []));
+
+        $vues = [];
+        $vus  = [];
+        foreach ($images as $rang => $image) {
+            $image = (string) $image;
+            if ($image === '' || in_array($rang, $retires, true) || isset($vus[$image])) {
+                continue;
+            }
+            $vus[$image] = true;
+            $vues[] = ['image' => $image, 'actif' => ((string) ($etats[$rang] ?? '1')) === '1'];
+        }
+
+        foreach ((array) ($_POST['diapo_ajout'] ?? []) as $ajout) {
+            $ajout = (string) $ajout;
+            if ($ajout === '' || isset($vus[$ajout])) {
+                continue;
+            }
+            $vus[$ajout] = true;
+            $vues[] = ['image' => $ajout, 'actif' => true];
+        }
+
+        return [
+            'pause' => min(30, max(2, (int) ($_POST['diapo_pause'] ?? 6))),
+            'vues'  => $vues,
+        ];
+    }
+
     // ============================================================== accueil
 
     public function accueil(): string
     {
+        $accueil = $this->content->load('pages/accueil');
+
         return $this->view->render('admin/accueil', [
             'page'    => ['titre' => 'Page d’accueil'],
-            'accueil' => $this->content->load('pages/accueil'),
+            'accueil' => $accueil,
+            'diapos'  => $accueil['hero']['diaporama']['vues'] ?? [],
             'medias'  => $this->mediatheque->lister(),
         ], 'admin/layout');
     }
@@ -243,6 +289,7 @@ final class EditionController
         $a['hero']['titre']    = trim((string) ($_POST['hero_titre'] ?? $a['hero']['titre']));
         $a['hero']['texte']    = trim((string) ($_POST['hero_texte'] ?? ''));
         $a['hero']['image']    = $this->photoFacultative('hero_image', (string) $a['hero']['image']);
+        $a['hero']['diaporama'] = $this->diaporama();
 
         // --- indicateurs : « valeur | unité | libellé » par ligne
         $indicateurs = [];

@@ -10,12 +10,27 @@
  */
 $site = $content->load('site');
 $hero = $page['hero'];
+
+// le diaporama ne retient que les vues actives ; sans aucune, la photo seule
+// du bandeau reste le repli, pour qu'une page d'accueil vidée par erreur ne
+// s'affiche jamais sur un fond noir
+$vues = array_values(array_filter(
+    $hero['diaporama']['vues'] ?? [],
+    static fn(array $v): bool => !empty($v['actif']) && ($v['image'] ?? '') !== ''
+));
+if ($vues === []) {
+    $vues = [['image' => $hero['image']]];
+}
+$pause = max(2, (int) ($hero['diaporama']['pause'] ?? 6));
 ?>
 
-<section class="heros heros--accueil">
-  <div class="heros__fond">
-    <div class="heros__photo heros__photo--anime"
-         style="background-image:url('<?= image($hero['image']) ?>')"></div>
+<section class="heros heros--accueil" style="--pause: <?= $pause ?>s">
+  <div class="heros__fond heros__fond--diaporama" data-diaporama>
+    <?php foreach ($vues as $rang => $vue): ?>
+      <div class="heros__photo<?= $rang === 0 ? ' est-visible' : '' ?>" data-vue
+           style="background-image:url('<?= image($vue['image']) ?>')"
+           aria-hidden="true"></div>
+    <?php endforeach; ?>
   </div>
 
   <div class="heros__contenu conteneur">
@@ -31,6 +46,12 @@ $hero = $page['hero'];
       </a>
     </div>
   </div>
+
+  <?php if (count($vues) > 1): ?>
+    <div class="heros__jauge" data-diaporama-jauge aria-hidden="true">
+      <span class="heros__jauge-trait" data-diaporama-trait></span>
+    </div>
+  <?php endif; ?>
 </section>
 
 <?php if (!empty($page['indicateurs']['items'])): ?>

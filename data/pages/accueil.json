@@ -15,6 +15,23 @@
     "bouton_secondaire": {
       "libelle": "Voir les gammes",
       "url": "/pergolas-carports"
+    },
+    "diaporama": {
+      "pause": 6,
+      "vues": [
+        {
+          "image": "assets/img/site/hero-accueil.jpg",
+          "actif": true
+        },
+        {
+          "image": "assets/img/site/carport-mourel.jpg",
+          "actif": true
+        },
+        {
+          "image": "assets/img/site/pergola-12.jpg",
+          "actif": true
+        }
+      ]
     }
   },
   "indicateurs": {

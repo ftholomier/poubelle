@@ -433,4 +433,59 @@
     if (rien) rien.addEventListener("click", function () { toutes(false); });
   })();
 
+  /* ---------- Diaporama d'accueil : ordre des vues ----------
+
+     L'ordre envoyé au serveur est celui des champs dans la page : déplacer
+     une ligne suffit donc, il n'y a aucun numéro de rang à recalculer.
+     Les flèches doublent le glisser-déposer, qui reste inatteignable au
+     clavier comme sur un écran tactile. */
+  (function () {
+    var liste = document.querySelector("[data-diapos]");
+    if (!liste) return;
+
+    var porte = null;
+
+    liste.addEventListener("dragstart", function (e) {
+      porte = e.target.closest("[data-diapo]");
+      if (!porte) return;
+      porte.classList.add("est-portee");
+      e.dataTransfer.effectAllowed = "move";
+      // Firefox n'amorce pas le déplacement sans données transportées
+      e.dataTransfer.setData("text/plain", "");
+    });
+
+    liste.addEventListener("dragend", function () {
+      if (porte) porte.classList.remove("est-portee");
+      porte = null;
+    });
+
+    liste.addEventListener("dragover", function (e) {
+      if (!porte) return;
+      e.preventDefault();
+
+      var survolee = e.target.closest("[data-diapo]");
+      if (!survolee || survolee === porte) return;
+
+      // insérer avant ou après selon le côté survolé, sinon la ligne
+      // oscille entre deux positions dès que le curseur tremble
+      var cadre = survolee.getBoundingClientRect();
+      var apres = e.clientY > cadre.top + cadre.height / 2;
+      liste.insertBefore(porte, apres ? survolee.nextSibling : survolee);
+    });
+
+    liste.addEventListener("click", function (e) {
+      var ligne = e.target.closest("[data-diapo]");
+      if (!ligne) return;
+
+      if (e.target.closest("[data-diapo-monter]") && ligne.previousElementSibling) {
+        liste.insertBefore(ligne, ligne.previousElementSibling);
+        e.target.focus();
+      }
+      if (e.target.closest("[data-diapo-descendre]") && ligne.nextElementSibling) {
+        liste.insertBefore(ligne.nextElementSibling, ligne);
+        e.target.focus();
+      }
+    });
+  })();
+
 })();

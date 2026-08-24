@@ -36,10 +36,78 @@ $points = implode("\n", array_map(
     </div>
     <div class="bo-champ">
       <label>Photo du bandeau</label>
+      <p class="bo-aide">Photo de repli : elle s’affiche si le diaporama ci-dessous
+        ne contient aucune vue active.</p>
       <?= $view->partial('admin/choix-photo', [
           'medias' => $medias, 'nom' => 'hero_image', 'id' => 'hero',
           'choisie' => $accueil['hero']['image'], 'vide' => '',
       ]) ?>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Diaporama du bandeau</legend>
+
+    <div class="bo-champ bo-champ--court">
+      <label for="a-pause">Temps de pause sur chaque photo</label>
+      <input id="a-pause" type="number" name="diapo_pause" min="2" max="30" step="1"
+             value="<?= (int) ($accueil['hero']['diaporama']['pause'] ?? 6) ?>">
+      <p class="bo-aide">En secondes, hors fondu. Le fondu dure 1,4 s de plus.</p>
+    </div>
+
+    <div class="bo-champ">
+      <label>Photos du diaporama</label>
+      <p class="bo-aide">Glissez une ligne pour la déplacer, ou servez-vous des
+        flèches. Une vue masquée reste dans la liste sans s’afficher sur le site.</p>
+
+      <ol class="bo-diapos" data-diapos>
+        <?php foreach ($diapos as $rang => $vue): ?>
+          <li class="bo-diapo" data-diapo draggable="true">
+            <span class="bo-diapo__poignee" aria-hidden="true">⣿</span>
+            <img src="<?= image($vue['image'], true) ?>" alt="">
+            <span class="bo-diapo__nom"><?= e(basename($vue['image'])) ?></span>
+            <input type="hidden" name="diapo_image[]" value="<?= e($vue['image']) ?>">
+            <select name="diapo_etat[]" aria-label="État de cette vue">
+              <option value="1"<?= !empty($vue['actif']) ? ' selected' : '' ?>>Affichée</option>
+              <option value="0"<?= empty($vue['actif']) ? ' selected' : '' ?>>Masquée</option>
+            </select>
+            <span class="bo-diapo__ordre">
+              <button type="button" data-diapo-monter aria-label="Monter">▲</button>
+              <button type="button" data-diapo-descendre aria-label="Descendre">▼</button>
+            </span>
+            <label class="bo-diapo__retrait">
+              <input type="checkbox" name="diapo_retirer[]" value="<?= $rang ?>">
+              Retirer
+            </label>
+          </li>
+        <?php endforeach; ?>
+      </ol>
+
+      <?php if ($diapos === []): ?>
+        <p class="bo-vide">Aucune vue : le bandeau affichera la photo de repli.</p>
+      <?php endif; ?>
+    </div>
+
+    <div class="bo-champ">
+      <label>Ajouter des photos au diaporama</label>
+      <p class="bo-aide">Cochez, elles s’ajouteront à la fin de la liste.</p>
+      <div class="bo-choix" data-choix>
+        <div class="bo-choix__barre">
+          <input type="search" data-choix-filtre placeholder="Filtrer par nom de fichier…"
+                 aria-label="Filtrer les photos" autocomplete="off">
+          <span class="bo-choix__compte" data-choix-compte aria-live="polite"></span>
+        </div>
+        <div class="bo-mosaique">
+          <?php foreach ($medias as $rang => $media): ?>
+            <label class="bo-tuile" data-nom="<?= e(basename($media)) ?>">
+              <input type="checkbox" name="diapo_ajout[]" value="<?= e($media) ?>"
+                     id="diapo-<?= $rang ?>">
+              <img src="<?= image($media, true) ?>" alt="" loading="lazy">
+              <span class="bo-tuile__nom"><?= e(basename($media)) ?></span>
+            </label>
+          <?php endforeach; ?>
+        </div>
+      </div>
     </div>
   </fieldset>
 
