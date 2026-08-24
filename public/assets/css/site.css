@@ -285,15 +285,24 @@ p + p { margin-top: 1.05rem; }
               box-shadow var(--transition), backdrop-filter var(--transition);
 }
 
-/* Barre réduite, une fois la page défilée : le gris s'ouvre légèrement sur
-   ce qui passe dessous, avec un flou qui empêche le contenu de brouiller le
-   nom. L'opacité tient à 86 % — en dessous, le nom en noir décrochait sur
-   les photos sombres, et la barre cessait d'être une barre. */
+/* Barre réduite, une fois la page défilée : le gris s'ouvre sur ce qui passe
+   dessous, avec un flou qui empêche le contenu de brouiller le nom.
+
+   L'opacité de 70 % n'est pas choisie à l'œil. Le flou mélange les pixels
+   alentour avant que la couche ne se pose : aucune formule ne prédit le
+   résultat peint, il faut le mesurer. Relevé au pixel sur onze positions de
+   défilement, du blanc des sections aux photos les plus claires : le nom en
+   noir tient 1,82:1 (contre 1,94 à 86 %, écart imperceptible) et le numéro
+   en blanc 4,97:1 — juste au-dessus du seuil AA, qui est ce qui décide ici.
+   À 62 %, ce numéro tombait à 4,21:1.
+
+   Cette valeur est reprise par site.js, qui recalcule la couleur au
+   défilement : les deux doivent rester d'accord. */
 .entete--pleine {
   height: var(--entete-h-compact);
-  background: rgba(68, 68, 68, .86);
-  backdrop-filter: blur(16px) saturate(1.15);
-  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  background: rgba(68, 68, 68, .7);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
   box-shadow: 0 10px 30px rgba(26, 26, 26, .22);
 }
 

@@ -40,6 +40,7 @@
     var BANDES = 8;                             // découpe verticale des photos
     var AMPLIFICATION = 2.4;                    // la moyenne d'une photo est terne
     var SATURATION_MAX = 0.30;                  // au-delà, la barre vire au coloré
+    var OPACITE = 0.70;                         // mesurée au pixel : voir le README
     var INTERVALLE = 120;                       // ms entre deux relevés
 
     var moyennes = {};   // bandes de couleur par image, calculées une seule fois
@@ -90,12 +91,16 @@
      * Une couleur de teinte et de saturation données, ramenée à la luminance
      * visée.
      *
-     * Conserver la clarté HSL ne suffit pas : à clarté égale, un bleu est
-     * perçu bien plus sombre qu'un jaune, et le nom en noir y perdait
-     * jusqu'à 20 % de contraste. C'est donc la luminance WCAG — celle qui
-     * décide de la lisibilité — qui est tenue constante, par dichotomie.
-     * Huit tours suffisent à l'approcher au point que l'œil ne distingue
-     * plus rien.
+     * C'est la COUCHE que l'on tient à luminance constante, pas le résultat
+     * peint : le flou d'arrière-plan mélange les pixels alentour avant que la
+     * couche ne se pose, si bien qu'aucune formule ne prédit le composite. La
+     * couche, elle, est maîtrisée — et le contrôle du rendu se fait par la
+     * mesure, en choisissant une opacité qui tienne sur les fonds les plus
+     * clairs du site.
+     *
+     * Conserver la clarté HSL n'y aurait pas suffi : à clarté égale, un bleu
+     * est perçu bien plus sombre qu'un jaune. C'est donc la luminance WCAG
+     * qui est tenue constante, par dichotomie en huit tours.
      */
     function aLuminance(h, s, cible) {
       var bas = 0, haut = 1, rgb = versRgb(h, s, 0.5);
@@ -214,16 +219,16 @@
       var teinte;
 
       if (!dessous) {
-        teinte = "rgba(" + GRIS[0] + ", " + GRIS[1] + ", " + GRIS[2] + ", .86)";
+        teinte = "rgba(" + GRIS[0] + ", " + GRIS[1] + ", " + GRIS[2] + ", " + OPACITE + ")";
       } else {
         var hsl = versHsl(dessous[0], dessous[1], dessous[2]);
         // Teinte et saturation viennent de la photo, la luminance reste celle
-        // de la charte : c'est tout le principe. La saturation est amplifiée
-        // avant d'être plafonnée — moyennée, une photo rend une couleur bien
-        // plus terne que ce que l'œil y voit.
+        // de la charte. La saturation est amplifiée avant d'être plafonnée —
+        // moyennée, une photo rend une couleur bien plus terne que ce que
+        // l'œil y voit.
         var saturation = Math.min(hsl[1] * AMPLIFICATION, SATURATION_MAX);
         var rgb = aLuminance(hsl[0], saturation, luminance(GRIS));
-        teinte = "rgba(" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + ", .86)";
+        teinte = "rgba(" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + ", " + OPACITE + ")";
       }
 
       if (teinte !== teinteCourante) {

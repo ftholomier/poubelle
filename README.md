@@ -186,6 +186,15 @@ Trois précautions rendent l'effet utilisable plutôt que joli :
 - **Un relevé toutes les 120 ms au plus**, trois points par relevé, et une
   seule lecture de canvas par image (12 × 8 pixels), mémorisée ensuite.
 
+L'opacité de 70 % n'est pas choisie à l'œil. Le flou mélange les pixels
+alentour **avant** que la couche ne se pose : aucune formule ne prédit le
+résultat peint, il faut le mesurer. Relevé au pixel sur onze positions de
+défilement, du blanc des sections aux photos les plus claires — le nom en noir
+tient 1,82:1 (contre 1,94 à 86 %, écart imperceptible) et le numéro en blanc
+4,97:1, juste au-dessus du seuil AA. C'est ce numéro qui fixe la limite, pas
+le nom : à 62 % il tombait à 4,21:1. La valeur est écrite deux fois, dans
+`site.css` et dans `site.js`, et les deux doivent rester d'accord.
+
 Sans `backdrop-filter`, la barre reprend son gris plein : la transparence
 laisserait sinon passer le contenu net derrière le nom. Et sous
 `prefers-reduced-motion`, la teinte change d'un coup plutôt qu'en fondu.
