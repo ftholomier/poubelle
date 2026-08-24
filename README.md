@@ -163,6 +163,33 @@ le français, jamais sur du vide.
 
 Le site public ne contacte aucun service extérieur — il lit les fichiers.
 
+## Barre teintée par ce qui défile dessous
+
+Une fois la page défilée, la barre se réduit, s'ouvre à 86 % avec un flou
+d'arrière-plan, et **emprunte la teinte de ce qui passe sous elle** : brune
+au-dessus d'un atelier bois, verte au-dessus d'une pelouse, bleutée sous un
+ciel, neutre sur le contenu blanc. Le fondu est porté par une transition CSS,
+pas par une animation JavaScript.
+
+Trois précautions rendent l'effet utilisable plutôt que joli :
+
+- **La luminance ne bouge jamais.** Le nom est composé en noir et le numéro en
+  blanc — deux exigences opposées. Seules la teinte et la saturation sont
+  reprises de la photo ; la luminance relative WCAG est ramenée par dichotomie
+  à celle du gris de la charte. Mesuré sur les teintes réellement produites :
+  le noir tient 2,12 à 2,19:1 et le blanc 9,60 à 9,89:1, contre 2,16 et 9,74
+  pour le gris plein. Conserver la clarté HSL n'y aurait pas suffi : à clarté
+  égale, un bleu est perçu bien plus sombre qu'un jaune.
+- **Chaque photo est lue par bandes**, pas en moyenne globale : en défilant le
+  long d'une image, la barre passe du bleu du ciel au vert de la pelouse. Une
+  moyenne unique aurait rendu le même gris terne d'un bout à l'autre.
+- **Un relevé toutes les 120 ms au plus**, trois points par relevé, et une
+  seule lecture de canvas par image (12 × 8 pixels), mémorisée ensuite.
+
+Sans `backdrop-filter`, la barre reprend son gris plein : la transparence
+laisserait sinon passer le contenu net derrière le nom. Et sous
+`prefers-reduced-motion`, la teinte change d'un coup plutôt qu'en fondu.
+
 ## Assistant IA
 
 Une bulle de discussion, en bas à droite, adossée à l'API Gemini. Elle

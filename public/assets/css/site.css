@@ -279,7 +279,9 @@ p + p { margin-top: 1.05rem; }
   /* Fond gris plein en haut de page : c'est le gris des visuels de
      l'entreprise, et c'est lui qui fait ressortir le monogramme orange. */
   background: var(--gris-barre);
-  transition: height var(--transition), background var(--transition),
+  /* Le fondu de la teinte est porté ici, pas en JavaScript : le script se
+     contente de poser une couleur, le navigateur fait la transition. */
+  transition: height var(--transition), background-color 1.1s ease,
               box-shadow var(--transition), backdrop-filter var(--transition);
 }
 
@@ -298,7 +300,13 @@ p + p { margin-top: 1.05rem; }
 /* Sans flou disponible, la transparence laisserait passer le contenu en net
    derrière le nom : la barre reprend alors son gris plein. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .entete--pleine { background: var(--gris-barre); }
+  .entete--pleine { background: var(--gris-barre) !important; }
+}
+
+/* Le fondu de couleur est un mouvement comme un autre : coupé pour qui
+   demande à en être dispensé, la teinte change alors d'un coup. */
+@media (prefers-reduced-motion: reduce) {
+  .entete { transition: none; }
 }
 .entete__barre {
   position: relative;

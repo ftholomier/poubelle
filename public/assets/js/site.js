@@ -21,6 +21,235 @@
     majEntete();
   })();
 
+
+  /* ---------- Teinte de la barre, prise sur ce qui défile dessous ----------
+     La barre réduite emprunte la TEINTE de ce qui passe sous elle, mais garde
+     la CLARTÉ du gris de la charte. C'est ce qui rend l'effet utilisable : le
+     nom est composé en noir et le numéro en blanc, deux exigences opposées.
+     Laisser la barre s'éclaircir ou s'assombrir au gré des photos ferait
+     décrocher l'un ou l'autre une fois sur deux. On ne reprend donc que la
+     couleur, jamais la lumière.
+
+     Le fondu est porté par une transition CSS sur background-color : rien
+     n'est animé image par image en JavaScript. */
+  (function () {
+    var entete = document.querySelector(".entete");
+    if (!entete) return;
+
+    var GRIS = [68, 68, 68];                    // --gris-barre
+    var BANDES = 8;                             // découpe verticale des photos
+    var AMPLIFICATION = 2.4;                    // la moyenne d'une photo est terne
+    var SATURATION_MAX = 0.30;                  // au-delà, la barre vire au coloré
+    var INTERVALLE = 120;                       // ms entre deux relevés
+
+    var moyennes = {};   // bandes de couleur par image, calculées une seule fois
+    var derniere = 0;
+    var enAttente = false;
+    var teinteCourante = "";
+
+    /* --- conversions --- */
+    function versHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      var max = Math.max(r, g, b), min = Math.min(r, g, b);
+      var l = (max + min) / 2, h = 0, s = 0;
+      if (max !== min) {
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+        else if (max === g) h = (b - r) / d + 2;
+        else h = (r - g) / d + 4;
+        h /= 6;
+      }
+      return [h, s, l];
+    }
+    function versRgb(h, s, l) {
+      if (s === 0) { var v = Math.round(l * 255); return [v, v, v]; }
+      var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      var p = 2 * l - q;
+      var canal = function (t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
+      return [Math.round(canal(h + 1 / 3) * 255), Math.round(canal(h) * 255), Math.round(canal(h - 1 / 3) * 255)];
+    }
+
+    /** Luminance relative WCAG — celle qui décide de la lisibilité. */
+    function luminance(rgb) {
+      var c = rgb.map(function (v) {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+    }
+
+    /**
+     * Une couleur de teinte et de saturation données, ramenée à la luminance
+     * visée.
+     *
+     * Conserver la clarté HSL ne suffit pas : à clarté égale, un bleu est
+     * perçu bien plus sombre qu'un jaune, et le nom en noir y perdait
+     * jusqu'à 20 % de contraste. C'est donc la luminance WCAG — celle qui
+     * décide de la lisibilité — qui est tenue constante, par dichotomie.
+     * Huit tours suffisent à l'approcher au point que l'œil ne distingue
+     * plus rien.
+     */
+    function aLuminance(h, s, cible) {
+      var bas = 0, haut = 1, rgb = versRgb(h, s, 0.5);
+      for (var i = 0; i < 8; i++) {
+        var milieu = (bas + haut) / 2;
+        rgb = versRgb(h, s, milieu);
+        if (luminance(rgb) < cible) bas = milieu; else haut = milieu;
+      }
+      return rgb;
+    }
+
+    /**
+     * Découpe une image en BANDES horizontales et retient la couleur moyenne
+     * de chacune. Une seule lecture de canvas par image, puis rien.
+     *
+     * Bande par bande plutôt qu'une moyenne globale : en défilant le long
+     * d'une photo, la barre passe du bleu du ciel au vert de la pelouse. Une
+     * moyenne unique aurait donné le même gris terne d'un bout à l'autre.
+     */
+    function bandesImage(src) {
+      if (moyennes[src] !== undefined) return moyennes[src];
+      moyennes[src] = null;   // en cours : on ne relance pas le calcul
+
+      var img = new Image();
+      img.onload = function () {
+        try {
+          var c = document.createElement("canvas");
+          c.width = 12; c.height = BANDES;
+          var ctx = c.getContext("2d", { willReadFrequently: true });
+          // le navigateur sous-échantillonne lui-même, gratuitement
+          ctx.drawImage(img, 0, 0, 12, BANDES);
+          var d = ctx.getImageData(0, 0, 12, BANDES).data;
+
+          var bandes = [];
+          for (var y = 0; y < BANDES; y++) {
+            var r = 0, g = 0, b = 0;
+            for (var x = 0; x < 12; x++) {
+              var i = (y * 12 + x) * 4;
+              r += d[i]; g += d[i + 1]; b += d[i + 2];
+            }
+            bandes.push([r / 12, g / 12, b / 12]);
+          }
+          moyennes[src] = bandes;
+          appliquer();
+        } catch (e) {
+          // image d'un autre domaine : le canvas devient illisible. Le site
+          // n'en sert aucune, mais une photo ajoutée plus tard pourrait.
+          moyennes[src] = false;
+        }
+      };
+      img.onerror = function () { moyennes[src] = false; };
+      img.src = src;
+
+      return null;
+    }
+
+    /** La bande de l'image qui se trouve à la hauteur y de l'écran. */
+    function bandeA(src, rect, y) {
+      var bandes = bandesImage(src);
+      if (!bandes) return null;
+
+      var part = rect.height > 0 ? (y - rect.top) / rect.height : 0;
+      var rang = Math.max(0, Math.min(BANDES - 1, Math.floor(part * BANDES)));
+
+      return bandes[rang];
+    }
+
+    function urlDeFond(el) {
+      var fond = getComputedStyle(el).backgroundImage;
+      var m = fond && fond.indexOf("url(") === 0 ? fond.match(/url\(["']?(.*?)["']?\)/) : null;
+      return m ? m[1] : null;
+    }
+
+    /** Ce qui se trouve juste sous la barre, relevé en trois points. */
+    function couleurDessous() {
+      var y = entete.getBoundingClientRect().bottom + 6;
+      var largeur = window.innerWidth;
+      var releves = [];
+
+      [largeur * 0.2, largeur * 0.5, largeur * 0.8].forEach(function (x) {
+        var pile = document.elementsFromPoint(x, y);
+        for (var i = 0; i < pile.length; i++) {
+          var el = pile[i];
+          if (el === entete || entete.contains(el)) continue;
+
+          var src = el.tagName === "IMG" ? el.currentSrc : urlDeFond(el);
+          if (src) {
+            var c = bandeA(src, el.getBoundingClientRect(), y);
+            if (c) { releves.push(c); return; }
+            continue;
+          }
+
+          var bg = getComputedStyle(el).backgroundColor.match(/[\d.]+/g);
+          // un fond translucide ne dit rien de ce qu'il y a derrière :
+          // on continue de descendre dans la pile
+          if (bg && bg.length >= 3 && (bg[3] === undefined || +bg[3] > 0.85)) {
+            releves.push([+bg[0], +bg[1], +bg[2]]);
+            return;
+          }
+        }
+      });
+
+      if (!releves.length) return null;
+
+      var somme = releves.reduce(function (a, c) { return [a[0] + c[0], a[1] + c[1], a[2] + c[2]]; }, [0, 0, 0]);
+      return somme.map(function (v) { return v / releves.length; });
+    }
+
+    function appliquer() {
+      if (!entete.classList.contains("entete--pleine")) {
+        if (teinteCourante !== "") { entete.style.removeProperty("background-color"); teinteCourante = ""; }
+        return;
+      }
+
+      var dessous = couleurDessous();
+      var teinte;
+
+      if (!dessous) {
+        teinte = "rgba(" + GRIS[0] + ", " + GRIS[1] + ", " + GRIS[2] + ", .86)";
+      } else {
+        var hsl = versHsl(dessous[0], dessous[1], dessous[2]);
+        // Teinte et saturation viennent de la photo, la luminance reste celle
+        // de la charte : c'est tout le principe. La saturation est amplifiée
+        // avant d'être plafonnée — moyennée, une photo rend une couleur bien
+        // plus terne que ce que l'œil y voit.
+        var saturation = Math.min(hsl[1] * AMPLIFICATION, SATURATION_MAX);
+        var rgb = aLuminance(hsl[0], saturation, luminance(GRIS));
+        teinte = "rgba(" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + ", .86)";
+      }
+
+      if (teinte !== teinteCourante) {
+        entete.style.backgroundColor = teinte;
+        teinteCourante = teinte;
+      }
+    }
+
+    /** Un relevé au plus toutes les INTERVALLE ms, et jamais deux de suite. */
+    function planifier() {
+      var maintenant = Date.now();
+      if (enAttente) return;
+      if (maintenant - derniere < INTERVALLE) {
+        enAttente = true;
+        setTimeout(function () { enAttente = false; derniere = Date.now(); appliquer(); }, INTERVALLE);
+        return;
+      }
+      derniere = maintenant;
+      requestAnimationFrame(appliquer);
+    }
+
+    window.addEventListener("scroll", planifier, { passive: true });
+    window.addEventListener("resize", planifier, { passive: true });
+    planifier();
+  })();
+
   /* ---------- Panneau de navigation ----------
      Servi tel quel en disposition latérale, et comme menu du téléphone en
      disposition horizontale : le même code couvre les deux cas.
