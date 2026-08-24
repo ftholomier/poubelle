@@ -556,20 +556,38 @@ tout ce que le client a saisi.
 
 ### À transférer à chaque mise à jour
 
+Plutôt que de cocher les bons dossiers dans FileZilla à chaque fois — une
+case de trop sur `data/` et le contenu du client repart à zéro — fabriquez
+le colis, puis transférez-le en entier :
+
 ```
-app/
-config/
-views/
-public/index.php
-public/.htaccess
-public/assets/css/
-public/assets/js/
-public/assets/fonts/
-public/assets/img/logo/
+php outils/paquet-maj.php
 ```
 
-Dans FileZilla, sélectionnez ces éléments uniquement. `data/`,
-`public/assets/img/site/` et `storage/` restent intacts sur le serveur.
+Le script crée un dossier `paquet-maj/` ne contenant que le code. Vous
+transférez son **contenu** à la racine du site, en écrasant, sans plus rien
+avoir à sélectionner. `data/`, `public/assets/img/site/` et `storage/` n'y
+figurent pas, donc restent intacts sur le serveur.
+
+Il travaille à partir de la même liste que la mise à jour automatique du
+back-office (`Deploiement::CODE`) : les deux voies transfèrent exactement
+les mêmes chemins, et cette liste ne peut pas dériver de la documentation.
+
+Si vous préférez sélectionner à la main, voici cette liste :
+
+```
+app/                         public/assets/img/logo/
+config/                      public/assets/img/ui/
+views/                       data/.htaccess
+public/index.php             data/assistant/.htaccess
+public/.htaccess             storage/.htaccess
+public/assets/css/           README.md
+public/assets/js/            DEPLOIEMENT.md
+public/assets/fonts/
+```
+
+Les trois `.htaccess` sont des fichiers de sécurité, pas du contenu : ils
+interdisent l'accès direct aux dossiers qui les portent.
 
 ### Avant chaque mise à jour
 
