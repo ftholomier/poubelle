@@ -14,10 +14,14 @@ use RuntimeException;
  * service — s'il devient indisponible, seul le bouton « Traduire
  * automatiquement » du back-office cesse de fonctionner.
  *
- * Deux services sont tentés dans l'ordre. Le premier est le point d'entrée
- * public de Google Traduction : gratuit et sans inscription, mais non
- * documenté, il peut changer ou limiter le débit sans préavis. C'est
- * précisément pourquoi rien d'autre n'en dépend.
+ * Trois services sont tentés dans l'ordre. DeepL vient en premier dès qu'une
+ * clé est renseignée : c'est le seul des trois à offrir un quota nominatif,
+ * donc à ne pas dépendre de l'adresse IP du serveur. Les deux suivants sont
+ * gratuits et sans inscription — le point d'entrée public de Google
+ * Traduction, puis MyMemory — mais comptent par IP : sur un hébergement
+ * mutualisé, cette IP est partagée avec d'autres sites et le quota peut être
+ * épuisé avant le premier clic (HTTP 429). C'est précisément pourquoi rien
+ * d'autre que ce bouton n'en dépend.
  */
 final class TraductionAuto
 {
@@ -28,6 +32,17 @@ final class TraductionAuto
     private const PAUSE_MS = 350;
 
     private const DELAI = 15;
+
+    /**
+     * Une clé gratuite se termine par « :fx » et ne s'adresse pas au même
+     * serveur qu'une clé payante.
+     */
+    private const DEEPL_GRATUIT = 'https://api-free.deepl.com/v2/translate';
+    private const DEEPL_PRO     = 'https://api.deepl.com/v2/translate';
+
+    public function __construct(private readonly string $cleDeepL = '')
+    {
+    }
 
     /**
      * Traduit une liste de textes.
@@ -116,6 +131,16 @@ final class TraductionAuto
      */
     private function traduireLot(array $textes, string $vers, string $depuis): array
     {
+        $souciDeepL = '';
+        if ($this->cleDeepL !== '') {
+            try {
+                return [$this->viaDeepL($textes, $vers, $depuis), 'DeepL'];
+            } catch (RuntimeException $e) {
+                // une clé refusée ne doit pas valoir moins que pas de clé
+                $souciDeepL = 'DeepL : ' . $e->getMessage() . ' — ';
+            }
+        }
+
         try {
             return [$this->viaGoogle($textes, $vers, $depuis), 'Google Traduction'];
         } catch (RuntimeException $google) {
@@ -124,11 +149,44 @@ final class TraductionAuto
                 return [$this->viaMyMemory($textes, $vers, $depuis), 'MyMemory'];
             } catch (RuntimeException $secours) {
                 throw new RuntimeException(
-                    'Google Traduction : ' . $google->getMessage()
+                    $souciDeepL
+                    . 'Google Traduction : ' . $google->getMessage()
                     . ' — MyMemory : ' . $secours->getMessage()
                 );
             }
         }
+    }
+
+    /**
+     * DeepL : quota rattaché à la clé, donc insensible à l'IP du serveur.
+     *
+     * Le service accepte plusieurs textes par requête et les rend dans
+     * l'ordre reçu, ce qui évite le repère de découpe imposé par Google.
+     *
+     * @param string[] $textes
+     * @return string[]
+     */
+    private function viaDeepL(array $textes, string $vers, string $depuis): array
+    {
+        $champs = [
+            'auth_key'    => $this->cleDeepL,
+            'source_lang' => strtoupper($depuis),
+            'target_lang' => strtoupper($vers),
+        ];
+        $corps = http_build_query($champs);
+        foreach ($textes as $texte) {
+            $corps .= '&text=' . rawurlencode($texte);
+        }
+
+        $url = str_ends_with($this->cleDeepL, ':fx') ? self::DEEPL_GRATUIT : self::DEEPL_PRO;
+        $json = json_decode($this->appeler($url, $corps), true);
+
+        $traductions = $json['translations'] ?? null;
+        if (!is_array($traductions) || count($traductions) !== count($textes)) {
+            throw new RuntimeException('Réponse inattendue de DeepL.');
+        }
+
+        return array_map(static fn(array $t): string => (string) ($t['text'] ?? ''), $traductions);
     }
 
     /**
@@ -197,7 +255,7 @@ final class TraductionAuto
         return $traduits;
     }
 
-    private function appeler(string $url): string
+    private function appeler(string $url, ?string $corpsEnvoye = null): string
     {
         if (function_exists('curl_init')) {
             $ch = curl_init($url);
@@ -207,6 +265,10 @@ final class TraductionAuto
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_USERAGENT      => 'Mozilla/5.0 (compatible; MenuiserieTrehant/1.0)',
             ]);
+            if ($corpsEnvoye !== null) {
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $corpsEnvoye);
+            }
             $corps = curl_exec($ch);
             $code  = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
             $souci = curl_error($ch);
@@ -216,20 +278,40 @@ final class TraductionAuto
                 throw new RuntimeException($souci !== '' ? $souci : 'Réponse vide (HTTP ' . $code . ').');
             }
             if ($code >= 400) {
-                throw new RuntimeException('Le service a répondu HTTP ' . $code . '.');
+                throw new RuntimeException($this->expliquer($code));
             }
             return $corps;
         }
 
-        $contexte = stream_context_create(['http' => [
-            'timeout' => self::DELAI,
-            'header'  => "User-Agent: Mozilla/5.0 (compatible; MenuiserieTrehant/1.0)\r\n",
-        ]]);
+        $entetes = "User-Agent: Mozilla/5.0 (compatible; MenuiserieTrehant/1.0)\r\n";
+        $options = ['timeout' => self::DELAI, 'header' => $entetes];
+        if ($corpsEnvoye !== null) {
+            $options['method']  = 'POST';
+            $options['header']  = $entetes . "Content-Type: application/x-www-form-urlencoded\r\n";
+            $options['content'] = $corpsEnvoye;
+        }
+        $contexte = stream_context_create(['http' => $options]);
         $corps = @file_get_contents($url, false, $contexte);
         if (!is_string($corps) || $corps === '') {
             throw new RuntimeException('Service de traduction injoignable depuis le serveur.');
         }
 
         return $corps;
+    }
+
+    /**
+     * Les codes que l'on rencontre vraiment ici appellent chacun une action
+     * différente de l'utilisateur : le seul numéro ne le lui dit pas.
+     */
+    private function expliquer(int $code): string
+    {
+        return match ($code) {
+            401, 403 => 'clé refusée (HTTP ' . $code . ') — vérifiez la clé DeepL.',
+            429      => 'quota momentanément épuisé (HTTP 429) — sans clé, ce quota est '
+                      . 'compté par adresse IP et partagé avec les autres sites de '
+                      . 'l’hébergement.',
+            456      => 'quota DeepL du mois épuisé (HTTP 456).',
+            default  => 'le service a répondu HTTP ' . $code . '.',
+        };
     }
 }

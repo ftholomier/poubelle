@@ -6,6 +6,7 @@ namespace App\Admin;
 use App\Core\Content;
 use App\Core\Csrf;
 use App\Core\Langues;
+use App\Core\Parametres;
 use App\Core\Session;
 use App\Core\TraductionAuto;
 use App\Core\Traducteur;
@@ -27,15 +28,15 @@ final class LangueController
     private const SOURCES = [
         'site'                    => 'Coordonnées et menu',
         'pages/accueil'           => 'Page d’accueil',
-        'hebergements'            => 'Hébergements',
-        'pages/hebergements'      => 'Page Hébergements',
-        'peche'                   => 'Étangs de pêche',
-        'pages/peche'             => 'Page Pêche',
-        'pages/boutique'          => 'Boutique',
-        'galerie'                 => 'Galerie',
-        'pages/galerie'           => 'Page Galerie',
-        'pages/contact'           => 'Page Contact',
-        'pages/reglement'         => 'Règlement général',
+        'services'                => 'Gammes (pergolas et carports)',
+        'pages/nos-services'      => 'Page Pergolas & carports',
+        'realisations'            => 'Réalisations',
+        'pages/realisations'      => 'Page Réalisations',
+        'valeurs'                 => 'Savoir-faire',
+        'pages/nos-valeurs'       => 'Page Notre savoir-faire',
+        'pages/la-societe'        => 'Page La société',
+        'pages/faq'               => 'Foire aux questions',
+        'pages/contact'           => 'Page Devis / contact',
         'pages/mentions-legales'  => 'Mentions légales',
     ];
 
@@ -46,6 +47,7 @@ final class LangueController
         private readonly Traducteur $traducteur,
         private readonly TraductionAuto $auto,
         private readonly string $dossierGabarits,
+        private readonly Parametres $parametres,
     ) {
     }
 
@@ -86,6 +88,28 @@ final class LangueController
         return array_merge(...array_values($this->sources()));
     }
 
+    /**
+     * Clé DeepL : sans elle, la traduction dépend de services gratuits dont
+     * le quota se compte par adresse IP — donc partagé, sur un hébergement
+     * mutualisé, avec tous les autres sites de la machine.
+     */
+    public function cleEnvoi(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger();
+        }
+
+        $tout = $this->parametres->tout();
+        $tout['traduction']['cle_deepl'] = trim((string) ($_POST['cle_deepl'] ?? ''));
+        $this->parametres->enregistrer($tout);
+
+        Session::flash('succes', $tout['traduction']['cle_deepl'] === ''
+            ? 'Clé retirée : la traduction repassera par les services gratuits.'
+            : 'Clé DeepL enregistrée.');
+
+        return $this->rediriger();
+    }
+
     // ------------------------------------------------------------- écrans
 
     public function ecran(): string
@@ -117,6 +141,7 @@ final class LangueController
             'etatLangues' => $etat,
             'total'       => $total,
             'proposees'   => array_diff_key(Langues::CONNUES, $this->langues->toutes()),
+            'cleDeepL'    => (string) $this->parametres->get('traduction.cle_deepl', ''),
         ], 'admin/layout');
     }
 

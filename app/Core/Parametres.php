@@ -48,6 +48,12 @@ final class Parametres
             'accueil'     => '',
             'source_site' => true,        // le contenu du site fait partie du corpus
         ],
+        // traduction automatique : sans clé, on se rabat sur des services
+        // gratuits que beaucoup d'hébergements mutualisés voient refusés
+        // (HTTP 429), leur adresse IP étant partagée avec d'autres sites
+        'traduction' => [
+            'cle_deepl' => '',
+        ],
         // avis Google : la clé d'API est un secret, au même titre que le
         // mot de passe SMTP — d'où sa place dans ce fichier
         'avis' => [

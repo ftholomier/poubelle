@@ -47,7 +47,8 @@ $edition = new EditionController($view, $content, $mediatheque);
 $media   = new MediaController($view, $content, $mediatheque);
 $majour  = new MiseAJourController($view, $deploiement);
 $ctrlLangues = new LangueController($view, $content, $languesAdmin, $traducteurAdmin,
-                                new App\Core\TraductionAuto(), $config['paths']['views']);
+                                new App\Core\TraductionAuto((string) $parametres->get('traduction.cle_deepl', '')),
+                                $config['paths']['views'], $parametres);
 $refer   = new SeoController($view, $content, $seo, $mediatheque);
 $reglage = new ParametreController($view, $parametres, $content, $auth, $mailer, $config['paths']['root'], $config['paths']['public']);
 $apparence = new ApparenceController($view, $parametres);
@@ -178,6 +179,7 @@ $router->post('/admin/langues/{code}/publication', $protege(fn(array $p) => $ctr
 $router->post('/admin/langues/{code}/supprimer',   $protege(fn(array $p) => $ctrlLangues->supprimer($p['code'])));
 $router->post('/admin/langues/{code}/enregistrer', $protege(fn(array $p) => $ctrlLangues->enregistrer($p['code'])));
 $router->post('/admin/langues/{code}/auto',        $protege(fn(array $p) => $ctrlLangues->auto($p['code'])));
+$router->post('/admin/langues/cle',                $protege(fn() => $ctrlLangues->cleEnvoi()));
 
 $router->get('/admin/mises-a-jour',              $protege(fn() => $majour->ecran()));
 $router->post('/admin/mises-a-jour/verifier',    $protege(fn() => $majour->verifier()));
