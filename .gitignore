@@ -1,0 +1,12 @@
+# Données d'exécution (générées au premier lancement)
+/data/*.json
+/data/*.lock
+/data/*.tmp
+/data/uploads/*
+!/data/uploads/.gitkeep
+/data/PREMIERE-CONNEXION.txt
+
+# Divers
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,544 @@
+{
+  "hero": {
+    "badge": "Réseau immobilier · Bourgogne-Franche-Comté",
+    "title_before": "Devenez agent immobilier",
+    "rotating": [
+      "indépendant",
+      "libre",
+      "bien accompagné",
+      "bien rémunéré"
+    ],
+    "title_after": "chez Suisse Immo.",
+    "lead": "Pas de diplôme exigé. Pas de plafond de rémunération. Un réseau à taille humaine, des agences physiques qui vous donnent de la crédibilité, et un accompagnement juridique, commercial et digital sur mesure.",
+    "cta_primary": "Démarrer ma candidature",
+    "cta_secondary": "Simuler mes revenus",
+    "cta_note": "2 minutes · sans engagement · réponse sous 48 h",
+    "proofs": [
+      "Aucune expérience immobilière requise",
+      "Formation et outils inclus",
+      "Vous démarrez en 30 jours"
+    ]
+  },
+  "marquee": [
+    "Belfort",
+    "Besançon",
+    "Montbéliard",
+    "L'Isle sur le Doubs",
+    "Maîche",
+    "Morteau",
+    "60+ agents commerciaux",
+    "2000+ biens vendus",
+    "Réseau fondé en 2017"
+  ],
+  "stats": [
+    {
+      "value": 7,
+      "suffix": "",
+      "label": "années d'existence",
+      "sub": "Réseau né en juin 2017 à Belfort"
+    },
+    {
+      "value": 60,
+      "suffix": "+",
+      "label": "agents commerciaux",
+      "sub": "Une communauté qui s'entraide au quotidien"
+    },
+    {
+      "value": 2000,
+      "suffix": "+",
+      "label": "biens vendus",
+      "sub": "Des projets de vie concrétisés"
+    },
+    {
+      "value": 6,
+      "suffix": "",
+      "label": "agences physiques",
+      "sub": "Une vitrine réelle derrière chaque agent"
+    }
+  ],
+  "problem": {
+    "eyebrow": "Le déclic",
+    "title": "Vous méritez mieux que ce que votre travail vous rapporte.",
+    "lead": "La plupart des personnes qui nous rejoignent partagent les mêmes frustrations. Cochez celles qui vous parlent.",
+    "items": [
+      {
+        "pain": "Un salaire qui ne bouge pas, quels que soient vos efforts",
+        "gain": "Une rémunération directement indexée sur vos résultats, sans plafond"
+      },
+      {
+        "pain": "Des horaires imposés, un manager sur le dos",
+        "gain": "Votre agenda, votre secteur, votre rythme"
+      },
+      {
+        "pain": "L'envie d'entreprendre, mais la peur de partir seul",
+        "gain": "Un réseau, une marque connue localement et un accompagnement permanent"
+      },
+      {
+        "pain": "Un métier sans utilité concrète",
+        "gain": "Chaque vente est un projet de vie que vous rendez possible"
+      }
+    ],
+    "cta": "Je veux changer de trajectoire"
+  },
+  "benefits": {
+    "eyebrow": "8 raisons",
+    "title": "Ce que Suisse Immo met sur la table.",
+    "lead": "Que vous soyez déjà professionnel de l'immobilier ou en pleine reconversion, vous arrivez sur une structure déjà construite.",
+    "items": [
+      {
+        "icon": "network",
+        "title": "Un réseau dynamique",
+        "text": "Des agences physiques et des agents mandataires réunis sous une même bannière. Le meilleur des deux mondes : la puissance d'un réseau, la souplesse de l'indépendance.",
+        "tag": "Collectif"
+      },
+      {
+        "icon": "shield",
+        "title": "Une marque rassurante",
+        "text": "Une enseigne installée depuis 2017 sur son territoire. Vos prospects vous ouvrent la porte parce qu'ils connaissent déjà le nom sur votre carte.",
+        "tag": "Notoriété"
+      },
+      {
+        "icon": "rocket",
+        "title": "Un lancement encadré",
+        "text": "Formation initiale, cadrage de votre secteur, premiers rendez-vous accompagnés. Vous n'êtes jamais lâché dans le vide au démarrage.",
+        "tag": "Démarrage"
+      },
+      {
+        "icon": "hands",
+        "title": "Un accompagnement durable",
+        "text": "Support juridique, commercial et digital toute l'année. Un dossier bloqué, une clause à sécuriser, une négociation tendue : quelqu'un décroche.",
+        "tag": "Support"
+      },
+      {
+        "icon": "book",
+        "title": "Des formations continues",
+        "text": "Droit immobilier, estimation, prospection, négociation, réseaux sociaux. Le marché bouge, vos compétences suivent.",
+        "tag": "Montée en compétences"
+      },
+      {
+        "icon": "tools",
+        "title": "Des outils qui travaillent pour vous",
+        "text": "Diffusion multi-portails, outils d'estimation, supports de communication, suivi de portefeuille. Vous vendez, l'intendance suit.",
+        "tag": "Outils"
+      },
+      {
+        "icon": "chart",
+        "title": "Un suivi commercial réel",
+        "text": "Des points réguliers, des indicateurs clairs, des objectifs construits avec vous. Pas de reporting pour le reporting.",
+        "tag": "Pilotage"
+      },
+      {
+        "icon": "coins",
+        "title": "Une rémunération exponentielle",
+        "text": "Plus vous performez, plus votre part augmente. Votre progression n'est pas soumise à une grille salariale.",
+        "tag": "Rémunération"
+      }
+    ]
+  },
+  "values": {
+    "eyebrow": "Nos trois valeurs",
+    "items": [
+      {
+        "title": "Dynamisme",
+        "text": "Un réseau en croissance, des ouvertures d'agences à venir, une équipe qui avance."
+      },
+      {
+        "title": "Accompagnement",
+        "text": "Personne ne réussit seul. Juridique, commercial, digital : vous êtes épaulé."
+      },
+      {
+        "title": "Rémunération exponentielle",
+        "text": "Votre part progresse avec vos résultats. Le plafond, c'est vous qui le fixez."
+      }
+    ]
+  },
+  "compare": {
+    "eyebrow": "Comparatif",
+    "title": "Salarié d'agence, mandataire isolé… ou Suisse Immo.",
+    "lead": "Les trois modèles n'offrent ni la même liberté, ni la même sécurité, ni la même rémunération.",
+    "columns": [
+      "Agence traditionnelle",
+      "Réseau 100 % en ligne",
+      "Suisse Immo"
+    ],
+    "rows": [
+      {
+        "label": "Rémunération",
+        "a": "Salaire fixe, commissions plafonnées",
+        "b": "Commission élevée mais tout à votre charge",
+        "c": "Part croissante selon vos résultats"
+      },
+      {
+        "label": "Liberté d'organisation",
+        "a": "Horaires et secteur imposés",
+        "b": "Totale, mais sans cadre",
+        "c": "Vous pilotez votre agenda, avec un cadre"
+      },
+      {
+        "label": "Crédibilité terrain",
+        "a": "Vitrine physique",
+        "b": "Aucune adresse à montrer",
+        "c": "Des agences physiques derrière vous"
+      },
+      {
+        "label": "Accompagnement",
+        "a": "Variable selon le manager",
+        "b": "Hotline anonyme",
+        "c": "Interlocuteurs identifiés, joignables"
+      },
+      {
+        "label": "Formation",
+        "a": "Ponctuelle",
+        "b": "En ligne, à consommer seul",
+        "c": "Initiale + continue, avec du terrain"
+      },
+      {
+        "label": "Isolement",
+        "a": "Équipe présente",
+        "b": "Élevé",
+        "c": "Communauté locale de 60+ agents"
+      }
+    ]
+  },
+  "simulator": {
+    "eyebrow": "Simulateur",
+    "title": "Combien pourriez-vous gagner ?",
+    "lead": "Déplacez les curseurs. Le calcul se fait en direct, selon le barème paramétré par le réseau.",
+    "avg_price": {
+      "label": "Prix moyen d'un bien sur votre secteur",
+      "min": 80000,
+      "max": 500000,
+      "step": 5000,
+      "default": 180000
+    },
+    "sales": {
+      "label": "Ventes réalisées par an",
+      "min": 2,
+      "max": 30,
+      "step": 1,
+      "default": 10
+    },
+    "agency_fee_rate": 4.5,
+    "tiers": [
+      {
+        "name": "Démarrage",
+        "from": 0,
+        "to": 5,
+        "rate": 70
+      },
+      {
+        "name": "Confirmé",
+        "from": 6,
+        "to": 11,
+        "rate": 80
+      },
+      {
+        "name": "Expert",
+        "from": 12,
+        "to": 999,
+        "rate": 90
+      }
+    ],
+    "cta": "Transformer cette simulation en réalité",
+    "disclaimer": "Simulation indicative, hors charges et fiscalité, établie sur la base d'honoraires d'agence de {rate} % du prix de vente. Le barème réel de rémunération vous est présenté lors du rendez-vous stratégique et peut différer selon votre statut et votre secteur."
+  },
+  "missions": {
+    "eyebrow": "Le métier",
+    "title": "Une journée d'agent commercial immobilier.",
+    "lead": "L'agent commercial immobilier est avant tout un conseiller : l'interlocuteur privilégié pour vendre ou louer un appartement familial, un studio d'étudiant, une colocation, une maison de vacances ou des locaux professionnels.",
+    "items": [
+      {
+        "title": "Prospection",
+        "short": "Faire grandir votre portefeuille",
+        "text": "Terrain, réseau, recommandations, bases immobilières : vous détectez les biens et les projets avant les autres. Le contact régulier avec votre clientèle existante fait le reste."
+      },
+      {
+        "title": "Estimation du prix",
+        "short": "Fixer le juste prix",
+        "text": "Emplacement, superficie, état, atouts uniques : vous mesurez, vous comparez aux transactions récentes du secteur, vous proposez un prix juste — attractif pour l'acheteur, optimal pour le vendeur. Loi Carrez comprise."
+      },
+      {
+        "title": "Mise en vente",
+        "short": "Signer le mandat",
+        "text": "Le mandat signé, vous conseillez le vendeur sur la présentation du bien, organisez la séance photo professionnelle et vérifiez que tous les diagnostics obligatoires sont réalisés."
+      },
+      {
+        "title": "Rédaction de l'annonce",
+        "short": "Donner envie, sans mentir",
+        "text": "Superficie, pièces, extérieur, charges, taxe foncière, quartier, commerces, transports : une annonce à la fois attractive et réaliste, appuyée sur de vraies photos."
+      },
+      {
+        "title": "Mise en relation",
+        "short": "Filtrer les vrais acheteurs",
+        "text": "Diffusion multi-plateformes pour une visibilité maximale, puis qualification : les bonnes questions séparent les acquéreurs sérieux des simples curieux. Votre temps est votre capital."
+      },
+      {
+        "title": "Visites et comptes-rendus",
+        "short": "Mettre en scène le bien",
+        "text": "Vous maîtrisez le bien, vous répondez à tout, vous restez transparent. Puis vous remontez les retours au vendeur — c'est là que le prix se confronte vraiment au marché."
+      },
+      {
+        "title": "Conseil et négociation",
+        "short": "Aligner les intérêts",
+        "text": "Offres, contre-offres, fermeté et souplesse. Vous cherchez le terrain d'entente qui satisfait tout le monde, en communiquant clairement avantages et concessions."
+      },
+      {
+        "title": "Signature",
+        "short": "Concrétiser",
+        "text": "Compromis puis acte définitif chez le notaire : vous préparez, vous sécurisez les clauses, vous accompagnez vos clients jusqu'à la remise des clés."
+      }
+    ]
+  },
+  "skills": {
+    "eyebrow": "Le profil",
+    "title": "Ce que nous cherchons vraiment.",
+    "lead": "Ni diplôme immobilier, ni passé commercial. Six qualités humaines suffisent — le reste, nous vous l'apprenons.",
+    "items": [
+      {
+        "title": "Le sens du relationnel",
+        "text": "Bien au-delà de la sociabilité : écouter, conseiller, désamorcer. Une bonne réputation locale fait 80 % du travail."
+      },
+      {
+        "title": "L'écoute",
+        "text": "Comprendre le besoin réel derrière la demande. Oubliez les techniques commerciales agressives : ici, on dialogue."
+      },
+      {
+        "title": "La diplomatie",
+        "text": "Ramener un vendeur au prix du marché sans le braquer, apaiser une tension entre deux parties : tact et patience."
+      },
+      {
+        "title": "L'organisation",
+        "text": "Prioriser ce qui produit du résultat. Maîtriser son planning, c'est maîtriser son revenu."
+      },
+      {
+        "title": "La rigueur",
+        "text": "Portefeuille clients, dossiers, réglementation : chaque détail vérifié, chaque risque de responsabilité écarté."
+      },
+      {
+        "title": "L'honnêteté",
+        "text": "Estimation objective, conseil transparent, respect de la loi. La confiance se construit une fois et se perd une fois."
+      }
+    ]
+  },
+  "steps": {
+    "eyebrow": "Le parcours",
+    "title": "De votre candidature à votre première vente.",
+    "lead": "Un processus court, clair, sans zone d'ombre.",
+    "items": [
+      {
+        "n": "01",
+        "title": "Votre candidature en ligne",
+        "text": "Un formulaire en 4 étapes, 2 minutes chrono. Vous nous dites qui vous êtes et sur quel secteur vous voulez travailler.",
+        "duration": "2 minutes"
+      },
+      {
+        "n": "02",
+        "title": "Le rendez-vous stratégique",
+        "text": "Un échange sans langue de bois avec l'un de nos collaborateurs : vos objectifs, notre modèle, votre potentiel sur votre zone. L'objectif est un partenariat gagnant-gagnant.",
+        "duration": "Sous 48 h"
+      },
+      {
+        "n": "03",
+        "title": "Votre intégration",
+        "text": "Statut d'agent commercial, formation initiale, prise en main des outils, définition de votre secteur et de vos premiers objectifs.",
+        "duration": "2 à 4 semaines"
+      },
+      {
+        "n": "04",
+        "title": "Votre lancement terrain",
+        "text": "Premiers mandats, premières visites, accompagnement rapproché. Vos revenus démarrent avec vos premières signatures.",
+        "duration": "Dès le 1er mois"
+      }
+    ]
+  },
+  "network": {
+    "eyebrow": "Le réseau",
+    "title": "Suisse Immo, le partenaire immobilier qui veut votre bien.",
+    "lead": "Suisse Immo est un réseau de professionnels de l'immobilier constitué d'agences physiques traditionnelles et d'agents mandataires. Nous avons combiné le meilleur des deux mondes pour proposer un service optimal à nos mandants, quel que soit leur projet de transaction immobilière.",
+    "story_title": "Une envie et une promesse.",
+    "story": [
+      "En juin 2017, le réseau Suisse Immo voit officiellement le jour sous la houlette de son fondateur et directeur, Benjamin G. Diplômé de l'École supérieure de commerce d'Amiens et titulaire d'un MBA obtenu à La Défense, il s'entoure d'une équipe de professionnels de l'immobilier pour donner vie à son projet.",
+      "Ensemble, ils ambitionnent de (ré)inventer la transaction immobilière, pour que vendeurs et acheteurs (re)trouvent leur place au cœur du processus transactionnel.",
+      "Chaque transaction immobilière est vue comme un projet de vie. Il ne s'agit pas seulement de transférer la propriété d'une personne à une autre, mais de participer à la transformation et au bonheur de nos clients."
+    ],
+    "pillars": [
+      {
+        "n": "1",
+        "title": "Un siège social",
+        "text": "À Belfort, 39 rue du Général Gaulard."
+      },
+      {
+        "n": "2",
+        "title": "Plusieurs agences physiques",
+        "text": "Belfort, Besançon, Montbéliard, L'Isle sur le Doubs, Maîche, Morteau."
+      },
+      {
+        "n": "3",
+        "title": "Des ouvertures à venir",
+        "text": "Le maillage du territoire continue de s'étendre."
+      }
+    ],
+    "cities": [
+      "Belfort",
+      "Besançon",
+      "Montbéliard",
+      "L'Isle sur le Doubs",
+      "Maîche",
+      "Morteau"
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Ils nous font confiance",
+    "title": "La qualité au service de nos clients.",
+    "lead": "Avis publiés sur Google par les clients accompagnés par nos agents.",
+    "items": [
+      {
+        "author": "Sarah Zbat",
+        "source": "Google",
+        "rating": 5,
+        "text": "J'ai confié la vente de mon appartement à Dinko Jakupovic et je ne regrette pas du tout. La vente s'est faite rapidement et simplement, avec une offre au prix. Merci pour le professionnalisme et la réactivité."
+      },
+      {
+        "author": "Rym Sid",
+        "source": "Google",
+        "rating": 5,
+        "text": "Un grand merci à Benoît Pewzner pour son professionnalisme et sa réactivité. Il a été à l'écoute et de très bons conseils du début à la fin. Je recommande fortement."
+      },
+      {
+        "author": "Tanguy Bonin",
+        "source": "Google",
+        "rating": 5,
+        "text": "J'ai pu travailler avec Stéphane qui mérite largement ses 5 étoiles. Aimable, souriant et très réactif dans les demandes et les démarches."
+      },
+      {
+        "author": "Philippe Coulon",
+        "source": "Google",
+        "rating": 5,
+        "text": "Karine et Cyril sont de très bons partenaires, connaissant très bien le secteur et le métier. À solliciter sans modération."
+      },
+      {
+        "author": "Carine Ouday",
+        "source": "Google",
+        "rating": 5,
+        "text": "Karine et Cyril mettront en œuvre toute leur expertise et leur dynamisme pour vous aider à trouver la maison de vos rêves, n'hésitez pas à faire appel à eux."
+      },
+      {
+        "author": "Alexia Boissenet",
+        "source": "Google",
+        "rating": 5,
+        "text": "Prestation au top, mes agents ont beaucoup donné de leur personne, à l'écoute de leurs clients. Je les recommande fortement. Merci à Cyril et Karine."
+      },
+      {
+        "author": "Patrick Roux",
+        "source": "Google",
+        "rating": 5,
+        "text": "Très bonne expérience, Karine et Cyril sont des personnes très agréables et très compétentes, ils sont également très à l'écoute de leurs interlocuteurs."
+      },
+      {
+        "author": "Suzanne Bondenet",
+        "source": "Google",
+        "rating": 5,
+        "text": "Vendeur sympa, accompagnement sérieux du début à la fin."
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "Vos questions",
+    "title": "Ce que tout le monde nous demande avant de candidater.",
+    "items": [
+      {
+        "q": "Faut-il une expérience dans l'immobilier ?",
+        "a": "Non. Suisse Immo recherche actuellement des agents commerciaux indépendants, et il n'est pas nécessaire d'avoir une expérience préalable dans l'immobilier ou un profil commercial. Nous valorisons la motivation, l'engagement et le professionnalisme. La technique s'apprend, la posture beaucoup moins."
+      },
+      {
+        "q": "Quel statut aurai-je ?",
+        "a": "Celui d'agent commercial indépendant, immatriculé au registre spécial des agents commerciaux et rattaché au réseau. Vous êtes votre propre patron, adossé à une structure. Le détail administratif est passé en revue lors du rendez-vous stratégique."
+      },
+      {
+        "q": "Comment suis-je rémunéré ?",
+        "a": "Uniquement au résultat, sur les honoraires des transactions que vous réalisez, avec une part qui progresse selon vos performances. Aucun plafond n'est imposé. Le barème exact vous est présenté lors de l'entretien."
+      },
+      {
+        "q": "Est-ce que je peux commencer en gardant mon emploi ?",
+        "a": "C'est une question à aborder franchement lors du rendez-vous. Beaucoup d'agents démarrent par une phase de transition. Nous vous dirons honnêtement si votre configuration est compatible avec un lancement réussi."
+      },
+      {
+        "q": "Sur quel secteur puis-je travailler ?",
+        "a": "Le réseau est implanté à Belfort, Besançon, Montbéliard, L'Isle sur le Doubs, Maîche et Morteau, avec des ouvertures à venir. Indiquez le secteur qui vous intéresse dans votre candidature : nous vérifions sa disponibilité."
+      },
+      {
+        "q": "Combien de temps avant de toucher ma première commission ?",
+        "a": "Cela dépend de votre rythme de prospection et du cycle de vente immobilier (compromis puis acte définitif). L'intégration dure 2 à 4 semaines, les premiers mandats arrivent ensuite. Nous ne vous vendrons pas de promesse chiffrée : nous vous donnerons des repères réels lors de l'entretien."
+      },
+      {
+        "q": "Que se passe-t-il après ma candidature ?",
+        "a": "Nous étudions votre profil et nous vous recontactons sous 48 heures ouvrées pour fixer un rendez-vous stratégique. Ce temps d'échange permet de mettre en place un partenariat gagnant-gagnant."
+      }
+    ]
+  },
+  "final_cta": {
+    "eyebrow": "Dernière ligne droite",
+    "title": "Prêt à saisir les opportunités ?",
+    "lead": "Candidatez dès maintenant pour devenir agent commercial en immobilier chez Suisse Immo. Le premier pas prend deux minutes ; la suite, on la construit ensemble.",
+    "cta": "Je candidate maintenant",
+    "secondary": "Poser une question d'abord",
+    "reassurance": [
+      "Sans engagement",
+      "Réponse sous 48 h",
+      "Données confidentielles"
+    ]
+  },
+  "apply": {
+    "title": "Candidatez dès maintenant",
+    "lead": "Remplissez le formulaire pour obtenir un rendez-vous stratégique avec l'un de nos collaborateurs. Ce temps d'échange permettra de mettre en place un partenariat gagnant-gagnant.",
+    "steps": [
+      {
+        "key": "profil",
+        "title": "Votre situation",
+        "hint": "Pour comprendre d'où vous partez."
+      },
+      {
+        "key": "projet",
+        "title": "Votre projet",
+        "hint": "Secteur, disponibilité, ambition."
+      },
+      {
+        "key": "contact",
+        "title": "Vos coordonnées",
+        "hint": "Pour vous rappeler sous 48 h."
+      },
+      {
+        "key": "confirm",
+        "title": "Confirmation",
+        "hint": "Un dernier regard avant l'envoi."
+      }
+    ],
+    "situations": [
+      "En poste, en reconversion",
+      "Déjà dans l'immobilier",
+      "Commercial dans un autre secteur",
+      "Entrepreneur / indépendant",
+      "En recherche d'emploi",
+      "Étudiant / jeune diplômé"
+    ],
+    "availabilities": [
+      "Immédiatement",
+      "Sous 1 mois",
+      "Sous 3 mois",
+      "Je me renseigne"
+    ],
+    "sources": [
+      "Bouche à oreille",
+      "Google",
+      "Réseaux sociaux",
+      "Agence",
+      "Autre"
+    ],
+    "success_title": "Candidature reçue.",
+    "success_text": "Merci ! Votre dossier est entre les mains de notre équipe. Nous revenons vers vous sous 48 heures ouvrées pour fixer votre rendez-vous stratégique."
+  },
+  "contact": {
+    "title": "Une question ? Écrivez-nous.",
+    "lead": "Nous sommes à votre disposition pour tous renseignements sur le métier, le statut, la rémunération ou votre secteur."
+  }
+}

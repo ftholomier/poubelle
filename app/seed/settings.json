@@ -1,0 +1,55 @@
+{
+  "site": {
+    "name": "Suisse Immo Recrutement",
+    "tagline": "Devenez agent commercial immobilier indépendant",
+    "base_path": "",
+    "url": "https://recrutement.suisse-immo.fr",
+    "locale": "fr_FR",
+    "meta_title": "Devenir agent immobilier indépendant | Suisse Immo — Bourgogne-Franche-Comté",
+    "meta_description": "Rejoignez Suisse Immo : réseau d'agences immobilières à Belfort, Besançon, Montbéliard, L'Isle sur le Doubs, Maîche et Morteau. Accompagnement juridique, commercial et digital, rémunération sans plafond. Candidature en 2 minutes.",
+    "og_image": "/assets/img/og-cover.svg"
+  },
+  "company": {
+    "legal_name": "SUISSE IMMO",
+    "form": "SAS",
+    "capital": "20 000 €",
+    "address": "39 rue du Général Gaulard",
+    "zip": "90000",
+    "city": "BELFORT",
+    "phone": "03.84.56.80.88",
+    "phone_link": "+33384568088",
+    "email": "contact@suisse-immo.fr",
+    "siret": "83016784700029",
+    "rcs": "Belfort",
+    "vat": "FR35830167847",
+    "insurance": "Axa N°7698534904",
+    "host": "NUXIT",
+    "main_site": "https://www.suisse-immo.fr",
+    "georisques": "https://www.georisques.gouv.fr"
+  },
+  "funnel": {
+    "notify_email": "contact@suisse-immo.fr",
+    "notify_enabled": true,
+    "response_delay": "48 heures ouvrées",
+    "exit_intent": true,
+    "exit_intent_title": "Avant de partir…",
+    "exit_intent_text": "Recevez le mémo « Devenir agent immobilier indépendant : statut, rémunération, démarrage ». Deux pages, zéro blabla.",
+    "sticky_cta": true,
+    "sticky_cta_label": "Candidater en 2 min",
+    "cv_upload": true
+  },
+  "security": {
+    "salt": "",
+    "max_applications_per_hour": 5,
+    "max_leads_per_hour": 8
+  },
+  "pipeline": {
+    "stages": [
+      { "key": "nouveau", "label": "Nouveau", "color": "#5B8CFF" },
+      { "key": "contacte", "label": "Contacté", "color": "#E8A13A" },
+      { "key": "rdv", "label": "RDV planifié", "color": "#B071FF" },
+      { "key": "integre", "label": "Intégré", "color": "#35D07F" },
+      { "key": "refuse", "label": "Non retenu", "color": "#7A8394" }
+    ]
+  }
+}
