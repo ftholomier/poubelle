@@ -16,7 +16,15 @@ $fields = [
   <div class="row">
     <a class="btn btn--sm btn--ghost" href="<?= e(url('admin/candidatures')) ?><?= $isDraft ? '?drafts=1' : '' ?>">← Retour</a>
     <?php if (!empty($row['email'])): ?>
-      <a class="btn btn--sm" href="mailto:<?= e($row['email']) ?>?subject=<?= e(rawurlencode('Votre candidature chez Suisse Immo')) ?>"><?= icon('mail') ?> Écrire</a>
+      <button class="btn btn--sm" type="button"
+              data-mailer="application"
+              data-mailer-id="<?= e($row['id']) ?>"
+              data-mailer-email="<?= e($row['email']) ?>"
+              data-mailer-name="<?= e($row['name'] ?: 'ce candidat') ?>"
+              data-mailer-area="<?= e($row['area'] ?: 'votre secteur') ?>"
+              data-mailer-template="<?= ($row['status'] ?? '') === 'brouillon' ? 'relance' : 'rdv' ?>">
+        <?= icon('mail') ?> Écrire
+      </button>
     <?php endif; ?>
     <?php if (!empty($row['phone'])): ?>
       <a class="btn btn--sm btn--ghost" href="tel:<?= e(preg_replace('/\D/', '', (string) $row['phone'])) ?>"><?= icon('phone') ?> Appeler</a>
@@ -141,3 +149,5 @@ $fields = [
     </div>
   </div>
 </div>
+
+<?php partial('admin-mailer'); ?>

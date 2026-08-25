@@ -345,6 +345,65 @@ final class AdminController
         echo view('admin/users', ['user' => $user, 'nav' => 'users', 'title' => 'Utilisateurs', 'rows' => Store::read('users')], 'admin/layout');
     }
 
+    /**
+     * Envoi d'un e-mail depuis le back-office. L'adresse du destinataire
+     * est relue depuis l'enregistrement : ce que poste le navigateur ne
+     * sert qu'à désigner la fiche, jamais à choisir qui reçoit le message.
+     */
+    public static function sendEmail(): void
+    {
+        $user = Auth::requireLogin();
+        if (!Csrf::check($_POST['_csrf'] ?? null)) {
+            Session::flash('Session expirée, merci de réessayer.', 'error');
+            redirect(url('admin/candidatures'));
+        }
+
+        $type = (string) ($_POST['target_type'] ?? '');
+        $id = (string) ($_POST['target_id'] ?? '');
+        $collection = $type === 'lead' ? 'leads' : 'applications';
+        $back = $type === 'lead' ? url('admin/messages') : url('admin/candidatures/' . $id);
+
+        $row = Store::find($collection, $id);
+        if ($row === null) {
+            Session::flash('Destinataire introuvable.', 'error');
+            redirect($type === 'lead' ? url('admin/messages') : url('admin/candidatures'));
+        }
+
+        $to = trim((string) ($row['email'] ?? ''));
+        $subject = mb_substr(trim((string) ($_POST['subject'] ?? '')), 0, 180);
+        $body = mb_substr(trim((string) ($_POST['body'] ?? '')), 0, 20000);
+
+        if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
+            Session::flash('Cette fiche ne comporte pas d’adresse e-mail valide.', 'error');
+            redirect($back);
+        }
+        if ($subject === '' || $body === '') {
+            Session::flash('L’objet et le message sont obligatoires.', 'error');
+            redirect($back);
+        }
+
+        $html = '<p style="white-space:pre-wrap;margin:0">' . nl2br(e($body)) . '</p>';
+        $sent = Mailer::send($to, $subject, $html, (string) settings('company.email'));
+
+        if (!empty($_POST['note']) && $type !== 'lead') {
+            $notes = (array) ($row['notes'] ?? []);
+            $notes[] = [
+                'author' => $user['name'] ?: $user['email'],
+                'text' => ($sent ? 'E-mail envoyé' : 'E-mail rédigé (envoi serveur en échec)') . ' — « ' . $subject . " »\n\n" . $body,
+                'at' => date('c'),
+            ];
+            Store::update('applications', $id, ['notes' => $notes, 'last_contacted_at' => date('c')]);
+        } elseif ($type === 'lead') {
+            Store::update('leads', $id, ['status' => 'repondu', 'last_contacted_at' => date('c')]);
+        }
+
+        Session::flash($sent
+            ? 'Message envoyé à ' . $to . '.'
+            : 'Message enregistré, mais le serveur n’a pas pu l’expédier (fonction mail() non configurée). Retrouvez-le dans « E-mails envoyés ».',
+            $sent ? 'success' : 'error');
+        redirect($back);
+    }
+
     // ------------------------------------------------------------- bot IA
 
     public static function bot(): void

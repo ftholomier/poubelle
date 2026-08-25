@@ -66,6 +66,7 @@ $router->get('/admin/candidatures/export', [AdminController::class, 'application
 $router->any('/admin/candidatures/{id}', [AdminController::class, 'applicationShow']);
 $router->post('/admin/candidatures/{id}/supprimer', [AdminController::class, 'applicationDelete']);
 $router->get('/admin/candidatures/{id}/cv', [AdminController::class, 'cv']);
+$router->post('/admin/email', [AdminController::class, 'sendEmail']);
 $router->get('/admin/messages', [AdminController::class, 'leads']);
 $router->post('/admin/messages/{id}/supprimer', [AdminController::class, 'leadDelete']);
 $router->any('/admin/contenu', [AdminController::class, 'contentEdit']);

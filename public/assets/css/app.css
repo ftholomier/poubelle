@@ -454,6 +454,34 @@ section, .section, .cta-final, .hero__panel { overflow-x: clip; }
 .hero__bg .glow--amber { width: 520px; height: 520px; bottom: -220px; left: -140px; }
 .hero__bg .glow--blue  { width: 440px; height: 440px; top: 42%; left: 46%; opacity: .3; }
 
+/* Dérive lente des halos : trois trajectoires de durées premières entre
+   elles, pour que la boucle ne se laisse jamais deviner. Seuls transform
+   et opacity sont animés — aucun recalcul de mise en page. */
+.hero__bg .glow { will-change: transform, opacity; }
+.hero__bg .glow--red   { animation: driftRed 41s ease-in-out infinite; }
+.hero__bg .glow--amber { animation: driftAmber 53s ease-in-out infinite; }
+.hero__bg .glow--blue  { animation: driftBlue 67s ease-in-out infinite; }
+
+@keyframes driftRed {
+  0%   { transform: translate3d(0, 0, 0) scale(1);      opacity: .5; }
+  25%  { transform: translate3d(-7%, 6%, 0) scale(1.07); opacity: .58; }
+  50%  { transform: translate3d(2%, 12%, 0) scale(.95);  opacity: .44; }
+  75%  { transform: translate3d(8%, 4%, 0) scale(1.04);  opacity: .55; }
+  100% { transform: translate3d(0, 0, 0) scale(1);       opacity: .5; }
+}
+@keyframes driftAmber {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  33%  { transform: translate3d(11%, -8%, 0) scale(1.09); }
+  66%  { transform: translate3d(4%, -15%, 0) scale(.94); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes driftBlue {
+  0%   { transform: translate3d(0, 0, 0) scale(1);        opacity: .3; }
+  40%  { transform: translate3d(-13%, -7%, 0) scale(1.12); opacity: .36; }
+  70%  { transform: translate3d(-5%, 8%, 0) scale(.9);     opacity: .24; }
+  100% { transform: translate3d(0, 0, 0) scale(1);         opacity: .3; }
+}
+
 /* Trame vectorielle animée */
 .hero__grid {
   position: absolute; inset: 0; z-index: 0; opacity: .35;
@@ -1286,6 +1314,7 @@ input[type="range"]::-moz-range-thumb {
   .header__cta .btn svg { display: none; }
   .burger { width: 40px; height: 40px; }
   .glow { max-width: 120vw; filter: blur(70px); opacity: .38; }
+  .hero__bg .glow { animation-duration: 80s; }
   .stats { grid-template-columns: 1fr; }
   .bento { grid-template-columns: 1fr; }
   .post-grid { grid-template-columns: 1fr; }

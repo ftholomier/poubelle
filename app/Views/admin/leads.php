@@ -13,8 +13,7 @@
               <td>
                 <strong><?= e($l['name'] ?? '') ?></strong>
                 <div style="font-size:.8rem;color:var(--muted)">
-                  <a href="mailto:<?= e($l['email'] ?? '') ?>"><?= e($l['email'] ?? '') ?></a>
-                  <?= !empty($l['phone']) ? ' · ' . e($l['phone']) : '' ?>
+                  <?= e($l['email'] ?? '') ?><?= !empty($l['phone']) ? ' · ' . e($l['phone']) : '' ?>
                 </div>
               </td>
               <td>
@@ -25,10 +24,19 @@
               <td style="color:var(--muted);max-width:380px"><?= e(excerpt((string) ($l['message'] ?? ''), 120)) ?: '—' ?></td>
               <td style="color:var(--muted);white-space:nowrap"><?= e(fr_date($l['created_at'] ?? '', true)) ?></td>
               <td style="text-align:right">
-                <form method="post" action="<?= e(url('admin/messages/' . $l['id'] . '/supprimer')) ?>" onsubmit="return confirm('Supprimer ce message ?')">
-                  <?= Csrf::field() ?>
-                  <button class="btn btn--sm btn--danger" type="submit">Supprimer</button>
-                </form>
+                <div class="row" style="gap:6px;justify-content:flex-end;flex-wrap:nowrap">
+                  <button class="btn btn--sm" type="button"
+                          data-mailer="lead"
+                          data-mailer-id="<?= e($l['id']) ?>"
+                          data-mailer-email="<?= e($l['email'] ?? '') ?>"
+                          data-mailer-name="<?= e($l['name'] ?? '') ?>"
+                          data-mailer-area="votre secteur"
+                          data-mailer-template="reponse"><?= icon('mail') ?> Répondre</button>
+                  <form method="post" action="<?= e(url('admin/messages/' . $l['id'] . '/supprimer')) ?>" onsubmit="return confirm('Supprimer ce message ?')">
+                    <?= Csrf::field() ?>
+                    <button class="btn btn--sm btn--danger" type="submit">Supprimer</button>
+                  </form>
+                </div>
               </td>
             </tr>
           <?php endforeach; ?>
@@ -37,3 +45,5 @@
     </div>
   <?php endif; ?>
 </div>
+
+<?php partial('admin-mailer'); ?>

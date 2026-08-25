@@ -236,3 +236,58 @@ table.data a.strong:hover { color: #ff8290; }
 .bot-sources { font-size: .72rem; color: var(--muted); padding-left: 4px; }
 .bot-console::-webkit-scrollbar { width: 8px; }
 .bot-console::-webkit-scrollbar-thumb { background: var(--panel-3); border-radius: 8px; }
+
+/* -------------------------------------------- Composeur d'e-mail */
+.mailer { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px; }
+.mailer[hidden] { display: none; }
+.mailer__backdrop {
+  position: absolute; inset: 0;
+  background: rgba(4, 5, 8, .78); backdrop-filter: blur(8px);
+  opacity: 0; transition: opacity .25s var(--ease);
+}
+.mailer.is-open .mailer__backdrop { opacity: 1; }
+.mailer__box {
+  position: relative; width: min(100%, 660px); max-height: calc(100vh - 40px);
+  display: flex; flex-direction: column;
+  border: 1px solid var(--line-2); border-radius: 20px;
+  background: var(--panel); box-shadow: 0 40px 100px -40px #000;
+  opacity: 0; transform: translateY(18px) scale(.98);
+  transition: opacity .28s var(--ease), transform .34s var(--ease);
+}
+.mailer.is-open .mailer__box { opacity: 1; transform: none; }
+.mailer__box form { display: flex; flex-direction: column; min-height: 0; }
+
+.mailer__head {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 22px; border-bottom: 1px solid var(--line);
+}
+.mailer__head h2 { font-size: 1.06rem; margin-right: auto; }
+.mailer__close {
+  width: 32px; height: 32px; border-radius: 50%; flex: none;
+  display: grid; place-items: center; color: var(--muted);
+  transition: color .2s, background-color .2s, transform .3s var(--ease);
+}
+.mailer__close:hover { color: var(--text); background: rgba(255, 255, 255, .06); transform: rotate(90deg); }
+.mailer__close svg { width: 16px; height: 16px; }
+
+.mailer__body { padding: 20px 22px; overflow-y: auto; }
+.mailer__to {
+  padding: .62em .9em; border-radius: 10px;
+  background: var(--panel-3); border: 1px solid var(--line);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .86rem;
+}
+.mailer__body .textarea { font-family: inherit; line-height: 1.65; }
+
+.mailer__foot {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 14px 22px; border-top: 1px solid var(--line);
+  background: rgba(255, 255, 255, .02);
+}
+.mailer__hint { font-size: .78rem; color: var(--muted); margin-right: auto; }
+
+@media (max-width: 620px) {
+  .mailer { padding: 10px; }
+  .mailer__box { max-height: calc(100vh - 20px); }
+  .mailer__head, .mailer__body, .mailer__foot { padding-inline: 16px; }
+  .mailer__hint { display: none; }
+}

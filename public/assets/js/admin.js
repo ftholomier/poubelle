@@ -189,3 +189,84 @@
   send && send.addEventListener('click', ask);
   input && input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); ask(); } });
 })();
+
+/* ------------------------------------- Composeur d'e-mail du back-office */
+(function () {
+  'use strict';
+  const modal = document.getElementById('mailer');
+  if (!modal) return;
+
+  const $ = (s, c) => (c || document).querySelector(s);
+  const tplData = JSON.parse(document.getElementById('mailer-templates').textContent || '{}');
+  const box = $('.mailer__box', modal);
+  const selType = $('#mailer-type');
+  const selId = $('#mailer-id');
+  const elName = $('#mailer-name');
+  const elTo = $('#mailer-to');
+  const selTpl = $('#mailer-template');
+  const subject = $('#mailer-subject');
+  const message = $('#mailer-message');
+  let target = null;
+  let lastFocus = null;
+
+  function firstName(full) {
+    const parts = (full || '').trim().split(/\s+/);
+    return parts[0] || '';
+  }
+
+  function fill(key) {
+    const t = tplData[key];
+    if (!t || !target) return;
+    const vars = { '{prenom}': firstName(target.name), '{secteur}': target.area || 'votre secteur' };
+    const swap = (s) => Object.keys(vars).reduce((acc, k) => acc.split(k).join(vars[k]), s || '');
+    subject.value = swap(t.subject);
+    message.value = swap(t.body);
+  }
+
+  function open(btn) {
+    lastFocus = btn;
+    target = {
+      type: btn.dataset.mailer,
+      id: btn.dataset.mailerId,
+      email: btn.dataset.mailerEmail,
+      name: btn.dataset.mailerName,
+      area: btn.dataset.mailerArea
+    };
+    selType.value = target.type;
+    selId.value = target.id;
+    elName.textContent = target.name || target.email;
+    elTo.textContent = target.email;
+    const wanted = btn.dataset.mailerTemplate || 'libre';
+    selTpl.value = tplData[wanted] ? wanted : Object.keys(tplData)[0];
+    fill(selTpl.value);
+    modal.hidden = false;
+    requestAnimationFrame(() => modal.classList.add('is-open'));
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => subject.focus(), 200);
+  }
+
+  function close() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    setTimeout(() => { modal.hidden = true; }, 260);
+    lastFocus && lastFocus.focus();
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-mailer]');
+    if (btn) { e.preventDefault(); open(btn); return; }
+    if (e.target.closest('[data-mailer-close]')) { e.preventDefault(); close(); }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.hidden) close();
+    // Piège de focus : la tabulation reste dans la fenêtre modale.
+    if (e.key === 'Tab' && !modal.hidden) {
+      const items = box.querySelectorAll('button, input, select, textarea, [href]');
+      if (!items.length) return;
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  selTpl.addEventListener('change', () => fill(selTpl.value));
+})();

@@ -121,8 +121,8 @@ Trois filets complémentaires :
 | Écran | Contenu |
 |---|---|
 | **Tableau de bord** | Candidatures, visiteurs uniques, taux de conversion, tunnels abandonnés, entonnoir étape par étape, courbe de trafic, répartition du pipeline |
-| **Candidatures** | Liste filtrable (étape, recherche), fiche détaillée, pipeline en 5 étapes, notes internes horodatées, téléchargement du CV, export CSV (séparateur `;`, BOM Excel) |
-| **Messages** | Formulaire de contact et captures de la pop-in de sortie |
+| **Candidatures** | Liste filtrable (étape, recherche), fiche détaillée, pipeline en 5 étapes, notes internes horodatées, téléchargement du CV, export CSV (séparateur `;`, BOM Excel), **composeur d'e-mail intégré** |
+| **Messages** | Formulaire de contact et captures de la pop-in de sortie, avec réponse directe via le composeur |
 | **Contenu du site** | Édition de **toutes** les sections : textes, listes répétables (réordonnables), curseurs et paliers du simulateur, avis, FAQ… |
 | **Actualités** | CRUD complet, brouillon/publié, slug automatique, HTML nettoyé à l'enregistrement |
 | **Bot IA** | Clé API Gemini, liste des modèles chargée en direct depuis Google, personnalité et consignes, choix des sources de connaissance, dépôt de documents, console de test, historique des conversations |
@@ -183,7 +183,28 @@ limitation à 25 questions par quart d'heure et par visiteur ; conservation des 
 Le widget n'apparaît que si le bot est activé **et** qu'une clé est enregistrée. Sans cela, l'API
 publique répond un message d'indisponibilité renvoyant vers le formulaire de contact.
 
-## 8. Identité visuelle
+## 8. Écrire aux candidats
+
+Le bouton « Écrire » d'une fiche candidat, comme le bouton « Répondre » d'un message, ouvre un
+composeur intégré au back-office : **aucun lien `mailto:`**. L'envoi part du serveur, ce qui évite
+de dépendre du client mail du poste et laisse une trace exploitable.
+
+- **Modèles pré-remplis** : invitation au rendez-vous stratégique, relance d'une candidature
+  abandonnée, demande de précisions, réponse négative, réponse à un message, message libre.
+  `{prenom}` et `{secteur}` sont remplacés à l'ouverture, la signature de l'agence est ajoutée.
+- **Destinataire non modifiable** : l'adresse affichée vient de la fiche, et elle est **relue
+  côté serveur** au moment de l'envoi. Ce que poste le navigateur ne désigne que l'enregistrement,
+  jamais le destinataire — un champ trafiqué ne peut pas détourner l'envoi.
+- **Traçabilité** : chaque message part au journal *E-mails envoyés* et, pour une candidature,
+  s'inscrit dans le suivi interne avec son objet et son corps (case décochable).
+- Si `mail()` n'est pas configuré sur l'hébergement, le message est conservé au journal et un
+  avertissement explicite s'affiche — rien n'est perdu silencieusement.
+
+Les adresses affichées sur le **site public** (pied de page, page contact, mentions légales)
+restent des liens `mailto:` : ce sont les coordonnées de l'agence, données à titre d'information,
+et la page contact propose déjà un vrai formulaire comme chemin principal.
+
+## 9. Identité visuelle
 
 Le logo officiel du réseau (monogramme, croix suisse et mot-symbole « SuisseImmo ») a été
 vectorisé depuis le fichier d'origine et décliné en trois usages :
@@ -201,16 +222,19 @@ autonomes ; il suffit de changer la variable pour revenir à la teinte exacte de
 Le favicon (`public/assets/img/favicon.svg`) reprend le monogramme sur une pastille anthracite,
 lisible aussi bien dans un onglet clair que sombre.
 
-## 9. Accessibilité & performance
+## 10. Accessibilité & performance
 
 - Navigation clavier complète, `aria-*` sur onglets, menu, tunnel et pop-in, lien d'évitement.
-- `prefers-reduced-motion` neutralise toutes les animations.
+- `prefers-reduced-motion` neutralise toutes les animations, y compris la dérive des halos.
+- Fond du bandeau d'accueil : trois halos dérivent lentement sur des durées premières entre elles
+  (41 s, 53 s, 67 s), pour que la boucle ne se laisse jamais deviner. Seuls `transform` et
+  `opacity` sont animés — aucun recalcul de mise en page.
 - Contrastes conformes AA sur le fond sombre.
 - Aucun script bloquant, animations en `transform`/`opacity`, images vectorielles.
 - Données structurées JSON-LD : `RealEstateAgent`, `JobPosting`, `FAQPage`.
 - `sitemap.xml` généré dynamiquement, anciennes URL WordPress redirigées en 301.
 
-## 10. Points à valider avant mise en ligne
+## 11. Points à valider avant mise en ligne
 
 Le simulateur est livré avec un barème **paramétrable et indicatif** (honoraires d'agence
 à 4,5 % du prix de vente, paliers 70 / 80 / 90 %). Ces valeurs ne figurent pas sur le site
