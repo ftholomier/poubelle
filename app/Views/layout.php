@@ -85,7 +85,7 @@ $company = (array) settings('company');
 <main id="main"><?= $content_for_layout ?></main>
 
 <?php partial('footer'); ?>
-<?php if (settings('funnel.sticky_cta', true) && $page !== 'apply'): ?><?php partial('sticky-cta'); ?><?php endif; ?>
+<?php if (settings('funnel.sticky_cta', true) && $page !== 'apply'): ?><?php partial('sticky-cta', ['page' => $page]); ?><?php endif; ?>
 <?php if (settings('funnel.exit_intent', true) && $page !== 'apply'): ?><?php partial('exit-modal'); ?><?php endif; ?>
 
 <script src="<?= e(asset('js/app.js')) ?>" defer></script>

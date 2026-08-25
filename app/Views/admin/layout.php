@@ -33,13 +33,8 @@ $items2 = [
 <div class="shell">
   <aside class="side">
     <a class="side__brand" href="<?= e(url('admin')) ?>">
-      <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-        <rect width="48" height="48" rx="13" fill="url(#ag)"/>
-        <path d="M14 30V20.5L24 13l10 7.5V30" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M19.5 35v-9h9v9" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-        <defs><linearGradient id="ag" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#E62F43"/><stop offset="1" stop-color="#FF8A3D"/></linearGradient></defs>
-      </svg>
-      <span><b>Suisse Immo</b><small>Back-office</small></span>
+      <?php partial('logo', ['class' => 'side__logo']); ?>
+      <small>Back-office</small>
     </a>
 
     <nav>

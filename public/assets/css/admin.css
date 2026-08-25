@@ -11,6 +11,7 @@
   --text:      #eaeef5;
   --muted:     #8d99ae;
   --red:       #e62f43;
+  --logo-red:  #e62f43;
   --amber:     #e8a13a;
   --mint:      #35d07f;
   --blue:      #5b8cff;
@@ -50,10 +51,9 @@ svg { display: inline-block; vertical-align: middle; flex: none; max-width: 100%
   border-right: 1px solid var(--line);
   display: flex; flex-direction: column; gap: 22px;
 }
-.side__brand { display: flex; align-items: center; gap: 11px; padding: 6px 8px 0; }
-.side__brand svg { width: 36px; height: 36px; flex: none; }
-.side__brand b { font-family: var(--font-display); font-size: 1rem; letter-spacing: -.03em; display: block; }
-.side__brand small { color: var(--muted); font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; }
+.side__brand { display: grid; gap: 6px; padding: 6px 8px 0; justify-items: start; }
+.side__logo { height: 28px; width: auto; color: var(--text); }
+.side__brand small { color: var(--muted); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; }
 
 .side nav { display: grid; gap: 3px; }
 .side h5 { font-size: .66rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); padding: 14px 10px 6px; font-weight: 600; }
@@ -194,7 +194,9 @@ table.data a.strong:hover { color: #ff8290; }
 /* ------------------------------------------------------- Connexion */
 .login-wrap { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: radial-gradient(900px circle at 50% -10%, rgba(230,47,67,.18), transparent 60%), var(--bg); }
 .login { width: min(100%, 400px); padding: 34px; border: 1px solid var(--line); border-radius: 24px; background: var(--panel); box-shadow: 0 40px 90px -40px #000; }
-.login__brand { display: flex; align-items: center; gap: 11px; margin-bottom: 26px; }
+.login__brand { display: grid; gap: 8px; justify-items: start; margin-bottom: 26px; }
+.login__logo { height: 32px; width: auto; color: var(--text); }
+.login__brand small { color: var(--muted); font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; }
 .login h1 { font-size: 1.35rem; margin-bottom: 6px; }
 .login p.sub { color: var(--muted); font-size: .88rem; margin-bottom: 24px; }
 
@@ -217,5 +219,4 @@ table.data a.strong:hover { color: #ff8290; }
 }
 
 .badge svg { width: 14px; height: 14px; }
-.side__brand svg { width: 36px; height: 36px; }
 .spark { display: block; }

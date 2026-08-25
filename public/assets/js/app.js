@@ -283,14 +283,37 @@
     const bar = $('.sticky-cta');
     if (!bar) return;
     if (sessionStorage.getItem('si_cta_closed') === '1') { bar.remove(); return; }
+
+    let armed = false;
+    let dismissed = false;
+
+    // La barre s'efface en bas de page pour ne pas masquer le CTA final.
+    function update() {
+      if (!armed || dismissed) return;
+      const doc = document.documentElement;
+      const nearBottom = window.scrollY + window.innerHeight > doc.scrollHeight - 420;
+      bar.classList.toggle('is-visible', !nearBottom);
+    }
+
+    // Affichage automatique 2 s après le chargement — ou dès le premier
+    // défilement si le visiteur va plus vite que ça.
+    function arm() {
+      if (armed) return;
+      armed = true;
+      update();
+    }
+    setTimeout(arm, 2000);
+
     const close = $('.sticky-cta__close', bar);
     close && close.addEventListener('click', () => {
+      dismissed = true;
       bar.classList.remove('is-visible');
       try { sessionStorage.setItem('si_cta_closed', '1'); } catch (e) {}
     });
+
     window.addEventListener('scroll', () => {
-      const nearBottom = window.scrollY + window.innerHeight > document.documentElement.scrollHeight - 420;
-      bar.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.8 && !nearBottom);
+      if (window.scrollY > 40) arm();
+      update();
     }, { passive: true });
   }
 

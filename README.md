@@ -32,7 +32,7 @@ public/                   ← racine web (à pointer par le vhost)
   assets/js/app.js        animations, simulateur, pop-in, formulaires AJAX
   assets/js/funnel.js     tunnel de candidature en 4 étapes
   assets/js/admin.js      champs répétables, garde-fou, slug auto
-  assets/img/             favicon + visuel de partage (SVG)
+  assets/img/             logo, favicon et visuel de partage (SVG)
 
 app/                      ← code applicatif (hors racine web)
   bootstrap.php           chargement + installation au premier lancement
@@ -101,7 +101,10 @@ Le parcours est pensé comme un entonnoir, avec plusieurs points de capture :
 
 Trois filets complémentaires :
 
-- **Barre CTA flottante** après 80 % de hauteur d'écran, refermable (mémorisée pour la session).
+- **Barre CTA flottante** affichée automatiquement 2 secondes après le chargement (ou dès le
+  premier défilement), avec deux actions : accès direct au simulateur et candidature. Elle
+  s'efface en bas de page pour ne pas masquer le CTA final, et reste refermable (choix mémorisé
+  pour la session).
 - **Pop-in de sortie** au `mouseout` haut d'écran (desktop) ou remontée rapide (mobile) —
   capture nom + e-mail uniquement.
 - **Capture progressive** : chaque étape validée du tunnel est enregistrée côté serveur.
@@ -136,7 +139,25 @@ dans ce fichier suffit à le rendre éditable, sans toucher aux vues du back-off
   stockage hors racine web, téléchargement via une route authentifiée.
 - Écritures JSON atomiques (fichier temporaire + `rename`) sous verrou exclusif.
 
-## 7. Accessibilité & performance
+## 7. Identité visuelle
+
+Le logo officiel du réseau (monogramme, croix suisse et mot-symbole « SuisseImmo ») a été
+vectorisé depuis le fichier d'origine et décliné en trois usages :
+
+| Fichier | Usage |
+|---|---|
+| `app/Views/partials/logo.php` | SVG en ligne, utilisé par le site et le back-office. L'encre suit `currentColor`, le rouge la variable CSS `--logo-red` : la même source sert donc les fonds sombres et clairs. |
+| `public/assets/img/logo-suisse-immo.svg` | Version figée aux couleurs d'origine (`#CC0017` / `#373737`), pour les fonds clairs et l'impression. |
+| `public/assets/img/logo-suisse-immo-blanc.svg` | Version pour fonds sombres, utilisée dans le visuel de partage. |
+
+Sur l'interface sombre, `--logo-red` vaut `#E62F43` — l'accent du site — afin que le rouge du
+logo et celui des boutons ne se télescopent pas. Le rouge d'origine reste celui des fichiers
+autonomes ; il suffit de changer la variable pour revenir à la teinte exacte de la charte.
+
+Le favicon (`public/assets/img/favicon.svg`) reprend le monogramme sur une pastille anthracite,
+lisible aussi bien dans un onglet clair que sombre.
+
+## 8. Accessibilité & performance
 
 - Navigation clavier complète, `aria-*` sur onglets, menu, tunnel et pop-in, lien d'évitement.
 - `prefers-reduced-motion` neutralise toutes les animations.
@@ -145,7 +166,7 @@ dans ce fichier suffit à le rendre éditable, sans toucher aux vues du back-off
 - Données structurées JSON-LD : `RealEstateAgent`, `JobPosting`, `FAQPage`.
 - `sitemap.xml` généré dynamiquement, anciennes URL WordPress redirigées en 301.
 
-## 8. Points à valider avant mise en ligne
+## 9. Points à valider avant mise en ligne
 
 Le simulateur est livré avec un barème **paramétrable et indicatif** (honoraires d'agence
 à 4,5 % du prix de vente, paliers 70 / 80 / 90 %). Ces valeurs ne figurent pas sur le site
