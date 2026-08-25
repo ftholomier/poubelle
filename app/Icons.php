@@ -19,6 +19,8 @@ function icon(string $name, string $class = ''): string
         'chart'    => '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
         'coins'    => '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
         'calc'     => '<rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 7.5h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>',
+        'bot'      => '<rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 4.5V8M8.5 13h.01M15.5 13h.01M9.5 16.2h5"/><circle cx="12" cy="3.4" r="1.2"/>',
+        'send'     => '<path d="M4.5 12 20 4.5 15.5 20l-3.6-5.4L4.5 12z"/>',
         'clock'    => '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>',
         'phone'    => '<path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6 4z"/>',
         'mail'     => '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/>',

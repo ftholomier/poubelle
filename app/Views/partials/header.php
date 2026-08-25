@@ -12,7 +12,7 @@ $page = $page ?? '';
   <div class="container header__inner">
     <a class="brand" href="<?= e(url('/')) ?>" aria-label="Suisse Immo — accueil">
       <?php partial('logo', ['class' => 'brand__logo']); ?>
-      <span class="brand__tag">Recrutement</span>
+      <span class="brand__tag">recrutement</span>
     </a>
 
     <nav class="nav" aria-label="Navigation principale">

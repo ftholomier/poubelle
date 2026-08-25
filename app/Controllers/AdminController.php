@@ -345,6 +345,119 @@ final class AdminController
         echo view('admin/users', ['user' => $user, 'nav' => 'users', 'title' => 'Utilisateurs', 'rows' => Store::read('users')], 'admin/layout');
     }
 
+    // ------------------------------------------------------------- bot IA
+
+    public static function bot(): void
+    {
+        $user = Auth::requireLogin();
+
+        if (is_post() && Csrf::check($_POST['_csrf'] ?? null)) {
+            $cfg = Bot::config();
+            $patch = [
+                'enabled' => isset($_POST['enabled']),
+                'model' => trim((string) ($_POST['model'] ?? $cfg['model'])),
+                'name' => mb_substr(trim((string) ($_POST['name'] ?? '')), 0, 60),
+                'role' => mb_substr(trim((string) ($_POST['role'] ?? '')), 0, 120),
+                'greeting' => mb_substr(trim((string) ($_POST['greeting'] ?? '')), 0, 500),
+                'temperature' => max(0, min(2, (float) ($_POST['temperature'] ?? 0.35))),
+                'max_tokens' => max(64, min(4096, (int) ($_POST['max_tokens'] ?? 700))),
+                'persona' => mb_substr(trim((string) ($_POST['persona'] ?? '')), 0, 6000),
+                'notes' => mb_substr(trim((string) ($_POST['notes'] ?? '')), 0, 40000),
+                'suggestions' => array_values(array_filter(array_map(
+                    static fn ($v) => mb_substr(trim((string) $v), 0, 120),
+                    preg_split('/\r?\n/', (string) ($_POST['suggestions'] ?? '')) ?: []
+                ))),
+                'sources' => [
+                    'content' => isset($_POST['sources']['content']),
+                    'posts' => isset($_POST['sources']['posts']),
+                    'company' => isset($_POST['sources']['company']),
+                    'documents' => isset($_POST['sources']['documents']),
+                    'notes' => isset($_POST['sources']['notes']),
+                ],
+            ];
+            // La clé n'est réécrite que si le champ a été rempli.
+            $key = trim((string) ($_POST['api_key'] ?? ''));
+            if ($key !== '' && !str_starts_with($key, '••')) {
+                $patch['api_key'] = $key;
+            }
+            if (($_POST['clear_key'] ?? '') === '1') {
+                $patch['api_key'] = '';
+                $patch['models'] = [];
+            }
+            Bot::save($patch);
+            Session::flash('Configuration du bot enregistrée.');
+            redirect(url('admin/bot'));
+        }
+
+        $chunks = Bot::knowledge();
+        $chars = 0;
+        foreach ($chunks as $c) { $chars += mb_strlen($c['text']); }
+
+        echo view('admin/bot', [
+            'user' => $user,
+            'nav' => 'bot',
+            'title' => 'Bot IA',
+            'cfg' => Bot::config(),
+            'docs' => Bot::documents(),
+            'chunks' => count($chunks),
+            'chars' => $chars,
+            'chats' => array_slice(Store::read('bot-chats'), 0, 25),
+        ], 'admin/layout');
+    }
+
+    /** Rafraîchit la liste des modèles Gemini (appel AJAX depuis le back). */
+    public static function botModels(): void
+    {
+        Auth::requireLogin();
+        Csrf::guard();
+        $payload = request_payload();
+        $key = trim((string) ($payload['api_key'] ?? ''));
+        if ($key !== '' && str_starts_with($key, '••')) { $key = ''; }
+        $res = Bot::fetchModels($key !== '' ? $key : null);
+        if ($res['ok']) {
+            $patch = ['models' => $res['models'], 'models_fetched_at' => date('c')];
+            if ($key !== '') { $patch['api_key'] = $key; }
+            Bot::save($patch);
+        }
+        json_out($res, $res['ok'] ? 200 : 422);
+    }
+
+    /** Console de test du bot depuis le back-office. */
+    public static function botTest(): void
+    {
+        Auth::requireLogin();
+        Csrf::guard();
+        $payload = request_payload();
+        $res = Bot::ask((string) ($payload['question'] ?? ''), (array) ($payload['history'] ?? []));
+        Bot::logConversation((string) ($payload['question'] ?? ''), (string) ($res['answer'] ?? $res['error'] ?? ''), (bool) $res['ok'], 'back-office');
+        json_out($res, $res['ok'] ? 200 : 422);
+    }
+
+    public static function botDocumentAdd(): void
+    {
+        Auth::requireLogin();
+        if (!Csrf::check($_POST['_csrf'] ?? null)) { redirect(url('admin/bot')); }
+        if (empty($_FILES['document']['name'])) {
+            Session::flash('Aucun fichier sélectionné.', 'error');
+        } else {
+            $res = Bot::addDocument($_FILES['document']);
+            Session::flash($res['ok']
+                ? 'Document « ' . ($res['doc']['name'] ?? '') . ' » ajouté (' . nb($res['doc']['chars'] ?? 0) . ' caractères indexés).'
+                : (string) $res['error'], $res['ok'] ? 'success' : 'error');
+        }
+        redirect(url('admin/bot'));
+    }
+
+    public static function botDocumentDelete(array $params): void
+    {
+        Auth::requireLogin();
+        if (Csrf::check($_POST['_csrf'] ?? null)) {
+            Bot::deleteDocument((string) ($params['id'] ?? ''));
+            Session::flash('Document retiré de la base de connaissances.');
+        }
+        redirect(url('admin/bot'));
+    }
+
     public static function mails(): void
     {
         $user = Auth::requireLogin();

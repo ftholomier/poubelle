@@ -104,19 +104,16 @@
     const progress = $('.progress');
     const burger = $('.burger');
     const mobile = $('.mobile-nav');
-    let last = 0;
 
+    // L'en-tête ne se masque jamais : il se densifie seulement dès que
+    // le contenu commence à défiler derrière lui.
     function onScroll() {
       const y = window.scrollY;
-      if (header) {
-        header.classList.toggle('is-stuck', y > 24);
-        header.classList.toggle('is-hidden', y > 420 && y > last && !mobile?.classList.contains('is-open'));
-      }
+      if (header) header.classList.toggle('is-stuck', y > 24);
       if (progress) {
         const h = document.documentElement.scrollHeight - window.innerHeight;
         progress.style.setProperty('--p', h > 0 ? (y / h).toFixed(4) : 0);
       }
-      last = y;
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();

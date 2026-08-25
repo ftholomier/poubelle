@@ -28,7 +28,7 @@ $company = (array) settings('company');
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="<?= e(asset('css/app.css')) ?>">
 
 <script type="application/ld+json"><?= json_encode([
@@ -87,8 +87,10 @@ $company = (array) settings('company');
 <?php partial('footer'); ?>
 <?php if (settings('funnel.sticky_cta', true) && $page !== 'apply'): ?><?php partial('sticky-cta', ['page' => $page]); ?><?php endif; ?>
 <?php if (settings('funnel.exit_intent', true) && $page !== 'apply'): ?><?php partial('exit-modal'); ?><?php endif; ?>
+<?php if (Bot::isReady()): ?><?php partial('bot-widget'); ?><?php endif; ?>
 
 <script src="<?= e(asset('js/app.js')) ?>" defer></script>
 <?php if (($page ?? '') === 'apply'): ?><script src="<?= e(asset('js/funnel.js')) ?>" defer></script><?php endif; ?>
+<?php if (Bot::isReady()): ?><script src="<?= e(asset('js/bot.js')) ?>" defer></script><?php endif; ?>
 </body>
 </html>

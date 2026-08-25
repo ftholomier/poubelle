@@ -236,6 +236,29 @@ final class ApiController
         json_out(['ok' => true, 'id' => $lead['id']]);
     }
 
+    /** Dialogue public avec l'assistant. */
+    public static function botChat(): void
+    {
+        Csrf::guard();
+        if (!Bot::isReady()) {
+            json_out(['ok' => false, 'error' => 'L’assistant est momentanément indisponible. Écrivez-nous via le formulaire de contact.'], 503);
+        }
+        if (!RateLimit::hit('bot', 25, 900)) {
+            json_out(['ok' => false, 'error' => 'Vous avez posé beaucoup de questions d’affilée. Reprenons dans quelques minutes — ou candidatez directement.'], 429);
+        }
+        $p = request_payload();
+        $question = (string) ($p['question'] ?? '');
+        $history = [];
+        foreach ((array) ($p['history'] ?? []) as $turn) {
+            if (!is_array($turn)) { continue; }
+            $history[] = ['role' => (string) ($turn['role'] ?? 'user'), 'text' => (string) ($turn['text'] ?? '')];
+        }
+        $res = Bot::ask($question, $history);
+        Bot::logConversation($question, (string) ($res['answer'] ?? $res['error'] ?? ''), (bool) $res['ok'], 'site');
+        unset($res['used'], $res['model']);   // détail interne, inutile côté visiteur
+        json_out($res, $res['ok'] ? 200 : 422);
+    }
+
     // ---------------------------------------------------------------- outils
 
     private static function sanitizeApplication(array $p): array

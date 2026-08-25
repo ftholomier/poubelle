@@ -31,7 +31,8 @@ public/                   ← racine web (à pointer par le vhost)
   assets/css/admin.css    design system du back-office
   assets/js/app.js        animations, simulateur, pop-in, formulaires AJAX
   assets/js/funnel.js     tunnel de candidature en 4 étapes
-  assets/js/admin.js      champs répétables, garde-fou, slug auto
+  assets/js/admin.js      champs répétables, garde-fou, slug auto, console du bot
+  assets/js/bot.js        widget de conversation
   assets/img/             logo, favicon et visuel de partage (SVG)
 
 app/                      ← code applicatif (hors racine web)
@@ -43,6 +44,8 @@ app/                      ← code applicatif (hors racine web)
   Icons.php               icônes SVG en ligne
   Mailer.php              envoi + journalisation des e-mails
   Analytics.php           mesure maison du tunnel
+  Bot.php                 assistant Gemini : base de connaissances, sélection, appel API
+  DocText.php             extraction de texte (TXT, MD, CSV, HTML, JSON, DOCX, PDF)
   ContentSchema.php       schéma du contenu éditable (pilote le back-office)
   install.php             données de démarrage + compte admin
   seed/                   contenu, réglages et articles par défaut
@@ -52,7 +55,9 @@ app/                      ← code applicatif (hors racine web)
 data/                     ← données d'exécution, jamais versionnées
   content.json  settings.json  posts.json
   applications.json  leads.json  events.json  maillog.json  users.json
+  bot.json  bot-docs.json  bot-chats.json
   uploads/                CV déposés par les candidats
+  uploads/bot/            documents de la base de connaissances + texte extrait
 ```
 
 `/data` est **hors de la racine web**. Un `.htaccess` de refus y est écrit à l'installation,
@@ -120,6 +125,7 @@ Trois filets complémentaires :
 | **Messages** | Formulaire de contact et captures de la pop-in de sortie |
 | **Contenu du site** | Édition de **toutes** les sections : textes, listes répétables (réordonnables), curseurs et paliers du simulateur, avis, FAQ… |
 | **Actualités** | CRUD complet, brouillon/publié, slug automatique, HTML nettoyé à l'enregistrement |
+| **Bot IA** | Clé API Gemini, liste des modèles chargée en direct depuis Google, personnalité et consignes, choix des sources de connaissance, dépôt de documents, console de test, historique des conversations |
 | **Réglages** | Identité, mentions légales, e-mail de notification, délai de réponse annoncé, activation de la barre CTA / pop-in / dépôt de CV |
 | **Utilisateurs** | Création de comptes, changement de mot de passe (10 caractères minimum) |
 | **E-mails envoyés** | Journal des 100 derniers envois, avec leur contenu — utile si `mail()` n'est pas configuré |
@@ -139,7 +145,45 @@ dans ce fichier suffit à le rendre éditable, sans toucher aux vues du back-off
   stockage hors racine web, téléchargement via une route authentifiée.
 - Écritures JSON atomiques (fichier temporaire + `rename`) sous verrou exclusif.
 
-## 7. Identité visuelle
+## 7. L'assistant IA (Gemini)
+
+Le bot ne répond jamais « de mémoire » : à chaque question, le serveur assemble une base de
+connaissances, en extrait les passages pertinents et les transmet au modèle comme **seule matière
+autorisée**. Les consignes rédigées à la main sont toujours incluses, quelle que soit la question.
+
+**Sources, activables une à une** dans *Back-office → Bot IA* :
+
+| Source | Contenu | Poids |
+|---|---|---|
+| Consignes internes | Le texte libre saisi dans le back-office (barème réel, secteurs pourvus, ce qu'il ne faut pas dire) | épinglé — toujours transmis |
+| Coordonnées | Adresse, téléphone, SIRET, délai de réponse annoncé | ×2 |
+| Documents | Fichiers déposés : TXT, MD, CSV, HTML, JSON, DOCX, PDF (8 Mo max) | ×1,8 |
+| Contenu du site | Toutes les sections éditables | ×1,6 |
+| Actualités | Les analyses de marché publiées | ×0,6 |
+
+Le texte des documents est extrait **à l'ajout** et stocké à côté du fichier : aucune relecture au
+moment des questions. L'extraction utilise les extensions PHP standard — `zip` pour les `.docx`,
+`zlib` pour les flux PDF compressés. Un PDF scanné (image, sans couche texte) est refusé avec un
+message explicite invitant à coller le contenu dans le champ libre.
+
+**Sélection des passages** : score par recouvrement de termes, normalisé par la longueur du
+fragment (un texte long ne gagne pas par simple répétition) puis pondéré par la source, dans un
+budget de 14 000 caractères. Aucune base vectorielle, aucun service tiers.
+
+**Clé API** : saisie dans le back-office, stockée dans `data/bot.json` — hors racine web — et jamais
+transmise au navigateur. Le champ affiche uniquement les quatre derniers caractères ; le laisser
+vide conserve la clé en place. La liste des modèles est récupérée en direct auprès de Google
+(`GET /v1beta/models`), filtrée sur ceux qui supportent `generateContent`, et mise en cache.
+
+**Garde-fous** : consignes explicites interdisant d'inventer un chiffre ou une condition
+contractuelle ; réponse en texte brut, aucune balise du modèle n'est interprétée côté navigateur ;
+limitation à 25 questions par quart d'heure et par visiteur ; conservation des 200 derniers
+échanges pour relecture ; désactivation en un clic, qui retire le widget du site public.
+
+Le widget n'apparaît que si le bot est activé **et** qu'une clé est enregistrée. Sans cela, l'API
+publique répond un message d'indisponibilité renvoyant vers le formulaire de contact.
+
+## 8. Identité visuelle
 
 Le logo officiel du réseau (monogramme, croix suisse et mot-symbole « SuisseImmo ») a été
 vectorisé depuis le fichier d'origine et décliné en trois usages :
@@ -157,7 +201,7 @@ autonomes ; il suffit de changer la variable pour revenir à la teinte exacte de
 Le favicon (`public/assets/img/favicon.svg`) reprend le monogramme sur une pastille anthracite,
 lisible aussi bien dans un onglet clair que sombre.
 
-## 8. Accessibilité & performance
+## 9. Accessibilité & performance
 
 - Navigation clavier complète, `aria-*` sur onglets, menu, tunnel et pop-in, lien d'évitement.
 - `prefers-reduced-motion` neutralise toutes les animations.
@@ -166,7 +210,7 @@ lisible aussi bien dans un onglet clair que sombre.
 - Données structurées JSON-LD : `RealEstateAgent`, `JobPosting`, `FAQPage`.
 - `sitemap.xml` généré dynamiquement, anciennes URL WordPress redirigées en 301.
 
-## 9. Points à valider avant mise en ligne
+## 10. Points à valider avant mise en ligne
 
 Le simulateur est livré avec un barème **paramétrable et indicatif** (honoraires d'agence
 à 4,5 % du prix de vente, paliers 70 / 80 / 90 %). Ces valeurs ne figurent pas sur le site

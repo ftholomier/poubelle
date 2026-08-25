@@ -5,7 +5,7 @@
       <div>
         <a class="brand" href="<?= e(url('/')) ?>" aria-label="Suisse Immo — accueil">
           <?php partial('logo', ['class' => 'brand__logo']); ?>
-          <span class="brand__tag">Recrutement</span>
+          <span class="brand__tag">recrutement</span>
         </a>
         <p class="footer__about">
           Suisse Immo est un réseau d’agences immobilières situé à <?= e(implode(', ', (array) content('network.cities', []))) ?>.

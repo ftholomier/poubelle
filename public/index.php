@@ -55,6 +55,7 @@ $router->post('/api/track', [ApiController::class, 'track']);
 $router->post('/api/apply/step', [ApiController::class, 'applyStep']);
 $router->post('/api/apply', [ApiController::class, 'apply']);
 $router->post('/api/lead', [ApiController::class, 'lead']);
+$router->post('/api/bot/chat', [ApiController::class, 'botChat']);
 
 // ------------------------------------------------------------ back-office
 $router->any('/admin/login', [AdminController::class, 'login']);
@@ -74,6 +75,11 @@ $router->any('/admin/actualites/{id}', [AdminController::class, 'postEdit']);
 $router->post('/admin/actualites/{id}/supprimer', [AdminController::class, 'postDelete']);
 $router->any('/admin/reglages', [AdminController::class, 'settings']);
 $router->any('/admin/utilisateurs', [AdminController::class, 'users']);
+$router->any('/admin/bot', [AdminController::class, 'bot']);
+$router->post('/admin/bot/modeles', [AdminController::class, 'botModels']);
+$router->post('/admin/bot/test', [AdminController::class, 'botTest']);
+$router->post('/admin/bot/documents', [AdminController::class, 'botDocumentAdd']);
+$router->post('/admin/bot/documents/{id}/supprimer', [AdminController::class, 'botDocumentDelete']);
 $router->get('/admin/emails', [AdminController::class, 'mails']);
 
 $router->fallback(static function (array $p): void {

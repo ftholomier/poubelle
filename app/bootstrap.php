@@ -10,6 +10,8 @@ require __DIR__ . '/Router.php';
 require __DIR__ . '/ContentSchema.php';
 require __DIR__ . '/Mailer.php';
 require __DIR__ . '/Analytics.php';
+require __DIR__ . '/DocText.php';
+require __DIR__ . '/Bot.php';
 require __DIR__ . '/Controllers/SiteController.php';
 require __DIR__ . '/Controllers/ApiController.php';
 require __DIR__ . '/Controllers/AdminController.php';
