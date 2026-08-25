@@ -1,6 +1,6 @@
 <?php $a = (array) content('apply'); ?>
 <section class="section" style="padding-top:clamp(150px,20vh,210px);text-align:center">
-  <span class="glow glow--red" style="width:700px;height:700px;top:-260px;left:50%;transform:translateX(-50%);opacity:.35" aria-hidden="true"></span>
+  <span class="glow glow--red" style="width:700px;height:700px;top:-260px;left:50%;margin-left:-350px;opacity:.35" aria-hidden="true"></span>
   <div class="container container--narrow" style="position:relative;z-index:2">
     <span class="chip chip--mint" data-reveal><span class="dot"></span> Candidature enregistrée</span>
     <h1 class="h1" style="margin:24px 0 18px" data-reveal><?= e($a['success_title'] ?? 'Merci !') ?></h1>

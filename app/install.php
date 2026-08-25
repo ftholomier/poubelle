@@ -35,6 +35,8 @@ final class Installer
             Store::write('settings', $settings);
         }
 
+        self::upgrade();
+
         if (!is_file(DATA_DIR . '/users.json')) {
             $password = getenv('ADMIN_PASSWORD') ?: 'SuisseImmo2026!';
             Store::write('users', [[
@@ -52,6 +54,40 @@ final class Installer
                 "Identifiant : " . (getenv('ADMIN_EMAIL') ?: 'admin@suisse-immo.fr') . "\n" .
                 "Mot de passe : " . $password . "\n\n" .
                 "Changez-le dès la première connexion depuis Back-office > Utilisateurs, puis supprimez ce fichier.\n");
+        }
+    }
+
+    /**
+     * Complète data/settings.json avec les clés apparues depuis
+     * l'installation. Idempotent : n'écrit que s'il manque quelque chose,
+     * et ne touche jamais à une valeur déjà renseignée.
+     */
+    public static function upgrade(): void
+    {
+        $seedFile = APP_DIR . '/seed/settings.json';
+        if (!is_file($seedFile)) {
+            return;
+        }
+        $seed = json_decode((string) file_get_contents($seedFile), true);
+        if (!is_array($seed)) {
+            return;
+        }
+        $current = Store::read('settings');
+        $changed = false;
+        foreach ($seed as $group => $values) {
+            if (!is_array($values)) {
+                if (!array_key_exists($group, $current)) { $current[$group] = $values; $changed = true; }
+                continue;
+            }
+            foreach ($values as $key => $value) {
+                if (!array_key_exists($key, $current[$group] ?? [])) {
+                    $current[$group][$key] = $value;
+                    $changed = true;
+                }
+            }
+        }
+        if ($changed) {
+            Store::write('settings', $current);
         }
     }
 }

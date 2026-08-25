@@ -9,6 +9,7 @@
 ]); ?>
 
 <section class="section">
+  <span class="glow glow--red" style="width:560px;height:560px;top:-120px;left:-250px;opacity:.2" aria-hidden="true"></span>
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Les différentes missions</span>

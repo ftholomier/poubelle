@@ -45,11 +45,35 @@
   },
   "pipeline": {
     "stages": [
-      { "key": "nouveau", "label": "Nouveau", "color": "#5B8CFF" },
-      { "key": "contacte", "label": "Contacté", "color": "#E8A13A" },
-      { "key": "rdv", "label": "RDV planifié", "color": "#B071FF" },
-      { "key": "integre", "label": "Intégré", "color": "#35D07F" },
-      { "key": "refuse", "label": "Non retenu", "color": "#7A8394" }
+      {
+        "key": "nouveau",
+        "label": "Nouveau",
+        "color": "#5B8CFF"
+      },
+      {
+        "key": "contacte",
+        "label": "Contacté",
+        "color": "#E8A13A"
+      },
+      {
+        "key": "rdv",
+        "label": "RDV planifié",
+        "color": "#B071FF"
+      },
+      {
+        "key": "integre",
+        "label": "Intégré",
+        "color": "#35D07F"
+      },
+      {
+        "key": "refuse",
+        "label": "Non retenu",
+        "color": "#7A8394"
+      }
     ]
+  },
+  "motion": {
+    "glow": true,
+    "glow_cycle": 34
   }
 }

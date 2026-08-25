@@ -229,6 +229,7 @@ $marquee = (array) content('marquee');
 
 <!-- ================================================ AVANTAGES -->
 <section class="section" id="avantages">
+  <span class="glow glow--amber" style="width:560px;height:560px;top:-140px;left:-240px;opacity:.2" aria-hidden="true"></span>
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow"><?= e($benefits['eyebrow'] ?? '') ?></span>
@@ -269,6 +270,7 @@ $marquee = (array) content('marquee');
 
 <!-- ================================================ COMPARATIF -->
 <section class="section" id="comparatif">
+  <span class="glow glow--red" style="width:540px;height:540px;bottom:-220px;left:-260px;opacity:.2" aria-hidden="true"></span>
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow"><?= e($compare['eyebrow'] ?? '') ?></span>
@@ -353,6 +355,7 @@ $marquee = (array) content('marquee');
 
 <!-- ======================================================= FAQ -->
 <section class="section" id="faq">
+  <span class="glow glow--blue" style="width:520px;height:520px;top:-160px;right:-260px;opacity:.2" aria-hidden="true"></span>
   <div class="container container--narrow">
     <div class="section-head" data-reveal style="text-align:center;margin-inline:auto">
       <span class="eyebrow"><?= e($faq['eyebrow'] ?? '') ?></span>

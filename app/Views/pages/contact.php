@@ -2,6 +2,7 @@
 <?php partial('page-hero', ['eyebrow' => 'Contact', 'title' => $ct['title'] ?? '', 'lead' => $ct['lead'] ?? '']); ?>
 
 <section class="section" style="padding-top:0">
+  <span class="glow glow--red" style="width:540px;height:540px;bottom:-200px;right:-240px;opacity:.2" aria-hidden="true"></span>
   <div class="container">
     <div class="grid" style="grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:clamp(20px,3vw,48px);align-items:start">
       <div class="funnel-card" data-reveal="left">

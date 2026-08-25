@@ -76,7 +76,12 @@ $company = (array) settings('company');
 
 <script>window.SI = { base: <?= json_encode(rtrim((string) settings('site.base_path', ''), '/')) ?>, csrf: <?= json_encode(Csrf::token()) ?> };</script>
 </head>
-<body class="<?= e($bodyClass) ?>">
+<?php
+// Animation des halos : activable et réglable depuis Back-office → Réglages.
+$glowOn = (bool) settings('motion.glow', true);
+$glowCycle = max(8, min(180, (int) settings('motion.glow_cycle', 34)));
+?>
+<body class="<?= e(trim($bodyClass . ($glowOn ? ' has-glow-motion' : ''))) ?>"<?= $glowOn ? ' style="--glow-cycle:' . $glowCycle . 's"' : '' ?>>
 <a class="skip-link" href="#main">Aller au contenu</a>
 <div class="progress" aria-hidden="true"></div>
 

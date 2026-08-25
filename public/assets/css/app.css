@@ -454,32 +454,56 @@ section, .section, .cta-final, .hero__panel { overflow-x: clip; }
 .hero__bg .glow--amber { width: 520px; height: 520px; bottom: -220px; left: -140px; }
 .hero__bg .glow--blue  { width: 440px; height: 440px; top: 42%; left: 46%; opacity: .3; }
 
-/* Dérive lente des halos : trois trajectoires de durées premières entre
-   elles, pour que la boucle ne se laisse jamais deviner. Seuls transform
-   et opacity sont animés — aucun recalcul de mise en page. */
-.hero__bg .glow { will-change: transform, opacity; }
-.hero__bg .glow--red   { animation: driftRed 41s ease-in-out infinite; }
-.hero__bg .glow--amber { animation: driftAmber 53s ease-in-out infinite; }
-.hero__bg .glow--blue  { animation: driftBlue 67s ease-in-out infinite; }
-
-@keyframes driftRed {
-  0%   { transform: translate3d(0, 0, 0) scale(1);      opacity: .5; }
-  25%  { transform: translate3d(-7%, 6%, 0) scale(1.07); opacity: .58; }
-  50%  { transform: translate3d(2%, 12%, 0) scale(.95);  opacity: .44; }
-  75%  { transform: translate3d(8%, 4%, 0) scale(1.04);  opacity: .55; }
-  100% { transform: translate3d(0, 0, 0) scale(1);       opacity: .5; }
+/* Dérive des halos — pilotée depuis le back-office.
+   La classe .has-glow-motion et la durée --glow-cycle sont posées par le
+   layout d'après les réglages. Seul transform est animé : l'opacité propre
+   à chaque halo (définie en ligne dans les vues) est ainsi préservée, et
+   aucun recalcul de mise en page n'est déclenché. */
+.has-glow-motion .glow {
+  will-change: transform;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
 }
-@keyframes driftAmber {
+.has-glow-motion .glow--red {
+  animation-name: glowDriftA;
+  animation-duration: var(--glow-cycle, 42s);
+}
+.has-glow-motion .glow--amber {
+  animation-name: glowDriftB;
+  animation-duration: calc(var(--glow-cycle, 42s) * 1.31);
+  animation-delay: calc(var(--glow-cycle, 42s) * -0.38);
+}
+.has-glow-motion .glow--blue {
+  animation-name: glowDriftC;
+  animation-duration: calc(var(--glow-cycle, 42s) * 1.67);
+  animation-delay: calc(var(--glow-cycle, 42s) * -0.71);
+}
+/* Deux halos de même teinte sur une page ne partent pas en phase. */
+.has-glow-motion .glow:nth-of-type(2) { animation-delay: calc(var(--glow-cycle, 42s) * -0.24); }
+.has-glow-motion .glow:nth-of-type(3) { animation-delay: calc(var(--glow-cycle, 42s) * -0.58); }
+
+@keyframes glowDriftA {
   0%   { transform: translate3d(0, 0, 0) scale(1); }
-  33%  { transform: translate3d(11%, -8%, 0) scale(1.09); }
-  66%  { transform: translate3d(4%, -15%, 0) scale(.94); }
+  22%  { transform: translate3d(-11%, 9%, 0) scale(1.12); }
+  48%  { transform: translate3d(7%, 17%, 0) scale(.9); }
+  74%  { transform: translate3d(16%, 4%, 0) scale(1.09); }
   100% { transform: translate3d(0, 0, 0) scale(1); }
 }
-@keyframes driftBlue {
-  0%   { transform: translate3d(0, 0, 0) scale(1);        opacity: .3; }
-  40%  { transform: translate3d(-13%, -7%, 0) scale(1.12); opacity: .36; }
-  70%  { transform: translate3d(-5%, 8%, 0) scale(.9);     opacity: .24; }
-  100% { transform: translate3d(0, 0, 0) scale(1);         opacity: .3; }
+@keyframes glowDriftB {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  28%  { transform: translate3d(15%, -11%, 0) scale(1.14); }
+  55%  { transform: translate3d(3%, -19%, 0) scale(.88); }
+  80%  { transform: translate3d(-10%, -6%, 0) scale(1.07); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes glowDriftC {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  30%  { transform: translate3d(-17%, -9%, 0) scale(1.16); }
+  62%  { transform: translate3d(-6%, 13%, 0) scale(.86); }
+  85%  { transform: translate3d(9%, 7%, 0) scale(1.06); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
 }
 
 /* Trame vectorielle animée */
@@ -1314,7 +1338,8 @@ input[type="range"]::-moz-range-thumb {
   .header__cta .btn svg { display: none; }
   .burger { width: 40px; height: 40px; }
   .glow { max-width: 120vw; filter: blur(70px); opacity: .38; }
-  .hero__bg .glow { animation-duration: 80s; }
+  /* Mouvement ralenti sur mobile : moins de pixels repeints par seconde. */
+  .has-glow-motion .glow { animation-duration: calc(var(--glow-cycle, 42s) * 1.6); }
   .stats { grid-template-columns: 1fr; }
   .bento { grid-template-columns: 1fr; }
   .post-grid { grid-template-columns: 1fr; }

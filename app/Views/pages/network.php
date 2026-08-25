@@ -23,6 +23,7 @@
 </section>
 
 <section class="section">
+  <span class="glow glow--amber" style="width:600px;height:600px;top:-180px;right:-260px;opacity:.22" aria-hidden="true"></span>
   <div class="container">
     <div class="network">
       <div data-reveal="left">

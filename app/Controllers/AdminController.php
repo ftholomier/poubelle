@@ -284,16 +284,27 @@ final class AdminController
         $user = Auth::requireLogin();
         if (is_post() && Csrf::check($_POST['_csrf'] ?? null)) {
             $s = Store::read('settings');
-            foreach (['site', 'company', 'funnel'] as $group) {
+            foreach (['site', 'company', 'funnel', 'motion'] as $group) {
                 foreach (($_POST[$group] ?? []) as $k => $v) {
                     if (!array_key_exists($k, $s[$group] ?? [])) { continue; }
-                    $s[$group][$k] = is_bool($s[$group][$k]) ? (bool) $v : trim((string) $v);
+                    $current = $s[$group][$k];
+                    if (is_bool($current)) {
+                        $s[$group][$k] = (bool) $v;
+                    } elseif (is_int($current)) {
+                        $s[$group][$k] = (int) $v;
+                    } elseif (is_float($current)) {
+                        $s[$group][$k] = (float) $v;
+                    } else {
+                        $s[$group][$k] = trim((string) $v);
+                    }
                 }
             }
             // Les cases à cocher absentes valent « faux ».
             foreach (['notify_enabled', 'exit_intent', 'sticky_cta', 'cv_upload'] as $flag) {
                 $s['funnel'][$flag] = isset($_POST['funnel'][$flag]);
             }
+            $s['motion']['glow'] = isset($_POST['motion']['glow']);
+            $s['motion']['glow_cycle'] = max(8, min(180, (int) ($_POST['motion']['glow_cycle'] ?? 34)));
             Store::write('settings', $s);
             Session::flash('Réglages enregistrés.');
             redirect(url('admin/reglages'));

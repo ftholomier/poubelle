@@ -16,10 +16,13 @@ require __DIR__ . '/Controllers/SiteController.php';
 require __DIR__ . '/Controllers/ApiController.php';
 require __DIR__ . '/Controllers/AdminController.php';
 
-// Première exécution : on installe les données de démarrage.
+// Première exécution : on installe les données de démarrage. Ensuite, on
+// complète simplement les réglages apparus avec les nouvelles versions.
+require __DIR__ . '/install.php';
 if (!is_file(DATA_DIR . '/settings.json')) {
-    require __DIR__ . '/install.php';
     Installer::run();
+} else {
+    Installer::upgrade();
 }
 
 // En-têtes de sécurité communs.

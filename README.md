@@ -47,7 +47,7 @@ app/                      ← code applicatif (hors racine web)
   Bot.php                 assistant Gemini : base de connaissances, sélection, appel API
   DocText.php             extraction de texte (TXT, MD, CSV, HTML, JSON, DOCX, PDF)
   ContentSchema.php       schéma du contenu éditable (pilote le back-office)
-  install.php             données de démarrage + compte admin
+  install.php             données de démarrage, compte admin, mise à niveau des réglages
   seed/                   contenu, réglages et articles par défaut
   Controllers/            SiteController · ApiController · AdminController
   Views/                  layout, partials, pages, admin
@@ -126,7 +126,7 @@ Trois filets complémentaires :
 | **Contenu du site** | Édition de **toutes** les sections : textes, listes répétables (réordonnables), curseurs et paliers du simulateur, avis, FAQ… |
 | **Actualités** | CRUD complet, brouillon/publié, slug automatique, HTML nettoyé à l'enregistrement |
 | **Bot IA** | Clé API Gemini, liste des modèles chargée en direct depuis Google, personnalité et consignes, choix des sources de connaissance, dépôt de documents, console de test, historique des conversations |
-| **Réglages** | Identité, mentions légales, e-mail de notification, délai de réponse annoncé, activation de la barre CTA / pop-in / dépôt de CV |
+| **Réglages** | Identité, mentions légales, e-mail de notification, délai de réponse annoncé, activation de la barre CTA / pop-in / dépôt de CV, **animation des halos (marche/arrêt + vitesse)** |
 | **Utilisateurs** | Création de comptes, changement de mot de passe (10 caractères minimum) |
 | **E-mails envoyés** | Journal des 100 derniers envois, avec leur contenu — utile si `mail()` n'est pas configuré |
 
@@ -204,7 +204,28 @@ Les adresses affichées sur le **site public** (pied de page, page contact, ment
 restent des liens `mailto:` : ce sont les coordonnées de l'agence, données à titre d'information,
 et la page contact propose déjà un vrai formulaire comme chemin principal.
 
-## 9. Identité visuelle
+## 9. Animation des halos
+
+Chaque bloc du site porte un halo coloré diffus en arrière-plan. Ils peuvent dériver lentement —
+translation, variation d'échelle — pour que le fond ne soit jamais complètement figé.
+
+Le réglage se fait dans *Back-office → Réglages → Animations du fond* :
+
+- **Un interrupteur** active ou coupe le mouvement sur l'ensemble du site.
+- **Un curseur** fixe la durée d'un cycle complet, de 8 s (rapide) à 180 s (quasi immobile).
+  Repères utiles : 15 s pour un mouvement bien visible, 34 s (valeur par défaut) pour une
+  respiration discrète, 90 s pour un fond presque immobile.
+
+Le layout traduit ces réglages en une classe `has-glow-motion` et une variable `--glow-cycle`
+posées sur `<body>`. Les trois teintes suivent des trajectoires différentes, avec des durées
+dérivées du cycle (×1 ; ×1,31 ; ×1,67) et des décalages de phase négatifs : deux halos ne
+repassent jamais au même point en même temps, et la boucle ne se laisse pas repérer.
+
+Seul `transform` est animé — jamais `opacity`, pour ne pas écraser l'intensité propre à chaque
+halo définie dans les vues — donc aucun recalcul de mise en page. Sur mobile le cycle est
+automatiquement rallongé de 60 %. `prefers-reduced-motion` fige tout, quel que soit le réglage.
+
+## 10. Identité visuelle
 
 Le logo officiel du réseau (monogramme, croix suisse et mot-symbole « SuisseImmo ») a été
 vectorisé depuis le fichier d'origine et décliné en trois usages :
@@ -222,19 +243,16 @@ autonomes ; il suffit de changer la variable pour revenir à la teinte exacte de
 Le favicon (`public/assets/img/favicon.svg`) reprend le monogramme sur une pastille anthracite,
 lisible aussi bien dans un onglet clair que sombre.
 
-## 10. Accessibilité & performance
+## 11. Accessibilité & performance
 
 - Navigation clavier complète, `aria-*` sur onglets, menu, tunnel et pop-in, lien d'évitement.
 - `prefers-reduced-motion` neutralise toutes les animations, y compris la dérive des halos.
-- Fond du bandeau d'accueil : trois halos dérivent lentement sur des durées premières entre elles
-  (41 s, 53 s, 67 s), pour que la boucle ne se laisse jamais deviner. Seuls `transform` et
-  `opacity` sont animés — aucun recalcul de mise en page.
 - Contrastes conformes AA sur le fond sombre.
 - Aucun script bloquant, animations en `transform`/`opacity`, images vectorielles.
 - Données structurées JSON-LD : `RealEstateAgent`, `JobPosting`, `FAQPage`.
 - `sitemap.xml` généré dynamiquement, anciennes URL WordPress redirigées en 301.
 
-## 11. Points à valider avant mise en ligne
+## 12. Points à valider avant mise en ligne
 
 Le simulateur est livré avec un barème **paramétrable et indicatif** (honoraires d'agence
 à 4,5 % du prix de vente, paliers 70 / 80 / 90 %). Ces valeurs ne figurent pas sur le site

@@ -86,6 +86,38 @@ $textareas = ['meta_description'];
     </div>
   </div>
 
+  <div class="panel">
+    <div class="panel__head"><h2>Animations du fond</h2></div>
+    <p style="font-size:.86rem;color:var(--muted);margin-bottom:16px">
+      Les halos colorés placés derrière les blocs du site peuvent dériver lentement.
+      Le mouvement n’utilise que <code>transform</code> : il ne déclenche aucun recalcul de mise en page
+      et reste automatiquement désactivé pour les visiteurs qui ont demandé à leur système de réduire les animations.
+    </p>
+
+    <label class="switch">
+      <input type="checkbox" name="motion[glow]" value="1" id="glow-toggle" <?= !empty($settings['motion']['glow']) ? 'checked' : '' ?>><i aria-hidden="true"></i>
+      <span><strong>Animer les halos</strong> — sur l’ensemble du site</span>
+    </label>
+
+    <div class="field" style="margin-top:18px" id="glow-speed">
+      <label for="glow_cycle">Vitesse du mouvement</label>
+      <small class="help">
+        Durée d’un cycle complet. Plus la valeur est basse, plus le déplacement est rapide.
+        Les autres halos dérivent sur des durées légèrement différentes, pour que la boucle ne se laisse pas deviner.
+      </small>
+      <div class="row" style="gap:14px;align-items:center">
+        <span style="font-size:.78rem;color:var(--muted);white-space:nowrap">Rapide · 8 s</span>
+        <input type="range" id="glow_cycle" name="motion[glow_cycle]" class="range"
+               min="8" max="180" step="2"
+               value="<?= e((string) ($settings['motion']['glow_cycle'] ?? 34)) ?>"
+               oninput="document.getElementById('glow-cycle-out').textContent = this.value + ' s'">
+        <span style="font-size:.78rem;color:var(--muted);white-space:nowrap">180 s · Très lent</span>
+        <output id="glow-cycle-out" class="badge" style="min-width:64px;justify-content:center"><?= e((string) ($settings['motion']['glow_cycle'] ?? 34)) ?> s</output>
+      </div>
+      <small class="help">Repères : 15 s pour un mouvement bien visible, 35 s pour une respiration discrète, 90 s pour un fond presque immobile.</small>
+    </div>
+  </div>
+
   <div class="row" style="margin-top:18px">
     <button class="btn" type="submit">Enregistrer les réglages</button>
   </div>

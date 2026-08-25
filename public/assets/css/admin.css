@@ -291,3 +291,24 @@ table.data a.strong:hover { color: #ff8290; }
   .mailer__head, .mailer__body, .mailer__foot { padding-inline: 16px; }
   .mailer__hint { display: none; }
 }
+
+/* --------------------------------------------- Curseur de réglage */
+.range {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; min-width: 0; height: 4px; border-radius: 999px;
+  background: linear-gradient(90deg, var(--red) var(--fill, 15%), var(--panel-3) var(--fill, 15%));
+  cursor: pointer;
+}
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff; border: 5px solid var(--red);
+  box-shadow: 0 3px 12px rgba(230, 47, 67, .5);
+  transition: transform .2s var(--ease);
+}
+.range:hover::-webkit-slider-thumb { transform: scale(1.12); }
+.range::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; border: 5px solid var(--red); box-shadow: 0 3px 12px rgba(230, 47, 67, .5);
+}
+#glow-speed.is-off { opacity: .4; pointer-events: none; }

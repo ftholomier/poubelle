@@ -6,6 +6,7 @@
 ]); ?>
 
 <section class="section" style="padding-top:0">
+  <span class="glow glow--blue" style="width:560px;height:560px;top:120px;left:-260px;opacity:.2" aria-hidden="true"></span>
   <div class="container">
     <?php if (!$posts): ?>
       <p class="lead">Aucun article publié pour le moment.</p>

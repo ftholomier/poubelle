@@ -270,3 +270,25 @@
   });
   selTpl.addEventListener('change', () => fill(selTpl.value));
 })();
+
+/* --------------------------------- Réglages : curseur de vitesse des halos */
+(function () {
+  'use strict';
+  const toggle = document.getElementById('glow-toggle');
+  const speed = document.getElementById('glow-speed');
+  const range = document.getElementById('glow_cycle');
+  if (!range) return;
+
+  function paint() {
+    const min = Number(range.min), max = Number(range.max);
+    range.style.setProperty('--fill', ((Number(range.value) - min) / (max - min)) * 100 + '%');
+  }
+  range.addEventListener('input', paint);
+  paint();
+
+  if (toggle && speed) {
+    const sync = () => speed.classList.toggle('is-off', !toggle.checked);
+    toggle.addEventListener('change', sync);
+    sync();
+  }
+})();
