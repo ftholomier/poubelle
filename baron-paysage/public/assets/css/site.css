@@ -394,8 +394,13 @@ p + p { margin-top: 1.05rem; }
       rgba(255, 255, 255, .92) 50%,
       rgba(255, 255, 255, .28) 74%,
       transparent 100%) center center / 100% 1px no-repeat,
-    radial-gradient(58% 92% at 50% 50%,
-      rgba(214, 240, 220, .5), transparent 72%);
+    /* Halo resserré, et c'est mesuré : étalé sur toute la boîte, il montait
+       à +83 d'éclat sur les rangées voisines du cœur, contre +23 pour le
+       filet au repos — le lobe se lisait alors comme un trait épais, pas
+       comme un éclat qui passe. Ramené à un tiers de la hauteur, il tient à
+       deux rangées de part et d'autre. */
+    radial-gradient(58% 20% at 50% 50%,
+      rgba(214, 240, 220, .3), transparent 72%);
   opacity: 0;
   transform: translateZ(0);
   /* la couche vit sur le compositeur : sans cela, chaque image redemandait
