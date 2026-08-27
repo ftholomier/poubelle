@@ -310,7 +310,7 @@ p + p { margin-top: 1.05rem; }
     linear-gradient(90deg,
       transparent 43%,
       rgba(240, 250, 242, .95) 50%,
-      transparent 57%) center center / 100% 2px no-repeat,
+      transparent 57%) center center / 100% 1px no-repeat,
     /* le corps : plein sur un cinquième de la largeur, éteint aux deux
        bords. Le plateau tient un cinquième et non un point : mesuré sur
        l'anthracite de la barre, le vert de charte n'atteint que 2,16:1 même
@@ -328,19 +328,21 @@ p + p { margin-top: 1.05rem; }
       rgba(104, 155, 113, .85) 69%,
       rgba(104, 155, 113, .55) 80%,
       rgba(104, 155, 113, .2) 91%,
-      transparent 100%) center center / 100% 2px no-repeat,
+      transparent 100%) center center / 100% 1px no-repeat,
     /* le halo, qui déborde du trait sans le flouter */
     radial-gradient(56% 90% at 50% 50%,
       rgba(104, 155, 113, .3), transparent 72%);
 }
-.pied::before { inset: -7px 0 auto 0; height: 16px; z-index: 2; }
+.pied::before { inset: -7px 0 auto 0; height: 15px; z-index: 2; }
 
 /* En haut de page, l'en-tête flotte sur la photo : un filet y couperait le
    bandeau en deux. Il ne s'allume qu'une fois la barre posée sur son fond.
    La boîte déborde de 7 px sous la barre pour loger le halo ; le filet, lui,
-   tombe exactement sur l'arête basse. */
+   tombe exactement sur l'arête basse. Sa hauteur est impaire à dessein : un
+   filet de 1 px centré dans une boîte paire tomberait à cheval sur deux
+   rangées de pixels, où il se lisserait en gris au lieu de trancher. */
 .entete__faisceau {
-  position: absolute; inset-inline: 0; bottom: -7px; height: 16px; z-index: 2;
+  position: absolute; inset-inline: 0; bottom: -7px; height: 15px; z-index: 2;
   pointer-events: none;
   opacity: 0;
   transition: opacity .55s ease;
@@ -391,7 +393,7 @@ p + p { margin-top: 1.05rem; }
       rgba(255, 255, 255, .28) 26%,
       rgba(255, 255, 255, .92) 50%,
       rgba(255, 255, 255, .28) 74%,
-      transparent 100%) center center / 100% 2px no-repeat,
+      transparent 100%) center center / 100% 1px no-repeat,
     radial-gradient(58% 92% at 50% 50%,
       rgba(214, 240, 220, .5), transparent 72%);
   opacity: 0;
@@ -1099,8 +1101,15 @@ body.menu-ouvert .panneau__corps > :nth-child(7) { transition-delay: .74s; }
   align-items: center;
 }
 .duo__media { position: relative; }
+/* Le cadre est carré, et non en portrait comme ailleurs : la photo qui s'y
+   loge est en paysage, et un cadre 4/5 n'en gardait que la moitié centrale —
+   soit le bureau, en coupant en deux l'homme assis à droite. Un carré en
+   garde les deux tiers, assez pour le plan de conception, les deux mains et
+   le buste entier. Le recadrage s'aligne à droite parce que c'est là qu'il
+   se tient, et que la source elle-même s'arrête sur son dos. */
 .duo__media img {
-  width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+  width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+  object-position: right 30%;
   border-radius: var(--rayon-carte);
 }
 .duo__media::after {
@@ -1943,6 +1952,9 @@ a.coordonnees__valeur:hover {
   .valeur--inversee .valeur__media { order: 0; }
   .duo__media::after { display: none; }
   .duo__media img, .serenite__media img { aspect-ratio: 16 / 11; }
+  /* Le cadre s'élargit : il tient presque toute la source, l'alignement
+     à droite n'a plus lieu d'être et décentrerait la scène. */
+  .duo__media img { object-position: center 30%; }
   .serenite__chiffre { left: 0; bottom: 16px; font-size: 1.1rem; padding: .9rem 1.2rem; }
 
   .etapes { grid-template-columns: 1fr; gap: 1.8rem; }
@@ -2494,9 +2506,12 @@ body.visionneuse-ouverte { overflow: hidden; }
 .portrait__media { position: relative; }
 .portrait__media img {
   width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
-  /* Un portrait se recadre vers le haut : centré, la photo d'un visage
-     coupe le front dès que la source est en paysage. */
-  object-position: center 22%;
+  /* Deux recadrages, pas un. En hauteur, un portrait se cale vers le haut :
+     centré, la photo d'un visage coupe le front dès que la source est en
+     paysage. En largeur, il se cale à droite : la source est en paysage et
+     le cadre 4/5 n'en garde que la moitié — centrée, elle tranchait le
+     visage par le milieu. */
+  object-position: right 22%;
   border-radius: var(--rayon-carte);
 }
 /* Un filet vert décalé derrière la photo, comme le cadre du logo : il donne
