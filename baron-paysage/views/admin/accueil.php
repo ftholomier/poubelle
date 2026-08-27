@@ -66,6 +66,19 @@ $points = implode("\n", array_map(
       <p class="bo-aide">En secondes, hors fondu. Le fondu dure 1,8 s de plus.</p>
     </div>
 
+    <div class="bo-champ bo-champ--case">
+      <label for="a-alea">
+        <input id="a-alea" type="checkbox" name="diapo_aleatoire" value="1"
+               <?= !empty($accueil['hero']['diaporama']['aleatoire']) ? 'checked' : '' ?>>
+        Ordre aléatoire
+      </label>
+      <p class="bo-aide">
+        Les photos actives sont tirées dans un ordre différent à chaque visite,
+        et le visiteur qui revient ne retombe pas sur la même première image.
+        L’ordre rangé ci-dessous est conservé : décochez pour le retrouver.
+      </p>
+    </div>
+
     <div class="bo-champ">
       <label>Photos du diaporama</label>
       <p class="bo-aide">Glissez une ligne pour la déplacer, ou servez-vous des

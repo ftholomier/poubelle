@@ -46,6 +46,11 @@
   --vert-fonce: #4e7a58;
   --vert-texte: #3f6449;
   --vert-clair: #8fbe99;
+  /* Éclairci d'un cran de plus, pour la barre translucide : mesuré au pixel,
+     le fond de la barre monte à rgb(86,90,93) au-dessus des sections les
+     plus claires, où --vert-clair ne tiendrait que 3,3:1. Celui-ci y tient
+     4,8:1, et 5,7:1 sur la photo du bandeau. */
+  --vert-barre: #c2e2c8;
   --vert-chiffre: #4e7a58;
   --vert-voile: #e7efe8;
 
@@ -54,7 +59,11 @@
 
   --ardoise: #24363f;
   --ardoise-2: #1b2930;
-  --ardoise-barre: #24363f;
+  /* Anthracite de la barre : plus neutre et plus dense que l'ardoise de la
+     charte, pour que la barre se distingue des sections sombres au lieu de
+     s'y fondre. Elle n'est jamais servie en aplat — c'est sa version
+     translucide, floutée, qui est peinte. */
+  --anthracite: #262c30;
 
   --encre: #24363f;
   --encre-2: #2d434e;
@@ -303,20 +312,28 @@ p + p { margin-top: 1.05rem; }
               box-shadow var(--transition), backdrop-filter var(--transition);
 }
 
-/* Une fois la page défilée, la barre se pose sur son crème et se réduit.
-   Le socle dont ce site est issu faisait emprunter à la barre la teinte de
-   la photo qui passait dessous ; l'effet était juste, mais il appartenait à
-   l'autre marque. Ici la barre est franche : crème plein, filet vert, et
-   rien qui bouge à la lecture. */
+/* Une fois la page défilée, la barre se réduit et s'installe sur un
+   anthracite translucide, flouté. Elle reste sombre d'un bout à l'autre du
+   défilement : le logo, les libellés et le numéro ne changent donc jamais de
+   couleur, et rien ne clignote au passage.
+
+   L'opacité de 78 % n'est pas choisie à l'œil. Le flou mélange les pixels
+   alentour AVANT que la couche ne se pose : aucune formule ne prédit le
+   résultat peint, il faut le mesurer. Relevé au pixel sur les sections les
+   plus claires du site, le blanc y tient 11,4:1 et le vert clair 5,9:1.
+   Sous 70 %, ce vert passait sous le seuil. */
 .entete--pleine {
   height: var(--entete-h-compact);
-  background: rgba(246, 244, 238, .94);
-  backdrop-filter: blur(18px) saturate(1.15);
-  -webkit-backdrop-filter: blur(18px) saturate(1.15);
-  box-shadow: 0 8px 30px rgba(36, 54, 63, .1);
+  background: rgba(38, 44, 48, .78);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  box-shadow: 0 10px 34px rgba(21, 26, 29, .24);
 }
+
+/* Sans flou disponible, la transparence laisserait passer le contenu net
+   derrière le nom : la barre reprend alors son anthracite plein. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .entete--pleine { background: var(--creme-pale); }
+  .entete--pleine { background: var(--anthracite); }
 }
 
 /* Un dégradé sombre sous la barre transparente : sans lui, un logo clair
@@ -341,9 +358,9 @@ p + p { margin-top: 1.05rem; }
 
 /* --- la marque de l'en-tête ---
    Le logo horizontal porte le nom et le métier : rien n'est recomposé en
-   typographie à côté. Ses deux versions sont posées ensemble et permutées
-   en opacité — un échange de src aurait fait clignoter le logo à chaque
-   passage de la barre. */
+   typographie à côté. La barre étant sombre du haut de la page jusqu'au
+   bas, c'est la version claire du logo qui sert partout — la seconde reste
+   dans le balisage, prête à servir si la barre repassait au clair. */
 .entete__logo {
   position: relative; display: block;
   margin-right: auto;
@@ -357,8 +374,6 @@ p + p { margin-top: 1.05rem; }
   position: absolute; inset: 0; opacity: 0;
 }
 .entete--pleine .entete__marque { height: 40px; }
-.entete--pleine .entete__marque--clair { opacity: 0; }
-.entete--pleine .entete__marque--sombre { opacity: 1; }
 
 /* --- disposition latérale : burger et nom à gauche, actions à droite --- */
 .entete--lateral .entete__barre { justify-content: flex-start; }
@@ -370,9 +385,8 @@ p + p { margin-top: 1.05rem; }
 .navbar { display: none; margin-inline: auto; }
 .navbar__liste { display: flex; align-items: center; gap: clamp(.4rem, 1.6vw, 1.5rem); }
 .navbar__item { position: relative; }
-/* Les libellés de la barre sont blancs tant qu'elle flotte sur la photo,
-   et passent à l'encre dès qu'elle se pose sur son crème. Une seule règle
-   par état, plutôt qu'une couleur mi-chemin qui décrocherait des deux. */
+/* Les libellés restent blancs d'un bout à l'autre : la barre est sombre
+   qu'elle flotte sur la photo ou qu'elle soit posée sur son anthracite. */
 .navbar__lien {
   display: block; padding: .6rem .3rem;
   font-size: .82rem; font-weight: 500; letter-spacing: .04em;
@@ -380,7 +394,6 @@ p + p { margin-top: 1.05rem; }
   transition: color var(--transition);
   position: relative;
 }
-.entete--pleine .navbar__lien { color: var(--encre); }
 .navbar__lien::after {
   content: ""; position: absolute; left: .3rem; right: .3rem; bottom: .15rem;
   height: 1px; background: var(--vert);
@@ -390,8 +403,7 @@ p + p { margin-top: 1.05rem; }
 .navbar__lien:focus-visible::after { transform: scaleX(1); }
 .navbar__item:hover > .navbar__lien::after,
 .navbar__lien[aria-current="page"]::after { transform: scaleX(1); }
-.navbar__item:hover > .navbar__lien { color: var(--vert-clair); }
-.entete--pleine .navbar__item:hover > .navbar__lien { color: var(--vert-texte); }
+.navbar__item:hover > .navbar__lien { color: var(--vert-barre); }
 
 /* La feuille de l'entrée courante, posée au-dessus du libellé. Elle entre
    par le haut plutôt qu'en fondu : sur une barre translucide, une opacité
@@ -400,12 +412,11 @@ p + p { margin-top: 1.05rem; }
   position: absolute; left: 50%; top: -.55rem;
   width: 15px; height: 15px;
   transform: translate(-50%, -6px) rotate(0deg);
-  color: var(--vert-clair);
+  color: var(--vert-barre);
   opacity: 0;
   transition: opacity var(--transition), transform var(--transition);
   pointer-events: none;
 }
-.entete--pleine .navbar__feuille { color: var(--vert); }
 .navbar__feuille svg { width: 100%; height: 100%; }
 .navbar__lien[aria-current="page"] .navbar__feuille {
   opacity: 1; transform: translate(-50%, 0);
@@ -460,24 +471,18 @@ p + p { margin-top: 1.05rem; }
   transition: color var(--transition);
   white-space: nowrap;
 }
-.entete--pleine .entete__tel { color: var(--encre); }
-.entete__tel:hover { color: var(--vert-clair); }
-.entete--pleine .entete__tel:hover { color: var(--vert-texte); }
+.entete__tel:hover { color: var(--vert-barre); }
 .entete__cta { padding: .78rem 1.5rem; font-size: .7rem; white-space: nowrap; }
 
-/* Sur la photo, le bouton d'appel à l'action est un contour clair : un
-   aplat vert y ferait une tache, et le vert de la charte ne porte de toute
-   façon pas de texte blanc. Une fois la barre posée, il reprend son aplat. */
+/* Le bouton d'appel à l'action garde le même aplat dans les deux états : la
+   barre est sombre partout, le vert des aplats y porte du blanc à 4,9:1
+   quelle que soit la photo qui passe dessous. Au survol il passe au blanc,
+   qui tranche sur l'anthracite comme sur le cliché. */
 .entete .entete__cta {
-  background: rgba(27, 41, 48, .5); border-color: rgba(255, 255, 255, .6); color: #fff;
-  backdrop-filter: blur(6px); box-shadow: none;
-}
-.entete--pleine .entete__cta {
   background: var(--vert-fonce); border-color: var(--vert-fonce); color: #fff;
-  backdrop-filter: none;
+  box-shadow: none;
 }
 .entete .entete__cta:hover { background: #fff; border-color: #fff; color: var(--encre); }
-.entete--pleine .entete__cta:hover { background: var(--ardoise); border-color: var(--ardoise); color: #fff; }
 
 /* ---------- Burger ---------- */
 .burger {
@@ -489,13 +494,11 @@ p + p { margin-top: 1.05rem; }
 .burger span {
   display: block; height: 2px; width: 100%;
   background: #fff;
-  /* même bascule que les libellés : blanc sur la photo, encre sur le crème */
   border-radius: 0;
   transition: transform var(--transition), opacity var(--transition),
               width var(--transition), background var(--transition);
   transform-origin: left center;
 }
-.entete--pleine .burger span { background: var(--encre); }
 .burger span:nth-child(2) { width: 68%; }
 .burger:hover span:nth-child(2) { width: 100%; }
 body.menu-ouvert .burger span { background: #fff; }

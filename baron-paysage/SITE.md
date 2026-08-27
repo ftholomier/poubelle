@@ -80,6 +80,25 @@ pour le texte courant, 600 pour les sur-titres et les boutons, avec un
 interlettrage large sur les capitales. C'est ce déliement qui donne le
 registre, là où un autre site aurait ajouté une seconde famille.
 
+### La barre de navigation
+
+En haut de page, la barre est **transparente** : le bandeau va jusqu'au bord
+de l'écran et le logo se pose dessus dans sa version claire, sur un dégradé
+sombre qui garantit sa lisibilité quelle que soit la photo.
+
+Une fois la page défilée, elle se réduit et s'installe sur un **anthracite
+translucide et flouté** (`#262C30` à 78 %). Elle reste sombre d'un bout à
+l'autre : le logo, les libellés et le numéro ne changent jamais de couleur,
+et rien ne clignote au passage.
+
+Les 78 % ne sont pas choisis à l'œil. Le flou mélange les pixels alentour
+*avant* que la couche ne se pose : aucune formule ne prédit le résultat
+peint. Relevé au pixel sur près de 120 000 points, à huit pages et six
+positions de défilement, le fond de la barre monte au plus clair à
+`rgb(86,90,93)` — le blanc y tient **6,96:1**. C'est ce relevé qui a fait
+apparaître un jeton de plus, `--vert-barre` (`#C2E2C8`) : le vert clair des
+survols n'y tenait que 3,3:1, celui-ci y tient 4,98:1.
+
 ### Les logos
 
 Les trois logos sont des **contours vectoriels extraits des PDF de la
@@ -107,7 +126,7 @@ Demandes du client, reprises une à une :
 | Demande | Ce qui a été fait |
 |---|---|
 | Modifier la charte graphique et le logo | Charte de novembre 2025 appliquée intégralement, logos extraits des PDF |
-| Rafraîchir le diaporama et la présentation | Diaporama de cinq vues en fondu croisé avec dérive lente, jauge de progression, réglable au back-office |
+| Rafraîchir le diaporama et la présentation | Diaporama de cinq vues en fondu croisé avec dérive lente et jauge de progression. Réglable au back-office : ordre par glisser-déposer, activation par vue, temps de pause, et une case **Ordre aléatoire** qui tire une suite différente à chaque visite |
 | Intégrer les avis Google | Module prêt : les avis sont récupérés **par le serveur** et mis en cache, donc aucun cookie tiers. La section reste masquée tant que la clé et la fiche ne sont pas saisies |
 | Renvoyer simplement vers les réseaux sociaux | Bloc « Suivre sur… » en toutes lettres dans le pied, marques reprises dans la barre du bas et sur la page contact |
 | La feuille du B du curseur, dans le bon sens et la bonne couleur | Le curseur décoratif a été retiré : l'entrée active est marquée par un filet vert sous le libellé, qui ne dépend d'aucune image |

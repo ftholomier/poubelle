@@ -18,22 +18,54 @@
     },
     "diaporama": {
       "pause": 7,
+      "aleatoire": true,
       "vues": [
-        { "image": "assets/img/site/jardin-contemporain.jpg", "actif": true },
-        { "image": "assets/img/site/piscine-bali.jpg", "actif": true },
-        { "image": "assets/img/site/art-topiaire-bonsai.jpg", "actif": true },
-        { "image": "assets/img/site/pas-japonais-mineral.jpg", "actif": true },
-        { "image": "assets/img/site/brise-vue-lumiere.jpg", "actif": true }
+        {
+          "image": "assets/img/site/jardin-contemporain.jpg",
+          "actif": true
+        },
+        {
+          "image": "assets/img/site/piscine-bali.jpg",
+          "actif": true
+        },
+        {
+          "image": "assets/img/site/art-topiaire-bonsai.jpg",
+          "actif": true
+        },
+        {
+          "image": "assets/img/site/pas-japonais-mineral.jpg",
+          "actif": true
+        },
+        {
+          "image": "assets/img/site/brise-vue-lumiere.jpg",
+          "actif": true
+        }
       ]
     },
     "voile": 100
   },
   "indicateurs": {
     "items": [
-      { "valeur": "25", "unite": "ans", "libelle": "D'expérience du paysage" },
-      { "valeur": "2012", "unite": "", "libelle": "L'entreprise depuis" },
-      { "valeur": "2", "unite": "", "libelle": "Implantations : Mathay & Montbéliard" },
-      { "valeur": "30", "unite": "km", "libelle": "Notre rayon d'intervention" }
+      {
+        "valeur": "25",
+        "unite": "ans",
+        "libelle": "D'expérience du paysage"
+      },
+      {
+        "valeur": "2012",
+        "unite": "",
+        "libelle": "L'entreprise depuis"
+      },
+      {
+        "valeur": "2",
+        "unite": "",
+        "libelle": "Implantations : Mathay & Montbéliard"
+      },
+      {
+        "valeur": "30",
+        "unite": "km",
+        "libelle": "Notre rayon d'intervention"
+      }
     ]
   },
   "services": {

@@ -255,7 +255,7 @@ final class EditionController
      * dans une case à cocher — une case décochée n'est pas envoyée, ce qui
      * décalerait les images et leurs états l'un par rapport à l'autre.
      *
-     * @return array{pause: int, vues: array<int, array{image: string, actif: bool}>}
+     * @return array{pause: int, aleatoire: bool, vues: array<int, array{image: string, actif: bool}>}
      */
     private function diaporama(): array
     {
@@ -284,8 +284,11 @@ final class EditionController
         }
 
         return [
-            'pause' => min(30, max(2, (int) ($_POST['diapo_pause'] ?? 6))),
-            'vues'  => $vues,
+            'pause'     => min(30, max(2, (int) ($_POST['diapo_pause'] ?? 6))),
+            // L'ordre saisi est conservé même quand le tirage est actif : le
+            // décocher doit rendre la suite que le client avait rangée.
+            'aleatoire' => isset($_POST['diapo_aleatoire']),
+            'vues'      => $vues,
         ];
     }
 

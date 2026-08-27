@@ -21,6 +21,15 @@ $vues = array_values(array_filter(
 if ($vues === []) {
     $vues = [['image' => $hero['image']]];
 }
+
+// Ordre aléatoire, au choix du client. Le tirage est fait ici, à chaque
+// affichage : le visiteur qui revient ne retombe pas sur la même première
+// image, et un jardin d'automne a autant de chances d'ouvrir la page qu'une
+// piscine d'été. L'ordre rangé au back-office n'est pas touché — décocher la
+// case le rend tel quel.
+if (!empty($hero['diaporama']['aleatoire']) && count($vues) > 1) {
+    shuffle($vues);
+}
 $pause = max(2, (int) ($hero['diaporama']['pause'] ?? 6));
 $voile = min(100, max(0, (int) ($hero['voile'] ?? 100)));
 ?>
