@@ -98,6 +98,12 @@ $estActif = static function (array $item) use ($chemin): bool {
       <?php endif; ?>
     </div>
   </div>
+
+  <?php /* Le faisceau qui ferme la barre. Il a son propre élément, et non un
+           ::after de l'en-tête, parce qu'il en faut deux : le trait au repos
+           et l'onde qui l'allume. Décoratif de bout en bout — rien à
+           annoncer aux lecteurs d'écran. */ ?>
+  <span class="entete__faisceau" aria-hidden="true"></span>
 </header>
 
 <div class="voile" aria-hidden="true"></div>

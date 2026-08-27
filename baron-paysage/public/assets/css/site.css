@@ -289,19 +289,19 @@ p + p { margin-top: 1.05rem; }
    Mais un filet plein d'un bord à l'autre est un trait, pas une signature :
    celui-ci s'allume au centre et s'éteint sur les côtés.
 
-   Trois couches le composent, de la plus fine à la plus large : un cœur
-   presque blanc, resserré sur un dixième de la largeur ; le corps vert, qui
-   porte la couleur de marque ; et un halo qui déborde de part et d'autre du
-   trait. Le halo est peint par drop-shadow et non par box-shadow, parce que
-   drop-shadow épouse la transparence du dégradé — box-shadow aurait éclairé
-   un rectangle plein, halo compris aux extrémités éteintes.
+   Trois couches le composent : un cœur presque blanc, resserré sur un
+   dixième de la largeur ; le corps vert, qui porte la couleur de marque ; et
+   un halo qui déborde du trait. Le halo est peint par drop-shadow et non par
+   box-shadow, parce que drop-shadow épouse la transparence du dégradé —
+   box-shadow aurait éclairé un rectangle plein, halo compris aux extrémités
+   éteintes.
 
    Purement décoratif, sans balisage propre : rien à annoncer aux lecteurs
    d'écran. */
-.entete::after,
+.entete__faisceau::before,
 .pied::before {
   content: "";
-  position: absolute; inset-inline: 0; height: 2px; z-index: 2;
+  position: absolute; inset: 0;
   background:
     linear-gradient(90deg,
       transparent 42%,
@@ -316,31 +316,66 @@ p + p { margin-top: 1.05rem; }
       rgba(104, 155, 113, .22) 82%,
       transparent 99%);
   filter: drop-shadow(0 0 6px rgba(104, 155, 113, .5));
-  pointer-events: none;
 }
+.pied::before { inset: 0 0 auto 0; height: 2px; z-index: 2; }
 
 /* En haut de page, l'en-tête flotte sur la photo : un filet y couperait le
-   bandeau en deux. Le faisceau naît du centre quand la barre se pose, et s'y
-   résorbe quand elle repart — le même geste dans les deux sens.
-
-   L'échelle met plus de temps que l'opacité, et repart d'un cinquième plutôt
-   que de zéro : à zéro, le trait jaillit d'un point, ce qui se remarque ;
-   à un cinquième, il s'ouvre, ce qui se regarde. */
-.entete::after {
-  bottom: 0;
+   bandeau en deux. Il ne s'allume qu'une fois la barre posée sur son fond. */
+.entete__faisceau {
+  position: absolute; inset-inline: 0; bottom: 0; height: 2px; z-index: 2;
+  pointer-events: none;
   opacity: 0;
-  transform: scaleX(.2);
-  transform-origin: 50% 50%;
-  transition: opacity .45s ease, transform .8s cubic-bezier(.16, .84, .28, 1);
+  transition: opacity .55s ease;
 }
-.entete--pleine::after { opacity: 1; transform: scaleX(1); }
+.entete--pleine .entete__faisceau { opacity: 1; }
 
-/* Le faisceau est une entrée en mouvement : pour qui demande à en être
-   dispensé, il se contente d'apparaître, déjà déployé. */
-@media (prefers-reduced-motion: reduce) {
-  .entete::after { transform: none; transition: opacity .001s; }
+/* --- l'amorçage ---
+   Première tentative : étirer le faisceau lui-même depuis le centre. Le
+   geste était invisible, et pour une raison qui tient au dessin — le
+   faisceau est éteint sur les côtés, si bien que son étirement se joue
+   entièrement dans les zones qu'on ne voit pas. L'œil ne voyait qu'un point
+   fixe au centre.
+
+   Ce qui se voit, c'est une onde : une lumière courte et vive qui part du
+   centre, s'écarte vers les deux bords en s'élargissant, et s'éteint en
+   sortant du cadre. Le trait au repos, lui, ne fait que se révéler en
+   opacité — il n'a pas à bouger, l'onde raconte l'allumage pour lui. */
+.entete__faisceau::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,
+    transparent 44%,
+    rgba(234, 246, 236, .9) 48%,
+    #ffffff 50%,
+    rgba(234, 246, 236, .9) 52%,
+    transparent 56%);
+  filter: drop-shadow(0 0 10px rgba(194, 226, 200, .85));
+  opacity: 0;
+  transform: scaleX(.08);
 }
-.pied::before { top: 0; }
+/* L'onde est jouée par une animation et non par une transition : elle doit
+   se rejouer à chaque fois que la barre se pose, et une transition ne
+   redémarre pas quand la propriété est déjà à sa valeur d'arrivée. */
+.entete--pleine .entete__faisceau::after {
+  animation: faisceau-amorcage 1.45s cubic-bezier(.2, .7, .2, 1) both;
+}
+/* L'opacité se tient haut tant que l'onde s'écarte, et ne tombe qu'une fois
+   les bords atteints : elle s'éteint en sortant du cadre, pas en chemin.
+   Coupée trop tôt, l'onde semblait rentrer au centre au lieu d'en sortir. */
+@keyframes faisceau-amorcage {
+  0%   { opacity: 0;   transform: scaleX(.08); }
+  10%  { opacity: 1;   transform: scaleX(.45); }
+  55%  { opacity: 1;   transform: scaleX(4.5); }
+  80%  { opacity: .55; transform: scaleX(9); }
+  100% { opacity: 0;   transform: scaleX(14); }
+}
+
+/* L'amorçage est une entrée en mouvement : pour qui demande à en être
+   dispensé, le trait se contente d'apparaître, déjà allumé. */
+@media (prefers-reduced-motion: reduce) {
+  .entete--pleine .entete__faisceau::after { animation: none; }
+}
+}
 .pied { position: relative; }
 
 .entete {
