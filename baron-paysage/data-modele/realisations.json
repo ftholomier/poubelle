@@ -1,0 +1,52 @@
+{
+    "intro": "Chaque photo est celle d'un chantier mené par nos équipes, de la première esquisse à la dernière plantation. Les légendes disent ce qui a été mis en œuvre.",
+    "noms": {
+        "chantier": "Le chantier"
+    },
+    "gammes": {
+        "amenagement-paysager": [
+            { "image": "assets/img/site/piscine-coque-margelle-gres-cerame.jpg", "legende": "Implantation d'une piscine en coque avec margelle en grès cérame" },
+            { "image": "assets/img/site/pavage-cour-paves-drainants.jpg", "legende": "Pavage d'une cour avec pavés drainants" },
+            { "image": "assets/img/site/allee-pave-vieilli-jachere-fleurie.jpg", "legende": "Allée en pavé vieilli avec jachère fleurie" },
+            { "image": "assets/img/site/cheminement-bois-itauba.jpg", "legende": "Cheminement en bois exotique type Itauba avec plantations" },
+            { "image": "assets/img/site/muret-parement-plate-bande.jpg", "legende": "Muret avec parement et plate-bande végétalisée" },
+            { "image": "assets/img/site/realisation-contemporaine.jpg", "legende": "Réalisation contemporaine" },
+            { "image": "assets/img/site/jardin-contemporain.jpg", "legende": "Jardin contemporain" },
+            { "image": "assets/img/site/terrasse-bois-exotique-ipe.jpg", "legende": "Terrasse en bois exotique type IPE" },
+            { "image": "assets/img/site/piscine-dalle-bali-bois-exotique.jpg", "legende": "Piscine, dalle de Bali et bois exotique" },
+            { "image": "assets/img/site/terrasse-gres-cerame-piscine.jpg", "legende": "Terrasse en grès cérame gros format et piscine" },
+            { "image": "assets/img/site/cour-enrobe-massif.jpg", "legende": "Cour en enrobé et massif" },
+            { "image": "assets/img/site/pas-japonais-graminees.jpg", "legende": "Pas japonais et graminées" },
+            { "image": "assets/img/site/piscine-haie-vive.jpg", "legende": "Piscine et haie vive" },
+            { "image": "assets/img/site/pas-japonais-mineral.jpg", "legende": "Pas japonais minéral et plantation" },
+            { "image": "assets/img/site/brise-vue-bois-exotique.jpg", "legende": "Brise-vue en bois exotique et plantations" },
+            { "image": "assets/img/site/art-topiaire-bonsai.jpg", "legende": "Art topiaire bonsaï" },
+            { "image": "assets/img/site/cheminement-prele-erable.jpg", "legende": "Cheminement, prêle et érable du Japon" },
+            { "image": "assets/img/site/bimuros-gris-jura.jpg", "legende": "Bimuros gris Jura" },
+            { "image": "assets/img/site/piscine-bali.jpg", "legende": "Piscine Bali" },
+            { "image": "assets/img/site/plantation-corten.jpg", "legende": "Plantation et acier corten" },
+            { "image": "assets/img/site/brise-vue-lumiere.jpg", "legende": "Brise-vue et lumière" }
+        ],
+        "chantier": [
+            { "image": "assets/img/site/equipe-baron-mathay.jpg", "legende": "L'équipe Baron Paysage, à Mathay" },
+            { "image": "assets/img/site/terrassement-mini-pelle.jpg", "legende": "Terrassement à la mini-pelle" },
+            { "image": "assets/img/site/preparation-fond-de-forme.jpg", "legende": "Préparation du fond de forme avant pavage" },
+            { "image": "assets/img/site/pave-au-cordeau.jpg", "legende": "Pose au cordeau : chaque pavé aligné" },
+            { "image": "assets/img/site/pose-paves-main.jpg", "legende": "Pavage posé à la main, pavé par pavé" },
+            { "image": "assets/img/site/pose-gazon-plaques.jpg", "legende": "Pose de gazon en plaques" },
+            { "image": "assets/img/site/materiel-entreprise.jpg", "legende": "Le matériel de l'entreprise" }
+        ],
+        "entretien": [
+            { "image": "assets/img/site/taille-topiaire-entretien.jpg", "legende": "Remise en forme d'un sujet taillé" },
+            { "image": "assets/img/site/taille-haie-cordeau.jpg", "legende": "Taille de haie au cordeau" },
+            { "image": "assets/img/site/taille-fruitiere.jpg", "legende": "Taille fruitière" },
+            { "image": "assets/img/site/tonte-gazon.jpg", "legende": "Tonte et remise en état de pelouse" },
+            { "image": "assets/img/site/ramassage-feuilles.jpg", "legende": "Ramassage des feuilles à l'automne" }
+        ],
+        "elagage-taille": [
+            { "image": "assets/img/site/arboriste-grimpeur.jpg", "legende": "Taille sécurisée par un arboriste grimpeur" },
+            { "image": "assets/img/site/elagage-hauteur.jpg", "legende": "Démontage en rétention d'un grand sujet" },
+            { "image": "assets/img/site/arrachage-souches.jpg", "legende": "Arrachage et évacuation des souches" }
+        ]
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "intro": "Trois valeurs, et ce qu'elles nous obligent à faire concrètement sur chaque chantier.",
+    "items": [
+        {
+            "slug": "creativite",
+            "nom": "Créativité",
+            "icone": "creativite",
+            "actif": true,
+            "resume": "Nous la cultivons au fil de nos expériences, grâce à la découverte de nouvelles techniques et de nouveaux matériaux.",
+            "image": "assets/img/site/plantation-corten.jpg",
+            "paragraphes": [
+                "Nous la cultivons au fil de nos expériences, grâce à la découverte de nouvelles techniques et de nouveaux matériaux, pour vous proposer des concepts toujours plus originaux et innovants. Un cercle découpé sur mesure dans une tôle corten, un brise-vue qui devient une pièce d'éclairage, un lit de prêles qui remplace un mur : ce sont des idées, pas un catalogue.",
+                "Benjamin Baron le dit simplement : « J'ai toujours débordé de créativité, je trouve mon inspiration dans la nature. » C'est ce qui donne des créations intemporelles et réfléchies, toutes adaptées à notre environnement — celui du Doubs, de ses pentes, de ses hivers et de sa lumière."
+            ]
+        },
+        {
+            "slug": "ecoute",
+            "nom": "Écoute",
+            "icone": "ecoute",
+            "actif": true,
+            "resume": "Elle nous guide de la première prise de contact jusqu'à la fin de chantier.",
+            "image": "assets/img/site/conception-plan-bureau.jpg",
+            "paragraphes": [
+                "Elle nous guide de la première prise de contact jusqu'à la fin de chantier, afin de garantir votre satisfaction dans la réalisation de votre projet. Le premier rendez-vous sert d'abord à écouter : comment vous vivez cet extérieur, ce qui vous gêne aujourd'hui, ce que vous n'osez pas demander.",
+                "C'est aussi ce qui nous autorise à proposer autre chose que ce qui était demandé au départ, ou à dire qu'un emplacement ne convient pas. Un projet mal engagé se paie à l'usage, jamais au devis."
+            ]
+        },
+        {
+            "slug": "exigence",
+            "nom": "Exigence",
+            "icone": "exigence",
+            "actif": true,
+            "resume": "Nous mettons un point d'honneur à offrir une qualité de service à la hauteur de vos attentes.",
+            "image": "assets/img/site/pave-au-cordeau.jpg",
+            "paragraphes": [
+                "Nous mettons un point d'honneur à offrir une qualité de service à la hauteur de vos attentes. Cela commence sous la surface : un fond de forme préparé comme il faut, un drainage pensé, une pose au cordeau. Rien de tout cela ne se voit une fois le chantier fini, et pourtant c'est ce qui décide de son état dans dix ans.",
+                "Cela se poursuit dans le choix des fournisseurs et des matériaux, retenus pour leur tenue dans le temps plutôt que pour leur prix d'achat, et dans des méthodes durables et écologiques, dans le respect des règles de l'art."
+            ]
+        }
+    ]
+}

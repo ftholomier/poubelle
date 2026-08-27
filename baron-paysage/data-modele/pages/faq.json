@@ -1,0 +1,66 @@
+{
+  "titre": "Questions fréquentes",
+  "meta": {
+    "description": "Devis, délais, budget, crédit d'impôt de 50 % sur l'entretien, secteur d'intervention, entretien après travaux : les questions qui reviennent le plus souvent chez Baron Paysage."
+  },
+  "hero": {
+    "image": "assets/img/site/cheminement-prele-erable.jpg",
+    "surtitre": "Questions fréquentes",
+    "titre": "Ce qu'on nous demande le plus souvent",
+    "texte": "Les réponses aux questions qui reviennent à chaque premier rendez-vous. Si la vôtre n'y est pas, appelez-nous : c'est plus rapide."
+  },
+  "faq": {
+    "surtitre": "Bon à savoir",
+    "titre": "Devis, chantier, entretien",
+    "items": [
+      {
+        "question": "Le déplacement et le devis sont-ils payants ?",
+        "reponse": "Non. Les déplacements et les conseils sont gratuits, chez vous ou dans nos locaux. Nous venons voir les lieux, échanger sur votre manière de vivre l'extérieur, puis nous vous proposons des idées avant de chiffrer quoi que ce soit."
+      },
+      {
+        "question": "Dans quel secteur intervenez-vous ?",
+        "reponse": "Dans un rayon d'environ 30 km autour de Mathay : Pays de Montbéliard, Territoire de Belfort, Plateau Maîchois, Plateau de Blamont. Nos deux implantations, Mathay et Montbéliard, nous permettent d'être rapidement sur place."
+      },
+      {
+        "question": "Faut-il une autorisation d'urbanisme pour un aménagement extérieur ?",
+        "reponse": "Cela dépend de ce qui est prévu. Une terrasse de plain-pied, des plantations ou une allée n'appellent en général aucune formalité ; une clôture, un mur de soutènement ou l'abord d'une piscine peuvent relever d'une déclaration préalable, et les règles varient d'une commune à l'autre. Nous vous disons dès la visite ce que votre projet suppose."
+      },
+      {
+        "question": "Quel budget prévoir ?",
+        "reponse": "Un aménagement se chiffre au projet, jamais au mètre carré standard : la pente, l'accès des engins, la nature du sol et les matériaux retenus font varier le prix du simple au double. Dites-nous une enveloppe, nous vous dirons franchement ce qu'elle permet — quitte à conseiller de traiter le jardin en deux phases plutôt qu'à moitié."
+      },
+      {
+        "question": "Qui réalise les travaux ?",
+        "reponse": "Nos équipes. Terrassement, maçonnerie paysagère, pavage, terrasses, clôtures, plantations, engazonnement : l'ensemble du chantier est mené par l'entreprise. Vous n'avez pas plusieurs corps de métier à coordonner."
+      },
+      {
+        "question": "Combien de temps dure un chantier ?",
+        "reponse": "D'une journée pour une plantation ou une remise en état, à plusieurs semaines pour un aménagement complet avec terrassement, terrasse et piscine. La date de démarrage et la durée sont annoncées au devis ; la météo peut décaler un terrassement, jamais sans vous prévenir."
+      },
+      {
+        "question": "Travaillez-vous avec les autres entreprises du chantier ?",
+        "reponse": "Oui, régulièrement, notamment avec les piscinistes et les maçons. Nous intervenons en co-traitance sur les abords : margelles, plages, terrasses, végétalisation et clôtures autour d'un bassin."
+      },
+      {
+        "question": "Bénéficie-t-on d'un crédit d'impôt sur l'entretien ?",
+        "reponse": "Oui, pour les petits travaux de jardinage chez les particuliers : réduction ou crédit d'impôt de 50 %, dans la limite de 5 000 € par an et par foyer, grâce à notre adhésion à la Coopérative Service à la Personne. Une tonte à 100 € vous revient donc à 50 €."
+      },
+      {
+        "question": "Proposez-vous des contrats d'entretien à l'année ?",
+        "reponse": "Oui. Nombre de passages, périodes d'intervention et prestations sont définis ensemble : tontes, tailles de haies, désherbage, ramassage des feuilles, remise en forme des massifs. Un jardin dessiné puis laissé sans suivi perd en trois ans ce qu'il a gagné à la conception."
+      },
+      {
+        "question": "Que deviennent les déchets verts ?",
+        "reponse": "Nous les valorisons plutôt que de les évacuer. Les branchages sont broyés sur place et transformés en paillage écologique, qui limite la repousse des mauvaises herbes et garde l'humidité du sol. Moins de rotations de camion, et un sol qui s'en porte mieux."
+      },
+      {
+        "question": "Intervenez-vous pour un simple élagage ?",
+        "reponse": "Oui. Nous sommes spécialisés dans la taille fruitière et ornementale ainsi que dans les formes d'art topiaire, et nous évoluons au sol comme dans les arbres en toute sécurité. Nos collaborateurs disposent d'un Certificat de Spécialisation Arboriste-Élagueur."
+      }
+    ],
+    "relance": {
+      "titre": "Votre question n'est pas là ?",
+      "texte": "Un coup de téléphone vaut souvent mieux qu'un formulaire : dites-nous en deux minutes ce que vous avez en tête, nous vous dirons si c'est faisable et dans quel ordre."
+    }
+  }
+}

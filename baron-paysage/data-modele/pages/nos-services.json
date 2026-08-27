@@ -1,0 +1,13 @@
+{
+  "titre": "Nos prestations",
+  "meta": {
+    "description": "Conception de jardin, aménagement paysager, entretien d'espaces verts, élagage et taille. Baron Paysage intervient à Mathay, Montbéliard, Belfort et dans un rayon de 30 km."
+  },
+  "hero": {
+    "image": "assets/img/site/cour-enrobe-massif.jpg",
+    "surtitre": "Nos prestations",
+    "titre": "De la première esquisse à la taille d'entretien",
+    "texte": "Quatre métiers, une seule entreprise. C'est ce qui permet de dessiner un jardin en sachant qui le construira, et de le construire en sachant qui l'entretiendra."
+  },
+  "sections": []
+}

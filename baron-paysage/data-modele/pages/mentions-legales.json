@@ -1,0 +1,82 @@
+{
+  "titre": "Mentions légales",
+  "meta": {
+    "description": "Mentions légales du site de Baron Paysage, paysagiste à Mathay et Montbéliard (Doubs)."
+  },
+  "hero": {
+    "surtitre": "Baron Paysage",
+    "titre": "Mentions légales"
+  },
+  "sections": [
+    {
+      "titre": "Éditeur du site",
+      "paragraphes": [
+        "Dénomination : S.A.R.L. LES JARDINS BARON, exerçant sous le nom commercial « Baron Paysage »",
+        "Directeur de la publication : M. Benjamin Baron",
+        "Siège social : 9001 rue du Pont, 25700 Mathay, France",
+        "Établissements : ZA des Ansanges, 25700 Mathay — Espace Le Signal, 95 Faubourg de Besançon, 25200 Montbéliard",
+        "Téléphone : 06 62 10 43 11",
+        "Adresse électronique : contact@jardins-baron.com",
+        "SIRET : 814 400 321 00026",
+        "Crédit photographique : Benjamin Baron"
+      ]
+    },
+    {
+      "titre": "Hébergement",
+      "paragraphes": [
+        "L'hébergeur du site est à renseigner avant la mise en ligne : dénomination, forme juridique, adresse du siège et téléphone."
+      ]
+    },
+    {
+      "titre": "Protection des données personnelles",
+      "paragraphes": [
+        "Conformément au Règlement général sur la protection des données (RGPD) et à la loi n° 78-17 du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation et d'opposition sur les informations personnelles vous concernant.",
+        "Les données transmises par le formulaire de contact servent uniquement à traiter votre demande. Elles ne sont ni cédées, ni louées, ni transmises à des tiers, à titre gratuit comme onéreux, et sont conservées le temps nécessaire au traitement de la demande puis à la durée de prescription applicable.",
+        "Ce droit s'exerce en adressant un message par l'intermédiaire du formulaire de contact du site, ou par courrier au siège de la société, en indiquant les informations dont la modification ou la suppression est souhaitée. Vous pouvez également introduire une réclamation auprès de la CNIL.",
+        "L’assistant de discussion du site conserve les échanges et les coordonnées qui y sont laissées, afin de traiter la demande et de rappeler le visiteur. Ces données sont hébergées avec le site, ne sont transmises à aucun tiers, et sont effacées automatiquement au bout de douze mois. Les questions posées sont envoyées à Google (API Gemini) pour produire la réponse ; l’appel est fait par le serveur du site, jamais par le navigateur du visiteur."
+      ]
+    },
+    {
+      "titre": "Cookies",
+      "paragraphes": [
+        "Le site ne dépose aucun traceur publicitaire. Seuls les cookies strictement nécessaires à son fonctionnement (session, sécurité des formulaires, mémorisation de votre choix de consentement) sont déposés sans votre accord, conformément aux recommandations de la CNIL.",
+        "Les éventuels cookies de mesure d'audience ne sont déposés qu'après votre accord explicite, révocable à tout moment depuis le lien « Gestion des cookies » en pied de page.",
+        "L’assistant conserve la discussion en cours dans la mémoire de session du navigateur (sessionStorage), pour la retrouver d’une page à l’autre. Elle s’efface à la fermeture de l’onglet. Ce stockage est strictement nécessaire au service demandé par le visiteur : il ne sert à aucun suivi et n’est pas soumis au consentement."
+      ]
+    },
+    {
+      "titre": "Avis clients",
+      "paragraphes": [
+        "Les avis affichés sur ce site proviennent de la fiche Google de la société. Ils sont récupérés par le serveur, puis affichés tels quels : ils ne sont ni sélectionnés manuellement, ni modifiés, ni rémunérés. Aucune donnée de navigation n'est transmise à Google du fait de leur affichage."
+      ]
+    },
+    {
+      "titre": "Responsabilité des utilisateurs",
+      "paragraphes": [
+        "L'utilisateur s'engage à utiliser les services proposés sur le site de façon loyale et honnête, et conformément à leur destination.",
+        "L'utilisateur s'engage à utiliser les services proposés sur le site pour ses seuls besoins et s'interdit d'en faire commerce auprès de tiers."
+      ]
+    },
+    {
+      "titre": "Propriété intellectuelle",
+      "paragraphes": [
+        "L'ensemble des informations, textes, illustrations et éléments graphiques figurant sur ce site est fourni par la directrice de la publication et protégé au titre du droit d'auteur.",
+        "La distribution, la modification ou la reproduction, partielle ou totale, de ce site sont interdites sans accord préalable écrit de la directrice de la publication.",
+        "Les bases de données constituées par le site sont sa propriété exclusive et sont protégées par les dispositions du Code de la propriété intellectuelle ainsi que par la directive européenne du 11 mars 1996 sur la protection juridique des bases de données. Leur extraction et leur réutilisation, en totalité ou en partie, sont interdites."
+      ]
+    },
+    {
+      "titre": "Liens vers le site",
+      "paragraphes": [
+        "Tout lien hypertexte pointant vers ce site depuis un autre site doit faire l'objet d'une autorisation expresse et préalable de la directrice de la publication.",
+        "Toute demande de lien peut être adressée par l'intermédiaire du formulaire de contact du site."
+      ]
+    },
+    {
+      "titre": "Médiation de la consommation",
+      "paragraphes": [
+        "Conformément à l'article L. 612-1 du Code de la consommation, tout client consommateur peut recourir gratuitement à un médiateur de la consommation en vue de la résolution amiable d'un litige. (À compléter : coordonnées du médiateur désigné par la société.)"
+      ]
+    }
+  ]
+}

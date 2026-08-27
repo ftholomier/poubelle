@@ -1,0 +1,39 @@
+{
+  "titre": "Demander un devis",
+  "meta": {
+    "description": "Demandez un devis gratuit pour votre aménagement paysager ou votre entretien d'espaces verts. Baron Paysage, Mathay et Montbéliard. Déplacement et conseils gratuits."
+  },
+  "hero": {
+    "image": "assets/img/site/muret-parement-plate-bande.jpg",
+    "surtitre": "Demander un devis",
+    "titre": "Parlez-nous de votre extérieur",
+    "texte": "Le déplacement et les conseils sont gratuits. Décrivez votre projet en quelques lignes : nous vous rappelons pour convenir d'une visite sur place."
+  },
+  "introduction": {
+    "titre": "Ce qui se passe après votre message",
+    "texte": "Nous vous rappelons sous 48 heures ouvrées pour préciser le besoin, puis nous convenons d'une visite. Nous venons voir l'exposition, la pente, l'accès et les vues avant de chiffrer quoi que ce soit — c'est gratuit et sans engagement."
+  },
+  "etapes": [
+    { "numero": "01", "titre": "Votre message", "texte": "Vous décrivez votre projet, votre localité et ce que vous attendez de cet extérieur." },
+    { "numero": "02", "titre": "Notre appel", "texte": "Nous vous rappelons sous 48 heures ouvrées pour préciser le besoin et fixer un rendez-vous." },
+    { "numero": "03", "titre": "La visite", "texte": "Sur place, gratuitement : relevé du terrain, exposition, accès, contraintes et premières idées." },
+    { "numero": "04", "titre": "Le devis", "texte": "Un devis détaillé poste par poste, avec le phasage quand le projet se réalise en plusieurs temps." }
+  ],
+  "formulaire": {
+    "titre": "Votre demande de devis",
+    "texte": "Plus votre message est précis — surface approximative, ce qui existe déjà, ce que vous voulez en faire, budget envisagé — plus notre première réponse le sera.",
+    "objets": [
+      "Conception / plan d'aménagement",
+      "Aménagement paysager complet",
+      "Terrasse (bois ou grès cérame)",
+      "Abords de piscine",
+      "Pavage, allée, cour, enrobé",
+      "Muret, clôture, brise-vue",
+      "Plantations, massifs, gazon",
+      "Entretien d'espaces verts",
+      "Élagage, taille, abattage",
+      "Autre demande"
+    ],
+    "mention": "Les informations recueillies servent uniquement à traiter votre demande. Elles ne sont transmises à aucun tiers."
+  }
+}

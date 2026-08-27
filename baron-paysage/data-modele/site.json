@@ -1,0 +1,101 @@
+{
+    "nom": "Baron Paysage",
+    "baseline": "Paysagiste — Montbéliard · Belfort",
+    "titre_seo": "Baron Paysage | Paysagiste à Montbéliard, Mathay et Belfort — conception, aménagement et entretien",
+    "accroche": "Baron Paysage conçoit, réalise et entretient les espaces extérieurs dans le Pays de Montbéliard, le Territoire de Belfort, le Plateau Maîchois et le Plateau de Blamont. Plus de 25 ans d'expérience, deux implantations : Mathay et Montbéliard.",
+    "logo": {
+        "principal": "assets/img/logo/embleme-baron.svg",
+        "horizontal": "assets/img/logo/logo-baron.svg",
+        "clair": "assets/img/logo/logo-baron-clair.svg",
+        "embleme": "assets/img/logo/embleme-baron.svg",
+        "vertical": "assets/img/logo/logo-baron-vertical.svg",
+        "embleme_clair": "assets/img/logo/embleme-baron-clair.svg"
+    },
+    "adresse": {
+        "rue": "ZA des Ansanges",
+        "cp": "25700",
+        "ville": "Mathay",
+        "pays": "France"
+    },
+    "adresses_secondaires": [
+        {
+            "rue": "Espace Le Signal — 95 Faubourg de Besançon",
+            "cp": "25200",
+            "ville": "Montbéliard"
+        }
+    ],
+    "contact": {
+        "telephone": "06 62 10 43 11",
+        "email": "contact@jardins-baron.com",
+        "horaires": ""
+    },
+    "fondation": {
+        "annee": "2012",
+        "fondatrice": "Benjamin Baron",
+        "qualite": "Entreprise du paysage — conception, réalisation, entretien"
+    },
+    "reservation": {
+        "principal": {
+            "libelle": "Demander un devis",
+            "url": "/demander-un-devis"
+        },
+        "secondaire": {
+            "libelle": "Nous appeler",
+            "url": "tel:0662104311"
+        }
+    },
+    "menu": [
+        {
+            "libelle": "À propos",
+            "url": "/a-propos"
+        },
+        {
+            "libelle": "Nos prestations",
+            "url": "/nos-prestations",
+            "sous_menu": [
+                {
+                    "libelle": "Conception",
+                    "url": "/nos-prestations/conception"
+                },
+                {
+                    "libelle": "Aménagement paysager",
+                    "url": "/nos-prestations/amenagement-paysager"
+                },
+                {
+                    "libelle": "Entretien",
+                    "url": "/nos-prestations/entretien"
+                },
+                {
+                    "libelle": "Élagage & taille",
+                    "url": "/nos-prestations/elagage-taille"
+                }
+            ]
+        },
+        {
+            "libelle": "Réalisations",
+            "url": "/realisations"
+        },
+        {
+            "libelle": "Nos valeurs",
+            "url": "/nos-valeurs"
+        },
+        {
+            "libelle": "Questions fréquentes",
+            "url": "/faq"
+        },
+        {
+            "libelle": "Contact",
+            "url": "/contact"
+        }
+    ],
+    "reseaux": {
+        "linkedin": "",
+        "facebook": "https://www.facebook.com/lesjardinsbaron/",
+        "instagram": "https://www.instagram.com/lesjardinsbaron/"
+    },
+    "pied": {
+        "seo": "Baron Paysage — paysagiste à Mathay et Montbéliard : conception de jardin, aménagement extérieur, terrasse bois et grès cérame, entourage de piscine, pavage et enrobé, murets, plantations, clôtures, entretien d'espaces verts, taille et élagage.",
+        "proche_de": "Nous intervenons dans un rayon de 30 km autour de Mathay : Pays de Montbéliard, Territoire de Belfort, Plateau Maîchois, Plateau de Blamont, Pont-de-Roide, Audincourt, Valentigney, Hérimoncourt, Maîche et Belfort.",
+        "copyright": "© [year] Baron Paysage — Tous droits réservés"
+    }
+}

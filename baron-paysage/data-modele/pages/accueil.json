@@ -1,0 +1,109 @@
+{
+  "titre": "Accueil",
+  "meta": {
+    "description": "Baron Paysage, paysagiste à Mathay et Montbéliard depuis plus de 25 ans : conception, aménagement et entretien de vos espaces extérieurs dans le Doubs et le Territoire de Belfort."
+  },
+  "hero": {
+    "image": "assets/img/site/jardin-contemporain.jpg",
+    "surtitre": "Paysagiste — Mathay · Montbéliard",
+    "titre": "Des extérieurs pensés pour durer",
+    "texte": "Concevoir, réaliser et entretenir des jardins contemporains à la mesure du lieu et de ceux qui y vivent. Depuis plus de 25 ans, dans le Pays de Montbéliard et le Territoire de Belfort.",
+    "bouton_principal": {
+      "libelle": "Demander un devis",
+      "url": "/demander-un-devis"
+    },
+    "bouton_secondaire": {
+      "libelle": "Voir nos réalisations",
+      "url": "/realisations"
+    },
+    "diaporama": {
+      "pause": 7,
+      "vues": [
+        { "image": "assets/img/site/jardin-contemporain.jpg", "actif": true },
+        { "image": "assets/img/site/piscine-bali.jpg", "actif": true },
+        { "image": "assets/img/site/art-topiaire-bonsai.jpg", "actif": true },
+        { "image": "assets/img/site/pas-japonais-mineral.jpg", "actif": true },
+        { "image": "assets/img/site/brise-vue-lumiere.jpg", "actif": true }
+      ]
+    },
+    "voile": 100
+  },
+  "indicateurs": {
+    "items": [
+      { "valeur": "25", "unite": "ans", "libelle": "D'expérience du paysage" },
+      { "valeur": "2012", "unite": "", "libelle": "L'entreprise depuis" },
+      { "valeur": "2", "unite": "", "libelle": "Implantations : Mathay & Montbéliard" },
+      { "valeur": "30", "unite": "km", "libelle": "Notre rayon d'intervention" }
+    ]
+  },
+  "services": {
+    "surtitre": "Nos prestations",
+    "titre": "Spécialistes de l'aménagement paysager depuis plus de 25 ans",
+    "texte": "Nous apportons notre expérience au service de vos envies. De la première esquisse à la taille d'entretien, un seul interlocuteur suit votre extérieur d'un bout à l'autre.",
+    "lien": {
+      "libelle": "Découvrir nos prestations",
+      "url": "/nos-prestations"
+    }
+  },
+  "citation": {
+    "texte": "Toutes les fleurs de l'avenir sont dans les semences d'aujourd'hui. Ensemble, continuons de planter des idées et de récolter de grands projets.",
+    "auteur": ""
+  },
+  "societe": {
+    "surtitre": "Baron Paysage",
+    "titre": "Une entreprise de terrain, dirigée par un passionné de la nature",
+    "image": "assets/img/site/benjamin-baron.jpg",
+    "paragraphes": [
+      "Chef d'entreprise passionné et riche d'une expérience de plus de 25 ans dans l'aménagement paysager, Benjamin Baron propose des créations intemporelles et réfléchies, toutes adaptées à notre environnement. Son engagement et sa rigueur ont forgé la renommée de l'entreprise.",
+      "Baron Paysage est spécialisée dans la conception, la réalisation et l'entretien des extérieurs. Une équipe de professionnels qualifiés est à votre écoute pour donner vie à vos projets, et vous accompagne à chaque étape."
+    ],
+    "points": [
+      {
+        "numero": "01",
+        "titre": "Un seul interlocuteur, du plan à la dernière taille",
+        "texte": "Celui qui vient relever votre terrain est celui qui suit le chantier, puis l'entretien. Rien ne se perd entre un commercial et une équipe de pose."
+      },
+      {
+        "numero": "02",
+        "titre": "Des matériaux choisis pour ce qu'ils deviennent",
+        "texte": "Grès cérame, bois exotique Itauba ou IPE, acier corten, pierre naturelle, parements : nous choisissons avec soin nos fournisseurs pour vous garantir des matériaux de qualité, qui dureront dans le temps."
+      }
+    ],
+    "lien": {
+      "libelle": "En savoir plus sur nous",
+      "url": "/a-propos"
+    }
+  },
+  "valeurs": {
+    "surtitre": "Nos valeurs",
+    "titre": "Créativité, écoute, exigence",
+    "texte": "La combinaison de nos valeurs a forgé notre réputation dans le Doubs et le Territoire de Belfort, et nous en sommes très fiers.",
+    "lien": {
+      "libelle": "Nos valeurs en détail",
+      "url": "/nos-valeurs"
+    }
+  },
+  "realisations": {
+    "surtitre": "Réalisations",
+    "titre": "Ce que donne un extérieur pensé dans son ensemble",
+    "texte": "Piscines et leurs abords, terrasses en bois exotique ou en grès cérame, pas japonais, murets, brise-vues, plantations : quelques chantiers menés par nos équipes.",
+    "lien": {
+      "libelle": "Voir toutes les réalisations",
+      "url": "/realisations"
+    }
+  },
+  "serenite": {
+    "surtitre": "Votre projet",
+    "titre": "Le déplacement et les conseils sont gratuits",
+    "texte": "Chez vous ou dans nos locaux, nous prenons le temps d'échanger, de découvrir les lieux et de comprendre votre manière de vivre avant de proposer quoi que ce soit. C'est à ce prix qu'un aménagement vous ressemble.",
+    "image": "assets/img/site/conception-plan-bureau.jpg",
+    "chiffre": "Devis gratuit",
+    "legende": "Nous nous déplaçons, nous relevons le terrain et nous vous proposons des idées avant de chiffrer.",
+    "arguments": [
+      "Une visite sur place pour comprendre l'exposition, la pente et les vues",
+      "Des idées créatives, rustiques ou contemporaines selon vos goûts",
+      "Un devis détaillé : terrassement, maçonnerie paysagère, plantations, finitions",
+      "Des méthodes durables et écologiques, dans le respect des règles de l'art"
+    ]
+  }
+}

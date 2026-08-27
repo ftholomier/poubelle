@@ -1,0 +1,90 @@
+{
+  "titre": "À propos",
+  "meta": {
+    "description": "Benjamin Baron, paysagiste depuis plus de 25 ans. Baron Paysage conçoit, réalise et entretient les extérieurs dans le Pays de Montbéliard, le Territoire de Belfort, le Plateau Maîchois et le Plateau de Blamont."
+  },
+  "hero": {
+    "image": "assets/img/site/realisation-contemporaine.jpg",
+    "surtitre": "À propos",
+    "titre": "Benjamin Baron, paysagiste",
+    "texte": "Concevoir, réaliser et entretenir des extérieurs qui vieillissent bien. C'est le métier, et il commence toujours par écouter."
+  },
+  "portrait": {
+    "image": "assets/img/site/benjamin-baron.jpg",
+    "nom": "Benjamin Baron",
+    "role": "Chef d'entreprise",
+    "citation": "J'ai toujours débordé de créativité, je trouve mon inspiration dans la nature.",
+    "paragraphes": [
+      "Chef d'entreprise passionné et riche d'une expérience de plus de 25 ans dans l'aménagement paysager, Benjamin Baron propose des créations intemporelles et réfléchies, toutes adaptées à notre environnement. Son engagement et sa rigueur permettent à l'entreprise d'avoir une renommée solide dans la région.",
+      "L'entreprise Baron Paysage est spécialisée dans la conception, la réalisation et l'entretien des extérieurs. Une équipe de professionnels qualifiés est à votre écoute pour donner vie à vos projets, et vous accompagne à chaque étape pour concevoir et créer vos espaces extérieurs."
+    ]
+  },
+  "reperes": {
+    "items": [
+      { "valeur": "25", "unite": "ans", "libelle": "D'expérience du paysage" },
+      { "valeur": "2012", "unite": "", "libelle": "Création de l'entreprise" },
+      { "valeur": "2", "unite": "", "libelle": "Implantations : Mathay et Montbéliard" },
+      { "valeur": "30", "unite": "km", "libelle": "Rayon d'intervention autour de Mathay" }
+    ]
+  },
+  "piliers": {
+    "items": [
+      {
+        "numero": "01",
+        "label": "L'équipe",
+        "titre": "Une équipe qui fait tout le chantier",
+        "texte": "Terrassement, maçonnerie paysagère, pavage, terrasses, clôtures, plantations, engazonnement : nos équipes réalisent l'ensemble du chantier. Vous n'avez pas cinq entreprises à coordonner, et personne ne peut renvoyer la responsabilité sur le lot voisin.",
+        "image": "assets/img/site/equipe-baron-mathay.jpg"
+      },
+      {
+        "numero": "02",
+        "label": "Les qualifications",
+        "titre": "Au sol comme dans les arbres, en sécurité",
+        "texte": "Nos collaborateurs disposent des qualifications qu'exige le métier, dont un Certificat de Spécialisation Arboriste-Élagueur pour les interventions en hauteur. Taille fruitière, taille ornementale, art topiaire, élagage : chaque geste demande sa formation.",
+        "image": "assets/img/site/arboriste-grimpeur.jpg"
+      },
+      {
+        "numero": "03",
+        "label": "Le secteur",
+        "titre": "Deux implantations, trente kilomètres à la ronde",
+        "texte": "Les interventions se situent dans le Pays de Montbéliard, le Territoire de Belfort et alentours : Plateau Maîchois, Plateau de Blamont, Pont-de-Roide, Audincourt, Valentigney, Hérimoncourt, Maîche, Belfort. Nous sommes localisés sur les villes de Mathay et de Montbéliard.",
+        "image": "assets/img/site/pose-paves-main.jpg"
+      }
+    ]
+  },
+  "clients": {
+    "surtitre": "Pour qui nous travaillons",
+    "titre": "Des particuliers, des professionnels, des collectivités",
+    "texte": "Le métier est le même : comprendre un lieu et l'usage qu'on veut en faire. L'échelle change, pas la méthode.",
+    "items": [
+      {
+        "icone": "maison",
+        "nom": "Particuliers",
+        "texte": "Jardin de maison neuve, rénovation complète d'un extérieur, abords de piscine, terrasse, allée, clôture, entretien à l'année."
+      },
+      {
+        "icone": "immeuble",
+        "nom": "Professionnels",
+        "texte": "Abords de bâtiments, parkings paysagers, entrées d'entreprise, contrats d'entretien avec passages programmés."
+      },
+      {
+        "icone": "collectivite",
+        "nom": "Collectivités",
+        "texte": "Espaces publics, cheminements, plantations d'alignement, tailles et élagages sur le domaine communal."
+      },
+      {
+        "icone": "piscine",
+        "nom": "Piscinistes & maçons",
+        "texte": "Nous intervenons en co-traitance sur les abords : margelles, plages, terrasses, végétalisation et clôtures autour d'un bassin."
+      }
+    ]
+  },
+  "engagement": {
+    "surtitre": "Notre engagement",
+    "titre": "Des méthodes durables, dans le respect des règles de l'art",
+    "paragraphes": [
+      "Nous travaillons uniquement avec des méthodes durables et écologiques. Les déchets verts, branchages en tête, sont broyés et valorisés en paillage : cela contre la repousse des mauvaises herbes, garde l'humidité du sol et évite un aller-retour en déchetterie.",
+      "Nous choisissons avec soin nos fournisseurs afin de vous proposer des matériaux et produits de qualité, qui dureront dans le temps. Un aménagement paysager se juge à dix ans, pas à la livraison du chantier — c'est ce qui commande le choix d'un grès cérame, d'un bois exotique ou d'un parement plutôt qu'un autre."
+    ]
+  }
+}

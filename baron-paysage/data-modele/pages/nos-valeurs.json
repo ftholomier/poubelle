@@ -1,0 +1,20 @@
+{
+  "titre": "Nos valeurs",
+  "meta": {
+    "description": "Créativité, écoute, exigence : les trois valeurs qui ont forgé la réputation de Baron Paysage dans le Doubs et le Territoire de Belfort."
+  },
+  "hero": {
+    "image": "assets/img/site/pas-japonais-mineral.jpg",
+    "surtitre": "Nos valeurs",
+    "titre": "Créativité, écoute, exigence",
+    "texte": "La combinaison de nos valeurs a forgé notre réputation dans le Doubs et le Territoire de Belfort, et nous en sommes très fiers."
+  },
+  "sections": [
+    {
+      "titre": "Trois mots que l'on peut vérifier sur un chantier",
+      "paragraphes": [
+        "Une valeur affichée sur un site ne vaut rien si elle ne change pas la façon de travailler. Voici ce que celles-ci nous obligent à faire, concrètement, sur chaque projet."
+      ]
+    }
+  ]
+}

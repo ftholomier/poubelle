@@ -1,0 +1,191 @@
+{
+    "intro": "Quatre métiers, une seule entreprise. Concevoir le jardin, le construire, puis l'entretenir : c'est la continuité qui fait qu'un extérieur tient dans le temps, pas la somme de trois prestataires.",
+    "items": [
+        {
+            "slug": "conception",
+            "nom": "Conception",
+            "icone": "conception",
+            "actif": true,
+            "resume": "Nous apportons notre savoir-faire au service de vos envies. Déplacement et conseils gratuits, chez vous ou dans nos locaux.",
+            "image": "assets/img/site/conception-plan-bureau.jpg",
+            "hero": {
+                "surtitre": "Nos prestations",
+                "titre": "Nos idées d'aménagement au service de vos envies",
+                "image": "assets/img/site/piscine-poteaux-bois.jpg"
+            },
+            "meta": {
+                "description": "Conception de jardin et d'aménagement extérieur à Montbéliard, Mathay et Belfort. Déplacement et conseils gratuits, plan d'aménagement, choix des matériaux. Baron Paysage."
+            },
+            "sections": [
+                {
+                    "titre": "Construisons votre projet ensemble",
+                    "paragraphes": [
+                        "Nous apportons un regard professionnel à votre extérieur et une écoute attentive pour réaliser vos envies. Avant de dessiner quoi que ce soit, nous prenons le temps d'échanger avec vous pour comprendre vos envies, intégrer votre manière de vivre et imaginer les espaces — et ainsi vous proposer des solutions adaptées.",
+                        "Un jardin ne se choisit pas sur catalogue. Ce qui décide du tracé d'une allée, de la place d'une terrasse ou de la hauteur d'un brise-vue, ce sont des questions posées avant : d'où vient le vent, où tombe le soleil à 19 h en juillet, ce que l'on voit depuis la cuisine, qui traverse le jardin et pour aller où."
+                    ]
+                },
+                {
+                    "titre": "Le déplacement et les conseils sont gratuits",
+                    "paragraphes": [
+                        "Chez vous ou dans nos locaux, nous nous déplaçons gratuitement pour échanger, découvrir les lieux et être en mesure de vous proposer des idées d'aménagement à la fois créatives et respectueuses de vos attentes et de vos goûts, qu'ils soient rustiques ou plus contemporains."
+                    ]
+                },
+                {
+                    "titre": "Ce que comprend l'étude",
+                    "liste": [
+                        "Une visite sur place : relevé du terrain, exposition, pente, accès des engins, vues à cadrer ou à masquer",
+                        "Une proposition d'aménagement : tracés, niveaux, matériaux, palette végétale",
+                        "Le choix des matériaux, avec des échantillons quand cela aide à trancher",
+                        "Un devis détaillé poste par poste : terrassement, maçonnerie paysagère, revêtements, plantations, finitions",
+                        "Le phasage, quand le projet se réalise en deux ou trois temps"
+                    ]
+                },
+                {
+                    "titre": "Des matériaux choisis pour ce qu'ils deviennent",
+                    "paragraphes": [
+                        "Nous choisissons avec soin nos fournisseurs afin de vous garantir des matériaux de qualité, qui assureront la pérennité de votre aménagement. Grès cérame grand format, bois exotique Itauba ou IPE, pavés drainants, parements de pierre, acier corten, gabions : chaque matériau a son terrain de jeu et ses limites, et nous vous les disons.",
+                        "Nous travaillons uniquement avec des méthodes durables et écologiques, dans le respect des règles de l'art."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "amenagement-paysager",
+            "nom": "Aménagement paysager",
+            "icone": "amenagement",
+            "actif": true,
+            "resume": "Terrassement, terrasses, pavage, murets, piscines et leurs abords, clôtures, plantations et engazonnement : le chantier de bout en bout.",
+            "image": "assets/img/site/terrasse-gres-cerame-piscine.jpg",
+            "hero": {
+                "surtitre": "Nos prestations",
+                "titre": "L'aménagement, du terrassement à la dernière plantation",
+                "image": "assets/img/site/piscine-dalle-bali-bois-exotique.jpg"
+            },
+            "meta": {
+                "description": "Aménagement extérieur à Montbéliard et Mathay : terrasse bois et grès cérame, abords de piscine, pavage, enrobé, murets, clôtures, plantations et gazon. Baron Paysage."
+            },
+            "sections": [
+                {
+                    "titre": "Un seul interlocuteur pour tout le chantier",
+                    "paragraphes": [
+                        "Terrassement, maçonnerie paysagère, revêtements, clôtures, plantations, engazonnement, arrosage : nos équipes réalisent l'ensemble du chantier. Vous n'avez pas cinq entreprises à coordonner, les délais ne s'additionnent pas, et personne ne peut renvoyer la responsabilité d'un défaut sur le lot voisin.",
+                        "Nous intervenons régulièrement en co-traitance avec les piscinistes et les maçons : margelles, plages, terrasses, végétalisation et clôtures autour d'un bassin sont notre terrain habituel."
+                    ]
+                },
+                {
+                    "titre": "Ce que nous réalisons",
+                    "liste": [
+                        "Terrasses en bois exotique (IPE, Itauba) et en grès cérame grand format",
+                        "Abords de piscine : margelles, plages, dallage Bali, entourages végétalisés",
+                        "Pavage, pavés drainants, enrobé, allées et cours",
+                        "Cheminements, pas japonais, dallages sur plots ou sur lit de pose",
+                        "Murets, parements, soutènements, plates-bandes maçonnées, gabions",
+                        "Clôtures, brise-vues bois, palissades, clôtures végétalisées",
+                        "Éléments sur mesure en acier corten et bacs à plantes",
+                        "Plantations, massifs, graminées, art topiaire, engazonnement et gazon en plaques",
+                        "Éclairage extérieur et arrosage automatique"
+                    ]
+                },
+                {
+                    "titre": "Le soin des détails",
+                    "paragraphes": [
+                        "Un pavage se juge à ses coupes et à ses alignements, une terrasse à la régularité de ses jeux, un muret à son arase. Nous posons au cordeau, nous recoupons plutôt que de rattraper au joint, et nous préparons les fonds de forme comme il faut — c'est invisible une fois fini, et c'est pourtant ce qui décide de l'état du chantier dans dix ans."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "entretien",
+            "nom": "Entretien",
+            "icone": "entretien",
+            "actif": true,
+            "resume": "Confiez l'entretien de vos espaces verts à une entreprise autour de chez vous, avec 50 % de crédit d'impôt sur les petits travaux de jardinage.",
+            "image": "assets/img/site/taille-topiaire-entretien.jpg",
+            "hero": {
+                "surtitre": "Nos prestations",
+                "titre": "Confiez l'entretien de vos espaces verts à une entreprise autour de chez vous",
+                "image": "assets/img/site/taille-haie-cordeau.jpg"
+            },
+            "meta": {
+                "description": "Entretien d'espaces verts à Montbéliard, Mathay et Belfort : tonte, taille de haies, désherbage, ramassage de feuilles. 50 % de crédit d'impôt grâce à la Coopérative Service à la Personne."
+            },
+            "sections": [
+                {
+                    "titre": "Entretenir vos espaces extérieurs vous prend beaucoup de temps ?",
+                    "paragraphes": [
+                        "Vous aimeriez plutôt le consacrer à vos loisirs, vos passions ou votre famille ? Alors faire appel à une entreprise spécialisée est sans aucun doute la solution.",
+                        "Grâce à notre expertise et à nos outils professionnels, nous sommes en mesure de proposer des prestations de qualité, respectueuses de l'environnement, avec la volonté de réduire au maximum les déchets."
+                    ]
+                },
+                {
+                    "titre": "50 % de crédit d'impôt sur les petits travaux de jardinage",
+                    "paragraphes": [
+                        "Vous pouvez bénéficier d'une réduction ou d'un crédit d'impôt de 50 %, pour un montant maximal de 5 000 € par an et par foyer, pour les petits travaux de jardinage — grâce à notre adhésion à la Coopérative Service à la Personne.",
+                        "C'est donc un moyen de gagner du temps tout en bénéficiant d'avantages fiscaux : une prestation facturée 100 € vous revient à 50 €."
+                    ]
+                },
+                {
+                    "titre": "Nos prestations d'entretien",
+                    "liste": [
+                        "Tonte et remise en état de pelouse, scarification, regarnissage",
+                        "Taille de haies au cordeau, remise en forme et rabattage",
+                        "Désherbage, binage et entretien des massifs",
+                        "Ramassage et évacuation des feuilles",
+                        "Taille des arbustes et des rosiers, division des vivaces",
+                        "Nettoyage de terrasses, allées et abords",
+                        "Contrats d'entretien à l'année, avec passages programmés"
+                    ]
+                },
+                {
+                    "titre": "Les déchets verts repartent en paillage",
+                    "paragraphes": [
+                        "Nous valorisons les déchets, les branchages notamment, après broyage : ils deviennent un paillage écologique qui contre la repousse des mauvaises herbes et garde l'humidité du sol. Moins de rotations en déchetterie, et un sol qui s'en porte mieux."
+                    ]
+                },
+                {
+                    "titre": "Notre secteur",
+                    "paragraphes": [
+                        "Nous intervenons dans un secteur de 30 km autour de Mathay, dans le Doubs et le Territoire de Belfort."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "elagage-taille",
+            "nom": "Élagage & taille",
+            "icone": "elagage",
+            "actif": true,
+            "resume": "Taille fruitière et ornementale, art topiaire, élagage et abattage. Au sol comme dans les arbres, en toute sécurité.",
+            "image": "assets/img/site/arboriste-grimpeur.jpg",
+            "hero": {
+                "surtitre": "Nos prestations",
+                "titre": "Taille et élagage, au sol comme dans les arbres",
+                "image": "assets/img/site/art-topiaire-bonsai.jpg"
+            },
+            "meta": {
+                "description": "Élagage, abattage, taille fruitière et ornementale, art topiaire à Montbéliard et Mathay. Collaborateurs titulaires d'un Certificat de Spécialisation Arboriste-Élagueur."
+            },
+            "sections": [
+                {
+                    "titre": "Un geste de taille demande sa formation",
+                    "paragraphes": [
+                        "Nous sommes spécialisés dans la taille fruitière et ornementale, et également dans les formes d'art topiaire. Nous évoluons au sol comme dans les arbres en toute sécurité : nos collaborateurs disposent d'un Certificat de Spécialisation Arboriste-Élagueur.",
+                        "Tailler un fruitier, remettre en forme un nuage de buis ou alléger la couronne d'un grand sujet n'appellent ni les mêmes outils ni la même saison. Une coupe mal placée se voit pendant dix ans."
+                    ]
+                },
+                {
+                    "titre": "Nos interventions",
+                    "liste": [
+                        "Élagage et taille de formation des arbres d'ornement",
+                        "Taille douce, éclaircissage, réduction de couronne",
+                        "Taille fruitière : formation, fructification, restauration d'arbres anciens",
+                        "Art topiaire : nuages, boules, cônes, formes libres",
+                        "Abattage et démontage en rétention, en site contraint",
+                        "Rognage de souches et évacuation",
+                        "Broyage des branchages et valorisation en paillage"
+                    ]
+                }
+            ]
+        }
+    ]
+}

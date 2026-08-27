@@ -1,0 +1,45 @@
+{
+  "titre": "Contact",
+  "meta": {
+    "description": "Baron Paysage — ZA des Ansanges à Mathay (25700) et Espace Le Signal, 95 Faubourg de Besançon à Montbéliard (25200). 06 62 10 43 11, contact@jardins-baron.com."
+  },
+  "hero": {
+    "image": "assets/img/site/allee-pave-vieilli-jachere-fleurie.jpg",
+    "surtitre": "Contact",
+    "titre": "Échangeons ensemble pour votre projet",
+    "texte": "Deux implantations, un seul numéro. Appelez-nous, écrivez-nous, ou passez nous voir."
+  },
+  "introduction": {
+    "titre": "Deux implantations : Mathay & Montbéliard",
+    "texte": "Nous intervenons dans un rayon d'environ 30 km autour de Mathay : Pays de Montbéliard, Territoire de Belfort, Plateau Maîchois et Plateau de Blamont. Le déplacement et les conseils sont gratuits."
+  },
+  "implantations": [
+    {
+      "nom": "Mathay",
+      "role": "Siège & atelier",
+      "rue": "ZA des Ansanges",
+      "cp": "25700",
+      "ville": "Mathay",
+      "carte": {
+        "embed": "https://maps.google.com/maps?q=ZA%20des%20Ansanges%2C%2025700%20Mathay&z=15&output=embed",
+        "lien": "https://www.google.com/maps/search/?api=1&query=ZA+des+Ansanges%2C+25700+Mathay"
+      }
+    },
+    {
+      "nom": "Montbéliard",
+      "role": "Espace Le Signal",
+      "rue": "95 Faubourg de Besançon",
+      "cp": "25200",
+      "ville": "Montbéliard",
+      "carte": {
+        "embed": "https://maps.google.com/maps?q=95%20Faubourg%20de%20Besan%C3%A7on%2C%2025200%20Montb%C3%A9liard&z=15&output=embed",
+        "lien": "https://www.google.com/maps/search/?api=1&query=95+Faubourg+de+Besan%C3%A7on%2C+25200+Montb%C3%A9liard"
+      }
+    }
+  ],
+  "relance": {
+    "titre": "Un projet à chiffrer ?",
+    "texte": "Le formulaire de demande de devis vous permet de tout dire en une fois : la localité, la nature du projet et ce que vous avez en tête. Nous rappelons sous 48 heures ouvrées.",
+    "lien": { "libelle": "Demander un devis", "url": "/demander-un-devis" }
+  }
+}
