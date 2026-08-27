@@ -9,6 +9,7 @@
  * @var array $page
  * @var array $erreurs
  * @var array $valeurs   valeurs ressaisies après une erreur
+ * @var App\Core\Antispam $antispam
  * @var App\Core\Content $content
  * @var App\Core\View $view
  */
@@ -117,11 +118,9 @@ $v    = static fn(string $cle): string => (string) ($valeurs[$cle] ?? '');
           <?php endif; ?>
         </div>
 
-        <?php /* Piège à robots : visible d'eux seuls, il doit rester vide. */ ?>
-        <div class="piege" aria-hidden="true">
-          <label for="f-site">Ne pas remplir</label>
-          <input id="f-site" type="text" name="site" tabindex="-1" autocomplete="off">
-        </div>
+        <?php /* Piège à robots et jeton d'horloge : le module les pose, et
+                 c'est lui qui les relit à l'envoi. */ ?>
+        <?= $antispam->champs() ?>
 
         <div class="champ champ--large champ--case">
           <input id="f-consentement" type="checkbox" name="consentement" value="1"
@@ -136,6 +135,10 @@ $v    = static fn(string $cle): string => (string) ($valeurs[$cle] ?? '');
             <p class="champ__erreur" id="e-consentement"><?= e($erreurs['consentement']) ?></p>
           <?php endif; ?>
         </div>
+
+        <?php /* Turnstile, s'il a reçu ses clés dans Paramètres ; rien
+                 sinon, les barrières natives protégeant seules. */ ?>
+        <?= $antispam->widget() ?>
 
         <p class="formulaire__mention"><?= e($page['formulaire']['mention']) ?></p>
 

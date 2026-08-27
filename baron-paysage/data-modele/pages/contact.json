@@ -37,9 +37,17 @@
       }
     }
   ],
+  "formulaire": {
+    "titre": "Une question ? Écrivez-nous",
+    "texte": "Un doute sur une essence, un délai, une technique ? Posez votre question ici : nous répondons sous 48 heures ouvrées. Pour un projet à chiffrer, la demande de devis est plus adaptée.",
+    "mention": "Vos coordonnées servent uniquement à vous répondre. Elles ne sont ni cédées, ni utilisées à d’autres fins."
+  },
   "relance": {
     "titre": "Un projet à chiffrer ?",
     "texte": "Le formulaire de demande de devis vous permet de tout dire en une fois : la localité, la nature du projet et ce que vous avez en tête. Nous rappelons sous 48 heures ouvrées.",
-    "lien": { "libelle": "Demander un devis", "url": "/demander-un-devis" }
+    "lien": {
+      "libelle": "Demander un devis",
+      "url": "/demander-un-devis"
+    }
   }
 }

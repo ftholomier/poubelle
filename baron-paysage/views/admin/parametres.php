@@ -175,6 +175,43 @@ $contact = $parametres['contact'];
 
 <section class="bo-zone" style="margin-top:1.4rem;">
   <header class="bo-zone__tete">
+    <h2>Protection des formulaires</h2>
+    <p>Les deux formulaires du site sont déjà protégés sans aucun réglage : un champ
+       piège invisible, un jeton d'horloge qui refuse les envois postés en moins de
+       trois secondes, et un plafond de cinq messages par heure et par visiteur.
+       Turnstile n'est qu'un étage supplémentaire, à ajouter si du courrier
+       indésirable passait malgré tout.</p>
+  </header>
+
+  <form class="bo-form" method="post" action="<?= url('/admin/parametres/antispam') ?>">
+    <?= Csrf::champ() ?>
+    <div class="bo-rangee">
+      <div class="bo-champ">
+        <label for="p-ts-site">Clé du site (Turnstile)</label>
+        <input id="p-ts-site" type="text" name="antispam_cle_site"
+               value="<?= e($parametres['antispam']['cle_site'] ?? '') ?>"
+               placeholder="0x4AAAAAAA…" spellcheck="false" autocomplete="off">
+      </div>
+      <div class="bo-champ">
+        <label for="p-ts-secret">Clé du serveur (Turnstile)</label>
+        <input id="p-ts-secret" type="password" name="antispam_cle_secrete"
+               value="<?= e($parametres['antispam']['cle_secrete'] ?? '') ?>"
+               spellcheck="false" autocomplete="off">
+      </div>
+    </div>
+    <span class="aide">Les deux clés se créent gratuitement sur
+      <em>dash.cloudflare.com → Turnstile</em>. Turnstile a été retenu plutôt que
+      reCAPTCHA parce qu'il ne dépose pas de cookie et ne profile pas le visiteur :
+      reCAPTCHA, lui, est un traceur soumis au consentement, et il aurait donc cessé
+      de fonctionner — donc bloqué le formulaire — pour tout visiteur refusant les
+      cookies. Pensez à mentionner Cloudflare dans les mentions légales une fois les
+      clés saisies. Les deux champs vides = Turnstile éteint.</span>
+    <button class="bo-btn" type="submit">Enregistrer</button>
+  </form>
+</section>
+
+<section class="bo-zone" style="margin-top:1.4rem;">
+  <header class="bo-zone__tete">
     <h2>Droits d'accès</h2>
     <p>Cible : <code>0755</code> pour les dossiers, <code>0644</code> pour les fichiers,
        <code>0640</code> pour ceux qui contiennent un secret. Utile après un transfert

@@ -97,6 +97,48 @@ final class ParametreController
         return $this->rediriger();
     }
 
+    // ---------------------------------------------------- protection des formulaires
+
+    /**
+     * Clés Cloudflare Turnstile.
+     *
+     * Le secret de signature qui vit dans la même section n'est pas touché :
+     * il est créé par le module et n'a rien à faire dans un écran de saisie.
+     */
+    public function antispamEnvoi(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger();
+        }
+
+        $site    = trim((string) ($_POST['antispam_cle_site'] ?? ''));
+        $secrete = trim((string) ($_POST['antispam_cle_secrete'] ?? ''));
+
+        // une seule des deux clés ne sert à rien : le widget s'afficherait
+        // sans que sa réponse puisse être vérifiée, ou l'inverse
+        if (($site === '') !== ($secrete === '')) {
+            Session::flash('erreur', 'Turnstile demande ses deux clés : celle du site '
+                . 'et celle du serveur. Videz les deux pour l’éteindre.');
+            return $this->rediriger();
+        }
+
+        $actuel = $this->parametres->tout();
+        $actuel['antispam']['cle_site']    = $site;
+        $actuel['antispam']['cle_secrete'] = $secrete;
+
+        try {
+            $this->parametres->enregistrer($actuel);
+            Session::flash('succes', $site === ''
+                ? 'Turnstile éteint. Les formulaires restent protégés par le piège, '
+                  . 'l’horloge et le quota horaire.'
+                : 'Turnstile activé sur les deux formulaires du site.');
+        } catch (RuntimeException $e) {
+            Session::flash('erreur', $e->getMessage());
+        }
+
+        return $this->rediriger();
+    }
+
     // ------------------------------------------------------------ envoi mails
 
     public function messagerieEnvoi(): string

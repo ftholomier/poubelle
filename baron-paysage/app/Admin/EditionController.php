@@ -848,6 +848,10 @@ final class EditionController
             }
         }
 
+        $c['formulaire']['titre']   = trim((string) ($_POST['form_titre'] ?? ''));
+        $c['formulaire']['texte']   = trim((string) ($_POST['form_texte'] ?? ''));
+        $c['formulaire']['mention'] = trim((string) ($_POST['form_mention'] ?? ''));
+
         $c['relance']['titre'] = trim((string) ($_POST['relance_titre'] ?? ''));
         $c['relance']['texte'] = trim((string) ($_POST['relance_texte'] ?? ''));
         $c['relance']['lien']['libelle'] = trim((string) ($_POST['relance_libelle'] ?? ''));

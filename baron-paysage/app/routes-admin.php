@@ -164,6 +164,7 @@ $router->post('/admin/conversations/vider',     $protege(fn() => $ctrlConv->vide
 $router->get('/admin/parametres',             $protege(fn() => $reglage->ecran()));
 $router->post('/admin/parametres/messagerie', $protege(fn() => $reglage->messagerieEnvoi()));
 $router->post('/admin/parametres/test',       $protege(fn() => $reglage->test()));
+$router->post('/admin/parametres/antispam',   $protege(fn() => $reglage->antispamEnvoi()));
 $router->post('/admin/parametres/mesure',     $protege(fn() => $reglage->mesureEnvoi()));
 $router->post('/admin/parametres/compte',     $protege(fn() => $reglage->compteEnvoi()));
 $router->post('/admin/parametres/droits',     $protege(fn() => $reglage->droitsEnvoi()));

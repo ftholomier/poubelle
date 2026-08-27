@@ -96,6 +96,24 @@ use App\Core\Csrf;
   <?php endforeach; ?>
 
   <fieldset>
+    <legend>Formulaire de contact</legend>
+    <div class="bo-champ">
+      <label for="k-ftit">Titre</label>
+      <input id="k-ftit" type="text" name="form_titre" value="<?= e($contact['formulaire']['titre'] ?? '') ?>">
+    </div>
+    <div class="bo-champ">
+      <label for="k-ftex">Texte d'introduction</label>
+      <textarea id="k-ftex" name="form_texte" rows="3"><?= e($contact['formulaire']['texte'] ?? '') ?></textarea>
+      <p class="bo-aide">L'endroit où rappeler la différence avec la demande de devis.</p>
+    </div>
+    <div class="bo-champ">
+      <label for="k-fmen">Mention sous le formulaire</label>
+      <textarea id="k-fmen" name="form_mention" rows="2"><?= e($contact['formulaire']['mention'] ?? '') ?></textarea>
+      <p class="bo-aide">Ce que deviennent les coordonnées saisies. Videz le champ pour la retirer.</p>
+    </div>
+  </fieldset>
+
+  <fieldset>
     <legend>Encadré de relance</legend>
     <div class="bo-rangee">
       <div class="bo-champ">

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\Antispam;
 use App\Core\Content;
 use App\Core\Mailer;
 use App\Core\Parametres;
@@ -23,6 +24,7 @@ final class PageController
         private readonly Parametres $parametres,
         private readonly Mailer $mailer,
         private readonly Seo $seo,
+        private readonly Antispam $antispam,
     ) {
     }
 
@@ -212,8 +214,142 @@ final class PageController
     public function contact(): string
     {
         return $this->rendre('contact', 'contact', [
-            'page' => $this->page('contact'),
+            'page'     => $this->page('contact'),
+            'erreurs'  => [],
+            'valeurs'  => [],
+            'antispam' => $this->antispam,
         ]);
+    }
+
+    /**
+     * Traitement du formulaire de contact.
+     *
+     * Il ne demande que de quoi rappeler : la page de devis, elle, réclame
+     * la localité du chantier et l'objet de la demande, parce qu'elle
+     * prépare un déplacement. Poser ici les mêmes questions découragerait
+     * celui qui veut juste poser la sienne.
+     */
+    public function contactEnvoi(): string
+    {
+        $valeurs = [
+            'prenom'  => trim((string) ($_POST['prenom'] ?? '')),
+            'nom'     => trim((string) ($_POST['nom'] ?? '')),
+            'tel'     => trim((string) ($_POST['tel'] ?? '')),
+            'email'   => trim((string) ($_POST['email'] ?? '')),
+            'message' => trim((string) ($_POST['message'] ?? '')),
+        ];
+
+        $erreurs = [];
+        if ($valeurs['prenom'] === '') {
+            $erreurs['prenom'] = 'Merci d’indiquer votre prénom.';
+        }
+        if ($valeurs['nom'] === '') {
+            $erreurs['nom'] = 'Merci d’indiquer votre nom.';
+        }
+        if (!filter_var($valeurs['email'], FILTER_VALIDATE_EMAIL)) {
+            $erreurs['email'] = 'Adresse e-mail invalide.';
+        }
+        if (mb_strlen($valeurs['message']) < 10) {
+            $erreurs['message'] = 'Votre message est trop court.';
+        }
+        if (($_POST['consentement'] ?? '') === '') {
+            $erreurs['consentement'] = 'Merci d’accepter le traitement de votre demande.';
+        }
+        $refus = $this->antispam->verifier();
+        if ($refus !== null) {
+            $erreurs['envoi'] = $refus;
+        }
+
+        if ($erreurs !== []) {
+            return $this->contactEnErreur($erreurs, $valeurs, 422);
+        }
+
+        $destinataire = (string) $this->parametres->get('contact.destinataire')
+            ?: (string) $this->content->get('site', 'contact.email', '');
+
+        if ($destinataire === '') {
+            error_log('Formulaire de contact : ni destinataire dans Paramètres, ni e-mail dans Coordonnées.');
+            return $this->contactEnErreur(
+                ['envoi' => 'Le formulaire n’est pas encore configuré. '
+                    . 'Merci de nous joindre par téléphone en attendant.'],
+                $valeurs,
+                500
+            );
+        }
+
+        try {
+            $this->mailer->envoyer(
+                $destinataire,
+                'Nouveau message depuis le site',
+                $this->corpsMessage($valeurs),
+                $valeurs['email'],
+                trim($valeurs['prenom'] . ' ' . $valeurs['nom'])
+            );
+        } catch (Throwable $e) {
+            error_log('Envoi du formulaire de contact impossible : ' . $e->getMessage());
+            return $this->contactEnErreur(
+                ['envoi' => 'L’envoi a échoué. Merci de réessayer ou de nous appeler.'],
+                $valeurs,
+                500
+            );
+        }
+
+        // Le quota ne compte que ce qui est parti : un envoi raté ne doit pas
+        // consommer le droit de réessayer.
+        $this->antispam->enregistrerEnvoi();
+
+        return $this->rendre('contact-confirmation', 'contact', [
+            'page'    => ['titre' => 'Message envoyé', 'meta' => ['robots' => 'noindex']],
+            'valeurs' => $valeurs,
+            'reponse' => t('Votre message est bien arrivé. Nous vous répondons '
+                . 'sous 48 heures ouvrées.'),
+        ]);
+    }
+
+    /**
+     * @param array<string, string> $erreurs
+     * @param array<string, string> $valeurs
+     */
+    private function contactEnErreur(array $erreurs, array $valeurs, int $code): string
+    {
+        http_response_code($code);
+
+        return $this->rendre('contact', 'contact', [
+            'page'     => $this->page('contact'),
+            'erreurs'  => $erreurs,
+            'valeurs'  => $valeurs,
+            'antispam' => $this->antispam,
+        ]);
+    }
+
+    /**
+     * @param array<string, string> $v
+     */
+    private function corpsMessage(array $v): string
+    {
+        $lignes = [
+            'Bonjour,',
+            '',
+            'Vous venez de recevoir un message envoyé depuis le formulaire',
+            'de contact du site de Baron Paysage.',
+            '',
+            'Coordonnées de la personne :',
+            '',
+            '  Nom et prénom        : ' . trim($v['prenom'] . ' ' . $v['nom']),
+            '  Adresse électronique : ' . $v['email'],
+            '  Numéro de téléphone  : ' . ($v['tel'] !== '' ? $v['tel'] : 'non communiqué'),
+            '',
+            'Voici son message :',
+            '',
+            $v['message'],
+            '',
+            '—',
+            'Message reçu le ' . date('d/m/Y') . ' à ' . date('H\hi') . '.',
+            'Vous pouvez répondre directement à cet e-mail : votre réponse',
+            'parviendra à la personne qui vous a écrit.',
+        ];
+
+        return implode("\n", $lignes) . "\n";
     }
 
     /**
@@ -226,9 +362,10 @@ final class PageController
     public function devis(): string
     {
         return $this->rendre('devis', 'devis', [
-            'page'    => $this->page('devis'),
-            'erreurs' => [],
-            'valeurs' => [],
+            'page'     => $this->page('devis'),
+            'erreurs'  => [],
+            'valeurs'  => [],
+            'antispam' => $this->antispam,
         ]);
     }
 
@@ -267,17 +404,20 @@ final class PageController
         if (($_POST['consentement'] ?? '') === '') {
             $erreurs['consentement'] = 'Merci d’accepter le traitement de votre demande.';
         }
-        // Piège à robots : un champ masqué qui doit rester vide.
-        if (($_POST['site'] ?? '') !== '') {
-            $erreurs['site'] = 'Envoi refusé.';
+        // Piège à robots, horloge signée, quota par adresse : le détail est
+        // dans Antispam, qui garde les deux formulaires du site.
+        $refus = $this->antispam->verifier();
+        if ($refus !== null) {
+            $erreurs['envoi'] = $refus;
         }
 
         if ($erreurs !== []) {
             http_response_code(422);
             return $this->rendre('devis', 'devis', [
-                'page'    => $this->page('devis'),
-                'erreurs' => $erreurs,
-                'valeurs' => $valeurs,
+                'page'     => $this->page('devis'),
+                'erreurs'  => $erreurs,
+                'valeurs'  => $valeurs,
+                'antispam' => $this->antispam,
             ]);
         }
 
@@ -290,10 +430,11 @@ final class PageController
             error_log('Formulaire de contact : ni destinataire dans Paramètres, ni e-mail dans Coordonnées.');
             http_response_code(500);
             return $this->rendre('devis', 'devis', [
-                'page'    => $this->page('devis'),
-                'erreurs' => ['envoi' => 'Le formulaire n’est pas encore configuré. '
+                'page'     => $this->page('devis'),
+                'erreurs'  => ['envoi' => 'Le formulaire n’est pas encore configuré. '
                     . 'Merci de nous joindre par téléphone en attendant.'],
-                'valeurs' => $valeurs,
+                'valeurs'  => $valeurs,
+                'antispam' => $this->antispam,
             ]);
         }
 
@@ -325,15 +466,20 @@ final class PageController
             error_log('Envoi du formulaire de contact impossible : ' . $e->getMessage());
             http_response_code(500);
             return $this->rendre('devis', 'devis', [
-                'page'    => $this->page('devis'),
-                'erreurs' => ['envoi' => 'L’envoi a échoué. Merci de réessayer ou de nous appeler.'],
-                'valeurs' => $valeurs,
+                'page'     => $this->page('devis'),
+                'erreurs'  => ['envoi' => 'L’envoi a échoué. Merci de réessayer ou de nous appeler.'],
+                'valeurs'  => $valeurs,
+                'antispam' => $this->antispam,
             ]);
         }
+
+        $this->antispam->enregistrerEnvoi();
 
         return $this->rendre('contact-confirmation', 'devis', [
             'page'    => ['titre' => 'Demande envoyée', 'meta' => ['robots' => 'noindex']],
             'valeurs' => $valeurs,
+            'reponse' => t('Votre demande a bien été enregistrée. Nous vous rappelons '
+                . 'sous 48 heures ouvrées pour convenir d’une visite sur place.'),
         ]);
     }
 

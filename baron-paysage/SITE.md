@@ -23,8 +23,8 @@ conventions inchangées.
 /realisations                       Galerie filtrable, 36 photos légendées
 /nos-valeurs                        Créativité · Écoute · Exigence
 /faq                                Onze questions fréquentes
-/demander-un-devis                  Le formulaire
-/contact                            Les deux implantations et leurs plans
+/demander-un-devis                  Le formulaire de devis
+/contact                            Implantations, plans, formulaire de question
 /mentions-legales
 ```
 
@@ -34,11 +34,42 @@ peut donc en ajouter une, la renommer ou la dépublier depuis le back-office :
 elle apparaît alors d'elle-même dans le menu, dans le pied de page, sur la
 page d'accueil et dans les filtres de la galerie.
 
-**Devis et contact sont deux pages**, comme sur le site précédent. Elles ne
-répondent pas à la même intention — trouver une adresse d'un côté, engager un
-projet de l'autre — et les mêler dilue la page qui convertit. Le formulaire
-vit donc sur `/demander-un-devis`, et `/contact` porte les coordonnées et les
-deux plans d'accès.
+**Devis et contact sont deux pages**, comme sur le site précédent, et
+chacune a son formulaire. Ils ne demandent pas la même chose parce qu'ils ne
+répondent pas à la même intention : celui du devis prépare un déplacement, et
+réclame donc la localité du chantier, l'objet et la société ; celui du contact
+pose une question et se contente du strict nécessaire pour qu'on puisse
+rappeler — prénom, nom, téléphone, adresse électronique, message. Poser sur
+`/contact` les questions de l'autre découragerait celui qui veut simplement
+écrire.
+
+Sur `/contact`, le formulaire ferme la page : l'adresse et le numéro viennent
+d'abord, puisqu'ils répondent seuls à la plupart des visites.
+
+### Protection des formulaires
+
+Trois barrières natives, qui ne dépendent d'aucun tiers et fonctionnent donc
+même pour un visiteur qui a refusé les cookies :
+
+| Barrière | Ce qu'elle arrête |
+|---|---|
+| Champ piège invisible | Le robot qui remplit tout ce qu'il trouve |
+| Jeton d'horloge signé | L'envoi posté en moins de trois secondes, et le jeton rejoué ou fabriqué |
+| Quota de cinq messages par heure et par adresse | Le robot qui aurait franchi les deux premières — il ne vaut que par le nombre |
+
+Le quota ne compte que les messages réellement partis : cinq fautes de frappe
+d'affilée n'enferment donc personne dehors. Les adresses y sont conservées
+hachées, avec un sel propre à l'installation.
+
+**Pourquoi pas reCAPTCHA.** C'est un traceur soumis au consentement. Ce site
+soumettant les contenus tiers à l'accord du visiteur, reCAPTCHA ne se serait
+pas chargé pour qui refuse les cookies — et le formulaire aurait refusé son
+envoi. La protection serait tombée précisément sur les visiteurs les plus
+soucieux de leur vie privée. Un quatrième étage facultatif, **Cloudflare
+Turnstile**, s'ajoute donc à la place : il ne dépose pas de cookie et ne
+profile pas le visiteur. Il reste éteint tant qu'aucune clé n'est saisie dans
+Admin → Paramètres, et il est à mentionner dans les mentions légales une fois
+allumé.
 
 ### Anciennes adresses
 
@@ -224,7 +255,8 @@ pages de partenaires ne seront jamais corrigés.
 
 | Quoi | Où |
 |---|---|
-| Réglages SMTP et destinataire du formulaire | Admin → Paramètres |
+| Réglages SMTP et destinataire des formulaires | Admin → Paramètres |
+| Clés Cloudflare Turnstile, si les barrières natives ne suffisaient pas | Admin → Paramètres |
 | Adresse e-mail définitive, si elle change avec le domaine | Admin → Coordonnées & menu |
 | Horaires d'ouverture (absents du site précédent) | Admin → Coordonnées & menu |
 | Nouvelle photo de Benjamin Baron | Admin → Photos, puis Admin → Page « À propos » |

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 use App\Controllers\ApiController;
 use App\Controllers\PageController;
+use App\Core\Antispam;
 use App\Core\Assistant;
 use App\Core\Avis;
 use App\Core\Conversations;
@@ -52,7 +53,9 @@ $assistant = new Assistant(
     $config['paths']['cache'] . '/assistant.json'
 );
 
-$pages = new PageController($view, $content, $parametresSite, new Mailer($parametresSite), $seo);
+$antispam = new Antispam($parametresSite, $config['paths']['cache'] . '/antispam-quotas.json');
+
+$pages = new PageController($view, $content, $parametresSite, new Mailer($parametresSite), $seo, $antispam);
 $conversations = new Conversations($config['paths']['data'] . '/assistant/conversations');
 
 $api   = new ApiController($content, $assistant, $conversations, new Mailer($parametresSite), $parametresSite);
@@ -86,11 +89,13 @@ $router->get($c('nos-services'),            fn() => $pages->services());
 $router->get($c('nos-services') . '/{slug}', fn(array $p) => $pages->service($p['slug']));
 
 // --- devis et contact ----------------------------------------------------
-// Le formulaire vit sur la page de devis ; /contact ne porte que les
-// coordonnées et les deux plans d'accès.
+// Deux formulaires, deux intentions : le devis engage un projet et demande
+// donc la localité du chantier ; le contact pose une question et se contente
+// du strict nécessaire pour qu'on puisse rappeler.
 $router->get($c('devis'),   fn() => $pages->devis());
 $router->post($c('devis'),  fn() => $pages->devisEnvoi());
-$router->get($c('contact'), fn() => $pages->contact());
+$router->get($c('contact'),  fn() => $pages->contact());
+$router->post($c('contact'), fn() => $pages->contactEnvoi());
 
 // --- référencement -------------------------------------------------------
 $router->get('/sitemap.xml', function () use ($seo, $langues): string {

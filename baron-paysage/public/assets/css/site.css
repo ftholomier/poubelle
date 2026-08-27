@@ -2561,7 +2561,15 @@ body.visionneuse-ouverte { overflow: hidden; }
   display: flex; flex-direction: column;
 }
 .implantation__plan { position: relative; aspect-ratio: 16 / 10; background: var(--creme-voile); }
-.implantation__cadre { width: 100%; height: 100%; border: 0; display: block; }
+/* Le cadre porte lui-même ses proportions, et non celles de son conteneur :
+   au moment du consentement, le script remplace le bloc d'attente par le
+   contenu de son <template>, si bien que l'iframe se retrouve orpheline. Elle
+   retombait alors sur la hauteur par défaut d'une iframe — 150 px — et le
+   plan se réduisait à une bande où l'on ne lisait plus rien. */
+.implantation__cadre {
+  width: 100%; aspect-ratio: 16 / 10; height: auto;
+  border: 0; display: block;
+}
 /* Substitut du plan : ce qui s'affiche tant que le visiteur n'a pas accepté
    les contenus externes. Il occupe exactement la place du plan, pour que la
    page ne saute pas au moment où celui-ci le remplace. */
@@ -2584,9 +2592,15 @@ body.visionneuse-ouverte { overflow: hidden; }
   .implantations { grid-template-columns: 1fr; }
 }
 
-/* Coordonnées en rangée sous les implantations, plutôt qu'en colonne. */
+/* Coordonnées en rangée sous les implantations, plutôt qu'en colonne.
+   Le nombre de colonnes suit le nombre d'éléments, il n'est pas fixé : les
+   horaires sont facultatifs, et les réseaux sociaux aussi. Figé à quatre, le
+   gabarit laissait une colonne vide quand il n'y avait que trois blocs — la
+   rangée s'arrêtait alors aux trois quarts de la largeur, décalée sur la
+   gauche, alors que rien ne la retenait. */
 .coordonnees--rangee {
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
   gap: clamp(1.2rem, 3vw, 2.4rem);
   padding-top: clamp(2rem, 4vw, 3rem);
   border-top: 1px solid var(--ligne);
@@ -2600,8 +2614,7 @@ body.visionneuse-ouverte { overflow: hidden; }
 }
 .coordonnees__reseaux a:hover { border-bottom-color: currentColor; }
 .coordonnees__reseaux svg { width: 18px; height: 18px; }
-@media (max-width: 900px) { .coordonnees--rangee { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 520px) { .coordonnees--rangee { grid-template-columns: 1fr; } }
+
 
 /* ---------- Étapes (page devis) ----------
    Ce qui se passe après l'envoi du formulaire. Le numéro est composé en

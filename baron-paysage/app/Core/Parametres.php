@@ -29,6 +29,14 @@ final class Parametres
             'destinataire' => '',
             'copie'        => '',
         ],
+        // protection des formulaires : les barrières natives tournent sans
+        // réglage. Les deux clés n'allument que l'étage Turnstile, et le
+        // secret sert à signer les jetons — d'où sa place parmi les secrets.
+        'antispam' => [
+            'cle_site'    => '',
+            'cle_secrete' => '',
+            'secret'      => '',
+        ],
         // mesure d'audience : chargée seulement après accord du visiteur
         'mesure' => [
             'identifiant' => '',          // ex. G-XXXXXXXXXX (Google Analytics 4)

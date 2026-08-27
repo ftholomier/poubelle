@@ -1,8 +1,13 @@
 <?php
 /**
- * Confirmation d'envoi du formulaire.
+ * Confirmation d'envoi, commune aux deux formulaires du site.
+ *
+ * Seule la phrase d'attente les distingue : une demande de devis annonce une
+ * visite sur place, un message annonce une réponse. Promettre la visite à qui
+ * a seulement posé une question serait un contresens.
  *
  * @var array $valeurs
+ * @var string $reponse  ce à quoi le visiteur doit s'attendre
  * @var App\Core\Content $content
  * @var App\Core\View $view
  */
@@ -19,7 +24,7 @@ $nom  = trim((string) ($valeurs['prenom'] ?: $valeurs['nom']));
 <section class="section">
   <div class="conteneur conteneur--etroit centre">
     <div class="msg-succes reveler">
-      <p><?= e(t('Votre demande a bien été enregistrée. Nous vous rappelons sous 48 heures ouvrées pour convenir d’une visite sur place.')) ?></p>
+      <p><?= e($reponse) ?></p>
       <?php if ($tel !== ''): ?>
         <p><?= e(t('Pour une demande urgente, vous pouvez nous joindre au')) ?>
           <a href="<?= e(tel_lien($tel)) ?>"><?= e($tel) ?></a>.</p>
