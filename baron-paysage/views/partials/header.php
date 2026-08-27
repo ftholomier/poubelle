@@ -99,11 +99,12 @@ $estActif = static function (array $item) use ($chemin): bool {
     </div>
   </div>
 
-  <?php /* Le faisceau qui ferme la barre. Il a son propre élément, et non un
-           ::after de l'en-tête, parce qu'il en faut deux : le trait au repos
-           et l'onde qui l'allume. Décoratif de bout en bout — rien à
-           annoncer aux lecteurs d'écran. */ ?>
-  <span class="entete__faisceau" aria-hidden="true"></span>
+  <?php /* Le faisceau qui ferme la barre : le trait au repos, et dedans les
+           deux lobes de l'onde qui l'allume. Chacun a besoin de son propre
+           élément — deux pseudo-éléments ne suffisaient plus dès lors que
+           l'onde s'écarte des deux côtés à la fois. Décoratif de bout en
+           bout : rien à annoncer aux lecteurs d'écran. */ ?>
+  <span class="entete__faisceau" aria-hidden="true"><i class="entete__onde"></i></span>
 </header>
 
 <div class="voile" aria-hidden="true"></div>

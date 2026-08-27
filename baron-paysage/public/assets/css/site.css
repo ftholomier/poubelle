@@ -291,10 +291,13 @@ p + p { margin-top: 1.05rem; }
 
    Trois couches le composent : un cœur presque blanc, resserré sur un
    dixième de la largeur ; le corps vert, qui porte la couleur de marque ; et
-   un halo qui déborde du trait. Le halo est peint par drop-shadow et non par
-   box-shadow, parce que drop-shadow épouse la transparence du dégradé —
-   box-shadow aurait éclairé un rectangle plein, halo compris aux extrémités
-   éteintes.
+   un halo qui déborde du trait.
+
+   Le tout tient dans une boîte de 16 px, le filet centré dedans, et le halo
+   y est un dégradé radial — pas un drop-shadow. Un filtre posé dans un
+   élément que surplombe un backdrop-filter fait repartir le flou
+   d'arrière-plan à chaque repeinte : en le neutralisant, les images lentes
+   passaient de 15 % à 6 %. Un dégradé, lui, est rastérisé une fois.
 
    Purement décoratif, sans balisage propre : rien à annoncer aux lecteurs
    d'écran. */
@@ -303,26 +306,41 @@ p + p { margin-top: 1.05rem; }
   content: "";
   position: absolute; inset: 0;
   background:
+    /* le cœur : presque blanc, resserré sur un dixième de la largeur */
     linear-gradient(90deg,
-      transparent 42%,
-      rgba(194, 226, 200, .95) 50%,
-      transparent 58%),
+      transparent 43%,
+      rgba(240, 250, 242, .95) 50%,
+      transparent 57%) center center / 100% 2px no-repeat,
+    /* le corps : plein sur un cinquième de la largeur, éteint aux deux
+       bords. Le plateau tient un cinquième et non un point : mesuré sur
+       l'anthracite de la barre, le vert de charte n'atteint que 2,16:1 même
+       à 100 %, et un dégradé qui redescend tout de suite tombait à 1,37:1
+       au quart de la largeur — sous le seuil où l'œil lit un trait de 2 px.
+       Le faisceau s'y comportait en halo centré sous le logo, pas en liseré
+       courant le long de la barre. */
     linear-gradient(90deg,
-      transparent 1%,
-      rgba(104, 155, 113, .22) 18%,
-      rgba(104, 155, 113, .72) 38%,
-      rgb(104, 155, 113) 50%,
-      rgba(104, 155, 113, .72) 62%,
-      rgba(104, 155, 113, .22) 82%,
-      transparent 99%);
-  filter: drop-shadow(0 0 6px rgba(104, 155, 113, .5));
+      transparent 0%,
+      rgba(104, 155, 113, .2) 9%,
+      rgba(104, 155, 113, .55) 20%,
+      rgba(104, 155, 113, .85) 31%,
+      rgb(104, 155, 113) 40%,
+      rgb(104, 155, 113) 60%,
+      rgba(104, 155, 113, .85) 69%,
+      rgba(104, 155, 113, .55) 80%,
+      rgba(104, 155, 113, .2) 91%,
+      transparent 100%) center center / 100% 2px no-repeat,
+    /* le halo, qui déborde du trait sans le flouter */
+    radial-gradient(56% 90% at 50% 50%,
+      rgba(104, 155, 113, .3), transparent 72%);
 }
-.pied::before { inset: 0 0 auto 0; height: 2px; z-index: 2; }
+.pied::before { inset: -7px 0 auto 0; height: 16px; z-index: 2; }
 
 /* En haut de page, l'en-tête flotte sur la photo : un filet y couperait le
-   bandeau en deux. Il ne s'allume qu'une fois la barre posée sur son fond. */
+   bandeau en deux. Il ne s'allume qu'une fois la barre posée sur son fond.
+   La boîte déborde de 7 px sous la barre pour loger le halo ; le filet, lui,
+   tombe exactement sur l'arête basse. */
 .entete__faisceau {
-  position: absolute; inset-inline: 0; bottom: 0; height: 2px; z-index: 2;
+  position: absolute; inset-inline: 0; bottom: -7px; height: 16px; z-index: 2;
   pointer-events: none;
   opacity: 0;
   transition: opacity .55s ease;
@@ -330,52 +348,108 @@ p + p { margin-top: 1.05rem; }
 .entete--pleine .entete__faisceau { opacity: 1; }
 
 /* --- l'amorçage ---
-   Première tentative : étirer le faisceau lui-même depuis le centre. Le
-   geste était invisible, et pour une raison qui tient au dessin — le
-   faisceau est éteint sur les côtés, si bien que son étirement se joue
-   entièrement dans les zones qu'on ne voit pas. L'œil ne voyait qu'un point
-   fixe au centre.
+   Ce qui se voit d'un allumage, c'est une onde : une lumière vive qui part
+   du centre, s'écarte vers les deux bords et s'éteint en sortant du cadre.
+   Le trait au repos, lui, ne fait que se révéler en opacité — il n'a pas à
+   bouger, l'onde raconte l'allumage pour lui.
 
-   Ce qui se voit, c'est une onde : une lumière courte et vive qui part du
-   centre, s'écarte vers les deux bords en s'élargissant, et s'éteint en
-   sortant du cadre. Le trait au repos, lui, ne fait que se révéler en
-   opacité — il n'a pas à bouger, l'onde raconte l'allumage pour lui. */
-.entete__faisceau::after {
-  content: "";
+   Deux formes ont été écartées avant celle-ci. Étirer le faisceau lui-même
+   ne se voyait pas : il est éteint sur les côtés, si bien que son étirement
+   se jouait entièrement dans les zones qu'on ne regarde pas. Une couche
+   pleine largeur étirée jusqu'à scaleX(14) se voyait, mais par à-coups : le
+   relevé image par image lui imputait trois points d'images lentes (10 %
+   contre 7 % en la coupant), sans que réduire le facteur n'y change rien.
+
+   D'où deux lobes, confondus au centre au départ, qui s'écartent chacun vers
+   son bord. Ils ne font que se déplacer, jamais changer d'échelle : un
+   déplacement est ce que le compositeur sait faire de moins cher, la trame
+   étant calculée une fois puis seulement bougée, là où un étirement la
+   redemande à chaque échelle. L'écart retombe à un point (9 % contre 8 %).
+
+   Leurs bords sont fondus, et cela compte autant : une bande à arête franche
+   qui file vite se lit par saccades même à soixante images par seconde,
+   l'œil suivant ses bords et non sa lumière. Ici le lobe parcourt au plus
+   30 px par image pour 317 px de large — un dixième de lui-même, la lumière
+   reste continue.
+
+   L'onde attend que la barre ait fini de se réduire : la hauteur est une
+   propriété de mise en page, elle relance un calcul à chaque image, et les
+   deux gestes se disputaient le même seizième de seconde. */
+.entete__onde {
   position: absolute; inset: 0;
-  background: linear-gradient(90deg,
-    transparent 44%,
-    rgba(234, 246, 236, .9) 48%,
-    #ffffff 50%,
-    rgba(234, 246, 236, .9) 52%,
-    transparent 56%);
-  filter: drop-shadow(0 0 10px rgba(194, 226, 200, .85));
+  overflow: hidden;          /* les lobes sortent du cadre, pas de la page */
+  pointer-events: none;
+}
+.entete__onde::before,
+.entete__onde::after {
+  content: "";
+  position: absolute; top: 0; bottom: 0;
+  left: 39%; width: 22%;
+  background:
+    linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, .28) 26%,
+      rgba(255, 255, 255, .92) 50%,
+      rgba(255, 255, 255, .28) 74%,
+      transparent 100%) center center / 100% 2px no-repeat,
+    radial-gradient(58% 92% at 50% 50%,
+      rgba(214, 240, 220, .5), transparent 72%);
   opacity: 0;
-  transform: scaleX(.08);
+  transform: translateZ(0);
+  /* la couche vit sur le compositeur : sans cela, chaque image redemandait
+     au navigateur de refaire le flou d'arrière-plan de la barre */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
-/* L'onde est jouée par une animation et non par une transition : elle doit
-   se rejouer à chaque fois que la barre se pose, et une transition ne
-   redémarre pas quand la propriété est déjà à sa valeur d'arrivée. */
-.entete--pleine .entete__faisceau::after {
-  animation: faisceau-amorcage 1.45s cubic-bezier(.2, .7, .2, 1) both;
+/* Deux animations et non une, et c'est l'essentiel du confort de lecture :
+   une courbe d'accélération ne s'applique pas à l'animation entière mais
+   entre chaque paire d'étapes. Une trajectoire en quatre étapes, c'était donc
+   quatre élans freinés bout à bout — de l'à-coup au sens propre, une
+   accélération qui change brutalement de signe trois fois en chemin.
+
+   Le déplacement n'a plus que deux étapes et une seule courbe : il part vif
+   et ralentit sans jamais repartir. La lumière, elle, garde ses paliers, mais
+   sur une piste séparée et en linéaire, où ils ne coûtent rien à l'œil. */
+.entete--pleine .entete__onde::before {
+  animation: onde-gauche 1.25s cubic-bezier(.25, .5, .35, 1) .34s both,
+             onde-lumiere 1.25s linear .34s both;
 }
-/* L'opacité se tient haut tant que l'onde s'écarte, et ne tombe qu'une fois
-   les bords atteints : elle s'éteint en sortant du cadre, pas en chemin.
-   Coupée trop tôt, l'onde semblait rentrer au centre au lieu d'en sortir. */
-@keyframes faisceau-amorcage {
-  0%   { opacity: 0;   transform: scaleX(.08); }
-  10%  { opacity: 1;   transform: scaleX(.45); }
-  55%  { opacity: 1;   transform: scaleX(4.5); }
-  80%  { opacity: .55; transform: scaleX(9); }
-  100% { opacity: 0;   transform: scaleX(14); }
+.entete--pleine .entete__onde::after {
+  animation: onde-droite 1.25s cubic-bezier(.25, .5, .35, 1) .34s both,
+             onde-lumiere 1.25s linear .34s both;
+}
+
+/* Le déplacement se compte en pourcentage du lobe : 310 % d'un lobe large de
+   22 % portent son centre de la moitié de l'écran à un cinquième de largeur
+   au-delà du bord — de quoi le faire sortir tout entier. Mesuré à 264 %, sa
+   traîne restait accrochée au coin et s'y éteignait sur place : la lumière
+   doit quitter le cadre, pas y mourir. */
+@keyframes onde-gauche {
+  from { transform: translateX(0) translateZ(0); }
+  to   { transform: translateX(-310%) translateZ(0); }
+}
+@keyframes onde-droite {
+  from { transform: translateX(0) translateZ(0); }
+  to   { transform: translateX(310%) translateZ(0); }
+}
+/* Les deux lobes partent confondus — une seule lumière au centre — et ne
+   s'allument qu'une fois séparés d'un cheveu. L'éclat se tient haut tant
+   qu'ils s'écartent : coupé en chemin, l'onde semblait rentrer au centre au
+   lieu d'en sortir. */
+@keyframes onde-lumiere {
+  0%   { opacity: 0; }
+  9%   { opacity: 1; }
+  78%  { opacity: .9; }
+  100% { opacity: 0; }
 }
 
 /* L'amorçage est une entrée en mouvement : pour qui demande à en être
    dispensé, le trait se contente d'apparaître, déjà allumé. */
 @media (prefers-reduced-motion: reduce) {
-  .entete--pleine .entete__faisceau::after { animation: none; }
+  .entete--pleine .entete__onde::before,
+  .entete--pleine .entete__onde::after { animation: none; }
 }
-}
+
 .pied { position: relative; }
 
 .entete {
@@ -385,8 +459,12 @@ p + p { margin-top: 1.05rem; }
   /* En haut de page, la barre est transparente : le bandeau va jusqu'au
      bord de l'écran, et le logo se pose dessus dans sa version claire. */
   background: transparent;
+  /* Le flou n'est PAS transitionné : le refaire à chaque image, sur toute
+     la largeur de l'écran, coûtait à lui seul un tiers des images perdues.
+     Il s'applique d'un coup ; c'est le fond qui fond, et l'œil ne fait pas
+     la différence. */
   transition: height var(--transition), background-color var(--transition),
-              box-shadow var(--transition), backdrop-filter var(--transition);
+              box-shadow var(--transition);
 }
 
 /* Une fois la page défilée, la barre se réduit et s'installe sur un
