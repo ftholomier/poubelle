@@ -283,21 +283,63 @@ p + p { margin-top: 1.05rem; }
    ========================================================================== */
 
 
-/* ---------- Filet vert ----------
-   La charte sépare toutes ses bandes d'ardoise par un filet clair ; le site
-   reprend ce trait là où il encadre la page — sous l'en-tête et au-dessus du
-   pied. Purement décoratif, sans balisage propre : rien à annoncer aux
-   lecteurs d'écran. */
+/* ---------- Faisceau ----------
+   La charte sépare ses bandes d'ardoise par un filet clair ; le site reprend
+   ce trait là où il encadre la page — sous l'en-tête et au-dessus du pied.
+   Mais un filet plein d'un bord à l'autre est un trait, pas une signature :
+   celui-ci s'allume au centre et s'éteint sur les côtés.
+
+   Trois couches le composent, de la plus fine à la plus large : un cœur
+   presque blanc, resserré sur un dixième de la largeur ; le corps vert, qui
+   porte la couleur de marque ; et un halo qui déborde de part et d'autre du
+   trait. Le halo est peint par drop-shadow et non par box-shadow, parce que
+   drop-shadow épouse la transparence du dégradé — box-shadow aurait éclairé
+   un rectangle plein, halo compris aux extrémités éteintes.
+
+   Purement décoratif, sans balisage propre : rien à annoncer aux lecteurs
+   d'écran. */
 .entete::after,
 .pied::before {
   content: "";
   position: absolute; inset-inline: 0; height: 2px; z-index: 2;
-  background: var(--vert);
+  background:
+    linear-gradient(90deg,
+      transparent 42%,
+      rgba(194, 226, 200, .95) 50%,
+      transparent 58%),
+    linear-gradient(90deg,
+      transparent 1%,
+      rgba(104, 155, 113, .22) 18%,
+      rgba(104, 155, 113, .72) 38%,
+      rgb(104, 155, 113) 50%,
+      rgba(104, 155, 113, .72) 62%,
+      rgba(104, 155, 113, .22) 82%,
+      transparent 99%);
+  filter: drop-shadow(0 0 6px rgba(104, 155, 113, .5));
+  pointer-events: none;
 }
-.entete::after { bottom: 0; opacity: 0; transition: opacity var(--transition); }
+
 /* En haut de page, l'en-tête flotte sur la photo : un filet y couperait le
-   bandeau en deux. Il n'apparaît qu'une fois la barre posée sur son fond. */
-.entete--pleine::after { opacity: 1; }
+   bandeau en deux. Le faisceau naît du centre quand la barre se pose, et s'y
+   résorbe quand elle repart — le même geste dans les deux sens.
+
+   L'échelle met plus de temps que l'opacité, et repart d'un cinquième plutôt
+   que de zéro : à zéro, le trait jaillit d'un point, ce qui se remarque ;
+   à un cinquième, il s'ouvre, ce qui se regarde. */
+.entete::after {
+  bottom: 0;
+  opacity: 0;
+  transform: scaleX(.2);
+  transform-origin: 50% 50%;
+  transition: opacity .45s ease, transform .8s cubic-bezier(.16, .84, .28, 1);
+}
+.entete--pleine::after { opacity: 1; transform: scaleX(1); }
+
+/* Le faisceau est une entrée en mouvement : pour qui demande à en être
+   dispensé, il se contente d'apparaître, déjà déployé. */
+@media (prefers-reduced-motion: reduce) {
+  .entete::after { transform: none; transition: opacity .001s; }
+}
 .pied::before { top: 0; }
 .pied { position: relative; }
 

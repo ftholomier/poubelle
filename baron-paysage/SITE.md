@@ -91,6 +91,15 @@ translucide et flouté** (`#262C30` à 78 %). Elle reste sombre d'un bout à
 l'autre : le logo, les libellés et le numéro ne changent jamais de couleur,
 et rien ne clignote au passage.
 
+Sous la barre, le filet de la charte devient un **faisceau** : un cœur
+presque blanc au centre, un corps vert qui s'éteint sur les côtés, et un halo
+peint par `drop-shadow` — non par `box-shadow`, qui aurait éclairé un
+rectangle plein jusqu'aux extrémités éteintes. Il naît du centre quand la
+barre se pose, et s'y résorbe quand elle repart : l'échelle part d'un
+cinquième plutôt que de zéro, parce qu'à zéro le trait jaillit d'un point, ce
+qui se remarque, alors qu'à un cinquième il s'ouvre, ce qui se regarde. Sous
+`prefers-reduced-motion`, il apparaît déjà déployé.
+
 Les 78 % ne sont pas choisis à l'œil. Le flou mélange les pixels alentour
 *avant* que la couche ne se pose : aucune formule ne prédit le résultat
 peint. Relevé au pixel sur près de 120 000 points, à huit pages et six
