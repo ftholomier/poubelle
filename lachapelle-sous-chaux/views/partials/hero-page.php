@@ -25,3 +25,10 @@
     <?php endif; ?>
   </div>
 </section>
+<?php /* « En ce moment » suit le bandeau de chaque page. Il est posé ici, dans
+         le bandeau partagé, plutôt que dans les seize vues qui l'utilisent :
+         une page ajoutée demain l'aura sans qu'on y pense, et il n'y a aucun
+         risque qu'une vue l'oublie. L'accueil a son propre bandeau et n'en
+         hérite donc pas — c'est voulu, sa section « La vie du village » fait
+         déjà le travail, en plus grand. */ ?>
+<?= $view->partial('en-ce-moment') ?>

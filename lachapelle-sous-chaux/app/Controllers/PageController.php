@@ -9,6 +9,7 @@ use App\Core\Mailer;
 use App\Core\Parametres;
 use App\Core\Seo;
 use App\Core\View;
+use App\Core\Vivant;
 use RuntimeException;
 use Throwable;
 
@@ -31,6 +32,7 @@ final class PageController
         private readonly Mailer $mailer,
         private readonly Seo $seo,
         private readonly Antispam $antispam,
+        private readonly Vivant $vivant,
     ) {
     }
 
@@ -56,8 +58,8 @@ final class PageController
         return $this->rendre('accueil', 'accueil', [
             'page'       => $this->page('accueil'),
             'demarches'  => array_slice($this->content->publies('demarches'), 0, 6),
-            'actualites' => array_slice($this->actualitesTriees(), 0, 3),
-            'agenda'     => array_slice($this->agendaAVenir(), 0, 3),
+            'actualites' => $this->vivant->actualites(3),
+            'agenda'     => $this->vivant->agenda(3),
         ]);
     }
 
@@ -172,7 +174,7 @@ final class PageController
     {
         return $this->rendre('actualites', 'actualites', [
             'page'  => $this->page('actualites'),
-            'items' => $this->actualitesTriees(),
+            'items' => $this->vivant->actualites(),
         ]);
     }
 
@@ -184,7 +186,7 @@ final class PageController
         }
 
         $autres = array_values(array_filter(
-            $this->actualitesTriees(),
+            $this->vivant->actualites(),
             static fn(array $a): bool => ($a['slug'] ?? '') !== $slug
         ));
 
@@ -199,8 +201,8 @@ final class PageController
     {
         return $this->rendre('agenda', 'agenda', [
             'page'    => $this->page('agenda'),
-            'avenir'  => $this->agendaAVenir(),
-            'passes'  => $this->agendaPasses(),
+            'avenir'  => $this->vivant->agenda(),
+            'passes'  => $this->vivant->agendaPasses(),
         ]);
     }
 
@@ -225,7 +227,7 @@ final class PageController
             'page'       => $this->page('plan-du-site'),
             'menu'       => $this->content->menu($this->seo->basesCollections()),
             'demarches'  => $this->content->publies('demarches'),
-            'actualites' => $this->actualitesTriees(),
+            'actualites' => $this->vivant->actualites(),
         ]);
     }
 
@@ -565,58 +567,8 @@ final class PageController
 
     // -------------------------------------------------------------- outils
 
-    /**
-     * Actualités de la plus récente à la plus ancienne.
-     *
-     * Le classement se fait sur la date et non sur le rang : une actualité
-     * ajoutée en fin de liste au back-office doit remonter d'elle-même en tête
-     * si elle est datée d'aujourd'hui.
-     *
-     * @return array<int, array<mixed>>
-     */
-    private function actualitesTriees(): array
-    {
-        $items = $this->content->publies('actualites');
-        usort($items, static fn(array $a, array $b): int => strcmp((string) ($b['date'] ?? ''), (string) ($a['date'] ?? '')));
 
-        return $items;
-    }
 
-    /**
-     * Rendez-vous à venir, du plus proche au plus lointain.
-     *
-     * Un événement reste « à venir » toute la journée où il a lieu : le comparer
-     * à l'instant présent le ferait disparaître de l'agenda le matin même,
-     * précisément quand on le cherche.
-     *
-     * @return array<int, array<mixed>>
-     */
-    private function agendaAVenir(): array
-    {
-        $aujourdhui = date('Y-m-d');
-        $items = array_values(array_filter(
-            $this->content->publies('agenda'),
-            static fn(array $e): bool => (string) ($e['fin'] ?? $e['date'] ?? '') >= $aujourdhui
-        ));
-        usort($items, static fn(array $a, array $b): int => strcmp((string) ($a['date'] ?? ''), (string) ($b['date'] ?? '')));
-
-        return $items;
-    }
-
-    /**
-     * @return array<int, array<mixed>>
-     */
-    private function agendaPasses(): array
-    {
-        $aujourdhui = date('Y-m-d');
-        $items = array_values(array_filter(
-            $this->content->publies('agenda'),
-            static fn(array $e): bool => (string) ($e['fin'] ?? $e['date'] ?? '') < $aujourdhui
-        ));
-        usort($items, static fn(array $a, array $b): int => strcmp((string) ($b['date'] ?? ''), (string) ($a['date'] ?? '')));
-
-        return array_slice($items, 0, 6);
-    }
 
     /**
      * Adresse qui reçoit les formulaires. À défaut de destinataire dédié réglé

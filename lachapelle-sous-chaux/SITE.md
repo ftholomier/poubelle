@@ -85,25 +85,37 @@ seuls, en filet, disparaissent à 16 px sur le fond blanc d'un onglet.
 
 ## 3. L'arborescence
 
-Six rubriques, trente-deux adresses publiques.
+Sept rubriques, trente-deux adresses publiques.
 
 | Rubrique | Pages |
 |---|---|
 | **La mairie** | La mairie, conseil municipal, commissions & comités, comptes-rendus, budget communal, urbanisme |
 | **Démarches** | Démarches (13 fiches), démarches en ligne, services de l'État, CCAS, écrire à la mairie |
 | **Vie scolaire** | Une page unique : inscription, regroupement pédagogique, livret, périscolaire, restauration, transport |
-| **Le village** | Le village, histoire, associations, actualités (collection), agenda, Flash Info |
+| **Le village** | Le village, histoire, associations |
+| **Actualités** | Actualités (collection), agenda, Flash Info |
 | **Vie pratique** | Vie pratique, gérer mes déchets, eau & assainissement, intercommunalité, numéros utiles |
 | **Contact** | Contact, et les pages de service : mentions légales, confidentialité, accessibilité, plan du site |
+
+**Le contenu vivant a sa propre rubrique**, et c'est un arbitrage, pas un
+rangement. Actualités, agenda et Flash Info étaient au fond du sous-menu de
+« Le village », en quatrième, cinquième et sixième position — c'est-à-dire
+invisibles. Or c'est le seul contenu qui distingue un site de mairie tenu à
+jour d'une plaquette imprimée, et un administré arrive presque toujours par un
+moteur de recherche sur une fiche de démarche, jamais par l'accueil. Ils
+forment donc une rubrique de premier niveau, et le bandeau « En ce moment »
+(§ 5) les rappelle sur toutes les pages.
 
 **Deux collections** ont des adresses propres : `demarches` (treize fiches) et
 `actualites`. Les autres listes — élus, commissions, associations, numéros,
 documents, agenda, services de l'État — sont des listes sans page individuelle.
 
-**Le menu des démarches ne se remplit pas tout seul.** Douze fiches dans un
-menu déroulant sont illisibles ; quatre rubriques mènent à la bonne page. Le
-drapeau `auto: false` de l'entrée de menu dit précisément cela, et les autres
-collections gardent leur sous-menu qui se tient à jour tout seul.
+**Ni le menu des démarches ni celui des actualités ne se remplissent tout
+seuls.** Douze fiches dans un menu déroulant sont illisibles, et douze titres
+d'actualités le seraient plus encore ; trois ou quatre rubriques mènent à la
+bonne page. Le drapeau `auto: false` de l'entrée de menu dit précisément cela,
+et les autres collections gardent leur sous-menu qui se tient à jour tout
+seul.
 
 ---
 
@@ -174,7 +186,23 @@ contenu :
    espaces. L'ancien éditeur aplatissait le menu à l'enregistrement, ce qui
    aurait détruit les cinq sous-menus du site.
 
-8. **La taille du logo est réglable** (Apparence → Taille du logo), de 36 à
+8. **Le contenu vivant est visible partout.** Le bandeau « En ce moment »,
+   sous le bandeau photo de chaque page, rappelle en trois entrées la dernière
+   actualité, le prochain rendez-vous et le dernier Flash Info. Il est posé
+   dans `views/partials/hero-page.php`, le bandeau partagé par les seize vues
+   de page : une page ajoutée demain l'aura sans qu'on y pense. L'accueil en
+   est exempté — sa section « La vie du village » fait déjà le travail, en
+   plus grand, et les deux à trois cents pixels d'écart auraient fait doublon.
+   Le bandeau se retire de lui-même si la commune n'a rien à annoncer.
+
+   Le tri des trois contenus vit dans `App\Core\Vivant`, et nulle part
+   ailleurs. Il servait au seul contrôleur des pages ; le bandeau en avait
+   besoin à son tour, et la règle « un événement reste à venir tout le jour de
+   sa date » aurait fini par exister en deux versions légèrement différentes —
+   celle qui fait disparaître la brocante du dimanche le dimanche matin, quand
+   c'est précisément le moment où l'on vérifie l'heure.
+
+9. **La taille du logo est réglable** (Apparence → Taille du logo), de 36 à
    120 px, avec un aperçu du vrai logo à la vraie taille dans une barre à la
    vraie hauteur. Deux comportements au choix, parce qu'ils ne servent pas la
    même chose :

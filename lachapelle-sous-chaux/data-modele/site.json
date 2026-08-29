@@ -107,9 +107,16 @@
                 {
                     "libelle": "Associations",
                     "url": "/associations"
-                },
+                }
+            ]
+        },
+        {
+            "libelle": "Actualités",
+            "url": "/actualites",
+            "auto": false,
+            "sous_menu": [
                 {
-                    "libelle": "Actualités",
+                    "libelle": "Toutes les actualités",
                     "url": "/actualites"
                 },
                 {

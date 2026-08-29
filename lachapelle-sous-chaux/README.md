@@ -42,11 +42,17 @@ visite : le site s'affiche complet, sans aucune manipulation préalable.
 
 ## Ce que contient le site
 
-**Trente-deux adresses publiques**, groupées en six rubriques : la mairie
+**Trente-deux adresses publiques**, groupées en sept rubriques : la mairie
 (conseil, commissions, comptes-rendus, budget, urbanisme), les démarches
 (treize fiches, démarches en ligne, services de l'État, CCAS), la vie scolaire,
-le village (histoire, associations, actualités, agenda, Flash Info), la vie
-pratique (déchets, eau, intercommunalité, numéros utiles) et le contact.
+le village (histoire, associations), les actualités (actualités, agenda, Flash
+Info), la vie pratique (déchets, eau, intercommunalité, numéros utiles) et le
+contact.
+
+**Le contenu vivant est rappelé sur chaque page** par le bandeau « En ce
+moment » : la dernière actualité, le prochain rendez-vous, le dernier Flash
+Info. C'est ce que voit un administré arrivé par un moteur de recherche sur une
+fiche de démarche.
 
 **Vingt-six photos** du village et **dix-sept documents PDF** — huit
 comptes-rendus de conseil, sept bulletins municipaux, deux documents

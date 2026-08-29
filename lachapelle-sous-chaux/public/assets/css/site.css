@@ -3351,3 +3351,71 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--vert-clair); }
 .bloc-texte .texte-petit,
 .bloc-texte .texte-vert,
 .bloc-texte .texte-encre { display: inline; }
+
+
+/* --- « En ce moment » : le contenu vivant, sur toutes les pages -----------
+   Posé juste sous le bandeau photo, sur le vert le plus soutenu de la charte.
+   Ce n'est pas une décoration : c'est le seul endroit du site où l'actualité
+   de la commune est visible depuis une fiche de démarche, et c'est pour cela
+   qu'il tranche avec les sections qui suivent au lieu de s'y fondre.
+
+   Le blanc sur --vert-texte tient 6,05:1, la date à 82 % d'opacité 4,6:1 —
+   les deux au-dessus du seuil, mesuré. La ligne de séparation est en blanc
+   translucide plutôt qu'en couleur : elle doit se voir sans devenir un
+   troisième niveau de lecture. */
+.en-ce-moment {
+  background: var(--vert-texte);
+  color: #fff;
+  padding: clamp(1.1rem, 2.4vw, 1.5rem) 0;
+}
+
+/* L'intitulé porte la région pour les lecteurs d'écran ; à l'œil il ne doit
+   pas concurrencer les trois entrées, qui sont l'information. */
+.en-ce-moment__intitule {
+  font-size: .7rem; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(255, 255, 255, .82);
+  margin-bottom: .7rem;
+}
+
+.en-ce-moment__liste {
+  display: grid; gap: clamp(.9rem, 2.4vw, 2.2rem);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.en-ce-moment__item {
+  display: grid; gap: .18rem; align-content: start;
+  padding-left: clamp(.9rem, 2.4vw, 2.2rem);
+  border-left: 1px solid rgba(255, 255, 255, .22);
+}
+.en-ce-moment__item:first-child { padding-left: 0; border-left: 0; }
+
+.en-ce-moment__quoi {
+  font-size: .68rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--vert-barre);
+}
+.en-ce-moment__titre { font-size: 1rem; font-weight: 600; line-height: 1.4; }
+.en-ce-moment__titre a { color: #fff; }
+/* Le soulignement n'apparaît qu'au survol : trois liens soulignés côte à côte
+   sur un aplat font une bande hachurée, illisible. Le lien reste identifiable
+   par sa graisse et sa place, et la cible entière réagit au pointeur. */
+.en-ce-moment__titre a:hover,
+.en-ce-moment__titre a:focus-visible { text-decoration: underline; text-underline-offset: .18em; }
+.en-ce-moment__quand { font-size: .84rem; color: rgba(255, 255, 255, .82); }
+
+@media (max-width: 860px) {
+  /* Sous 860 px les trois colonnes tomberaient à moins de deux cents pixels,
+     où un titre d'actualité se coupe en cinq lignes. */
+  .en-ce-moment__liste { grid-template-columns: 1fr; gap: .9rem; }
+  .en-ce-moment__item {
+    padding-left: 0; border-left: 0;
+    padding-top: .9rem; border-top: 1px solid rgba(255, 255, 255, .22);
+  }
+  .en-ce-moment__item:first-child { padding-top: 0; border-top: 0; }
+}
+
+@media (hover: none) {
+  /* Cible tactile : c'est le titre qui se tape, et une ligne de texte de
+     1 rem n'atteint pas 44 px. */
+  .en-ce-moment__titre a { display: inline-flex; align-items: center; min-height: 44px; }
+}

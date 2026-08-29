@@ -25,6 +25,7 @@ use App\Core\Langues;
 use App\Core\Mailer;
 use App\Core\Parametres;
 use App\Core\Seo;
+use App\Core\Vivant;
 use App\Core\Traducteur;
 
 $parametresSite = new Parametres($config['paths']['data'] . '/admin/parametres.json');
@@ -56,7 +57,8 @@ $assistant = new Assistant(
 
 $antispam = new Antispam($parametresSite, $config['paths']['cache'] . '/antispam-quotas.json');
 
-$pages = new PageController($view, $content, $parametresSite, new Mailer($parametresSite), $seo, $antispam);
+$vivant = new Vivant($content);
+$pages = new PageController($view, $content, $parametresSite, new Mailer($parametresSite), $seo, $antispam, $vivant);
 $conversations = new Conversations($config['paths']['data'] . '/assistant/conversations');
 
 $api   = new ApiController($content, $assistant, $conversations, new Mailer($parametresSite), $parametresSite);
@@ -76,6 +78,9 @@ $view->share('menuStyle', $parametresSite->get('apparence.menu', 'horizontal'));
 // l'écriture et à la lecture.
 $view->share('logoHauteur', ApparenceController::hauteurLogo($parametresSite));
 $view->share('logoDeborde', ApparenceController::logoDeborde($parametresSite));
+// Actualités, agenda et Flash Info : le bandeau « En ce moment » les affiche
+// sur toutes les pages, il ne peut donc pas les redemander à chaque vue.
+$view->share('vivant', $vivant);
 $GLOBALS['seo'] = $seo;
 $GLOBALS['langue'] = $langue;
 $GLOBALS['traducteur'] = $traducteur;
