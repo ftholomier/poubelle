@@ -127,9 +127,25 @@ final class PageController
 
     public function demarches(): string
     {
+        $items = $this->content->publies('demarches');
+
+        // Le filtre passe par l'adresse et non par le seul JavaScript : la
+        // sélection est alors partageable, s'ajoute aux favoris, survit à un
+        // rechargement et fonctionne sans script. Le JavaScript ne fait
+        // qu'éviter l'aller-retour au serveur.
+        $famille = trim((string) ($_GET['famille'] ?? ''));
+        $connues = [];
+        foreach ($items as $item) {
+            $connues[(string) ($item['famille'] ?? 'autres')] = true;
+        }
+        if (!isset($connues[$famille])) {
+            $famille = '';
+        }
+
         return $this->rendre('demarches', 'demarches', [
-            'page'  => $this->page('demarches'),
-            'items' => $this->content->publies('demarches'),
+            'page'    => $this->page('demarches'),
+            'items'   => $items,
+            'famille' => $famille,
         ]);
     }
 

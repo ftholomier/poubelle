@@ -96,6 +96,27 @@ $estActif = static function (array $item) use ($chemin): bool {
       </a>
       <?php endif; ?>
     </div>
+
+    <?php /* Accès permanent au contenu vivant, à toutes les largeurs et dans
+             les deux états de la barre. C'est le seul lien du site qui ne
+             disparaît jamais : la navigation se replie derrière le burger sous
+             1080 px, et le numéro comme le bouton d'appel s'effacent sous
+             780 px — l'actualité de la commune, elle, reste atteignable en un
+             geste depuis n'importe quelle page, y compris une fiche de démarche
+             trouvée par un moteur de recherche.
+
+             Un pictogramme et non un bouton libellé : la barre porte déjà sept
+             rubriques, un numéro et un appel à l'action, et un neuvième bloc de
+             texte y faisait passer les libellés du menu sur deux lignes. Le
+             nom reste écrit, pour les lecteurs d'écran et pour l'infobulle —
+             une icône seule sans nom accessible n'est pas un lien.
+
+             Il est posé hors de .entete__droite précisément pour cela : ce
+             bloc-là est masqué sur téléphone, lui ne l'est jamais. */ ?>
+    <a class="entete__actu" href="<?= route('actualites') ?>" title="<?= e(t('Actualités')) ?>">
+      <span class="entete__actu-icone" aria-hidden="true"><?= $view->partial('icones', ['nom' => 'actualite']) ?></span>
+      <span class="sr-only"><?= e(t('Actualités, agenda et Flash Info')) ?></span>
+    </a>
   </div>
 
   <?php /* Le faisceau qui ferme la barre : le trait au repos, et dedans les

@@ -28,7 +28,8 @@
 <?php /* « En ce moment » suit le bandeau de chaque page. Il est posé ici, dans
          le bandeau partagé, plutôt que dans les seize vues qui l'utilisent :
          une page ajoutée demain l'aura sans qu'on y pense, et il n'y a aucun
-         risque qu'une vue l'oublie. L'accueil a son propre bandeau et n'en
-         hérite donc pas — c'est voulu, sa section « La vie du village » fait
-         déjà le travail, en plus grand. */ ?>
+         risque qu'une vue l'oublie. L'accueil n'en hérite pas et n'en veut
+         pas : il a son propre bandeau, et sa section « La vie du village »
+         déploie les mêmes contenus en plus grand. Le bouton permanent de la
+         barre, lui, y est comme partout ailleurs. */ ?>
 <?= $view->partial('en-ce-moment') ?>

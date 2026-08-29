@@ -660,7 +660,13 @@ p + p { margin-top: 1.05rem; }
 .entete--horizontal .entete__logo { margin-right: clamp(1rem, 3vw, 2.5rem); }
 
 .navbar { display: none; margin-inline: auto; }
-.navbar__liste { display: flex; align-items: center; gap: clamp(.4rem, 1.6vw, 1.5rem); }
+/* Les libellés ne se coupent pas. Un élément de liste flexible se rétrécit
+   sous la largeur de son texte avant que le conteneur ne déborde : « Vie
+   scolaire » passait alors sur deux lignes et la barre grandissait d'autant,
+   sans qu'aucune mesure de débordement ne s'en aperçoive. */
+.navbar__liste { display: flex; align-items: center; gap: clamp(.4rem, 1.3vw, 1.2rem); }
+.navbar__item { flex: 0 0 auto; }
+.navbar__lien { white-space: nowrap; }
 .navbar__item { position: relative; }
 /* Les libellés restent blancs d'un bout à l'autre : la barre est sombre
    qu'elle flotte sur la photo ou qu'elle soit posée sur son anthracite. */
@@ -1807,7 +1813,24 @@ a.coordonnees__valeur:hover {
 /* La barre horizontale n'apparaît qu'à partir de la largeur où cinq entrées,
    un numéro de téléphone et un bouton tiennent sans se chevaucher. En deçà,
    les deux dispositions se rejoignent sur le panneau glissant. */
-@media (min-width: 1080px) {
+/* Le numéro cède la place tant que la barre est serrée. C'est ce qu'elle porte
+   de plus redondant : « Écrire à la mairie » est juste à côté, le numéro
+   figure dans le pied de page de chaque page et en tête de la page contact, et
+   le bandeau pratique de l'accueil l'affiche en grand. Le sacrifier coûte
+   moins que de renvoyer sept rubriques derrière un burger sur un portable de
+   1280 px. */
+@media (max-width: 1399px) {
+  .entete--horizontal .entete__tel { display: none; }
+}
+
+/* 1280 px et non 1080 : la barre porte désormais sept rubriques — le contenu
+   vivant a la sienne — plus le numéro, l'appel à l'action et l'icône des
+   actualités. À 1080 px l'appel à l'action et l'icône sortaient de l'écran, ce
+   qu'aucune mesure de débordement horizontal ne signale : la barre est en
+   position fixe, la page ne défile donc pas pour autant, et le bouton
+   disparaît simplement. Sous ce seuil, le menu latéral reprend la main — il
+   est fait pour cela. */
+@media (min-width: 1280px) {
   .entete--horizontal .navbar { display: block; }
   .entete--horizontal .burger { display: none; }
 }
@@ -1816,7 +1839,7 @@ a.coordonnees__valeur:hover {
   .cartes--clients { grid-template-columns: repeat(3, 1fr); }
 }
 
-@media (max-width: 1079px) {
+@media (max-width: 1279px) {
   /* Sans la navigation centrale, le logo est seul au milieu d'une barre qui
      garde sa hauteur : il y reprend de la place. Proportion d'origine, 60 px
      pour 52 — la retirer faisait retomber le logo du téléphone à 32 px, perdu
@@ -3127,13 +3150,22 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--vert-clair); }
 /* ---------- Sommaire d'une page longue ----------
    Écrit en liens réels vers les ancres : la page reste utilisable sans
    JavaScript, et les liens se partagent. */
-.sommaire {
+/* --- Le filtre des démarches ---------------------------------------------
+   Remplace le sommaire à ancres, qui donnait l'illusion de filtrer et ne
+   faisait que descendre dans la page. Les mêmes pastilles, mais elles
+   masquent ce qui ne correspond pas au lieu de faire défiler.
+
+   Ce sont des liens et non des boutons : sans JavaScript ils mènent à la même
+   page filtrée par le serveur. C'est aussi pourquoi l'état actif se lit dans
+   aria-current et non dans une classe — un lecteur d'écran l'annonce, une
+   couleur non. */
+.filtres {
   background: var(--fond-teinte);
   border-block: 1px solid var(--ligne);
   padding: 1.2rem 0;
 }
-.sommaire__liste { display: flex; flex-wrap: wrap; gap: .7rem; }
-.sommaire__lien {
+.filtres__liste { display: flex; flex-wrap: wrap; gap: .7rem; }
+.filtres__lien {
   display: inline-flex; align-items: center; gap: .6rem;
   padding: .7rem 1.2rem;
   background: #fff;
@@ -3143,8 +3175,17 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--vert-clair); }
   color: var(--vert-texte);
   transition: border-color var(--transition), background var(--transition);
 }
-.sommaire__lien:hover { border-color: var(--vert); background: var(--vert-voile); }
-.sommaire__compte {
+/* L'état actif prend l'aplat vert assombri, où le blanc tient 4,9:1 : la
+   pastille choisie doit se distinguer des autres au premier coup d'œil, sans
+   quoi on ne sait plus ce qu'on regarde après trois clics. */
+.filtres__lien:hover { border-color: var(--vert); background: var(--vert-voile); }
+.filtres__lien[aria-current="page"] {
+  background: var(--vert-fonce); border-color: var(--vert-fonce); color: #fff;
+}
+/* Le compteur garde son aplat d'encre même sur la pastille active : en blanc
+   translucide sur le vert, il tombait à 3,03:1 — relevé par l'auditeur. Et
+   l'uniformité est un gain en soi, le nombre se lit pareil partout. */
+.filtres__compte {
   display: inline-grid; place-items: center;
   min-width: 1.5rem; height: 1.5rem; padding-inline: .35rem;
   background: var(--encre); color: #fff;
@@ -3285,7 +3326,7 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--vert-clair); }
   .plan__liens a, .plan__titre a,
   .association__contacts a,
   .encart__liens a,
-  .sommaire__lien,
+  .filtres__lien,
   a.bandeau-pratique__valeur { display: inline-flex; align-items: center; min-height: 44px; }
   .liens-utiles__item > a { display: block; padding-block: 1.1rem; }
   .liens-utiles__titre { min-height: 44px; display: flex; align-items: center; }
@@ -3418,4 +3459,46 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--vert-clair); }
   /* Cible tactile : c'est le titre qui se tape, et une ligne de texte de
      1 rem n'atteint pas 44 px. */
   .en-ce-moment__titre a { display: inline-flex; align-items: center; min-height: 44px; }
+}
+
+
+/* --- L'icône permanente vers les actualités -----------------------------
+   Une icône, pas un bouton libellé : la barre porte déjà sept rubriques, un
+   numéro et un appel à l'action, et un bloc de texte de plus faisait passer
+   les libellés du menu sur deux lignes dès 1200 px. Quarante-quatre pixels
+   suffisent, et tiennent à toutes les largeurs sans rien déloger.
+
+   Discrète au repos, cerclée au survol : elle doit se trouver du regard sans
+   entrer en concurrence avec l'appel à l'action, qui est un aplat vert. Le
+   blanc tient 11,4:1 sur la barre posée, davantage sur les photos voilées du
+   bandeau. */
+.entete__actu {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: 0 0 auto;
+  width: 44px; height: 44px;
+  /* Un filet discret au repos : sans lui l'icône se lit comme un ornement de
+     la barre, et l'on ne pense pas à cliquer. Il reste très en dessous de
+     l'aplat vert de l'appel à l'action, qui doit garder la première place. */
+  border: 1px solid rgba(255, 255, 255, .24); border-radius: var(--rayon);
+  color: #fff;
+  transition: background var(--transition), border-color var(--transition),
+              color var(--transition);
+}
+.entete__actu:hover,
+.entete__actu:focus-visible {
+  background: rgba(255, 255, 255, .12);
+  border-color: rgba(255, 255, 255, .4);
+  color: var(--vert-barre);
+}
+.entete__actu-icone { display: grid; place-items: center; width: 22px; height: 22px; }
+.entete__actu-icone svg { width: 100%; height: 100%; }
+
+/* Le bloc de droite est masqué sous 780 px ; l'icône, elle, reste. Elle passe
+   donc en absolu à droite, en miroir du burger, sans quoi les marges
+   automatiques qui centrent le logo la décaleraient d'autant. */
+@media (max-width: 780px) {
+  .entete__actu {
+    position: absolute; right: clamp(1rem, 3vw, 2.4rem); top: 50%;
+    transform: translateY(-50%);
+  }
 }

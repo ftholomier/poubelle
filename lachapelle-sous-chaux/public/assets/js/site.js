@@ -947,4 +947,100 @@
       boite.hidden = false;
     }
   })();
+
+  /* ---------- Filtrage des démarches par famille ----------
+     Le serveur sait déjà filtrer : chaque bouton est un vrai lien vers
+     /demarches?famille=… et la page fonctionne sans ce bloc. Il n'évite que
+     l'aller-retour, et garde la position de lecture — c'est précisément ce
+     qu'un sommaire à ancres ne faisait pas.
+
+     L'adresse est mise à jour malgré tout, par pushState : la sélection reste
+     partageable, s'ajoute aux favoris, et le bouton Précédent revient au
+     filtre précédent au lieu de quitter la page. */
+  (function () {
+    var barre = document.querySelector('[data-filtres]');
+    var liste = document.querySelector('[data-filtre-liste]');
+    if (!barre || !liste || !window.history || !history.pushState) return;
+
+    var liens = barre.querySelectorAll('[data-filtre]');
+    var titre = document.querySelector('[data-filtre-titre]');
+    var intro = document.querySelector('[data-filtre-texte]');
+    var annonce = document.querySelector('[data-filtre-annonce]');
+    var cartes = liste.querySelectorAll('[data-famille]');
+
+    function appliquer(famille, deplacerFocus) {
+      var visibles = 0;
+      for (var i = 0; i < cartes.length; i++) {
+        var garder = !famille || cartes[i].getAttribute('data-famille') === famille;
+        cartes[i].hidden = !garder;
+        if (garder) visibles++;
+      }
+
+      var actif = null;
+      for (var j = 0; j < liens.length; j++) {
+        var est = liens[j].getAttribute('data-filtre') === famille;
+        if (est) { liens[j].setAttribute('aria-current', 'page'); actif = liens[j]; }
+        else { liens[j].removeAttribute('aria-current'); }
+      }
+
+      if (titre) {
+        titre.textContent = actif && famille
+          ? (actif.getAttribute('data-titre') || '')
+          : (titre.getAttribute('data-titre-tout') || '');
+      }
+      if (intro) {
+        var texte = actif && famille ? (actif.getAttribute('data-intro') || '') : '';
+        intro.textContent = texte;
+        intro.hidden = texte === '';
+      }
+      if (annonce) {
+        annonce.textContent = visibles + (visibles > 1 ? ' démarches affichées' : ' démarche affichée');
+      }
+
+      /* Le focus va au titre de la grille : sans cela il reste sur le lien
+         qu'on vient de cliquer, et rien ne dit à qui navigue au clavier que
+         le contenu a changé sous ses yeux. */
+      if (deplacerFocus && titre) {
+        titre.setAttribute('tabindex', '-1');
+        titre.focus({ preventScroll: true });
+      }
+    }
+
+    function familleDeLAdresse() {
+      var m = /[?&]famille=([^&#]*)/.exec(window.location.search);
+      return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : '';
+    }
+
+    barre.addEventListener('click', function (e) {
+      var lien = e.target.closest('[data-filtre]');
+      if (!lien || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      var famille = lien.getAttribute('data-filtre');
+      if (famille === familleDeLAdresse()) return;
+      history.pushState({ famille: famille }, '', lien.getAttribute('href'));
+      appliquer(famille, true);
+    });
+
+    window.addEventListener('popstate', function () {
+      appliquer(familleDeLAdresse(), false);
+    });
+
+    /* Les anciennes adresses en ancre — /demarches#urbanisme — étaient
+       imprimées dans le Flash Info et collées dans des courriels. Elles ne
+       pointent plus vers rien depuis que les sections ont fusionné en une
+       grille : on les traduit en filtre plutôt que de les laisser tomber en
+       haut de page. Le remplacement de l'entrée d'historique évite d'ajouter
+       un cran au bouton Précédent pour un lien qu'on n'a pas cliqué. */
+    (function () {
+      var ancre = (window.location.hash || '').slice(1);
+      if (!ancre || familleDeLAdresse()) return;
+      for (var i = 0; i < liens.length; i++) {
+        if (liens[i].getAttribute('data-filtre') === ancre) {
+          history.replaceState({ famille: ancre }, '', liens[i].getAttribute('href'));
+          appliquer(ancre, false);
+          return;
+        }
+      }
+    })();
+  })();
 })();

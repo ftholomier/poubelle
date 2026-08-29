@@ -186,7 +186,22 @@ contenu :
    espaces. L'ancien éditeur aplatissait le menu à l'enregistrement, ce qui
    aurait détruit les cinq sous-menus du site.
 
-8. **Le contenu vivant est visible partout.** Le bandeau « En ce moment »,
+8. **Les démarches se filtrent, elles ne défilent plus.** La page portait un
+   sommaire de familles pointant vers des ancres : un lien qui paraît filtrer
+   et ne fait que descendre. Les autres familles restaient sous les yeux, on
+   perdait sa position, et chaque clic ajoutait une entrée dans l'historique —
+   le bouton Précédent devenait inutilisable. Choisir une famille ne montre
+   désormais qu'elle, sans que la page bouge d'un pixel.
+
+   Le filtre passe par l'adresse — `/demarches?famille=urbanisme` — et pas
+   seulement par le JavaScript : la sélection est partageable, s'ajoute aux
+   favoris, survit à un rechargement, et le serveur sait filtrer seul si le
+   script ne se charge pas. Toutes les fiches restent dans le HTML, masquées :
+   un moteur de recherche voit la page entière, et l'adresse canonique reste
+   `/demarches`. Les anciennes adresses en ancre, imprimées dans le Flash
+   Info, sont traduites en filtre à l'arrivée.
+
+9. **Le contenu vivant est visible partout.** Le bandeau « En ce moment »,
    sous le bandeau photo de chaque page, rappelle en trois entrées la dernière
    actualité, le prochain rendez-vous et le dernier Flash Info. Il est posé
    dans `views/partials/hero-page.php`, le bandeau partagé par les seize vues
@@ -202,14 +217,14 @@ contenu :
    celle qui fait disparaître la brocante du dimanche le dimanche matin, quand
    c'est précisément le moment où l'on vérifie l'heure.
 
-9. **Les dates se saisissent au calendrier.** Agenda, documents, actualités :
+10. **Les dates se saisissent au calendrier.** Agenda, documents, actualités :
    tous les champs de date sont des `<input type="date">`, donc le calendrier
    du navigateur — celui que la personne connaît déjà, sans bibliothèque ni
    requête. Le serveur normalise ce qu'il reçoit et refuse une date qui
    n'existe pas : un 31 février a la bonne forme et fausserait le tri de
    l'agenda, qui compare des chaînes.
 
-10. **La taille du logo est réglable** (Apparence → Taille du logo), de 36 à
+11. **La taille du logo est réglable** (Apparence → Taille du logo), de 36 à
    120 px, avec un aperçu du vrai logo à la vraie taille dans une barre à la
    vraie hauteur. Deux comportements au choix, parce qu'ils ne servent pas la
    même chose :
