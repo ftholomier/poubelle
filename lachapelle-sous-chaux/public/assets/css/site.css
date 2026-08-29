@@ -1813,25 +1813,30 @@ a.coordonnees__valeur:hover {
 /* La barre horizontale n'apparaît qu'à partir de la largeur où cinq entrées,
    un numéro de téléphone et un bouton tiennent sans se chevaucher. En deçà,
    les deux dispositions se rejoignent sur le panneau glissant. */
-/* Le numéro cède la place tant que la barre est serrée. C'est ce qu'elle porte
-   de plus redondant : « Écrire à la mairie » est juste à côté, le numéro
-   figure dans le pied de page de chaque page et en tête de la page contact, et
-   le bandeau pratique de l'accueil l'affiche en grand. Le sacrifier coûte
-   moins que de renvoyer sept rubriques derrière un burger sur un portable de
-   1280 px. Le seuil est mesuré, pas choisi : la pastille des actualités a
-   grandi d'un chiffre, et à 1400 px c'est elle qui sortait de l'écran. */
-@media (max-width: 1439px) {
-  .entete--horizontal .entete__tel { display: none; }
-}
+/* Le numéro quitte la barre en disposition horizontale, à toutes les largeurs.
+   C'est ce qu'elle portait de plus redondant : « Écrire à la mairie » est
+   juste à côté, le numéro figure dans le pied de page de chaque page, en tête
+   de la page contact, et en grand dans le bandeau pratique de l'accueil.
 
-/* 1280 px et non 1080 : la barre porte désormais sept rubriques — le contenu
+   Ce qu'on gagne à sa place vaut mieux : le mot « Actus & agenda » écrit en
+   toutes lettres à côté de la cloche, à toutes les largeurs. Un pictogramme
+   seul, si net soit-il, ne dit pas ce qu'il y a derrière — c'est le défaut par
+   lequel cet élément a commencé, et le numéro était la seule monnaie
+   disponible pour le corriger sans renvoyer sept rubriques derrière un
+   burger. */
+.entete--horizontal .entete__tel { display: none; }
+
+/* 1400 px et non 1080 : la barre porte désormais sept rubriques — le contenu
    vivant a la sienne — plus le numéro, l'appel à l'action et l'icône des
    actualités. À 1080 px l'appel à l'action et l'icône sortaient de l'écran, ce
    qu'aucune mesure de débordement horizontal ne signale : la barre est en
    position fixe, la page ne défile donc pas pour autant, et le bouton
-   disparaît simplement. Sous ce seuil, le menu latéral reprend la main — il
-   est fait pour cela. */
-@media (min-width: 1280px) {
+   disparaît simplement. Le seuil est monté deux fois, chaque fois pour une
+   raison mesurée : d'abord parce que les sept libellés ne se coupent plus,
+   puis parce que « Actus & agenda » s'écrit maintenant en toutes lettres. Sous
+   ce seuil, le menu latéral reprend la main — il est fait pour cela, et il
+   vaut mieux qu'un en-tête dont un bouton sur deux sort de l'écran. */
+@media (min-width: 1400px) {
   .entete--horizontal .navbar { display: block; }
   .entete--horizontal .burger { display: none; }
 }
@@ -1840,7 +1845,7 @@ a.coordonnees__valeur:hover {
   .cartes--clients { grid-template-columns: repeat(3, 1fr); }
 }
 
-@media (max-width: 1279px) {
+@media (max-width: 1399px) {
   /* Sans la navigation centrale, le logo est seul au milieu d'une barre qui
      garde sa hauteur : il y reprend de la place. Proportion d'origine, 60 px
      pour 52 — la retirer faisait retomber le logo du téléphone à 32 px, perdu
@@ -3493,8 +3498,28 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--vert-clair); }
   background: var(--ardoise); border-color: var(--ardoise);
   transform: translateY(-2px);
 }
-.entete__actu-icone { display: grid; place-items: center; width: 20px; height: 20px; flex: 0 0 auto; }
+.entete__actu-icone {
+  display: grid; place-items: center;
+  width: 22px; height: 22px; flex: 0 0 auto;
+  /* La cloche sonne trois fois à l'arrivée, qu'il y ait du neuf ou non : c'est
+     ce qui attire l'œil sur un élément que rien d'autre ne signale, et
+     l'animation précédente ne se déclenchait qu'en cas de nouveauté — donc
+     jamais, tant que la mairie n'avait rien publié. Elle pivote autour de son
+     attache, en haut : une cloche qui tourne autour de son centre ne sonne
+     pas, elle roule. */
+  transform-origin: 50% 15%;
+  animation: actu-sonne 2.6s ease-in-out 3;
+}
 .entete__actu-icone svg { width: 100%; height: 100%; }
+@keyframes actu-sonne {
+  0%, 62%, 100% { transform: rotate(0); }
+  66% { transform: rotate(13deg); }
+  70% { transform: rotate(-11deg); }
+  74% { transform: rotate(8deg); }
+  78% { transform: rotate(-6deg); }
+  82% { transform: rotate(3deg); }
+  86% { transform: rotate(0); }
+}
 
 /* La pastille : le nombre de choses à voir. C'est elle qui rend le lien
    explicite — une icône dit « actualités », un nombre dit « il y en a cinq ».
@@ -3535,18 +3560,16 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--vert-clair); }
    le mouvement — mal des transports, troubles vestibulaires, migraine. Le
    réglage système le dit, on l'écoute. */
 @media (prefers-reduced-motion: reduce) {
-  .entete__actu--neuf .entete__actu-pastille::after { animation: none; }
+  .entete__actu--neuf .entete__actu-pastille { animation: none; }
+  .entete__actu-icone { animation: none; }
   .entete__actu:hover { transform: none; }
 }
 
-/* Le libellé ne tient pas partout. Au-dessus de 1280 px la barre porte déjà
-   les sept rubriques et l'appel à l'action : le mot en plus les ferait passer
-   sur deux lignes, et « Actualités » figure de toute façon dans le menu, à
-   trois centimètres. Sous 780 px, le logo est centré et il n'y a de place que
-   pour le pictogramme. Entre les deux, la navigation est repliée : le mot a la
-   place, et c'est là qu'il sert le plus — c'est la largeur des tablettes, où
-   rien d'autre ne nomme la rubrique. */
-@media (min-width: 1280px), (max-width: 780px) {
+/* Sous 620 px il ne reste, à côté du logo centré, que la place du pictogramme
+   et de sa pastille. Partout ailleurs le mot est écrit : c'est lui qui dit ce
+   qu'on trouve derrière, et aucun pictogramme ne le remplace — c'est
+   d'ailleurs par là qu'a commencé le problème. */
+@media (max-width: 620px) {
   .entete__actu-texte {
     position: absolute; width: 1px; height: 1px;
     overflow: hidden; clip-path: inset(50%); white-space: nowrap;

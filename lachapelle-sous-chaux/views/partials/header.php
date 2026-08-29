@@ -130,8 +130,13 @@ $estActif = static function (array $item) use ($chemin): bool {
     <a class="entete__actu<?= $nouveautes > 0 ? ' entete__actu--neuf' : '' ?>"
        href="<?= route('actualites') ?>"
        data-actu-dates="<?= e(implode(',', $dates)) ?>">
-      <span class="entete__actu-icone" aria-hidden="true"><?= $view->partial('icones', ['nom' => 'actualite']) ?></span>
-      <span class="entete__actu-texte"><?= e(t('Actualités')) ?></span>
+      <span class="entete__actu-icone" aria-hidden="true"><?= $view->partial('icones', ['nom' => 'cloche']) ?></span>
+      <?php /* « Actus & agenda » et pas « Actualités » : le lien mène aux
+               trois rubriques du contenu vivant, et c'est le mot « agenda »
+               qui le dit — sans lui, on croit n'y trouver que des articles.
+               Il est affiché à toutes les largeurs : un pictogramme, si net
+               soit-il, ne remplace pas le mot. */ ?>
+      <span class="entete__actu-texte"><?= e(t('Actus & agenda')) ?></span>
       <?php /* La pastille est décorative pour les lecteurs d'écran : le nom du
                lien, juste en dessous, porte déjà le compte en toutes lettres,
                et l'annoncer deux fois ferait « Actualités 2 Actualités, agenda

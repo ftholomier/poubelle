@@ -57,6 +57,15 @@ $icones = [
     'dechets' => '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h22l-2 21a2 2 0 0 1-2 1.8H13A2 2 0 0 1 11 33L9 12z"/><path d="M6 12h28"/><path d="M16 12V8a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4"/><path d="M17 19v9M23 19v9" opacity=".6"/></svg>',
     'eau' => '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5c5 7 9 11.5 9 16.5A9 9 0 0 1 11 21.5C11 16.5 15 12 20 5z"/><path d="M4 33c3 0 3 2 6 2s3-2 6-2 3 2 6 2 3-2 6-2 3 2 6 2" opacity=".6"/></svg>',
     'agenda' => '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="9" width="30" height="26" rx="2.5"/><path d="M5 17h30"/><path d="M13 5v7M27 5v7"/><path d="M12 23h4M18 23h4M24 23h4M12 29h4M18 29h4" opacity=".6"/></svg>',
+    /* Cloche pleine, dessinée pour vingt pixels et pas réduite depuis
+       quarante. Les pictogrammes de ce fichier sont des traits de 1,4 sur une
+       grille de 40 : parfaits dans une carte de 34 px, illisibles dans la
+       barre — à cette taille le trait tombe sous le pixel et l'œil ne voit
+       plus qu'une tache. Celui-ci est en aplat, sur une grille de 24, avec des
+       formes assez grosses pour survivre. C'est aussi la cloche que tout le
+       monde lit comme « il y a du nouveau », ce qui va de pair avec la
+       pastille de compte. */
+    'cloche' => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6a1.3 1.3 0 0 1 1.3 1.3v.5a6 6 0 0 1 4.7 5.85v3.05l1.4 2.6a.9.9 0 0 1-.79 1.33H5.39a.9.9 0 0 1-.79-1.33l1.4-2.6V10.25A6 6 0 0 1 10.7 4.4v-.5A1.3 1.3 0 0 1 12 2.6z"/><path d="M9.6 19.1h4.8a2.4 2.4 0 0 1-4.8 0z"/></svg>',
     'actualite' => '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10h22v22a2 2 0 0 0 2 2H8a2 2 0 0 1-2-2V10z"/><path d="M28 16h6v16a2 2 0 0 1-2 2" opacity=".7"/><path d="M11 15h8v7h-8z"/><path d="M23 15h1M11 26h12M11 30h8" opacity=".6"/></svg>',
 
     // --- éléments d'interface --------------------------------------------

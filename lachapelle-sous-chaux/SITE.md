@@ -202,8 +202,28 @@ contenu :
    Info, sont traduites en filtre à l'arrivée.
 
 9. **Un accès permanent aux actualités dans la barre.** Une pastille verte
-   avec son pictogramme, son libellé quand la largeur le permet, et surtout un
-   compteur : **ce que la mairie a publié depuis votre dernière visite**. Il
+   qui porte une cloche, le mot « Actus & agenda » écrit en toutes lettres, et
+   un compteur.
+
+   Trois corrections y ont été nécessaires, et elles disent la même chose : un
+   pictogramme ne parle pas tout seul. Celui d'origine était un trait de 1,4
+   sur une grille de 40 — juste dans une carte de 34 px, illisible à 20 dans la
+   barre, où le trait tombe sous le pixel. Il est remplacé par une cloche en
+   aplat, dessinée pour cette taille-là. L'animation ne se déclenchait qu'en
+   cas de nouveauté, c'est-à-dire jamais tant que la mairie n'avait rien
+   publié : la cloche sonne maintenant trois fois à chaque arrivée sur une
+   page, nouveauté ou pas. Et le libellé, masqué sur ordinateur au motif que le
+   menu portait déjà « Actualités », est désormais écrit partout au-dessus de
+   620 px : c'est lui qui dit ce qu'il y a derrière.
+
+   Ce qui a payé la place : **le numéro de téléphone quitte la barre** en
+   disposition horizontale. C'était ce qu'elle portait de plus redondant — il
+   figure dans le pied de chaque page, en tête de la page contact et en grand
+   sur l'accueil, et « Écrire à la mairie » est juste à côté. La barre
+   horizontale demande en contrepartie 1400 px ; en dessous, le menu latéral
+   reprend la main.
+
+   Le compteur, lui, dit : **ce que la mairie a publié depuis votre dernière visite**. Il
    retombe à zéro dès qu'on est allé voir, par la pastille ou par n'importe
    quel autre chemin.
 
