@@ -113,11 +113,14 @@ $estActif = static function (array $item) use ($chemin): bool {
     <?php /* Picto seul : dans le panneau, le nom du site est déjà porté par
              le titre du document et par le lien d'accueil. */ ?>
     <a class="panneau__logo" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — Accueil">
-      <?php /* Version claire de l'emblème : le panneau est sur l'ardoise, et
-               la feuille du logo est un évidement — en version sombre, elle
-               emprunterait la couleur du panneau et disparaîtrait. */ ?>
+      <?php /* Emblème en blanc plein, et c'est indispensable ici. L'emblème
+               n'est que les deux arcs : contrairement au logo complet, il ne
+               porte pas le nom, or c'est le nom en blanc qui rend le logo
+               lisible sur fond sombre. En vert de charte sur l'ardoise du
+               panneau, deux arcs fins de 44 px se voient à peine — mesuré, et
+               vérifié depuis par outils/verifs/entete.py. */ ?>
       <img class="panneau__embleme"
-           src="<?= asset('assets/img/logo/embleme-lachapelle-clair.svg') ?>"
+           src="<?= asset($site['logo']['embleme_clair'] ?? 'assets/img/logo/embleme-lachapelle-clair.svg') ?>"
            alt="" width="505" height="443">
     </a>
     <button class="panneau__fermer"><?= e(t('Fermer')) ?></button>

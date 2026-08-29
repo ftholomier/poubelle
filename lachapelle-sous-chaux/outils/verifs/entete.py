@@ -45,6 +45,12 @@ MENUS = ('lateral', 'horizontal')
 # la même chose seraient pires qu'un seul.
 CIBLE_MINI = 44
 CIBLE_JUSQUA = 780
+# Contraste minimal de l'emblème du panneau contre son fond. 3:1 est le seuil
+# des éléments graphiques (WCAG 1.4.11) ; les logos en sont formellement
+# exemptés, mais un logo qu'on ne voit pas ne remplit pas son office. Ce
+# plancher sert à refuser la variante sombre du fichier sur le panneau sombre
+# — 2,3:1 — et rien de plus : voir mesurer_embleme().
+EMBLEME_MINI = 3.0
 NAVIGATEUR = os.environ.get('CHROMIUM', '/opt/pw-browsers/chromium')
 
 RACINE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -126,6 +132,111 @@ MESURE = """() => {
       ? logo.naturalWidth / logo.naturalHeight : 0,
   };
 }"""
+
+
+EMBLEME = """() => {
+  const panneau = document.querySelector('.panneau');
+  const img = document.querySelector('.panneau__embleme');
+  if (!panneau || !img) return null;
+
+  // Le fond derrière l'emblème, en aplatissant les couches translucides
+  // jusqu'à un fond opaque : le panneau est peint, mais rien ne garantit que
+  // ce soit lui qui porte la couleur.
+  function fond(el) {
+    let couche = [1, 1, 1];
+    for (let e = el; e; e = e.parentElement) {
+      const c = getComputedStyle(e).backgroundColor.match(/[\d.]+/g);
+      if (!c) continue;
+      const a = c.length > 3 ? parseFloat(c[3]) : 1;
+      if (a === 0) continue;
+      couche = [0, 1, 2].map(i => parseFloat(c[i]) / 255);
+      if (a === 1) break;
+    }
+    return couche;
+  }
+  return {fond: fond(img), boite: img.getBoundingClientRect().toJSON()};
+}"""
+
+
+def contraste(a: list[float], b: list[float]) -> float:
+    def lum(c):
+        v = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+        return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]
+    l1, l2 = sorted((lum(a), lum(b)), reverse=True)
+    return (l1 + 0.05) / (l2 + 0.05)
+
+
+def mesurer_embleme(navigateur, base: str) -> float | None:
+    """La plus mauvaise teinte de l'emblème du panneau contre son fond.
+
+    On échantillonne le dessin peint plutôt que de lire les couleurs du SVG :
+    un fichier remplacé par la mairie, un dégradé, une opacité posée en CSS —
+    rien de tout cela n'est visible depuis le source du fichier.
+
+    Ce que cette mesure attrape, et ce qu'elle n'attrape pas : elle refuse
+    l'emblème sombre posé sur le panneau sombre, qui est l'erreur qu'on
+    commettra un jour en changeant de fichier — le vert foncé de la charte n'y
+    tient que 2,3:1. Elle ne dit rien de la lisibilité réelle d'un trait fin :
+    l'emblème vert livré au départ mesurait 4,9:1, au-dessus de tous les
+    seuils, et se voyait pourtant à peine sur l'ardoise du panneau — deux arcs
+    de deux pixels, dans une teinte voisine du fond. C'est un jugement d'œil,
+    et aucun rapport de contraste ne le rend. D'où le blanc plein.
+    """
+    from PIL import Image
+    import io as _io
+
+    # Un contexte à part, en densité 3 : à 44 px les arcs ne font qu'un ou deux
+    # pixels, presque tous en anti-crénelage, et la couleur pleine du trait
+    # n'apparaît nulle part. La densité agrandit le rendu sans toucher à la
+    # mise en page, donc sans changer ce qu'on mesure.
+    ctx = navigateur.new_context(viewport={'width': 420, 'height': 760},
+                                 device_scale_factor=3)
+    page = ctx.new_page()
+    try:
+        page.goto(base + '/', wait_until='load')
+        page.evaluate("document.querySelectorAll('*').forEach(e => {"
+                      "e.style.transition = 'none'; e.style.animation = 'none'; })")
+        page.click('.burger')
+        page.wait_for_timeout(400)
+        infos = page.evaluate(EMBLEME)
+        if infos is None:
+            return None
+        b = infos['boite']
+        if b['width'] < 1 or b['height'] < 1:
+            return None
+        tir = page.screenshot(clip={'x': b['x'], 'y': b['y'],
+                                    'width': b['width'], 'height': b['height']})
+    finally:
+        ctx.close()
+
+    image = Image.open(_io.BytesIO(tir)).convert('RGB')
+    fond = infos['fond']
+    fond255 = [c * 255 for c in fond]
+
+    # Ni le pire pixel ni le meilleur. Le pire serait le fond lui-même : un
+    # emblème est surtout du vide, et l'on mesurerait le panneau contre lui-même.
+    # Le meilleur laisserait un seul détail clair sauver un logo par ailleurs
+    # noyé. On regroupe donc les pixels par couleur, on écarte le fond et le
+    # crénelage, et l'on retient la plus mauvaise des teintes qui portent
+    # vraiment le dessin.
+    encre = {}
+    # getcolors rend des couples (compte, couleur), dans cet ordre
+    for compte, couleur in image.getcolors(maxcolors=1 << 24) or []:
+        ecart = max(abs(couleur[i] - fond255[i]) for i in range(3))
+        if ecart < 24:                       # c'est le fond
+            continue
+        encre[couleur] = encre.get(couleur, 0) + compte
+    if not encre:
+        return None
+
+    total = sum(encre.values())
+    pire = None
+    for couleur, compte in encre.items():
+        if compte / total < 0.05:            # crénelage, ou détail négligeable
+            continue
+        c = contraste([v / 255 for v in couleur], fond)
+        pire = c if pire is None else min(pire, c)
+    return pire
 
 
 def mesurer(page, base: str, largeur: int, defile: bool) -> dict:
@@ -213,6 +324,21 @@ def main() -> None:
                                     print(f'  SOUCI {ligne} — ' + ' ; '.join(faits))
                                 else:
                                     print(f'     ok {ligne}')
+
+            # L'emblème du panneau ne dépend d'aucun réglage : une mesure suffit,
+            # et elle est faite ici plutôt que dans un sixième script parce que
+            # c'est le même composant — l'en-tête et son menu.
+            emb = mesurer_embleme(navigateur, args.base)
+            if emb is None:
+                print('  (emblème du panneau introuvable — mesure ignorée)')
+            elif emb < EMBLEME_MINI:
+                soucis += 1
+                print(f'  SOUCI emblème du panneau à {emb:.2f}:1 sur son fond '
+                      f'(minimum {EMBLEME_MINI}) — c’est la variante sombre du '
+                      f'fichier qui est servie ; le panneau demande la claire')
+            else:
+                print(f'     ok emblème du panneau  {emb:.2f}:1 sur son fond')
+
             navigateur.close()
     finally:
         # le réglage de la mairie n'appartient pas à l'auditeur
