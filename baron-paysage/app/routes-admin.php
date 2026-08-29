@@ -42,7 +42,7 @@ $deploiement = new Deploiement($config['paths']['root'], $parametres);
 $languesAdmin = new Langues($config['paths']['data'] . '/langues.json');
 $traducteurAdmin = new App\Core\Traducteur($config['paths']['data'] . '/traductions');
 
-$admin   = new AdminController($view, $content, $auth, $mediatheque);
+$admin   = new AdminController($view, $content, $auth, $mediatheque, $mailer, $parametres);
 $edition = new EditionController($view, $content, $mediatheque);
 $media   = new MediaController($view, $content, $mediatheque);
 $majour  = new MiseAJourController($view, $deploiement);
@@ -83,6 +83,14 @@ $router->post('/admin/configuration', fn() => $admin->configurationEnvoi());
 $router->get('/admin/connexion',      fn() => $admin->connexion());
 $router->post('/admin/connexion',     fn() => $admin->connexionEnvoi());
 $router->post('/admin/deconnexion',   fn() => $admin->deconnexion());
+
+// Récupération du mot de passe : demande d'un lien, puis choix d'un nouveau
+// mot de passe une fois le lien suivi. Aucun de ces écrans n'est protégé —
+// ils s'adressent à quelqu'un qui, par définition, ne peut plus se connecter.
+$router->get('/admin/mot-de-passe-oublie',    fn() => $admin->motDePasseOublie());
+$router->post('/admin/mot-de-passe-oublie',   fn() => $admin->motDePasseOublieEnvoi());
+$router->get('/admin/nouveau-mot-de-passe',   fn() => $admin->nouveauMotDePasse());
+$router->post('/admin/nouveau-mot-de-passe',  fn() => $admin->nouveauMotDePasseEnvoi());
 
 // ----- écrans protégés ----------------------------------------------------
 $router->get('/admin',          $protege(fn() => $admin->tableauDeBord()));

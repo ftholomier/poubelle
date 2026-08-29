@@ -133,6 +133,48 @@ Vous changerez identifiant et mot de passe quand vous voulez depuis
 Le compte est stocké dans `data/admin/compte.json`, mot de passe **haché en
 bcrypt** — il n'est jamais lisible, même en ouvrant le fichier.
 
+### Mot de passe perdu
+
+Le hachage bcrypt est **irréversible** : personne, pas même vous, ne peut
+retrouver un mot de passe à partir du fichier. Trois façons de reprendre la
+main, de la plus simple à la plus radicale.
+
+**1. Depuis l'écran de connexion (le cas normal).** Le lien
+« Mot de passe oublié ? » sous le formulaire envoie un lien de
+réinitialisation **à l'adresse de secours du site** — celle réglée dans
+*Paramètres → Destinataire des demandes*, ou à défaut l'e-mail public des
+coordonnées. Le lien vaut une heure et ne sert qu'une fois. Il faut donc que
+l'envoi d'e-mails soit configuré (voir § 5) et qu'une adresse de secours
+existe ; sans cela, l'écran vous le dit et vous renvoie ici.
+
+Le lien ne part jamais vers une adresse tapée dans le formulaire : sinon il
+suffirait d'en saisir une pour se faire remettre les clés. Il part toujours à
+l'adresse de secours, que vous seul relevez.
+
+**2. En remplaçant le fichier par FTP (déblocage immédiat, sans e-mail).**
+Téléversez un `data/admin/compte.json` neuf. Pour en fabriquer un avec le mot
+de passe de votre choix, une ligne de commande PHP suffit :
+
+```bash
+php -r 'echo json_encode(["identifiant"=>"admin","hash"=>password_hash("VotreMotDePasse", PASSWORD_DEFAULT),"cree_le"=>date("c")], JSON_PRETTY_PRINT), "\n";' > compte.json
+```
+
+Déposez le fichier obtenu dans `data/admin/`, en écrasant l'ancien. Vous vous
+connectez aussitôt avec ce mot de passe. Changez-le ensuite depuis
+*Paramètres* pour un mot de passe fort — un fichier fabriqué à la main
+contourne la règle des douze caractères.
+
+**3. En supprimant le fichier (dernier recours).** Effacez
+`data/admin/compte.json` par FTP. Au prochain passage sur `/admin`, l'écran de
+**première configuration** réapparaît et vous recréez le compte de zéro.
+Attention : tant que le fichier est absent, n'importe quel visiteur tombant
+sur `/admin` pourrait créer le compte à votre place — faites-le sans attendre.
+
+Dans tous les cas, changer le mot de passe **déconnecte immédiatement toutes
+les sessions ouvertes**, sur tous les appareils : une session est scellée au
+mot de passe qui l'a ouverte. C'est ce qui protège si le mot de passe avait
+fini entre de mauvaises mains.
+
 ---
 
 ## 5. Configurer l'envoi des e-mails

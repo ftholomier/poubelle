@@ -5,8 +5,13 @@
  * @var int|null $verrou secondes restantes de verrouillage
  */
 use App\Core\Csrf;
+use App\Core\Session;
+$succes = Session::flash('succes');
 ?>
 <h1>Back-office</h1>
+<?php if ($succes !== null): ?>
+  <p class="bo-message bo-message--succes"><?= e($succes) ?></p>
+<?php endif; ?>
 <?php if ($verrou !== null): ?>
   <p class="bo-message bo-message--erreur">Trop de tentatives. Réessayez dans <?= e((int) ceil($verrou / 60)) ?> min.</p>
 <?php elseif ($erreur): ?>
@@ -24,3 +29,7 @@ use App\Core\Csrf;
   </div>
   <button class="bo-btn" type="submit" <?= $verrou !== null ? 'disabled' : '' ?>>Se connecter</button>
 </form>
+
+<p class="bo-aide" style="margin-top:1.4rem;">
+  <a href="<?= url('/admin/mot-de-passe-oublie') ?>">Mot de passe oublié ?</a>
+</p>
