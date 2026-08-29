@@ -201,7 +201,21 @@ contenu :
    `/demarches`. Les anciennes adresses en ancre, imprimées dans le Flash
    Info, sont traduites en filtre à l'arrivée.
 
-9. **Le contenu vivant est visible partout.** Le bandeau « En ce moment »,
+9. **Un accès permanent aux actualités dans la barre.** Une pastille verte
+   avec son pictogramme, son libellé quand la largeur le permet, et le nombre
+   de choses à voir en ce moment — les rendez-vous à venir plus les actualités
+   des trois derniers mois. C'est le nombre qui rend le lien explicite : une
+   icône dit « actualités », un chiffre dit « il y en a cinq ». Une onde bat
+   trois fois à l'arrivée sur la page, puis s'arrête — une animation en boucle
+   dans un en-tête fixe devient un clignotant qu'on finit par ne plus voir — et
+   ne se déclenche pas du tout si le système demande moins de mouvement.
+
+   Le vert est celui du bandeau « En ce moment », pas celui de l'appel à
+   l'action voisin : deux aplats de la même teinte côte à côte se disputent le
+   regard, et la même couleur doit mener au même contenu d'un bout à l'autre
+   du site.
+
+10. **Le contenu vivant est visible partout.** Le bandeau « En ce moment »,
    sous le bandeau photo de chaque page, rappelle en trois entrées la dernière
    actualité, le prochain rendez-vous et le dernier Flash Info. Il est posé
    dans `views/partials/hero-page.php`, le bandeau partagé par les seize vues
@@ -217,14 +231,14 @@ contenu :
    celle qui fait disparaître la brocante du dimanche le dimanche matin, quand
    c'est précisément le moment où l'on vérifie l'heure.
 
-10. **Les dates se saisissent au calendrier.** Agenda, documents, actualités :
+11. **Les dates se saisissent au calendrier.** Agenda, documents, actualités :
    tous les champs de date sont des `<input type="date">`, donc le calendrier
    du navigateur — celui que la personne connaît déjà, sans bibliothèque ni
    requête. Le serveur normalise ce qu'il reçoit et refuse une date qui
    n'existe pas : un 31 février a la bonne forme et fausserait le tri de
    l'agenda, qui compare des chaînes.
 
-11. **La taille du logo est réglable** (Apparence → Taille du logo), de 36 à
+12. **La taille du logo est réglable** (Apparence → Taille du logo), de 36 à
    120 px, avec un aperçu du vrai logo à la vraie taille dans une barre à la
    vraie hauteur. Deux comportements au choix, parce qu'ils ne servent pas la
    même chose :

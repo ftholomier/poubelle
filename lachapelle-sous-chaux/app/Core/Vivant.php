@@ -119,6 +119,33 @@ final class Vivant
     }
 
     /**
+     * Combien de choses il y a à voir en ce moment.
+     *
+     * Sert la pastille de l'icône des actualités : un nombre dit ce qu'un
+     * pictogramme seul ne dit pas, et c'est ce qui transforme une icône
+     * décorative en information.
+     *
+     * La règle : les rendez-vous encore à venir, plus les actualités des trois
+     * derniers mois. Un seuil est nécessaire — sans lui la pastille afficherait
+     * le total de tout ce qui a jamais été publié, un nombre qui ne bouge
+     * jamais et ne veut rien dire. Trois mois parce qu'une commune de sept
+     * cents habitants publie quelques nouvelles par trimestre : au-delà, ce
+     * n'est plus une nouveauté, c'est de l'archive.
+     */
+    public function nouveautes(int $jours = 90): int
+    {
+        $depuis = date('Y-m-d', strtotime('-' . max(1, $jours) . ' days'));
+        $recentes = 0;
+        foreach ($this->actualites() as $actu) {
+            if ((string) ($actu['date'] ?? '') >= $depuis) {
+                $recentes++;
+            }
+        }
+
+        return $recentes + count($this->agenda());
+    }
+
+    /**
      * Y a-t-il seulement quelque chose à annoncer ?
      *
      * Une commune qui n'a rien publié ne doit pas se voir imposer un bandeau

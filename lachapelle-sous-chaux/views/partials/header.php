@@ -113,9 +113,26 @@ $estActif = static function (array $item) use ($chemin): bool {
 
              Il est posé hors de .entete__droite précisément pour cela : ce
              bloc-là est masqué sur téléphone, lui ne l'est jamais. */ ?>
-    <a class="entete__actu" href="<?= route('actualites') ?>" title="<?= e(t('Actualités')) ?>">
+    <?php $nouveautes = isset($vivant) ? $vivant->nouveautes() : 0; ?>
+    <a class="entete__actu<?= $nouveautes > 0 ? ' entete__actu--neuf' : '' ?>"
+       href="<?= route('actualites') ?>">
       <span class="entete__actu-icone" aria-hidden="true"><?= $view->partial('icones', ['nom' => 'actualite']) ?></span>
-      <span class="sr-only"><?= e(t('Actualités, agenda et Flash Info')) ?></span>
+      <span class="entete__actu-texte"><?= e(t('Actualités')) ?></span>
+      <?php if ($nouveautes > 0): ?>
+        <?php /* La pastille est ce qui rend l'icône explicite : un nombre dit
+                 qu'il y a quelque chose, un pictogramme seul ne dit rien. Elle
+                 est décorative pour les lecteurs d'écran — le nom du lien,
+                 juste au-dessus, porte déjà l'information en toutes lettres,
+                 et l'annoncer deux fois ferait « Actualités 5 Actualités,
+                 agenda et Flash Info, 5 nouveautés ». */ ?>
+        <span class="entete__actu-pastille" aria-hidden="true"><?= (int) $nouveautes ?></span>
+      <?php endif; ?>
+      <span class="sr-only">
+        <?= e(t('Actualités, agenda et Flash Info')) ?><?php
+          if ($nouveautes > 0): ?> — <?= e(sprintf(
+            $nouveautes > 1 ? t('%d nouveautés') : t('%d nouveauté'), $nouveautes
+          )) ?><?php endif; ?>
+      </span>
     </a>
   </div>
 

@@ -1818,8 +1818,9 @@ a.coordonnees__valeur:hover {
    figure dans le pied de page de chaque page et en tête de la page contact, et
    le bandeau pratique de l'accueil l'affiche en grand. Le sacrifier coûte
    moins que de renvoyer sept rubriques derrière un burger sur un portable de
-   1280 px. */
-@media (max-width: 1399px) {
+   1280 px. Le seuil est mesuré, pas choisi : la pastille des actualités a
+   grandi d'un chiffre, et à 1400 px c'est elle qui sortait de l'écran. */
+@media (max-width: 1439px) {
   .entete--horizontal .entete__tel { display: none; }
 }
 
@@ -3462,36 +3463,90 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--vert-clair); }
 }
 
 
-/* --- L'icône permanente vers les actualités -----------------------------
-   Une icône, pas un bouton libellé : la barre porte déjà sept rubriques, un
-   numéro et un appel à l'action, et un bloc de texte de plus faisait passer
-   les libellés du menu sur deux lignes dès 1200 px. Quarante-quatre pixels
-   suffisent, et tiennent à toutes les largeurs sans rien déloger.
+/* --- L'accès permanent aux actualités ------------------------------------
+   Le seul lien du site qui ne disparaît jamais : la navigation se replie
+   derrière le burger, le numéro et l'appel à l'action s'effacent sur
+   téléphone, lui reste. D'où l'aplat vert : sur une barre où tout le reste
+   est du texte blanc, la couleur est ce qui le fait trouver sans le chercher.
 
-   Discrète au repos, cerclée au survol : elle doit se trouver du regard sans
-   entrer en concurrence avec l'appel à l'action, qui est un aplat vert. Le
-   blanc tient 11,4:1 sur la barre posée, davantage sur les photos voilées du
-   bandeau. */
+   C'est --vert-texte, et pour deux raisons. D'abord le contraste : le vert de
+   charte ne porte le blanc qu'à 3,2:1, celui-ci à 6,05:1. Ensuite la
+   hiérarchie — l'appel à l'action voisin prend --vert-fonce, et deux aplats
+   de la même teinte côte à côte se disputent le regard sans qu'aucun
+   l'emporte. Ce vert-ci est celui du bandeau « En ce moment » : la même
+   couleur mène au même contenu, d'un bout à l'autre du site. */
 .entete__actu {
-  display: inline-flex; align-items: center; justify-content: center;
-  flex: 0 0 auto;
-  width: 44px; height: 44px;
-  /* Un filet discret au repos : sans lui l'icône se lit comme un ornement de
-     la barre, et l'on ne pense pas à cliquer. Il reste très en dessous de
-     l'aplat vert de l'appel à l'action, qui doit garder la première place. */
-  border: 1px solid rgba(255, 255, 255, .24); border-radius: var(--rayon);
+  display: inline-flex; align-items: center; gap: .5rem;
+  flex: 0 0 auto; position: relative;
+  min-height: 44px; padding: .5rem .85rem;
+  background: var(--vert-texte);
+  border: 1px solid var(--vert-texte); border-radius: var(--rayon);
   color: #fff;
+  font-size: .7rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  white-space: nowrap;
   transition: background var(--transition), border-color var(--transition),
-              color var(--transition);
+              transform var(--transition);
 }
 .entete__actu:hover,
 .entete__actu:focus-visible {
-  background: rgba(255, 255, 255, .12);
-  border-color: rgba(255, 255, 255, .4);
-  color: var(--vert-barre);
+  background: var(--ardoise); border-color: var(--ardoise);
+  transform: translateY(-2px);
 }
-.entete__actu-icone { display: grid; place-items: center; width: 22px; height: 22px; }
+.entete__actu-icone { display: grid; place-items: center; width: 20px; height: 20px; flex: 0 0 auto; }
 .entete__actu-icone svg { width: 100%; height: 100%; }
+
+/* La pastille : le nombre de choses à voir. C'est elle qui rend le lien
+   explicite — une icône dit « actualités », un nombre dit « il y en a cinq ».
+   Encre sur vert, blanc sur encre : 12,79:1, elle reste lisible réduite. */
+.entete__actu-pastille {
+  display: inline-grid; place-items: center;
+  min-width: 1.35rem; height: 1.35rem; padding-inline: .3rem;
+  background: var(--encre); color: #fff;
+  font-size: .68rem; font-weight: 700; letter-spacing: 0;
+  border-radius: 999px;
+}
+
+/* L'appel du regard, trois fois à l'arrivée sur la page, puis plus rien. Une
+   animation qui tourne en boucle dans un en-tête fixe devient un clignotant :
+   elle fatigue, et l'on finit par ne plus la voir — l'inverse de ce qu'on
+   cherche.
+
+   L'onde est une ombre portée qui s'écarte, pas une transformation : la
+   pastille elle-même ne bouge pas d'un pixel, le chiffre reste net pendant
+   toute l'animation, et rien ne peut se placer de travers puisqu'il n'y a
+   aucune boîte à positionner. */
+.entete__actu--neuf .entete__actu-pastille {
+  animation: actu-onde 2.4s ease-out 3;
+}
+@keyframes actu-onde {
+  0%   { box-shadow: 0 0 0 0 rgba(127, 197, 118, .7); }
+  60%  { box-shadow: 0 0 0 9px rgba(127, 197, 118, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(127, 197, 118, 0); }
+}
+
+/* Une animation décorative ne s'impose pas à qui a demandé qu'on lui épargne
+   le mouvement — mal des transports, troubles vestibulaires, migraine. Le
+   réglage système le dit, on l'écoute. */
+@media (prefers-reduced-motion: reduce) {
+  .entete__actu--neuf .entete__actu-pastille::after { animation: none; }
+  .entete__actu:hover { transform: none; }
+}
+
+/* Le libellé ne tient pas partout. Au-dessus de 1280 px la barre porte déjà
+   les sept rubriques et l'appel à l'action : le mot en plus les ferait passer
+   sur deux lignes, et « Actualités » figure de toute façon dans le menu, à
+   trois centimètres. Sous 780 px, le logo est centré et il n'y a de place que
+   pour le pictogramme. Entre les deux, la navigation est repliée : le mot a la
+   place, et c'est là qu'il sert le plus — c'est la largeur des tablettes, où
+   rien d'autre ne nomme la rubrique. */
+@media (min-width: 1280px), (max-width: 780px) {
+  .entete__actu-texte {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .entete__actu { padding-inline: .55rem; }
+}
 
 /* Le bloc de droite est masqué sous 780 px ; l'icône, elle, reste. Elle passe
    donc en absolu à droite, en miroir du burger, sans quoi les marges
@@ -3501,4 +3556,5 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--vert-clair); }
     position: absolute; right: clamp(1rem, 3vw, 2.4rem); top: 50%;
     transform: translateY(-50%);
   }
+  .entete__actu:hover, .entete__actu:focus-visible { transform: translateY(-50%); }
 }
