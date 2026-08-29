@@ -2666,16 +2666,32 @@ body.visionneuse-ouverte { overflow: hidden; }
    La règle est écrite sur le pointeur, pas sur la largeur : une tablette de
    768 px est aussi imprécise qu'un téléphone de 390. */
 @media (hover: none) {
+  /* Une hauteur minimale plutôt qu'un rembourrage deviné : le rembourrage se
+     calcule sur une hauteur de ligne qui varie avec la taille de police, et
+     retombe toujours un ou deux pixels sous la cible. Mesuré, la rangée du
+     pied tenait 42 px là où 44 sont attendus. */
   .pied__liens a,
   .pied__legal a,
   .pied__tel,
   .pied__contact a,
-  .coordonnees__valeur { display: inline-block; padding-block: .6rem; }
-  .pied__reseaux a { width: 42px; height: 42px; }
-  .lien-fleche { padding-block: .55rem; }
+  .coordonnees__valeur {
+    display: inline-flex; align-items: center; min-height: 44px;
+  }
+  .pied__reseaux a { width: 44px; height: 44px; }
+  /* Le panneau latéral n'existe que sur pointeur imprécis : ses cibles sont
+     donc les plus exposées. Le bouton de fermeture tenait 26 px, et le
+     numéro de téléphone 18. */
+  .panneau__fermer { min-width: 44px; min-height: 44px; }
+  .panneau__coordonnees a { display: inline-flex; align-items: center; min-height: 44px; }
+  .lien-fleche { display: inline-flex; align-items: center; min-height: 44px; }
+  /* La case de consentement fait 13 px par défaut, et son étiquette tient sur
+     une ligne : la cible réelle — l'étiquette, qui bascule la case — n'en
+     faisait que vingt-cinq. On élargit les deux. */
+  .champ--case input { width: 24px; height: 24px; margin-top: .35rem; }
+  .champ--case label { display: flex; align-items: center; min-height: 44px; }
   .entete__logo { padding-block: .35rem; }
   .pied__suivre a,
-  .coordonnees__reseaux a { padding-block: .5rem; }
+  .coordonnees__reseaux a { display: inline-flex; align-items: center; min-height: 44px; }
   .panneau__lien,
   .panneau__sous a,
   .panneau__accordeon > button { min-height: 46px; }
