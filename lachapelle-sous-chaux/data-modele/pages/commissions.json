@@ -1,0 +1,23 @@
+{
+    "titre": "Commissions & comités",
+    "meta": {
+        "description": "Les commissions communales de Lachapelle-sous-Chaux — finances, travaux, urbanisme, forêt, animation — et les structures intercommunales où la commune est représentée."
+    },
+    "hero": {
+        "surtitre": "La mairie",
+        "titre": "Commissions & comités",
+        "image": "assets/img/site/vergers-sous-le-givre.jpg",
+        "texte": "Qui prépare quoi, et où siègent les élus de la commune."
+    },
+    "sous_titre": "Une commission n’est pas une instance de décision : elle instruit, elle propose, et c’est le conseil municipal qui délibère. Savoir qui la compose permet de s’adresser à la bonne personne avant qu’un dossier ne parte.",
+    "sections": [
+        {
+            "type": "texte",
+            "titre": "Comment un dossier avance",
+            "paragraphes": [
+                "Un projet de travaux, un budget, une révision de règlement passe d’abord devant la commission concernée, qui l’examine et l’amende. Il vient ensuite en séance du conseil, où il est débattu et voté. Enfin, le maire l’exécute.",
+                "Entre les deux, la parole d’un habitant compte : la permanence du samedi matin est faite pour cela."
+            ]
+        }
+    ]
+}

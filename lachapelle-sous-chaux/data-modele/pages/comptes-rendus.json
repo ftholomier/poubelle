@@ -1,0 +1,27 @@
+{
+    "titre": "Comptes-rendus du conseil",
+    "meta": {
+        "description": "Les comptes-rendus des séances du conseil municipal de Lachapelle-sous-Chaux, à consulter et à télécharger en PDF."
+    },
+    "hero": {
+        "surtitre": "La mairie",
+        "titre": "Comptes-rendus du conseil",
+        "image": "assets/img/site/pres-givres-ballon.jpg",
+        "texte": "Chaque séance, son compte-rendu."
+    },
+    "sous_titre": "Le compte-rendu d’une séance est affiché en mairie dans la semaine qui suit, puis publié ici après approbation par le conseil. Les comptes-rendus antérieurs à ceux qui figurent sur cette page restent consultables au secrétariat.",
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Un document manque ?",
+            "paragraphes": [
+                "Les registres des délibérations sont consultables librement au secrétariat, aux heures d’ouverture. Un extrait de délibération peut également être délivré sur demande."
+            ],
+            "lien": {
+                "libelle": "Faire une demande",
+                "url": "/demande-en-ligne"
+            }
+        }
+    ]
+}

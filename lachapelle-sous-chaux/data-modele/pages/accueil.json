@@ -1,0 +1,211 @@
+{
+    "titre": "Accueil",
+    "meta": {
+        "description": "Site officiel de la mairie de Lachapelle-sous-Chaux (90300). Démarches administratives, horaires du secrétariat, conseil municipal, vie scolaire, associations et agenda du village."
+    },
+    "hero": {
+        "surtitre": "Territoire de Belfort · 748 habitants",
+        "titre": "Lachapelle-sous-Chaux",
+        "texte": "Un village de piémont au pied du Ballon d’Alsace, entre la Savoureuse et la forêt. Vivre avec sérénité.",
+        "image": "assets/img/site/village-lever-de-soleil-hiver.jpg",
+        "voile": 92,
+        "bouton_principal": {
+            "libelle": "Faire une démarche",
+            "url": "/demarches"
+        },
+        "bouton_secondaire": {
+            "libelle": "Contacter la mairie",
+            "url": "/contact"
+        },
+        "diaporama": {
+            "aleatoire": true,
+            "pause": 7,
+            "vues": [
+                {
+                    "actif": true,
+                    "image": "assets/img/site/village-lever-de-soleil-hiver.jpg"
+                },
+                {
+                    "actif": true,
+                    "image": "assets/img/site/village-vue-aerienne.jpg"
+                },
+                {
+                    "actif": true,
+                    "image": "assets/img/site/panorama-vosges-du-sud.jpg"
+                },
+                {
+                    "actif": true,
+                    "image": "assets/img/site/vergers-sous-le-givre.jpg"
+                },
+                {
+                    "actif": true,
+                    "image": "assets/img/site/savoureuse-prise-par-les-glaces.jpg"
+                },
+                {
+                    "actif": true,
+                    "image": "assets/img/site/pres-givres-ballon.jpg"
+                }
+            ]
+        }
+    },
+    "pratique": [
+        {
+            "icone": "horaires",
+            "libelle": "Le secrétariat est ouvert",
+            "valeur": "Lundi, mardi, mercredi, jeudi et vendredi",
+            "precision": "Lun. 8 h-11 h et 12 h-15 h · Mar. 8 h-11 h · Mer. 8 h 30-11 h et 14 h-16 h · Jeu. et ven. 8 h-12 h",
+            "lien": "/contact"
+        },
+        {
+            "icone": "telephone",
+            "libelle": "Appeler la mairie",
+            "valeur": "03 84 27 53 78",
+            "lien": "tel:0384275378",
+            "precision": "Aux heures d’ouverture du secrétariat"
+        },
+        {
+            "icone": "mairie",
+            "libelle": "Permanence des élus",
+            "valeur": "Chaque samedi de 10 h à 12 h",
+            "precision": "Sans rendez-vous, à la mairie",
+            "lien": "/conseil-municipal"
+        },
+        {
+            "icone": "adresse",
+            "libelle": "Nous trouver",
+            "valeur": "4, rue du Rhome",
+            "precision": "90300 Lachapelle-sous-Chaux",
+            "lien": "/contact"
+        }
+    ],
+    "demarches": {
+        "surtitre": "Vos démarches",
+        "titre": "Ce que vous venez chercher",
+        "texte": "Carte d’identité, inscription sur les listes électorales, déclaration de travaux : chaque fiche dit ce qu’il faut apporter, où s’adresser et combien de temps ça prend.",
+        "lien": {
+            "libelle": "Toutes les démarches",
+            "url": "/demarches"
+        }
+    },
+    "vie": {
+        "surtitre": "La vie du village",
+        "titre": "Ce qui se passe ici",
+        "texte": "Les nouvelles de la commune et les prochains rendez-vous. Le Flash Info, distribué dans les boîtes aux lettres, reprend l’essentiel trois fois par an."
+    },
+    "village": {
+        "surtitre": "Découvrir",
+        "titre": "Un village de piémont, entre eau et forêt",
+        "image": "assets/img/site/panorama-vosges-du-sud.jpg",
+        "image_alt": "Vue aérienne du piémont vosgien au printemps : prairies, hameaux et forêts jusqu’aux crêtes",
+        "paragraphes": [
+            "Lachapelle-sous-Chaux s’étend sur près de onze kilomètres carrés au sud du Ballon d’Alsace, entre 392 et 605 mètres d’altitude. La Savoureuse et ses affluents descendent des crêtes vosgiennes et traversent la commune ; la forêt en couvre une large part.",
+            "Le village doit son nom à une chapelle bâtie vers le Xe siècle au milieu de maisons dispersées. Devenue église Saint-Vincent au XVIe siècle, elle a donné au lieu son unité et son nom — « capella », francisé en chapelle, germanisé en « kapelen » quand le village passa à la maison d’Autriche."
+        ],
+        "points": [
+            {
+                "numero": "01",
+                "titre": "Un patrimoine bâti et vivant",
+                "texte": "L’église Saint-Vincent, la mairie et son école, les fermes de grès rose et les chemins forestiers qui montent vers le Ballon."
+            },
+            {
+                "numero": "02",
+                "titre": "Une commune des Vosges du Sud",
+                "texte": "Membre de la communauté de communes des Vosges du Sud, sur le domaine du Parc naturel régional des Ballons des Vosges."
+            },
+            {
+                "numero": "03",
+                "titre": "Un tissu associatif actif",
+                "texte": "Fleurissement, tennis, marche, chasse, protection animale : cinq associations font vivre le village toute l’année."
+            }
+        ],
+        "lien": {
+            "libelle": "L’histoire du village",
+            "url": "/histoire-du-village"
+        }
+    },
+    "indicateurs": {
+        "titre": "La commune en quelques chiffres",
+        "items": [
+            {
+                "valeur": "748",
+                "unite": "",
+                "libelle": "habitants (recensement 2022)"
+            },
+            {
+                "valeur": "10,95",
+                "unite": " km²",
+                "libelle": "de superficie communale"
+            },
+            {
+                "valeur": "392",
+                "unite": "–605 m",
+                "libelle": "d’altitude, du bas du village aux crêtes"
+            },
+            {
+                "valeur": "22",
+                "unite": "",
+                "libelle": "communes dans les Vosges du Sud"
+            }
+        ]
+    },
+    "rubriques": {
+        "surtitre": "Le site",
+        "titre": "Trouver autre chose",
+        "items": [
+            {
+                "icone": "mairie",
+                "titre": "La mairie",
+                "texte": "Conseil municipal, commissions, comptes-rendus des séances, budget et urbanisme.",
+                "lien": {
+                    "libelle": "Voir la rubrique",
+                    "url": "/la-mairie"
+                }
+            },
+            {
+                "icone": "ecole",
+                "titre": "Vie scolaire",
+                "texte": "Inscriptions, regroupement pédagogique, périscolaire, cantine et transport.",
+                "lien": {
+                    "libelle": "Voir la rubrique",
+                    "url": "/vie-scolaire"
+                }
+            },
+            {
+                "icone": "solidarite",
+                "titre": "CCAS",
+                "texte": "Aides d’urgence, accompagnement, repas des aînés et Noël des enfants.",
+                "lien": {
+                    "libelle": "Voir la rubrique",
+                    "url": "/ccas"
+                }
+            },
+            {
+                "icone": "dechets",
+                "titre": "Gérer mes déchets",
+                "texte": "Collecte, tri des biodéchets, déchèteries et interdiction de brûlage.",
+                "lien": {
+                    "libelle": "Voir la rubrique",
+                    "url": "/gerer-mes-dechets"
+                }
+            },
+            {
+                "icone": "association",
+                "titre": "Associations",
+                "texte": "Les cinq associations du village, leurs activités et leurs contacts.",
+                "lien": {
+                    "libelle": "Voir la rubrique",
+                    "url": "/associations"
+                }
+            },
+            {
+                "icone": "urgence",
+                "titre": "Numéros utiles",
+                "texte": "Urgences, santé, vétérinaires, lignes d’écoute et services du quotidien.",
+                "lien": {
+                    "libelle": "Voir la rubrique",
+                    "url": "/numeros-utiles"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,88 @@
+{
+    "titre": "Gérer mes déchets",
+    "meta": {
+        "description": "Collecte et tri des déchets à Lachapelle-sous-Chaux : biodéchets, sacs jaunes, déchèteries du SMICTOM de la zone sous-vosgienne, interdiction du brûlage."
+    },
+    "hero": {
+        "surtitre": "Au quotidien",
+        "titre": "Gérer mes déchets",
+        "image": "assets/img/site/points-de-collecte-carte.jpg",
+        "texte": "Qui collecte quoi, et où déposer le reste."
+    },
+    "sous_titre": "La collecte et le traitement des ordures ménagères sont exercés par le SMICTOM de la zone sous-vosgienne, syndicat mixte intercommunal qui intervient en lieu et place des communautés de communes. C’est lui qu’il faut joindre pour un bac, une facture ou un problème de collecte.",
+    "sections": [
+        {
+            "type": "texte",
+            "id": "biodechets",
+            "surtitre": "Biodéchets",
+            "titre": "Le tri à la source des biodéchets",
+            "paragraphes": [
+                "Depuis le 1er janvier 2023, les déchets de cuisine se trient à la source. C’est une obligation de la loi anti-gaspillage pour une économie circulaire, dite loi AGEC, votée en 2020.",
+                "Quatre bornes de collecte des biodéchets sont installées dans la commune. Les déchets y sont apportés dans des sacs compostables — et seulement dans ceux-là : un sac plastique ordinaire suffit à déclasser tout le contenu d’une borne."
+            ]
+        },
+        {
+            "type": "texte",
+            "titre": "Ce qui va dans la borne à biodéchets",
+            "liste": [
+                "Restes de repas, pain, croûtes de fromage",
+                "Épluchures, fruits et légumes abîmés, produits périmés non consommés",
+                "Coquilles d’œufs, coquillages, arêtes de poisson",
+                "Viande et os",
+                "Sachets de thé, marc de café et filtres en papier",
+                "Mouchoirs, essuie-tout et serviettes en papier",
+                "Cartons alimentaires souillés, fleurs fanées, cendres froides",
+                "Sacs compostables biodégradables uniquement"
+            ]
+        },
+        {
+            "type": "texte",
+            "titre": "Et le reste",
+            "liste": [
+                "Les déchets de jardin vont au composteur ou en paillage — jamais dans la borne à biodéchets",
+                "Litières, vaisselle jetable, couches, serviettes hygiéniques et lingettes restent dans le bac à ordures ménagères",
+                "Les emballages non biodégradables vont dans le sac jaune",
+                "Les produits chimiques, la peinture, les huiles et les piles se déposent en déchèterie",
+                "Les encombrants, la ferraille et les gravats se déposent en déchèterie"
+            ]
+        },
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "Le brûlage des déchets verts est interdit",
+            "paragraphes": [
+                "Le brûlage à l’air libre des tontes de pelouse, tailles de haies, débroussaillements et autres déchets verts est interdit par arrêté préfectoral du 9 juillet 2012, qu’ils soient produits par les ménages ou par les collectivités. L’écobuage est également interdit, y compris pour les déchets verts agricoles.",
+                "La combustion à l’air libre d’un kilo de végétaux émet autant de particules fines que plusieurs centaines de kilomètres parcourus en voiture. Les végétaux doivent être déposés en déchèterie, compostés ou broyés en paillage."
+            ],
+            "id": "brulage"
+        },
+        {
+            "type": "liens",
+            "items": [
+                {
+                    "titre": "SMICTOM de la zone sous-vosgienne",
+                    "texte": "Bacs, calendrier de collecte, facturation, déchèteries : 03 84 54 69 44, 40 B avenue Jean Moulin, 90110 Rougemont-le-Château.",
+                    "url": "https://www.smictom-zsv.fr/"
+                },
+                {
+                    "titre": "Horaires et accès des déchèteries",
+                    "texte": "Les déchèteries du territoire, leurs horaires et les déchets acceptés.",
+                    "url": "https://www.smictom-zsv.fr/"
+                }
+            ],
+            "surtitre": "Contact",
+            "titre": "Joindre le SMICTOM"
+        },
+        {
+            "type": "texte",
+            "titre": "Un dépôt sauvage ?",
+            "paragraphes": [
+                "Un dépôt sauvage sur un chemin ou en lisière de forêt se signale au secrétariat de mairie : la commune fait procéder à l’enlèvement et, le cas échéant, engage les suites qui s’imposent."
+            ],
+            "lien": {
+                "libelle": "Signaler un dépôt",
+                "url": "/demande-en-ligne"
+            }
+        }
+    ]
+}

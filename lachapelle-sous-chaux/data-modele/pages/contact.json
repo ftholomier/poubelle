@@ -1,0 +1,124 @@
+{
+    "titre": "Contact",
+    "meta": {
+        "description": "Contacter la mairie de Lachapelle-sous-Chaux : adresse, téléphone, horaires du secrétariat, permanence des élus et formulaire de contact."
+    },
+    "hero": {
+        "surtitre": "Nous joindre",
+        "titre": "Contact",
+        "image": "assets/img/site/mairie-facade.jpg",
+        "texte": "Le secrétariat reçoit sans rendez-vous ; les élus, le samedi matin."
+    },
+    "introduction": {
+        "titre": "La mairie",
+        "texte": "4, rue du Rhome, au cœur du village. Le secrétariat reçoit sans rendez-vous aux heures d’ouverture, et les élus tiennent permanence chaque samedi de 10 h à 12 h."
+    },
+    "implantations": [
+        {
+            "nom": "Mairie de Lachapelle-sous-Chaux",
+            "role": "Secrétariat et salle du conseil",
+            "rue": "4, rue du Rhome",
+            "cp": "90300",
+            "ville": "Lachapelle-sous-Chaux",
+            "carte": {
+                "embed": "https://maps.google.com/maps?q=4%20rue%20du%20Rhome%2090300%20Lachapelle-sous-Chaux&output=embed",
+                "lien": "https://www.google.com/maps/dir/?api=1&destination=4+rue+du+Rhome+90300+Lachapelle-sous-Chaux"
+            }
+        }
+    ],
+    "formulaire": {
+        "titre": "Poser une question",
+        "texte": "Pour une question générale. Si votre demande porte sur un dossier précis — acte d’état civil, signalement de voirie, réservation de la salle des fêtes —, utilisez plutôt le formulaire de demande en ligne : il pose les bonnes questions et le dossier part complet.",
+        "mention": "Les informations recueillies sont utilisées par le secrétariat de mairie pour traiter votre demande, et pour cela seulement. Elles ne sont ni cédées ni utilisées à d’autres fins. Vous pouvez demander à y accéder, à les rectifier ou à les faire supprimer."
+    },
+    "sections": [
+        {
+            "type": "cartes",
+            "items": [
+                {
+                    "titre": "Écrire à la mairie",
+                    "texte": "Une demande précise : acte d’état civil, signalement, réservation de salle, inscription scolaire.",
+                    "icone": "courriel",
+                    "lien": {
+                        "libelle": "Faire une demande",
+                        "url": "/demande-en-ligne"
+                    }
+                },
+                {
+                    "titre": "Faire une démarche",
+                    "texte": "Les treize démarches courantes, avec les pièces à fournir et les téléservices.",
+                    "icone": "etat-civil",
+                    "lien": {
+                        "libelle": "Voir les démarches",
+                        "url": "/demarches"
+                    }
+                },
+                {
+                    "titre": "Numéros utiles",
+                    "texte": "Urgences, santé, vétérinaires, services du quotidien.",
+                    "icone": "urgence",
+                    "lien": {
+                        "libelle": "Voir les numéros",
+                        "url": "/numeros-utiles"
+                    }
+                }
+            ],
+            "surtitre": "Aller au bon endroit",
+            "titre": "Selon ce que vous cherchez"
+        },
+        {
+            "type": "tableau",
+            "entetes": [
+                "Jour",
+                "Matin",
+                "Après-midi"
+            ],
+            "lignes": [
+                {
+                    "libelle": "Lundi",
+                    "valeurs": [
+                        "8 h – 11 h",
+                        "12 h – 15 h"
+                    ]
+                },
+                {
+                    "libelle": "Mardi",
+                    "valeurs": [
+                        "8 h – 11 h",
+                        "fermé"
+                    ]
+                },
+                {
+                    "libelle": "Mercredi",
+                    "valeurs": [
+                        "8 h 30 – 11 h",
+                        "14 h – 16 h"
+                    ]
+                },
+                {
+                    "libelle": "Jeudi",
+                    "valeurs": [
+                        "8 h – 12 h",
+                        "fermé"
+                    ]
+                },
+                {
+                    "libelle": "Vendredi",
+                    "valeurs": [
+                        "8 h – 12 h",
+                        "fermé"
+                    ]
+                },
+                {
+                    "libelle": "Samedi",
+                    "valeurs": [
+                        "permanence des élus, 10 h – 12 h",
+                        "fermé"
+                    ]
+                }
+            ],
+            "titre": "Horaires du secrétariat",
+            "chapo": "Le secrétariat est fermé les jours fériés. Les horaires peuvent être modifiés pendant les vacances scolaires : l’information est alors affichée sur la porte et publiée sur ce site."
+        }
+    ]
+}

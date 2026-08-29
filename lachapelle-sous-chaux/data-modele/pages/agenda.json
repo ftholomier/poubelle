@@ -1,0 +1,27 @@
+{
+    "titre": "Agenda",
+    "meta": {
+        "description": "L’agenda de Lachapelle-sous-Chaux : marches, permanences des élus, repas des aînés, Noël des enfants, vœux du maire et manifestations associatives."
+    },
+    "hero": {
+        "surtitre": "Découvrir",
+        "titre": "Agenda",
+        "image": "assets/img/site/village-vue-aerienne.jpg",
+        "texte": "Les rendez-vous du village."
+    },
+    "sous_titre": "Les manifestations de la commune et des associations. Les associations peuvent faire annoncer les leurs en écrivant au secrétariat de mairie.",
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Annoncer une manifestation",
+            "paragraphes": [
+                "Écrivez au secrétariat au moins trois semaines à l’avance, avec la date, l’heure, le lieu, l’organisateur et deux lignes de description. L’annonce paraît ici, et dans le Flash Info si le calendrier de parution le permet."
+            ],
+            "lien": {
+                "libelle": "Écrire à la mairie",
+                "url": "/demande-en-ligne"
+            }
+        }
+    ]
+}

@@ -1,0 +1,102 @@
+{
+    "titre": "Écrire à la mairie",
+    "meta": {
+        "description": "Adresser une demande à la mairie de Lachapelle-sous-Chaux : acte d’état civil, signalement de voirie, réservation de la salle des fêtes, inscription scolaire."
+    },
+    "hero": {
+        "surtitre": "Nous joindre",
+        "titre": "Écrire à la mairie",
+        "image": "assets/img/site/accueil-en-mairie.jpg",
+        "texte": "Une demande précise, traitée par le secrétariat."
+    },
+    "introduction": {
+        "titre": "Ce qui se passe après l’envoi",
+        "texte": "Une demande envoyée depuis ce formulaire arrive directement au secrétariat de mairie. Voici comment elle est traitée."
+    },
+    "etapes": [
+        {
+            "numero": "01",
+            "titre": "Votre demande arrive",
+            "texte": "Elle est reçue par le secrétariat, qui la lit aux heures d’ouverture. Rien n’est traité automatiquement."
+        },
+        {
+            "numero": "02",
+            "titre": "Le dossier est vérifié",
+            "texte": "Si une pièce manque ou si un point demande une précision, vous êtes recontacté par courriel ou par téléphone."
+        },
+        {
+            "numero": "03",
+            "titre": "La demande est instruite",
+            "texte": "Le secrétariat traite ce qui relève de la commune et transmet le reste au service compétent, en vous le disant."
+        },
+        {
+            "numero": "04",
+            "titre": "Vous recevez une réponse",
+            "texte": "Par courriel, par courrier ou par téléphone selon la nature du dossier. Les délais varient : quelques jours pour un acte, plusieurs semaines pour une autorisation d’urbanisme."
+        }
+    ],
+    "sujets": [
+        "Acte de naissance, de mariage ou de décès",
+        "État civil — autre demande",
+        "Inscription sur les listes électorales",
+        "Inscription scolaire",
+        "Réservation de la salle des fêtes",
+        "Urbanisme — question sur un projet",
+        "Signalement de voirie, d’éclairage ou de chemin",
+        "Dépôt sauvage ou problème de propreté",
+        "Cimetière — concession ou entretien",
+        "CCAS — aide et accompagnement",
+        "Annoncer une manifestation ou proposer un article",
+        "Nouvel habitant — se signaler",
+        "Autre demande"
+    ],
+    "formulaire": {
+        "titre": "Votre demande",
+        "texte": "Décrivez votre demande en quelques lignes. Plus elle est précise — une rue pour un signalement, une date pour une réservation, un nom et une date de naissance pour un acte —, plus vite elle sera traitée.",
+        "mention": "Les informations recueillies sont utilisées par le secrétariat de mairie pour traiter votre demande, et pour cela seulement. Elles ne sont ni cédées ni utilisées à d’autres fins. Vous pouvez demander à y accéder, à les rectifier ou à les faire supprimer."
+    },
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "Une urgence ne passe pas par un formulaire",
+            "paragraphes": [
+                "Pour un danger immédiat sur la voie publique, une fuite d’eau importante ou tout autre péril, appelez : la mairie au 03 84 27 53 78 aux heures d’ouverture, le 112 en dehors."
+            ]
+        },
+        {
+            "type": "cartes",
+            "items": [
+                {
+                    "titre": "Les démarches",
+                    "texte": "Treize fiches avec les pièces à fournir, les délais et les téléservices.",
+                    "icone": "etat-civil",
+                    "lien": {
+                        "libelle": "Voir",
+                        "url": "/demarches"
+                    }
+                },
+                {
+                    "titre": "Les démarches en ligne",
+                    "texte": "Actes d’état civil, titres, impôts, cadastre : les téléservices officiels.",
+                    "icone": "internet",
+                    "lien": {
+                        "libelle": "Voir",
+                        "url": "/demarches-en-ligne"
+                    }
+                },
+                {
+                    "titre": "Les numéros utiles",
+                    "texte": "Urgences, santé, syndicats, services du quotidien.",
+                    "icone": "urgence",
+                    "lien": {
+                        "libelle": "Voir",
+                        "url": "/numeros-utiles"
+                    }
+                }
+            ],
+            "surtitre": "Avant d’écrire",
+            "titre": "Ce que vous cherchez est peut-être déjà en ligne"
+        }
+    ]
+}

@@ -1,0 +1,162 @@
+{
+    "nom": "Lachapelle-sous-Chaux",
+    "baseline": "Mairie — Territoire de Belfort",
+    "titre_seo": "Mairie de Lachapelle-sous-Chaux | Site officiel de la commune (90300)",
+    "accroche": "Site officiel de la commune de Lachapelle-sous-Chaux, dans le Territoire de Belfort. Démarches administratives, conseil municipal, vie scolaire, associations, actualités et coordonnées de la mairie.",
+    "logo": {
+        "principal": "assets/img/logo/logo-lachapelle.svg",
+        "horizontal": "assets/img/logo/logo-lachapelle.svg",
+        "clair": "assets/img/logo/logo-lachapelle-clair.svg",
+        "embleme": "assets/img/logo/embleme-lachapelle.svg",
+        "vertical": "assets/img/logo/logo-lachapelle-vertical.svg",
+        "embleme_clair": "assets/img/logo/embleme-lachapelle-clair.svg"
+    },
+    "adresse": {
+        "rue": "4, rue du Rhome",
+        "cp": "90300",
+        "ville": "Lachapelle-sous-Chaux",
+        "pays": "France"
+    },
+    "adresses_secondaires": [],
+    "contact": {
+        "telephone": "03 84 27 53 78",
+        "email": "mairie.lsc@wanadoo.fr",
+        "horaires": "Lundi 8h-11h et 12h-15h · Mardi 8h-11h · Mercredi 8h30-11h et 14h-16h · Jeudi et vendredi 8h-12h"
+    },
+    "fondation": {
+        "annee": "",
+        "fondatrice": "Anne-Sophie Peureux-Demangelle, maire",
+        "qualite": "Commune du Territoire de Belfort, communauté de communes des Vosges du Sud"
+    },
+    "reservation": {
+        "principal": {
+            "libelle": "Écrire à la mairie",
+            "url": "/demande-en-ligne"
+        },
+        "secondaire": {
+            "libelle": "Appeler la mairie",
+            "url": "tel:0384275378"
+        }
+    },
+    "menu": [
+        {
+            "libelle": "La mairie",
+            "url": "/la-mairie",
+            "sous_menu": [
+                {
+                    "libelle": "Le conseil municipal",
+                    "url": "/conseil-municipal"
+                },
+                {
+                    "libelle": "Commissions & comités",
+                    "url": "/commissions-et-comites"
+                },
+                {
+                    "libelle": "Comptes-rendus du conseil",
+                    "url": "/comptes-rendus-du-conseil"
+                },
+                {
+                    "libelle": "Budget communal",
+                    "url": "/budget-communal"
+                },
+                {
+                    "libelle": "Urbanisme",
+                    "url": "/urbanisme"
+                }
+            ]
+        },
+        {
+            "libelle": "Démarches",
+            "url": "/demarches",
+            "auto": false,
+            "sous_menu": [
+                {
+                    "libelle": "Toutes les démarches",
+                    "url": "/demarches"
+                },
+                {
+                    "libelle": "Démarches en ligne",
+                    "url": "/demarches-en-ligne"
+                },
+                {
+                    "libelle": "Écrire à la mairie",
+                    "url": "/demande-en-ligne"
+                },
+                {
+                    "libelle": "Services de l’État",
+                    "url": "/services-de-l-etat"
+                },
+                {
+                    "libelle": "CCAS",
+                    "url": "/ccas"
+                }
+            ]
+        },
+        {
+            "libelle": "Vie scolaire",
+            "url": "/vie-scolaire"
+        },
+        {
+            "libelle": "Le village",
+            "url": "/le-village",
+            "sous_menu": [
+                {
+                    "libelle": "Histoire du village",
+                    "url": "/histoire-du-village"
+                },
+                {
+                    "libelle": "Associations",
+                    "url": "/associations"
+                },
+                {
+                    "libelle": "Actualités",
+                    "url": "/actualites"
+                },
+                {
+                    "libelle": "Agenda",
+                    "url": "/agenda"
+                },
+                {
+                    "libelle": "Flash Info",
+                    "url": "/flash-info"
+                }
+            ]
+        },
+        {
+            "libelle": "Vie pratique",
+            "url": "/vie-pratique",
+            "sous_menu": [
+                {
+                    "libelle": "Gérer mes déchets",
+                    "url": "/gerer-mes-dechets"
+                },
+                {
+                    "libelle": "Eau & assainissement",
+                    "url": "/eau-et-assainissement"
+                },
+                {
+                    "libelle": "Intercommunalité",
+                    "url": "/intercommunalite"
+                },
+                {
+                    "libelle": "Numéros utiles",
+                    "url": "/numeros-utiles"
+                }
+            ]
+        },
+        {
+            "libelle": "Contact",
+            "url": "/contact"
+        }
+    ],
+    "reseaux": {
+        "linkedin": "",
+        "facebook": "",
+        "instagram": ""
+    },
+    "pied": {
+        "seo": "Mairie de Lachapelle-sous-Chaux (90300), Territoire de Belfort : état civil, urbanisme, cartes d’identité et passeports, élections, inscriptions scolaires, salle des fêtes, déchets et assainissement, conseil municipal et comptes-rendus.",
+        "proche_de": "Lachapelle-sous-Chaux appartient à la communauté de communes des Vosges du Sud, aux côtés de Chaux, Sermamagny, Giromagny, Auxelles-Bas, Auxelles-Haut, Lepuix, Vescemont, Rougegoutte, Grosmagny, Étueffont et des autres communes du piémont vosgien.",
+        "copyright": "© [year] Commune de Lachapelle-sous-Chaux"
+    }
+}

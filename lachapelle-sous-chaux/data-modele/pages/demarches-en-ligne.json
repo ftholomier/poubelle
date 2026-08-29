@@ -1,0 +1,143 @@
+{
+    "titre": "Démarches en ligne",
+    "meta": {
+        "description": "Les téléservices publics utiles aux habitants de Lachapelle-sous-Chaux : actes d’état civil, titres, impôts, cadastre, procuration de vote."
+    },
+    "hero": {
+        "surtitre": "Vos démarches",
+        "titre": "Démarches en ligne",
+        "image": "assets/img/site/village-vue-aerienne.jpg",
+        "texte": "Les téléservices officiels, et rien d’autre."
+    },
+    "sous_titre": "Beaucoup de démarches se font désormais sans se déplacer. Tous les liens de cette page mènent à des services publics gratuits. Les sites intermédiaires qui facturent une démarche gratuite ne sont ni officiels ni nécessaires.",
+    "sections": [
+        {
+            "type": "liens",
+            "items": [
+                {
+                    "titre": "Demander un acte de naissance, de mariage ou de décès",
+                    "texte": "Pour les personnes nées, mariées ou décédées à Lachapelle-sous-Chaux après 1913, la demande se fait auprès du secrétariat, gratuitement, par courrier ou en ligne.",
+                    "url": "/demande-en-ligne"
+                },
+                {
+                    "titre": "Service-public.fr — demander un acte d’état civil",
+                    "texte": "Le portail officiel, qui renvoie vers la mairie compétente selon le lieu de l’événement.",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/N359"
+                },
+                {
+                    "titre": "Archives départementales du Territoire de Belfort",
+                    "texte": "Pour les actes de plus de cent ans et les recherches généalogiques.",
+                    "url": "https://archives.territoiredebelfort.fr/"
+                }
+            ],
+            "surtitre": "État civil",
+            "titre": "Actes d’état civil"
+        },
+        {
+            "type": "liens",
+            "items": [
+                {
+                    "titre": "ANTS — pré-demande de carte d’identité et de passeport",
+                    "texte": "La pré-demande en ligne réduit le rendez-vous en mairie équipée à la prise des empreintes.",
+                    "url": "https://ants.gouv.fr/"
+                },
+                {
+                    "titre": "ANTS — carte grise et permis de conduire",
+                    "texte": "Ces démarches ne se font plus au guichet : elles passent exclusivement par ce site.",
+                    "url": "https://ants.gouv.fr/"
+                },
+                {
+                    "titre": "Timbres fiscaux électroniques",
+                    "texte": "Passeport, attestation d’accueil, duplicata de carte d’identité : le timbre s’achète ici ou chez un buraliste.",
+                    "url": "https://timbres.impots.gouv.fr/"
+                }
+            ],
+            "titre": "Titres et identité"
+        },
+        {
+            "type": "liens",
+            "items": [
+                {
+                    "titre": "S’inscrire sur les listes électorales",
+                    "texte": "Toute l’année, jusqu’au sixième vendredi précédant un scrutin.",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R16396"
+                },
+                {
+                    "titre": "Vérifier son inscription et son bureau de vote",
+                    "texte": "Donne aussi le numéro national d’électeur, indispensable pour une procuration.",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R51788"
+                },
+                {
+                    "titre": "Ma procuration",
+                    "texte": "La demande se fait en ligne, la validation d’identité en gendarmerie ou au commissariat.",
+                    "url": "https://www.maprocuration.gouv.fr/"
+                }
+            ],
+            "titre": "Élections"
+        },
+        {
+            "type": "liens",
+            "items": [
+                {
+                    "titre": "Impots.gouv.fr",
+                    "texte": "Déclaration, paiement, taxe foncière et gestion des biens immobiliers.",
+                    "url": "https://www.impots.gouv.fr/"
+                },
+                {
+                    "titre": "Cadastre.gouv.fr",
+                    "texte": "Consulter et imprimer le plan cadastral d’une parcelle, gratuitement.",
+                    "url": "https://www.cadastre.gouv.fr/"
+                },
+                {
+                    "titre": "Géoportail de l’urbanisme",
+                    "texte": "Consulter les documents d’urbanisme et les servitudes applicables.",
+                    "url": "https://www.geoportail-urbanisme.gouv.fr/"
+                },
+                {
+                    "titre": "France Rénov’",
+                    "texte": "Conseils et aides pour la rénovation énergétique d’un logement.",
+                    "url": "https://france-renov.gouv.fr/"
+                }
+            ],
+            "titre": "Impôts, logement, urbanisme"
+        },
+        {
+            "type": "liens",
+            "items": [
+                {
+                    "titre": "Caf.fr",
+                    "texte": "Allocations familiales, aides au logement, prime d’activité.",
+                    "url": "https://www.caf.fr/"
+                },
+                {
+                    "titre": "Ameli.fr",
+                    "texte": "Assurance maladie, carte Vitale, remboursements.",
+                    "url": "https://www.ameli.fr/"
+                },
+                {
+                    "titre": "Mon parcours handicap",
+                    "texte": "Information et démarches pour les personnes en situation de handicap.",
+                    "url": "https://www.monparcourshandicap.gouv.fr/"
+                },
+                {
+                    "titre": "Recensement citoyen et journée défense",
+                    "texte": "Après le recensement en mairie, le suivi se fait en ligne.",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F870"
+                }
+            ],
+            "titre": "Famille, santé, social"
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Vous n’êtes pas à l’aise avec les démarches en ligne",
+            "paragraphes": [
+                "Le secrétariat de mairie vous aide à identifier le bon service et à comprendre ce qui est demandé. Les espaces France Services du département accompagnent en outre les démarches numériques, gratuitement et sur rendez-vous."
+            ],
+            "lien": {
+                "libelle": "Trouver un espace France Services",
+                "url": "https://www.france-services.gouv.fr/"
+            }
+        }
+    ]
+}

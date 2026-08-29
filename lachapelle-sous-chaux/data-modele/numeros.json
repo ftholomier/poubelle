@@ -1,0 +1,157 @@
+{
+    "items": [
+        {
+            "slug": "urgences",
+            "nom": "Numéros d’urgence",
+            "actif": true,
+            "urgence": true,
+            "texte": "Ces numéros sont gratuits et joignables jour et nuit, depuis un fixe comme depuis un portable, même sans carte SIM.",
+            "numeros": [
+                {
+                    "numero": "15",
+                    "libelle": "SAMU",
+                    "texte": "Urgence médicale"
+                },
+                {
+                    "numero": "17",
+                    "libelle": "Police, gendarmerie",
+                    "texte": "Atteinte aux personnes ou aux biens"
+                },
+                {
+                    "numero": "18",
+                    "libelle": "Pompiers",
+                    "texte": "Incendie, accident, secours"
+                },
+                {
+                    "numero": "112",
+                    "libelle": "Numéro européen",
+                    "texte": "Toutes urgences, partout en Europe"
+                },
+                {
+                    "numero": "114",
+                    "libelle": "Urgence par SMS",
+                    "texte": "Pour les personnes sourdes ou malentendantes"
+                },
+                {
+                    "numero": "115",
+                    "libelle": "Samu social",
+                    "texte": "Hébergement d’urgence, jour et nuit"
+                }
+            ]
+        },
+        {
+            "slug": "sante",
+            "nom": "Santé",
+            "actif": true,
+            "numeros": [
+                {
+                    "numero": "39 66",
+                    "libelle": "Médecin de garde",
+                    "texte": "Nuits, week-ends et jours fériés"
+                },
+                {
+                    "numero": "32 37",
+                    "libelle": "Pharmacie de garde",
+                    "texte": "Service payant · ou consultez la vitrine de votre pharmacie"
+                },
+                {
+                    "numero": "03 83 32 36 36",
+                    "libelle": "Centre antipoison",
+                    "texte": "Centre antipoison de Nancy, compétent pour le Grand Est et la Franche-Comté"
+                },
+                {
+                    "numero": "03 84 29 30 17",
+                    "libelle": "Brigade de gendarmerie de Giromagny",
+                    "texte": "La brigade dont dépend la commune, à Giromagny"
+                }
+            ]
+        },
+        {
+            "slug": "veterinaires",
+            "nom": "Vétérinaires",
+            "actif": true,
+            "numeros": [
+                {
+                    "numero": "03 84 29 54 61",
+                    "libelle": "Karam – Petiot – Tavernier",
+                    "adresse": "3, rue Prés Heyd\n90200 Giromagny"
+                },
+                {
+                    "numero": "03 84 26 17 18",
+                    "libelle": "Clinique vétérinaire Delsaut",
+                    "adresse": "4, rue Oscar Ehret\n90300 Valdoie"
+                }
+            ]
+        },
+        {
+            "slug": "ecoute-et-soutien",
+            "nom": "Écoute et soutien",
+            "actif": true,
+            "texte": "Des lignes anonymes et gratuites, tenues par des professionnels.",
+            "numeros": [
+                {
+                    "numero": "119",
+                    "libelle": "Enfance en danger",
+                    "texte": "Jour et nuit, gratuit et anonyme"
+                },
+                {
+                    "numero": "3919",
+                    "libelle": "Violences femmes info",
+                    "texte": "Écoute, information et orientation"
+                },
+                {
+                    "numero": "3114",
+                    "libelle": "Prévention du suicide",
+                    "texte": "Jour et nuit, gratuit"
+                },
+                {
+                    "numero": "0 800 23 13 13",
+                    "libelle": "Drogues info service"
+                },
+                {
+                    "numero": "0 980 980 930",
+                    "libelle": "Alcool info service"
+                },
+                {
+                    "numero": "39 89",
+                    "libelle": "Tabac info service"
+                }
+            ]
+        },
+        {
+            "slug": "services-du-quotidien",
+            "nom": "Services du quotidien",
+            "actif": true,
+            "numeros": [
+                {
+                    "numero": "03 84 27 53 78",
+                    "libelle": "Mairie de Lachapelle-sous-Chaux",
+                    "adresse": "4, rue du Rhome\n90300 Lachapelle-sous-Chaux"
+                },
+                {
+                    "numero": "03 84 29 50 19",
+                    "libelle": "Syndicat des eaux de Giromagny",
+                    "texte": "Eau potable, compteurs, fuites",
+                    "adresse": "76, faubourg d’Alsace\n90200 Giromagny"
+                },
+                {
+                    "numero": "03 84 54 69 44",
+                    "libelle": "SMICTOM de la zone sous-vosgienne",
+                    "texte": "Ordures ménagères, tri, déchèteries",
+                    "adresse": "40 B, avenue Jean Moulin\n90110 Rougemont-le-Château",
+                    "site": "https://www.smictom-zsv.fr/"
+                },
+                {
+                    "numero": "09 726 750 90",
+                    "libelle": "Enedis — dépannage électricité",
+                    "texte": "Coupure ou panne sur le réseau"
+                },
+                {
+                    "numero": "0 800 47 33 33",
+                    "libelle": "GRDF — urgence sécurité gaz",
+                    "texte": "Odeur de gaz : appelez avant toute autre chose"
+                }
+            ]
+        }
+    ]
+}

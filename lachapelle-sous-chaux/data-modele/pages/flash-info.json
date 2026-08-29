@@ -1,0 +1,39 @@
+{
+    "titre": "Flash Info",
+    "meta": {
+        "description": "Le Flash Info, bulletin municipal de Lachapelle-sous-Chaux : tous les numéros en PDF, à consulter et à télécharger."
+    },
+    "hero": {
+        "surtitre": "Découvrir",
+        "titre": "Flash Info",
+        "image": "assets/img/site/coucher-de-soleil-sur-le-village.jpg",
+        "texte": "Le bulletin municipal, en PDF, depuis 2020."
+    },
+    "sous_titre": "Trois fois par an, le Flash Info est distribué dans les boîtes aux lettres du village : travaux, décisions du conseil, vie associative, agenda et informations pratiques. Tous les numéros sont ici, consultables en ligne et téléchargeables.",
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Vous ne l’avez pas reçu ?",
+            "paragraphes": [
+                "La distribution est assurée par les élus. Si votre boîte aux lettres a été oubliée, signalez-le au secrétariat : un exemplaire vous sera remis, et l’adresse sera ajoutée à la tournée."
+            ],
+            "lien": {
+                "libelle": "Signaler un oubli",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "texte",
+            "titre": "Proposer un article",
+            "paragraphes": [
+                "Le Flash Info accueille volontiers les comptes-rendus d’activité des associations, les photos du village et les informations utiles aux habitants. La commission animation et communication en assure la préparation.",
+                "Les propositions se transmettent au secrétariat, de préférence deux mois avant la parution."
+            ],
+            "lien": {
+                "libelle": "Proposer un article",
+                "url": "/demande-en-ligne"
+            }
+        }
+    ]
+}

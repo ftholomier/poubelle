@@ -1,0 +1,49 @@
+{
+    "titre": "Actualités",
+    "meta": {
+        "description": "Les actualités de la commune de Lachapelle-sous-Chaux : décisions, travaux, manifestations et informations pratiques."
+    },
+    "hero": {
+        "surtitre": "Découvrir",
+        "titre": "Actualités",
+        "image": "assets/img/site/concert-eglise-saint-vincent.jpg",
+        "texte": "Ce qui se passe, et ce qui vient de se passer."
+    },
+    "sous_titre": "Les nouvelles de la commune. Le Flash Info, distribué dans les boîtes aux lettres trois fois par an, reprend l’essentiel et va plus loin.",
+    "sections": [
+        {
+            "type": "cartes",
+            "items": [
+                {
+                    "titre": "L’agenda",
+                    "texte": "Les prochains rendez-vous du village et des associations.",
+                    "icone": "agenda",
+                    "lien": {
+                        "libelle": "Consulter",
+                        "url": "/agenda"
+                    }
+                },
+                {
+                    "titre": "Le Flash Info",
+                    "texte": "Le bulletin municipal en PDF, depuis l’automne 2020.",
+                    "icone": "document",
+                    "lien": {
+                        "libelle": "Télécharger",
+                        "url": "/flash-info"
+                    }
+                },
+                {
+                    "titre": "Les comptes-rendus du conseil",
+                    "texte": "Les décisions, séance par séance.",
+                    "icone": "conseil",
+                    "lien": {
+                        "libelle": "Consulter",
+                        "url": "/comptes-rendus-du-conseil"
+                    }
+                }
+            ],
+            "surtitre": "Aller plus loin",
+            "titre": "Ne rien manquer"
+        }
+    ]
+}

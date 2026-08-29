@@ -1,0 +1,78 @@
+{
+    "titre": "Intercommunalité",
+    "meta": {
+        "description": "La communauté de communes des Vosges du Sud : vingt-deux communes, 15 774 habitants, compétences partagées avec Lachapelle-sous-Chaux."
+    },
+    "hero": {
+        "surtitre": "Au quotidien",
+        "titre": "Intercommunalité",
+        "image": "assets/img/site/panorama-vosges-du-sud.jpg",
+        "texte": "Vingt-deux communes, un territoire de piémont."
+    },
+    "sous_titre": "Lachapelle-sous-Chaux appartient à la communauté de communes des Vosges du Sud, née le 1er janvier 2017 de la fusion de la communauté de communes de la Haute-Savoureuse et de celle du Pays sous-vosgien. Elle réunit vingt-deux communes et 15 774 habitants.",
+    "sections": [
+        {
+            "type": "duo",
+            "image": "assets/img/site/carte-communaute-de-communes.jpg",
+            "image_alt": "Carte des vingt-deux communes de la communauté de communes des Vosges du Sud",
+            "surtitre": "Géographie",
+            "titre": "Un territoire de piémont",
+            "paragraphes": [
+                "Zone de piémont au sud du Ballon d’Alsace, le territoire se situe dans le Territoire de Belfort, au nord-est de la Franche-Comté, à la frontière de l’Alsace et de la Haute-Saône. La proximité immédiate de la RN 83, qui relie Belfort à Colmar et donne accès à l’A 36, le dessert bien.",
+                "C’est un territoire rural de randonnée, qui offre un paysage de quiétude : monts, prairies, forêts, rivières, étangs et lac. Son identité est marquée par l’industrie — mines d’argent dès la fin du XVe siècle, métallurgie, puis textile au début du XXe."
+            ]
+        },
+        {
+            "type": "texte",
+            "surtitre": "Environnement",
+            "titre": "Parc naturel régional et Natura 2000",
+            "paragraphes": [
+                "Le territoire s’étend sur le domaine du Parc naturel régional des Ballons des Vosges et adhère à sa charte : protéger et mettre en valeur les Hautes-Vosges et leurs versants boisés, maintenir des paysages ouverts, contribuer au développement économique en valorisant les patrimoines et au développement culturel.",
+                "La communauté de communes est membre du réseau européen Natura 2000, qui vise la protection de la diversité biologique et la valorisation des territoires — ici la zone dite « forêts et ruisseaux du piémont vosgien »."
+            ]
+        },
+        {
+            "type": "texte",
+            "surtitre": "Le périmètre",
+            "titre": "Les vingt-deux communes",
+            "paragraphes": [
+                "Anjoutey, Auxelles-Bas, Auxelles-Haut, Bourg-sous-Châtelet, Chaux, Étueffont, Felon, Giromagny, Grosmagny, Lachapelle-sous-Chaux, Lachapelle-sous-Rougemont, Lamadeleine-Val-des-Anges, Lepuix, Leval, Petitefontaine, Petitmagny, Riervescemont, Romagny-sous-Rougemont, Rougegoutte, Rougemont-le-Château, Saint-Germain-le-Châtelet et Vescemont.",
+                "Le siège est fixé à Étueffont, 26 bis Grande Rue."
+            ],
+            "lien": {
+                "libelle": "Le site de la communauté de communes",
+                "url": "https://www.ccvosgesdusud.fr/"
+            }
+        },
+        {
+            "type": "documents",
+            "items": [
+                {
+                    "titre": "Statuts communautaires — présentation consolidée 2021",
+                    "date": "2021-01-01",
+                    "fichier": "assets/doc/ccvs-statuts-communautaires-2021.pdf",
+                    "texte": "Les statuts de la communauté de communes, dans leur version consolidée."
+                },
+                {
+                    "titre": "Définition de l’intérêt communautaire — 2021",
+                    "date": "2021-01-01",
+                    "fichier": "assets/doc/ccvs-interet-communautaire-2021.pdf",
+                    "texte": "Ce que la communauté exerce à la place des communes, compétence par compétence."
+                }
+            ],
+            "titre": "Statuts et compétences",
+            "chapo": "L’intérêt communautaire est la ligne de partage entre ce que fait la communauté et ce que gardent les communes. C’est le document à lire pour savoir qui est compétent sur un sujet donné."
+        },
+        {
+            "type": "texte",
+            "titre": "La commune y est représentée",
+            "paragraphes": [
+                "Lachapelle-sous-Chaux siège au conseil communautaire, où elle est représentée par un délégué titulaire et un suppléant. Les compétences transférées — urbanisme, assainissement, développement économique, enfance-jeunesse — s’exercent désormais à cette échelle."
+            ],
+            "lien": {
+                "libelle": "Commissions & comités",
+                "url": "/commissions-et-comites"
+            }
+        }
+    ]
+}

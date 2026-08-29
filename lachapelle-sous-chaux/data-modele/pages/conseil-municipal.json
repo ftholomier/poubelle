@@ -1,0 +1,61 @@
+{
+    "titre": "Conseil municipal",
+    "meta": {
+        "description": "Composition du conseil municipal de Lachapelle-sous-Chaux : le maire, les adjoints, les conseillers délégués et les conseillers, avec leurs délégations."
+    },
+    "hero": {
+        "surtitre": "La mairie",
+        "titre": "Le conseil municipal",
+        "image": "assets/img/site/village-vue-aerienne.jpg",
+        "texte": "Quinze élus, un maire, trois adjoints, et des délégations qui disent qui fait quoi."
+    },
+    "sous_titre": "Le conseil municipal règle par ses délibérations les affaires de la commune. Il vote le budget, décide des travaux, gère le patrimoine communal et la forêt. Ses séances sont publiques.",
+    "sections": [
+        {
+            "type": "texte",
+            "titre": "Les séances sont publiques",
+            "paragraphes": [
+                "Le conseil se réunit au moins une fois par trimestre, et plus souvent en pratique. L’ordre du jour est affiché à la mairie au moins trois jours avant la séance, et chacun peut y assister depuis les places réservées au public.",
+                "Les comptes-rendus sont publiés sur ce site après approbation."
+            ],
+            "lien": {
+                "libelle": "Les comptes-rendus du conseil",
+                "url": "/comptes-rendus-du-conseil"
+            }
+        },
+        {
+            "type": "cartes",
+            "items": [
+                {
+                    "titre": "Commissions & comités",
+                    "texte": "Les commissions préparent les décisions et les élus siègent dans les syndicats intercommunaux.",
+                    "icone": "conseil",
+                    "lien": {
+                        "libelle": "Voir",
+                        "url": "/commissions-et-comites"
+                    }
+                },
+                {
+                    "titre": "Comptes-rendus",
+                    "texte": "Séance par séance, en PDF, depuis 2022.",
+                    "icone": "document",
+                    "lien": {
+                        "libelle": "Consulter",
+                        "url": "/comptes-rendus-du-conseil"
+                    }
+                },
+                {
+                    "titre": "Budget communal",
+                    "texte": "Ce que la commune perçoit et ce qu’elle dépense.",
+                    "icone": "budget",
+                    "lien": {
+                        "libelle": "Consulter",
+                        "url": "/budget-communal"
+                    }
+                }
+            ],
+            "surtitre": "Le conseil au travail",
+            "titre": "Aller plus loin"
+        }
+    ]
+}

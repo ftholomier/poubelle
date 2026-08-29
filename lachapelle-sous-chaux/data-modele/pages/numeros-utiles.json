@@ -1,0 +1,23 @@
+{
+    "titre": "Numéros utiles",
+    "meta": {
+        "description": "Numéros d’urgence, santé, vétérinaires, lignes d’écoute et services du quotidien pour les habitants de Lachapelle-sous-Chaux."
+    },
+    "hero": {
+        "surtitre": "Au quotidien",
+        "titre": "Numéros utiles",
+        "image": "assets/img/site/pres-givres-ballon.jpg",
+        "texte": "Les numéros qu’on cherche quand on n’a pas le temps de chercher."
+    },
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "Enregistrez le 112 dans votre téléphone",
+            "paragraphes": [
+                "Le 112 fonctionne partout en Europe, depuis n’importe quel téléphone, même sans crédit ni carte SIM, et même dans une zone couverte par un autre opérateur que le vôtre. Dans une vallée où la couverture est inégale, c’est souvent lui qui passe.",
+                "Les personnes sourdes ou malentendantes peuvent joindre les secours par SMS au 114."
+            ]
+        }
+    ]
+}

@@ -1,0 +1,89 @@
+{
+    "photo": "assets/img/site/conseil-municipal.jpg",
+    "photo_alt": "Les quinze élus du conseil municipal réunis devant un bâtiment communal, en manteaux d’hiver",
+    "photo_legende": "Le conseil municipal élu en 2020.",
+    "groupes": [
+        {
+            "titre": "Le maire",
+            "surtitre": "Exécutif",
+            "texte": "Le maire est l’exécutif de la commune : il prépare et exécute les délibérations du conseil, dirige les services, et exerce au nom de l’État les fonctions d’officier d’état civil et d’officier de police judiciaire.",
+            "fond": "sombre",
+            "membres": [
+                {
+                    "fonction": "Madame le maire",
+                    "nom": "Anne-Sophie Peureux-Demangelle",
+                    "delegation": "Présidente de droit du CCAS · officier d’état civil"
+                }
+            ]
+        },
+        {
+            "titre": "Les adjoints",
+            "surtitre": "Délégations",
+            "texte": "Chaque adjoint reçoit une délégation du maire sur un domaine précis. C’est vers eux qu’on se tourne pour une question qui dépasse le guichet.",
+            "membres": [
+                {
+                    "fonction": "Premier adjoint",
+                    "nom": "Patrice Guigon",
+                    "delegation": "Finances communales, urbanisme, gestion des cimetières et des bâtiments communaux · délégué titulaire à la communauté de communes des Vosges du Sud"
+                },
+                {
+                    "fonction": "Deuxième adjointe",
+                    "nom": "Florence Malsot",
+                    "delegation": "Communication, relations avec le milieu associatif, animation et manifestations, affaires sociales, affaires scolaires"
+                },
+                {
+                    "fonction": "Troisième adjoint",
+                    "nom": "Christophe Loÿnet",
+                    "delegation": "Travaux, passation des marchés, communication numérique, forêt et environnement"
+                }
+            ]
+        },
+        {
+            "titre": "Les conseillers délégués",
+            "surtitre": "Travaux",
+            "membres": [
+                {
+                    "fonction": "Conseiller délégué",
+                    "nom": "Éric Petitot",
+                    "delegation": "Travaux d’éclairage public et réseaux numériques"
+                },
+                {
+                    "fonction": "Conseiller délégué",
+                    "nom": "Olivier Petit",
+                    "delegation": "Marchés publics et appels d’offres"
+                }
+            ]
+        },
+        {
+            "titre": "Les conseillères et conseillers municipaux",
+            "surtitre": "Le conseil",
+            "texte": "Le conseil municipal règle par ses délibérations les affaires de la commune. Ses séances sont publiques : chacun peut y assister.",
+            "membres": [
+                {
+                    "nom": "Kévin Antoine"
+                },
+                {
+                    "nom": "Nathalie Colombié"
+                },
+                {
+                    "nom": "Philippe Eckert"
+                },
+                {
+                    "nom": "Isabelle Lafouge"
+                },
+                {
+                    "nom": "Séverine Nicolas"
+                },
+                {
+                    "nom": "Géraldine Rançon"
+                },
+                {
+                    "nom": "Pascal Tisserand"
+                },
+                {
+                    "nom": "Jean-Philippe Von Arbourg"
+                }
+            ]
+        }
+    ]
+}

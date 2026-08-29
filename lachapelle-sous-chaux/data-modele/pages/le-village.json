@@ -1,0 +1,140 @@
+{
+    "titre": "Le village",
+    "meta": {
+        "description": "Découvrir Lachapelle-sous-Chaux : géographie, patrimoine, forêt communale, associations, actualités et agenda du village."
+    },
+    "hero": {
+        "surtitre": "Découvrir",
+        "titre": "Le village",
+        "image": "assets/img/site/village-vue-aerienne.jpg",
+        "texte": "Un village de piémont, entre la Savoureuse et la forêt."
+    },
+    "sous_titre": "Sept cent quarante-huit habitants, onze kilomètres carrés, un clocher qu’on voit de tous les prés alentour. Lachapelle-sous-Chaux tient son nom d’une chapelle bâtie vers le Xe siècle au milieu de maisons dispersées.",
+    "sections": [
+        {
+            "type": "chiffres",
+            "items": [
+                {
+                    "valeur": "748",
+                    "unite": "",
+                    "libelle": "habitants (recensement 2022)"
+                },
+                {
+                    "valeur": "10,95",
+                    "unite": " km²",
+                    "libelle": "de superficie"
+                },
+                {
+                    "valeur": "392",
+                    "unite": "–605 m",
+                    "libelle": "d’altitude"
+                },
+                {
+                    "valeur": "65",
+                    "unite": " hab./km²",
+                    "libelle": "de densité"
+                }
+            ],
+            "titre": "La commune en chiffres",
+            "fond": "sombre"
+        },
+        {
+            "type": "duo",
+            "image": "assets/img/site/panorama-vosges-du-sud.jpg",
+            "image_alt": "Panorama aérien du piémont vosgien : prairies, hameaux et forêts jusqu’aux crêtes",
+            "surtitre": "Géographie",
+            "titre": "Entre la Savoureuse et les crêtes",
+            "paragraphes": [
+                "La commune s’étend au sud du Ballon d’Alsace, sur le versant du piémont vosgien. La Savoureuse et ses affluents descendent des crêtes et traversent le territoire ; la forêt en couvre une part importante, et les prés occupent le fond de vallée.",
+                "Le paysage est celui du Rosemont : monts, prairies, forêts, rivières et étangs. La commune appartient au domaine du Parc naturel régional des Ballons des Vosges, et le territoire est inscrit au réseau européen Natura 2000 au titre des « forêts et ruisseaux du piémont vosgien »."
+            ],
+            "lien": {
+                "libelle": "L’intercommunalité",
+                "url": "/intercommunalite"
+            }
+        },
+        {
+            "type": "duo",
+            "image": "assets/img/site/village-lever-de-soleil-hiver.jpg",
+            "image_alt": "Lever de soleil d’hiver sur les prés gelés, le clocher de l’église au fond du village",
+            "surtitre": "Patrimoine",
+            "titre": "L’église Saint-Vincent",
+            "paragraphes": [
+                "L’ancienne chapelle, transformée en église au XVIe siècle et dédiée à saint Vincent, est à l’origine du nom du village. Son clocher ferme l’horizon de toutes les vues sur la commune, et c’est lui que reprend le logo de la mairie.",
+                "L’église accueille encore des concerts : le CCAS y a invité en 2022 la violoniste Yumiko Awano, devant les anciens du village."
+            ],
+            "lien": {
+                "libelle": "L’histoire du village",
+                "url": "/histoire-du-village"
+            },
+            "sens": "image-droite"
+        },
+        {
+            "type": "cartes",
+            "items": [
+                {
+                    "titre": "Histoire du village",
+                    "texte": "De la chapelle du Xe siècle au rattachement à la France, mille ans en quelques pages.",
+                    "icone": "clocher",
+                    "lien": {
+                        "libelle": "Lire",
+                        "url": "/histoire-du-village"
+                    }
+                },
+                {
+                    "titre": "Associations",
+                    "texte": "Fleurissement, tennis, marche, chasse, protection animale.",
+                    "icone": "association",
+                    "lien": {
+                        "libelle": "Voir",
+                        "url": "/associations"
+                    }
+                },
+                {
+                    "titre": "Actualités",
+                    "texte": "Ce qui vient de se passer dans la commune.",
+                    "icone": "actualite",
+                    "lien": {
+                        "libelle": "Lire",
+                        "url": "/actualites"
+                    }
+                },
+                {
+                    "titre": "Agenda",
+                    "texte": "Les prochains rendez-vous, et ceux qui reviennent chaque année.",
+                    "icone": "agenda",
+                    "lien": {
+                        "libelle": "Consulter",
+                        "url": "/agenda"
+                    }
+                },
+                {
+                    "titre": "Flash Info",
+                    "texte": "Le bulletin municipal, en PDF, depuis 2020.",
+                    "icone": "document",
+                    "lien": {
+                        "libelle": "Télécharger",
+                        "url": "/flash-info"
+                    }
+                },
+                {
+                    "titre": "Vie pratique",
+                    "texte": "Déchets, eau, transports, numéros utiles.",
+                    "icone": "eau",
+                    "lien": {
+                        "libelle": "Voir",
+                        "url": "/vie-pratique"
+                    }
+                }
+            ],
+            "surtitre": "Le site",
+            "titre": "Suivre la vie du village"
+        },
+        {
+            "type": "citation",
+            "texte": "Le village doit son nom et son origine à une chapelle : au milieu de maisons dispersées, elle a donné une certaine unité à ce groupe d’habitations éparses, et lui a finalement donné son premier nom.",
+            "auteur": "Histoire de la commune",
+            "fond": "sombre"
+        }
+    ]
+}

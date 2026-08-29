@@ -1,0 +1,149 @@
+{
+    "items": [
+        {
+            "slug": "cr-2023-01-28",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 28 janvier 2023",
+            "date": "2023-01-28",
+            "fichier": "assets/doc/conseil-municipal-2023-01-28.pdf"
+        },
+        {
+            "slug": "cr-2022-12-03",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 3 décembre 2022",
+            "date": "2022-12-03",
+            "fichier": "assets/doc/conseil-municipal-2022-12-03.pdf"
+        },
+        {
+            "slug": "cr-2022-10-29",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 29 octobre 2022",
+            "date": "2022-10-29",
+            "fichier": "assets/doc/conseil-municipal-2022-10-29.pdf"
+        },
+        {
+            "slug": "cr-2022-10-01",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 1er octobre 2022",
+            "date": "2022-10-01",
+            "fichier": "assets/doc/conseil-municipal-2022-10-01.pdf"
+        },
+        {
+            "slug": "cr-2022-06-25",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 25 juin 2022",
+            "date": "2022-06-25",
+            "fichier": "assets/doc/conseil-municipal-2022-06-25.pdf"
+        },
+        {
+            "slug": "cr-2022-04-01",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 1er avril 2022",
+            "date": "2022-04-01",
+            "fichier": "assets/doc/conseil-municipal-2022-04-01.pdf"
+        },
+        {
+            "slug": "cr-2022-02-12",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 12 février 2022",
+            "date": "2022-02-12",
+            "fichier": "assets/doc/conseil-municipal-2022-02-12.pdf"
+        },
+        {
+            "slug": "cr-2022-01-21",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 21 janvier 2022",
+            "date": "2022-01-21",
+            "fichier": "assets/doc/conseil-municipal-2022-01-21.pdf"
+        },
+        {
+            "slug": "flash-2022-10-01",
+            "actif": true,
+            "famille": "flash-info",
+            "titre": "Flash Info — Automne 2022",
+            "date": "2022-10-01",
+            "fichier": "assets/doc/flash-info-2022-automne.pdf",
+            "texte": "Le bulletin municipal : travaux, décisions du conseil, vie associative et agenda du village."
+        },
+        {
+            "slug": "flash-2022-07-01",
+            "actif": true,
+            "famille": "flash-info",
+            "titre": "Flash Info — Été 2022",
+            "date": "2022-07-01",
+            "fichier": "assets/doc/flash-info-2022-ete.pdf",
+            "texte": "Le bulletin municipal : travaux, décisions du conseil, vie associative et agenda du village."
+        },
+        {
+            "slug": "flash-2022-03-01",
+            "actif": true,
+            "famille": "flash-info",
+            "titre": "Flash Info — Printemps 2022",
+            "date": "2022-03-01",
+            "fichier": "assets/doc/flash-info-2022-printemps.pdf",
+            "texte": "Le bulletin municipal : travaux, décisions du conseil, vie associative et agenda du village."
+        },
+        {
+            "slug": "flash-2021-11-01",
+            "actif": true,
+            "famille": "flash-info",
+            "titre": "Flash Info — Automne 2021",
+            "date": "2021-11-01",
+            "fichier": "assets/doc/flash-info-2021-automne.pdf",
+            "texte": "Le bulletin municipal : travaux, décisions du conseil, vie associative et agenda du village."
+        },
+        {
+            "slug": "flash-2021-07-01",
+            "actif": true,
+            "famille": "flash-info",
+            "titre": "Flash Info — Été 2021",
+            "date": "2021-07-01",
+            "fichier": "assets/doc/flash-info-2021-ete.pdf",
+            "texte": "Le bulletin municipal : travaux, décisions du conseil, vie associative et agenda du village."
+        },
+        {
+            "slug": "flash-2021-04-01",
+            "actif": true,
+            "famille": "flash-info",
+            "titre": "Flash Info — Printemps 2021",
+            "date": "2021-04-01",
+            "fichier": "assets/doc/flash-info-2021-printemps.pdf",
+            "texte": "Le bulletin municipal : travaux, décisions du conseil, vie associative et agenda du village."
+        },
+        {
+            "slug": "flash-2020-11-01",
+            "actif": true,
+            "famille": "flash-info",
+            "titre": "Flash Info — Automne 2020",
+            "date": "2020-11-01",
+            "fichier": "assets/doc/flash-info-2020-automne.pdf",
+            "texte": "Le bulletin municipal : travaux, décisions du conseil, vie associative et agenda du village."
+        },
+        {
+            "slug": "ccvs-statuts",
+            "actif": true,
+            "famille": "intercommunalite",
+            "titre": "Statuts communautaires — présentation consolidée 2021",
+            "date": "2021-01-01",
+            "fichier": "assets/doc/ccvs-statuts-communautaires-2021.pdf",
+            "texte": "Les statuts de la communauté de communes des Vosges du Sud, dans leur version consolidée."
+        },
+        {
+            "slug": "ccvs-interet",
+            "actif": true,
+            "famille": "intercommunalite",
+            "titre": "Définition de l’intérêt communautaire — 2021",
+            "date": "2021-01-01",
+            "fichier": "assets/doc/ccvs-interet-communautaire-2021.pdf",
+            "texte": "Ce que la communauté de communes exerce à la place des communes, compétence par compétence."
+        }
+    ]
+}

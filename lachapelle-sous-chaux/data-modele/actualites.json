@@ -1,0 +1,112 @@
+{
+    "intro": "Les nouvelles du village : décisions du conseil, travaux, manifestations, informations pratiques.",
+    "items": [
+        {
+            "slug": "concert-pour-les-anciens-du-village",
+            "actif": true,
+            "date": "2022-05-15",
+            "titre": "Un concert de violon dans l’église Saint-Vincent",
+            "resume": "Yumiko Awano, premier violon de l’Orchestre symphonique de Rome, a joué pour les anciens du village dans le chœur de l’église.",
+            "image": "assets/img/site/concert-eglise-saint-vincent.jpg",
+            "image_alt": "Une violoniste en robe rouge joue devant un pupitre, dans le chœur de l’église Saint-Vincent",
+            "sections": [
+                {
+                    "type": "texte",
+                    "paragraphes": [
+                        "L’acoustique d’une église de village n’a rien d’une salle de concert, et c’est précisément ce qui a fait la beauté de l’après-midi. Yumiko Awano, premier violon de l’Orchestre symphonique de Rome, a joué seule devant les anciens du village réunis dans les travées de Saint-Vincent.",
+                        "Le CCAS avait ouvert l’invitation à tous les habitants. Beaucoup sont venus, et sont restés à discuter longtemps après la dernière note."
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Un rendez-vous que le CCAS aimerait renouveler",
+                    "paragraphes": [
+                        "Ce concert s’inscrit dans les actions du centre communal d’action sociale : lutter contre l’isolement, maintenir le lien social, rendre la culture accessible sans avoir à descendre à Belfort.",
+                        "Le CCAS est ouvert aux propositions. Si vous connaissez un musicien, une chorale ou un conteur prêt à venir jouer au village, faites-le savoir en mairie."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "repas-des-aines",
+            "actif": true,
+            "date": "2022-12-04",
+            "titre": "Le repas des aînés a réuni la salle des fêtes",
+            "resume": "Premier dimanche de décembre, la salle des fêtes accueille le repas offert par le CCAS aux habitants de plus de soixante-dix ans.",
+            "image": "assets/img/site/repas-des-aines.jpg",
+            "image_alt": "Convives attablés autour d’une table dressée dans la salle des fêtes, pendant le repas des aînés",
+            "sections": [
+                {
+                    "type": "texte",
+                    "paragraphes": [
+                        "C’est un rendez-vous que personne ne manque. Le premier dimanche de décembre, la salle des fêtes est dressée, les tables sont pleines, et la discussion couvre la musique.",
+                        "Le repas est offert par le CCAS aux habitants de la commune de plus de soixante-dix ans. Les élus et les membres du conseil d’administration servent à table."
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Vous n’avez pas reçu d’invitation ?",
+                    "paragraphes": [
+                        "Les invitations sont adressées à partir de la liste électorale et des déclarations en mairie. Un nouvel arrivant ou une personne récemment domiciliée peut y échapper : signalez-vous au secrétariat, l’invitation suivra."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "noel-des-enfants",
+            "actif": true,
+            "date": "2022-12-17",
+            "titre": "Le Noël des enfants, entre magie et papier cadeau",
+            "resume": "Spectacle de magie, goûter et distribution de cadeaux : le CCAS a réuni les enfants du village à la salle des fêtes.",
+            "image": "assets/img/site/spectacle-de-noel.jpg",
+            "image_alt": "Un magicien en gilet noir sur une scène de salle des fêtes, face à un enfant coiffé d’un bonnet de Noël",
+            "sections": [
+                {
+                    "type": "texte",
+                    "paragraphes": [
+                        "Un magicien, une malle, un enfant en bonnet rouge appelé sur scène, et une salle qui retient son souffle. Le Noël des enfants organisé par le CCAS a réuni les familles du village autour d’un spectacle, d’un goûter et de la distribution des cadeaux.",
+                        "L’après-midi est ouvert à tous les enfants domiciliés dans la commune, quel que soit leur âge."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "tri-des-biodechets",
+            "actif": true,
+            "date": "2023-01-01",
+            "titre": "Le tri des biodéchets entre en vigueur",
+            "resume": "Depuis le 1er janvier 2023, les déchets de cuisine se trient à la source. Quatre bornes de collecte sont installées dans la commune.",
+            "image": "assets/img/site/points-de-collecte-carte.jpg",
+            "image_alt": "Carte de la commune montrant l’emplacement des bornes de collecte des biodéchets",
+            "sections": [
+                {
+                    "type": "texte",
+                    "paragraphes": [
+                        "Le tri à la source des biodéchets est mis en place par le SMICTOM de la zone sous-vosgienne depuis le 1er janvier 2023. C’est une obligation de la loi anti-gaspillage pour une économie circulaire, dite loi AGEC, votée en 2020.",
+                        "Quatre bornes de collecte sont réparties dans la commune. Les déchets de cuisine y sont apportés dans des sacs compostables — et seulement dans ceux-là : un sac plastique ordinaire suffit à déclasser tout le contenu de la borne."
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Ce qui va dans la borne à biodéchets",
+                    "liste": [
+                        "Restes de repas, pain, croûtes de fromage",
+                        "Épluchures, fruits et légumes abîmés",
+                        "Coquilles d’œufs, coquillages, arêtes de poisson",
+                        "Viande et os",
+                        "Sachets de thé, marc de café et filtres papier",
+                        "Mouchoirs, essuie-tout et serviettes en papier",
+                        "Cartons alimentaires souillés, fleurs fanées, cendres froides"
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Ce qui n’y va pas",
+                    "paragraphes": [
+                        "Les déchets de jardin vont au composteur ou en paillage. Litières, couches, lingettes et vaisselle jetable restent dans le bac à ordures ménagères. Les emballages non biodégradables vont dans le sac jaune, et les produits chimiques en déchèterie."
+                    ]
+                }
+            ]
+        }
+    ]
+}

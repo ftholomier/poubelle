@@ -1,0 +1,13 @@
+{
+    "titre": "Plan du site",
+    "meta": {
+        "description": "Plan du site de la commune de Lachapelle-sous-Chaux : toutes les pages et toutes les démarches, en une seule vue."
+    },
+    "hero": {
+        "surtitre": "Le site",
+        "titre": "Plan du site",
+        "image": "assets/img/site/coucher-de-soleil-sur-le-village.jpg"
+    },
+    "sous_titre": "Toutes les pages du site, rubrique par rubrique. Si vous ne trouvez pas ce que vous cherchez, appelez le secrétariat au 03 84 27 53 78 : il vous dira où c’est, ou vous répondra directement.",
+    "sections": []
+}

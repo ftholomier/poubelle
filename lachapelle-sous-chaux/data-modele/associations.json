@@ -1,0 +1,94 @@
+{
+    "items": [
+        {
+            "slug": "la-tchaparre",
+            "nom": "La T’Chaparre",
+            "actif": true,
+            "icone": "association",
+            "objet": "Fleurissement et décoration du village",
+            "paragraphes": [
+                "Ce sont les mains de La T’Chaparre que l’on voit sans les voir : les jardinières de la place, les massifs du cimetière, les décorations de Noël accrochées dans la nuit de décembre. L’association plante, arrose, désherbe et remise, saison après saison.",
+                "Elle accueille volontiers les bonnes volontés, y compris pour un coup de main ponctuel un samedi matin de plantation."
+            ],
+            "contacts": [
+                {
+                    "nom": "Françoise Roesch",
+                    "tel": "03 84 29 23 81"
+                },
+                {
+                    "nom": "Isabelle Ponceot",
+                    "tel": "03 84 29 28 81"
+                }
+            ]
+        },
+        {
+            "slug": "club-de-tennis",
+            "nom": "Club de tennis",
+            "actif": true,
+            "icone": "association",
+            "objet": "École de tennis et jeu libre, de octobre à septembre",
+            "paragraphes": [
+                "La saison tennistique débute en octobre. Grâce à l’engagement des bénévoles lors des manifestations du village, le club maintient des tarifs accessibles et prend à sa charge une partie du prix des entraînements de l’école de tennis.",
+                "Le tennis se pratique ici en individuel comme en famille, à tout âge et à tout niveau. Prenez contact pour un essai avant de vous engager."
+            ],
+            "contacts": [
+                {
+                    "nom": "Mehmet Kökten"
+                },
+                {
+                    "nom": "Émilie Calame-Kökten"
+                }
+            ]
+        },
+        {
+            "slug": "les-chaperottes",
+            "nom": "Les Chaperottes",
+            "actif": true,
+            "icone": "foret",
+            "objet": "Marche hebdomadaire, tous les mardis après-midi",
+            "rendez_vous": "Tous les mardis à 14 h place de la mairie, hors vacances scolaires",
+            "paragraphes": [
+                "Rendez-vous place de la mairie à quatorze heures, et l’on part marcher. Les circuits font le tour des chemins du village, de la forêt communale et du piémont : rien d’acrobatique, tout le monde suit.",
+                "Certaines sorties sont thématiques — découverte de la flore, reconnaissance des arbres, patrimoine des environs."
+            ],
+            "contacts": [
+                {
+                    "nom": "Roselyne Jenny",
+                    "tel": "03 84 29 27 49"
+                },
+                {
+                    "nom": "Françoise Roesch",
+                    "tel": "03 84 29 23 81"
+                }
+            ]
+        },
+        {
+            "slug": "les-chats-p-lotis",
+            "nom": "Les Chats P’Lotis",
+            "actif": true,
+            "icone": "solidarite",
+            "objet": "Recensement, stérilisation et placement des chats libres",
+            "paragraphes": [
+                "L’association recense et fait stériliser les chats libres de Lachapelle-sous-Chaux, puis leur cherche une famille d’accueil. Un travail patient, qui évite les portées non désirées et les colonies qui s’installent.",
+                "Signalez-leur un chat errant plutôt que de le nourrir sans suite : c’est ainsi qu’on l’aide vraiment."
+            ],
+            "contacts": []
+        },
+        {
+            "slug": "acca",
+            "nom": "ACCA de Lachapelle-sous-Chaux",
+            "actif": true,
+            "icone": "foret",
+            "objet": "Association communale de chasse agréée",
+            "paragraphes": [
+                "L’ACCA gère la chasse sur le territoire communal et participe à la régulation du gibier, en lien avec la fédération départementale des chasseurs et l’Office national des forêts.",
+                "Pendant la saison de chasse, les jours de battue sont signalés à l’entrée des chemins forestiers. Promeneurs et cueilleurs sont invités à en tenir compte."
+            ],
+            "contacts": [
+                {
+                    "nom": "Maurice Vendrely"
+                }
+            ]
+        }
+    ]
+}

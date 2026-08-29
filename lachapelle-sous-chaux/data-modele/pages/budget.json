@@ -1,0 +1,71 @@
+{
+    "titre": "Budget communal",
+    "meta": {
+        "description": "Le budget de la commune de Lachapelle-sous-Chaux : fonctionnement, investissement, fiscalité locale et documents budgétaires."
+    },
+    "hero": {
+        "surtitre": "La mairie",
+        "titre": "Le budget communal",
+        "image": "assets/img/site/panorama-vosges-du-sud.jpg",
+        "texte": "Ce que la commune perçoit, et ce qu’elle en fait."
+    },
+    "sous_titre": "Le budget est voté chaque année par le conseil municipal, en séance publique. Il se lit en deux parties : le fonctionnement, qui couvre la vie courante de la commune, et l’investissement, qui finance les travaux et les acquisitions.",
+    "sections": [
+        {
+            "type": "texte",
+            "titre": "Deux sections, deux logiques",
+            "paragraphes": [
+                "La section de fonctionnement regroupe les dépenses récurrentes — énergie, entretien de la voirie, fournitures scolaires, contribution aux syndicats, charges de personnel — et les recettes qui les couvrent : impôts locaux, dotations de l’État, produits de la forêt communale.",
+                "La section d’investissement finance ce qui dure : réfection de voirie, travaux sur les bâtiments communaux, éclairage public, matériel. Elle se nourrit de l’excédent de fonctionnement, des subventions et, le cas échéant, de l’emprunt."
+            ]
+        },
+        {
+            "type": "etapes",
+            "items": [
+                {
+                    "titre": "Le débat d’orientation",
+                    "texte": "En amont du vote, le conseil examine les grandes lignes de l’exercice à venir."
+                },
+                {
+                    "titre": "Le budget primitif",
+                    "texte": "Voté au premier trimestre, il autorise les dépenses de l’année."
+                },
+                {
+                    "titre": "Les décisions modificatives",
+                    "texte": "En cours d’année, elles ajustent les crédits d’un chapitre à l’autre."
+                },
+                {
+                    "titre": "Le compte administratif",
+                    "texte": "Voté l’année suivante, il constate ce qui a réellement été dépensé et perçu."
+                }
+            ],
+            "surtitre": "Comment ça se vote",
+            "titre": "Le calendrier budgétaire"
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Les documents budgétaires sont publics",
+            "paragraphes": [
+                "Le budget primitif et le compte administratif sont consultables au secrétariat de mairie aux heures d’ouverture, et un exemplaire peut être communiqué sur demande.",
+                "Les documents des exercices récents seront mis en ligne sur cette page au fur et à mesure de leur approbation."
+            ],
+            "lien": {
+                "libelle": "Demander un document",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "texte",
+            "titre": "La fiscalité locale",
+            "paragraphes": [
+                "La commune vote chaque année les taux de la taxe foncière sur les propriétés bâties et non bâties. La taxe d’habitation sur les résidences principales a été supprimée ; elle subsiste sur les résidences secondaires et les logements vacants.",
+                "Les avis d’imposition, les paiements et les réclamations relèvent de la direction départementale des finances publiques, et non de la mairie."
+            ],
+            "lien": {
+                "libelle": "impots.gouv.fr",
+                "url": "https://www.impots.gouv.fr/"
+            }
+        }
+    ]
+}

@@ -1,0 +1,155 @@
+{
+    "titre": "Vie scolaire",
+    "meta": {
+        "description": "École, inscriptions, périscolaire, restauration et transport scolaire à Lachapelle-sous-Chaux : le regroupement pédagogique avec Chaux et Sermamagny."
+    },
+    "hero": {
+        "surtitre": "Les enfants",
+        "titre": "Vie scolaire",
+        "image": "assets/img/site/ecole-livres-et-cubes.jpg",
+        "texte": "Inscrire son enfant, le faire déjeuner, le faire garder, le faire transporter."
+    },
+    "sous_titre": "Lachapelle-sous-Chaux fait partie d’un regroupement pédagogique intercommunal avec Chaux et Sermamagny : les classes sont réparties entre les trois villages, ce qui permet de garder une école de proximité plutôt qu’un groupe scolaire lointain.",
+    "sections": [
+        {
+            "type": "etapes",
+            "items": [
+                {
+                    "titre": "Passer en mairie",
+                    "texte": "La mairie de votre commune de résidence délivre le certificat d’inscription scolaire."
+                },
+                {
+                    "titre": "Réunir les pièces",
+                    "texte": "Livret de famille ou acte de naissance, carnet de santé à jour des vaccinations obligatoires, justificatif de domicile de moins de trois mois, pièce d’identité d’un parent."
+                },
+                {
+                    "titre": "Contacter la directrice",
+                    "texte": "Prendre rendez-vous ou se présenter aux permanences d’inscription, avec les photocopies demandées."
+                },
+                {
+                    "titre": "Confirmer l’admission",
+                    "texte": "L’admission n’est effective qu’une fois le dossier complet."
+                }
+            ],
+            "id": "inscription",
+            "surtitre": "Inscription",
+            "titre": "Inscrire son enfant à l’école",
+            "chapo": "La démarche est la même pour une première inscription en petite section et pour un enfant qui arrive dans le regroupement en cours de scolarité."
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Une nouvelle arrivée en cours d’année",
+            "paragraphes": [
+                "Si vous emménagez en cours d’année scolaire, présentez-vous au secrétariat de mairie dès que possible : le certificat d’inscription est délivré immédiatement, et la directrice est prévenue."
+            ],
+            "lien": {
+                "libelle": "Écrire à la mairie",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "duo",
+            "image": "assets/img/site/atelier-periscolaire.jpg",
+            "image_alt": "Des enfants attablés dans une salle de classe, penchés sur leurs cahiers",
+            "id": "regroupement",
+            "surtitre": "Le RPI",
+            "titre": "Le regroupement pédagogique",
+            "paragraphes": [
+                "Trois communes, un regroupement : Lachapelle-sous-Chaux, Chaux et Sermamagny répartissent les niveaux entre leurs écoles. C’est ce qui permet à chacune de garder une école, et aux enfants de rester dans leur village le plus longtemps possible.",
+                "Les familles des trois communes relèvent des mêmes règles d’inscription, du même périscolaire et du même transport. Le secrétariat de mairie vous indique l’école qui accueille le niveau de votre enfant pour l’année en cours."
+            ],
+            "lien": {
+                "libelle": "Demander le détail de l’année en cours",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "texte",
+            "id": "livret-d-accueil",
+            "surtitre": "Documents",
+            "titre": "Le livret d’accueil",
+            "paragraphes": [
+                "Un livret d’accueil est remis aux familles à l’inscription : horaires, fournitures, calendrier, règlement intérieur, contacts. Il est également disponible au secrétariat de mairie.",
+                "Si vous ne l’avez pas reçu, demandez-le : il répond à la plupart des questions de la première rentrée."
+            ],
+            "lien": {
+                "libelle": "Demander le livret",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "duo",
+            "image": "assets/img/site/crayons-de-couleur.jpg",
+            "image_alt": "Des crayons de couleur alignés sur un plan de travail clair",
+            "id": "periscolaire",
+            "surtitre": "Avant et après la classe",
+            "titre": "L’accueil périscolaire",
+            "paragraphes": [
+                "L’accueil périscolaire prend le relais avant et après la classe, ainsi que le mercredi et pendant les vacances selon les périodes. Il est organisé à l’échelle du territoire, en lien avec le centre socio-culturel de la Haute-Savoureuse.",
+                "Les inscriptions, les tarifs et le calendrier d’ouverture sont fixés par la structure gestionnaire. Le secrétariat de mairie vous oriente vers le bon interlocuteur et vous remet les documents d’inscription."
+            ],
+            "lien": {
+                "libelle": "Le centre socio-culturel",
+                "url": "https://centre-socioculturel-haute-savoureuse.fr/"
+            },
+            "sens": "image-droite"
+        },
+        {
+            "type": "duo",
+            "image": "assets/img/site/restauration-scolaire-buffet.jpg",
+            "image_alt": "Plats et assiettes disposés sur une longue table, dans une salle de restauration",
+            "id": "restauration",
+            "surtitre": "Le midi",
+            "titre": "La restauration scolaire",
+            "paragraphes": [
+                "Le service de restauration accueille les enfants du regroupement le midi. L’inscription se fait à l’année ou au repas selon les modalités en vigueur, et les menus sont affichés à l’avance.",
+                "Les allergies et les régimes particuliers doivent être signalés à l’inscription, accompagnés le cas échéant d’un projet d’accueil individualisé établi avec le médecin scolaire."
+            ]
+        },
+        {
+            "type": "duo",
+            "image": "assets/img/site/transport-scolaire-car.jpg",
+            "image_alt": "L’avant d’un car scolaire jaune, vu de face",
+            "id": "transport-scolaire",
+            "surtitre": "Aller et venir",
+            "titre": "Le transport scolaire",
+            "paragraphes": [
+                "Le transport scolaire est organisé par la Région Bourgogne-Franche-Comté, qui gère les circuits, les inscriptions et la tarification. Les inscriptions ouvrent au printemps pour la rentrée suivante.",
+                "Les points d’arrêt et les horaires sont communiqués avant la rentrée. Un changement d’adresse en cours d’année suppose une nouvelle demande auprès du service régional."
+            ],
+            "lien": {
+                "libelle": "Transports scolaires de la Région",
+                "url": "https://www.mobigo-bourgognefranchecomte.fr/"
+            },
+            "sens": "image-droite"
+        },
+        {
+            "type": "liens",
+            "items": [
+                {
+                    "titre": "Secrétariat de mairie",
+                    "texte": "Certificat d’inscription scolaire, livret d’accueil, orientation.",
+                    "url": "/contact"
+                },
+                {
+                    "titre": "Centre socio-culturel de la Haute-Savoureuse",
+                    "texte": "Périscolaire, accueil de loisirs, activités familles.",
+                    "url": "https://centre-socioculturel-haute-savoureuse.fr/"
+                },
+                {
+                    "titre": "Communauté de communes des Vosges du Sud",
+                    "texte": "Compétence enfance-jeunesse à l’échelle du territoire.",
+                    "url": "https://www.ccvosgesdusud.fr/"
+                },
+                {
+                    "titre": "Éducation nationale — académie de Besançon",
+                    "texte": "Calendrier scolaire, programmes, coordonnées des écoles.",
+                    "url": "https://www.ac-besancon.fr/"
+                }
+            ],
+            "surtitre": "Où s’adresser",
+            "titre": "Contacts et liens utiles"
+        }
+    ]
+}

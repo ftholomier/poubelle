@@ -1,0 +1,74 @@
+{
+    "intro": "Les rendez-vous du village. Les associations peuvent faire annoncer les leurs en écrivant au secrétariat de mairie.",
+    "items": [
+        {
+            "slug": "marche-du-mardi",
+            "actif": true,
+            "date": "2026-09-01",
+            "fin": "2027-06-30",
+            "titre": "La marche des Chaperottes",
+            "heure": "14 h",
+            "lieu": "Départ place de la mairie",
+            "organisateur": "Les Chaperottes",
+            "texte": "Tous les mardis après-midi hors vacances scolaires. Circuits accessibles à tous, sorties parfois thématiques."
+        },
+        {
+            "slug": "permanence-des-elus",
+            "actif": true,
+            "date": "2026-09-05",
+            "fin": "2027-07-31",
+            "titre": "Permanence des élus",
+            "heure": "10 h – 12 h",
+            "lieu": "Mairie, 4 rue du Rhome",
+            "organisateur": "Le conseil municipal",
+            "texte": "Chaque samedi matin, un élu reçoit sans rendez-vous. C’est le moment de poser une question qui dépasse le guichet."
+        },
+        {
+            "slug": "repas-des-aines-2026",
+            "actif": true,
+            "date": "2026-12-06",
+            "titre": "Repas des aînés",
+            "heure": "12 h",
+            "lieu": "Salle des fêtes",
+            "organisateur": "Le CCAS",
+            "texte": "Offert par le CCAS aux habitants de la commune de plus de soixante-dix ans. Invitation envoyée en novembre."
+        },
+        {
+            "slug": "noel-des-enfants-2026",
+            "actif": true,
+            "date": "2026-12-19",
+            "titre": "Noël des enfants",
+            "heure": "15 h",
+            "lieu": "Salle des fêtes",
+            "organisateur": "Le CCAS",
+            "texte": "Spectacle, goûter et distribution des cadeaux pour les enfants du village."
+        },
+        {
+            "slug": "voeux-2027",
+            "actif": true,
+            "date": "2027-01-09",
+            "titre": "Vœux du maire à la population",
+            "heure": "18 h 30",
+            "lieu": "Salle des fêtes",
+            "organisateur": "La municipalité",
+            "texte": "Bilan de l’année écoulée, projets de l’année qui vient, et le verre de l’amitié. Ouvert à tous les habitants."
+        },
+        {
+            "slug": "concert-2022",
+            "actif": true,
+            "date": "2022-05-15",
+            "titre": "Concert de violon de Yumiko Awano",
+            "lieu": "Église Saint-Vincent",
+            "organisateur": "Le CCAS"
+        },
+        {
+            "slug": "age-de-biere-2022",
+            "actif": true,
+            "date": "2022-09-24",
+            "titre": "L’Âge de bière — centenaire du Territoire de Belfort",
+            "lieu": "Lachapelle-sous-Chaux",
+            "organisateur": "Le Territoire de Belfort et la commune",
+            "texte": "Dégustations de bières des producteurs locaux, repas et soirée musicale, dans le cadre des cent ans du département."
+        }
+    ]
+}

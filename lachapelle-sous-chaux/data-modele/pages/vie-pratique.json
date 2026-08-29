@@ -1,0 +1,109 @@
+{
+    "titre": "Vie pratique",
+    "meta": {
+        "description": "Vie pratique à Lachapelle-sous-Chaux : déchets, eau et assainissement, intercommunalité, centre socio-culturel, transports et numéros utiles."
+    },
+    "hero": {
+        "surtitre": "Au quotidien",
+        "titre": "Vie pratique",
+        "image": "assets/img/site/savoureuse-prise-par-les-glaces.jpg",
+        "texte": "Déchets, eau, transports, services : ce qui ne relève pas de la mairie mais vous concerne."
+    },
+    "sous_titre": "Beaucoup de services du quotidien sont exercés par des syndicats ou par l’intercommunalité, pas par la commune. Cette page dit qui fait quoi, et donne le bon numéro.",
+    "sections": [
+        {
+            "type": "cartes",
+            "items": [
+                {
+                    "titre": "Gérer mes déchets",
+                    "texte": "Collecte, tri des biodéchets, déchèteries et interdiction du brûlage.",
+                    "icone": "dechets",
+                    "lien": {
+                        "libelle": "Voir",
+                        "url": "/gerer-mes-dechets"
+                    }
+                },
+                {
+                    "titre": "Eau & assainissement",
+                    "texte": "Le syndicat des eaux de Giromagny, la qualité de l’eau, l’assainissement non collectif.",
+                    "icone": "eau",
+                    "lien": {
+                        "libelle": "Voir",
+                        "url": "/eau-et-assainissement"
+                    }
+                },
+                {
+                    "titre": "Intercommunalité",
+                    "texte": "La communauté de communes des Vosges du Sud : vingt-deux communes, des compétences partagées.",
+                    "icone": "mairie",
+                    "lien": {
+                        "libelle": "Voir",
+                        "url": "/intercommunalite"
+                    }
+                },
+                {
+                    "titre": "Numéros utiles",
+                    "texte": "Urgences, santé, vétérinaires, lignes d’écoute.",
+                    "icone": "urgence",
+                    "lien": {
+                        "libelle": "Voir",
+                        "url": "/numeros-utiles"
+                    }
+                }
+            ],
+            "surtitre": "Rubriques",
+            "titre": "Les services du quotidien"
+        },
+        {
+            "type": "duo",
+            "image": "assets/img/site/atelier-periscolaire.jpg",
+            "image_alt": "Enfants attablés lors d’un atelier, penchés sur leurs cahiers",
+            "id": "centre-socio-culturel",
+            "surtitre": "Enfance, jeunesse, familles",
+            "titre": "Le centre socio-culturel de la Haute-Savoureuse",
+            "paragraphes": [
+                "Le centre socio-culturel de la Haute-Savoureuse rayonne sur le territoire : accueil de loisirs, activités familles, ateliers, accompagnement à la scolarité, animations pour les jeunes.",
+                "C’est l’interlocuteur pour le périscolaire et les vacances scolaires. Ses programmes et ses horaires sont publiés sur son site."
+            ],
+            "lien": {
+                "libelle": "Site du centre socio-culturel",
+                "url": "https://centre-socioculturel-haute-savoureuse.fr/"
+            }
+        },
+        {
+            "type": "liens",
+            "items": [
+                {
+                    "titre": "Transports scolaires — Région Bourgogne-Franche-Comté",
+                    "texte": "Circuits, inscriptions et tarification du transport scolaire.",
+                    "url": "https://www.mobigo-bourgognefranchecomte.fr/"
+                },
+                {
+                    "titre": "Réseau Optymo — Grand Belfort",
+                    "texte": "Bus, vélos et transport à la demande sur l’agglomération de Belfort.",
+                    "url": "https://www.optymo.fr/"
+                },
+                {
+                    "titre": "SNCF — gare de Belfort et Belfort-Montbéliard TGV",
+                    "texte": "Liaisons régionales et grandes lignes depuis le Territoire.",
+                    "url": "https://www.ter.sncf.com/bourgogne-franche-comte"
+                }
+            ],
+            "id": "transports",
+            "surtitre": "Transports",
+            "titre": "Se déplacer"
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Un problème sur la voirie, l’éclairage ou un chemin ?",
+            "paragraphes": [
+                "Signalez-le au secrétariat de mairie : nid-de-poule, lampadaire éteint, branche tombée sur un chemin communal, dépôt sauvage. Précisez la rue et, si possible, joignez une photo."
+            ],
+            "lien": {
+                "libelle": "Faire un signalement",
+                "url": "/demande-en-ligne"
+            }
+        }
+    ]
+}

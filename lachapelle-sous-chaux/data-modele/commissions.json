@@ -1,0 +1,159 @@
+{
+    "items": [
+        {
+            "nom": "Finances",
+            "icone": "budget",
+            "actif": true,
+            "role": "Prépare le budget primitif, suit son exécution et instruit le compte administratif.",
+            "membres": [
+                "Patrice Guigon",
+                "Nathalie Colombié",
+                "Éric Petitot",
+                "Isabelle Lafouge"
+            ]
+        },
+        {
+            "nom": "Animation & communication",
+            "icone": "actualite",
+            "actif": true,
+            "role": "Bulletin municipal, site internet, manifestations et relations avec les associations.",
+            "membres": [
+                "Florence Malsot",
+                "Nathalie Colombié",
+                "Philippe Eckert",
+                "Isabelle Lafouge",
+                "Géraldine Rançon"
+            ]
+        },
+        {
+            "nom": "Travaux",
+            "icone": "urbanisme",
+            "actif": true,
+            "role": "Voirie, bâtiments communaux, éclairage public et réseaux.",
+            "membres": [
+                "Christophe Loÿnet",
+                "Olivier Petit",
+                "Éric Petitot",
+                "Patrice Guigon",
+                "Philippe Eckert"
+            ]
+        },
+        {
+            "nom": "Forêt & environnement",
+            "icone": "foret",
+            "actif": true,
+            "role": "Gestion de la forêt communale avec l’ONF, chemins, cadre de vie et fleurissement.",
+            "membres": [
+                "Kévin Antoine",
+                "Pascal Tisserand",
+                "Séverine Nicolas",
+                "Christophe Loÿnet",
+                "Géraldine Rançon",
+                "Florence Malsot"
+            ]
+        },
+        {
+            "nom": "Urbanisme",
+            "icone": "urbanisme",
+            "actif": true,
+            "role": "Suit les autorisations d’urbanisme et la révision des documents de planification.",
+            "membres": [
+                "Isabelle Lafouge",
+                "Patrice Guigon",
+                "Jean-Philippe Von Arbourg",
+                "Florence Malsot",
+                "Olivier Petit"
+            ]
+        },
+        {
+            "nom": "Appel d’offres",
+            "icone": "document",
+            "actif": true,
+            "role": "Examine les offres et attribue les marchés publics de la commune.",
+            "colonnes": [
+                {
+                    "titre": "Membres titulaires",
+                    "membres": [
+                        "Christophe Loÿnet",
+                        "Olivier Petit",
+                        "Patrice Guigon",
+                        "Éric Petitot"
+                    ]
+                },
+                {
+                    "titre": "Membres suppléants",
+                    "membres": [
+                        "Isabelle Lafouge",
+                        "Philippe Eckert"
+                    ]
+                }
+            ]
+        }
+    ],
+    "comites": [
+        {
+            "nom": "Salle des fêtes",
+            "icone": "association",
+            "actif": true,
+            "role": "Réservation, état des lieux et entretien de la salle communale.",
+            "colonnes": [
+                {
+                    "titre": "Responsable",
+                    "membres": [
+                        "Patrice Guigon"
+                    ]
+                }
+            ]
+        },
+        {
+            "nom": "Communauté de communes des Vosges du Sud",
+            "icone": "mairie",
+            "actif": true,
+            "role": "La commune siège au conseil communautaire, qui exerce les compétences transférées : urbanisme, assainissement, économie, enfance-jeunesse.",
+            "colonnes": [
+                {
+                    "titre": "Délégué titulaire",
+                    "membres": [
+                        "Patrice Guigon"
+                    ]
+                },
+                {
+                    "titre": "Déléguée suppléante",
+                    "membres": [
+                        "Anne-Sophie Peureux-Demangelle"
+                    ]
+                }
+            ]
+        },
+        {
+            "nom": "Syndicat des eaux de Giromagny",
+            "icone": "eau",
+            "actif": true,
+            "role": "Distribution de l’eau potable sur quatorze communes du piémont, dont Lachapelle-sous-Chaux.",
+            "colonnes": [
+                {
+                    "titre": "Délégués",
+                    "membres": [
+                        "Christophe Loÿnet",
+                        "Éric Petitot"
+                    ]
+                }
+            ]
+        },
+        {
+            "nom": "SMICTOM de la zone sous-vosgienne",
+            "icone": "dechets",
+            "actif": true,
+            "role": "Collecte et traitement des ordures ménagères, déchèteries, tri des biodéchets.",
+            "colonnes": [
+                {
+                    "titre": "Délégués",
+                    "membres": [
+                        "Kévin Antoine",
+                        "Pascal Tisserand"
+                    ]
+                }
+            ]
+        }
+    ]
+}

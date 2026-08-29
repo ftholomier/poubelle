@@ -1,0 +1,757 @@
+{
+    "intro": "Les démarches les plus courantes, avec la liste des pièces à fournir et le lien vers le téléservice officiel quand il existe. En cas de doute, le secrétariat de mairie répond au 03 84 27 53 78 : mieux vaut un appel qu’un déplacement pour rien.",
+    "items": [
+        {
+            "slug": "carte-d-identite-passeport",
+            "nom": "Carte d’identité et passeport",
+            "famille": "etat-civil",
+            "icone": "etat-civil",
+            "actif": true,
+            "image": "assets/img/site/mairie-facade.jpg",
+            "resume": "Première demande, renouvellement, perte ou vol : la demande se dépose dans une mairie équipée d’un dispositif de recueil, sur rendez-vous.",
+            "guichet": "Une mairie équipée d’un dispositif de recueil (la mairie de Lachapelle-sous-Chaux n’en dispose pas)",
+            "delai": "Variable selon la période — comptez plusieurs semaines au printemps",
+            "cout": "Gratuit pour la carte d’identité · 86 € pour un passeport majeur",
+            "validite": "Carte d’identité : 15 ans pour un majeur, 10 ans pour un mineur · Passeport : 10 ans / 5 ans",
+            "pieces": [
+                "La pré-demande en ligne (son numéro ou son récapitulatif imprimé)",
+                "Une photo d’identité de moins de six mois, aux normes",
+                "Un justificatif de domicile de moins d’un an",
+                "L’ancien titre, s’il y en a un",
+                "Un timbre fiscal pour un passeport, ou pour une carte d’identité perdue ou volée",
+                "Le livret de famille et la pièce d’identité du parent pour un mineur"
+            ],
+            "liens": [
+                {
+                    "libelle": "Faire ma pré-demande (ANTS)",
+                    "url": "https://ants.gouv.fr/"
+                },
+                {
+                    "libelle": "Acheter un timbre fiscal",
+                    "url": "https://timbres.impots.gouv.fr/"
+                },
+                {
+                    "libelle": "Carte d’identité — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/N358"
+                },
+                {
+                    "libelle": "Passeport — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/N360"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Où déposer sa demande ?",
+                    "paragraphes": [
+                        "Depuis 2017, les cartes d’identité suivent la même procédure que les passeports biométriques : la demande se dépose dans n’importe quelle mairie équipée d’un dispositif de recueil des empreintes, quel que soit le domicile.",
+                        "Lachapelle-sous-Chaux n’est pas équipée. Le secrétariat vous indique les mairies équipées les plus proches, et le site de l’ANTS permet de les trouver et de prendre rendez-vous."
+                    ],
+                    "lien": {
+                        "libelle": "Trouver une mairie équipée",
+                        "url": "https://ants.gouv.fr/"
+                    }
+                },
+                {
+                    "type": "texte",
+                    "titre": "La pré-demande en ligne fait gagner le plus clair du rendez-vous",
+                    "paragraphes": [
+                        "Remplir la pré-demande sur le site de l’ANTS évite de ressaisir l’état civil au guichet et réduit le rendez-vous à la prise des empreintes et à la vérification des pièces.",
+                        "La démarche est gratuite. Plusieurs sites proposent de la faire à votre place contre paiement : ils n’ont aucun caractère officiel. Le seul site à utiliser est ants.gouv.fr."
+                    ]
+                },
+                {
+                    "type": "etapes",
+                    "titre": "Comment ça se passe",
+                    "items": [
+                        {
+                            "titre": "Préparer les pièces",
+                            "texte": "Photo aux normes, justificatif de domicile, ancien titre, timbre fiscal le cas échéant."
+                        },
+                        {
+                            "titre": "Faire la pré-demande",
+                            "texte": "En ligne sur ants.gouv.fr. Notez le numéro de pré-demande, il vous sera demandé."
+                        },
+                        {
+                            "titre": "Prendre rendez-vous",
+                            "texte": "Auprès d’une mairie équipée. Comptez une vingtaine de minutes par personne."
+                        },
+                        {
+                            "titre": "Retirer le titre",
+                            "texte": "Le retrait se fait dans la mairie où le dossier a été déposé, en personne."
+                        }
+                    ]
+                },
+                {
+                    "type": "encadre",
+                    "ton": "alerte",
+                    "intitule": "Le dépôt et le retrait se font dans la même mairie",
+                    "paragraphes": [
+                        "C’est la règle la plus souvent découverte trop tard : le titre est envoyé à la mairie où la demande a été déposée, et nulle part ailleurs."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "naissance-reconnaissance",
+            "nom": "Naissance et reconnaissance",
+            "famille": "etat-civil",
+            "icone": "etat-civil",
+            "actif": true,
+            "resume": "Déclarer une naissance, reconnaître un enfant, choisir le nom de famille : les délais sont courts et les démarches se font en mairie.",
+            "guichet": "Mairie du lieu de naissance pour la déclaration · mairie du domicile pour une reconnaissance",
+            "delai": "5 jours ouvrables après l’accouchement pour la déclaration de naissance",
+            "cout": "Gratuit",
+            "pieces": [
+                "L’attestation du médecin ou de la sage-femme",
+                "La déclaration de choix de nom, si les parents en font une",
+                "L’acte de reconnaissance anticipée, s’il a été établi",
+                "Le livret de famille, s’il en existe un",
+                "Une pièce d’identité de chaque parent"
+            ],
+            "liens": [
+                {
+                    "libelle": "Déclaration de naissance",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F961"
+                },
+                {
+                    "libelle": "Choix du nom de famille",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F10505"
+                },
+                {
+                    "libelle": "Reconnaissance d’un enfant",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F887"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "La déclaration de naissance",
+                    "paragraphes": [
+                        "Elle est obligatoire pour tout enfant et se fait à la mairie du lieu de naissance dans les cinq jours ouvrables qui suivent l’accouchement. La plupart des maternités disposent d’un officier d’état civil sur place ; renseignez-vous à l’avance auprès de la vôtre."
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Le choix du nom de famille",
+                    "paragraphes": [
+                        "Les parents peuvent choisir de donner à leur enfant le nom du père, celui de la mère, ou les deux dans l’ordre qu’ils souhaitent. Ce choix se fait par déclaration conjointe, avant ou au moment de la déclaration de naissance.",
+                        "À défaut de choix, l’enfant porte le nom du parent dont la filiation est établie en premier, ou les deux noms accolés dans l’ordre alphabétique si la filiation est établie simultanément."
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "La reconnaissance",
+                    "paragraphes": [
+                        "Lorsque les parents ne sont pas mariés, la filiation maternelle est établie par la seule mention du nom de la mère dans l’acte de naissance. Le père, lui, doit reconnaître l’enfant — avant la naissance de préférence, ce qui simplifie tout le reste.",
+                        "La reconnaissance anticipée se fait dans n’importe quelle mairie, avec une pièce d’identité et un justificatif de domicile. Elle ne coûte rien et prend quelques minutes."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "mariage-pacs-deces",
+            "nom": "Mariage, PACS et décès",
+            "famille": "etat-civil",
+            "icone": "etat-civil",
+            "actif": true,
+            "resume": "Se marier ou se pacser à Lachapelle-sous-Chaux, déclarer un décès, obtenir un acte : les trois moments qui passent par l’officier d’état civil.",
+            "guichet": "Secrétariat de mairie, sur rendez-vous",
+            "delai": "Dossier de mariage à déposer au moins un mois avant · enregistrement du PACS environ quinze jours après le dépôt",
+            "cout": "Gratuit",
+            "liens": [
+                {
+                    "libelle": "Se marier",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F930"
+                },
+                {
+                    "libelle": "Conclure un PACS",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F1618"
+                },
+                {
+                    "libelle": "Déclarer un décès",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F909"
+                },
+                {
+                    "libelle": "Demander un acte d’état civil",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/N359"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Le mariage",
+                    "paragraphes": [
+                        "Le mariage est célébré dans la commune où l’un des futurs époux, ou l’un de leurs parents, a son domicile ou sa résidence. Le dossier se retire au secrétariat et se dépose complet au moins un mois avant la date souhaitée : ce délai couvre la publication des bans, obligatoire.",
+                        "Prenez rendez-vous tôt pour réserver la date : la salle du conseil n’accueille qu’une célébration à la fois, et les samedis de mai à septembre partent vite."
+                    ],
+                    "liste": [
+                        "Une pièce d’identité et un acte de naissance de moins de trois mois pour chaque époux",
+                        "Un justificatif de domicile",
+                        "La liste des témoins avec leurs pièces d’identité",
+                        "Le certificat du notaire en cas de contrat de mariage"
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Le PACS",
+                    "paragraphes": [
+                        "Le pacte civil de solidarité est un contrat conclu entre deux personnes majeures pour organiser leur vie commune. Il s’enregistre à la mairie de la commune où les partenaires fixent leur résidence commune — donc ici, si vous vous installez à Lachapelle-sous-Chaux.",
+                        "Le dossier se dépose au secrétariat, et l’enregistrement a lieu sur rendez-vous, une quinzaine de jours plus tard. Les formulaires de déclaration conjointe, de convention type, de modification et de dissolution sont téléchargeables sur service-public.fr."
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Le décès",
+                    "paragraphes": [
+                        "La déclaration de décès est obligatoire et se fait à la mairie du lieu de décès dans les vingt-quatre heures. Lorsque les pompes funèbres sont mandatées, elles s’en chargent le plus souvent.",
+                        "Le secrétariat délivre les actes de décès et accompagne les familles dans les démarches qui suivent. N’hésitez pas à appeler : beaucoup de choses se règlent en un appel plutôt qu’en trois déplacements."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "attestation-d-accueil",
+            "nom": "Attestation d’accueil",
+            "famille": "etat-civil",
+            "icone": "document",
+            "actif": true,
+            "resume": "Héberger un proche étranger pour une visite de moins de trois mois suppose une attestation d’accueil, validée par le maire.",
+            "guichet": "Secrétariat de mairie, en personne",
+            "delai": "Un mois maximum pour la décision du maire",
+            "cout": "30 € en timbre fiscal électronique",
+            "pieces": [
+                "Un justificatif d’identité de l’hébergeant",
+                "Un justificatif de domicile de moins d’un an",
+                "Un titre de propriété ou un bail",
+                "Les justificatifs de ressources des trois derniers mois",
+                "L’identité complète et l’adresse du visiteur, et les dates du séjour",
+                "Un timbre fiscal électronique de 30 €"
+            ],
+            "liens": [
+                {
+                    "libelle": "Acheter le timbre « Attestation d’accueil »",
+                    "url": "https://timbres.impots.gouv.fr/"
+                },
+                {
+                    "libelle": "L’attestation d’accueil — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F2191"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "paragraphes": [
+                        "Un étranger qui vient en France pour une visite privée ou familiale de moins de trois mois doit présenter un justificatif d’hébergement. Ce document, appelé attestation d’accueil, est établi par la personne qui l’héberge, et validé par le maire de sa commune.",
+                        "La demande se fait obligatoirement en personne au secrétariat : l’hébergeant signe l’attestation devant l’officier d’état civil."
+                    ]
+                },
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Le timbre s’achète à l’avance",
+                    "paragraphes": [
+                        "Le timbre fiscal électronique de 30 € s’achète chez un buraliste ou en ligne sur timbres.impots.gouv.fr, en choisissant « Attestation d’accueil ». Sans lui, le dossier ne peut pas être enregistré."
+                    ],
+                    "lien": {
+                        "libelle": "Acheter le timbre en ligne",
+                        "url": "https://timbres.impots.gouv.fr/"
+                    }
+                }
+            ]
+        },
+        {
+            "slug": "autorisation-de-sortie-du-territoire",
+            "nom": "Autorisation de sortie du territoire",
+            "famille": "etat-civil",
+            "icone": "document",
+            "actif": true,
+            "resume": "Un mineur qui voyage à l’étranger sans ses parents doit être muni d’une autorisation signée : un simple formulaire, sans passage en mairie.",
+            "guichet": "Aucun — le formulaire se remplit et se signe à la maison",
+            "cout": "Gratuit",
+            "pieces": [
+                "Le formulaire Cerfa n° 15646, signé par un parent titulaire de l’autorité parentale",
+                "La photocopie de la pièce d’identité du parent signataire",
+                "La pièce d’identité du mineur, et un visa si le pays le demande"
+            ],
+            "liens": [
+                {
+                    "libelle": "Télécharger le formulaire Cerfa n° 15646",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F1359"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "paragraphes": [
+                        "L’autorisation de sortie du territoire a été rétablie en 2017. Elle concerne tout mineur résidant en France qui quitte le territoire sans être accompagné d’un titulaire de l’autorité parentale — voyage scolaire, colonie, séjour chez des proches.",
+                        "Aucune démarche en mairie n’est nécessaire : le formulaire se télécharge, se remplit et se signe. Il doit voyager avec l’enfant, accompagné de la photocopie de la pièce d’identité du parent qui l’a signé."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "recensement-citoyen",
+            "nom": "Recensement citoyen",
+            "famille": "etat-civil",
+            "icone": "document",
+            "actif": true,
+            "resume": "À seize ans, le recensement est obligatoire. L’attestation qu’il délivre est réclamée pour le permis de conduire et pour tout examen.",
+            "guichet": "Secrétariat de mairie",
+            "delai": "Entre le jour des seize ans et la fin du troisième mois qui suit",
+            "cout": "Gratuit",
+            "pieces": [
+                "Une pièce d’identité du jeune",
+                "Le livret de famille",
+                "Un justificatif de domicile"
+            ],
+            "liens": [
+                {
+                    "libelle": "Le recensement citoyen — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F870"
+                },
+                {
+                    "libelle": "La journée défense et citoyenneté",
+                    "url": "https://www.defense.gouv.fr/jdc"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "paragraphes": [
+                        "Toute personne de nationalité française doit se faire recenser entre la date de ses seize ans et la fin du troisième mois qui suit. Ceux qui ont laissé passer ce délai peuvent régulariser leur situation jusqu’à vingt-cinq ans.",
+                        "Le recensement déclenche la convocation à la journée défense et citoyenneté, et l’inscription d’office sur les listes électorales à dix-huit ans."
+                    ]
+                },
+                {
+                    "type": "encadre",
+                    "ton": "alerte",
+                    "intitule": "Gardez l’attestation",
+                    "paragraphes": [
+                        "L’attestation de recensement est demandée pour s’inscrire au permis de conduire, au baccalauréat et à tout concours ou examen public avant vingt-cinq ans. La mairie ne peut pas en délivrer de duplicata : conservez-la, et faites-en une copie."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "inscription-sur-les-listes-electorales",
+            "nom": "Inscription sur les listes électorales",
+            "famille": "elections",
+            "icone": "elections",
+            "actif": true,
+            "resume": "Nouvel arrivant, jeune majeur ou citoyen européen : l’inscription se fait toute l’année, en ligne ou au secrétariat.",
+            "guichet": "Secrétariat de mairie, ou en ligne sur service-public.fr",
+            "delai": "Jusqu’au sixième vendredi précédant un scrutin",
+            "cout": "Gratuit",
+            "pieces": [
+                "Une pièce d’identité en cours de validité, ou périmée depuis moins de cinq ans",
+                "Un justificatif de domicile dans la commune de moins de trois mois",
+                "Le formulaire Cerfa n° 12669, si la démarche se fait au guichet",
+                "Pour qui habite chez ses parents : une attestation sur papier libre et un justificatif de domicile des parents"
+            ],
+            "liens": [
+                {
+                    "libelle": "S’inscrire en ligne",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R16396"
+                },
+                {
+                    "libelle": "Vérifier mon inscription et mon bureau de vote",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R51788"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Qui peut s’inscrire",
+                    "paragraphes": [
+                        "Il faut avoir dix-huit ans au plus tard la veille du premier tour, être de nationalité française et jouir de ses droits civils et politiques.",
+                        "Les citoyens d’un autre État de l’Union européenne résidant en France peuvent s’inscrire sur les listes complémentaires pour voter aux élections municipales et européennes."
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Quand s’inscrire",
+                    "paragraphes": [
+                        "L’inscription est possible toute l’année. Pour voter à un scrutin donné, la demande doit être déposée au plus tard le sixième vendredi qui le précède — soit environ six semaines avant.",
+                        "Les jeunes recensés à seize ans sont inscrits d’office à leur majorité. Vérifiez tout de même votre situation en ligne : un déménagement suffit à la rendre caduque."
+                    ]
+                },
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Vous venez d’emménager ?",
+                    "paragraphes": [
+                        "L’inscription n’est jamais automatique après un déménagement. Passez au secrétariat avec une pièce d’identité et un justificatif de domicile, ou faites-le en ligne en quelques minutes."
+                    ],
+                    "lien": {
+                        "libelle": "S’inscrire en ligne",
+                        "url": "https://www.service-public.fr/particuliers/vosdroits/R16396"
+                    }
+                }
+            ]
+        },
+        {
+            "slug": "procuration-de-vote",
+            "nom": "Procuration de vote",
+            "famille": "elections",
+            "icone": "elections",
+            "actif": true,
+            "resume": "Absent le jour du scrutin ? La procuration se demande en ligne, puis se valide en gendarmerie ou au commissariat.",
+            "guichet": "Brigade de gendarmerie de Giromagny, commissariat, ou tribunal",
+            "delai": "À faire le plus tôt possible — la validation doit parvenir à la mairie avant le scrutin",
+            "cout": "Gratuit",
+            "pieces": [
+                "Une pièce d’identité du mandant",
+                "Le numéro national d’électeur du mandant et celui du mandataire"
+            ],
+            "liens": [
+                {
+                    "libelle": "Faire ma procuration en ligne",
+                    "url": "https://www.maprocuration.gouv.fr/"
+                },
+                {
+                    "libelle": "Trouver mon numéro national d’électeur",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R51788"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Le principe",
+                    "paragraphes": [
+                        "La procuration permet de se faire représenter le jour d’une élection par un électeur de son choix, appelé mandataire. Depuis 2022, le mandataire n’a plus besoin d’être inscrit dans la même commune que vous : il devra simplement se déplacer jusqu’à votre bureau de vote."
+                    ]
+                },
+                {
+                    "type": "etapes",
+                    "titre": "Comment faire",
+                    "items": [
+                        {
+                            "titre": "Demander en ligne",
+                            "texte": "Sur maprocuration.gouv.fr, avec votre numéro national d’électeur et celui de votre mandataire."
+                        },
+                        {
+                            "titre": "Faire vérifier son identité",
+                            "texte": "En gendarmerie, au commissariat ou au tribunal, avec une pièce d’identité. La brigade de Giromagny est la plus proche."
+                        },
+                        {
+                            "titre": "Prévenir son mandataire",
+                            "texte": "Rien ne l’avertit automatiquement : c’est à vous de le faire."
+                        },
+                        {
+                            "titre": "Le jour du vote",
+                            "texte": "Le mandataire se présente à votre bureau de vote muni de sa propre pièce d’identité."
+                        }
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Quelques points à connaître",
+                    "liste": [
+                        "Une procuration peut être établie pour un seul scrutin ou pour une durée allant jusqu’à un an.",
+                        "Un mandataire ne peut recevoir qu’une seule procuration établie en France.",
+                        "La procuration peut être annulée à tout moment, selon la même procédure.",
+                        "En cas d’impossibilité de se déplacer pour raison de santé, un officier de police judiciaire peut venir à domicile, sur demande écrite accompagnée d’un justificatif."
+                    ]
+                },
+                {
+                    "type": "encadre",
+                    "ton": "alerte",
+                    "intitule": "Ne vous y prenez pas la veille",
+                    "paragraphes": [
+                        "La procuration doit parvenir à la mairie avant le scrutin. Établie trop tard, elle existe sans être utilisable : le mandataire se déplace pour rien."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "vote-des-electeurs-europeens",
+            "nom": "Vote des électeurs européens",
+            "famille": "elections",
+            "icone": "elections",
+            "actif": true,
+            "resume": "Les citoyens de l’Union européenne résidant dans la commune votent aux élections municipales et européennes, après inscription sur une liste complémentaire.",
+            "guichet": "Secrétariat de mairie, ou en ligne",
+            "cout": "Gratuit",
+            "pieces": [
+                "Le formulaire d’inscription correspondant au scrutin (Cerfa n° 12670 pour les municipales, n° 12671 pour les européennes)",
+                "Un justificatif d’identité ou un titre de séjour en cours de validité",
+                "Un justificatif de domicile dans la commune",
+                "Une déclaration sur l’honneur, intégrée au formulaire"
+            ],
+            "liens": [
+                {
+                    "libelle": "S’inscrire — élections municipales",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F1937"
+                },
+                {
+                    "libelle": "S’inscrire — élections européennes",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F1938"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Deux listes distinctes",
+                    "paragraphes": [
+                        "Il existe deux listes électorales complémentaires : l’une pour les élections municipales, l’autre pour les élections européennes. L’inscription sur l’une ne vaut pas inscription sur l’autre — il faut donc en faire deux si l’on veut participer aux deux scrutins."
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Une seule voix pour l’Europe",
+                    "paragraphes": [
+                        "Un citoyen de l’Union ne peut voter qu’une fois pour un même scrutin européen. En s’inscrivant en France, il déclare sur l’honneur qu’il n’exercera pas son droit de vote dans son pays d’origine pour cette élection."
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "La carte d’électeur",
+                    "paragraphes": [
+                        "Une carte d’un modèle particulier, valable pour les seules élections municipales et européennes, est délivrée par la mairie aux personnes inscrites."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "declaration-prealable-de-travaux",
+            "nom": "Déclaration préalable de travaux",
+            "famille": "urbanisme",
+            "icone": "urbanisme",
+            "actif": true,
+            "image": "assets/img/site/plan-cadastral-ancien.jpg",
+            "resume": "Abri de jardin, clôture, ravalement, fenêtre de toit, piscine : les travaux de faible importance passent par une déclaration, pas par un permis.",
+            "guichet": "Secrétariat de mairie, ou en ligne sur le guichet numérique",
+            "delai": "Un mois d’instruction, deux mois près d’un monument historique",
+            "cout": "Gratuit",
+            "pieces": [
+                "Le formulaire Cerfa n° 13703 (maison individuelle) ou n° 13404",
+                "Un plan de situation du terrain",
+                "Un plan de masse coté dans les trois dimensions",
+                "Un plan des façades et des toitures",
+                "Une représentation du projet dans son environnement, et des photographies"
+            ],
+            "liens": [
+                {
+                    "libelle": "Déposer mon dossier en ligne",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R52221"
+                },
+                {
+                    "libelle": "La déclaration préalable — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F17578"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Quels travaux sont concernés",
+                    "paragraphes": [
+                        "La déclaration préalable est exigée pour les travaux de faible importance :"
+                    ],
+                    "liste": [
+                        "Une construction nouvelle ou une extension créant entre 5 et 20 m² de surface de plancher ou d’emprise au sol — jusqu’à 40 m² en zone urbaine couverte par un PLU",
+                        "Une modification de l’aspect extérieur : fenêtre, porte, volets, toiture, ravalement de façade",
+                        "Un changement de destination sans travaux sur la structure ou la façade",
+                        "Une piscine dont le bassin fait 100 m² au plus, non couverte ou couverte à moins de 1,80 m",
+                        "Une clôture, un mur de 2 m de haut ou plus",
+                        "Un abri de jardin ou une véranda dans les surfaces ci-dessus"
+                    ]
+                },
+                {
+                    "type": "etapes",
+                    "titre": "Le déroulement",
+                    "items": [
+                        {
+                            "titre": "Déposer le dossier",
+                            "texte": "En deux exemplaires au secrétariat, ou en ligne sur le guichet numérique des autorisations d’urbanisme."
+                        },
+                        {
+                            "titre": "Recevoir le récépissé",
+                            "texte": "Il porte un numéro d’enregistrement et la date à partir de laquelle les travaux pourront commencer."
+                        },
+                        {
+                            "titre": "Attendre l’instruction",
+                            "texte": "Un mois, porté à deux si le terrain est dans le périmètre d’un monument historique."
+                        },
+                        {
+                            "titre": "Afficher sur le terrain",
+                            "texte": "Un panneau visible depuis la voie publique, pendant toute la durée des travaux."
+                        }
+                    ]
+                },
+                {
+                    "type": "encadre",
+                    "ton": "alerte",
+                    "intitule": "Le silence vaut accord — mais faites-le constater",
+                    "paragraphes": [
+                        "Passé le délai d’instruction sans réponse, la déclaration est réputée acceptée. Demandez tout de même au secrétariat un certificat de non-opposition : c’est lui qu’un notaire réclamera à la revente."
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "L’affichage n’est pas une formalité",
+                    "paragraphes": [
+                        "Le panneau réglementaire fait courir le délai de deux mois pendant lequel un tiers peut contester l’autorisation. Sans affichage, ce délai ne démarre pas — et le recours reste ouvert bien après la fin du chantier. L’absence d’affichage est en outre passible d’une amende."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "permis-de-construire",
+            "nom": "Permis de construire",
+            "famille": "urbanisme",
+            "icone": "urbanisme",
+            "actif": true,
+            "resume": "Construction neuve, extension importante, changement de destination avec travaux : le permis vérifie que le projet respecte les règles d’urbanisme.",
+            "guichet": "Secrétariat de mairie, ou en ligne sur le guichet numérique",
+            "delai": "Deux mois pour une maison individuelle, trois mois dans les autres cas",
+            "cout": "Gratuit — la taxe d’aménagement est due après l’autorisation",
+            "validite": "Trois ans, prorogeable deux fois un an",
+            "pieces": [
+                "Le formulaire Cerfa n° 13406 (maison individuelle) ou n° 13409",
+                "Un plan de situation et un plan de masse",
+                "Un plan de coupe du terrain et de la construction",
+                "Une notice décrivant le terrain et le projet",
+                "Un plan des façades et des toitures",
+                "Deux documents graphiques et deux photographies situant le projet"
+            ],
+            "liens": [
+                {
+                    "libelle": "Déposer mon dossier en ligne",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R52221"
+                },
+                {
+                    "libelle": "Le permis de construire — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F1986"
+                },
+                {
+                    "libelle": "Le CAUE du Territoire de Belfort",
+                    "url": "https://www.caue90.fr/"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Quand le permis est exigé",
+                    "paragraphes": [
+                        "En règle générale, toute construction nouvelle relève du permis de construire, même sans fondation. Sur une construction existante, il est exigé notamment pour :"
+                    ],
+                    "liste": [
+                        "Une extension créant plus de 20 m² de surface de plancher ou d’emprise au sol — plus de 40 m² en zone urbaine couverte par un PLU",
+                        "Un changement de destination accompagné d’une modification de la structure porteuse ou de la façade",
+                        "Une surélévation, ou tout projet portant la surface totale au-delà de 150 m²"
+                    ]
+                },
+                {
+                    "type": "encadre",
+                    "ton": "alerte",
+                    "intitule": "Le seuil de l’architecte est à 150 m²",
+                    "paragraphes": [
+                        "Le recours à un architecte est obligatoire dès que la surface de plancher totale de la construction, extension comprise, dépasse 150 m². Ce seuil était de 170 m² avant 2017 : c’est l’erreur la plus fréquente sur les dossiers déposés."
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Des conseils gratuits avant de déposer",
+                    "paragraphes": [
+                        "Un projet corrigé avant le dépôt fait gagner des mois. Trois portes s’ouvrent gratuitement :"
+                    ],
+                    "liste": [
+                        "Le secrétariat de mairie, qui connaît le règlement applicable à votre parcelle",
+                        "Le service urbanisme de la communauté de communes des Vosges du Sud, qui instruit les dossiers",
+                        "Le CAUE du Territoire de Belfort, dont un architecte-conseil reçoit sur rendez-vous"
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Après l’autorisation",
+                    "paragraphes": [
+                        "Le permis doit être affiché sur le terrain pendant toute la durée des travaux, sur un panneau visible depuis la voie publique. La déclaration d’ouverture de chantier puis la déclaration attestant l’achèvement et la conformité des travaux se déposent en mairie aux mêmes formes que le permis."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "permis-d-amenager",
+            "nom": "Permis d’aménager",
+            "famille": "urbanisme",
+            "icone": "urbanisme",
+            "actif": true,
+            "resume": "Lotissement, remodelage du sol, aire de stationnement : les aménagements qui modifient le terrain plutôt que le bâti.",
+            "guichet": "Secrétariat de mairie, ou en ligne sur le guichet numérique",
+            "delai": "Trois mois",
+            "cout": "Gratuit",
+            "validite": "Trois ans, prorogeable deux fois un an",
+            "liens": [
+                {
+                    "libelle": "Le permis d’aménager — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F17665"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Ce que couvre le permis d’aménager",
+                    "paragraphes": [
+                        "Il s’applique aux opérations qui transforment le terrain lui-même :"
+                    ],
+                    "liste": [
+                        "Un lotissement créant des voies, des espaces ou des équipements communs",
+                        "Un lotissement situé dans un site patrimonial remarquable ou aux abords d’un monument historique",
+                        "Un affouillement ou un exhaussement du sol de plus de deux mètres de haut sur plus de 100 m²",
+                        "Une aire de stationnement de plus de cinquante emplacements"
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "En cas de doute, demandez un certificat d’urbanisme",
+                    "paragraphes": [
+                        "Le certificat d’urbanisme d’information indique les règles applicables à un terrain ; celui dit opérationnel dit en outre si le projet envisagé y est réalisable. Il est gratuit, s’instruit en un ou deux mois, et évite de monter un dossier pour rien."
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "permis-de-demolir",
+            "nom": "Permis de démolir",
+            "famille": "urbanisme",
+            "icone": "urbanisme",
+            "actif": true,
+            "resume": "Démolir tout ou partie d’un bâtiment suppose une autorisation dans les secteurs protégés, et partout où le conseil municipal l’a instituée.",
+            "guichet": "Secrétariat de mairie, ou en ligne sur le guichet numérique",
+            "delai": "Deux mois",
+            "cout": "Gratuit",
+            "validite": "Trois ans",
+            "liens": [
+                {
+                    "libelle": "Le permis de démolir — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F17669"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Quand il est exigé",
+                    "paragraphes": [
+                        "Le permis de démolir protège le bâti ancien et les occupants des logements. Il concerne la disparition totale ou partielle d’un bâtiment avec atteinte au gros œuvre, ainsi que les travaux qui rendent un local inhabitable.",
+                        "Il est exigé notamment :"
+                    ],
+                    "liste": [
+                        "Dans les sites patrimoniaux remarquables et les périmètres de restauration immobilière",
+                        "Aux abords des monuments historiques et dans les sites classés ou inscrits",
+                        "Dans les communes ayant institué le permis de démolir par délibération"
+                    ]
+                },
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Une démolition liée à une construction",
+                    "paragraphes": [
+                        "Lorsque la démolition prépare une construction, la demande de permis de construire peut porter sur les deux : le permis de construire tient alors lieu de permis de démolir, et il n’y a qu’un dossier à monter."
+                    ]
+                }
+            ]
+        }
+    ]
+}

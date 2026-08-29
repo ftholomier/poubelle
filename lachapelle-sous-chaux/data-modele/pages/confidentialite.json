@@ -1,0 +1,95 @@
+{
+    "titre": "Politique de confidentialité",
+    "meta": {
+        "description": "Politique de confidentialité du site de la commune de Lachapelle-sous-Chaux : données collectées, durée de conservation, cookies et droits des personnes."
+    },
+    "hero": {
+        "surtitre": "Informations légales",
+        "titre": "Politique de confidentialité",
+        "image": "assets/img/site/pres-givres-ballon.jpg"
+    },
+    "sous_titre": "Ce site ne collecte que ce dont il a besoin pour vous répondre. Il ne dépose aucun traceur publicitaire, n’effectue aucun profilage et ne cède aucune donnée.",
+    "sections": [
+        {
+            "type": "texte",
+            "titre": "Responsable du traitement",
+            "paragraphes": [
+                "La commune de Lachapelle-sous-Chaux, représentée par sa maire, est responsable des traitements de données effectués depuis ce site.",
+                "Adresse : Mairie de Lachapelle-sous-Chaux, 4 rue du Rhome, 90300 Lachapelle-sous-Chaux. Courriel : mairie.lsc@wanadoo.fr."
+            ]
+        },
+        {
+            "type": "texte",
+            "titre": "Les données que vous nous transmettez",
+            "paragraphes": [
+                "Deux formulaires collectent des données : le formulaire de contact et le formulaire de demande en ligne. Les champs demandés sont ceux qui permettent de vous répondre et de traiter votre demande."
+            ],
+            "liste": [
+                "Formulaire de contact : prénom, nom, adresse électronique, téléphone si vous le donnez, et votre message",
+                "Demande en ligne : les mêmes, plus l’objet de la demande et votre adresse dans la commune si vous la renseignez"
+            ]
+        },
+        {
+            "type": "texte",
+            "titre": "Ce que nous en faisons",
+            "paragraphes": [
+                "Ces données sont transmises au secrétariat de mairie par courrier électronique, et utilisées pour traiter votre demande. La base légale du traitement est l’exécution d’une mission d’intérêt public dont la commune est investie, et votre consentement pour les champs facultatifs.",
+                "Elles ne sont ni vendues, ni cédées, ni utilisées à des fins de prospection. Elles ne sortent pas du secrétariat, sauf lorsque le traitement de votre demande suppose de la transmettre au service compétent — l’intercommunalité pour un dossier d’urbanisme, par exemple. Vous en êtes alors informé."
+            ]
+        },
+        {
+            "type": "texte",
+            "titre": "Combien de temps elles sont conservées",
+            "liste": [
+                "Les messages reçus par les formulaires sont conservés le temps de traiter la demande, puis archivés selon les règles applicables aux documents de la commune",
+                "Les échanges avec l’assistant de discussion, lorsqu’il est activé, sont purgés au plus tard au bout de douze mois",
+                "Les journaux techniques du serveur sont conservés au maximum treize mois"
+            ]
+        },
+        {
+            "type": "texte",
+            "titre": "Vos droits",
+            "paragraphes": [
+                "Vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation et d’opposition sur les données vous concernant. Pour l’exercer, écrivez au secrétariat de mairie, par courrier ou par courriel, en justifiant de votre identité.",
+                "Vous pouvez également introduire une réclamation auprès de la Commission nationale de l’informatique et des libertés."
+            ],
+            "lien": {
+                "libelle": "Saisir la CNIL",
+                "url": "https://www.cnil.fr/fr/plaintes"
+            }
+        },
+        {
+            "type": "texte",
+            "titre": "Cookies et traceurs",
+            "paragraphes": [
+                "Le site fonctionne sans aucun cookie publicitaire ni traceur de réseau social. Seuls sont déposés, le cas échéant :"
+            ],
+            "liste": [
+                "Un cookie de session, strictement nécessaire au fonctionnement des formulaires et de l’espace d’administration",
+                "Un cookie qui mémorise votre choix en matière de consentement, pour ne pas vous reposer la question à chaque page",
+                "Si vous l’acceptez : les cookies de la mesure d’audience, et ceux des contenus externes que vous choisissez d’afficher"
+            ]
+        },
+        {
+            "type": "texte",
+            "id": "cookies",
+            "titre": "Les contenus tiers ne se chargent qu’avec votre accord",
+            "paragraphes": [
+                "Le plan d’accès de la page contact est fourni par un service tiers, qui dépose ses propres cookies. Il n’est chargé qu’après votre accord explicite : tant que vous n’avez pas répondu, ou si vous refusez, aucune requête n’est adressée à ce service.",
+                "Le lien « Itinéraire », lui, reste toujours disponible : c’est un lien sortant, il ne dépose rien."
+            ],
+            "lien": {
+                "libelle": "Modifier mes choix",
+                "url": "/politique-de-confidentialite#cookies"
+            }
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Aucun traceur n’est chargé sans consentement",
+            "paragraphes": [
+                "Cette affirmation est vérifiée automatiquement : un contrôle mesure, après refus du consentement, le nombre de requêtes adressées à des domaines tiers. La bonne valeur est zéro, et c’est celle qui est exigée avant toute mise en ligne."
+            ]
+        }
+    ]
+}

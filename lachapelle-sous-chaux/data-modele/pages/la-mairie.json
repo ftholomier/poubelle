@@ -1,0 +1,124 @@
+{
+    "titre": "La mairie",
+    "meta": {
+        "description": "Le fonctionnement de la mairie de Lachapelle-sous-Chaux : conseil municipal, commissions, comptes-rendus des séances, budget communal et urbanisme."
+    },
+    "hero": {
+        "surtitre": "La commune",
+        "titre": "La mairie",
+        "image": "assets/img/site/mairie-facade.jpg",
+        "texte": "Le secrétariat, le conseil municipal et les documents publics de la commune."
+    },
+    "sous_titre": "La mairie est le premier guichet de l’administration : état civil, urbanisme, listes électorales, inscriptions scolaires. Elle est aussi le siège du conseil municipal, qui règle par ses délibérations les affaires de la commune.",
+    "sections": [
+        {
+            "type": "cartes",
+            "items": [
+                {
+                    "titre": "Le conseil municipal",
+                    "texte": "Le maire, les adjoints et les conseillers, avec le détail de leurs délégations.",
+                    "icone": "conseil",
+                    "lien": {
+                        "libelle": "Voir les élus",
+                        "url": "/conseil-municipal"
+                    }
+                },
+                {
+                    "titre": "Commissions & comités",
+                    "texte": "Les commissions communales qui préparent les décisions, et les structures où la commune siège.",
+                    "icone": "document",
+                    "lien": {
+                        "libelle": "Voir les commissions",
+                        "url": "/commissions-et-comites"
+                    }
+                },
+                {
+                    "titre": "Comptes-rendus du conseil",
+                    "texte": "Les comptes-rendus des séances, en PDF, séance par séance.",
+                    "icone": "document",
+                    "lien": {
+                        "libelle": "Consulter",
+                        "url": "/comptes-rendus-du-conseil"
+                    }
+                },
+                {
+                    "titre": "Budget communal",
+                    "texte": "Le budget primitif et le compte administratif : ce que la commune perçoit et ce qu’elle dépense.",
+                    "icone": "budget",
+                    "lien": {
+                        "libelle": "Consulter",
+                        "url": "/budget-communal"
+                    }
+                },
+                {
+                    "titre": "Urbanisme",
+                    "texte": "Le document d’urbanisme applicable, et les autorisations à demander avant de bâtir.",
+                    "icone": "urbanisme",
+                    "lien": {
+                        "libelle": "En savoir plus",
+                        "url": "/urbanisme"
+                    }
+                },
+                {
+                    "titre": "Vos démarches",
+                    "texte": "Carte d’identité, état civil, élections, travaux : ce qu’il faut apporter, et où.",
+                    "icone": "etat-civil",
+                    "lien": {
+                        "libelle": "Voir les démarches",
+                        "url": "/demarches"
+                    }
+                }
+            ],
+            "surtitre": "Le site",
+            "titre": "Le conseil et ses travaux",
+            "chapo": "Cinq entrées pour comprendre comment la commune est administrée, et une sixième pour ce que vous êtes venu faire."
+        },
+        {
+            "type": "duo",
+            "image": "assets/img/site/accueil-en-mairie.jpg",
+            "image_alt": "Quatre personnes réunies dans le bureau du secrétariat de mairie, devant un ordinateur portable",
+            "surtitre": "Nous joindre",
+            "titre": "Le secrétariat de mairie",
+            "paragraphes": [
+                "Le secrétariat reçoit sans rendez-vous aux heures d’ouverture. C’est là que se déposent les dossiers d’état civil, les déclarations de travaux, les inscriptions sur les listes électorales et les demandes de salle des fêtes.",
+                "Les élus, eux, tiennent permanence chaque samedi matin de 10 h à 12 h : c’est le moment pour une question qui demande une décision plutôt qu’un formulaire."
+            ],
+            "liste": [
+                "Lundi : 8 h – 11 h et 12 h – 15 h",
+                "Mardi : 8 h – 11 h",
+                "Mercredi : 8 h 30 – 11 h et 14 h – 16 h",
+                "Jeudi : 8 h – 12 h",
+                "Vendredi : 8 h – 12 h",
+                "Samedi : permanence des élus, 10 h – 12 h"
+            ],
+            "lien": {
+                "libelle": "Écrire à la mairie",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "texte",
+            "titre": "Ce que la commune fait, et ce qu’elle ne fait pas",
+            "paragraphes": [
+                "Beaucoup de démarches passent par la mairie sans relever d’elle. L’état civil, les listes électorales, le recensement citoyen et les autorisations d’urbanisme sont bien de sa compétence. Les cartes grises, les permis de conduire et les titres de séjour relèvent de l’État et se font en ligne ; l’eau, les déchets et l’assainissement relèvent de syndicats et de l’intercommunalité.",
+                "En cas de doute, appelez : un appel de deux minutes évite un déplacement pour rien."
+            ],
+            "lien": {
+                "libelle": "Les services de l’État",
+                "url": "/services-de-l-etat"
+            }
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Les attributions du conseil municipal",
+            "paragraphes": [
+                "Les autorités communales exercent leurs attributions sur l’état civil, l’urbanisme et le logement, la voirie et les transports, l’alimentation en eau, les écoles, les activités culturelles, la santé, l’aide sociale et la lutte contre l’incendie."
+            ],
+            "lien": {
+                "libelle": "Voir le conseil municipal",
+                "url": "/conseil-municipal"
+            }
+        }
+    ]
+}

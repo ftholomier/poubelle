@@ -1,0 +1,23 @@
+{
+    "titre": "Services de l’État",
+    "meta": {
+        "description": "Préfecture, direction départementale des territoires, agence régionale de santé, finances publiques : les services de l’État compétents pour les habitants de Lachapelle-sous-Chaux."
+    },
+    "hero": {
+        "surtitre": "Vos démarches",
+        "titre": "Les services de l’État",
+        "image": "assets/img/site/panorama-vosges-du-sud.jpg",
+        "texte": "Ce dont la mairie ne s’occupe pas, et à qui s’adresser."
+    },
+    "sous_titre": "Une mairie de village est le premier guichet, rarement le bon. La préfecture, la direction départementale des territoires, l’agence régionale de santé et les finances publiques traitent l’essentiel des dossiers. Voici ce dont chacune s’occupe.",
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Un déplacement à Belfort se prépare",
+            "paragraphes": [
+                "La plupart de ces services reçoivent uniquement sur rendez-vous, et beaucoup de démarches se règlent en ligne ou par téléphone. Appelez ou consultez le site avant de prendre la route."
+            ]
+        }
+    ]
+}

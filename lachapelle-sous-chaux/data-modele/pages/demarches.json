@@ -1,0 +1,75 @@
+{
+    "titre": "Démarches",
+    "meta": {
+        "description": "Toutes les démarches administratives à Lachapelle-sous-Chaux : état civil, carte d’identité, élections, urbanisme. Pièces à fournir, délais et téléservices."
+    },
+    "hero": {
+        "surtitre": "Vos démarches",
+        "titre": "Démarches administratives",
+        "image": "assets/img/site/mairie-facade.jpg",
+        "texte": "Ce qu’il faut apporter, où s’adresser et combien de temps ça prend."
+    },
+    "sous_titre": "Treize fiches, classées par famille. Chacune dit les pièces à fournir, le guichet compétent, le délai et le coût, et renvoie au téléservice officiel quand il existe. En cas de doute, le secrétariat répond au 03 84 27 53 78 : mieux vaut un appel qu’un déplacement pour rien.",
+    "familles": {
+        "etat-civil": {
+            "titre": "État civil et identité",
+            "texte": "Naître, se marier, se pacser, déclarer un décès, obtenir un titre d’identité, accueillir un proche venu de l’étranger."
+        },
+        "elections": {
+            "titre": "Élections",
+            "texte": "S’inscrire, voter par procuration, voter en tant que citoyen d’un autre État de l’Union européenne."
+        },
+        "urbanisme": {
+            "titre": "Urbanisme et travaux",
+            "texte": "Ce qu’il faut déposer avant de construire, d’agrandir, de clôturer ou de démolir."
+        }
+    },
+    "sections": [
+        {
+            "type": "cartes",
+            "items": [
+                {
+                    "titre": "Démarches en ligne",
+                    "texte": "Actes d’état civil, cadastre, impôts, ANTS : les téléservices qui évitent le déplacement.",
+                    "icone": "internet",
+                    "lien": {
+                        "libelle": "Voir la liste",
+                        "url": "/demarches-en-ligne"
+                    }
+                },
+                {
+                    "titre": "Services de l’État",
+                    "texte": "Préfecture, DDT, ARS : ce dont la mairie ne s’occupe pas, et à qui s’adresser.",
+                    "icone": "mairie",
+                    "lien": {
+                        "libelle": "Voir la liste",
+                        "url": "/services-de-l-etat"
+                    }
+                },
+                {
+                    "titre": "Écrire à la mairie",
+                    "texte": "Une demande précise, un formulaire : acte d’état civil, signalement, réservation de salle.",
+                    "icone": "courriel",
+                    "lien": {
+                        "libelle": "Écrire",
+                        "url": "/demande-en-ligne"
+                    }
+                }
+            ],
+            "surtitre": "Aller plus loin",
+            "titre": "Ailleurs qu’en mairie"
+        },
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "Cartes grises et permis de conduire",
+            "paragraphes": [
+                "Ces démarches ne se font plus en préfecture ni en mairie depuis 2017 : elles passent exclusivement par le site de l’Agence nationale des titres sécurisés. Méfiez-vous des sites intermédiaires qui facturent une démarche gratuite."
+            ],
+            "lien": {
+                "libelle": "ants.gouv.fr",
+                "url": "https://ants.gouv.fr/"
+            }
+        }
+    ]
+}

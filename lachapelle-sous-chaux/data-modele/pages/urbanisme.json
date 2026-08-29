@@ -1,0 +1,114 @@
+{
+    "titre": "Urbanisme",
+    "meta": {
+        "description": "Urbanisme à Lachapelle-sous-Chaux : plan local d’urbanisme intercommunal (PLUi), autorisations de travaux, dépôt des dossiers et conseils avant projet."
+    },
+    "hero": {
+        "surtitre": "La mairie",
+        "titre": "Urbanisme",
+        "image": "assets/img/site/plan-cadastral-ancien.jpg",
+        "texte": "Le document qui dit ce qu’on peut bâtir, et l’autorisation qu’il faut demander."
+    },
+    "sous_titre": "Avant tout projet — construire, agrandir, clôturer, changer une fenêtre — deux questions se posent : qu’autorise le document d’urbanisme applicable à votre parcelle, et quelle autorisation faut-il déposer ? Le secrétariat répond à la première, cette page à la seconde.",
+    "sections": [
+        {
+            "type": "cartes",
+            "items": [
+                {
+                    "titre": "Déclaration préalable",
+                    "texte": "Abri de jardin, clôture, ravalement, fenêtre de toit, piscine de moins de 100 m².",
+                    "icone": "urbanisme",
+                    "lien": {
+                        "libelle": "Voir la démarche",
+                        "url": "/demarches/declaration-prealable-de-travaux"
+                    }
+                },
+                {
+                    "titre": "Permis de construire",
+                    "texte": "Construction neuve, extension de plus de 20 m², surélévation.",
+                    "icone": "urbanisme",
+                    "lien": {
+                        "libelle": "Voir la démarche",
+                        "url": "/demarches/permis-de-construire"
+                    }
+                },
+                {
+                    "titre": "Permis d’aménager",
+                    "texte": "Lotissement, remodelage du sol, grande aire de stationnement.",
+                    "icone": "urbanisme",
+                    "lien": {
+                        "libelle": "Voir la démarche",
+                        "url": "/demarches/permis-d-amenager"
+                    }
+                },
+                {
+                    "titre": "Permis de démolir",
+                    "texte": "Démolition totale ou partielle d’un bâtiment en secteur protégé.",
+                    "icone": "urbanisme",
+                    "lien": {
+                        "libelle": "Voir la démarche",
+                        "url": "/demarches/permis-de-demolir"
+                    }
+                }
+            ],
+            "surtitre": "Démarches",
+            "titre": "Quelle autorisation pour quels travaux",
+            "chapo": "Chaque fiche donne les pièces à fournir, le délai d’instruction et le lien vers le guichet numérique."
+        },
+        {
+            "type": "texte",
+            "id": "plui",
+            "titre": "Le plan local d’urbanisme intercommunal",
+            "paragraphes": [
+                "La compétence en matière de document d’urbanisme a été transférée à l’intercommunalité en octobre 2014 : c’est elle qui élabore et fait vivre le plan local d’urbanisme intercommunal, le PLUi, sur l’ensemble de son périmètre.",
+                "L’élaboration a été conduite avec les communes : un comité consultatif réunissant des conseillers municipaux de chaque commune — cinq pour Lachapelle-sous-Chaux — a travaillé aux côtés du bureau d’études, et une concertation publique a accompagné toute la procédure, avec registre en mairie et réunions publiques.",
+                "Le règlement et le zonage applicables à une parcelle se consultent au secrétariat, qui vous dira ce qui s’applique chez vous avant que vous ne montiez un dossier."
+            ],
+            "lien": {
+                "libelle": "Le service urbanisme de la communauté de communes",
+                "url": "https://www.ccvosgesdusud.fr/"
+            }
+        },
+        {
+            "type": "etapes",
+            "items": [
+                {
+                    "titre": "Vérifier le zonage",
+                    "texte": "Demandez au secrétariat le règlement applicable à votre parcelle. C’est gratuit, et cela évite un refus."
+                },
+                {
+                    "titre": "Demander un certificat d’urbanisme",
+                    "texte": "Le certificat opérationnel dit si le projet envisagé est réalisable. Gratuit, instruit en un ou deux mois."
+                },
+                {
+                    "titre": "Faire relire le projet",
+                    "texte": "L’architecte-conseil du CAUE du Territoire de Belfort reçoit gratuitement sur rendez-vous."
+                },
+                {
+                    "titre": "Déposer le dossier",
+                    "texte": "Au secrétariat en deux exemplaires, ou en ligne sur le guichet numérique des autorisations d’urbanisme."
+                }
+            ],
+            "surtitre": "Méthode",
+            "titre": "Avant de déposer un dossier",
+            "chapo": "Un projet corrigé avant le dépôt fait gagner des mois, et coûte moins cher qu’un refus."
+        },
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "L’affichage n’est pas une formalité",
+            "paragraphes": [
+                "L’autorisation obtenue doit être affichée sur le terrain, sur un panneau visible depuis la voie publique, pendant toute la durée des travaux. C’est cet affichage qui fait courir le délai de recours des tiers — sans lui, le recours reste ouvert bien après la fin du chantier. Son absence est en outre passible d’une amende."
+            ]
+        },
+        {
+            "type": "texte",
+            "id": "modification-simplifiee",
+            "titre": "La modification simplifiée du document d’urbanisme",
+            "paragraphes": [
+                "Lorsque le document d’urbanisme est modifié — par exemple pour assouplir les règles d’aspect extérieur des constructions —, le dossier est mis à disposition du public en mairie, avec un registre où consigner ses observations. La procédure est conduite par l’intercommunalité, mais la consultation a lieu ici.",
+                "Les dates de mise à disposition sont annoncées sur ce site, dans le Flash Info et par affichage. Les observations peuvent aussi être transmises par courriel au secrétariat pendant la période d’ouverture du registre."
+            ]
+        }
+    ]
+}

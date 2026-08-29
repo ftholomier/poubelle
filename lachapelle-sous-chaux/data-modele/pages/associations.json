@@ -1,0 +1,39 @@
+{
+    "titre": "Associations",
+    "meta": {
+        "description": "Les associations de Lachapelle-sous-Chaux : La T’Chaparre, club de tennis, Les Chaperottes, Les Chats P’Lotis, ACCA. Activités et contacts."
+    },
+    "hero": {
+        "surtitre": "Découvrir",
+        "titre": "Les associations",
+        "image": "assets/img/site/verger-au-printemps.jpg",
+        "texte": "Cinq associations font vivre le village toute l’année."
+    },
+    "sous_titre": "Fleurissement, tennis, marche, protection animale, chasse : dans un village de sept cents habitants, ce sont les associations qui tiennent le lien. Toutes accueillent de nouveaux membres, y compris pour un coup de main ponctuel.",
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Votre association n’est pas listée ?",
+            "paragraphes": [
+                "Écrivez au secrétariat de mairie : la page est tenue à jour au fil des demandes, et une association du village y a sa place de droit."
+            ],
+            "lien": {
+                "libelle": "Signaler une association",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "texte",
+            "titre": "Réserver la salle des fêtes",
+            "paragraphes": [
+                "La salle communale accueille les manifestations des associations, les repas et les fêtes de famille. La réservation se fait auprès du secrétariat de mairie, qui remet le règlement, fixe le tarif et organise l’état des lieux.",
+                "Réservez tôt : les samedis de printemps et d’automne partent plusieurs mois à l’avance."
+            ],
+            "lien": {
+                "libelle": "Demander la salle des fêtes",
+                "url": "/demande-en-ligne"
+            }
+        }
+    ]
+}

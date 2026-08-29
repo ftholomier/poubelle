@@ -1,0 +1,96 @@
+{
+    "titre": "CCAS",
+    "meta": {
+        "description": "Le centre communal d’action sociale de Lachapelle-sous-Chaux : aides d’urgence, accompagnement social, repas des aînés et Noël des enfants."
+    },
+    "hero": {
+        "surtitre": "Solidarité",
+        "titre": "Centre communal d’action sociale",
+        "image": "assets/img/site/repas-des-aines.jpg",
+        "texte": "Une aide, une orientation, un moment partagé."
+    },
+    "sous_titre": "Une commune de moins de 1 500 habitants n’est pas tenue d’avoir un CCAS. Lachapelle-sous-Chaux en a maintenu un : c’est un choix du conseil municipal, et c’est ce qui permet d’agir vite quand une situation l’exige.",
+    "sections": [
+        {
+            "type": "texte",
+            "titre": "Ce que fait le CCAS",
+            "paragraphes": [
+                "Le centre communal d’action sociale attribue des aides financières d’urgence ou exceptionnelles, et mène des actions d’animation et de soutien : lutte contre l’isolement, maintien du lien social, accès à la culture et aux loisirs, prévention, adaptation du logement."
+            ],
+            "liste": [
+                "Lutte contre l’exclusion et accès aux droits : instruction des dossiers d’aide sociale, aide alimentaire, précarité énergétique, surendettement",
+                "Accompagnement de la perte d’autonomie : mise en relation avec les services d’aide à domicile, prévention et animation en direction des personnes âgées",
+                "Petite enfance, enfance et jeunesse : animations, aides exceptionnelles pour les voyages scolaires",
+                "Soutien aux personnes en situation de handicap"
+            ]
+        },
+        {
+            "type": "texte",
+            "titre": "Pour quelles démarches s’adresser au CCAS",
+            "paragraphes": [
+                "Quatre motifs reviennent : une information sur vos droits, une demande d’aide ou de prestation sociale, une orientation vers le bon organisme, une demande d’aide extralégale.",
+                "Tout se dit au secrétariat, aux heures d’ouverture, ou par écrit. Les échanges restent confidentiels et sont examinés par le conseil d’administration."
+            ],
+            "lien": {
+                "libelle": "Écrire au CCAS",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "texte",
+            "surtitre": "Qui décide",
+            "titre": "Le conseil d’administration",
+            "paragraphes": [
+                "Madame le maire en est présidente de plein droit. Le conseil d’administration associe des membres du conseil municipal et des habitants du village, nommés pour leur connaissance du terrain.",
+                "Membres : Florence Malsot, vice-présidente, Patrice Guigon, Nathalie Colombié, Pascal Tisserand, Jean-Claude Hunold, Annie-France Besinge, Cindy Royer, Sophie Damour."
+            ]
+        },
+        {
+            "type": "cartes",
+            "items": [
+                {
+                    "titre": "Le repas des aînés",
+                    "texte": "Premier dimanche de décembre, à la salle des fêtes, offert aux habitants de plus de soixante-dix ans.",
+                    "icone": "solidarite",
+                    "lien": {
+                        "libelle": "Lire l’article",
+                        "url": "/actualites/repas-des-aines"
+                    }
+                },
+                {
+                    "titre": "Le Noël des enfants",
+                    "texte": "Spectacle, goûter et cadeaux pour les enfants du village, à la mi-décembre.",
+                    "icone": "agenda",
+                    "lien": {
+                        "libelle": "Lire l’article",
+                        "url": "/actualites/noel-des-enfants"
+                    }
+                },
+                {
+                    "titre": "Le concert du printemps",
+                    "texte": "Une invitation ouverte à tous, dans l’église Saint-Vincent.",
+                    "icone": "association",
+                    "lien": {
+                        "libelle": "Lire l’article",
+                        "url": "/actualites/concert-pour-les-anciens-du-village"
+                    }
+                }
+            ],
+            "surtitre": "Animations",
+            "titre": "Les rendez-vous de l’année",
+            "chapo": "Le CCAS ne fait pas que verser des aides : il organise des moments qui font que l’on se connaît dans le village."
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Vous n’avez pas reçu d’invitation ?",
+            "paragraphes": [
+                "Les invitations au repas des aînés sont adressées à partir des listes de la commune. Un nouvel arrivant peut y échapper : signalez-vous au secrétariat, l’invitation suivra."
+            ],
+            "lien": {
+                "libelle": "Se signaler",
+                "url": "/demande-en-ligne"
+            }
+        }
+    ]
+}
