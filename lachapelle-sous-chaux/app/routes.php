@@ -14,6 +14,7 @@ declare(strict_types=1);
  * @var array            $config
  */
 
+use App\Admin\ApparenceController;
 use App\Controllers\ApiController;
 use App\Controllers\PageController;
 use App\Core\Antispam;
@@ -69,6 +70,12 @@ $view->share('assistant', $assistant);
 // Disposition du menu : réglée dans le back-office, lue par l'en-tête et le
 // gabarit. Partagée ici pour qu'une page n'ait pas à la redemander.
 $view->share('menuStyle', $parametresSite->get('apparence.menu', 'horizontal'));
+// Taille du logo, et ce que la barre en fait : le gabarit les repose en jeton
+// CSS et en classe sur <html>. Les deux passent par le contrôleur d'apparence
+// plutôt que par un get() direct, pour que le bornage soit le même à
+// l'écriture et à la lecture.
+$view->share('logoHauteur', ApparenceController::hauteurLogo($parametresSite));
+$view->share('logoDeborde', ApparenceController::logoDeborde($parametresSite));
 $GLOBALS['seo'] = $seo;
 $GLOBALS['langue'] = $langue;
 $GLOBALS['traducteur'] = $traducteur;

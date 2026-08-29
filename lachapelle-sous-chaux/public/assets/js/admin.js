@@ -634,4 +634,70 @@
     window.addEventListener("hashchange", ouvrirCible);
   })();
 
+  /* ---------- Apparence : taille du logo ----------
+     Le champ nombre est la source de vérité et fonctionne seul : le curseur
+     est révélé ici, et l'aperçu suit. Rien de ce bloc n'est nécessaire pour
+     enregistrer — c'est du confort, et il se retire de lui-même sur les
+     autres écrans. */
+  (function () {
+    var nombre = document.querySelector('[data-logo-nombre]');
+    var apercu = document.querySelector('[data-logo-apercu]');
+    if (!nombre || !apercu) return;
+
+    var curseur = document.querySelector('[data-logo-curseur]');
+    var deborde = document.querySelector('[data-logo-deborde]');
+    var resume  = document.querySelector('[data-logo-resume]');
+
+    var mini = parseInt(nombre.getAttribute('min'), 10) || 36;
+    var maxi = parseInt(nombre.getAttribute('max'), 10) || 120;
+
+    /* Le curseur n'existe pour l'utilisateur qu'à partir d'ici : sans script
+       il resterait un doublon muet du champ nombre. */
+    if (curseur) {
+      curseur.hidden = false;
+      curseur.removeAttribute('aria-hidden');
+      curseur.removeAttribute('tabindex');
+    }
+
+    function valeur() {
+      var v = parseInt(nombre.value, 10);
+      if (isNaN(v)) v = 52;
+      return Math.max(mini, Math.min(maxi, v));
+    }
+
+    function peindre() {
+      var v = valeur();
+      var d = deborde ? deborde.checked : false;
+      apercu.style.setProperty('--ap-logo', v + 'px');
+      apercu.classList.toggle('bo-logo-apercu--deborde', d);
+      if (curseur) curseur.value = v;
+      /* Ce que le site appliquera vraiment, avec les formules de site.css :
+         --entete-h-suivie d'un côté, la hauteur d'origine et le plancher
+         --logo-air-mini de l'autre. Un dépassement annoncé de travers serait
+         pire que pas d'annonce du tout. */
+      if (resume) {
+        if (d) {
+          var haut = Math.max(12, (96 - v) / 2);
+          var sous = Math.max(0, Math.round(haut + v - 96));
+          resume.textContent = sous > 0
+            ? 'Barre de 96 px de haut ; le logo la dépasse de ' + sous + ' px.'
+            : 'Barre de 96 px de haut ; le logo y tient encore.';
+        } else {
+          resume.textContent = 'Barre de ' + (v + 44) + ' px de haut.';
+        }
+      }
+    }
+
+    nombre.addEventListener('input', peindre);
+    nombre.addEventListener('change', peindre);
+    if (deborde) deborde.addEventListener('change', peindre);
+    if (curseur) {
+      curseur.addEventListener('input', function () {
+        nombre.value = curseur.value;
+        peindre();
+      });
+    }
+    peindre();
+  })();
+
 })();

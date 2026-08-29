@@ -85,8 +85,48 @@
   --texte-police: var(--titre);
 
   --transition: .38s cubic-bezier(.25, .8, .25, 1);
-  --entete-h: 96px;
-  --entete-h-compact: 72px;
+
+  /* --- le logo de la barre, et tout ce qui en découle ---
+     --logo-ref est le seul nombre réglable : la mairie le change dans
+     Apparence → Taille du logo, et le gabarit le repose en style en ligne
+     sur <html>.
+
+     La barre, elle, a deux comportements au choix — c'est le second réglage
+     de ce même écran, posé en classe sur <html> :
+
+       · sans classe        la barre suit le logo. L'air autour de lui reste
+                            constant, la barre grandit avec lui, rien ne se
+                            chevauche. C'est la valeur sûre.
+       · .logo-deborde      la barre garde sa hauteur et le logo la dépasse
+                            par le bas quand il est plus grand qu'elle. Une
+                            barre trop épaisse mange le premier écran du
+                            bandeau ; un blason qui déborde règle cela et
+                            donne du caractère à l'en-tête.
+
+     Les deux hauteurs sont donc calculées séparément et l'une des deux est
+     retenue plus bas. Les constantes ajoutées à la version « suivie » sont
+     l'air relevé sur la maquette d'origine : 44 px en haut de page (96 − 52)
+     et 32 px une fois la barre réduite (72 − 40). Les valeurs « fixes » sont
+     les hauteurs de barre d'origine, telles quelles. */
+  --logo-ref: 52px;
+  --logo-h: var(--logo-ref);
+  /* Barre défilée : le logo se réduit d'un quart, proportion d'origine. */
+  --logo-h-reduit: calc(var(--logo-h) * .77);
+
+  --entete-h-suivie: calc(var(--logo-h) + 44px);
+  --entete-h-compact-suivie: calc(var(--logo-h-reduit) + 32px);
+  --entete-h-fixe: 96px;
+  --entete-h-compact-fixe: 72px;
+
+  /* Ces deux-là sont ce que lit le reste de la feuille — la barre, mais
+     aussi le rembourrage haut du bandeau et le collant des fiches. Elles
+     sont réaffectées une seule fois, juste en dessous ; les media queries
+     n'ont donc à retoucher que les quatre jetons ci-dessus. */
+  --entete-h: var(--entete-h-suivie);
+  --entete-h-compact: var(--entete-h-compact-suivie);
+  /* Hauteur du logo une fois la barre défilée. Elle vaut la réduction
+     normale, sauf en mode débordement où elle est bridée plus bas. */
+  --logo-h-barre: var(--logo-h-reduit);
   --gouttiere: clamp(1.5rem, 5vw, 4.5rem);
   --largeur: 1280px;
   /* Un arrondi discret : assez pour adoucir un bouton, trop peu pour
@@ -95,6 +135,32 @@
   --rayon-carte: 0;
   --ombre-carte: 0 2px 6px rgba(29, 55, 48, .05), 0 14px 40px rgba(29, 55, 48, .09);
   --ombre-carte-active: 0 4px 14px rgba(77, 145, 121, .16), 0 24px 60px rgba(29, 55, 48, .14);
+}
+
+/* Mode « le logo déborde » : la barre est rendue sourde à la taille du logo.
+   Une seule règle suffit, et elle vaut à toutes les largeurs — les media
+   queries plus bas ne touchent qu'aux quatre jetons de hauteur, jamais à
+   ces deux-ci. */
+:root.logo-deborde {
+  --entete-h: var(--entete-h-fixe);
+  --entete-h-compact: var(--entete-h-compact-fixe);
+  /* Le débordement s'arrête au premier défilement. Passé le haut de page la
+     barre devient opaque : ce qui la dépasse ne tombe plus sur la photo du
+     bandeau mais sur le texte de la page, et un logo clair y disparaît. Le
+     logo rentre donc dans la barre réduite, en gardant 12 px d'air de chaque
+     côté — la même valeur que --logo-air-mini ci-dessous, pour qu'il y soit
+     centré et non posé de travers.
+     min() ne rogne que les grandes tailles : à 52 px, la réduction normale
+     (40) reste sous le plafond (48) et rien ne change. */
+  --logo-h-barre: min(var(--logo-h-reduit), calc(var(--entete-h-compact-fixe) - 24px));
+
+  /* L'air gardé au-dessus du logo quand il déborde. Sans ce plancher il
+     colle au bord haut de l'écran : le calcul de centrage rend zéro dès que
+     le logo dépasse la barre, et un logo au ras du bord se lit comme un
+     défaut d'affichage, pas comme un parti pris. Douze pixels suffisent à ce
+     qu'il se pose, et tout le dépassement se fait alors vers le bas — ce qui
+     est le but. */
+  --logo-air-mini: 12px;
 }
 
 /* ---------- Base ---------- */
@@ -526,18 +592,56 @@ p + p { margin-top: 1.05rem; }
    bas, c'est la version claire du logo qui sert partout — la seconde reste
    dans le balisage, prête à servir si la barre repassait au clair. */
 .entete__logo {
-  position: relative; display: block;
+  position: relative; display: flex; align-items: center;
   margin-right: auto;
   flex: 0 0 auto;
+  /* Le lien du logo est une cible tactile comme une autre, et la mairie peut
+     régler le logo jusqu'à 36 px : une fois la barre défilée il descend à 28,
+     très en dessous des 44 px. Le minimum est posé ici plutôt que dans le bloc
+     tactile, parce qu'il doit tenir à toutes les tailles et à tous les
+     réglages ; il est inerte dès que le logo est plus grand. */
+  min-height: 44px;
 }
 .entete__marque {
-  display: block; height: 52px; width: auto;
+  display: block; height: var(--logo-h); width: auto;
+  /* La règle globale img{max-width:100%} finit par mordre quand la mairie
+     agrandit le logo : sur un écran de 320 px, la barre n'offre que 144 px de
+     large et la largeur calculée est rognée là. Sans object-fit, la hauteur,
+     elle, resterait celle demandée — et le logo serait servi écrasé, ce qui
+     est pire que trop petit. contain lui rend ses proportions : il se réduit
+     au lieu de se déformer, et l'écran étroit devient le seul endroit où le
+     réglage plafonne. Mesuré par outils/verifs/entete.py. */
+  object-fit: contain;
   transition: height var(--transition), opacity var(--transition);
 }
 .entete__marque--sombre {
   position: absolute; inset: 0; opacity: 0;
 }
-.entete--pleine .entete__marque { height: 40px; }
+.entete--pleine .entete__marque { height: var(--logo-h-barre); }
+
+/* --- mode « le logo déborde » ---
+   La barre reprend d'abord une hauteur ferme. Sans cela, un logo plus grand
+   qu'elle étire .entete__barre, que .entete centre verticalement : le
+   débordement se ferait alors des deux côtés, donc hors de l'écran par le
+   haut. Avec une barre de hauteur fixe, le burger et la navigation restent
+   centrés sur elle et seul le logo la dépasse, vers le bas.
+
+   Le décalage se calcule de la même façon dans les deux états : tant que le
+   logo tient, max() rend la moitié de l'air restant et le logo est centré
+   exactement comme avant ; dès qu'il dépasse, max() retombe sur le plancher
+   et il part de douze pixels sous le haut de la barre. Aucune bascule,
+   aucune valeur en dur, et le réglage traverse sans marche le point où le
+   logo devient plus grand que la barre. */
+:root.logo-deborde .entete__barre { height: var(--entete-h); }
+:root.logo-deborde .entete--pleine .entete__barre { height: var(--entete-h-compact); }
+
+:root.logo-deborde .entete__logo {
+  align-self: flex-start;
+  margin-top: max(var(--logo-air-mini), calc((var(--entete-h) - var(--logo-h)) / 2));
+}
+:root.logo-deborde .entete--pleine .entete__logo {
+  margin-top: max(var(--logo-air-mini), calc((var(--entete-h-compact) - var(--logo-h-barre)) / 2));
+}
 
 /* --- disposition latérale : burger et nom à gauche, actions à droite --- */
 .entete--lateral .entete__barre { justify-content: flex-start; }
@@ -1702,6 +1806,21 @@ a.coordonnees__valeur:hover {
 }
 
 @media (max-width: 1079px) {
+  /* Sans la navigation centrale, le logo est seul au milieu d'une barre qui
+     garde sa hauteur : il y reprend de la place. Proportion d'origine, 60 px
+     pour 52 — la retirer faisait retomber le logo du téléphone à 32 px, perdu
+     dans une barre de 78, et sa zone tactile sous les 44 px réglementaires.
+
+     La classe est portée par <html> et non par <body> : il faut que la
+     déclaration atterrisse sur l'élément où le bloc :root calcule les
+     hauteurs, sans quoi --logo-h-reduit et --entete-h resteraient sur
+     l'ancienne valeur, héritée telle quelle. */
+  :root.menu-horizontal {
+    --logo-h: calc(var(--logo-ref) * 1.15);
+    --entete-h-suivie: calc(var(--logo-h) + 36px);
+    --entete-h-compact-suivie: calc(var(--logo-h-reduit) + 26px);
+  }
+
   .entete--horizontal .entete__barre { justify-content: space-between; }
   /* Sans la navigation centrale, le logo reprend la place qu'il occupe en
      disposition latérale : les deux en-têtes redeviennent identiques. */
@@ -1709,7 +1828,18 @@ a.coordonnees__valeur:hover {
     position: absolute; left: 50%; top: 50%;
     transform: translate(-50%, -50%);
   }
-  .entete--horizontal .entete__logo img { height: 60px; }
+
+  /* Ici le logo est positionné en absolu, et non plus dans le flux : le
+     centrage vertical passe par top, pas par align-self. Le calcul est le
+     même, au repère près. */
+  :root.logo-deborde .entete--horizontal .entete__logo {
+    top: max(var(--logo-air-mini), calc((var(--entete-h) - var(--logo-h)) / 2));
+    transform: translateX(-50%);
+    margin-top: 0;
+  }
+  :root.logo-deborde .entete--horizontal.entete--pleine .entete__logo {
+    top: max(var(--logo-air-mini), calc((var(--entete-h-compact) - var(--logo-h-barre)) / 2));
+  }
 }
 
 @media (max-width: 1024px) {
@@ -1720,7 +1850,19 @@ a.coordonnees__valeur:hover {
 }
 
 @media (max-width: 860px) {
-  :root { --entete-h: 78px; --entete-h-compact: 64px; }
+  :root {
+    /* La barre se resserre autour du même logo : 26 px d'air au lieu de 44. */
+    --entete-h-suivie: calc(var(--logo-h) + 26px);
+    --entete-h-compact-suivie: calc(var(--logo-h-reduit) + 24px);
+    --entete-h-fixe: 78px;
+    --entete-h-compact-fixe: 64px;
+  }
+  /* Le logo agrandi de la disposition horizontale tient dans la même barre
+     resserrée : c'est l'air qui cède, pas la barre. */
+  :root.menu-horizontal {
+    --entete-h-suivie: calc(var(--logo-h) + 18px);
+    --entete-h-compact-suivie: calc(var(--logo-h-reduit) + 18px);
+  }
 
   .entete__tel { display: none; }
   .indicateurs { margin-top: -2.4rem; }
@@ -2157,6 +2299,15 @@ body.visionneuse-ouverte { overflow: hidden; }
    burger passe en position absolue à gauche, sinon il pousserait le bloc
    hors de l'axe. Rien ne disparaît, rien ne se superpose. */
 @media (max-width: 780px) {
+  :root {
+    /* Le logo se réduit à son tour sur téléphone — proportions d'origine,
+       40 px et 34 px pour une référence de 52. */
+    --logo-h: calc(var(--logo-ref) * .77);
+    --logo-h-reduit: calc(var(--logo-ref) * .65);
+    --entete-h-suivie: calc(var(--logo-h) + 38px);
+    --entete-h-compact-suivie: calc(var(--logo-h-reduit) + 30px);
+  }
+
   .entete__barre { justify-content: center; gap: .8rem; }
   .entete--lateral .entete__barre { justify-content: center; }
 
@@ -2170,8 +2321,6 @@ body.visionneuse-ouverte { overflow: hidden; }
   .entete__logo {
     margin-inline: auto;
   }
-  .entete__marque { height: 40px; }
-  .entete--pleine .entete__marque { height: 34px; }
 
   /* La droite de la barre est vide à cette largeur : la garder dans le flux
      décalerait le logo d'autant. */
@@ -2180,8 +2329,12 @@ body.visionneuse-ouverte { overflow: hidden; }
 
 /* Sous 380 px, le logo touchait encore le burger. */
 @media (max-width: 380px) {
-  .entete__marque { height: 32px; }
-  .entete--pleine .entete__marque { height: 28px; }
+  :root {
+    --logo-h: calc(var(--logo-ref) * .62);
+    --logo-h-reduit: calc(var(--logo-ref) * .54);
+    --entete-h-suivie: calc(var(--logo-h) + 46px);
+    --entete-h-compact-suivie: calc(var(--logo-h-reduit) + 36px);
+  }
 }
 
 @media (max-width: 640px) {
@@ -2415,6 +2568,8 @@ body.visionneuse-ouverte { overflow: hidden; }
      faisait que vingt-cinq. On élargit les deux. */
   .champ--case input { width: 24px; height: 24px; margin-top: .35rem; }
   .champ--case label { display: flex; align-items: center; min-height: 44px; }
+  /* Le minimum de 44 px est déjà posé sur la règle de base ; ce rembourrage
+     n'écarte que le logo de la barre, il ne porte pas la cible. */
   .entete__logo { padding-block: .35rem; }
   .pied__suivre a,
   .coordonnees__reseaux a { display: inline-flex; align-items: center; min-height: 44px; }

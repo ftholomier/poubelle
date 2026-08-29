@@ -349,6 +349,7 @@ python3 outils/verifs/contraste.py
 python3 outils/verifs/mise-en-page.py
 python3 outils/verifs/traceurs.py
 python3 outils/verifs/bandeau.py
+python3 outils/verifs/entete.py
 ```
 
 Voir § 4. **Tant qu'ils ne sont pas à zéro, le site n'est pas fini.**
@@ -363,7 +364,7 @@ main du client (SMTP, clés d'API, horaires).
 
 ## 4. Les auditeurs
 
-Quatre scripts dans `outils/verifs/`, qui sortent en code 1 s'ils trouvent
+Cinq scripts dans `outils/verifs/`, qui sortent en code 1 s'ils trouvent
 quelque chose — branchables tels quels dans une chaîne d'intégration.
 
 | Script | Ce qu'il mesure |
@@ -372,8 +373,9 @@ quelque chose — branchables tels quels dans une chaîne d'intégration.
 | `mise-en-page.py` | Débordement horizontal, cibles tactiles < 44 px, unicité du `h1` et hiérarchie des titres, `alt` présents et non recopiés, lien d'évitement — à 320, 390, 768, 1024 et 1440 px |
 | `traceurs.py` | Requêtes tierces après refus du consentement (bonne valeur : zéro), et vérification que l'accord débloque bien le plan |
 | `bandeau.py` | Le texte du bandeau d'accueil sur **chaque** photo du diaporama forcée à son tour, à 390, 768 et 1440 px |
+| `entete.py` | L'en-tête aux **bornes du réglage de taille du logo**, dans les deux modes de barre et les deux dispositions de menu : débordement, déformation, chevauchement du burger, cible tactile |
 
-### Pourquoi un quatrième auditeur pour le seul bandeau
+### Pourquoi deux auditeurs de plus, pour un diaporama et un curseur
 
 Le diaporama d'accueil tire sa photo au hasard. `contraste.py` n'en mesure
 donc qu'une par passage : le résultat dépend du tirage, une page passe un jour
@@ -386,6 +388,16 @@ site il a trouvé deux photos à 4,41 et 4,43:1 qu'une trentaine de passages de
 La correction n'a pas été de baisser le seuil mais de monter le voile du
 bandeau, un réglage de back-office : 82 → 92. Pire cas après correction :
 5,53:1.
+
+`entete.py` généralise ce raisonnement, et c'est la règle à retenir : **tout
+réglage laissé au client doit avoir son auditeur qui en force les bornes.** La
+taille du logo est un curseur de 36 à 120 px, avec deux modes de barre et deux
+dispositions de menu ; les quatre autres scripts n'en mesurent qu'une
+combinaison sur vingt-quatre, celle du jour. Aux bornes, celui-ci a trouvé un
+logo servi écrasé — `img{max-width:100%}` rogne la largeur sans toucher à la
+hauteur, d'où `object-fit: contain` — et une cible tactile à 40 px sur la
+barre défilée. Deux défauts qu'aucun réglage ne peut vouloir, et que la mairie
+aurait découverts en ligne.
 
 ### Comment `contraste.py` mesure
 
@@ -535,11 +547,12 @@ curl -s http://127.0.0.1:8081/sitemap.xml \
 # aucune alerte PHP
 curl -s http://127.0.0.1:8081/ | grep -ci "warning\|notice\|fatal"   # → 0
 
-# les quatre auditeurs
+# les cinq auditeurs
 python3 outils/verifs/contraste.py && \
 python3 outils/verifs/mise-en-page.py && \
 python3 outils/verifs/traceurs.py && \
-python3 outils/verifs/bandeau.py
+python3 outils/verifs/bandeau.py && \
+python3 outils/verifs/entete.py
 ```
 
 Puis, à la main, ce qu'aucun script ne voit :
@@ -554,5 +567,5 @@ Puis, à la main, ce qu'aucun script ne voit :
 ## En une phrase
 
 Le socle ne bouge pas ; ce qui change tient dans vingt lignes de jetons, un
-dossier de contenu et une table de pages — et la qualité vient des quatre
+dossier de contenu et une table de pages — et la qualité vient des cinq
 auditeurs, pas du goût.

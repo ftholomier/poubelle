@@ -1288,3 +1288,68 @@ button { font: inherit; cursor: pointer; }
   padding: 1rem 0;
   background: linear-gradient(to top, var(--fond) 60%, transparent);
 }
+
+/* --- Apparence : taille du logo -----------------------------------------
+   L'aperçu rejoue la mécanique de l'en-tête plutôt que de l'illustrer : la
+   hauteur de barre s'y calcule avec la même formule que dans site.css, et
+   le décalage du logo avec le même max(). Une image figée aurait menti dès
+   le premier réglage, et un schéma approximatif aurait laissé la mairie
+   découvrir le vrai résultat sur le site. */
+.bo-logo-reglage {
+  display: grid; gap: 1.4rem;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  align-items: start;
+  margin-bottom: 1.2rem;
+}
+.bo-logo-saisie { display: flex; align-items: center; gap: .6rem; }
+/* Le curseur prend la place qui reste, le nombre garde la sienne : la valeur
+   doit rester lisible pendant qu'on glisse. */
+.bo-logo-saisie input[type="range"] { flex: 1 1 auto; width: auto; padding: 0; accent-color: var(--accent); }
+.bo-logo-saisie input[type="number"] { flex: 0 0 5.5rem; }
+.bo-logo-unite { flex: 0 0 auto; color: var(--texte-2); font-size: .85rem; }
+
+.bo-logo-apercu {
+  --ap-logo: 52px;
+  /* La même formule que --entete-h-suivie, à l'air près : 44 px. */
+  --ap-barre: calc(var(--ap-logo) + 44px);
+  border: 1px solid var(--trait);
+  overflow: hidden;
+}
+/* … et la même bascule que :root.logo-deborde : la barre cesse d'écouter. */
+.bo-logo-apercu--deborde { --ap-barre: 96px; }
+
+.bo-logo-apercu__barre {
+  height: var(--ap-barre);
+  display: flex; align-items: center; gap: 1rem;
+  padding-inline: 1rem;
+  background: #232a28;
+  transition: height .18s ease;
+}
+.bo-logo-apercu__marque {
+  height: var(--ap-logo); width: auto;
+  display: block;
+  /* Centré tant qu'il tient, posé douze pixels sous le haut de la barre dès
+     qu'il dépasse — le même plancher que --logo-air-mini sur le site. */
+  align-self: flex-start;
+  margin-top: max(12px, calc((var(--ap-barre) - var(--ap-logo)) / 2));
+  transition: height .18s ease, margin-top .18s ease;
+}
+.bo-logo-apercu__burger { display: grid; gap: 3px; flex: 0 0 auto; }
+.bo-logo-apercu__burger i { display: block; width: 16px; height: 2px; background: var(--accent); }
+.bo-logo-apercu__liens { display: flex; gap: 9px; margin-left: auto; flex: 0 0 auto; }
+.bo-logo-apercu__liens i { display: block; width: 26px; height: 6px; background: rgba(242, 246, 241, .35); }
+
+/* La page factice : sans elle, on ne verrait pas ce que le logo recouvre
+   quand il déborde, qui est justement ce qu'on veut juger. */
+.bo-logo-apercu__page {
+  display: grid; gap: .6rem;
+  padding: 1.4rem 1rem 1.6rem;
+  background: var(--fond-2);
+}
+.bo-logo-apercu__titre { display: block; width: 42%; height: 13px; background: rgba(242, 246, 241, .3); }
+.bo-logo-apercu__ligne { display: block; width: 86%; height: 7px; background: rgba(242, 246, 241, .14); }
+.bo-logo-apercu__ligne--courte { width: 64%; }
+
+@media (max-width: 720px) {
+  .bo-logo-reglage { grid-template-columns: 1fr; }
+}

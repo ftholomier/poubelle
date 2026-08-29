@@ -57,9 +57,9 @@ précédent : aucune ne tombe sur une erreur.
 
 ---
 
-## Les quatre auditeurs
+## Les cinq auditeurs
 
-La qualité de ce site ne vient pas du goût mais de la mesure. Quatre scripts,
+La qualité de ce site ne vient pas du goût mais de la mesure. Cinq scripts,
 qui sortent en code 1 s'ils trouvent quelque chose :
 
 ```bash
@@ -69,6 +69,7 @@ python3 outils/verifs/contraste.py       # contraste réel de chaque texte
 python3 outils/verifs/mise-en-page.py    # débordement, cibles, titres, alt
 python3 outils/verifs/traceurs.py        # aucune requête tierce sans accord
 python3 outils/verifs/bandeau.py         # chaque photo du diaporama, une à une
+python3 outils/verifs/entete.py          # l'en-tête aux bornes du réglage du logo
 ```
 
 Zéro écart, zéro souci, zéro hôte tiers : c'est la définition de « fini » ici.

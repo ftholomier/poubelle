@@ -53,7 +53,7 @@ $ctrlLangues = new LangueController($view, $content, $languesAdmin, $traducteurA
                                 $config['paths']['views'], $parametres);
 $refer   = new SeoController($view, $content, $seo, $mediatheque);
 $reglage = new ParametreController($view, $parametres, $content, $auth, $mailer, $config['paths']['root'], $config['paths']['public']);
-$apparence = new ApparenceController($view, $parametres);
+$apparence = new ApparenceController($view, $parametres, $content);
 $ctrlAvis  = new AvisController($view, $avis, $parametres);
 $ctrlIa    = new AssistantController($view, $assistant, $parametres);
 $ctrlConv  = new ConversationController($view, $conversations);

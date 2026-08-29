@@ -48,6 +48,13 @@ final class Parametres
             // visible, ce qu'un burger sur grand écran ne donne pas. Le
             // panneau latéral reprend la main sous 1080 px.
             'menu' => 'horizontal',       // lateral | horizontal
+            // Hauteur du logo dans la barre, en pixels, sur grand écran.
+            // Voir le jeton --logo-ref en tête de site.css.
+            'logo' => 52,
+            // Ce que fait la barre quand le logo grandit : false, elle suit
+            // et s'épaissit ; true, elle garde sa hauteur et le logo la
+            // dépasse par le bas.
+            'logo_deborde' => false,
         ],
         // assistant de discussion : la clé Gemini est un secret, au même
         // titre que le mot de passe SMTP — d'où sa place dans ce fichier

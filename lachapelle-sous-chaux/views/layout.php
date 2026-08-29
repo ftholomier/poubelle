@@ -31,7 +31,25 @@ $partage   = absolu(image($fiche['image'] ?? $seo->imagePartage($cle)));
 $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex';
 ?>
 <!doctype html>
-<html lang="<?= e($langue) ?>">
+<?php /* Les deux réglages du logo sont reposés ici plutôt que dans la feuille
+         de style : site.css est un fichier statique, mis en cache par le
+         navigateur et partagé par toutes les pages, alors que ces valeurs
+         appartiennent au back-office et doivent s'appliquer au premier rendu,
+         sans clignotement. La racine est le seul endroit qui satisfasse les
+         deux, la hauteur de barre en descendant par héritage.
+         La taille est un entier borné par ApparenceController, jamais une
+         chaîne venue du formulaire ; le mode est un booléen.
+
+         La disposition du menu est reposée ici en plus du <body>, où le script
+         la lit déjà : les hauteurs de barre se déduisent de la taille du logo
+         dans le bloc :root, et une media query ne peut pas voir une classe
+         portée par le <body>. Sur <html>, tout se résout sur le même élément
+         et le calcul reste d'un seul tenant. */ ?>
+<?php $classesRacine = array_filter([
+    $menuStyle === 'horizontal' ? 'menu-horizontal' : 'menu-lateral',
+    ($logoDeborde ?? false) ? 'logo-deborde' : '',
+]); ?>
+<html lang="<?= e($langue) ?>" class="<?= e(implode(' ', $classesRacine)) ?>" style="--logo-ref: <?= (int) ($logoHauteur ?? 52) ?>px">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

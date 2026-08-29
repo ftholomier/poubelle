@@ -101,7 +101,7 @@ rm -rf data/pages data/*.json data/admin storage/cache/* storage/sauvegardes/*
 
 ## La boucle qualité — non négociable
 
-Le niveau de ce projet ne vient pas du goût mais de la mesure. **Quatre
+Le niveau de ce projet ne vient pas du goût mais de la mesure. **Cinq
 auditeurs, à faire passer avant de déclarer une tâche finie** :
 
 ```bash
@@ -111,16 +111,27 @@ python3 outils/verifs/contraste.py       # contraste réel de chaque texte
 python3 outils/verifs/mise-en-page.py    # débordement, cibles, titres, alt
 python3 outils/verifs/traceurs.py        # aucune requête tierce sans accord
 python3 outils/verifs/bandeau.py         # chaque photo du diaporama, une à une
+python3 outils/verifs/entete.py          # l'en-tête aux bornes du réglage du logo
 ```
 
 Chacun sort en code 1 s'il trouve quelque chose. **Zéro écart, zéro souci,
 zéro hôte tiers** : c'est la définition de « fini » ici, pas une option.
 
-`bandeau.py` existe parce que le diaporama d'accueil tire une photo au hasard :
-`contraste.py` n'en voit qu'une par passage, et une page peut donc passer un
-jour et échouer le lendemain sans qu'une ligne ait bougé. Lui les force toutes,
-à trois largeurs. Il a trouvé deux photos à 4,4:1 que les autres avaient
-laissées passer.
+Les deux derniers existent pour la même raison : **les autres ne mesurent
+qu'une configuration à la fois.** `contraste.py` ne voit qu'une photo de
+diaporama par passage, puisqu'il est tiré au hasard ; aucun ne voit le site
+avec un autre réglage de taille de logo que celui du jour. Une page peut donc
+passer un jour et échouer le lendemain sans qu'une ligne ait bougé.
+`bandeau.py` force chaque photo, `entete.py` force les deux bornes du réglage
+du logo dans les deux modes et les deux dispositions de menu — 96 mesures.
+
+C'est rentable : le premier a trouvé deux photos à 4,4:1, le second un logo
+servi écrasé au-delà de 100 px et une cible tactile à 40 px une fois la barre
+défilée. Aucun œil ne les avait vus.
+
+**Règle qui en découle : tout réglage laissé à la mairie doit avoir son
+auditeur qui en force les bornes.** Un curseur dont on n'a mesuré que la valeur
+livrée est un défaut en attente, découvert en ligne par la mairie.
 
 Ce que ces scripts ont attrapé et qu'aucun œil n'avait vu : un texte à 4,36:1
 sur le fond crème, la couleur de marque à 2,16:1 sur l'anthracite, un

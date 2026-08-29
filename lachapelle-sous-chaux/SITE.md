@@ -174,6 +174,24 @@ contenu :
    espaces. L'ancien éditeur aplatissait le menu à l'enregistrement, ce qui
    aurait détruit les cinq sous-menus du site.
 
+8. **La taille du logo est réglable** (Apparence → Taille du logo), de 36 à
+   120 px, avec un aperçu du vrai logo à la vraie taille dans une barre à la
+   vraie hauteur. Deux comportements au choix, parce qu'ils ne servent pas la
+   même chose :
+
+   - **la barre suit le logo** — l'air autour de lui reste constant, la barre
+     s'épaissit avec lui, rien ne se chevauche jamais ;
+   - **le logo déborde** — la barre garde sa hauteur et un grand logo la
+     dépasse par le bas, sur la photo du bandeau. C'est plus marquant, et cela
+     évite une barre épaisse qui mangerait le premier écran. Le débordement
+     s'arrête au premier défilement : passé le haut de page la barre devient
+     opaque, et ce qui la dépasserait tomberait sur le texte.
+
+   Le réglage tient dans un seul jeton CSS, `--logo-ref`, posé sur `<html>` :
+   toutes les autres hauteurs — barre, barre défilée, rembourrage haut du
+   bandeau — en descendent par calcul. À 52 px, la valeur livrée, les hauteurs
+   obtenues sont au pixel celles de la maquette d'origine.
+
 ---
 
 ## 6. Les documents PDF
@@ -192,7 +210,7 @@ mairie de village se consulte souvent depuis un téléphone en fond de vallée.
 
 ## 7. Les auditeurs
 
-Les quatre scripts de `outils/verifs/` passent à zéro sur les trente-deux
+Les cinq scripts de `outils/verifs/` passent à zéro sur les trente-deux
 pages, à cinq largeurs d'écran. Ce qu'ils ont attrapé pendant ce
 développement :
 
@@ -213,6 +231,15 @@ développement :
   toutes à leur tour. Correction : le voile du bandeau, un réglage de
   back-office, est monté de 82 à 92. Pire cas mesuré ensuite, toutes photos et
   toutes largeurs confondues : **5,53:1**.
+- **Un logo servi écrasé** au-delà d'une centaine de pixels, sur un écran de
+  320 : la règle globale `img{max-width:100%}` rognait sa largeur sans toucher
+  à sa hauteur — 1,94 de rapport au lieu de 2,34. Corrigé par
+  `object-fit: contain` : il se réduit désormais au lieu de se déformer.
+- **La cible tactile du logo à 40 px** une fois la barre défilée, sous 780 px.
+  Elle reposait sur un rembourrage calculé, exactement le piège que
+  `NOUVEAU-SITE.md` documente ; elle repose maintenant sur un `min-height`.
+  Ces deux-là ne sortent qu'à d'autres réglages que celui livré : c'est le
+  cinquième auditeur, `entete.py`, qui les a trouvés.
 
 Et deux pièges de développement, tous deux prévus par la documentation du socle
 et rencontrés quand même :
