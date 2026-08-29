@@ -15,9 +15,7 @@
             "type": "encadre",
             "ton": "info",
             "intitule": "Un document manque ?",
-            "paragraphes": [
-                "Les registres des délibérations sont consultables librement au secrétariat, aux heures d’ouverture. Un extrait de délibération peut également être délivré sur demande."
-            ],
+            "paragraphes": "<p>Les registres des délibérations sont consultables librement au secrétariat, aux heures d’ouverture. Un extrait de délibération peut également être délivré sur demande.</p>",
             "lien": {
                 "libelle": "Faire une demande",
                 "url": "/demande-en-ligne"

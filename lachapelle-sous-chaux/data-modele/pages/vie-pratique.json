@@ -61,10 +61,7 @@
             "id": "centre-socio-culturel",
             "surtitre": "Enfance, jeunesse, familles",
             "titre": "Le centre socio-culturel de la Haute-Savoureuse",
-            "paragraphes": [
-                "Le centre socio-culturel de la Haute-Savoureuse rayonne sur le territoire : accueil de loisirs, activités familles, ateliers, accompagnement à la scolarité, animations pour les jeunes.",
-                "C’est l’interlocuteur pour le périscolaire et les vacances scolaires. Ses programmes et ses horaires sont publiés sur son site."
-            ],
+            "paragraphes": "<p>Le centre socio-culturel de la Haute-Savoureuse rayonne sur le territoire : accueil de loisirs, activités familles, ateliers, accompagnement à la scolarité, animations pour les jeunes.</p><p>C’est l’interlocuteur pour le périscolaire et les vacances scolaires. Ses programmes et ses horaires sont publiés sur son site.</p>",
             "lien": {
                 "libelle": "Site du centre socio-culturel",
                 "url": "https://centre-socioculturel-haute-savoureuse.fr/"
@@ -97,9 +94,7 @@
             "type": "encadre",
             "ton": "info",
             "intitule": "Un problème sur la voirie, l’éclairage ou un chemin ?",
-            "paragraphes": [
-                "Signalez-le au secrétariat de mairie : nid-de-poule, lampadaire éteint, branche tombée sur un chemin communal, dépôt sauvage. Précisez la rue et, si possible, joignez une photo."
-            ],
+            "paragraphes": "<p>Signalez-le au secrétariat de mairie : nid-de-poule, lampadaire éteint, branche tombée sur un chemin communal, dépôt sauvage. Précisez la rue et, si possible, joignez une photo.</p>",
             "lien": {
                 "libelle": "Faire un signalement",
                 "url": "/demande-en-ligne"

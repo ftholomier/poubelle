@@ -12,18 +12,12 @@
             "sections": [
                 {
                     "type": "texte",
-                    "paragraphes": [
-                        "L’acoustique d’une église de village n’a rien d’une salle de concert, et c’est précisément ce qui a fait la beauté de l’après-midi. Yumiko Awano, premier violon de l’Orchestre symphonique de Rome, a joué seule devant les anciens du village réunis dans les travées de Saint-Vincent.",
-                        "Le CCAS avait ouvert l’invitation à tous les habitants. Beaucoup sont venus, et sont restés à discuter longtemps après la dernière note."
-                    ]
+                    "paragraphes": "<p>L’acoustique d’une église de village n’a rien d’une salle de concert, et c’est précisément ce qui a fait la beauté de l’après-midi. Yumiko Awano, premier violon de l’Orchestre symphonique de Rome, a joué seule devant les anciens du village réunis dans les travées de Saint-Vincent.</p><p>Le CCAS avait ouvert l’invitation à tous les habitants. Beaucoup sont venus, et sont restés à discuter longtemps après la dernière note.</p>"
                 },
                 {
                     "type": "texte",
                     "titre": "Un rendez-vous que le CCAS aimerait renouveler",
-                    "paragraphes": [
-                        "Ce concert s’inscrit dans les actions du centre communal d’action sociale : lutter contre l’isolement, maintenir le lien social, rendre la culture accessible sans avoir à descendre à Belfort.",
-                        "Le CCAS est ouvert aux propositions. Si vous connaissez un musicien, une chorale ou un conteur prêt à venir jouer au village, faites-le savoir en mairie."
-                    ]
+                    "paragraphes": "<p>Ce concert s’inscrit dans les actions du centre communal d’action sociale : lutter contre l’isolement, maintenir le lien social, rendre la culture accessible sans avoir à descendre à Belfort.</p><p>Le CCAS est ouvert aux propositions. Si vous connaissez un musicien, une chorale ou un conteur prêt à venir jouer au village, faites-le savoir en mairie.</p>"
                 }
             ]
         },
@@ -38,17 +32,12 @@
             "sections": [
                 {
                     "type": "texte",
-                    "paragraphes": [
-                        "C’est un rendez-vous que personne ne manque. Le premier dimanche de décembre, la salle des fêtes est dressée, les tables sont pleines, et la discussion couvre la musique.",
-                        "Le repas est offert par le CCAS aux habitants de la commune de plus de soixante-dix ans. Les élus et les membres du conseil d’administration servent à table."
-                    ]
+                    "paragraphes": "<p>C’est un rendez-vous que personne ne manque. Le premier dimanche de décembre, la salle des fêtes est dressée, les tables sont pleines, et la discussion couvre la musique.</p><p>Le repas est offert par le CCAS aux habitants de la commune de plus de soixante-dix ans. Les élus et les membres du conseil d’administration servent à table.</p>"
                 },
                 {
                     "type": "texte",
                     "titre": "Vous n’avez pas reçu d’invitation ?",
-                    "paragraphes": [
-                        "Les invitations sont adressées à partir de la liste électorale et des déclarations en mairie. Un nouvel arrivant ou une personne récemment domiciliée peut y échapper : signalez-vous au secrétariat, l’invitation suivra."
-                    ]
+                    "paragraphes": "<p>Les invitations sont adressées à partir de la liste électorale et des déclarations en mairie. Un nouvel arrivant ou une personne récemment domiciliée peut y échapper : signalez-vous au secrétariat, l’invitation suivra.</p>"
                 }
             ]
         },
@@ -63,10 +52,7 @@
             "sections": [
                 {
                     "type": "texte",
-                    "paragraphes": [
-                        "Un magicien, une malle, un enfant en bonnet rouge appelé sur scène, et une salle qui retient son souffle. Le Noël des enfants organisé par le CCAS a réuni les familles du village autour d’un spectacle, d’un goûter et de la distribution des cadeaux.",
-                        "L’après-midi est ouvert à tous les enfants domiciliés dans la commune, quel que soit leur âge."
-                    ]
+                    "paragraphes": "<p>Un magicien, une malle, un enfant en bonnet rouge appelé sur scène, et une salle qui retient son souffle. Le Noël des enfants organisé par le CCAS a réuni les familles du village autour d’un spectacle, d’un goûter et de la distribution des cadeaux.</p><p>L’après-midi est ouvert à tous les enfants domiciliés dans la commune, quel que soit leur âge.</p>"
                 }
             ]
         },
@@ -81,10 +67,7 @@
             "sections": [
                 {
                     "type": "texte",
-                    "paragraphes": [
-                        "Le tri à la source des biodéchets est mis en place par le SMICTOM de la zone sous-vosgienne depuis le 1er janvier 2023. C’est une obligation de la loi anti-gaspillage pour une économie circulaire, dite loi AGEC, votée en 2020.",
-                        "Quatre bornes de collecte sont réparties dans la commune. Les déchets de cuisine y sont apportés dans des sacs compostables — et seulement dans ceux-là : un sac plastique ordinaire suffit à déclasser tout le contenu de la borne."
-                    ]
+                    "paragraphes": "<p>Le tri à la source des biodéchets est mis en place par le SMICTOM de la zone sous-vosgienne depuis le 1er janvier 2023. C’est une obligation de la loi anti-gaspillage pour une économie circulaire, dite loi AGEC, votée en 2020.</p><p>Quatre bornes de collecte sont réparties dans la commune. Les déchets de cuisine y sont apportés dans des sacs compostables — et seulement dans ceux-là : un sac plastique ordinaire suffit à déclasser tout le contenu de la borne.</p>"
                 },
                 {
                     "type": "texte",
@@ -102,9 +85,7 @@
                 {
                     "type": "texte",
                     "titre": "Ce qui n’y va pas",
-                    "paragraphes": [
-                        "Les déchets de jardin vont au composteur ou en paillage. Litières, couches, lingettes et vaisselle jetable restent dans le bac à ordures ménagères. Les emballages non biodégradables vont dans le sac jaune, et les produits chimiques en déchèterie."
-                    ]
+                    "paragraphes": "<p>Les déchets de jardin vont au composteur ou en paillage. Litières, couches, lingettes et vaisselle jetable restent dans le bac à ordures ménagères. Les emballages non biodégradables vont dans le sac jaune, et les produits chimiques en déchèterie.</p>"
                 }
             ]
         }

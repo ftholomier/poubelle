@@ -1353,3 +1353,68 @@ button { font: inherit; cursor: pointer; }
 @media (max-width: 720px) {
   .bo-logo-reglage { grid-template-columns: 1fr; }
 }
+
+
+/* --- Éditeur : la barre étendue (couleurs de charte, bouton) -------------
+   Le socle avait déjà une barre à quatre boutons pour les notes de
+   l'assistant ; ces règles-ci complètent le même composant, elles ne le
+   doublent pas. */
+.bo-editeur__btn {
+  min-width: 32px; min-height: 32px; padding: .3rem .55rem;
+  font: inherit; font-size: .82rem; line-height: 1;
+  color: var(--texte);
+  border: 1px solid transparent; border-radius: 0;
+  background: none; cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.bo-editeur__btn:hover { background: rgba(127, 197, 118, .14); color: var(--accent); }
+.bo-editeur__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.bo-editeur__choix {
+  min-height: 32px; padding: .25rem .4rem;
+  font: inherit; font-size: .8rem;
+  color: var(--ivoire);
+  background: rgba(244, 239, 230, .06);
+  border: 1px solid var(--trait); border-radius: 0;
+}
+.bo-editeur__separateur {
+  width: 1px; height: 20px; margin-inline: .25rem;
+  background: var(--trait);
+}
+.bo-editeur__barre { align-items: center; }
+
+.bo-editeur__zone ul { list-style: disc; }
+.bo-editeur__zone ol { list-style: decimal; }
+.bo-editeur__zone blockquote {
+  margin: 0 0 .6rem; padding-left: .9rem;
+  border-left: 2px solid var(--trait); color: var(--texte-2);
+}
+
+/* Les classes de charte telles qu'elles se distinguent sur le fond sombre du
+   back-office. Ce ne sont pas les couleurs du site — impossible autrement, le
+   site les pose sur crème — et c'est assumé : on règle ici du contenu, pas
+   une maquette. Ce qu'on demande à cet aperçu est qu'une couleur se voie
+   différente d'une autre, et qu'un bouton ressemble à un bouton. */
+.bo-editeur__zone .texte-vert  { color: var(--accent); }
+.bo-editeur__zone .texte-encre { color: #fff; font-weight: 600; }
+.bo-editeur__zone .texte-doux  { color: var(--texte-2); }
+.bo-editeur__zone .texte-grand { font-size: 1.18em; }
+.bo-editeur__zone .texte-petit { font-size: .88em; }
+.bo-editeur__zone .bouton {
+  display: inline-block; padding: .35rem .8rem;
+  background: var(--accent); color: var(--fond);
+  text-decoration: none; font-weight: 600; font-size: .85rem;
+}
+
+.bo-editeur__bouton {
+  padding: .9rem 1rem;
+  border-top: 1px solid var(--trait);
+  background: var(--fond-3);
+}
+.bo-editeur__actions { display: flex; align-items: center; gap: .8rem; margin-top: .6rem; }
+.bo-btn--petit { padding: .45rem .9rem; font-size: .82rem; }
+
+/* Sans JavaScript, la textarea reste seule et montre le HTML : une chasse
+   fixe rend les balises lisibles au lieu de les noyer dans le texte. */
+textarea[data-editeur-source], textarea[data-editeur-champ] {
+  font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: .85rem;
+}

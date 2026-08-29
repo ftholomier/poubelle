@@ -14,10 +14,7 @@
         {
             "type": "texte",
             "titre": "Les séances sont publiques",
-            "paragraphes": [
-                "Le conseil se réunit au moins une fois par trimestre, et plus souvent en pratique. L’ordre du jour est affiché à la mairie au moins trois jours avant la séance, et chacun peut y assister depuis les places réservées au public.",
-                "Les comptes-rendus sont publiés sur ce site après approbation."
-            ],
+            "paragraphes": "<p>Le conseil se réunit au moins une fois par trimestre, et plus souvent en pratique. L’ordre du jour est affiché à la mairie au moins trois jours avant la séance, et chacun peut y assister depuis les places réservées au public.</p><p>Les comptes-rendus sont publiés sur ce site après approbation.</p>",
             "lien": {
                 "libelle": "Les comptes-rendus du conseil",
                 "url": "/comptes-rendus-du-conseil"

@@ -15,9 +15,7 @@
             "type": "encadre",
             "ton": "info",
             "intitule": "Vous ne l’avez pas reçu ?",
-            "paragraphes": [
-                "La distribution est assurée par les élus. Si votre boîte aux lettres a été oubliée, signalez-le au secrétariat : un exemplaire vous sera remis, et l’adresse sera ajoutée à la tournée."
-            ],
+            "paragraphes": "<p>La distribution est assurée par les élus. Si votre boîte aux lettres a été oubliée, signalez-le au secrétariat : un exemplaire vous sera remis, et l’adresse sera ajoutée à la tournée.</p>",
             "lien": {
                 "libelle": "Signaler un oubli",
                 "url": "/demande-en-ligne"
@@ -26,10 +24,7 @@
         {
             "type": "texte",
             "titre": "Proposer un article",
-            "paragraphes": [
-                "Le Flash Info accueille volontiers les comptes-rendus d’activité des associations, les photos du village et les informations utiles aux habitants. La commission animation et communication en assure la préparation.",
-                "Les propositions se transmettent au secrétariat, de préférence deux mois avant la parution."
-            ],
+            "paragraphes": "<p>Le Flash Info accueille volontiers les comptes-rendus d’activité des associations, les photos du village et les informations utiles aux habitants. La commission animation et communication en assure la préparation.</p><p>Les propositions se transmettent au secrétariat, de préférence deux mois avant la parution.</p>",
             "lien": {
                 "libelle": "Proposer un article",
                 "url": "/demande-en-ligne"

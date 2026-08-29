@@ -131,9 +131,7 @@
             "type": "encadre",
             "ton": "info",
             "intitule": "Vous n’êtes pas à l’aise avec les démarches en ligne",
-            "paragraphes": [
-                "Le secrétariat de mairie vous aide à identifier le bon service et à comprendre ce qui est demandé. Les espaces France Services du département accompagnent en outre les démarches numériques, gratuitement et sur rendez-vous."
-            ],
+            "paragraphes": "<p>Le secrétariat de mairie vous aide à identifier le bon service et à comprendre ce qui est demandé. Les espaces France Services du département accompagnent en outre les démarches numériques, gratuitement et sur rendez-vous.</p>",
             "lien": {
                 "libelle": "Trouver un espace France Services",
                 "url": "https://www.france-services.gouv.fr/"

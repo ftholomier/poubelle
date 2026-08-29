@@ -15,9 +15,7 @@
             "type": "encadre",
             "ton": "info",
             "intitule": "Un déplacement à Belfort se prépare",
-            "paragraphes": [
-                "La plupart de ces services reçoivent uniquement sur rendez-vous, et beaucoup de démarches se règlent en ligne ou par téléphone. Appelez ou consultez le site avant de prendre la route."
-            ]
+            "paragraphes": "<p>La plupart de ces services reçoivent uniquement sur rendez-vous, et beaucoup de démarches se règlent en ligne ou par téléphone. Appelez ou consultez le site avant de prendre la route.</p>"
         }
     ]
 }

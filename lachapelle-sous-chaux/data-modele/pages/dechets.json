@@ -16,10 +16,7 @@
             "id": "biodechets",
             "surtitre": "Biodéchets",
             "titre": "Le tri à la source des biodéchets",
-            "paragraphes": [
-                "Depuis le 1er janvier 2023, les déchets de cuisine se trient à la source. C’est une obligation de la loi anti-gaspillage pour une économie circulaire, dite loi AGEC, votée en 2020.",
-                "Quatre bornes de collecte des biodéchets sont installées dans la commune. Les déchets y sont apportés dans des sacs compostables — et seulement dans ceux-là : un sac plastique ordinaire suffit à déclasser tout le contenu d’une borne."
-            ]
+            "paragraphes": "<p>Depuis le 1er janvier 2023, les déchets de cuisine se trient à la source. C’est une obligation de la loi anti-gaspillage pour une économie circulaire, dite loi AGEC, votée en 2020.</p><p>Quatre bornes de collecte des biodéchets sont installées dans la commune. Les déchets y sont apportés dans des sacs compostables — et seulement dans ceux-là : un sac plastique ordinaire suffit à déclasser tout le contenu d’une borne.</p>"
         },
         {
             "type": "texte",
@@ -50,10 +47,7 @@
             "type": "encadre",
             "ton": "alerte",
             "intitule": "Le brûlage des déchets verts est interdit",
-            "paragraphes": [
-                "Le brûlage à l’air libre des tontes de pelouse, tailles de haies, débroussaillements et autres déchets verts est interdit par arrêté préfectoral du 9 juillet 2012, qu’ils soient produits par les ménages ou par les collectivités. L’écobuage est également interdit, y compris pour les déchets verts agricoles.",
-                "La combustion à l’air libre d’un kilo de végétaux émet autant de particules fines que plusieurs centaines de kilomètres parcourus en voiture. Les végétaux doivent être déposés en déchèterie, compostés ou broyés en paillage."
-            ],
+            "paragraphes": "<p>Le brûlage à l’air libre des tontes de pelouse, tailles de haies, débroussaillements et autres déchets verts est interdit par arrêté préfectoral du 9 juillet 2012, qu’ils soient produits par les ménages ou par les collectivités. L’écobuage est également interdit, y compris pour les déchets verts agricoles.</p><p>La combustion à l’air libre d’un kilo de végétaux émet autant de particules fines que plusieurs centaines de kilomètres parcourus en voiture. Les végétaux doivent être déposés en déchèterie, compostés ou broyés en paillage.</p>",
             "id": "brulage"
         },
         {
@@ -76,9 +70,7 @@
         {
             "type": "texte",
             "titre": "Un dépôt sauvage ?",
-            "paragraphes": [
-                "Un dépôt sauvage sur un chemin ou en lisière de forêt se signale au secrétariat de mairie : la commune fait procéder à l’enlèvement et, le cas échéant, engage les suites qui s’imposent."
-            ],
+            "paragraphes": "<p>Un dépôt sauvage sur un chemin ou en lisière de forêt se signale au secrétariat de mairie : la commune fait procéder à l’enlèvement et, le cas échéant, engage les suites qui s’imposent.</p>",
             "lien": {
                 "libelle": "Signaler un dépôt",
                 "url": "/demande-en-ligne"

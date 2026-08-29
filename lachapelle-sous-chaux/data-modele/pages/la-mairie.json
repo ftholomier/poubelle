@@ -79,10 +79,7 @@
             "image_alt": "Quatre personnes réunies dans le bureau du secrétariat de mairie, devant un ordinateur portable",
             "surtitre": "Nous joindre",
             "titre": "Le secrétariat de mairie",
-            "paragraphes": [
-                "Le secrétariat reçoit sans rendez-vous aux heures d’ouverture. C’est là que se déposent les dossiers d’état civil, les déclarations de travaux, les inscriptions sur les listes électorales et les demandes de salle des fêtes.",
-                "Les élus, eux, tiennent permanence chaque samedi matin de 10 h à 12 h : c’est le moment pour une question qui demande une décision plutôt qu’un formulaire."
-            ],
+            "paragraphes": "<p>Le secrétariat reçoit sans rendez-vous aux heures d’ouverture. C’est là que se déposent les dossiers d’état civil, les déclarations de travaux, les inscriptions sur les listes électorales et les demandes de salle des fêtes.</p><p>Les élus, eux, tiennent permanence chaque samedi matin de 10 h à 12 h : c’est le moment pour une question qui demande une décision plutôt qu’un formulaire.</p>",
             "liste": [
                 "Lundi : 8 h – 11 h et 12 h – 15 h",
                 "Mardi : 8 h – 11 h",
@@ -99,10 +96,7 @@
         {
             "type": "texte",
             "titre": "Ce que la commune fait, et ce qu’elle ne fait pas",
-            "paragraphes": [
-                "Beaucoup de démarches passent par la mairie sans relever d’elle. L’état civil, les listes électorales, le recensement citoyen et les autorisations d’urbanisme sont bien de sa compétence. Les cartes grises, les permis de conduire et les titres de séjour relèvent de l’État et se font en ligne ; l’eau, les déchets et l’assainissement relèvent de syndicats et de l’intercommunalité.",
-                "En cas de doute, appelez : un appel de deux minutes évite un déplacement pour rien."
-            ],
+            "paragraphes": "<p>Beaucoup de démarches passent par la mairie sans relever d’elle. L’état civil, les listes électorales, le recensement citoyen et les autorisations d’urbanisme sont bien de sa compétence. Les cartes grises, les permis de conduire et les titres de séjour relèvent de l’État et se font en ligne ; l’eau, les déchets et l’assainissement relèvent de syndicats et de l’intercommunalité.</p><p>En cas de doute, appelez : un appel de deux minutes évite un déplacement pour rien.</p>",
             "lien": {
                 "libelle": "Les services de l’État",
                 "url": "/services-de-l-etat"
@@ -112,9 +106,7 @@
             "type": "encadre",
             "ton": "info",
             "intitule": "Les attributions du conseil municipal",
-            "paragraphes": [
-                "Les autorités communales exercent leurs attributions sur l’état civil, l’urbanisme et le logement, la voirie et les transports, l’alimentation en eau, les écoles, les activités culturelles, la santé, l’aide sociale et la lutte contre l’incendie."
-            ],
+            "paragraphes": "<p>Les autorités communales exercent leurs attributions sur l’état civil, l’urbanisme et le logement, la voirie et les transports, l’alimentation en eau, les écoles, les activités culturelles, la santé, l’aide sociale et la lutte contre l’incendie.</p>",
             "lien": {
                 "libelle": "Voir le conseil municipal",
                 "url": "/conseil-municipal"

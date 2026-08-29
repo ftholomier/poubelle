@@ -111,5 +111,8 @@ $menu = [
   </main>
 </div>
 <script src="<?= asset('assets/js/admin.js') ?>" defer></script>
+<?php /* Chargé partout : les écrans qui n'ont pas de champ riche n'y trouvent
+         rien et le script se retire de lui-même, comme les autres blocs. */ ?>
+<script src="<?= asset('assets/js/editeur.js') ?>" defer></script>
 </body>
 </html>

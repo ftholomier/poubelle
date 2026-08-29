@@ -17,28 +17,19 @@
             "image_alt": "Carte des vingt-deux communes de la communauté de communes des Vosges du Sud",
             "surtitre": "Géographie",
             "titre": "Un territoire de piémont",
-            "paragraphes": [
-                "Zone de piémont au sud du Ballon d’Alsace, le territoire se situe dans le Territoire de Belfort, au nord-est de la Franche-Comté, à la frontière de l’Alsace et de la Haute-Saône. La proximité immédiate de la RN 83, qui relie Belfort à Colmar et donne accès à l’A 36, le dessert bien.",
-                "C’est un territoire rural de randonnée, qui offre un paysage de quiétude : monts, prairies, forêts, rivières, étangs et lac. Son identité est marquée par l’industrie — mines d’argent dès la fin du XVe siècle, métallurgie, puis textile au début du XXe."
-            ]
+            "paragraphes": "<p>Zone de piémont au sud du Ballon d’Alsace, le territoire se situe dans le Territoire de Belfort, au nord-est de la Franche-Comté, à la frontière de l’Alsace et de la Haute-Saône. La proximité immédiate de la RN 83, qui relie Belfort à Colmar et donne accès à l’A 36, le dessert bien.</p><p>C’est un territoire rural de randonnée, qui offre un paysage de quiétude : monts, prairies, forêts, rivières, étangs et lac. Son identité est marquée par l’industrie — mines d’argent dès la fin du XVe siècle, métallurgie, puis textile au début du XXe.</p>"
         },
         {
             "type": "texte",
             "surtitre": "Environnement",
             "titre": "Parc naturel régional et Natura 2000",
-            "paragraphes": [
-                "Le territoire s’étend sur le domaine du Parc naturel régional des Ballons des Vosges et adhère à sa charte : protéger et mettre en valeur les Hautes-Vosges et leurs versants boisés, maintenir des paysages ouverts, contribuer au développement économique en valorisant les patrimoines et au développement culturel.",
-                "La communauté de communes est membre du réseau européen Natura 2000, qui vise la protection de la diversité biologique et la valorisation des territoires — ici la zone dite « forêts et ruisseaux du piémont vosgien »."
-            ]
+            "paragraphes": "<p>Le territoire s’étend sur le domaine du Parc naturel régional des Ballons des Vosges et adhère à sa charte : protéger et mettre en valeur les Hautes-Vosges et leurs versants boisés, maintenir des paysages ouverts, contribuer au développement économique en valorisant les patrimoines et au développement culturel.</p><p>La communauté de communes est membre du réseau européen Natura 2000, qui vise la protection de la diversité biologique et la valorisation des territoires — ici la zone dite « forêts et ruisseaux du piémont vosgien ».</p>"
         },
         {
             "type": "texte",
             "surtitre": "Le périmètre",
             "titre": "Les vingt-deux communes",
-            "paragraphes": [
-                "Anjoutey, Auxelles-Bas, Auxelles-Haut, Bourg-sous-Châtelet, Chaux, Étueffont, Felon, Giromagny, Grosmagny, Lachapelle-sous-Chaux, Lachapelle-sous-Rougemont, Lamadeleine-Val-des-Anges, Lepuix, Leval, Petitefontaine, Petitmagny, Riervescemont, Romagny-sous-Rougemont, Rougegoutte, Rougemont-le-Château, Saint-Germain-le-Châtelet et Vescemont.",
-                "Le siège est fixé à Étueffont, 26 bis Grande Rue."
-            ],
+            "paragraphes": "<p>Anjoutey, Auxelles-Bas, Auxelles-Haut, Bourg-sous-Châtelet, Chaux, Étueffont, Felon, Giromagny, Grosmagny, Lachapelle-sous-Chaux, Lachapelle-sous-Rougemont, Lamadeleine-Val-des-Anges, Lepuix, Leval, Petitefontaine, Petitmagny, Riervescemont, Romagny-sous-Rougemont, Rougegoutte, Rougemont-le-Château, Saint-Germain-le-Châtelet et Vescemont.</p><p>Le siège est fixé à Étueffont, 26 bis Grande Rue.</p>",
             "lien": {
                 "libelle": "Le site de la communauté de communes",
                 "url": "https://www.ccvosgesdusud.fr/"
@@ -66,9 +57,7 @@
         {
             "type": "texte",
             "titre": "La commune y est représentée",
-            "paragraphes": [
-                "Lachapelle-sous-Chaux siège au conseil communautaire, où elle est représentée par un délégué titulaire et un suppléant. Les compétences transférées — urbanisme, assainissement, développement économique, enfance-jeunesse — s’exercent désormais à cette échelle."
-            ],
+            "paragraphes": "<p>Lachapelle-sous-Chaux siège au conseil communautaire, où elle est représentée par un délégué titulaire et un suppléant. Les compétences transférées — urbanisme, assainissement, développement économique, enfance-jeunesse — s’exercent désormais à cette échelle.</p>",
             "lien": {
                 "libelle": "Commissions & comités",
                 "url": "/commissions-et-comites"

@@ -40,9 +40,7 @@
             "type": "encadre",
             "ton": "info",
             "intitule": "Une nouvelle arrivée en cours d’année",
-            "paragraphes": [
-                "Si vous emménagez en cours d’année scolaire, présentez-vous au secrétariat de mairie dès que possible : le certificat d’inscription est délivré immédiatement, et la directrice est prévenue."
-            ],
+            "paragraphes": "<p>Si vous emménagez en cours d’année scolaire, présentez-vous au secrétariat de mairie dès que possible : le certificat d’inscription est délivré immédiatement, et la directrice est prévenue.</p>",
             "lien": {
                 "libelle": "Écrire à la mairie",
                 "url": "/demande-en-ligne"
@@ -55,10 +53,7 @@
             "id": "regroupement",
             "surtitre": "Le RPI",
             "titre": "Le regroupement pédagogique",
-            "paragraphes": [
-                "Trois communes, un regroupement : Lachapelle-sous-Chaux, Chaux et Sermamagny répartissent les niveaux entre leurs écoles. C’est ce qui permet à chacune de garder une école, et aux enfants de rester dans leur village le plus longtemps possible.",
-                "Les familles des trois communes relèvent des mêmes règles d’inscription, du même périscolaire et du même transport. Le secrétariat de mairie vous indique l’école qui accueille le niveau de votre enfant pour l’année en cours."
-            ],
+            "paragraphes": "<p>Trois communes, un regroupement : Lachapelle-sous-Chaux, Chaux et Sermamagny répartissent les niveaux entre leurs écoles. C’est ce qui permet à chacune de garder une école, et aux enfants de rester dans leur village le plus longtemps possible.</p><p>Les familles des trois communes relèvent des mêmes règles d’inscription, du même périscolaire et du même transport. Le secrétariat de mairie vous indique l’école qui accueille le niveau de votre enfant pour l’année en cours.</p>",
             "lien": {
                 "libelle": "Demander le détail de l’année en cours",
                 "url": "/demande-en-ligne"
@@ -69,10 +64,7 @@
             "id": "livret-d-accueil",
             "surtitre": "Documents",
             "titre": "Le livret d’accueil",
-            "paragraphes": [
-                "Un livret d’accueil est remis aux familles à l’inscription : horaires, fournitures, calendrier, règlement intérieur, contacts. Il est également disponible au secrétariat de mairie.",
-                "Si vous ne l’avez pas reçu, demandez-le : il répond à la plupart des questions de la première rentrée."
-            ],
+            "paragraphes": "<p>Un livret d’accueil est remis aux familles à l’inscription : horaires, fournitures, calendrier, règlement intérieur, contacts. Il est également disponible au secrétariat de mairie.</p><p>Si vous ne l’avez pas reçu, demandez-le : il répond à la plupart des questions de la première rentrée.</p>",
             "lien": {
                 "libelle": "Demander le livret",
                 "url": "/demande-en-ligne"
@@ -85,10 +77,7 @@
             "id": "periscolaire",
             "surtitre": "Avant et après la classe",
             "titre": "L’accueil périscolaire",
-            "paragraphes": [
-                "L’accueil périscolaire prend le relais avant et après la classe, ainsi que le mercredi et pendant les vacances selon les périodes. Il est organisé à l’échelle du territoire, en lien avec le centre socio-culturel de la Haute-Savoureuse.",
-                "Les inscriptions, les tarifs et le calendrier d’ouverture sont fixés par la structure gestionnaire. Le secrétariat de mairie vous oriente vers le bon interlocuteur et vous remet les documents d’inscription."
-            ],
+            "paragraphes": "<p>L’accueil périscolaire prend le relais avant et après la classe, ainsi que le mercredi et pendant les vacances selon les périodes. Il est organisé à l’échelle du territoire, en lien avec le centre socio-culturel de la Haute-Savoureuse.</p><p>Les inscriptions, les tarifs et le calendrier d’ouverture sont fixés par la structure gestionnaire. Le secrétariat de mairie vous oriente vers le bon interlocuteur et vous remet les documents d’inscription.</p>",
             "lien": {
                 "libelle": "Le centre socio-culturel",
                 "url": "https://centre-socioculturel-haute-savoureuse.fr/"
@@ -102,10 +91,7 @@
             "id": "restauration",
             "surtitre": "Le midi",
             "titre": "La restauration scolaire",
-            "paragraphes": [
-                "Le service de restauration accueille les enfants du regroupement le midi. L’inscription se fait à l’année ou au repas selon les modalités en vigueur, et les menus sont affichés à l’avance.",
-                "Les allergies et les régimes particuliers doivent être signalés à l’inscription, accompagnés le cas échéant d’un projet d’accueil individualisé établi avec le médecin scolaire."
-            ]
+            "paragraphes": "<p>Le service de restauration accueille les enfants du regroupement le midi. L’inscription se fait à l’année ou au repas selon les modalités en vigueur, et les menus sont affichés à l’avance.</p><p>Les allergies et les régimes particuliers doivent être signalés à l’inscription, accompagnés le cas échéant d’un projet d’accueil individualisé établi avec le médecin scolaire.</p>"
         },
         {
             "type": "duo",
@@ -114,10 +100,7 @@
             "id": "transport-scolaire",
             "surtitre": "Aller et venir",
             "titre": "Le transport scolaire",
-            "paragraphes": [
-                "Le transport scolaire est organisé par la Région Bourgogne-Franche-Comté, qui gère les circuits, les inscriptions et la tarification. Les inscriptions ouvrent au printemps pour la rentrée suivante.",
-                "Les points d’arrêt et les horaires sont communiqués avant la rentrée. Un changement d’adresse en cours d’année suppose une nouvelle demande auprès du service régional."
-            ],
+            "paragraphes": "<p>Le transport scolaire est organisé par la Région Bourgogne-Franche-Comté, qui gère les circuits, les inscriptions et la tarification. Les inscriptions ouvrent au printemps pour la rentrée suivante.</p><p>Les points d’arrêt et les horaires sont communiqués avant la rentrée. Un changement d’adresse en cours d’année suppose une nouvelle demande auprès du service régional.</p>",
             "lien": {
                 "libelle": "Transports scolaires de la Région",
                 "url": "https://www.mobigo-bourgognefranchecomte.fr/"

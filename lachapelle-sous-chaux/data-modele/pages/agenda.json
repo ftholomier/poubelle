@@ -15,9 +15,7 @@
             "type": "encadre",
             "ton": "info",
             "intitule": "Annoncer une manifestation",
-            "paragraphes": [
-                "Écrivez au secrétariat au moins trois semaines à l’avance, avec la date, l’heure, le lieu, l’organisateur et deux lignes de description. L’annonce paraît ici, et dans le Flash Info si le calendrier de parution le permet."
-            ],
+            "paragraphes": "<p>Écrivez au secrétariat au moins trois semaines à l’avance, avec la date, l’heure, le lieu, l’organisateur et deux lignes de description. L’annonce paraît ici, et dans le Flash Info si le calendrier de parution le permet.</p>",
             "lien": {
                 "libelle": "Écrire à la mairie",
                 "url": "/demande-en-ligne"

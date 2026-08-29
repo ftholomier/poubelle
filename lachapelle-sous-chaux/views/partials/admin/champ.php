@@ -99,6 +99,86 @@ $aide      = $aide ?? '';
     <label for="<?= e($id) ?>"><?= e($libelle) ?></label>
   </div>
 
+<?php elseif ($nature === 'riche'): ?>
+  <?php
+  /* Le champ reste une <textarea>, et c'est délibéré. Sans JavaScript elle
+     s'affiche seule, avec le HTML dedans, et l'enregistrement fonctionne : le
+     back-office d'une mairie doit rester utilisable depuis un poste ancien ou
+     un réseau qui coupe. L'éditeur est monté par-dessus par editeur.js, qui
+     recopie sa saisie dans la textarea — celle-ci reste donc la seule chose
+     que le serveur lit.
+
+     La barre d'outils est décrite ici plutôt que fabriquée en JavaScript pour
+     que les libellés soient traduisibles et que les couleurs proposées viennent
+     de TexteRiche, seule à savoir lesquelles la charte autorise. */
+  $editeurId = preg_replace('/\W+/', '', $id) ?? $id;
+  ?>
+  <div class="bo-champ bo-champ--large">
+    <label for="<?= e($id) ?>"><?= e($libelle) ?></label>
+
+    <div class="bo-editeur" data-editeur hidden>
+      <div class="bo-editeur__barre" role="toolbar" aria-label="<?= e(t('Mise en forme')) ?>">
+        <button type="button" class="bo-editeur__btn" data-commande="bold" title="<?= e(t('Gras')) ?>"><strong>G</strong></button>
+        <button type="button" class="bo-editeur__btn" data-commande="italic" title="<?= e(t('Italique')) ?>"><em>I</em></button>
+        <span class="bo-editeur__separateur" aria-hidden="true"></span>
+        <button type="button" class="bo-editeur__btn" data-commande="insertUnorderedList" title="<?= e(t('Liste à puces')) ?>">• —</button>
+        <button type="button" class="bo-editeur__btn" data-commande="insertOrderedList" title="<?= e(t('Liste numérotée')) ?>">1. —</button>
+        <span class="bo-editeur__separateur" aria-hidden="true"></span>
+        <select class="bo-editeur__choix" data-classes="taille" aria-label="<?= e(t('Taille du texte')) ?>">
+          <?php foreach (App\Core\TexteRiche::TAILLES as $classe => $nomTaille): ?>
+            <option value="<?= e($classe) ?>"><?= e(t($nomTaille)) ?></option>
+          <?php endforeach; ?>
+        </select>
+        <select class="bo-editeur__choix" data-classes="couleur" aria-label="<?= e(t('Couleur du texte')) ?>">
+          <?php foreach (App\Core\TexteRiche::COULEURS as $classe => $nomCouleur): ?>
+            <option value="<?= e($classe) ?>"><?= e(t($nomCouleur)) ?></option>
+          <?php endforeach; ?>
+        </select>
+        <span class="bo-editeur__separateur" aria-hidden="true"></span>
+        <button type="button" class="bo-editeur__btn" data-lien title="<?= e(t('Lien')) ?>"><?= e(t('Lien')) ?></button>
+        <button type="button" class="bo-editeur__btn" data-bouton title="<?= e(t('Bouton')) ?>"><?= e(t('Bouton')) ?></button>
+        <span class="bo-editeur__separateur" aria-hidden="true"></span>
+        <button type="button" class="bo-editeur__btn" data-nettoyer title="<?= e(t('Retirer la mise en forme')) ?>">✕ <?= e(t('mise en forme')) ?></button>
+      </div>
+
+      <?php /* aria-multiline et le rôle sont posés par le script : tant qu'il
+               n'a pas tourné, cette zone n'est ni éditable ni annoncée. */ ?>
+      <div class="bo-editeur__zone" data-editeur-zone id="<?= e($editeurId) ?>-riche"></div>
+
+      <?php /* Le formulaire du bouton est rendu ici, replié : une invite du
+               navigateur ne permet pas de demander deux valeurs, et un champ
+               posé dans la page se relit avant de valider. */ ?>
+      <div class="bo-editeur__bouton" data-editeur-bouton hidden>
+        <div class="bo-rangee">
+          <div class="bo-champ">
+            <label for="<?= e($editeurId) ?>-blib"><?= e(t('Intitulé du bouton')) ?></label>
+            <input id="<?= e($editeurId) ?>-blib" type="text" data-bouton-libelle
+                   placeholder="<?= e(t('Faire ma démarche')) ?>">
+          </div>
+          <div class="bo-champ">
+            <label for="<?= e($editeurId) ?>-burl"><?= e(t('Adresse du bouton')) ?></label>
+            <input id="<?= e($editeurId) ?>-burl" type="text" data-bouton-url
+                   placeholder="/contact ou https://…">
+          </div>
+        </div>
+        <p class="bo-aide" data-bouton-erreur hidden></p>
+        <div class="bo-editeur__actions">
+          <button type="button" class="bo-btn bo-btn--petit" data-bouton-valider><?= e(t('Insérer le bouton')) ?></button>
+          <button type="button" class="bo-editeur__btn" data-bouton-annuler><?= e(t('Annuler')) ?></button>
+        </div>
+      </div>
+    </div>
+
+    <textarea id="<?= e($id) ?>" name="<?= e($nom) ?>" rows="9"
+              data-editeur-source><?= e(App\Core\TexteRiche::nettoyer($valeur)) ?></textarea>
+    <p class="bo-aide" data-editeur-aide>
+      Gras, italique, listes, taille et couleurs de la charte, et un bouton.
+      Tout le reste — polices, couleurs libres, mise en forme collée depuis un
+      traitement de texte — est retiré à l’enregistrement : c’est ce qui garde
+      les pages homogènes.
+    </p>
+  </div>
+
 <?php elseif ($nature === 'paragraphes'): ?>
   <div class="bo-champ bo-champ--large">
     <label for="<?= e($id) ?>"><?= e($libelle) ?></label>

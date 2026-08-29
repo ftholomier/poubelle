@@ -315,3 +315,22 @@ if (!function_exists('poids')) {
         return max(1, (int) round($octets / 1024)) . ' Ko';
     }
 }
+
+if (!function_exists('riche')) {
+    /**
+     * Sortie d'un texte mis en forme par la mairie.
+     *
+     * La seule sortie de ce dépôt qui ne passe pas par `e()`, et elle est
+     * volontairement nommée : voir un `riche()` dans un gabarit doit sauter
+     * aux yeux autant qu'un `e()` manquant. Le filtrage a lieu à l'affichage
+     * et non seulement à l'enregistrement, parce que le contenu peut aussi
+     * arriver par l'éditeur JSON avancé ou par un fichier repris à la main —
+     * il n'existe donc aucun chemin qui contourne la liste blanche.
+     *
+     * @param mixed $valeur HTML de l'éditeur, ou ancien tableau de paragraphes
+     */
+    function riche(mixed $valeur): string
+    {
+        return App\Core\TexteRiche::nettoyer($valeur);
+    }
+}

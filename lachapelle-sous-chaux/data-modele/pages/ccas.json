@@ -14,9 +14,7 @@
         {
             "type": "texte",
             "titre": "Ce que fait le CCAS",
-            "paragraphes": [
-                "Le centre communal d’action sociale attribue des aides financières d’urgence ou exceptionnelles, et mène des actions d’animation et de soutien : lutte contre l’isolement, maintien du lien social, accès à la culture et aux loisirs, prévention, adaptation du logement."
-            ],
+            "paragraphes": "<p>Le centre communal d’action sociale attribue des aides financières d’urgence ou exceptionnelles, et mène des actions d’animation et de soutien : lutte contre l’isolement, maintien du lien social, accès à la culture et aux loisirs, prévention, adaptation du logement.</p>",
             "liste": [
                 "Lutte contre l’exclusion et accès aux droits : instruction des dossiers d’aide sociale, aide alimentaire, précarité énergétique, surendettement",
                 "Accompagnement de la perte d’autonomie : mise en relation avec les services d’aide à domicile, prévention et animation en direction des personnes âgées",
@@ -27,10 +25,7 @@
         {
             "type": "texte",
             "titre": "Pour quelles démarches s’adresser au CCAS",
-            "paragraphes": [
-                "Quatre motifs reviennent : une information sur vos droits, une demande d’aide ou de prestation sociale, une orientation vers le bon organisme, une demande d’aide extralégale.",
-                "Tout se dit au secrétariat, aux heures d’ouverture, ou par écrit. Les échanges restent confidentiels et sont examinés par le conseil d’administration."
-            ],
+            "paragraphes": "<p>Quatre motifs reviennent : une information sur vos droits, une demande d’aide ou de prestation sociale, une orientation vers le bon organisme, une demande d’aide extralégale.</p><p>Tout se dit au secrétariat, aux heures d’ouverture, ou par écrit. Les échanges restent confidentiels et sont examinés par le conseil d’administration.</p>",
             "lien": {
                 "libelle": "Écrire au CCAS",
                 "url": "/demande-en-ligne"
@@ -40,10 +35,7 @@
             "type": "texte",
             "surtitre": "Qui décide",
             "titre": "Le conseil d’administration",
-            "paragraphes": [
-                "Madame le maire en est présidente de plein droit. Le conseil d’administration associe des membres du conseil municipal et des habitants du village, nommés pour leur connaissance du terrain.",
-                "Membres : Florence Malsot, vice-présidente, Patrice Guigon, Nathalie Colombié, Pascal Tisserand, Jean-Claude Hunold, Annie-France Besinge, Cindy Royer, Sophie Damour."
-            ]
+            "paragraphes": "<p>Madame le maire en est présidente de plein droit. Le conseil d’administration associe des membres du conseil municipal et des habitants du village, nommés pour leur connaissance du terrain.</p><p>Membres : Florence Malsot, vice-présidente, Patrice Guigon, Nathalie Colombié, Pascal Tisserand, Jean-Claude Hunold, Annie-France Besinge, Cindy Royer, Sophie Damour.</p>"
         },
         {
             "type": "cartes",
@@ -84,9 +76,7 @@
             "type": "encadre",
             "ton": "info",
             "intitule": "Vous n’avez pas reçu d’invitation ?",
-            "paragraphes": [
-                "Les invitations au repas des aînés sont adressées à partir des listes de la commune. Un nouvel arrivant peut y échapper : signalez-vous au secrétariat, l’invitation suivra."
-            ],
+            "paragraphes": "<p>Les invitations au repas des aînés sont adressées à partir des listes de la commune. Un nouvel arrivant peut y échapper : signalez-vous au secrétariat, l’invitation suivra.</p>",
             "lien": {
                 "libelle": "Se signaler",
                 "url": "/demande-en-ligne"

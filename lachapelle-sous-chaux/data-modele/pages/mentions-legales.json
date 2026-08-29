@@ -13,55 +13,37 @@
         {
             "type": "texte",
             "titre": "Éditeur du site",
-            "paragraphes": [
-                "Commune de Lachapelle-sous-Chaux",
-                "Mairie de Lachapelle-sous-Chaux — 4, rue du Rhome, 90300 Lachapelle-sous-Chaux",
-                "Téléphone : 03 84 27 53 78 — Courriel : mairie.lsc@wanadoo.fr"
-            ]
+            "paragraphes": "<p>Commune de Lachapelle-sous-Chaux</p><p>Mairie de Lachapelle-sous-Chaux — 4, rue du Rhome, 90300 Lachapelle-sous-Chaux</p><p>Téléphone : 03 84 27 53 78 — Courriel : mairie.lsc@wanadoo.fr</p>"
         },
         {
             "type": "texte",
             "titre": "Directrice de la publication",
-            "paragraphes": [
-                "Madame Anne-Sophie Peureux-Demangelle, maire de Lachapelle-sous-Chaux."
-            ]
+            "paragraphes": "<p>Madame Anne-Sophie Peureux-Demangelle, maire de Lachapelle-sous-Chaux.</p>"
         },
         {
             "type": "texte",
             "titre": "Hébergement",
-            "paragraphes": [
-                "Le site est hébergé en France. Les coordonnées de l’hébergeur sont disponibles sur demande auprès du secrétariat de mairie."
-            ]
+            "paragraphes": "<p>Le site est hébergé en France. Les coordonnées de l’hébergeur sont disponibles sur demande auprès du secrétariat de mairie.</p>"
         },
         {
             "type": "texte",
             "titre": "Conception et réalisation",
-            "paragraphes": [
-                "Le site a été conçu et développé pour la commune. Il n’utilise ni base de données, ni service tiers à l’affichage : aucune requête n’est adressée à un autre domaine tant que le visiteur n’y a pas consenti."
-            ]
+            "paragraphes": "<p>Le site a été conçu et développé pour la commune. Il n’utilise ni base de données, ni service tiers à l’affichage : aucune requête n’est adressée à un autre domaine tant que le visiteur n’y a pas consenti.</p>"
         },
         {
             "type": "texte",
             "titre": "Propriété intellectuelle",
-            "paragraphes": [
-                "Le contenu du site — textes, photographies, documents — est protégé par le droit d’auteur et les autres droits de propriété intellectuelle. Toute reproduction ou utilisation à des fins autres que strictement personnelles est soumise à l’autorisation préalable de la mairie de Lachapelle-sous-Chaux.",
-                "Les photographies du village sont la propriété de la commune ou de leurs auteurs, qui en ont autorisé l’usage. Les documents administratifs publiés (comptes-rendus, bulletins municipaux) sont des documents publics, librement consultables et réutilisables dans les conditions prévues par le code des relations entre le public et l’administration."
-            ]
+            "paragraphes": "<p>Le contenu du site — textes, photographies, documents — est protégé par le droit d’auteur et les autres droits de propriété intellectuelle. Toute reproduction ou utilisation à des fins autres que strictement personnelles est soumise à l’autorisation préalable de la mairie de Lachapelle-sous-Chaux.</p><p>Les photographies du village sont la propriété de la commune ou de leurs auteurs, qui en ont autorisé l’usage. Les documents administratifs publiés (comptes-rendus, bulletins municipaux) sont des documents publics, librement consultables et réutilisables dans les conditions prévues par le code des relations entre le public et l’administration.</p>"
         },
         {
             "type": "texte",
             "titre": "Liens vers d’autres sites",
-            "paragraphes": [
-                "Ce site propose des liens vers des sites publics et des sites d’associations. La commune n’exerce aucun contrôle sur leur contenu et ne saurait être tenue responsable de ce qui y est publié.",
-                "Les liens sortants sont signalés par un symbole et s’ouvrent dans un nouvel onglet."
-            ]
+            "paragraphes": "<p>Ce site propose des liens vers des sites publics et des sites d’associations. La commune n’exerce aucun contrôle sur leur contenu et ne saurait être tenue responsable de ce qui y est publié.</p><p>Les liens sortants sont signalés par un symbole et s’ouvrent dans un nouvel onglet.</p>"
         },
         {
             "type": "texte",
             "titre": "Signaler une erreur",
-            "paragraphes": [
-                "Une information périmée, un lien mort, une coquille : signalez-les au secrétariat, la correction sera faite."
-            ],
+            "paragraphes": "<p>Une information périmée, un lien mort, une coquille : signalez-les au secrétariat, la correction sera faite.</p>",
             "lien": {
                 "libelle": "Signaler une erreur",
                 "url": "/demande-en-ligne"

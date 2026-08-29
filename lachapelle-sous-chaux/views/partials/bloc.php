@@ -19,6 +19,12 @@
  * @var App\Core\View $view
  */
 $type = (string) ($bloc['type'] ?? 'texte');
+
+// riche() est la seule sortie non échappée de ce gabarit. Elle ne fait pas
+// confiance à ce qu'elle reçoit : App\Core\TexteRiche ramène le contenu à une
+// liste blanche de balises et de classes de charte à chaque affichage. Elle
+// accepte aussi l'ancien tableau de paragraphes en texte brut, ce qui laisse
+// valable un contenu écrit avant l'éditeur.
 ?>
 <?php if (!empty($bloc['surtitre'])): ?>
   <p class="surtitre<?= ($bloc['fond'] ?? '') === 'sombre' ? ' surtitre--clair' : '' ?>"><?= e($bloc['surtitre']) ?></p>
@@ -37,7 +43,7 @@ $type = (string) ($bloc['type'] ?? 'texte');
 // -------------------------------------------------------------- texte
 case 'texte': ?>
   <div class="bloc-texte">
-    <?php foreach ($bloc['paragraphes'] ?? [] as $p): ?><p><?= e($p) ?></p><?php endforeach; ?>
+    <?= riche($bloc['paragraphes'] ?? '') ?>
     <?php if (!empty($bloc['liste'])): ?>
       <ul class="liste-cochee">
         <?php foreach ($bloc['liste'] as $ligne): ?><li><?= e($ligne) ?></li><?php endforeach; ?>
@@ -60,7 +66,7 @@ case 'duo': ?>
     </div>
     <div class="duo__texte">
       <?php if (!empty($bloc['titre'])): ?><h2 class="titre-section"><?= e($bloc['titre']) ?></h2><?php endif; ?>
-      <?php foreach ($bloc['paragraphes'] ?? [] as $p): ?><p><?= e($p) ?></p><?php endforeach; ?>
+      <?= riche($bloc['paragraphes'] ?? '') ?>
 
       <?php if (!empty($bloc['points'])): ?>
         <ul class="points">
@@ -226,7 +232,7 @@ case 'encadre': ?>
                bandeau. Un h3 y créerait un saut de niveau — relevé par
                l'auditeur de mise en page sur la fiche « Carte d'identité ». */ ?>
       <?php if (!empty($bloc['intitule'])): ?><h2 class="encadre__titre"><?= e($bloc['intitule']) ?></h2><?php endif; ?>
-      <?php foreach ($bloc['paragraphes'] ?? [] as $p): ?><p><?= e($p) ?></p><?php endforeach; ?>
+      <?= riche($bloc['paragraphes'] ?? '') ?>
       <?php if (!empty($bloc['lien']['url'])): ?>
         <a class="lien-fleche" href="<?= lien($bloc['lien']['url']) ?>"<?= str_starts_with($bloc['lien']['url'], 'http') ? ' target="_blank" rel="noopener"' : '' ?>><?= e($bloc['lien']['libelle'] ?? '') ?></a>
       <?php endif; ?>

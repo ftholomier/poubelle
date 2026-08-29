@@ -270,7 +270,12 @@ p + p { margin-top: 1.05rem; }
 }
 
 /* Boutons */
-.btn {
+/* .bouton est le nom que la mairie pose depuis l'éditeur de texte : un seul
+   mot, sans variante à choisir. Il partage le composant plutôt que d'en
+   recopier les déclarations — un bouton écrit dans un paragraphe doit être le
+   même objet que celui d'une bande d'appel, sinon la page en montre deux. */
+.btn,
+.bloc-texte .bouton {
   display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
   padding: 1rem 2.1rem;
   border-radius: var(--rayon);
@@ -282,16 +287,20 @@ p + p { margin-top: 1.05rem; }
               box-shadow var(--transition);
 }
 .btn--petit { padding: .7rem 1.4rem; font-size: .7rem; }
-.btn:hover { transform: translateY(-2px); }
-.btn:active { transform: translateY(0); }
+.btn:hover,
+.bloc-texte .bouton:hover { transform: translateY(-2px); }
+.btn:active,
+.bloc-texte .bouton:active { transform: translateY(0); }
 
 /* Le vert de la charte ne porte pas de texte blanc : 3,2:1. L'aplat prend
    donc --vert-fonce, la même teinte assombrie, où le blanc tient 4,9:1. */
-.btn--vert {
+.btn--vert,
+.bloc-texte .bouton {
   background: var(--vert-fonce); color: #fff; border-color: var(--vert-fonce);
   box-shadow: 0 6px 18px rgba(69, 130, 108, .26);
 }
-.btn--vert:hover {
+.btn--vert:hover,
+.bloc-texte .bouton:hover {
   background: var(--ardoise); border-color: var(--ardoise);
   box-shadow: 0 10px 28px rgba(29, 55, 48, .3);
 }
@@ -836,7 +845,9 @@ body.menu-ouvert .panneau {
   padding: 1.5rem clamp(1.4rem, 5vw, 2.4rem);
   border-bottom: 1px solid rgba(255, 255, 255, .1);
 }
-.panneau__embleme { height: 44px; width: auto; display: block; }
+/* 46 px : le nom du logo reste lisible, et le tout tient à côté du bouton
+   Fermer sur un panneau de 88 vw, soit 282 px au plus étroit. */
+.panneau__embleme { height: 46px; width: auto; display: block; object-fit: contain; }
 .panneau__logo:hover { opacity: .85; }
 .panneau__fermer {
   display: inline-flex; align-items: center; gap: .5rem;
@@ -3279,3 +3290,64 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--vert-clair); }
   .liens-utiles__item > a { display: block; padding-block: 1.1rem; }
   .liens-utiles__titre { min-height: 44px; display: flex; align-items: center; }
 }
+
+
+/* --- Texte mis en forme par la mairie ------------------------------------
+   Les seules classes que l'éditeur du back-office sait poser, et les seules
+   que App\Core\TexteRiche laisse passer. Elles existent en variante par fond
+   de section : c'est toute la raison d'avoir des classes plutôt que des
+   couleurs saisies. Un vert choisi sur le crème serait reporté tel quel sur
+   la section sombre suivante, où il tombe sous le seuil — la mairie n'a aucun
+   moyen de le savoir au moment où elle écrit, et ce n'est pas son travail. */
+.bloc-texte .texte-vert  { color: var(--vert-texte); }
+.bloc-texte .texte-encre { color: var(--encre); font-weight: 600; }
+/* Sur l'ardoise, les mêmes teintes tomberaient à 1,4:1 pour le vert et 1,0:1
+   pour l'encre. Les variantes claires les y remontent : mesuré 6,18:1 pour le
+   vert et 12,79:1 pour l'encre, contre 6,59 et 12,79 sur blanc et 6,05 et
+   11,74 sur le crème. Les six combinaisons passent, c'est ce qui permet de
+   laisser la mairie choisir sans lui demander sur quel fond elle écrit. */
+.section--sombre .bloc-texte .texte-vert  { color: var(--vert-clair); }
+.section--sombre .bloc-texte .texte-encre { color: #fff; }
+
+/* Deux crans, en em : la taille suit celle du bloc qui les porte, et un texte
+   agrandi dans un chapô ne prend pas la taille d'un titre. */
+.bloc-texte .texte-grand { font-size: 1.16em; }
+.bloc-texte .texte-petit { font-size: .9em; }
+
+/* Les listes écrites dans l'éditeur. La liste « cochée » du bloc reste un
+   champ à part, avec ses pastilles : celle-ci est une liste ordinaire, dans
+   le fil du texte. */
+.bloc-texte ul,
+.bloc-texte ol { margin: 0 0 1.2rem 1.3rem; color: var(--texte-doux); }
+.bloc-texte ul { list-style: disc; }
+.bloc-texte ol { list-style: decimal; }
+.bloc-texte li { margin-bottom: .4rem; line-height: 1.75; }
+.bloc-texte li::marker { color: var(--vert-texte); }
+.section--sombre .bloc-texte ul,
+.section--sombre .bloc-texte ol { color: rgba(255, 255, 255, .84); }
+.section--sombre .bloc-texte li::marker { color: var(--vert-clair); }
+
+/* Un lien dans le fil du texte se souligne : sans cela il ne se distingue que
+   par la couleur, ce qui ne suffit pas — et pas du tout pour un daltonien. */
+.bloc-texte p > a:not(.bouton),
+.bloc-texte li > a:not(.bouton) {
+  color: var(--vert-texte); text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.bloc-texte p > a:not(.bouton):hover,
+.bloc-texte li > a:not(.bouton):hover { color: var(--encre); }
+.section--sombre .bloc-texte p > a:not(.bouton),
+.section--sombre .bloc-texte li > a:not(.bouton) { color: var(--vert-clair); }
+.section--sombre .bloc-texte p > a:not(.bouton):hover,
+.section--sombre .bloc-texte li > a:not(.bouton):hover { color: #fff; }
+
+/* Un bouton posé au milieu d'une phrase reste dans la ligne ; seul dans son
+   paragraphe, il respire comme un appel à l'action. Sans cette distinction, la
+   marge basse d'un bouton inséré en cours de phrase creusait un trou entre
+   deux lignes du même paragraphe. */
+.bloc-texte .bouton { margin: .2rem 0; vertical-align: middle; }
+.bloc-texte p:has(> .bouton:only-child) { margin: 1.6rem 0; }
+.bloc-texte .texte-grand,
+.bloc-texte .texte-petit,
+.bloc-texte .texte-vert,
+.bloc-texte .texte-encre { display: inline; }

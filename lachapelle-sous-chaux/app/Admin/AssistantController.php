@@ -7,6 +7,7 @@ use App\Core\Assistant;
 use App\Core\Csrf;
 use App\Core\Parametres;
 use App\Core\Session;
+use App\Core\TexteRiche;
 use App\Core\View;
 use Throwable;
 
@@ -102,8 +103,13 @@ final class AssistantController
         try {
             // Le contenu vient d'un éditeur riche : on ne garde que le
             // balisage de mise en forme, jamais de script ni d'attribut
-            // d'événement, même saisi par un administrateur.
-            $this->assistant->enregistrerNotes(self::nettoyer((string) ($_POST['notes'] ?? '')));
+            // d'événement, même saisi par un administrateur. Le filtre est
+            // celui du contenu des pages, avec le profil élargi qui accepte un
+            // sous-titre : deux listes blanches auraient divergé, et c'est
+            // toujours la moins tenue qui laisse passer quelque chose.
+            $this->assistant->enregistrerNotes(
+                TexteRiche::nettoyer((string) ($_POST['notes'] ?? ''), true)
+            );
             Session::flash('succes', 'Notes enregistrées.');
         } catch (Throwable $e) {
             Session::flash('erreur', $e->getMessage());
@@ -203,26 +209,4 @@ final class AssistantController
      * onclick ou un href javascript: — d'où le second passage, qui retire
      * tout attribut sauf href sur les liens.
      */
-    private static function nettoyer(string $html): string
-    {
-        $html = strip_tags($html, '<p><br><strong><b><em><i><u><ul><ol><li><h2><h3><h4><a><blockquote>');
-
-        $html = preg_replace_callback('#<([a-z][a-z0-9]*)\b[^>]*>#i', static function (array $m): string {
-            $balise = strtolower($m[1]);
-            if ($balise !== 'a') {
-                return '<' . $balise . '>';
-            }
-            if (preg_match('#href\s*=\s*("|\')(.*?)\1#i', $m[0], $h) !== 1) {
-                return '<a>';
-            }
-            $url = trim(html_entity_decode($h[2], ENT_QUOTES, 'UTF-8'));
-            // seuls les protocoles inoffensifs : ni javascript:, ni data:
-            if (preg_match('#^(https?://|mailto:|tel:|/)#i', $url) !== 1) {
-                return '<a>';
-            }
-            return '<a href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" rel="noopener">';
-        }, $html) ?? $html;
-
-        return trim($html);
-    }
 }

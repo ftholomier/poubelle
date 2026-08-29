@@ -364,48 +364,11 @@
     cible.scrollIntoView({ block: "center", behavior: "smooth" });
   });
 
-  /* ---------- Éditeur de texte enrichi (notes de l'assistant) ----------
-     Un éditeur minimal bâti sur contenteditable : gras, italique, listes,
-     sous-titres. Aucune bibliothèque — le besoin tient en six boutons, et une
-     dépendance de plus serait à maintenir dix ans.
+  /* ---------- Éditeur de texte enrichi ----------
+     Déménagé dans editeur.js : le même éditeur sert désormais les notes de
+     l'assistant et le corps des pages, et la version qui vivait ici n'avait
+     ni les couleurs de charte, ni le bouton, ni le repli sans JavaScript. */
 
-     Le champ caché reçoit le contenu avant l'envoi : c'est lui qui part au
-     serveur, où il est de nouveau filtré. Ce nettoyage-ci n'est qu'un confort
-     de saisie, jamais une mesure de sécurité. */
-  (function () {
-    var editeurs = document.querySelectorAll("[data-editeur]");
-    if (!editeurs.length) return;
-
-    Array.prototype.forEach.call(editeurs, function (editeur) {
-      var zone = editeur.querySelector("[data-editeur-zone]");
-      var champ = editeur.querySelector("[data-editeur-champ]");
-      var form = editeur.closest("form");
-      if (!zone || !champ || !form) return;
-
-      editeur.querySelectorAll("[data-commande]").forEach(function (bouton) {
-        bouton.addEventListener("click", function () {
-          zone.focus();
-          document.execCommand(
-            bouton.getAttribute("data-commande"),
-            false,
-            bouton.getAttribute("data-valeur") || null
-          );
-        });
-      });
-
-      // Un collage depuis Word ou une page web charrie des styles, des
-      // classes et parfois des scripts : on ne garde que le texte.
-      zone.addEventListener("paste", function (e) {
-        e.preventDefault();
-        var texte = (e.clipboardData || window.clipboardData).getData("text/plain");
-        document.execCommand("insertText", false, texte);
-      });
-
-      form.addEventListener("submit", function () {
-        champ.value = zone.innerHTML;
-      });
-    });
-  })();
 
 
   /* ---------- Planche à cocher des réalisations ----------

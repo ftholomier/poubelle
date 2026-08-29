@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\TexteRiche;
+
 /**
  * Description des blocs de contenu, pour le back-office.
  *
@@ -17,7 +19,9 @@ namespace App\Admin;
  *
  *   ligne        une ligne de texte
  *   zone         un petit paragraphe
- *   paragraphes  un texte long, découpé en paragraphes aux lignes vides
+ *   riche        un texte long mis en forme — gras, listes, bouton — filtré
+ *                par App\Core\TexteRiche et stocké en HTML
+ *   paragraphes  un texte long en clair, découpé aux lignes vides
  *   lignes       une liste, une entrée par ligne
  *   photo        un choix dans la médiathèque
  *   fichier      un chemin de document (PDF), relatif à public/
@@ -70,7 +74,7 @@ final class Blocs
                 'surtitre'    => 'ligne',
                 'titre'       => 'ligne',
                 'chapo'       => 'zone',
-                'paragraphes' => 'paragraphes',
+                'paragraphes' => 'riche',
                 'liste'       => 'lignes',
                 'lien'        => 'lien',
             ],
@@ -85,7 +89,7 @@ final class Blocs
                 'image_alt'   => 'ligne',
                 'sens'        => 'choix:|image-droite',
                 'cadrage'     => 'choix:|portrait',
-                'paragraphes' => 'paragraphes',
+                'paragraphes' => 'riche',
                 'liste'       => 'lignes',
                 'points'      => 'items:points',
                 'lien'        => 'lien',
@@ -156,7 +160,7 @@ final class Blocs
             'champs' => [
                 'intitule'    => 'ligne',
                 'ton'         => 'choix:info|alerte',
-                'paragraphes' => 'paragraphes',
+                'paragraphes' => 'riche',
                 'lien'        => 'lien',
             ],
         ],
@@ -328,6 +332,17 @@ final class Blocs
         return count($bloc) > 1 ? $bloc : null;
     }
 
+    /**
+     * La nature du champ impose-t-elle une valeur même sans saisie ?
+     *
+     * Un menu déroulant rend toujours une option, une case rend son état :
+     * leur présence ne prouve donc pas qu'on a rempli la ligne.
+     */
+    private static function estImposee(string $nature): bool
+    {
+        return $nature === 'icone' || $nature === 'case' || str_starts_with($nature, 'choix:');
+    }
+
     private static function relireChamp(string $nature, mixed $brut): mixed
     {
         if (str_starts_with($nature, 'items:')) {
@@ -338,13 +353,25 @@ final class Blocs
                     continue;
                 }
                 $entree = [];
+                // Une entrée n'existe que si l'on y a saisi quelque chose. Les
+                // menus déroulants ne comptent pas : un <select> renvoie
+                // toujours sa première option, donc les deux lignes vides que
+                // le formulaire garde en réserve arrivaient ici avec une icône
+                // et étaient enregistrées. Deux cartes fantômes de plus à
+                // chaque enregistrement, et une page qui se remplit de blocs
+                // vides sans que personne n'ait rien ajouté.
+                $saisie = false;
                 foreach ($sous as $champ => $sousNature) {
                     $valeur = self::relireChamp($sousNature, self::extraire($ligne, $champ));
-                    if ($valeur !== null) {
-                        self::poser($entree, $champ, $valeur);
+                    if ($valeur === null) {
+                        continue;
+                    }
+                    self::poser($entree, $champ, $valeur);
+                    if (!self::estImposee($sousNature)) {
+                        $saisie = true;
                     }
                 }
-                if ($entree !== []) {
+                if ($saisie) {
                     $entrees[] = $entree;
                 }
             }
@@ -355,6 +382,14 @@ final class Blocs
             $libelle = trim((string) (is_array($brut) ? ($brut['libelle'] ?? '') : ''));
             $url     = trim((string) (is_array($brut) ? ($brut['url'] ?? '') : ''));
             return $url !== '' ? ['libelle' => $libelle, 'url' => $url] : null;
+        }
+
+        if ($nature === 'riche') {
+            // Le filtrage est refait à l'affichage : ici il sert à ce que le
+            // JSON reste lisible et honnête, pas de garde-fou — un contenu
+            // arrivé par l'éditeur avancé ne passe jamais par cette fonction.
+            $html = TexteRiche::nettoyer((string) $brut);
+            return $html !== '' ? $html : null;
         }
 
         if ($nature === 'paragraphes') {

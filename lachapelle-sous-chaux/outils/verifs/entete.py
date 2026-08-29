@@ -45,7 +45,7 @@ MENUS = ('lateral', 'horizontal')
 # la même chose seraient pires qu'un seul.
 CIBLE_MINI = 44
 CIBLE_JUSQUA = 780
-# Contraste minimal de l'emblème du panneau contre son fond. 3:1 est le seuil
+# Contraste minimal de l'logo du panneau contre son fond. 3:1 est le seuil
 # des éléments graphiques (WCAG 1.4.11) ; les logos en sont formellement
 # exemptés, mais un logo qu'on ne voit pas ne remplit pas son office. Ce
 # plancher sert à refuser la variante sombre du fichier sur le panneau sombre
@@ -167,20 +167,21 @@ def contraste(a: list[float], b: list[float]) -> float:
 
 
 def mesurer_embleme(navigateur, base: str) -> float | None:
-    """La plus mauvaise teinte de l'emblème du panneau contre son fond.
+    """La plus mauvaise teinte de l'logo du panneau contre son fond.
 
     On échantillonne le dessin peint plutôt que de lire les couleurs du SVG :
     un fichier remplacé par la mairie, un dégradé, une opacité posée en CSS —
     rien de tout cela n'est visible depuis le source du fichier.
 
-    Ce que cette mesure attrape, et ce qu'elle n'attrape pas : elle refuse
-    l'emblème sombre posé sur le panneau sombre, qui est l'erreur qu'on
+    Ce que cette mesure attrape, et ce qu'elle n'attrape pas : elle refuse la
+    variante sombre du logo posée sur le panneau sombre, qui est l'erreur qu'on
     commettra un jour en changeant de fichier — le vert foncé de la charte n'y
     tient que 2,3:1. Elle ne dit rien de la lisibilité réelle d'un trait fin :
-    l'emblème vert livré au départ mesurait 4,9:1, au-dessus de tous les
-    seuils, et se voyait pourtant à peine sur l'ardoise du panneau — deux arcs
-    de deux pixels, dans une teinte voisine du fond. C'est un jugement d'œil,
-    et aucun rapport de contraste ne le rend. D'où le blanc plein.
+    l'emblème vert servi ici au départ mesurait 4,9:1, au-dessus de tous les
+    seuils, et se voyait pourtant à peine — deux arcs de deux pixels, dans une
+    teinte voisine du fond, et sans le nom de la commune. C'est un jugement
+    d'œil, et aucun rapport de contraste ne le rend. Le panneau sert désormais
+    le logo complet, celui dont le nom est écrit en blanc.
     """
     from PIL import Image
     import io as _io
@@ -325,19 +326,19 @@ def main() -> None:
                                 else:
                                     print(f'     ok {ligne}')
 
-            # L'emblème du panneau ne dépend d'aucun réglage : une mesure suffit,
+            # L'logo du panneau ne dépend d'aucun réglage : une mesure suffit,
             # et elle est faite ici plutôt que dans un sixième script parce que
             # c'est le même composant — l'en-tête et son menu.
             emb = mesurer_embleme(navigateur, args.base)
             if emb is None:
-                print('  (emblème du panneau introuvable — mesure ignorée)')
+                print('  (logo du panneau introuvable — mesure ignorée)')
             elif emb < EMBLEME_MINI:
                 soucis += 1
-                print(f'  SOUCI emblème du panneau à {emb:.2f}:1 sur son fond '
+                print(f'  SOUCI logo du panneau à {emb:.2f}:1 sur son fond '
                       f'(minimum {EMBLEME_MINI}) — c’est la variante sombre du '
                       f'fichier qui est servie ; le panneau demande la claire')
             else:
-                print(f'     ok emblème du panneau  {emb:.2f}:1 sur son fond')
+                print(f'     ok logo du panneau  {emb:.2f}:1 sur son fond')
 
             navigateur.close()
     finally:

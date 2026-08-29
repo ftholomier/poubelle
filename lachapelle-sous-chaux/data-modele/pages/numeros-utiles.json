@@ -14,10 +14,7 @@
             "type": "encadre",
             "ton": "alerte",
             "intitule": "Enregistrez le 112 dans votre téléphone",
-            "paragraphes": [
-                "Le 112 fonctionne partout en Europe, depuis n’importe quel téléphone, même sans crédit ni carte SIM, et même dans une zone couverte par un autre opérateur que le vôtre. Dans une vallée où la couverture est inégale, c’est souvent lui qui passe.",
-                "Les personnes sourdes ou malentendantes peuvent joindre les secours par SMS au 114."
-            ]
+            "paragraphes": "<p>Le 112 fonctionne partout en Europe, depuis n’importe quel téléphone, même sans crédit ni carte SIM, et même dans une zone couverte par un autre opérateur que le vôtre. Dans une vallée où la couverture est inégale, c’est souvent lui qui passe.</p><p>Les personnes sourdes ou malentendantes peuvent joindre les secours par SMS au 114.</p>"
         }
     ]
 }

@@ -16,11 +16,7 @@
             "id": "etymologie",
             "surtitre": "Le nom",
             "titre": "Étymologie : du manteau de saint Martin au nom du village",
-            "paragraphes": [
-                "Le mot « chapelle » est la transcription directe du latin capella, diminutif de cappa, le manteau à capuchon. Cappa a donné cape, capuchon, capucin, mais aussi chapeau, chapelet, chapelier et chaperon.",
-                "Capella, lui, désigne à l’origine et précisément le manteau de saint Martin. Tranché puis partagé avec un pauvre, le manteau du moine soldat devient objet de piété et se trouve exposé dans la partie latérale d’une église : c’est cette annexe qu’on appellera chapelle.",
-                "Probablement au Xe siècle, au milieu de maisons dispersées dépendant de la paroisse de Chaux, une chapelle est construite. Elle facilite les dévotions, donne une unité à ce groupe d’habitations éparses, et lui donne son premier nom : capella, francisé en capelle puis chapelle."
-            ]
+            "paragraphes": "<p>Le mot « chapelle » est la transcription directe du latin capella, diminutif de cappa, le manteau à capuchon. Cappa a donné cape, capuchon, capucin, mais aussi chapeau, chapelet, chapelier et chaperon.</p><p>Capella, lui, désigne à l’origine et précisément le manteau de saint Martin. Tranché puis partagé avec un pauvre, le manteau du moine soldat devient objet de piété et se trouve exposé dans la partie latérale d’une église : c’est cette annexe qu’on appellera chapelle.</p><p>Probablement au Xe siècle, au milieu de maisons dispersées dépendant de la paroisse de Chaux, une chapelle est construite. Elle facilite les dévotions, donne une unité à ce groupe d’habitations éparses, et lui donne son premier nom : capella, francisé en capelle puis chapelle.</p>"
         },
         {
             "type": "photo",
@@ -31,40 +27,24 @@
         {
             "type": "texte",
             "titre": "De Kapelen à « la chapelle sous chaux »",
-            "paragraphes": [
-                "Au XIVe siècle, le village devient possession de la maison d’Autriche, et son nom est germanisé en « capelen » ou « kapelen ».",
-                "En 1347, la comtesse Jeanne de Montbéliard, marquise de Bade, partage ses biens. La chapelle échoit à sa fille Jeannette, épouse de l’archiduc Albert II d’Autriche. Or Albert et Jeannette possèdent un autre village nommé Kapelen — celui qu’on appelle aujourd’hui Lachapelle-sous-Rougemont.",
-                "Pour distinguer les deux, le nôtre devient « kappelstcha », en français « la chapelle sous chaux ». C’est l’appellation qu’il retrouve définitivement après 1648.",
-                "Entre-temps, au XVIe siècle et à mesure que le village grandit, l’ancienne chapelle est transformée en église dédiée à saint Vincent."
-            ]
+            "paragraphes": "<p>Au XIVe siècle, le village devient possession de la maison d’Autriche, et son nom est germanisé en « capelen » ou « kapelen ».</p><p>En 1347, la comtesse Jeanne de Montbéliard, marquise de Bade, partage ses biens. La chapelle échoit à sa fille Jeannette, épouse de l’archiduc Albert II d’Autriche. Or Albert et Jeannette possèdent un autre village nommé Kapelen — celui qu’on appelle aujourd’hui Lachapelle-sous-Rougemont.</p><p>Pour distinguer les deux, le nôtre devient « kappelstcha », en français « la chapelle sous chaux ». C’est l’appellation qu’il retrouve définitivement après 1648.</p><p>Entre-temps, au XVIe siècle et à mesure que le village grandit, l’ancienne chapelle est transformée en église dédiée à saint Vincent.</p>"
         },
         {
             "type": "texte",
             "id": "rosemont",
             "surtitre": "Le Rosemont",
             "titre": "La seigneurie du Rosemont",
-            "paragraphes": [
-                "Au XIe siècle, la seigneurie est constituée par Louis de Mousson, comte de Montbéliard, d’Altkirch et de Ferrette. C’est vraisemblablement à cette époque qu’est édifié le château abritant un lieutenant représentant le comte.",
-                "La seigneurie du Rosemont comporte trois mairies : celle de la Burg, ou du val, qui réunit Chaux, Giromagny, Grosmagny, Lachapelle-sous-Chaux, Lepuix-Gy, Rougegoutte, Sermamagny, Vescemont et le château du Rosemont ; celle d’Évette, avec Éloie, Essert, Évette-Salbert et Valdoie ; celle de Banvillars, avec Argiésans, Banvillars et Urcerey.",
-                "En 1321, à la mort de Renaud de Bourgogne, sa fille aînée Jeanne hérite de la seigneurie de Belfort ; les populations du Rosemont font allégeance au marquis de Bade. En 1333 la seigneurie passe au comté de Ferrette, puis en 1347 à la maison d’Autriche."
-            ]
+            "paragraphes": "<p>Au XIe siècle, la seigneurie est constituée par Louis de Mousson, comte de Montbéliard, d’Altkirch et de Ferrette. C’est vraisemblablement à cette époque qu’est édifié le château abritant un lieutenant représentant le comte.</p><p>La seigneurie du Rosemont comporte trois mairies : celle de la Burg, ou du val, qui réunit Chaux, Giromagny, Grosmagny, Lachapelle-sous-Chaux, Lepuix-Gy, Rougegoutte, Sermamagny, Vescemont et le château du Rosemont ; celle d’Évette, avec Éloie, Essert, Évette-Salbert et Valdoie ; celle de Banvillars, avec Argiésans, Banvillars et Urcerey.</p><p>En 1321, à la mort de Renaud de Bourgogne, sa fille aînée Jeanne hérite de la seigneurie de Belfort ; les populations du Rosemont font allégeance au marquis de Bade. En 1333 la seigneurie passe au comté de Ferrette, puis en 1347 à la maison d’Autriche.</p>"
         },
         {
             "type": "texte",
             "titre": "Le Coutumier du Rosemont",
-            "paragraphes": [
-                "Vers la fin du XIVe siècle est rédigée la constitution connue sous le nom de Coutumier du Rosemont. Chaque mairie y a son administration et sa justice propres ; au-dessus, la justice seigneuriale ; au-dessus encore, la justice du château de Belfort, qui statue en dernier ressort.",
-                "Les maires s’occupent des affaires locales à des époques déterminées de l’année. La justice seigneuriale gère les appels contre les sentences des maires, et détient la haute justice — le Rosemont avait ainsi son gibet pour tous les justiciables de ses terres.",
-                "Le siège de cette justice, d’abord au château, fut plus tard établi à Chaux : c’est là que neuf juges, sous la présidence du lieutenant, vidaient les contestations."
-            ]
+            "paragraphes": "<p>Vers la fin du XIVe siècle est rédigée la constitution connue sous le nom de Coutumier du Rosemont. Chaque mairie y a son administration et sa justice propres ; au-dessus, la justice seigneuriale ; au-dessus encore, la justice du château de Belfort, qui statue en dernier ressort.</p><p>Les maires s’occupent des affaires locales à des époques déterminées de l’année. La justice seigneuriale gère les appels contre les sentences des maires, et détient la haute justice — le Rosemont avait ainsi son gibet pour tous les justiciables de ses terres.</p><p>Le siège de cette justice, d’abord au château, fut plus tard établi à Chaux : c’est là que neuf juges, sous la présidence du lieutenant, vidaient les contestations.</p>"
         },
         {
             "type": "texte",
             "titre": "Un domaine sans cesse engagé",
-            "paragraphes": [
-                "Malgré leurs grandes possessions, les archiducs eurent fréquemment recours à l’engagement de leurs domaines pour se procurer de l’argent. Le Rosemont eut surtout ce sort : donné en gage à Pierre de Bollwiller en 1360, à Marguerite de Bade en 1363, à Erkinger de Hugenhoven en 1447, à Pierre de Morimont en 1450, à Guntzmann de Brinighoffen en 1456, à Rodolphe de Sultzet en 1457, de nouveau à Pierre de Morimont en 1459.",
-                "À peine rentré en possession du Rosemont, l’archiduc Maximilien l’engagea encore pour 25 300 florins à Gaspard de Morimont. L’emprunt s’éleva jusqu’à 52 645 florins, remboursés seulement en 1534, et la maison d’Autriche ne reprit possession du domaine que le 21 janvier 1563."
-            ]
+            "paragraphes": "<p>Malgré leurs grandes possessions, les archiducs eurent fréquemment recours à l’engagement de leurs domaines pour se procurer de l’argent. Le Rosemont eut surtout ce sort : donné en gage à Pierre de Bollwiller en 1360, à Marguerite de Bade en 1363, à Erkinger de Hugenhoven en 1447, à Pierre de Morimont en 1450, à Guntzmann de Brinighoffen en 1456, à Rodolphe de Sultzet en 1457, de nouveau à Pierre de Morimont en 1459.</p><p>À peine rentré en possession du Rosemont, l’archiduc Maximilien l’engagea encore pour 25 300 florins à Gaspard de Morimont. L’emprunt s’éleva jusqu’à 52 645 florins, remboursés seulement en 1534, et la maison d’Autriche ne reprit possession du domaine que le 21 janvier 1563.</p>"
         },
         {
             "type": "photo",
@@ -77,10 +57,7 @@
             "id": "trente-ans",
             "surtitre": "XVIIe siècle",
             "titre": "La guerre de Trente Ans",
-            "paragraphes": [
-                "Il est difficile d’imaginer l’impact de la guerre de Trente Ans sur la région. L’Est, la Lorraine, une partie de l’Alsace et de la Franche-Comté ont vu leur population décimée au point que, vingt ans après la fin de la guerre, le pays n’était plus qu’un désert. Plusieurs villages du Territoire ont disparu à cette période ; Sermamagny est le seul exemple de village entièrement détruit et existant toujours.",
-                "En trente ans, la région changea cinq fois d’occupants, et Belfort subit six sièges. Le château du Rosemont fut bombardé et réduit à l’état de ruines, comme il l’est encore aujourd’hui. En 1653, les troupes de Louis XIV assiègent Belfort et pillent la région pour la septième fois depuis le début du siècle."
-            ]
+            "paragraphes": "<p>Il est difficile d’imaginer l’impact de la guerre de Trente Ans sur la région. L’Est, la Lorraine, une partie de l’Alsace et de la Franche-Comté ont vu leur population décimée au point que, vingt ans après la fin de la guerre, le pays n’était plus qu’un désert. Plusieurs villages du Territoire ont disparu à cette période ; Sermamagny est le seul exemple de village entièrement détruit et existant toujours.</p><p>En trente ans, la région changea cinq fois d’occupants, et Belfort subit six sièges. Le château du Rosemont fut bombardé et réduit à l’état de ruines, comme il l’est encore aujourd’hui. En 1653, les troupes de Louis XIV assiègent Belfort et pillent la région pour la septième fois depuis le début du siècle.</p>"
         },
         {
             "type": "photo",
@@ -91,29 +68,19 @@
         {
             "type": "texte",
             "titre": "1648 : le rattachement à la France",
-            "paragraphes": [
-                "Le 24 octobre 1648, les traités de Westphalie, signés à Münster et Osnabrück, mettent fin dans l’espace germanique à la guerre de Trente Ans. Ils entérinent l’échec définitif du projet des Habsbourg de domination universelle et du rêve de chrétienté réunifiée.",
-                "L’Alsace est rattachée au royaume de France, et avec elle tous les villages de l’ancienne seigneurie du Rosemont, qui deviennent propriété des Mazarin. Lachapelle-sous-Chaux dépendra du duc de Mazarin et de ses successeurs jusqu’à la Révolution.",
-                "L’armorial de France lui attribue les armoiries suivantes : « De sable à une aigle d’or, aux ailes éployées »."
-            ]
+            "paragraphes": "<p>Le 24 octobre 1648, les traités de Westphalie, signés à Münster et Osnabrück, mettent fin dans l’espace germanique à la guerre de Trente Ans. Ils entérinent l’échec définitif du projet des Habsbourg de domination universelle et du rêve de chrétienté réunifiée.</p><p>L’Alsace est rattachée au royaume de France, et avec elle tous les villages de l’ancienne seigneurie du Rosemont, qui deviennent propriété des Mazarin. Lachapelle-sous-Chaux dépendra du duc de Mazarin et de ses successeurs jusqu’à la Révolution.</p><p>L’armorial de France lui attribue les armoiries suivantes : « De sable à une aigle d’or, aux ailes éployées ».</p>"
         },
         {
             "type": "texte",
             "surtitre": "XVIIIe siècle",
             "titre": "Le XVIIIe siècle : mines, forges et croissance",
-            "paragraphes": [
-                "La région fut moins agitée au cours du XVIIIe siècle. Le développement des mines à Auxelles et à Giromagny, puis de la métallurgie à Belfort — les quartiers de la Forge et du Fourneau — permit un développement progressif.",
-                "C’est un artisan de Giromagny, Chapuis, qui réalisa à cette époque les grilles du chœur de Saint-Christophe."
-            ]
+            "paragraphes": "<p>La région fut moins agitée au cours du XVIIIe siècle. Le développement des mines à Auxelles et à Giromagny, puis de la métallurgie à Belfort — les quartiers de la Forge et du Fourneau — permit un développement progressif.</p><p>C’est un artisan de Giromagny, Chapuis, qui réalisa à cette époque les grilles du chœur de Saint-Christophe.</p>"
         },
         {
             "type": "encadre",
             "ton": "info",
             "intitule": "Sources",
-            "paragraphes": [
-                "Cette page reprend et prolonge la notice historique publiée par la commune, établie d’après Wikipédia, la monographie de M. Liblin parue en 1871 dans la Revue d’Alsace, et les archives départementales du Territoire de Belfort.",
-                "Les Archives départementales conservent les registres paroissiaux et l’état civil ancien de la commune, consultables en ligne."
-            ],
+            "paragraphes": "<p>Cette page reprend et prolonge la notice historique publiée par la commune, établie d’après Wikipédia, la monographie de M. Liblin parue en 1871 dans la Revue d’Alsace, et les archives départementales du Territoire de Belfort.</p><p>Les Archives départementales conservent les registres paroissiaux et l’état civil ancien de la commune, consultables en ligne.</p>",
             "lien": {
                 "libelle": "Archives départementales du Territoire de Belfort",
                 "url": "https://archives.territoiredebelfort.fr/"

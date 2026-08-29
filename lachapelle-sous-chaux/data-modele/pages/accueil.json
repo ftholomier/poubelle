@@ -97,10 +97,7 @@
         "titre": "Un village de piémont, entre eau et forêt",
         "image": "assets/img/site/panorama-vosges-du-sud.jpg",
         "image_alt": "Vue aérienne du piémont vosgien au printemps : prairies, hameaux et forêts jusqu’aux crêtes",
-        "paragraphes": [
-            "Lachapelle-sous-Chaux s’étend sur près de onze kilomètres carrés au sud du Ballon d’Alsace, entre 392 et 605 mètres d’altitude. La Savoureuse et ses affluents descendent des crêtes vosgiennes et traversent la commune ; la forêt en couvre une large part.",
-            "Le village doit son nom à une chapelle bâtie vers le Xe siècle au milieu de maisons dispersées. Devenue église Saint-Vincent au XVIe siècle, elle a donné au lieu son unité et son nom — « capella », francisé en chapelle, germanisé en « kapelen » quand le village passa à la maison d’Autriche."
-        ],
+        "paragraphes": "<p>Lachapelle-sous-Chaux s’étend sur près de onze kilomètres carrés au sud du Ballon d’Alsace, entre 392 et 605 mètres d’altitude. La Savoureuse et ses affluents descendent des crêtes vosgiennes et traversent la commune ; la forêt en couvre une large part.</p><p>Le village doit son nom à une chapelle bâtie vers le Xe siècle au milieu de maisons dispersées. Devenue église Saint-Vincent au XVIe siècle, elle a donné au lieu son unité et son nom — « capella », francisé en chapelle, germanisé en « kapelen » quand le village passa à la maison d’Autriche.</p>",
         "points": [
             {
                 "numero": "01",

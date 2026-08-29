@@ -184,9 +184,15 @@ $modeleChoisi = (string) ($reglages['modele'] ?? '');
           <button type="button" data-commande="formatBlock" data-valeur="h3" title="Sous-titre">H</button>
           <button type="button" data-commande="removeFormat" title="Enlever la mise en forme">✕</button>
         </div>
-        <div class="bo-editeur__zone" contenteditable="true" role="textbox" aria-multiline="true"
-             aria-labelledby="ia-notes-label" data-editeur-zone><?= $notes ?></div>
-        <textarea id="ia-notes" name="notes" data-editeur-champ hidden></textarea>
+        <?php /* Les attributs d'édition sont posés par editeur.js : sans lui,
+                 cette zone reste un simple aperçu et c'est la textarea qui
+                 sert. */ ?>
+        <div class="bo-editeur__zone" aria-labelledby="ia-notes-label" data-editeur-zone><?= $notes ?></div>
+        <?php /* La textarea porte les notes et n'est pas cachée d'avance :
+                 c'est le script qui la masque. Vide et cachée comme elle
+                 l'était, un enregistrement sans JavaScript effaçait les notes
+                 au lieu de les conserver. */ ?>
+        <textarea id="ia-notes" name="notes" rows="10" data-editeur-champ><?= e($notes) ?></textarea>
       </div>
       <p class="bo-aide" id="ia-notes-label">
         Seule la mise en forme est conservée à l’enregistrement : ni script, ni style collé depuis Word.

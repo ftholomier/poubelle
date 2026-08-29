@@ -60,9 +60,7 @@
             "type": "encadre",
             "ton": "alerte",
             "intitule": "Une urgence ne passe pas par un formulaire",
-            "paragraphes": [
-                "Pour un danger immédiat sur la voie publique, une fuite d’eau importante ou tout autre péril, appelez : la mairie au 03 84 27 53 78 aux heures d’ouverture, le 112 en dehors."
-            ]
+            "paragraphes": "<p>Pour un danger immédiat sur la voie publique, une fuite d’eau importante ou tout autre péril, appelez : la mairie au 03 84 27 53 78 aux heures d’ouverture, le 112 en dehors.</p>"
         },
         {
             "type": "cartes",

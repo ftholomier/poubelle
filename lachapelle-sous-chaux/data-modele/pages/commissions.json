@@ -14,10 +14,7 @@
         {
             "type": "texte",
             "titre": "Comment un dossier avance",
-            "paragraphes": [
-                "Un projet de travaux, un budget, une révision de règlement passe d’abord devant la commission concernée, qui l’examine et l’amende. Il vient ensuite en séance du conseil, où il est débattu et voté. Enfin, le maire l’exécute.",
-                "Entre les deux, la parole d’un habitant compte : la permanence du samedi matin est faite pour cela."
-            ]
+            "paragraphes": "<p>Un projet de travaux, un budget, une révision de règlement passe d’abord devant la commission concernée, qui l’examine et l’amende. Il vient ensuite en séance du conseil, où il est débattu et voté. Enfin, le maire l’exécute.</p><p>Entre les deux, la parole d’un habitant compte : la permanence du samedi matin est faite pour cela.</p>"
         }
     ]
 }

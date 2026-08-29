@@ -15,9 +15,7 @@
             "type": "encadre",
             "ton": "info",
             "intitule": "Votre association n’est pas listée ?",
-            "paragraphes": [
-                "Écrivez au secrétariat de mairie : la page est tenue à jour au fil des demandes, et une association du village y a sa place de droit."
-            ],
+            "paragraphes": "<p>Écrivez au secrétariat de mairie : la page est tenue à jour au fil des demandes, et une association du village y a sa place de droit.</p>",
             "lien": {
                 "libelle": "Signaler une association",
                 "url": "/demande-en-ligne"
@@ -26,10 +24,7 @@
         {
             "type": "texte",
             "titre": "Réserver la salle des fêtes",
-            "paragraphes": [
-                "La salle communale accueille les manifestations des associations, les repas et les fêtes de famille. La réservation se fait auprès du secrétariat de mairie, qui remet le règlement, fixe le tarif et organise l’état des lieux.",
-                "Réservez tôt : les samedis de printemps et d’automne partent plusieurs mois à l’avance."
-            ],
+            "paragraphes": "<p>La salle communale accueille les manifestations des associations, les repas et les fêtes de famille. La réservation se fait auprès du secrétariat de mairie, qui remet le règlement, fixe le tarif et organise l’état des lieux.</p><p>Réservez tôt : les samedis de printemps et d’automne partent plusieurs mois à l’avance.</p>",
             "lien": {
                 "libelle": "Demander la salle des fêtes",
                 "url": "/demande-en-ligne"

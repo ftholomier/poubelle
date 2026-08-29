@@ -59,11 +59,7 @@
             "type": "texte",
             "id": "plui",
             "titre": "Le plan local d’urbanisme intercommunal",
-            "paragraphes": [
-                "La compétence en matière de document d’urbanisme a été transférée à l’intercommunalité en octobre 2014 : c’est elle qui élabore et fait vivre le plan local d’urbanisme intercommunal, le PLUi, sur l’ensemble de son périmètre.",
-                "L’élaboration a été conduite avec les communes : un comité consultatif réunissant des conseillers municipaux de chaque commune — cinq pour Lachapelle-sous-Chaux — a travaillé aux côtés du bureau d’études, et une concertation publique a accompagné toute la procédure, avec registre en mairie et réunions publiques.",
-                "Le règlement et le zonage applicables à une parcelle se consultent au secrétariat, qui vous dira ce qui s’applique chez vous avant que vous ne montiez un dossier."
-            ],
+            "paragraphes": "<p>La compétence en matière de document d’urbanisme a été transférée à l’intercommunalité en octobre 2014 : c’est elle qui élabore et fait vivre le plan local d’urbanisme intercommunal, le PLUi, sur l’ensemble de son périmètre.</p><p>L’élaboration a été conduite avec les communes : un comité consultatif réunissant des conseillers municipaux de chaque commune — cinq pour Lachapelle-sous-Chaux — a travaillé aux côtés du bureau d’études, et une concertation publique a accompagné toute la procédure, avec registre en mairie et réunions publiques.</p><p>Le règlement et le zonage applicables à une parcelle se consultent au secrétariat, qui vous dira ce qui s’applique chez vous avant que vous ne montiez un dossier.</p>",
             "lien": {
                 "libelle": "Le service urbanisme de la communauté de communes",
                 "url": "https://www.ccvosgesdusud.fr/"
@@ -97,18 +93,13 @@
             "type": "encadre",
             "ton": "alerte",
             "intitule": "L’affichage n’est pas une formalité",
-            "paragraphes": [
-                "L’autorisation obtenue doit être affichée sur le terrain, sur un panneau visible depuis la voie publique, pendant toute la durée des travaux. C’est cet affichage qui fait courir le délai de recours des tiers — sans lui, le recours reste ouvert bien après la fin du chantier. Son absence est en outre passible d’une amende."
-            ]
+            "paragraphes": "<p>L’autorisation obtenue doit être affichée sur le terrain, sur un panneau visible depuis la voie publique, pendant toute la durée des travaux. C’est cet affichage qui fait courir le délai de recours des tiers — sans lui, le recours reste ouvert bien après la fin du chantier. Son absence est en outre passible d’une amende.</p>"
         },
         {
             "type": "texte",
             "id": "modification-simplifiee",
             "titre": "La modification simplifiée du document d’urbanisme",
-            "paragraphes": [
-                "Lorsque le document d’urbanisme est modifié — par exemple pour assouplir les règles d’aspect extérieur des constructions —, le dossier est mis à disposition du public en mairie, avec un registre où consigner ses observations. La procédure est conduite par l’intercommunalité, mais la consultation a lieu ici.",
-                "Les dates de mise à disposition sont annoncées sur ce site, dans le Flash Info et par affichage. Les observations peuvent aussi être transmises par courriel au secrétariat pendant la période d’ouverture du registre."
-            ]
+            "paragraphes": "<p>Lorsque le document d’urbanisme est modifié — par exemple pour assouplir les règles d’aspect extérieur des constructions —, le dossier est mis à disposition du public en mairie, avec un registre où consigner ses observations. La procédure est conduite par l’intercommunalité, mais la consultation a lieu ici.</p><p>Les dates de mise à disposition sont annoncées sur ce site, dans le Flash Info et par affichage. Les observations peuvent aussi être transmises par courriel au secrétariat pendant la période d’ouverture du registre.</p>"
         }
     ]
 }

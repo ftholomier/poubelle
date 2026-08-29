@@ -16,10 +16,7 @@
             "id": "syndicat",
             "surtitre": "Eau potable",
             "titre": "Le syndicat des eaux de Giromagny",
-            "paragraphes": [
-                "Le syndicat distribue l’eau potable dans toute la commune, la fait analyser, gère les compteurs et entretient les canalisations. C’est lui qu’il faut joindre pour l’installation d’un compteur sur une construction neuve, une extension de réseau ou une fuite.",
-                "Il alimente quatorze communes : Vescemont, Rougegoutte, Grosmagny, Petitmagny, Étueffont, Anjoutey, Bourg-sous-Châtelet, Lepuix-Gy en partie, Chaux, Lachapelle-sous-Chaux, Auxelles-Haut, Auxelles-Bas, Arrière-Vescemont et Giromagny."
-            ]
+            "paragraphes": "<p>Le syndicat distribue l’eau potable dans toute la commune, la fait analyser, gère les compteurs et entretient les canalisations. C’est lui qu’il faut joindre pour l’installation d’un compteur sur une construction neuve, une extension de réseau ou une fuite.</p><p>Il alimente quatorze communes : Vescemont, Rougegoutte, Grosmagny, Petitmagny, Étueffont, Anjoutey, Bourg-sous-Châtelet, Lepuix-Gy en partie, Chaux, Lachapelle-sous-Chaux, Auxelles-Haut, Auxelles-Bas, Arrière-Vescemont et Giromagny.</p>"
         },
         {
             "type": "contacts",
@@ -92,10 +89,7 @@
             "id": "qualite",
             "surtitre": "Contrôle sanitaire",
             "titre": "La qualité de l’eau",
-            "paragraphes": [
-                "L’eau destinée à la consommation humaine est l’un des produits les plus contrôlés. La réglementation prévoit que les résultats du contrôle sanitaire, assuré par l’agence régionale de santé, soient consultables par le public — notamment par affichage en mairie.",
-                "Les analyses portent sur la bactériologie, les nitrates, les pesticides et les paramètres physico-chimiques. Les synthèses annuelles sont affichées au secrétariat et publiées par l’ARS, commune par commune."
-            ],
+            "paragraphes": "<p>L’eau destinée à la consommation humaine est l’un des produits les plus contrôlés. La réglementation prévoit que les résultats du contrôle sanitaire, assuré par l’agence régionale de santé, soient consultables par le public — notamment par affichage en mairie.</p><p>Les analyses portent sur la bactériologie, les nitrates, les pesticides et les paramètres physico-chimiques. Les synthèses annuelles sont affichées au secrétariat et publiées par l’ARS, commune par commune.</p>",
             "lien": {
                 "libelle": "Résultats du contrôle sanitaire — ARS",
                 "url": "https://www.bourgogne-franche-comte.ars.sante.fr/"
@@ -106,11 +100,7 @@
             "id": "spanc",
             "surtitre": "SPANC",
             "titre": "L’assainissement non collectif",
-            "paragraphes": [
-                "Les habitations non raccordées au réseau collectif doivent disposer d’une installation d’assainissement individuelle conforme, contrôlée par le service public d’assainissement non collectif — le SPANC.",
-                "Le contrôle est obligatoire lors de la conception d’une installation neuve, à l’achèvement des travaux, périodiquement en fonctionnement, et lors de la vente d’un bien : le diagnostic de moins de trois ans est alors exigé chez le notaire.",
-                "Le règlement du SPANC est consultable et téléchargeable sur le site de la communauté de communes, rubrique aménagement de l’espace."
-            ],
+            "paragraphes": "<p>Les habitations non raccordées au réseau collectif doivent disposer d’une installation d’assainissement individuelle conforme, contrôlée par le service public d’assainissement non collectif — le SPANC.</p><p>Le contrôle est obligatoire lors de la conception d’une installation neuve, à l’achèvement des travaux, périodiquement en fonctionnement, et lors de la vente d’un bien : le diagnostic de moins de trois ans est alors exigé chez le notaire.</p><p>Le règlement du SPANC est consultable et téléchargeable sur le site de la communauté de communes, rubrique aménagement de l’espace.</p>",
             "lien": {
                 "libelle": "Le SPANC de la communauté de communes",
                 "url": "https://www.ccvosgesdusud.fr/"
@@ -120,10 +110,7 @@
             "type": "encadre",
             "ton": "info",
             "intitule": "Une fuite, une coupure, une eau trouble",
-            "paragraphes": [
-                "Appelez d’abord le syndicat des eaux au 03 84 29 50 19. En dehors des heures d’ouverture, une astreinte est assurée pour les urgences sur le réseau.",
-                "Une eau trouble après des travaux sur le réseau se clarifie généralement en laissant couler quelques minutes ; si elle persiste, signalez-le."
-            ]
+            "paragraphes": "<p>Appelez d’abord le syndicat des eaux au 03 84 29 50 19. En dehors des heures d’ouverture, une astreinte est assurée pour les urgences sur le réseau.</p><p>Une eau trouble après des travaux sur le réseau se clarifie généralement en laissant couler quelques minutes ; si elle persiste, signalez-le.</p>"
         }
     ]
 }

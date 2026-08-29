@@ -44,10 +44,7 @@
             "image_alt": "Panorama aérien du piémont vosgien : prairies, hameaux et forêts jusqu’aux crêtes",
             "surtitre": "Géographie",
             "titre": "Entre la Savoureuse et les crêtes",
-            "paragraphes": [
-                "La commune s’étend au sud du Ballon d’Alsace, sur le versant du piémont vosgien. La Savoureuse et ses affluents descendent des crêtes et traversent le territoire ; la forêt en couvre une part importante, et les prés occupent le fond de vallée.",
-                "Le paysage est celui du Rosemont : monts, prairies, forêts, rivières et étangs. La commune appartient au domaine du Parc naturel régional des Ballons des Vosges, et le territoire est inscrit au réseau européen Natura 2000 au titre des « forêts et ruisseaux du piémont vosgien »."
-            ],
+            "paragraphes": "<p>La commune s’étend au sud du Ballon d’Alsace, sur le versant du piémont vosgien. La Savoureuse et ses affluents descendent des crêtes et traversent le territoire ; la forêt en couvre une part importante, et les prés occupent le fond de vallée.</p><p>Le paysage est celui du Rosemont : monts, prairies, forêts, rivières et étangs. La commune appartient au domaine du Parc naturel régional des Ballons des Vosges, et le territoire est inscrit au réseau européen Natura 2000 au titre des « forêts et ruisseaux du piémont vosgien ».</p>",
             "lien": {
                 "libelle": "L’intercommunalité",
                 "url": "/intercommunalite"
@@ -59,10 +56,7 @@
             "image_alt": "Lever de soleil d’hiver sur les prés gelés, le clocher de l’église au fond du village",
             "surtitre": "Patrimoine",
             "titre": "L’église Saint-Vincent",
-            "paragraphes": [
-                "L’ancienne chapelle, transformée en église au XVIe siècle et dédiée à saint Vincent, est à l’origine du nom du village. Son clocher ferme l’horizon de toutes les vues sur la commune, et c’est lui que reprend le logo de la mairie.",
-                "L’église accueille encore des concerts : le CCAS y a invité en 2022 la violoniste Yumiko Awano, devant les anciens du village."
-            ],
+            "paragraphes": "<p>L’ancienne chapelle, transformée en église au XVIe siècle et dédiée à saint Vincent, est à l’origine du nom du village. Son clocher ferme l’horizon de toutes les vues sur la commune, et c’est lui que reprend le logo de la mairie.</p><p>L’église accueille encore des concerts : le CCAS y a invité en 2022 la violoniste Yumiko Awano, devant les anciens du village.</p>",
             "lien": {
                 "libelle": "L’histoire du village",
                 "url": "/histoire-du-village"

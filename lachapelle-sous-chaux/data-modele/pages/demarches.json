@@ -63,9 +63,7 @@
             "type": "encadre",
             "ton": "alerte",
             "intitule": "Cartes grises et permis de conduire",
-            "paragraphes": [
-                "Ces démarches ne se font plus en préfecture ni en mairie depuis 2017 : elles passent exclusivement par le site de l’Agence nationale des titres sécurisés. Méfiez-vous des sites intermédiaires qui facturent une démarche gratuite."
-            ],
+            "paragraphes": "<p>Ces démarches ne se font plus en préfecture ni en mairie depuis 2017 : elles passent exclusivement par le site de l’Agence nationale des titres sécurisés. Méfiez-vous des sites intermédiaires qui facturent une démarche gratuite.</p>",
             "lien": {
                 "libelle": "ants.gouv.fr",
                 "url": "https://ants.gouv.fr/"

@@ -14,10 +14,7 @@
         {
             "type": "texte",
             "titre": "Deux sections, deux logiques",
-            "paragraphes": [
-                "La section de fonctionnement regroupe les dépenses récurrentes — énergie, entretien de la voirie, fournitures scolaires, contribution aux syndicats, charges de personnel — et les recettes qui les couvrent : impôts locaux, dotations de l’État, produits de la forêt communale.",
-                "La section d’investissement finance ce qui dure : réfection de voirie, travaux sur les bâtiments communaux, éclairage public, matériel. Elle se nourrit de l’excédent de fonctionnement, des subventions et, le cas échéant, de l’emprunt."
-            ]
+            "paragraphes": "<p>La section de fonctionnement regroupe les dépenses récurrentes — énergie, entretien de la voirie, fournitures scolaires, contribution aux syndicats, charges de personnel — et les recettes qui les couvrent : impôts locaux, dotations de l’État, produits de la forêt communale.</p><p>La section d’investissement finance ce qui dure : réfection de voirie, travaux sur les bâtiments communaux, éclairage public, matériel. Elle se nourrit de l’excédent de fonctionnement, des subventions et, le cas échéant, de l’emprunt.</p>"
         },
         {
             "type": "etapes",
@@ -46,10 +43,7 @@
             "type": "encadre",
             "ton": "info",
             "intitule": "Les documents budgétaires sont publics",
-            "paragraphes": [
-                "Le budget primitif et le compte administratif sont consultables au secrétariat de mairie aux heures d’ouverture, et un exemplaire peut être communiqué sur demande.",
-                "Les documents des exercices récents seront mis en ligne sur cette page au fur et à mesure de leur approbation."
-            ],
+            "paragraphes": "<p>Le budget primitif et le compte administratif sont consultables au secrétariat de mairie aux heures d’ouverture, et un exemplaire peut être communiqué sur demande.</p><p>Les documents des exercices récents seront mis en ligne sur cette page au fur et à mesure de leur approbation.</p>",
             "lien": {
                 "libelle": "Demander un document",
                 "url": "/demande-en-ligne"
@@ -58,10 +52,7 @@
         {
             "type": "texte",
             "titre": "La fiscalité locale",
-            "paragraphes": [
-                "La commune vote chaque année les taux de la taxe foncière sur les propriétés bâties et non bâties. La taxe d’habitation sur les résidences principales a été supprimée ; elle subsiste sur les résidences secondaires et les logements vacants.",
-                "Les avis d’imposition, les paiements et les réclamations relèvent de la direction départementale des finances publiques, et non de la mairie."
-            ],
+            "paragraphes": "<p>La commune vote chaque année les taux de la taxe foncière sur les propriétés bâties et non bâties. La taxe d’habitation sur les résidences principales a été supprimée ; elle subsiste sur les résidences secondaires et les logements vacants.</p><p>Les avis d’imposition, les paiements et les réclamations relèvent de la direction départementale des finances publiques, et non de la mairie.</p>",
             "lien": {
                 "libelle": "impots.gouv.fr",
                 "url": "https://www.impots.gouv.fr/"

@@ -44,10 +44,7 @@
                     "type": "encadre",
                     "ton": "info",
                     "intitule": "Où déposer sa demande ?",
-                    "paragraphes": [
-                        "Depuis 2017, les cartes d’identité suivent la même procédure que les passeports biométriques : la demande se dépose dans n’importe quelle mairie équipée d’un dispositif de recueil des empreintes, quel que soit le domicile.",
-                        "Lachapelle-sous-Chaux n’est pas équipée. Le secrétariat vous indique les mairies équipées les plus proches, et le site de l’ANTS permet de les trouver et de prendre rendez-vous."
-                    ],
+                    "paragraphes": "<p>Depuis 2017, les cartes d’identité suivent la même procédure que les passeports biométriques : la demande se dépose dans n’importe quelle mairie équipée d’un dispositif de recueil des empreintes, quel que soit le domicile.</p><p>Lachapelle-sous-Chaux n’est pas équipée. Le secrétariat vous indique les mairies équipées les plus proches, et le site de l’ANTS permet de les trouver et de prendre rendez-vous.</p>",
                     "lien": {
                         "libelle": "Trouver une mairie équipée",
                         "url": "https://ants.gouv.fr/"
@@ -56,10 +53,7 @@
                 {
                     "type": "texte",
                     "titre": "La pré-demande en ligne fait gagner le plus clair du rendez-vous",
-                    "paragraphes": [
-                        "Remplir la pré-demande sur le site de l’ANTS évite de ressaisir l’état civil au guichet et réduit le rendez-vous à la prise des empreintes et à la vérification des pièces.",
-                        "La démarche est gratuite. Plusieurs sites proposent de la faire à votre place contre paiement : ils n’ont aucun caractère officiel. Le seul site à utiliser est ants.gouv.fr."
-                    ]
+                    "paragraphes": "<p>Remplir la pré-demande sur le site de l’ANTS évite de ressaisir l’état civil au guichet et réduit le rendez-vous à la prise des empreintes et à la vérification des pièces.</p><p>La démarche est gratuite. Plusieurs sites proposent de la faire à votre place contre paiement : ils n’ont aucun caractère officiel. Le seul site à utiliser est ants.gouv.fr.</p>"
                 },
                 {
                     "type": "etapes",
@@ -87,9 +81,7 @@
                     "type": "encadre",
                     "ton": "alerte",
                     "intitule": "Le dépôt et le retrait se font dans la même mairie",
-                    "paragraphes": [
-                        "C’est la règle la plus souvent découverte trop tard : le titre est envoyé à la mairie où la demande a été déposée, et nulle part ailleurs."
-                    ]
+                    "paragraphes": "<p>C’est la règle la plus souvent découverte trop tard : le titre est envoyé à la mairie où la demande a été déposée, et nulle part ailleurs.</p>"
                 }
             ]
         },
@@ -128,25 +120,17 @@
                 {
                     "type": "texte",
                     "titre": "La déclaration de naissance",
-                    "paragraphes": [
-                        "Elle est obligatoire pour tout enfant et se fait à la mairie du lieu de naissance dans les cinq jours ouvrables qui suivent l’accouchement. La plupart des maternités disposent d’un officier d’état civil sur place ; renseignez-vous à l’avance auprès de la vôtre."
-                    ]
+                    "paragraphes": "<p>Elle est obligatoire pour tout enfant et se fait à la mairie du lieu de naissance dans les cinq jours ouvrables qui suivent l’accouchement. La plupart des maternités disposent d’un officier d’état civil sur place ; renseignez-vous à l’avance auprès de la vôtre.</p>"
                 },
                 {
                     "type": "texte",
                     "titre": "Le choix du nom de famille",
-                    "paragraphes": [
-                        "Les parents peuvent choisir de donner à leur enfant le nom du père, celui de la mère, ou les deux dans l’ordre qu’ils souhaitent. Ce choix se fait par déclaration conjointe, avant ou au moment de la déclaration de naissance.",
-                        "À défaut de choix, l’enfant porte le nom du parent dont la filiation est établie en premier, ou les deux noms accolés dans l’ordre alphabétique si la filiation est établie simultanément."
-                    ]
+                    "paragraphes": "<p>Les parents peuvent choisir de donner à leur enfant le nom du père, celui de la mère, ou les deux dans l’ordre qu’ils souhaitent. Ce choix se fait par déclaration conjointe, avant ou au moment de la déclaration de naissance.</p><p>À défaut de choix, l’enfant porte le nom du parent dont la filiation est établie en premier, ou les deux noms accolés dans l’ordre alphabétique si la filiation est établie simultanément.</p>"
                 },
                 {
                     "type": "texte",
                     "titre": "La reconnaissance",
-                    "paragraphes": [
-                        "Lorsque les parents ne sont pas mariés, la filiation maternelle est établie par la seule mention du nom de la mère dans l’acte de naissance. Le père, lui, doit reconnaître l’enfant — avant la naissance de préférence, ce qui simplifie tout le reste.",
-                        "La reconnaissance anticipée se fait dans n’importe quelle mairie, avec une pièce d’identité et un justificatif de domicile. Elle ne coûte rien et prend quelques minutes."
-                    ]
+                    "paragraphes": "<p>Lorsque les parents ne sont pas mariés, la filiation maternelle est établie par la seule mention du nom de la mère dans l’acte de naissance. Le père, lui, doit reconnaître l’enfant — avant la naissance de préférence, ce qui simplifie tout le reste.</p><p>La reconnaissance anticipée se fait dans n’importe quelle mairie, avec une pièce d’identité et un justificatif de domicile. Elle ne coûte rien et prend quelques minutes.</p>"
                 }
             ]
         },
@@ -182,10 +166,7 @@
                 {
                     "type": "texte",
                     "titre": "Le mariage",
-                    "paragraphes": [
-                        "Le mariage est célébré dans la commune où l’un des futurs époux, ou l’un de leurs parents, a son domicile ou sa résidence. Le dossier se retire au secrétariat et se dépose complet au moins un mois avant la date souhaitée : ce délai couvre la publication des bans, obligatoire.",
-                        "Prenez rendez-vous tôt pour réserver la date : la salle du conseil n’accueille qu’une célébration à la fois, et les samedis de mai à septembre partent vite."
-                    ],
+                    "paragraphes": "<p>Le mariage est célébré dans la commune où l’un des futurs époux, ou l’un de leurs parents, a son domicile ou sa résidence. Le dossier se retire au secrétariat et se dépose complet au moins un mois avant la date souhaitée : ce délai couvre la publication des bans, obligatoire.</p><p>Prenez rendez-vous tôt pour réserver la date : la salle du conseil n’accueille qu’une célébration à la fois, et les samedis de mai à septembre partent vite.</p>",
                     "liste": [
                         "Une pièce d’identité et un acte de naissance de moins de trois mois pour chaque époux",
                         "Un justificatif de domicile",
@@ -196,18 +177,12 @@
                 {
                     "type": "texte",
                     "titre": "Le PACS",
-                    "paragraphes": [
-                        "Le pacte civil de solidarité est un contrat conclu entre deux personnes majeures pour organiser leur vie commune. Il s’enregistre à la mairie de la commune où les partenaires fixent leur résidence commune — donc ici, si vous vous installez à Lachapelle-sous-Chaux.",
-                        "Le dossier se dépose au secrétariat, et l’enregistrement a lieu sur rendez-vous, une quinzaine de jours plus tard. Les formulaires de déclaration conjointe, de convention type, de modification et de dissolution sont téléchargeables sur service-public.fr."
-                    ]
+                    "paragraphes": "<p>Le pacte civil de solidarité est un contrat conclu entre deux personnes majeures pour organiser leur vie commune. Il s’enregistre à la mairie de la commune où les partenaires fixent leur résidence commune — donc ici, si vous vous installez à Lachapelle-sous-Chaux.</p><p>Le dossier se dépose au secrétariat, et l’enregistrement a lieu sur rendez-vous, une quinzaine de jours plus tard. Les formulaires de déclaration conjointe, de convention type, de modification et de dissolution sont téléchargeables sur service-public.fr.</p>"
                 },
                 {
                     "type": "texte",
                     "titre": "Le décès",
-                    "paragraphes": [
-                        "La déclaration de décès est obligatoire et se fait à la mairie du lieu de décès dans les vingt-quatre heures. Lorsque les pompes funèbres sont mandatées, elles s’en chargent le plus souvent.",
-                        "Le secrétariat délivre les actes de décès et accompagne les familles dans les démarches qui suivent. N’hésitez pas à appeler : beaucoup de choses se règlent en un appel plutôt qu’en trois déplacements."
-                    ]
+                    "paragraphes": "<p>La déclaration de décès est obligatoire et se fait à la mairie du lieu de décès dans les vingt-quatre heures. Lorsque les pompes funèbres sont mandatées, elles s’en chargent le plus souvent.</p><p>Le secrétariat délivre les actes de décès et accompagne les familles dans les démarches qui suivent. N’hésitez pas à appeler : beaucoup de choses se règlent en un appel plutôt qu’en trois déplacements.</p>"
                 }
             ]
         },
@@ -242,18 +217,13 @@
             "sections": [
                 {
                     "type": "texte",
-                    "paragraphes": [
-                        "Un étranger qui vient en France pour une visite privée ou familiale de moins de trois mois doit présenter un justificatif d’hébergement. Ce document, appelé attestation d’accueil, est établi par la personne qui l’héberge, et validé par le maire de sa commune.",
-                        "La demande se fait obligatoirement en personne au secrétariat : l’hébergeant signe l’attestation devant l’officier d’état civil."
-                    ]
+                    "paragraphes": "<p>Un étranger qui vient en France pour une visite privée ou familiale de moins de trois mois doit présenter un justificatif d’hébergement. Ce document, appelé attestation d’accueil, est établi par la personne qui l’héberge, et validé par le maire de sa commune.</p><p>La demande se fait obligatoirement en personne au secrétariat : l’hébergeant signe l’attestation devant l’officier d’état civil.</p>"
                 },
                 {
                     "type": "encadre",
                     "ton": "info",
                     "intitule": "Le timbre s’achète à l’avance",
-                    "paragraphes": [
-                        "Le timbre fiscal électronique de 30 € s’achète chez un buraliste ou en ligne sur timbres.impots.gouv.fr, en choisissant « Attestation d’accueil ». Sans lui, le dossier ne peut pas être enregistré."
-                    ],
+                    "paragraphes": "<p>Le timbre fiscal électronique de 30 € s’achète chez un buraliste ou en ligne sur timbres.impots.gouv.fr, en choisissant « Attestation d’accueil ». Sans lui, le dossier ne peut pas être enregistré.</p>",
                     "lien": {
                         "libelle": "Acheter le timbre en ligne",
                         "url": "https://timbres.impots.gouv.fr/"
@@ -284,10 +254,7 @@
             "sections": [
                 {
                     "type": "texte",
-                    "paragraphes": [
-                        "L’autorisation de sortie du territoire a été rétablie en 2017. Elle concerne tout mineur résidant en France qui quitte le territoire sans être accompagné d’un titulaire de l’autorité parentale — voyage scolaire, colonie, séjour chez des proches.",
-                        "Aucune démarche en mairie n’est nécessaire : le formulaire se télécharge, se remplit et se signe. Il doit voyager avec l’enfant, accompagné de la photocopie de la pièce d’identité du parent qui l’a signé."
-                    ]
+                    "paragraphes": "<p>L’autorisation de sortie du territoire a été rétablie en 2017. Elle concerne tout mineur résidant en France qui quitte le territoire sans être accompagné d’un titulaire de l’autorité parentale — voyage scolaire, colonie, séjour chez des proches.</p><p>Aucune démarche en mairie n’est nécessaire : le formulaire se télécharge, se remplit et se signe. Il doit voyager avec l’enfant, accompagné de la photocopie de la pièce d’identité du parent qui l’a signé.</p>"
                 }
             ]
         },
@@ -319,18 +286,13 @@
             "sections": [
                 {
                     "type": "texte",
-                    "paragraphes": [
-                        "Toute personne de nationalité française doit se faire recenser entre la date de ses seize ans et la fin du troisième mois qui suit. Ceux qui ont laissé passer ce délai peuvent régulariser leur situation jusqu’à vingt-cinq ans.",
-                        "Le recensement déclenche la convocation à la journée défense et citoyenneté, et l’inscription d’office sur les listes électorales à dix-huit ans."
-                    ]
+                    "paragraphes": "<p>Toute personne de nationalité française doit se faire recenser entre la date de ses seize ans et la fin du troisième mois qui suit. Ceux qui ont laissé passer ce délai peuvent régulariser leur situation jusqu’à vingt-cinq ans.</p><p>Le recensement déclenche la convocation à la journée défense et citoyenneté, et l’inscription d’office sur les listes électorales à dix-huit ans.</p>"
                 },
                 {
                     "type": "encadre",
                     "ton": "alerte",
                     "intitule": "Gardez l’attestation",
-                    "paragraphes": [
-                        "L’attestation de recensement est demandée pour s’inscrire au permis de conduire, au baccalauréat et à tout concours ou examen public avant vingt-cinq ans. La mairie ne peut pas en délivrer de duplicata : conservez-la, et faites-en une copie."
-                    ]
+                    "paragraphes": "<p>L’attestation de recensement est demandée pour s’inscrire au permis de conduire, au baccalauréat et à tout concours ou examen public avant vingt-cinq ans. La mairie ne peut pas en délivrer de duplicata : conservez-la, et faites-en une copie.</p>"
                 }
             ]
         },
@@ -364,26 +326,18 @@
                 {
                     "type": "texte",
                     "titre": "Qui peut s’inscrire",
-                    "paragraphes": [
-                        "Il faut avoir dix-huit ans au plus tard la veille du premier tour, être de nationalité française et jouir de ses droits civils et politiques.",
-                        "Les citoyens d’un autre État de l’Union européenne résidant en France peuvent s’inscrire sur les listes complémentaires pour voter aux élections municipales et européennes."
-                    ]
+                    "paragraphes": "<p>Il faut avoir dix-huit ans au plus tard la veille du premier tour, être de nationalité française et jouir de ses droits civils et politiques.</p><p>Les citoyens d’un autre État de l’Union européenne résidant en France peuvent s’inscrire sur les listes complémentaires pour voter aux élections municipales et européennes.</p>"
                 },
                 {
                     "type": "texte",
                     "titre": "Quand s’inscrire",
-                    "paragraphes": [
-                        "L’inscription est possible toute l’année. Pour voter à un scrutin donné, la demande doit être déposée au plus tard le sixième vendredi qui le précède — soit environ six semaines avant.",
-                        "Les jeunes recensés à seize ans sont inscrits d’office à leur majorité. Vérifiez tout de même votre situation en ligne : un déménagement suffit à la rendre caduque."
-                    ]
+                    "paragraphes": "<p>L’inscription est possible toute l’année. Pour voter à un scrutin donné, la demande doit être déposée au plus tard le sixième vendredi qui le précède — soit environ six semaines avant.</p><p>Les jeunes recensés à seize ans sont inscrits d’office à leur majorité. Vérifiez tout de même votre situation en ligne : un déménagement suffit à la rendre caduque.</p>"
                 },
                 {
                     "type": "encadre",
                     "ton": "info",
                     "intitule": "Vous venez d’emménager ?",
-                    "paragraphes": [
-                        "L’inscription n’est jamais automatique après un déménagement. Passez au secrétariat avec une pièce d’identité et un justificatif de domicile, ou faites-le en ligne en quelques minutes."
-                    ],
+                    "paragraphes": "<p>L’inscription n’est jamais automatique après un déménagement. Passez au secrétariat avec une pièce d’identité et un justificatif de domicile, ou faites-le en ligne en quelques minutes.</p>",
                     "lien": {
                         "libelle": "S’inscrire en ligne",
                         "url": "https://www.service-public.fr/particuliers/vosdroits/R16396"
@@ -419,9 +373,7 @@
                 {
                     "type": "texte",
                     "titre": "Le principe",
-                    "paragraphes": [
-                        "La procuration permet de se faire représenter le jour d’une élection par un électeur de son choix, appelé mandataire. Depuis 2022, le mandataire n’a plus besoin d’être inscrit dans la même commune que vous : il devra simplement se déplacer jusqu’à votre bureau de vote."
-                    ]
+                    "paragraphes": "<p>La procuration permet de se faire représenter le jour d’une élection par un électeur de son choix, appelé mandataire. Depuis 2022, le mandataire n’a plus besoin d’être inscrit dans la même commune que vous : il devra simplement se déplacer jusqu’à votre bureau de vote.</p>"
                 },
                 {
                     "type": "etapes",
@@ -459,9 +411,7 @@
                     "type": "encadre",
                     "ton": "alerte",
                     "intitule": "Ne vous y prenez pas la veille",
-                    "paragraphes": [
-                        "La procuration doit parvenir à la mairie avant le scrutin. Établie trop tard, elle existe sans être utilisable : le mandataire se déplace pour rien."
-                    ]
+                    "paragraphes": "<p>La procuration doit parvenir à la mairie avant le scrutin. Établie trop tard, elle existe sans être utilisable : le mandataire se déplace pour rien.</p>"
                 }
             ]
         },
@@ -494,23 +444,17 @@
                 {
                     "type": "texte",
                     "titre": "Deux listes distinctes",
-                    "paragraphes": [
-                        "Il existe deux listes électorales complémentaires : l’une pour les élections municipales, l’autre pour les élections européennes. L’inscription sur l’une ne vaut pas inscription sur l’autre — il faut donc en faire deux si l’on veut participer aux deux scrutins."
-                    ]
+                    "paragraphes": "<p>Il existe deux listes électorales complémentaires : l’une pour les élections municipales, l’autre pour les élections européennes. L’inscription sur l’une ne vaut pas inscription sur l’autre — il faut donc en faire deux si l’on veut participer aux deux scrutins.</p>"
                 },
                 {
                     "type": "texte",
                     "titre": "Une seule voix pour l’Europe",
-                    "paragraphes": [
-                        "Un citoyen de l’Union ne peut voter qu’une fois pour un même scrutin européen. En s’inscrivant en France, il déclare sur l’honneur qu’il n’exercera pas son droit de vote dans son pays d’origine pour cette élection."
-                    ]
+                    "paragraphes": "<p>Un citoyen de l’Union ne peut voter qu’une fois pour un même scrutin européen. En s’inscrivant en France, il déclare sur l’honneur qu’il n’exercera pas son droit de vote dans son pays d’origine pour cette élection.</p>"
                 },
                 {
                     "type": "texte",
                     "titre": "La carte d’électeur",
-                    "paragraphes": [
-                        "Une carte d’un modèle particulier, valable pour les seules élections municipales et européennes, est délivrée par la mairie aux personnes inscrites."
-                    ]
+                    "paragraphes": "<p>Une carte d’un modèle particulier, valable pour les seules élections municipales et européennes, est délivrée par la mairie aux personnes inscrites.</p>"
                 }
             ]
         },
@@ -546,9 +490,7 @@
                 {
                     "type": "texte",
                     "titre": "Quels travaux sont concernés",
-                    "paragraphes": [
-                        "La déclaration préalable est exigée pour les travaux de faible importance :"
-                    ],
+                    "paragraphes": "<p>La déclaration préalable est exigée pour les travaux de faible importance :</p>",
                     "liste": [
                         "Une construction nouvelle ou une extension créant entre 5 et 20 m² de surface de plancher ou d’emprise au sol — jusqu’à 40 m² en zone urbaine couverte par un PLU",
                         "Une modification de l’aspect extérieur : fenêtre, porte, volets, toiture, ravalement de façade",
@@ -584,16 +526,12 @@
                     "type": "encadre",
                     "ton": "alerte",
                     "intitule": "Le silence vaut accord — mais faites-le constater",
-                    "paragraphes": [
-                        "Passé le délai d’instruction sans réponse, la déclaration est réputée acceptée. Demandez tout de même au secrétariat un certificat de non-opposition : c’est lui qu’un notaire réclamera à la revente."
-                    ]
+                    "paragraphes": "<p>Passé le délai d’instruction sans réponse, la déclaration est réputée acceptée. Demandez tout de même au secrétariat un certificat de non-opposition : c’est lui qu’un notaire réclamera à la revente.</p>"
                 },
                 {
                     "type": "texte",
                     "titre": "L’affichage n’est pas une formalité",
-                    "paragraphes": [
-                        "Le panneau réglementaire fait courir le délai de deux mois pendant lequel un tiers peut contester l’autorisation. Sans affichage, ce délai ne démarre pas — et le recours reste ouvert bien après la fin du chantier. L’absence d’affichage est en outre passible d’une amende."
-                    ]
+                    "paragraphes": "<p>Le panneau réglementaire fait courir le délai de deux mois pendant lequel un tiers peut contester l’autorisation. Sans affichage, ce délai ne démarre pas — et le recours reste ouvert bien après la fin du chantier. L’absence d’affichage est en outre passible d’une amende.</p>"
                 }
             ]
         },
@@ -634,9 +572,7 @@
                 {
                     "type": "texte",
                     "titre": "Quand le permis est exigé",
-                    "paragraphes": [
-                        "En règle générale, toute construction nouvelle relève du permis de construire, même sans fondation. Sur une construction existante, il est exigé notamment pour :"
-                    ],
+                    "paragraphes": "<p>En règle générale, toute construction nouvelle relève du permis de construire, même sans fondation. Sur une construction existante, il est exigé notamment pour :</p>",
                     "liste": [
                         "Une extension créant plus de 20 m² de surface de plancher ou d’emprise au sol — plus de 40 m² en zone urbaine couverte par un PLU",
                         "Un changement de destination accompagné d’une modification de la structure porteuse ou de la façade",
@@ -647,16 +583,12 @@
                     "type": "encadre",
                     "ton": "alerte",
                     "intitule": "Le seuil de l’architecte est à 150 m²",
-                    "paragraphes": [
-                        "Le recours à un architecte est obligatoire dès que la surface de plancher totale de la construction, extension comprise, dépasse 150 m². Ce seuil était de 170 m² avant 2017 : c’est l’erreur la plus fréquente sur les dossiers déposés."
-                    ]
+                    "paragraphes": "<p>Le recours à un architecte est obligatoire dès que la surface de plancher totale de la construction, extension comprise, dépasse 150 m². Ce seuil était de 170 m² avant 2017 : c’est l’erreur la plus fréquente sur les dossiers déposés.</p>"
                 },
                 {
                     "type": "texte",
                     "titre": "Des conseils gratuits avant de déposer",
-                    "paragraphes": [
-                        "Un projet corrigé avant le dépôt fait gagner des mois. Trois portes s’ouvrent gratuitement :"
-                    ],
+                    "paragraphes": "<p>Un projet corrigé avant le dépôt fait gagner des mois. Trois portes s’ouvrent gratuitement :</p>",
                     "liste": [
                         "Le secrétariat de mairie, qui connaît le règlement applicable à votre parcelle",
                         "Le service urbanisme de la communauté de communes des Vosges du Sud, qui instruit les dossiers",
@@ -666,9 +598,7 @@
                 {
                     "type": "texte",
                     "titre": "Après l’autorisation",
-                    "paragraphes": [
-                        "Le permis doit être affiché sur le terrain pendant toute la durée des travaux, sur un panneau visible depuis la voie publique. La déclaration d’ouverture de chantier puis la déclaration attestant l’achèvement et la conformité des travaux se déposent en mairie aux mêmes formes que le permis."
-                    ]
+                    "paragraphes": "<p>Le permis doit être affiché sur le terrain pendant toute la durée des travaux, sur un panneau visible depuis la voie publique. La déclaration d’ouverture de chantier puis la déclaration attestant l’achèvement et la conformité des travaux se déposent en mairie aux mêmes formes que le permis.</p>"
                 }
             ]
         },
@@ -693,9 +623,7 @@
                 {
                     "type": "texte",
                     "titre": "Ce que couvre le permis d’aménager",
-                    "paragraphes": [
-                        "Il s’applique aux opérations qui transforment le terrain lui-même :"
-                    ],
+                    "paragraphes": "<p>Il s’applique aux opérations qui transforment le terrain lui-même :</p>",
                     "liste": [
                         "Un lotissement créant des voies, des espaces ou des équipements communs",
                         "Un lotissement situé dans un site patrimonial remarquable ou aux abords d’un monument historique",
@@ -706,9 +634,7 @@
                 {
                     "type": "texte",
                     "titre": "En cas de doute, demandez un certificat d’urbanisme",
-                    "paragraphes": [
-                        "Le certificat d’urbanisme d’information indique les règles applicables à un terrain ; celui dit opérationnel dit en outre si le projet envisagé y est réalisable. Il est gratuit, s’instruit en un ou deux mois, et évite de monter un dossier pour rien."
-                    ]
+                    "paragraphes": "<p>Le certificat d’urbanisme d’information indique les règles applicables à un terrain ; celui dit opérationnel dit en outre si le projet envisagé y est réalisable. Il est gratuit, s’instruit en un ou deux mois, et évite de monter un dossier pour rien.</p>"
                 }
             ]
         },
@@ -733,10 +659,7 @@
                 {
                     "type": "texte",
                     "titre": "Quand il est exigé",
-                    "paragraphes": [
-                        "Le permis de démolir protège le bâti ancien et les occupants des logements. Il concerne la disparition totale ou partielle d’un bâtiment avec atteinte au gros œuvre, ainsi que les travaux qui rendent un local inhabitable.",
-                        "Il est exigé notamment :"
-                    ],
+                    "paragraphes": "<p>Le permis de démolir protège le bâti ancien et les occupants des logements. Il concerne la disparition totale ou partielle d’un bâtiment avec atteinte au gros œuvre, ainsi que les travaux qui rendent un local inhabitable.</p><p>Il est exigé notamment :</p>",
                     "liste": [
                         "Dans les sites patrimoniaux remarquables et les périmètres de restauration immobilière",
                         "Aux abords des monuments historiques et dans les sites classés ou inscrits",
@@ -747,9 +670,7 @@
                     "type": "encadre",
                     "ton": "info",
                     "intitule": "Une démolition liée à une construction",
-                    "paragraphes": [
-                        "Lorsque la démolition prépare une construction, la demande de permis de construire peut porter sur les deux : le permis de construire tient alors lieu de permis de démolir, et il n’y a qu’un dossier à monter."
-                    ]
+                    "paragraphes": "<p>Lorsque la démolition prépare une construction, la demande de permis de construire peut porter sur les deux : le permis de construire tient alors lieu de permis de démolir, et il n’y a qu’un dossier à monter.</p>"
                 }
             ]
         }
