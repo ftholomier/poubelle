@@ -29,6 +29,7 @@ use App\Core\TexteRiche;
  *   ancre        l'identifiant qui permet de pointer la section
  *   fond         blanc, teinté, sombre, ou l'alternance automatique
  *   icone        un choix parmi les pictogrammes du site
+ *   date         un jour, saisi au calendrier du navigateur, stocké en ISO
  *   choix:a|b    une liste fermée
  *   items:<clé>  une liste d'entrées, décrite par SOUS_BLOCS
  */
@@ -217,7 +218,7 @@ final class Blocs
         'documents' => [
             'titre'   => 'ligne',
             'texte'   => 'zone',
-            'date'    => 'ligne',
+            'date'    => 'date',
             'fichier' => 'fichier',
         ],
         'etapes' => [
@@ -271,7 +272,7 @@ final class Blocs
         'lien.libelle' => 'Libellé du lien',
         'lien.url'     => 'Adresse du lien',
         'icone'        => 'Pictogramme',
-        'date'         => 'Date (AAAA-MM-JJ)',
+        'date'         => 'Date',
         'fichier'      => 'Fichier',
         'valeur'       => 'Valeur',
         'unite'        => 'Unité',
@@ -333,20 +334,68 @@ final class Blocs
     }
 
     /**
+     * Une date au format ISO, ou la chaîne vide.
+     *
+     * Le champ du navigateur renvoie déjà AAAA-MM-JJ, mais rien ne garantit
+     * qu'on passe par lui : un vieux navigateur rend un champ texte libre, et
+     * le contenu peut aussi arriver par l'éditeur JSON. Une date fantaisiste
+     * enregistrée telle quelle ne casserait rien à l'affichage — date_texte()
+     * la laisserait passer — mais elle fausserait le tri de l'agenda et des
+     * actualités, qui compare les chaînes. On préfère perdre la saisie que
+     * ranger un rendez-vous au mauvais endroit.
+     *
+     * checkdate() en plus du format : « 2026-02-31 » a la bonne forme et
+     * n'existe pas.
+     */
+    public static function jour(string $brut): string
+    {
+        $valeur = trim($brut);
+        if ($valeur === '' || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $valeur, $m)) {
+            return '';
+        }
+        return checkdate((int) $m[2], (int) $m[3], (int) $m[1]) ? $valeur : '';
+    }
+
+    /**
      * La nature du champ impose-t-elle une valeur même sans saisie ?
      *
      * Un menu déroulant rend toujours une option, une case rend son état :
      * leur présence ne prouve donc pas qu'on a rempli la ligne.
      */
-    private static function estImposee(string $nature): bool
+    public static function estImposee(string $nature): bool
     {
         return $nature === 'icone' || $nature === 'case' || str_starts_with($nature, 'choix:');
     }
 
-    private static function relireChamp(string $nature, mixed $brut): mixed
+    /**
+     * Relit un champ selon sa nature.
+     *
+     * Publique et paramétrable parce que les listes du back-office s'en
+     * servent aussi. Elles avaient leur propre copie, qui a dérivé : elle
+     * ignorait les natures « lien », « riche » et « date » ajoutées depuis, si
+     * bien qu'une date impossible saisie dans l'agenda était enregistrée telle
+     * quelle. Deux relectures pour un même schéma de champs, c'est toujours la
+     * moins tenue qui décide.
+     *
+     * @param array<string, array<string, string>> $sousSchemas table des
+     *        sous-blocs à utiliser pour les natures « items: » — celle des
+     *        blocs de contenu par défaut, celle des listes quand on les relit
+     */
+    public static function relireChamp(string $nature, mixed $brut, ?array $sousSchemas = null): mixed
     {
+        $sousSchemas ??= self::SOUS_BLOCS;
+
+        // Une <textarea> renvoie ses fins de ligne en CRLF, c'est la norme
+        // HTML. Stockées telles quelles, elles font grossir le JSON d'un \r
+        // par ligne à chaque enregistrement et rendent tout aller-retour
+        // « modifié » alors que rien ne l'est — on ne voit plus les vraies
+        // différences dans un diff.
+        if (is_string($brut)) {
+            $brut = str_replace(["\r\n", "\r"], "\n", $brut);
+        }
+
         if (str_starts_with($nature, 'items:')) {
-            $sous = self::SOUS_BLOCS[substr($nature, 6)] ?? [];
+            $sous = $sousSchemas[substr($nature, 6)] ?? [];
             $entrees = [];
             foreach ((array) $brut as $ligne) {
                 if (!is_array($ligne)) {
@@ -362,7 +411,7 @@ final class Blocs
                 // vides sans que personne n'ait rien ajouté.
                 $saisie = false;
                 foreach ($sous as $champ => $sousNature) {
-                    $valeur = self::relireChamp($sousNature, self::extraire($ligne, $champ));
+                    $valeur = self::relireChamp($sousNature, self::extraire($ligne, $champ), $sousSchemas);
                     if ($valeur === null) {
                         continue;
                     }
@@ -382,6 +431,11 @@ final class Blocs
             $libelle = trim((string) (is_array($brut) ? ($brut['libelle'] ?? '') : ''));
             $url     = trim((string) (is_array($brut) ? ($brut['url'] ?? '') : ''));
             return $url !== '' ? ['libelle' => $libelle, 'url' => $url] : null;
+        }
+
+        if ($nature === 'date') {
+            $jour = self::jour((string) $brut);
+            return $jour !== '' ? $jour : null;
         }
 
         if ($nature === 'riche') {

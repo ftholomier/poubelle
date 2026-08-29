@@ -2,8 +2,9 @@
 /**
  * Un champ de formulaire, rendu depuis sa nature.
  *
- * Les natures sont celles de App\Admin\Blocs : ligne, zone, paragraphes,
- * lignes, photo, fichier, lien, icone, case, choix:… Écrire ici la
+ * Les natures sont celles de App\Admin\Blocs : ligne, zone, riche,
+ * paragraphes, lignes, photo, fichier, lien, icone, date, case, choix:…
+ * Écrire ici la
  * correspondance nature → contrôle évite de la recopier dans chaque écran, et
  * fait qu'un champ ajouté à un bloc s'affiche sans toucher au formulaire.
  *
@@ -92,6 +93,23 @@ $aide      = $aide ?? '';
     </div>
     <p class="bo-aide">Laissez l’adresse vide pour retirer le lien. Une adresse commençant par <code>http</code> s’ouvre dans un nouvel onglet, et le site l’annonce de lui-même.</p>
   </fieldset>
+
+<?php elseif ($nature === 'date'): ?>
+  <div class="bo-champ">
+    <label for="<?= e($id) ?>"><?= e($libelle) ?></label>
+    <?php /* Le calendrier est celui du navigateur : aucune bibliothèque, aucune
+             requête, et surtout la façon de choisir une date que la personne
+             connaît déjà — la même que dans son téléphone et son webmail. Il
+             affiche le jour au format français et renvoie de l'ISO, ce qui est
+             exactement ce que le contenu stocke.
+
+             Un navigateur trop ancien pour type="date" retombe sur un champ
+             texte : la saisie reste possible, d'où le format rappelé en aide et
+             la normalisation côté serveur, qui refuse le 31 février. */ ?>
+    <input id="<?= e($id) ?>" type="date" name="<?= e($nom) ?>"
+           value="<?= e((string) $valeur) ?>">
+    <?php if ($aide !== ''): ?><p class="bo-aide"><?= e($aide) ?></p><?php endif; ?>
+  </div>
 
 <?php elseif ($nature === 'case'): ?>
   <div class="bo-champ bo-champ--case">

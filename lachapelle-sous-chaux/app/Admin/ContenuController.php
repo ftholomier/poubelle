@@ -77,7 +77,7 @@ final class ContenuController
             'nom' => 'Agenda', 'singulier' => 'rendez-vous',
             'aide' => 'Les manifestations à venir. Un rendez-vous passe dans « c’est passé » le lendemain de sa date, tout seul.',
             'champs' => [
-                'titre' => 'ligne', 'date' => 'ligne', 'fin' => 'ligne',
+                'titre' => 'ligne', 'date' => 'date', 'fin' => 'date',
                 'heure' => 'ligne', 'lieu' => 'ligne', 'organisateur' => 'ligne',
                 'texte' => 'zone',
             ],
@@ -86,7 +86,7 @@ final class ContenuController
             'nom' => 'Documents', 'singulier' => 'document',
             'aide' => 'Les PDF publiés : comptes-rendus, bulletins, documents intercommunaux. La famille décide de la page où le document apparaît.',
             'champs' => [
-                'titre' => 'ligne', 'date' => 'ligne',
+                'titre' => 'ligne', 'date' => 'date',
                 'famille' => 'choix:comptes-rendus|flash-info|budgets|intercommunalite',
                 'fichier' => 'fichier', 'texte' => 'zone',
             ],
@@ -96,7 +96,7 @@ final class ContenuController
             'aide' => 'Une fiche par association du village, avec ses contacts tels qu’elle les donne.',
             'champs' => [
                 'nom' => 'ligne', 'objet' => 'ligne', 'icone' => 'icone',
-                'rendez_vous' => 'ligne', 'paragraphes' => 'paragraphes',
+                'rendez_vous' => 'ligne', 'paragraphes' => 'riche',
                 'contacts' => 'items:contacts-assos',
             ],
         ],
@@ -368,7 +368,10 @@ final class ContenuController
             $item['pieces']   = self::lignes((string) ($_POST['pieces'] ?? ''));
             $item['liens']    = self::liensSaisis((array) ($_POST['liens'] ?? []));
         } else {
-            $item['date'] = trim((string) ($_POST['date'] ?? ''));
+            // même normalisation que les champs de date des listes : le
+            // champ du navigateur rend déjà de l'ISO, mais il ne faut pas
+            // qu'une saisie manuelle fausse le tri de la collection
+            $item['date'] = Blocs::jour((string) ($_POST['date'] ?? ''));
         }
 
         $item['sections'] = self::relireBlocs((array) ($_POST['bloc'] ?? []));
@@ -624,19 +627,28 @@ final class ContenuController
             $slug = trim((string) ($brut['slug'] ?? ''));
             $entree = ['slug' => $slug, 'actif' => ($brut['actif'] ?? '') !== ''];
 
+            // Un menu déroulant renvoie toujours sa première option, une case
+            // son état : leur présence ne prouve pas qu'on a rempli la ligne.
+            // Sans cette distinction, une entrée ajoutée puis laissée vide
+            // repartirait avec une famille ou un pictogramme, et se compterait
+            // comme saisie.
+            $saisie = false;
             foreach ($champs as $champ => $nature) {
                 if ($nature === 'case') {
                     $entree[$champ] = ($brut[$champ] ?? '') !== '';
                     continue;
                 }
-                $valeur = self::relireNature($nature, $brut[$champ] ?? null);
-                if ($valeur !== null) {
-                    $entree[$champ] = $valeur;
+                $valeur = Blocs::relireChamp($nature, $brut[$champ] ?? null, self::SOUS_LISTES);
+                if ($valeur === null) {
+                    continue;
+                }
+                $entree[$champ] = $valeur;
+                if (!Blocs::estImposee($nature)) {
+                    $saisie = true;
                 }
             }
 
-            // rien de saisi hors le slug : l'entrée a été ajoutée puis laissée
-            if (count($entree) <= 2) {
+            if (!$saisie) {
                 continue;
             }
             $entrees[] = $entree;
@@ -644,46 +656,6 @@ final class ContenuController
         return $entrees;
     }
 
-    private static function relireNature(string $nature, mixed $brut): mixed
-    {
-        if (str_starts_with($nature, 'items:')) {
-            $sous = self::SOUS_LISTES[substr($nature, 6)] ?? [];
-            $lignes = [];
-            foreach ((array) $brut as $ligne) {
-                if (!is_array($ligne)) {
-                    continue;
-                }
-                $entree = [];
-                foreach ($sous as $champ => $sousNature) {
-                    $valeur = self::relireNature($sousNature, $ligne[$champ] ?? null);
-                    if ($valeur !== null) {
-                        $entree[$champ] = $valeur;
-                    }
-                }
-                if ($entree !== []) {
-                    $lignes[] = $entree;
-                }
-            }
-            return $lignes !== [] ? $lignes : null;
-        }
-
-        if ($nature === 'paragraphes') {
-            $blocs = preg_split('/\R{2,}/u', trim((string) $brut)) ?: [];
-            $blocs = array_values(array_filter(array_map(
-                static fn(string $p): string => trim(preg_replace('/\R+/u', ' ', $p) ?? ''),
-                $blocs
-            )));
-            return $blocs !== [] ? $blocs : null;
-        }
-
-        if ($nature === 'lignes') {
-            $lignes = array_values(array_filter(array_map('trim', preg_split('/\R/u', trim((string) $brut)) ?: [])));
-            return $lignes !== [] ? $lignes : null;
-        }
-
-        $valeur = trim((string) $brut);
-        return $valeur !== '' ? $valeur : null;
-    }
 
     /**
      * @param array<int, mixed> $bruts

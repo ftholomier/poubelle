@@ -64,7 +64,8 @@
                     "libelle": "Brigade de gendarmerie de Giromagny",
                     "texte": "La brigade dont dépend la commune, à Giromagny"
                 }
-            ]
+            ],
+            "urgence": false
         },
         {
             "slug": "veterinaires",
@@ -81,7 +82,8 @@
                     "libelle": "Clinique vétérinaire Delsaut",
                     "adresse": "4, rue Oscar Ehret\n90300 Valdoie"
                 }
-            ]
+            ],
+            "urgence": false
         },
         {
             "slug": "ecoute-et-soutien",
@@ -116,7 +118,8 @@
                     "numero": "39 89",
                     "libelle": "Tabac info service"
                 }
-            ]
+            ],
+            "urgence": false
         },
         {
             "slug": "services-du-quotidien",
@@ -151,7 +154,8 @@
                     "libelle": "GRDF — urgence sécurité gaz",
                     "texte": "Odeur de gaz : appelez avant toute autre chose"
                 }
-            ]
+            ],
+            "urgence": false
         }
     ]
 }

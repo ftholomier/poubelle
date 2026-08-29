@@ -202,7 +202,14 @@ contenu :
    celle qui fait disparaître la brocante du dimanche le dimanche matin, quand
    c'est précisément le moment où l'on vérifie l'heure.
 
-9. **La taille du logo est réglable** (Apparence → Taille du logo), de 36 à
+9. **Les dates se saisissent au calendrier.** Agenda, documents, actualités :
+   tous les champs de date sont des `<input type="date">`, donc le calendrier
+   du navigateur — celui que la personne connaît déjà, sans bibliothèque ni
+   requête. Le serveur normalise ce qu'il reçoit et refuse une date qui
+   n'existe pas : un 31 février a la bonne forme et fausserait le tri de
+   l'agenda, qui compare des chaînes.
+
+10. **La taille du logo est réglable** (Apparence → Taille du logo), de 36 à
    120 px, avec un aperçu du vrai logo à la vraie taille dans une barre à la
    vraie hauteur. Deux comportements au choix, parce qu'ils ne servent pas la
    même chose :

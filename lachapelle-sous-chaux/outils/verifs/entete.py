@@ -45,7 +45,7 @@ MENUS = ('lateral', 'horizontal')
 # la même chose seraient pires qu'un seul.
 CIBLE_MINI = 44
 CIBLE_JUSQUA = 780
-# Contraste minimal de l'logo du panneau contre son fond. 3:1 est le seuil
+# Contraste minimal de le logo du panneau contre son fond. 3:1 est le seuil
 # des éléments graphiques (WCAG 1.4.11) ; les logos en sont formellement
 # exemptés, mais un logo qu'on ne voit pas ne remplit pas son office. Ce
 # plancher sert à refuser la variante sombre du fichier sur le panneau sombre
@@ -167,7 +167,7 @@ def contraste(a: list[float], b: list[float]) -> float:
 
 
 def mesurer_embleme(navigateur, base: str) -> float | None:
-    """La plus mauvaise teinte de l'logo du panneau contre son fond.
+    """La plus mauvaise teinte de le logo du panneau contre son fond.
 
     On échantillonne le dessin peint plutôt que de lire les couleurs du SVG :
     un fichier remplacé par la mairie, un dégradé, une opacité posée en CSS —
