@@ -113,26 +113,35 @@ $estActif = static function (array $item) use ($chemin): bool {
 
              Il est posé hors de .entete__droite précisément pour cela : ce
              bloc-là est masqué sur téléphone, lui ne l'est jamais. */ ?>
-    <?php $nouveautes = isset($vivant) ? $vivant->nouveautes() : 0; ?>
+    <?php
+    /* La pastille compte ce que la mairie a publié depuis la dernière visite.
+       Le serveur ne connaît pas cette date — il ne dépose rien et ne suit
+       personne — il rend donc les dates de publication et un repli : le nombre
+       de parutions du dernier mois, qui est ce que voit un visiteur sans
+       JavaScript comme au tout premier passage. Le navigateur affine ensuite
+       avec ce que lui seul sait.
+
+       Les dates sont plafonnées : au-delà d'une trentaine, le compteur
+       s'écrirait « 30+ » de toute façon, et il n'y a pas de raison d'alourdir
+       chaque page de l'historique complet de la commune. */
+    $nouveautes = isset($vivant) ? $vivant->nouveautes() : 0;
+    $dates      = isset($vivant) ? array_slice($vivant->datesPubliees(), 0, 30) : [];
+    ?>
     <a class="entete__actu<?= $nouveautes > 0 ? ' entete__actu--neuf' : '' ?>"
-       href="<?= route('actualites') ?>">
+       href="<?= route('actualites') ?>"
+       data-actu-dates="<?= e(implode(',', $dates)) ?>">
       <span class="entete__actu-icone" aria-hidden="true"><?= $view->partial('icones', ['nom' => 'actualite']) ?></span>
       <span class="entete__actu-texte"><?= e(t('Actualités')) ?></span>
-      <?php if ($nouveautes > 0): ?>
-        <?php /* La pastille est ce qui rend l'icône explicite : un nombre dit
-                 qu'il y a quelque chose, un pictogramme seul ne dit rien. Elle
-                 est décorative pour les lecteurs d'écran — le nom du lien,
-                 juste au-dessus, porte déjà l'information en toutes lettres,
-                 et l'annoncer deux fois ferait « Actualités 5 Actualités,
-                 agenda et Flash Info, 5 nouveautés ». */ ?>
-        <span class="entete__actu-pastille" aria-hidden="true"><?= (int) $nouveautes ?></span>
-      <?php endif; ?>
-      <span class="sr-only">
-        <?= e(t('Actualités, agenda et Flash Info')) ?><?php
-          if ($nouveautes > 0): ?> — <?= e(sprintf(
-            $nouveautes > 1 ? t('%d nouveautés') : t('%d nouveauté'), $nouveautes
-          )) ?><?php endif; ?>
-      </span>
+      <?php /* La pastille est décorative pour les lecteurs d'écran : le nom du
+               lien, juste en dessous, porte déjà le compte en toutes lettres,
+               et l'annoncer deux fois ferait « Actualités 2 Actualités, agenda
+               et Flash Info, 2 nouveautés ». */ ?>
+      <span class="entete__actu-pastille" data-actu-pastille aria-hidden="true"
+            <?= $nouveautes > 0 ? '' : 'hidden' ?>><?= (int) $nouveautes ?></span>
+      <span class="sr-only" data-actu-nom><?= e(t('Actualités, agenda et Flash Info')) ?><?php
+        if ($nouveautes > 0): ?> — <?= e(sprintf(
+          $nouveautes > 1 ? t('%d nouveautés') : t('%d nouveauté'), $nouveautes
+        )) ?><?php endif; ?></span>
     </a>
   </div>
 

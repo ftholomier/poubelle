@@ -3506,6 +3506,12 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--vert-clair); }
   font-size: .68rem; font-weight: 700; letter-spacing: 0;
   border-radius: 999px;
 }
+/* Un display explicite l'emporte sur le [hidden] du navigateur : sans cette
+   ligne, la pastille vidée de son chiffre laissait un rond de vingt-deux
+   pixels dans la barre. C'est le même piège que pour les filtres et la
+   galerie, et c'est pourquoi ce fichier porte déjà plusieurs règles
+   « .quelque-chose[hidden] ». */
+.entete__actu-pastille[hidden] { display: none; }
 
 /* L'appel du regard, trois fois à l'arrivée sur la page, puis plus rien. Une
    animation qui tourne en boucle dans un en-tête fixe devient un clignotant :

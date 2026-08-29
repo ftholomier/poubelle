@@ -202,13 +202,32 @@ contenu :
    Info, sont traduites en filtre à l'arrivée.
 
 9. **Un accès permanent aux actualités dans la barre.** Une pastille verte
-   avec son pictogramme, son libellé quand la largeur le permet, et le nombre
-   de choses à voir en ce moment — les rendez-vous à venir plus les actualités
-   des trois derniers mois. C'est le nombre qui rend le lien explicite : une
-   icône dit « actualités », un chiffre dit « il y en a cinq ». Une onde bat
-   trois fois à l'arrivée sur la page, puis s'arrête — une animation en boucle
-   dans un en-tête fixe devient un clignotant qu'on finit par ne plus voir — et
-   ne se déclenche pas du tout si le système demande moins de mouvement.
+   avec son pictogramme, son libellé quand la largeur le permet, et surtout un
+   compteur : **ce que la mairie a publié depuis votre dernière visite**. Il
+   retombe à zéro dès qu'on est allé voir, par la pastille ou par n'importe
+   quel autre chemin.
+
+   C'est ce qui distingue un compteur d'un ornement, et la première version se
+   trompait de règle : elle comptait les rendez-vous à venir plus les
+   actualités récentes, et affichait donc cinq en permanence — cinq
+   manifestations annoncées depuis des mois. La date d'un rendez-vous est celle
+   où il a lieu, pas celle où on l'a annoncé ; l'agenda n'a rien à faire dans
+   un compteur de nouveautés. Ne restent que les actualités et les Flash Info,
+   les deux seules choses que la commune *publie*.
+
+   La date de dernière visite ne quitte jamais le navigateur : elle vit dans
+   `localStorage`, n'est envoyée nulle part, n'identifie personne et ne relève
+   donc pas du bandeau de consentement, qui traite de la mesure d'audience et
+   des contenus externes. Sans `localStorage` — navigation verrouillée,
+   stockage refusé — le serveur affiche à la place le nombre de parutions du
+   dernier mois, et rien ne casse. C'est aussi ce que voit un premier
+   visiteur : lui annoncer comme neuf tout ce qui a été publié depuis 2020
+   n'aurait aucun sens.
+
+   Une onde bat trois fois à l'arrivée sur la page, puis s'arrête — une
+   animation en boucle dans un en-tête fixe devient un clignotant qu'on finit
+   par ne plus voir — et ne se déclenche pas du tout si le système demande
+   moins de mouvement.
 
    Le vert est celui du bandeau « En ce moment », pas celui de l'appel à
    l'action voisin : deux aplats de la même teinte côte à côte se disputent le

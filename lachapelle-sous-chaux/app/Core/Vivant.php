@@ -119,30 +119,51 @@ final class Vivant
     }
 
     /**
-     * Combien de choses il y a à voir en ce moment.
+     * Dates de publication de ce qui peut être « nouveau », la plus récente
+     * d'abord.
      *
-     * Sert la pastille de l'icône des actualités : un nombre dit ce qu'un
-     * pictogramme seul ne dit pas, et c'est ce qui transforme une icône
-     * décorative en information.
+     * Actualités et Flash Info, et rien d'autre : c'est la seule chose que la
+     * mairie *publie*. L'agenda en est volontairement exclu, et ce n'est pas un
+     * oubli — la date d'un rendez-vous est celle où il a lieu, pas celle où on
+     * l'a annoncé. Les compter comme des nouveautés faisait afficher cinq en
+     * permanence sur ce site : cinq manifestations à venir, dont la plus proche
+     * était annoncée depuis des mois. Un compteur qui ne bouge jamais
+     * n'apprend rien à personne.
      *
-     * La règle : les rendez-vous encore à venir, plus les actualités des trois
-     * derniers mois. Un seuil est nécessaire — sans lui la pastille afficherait
-     * le total de tout ce qui a jamais été publié, un nombre qui ne bouge
-     * jamais et ne veut rien dire. Trois mois parce qu'une commune de sept
-     * cents habitants publie quelques nouvelles par trimestre : au-delà, ce
-     * n'est plus une nouveauté, c'est de l'archive.
+     * @return string[] dates ISO
      */
-    public function nouveautes(int $jours = 90): int
+    public function datesPubliees(): array
     {
-        $depuis = date('Y-m-d', strtotime('-' . max(1, $jours) . ' days'));
-        $recentes = 0;
-        foreach ($this->actualites() as $actu) {
-            if ((string) ($actu['date'] ?? '') >= $depuis) {
-                $recentes++;
+        $dates = [];
+        foreach ([$this->actualites(), $this->flashInfos()] as $lot) {
+            foreach ($lot as $item) {
+                $date = (string) ($item['date'] ?? '');
+                if ($date !== '') {
+                    $dates[] = $date;
+                }
             }
         }
+        rsort($dates);
 
-        return $recentes + count($this->agenda());
+        return $dates;
+    }
+
+    /**
+     * Combien de publications depuis une date donnée.
+     *
+     * Le navigateur affine ensuite ce nombre avec la date de la dernière
+     * visite, qu'il est seul à connaître. Côté serveur on ne peut que prendre
+     * une fenêtre récente — c'est ce que voit un visiteur qui refuse le
+     * JavaScript, et le premier passage de tout le monde.
+     */
+    public function nouveautes(int $jours = 30): int
+    {
+        $depuis = date('Y-m-d', strtotime('-' . max(1, $jours) . ' days'));
+
+        return count(array_filter(
+            $this->datesPubliees(),
+            static fn(string $date): bool => $date >= $depuis
+        ));
     }
 
     /**

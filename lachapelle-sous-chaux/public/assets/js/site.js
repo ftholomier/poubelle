@@ -948,6 +948,79 @@
     }
   })();
 
+  /* ---------- Ce qui est nouveau depuis la dernière visite ----------
+     La pastille de l'en-tête ne compte pas « ce qu'il y a », elle compte « ce
+     que vous n'avez pas encore vu ». La différence est tout ce qui distingue
+     un compteur utile d'un nombre décoratif : un chiffre qui ne bouge jamais
+     cesse d'être lu au bout de deux visites.
+
+     La date de dernière visite reste dans le navigateur, dans localStorage.
+     Rien n'est déposé pour le compte d'un tiers, rien ne part vers le serveur,
+     rien n'identifie personne : c'est un repère que le visiteur garde chez
+     lui, pour lui. Le bandeau de consentement n'a donc pas à le couvrir — il
+     traite de la mesure d'audience et des contenus externes, qui sont autre
+     chose.
+
+     Sans localStorage — navigation privée verrouillée, stockage refusé — tout
+     se passe comme avant : le nombre rendu par le serveur reste affiché, et
+     personne ne voit d'erreur. */
+  (function () {
+    var lien = document.querySelector('[data-actu-dates]');
+    if (!lien) return;
+
+    var CLE = 'site.actus-vues';
+    var pastille = lien.querySelector('[data-actu-pastille]');
+    var nom = lien.querySelector('[data-actu-nom]');
+
+    function lire() {
+      try { return window.localStorage.getItem(CLE) || ''; } catch (e) { return ''; }
+    }
+    function ecrire(valeur) {
+      try { window.localStorage.setItem(CLE, valeur); } catch (e) { /* stockage refusé */ }
+    }
+    function aujourdhui() {
+      var d = new Date();
+      var mm = ('0' + (d.getMonth() + 1)).slice(-2);
+      var jj = ('0' + d.getDate()).slice(-2);
+      return d.getFullYear() + '-' + mm + '-' + jj;
+    }
+
+    var vues = lire();
+    if (!vues) {
+      /* Premier passage : on ne sait rien, on garde donc le repli du serveur —
+         les parutions du dernier mois — plutôt que d'annoncer comme neuf tout
+         ce que la commune a publié depuis 2020. */
+      ecrire(aujourdhui());
+      return;
+    }
+
+    var dates = (lien.getAttribute('data-actu-dates') || '').split(',');
+    var neuves = 0;
+    for (var i = 0; i < dates.length; i++) {
+      if (dates[i] && dates[i] > vues) neuves++;
+    }
+
+    if (pastille) {
+      pastille.textContent = String(neuves);
+      pastille.hidden = neuves === 0;
+    }
+    lien.classList.toggle('entete__actu--neuf', neuves > 0);
+    if (nom) {
+      var base = 'Actualités, agenda et Flash Info';
+      nom.textContent = neuves > 0
+        ? base + ' — ' + neuves + (neuves > 1 ? ' nouveautés' : ' nouveauté')
+        : base;
+    }
+
+    /* Le repère avance quand on est allé voir : en cliquant sur la pastille,
+       ou simplement en arrivant sur la page des actualités par un autre
+       chemin — le menu, un lien dans le texte. C'est le fait d'avoir vu qui
+       compte, pas le chemin emprunté. */
+    function marquerVu() { ecrire(aujourdhui()); }
+    lien.addEventListener('click', marquerVu);
+    if (document.querySelector('[data-page-actualites]')) marquerVu();
+  })();
+
   /* ---------- Filtrage des démarches par famille ----------
      Le serveur sait déjà filtrer : chaque bouton est un vrai lien vers
      /demarches?famille=… et la page fonctionne sans ce bloc. Il n'évite que

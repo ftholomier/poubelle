@@ -14,6 +14,10 @@ $hero = ($page['hero'] ?? []) + ['titre' => $page['titre'] ?? '', 'image' => '']
 $une   = $items[0] ?? null;
 $suite = array_slice($items, 1);
 ?>
+<?php /* Le repère « vu » avance dès qu'on arrive ici, quel que soit le chemin :
+         la pastille de l'en-tête, le menu, un lien dans un texte. C'est
+         d'avoir vu la page qui compte. */ ?>
+<span data-page-actualites hidden></span>
 <?= $view->partial('hero-page', ['hero' => $hero]) ?>
 
 <?php if (!empty($page['sous_titre'])): ?>
