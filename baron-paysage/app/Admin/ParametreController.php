@@ -226,15 +226,15 @@ final class ParametreController
             return $this->rediriger();
         }
 
-        $actuelMdp    = (string) ($_POST['mot_de_passe_actuel'] ?? '');
         $identifiant  = trim((string) ($_POST['identifiant'] ?? ''));
         $nouveau      = (string) ($_POST['nouveau_mot_de_passe'] ?? '');
         $confirmation = (string) ($_POST['confirmation'] ?? '');
 
-        if (!$this->auth->verifier($this->auth->identifiant(), $actuelMdp)) {
-            Session::flash('erreur', 'Mot de passe actuel incorrect.');
-            return $this->rediriger();
-        }
+        // Le mot de passe actuel n'est pas redemandé : cet écran n'est
+        // atteignable qu'une fois connecté, et un changement invalide de toute
+        // façon les autres sessions ouvertes (le sceau change avec le hash).
+        // C'est donc l'accès au back-office qui fait foi, pas une seconde
+        // saisie du mot de passe.
         if (mb_strlen($identifiant) < 3) {
             Session::flash('erreur', 'L’identifiant doit contenir au moins 3 caractères.');
             return $this->rediriger();

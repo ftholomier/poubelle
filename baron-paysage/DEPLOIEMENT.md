@@ -128,7 +128,7 @@ peut le rejouer pour créer un second compte.
 > créer à votre place.
 
 Vous changerez identifiant et mot de passe quand vous voulez depuis
-*Paramètres → Compte administrateur* (le mot de passe actuel est exigé).
+*Paramètres → Compte administrateur*. L’ancien mot de passe n’y est pas redemandé : l’accès au back-office fait foi, et un changement déconnecte de toute façon les sessions ouvertes ailleurs.
 
 Le compte est stocké dans `data/admin/compte.json`, mot de passe **haché en
 bcrypt** — il n'est jamais lisible, même en ouvrant le fichier.

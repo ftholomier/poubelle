@@ -126,11 +126,6 @@ $contact = $parametres['contact'];
   <?= Csrf::champ() ?>
   <fieldset>
     <legend>Compte administrateur</legend>
-    <div class="bo-champ">
-      <label for="p-mdp-actuel">Mot de passe actuel</label>
-      <input id="p-mdp-actuel" type="password" name="mot_de_passe_actuel" required autocomplete="current-password">
-      <span class="aide">Exigé pour toute modification du compte.</span>
-    </div>
     <div class="bo-rangee">
       <div class="bo-champ">
         <label for="p-compte-id">Identifiant</label>
