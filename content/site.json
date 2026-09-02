@@ -1,6 +1,6 @@
 {
   "name": "LE-DIGITAL.com",
-  "baseline": "Direction digitale externalisée, outils sur-mesure et formations",
+  "baseline": "Sites internet, réseaux sociaux et formations",
   "lang": "fr",
   "_couleur": [
     "Une seule couleur pilote tout le site : « dominant ».",
@@ -15,17 +15,17 @@
   },
   "meta": {
     "titleSuffix": "LE-DIGITAL.com",
-    "description": "Direction digitale externalisée à 360°, outils métier sur-mesure et formations. Un interlocuteur unique, 28 années de terrain, dès 147 € HT par mois sans engagement.",
+    "description": "Votre site, vos réseaux sociaux et vos documents imprimés, pris en charge pour 147 € par mois sans engagement. Outils sur-mesure et formations.",
     "author": "Frédéric Tholomier"
   },
   "contact": {
-    "cta": "Parlons-en",
+    "cta": "On en parle ?",
     "rdv": "Prendre rendez-vous",
     "linkedin": "https://www.linkedin.com/in/ledigital/",
     "site": "https://le-digital.com"
   },
   "footer": {
-    "line": "Expert webmarketing / Communication digitale — France",
+    "line": "Sites internet, réseaux sociaux et formations — France",
     "legal": "© 2026 — LE-DIGITAL.com | Fondateur Frédéric Tholomier | Tous droits réservés",
     "links": [
       {

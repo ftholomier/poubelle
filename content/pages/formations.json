@@ -1,9 +1,9 @@
 {
-  "title": "Formations — transmission et montée en compétences",
+  "title": "Apprendre à s'en servir tout seul",
   "navLabel": "Formations",
   "order": 4,
   "meta": {
-    "description": "Formations concrètes à l'intelligence artificielle, au web et à l'automatisation, pensées pour les dirigeants de TPE et PME et leurs équipes."
+    "description": "Formations concrètes à l'intelligence artificielle et au web, sans mots compliqués, pour les dirigeants de petites entreprises et leurs équipes."
   },
   "sections": [
     {
@@ -11,12 +11,12 @@
       "kind": "hero",
       "eyebrow": "Formations",
       "title": [
-        "Transmission et",
-        "montée en compétences"
+        "Apprendre à s'en",
+        "servir tout seul"
       ],
       "outlineFrom": 1,
-      "subtitle": "Sans jargon, directement applicable",
-      "body": "Le digital et l'intelligence artificielle évoluent à une vitesse fulgurante. Pour rester compétitif, il est indispensable de maîtriser ces nouveaux leviers. J'accompagne les dirigeants et leurs équipes à travers des formations concrètes, directement applicables et débarrassées du jargon inutile. Avec un ancrage fort dans la réalité des TPE et PME, chaque session est pensée pour vous rendre autonome, optimiser vos flux de travail et vous donner les clés stratégiques pour piloter votre croissance numérique en toute indépendance.",
+      "subtitle": "Pour vous et pour vos équipes",
+      "body": "L'intelligence artificielle avance vite, et il est facile de se sentir dépassé. Mes formations partent de votre quotidien : ce que vous faites tous les jours, et comment le faire plus vite. Pas de mots compliqués, pas de théorie. On s'installe devant vos vrais dossiers, et vous repartez en sachant vous en servir seul. Je travaille surtout avec des artisans, des commerçants et de petites entreprises.",
       "shape": {
         "type": "svg",
         "src": "shapes/ampoule.svg",
@@ -25,18 +25,18 @@
         "depth": 0.16,
         "scale": 0.95,
         "spin": 0.05,
-        "label": "Ampoule — la compétence transmise"
+        "label": "Ampoule — le déclic qui reste"
       }
     },
     {
       "id": "experience",
       "kind": "stats",
-      "eyebrow": "L'expérience derrière la pédagogie",
+      "eyebrow": "Ce que j'apporte",
       "items": [
         {
           "value": 28,
           "suffix": " ans",
-          "label": "D'expertise terrain et de pédagogie condensées dans des formats d'apprentissage opérationnels."
+          "label": "Que j'explique ces sujets à des gens qui n'y connaissaient rien au départ."
         }
       ],
       "shape": {
@@ -45,43 +45,48 @@
         "mode": "fill",
         "count": 14000,
         "spin": 0.05,
-        "label": "Mains — la transmission"
+        "label": "Mains — ce qui se transmet",
+        "offsetY": -0.55,
+        "scale": 0.7
       }
     },
     {
       "id": "thematiques",
       "kind": "columns",
-      "marquee": "Montez en compétences",
+      "marquee": "Vous allez y arriver",
       "repeat": 4,
       "speed": 0.6,
       "columns": [
         {
-          "title": "Intelligence artificielle",
+          "title": "L'intelligence artificielle",
           "items": [
-            "Maîtrise des outils d'Intelligence Artificielle au quotidien.",
-            "Automatisation des tâches à faible valeur ajoutée."
+            "S'en servir tous les jours, sur vos propres dossiers.",
+            "Laisser la machine faire ce qui est long et répétitif."
           ]
         },
         {
-          "title": "Écosystème web",
+          "title": "Votre présence en ligne",
           "items": [
-            "Création et gestion de votre écosystème web.",
-            "Stratégie d'acquisition et conversion digitale."
+            "Comprendre votre site, et savoir le modifier vous-même.",
+            "Trouver des clients sur internet, et leur donner envie."
           ]
         },
         {
-          "title": "Culture numérique",
+          "title": "Prendre du recul",
           "items": [
-            "Acquisition d'une culture numérique orientée résultats."
+            "Savoir choisir vos outils, sans vous faire avoir."
           ]
         }
       ],
       "shape": {
-        "type": "preset",
-        "preset": "grid",
+        "type": "svg",
+        "src": "shapes/cible.svg",
+        "mode": "fill",
         "count": 15000,
-        "spin": 0.08,
-        "label": "Grille — le programme"
+        "spin": 0.09,
+        "offsetY": -0.58,
+        "label": "Cible — savoir où l'on va",
+        "scale": 0.68
       }
     },
     {
@@ -89,19 +94,20 @@
       "kind": "contact",
       "eyebrow": "Votre équipe",
       "title": [
-        "Prêt à transformer vos collaborateurs",
-        "en experts de leur propre",
-        "performance digitale ?"
+        "Envie que votre",
+        "équipe soit",
+        "à l'aise ?"
       ],
       "outlineFrom": 2,
-      "action": "Réserver une session de formation",
+      "body": "Dites-moi où vous en êtes, je construis la session autour de vos besoins.",
+      "action": "Réserver une formation",
       "shape": {
         "type": "svg",
         "src": "shapes/croissance.svg",
         "mode": "fill",
         "count": 15000,
         "spin": 0.06,
-        "label": "Courbe de croissance — la montée en compétences"
+        "label": "Courbe qui monte — ce que vous saurez faire après"
       }
     }
   ]

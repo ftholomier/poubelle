@@ -214,6 +214,12 @@ page portant une section `contact` qui est retenue.
 | `quote` | Citation |
 | `contact` | Titre et boutons d'action — `action` donne le libellé du bouton |
 
+**Une ligne de titre tient dans une vingtaine de caractères.** Le corps du texte
+suit la largeur de l'écran, si bien que cette limite est la même partout, du
+téléphone au grand écran. Au-delà, la ligne se replie toute seule et la découpe
+voulue — plein / contour — ne tombe plus où il faut. Les titres de section, plus
+petits, acceptent une quarantaine de caractères.
+
 `"outlineFrom": 1` trace au trait les lignes de titre à partir du rang indiqué : c'est le
 contraste plein / contour caractéristique de ce genre de site. L'épaisseur du filet se
 règle en un seul endroit — la propriété `-webkit-text-stroke-width` de la règle
@@ -264,6 +270,21 @@ Depuis `/admin/formes`, ou directement dans le JSON de la page :
 `heart` · `infinity`
 
 **`text`** — un mot, tracé avec la police du site.
+
+### Poser le dessin par rapport au texte
+
+`offsetX` et `offsetY` déplacent le nuage dans la section, `scale` le
+redimensionne. Ils servent surtout à une chose : dégager le texte. Sur une
+section de titre, le nuage peut passer derrière sans gêner ; sur une section
+dense — des chiffres légendés, trois colonnes de listes — il faut le descendre
+et le réduire, sinon les petites lignes deviennent illisibles.
+
+`offsetY` négatif descend le nuage. Les sections de chiffres du site tournent
+autour de `-0.5` avec une échelle de `0.7`.
+
+Le petit texte porte par ailleurs un halo de la couleur du fond, qui le détache
+de ce qu'il y a derrière — le nuage bougeant avec la souris et le défilement,
+aucun réglage de position ne peut suffire à lui seul.
 
 ### Réglages communs
 

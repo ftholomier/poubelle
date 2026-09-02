@@ -1,23 +1,23 @@
 {
-  "title": "Accompagnement digital 360°",
+  "title": "Votre site et vos réseaux, je m'occupe de tout",
   "navLabel": "Offres",
   "order": 1,
   "meta": {
-    "description": "Direction digitale externalisée : site, chatbot IA, hébergement, réseaux sociaux et supports print pour 147 € HT par mois, sans engagement."
+    "description": "Site internet, réseaux sociaux, cartes de visite : tout est pris en charge pour 147 € par mois, sans engagement. Un seul interlocuteur, joignable sur WhatsApp."
   },
   "sections": [
     {
       "id": "hero",
       "kind": "hero",
-      "eyebrow": "Accompagnement 360°",
+      "eyebrow": "L'offre tout compris",
       "title": [
-        "Votre direction",
-        "digitale intégrale,",
-        "sans engagement"
+        "Votre site,",
+        "vos réseaux :",
+        "je m'occupe de tout"
       ],
       "outlineFrom": 2,
-      "subtitle": "Un interlocuteur unique · 28 années de terrain",
-      "body": "L'externalisation de votre communication et de vos outils web ne devrait plus être un luxe ni un casse-tête. Je vous propose une prise en charge à 360 degrés de l'ensemble de votre écosystème numérique. Oubliez les devis à rallonge et les frais cachés : je gère personnellement votre présence en ligne, de la création de votre site intégrant un chatbot IA jusqu'au suivi direct via WhatsApp. Vous bénéficiez d'une tranquillité d'esprit totale avec une infrastructure sécurisée et un interlocuteur unique fort de 28 années d'expertise sur le terrain.",
+      "subtitle": "Un prix fixe · Sans engagement",
+      "body": "Faire son site, l'entretenir, publier sur les réseaux, imprimer des cartes de visite : cela prend du temps, cela demande plusieurs prestataires, et les devis s'allongent vite. Je prends tout en charge pour un prix fixe. Vous m'écrivez sur WhatsApp quand vous avez besoin de quelque chose, je le fais. Vous n'avez rien à gérer, aucune compétence technique à avoir, et vous pouvez arrêter quand vous voulez.",
       "shape": {
         "type": "svg",
         "src": "shapes/fusee.svg",
@@ -32,26 +32,26 @@
     {
       "id": "tarif",
       "kind": "stats",
-      "eyebrow": "Le tarif, en clair",
+      "eyebrow": "Le prix, sans mauvaise surprise",
       "items": [
         {
           "value": 147,
           "suffix": " €",
-          "label": "HT par mois. Un tarif unique, tout inclus et sans aucun engagement de durée."
+          "label": "Par mois, tout compris. Pas de frais de départ, pas de supplément en cours de route."
         },
         {
           "value": 0,
           "suffix": " mois",
-          "label": "D'engagement. Vous restez libre de partir quand vous le souhaitez."
+          "label": "D'engagement. Vous arrêtez quand vous voulez, sans préavis à respecter."
         },
         {
           "value": 1,
-          "label": "Seul interlocuteur, joignable directement sur WhatsApp."
+          "label": "Seule personne à qui parler. Moi, directement, sur WhatsApp."
         },
         {
           "value": 28,
           "suffix": " ans",
-          "label": "D'expertise sur le terrain, au service de votre activité."
+          "label": "Que je fais ce métier, auprès de petites entreprises comme la vôtre."
         }
       ],
       "shape": {
@@ -59,36 +59,38 @@
         "preset": "galaxy",
         "count": 15000,
         "spin": 0.12,
-        "label": "Galaxie — l'écosystème digital"
+        "label": "Galaxie — tout ce qui vous représente en ligne",
+        "offsetY": -0.48,
+        "scale": 0.72
       }
     },
     {
       "id": "inclus",
       "kind": "columns",
-      "marquee": "Tout est inclus",
+      "marquee": "Tout est compris",
       "repeat": 4,
       "speed": 0.5,
       "columns": [
         {
           "title": "Votre site",
           "items": [
-            "Développement complet de votre site web sécurisé.",
-            "Intégration d'un chatbot IA personnalisé pour vos clients."
+            "Un site fait pour vous, du premier croquis à la mise en ligne.",
+            "Un assistant qui répond à vos visiteurs, même la nuit et le week-end."
           ]
         },
         {
-          "title": "La technique",
+          "title": "Il tourne tout seul",
           "items": [
-            "Hébergement haute performance, sauvegardes et mises à jour techniques.",
-            "Modifications et mises à jour illimitées de vos contenus."
+            "Il reste en ligne, rapide et protégé. C'est moi qui m'en occupe.",
+            "Changer un texte, une photo, un tarif : autant de fois que vous voulez."
           ]
         },
         {
-          "title": "Votre communication",
+          "title": "On vous fait connaître",
           "items": [
-            "Stratégie et animation de vos réseaux sociaux.",
-            "Création de tous vos supports print (plaquettes, cartes de visite).",
-            "Ligne directe sur WhatsApp pour échanger sans intermédiaire."
+            "Vos réseaux sociaux, tenus à jour sans que vous y pensiez.",
+            "Vos cartes de visite, flyers et plaquettes, prêts à imprimer.",
+            "Une ligne WhatsApp directe : pas de standard, pas de numéro de dossier."
           ]
         }
       ],
@@ -98,29 +100,32 @@
         "mode": "fill",
         "count": 15000,
         "spin": 0.1,
-        "label": "Engrenage — la mécanique prise en charge"
+        "label": "Engrenage — tout ce qui tourne pour vous",
+        "offsetY": -0.52,
+        "scale": 0.7
       }
     },
     {
       "id": "on-y-va",
       "kind": "contact",
-      "eyebrow": "On y va ?",
+      "eyebrow": "On commence ?",
       "title": [
-        "Prêt à libérer votre temps",
-        "et à déléguer votre digital",
-        "en toute sérénité ?"
+        "Envie de ne plus",
+        "y penser ?"
       ],
-      "outlineFrom": 2,
-      "action": "Démarrer mon accompagnement 360°",
+      "outlineFrom": 1,
+      "body": "Un appel de vingt minutes suffit pour savoir si cela vous correspond.",
+      "action": "Je veux déléguer mon site",
       "shape": {
         "type": "svg",
         "src": "shapes/logo.svg",
         "mode": "fill",
         "count": 18000,
         "depth": 0.12,
-        "scale": 0.92,
+        "scale": 0.78,
         "spin": 0.03,
-        "label": "Le logo le|digital.com"
+        "label": "Le logo le|digital.com",
+        "offsetY": 0.3
       }
     }
   ]

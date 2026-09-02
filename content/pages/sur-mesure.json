@@ -1,9 +1,9 @@
 {
-  "title": "Outils métier sur-mesure & solutions SaaS",
+  "title": "Un logiciel fait pour votre métier",
   "navLabel": "Sur-mesure",
   "order": 2,
   "meta": {
-    "description": "Applications web et logiciels SaaS développés sur-mesure pour automatiser vos processus internes, dès 147 € HT par mois."
+    "description": "Plannings, devis, suivis, fiches clients : je construis l'outil en ligne qui manque à votre entreprise, à partir de 147 € par mois."
   },
   "sections": [
     {
@@ -11,12 +11,12 @@
       "kind": "hero",
       "eyebrow": "Sur-mesure",
       "title": [
-        "Vos outils métier",
-        "sur-mesure et solutions SaaS"
+        "Un logiciel fait",
+        "pour votre métier"
       ],
       "outlineFrom": 1,
-      "subtitle": "Conçus autour de vos habitudes de travail",
-      "body": "Chaque entreprise possède des processus uniques qui ne rentrent pas toujours dans les logiciels standards du marché. Pour optimiser le fonctionnement de votre structure et faire gagner un temps précieux à vos collaborateurs, je développe des solutions digitales en ligne sur-mesure, quel que soit votre domaine d'activité. Fini les tableurs complexes et les tâches répétitives, nous créons ensemble l'outil exact dont vous avez besoin, sous forme d'application web ou de logiciel SaaS, pour automatiser votre quotidien avec fluidité.",
+      "subtitle": "À partir de 147 € par mois",
+      "body": "Vous jonglez avec des tableurs, vous recopiez les mêmes informations à plusieurs endroits, vous passez vos journées sur des tâches qui se ressemblent toutes ? Les logiciels du commerce ne collent jamais tout à fait à votre façon de travailler. Je construis l'outil qui vous manque : vos plannings, vos devis, vos suivis de chantier, vos fiches clients, exactement comme vous en avez besoin. Il s'ouvre dans un navigateur, sur ordinateur comme sur téléphone, et il n'y a rien à installer.",
       "shape": {
         "type": "svg",
         "src": "shapes/engrenage.svg",
@@ -25,23 +25,23 @@
         "depth": 0.16,
         "scale": 0.95,
         "spin": 0.08,
-        "label": "Engrenage — vos processus automatisés"
+        "label": "Engrenage — vos tâches qui s'enchaînent toutes seules"
       }
     },
     {
       "id": "mesure",
       "kind": "stats",
-      "eyebrow": "Sur-mesure, vraiment",
+      "eyebrow": "Fait pour vous, pas pour tout le monde",
       "items": [
         {
           "value": 100,
           "suffix": " %",
-          "label": "Le niveau de personnalisation de votre futur outil, adapté à votre réalité opérationnelle."
+          "label": "Conçu autour de votre façon de travailler. Rien à contourner, rien à subir."
         },
         {
           "value": 147,
           "suffix": " €",
-          "label": "HT par mois. Conception, hébergement, maintenance et évolutions comprises."
+          "label": "Par mois pour démarrer. Création, mise en ligne et suivi compris."
         }
       ],
       "shape": {
@@ -50,38 +50,40 @@
         "mode": "fill",
         "count": 14000,
         "spin": 0.1,
-        "label": "Cible — l'outil exact dont vous avez besoin"
+        "label": "Cible — l'outil qu'il vous faut, précisément",
+        "offsetY": -0.6,
+        "scale": 0.66
       }
     },
     {
       "id": "cycle-de-vie",
       "kind": "cards",
-      "eyebrow": "L'abonnement",
+      "eyebrow": "Ce qui est compris",
       "title": [
-        "Tout le cycle de vie",
-        "de votre solution"
+        "De la première idée",
+        "à tous les jours"
       ],
       "outlineFrom": 1,
       "cards": [
         {
           "num": "01",
-          "title": "Conception d'une interface adaptée à vos habitudes de travail."
+          "title": "On dessine ensemble un outil qui suit vos habitudes, et non l'inverse."
         },
         {
           "num": "02",
-          "title": "Automatisation intelligente de vos processus internes."
+          "title": "Les tâches répétitives se font toutes seules."
         },
         {
           "num": "03",
-          "title": "Hébergement sécurisé et maintenance applicative continue."
+          "title": "L'outil reste en ligne et protégé, sans que vous ayez à y penser."
         },
         {
           "num": "04",
-          "title": "Déploiement régulier des évolutions techniques."
+          "title": "Il s'améliore au fil du temps, sans facture de mise à jour."
         },
         {
           "num": "05",
-          "title": "Un accompagnement de proximité pour ajuster l'outil à votre croissance."
+          "title": "Votre activité change ? On adapte l'outil, simplement en s'appelant."
         }
       ],
       "shape": {
@@ -89,7 +91,8 @@
         "preset": "helix",
         "count": 15000,
         "spin": 0.14,
-        "label": "Double hélice — le cycle de vie de votre outil"
+        "label": "Double hélice — l'outil qui grandit avec vous",
+        "offsetY": -0.34
       }
     },
     {
@@ -97,19 +100,20 @@
       "kind": "contact",
       "eyebrow": "Votre projet",
       "title": [
-        "Et si nous imaginions ensemble",
-        "la solution qui va transformer",
-        "l'efficacité de votre équipe ?"
+        "Et si votre équipe",
+        "arrêtait de perdre",
+        "du temps ?"
       ],
       "outlineFrom": 2,
-      "action": "Étudier mon projet SaaS",
+      "body": "Décrivez-moi votre journée type. Je vous dis ce qu'on peut en retirer.",
+      "action": "Parlons de mon outil",
       "shape": {
         "type": "svg",
         "src": "shapes/ampoule.svg",
         "mode": "fill",
         "count": 15000,
         "spin": 0.05,
-        "label": "Ampoule — votre idée mise en service"
+        "label": "Ampoule — votre idée devenue outil"
       }
     }
   ]

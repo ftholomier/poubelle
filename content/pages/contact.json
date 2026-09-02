@@ -5,7 +5,7 @@
   "inNav": false,
   "isContact": true,
   "meta": {
-    "description": "Une question, un projet, une envie de déléguer votre digital : on en parle directement, sans intermédiaire."
+    "description": "Une question, un projet, ou l'envie de savoir si cela peut marcher chez vous : on en parle directement, sans intermédiaire."
   },
   "sections": [
     {
@@ -17,15 +17,15 @@
         "votre projet"
       ],
       "outlineFrom": 1,
-      "subtitle": "En direct, sans intermédiaire",
-      "body": "Une question, un projet, une envie de reprendre la main sur votre digital : le plus simple reste d'en parler de vive voix. Un seul interlocuteur, une réponse rapide, et un devis clair s'il y a lieu.",
+      "subtitle": "Vous parlez à la personne qui fera le travail",
+      "body": "Une question, un projet, ou juste l'envie de savoir si cela peut marcher chez vous : le plus simple est d'en parler. Je réponds moi-même, et je vous dis franchement si je peux vous aider ou non.",
       "shape": {
         "type": "text",
-        "text": "H2H",
+        "text": "Bonjour",
         "count": 16000,
         "depth": 0.1,
         "scale": 0.95,
-        "label": "Texte — Human to Human"
+        "label": "Texte — bonjour"
       }
     },
     {
@@ -37,7 +37,7 @@
         "rendez-vous ?"
       ],
       "outlineFrom": 1,
-      "body": "Réponse sous 48 h, en direct, sans intermédiaire.",
+      "body": "Réponse sous deux jours. Pas de standard, pas de numéro de dossier.",
       "action": "Prendre rendez-vous",
       "shape": {
         "type": "svg",
@@ -45,7 +45,7 @@
         "mode": "outline",
         "count": 12000,
         "depth": 0.08,
-        "label": "Bulle en contour — la conversation démarre"
+        "label": "Bulle — la conversation démarre"
       }
     }
   ]

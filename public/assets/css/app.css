@@ -44,7 +44,10 @@ a { color: inherit; }
     transition: opacity 1.2s ease 0.2s;
 }
 
-.is-ready #particles { opacity: 1; }
+/* Le nuage passe derrière le texte. À pleine opacité il reste splendide sur
+   les grands titres, mais il rend illisible un paragraphe ou une légende :
+   il est donc légèrement voilé partout. */
+.is-ready #particles { opacity: 0.72; }
 
 /* Script absent ou en échec : le canevas ne servira jamais, autant le retirer
    du calcul de rendu. Le décor en dégradé prend le relais. */
@@ -654,6 +657,19 @@ html:not(.js) .quick-cta:not(.quick-cta--self) {
 
 .quick-cta:hover::after { transform: translateX(4px); }
 
+/* Le nuage passe derrière le texte, et sa densité change à chaque défilement :
+   aucun réglage de position ne peut le garantir partout. Un halo de la couleur
+   du fond détache donc le petit texte de ce qu'il y a derrière. Invisible sur
+   fond nu, il ne se remarque que là où il sert. */
+.stats__label,
+.columns__item,
+.card__text,
+.card__mode,
+.section__body,
+.formula {
+    text-shadow: 0 0 14px var(--bg), 0 0 5px var(--bg), 0 0 2px var(--bg);
+}
+
 /* -------------------------------------------------------------------- Pied */
 
 .footer {
@@ -811,10 +827,20 @@ html:not(.js) .quick-cta:not(.quick-cta--self) {
     margin: clamp(2.5rem, 6vw, 4rem) 0 0;
 }
 
-.stats__item { display: grid; gap: 0.4rem; }
+.stats__item {
+    display: grid;
+    gap: 0.4rem;
+    /* Le chiffre se mesure sur sa colonne, pas sur la fenêtre : quatre chiffres
+       côte à côte n'ont pas la même place qu'un seul, et « 147 € » doit tenir
+       sur une ligne dans les deux cas. */
+    container-type: inline-size;
+}
 
 .stats__value {
-    font-size: clamp(3rem, 8vw, 6.5rem);
+    /* Repli pour les navigateurs sans requête de conteneur : une taille
+       prudente, calculée pour que le cas le plus serré — quatre colonnes —
+       tienne encore. */
+    font-size: clamp(2.4rem, 5vw, 4.4rem);
     font-weight: 900;
     line-height: 1;
     letter-spacing: -0.04em;
@@ -825,13 +851,21 @@ html:not(.js) .quick-cta:not(.quick-cta--self) {
     /* La largeur est réservée d'avance : le chiffre qui défile ne pousse
        pas la mise en page à chaque incrément. */
     font-variant-numeric: tabular-nums;
+    /* « 147 » et « € » forment un seul mot : les séparer sur deux lignes
+       donne l'impression d'un défaut d'affichage. */
+    white-space: nowrap;
+}
+
+@supports (container-type: inline-size) {
+    .stats__value { font-size: clamp(2.4rem, 20cqi, 5.5rem); }
 }
 
 .stats__label {
     margin: 0;
-    max-width: 24ch;
-    color: var(--muted);
-    font-size: 0.92rem;
+    max-width: 26ch;
+    /* Le nuage passe derrière : un gris trop discret devenait illisible. */
+    color: var(--fg-soft);
+    font-size: 0.94rem;
     font-weight: 300;
 }
 
@@ -876,10 +910,9 @@ html:not(.js) .quick-cta:not(.quick-cta--self) {
 @media (max-width: 860px) {
     .masthead__toggle { display: inline-flex; }
 
-    /* Sur un écran étroit, le texte occupe toute la largeur et se superpose au
-       plus dense du nuage. On l'atténue : le dessin reste lisible, le texte
-       redevient confortable. */
-    .is-ready #particles { opacity: 0.62; }
+    /* Sur un écran étroit, le texte occupe toute la largeur et croise le plus
+       dense du nuage : on voile un cran de plus. */
+    .is-ready #particles { opacity: 0.55; }
 
     .menu {
         position: fixed;

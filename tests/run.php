@@ -1044,6 +1044,41 @@ check('Le schéma sait relire ce que le site contient déjà', function () {
     return true;
 });
 
+check('Une ligne de grand titre tient dans la largeur', function () {
+    // Le corps du titre suit la largeur de l'écran : la limite est donc la
+    // même du téléphone au grand écran, une vingtaine de caractères. Au-delà,
+    // la ligne se replie et la découpe plein / contour se décale.
+    $trop = [];
+    foreach (Content::pages() as $page) {
+        foreach ($page['sections'] as $section) {
+            $limite = in_array($section['kind'], ['hero', 'contact'], true) ? 20 : 40;
+            foreach ($section['title'] ?? [] as $ligne) {
+                if (mb_strlen($ligne) > $limite) {
+                    $trop[] = sprintf('%s/%s : %d car. « %s »',
+                        $page['slug'], $section['id'], mb_strlen($ligne), $ligne);
+                }
+            }
+        }
+    }
+    return $trop === [] ? true : implode(' | ', $trop);
+});
+
+check('Le contour porte sur une ligne qui existe', function () {
+    foreach (Content::pages() as $page) {
+        foreach ($page['sections'] as $section) {
+            if (!isset($section['outlineFrom'])) {
+                continue;
+            }
+            $lignes = count($section['title'] ?? []);
+            if ($section['outlineFrom'] >= $lignes) {
+                return sprintf('%s/%s : contour à partir de %d, pour %d ligne(s)',
+                    $page['slug'], $section['id'], $section['outlineFrom'], $lignes);
+            }
+        }
+    }
+    return true;
+});
+
 check('Le rappel de contact vise la page qui porte la section contact', function () {
     $contact = Content::contactPage();
     if ($contact === null) return 'aucune page de contact trouvée';
@@ -1225,7 +1260,16 @@ if ($baseUrl !== null) {
     check('GET / renvoie la page complète', function () use ($get) {
         [$status, $body] = $get('/');
         if ($status !== 200) return "statut {$status}";
-        foreach (['shapes-data', 'id="hero"', 'Accompagnement'] as $needle) {
+
+        // Le repère vient du contenu, pas d'un mot figé ici : réécrire les
+        // textes depuis le back-office ne doit pas faire échouer la suite.
+        $accueil = Content::page(Content::HOME);
+        $attendus = ['shapes-data', 'id="' . $accueil['sections'][0]['id'] . '"'];
+        foreach ($accueil['sections'][0]['title'] ?? [] as $ligne) {
+            $attendus[] = htmlspecialchars($ligne, ENT_QUOTES, 'UTF-8');
+        }
+
+        foreach ($attendus as $needle) {
             if (!str_contains($body, $needle)) return "« {$needle} » absent de la page";
         }
         return true;

@@ -341,6 +341,29 @@ for (const size of [
           out.push(`${where} ${el.className} +${el.scrollWidth - el.clientWidth}px « ${el.textContent.trim().slice(0, 22)} »`);
         }
       }
+
+      // Une ligne de titre est une découpe voulue : le contour tombe sur des
+      // lignes précises. Si elle se replie faute de place, la découpe se
+      // décale et le titre ne ressemble plus à ce qui a été écrit.
+      for (const el of document.querySelectorAll('.title__line')) {
+        const lignes = Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight));
+        if (lignes > 1) {
+          out.push(`${where} titre replié en ${lignes} lignes « ${el.textContent.trim().slice(0, 26)} »`);
+        }
+      }
+
+      // « 147 » et « € » forment un seul mot : les voir sur deux lignes se lit
+      // comme un défaut d'affichage, et le chiffre déborderait de sa colonne.
+      for (const el of document.querySelectorAll('.stats__value [data-counter]')) {
+        if (el.getClientRects().length > 1) {
+          out.push(`${where} chiffre coupé « ${el.textContent.trim()} »`);
+        }
+        const colonne = el.closest('.stats__item').getBoundingClientRect().width;
+        if (el.getBoundingClientRect().width > colonne + 1) {
+          out.push(`${where} chiffre plus large que sa colonne « ${el.textContent.trim()} »`);
+        }
+      }
+
       return out;
     }, path);
     overflow.push(...bad);
