@@ -339,6 +339,46 @@ suite('Le site ne dépend que de lui-même');
   await page.close();
 }
 
+// -------------------------------------- Versions des modules JavaScript
+
+suite('Chaque module porte sa version');
+{
+  const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  const unversioned = new Set();
+
+  // Un module chargé sans numéro de version reste en cache sans qu'on puisse
+  // jamais l'invalider. Après une mise à jour, le navigateur exécute alors un
+  // point d'entrée récent avec des dépendances périmées, et la page s'arrête
+  // au premier appel manquant. Seuls les chargements de module comptent : les
+  // requêtes fetch de la page de diagnostic visent volontairement l'URL nue.
+  page.on('request', (request) => {
+    if (request.resourceType() !== 'script') return;
+    const url = new URL(request.url());
+    if (url.pathname.startsWith('/assets/js/') && url.pathname.endsWith('.js') && !url.search) {
+      unversioned.add(url.pathname);
+    }
+  });
+
+  for (const path of ['/', '/solutions', '/methode', '/contact', '/diagnostic']) {
+    await page.goto(BASE + path, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(1000);
+  }
+
+  check(
+    'Aucun module chargé sans version',
+    unversioned.size === 0 || `sans version : ${[...unversioned].join(', ')}`
+  );
+
+  const mapped = await page.evaluate(() => {
+    const node = document.querySelector('script[type="importmap"]');
+    if (!node) return 0;
+    return Object.keys(JSON.parse(node.textContent).imports || {}).length;
+  });
+  check(`La carte d'imports couvre les modules (${mapped})`, mapped >= 8 || `seulement ${mapped}`);
+
+  await page.close();
+}
+
 // ------------------------------------------- Isolation des sous-systèmes
 
 suite('Une panne isolée ne doit rien emporter');

@@ -69,4 +69,52 @@ final class View
 
         return is_file($file) ? $path . '?v=' . filemtime($file) : $path;
     }
+
+    /**
+     * Carte d'imports des modules JavaScript.
+     *
+     * Le suffixe de version posé par asset() ne s'applique qu'au fichier
+     * appelé depuis la page. Les modules qu'il importe à son tour — « ./ui.js »,
+     * « ./particles/ParticleField.js » — gardent une URL nue, que le navigateur
+     * met en cache sans jamais pouvoir l'invalider. Après une mise à jour, il
+     * exécute donc un point d'entrée récent avec des dépendances périmées :
+     * les modules se chargent, mais il leur manque ce que le nouveau code
+     * attend, et la page s'arrête au premier appel manquant.
+     *
+     * Cette carte associe chaque module à son URL versionnée. Le navigateur
+     * applique la correspondance après avoir résolu les chemins relatifs, si
+     * bien qu'aucun fichier JavaScript n'a besoin d'être modifié.
+     *
+     * @return string le JSON à placer dans une balise <script type="importmap">
+     */
+    public static function importMap(): string
+    {
+        $root = APP_PUBLIC . '/assets/js';
+        if (!is_dir($root)) {
+            return '{"imports":{}}';
+        }
+
+        $imports = [];
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS)
+        );
+
+        foreach ($iterator as $file) {
+            if (!$file instanceof \SplFileInfo || !$file->isFile()) {
+                continue;
+            }
+            if (strtolower($file->getExtension()) !== 'js') {
+                continue;
+            }
+            $url = '/assets/js/' . str_replace('\\', '/', substr($file->getPathname(), strlen($root) + 1));
+            $imports[$url] = $url . '?v=' . $file->getMTime();
+        }
+
+        ksort($imports);
+
+        return (string) json_encode(
+            ['imports' => $imports],
+            JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+        );
+    }
 }

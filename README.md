@@ -47,7 +47,7 @@ Apache, et `docs/nginx.conf.example` pour nginx.
 ### Tests
 
 ```bash
-php tests/run.php                          # 70 tests hors ligne
+php tests/run.php                          # 71 tests hors ligne
 php tests/run.php http://localhost:8000    # + 13 tests de l'API et du back-office
 
 # Bout en bout, dans un vrai navigateur (Playwright requis)
@@ -309,6 +309,28 @@ Un clic sur un lien interne ne recharge pas le document : seul le corps est remp
 qui laisse le nuage de particules en place et lui permet de se transformer vers le premier
 dessin de la nouvelle page. Au moindre incident, on laisse le navigateur suivre le lien
 normalement.
+
+### Mise à jour et cache
+
+Les fichiers statiques portent leur version dans l'URL (`app.css?v=…`), ce qui permet de
+les garder longtemps en cache. Mais un module JavaScript importé par un autre garde une
+URL nue : `main.js` a beau être versionné, le `./ui.js` qu'il importe ne l'est pas, et le
+navigateur peut le servir depuis un cache vieux de plusieurs jours. Après une mise à jour,
+il exécute alors un point d'entrée récent avec des dépendances périmées — les modules se
+chargent, mais il leur manque ce que le nouveau code attend, et la page s'arrête au
+premier appel manquant.
+
+Le gabarit publie donc une **carte d'imports** (`View::importMap()`), qui associe chaque
+module à son URL versionnée. Le navigateur applique la correspondance après avoir résolu
+les chemins relatifs : aucun fichier JavaScript n'a besoin d'être modifié, et le cache
+long reste sûr. Le document HTML, lui, transporte cette carte et n'est jamais mis en
+cache.
+
+Deux tests le garantissent : la carte doit couvrir tous les fichiers présents sur le
+disque, et aucun module ne doit être chargé sans version.
+
+Concrètement, **déployer se résume à copier les fichiers**. Aucune étape de compilation,
+aucun cache à vider.
 
 ### Quand quelque chose casse
 

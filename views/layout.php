@@ -37,6 +37,12 @@ $current = (string) ($page['slug'] ?? '');
     <link rel="stylesheet" href="<?= View::e(View::asset('assets/css/app.css')) ?>">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='<?= View::e(rawurlencode($theme['accent'])) ?>'/></svg>">
 
+
+    <?php /* La carte doit précéder tout module : elle indique au navigateur
+             quelle version de chaque fichier charger. Sans elle, un point
+             d'entrée à jour peut importer des dépendances restées en cache. */ ?>
+    <script type="importmap"><?= View::importMap() ?></script>
+
     <?php /*
       Les animations d'apparition masquent le texte en attendant d'être jouées.
       Elles ne doivent donc s'armer que si le script est réellement là : cette

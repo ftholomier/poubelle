@@ -27,6 +27,15 @@ set_error_handler(static function (int $severity, string $message, string $file,
     throw new ErrorException($message, 0, $severity, $file, $line);
 });
 
+// Les fichiers statiques portent une version dans leur URL et peuvent donc être
+// gardés longtemps. Le document HTML, lui, transporte la carte des versions :
+// s'il était mis en cache, le navigateur continuerait de réclamer d'anciens
+// modules après une mise à jour. Il est donc systématiquement revalidé.
+// Les réponses de l'API posent ensuite leur propre en-tête, qui remplace celui-ci.
+if (!headers_sent()) {
+    header('Cache-Control: no-cache');
+}
+
 $router = new Router();
 
 // L'ordre compte : « /{slug} » avalerait sinon /api, /admin et /health.

@@ -24,6 +24,10 @@ $menu = [
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
     <title>Back-office — <?= View::e($site['name'] ?? '') ?></title>
+<?php /* La carte doit précéder tout module : elle indique au navigateur
+             quelle version de chaque fichier charger. Sans elle, un point
+             d'entrée à jour peut importer des dépendances restées en cache. */ ?>
+    <script type="importmap"><?= View::importMap() ?></script>
     <link rel="stylesheet" href="<?= View::e(View::asset('assets/css/fonts.css')) ?>">
     <link rel="stylesheet" href="<?= View::e(View::asset('assets/css/admin.css')) ?>">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23111'/><circle cx='16' cy='16' r='7' fill='<?= View::e(rawurlencode($theme['accent'] ?? '#7b01f7')) ?>'/></svg>">

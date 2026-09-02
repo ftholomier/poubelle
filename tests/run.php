@@ -17,6 +17,7 @@ use App\Content;
 use App\Http\Router;
 use App\Theme\Color;
 use App\Theme\Palette;
+use App\View;
 use App\Shape\ImageSampler;
 use App\Shape\Matrix2D;
 use App\Shape\PathParser;
@@ -496,6 +497,36 @@ check('Un identifiant de page hostile est rejeté', function () {
         if (Content::isValidSlug($bad)) return "accepté à tort : « {$bad} »";
     }
     return Content::isValidSlug('ma-page-2') ? true : 'un identifiant valide a été refusé';
+});
+
+check('La carte d\'imports couvre tous les modules du site', function () {
+    $map = json_decode(View::importMap(), true);
+    $imports = $map['imports'] ?? [];
+    if (count($imports) < 8) {
+        return 'seulement ' . count($imports) . ' entrée(s)';
+    }
+    foreach ($imports as $from => $to) {
+        if (!str_starts_with($to, $from . '?v=')) {
+            return "« {$from} » pointe vers « {$to} », sans version";
+        }
+        if (!is_file(APP_PUBLIC . $from)) {
+            return "« {$from} » ne correspond à aucun fichier";
+        }
+    }
+
+    // Tout module réellement présent doit figurer dans la carte, sans quoi il
+    // serait chargé sans version et resterait figé en cache.
+    $found = 0;
+    $iterator = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator(APP_PUBLIC . '/assets/js', FilesystemIterator::SKIP_DOTS)
+    );
+    foreach ($iterator as $file) {
+        if ($file instanceof SplFileInfo && $file->isFile() && $file->getExtension() === 'js') {
+            $found++;
+        }
+    }
+
+    return $found === count($imports) ? true : "{$found} fichiers sur le disque, " . count($imports) . ' dans la carte';
 });
 
 check('Le routeur distingue les paramètres et les méthodes', function () {
