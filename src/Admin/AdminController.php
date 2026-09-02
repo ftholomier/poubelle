@@ -26,6 +26,16 @@ final class AdminController
             ->post('/admin/connexion', [self::class, 'login'])
             ->post('/admin/deconnexion', [self::class, 'logout'])
             ->get('/admin/pages', [self::class, 'pages'])
+            ->post('/admin/pages', [self::class, 'createPage'])
+            ->post('/admin/pages/ordre', [self::class, 'reorderPages'])
+            ->get('/admin/page/{slug}', [self::class, 'editPage'])
+            ->post('/admin/page/{slug}', [self::class, 'savePage'])
+            ->post('/admin/page/{slug}/supprimer', [self::class, 'deletePage'])
+            ->post('/admin/page/{slug}/section', [self::class, 'addSection'])
+            ->get('/admin/page/{slug}/section/{id}', [self::class, 'editSection'])
+            ->post('/admin/page/{slug}/section/{id}', [self::class, 'saveSection'])
+            ->post('/admin/page/{slug}/section/{id}/deplacer', [self::class, 'moveSection'])
+            ->post('/admin/page/{slug}/section/{id}/supprimer', [self::class, 'deleteSection'])
             ->get('/admin/formes', [self::class, 'shapeStudio'])
             ->post('/admin/formes', [self::class, 'saveShape'])
             ->get('/admin/palette', [self::class, 'palette'])
@@ -117,9 +127,204 @@ final class AdminController
 
         self::renderBare('admin/pages', [
             'pages' => Content::pages(),
+            'kinds' => SectionSchema::all(),
             'site'  => Content::site(),
             'csrf'  => Auth::csrfToken(),
         ]);
+    }
+
+    // ------------------------------------------------------ Pages et sections
+
+    public static function createPage(): void
+    {
+        self::mutate('/admin/pages', function (): string {
+            $slug = ContentWriter::createPage([
+                'title'       => $_POST['title'] ?? '',
+                'navLabel'    => $_POST['navLabel'] ?? '',
+                'order'       => $_POST['order'] ?? 99,
+                'inNav'       => isset($_POST['inNav']),
+                'description' => $_POST['description'] ?? '',
+                'kind'        => $_POST['kind'] ?? 'hero',
+            ]);
+
+            self::flash("Page « {$slug} » créée.");
+
+            return '/admin/page/' . rawurlencode($slug);
+        });
+    }
+
+    public static function reorderPages(): void
+    {
+        self::mutate('/admin/pages', function (): string {
+            // Le formulaire envoie un numéro par page ; on trie dessus puis on
+            // renumérote proprement de 1 à n, sans trous ni ex æquo.
+            $ranks = is_array($_POST['rang'] ?? null) ? $_POST['rang'] : [];
+            $ranks = array_map('intval', $ranks);
+            asort($ranks);
+
+            ContentWriter::reorderPages(array_map('strval', array_keys($ranks)));
+            self::flash('Ordre du menu enregistré.');
+
+            return '/admin/pages';
+        });
+    }
+
+    /**
+     * @param array<string,string> $params
+     */
+    public static function editPage(array $params): void
+    {
+        if (!self::guard()) {
+            return;
+        }
+
+        $page = Content::isValidSlug($params['slug'] ?? '') ? Content::page($params['slug']) : null;
+        if ($page === null) {
+            self::flash('Page inconnue.', 'error');
+            self::redirect('/admin/pages');
+            return;
+        }
+
+        self::renderBare('admin/page', [
+            'page'   => $page,
+            'kinds'  => SectionSchema::all(),
+            'isHome' => $page['slug'] === Content::HOME,
+            'csrf'   => Auth::csrfToken(),
+        ]);
+    }
+
+    /**
+     * @param array<string,string> $params
+     */
+    public static function savePage(array $params): void
+    {
+        $slug = (string) ($params['slug'] ?? '');
+        self::mutate('/admin/page/' . rawurlencode($slug), function () use ($slug): string {
+            ContentWriter::updatePage($slug, [
+                'title'       => $_POST['title'] ?? '',
+                'navLabel'    => $_POST['navLabel'] ?? '',
+                'order'       => $_POST['order'] ?? 99,
+                'inNav'       => isset($_POST['inNav']),
+                'description' => $_POST['description'] ?? '',
+            ]);
+            self::flash('Réglages de la page enregistrés.');
+
+            return '/admin/page/' . rawurlencode($slug);
+        });
+    }
+
+    /**
+     * @param array<string,string> $params
+     */
+    public static function deletePage(array $params): void
+    {
+        $slug = (string) ($params['slug'] ?? '');
+        self::mutate('/admin/page/' . rawurlencode($slug), function () use ($slug): string {
+            ContentWriter::deletePage($slug);
+            self::flash("Page « {$slug} » supprimée. Une copie reste dans var/backups/.");
+
+            return '/admin/pages';
+        });
+    }
+
+    /**
+     * @param array<string,string> $params
+     */
+    public static function addSection(array $params): void
+    {
+        $slug = (string) ($params['slug'] ?? '');
+        self::mutate('/admin/page/' . rawurlencode($slug), function () use ($slug): string {
+            $id = ContentWriter::addSection($slug, (string) ($_POST['kind'] ?? ''), (string) ($_POST['id'] ?? ''));
+            self::flash("Section « {$id} » ajoutée.");
+
+            return '/admin/page/' . rawurlencode($slug) . '/section/' . rawurlencode($id);
+        });
+    }
+
+    /**
+     * @param array<string,string> $params
+     */
+    public static function editSection(array $params): void
+    {
+        if (!self::guard()) {
+            return;
+        }
+
+        $slug = (string) ($params['slug'] ?? '');
+        $section = Content::isValidSlug($slug) ? Content::section($slug, (string) ($params['id'] ?? '')) : null;
+        if ($section === null) {
+            self::flash('Section inconnue.', 'error');
+            self::redirect('/admin/pages');
+            return;
+        }
+
+        $kind = (string) ($section['kind'] ?? 'statement');
+        $schema = SectionSchema::forKind($kind);
+        if ($schema === null) {
+            self::flash("Le type « {$kind} » n'a pas de formulaire d'édition.", 'error');
+            self::redirect('/admin/page/' . rawurlencode($slug));
+            return;
+        }
+
+        self::renderBare('admin/section', [
+            'page'    => Content::page($slug),
+            'section' => $section,
+            'schema'  => $schema,
+            'csrf'    => Auth::csrfToken(),
+        ]);
+    }
+
+    /**
+     * @param array<string,string> $params
+     */
+    public static function saveSection(array $params): void
+    {
+        $slug = (string) ($params['slug'] ?? '');
+        $id = (string) ($params['id'] ?? '');
+        $back = '/admin/page/' . rawurlencode($slug) . '/section/' . rawurlencode($id);
+
+        self::mutate($back, function () use ($slug, $id, $back): string {
+            ContentWriter::updateSection($slug, $id, $_POST['champ'] ?? []);
+            self::flash('Contenu enregistré.');
+
+            return $back;
+        });
+    }
+
+    /**
+     * @param array<string,string> $params
+     */
+    public static function moveSection(array $params): void
+    {
+        $slug = (string) ($params['slug'] ?? '');
+        $back = '/admin/page/' . rawurlencode($slug);
+
+        self::mutate($back, function () use ($slug, $params, $back): string {
+            ContentWriter::moveSection(
+                $slug,
+                (string) ($params['id'] ?? ''),
+                ($_POST['direction'] ?? '') === 'up' ? 'up' : 'down'
+            );
+
+            return $back;
+        });
+    }
+
+    /**
+     * @param array<string,string> $params
+     */
+    public static function deleteSection(array $params): void
+    {
+        $slug = (string) ($params['slug'] ?? '');
+        $back = '/admin/page/' . rawurlencode($slug);
+
+        self::mutate($back, function () use ($slug, $params, $back): string {
+            $id = (string) ($params['id'] ?? '');
+            ContentWriter::deleteSection($slug, $id);
+            self::flash("Section « {$id} » supprimée.");
+
+            return $back;
+        });
     }
 
     public static function shapeStudio(): void
@@ -257,6 +462,55 @@ final class AdminController
     }
 
     // -------------------------------------------------------------- Outils
+
+    /**
+     * Enveloppe commune aux écritures : session ouverte, jeton valide, erreurs
+     * transformées en message plutôt qu'en page blanche, et redirection finale.
+     * Rediriger après une écriture évite qu'un rafraîchissement ne la rejoue.
+     *
+     * @param callable():string $work rend l'adresse où aller ensuite
+     */
+    private static function mutate(string $fallback, callable $work): void
+    {
+        if (!self::guard()) {
+            return;
+        }
+
+        if (!Auth::checkCsrf($_POST['csrf'] ?? null)) {
+            self::flash('Session expirée, veuillez recommencer.', 'error');
+            self::redirect($fallback);
+            return;
+        }
+
+        try {
+            $destination = $work();
+        } catch (\Throwable $e) {
+            self::flash($e->getMessage(), 'error');
+            self::redirect($fallback);
+            return;
+        }
+
+        self::redirect($destination);
+    }
+
+    /** Dépose un message affiché une seule fois, après la redirection. */
+    public static function flash(string $message, string $level = 'ok'): void
+    {
+        Auth::startSession();
+        $_SESSION['admin_flash'] = ['message' => $message, 'level' => $level];
+    }
+
+    /**
+     * @return array{message: string, level: string}|null
+     */
+    public static function takeFlash(): ?array
+    {
+        Auth::startSession();
+        $flash = $_SESSION['admin_flash'] ?? null;
+        unset($_SESSION['admin_flash']);
+
+        return is_array($flash) ? $flash : null;
+    }
 
     /** Redirige vers la connexion si la session n'est pas ouverte. */
     private static function guard(): bool

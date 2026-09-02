@@ -121,21 +121,22 @@ a { color: inherit; }
 .masthead__brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    font-weight: 800;
-    font-size: 0.95rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
     text-decoration: none;
+    /* Le tracé du logo hérite de cette couleur ; sa barre et son carré
+       prennent la couleur dominante du site. */
+    color: var(--fg);
+    --logo-accent: var(--accent-2);
 }
 
-.masthead__dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--accent-2);
-    box-shadow: 0 0 14px var(--accent-2);
+.masthead__brand svg {
+    display: block;
+    /* Largeur fluide, hauteur déduite du rapport du tracé (4,25:1) : le logo
+       ne saute pas d'une taille d'écran à l'autre. */
+    width: clamp(8.5rem, 13vw, 12rem);
+    height: auto;
 }
+
+.masthead__brand:hover { --logo-accent: var(--accent); }
 
 .menu__list {
     display: flex;
@@ -180,6 +181,34 @@ a { color: inherit; }
 .menu__link.is-active::after {
     transform: scaleX(1);
     transform-origin: left;
+}
+
+/* Le contact est une action, pas une page parmi d'autres : il se distingue
+   par un cadre plein plutôt que par le soulignement des autres entrées. */
+.menu__cta {
+    display: inline-block;
+    padding: 0.5rem 1.15rem;
+    border: 1px solid var(--accent-2);
+    border-radius: 100px;
+    background: color-mix(in srgb, var(--accent-2) 14%, transparent);
+    color: var(--fg);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu__cta:hover,
+.menu__cta:focus-visible,
+.menu__cta.is-active {
+    background: var(--accent-2);
+    border-color: var(--accent-2);
+    /* Comme .button : la charte garantit un accent assez sombre pour du blanc. */
+    color: #fff;
+    box-shadow: 0 8px 24px var(--shadow);
 }
 
 .masthead__toggle {
@@ -328,6 +357,19 @@ a { color: inherit; }
     /* La grille se dessine par les interstices : une seule ligne fine partout. */
     background: var(--line);
     border: 1px solid var(--line);
+}
+
+/* Cinq cartes se répartissent mal sur quatre colonnes : la cinquième reste
+   seule et les cases vides se lisent comme des cartes sans texte. On passe
+   alors à trois colonnes et la dernière occupe la place laissée libre. */
+@media (min-width: 62rem) {
+    .cards:has(> :nth-child(5)):not(:has(> :nth-child(6))) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cards:has(> :nth-child(5)):not(:has(> :nth-child(6))) > :last-child {
+        grid-column: span 2;
+    }
 }
 
 .card {
@@ -548,32 +590,69 @@ a { color: inherit; }
     transform-origin: left;
 }
 
-.shape-badge {
+/* Rappel permanent vers la prise de contact.
+   Il remplace le nom du dessin en cours, qui n'apprenait rien au visiteur.
+   Discret au repos, il s'anime au survol et n'apparaît qu'une fois la première
+   section passée — l'accueil a déjà son propre appel à l'action. */
+.quick-cta {
     position: fixed;
     right: clamp(1.1rem, 4vw, 3.2rem);
     bottom: 1.6rem;
-    z-index: 40;
-    /* Une seule ligne, tronquée si besoin : le badge ne doit jamais manger la mise en page. */
-    max-width: min(46vw, 42ch);
-    margin: 0;
-    padding: 0.45rem 0.9rem;
+    z-index: 45;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.72rem 1.25rem;
+    border: 1px solid var(--line-strong);
     border-radius: 100px;
     background: var(--veil);
-    backdrop-filter: blur(10px);
-    color: var(--muted);
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    backdrop-filter: blur(12px);
+    color: var(--fg);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: none;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
+    /* Invisible et inerte tant qu'il n'est pas montré : un lien transparent
+       resterait cliquable et atteignable au clavier. */
     opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.45s, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.shape-badge.is-visible { opacity: 0.75; transform: none; }
+.quick-cta.is-visible { opacity: 1; visibility: visible; transform: none; }
+
+/* Sans JavaScript, personne n'ajoutera « is-visible » : le rappel s'affiche
+   directement, sauf sur la page de contact où il pointerait sur elle-même. */
+html:not(.js) .quick-cta:not(.quick-cta--self) {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+
+.quick-cta:hover,
+.quick-cta:focus-visible {
+    border-color: var(--accent-2);
+    box-shadow: 0 10px 30px var(--shadow);
+}
+
+.quick-cta__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-2);
+    box-shadow: 0 0 10px var(--accent-2);
+}
+
+.quick-cta::after {
+    content: '→';
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.quick-cta:hover::after { transform: translateX(4px); }
 
 /* -------------------------------------------------------------------- Pied */
 
@@ -797,19 +876,38 @@ a { color: inherit; }
 @media (max-width: 860px) {
     .masthead__toggle { display: inline-flex; }
 
+    /* Sur un écran étroit, le texte occupe toute la largeur et se superpose au
+       plus dense du nuage. On l'atténue : le dessin reste lisible, le texte
+       redevient confortable. */
+    .is-ready #particles { opacity: 0.62; }
+
     .menu {
         position: fixed;
         inset: 0;
+        z-index: 1;
         display: grid;
         place-items: center;
         background: var(--bg);
-        mix-blend-mode: normal;
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.4s ease, visibility 0.4s;
     }
 
     .nav-open .menu { opacity: 1; visibility: visible; }
+
+    /* La barre se compose par différence pour rester lisible sur le nuage.
+       Cette composition s'applique à toute sa descendance : le fond opaque du
+       panneau s'annulerait contre le texte qu'il doit masquer. Le panneau
+       ouvert apporte son propre contraste, la différence n'a plus lieu d'être. */
+    .nav-open .masthead { mix-blend-mode: normal; }
+
+    /* Le panneau couvre l'écran entier, barre comprise : le logo et le bouton
+       de fermeture doivent rester au-dessus de lui. */
+    .masthead__brand,
+    .masthead__toggle {
+        position: relative;
+        z-index: 2;
+    }
 
     .menu__list {
         flex-direction: column;
@@ -825,7 +923,14 @@ a { color: inherit; }
     .eyebrow--sticky { position: static; }
     .section { min-height: auto; padding-block: clamp(5rem, 14vh, 8rem); }
     .section--hero { min-height: 100vh; }
-    .shape-badge { display: none; }
+    .quick-cta {
+        right: 50%;
+        transform: translate(50%, 12px);
+        font-size: 0.78rem;
+        padding: 0.62rem 1.1rem;
+    }
+
+    .quick-cta.is-visible { transform: translate(50%, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {

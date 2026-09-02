@@ -92,6 +92,10 @@ const boot = async () => {
   // Les textes sont branchés : on peut désarmer le garde-fou du gabarit.
   confirmScriptRunning();
   markReady();
+  updateQuickCta(scroller?.progress ?? 0);
+
+  // Sans moteur graphique, le rappel doit tout de même suivre le défilement.
+  window.addEventListener('scroll', () => updateQuickCta(scroller?.progress ?? 0), { passive: true });
 
   if (!canvas || !supportsWebGL()) {
     // Sans WebGL, le site reste entièrement lisible : seul le décor disparaît.
@@ -170,7 +174,6 @@ function activateContent(scope) {
   const onChange = (id) => {
     nav?.setCurrentPage(currentPage);
     root.dataset.activeSection = id;
-    announceShape(descriptors[id]);
     field?.morphTo(descriptors[id]);
   };
 
@@ -187,7 +190,6 @@ async function showFirstShape() {
   if (!field || !first || !descriptors[first]) return;
 
   await field.morphTo(descriptors[first]);
-  announceShape(descriptors[first]);
 }
 
 // ------------------------------------------------- Navigation entre les pages
@@ -260,6 +262,7 @@ async function navigate(path, pushState) {
 
     safely('bandeaux défilants', () => marquees?.refresh(document));
     nav?.setCurrentPage(slug);
+    updateQuickCta(0);
     safely('révélation des textes', () => activateContent(main));
     await showFirstShape().catch((error) => console.error('[particules] forme illisible', error));
   } catch (error) {
@@ -298,13 +301,18 @@ function maxCount(shapes) {
   return Math.max(18000, ...counts);
 }
 
-/** Affiche le nom du dessin en cours, en bas de l'écran. */
-function announceShape(descriptor) {
-  const badge = document.querySelector('[data-shape-label]');
-  if (!badge) return;
-  const label = descriptor?.label || '';
-  badge.textContent = label;
-  badge.classList.toggle('is-visible', Boolean(label));
+/**
+ * Montre ou cache le rappel de contact.
+ *
+ * Il n'apparaît qu'après la première section, pour laisser l'accueil poser son
+ * propre appel à l'action, et reste caché sur la page de contact elle-même.
+ */
+function updateQuickCta(ratio) {
+  const cta = document.querySelector('[data-quick-cta]');
+  if (!cta) return;
+
+  const onContactPage = cta.dataset.hideOn === currentPage;
+  cta.classList.toggle('is-visible', !onContactPage && ratio > 0.08);
 }
 
 function updateProgressBar(ratio) {

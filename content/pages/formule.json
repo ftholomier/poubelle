@@ -1,0 +1,121 @@
+{
+  "title": "La Formule — l'équation invariable de la réussite",
+  "navLabel": "Formule",
+  "order": 3,
+  "meta": {
+    "description": "(A+V+D) × PS × H2H = M : l'équation qui explique pourquoi certaines entreprises deviennent des évidences sur leur marché."
+  },
+  "sections": [
+    {
+      "id": "hero",
+      "kind": "hero",
+      "eyebrow": "La Formule",
+      "title": [
+        "L'équation invariable",
+        "de la réussite"
+      ],
+      "outlineFrom": 1,
+      "subtitle": "Ni hasard, ni tendance esthétique",
+      "body": "Pourquoi certaines entreprises deviennent-elles des évidences sur leur marché alors que d'autres s'épuisent à chercher de la visibilité ? Le succès d'une activité ne relève ni du hasard, ni d'une simple tendance esthétique. Il repose sur une équation mathématique précise.",
+      "shape": {
+        "type": "preset",
+        "preset": "infinity",
+        "count": 17000,
+        "depth": 0.2,
+        "spin": 0.09,
+        "label": "Lemniscate — l'équation qui boucle"
+      }
+    },
+    {
+      "id": "equation",
+      "kind": "formula",
+      "eyebrow": "L'équation",
+      "formula": "(A + V + D) × PS × H2H = M",
+      "body": "Cette formule, forgée au fil des décennies, orchestre l'alchimie parfaite entre un socle identitaire indestructible, un multiplicateur de confiance exponentiel, et la variable ultime qui déclenche la décision à l'ère du tout-numérique. Le résultat final ? Ce que tout dirigeant cherche viscéralement à sécuriser.",
+      "shape": {
+        "type": "preset",
+        "preset": "galaxy",
+        "count": 16000,
+        "spin": 0.16,
+        "label": "Galaxie — l'alchimie de la formule"
+      }
+    },
+    {
+      "id": "une-equation",
+      "kind": "stats",
+      "eyebrow": "Le compte est bon",
+      "items": [
+        {
+          "value": 1,
+          "label": "Seule équation suffit pour débloquer votre croissance et redéfinir les règles de votre secteur."
+        }
+      ],
+      "shape": {
+        "type": "svg",
+        "src": "shapes/eclair.svg",
+        "mode": "fill",
+        "count": 14000,
+        "spin": 0.06,
+        "label": "Éclair — le déclic"
+      }
+    },
+    {
+      "id": "mecaniques",
+      "kind": "cards",
+      "eyebrow": "Sous le capot",
+      "title": [
+        "Les mécaniques cachées",
+        "de la formule"
+      ],
+      "outlineFrom": 1,
+      "cards": [
+        {
+          "num": "01",
+          "title": "Le Socle",
+          "mode": "Les 3 piliers additionnés",
+          "text": "Ce qui vous rend incontournable et instantanément reconnaissable."
+        },
+        {
+          "num": "02",
+          "title": "Le Multiplicateur",
+          "mode": "PS",
+          "text": "L'élément qui transforme l'intérêt en certitude absolue pour vos prospects."
+        },
+        {
+          "num": "03",
+          "title": "L'Accélérateur Relationnel",
+          "mode": "H2H",
+          "text": "L'ingrédient secret qui garantit le résultat final de l'équation."
+        }
+      ],
+      "shape": {
+        "type": "svg",
+        "src": "shapes/croissance.svg",
+        "mode": "fill",
+        "count": 15000,
+        "spin": 0.07,
+        "label": "Courbe de croissance — le résultat de l'équation"
+      }
+    },
+    {
+      "id": "deverrouiller",
+      "kind": "contact",
+      "eyebrow": "À vous de jouer",
+      "title": [
+        "Vous voulez découvrir",
+        "ce qui se cache derrière ces lettres",
+        "et l'appliquer à votre activité ?"
+      ],
+      "outlineFrom": 2,
+      "action": "Déverrouiller la Formule",
+      "shape": {
+        "type": "svg",
+        "src": "shapes/oeil.svg",
+        "mode": "fill",
+        "count": 15000,
+        "spin": 0.05,
+        "label": "Œil — voir ce qui se cache derrière les lettres"
+      }
+    }
+  ]
+}

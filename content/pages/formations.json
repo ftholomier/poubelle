@@ -1,0 +1,108 @@
+{
+  "title": "Formations — transmission et montée en compétences",
+  "navLabel": "Formations",
+  "order": 4,
+  "meta": {
+    "description": "Formations concrètes à l'intelligence artificielle, au web et à l'automatisation, pensées pour les dirigeants de TPE et PME et leurs équipes."
+  },
+  "sections": [
+    {
+      "id": "hero",
+      "kind": "hero",
+      "eyebrow": "Formations",
+      "title": [
+        "Transmission et",
+        "montée en compétences"
+      ],
+      "outlineFrom": 1,
+      "subtitle": "Sans jargon, directement applicable",
+      "body": "Le digital et l'intelligence artificielle évoluent à une vitesse fulgurante. Pour rester compétitif, il est indispensable de maîtriser ces nouveaux leviers. J'accompagne les dirigeants et leurs équipes à travers des formations concrètes, directement applicables et débarrassées du jargon inutile. Avec un ancrage fort dans la réalité des TPE et PME, chaque session est pensée pour vous rendre autonome, optimiser vos flux de travail et vous donner les clés stratégiques pour piloter votre croissance numérique en toute indépendance.",
+      "shape": {
+        "type": "svg",
+        "src": "shapes/ampoule.svg",
+        "mode": "fill",
+        "count": 17000,
+        "depth": 0.16,
+        "scale": 0.95,
+        "spin": 0.05,
+        "label": "Ampoule — la compétence transmise"
+      }
+    },
+    {
+      "id": "experience",
+      "kind": "stats",
+      "eyebrow": "L'expérience derrière la pédagogie",
+      "items": [
+        {
+          "value": 28,
+          "suffix": " ans",
+          "label": "D'expertise terrain et de pédagogie condensées dans des formats d'apprentissage opérationnels."
+        }
+      ],
+      "shape": {
+        "type": "svg",
+        "src": "shapes/mains.svg",
+        "mode": "fill",
+        "count": 14000,
+        "spin": 0.05,
+        "label": "Mains — la transmission"
+      }
+    },
+    {
+      "id": "thematiques",
+      "kind": "columns",
+      "marquee": "Montez en compétences",
+      "repeat": 4,
+      "speed": 0.6,
+      "columns": [
+        {
+          "title": "Intelligence artificielle",
+          "items": [
+            "Maîtrise des outils d'Intelligence Artificielle au quotidien.",
+            "Automatisation des tâches à faible valeur ajoutée."
+          ]
+        },
+        {
+          "title": "Écosystème web",
+          "items": [
+            "Création et gestion de votre écosystème web.",
+            "Stratégie d'acquisition et conversion digitale."
+          ]
+        },
+        {
+          "title": "Culture numérique",
+          "items": [
+            "Acquisition d'une culture numérique orientée résultats."
+          ]
+        }
+      ],
+      "shape": {
+        "type": "preset",
+        "preset": "grid",
+        "count": 15000,
+        "spin": 0.08,
+        "label": "Grille — le programme"
+      }
+    },
+    {
+      "id": "reserver",
+      "kind": "contact",
+      "eyebrow": "Votre équipe",
+      "title": [
+        "Prêt à transformer vos collaborateurs",
+        "en experts de leur propre",
+        "performance digitale ?"
+      ],
+      "outlineFrom": 2,
+      "action": "Réserver une session de formation",
+      "shape": {
+        "type": "svg",
+        "src": "shapes/croissance.svg",
+        "mode": "fill",
+        "count": 15000,
+        "spin": 0.06,
+        "label": "Courbe de croissance — la montée en compétences"
+      }
+    }
+  ]
+}

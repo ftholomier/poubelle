@@ -12,6 +12,7 @@ require dirname(__DIR__) . '/bootstrap.php';
 
 use App\Admin\Auth;
 use App\Admin\ContentWriter;
+use App\Admin\SectionSchema;
 use App\Config;
 use App\Content;
 use App\Http\Router;
@@ -55,6 +56,43 @@ function check(string $label, callable $test): void
     } catch (Throwable $e) {
         $failed[] = "{$group} › {$label} : " . $e->getMessage();
         echo "  \033[31m✗\033[0m {$label} — " . $e->getMessage() . "\n";
+    }
+}
+
+/**
+ * Exécute un test d'écriture sur une copie du contenu.
+ *
+ * Les méthodes de ContentWriter écrivent dans content/pages/ ; lancer la suite
+ * ne doit pas laisser le dépôt modifié. On photographie le dossier, on rend la
+ * main au test, puis on remet exactement les fichiers d'origine — y compris en
+ * cas d'exception, d'où le finally.
+ */
+function withSandboxedContent(callable $test): mixed
+{
+    $dir = APP_CONTENT . '/pages';
+    $snapshot = [];
+    foreach (glob($dir . '/*.json') ?: [] as $file) {
+        $snapshot[basename($file)] = (string) file_get_contents($file);
+    }
+    // Chaque écriture dépose une sauvegarde : celles du test n'ont rien à
+    // faire au milieu de celles du back-office.
+    $backupsBefore = glob(APP_ROOT . '/var/backups/*.json') ?: [];
+
+    try {
+        return $test();
+    } finally {
+        foreach (glob($dir . '/*.json') ?: [] as $file) {
+            if (!isset($snapshot[basename($file)])) {
+                @unlink($file);
+            }
+        }
+        foreach ($snapshot as $name => $contents) {
+            file_put_contents($dir . '/' . $name, $contents);
+        }
+        foreach (array_diff(glob(APP_ROOT . '/var/backups/*.json') ?: [], $backupsBefore) as $file) {
+            @unlink($file);
+        }
+        Content::forget();
     }
 }
 
@@ -673,6 +711,484 @@ check('Le jeton CSRF est comparé sans fuite de temps', function () {
     return !Auth::checkCsrf($token . 'x') && !Auth::checkCsrf('') && !Auth::checkCsrf(null)
         ? true
         : 'un jeton invalide a été accepté';
+});
+
+// ------------------------------------------------------- Édition du contenu
+
+suite('Édition du contenu');
+
+check('Un titre devient un identifiant lisible', function () {
+    $cases = [
+        'Tarifs & devis'        => 'tarifs-devis',
+        'Nos Références'        => 'nos-references',
+        '  Espaces   multiples ' => 'espaces-multiples',
+        'Chiffres clés 2026'    => 'chiffres-cles-2026',
+        'À propos'              => 'a-propos',
+        '---'                   => '',
+        '../../etc/passwd'      => 'etc-passwd',
+    ];
+    foreach ($cases as $input => $expected) {
+        $got = ContentWriter::slugify((string) $input);
+        if ($got !== $expected) {
+            return "« {$input} » a donné « {$got} » au lieu de « {$expected} »";
+        }
+    }
+    return true;
+});
+
+check('Une page créée est immédiatement servie par le site', function () {
+    return withSandboxedContent(function () {
+        $slug = ContentWriter::createPage([
+            'title'       => 'Tarifs & devis',
+            'description' => 'Nos formules.',
+            'order'       => 7,
+        ]);
+        if ($slug !== 'tarifs-devis') return "identifiant inattendu : « {$slug} »";
+
+        $page = Content::page($slug);
+        if ($page === null) return 'la page créée reste introuvable';
+        if ($page['title'] !== 'Tarifs & devis') return 'titre non repris';
+        // Sans libellé de menu, c'est le titre qui sert d'entrée.
+        if (($page['navLabel'] ?? '') !== 'Tarifs & devis') return 'libellé de menu non déduit du titre';
+        if (count($page['sections']) !== 1) return 'la page doit naître avec une section';
+
+        return in_array($slug, array_column(Content::pages(), 'slug'), true)
+            ? true
+            : 'la page manque dans la liste';
+    });
+});
+
+check('Deux pages ne peuvent pas porter le même identifiant', function () {
+    return withSandboxedContent(function () {
+        try {
+            ContentWriter::createPage(['title' => 'Accueil', 'slug' => 'accueil']);
+            return 'doublon accepté';
+        } catch (InvalidArgumentException $e) {
+            return str_contains($e->getMessage(), 'accueil') ? true : $e->getMessage();
+        }
+    });
+});
+
+check('Une page sans titre est refusée', function () {
+    return withSandboxedContent(function () {
+        try {
+            ContentWriter::createPage(['title' => '   ']);
+            return 'acceptée à tort';
+        } catch (InvalidArgumentException) {
+            return true;
+        }
+    });
+});
+
+check('Retirer une page du menu ne la retire pas du site', function () {
+    return withSandboxedContent(function () {
+        // Une page du menu autre que l'accueil, quelle que soit l'arborescence.
+        $cible = null;
+        foreach (Content::navigation() as $item) {
+            if ($item['slug'] !== Content::HOME) {
+                $cible = $item['slug'];
+                break;
+            }
+        }
+        if ($cible === null) return 'aucune page à masquer dans le menu';
+
+        ContentWriter::updatePage($cible, ['inNav' => false]);
+
+        $menu = array_column(Content::navigation(), 'slug');
+        if (in_array($cible, $menu, true)) return 'la page est restée dans le menu';
+
+        // Elle doit rester lisible : une adresse déjà partagée ne doit pas casser.
+        return Content::page($cible) !== null ? true : 'la page a disparu du site';
+    });
+});
+
+check('L\'ordre du menu suit l\'ordre demandé', function () {
+    return withSandboxedContent(function () {
+        $slugs = array_column(Content::pages(), 'slug');
+        $reversed = array_reverse($slugs);
+        ContentWriter::reorderPages($reversed);
+
+        $got = array_column(Content::navigation(), 'slug');
+        // navPages() ne garde que les pages du menu : on compare à ce sous-ensemble.
+        $expected = array_values(array_intersect($reversed, $got));
+
+        return $got === $expected ? true : 'obtenu ' . implode(', ', $got);
+    });
+});
+
+check('Un identifiant inconnu dans l\'ordre du menu est ignoré', function () {
+    return withSandboxedContent(function () {
+        $before = array_column(Content::navigation(), 'slug');
+        ContentWriter::reorderPages(['page-fantome', '../etc/passwd', '']);
+
+        return array_column(Content::navigation(), 'slug') === $before
+            ? true
+            : 'l\'ordre a bougé';
+    });
+});
+
+check('L\'accueil ne peut pas être supprimé', function () {
+    return withSandboxedContent(function () {
+        try {
+            ContentWriter::deletePage(Content::HOME);
+            return 'suppression acceptée';
+        } catch (InvalidArgumentException) {
+            return is_file(APP_CONTENT . '/pages/' . Content::HOME . '.json')
+                ? true
+                : 'le fichier a tout de même été supprimé';
+        }
+    });
+});
+
+check('Une page supprimée laisse une sauvegarde', function () {
+    return withSandboxedContent(function () {
+        $slug = ContentWriter::createPage(['title' => 'Page jetable']);
+        ContentWriter::deletePage($slug);
+
+        if (Content::page($slug) !== null) return 'la page répond encore';
+
+        $backups = glob(APP_ROOT . '/var/backups/' . $slug . '-*.json') ?: [];
+        foreach ($backups as $file) {
+            @unlink($file);
+        }
+        return $backups !== [] ? true : 'aucune sauvegarde écrite';
+    });
+});
+
+check('Une section ajoutée reçoit un identifiant unique', function () {
+    return withSandboxedContent(function () {
+        $first = ContentWriter::addSection('accueil', 'stats', 'Chiffres clés');
+        if ($first !== 'chiffres-cles') return "identifiant inattendu : « {$first} »";
+
+        $second = ContentWriter::addSection('accueil', 'stats', 'Chiffres clés');
+        if ($second !== 'chiffres-cles-2') return "collision non résolue : « {$second} »";
+
+        $ids = array_column(Content::page('accueil')['sections'], 'id');
+        return count($ids) === count(array_unique($ids)) ? true : 'identifiants en double';
+    });
+});
+
+check('Un type de section inconnu est refusé', function () {
+    return withSandboxedContent(function () {
+        try {
+            ContentWriter::addSection('accueil', 'carrousel-3d');
+            return 'accepté à tort';
+        } catch (InvalidArgumentException $e) {
+            return str_contains($e->getMessage(), 'carrousel-3d') ? true : $e->getMessage();
+        }
+    });
+});
+
+check('Le texte saisi est nettoyé avant d\'être écrit', function () {
+    return withSandboxedContent(function () {
+        $id = ContentWriter::addSection('accueil', 'stats', 'essai');
+        ContentWriter::updateSection('accueil', $id, [
+            'eyebrow' => "  En   chiffres  ",
+            'items'   => [
+                ['value' => '48', 'suffix' => '%', 'label' => 'Taux'],
+                ['value' => '',   'suffix' => '',  'label' => ''],   // ligne laissée vide
+                ['value' => '99999999', 'label' => 'Plafonné'],       // au-delà du maximum
+            ],
+            'clef_inventee' => 'à jeter',
+        ]);
+
+        $section = null;
+        foreach (Content::page('accueil')['sections'] as $s) {
+            if ($s['id'] === $id) $section = $s;
+        }
+        if ($section === null) return 'section introuvable';
+
+        if ($section['eyebrow'] !== 'En chiffres') return "espaces non normalisés : « {$section['eyebrow']} »";
+        if (count($section['items']) !== 2) return 'la ligne vide a été écrite';
+        if ($section['items'][0]['value'] !== 48) return 'un entier doit rester entier';
+        if ($section['items'][1]['value'] !== 1000000) return 'plafond non appliqué';
+        if (isset($section['clef_inventee'])) return 'une clé inconnue a été conservée';
+
+        return true;
+    });
+});
+
+check('Modifier une section ne touche pas à sa forme', function () {
+    return withSandboxedContent(function () {
+        $before = null;
+        foreach (Content::page('accueil')['sections'] as $s) {
+            if ($s['id'] === 'hero') $before = $s['shape'] ?? null;
+        }
+        if ($before === null) return 'la section d\'essai n\'a pas de forme';
+
+        ContentWriter::updateSection('accueil', 'hero', ['title' => "Nouveau titre\nsur deux lignes"]);
+
+        $after = null;
+        foreach (Content::page('accueil')['sections'] as $s) {
+            if ($s['id'] === 'hero') $after = $s;
+        }
+        if (($after['shape'] ?? null) !== $before) return 'la forme a changé';
+
+        return $after['title'] === ['Nouveau titre', 'sur deux lignes']
+            ? true
+            : 'le titre à plusieurs lignes n\'a pas été découpé';
+    });
+});
+
+check('Une section se déplace, sans sortir de la liste', function () {
+    return withSandboxedContent(function () {
+        $ids = fn () => array_column(Content::page('accueil')['sections'], 'id');
+        $start = $ids();
+        if (count($start) < 2) return 'il faut au moins deux sections pour ce test';
+
+        ContentWriter::moveSection('accueil', $start[0], 'down');
+        $moved = $ids();
+        if ($moved[0] !== $start[1] || $moved[1] !== $start[0]) {
+            return 'échange raté : ' . implode(', ', $moved);
+        }
+
+        // Monter la première ne doit rien casser : il n'y a rien au-dessus.
+        ContentWriter::moveSection('accueil', $moved[0], 'up');
+        return $ids() === $moved ? true : 'la liste a bougé alors qu\'il n\'y a pas de place';
+    });
+});
+
+check('Une page garde au moins une section', function () {
+    return withSandboxedContent(function () {
+        $slug = ContentWriter::createPage(['title' => 'Page minimale']);
+        $only = Content::page($slug)['sections'][0]['id'];
+        try {
+            ContentWriter::deleteSection($slug, $only);
+            return 'la dernière section a été supprimée';
+        } catch (InvalidArgumentException) {
+            return count(Content::page($slug)['sections']) === 1 ? true : 'la page a été vidée';
+        }
+    });
+});
+
+check('Une écriture qui échoue ne laisse pas le fichier à moitié écrit', function () {
+    return withSandboxedContent(function () {
+        $file = APP_CONTENT . '/pages/accueil.json';
+        $before = file_get_contents($file);
+        foreach ([
+            fn () => ContentWriter::updateSection('accueil', 'section-fantome', []),
+            fn () => ContentWriter::moveSection('accueil', 'section-fantome', 'up'),
+            fn () => ContentWriter::deleteSection('accueil', 'section-fantome'),
+            fn () => ContentWriter::addSection('page-fantome', 'hero'),
+        ] as $call) {
+            try {
+                $call();
+                return 'aucune exception levée';
+            } catch (InvalidArgumentException) {
+                if (file_get_contents($file) !== $before) return 'le fichier a été modifié';
+            }
+        }
+        return true;
+    });
+});
+
+check('Le fichier réécrit garde le style du dépôt', function () {
+    return withSandboxedContent(function () {
+        $file = APP_CONTENT . '/pages/contact.json';
+        $before = (string) file_get_contents($file);
+
+        // Réécrire sans rien changer doit rendre le fichier au caractère près :
+        // sinon chaque enregistrement noierait la modification réelle dans un
+        // diff de réindentation.
+        $write = new ReflectionMethod(ContentWriter::class, 'write');
+        $write->setAccessible(true);
+        $write->invoke(null, $file, json_decode($before, true));
+
+        return file_get_contents($file) === $before ? true : 'le fichier a été réindenté';
+    });
+});
+
+check('Chaque type de section a un gabarit de rendu', function () {
+    foreach (array_keys(SectionSchema::all()) as $kind) {
+        if (!is_file(APP_ROOT . '/views/partials/section-' . $kind . '.php')) {
+            return "gabarit manquant pour « {$kind} »";
+        }
+    }
+    return true;
+});
+
+check('Le schéma décrit tous les types déjà utilisés', function () {
+    foreach (Content::pages() as $page) {
+        foreach (Content::page($page['slug'])['sections'] as $section) {
+            if (!SectionSchema::isKnownKind($section['kind'])) {
+                return "type absent du schéma : « {$section['kind']} » ({$page['slug']})";
+            }
+        }
+    }
+    return true;
+});
+
+check('Le schéma sait relire ce que le site contient déjà', function () {
+    // Passer une section existante par le nettoyage ne doit rien perdre : le
+    // formulaire du back-office est capable d'éditer le contenu livré.
+    foreach (Content::pages() as $page) {
+        foreach (Content::page($page['slug'])['sections'] as $section) {
+            $editable = $section;
+            unset(
+                $editable['id'], $editable['kind'], $editable['shape'],
+                // Clés ajoutées à la lecture, jamais saisies dans le formulaire.
+                $editable['index'], $editable['page'], $editable['shapeKey']
+            );
+
+            $roundTrip = SectionSchema::sanitize($section['kind'], $editable);
+            if ($roundTrip != $editable) {
+                return sprintf(
+                    '%s/%s : %s',
+                    $page['slug'],
+                    $section['id'],
+                    json_encode(array_keys(array_diff_key($editable, $roundTrip)), JSON_UNESCAPED_UNICODE)
+                );
+            }
+        }
+    }
+    return true;
+});
+
+check('Le rappel de contact vise la page qui porte la section contact', function () {
+    $contact = Content::contactPage();
+    if ($contact === null) return 'aucune page de contact trouvée';
+
+    $kinds = array_column(Content::page($contact['slug'])['sections'], 'kind');
+    return in_array('contact', $kinds, true)
+        ? true
+        : "la page « {$contact['slug'] }» ne contient pas de section contact";
+});
+
+check('La page de contact est celle qui se désigne comme telle', function () {
+    return withSandboxedContent(function () {
+        // Toutes les pages finissent par une prise de contact : sans repère
+        // explicite, le bouton mènerait à la première venue.
+        $designee = null;
+        foreach (Content::pages() as $page) {
+            if (($page['isContact'] ?? false) === true) {
+                $designee = $page['slug'];
+            }
+        }
+        if ($designee === null) return 'aucune page ne porte « isContact »';
+
+        $cible = Content::contactPage();
+        if ($cible['slug'] !== $designee) {
+            return "le bouton mène à « {$cible['slug']} » au lieu de « {$designee} »";
+        }
+
+        // Le libellé du bouton vient du menu de cette page : le renommer depuis
+        // le back-office doit suffire à renommer le bouton.
+        ContentWriter::updatePage($designee, ['navLabel' => 'Écrivez-nous']);
+        $apres = Content::contactPage();
+
+        return $apres['label'] === 'Écrivez-nous' && $apres['slug'] === $designee
+            ? true
+            : 'libellé inattendu : ' . json_encode($apres, JSON_UNESCAPED_UNICODE);
+    });
+});
+
+check('Sans page désignée, le rappel retombe sur une prise de contact', function () {
+    return withSandboxedContent(function () {
+        // Le repère peut manquer — un fichier écrit à la main, une page
+        // supprimée : le bouton doit continuer de mener quelque part.
+        foreach (Content::pages() as $page) {
+            if (($page['isContact'] ?? false) !== true) {
+                continue;
+            }
+            $file = APP_CONTENT . '/pages/' . $page['slug'] . '.json';
+            $data = json_decode((string) file_get_contents($file), true);
+            unset($data['isContact']);
+            file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        }
+        Content::forget();
+
+        $cible = Content::contactPage();
+        if ($cible === null) return 'plus aucune destination';
+
+        $kinds = array_column(Content::page($cible['slug'])['sections'], 'kind');
+        return in_array('contact', $kinds, true)
+            ? true
+            : "« {$cible['slug']} » ne propose pas de prise de contact";
+    });
+});
+
+// ------------------------------------------------------------------- Logo
+
+suite('Logo');
+
+check('Le logo est inséré dans la page, pas chargé comme image', function () {
+    $svg = View::inlineSvg('assets/img/logo-mono.svg');
+    if ($svg === '') return 'fichier introuvable ou vide';
+    if (!str_starts_with(trim($svg), '<svg')) return 'ce n\'est pas un SVG';
+
+    // Inséré dans le document, il doit suivre la charte plutôt que porter
+    // ses propres couleurs en dur.
+    if (!str_contains($svg, 'currentColor')) return 'l\'encre ne suit pas la couleur du texte';
+    return str_contains($svg, '--logo-accent') ? true : 'la barre ne suit pas la couleur dominante';
+});
+
+check('Le logo de partage garde les couleurs de la marque', function () {
+    $svg = View::inlineSvg('assets/img/logo.svg');
+    if ($svg === '') return 'fichier introuvable';
+    // Hors du site — favicone, partage, impression — aucune variable ne serait
+    // résolue : ce fichier-là porte les couleurs réelles.
+    if (str_contains($svg, 'currentColor') || str_contains($svg, 'var(--')) {
+        return 'des variables subsistent';
+    }
+    return str_contains($svg, '#d51317') ? true : 'le rouge de la marque a disparu';
+});
+
+check('inlineSvg refuse ce qui n\'est pas un SVG de public/', function () {
+    foreach ([
+        '../bootstrap.php',
+        '../content/site.json',
+        'assets/css/app.css',
+        'assets/img/inexistant.svg',
+    ] as $chemin) {
+        if (View::inlineSvg($chemin) !== '') return "accepté à tort : {$chemin}";
+    }
+    return true;
+});
+
+check('Le logo à particules tient dans un carré', function () {
+    $file = APP_CONTENT . '/shapes/logo.svg';
+    if (!is_file($file)) return 'forme absente de la bibliothèque';
+
+    $echantillon = \App\Shape\SvgSampler::sample($file, 2000, ['mode' => 'fill'], new Rng(11));
+    [, , $largeur, $hauteur] = $echantillon['viewBox'];
+
+    // Au-delà de deux fois plus large que haut, le cadrage écrase le nuage et
+    // le mot devient une traînée illisible.
+    $rapport = $largeur / $hauteur;
+    return $rapport < 2.0 ? true : sprintf('rapport %.2f, trop allongé', $rapport);
+});
+
+check('La favicone existe et reste un fichier léger', function () {
+    $file = APP_PUBLIC . '/assets/img/favicon.svg';
+    if (!is_file($file)) return 'favicone absente';
+    $poids = filesize($file);
+    return $poids < 8192 ? true : "{$poids} octets, trop lourd pour une favicone";
+});
+
+// ------------------------------------------------------------------- Menu
+
+suite('Menu');
+
+check('Le contact ne figure pas dans la liste ordinaire du menu', function () {
+    $contact = Content::contactPage();
+    if ($contact === null) return 'aucune page de contact';
+
+    // Il a sa place ailleurs, en bouton : le laisser aussi dans la liste
+    // ferait deux fois le même lien.
+    $menu = array_column(Content::navigation(), 'slug');
+    return !in_array($contact['slug'], $menu, true)
+        ? true
+        : 'le contact apparaît deux fois dans l\'en-tête';
+});
+
+check('Chaque entrée de menu mène à une page servie', function () {
+    foreach (Content::navigation() as $item) {
+        if (Content::page($item['slug']) === null) {
+            return "« {$item['slug']} » est au menu mais introuvable";
+        }
+        if ($item['label'] === '') return "« {$item['slug']} » n'a pas de libellé";
+    }
+    return true;
 });
 
 // ------------------------------------------------------------------------ API

@@ -403,3 +403,165 @@ code { font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace; font-size:
 }
 
 .admin--diagnostic .table td { vertical-align: middle; }
+
+/* ------------------------------------------------- Édition du contenu */
+
+.admin__crumbs { margin: 0 0 1rem; font-size: 0.85rem; color: #8f8ba6; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+/* Grille de formulaire : deux colonnes sur large écran, une seule au-dessous.
+   Chaque champ décide de sa largeur, sans avoir à compter les colonnes. */
+.grid-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 0 1.4rem;
+    align-items: start;
+}
+
+.field--wide { grid-column: 1 / -1; }
+.field--narrow input { max-width: 10rem; }
+
+.field--check {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.field--check input { width: 18px; height: 18px; accent-color: var(--accent, #7b01f7); }
+.field--check span { font-size: 0.9rem; }
+
+.field__hint {
+    display: block;
+    margin-top: 0.3rem;
+    color: #8f8ba6;
+    font-size: 0.76rem;
+    font-weight: 300;
+    line-height: 1.45;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.field textarea {
+    width: 100%;
+    padding: 0.62rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #f0eef8;
+    font: inherit;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+.field input[type='number'] {
+    width: 100%;
+    padding: 0.62rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #f0eef8;
+    font: inherit;
+    font-size: 0.9rem;
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.4rem;
+    margin-top: 1.4rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ------------------------------------------------------ Listes répétables */
+
+.repeater {
+    margin: 0 0 1.4rem;
+    padding: 1rem 1.1rem 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.repeater legend { padding: 0 0.4rem; }
+.repeater__items { display: grid; gap: 0.9rem; margin-bottom: 1rem; }
+
+.repeater__item {
+    padding: 0.9rem 1rem 0.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.repeater__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.7rem;
+}
+
+.repeater__rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.09);
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #cbb8ff;
+}
+
+.repeater__remove {
+    padding: 0.25rem 0.6rem;
+    border: 1px solid rgba(255, 90, 120, 0.35);
+    border-radius: 100px;
+    background: none;
+    color: #ff8fa3;
+    font: inherit;
+    font-size: 0.73rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.repeater__remove:hover:not(:disabled) { background: rgba(255, 90, 120, 0.14); }
+.repeater__remove:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* ------------------------------------------------------------- Actions */
+
+.icon-button {
+    display: block;
+    width: 26px;
+    height: 22px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    color: #cfcbe4;
+    font: inherit;
+    font-size: 0.8rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.icon-button:hover:not(:disabled) { background: rgba(255, 255, 255, 0.12); }
+.icon-button:disabled { opacity: 0.25; cursor: not-allowed; }
+
+.table__move { display: grid; gap: 3px; }
+.table__move form { margin: 0; }
+.table__rank { width: 4.2rem; }
+.table__actions form { display: inline-block; margin: 0 0 0 0.35rem; }
+
+.button--danger {
+    background: none;
+    border: 1px solid rgba(255, 90, 120, 0.4);
+    color: #ff8fa3;
+}
+
+.button--danger:hover:not(:disabled) { background: rgba(255, 90, 120, 0.16); transform: none; }
+.panel--danger { border-color: rgba(255, 90, 120, 0.28); }

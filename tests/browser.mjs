@@ -48,7 +48,11 @@ function watch(page, { ignore = [] } = {}) {
     }
   });
   page.on('requestfailed', (r) => {
-    if (!isExternal(r.url())) bag.push(`requête échouée : ${r.url()}`);
+    // Quitter une page annule ce qu'elle chargeait encore : une police
+    // interrompue par la navigation suivante n'est pas une panne du site.
+    const cause = r.failure()?.errorText || '';
+    if (cause.includes('ERR_ABORTED')) return;
+    if (!isExternal(r.url())) bag.push(`requête échouée : ${r.url()} (${cause})`);
   });
   return bag;
 }
@@ -64,6 +68,23 @@ async function scrollToSection(page, id) {
     const element = document.getElementById(sectionId);
     window.scrollTo(0, element.getBoundingClientRect().top + window.scrollY);
   }, id);
+}
+
+/**
+ * Amène à l'écran la section qui contient le premier élément visé.
+ *
+ * Les identifiants de section appartiennent au contenu : les écrire ici ferait
+ * échouer la suite à la première réorganisation du site depuis le back-office.
+ * On cherche donc l'effet — un bandeau, un compteur — et non un nom.
+ */
+async function scrollToFirst(page, selector) {
+  return page.evaluate((sel) => {
+    const target = document.querySelector(sel);
+    const section = target?.closest('[data-section]');
+    if (!section) return null;
+    window.scrollTo(0, section.getBoundingClientRect().top + window.scrollY);
+    return section.id;
+  }, selector);
 }
 
 /**
@@ -90,10 +111,31 @@ async function litPixels(page, clip) {
   }, shot.toString('base64'));
 }
 
+/**
+ * Adresses du site, lues sur le site lui-même.
+ *
+ * Renommer ou réorganiser les pages depuis le back-office ne doit pas casser
+ * la suite : elle demande la liste au menu plutôt que de la connaître.
+ */
+async function siteMap(browser) {
+  const page = await browser.newPage();
+  await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
+  const map = await page.evaluate(() => ({
+    pages: [...document.querySelectorAll('.menu__link')].map((a) => a.getAttribute('href')),
+    contact: document.querySelector('.menu__cta')?.getAttribute('href') || null,
+  }));
+  await page.close();
+  return map;
+}
+
 const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH || undefined,
   args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--no-sandbox'],
 });
+
+const SITE = await siteMap(browser);
+// Une page interne autre que l'accueil, pour les tests de navigation.
+const AUTRE = SITE.pages.find((url) => url !== '/') || '/';
 
 // ------------------------------------------------------- Le nuage suit le scroll
 
@@ -160,7 +202,8 @@ suite('Animations');
   const outlines = await page.evaluate(() => document.querySelectorAll('.title__line--outline').length);
   check(`Des titres sont tracés au trait (${outlines})`, outlines > 0 || 'aucun titre en contour');
 
-  await scrollToSection(page, 'manifeste');
+  const sectionBandeau = await scrollToFirst(page, '[data-marquee]');
+  check('Une section porte un bandeau défilant', sectionBandeau !== null || 'aucun bandeau sur la page');
   await page.waitForTimeout(1200);
   const first = await page.evaluate(() => document.querySelector('.marquee__track')?.style.transform || '');
   await page.waitForTimeout(1400);
@@ -170,14 +213,51 @@ suite('Animations');
     (first !== '' && second !== '' && first !== second) || `avant « ${first} », après « ${second} »`
   );
 
-  await scrollToSection(page, 'chiffres');
-  await page.waitForTimeout(2600);
-  const counters = await page.evaluate(() =>
-    [...document.querySelectorAll('[data-counter]')].map((e) => e.textContent)
+  await page.close();
+}
+
+{
+  // Page neuve : le bloc précédent a défilé jusqu'au bandeau, en passant devant
+  // les chiffres — leur montée était donc déjà jouée et terminée.
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(2500);
+
+  const sectionChiffres = await scrollToFirst(page, '[data-counter]');
+  check('Une section porte des chiffres animés', sectionChiffres !== null || 'aucun compteur sur la page');
+
+  // Zéro peut être la bonne réponse — « 0 mois d'engagement » est un argument.
+  // On ne vérifie donc pas que les chiffres sont non nuls, mais qu'ils montent
+  // puis s'arrêtent exactement sur la valeur annoncée.
+  const releve = () => page.evaluate(() => {
+    // PHP sépare les milliers par une espace ordinaire, toLocaleString par une
+    // espace fine insécable : à l'œil c'est le même chiffre, on compare donc
+    // les deux côtés normalisés.
+    const normal = (t) => t.replace(/[\u202f\u00a0]/g, ' ').trim();
+    return [...document.querySelectorAll('[data-counter]')].map((e) => ({
+      lu: normal(e.textContent),
+      attendu: normal(Number(e.dataset.counter).toLocaleString('fr-FR') + (e.dataset.suffix || '')),
+    }));
+  });
+
+  // La montée dure 1,4 s : on l'échantillonne pendant qu'elle se joue.
+  const pendant = [];
+  for (let i = 0; i < 6; i++) {
+    pendant.push(await releve());
+    await page.waitForTimeout(180);
+  }
+  await page.waitForTimeout(2000);
+  const apres = await releve();
+
+  check(
+    `Les compteurs s'arrêtent sur la bonne valeur (${apres.map((c) => c.lu).join(', ')})`,
+    (apres.length > 0 && apres.every((c) => c.lu === c.attendu)) ||
+      apres.filter((c) => c.lu !== c.attendu).map((c) => `« ${c.lu} » au lieu de « ${c.attendu} »`).join(', ')
   );
   check(
-    `Les compteurs s'animent (${counters.join(', ')})`,
-    (counters.length > 0 && counters.every((v) => !/^0\D*$/.test(v))) || `restés à zéro : ${counters.join(', ')}`
+    'Les chiffres montent au lieu d\'apparaître',
+    pendant.some((releve) => releve.some((c, i) => c.lu !== apres[i]?.lu)) ||
+      `aucune valeur intermédiaire relevée : ${apres.map((c) => c.lu).join(', ')}`
   );
 
   await page.close();
@@ -209,7 +289,9 @@ suite('Navigation entre les pages');
       page: document.getElementById('contenu')?.dataset.page,
       first: document.querySelector('main [data-section]')?.id,
       shape: window.__particules?.currentId,
-      active: document.querySelector('.menu__link.is-active')?.dataset.navLink,
+      // Le contact est un bouton, pas une entrée de liste : on cherche le
+      // marquage, pas la classe d'un seul des deux.
+      active: document.querySelector('[data-nav-link].is-active')?.dataset.navLink,
       kept: window.__pasDeRechargement === true,
       scroll: Math.round(window.scrollY),
     }));
@@ -246,7 +328,7 @@ for (const size of [
   const page = await browser.newPage({ viewport: { width: size.width, height: size.height } });
   const overflow = [];
 
-  for (const path of ['/', '/solutions', '/methode', '/contact']) {
+  for (const path of [...SITE.pages, SITE.contact]) {
     await page.goto(BASE + path, { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(1200);
     const bad = await page.evaluate((where) => {
@@ -324,7 +406,7 @@ suite('Le site ne dépend que de lui-même');
     }
   });
 
-  for (const path of ['/', '/solutions', '/methode', '/contact']) {
+  for (const path of [...SITE.pages, SITE.contact]) {
     await page.goto(BASE + path, { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
   }
@@ -360,7 +442,7 @@ suite('Chaque module porte sa version');
     }
   });
 
-  for (const path of ['/', '/solutions', '/methode', '/contact', '/diagnostic']) {
+  for (const path of [...SITE.pages, SITE.contact, '/diagnostic']) {
     await page.goto(BASE + path, { waitUntil: 'networkidle' });
     await page.waitForTimeout(1000);
   }
@@ -567,14 +649,109 @@ suite('Accessibilité du défilement');
   await page.close();
 }
 
+// ------------------------------------------------------ Rappel de contact
+
+suite('Rappel de contact');
+{
+  const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  const problems = watch(page);
+
+  const state = () =>
+    page.evaluate(() => {
+      const el = document.querySelector('[data-quick-cta]');
+      if (!el) return { present: false };
+      const style = getComputedStyle(el);
+      return {
+        present: true,
+        opacity: Number(style.opacity),
+        visibility: style.visibility,
+        href: el.getAttribute('href'),
+        text: el.textContent.trim(),
+      };
+    });
+
+  await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(2600);
+
+  const top = await state();
+  check('Le rappel de contact est présent', top.present || 'lien absent de la page');
+  // Caché par « visibility », donc hors du parcours au clavier : un lien
+  // seulement transparent resterait cliquable et atteignable par tabulation.
+  check(
+    'Il est inerte en haut de page',
+    (top.opacity === 0 && top.visibility === 'hidden') ||
+      `opacité ${top.opacity}, visibilité ${top.visibility}`
+  );
+
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight * 0.3));
+  await page.waitForTimeout(900);
+  const scrolled = await state();
+  check(
+    'Il apparaît une fois la première section passée',
+    (scrolled.opacity === 1 && scrolled.visibility === 'visible') ||
+      `opacité ${scrolled.opacity}, visibilité ${scrolled.visibility}`
+  );
+  check('Il pointe vers la page de contact', scrolled.href === SITE.contact || `pointe sur ${scrolled.href}`);
+  check('Il porte un texte', scrolled.text.length > 2 || `texte « ${scrolled.text} »`);
+
+  // Il ferait doublon sur la page qu'il vise : la navigation sans rechargement
+  // doit donc le cacher, sans attendre un rechargement complet.
+  await page.click(`.menu__cta[href="${SITE.contact}"]`);
+  await page.waitForTimeout(1800);
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight * 0.4));
+  await page.waitForTimeout(900);
+  const onContact = await state();
+  check(
+    'Il disparaît sur la page de contact',
+    onContact.visibility === 'hidden' || `visibilité ${onContact.visibility}`
+  );
+
+  await page.click(`.menu__link[href="${AUTRE}"]`);
+  await page.waitForTimeout(1800);
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight * 0.35));
+  await page.waitForTimeout(900);
+  const back = await state();
+  check(
+    'Il revient en quittant la page de contact',
+    back.visibility === 'visible' || `visibilité ${back.visibility}`
+  );
+
+  check('Aucune erreur autour du rappel', problems.length === 0 || problems.join(' | '));
+  await page.close();
+}
+
+{
+  // Sans JavaScript, personne n'observe le scroll : le rappel doit être offert
+  // d'emblée, sauf sur la page qu'il vise.
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1280, height: 900 } });
+  const page = await context.newPage();
+
+  const visibility = async (path) => {
+    await page.goto(BASE + path, { waitUntil: 'networkidle' });
+    return page.evaluate(() => {
+      const el = document.querySelector('[data-quick-cta]');
+      return el ? getComputedStyle(el).visibility : 'absent';
+    });
+  };
+
+  check('Sans script, le rappel reste offert', (await visibility('/')) === 'visible' || 'rappel caché');
+  check(
+    'Sans script, il ne s\'affiche pas sur la page de contact',
+    (await visibility(SITE.contact)) === 'hidden' || 'rappel affiché sur sa propre page'
+  );
+
+  await context.close();
+}
+
 // -------------------------------------------------------------- Back-office
 
 suite('Back-office');
 {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-  // Le refus de connexion répond volontairement 401 : le navigateur le
-  // journalise comme une erreur, ce n'en est pas une.
-  const problems = watch(page, { ignore: [/401/] });
+  // Deux réponses attendues que le navigateur journalise comme des erreurs :
+  // le refus de connexion, volontairement 401, et le 404 que la suite provoque
+  // elle-même pour vérifier qu'une page supprimée ne répond plus.
+  const problems = watch(page, { ignore: [/401/, /404/] });
 
   await page.goto(BASE + '/admin', { waitUntil: 'domcontentloaded' });
   check(
@@ -653,6 +830,110 @@ suite('Back-office');
       (after !== '' && after !== before) || `resté sur ${before}`
     );
   }
+
+    // ------------------------------------------------ Écriture du contenu
+    //
+    // Le parcours complet, tel qu'il sera vécu : créer une page, la voir
+    // apparaître sur le site, en modifier une section, la retirer du menu,
+    // puis la supprimer. La page d'essai est effacée en fin de parcours,
+    // quel que soit le résultat des vérifications.
+    const essai = 'Page d\'essai automatique';
+    const essaiSlug = 'page-d-essai-automatique';
+    try {
+      await page.goto(BASE + '/admin/pages', { waitUntil: 'domcontentloaded' });
+      await page.fill('input[name="title"]', essai);
+      await page.fill('input[name="description"]', 'Créée par la suite de tests.');
+      await page.selectOption('select[name="kind"]', 'statement');
+      await page.click('button:has-text("Créer la page")');
+      await page.waitForTimeout(700);
+
+      check(
+        'La page créée mène à son écran d\'édition',
+        page.url().endsWith('/admin/page/' + essaiSlug) || `arrivé sur ${page.url()}`
+      );
+
+      // Le site la sert immédiatement, et le menu la reprend.
+      const visitor = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+      await visitor.goto(BASE + '/' + essaiSlug, { waitUntil: 'domcontentloaded' });
+      check(
+        'Le site sert la page créée',
+        (await visitor.title()).includes(essai) || `titre « ${await visitor.title()} »`
+      );
+      check(
+        'Le menu reprend la page créée',
+        (await visitor.locator(`nav a[href="/${essaiSlug}"]`).count()) > 0 || 'lien absent du menu'
+      );
+
+      // Modifier le contenu d'une section : ce que l'on écrit ici doit être
+      // exactement ce que le visiteur lit.
+      const sectionId = await page.evaluate(
+        () => document.querySelector('.table__actions a[href*="/section/"]')?.getAttribute('href')?.split('/').pop() || ''
+      );
+      check('La page naît avec une section modifiable', sectionId !== '' || 'aucune section listée');
+
+      await page.goto(BASE + `/admin/page/${essaiSlug}/section/${sectionId}`, { waitUntil: 'domcontentloaded' });
+      // Les champs sont regroupés sous « champ[…] » : c'est ce préfixe qui
+      // permet au contrôleur de distinguer le contenu du jeton anti-CSRF.
+      await page.fill('[name="champ[title]"]', 'Titre venu du back-office');
+      await page.fill('[name="champ[body]"]', 'Texte venu du back-office.');
+      // Le bouton par son intitulé : « Déconnexion », posé par le gabarit
+      // commun, est le premier bouton d'envoi de la page.
+      await page.click('button:has-text("Enregistrer le contenu")');
+      await page.waitForTimeout(700);
+
+      await visitor.goto(BASE + '/' + essaiSlug, { waitUntil: 'domcontentloaded' });
+      const rendu = await visitor.evaluate(() => document.querySelector('main')?.textContent || '');
+      check(
+        'Le texte saisi arrive sur le site',
+        rendu.includes('Titre venu du back-office') && rendu.includes('Texte venu du back-office.')
+          ? true
+          : 'texte introuvable dans la page'
+      );
+
+      // Retirer du menu : la page reste servie, seul le lien disparaît.
+      await page.goto(BASE + '/admin/page/' + essaiSlug, { waitUntil: 'domcontentloaded' });
+      await page.uncheck('input[name="inNav"]');
+      await page.click('button:has-text("Enregistrer les réglages")');
+      await page.waitForTimeout(700);
+
+      await visitor.goto(BASE + '/' + essaiSlug, { waitUntil: 'domcontentloaded' });
+      check(
+        'Une page masquée sort du menu',
+        (await visitor.locator(`nav a[href="/${essaiSlug}"]`).count()) === 0 || 'lien encore présent'
+      );
+      check(
+        'Une page masquée reste accessible par son adresse',
+        (await visitor.title()).includes(essai) || 'la page ne répond plus'
+      );
+
+      // L'accueil, lui, doit résister : c'est lui qui répond à la racine.
+      await page.goto(BASE + '/admin/page/accueil', { waitUntil: 'domcontentloaded' });
+      const canDeleteHome = await page.evaluate(
+        () => document.querySelectorAll('form[action="/admin/page/accueil/supprimer"] button').length
+      );
+      check(
+        'L\'écran de l\'accueil n\'offre pas de suppression',
+        canDeleteHome === 0 || `${canDeleteHome} bouton(s) de suppression proposé(s)`
+      );
+
+      await visitor.close();
+    } finally {
+      // Ménage : la suite ne doit pas laisser de page derrière elle.
+      await page.goto(BASE + '/admin/page/' + essaiSlug, { waitUntil: 'domcontentloaded' });
+      page.once('dialog', (d) => d.accept());
+      // Le formulaire de la page, pas ceux des sections : ceux-là portent
+      // « /section/<id>/supprimer » et le premier est désactivé.
+      const removal = page.locator(`form[action="/admin/page/${essaiSlug}/supprimer"] button`);
+      if (await removal.count()) {
+        await removal.click();
+        await page.waitForTimeout(700);
+      }
+      const gone = await page.evaluate(
+        (slug) => fetch('/' + slug, { redirect: 'manual' }).then((r) => r.status),
+        essaiSlug
+      );
+      check('La page supprimée ne répond plus', gone === 404 || `le site répond ${gone}`);
+    }
 
   check('Aucune erreur dans le back-office', problems.length === 0 || problems.join(' | '));
   await page.close();

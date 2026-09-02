@@ -5,14 +5,17 @@ de plusieurs milliers de particules occupe le fond en permanence, **se recompose
 dessin différent à chaque section**, et une poussière d'ambiance couvre toute la page en
 suivant la souris et le défilement.
 
-Deux choses le distinguent d'une maquette :
+Trois choses le distinguent d'une maquette :
 
 - **Vous choisissez le dessin de chaque section** — un SVG, une image, une forme
   mathématique ou un mot — depuis un back-office privé ou une ligne de JSON.
 - **Vous choisissez la couleur dominante du site.** Fond, textes, bordures, halos,
   particules et poussière en découlent. Un seul champ repeint tout.
+- **Vous écrivez tout le contenu depuis le back-office** : textes, sections, pages, ordre
+  du menu. Aucune ligne de code à toucher pour changer un mot.
 
-Le contenu de démonstration reprend celui de [le-digital.com](https://le-digital.com).
+Le contenu est celui de [le-digital.com](https://le-digital.com) : accompagnement digital,
+outils sur-mesure, la Formule, et les formations.
 
 ---
 
@@ -47,10 +50,10 @@ Apache, et `docs/nginx.conf.example` pour nginx.
 ### Tests
 
 ```bash
-php tests/run.php                          # 73 tests hors ligne
+php tests/run.php                          # 104 tests hors ligne
 php tests/run.php http://localhost:8000    # + 13 tests de l'API et du back-office
 
-# Bout en bout, dans un vrai navigateur (Playwright requis)
+# Bout en bout, dans un vrai navigateur (Playwright requis) — 89 tests
 node tests/browser.mjs http://localhost:8000 playwright votre@adresse.fr "mot-de-passe"
 ```
 
@@ -62,7 +65,13 @@ La suite navigateur vérifie ce que la suite PHP ne peut pas voir : que le nuage
 **réellement visible** — elle compte les pixels allumés, un statut « nuage calculé » ne
 prouvant rien —, qu'il change de forme d'une section et d'une page à l'autre, qu'aucun
 texte n'est rogné de 360 à 1920 px, que la navigation ne recharge pas la page, qu'un lien
-atteint au clavier est bien amené à l'écran, et que le back-office fait son travail.
+atteint au clavier est bien amené à l'écran, et que le back-office fait son travail — y
+compris le parcours complet : créer une page, y écrire un texte, le retrouver sur le site,
+retirer la page du menu, puis la supprimer.
+
+Ni l'une ni l'autre n'écrit d'adresse de page en dur : la suite PHP travaille sur une copie
+du contenu qu'elle remet en place, et la suite navigateur lit la liste des pages dans le
+menu du site. Réorganiser l'arborescence depuis le back-office ne casse donc aucun test.
 
 ---
 
@@ -73,7 +82,9 @@ Tout ce qui n'a pas à être public vit sous `/admin`, derrière un mot de passe
 | Écran | Ce qu'on y fait |
 |---|---|
 | `/admin` | Vue d'ensemble : pages, sections, couleur en cours |
-| `/admin/pages` | Toutes les pages et le dessin de chacune de leurs sections |
+| `/admin/pages` | **Toutes les pages** : créer, réordonner le menu, masquer, ouvrir |
+| `/admin/page/{page}` | Réglages d'une page, liste de ses sections, suppression |
+| `/admin/page/{page}/section/{id}` | **Le contenu** : les champs de la section, un formulaire par type |
 | `/admin/formes` | **L'atelier** : composer un dessin en particules et l'affecter à une section |
 | `/admin/theme` | La couleur dominante du site, avec aperçu en direct |
 
@@ -103,6 +114,34 @@ Si vous vous bloquez vous-même, supprimez `var/admin-throttle.json`.
 Chaque écriture est atomique et précédée d'une sauvegarde dans `var/backups/`. Une forme
 que le moteur ne sait pas construire est **refusée avant enregistrement** plutôt que de
 casser la page en production.
+
+### Modifier le contenu
+
+Chaque type de section décrit ses champs une seule fois, dans
+`src/Admin/SectionSchema.php`. Cette description sert à trois choses : dessiner le
+formulaire, nettoyer ce qu'il renvoie, et proposer la liste des types au moment d'ajouter
+une section. Ajouter un type de section revient donc à écrire une entrée dans ce fichier
+et un gabarit dans `views/partials/`.
+
+Cinq sortes de champ : une ligne, un paragraphe, une liste (une valeur par ligne saisie —
+c'est ainsi qu'on découpe un titre), un nombre borné, et un **répéteur** (les cartes, les
+colonnes, les chiffres) où l'on ajoute et retire des entrées.
+
+Ce qui est écarté à l'enregistrement, sans rien dire : les clés que le schéma ne connaît
+pas, les champs laissés vides, les entrées de répéteur entièrement vides, les caractères
+de contrôle, et les nombres hors bornes, ramenés dans l'intervalle. Ce qui est conservé :
+l'espace avant une unité (« 147 € » et non « 147€ »), là où le schéma le demande.
+
+Ce que le back-office refuse : supprimer l'accueil — c'est lui qui répond à la racine —,
+vider une page de toutes ses sections, ou supprimer la dernière page du site.
+
+### Ajouter, masquer, supprimer une page
+
+Depuis `/admin/pages`. Le titre donne l'adresse : « Tarifs & devis » devient
+`/tarifs-devis`. Le rang fixe la place dans le menu ; une page peut en être retirée sans
+cesser d'être servie, ce qui laisse une adresse déjà partagée fonctionner.
+
+Une page supprimée laisse une copie dans `var/backups/`.
 
 ---
 
@@ -136,9 +175,10 @@ Un gris reste gris — aucune teinte ne lui est inventée. Et toute clé posée 
 
 ---
 
-## Ajouter une page
+## Ajouter une page à la main
 
-Déposez un fichier `content/pages/ma-page.json` :
+Le back-office fait la même chose sans quitter le navigateur ; ce qui suit décrit le
+fichier qu'il écrit. Déposez `content/pages/ma-page.json` :
 
 ```json
 {
@@ -156,7 +196,9 @@ Elle apparaît aussitôt sur `/ma-page`, dans le menu et dans le back-office. `o
 place dans le menu, `"inNav": false` la garde hors menu. Le nom du fichier devient l'URL —
 il doit donc rester simple : minuscules, chiffres et tirets.
 
-`accueil.json` est servi à la racine.
+`accueil.json` est servi à la racine. `"isContact": true` désigne la page vers laquelle
+pointent le bouton du menu et le rappel du bas de page ; sans ce repère, c'est la première
+page portant une section `contact` qui est retenue.
 
 ### Types de section
 
@@ -170,7 +212,7 @@ il doit donc rester simple : minuscules, chiffres et tirets.
 | `stats` | Chiffres animés au défilement |
 | `formula` | Une formule en très grand, en dégradé |
 | `quote` | Citation |
-| `contact` | Titre et boutons d'action |
+| `contact` | Titre et boutons d'action — `action` donne le libellé du bouton |
 
 `"outlineFrom": 1` trace au trait les lignes de titre à partir du rang indiqué : c'est le
 contraste plein / contour caractéristique de ce genre de site. L'épaisseur du filet se
@@ -250,6 +292,36 @@ fonctionne parfaitement ; une illustration détaillée devient une tache.
 
 Formes livrées : `fusee` · `ampoule` · `cible` · `croissance` · `bulle` · `eclair` ·
 `engrenage` · `oeil` · `mains` · `logo-ld`, plus deux logos clients dans `shapes/logos/`.
+
+---
+
+## Le logo
+
+Le logo `le|digital.com` est **vectoriel**, reconstruit à partir de Montserrat ExtraBold —
+la graisse déjà embarquée sur le site. Il ne dépend donc d'aucun chargement de police et
+reste net à toutes les tailles, favicone comprise.
+
+| Fichier | Usage |
+|---|---|
+| `public/assets/img/logo-mono.svg` | L'en-tête. Encre en `currentColor`, barre et carré en `--logo-accent` |
+| `public/assets/img/logo.svg` | Partage, impression : les couleurs réelles de la marque |
+| `public/assets/img/favicon.svg` | Le « d », la barre et le carré — le mot entier serait illisible à seize pixels |
+| `content/shapes/logo.svg` | La version **empilée**, pour le nuage de particules |
+
+Dans l'en-tête, le logo est **inséré dans le document** plutôt que chargé comme image :
+une balise `<img>` est une image close, que ni `currentColor` ni les variables de charte
+n'atteignent, et il faudrait alors autant de fichiers que de fonds. Inséré, le même tracé
+suit la couleur du texte et la couleur dominante choisie. Réglez la dominante sur le rouge
+de la marque et le logo retrouve exactement ses couleurs d'origine.
+
+La version empilée existe parce que le logo en ligne fait **4,25 fois plus large que
+haut** : cadré dans la fenêtre, il devient une traînée de points illisible. Sur trois
+lignes, il tient dans un carré et chaque lettre se lit. Un test vérifie que ce rapport
+reste sous 2.
+
+Les quatre fichiers sont produits par un même script, gardé dans
+`tools/logo.py` : le refaire à une autre taille ou avec une autre graisse ne demande pas
+de redessiner quoi que ce soit.
 
 ---
 
@@ -408,6 +480,9 @@ public/                ← racine web
   index.php            Contrôleur frontal
   assets/js/           Moteur de particules, interface, back-office
   assets/css/
+  assets/img/          Logo, favicone
+  assets/fonts/        Montserrat, servi par le site
+tools/                 Serveur de développement, mot de passe, logo
 tests/run.php          Suite PHP, sans dépendance
 tests/browser.mjs      Suite navigateur (Playwright)
 var/                   Cache, sauvegardes, empreinte du mot de passe — hors du web
@@ -432,7 +507,7 @@ régénère dès qu'un fichier source est modifié.
 ## Ce que le site ne charge pas
 
 **Aucune requête ne sort du domaine.** Ni CDN, ni Google Fonts, ni script tiers. Un test
-navigateur le vérifie à chaque exécution, sur les quatre pages.
+navigateur le vérifie à chaque exécution, sur toutes les pages du menu.
 
 Ce n'est pas seulement une question de performance : l'appel direct à Google Fonts
 transmet l'adresse IP du visiteur à un tiers sans son consentement, ce que la CNIL et

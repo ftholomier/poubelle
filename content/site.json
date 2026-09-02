@@ -1,6 +1,6 @@
 {
   "name": "LE-DIGITAL.com",
-  "baseline": "Expert webmarketing & communication digitale",
+  "baseline": "Direction digitale externalisée, outils sur-mesure et formations",
   "lang": "fr",
   "_couleur": [
     "Une seule couleur pilote tout le site : « dominant ».",
@@ -15,12 +15,12 @@
   },
   "meta": {
     "titleSuffix": "LE-DIGITAL.com",
-    "description": "Formation, accompagnement et prestations de service pour utiliser tous les leviers du digital et développer ton activité.",
+    "description": "Direction digitale externalisée à 360°, outils métier sur-mesure et formations. Un interlocuteur unique, 28 années de terrain, dès 147 € HT par mois sans engagement.",
     "author": "Frédéric Tholomier"
   },
   "contact": {
-    "cta": "On collabore !",
-    "rdv": "On prend RdV ?",
+    "cta": "Parlons-en",
+    "rdv": "Prendre rendez-vous",
     "linkedin": "https://www.linkedin.com/in/ledigital/",
     "site": "https://le-digital.com"
   },

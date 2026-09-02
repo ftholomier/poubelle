@@ -13,6 +13,10 @@ $meta = $site['meta'] ?? [];
 $description = (string) ($page['meta']['description'] ?? $meta['description'] ?? '');
 $title = PageController::documentTitle($site, $page);
 $current = (string) ($page['slug'] ?? '');
+
+// La page de contact sert deux fois : le bouton du menu et le rappel du bas
+// de page. On la cherche une seule fois.
+$contactPage = \App\Content::contactPage();
 ?>
 <!DOCTYPE html>
 <html lang="<?= View::e($site['lang'] ?? 'fr') ?>">
@@ -35,7 +39,9 @@ $current = (string) ($page['slug'] ?? '');
           href="<?= View::e(View::asset('assets/fonts/montserrat-900.woff2')) ?>">
     <link rel="stylesheet" href="<?= View::e(View::asset('assets/css/fonts.css')) ?>">
     <link rel="stylesheet" href="<?= View::e(View::asset('assets/css/app.css')) ?>">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='<?= View::e(rawurlencode($theme['accent'])) ?>'/></svg>">
+    <?php /* Le mot entier serait illisible à seize pixels : la favicone garde
+             le « d », la barre et le carré, ce qui distingue la marque. */ ?>
+    <link rel="icon" type="image/svg+xml" href="<?= View::e(View::asset('assets/img/favicon.svg')) ?>">
 
 
     <?php /* La carte doit précéder tout module : elle indique au navigateur
@@ -91,9 +97,11 @@ $current = (string) ($page['slug'] ?? '');
     <div class="grain" aria-hidden="true"></div>
 
     <header class="masthead">
-        <a class="masthead__brand" href="/" data-internal>
-            <span class="masthead__dot" aria-hidden="true"></span>
-            <?= View::e($site['name'] ?? '') ?>
+        <?php /* Le logo est inséré dans le document, pas chargé comme image :
+                 son encre suit la couleur du texte et sa barre la couleur
+                 dominante du site. Le nom reste lu par les lecteurs d'écran. */ ?>
+        <a class="masthead__brand" href="/" data-internal aria-label="<?= View::e($site['name'] ?? '') ?> — accueil">
+            <?= View::inlineSvg('assets/img/logo-mono.svg') ?>
         </a>
 
         <button
@@ -120,6 +128,23 @@ $current = (string) ($page['slug'] ?? '');
                         </a>
                     </li>
                 <?php endforeach; ?>
+
+                <?php /* Le contact ne se range pas avec les autres pages : c'est
+                         l'action que le site cherche, il prend donc la forme d'un
+                         bouton en bout de menu. Il est retiré de la liste ordinaire
+                         par « inNav » dans son fichier de contenu. */ ?>
+                <?php if ($contactPage !== null): ?>
+                    <li>
+                        <a
+                            class="menu__cta<?= $contactPage['slug'] === $current ? ' is-active' : '' ?>"
+                            href="<?= View::e($contactPage['url']) ?>"
+                            data-internal
+                            data-nav-link="<?= View::e($contactPage['slug']) ?>"
+                            <?= $contactPage['slug'] === $current ? 'aria-current="page"' : '' ?>>
+                            <?= View::e($contactPage['label']) ?>
+                        </a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </nav>
     </header>
@@ -150,7 +175,29 @@ $current = (string) ($page['slug'] ?? '');
     </div>
 
     <div class="progress" data-progress aria-hidden="true"><span></span></div>
-    <p class="shape-badge" data-shape-label aria-live="polite"></p>
+
+    <?php /*
+      Rappel permanent, en bas à droite. Il remplace le nom du dessin en cours,
+      qui n'apprenait rien au visiteur. Il n'apparaît qu'une fois la première
+      section passée — pour ne pas concurrencer l'appel à l'action de l'accueil —
+      et disparaît sur la page de contact, où il ferait doublon.
+
+      Sans JavaScript, aucun scroll n'est observé : le rappel est alors montré
+      d'emblée, sauf sur la page de contact — d'où la classe posée ici, que le
+      script ignore puisqu'il pilote lui-même l'affichage.
+    */ ?>
+    <?php if ($contactPage !== null): ?>
+        <a
+            class="quick-cta<?= $current === $contactPage['slug'] ? ' quick-cta--self' : '' ?>"
+            href="<?= View::e($contactPage['url']) ?>"
+            data-internal
+            data-quick-cta
+            data-hide-on="<?= View::e($contactPage['slug']) ?>">
+            <span class="quick-cta__dot" aria-hidden="true"></span>
+            <?= View::e($site['contact']['cta'] ?? 'On collabore !') ?>
+        </a>
+    <?php endif; ?>
+
     <div class="page-veil" data-page-veil aria-hidden="true"></div>
 
     <script type="application/json" id="theme-data"><?= View::json($theme) ?></script>

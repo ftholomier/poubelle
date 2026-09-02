@@ -1,19 +1,24 @@
 {
-  "title": "On collabore ?",
-  "navLabel": "On collabore !",
-  "order": 4,
+  "title": "Contact",
+  "navLabel": "Contact",
+  "order": 5,
+  "inNav": false,
+  "isContact": true,
   "meta": {
-    "description": "Une question, un projet, une envie de reprendre la main sur ton digital : on en parle."
+    "description": "Une question, un projet, une envie de déléguer votre digital : on en parle directement, sans intermédiaire."
   },
   "sections": [
     {
-      "id": "contact",
-      "kind": "contact",
-      "eyebrow": "La suite",
+      "id": "hero",
+      "kind": "hero",
+      "eyebrow": "Contact",
       "title": [
-        "On collabore ?"
+        "Parlons de",
+        "votre projet"
       ],
-      "body": "Une question, un projet, une envie de reprendre la main sur ton digital : on en parle de vive voix.",
+      "outlineFrom": 1,
+      "subtitle": "En direct, sans intermédiaire",
+      "body": "Une question, un projet, une envie de reprendre la main sur votre digital : le plus simple reste d'en parler de vive voix. Un seul interlocuteur, une réponse rapide, et un devis clair s'il y a lieu.",
       "shape": {
         "type": "text",
         "text": "H2H",
@@ -24,12 +29,16 @@
       }
     },
     {
-      "id": "signature",
-      "kind": "marquee",
-      "text": "On collabore ?",
-      "repeat": 4,
-      "speed": 0.4,
+      "id": "echanger",
+      "kind": "contact",
+      "eyebrow": "La suite",
+      "title": [
+        "On prend",
+        "rendez-vous ?"
+      ],
+      "outlineFrom": 1,
       "body": "Réponse sous 48 h, en direct, sans intermédiaire.",
+      "action": "Prendre rendez-vous",
       "shape": {
         "type": "svg",
         "src": "shapes/bulle.svg",

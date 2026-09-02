@@ -21,6 +21,296 @@ final class ContentWriter
     /** Nombre de sauvegardes conservées par fichier. */
     private const KEEP_BACKUPS = 10;
 
+    // ------------------------------------------------------------------ Pages
+
+    /**
+     * Crée une page, avec une première section pour qu'elle ne soit pas vide.
+     *
+     * @param  array<string,mixed> $data
+     * @return string l'identifiant retenu
+     */
+    public static function createPage(array $data): string
+    {
+        $slug = self::slugify((string) ($data['slug'] ?? $data['title'] ?? ''));
+        if ($slug === '') {
+            throw new \InvalidArgumentException('Il faut au moins un titre pour créer une page.');
+        }
+        if (Content::page($slug) !== null) {
+            throw new \InvalidArgumentException("Une page « {$slug} » existe déjà.");
+        }
+
+        $kind = (string) ($data['kind'] ?? 'hero');
+        if (!SectionSchema::isKnownKind($kind)) {
+            $kind = 'hero';
+        }
+
+        $title = self::text($data['title'] ?? $slug, 160) ?: $slug;
+        $page = [
+            'title'    => $title,
+            'navLabel' => self::text($data['navLabel'] ?? '', 60) ?: $title,
+            'order'    => self::order($data['order'] ?? null),
+            'inNav'    => ($data['inNav'] ?? true) !== false,
+            'meta'     => ['description' => self::text($data['description'] ?? '', 300)],
+            'sections' => [[
+                'id'    => 'intro',
+                'kind'  => $kind,
+                'title' => [$title],
+                'shape' => ['type' => 'preset', 'preset' => 'sphere', 'count' => 12000],
+            ]],
+        ];
+
+        self::write(self::pageFile($slug), $page);
+
+        return $slug;
+    }
+
+    /**
+     * Modifie les réglages d'une page : titre, entrée de menu, rang, description.
+     *
+     * @param array<string,mixed> $data
+     */
+    public static function updatePage(string $slug, array $data): void
+    {
+        $file = self::pageFile($slug, true);
+        $page = self::read($file);
+
+        if (array_key_exists('title', $data)) {
+            $page['title'] = self::text($data['title'], 160) ?: ($page['title'] ?? $slug);
+        }
+        if (array_key_exists('navLabel', $data)) {
+            $page['navLabel'] = self::text($data['navLabel'], 60) ?: ($page['title'] ?? $slug);
+        }
+        if (array_key_exists('order', $data)) {
+            $page['order'] = self::order($data['order']);
+        }
+        if (array_key_exists('inNav', $data)) {
+            $page['inNav'] = (bool) $data['inNav'];
+        }
+        if (array_key_exists('description', $data)) {
+            $description = self::text($data['description'], 300);
+            if ($description === '') {
+                unset($page['meta']['description']);
+            } else {
+                $page['meta']['description'] = $description;
+            }
+        }
+
+        self::write($file, $page);
+    }
+
+    /**
+     * Supprime une page.
+     *
+     * L'accueil est protégé : c'est lui qui répond à la racine du site, et le
+     * supprimer laisserait une adresse d'accueil sans contenu.
+     */
+    public static function deletePage(string $slug): void
+    {
+        $file = self::pageFile($slug, true);
+
+        if ($slug === Content::HOME) {
+            throw new \InvalidArgumentException(
+                "L'accueil ne peut pas être supprimé : c'est lui qui répond à la racine du site."
+            );
+        }
+        if (count(Content::pages()) <= 1) {
+            throw new \InvalidArgumentException('Il doit rester au moins une page.');
+        }
+
+        // La sauvegarde permet de récupérer la page si la suppression était une erreur.
+        self::backup($file);
+        if (!@unlink($file)) {
+            throw new \RuntimeException('Suppression impossible : vérifiez les droits sur content/pages/.');
+        }
+
+        Content::forget();
+    }
+
+    /**
+     * Fixe le rang de chaque page dans le menu, dans l'ordre reçu.
+     *
+     * @param list<string> $slugs
+     */
+    public static function reorderPages(array $slugs): void
+    {
+        $rank = 1;
+        foreach ($slugs as $slug) {
+            if (!Content::isValidSlug((string) $slug) || Content::page((string) $slug) === null) {
+                continue;
+            }
+            $file = self::pageFile((string) $slug, true);
+            $page = self::read($file);
+            $page['order'] = $rank++;
+            self::write($file, $page);
+        }
+    }
+
+    // --------------------------------------------------------------- Sections
+
+    /**
+     * Ajoute une section à la fin d'une page.
+     *
+     * @return string l'identifiant retenu
+     */
+    public static function addSection(string $slug, string $kind, string $id = ''): string
+    {
+        if (!SectionSchema::isKnownKind($kind)) {
+            throw new \InvalidArgumentException("Type de section inconnu : « {$kind} »");
+        }
+
+        $file = self::pageFile($slug, true);
+        $page = self::read($file);
+        $existing = array_column($page['sections'] ?? [], 'id');
+
+        $id = self::slugify($id !== '' ? $id : $kind);
+        if ($id === '') {
+            $id = $kind;
+        }
+        // Un identifiant sert d'ancre dans l'URL : il doit rester unique.
+        $base = $id;
+        $n = 2;
+        while (in_array($id, $existing, true)) {
+            $id = $base . '-' . $n++;
+        }
+
+        $page['sections'][] = [
+            'id'    => $id,
+            'kind'  => $kind,
+            'shape' => ['type' => 'preset', 'preset' => 'sphere', 'count' => 12000],
+        ];
+
+        self::write($file, $page);
+
+        return $id;
+    }
+
+    /**
+     * Remplace le contenu éditorial d'une section, sans toucher à sa forme.
+     *
+     * @param array<string,mixed> $fields valeurs brutes venues du formulaire
+     */
+    public static function updateSection(string $slug, string $sectionId, array $fields): void
+    {
+        $file = self::pageFile($slug, true);
+        $page = self::read($file);
+        $index = self::findSection($page, $sectionId, $slug);
+
+        $section = $page['sections'][$index];
+        $kind = (string) ($section['kind'] ?? 'statement');
+
+        // La forme et l'identité de la section sont pilotées ailleurs : on les
+        // reporte telles quelles, et le reste vient du schéma.
+        $rebuilt = ['id' => $section['id'], 'kind' => $kind]
+            + SectionSchema::sanitize($kind, $fields);
+        if (isset($section['shape'])) {
+            $rebuilt['shape'] = $section['shape'];
+        }
+
+        $page['sections'][$index] = $rebuilt;
+        self::write($file, $page);
+    }
+
+    public static function deleteSection(string $slug, string $sectionId): void
+    {
+        $file = self::pageFile($slug, true);
+        $page = self::read($file);
+        $index = self::findSection($page, $sectionId, $slug);
+
+        if (count($page['sections']) <= 1) {
+            throw new \InvalidArgumentException('Une page doit garder au moins une section.');
+        }
+
+        array_splice($page['sections'], $index, 1);
+        self::write($file, $page);
+    }
+
+    /**
+     * Déplace une section d'un cran.
+     *
+     * @param string $direction « up » ou « down »
+     */
+    public static function moveSection(string $slug, string $sectionId, string $direction): void
+    {
+        $file = self::pageFile($slug, true);
+        $page = self::read($file);
+        $index = self::findSection($page, $sectionId, $slug);
+
+        $target = $direction === 'up' ? $index - 1 : $index + 1;
+        if ($target < 0 || $target >= count($page['sections'])) {
+            // Déjà en bout de liste : il n'y a rien à faire, ce n'est pas une erreur.
+            return;
+        }
+
+        [$page['sections'][$index], $page['sections'][$target]] =
+            [$page['sections'][$target], $page['sections'][$index]];
+
+        self::write($file, $page);
+    }
+
+    // ----------------------------------------------------------------- Outils
+
+    /**
+     * @param array<string,mixed> $page
+     */
+    private static function findSection(array $page, string $sectionId, string $slug): int
+    {
+        foreach ($page['sections'] ?? [] as $index => $section) {
+            if (($section['id'] ?? null) === $sectionId) {
+                return $index;
+            }
+        }
+
+        throw new \InvalidArgumentException("Section inconnue : {$slug}/{$sectionId}");
+    }
+
+    private static function pageFile(string $slug, bool $mustExist = false): string
+    {
+        if (!Content::isValidSlug($slug)) {
+            throw new \InvalidArgumentException("Identifiant de page invalide : « {$slug} »");
+        }
+        $file = APP_CONTENT . '/pages/' . $slug . '.json';
+        if ($mustExist && !is_file($file)) {
+            throw new \InvalidArgumentException("Page inconnue : « {$slug} »");
+        }
+
+        return $file;
+    }
+
+    /**
+     * Transforme un titre en identifiant utilisable dans une URL.
+     */
+    public static function slugify(string $value): string
+    {
+        $value = trim($value);
+        if ($value === '') {
+            return '';
+        }
+
+        // Les accents deviennent leur lettre de base ; tout le reste devient un tiret.
+        $ascii = @iconv('UTF-8', 'ASCII//TRANSLIT', $value);
+        if ($ascii !== false) {
+            $value = $ascii;
+        }
+        $value = strtolower(preg_replace('/[^A-Za-z0-9]+/', '-', $value) ?? '');
+
+        return trim(preg_replace('/-+/', '-', $value) ?? '', '-');
+    }
+
+    private static function text(mixed $value, int $max): string
+    {
+        if (!is_string($value)) {
+            return '';
+        }
+        $value = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $value) ?? '';
+
+        return mb_substr(trim(preg_replace('/\s+/u', ' ', $value) ?? ''), 0, $max);
+    }
+
+    private static function order(mixed $value): int
+    {
+        return max(1, min((int) $value ?: 99, 999));
+    }
+
     /**
      * Affecte une forme à une section.
      *
@@ -214,6 +504,7 @@ final class ContentWriter
         if ($json === false) {
             throw new \RuntimeException('Encodage JSON impossible : ' . json_last_error_msg());
         }
+        $json = self::reindent($json);
 
         self::backup($file);
 
@@ -228,6 +519,24 @@ final class ContentWriter
         }
 
         Content::forget();
+    }
+
+    /**
+     * Ramène l'indentation de json_encode() de quatre espaces à deux.
+     *
+     * Les fichiers de contenu sont aussi écrits à la main : garder le même
+     * style évite qu'une sauvegarde depuis le back-office ne réindente tout le
+     * fichier et ne noie la modification réelle dans le diff. Une valeur ne
+     * peut pas contenir de saut de ligne réel — json_encode l'échappe en « \n » —
+     * donc seule l'indentation est touchée.
+     */
+    private static function reindent(string $json): string
+    {
+        return (string) preg_replace_callback(
+            '/^(?: {4})+/m',
+            static fn (array $m): string => str_repeat(' ', strlen($m[0]) / 2),
+            $json
+        );
     }
 
     private static function backup(string $file): void

@@ -71,6 +71,24 @@ final class View
     }
 
     /**
+     * Insère un fichier SVG de public/ directement dans la page.
+     *
+     * Un logo posé dans une balise « img » est une image close : ni
+     * « currentColor » ni les variables de charte ne l'atteignent, et il faut
+     * autant de fichiers que de fonds. Inséré dans le document, le même tracé
+     * suit la couleur du texte et la couleur dominante du site.
+     */
+    public static function inlineSvg(string $path): string
+    {
+        $file = APP_PUBLIC . '/' . ltrim($path, '/');
+        if (!is_file($file) || !str_ends_with($file, '.svg')) {
+            return '';
+        }
+
+        return (string) file_get_contents($file);
+    }
+
+    /**
      * Carte d'imports des modules JavaScript.
      *
      * Le suffixe de version posé par asset() ne s'applique qu'au fichier

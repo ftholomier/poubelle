@@ -1,7 +1,9 @@
 <?php use App\View; ?>
 <section class="section section--cards" id="<?= View::e($section['id']) ?>" data-section>
     <div class="shell">
-        <p class="eyebrow" data-reveal><?= View::e($section['eyebrow'] ?? '') ?></p>
+        <?php if (!empty($section['eyebrow'])): ?>
+            <p class="eyebrow" data-reveal><?= View::e($section['eyebrow']) ?></p>
+        <?php endif; ?>
         <h2 class="title title--lg">
             <?= View::capture('partials/title', [
                 'lines' => (array) ($section['title'] ?? []),
@@ -12,12 +14,24 @@
         <ul class="cards">
             <?php foreach (($section['cards'] ?? []) as $card): ?>
                 <li class="card" data-reveal>
-                    <span class="card__num"><?= View::e($card['num'] ?? '') ?></span>
+                    <?php /* Chaque ligne est facultative : une carte peut se limiter
+                             à un intitulé, sans laisser de flèche ni de puce vides. */ ?>
+                    <?php if (!empty($card['num'])): ?>
+                        <span class="card__num"><?= View::e($card['num']) ?></span>
+                    <?php endif; ?>
                     <h3 class="card__title"><?= View::e($card['title'] ?? '') ?></h3>
-                    <p class="card__mode"><?= View::e($card['mode'] ?? '') ?></p>
-                    <p class="card__goal">↑ <?= View::e($card['goal'] ?? '') ?></p>
-                    <p class="card__text"><?= View::e($card['text'] ?? '') ?></p>
-                    <span class="card__cta">Ça m'intéresse !</span>
+                    <?php if (!empty($card['mode'])): ?>
+                        <p class="card__mode"><?= View::e($card['mode']) ?></p>
+                    <?php endif; ?>
+                    <?php if (!empty($card['goal'])): ?>
+                        <p class="card__goal">↑ <?= View::e($card['goal']) ?></p>
+                    <?php endif; ?>
+                    <?php if (!empty($card['text'])): ?>
+                        <p class="card__text"><?= View::e($card['text']) ?></p>
+                    <?php endif; ?>
+                    <?php if (!empty($card['cta'])): ?>
+                        <span class="card__cta"><?= View::e($card['cta']) ?></span>
+                    <?php endif; ?>
                 </li>
             <?php endforeach; ?>
         </ul>

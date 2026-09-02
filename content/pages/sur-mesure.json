@@ -1,0 +1,116 @@
+{
+  "title": "Outils métier sur-mesure & solutions SaaS",
+  "navLabel": "Sur-mesure",
+  "order": 2,
+  "meta": {
+    "description": "Applications web et logiciels SaaS développés sur-mesure pour automatiser vos processus internes, dès 147 € HT par mois."
+  },
+  "sections": [
+    {
+      "id": "hero",
+      "kind": "hero",
+      "eyebrow": "Sur-mesure",
+      "title": [
+        "Vos outils métier",
+        "sur-mesure et solutions SaaS"
+      ],
+      "outlineFrom": 1,
+      "subtitle": "Conçus autour de vos habitudes de travail",
+      "body": "Chaque entreprise possède des processus uniques qui ne rentrent pas toujours dans les logiciels standards du marché. Pour optimiser le fonctionnement de votre structure et faire gagner un temps précieux à vos collaborateurs, je développe des solutions digitales en ligne sur-mesure, quel que soit votre domaine d'activité. Fini les tableurs complexes et les tâches répétitives, nous créons ensemble l'outil exact dont vous avez besoin, sous forme d'application web ou de logiciel SaaS, pour automatiser votre quotidien avec fluidité.",
+      "shape": {
+        "type": "svg",
+        "src": "shapes/engrenage.svg",
+        "mode": "fill",
+        "count": 17000,
+        "depth": 0.16,
+        "scale": 0.95,
+        "spin": 0.08,
+        "label": "Engrenage — vos processus automatisés"
+      }
+    },
+    {
+      "id": "mesure",
+      "kind": "stats",
+      "eyebrow": "Sur-mesure, vraiment",
+      "items": [
+        {
+          "value": 100,
+          "suffix": " %",
+          "label": "Le niveau de personnalisation de votre futur outil, adapté à votre réalité opérationnelle."
+        },
+        {
+          "value": 147,
+          "suffix": " €",
+          "label": "HT par mois. Conception, hébergement, maintenance et évolutions comprises."
+        }
+      ],
+      "shape": {
+        "type": "svg",
+        "src": "shapes/cible.svg",
+        "mode": "fill",
+        "count": 14000,
+        "spin": 0.1,
+        "label": "Cible — l'outil exact dont vous avez besoin"
+      }
+    },
+    {
+      "id": "cycle-de-vie",
+      "kind": "cards",
+      "eyebrow": "L'abonnement",
+      "title": [
+        "Tout le cycle de vie",
+        "de votre solution"
+      ],
+      "outlineFrom": 1,
+      "cards": [
+        {
+          "num": "01",
+          "title": "Conception d'une interface adaptée à vos habitudes de travail."
+        },
+        {
+          "num": "02",
+          "title": "Automatisation intelligente de vos processus internes."
+        },
+        {
+          "num": "03",
+          "title": "Hébergement sécurisé et maintenance applicative continue."
+        },
+        {
+          "num": "04",
+          "title": "Déploiement régulier des évolutions techniques."
+        },
+        {
+          "num": "05",
+          "title": "Un accompagnement de proximité pour ajuster l'outil à votre croissance."
+        }
+      ],
+      "shape": {
+        "type": "preset",
+        "preset": "helix",
+        "count": 15000,
+        "spin": 0.14,
+        "label": "Double hélice — le cycle de vie de votre outil"
+      }
+    },
+    {
+      "id": "on-en-parle",
+      "kind": "contact",
+      "eyebrow": "Votre projet",
+      "title": [
+        "Et si nous imaginions ensemble",
+        "la solution qui va transformer",
+        "l'efficacité de votre équipe ?"
+      ],
+      "outlineFrom": 2,
+      "action": "Étudier mon projet SaaS",
+      "shape": {
+        "type": "svg",
+        "src": "shapes/ampoule.svg",
+        "mode": "fill",
+        "count": 15000,
+        "spin": 0.05,
+        "label": "Ampoule — votre idée mise en service"
+      }
+    }
+  ]
+}

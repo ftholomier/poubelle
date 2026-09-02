@@ -13,8 +13,11 @@
         <?php endif; ?>
 
         <div class="contact__actions" data-reveal>
+            <?php /* Chaque page propose sa propre action — « Démarrer mon
+                     accompagnement », « Étudier mon projet »… — et retombe sur
+                     le libellé commun de site.json si elle n'en donne pas. */ ?>
             <a class="button" href="<?= View::e($site['contact']['site'] ?? '#') ?>" rel="noopener">
-                <?= View::e($site['contact']['rdv'] ?? 'On prend RdV ?') ?>
+                <?= View::e($section['action'] ?? $site['contact']['rdv'] ?? 'On prend RdV ?') ?>
             </a>
             <a class="link-arrow" href="<?= View::e($site['contact']['linkedin'] ?? '#') ?>" rel="noopener">
                 LinkedIn

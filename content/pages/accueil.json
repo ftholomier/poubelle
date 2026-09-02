@@ -1,19 +1,23 @@
 {
-  "title": "Accompagnement & Formation digitale",
-  "navLabel": "Accueil",
+  "title": "Accompagnement digital 360°",
+  "navLabel": "Offres",
   "order": 1,
   "meta": {
-    "description": "Un accompagnement digital 360° pour utiliser tous les leviers du digital, créer ou développer ton activité."
+    "description": "Direction digitale externalisée : site, chatbot IA, hébergement, réseaux sociaux et supports print pour 147 € HT par mois, sans engagement."
   },
   "sections": [
     {
       "id": "hero",
       "kind": "hero",
-      "eyebrow": "Accompagnement & Formation",
-      "title": ["Accompagnement", "& Formation"],
-      "outlineFrom": 1,
-      "subtitle": "en mode B2B · B2C · H2H",
-      "body": "Un accompagnement digital 360° pour utiliser tous les leviers du digital, créer ou développer ton activité, et devenir indépendant.",
+      "eyebrow": "Accompagnement 360°",
+      "title": [
+        "Votre direction",
+        "digitale intégrale,",
+        "sans engagement"
+      ],
+      "outlineFrom": 2,
+      "subtitle": "Un interlocuteur unique · 28 années de terrain",
+      "body": "L'externalisation de votre communication et de vos outils web ne devrait plus être un luxe ni un casse-tête. Je vous propose une prise en charge à 360 degrés de l'ensemble de votre écosystème numérique. Oubliez les devis à rallonge et les frais cachés : je gère personnellement votre présence en ligne, de la création de votre site intégrant un chatbot IA jusqu'au suivi direct via WhatsApp. Vous bénéficiez d'une tranquillité d'esprit totale avec une infrastructure sécurisée et un interlocuteur unique fort de 28 années d'expertise sur le terrain.",
       "shape": {
         "type": "svg",
         "src": "shapes/fusee.svg",
@@ -22,71 +26,101 @@
         "depth": 0.18,
         "scale": 0.95,
         "spin": 0.06,
-        "label": "Fusée — le décollage de ton activité"
+        "label": "Fusée — le décollage de votre activité"
       }
     },
     {
-      "id": "manifeste",
-      "kind": "marquee",
-      "text": "Booste ton activité",
-      "repeat": 4,
-      "speed": 0.5,
-      "body": "Le digital n'est pas une option à cocher : c'est la façon dont ton activité rencontre les gens.",
+      "id": "tarif",
+      "kind": "stats",
+      "eyebrow": "Le tarif, en clair",
+      "items": [
+        {
+          "value": 147,
+          "suffix": " €",
+          "label": "HT par mois. Un tarif unique, tout inclus et sans aucun engagement de durée."
+        },
+        {
+          "value": 0,
+          "suffix": " mois",
+          "label": "D'engagement. Vous restez libre de partir quand vous le souhaitez."
+        },
+        {
+          "value": 1,
+          "label": "Seul interlocuteur, joignable directement sur WhatsApp."
+        },
+        {
+          "value": 28,
+          "suffix": " ans",
+          "label": "D'expertise sur le terrain, au service de votre activité."
+        }
+      ],
       "shape": {
         "type": "preset",
         "preset": "galaxy",
         "count": 15000,
-        "spin": 0.14,
+        "spin": 0.12,
         "label": "Galaxie — l'écosystème digital"
       }
     },
     {
-      "id": "approche",
-      "kind": "statement",
-      "eyebrow": "L'approche",
-      "title": ["Un accompagnement", "digital 360°"],
-      "outlineFrom": 1,
-      "body": "Pour utiliser tous les leviers du digital, sans dépendre de personne. On construit, tu comprends, tu gardes la main.",
-      "shape": {
-        "type": "preset",
-        "preset": "globe",
-        "count": 14000,
-        "scale": 0.92,
-        "spin": 0.22,
-        "label": "Globe filaire — la vision 360°"
-      }
-    },
-    {
-      "id": "chiffres",
-      "kind": "stats",
-      "eyebrow": "En bref",
-      "items": [
-        { "value": 360, "suffix": "°", "label": "de couverture digitale" },
-        { "value": 6, "label": "façons de travailler ensemble" },
-        { "value": 100, "suffix": "%", "label": "finançable au CPF" }
+      "id": "inclus",
+      "kind": "columns",
+      "marquee": "Tout est inclus",
+      "repeat": 4,
+      "speed": 0.5,
+      "columns": [
+        {
+          "title": "Votre site",
+          "items": [
+            "Développement complet de votre site web sécurisé.",
+            "Intégration d'un chatbot IA personnalisé pour vos clients."
+          ]
+        },
+        {
+          "title": "La technique",
+          "items": [
+            "Hébergement haute performance, sauvegardes et mises à jour techniques.",
+            "Modifications et mises à jour illimitées de vos contenus."
+          ]
+        },
+        {
+          "title": "Votre communication",
+          "items": [
+            "Stratégie et animation de vos réseaux sociaux.",
+            "Création de tous vos supports print (plaquettes, cartes de visite).",
+            "Ligne directe sur WhatsApp pour échanger sans intermédiaire."
+          ]
+        }
       ],
       "shape": {
-        "type": "preset",
-        "preset": "ring",
-        "count": 12000,
-        "spin": 0.3,
-        "label": "Anneau — les 360°"
+        "type": "svg",
+        "src": "shapes/engrenage.svg",
+        "mode": "fill",
+        "count": 15000,
+        "spin": 0.1,
+        "label": "Engrenage — la mécanique prise en charge"
       }
     },
     {
-      "id": "conversation",
-      "kind": "quote",
-      "eyebrow": "Le principe",
-      "quote": ["Le digital provoque la conversation.", "La conversation provoque la conversion."],
-      "author": "Frédéric",
-      "role": "Fondateur de LE-DIGITAL.com",
+      "id": "on-y-va",
+      "kind": "contact",
+      "eyebrow": "On y va ?",
+      "title": [
+        "Prêt à libérer votre temps",
+        "et à déléguer votre digital",
+        "en toute sérénité ?"
+      ],
+      "outlineFrom": 2,
+      "action": "Démarrer mon accompagnement 360°",
       "shape": {
         "type": "svg",
-        "src": "shapes/bulle.svg",
+        "src": "shapes/logo.svg",
         "mode": "fill",
-        "count": 13000,
-        "depth": 0.1,
-        "label": "Bulle — la conversation d'abord"
+        "count": 18000,
+        "depth": 0.12,
+        "scale": 0.92,
+        "spin": 0.03,
+        "label": "Le logo le|digital.com"
       }
     }
   ]

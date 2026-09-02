@@ -1,5 +1,6 @@
 <?php
 
+use App\Admin\AdminController;
 use App\Admin\Auth;
 use App\View;
 
@@ -69,6 +70,16 @@ $menu = [
     </header>
 <?php endif; ?>
 
-<main class="admin__main"><?= $content ?></main>
+<main class="admin__main">
+    <?php $flash = $loggedIn ? AdminController::takeFlash() : null; ?>
+    <?php if ($flash !== null): ?>
+        <p class="notice notice--<?= $flash['level'] === 'error' ? 'error' : 'ok' ?>"
+           role="<?= $flash['level'] === 'error' ? 'alert' : 'status' ?>">
+            <?= View::e($flash['message']) ?>
+        </p>
+    <?php endif; ?>
+
+    <?= $content ?>
+</main>
 </body>
 </html>

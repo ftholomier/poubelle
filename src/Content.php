@@ -104,6 +104,46 @@ final class Content
     }
 
     /**
+     * Page de prise de contact, vers laquelle pointe le rappel permanent.
+     *
+     * Elle se désigne par « isContact » dans son fichier, plutôt que par un nom
+     * codé en dur : renommer la page ou changer son adresse depuis le
+     * back-office ne casse donc rien. Sans page désignée, on retient la
+     * première qui porte une section de prise de contact.
+     *
+     * @return array{url: string, slug: string, label: string}|null
+     */
+    public static function contactPage(): ?array
+    {
+        $fallback = null;
+
+        foreach (self::pages() as $page) {
+            $entry = [
+                'url'   => $page['url'],
+                'slug'  => $page['slug'],
+                'label' => $page['navLabel'],
+            ];
+
+            if (($page['isContact'] ?? false) === true) {
+                return $entry;
+            }
+
+            // À défaut de page désignée, la première qui propose une prise de
+            // contact fait l'affaire : le bouton mène toujours quelque part.
+            if ($fallback === null) {
+                foreach ($page['sections'] as $section) {
+                    if (($section['kind'] ?? '') === 'contact') {
+                        $fallback = $entry;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $fallback;
+    }
+
+    /**
      * Retrouve une section par son identifiant complet « page/section ».
      *
      * @return array<string,mixed>|null
