@@ -29,11 +29,11 @@ $current = (string) ($page['slug'] ?? '');
     <meta property="og:description" content="<?= View::e($description) ?>">
     <meta name="theme-color" content="<?= View::e($theme['background']) ?>">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap"
-        rel="stylesheet">
+    <?php /* Police servie par le site lui-même : aucun appel à un tiers, et le
+             texte ne change plus d'apparence après le premier affichage. */ ?>
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="<?= View::e(View::asset('assets/fonts/montserrat-900.woff2')) ?>">
+    <link rel="stylesheet" href="<?= View::e(View::asset('assets/css/fonts.css')) ?>">
     <link rel="stylesheet" href="<?= View::e(View::asset('assets/css/app.css')) ?>">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='<?= View::e(rawurlencode($theme['accent'])) ?>'/></svg>">
 

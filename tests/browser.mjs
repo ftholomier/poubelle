@@ -118,11 +118,26 @@ suite('Le nuage suit les sections');
 
   for (const id of ids) {
     await scrollToSection(page, id);
-    await page.waitForTimeout(2400);
-    const state = await page.evaluate(() => ({
-      shape: window.__particules?.currentId,
-      morphing: window.__particules?.morphing,
-    }));
+
+    // Le morphing dure une seconde et demie, mais la forme doit d'abord être
+    // téléchargée : on attend la fin réelle plutôt qu'un délai fixe, qui
+    // deviendrait capricieux dès que la machine est chargée.
+    const state = await page
+      .waitForFunction(
+        (wanted) => {
+          const field = window.__particules;
+          if (!field || field.currentId !== wanted || field.morphing) return null;
+          return { shape: field.currentId, morphing: field.morphing };
+        },
+        id,
+        { timeout: 12000, polling: 200 }
+      )
+      .then((handle) => handle.jsonValue())
+      .catch(async () => page.evaluate(() => ({
+        shape: window.__particules?.currentId,
+        morphing: window.__particules?.morphing,
+      })));
+
     check(
       `« ${id} » affiche sa forme, morphing terminé`,
       (state.shape === id && state.morphing === false) || `forme=${state.shape} morphing=${state.morphing}`
@@ -291,6 +306,118 @@ suite('Replis');
   await page.close();
 }
 
+// ------------------------------------------------------ Aucune dépendance tierce
+
+suite('Le site ne dépend que de lui-même');
+{
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  const foreign = new Set();
+
+  // Tout ce qui sort du domaine du site est relevé : polices, scripts, images.
+  // Le projet revendique l'absence de CDN, et un appel direct à Google Fonts
+  // transmet l'adresse IP du visiteur à un tiers sans son consentement.
+  page.on('request', (request) => {
+    const url = new URL(request.url());
+    if (url.origin !== new URL(BASE).origin && url.protocol !== 'data:') {
+      foreign.add(url.origin);
+    }
+  });
+
+  for (const path of ['/', '/solutions', '/methode', '/contact']) {
+    await page.goto(BASE + path, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(800);
+  }
+
+  check(
+    'Aucune requête vers un domaine tiers',
+    foreign.size === 0 || `appels sortants : ${[...foreign].join(', ')}`
+  );
+
+  const fontOk = await page.evaluate(() => document.fonts.check('900 100px Montserrat'));
+  check('La police du site est bien chargée', fontOk || 'Montserrat indisponible');
+
+  await page.close();
+}
+
+// ------------------------------------------- Isolation des sous-systèmes
+
+suite('Une panne isolée ne doit rien emporter');
+
+/**
+ * La mise en route enchaîne défilement lissé, bandeaux, révélations, moteur et
+ * poussière. Chacun doit pouvoir tomber seul : c'est ce qui a manqué lors de
+ * l'ajout de la poussière d'ambiance, dont l'échec supprimait le canevas et
+ * donc tout le décor.
+ */
+async function survivesFailureOf(scenario, install, expectations) {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await install(page);
+  await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(4000);
+
+  const state = await page.evaluate(() => ({
+    engine: Boolean(window.__particules),
+    shape: window.__particules?.currentId ?? null,
+    dust: window.__particules?.dust?.count ?? 0,
+    canvas: Boolean(document.getElementById('particles')),
+    ready: document.documentElement.classList.contains('is-ready'),
+    // Seuls les textes réellement à l'écran comptent.
+    hidden: [...document.querySelectorAll('.eyebrow, .hero__subtitle, .section__body')]
+      .filter((el) => {
+        const box = el.getBoundingClientRect();
+        return box.top < window.innerHeight && box.bottom > 0
+          && getComputedStyle(el).opacity !== '1';
+      }).length,
+  }));
+
+  await page.close();
+
+  for (const [label, verdict] of Object.entries(expectations(state))) {
+    check(`${scenario} : ${label}`, verdict === true ? true : `${verdict} — état ${JSON.stringify(state)}`);
+  }
+}
+
+// La poussière est un décor secondaire : le dessin principal doit survivre.
+await survivesFailureOf(
+  "Poussière refusée par le pilote",
+  (page) =>
+    page.route('**/particles/DustField.js*', (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: 'text/javascript',
+        body: 'export class DustField { constructor(){ throw new Error("nuanceur refusé"); } }',
+      })
+    ),
+  (s) => ({
+    'le canevas reste en place': s.canvas || 'canevas retiré',
+    'le dessin principal est affiché': s.shape !== null || 'aucune forme',
+    'la poussière est simplement absente': s.dust === 0 || `${s.dust} grains`,
+    'le texte reste lisible': s.hidden === 0 || `${s.hidden} masqué(s)`,
+  })
+);
+
+// Le défilement lissé n'est qu'un confort : sans lui le site reste entier.
+await survivesFailureOf(
+  'Défilement lissé en panne',
+  (page) =>
+    page.addInitScript(() => {
+      const real = Element.prototype.getBoundingClientRect;
+      let first = true;
+      Element.prototype.getBoundingClientRect = function () {
+        if (this.id === 'smooth-content' && first) {
+          first = false;
+          throw new Error('panne simulée');
+        }
+        return real.call(this);
+      };
+    }),
+  (s) => ({
+    'le moteur démarre quand même': s.engine || 'moteur absent',
+    'le dessin est affiché': s.shape !== null || 'aucune forme',
+    'le texte reste lisible': s.hidden === 0 || `${s.hidden} masqué(s)`,
+  })
+);
+
 // ------------------------------------------------- Le site sans JavaScript
 
 suite('Dégradation quand le script échoue');
@@ -379,11 +506,18 @@ suite('Accessibilité du défilement');
     const link = document.querySelector('.footer__nav a');
     if (!link) return 'aucun lien de pied de page';
     link.focus();
-    await new Promise((r) => setTimeout(r, 1400));
-    const box = link.getBoundingClientRect();
-    return box.top > -50 && box.bottom < window.innerHeight + 50
-      ? true
-      : `lien hors écran : top=${Math.round(box.top)}`;
+
+    // Le défilement est amorti : on attend qu'il se pose plutôt que de parier
+    // sur une durée, qui dépend de la hauteur de la page et donc du contenu.
+    const inView = () => {
+      const box = link.getBoundingClientRect();
+      return box.top > -50 && box.bottom < window.innerHeight + 50;
+    };
+    for (let i = 0; i < 60 && !inView(); i++) {
+      await new Promise((r) => setTimeout(r, 100));
+    }
+
+    return inView() ? true : `lien hors écran : top=${Math.round(link.getBoundingClientRect().top)}`;
   });
   check('Un lien atteint au clavier est amené à l\'écran', focused);
 

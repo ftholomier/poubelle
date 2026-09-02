@@ -16,6 +16,7 @@ $theme = $site['theme'] ?? [];
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
     <title>Diagnostic — <?= View::e($site['name'] ?? '') ?></title>
+    <link rel="stylesheet" href="<?= View::e(View::asset('assets/css/fonts.css')) ?>">
     <link rel="stylesheet" href="<?= View::e(View::asset('assets/css/admin.css')) ?>">
     <style>
         :root {

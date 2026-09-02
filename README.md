@@ -48,11 +48,15 @@ Apache, et `docs/nginx.conf.example` pour nginx.
 
 ```bash
 php tests/run.php                          # 70 tests hors ligne
-php tests/run.php http://localhost:8000    # + 12 tests de l'API et du back-office
+php tests/run.php http://localhost:8000    # + 13 tests de l'API et du back-office
 
 # Bout en bout, dans un vrai navigateur (Playwright requis)
 node tests/browser.mjs http://localhost:8000 playwright "mot-de-passe-admin"
 ```
+
+Elle couvre aussi les pannes : script bloqué, type MIME refusé, poussière
+d'ambiance en échec, défilement lissé en panne. Dans chacun de ces cas, le texte
+doit rester lisible et le reste du site fonctionner.
 
 La suite navigateur vérifie ce que la suite PHP ne peut pas voir : que le nuage est
 **réellement visible** — elle compte les pixels allumés, un statut « nuage calculé » ne
@@ -155,7 +159,12 @@ il doit donc rester simple : minuscules, chiffres et tirets.
 | `contact` | Titre et boutons d'action |
 
 `"outlineFrom": 1` trace au trait les lignes de titre à partir du rang indiqué : c'est le
-contraste plein / contour caractéristique de ce genre de site.
+contraste plein / contour caractéristique de ce genre de site. L'épaisseur du filet se
+règle en un seul endroit — la propriété `-webkit-text-stroke-width` de la règle
+`.title__line--outline` dans `app.css` — et elle est exprimée en `em`, donc
+proportionnelle au corps du texte. Volontairement fine : sur une graisse noire, un trait
+épais dessine deux bords bien séparés, ce qui se lit comme un défaut plutôt que comme un
+parti pris.
 
 ---
 
@@ -242,6 +251,7 @@ Formes livrées : `fusee` · `ampoule` · `cible` · `croissance` · `bulle` · 
 | `GET` | `/api/shape/{page}/{section}` | Nuage de points d'une section |
 | `GET` | `/api/preview?…` | Nuage calculé à la volée depuis des paramètres d'URL |
 | `GET` | `/health` | État du service |
+| `GET` | `/diagnostic` | Page de dépannage : teste chaque maillon du site |
 
 `?format=bin` renvoie les positions en Float32 brut (trois flottants par particule,
 petit-boutiste) : environ **quatre fois plus léger** que le JSON équivalent et directement
@@ -299,6 +309,28 @@ Un clic sur un lien interne ne recharge pas le document : seul le corps est remp
 qui laisse le nuage de particules en place et lui permet de se transformer vers le premier
 dessin de la nouvelle page. Au moindre incident, on laisse le navigateur suivre le lien
 normalement.
+
+### Quand quelque chose casse
+
+La mise en route enchaîne plusieurs sous-systèmes : défilement lissé, bandeaux
+défilants, révélation des textes, moteur de particules, poussière d'ambiance.
+**Chacun est démarré isolément** — une panne dans l'un est signalée dans la
+console et relevée dans `window.__particulesEchecs`, mais n'empêche aucun des
+autres de fonctionner. C'est indispensable : sans cette séparation, un nuanceur
+refusé par une carte graphique intégrée suffisait à faire disparaître tout le
+décor, voire à laisser la page à moitié vide.
+
+Le contenu, lui, ne dépend jamais du script : les animations d'apparition ne
+s'arment que si le script tourne, et un garde-fou les lève d'office s'il n'a pas
+démarré.
+
+**`/diagnostic`** teste chaque maillon et dit lequel lâche : version de PHP,
+extensions, présence de chaque fichier, type MIME réellement servi, WebGL,
+compilation des nuanceurs, exécution de chaque module, réponse de l'API. La page
+instancie aussi le vrai moteur dans un cadre et compte les pixels allumés, puis
+charge la page d'accueil dans un cadre isolé pour l'interroger sur son état
+réel. Elle n'utilise ni particules ni animations : elle reste lisible quand le
+reste ne l'est pas, et produit un rapport copiable.
 
 ### Replis
 
@@ -361,7 +393,22 @@ return [
 Le cache se vide en supprimant `var/cache/*.json` ; il se reconstruit tout seul, et se
 régénère dès qu'un fichier source est modifié.
 
-## Licence des dépendances
+## Ce que le site ne charge pas
 
-[Three.js](https://threejs.org) r160 (licence MIT) est embarqué dans
-`public/assets/js/vendor/`, avec sa licence. Aucun autre code tiers, aucun CDN.
+**Aucune requête ne sort du domaine.** Ni CDN, ni Google Fonts, ni script tiers. Un test
+navigateur le vérifie à chaque exécution, sur les quatre pages.
+
+Ce n'est pas seulement une question de performance : l'appel direct à Google Fonts
+transmet l'adresse IP du visiteur à un tiers sans son consentement, ce que la CNIL et
+plusieurs juridictions européennes ont jugé contraire au RGPD. La police est donc servie
+par le site lui-même, ce qui supprime au passage le décalage typographique du premier
+affichage.
+
+| Ressource | Emplacement | Licence |
+|---|---|---|
+| [Three.js](https://threejs.org) r160 | `public/assets/js/vendor/` | MIT |
+| [Montserrat](https://fonts.google.com/specimen/Montserrat) (5 graisses, 2 plages) | `public/assets/fonts/` | SIL Open Font |
+
+Le navigateur ne télécharge la plage « latin-ext » que si la page contient réellement un
+caractère qui s'y trouve : une page en français courant ne charge que « latin », soit
+environ 18 Ko par graisse utilisée.

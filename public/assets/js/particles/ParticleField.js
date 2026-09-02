@@ -100,18 +100,28 @@ export class ParticleField {
    */
   enableDust(options = {}) {
     const colors = this.theme.particles || {};
-    this.dust = new DustField(this.scene, {
-      // Moins de grains sur petit écran : le gain visuel n'y compense pas le coût.
-      count: options.count ?? (window.innerWidth < 700 ? 700 : 1600),
-      colors: [
-        colors.dustA || colors.colorStart || '#7b01f7',
-        colors.dustB || colors.colorEnd || '#25d5ff',
-        colors.dustC || '#ffffff',
-      ],
-      opacity: options.opacity ?? 0.7,
-      reducedMotion: this.reducedMotion,
-    });
-    this.resize();
+
+    // La poussière est un décor secondaire. Si son nuanceur est refusé par le
+    // pilote graphique — ce que les traducteurs GLSL des cartes intégrées font
+    // parfois là où un rendu logiciel accepte —, le dessin principal doit
+    // continuer de s'afficher.
+    try {
+      this.dust = new DustField(this.scene, {
+        // Moins de grains sur petit écran : le gain visuel n'y compense pas le coût.
+        count: options.count ?? (window.innerWidth < 700 ? 700 : 1600),
+        colors: [
+          colors.dustA || colors.colorStart || '#7b01f7',
+          colors.dustB || colors.colorEnd || '#25d5ff',
+          colors.dustC || '#ffffff',
+        ],
+        opacity: options.opacity ?? 0.7,
+        reducedMotion: this.reducedMotion,
+      });
+      this.resize();
+    } catch (error) {
+      console.error("[particules] poussière d'ambiance indisponible", error);
+      this.dust = null;
+    }
 
     return this.dust;
   }

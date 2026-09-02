@@ -56,9 +56,15 @@ export class SmoothScroll {
    * Amène un élément dans la fenêtre. À utiliser partout où l'on écrirait
    * scrollIntoView, sans effet ici puisque le contenu ne défile pas lui-même.
    */
-  scrollToElement(element, { behavior = 'smooth', offset = 120 } = {}) {
+  scrollToElement(element, { offset = 120 } = {}) {
     const top = element.getBoundingClientRect().top + (window.scrollY || 0) - offset;
-    window.scrollTo({ top: Math.max(0, top), behavior: REDUCED ? 'auto' : behavior });
+
+    // Quand le lissage par transformation est actif, c'est lui qui adoucit le
+    // trajet. Demander en plus un défilement « smooth » au navigateur empile
+    // deux amortissements : l'arrivée devient interminable, au point que le
+    // lien visé peut rester hors de l'écran plusieurs secondes.
+    const behavior = REDUCED || this.enabled ? 'auto' : 'smooth';
+    window.scrollTo({ top: Math.max(0, top), behavior });
   }
 
   resize() {

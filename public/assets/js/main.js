@@ -44,44 +44,90 @@ function giveUpAnimations(error) {
   root.classList.add('js-failed');
 }
 
+/** Étapes qui n'ont pas abouti, relevées pour la page de diagnostic. */
+const failures = [];
+
+/**
+ * Exécute une étape de la mise en route sans laisser son échec emporter les
+ * suivantes. Chaque partie du site — défilement, bandeaux, révélations,
+ * particules, poussière — doit pouvoir tomber seule : un décor qui ne se charge
+ * pas ne doit jamais rendre le contenu illisible ni faire disparaître le reste.
+ *
+ * @param {string} label   nom de l'étape, pour le journal
+ * @param {Function} step  ce qu'elle fait
+ * @returns {*} le retour de l'étape, ou null si elle a échoué
+ */
+function safely(label, step) {
+  try {
+    return step();
+  } catch (error) {
+    failures.push(label);
+    console.error(`[particules] « ${label} » a échoué`, error);
+    return null;
+  }
+}
+
 const boot = async () => {
   const canvas = document.getElementById('particles');
 
-  nav = setupNavigation();
-  scroller = new SmoothScroll(document.getElementById('smooth-wrapper'), document.getElementById('smooth-content'));
-  marquees = new MarqueeGroup(document);
-  marquees.start();
+  // L'ordre reste le même, mais aucune étape ne peut plus bloquer les autres.
+  nav = safely('navigation', () => setupNavigation());
 
-  activateContent(document);
-  setupInternalNavigation();
+  scroller = safely('défilement lissé', () =>
+    new SmoothScroll(
+      document.getElementById('smooth-wrapper'),
+      document.getElementById('smooth-content')
+    )
+  );
 
-  // Les révélations sont branchées : le texte va bien apparaître.
+  marquees = safely('bandeaux défilants', () => {
+    const group = new MarqueeGroup(document);
+    group.start();
+    return group;
+  });
+
+  safely('révélation des textes', () => activateContent(document));
+  safely('navigation interne', () => setupInternalNavigation());
+
+  // Les textes sont branchés : on peut désarmer le garde-fou du gabarit.
   confirmScriptRunning();
+  markReady();
 
   if (!canvas || !supportsWebGL()) {
     // Sans WebGL, le site reste entièrement lisible : seul le décor disparaît.
     root.classList.add('no-webgl');
     canvas?.remove();
-    markReady();
     return;
   }
 
-  try {
+  field = safely('moteur de particules', () => {
     const theme = JSON.parse(document.getElementById('theme-data')?.textContent || '{}');
-    field = new ParticleField(canvas, theme);
-    field.allocate(maxCount(descriptors));
-    field.enableDust();
-    field.resize();
-    field.start();
-  } catch (error) {
-    console.error('[particules] initialisation impossible', error);
+    const engine = new ParticleField(canvas, theme);
+    engine.allocate(maxCount(descriptors));
+    engine.resize();
+    engine.start();
+    return engine;
+  });
+
+  if (!field) {
+    // Le moteur lui-même n'a pas démarré : le décor en dégradé prend le relais.
     root.classList.add('no-webgl');
     canvas.remove();
-    markReady();
     return;
   }
 
-  await showFirstShape();
+  // Exposé dès maintenant : la page de diagnostic doit pouvoir interroger le
+  // moteur même si une étape ultérieure échoue.
+  window.__particules = field;
+  window.__particulesEchecs = failures;
+
+  // La poussière est un décor du décor : son échec ne doit rien emporter.
+  safely("poussière d'ambiance", () => field.enableDust());
+
+  await showFirstShape().catch((error) => {
+    failures.push('première forme');
+    console.error('[particules] première forme illisible', error);
+  });
 
   window.addEventListener('resize', () => field.resize(), { passive: true });
 
@@ -95,24 +141,21 @@ const boot = async () => {
   window.addEventListener('pointerleave', () => field.clearPointer(), { passive: true });
 
   window.addEventListener('scroll', () => {
-    field.setScroll(scroller.progress);
+    if (scroller) field.setScroll(scroller.progress);
     field.setScrollDistance(window.scrollY || 0);
-    updateProgressBar(scroller.progress);
+    updateProgressBar(scroller?.progress ?? 0);
   }, { passive: true });
 
   // Onglet en arrière-plan : inutile de consommer du processeur graphique.
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       field.stop();
-      marquees.stop();
+      marquees?.stop();
     } else {
       field.start();
-      marquees.start();
+      marquees?.start();
     }
   });
-
-  markReady();
-  window.__particules = field;
 };
 
 /**
@@ -141,10 +184,10 @@ function activateContent(scope) {
 
 async function showFirstShape() {
   const first = document.querySelector('main [data-section]')?.id;
-  if (first && descriptors[first]) {
-    await field.morphTo(descriptors[first]);
-    announceShape(descriptors[first]);
-  }
+  if (!field || !first || !descriptors[first]) return;
+
+  await field.morphTo(descriptors[first]);
+  announceShape(descriptors[first]);
 }
 
 // ------------------------------------------------- Navigation entre les pages
@@ -215,10 +258,10 @@ async function navigate(path, pushState) {
     scroller?.resize();
     scroller ? scroller.jumpTo(0) : window.scrollTo(0, 0);
 
-    marquees?.refresh(document);
+    safely('bandeaux défilants', () => marquees?.refresh(document));
     nav?.setCurrentPage(slug);
-    activateContent(main);
-    await showFirstShape();
+    safely('révélation des textes', () => activateContent(main));
+    await showFirstShape().catch((error) => console.error('[particules] forme illisible', error));
   } catch (error) {
     // Rien ne doit empêcher d'atteindre la page : on recharge franchement.
     console.warn('[navigation] bascule vers un chargement classique', error);

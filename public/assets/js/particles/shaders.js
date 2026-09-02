@@ -88,7 +88,10 @@ export const fragmentShader = /* glsl */ `
     vec2 uv = gl_PointCoord - 0.5;
     float d = dot(uv, uv);
     if (d > 0.25) discard;
-    float alpha = smoothstep(0.25, 0.02, d);
+    // Les bornes de smoothstep doivent aller en croissant : la spécification
+    // GLSL déclare le résultat indéfini dans le cas contraire, et les pilotes
+    // qui traduisent vers Direct3D en profitent pour rendre n'importe quoi.
+    float alpha = 1.0 - smoothstep(0.02, 0.25, d);
 
     // Dégradé sur trois teintes : violet, magenta, cyan.
     vec3 color = vMix < 0.5

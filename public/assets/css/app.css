@@ -604,27 +604,37 @@ a { color: inherit; }
 /* ------------------------------------------------- Titres pleins et contour */
 
 /* Une ligne sur deux tracée au trait : le contraste plein / contour est la
-   signature typographique de ce genre de site. Le tracé est légèrement plus
-   épais sur grand écran, où il paraîtrait sinon trop fin. */
-.title__line--outline {
+   signature typographique de ce genre de site.
+
+   L'épaisseur est exprimée en em, donc proportionnelle au corps du texte : une
+   valeur en pixels paraîtrait grasse sur un titre de téléphone et filiforme sur
+   un écran large, où le même titre fait quatre fois la taille. Le plancher en
+   pixels évite qu'elle ne devienne invisible sur les petits corps.
+
+   Le trait reste volontairement fin. Sur une graisse noire, les jambages sont
+   larges : un trait épais y dessine deux bords bien séparés, ce qui se lit
+   comme un défaut d'affichage plutôt que comme un parti pris. Un filet léger
+   redonne à la lettre son dessin d'ensemble.
+
+   Pour l'ajuster, une seule valeur à changer ici. */
+.title__line--outline,
+.marquee__item--outline {
     color: transparent;
-    -webkit-text-stroke: 1px var(--fg);
-    text-stroke: 1px var(--fg);
+    -webkit-text-stroke-width: max(1px, 0.012em);
+    -webkit-text-stroke-color: var(--fg);
+    text-stroke-width: max(1px, 0.012em);
+    text-stroke-color: var(--fg);
+    /* Le trait est peint sous la garniture : les jonctions restent nettes. */
     paint-order: stroke fill;
 }
 
-@media (min-width: 1100px) {
-    .title__line--outline {
-        -webkit-text-stroke-width: 1.5px;
-        text-stroke-width: 1.5px;
-    }
-}
-
-/* Le tracé s'applique au conteneur : les mots découpés pour la révélation
-   doivent en hériter explicitement. */
-.title__line--outline .word__inner {
-    color: transparent;
-    -webkit-text-stroke: inherit;
+/* Un trait déborde légèrement du dessin de la lettre. Les boîtes qui servent à
+   faire monter les mots le rogneraient sur les bords ; on leur laisse cette
+   marge, trop petite pour laisser voir le mot avant son entrée. */
+.js .title__line--outline .word {
+    overflow: hidden;
+    overflow: clip;
+    overflow-clip-margin: 0.05em;
 }
 
 /* ------------------------------------------------------------ Texte défilant */
@@ -662,11 +672,7 @@ a { color: inherit; }
     color: var(--fg);
 }
 
-.marquee__item--outline {
-    color: transparent;
-    -webkit-text-stroke: 1.5px var(--fg);
-    text-stroke: 1.5px var(--fg);
-}
+/* L'épaisseur du bandeau est réglée plus haut, avec celle des titres. */
 
 .marquee--tight .marquee__item { font-size: clamp(2.2rem, 7vw, 6.5rem); }
 

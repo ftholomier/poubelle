@@ -49,6 +49,46 @@
 </section>
 
 <section class="panel panel--wide">
+    <h2 class="panel__title">Essai complet du moteur</h2>
+    <p class="panel__label">
+        Le moteur est instancié ici exactement comme sur le site, avec la forme de
+        la première section. Si des particules apparaissent dans le cadre ci-dessous
+        mais pas sur le site, la panne est dans la mise en route de la page, pas
+        dans le moteur.
+    </p>
+    <div class="engine-test">
+        <canvas id="engine-canvas" width="480" height="320"></canvas>
+        <p class="panel__label" id="engine-status">Essai en cours…</p>
+    </div>
+</section>
+
+<section class="panel panel--wide">
+    <h2 class="panel__title">La page d'accueil, vue de l'intérieur</h2>
+    <p class="panel__label">
+        La page d'accueil est chargée dans un cadre isolé, puis interrogée sur son
+        état réel : classes appliquées, moteur démarré, textes révélés.
+    </p>
+    <table class="table">
+        <tbody id="page-checks">
+            <tr><td colspan="3">Chargement…</td></tr>
+        </tbody>
+    </table>
+    <?php /* Le cadre garde une taille réaliste et reste dans la fenêtre : un
+             cadre hors écran est bridé par le navigateur, ses apparitions au
+             défilement ne se déclencheraient pas et le rapport signalerait à
+             tort des textes masqués. Il est donc rendu quasi transparent et
+             placé sous la page plutôt que déporté au loin. */ ?>
+    <iframe
+        id="page-probe"
+        src="/"
+        title="Sonde de la page d'accueil"
+        style="position:fixed;inset:0;width:1280px;height:800px;border:0;
+               opacity:0.002;pointer-events:none;z-index:-1"
+        aria-hidden="true"
+        tabindex="-1"></iframe>
+</section>
+
+<section class="panel panel--wide">
     <h2 class="panel__title">À copier en cas de souci</h2>
     <pre id="report"><code>…</code></pre>
     <p><button type="button" class="button button--small" id="copy-report">Copier le rapport</button></p>

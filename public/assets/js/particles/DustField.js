@@ -69,7 +69,8 @@ const fragmentShader = /* glsl */ `
     float d = dot(uv, uv);
     if (d > 0.25) discard;
     // Bord très fondu : la poussière ne doit pas se lire comme des disques nets.
-    float alpha = smoothstep(0.25, 0.0, d);
+    // Bornes croissantes, puis inversion : smoothstep est indéfini à l'envers.
+    float alpha = 1.0 - smoothstep(0.0, 0.25, d);
     gl_FragColor = vec4(vTint, alpha * vAlpha * uOpacity);
   }
 `;

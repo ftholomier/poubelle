@@ -28,9 +28,18 @@ server {
 
     # Les URL des fichiers statiques portent une empreinte (?v=…) :
     # une longue durée de conservation est sans risque.
-    location ~* \.(css|js|svg|png|jpg|webp|woff2)$ {
+    location ~* \.(css|js|svg|png|jpg|webp)$ {
         expires 7d;
         add_header Cache-Control "public";
+        try_files $uri =404;
+    }
+
+    # Les polices ne changent jamais : conservation longue, et en-tête CORS
+    # requis par la balise <link rel="preload" as="font" crossorigin>.
+    location ~* \.woff2$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        add_header Access-Control-Allow-Origin "*";
         try_files $uri =404;
     }
 

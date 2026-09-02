@@ -18,7 +18,10 @@ function add(label, ok, detail) {
 
 function render() {
   body.dataset.filled = '1';
+  // Le tableau du haut ne montre que les vérifications générales ; celles de la
+  // sonde ont leur propre tableau, mais rejoignent le rapport à copier.
   body.innerHTML = rows
+    .filter((r) => !r.scoped)
     .map(
       (r) =>
         `<tr><td style="width:2.2rem">${r.ok ? '✅' : '❌'}</td>` +
@@ -27,6 +30,10 @@ function render() {
     )
     .join('');
 
+  renderReport();
+}
+
+function renderReport() {
   report.textContent = [
     `Navigateur : ${navigator.userAgent}`,
     `Adresse    : ${location.origin}`,
@@ -104,6 +111,209 @@ async function checkModule(label, path) {
   }
 }
 
+// -------------------------------------------------- Essai complet du moteur
+
+/**
+ * Reproduit exactement ce que fait le site : instanciation du moteur, allocation,
+ * poussière d'ambiance, chargement de la vraie forme, rendu. Puis on lit les
+ * pixels du canevas — seule preuve qu'il s'est réellement passé quelque chose.
+ */
+async function runEngine() {
+  const status = document.getElementById('engine-status');
+  const canvas = document.getElementById('engine-canvas');
+  const say = (text) => { status.textContent = text; };
+
+  // Un nuanceur refusé par le pilote n'interrompt pas le programme : Three.js
+  // se contente de l'écrire dans la console. Sans cette interception, la panne
+  // resterait invisible pour qui ne pense pas à ouvrir les outils du navigateur.
+  const shaderErrors = [];
+  const realError = console.error;
+  console.error = (...args) => {
+    const text = args.map((a) => (a instanceof Error ? a.message : String(a))).join(' ');
+    if (/shader|glsl|program|compil/i.test(text)) {
+      shaderErrors.push(text.slice(0, 400));
+    }
+    realError.apply(console, args);
+  };
+
+  try {
+    const [{ ParticleField, supportsWebGL }] = await Promise.all([
+      import('/assets/js/particles/ParticleField.js'),
+    ]);
+
+    if (!supportsWebGL()) {
+      add('Essai du moteur', false, 'WebGL indisponible : le moteur ne peut pas démarrer');
+      say('WebGL indisponible.');
+      return;
+    }
+
+    say('Instanciation…');
+    const theme = await fetch('/api/site').then((r) => r.json()).then((d) => d.theme || {});
+    const field = new ParticleField(canvas, theme);
+
+    field.allocate(16000);
+    field.enableDust({ count: 400 });
+    field.resize();
+    field.start();
+
+    say('Chargement de la forme…');
+    const page = await fetch('/api/pages').then((r) => r.json());
+    const slug = page.pages?.[0]?.slug || 'accueil';
+    const section = page.pages?.[0]?.sections?.[0] || 'hero';
+
+    await field.morphTo({
+      id: 'essai',
+      type: 'svg',
+      count: 16000,
+      shapeUrl: `/api/shape/${encodeURIComponent(slug)}/${encodeURIComponent(section)}`,
+    });
+
+    // Le morphing dure une seconde et demie ; on laisse le rendu se poser.
+    await new Promise((resolve) => setTimeout(resolve, 2600));
+
+    // Un contexte WebGL vide son tampon de dessin après composition : sans un
+    // rendu déclenché à l'instant même, la relecture ne verrait que du noir.
+    field.renderer.render(field.scene, field.camera);
+    const lit = countLitPixels(canvas);
+    const ok = lit > 300;
+    add(
+      'Essai du moteur',
+      ok,
+      ok
+        ? `${lit.toLocaleString('fr-FR')} pixels allumés : le moteur fonctionne`
+        : `le canevas est resté vide (${lit} pixels) — le rendu ne produit rien`
+    );
+    say(ok ? `Particules affichées (${lit.toLocaleString('fr-FR')} pixels allumés).` : 'Aucune particule rendue.');
+  } catch (error) {
+    add('Essai du moteur', false, `${error.name} : ${error.message}`);
+    say(`Échec : ${error.message}`);
+    realError.call(console, '[diagnostic] essai du moteur', error);
+  } finally {
+    console.error = realError;
+    if (shaderErrors.length) {
+      add(
+        'Compilation des nuanceurs',
+        false,
+        `refusés par le pilote graphique : ${shaderErrors.join(' — ')}`
+      );
+    } else {
+      add('Compilation des nuanceurs', true, 'acceptés par le pilote graphique');
+    }
+  }
+}
+
+/** Relit le canevas WebGL et compte les pixels non noirs. */
+function countLitPixels(canvas) {
+  const copy = document.createElement('canvas');
+  copy.width = canvas.width;
+  copy.height = canvas.height;
+  const ctx = copy.getContext('2d');
+  ctx.drawImage(canvas, 0, 0);
+  const data = ctx.getImageData(0, 0, copy.width, copy.height).data;
+  let lit = 0;
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i] > 40 || data[i + 1] > 40 || data[i + 2] > 40) lit++;
+  }
+  return lit;
+}
+
+// -------------------------------------------- La page d'accueil, de l'intérieur
+
+/**
+ * Charge la page d'accueil dans un cadre isolé et l'interroge sur son état réel.
+ * C'est la seule façon de savoir, depuis ici, si sa mise en route aboutit.
+ */
+function probeHomePage() {
+  const frame = document.getElementById('page-probe');
+  const body = document.getElementById('page-checks');
+
+  const report = (lines) => {
+    body.innerHTML = lines
+      .map(
+        (l) =>
+          `<tr><td style="width:2.2rem">${l.ok ? '✅' : '❌'}</td>` +
+          `<td><strong>${escapeHtml(l.label)}</strong></td>` +
+          `<td>${escapeHtml(l.detail)}</td></tr>`
+      )
+      .join('');
+    rows.push(...lines.map((l) => ({ ...l, scoped: true, label: `page d'accueil — ${l.label}` })));
+    renderReport();
+  };
+
+  const inspect = () => {
+    try {
+      const win = frame.contentWindow;
+      const doc = frame.contentDocument;
+      if (!doc) throw new Error('cadre inaccessible');
+
+      const classes = doc.documentElement.className;
+      const engine = win.__particules;
+      const revealed = doc.querySelectorAll('[data-reveal].is-revealed').length;
+      const total = doc.querySelectorAll('[data-reveal]').length;
+      // Seuls les textes réellement dans la fenêtre du cadre doivent être
+      // révélés : ceux d'en dessous attendent légitimement le défilement.
+      const hidden = [...doc.querySelectorAll('.eyebrow, .hero__subtitle, .section__body')]
+        .filter((el) => {
+          const box = el.getBoundingClientRect();
+          if (box.bottom < 0 || box.top > win.innerHeight) return false;
+          return win.getComputedStyle(el).opacity !== '1';
+        }).length;
+
+      report([
+        {
+          label: 'Mise en route',
+          ok: classes.includes('is-ready'),
+          detail: `classes appliquées : « ${classes || 'aucune'} »`,
+        },
+        {
+          label: 'Moteur de particules',
+          ok: Boolean(engine),
+          detail: engine
+            ? `démarré — forme « ${engine.currentId} », ${engine.dust?.count ?? 0} grains de poussière`
+            : "absent : la mise en route s'est interrompue avant de le créer",
+        },
+        {
+          label: 'Textes révélés',
+          ok: hidden === 0,
+          detail: `${revealed}/${total} révélés au total, ${hidden} masqué(s) parmi ceux à l'écran`,
+        },
+        {
+          label: 'Canevas',
+          ok: Boolean(doc.getElementById('particles')),
+          detail: (() => {
+            const c = doc.getElementById('particles');
+            if (!c) return 'retiré de la page';
+            const cs = win.getComputedStyle(c);
+            return `${c.width}×${c.height}, opacité ${cs.opacity}, affichage ${cs.display}`;
+          })(),
+        },
+      ]);
+    } catch (error) {
+      report([{ label: 'Sonde', ok: false, detail: error.message }]);
+    }
+  };
+
+  let done = false;
+  const inspectOnce = () => {
+    if (done) return;
+    done = true;
+    inspect();
+  };
+
+  // Le cadre commence à charger dès l'analyse de la page, souvent bien avant
+  // que cette fonction s'exécute : attendre son événement « load » ne suffit
+  // pas, il faut aussi traiter le cas où il a déjà fini.
+  const ready = frame.contentDocument?.readyState === 'complete';
+  if (ready) {
+    setTimeout(inspectOnce, 4000);
+  } else {
+    frame.addEventListener('load', () => setTimeout(inspectOnce, 4000), { once: true });
+  }
+
+  // Filet, au cas où l'événement n'arriverait jamais.
+  setTimeout(inspectOnce, 12000);
+}
+
 // ------------------------------------------------------------------ Départ
 
 // Volontairement dans une fonction : le « await » de premier niveau réclame un
@@ -133,6 +343,9 @@ async function run() {
   } catch (error) {
     add('API des formes', false, error.message);
   }
+
+  await runEngine();
+  probeHomePage();
 }
 
 run();
