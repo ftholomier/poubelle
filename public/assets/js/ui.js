@@ -363,12 +363,14 @@ export function setupCounters(root = document) {
   const targets = root.querySelectorAll('[data-counter]');
   if (targets.length === 0) return;
 
-  if (REDUCED) {
-    targets.forEach((el) => {
-      el.textContent = el.dataset.counter + (el.dataset.suffix || '');
-    });
-    return;
-  }
+  // En mouvement réduit, la valeur déjà écrite dans la page suffit.
+  if (REDUCED) return;
+
+  // Le chiffre final est dans le HTML pour rester lisible sans script :
+  // c'est donc au script de le ramener à zéro avant de le faire monter.
+  targets.forEach((el) => {
+    el.textContent = `0${el.dataset.suffix || ''}`;
+  });
 
   const observer = new IntersectionObserver(
     (entries) => {

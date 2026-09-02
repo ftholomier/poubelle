@@ -46,6 +46,10 @@ a { color: inherit; }
 
 .is-ready #particles { opacity: 1; }
 
+/* Script absent ou en échec : le canevas ne servira jamais, autant le retirer
+   du calcul de rendu. Le décor en dégradé prend le relais. */
+.js-failed #particles { display: none; }
+
 .backdrop {
     position: fixed;
     inset: 0;
@@ -56,8 +60,9 @@ a { color: inherit; }
         radial-gradient(50% 40% at 85% 15%, var(--glow-b), transparent 70%);
 }
 
-/* Sans WebGL, un dégradé animé remplace le nuage. */
-.no-webgl .backdrop {
+/* Sans WebGL — ou sans JavaScript — un dégradé plus marqué remplace le nuage. */
+.no-webgl .backdrop,
+.js-failed .backdrop {
     background:
         radial-gradient(60% 50% at 30% 30%, var(--glow-a), transparent 65%),
         radial-gradient(55% 45% at 75% 70%, var(--glow-b), transparent 65%);
@@ -488,17 +493,22 @@ a { color: inherit; }
 
 /* ---------------------------------------------------- Révélation des textes */
 
-[data-reveal] {
+/* Ces états de départ cachent le texte en attendant son animation. Ils ne
+   s'appliquent donc QUE si le script est là pour la jouer : la classe « js »
+   est posée par le gabarit, puis retirée si le module ne démarre pas. Sans ce
+   garde-fou, la moindre erreur de chargement rendrait la page à moitié vide. */
+
+.js [data-reveal] {
     opacity: 0;
     transform: translateY(22px);
     transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-reveal].is-revealed { opacity: 1; transform: none; }
+.js [data-reveal].is-revealed { opacity: 1; transform: none; }
 
 /* Un titre découpé en mots se révèle mot à mot : le conteneur, lui, reste visible. */
-[data-reveal='words'] {
+.js [data-reveal='words'] {
     opacity: 1;
     transform: none;
 }
@@ -509,13 +519,13 @@ a { color: inherit; }
     vertical-align: bottom;
 }
 
-.word__inner {
+.js .word__inner {
     display: inline-block;
     transform: translateY(105%);
     transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-reveal='words'].is-revealed .word__inner { transform: none; }
+.js [data-reveal='words'].is-revealed .word__inner { transform: none; }
 
 /* -------------------------------------------------- Repères de progression */
 
@@ -823,8 +833,8 @@ a { color: inherit; }
         transition-duration: 0.01ms !important;
     }
 
-    [data-reveal],
-    .word__inner { opacity: 1; transform: none; }
+    .js [data-reveal],
+    .js .word__inner { opacity: 1; transform: none; }
 
     /* Le bandeau reste lisible, simplement immobile. */
     .marquee__track { transform: none !important; }

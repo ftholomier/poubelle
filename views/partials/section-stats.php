@@ -6,9 +6,12 @@
             <?php foreach (($section['items'] ?? []) as $item): ?>
                 <div class="stats__item" data-reveal>
                     <dt class="stats__value">
+                        <?php /* La valeur finale est écrite dans la page : sans script,
+                                 le chiffre reste juste au lieu d'afficher zéro. */ ?>
                         <span
                             data-counter="<?= View::e((string) ($item['value'] ?? 0)) ?>"
-                            data-suffix="<?= View::e($item['suffix'] ?? '') ?>">0<?= View::e($item['suffix'] ?? '') ?></span>
+                            data-suffix="<?= View::e($item['suffix'] ?? '') ?>"
+                        ><?= View::e(number_format((float) ($item['value'] ?? 0), 0, ',', ' ')) ?><?= View::e($item['suffix'] ?? '') ?></span>
                     </dt>
                     <dd class="stats__label"><?= View::e($item['label'] ?? '') ?></dd>
                 </div>

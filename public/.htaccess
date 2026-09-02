@@ -12,6 +12,17 @@
 # Le listing de répertoire n'apporte rien et expose l'arborescence.
 Options -Indexes
 
+# Un navigateur REFUSE d'exécuter un module ES servi avec un autre type MIME
+# qu'un type JavaScript — et il le refuse en silence côté serveur. Sur un
+# hébergement dont la table MIME est incomplète, tout le site paraît figé.
+# On force donc le type, ainsi que celui des polices et du JSON.
+<IfModule mod_mime.c>
+    AddType text/javascript .js .mjs
+    AddType application/json .json
+    AddType image/svg+xml .svg
+    AddType font/woff2 .woff2
+</IfModule>
+
 <IfModule mod_headers.c>
     Header set X-Content-Type-Options "nosniff"
     Header set Referrer-Policy "strict-origin-when-cross-origin"

@@ -37,6 +37,25 @@ $current = (string) ($page['slug'] ?? '');
     <link rel="stylesheet" href="<?= View::e(View::asset('assets/css/app.css')) ?>">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='<?= View::e(rawurlencode($theme['accent'])) ?>'/></svg>">
 
+    <?php /*
+      Les animations d'apparition masquent le texte en attendant d'être jouées.
+      Elles ne doivent donc s'armer que si le script est réellement là : cette
+      classe est posée tout de suite pour éviter un clignotement, puis retirée
+      d'office si le module n'a pas démarré. Sans ce garde-fou, une erreur de
+      chargement — type MIME refusé, navigateur trop ancien, fichier absent —
+      laisserait une page à moitié vide au lieu d'un site simplement figé.
+    */ ?>
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            window.__revealGuard = setTimeout(function () {
+                root.classList.remove('js');
+                root.classList.add('js-failed');
+            }, 6000);
+        })();
+    </script>
+
     <?php /* Toute la charte descend d'une seule couleur, dérivée côté serveur. */ ?>
     <style>
         :root {

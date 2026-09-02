@@ -702,6 +702,16 @@ if ($baseUrl !== null) {
         return ($status === 404 && str_contains($body, '404')) ? true : "statut {$status}";
     });
 
+    check('La page de diagnostic répond et reste lisible sans script', function () use ($get) {
+        [$status, $body] = $get('/diagnostic');
+        if ($status !== 200) return "statut {$status}";
+        foreach (['Version de PHP', 'three.module.min.js', 'client-checks'] as $needle) {
+            if (!str_contains($body, $needle)) return "« {$needle} » absent";
+        }
+        // Ni particules ni animations : la page doit tenir sans JavaScript.
+        return !str_contains($body, 'data-reveal') ? true : 'la page dépend des animations';
+    });
+
     check('L\'ancienne adresse publique du laboratoire n\'existe plus', function () use ($get) {
         // L'atelier a rejoint le back-office : /labo ne doit plus rien servir.
         [$status] = $get('/labo');

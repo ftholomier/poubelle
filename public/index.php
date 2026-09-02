@@ -12,6 +12,7 @@ use App\Admin\AdminController;
 use App\Config;
 use App\Content;
 use App\Http\Api;
+use App\Http\DiagnosticController;
 use App\Http\PageController;
 use App\Http\Response;
 use App\Http\Router;
@@ -31,6 +32,7 @@ $router = new Router();
 // L'ordre compte : « /{slug} » avalerait sinon /api, /admin et /health.
 Api::register($router);
 AdminController::register($router);
+DiagnosticController::register($router);
 
 $router->get('/health', static function (): void {
     Response::json([

@@ -1,6 +1,15 @@
 # Exemple de configuration nginx.
 # La racine web pointe sur public/ : rien d'autre n'est exposé.
 
+# Un navigateur refuse d'exécuter un module ES servi avec un autre type MIME
+# qu'un type JavaScript. Vérifiez que /etc/nginx/mime.types est bien inclus :
+# sans lui, tout est servi en application/octet-stream et le site paraît figé.
+include       mime.types;
+types {
+    text/javascript js mjs;
+}
+default_type  application/octet-stream;
+
 server {
     listen 80;
     server_name exemple.fr;

@@ -26,6 +26,24 @@ let nav = null;
 let descriptors = readDescriptors();
 let currentPage = document.getElementById('contenu')?.dataset.page || '';
 
+/**
+ * Désamorce le garde-fou posé par le gabarit : le script est bien là et les
+ * animations d'apparition peuvent rester armées.
+ */
+function confirmScriptRunning() {
+  clearTimeout(window.__revealGuard);
+  root.classList.add('js');
+  root.classList.remove('js-failed');
+}
+
+/** Rend tout le contenu visible : le script ne pourra pas l'animer. */
+function giveUpAnimations(error) {
+  console.error('[particules] démarrage impossible, contenu affiché sans animation', error);
+  clearTimeout(window.__revealGuard);
+  root.classList.remove('js');
+  root.classList.add('js-failed');
+}
+
 const boot = async () => {
   const canvas = document.getElementById('particles');
 
@@ -36,6 +54,9 @@ const boot = async () => {
 
   activateContent(document);
   setupInternalNavigation();
+
+  // Les révélations sont branchées : le texte va bien apparaître.
+  confirmScriptRunning();
 
   if (!canvas || !supportsWebGL()) {
     // Sans WebGL, le site reste entièrement lisible : seul le décor disparaît.
@@ -251,8 +272,13 @@ function markReady() {
   root.classList.add('is-ready');
 }
 
+/** Démarre, et retombe sur un affichage sans animation en cas de pépin. */
+const start = () => {
+  boot().catch(giveUpAnimations);
+};
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', boot, { once: true });
+  document.addEventListener('DOMContentLoaded', start, { once: true });
 } else {
-  boot();
+  start();
 }

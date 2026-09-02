@@ -291,6 +291,80 @@ suite('Replis');
   await page.close();
 }
 
+// ------------------------------------------------- Le site sans JavaScript
+
+suite('Dégradation quand le script échoue');
+
+/**
+ * Le texte est masqué en attendant son animation d'apparition. Si le script
+ * ne démarre pas, ce masquage doit être levé — sans quoi la page se retrouve
+ * à moitié vide, ce qui est bien pire qu'une page simplement figée.
+ */
+async function readabilityWithout(scenario, install) {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await install(page);
+  await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
+  // Au-delà du garde-fou posé par le gabarit.
+  await page.waitForTimeout(7200);
+
+  const state = await page.evaluate(() => {
+    const hidden = [];
+    for (const el of document.querySelectorAll('.eyebrow, .hero__subtitle, .section__body, .title__line, .stats__value')) {
+      const box = el.getBoundingClientRect();
+      // Seuls les éléments réellement à l'écran sont concernés.
+      if (box.bottom < 0 || box.top > window.innerHeight) continue;
+      if (getComputedStyle(el).opacity !== '1') hidden.push(el.className || el.tagName);
+    }
+    return { classes: document.documentElement.className, hidden };
+  });
+
+  await page.close();
+
+  check(
+    `${scenario} : le texte reste lisible`,
+    state.hidden.length === 0 || `masqué : ${state.hidden.join(', ')} (classes : ${state.classes})`
+  );
+  check(
+    `${scenario} : l'échec est signalé sur la page`,
+    state.classes.includes('js-failed') || `classes : ${state.classes}`
+  );
+}
+
+await readabilityWithout('Script bloqué', (page) =>
+  page.route('**/assets/js/main.js*', (route) => route.abort())
+);
+
+// La panne la plus fréquente : un serveur qui n'envoie pas de type JavaScript.
+// Le navigateur refuse alors le module, en silence côté serveur.
+await readabilityWithout('Type MIME refusé', (page) =>
+  page.route('**/assets/js/**', async (route) => {
+    const response = await route.fetch();
+    await route.fulfill({
+      response,
+      headers: { ...response.headers(), 'content-type': 'application/octet-stream' },
+    });
+  })
+);
+
+{
+  const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
+  await page.goto(BASE + '/diagnostic', { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(5200);
+  const rows = await page.evaluate(() => {
+    const cells = [...document.querySelectorAll('#client-checks tr')];
+    return {
+      total: cells.length,
+      failed: cells.filter((r) => r.textContent.includes('❌')).map((r) => r.textContent.trim().slice(0, 90)),
+    };
+  });
+  check(
+    `La page de diagnostic teste chaque maillon (${rows.total} vérifications)`,
+    rows.total >= 8 || `seulement ${rows.total}`
+  );
+  check('Le diagnostic ne relève aucun problème', rows.failed.length === 0 || rows.failed.join(' | '));
+  await page.close();
+}
+
 // ------------------------------------------------------------------ Accessibilité
 
 suite('Accessibilité du défilement');
