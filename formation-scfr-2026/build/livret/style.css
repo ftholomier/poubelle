@@ -1,0 +1,176 @@
+/* Livret stagiaire — Agence SCFR. Feuille de style d'impression A4. */
+
+@page {
+  size: A4;
+  margin: 20mm 17mm 18mm 17mm;
+  @top-left  { content: string(chaptitle); font: 400 7.6pt "DejaVu Sans", sans-serif; color: #9A948F; }
+  @top-right { content: "Anticipez 2026 — Agence SCFR"; font: 400 7.6pt "DejaVu Sans", sans-serif; color: #9A948F; }
+  @bottom-right { content: counter(page); font: 700 8.5pt "DejaVu Sans", sans-serif; color: #322F2E; }
+  @bottom-left  { content: "Organisme de formation certifié Qualiopi"; font: 400 7.2pt "DejaVu Sans", sans-serif; color: #B5AFAA; }
+}
+@page :first { margin: 0; @top-left{content:none} @top-right{content:none} @bottom-left{content:none} @bottom-right{content:none} }
+@page cover  { margin: 0; @top-left{content:none} @top-right{content:none} @bottom-left{content:none} @bottom-right{content:none} }
+@page partpage { margin: 0; @top-left{content:none} @top-right{content:none} @bottom-left{content:none} }
+
+:root {
+  --orange:#E07B22; --orange-deep:#B45E10; --orange-soft:#FBF1E6;
+  --violet:#8A79B0; --violet-deep:#6B5B90; --violet-soft:#F1EEF6;
+  --ink:#322F2E; --ink-soft:#4A4644; --gray:#6B6663; --rule:#E3DED8;
+  --green:#3E7A5E; --green-soft:#EDF4F0; --red:#B33A3A; --red-soft:#FBEFEF;
+}
+
+* { box-sizing: border-box; }
+html { font-size: 10.2pt; }
+body {
+  font-family: "DejaVu Sans", "Liberation Sans", sans-serif;
+  color: var(--ink-soft); line-height: 1.55; margin: 0;
+  hyphens: auto; text-align: justify;
+}
+
+/* ── Couverture ─────────────────────────────────────────────── */
+.cover { page: cover; height: 297mm; background: #322F2E; color: #fff; position: relative; overflow: hidden; page-break-after: always; }
+.cover .orb { position: absolute; border-radius: 50%; }
+.cover .o1 { width: 150mm; height: 150mm; right: -55mm; top: -50mm; background: rgba(224,123,34,.20); }
+.cover .o2 { width: 110mm; height: 110mm; right: -25mm; top: 60mm; background: rgba(138,121,176,.22); }
+.cover .inner { position: relative; padding: 42mm 22mm 0 22mm; }
+.cover .eyebrow { font-size: 8.6pt; font-weight: 700; letter-spacing: .18em; color: var(--orange); text-transform: uppercase; margin: 0 0 12mm 0; text-align: left; }
+.cover h1 { font-size: 33pt; line-height: 1.12; font-weight: 700; margin: 0 0 8mm 0; color: #fff; text-align: left; }
+.cover h1 em { font-style: normal; color: var(--orange); }
+.cover .sub { font-size: 12pt; line-height: 1.6; color: #CFC9C4; max-width: 120mm; margin: 0 0 16mm 0; text-align: left; }
+.cover .kind { display: inline-block; border: 1px solid rgba(255,255,255,.3); border-radius: 3mm; padding: 2.5mm 6mm; font-size: 9pt; color: #fff; margin-bottom: 14mm; }
+.cover .meta { display: table; width: 100%; border-top: 1px solid rgba(255,255,255,.18); padding-top: 7mm; }
+.cover .meta div { display: table-cell; width: 25%; }
+.cover .meta b { display: block; font-size: 15pt; color: #fff; }
+.cover .meta span { font-size: 8.4pt; color: var(--orange); }
+.cover .foot { position: absolute; left: 22mm; right: 22mm; bottom: 18mm; font-size: 8.6pt; color: #8A8380; border-top: 1px solid rgba(255,255,255,.14); padding-top: 5mm; text-align: left; }
+.cover .foot b { color: #DCD6D1; font-weight: 400; }
+
+/* ── Titres ─────────────────────────────────────────────────── */
+/* Page de séparation de partie — pleine page */
+.partpage {
+  page: partpage; page-break-before: always; page-break-after: always;
+  height: 297mm; position: relative; overflow: hidden; color: #fff;
+}
+.partpage.p1 { background: var(--orange); }
+.partpage.p2 { background: var(--violet); }
+.partpage.p3 { background: var(--ink); }
+.partpage .orb { position: absolute; border-radius: 50%; background: rgba(255,255,255,.10); }
+.partpage .a { width: 140mm; height: 140mm; right: -45mm; top: -45mm; }
+.partpage .b { width: 95mm;  height: 95mm;  left: -30mm; bottom: 25mm; }
+.partpage .pin { position: relative; padding: 105mm 24mm 0 24mm; }
+.partpage .pnum {
+  string-set: chaptitle content();
+  display: block; font-size: 9pt; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; margin-bottom: 8mm; color: rgba(255,255,255,.75);
+}
+.partpage h1 { font-size: 30pt; line-height: 1.16; margin: 0 0 8mm 0; color: #fff; text-align: left; }
+.partpage p { font-size: 12pt; line-height: 1.65; color: rgba(255,255,255,.9); max-width: 125mm; text-align: left; }
+.partpage .foot {
+  position: absolute; left: 24mm; right: 24mm; bottom: 20mm;
+  border-top: 1px solid rgba(255,255,255,.25); padding-top: 5mm;
+  font-size: 8.6pt; color: rgba(255,255,255,.75);
+}
+h2 {
+  string-set: chaptitle content();
+  page-break-before: always; page-break-after: avoid;
+  font-size: 16.5pt; line-height: 1.25; color: var(--ink); margin: 0 0 5mm 0; text-align: left;
+}
+h2 .num { display: block; font-size: 8.4pt; letter-spacing: .16em; color: var(--orange); font-weight: 700; margin-bottom: 2.5mm; text-transform: uppercase; }
+h2.cont { page-break-before: auto; }
+h3 { page-break-after: avoid; font-size: 11.6pt; color: var(--ink); margin: 7mm 0 2.5mm 0; text-align: left; }
+h4 { page-break-after: avoid; font-size: 10pt; color: var(--violet-deep); margin: 5mm 0 1.5mm 0; text-align: left; }
+p { margin: 0 0 3mm 0; }
+strong { color: var(--ink); }
+a { color: var(--violet-deep); text-decoration: none; word-break: break-all; }
+
+ul, ol { margin: 0 0 3.5mm 0; padding-left: 5.5mm; }
+li { margin-bottom: 1.6mm; }
+ul.tight li, ol.tight li { margin-bottom: .8mm; }
+
+/* ── Sommaire ───────────────────────────────────────────────── */
+.toc { page-break-after: always; }
+.toc h1 { font-size: 20pt; color: var(--ink); margin: 0 0 8mm 0; padding-bottom: 3mm; border-bottom: 3px solid var(--orange); text-align: left; }
+.toc .grp { font-size: 8.4pt; letter-spacing: .14em; text-transform: uppercase; color: var(--orange); font-weight: 700; margin: 7mm 0 2.5mm 0; }
+.toc ol { list-style: none; padding: 0; margin: 0; }
+.toc li { margin: 0; padding: 1.6mm 0; border-bottom: 1px dotted var(--rule); font-size: 9.6pt; }
+.toc li b { color: var(--ink); }
+.toc li span { color: var(--gray); }
+
+/* ── Blocs de contenu ───────────────────────────────────────── */
+.lead { font-size: 11pt; color: var(--gray); line-height: 1.6; margin-bottom: 6mm; }
+
+.callout { border-radius: 2mm; padding: 4mm 5mm; margin: 4mm 0 5mm 0; page-break-inside: avoid; font-size: 9.6pt; }
+.callout .t { display: block; font-weight: 700; font-size: 8.4pt; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2mm; }
+.callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+.warn  { background: var(--orange-soft); border-left: 3.5px solid var(--orange); }
+.warn .t { color: var(--orange-deep); }
+.note  { background: var(--violet-soft); border-left: 3.5px solid var(--violet); }
+.note .t { color: var(--violet-deep); }
+.good  { background: var(--green-soft); border-left: 3.5px solid var(--green); }
+.good .t { color: var(--green); }
+.bad   { background: var(--red-soft); border-left: 3.5px solid var(--red); }
+.bad .t { color: var(--red); }
+
+.example { border: 1px solid var(--rule); border-radius: 2mm; padding: 4.5mm 5mm; margin: 5mm 0; page-break-inside: avoid; background: #FDFCFB; }
+.example .t { font-weight: 700; font-size: 8.4pt; letter-spacing: .1em; text-transform: uppercase; color: var(--violet-deep); margin-bottom: 2.5mm; }
+.example h5 { margin: 0 0 2.5mm 0; font-size: 11pt; color: var(--ink); text-align: left; }
+.example .calc {
+  background: #F7F5F2; border-radius: 1.5mm; padding: 3mm 4mm; margin: 3mm 0;
+  font-size: 8.6pt; font-family: "DejaVu Sans Mono", monospace; line-height: 1.65;
+  text-align: left; white-space: pre-wrap; hyphens: none; overflow-wrap: break-word;
+}
+.example .calc b { color: var(--ink); }
+.example .res { border-top: 1px solid var(--rule); margin-top: 3mm; padding-top: 3mm; font-size: 9.8pt; }
+.example .res b { color: var(--orange-deep); }
+
+/* Chiffres clés */
+.stats { display: table; width: 100%; border-spacing: 3mm 0; margin: 4mm 0 5mm -3mm; page-break-inside: avoid; }
+.stats > div { display: table-cell; width: 33%; background: #FDFCFB; border: 1px solid var(--rule); border-radius: 2mm; padding: 4mm; vertical-align: top; }
+.stats b { display: block; font-size: 15pt; color: var(--orange); line-height: 1.15; }
+.stats .k { display: block; font-size: 8.8pt; font-weight: 700; color: var(--ink); margin: 1.5mm 0 1mm 0; }
+.stats .d { display: block; font-size: 8.4pt; color: var(--gray); line-height: 1.45; }
+.stats.v2 > div { width: 50%; }
+.stats.violet b { color: var(--violet-deep); }
+
+/* Tableaux */
+table { width: 100%; border-collapse: collapse; margin: 4mm 0 5mm 0; font-size: 9pt; page-break-inside: avoid; }
+table.long { page-break-inside: auto; }
+table.long tr { page-break-inside: avoid; }
+th { background: var(--orange); color: #fff; text-align: left; padding: 2.6mm 3mm; font-size: 8.6pt; font-weight: 700; }
+table.v th { background: var(--violet); }
+td { border-bottom: 1px solid var(--rule); padding: 2.4mm 3mm; vertical-align: top; text-align: left; }
+tbody tr:nth-child(odd) td { background: #FCFBFA; }
+td.ok { color: var(--green); font-weight: 700; }
+td.no { color: var(--red); font-weight: 700; }
+td b { color: var(--ink); }
+
+/* Check-lists à cocher */
+.check { list-style: none; padding: 0; margin: 4mm 0; }
+.check li { padding-left: 8mm; position: relative; margin-bottom: 2.5mm; page-break-inside: avoid; }
+.check li::before { content: ""; position: absolute; left: 0; top: .6mm; width: 4mm; height: 4mm; border: 1.2px solid var(--gray); border-radius: .8mm; }
+
+/* Lignes à remplir */
+.fill { border-bottom: 1px solid #C9C3BD; display: block; height: 7mm; margin-bottom: 2mm; }
+.fill.h { height: 12mm; }
+.formrow { margin-bottom: 4mm; page-break-inside: avoid; }
+.formrow label { display: block; font-size: 9pt; font-weight: 700; color: var(--ink); margin-bottom: 1.5mm; }
+
+/* QCM */
+.q { margin: 0 0 5mm 0; page-break-inside: avoid; }
+.q .qt { font-weight: 700; color: var(--ink); margin-bottom: 2mm; font-size: 9.8pt; }
+.q ol { list-style: upper-alpha; padding-left: 6mm; margin: 0; }
+.q li { margin-bottom: 1mm; font-size: 9.4pt; }
+.corr { background: var(--green-soft); border-left: 3.5px solid var(--green); padding: 2.5mm 4mm; margin-top: 2mm; font-size: 9pt; }
+.corr b { color: var(--green); }
+
+/* Échelle de satisfaction */
+.scale { display: table; width: 100%; margin: 1.5mm 0 4mm 0; font-size: 8.6pt; }
+.scale span { display: table-cell; text-align: center; border: 1px solid var(--rule); padding: 2mm 1mm; }
+
+.sig { display: table; width: 100%; margin-top: 8mm; border-spacing: 4mm 0; }
+.sig div { display: table-cell; width: 50%; border: 1px solid var(--rule); border-radius: 2mm; padding: 4mm; height: 30mm; vertical-align: top; font-size: 8.8pt; color: var(--gray); }
+
+.muted { color: var(--gray); font-size: 8.8pt; }
+.src { font-size: 8.4pt; color: var(--gray); border-top: 1px solid var(--rule); padding-top: 2.5mm; margin-top: 5mm; }
+hr.sep { border: 0; border-top: 1px solid var(--rule); margin: 6mm 0; }
+.nobreak { page-break-inside: avoid; }
