@@ -39,10 +39,20 @@ Extensions PHP requises : `json`, `dom`, `mbstring`, et `gd` si vous échantillo
 En production, faites pointer la racine web sur `public/`. Un `.htaccess` est fourni pour
 Apache, et `docs/nginx.conf.example` pour nginx.
 
+### Tests
+
 ```bash
 php tests/run.php                          # 54 tests hors ligne
 php tests/run.php http://localhost:8000    # + les 10 tests de l'API
+
+# Tests de bout en bout, dans un vrai navigateur (Playwright requis)
+node tests/browser.mjs http://localhost:8000
 ```
+
+La suite navigateur vérifie ce que la suite PHP ne peut pas voir : que le nuage est
+**réellement visible** — elle compte les pixels allumés, un statut « nuage calculé » ne
+prouvant rien —, qu'il change bien de forme d'une section à l'autre, qu'aucun texte n'est
+rogné de 360 px à 1440 px, et que le site reste utilisable sans WebGL.
 
 ---
 

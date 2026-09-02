@@ -255,7 +255,9 @@ a { color: inherit; }
 /* La borne basse tient compte du mot le plus long du contenu : sur un écran de
    360 px, « Accompagnement » doit rentrer sans être rogné. */
 .title--xl { font-size: clamp(1.95rem, 8.4vw, 7.5rem); }
-.title--lg { font-size: clamp(2rem, 5.4vw, 4.4rem); }
+/* Ce titre apparaît aussi dans une colonne qui ne fait qu'un peu plus de la moitié
+   de la largeur de page : le coefficient en vw tient compte de ce cas, le plus étroit. */
+.title--lg { font-size: clamp(1.9rem, 4.4vw, 4.4rem); }
 .title__line { display: block; }
 
 .hero__subtitle {
@@ -355,6 +357,10 @@ a { color: inherit; }
     font-size: clamp(1.1rem, 1.6vw, 1.4rem);
     font-weight: 800;
     line-height: 1.2;
+    /* Une colonne de carte est étroite et le contenu peut contenir des mots-valises
+       (« Formaccompagnement ») plus larges qu'elle : on les coupe proprement. */
+    hyphens: auto;
+    overflow-wrap: break-word;
 }
 
 .card__mode {

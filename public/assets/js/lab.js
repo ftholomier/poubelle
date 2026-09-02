@@ -30,6 +30,10 @@ async function init() {
     return;
   }
 
+  // Le canevas naît transparent et n'apparaît qu'une fois le moteur prêt :
+  // c'est la page d'accueil qui pose habituellement cette classe.
+  document.documentElement.classList.add('is-ready');
+
   const theme = JSON.parse(document.getElementById('theme-data')?.textContent || '{}');
   field = new ParticleField(canvas, theme);
   // Capacité maximale allouée d'emblée : changer le nombre de particules ne réalloue rien.
