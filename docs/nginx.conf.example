@@ -1,0 +1,30 @@
+# Exemple de configuration nginx.
+# La racine web pointe sur public/ : rien d'autre n'est exposé.
+
+server {
+    listen 80;
+    server_name exemple.fr;
+    root /var/www/particules/public;
+    index index.php;
+
+    location / {
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+    # Les URL des fichiers statiques portent une empreinte (?v=…) :
+    # une longue durée de conservation est sans risque.
+    location ~* \.(css|js|svg|png|jpg|webp|woff2)$ {
+        expires 7d;
+        add_header Cache-Control "public";
+        try_files $uri =404;
+    }
+
+    # Rien à servir en dehors de public/.
+    location ~ /\.(?!well-known) { deny all; }
+}

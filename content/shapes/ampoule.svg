@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <title>Ampoule</title>
+  <path d="M100 12 C64 12 36 40 36 76 C36 100 48 116 62 130 C72 140 76 148 78 158 L122 158 C124 148 128 140 138 130 C152 116 164 100 164 76 C164 40 136 12 100 12 Z"/>
+  <rect x="78" y="166" width="44" height="12" rx="5"/>
+  <rect x="82" y="182" width="36" height="12" rx="5"/>
+</svg>

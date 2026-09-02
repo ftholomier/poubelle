@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <title>Fusée</title>
+  <!-- Corps -->
+  <path d="M100 8 C126 34 140 72 140 108 L140 140 L60 140 L60 108 C60 72 74 34 100 8 Z"/>
+  <!-- Aileron gauche -->
+  <path d="M60 104 L28 142 L28 172 L60 148 Z"/>
+  <!-- Aileron droit -->
+  <path d="M140 104 L172 142 L172 172 L140 148 Z"/>
+  <!-- Tuyère -->
+  <path d="M78 140 L122 140 L114 162 L86 162 Z"/>
+  <!-- Flamme -->
+  <path d="M100 196 C88 180 82 172 82 164 L118 164 C118 172 112 180 100 196 Z"/>
+</svg>

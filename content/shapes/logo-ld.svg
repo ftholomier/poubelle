@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 200" fill-rule="evenodd">
+  <title>Monogramme LD</title>
+  <!-- L -->
+  <path d="M24 24 L64 24 L64 140 L128 140 L128 176 L24 176 Z"/>
+  <!-- D -->
+  <path d="M138 24 L184 24 A76 76 0 0 1 184 176 L138 176 Z
+           M178 60 L178 140 A40 40 0 0 0 178 60 Z"/>
+</svg>

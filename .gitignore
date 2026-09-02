@@ -1,0 +1,11 @@
+# Nuages de points recalculés à la demande.
+/var/cache/*
+!/var/cache/.gitkeep
+
+# Surcharges locales de configuration.
+/config.local.php
+
+# Artefacts d'outillage.
+/node_modules/
+.DS_Store
+*.log

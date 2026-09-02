@@ -1,0 +1,44 @@
+{
+  "name": "LE-DIGITAL.com",
+  "baseline": "Expert webmarketing & communication digitale",
+  "lang": "fr",
+  "meta": {
+    "title": "LE-DIGITAL.com — Accompagnement & Formation digitale",
+    "description": "Formation, accompagnement et prestations de service pour utiliser tous les leviers du digital et développer ton activité.",
+    "author": "Frédéric Tholomier"
+  },
+  "theme": {
+    "background": "#08080f",
+    "foreground": "#f4f2ff",
+    "muted": "#8d89a8",
+    "accent": "#7b01f7",
+    "accent2": "#c001f7",
+    "accent3": "#0089f7",
+    "particles": {
+      "colorStart": "#7b01f7",
+      "colorMid": "#c001f7",
+      "colorEnd": "#25d5ff",
+      "size": 2.4,
+      "opacity": 0.92
+    }
+  },
+  "nav": [
+    { "label": "Accueil", "target": "hero" },
+    { "label": "Approche", "target": "approche" },
+    { "label": "Solutions", "target": "solutions" },
+    { "label": "La formule", "target": "formule" },
+    { "label": "H2H", "target": "h2h" },
+    { "label": "On collabore !", "target": "contact" }
+  ],
+  "contact": {
+    "cta": "On collabore !",
+    "rdv": "On prend RdV ?",
+    "linkedin": "https://www.linkedin.com/in/ledigital/",
+    "site": "https://le-digital.com"
+  },
+  "footer": {
+    "line": "Expert webmarketing / Communication digitale — France",
+    "legal": "© 2026 — LE-DIGITAL.com | Fondateur Frédéric Tholomier | Tous droits réservés",
+    "links": [{ "label": "Mentions légales", "href": "https://le-digital.com/mentions-legales/" }]
+  }
+}

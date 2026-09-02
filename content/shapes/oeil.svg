@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill-rule="evenodd">
+  <title>Œil</title>
+  <path d="M100 42 C154 42 190 82 196 100 C190 118 154 158 100 158 C46 158 10 118 4 100 C10 82 46 42 100 42 Z
+           M100 64 A36 36 0 1 0 100.1 64 Z"/>
+  <circle cx="100" cy="100" r="18"/>
+</svg>

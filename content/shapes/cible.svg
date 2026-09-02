@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill-rule="evenodd">
+  <title>Cible</title>
+  <path d="M100 6 A94 94 0 1 1 99.9 6 Z M100 30 A70 70 0 1 0 100.1 30 Z"/>
+  <path d="M100 54 A46 46 0 1 1 99.9 54 Z M100 78 A22 22 0 1 0 100.1 78 Z"/>
+  <circle cx="100" cy="100" r="12"/>
+</svg>
