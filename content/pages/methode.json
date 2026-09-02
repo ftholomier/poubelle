@@ -1,0 +1,100 @@
+{
+  "title": "La méthode",
+  "navLabel": "La méthode",
+  "order": 3,
+  "meta": {
+    "description": "La formule (A+V+D) × PS × H2H = M, et les domaines d'expertise couverts par l'accompagnement."
+  },
+  "sections": [
+    {
+      "id": "formule",
+      "kind": "formula",
+      "eyebrow": "La méthode",
+      "formula": "(A + V + D) × PS × H2H = M",
+      "body": "Une méthode, pas une recette magique. Chaque facteur multiplie les autres : si l'un vaut zéro, le résultat vaut zéro.",
+      "shape": {
+        "type": "preset",
+        "preset": "infinity",
+        "count": 14000,
+        "spin": 0.12,
+        "spinAxis": "z",
+        "label": "Lemniscate — la boucle qui s'entretient"
+      }
+    },
+    {
+      "id": "expertise",
+      "kind": "columns",
+      "marquee": "Domaines d'expertise",
+      "repeat": 3,
+      "speed": 0.7,
+      "columns": [
+        {
+          "title": "Stratégie",
+          "items": [
+            "Direction de projet",
+            "Stratégie digitale",
+            "Audit & diagnostic",
+            "Plan d'action"
+          ]
+        },
+        {
+          "title": "Création",
+          "items": [
+            "Direction artistique",
+            "Design UX/UI",
+            "Identité visuelle",
+            "Rédaction web"
+          ]
+        },
+        {
+          "title": "Technique",
+          "items": [
+            "Création de site",
+            "WordPress",
+            "Référencement",
+            "Analytics",
+            "Automatisation"
+          ]
+        },
+        {
+          "title": "Diffusion",
+          "items": [
+            "Publicité en ligne",
+            "Réseaux sociaux",
+            "E-mailing",
+            "Contenu",
+            "Réputation"
+          ]
+        }
+      ],
+      "shape": {
+        "type": "preset",
+        "preset": "sphere",
+        "count": 18000,
+        "spin": 0.16,
+        "label": "Sphère — l'ensemble des expertises",
+        "offsetX": 0.45,
+        "scale": 0.85
+      }
+    },
+    {
+      "id": "h2h",
+      "kind": "statement",
+      "eyebrow": "Human to Human",
+      "title": [
+        "Plus que de la formation",
+        "& de la prestation"
+      ],
+      "outlineFrom": 1,
+      "body": "Un véritable accompagnement en mode H2H pour la réussite de ton business grâce au webmarketing.",
+      "shape": {
+        "type": "svg",
+        "src": "shapes/mains.svg",
+        "mode": "fill",
+        "count": 14000,
+        "depth": 0.14,
+        "label": "Poignée de main — le H2H"
+      }
+    }
+  ]
+}

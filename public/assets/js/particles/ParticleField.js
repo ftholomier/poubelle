@@ -1,6 +1,7 @@
 import * as THREE from '../vendor/three.module.min.js';
 import { vertexShader, fragmentShader } from './shaders.js';
 import { loadShape } from './shapeLoader.js';
+import { DustField } from './DustField.js';
 
 /**
  * Le nuage de particules qui occupe le fond du site.
@@ -11,6 +12,8 @@ import { loadShape } from './shapeLoader.js';
  * à-coup, quelle que soit la longueur de la page.
  */
 export class ParticleField {
+  #dustPointer;
+
   constructor(canvas, theme = {}) {
     this.canvas = canvas;
     this.theme = theme;
@@ -20,6 +23,11 @@ export class ParticleField {
     this.pointerTarget = new THREE.Vector2(0, 0);
     this.spin = 0;
     this.spinTarget = 0;
+    this.dust = null;
+    this.scrollDistance = 0;
+    // Décalage du dessin dans le cadre, en fractions de demi-écran.
+    this.offset = { x: 0, y: 0 };
+    this.offsetTarget = { x: 0, y: 0 };
     // Un dessin plat vu de profil disparaît : il tourne dans son plan (axe z),
     // là où une forme volumique tourne sur elle-même (axe y).
     this.spinAxis = 'y';
@@ -34,6 +42,7 @@ export class ParticleField {
     this.halfHeight = 1.45;
     this.halfWidth = 1.45;
 
+    this.#dustPointer = new THREE.Vector2();
     this.clock = new THREE.Clock();
     this.running = false;
     this.currentId = null;
@@ -85,6 +94,29 @@ export class ParticleField {
   }
 
   /**
+   * Ajoute la poussière d'ambiance qui occupe tout l'écran, en plus du dessin.
+   *
+   * @param {object} options
+   */
+  enableDust(options = {}) {
+    const colors = this.theme.particles || {};
+    this.dust = new DustField(this.scene, {
+      // Moins de grains sur petit écran : le gain visuel n'y compense pas le coût.
+      count: options.count ?? (window.innerWidth < 700 ? 700 : 1600),
+      colors: [
+        colors.dustA || colors.colorStart || '#7b01f7',
+        colors.dustB || colors.colorEnd || '#25d5ff',
+        colors.dustC || '#ffffff',
+      ],
+      opacity: options.opacity ?? 0.7,
+      reducedMotion: this.reducedMotion,
+    });
+    this.resize();
+
+    return this.dust;
+  }
+
+  /**
    * Alloue les tampons une fois pour toutes, à la taille de la plus grosse forme.
    * @param {number} capacity nombre maximal de particules
    */
@@ -133,6 +165,9 @@ export class ParticleField {
     this.morphing = true;
     this.spinTarget = descriptor.spin || 0;
     this.spinAxis = descriptor.spinAxis === 'z' ? 'z' : 'y';
+    // Une section chargée en texte peut pousser son dessin sur le côté.
+    this.offsetTarget.x = Number(descriptor.offsetX) || 0;
+    this.offsetTarget.y = Number(descriptor.offsetY) || 0;
   }
 
   /**
@@ -190,6 +225,15 @@ export class ParticleField {
     this.scrollTilt = ratio;
   }
 
+  /**
+   * Distance réellement parcourue, en pixels : la poussière s'en sert pour sa
+   * parallaxe, qui doit suivre le geste et non l'avancement dans la page.
+   */
+  setScrollDistance(pixels) {
+    const viewport = Math.max(1, window.innerHeight);
+    this.scrollDistance = (pixels / viewport) * this.halfHeight * 0.65;
+  }
+
   start() {
     if (this.running) return;
     this.running = true;
@@ -236,6 +280,16 @@ export class ParticleField {
       this.pointer.set(999, 999);
     }
 
+    if (this.dust) {
+      // La poussière reçoit le curseur en repère normalisé : son propre nuanceur
+      // décide de l'amplitude, différente de celle du dessin principal.
+      this.#dustPointer.set(
+        this.pointer.x < 900 ? this.pointer.x : 0,
+        this.pointer.x < 900 ? this.pointer.y : 0
+      );
+      this.dust.update(delta, this.#dustPointer, this.scrollDistance);
+    }
+
     this.spin += (this.spinTarget - this.spin) * ease;
     if (this.points) {
       const rotation = this.points.rotation;
@@ -251,7 +305,13 @@ export class ParticleField {
       if (this.spinAxis !== 'y' || !this.spinTarget) {
         rotation.y += (targetY - rotation.y) * ease * 0.5;
       }
-      this.points.position.y = -this.scrollTilt * 0.18;
+
+      // Le décalage rejoint sa cible en douceur : le dessin glisse d'un côté
+      // à l'autre au fil des sections au lieu de sauter.
+      this.offset.x += (this.offsetTarget.x - this.offset.x) * ease * 0.35;
+      this.offset.y += (this.offsetTarget.y - this.offset.y) * ease * 0.35;
+      this.points.position.x = this.offset.x * this.halfWidth;
+      this.points.position.y = this.offset.y * this.halfHeight - this.scrollTilt * 0.18;
     }
 
     this.renderer.render(this.scene, this.camera);
@@ -275,6 +335,13 @@ export class ParticleField {
     this.uniforms.uPointerRadius.value = this.halfHeight * 0.45;
     this.uniforms.uPointerForce.value = this.halfHeight * 0.16;
     this.uniforms.uSizeScale.value = this.camera.position.z * 1.05;
+
+    this.dust?.resize(
+      this.renderer.getPixelRatio(),
+      this.camera.position.z * 1.05,
+      this.halfWidth,
+      this.halfHeight
+    );
   }
 
   #applySize() {
@@ -293,6 +360,7 @@ export class ParticleField {
 
   dispose() {
     this.stop();
+    this.dust?.dispose();
     this.geometry?.dispose();
     this.material.dispose();
     this.renderer.dispose();

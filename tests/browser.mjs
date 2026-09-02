@@ -1,15 +1,17 @@
 /**
  * Tests de bout en bout, exécutés dans un vrai navigateur.
  *
- * Usage : node tests/browser.mjs [url] [chemin/vers/playwright]
+ * Usage : node tests/browser.mjs [url] [chemin/vers/playwright] [mot-de-passe-admin]
  *
  * Ils vérifient ce que la suite PHP ne peut pas voir : le nuage s'affiche
- * réellement, il change de forme d'une section à l'autre, la mise en page ne
- * déborde sur aucun écran, et le site reste utilisable sans WebGL.
+ * réellement, il change de forme d'une section et d'une page à l'autre, la
+ * mise en page ne déborde sur aucun écran, le site reste utilisable sans
+ * WebGL, et le back-office fait ce qu'on attend de lui.
  */
 
 const BASE = process.argv[2] || 'http://127.0.0.1:8000';
 const PLAYWRIGHT = process.argv[3] || 'playwright';
+const ADMIN_PASSWORD = process.argv[4] || process.env.ADMIN_PASSWORD || '';
 
 const { chromium } = await import(PLAYWRIGHT);
 
@@ -33,16 +35,34 @@ function suite(name) {
 /** Ignore les ressources externes, indisponibles hors ligne. */
 const isExternal = (url = '') => /fonts\.(googleapis|gstatic)\.com/.test(url);
 
-function watch(page) {
+function watch(page, { ignore = [] } = {}) {
   const bag = [];
+  const ignored = (text = '') => ignore.some((pattern) => pattern.test(text));
+
   page.on('pageerror', (e) => bag.push(`erreur JS : ${e.message}`));
   page.on('console', (m) => {
-    if (m.type() === 'error' && !isExternal(m.location()?.url)) bag.push(`console : ${m.text()}`);
+    const url = m.location()?.url || '';
+    if (m.type() === 'error' && !isExternal(url) && !ignored(m.text()) && !ignored(url)) {
+      bag.push(`console : ${m.text()}`);
+    }
   });
   page.on('requestfailed', (r) => {
     if (!isExternal(r.url())) bag.push(`requête échouée : ${r.url()}`);
   });
   return bag;
+}
+
+/**
+ * Amène une section à l'écran.
+ *
+ * scrollIntoView est inopérant ici : le contenu est déplacé par transformation
+ * et ne défile pas lui-même. On reproduit donc ce que fait le site.
+ */
+async function scrollToSection(page, id) {
+  await page.evaluate((sectionId) => {
+    const element = document.getElementById(sectionId);
+    window.scrollTo(0, element.getBoundingClientRect().top + window.scrollY);
+  }, id);
 }
 
 /**
@@ -83,10 +103,13 @@ suite('Le nuage suit les sections');
   await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(3200);
 
-  check('Le moteur démarre', await page.evaluate(() => !!window.__particules) || 'window.__particules absent');
+  check('Le moteur démarre', (await page.evaluate(() => !!window.__particules)) || 'window.__particules absent');
 
-  const visible = await litPixels(page, { x: 900, y: 120, width: 460, height: 640 });
+  const visible = await litPixels(page, { x: 880, y: 120, width: 480, height: 640 });
   check(`Le nuage est visible à l'écran (${visible} pixels allumés)`, visible > 2000 || `seulement ${visible}`);
+
+  const dust = await page.evaluate(() => window.__particules?.dust?.count ?? 0);
+  check(`La poussière d'ambiance est présente (${dust} grains)`, dust > 200 || `seulement ${dust}`);
 
   const ids = await page.evaluate(() =>
     [...document.querySelectorAll('main [data-section]')].map((s) => s.id)
@@ -94,7 +117,7 @@ suite('Le nuage suit les sections');
   check('Toutes les sections sont détectées', ids.length >= 2 || `${ids.length} section(s)`);
 
   for (const id of ids) {
-    await page.evaluate((i) => document.getElementById(i).scrollIntoView({ block: 'center' }), id);
+    await scrollToSection(page, id);
     await page.waitForTimeout(2400);
     const state = await page.evaluate(() => ({
       shape: window.__particules?.currentId,
@@ -107,6 +130,88 @@ suite('Le nuage suit les sections');
   }
 
   check('Aucune erreur JavaScript', problems.length === 0 || problems.join(' | '));
+  await page.close();
+}
+
+// ---------------------------------------------------------------- Animations
+
+suite('Animations');
+{
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(2500);
+
+  const outlines = await page.evaluate(() => document.querySelectorAll('.title__line--outline').length);
+  check(`Des titres sont tracés au trait (${outlines})`, outlines > 0 || 'aucun titre en contour');
+
+  await scrollToSection(page, 'manifeste');
+  await page.waitForTimeout(1200);
+  const first = await page.evaluate(() => document.querySelector('.marquee__track')?.style.transform || '');
+  await page.waitForTimeout(1400);
+  const second = await page.evaluate(() => document.querySelector('.marquee__track')?.style.transform || '');
+  check(
+    'Le bandeau de texte défile',
+    (first !== '' && second !== '' && first !== second) || `avant « ${first} », après « ${second} »`
+  );
+
+  await scrollToSection(page, 'chiffres');
+  await page.waitForTimeout(2600);
+  const counters = await page.evaluate(() =>
+    [...document.querySelectorAll('[data-counter]')].map((e) => e.textContent)
+  );
+  check(
+    `Les compteurs s'animent (${counters.join(', ')})`,
+    (counters.length > 0 && counters.every((v) => !/^0\D*$/.test(v))) || `restés à zéro : ${counters.join(', ')}`
+  );
+
+  await page.close();
+}
+
+// ------------------------------------------------------ Navigation multi-pages
+
+suite('Navigation entre les pages');
+{
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  const problems = watch(page);
+  await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(3000);
+
+  // Un marqueur posé sur la fenêtre disparaîtrait à un vrai rechargement.
+  await page.evaluate(() => { window.__pasDeRechargement = true; });
+
+  const links = await page.evaluate(() =>
+    [...document.querySelectorAll('[data-nav-link]')].map((a) => a.dataset.navLink)
+  );
+  check(`Le menu liste les pages (${links.join(', ')})`, links.length >= 2 || `${links.length} lien(s)`);
+
+  for (const slug of links.slice(1)) {
+    await page.click(`[data-nav-link="${slug}"]`);
+    await page.waitForTimeout(2600);
+
+    const state = await page.evaluate(() => ({
+      path: location.pathname,
+      page: document.getElementById('contenu')?.dataset.page,
+      first: document.querySelector('main [data-section]')?.id,
+      shape: window.__particules?.currentId,
+      active: document.querySelector('.menu__link.is-active')?.dataset.navLink,
+      kept: window.__pasDeRechargement === true,
+      scroll: Math.round(window.scrollY),
+    }));
+
+    check(`« ${slug} » : la page est remplacée sans rechargement`, state.kept || 'la page a été rechargée');
+    check(`« ${slug} » : l'adresse et le menu suivent`, (state.page === slug && state.active === slug) || JSON.stringify(state));
+    check(`« ${slug} » : on arrive en haut, sur la première forme`, (state.scroll === 0 && state.shape === state.first) || JSON.stringify(state));
+  }
+
+  await page.goBack();
+  await page.waitForTimeout(2400);
+  const back = await page.evaluate(() => ({
+    path: location.pathname,
+    page: document.getElementById('contenu')?.dataset.page,
+  }));
+  check('Le bouton « précédent » revient à la page précédente', back.page !== '' || JSON.stringify(back));
+
+  check('Aucune erreur pendant la navigation', problems.length === 0 || problems.join(' | '));
   await page.close();
 }
 
@@ -123,22 +228,25 @@ for (const size of [
   { width: 1920, height: 1080, name: 'grand écran' },
 ]) {
   const page = await browser.newPage({ viewport: { width: size.width, height: size.height } });
-  await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
-  await page.waitForTimeout(1500);
+  const overflow = [];
 
-  const overflow = await page.evaluate(() => {
-    // overflow-x: hidden masque un débordement sans le corriger :
-    // on compare la largeur réelle du texte à celle de son conteneur.
-    const bad = [];
-    const watched = '.title__line, .card__title, .card__text, .formula, .quote, .section__body';
-    for (const el of document.querySelectorAll(watched)) {
-      if (el.scrollWidth > el.clientWidth + 1) {
-        const excerpt = el.textContent.trim().slice(0, 24);
-        bad.push(`${el.className} déborde de ${el.scrollWidth - el.clientWidth}px (« ${excerpt} »)`);
+  for (const path of ['/', '/solutions', '/methode', '/contact']) {
+    await page.goto(BASE + path, { waitUntil: 'domcontentloaded' });
+    await page.waitForTimeout(1200);
+    const bad = await page.evaluate((where) => {
+      const out = [];
+      // overflow-x: hidden masque un débordement sans le corriger : on compare
+      // la largeur réelle du texte à celle de son conteneur.
+      const watched = '.title__line, .card__title, .card__text, .formula, .quote, .section__body, .columns__item, .stats__label';
+      for (const el of document.querySelectorAll(watched)) {
+        if (el.scrollWidth > el.clientWidth + 1) {
+          out.push(`${where} ${el.className} +${el.scrollWidth - el.clientWidth}px « ${el.textContent.trim().slice(0, 22)} »`);
+        }
       }
-    }
-    return bad;
-  });
+      return out;
+    }, path);
+    overflow.push(...bad);
+  }
 
   check(`${size.name} (${size.width}px) : aucun texte rogné`, overflow.length === 0 || overflow.join(' ; '));
   await page.close();
@@ -183,49 +291,104 @@ suite('Replis');
   await page.close();
 }
 
-// -------------------------------------------------------- Laboratoire de formes
+// ------------------------------------------------------------------ Accessibilité
 
-suite('Laboratoire de formes');
+suite('Accessibilité du défilement');
 {
-  const page = await browser.newPage({ viewport: { width: 1400, height: 880 } });
-  const problems = watch(page);
-  await page.goto(BASE + '/labo', { waitUntil: 'domcontentloaded' });
-  await page.waitForTimeout(3200);
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(2200);
 
-  const zone = { x: 700, y: 180, width: 520, height: 520 };
-  const first = await litPixels(page, zone);
-  check(`L'aperçu s'affiche au chargement (${first} pixels)`, first > 2000 || `seulement ${first}`);
+  // Le contenu étant déplacé par transformation, le navigateur ne sait pas
+  // amener seul un élément à l'écran : le site doit s'en charger.
+  const focused = await page.evaluate(async () => {
+    const link = document.querySelector('.footer__nav a');
+    if (!link) return 'aucun lien de pied de page';
+    link.focus();
+    await new Promise((r) => setTimeout(r, 1400));
+    const box = link.getBoundingClientRect();
+    return box.top > -50 && box.bottom < window.innerHeight + 50
+      ? true
+      : `lien hors écran : top=${Math.round(box.top)}`;
+  });
+  check('Un lien atteint au clavier est amené à l\'écran', focused);
 
-  const options = await page.evaluate(() => ({
-    sources: document.getElementById('src')?.options.length ?? 0,
-    presets: document.getElementById('preset')?.options.length ?? 0,
-  }));
-  check('Le catalogue est chargé', (options.sources > 0 && options.presets > 0) || JSON.stringify(options));
+  const stolen = await page.evaluate(() => document.getElementById('smooth-wrapper').scrollTop);
+  check('Le conteneur de défilement ne se décale jamais', stolen === 0 || `scrollTop = ${stolen}`);
+  await page.close();
+}
 
-  await page.selectOption('#src', { index: 2 });
-  await page.waitForTimeout(2600);
-  const second = await litPixels(page, zone);
-  check(`Changer de source redessine (${second} pixels)`, second > 2000 || `seulement ${second}`);
+// -------------------------------------------------------------- Back-office
 
-  await page.selectOption('#type', 'preset');
-  await page.waitForTimeout(2600);
-  const third = await litPixels(page, zone);
-  check(`Une forme mathématique s'affiche (${third} pixels)`, third > 2000 || `seulement ${third}`);
+suite('Back-office');
+{
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  // Le refus de connexion répond volontairement 401 : le navigateur le
+  // journalise comme une erreur, ce n'en est pas une.
+  const problems = watch(page, { ignore: [/401/] });
 
-  const snippet = await page.evaluate(() => document.querySelector('#snippet code')?.textContent || '');
+  await page.goto(BASE + '/admin', { waitUntil: 'domcontentloaded' });
   check(
-    'Le bloc JSON proposé est valide',
-    (() => {
-      try {
-        JSON.parse(`{${snippet}}`);
-        return snippet.includes('"shape"') ? true : 'clé « shape » absente';
-      } catch (e) {
-        return `JSON invalide : ${e.message}`;
-      }
-    })()
+    'Sans session, /admin renvoie vers la connexion',
+    page.url().endsWith('/admin/connexion') || `arrivé sur ${page.url()}`
   );
 
-  check('Aucune erreur dans le laboratoire', problems.length === 0 || problems.join(' | '));
+  if (!ADMIN_PASSWORD) {
+    console.log('  \x1b[33m·\x1b[0m Suite du back-office ignorée : aucun mot de passe fourni.');
+  } else {
+    await page.fill('input[name="password"]', 'mauvais-mot-de-passe');
+    await page.click('button[type="submit"]');
+    await page.waitForTimeout(600);
+    const rejected = await page.evaluate(() => document.querySelector('[role="alert"]')?.textContent?.trim() || '');
+    check('Un mauvais mot de passe est refusé', rejected.length > 0 || 'aucun message d\'erreur');
+
+    await page.fill('input[name="password"]', ADMIN_PASSWORD);
+    await page.click('button[type="submit"]');
+    await page.waitForTimeout(900);
+    check('Le bon mot de passe ouvre le back-office', page.url().endsWith('/admin') || `arrivé sur ${page.url()}`);
+
+    // Atelier de formes : l'aperçu doit vraiment s'afficher.
+    await page.goto(BASE + '/admin/formes', { waitUntil: 'domcontentloaded' });
+    await page.waitForTimeout(3200);
+    const preview = await litPixels(page, { x: 700, y: 180, width: 560, height: 520 });
+    check(`L'atelier affiche son aperçu (${preview} pixels)`, preview > 2000 || `seulement ${preview}`);
+
+    await page.selectOption('#type', 'preset');
+    await page.waitForTimeout(2600);
+    const afterChange = await litPixels(page, { x: 700, y: 180, width: 560, height: 520 });
+    check(`Changer de forme redessine (${afterChange} pixels)`, afterChange > 2000 || `seulement ${afterChange}`);
+
+    const snippet = await page.evaluate(() => document.querySelector('#snippet code')?.textContent || '');
+    check(
+      'Le bloc JSON proposé est valide',
+      (() => {
+        try {
+          JSON.parse(`{${snippet}}`);
+          return snippet.includes('"shape"') ? true : 'clé « shape » absente';
+        } catch (e) {
+          return `JSON invalide : ${e.message}`;
+        }
+      })()
+    );
+
+    // Couleur du site : l'aperçu interroge PHP et se met à jour.
+    await page.goto(BASE + '/admin/theme', { waitUntil: 'domcontentloaded' });
+    await page.waitForTimeout(1400);
+    const before = await page.evaluate(() =>
+      getComputedStyle(document.getElementById('theme-preview')).getPropertyValue('--p-accent').trim()
+    );
+    await page.evaluate(() => document.querySelector('.theme__preset[data-color="#ff6b00"]')?.click());
+    await page.waitForTimeout(1200);
+    const after = await page.evaluate(() =>
+      getComputedStyle(document.getElementById('theme-preview')).getPropertyValue('--p-accent').trim()
+    );
+    check(
+      `L'aperçu de couleur suit la sélection (${before} → ${after})`,
+      (after !== '' && after !== before) || `resté sur ${before}`
+    );
+  }
+
+  check('Aucune erreur dans le back-office', problems.length === 0 || problems.join(' | '));
   await page.close();
 }
 

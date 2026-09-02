@@ -1,0 +1,376 @@
+/* =========================================================================
+   Back-office — interface sobre, lisible, sans fioriture.
+   Volontairement distincte du site public : on ne confond jamais les deux.
+   ========================================================================= */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body.admin {
+    margin: 0;
+    min-height: 100vh;
+    background: #0d0d12;
+    color: #e9e7f2;
+    font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+code { font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace; font-size: 0.86em; color: #cbb8ff; }
+
+.sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+}
+
+/* -------------------------------------------------------------- Barre haute */
+
+.admin__bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.6rem;
+    padding: 0.9rem clamp(1rem, 3vw, 2rem);
+    background: rgba(10, 10, 16, 0.94);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.admin__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.admin__dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--accent, #7b01f7);
+    box-shadow: 0 0 12px var(--accent, #7b01f7);
+}
+
+.admin__nav { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+.admin__link {
+    padding: 0.4rem 0.75rem;
+    border-radius: 7px;
+    font-size: 0.83rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #a9a5bd;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.admin__link:hover { background: rgba(255, 255, 255, 0.07); color: #fff; }
+.admin__link.is-current { background: var(--accent, #7b01f7); color: #fff; }
+
+.admin__right { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; }
+.admin__logout { margin: 0; }
+
+.admin__signout {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 7px;
+    background: none;
+    color: #a9a5bd;
+    font: inherit;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.admin__signout:hover { color: #fff; border-color: rgba(255, 255, 255, 0.4); }
+
+/* ------------------------------------------------------------------ Contenu */
+
+.admin__main { padding: clamp(1.4rem, 3vw, 2.6rem); max-width: 1400px; margin-inline: auto; }
+.admin--bare .admin__main { display: grid; place-items: center; min-height: 100vh; }
+
+.admin__title { margin: 0 0 0.6rem; font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 900; letter-spacing: -0.02em; }
+.admin__title--tight { font-size: 1.25rem; margin-bottom: 0.4rem; }
+.admin__intro { margin: 0 0 2rem; max-width: 70ch; color: #a9a5bd; font-weight: 300; }
+
+.panel {
+    padding: 1.4rem 1.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.028);
+}
+
+.panel--wide { margin-bottom: 1.4rem; }
+.panel__title { margin: 0 0 0.8rem; font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.panel__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.panel__figure { margin: 0; font-size: 2.6rem; font-weight: 900; line-height: 1; color: var(--accent-2, #c001f7); }
+.panel__label { margin: 0.4rem 0 1rem; color: #a9a5bd; font-size: 0.88rem; font-weight: 300; }
+.panel__swatches { display: flex; gap: 0.4rem; margin: 0 0 0.8rem; }
+.panel__swatches span { width: 42px; height: 42px; border-radius: 9px; border: 1px solid rgba(255, 255, 255, 0.14); }
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+    gap: 1.2rem;
+    margin-bottom: 1.4rem;
+}
+
+.link { color: var(--accent-3, #25d5ff); font-weight: 600; font-size: 0.88rem; text-decoration: none; }
+.link:hover { text-decoration: underline; }
+
+.tag {
+    display: inline-block;
+    padding: 0.12rem 0.5rem;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.09);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #cfcbe4;
+}
+
+.tag--muted { background: none; border: 1px solid rgba(255, 255, 255, 0.16); color: #8f8ba6; }
+
+/* ------------------------------------------------------------------ Tableau */
+
+.table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.table th {
+    text-align: left;
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8f8ba6;
+}
+.table td { padding: 0.7rem; border-bottom: 1px solid rgba(255, 255, 255, 0.07); vertical-align: top; }
+.table tr:last-child td { border-bottom: 0; }
+.table__note { display: block; margin-top: 0.2rem; color: #8f8ba6; font-size: 0.78rem; font-weight: 300; }
+.table__actions { text-align: right; white-space: nowrap; }
+
+/* ---------------------------------------------------------------- Formulaire */
+
+.field { display: grid; gap: 0.4rem; margin-bottom: 1rem; }
+.field[hidden] { display: none; }
+
+.field__label {
+    display: flex; justify-content: space-between; gap: 1rem;
+    font-size: 0.71rem; font-weight: 700; letter-spacing: 0.13em;
+    text-transform: uppercase; color: #8f8ba6;
+}
+
+.field__label output { color: #cbb8ff; letter-spacing: 0.03em; }
+
+.field select,
+.field input[type='text'],
+.field input[type='password'] {
+    width: 100%;
+    padding: 0.62rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #f0eef8;
+    font: inherit;
+    font-size: 0.9rem;
+}
+
+.field select option, .field select optgroup { background: #16151f; color: #f0eef8; }
+.field input[type='range'] { width: 100%; accent-color: var(--accent-2, #c001f7); }
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.72rem 1.5rem;
+    border: 0;
+    border-radius: 100px;
+    background: linear-gradient(100deg, var(--accent, #7b01f7), var(--accent-2, #c001f7));
+    color: #fff;
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.button:hover { transform: translateY(-1px); }
+.button:disabled { opacity: 0.5; cursor: progress; transform: none; }
+.button--small { padding: 0.4rem 0.9rem; font-size: 0.78rem; }
+
+.notice {
+    margin: 0 0 1.2rem;
+    padding: 0.85rem 1.1rem;
+    border-left: 3px solid var(--accent-2, #c001f7);
+    border-radius: 0 8px 8px 0;
+    background: rgba(255, 255, 255, 0.045);
+    font-size: 0.88rem;
+}
+
+.notice p { margin: 0 0 0.5rem; }
+.notice p:last-child { margin-bottom: 0; }
+.notice--error { border-color: #ff5470; color: #ffc2cc; }
+.notice--ok { border-color: #3ddc84; color: #bff5d5; }
+.notice--warn { border-color: #f5c400; }
+.notice__aside { color: #8f8ba6; font-size: 0.82rem; font-weight: 300; }
+
+/* ---------------------------------------------------------------- Connexion */
+
+.login { width: min(420px, 100%); }
+.login__title { margin: 0 0 1.4rem; font-size: 1.6rem; font-weight: 900; letter-spacing: -0.02em; }
+.login__form { display: grid; gap: 0.4rem; }
+.login__back { margin-top: 1.6rem; font-size: 0.85rem; }
+.login__back a { color: #8f8ba6; text-decoration: none; }
+.login__back a:hover { color: #fff; }
+
+/* ------------------------------------------------------------------ Couleur */
+
+.theme { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 2.4rem; align-items: start; }
+.theme__controls { display: grid; }
+.theme__picker { display: flex; gap: 0.6rem; align-items: center; }
+.theme__picker input[type='color'] {
+    width: 52px; height: 42px; padding: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px; background: none; cursor: pointer;
+}
+
+.theme__presets { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.theme__preset {
+    width: 34px; height: 34px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 9px; cursor: pointer;
+    transition: transform 0.18s ease;
+}
+.theme__preset:hover { transform: scale(1.12); }
+
+.preview {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--p-bg, #0b0610);
+}
+
+.preview__swatches { display: flex; height: 8px; }
+.preview__swatches span { flex: 1; }
+
+.preview__scene { padding: clamp(1.6rem, 4vw, 3rem); background: var(--p-bg, #0b0610); }
+.preview__eyebrow { margin: 0 0 0.8rem; color: var(--p-muted, #9e8fae); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+.preview__title {
+    margin: 0 0 0.8rem;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    background: linear-gradient(100deg, var(--p-accent, #7b01f7), var(--p-accent-2, #c001f7) 50%, var(--p-accent-3, #25d5ff));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.preview__body { margin: 0 0 1.6rem; color: var(--p-fg, #f5f2f8); font-weight: 300; opacity: 0.8; }
+.preview__button {
+    display: inline-block;
+    padding: 0.75rem 1.6rem;
+    border-radius: 100px;
+    background: linear-gradient(100deg, var(--p-accent, #7b01f7), var(--p-accent-2, #c001f7));
+    color: #fff; font-size: 0.85rem; font-weight: 700;
+}
+
+.preview__values {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.35rem 1.2rem;
+    margin: 0;
+    padding: 1.2rem clamp(1.6rem, 4vw, 3rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+    font-size: 0.8rem;
+}
+.preview__values dt { color: #8f8ba6; }
+.preview__values dd { margin: 0; display: flex; align-items: center; gap: 0.5rem; }
+.preview__values i { width: 14px; height: 14px; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.2); }
+
+/* ------------------------------------------------------- Atelier de formes */
+
+/* Le canevas est frère du panneau, pas son descendant : le sélecteur doit
+   partir du corps de page. Le back-office ne charge pas la feuille du site
+   public, il lui faut donc son propre positionnement. */
+.admin #particles {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    display: block;
+    pointer-events: none;
+}
+
+.admin__main:has(.studio) { max-width: none; padding: 0; }
+
+.studio { position: relative; z-index: 2; min-height: calc(100vh - 58px); }
+
+.studio__panel {
+    width: min(420px, 100%);
+    max-height: calc(100vh - 58px);
+    padding: clamp(1.2rem, 2.4vw, 2rem);
+    overflow-y: auto;
+    background: rgba(10, 10, 16, 0.86);
+    backdrop-filter: blur(16px);
+    border-right: 1px solid rgba(255, 255, 255, 0.09);
+    scrollbar-width: thin;
+}
+
+.studio__status {
+    margin: 1.2rem 0;
+    padding: 0.6rem 0.85rem;
+    border-left: 2px solid var(--accent-2, #c001f7);
+    border-radius: 0 6px 6px 0;
+    background: rgba(255, 255, 255, 0.04);
+    color: #cfcbe4;
+    font-size: 0.82rem;
+    font-weight: 300;
+}
+
+.studio__status[data-state='error'] { border-color: #ff5470; color: #ffb3c0; }
+
+.studio__assign {
+    margin: 1.4rem 0;
+    padding: 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.studio__assign .button { width: 100%; }
+.studio__hint { margin: 0.8rem 0 0; color: #8f8ba6; font-size: 0.76rem; font-weight: 300; }
+
+.studio__output-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+
+#snippet {
+    margin: 0.6rem 0 0;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.45);
+    color: #cbb8ff;
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    font-size: 0.75rem;
+    line-height: 1.55;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+@media (max-width: 900px) {
+    .theme { grid-template-columns: 1fr; }
+    .studio__panel { width: 100%; max-height: none; border-right: 0; }
+}
+
+:focus-visible { outline: 2px solid var(--accent-2, #c001f7); outline-offset: 3px; }

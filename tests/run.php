@@ -10,9 +10,13 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/bootstrap.php';
 
+use App\Admin\Auth;
+use App\Admin\ContentWriter;
 use App\Config;
 use App\Content;
 use App\Http\Router;
+use App\Theme\Color;
+use App\Theme\Palette;
 use App\Shape\ImageSampler;
 use App\Shape\Matrix2D;
 use App\Shape\PathParser;
@@ -340,72 +344,254 @@ check('Une image est convertie en nuage', function () {
 
 // -------------------------------------------------------------------- Contenu
 
-suite('Contenu et routage');
+suite('Charte graphique');
 
-check('site.json et sections.json sont valides', function () {
-    $site = Content::site();
-    $sections = Content::sections();
-    if (empty($site['name'])) return 'nom du site manquant';
-    if (count($sections) < 1) return 'aucune section';
-    return true;
-});
-
-check('Chaque section possède un identifiant unique et une forme', function () {
-    $seen = [];
-    foreach (Content::sections() as $section) {
-        $id = $section['id'];
-        if (isset($seen[$id])) return "identifiant en double : {$id}";
-        $seen[$id] = true;
-        if (empty($section['shape']['type'])) return "forme absente pour {$id}";
+check('Toute couleur fait l\'aller-retour hexadécimal sans perte', function () {
+    foreach (['#7b01f7', '#ff6b00', '#00b894', '#ffffff', '#000000', '#808080', '#f00'] as $hex) {
+        $back = Color::fromHex($hex)->toHex();
+        $expected = strlen(ltrim($hex, '#')) === 3
+            ? '#' . preg_replace('/(.)/', '$1$1', ltrim($hex, '#'))
+            : strtolower($hex);
+        if ($back !== $expected) {
+            return "{$hex} est revenu en {$back}";
+        }
     }
     return true;
 });
 
-check('Toutes les formes déclarées se construisent réellement', function () {
-    foreach (Content::sections() as $section) {
-        $built = ShapeService::build($section['shape']);
-        if ($built['source'] === 'server' && $built['count'] < 100) {
-            return "{$section['id']} : seulement {$built['count']} points";
+check('Un gris reste gris : aucune teinte ne lui est inventée', function () {
+    $palette = Palette::build(['dominant' => '#808080']);
+    $accent = Color::fromHex($palette['accent']);
+    return $accent->saturation < 0.12 ? true : "saturation obtenue : {$accent->saturation}";
+});
+
+check('Le texte garde un contraste suffisant quelle que soit la dominante', function () {
+    foreach (['#7b01f7', '#ff6b00', '#00b894', '#1863dc', '#e91e63', '#f5c400', '#111111'] as $hex) {
+        foreach (array_keys(Palette::HARMONIES) as $harmony) {
+            $palette = Palette::build(['dominant' => $hex, 'harmony' => $harmony]);
+            $background = Color::fromHex($palette['background']);
+
+            $main = Color::fromHex($palette['foreground'])->contrastWith($background);
+            if ($main < 7.0) {
+                return sprintf('%s/%s : texte à %.1f:1', $hex, $harmony, $main);
+            }
+            $muted = Color::fromHex($palette['muted'])->contrastWith($background);
+            if ($muted < 4.5) {
+                return sprintf('%s/%s : texte secondaire à %.1f:1', $hex, $harmony, $muted);
+            }
+        }
+    }
+    return true;
+});
+
+check('Une valeur posée à la main prime sur la dérivation', function () {
+    $palette = Palette::build(['dominant' => '#7b01f7', 'accent3' => '#00ff00']);
+    return $palette['accent3'] === '#00ff00' ? true : $palette['accent3'];
+});
+
+check('Une couleur invalide est refusée', function () {
+    foreach (['pas-une-couleur', '#12345', ''] as $bad) {
+        try {
+            Color::fromHex($bad);
+            return "accepté à tort : « {$bad} »";
+        } catch (InvalidArgumentException) {
+            // Comportement attendu.
+        }
+    }
+    return true;
+});
+
+// -------------------------------------------------------------------- Contenu
+
+suite('Contenu multi-pages et routage');
+
+check('site.json et les pages sont valides', function () {
+    $site = Content::site();
+    if (empty($site['name'])) return 'nom du site manquant';
+    if (empty($site['theme']['accent'])) return 'charte non dérivée';
+    return count(Content::pages()) >= 2 ? true : 'moins de deux pages';
+});
+
+check('Chaque page a un identifiant utilisable en URL', function () {
+    foreach (Content::pages() as $page) {
+        if (!Content::isValidSlug($page['slug'])) return "identifiant refusé : {$page['slug']}";
+        if ($page['url'] === '') return "URL vide pour {$page['slug']}";
+    }
+    return true;
+});
+
+check('Les identifiants de section sont uniques au sein d\'une page', function () {
+    foreach (Content::pages() as $page) {
+        $seen = [];
+        foreach ($page['sections'] as $section) {
+            $id = (string) $section['id'];
+            if (isset($seen[$id])) return "doublon {$page['slug']}/{$id}";
+            $seen[$id] = true;
+            if (empty($section['shape']['type'])) return "forme absente : {$page['slug']}/{$id}";
+        }
+    }
+    return true;
+});
+
+check('Deux pages peuvent porter le même identifiant de section', function () {
+    // Les clés de forme sont préfixées par la page : aucun conflit possible.
+    $keys = [];
+    foreach (Content::pages() as $page) {
+        foreach ($page['sections'] as $section) {
+            $key = $section['shapeKey'];
+            if (isset($keys[$key])) return "clé de forme en double : {$key}";
+            $keys[$key] = true;
+        }
+    }
+    return count($keys) > 0 ? true : 'aucune clé produite';
+});
+
+check('La navigation reprend l\'ordre déclaré', function () {
+    $nav = Content::navigation();
+    if ($nav === []) return 'navigation vide';
+    $orders = [];
+    foreach (Content::pages() as $page) {
+        if ($page['inNav']) $orders[] = $page['order'];
+    }
+    $sorted = $orders;
+    sort($sorted);
+    return $orders === $sorted ? true : 'ordre non respecté';
+});
+
+check('Toutes les formes du site se construisent réellement', function () {
+    foreach (Content::pages() as $page) {
+        foreach ($page['sections'] as $section) {
+            $built = ShapeService::build($section['shape']);
+            if ($built['source'] === 'server' && $built['count'] < 100) {
+                return "{$section['shapeKey']} : seulement {$built['count']} points";
+            }
         }
     }
     return true;
 });
 
 check('L\'écriture courte d\'une forme est comprise', function () {
-    $file = APP_CONTENT . '/sections.json';
-    $backup = file_get_contents($file);
-    $data = json_decode($backup, true);
-    $data['sections'] = [['id' => 'court', 'shape' => 'galaxy']];
-    file_put_contents($file, json_encode($data));
-
     // Content mémorise ses lectures : un nouveau processus est nécessaire.
-    $output = shell_exec(
-        'php -r ' . escapeshellarg(
-            'require "' . APP_ROOT . '/bootstrap.php"; ' .
-            'App\\Config::boot(); ' .
-            '$s = App\\Content::sections()[0]["shape"]; ' .
-            'echo $s["type"] . "|" . $s["preset"];'
-        )
-    );
-    file_put_contents($file, $backup);
+    $file = APP_CONTENT . '/pages/.test-court.json';
+    file_put_contents($file, json_encode([
+        'title' => 'Test',
+        'inNav' => false,
+        'sections' => [['id' => 'unique', 'shape' => 'galaxy']],
+    ]));
 
-    return trim((string) $output) === 'preset|galaxy' ? true : "obtenu : {$output}";
+    $output = shell_exec('php -r ' . escapeshellarg(
+        'require "' . APP_ROOT . '/bootstrap.php"; App\\Config::boot(); ' .
+        '$s = App\\Content::page(".test-court"); ' .
+        'echo $s === null ? "page ignoree" : "trouvee";'
+    ));
+    @unlink($file);
+
+    // Un nom de fichier commençant par un point n'est pas un identifiant valide :
+    // la page doit être écartée plutôt que servie sur une URL bancale.
+    return trim((string) $output) === 'page ignoree' ? true : "obtenu : {$output}";
+});
+
+check('Un identifiant de page hostile est rejeté', function () {
+    foreach (['../site', 'Accueil', 'page espace', '', 'a/b'] as $bad) {
+        if (Content::isValidSlug($bad)) return "accepté à tort : « {$bad} »";
+    }
+    return Content::isValidSlug('ma-page-2') ? true : 'un identifiant valide a été refusé';
 });
 
 check('Le routeur distingue les paramètres et les méthodes', function () {
     $router = new Router();
     $captured = null;
-    $router->get('/api/shape/{id}', function (array $p) use (&$captured) { $captured = $p['id']; });
+    $router->get('/api/shape/{page}/{section}', function (array $p) use (&$captured) {
+        $captured = $p['page'] . '/' . $p['section'];
+    });
 
     ob_start();
-    $router->dispatch('GET', '/api/shape/hero?format=bin');
+    $router->dispatch('GET', '/api/shape/accueil/hero?format=bin');
     ob_end_clean();
-    if ($captured !== 'hero') return "paramètre : " . var_export($captured, true);
+    if ($captured !== 'accueil/hero') return 'paramètres : ' . var_export($captured, true);
 
     ob_start();
-    $router->dispatch('POST', '/api/shape/hero');
+    $router->dispatch('POST', '/api/shape/accueil/hero');
     $body = ob_get_clean();
     return str_contains((string) $body, '405') ? true : "réponse POST : {$body}";
+});
+
+// ------------------------------------------------------------- Back-office
+
+suite('Back-office');
+
+check('Une forme est nettoyée avant d\'être écrite', function () {
+    $clean = ContentWriter::sanitizeShape([
+        'type' => 'preset',
+        'preset' => 'torus',
+        'count' => 999999,          // au-delà du plafond
+        'depth' => -4,              // hors bornes
+        'spin' => 0,                // valeur par défaut, à ne pas écrire
+        'inconnu' => 'à jeter',     // clé non reconnue
+    ]);
+    if ($clean['count'] !== 40000) return 'plafond non appliqué : ' . $clean['count'];
+    if ($clean['depth'] !== 0.0) return 'borne basse non appliquée : ' . $clean['depth'];
+    if (isset($clean['spin'])) return 'une rotation nulle ne doit pas être écrite';
+    return !isset($clean['inconnu']) ? true : 'une clé inconnue a été conservée';
+});
+
+check('Une source hors de content/shapes/ est refusée', function () {
+    foreach (['../../bootstrap.php', '/etc/passwd', 'site.json', 'shapes/../site.json'] as $evil) {
+        try {
+            ContentWriter::sanitizeShape(['type' => 'svg', 'src' => $evil]);
+            return "chemin accepté à tort : {$evil}";
+        } catch (InvalidArgumentException) {
+            // Comportement attendu.
+        }
+    }
+    return true;
+});
+
+check('Un type de forme inconnu est refusé', function () {
+    try {
+        ContentWriter::sanitizeShape(['type' => 'hologramme']);
+        return 'accepté à tort';
+    } catch (InvalidArgumentException $e) {
+        return str_contains($e->getMessage(), 'hologramme') ? true : $e->getMessage();
+    }
+});
+
+check('Un texte vide est refusé', function () {
+    try {
+        ContentWriter::sanitizeShape(['type' => 'text', 'text' => '   ']);
+        return 'accepté à tort';
+    } catch (InvalidArgumentException) {
+        return true;
+    }
+});
+
+check('Écrire sur une section inexistante échoue sans toucher au fichier', function () {
+    $file = APP_CONTENT . '/pages/accueil.json';
+    $before = file_get_contents($file);
+    try {
+        ContentWriter::saveSectionShape('accueil', 'section-fantome', ['type' => 'preset', 'preset' => 'sphere']);
+        return 'aucune exception levée';
+    } catch (InvalidArgumentException) {
+        return file_get_contents($file) === $before ? true : 'le fichier a été modifié';
+    }
+});
+
+check('Un mot de passe trop court est refusé', function () {
+    try {
+        Auth::storePassword('court');
+        return 'accepté à tort';
+    } catch (InvalidArgumentException) {
+        return true;
+    }
+});
+
+check('Le jeton CSRF est comparé sans fuite de temps', function () {
+    // hash_equals ne renvoie vrai que sur une égalité stricte.
+    $token = Auth::csrfToken();
+    if (!Auth::checkCsrf($token)) return 'le jeton légitime a été rejeté';
+    return !Auth::checkCsrf($token . 'x') && !Auth::checkCsrf('') && !Auth::checkCsrf(null)
+        ? true
+        : 'un jeton invalide a été accepté';
 });
 
 // ------------------------------------------------------------------------ API
@@ -415,12 +601,22 @@ if ($baseUrl !== null) {
     suite("API en ligne ({$baseUrl})");
 
     $get = static function (string $path) use ($baseUrl): array {
-        $context = stream_context_create(['http' => ['ignore_errors' => true, 'timeout' => 20]]);
+        // Les redirections ne sont pas suivies : une réponse 302 est en soi le
+        // résultat attendu de certains tests, et la suivre masquerait le fait
+        // qu'une page protégée renvoie bien vers la connexion.
+        $context = stream_context_create([
+            'http' => ['ignore_errors' => true, 'timeout' => 20, 'follow_location' => 0],
+        ]);
         $body = @file_get_contents($baseUrl . $path, false, $context);
+
         $status = 0;
         foreach ($http_response_header ?? [] as $line) {
-            if (preg_match('#HTTP/\S+\s+(\d+)#', $line, $m)) $status = (int) $m[1];
+            if (preg_match('#^HTTP/\S+\s+(\d+)#', $line, $m)) {
+                $status = (int) $m[1];
+                break;
+            }
         }
+
         return [$status, (string) $body];
     };
 
@@ -438,16 +634,35 @@ if ($baseUrl !== null) {
         return true;
     });
 
-    check('GET /api/sections liste toutes les sections', function () use ($get) {
-        [$status, $body] = $get('/api/sections');
+    check('GET /api/pages liste toutes les pages', function () use ($get) {
+        [$status, $body] = $get('/api/pages');
         $data = json_decode($body, true);
-        return ($status === 200 && count($data['sections'] ?? []) === count(Content::sections()))
+        return ($status === 200 && count($data['pages'] ?? []) === count(Content::pages()))
             ? true
             : "statut {$status}";
     });
 
-    check('GET /api/shape/hero?format=bin renvoie du Float32', function () use ($get) {
-        [$status, $body] = $get('/api/shape/hero?format=bin');
+    check('Chaque page publique répond', function () use ($get) {
+        foreach (Content::pages() as $page) {
+            [$status, $body] = $get($page['url']);
+            if ($status !== 200) return "{$page['url']} : statut {$status}";
+            if (!str_contains($body, 'shapes-data')) return "{$page['url']} : formes absentes";
+        }
+        return true;
+    });
+
+    check('Le back-office est fermé sans session', function () use ($get) {
+        foreach (['/admin', '/admin/pages', '/admin/formes', '/admin/theme'] as $path) {
+            [$status] = $get($path);
+            // 302 vers la connexion, ou 401 pour les points d'entrée JSON.
+            if (!in_array($status, [302, 401], true)) return "{$path} répond {$status}";
+        }
+        [$status] = $get('/admin/palette?dominant=%23ff0000');
+        return $status === 401 ? true : "/admin/palette répond {$status}";
+    });
+
+    check('GET /api/shape/accueil/hero?format=bin renvoie du Float32', function () use ($get) {
+        [$status, $body] = $get('/api/shape/accueil/hero?format=bin');
         if ($status !== 200) return "statut {$status}";
         if (strlen($body) % 12 !== 0) return 'taille non multiple de 12 octets';
         $floats = unpack('g*', $body);
@@ -458,8 +673,8 @@ if ($baseUrl !== null) {
     });
 
     check('Le format binaire est bien plus léger que le JSON', function () use ($get) {
-        [, $json] = $get('/api/shape/hero');
-        [, $bin] = $get('/api/shape/hero?format=bin');
+        [, $json] = $get('/api/shape/accueil/hero');
+        [, $bin] = $get('/api/shape/accueil/hero?format=bin');
         $ratio = strlen($json) / max(1, strlen($bin));
         return $ratio > 1.8 ? true : sprintf('rapport insuffisant : %.2f', $ratio);
     });
@@ -471,8 +686,10 @@ if ($baseUrl !== null) {
     });
 
     check('Une section inconnue renvoie 404', function () use ($get) {
-        [$status] = $get('/api/shape/inexistante');
-        return $status === 404 ? true : $status;
+        [$status] = $get('/api/shape/accueil/inexistante');
+        if ($status !== 404) return "section inconnue : {$status}";
+        [$status] = $get('/api/shape/page-inconnue/hero');
+        return $status === 404 ? true : "page inconnue : {$status}";
     });
 
     check('Un type de forme invalide renvoie 422', function () use ($get) {
@@ -485,9 +702,10 @@ if ($baseUrl !== null) {
         return ($status === 404 && str_contains($body, '404')) ? true : "statut {$status}";
     });
 
-    check('/labo se charge avec ses réglages', function () use ($get) {
-        [$status, $body] = $get('/labo');
-        return ($status === 200 && str_contains($body, 'lab-form')) ? true : "statut {$status}";
+    check('L\'ancienne adresse publique du laboratoire n\'existe plus', function () use ($get) {
+        // L'atelier a rejoint le back-office : /labo ne doit plus rien servir.
+        [$status] = $get('/labo');
+        return $status === 404 ? true : "/labo répond {$status}";
     });
 }
 

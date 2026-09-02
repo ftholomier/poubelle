@@ -3,9 +3,10 @@
     <div class="shell">
         <p class="eyebrow" data-reveal><?= View::e($section['eyebrow'] ?? '') ?></p>
         <h2 class="title title--xl">
-            <?php foreach ((array) ($section['title'] ?? []) as $line): ?>
-                <span class="title__line" data-reveal="words"><?= View::e($line) ?></span>
-            <?php endforeach; ?>
+            <?= View::capture('partials/title', [
+                'lines' => (array) ($section['title'] ?? []),
+                'outlineFrom' => $section['outlineFrom'] ?? null,
+            ]) ?>
         </h2>
         <?php if (!empty($section['body'])): ?>
             <p class="section__body section__body--lead" data-reveal><?= View::e($section['body']) ?></p>

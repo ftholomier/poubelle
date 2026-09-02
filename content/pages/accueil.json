@@ -1,0 +1,93 @@
+{
+  "title": "Accompagnement & Formation digitale",
+  "navLabel": "Accueil",
+  "order": 1,
+  "meta": {
+    "description": "Un accompagnement digital 360° pour utiliser tous les leviers du digital, créer ou développer ton activité."
+  },
+  "sections": [
+    {
+      "id": "hero",
+      "kind": "hero",
+      "eyebrow": "Accompagnement & Formation",
+      "title": ["Accompagnement", "& Formation"],
+      "outlineFrom": 1,
+      "subtitle": "en mode B2B · B2C · H2H",
+      "body": "Un accompagnement digital 360° pour utiliser tous les leviers du digital, créer ou développer ton activité, et devenir indépendant.",
+      "shape": {
+        "type": "svg",
+        "src": "shapes/fusee.svg",
+        "mode": "fill",
+        "count": 16000,
+        "depth": 0.18,
+        "scale": 0.95,
+        "spin": 0.06,
+        "label": "Fusée — le décollage de ton activité"
+      }
+    },
+    {
+      "id": "manifeste",
+      "kind": "marquee",
+      "text": "Booste ton activité",
+      "repeat": 4,
+      "speed": 0.5,
+      "body": "Le digital n'est pas une option à cocher : c'est la façon dont ton activité rencontre les gens.",
+      "shape": {
+        "type": "preset",
+        "preset": "galaxy",
+        "count": 15000,
+        "spin": 0.14,
+        "label": "Galaxie — l'écosystème digital"
+      }
+    },
+    {
+      "id": "approche",
+      "kind": "statement",
+      "eyebrow": "L'approche",
+      "title": ["Un accompagnement", "digital 360°"],
+      "outlineFrom": 1,
+      "body": "Pour utiliser tous les leviers du digital, sans dépendre de personne. On construit, tu comprends, tu gardes la main.",
+      "shape": {
+        "type": "preset",
+        "preset": "globe",
+        "count": 14000,
+        "scale": 0.92,
+        "spin": 0.22,
+        "label": "Globe filaire — la vision 360°"
+      }
+    },
+    {
+      "id": "chiffres",
+      "kind": "stats",
+      "eyebrow": "En bref",
+      "items": [
+        { "value": 360, "suffix": "°", "label": "de couverture digitale" },
+        { "value": 6, "label": "façons de travailler ensemble" },
+        { "value": 100, "suffix": "%", "label": "finançable au CPF" }
+      ],
+      "shape": {
+        "type": "preset",
+        "preset": "ring",
+        "count": 12000,
+        "spin": 0.3,
+        "label": "Anneau — les 360°"
+      }
+    },
+    {
+      "id": "conversation",
+      "kind": "quote",
+      "eyebrow": "Le principe",
+      "quote": ["Le digital provoque la conversation.", "La conversation provoque la conversion."],
+      "author": "Frédéric",
+      "role": "Fondateur de LE-DIGITAL.com",
+      "shape": {
+        "type": "svg",
+        "src": "shapes/bulle.svg",
+        "mode": "fill",
+        "count": 13000,
+        "depth": 0.1,
+        "label": "Bulle — la conversation d'abord"
+      }
+    }
+  ]
+}

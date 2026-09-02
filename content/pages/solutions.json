@@ -1,0 +1,102 @@
+{
+  "title": "Solutions",
+  "navLabel": "Solutions",
+  "order": 2,
+  "meta": {
+    "description": "Six façons de travailler ensemble : formation en présentiel, en distanciel, en ligne, accompagnement, formaccompagnement et mentorat."
+  },
+  "sections": [
+    {
+      "id": "intro",
+      "kind": "hero",
+      "eyebrow": "OK Frédéric ! Tu me proposes quoi ?",
+      "title": ["Plusieurs solutions", "s'offrent à toi"],
+      "outlineFrom": 1,
+      "body": "Se former, déléguer, ou les deux. Six formats, un seul objectif : que ton activité avance.",
+      "shape": {
+        "type": "svg",
+        "src": "shapes/engrenage.svg",
+        "mode": "fill",
+        "count": 15000,
+        "depth": 0.1,
+        "spin": 0.25,
+        "spinAxis": "z",
+        "label": "Engrenage — les six leviers qui s'emboîtent"
+      }
+    },
+    {
+      "id": "offres",
+      "kind": "cards",
+      "eyebrow": "Les formats",
+      "title": ["Choisis ton", "point de départ"],
+      "outlineFrom": 1,
+      "cards": [
+        {
+          "num": "01",
+          "title": "Formation « DIGITAL 360 »",
+          "mode": "en présentiel",
+          "goal": "Booste tes compétences",
+          "text": "Je me forme en présentiel avec mon CPF (ou pas !) directement avec Frédéric."
+        },
+        {
+          "num": "02",
+          "title": "Formation « DIGITAL 360 »",
+          "mode": "en distanciel",
+          "goal": "Booste tes compétences",
+          "text": "Je me forme en distanciel avec mon CPF (ou pas !) directement avec Frédéric."
+        },
+        {
+          "num": "03",
+          "title": "Formation « DIGITAL 360 »",
+          "mode": "en ligne",
+          "goal": "Booste tes compétences",
+          "text": "Je me forme en distanciel avec mon CPF (ou pas !), seul comme un grand."
+        },
+        {
+          "num": "04",
+          "title": "Accompagnement",
+          "mode": "Prestations de service",
+          "goal": "Booste ton activité",
+          "text": "Je sous-traite mon développement en mode clé en main « all inclusive » : Frédéric gère pour moi."
+        },
+        {
+          "num": "05",
+          "title": "Formaccompagnement",
+          "mode": "Prestations de service",
+          "goal": "Booste ton activité & tes compétences",
+          "text": "Je sous-traite mon développement avec de la formation, pour gagner en autonomie."
+        },
+        {
+          "num": "06",
+          "title": "Mentorat",
+          "mode": "Consulting",
+          "goal": "Développe ton webmarketing & ton mindset",
+          "text": "Je souhaite être coaché dans le temps sur la stratégie business de mon activité."
+        }
+      ],
+      "shape": {
+        "type": "preset",
+        "preset": "grid",
+        "count": 14000,
+        "spin": 0.05,
+        "label": "Grille — les six formats"
+      }
+    },
+    {
+      "id": "cpf",
+      "kind": "statement",
+      "eyebrow": "Financement",
+      "title": ["Avec ton CPF", "ou pas"],
+      "outlineFrom": 1,
+      "body": "Les formations sont finançables par ton compte personnel de formation. On regarde ensemble ce qui s'applique à ta situation.",
+      "shape": {
+        "type": "svg",
+        "src": "shapes/croissance.svg",
+        "mode": "fill",
+        "count": 14000,
+        "depth": 0.12,
+        "label": "Courbe de croissance — le retour sur investissement"
+      }
+    }
+  ]
+}

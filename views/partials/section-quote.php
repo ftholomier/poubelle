@@ -3,9 +3,10 @@
     <div class="shell">
         <p class="eyebrow" data-reveal><?= View::e($section['eyebrow'] ?? '') ?></p>
         <blockquote class="quote">
-            <?php foreach ((array) ($section['quote'] ?? []) as $line): ?>
-                <span class="title__line" data-reveal="words"><?= View::e($line) ?></span>
-            <?php endforeach; ?>
+            <?= View::capture('partials/title', [
+                'lines' => (array) ($section['quote'] ?? []),
+                'outlineFrom' => $section['outlineFrom'] ?? null,
+            ]) ?>
         </blockquote>
         <p class="quote__author" data-reveal>
             <strong><?= View::e($section['author'] ?? '') ?></strong>

@@ -52,15 +52,15 @@ a { color: inherit; }
     z-index: 1;
     pointer-events: none;
     background:
-        radial-gradient(70% 55% at 50% 45%, rgba(123, 1, 247, 0.16), transparent 70%),
-        radial-gradient(50% 40% at 85% 15%, rgba(0, 137, 247, 0.12), transparent 70%);
+        radial-gradient(70% 55% at 50% 45%, var(--glow-a), transparent 70%),
+        radial-gradient(50% 40% at 85% 15%, var(--glow-b), transparent 70%);
 }
 
 /* Sans WebGL, un dégradé animé remplace le nuage. */
 .no-webgl .backdrop {
     background:
-        radial-gradient(60% 50% at 30% 30%, rgba(123, 1, 247, 0.28), transparent 70%),
-        radial-gradient(55% 45% at 75% 70%, rgba(192, 1, 247, 0.22), transparent 70%);
+        radial-gradient(60% 50% at 30% 30%, var(--glow-a), transparent 65%),
+        radial-gradient(55% 45% at 75% 70%, var(--glow-b), transparent 65%);
 }
 
 /* --------------------------------------------------------- Défilement lissé */
@@ -70,7 +70,11 @@ a { color: inherit; }
 .is-smooth-scroll #smooth-wrapper {
     position: fixed;
     inset: 0;
+    /* « hidden » laisse le conteneur défilable par programme : une tabulation
+       vers un lien situé plus bas, ou un scrollIntoView, le décalerait à l'insu
+       du lissage. « clip » coupe sans jamais créer de zone de défilement. */
     overflow: hidden;
+    overflow: clip;
 }
 
 .is-smooth-scroll #smooth-content {
@@ -273,7 +277,7 @@ a { color: inherit; }
     margin: 1.8rem 0 0;
     font-size: clamp(1rem, 1.35vw, 1.22rem);
     font-weight: 300;
-    color: #cfcbe4;
+    color: var(--fg-soft);
 }
 
 .section__body--lead { font-size: clamp(1.05rem, 1.6vw, 1.42rem); }
@@ -317,8 +321,8 @@ a { color: inherit; }
     padding: 0;
     list-style: none;
     /* La grille se dessine par les interstices : une seule ligne fine partout. */
-    background: rgba(255, 255, 255, 0.09);
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: var(--line);
+    border: 1px solid var(--line);
 }
 
 .card {
@@ -327,7 +331,7 @@ a { color: inherit; }
     flex-direction: column;
     gap: 0.35rem;
     padding: clamp(1.6rem, 2.6vw, 2.4rem);
-    background: rgba(10, 8, 20, 0.72);
+    background: var(--veil);
     backdrop-filter: blur(6px);
     overflow: hidden;
     transition: background 0.45s ease;
@@ -337,7 +341,7 @@ a { color: inherit; }
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(140deg, rgba(123, 1, 247, 0.28), rgba(0, 137, 247, 0.12));
+    background: linear-gradient(140deg, var(--glow-a), var(--glow-b));
     opacity: 0;
     transition: opacity 0.45s ease;
 }
@@ -376,14 +380,14 @@ a { color: inherit; }
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #e5defb;
+    color: var(--fg-soft);
 }
 
 .card__text {
     margin: 0.6rem 0 1.4rem;
     font-size: 0.94rem;
     font-weight: 300;
-    color: #b9b4d0;
+    color: var(--fg-dim);
 }
 
 .card__cta {
@@ -462,7 +466,7 @@ a { color: inherit; }
 .button:hover,
 .button:focus-visible {
     transform: translateY(-3px);
-    box-shadow: 0 14px 40px rgba(123, 1, 247, 0.42);
+    box-shadow: 0 14px 40px var(--shadow);
 }
 
 .link-arrow {
@@ -522,7 +526,7 @@ a { color: inherit; }
     z-index: 40;
     width: 100%;
     height: 2px;
-    background: rgba(255, 255, 255, 0.07);
+    background: var(--line);
 }
 
 .progress span {
@@ -544,7 +548,7 @@ a { color: inherit; }
     margin: 0;
     padding: 0.45rem 0.9rem;
     border-radius: 100px;
-    background: rgba(8, 6, 16, 0.86);
+    background: var(--veil);
     backdrop-filter: blur(10px);
     color: var(--muted);
     font-size: 0.68rem;
@@ -566,8 +570,8 @@ a { color: inherit; }
 .footer {
     position: relative;
     padding: clamp(4rem, 10vh, 7rem) 0 3rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(6, 5, 12, 0.86);
+    border-top: 1px solid var(--line);
+    background: var(--veil);
 }
 
 .footer__line {
@@ -584,8 +588,193 @@ a { color: inherit; }
     font-weight: 300;
 }
 
-.footer a { text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.25); }
+.footer a { text-decoration: none; border-bottom: 1px solid var(--line-strong); }
 .footer a:hover { border-color: currentColor; }
+
+/* ------------------------------------------------- Titres pleins et contour */
+
+/* Une ligne sur deux tracée au trait : le contraste plein / contour est la
+   signature typographique de ce genre de site. Le tracé est légèrement plus
+   épais sur grand écran, où il paraîtrait sinon trop fin. */
+.title__line--outline {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--fg);
+    text-stroke: 1px var(--fg);
+    paint-order: stroke fill;
+}
+
+@media (min-width: 1100px) {
+    .title__line--outline {
+        -webkit-text-stroke-width: 1.5px;
+        text-stroke-width: 1.5px;
+    }
+}
+
+/* Le tracé s'applique au conteneur : les mots découpés pour la révélation
+   doivent en hériter explicitement. */
+.title__line--outline .word__inner {
+    color: transparent;
+    -webkit-text-stroke: inherit;
+}
+
+/* ------------------------------------------------------------ Texte défilant */
+
+.section--marquee,
+.section--columns {
+    display: block;
+    align-items: initial;
+}
+
+.marquee {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    /* Les deux pistes se suivent sans jamais revenir à la ligne. */
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.marquee__track {
+    display: flex;
+    flex: 0 0 auto;
+    will-change: transform;
+}
+
+.marquee__item {
+    padding-inline: 0.32em;
+    font-size: clamp(3rem, 11vw, 11rem);
+    font-weight: 900;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: var(--fg);
+}
+
+.marquee__item--outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--fg);
+    text-stroke: 1.5px var(--fg);
+}
+
+.marquee--tight .marquee__item { font-size: clamp(2.2rem, 7vw, 6.5rem); }
+
+.section--marquee .shell { margin-top: clamp(2rem, 5vw, 4rem); }
+
+/* ----------------------------------------------------------------- Colonnes */
+
+.columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+    gap: clamp(2rem, 4vw, 3.4rem);
+    margin-top: clamp(3rem, 7vw, 5.5rem);
+}
+
+.columns__title {
+    margin: 0 0 1.2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line-strong);
+    font-size: clamp(1.2rem, 2vw, 1.7rem);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.columns__list { margin: 0; padding: 0; list-style: none; }
+
+.columns__item {
+    position: relative;
+    padding: 0.55rem 0;
+    font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+    font-weight: 500;
+    color: var(--fg-soft);
+    isolation: isolate;
+}
+
+/* Le survol fait remonter un aplat derrière la ligne, comme un surlignage. */
+.columns__item::before {
+    content: '';
+    position: absolute;
+    inset: 0 -0.6rem;
+    z-index: -1;
+    background: linear-gradient(100deg, var(--accent), var(--accent-2));
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.columns__item:hover::before { transform: scaleY(1); }
+.columns__item span { transition: color 0.3s ease, padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.columns__item:hover span { color: #fff; padding-left: 0.4rem; }
+
+/* ---------------------------------------------------------------- Compteurs */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: clamp(2rem, 5vw, 4rem);
+    margin: clamp(2.5rem, 6vw, 4rem) 0 0;
+}
+
+.stats__item { display: grid; gap: 0.4rem; }
+
+.stats__value {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    background: linear-gradient(100deg, var(--accent), var(--accent-2) 55%, var(--accent-3));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* La largeur est réservée d'avance : le chiffre qui défile ne pousse
+       pas la mise en page à chaque incrément. */
+    font-variant-numeric: tabular-nums;
+}
+
+.stats__label {
+    margin: 0;
+    max-width: 24ch;
+    color: var(--muted);
+    font-size: 0.92rem;
+    font-weight: 300;
+}
+
+/* ----------------------------------------------- Transition entre les pages */
+
+.page-veil {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background: var(--bg);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.26s ease;
+}
+
+.page-veil.is-active { opacity: 1; }
+
+/* Léger grain sur toute la page : il casse les aplats du fond et les bandes
+   que produisent les dégradés sombres sur certains écrans. */
+.grain {
+    position: fixed;
+    inset: -50%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ------------------------------------------------------- Navigation du pied */
+
+.footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.6rem;
+    margin: 1.4rem 0 2rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
 
 /* --------------------------------------------------------------- Adaptatif */
 
@@ -597,7 +786,7 @@ a { color: inherit; }
         inset: 0;
         display: grid;
         place-items: center;
-        background: rgba(6, 5, 12, 0.97);
+        background: var(--bg);
         mix-blend-mode: normal;
         opacity: 0;
         visibility: hidden;
@@ -615,6 +804,8 @@ a { color: inherit; }
     .menu__link { font-size: 1.4rem; }
 
     .shell--split { grid-template-columns: 1fr; }
+    .columns { margin-top: 2.4rem; }
+    .marquee { mask-image: none; -webkit-mask-image: none; }
     .eyebrow--sticky { position: static; }
     .section { min-height: auto; padding-block: clamp(5rem, 14vh, 8rem); }
     .section--hero { min-height: 100vh; }
@@ -634,6 +825,10 @@ a { color: inherit; }
 
     [data-reveal],
     .word__inner { opacity: 1; transform: none; }
+
+    /* Le bandeau reste lisible, simplement immobile. */
+    .marquee__track { transform: none !important; }
+    .grain { display: none; }
 }
 
 :focus-visible {

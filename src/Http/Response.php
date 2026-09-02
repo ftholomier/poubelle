@@ -38,6 +38,22 @@ final class Response
         self::send($body, 'application/octet-stream', 200, $ttl);
     }
 
+    /**
+     * Fragment HTML, accompagné d'en-têtes que la navigation interne exploite
+     * pour mettre à jour le titre et les formes sans relire la page entière.
+     *
+     * @param array<string,string> $headers
+     */
+    public static function html(string $body, int $status = 200, array $headers = []): void
+    {
+        if (!headers_sent()) {
+            foreach ($headers as $name => $value) {
+                header($name . ': ' . $value);
+            }
+        }
+        self::send($body, 'text/html; charset=utf-8', $status, 0);
+    }
+
     public static function error(string $message, int $status = 400, ?string $detail = null): void
     {
         $payload = ['error' => $message, 'status' => $status];

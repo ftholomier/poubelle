@@ -1,0 +1,43 @@
+{
+  "title": "On collabore ?",
+  "navLabel": "On collabore !",
+  "order": 4,
+  "meta": {
+    "description": "Une question, un projet, une envie de reprendre la main sur ton digital : on en parle."
+  },
+  "sections": [
+    {
+      "id": "contact",
+      "kind": "contact",
+      "eyebrow": "La suite",
+      "title": [
+        "On collabore ?"
+      ],
+      "body": "Une question, un projet, une envie de reprendre la main sur ton digital : on en parle de vive voix.",
+      "shape": {
+        "type": "text",
+        "text": "H2H",
+        "count": 16000,
+        "depth": 0.1,
+        "scale": 0.95,
+        "label": "Texte — Human to Human"
+      }
+    },
+    {
+      "id": "signature",
+      "kind": "marquee",
+      "text": "On collabore ?",
+      "repeat": 4,
+      "speed": 0.4,
+      "body": "Réponse sous 48 h, en direct, sans intermédiaire.",
+      "shape": {
+        "type": "svg",
+        "src": "shapes/bulle.svg",
+        "mode": "outline",
+        "count": 12000,
+        "depth": 0.08,
+        "label": "Bulle en contour — la conversation démarre"
+      }
+    }
+  ]
+}

@@ -4,52 +4,115 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Theme\Palette;
+
 /**
- * Chargeur du contenu éditorial. Toute la matière du site vit dans content/*.json :
- * aucune base de données, un simple fichier suffit pour ajouter ou réordonner une section.
+ * Chargeur du contenu éditorial.
+ *
+ * Toute la matière du site vit dans content/ : site.json pour les réglages
+ * globaux, un fichier par page dans content/pages/. Aucune base de données —
+ * ajouter une page revient à déposer un fichier.
  */
 final class Content
 {
     /** @var array<string,array<mixed>> */
     private static array $memo = [];
 
+    /** Page servie à la racine du site. */
+    public const HOME = 'accueil';
+
     /**
+     * Réglages globaux, charte graphique déjà dérivée de la couleur dominante.
+     *
      * @return array<string,mixed>
      */
     public static function site(): array
     {
-        return self::load('site');
+        if (isset(self::$memo['__site'])) {
+            return self::$memo['__site'];
+        }
+
+        $site = self::readJson(APP_CONTENT . '/site.json');
+        $site['theme'] = Palette::build($site['theme'] ?? []);
+
+        return self::$memo['__site'] = $site;
     }
 
     /**
-     * Sections du site, dans l'ordre d'apparition, normalisées.
+     * Toutes les pages, triées selon leur rang de navigation.
      *
      * @return list<array<string,mixed>>
      */
-    public static function sections(): array
+    public static function pages(): array
     {
-        $raw = self::load('sections');
-        $items = $raw['sections'] ?? [];
-        $out = [];
-        foreach ($items as $index => $section) {
-            if (!is_array($section) || !isset($section['id'])) {
-                continue;
-            }
-            $section['index'] = $index;
-            $section['shape'] = self::normalizeShape($section['shape'] ?? null, (string) $section['id']);
-            $out[] = $section;
+        if (isset(self::$memo['__pages'])) {
+            return self::$memo['__pages'];
         }
 
-        return $out;
+        $pages = [];
+        foreach (glob(APP_CONTENT . '/pages/*.json') ?: [] as $file) {
+            $slug = basename($file, '.json');
+            if (!self::isValidSlug($slug)) {
+                continue;
+            }
+            $page = self::readJson($file);
+            $page['slug'] = $slug;
+            $page['url'] = $slug === self::HOME ? '/' : '/' . $slug;
+            $page['order'] = (int) ($page['order'] ?? 99);
+            $page['navLabel'] = (string) ($page['navLabel'] ?? $page['title'] ?? $slug);
+            $page['inNav'] = ($page['inNav'] ?? true) !== false;
+            $page['sections'] = self::normalizeSections($page['sections'] ?? [], $slug);
+            $pages[] = $page;
+        }
+
+        usort($pages, static fn(array $a, array $b): int => [$a['order'], $a['slug']] <=> [$b['order'], $b['slug']]);
+
+        return self::$memo['__pages'] = $pages;
     }
 
     /**
      * @return array<string,mixed>|null
      */
-    public static function section(string $id): ?array
+    public static function page(string $slug): ?array
     {
-        foreach (self::sections() as $section) {
-            if ($section['id'] === $id) {
+        foreach (self::pages() as $page) {
+            if ($page['slug'] === $slug) {
+                return $page;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Entrées de menu, déduites des pages : déposer un fichier suffit à
+     * faire apparaître le lien.
+     *
+     * @return list<array{label: string, url: string, slug: string}>
+     */
+    public static function navigation(): array
+    {
+        $nav = [];
+        foreach (self::pages() as $page) {
+            if (!$page['inNav']) {
+                continue;
+            }
+            $nav[] = ['label' => $page['navLabel'], 'url' => $page['url'], 'slug' => $page['slug']];
+        }
+
+        return $nav;
+    }
+
+    /**
+     * Retrouve une section par son identifiant complet « page/section ».
+     *
+     * @return array<string,mixed>|null
+     */
+    public static function section(string $pageSlug, string $sectionId): ?array
+    {
+        $page = self::page($pageSlug);
+        foreach ($page['sections'] ?? [] as $section) {
+            if ($section['id'] === $sectionId) {
                 return $section;
             }
         }
@@ -58,18 +121,36 @@ final class Content
     }
 
     /**
-     * Toutes les formes déclarées dans le site, indexées par identifiant de section.
-     *
-     * @return array<string,array<string,mixed>>
+     * Un identifiant de page ou de section doit rester un mot simple :
+     * il finit dans une URL et dans un nom de fichier.
      */
-    public static function shapes(): array
+    public static function isValidSlug(string $slug): bool
     {
-        $shapes = [];
-        foreach (self::sections() as $section) {
-            $shapes[(string) $section['id']] = $section['shape'];
+        return (bool) preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug);
+    }
+
+    /**
+     * @param  array<mixed> $sections
+     * @return list<array<string,mixed>>
+     */
+    private static function normalizeSections(array $sections, string $pageSlug): array
+    {
+        $out = [];
+        foreach ($sections as $index => $section) {
+            if (!is_array($section) || !isset($section['id'])) {
+                continue;
+            }
+            $id = (string) $section['id'];
+            $section['index'] = $index;
+            $section['page'] = $pageSlug;
+            // La clé de forme porte la page : deux sections « hero » peuvent
+            // coexister sur deux pages sans se marcher dessus.
+            $section['shapeKey'] = $pageSlug . '/' . $id;
+            $section['shape'] = self::normalizeShape($section['shape'] ?? null, $section['shapeKey']);
+            $out[] = $section;
         }
 
-        return $shapes;
+        return $out;
     }
 
     /**
@@ -78,7 +159,7 @@ final class Content
      * @param  array<string,mixed>|string|null $shape
      * @return array<string,mixed>
      */
-    private static function normalizeShape(array|string|null $shape, string $sectionId): array
+    private static function normalizeShape(array|string|null $shape, string $key): array
     {
         if ($shape === null) {
             $shape = ['type' => 'preset', 'preset' => 'sphere'];
@@ -91,7 +172,7 @@ final class Content
         }
 
         $shape['type'] ??= 'preset';
-        $shape['id'] ??= $sectionId;
+        $shape['id'] = $key;
         $shape['count'] = (int) ($shape['count'] ?? Config::get('shape.default_points', 12000));
         $shape['count'] = max(64, min($shape['count'], (int) Config::get('shape.max_points', 40000)));
         $shape['depth'] = (float) ($shape['depth'] ?? 0.12);
@@ -100,27 +181,28 @@ final class Content
         return $shape;
     }
 
+    /** Vide la mémoire interne, après une écriture par le back-office. */
+    public static function forget(): void
+    {
+        self::$memo = [];
+    }
+
     /**
      * @return array<string,mixed>
      */
-    private static function load(string $name): array
+    private static function readJson(string $file): array
     {
-        if (isset(self::$memo[$name])) {
-            return self::$memo[$name];
-        }
-
-        $file = APP_CONTENT . '/' . $name . '.json';
         if (!is_file($file)) {
-            throw new \RuntimeException("Fichier de contenu introuvable : content/{$name}.json");
+            throw new \RuntimeException('Fichier de contenu introuvable : ' . basename($file));
         }
 
         $data = json_decode((string) file_get_contents($file), true);
         if (!is_array($data)) {
             throw new \RuntimeException(
-                "content/{$name}.json invalide : " . json_last_error_msg()
+                basename($file) . ' est un JSON invalide : ' . json_last_error_msg()
             );
         }
 
-        return self::$memo[$name] = $data;
+        return $data;
     }
 }

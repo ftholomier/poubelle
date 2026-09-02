@@ -1,27 +1,33 @@
 <?php
 
+use App\Http\PageController;
 use App\View;
 
 /** @var array<string,mixed> $site */
+/** @var array<string,mixed> $page */
+/** @var list<array{label:string,url:string,slug:string}> $navigation */
 /** @var string $content */
 
 $theme = $site['theme'] ?? [];
 $meta = $site['meta'] ?? [];
+$description = (string) ($page['meta']['description'] ?? $meta['description'] ?? '');
+$title = PageController::documentTitle($site, $page);
+$current = (string) ($page['slug'] ?? '');
 ?>
 <!DOCTYPE html>
 <html lang="<?= View::e($site['lang'] ?? 'fr') ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= View::e($meta['title'] ?? $site['name'] ?? 'Site') ?></title>
-    <meta name="description" content="<?= View::e($meta['description'] ?? '') ?>">
+    <title><?= View::e($title) ?></title>
+    <meta name="description" content="<?= View::e($description) ?>">
     <?php if (!empty($meta['author'])): ?>
         <meta name="author" content="<?= View::e($meta['author']) ?>">
     <?php endif; ?>
     <meta property="og:type" content="website">
-    <meta property="og:title" content="<?= View::e($meta['title'] ?? '') ?>">
-    <meta property="og:description" content="<?= View::e($meta['description'] ?? '') ?>">
-    <meta name="theme-color" content="<?= View::e($theme['background'] ?? '#08080f') ?>">
+    <meta property="og:title" content="<?= View::e($title) ?>">
+    <meta property="og:description" content="<?= View::e($description) ?>">
+    <meta name="theme-color" content="<?= View::e($theme['background']) ?>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,16 +35,26 @@ $meta = $site['meta'] ?? [];
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="<?= View::e(View::asset('assets/css/app.css')) ?>">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='%237b01f7'/></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='<?= View::e(rawurlencode($theme['accent'])) ?>'/></svg>">
 
+    <?php /* Toute la charte descend d'une seule couleur, dérivée côté serveur. */ ?>
     <style>
         :root {
-            --bg: <?= View::e($theme['background'] ?? '#08080f') ?>;
-            --fg: <?= View::e($theme['foreground'] ?? '#f4f2ff') ?>;
-            --muted: <?= View::e($theme['muted'] ?? '#8d89a8') ?>;
-            --accent: <?= View::e($theme['accent'] ?? '#7b01f7') ?>;
-            --accent-2: <?= View::e($theme['accent2'] ?? '#c001f7') ?>;
-            --accent-3: <?= View::e($theme['accent3'] ?? '#0089f7') ?>;
+            --bg: <?= View::e($theme['background']) ?>;
+            --surface: <?= View::e($theme['surface']) ?>;
+            --fg: <?= View::e($theme['foreground']) ?>;
+            --fg-soft: <?= View::e($theme['foregroundSoft']) ?>;
+            --fg-dim: <?= View::e($theme['foregroundDim']) ?>;
+            --muted: <?= View::e($theme['muted']) ?>;
+            --accent: <?= View::e($theme['accent']) ?>;
+            --accent-2: <?= View::e($theme['accent2']) ?>;
+            --accent-3: <?= View::e($theme['accent3']) ?>;
+            --line: <?= View::e($theme['line']) ?>;
+            --line-strong: <?= View::e($theme['lineStrong']) ?>;
+            --veil: <?= View::e($theme['veil']) ?>;
+            --glow-a: <?= View::e($theme['glowA']) ?>;
+            --glow-b: <?= View::e($theme['glowB']) ?>;
+            --shadow: <?= View::e($theme['shadow']) ?>;
         }
     </style>
 </head>
@@ -47,9 +63,10 @@ $meta = $site['meta'] ?? [];
 
     <canvas id="particles" aria-hidden="true"></canvas>
     <div class="backdrop" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
 
     <header class="masthead">
-        <a class="masthead__brand" href="#hero">
+        <a class="masthead__brand" href="/" data-internal>
             <span class="masthead__dot" aria-hidden="true"></span>
             <?= View::e($site['name'] ?? '') ?>
         </a>
@@ -66,12 +83,14 @@ $meta = $site['meta'] ?? [];
 
         <nav class="menu" id="menu-principal" data-nav-panel aria-label="Navigation principale">
             <ul class="menu__list">
-                <?php foreach (($site['nav'] ?? []) as $item): ?>
+                <?php foreach ($navigation as $item): ?>
                     <li>
                         <a
-                            class="menu__link"
-                            href="#<?= View::e($item['target']) ?>"
-                            data-nav-link="<?= View::e($item['target']) ?>">
+                            class="menu__link<?= $item['slug'] === $current ? ' is-active' : '' ?>"
+                            href="<?= View::e($item['url']) ?>"
+                            data-internal
+                            data-nav-link="<?= View::e($item['slug']) ?>"
+                            <?= $item['slug'] === $current ? 'aria-current="page"' : '' ?>>
                             <?= View::e($item['label']) ?>
                         </a>
                     </li>
@@ -82,20 +101,23 @@ $meta = $site['meta'] ?? [];
 
     <div id="smooth-wrapper">
         <div id="smooth-content">
-            <main id="contenu"><?= $content ?></main>
+            <main id="contenu" data-page="<?= View::e($current) ?>"><?= $content ?></main>
 
             <footer class="footer">
                 <div class="shell">
                     <p class="footer__line"><?= View::e($site['footer']['line'] ?? '') ?></p>
+
+                    <nav class="footer__nav" aria-label="Pages du site">
+                        <?php foreach ($navigation as $item): ?>
+                            <a href="<?= View::e($item['url']) ?>" data-internal><?= View::e($item['label']) ?></a>
+                        <?php endforeach; ?>
+                    </nav>
+
                     <p class="footer__legal">
                         <?= View::e($site['footer']['legal'] ?? '') ?>
                         <?php foreach (($site['footer']['links'] ?? []) as $link): ?>
                             · <a href="<?= View::e($link['href']) ?>" rel="noopener"><?= View::e($link['label']) ?></a>
                         <?php endforeach; ?>
-                    </p>
-                    <p class="footer__lab">
-                        <a href="/labo">Laboratoire de formes</a>
-                        · <a href="/api">API</a>
                     </p>
                 </div>
             </footer>
@@ -104,9 +126,10 @@ $meta = $site['meta'] ?? [];
 
     <div class="progress" data-progress aria-hidden="true"><span></span></div>
     <p class="shape-badge" data-shape-label aria-live="polite"></p>
+    <div class="page-veil" data-page-veil aria-hidden="true"></div>
 
     <script type="application/json" id="theme-data"><?= View::json($theme) ?></script>
-    <script type="application/json" id="shapes-data"><?= View::json($shapesData ?? new stdClass()) ?></script>
+    <script type="application/json" id="shapes-data"><?= View::json($shapesData ?: new stdClass()) ?></script>
     <script type="module" src="<?= View::e(View::asset('assets/js/main.js')) ?>"></script>
 </body>
 </html>

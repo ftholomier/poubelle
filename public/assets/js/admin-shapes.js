@@ -2,20 +2,27 @@ import { ParticleField, supportsWebGL } from './particles/ParticleField.js';
 import { textToPoints, fallbackSphere } from './particles/shapeLoader.js';
 
 /**
- * Laboratoire de formes : chaque réglage relance immédiatement le calcul du
- * nuage, et le bloc JSON prêt à coller se met à jour en même temps.
+ * Atelier de formes du back-office.
+ *
+ * Chaque réglage relance le calcul du nuage, l'aperçu se met à jour en direct,
+ * et le dessin obtenu peut être affecté à n'importe quelle section du site.
  */
 
-const form = document.getElementById('lab-form');
-const status = document.getElementById('lab-status');
+const form = document.getElementById('shape-form');
+const status = document.getElementById('status');
 const snippet = document.querySelector('#snippet code');
 const canvas = document.getElementById('particles');
+
+const target = document.getElementById('target');
+const config = JSON.parse(document.getElementById('studio-config')?.textContent || '{}');
 
 const OUTPUTS = {
   count: (v) => v,
   depth: (v) => Number(v).toFixed(2),
   scale: (v) => Number(v).toFixed(2),
   spin: (v) => Number(v).toFixed(2),
+  offsetX: (v) => Number(v).toFixed(2),
+  offsetY: (v) => Number(v).toFixed(2),
   seed: (v) => v,
 };
 
@@ -60,8 +67,82 @@ async function init() {
   });
 
   document.getElementById('copy').addEventListener('click', copySnippet);
+  document.getElementById('assign').addEventListener('click', assign);
 
+  // Changer de section cible recharge ses réglages : on repart de l'existant
+  // plutôt que d'écraser une forme déjà en place par les valeurs par défaut.
+  target?.addEventListener('change', () => {
+    loadShapeInto(config.shapes?.[target.value]);
+    refresh();
+  });
+
+  loadShapeInto(config.shapes?.[target?.value]);
   refresh();
+}
+
+/**
+ * Reporte une forme enregistrée dans les champs du formulaire.
+ *
+ * @param {object|undefined} shape
+ */
+function loadShapeInto(shape) {
+  if (!shape) return;
+
+  form.type.value = shape.type || 'preset';
+  syncVisibility();
+
+  if (shape.src) form.src.value = shape.src;
+  if (shape.preset) form.preset.value = shape.preset;
+  if (shape.text) form.text.value = shape.text;
+  if (shape.mode) form.mode.value = shape.mode;
+  form.fillRule.value = shape.fillRule || 'nonzero';
+  form.criterion.value = shape.criterion || 'auto';
+  form.count.value = shape.count ?? 14000;
+  form.depth.value = shape.depth ?? 0.12;
+  form.scale.value = shape.scale ?? 1;
+  form.spin.value = shape.spin ?? 0;
+  form.spinAxis.value = shape.spinAxis === 'z' ? 'z' : 'y';
+  form.offsetX.value = shape.offsetX ?? 0;
+  form.offsetY.value = shape.offsetY ?? 0;
+  form.seed.value = shape.seed ?? 1337;
+  form.label.value = shape.label || '';
+
+  syncOutputs();
+}
+
+/** Enregistre le dessin courant sur la section choisie. */
+async function assign() {
+  const [page, section] = (target?.value || '').split('|');
+  if (!page || !section) {
+    say('Choisissez une section cible.', 'error');
+    return;
+  }
+
+  const button = document.getElementById('assign');
+  button.disabled = true;
+  say('Enregistrement…');
+
+  try {
+    const response = await fetch('/admin/formes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': config.csrf },
+      body: JSON.stringify({ csrf: config.csrf, page, section, shape: readForm() }),
+    });
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(data.error || `L'enregistrement a échoué (${response.status}).`);
+    }
+
+    // La forme enregistrée devient la nouvelle référence de cette section.
+    config.shapes = config.shapes || {};
+    config.shapes[`${page}|${section}`] = readForm();
+    say(data.message || 'Forme enregistrée.');
+  } catch (error) {
+    say(error.message, 'error');
+  } finally {
+    button.disabled = false;
+  }
 }
 
 /** Remplit les listes déroulantes depuis GET /api/shapes. */
@@ -127,8 +208,8 @@ function schedule() {
 }
 
 async function refresh() {
-  const config = readForm();
-  renderSnippet(config);
+  const shape = readForm();
+  renderSnippet(shape);
 
   if (!field) return;
   const token = ++requestToken;
@@ -136,34 +217,34 @@ async function refresh() {
 
   try {
     const started = performance.now();
-    const cloud = config.type === 'text'
-      ? textToPoints(config)
-      : await fetchCloud(config);
+    const cloud = shape.type === 'text'
+      ? textToPoints(shape)
+      : await fetchCloud(shape);
 
     // Un réglage plus récent a déjà été demandé : ce résultat est périmé.
     if (token !== requestToken) return;
 
-    applyCloud(cloud, config);
+    applyCloud(cloud, shape);
     say(`${(cloud.length / 3).toLocaleString('fr-FR')} particules · ${Math.round(performance.now() - started)} ms`);
   } catch (error) {
     if (token === requestToken) say(error.message, 'error');
   }
 }
 
-async function fetchCloud(config) {
+async function fetchCloud(shape) {
   const params = new URLSearchParams({
-    type: config.type,
-    count: String(config.count),
-    depth: String(config.depth),
-    scale: String(config.scale),
-    seed: String(config.seed),
+    type: shape.type,
+    count: String(shape.count),
+    depth: String(shape.depth),
+    scale: String(shape.scale),
+    seed: String(shape.seed),
     format: 'bin',
   });
-  if (config.src) params.set('src', config.src);
-  if (config.preset) params.set('preset', config.preset);
-  if (config.mode) params.set('mode', config.mode);
-  if (config.fillRule) params.set('fillRule', config.fillRule);
-  if (config.criterion) params.set('criterion', config.criterion);
+  if (shape.src) params.set('src', shape.src);
+  if (shape.preset) params.set('preset', shape.preset);
+  if (shape.mode) params.set('mode', shape.mode);
+  if (shape.fillRule) params.set('fillRule', shape.fillRule);
+  if (shape.criterion) params.set('criterion', shape.criterion);
 
   const response = await fetch(`/api/preview?${params}`);
   if (!response.ok) {
@@ -175,53 +256,68 @@ async function fetchCloud(config) {
 }
 
 /** Injecte le nuage dans le champ de particules via un descripteur pré-résolu. */
-function applyCloud(cloud, config) {
+function applyCloud(cloud, shape) {
   field.morphTo({
     id: `apercu-${requestToken}`,
     type: 'preloaded',
-    count: config.count,
-    spin: config.spin,
-    spinAxis: config.spinAxis,
+    count: shape.count,
+    spin: shape.spin,
+    spinAxis: shape.spinAxis,
+    offsetX: shape.offsetX,
+    offsetY: shape.offsetY,
     cloud,
   });
 }
 
+/**
+ * Lit les réglages du formulaire et en fait une déclaration de forme,
+ * dans le format attendu par content/pages/*.json.
+ *
+ * @returns {object}
+ */
 function readForm() {
   const data = Object.fromEntries(new FormData(form));
   const type = data.type;
 
-  const config = {
+  const shape = {
     type,
     count: Number(data.count),
     depth: Number(data.depth),
     scale: Number(data.scale),
     spin: Number(data.spin),
     spinAxis: data.spinAxis,
+    offsetX: Number(data.offsetX),
+    offsetY: Number(data.offsetY),
     seed: Number(data.seed),
   };
 
   if (type === 'svg') {
-    config.src = data.src;
-    config.mode = data.mode;
-    if (data.fillRule !== 'nonzero') config.fillRule = data.fillRule;
+    shape.src = data.src;
+    shape.mode = data.mode;
+    if (data.fillRule !== 'nonzero') shape.fillRule = data.fillRule;
   } else if (type === 'image') {
-    config.src = data.src;
-    if (data.criterion !== 'auto') config.criterion = data.criterion;
+    shape.src = data.src;
+    if (data.criterion !== 'auto') shape.criterion = data.criterion;
   } else if (type === 'preset') {
-    config.preset = data.preset;
+    shape.preset = data.preset;
   } else if (type === 'text') {
-    config.text = data.text;
+    shape.text = data.text;
   }
 
-  return config;
+  const label = (data.label || '').trim();
+  if (label) shape.label = label;
+
+  return shape;
 }
 
-/** Construit le bloc JSON exact à coller dans content/sections.json. */
-function renderSnippet(config) {
-  const block = { ...config };
+/** Construit le bloc JSON exact, tel qu'il sera écrit dans content/pages/. */
+function renderSnippet(shape) {
+  const block = { ...shape };
   // Les valeurs par défaut n'ont pas à encombrer le fichier de contenu.
   if (block.spin === 0) delete block.spin;
   if (!block.spin || block.spinAxis === 'y') delete block.spinAxis;
+  if (block.offsetX === 0) delete block.offsetX;
+  if (block.offsetY === 0) delete block.offsetY;
   if (block.seed === 1337) delete block.seed;
   if (block.scale === 1) delete block.scale;
 

@@ -19,9 +19,10 @@ final class Api
         $router
             ->get('/api', [self::class, 'index'])
             ->get('/api/site', [self::class, 'site'])
-            ->get('/api/sections', [self::class, 'sections'])
+            ->get('/api/pages', [self::class, 'pages'])
+            ->get('/api/page/{slug}', [self::class, 'page'])
             ->get('/api/shapes', [self::class, 'catalogue'])
-            ->get('/api/shape/{id}', [self::class, 'shape'])
+            ->get('/api/shape/{page}/{section}', [self::class, 'shape'])
             ->get('/api/preview', [self::class, 'preview']);
     }
 
@@ -31,11 +32,12 @@ final class Api
             'name'      => 'API particules',
             'version'   => '1.0',
             'endpoints' => [
-                'GET /api/site'          => 'Réglages globaux, navigation, thème',
-                'GET /api/sections'      => 'Sections éditoriales et forme associée à chacune',
-                'GET /api/shapes'        => 'Catalogue des formes disponibles (fichiers et préréglages)',
-                'GET /api/shape/{id}'    => 'Nuage de points d\'une section — ?format=bin pour du Float32 brut',
-                'GET /api/preview'       => 'Nuage de points à la volée — ?type=&src=&preset=&count=&mode=',
+                'GET /api/site'                   => 'Réglages globaux et charte dérivée de la couleur dominante',
+                'GET /api/pages'                  => 'Liste des pages et de leur navigation',
+                'GET /api/page/{slug}'            => 'Sections d\'une page et forme associée à chacune',
+                'GET /api/shapes'                 => 'Catalogue des formes disponibles (fichiers et préréglages)',
+                'GET /api/shape/{page}/{section}' => 'Nuage de points — ?format=bin pour du Float32 brut',
+                'GET /api/preview'                => 'Nuage de points à la volée — ?type=&src=&preset=&count=&mode=',
             ],
         ]);
     }
@@ -45,18 +47,41 @@ final class Api
         Response::json(Content::site(), 200, (int) Config::get('cache.http_ttl', 3600));
     }
 
-    public static function sections(): void
+    public static function pages(): void
     {
-        $sections = array_map(
-            static function (array $section): array {
-                // Le nuage lui-même est servi par /api/shape/{id} : la liste reste légère.
-                $section['shapeUrl'] = '/api/shape/' . rawurlencode((string) $section['id']);
-                return $section;
-            },
-            Content::sections()
+        $pages = array_map(
+            static fn(array $page): array => [
+                'slug'     => $page['slug'],
+                'url'      => $page['url'],
+                'title'    => $page['title'] ?? $page['slug'],
+                'navLabel' => $page['navLabel'],
+                'inNav'    => $page['inNav'],
+                'order'    => $page['order'],
+                'sections' => array_map(
+                    static fn(array $s): string => (string) $s['id'],
+                    $page['sections']
+                ),
+            ],
+            Content::pages()
         );
 
-        Response::json(['sections' => $sections], 200, (int) Config::get('cache.http_ttl', 3600));
+        Response::json(['pages' => $pages, 'navigation' => Content::navigation()], 200, (int) Config::get('cache.http_ttl', 3600));
+    }
+
+    /**
+     * @param array<string,string> $params
+     */
+    public static function page(array $params): void
+    {
+        $page = Content::isValidSlug($params['slug'] ?? '') ? Content::page($params['slug']) : null;
+        if ($page === null) {
+            Response::error('Page inconnue : ' . ($params['slug'] ?? ''), 404);
+            return;
+        }
+
+        $page['shapes'] = PageController::shapeDescriptors($page);
+
+        Response::json($page, 200, (int) Config::get('cache.http_ttl', 3600));
     }
 
     public static function catalogue(): void
@@ -87,7 +112,6 @@ final class Api
         Response::json([
             'presets' => PresetSampler::AVAILABLE,
             'files'   => $files,
-            'used'    => Content::shapes(),
         ]);
     }
 
@@ -96,9 +120,12 @@ final class Api
      */
     public static function shape(array $params): void
     {
-        $section = Content::section($params['id'] ?? '');
+        $pageSlug = (string) ($params['page'] ?? '');
+        $sectionId = (string) ($params['section'] ?? '');
+
+        $section = Content::isValidSlug($pageSlug) ? Content::section($pageSlug, $sectionId) : null;
         if ($section === null) {
-            Response::error('Section inconnue : ' . ($params['id'] ?? ''), 404);
+            Response::error("Section inconnue : {$pageSlug}/{$sectionId}", 404);
             return;
         }
 

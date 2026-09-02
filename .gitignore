@@ -2,6 +2,12 @@
 /var/cache/*
 !/var/cache/.gitkeep
 
+# Empreinte du mot de passe du back-office, sauvegardes et compteur d'essais :
+# propres à chaque installation, ils n'ont rien à faire dans le dépôt.
+/var/admin.json
+/var/admin-throttle.json
+/var/backups/
+
 # Surcharges locales de configuration.
 /config.local.php
 
