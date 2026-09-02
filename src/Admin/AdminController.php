@@ -46,6 +46,7 @@ final class AdminController
             'configured' => Auth::isConfigured(),
             'csrf'       => Auth::csrfToken(),
             'error'      => null,
+            'email'      => '',
         ]);
     }
 
@@ -56,11 +57,15 @@ final class AdminController
                 'configured' => Auth::isConfigured(),
                 'csrf'       => Auth::csrfToken(),
                 'error'      => 'Session expirée, veuillez réessayer.',
+                'email'      => (string) ($_POST['email'] ?? ''),
             ]);
             return;
         }
 
-        $result = Auth::attempt((string) ($_POST['password'] ?? ''));
+        $result = Auth::attempt(
+            (string) ($_POST['email'] ?? ''),
+            (string) ($_POST['password'] ?? '')
+        );
         if ($result['ok']) {
             self::redirect('/admin');
             return;
@@ -72,6 +77,8 @@ final class AdminController
             'configured' => Auth::isConfigured(),
             'csrf'       => Auth::csrfToken(),
             'error'      => $result['message'],
+            // L'adresse saisie est conservée : seul le mot de passe est à retaper.
+            'email'      => (string) ($_POST['email'] ?? ''),
         ]);
     }
 

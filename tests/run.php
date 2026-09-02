@@ -609,10 +609,60 @@ check('Écrire sur une section inexistante échoue sans toucher au fichier', fun
 
 check('Un mot de passe trop court est refusé', function () {
     try {
-        Auth::storePassword('court');
+        Auth::storeCredentials('essai@exemple.fr', 'court');
         return 'accepté à tort';
     } catch (InvalidArgumentException) {
         return true;
+    }
+});
+
+check('Une adresse invalide est refusée', function () {
+    foreach (['', 'pas-une-adresse', 'a@b', 'frederic@'] as $bad) {
+        try {
+            Auth::storeCredentials($bad, 'un-mot-de-passe-assez-long');
+            return "acceptée à tort : « {$bad} »";
+        } catch (InvalidArgumentException) {
+            // Comportement attendu.
+        }
+    }
+    return true;
+});
+
+check('La connexion exige l\'adresse ET le mot de passe', function () {
+    // On travaille sur une copie : le compte réel ne doit pas être touché.
+    $file = Auth::credentialsFile();
+    $backup = is_file($file) ? file_get_contents($file) : null;
+
+    try {
+        Auth::storeCredentials('Frederic@Exemple.FR', 'mot-de-passe-de-controle');
+
+        $cases = [
+            ['frederic@exemple.fr', 'mot-de-passe-de-controle', true,  'le bon couple'],
+            ['frederic@exemple.fr', 'mauvais-mot-de-passe',     false, 'un mot de passe faux'],
+            ['autre@exemple.fr',    'mot-de-passe-de-controle', false, 'une adresse fausse'],
+            ['',                    'mot-de-passe-de-controle', false, 'une adresse vide'],
+            // La casse et les espaces ne doivent pas faire échouer une connexion légitime.
+            ['  FREDERIC@exemple.fr  ', 'mot-de-passe-de-controle', true, 'la casse et les espaces'],
+        ];
+
+        foreach ($cases as [$email, $password, $expected, $label]) {
+            $result = Auth::attempt($email, $password);
+            if ($result['ok'] !== $expected) {
+                return "{$label} : obtenu " . var_export($result['ok'], true);
+            }
+            // Le message ne doit jamais dire laquelle des deux valeurs était fausse.
+            if (!$expected && preg_match('/adresse|courriel|mail|mot de passe incorrect/i', $result['message'])) {
+                return "le message trahit la cause : « {$result['message']} »";
+            }
+        }
+
+        return true;
+    } finally {
+        if ($backup !== null) {
+            file_put_contents($file, $backup);
+        } else {
+            @unlink($file);
+        }
     }
 });
 

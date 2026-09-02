@@ -1,7 +1,7 @@
 /**
  * Tests de bout en bout, exécutés dans un vrai navigateur.
  *
- * Usage : node tests/browser.mjs [url] [chemin/vers/playwright] [mot-de-passe-admin]
+ * Usage : node tests/browser.mjs [url] [chemin/vers/playwright] [adresse] [mot-de-passe]
  *
  * Ils vérifient ce que la suite PHP ne peut pas voir : le nuage s'affiche
  * réellement, il change de forme d'une section et d'une page à l'autre, la
@@ -11,7 +11,8 @@
 
 const BASE = process.argv[2] || 'http://127.0.0.1:8000';
 const PLAYWRIGHT = process.argv[3] || 'playwright';
-const ADMIN_PASSWORD = process.argv[4] || process.env.ADMIN_PASSWORD || '';
+const ADMIN_EMAIL = process.argv[4] || process.env.ADMIN_EMAIL || '';
+const ADMIN_PASSWORD = process.argv[5] || process.env.ADMIN_PASSWORD || '';
 
 const { chromium } = await import(PLAYWRIGHT);
 
@@ -581,19 +582,36 @@ suite('Back-office');
     page.url().endsWith('/admin/connexion') || `arrivé sur ${page.url()}`
   );
 
-  if (!ADMIN_PASSWORD) {
-    console.log('  \x1b[33m·\x1b[0m Suite du back-office ignorée : aucun mot de passe fourni.');
+  if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
+    console.log('  \x1b[33m·\x1b[0m Suite du back-office ignorée : identifiants non fournis.');
   } else {
+    // Une adresse valide mais un mauvais mot de passe : le refus doit être net,
+    // et son message ne doit pas indiquer laquelle des deux valeurs était fausse.
+    await page.fill('input[name="email"]', ADMIN_EMAIL);
     await page.fill('input[name="password"]', 'mauvais-mot-de-passe');
     await page.click('button[type="submit"]');
     await page.waitForTimeout(600);
     const rejected = await page.evaluate(() => document.querySelector('[role="alert"]')?.textContent?.trim() || '');
     check('Un mauvais mot de passe est refusé', rejected.length > 0 || 'aucun message d\'erreur');
+    check(
+      'Le refus ne dit pas laquelle des deux valeurs est fausse',
+      !/adresse|courriel|mail/i.test(rejected) || `message trop bavard : « ${rejected} »`
+    );
+
+    // L'adresse saisie est reproposée : seul le mot de passe est à retaper.
+    const kept = await page.inputValue('input[name="email"]');
+    check('L\'adresse saisie est conservée après un échec', kept === ADMIN_EMAIL || `champ à « ${kept} »`);
 
     await page.fill('input[name="password"]', ADMIN_PASSWORD);
     await page.click('button[type="submit"]');
     await page.waitForTimeout(900);
-    check('Le bon mot de passe ouvre le back-office', page.url().endsWith('/admin') || `arrivé sur ${page.url()}`);
+    check('Le bon couple ouvre le back-office', page.url().endsWith('/admin') || `arrivé sur ${page.url()}`);
+
+    const shown = await page.evaluate(() => document.querySelector('.admin__whoami')?.textContent?.trim() || '');
+    check(
+      'Le compte connecté est affiché',
+      shown === ADMIN_EMAIL.toLowerCase() || `affiché « ${shown} »`
+    );
 
     // Atelier de formes : l'aperçu doit vraiment s'afficher.
     await page.goto(BASE + '/admin/formes', { waitUntil: 'domcontentloaded' });

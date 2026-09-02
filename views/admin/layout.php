@@ -59,6 +59,7 @@ $menu = [
         </nav>
 
         <div class="admin__right">
+            <span class="admin__whoami" title="Compte connecté"><?= View::e(Auth::email()) ?></span>
             <a class="admin__link" href="/" target="_blank" rel="noopener">Voir le site ↗</a>
             <form method="post" action="/admin/deconnexion" class="admin__logout">
                 <input type="hidden" name="csrf" value="<?= View::e(Auth::csrfToken()) ?>">

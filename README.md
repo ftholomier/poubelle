@@ -33,8 +33,8 @@ Extensions requises : `json`, `dom`, `mbstring`, et `gd` pour échantillonner de
 ## Démarrage
 
 ```bash
-./tools/serve.sh 8000        # http://localhost:8000
-php tools/admin-password.php # définit le mot de passe du back-office
+./tools/serve.sh 8000                                  # http://localhost:8000
+php tools/admin-password.php votre@adresse.fr          # crée le compte du back-office
 ```
 
 - <http://localhost:8000> — le site
@@ -47,11 +47,11 @@ Apache, et `docs/nginx.conf.example` pour nginx.
 ### Tests
 
 ```bash
-php tests/run.php                          # 71 tests hors ligne
+php tests/run.php                          # 73 tests hors ligne
 php tests/run.php http://localhost:8000    # + 13 tests de l'API et du back-office
 
 # Bout en bout, dans un vrai navigateur (Playwright requis)
-node tests/browser.mjs http://localhost:8000 playwright "mot-de-passe-admin"
+node tests/browser.mjs http://localhost:8000 playwright votre@adresse.fr "mot-de-passe"
 ```
 
 Elle couvre aussi les pannes : script bloqué, type MIME refusé, poussière
@@ -77,14 +77,28 @@ Tout ce qui n'a pas à être public vit sous `/admin`, derrière un mot de passe
 | `/admin/formes` | **L'atelier** : composer un dessin en particules et l'affecter à une section |
 | `/admin/theme` | La couleur dominante du site, avec aperçu en direct |
 
-Le mot de passe se définit en ligne de commande (`php tools/admin-password.php`) et son
-empreinte est stockée dans `var/admin.json`, hors de la racine web. **Aucune page publique
-ne permet d'en créer un** : sur un site fraîchement mis en ligne, le premier visiteur venu
-pourrait s'en emparer.
+La connexion demande une **adresse électronique et un mot de passe**. Le compte se crée en
+ligne de commande :
 
-Le reste de la protection : session régénérée à la connexion, expiration après deux heures
-d'inactivité, jeton anti-CSRF sur chaque écriture, et blocage de l'adresse après cinq
-tentatives ratées.
+```bash
+php tools/admin-password.php frederic@exemple.fr
+```
+
+L'adresse peut être passée en argument ; le mot de passe, jamais, pour qu'il ne reste pas
+dans l'historique du terminal. Le tout est enregistré dans `var/admin.json`, hors de la
+racine web — seule l'empreinte du mot de passe y figure, jamais le mot de passe lui-même.
+
+**Aucune page publique ne permet de créer ce compte** : sur un site fraîchement mis en
+ligne, le premier visiteur venu s'en emparerait.
+
+Le reste de la protection : les deux vérifications sont menées jusqu'au bout quel que soit
+le résultat de la première, pour que le temps de réponse ne trahisse pas l'existence d'une
+adresse ; le message de refus est identique dans les deux cas, pour ne pas indiquer
+laquelle des deux valeurs était fausse ; session régénérée à la connexion ; expiration
+après deux heures d'inactivité ; jeton anti-CSRF sur chaque écriture ; et blocage de
+l'adresse IP pendant un quart d'heure après cinq tentatives ratées.
+
+Si vous vous bloquez vous-même, supprimez `var/admin-throttle.json`.
 
 Chaque écriture est atomique et précédée d'une sauvegarde dans `var/backups/`. Une forme
 que le moteur ne sait pas construire est **refusée avant enregistrement** plutôt que de

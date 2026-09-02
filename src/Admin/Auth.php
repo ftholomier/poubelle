@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace App\Admin;
 
 /**
- * Authentification du back-office.
+ * Authentification du back-office : une adresse électronique et un mot de passe.
  *
- * Sans base de données, l'empreinte du mot de passe vit dans var/admin.json,
- * hors de la racine web. Le fichier se crée en ligne de commande :
+ * Sans base de données, l'identifiant et l'empreinte du mot de passe vivent
+ * dans var/admin.json, hors de la racine web. Le fichier se crée en ligne de
+ * commande :
  *
- *     php tools/admin-password.php
+ *     php tools/admin-password.php frederic@exemple.fr
  *
  * Tant qu'il n'existe pas, le back-office reste fermé : aucune page publique
- * ne permet de définir un premier mot de passe, sans quoi le premier venu
- * pourrait s'en emparer sur un site fraîchement mis en ligne.
+ * ne permet de créer ce premier compte, sans quoi le premier venu pourrait
+ * s'en emparer sur un site fraîchement mis en ligne.
  */
 final class Auth
 {
@@ -37,7 +38,15 @@ final class Auth
     {
         $data = self::readCredentials();
 
-        return isset($data['hash']) && is_string($data['hash']) && $data['hash'] !== '';
+        return isset($data['email'], $data['hash'])
+            && is_string($data['email']) && $data['email'] !== ''
+            && is_string($data['hash']) && $data['hash'] !== '';
+    }
+
+    /** Identifiant enregistré, pour l'afficher une fois connecté. */
+    public static function email(): string
+    {
+        return (string) (self::readCredentials()['email'] ?? '');
     }
 
     public static function startSession(): void
@@ -91,12 +100,15 @@ final class Auth
     /**
      * @return array{ok: bool, message: string}
      */
-    public static function attempt(string $password): array
+    public static function attempt(string $email, string $password): array
     {
         self::startSession();
 
         if (!self::isConfigured()) {
-            return ['ok' => false, 'message' => 'Aucun mot de passe défini. Lancez : php tools/admin-password.php'];
+            return [
+                'ok' => false,
+                'message' => 'Aucun compte défini. Lancez : php tools/admin-password.php',
+            ];
         }
 
         $remaining = self::remainingAttempts();
@@ -105,14 +117,22 @@ final class Auth
         }
 
         $data = self::readCredentials();
-        if (!password_verify($password, (string) $data['hash'])) {
+
+        // Les deux vérifications sont menées jusqu'au bout, quel que soit le
+        // résultat de la première : sans cela, le temps de réponse trahirait
+        // qu'une adresse existe. Et le message reste le même dans les deux cas,
+        // pour ne pas indiquer laquelle des deux valeurs était fausse.
+        $emailOk = hash_equals(self::normalizeEmail((string) $data['email']), self::normalizeEmail($email));
+        $passwordOk = password_verify($password, (string) $data['hash']);
+
+        if (!$emailOk || !$passwordOk) {
             self::recordFailure();
             $left = self::remainingAttempts();
 
             return [
                 'ok' => false,
                 'message' => $left > 0
-                    ? "Mot de passe incorrect. Encore {$left} tentative(s)."
+                    ? "Identifiants incorrects. Encore {$left} tentative(s)."
                     : 'Trop de tentatives. Réessayez dans quelques minutes.',
             ];
         }
@@ -126,10 +146,19 @@ final class Auth
 
         // Le coût de hachage recommandé augmente avec le temps.
         if (password_needs_rehash((string) $data['hash'], PASSWORD_DEFAULT)) {
-            self::storePassword($password);
+            self::storeCredentials((string) $data['email'], $password);
         }
 
         return ['ok' => true, 'message' => 'Connecté.'];
+    }
+
+    /**
+     * Une adresse se compare sans tenir compte de la casse ni des espaces
+     * autour : on ne refusera pas une connexion pour une majuscule.
+     */
+    private static function normalizeEmail(string $email): string
+    {
+        return mb_strtolower(trim($email));
     }
 
     public static function logout(): void
@@ -143,16 +172,24 @@ final class Auth
         session_destroy();
     }
 
-    public static function storePassword(string $password): void
+    public static function storeCredentials(string $email, string $password): void
     {
-        if (strlen($password) < 10) {
+        $email = self::normalizeEmail($email);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException("Adresse électronique invalide : « {$email} »");
+        }
+        if (mb_strlen($password) < 10) {
             throw new \InvalidArgumentException('Le mot de passe doit faire au moins 10 caractères.');
         }
 
         $file = self::credentialsFile();
         $payload = json_encode(
-            ['hash' => password_hash($password, PASSWORD_DEFAULT), 'updatedAt' => date('c')],
-            JSON_PRETTY_PRINT
+            [
+                'email'     => $email,
+                'hash'      => password_hash($password, PASSWORD_DEFAULT),
+                'updatedAt' => date('c'),
+            ],
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
         );
 
         $tmp = $file . '.tmp';
