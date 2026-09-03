@@ -1,0 +1,636 @@
+{
+    "items": [
+        {
+            "slug": "conseil-municipal-2026-06-30",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 30 juin 2026",
+            "date": "2026-06-30",
+            "fichier": "assets/doc/conseil-municipal-2026-06-30.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2026-06-05",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 5 juin 2026",
+            "date": "2026-06-05",
+            "fichier": "assets/doc/conseil-municipal-2026-06-05.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2026-05-28",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 28 mai 2026",
+            "date": "2026-05-28",
+            "fichier": "assets/doc/conseil-municipal-2026-05-28.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2026-04-23",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 23 avril 2026",
+            "date": "2026-04-23",
+            "fichier": "assets/doc/conseil-municipal-2026-04-23.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2026-03-21",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 21 mars 2026",
+            "date": "2026-03-21",
+            "fichier": "assets/doc/conseil-municipal-2026-03-21.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2026-03-03",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 3 mars 2026",
+            "date": "2026-03-03",
+            "fichier": "assets/doc/conseil-municipal-2026-03-03.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2026-02-03",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 3 février 2026",
+            "date": "2026-02-03",
+            "fichier": "assets/doc/conseil-municipal-2026-02-03.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2025-12-16",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 16 décembre 2025",
+            "date": "2025-12-16",
+            "fichier": "assets/doc/conseil-municipal-2025-12-16.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2025-09-30",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 30 septembre 2025",
+            "date": "2025-09-30",
+            "fichier": "assets/doc/conseil-municipal-2025-09-30.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2025-07-08",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 8 juillet 2025",
+            "date": "2025-07-08",
+            "fichier": "assets/doc/conseil-municipal-2025-07-08.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2025-05-20",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 20 mai 2025",
+            "date": "2025-05-20",
+            "fichier": "assets/doc/conseil-municipal-2025-05-20.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2025-01-21",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 21 janvier 2025",
+            "date": "2025-01-21",
+            "fichier": "assets/doc/conseil-municipal-2025-01-21.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2024-11-26",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 26 novembre 2024",
+            "date": "2024-11-26",
+            "fichier": "assets/doc/conseil-municipal-2024-11-26.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2024-10-08",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 8 octobre 2024",
+            "date": "2024-10-08",
+            "fichier": "assets/doc/conseil-municipal-2024-10-08.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2024-08-29",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 29 août 2024",
+            "date": "2024-08-29",
+            "fichier": "assets/doc/conseil-municipal-2024-08-29.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2024-06-06",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 6 juin 2024",
+            "date": "2024-06-06",
+            "fichier": "assets/doc/conseil-municipal-2024-06-06.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2024-03-28",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 28 mars 2024",
+            "date": "2024-03-28",
+            "fichier": "assets/doc/conseil-municipal-2024-03-28.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2024-01-25",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 25 janvier 2024",
+            "date": "2024-01-25",
+            "fichier": "assets/doc/conseil-municipal-2024-01-25.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2023-11-30",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 30 novembre 2023",
+            "date": "2023-11-30",
+            "fichier": "assets/doc/conseil-municipal-2023-11-30.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2023-10-19",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 19 octobre 2023",
+            "date": "2023-10-19",
+            "fichier": "assets/doc/conseil-municipal-2023-10-19.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2023-09-07",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 7 septembre 2023",
+            "date": "2023-09-07",
+            "fichier": "assets/doc/conseil-municipal-2023-09-07.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2023-06-29",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 29 juin 2023",
+            "date": "2023-06-29",
+            "fichier": "assets/doc/conseil-municipal-2023-06-29.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2023-06-08",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 8 juin 2023",
+            "date": "2023-06-08",
+            "fichier": "assets/doc/conseil-municipal-2023-06-08.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2023-03-23",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 23 mars 2023",
+            "date": "2023-03-23",
+            "fichier": "assets/doc/conseil-municipal-2023-03-23.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2023-02-20",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 20 février 2023",
+            "date": "2023-02-20",
+            "fichier": "assets/doc/conseil-municipal-2023-02-20.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2023-01-05",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 5 janvier 2023",
+            "date": "2023-01-05",
+            "fichier": "assets/doc/conseil-municipal-2023-01-05.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2022-11-24",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 24 novembre 2022",
+            "date": "2022-11-24",
+            "fichier": "assets/doc/conseil-municipal-2022-11-24.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2022-10-20",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 20 octobre 2022",
+            "date": "2022-10-20",
+            "fichier": "assets/doc/conseil-municipal-2022-10-20.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2022-09-27",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 27 septembre 2022",
+            "date": "2022-09-27",
+            "fichier": "assets/doc/conseil-municipal-2022-09-27.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2022-07-28",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 28 juillet 2022",
+            "date": "2022-07-28",
+            "fichier": "assets/doc/conseil-municipal-2022-07-28.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2022-06-02",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 2 juin 2022",
+            "date": "2022-06-02",
+            "fichier": "assets/doc/conseil-municipal-2022-06-02.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2022-04-13",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 13 avril 2022",
+            "date": "2022-04-13",
+            "fichier": "assets/doc/conseil-municipal-2022-04-13.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2022-03-15",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 15 mars 2022",
+            "date": "2022-03-15",
+            "fichier": "assets/doc/conseil-municipal-2022-03-15.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2022-02-17",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 17 février 2022",
+            "date": "2022-02-17",
+            "fichier": "assets/doc/conseil-municipal-2022-02-17.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2022-01-13",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 13 janvier 2022",
+            "date": "2022-01-13",
+            "fichier": "assets/doc/conseil-municipal-2022-01-13.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2021-11-25",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 25 novembre 2021",
+            "date": "2021-11-25",
+            "fichier": "assets/doc/conseil-municipal-2021-11-25.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2021-10-14",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 14 octobre 2021",
+            "date": "2021-10-14",
+            "fichier": "assets/doc/conseil-municipal-2021-10-14.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2021-09-16",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 16 septembre 2021",
+            "date": "2021-09-16",
+            "fichier": "assets/doc/conseil-municipal-2021-09-16.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2021-06-03",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 3 juin 2021",
+            "date": "2021-06-03",
+            "fichier": "assets/doc/conseil-municipal-2021-06-03.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2021-04-29",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 29 avril 2021",
+            "date": "2021-04-29",
+            "fichier": "assets/doc/conseil-municipal-2021-04-29.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2021-03-31",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 31 mars 2021",
+            "date": "2021-03-31",
+            "fichier": "assets/doc/conseil-municipal-2021-03-31.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2021-02-18",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 18 février 2021",
+            "date": "2021-02-18",
+            "fichier": "assets/doc/conseil-municipal-2021-02-18.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2021-01-21",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 21 janvier 2021",
+            "date": "2021-01-21",
+            "fichier": "assets/doc/conseil-municipal-2021-01-21.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2020-12-10",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 10 décembre 2020",
+            "date": "2020-12-10",
+            "fichier": "assets/doc/conseil-municipal-2020-12-10.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2020-11-12",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 12 novembre 2020",
+            "date": "2020-11-12",
+            "fichier": "assets/doc/conseil-municipal-2020-11-12.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2020-09-17",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 17 septembre 2020",
+            "date": "2020-09-17",
+            "fichier": "assets/doc/conseil-municipal-2020-09-17.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2020-06-25",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 25 juin 2020",
+            "date": "2020-06-25",
+            "fichier": "assets/doc/conseil-municipal-2020-06-25.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2020-05-25",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 25 mai 2020",
+            "date": "2020-05-25",
+            "fichier": "assets/doc/conseil-municipal-2020-05-25.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2020-02-18",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 18 février 2020",
+            "date": "2020-02-18",
+            "fichier": "assets/doc/conseil-municipal-2020-02-18.pdf"
+        },
+        {
+            "slug": "conseil-municipal-2020-01-21",
+            "actif": true,
+            "famille": "comptes-rendus",
+            "titre": "Conseil municipal du 21 janvier 2020",
+            "date": "2020-01-21",
+            "fichier": "assets/doc/conseil-municipal-2020-01-21.pdf"
+        },
+        {
+            "slug": "budget-primitif-2025",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Budget primitif 2025",
+            "date": "2025-03-31",
+            "fichier": "assets/doc/budget-primitif-2025.pdf"
+        },
+        {
+            "slug": "note-de-presentation-du-budget-primitif-2025",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Note de présentation du budget primitif 2025",
+            "date": "2025-03-31",
+            "fichier": "assets/doc/note-de-presentation-du-budget-primitif-2025.pdf"
+        },
+        {
+            "slug": "compte-financier-unique-2024",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte financier unique 2024",
+            "date": "2024-12-31",
+            "fichier": "assets/doc/compte-financier-unique-2024.pdf"
+        },
+        {
+            "slug": "budget-primitif-2024",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Budget primitif 2024",
+            "date": "2024-03-31",
+            "fichier": "assets/doc/budget-primitif-2024.pdf"
+        },
+        {
+            "slug": "note-de-presentation-du-budget-primitif-2024",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Note de présentation du budget primitif 2024",
+            "date": "2024-03-31",
+            "fichier": "assets/doc/note-de-presentation-du-budget-primitif-2024.pdf"
+        },
+        {
+            "slug": "compte-de-gestion-2023",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte de gestion 2023",
+            "date": "2023-12-31",
+            "fichier": "assets/doc/compte-de-gestion-2023.pdf"
+        },
+        {
+            "slug": "compte-administratif-2023",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte administratif 2023",
+            "date": "2023-12-31",
+            "fichier": "assets/doc/compte-administratif-2023.pdf"
+        },
+        {
+            "slug": "budget-primitif-2023",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Budget primitif 2023",
+            "date": "2023-03-31",
+            "fichier": "assets/doc/budget-primitif-2023.pdf"
+        },
+        {
+            "slug": "note-de-presentation-du-budget-primitif-2023",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Note de présentation du budget primitif 2023",
+            "date": "2023-03-31",
+            "fichier": "assets/doc/note-de-presentation-du-budget-primitif-2023.pdf"
+        },
+        {
+            "slug": "compte-de-gestion-2022",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte de gestion 2022",
+            "date": "2022-12-31",
+            "fichier": "assets/doc/compte-de-gestion-2022.pdf"
+        },
+        {
+            "slug": "compte-administratif-2022",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte administratif 2022",
+            "date": "2022-12-31",
+            "fichier": "assets/doc/compte-administratif-2022.pdf"
+        },
+        {
+            "slug": "budget-primitif-2022",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Budget primitif 2022",
+            "date": "2022-03-31",
+            "fichier": "assets/doc/budget-primitif-2022.pdf"
+        },
+        {
+            "slug": "note-de-presentation-du-budget-primitif-2022",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Note de présentation du budget primitif 2022",
+            "date": "2022-03-31",
+            "fichier": "assets/doc/note-de-presentation-du-budget-primitif-2022.pdf"
+        },
+        {
+            "slug": "compte-administratif-2021",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte administratif 2021",
+            "date": "2021-12-31",
+            "fichier": "assets/doc/compte-administratif-2021.pdf"
+        },
+        {
+            "slug": "compte-de-gestion-2021",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte de gestion 2021",
+            "date": "2021-12-31",
+            "fichier": "assets/doc/compte-de-gestion-2021.pdf"
+        },
+        {
+            "slug": "budget-primitif-2021",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Budget primitif 2021",
+            "date": "2021-03-31",
+            "fichier": "assets/doc/budget-primitif-2021.pdf"
+        },
+        {
+            "slug": "note-de-presentation-du-budget-primitif-2021",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Note de présentation du budget primitif 2021",
+            "date": "2021-03-31",
+            "fichier": "assets/doc/note-de-presentation-du-budget-primitif-2021.pdf"
+        },
+        {
+            "slug": "compte-administratif-2020",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte administratif 2020",
+            "date": "2020-12-31",
+            "fichier": "assets/doc/compte-administratif-2020.pdf"
+        },
+        {
+            "slug": "compte-de-gestion-2020",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte de gestion 2020",
+            "date": "2020-12-31",
+            "fichier": "assets/doc/compte-de-gestion-2020.pdf"
+        },
+        {
+            "slug": "budget-primitif-2020",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Budget primitif 2020",
+            "date": "2020-03-31",
+            "fichier": "assets/doc/budget-primitif-2020.pdf"
+        },
+        {
+            "slug": "note-de-presentation-du-budget-primitif-2020",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Note de présentation du budget primitif 2020",
+            "date": "2020-03-31",
+            "fichier": "assets/doc/note-de-presentation-du-budget-primitif-2020.pdf"
+        },
+        {
+            "slug": "compte-de-gestion-2019",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte de gestion 2019",
+            "date": "2019-12-31",
+            "fichier": "assets/doc/compte-de-gestion-2019.pdf"
+        },
+        {
+            "slug": "compte-administratif-2019",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte administratif 2019",
+            "date": "2019-12-31",
+            "fichier": "assets/doc/compte-administratif-2019.pdf"
+        },
+        {
+            "slug": "note-de-presentation-du-budget-primitif-2019",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Note de présentation du budget primitif 2019",
+            "date": "2019-03-31",
+            "fichier": "assets/doc/note-de-presentation-du-budget-primitif-2019.pdf"
+        },
+        {
+            "slug": "compte-administratif-2018",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte administratif 2018",
+            "date": "2018-12-31",
+            "fichier": "assets/doc/compte-administratif-2018.pdf"
+        },
+        {
+            "slug": "compte-de-gestion-2018",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte de gestion 2018",
+            "date": "2018-12-31",
+            "fichier": "assets/doc/compte-de-gestion-2018.pdf"
+        },
+        {
+            "slug": "budget-primitif-2018",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Budget primitif 2018",
+            "date": "2018-03-31",
+            "fichier": "assets/doc/budget-primitif-2018.pdf"
+        },
+        {
+            "slug": "compte-administratif-2017",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte administratif 2017",
+            "date": "2017-12-31",
+            "fichier": "assets/doc/compte-administratif-2017.pdf"
+        },
+        {
+            "slug": "compte-de-gestion-2017",
+            "actif": true,
+            "famille": "budgets",
+            "titre": "Compte de gestion 2017",
+            "date": "2017-12-31",
+            "fichier": "assets/doc/compte-de-gestion-2017.pdf"
+        }
+    ]
+}

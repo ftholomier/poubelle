@@ -1,0 +1,21 @@
+{
+    "titre": "Info à la une",
+    "meta": {
+        "description": "Les informations urgentes et les Angeot Info diffusés par la mairie d’Angeot : travaux, coupures, changements d’horaires, consultations publiques."
+    },
+    "hero": {
+        "surtitre": "La vie du village",
+        "titre": "Info à la une",
+        "image": "assets/img/site/decorations-de-noel-dans-le-village.jpg",
+        "texte": "Ce qui ne peut pas attendre le bulletin."
+    },
+    "sous_titre": "Les « Angeot Info » sont diffusés ponctuellement par le secrétariat quand une information ne peut pas attendre la parution du bulletin municipal : travaux, coupure d’eau ou d’électricité, changement d’horaires du secrétariat, consultation publique, alerte météorologique.",
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Être prévenu",
+            "paragraphes": "<p>Les informations urgentes sont affichées à la mairie, distribuées dans les boîtes aux lettres quand le délai le permet, et publiées ici. Le bandeau « En ce moment », en haut de chaque page du site, reprend les plus récentes.</p>"
+        }
+    ]
+}

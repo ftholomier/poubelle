@@ -1,0 +1,65 @@
+{
+    "titre": "Mentions légales",
+    "meta": {
+        "description": "Mentions légales du site officiel de la commune d’Angeot : éditeur, directeur de la publication, hébergement, propriété intellectuelle."
+    },
+    "hero": {
+        "surtitre": "Informations légales",
+        "titre": "Mentions légales",
+        "image": "assets/img/site/mairie-ecole.jpg"
+    },
+    "sous_titre": "Ces mentions sont obligatoires pour tout site internet, en application de l’article 6 de la loi pour la confiance dans l’économie numérique.",
+    "sections": [
+        {
+            "type": "texte",
+            "titre": "Éditeur du site",
+            "paragraphes": "<p>Commune d’Angeot</p><p>Mairie d’Angeot — 2, rue de l’École, 90150 Angeot</p><p>Téléphone : 03 84 23 84 87 — Courriel : mairie.angeot@orange.fr</p>"
+        },
+        {
+            "type": "texte",
+            "titre": "Directeur de la publication",
+            "paragraphes": "<p>Monsieur Michel Nardin, maire d’Angeot.</p>"
+        },
+        {
+            "type": "texte",
+            "titre": "Hébergement",
+            "paragraphes": "<p>Le site est hébergé en France. Les coordonnées de l’hébergeur sont disponibles sur demande auprès du secrétariat de mairie.</p>"
+        },
+        {
+            "type": "texte",
+            "titre": "Conception et réalisation",
+            "paragraphes": "<p>Le site a été conçu et développé pour la commune. Il n’utilise ni base de données, ni service tiers à l’affichage : aucune requête n’est adressée à un autre domaine tant que le visiteur n’y a pas consenti.</p>"
+        },
+        {
+            "type": "texte",
+            "titre": "Propriété intellectuelle",
+            "paragraphes": "<p>Le contenu du site — textes, photographies, documents — est protégé par le droit d’auteur et les autres droits de propriété intellectuelle. Toute reproduction ou utilisation à des fins autres que strictement personnelles est soumise à l’autorisation préalable de la mairie d’Angeot.</p><p>Les photographies du village sont la propriété de la commune ou de leurs auteurs, qui en ont autorisé l’usage. Les documents administratifs publiés (comptes-rendus, bulletins municipaux) sont des documents publics, librement consultables et réutilisables dans les conditions prévues par le code des relations entre le public et l’administration.</p>"
+        },
+        {
+            "type": "texte",
+            "id": "credits-photographiques",
+            "titre": "Crédits photographiques",
+            "paragraphes": "<p>La plupart des photographies de ce site ont été prises par les élus et les bénévoles d’Angeot au fil des manifestations, et sont publiées avec leur accord.</p><p>Quatre vues du village proviennent de Wikimedia Commons et restent soumises à leur licence d’origine, qui impose d’en citer l’auteur et de conserver la même licence en cas de réutilisation :</p>",
+            "liste": [
+                "« Rue principale à Angeot » — Espirat, licence CC BY-SA 4.0",
+                "« Angeot, vu de l’église » — Espirat, licence CC BY-SA 4.0",
+                "« Mairie-école » — Espirat, licence CC BY-SA 4.0",
+                "« Angeot, église Saint-Sébastien » et son intérieur — Rauenstein, licence CC BY-SA 3.0"
+            ]
+        },
+        {
+            "type": "texte",
+            "titre": "Liens vers d’autres sites",
+            "paragraphes": "<p>Ce site propose des liens vers des sites publics et des sites d’associations. La commune n’exerce aucun contrôle sur leur contenu et ne saurait être tenue responsable de ce qui y est publié.</p><p>Les liens sortants sont signalés par un symbole et s’ouvrent dans un nouvel onglet.</p>"
+        },
+        {
+            "type": "texte",
+            "titre": "Signaler une erreur",
+            "paragraphes": "<p>Une information périmée, un lien mort, une coquille : signalez-les au secrétariat, la correction sera faite.</p>",
+            "lien": {
+                "libelle": "Signaler une erreur",
+                "url": "/demande-en-ligne"
+            }
+        }
+    ]
+}

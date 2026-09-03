@@ -1,0 +1,145 @@
+{
+    "items": [
+        {
+            "slug": "urgences",
+            "nom": "Numéros d’urgence",
+            "actif": true,
+            "urgence": true,
+            "texte": "Ces numéros sont gratuits et joignables jour et nuit, depuis un fixe comme depuis un portable, même sans carte SIM et même sans réseau de votre opérateur.",
+            "numeros": [
+                {
+                    "numero": "15",
+                    "libelle": "SAMU",
+                    "texte": "Urgence médicale, détresse vitale"
+                },
+                {
+                    "numero": "17",
+                    "libelle": "Police, gendarmerie",
+                    "texte": "Atteinte aux personnes ou aux biens"
+                },
+                {
+                    "numero": "18",
+                    "libelle": "Pompiers",
+                    "texte": "Incendie, accident, secours à personne"
+                },
+                {
+                    "numero": "112",
+                    "libelle": "Numéro d’urgence européen",
+                    "texte": "Toutes urgences, partout en Europe"
+                },
+                {
+                    "numero": "114",
+                    "libelle": "Urgence par SMS",
+                    "texte": "Pour les personnes sourdes, malentendantes ou dans l’impossibilité de parler"
+                },
+                {
+                    "numero": "115",
+                    "libelle": "Samu social",
+                    "texte": "Hébergement d’urgence, jour et nuit"
+                }
+            ]
+        },
+        {
+            "slug": "sante",
+            "nom": "Santé",
+            "actif": true,
+            "texte": "En dehors des heures d’ouverture des cabinets, ces numéros orientent vers le professionnel de garde du secteur.",
+            "numeros": [
+                {
+                    "numero": "116 117",
+                    "libelle": "Médecin de garde",
+                    "texte": "Consultation non urgente le soir, le week-end et les jours fériés. En cas d’urgence vitale, composez le 15"
+                },
+                {
+                    "numero": "32 37",
+                    "libelle": "Pharmacie de garde",
+                    "texte": "Service payant : indique la pharmacie ouverte la plus proche"
+                },
+                {
+                    "numero": "01 45 42 59 59",
+                    "libelle": "Centre antipoison",
+                    "texte": "Ingestion ou contact avec un produit toxique — appelez avant d’agir"
+                }
+            ]
+        },
+        {
+            "slug": "ecoute",
+            "nom": "Lignes d’écoute",
+            "actif": true,
+            "texte": "Gratuites, confidentielles, tenues par des professionnels. Elles n’apparaissent pas sur les factures détaillées.",
+            "numeros": [
+                {
+                    "numero": "119",
+                    "libelle": "Enfance en danger",
+                    "texte": "Jour et nuit, pour signaler ou demander conseil"
+                },
+                {
+                    "numero": "3919",
+                    "libelle": "Violences femmes info",
+                    "texte": "Écoute et orientation des femmes victimes de violences, et de leur entourage"
+                },
+                {
+                    "numero": "3977",
+                    "libelle": "Maltraitance des personnes âgées et handicapées",
+                    "texte": "Écoute et signalement"
+                },
+                {
+                    "numero": "3114",
+                    "libelle": "Prévention du suicide",
+                    "texte": "Jour et nuit, gratuit, par des professionnels de santé"
+                },
+                {
+                    "numero": "30 20",
+                    "libelle": "Non au harcèlement",
+                    "texte": "Harcèlement scolaire : élèves, parents et professionnels"
+                }
+            ]
+        },
+        {
+            "slug": "reseaux",
+            "nom": "Dépannage des réseaux",
+            "actif": true,
+            "texte": "Une odeur de gaz, un fil à terre, une coupure qui ne concerne que vous : ces numéros sont ceux des exploitants, joignables en permanence.",
+            "numeros": [
+                {
+                    "numero": "09 726 750 90",
+                    "libelle": "Enedis — dépannage électricité",
+                    "texte": "Coupure, fil arraché, compteur. Numéro du Territoire de Belfort, 24 h sur 24"
+                },
+                {
+                    "numero": "0 800 47 33 33",
+                    "libelle": "GRDF — urgence sécurité gaz",
+                    "texte": "Odeur de gaz : appelez de l’extérieur, n’actionnez aucun interrupteur"
+                },
+                {
+                    "numero": "03 84 23 84 87",
+                    "libelle": "Mairie d’Angeot",
+                    "texte": "Éclairage public, voirie communale, signalement d’un désordre — aux heures d’ouverture"
+                }
+            ]
+        },
+        {
+            "slug": "services",
+            "nom": "Services du quotidien",
+            "actif": true,
+            "texte": "Les services du secteur qu’on cherche une fois de temps en temps.",
+            "numeros": [
+                {
+                    "numero": "03 84 23 84 87",
+                    "libelle": "Secrétariat de mairie",
+                    "texte": "Mardi 8 h 30-11 h 30 et 13 h 30-17 h 30 · jeudi 13 h 30-16 h · vendredi 8 h 30-11 h 30 et 13 h 30-16 h"
+                },
+                {
+                    "numero": "03 84 90 11 71",
+                    "libelle": "Collecte des encombrants",
+                    "texte": "Grand Belfort — rendez-vous gratuit à domicile, en votre présence"
+                },
+                {
+                    "numero": "03 84 56 50 24",
+                    "libelle": "Relais Familles Assistants Maternels de Larivière",
+                    "texte": "Modes d’accueil des jeunes enfants — relais.sit@famillesrurales.org"
+                }
+            ]
+        }
+    ]
+}

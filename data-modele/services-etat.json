@@ -1,0 +1,91 @@
+{
+    "items": [
+        {
+            "slug": "prefecture",
+            "nom": "Préfecture du Territoire de Belfort",
+            "sigle": "Préfecture",
+            "actif": true,
+            "texte": "Représentation de l’État dans le département. La plupart des démarches autrefois traitées au guichet se font désormais en ligne : les coordonnées et les horaires d’accueil sont publiés sur son site.",
+            "missions": [
+                "Cartes grises et permis de conduire, via l’ANTS",
+                "Titres de séjour",
+                "Associations loi 1901",
+                "Élections et vie citoyenne",
+                "Sécurité et ordre public"
+            ],
+            "site": "https://www.territoire-de-belfort.gouv.fr/"
+        },
+        {
+            "slug": "ddt",
+            "nom": "Direction départementale des territoires",
+            "sigle": "D.D.T.",
+            "actif": true,
+            "texte": "Aménagement, urbanisme, logement, risques naturels, agriculture et environnement. C’est elle qui instruit certaines autorisations d’urbanisme et qui suit la police de l’eau.",
+            "missions": [
+                "Application du droit des sols",
+                "Prévention des risques et de l’inondation",
+                "Habitat et rénovation énergétique",
+                "Police de l’eau et de la nature",
+                "Forêt et chasse"
+            ],
+            "site": "https://www.territoire-de-belfort.gouv.fr/"
+        },
+        {
+            "slug": "dgfip",
+            "nom": "Direction générale des finances publiques",
+            "sigle": "D.G.F.I.P.",
+            "actif": true,
+            "texte": "Impôts des particuliers, taxe foncière, taxe d’habitation sur les résidences secondaires. La messagerie sécurisée du site impots.gouv.fr est le moyen le plus rapide d’obtenir une réponse écrite et tracée.",
+            "missions": [
+                "Déclaration et paiement des impôts",
+                "Avis d’imposition et de situation déclarative",
+                "Taxe foncière et taxe d’aménagement",
+                "Timbres fiscaux dématérialisés"
+            ],
+            "site": "https://www.impots.gouv.fr/"
+        },
+        {
+            "slug": "gendarmerie",
+            "nom": "Gendarmerie nationale",
+            "sigle": "Gendarmerie",
+            "actif": true,
+            "texte": "Angeot relève de la gendarmerie. Pour une urgence, composez le 17. Pour une plainte ou un renseignement, la brigade du secteur reçoit aux heures indiquées sur le site, et une pré-plainte peut être déposée en ligne.",
+            "missions": [
+                "Urgence : 17",
+                "Plainte et main courante",
+                "Pré-plainte en ligne pour les atteintes aux biens",
+                "Validation d’une procuration de vote",
+                "Opération tranquillité vacances"
+            ],
+            "site": "https://www.gendarmerie.interieur.gouv.fr/"
+        },
+        {
+            "slug": "ars",
+            "nom": "Agence régionale de santé Bourgogne-Franche-Comté",
+            "sigle": "A.R.S.",
+            "actif": true,
+            "texte": "Santé publique, veille sanitaire, qualité de l’eau distribuée, établissements de santé et médico-sociaux.",
+            "missions": [
+                "Veille et sécurité sanitaires",
+                "Contrôle de la qualité de l’eau du robinet",
+                "Autorisation et contrôle des établissements",
+                "Prévention et promotion de la santé"
+            ],
+            "site": "https://www.bourgogne-franche-comte.ars.sante.fr/"
+        },
+        {
+            "slug": "france-services",
+            "nom": "Espace France Services",
+            "sigle": "France Services",
+            "actif": true,
+            "texte": "Un guichet unique où un agent accompagne gratuitement les démarches en ligne de neuf partenaires — impôts, CAF, Assurance maladie, retraite, ANTS, Pôle emploi. Le plus proche d’Angeot se trouve à Valdoie.",
+            "missions": [
+                "Accompagnement aux démarches en ligne",
+                "Aide à la constitution d’un dossier",
+                "Prise de rendez-vous avec les opérateurs",
+                "Accès à un poste informatique"
+            ],
+            "site": "https://www.france-services.gouv.fr/"
+        }
+    ]
+}

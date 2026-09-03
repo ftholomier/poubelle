@@ -1,0 +1,106 @@
+{
+    "titre": "Démarches en ligne",
+    "meta": {
+        "description": "Les téléservices de l’administration utiles aux habitants d’Angeot : ANTS, service-public.fr, impôts, Maprocuration, France Services."
+    },
+    "hero": {
+        "surtitre": "Vos démarches",
+        "titre": "Démarches en ligne",
+        "image": "assets/img/site/reception-en-mairie.jpg",
+        "texte": "Les sites officiels, et rien d’autre."
+    },
+    "sous_titre": "Beaucoup de démarches ne passent plus par un guichet. Voici les adresses officielles, celles qui se terminent par .gouv.fr. Si l’une d’elles vous réclame un paiement pour une démarche annoncée gratuite, fermez la page : ce n’est pas le bon site.",
+    "sections": [
+        {
+            "type": "liens",
+            "surtitre": "Papiers et identité",
+            "titre": "Titres, véhicules, permis",
+            "items": [
+                {
+                    "titre": "ANTS — cartes grises, permis, pré-demandes",
+                    "texte": "Le site unique pour l’immatriculation des véhicules, le permis de conduire et la pré-demande de carte d’identité ou de passeport.",
+                    "url": "https://ants.gouv.fr/"
+                },
+                {
+                    "titre": "Timbres fiscaux en ligne",
+                    "texte": "Achat d’un timbre électronique, 24 h sur 24, pour un passeport ou une carte d’identité perdue. Remboursement possible s’il n’est pas utilisé.",
+                    "url": "https://timbres.impots.gouv.fr/"
+                },
+                {
+                    "titre": "FranceConnect",
+                    "texte": "Une seule identité pour se connecter à la plupart des services publics en ligne, à partir d’un compte impots.gouv.fr, Ameli ou La Poste.",
+                    "url": "https://franceconnect.gouv.fr/"
+                }
+            ]
+        },
+        {
+            "type": "liens",
+            "surtitre": "Citoyenneté",
+            "titre": "Élections et recensement",
+            "items": [
+                {
+                    "titre": "Maprocuration",
+                    "texte": "Faire une procuration de vote en ligne, à valider ensuite en gendarmerie ou au commissariat.",
+                    "url": "https://www.maprocuration.gouv.fr/"
+                },
+                {
+                    "titre": "Vérifier son inscription électorale",
+                    "texte": "Savoir si l’on est inscrit, dans quelle commune et dans quel bureau de vote, et retrouver son numéro national d’électeur.",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R51788"
+                },
+                {
+                    "titre": "S’inscrire sur les listes électorales",
+                    "texte": "L’inscription en ligne, possible toute l’année.",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R16396"
+                }
+            ]
+        },
+        {
+            "type": "liens",
+            "surtitre": "Le portail de référence",
+            "titre": "Service-public.fr",
+            "items": [
+                {
+                    "titre": "Service-public.fr — particuliers",
+                    "texte": "Le portail de l’administration française : fiches pratiques à jour, formulaires, simulateurs et téléservices, pour toutes les démarches.",
+                    "url": "https://www.service-public.fr/particuliers"
+                },
+                {
+                    "titre": "Impots.gouv.fr",
+                    "texte": "Déclaration de revenus, avis d’imposition, taxe foncière, paiement en ligne et messagerie sécurisée avec le service des impôts.",
+                    "url": "https://www.impots.gouv.fr/"
+                },
+                {
+                    "titre": "Mon Projet ANAH",
+                    "texte": "Demander une aide de l’Agence nationale de l’habitat pour rénover son logement, vérifier son éligibilité et déposer son dossier.",
+                    "url": "https://monprojet.anah.gouv.fr/"
+                },
+                {
+                    "titre": "France Rénov’",
+                    "texte": "Le service public de la rénovation de l’habitat : conseils gratuits, aides mobilisables, et la page qui recense les fraudes signalées.",
+                    "url": "https://france-renov.gouv.fr/"
+                }
+            ]
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Vous n’êtes pas à l’aise avec Internet",
+            "paragraphes": "<p>Ce n’est pas une fatalité et ce n’est pas rare. Les Espaces France Services accompagnent gratuitement les démarches en ligne, avec un agent en face de soi : le plus proche d’Angeot se trouve à Valdoie. Le secrétariat de mairie peut aussi vous orienter, et imprimer un formulaire.</p>",
+            "lien": {
+                "libelle": "Trouver un Espace France Services",
+                "url": "https://www.france-services.gouv.fr/"
+            }
+        },
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "Se prémunir contre les fraudes",
+            "paragraphes": "<p>Par téléphone ou à domicile, le service public n’effectue jamais de démarchage. Ne croyez pas les démarcheurs qui se réclament d’organismes publics, notamment pour la rénovation énergétique. Aucun agent public ne vous demandera vos coordonnées bancaires, votre numéro de sécurité sociale complet ni une copie de votre pièce d’identité par téléphone.</p>",
+            "lien": {
+                "libelle": "Les conseils de France Rénov’ contre les fraudes",
+                "url": "https://france-renov.gouv.fr/fraudes"
+            }
+        }
+    ]
+}

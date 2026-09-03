@@ -1,0 +1,62 @@
+{
+    "titre": "Accessibilité",
+    "meta": {
+        "description": "Déclaration d’accessibilité du site de la commune d’Angeot : niveau de conformité, mesures prises, contact et voies de recours."
+    },
+    "hero": {
+        "surtitre": "Informations légales",
+        "titre": "Accessibilité",
+        "image": "assets/img/site/village-vu-de-l-eglise.jpg"
+    },
+    "sous_titre": "La commune d’Angeot s’engage à rendre son site internet accessible, conformément à l’article 47 de la loi du 11 février 2005 pour l’égalité des droits et des chances.",
+    "sections": [
+        {
+            "type": "texte",
+            "titre": "État de conformité",
+            "paragraphes": "<p>Ce site a été conçu en visant le référentiel général d’amélioration de l’accessibilité (RGAA). Aucun audit de conformité complet n’a encore été réalisé par un tiers : la déclaration sera mise à jour lorsqu’il aura eu lieu, avec le taux de conformité et la liste des non-conformités constatées.</p>"
+        },
+        {
+            "type": "texte",
+            "titre": "Ce qui a été fait",
+            "paragraphes": "<p>L’accessibilité n’a pas été traitée en fin de projet mais en cours de développement, et une partie des critères est vérifiée automatiquement avant chaque mise en ligne :</p>",
+            "liste": [
+                "Le contraste réel de chaque texte est mesuré au pixel, y compris sur photo et sous la barre translucide, à trois largeurs d’écran, et doit atteindre les seuils du niveau AA",
+                "Les cibles tactiles font au moins 44 pixels de haut sur écran tactile, mesurées et non estimées",
+                "Chaque page a un titre de premier niveau unique et une hiérarchie de titres sans saut",
+                "Chaque image porte un attribut alt : une description quand elle apporte de l’information, un attribut vide quand elle est décorative",
+                "Un lien d’évitement mène directement au contenu principal",
+                "Aucun débordement horizontal n’est toléré, de 320 à 1440 pixels de large",
+                "Les animations sont désactivées lorsque le système signale une préférence pour un mouvement réduit",
+                "Les liens sortants sont annoncés aux lecteurs d’écran"
+            ]
+        },
+        {
+            "type": "texte",
+            "titre": "Ce qui reste à améliorer",
+            "paragraphes": "<p>Les documents PDF publiés — comptes-rendus du conseil, bulletins municipaux — ne sont pas tous accessibles : ils sont produits par des outils bureautiques et ne comportent pas systématiquement de structure de titres ni de texte de remplacement pour les images.</p><p>Si un document vous est inaccessible, demandez-le : le secrétariat vous en communiquera le contenu sous une autre forme, par téléphone, par courrier ou en vous recevant.</p>"
+        },
+        {
+            "type": "texte",
+            "titre": "Nous signaler un problème",
+            "paragraphes": "<p>Si vous ne parvenez pas à accéder à un contenu ou à un service de ce site, dites-le-nous : nous corrigerons, et nous vous fournirons entre-temps l’information par un autre moyen.</p><p>Par téléphone au 03 84 23 84 87, par courriel à mairie.angeot@orange.fr, ou par courrier à la mairie, 2 rue de l’École, 90150 Angeot.</p>",
+            "lien": {
+                "libelle": "Signaler un problème d’accessibilité",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "texte",
+            "titre": "Voies de recours",
+            "paragraphes": "<p>Si vous constatez un défaut d’accessibilité vous empêchant d’accéder à un contenu ou à une fonctionnalité, que vous nous le signalez et que vous n’obtenez pas de réponse satisfaisante, vous pouvez :</p>",
+            "liste": [
+                "Écrire un message au Défenseur des droits",
+                "Contacter le délégué du Défenseur des droits de votre département",
+                "Envoyer un courrier par la poste, sans affranchissement, au Défenseur des droits — Libre réponse 71120, 75342 Paris CEDEX 07"
+            ],
+            "lien": {
+                "libelle": "Le Défenseur des droits",
+                "url": "https://www.defenseurdesdroits.fr/"
+            }
+        }
+    ]
+}

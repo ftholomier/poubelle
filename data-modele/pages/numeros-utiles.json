@@ -1,0 +1,12 @@
+{
+    "titre": "Numéros utiles",
+    "meta": {
+        "description": "Numéros d’urgence, santé, dépannage des réseaux, lignes d’écoute et services du quotidien pour les habitants d’Angeot."
+    },
+    "hero": {
+        "surtitre": "Au quotidien",
+        "titre": "Numéros utiles",
+        "image": "assets/img/site/rue-principale.jpg",
+        "texte": "Les numéros qu’on cherche quand on n’a pas le temps de chercher."
+    }
+}

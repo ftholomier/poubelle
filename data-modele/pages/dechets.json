@@ -1,0 +1,87 @@
+{
+    "titre": "Gérer mes déchets",
+    "meta": {
+        "description": "Collecte et tri des déchets à Angeot : bacs bruns et bacs jaunes, calendrier, déchèteries du Grand Belfort, badge d’accès, encombrants et déchets verts."
+    },
+    "hero": {
+        "surtitre": "Au quotidien",
+        "titre": "Gérer mes déchets",
+        "image": "assets/img/site/chemin-forestier.jpg",
+        "texte": "Quel bac, quel jour, et où déposer le reste."
+    },
+    "sous_titre": "La collecte et le traitement des déchets ménagers relèvent du Grand Belfort Communauté d’Agglomération. C’est lui qu’il faut joindre pour un bac, une facture, un badge de déchèterie ou un problème de collecte.",
+    "sections": [
+        {
+            "type": "tableau",
+            "id": "collecte",
+            "titre": "Les jours de collecte à Angeot",
+            "chapo": "Les bacs se sortent la veille au soir et se rentrent dès que possible après le passage : un bac laissé sur le trottoir gêne le déneigement et la tonte des accotements.",
+            "entetes": [
+                "Bac",
+                "Passage"
+            ],
+            "lignes": [
+                {
+                    "libelle": "Bac brun — ordures ménagères",
+                    "valeurs": [
+                        "Le lundi des semaines paires"
+                    ]
+                },
+                {
+                    "libelle": "Bac jaune — emballages et papiers",
+                    "valeurs": [
+                        "Tous les jeudis"
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Vérifiez le calendrier de l’année",
+            "paragraphes": "<p>Les jours de collecte sont susceptibles d’être décalés les semaines de jours fériés, et le calendrier est réédité chaque année par le Grand Belfort. Le calendrier en vigueur fait foi ; celui affiché ici décrit le rythme habituel.</p>",
+            "lien": {
+                "libelle": "Le calendrier du Grand Belfort",
+                "url": "https://www.grandbelfort.fr/"
+            }
+        },
+        {
+            "type": "texte",
+            "id": "tri",
+            "surtitre": "Le tri",
+            "titre": "Ce qui va dans le bac jaune",
+            "paragraphes": "<p>Depuis l’extension des consignes de tri, tous les emballages se trient : plus besoin de se demander si un pot de yaourt ou un film plastique a sa place dans le bac jaune. En revanche, deux réflexes comptent plus que la nature du plastique.</p>",
+            "liste": [
+                "Déposez les emballages en vrac, jamais dans un sac fermé : un sac noué est refusé au centre de tri",
+                "N’emboîtez pas les emballages les uns dans les autres : la chaîne de tri ne sait pas les séparer",
+                "Inutile de laver : il suffit de bien vider",
+                "Le verre se dépose dans les conteneurs à verre, jamais dans le bac jaune"
+            ]
+        },
+        {
+            "type": "texte",
+            "id": "decheteries",
+            "surtitre": "Déchèteries",
+            "titre": "Où déposer le reste",
+            "paragraphes": "<p>La déchèterie la plus proche d’Angeot est celle de Fontaine, sur l’aéroparc. Les déchèteries de Châtenois-les-Forges, Danjoutin et Sermamagny sont également accessibles.</p><p>L’accès aux déchèteries se fait avec un badge, à demander auprès du Grand Belfort.</p>",
+            "liste": [
+                "Gravats, ferraille, bois, cartons et encombrants",
+                "Déchets verts : tontes, tailles et branchages",
+                "Produits chimiques, peintures, huiles, piles et batteries",
+                "Équipements électriques et électroniques, ampoules"
+            ]
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Encombrants : la collecte à domicile",
+            "paragraphes": "<p>Pour les gros encombrants, si vous ne pouvez pas vous déplacer, une collecte à domicile est possible, gratuitement, sur rendez-vous et en votre présence. Le rendez-vous se prend par internet ou par téléphone au <strong>03 84 90 11 71</strong>.</p>"
+        },
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "Les dépôts sauvages",
+            "paragraphes": "<p>Déposer des déchets — gravats, encombrants, déchets verts — en forêt, dans un fossé ou le long d’un chemin est un délit, et ce sont les gardes champêtres du Grand Belfort qui le constatent. Au-delà de la sanction, le nettoyage est payé par la commune, donc par tout le monde.</p>"
+        }
+    ]
+}

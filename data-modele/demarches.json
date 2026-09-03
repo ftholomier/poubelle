@@ -1,0 +1,608 @@
+{
+    "intro": "Les démarches les plus courantes, avec ce que la mairie d’Angeot fait elle-même, ce qu’elle ne fait pas, et où s’adresser dans ce cas. Chaque fiche renvoie au téléservice officiel et à service-public.fr pour les pièces et les délais, qui changent d’une année à l’autre. En cas de doute, le secrétariat répond au 03 84 23 84 87 : mieux vaut un appel qu’un déplacement pour rien.",
+    "items": [
+        {
+            "slug": "carte-d-identite-passeport",
+            "nom": "Carte d’identité et passeport",
+            "famille": "etat-civil",
+            "icone": "etat-civil",
+            "actif": true,
+            "image": "assets/img/site/mairie-jour-d-inauguration.jpg",
+            "resume": "La mairie d’Angeot ne délivre pas ces titres : la demande se dépose dans une mairie équipée d’un dispositif de recueil, sur rendez-vous.",
+            "guichet": "Une mairie équipée d’un dispositif de recueil — Angeot n’en dispose pas",
+            "delai": "Variable selon la période et la commune : le délai s’allonge nettement au printemps",
+            "cout": "Carte d’identité gratuite (25 € en cas de perte ou de vol) · passeport 86 € pour un majeur",
+            "validite": "Carte d’identité : 15 ans pour un majeur, 10 ans pour un mineur · Passeport : 10 ans, 5 ans pour un mineur",
+            "pieces": [
+                "La pré-demande en ligne : son numéro, ou son récapitulatif imprimé",
+                "Une photo d’identité de moins de six mois, aux normes",
+                "Un justificatif de domicile de moins d’un an",
+                "L’ancien titre, s’il y en a un",
+                "Un timbre fiscal pour un passeport, ou pour une carte d’identité perdue ou volée",
+                "Le livret de famille et la pièce d’identité du parent, pour un mineur"
+            ],
+            "liens": [
+                {
+                    "libelle": "Faire ma pré-demande (ANTS)",
+                    "url": "https://ants.gouv.fr/"
+                },
+                {
+                    "libelle": "Acheter un timbre fiscal",
+                    "url": "https://timbres.impots.gouv.fr/"
+                },
+                {
+                    "libelle": "Carte d’identité — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/N358"
+                },
+                {
+                    "libelle": "Passeport — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/N360"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "encadre",
+                    "ton": "alerte",
+                    "intitule": "Angeot ne peut pas établir ces documents",
+                    "paragraphes": "<p>Depuis 2017, les cartes d’identité suivent la même procédure que les passeports biométriques : la demande se dépose dans une mairie équipée d’un dispositif de recueil des empreintes, quel que soit le domicile du demandeur. Angeot n’est pas équipée.</p><p>Le secrétariat peut vous remettre le formulaire papier et vous indiquer les mairies équipées les plus proches ; la prise de rendez-vous se fait auprès d’elles ou sur le site de l’ANTS.</p>",
+                    "lien": {
+                        "libelle": "Trouver une mairie équipée",
+                        "url": "https://ants.gouv.fr/"
+                    }
+                },
+                {
+                    "type": "texte",
+                    "titre": "Un conseil qui fait gagner du temps",
+                    "paragraphes": "<p>Faites la pré-demande en ligne avant le rendez-vous. Elle ne remplace pas le passage au guichet — les empreintes s’y prennent — mais elle évite la ressaisie de tout le dossier sur place, et raccourcit sensiblement l’entretien.</p>"
+                }
+            ]
+        },
+        {
+            "slug": "acte-d-etat-civil",
+            "nom": "Acte de naissance, de mariage ou de décès",
+            "famille": "etat-civil",
+            "icone": "etat-civil",
+            "actif": true,
+            "image": "assets/img/site/inauguration-des-salles-de-mairie.jpg",
+            "resume": "Un acte se demande à la mairie du lieu de l’événement, pas à celle du domicile. Pour un événement enregistré à Angeot, la demande se fait ici.",
+            "guichet": "La mairie du lieu de naissance, de mariage ou de décès",
+            "delai": "Immédiat au guichet · quelques jours par courrier",
+            "cout": "Gratuit",
+            "validite": "Un acte de moins de trois mois est généralement exigé",
+            "pieces": [
+                "Vos nom, prénoms et date de naissance",
+                "Les noms et prénoms de vos parents, pour un acte de naissance",
+                "Une pièce d’identité, et un justificatif de filiation pour une copie intégrale",
+                "Une adresse postale pour l’envoi"
+            ],
+            "liens": [
+                {
+                    "libelle": "Acte de naissance — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F1427"
+                },
+                {
+                    "libelle": "Acte de mariage — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F1432"
+                },
+                {
+                    "libelle": "Acte de décès — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F1444"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Trois formes, trois usages",
+                    "liste": [
+                        "La copie intégrale reproduit tout l’acte et ses mentions marginales. Elle est réservée à l’intéressé, à ses ascendants, descendants, conjoint et représentant légal",
+                        "L’extrait avec filiation indique les parents, et suit les mêmes règles de délivrance",
+                        "L’extrait sans filiation est délivré à tout demandeur"
+                    ]
+                },
+                {
+                    "type": "encadre",
+                    "ton": "alerte",
+                    "intitule": "Aucun acte d’état civil n’est payant",
+                    "paragraphes": "<p>Plusieurs sites privés proposent d’obtenir un acte moyennant des « frais de dossier ». La délivrance est gratuite, en mairie comme sur service-public.fr. Si un site vous réclame un paiement, ce n’est pas un service public.</p>"
+                },
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Événement enregistré à Angeot",
+                    "paragraphes": "<p>Si la naissance, le mariage ou le décès a été enregistré à Angeot, adressez votre demande au secrétariat, par le formulaire en ligne ou par courrier. Précisez la date de l’événement et les noms concernés.</p>",
+                    "lien": {
+                        "libelle": "Demander un acte à la mairie",
+                        "url": "/demande-en-ligne"
+                    }
+                }
+            ]
+        },
+        {
+            "slug": "inscription-sur-les-listes-electorales",
+            "nom": "Inscription sur les listes électorales",
+            "famille": "elections",
+            "icone": "mairie",
+            "actif": true,
+            "image": "assets/img/site/mairie-jour-d-inauguration.jpg",
+            "resume": "Possible toute l’année. Mais pour voter à un scrutin donné, il faut s’y prendre avant une date limite.",
+            "guichet": "Le secrétariat de mairie d’Angeot, ou en ligne",
+            "delai": "Toute l’année · pour voter une année d’élection, au plus tard le sixième vendredi précédant le premier tour",
+            "cout": "Gratuit",
+            "validite": "Permanente, tant que vous restez domicilié dans la commune",
+            "pieces": [
+                "Une pièce d’identité en cours de validité",
+                "Un justificatif de domicile de moins de trois mois",
+                "Le formulaire de demande d’inscription, si la démarche est faite au guichet"
+            ],
+            "liens": [
+                {
+                    "libelle": "S’inscrire en ligne",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R16396"
+                },
+                {
+                    "libelle": "Vérifier son inscription et son bureau de vote",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R51788"
+                },
+                {
+                    "libelle": "Listes électorales — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/N47"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Inscription d’office à dix-huit ans",
+                    "paragraphes": "<p>Chaque Français qui devient majeur est inscrit automatiquement sur les listes électorales, à condition d’avoir fait son recensement citoyen à seize ans. Si l’inscription d’office n’a pas pu avoir lieu — recensement tardif, déménagement depuis —, il faut demander soi-même son inscription.</p>",
+                    "lien": {
+                        "libelle": "Le recensement citoyen",
+                        "url": "/demarches/recensement-citoyen"
+                    }
+                },
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Vous venez d’emménager à Angeot",
+                    "paragraphes": "<p>Un déménagement n’entraîne aucun transfert automatique, même à l’intérieur du département. Inscrivez-vous à Angeot : la radiation de l’ancienne commune est ensuite faite d’office.</p>",
+                    "lien": {
+                        "libelle": "S’inscrire auprès du secrétariat",
+                        "url": "/demande-en-ligne"
+                    }
+                }
+            ]
+        },
+        {
+            "slug": "procuration-de-vote",
+            "nom": "Procuration de vote",
+            "famille": "elections",
+            "icone": "mairie",
+            "actif": true,
+            "image": "assets/img/site/enfants-aux-drapeaux.jpg",
+            "resume": "Depuis 2022, le mandataire n’a plus besoin d’être inscrit dans la même commune que vous — mais il vote dans votre bureau.",
+            "guichet": "Gendarmerie, commissariat ou tribunal, après une demande en ligne ou sur formulaire",
+            "delai": "Le plus tôt possible : la procuration doit parvenir à la mairie avant le scrutin",
+            "cout": "Gratuit",
+            "validite": "Pour un scrutin, ou pour une durée choisie dans la limite prévue par la loi",
+            "pieces": [
+                "Votre numéro national d’électeur et celui du mandataire",
+                "Une pièce d’identité, présentée au moment de la validation",
+                "La date ou la période pour laquelle la procuration est donnée"
+            ],
+            "liens": [
+                {
+                    "libelle": "Faire une procuration en ligne (Maprocuration)",
+                    "url": "https://www.maprocuration.gouv.fr/"
+                },
+                {
+                    "libelle": "Trouver son numéro national d’électeur",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R51788"
+                },
+                {
+                    "libelle": "Procuration — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F1604"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "etapes",
+                    "titre": "Comment procéder",
+                    "items": [
+                        {
+                            "titre": "Demander en ligne",
+                            "texte": "Sur Maprocuration, avec votre numéro national d’électeur et celui de la personne à qui vous confiez votre vote. Les deux numéros se retrouvent sur service-public.fr."
+                        },
+                        {
+                            "titre": "Faire valider son identité",
+                            "texte": "La demande doit être validée en personne, muni d’une pièce d’identité, dans une gendarmerie, un commissariat ou un tribunal — n’importe lequel, pas nécessairement celui de votre commune."
+                        },
+                        {
+                            "titre": "Vérifier la réception",
+                            "texte": "Vous êtes averti par courriel lorsque la mairie a enregistré la procuration. En cas de doute à l’approche du scrutin, appelez le secrétariat."
+                        }
+                    ]
+                },
+                {
+                    "type": "encadre",
+                    "ton": "alerte",
+                    "intitule": "Le point à vérifier avant de choisir votre mandataire",
+                    "paragraphes": "<p>Le mandataire n’a plus besoin d’être inscrit sur les listes électorales d’Angeot. En revanche, il devra venir voter dans votre bureau de vote, à Angeot. Choisissez donc quelqu’un qui pourra s’y déplacer le jour du scrutin.</p>"
+                }
+            ]
+        },
+        {
+            "slug": "recensement-citoyen",
+            "nom": "Recensement citoyen à seize ans",
+            "famille": "elections",
+            "icone": "mairie",
+            "actif": true,
+            "image": "assets/img/site/inauguration-des-salles-de-mairie.jpg",
+            "resume": "Obligatoire pour tout jeune Français dès seize ans. L’attestation est réclamée pour le baccalauréat, le permis de conduire et tous les concours.",
+            "guichet": "Le secrétariat de mairie d’Angeot, ou en ligne",
+            "delai": "Entre le jour des seize ans et le dernier jour du troisième mois qui suit",
+            "cout": "Gratuit",
+            "validite": "L’attestation vaut jusqu’à la participation à la Journée défense et citoyenneté",
+            "pieces": [
+                "La carte nationale d’identité ou le passeport du jeune",
+                "Le livret de famille",
+                "Un justificatif de domicile"
+            ],
+            "liens": [
+                {
+                    "libelle": "Recensement citoyen — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F870"
+                },
+                {
+                    "libelle": "La Journée défense et citoyenneté",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F871"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "À quoi sert l’attestation",
+                    "paragraphes": "<p>L’attestation de recensement — puis le certificat de participation à la Journée défense et citoyenneté — est exigée pour s’inscrire, avant dix-huit ans, à un examen soumis au contrôle de l’autorité publique : baccalauréat, CAP, permis de conduire, concours de la fonction publique.</p><p>Le recensement déclenche aussi l’inscription d’office sur les listes électorales à la majorité.</p>"
+                },
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Recensement tardif",
+                    "paragraphes": "<p>Passé le délai, la démarche reste possible et doit être faite : il n’y a pas de sanction, mais l’absence d’attestation bloque une inscription à un examen. Présentez-vous au secrétariat avec les mêmes pièces.</p>",
+                    "lien": {
+                        "libelle": "Prendre contact avec le secrétariat",
+                        "url": "/demande-en-ligne"
+                    }
+                }
+            ]
+        },
+        {
+            "slug": "declaration-prealable-de-travaux",
+            "nom": "Déclaration préalable de travaux",
+            "famille": "urbanisme",
+            "icone": "urbanisme",
+            "actif": true,
+            "image": "assets/img/site/vide-grenier-rue-du-village.jpg",
+            "resume": "Abri de jardin, clôture, véranda, piscine, changement de fenêtres ou de toiture : la plupart des petits travaux extérieurs se déclarent.",
+            "guichet": "Le secrétariat de mairie d’Angeot, ou par voie dématérialisée",
+            "delai": "Un mois d’instruction à compter du dépôt, sauf majoration notifiée",
+            "cout": "Gratuit",
+            "validite": "Trois ans, prolongeable deux fois d’un an",
+            "pieces": [
+                "Le formulaire Cerfa de déclaration préalable, complété et signé",
+                "Un plan de situation du terrain",
+                "Un plan de masse et un plan des façades, selon le projet",
+                "Une représentation de l’aspect extérieur, et une insertion dans l’environnement proche",
+                "Des photographies du terrain et de son environnement"
+            ],
+            "liens": [
+                {
+                    "libelle": "Déclaration préalable — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F17578"
+                },
+                {
+                    "libelle": "Toutes les autorisations d’urbanisme",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/N319"
+                },
+                {
+                    "libelle": "Le Géoportail de l’urbanisme",
+                    "url": "https://www.geoportail-urbanisme.gouv.fr/"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Un appel avant, plutôt qu’un problème après",
+                    "paragraphes": "<p>La carte communale d’Angeot, les servitudes et les règles de recul ne se devinent pas. Un appel au secrétariat avant de constituer le dossier évite le refus, et parfois plusieurs semaines de délai.</p>",
+                    "lien": {
+                        "libelle": "Joindre le secrétariat",
+                        "url": "/contact"
+                    }
+                },
+                {
+                    "type": "encadre",
+                    "ton": "alerte",
+                    "intitule": "Travaux engagés sans autorisation",
+                    "paragraphes": "<p>Des travaux réalisés sans l’autorisation requise exposent à l’interruption du chantier, à une remise en état et à des sanctions pénales. Ils compliquent aussi la vente du bien : le notaire réclamera les autorisations. Une régularisation reste possible, et se traite d’autant mieux qu’elle est engagée tôt.</p>"
+                }
+            ]
+        },
+        {
+            "slug": "permis-de-construire",
+            "nom": "Permis de construire",
+            "famille": "urbanisme",
+            "icone": "urbanisme",
+            "actif": true,
+            "image": "assets/img/site/salle-camille-de-face.jpg",
+            "resume": "Construction neuve, extension importante, changement de destination avec travaux sur la structure ou la façade.",
+            "guichet": "Le secrétariat de mairie d’Angeot, ou par voie dématérialisée",
+            "delai": "Deux mois pour une maison individuelle, trois mois pour les autres projets, sauf majoration",
+            "cout": "Gratuit — la taxe d’aménagement est due ensuite",
+            "validite": "Trois ans, prolongeable deux fois d’un an",
+            "pieces": [
+                "Le formulaire Cerfa de permis de construire, complété et signé",
+                "Un plan de situation et un plan de masse cotés dans les trois dimensions",
+                "Un plan de coupe du terrain et de la construction",
+                "Les plans des façades et des toitures",
+                "Un document graphique d’insertion et deux photographies du terrain",
+                "Le recours à un architecte au-delà de 150 m² de surface de plancher"
+            ],
+            "liens": [
+                {
+                    "libelle": "Permis de construire — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F1986"
+                },
+                {
+                    "libelle": "Déposer une demande en ligne",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/R52221"
+                },
+                {
+                    "libelle": "La taxe d’aménagement",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F23263"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Après la décision",
+                    "liste": [
+                        "L’autorisation doit être affichée sur le terrain, visible depuis la voie publique, pendant toute la durée du chantier",
+                        "L’affichage fait courir le délai de recours des tiers, de deux mois",
+                        "La déclaration d’ouverture de chantier signale le début des travaux",
+                        "La déclaration attestant l’achèvement et la conformité des travaux se dépose à la fin du chantier"
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "certificat-d-urbanisme",
+            "nom": "Certificat d’urbanisme",
+            "famille": "urbanisme",
+            "icone": "document",
+            "actif": true,
+            "image": "assets/img/site/vide-grenier-devant-la-mairie.jpg",
+            "resume": "Connaître les règles applicables à un terrain avant d’acheter ou de concevoir un projet. Ce n’est pas une autorisation, c’est une information opposable.",
+            "guichet": "Le secrétariat de mairie d’Angeot",
+            "delai": "Un mois pour un certificat d’information, deux mois pour un certificat opérationnel",
+            "cout": "Gratuit",
+            "validite": "Dix-huit mois, prolongeable",
+            "pieces": [
+                "Le formulaire Cerfa de demande de certificat d’urbanisme",
+                "Un plan de situation du terrain",
+                "Pour un certificat opérationnel, une note descriptive du projet et un plan du terrain"
+            ],
+            "liens": [
+                {
+                    "libelle": "Certificat d’urbanisme — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F1633"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Deux certificats, deux usages",
+                    "liste": [
+                        "Le certificat d’information indique les règles d’urbanisme applicables, les limitations administratives au droit de propriété et la liste des taxes",
+                        "Le certificat opérationnel dit en plus si le terrain peut recevoir le projet décrit, et l’état des équipements publics qui le desservent",
+                        "Pendant sa durée de validité, les règles qu’il énonce restent opposables : c’est sa véritable utilité avant un achat"
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "location-de-la-salle-camille",
+            "nom": "Louer la salle Camille",
+            "famille": "commune",
+            "icone": "association",
+            "actif": true,
+            "image": "assets/img/site/salle-camille.jpg",
+            "resume": "La salle communale se réserve en mairie. Priorité aux associations, puis au premier demandeur.",
+            "guichet": "Le secrétariat de mairie d’Angeot",
+            "delai": "Selon le planning — les dates associatives sont posées en premier",
+            "cout": "50 € en demi-journée · 180 € le week-end pour les habitants · 330 € pour les personnes extérieures",
+            "validite": "Réservation effective au versement du chèque de réservation de 80 €",
+            "pieces": [
+                "Vos coordonnées et la date souhaitée",
+                "Un chèque de réservation de 80 €, non restitué en cas de désistement",
+                "Un chèque de caution : 300 € pour les habitants, 500 € pour les personnes extérieures",
+                "Une attestation d’assurance responsabilité civile"
+            ],
+            "liens": [],
+            "sections": [
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Tous les détails sur la page de la salle",
+                    "paragraphes": "<p>Capacité, tarifs, marche à suivre et règles d’usage sont réunis sur la page consacrée à la salle Camille.</p>",
+                    "lien": {
+                        "libelle": "Voir la salle Camille",
+                        "url": "/salle-camille"
+                    }
+                }
+            ]
+        },
+        {
+            "slug": "affouage",
+            "nom": "S’inscrire à l’affouage",
+            "famille": "commune",
+            "icone": "foret",
+            "actif": true,
+            "image": "assets/img/site/affouage-bois-faconne.jpg",
+            "resume": "Le droit de prélever du bois de chauffage dans la forêt communale, ouvert chaque année par délibération du conseil.",
+            "guichet": "Le secrétariat de mairie d’Angeot",
+            "delai": "Inscription dans le délai annoncé par affichage, avant la campagne",
+            "cout": "La taxe d’affouage fixée chaque année par le conseil municipal",
+            "validite": "Une campagne — l’inscription est à renouveler chaque année",
+            "pieces": [
+                "Être domicilié dans la commune",
+                "Vos coordonnées et votre inscription écrite",
+                "L’engagement de respecter les règles de sécurité et les délais d’exploitation"
+            ],
+            "liens": [],
+            "sections": [
+                {
+                    "type": "texte",
+                    "titre": "Ce que l’affouagiste s’engage à respecter",
+                    "liste": [
+                        "L’exploitation est personnelle : le lot ne peut être ni revendu ni cédé",
+                        "Les règles de sécurité du chantier forestier s’appliquent — casque, protections, et jamais seul",
+                        "Les délais d’abattage et de vidange fixés par la délibération doivent être tenus",
+                        "Les houppiers et rémanents sont traités selon les consignes données par les garants"
+                    ]
+                },
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Le comité bois et forêt",
+                    "paragraphes": "<p>Le comité bois et forêt prépare la campagne, désigne les parcelles et propose les garants au conseil. Il accueille des habitants non élus.</p>",
+                    "lien": {
+                        "libelle": "La page Bois & forêts",
+                        "url": "/bois-et-forets"
+                    }
+                }
+            ]
+        },
+        {
+            "slug": "carte-grise-et-permis",
+            "nom": "Carte grise et permis de conduire",
+            "famille": "etat-civil",
+            "icone": "information",
+            "actif": true,
+            "image": "assets/img/site/rue-principale.jpg",
+            "resume": "Ces démarches se font uniquement en ligne, sur le site de l’ANTS. Ni la mairie ni la préfecture ne les traitent au guichet.",
+            "guichet": "En ligne sur l’ANTS · certains professionnels de l’automobile sont habilités",
+            "delai": "Variable selon le dossier",
+            "cout": "Selon le véhicule et la région pour un certificat d’immatriculation · permis gratuit sauf perte ou vol",
+            "validite": "Le certificat d’immatriculation doit être mis à jour dans le mois qui suit un changement d’adresse",
+            "pieces": [
+                "Un compte ANTS ou une identification FranceConnect",
+                "Le certificat d’immatriculation, en cas de modification",
+                "Un justificatif de domicile de moins de six mois",
+                "Le code de cession, pour l’achat d’un véhicule d’occasion"
+            ],
+            "liens": [
+                {
+                    "libelle": "Faire sa démarche sur l’ANTS",
+                    "url": "https://immatriculation.ants.gouv.fr/"
+                },
+                {
+                    "libelle": "Refaire un certificat d’immatriculation",
+                    "url": "https://immatriculation.ants.gouv.fr/demarches-en-ligne/refaire-votre-certificat-dimmatriculation"
+                },
+                {
+                    "libelle": "Carte grise — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/N367"
+                },
+                {
+                    "libelle": "Permis de conduire — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/N530"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "encadre",
+                    "ton": "alerte",
+                    "intitule": "Attention aux sites frauduleux",
+                    "paragraphes": "<p>De nombreux sites imitent l’administration et facturent des « frais de dossier » pour des démarches gratuites ou au tarif officiel. Le seul site officiel est <strong>ants.gouv.fr</strong>. Vérifiez l’adresse dans la barre du navigateur avant de saisir quoi que ce soit.</p><p>En dehors de leurs activités de réparation, certains professionnels de l’automobile sont habilités par la préfecture à effectuer ces démarches : ce sont eux qu’il faut solliciter si vous préférez passer par un tiers.</p>"
+                },
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Vous emménagez à Angeot",
+                    "paragraphes": "<p>Le changement d’adresse sur le certificat d’immatriculation doit être déclaré dans le mois. Il est gratuit et se fait en ligne.</p>"
+                }
+            ]
+        },
+        {
+            "slug": "conciliateur-de-justice",
+            "nom": "Saisir un conciliateur de justice",
+            "famille": "commune",
+            "icone": "information",
+            "actif": true,
+            "image": "assets/img/site/reception-en-mairie.jpg",
+            "resume": "Un moyen simple, rapide et gratuit de régler un conflit par un accord amiable, sans procès.",
+            "guichet": "Les permanences du secteur, uniquement sur rendez-vous",
+            "delai": "Selon la disponibilité des permanences",
+            "cout": "Gratuit",
+            "validite": "L’accord constaté peut être homologué par le juge, ce qui lui donne force exécutoire",
+            "pieces": [
+                "Un exposé écrit du litige",
+                "Les pièces qui l’étayent : contrat, factures, courriers échangés",
+                "Les coordonnées de l’autre partie"
+            ],
+            "liens": [
+                {
+                    "libelle": "Le conciliateur de justice — service-public.fr",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/F1736"
+                }
+            ],
+            "sections": [
+                {
+                    "type": "contacts",
+                    "titre": "Les permanences du secteur",
+                    "chapo": "Uniquement sur rendez-vous, aux numéros indiqués. Ces permanences sont susceptibles d’évoluer : vérifiez par téléphone avant de vous déplacer.",
+                    "items": [
+                        {
+                            "nom": "Communauté de communes des Vosges du Sud, à Étueffont",
+                            "role": "Jeudi des semaines impaires, 14 h – 17 h",
+                            "tel": "06 82 17 55 92"
+                        },
+                        {
+                            "nom": "Mairie de Chaux",
+                            "role": "Jeudi des semaines paires, 14 h – 17 h",
+                            "tel": "06 82 17 55 92"
+                        },
+                        {
+                            "nom": "Tribunal judiciaire de Belfort",
+                            "role": "Mardi, 14 h – 17 h",
+                            "tel": "06 62 33 08 86"
+                        },
+                        {
+                            "nom": "Espace France Services de Valdoie",
+                            "role": "Jeudi, 10 h – 16 h",
+                            "tel": "03 84 57 64 64"
+                        },
+                        {
+                            "nom": "Mairie de Châtenois-les-Forges",
+                            "role": "Vendredi, 14 h – 17 h",
+                            "tel": "07 61 20 03 01"
+                        },
+                        {
+                            "nom": "Résidence L. Clerc, à Delle",
+                            "role": "Lundi, 15 h – 17 h 30",
+                            "tel": "06 67 01 12 23"
+                        }
+                    ]
+                },
+                {
+                    "type": "texte",
+                    "titre": "Ce que le conciliateur peut traiter",
+                    "liste": [
+                        "Conflits de voisinage : bornage, plantations, servitudes, bruit",
+                        "Litiges entre bailleur et locataire, ou entre copropriétaires",
+                        "Différends de consommation, litiges avec un artisan",
+                        "Impayés et créances entre particuliers"
+                    ]
+                }
+            ]
+        }
+    ]
+}

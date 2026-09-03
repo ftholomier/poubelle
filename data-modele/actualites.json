@@ -1,0 +1,115 @@
+{
+    "intro": "Les nouvelles du village : décisions du conseil, travaux, manifestations, informations pratiques.",
+    "items": [
+        {
+            "slug": "les-decorations-de-noel-reviennent",
+            "actif": true,
+            "date": "2025-11-15",
+            "titre": "Les décorations de Noël reviennent dans les rues",
+            "resume": "Les bénévoles de l’Angeloise se retrouvent le samedi matin à la salle communale pour préparer les décorations installées début décembre.",
+            "image": "assets/img/site/casse-noisettes-dans-le-village.jpg",
+            "image_alt": "Deux casse-noisettes grandeur nature, peints de couleurs vives, dressés sur une pelouse du village",
+            "sections": [
+                {
+                    "type": "texte",
+                    "paragraphes": "<p>Le thème est choisi en septembre, en réunion : une année les casse-noisettes, une autre Alice au pays des merveilles, une autre les lutins. Puis la fabrication commence, les samedis matins entre 10 h et 12 h à la salle communale.</p><p>Découper, poncer, peindre, assembler : le travail est à la portée de tout le monde, et personne n’est tenu de venir tous les samedis. Les enfants de moins de dix ans doivent être accompagnés d’un adulte.</p><p>L’installation se fait début décembre, aux différents endroits du village. Le mieux, ensuite, est encore de faire le tour à pied.</p>"
+                },
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Donner un coup de main",
+                    "paragraphes": "<p>Aucune inscription, aucune adhésion préalable : il suffit de pousser la porte de la salle communale un samedi matin d’automne. L’association est joignable à association.angeloise@gmail.com.</p>",
+                    "lien": {
+                        "libelle": "Voir les associations",
+                        "url": "/associations"
+                    }
+                }
+            ]
+        },
+        {
+            "slug": "musique-a-la-volee",
+            "actif": true,
+            "date": "2024-10-13",
+            "titre": "« Musique à la volée », le concert d’automne de Pyxis",
+            "resume": "Depuis 2015, l’association Pyxis invite chaque automne de jeunes artistes à la salle Camille. Le concert est né du retour des cloches, après l’incendie de l’église.",
+            "image": "assets/img/site/ensemble-vocal-musique-a-la-volee.jpg",
+            "image_alt": "Quatre choristes vêtus de noir chantent partition en main devant un pupitre",
+            "sections": [
+                {
+                    "type": "texte",
+                    "paragraphes": "<p>Le premier concert a été donné à l’église du village le 3 octobre 2015, animé par la famille Verry et leurs amis. Il marquait le retour des sonneries de cloches, restées plusieurs mois muettes après l’incendie de janvier 2014 qui avait détérioré l’intérieur du bâtiment et détruit les installations électriques. D’où le nom : « Musique à la volée ».</p><p>Depuis, le rendez-vous revient chaque automne à la salle Camille — un ensemble vocal, deux violons sans basse, un duo guitare et chant. L’entrée est libre.</p>"
+                },
+                {
+                    "type": "texte",
+                    "titre": "Ce que cherche l’association",
+                    "paragraphes": "<p>Pyxis se donne pour but de permettre à de jeunes artistes de se faire connaître et de favoriser leur engagement dans des structures culturelles et associatives, en proposant à des publics diversifiés des prestations de natures différentes mais de haut niveau artistique.</p><p>C’est aussi elle qui organise, avec la mairie, la fête de la musique du 21 juin : rendez-vous devant la salle Camille, puis parcours musical itinérant si le temps le permet. Chacun est invité à venir avec sa voix, un instrument ou tout objet qui fait de la musique.</p>"
+                }
+            ]
+        },
+        {
+            "slug": "marche-populaire-d-angeot",
+            "actif": true,
+            "date": "2025-04-20",
+            "titre": "La marche d’Angeot rassemble plus de mille participants",
+            "resume": "Organisée par les Marcheurs d’Angeot, affiliés à la Fédération française des sports populaires, elle propose plusieurs distances et un parcours adapté.",
+            "image": "assets/img/site/marcheurs-en-foret.jpg",
+            "image_alt": "Un groupe de marcheurs en anoraks colorés progresse sur un chemin forestier au printemps",
+            "sections": [
+                {
+                    "type": "texte",
+                    "paragraphes": "<p>C’est la plus grosse manifestation du village : plus de mille participants, des circuits de plusieurs distances tracés dans les bois de la commune et des environs, un parcours adapté, et un ravitaillement tenu par les bénévoles.</p><p>Le repas se prend à la salle Camille, en longues tablées. Le montage, le fléchage, la tenue des postes et le démontage mobilisent une bonne partie du village pendant le week-end.</p>"
+                },
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Rejoindre les Marcheurs",
+                    "paragraphes": "<p>L’association organise aussi des marches en semaine, ouvertes à tous les niveaux. Contact : randonneurangeot@gmail.com.</p>",
+                    "lien": {
+                        "libelle": "Voir les associations",
+                        "url": "/associations"
+                    }
+                }
+            ]
+        },
+        {
+            "slug": "inauguration-des-salles-de-mairie",
+            "actif": true,
+            "date": "2022-09-10",
+            "titre": "Les salles de la mairie inaugurées",
+            "resume": "Après les travaux, les salles rénovées de la mairie ont été inaugurées en présence des habitants et des élus.",
+            "image": "assets/img/site/inauguration-des-salles-de-mairie.jpg",
+            "image_alt": "Le maire, écharpe tricolore, prend la parole au micro devant la façade de la mairie",
+            "sections": [
+                {
+                    "type": "texte",
+                    "paragraphes": "<p>Les salles de la mairie ont été inaugurées en septembre 2022, devant la façade portant l’inscription Liberté Égalité Fraternité. Habitants, élus et représentants des collectivités partenaires étaient réunis pour l’occasion, avant une réception à l’intérieur.</p><p>Ces salles accueillent le secrétariat, les séances du conseil municipal et les réunions des comités.</p>"
+                }
+            ]
+        },
+        {
+            "slug": "fleurissement-du-village",
+            "actif": true,
+            "date": "2025-05-10",
+            "titre": "Le fleurissement du village, une affaire de bénévoles",
+            "resume": "Chaque printemps, le comité fleurissement et les bonnes volontés plantent les massifs, les jardinières et les arches de la traversée du village.",
+            "image": "assets/img/site/fleurissement-place-du-village.jpg",
+            "image_alt": "Des habitants plantent des fleurs dans un massif circulaire au bord de la route, devant les maisons du village",
+            "sections": [
+                {
+                    "type": "texte",
+                    "paragraphes": "<p>Massifs de la traversée, jardinières, arches de bois fleuries, abords du monument aux morts et du cimetière : le fleurissement d’Angeot n’est pas commandé à une entreprise, il est planté à la main par des habitants, un samedi matin de printemps.</p><p>Le comité fleurissement choisit les variétés et prépare les plants ; le reste tient à qui vient. C’est une bonne façon de faire connaissance quand on vient d’emménager.</p>"
+                },
+                {
+                    "type": "encadre",
+                    "ton": "info",
+                    "intitule": "Participer",
+                    "paragraphes": "<p>Les dates de plantation sont annoncées par affichage et sur l’agenda du site. Aucune compétence n’est requise, et venir une matinée suffit.</p>",
+                    "lien": {
+                        "libelle": "Voir l’agenda",
+                        "url": "/agenda"
+                    }
+                }
+            ]
+        }
+    ]
+}

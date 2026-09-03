@@ -1,0 +1,70 @@
+{
+    "titre": "Vie scolaire",
+    "meta": {
+        "description": "L’école à Angeot : le Syndicat Intercommunal du Tilleul, la cantine et la garderie, le centre de loisirs, les transports scolaires et le collège de rattachement."
+    },
+    "hero": {
+        "surtitre": "Au quotidien",
+        "titre": "Vie scolaire",
+        "image": "assets/img/site/vide-grenier-devant-la-mairie.jpg",
+        "texte": "Sept communes, un syndicat, et une école à Angeot."
+    },
+    "sous_titre": "Angeot fait partie du Syndicat Intercommunal du Tilleul, qui regroupe sept communes : Angeot, Bethonvilliers, Fontaine, Frais, Lagrange, Larivière et Vauthiermont. Le syndicat assure les compétences scolaires, périscolaires et extrascolaires, l’action sociale et les transports.",
+    "sections": [
+        {
+            "type": "texte",
+            "id": "ecole",
+            "surtitre": "L’école",
+            "titre": "Une classe à Angeot",
+            "paragraphes": "<p>L’école d’Angeot, située à côté de la mairie, accueille une classe. Les autres niveaux sont répartis dans les écoles des communes du syndicat : le regroupement pédagogique permet à sept villages de conserver une école plutôt que d’en fermer six.</p><p>Les inscriptions se font auprès du syndicat, après passage en mairie pour le certificat d’inscription.</p>"
+        },
+        {
+            "type": "texte",
+            "id": "periscolaire",
+            "surtitre": "Autour de l’école",
+            "titre": "Cantine, garderie et centre de loisirs",
+            "paragraphes": "<p>Le Syndicat Intercommunal du Tilleul gère la cantine et la garderie, ainsi que le centre de loisirs sans hébergement situé à Lagrange. Les modalités d’inscription, les tarifs et le calendrier des vacances sont publiés par le syndicat.</p>",
+            "lien": {
+                "libelle": "Le site du Syndicat Intercommunal du Tilleul",
+                "url": "https://sitilleul.fr/"
+            }
+        },
+        {
+            "type": "texte",
+            "id": "transport-scolaire",
+            "surtitre": "Transports",
+            "titre": "Se rendre à l’école et au collège",
+            "paragraphes": "<p>Les transports scolaires et extrascolaires relèvent également du syndicat. Les collégiens d’Angeot sont rattachés au collège Michel Colucci, à Rougemont-le-Château.</p><p>Le réseau Optymo dessert la commune ; les horaires de passage sont consultables sur son site.</p>",
+            "lien": {
+                "libelle": "Les horaires Optymo",
+                "url": "https://www.optymo.fr/"
+            }
+        },
+        {
+            "type": "texte",
+            "id": "petite-enfance",
+            "surtitre": "Avant l’école",
+            "titre": "La petite enfance",
+            "paragraphes": "<p>Le Relais Familles Assistants Maternelles de Larivière est à votre disposition pour toute question sur les modes d’accueil, la recherche d’une assistante maternelle ou les démarches d’employeur.</p>",
+            "liste": [
+                "Relais Familles Assistants Maternelles de Larivière — 03 84 56 50 24",
+                "relais.sit@famillesrurales.org",
+                "Sur monenfant.fr, dans l’encadré « Une question sur les modes d’accueil », cliquez sur « Je fais une demande en ligne » : le relais de Larivière vous répondra"
+            ],
+            "lien": {
+                "libelle": "monenfant.fr",
+                "url": "https://monenfant.fr/"
+            }
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Inscrire un enfant",
+            "paragraphes": "<p>Pour une inscription scolaire, commencez par le secrétariat de mairie : il délivre le certificat d’inscription et vous oriente vers le syndicat pour la cantine, la garderie et le transport.</p>",
+            "lien": {
+                "libelle": "Écrire au secrétariat",
+                "url": "/demande-en-ligne"
+            }
+        }
+    ]
+}

@@ -1,0 +1,56 @@
+{
+    "titre": "La mairie",
+    "meta": {"description": "Le fonctionnement de la mairie d’Angeot : équipe municipale, commissions et comités, comptes-rendus des séances, délibérations, budget communal et publications."},
+    "hero": {
+        "surtitre": "La commune",
+        "titre": "La mairie",
+        "image": "assets/img/site/mairie-jour-d-inauguration.jpg",
+        "texte": "Le secrétariat, le conseil municipal et les documents publics de la commune."
+    },
+    "sous_titre": "La mairie est le premier guichet de l’administration : état civil, listes électorales, urbanisme, recensement citoyen. Elle est aussi le siège du conseil municipal, qui règle par ses délibérations les affaires de la commune. Le secrétariat est ouvert trois jours par semaine ; en dehors, le répondeur et le formulaire en ligne prennent le relais.",
+    "sections": [
+        {
+            "type": "cartes",
+            "items": [
+                {"titre": "L’équipe municipale", "texte": "Le maire, les adjoints, les conseillers et les employés communaux.", "icone": "conseil", "lien": {"libelle": "Voir les élus", "url": "/conseil-municipal"}},
+                {"titre": "Commissions & comités", "texte": "Les comités communaux qui préparent les décisions, et les syndicats où la commune siège.", "icone": "document", "lien": {"libelle": "Voir les commissions", "url": "/commissions-et-comites"}},
+                {"titre": "Comptes-rendus du conseil", "texte": "Les comptes-rendus des séances, en PDF, séance par séance.", "icone": "document", "lien": {"libelle": "Consulter", "url": "/comptes-rendus-du-conseil"}},
+                {"titre": "Délibérations & arrêtés", "texte": "Ce que le conseil délibère, ce que le maire arrête, et où les consulter.", "icone": "document", "lien": {"libelle": "Consulter", "url": "/deliberations-et-arretes"}},
+                {"titre": "Budget communal", "texte": "Budgets primitifs, comptes administratifs et comptes financiers uniques.", "icone": "budget", "lien": {"libelle": "Voir le budget", "url": "/budget-communal"}},
+                {"titre": "Publications", "texte": "Le « Tambour Macot », bulletin municipal, et les « Angeot Info ».", "icone": "actualite", "lien": {"libelle": "Lire les publications", "url": "/publications"}}
+            ]
+        },
+        {
+            "type": "tableau",
+            "id": "horaires",
+            "titre": "Les horaires du secrétariat",
+            "chapo": "Le secrétariat de mairie est tenu par une secrétaire à temps partiel : il n’est donc pas ouvert tous les jours. Un appel avant de se déplacer évite un aller-retour pour rien.",
+            "entetes": ["Jour", "Horaires"],
+            "lignes": [
+                {"libelle": "Lundi", "valeurs": ["Fermé"]},
+                {"libelle": "Mardi", "valeurs": ["8 h 30 – 11 h 30", "13 h 30 – 17 h 30"]},
+                {"libelle": "Mercredi", "valeurs": ["Fermé"]},
+                {"libelle": "Jeudi", "valeurs": ["13 h 30 – 16 h"]},
+                {"libelle": "Vendredi", "valeurs": ["8 h 30 – 11 h 30", "13 h 30 – 16 h"]},
+                {"libelle": "Samedi et dimanche", "valeurs": ["Fermé"]}
+            ]
+        },
+        {
+            "type": "duo",
+            "id": "les-agents",
+            "surtitre": "Les agents",
+            "titre": "Deux personnes font tourner la commune",
+            "image": "assets/img/site/reception-en-mairie.jpg",
+            "image_alt": "Des habitants échangent debout dans une salle de la mairie, après une cérémonie",
+            "paragraphes": "<p>Le secrétariat administratif est assuré les mardis, jeudis après-midi et vendredis. C’est là que se traitent l’état civil, les listes électorales, l’urbanisme, les réservations de salle et le courrier de la commune.</p><p>L’agent technique effectue seize heures de service par semaine à Angeot : tonte, taille des haies, débroussaillage, entretien et réfection des bâtiments communaux, peinture, propreté du village. Des emplois saisonniers viennent compléter l’équipe pendant les vacances d’été.</p>",
+            "lien": {"libelle": "Écrire au secrétariat", "url": "/demande-en-ligne"}
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "En dehors des heures d’ouverture",
+            "paragraphes": "<p>Le formulaire en ligne parvient au secrétariat et reçoit une réponse à la première ouverture qui suit. Pour une urgence — sécurité, danger immédiat, secours —, ce n’est pas la mairie qu’il faut joindre mais les numéros d’urgence.</p>",
+            "lien": {"libelle": "Voir les numéros d’urgence", "url": "/numeros-utiles"}
+        }
+    ]
+}

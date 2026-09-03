@@ -1,0 +1,63 @@
+{
+    "titre": "Bois & forêts",
+    "meta": {"description": "La forêt communale d’Angeot : affouage, ventes de bois, entretien des chemins forestiers et lutte obligatoire contre les scolytes de l’épicéa."},
+    "hero": {
+        "surtitre": "Le village",
+        "titre": "Bois & forêts",
+        "image": "assets/img/site/affouage-bois-faconne.jpg",
+        "texte": "Une ressource communale, et des travaux à surveiller."
+    },
+    "sous_titre": "La forêt est un patrimoine de la commune : elle produit du bois, entretient les paysages et procure aux habitants l’affouage. Le comité bois et forêt prépare les décisions du conseil, en lien avec les communes forestières du Territoire de Belfort.",
+    "sections": [
+        {
+            "type": "texte",
+            "id": "affouage",
+            "surtitre": "Se chauffer",
+            "titre": "L’affouage",
+            "paragraphes": "<p>L’affouage est le droit, pour les habitants d’une commune, de prélever du bois de chauffage dans la forêt communale. Il est ouvert chaque année par délibération du conseil municipal, qui fixe les parcelles concernées, le nombre de lots, la taxe d’affouage et la date limite d’exploitation.</p><p>Les lots sont attribués aux inscrits, qui exploitent eux-mêmes leur part sous la responsabilité de garants désignés par le conseil.</p>",
+            "liste": [
+                "L’inscription se fait en mairie, dans le délai annoncé par affichage",
+                "L’affouagiste exploite personnellement son lot : il ne peut ni le revendre ni le céder",
+                "Les règles de sécurité du chantier forestier s’appliquent — casque, protections, jamais seul",
+                "Les délais d’abattage et de vidange fixés par la délibération doivent être tenus"
+            ]
+        },
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "Lutte obligatoire contre les scolytes de l’épicéa",
+            "paragraphes": "<p>Le scolyte typographe attaque les épicéas affaiblis par la sécheresse et se propage très vite. La lutte est obligatoire : un épicéa attaqué doit être abattu et évacué de la forêt, ou écorcé sur place, avant l’envol de la génération suivante d’insectes.</p><p>Un arbre roussissant ou perdant son écorce par plaques doit être signalé sans attendre : quelques semaines suffisent à contaminer une parcelle entière.</p>",
+            "lien": {"libelle": "Signaler un foyer", "url": "/demande-en-ligne"}
+        },
+        {
+            "type": "duo",
+            "id": "chemins",
+            "surtitre": "Travaux",
+            "titre": "L’entretien des chemins forestiers",
+            "sens": "image-droite",
+            "image": "assets/img/site/chemin-forestier.jpg",
+            "image_alt": "Un chemin forestier bordé de hêtres, praticable à pied, au printemps",
+            "paragraphes": "<p>Chaque année, une entreprise réalise l’entretien des chemins forestiers et de certains fossés. Le programme des travaux est validé au préalable par le comité travaux, lors d’une réunion en mairie.</p><p>Plusieurs engins interviennent simultanément à différents endroits de la commune, pendant plusieurs jours. Pendant cette période, la prudence s’impose sur les chemins : les engins forestiers manœuvrent sans visibilité et les dépôts de bois réduisent la largeur de passage.</p>"
+        },
+        {
+            "type": "texte",
+            "id": "ventes",
+            "surtitre": "Ventes de bois",
+            "titre": "Le bois vendu par la commune",
+            "paragraphes": "<p>Au-delà de l’affouage, la commune vend du bois sur pied ou façonné, selon le programme de coupes arrêté avec le gestionnaire de la forêt. Les recettes de bois financent une part des travaux forestiers et du budget communal.</p><p>Les ventes sont annoncées par affichage en mairie et sur cette page.</p>"
+        },
+        {
+            "type": "texte",
+            "id": "circuler",
+            "surtitre": "Bon usage",
+            "titre": "Circuler et se promener en forêt",
+            "liste": [
+                "La forêt communale est ouverte à la promenade, à pied et à vélo, sur les chemins",
+                "La circulation des véhicules à moteur est interdite hors des voies ouvertes à la circulation publique",
+                "Les dépôts de déchets verts, de gravats ou d’encombrants en forêt et le long des chemins sont interdits",
+                "Le feu est interdit en forêt et à moins de 200 mètres des bois",
+                "Pendant les périodes de chasse et les chantiers d’abattage, respectez les panneaux qui ferment temporairement un chemin"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,70 @@
+{
+    "titre": "La salle Camille",
+    "meta": {"description": "Louer la salle Camille à Angeot : capacité, tarifs, caution, chèque de réservation et conditions d’utilisation de la salle communale."},
+    "hero": {
+        "surtitre": "Le village",
+        "titre": "La salle Camille",
+        "image": "assets/img/site/salle-camille.jpg",
+        "texte": "La salle communale d’Angeot, et comment la réserver."
+    },
+    "sous_titre": "La salle Camille porte le nom de Camille Petard, maire d’Angeot. Elle accueille les concerts, le théâtre, les repas d’association, les ateliers de décoration et les fêtes de famille. L’utilisation des locaux et des équipements est réservée en priorité aux associations ; pour toute autre manifestation, il convient de réserver en mairie.",
+    "sections": [
+        {
+            "type": "duo",
+            "id": "capacite",
+            "surtitre": "Capacité",
+            "titre": "150 places en spectacle, 120 en repas",
+            "image": "assets/img/site/salle-camille-interieur.jpg",
+            "image_alt": "L’intérieur de la salle Camille : charpente de bois apparente, hautes fenêtres cintrées et public assis en rangs",
+            "paragraphes": "<p>La salle peut recevoir environ 150 personnes pour un spectacle et 120 personnes pour un repas.</p><p>Entre le premier week-end de janvier et le 30 mars, la capacité est réduite de 50 places : la scène de théâtre est montée pour les représentations des Prés Jolis et occupe le fond de la salle.</p>"
+        },
+        {
+            "type": "tableau",
+            "id": "tarifs",
+            "titre": "Les tarifs de location",
+            "chapo": "Deux formules, selon que la manifestation tient sur une demi-journée ou occupe le week-end. Les tarifs distinguent les habitants de la commune des personnes extérieures.",
+            "entetes": ["Formule", "Tarif"],
+            "lignes": [
+                {"libelle": "Location « apéritif », une demi-journée", "valeurs": ["50 €"]},
+                {"libelle": "Week-end, habitants de la commune", "valeurs": ["180 €"]},
+                {"libelle": "Week-end, personnes extérieures", "valeurs": ["330 €"]},
+                {"libelle": "Chèque de réservation", "valeurs": ["80 €", "non restitué en cas de désistement"]},
+                {"libelle": "Caution, habitants de la commune", "valeurs": ["300 €"]},
+                {"libelle": "Caution, personnes extérieures", "valeurs": ["500 €"]}
+            ]
+        },
+        {
+            "type": "etapes",
+            "id": "reserver",
+            "surtitre": "Marche à suivre",
+            "titre": "Réserver la salle",
+            "chapo": "La règle d’usage est la priorité accordée au premier demandeur.",
+            "items": [
+                {"titre": "Vérifier la disponibilité", "texte": "Le planning est tenu en mairie. Appelez le secrétariat aux heures d’ouverture, ou écrivez par le formulaire en ligne en indiquant la ou les dates souhaitées."},
+                {"titre": "Confirmer par un chèque de réservation", "texte": "La réservation ne devient effective qu’après versement d’un chèque de réservation de 80 €. Ce chèque n’est pas restitué en cas de désistement."},
+                {"titre": "Remettre la caution", "texte": "Un chèque de caution est demandé avant la remise des clés : 300 € pour les habitants de la commune, 500 € pour les personnes extérieures."},
+                {"titre": "État des lieux, entrée et sortie", "texte": "Les clés sont remises lors d’un état des lieux d’entrée, et rendues lors d’un état des lieux de sortie. La salle est restituée nettoyée et rangée."}
+            ]
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Les associations d’abord",
+            "paragraphes": "<p>La salle est d’abord l’outil de travail des associations du village : théâtre, concerts, ateliers de décoration, assemblées générales, repas. Leurs dates sont posées en premier dans le planning annuel, ce qui explique que certains week-ends ne soient pas disponibles à la location.</p>",
+            "lien": {"libelle": "Voir les associations", "url": "/associations"}
+        },
+        {
+            "type": "texte",
+            "id": "regles",
+            "surtitre": "Pendant la location",
+            "titre": "Ce qui est demandé au locataire",
+            "liste": [
+                "Respecter la capacité maximale d’accueil et les issues de secours",
+                "Veiller au voisinage, particulièrement en soirée : la salle est en zone habitée",
+                "Ne rien fixer sur les murs, les boiseries ni la charpente",
+                "Sortir les déchets dans les conteneurs prévus et laisser les locaux propres",
+                "Signaler immédiatement toute casse ou tout dysfonctionnement, plutôt que de le laisser découvrir à l’état des lieux"
+            ]
+        }
+    ]
+}

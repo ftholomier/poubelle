@@ -1,0 +1,21 @@
+{
+    "titre": "Services de l’État",
+    "meta": {
+        "description": "Les services de l’État dans le Territoire de Belfort utiles aux habitants d’Angeot : préfecture, direction départementale des territoires, finances publiques, gendarmerie."
+    },
+    "hero": {
+        "surtitre": "Vos démarches",
+        "titre": "Services de l’État",
+        "image": "assets/img/site/mairie-jour-d-inauguration.jpg",
+        "texte": "Quand ce n’est ni la mairie, ni l’intercommunalité."
+    },
+    "sous_titre": "Une part des démarches ne relève ni de la commune ni du Grand Belfort, mais des services de l’État dans le département. La plupart d’entre elles se font désormais en ligne ; les coordonnées ci-dessous servent quand ce n’est pas possible.",
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Vérifiez les horaires avant de vous déplacer",
+            "paragraphes": "<p>Les horaires d’accueil de ces services changent, et beaucoup ne reçoivent plus que sur rendez-vous. Les sites officiels font foi : consultez-les la veille plutôt que de vous déplacer pour une porte fermée.</p>"
+        }
+    ]
+}

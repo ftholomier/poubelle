@@ -1,0 +1,83 @@
+{
+    "titre": "Urbanisme",
+    "meta": {
+        "description": "Urbanisme à Angeot : carte communale, autorisations d’urbanisme, déclaration préalable, permis de construire et cadastre."
+    },
+    "hero": {
+        "surtitre": "La mairie",
+        "titre": "Urbanisme",
+        "image": "assets/img/site/vide-grenier-rue-du-village.jpg",
+        "texte": "Construire, agrandir, clore, ravaler : ce qu’il faut déclarer."
+    },
+    "sous_titre": "Angeot est couverte par une carte communale, document d’urbanisme qui délimite les secteurs où les constructions sont autorisées et ceux où elles ne le sont pas. Elle est consultable en mairie et sur le Géoportail de l’urbanisme.",
+    "sections": [
+        {
+            "type": "texte",
+            "id": "quelle-autorisation",
+            "surtitre": "Avant de commencer",
+            "titre": "Quelle autorisation pour quel projet",
+            "chapo": "La règle générale : presque tout ce qui modifie l’aspect extérieur d’un bâtiment ou crée de la surface demande au minimum une déclaration. Le doute se lève en appelant le secrétariat, jamais après les travaux.",
+            "liste": [
+                "Déclaration préalable : abri de jardin, véranda, piscine, clôture, ravalement, changement de fenêtres ou de toiture, extension de faible surface",
+                "Permis de construire : construction neuve, extension importante, changement de destination avec modification de la structure ou de la façade",
+                "Permis de démolir, permis d’aménager : selon la nature du projet",
+                "Certificat d’urbanisme : pour connaître les règles applicables à un terrain avant d’acheter ou de concevoir"
+            ]
+        },
+        {
+            "type": "etapes",
+            "surtitre": "Marche à suivre",
+            "titre": "Déposer un dossier",
+            "items": [
+                {
+                    "titre": "Se renseigner d’abord",
+                    "texte": "Un passage ou un appel au secrétariat avant de constituer le dossier fait gagner des semaines : la carte communale, les servitudes et les règles de recul ne se devinent pas."
+                },
+                {
+                    "titre": "Constituer le dossier",
+                    "texte": "Les formulaires Cerfa et la liste des pièces sont sur service-public.fr. Un dossier incomplet est notifié comme tel et repart pour un tour."
+                },
+                {
+                    "titre": "Déposer",
+                    "texte": "Le dossier se dépose en mairie ou se transmet par voie dématérialisée. Le secrétariat délivre un récépissé qui fait courir le délai d’instruction."
+                },
+                {
+                    "titre": "Attendre la décision",
+                    "texte": "Un mois d’instruction pour une déclaration préalable, deux mois pour une maison individuelle, sauf majoration. L’absence de réponse peut valoir accord tacite ; demandez-en alors l’attestation."
+                },
+                {
+                    "titre": "Afficher et commencer",
+                    "texte": "L’autorisation doit être affichée sur le terrain, visible depuis la voie publique, pendant toute la durée des travaux. Elle fait courir le délai de recours des tiers."
+                }
+            ]
+        },
+        {
+            "type": "liens",
+            "surtitre": "Les outils officiels",
+            "titre": "Consulter en ligne",
+            "items": [
+                {
+                    "titre": "Le cadastre d’Angeot",
+                    "texte": "Plan cadastral, parcelles et références, sur le site officiel du cadastre.",
+                    "url": "https://www.cadastre.gouv.fr/"
+                },
+                {
+                    "titre": "Le Géoportail de l’urbanisme",
+                    "texte": "Les documents d’urbanisme et les servitudes d’utilité publique applicables à la commune.",
+                    "url": "https://www.geoportail-urbanisme.gouv.fr/"
+                },
+                {
+                    "titre": "Les autorisations d’urbanisme sur service-public.fr",
+                    "texte": "Formulaires, pièces à fournir et délais, mis à jour par l’administration.",
+                    "url": "https://www.service-public.fr/particuliers/vosdroits/N319"
+                }
+            ]
+        },
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "Travaux sans autorisation",
+            "paragraphes": "<p>Des travaux réalisés sans l’autorisation requise, ou non conformes à celle qui a été délivrée, exposent à une interruption du chantier, à une remise en état et à des sanctions pénales. Ils compliquent aussi durablement la vente du bien : le notaire réclamera les autorisations.</p><p>Une régularisation reste possible ; elle se traite d’autant mieux qu’elle est engagée tôt.</p>"
+        }
+    ]
+}

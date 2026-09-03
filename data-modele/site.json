@@ -1,0 +1,107 @@
+{
+    "nom": "Angeot",
+    "baseline": "Mairie — Territoire de Belfort",
+    "titre_seo": "Mairie d’Angeot | Site officiel de la commune (90150)",
+    "accroche": "Site officiel de la commune d’Angeot, dans le Territoire de Belfort. Démarches administratives, conseil municipal, salle Camille, associations, actualités et coordonnées de la mairie.",
+    "logo": {
+        "principal": "assets/img/logo/logo-angeot.svg",
+        "horizontal": "assets/img/logo/logo-angeot.svg",
+        "clair": "assets/img/logo/logo-angeot-clair.svg",
+        "embleme": "assets/img/logo/blason-angeot.svg",
+        "vertical": "assets/img/logo/logo-angeot-vertical.svg",
+        "embleme_clair": "assets/img/logo/blason-angeot-clair.svg"
+    },
+    "adresse": {
+        "rue": "2, rue de l’École",
+        "cp": "90150",
+        "ville": "Angeot",
+        "pays": "France"
+    },
+    "adresses_secondaires": [],
+    "contact": {
+        "telephone": "03 84 23 84 87",
+        "email": "mairie.angeot@orange.fr",
+        "horaires": "Mardi 8h30-11h30 et 13h30-17h30 · Jeudi 13h30-16h · Vendredi 8h30-11h30 et 13h30-16h"
+    },
+    "fondation": {
+        "annee": "",
+        "fondatrice": "Michel Nardin, maire",
+        "qualite": "Commune du Territoire de Belfort, Grand Belfort Communauté d’Agglomération"
+    },
+    "reservation": {
+        "principal": {
+            "libelle": "Écrire à la mairie",
+            "url": "/demande-en-ligne"
+        },
+        "secondaire": {
+            "libelle": "Appeler la mairie",
+            "url": "tel:0384238487"
+        }
+    },
+    "menu": [
+        {
+            "libelle": "La mairie",
+            "url": "/la-mairie",
+            "sous_menu": [
+                {"libelle": "L’équipe municipale", "url": "/conseil-municipal"},
+                {"libelle": "Commissions & comités", "url": "/commissions-et-comites"},
+                {"libelle": "Comptes-rendus du conseil", "url": "/comptes-rendus-du-conseil"},
+                {"libelle": "Délibérations & arrêtés", "url": "/deliberations-et-arretes"},
+                {"libelle": "Budget communal", "url": "/budget-communal"},
+                {"libelle": "Publications", "url": "/publications"},
+                {"libelle": "Urbanisme", "url": "/urbanisme"}
+            ]
+        },
+        {
+            "libelle": "Démarches",
+            "url": "/demarches",
+            "auto": false,
+            "sous_menu": [
+                {"libelle": "Toutes les démarches", "url": "/demarches"},
+                {"libelle": "Démarches en ligne", "url": "/demarches-en-ligne"},
+                {"libelle": "Écrire à la mairie", "url": "/demande-en-ligne"},
+                {"libelle": "Services de l’État", "url": "/services-de-l-etat"},
+                {"libelle": "CCAS", "url": "/ccas"}
+            ]
+        },
+        {
+            "libelle": "Le village",
+            "url": "/le-village",
+            "sous_menu": [
+                {"libelle": "Histoire & patrimoine", "url": "/histoire-et-patrimoine"},
+                {"libelle": "La salle Camille", "url": "/salle-camille"},
+                {"libelle": "Bois & forêts", "url": "/bois-et-forets"},
+                {"libelle": "Les associations", "url": "/associations"},
+                {"libelle": "Album photos", "url": "/album-photos"}
+            ]
+        },
+        {
+            "libelle": "Actualités",
+            "url": "/actualites",
+            "auto": false,
+            "sous_menu": [
+                {"libelle": "Toutes les actualités", "url": "/actualites"},
+                {"libelle": "Agenda", "url": "/agenda"},
+                {"libelle": "Info à la une", "url": "/info-a-la-une"}
+            ]
+        },
+        {
+            "libelle": "Au quotidien",
+            "url": "/au-quotidien",
+            "sous_menu": [
+                {"libelle": "Gérer mes déchets", "url": "/gerer-mes-dechets"},
+                {"libelle": "Vie scolaire", "url": "/vie-scolaire"},
+                {"libelle": "Intercommunalité", "url": "/intercommunalite"},
+                {"libelle": "Liens utiles", "url": "/liens-utiles"},
+                {"libelle": "Numéros utiles", "url": "/numeros-utiles"}
+            ]
+        },
+        {"libelle": "Contact", "url": "/contact"}
+    ],
+    "reseaux": {"linkedin": "", "facebook": "", "instagram": ""},
+    "pied": {
+        "seo": "Mairie d’Angeot (90150), Territoire de Belfort : état civil, urbanisme, listes électorales, recensement citoyen, location de la salle Camille, affouage et bois de chauffage, déchets, conseil municipal et comptes-rendus.",
+        "proche_de": "Angeot appartient au Grand Belfort Communauté d’Agglomération, aux côtés de Bethonvilliers, Fontaine, Frais, Lagrange, Larivière, Vauthiermont, Reppe, Menoncourt, Petitefontaine, Lachapelle-sous-Rougemont et des autres communes du nord-est du Territoire de Belfort.",
+        "copyright": "© [year] Commune d’Angeot"
+    }
+}

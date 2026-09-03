@@ -1,0 +1,52 @@
+{
+    "titre": "Le village",
+    "meta": {"description": "Découvrir Angeot : histoire et patrimoine, salle Camille, bois et forêts, associations et album photos de la commune."},
+    "hero": {
+        "surtitre": "Découvrir",
+        "titre": "Le village",
+        "image": "assets/img/site/fleurissement-place-du-village.jpg",
+        "texte": "Trois cent cinquante Angelois, un ruisseau, une forêt et beaucoup de bénévoles."
+    },
+    "sous_titre": "Angeot est une commune rurale à habitat dispersé de 6,56 km², posée entre 360 et 417 mètres d’altitude sur la Saint-Nicolas, dans le nord-est du Territoire de Belfort. Ses habitants s’appellent les Angelois.",
+    "sections": [
+        {
+            "type": "cartes",
+            "items": [
+                {"titre": "Histoire & patrimoine", "texte": "Le château disparu, l’église Saint-Sébastien, la tombe gravée, les chemins de Saint-Jacques.", "icone": "document", "lien": {"libelle": "Remonter le temps", "url": "/histoire-et-patrimoine"}},
+                {"titre": "La salle Camille", "texte": "La salle communale : capacité, tarifs, caution et conditions de réservation.", "icone": "association", "lien": {"libelle": "Voir la salle", "url": "/salle-camille"}},
+                {"titre": "Bois & forêts", "texte": "L’affouage, l’entretien des chemins forestiers et la lutte contre les scolytes.", "icone": "foret", "lien": {"libelle": "Voir la rubrique", "url": "/bois-et-forets"}},
+                {"titre": "Les associations", "texte": "Les Prés Jolis, les Marcheurs d’Angeot, l’Angeloise et Pyxis.", "icone": "association", "lien": {"libelle": "Voir les associations", "url": "/associations"}},
+                {"titre": "Album photos", "texte": "Les décorations, les concerts, les commémorations et le fleurissement, année après année.", "icone": "actualite", "lien": {"libelle": "Voir l’album", "url": "/album-photos"}},
+                {"titre": "Au quotidien", "texte": "Déchets, bruit, école, transports : la vie pratique à Angeot.", "icone": "information", "lien": {"libelle": "Voir la rubrique", "url": "/au-quotidien"}}
+            ]
+        },
+        {
+            "type": "duo",
+            "id": "les-benevoles",
+            "surtitre": "Ce qui fait le village",
+            "titre": "Un village qui décore ses rues",
+            "image": "assets/img/site/casse-noisettes-dans-le-village.jpg",
+            "image_alt": "Deux casse-noisettes grandeur nature, peints de couleurs vives, dressés sur une pelouse du village",
+            "cadrage": "portrait",
+            "paragraphes": "<p>Chaque automne, des bénévoles se retrouvent le samedi matin à la salle communale pour fabriquer les décorations de fin d’année. Un thème est choisi en septembre — les casse-noisettes, Alice au pays des merveilles, les lutins — et les personnages, souvent grandeur nature, sont installés début décembre aux quatre coins du village.</p><p>Au printemps, le comité fleurissement et les mêmes bonnes volontés plantent les massifs, les jardinières et les arches de la traversée du village. On peut donner un coup de main pour une matinée sans s’engager davantage.</p>",
+            "lien": {"libelle": "Voir les associations", "url": "/associations"}
+        },
+        {
+            "type": "duo",
+            "id": "situation",
+            "surtitre": "Situation",
+            "titre": "Aux portes des Vosges du Sud",
+            "sens": "image-droite",
+            "image": "assets/img/site/chemin-forestier.jpg",
+            "image_alt": "Un chemin forestier bordé de hêtres, emprunté par un groupe de marcheurs au printemps",
+            "paragraphes": "<p>Angeot appartient au Grand Belfort Communauté d’Agglomération et au canton de Grandvillars. Belfort est à une vingtaine de kilomètres, Rougemont-le-Château à quelques minutes.</p><p>La commune est traversée par un des itinéraires des chemins de Saint-Jacques-de-Compostelle, et le circuit n° 7 du Haut Bois, tracé du temps de la communauté de communes du Tilleul, permet d’en faire le tour à pied.</p>",
+            "liste": [
+                "Code postal 90150, code INSEE 90002",
+                "Arrondissement de Belfort, canton de Grandvillars",
+                "Grand Belfort Communauté d’Agglomération",
+                "Commune rurale à habitat dispersé, aire d’attraction de Belfort"
+            ],
+            "lien": {"libelle": "L’intercommunalité", "url": "/intercommunalite"}
+        }
+    ]
+}

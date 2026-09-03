@@ -1,0 +1,32 @@
+{
+    "titre": "L’équipe municipale",
+    "meta": {
+        "description": "Composition du conseil municipal d’Angeot élu en 2020 : le maire Michel Nardin, les trois adjoints, les conseillers municipaux et les agents communaux."
+    },
+    "hero": {
+        "surtitre": "La mairie",
+        "titre": "L’équipe municipale",
+        "image": "assets/img/site/mairie-jour-d-inauguration.jpg",
+        "texte": "Neuf élus et deux agents pour trois cent cinquante habitants."
+    },
+    "sous_titre": "Le conseil municipal règle par ses délibérations les affaires de la commune : il vote le budget, décide des travaux, gère le patrimoine communal et la forêt. Ses séances sont publiques et annoncées par affichage. Le conseil actuel a été élu le 25 mai 2020, pour la mandature 2020-2026.",
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Joindre un élu",
+            "paragraphes": "<p>Les élus n’ont pas de ligne directe : le passage par le secrétariat garantit qu’une demande est enregistrée et suivie, même si l’élu concerné est absent. Précisez l’objet, et le secrétariat transmet à qui de droit.</p>",
+            "lien": {
+                "libelle": "Écrire au secrétariat",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "texte",
+            "id": "mandatures",
+            "surtitre": "Mémoire",
+            "titre": "Les conseils précédents",
+            "paragraphes": "<p><strong>2014-2020</strong>, conseil élu le 23 mars 2014. Maire : Michel Nardin. Adjoints : Bernadette Martinato, Thierry Louvet, Éric Periat. Conseillers : Véronique Bissler, Pauline Fessler, François Gil, Chantal Hirth, Régis Monnier, Stéphane Naegel, Céline Oppendinger.</p><p><strong>2008-2014.</strong> Maire : Michel Nardin. Adjoints : Bernadette Martinato, Philippe Quin, Jean Melliand. Conseillers : Jacqueline Gomez de Segura, Chantal Hirth, Michelle Lenuzza, Thierry Louvet, Denis Paquot, Éric Periat, Aline Roy-Cretois.</p>"
+        }
+    ]
+}

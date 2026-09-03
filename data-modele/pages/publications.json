@@ -1,0 +1,36 @@
+{
+    "titre": "Publications",
+    "meta": {"description": "Les publications de la mairie d’Angeot : le bulletin municipal « Tambour Macot » et les « Angeot Info », à télécharger."},
+    "hero": {
+        "surtitre": "La mairie",
+        "titre": "Publications",
+        "image": "assets/img/site/decorations-de-noel-dans-le-village.jpg",
+        "texte": "Le bulletin municipal et les Angeot Info."
+    },
+    "sous_titre": "La municipalité édite deux sortes de publications, distribuées dans les boîtes aux lettres et reprises ici. Elles sont préparées par le comité communication.",
+    "sections": [
+        {
+            "type": "duo",
+            "id": "tambour-macot",
+            "surtitre": "Le bulletin municipal",
+            "titre": "Le « Tambour Macot »",
+            "image": "assets/img/site/atelier-des-decorations.jpg",
+            "image_alt": "Des bénévoles assemblent et peignent des décorations autour d’une table de la salle communale",
+            "paragraphes": "<p>Le bulletin municipal d’Angeot porte un nom qui intrigue les nouveaux arrivants : le <em>Tambour Macot</em>. On y trouve les dernières nouvelles du village, le compte-rendu des projets en cours, les chiffres du budget annuel, et des rappels sur les règles de bon voisinage — le bruit, les déchets verts, les haies.</p><p>Il paraît une fois par an et est distribué dans toutes les boîtes aux lettres de la commune.</p>"
+        },
+        {
+            "type": "texte",
+            "id": "angeot-info",
+            "surtitre": "Au fil de l’actualité",
+            "titre": "Les « Angeot Info »",
+            "paragraphes": "<p>Les <em>Angeot Info</em> sont des feuilles diffusées ponctuellement par le secrétariat de mairie, quand une information ne peut pas attendre la parution du bulletin : travaux, coupure d’eau ou d’électricité, changement d’horaires, manifestation, consultation publique.</p>"
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Vous n’avez pas reçu une publication ?",
+            "paragraphes": "<p>Les exemplaires restants sont disponibles au secrétariat aux heures d’ouverture. Si votre boîte aux lettres est difficile d’accès ou récemment installée, signalez-le : la distribution est faite par des bénévoles.</p>",
+            "lien": {"libelle": "Le signaler", "url": "/demande-en-ligne"}
+        }
+    ]
+}

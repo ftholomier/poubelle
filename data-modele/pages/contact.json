@@ -1,0 +1,46 @@
+{
+    "titre": "Contact",
+    "meta": {
+        "description": "Contacter la mairie d’Angeot : adresse, téléphone 03 84 23 84 87, courriel, horaires du secrétariat et formulaire de contact."
+    },
+    "hero": {
+        "surtitre": "Nous joindre",
+        "titre": "Contact",
+        "image": "assets/img/site/mairie-ecole.jpg",
+        "texte": "Le secrétariat reçoit sans rendez-vous, trois jours par semaine."
+    },
+    "introduction": {
+        "titre": "La mairie",
+        "texte": "2, rue de l’École, à côté de l’école. Le secrétariat reçoit sans rendez-vous aux heures d’ouverture : mardi, jeudi après-midi et vendredi. En dehors, le formulaire en ligne prend le relais."
+    },
+    "implantations": [
+        {
+            "nom": "Mairie d’Angeot",
+            "role": "Secrétariat et salle du conseil",
+            "rue": "2, rue de l’École",
+            "cp": "90150",
+            "ville": "Angeot",
+            "carte": {
+                "embed": "https://maps.google.com/maps?q=2%20rue%20de%20l%27Ecole%2090150%20Angeot&output=embed",
+                "lien": "https://www.google.com/maps/dir/?api=1&destination=2+rue+de+l%27Ecole+90150+Angeot"
+            }
+        }
+    ],
+    "formulaire": {
+        "titre": "Poser une question",
+        "texte": "Pour une question générale. Si votre demande porte sur un dossier précis — acte d’état civil, réservation de la salle Camille, signalement de voirie, inscription à l’affouage —, utilisez plutôt le formulaire de demande en ligne : il pose les bonnes questions et le dossier part complet.",
+        "mention": "Les informations recueillies sont utilisées par le secrétariat de mairie pour traiter votre demande, et pour cela seulement. Elles ne sont ni cédées ni utilisées à d’autres fins. Vous pouvez demander à y accéder, à les rectifier ou à les faire supprimer."
+    },
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "En cas d’urgence, n’écrivez pas",
+            "paragraphes": "<p>Ce formulaire est relevé aux heures d’ouverture du secrétariat, trois jours par semaine. Pour une urgence — malaise, incendie, accident, danger immédiat, personne en difficulté — composez le 15, le 18 ou le 112.</p>",
+            "lien": {
+                "libelle": "Tous les numéros d’urgence",
+                "url": "/numeros-utiles"
+            }
+        }
+    ]
+}

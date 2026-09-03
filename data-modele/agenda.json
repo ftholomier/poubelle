@@ -1,0 +1,78 @@
+{
+    "intro": "Les rendez-vous du village. Les associations peuvent faire annoncer les leurs en écrivant au secrétariat de mairie.",
+    "items": [
+        {
+            "slug": "theatre-des-pres-jolis",
+            "actif": true,
+            "date": "2027-01-16",
+            "fin": "2027-03-28",
+            "titre": "Théâtre : les représentations des Prés Jolis",
+            "titre_court": "Théâtre",
+            "heure": "20 h 30",
+            "lieu": "Salle Camille",
+            "organisateur": "Les Prés Jolis",
+            "texte": "Quatre représentations par an, données par les enfants, les adolescents et les adultes de la troupe. La scène est montée à la salle Camille du premier week-end de janvier au 30 mars."
+        },
+        {
+            "slug": "fete-de-la-musique",
+            "actif": true,
+            "date": "2027-06-21",
+            "titre": "Fête de la musique",
+            "heure": "19 h 30",
+            "lieu": "Devant la salle Camille",
+            "organisateur": "Pyxis et la mairie d’Angeot",
+            "texte": "Rendez-vous devant la salle Camille, puis parcours musical itinérant si le temps le permet. Chacun est invité à participer avec sa voix, un instrument ou tout objet qui fait de la musique : tous les styles, tous les niveaux, tous les âges."
+        },
+        {
+            "slug": "marche-populaire",
+            "actif": true,
+            "date": "2027-04-25",
+            "titre": "La marche populaire d’Angeot",
+            "heure": "Départs de 7 h à 14 h",
+            "lieu": "Salle Camille et chemins de la commune",
+            "organisateur": "Les Marcheurs d’Angeot",
+            "texte": "Plusieurs distances, un parcours adapté, ravitaillements sur les circuits et repas à la salle Camille. Plus de mille participants chaque année."
+        },
+        {
+            "slug": "musique-a-la-volee-concert",
+            "actif": true,
+            "date": "2027-10-10",
+            "titre": "« Musique à la volée » — concert d’automne",
+            "heure": "16 h 30",
+            "lieu": "Salle Camille",
+            "organisateur": "Pyxis",
+            "texte": "Le rendez-vous d’automne de l’association Pyxis, avec de jeunes artistes invités. Entrée libre."
+        },
+        {
+            "slug": "commemoration-11-novembre",
+            "actif": true,
+            "date": "2026-11-11",
+            "titre": "Commémoration de l’armistice du 11 Novembre",
+            "heure": "11 h",
+            "lieu": "Monument aux morts",
+            "organisateur": "La commune d’Angeot",
+            "texte": "Cérémonie organisée conjointement avec Lachapelle-sous-Rougemont et Petitefontaine. Les enfants du village y sont associés."
+        },
+        {
+            "slug": "vide-grenier",
+            "actif": true,
+            "date": "2027-09-05",
+            "titre": "Vide-grenier de l’Angeloise",
+            "heure": "À partir de 7 h",
+            "lieu": "Rues du village",
+            "organisateur": "L’Angeloise",
+            "texte": "Le vide-grenier s’installe dans les rues du village. Inscription des exposants auprès de l’association."
+        },
+        {
+            "slug": "ateliers-decorations",
+            "actif": true,
+            "date": "2026-09-26",
+            "fin": "2026-12-05",
+            "titre": "Ateliers de fabrication des décorations",
+            "heure": "10 h – 12 h, le samedi",
+            "lieu": "Salle Camille",
+            "organisateur": "L’Angeloise",
+            "texte": "Fabrication des décorations de fin d’année, tous les samedis matins d’automne. Ouvert à tous ; les enfants de moins de dix ans doivent être accompagnés d’un adulte."
+        }
+    ]
+}

@@ -1,0 +1,91 @@
+{
+    "titre": "Liens utiles",
+    "meta": {
+        "description": "Liens utiles aux habitants d’Angeot : Grand Belfort, département du Territoire de Belfort, La Poste, cadastre, urbanisme, transports Optymo, déchets."
+    },
+    "hero": {
+        "surtitre": "Au quotidien",
+        "titre": "Liens utiles",
+        "image": "assets/img/site/vide-grenier-rue-du-village.jpg",
+        "texte": "Une boîte à outils : les sites qu’on cherche une fois par an."
+    },
+    "sous_titre": "Quelques liens vers des administrations et des services que nous espérons utiles aux habitants de la commune. Ils sont vérifiés à la publication ; signalez-nous un lien mort.",
+    "sections": [
+        {
+            "type": "liens",
+            "surtitre": "Administrations",
+            "titre": "Les collectivités du secteur",
+            "items": [
+                {
+                    "titre": "Grand Belfort Communauté d’Agglomération",
+                    "texte": "Déchets, eau et assainissement, développement économique, gardes champêtres, circuits de randonnée.",
+                    "url": "https://www.grandbelfort.fr/"
+                },
+                {
+                    "titre": "Département du Territoire de Belfort",
+                    "texte": "Action sociale, collèges, routes départementales, aides et dispositifs départementaux.",
+                    "url": "https://www.territoiredebelfort.fr/"
+                },
+                {
+                    "titre": "Préfecture du Territoire de Belfort",
+                    "texte": "Représentation de l’État dans le département : sécurité, titres, associations, élections.",
+                    "url": "https://www.territoire-de-belfort.gouv.fr/"
+                }
+            ]
+        },
+        {
+            "type": "liens",
+            "surtitre": "Services",
+            "titre": "Au quotidien",
+            "items": [
+                {
+                    "titre": "La Poste — horaires des bureaux",
+                    "texte": "Les bureaux les plus proches d’Angeot se trouvent à Fontaine et à Rougemont-le-Château. Horaires et services sur le site.",
+                    "url": "https://www.laposte.fr/particulier/outils/trouver-un-bureau-de-poste"
+                },
+                {
+                    "titre": "Optymo — transports",
+                    "texte": "Horaires de passage des bus à Angeot, lignes et tarifs du réseau du Territoire de Belfort.",
+                    "url": "https://www.optymo.fr/"
+                },
+                {
+                    "titre": "Gestion des déchets — Grand Belfort",
+                    "texte": "Calendrier de collecte, guide du tri, déchèteries, badge d’accès et collecte des encombrants.",
+                    "url": "https://www.grandbelfort.fr/"
+                }
+            ]
+        },
+        {
+            "type": "liens",
+            "surtitre": "Foncier et urbanisme",
+            "titre": "Consulter un terrain",
+            "items": [
+                {
+                    "titre": "Le cadastre en ligne",
+                    "texte": "Plan cadastral d’Angeot, parcelles et références, sur le site officiel du cadastre.",
+                    "url": "https://www.cadastre.gouv.fr/"
+                },
+                {
+                    "titre": "Le Géoportail de l’urbanisme",
+                    "texte": "La carte communale d’Angeot et les servitudes d’utilité publique applicables.",
+                    "url": "https://www.geoportail-urbanisme.gouv.fr/"
+                },
+                {
+                    "titre": "Géoportail",
+                    "texte": "Cartes, photographies aériennes anciennes et actuelles, limites communales.",
+                    "url": "https://www.geoportail.gouv.fr/"
+                }
+            ]
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Un lien manque, un lien est mort",
+            "paragraphes": "<p>Cette page est faite pour servir : si un site a changé d’adresse, ou si un service utile aux Angelois n’y figure pas, signalez-le au secrétariat.</p>",
+            "lien": {
+                "libelle": "Signaler",
+                "url": "/demande-en-ligne"
+            }
+        }
+    ]
+}

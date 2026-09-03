@@ -1,0 +1,1421 @@
+/* ==========================================================================
+   Back-office de la mairie d’Angeot — bleu ardoise éclairci, sobre et
+   fonctionnel. Mêmes couleurs que le site, éclaircies
+   pour l'écran sombre.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/montserrat-latin-variable.woff2") format("woff2-variations"),
+       url("../fonts/montserrat-latin-variable.woff2") format("woff2");
+  font-weight: 200 800; font-style: normal; font-display: swap;
+}
+
+:root {
+  /* L'ardoise du site, assombrie de deux crans : le back-office se regarde
+     des heures, un fond trop clair fatigue. */
+  --fond: #0f1a20;
+  --fond-2: #152530;
+  --fond-3: #1c2f3b;
+  --trait: rgba(124, 162, 189, .2);
+  /* Le bleu de marque ne tient que 3,15:1 sur ce fond sombre. Éclairci
+     jusqu'à 8,97:1 sans changer de teinte ni de saturation : c'est la
+     couleur de la commune, ramenée au seuil de lecture d'un écran
+     d'administration. */
+  --accent: #9dbdd4;
+  --accent-clair: #c4d5e1;
+  --ivoire: #f1f4f7;
+  --texte: #e5eaef;
+  --texte-2: rgba(229, 234, 239, .64);
+  --serif: "Montserrat", system-ui, sans-serif;
+  --rouge: #e59a9a;
+  --vert: #9ecf9e;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body.bo {
+  /* indique au navigateur de peindre ses propres contrôles en sombre :
+     sans cela, la liste déroulante native s'ouvre sur fond blanc et
+     hérite du texte clair du back-office — illisible */
+  color-scheme: dark;
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: .95rem; line-height: 1.55;
+  background: var(--fond); color: var(--texte);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent-clair); text-decoration: none; }
+a:hover { color: var(--accent); }
+img { max-width: 100%; display: block; }
+button { font: inherit; cursor: pointer; }
+
+:focus { outline: none; }
+:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- Écrans d'accès ---------- */
+.bo--centre {
+  min-height: 100svh; display: grid; place-items: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(ellipse at top, rgba(124, 162, 189, .09), transparent 55%),
+    var(--fond);
+}
+.bo-carte-acces {
+  width: min(420px, 100%);
+  background: var(--fond-2);
+  border: 1px solid var(--trait);
+  padding: 2.6rem 2.4rem;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, .5);
+}
+.bo-carte-acces__logo { height: 120px; width: auto; margin: 0 auto 1.8rem; }
+.bo-carte-acces h1 {
+  font-family: var(--serif); font-weight: 600;
+  font-size: 1.35rem; text-align: center; color: var(--ivoire);
+  margin-bottom: 1.6rem;
+}
+.bo-carte-acces p.intro { color: var(--texte-2); text-align: center; margin: -.8rem 0 1.6rem; font-size: .9rem; }
+
+/* ---------- Cadre général ---------- */
+.bo-cadre { display: grid; grid-template-columns: 250px 1fr; min-height: 100svh; }
+
+.bo-lateral {
+  background: var(--fond-2);
+  border-right: 1px solid var(--trait);
+  display: flex; flex-direction: column;
+  position: sticky; top: 0; height: 100svh;
+  padding: 1.6rem 0;
+}
+.bo-lateral__logo { padding: 0 1.6rem 1.4rem; border-bottom: 1px solid var(--trait); }
+.bo-lateral__logo img { height: 96px; width: auto; margin-inline: auto; }
+.bo-lateral__nav { flex: 1; padding: 1.2rem 0; overflow-y: auto; }
+.bo-lateral__nav a {
+  display: block; padding: .62rem 1.6rem;
+  color: var(--texte-2); letter-spacing: .02em;
+  border-left: 2px solid transparent;
+  transition: color .25s, background .25s, border-color .25s;
+}
+.bo-lateral__nav a:hover { color: var(--accent-clair); background: rgba(124, 162, 189, .06); }
+.bo-lateral__nav a[aria-current="page"] {
+  color: var(--accent-clair); border-left-color: var(--accent);
+  background: rgba(124, 162, 189, .1);
+}
+.bo-lateral__pied {
+  padding: 1.2rem 1.6rem 0; border-top: 1px solid var(--trait);
+  display: grid; gap: .7rem; font-size: .88rem;
+}
+.bo-lateral__pied button {
+  background: none; border: 1px solid var(--trait); color: var(--texte-2);
+  padding: .5rem .9rem; width: 100%;
+  transition: color .25s, border-color .25s;
+}
+.bo-lateral__pied button:hover { color: var(--rouge); border-color: var(--rouge); }
+
+.bo-principal { padding: 2.2rem clamp(1.4rem, 4vw, 3rem) 4rem; max-width: 1080px; }
+
+.bo-entete {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+  border-bottom: 1px solid var(--trait);
+  padding-bottom: 1.2rem; margin-bottom: 1.8rem;
+}
+.bo-entete h1 { font-family: var(--serif); font-weight: 600; font-size: 1.7rem; color: var(--ivoire); }
+.bo-entete__qui { font-size: .82rem; color: var(--texte-2); }
+
+/* ---------- Messages ---------- */
+.bo-message {
+  padding: .85rem 1.1rem; margin-bottom: 1.6rem;
+  border: 1px solid; font-size: .92rem;
+}
+.bo-message--succes { color: var(--vert); border-color: rgba(169, 201, 138, .4); background: rgba(169, 201, 138, .07); }
+.bo-message--erreur { color: var(--rouge); border-color: rgba(217, 138, 138, .4); background: rgba(217, 138, 138, .07); }
+
+/* ---------- Formulaires ---------- */
+.bo-form { display: grid; gap: 1.3rem; }
+.bo-form fieldset {
+  border: 1px solid var(--trait);
+  padding: 1.5rem 1.5rem 1.7rem;
+  display: grid; gap: 1.1rem;
+}
+.bo-form legend {
+  font-family: var(--serif); font-weight: 600;
+  color: var(--accent-clair); padding: 0 .6rem; font-size: 1.05rem;
+}
+.bo-rangee { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+
+.bo-champ label {
+  display: block; margin-bottom: .35rem;
+  font-size: .78rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent);
+}
+.bo-champ .aide { display: block; margin-top: .3rem; font-size: .8rem; color: var(--texte-2); }
+.bo-champ input, .bo-champ textarea, .bo-champ select {
+  width: 100%; padding: .65rem .8rem;
+  font: inherit; color: var(--ivoire);
+  background: rgba(244, 239, 230, .05);
+  border: 1px solid var(--trait);
+  transition: border-color .25s, background .25s;
+}
+.bo-champ textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+.bo-champ textarea.code {
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  font-size: .84rem; min-height: 420px; white-space: pre; tab-size: 2;
+}
+.bo-champ input:focus, .bo-champ textarea:focus, .bo-champ select:focus {
+  outline: none; border-color: var(--accent);
+  background: rgba(244, 239, 230, .08);
+}
+.bo-champ .erreur { display: block; margin-top: .35rem; color: var(--rouge); font-size: .85rem; }
+
+.bo-btn {
+  display: inline-block;
+  background: var(--accent); color: var(--fond);
+  border: 1px solid var(--accent);
+  font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  font-size: .78rem; padding: .8rem 1.7rem;
+  transition: background .25s, transform .25s;
+  justify-self: start;
+}
+.bo-btn:hover { background: var(--accent-clair); transform: translateY(-1px); }
+.bo-btn--contour {
+  background: transparent; color: var(--accent-clair);
+  border-color: var(--trait);
+}
+.bo-btn--contour:hover { background: rgba(124, 162, 189, .1); }
+.bo-btn--danger { background: transparent; color: var(--rouge); border-color: rgba(217, 138, 138, .4); }
+.bo-btn--danger:hover { background: rgba(217, 138, 138, .1); }
+.bo-btn--petit { padding: .45rem .9rem; font-size: .7rem; }
+
+/* ---------- Tableau de bord ---------- */
+.bo-stats {
+  display: grid; gap: 1.1rem;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  margin-bottom: 2rem;
+}
+.bo-stat {
+  display: block; padding: 1.4rem 1.5rem;
+  background: var(--fond-2); border: 1px solid var(--trait);
+  transition: border-color .25s, transform .25s;
+}
+.bo-stat:hover { border-color: var(--accent); transform: translateY(-2px); }
+.bo-stat strong {
+  display: block; font-family: var(--serif); font-size: 2rem;
+  color: var(--accent-clair); line-height: 1.2;
+}
+.bo-stat span { color: var(--texte-2); font-size: .88rem; }
+
+.bo-raccourcis { display: grid; gap: .6rem; }
+.bo-raccourcis a { font-size: .95rem; }
+
+/* ---------- Listes / cartes ---------- */
+.bo-liste { display: grid; gap: 1rem; }
+.bo-ligne {
+  display: flex; align-items: center; gap: 1.2rem;
+  background: var(--fond-2); border: 1px solid var(--trait);
+  padding: 1rem 1.2rem;
+  transition: border-color .25s;
+}
+.bo-ligne:hover { border-color: var(--accent); }
+.bo-ligne__vignette { width: 92px; height: 62px; object-fit: cover; flex: 0 0 auto; }
+.bo-ligne__corps { flex: 1; min-width: 0; }
+.bo-ligne__corps h2 { font-family: var(--serif); font-weight: 600; font-size: 1.1rem; color: var(--ivoire); }
+.bo-ligne__corps p { font-size: .85rem; color: var(--texte-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- Galerie ---------- */
+.bo-galerie {
+  display: grid; gap: .9rem;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  margin-top: 1.6rem;
+}
+.bo-media { position: relative; background: var(--fond-2); border: 1px solid var(--trait); }
+.bo-media img { aspect-ratio: 4 / 3; width: 100%; object-fit: cover; }
+.bo-media figcaption {
+  padding: .5rem .6rem; font-size: .74rem; color: var(--texte-2);
+  display: flex; justify-content: space-between; align-items: center; gap: .4rem;
+}
+.bo-media .cat {
+  font-size: .66rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent); border: 1px solid var(--trait);
+  padding: .1rem .4rem; white-space: nowrap;
+}
+.bo-media form button {
+  background: none; border: 0; color: var(--rouge); font-size: .74rem;
+  padding: 0; text-decoration: underline; text-underline-offset: 2px;
+}
+
+/* ---------- Tarifs ---------- */
+.bo-tarifs { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+.bo-tarifs .bo-champ label { font-size: .7rem; }
+
+/* ---------- Sauvegardes ---------- */
+.bo-sauvegardes { margin-top: 1.6rem; border-top: 1px solid var(--trait); padding-top: 1.4rem; }
+.bo-sauvegardes h2 { font-family: var(--serif); font-size: 1.05rem; color: var(--accent-clair); margin-bottom: .8rem; }
+.bo-sauvegardes ul { list-style: none; display: grid; gap: .45rem; }
+.bo-sauvegardes li { display: flex; align-items: center; gap: 1rem; font-size: .85rem; color: var(--texte-2); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .bo-cadre { grid-template-columns: 1fr; }
+  .bo-lateral { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: .6rem; padding: .8rem 1rem; }
+  .bo-lateral__logo { border: 0; padding: 0; }
+  .bo-lateral__logo img { height: 54px; }
+  .bo-lateral__nav { display: flex; flex-wrap: wrap; gap: .1rem; padding: 0; }
+  .bo-lateral__nav a { padding: .45rem .7rem; border-left: 0; font-size: .85rem; }
+  .bo-lateral__pied { border: 0; padding: 0; grid-auto-flow: column; align-items: center; }
+}
+
+/* ---------- Photos des hébergements et des étangs ---------- */
+.bo-zone {
+  border: 1px solid var(--trait);
+  padding: 1.4rem 1.5rem 1.6rem;
+  margin-bottom: 1.4rem;
+  background: var(--fond-2);
+}
+.bo-zone__tete { margin-bottom: 1.1rem; }
+.bo-zone__tete h2 {
+  font-family: var(--serif); font-weight: 600;
+  font-size: 1.12rem; color: var(--accent-clair);
+}
+.bo-zone__tete p { font-size: .85rem; color: var(--texte-2); margin-top: .2rem; }
+.bo-zone__vide { font-size: .88rem; color: var(--texte-2); font-style: italic; padding: .6rem 0 1rem; }
+
+.bo-zone__photos {
+  display: grid; gap: .9rem;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  margin-bottom: 1.1rem;
+}
+.bo-photo { border: 1px solid var(--trait); background: var(--fond-3); }
+.bo-photo img { aspect-ratio: 3 / 2; width: 100%; object-fit: cover; }
+.bo-photo figcaption { padding: .55rem .65rem; display: grid; gap: .45rem; }
+.bo-photo__role { font-size: .74rem; color: var(--texte-2); line-height: 1.35; }
+.bo-photo__actions { display: flex; gap: .35rem; }
+.bo-photo__actions button {
+  flex: 1; background: none; border: 1px solid var(--trait);
+  color: var(--texte-2); padding: .28rem 0; font-size: .82rem;
+  transition: color .2s, border-color .2s;
+}
+.bo-photo__actions button:hover:not(:disabled) { color: var(--accent-clair); border-color: var(--accent); }
+.bo-photo__actions button:disabled { opacity: .3; cursor: default; }
+.bo-photo__actions .retirer:hover { color: var(--rouge); border-color: var(--rouge); }
+
+.bo-choix { border-top: 1px solid var(--trait); padding-top: .9rem; }
+.bo-choix > summary {
+  cursor: pointer; color: var(--accent-clair);
+  font-size: .82rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  list-style: none;
+}
+.bo-choix > summary::before { content: "＋ "; }
+.bo-choix[open] > summary::before { content: "－ "; }
+.bo-choix > summary::-webkit-details-marker { display: none; }
+.bo-choix__corps { margin-top: 1rem; display: grid; gap: 1rem; }
+.bo-choix__grille {
+  display: grid; gap: .5rem;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  max-height: 330px; overflow-y: auto;
+  padding: .6rem; border: 1px solid var(--trait);
+  background: var(--fond);
+}
+.bo-choix__vignette { position: relative; cursor: pointer; display: block; }
+.bo-choix__vignette img {
+  aspect-ratio: 3 / 2; width: 100%; object-fit: cover;
+  border: 2px solid transparent; transition: border-color .2s, opacity .2s;
+  opacity: .78;
+}
+.bo-choix__vignette:hover img { opacity: 1; }
+.bo-choix__vignette input { position: absolute; top: .3rem; left: .3rem; z-index: 1; accent-color: var(--accent); }
+.bo-choix__vignette:has(input:checked) img { border-color: var(--accent); opacity: 1; }
+.bo-choix__envoi {
+  margin-top: 1.2rem; padding-top: 1.1rem;
+  border-top: 1px dashed var(--trait);
+  display: grid; gap: .9rem;
+}
+.bo-ligne__liens { display: grid; gap: .3rem; text-align: right; font-size: .88rem; flex: 0 0 auto; }
+
+/* ---------- Paramètres ---------- */
+.bo-champ--case label {
+  display: flex; align-items: center; gap: .55rem;
+  text-transform: none; letter-spacing: 0; font-size: .95rem;
+  color: var(--texte); font-weight: 400;
+}
+.bo-champ--case input { width: auto; accent-color: var(--accent); }
+.bo-champ code {
+  font-family: ui-monospace, Consolas, monospace; font-size: .85em;
+  background: rgba(124, 162, 189, .12); padding: .05em .35em; color: var(--accent-clair);
+}
+.bo-trace { margin-top: 1rem; }
+.bo-trace summary { cursor: pointer; color: var(--accent-clair); font-size: .85rem; }
+.bo-trace pre {
+  margin-top: .7rem; padding: .9rem 1rem; overflow-x: auto;
+  background: var(--fond); border: 1px solid var(--trait);
+  font-family: ui-monospace, Consolas, monospace; font-size: .78rem;
+  color: var(--texte-2); line-height: 1.6; white-space: pre-wrap; word-break: break-all;
+}
+.bo-diag { margin-top: 2.2rem; border-top: 1px solid var(--trait); padding-top: 1.5rem; }
+.bo-diag h2 { font-family: var(--serif); font-size: 1.1rem; color: var(--accent-clair); margin-bottom: .9rem; }
+.bo-diag table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.bo-diag tr { border-bottom: 1px solid rgba(124, 162, 189, .12); }
+.bo-diag th { text-align: left; font-weight: 400; color: var(--texte-2); padding: .55rem .8rem .55rem 0; }
+.bo-diag td { padding: .55rem .8rem .55rem 0; color: var(--texte); }
+.bo-diag .etat { text-align: right; white-space: nowrap; }
+.bo-diag .ok { color: var(--vert); }
+.bo-diag .ko { color: var(--rouge); font-weight: 600; }
+.bo-diag .neutre { color: var(--texte-2); }
+
+/* ---------- Mises à jour ---------- */
+.bo-message--attention {
+  color: #e2c37a; border-color: rgba(226, 195, 122, .45);
+  background: rgba(226, 195, 122, .08);
+}
+.bo-aide-bloc { font-size: .9rem; color: var(--texte-2); margin-bottom: .9rem; }
+.bo-code {
+  padding: .9rem 1.1rem; overflow-x: auto;
+  background: var(--fond); border: 1px solid var(--trait);
+  font-family: ui-monospace, Consolas, monospace; font-size: .8rem;
+  color: var(--texte-2); line-height: 1.7; white-space: pre-wrap; word-break: break-word;
+}
+.bo-version { display: grid; gap: .5rem; margin-bottom: 1.3rem; }
+.bo-version > div { display: flex; gap: 1rem; font-size: .9rem; }
+.bo-version dt { color: var(--texte-2); min-width: 150px; }
+.bo-version dd { color: var(--texte); }
+.bo-version code, .bo-zone__tete code {
+  font-family: ui-monospace, Consolas, monospace; font-size: .88em;
+  color: var(--accent-clair);
+}
+.bo-commits { list-style: none; display: grid; gap: .5rem; margin-bottom: 1.3rem; }
+.bo-commits li {
+  display: flex; align-items: baseline; gap: .9rem; flex-wrap: wrap;
+  padding: .6rem .8rem; background: var(--fond); border: 1px solid var(--trait);
+  font-size: .88rem;
+}
+.bo-commits code { color: var(--accent); font-family: ui-monospace, Consolas, monospace; font-size: .82rem; }
+.bo-commits .sujet { flex: 1; min-width: 220px; color: var(--texte); }
+.bo-commits .date { color: var(--texte-2); font-size: .8rem; white-space: nowrap; }
+.bo-sauvegardes-liste { list-style: none; display: grid; gap: .5rem; }
+.bo-sauvegardes-liste li {
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  padding: .6rem .8rem; background: var(--fond); border: 1px solid var(--trait);
+  font-size: .88rem;
+}
+.bo-sauvegardes-liste .date { flex: 1; min-width: 160px; color: var(--texte); }
+.bo-sauvegardes-liste .taille { color: var(--texte-2); font-size: .82rem; }
+.bo-droits { list-style: none; display: grid; gap: .4rem; }
+.bo-droits li {
+  display: flex; align-items: baseline; gap: .9rem; flex-wrap: wrap;
+  padding: .5rem .7rem; background: var(--fond); border: 1px solid var(--trait);
+  font-size: .85rem;
+}
+.bo-droits .mode { color: var(--rouge); font-family: ui-monospace, Consolas, monospace; }
+.bo-droits .chemin { flex: 1; min-width: 200px; color: var(--texte); font-family: ui-monospace, Consolas, monospace; font-size: .8rem; }
+.bo-droits .probleme { color: var(--texte-2); font-size: .8rem; }
+.bo-lien-danger {
+  background: none; border: 0; padding: 0; font-size: .82rem;
+  color: var(--texte-2); text-decoration: underline; text-underline-offset: 3px;
+  transition: color .2s;
+}
+.bo-lien-danger:hover { color: var(--rouge); }
+.bo-ligne--hors-ligne { opacity: .62; border-style: dashed; }
+.bo-ligne--hors-ligne:hover { opacity: 1; }
+.bo-etiquette {
+  display: inline-block; margin-left: .6rem; vertical-align: middle;
+  font-family: system-ui, sans-serif; font-size: .62rem; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--fond); background: var(--texte-2);
+  padding: .15rem .45rem;
+}
+.bo-lien-bascule {
+  background: none; border: 0; padding: 0; font-size: .82rem;
+  color: var(--accent-clair); text-decoration: underline; text-underline-offset: 3px;
+  transition: color .2s;
+}
+.bo-lien-bascule:hover { color: var(--accent); }
+
+/* ---------- Galerie : dépôt, filtres, classement ---------- */
+.bo-depot {
+  display: grid; justify-items: center; gap: .4rem;
+  padding: 2.2rem 1.4rem; cursor: pointer; text-align: center;
+  border: 2px dashed var(--trait); background: rgba(124, 162, 189, .03);
+  transition: border-color .25s, background .25s;
+}
+.bo-depot:hover { border-color: var(--accent); background: rgba(124, 162, 189, .07); }
+.bo-depot--survol { border-color: var(--accent); background: rgba(124, 162, 189, .14); }
+.bo-depot input[type="file"] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.bo-depot__icone { font-size: 1.6rem; color: var(--accent); line-height: 1; }
+.bo-depot__titre { font-family: var(--serif); font-size: 1.1rem; color: var(--ivoire); }
+.bo-depot__aide { font-size: .85rem; color: var(--texte-2); }
+.bo-depot__liste { font-size: .82rem; color: var(--accent-clair); margin-top: .4rem; }
+
+.bo-filtres { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.3rem; }
+.bo-filtres button {
+  background: none; border: 1px solid var(--trait); color: var(--texte-2);
+  padding: .42rem .9rem; font-size: .84rem;
+  transition: color .2s, border-color .2s, background .2s;
+}
+.bo-filtres button span { opacity: .6; font-size: .78rem; margin-left: .3rem; }
+.bo-filtres button:hover { color: var(--accent-clair); border-color: var(--accent); }
+.bo-filtres button[aria-pressed="true"] {
+  color: var(--fond); background: var(--accent); border-color: var(--accent); font-weight: 600;
+}
+
+.bo-galerie {
+  display: grid; gap: .9rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+.bo-media {
+  position: relative; background: var(--fond-2); border: 1px solid var(--trait);
+  cursor: grab; transition: border-color .2s, opacity .2s, transform .15s;
+}
+.bo-media:hover { border-color: var(--accent); }
+.bo-media--porte { opacity: .45; cursor: grabbing; transform: scale(.97); }
+.bo-media img { aspect-ratio: 4 / 3; width: 100%; object-fit: cover; pointer-events: none; }
+.bo-media--masque img { filter: grayscale(1) brightness(.55); }
+.bo-media__masque {
+  position: absolute; top: .5rem; left: .5rem;
+  font-size: .62rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--fond); background: var(--texte-2); padding: .15rem .45rem;
+}
+.bo-media figcaption { padding: .5rem .6rem; display: grid; gap: .45rem; }
+.bo-media__cat select {
+  width: 100%; font: inherit; font-size: .76rem; padding: .25rem .35rem;
+  color: var(--texte-2); background: rgba(244, 239, 230, .05);
+  border: 1px solid var(--trait);
+}
+.bo-media__actions { display: flex; justify-content: space-between; gap: .5rem; }
+.bo-media__actions button {
+  background: none; border: 0; padding: 0; font-size: .76rem;
+  color: var(--accent-clair); text-decoration: underline; text-underline-offset: 2px;
+}
+.bo-media__actions button:hover { color: var(--accent); }
+.bo-media__actions .retirer { color: var(--texte-2); }
+.bo-media__actions .retirer:hover { color: var(--rouge); }
+
+/* le classement porte sur la galerie entière : on le signale quand elle est filtrée */
+.bo-galerie--filtree .bo-media { cursor: default; }
+.bo-ordre-etat { margin-top: .9rem; font-size: .85rem; color: var(--vert); min-height: 1.2em; }
+.bo-ordre-etat--erreur { color: var(--rouge); }
+
+/* ---------- Référencement ---------- */
+.bo-onglets-liens {
+  display: flex; flex-wrap: wrap; gap: 1.4rem;
+  padding-bottom: 1rem; margin-bottom: 1.6rem;
+  border-bottom: 1px solid var(--trait);
+  font-size: .85rem;
+}
+.bo-zone > h2 {
+  font-family: var(--serif); font-weight: 600; font-size: 1.2rem;
+  color: var(--accent-clair); margin-bottom: .8rem;
+}
+.bo-intro { font-size: .88rem; color: var(--texte-2); margin-bottom: 1.4rem; max-width: 70ch; }
+.bo-sous-titre {
+  font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--texte-2); margin: 1.6rem 0 .8rem;
+}
+.bo-vide { font-size: .88rem; color: var(--texte-2); font-style: italic; margin-bottom: 1.4rem; }
+.bo-message--alerte {
+  color: #e2c37a; border-color: rgba(226, 195, 122, .45);
+  background: rgba(226, 195, 122, .08); margin-bottom: 1rem;
+}
+.bo-etiquette--alerte { background: #e2c37a; }
+
+.bo-seo { border: 1px solid var(--trait); background: var(--fond); margin-bottom: .7rem; }
+.bo-seo summary {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: .8rem;
+  padding: .8rem 1rem; cursor: pointer; list-style: none;
+}
+.bo-seo summary::-webkit-details-marker { display: none; }
+.bo-seo summary::before {
+  content: "▸"; color: var(--accent); font-size: .8rem; transition: transform .2s;
+}
+.bo-seo[open] > summary::before { content: "▾"; }
+.bo-seo summary:hover { background: var(--fond-3); }
+.bo-seo__nom { font-family: var(--serif); font-size: 1.02rem; color: var(--ivoire); }
+.bo-seo__url {
+  flex: 1; min-width: 140px;
+  font-family: ui-monospace, Consolas, monospace; font-size: .8rem; color: var(--accent-clair);
+}
+.bo-seo > *:not(summary) { margin-left: 1rem; margin-right: 1rem; }
+.bo-seo > .bo-form { margin-bottom: 1.5rem; }
+
+/* aperçu du rendu dans les résultats de recherche */
+.bo-seo__apercu {
+  padding: .9rem 1rem; margin-bottom: 1.2rem;
+  background: var(--fond-2); border: 1px solid var(--trait);
+}
+.bo-seo__apercu-titre {
+  font-size: 1.05rem; color: #8ab4f8; line-height: 1.35;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.bo-seo__apercu-url { font-size: .78rem; color: var(--vert); margin: .15rem 0 .35rem; }
+.bo-seo__apercu-desc { font-size: .84rem; color: var(--texte-2); line-height: 1.5; }
+
+.bo-prefixe { display: flex; align-items: stretch; }
+.bo-prefixe > span {
+  display: flex; align-items: center; padding: .5rem .7rem;
+  background: rgba(244, 239, 230, .04); border: 1px solid var(--trait); border-right: 0;
+  font-family: ui-monospace, Consolas, monospace; font-size: .82rem; color: var(--texte-2);
+  white-space: nowrap;
+}
+.bo-prefixe input { font-family: ui-monospace, Consolas, monospace; }
+
+.bo-compteur { display: block; margin-top: .3rem; font-size: .76rem; color: var(--texte-2); }
+.bo-compteur--trop { color: var(--rouge); }
+
+.bo-tableau { width: 100%; border-collapse: collapse; font-size: .86rem; margin-bottom: 1.6rem; }
+.bo-tableau th {
+  text-align: left; padding: .5rem .8rem .5rem 0;
+  font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--texte-2); border-bottom: 1px solid var(--trait);
+}
+.bo-tableau td { padding: .55rem .8rem .55rem 0; border-bottom: 1px solid rgba(124, 162, 189, .12); }
+.bo-tableau code {
+  font-family: ui-monospace, Consolas, monospace; font-size: .82rem; color: var(--accent-clair);
+  word-break: break-all;
+}
+.bo-tableau__action { text-align: right; white-space: nowrap; padding-right: 0 !important; }
+
+@media (max-width: 640px) {
+  .bo-seo summary { gap: .45rem; }
+  .bo-seo__url { flex-basis: 100%; }
+  .bo-prefixe { flex-wrap: wrap; }
+  .bo-prefixe > span { border-right: 1px solid var(--trait); border-bottom: 0; flex-basis: 100%; }
+}
+.bo-slug-apercu {
+  display: block; margin-top: .4rem; font-size: .8rem; color: var(--vert);
+  font-family: ui-monospace, Consolas, monospace; word-break: break-all;
+}
+.bo-slug-apercu:empty { display: none; }
+.bo-slug-apercu--vide { color: var(--rouge); font-family: inherit; }
+
+/* ---------- Diaporama du bandeau d'accueil ---------- */
+.bo-diapos {
+  display: grid; gap: .9rem;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}
+.bo-diapo {
+  position: relative; border: 1px solid var(--trait); background: var(--fond);
+}
+.bo-diapo img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+.bo-diapo--masquee img { filter: grayscale(1) brightness(.55); }
+.bo-diapo figcaption { padding: .5rem .6rem; display: grid; gap: .4rem; }
+.bo-diapo__rang { font-size: .74rem; color: var(--texte-2); }
+.bo-diapo__actions { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
+.bo-diapo__actions form { display: flex; gap: .3rem; }
+.bo-diapo__actions form:first-child button {
+  width: 24px; height: 24px; padding: 0; line-height: 1;
+  color: var(--accent-clair); background: rgba(244, 239, 230, .05);
+  border: 1px solid var(--trait);
+}
+.bo-diapo__actions form:first-child button:hover:not(:disabled) { background: rgba(124, 162, 189, .18); }
+.bo-diapo__actions button:disabled { opacity: .3; cursor: not-allowed; }
+
+/* ---------- Boutique ---------- */
+.bo-produit { display: flex; gap: 1.1rem; align-items: flex-start; }
+.bo-produit__vignette {
+  width: 128px; aspect-ratio: 16 / 10; object-fit: cover; flex: none;
+  border: 1px solid var(--trait); background: var(--fond);
+}
+.bo-produit__champs { flex: 1; display: grid; gap: 1.1rem; min-width: 0; }
+.bo-hors-ligne { opacity: .68; border-style: dashed; }
+.bo-hors-ligne:focus-within { opacity: 1; }
+.bo-photo-choix { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin-top: .5rem; }
+.bo-photo-choix select, .bo-photo-choix input[type="file"] {
+  font: inherit; font-size: .8rem; padding: .3rem .4rem; max-width: 230px;
+  color: var(--texte-2); background: rgba(244, 239, 230, .05); border: 1px solid var(--trait);
+}
+.bo-btn--mince { padding: .45rem .9rem; font-size: .72rem; }
+.bo-ligne__liens form { display: flex; gap: .8rem; flex-wrap: wrap; }
+
+@media (max-width: 560px) {
+  .bo-produit { flex-direction: column; }
+  .bo-produit__vignette { width: 100%; }
+}
+
+/* les navigateurs qui ignorent color-scheme peignent au moins les options */
+.bo select option { background: var(--fond-2); color: var(--texte); }
+
+/* ---------- Choix d'une photo en mosaïque ---------- */
+.bo-etiquette-champ {
+  display: block; margin-bottom: .45rem;
+  font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--accent-clair);
+}
+.bo-repli { border: 1px solid var(--trait); background: var(--fond); margin-top: .5rem; }
+.bo-repli > summary {
+  padding: .6rem .9rem; cursor: pointer; list-style: none;
+  font-size: .82rem; color: var(--accent-clair);
+}
+.bo-repli > summary::-webkit-details-marker { display: none; }
+.bo-repli > summary::before { content: "▸ "; }
+.bo-repli[open] > summary::before { content: "▾ "; }
+.bo-repli > summary:hover { background: var(--fond-3); }
+.bo-repli > *:not(summary) { margin: 0 .9rem .9rem; }
+
+.bo-choix__barre { display: flex; align-items: center; gap: .8rem; margin-bottom: .7rem; }
+.bo-choix__barre input[type="search"] {
+  flex: 1; min-width: 0; font: inherit; font-size: .84rem; padding: .45rem .7rem;
+  color: var(--texte); background: rgba(244, 239, 230, .05); border: 1px solid var(--trait);
+}
+.bo-choix__barre input[type="search"]:focus { outline: 0; border-color: var(--accent); }
+.bo-choix__compte { font-size: .76rem; color: var(--texte-2); white-space: nowrap; }
+
+.bo-mosaique {
+  display: grid; gap: .6rem;
+  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+  max-height: 340px; overflow-y: auto;
+  padding: .2rem; border: 1px solid var(--trait); background: var(--fond-2);
+}
+.bo-tuile {
+  position: relative; display: block; cursor: pointer;
+  border: 2px solid transparent; background: var(--fond);
+  transition: border-color .18s, transform .18s;
+}
+.bo-tuile:hover { transform: translateY(-2px); border-color: rgba(124, 162, 189, .5); }
+/* le bouton radio reste focalisable au clavier, simplement invisible */
+.bo-tuile input {
+  position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;
+}
+.bo-tuile img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+.bo-tuile__nom {
+  display: block; padding: .3rem .4rem; font-size: .66rem; color: var(--texte-2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.bo-tuile:has(input:checked) { border-color: var(--accent); }
+.bo-tuile:has(input:focus-visible) { outline: 2px solid var(--accent-clair); outline-offset: 2px; }
+.bo-tuile:has(input:checked)::after {
+  content: "✓"; position: absolute; top: .35rem; right: .35rem;
+  width: 22px; height: 22px; display: grid; place-items: center;
+  font-size: .8rem; font-weight: 700; color: var(--fond); background: var(--accent);
+}
+.bo-tuile--vide { display: grid; place-items: center; min-height: 110px; }
+.bo-tuile__vide {
+  padding: .8rem .6rem; text-align: center; font-size: .74rem; color: var(--texte-2); line-height: 1.4;
+}
+.bo-tuile[hidden] { display: none; }
+
+/* vignettes de diaporama déplaçables */
+.bo-diapo[draggable="true"] { cursor: grab; }
+.bo-diapo[draggable="true"]:active { cursor: grabbing; }
+.bo-diapo--portee { opacity: .4; outline: 2px dashed var(--accent); }
+.bo-unite { display: flex; align-items: stretch; gap: 0; max-width: 260px; }
+.bo-unite input { border-right: 0; }
+.bo-unite span {
+  display: flex; align-items: center; padding: .5rem .8rem; white-space: nowrap;
+  font-size: .84rem; color: var(--texte-2);
+  background: rgba(244, 239, 230, .04); border: 1px solid var(--trait);
+}
+
+/* ---------- Langues et traductions ---------- */
+.bo-etiquette--source { background: var(--accent); }
+.bo-jauge {
+  margin-top: .5rem; height: 6px; max-width: 320px;
+  background: rgba(244, 239, 230, .1); border: 1px solid var(--trait);
+}
+.bo-jauge span { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+
+.bo-barre-actions {
+  display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
+  padding-bottom: 1.2rem; margin-bottom: 1rem; border-bottom: 1px solid var(--trait);
+}
+.bo-compte-groupe { float: right; font-size: .76rem; color: var(--texte-2); }
+
+.bo-trad { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.bo-trad th {
+  text-align: left; padding: .5rem .8rem .5rem 0;
+  font-size: .68rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--texte-2); border-bottom: 1px solid var(--trait);
+}
+.bo-trad td {
+  padding: .6rem .8rem .6rem 0; vertical-align: top; width: 50%;
+  border-bottom: 1px solid rgba(124, 162, 189, .12);
+}
+.bo-trad td:last-child { padding-right: 0; }
+.bo-trad__fr { display: block; color: var(--texte); line-height: 1.5; }
+.bo-trad__cle {
+  display: block; margin-top: .25rem; font-size: .68rem; color: rgba(233, 227, 214, .38);
+  font-family: ui-monospace, Consolas, monospace; word-break: break-all;
+}
+.bo-trad input, .bo-trad textarea {
+  width: 100%; font: inherit; font-size: .88rem; padding: .45rem .6rem; line-height: 1.5;
+  color: var(--texte); background: rgba(244, 239, 230, .05); border: 1px solid var(--trait);
+}
+.bo-trad input:focus, .bo-trad textarea:focus { outline: 0; border-color: var(--accent); }
+.bo-trad textarea { resize: vertical; min-height: 68px; }
+.bo-trad--vide input, .bo-trad--vide textarea { border-left: 3px solid rgba(226, 195, 122, .7); }
+
+@media (max-width: 720px) {
+  .bo-trad, .bo-trad tbody, .bo-trad tr, .bo-trad td { display: block; width: 100%; }
+  .bo-trad thead { display: none; }
+  .bo-trad tr { padding: .7rem 0; border-bottom: 1px solid rgba(124, 162, 189, .12); }
+  .bo-trad td { border: 0; padding: .3rem 0; }
+}
+
+/* ==========================================================================
+   Composants ajoutés pour ce site
+   ========================================================================== */
+
+.bo-visuellement-cache {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+
+.bo-bloc {
+  background: var(--fond-2);
+  border: 1px solid var(--trait);
+  border-radius: 0;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.6rem;
+}
+.bo-bloc h2 {
+  font-family: var(--serif); font-size: 1.2rem; font-weight: 500;
+  color: var(--ivoire); margin-bottom: .8rem;
+}
+
+.bo-fil {
+  display: flex; flex-wrap: wrap; gap: 1.2rem;
+  margin-bottom: 1.4rem; font-size: .9rem;
+}
+
+.bo-form--inline {
+  display: flex; flex-wrap: wrap; align-items: flex-end; gap: .8rem;
+}
+.bo-form--inline .bo-champ { flex: 1 1 260px; margin-bottom: 0; }
+
+.bo-champ--large { flex: 2 1 320px; }
+
+.bo-case { display: flex; align-items: flex-start; gap: .6rem; cursor: pointer; }
+.bo-case input { margin-top: .25rem; accent-color: var(--accent); flex: 0 0 auto; }
+.bo-case--petite { font-size: .82rem; color: var(--texte-2); margin: .4rem 0; }
+
+.bo-btn--fantome {
+  background: transparent; color: var(--texte);
+  border: 1px solid var(--trait);
+}
+.bo-btn--fantome:hover:not(:disabled) { border-color: var(--accent); color: var(--accent-clair); }
+.bo-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+/* --- lignes de liste --- */
+
+/* Un élément de grille vaut min-width:auto par défaut : il ne peut donc pas
+   descendre sous la largeur intrinsèque de son contenu. Un texte non
+   sécable — un avis Google, par exemple — élargissait la ligne, la grille,
+   puis la page entière, jusqu'à la barre de défilement horizontale. */
+.bo-ligne { min-width: 0; }
+
+.bo-ligne__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+.bo-ligne__actions form { margin: 0; }
+.bo-ligne__note { display: block; font-size: .82rem; color: var(--texte-2); }
+
+/* La règle générique des lignes tronque les paragraphes sur une seule ligne.
+   C'est le bon comportement pour un résumé, pas pour un avis client qu'il
+   faut pouvoir lire en entier avant de décider d'y répondre : on rétablit
+   ici le retour à la ligne, et on brise les mots interminables. */
+.bo-ligne__corps p {
+  font-size: .88rem; color: var(--texte-2); margin-top: .3rem;
+  white-space: normal; overflow: visible; text-overflow: clip;
+  overflow-wrap: anywhere;
+}
+/* Une fiche hors ligne reste lisible : l'atténuer suffit à la distinguer,
+   la masquer empêcherait de la remettre en ligne. */
+.bo-ligne--masquee { opacity: .58; }
+.bo-ligne--masquee:focus-within, .bo-ligne--masquee:hover { opacity: 1; }
+
+.bo-infos { display: grid; gap: .5rem; margin-bottom: 1.2rem; }
+.bo-infos > div { display: flex; flex-wrap: wrap; gap: .5rem; }
+.bo-infos dt { font-size: .82rem; color: var(--texte-2); min-width: 200px; }
+.bo-infos dd { font-weight: 600; }
+
+.bo-media__nom { display: block; font-size: .8rem; word-break: break-all; }
+.bo-media__usage { display: block; font-size: .76rem; color: var(--accent-clair); margin: .25rem 0; }
+.bo-media__usage--libre { color: var(--texte-2); }
+
+/* --- choix de la disposition du menu --- */
+.bo-options { display: grid; gap: 1rem; }
+.bo-option {
+  display: grid; grid-template-columns: 220px 1fr; gap: 1.4rem; align-items: start;
+  padding: 1.2rem;
+  background: var(--fond-3);
+  border: 1px solid var(--trait);
+  border-radius: 0;
+  cursor: pointer;
+  transition: border-color .2s ease, background .2s ease;
+}
+.bo-option:hover { border-color: var(--accent); }
+.bo-option--active { border-color: var(--accent); background: rgba(124, 162, 189, .07); }
+/* Le bouton radio reste dans le document — c'est lui que le clavier atteint
+   et que les lecteurs d'écran annoncent — mais il est retiré de l'affichage
+   sans display:none, qui l'exclurait des deux. */
+.bo-option > input {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+.bo-option:focus-within { outline: 2px solid var(--accent); outline-offset: 3px; }
+.bo-option__corps { display: grid; gap: .5rem; }
+.bo-option__corps strong { font-size: 1.05rem; color: var(--ivoire); }
+.bo-option__resume { color: var(--texte); }
+.bo-option__detail { font-size: .87rem; color: var(--texte-2); line-height: 1.6; }
+
+/* Schéma des deux dispositions, en CSS pur : il montre la différence sans
+   capture d'écran à refaire à chaque évolution du site. */
+.bo-apercu {
+  display: block; background: var(--fond); border: 1px solid var(--trait);
+  border-radius: 0; padding: 8px; min-height: 108px;
+}
+.bo-apercu__barre {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 8px; background: var(--fond-2); border-radius: 0;
+}
+.bo-apercu__burger { display: grid; gap: 2px; flex: 0 0 auto; }
+.bo-apercu__burger i { display: block; width: 13px; height: 2px; background: var(--accent); border-radius: 0; }
+.bo-apercu__logo {
+  width: 34px; height: 16px; border-radius: 0;
+  background: var(--accent); margin-inline: auto;
+}
+.bo-apercu__logo--gauche { margin-inline: 0; }
+.bo-apercu__liens { display: flex; gap: 7px; margin-inline: auto; }
+.bo-apercu__liens i { display: block; width: 21px; height: 5px; background: var(--texte-2); border-radius: 0; }
+.bo-apercu__cta { width: 30px; height: 13px; border-radius: 0; background: var(--accent-clair); flex: 0 0 auto; }
+.bo-apercu__panneau {
+  width: 46%; margin-top: 6px; padding: 9px 8px;
+  background: var(--fond-2); border-left: 2px solid var(--accent);
+  border-radius: 0 5px 5px 0;
+  display: grid; gap: 6px;
+}
+.bo-apercu__panneau i { display: block; height: 5px; background: var(--texte-2); border-radius: 0; }
+.bo-apercu__panneau i:nth-child(1) { width: 82%; }
+.bo-apercu__panneau i:nth-child(2) { width: 66%; }
+.bo-apercu__panneau i:nth-child(3) { width: 74%; }
+.bo-apercu__panneau i:nth-child(4) { width: 58%; }
+
+@media (max-width: 720px) {
+  .bo-option { grid-template-columns: 1fr; }
+}
+
+/* ---------- Éditeur de texte enrichi ---------- */
+.bo-editeur {
+  border: 1px solid var(--trait); border-radius: 0;
+  background: var(--fond-2); overflow: hidden;
+}
+.bo-editeur__barre {
+  display: flex; flex-wrap: wrap; gap: .25rem;
+  padding: .4rem; border-bottom: 1px solid var(--trait);
+  background: var(--fond-3);
+}
+.bo-editeur__barre button {
+  min-width: 32px; height: 30px; padding: 0 .5rem;
+  border-radius: 0; color: var(--texte);
+  font-size: .85rem;
+  transition: background .15s, color .15s;
+}
+.bo-editeur__barre button:hover { background: rgba(124, 162, 189, .14); color: var(--accent); }
+.bo-editeur__zone {
+  min-height: 190px; max-height: 460px; overflow-y: auto;
+  padding: .85rem 1rem;
+  font-size: .95rem; line-height: 1.6;
+}
+.bo-editeur__zone:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+.bo-editeur__zone h3 { font-family: var(--serif); font-size: 1.05rem; margin: .8rem 0 .3rem; color: var(--ivoire); }
+.bo-editeur__zone p { margin: 0 0 .6rem; }
+.bo-editeur__zone ul, .bo-editeur__zone ol { margin: 0 0 .6rem 1.2rem; }
+.bo-editeur__zone a { color: var(--accent-clair); }
+
+/* ---------- Essai de l'assistant ---------- */
+.bo-essai {
+  border: 1px solid var(--trait); border-radius: 0;
+  padding: 1rem; margin-bottom: 1rem; background: var(--fond-2);
+}
+.bo-essai__question {
+  font-weight: 700; color: var(--accent); margin-bottom: .6rem;
+}
+.bo-essai__reponse { color: var(--texte); line-height: 1.65; }
+
+/* Rotation d'une photo : deux formulaires distincts, donc deux boutons à
+   aligner — un seul formulaire à deux submits serait plus fragile au clavier. */
+.bo-media__rotation { display: flex; flex-wrap: wrap; gap: .35rem; margin: .5rem 0; }
+.bo-media__rotation form { display: contents; }
+
+/* ---------- Onglets de gamme ---------- */
+.bo-onglets { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.4rem; }
+.bo-onglet {
+  display: inline-flex; align-items: center; gap: .55rem;
+  padding: .6rem 1rem;
+  border: 1px solid var(--trait);
+  color: var(--texte); font-size: .92rem; font-weight: 600;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.bo-onglet:hover { border-color: var(--accent); }
+.bo-onglet--actif { background: var(--accent); border-color: var(--accent); color: #1a1a1a; }
+.bo-onglet__compte {
+  font-size: .78rem; font-weight: 700;
+  padding: .05rem .45rem;
+  background: rgba(124, 162, 189, .16); color: var(--accent);
+}
+.bo-onglet--actif .bo-onglet__compte { background: rgba(0, 0, 0, .18); color: #1a1a1a; }
+
+/* ---------- Planche à cocher ----------
+   La case native reste la cible du clavier et l'état de référence ; elle est
+   seulement sortie de l'écran. Tout l'affichage découle d'elle par :checked,
+   sans une ligne de JavaScript. */
+.bo-planche {
+  list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: .7rem; margin: 1rem 0 1.4rem;
+}
+.bo-planche__photo {
+  display: block; position: relative; cursor: pointer;
+  border: 2px solid var(--trait);
+  transition: border-color .15s, opacity .15s;
+}
+.bo-planche__photo input {
+  position: absolute; width: 1px; height: 1px; opacity: 0;
+}
+.bo-planche__photo img {
+  display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+  opacity: .5; transition: opacity .15s;
+}
+.bo-planche__nom {
+  display: block; padding: .35rem .5rem;
+  font-size: .72rem; color: var(--texte-2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+/* Pastille de coche, dessinée en CSS */
+.bo-planche__marque {
+  position: absolute; top: .45rem; right: .45rem;
+  width: 24px; height: 24px;
+  border: 2px solid rgba(255, 255, 255, .75);
+  background: rgba(0, 0, 0, .45);
+}
+.bo-planche__marque::after {
+  content: ""; position: absolute; left: 6px; top: 4px;
+  width: 6px; height: 11px;
+  border-right: 2.5px solid #1a1a1a; border-bottom: 2.5px solid #1a1a1a;
+  transform: rotate(45deg); opacity: 0;
+}
+.bo-planche__photo:has(input:checked) { border-color: var(--accent); }
+.bo-planche__photo:has(input:checked) img { opacity: 1; }
+.bo-planche__photo:has(input:checked) .bo-planche__marque {
+  background: var(--accent); border-color: var(--accent);
+}
+.bo-planche__photo:has(input:checked) .bo-planche__marque::after { opacity: 1; }
+.bo-planche__photo:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bo-planche__photo:hover img { opacity: .85; }
+
+/* :has() manque encore à quelques navigateurs : la classe posée au chargement
+   et tenue à jour par le script y pourvoit. */
+.bo-planche__photo--choisie { border-color: var(--accent); }
+.bo-planche__photo--choisie img { opacity: 1; }
+.bo-planche__photo--choisie .bo-planche__marque { background: var(--accent); border-color: var(--accent); }
+.bo-planche__photo--choisie .bo-planche__marque::after { opacity: 1; }
+
+/* ---------- Compteur du menu ---------- */
+.bo-lateral__nav a { display: flex; align-items: center; justify-content: space-between; gap: .6rem; }
+.bo-lateral__compte {
+  min-width: 20px; padding: .05rem .35rem;
+  background: var(--accent); color: #1a1a1a;
+  font-size: .72rem; font-weight: 700; text-align: center;
+}
+
+/* ---------- Conversations ---------- */
+.bo-conv { display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: 1.2rem; }
+@media (max-width: 900px) { .bo-conv { grid-template-columns: 1fr; } }
+
+.bo-conv__liste { display: flex; flex-direction: column; gap: .4rem; }
+.bo-conv__entree {
+  display: grid; gap: .25rem;
+  padding: .75rem .9rem;
+  border: 1px solid var(--trait);
+  color: var(--texte);
+  transition: border-color .15s, background .15s;
+}
+.bo-conv__entree:hover { border-color: var(--accent); }
+.bo-conv__entree--active { background: var(--fond-3); border-color: var(--accent); }
+/* Un filet orange sur le bord : la couleur seule ne dirait rien à qui ne la
+   distingue pas, le mot « nouveau » l'accompagne. */
+.bo-conv__entree--neuve { border-left: 3px solid var(--accent); }
+.bo-conv__date { font-size: .8rem; color: var(--texte-2); display: flex; gap: .5rem; align-items: center; }
+.bo-conv__neuf {
+  font-size: .66rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  background: var(--accent); color: #1a1a1a; padding: .05rem .35rem;
+}
+.bo-conv__contact { font-weight: 700; color: var(--accent); font-size: .92rem; }
+.bo-conv__extrait { font-size: .86rem; color: var(--texte-2); line-height: 1.45; }
+.bo-conv__compte { font-size: .74rem; color: var(--texte-2); }
+
+.bo-conv__fil { border: 1px solid var(--trait); padding: 1.2rem; }
+.bo-conv__fiche { border: 1px solid var(--accent); padding: .9rem 1rem; margin-bottom: 1rem; }
+.bo-conv__fiche h2 { font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
+.bo-conv__fiche ul { list-style: none; display: grid; gap: .3rem; }
+.bo-conv__fiche li { display: flex; gap: .6rem; font-size: .95rem; }
+.bo-conv__fiche li span { min-width: 90px; color: var(--texte-2); font-size: .82rem; }
+
+.bo-conv__messages { display: flex; flex-direction: column; gap: .6rem; margin: 1rem 0 1.4rem; }
+.bo-conv__bulle {
+  max-width: 82%; padding: .65rem .9rem;
+  font-size: .93rem; line-height: 1.6;
+}
+.bo-conv__bulle--visiteur { align-self: flex-end; background: var(--accent); color: #1a1a1a; }
+.bo-conv__bulle--robot { align-self: flex-start; background: var(--fond-3); color: var(--texte); }
+.bo-conv__purge { margin-top: .8rem; }
+
+/* ==========================================================================
+   DIAPORAMA D'ACCUEIL
+   ========================================================================== */
+
+.bo-diapos {
+  list-style: none; margin: 0 0 1rem; padding: 0;
+  display: grid; grid-template-columns: 1fr; gap: .5rem;
+}
+
+.bo-diapo {
+  display: grid;
+  grid-template-columns: auto 96px minmax(0, 1fr) auto auto auto;
+  align-items: center; gap: .9rem;
+  padding: .55rem .8rem;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .12);
+  cursor: grab;
+}
+.bo-diapo.est-portee { opacity: .45; cursor: grabbing; }
+.bo-diapo__poignee { color: #888; letter-spacing: -.15em; font-size: 1.1rem; }
+.bo-diapo img { width: 96px; height: 60px; object-fit: cover; display: block; }
+.bo-diapo__nom {
+  font-size: .86rem; color: var(--bo-texte-doux, #bbb);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.bo-diapo select { width: auto; min-width: 8.5rem; margin: 0; }
+
+/* Les commandes sont des cibles de clic dans une ligne déplaçable : sans
+   curseur distinct, on croit devoir les faire glisser. */
+.bo-diapo__ordre { display: flex; flex-direction: column; gap: 2px; }
+.bo-diapo__ordre button {
+  border: 1px solid rgba(255, 255, 255, .18); background: transparent;
+  color: inherit;
+  line-height: 1; padding: .22rem .5rem; cursor: pointer; font-size: .7rem;
+}
+.bo-diapo__ordre button:hover { border-color: var(--vert); color: var(--vert); }
+
+.bo-diapo__retrait {
+  border: 1px solid rgba(224, 138, 138, .35); background: transparent;
+  color: #e08a8a; font: inherit; font-size: .8rem;
+  padding: .35rem .75rem; cursor: pointer; white-space: nowrap;
+}
+.bo-diapo__retrait:hover { background: rgba(224, 138, 138, .14); border-color: #e08a8a; }
+
+/* Interrupteur : un état qui se lit d'un coup d'œil sur toute la liste, là
+   où une liste déroulante oblige à lire chaque ligne. L'état voyage dans un
+   champ caché — un bouton n'est pas envoyé avec le formulaire. */
+.bo-bascule {
+  display: inline-flex; align-items: center; gap: .55rem;
+  border: 0; background: transparent; color: inherit; font: inherit;
+  font-size: .82rem; padding: 0; cursor: pointer;
+}
+.bo-bascule__piste {
+  width: 40px; height: 22px; flex: none;
+  background: rgba(255, 255, 255, .16);
+  border: 1px solid rgba(255, 255, 255, .22);
+  position: relative;
+  transition: background .25s ease, border-color .25s ease;
+}
+.bo-bascule__piste::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px; background: #fff;
+  transition: transform .25s cubic-bezier(.32, .72, .3, 1);
+}
+.bo-bascule[aria-checked="true"] .bo-bascule__piste {
+  background: var(--accent); border-color: var(--accent);
+}
+.bo-bascule[aria-checked="true"] .bo-bascule__piste::after { transform: translateX(18px); }
+.bo-bascule__nom { min-width: 4.6rem; text-align: left; }
+.bo-bascule:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Glissière et sa valeur sur une même ligne : lue séparément, la valeur
+   n'appartient visuellement à rien. */
+.bo-glissiere { display: flex; align-items: center; gap: .9rem; }
+.bo-glissiere input[type="range"] { flex: 1; max-width: 22rem; margin: 0; accent-color: var(--accent); }
+.bo-glissiere output { font-variant-numeric: tabular-nums; min-width: 3.5rem; }
+.bo-diapo__retrait input { margin: 0; }
+
+.bo-champ--court input[type="number"] { max-width: 8rem; }
+
+/* ---------- Légendes des réalisations ----------
+   Saisies à part de la planche à cocher : un champ texte sous chaque
+   vignette rendrait la planche illisible, et la légende ne concerne que les
+   photos retenues. */
+.bo-legendes { margin-top: 2rem; border-top: 1px solid var(--trait); padding-top: 1.5rem; }
+.bo-legendes h3 { font-size: 1rem; margin-bottom: .4rem; }
+.bo-legende {
+  display: grid; grid-template-columns: 76px 1fr; gap: 1rem;
+  align-items: center; padding: .6rem 0;
+  border-bottom: 1px solid var(--trait);
+}
+.bo-legende:last-child { border-bottom: 0; }
+.bo-legende img { width: 76px; height: 56px; object-fit: cover; border-radius: 3px; }
+.bo-legende__nom {
+  display: block; font-size: .72rem; color: var(--texte-2);
+  margin-bottom: .25rem; word-break: break-all;
+}
+
+
+/* ==========================================================================
+   ÉCRANS GÉNÉRIQUES : PAGES À BLOCS, FICHES ET LISTES
+   Trois écrans éditent tout le contenu du site. Ce qui les rend praticables,
+   c'est le dépliant : replié, un bloc tient sur une ligne et la page entière
+   se lit d'un regard ; déplié, il montre ses champs. Une page de quinze blocs
+   tous ouverts serait un mur où l'on ne retrouve rien.
+   ========================================================================== */
+
+/* ---------- Familles du menu latéral ---------- */
+.bo-lateral__famille {
+  margin: 1.5rem 0 .35rem;
+  font-size: .64rem; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--texte-2);
+}
+.bo-lateral__famille:first-child { margin-top: 0; }
+
+/* ---------- Blocs et entrées repliables ---------- */
+.bo-blocs { display: grid; gap: .6rem; margin-bottom: 1.6rem; }
+
+.bo-bloc-edit {
+  background: var(--fond-2);
+  border: 1px solid var(--trait);
+  border-radius: 3px;
+}
+.bo-bloc-edit[open] { border-color: var(--accent); }
+.bo-bloc-edit--hors-ligne { opacity: .72; }
+.bo-bloc-edit--hors-ligne[open] { opacity: 1; }
+
+.bo-bloc-edit__tete {
+  display: flex; align-items: center; gap: .9rem;
+  padding: .85rem 1.1rem;
+  cursor: pointer;
+  list-style: none;
+  min-height: 44px;
+}
+.bo-bloc-edit__tete::-webkit-details-marker { display: none; }
+.bo-bloc-edit__tete::before {
+  content: "▸"; flex: 0 0 auto;
+  color: var(--accent);
+  transition: transform .18s ease;
+}
+.bo-bloc-edit[open] > .bo-bloc-edit__tete::before { transform: rotate(90deg); }
+.bo-bloc-edit__tete:hover { background: rgba(124, 162, 189, .07); }
+
+.bo-bloc-edit__resume {
+  flex: 1 1 auto; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: var(--texte);
+}
+.bo-bloc-edit__rang {
+  flex: 0 0 auto;
+  font-size: .78rem; color: var(--texte-2);
+  font-variant-numeric: tabular-nums;
+}
+.bo-bloc-edit__corps {
+  padding: 0 1.1rem 1.2rem;
+  border-top: 1px solid var(--trait);
+  padding-top: 1.2rem;
+}
+/* Le retrait ferme le bloc : posé en dernier, et détaché de ce qui précède
+   pour qu'on ne le coche pas en visant la case du dessus. */
+.bo-bloc-edit__retrait {
+  margin-top: 1.4rem; padding-top: 1rem;
+  border-top: 1px dashed var(--trait);
+}
+
+/* ---------- Sous-champs et entrées répétées ---------- */
+.bo-sous-champ {
+  margin: 1.2rem 0;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid var(--trait);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, .12);
+}
+.bo-sous-champ > legend {
+  padding: 0 .5rem;
+  font-size: .68rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--accent);
+}
+
+.bo-entree {
+  display: flex; gap: .9rem;
+  padding: .9rem 0;
+  border-bottom: 1px dashed var(--trait);
+}
+.bo-entree:last-of-type { border-bottom: 0; padding-bottom: 0; }
+.bo-entree__rang {
+  flex: 0 0 auto;
+  display: grid; place-items: center;
+  width: 1.7rem; height: 1.7rem;
+  background: var(--fond-3); color: var(--accent);
+  font-size: .72rem; font-variant-numeric: tabular-nums;
+}
+.bo-entree__champs { flex: 1 1 auto; min-width: 0; }
+
+/* ---------- Ajout d'un bloc ou d'une entrée ---------- */
+.bo-ajout-bloc {
+  margin: 1.4rem 0;
+  padding: 1.2rem 1.4rem;
+  border: 1px dashed var(--trait);
+  border-radius: 3px;
+}
+.bo-ajout-bloc form { margin: 0; }
+
+/* ---------- Zones et listes ---------- */
+.bo-zone__compte {
+  display: inline-grid; place-items: center;
+  min-width: 1.6rem; height: 1.6rem; padding-inline: .4rem;
+  background: var(--fond-3); color: var(--accent);
+  font-size: .74rem;
+}
+.bo-ligne__nom {
+  font-size: 1.05rem; font-weight: 500;
+  color: var(--texte);
+  border-bottom: 1px solid transparent;
+}
+.bo-ligne__nom:hover { color: var(--accent); border-bottom-color: currentColor; }
+
+.bo-sous-titre {
+  margin: 2.2rem 0 1rem;
+  font-size: 1.1rem; font-weight: 600;
+  letter-spacing: .02em;
+}
+
+/* La barre d'actions colle en bas : sur une page de quinze blocs, le bouton
+   d'enregistrement se trouve à trois écrans du champ qu'on vient de saisir. */
+.bo-barre-actions {
+  position: sticky; bottom: 0; z-index: 5;
+  display: flex; flex-wrap: wrap; gap: .8rem; align-items: center;
+  margin-top: 1.6rem;
+  padding: 1rem 0;
+  background: linear-gradient(to top, var(--fond) 60%, transparent);
+}
+
+/* --- Apparence : taille du logo -----------------------------------------
+   L'aperçu rejoue la mécanique de l'en-tête plutôt que de l'illustrer : la
+   hauteur de barre s'y calcule avec la même formule que dans site.css, et
+   le décalage du logo avec le même max(). Une image figée aurait menti dès
+   le premier réglage, et un schéma approximatif aurait laissé la mairie
+   découvrir le vrai résultat sur le site. */
+.bo-logo-reglage {
+  display: grid; gap: 1.4rem;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  align-items: start;
+  margin-bottom: 1.2rem;
+}
+.bo-logo-saisie { display: flex; align-items: center; gap: .6rem; }
+/* Le curseur prend la place qui reste, le nombre garde la sienne : la valeur
+   doit rester lisible pendant qu'on glisse. */
+.bo-logo-saisie input[type="range"] { flex: 1 1 auto; width: auto; padding: 0; accent-color: var(--accent); }
+.bo-logo-saisie input[type="number"] { flex: 0 0 5.5rem; }
+.bo-logo-unite { flex: 0 0 auto; color: var(--texte-2); font-size: .85rem; }
+
+.bo-logo-apercu {
+  --ap-logo: 52px;
+  /* La même formule que --entete-h-suivie, à l'air près : 44 px. */
+  --ap-barre: calc(var(--ap-logo) + 44px);
+  border: 1px solid var(--trait);
+  overflow: hidden;
+}
+/* … et la même bascule que :root.logo-deborde : la barre cesse d'écouter. */
+.bo-logo-apercu--deborde { --ap-barre: 96px; }
+
+.bo-logo-apercu__barre {
+  height: var(--ap-barre);
+  display: flex; align-items: center; gap: 1rem;
+  padding-inline: 1rem;
+  background: #232a30;
+  transition: height .18s ease;
+}
+.bo-logo-apercu__marque {
+  height: var(--ap-logo); width: auto;
+  display: block;
+  /* Centré tant qu'il tient, posé douze pixels sous le haut de la barre dès
+     qu'il dépasse — le même plancher que --logo-air-mini sur le site. */
+  align-self: flex-start;
+  margin-top: max(12px, calc((var(--ap-barre) - var(--ap-logo)) / 2));
+  transition: height .18s ease, margin-top .18s ease;
+}
+.bo-logo-apercu__burger { display: grid; gap: 3px; flex: 0 0 auto; }
+.bo-logo-apercu__burger i { display: block; width: 16px; height: 2px; background: var(--accent); }
+.bo-logo-apercu__liens { display: flex; gap: 9px; margin-left: auto; flex: 0 0 auto; }
+.bo-logo-apercu__liens i { display: block; width: 26px; height: 6px; background: rgba(242, 246, 241, .35); }
+
+/* La page factice : sans elle, on ne verrait pas ce que le logo recouvre
+   quand il déborde, qui est justement ce qu'on veut juger. */
+.bo-logo-apercu__page {
+  display: grid; gap: .6rem;
+  padding: 1.4rem 1rem 1.6rem;
+  background: var(--fond-2);
+}
+.bo-logo-apercu__titre { display: block; width: 42%; height: 13px; background: rgba(242, 246, 241, .3); }
+.bo-logo-apercu__ligne { display: block; width: 86%; height: 7px; background: rgba(242, 246, 241, .14); }
+.bo-logo-apercu__ligne--courte { width: 64%; }
+
+@media (max-width: 720px) {
+  .bo-logo-reglage { grid-template-columns: 1fr; }
+}
+
+
+/* --- Éditeur : la barre étendue (couleurs de charte, bouton) -------------
+   Le socle avait déjà une barre à quatre boutons pour les notes de
+   l'assistant ; ces règles-ci complètent le même composant, elles ne le
+   doublent pas. */
+.bo-editeur__btn {
+  min-width: 32px; min-height: 32px; padding: .3rem .55rem;
+  font: inherit; font-size: .82rem; line-height: 1;
+  color: var(--texte);
+  border: 1px solid transparent; border-radius: 0;
+  background: none; cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.bo-editeur__btn:hover { background: rgba(124, 162, 189, .14); color: var(--accent); }
+.bo-editeur__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.bo-editeur__choix {
+  min-height: 32px; padding: .25rem .4rem;
+  font: inherit; font-size: .8rem;
+  color: var(--ivoire);
+  background: rgba(244, 239, 230, .06);
+  border: 1px solid var(--trait); border-radius: 0;
+}
+.bo-editeur__separateur {
+  width: 1px; height: 20px; margin-inline: .25rem;
+  background: var(--trait);
+}
+.bo-editeur__barre { align-items: center; }
+
+.bo-editeur__zone ul { list-style: disc; }
+.bo-editeur__zone ol { list-style: decimal; }
+.bo-editeur__zone blockquote {
+  margin: 0 0 .6rem; padding-left: .9rem;
+  border-left: 2px solid var(--trait); color: var(--texte-2);
+}
+
+/* Les classes de charte telles qu'elles se distinguent sur le fond sombre du
+   back-office. Ce ne sont pas les couleurs du site — impossible autrement, le
+   site les pose sur crème — et c'est assumé : on règle ici du contenu, pas
+   une maquette. Ce qu'on demande à cet aperçu est qu'une couleur se voie
+   différente d'une autre, et qu'un bouton ressemble à un bouton. */
+.bo-editeur__zone .texte-vert  { color: var(--accent); }
+.bo-editeur__zone .texte-encre { color: #fff; font-weight: 600; }
+.bo-editeur__zone .texte-doux  { color: var(--texte-2); }
+.bo-editeur__zone .texte-grand { font-size: 1.18em; }
+.bo-editeur__zone .texte-petit { font-size: .88em; }
+.bo-editeur__zone .bouton {
+  display: inline-block; padding: .35rem .8rem;
+  background: var(--accent); color: var(--fond);
+  text-decoration: none; font-weight: 600; font-size: .85rem;
+}
+
+.bo-editeur__bouton {
+  padding: .9rem 1rem;
+  border-top: 1px solid var(--trait);
+  background: var(--fond-3);
+}
+.bo-editeur__actions { display: flex; align-items: center; gap: .8rem; margin-top: .6rem; }
+.bo-btn--petit { padding: .45rem .9rem; font-size: .82rem; }
+
+/* Sans JavaScript, la textarea reste seule et montre le HTML : une chasse
+   fixe rend les balises lisibles au lieu de les noyer dans le texte. */
+textarea[data-editeur-source], textarea[data-editeur-champ] {
+  font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: .85rem;
+}

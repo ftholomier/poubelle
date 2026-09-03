@@ -1,0 +1,13 @@
+{
+    "titre": "Agenda",
+    "meta": {
+        "description": "L’agenda d’Angeot : concerts de Pyxis, théâtre des Prés Jolis, marche populaire, vide-grenier, commémorations et manifestations du village."
+    },
+    "hero": {
+        "surtitre": "La vie du village",
+        "titre": "Agenda",
+        "image": "assets/img/site/groupe-des-marcheurs.jpg",
+        "texte": "Les rendez-vous du village."
+    },
+    "sous_titre": "Les manifestations de la commune et des associations. Les associations peuvent faire annoncer les leurs en écrivant au secrétariat de mairie : précisez la date, l’heure, le lieu et deux lignes de description."
+}

@@ -1,0 +1,56 @@
+{
+    "titre": "Intercommunalité",
+    "meta": {
+        "description": "Les structures intercommunales dont Angeot fait partie : Grand Belfort Communauté d’Agglomération, Syndicat Intercommunal du Tilleul, Territoire d’énergie 90."
+    },
+    "hero": {
+        "surtitre": "Au quotidien",
+        "titre": "Intercommunalité",
+        "image": "assets/img/site/marcheurs-en-foret.jpg",
+        "texte": "Qui fait quoi, quand ce n’est pas la commune."
+    },
+    "sous_titre": "Beaucoup de compétences ne sont plus exercées par la commune elle-même : les déchets, l’eau, l’école, l’électricité relèvent de structures intercommunales où Angeot siège par ses délégués. Savoir laquelle appeler évite un aller-retour.",
+    "sections": [
+        {
+            "type": "contacts",
+            "surtitre": "Les structures",
+            "titre": "À qui s’adresser",
+            "items": [
+                {
+                    "nom": "Grand Belfort Communauté d’Agglomération",
+                    "role": "Déchets, eau et assainissement, voirie d’intérêt communautaire, développement économique, gardes champêtres",
+                    "texte": "C’est l’interlocuteur pour un bac, une facture d’eau, un badge de déchèterie ou une collecte d’encombrants.",
+                    "site": "https://www.grandbelfort.fr/"
+                },
+                {
+                    "nom": "Syndicat Intercommunal du Tilleul",
+                    "role": "Scolaire, périscolaire, extrascolaire, action sociale et transports",
+                    "texte": "Sept communes : Angeot, Bethonvilliers, Fontaine, Frais, Lagrange, Larivière et Vauthiermont. Il gère la cantine, la garderie et le centre de loisirs de Lagrange.",
+                    "site": "https://sitilleul.fr/"
+                },
+                {
+                    "nom": "Territoire d’énergie 90",
+                    "role": "Électricité, gaz, énergie, mobilité électrique, informatique et données",
+                    "texte": "Gère la distribution d’électricité et de gaz, la gestion énergétique, la mobilité électrique, la maintenance informatique, le système d’information géographique et la protection des données.",
+                    "site": "https://www.territoiredenergie90.fr/"
+                },
+                {
+                    "nom": "Département du Territoire de Belfort",
+                    "role": "Action sociale, collèges, routes départementales",
+                    "texte": "Le conseil départemental intervient sur l’action sociale, les collèges et les routes départementales qui traversent la commune.",
+                    "site": "https://www.territoiredebelfort.fr/"
+                }
+            ]
+        },
+        {
+            "type": "texte",
+            "surtitre": "Le principe",
+            "titre": "Pourquoi ce partage",
+            "paragraphes": "<p>Une commune de trois cent cinquante habitants ne peut pas financer seule une station d’épuration, un centre de tri, un centre de loisirs ou un réseau de distribution électrique. Le transfert de ces compétences à des structures intercommunales est ce qui permet à un village de cette taille d’offrir les mêmes services qu’une ville.</p><p>En contrepartie, une part croissante des décisions se prend hors du conseil municipal, dans des assemblées où Angeot dispose d’un ou deux délégués. Les noms de ces délégués figurent sur la page des commissions.</p>",
+            "lien": {
+                "libelle": "Les délégués d’Angeot",
+                "url": "/commissions-et-comites"
+            }
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "titre": "Associations",
+    "meta": {
+        "description": "Les associations d’Angeot : Les Prés Jolis (théâtre), Les Marcheurs d’Angeot (randonnée), L’Angeloise (animations et décorations) et Pyxis (concerts)."
+    },
+    "hero": {
+        "surtitre": "Le village",
+        "titre": "Les associations",
+        "image": "assets/img/site/groupe-des-marcheurs.jpg",
+        "texte": "Quatre associations font vivre le village toute l’année."
+    },
+    "sous_titre": "Théâtre, randonnée, animations, concerts : dans un village de trois cent cinquante habitants, ce sont les associations qui tiennent le lien. Toutes accueillent de nouveaux membres, et toutes ont besoin de bras ponctuels autant que d’adhérents réguliers.",
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Votre association n’est pas ici ?",
+            "paragraphes": "<p>Cette page est ouverte aux associations qui exercent une activité à Angeot. Écrivez au secrétariat avec l’objet de l’association, ses contacts et deux ou trois lignes de présentation, et elle y sera ajoutée.</p><p>Les manifestations peuvent également être annoncées dans l’agenda du site.</p>",
+            "lien": {
+                "libelle": "Faire connaître son association",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "duo",
+            "id": "salle",
+            "surtitre": "Un outil commun",
+            "titre": "La salle Camille, d’abord pour elles",
+            "image": "assets/img/site/repas-de-la-marche-populaire.jpg",
+            "image_alt": "La salle Camille garnie de longues tablées lors du repas de la marche populaire",
+            "paragraphes": "<p>La salle communale est en priorité l’outil de travail des associations : la scène de théâtre y est montée de janvier à fin mars, les ateliers de décoration s’y tiennent le samedi matin d’automne, les concerts et les repas y prennent place le reste de l’année.</p><p>Leurs dates sont posées en premier dans le planning annuel — c’est pourquoi certains week-ends ne sont pas ouverts à la location.</p>",
+            "lien": {
+                "libelle": "Voir la salle Camille",
+                "url": "/salle-camille"
+            }
+        }
+    ]
+}

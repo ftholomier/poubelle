@@ -1,0 +1,13 @@
+{
+    "titre": "Actualités",
+    "meta": {
+        "description": "Les actualités de la commune d’Angeot : décisions du conseil, travaux, manifestations et informations pratiques."
+    },
+    "hero": {
+        "surtitre": "La vie du village",
+        "titre": "Actualités",
+        "image": "assets/img/site/ensemble-vocal-musique-a-la-volee.jpg",
+        "texte": "Ce qui se passe, et ce qui vient de se passer."
+    },
+    "sous_titre": "Les nouvelles de la commune : décisions du conseil, travaux, manifestations des associations, informations administratives. Le bulletin municipal, le « Tambour Macot », reprend l’essentiel une fois par an et va plus loin."
+}

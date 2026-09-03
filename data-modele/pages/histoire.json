@@ -1,0 +1,62 @@
+{
+    "titre": "Histoire & patrimoine",
+    "meta": {"description": "L’histoire d’Angeot : le château des comtes de Ferrette, l’église Saint-Sébastien, la tombe gravée du cimetière, le blason aux deux lions et les chemins de Saint-Jacques."},
+    "hero": {
+        "surtitre": "Le village",
+        "titre": "Histoire & patrimoine",
+        "image": "assets/img/site/eglise-saint-sebastien.jpg",
+        "texte": "Huit siècles de mentions écrites, et quelques énigmes."
+    },
+    "sous_titre": "Angeot apparaît dans les textes en 1234 sous le nom d’Angeth, et son église remonte au haut Moyen Âge — donc, a fortiori, le village. Les noms qu’il a portés racontent à eux seuls son histoire : Ingelsotz en 1350, Engelsoot en 1576, Ingelsod sous les Habsbourg.",
+    "sections": [
+        {
+            "type": "texte",
+            "id": "le-chateau",
+            "surtitre": "XIIIᵉ – XVIIᵉ siècle",
+            "titre": "Un château disparu dans les champs",
+            "paragraphes": "<p>Au XIII<sup>e</sup> siècle, Angeot possède un château que les comtes de Ferrette donnent en fief à une famille qui en prend le nom. Il leur appartient jusqu’en 1430, où une famille de Soultz l’obtient en gage. En 1538, le chancelier de l’abbaye de Murbach l’achète ; le château reste dans la mouvance des comtes de Ferrette.</p><p>Il est détruit lors des invasions suédoises de 1635, pendant la guerre de Trente Ans. Des ruines de ses fondations peuvent encore être aperçues dans les champs derrière la cure, le bâtiment situé derrière l’église actuelle.</p><p>Le nom du village vient peut-être de l’Aine, ancien nom de la Saint-Nicolas, le cours d’eau qui l’arrose.</p>"
+        },
+        {
+            "type": "texte",
+            "id": "la-paroisse",
+            "surtitre": "XIVᵉ – XVIIIᵉ siècle",
+            "titre": "Une paroisse qui couvrait dix villages",
+            "paragraphes": "<p>Au XIV<sup>e</sup> siècle, la paroisse d’Angeot est très étendue : elle regroupe Bretten, Eteimbes, Felon, Lagrange, Leval, Petitefontaine, Reppe, Romagny-sous-Rougemont et Rougemont-le-Château. En 1782, date à laquelle elle est détachée du diocèse de Bâle pour rejoindre celui de Besançon, elle ne comprend plus qu’Angeot et Petitefontaine.</p><p>Le 14 avril 1725, Angeot est l’épicentre d’un tremblement de terre dont l’intensité épicentrale atteint la magnitude 5.</p>"
+        },
+        {
+            "type": "duo",
+            "id": "1871",
+            "surtitre": "1871",
+            "titre": "Restée française d’une négociation",
+            "image": "assets/img/site/commemoration-au-monument-aux-morts.jpg",
+            "image_alt": "Élus, porte-drapeaux et habitants réunis devant le monument aux morts fleuri, l’église en arrière-plan",
+            "paragraphes": "<p>Angeot fait partie du département du Haut-Rhin jusqu’en 1871. Ultime concession arrachée à Bismarck, la commune — comme les autres communes orientales de ce qui deviendra le Territoire de Belfort — reste rattachée à la France, en échange de communes minières lorraines.</p><p>Le monument aux morts est décidé par le conseil municipal en 1919, en même temps qu’un banquet du souvenir. Les commémorations du 11 Novembre sont aujourd’hui organisées conjointement avec Lachapelle-sous-Rougemont et Petitefontaine.</p>"
+        },
+        {
+            "type": "texte",
+            "id": "patrimoine",
+            "surtitre": "À voir",
+            "titre": "Le patrimoine du village",
+            "chapo": "Rien de spectaculaire, et c’est justement ce qui fait le charme d’un village : il faut savoir où regarder.",
+            "liste": [
+                "L’église Saint-Sébastien, reconstruite entre 1840 et 1843, dont le clocher a été entièrement refait à partir de 1862. Un incendie en janvier 2014 a détérioré l’intérieur et détruit les installations électriques ; les cloches sont restées muettes plusieurs mois",
+                "La tombe gravée du cimetière, orientée à l’inverse de toutes les autres et ornée de têtes de mort, sans date, peut-être antérieure à 1800. La légende veut qu’un curé y soit enterré",
+                "L’enseigne de l’ancienne auberge du Cerf, datée de 1850. Le café Pétard, qui faisait restaurant à l’occasion, est fermé depuis 1995",
+                "Un des itinéraires des chemins de Saint-Jacques-de-Compostelle traverse la commune",
+                "Le blason communal, « d’argent à deux lions affrontés de sable », visible dans la salle Camille"
+            ]
+        },
+        {
+            "type": "citation",
+            "texte": "Le travail de l’historien repose sur l’étude des documents. Le document historique témoigne des traces laissées par le passé.",
+            "auteur": "Agnès Hassenboehler, qui partage sur ce site sa recherche sur Angeot autrefois"
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Angeot autrefois",
+            "paragraphes": "<p>Une recherche sur l’histoire du village et de ses environs est menée à partir des registres, des délibérations anciennes et de la presse locale : le recensement de 1911, la construction de l’école communale en 1874, la visite présidentielle du 19 novembre 1959, les extraits de la « feuille » de Belfort de juin 1859.</p><p>Si vous détenez des photographies, des cartes postales ou des documents anciens concernant Angeot, la commune est preneuse d’une copie.</p>",
+            "lien": {"libelle": "Écrire à la mairie", "url": "/demande-en-ligne"}
+        }
+    ]
+}

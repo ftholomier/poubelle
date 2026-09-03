@@ -1,0 +1,25 @@
+{
+    "titre": "Commissions & comités",
+    "meta": {
+        "description": "Les comités communaux d’Angeot — travaux, bois et forêt, communication, fleurissement, cimetière, salle communale — et les syndicats intercommunaux où la commune siège."
+    },
+    "hero": {
+        "surtitre": "La mairie",
+        "titre": "Commissions & comités",
+        "image": "assets/img/site/inauguration-des-salles-de-mairie.jpg",
+        "texte": "Qui prépare quoi, avant que le conseil ne décide."
+    },
+    "sous_titre": "Dans une commune de cette taille, il n’y a pas de services : ce sont des comités d’élus, parfois ouverts à des habitants, qui instruisent les dossiers et préparent les décisions du conseil. S’y ajoutent les syndicats intercommunaux, où Angeot délègue des compétences qu’elle ne peut pas exercer seule.",
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Participer à un comité",
+            "paragraphes": "<p>Plusieurs comités accueillent des habitants qui ne sont pas élus — le comité bois et forêt, le comité fleurissement, le CCAS. C’est le conseil municipal qui les nomme. Si vous souhaitez y prendre part, faites-le savoir au secrétariat.</p>",
+            "lien": {
+                "libelle": "Se faire connaître",
+                "url": "/demande-en-ligne"
+            }
+        }
+    ]
+}

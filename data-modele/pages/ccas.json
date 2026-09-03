@@ -1,0 +1,47 @@
+{
+    "titre": "CCAS",
+    "meta": {
+        "description": "Le centre communal d’action sociale d’Angeot : aide sociale de proximité, colis et repas des aînés, accompagnement des situations difficiles."
+    },
+    "hero": {
+        "surtitre": "Vos démarches",
+        "titre": "Le CCAS",
+        "image": "assets/img/site/reception-en-mairie.jpg",
+        "texte": "L’aide sociale de proximité, et la discrétion qui va avec."
+    },
+    "sous_titre": "Le centre communal d’action sociale est un établissement public distinct de la commune, présidé de droit par le maire et composé à parts égales d’élus et de membres nommés hors du conseil. Il intervient au plus près : c’est souvent lui qui voit une difficulté avant les grandes administrations.",
+    "sections": [
+        {
+            "type": "texte",
+            "surtitre": "Ce qu’il fait",
+            "titre": "Un premier recours, à côté de chez soi",
+            "liste": [
+                "Écouter et orienter vers le bon interlocuteur — département, CAF, MSA, caisse de retraite, assistante sociale de secteur",
+                "Aider à constituer un dossier d’aide sociale et le transmettre",
+                "Accorder des secours d’urgence, ponctuels, dans la limite de ses moyens",
+                "Porter attention aux personnes isolées, particulièrement en période de forte chaleur ou de grand froid",
+                "Organiser le colis et le repas des aînés"
+            ]
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Une demande reste confidentielle",
+            "paragraphes": "<p>Les membres du CCAS sont tenus à la discrétion. Une demande d’aide, une difficulté de paiement, une situation familiale ne sont connues que des personnes qui instruisent le dossier. C’est la condition pour que le dispositif serve à quelque chose dans un village de trois cent cinquante habitants.</p>",
+            "lien": {
+                "libelle": "Prendre contact",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "texte",
+            "surtitre": "Signaler",
+            "titre": "S’inquiéter pour un voisin",
+            "paragraphes": "<p>Si vous constatez qu’une personne âgée ou isolée de la commune ne donne plus signe de vie, ou paraît en difficulté, signalez-le au secrétariat : le CCAS ira voir. Un signalement de bonne foi ne vous engage à rien.</p><p>En cas de danger immédiat, appelez le 15 ou le 18 — pas la mairie.</p>",
+            "lien": {
+                "libelle": "Les numéros d’urgence",
+                "url": "/numeros-utiles"
+            }
+        }
+    ]
+}

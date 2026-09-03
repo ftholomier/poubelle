@@ -1,0 +1,37 @@
+{
+    "titre": "Budget communal",
+    "meta": {"description": "Le budget de la commune d’Angeot : budgets primitifs, comptes administratifs, comptes de gestion et comptes financiers uniques, à télécharger."},
+    "hero": {
+        "surtitre": "La mairie",
+        "titre": "Budget communal",
+        "image": "assets/img/site/inauguration-des-salles-de-mairie.jpg",
+        "texte": "Où va l’argent de la commune."
+    },
+    "sous_titre": "Le budget est voté chaque année par le conseil municipal, après un débat en séance publique. Vous trouverez ici les documents budgétaires successifs, pour disposer d’informations financières claires et lisibles.",
+    "sections": [
+        {
+            "type": "etapes",
+            "surtitre": "Comprendre",
+            "titre": "Trois documents, trois moments",
+            "chapo": "Les intitulés sont techniques ; ce qu’ils recouvrent l’est moins.",
+            "items": [
+                {"titre": "Le budget primitif", "texte": "Voté au printemps, il prévoit les recettes et les dépenses de l’année qui commence. C’est une autorisation de dépenser, pas une dépense constatée."},
+                {"titre": "Le compte administratif", "texte": "Voté l’année suivante, il constate ce qui a réellement été encaissé et dépensé. Le maire ne prend pas part au vote."},
+                {"titre": "Le compte financier unique", "texte": "Depuis son expérimentation, il fusionne le compte administratif de la commune et le compte de gestion du comptable public en un seul document."}
+            ]
+        },
+        {
+            "type": "texte",
+            "surtitre": "Section de fonctionnement, section d’investissement",
+            "titre": "Deux sections qui ne se mélangent pas",
+            "paragraphes": "<p>La section de fonctionnement porte les dépenses courantes : salaires, énergie, entretien, contributions aux syndicats intercommunaux, subventions aux associations. La section d’investissement porte ce qui augmente ou conserve le patrimoine communal : travaux de voirie, réfection de bâtiments, achats d’équipements.</p><p>Une commune ne peut pas voter un budget en déséquilibre, et ne peut pas emprunter pour financer son fonctionnement.</p>"
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Une question sur un chiffre ?",
+            "paragraphes": "<p>Le détail des comptes est consultable au secrétariat, et la commission des finances peut expliquer une ligne qui interroge. Écrivez au secrétariat en précisant l’exercice et le poste concernés.</p>",
+            "lien": {"libelle": "Poser la question", "url": "/demande-en-ligne"}
+        }
+    ]
+}

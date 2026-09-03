@@ -1,0 +1,49 @@
+{
+    "titre": "Démarches",
+    "meta": {
+        "description": "Toutes les démarches administratives à Angeot : état civil, carte d’identité, élections, urbanisme, salle communale, affouage. Ce que fait la mairie, et où aller quand elle ne le fait pas."
+    },
+    "hero": {
+        "surtitre": "Vos démarches",
+        "titre": "Démarches administratives",
+        "image": "assets/img/site/mairie-jour-d-inauguration.jpg",
+        "texte": "Ce que la mairie fait, ce qu’elle ne fait pas, et où s’adresser."
+    },
+    "sous_titre": "Douze fiches, classées par famille. Chacune dit le guichet compétent, les pièces à fournir, le délai et le coût, et renvoie au téléservice officiel quand il existe. Les règles administratives changent d’une année à l’autre : les fiches renvoient à service-public.fr, qui fait foi, plutôt que d’en recopier une version qui se périmerait ici.",
+    "familles": {
+        "etat-civil": {
+            "titre": "État civil et identité",
+            "texte": "Actes, titres d’identité, immatriculation : ce qui relève de votre état civil et de vos papiers."
+        },
+        "elections": {
+            "titre": "Élections et citoyenneté",
+            "texte": "S’inscrire, voter, donner procuration, se faire recenser à seize ans."
+        },
+        "urbanisme": {
+            "titre": "Urbanisme et travaux",
+            "texte": "Construire, agrandir, clore, ravaler : ce qu’il faut déclarer, et à qui."
+        },
+        "commune": {
+            "titre": "Services de la commune",
+            "texte": "Ce que la commune gère en propre : la salle Camille, l’affouage, la conciliation de proximité."
+        }
+    },
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Vous ne trouvez pas votre démarche ?",
+            "paragraphes": "<p>Le secrétariat répond au 03 84 23 84 87 aux heures d’ouverture, et par le formulaire en ligne le reste du temps. Il vous dira quel est le guichet compétent — ce qui, pour beaucoup de démarches, n’est pas la mairie.</p>",
+            "lien": {
+                "libelle": "Poser une question",
+                "url": "/demande-en-ligne"
+            }
+        },
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "Aucune démarche officielle ne se paie à un intermédiaire",
+            "paragraphes": "<p>Des sites imitent l’administration et facturent des « frais de dossier » pour des démarches gratuites. Les actes d’état civil, l’inscription électorale, le recensement citoyen et les procurations sont gratuits. Vérifiez toujours que l’adresse se termine par <strong>.gouv.fr</strong>.</p><p>Par téléphone comme à domicile, le service public ne fait jamais de démarchage : ne croyez pas les démarcheurs qui se réclament d’organismes publics.</p>"
+        }
+    ]
+}

@@ -1,0 +1,66 @@
+{
+    "titre": "Écrire à la mairie",
+    "meta": {
+        "description": "Adresser une demande à la mairie d’Angeot : acte d’état civil, réservation de la salle Camille, signalement de voirie, inscription à l’affouage, urbanisme."
+    },
+    "hero": {
+        "surtitre": "Nous joindre",
+        "titre": "Écrire à la mairie",
+        "image": "assets/img/site/reception-en-mairie.jpg",
+        "texte": "Une demande précise, traitée par le secrétariat."
+    },
+    "introduction": {
+        "titre": "Ce qui se passe après l’envoi",
+        "texte": "Une demande envoyée depuis ce formulaire arrive directement au secrétariat de mairie. Voici comment elle est traitée."
+    },
+    "etapes": [
+        {
+            "numero": "01",
+            "titre": "Votre demande arrive",
+            "texte": "Elle est reçue par le secrétariat, qui la lit à la première ouverture qui suit — mardi, jeudi après-midi ou vendredi. Rien n’est traité automatiquement."
+        },
+        {
+            "numero": "02",
+            "titre": "Le dossier est vérifié",
+            "texte": "Si une pièce manque ou si un point demande une précision, vous êtes recontacté par courriel ou par téléphone."
+        },
+        {
+            "numero": "03",
+            "titre": "La demande est instruite",
+            "texte": "Le secrétariat traite ce qui relève de la commune et transmet le reste au service compétent — Grand Belfort, syndicat du Tilleul, préfecture — en vous le disant."
+        },
+        {
+            "numero": "04",
+            "titre": "Vous recevez une réponse",
+            "texte": "Par courriel, par courrier ou par téléphone selon la nature du dossier. Les délais varient : quelques jours pour un acte, un mois pour une déclaration préalable de travaux."
+        }
+    ],
+    "sujets": [
+        "Acte de naissance, de mariage ou de décès",
+        "État civil — autre demande",
+        "Inscription sur les listes électorales",
+        "Recensement citoyen à seize ans",
+        "Réservation de la salle Camille",
+        "Inscription à l’affouage",
+        "Urbanisme et travaux",
+        "Signalement de voirie ou d’éclairage public",
+        "Déchets, bacs et déchèterie",
+        "Cimetière et concessions",
+        "Inscription scolaire",
+        "Vie associative et agenda",
+        "Autre demande"
+    ],
+    "formulaire": {
+        "titre": "Votre demande",
+        "texte": "Décrivez votre demande en quelques lignes. Plus elle est précise — une rue pour un signalement, une date pour une réservation, un nom et une date pour un acte —, plus la réponse est rapide.",
+        "mention": "Les informations recueillies sont utilisées par le secrétariat de mairie pour traiter votre demande, et pour cela seulement. Elles ne sont ni cédées ni utilisées à d’autres fins. Vous pouvez demander à y accéder, à les rectifier ou à les faire supprimer."
+    },
+    "sections": [
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "Ne transmettez jamais certaines pièces par ce formulaire",
+            "paragraphes": "<p>Aucune démarche communale ne réclame votre numéro de sécurité sociale, vos coordonnées bancaires ni une copie de votre pièce d’identité par un formulaire en ligne. Si un document de ce type est nécessaire, le secrétariat vous indiquera comment le remettre.</p>"
+        }
+    ]
+}

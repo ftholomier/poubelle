@@ -1,0 +1,141 @@
+{
+    "titre": "Au quotidien",
+    "meta": {
+        "description": "La vie pratique à Angeot : déchets, horaires de bruit, déchets verts, gardes champêtres, chemins de randonnée, école et transports."
+    },
+    "hero": {
+        "surtitre": "Au quotidien",
+        "titre": "À Angeot au quotidien",
+        "image": "assets/img/site/rue-principale.jpg",
+        "texte": "Les règles de bon voisinage, et les services du secteur."
+    },
+    "sous_titre": "Ce qui se règle sans passer par la mairie, et ce qui a besoin d’être rappelé une fois par an — les horaires de tonte, les bennes à déchets verts, les jours de collecte.",
+    "sections": [
+        {
+            "type": "cartes",
+            "items": [
+                {
+                    "titre": "Gérer mes déchets",
+                    "texte": "Jours de collecte, déchèteries, badge d’accès, encombrants et déchets verts.",
+                    "icone": "dechets",
+                    "lien": {
+                        "libelle": "Voir la rubrique",
+                        "url": "/gerer-mes-dechets"
+                    }
+                },
+                {
+                    "titre": "Vie scolaire",
+                    "texte": "L’école, le syndicat du Tilleul, la cantine, le périscolaire et les transports.",
+                    "icone": "ecole",
+                    "lien": {
+                        "libelle": "Voir la rubrique",
+                        "url": "/vie-scolaire"
+                    }
+                },
+                {
+                    "titre": "Intercommunalité",
+                    "texte": "Grand Belfort, le Syndicat du Tilleul, Territoire d’énergie 90 : qui fait quoi.",
+                    "icone": "mairie",
+                    "lien": {
+                        "libelle": "Voir la rubrique",
+                        "url": "/intercommunalite"
+                    }
+                },
+                {
+                    "titre": "Liens utiles",
+                    "texte": "Administrations, services, transports, cadastre et informations locales.",
+                    "icone": "information",
+                    "lien": {
+                        "libelle": "Voir la rubrique",
+                        "url": "/liens-utiles"
+                    }
+                },
+                {
+                    "titre": "Numéros utiles",
+                    "texte": "Urgences, santé, dépannage des réseaux et services du secteur.",
+                    "icone": "urgence",
+                    "lien": {
+                        "libelle": "Voir la rubrique",
+                        "url": "/numeros-utiles"
+                    }
+                },
+                {
+                    "titre": "La salle Camille",
+                    "texte": "Louer la salle communale : capacité, tarifs et conditions.",
+                    "icone": "association",
+                    "lien": {
+                        "libelle": "Voir la rubrique",
+                        "url": "/salle-camille"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "tableau",
+            "id": "bruit",
+            "titre": "Les horaires du bruit",
+            "chapo": "Avec le retour du soleil, chacun profite du grand air : pelouses, haies et jardins réclament des travaux saisonniers. Pour le bien-être de tous, l’usage des appareils bruyants — tondeuse, débroussailleuse, tronçonneuse, motoculteur — est encadré par arrêté préfectoral.",
+            "entetes": [
+                "Jour",
+                "Créneaux autorisés"
+            ],
+            "lignes": [
+                {
+                    "libelle": "Jours ouvrables",
+                    "valeurs": [
+                        "8 h 30 – 12 h",
+                        "14 h 30 – 19 h 30"
+                    ]
+                },
+                {
+                    "libelle": "Samedi",
+                    "valeurs": [
+                        "9 h – 12 h",
+                        "14 h – 19 h"
+                    ]
+                },
+                {
+                    "libelle": "Dimanches et jours fériés",
+                    "valeurs": [
+                        "10 h – 12 h"
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "texte",
+            "id": "dechets-verts",
+            "surtitre": "Jardinage",
+            "titre": "Que faire des déchets verts",
+            "paragraphes": "<p>Ne jetez pas les déchets de taille ni de tonte dans les caniveaux, les fossés communaux ni le long des chemins de champs : ils bouchent les écoulements, et le premier orage les ramène dans les rues.</p><p>Deux bennes à déchets verts sont accessibles à proximité, à Larivière (direction Lagrange) et à Fontaine (direction Frais). Conformez-vous aux recommandations affichées sur place pour n’y déposer que des matériaux recyclables.</p>",
+            "lien": {
+                "libelle": "En savoir plus sur les déchets",
+                "url": "/gerer-mes-dechets"
+            }
+        },
+        {
+            "type": "encadre",
+            "ton": "alerte",
+            "intitule": "Le brûlage des déchets verts est interdit",
+            "paragraphes": "<p>Le brûlage à l’air libre des tontes, tailles de haies, débroussaillements et autres déchets verts est interdit toute l’année. Il dégage des particules fines en quantité — brûler cinquante kilos de végétaux émet autant de particules que des milliers de kilomètres parcourus en voiture — et il met le feu aux haies et aux lisières bien plus souvent qu’on ne le croit.</p>"
+        },
+        {
+            "type": "texte",
+            "id": "randonnee",
+            "surtitre": "Se promener",
+            "titre": "Les chemins de randonnée",
+            "paragraphes": "<p>Le circuit n° 7, « Le Haut Bois », a été tracé du temps de la communauté de communes du Tilleul et fait le tour des bois de la commune. D’autres circuits parcourent les communes alentour ; le Grand Belfort en publie les itinéraires.</p><p>Un des chemins de Saint-Jacques-de-Compostelle traverse également Angeot.</p>",
+            "lien": {
+                "libelle": "Les circuits du Grand Belfort",
+                "url": "https://www.grandbelfort.fr/"
+            }
+        },
+        {
+            "type": "texte",
+            "id": "gardes-champetres",
+            "surtitre": "Sécurité",
+            "titre": "Les gardes champêtres",
+            "paragraphes": "<p>Les gardes champêtres du Grand Belfort Communauté d’Agglomération interviennent sur le territoire de la commune. Ils sont dotés de caméras individuelles servant à enregistrer leurs interventions lorsqu’un incident se produit ou est susceptible de se produire.</p><p>L’enregistrement n’est pas permanent : il est déclenché par l’agent, qui doit en informer les personnes filmées sauf si les circonstances l’interdisent.</p>"
+        }
+    ]
+}

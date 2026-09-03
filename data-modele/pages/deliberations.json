@@ -1,0 +1,39 @@
+{
+    "titre": "Délibérations & arrêtés",
+    "meta": {"description": "Délibérations du conseil municipal et arrêtés du maire d’Angeot : ce qu’ils sont, où les consulter et comment en obtenir copie."},
+    "hero": {
+        "surtitre": "La mairie",
+        "titre": "Délibérations & arrêtés",
+        "image": "assets/img/site/mairie-jour-d-inauguration.jpg",
+        "texte": "Les actes de la commune, et où les consulter."
+    },
+    "sous_titre": "Une délibération est une décision prise par le conseil municipal réuni en séance ; un arrêté est une décision prise par le maire seul, dans le cadre de ses pouvoirs propres. Les deux sont des actes publics : chacun peut les consulter.",
+    "sections": [
+        {
+            "type": "texte",
+            "id": "deliberations",
+            "surtitre": "Le conseil décide",
+            "titre": "Les délibérations",
+            "paragraphes": "<p>Le conseil municipal règle par ses délibérations les affaires de la commune : le budget, les emprunts, les travaux, la gestion de la forêt communale, les tarifs de la salle, le personnel, les conventions avec les autres collectivités.</p><p>Chaque délibération devient exécutoire une fois transmise au contrôle de légalité de la préfecture et publiée. Le registre des délibérations est tenu en mairie.</p>",
+            "liste": [
+                "Les séances sont publiques et annoncées par affichage",
+                "L’ordre du jour est affiché au moins trois jours francs avant la séance",
+                "Le registre est consultable librement au secrétariat"
+            ]
+        },
+        {
+            "type": "texte",
+            "id": "arretes",
+            "surtitre": "Le maire décide",
+            "titre": "Les arrêtés municipaux",
+            "paragraphes": "<p>Le maire prend des arrêtés au titre de ses pouvoirs de police — circulation, stationnement, sécurité, salubrité, bruit — et au titre des compétences que le conseil lui a déléguées.</p><p>Les arrêtés sont affichés en mairie et consultables au secrétariat aux heures d’ouverture.</p>"
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Obtenir la copie d’un acte",
+            "paragraphes": "<p>Toute personne peut demander copie d’une délibération ou d’un arrêté, sans avoir à motiver sa demande : c’est un droit garanti par le code des relations entre le public et l’administration. Précisez la date de la séance ou l’objet de l’acte pour que le secrétariat le retrouve.</p>",
+            "lien": {"libelle": "Demander un acte", "url": "/demande-en-ligne"}
+        }
+    ]
+}

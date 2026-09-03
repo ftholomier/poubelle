@@ -1,0 +1,145 @@
+{
+    "titre": "Album photos",
+    "meta": {
+        "description": "L’album photos d’Angeot : décorations de Noël, fleurissement, concerts de Pyxis, commémorations, marche populaire et vide-grenier."
+    },
+    "hero": {
+        "surtitre": "Le village",
+        "titre": "Album photos",
+        "image": "assets/img/site/decorations-de-noel-dans-le-village.jpg",
+        "texte": "Ce que le village fabrique, plante, chante et commémore."
+    },
+    "sous_titre": "Les photographies de l’album sont prises par les bénévoles et les élus au fil des manifestations. Elles sont libres de droit : servez-vous, et envoyez les vôtres au secrétariat si vous souhaitez qu’elles rejoignent l’album.",
+    "sections": [
+        {
+            "type": "texte",
+            "id": "decorations",
+            "surtitre": "Chaque hiver",
+            "titre": "Les décorations du village"
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/casse-noisettes-dans-le-village.jpg",
+            "image_alt": "Deux casse-noisettes grandeur nature, peints de couleurs vives, dressés sur une pelouse du village",
+            "legende": "Les casse-noisettes de l’Angeloise, installés début décembre."
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/lutin-de-noel-sous-la-neige.jpg",
+            "image_alt": "Un lutin de Noël au bonnet vert pointu, fabriqué par les bénévoles, planté dans l’herbe enneigée",
+            "legende": "Un lutin dans la neige, un hiver de décorations."
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/decor-alice-au-pays-des-merveilles.jpg",
+            "image_alt": "Une carte à jouer géante peinte à la main, posée dans l’herbe au pied d’un arbre",
+            "legende": "L’année où le thème retenu fut Alice au pays des merveilles."
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/atelier-des-decorations.jpg",
+            "image_alt": "Des bénévoles peignent et assemblent les décorations autour d’une table de la salle communale",
+            "legende": "Les samedis matins d’atelier, à la salle Camille."
+        },
+        {
+            "type": "texte",
+            "id": "fleurissement",
+            "surtitre": "Chaque printemps",
+            "titre": "Le fleurissement"
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/fleurissement-place-du-village.jpg",
+            "image_alt": "Des habitants plantent des fleurs dans un massif circulaire au bord de la route, devant les maisons du village",
+            "legende": "La plantation des massifs de la traversée du village."
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/plantation-des-tulipes.jpg",
+            "image_alt": "Deux habitants agenouillés plantent des tulipes rouges dans un massif de gravier au bord de la route",
+            "legende": "Les tulipes, plantées à l’automne, fleuries au printemps."
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/arche-fleurie-benevoles.jpg",
+            "image_alt": "Des bénévoles achèvent une arche de bois fleurie au bord de la chaussée, devant une ferme du village",
+            "legende": "L’arche fleurie de la rue principale."
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/decorations-de-paques.jpg",
+            "image_alt": "Des poussins et des œufs peints décorent un massif au printemps",
+            "legende": "Les décorations de Pâques, autre rendez-vous des bénévoles."
+        },
+        {
+            "type": "texte",
+            "id": "concerts",
+            "surtitre": "Toute l’année",
+            "titre": "Concerts et spectacles"
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/ensemble-vocal-musique-a-la-volee.jpg",
+            "image_alt": "Quatre choristes vêtus de noir chantent partition en main devant un pupitre",
+            "legende": "« Musique à la volée », le concert d’automne de Pyxis."
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/duo-de-violons.jpg",
+            "image_alt": "Deux violonistes jouent côte à côte devant une tenture fleurie",
+            "legende": "Un programme pour deux violons sans basse, salle Camille."
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/concert-a-la-salle-camille.jpg",
+            "image_alt": "Le public assis en rangs dans la salle Camille pendant un concert",
+            "legende": "La salle Camille en configuration concert."
+        },
+        {
+            "type": "texte",
+            "id": "commemorations",
+            "surtitre": "11 Novembre, 8 Mai",
+            "titre": "Les commémorations"
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/commemoration-au-monument-aux-morts.jpg",
+            "image_alt": "Élus, porte-drapeaux et habitants réunis devant le monument aux morts fleuri, l’église en arrière-plan",
+            "legende": "La commémoration du 11 Novembre, organisée avec Lachapelle-sous-Rougemont et Petitefontaine."
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/enfants-aux-drapeaux.jpg",
+            "image_alt": "Des enfants tiennent de petits drapeaux tricolores devant les croix fleuries du carré militaire",
+            "legende": "Les enfants du village au carré militaire."
+        },
+        {
+            "type": "texte",
+            "id": "marche",
+            "surtitre": "Marche et vide-grenier",
+            "titre": "Les grands rendez-vous"
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/marcheurs-en-foret.jpg",
+            "image_alt": "Un groupe de marcheurs en anoraks colorés progresse sur un chemin forestier au printemps",
+            "legende": "La marche d’Angeot rassemble plus de mille participants."
+        },
+        {
+            "type": "photo",
+            "image": "assets/img/site/vide-grenier-rue-du-village.jpg",
+            "image_alt": "Des étals de vide-grenier alignés le long d’une rue du village bordée de haies",
+            "legende": "Le vide-grenier de l’Angeloise, dans les rues du village."
+        },
+        {
+            "type": "encadre",
+            "ton": "info",
+            "intitule": "Vous avez des photos d’Angeot ?",
+            "paragraphes": "<p>Le secrétariat est preneur de photographies récentes comme anciennes : manifestations, travaux, paysages, cartes postales de famille. Précisez la date et le lieu, et si vous acceptez qu’elles soient publiées sur ce site.</p>",
+            "lien": {
+                "libelle": "Envoyer des photos",
+                "url": "/demande-en-ligne"
+            }
+        }
+    ]
+}

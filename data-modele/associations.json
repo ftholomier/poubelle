@@ -1,0 +1,62 @@
+{
+    "items": [
+        {
+            "slug": "les-pres-jolis",
+            "nom": "Les Prés Jolis",
+            "actif": true,
+            "icone": "association",
+            "objet": "Théâtre amateur, quatre représentations par an",
+            "image": "assets/img/site/salle-camille-interieur.jpg",
+            "image_alt": "La salle Camille pendant une représentation, charpente de bois apparente et public assis en rangs",
+            "paragraphes": "<p>La troupe des Prés Jolis fait monter sur scène des enfants, des adolescents et des adultes, et donne quatre représentations par an dans la salle Camille. La scène est montée au fond de la salle du premier week-end de janvier jusqu’au 30 mars — c’est la raison pour laquelle la capacité de la salle est réduite pendant cette période.</p><p>La troupe accueille de nouveaux comédiens, et aussi ceux qui préfèrent la régie, les décors ou les costumes.</p>",
+            "contacts": []
+        },
+        {
+            "slug": "les-marcheurs-d-angeot",
+            "nom": "Les Marcheurs d’Angeot",
+            "actif": true,
+            "icone": "association",
+            "objet": "Randonnée et sports populaires, affiliée à la FFSP",
+            "image": "assets/img/site/marcheurs-en-foret.jpg",
+            "image_alt": "Un groupe de marcheurs en anoraks colorés progresse sur un chemin forestier au printemps",
+            "paragraphes": "<p>Le club des randonneurs d’Angeot est affilié à la Fédération française des sports populaires. Son but est de promouvoir les sports populaires et de contribuer au maintien et à l’amélioration de la santé de tous les citoyens par le sport pour tous.</p><p>L’association organise chaque année la marche d’Angeot, qui rassemble plus de mille participants sur des parcours de plusieurs distances, dont un parcours adapté. Des marches en semaine complètent le calendrier fédéral.</p>",
+            "contacts": [
+                {"nom": "Patrick Paquot", "role": "Président", "email": "randonneurangeot@gmail.com"},
+                {"nom": "André Hirth et Jean Groboillot", "role": "Vice-présidents"},
+                {"nom": "Danielle Jolissaint", "role": "Secrétaire"},
+                {"nom": "Danielle Paquot", "role": "Trésorière"},
+                {"nom": "Chantal Hirth", "role": "Secrétaire et trésorière adjointe, responsable habillement"}
+            ]
+        },
+        {
+            "slug": "l-angeloise",
+            "nom": "L’Angeloise",
+            "actif": true,
+            "icone": "association",
+            "objet": "Animations, décoration du village, activités culturelles et sportives",
+            "image": "assets/img/site/atelier-des-casse-noisettes.jpg",
+            "image_alt": "Des bénévoles et un enfant posent dans la salle communale à côté d’un casse-noisettes grandeur nature en cours de fabrication",
+            "paragraphes": "<p>L’Angeloise, ancienne Association de gestion culturelle et sportive d’Angeot, a pour but de faciliter ou d’organiser des activités sportives, culturelles ou périscolaires à Angeot.</p><p>C’est elle qui décore le village. Un thème est retenu en septembre — Alice au pays des merveilles, les casse-noisettes, les lutins —, les décorations se fabriquent le samedi matin à la salle communale entre 10 h et 12 h, et sont installées début décembre aux différents endroits du village. Les enfants de moins de dix ans doivent être accompagnés d’un adulte.</p><p>L’association organise aussi le vide-grenier dans les rues du village, et presse les pommes du verger communal de la cure : une année, 180 litres de jus de pommes, vendus aux habitants et ajoutés au panier de Noël que la mairie offre aux aînés.</p>",
+            "contacts": [
+                {"nom": "Thierry Louvet", "role": "Président", "email": "association.angeloise@gmail.com"},
+                {"nom": "Cosette Tomacki", "role": "Trésorière"},
+                {"nom": "Karine Zielinski", "role": "Secrétaire"}
+            ]
+        },
+        {
+            "slug": "pyxis",
+            "nom": "Pyxis",
+            "actif": true,
+            "icone": "association",
+            "objet": "Concerts et éducation culturelle, « Musique à la volée »",
+            "image": "assets/img/site/duo-de-violons.jpg",
+            "image_alt": "Deux violonistes jouent côte à côte devant une tenture fleurie, dans la salle communale",
+            "paragraphes": "<p>Pyxis a été créée en 2014. Son premier concert a été donné à l’église du village le 3 octobre 2015, animé par la famille Verry et leurs amis. Intitulée « Musique à la volée », cette manifestation marquait le retour des sonneries de cloches, restées plusieurs mois muettes après l’incendie de janvier 2014 qui avait détérioré l’intérieur du bâtiment et détruit les installations électriques.</p><p>L’association se donne pour but de permettre à de jeunes artistes de se faire connaître et de favoriser leur engagement dans des structures culturelles et associatives, en proposant à des publics diversifiés des prestations de natures différentes mais de haut niveau artistique.</p><p>Le concert d’automne « Musique à la volée » revient chaque année à la salle Camille. Pyxis organise aussi, avec la mairie, la fête de la musique : rendez-vous devant la salle Camille, puis parcours musical itinérant si le temps le permet. Chacun est invité à participer avec sa voix, un instrument ou tout objet qui fait de la musique — tous les styles, tous les niveaux, tous les âges.</p>",
+            "contacts": [
+                {"nom": "Béatrice Verry", "role": "Présidente"},
+                {"nom": "François Verry", "role": "Secrétaire"},
+                {"nom": "Dominique Dupuis", "role": "Trésorier"}
+            ]
+        }
+    ]
+}
