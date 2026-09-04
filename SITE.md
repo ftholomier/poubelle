@@ -274,7 +274,7 @@ Tout part du serveur : aucun code de Meta n'est chargé sur le site, et
 `traceurs.py` reste à zéro.
 
 **Le journal d'erreurs de PHP est entré dans la boucle qualité.** Un neuvième
-auditeur, `outils/verifs/alertes.py`, parcourt les 51 pages et les 26 écrans du
+auditeur, `outils/verifs/alertes.py`, parcourt les 51 pages et les 29 écrans du
 back-office et lit ce que PHP dit tout bas. Il a trouvé trois défauts
 silencieux le jour où il a existé — voir § 9.
 
@@ -293,7 +293,7 @@ six couples de couleurs dont quatre volontairement illisibles, les cinq
 animations, les quatre coins du rythme et le rappel au défilement —
 251 réglages.
 
-Ce septième auditeur a immédiatement trouvé ce qu'aucun des six autres ne
+Cet auditeur-là a immédiatement trouvé ce qu'aucun des autres ne
 pouvait voir : **le libellé livré était à 2,57:1.** La bulle composait l'encre
 sur la couleur de marque depuis toujours, et l'assistant étant éteint tant
 qu'aucune clé n'est renseignée, elle n'était dans aucune des pages mesurées.
@@ -357,49 +357,61 @@ chaque ligne se règle depuis le back-office.
    nouvelle équipe est installée : Contenu → Conseil municipal, puis
    Commissions & comités.
 4. **Vérifier les tarifs de la salle Camille** et les montants de caution :
-   ils sont repris du site précédent et sont votés par délibération.
+   ils sont repris du site précédent et sont votés par délibération. Tant
+   qu'une délibération ne les confirme pas, ils engagent la commune sur des
+   montants qu'elle n'a peut-être plus votés.
+5. **Refaire passer chaque fiche de démarche devant service-public.fr, et
+   noter la date de ce contrôle.** Les fiches ont été écrites à partir des
+   règles en vigueur en 2026 ; les pièces, les seuils et les délais changent
+   d'une année à l'autre, et une fiche périmée envoie un administré au guichet
+   avec le mauvais dossier. Le contrôle vaut moins par son résultat que par sa
+   date : sans date, personne ne sait si la fiche a douze mois ou six ans.
+   Inscrire cette date dans le résumé de la fiche, ou dans le registre que
+   tient le secrétariat, et la refaire tous les ans.
 
 **Important :**
 
-5. **Les permanences du conciliateur de justice** (fiche « Saisir un
+6. **Les permanences du conciliateur de justice** (fiche « Saisir un
    conciliateur »). Elles changent : la page invite déjà à vérifier par
    téléphone, mais un contrôle annuel évite un déplacement pour rien.
-6. **Les jours de collecte des déchets.** Le calendrier du Grand Belfort est
+7. **Les jours de collecte des déchets.** Le calendrier du Grand Belfort est
    réédité chaque année ; la page décrit le rythme habituel et renvoie au
    calendrier en vigueur, qui fait foi.
-7. **Les publications.** La page « Publications » décrit le *Tambour Macot* et
+8. **Les publications.** La page « Publications » décrit le *Tambour Macot* et
    les *Angeot Info* mais ne porte aucun PDF : les déposer via Contenu →
    Documents, famille « publications ».
-8. **L'agenda.** Sept rendez-vous récurrents y figurent avec des dates
+9. **L'agenda.** Sept rendez-vous récurrents y figurent avec des dates
    plausibles reprises du rythme habituel des associations. **Les confirmer
    auprès de chaque association avant la mise en ligne** — une date fausse est
    pire qu'une date absente.
-9. **Les contacts d'associations.** Les noms et adresses sont ceux publiés par
+10. **Les contacts d'associations.** Les noms et adresses sont ceux publiés par
    l'ancien site ; demander à chaque association si elle les maintient.
 
 **Souhaitable :**
 
-10. **Compléter l'album photos** avec des vues récentes du village : les
+11. **Compléter l'album photos** avec des vues récentes du village : les
     panoramas manquent, et ce sont eux qui portent le bandeau d'accueil.
-11. **Déposer les comptes-rendus manquants.** Deux séances annoncées par
+12. **Déposer les comptes-rendus manquants.** Deux séances annoncées par
     l'ancien site n'avaient pas de PDF en ligne (17 août 2021, 1ᵉʳ avril 2025).
-12. **Renseigner l'hébergeur** dans les mentions légales, § « Hébergement »,
+13. **Renseigner l'hébergeur** dans les mentions légales, § « Hébergement »,
     une fois le contrat pris.
 
 ---
 
 ## 9. Ce qui a été mesuré
 
-Les neuf auditeurs de `outils/verifs/` sont à zéro. Ce n'est pas une formalité :
+Les onze auditeurs de `outils/verifs/` sont à zéro. Ce n'est pas une formalité :
 ils mesurent le contraste réel de chaque texte peint à trois largeurs, les
 débordements et les cibles tactiles à cinq largeurs, l'absence de toute requête
 tierce avant consentement, le texte du bandeau sur chacune des six photos du
-diaporama forcée à son tour, l'en-tête aux deux bornes du réglage de taille
+diaporama forcée à son tour et le voile forcé à sa borne basse, l'en-tête aux deux bornes du réglage de taille
 du logo dans les deux modes de barre et les deux dispositions de menu, le
 site entier sous seize couleurs de commune différentes, et le bouton de
 l'assistant sous deux cent cinquante et un réglages, l'image fabriquée pour
-Instagram sous seize couleurs, et le journal d'erreurs de PHP sur les 51 pages
-publiques comme sur les 26 écrans du back-office.
+Instagram sous seize couleurs, le journal d'erreurs de PHP sur les 51 pages
+publiques comme sur les 29 écrans du back-office, ce que devient une
+publication quand un seul des deux réseaux répond, et ce que rend chaque écran
+d'édition quand on l'enregistre sans rien changer.
 
 Ce qu'ils ont attrapé sur ce site-ci, et qu'aucun œil n'avait vu :
 

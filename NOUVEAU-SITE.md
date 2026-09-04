@@ -354,6 +354,8 @@ python3 outils/verifs/couleur.py
 python3 outils/verifs/bulle.py
 python3 outils/verifs/vignette.py
 python3 outils/verifs/alertes.py
+php     outils/verifs/file.php
+python3 outils/verifs/aller-retour.py
 ```
 
 Voir § 4. **Tant qu'ils ne sont pas à zéro, le site n'est pas fini.**
@@ -368,19 +370,23 @@ main du client (SMTP, clés d'API, horaires).
 
 ## 4. Les auditeurs
 
-Neuf scripts dans `outils/verifs/`, qui sortent en code 1 s'ils trouvent
-quelque chose — branchables tels quels dans une chaîne d'intégration.
+Onze scripts dans `outils/verifs/`, qui sortent en code 1 s'ils trouvent
+quelque chose — branchables tels quels dans une chaîne d'intégration. Neuf
+pilotent un navigateur ; le dixième, en PHP, n'ouvre aucune page ; le onzième
+rejoue les formulaires du back-office.
 
 | Script | Ce qu'il mesure |
 |---|---|
 | `contraste.py` | Le contraste réel de chaque texte, à 390, 768 et 1440 px |
 | `mise-en-page.py` | Débordement horizontal, cibles tactiles < 44 px, unicité du `h1` et hiérarchie des titres, `alt` présents et non recopiés, lien d'évitement — à 320, 390, 768, 1024 et 1440 px |
 | `traceurs.py` | Requêtes tierces après refus du consentement (bonne valeur : zéro), et vérification que l'accord débloque bien le plan |
-| `bandeau.py` | Le texte du bandeau d'accueil sur **chaque** photo du diaporama forcée à son tour, à 390, 768 et 1440 px |
+| `bandeau.py` | Le texte du bandeau d'accueil sur **chaque** photo du diaporama forcée à son tour, à 390, 768 et 1440 px, **le voile forcé à sa borne basse** (`Bandeau::VOILE_MINI`, lue dans le PHP) et non à la valeur du jour |
 | `entete.py` | L'en-tête aux **bornes du réglage de taille du logo**, dans les deux modes de barre et les deux dispositions de menu : débordement, déformation, chevauchement du burger, cible tactile |
 | `couleur.py` | Le contraste de six pages représentatives sous **douze teintes de la roue** plus quatre cas limites, en réglant tour à tour la couleur de la commune |
 | `vignette.py` | L'image carrée fabriquée pour Instagram, sous **chaque couleur de commune** : contraste du texte mesuré sur les pixels du JPEG |
-| `alertes.py` | Le **journal d'erreurs de PHP**, sur les 51 pages et les 26 écrans du back-office : ce qu'une alerte ne montre jamais dans la page |
+| `alertes.py` | Le **journal d'erreurs de PHP**, sur les 51 pages et les 29 écrans du back-office : ce qu'une alerte ne montre jamais dans la page. Il vérifie aussi que ses deux inventaires écrits à la main — les écrans à visiter, et `Seo::CONTENUS` — n'ont pas pris de retard sur les routes et les pages réelles |
+| `aller-retour.py` | Chaque **écran d'édition enregistré sans rien changer**, le formulaire rejoué tel que la page le rend : le JSON de contenu ne doit pas maigrir |
+| `file.php` | La **file de publication** quand un seul réseau répond : ce qui reste en file, ce qui est rejoué, ce que dit le journal, le verrou de dépilage, le recul entre deux essais, et l'assemblage du message avant mesure. Une doublure tient lieu de Meta, aucune requête ne sort |
 | `bulle.py` | Le bouton de l'assistant sous **les cinq formes, les bornes de taille, six couples de couleurs, les cinq animations, les quatre coins de leur rythme et le rappel au défilement** — contraste, cible tactile, débordement, nom accessible, budget de mouvement, réglage servi conforme au réglage demandé, respect du réglage système « moins d'animations », et aucun appel réseau bulle allumée |
 
 ### Pourquoi quatre auditeurs de plus, pour un diaporama et trois réglages
@@ -422,7 +428,7 @@ le contraste exigé sur le fond où il sert. Si ce script trouve un écart, c'es
 une cible de contraste à corriger dans `Charte`, jamais la couleur choisie par
 la mairie.
 
-`bulle.py`, enfin, ajoute un cas que les six autres ne pouvaient pas voir, et
+`bulle.py`, enfin, ajoute un cas que les autres ne pouvaient pas voir, et
 c'est celui qui mérite le plus d'attention : **un réglage qui décide de la
 PRÉSENCE d'un élément cache cet élément aux auditeurs.** L'assistant est
 éteint tant qu'aucune clé n'est renseignée ; la bulle n'est donc dans aucune
@@ -467,11 +473,11 @@ contrôle qui n'a jamais échoué n'est pas encore un contrôle.
 Cherchez les autres réglages de ce genre avant de livrer : tout ce qui peut
 être éteint est invisible à la mesure tant que quelqu'un ne l'allume pas.
 
-### Et deux auditeurs qui ne regardent pas la page
+### Et quatre auditeurs qui ne regardent pas la page
 
 `vignette.py` mesure une **image**, pas une page : le carré fabriqué pour
 Instagram quand une publication n'a pas de photo. C'est du texte sur un aplat
-qui suit la couleur de la commune, donc du contraste, et aucun des sept autres
+qui suit la couleur de la commune, donc du contraste, et aucun des autres
 ne peut le voir puisque ce n'est pas un document HTML. Il lit les pixels du
 JPEG : le fond est l'aplat le plus fréquent, les encres sont les couleurs
 assez présentes pour former un caractère. Il a trouvé le sur-titre à 3,18:1
@@ -505,6 +511,41 @@ Ce qu'il a trouvé en trois minutes, le jour où il a existé :
 Les trois étaient silencieux, et deux étaient là depuis des semaines. **Ce qui
 ne se voit pas dans la page doit être mesuré là où il se voit.**
 
+`file.php` va au bout de cette idée : il ne regarde **rien du tout**. Il
+mesure une décision — ce que devient une publication quand Facebook accepte et
+qu'Instagram refuse. Cette branche n'existe qu'en production, elle demande deux
+comptes Meta connectés et une panne de l'un des deux, donc personne ne
+l'atteint jamais. Elle était fausse : la publication était retirée de la file
+et inscrite au journal comme réussie, Instagram n'était jamais retenté, et la
+mairie croyait avoir publié partout.
+
+Ce qui l'a rendue mesurable tient en une interface de trois méthodes,
+`Publicateur`, que `Reseaux` implémente et qu'une doublure de trente lignes
+implémente aussi. Aucune requête ne sort, les vingt-huit mesures tiennent en
+deux secondes, et il n'a fallu rien changer d'autre à l'architecture.
+
+**Règle générale : une branche qu'on ne peut atteindre qu'en production doit
+avoir sa doublure.** Nommer la dépendance en interface coûte dix lignes ; ne
+pas la nommer coûte une publication fantôme dont personne ne saura rien.
+
+`aller-retour.py` regarde le dernier angle mort : ce qu'un écran d'édition
+**écrit**, et non ce qu'il affiche. Un formulaire dont un `name=` ne
+correspond plus à ce que le contrôleur relit s'ouvre parfaitement, ne produit
+aucune erreur, et vide simplement la clé au premier enregistrement. Le script
+crée un compte dans un `data/` neuf, rejoue chaque formulaire **tel que la
+page le rend** — sans rien changer —, et compte les valeurs non vides du JSON
+avant et après. Rejouer le rendu, et non des champs devinés, est tout
+l'intérêt : c'est le seul moyen de voir l'écart de nom.
+
+Le jour où il a existé, il a trouvé une erreur 500 sur l'enregistrement de la
+page d'accueil, invisible à l'affichage : une classe utilisée sans son `use`.
+
+**Ajoutez-y tout écran d'édition que vous créez.** Un écran absent de sa liste
+n'est pas vérifié, et c'est exactement ainsi que le défaut revient.
+
+Il travaille dans **son propre `data/`**, désigné par la variable `APP_DATA` —
+pour une raison payée comptant : c'est le dixième piège de mesure, ci-dessous.
+
 ### Comment `contraste.py` mesure
 
 Deux méthodes, parce qu'aucune ne suffit :
@@ -518,7 +559,7 @@ Deux méthodes, parce qu'aucune ne suffit :
 On retient **le pire pixel** de la zone, jamais la moyenne : un titre dont un
 seul mot passe sur une éclaircie est illisible sur ce mot-là.
 
-### Huit pièges de mesure, tous rencontrés
+### Dix pièges de mesure, tous rencontrés
 
 Un auditeur naïf rend des résultats faux **dans les deux sens**, ce qui est
 pire qu'aucun audit — et les trois derniers de cette liste produisaient à eux
@@ -562,12 +603,31 @@ gardez tous ces points :
    mesure ou non se décide au cas par cas : effacer la barre en tranche zéro
    perdrait son propre texte, qui n'est mesurable que sur la photo ; effacer
    la bulle ne perd rien, son fond étant opaque.
-8. **`alt=""` n'est pas un oubli.** C'est la déclaration correcte d'une image
+8. **Ne mesurez pas un réglage à sa valeur du jour.** C'est le piège qui a
+   coûté le plus cher, parce qu'il ne produit aucun faux écart : il produit un
+   vrai écart *manqué*. Le voile du bandeau, réglable de 0 à 100, était mesuré
+   à sa valeur en cours ; la borne basse du curseur, elle, n'avait jamais été
+   servie à personne. L'auditeur force désormais cette borne, lue dans la
+   constante PHP plutôt que recopiée — sans quoi les deux divergent, et c'est
+   la copie qui a raison le jour où l'on regarde. La règle vaut pour tout
+   curseur, toute liste de choix, tout interrupteur laissé à la mairie.
+
+9. **`alt=""` n'est pas un oubli.** C'est la déclaration correcte d'une image
    décorative — un logo posé à côté du nom écrit en toutes lettres. Seul un
    attribut *absent* est un défaut. De même, un fichier nommé d'après son
    sujet donne un `alt` légitime qui ressemble au nom du fichier : ce qui
    trahit un `alt` recopié, c'est sa forme (un slug sans espace, une extension
    restée dedans), pas sa ressemblance.
+
+10. **Un auditeur ne doit rien écrire que les autres lisent.** Plusieurs
+    forcent un réglage en écrivant dans `data/` — la teinte pour `couleur.py`,
+    l'assistant pour `bulle.py`. Le premier `aller-retour.py` y faisait le
+    ménage pour partir d'un contenu propre : lancé pendant que `bulle.py`
+    tournait, il a fait disparaître le bouton que celui-ci mesurait, et rendu
+    deux écarts « bulle absente » qui ne venaient pas du site. Sur un poste de
+    développement, il aurait détruit le contenu saisi. Un auditeur qui a besoin
+    d'un contenu neuf prend **son propre dossier** — d'où la variable
+    `APP_DATA` de `config/config.php`.
 
 Et une règle de conduite : **n'affaiblissez jamais un seuil pour faire passer
 une page.** Corrigez la page, ou corrigez le script en expliquant pourquoi.
@@ -663,7 +723,7 @@ curl -s http://127.0.0.1:8081/sitemap.xml \
 # aucune alerte PHP
 curl -s http://127.0.0.1:8081/ | grep -ci "warning\|notice\|fatal"   # → 0
 
-# les neuf auditeurs
+# les onze auditeurs
 python3 outils/verifs/contraste.py && \
 python3 outils/verifs/mise-en-page.py && \
 python3 outils/verifs/traceurs.py && \
@@ -672,7 +732,9 @@ python3 outils/verifs/entete.py && \
 python3 outils/verifs/couleur.py && \
 python3 outils/verifs/bulle.py && \
 python3 outils/verifs/vignette.py && \
-python3 outils/verifs/alertes.py
+python3 outils/verifs/alertes.py && \
+php     outils/verifs/file.php && \
+python3 outils/verifs/aller-retour.py
 ```
 
 Puis, à la main, ce qu'aucun script ne voit :

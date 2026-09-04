@@ -303,6 +303,7 @@ l'apprenne.
 | `Bulle` | Forme, couleurs, libellé et taille du bouton de l'assistant ; la couleur du texte y est résolue de la même façon | oui |
 | `Reseaux` | Connexion OAuth à Meta et publication sur la Page Facebook et le compte Instagram | oui, en déclarant une application Meta |
 | `Publications` | File d'attente et journal des envois, écritures atomiques | oui |
+| `Publicateur` | L'interface que `Diffusion` attend d'un réseau : publier, lire un permalien. C'est elle qui rend la file vérifiable sans rien envoyer | oui |
 | `Diffusion` | Le seul chemin d'envoi : réunit Meta, la file et la fabrique d'image | oui |
 | `Vignette` | L'image carrée fabriquée quand une publication n'a pas de photo (GD) | oui, en fournissant blason PNG et police TTF |
 | `Verrou` / `ConflitEcriture` | Verrou optimiste : deux administrateurs sur le même écran ne s'effacent plus | oui |
@@ -545,6 +546,79 @@ pas d'alerte dans la page, juste une donnée qui n'arrive pas.
   s'enregistrer et l'on cherche du côté des droits pendant une heure. **Toute
   nouvelle section de réglages doit être déclarée dans `DEFAUTS`**, ce qui
   documente au passage ses valeurs livrées.
+
+
+**Trois défauts de la file de publication, du même genre : invisibles parce
+qu'on ne les atteint qu'en production.**
+
+- **`flashDonnees()` est consommé à la lecture.** La liste des Pages Facebook y
+  était rangée entre l'aller et le retour du dialogue Meta ; l'écran qui
+  affiche cette liste la lisait donc le premier, et le formulaire de choix
+  arrivait sur une session vide. Le choix échouait toujours — sauf quand le
+  compte n'administre qu'une seule Page, cas où elle est retenue sans passer
+  par l'écran, et c'est pourquoi l'essai manuel n'avait rien vu. **Un flash
+  sert à un message affiché une fois, jamais à un état qu'un formulaire
+  relira.**
+- **Deux déclencheurs valent deux envois.** La file est dépilée par la tâche
+  planifiée et par les visites du back-office. Rien n'empêchait les deux de
+  lire la même publication au même instant et de l'envoyer chacun de leur
+  côté. Les écritures atomiques n'y peuvent rien : elles garantissent qu'un
+  fichier n'est pas coupé en deux, pas qu'une ligne n'est lue qu'une fois. Il
+  faut un `flock(LOCK_EX | LOCK_NB)`, et celui qui arrive second s'en va.
+- **« Au moins un identifiant » n'est pas « tout est parti ».** Facebook
+  accepté et Instagram refusé, la publication était retirée de la file et
+  inscrite au journal comme réussie. Instagram n'était jamais retenté et
+  personne ne l'apprenait. La condition de sortie de file est l'absence de
+  motif d'échec, pas la présence d'un succès.
+
+**Compter les essais ne remplace pas un délai entre eux.** Trois essais faits
+dans la même minute, parce que trois écrans ont été ouverts coup sur coup,
+épuisent le quota sans rien tenter de neuf. Un recul croissant — cinq minutes,
+puis trente, puis deux heures — donne à la panne le temps de passer.
+
+**Un service extérieur appelé à l'affichage d'un écran doit être bridé deux
+fois.** Le dépilage greffé sur `/admin/reseaux` relançait un appel à Meta à
+chaque rafraîchissement : Meta injoignable, l'écran attendait le délai réseau
+avant de s'afficher — et c'est justement l'écran où l'on vient voir ce qui ne
+va pas. Il faut un repos entre deux tentatives *et* un plafond sur le nombre
+d'envois par affichage.
+
+**Un texte assemblé en deux temps ne peut pas être compté.** Le lien était
+ajouté au moment de préparer, le titre au moment d'envoyer, et la coupe aux
+2 000 caractères tombait après les deux ; le compteur de l'écran, lui, ne
+comptait que le corps du texte. On lisait « 1 990 / 2 000 » et le message
+partait coupé en pleine phrase. **Un seul assemblage, une seule mesure**, et
+le compteur du navigateur refait exactement le même.
+
+**Deux points d'entrée d'une même API n'acceptent pas les mêmes champs.** Chez
+Meta, `/feed` prend un `link` dont il tire un aperçu ; `/photos` ne connaît
+qu'une légende. Une publication illustrée renvoyant vers le site perdait donc
+son adresse — c'est-à-dire tout son objet. Vérifier champ par champ, jamais
+par analogie.
+
+**Un auditeur qui écrit dans `data/` en écrase un autre.** Le premier
+`aller-retour.py` remettait `data/` à zéro pour partir d'un contenu propre.
+Lancé pendant que `bulle.py` tournait — celui-ci allume l'assistant en
+écrivant dans `data/admin/parametres.json` —, il a fait disparaître le bouton
+que l'autre mesurait : deux écarts « bulle absente » qui ne venaient pas du
+site. Sur un poste de développement, il aurait détruit le contenu saisi. Un
+auditeur qui a besoin d'un contenu neuf doit prendre **son propre dossier**,
+d'où la variable `APP_DATA` de `config/config.php`.
+
+**Un inventaire écrit à la main prend du retard sans le dire.** Deux listes de
+ce dépôt sont tenues à la main : les écrans du back-office que `alertes.py`
+visite, et `Seo::CONTENUS`, où l'on réécrit les liens internes quand un slug
+change. La première avait oublié trois écrans, dont l'écran Identité du site :
+jamais visités, donc jamais mesurés. Confrontez chaque inventaire à ce qu'il
+prétend inventorier — les routes déclarées, les fichiers présents — plutôt que
+d'espérer que quelqu'un pense à le compléter.
+
+**Une valeur héritée du socle survit à tout, parce qu'elle ne casse rien.** Le
+`theme-color` de l'ancien site, le nom d'une menuiserie dans le `.htaccess` et
+dans l'agent utilisateur, une clé `reservation` pour un bouton d'appel, un
+champ « Fondatrice » portant le nom du maire : rien de tout cela ne produit
+d'erreur, donc rien ne le signale. Faites la chasse au nom propre et à la
+couleur écrite en dur avant de livrer, ils ne sortiront jamais d'eux-mêmes.
 
 
 Cinq bugs réels de ce développement. Ils se reproduiront à l'identique sur un

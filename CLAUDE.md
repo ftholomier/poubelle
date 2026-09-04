@@ -101,7 +101,7 @@ rm -rf data/pages data/*.json data/admin storage/cache/* storage/sauvegardes/*
 
 ## La boucle qualité — non négociable
 
-Le niveau de ce projet ne vient pas du goût mais de la mesure. **Neuf
+Le niveau de ce projet ne vient pas du goût mais de la mesure. **Onze
 auditeurs, à faire passer avant de déclarer une tâche finie** :
 
 ```bash
@@ -110,13 +110,25 @@ php -S 127.0.0.1:8081 -t public &
 python3 outils/verifs/contraste.py       # contraste réel de chaque texte
 python3 outils/verifs/mise-en-page.py    # débordement, cibles, titres, alt
 python3 outils/verifs/traceurs.py        # aucune requête tierce sans accord
-python3 outils/verifs/bandeau.py         # chaque photo du diaporama, une à une
+python3 outils/verifs/bandeau.py         # chaque photo du diaporama, voile au plancher
 python3 outils/verifs/entete.py          # l'en-tête aux bornes du réglage du logo
 python3 outils/verifs/couleur.py         # le site sous chaque teinte de la roue
 python3 outils/verifs/bulle.py           # le bouton de l’assistant sous chacun de ses réglages
 python3 outils/verifs/vignette.py        # l’image fabriquée pour Instagram, sous chaque couleur
 python3 outils/verifs/alertes.py         # ce que PHP dit tout bas, et que la page ne montre pas
+php     outils/verifs/file.php           # la file de publication quand un seul réseau répond
+python3 outils/verifs/aller-retour.py    # enregistrer sans rien changer : le JSON ne doit pas maigrir
 ```
+
+Les deux derniers ne pilotent aucun navigateur : `file.php` mesure ce que
+devient une publication quand un seul réseau répond, `aller-retour.py` ce que
+rend un écran d'édition quand on l'enregistre sans rien changer.
+
+**Ne les lancez pas en parallèle sans y penser.** Plusieurs écrivent dans
+`data/` pour forcer un réglage — `couleur.py` la teinte, `bulle.py` l'assistant
+—, et deux qui s'y croisent se mesurent l'un l'autre. `aller-retour.py`, qui a
+besoin d'un contenu neuf, prend pour cela un dossier à lui (`APP_DATA`) plutôt
+que de faire le ménage dans celui du dépôt.
 
 Chacun sort en code 1 s'il trouve quelque chose. **Zéro écart, zéro souci,
 zéro hôte tiers** : c'est la définition de « fini » ici, pas une option.
@@ -138,7 +150,7 @@ animations d'appel, les quatre coins de leur rythme et le rappel au
 défilement. `vignette.py` mesure l'image carrée fabriquée pour Instagram sous
 chaque couleur de commune, en lisant ses pixels.
 
-**`alertes.py` est d'une autre nature, et c'est le plus utile des neuf.** Il
+**`alertes.py` est d'une autre nature, et c'est le plus utile des onze.** Il
 lit le **journal d'erreurs de PHP**, que personne ne lisait : une alerte ne
 sort pas dans la page, puisque `display_errors` est éteint en production — et
 doit l'être. La vérification que le socle proposait, `curl … | grep -ci
@@ -148,9 +160,29 @@ deux sections de contenu qui ne s'affichaient pas du tout, et une donnée
 passée à un gabarit qui n'y arrivait jamais.
 
 **Règle qui en découle : ce qui ne se voit pas dans la page doit être mesuré
-là où il se voit.** Le journal du serveur en fait partie.
+là où il se voit.** Le journal du serveur en fait partie, la file de
+publication aussi — d'où `file.php` —, et ce qu'un formulaire du back-office
+renvoie au disque, d'où `aller-retour.py`. Ni l'un ni l'autre n'ouvre de page.
 
-`bulle.py` a une raison de plus d'exister : **les six autres ne voient jamais
+**`aller-retour.py` mesure un enregistrement, pas un affichage.** Un écran
+d'édition qui s'ouvre bien peut très bien vider une clé au moment de
+l'enregistrer : il suffit qu'un `name=` du gabarit ne corresponde plus à ce
+que le contrôleur relit. Rien n'est signalé, la valeur arrive simplement vide.
+Le script rejoue chaque formulaire tel que la page le rend, sans rien changer,
+et compte les valeurs non vides du JSON avant et après. **Ajoutez-y tout écran
+d'édition que vous créez** : un écran absent de sa liste n'est pas vérifié.
+
+**`file.php` mesure une décision, pas un rendu.** Ce que fait la file quand
+Facebook accepte et qu'Instagram refuse ne s'affiche nulle part : il faut
+publier vraiment pour le voir, donc personne ne le voit jamais. La branche
+était fausse — la publication était retirée de la file et inscrite au journal
+comme réussie, Instagram n'était jamais retenté, et la mairie croyait avoir
+publié partout. Une doublure tient lieu de Meta, aucune requête ne sort, et
+les vingt-huit mesures tiennent en deux secondes. **Retenez-en la règle : une
+branche qu'on ne peut atteindre qu'en production doit avoir sa doublure, sans
+quoi elle n'est jamais exercée.**
+
+`bulle.py` a une raison de plus d'exister : **les autres ne voient jamais
 ce bouton.** L'assistant est éteint tant qu'aucune clé n'est renseignée, donc
 la bulle n'est pas dans la page qu'ils mesurent. C'est ce trou qui a laissé
 passer, pendant toute la vie du socle, un libellé à 2,57:1 — l'encre sur la
@@ -165,7 +197,11 @@ vus.
 
 **Règle qui en découle : tout réglage laissé à la mairie doit avoir son
 auditeur qui en force les bornes.** Un curseur dont on n'a mesuré que la valeur
-livrée est un défaut en attente, découvert en ligne par la mairie.
+livrée est un défaut en attente, découvert en ligne par la mairie. C'est ce qui
+a rattrapé le voile du bandeau : réglable de 0 à 100 et mesuré à sa seule
+valeur du jour, il laissait la mairie servir un titre blanc sur une photo
+claire. `bandeau.py` force désormais la borne basse sur chaque photo, et le
+curseur ne descend plus en dessous.
 
 Ce que ces scripts ont attrapé et qu'aucun œil n'avait vu : un texte à 4,36:1
 sur le fond crème, la couleur de marque à 2,16:1 sur l'anthracite, un
@@ -175,7 +211,7 @@ d'opacité du chapô de bandeau — 4,05:1 là où le blanc plein donne 4,9:1.
 
 **N'affaiblissez jamais un auditeur pour faire passer une page.** Si un
 résultat vous semble faux, c'est probablement un vrai faux positif — les
-huit pièges de mesure connus sont documentés dans `NOUVEAU-SITE.md`, § « Les
+dix pièges de mesure connus sont documentés dans `NOUVEAU-SITE.md`, § « Les
 auditeurs ». Corrigez le script en expliquant pourquoi, ne relevez pas le
 seuil.
 
@@ -204,3 +240,10 @@ Ouvrir un écran ne suffit pas : ce qui casse, c'est l'enregistrement. Un champ
 mal nommé vide une clé sans rien signaler. Après toute modification d'un écran
 d'édition, **enregistrez sans rien changer et comparez le JSON avant / après** :
 il ne doit pas maigrir.
+
+`outils/verifs/aller-retour.py` le fait tout seul, sur les écrans déclarés en
+tête du script — il rejoue le formulaire tel que la page le rend, ce qui est le
+seul moyen de voir qu'un `name=` du gabarit ne correspond plus à ce que le
+contrôleur relit. **Ajoutez-y tout écran d'édition que vous créez** : un écran
+absent de sa liste n'est pas vérifié, et c'est exactement ainsi que le défaut
+revient.

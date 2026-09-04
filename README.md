@@ -71,9 +71,9 @@ inconnu arrive sur le plan du site.
 
 ---
 
-## Les neuf auditeurs
+## Les onze auditeurs
 
-La qualité de ce site ne vient pas du goût mais de la mesure. Cinq scripts,
+La qualité de ce site ne vient pas du goût mais de la mesure. Onze auditeurs,
 qui sortent en code 1 s'ils trouvent quelque chose :
 
 ```bash
@@ -82,12 +82,14 @@ php -S 127.0.0.1:8081 -t public public/index.php &
 python3 outils/verifs/contraste.py       # contraste réel de chaque texte
 python3 outils/verifs/mise-en-page.py    # débordement, cibles, titres, alt
 python3 outils/verifs/traceurs.py        # aucune requête tierce sans accord
-python3 outils/verifs/bandeau.py         # chaque photo du diaporama, une à une
+python3 outils/verifs/bandeau.py         # chaque photo du diaporama, voile au plancher
 python3 outils/verifs/entete.py          # l'en-tête aux bornes du réglage du logo
 python3 outils/verifs/couleur.py         # le site sous chaque teinte de la roue
 python3 outils/verifs/bulle.py           # le bouton de l’assistant sous chacun de ses réglages
 python3 outils/verifs/vignette.py        # l’image fabriquée pour Instagram, sous chaque couleur
 python3 outils/verifs/alertes.py         # ce que PHP dit tout bas, et que la page ne montre pas
+php     outils/verifs/file.php           # la file de publication quand un seul réseau répond
+python3 outils/verifs/aller-retour.py    # enregistrer sans rien changer : le JSON ne doit pas maigrir
 ```
 
 Zéro écart, zéro souci, zéro hôte tiers : c'est la définition de « fini » ici.

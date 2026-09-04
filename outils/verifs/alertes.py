@@ -58,7 +58,8 @@ ALERTES = re.compile(r'PHP (Warning|Notice|Fatal error|Parse error|Deprecated|Re
 # Les écrans du back-office, quand on donne de quoi s'y connecter. Ceux qui
 # écrivent ne sont pas visités : un auditeur ne modifie pas le contenu.
 ECRANS_ADMIN = (
-    '/admin', '/admin/accueil', '/admin/coordonnees', '/admin/pages',
+    '/admin', '/admin/accueil', '/admin/site', '/admin/coordonnees', '/admin/pages',
+    '/admin/demarches', '/admin/actualites',
     '/admin/listes/actualites', '/admin/listes/agenda', '/admin/listes/documents',
     '/admin/listes/demarches', '/admin/listes/associations', '/admin/listes/commissions',
     '/admin/listes/numeros', '/admin/listes/services-etat',
@@ -67,6 +68,68 @@ ECRANS_ADMIN = (
     '/admin/reseaux', '/admin/referencement', '/admin/langues', '/admin/avance',
     '/admin/parametres', '/admin/mises-a-jour',
 )
+
+
+# Les routes GET du back-office qui ne sont pas des écrans à mesurer, et
+# pourquoi. Sans cette liste, le contrôle ci-dessous crierait à chaque passage
+# sur des adresses qu'il ne faut surtout pas visiter connecté.
+HORS_MESURE = {
+    # Montrés seulement hors session : connecté, ils redirigent. C'est /admin
+    # qui mène à l'un ou à l'autre, et /admin est déjà mesuré.
+    '/admin/configuration': 'écran de première configuration',
+    '/admin/connexion': 'écran de connexion',
+    # Point de retour du dialogue Meta : sans code ni jeton d'état, il ne peut
+    # que refuser. Ce refus est le comportement voulu, pas un écran.
+    '/admin/reseaux/retour': 'retour OAuth',
+}
+
+
+def listes_a_jour() -> int:
+    """Les deux inventaires écrits à la main disent-ils encore la vérité ?
+
+    Deux listes de ce dépôt ne se mettent pas à jour toutes seules, et rien ne
+    signale qu'elles ont pris du retard :
+
+    · ECRANS_ADMIN ci-dessus. Un écran ajouté au back-office et oublié ici
+      n'est jamais visité, donc jamais mesuré : ses alertes PHP restent
+      invisibles aussi longtemps que personne n'y pense.
+    · Seo::CONTENUS. C'est la liste des fichiers où l'on réécrit les liens
+      internes quand un slug change au back-office. Une page absente de cette
+      liste garde ses vieux liens, qui mènent en 404 — sans erreur, sans
+      alerte, et sans que la mairie sache pourquoi.
+
+    Les comparer coûte trente lignes et ferme les deux trous d'un coup.
+    """
+    ecarts = 0
+
+    with open(os.path.join(RACINE, 'app', 'routes-admin.php'), encoding='utf-8') as f:
+        routes = re.findall(r"\$router->get\(\s*'(/admin[^']*)'", f.read())
+    concretes = [r for r in routes
+                 # Les routes à paramètre ne se visitent pas telles quelles, et
+                 # celles qui finissent par « / » sont des morceaux de
+                 # concaténation ('/admin/' . $collection) : le nom est calculé,
+                 # et les adresses qui en sortent sont listées à la main
+                 # ci-dessus.
+                 if '{' not in r and not r.endswith('/') and r not in HORS_MESURE]
+    for route in [r for r in concretes if r not in ECRANS_ADMIN]:
+        ecarts += 1
+        print('  écran non mesuré : %s — à ajouter à ECRANS_ADMIN' % route)
+
+    with open(os.path.join(RACINE, 'app', 'Core', 'Seo.php'), encoding='utf-8') as f:
+        bloc = re.search(r'CONTENUS\s*=\s*\[(.*?)\];', f.read(), re.S)
+    declares = set(re.findall(r"'([^']+)'", bloc.group(1))) if bloc else set()
+
+    dossier = os.path.join(RACINE, 'data-modele', 'pages')
+    for nom in sorted(os.listdir(dossier)) if os.path.isdir(dossier) else []:
+        if not nom.endswith('.json'):
+            continue
+        cle = 'pages/' + nom[:-5]
+        if cle not in declares:
+            ecarts += 1
+            print('  page absente de Seo::CONTENUS : %s — ses liens internes '
+                  'ne suivront pas un changement de slug' % cle)
+
+    return ecarts
 
 
 def pages_du_site(base: str) -> list:
@@ -169,6 +232,8 @@ def main() -> int:
             serveur.wait(timeout=5)
         except subprocess.TimeoutExpired:
             serveur.kill()
+
+    total += listes_a_jour()
 
     with open(journal, encoding='utf-8', errors='replace') as f:
         lignes = [l.strip() for l in f if ALERTES.search(l)]
