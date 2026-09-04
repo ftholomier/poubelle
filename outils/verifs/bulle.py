@@ -19,7 +19,10 @@ appel réseau, seule la bulle est rendue — et force :
   · les deux bornes de taille, plus la valeur livrée ;
   · six couples de couleurs, dont quatre volontairement mauvais (blanc sur
     jaune pâle, noir sur noir, blanc sur blanc, texte et fond identiques) ;
-  · les cinq animations d'appel, chacune sur chaque forme.
+  · les cinq animations d'appel, chacune sur chaque forme ;
+  · les quatre coins du rythme — vitesse la plus vive et la plus lente,
+    croisées avec un et trois rappels — plus le cas où le nombre de rappels
+    doit être réduit pour tenir dans le budget.
 
 Il vérifie sur chacun : le contraste réel du libellé peint sur son fond
 peint, la cible tactile, l'absence de débordement horizontal, le nom
@@ -28,7 +31,9 @@ accessible du bouton, et qu'un libellé montré n'est pas tronqué.
 Sur les animations, il mesure trois choses que l'œil ne mesure pas :
 
   · le **budget de mouvement**, durée × nombre de cycles, qui doit rester
-    sous cinq secondes. Au-delà, une animation qui démarre seule doit pouvoir
+    sous cinq secondes — quelle que soit la vitesse demandée, et c'est là
+    tout l'intérêt : la mairie règle librement les deux, et c'est le nombre
+    de rappels qui cède. Au-delà, une animation qui démarre seule doit pouvoir
     être mise en pause par le visiteur (WCAG 2.2.2) — et il faudrait donc
     ajouter un bouton d'arrêt à côté du bouton de discussion. Le jour où
     quelqu'un passera le nombre de cycles à dix, ce script le dira ;
@@ -79,6 +84,22 @@ ANIMATIONS = ('aucune', 'halo', 'rebond', 'balancement', 'respiration')
 
 # Le budget de mouvement, en secondes. Voir la note de durée dans site.css.
 MOUVEMENT_MAX = 5.0
+
+# Les quatre coins du rythme, plus la valeur livrée et les deux cas où le
+# nombre de rappels doit céder. Un réglage dont on n'a mesuré que la valeur
+# livrée est un défaut en attente : c'est la règle du socle, et elle vaut pour
+# celui-ci comme pour la taille du logo.
+#
+# (vitesse en ms, rappels demandés, rappels attendus une fois le budget appliqué)
+RYTHMES = (
+    (800, 1, 1),
+    (800, 3, 3),
+    (1600, 3, 3),      # la valeur livrée : 4,8 s
+    (2500, 2, 2),      # exactement 5,0 s — la borne, atteinte
+    (2600, 3, 1),      # 7,8 s demandées : deux rappels doivent tomber
+    (3000, 1, 1),
+    (3000, 3, 1),
+)
 
 # Les bornes, et la valeur livrée entre les deux. Rien au-delà : le contrôleur
 # et la classe bornent toutes deux, et un réglage hors bornes ne peut pas
@@ -184,7 +205,8 @@ def ecrire(donnees: dict) -> None:
 
 
 def regler(origine: dict, forme: str, taille: int, fond: str, texte: str,
-           libelle: str, animation: str = 'halo') -> None:
+           libelle: str, animation: str = 'halo',
+           vitesse: int = 1600, rappels: int = 3) -> None:
     """Allume l'assistant et pose un réglage de bulle.
 
     La clé est factice et le restera : aucune requête ne part vers Google,
@@ -197,7 +219,8 @@ def regler(origine: dict, forme: str, taille: int, fond: str, texte: str,
     assistant['cle'] = assistant.get('cle') or 'audit-bulle-sans-appel'
     assistant['bulle'] = {'forme': forme, 'taille': taille, 'fond': fond,
                           'texte': texte, 'libelle': libelle,
-                          'animation': animation}
+                          'animation': animation,
+                          'vitesse': vitesse, 'rappels': rappels}
     donnees['assistant'] = assistant
     ecrire(donnees)
 
@@ -375,9 +398,15 @@ def main() -> int:
 
             # DEUXIÈME PASSE — les animations, sur chaque forme.
             #
-            # Le suivi couvre le délai d'entrée et les deux premiers cycles :
-            # c'est là que se trouvent les extrêmes du mouvement.
-            SUIVI_MS = 3600
+            # La fenêtre de relevé doit couvrir le délai d'entrée ET un cycle
+            # entier — les cycles étant identiques, un seul suffit, mais il le
+            # faut en entier : à 3 000 ms, une fenêtre fixe de 3,6 s n'en
+            # voyait que les trois quarts, et un extrême placé à la fin du
+            # geste serait passé au travers.
+            def fenetre(vitesse_ms: int) -> int:
+                return 1500 + vitesse_ms + 200
+
+            SUIVI_MS = fenetre(1600)
             for animation in ANIMATIONS:
                 avant = total
                 for forme in FORMES:
@@ -398,7 +427,44 @@ def main() -> int:
                                   % (animation, forme, largeur, e))
                 print('  %-6s animation « %s »' % ('ok' if total == avant else 'ECART', animation))
 
-            # TROISIÈME PASSE — le réglage « moins d'animations » du système.
+            # QUATRIÈME PASSE — le rythme, aux quatre coins de ses deux réglages.
+            #
+            # Le budget est vérifié par le contrôle commun ; ce qui s'ajoute
+            # ici, c'est que la durée SERVIE soit bien celle demandée. Sans
+            # cette vérification, un jeton CSS mal branché ferait retomber
+            # l'animation sur sa valeur par défaut — 1,6 s —, le budget serait
+            # tenu, et personne ne verrait que le réglage ne sert à rien.
+            for vitesse, demandes, attendus in RYTHMES:
+                avant = total
+                regler(origine, 'barre', TAILLE_LIVREE, '', '#ffffff',
+                       'Une question ?', 'rebond', vitesse, demandes)
+                for largeur, (_, pg) in contextes.items():
+                    pg.goto(base + PAGE, wait_until='domcontentloaded')
+                    v = pg.evaluate(RELEVE)
+                    suivi = pg.evaluate(SUIVRE, fenetre(vitesse))
+                    if v is None:
+                        total += 1
+                        print('  ECART  %4d ms × %d  %5d px  bulle absente' % (vitesse, demandes, largeur))
+                        continue
+                    for e in controler_animation(v, suivi, 'barre', 'rebond'):
+                        total += 1
+                        print('  ECART  %4d ms × %d  %5d px  %s' % (vitesse, demandes, largeur, e))
+                    servie = round(v['duree'] * 1000)
+                    if servie != vitesse:
+                        total += 1
+                        print('  ECART  %4d ms × %d  %5d px  vitesse servie %d ms — le réglage '
+                              'ne passe pas jusqu’à la page'
+                              % (vitesse, demandes, largeur, servie))
+                    if v['cycles'] != attendus:
+                        total += 1
+                        print('  ECART  %4d ms × %d  %5d px  %g rappel(s) servi(s), %d attendu(s) '
+                              'après application du budget'
+                              % (vitesse, demandes, largeur, v['cycles'], attendus))
+                print('  %-6s rythme %4d ms × %d demandé(s) → %d joué(s), %.1f s'
+                      % ('ok' if total == avant else 'ECART', vitesse, demandes,
+                         attendus, vitesse * attendus / 1000))
+
+            # CINQUIÈME PASSE — le réglage « moins d'animations » du système.
             #
             # C'est une préférence d'accessibilité, pas une option de confort :
             # elle est cochée par des gens que le mouvement met mal à l'aise,
@@ -454,12 +520,14 @@ def main() -> int:
 
     mesures = (len(COULEURS) * len(FORMES) * len(TAILLES) * len(LARGEURS)
                + len(ANIMATIONS) * len(FORMES) * len(LARGEURS)
+               + len(RYTHMES) * len(LARGEURS)
                + len(ANIMATIONS))
     print('---')
     print('%d formes × %d tailles × %d couples de couleurs, puis %d animations '
-          '× %d formes, puis le réglage système — %d réglages, %d écart(s).'
+          '× %d formes, puis %d rythmes, puis le réglage système '
+          '— %d réglages, %d écart(s).'
           % (len(FORMES), len(TAILLES), len(COULEURS), len(ANIMATIONS),
-             len(FORMES), mesures, total))
+             len(FORMES), len(RYTHMES), mesures, total))
     if total:
         print('Corrigez App\\Core\\Bulle ou la feuille de style, jamais le seuil : '
               'c’est la résolution de contraste qui doit tenir, pas le choix de '

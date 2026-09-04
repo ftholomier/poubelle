@@ -87,6 +87,10 @@ final class AssistantController
                 'animation' => isset(Bulle::ANIMATIONS[$anim]) ? $anim : Bulle::ANIMATION_DEFAUT,
                 'libelle'   => mb_substr(trim((string) ($_POST['bulle_libelle'] ?? '')), 0, Bulle::LIBELLE_MAX),
                 'taille'    => self::taille($_POST['bulle_taille'] ?? Bulle::TAILLE_DEFAUT),
+                'vitesse'   => self::borne($_POST['bulle_vitesse'] ?? Bulle::VITESSE_DEFAUT,
+                                           Bulle::VITESSE_MIN, Bulle::VITESSE_MAX, Bulle::VITESSE_DEFAUT),
+                'rappels'   => self::borne($_POST['bulle_rappels'] ?? Bulle::RAPPELS_DEFAUT,
+                                           Bulle::RAPPELS_MIN, Bulle::RAPPELS_MAX, Bulle::RAPPELS_DEFAUT),
                 'fond'      => $suitLaCommune ? '' : Charte::normaliser((string) ($_POST['bulle_fond'] ?? '')),
                 'texte'     => Charte::normaliser((string) ($_POST['bulle_texte'] ?? Bulle::TEXTE_DEFAUT)),
             ],
@@ -107,9 +111,15 @@ final class AssistantController
      */
     private static function taille(mixed $valeur): int
     {
-        $n = is_numeric($valeur) ? (int) round((float) $valeur) : Bulle::TAILLE_DEFAUT;
+        return self::borne($valeur, Bulle::TAILLE_MIN, Bulle::TAILLE_MAX, Bulle::TAILLE_DEFAUT);
+    }
 
-        return max(Bulle::TAILLE_MIN, min(Bulle::TAILLE_MAX, $n));
+    /** @param mixed $valeur */
+    private static function borne(mixed $valeur, int $min, int $max, int $defaut): int
+    {
+        $n = is_numeric($valeur) ? (int) round((float) $valeur) : $defaut;
+
+        return max($min, min($max, $n));
     }
 
     /** Rafraîchit la liste des modèles, sans attendre l'expiration du cache. */

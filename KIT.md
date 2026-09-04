@@ -194,13 +194,23 @@ un texte blanc donnent donc un texte jaune sombre, pas 1,26:1 — et l'écran le
 dit, plutôt que de refuser d'enregistrer.
 
 S'y ajoutent cinq **animations d'appel** — aucune, halo, rebond, balancement,
-respiration. Toutes obéissent au même budget : 1,6 s × 3 cycles = 4,8 s de
-mouvement, puis plus jamais. Ce n'est pas un chiffre rond par hasard :
-**au-delà de cinq secondes, une animation qui démarre seule doit pouvoir être
-mise en pause par le visiteur** (WCAG 2.2.2), ce qui obligerait à poser un
-bouton d'arrêt à côté du bouton de discussion. En dessous, elle n'a rien à
-demander à personne. `bulle.py` mesure ce budget sur les styles calculés, pour
-que le jour où quelqu'un passe le nombre de cycles à dix, ce soit dit.
+respiration —, avec leur **rythme** : la durée d'un mouvement (800 à 3 000 ms)
+et le nombre de rappels (1 à 3).
+
+Ces deux réglages ne sont pas indépendants, et c'est le point à comprendre
+avant d'y toucher : **leur produit ne dépasse jamais cinq secondes.** Au-delà,
+un contenu en mouvement déclenché tout seul doit pouvoir être arrêté par le
+visiteur (RGAA 13.8, WCAG 2.2.2), ce qui obligerait à poser un bouton d'arrêt à
+côté du bouton de discussion. Plutôt que de refuser un réglage, `Bulle` réduit
+le nombre de rappels jusqu'à ce qu'il tienne — comme la couleur du texte est
+corrigée plutôt que refusée — et l'écran le dit.
+
+La durée gouverne deux choses à la fois, la lenteur du geste et l'attente
+avant qu'il ne revienne, puisqu'un cycle enchaîne sur le suivant : une mairie
+qui trouve que « ça revient trop vite » ralentit, ou demande moins de rappels.
+`bulle.py` mesure le produit sur les styles calculés, aux quatre coins des deux
+réglages — et vérifie que la durée SERVIE est bien celle demandée, sans quoi un
+jeton mal branché ferait retomber l'animation sur sa valeur livrée en silence.
 
 Le mouvement s'arrête aussi au survol, au focus, et pour un visiteur dont le
 système demande moins d'animations — par la règle générale posée en tête de

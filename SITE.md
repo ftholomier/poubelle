@@ -259,12 +259,13 @@ fois.** Forme (barre, pilule, rond, pastille, onglet), fond, couleur du texte,
 intitulé et taille se règlent dans l'écran Assistant IA (`app/Core/Bulle.php`).
 Le fond est libre ; la couleur du texte garde sa teinte et voit sa clarté
 résolue jusqu'à 4,5:1 sur ce fond, comme la charte. S'y ajoutent cinq
-**animations d'appel** — aucune, halo, rebond, balancement, respiration —, qui
-jouent 4,8 secondes en tout puis s'arrêtent pour de bon, et que le survol, le
-focus, l'ouverture de la discussion ou le réglage système « moins
-d'animations » suffisent à éteindre. `outils/verifs/bulle.py` force les cinq
-formes, les bornes de taille, six couples de couleurs dont quatre
-volontairement illisibles et les cinq animations — 235 réglages.
+**animations d'appel** — aucune, halo, rebond, balancement, respiration —, avec
+leur rythme : la durée d'un mouvement et le nombre de rappels, dont le produit
+ne dépasse jamais cinq secondes. Le survol, le focus, l'ouverture de la
+discussion ou le réglage système « moins d'animations » suffisent à les
+éteindre. `outils/verifs/bulle.py` force les cinq formes, les bornes de taille,
+six couples de couleurs dont quatre volontairement illisibles, les cinq
+animations et les quatre coins du rythme — 249 réglages.
 
 Ce septième auditeur a immédiatement trouvé ce qu'aucun des six autres ne
 pouvait voir : **le libellé livré était à 2,57:1.** La bulle composait l'encre
@@ -370,7 +371,7 @@ tierce avant consentement, le texte du bandeau sur chacune des six photos du
 diaporama forcée à son tour, l'en-tête aux deux bornes du réglage de taille
 du logo dans les deux modes de barre et les deux dispositions de menu, le
 site entier sous seize couleurs de commune différentes, et le bouton de
-l'assistant sous deux cent trente-cinq réglages.
+l'assistant sous deux cent quarante-neuf réglages.
 
 Ce qu'ils ont attrapé sur ce site-ci, et qu'aucun œil n'avait vu :
 

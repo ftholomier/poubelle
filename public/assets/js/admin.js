@@ -740,6 +740,17 @@
     var formes = [].slice.call(document.querySelectorAll('[data-bulle-forme]'));
     var animations = [].slice.call(document.querySelectorAll('[data-bulle-animation]'));
     var rejouer = document.querySelector('[data-bulle-rejouer]');
+    var rythme = document.querySelector('[data-bulle-rythme]');
+    var vitesse = document.querySelector('[data-bulle-vitesse]');
+    var vitesseCurseur = document.querySelector('[data-bulle-vitesse-curseur]');
+    var rappels = document.querySelector('[data-bulle-rappels]');
+    var rappelsCurseur = document.querySelector('[data-bulle-rappels-curseur]');
+    var budget = document.querySelector('[data-bulle-budget]');
+    var noteRappels = document.querySelector('[data-bulle-rappels-reduits]');
+
+    /* Le budget de mouvement, en millisecondes : la même borne que
+       Bulle::MOUVEMENT_MAX. Les deux doivent changer ensemble. */
+    var MOUVEMENT_MAX = 5000;
     var libelle = document.querySelector('[data-bulle-libelle]');
     var nombre = document.querySelector('[data-bulle-taille]');
     var curseur = document.querySelector('[data-bulle-curseur]');
@@ -818,6 +829,22 @@
       return "aucune";
     }
 
+    /* Nommée `valeurDe` et non `nombre` : `nombre` est déjà le champ de
+       taille dans cette portée, et une fonction du même nom serait écrasée
+       par lui à l'exécution — l'erreur ne se voit qu'au premier appel. */
+    function valeurDe(champ, defaut) {
+      var n = champ ? parseInt(champ.value, 10) : defaut;
+      return isNaN(n) ? defaut : n;
+    }
+
+    /* Le nombre de rappels réellement joués : le choix, ramené dans le budget.
+       Même calcul que Bulle::rappels(), et pour la même raison qu'ailleurs —
+       on réduit plutôt que de refuser, et on le dit. */
+    function rappelsJoues() {
+      var v = valeurDe(vitesse, 1600);
+      return Math.max(1, Math.min(valeurDe(rappels, 3), Math.floor(MOUVEMENT_MAX / v)));
+    }
+
     /* Relancer une animation CSS demande de retirer la classe, de forcer un
        recalcul, puis de la remettre : sans la lecture intermédiaire, le
        navigateur regroupe les deux changements et ne voit rien à rejouer. */
@@ -856,6 +883,23 @@
       apercu.style.setProperty("--bulle-texte", peint);
       apercu.style.setProperty("--bulle-taille", taille + "px");
 
+      var v = valeurDe(vitesse, 1600), joues = rappelsJoues();
+      apercu.style.setProperty("--bulle-anim-duree", v + "ms");
+      apercu.style.setProperty("--bulle-anim-rappels", String(joues));
+      if (rythme) rythme.hidden = (anim === "aucune");
+      if (budget) {
+        var total = v * joues / 1000;
+        budget.textContent = total.toFixed(1).replace(".", ",") + " s";
+        budget.parentNode.classList.toggle("bo-budget--plein", total > MOUVEMENT_MAX / 1000 - 0.35);
+      }
+      if (noteRappels) {
+        noteRappels.hidden = (joues >= valeurDe(rappels, 3));
+        noteRappels.textContent = "À cette vitesse, " + valeurDe(rappels, 3)
+          + " rappels dépasseraient les cinq secondes : "
+          + (joues > 1 ? joues + " seront joués" : "un seul sera joué")
+          + ". Accélérez le mouvement pour les retrouver tous.";
+      }
+
       if (apercuTexte && libelle) {
         apercuTexte.textContent = libelle.value.trim() || libelle.getAttribute("placeholder") || "";
       }
@@ -870,12 +914,19 @@
 
     /* Le curseur est révélé ici : sans script, seul le nombre s'affiche et
        le formulaire fonctionne. */
-    if (curseur && nombre) {
-      curseur.hidden = false;
-      curseur.removeAttribute("aria-hidden");
-      curseur.addEventListener("input", function () { nombre.value = curseur.value; peindre(); });
-      nombre.addEventListener("input", function () { curseur.value = nombre.value; peindre(); });
+    /* Chaque curseur double un champ nombre, qui reste la source de vérité :
+       sans script, on saisit la valeur et tout fonctionne. Le curseur n'est
+       révélé qu'ici. */
+    function apparier(champ, glissiere, apres) {
+      if (!champ || !glissiere) return;
+      glissiere.hidden = false;
+      glissiere.removeAttribute("aria-hidden");
+      glissiere.addEventListener("input", function () { champ.value = glissiere.value; peindre(); if (apres) apres(); });
+      champ.addEventListener("input", function () { glissiere.value = champ.value; peindre(); });
     }
+    apparier(nombre, curseur);
+    apparier(vitesse, vitesseCurseur, jouer);
+    apparier(rappels, rappelsCurseur, jouer);
 
     /* Le bouton de rejeu n'existe que si le script est là : sans lui il ne
        ferait rien, et un bouton qui ne fait rien est pire qu'absent. */
@@ -893,6 +944,8 @@
     if (fond) fond.addEventListener("input", peindre);
     if (texte) texte.addEventListener("input", peindre);
     if (suivre) suivre.addEventListener("change", peindre);
+    if (vitesse) vitesse.addEventListener("change", function () { peindre(); jouer(); });
+    if (rappels) rappels.addEventListener("change", function () { peindre(); jouer(); });
     peindre();
     jouer();
   })();

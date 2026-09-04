@@ -108,6 +108,43 @@ final class Bulle
     public const ANIMATION_DEFAUT = 'halo';
 
     /**
+     * Le rythme de l'animation : durée d'un mouvement, et nombre de rappels.
+     *
+     * La durée gouverne les deux choses à la fois — la lenteur du geste, et
+     * l'attente avant qu'il ne revienne, puisqu'un cycle enchaîne sur le
+     * suivant. Une mairie qui trouve que « ça revient trop vite » a donc deux
+     * leviers : ralentir, ou demander moins de rappels.
+     *
+     * Sous 800 ms le mouvement devient un sursaut ; au-delà de 3 s il n'attire
+     * plus l'œil, il traîne — et le budget ne laisserait plus qu'un seul
+     * rappel de toute façon.
+     */
+    public const VITESSE_MIN = 800;
+    public const VITESSE_MAX = 3000;
+    public const VITESSE_PAS = 100;
+    public const VITESSE_DEFAUT = 1600;
+
+    public const RAPPELS_MIN = 1;
+    public const RAPPELS_MAX = 3;
+    public const RAPPELS_DEFAUT = 3;
+
+    /**
+     * Le budget de mouvement, en millisecondes — la borne qui commande tout.
+     *
+     * Au-delà de cinq secondes, un contenu en mouvement déclenché
+     * automatiquement doit pouvoir être arrêté par le visiteur (RGAA 13.8,
+     * WCAG 2.2.2). Il faudrait alors poser un bouton « arrêter l'animation »
+     * à côté du bouton de discussion, ce qui serait absurde. En dessous, il
+     * n'y a rien à demander à personne.
+     *
+     * La conséquence est que durée et rappels ne sont pas indépendants : leur
+     * produit ne peut pas dépasser ce budget. Plutôt que de refuser un
+     * réglage, on RÉDUIT le nombre de rappels jusqu'à ce qu'il tienne — comme
+     * la couleur du texte est corrigée plutôt que refusée — et l'écran le dit.
+     */
+    public const MOUVEMENT_MAX = 5000;
+
+    /**
      * Bornes de taille, en pixels.
      *
      * Le plancher n'est pas un goût : sous 44 px la cible tactile passe sous
@@ -201,6 +238,43 @@ final class Bulle
         return self::borner($this->reglages['taille'] ?? self::TAILLE_DEFAUT);
     }
 
+    /** Durée d'un mouvement, en millisecondes. */
+    public function vitesse(): int
+    {
+        $v = self::entier($this->reglages['vitesse'] ?? self::VITESSE_DEFAUT,
+                          self::VITESSE_MIN, self::VITESSE_MAX, self::VITESSE_DEFAUT);
+
+        return self::VITESSE_MIN
+            + (int) round(($v - self::VITESSE_MIN) / self::VITESSE_PAS) * self::VITESSE_PAS;
+    }
+
+    /** Ce que la mairie a demandé comme nombre de rappels. */
+    public function rappelsChoisis(): int
+    {
+        return self::entier($this->reglages['rappels'] ?? self::RAPPELS_DEFAUT,
+                            self::RAPPELS_MIN, self::RAPPELS_MAX, self::RAPPELS_DEFAUT);
+    }
+
+    /** Ce qui sera réellement joué : le choix, ramené dans le budget. */
+    public function rappels(): int
+    {
+        $tiennent = (int) floor(self::MOUVEMENT_MAX / $this->vitesse());
+
+        return max(self::RAPPELS_MIN, min($this->rappelsChoisis(), $tiennent));
+    }
+
+    /** A-t-il fallu retirer un rappel pour tenir le budget ? */
+    public function rappelsReduits(): bool
+    {
+        return $this->rappels() < $this->rappelsChoisis();
+    }
+
+    /** Durée totale du mouvement, en secondes. */
+    public function mouvementTotal(): float
+    {
+        return $this->vitesse() * $this->rappels() / 1000;
+    }
+
     public function fond(): string
     {
         return $this->fond;
@@ -276,7 +350,9 @@ final class Bulle
         return '--bulle-fond:' . $this->fond
             . ';--bulle-fond-rgb:' . $r . ',' . $v . ',' . $b
             . ';--bulle-texte:' . $this->texte
-            . ';--bulle-taille:' . $this->taille() . 'px';
+            . ';--bulle-taille:' . $this->taille() . 'px'
+            . ';--bulle-anim-duree:' . $this->vitesse() . 'ms'
+            . ';--bulle-anim-rappels:' . $this->rappels();
     }
 
     // ------------------------------------------------------------ résolution
@@ -320,6 +396,18 @@ final class Bulle
         }
 
         return $eclaircir ? '#ffffff' : '#000000';
+    }
+
+    /**
+     * Un entier borné, avec repli sur une valeur livrée.
+     *
+     * @param mixed $valeur
+     */
+    private static function entier(mixed $valeur, int $min, int $max, int $defaut): int
+    {
+        $n = is_numeric($valeur) ? (int) round((float) $valeur) : $defaut;
+
+        return max($min, min($max, $n));
     }
 
     /** @param mixed $valeur */

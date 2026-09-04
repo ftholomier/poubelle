@@ -2263,14 +2263,20 @@ body.visionneuse-ouverte { overflow: hidden; }
    est une gêne. Celles-ci font donc un mouvement bref, trois fois, puis plus
    jamais.
 
-   Le budget de 1,6 s × 3 = 4,8 s n'est pas un chiffre rond par hasard :
-   au-delà de CINQ secondes, une animation qui démarre toute seule doit
-   pouvoir être mise en pause par le visiteur (WCAG 2.2.2, « Pause, arrêt,
-   masquer »). En dessous, elle n'a rien à demander à personne — et il aurait
-   fallu ajouter un bouton « arrêter l'animation » à côté du bouton de
-   discussion, ce qui aurait été absurde. `bulle.py` mesure cette durée sur les
-   styles calculés, pour qu'un jour où quelqu'un passe le nombre de cycles à
-   dix, ce soit dit.
+   La durée d'un mouvement et le nombre de rappels viennent du back-office —
+   App\Core\Bulle les pose en jetons sur le conteneur. Une seule chose les
+   contraint, et elle commande tout : **leur produit ne dépasse jamais cinq
+   secondes**. Au-delà, un contenu en mouvement déclenché tout seul doit
+   pouvoir être arrêté par le visiteur (RGAA 13.8, WCAG 2.2.2 « Pause, arrêt,
+   masquer »), et il aurait fallu poser un bouton « arrêter l'animation » à
+   côté du bouton de discussion — absurde. En dessous, il n'y a rien à demander
+   à personne.
+
+   C'est pour cela que la durée gouverne deux choses à la fois : la lenteur du
+   geste ET l'attente avant qu'il ne revienne, puisqu'un cycle enchaîne sur le
+   suivant. Une mairie qui trouve que « ça revient trop vite » ralentit, ou
+   demande moins de rappels. `bulle.py` mesure le produit sur les styles
+   calculés, aux quatre coins des deux réglages.
 
    Le délai d'entrée laisse la page se poser : une animation qui démarre
    pendant que le bandeau se peint passe inaperçue, et fait deux mouvements
@@ -2281,8 +2287,8 @@ body.visionneuse-ouverte { overflow: hidden; }
    « moins d'animations », par la règle générale posée en tête de cette
    feuille, et la reprise d'une conversation, que le script retire. */
 .assistant[class*="assistant--anim-"] .assistant__bulle {
-  animation-duration: 1.6s;
-  animation-iteration-count: 3;
+  animation-duration: var(--bulle-anim-duree, 1.6s);
+  animation-iteration-count: var(--bulle-anim-rappels, 3);
   animation-delay: 1.4s;
   animation-timing-function: cubic-bezier(.34, .8, .38, 1);
 }

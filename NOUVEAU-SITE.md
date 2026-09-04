@@ -377,7 +377,7 @@ quelque chose — branchables tels quels dans une chaîne d'intégration.
 | `bandeau.py` | Le texte du bandeau d'accueil sur **chaque** photo du diaporama forcée à son tour, à 390, 768 et 1440 px |
 | `entete.py` | L'en-tête aux **bornes du réglage de taille du logo**, dans les deux modes de barre et les deux dispositions de menu : débordement, déformation, chevauchement du burger, cible tactile |
 | `couleur.py` | Le contraste de six pages représentatives sous **douze teintes de la roue** plus quatre cas limites, en réglant tour à tour la couleur de la commune |
-| `bulle.py` | Le bouton de l'assistant sous **les cinq formes, les bornes de taille, six couples de couleurs et les cinq animations** — contraste, cible tactile, débordement, nom accessible, budget de mouvement, respect du réglage système « moins d'animations », et aucun appel réseau bulle allumée |
+| `bulle.py` | Le bouton de l'assistant sous **les cinq formes, les bornes de taille, six couples de couleurs, les cinq animations et les quatre coins de leur rythme** — contraste, cible tactile, débordement, nom accessible, budget de mouvement, réglage servi conforme au réglage demandé, respect du réglage système « moins d'animations », et aucun appel réseau bulle allumée |
 
 ### Pourquoi quatre auditeurs de plus, pour un diaporama et trois réglages
 
@@ -433,10 +433,15 @@ tierce. Il rend la main sur les réglages d'origine, même s'il échoue.
 Il force aussi les cinq **animations d'appel** du bouton, et y mesure trois
 choses que l'œil ne mesure pas :
 
-- le **budget de mouvement** — durée × nombre de cycles —, qui doit rester sous
+- le **budget de mouvement** — durée × nombre de rappels —, qui doit rester sous
   cinq secondes. Au-delà, une animation qui démarre seule doit pouvoir être
-  arrêtée par le visiteur (WCAG 2.2.2) ; en dessous, elle n'a rien à demander.
-  C'est la borne d'un réglage que personne ne pense à mesurer ;
+  arrêtée par le visiteur (RGAA 13.8, WCAG 2.2.2) ; en dessous, elle n'a rien à
+  demander. C'est la borne d'un réglage que personne ne pense à mesurer, et
+  elle est vérifiée aux quatre coins des deux curseurs — la mairie les règle
+  librement, et c'est le nombre de rappels qui cède ;
+- la **conformité du réglage servi au réglage demandé** : sans elle, un jeton
+  CSS mal branché ferait retomber l'animation sur sa durée livrée, le budget
+  serait tenu, et personne ne verrait que le curseur ne sert plus à rien ;
 - la **boîte pendant le mouvement**, relevée à chaque image : c'est ce contrôle
   qui a montré que l'onglet, seule forme collée au bord de l'écran, sortait de
   huit pixels du cadre en tournant de 4,5°. Son balancement est devenu un

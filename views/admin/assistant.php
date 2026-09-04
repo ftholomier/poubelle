@@ -148,6 +148,59 @@ $modeleChoisi = (string) ($reglages['modele'] ?? '');
       </div>
     </div>
 
+    <div class="bo-champ" data-bulle-rythme<?= $bulle->animation() === 'aucune' ? ' hidden' : '' ?>>
+      <label for="ia-bulle-vitesse">Vitesse du mouvement</label>
+      <div class="bo-logo-saisie">
+        <input type="range" id="ia-bulle-vitesse-curseur" hidden data-bulle-vitesse-curseur
+               min="<?= Bulle::VITESSE_MIN ?>" max="<?= Bulle::VITESSE_MAX ?>"
+               step="<?= Bulle::VITESSE_PAS ?>" value="<?= $bulle->vitesse() ?>"
+               aria-hidden="true" tabindex="-1">
+        <input type="number" id="ia-bulle-vitesse" name="bulle_vitesse" data-bulle-vitesse
+               min="<?= Bulle::VITESSE_MIN ?>" max="<?= Bulle::VITESSE_MAX ?>"
+               step="<?= Bulle::VITESSE_PAS ?>" value="<?= $bulle->vitesse() ?>">
+        <span class="bo-logo-unite">ms</span>
+      </div>
+      <p class="bo-aide">
+        Durée d’un mouvement, de <?= Bulle::VITESSE_MIN ?> à <?= Bulle::VITESSE_MAX ?> millisecondes.
+        Elle commande deux choses à la fois : la lenteur du geste, et l’attente
+        avant qu’il ne revienne — un mouvement enchaîne sur le suivant.
+        <strong>Si vous trouvez qu’il revient trop vite, ralentissez-le, ou
+        demandez moins de rappels.</strong>
+      </p>
+
+      <label for="ia-bulle-rappels">Nombre de rappels</label>
+      <div class="bo-logo-saisie">
+        <input type="range" id="ia-bulle-rappels-curseur" hidden data-bulle-rappels-curseur
+               min="<?= Bulle::RAPPELS_MIN ?>" max="<?= Bulle::RAPPELS_MAX ?>" step="1"
+               value="<?= $bulle->rappelsChoisis() ?>" aria-hidden="true" tabindex="-1">
+        <input type="number" id="ia-bulle-rappels" name="bulle_rappels" data-bulle-rappels
+               min="<?= Bulle::RAPPELS_MIN ?>" max="<?= Bulle::RAPPELS_MAX ?>" step="1"
+               value="<?= $bulle->rappelsChoisis() ?>">
+        <span class="bo-logo-unite">fois</span>
+      </div>
+
+      <p class="bo-budget">
+        Mouvement total :
+        <strong data-bulle-budget><?= number_format($bulle->mouvementTotal(), 1, ',', ' ') ?> s</strong>
+        — <?= number_format(Bulle::MOUVEMENT_MAX / 1000, 0, ',', ' ') ?> secondes au plus.
+      </p>
+      <p class="bo-aide">
+        Cette limite n’est pas un choix de style. Au-delà de cinq secondes, une
+        animation qui démarre toute seule doit pouvoir être <strong>arrêtée par le
+        visiteur</strong> — il faudrait alors poser un bouton « arrêter
+        l’animation » à côté du bouton de discussion. En dessous, elle n’a rien
+        à demander à personne.
+      </p>
+      <p class="bo-apercu-bulle__corrige"<?= $bulle->rappelsReduits() ? '' : ' hidden' ?> data-bulle-rappels-reduits>
+        À cette vitesse, <?= $bulle->rappelsChoisis() ?> rappels dépasseraient les cinq
+        secondes :
+        <?= $bulle->rappels() > 1
+            ? $bulle->rappels() . ' seront joués'
+            : 'un seul sera joué' ?>.
+        Accélérez le mouvement pour les retrouver tous.
+      </p>
+    </div>
+
     <div class="bo-champ">
       <label for="ia-bulle-libelle">Intitulé</label>
       <input id="ia-bulle-libelle" type="text" name="bulle_libelle" data-bulle-libelle

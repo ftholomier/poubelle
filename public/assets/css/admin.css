@@ -1599,8 +1599,8 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
    se joue à la demande, sur une classe posée par le script, plutôt qu'à
    l'arrivée sur la page. */
 .bo-apercu-bulle--joue .assistant__bulle {
-  animation-duration: 1.6s;
-  animation-iteration-count: 3;
+  animation-duration: var(--bulle-anim-duree, 1.6s);
+  animation-iteration-count: var(--bulle-anim-rappels, 3);
   animation-timing-function: cubic-bezier(.34, .8, .38, 1);
 }
 .bo-apercu-bulle--joue.assistant--anim-halo .assistant__bulle { animation-name: bulle-halo; }
@@ -1631,6 +1631,19 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
   45% { transform: scale(1.07); }
 }
 .bo-apercu-bulle__rejouer { margin-top: .7rem; }
+
+/* Le budget de mouvement est un chiffre qu'on lit en réglant les deux
+   curseurs : il est posé en évidence, pas noyé dans l'aide. */
+.bo-budget {
+  margin: .9rem 0 .3rem;
+  font-size: .92rem; color: var(--texte);
+}
+.bo-budget strong { color: var(--accent-clair); }
+.bo-budget--plein strong { color: var(--rouge); }
+/* Deux réglages dans un même champ : un peu d'air entre eux. */
+[data-bulle-rythme] label + .bo-logo-saisie { margin-bottom: .2rem; }
+[data-bulle-rythme] .bo-aide + label { margin-top: 1rem; }
+[data-bulle-rythme][hidden] { display: none; }
 
 .bo-apercu-bulle__note { margin-top: .7rem; font-size: .85rem; color: var(--texte-2); }
 .bo-apercu-bulle__corrige {
