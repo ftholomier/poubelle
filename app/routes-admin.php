@@ -72,7 +72,10 @@ $contenu = new ContenuController($view, $content, $mediatheque, $seo, $diffusion
 $media   = new MediaController($view, $content, $mediatheque);
 $majour  = new MiseAJourController($view, $deploiement);
 $ctrlLangues = new LangueController($view, $content, $languesAdmin, $traducteurAdmin,
-                                new App\Core\TraductionAuto((string) $parametres->get('traduction.cle_deepl', '')),
+                                new App\Core\TraductionAuto(
+                                    (string) $parametres->get('traduction.cle_deepl', ''),
+                                    (bool) $parametres->get('traduction.gratuits', false)
+                                ),
                                 $config['paths']['views'], $parametres);
 $refer   = new SeoController($view, $content, $seo, $mediatheque);
 $reglage = new ParametreController($view, $parametres, $content, $auth, $mailer, $config['paths']['root'], $config['paths']['public']);
@@ -214,6 +217,13 @@ $router->get('/taches/reseaux', function () use ($reseauxMeta, $diffusion): stri
     } catch (Throwable $e) {
         http_response_code(500);
         return 'erreur : ' . $e->getMessage() . "\n";
+    }
+
+    // « occupe » : un autre dépilage tenait le verrou. Ce n'est pas une
+    // erreur — deux crons qui se chevauchent est le cas normal quand un envoi
+    // est lent —, et le dire évite qu'on cherche pourquoi rien n'est parti.
+    if ($bilan['verrouille'] ?? false) {
+        return "occupe\n";
     }
 
     return sprintf("partis %d\nechecs %d\n", $bilan['partis'], $bilan['echecs']);

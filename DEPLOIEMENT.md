@@ -556,6 +556,15 @@ Meta demande une capture ou une vidéo montrant l'usage. Filmez l'écran
 Réseaux sociaux : la connexion, la rédaction d'un message, la publication.
 C'est exactement ce qu'il veut voir.
 
+**Vérifiez les noms de ces permissions le jour où vous faites la demande.**
+Meta a renommé en 2025 les autorisations d'un *autre* parcours — celui où l'on
+se connecte directement avec un compte Instagram, où `instagram_basic` est
+devenu `instagram_business_basic`. Ce site n'emprunte pas ce parcours : il
+passe par la connexion Facebook et par le jeton de la Page, pour lequel les
+noms ci-dessus restent ceux en vigueur. Le doute est peu coûteux à lever et la
+liste tient en une constante, `Reseaux::PERMISSIONS` : si l'écran de demande
+ne reconnaît pas l'un de ces noms, c'est là qu'il faut le corriger.
+
 **En attendant la revue, tout fonctionne déjà** pour les comptes déclarés
 **testeurs** ou **administrateurs** de l'application (rubrique *Rôles*).
 Ajoutez-y le compte de la personne qui gère la Page : elle pourra publier
@@ -600,9 +609,29 @@ combien étaient en retard. Mais elles partent en retard — le cron est là pou
 | « Instagram télécharge l'image lui-même » | L'image doit être accessible en HTTPS depuis l'extérieur. Une publication Instagram n'est pas essayable depuis un poste local |
 | « Aucun compte Instagram professionnel » | Le compte Instagram n'est pas professionnel, ou pas rattaché à la Page |
 
-Une publication qui échoue **reste dans la file** et est réessayée. Au bout de
-trois essais elle passe au journal, marquée en échec avec son motif : rien ne
+Une publication qui échoue **reste dans la file** et est réessayée, en
+espaçant les essais : cinq minutes, puis trente, puis deux heures. Au bout de
+quatre essais elle passe au journal, marquée en échec avec son motif : rien ne
 disparaît en silence.
+
+**Un seul réseau en échec ne fait pas tout échouer.** Si Facebook accepte et
+qu'Instagram refuse, la publication Facebook reste faite, et seule celle
+d'Instagram retourne en file. Le message de l'écran le dit, et le journal
+n'inscrit la publication comme réussie que lorsque les deux sont partis.
+
+**Deux dépilages ne peuvent pas se chevaucher.** Le cron et l'ouverture du
+back-office peuvent tomber à la même seconde ; un verrou fait que le second
+s'en va sans rien faire, et l'adresse du cron répond alors simplement
+`occupe`. Ce n'est pas une erreur : c'est que l'autre travaille.
+
+### Une sécurité de plus à activer chez Meta
+
+Dans **Paramètres → Avancé** de l'application, l'option **« Exiger la preuve
+du secret de l'application »** (*Require App Secret*) peut être activée : le
+site signe déjà chacun de ses appels avec le secret, comme Meta le
+recommande. Une fois l'option active, un jeton recopié ne suffit plus à
+publier sur la Page — il faut aussi le secret, qui ne quitte jamais le
+serveur.
 
 ---
 

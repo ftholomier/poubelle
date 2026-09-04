@@ -38,7 +38,7 @@ use RuntimeException;
  *   · Instagram ne sait pas programmer une publication. C'est pour cela que la
  *     file d'attente est tenue ici plutôt que chez Meta.
  */
-final class Reseaux
+final class Reseaux implements Publicateur
 {
     /** La version est dans le chemin, pas dans un réglage. */
     private const API = 'https://graph.facebook.com/v21.0';
@@ -66,8 +66,11 @@ final class Reseaux
         'instagram_content_publish',
     ];
 
-    /** Facebook tronque au-delà ; Instagram refuse au-delà de 2 200. */
+    /** Facebook tronque au-delà. */
     public const TEXTE_MAX = 2000;
+
+    /** Instagram refuse au-delà — il ne tronque pas, il rejette. */
+    public const TEXTE_MAX_INSTAGRAM = 2200;
 
     public function __construct(private readonly Parametres $parametres)
     {
@@ -339,25 +342,29 @@ final class Reseaux
      * Avec une image, c'est une publication photo ; sans, une publication de
      * lien ou de texte. Les deux ne passent pas par le même point d'entrée
      * chez Meta, et forcer l'un pour l'autre donne un post sans aperçu.
+     *
+     * **Une photo n'a pas de champ `link`.** C'est la différence des deux
+     * points d'entrée qui compte ici : `/feed` accepte un lien à part, dont
+     * Facebook tire un aperçu ; `/photos` ne connaît qu'une légende. Une
+     * publication illustrée renvoyant vers le site doit donc porter son
+     * adresse DANS la légende, sans quoi elle n'y renvoie pas du tout — ce
+     * qui était le cas, et vidait de son sens la diffusion d'une actualité.
+     *
+     * Le texte arrive déjà assemblé et déjà borné par `Diffusion::preparer()`.
+     * La coupe qui reste ici est un dernier filet : cette méthode est
+     * publique, et rien ne garantit que le prochain appelant aura compté.
      */
-    public function publierFacebook(string $texte, string $imageUrl = '', string $lien = '', int $quand = 0): string
+    public function publierFacebook(string $texte, string $imageUrl = '', string $lien = ''): string
     {
         if (!$this->facebookPret()) {
             throw new RuntimeException('Aucune Page Facebook connectée.');
         }
 
         $champs = ['access_token' => $this->jetonPage()];
-        if ($quand > 0) {
-            // Facebook sait attendre lui-même : on lui confie la date plutôt
-            // que de garder la publication ici. Il exige entre dix minutes et
-            // six mois d'avance, et refuse tout le reste.
-            $champs['published'] = 'false';
-            $champs['scheduled_publish_time'] = (string) $quand;
-        }
 
         if ($imageUrl !== '') {
             $champs['url'] = $imageUrl;
-            $champs['caption'] = mb_substr($texte, 0, self::TEXTE_MAX);
+            $champs['caption'] = mb_substr($this->avecLien($texte, $lien), 0, self::TEXTE_MAX);
             $reponse = $this->ecrire('/' . $this->pageId() . '/photos', $champs);
         } else {
             $champs['message'] = mb_substr($texte, 0, self::TEXTE_MAX);
@@ -400,7 +407,7 @@ final class Reseaux
         $conteneur = $this->ecrire('/' . $this->instagramId() . '/media', [
             'access_token' => $this->jetonPage(),
             'image_url'    => $imageUrl,
-            'caption'      => mb_substr($texte, 0, self::TEXTE_MAX),
+            'caption'      => mb_substr($texte, 0, self::TEXTE_MAX_INSTAGRAM),
         ]);
         $id = (string) ($conteneur['id'] ?? '');
         if ($id === '') {
@@ -415,16 +422,63 @@ final class Reseaux
         return (string) ($publie['id'] ?? $id);
     }
 
+    /**
+     * L'adresse publique d'un média Instagram, demandée à Meta.
+     *
+     * L'identifiant rendu par `/media_publish` ne se devine pas en URL : le
+     * code court d'une publication Instagram n'est pas son identifiant
+     * numérique. Sans cet appel, le journal ne pouvait renvoyer que vers le
+     * profil, où il faut retrouver la publication à l'œil.
+     *
+     * Rend une chaîne vide en cas de refus : un journal sans lien vaut mieux
+     * qu'une publication rapportée en échec parce que son lien manquait.
+     */
+    public function permalienInstagram(string $mediaId): string
+    {
+        if ($mediaId === '' || !$this->instagramPret()) {
+            return '';
+        }
+
+        try {
+            $json = $this->lire('/' . $mediaId, [
+                'access_token' => $this->jetonPage(),
+                'fields'       => 'permalink',
+            ]);
+        } catch (RuntimeException) {
+            return '';
+        }
+
+        return (string) ($json['permalink'] ?? '');
+    }
+
     /** L'adresse d'un post, pour que l'historique soit cliquable. */
     public function lienPublication(string $reseau, string $id): string
     {
         if ($id === '') {
             return '';
         }
+        if (str_starts_with($id, 'https://')) {
+            return $id;
+        }
 
         return $reseau === 'instagram'
             ? 'https://www.instagram.com/' . rawurlencode($this->instagramNom())
             : 'https://www.facebook.com/' . rawurlencode($id);
+    }
+
+    /**
+     * Le lien collé en fin de légende, sans le répéter s'il y est déjà.
+     *
+     * Le compteur de l'écran a déjà tenu compte de sa longueur : la coupe
+     * éventuelle a porté sur le texte, jamais sur l'adresse.
+     */
+    private function avecLien(string $texte, string $lien): string
+    {
+        if ($lien === '' || str_contains($texte, $lien)) {
+            return $texte;
+        }
+
+        return $texte === '' ? $lien : rtrim($texte) . "\n\n" . $lien;
     }
 
     // ------------------------------------------------------------------ HTTP
@@ -435,7 +489,7 @@ final class Reseaux
      */
     private function lire(string $chemin, array $champs): array
     {
-        return $this->appeler(self::API . $chemin . '?' . http_build_query($champs), null);
+        return $this->appeler(self::API . $chemin . '?' . http_build_query($this->signer($champs)), null);
     }
 
     /**
@@ -444,7 +498,35 @@ final class Reseaux
      */
     private function ecrire(string $chemin, array $champs): array
     {
-        return $this->appeler(self::API . $chemin, http_build_query($champs));
+        return $this->appeler(self::API . $chemin, http_build_query($this->signer($champs)));
+    }
+
+    /**
+     * Ajoute la preuve du secret à tout appel portant un jeton.
+     *
+     * Meta permet d'exiger cette signature dans les réglages de
+     * l'application ; sans elle, un jeton recopié est utilisable depuis
+     * n'importe où, et le jeton d'une Page n'expire pas. La signature ne coûte
+     * rien et ferme cette porte : le jeton seul ne suffit plus, il faut aussi
+     * le secret, qui lui ne quitte jamais data/admin/parametres.json.
+     *
+     * Sans secret enregistré, l'appel part tel quel : le site doit rester
+     * utilisable pendant la saisie de l'application.
+     *
+     * @param array<string, scalar> $champs
+     * @return array<string, scalar>
+     */
+    private function signer(array $champs): array
+    {
+        $jeton  = (string) ($champs['access_token'] ?? '');
+        $secret = $this->secretApplication();
+        if ($jeton === '' || $secret === '') {
+            return $champs;
+        }
+
+        $champs['appsecret_proof'] = hash_hmac('sha256', $jeton, $secret);
+
+        return $champs;
     }
 
     /** @return array<string, mixed> */

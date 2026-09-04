@@ -83,7 +83,7 @@ final class ReseauxController
             'retour'     => $this->adresseRetour(),
             'permissions' => Reseaux::PERMISSIONS,
             'manques'    => $this->reseaux->manques(),
-            'pages'      => Session::flashDonnees('reseaux_pages') ?? [],
+            'pages'      => $this->pagesEnAttente(),
             'file'       => $this->publications->file(),
             'journal'    => $this->publications->journal(),
             'retard'     => $this->publications->enRetard(time()),
@@ -100,15 +100,36 @@ final class ReseauxController
         ], 'admin/layout');
     }
 
+    /**
+     * Entre deux dépilages greffés sur l'affichage d'un écran.
+     *
+     * Sans ce délai, chaque rafraîchissement relançait un appel à Meta. Quand
+     * Meta ne répond pas — panne, pare-feu sortant, mutualisé sans accès
+     * réseau —, l'écran attendait le délai réseau avant de s'afficher, et
+     * c'est justement l'écran où l'on vient voir ce qui ne va pas.
+     */
+    private const DEPILAGE_REPOS = 300;
+
     /** @return array{partis: int, echecs: int} */
     private function depilerSansBruit(): array
     {
+        $repos = ['partis' => 0, 'echecs' => 0];
+
+        if (time() - $this->publications->dernierDepilage() < self::DEPILAGE_REPOS) {
+            return $repos;
+        }
+
         try {
-            return $this->diffusion->depiler(time());
+            // Une seule publication par affichage, là où la tâche planifiée en
+            // prend vingt : ce dépilage-ci se paie en temps d'attente devant
+            // une page blanche. Le reste part à la visite suivante, ou au
+            // premier passage du cron.
+            $bilan = $this->diffusion->depiler(time(), 1);
+
+            return ['partis' => $bilan['partis'], 'echecs' => $bilan['echecs']];
         } catch (Throwable) {
-            // Une file en panne ne doit pas empêcher l'écran de s'afficher :
-            // c'est justement l'écran où l'on vient voir ce qui ne va pas.
-            return ['partis' => 0, 'echecs' => 0];
+            // Une file en panne ne doit pas empêcher l'écran de s'afficher.
+            return $repos;
         }
     }
 
@@ -185,7 +206,7 @@ final class ReseauxController
         // Plusieurs Pages : on laisse choisir plutôt que de deviner. Les
         // jetons sont passés par la session, pas par le formulaire — ils n'ont
         // rien à faire dans du HTML.
-        Session::flashDonnees('reseaux_pages', $pages);
+        $this->retenirPagesEnAttente($pages);
         return $this->rediriger();
     }
 
@@ -196,14 +217,51 @@ final class ReseauxController
         }
 
         $choisie = (string) ($_POST['page_id'] ?? '');
-        foreach ((array) Session::flashDonnees('reseaux_pages') as $page) {
+        foreach ($this->pagesEnAttente() as $page) {
             if (is_array($page) && ($page['id'] ?? '') === $choisie) {
+                $this->oublierPagesEnAttente();
                 return $this->retenir($page);
             }
         }
 
         Session::flash('erreur', 'Ce choix a expiré. Reconnectez-vous à Facebook.');
         return $this->rediriger();
+    }
+
+    /* La liste des Pages ne peut PAS passer par flashDonnees() : un flash est
+       consommé à la lecture, et c'est justement l'écran qui affiche la liste
+       qui la lirait le premier. Le choix arrivait alors sur une session vide
+       et échouait toujours — invisible tant qu'un compte ne gère qu'une seule
+       Page, puisque retour() la retient sans passer par ici.
+
+       Elle porte des jetons de Page : on l'oublie au choix, à la déconnexion,
+       et d'elle-même au bout d'un quart d'heure si l'administrateur s'en va. */
+    private const PAGES_DUREE = 900;
+
+    /** @return list<array<string, mixed>> */
+    private function pagesEnAttente(): array
+    {
+        $garde = Session::get('reseaux_pages');
+        if (!is_array($garde) || (int) ($garde['expire'] ?? 0) < time()) {
+            $this->oublierPagesEnAttente();
+            return [];
+        }
+
+        return array_values(array_filter((array) ($garde['pages'] ?? []), 'is_array'));
+    }
+
+    /** @param list<array{id: string, nom: string, jeton: string}> $pages */
+    private function retenirPagesEnAttente(array $pages): void
+    {
+        Session::set('reseaux_pages', [
+            'expire' => time() + self::PAGES_DUREE,
+            'pages'  => $pages,
+        ]);
+    }
+
+    private function oublierPagesEnAttente(): void
+    {
+        Session::oublier('reseaux_pages');
     }
 
     /** @param array{id: string, nom: string, jeton: string} $page */
@@ -231,6 +289,7 @@ final class ReseauxController
         }
 
         $this->reseaux->deconnecter();
+        $this->oublierPagesEnAttente();
         Session::flash('succes', 'Comptes déconnectés. L’application reste enregistrée.');
 
         return $this->rediriger();
@@ -282,15 +341,25 @@ final class ReseauxController
             return $this->rediriger();
         }
 
-        $this->publications->journaliser($publication, $ids, implode(' · ', $motifs), true);
+        $this->publications->journaliser($publication, $ids, implode(' · ', $motifs), $motifs === []);
         $partis = implode(' et ', array_map(
             static fn(string $r): string => $r === 'facebook' ? 'Facebook' : 'Instagram',
             array_keys($ids)
         ));
-        Session::flash(
-            $motifs === [] ? 'succes' : 'erreur',
-            'Publié sur ' . $partis . '.'
-            . ($motifs === [] ? '' : ' En revanche : ' . implode(' · ', $motifs))
+
+        if ($motifs === []) {
+            Session::flash('succes', 'Publié sur ' . $partis . '.');
+            return $this->rediriger();
+        }
+
+        // Un réseau accepté, l'autre refusé : ce qui manque retourne en file
+        // plutôt que d'obliger à retaper la publication.
+        $repris = $this->diffusion->reprendrePlusTard($publication, $ids);
+        Session::flash('erreur',
+            'Publié sur ' . $partis . '. En revanche : ' . implode(' · ', $motifs)
+            . ($repris === [] ? '' : ' La publication sur '
+                . implode(' et ', array_map('ucfirst', $repris))
+                . ' est remise en file et sera réessayée.')
         );
 
         return $this->rediriger();
@@ -420,9 +489,13 @@ final class ReseauxController
     {
         $slug = (string) ($item['slug'] ?? '');
 
+        /* `route()` et non un chemin écrit à la main : le slug d'une page se
+           change depuis le back-office, et le site peut vivre dans un
+           sous-dossier. « absolu('actualites/…') » ignorait les deux, et le
+           lien posté sur Facebook menait alors nulle part. */
         return match ($cle) {
-            'actualites' => $slug === '' ? absolu('actualites') : absolu('actualites/' . $slug),
-            'agenda'     => absolu('agenda'),
+            'actualites' => absolu(ltrim(route('actualites', $slug !== '' ? $slug : null), '/')),
+            'agenda'     => absolu(ltrim(route('agenda'), '/')),
             'documents'  => absolu((string) ($item['fichier'] ?? 'documents')),
             default      => absolu(''),
         };

@@ -397,7 +397,9 @@ final class ContenuController
                 'titre'    => (string) ($item['titre'] ?? ''),
                 'texte'    => trim(strip_tags((string) ($item['resume'] ?? ''))),
                 'surtitre' => 'Actualité',
-                'lien'     => absolu('actualites/' . (string) ($item['slug'] ?? '')),
+                // Voir ReseauxController::lienVersLeSite() : le chemin passe
+                // par route(), qui suit le slug réglé au back-office.
+                'lien'     => absolu(ltrim(route('actualites', (string) ($item['slug'] ?? '')), '/')),
                 'image'    => (string) ($item['image'] ?? ''),
                 'reseaux'  => $reseaux,
                 'source'   => 'actualites',
@@ -407,12 +409,23 @@ final class ContenuController
             return 'En revanche, la publication sur les réseaux a échoué : ' . $e->getMessage();
         }
 
+        if ($motifs === []) {
+            return 'Publiée sur ' . implode(' et ', array_map('ucfirst', array_keys($ids))) . '.';
+        }
+
+        // Ce qui n'est pas parti retourne en file : sans cela, un refus
+        // d'Instagram obligeait à recomposer la publication à la main.
+        $repris = $this->diffusion->reprendrePlusTard($publication, $ids);
+        $suite = $repris === [] ? '' : ' ' . implode(' et ', array_map('ucfirst', $repris))
+               . ' : remis en file, la publication sera réessayée.';
+
         if ($ids === []) {
-            return 'En revanche, rien n’est parti sur les réseaux : ' . implode(' · ', $motifs);
+            return 'En revanche, rien n’est parti sur les réseaux : '
+                 . implode(' · ', $motifs) . $suite;
         }
 
         return 'Publiée sur ' . implode(' et ', array_map('ucfirst', array_keys($ids))) . '.'
-            . ($motifs === [] ? '' : ' En revanche : ' . implode(' · ', $motifs));
+            . ' En revanche : ' . implode(' · ', $motifs) . $suite;
     }
 
     /**

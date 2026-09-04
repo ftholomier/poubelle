@@ -148,7 +148,9 @@ $contenus = (string) json_encode(
   <p class="bo-note"><?= e($vignette) ?> Les publications Instagram sans photo ne seront pas possibles.</p>
 <?php endif; ?>
 
-<form class="bo-form" method="post" action="<?= url('/admin/reseaux/publier') ?>" data-reseaux>
+<form class="bo-form" method="post" action="<?= url('/admin/reseaux/publier') ?>" data-reseaux
+      data-reseaux-max="<?= Reseaux::TEXTE_MAX ?>"
+      data-reseaux-max-instagram="<?= Reseaux::TEXTE_MAX_INSTAGRAM ?>">
   <?= Csrf::champ() ?>
 
   <?php if ($sources !== []): ?>
@@ -182,10 +184,14 @@ $contenus = (string) json_encode(
 
   <div class="bo-champ">
     <label for="r-texte">Message</label>
-    <textarea id="r-texte" name="texte" rows="5" maxlength="<?= Reseaux::TEXTE_MAX ?>"
+    <textarea id="r-texte" name="texte" rows="5"
               data-reseaux-texte><?= e((string) ($brouillon['texte'] ?? '')) ?></textarea>
     <p class="bo-aide">
-      <span data-reseaux-compteur>0</span> / <?= Reseaux::TEXTE_MAX ?> caractères.
+      <!-- Le compteur mesure ce qui partira : le titre et le lien en font
+           partie. Compter le seul corps du texte affichait « 1 990 / 2 000 »
+           sur un message que Facebook allait couper. -->
+      <span data-reseaux-compteur>0</span> / <span data-reseaux-limite><?= Reseaux::TEXTE_MAX ?></span>
+      caractères, titre et lien compris.
       Instagram n’affiche pas les liens cliquables : l’adresse y est ajoutée en clair.
     </p>
   </div>
@@ -279,6 +285,13 @@ $contenus = (string) json_encode(
             · <?= e(implode(' et ', (array) ($p['reseaux'] ?? []))) ?>
             <?php if ((int) ($p['essais'] ?? 0) > 0): ?>
               · <?= (int) $p['essais'] ?> essai(s) — <?= e((string) ($p['dernier_motif'] ?? '')) ?>
+              <?php /* L'heure du prochain essai, sans quoi une publication en
+                       échec paraît abandonnée : le recul entre deux essais va
+                       jusqu'à deux heures, et rien ne le disait. */ ?>
+              <?php $reprise = (int) ($p['reprise'] ?? 0); ?>
+              <?php if ($reprise > time()): ?>
+                · nouvel essai vers <?= e(date('H\hi', $reprise)) ?>
+              <?php endif; ?>
             <?php endif; ?>
           </span>
         </div>

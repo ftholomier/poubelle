@@ -743,8 +743,12 @@
     var lien = form.querySelector('#r-lien');
     var image = form.querySelector('[data-reseaux-image]');
     var compteur = form.querySelector('[data-reseaux-compteur]');
+    var jauge = form.querySelector('[data-reseaux-limite]');
     var quand = form.querySelector('[data-reseaux-quand]');
     var moments = [].slice.call(form.querySelectorAll('[data-reseaux-moment]'));
+    var cases = [].slice.call(form.querySelectorAll('input[name="reseaux[]"]'));
+    var maxFb = parseInt(form.getAttribute('data-reseaux-max'), 10) || 2000;
+    var maxIg = parseInt(form.getAttribute('data-reseaux-max-instagram'), 10) || 2200;
 
     var contenus = {};
     if (boite) {
@@ -752,8 +756,36 @@
       catch (e) { contenus = {}; }
     }
 
+    /* Le message tel qu'il partira : titre, texte et lien, séparés par une
+       ligne vide — exactement ce qu'assemble Diffusion::preparer(). Deux
+       assemblages différents rouvriraient l'écart que cette correction ferme :
+       le compteur annonçait 1 990 / 2 000 sur un message que Facebook coupait. */
+    function assemble() {
+      var morceaux = [];
+      if (titre && titre.value.trim()) morceaux.push(titre.value.trim());
+      if (texte && texte.value.trim()) morceaux.push(texte.value.trim());
+      if (lien && lien.value.trim()) morceaux.push(lien.value.trim());
+      return morceaux.join('\n\n');
+    }
+
+    /* La plus serrée des limites des réseaux cochés : Facebook s'arrête à
+       2 000, Instagram à 2 200 — et lui refuse au lieu de tronquer. */
+    function limite() {
+      var choisi = [];
+      for (var i = 0; i < cases.length; i++) {
+        if (cases[i].checked) choisi.push(cases[i].value);
+      }
+      if (choisi.length === 1 && choisi[0] === 'instagram') return maxIg;
+      return maxFb;
+    }
+
     function compter() {
-      if (compteur && texte) compteur.textContent = String(texte.value.length);
+      if (!compteur) return;
+      var n = assemble().length;
+      var max = limite();
+      compteur.textContent = String(n);
+      if (jauge) jauge.textContent = String(max);
+      compteur.className = n > max ? 'bo-compteur--trop' : '';
     }
 
     function reprendre() {
@@ -792,6 +824,9 @@
 
     if (source) source.addEventListener('change', reprendre);
     if (texte) texte.addEventListener('input', compter);
+    if (titre) titre.addEventListener('input', compter);
+    if (lien) lien.addEventListener('input', compter);
+    for (var c = 0; c < cases.length; c++) cases[c].addEventListener('change', compter);
     for (var i = 0; i < moments.length; i++) moments[i].addEventListener('change', momentChoisi);
     compter();
     momentChoisi();
