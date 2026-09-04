@@ -1,6 +1,6 @@
 # Consignes de travail sur ce dépôt
 
-Ce dépôt sert le **site officiel de la mairie de Lachapelle-sous-Chaux** —
+Ce dépôt sert le **site officiel de la mairie d’Angeot** —
 PHP natif, back-office complet, aucune dépendance — et sert aussi de modèle
 pour en produire d'autres à l'identique. Si votre tâche est de créer un site
 pour une autre commune, **lisez `NOUVEAU-SITE.md` d'abord** : c'est la recette

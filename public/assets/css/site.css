@@ -1522,7 +1522,11 @@ a.coordonnees__valeur:hover {
 .bande-cta {
   position: relative;
   padding: clamp(3.4rem, 7vw, 5.4rem) 0;
-  background: var(--encre-2);
+  /* --encre-2 est le plus clair des fonds sombres du site, et le sur-titre
+     de marque n'y tenait que 4,03:1. L'ardoise lui rend 5,11:1 sans rien
+     changer d'autre — la bande ferme la page, elle a tout intérêt à être le
+     ton le plus dense. */
+  background: var(--ardoise);
   text-align: center;
 }
 .bande-cta::before {
@@ -2384,6 +2388,24 @@ body.visionneuse-ouverte { overflow: hidden; }
     margin-inline: auto;
   }
 
+  /* Le logo est centré, le burger posé en absolu à gauche : le premier peut
+     donc glisser sous le second sans que rien ne déborde — aucune mesure de
+     débordement ne voit un chevauchement. C'est entete.py qui l'a vu, aux
+     bornes du réglage : à 120 px de hauteur demandée, le logo d'Angeot fait
+     228 px de large sur un écran de 320, et le burger commence à 16.
+
+     La largeur disponible se calcule plutôt qu'elle ne se devine : de quoi
+     loger le burger et son écart de chaque côté, symétriquement, puisque le
+     logo est centré. `object-fit: contain` fait le reste — le dessin se
+     réduit dans la boîte au lieu de s'y écraser, et la hauteur suit.
+
+     Le plafond vaut pour tout logo, pas seulement pour celui-ci : la mairie
+     peut en déposer un autre depuis la médiathèque, et il ne doit pas
+     ressortir de la barre pour autant. */
+  .entete__marque {
+    max-width: calc(100vw - 2 * (clamp(1rem, 3vw, 2.4rem) + 52px));
+  }
+
   /* La droite de la barre est vide à cette largeur : la garder dans le flux
      décalerait le logo d'autant. */
   .entete__droite { display: none; }
@@ -3008,7 +3030,9 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--bleu-clair); }
 .section--sombre .elu,
 .section--sombre .elu * { color: inherit; }
 .section--sombre .elu {
-  background: rgba(255, 255, 255, .05);
+  background: rgba(255, 255, 255, .03)  /* .05 composait #273945, où --bleu-clair
+     ne tenait que 4,42:1 pour la fonction de l’élu ; .03 donne #233541
+     et 4,68:1, pour une différence de fond que l’œil ne voit pas */;
   border-color: rgba(255, 255, 255, .16);
   border-top-color: var(--bleu-clair);
 }
@@ -3079,6 +3103,17 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--bleu-clair); }
 .association__picto svg { width: 34px; height: 34px; }
 .association__corps { flex: 1 1 auto; min-width: 0; }
 .association__nom { font-size: 1.6rem; font-weight: 300; margin-bottom: .4rem; }
+/* La photo d'une association : un bandeau large et court, qui donne le ton de
+   la fiche sans prendre la place du texte. Le cadre est en aspect-ratio et
+   l'image en object-fit — un cliché en portrait comme en paysage y entre sans
+   déformer, ce qui compte quand ce sont les associations qui les fournissent. */
+.association__photo {
+  width: 100%; aspect-ratio: 16 / 7; object-fit: cover; object-position: center;
+  margin: .2rem 0 1rem; border-radius: var(--rayon-carte);
+}
+.association__contact-role {
+  font-size: .78rem; color: var(--texte-doux);
+}
 .association__objet {
   font-size: .72rem; font-weight: 600;
   letter-spacing: .14em; text-transform: uppercase;
@@ -3103,7 +3138,18 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--bleu-clair); }
    Mesuré, puis vérifié à zéro. */
 .association__contacts li { display: flex; flex-direction: column; gap: .15rem; min-width: 0; }
 .association__contact-nom { font-weight: 500; color: var(--encre); }
-.association__contacts a { color: var(--bleu-texte); border-bottom: 1px solid transparent; }
+/* Une adresse de courriel est un mot qu'aucune règle de césure ordinaire ne
+   coupe. `overflow-wrap: break-word`, posé sur le corps, la coupe bien à la
+   peinture — mais ne réduit pas pour autant sa largeur min-content, et c'est
+   cette largeur-là qu'un conteneur flex ou grille respecte. Le lien est
+   précisément un flex, rendu tel par la règle de cible tactile plus bas.
+   `anywhere` est la seule des deux valeurs qui réduise aussi le min-content ;
+   le `min-width: 0` laisse la boîte suivre. Sans les deux, la carte dépassait
+   de 2 px sur un écran de 320 sous émulation tactile. */
+.association__contacts a {
+  color: var(--bleu-texte); border-bottom: 1px solid transparent;
+  overflow-wrap: anywhere; min-width: 0;
+}
 .association__contacts a:hover { border-bottom-color: currentColor; }
 
 /* ---------- Numéros utiles ----------
@@ -3446,7 +3492,11 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--bleu-clair); }
    translucide plutôt qu'en couleur : elle doit se voir sans devenir un
    troisième niveau de lecture. */
 .en-ce-moment {
-  background: var(--bleu-texte);
+  /* --bleu-texte est le jeton du petit texte posé sur le crème, pas un
+     fond : servi ici en aplat, il ne laissait que 4,43:1 au libellé de la
+     bande. --bleu-fonce est la valeur prévue pour les aplats, et donne
+     5,00:1 au même libellé — mesuré, pas estimé. */
+  background: var(--bleu-fonce);
   color: #fff;
   padding: clamp(1.1rem, 2.4vw, 1.5rem) 0;
 }

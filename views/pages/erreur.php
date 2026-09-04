@@ -14,7 +14,7 @@
       <?= e(t('La page que vous cherchez a peut-être été déplacée, ou son adresse a changé.')) ?>
     </p>
     <div class="erreur-page__actions">
-      <a class="btn btn--vert" href="<?= route('accueil') ?>"><?= e(t('Retour à l’accueil')) ?></a>
+      <a class="btn btn--bleu" href="<?= route('accueil') ?>"><?= e(t('Retour à l’accueil')) ?></a>
       <a class="btn btn--contour" href="<?= route('contact') ?>"><?= e(t('Nous contacter')) ?></a>
     </div>
   </div>

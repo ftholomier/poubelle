@@ -2,7 +2,7 @@
 
 Vous tenez un **site web complet et livrable**, et en même temps un **socle
 réutilisable**. Les deux sont le même code : ce dépôt sert le site officiel de
-la mairie de Lachapelle-sous-Chaux (Territoire de Belfort), et il a été écrit
+la mairie d’Angeot (Territoire de Belfort), et il a été écrit
 pour qu'on en produise d'autres sans repartir de zéro.
 
 Ce fichier ne décrit pas le code — les autres le font, et mieux. Il dit
@@ -105,7 +105,7 @@ Corrigez le script en expliquant pourquoi, ne relevez pas le seuil.
 
 ---
 
-## Ce qui est propre à Lachapelle et devra être remplacé
+## Ce qui est propre à Angeot et devra être remplacé
 
 Pour un autre site, tout ceci change — `NOUVEAU-SITE.md` détaille comment :
 

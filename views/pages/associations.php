@@ -33,6 +33,12 @@ $hero = ($page['hero'] ?? []) + ['titre' => $page['titre'] ?? '', 'image' => '']
           </span>
           <div class="association__corps">
             <h2 class="association__nom"><?= e($asso['nom'] ?? '') ?></h2>
+            <?php /* La photo est facultative : une association qui n'en fournit
+                     pas garde une fiche de texte, sans trou dans la grille. */ ?>
+            <?php if (!empty($asso['image'])): ?>
+              <img class="association__photo" src="<?= image($asso['image']) ?>"
+                   alt="<?= e($asso['image_alt'] ?? '') ?>" loading="lazy">
+            <?php endif; ?>
             <?php if (!empty($asso['objet'])): ?>
               <p class="association__objet"><?= e($asso['objet']) ?></p>
             <?php endif; ?>
@@ -50,6 +56,9 @@ $hero = ($page['hero'] ?? []) + ['titre' => $page['titre'] ?? '', 'image' => '']
                 <?php foreach ($asso['contacts'] as $c): ?>
                   <li>
                     <span class="association__contact-nom"><?= e($c['nom'] ?? '') ?></span>
+                    <?php if (!empty($c['role'])): ?>
+                      <span class="association__contact-role"><?= e($c['role']) ?></span>
+                    <?php endif; ?>
                     <?php if (!empty($c['tel'])): ?>
                       <a href="<?= e(tel_lien($c['tel'])) ?>"><?= e($c['tel']) ?></a>
                     <?php endif; ?>

@@ -1,6 +1,6 @@
 # Kit de reprise — socle de site vitrine PHP natif
 
-> Ce dépôt sert actuellement le site de la **mairie de Lachapelle-sous-Chaux**
+> Ce dépôt sert actuellement le site de la **mairie d’Angeot**
 > (Territoire de Belfort). Le présent fichier décrit le socle lui-même, pour le
 > reprendre sur un autre projet ; le site en cours, lui, est décrit dans
 > [SITE.md](SITE.md).
@@ -117,6 +117,47 @@ un site dont le diaporama avait été modifié — rien n'a bougé.
 Si `data/` n'est pas inscriptible, le modèle est servi tel quel : une page
 s'affiche même quand les droits sont à revoir.
 
+### Le verrou optimiste : deux administrateurs à la fois
+
+Toute écriture de contenu passe par fichier temporaire puis `rename()`, ce
+qui est atomique : un visiteur qui lit pendant qu'on écrit obtient l'ancienne
+version entière ou la nouvelle entière, jamais un JSON coupé en deux. C'est
+pour cela que `file_put_contents` direct est proscrit sur un fichier de
+contenu.
+
+Cela ne dit rien, en revanche, de deux personnes qui éditent en même temps.
+La secrétaire ouvre l'éditeur d'une page, un élu l'ouvre aussi, elle
+enregistre, il enregistre : son formulaire à lui a été construit avant, il
+réécrit donc l'état d'avant et le travail d'elle disparaît sans message.
+`Content::save()` recopie bien la version précédente dans
+`storage/sauvegardes/` avant chaque écriture, mais encore faut-il s'apercevoir
+de la perte.
+
+`App\Core\Verrou` règle cela sans qu'aucun formulaire ait à porter de champ
+ni aucun contrôleur à passer d'appel :
+
+- **à l'affichage** d'un écran d'administration (requête GET), chaque contenu
+  lu laisse son empreinte — date de modification et taille — dans la session
+  de celui qui regarde ;
+- **à l'enregistrement** (requête POST), `Content::save()` compare l'empreinte
+  du fichier tel qu'il est maintenant à celle qui avait été relevée. Si elles
+  diffèrent, quelqu'un a écrit entre-temps : l'écriture est refusée par une
+  `ConflitEcriture`, rattrapée dans `public/index.php`, qui renvoie
+  l'administrateur sur son écran avec le message qui dit quoi faire.
+
+Le découpage GET / POST est ce qui rend le dispositif invisible, et il tient à
+une seule condition : **ne jamais relever d'empreinte pendant un POST**, sans
+quoi la lecture que fait le contrôleur juste avant d'écrire rafraîchirait
+l'empreinte et le verrou ne verrait plus rien. Le verrou est armé une fois,
+en tête de `routes-admin.php` ; le site public n'écrit aucun contenu.
+
+Un contenu jamais lu pendant l'affichage n'a pas d'empreinte et son écriture
+passe : c'est voulu. Renommer un slug ou une photo réécrit une vingtaine de
+fichiers que l'écran n'a pas montrés, et refuser ces écritures-là bloquerait
+le back-office sans rien protéger.
+
+---
+
 ### Les briques de `app/Core`
 
 | Classe | Rôle | À reprendre tel quel ? |
@@ -137,6 +178,7 @@ s'affiche même quand les droits sont à revoir.
 | `Conversations` | Journal des échanges avec l'assistant, repérage des coordonnées, purge à 12 mois | oui |
 | `Permissions` | Analyse et réparation des droits | oui |
 | `Parametres` | Réglages techniques hors git | oui |
+| `Verrou` / `ConflitEcriture` | Verrou optimiste : deux administrateurs sur le même écran ne s'effacent plus | oui |
 
 ---
 

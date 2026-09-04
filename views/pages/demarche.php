@@ -62,7 +62,7 @@ $hero = ($item['hero'] ?? []) + [
       <?php endif; ?>
 
       <?php if (!empty($item['liens'])): ?>
-        <div class="encart encart--vert reveler">
+        <div class="encart encart--bleu reveler">
           <h2 class="encart__titre"><?= e(t('Faire en ligne')) ?></h2>
           <ul class="encart__liens">
             <?php foreach ($item['liens'] as $l): ?>

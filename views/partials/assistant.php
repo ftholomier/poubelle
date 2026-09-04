@@ -56,7 +56,7 @@ use App\Core\Csrf;
       <input id="ac-mail" name="email" type="email" autocomplete="email" maxlength="120">
       <p class="assistant__contact-aide"><?= e(t('Le téléphone ou l’e-mail suffit — l’un des deux.')) ?></p>
       <div class="assistant__contact-actions">
-        <button type="submit" class="btn btn--vert"><?= e(t('Envoyer')) ?></button>
+        <button type="submit" class="btn btn--bleu"><?= e(t('Envoyer')) ?></button>
         <button type="button" class="assistant__contact-annuler" data-assistant-annuler><?= e(t('Annuler')) ?></button>
       </div>
     </form>

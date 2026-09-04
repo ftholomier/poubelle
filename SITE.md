@@ -130,7 +130,30 @@ prolonge le blason au lieu de le contredire, et donne 13,82:1 avec le blanc.
 
 Six fichiers dans `public/assets/img/logo/` : le blason seul et le logo
 complet, chacun en version pour fond clair et pour fond sombre, plus une
-disposition verticale.
+disposition verticale — et deux favicons.
+
+**Le blason est le dessin officiel**, celui publié sur Wikimedia Commons par
+Blazooner sous licence CC BY-SA 4.0. Les armes elles-mêmes appartiennent à la
+commune ; la licence porte sur ce dessin-là, et impose d'en citer l'auteur.
+L'attribution figure dans les mentions légales, § « Crédits iconographiques » :
+**si le fichier est remplacé, retirer la ligne correspondante.**
+
+Le fichier d'origine venait d'Inkscape et portait ses métadonnées d'éditeur,
+une description héritée d'un tout autre blason, et des attributs dans des
+espaces de noms non déclarés — de quoi rendre la SVG illisible par le
+navigateur une fois extraite. Il est donc élagué à la lecture : ne survivent
+que les nœuds et attributs du SVG pur, plus `xlink`. Ses identifiants de
+dégradés sont préfixés `bl-`, parce qu'ils deviennent globaux au document dès
+qu'on imbrique le blason dans un logo.
+
+**Deux pièges à ne pas redécouvrir :**
+
+- Le préfixage des identifiants se fait **sur l'arbre**, pas par substitution
+  de texte : `showgrid="false"` contient la chaîne `id="false"`, qu'une
+  expression régulière naïve réécrit joyeusement.
+- Le blason est imbriqué dans les logos comme une `<svg>` interne avec son
+  propre `viewBox`. C'est ce qui évite d'avoir à retoucher une seule
+  coordonnée du dessin d'origine.
 
 Le mot « ANGEOT » est composé en Montserrat 500 avec 10 unités
 d'interlettrage, et **figé en chemins**. C'est délibéré : une SVG chargée dans
@@ -139,19 +162,21 @@ l'intérieur d'elle ne résout pas de façon fiable selon le contexte de
 chargement. Le script qui a produit ces chemins est conservé hors dépôt ; pour
 refaire le lettrage, il suffit de `fontTools` et de la police du site.
 
-Sur fond sombre, le champ de l'écu passe en transparent et le sable en clair.
-Les faire dans cet ordre compte : substituer d'abord le sable puis le champ
-efface le premier quand les deux visent la même valeur — c'est ce qui avait
-fait disparaître les lions de la première version sur fond sombre.
-
 Le favicon est le blason **sur fond ardoise**, et non sur son argent d'origine :
 à seize pixels dans une barre d'onglets déjà blanche, un écu blanc disparaît.
+
+**Le logo d'Angeot est plus large que celui du socle** — 3,08:1 contre 2,35:1,
+parce que le mot est court et l'écu presque carré. À la borne haute du réglage
+de taille, il touchait le burger sur un écran de 320 px. La largeur disponible
+se calcule désormais dans la feuille de style plutôt qu'elle ne se devine, et
+`object-fit: contain` réduit le dessin au lieu de l'écraser. Le plafond vaut
+pour tout logo que la mairie déposerait ensuite, pas seulement pour celui-ci.
 
 ---
 
 ## 5. Les photos
 
-Trente-sept photographies dans `public/assets/img/site/`, chacune avec sa
+Trente-neuf photographies dans `public/assets/img/site/`, chacune avec sa
 vignette `-mini`.
 
 - **Trente-quatre viennent du site précédent** : les albums photo de la mairie
@@ -160,11 +185,12 @@ vignette `-mini`.
   fichiers du site (salle Camille, affouage, bureaux d'associations). Elles
   sont l'œuvre des élus et des bénévoles ; l'ancien site indiquait que le
   contenu des albums est libre de droit.
-- **Quatre viennent de Wikimedia Commons** et restent sous licence CC BY-SA :
+- **Cinq viennent de Wikimedia Commons** et restent sous licence CC BY-SA :
   la rue principale, l'église Saint-Sébastien et son intérieur, la vue du
   village depuis l'église, la mairie-école. **Leur attribution est obligatoire**
-  et figure dans les mentions légales, § « Crédits photographiques ». Si l'une
-  d'elles est remplacée, retirer la ligne correspondante.
+  et figure dans les mentions légales, § « Crédits iconographiques », au même
+  endroit que celle du blason. Si l'une d'elles est remplacée, retirer la ligne
+  correspondante.
 
 Chaque `alt` décrit la scène, jamais le nom du fichier — l'auditeur de mise en
 page refuse les seconds.
@@ -191,6 +217,28 @@ depuis. Aucun formulaire n'a de champ à porter, aucun contrôleur d'appel à
 passer : c'est le découpage GET / POST qui fait tout le travail. Le conflit
 lève `ConflitEcriture`, rattrapé dans `public/index.php`, qui renvoie
 l'administrateur sur son écran avec le message qui dit quoi faire.
+
+**`<sup>` est entré dans la liste blanche du texte riche.** Les ordinaux
+abrégés — XIII<sup>e</sup> siècle, 1<sup>er</sup> avril — sont du texte courant
+dans une prose municipale, et la liste blanche les aplatissait en « XIIIe »,
+qu'un lecteur d'écran prononce mal. La balise ne porte aucun attribut : elle
+n'ouvre rien.
+
+**Les fiches d'association acceptent une photo et le rôle de chaque contact.**
+Le contenu repris de l'ancien site portait déjà ces informations — « Président »,
+« Trésorière », et une photo par association. Ni la vue ni l'écran d'édition ne
+les connaissaient : elles disparaissaient au premier enregistrement, sans
+message. Elles sont désormais déclarées dans `ContenuController::LISTES` et
+rendues par la vue.
+
+**Trois débordements horizontaux, tous de la même famille.** Une adresse de
+courriel est un mot qu'aucune césure ordinaire ne coupe. `overflow-wrap:
+break-word`, posé sur le corps, la coupe à la peinture mais ne réduit pas sa
+largeur *min-content* — et c'est cette largeur-là qu'un conteneur flex ou
+grille respecte. D'où trois correctifs : la règle sur le corps, un `min-width:
+0` sur les cartes d'association et sur leurs contacts, et un `overflow-wrap:
+anywhere` sur les liens qui portent une adresse. Avant : 39 px de débordement
+sur un écran de 320.
 
 **Les auditeurs lisent désormais le plan du site.** `contraste.py`,
 `mise-en-page.py` et `traceurs.py` portaient une liste de pages écrite en dur,
@@ -276,6 +324,27 @@ débordements et les cibles tactiles à cinq largeurs, l'absence de toute requê
 tierce avant consentement, le texte du bandeau sur chacune des six photos du
 diaporama forcée à son tour, et l'en-tête aux deux bornes du réglage de taille
 du logo dans les deux modes de barre et les deux dispositions de menu.
+
+Ce qu'ils ont attrapé sur ce site-ci, et qu'aucun œil n'avait vu :
+
+- **un bouton invisible.** Le renommage des jetons de couleur avait aussi
+  renommé la classe `.btn--vert` en `.btn--bleu` dans la feuille de style,
+  tandis que dix gabarits écrivaient toujours `btn--vert` : le bouton
+  « Écrire à la mairie » de la bande d'appel se retrouvait sans fond, texte
+  sombre sur fond sombre, à **1,14:1** ;
+- **une citation blanche sur blanc**, à 1,00:1. Le bloc « citation » se compose
+  en blanc sans exception ; posé sur un fond clair par l'alternance, il
+  disparaissait. Le fond ne lui est plus laissé au choix ;
+- **la bande « En ce moment » à 4,43:1**, parce qu'elle servait en aplat un
+  jeton défini pour du petit texte sur crème ;
+- **le sur-titre de la bande d'appel à 4,03:1** sur le plus clair des fonds
+  sombres du site ;
+- **la fonction d'un élu à 4,42:1** : la tuile translucide à 5 % d'opacité
+  composait un fond trop clair d'un cheveu ;
+- **le logo touchant le burger** aux quatre bornes du réglage de taille, en
+  disposition latérale sur 320 et 390 px — le logo d'Angeot est plus large que
+  celui du socle, et la largeur disponible se calcule désormais plutôt qu'elle
+  ne se devine.
 
 **La règle qui en découle vaut pour toute modification :** un réglage laissé à
 la mairie doit avoir son auditeur qui en force les bornes. Un curseur dont on

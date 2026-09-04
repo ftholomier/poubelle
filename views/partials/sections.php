@@ -23,6 +23,15 @@ $precedent = $depart ?? 'sombre';
 foreach ($sections as $bloc):
     $type = (string) ($bloc['type'] ?? 'texte');
     $fond = (string) ($bloc['fond'] ?? '');
+    if ($type === 'citation') {
+        // La citation se compose en blanc, sans exception : c'est ce qui lui
+        // donne sa respiration au milieu d'une page. Posée sur un fond clair
+        // — parce que l'alternance est tombée là, ou parce qu'un rédacteur a
+        // choisi « blanc » dans l'écran d'édition — elle devient invisible :
+        // mesuré à 1,00:1, du blanc sur du blanc. Le fond ne peut donc pas
+        // lui être laissé au choix, et l'alternance reprend après elle.
+        $fond = 'sombre';
+    }
     if ($fond === '') {
         $fond = $precedent === 'blanc' ? 'teinte' : 'blanc';
     }

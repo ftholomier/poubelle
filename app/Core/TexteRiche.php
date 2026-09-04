@@ -48,6 +48,10 @@ final class TexteRiche
         'ol'     => [],
         'li'     => [],
         'span'   => ['class'],
+        // Les ordinaux abrégés — XIIIᵉ siècle, 1ᵉʳ avril — sont du texte
+        // courant dans une prose municipale. Sans balise, la liste blanche
+        // les aplatit en « XIIIe », qu'un lecteur d'écran prononce mal.
+        'sup'    => [],
         'a'      => ['href', 'class'],
     ];
 
@@ -108,7 +112,7 @@ final class TexteRiche
      */
     public const COULEURS = [
         ''            => 'Couleur du texte',
-        'texte-vert'  => 'Vert de la commune',
+        'texte-vert'  => 'Bleu de la commune',
         'texte-encre' => 'Encre (plus soutenu)',
     ];
 

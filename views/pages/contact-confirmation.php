@@ -33,7 +33,7 @@ $nom  = trim((string) ($valeurs['prenom'] ?: $valeurs['nom']));
 
     <div class="erreur-page__actions">
       <a class="btn btn--contour" href="<?= route('accueil') ?>"><?= e(t('Retour à l’accueil')) ?></a>
-      <a class="btn btn--vert" href="<?= route('nos-services') ?>"><?= e(t('Découvrir nos services')) ?></a>
+      <a class="btn btn--bleu" href="<?= route('nos-services') ?>"><?= e(t('Découvrir nos services')) ?></a>
     </div>
   </div>
 </section>

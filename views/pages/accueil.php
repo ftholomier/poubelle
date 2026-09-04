@@ -56,7 +56,7 @@ $voile = min(100, max(0, (int) ($hero['voile'] ?? 100)));
     <h1 class="heros__titre"><?= e($hero['titre']) ?></h1>
     <p class="heros__texte"><?= e($hero['texte']) ?></p>
     <div class="heros__actions">
-      <a class="btn btn--vert" href="<?= lien($hero['bouton_principal']['url']) ?>">
+      <a class="btn btn--bleu" href="<?= lien($hero['bouton_principal']['url']) ?>">
         <?= e($hero['bouton_principal']['libelle']) ?>
       </a>
       <a class="btn btn--contour-clair" href="<?= lien($hero['bouton_secondaire']['url']) ?>">

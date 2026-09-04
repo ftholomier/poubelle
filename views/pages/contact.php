@@ -178,7 +178,7 @@ $v = static fn(string $cle): string => (string) ($valeurs[$cle] ?? '');
         <?php endif; ?>
 
         <div class="formulaire__actions">
-          <button class="btn btn--vert" type="submit"><?= e(t('Envoyer mon message')) ?></button>
+          <button class="btn btn--bleu" type="submit"><?= e(t('Envoyer mon message')) ?></button>
           <?php if ($tel !== ''): ?>
             <a class="btn btn--contour" href="<?= e(tel_lien($tel)) ?>">
               <?= e(t('Ou appelez le')) ?> <?= e($tel) ?>

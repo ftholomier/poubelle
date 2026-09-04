@@ -46,10 +46,10 @@ $estActif = static function (array $item) use ($chemin): bool {
     <a class="entete__logo" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — <?= e(t('Accueil')) ?>">
       <img class="entete__marque entete__marque--clair"
            src="<?= asset($site['logo']['clair'] ?? 'assets/img/logo/logo-angeot-clair.svg') ?>"
-           alt="" width="1532" height="653" aria-hidden="true">
+           alt="" width="711" height="232" aria-hidden="true">
       <img class="entete__marque entete__marque--sombre"
            src="<?= asset($site['logo']['horizontal'] ?? 'assets/img/logo/logo-angeot.svg') ?>"
-           alt="" width="1532" height="653" aria-hidden="true">
+           alt="" width="711" height="232" aria-hidden="true">
     </a>
 
 <?php if ($horizontal): ?>
@@ -63,7 +63,7 @@ $estActif = static function (array $item) use ($chemin): bool {
             <a class="navbar__lien" href="<?= lien($item['url']) ?>"<?= $actif ? ' aria-current="page"' : '' ?>>
               <?php /* Le clocher marque l'entrée courante : c'est la
                        silhouette que porte le logo de la commune, et le seul
-                       signe que tout le village reconnaît. Peint au vert de
+                       signe que tout le village reconnaît. Peint au bleu de
                        la charte. */ ?>
               <span class="navbar__feuille" aria-hidden="true">
                 <?= $view->partial('icones', ['nom' => 'clocher']) ?>
@@ -91,7 +91,7 @@ $estActif = static function (array $item) use ($chemin): bool {
       </a>
       <?php endif; ?>
       <?php if (($resa['principal']['url'] ?? '') !== ''): ?>
-      <a class="btn btn--vert entete__cta" href="<?= lien($resa['principal']['url']) ?>">
+      <a class="btn btn--bleu entete__cta" href="<?= lien($resa['principal']['url']) ?>">
         <?= e($resa['principal']['libelle']) ?>
       </a>
       <?php endif; ?>
@@ -171,7 +171,7 @@ $estActif = static function (array $item) use ($chemin): bool {
                c'est le même fichier que le pied de page. */ ?>
       <img class="panneau__embleme"
            src="<?= asset($site['logo']['clair'] ?? 'assets/img/logo/logo-angeot-clair.svg') ?>"
-           alt="" width="1532" height="653">
+           alt="" width="711" height="232">
     </a>
     <button class="panneau__fermer"><?= e(t('Fermer')) ?></button>
   </div>
@@ -203,7 +203,7 @@ $estActif = static function (array $item) use ($chemin): bool {
 
   <div class="panneau__pied">
     <?php if (($resa['principal']['url'] ?? '') !== ''): ?>
-      <a class="btn btn--vert" href="<?= lien($resa['principal']['url']) ?>"><?= e($resa['principal']['libelle']) ?></a>
+      <a class="btn btn--bleu" href="<?= lien($resa['principal']['url']) ?>"><?= e($resa['principal']['libelle']) ?></a>
     <?php endif; ?>
     <?php if (($resa['secondaire']['url'] ?? '') !== ''): ?>
       <a class="btn btn--contour" href="<?= lien($resa['secondaire']['url']) ?>"><?= e($resa['secondaire']['libelle']) ?></a>

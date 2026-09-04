@@ -123,7 +123,7 @@ $liens = (array) ($item['liens'] ?? []);
 
     <fieldset>
       <legend>Faire en ligne</legend>
-      <p class="bo-aide bo-aide-bloc">Les téléservices officiels, affichés dans l’encart vert. Laissez l’adresse vide pour retirer une ligne.</p>
+      <p class="bo-aide bo-aide-bloc">Les téléservices officiels, affichés dans l’encart bleu. Laissez l’adresse vide pour retirer une ligne.</p>
       <?php for ($i = 0; $i < count($liens) + 2; $i++): ?>
         <?php $lien = $liens[$i] ?? []; ?>
         <div class="bo-rangee">

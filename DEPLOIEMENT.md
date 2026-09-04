@@ -33,7 +33,7 @@ Envoyez tout le projet dans votre espace, **à côté** de `public_html` :
 ```
 /home/VOTRECOMPTE/
 ├── public_html/          ← ne sert plus, laissez-le vide
-├── lachapelle-sous-chaux/         ← le projet complet
+├── angeot/                        ← le projet complet
 │   ├── app/
 │   ├── config/
 │   ├── data/
@@ -44,7 +44,7 @@ Envoyez tout le projet dans votre espace, **à côté** de `public_html` :
 
 Puis dans **cPanel → Domaines** (ou *Domaines additionnels* / *Sous-domaines*
 selon le cas), modifiez la **racine du document** du domaine et pointez-la
-sur `lachapelle-sous-chaux/public`.
+sur `angeot/public`.
 
 ### Méthode de repli — tout dans public_html
 
@@ -355,7 +355,7 @@ lieu.
 Collez la clé dans l'écran **Avis Google**, puis :
 
 - si vous connaissez l'identifiant de votre fiche (Place ID), saisissez-le ;
-- sinon, utilisez la **recherche** en bas de l'écran : tapez « Mairie de Lachapelle-sous-Chaux,
+- sinon, utilisez la **recherche** en bas de l'écran : tapez « Mairie d’Angeot,
   Mathay », et cliquez sur *Utiliser cette fiche* dans les
   résultats. L'identifiant se reporte tout seul.
 
@@ -461,7 +461,7 @@ La langue est créée **hors ligne** : personne ne la voit encore.
 1. Ouvrez-la, cliquez **Traduire les N textes manquants**. Comptez une
    quarantaine de secondes pour l'ensemble du site.
 2. **Relisez.** Une traduction automatique se trompe souvent sur les noms
-   propres — « Lachapelle-sous-Chaux » ne doit pas être traduit. Corrigez
+   propres — « Angeot » ne doit pas être traduit. Corrigez
    directement dans les champs, puis *Enregistrer les traductions*.
 3. Mettez la langue **en ligne**. Un sélecteur FR / EN apparaît alors dans
    l'en-tête, et le plan du site déclare les deux versions.
@@ -637,12 +637,12 @@ tout vient du dépôt, en une commande.
 ```bash
 cd ~
 git clone --branch claude/redevelop-chapelle-website-xsnkxd \
-  https://github.com/ftholomier/poubelle.git lachapelle-sous-chaux
-cd lachapelle-sous-chaux
+  https://github.com/ftholomier/poubelle.git angeot
+cd angeot
 mkdir -p storage/cache data/admin
 ```
 
-Puis pointez la racine du document du domaine sur `lachapelle-sous-chaux/public`
+Puis pointez la racine du document du domaine sur `angeot/public`
 (section 1).
 
 **Cas 2 — le site est déjà en place** (envoyé par FTP). On greffe le dépôt
@@ -651,7 +651,7 @@ par dessus, sans toucher au contenu. Les commandes sont **enchaînées par
 rien ne s'exécute.
 
 ```bash
-cd ~/lachapelle-sous-chaux && test -f app/bootstrap.php && \
+cd ~/angeot && test -f app/bootstrap.php && \
 git clone --branch claude/redevelop-chapelle-website-xsnkxd \
   https://github.com/ftholomier/poubelle.git depot-temporaire && \
 mv depot-temporaire/.git . && rm -rf depot-temporaire && \

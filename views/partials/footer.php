@@ -22,7 +22,7 @@ $tel = (string) ($site['contact']['telephone'] ?? '');
         <a class="pied__logo" href="<?= route('accueil') ?>" aria-label="<?= e($site['nom']) ?> — <?= e(t('Accueil')) ?>">
           <img class="pied__embleme"
                src="<?= asset($site['logo']['clair'] ?? 'assets/img/logo/logo-angeot-clair.svg') ?>"
-               alt="" width="1532" height="653" loading="lazy">
+               alt="" width="711" height="232" loading="lazy">
         </a>
         <p class="pied__accroche"><?= e(t('Le secrétariat de mairie vous reçoit sans rendez-vous aux heures d’ouverture, et les élus tiennent permanence le samedi matin.')) ?></p>
         <?php if ($tel !== ''): ?>

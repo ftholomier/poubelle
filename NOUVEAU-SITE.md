@@ -229,10 +229,10 @@ grille. Le cadre doit être en `position: absolute; inset: 0`.
 ### Étape 1 — Partir du dépôt
 
 ```bash
-cp -r lachapelle-sous-chaux/ nouveau-site/ && cd nouveau-site
+cp -r angeot/ nouveau-site/ && cd nouveau-site
 rm -rf .git data/pages data/*.json data/admin storage/cache/* storage/sauvegardes/*
 rm -rf public/assets/img/site/* public/assets/doc/* data-modele/*
-git init && git add -A && git commit -m "Socle repris du site de Lachapelle-sous-Chaux"
+git init && git add -A && git commit -m "Socle repris du site d'Angeot"
 php -S localhost:8080 -t public public/index.php
 ```
 

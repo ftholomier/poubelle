@@ -26,8 +26,8 @@
       </p>
     </div>
     <div class="cookies__actions">
-      <button class="btn btn--vert" type="button" data-cookies-tout><?= e(t('Tout accepter')) ?></button>
-      <button class="btn btn--vert" type="button" data-cookies-rien><?= e(t('Tout refuser')) ?></button>
+      <button class="btn btn--bleu" type="button" data-cookies-tout><?= e(t('Tout accepter')) ?></button>
+      <button class="btn btn--bleu" type="button" data-cookies-rien><?= e(t('Tout refuser')) ?></button>
       <button class="cookies__reglages" type="button" data-cookies-ouvrir><?= e(t('Personnaliser')) ?></button>
     </div>
   </div>
@@ -62,9 +62,9 @@
     </div>
 
     <div class="cookies__panneau-pied">
-      <button class="btn btn--vert" type="button" data-cookies-rien><?= e(t('Tout refuser')) ?></button>
-      <button class="btn btn--vert" type="button" data-cookies-tout><?= e(t('Tout accepter')) ?></button>
-      <button class="btn btn--vert" type="button" data-cookies-enregistrer><?= e(t('Enregistrer mes choix')) ?></button>
+      <button class="btn btn--bleu" type="button" data-cookies-rien><?= e(t('Tout refuser')) ?></button>
+      <button class="btn btn--bleu" type="button" data-cookies-tout><?= e(t('Tout accepter')) ?></button>
+      <button class="btn btn--bleu" type="button" data-cookies-enregistrer><?= e(t('Enregistrer mes choix')) ?></button>
     </div>
   </div>
 </div>

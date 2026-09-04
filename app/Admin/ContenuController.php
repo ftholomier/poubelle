@@ -97,6 +97,7 @@ final class ContenuController
             'aide' => 'Une fiche par association du village, avec ses contacts tels qu’elle les donne.',
             'champs' => [
                 'nom' => 'ligne', 'objet' => 'ligne', 'icone' => 'icone',
+                'image' => 'photo', 'image_alt' => 'ligne',
                 'rendez_vous' => 'ligne', 'paragraphes' => 'riche',
                 'contacts' => 'items:contacts-assos',
             ],
@@ -131,7 +132,8 @@ final class ContenuController
 
     /** Sous-listes propres aux listes simples. */
     public const SOUS_LISTES = [
-        'contacts-assos' => ['nom' => 'ligne', 'tel' => 'ligne', 'email' => 'ligne'],
+        'contacts-assos' => ['nom' => 'ligne', 'role' => 'ligne',
+                             'tel' => 'ligne', 'email' => 'ligne'],
         'numeros'        => ['numero' => 'ligne', 'libelle' => 'ligne',
                              'texte' => 'zone', 'adresse' => 'zone', 'site' => 'ligne'],
         'colonnes'       => ['titre' => 'ligne', 'membres' => 'lignes'],

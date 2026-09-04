@@ -1,8 +1,8 @@
-# Lachapelle-sous-Chaux — site officiel de la commune
+# Angeot — site officiel de la commune
 
-Site de la **mairie de Lachapelle-sous-Chaux**, dans le Territoire de Belfort :
-démarches administratives, conseil municipal, vie scolaire, associations,
-actualités, agenda et coordonnées du secrétariat.
+Site de la **mairie d’Angeot**, dans le Territoire de Belfort :
+démarches administratives, équipe municipale, salle Camille, bois et forêts,
+associations, actualités, agenda et coordonnées du secrétariat.
 
 PHP 8.1+, **aucune dépendance** : ni Composer, ni base de données, ni build
 front. Le contenu vit dans des fichiers JSON qu'un back-office complet écrit.
@@ -42,24 +42,32 @@ visite : le site s'affiche complet, sans aucune manipulation préalable.
 
 ## Ce que contient le site
 
-**Trente-deux adresses publiques**, groupées en sept rubriques : la mairie
-(conseil, commissions, comptes-rendus, budget, urbanisme), les démarches
-(treize fiches, démarches en ligne, services de l'État, CCAS), la vie scolaire,
-le village (histoire, associations), les actualités (actualités, agenda, Flash
-Info), la vie pratique (déchets, eau, intercommunalité, numéros utiles) et le
-contact.
+**Trente-trois adresses publiques**, groupées en cinq rubriques : la mairie
+(équipe municipale, commissions et comités, comptes-rendus, délibérations et
+arrêtés, budget, publications, urbanisme), les démarches (douze fiches,
+démarches en ligne, services de l'État, CCAS), le village (histoire et
+patrimoine, salle Camille, bois et forêts, associations, album photos), les
+actualités (actualités, agenda, info à la une) et le quotidien (déchets, vie
+scolaire, intercommunalité, liens utiles, numéros utiles) — plus le contact et
+les pages de service.
+
+S'y ajoutent **soixante-dix-neuf documents** repris de l'ancien site : les
+comptes-rendus du conseil de 2020 à 2026, et les documents budgétaires de 2017
+à 2025.
 
 **Le contenu vivant est rappelé sur chaque page** par le bandeau « En ce
 moment » : la dernière actualité, le prochain rendez-vous, le dernier Flash
 Info. C'est ce que voit un administré arrivé par un moteur de recherche sur une
 fiche de démarche.
 
-**Vingt-six photos** du village et **dix-sept documents PDF** — huit
-comptes-rendus de conseil, sept bulletins municipaux, deux documents
-intercommunaux — repris de l'ancien site, recompressés et renommés.
+**Trente-huit photos** du village, reprises des albums de la mairie et de
+Wikimedia Commons, recadrées, recompressées et pourvues d'un texte de
+remplacement qui décrit la scène.
 
-**Soixante redirections 301** depuis les adresses du site WordPress
-précédent : aucune ne tombe sur une erreur.
+**Des redirections 301** depuis les adresses de l'ancien site : les dix-huit
+identifiants numériques de ses pages, ses huit adresses `.php` de racine et une
+trentaine d'adresses courtes. Aucune ne tombe sur une erreur — un identifiant
+inconnu arrive sur le plan du site.
 
 ---
 

@@ -22,7 +22,7 @@ $tel  = (string) ($site['contact']['telephone'] ?? '');
     </p>
     <div class="bande-cta__actions">
       <?php if (($resa['principal']['url'] ?? '') !== ''): ?>
-        <a class="btn btn--vert" href="<?= lien($resa['principal']['url']) ?>">
+        <a class="btn btn--bleu" href="<?= lien($resa['principal']['url']) ?>">
           <?= e($resa['principal']['libelle']) ?>
         </a>
       <?php endif; ?>

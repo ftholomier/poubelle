@@ -9,7 +9,11 @@
             "texte": "Le maire est l’exécutif de la commune : il prépare et exécute les délibérations du conseil, dirige les services, et exerce au nom de l’État les fonctions d’officier d’état civil et d’officier de police judiciaire.",
             "fond": "sombre",
             "membres": [
-                {"fonction": "Monsieur le maire", "nom": "Michel Nardin", "delegation": "Président du CCAS · président de la commission d’appel d’offres · officier d’état civil"}
+                {
+                    "fonction": "Monsieur le maire",
+                    "nom": "Michel Nardin",
+                    "delegation": "Président du CCAS · président de la commission d’appel d’offres · officier d’état civil"
+                }
             ]
         },
         {
@@ -17,9 +21,21 @@
             "surtitre": "Délégations",
             "texte": "Chaque adjoint reçoit une délégation du maire sur un domaine précis. C’est vers eux qu’on se tourne pour une question qui dépasse le guichet.",
             "membres": [
-                {"fonction": "Première adjointe", "nom": "Bernadette Martinato", "delegation": "Affaires sociales et CCAS · gestion du cimetière · Syndicat Intercommunal du Tilleul"},
-                {"fonction": "Deuxième adjoint", "nom": "Thierry Louvet", "delegation": "Bois et forêts · réseaux et énergie · Territoire d’énergie 90"},
-                {"fonction": "Troisième adjoint", "nom": "Stéphane Naegel", "delegation": "Travaux et bâtiments communaux · communes forestières · adjoint depuis janvier 2025"}
+                {
+                    "fonction": "Première adjointe",
+                    "nom": "Bernadette Martinato",
+                    "delegation": "Affaires sociales et CCAS · gestion du cimetière · Syndicat Intercommunal du Tilleul"
+                },
+                {
+                    "fonction": "Deuxième adjoint",
+                    "nom": "Thierry Louvet",
+                    "delegation": "Bois et forêts · réseaux et énergie · Territoire d’énergie 90"
+                },
+                {
+                    "fonction": "Troisième adjoint",
+                    "nom": "Stéphane Naegel",
+                    "delegation": "Travaux et bâtiments communaux · communes forestières · adjoint depuis janvier 2025"
+                }
             ]
         },
         {
@@ -27,21 +43,48 @@
             "surtitre": "Le conseil",
             "texte": "Le conseil municipal a été élu le 25 mai 2020 pour la mandature 2020-2026. Deux conseillers, Laurence Franchequin et François Gil, ont démissionné en 2022.",
             "membres": [
-                {"fonction": "Conseiller municipal", "nom": "Gilles Cortinovis", "delegation": "Commission d’appel d’offres · comité travaux"},
-                {"fonction": "Conseillère municipale", "nom": "Pauline Donna", "delegation": "Présidente du comité communication · gestion de la location de la salle communale · syndicat de la fourrière"},
-                {"fonction": "Conseillère municipale", "nom": "Anne Dupuis", "delegation": "Présidente du comité sapins de Noël · CNAS · syndicat de la piscine d’Étueffont"},
-                {"fonction": "Conseillère municipale", "nom": "Céline Oppendinger", "delegation": "Comité fleurissement · comité travaux · syndicat de la piscine d’Étueffont"},
-                {"fonction": "Conseiller municipal", "nom": "Éric Periat", "delegation": "Comité bois et forêt · référent Natura 2000"}
+                {
+                    "fonction": "Conseiller municipal",
+                    "nom": "Gilles Cortinovis",
+                    "delegation": "Commission d’appel d’offres · comité travaux"
+                },
+                {
+                    "fonction": "Conseillère municipale",
+                    "nom": "Pauline Donna",
+                    "delegation": "Présidente du comité communication · gestion de la location de la salle communale · syndicat de la fourrière"
+                },
+                {
+                    "fonction": "Conseillère municipale",
+                    "nom": "Anne Dupuis",
+                    "delegation": "Présidente du comité sapins de Noël · CNAS · syndicat de la piscine d’Étueffont"
+                },
+                {
+                    "fonction": "Conseillère municipale",
+                    "nom": "Céline Oppendinger",
+                    "delegation": "Comité fleurissement · comité travaux · syndicat de la piscine d’Étueffont"
+                },
+                {
+                    "fonction": "Conseiller municipal",
+                    "nom": "Éric Periat",
+                    "delegation": "Comité bois et forêt · référent Natura 2000"
+                }
             ]
         },
         {
             "titre": "Les agents communaux",
             "surtitre": "Les services",
             "texte": "Deux agents font tourner la commune au quotidien, complétés l’été par des emplois saisonniers.",
-            "fond": "teinte",
             "membres": [
-                {"fonction": "Secrétaire de mairie", "nom": "Virginie Ruedy", "delegation": "Accueil du public les mardis, jeudis après-midi et vendredis · état civil, urbanisme, élections, réservations de salle"},
-                {"fonction": "Agent technique", "nom": "Éric", "delegation": "Seize heures de service par semaine · entretien de la voirie et des espaces verts, bâtiments communaux, réfection et embellissement"}
+                {
+                    "fonction": "Secrétaire de mairie",
+                    "nom": "Virginie Ruedy",
+                    "delegation": "Accueil du public les mardis, jeudis après-midi et vendredis · état civil, urbanisme, élections, réservations de salle"
+                },
+                {
+                    "fonction": "Agent technique",
+                    "nom": "Éric",
+                    "delegation": "Seize heures de service par semaine · entretien de la voirie et des espaces verts, bâtiments communaux, réfection et embellissement"
+                }
             ]
         }
     ]

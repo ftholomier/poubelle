@@ -38,9 +38,10 @@
         {
             "type": "texte",
             "id": "credits-photographiques",
-            "titre": "Crédits photographiques",
-            "paragraphes": "<p>La plupart des photographies de ce site ont été prises par les élus et les bénévoles d’Angeot au fil des manifestations, et sont publiées avec leur accord.</p><p>Quatre vues du village proviennent de Wikimedia Commons et restent soumises à leur licence d’origine, qui impose d’en citer l’auteur et de conserver la même licence en cas de réutilisation :</p>",
+            "titre": "Crédits iconographiques",
+            "paragraphes": "<p>Le blason de la commune est reproduit d’après le fichier publié sur Wikimedia Commons par Blazooner, sous licence CC BY-SA 4.0. Les armes elles-mêmes — « d’argent à deux lions affrontés de sable » — appartiennent à la commune ; la licence porte sur ce dessin-là, et impose d’en citer l’auteur comme de conserver la même licence en cas de réutilisation.</p><p>La plupart des photographies de ce site ont été prises par les élus et les bénévoles d’Angeot au fil des manifestations, et sont publiées avec leur accord. Cinq vues du village proviennent de Wikimedia Commons et restent soumises à leur licence d’origine, qui impose les mêmes obligations :</p>",
             "liste": [
+                "Blason de la commune — Blazooner, licence CC BY-SA 4.0",
                 "« Rue principale à Angeot » — Espirat, licence CC BY-SA 4.0",
                 "« Angeot, vu de l’église » — Espirat, licence CC BY-SA 4.0",
                 "« Mairie-école » — Espirat, licence CC BY-SA 4.0",
