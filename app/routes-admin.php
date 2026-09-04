@@ -66,7 +66,10 @@ $diffusion = new App\Core\Diffusion($reseauxMeta, $publications, $vignette,
 $ctrlReseaux = new ReseauxController($view, $reseauxMeta, $publications, $diffusion,
                                      $content, $parametres, $mediatheque, $vignette);
 
-$admin   = new AdminController($view, $content, $auth, $mediatheque);
+$frequentation = new App\Core\Frequentation($config['paths']['data'] . '/frequentation');
+$admin   = new AdminController($view, $content, $auth, $mediatheque,
+                               $frequentation, $publications, $conversations,
+                               $parametres, $reseauxMeta);
 $edition = new EditionController($view, $content, $mediatheque);
 $contenu = new ContenuController($view, $content, $mediatheque, $seo, $diffusion, $reseauxMeta);
 $media   = new MediaController($view, $content, $mediatheque);

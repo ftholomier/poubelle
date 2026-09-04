@@ -67,6 +67,11 @@ ECRANS = (
     ('/admin/pages/le-village',   '/admin/pages/le-village',   'pages/le-village.json'),
 )
 
+# Le tableau de bord n'enregistre rien : il n'a pas sa place ci-dessus. Il est
+# en revanche le premier écran ouvert chaque matin, et c'est celui qui lit le
+# plus de fichiers — la fréquentation, la file des réseaux, les conversations,
+# les réglages. `alertes.py` et `mise-en-page.py --admin` le mesurent.
+
 
 def dossier_neuf() -> str:
     """Un data/ jetable, hors du dépôt. data-modele/ s'y recopie tout seul."""

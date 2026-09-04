@@ -635,6 +635,41 @@ serveur.
 
 ---
 
+## 13 bis. La fréquentation, et ce qu'elle n'enregistre pas
+
+Le tableau de bord montre les pages vues des trente derniers jours et les
+pages les plus consultées. **Ce compteur est tenu par le site lui-même** :
+rien n'est envoyé à Google ni à personne d'autre, aucun script extérieur n'est
+chargé, et aucun cookie n'est déposé.
+
+Ce qui est écrit sur le disque, dans `data/frequentation/`, tient en trois
+choses : **une date, un chemin, un nombre.** Pas d'adresse IP, pas
+d'identifiant, pas d'agent utilisateur, pas de référent, pas d'heure à la
+seconde. Rien qui permette de suivre quelqu'un d'une page à l'autre, ni d'un
+jour au lendemain.
+
+**Conséquence à connaître** : le chiffre annoncé est un nombre de **pages
+vues**, pas de visiteurs. Distinguer les visiteurs demanderait un identifiant
+posé chez eux, donc un cookie, donc une bannière de consentement. Le choix
+inverse a été fait ici, et l'écran le dit plutôt que de laisser croire à un
+compteur de visiteurs.
+
+C'est ce qui range cette mesure dans l'exemption de consentement que la CNIL
+prévoit pour la mesure d'audience strictement nécessaire : rien à demander au
+visiteur, rien à déclarer, et `traceurs.py` reste à zéro hôte tiers.
+
+Treize mois sont conservés — de quoi comparer un mois à celui de l'an
+dernier — puis le plus ancien s'efface tout seul. Un mois pèse quelques
+kilo-octets. Le dossier n'est pas versionné : un transfert de code ne peut ni
+l'écraser ni l'emporter.
+
+**La mesure Google Analytics reste possible** et indépendante : elle se règle
+dans Paramètres → Mesure d'audience, ne se charge qu'après accord du visiteur,
+et sert alors à autre chose — le détail des parcours, les sources de trafic.
+Les deux ne se gênent pas.
+
+---
+
 ## 14. Points de vigilance
 
 **HTTPS** — le `.htaccess` force la redirection vers HTTPS. Activez le

@@ -33,6 +33,7 @@ $GLOBALS['config'] = $config;
 
 use App\Core\ConflitEcriture;
 use App\Core\Content;
+use App\Core\Frequentation;
 use App\Core\Router;
 use App\Core\Session;
 use App\Core\View;
@@ -46,8 +47,53 @@ $view->share('content', $content);
 $router = new Router();
 require $config['paths']['app'] . '/routes.php';
 
+/**
+ * Cette requête compte-t-elle comme une page vue ?
+ *
+ * Le back-office, l'API, la tâche planifiée et les fichiers techniques n'ont
+ * rien à faire dans la fréquentation du site : ce sont les passages de la
+ * mairie et de ses outils, pas ceux des administrés. Les robots déclarés sont
+ * écartés aussi — non par souci de pureté, mais parce qu'un site de commune
+ * en reçoit plus que de visiteurs, et qu'un chiffre gonflé par eux ne sert à
+ * personne.
+ */
+function pageVue(string $methode, string $adresse): bool
+{
+    if ($methode !== 'GET') {
+        return false;
+    }
+
+    $chemin = (string) (parse_url($adresse, PHP_URL_PATH) ?: '/');
+    foreach (['/admin', '/api/', '/taches/', '/assets/', '/sitemap', '/robots'] as $prefixe) {
+        if (str_starts_with($chemin, $prefixe)) {
+            return false;
+        }
+    }
+
+    $agent = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '');
+
+    return $agent !== ''
+        && preg_match('~bot|crawl|spider|slurp|curl|wget|python-requests|headless|monitor~i', $agent) !== 1;
+}
+
+$methode = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+$adresse = $_SERVER['REQUEST_URI'] ?? '/';
+
 try {
-    echo $router->dispatch($_SERVER['REQUEST_METHOD'] ?? 'GET', $_SERVER['REQUEST_URI'] ?? '/');
+    $sortie = $router->dispatch($methode, $adresse);
+
+    /* La page vue est comptée APRÈS le rendu, et seulement s'il a réussi : une
+       404 ou une erreur n'est pas une consultation. Voir App\Core\Frequentation
+       pour ce qui est enregistré — une date, un chemin, un nombre, et rien
+       d'autre. Le compteur ne lève jamais. */
+    // http_response_code() rend le code déjà posé : le routeur met 404 avant
+    // de rendre sa page d'erreur. Une adresse qui n'existe pas n'est pas une
+    // page consultée, et la compter donnerait un palmarès de fautes de frappe.
+    if (http_response_code() === 200 && pageVue($methode, $adresse)) {
+        (new Frequentation($config['paths']['data'] . '/frequentation'))->noter($adresse);
+    }
+
+    echo $sortie;
 } catch (ConflitEcriture $e) {
     // Deux administrateurs sur le même écran : rien n'a été écrit, et ce
     // n'est pas une panne. On renvoie l'administrateur sur l'écran d'où il

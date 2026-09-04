@@ -239,10 +239,16 @@ button { font: inherit; cursor: pointer; }
 .bo-btn--petit { padding: .45rem .9rem; font-size: .7rem; }
 
 /* ---------- Tableau de bord ---------- */
+/* Cinq chiffres : à l'aise, ils tiennent sur une ligne ; à l'étroit, ils se
+   replient par deux. `auto-fit` seul laissait le cinquième tout seul sur une
+   seconde ligne dès 1400 px, ce qui donne l'impression d'un oubli. */
 .bo-stats {
   display: grid; gap: 1.1rem;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   margin-bottom: 2rem;
+}
+@media (min-width: 1100px) {
+  .bo-stats { grid-template-columns: repeat(5, 1fr); }
 }
 .bo-stat {
   display: block; padding: 1.4rem 1.5rem;
@@ -256,8 +262,99 @@ button { font: inherit; cursor: pointer; }
 }
 .bo-stat span { color: var(--texte-2); font-size: .88rem; }
 
-.bo-raccourcis { display: grid; gap: .6rem; }
-.bo-raccourcis a { font-size: .95rem; }
+.bo-btn--discret {
+  background: transparent; color: var(--texte-2); border-color: var(--trait);
+}
+.bo-btn--discret:hover { background: rgba(124, 162, 189, .1); color: var(--accent-clair); }
+
+/* ---------- Tableau de bord : à traiter ----------
+
+   Ce bloc ne s'affiche QUE s'il a quelque chose à dire. Un bandeau permanent
+   qui annonce « tout va bien » cesse d'être lu en une semaine, et emporte
+   avec lui celui qui annonce le contraire. */
+.bo-afaire { margin-bottom: 2rem; }
+.bo-afaire__titre {
+  font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--texte-2); margin-bottom: .8rem;
+}
+.bo-afaire__liste { display: grid; gap: .6rem; }
+.bo-afaire__item {
+  display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
+  padding: .9rem 1.2rem;
+  background: var(--fond-2); border: 1px solid var(--trait);
+  border-left-width: 3px;
+}
+.bo-afaire__texte { flex: 1 1 16rem; font-size: .95rem; }
+/* Le ton passe par la couleur du filet, jamais par elle seule : le texte dit
+   déjà de quoi il s'agit, et un daltonien lit la même chose que les autres. */
+.bo-afaire__item--urgent    { border-left-color: var(--rouge); }
+.bo-afaire__item--attention { border-left-color: #e2c37a; }
+.bo-afaire__item--info      { border-left-color: var(--accent); }
+
+/* ---------- Tableau de bord : panneaux ---------- */
+.bo-panneau {
+  background: var(--fond-2); border: 1px solid var(--trait);
+  padding: 1.4rem 1.5rem; margin-bottom: 2rem;
+}
+.bo-panneau__tete {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap; margin-bottom: 1.1rem;
+}
+.bo-panneau__tete h2 { font-size: 1.05rem; color: var(--texte); }
+.bo-panneau__note { color: var(--texte-2); font-size: .82rem; }
+.bo-sous-titre {
+  font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--texte-2); margin: 1.6rem 0 .8rem;
+}
+.bo-vide { color: var(--texte-2); font-size: .92rem; }
+
+/* ---------- Tableau de bord : fréquentation ---------- */
+.bo-audience { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+.bo-audience__chiffre { flex: 0 0 auto; }
+.bo-audience__chiffre strong {
+  display: block; font-family: var(--serif); font-size: 2.4rem;
+  color: var(--accent-clair); line-height: 1.1;
+}
+.bo-audience__chiffre > span { color: var(--texte-2); font-size: .88rem; }
+.bo-tendance { font-size: .82rem; margin-top: .5rem; }
+.bo-tendance span { color: var(--texte-2); display: block; font-size: .76rem; }
+.bo-tendance--hausse { color: #8fcfa8; }
+.bo-tendance--baisse { color: var(--rouge); }
+
+/* La courbe est un tracé SVG posé à la main : trente nombres ne valent pas une
+   bibliothèque de graphiques, et le back-office ne charge pas plus de script
+   extérieur que le site. */
+.bo-courbe { flex: 1 1 260px; height: 70px; min-width: 0; }
+.bo-courbe__aire { fill: rgba(124, 162, 189, .16); stroke: none; }
+.bo-courbe__trait {
+  fill: none; stroke: var(--accent); stroke-width: 1.5;
+  stroke-linejoin: round; stroke-linecap: round;
+  vector-effect: non-scaling-stroke;   /* le viewBox est étiré, le trait non */
+}
+
+.bo-palmares { display: grid; gap: .5rem; list-style: none; }
+.bo-palmares__ligne { display: flex; align-items: center; gap: .9rem; font-size: .88rem; }
+.bo-palmares__nom { flex: 0 0 auto; max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bo-palmares__jauge { flex: 1 1 auto; height: 6px; background: rgba(124, 162, 189, .12); }
+.bo-palmares__jauge span { display: block; height: 100%; background: var(--accent); }
+.bo-palmares__vues { flex: 0 0 3.5rem; text-align: right; color: var(--texte-2); font-variant-numeric: tabular-nums; }
+
+/* ---------- Tableau de bord : listes et gestes ---------- */
+.bo-colonnes { display: grid; gap: 1.4rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.bo-fil { display: grid; gap: .7rem; list-style: none; }
+.bo-fil li { display: flex; gap: .9rem; align-items: baseline; font-size: .92rem; }
+.bo-fil__date { flex: 0 0 4.6rem; color: var(--texte-2); font-size: .82rem; }
+.bo-fil__nom { flex: 1 1 auto; }
+
+.bo-gestes { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.bo-geste {
+  display: block; padding: .95rem 1.1rem;
+  background: var(--fond); border: 1px solid var(--trait);
+  transition: border-color .25s, transform .25s;
+}
+.bo-geste:hover { border-color: var(--accent); transform: translateY(-2px); }
+.bo-geste strong { display: block; color: var(--accent-clair); font-size: .95rem; margin-bottom: .2rem; }
+.bo-geste span { color: var(--texte-2); font-size: .8rem; line-height: 1.45; }
 
 /* ---------- Listes / cartes ---------- */
 .bo-liste { display: grid; gap: 1rem; }
