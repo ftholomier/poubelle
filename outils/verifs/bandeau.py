@@ -1,4 +1,4 @@
-"""Contraste du texte du bandeau d'accueil, photo par photo.
+"""Contraste du texte du bandeau d'accueil, photo par photo, voile au plancher.
 
 Pourquoi un quatrième auditeur : le diaporama du bandeau tire ses vues au
 hasard à chaque affichage. L'auditeur de contraste n'en voit donc qu'une sur
@@ -10,10 +10,19 @@ Il a trouvé, sur ce site, deux photos à 4,41 et 4,43:1 à 390 px là où l'aud
 général rendait « ok » : le voile du bandeau était réglé à 82, il est passé
 à 92.
 
+**Et il force le voile à sa borne basse**, pas à la valeur du jour. Le voile
+est un réglage laissé à la mairie : mesurer la seule valeur livrée, c'est
+mesurer ce que personne ne changera jamais et ignorer les cent une valeurs
+qu'un curseur permet. La borne vient de `App\Core\Bandeau::VOILE_MINI`, lue
+dans le fichier PHP : les deux ne peuvent pas diverger sans que l'audit le
+dise. Descendre la borne pour faire passer une photo est exactement ce que ce
+script existe pour empêcher — retirez la photo, ou assombrissez-la.
+
 Usage :
     php -S 127.0.0.1:8081 -t public public/index.php &
     python3 outils/verifs/bandeau.py
     python3 outils/verifs/bandeau.py --base http://127.0.0.1:8081
+    python3 outils/verifs/bandeau.py --voile 80   # pour chercher la borne
 
 Sort en code 1 s'il reste un écart.
 """
@@ -21,6 +30,7 @@ import argparse
 import io
 import json
 import os
+import re
 import sys
 
 from PIL import Image
@@ -31,6 +41,17 @@ SEUIL = 4.5
 NAVIGATEUR = os.environ.get('CHROMIUM', '/opt/pw-browsers/chromium')
 
 RACINE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
+def voile_mini() -> int:
+    """La borne basse déclarée par le code PHP, jamais recopiée ici."""
+    chemin = os.path.join(RACINE, 'app', 'Core', 'Bandeau.php')
+    with open(chemin, encoding='utf-8') as f:
+        trouve = re.search(r'VOILE_MINI\s*=\s*(\d+)', f.read())
+    if trouve is None:
+        print('Bandeau::VOILE_MINI est introuvable : la borne n’est plus déclarée.')
+        sys.exit(1)
+    return int(trouve.group(1))
 
 
 def photos() -> list[str]:
@@ -60,21 +81,27 @@ def contraste(a, b) -> float:
     return (haut + .05) / (bas + .05)
 
 
-def mesurer(pg, largeur: int, photo: str) -> float:
+def mesurer(pg, largeur: int, photo: str, voile: int) -> float:
     pg.goto(BASE + '/', wait_until='networkidle')
     # une seule vue montrée, la nôtre ; barre et bandeau cookies effacés, ils
-    # recouvriraient la zone mesurée
-    pg.evaluate("""(src) => {
+    # recouvriraient la zone mesurée. Le voile est forcé à la borne basse : le
+    # réglage servi est celui du jour, et ce n'est pas lui qu'on mesure.
+    pg.evaluate("""([src, voile]) => {
         document.querySelectorAll('[data-vue]').forEach((v, i) => {
             v.style.backgroundImage = "url('/" + src + "')";
             v.classList.toggle('est-visible', i === 0);
             v.style.opacity = i === 0 ? '1' : '0';
         });
+        // La propriété est posée en style en ligne sur la section : la
+        // redéfinir sur :root ne l'emporterait pas.
+        document.querySelectorAll('[style*="--voile"]').forEach(e => {
+            e.style.setProperty('--voile', (voile / 100).toFixed(2));
+        });
         // La bulle de l'assistant rejoint la liste pour la même raison que la
         // barre et le bandeau cookies : c'est un survol fixe, et le bas du
         // texte de bandeau passe derrière elle sur un écran court.
         document.querySelectorAll('.cookies, .entete, .assistant').forEach(e => e.style.display = 'none');
-    }""", photo)
+    }""", [photo, voile])
     pg.wait_for_timeout(1200)
 
     boite = pg.locator('.heros__texte').bounding_box()
@@ -96,8 +123,11 @@ def mesurer(pg, largeur: int, photo: str) -> float:
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('--base', default='http://127.0.0.1:8081')
+    ap.add_argument('--voile', type=int, default=None,
+                    help='forcer une autre valeur que Bandeau::VOILE_MINI')
     args = ap.parse_args()
     BASE = args.base.rstrip('/')
+    VOILE = args.voile if args.voile is not None else voile_mini()
 
     vues = photos()
     if not vues:
@@ -111,7 +141,7 @@ if __name__ == '__main__':
         for largeur in LARGEURS:
             pg = b.new_page(viewport={'width': largeur, 'height': 844})
             for photo in vues:
-                r = mesurer(pg, largeur, photo)
+                r = mesurer(pg, largeur, photo, VOILE)
                 pire = min(pire, r)
                 if r < SEUIL:
                     ecarts += 1
@@ -122,8 +152,10 @@ if __name__ == '__main__':
         b.close()
 
     print('---')
-    print(f'Pire cas : {pire:.2f}:1 — seuil {SEUIL}. {ecarts} écart(s).')
+    print(f'Voile forcé à {VOILE} % (borne basse du réglage). '
+          f'Pire cas : {pire:.2f}:1 — seuil {SEUIL}. {ecarts} écart(s).')
     if ecarts:
-        print('Relevez le voile du bandeau dans le back-office (Page d’accueil → '
-              'Assombrissement), ou retirez la photo en cause du diaporama.')
+        print('Retirez la photo en cause du diaporama, ou assombrissez-la au '
+              'traitement, ou relevez Bandeau::VOILE_MINI — mais relever la '
+              'borne interdit d’autant le réglage à la mairie.')
     sys.exit(1 if ecarts else 0)

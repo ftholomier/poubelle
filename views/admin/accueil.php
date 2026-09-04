@@ -47,12 +47,17 @@ $rubriques = implode("\n", array_map(
     <div class="bo-champ bo-champ--court">
       <label for="a-voile">Assombrissement de la photo</label>
       <span class="bo-glissiere">
-        <input id="a-voile" type="range" name="hero_voile" min="0" max="100" step="5"
-               value="<?= (int) ($accueil['hero']['voile'] ?? 100) ?>" data-valeur-de="a-voile-vu">
-        <output id="a-voile-vu" for="a-voile"><?= (int) ($accueil['hero']['voile'] ?? 100) ?> %</output>
+        <input id="a-voile" type="range" name="hero_voile"
+               min="<?= App\Core\Bandeau::VOILE_MINI ?>" max="<?= App\Core\Bandeau::VOILE_MAXI ?>" step="1"
+               value="<?= App\Core\Bandeau::voile($accueil['hero']['voile'] ?? null) ?>" data-valeur-de="a-voile-vu">
+        <output id="a-voile-vu" for="a-voile"><?= App\Core\Bandeau::voile($accueil['hero']['voile'] ?? null) ?> %</output>
       </span>
-      <p class="bo-aide">0 % : photo nue. 100 % : voile complet. En dessous de 60 %,
-        vérifiez que le titre blanc reste lisible sur vos photos claires.</p>
+      <p class="bo-aide">100 % : voile complet.
+        Le curseur ne descend pas sous <?= App\Core\Bandeau::VOILE_MINI ?> % :
+        c'est la valeur mesurée en dessous de laquelle le titre blanc passe sous
+        le seuil de lisibilité sur au moins une photo du diaporama. Pour un
+        bandeau plus clair, choisissez des photos plus sombres plutôt que de
+        chercher à descendre le voile.</p>
     </div>
 
     <div class="bo-champ">

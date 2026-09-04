@@ -38,7 +38,10 @@ if (!empty($hero['diaporama']['aleatoire']) && count($vues) > 1) {
     shuffle($vues);
 }
 $pause = max(2, (int) ($hero['diaporama']['pause'] ?? 6));
-$voile = min(100, max(0, (int) ($hero['voile'] ?? 100)));
+// La borne basse est appliquée aussi au rendu, et pas seulement à la saisie :
+// un accueil.json arrivé par l'éditeur avancé, ou par un ancien
+// enregistrement, ne doit pas pouvoir servir un bandeau illisible.
+$voile = App\Core\Bandeau::voile($hero['voile'] ?? null);
 ?>
 
 <section class="heros heros--accueil"

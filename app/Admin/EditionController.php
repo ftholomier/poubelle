@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Bandeau;
 use App\Core\Content;
 use App\Core\Csrf;
 use App\Core\Liste;
@@ -333,7 +334,9 @@ final class EditionController
         $a['hero']['titre']    = trim((string) ($_POST['hero_titre'] ?? $a['hero']['titre']));
         $a['hero']['texte']    = trim((string) ($_POST['hero_texte'] ?? ''));
         $a['hero']['image']    = $this->photoFacultative('hero_image', (string) $a['hero']['image']);
-        $a['hero']['voile']     = min(100, max(0, (int) ($_POST['hero_voile'] ?? 100)));
+        // Bornes dans App\Core\Bandeau : le voile a un plancher mesuré, en
+        // dessous duquel le titre blanc n'est plus lisible sur les photos.
+        $a['hero']['voile']     = Bandeau::voile($_POST['hero_voile'] ?? null);
         $a['hero']['diaporama'] = $this->diaporama();
 
         // --- bandeau pratique : « picto | libellé | valeur | précision | lien »
