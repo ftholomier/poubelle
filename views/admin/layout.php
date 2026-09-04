@@ -41,6 +41,9 @@ $menu = [
     ['/admin/demande',       'Écrire à la mairie'],
     ['/admin/conversations', 'Conversations'],
   ]],
+  ['Faire savoir', [
+    ['/admin/reseaux', 'Réseaux sociaux'],
+  ]],
   ['Apparence', [
     ['/admin/photos',    'Photos'],
     ['/admin/apparence', 'Apparence'],

@@ -1653,3 +1653,47 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
   font-size: .85rem; line-height: 1.5; color: var(--texte-2);
 }
 .bo-apercu-bulle__corrige[hidden] { display: none; }
+
+/* ---------- Réseaux sociaux ----------
+   L'écran est long : connexion, composition, file, journal. Les titres de
+   section lui donnent des paliers, sans quoi on ne sait plus où l'on est. */
+.bo-titre-section {
+  margin: 2.2rem 0 .9rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--trait);
+  font-family: var(--serif); font-size: 1.05rem; color: var(--accent-clair);
+}
+.bo-titre-section:first-of-type { border-top: 0; padding-top: 0; }
+
+/* Ce qu'il reste à faire, en tête : une mairie qui ouvre cet écran veut
+   savoir en une seconde pourquoi rien ne part encore. */
+.bo-manques {
+  margin-bottom: 1.4rem; padding: 1rem 1.2rem;
+  border-left: 3px solid var(--accent);
+  background: var(--fond-2);
+}
+.bo-manques h2 {
+  font-family: var(--serif); font-size: .95rem; color: var(--accent-clair);
+  margin-bottom: .4rem;
+}
+.bo-manques ul { margin: 0; padding-left: 1.1rem; }
+.bo-manques li { font-size: .88rem; line-height: 1.55; color: var(--texte-2); }
+
+.bo-note {
+  margin-bottom: 1.2rem; padding: .7rem .9rem;
+  border-left: 3px solid var(--accent);
+  background: var(--fond-2);
+  font-size: .88rem; line-height: 1.5; color: var(--texte-2);
+}
+
+.bo-connecte { margin-bottom: .5rem; font-size: .92rem; color: var(--texte); }
+.bo-connecte strong { color: var(--accent-clair); }
+
+/* L'adresse de redirection est à recopier telle quelle dans l'application
+   Meta : elle a besoin de tenir sur une ligne qu'on sélectionne d'un geste,
+   et de se couper proprement sur un écran étroit. */
+.bo-code--bloc {
+  display: block; margin: .5rem 0 .8rem; padding: .7rem .9rem;
+  background: var(--fond-2); border: 1px solid var(--trait); border-radius: 4px;
+  overflow-wrap: anywhere; user-select: all;
+}

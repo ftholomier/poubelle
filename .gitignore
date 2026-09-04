@@ -13,3 +13,8 @@ paquet-maj/
 # le contenu vivant appartient au serveur ; le depot ne porte que data-modele/
 data/*.json
 data/pages/
+
+# reseaux sociaux : file d'attente, journal des envois, vignettes generees
+data/reseaux/
+public/assets/img/reseaux/*
+!public/assets/img/reseaux/.gitkeep

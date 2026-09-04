@@ -87,6 +87,27 @@ final class Parametres
             'dates'     => true,          // afficher la date de parution de chaque avis
             'total'     => true,          // afficher « sur N avis » à côté de la note
         ],
+        /* Réseaux sociaux. Toute section doit être déclarée ICI, et pas
+           seulement écrite : `tout()` part de ce tableau et n'y fusionne que
+           les sections qu'il connaît. Une section absente est écrite dans le
+           fichier puis ignorée à la relecture — sans erreur, sans alerte. Le
+           réglage paraît alors ne pas s'enregistrer, et l'on cherche du côté
+           des droits d'écriture pendant une heure.
+
+           Le secret de l'application et le jeton de la Page sont des secrets
+           au même titre que le mot de passe SMTP : ils n'ont leur place ici
+           que parce que ce fichier est hors racine web et hors git. */
+        'reseaux' => [
+            'application'   => '',        // identifiant de l'application Meta
+            'secret'        => '',        // clé secrète de l'application
+            'jeton_page'    => '',        // jeton de la Page — n'expire pas
+            'page_id'       => '',
+            'page_nom'      => '',
+            'instagram_id'  => '',
+            'instagram_nom' => '',
+            'connecte_le'   => '',
+            'cle_tache'     => '',        // autorise l'adresse de dépilage
+        ],
     ];
 
     /** @var array<string, mixed>|null */

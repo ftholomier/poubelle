@@ -246,6 +246,39 @@ Deux pièges valent d'être connus avant d'y toucher :
   Son axe de transformation passe donc au coin bas-droit, et son balancement
   devient un mouvement horizontal : elle se décolle du bord et y revient.
 
+### Publier sur Facebook et Instagram
+
+L'écran **Réseaux sociaux** publie sur la Page Facebook et le compte Instagram
+du client. Quatre points valent d'être compris avant d'y toucher, parce
+qu'aucun ne se devine.
+
+**Tout part du serveur.** Aucun script de Meta dans la page, aucun appel depuis
+le navigateur — ni celui du visiteur, ni celui de l'administrateur. C'est ce
+qui garde `traceurs.py` à zéro, et une mairie n'a pas le droit de déposer les
+traceurs d'un tiers chez l'administré.
+
+**Meta impose une revue.** Tant qu'elle n'est pas accordée, seuls les comptes
+déclarés testeurs dans l'application peuvent publier. Ce n'est pas contournable
+et ce n'est pas un défaut : l'écran le dit plutôt que d'échouer en silence.
+`DEPLOIEMENT.md` § 13 décrit la démarche complète.
+
+**Instagram n'accepte rien sans image**, et il télécharge cette image lui-même :
+elle doit être accessible en HTTPS depuis l'extérieur. Une publication
+Instagram n'est donc pas essayable depuis un poste local — Facebook, si. Quand
+la publication n'a pas de photo, `Vignette` en fabrique une (voir ci-dessous).
+
+**Instagram ne sait pas programmer une publication**, Facebook si. C'est pour
+cela que la file d'attente est tenue par le site : un seul mécanisme, visible
+depuis le back-office, plutôt que deux dont un invisible. Elle est dépilée par
+une tâche planifiée **et**, à défaut, par les visites du back-office — sur
+mutualisé, un cron que personne n'a réglé ne doit pas faire disparaître les
+publications en silence.
+
+Une publication qui échoue reste en file avec son motif et est réessayée trois
+fois, puis passe au journal marquée en échec. Le pire, pour une mairie, n'est
+pas qu'une publication échoue : c'est qu'elle échoue sans que personne
+l'apprenne.
+
 ### Les briques de `app/Core`
 
 | Classe | Rôle | À reprendre tel quel ? |
@@ -268,6 +301,10 @@ Deux pièges valent d'être connus avant d'y toucher :
 | `Parametres` | Réglages techniques hors git | oui |
 | `Charte` | Toute la palette dérivée de la couleur choisie par le client, luminosité **résolue** pour tenir les contrastes | oui |
 | `Bulle` | Forme, couleurs, libellé et taille du bouton de l'assistant ; la couleur du texte y est résolue de la même façon | oui |
+| `Reseaux` | Connexion OAuth à Meta et publication sur la Page Facebook et le compte Instagram | oui, en déclarant une application Meta |
+| `Publications` | File d'attente et journal des envois, écritures atomiques | oui |
+| `Diffusion` | Le seul chemin d'envoi : réunit Meta, la file et la fabrique d'image | oui |
+| `Vignette` | L'image carrée fabriquée quand une publication n'a pas de photo (GD) | oui, en fournissant blason PNG et police TTF |
 | `Verrou` / `ConflitEcriture` | Verrou optimiste : deux administrateurs sur le même écran ne s'effacent plus | oui |
 
 ---
@@ -412,6 +449,7 @@ Trois conventions structurantes :
 | Apparence | **Couleur de la commune**, disposition du menu, taille du logo |
 | Avis Google | Clé d'API, fiche, filtres, rythme du carrousel |
 | Assistant IA | Activation, clé Gemini, **liste dynamique des modèles**, **forme, couleurs, intitulé et taille du bouton**, documents, notes, question d'essai |
+| Réseaux sociaux | Connexion Facebook/Instagram, composition, programmation, file et journal |
 | Conversations | Journal des échanges, coordonnées repérées, purge |
 | Référencement | Slugs, balises, redirections 301 |
 | Langues | Langues, traduction automatique, **clé DeepL et compteur** |
@@ -491,6 +529,23 @@ affiche le visuel « photo à venir » partout — c'est voulu.
 ---
 
 ## 10. Pièges rencontrés, à ne pas refaire
+
+**Deux défauts silencieux du socle, trouvés par `alertes.py` et corrigés.** Ils
+méritent la première place parce qu'ils ne se voient nulle part : pas d'erreur,
+pas d'alerte dans la page, juste une donnée qui n'arrive pas.
+
+- **`View::capture()` écartait toute donnée portant le nom d'une de ses
+  variables locales.** `extract($donnees, EXTR_SKIP)` saute ce qui existe déjà :
+  un contrôleur passant `'file' => [...]` voyait son tableau remplacé par le
+  chemin du gabarit. Les variables locales de cette méthode sont désormais
+  préfixées `$__`, ce qui ferme la question pour de bon plutôt que d'interdire
+  une liste de noms que personne ne retiendra.
+- **`Parametres::tout()` ignore toute section absente de `DEFAUTS`.** Elle est
+  écrite dans le fichier, puis jamais relue. Le réglage paraît ne pas
+  s'enregistrer et l'on cherche du côté des droits pendant une heure. **Toute
+  nouvelle section de réglages doit être déclarée dans `DEFAUTS`**, ce qui
+  documente au passage ses valeurs livrées.
+
 
 Cinq bugs réels de ce développement. Ils se reproduiront à l'identique sur un
 projet bâti sur le même socle.

@@ -254,6 +254,30 @@ grille respecte. D'où trois correctifs : la règle sur le corps, un `min-width:
 anywhere` sur les liens qui portent une adresse. Avant : 39 px de débordement
 sur un écran de 320.
 
+**La mairie peut publier sur Facebook et Instagram depuis le back-office.**
+Un écran « Réseaux sociaux » connecte la Page et le compte Instagram de la
+commune (`app/Core/Reseaux.php`), et publie soit un message libre, soit une
+actualité, un évènement d'agenda ou un document repris du site. Une case dans
+l'éditeur d'actualité permet aussi de publier à l'enregistrement, décochée par
+défaut.
+
+Trois contraintes de Meta ont commandé la conception, et aucune ne se
+contourne : la publication exige une **revue** de l'application ; Instagram
+n'accepte **rien sans image** et télécharge cette image lui-même ; Instagram ne
+sait pas **programmer** une publication. D'où, dans l'ordre : un écran qui dit
+ce qui manque au lieu d'échouer, une fabrique d'image
+(`app/Core/Vignette.php`), et une file d'attente tenue par le site, dépilée par
+une tâche planifiée — et à défaut par les visites du back-office, parce qu'un
+cron non réglé ne doit pas faire disparaître les publications en silence.
+
+Tout part du serveur : aucun code de Meta n'est chargé sur le site, et
+`traceurs.py` reste à zéro.
+
+**Le journal d'erreurs de PHP est entré dans la boucle qualité.** Un neuvième
+auditeur, `outils/verifs/alertes.py`, parcourt les 51 pages et les 26 écrans du
+back-office et lit ce que PHP dit tout bas. Il a trouvé trois défauts
+silencieux le jour où il a existé — voir § 9.
+
 **Le bouton de l'assistant est devenu réglable, et mesuré pour la première
 fois.** Forme (barre, pilule, rond, pastille, onglet), fond, couleur du texte,
 intitulé et taille se règlent dans l'écran Assistant IA (`app/Core/Bulle.php`).
@@ -366,14 +390,16 @@ chaque ligne se règle depuis le back-office.
 
 ## 9. Ce qui a été mesuré
 
-Les sept auditeurs de `outils/verifs/` sont à zéro. Ce n'est pas une formalité :
+Les neuf auditeurs de `outils/verifs/` sont à zéro. Ce n'est pas une formalité :
 ils mesurent le contraste réel de chaque texte peint à trois largeurs, les
 débordements et les cibles tactiles à cinq largeurs, l'absence de toute requête
 tierce avant consentement, le texte du bandeau sur chacune des six photos du
 diaporama forcée à son tour, l'en-tête aux deux bornes du réglage de taille
 du logo dans les deux modes de barre et les deux dispositions de menu, le
 site entier sous seize couleurs de commune différentes, et le bouton de
-l'assistant sous deux cent cinquante et un réglages.
+l'assistant sous deux cent cinquante et un réglages, l'image fabriquée pour
+Instagram sous seize couleurs, et le journal d'erreurs de PHP sur les 51 pages
+publiques comme sur les 26 écrans du back-office.
 
 Ce qu'ils ont attrapé sur ce site-ci, et qu'aucun œil n'avait vu :
 
@@ -396,7 +422,19 @@ Ce qu'ils ont attrapé sur ce site-ci, et qu'aucun œil n'avait vu :
   celui du socle, et la largeur disponible se calcule désormais plutôt qu'elle
   ne se devine ;
 - **le libellé de la bulle de l'assistant à 2,57:1**, hérité du socle et
-  jamais mesuré parce que l'assistant est éteint par défaut.
+  jamais mesuré parce que l'assistant est éteint par défaut ;
+- **trois paragraphes d'histoire de la commune qui ne s'affichaient pas**, sur
+  la page d'accueil : le contenu était écrit en texte riche là où le
+  back-office écrit un tableau de paragraphes, et le gabarit parcourait la
+  chaîne caractère par caractère. La page paraissait simplement un peu courte ;
+- **le même malentendu en sens inverse sur les fiches d'association**, où le
+  gabarit parcourait comme un tableau un champ déclaré en texte riche ;
+- **une donnée qui n'arrivait jamais à son gabarit** parce qu'elle s'appelait
+  `file`, nom d'une variable locale de `View::capture()` : `extract()` en mode
+  `EXTR_SKIP` l'écartait sans un mot.
+
+Les trois derniers ont été trouvés par `alertes.py` en trois minutes, et deux
+étaient là depuis des semaines. Aucun ne se voyait dans la page.
 
 **La règle qui en découle vaut pour toute modification :** un réglage laissé à
 la mairie doit avoir son auditeur qui en force les bornes. Un curseur dont on

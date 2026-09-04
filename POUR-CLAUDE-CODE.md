@@ -52,7 +52,7 @@ lecture : le site s'affiche complet, sans manipulation.
 
 ---
 
-## Les sept auditeurs — c'est le cœur de la méthode
+## Les neuf auditeurs — c'est le cœur de la méthode
 
 La qualité de ce projet ne vient pas du goût mais de la mesure. Cinq scripts
 Python pilotent un navigateur et sortent en code 1 s'ils trouvent quelque
@@ -68,6 +68,8 @@ python3 outils/verifs/bandeau.py         # chaque photo du diaporama, une par un
 python3 outils/verifs/entete.py          # l'en-tête aux bornes de ses réglages
 python3 outils/verifs/couleur.py         # le site sous chaque teinte de la roue
 python3 outils/verifs/bulle.py           # le bouton de l’assistant sous chacun de ses réglages
+python3 outils/verifs/vignette.py        # l’image fabriquée pour Instagram, sous chaque couleur
+python3 outils/verifs/alertes.py         # ce que PHP dit tout bas, et que la page ne montre pas
 ```
 
 Ils demandent Python 3 et Playwright (`pip install playwright pillow` puis
@@ -181,7 +183,7 @@ crochets :
 > que tu as le droit d'adapter, d'améliorer et d'étoffer du moment que tu
 > gardes l'esprit global. Je te donne les droits d'accès à [adresse].
 >
-> Les sept auditeurs de `outils/verifs/` doivent être à zéro avant que tu
+> Les neuf auditeurs de `outils/verifs/` doivent être à zéro avant que tu
 > déclares quoi que ce soit fini. Pose-moi tes questions avant de développer si
 > tu en as. Développe dans une nouvelle branche.
 

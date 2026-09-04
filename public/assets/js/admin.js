@@ -723,6 +723,80 @@
     peindre();
   })();
 
+  /* ---------- Réseaux sociaux : composer une publication ----------
+     Trois conforts, aucun indispensable : reprendre un contenu du site dans
+     les champs, compter les caractères, et ne montrer le champ de date que si
+     une date est demandée. Sans JavaScript, l'écran reste utilisable — on
+     saisit le message à la main et le champ de date est visible.
+
+     Rien n'est envoyé d'ici : c'est le formulaire qui poste, et le serveur qui
+     parle à Meta. Le navigateur de l'administrateur ne contacte jamais
+     Facebook, pas plus que celui du visiteur. */
+  (function () {
+    var form = document.querySelector('[data-reseaux]');
+    if (!form) return;
+
+    var source = form.querySelector('[data-reseaux-source]');
+    var boite = form.querySelector('[data-reseaux-contenus]');
+    var titre = form.querySelector('#r-titre');
+    var texte = form.querySelector('[data-reseaux-texte]');
+    var lien = form.querySelector('#r-lien');
+    var image = form.querySelector('[data-reseaux-image]');
+    var compteur = form.querySelector('[data-reseaux-compteur]');
+    var quand = form.querySelector('[data-reseaux-quand]');
+    var moments = [].slice.call(form.querySelectorAll('[data-reseaux-moment]'));
+
+    var contenus = {};
+    if (boite) {
+      try { contenus = JSON.parse(boite.getAttribute('data-reseaux-contenus')) || {}; }
+      catch (e) { contenus = {}; }
+    }
+
+    function compter() {
+      if (compteur && texte) compteur.textContent = String(texte.value.length);
+    }
+
+    function reprendre() {
+      if (!source || !source.value) return;
+      var parts = source.value.split(':');
+      var liste = contenus[parts[0]] || [];
+      var item = liste[parseInt(parts[1], 10)];
+      if (!item) return;
+
+      if (titre) titre.value = item.titre || '';
+      if (texte) texte.value = item.texte || '';
+      if (lien) lien.value = item.lien || '';
+      /* La photo n'est reprise que si elle est dans la liste : une actualité
+         peut porter une image rangée ailleurs que dans la médiathèque, et
+         forcer une valeur absente laisserait le sélecteur sur autre chose que
+         ce qu'il affiche. */
+      if (image) {
+        var trouvee = '';
+        for (var i = 0; i < image.options.length; i++) {
+          if (image.options[i].value && image.options[i].value === item.image) {
+            trouvee = item.image;
+          }
+        }
+        image.value = trouvee;
+      }
+      compter();
+    }
+
+    function momentChoisi() {
+      var programme = false;
+      for (var i = 0; i < moments.length; i++) {
+        if (moments[i].checked && moments[i].value === 'programme') programme = true;
+      }
+      if (quand) quand.hidden = !programme;
+    }
+
+    if (source) source.addEventListener('change', reprendre);
+    if (texte) texte.addEventListener('input', compter);
+    for (var i = 0; i < moments.length; i++) moments[i].addEventListener('change', momentChoisi);
+    compter();
+    momentChoisi();
+  })();
+
   /* ---------- Assistant : le bouton du site ----------
      Forme, libellé, taille, couleurs : l'aperçu suit la saisie sans
      aller-retour serveur. La résolution de contraste est la MÊME que celle de

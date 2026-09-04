@@ -5,12 +5,15 @@ namespace App\Admin;
 
 use App\Core\Content;
 use App\Core\Csrf;
+use App\Core\Diffusion;
 use App\Core\Liste;
 use App\Core\Mediatheque;
+use App\Core\Reseaux;
 use App\Core\Seo;
 use App\Core\Session;
 use App\Core\View;
 use RuntimeException;
+use Throwable;
 
 /**
  * Édition du contenu : les pages à blocs, les collections à fiches et les
@@ -144,7 +147,21 @@ final class ContenuController
         private readonly Content $content,
         private readonly Mediatheque $mediatheque,
         private readonly Seo $seo,
+        /* La diffusion est facultative : sans elle, la case « publier aussi
+           sur les réseaux » ne s'affiche pas, et l'écran fonctionne comme
+           avant. C'est ce qui permet de reprendre ce contrôleur dans un site
+           qui n'a pas de réseaux sociaux, sans rien retirer. */
+        private readonly ?Diffusion $diffusion = null,
+        private readonly ?Reseaux $reseauxMeta = null,
     ) {
+    }
+
+    /** La case n'a de sens que si une Page est connectée. */
+    private function diffusionPossible(): bool
+    {
+        return $this->diffusion !== null
+            && $this->reseauxMeta !== null
+            && $this->reseauxMeta->facebookPret();
     }
 
     // ============================================================== pages
@@ -322,6 +339,10 @@ final class ContenuController
             'item'       => $item,
             'medias'     => $this->mediatheque->lister(),
             'documents'  => self::documentsDisponibles(),
+            // Seules les actualités se publient depuis leur fiche : un
+            // numéro utile ou une commission n'ont rien à annoncer.
+            'diffusable' => $nom === 'actualites' && $this->diffusionPossible(),
+            'instagram'  => $this->reseauxMeta?->instagramPret() ?? false,
         ], 'admin/layout');
     }
 
@@ -341,8 +362,57 @@ final class ContenuController
         $donnees['items'][$rang] = $this->ficheSaisie($nom, $donnees['items'][$rang]);
         $this->content->save($nom, $donnees);
 
-        Session::flash('succes', 'Fiche enregistrée.');
+        $message = 'Fiche enregistrée.';
+        if (isset($_POST['diffuser']) && $nom === 'actualites' && $this->diffusionPossible()) {
+            $message .= ' ' . $this->diffuser($donnees['items'][$rang]);
+        }
+
+        Session::flash('succes', $message);
         return $this->rediriger('/admin/' . $nom . '/' . $slug);
+    }
+
+    /**
+     * Envoie une actualité sur les réseaux, à l'enregistrement.
+     *
+     * Elle ne lève jamais : l'enregistrement de la fiche vient d'avoir lieu et
+     * a réussi, il serait absurde de le présenter comme un échec parce que
+     * Facebook a répondu de travers. Ce qui s'est passé est dit dans le
+     * message, et le journal des réseaux en garde la trace.
+     *
+     * @param array<string, mixed> $item
+     */
+    private function diffuser(array $item): string
+    {
+        if ($this->diffusion === null) {
+            return '';
+        }
+
+        $reseaux = ['facebook'];
+        if (($this->reseauxMeta?->instagramPret() ?? false) && isset($_POST['diffuser_instagram'])) {
+            $reseaux[] = 'instagram';
+        }
+
+        try {
+            $publication = $this->diffusion->preparer([
+                'titre'    => (string) ($item['titre'] ?? ''),
+                'texte'    => trim(strip_tags((string) ($item['resume'] ?? ''))),
+                'surtitre' => 'Actualité',
+                'lien'     => absolu('actualites/' . (string) ($item['slug'] ?? '')),
+                'image'    => (string) ($item['image'] ?? ''),
+                'reseaux'  => $reseaux,
+                'source'   => 'actualites',
+            ]);
+            [$ids, $motifs] = $this->diffusion->envoyer($publication);
+        } catch (Throwable $e) {
+            return 'En revanche, la publication sur les réseaux a échoué : ' . $e->getMessage();
+        }
+
+        if ($ids === []) {
+            return 'En revanche, rien n’est parti sur les réseaux : ' . implode(' · ', $motifs);
+        }
+
+        return 'Publiée sur ' . implode(' et ', array_map('ucfirst', array_keys($ids))) . '.'
+            . ($motifs === [] ? '' : ' En revanche : ' . implode(' · ', $motifs));
     }
 
     /**

@@ -42,7 +42,12 @@ $hero = ($page['hero'] ?? []) + ['titre' => $page['titre'] ?? '', 'image' => '']
             <?php if (!empty($asso['objet'])): ?>
               <p class="association__objet"><?= e($asso['objet']) ?></p>
             <?php endif; ?>
-            <?php foreach ($asso['paragraphes'] ?? [] as $p): ?><p><?= e($p) ?></p><?php endforeach; ?>
+            <?php /* riche() plutôt qu'une boucle : l'écran d'édition déclare ce
+                     champ en « riche » et écrit donc une chaîne HTML, que la
+                     boucle traversait caractère par caractère — texte perdu et
+                     alerte PHP à chaque affichage. riche() accepte les deux
+                     formes, l'ancien tableau comme la chaîne, et nettoie. */ ?>
+            <?= riche($asso['paragraphes'] ?? '') ?>
 
             <?php if (!empty($asso['rendez_vous'])): ?>
               <p class="association__rdv">

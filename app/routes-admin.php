@@ -23,6 +23,7 @@ use App\Admin\LangueController;
 use App\Admin\MediaController;
 use App\Admin\MiseAJourController;
 use App\Admin\ParametreController;
+use App\Admin\ReseauxController;
 use App\Admin\SeoController;
 use App\Core\Auth;
 use App\Core\Deploiement;
@@ -50,9 +51,24 @@ $deploiement = new Deploiement($config['paths']['root'], $parametres);
 $languesAdmin = new Langues($config['paths']['data'] . '/langues.json');
 $traducteurAdmin = new App\Core\Traducteur($config['paths']['data'] . '/traductions');
 
+// Réseaux sociaux : la diffusion réunit l'accès à Meta, la file d'attente et
+// la fabrique d'image. Un seul chemin d'envoi pour l'écran, la case à cocher
+// des actualités et la tâche planifiée.
+$reseauxMeta = new App\Core\Reseaux($parametres);
+$publications = new App\Core\Publications($config['paths']['data'] . '/reseaux');
+$vignette = new App\Core\Vignette(
+    $config['paths']['public'],
+    App\Core\Charte::depuis($parametres),
+    (string) $content->get('site', 'nom', 'Mairie')
+);
+$diffusion = new App\Core\Diffusion($reseauxMeta, $publications, $vignette,
+                                     $config['paths']['public'], origine());
+$ctrlReseaux = new ReseauxController($view, $reseauxMeta, $publications, $diffusion,
+                                     $content, $parametres, $mediatheque, $vignette);
+
 $admin   = new AdminController($view, $content, $auth, $mediatheque);
 $edition = new EditionController($view, $content, $mediatheque);
-$contenu = new ContenuController($view, $content, $mediatheque, $seo);
+$contenu = new ContenuController($view, $content, $mediatheque, $seo, $diffusion, $reseauxMeta);
 $media   = new MediaController($view, $content, $mediatheque);
 $majour  = new MiseAJourController($view, $deploiement);
 $ctrlLangues = new LangueController($view, $content, $languesAdmin, $traducteurAdmin,
@@ -64,6 +80,7 @@ $apparence = new ApparenceController($view, $parametres, $content);
 $ctrlAvis  = new AvisController($view, $avis, $parametres);
 $ctrlIa    = new AssistantController($view, $assistant, $parametres);
 $ctrlConv  = new ConversationController($view, $conversations);
+
 // compteur du menu : lu une fois, partagé à tous les écrans du back-office
 $view->share('nonLues', $conversations->nonLues());
 
@@ -164,6 +181,43 @@ $router->post('/admin/assistant/essai',           $protege(fn() => $ctrlIa->essa
 $router->get('/admin/conversations',            $protege(fn() => $ctrlConv->ecran()));
 $router->post('/admin/conversations/supprimer', $protege(fn() => $ctrlConv->supprimer()));
 $router->post('/admin/conversations/vider',     $protege(fn() => $ctrlConv->viderMois()));
+
+// --- réseaux sociaux ------------------------------------------------------
+$router->get('/admin/reseaux',                 $protege(fn() => $ctrlReseaux->ecran()));
+$router->post('/admin/reseaux/application',    $protege(fn() => $ctrlReseaux->application()));
+$router->post('/admin/reseaux/connexion',      $protege(fn() => $ctrlReseaux->connexion()));
+$router->get('/admin/reseaux/retour',          $protege(fn() => $ctrlReseaux->retour()));
+$router->post('/admin/reseaux/page',           $protege(fn() => $ctrlReseaux->choisirPage()));
+$router->post('/admin/reseaux/deconnexion',    $protege(fn() => $ctrlReseaux->deconnexion()));
+$router->post('/admin/reseaux/publier',        $protege(fn() => $ctrlReseaux->publier()));
+$router->post('/admin/reseaux/annuler',        $protege(fn() => $ctrlReseaux->annuler()));
+$router->post('/admin/reseaux/journal/vider',  $protege(fn() => $ctrlReseaux->viderJournal()));
+
+/* Le dépilage de la file, appelé par une tâche planifiée.
+ *
+ * Cette adresse n'est PAS derrière `$protege`, et c'est voulu : un cron n'a
+ * pas de session. Elle est protégée par une clé tirée au sort, comparée à
+ * temps constant, et ne rend qu'un compte rendu de deux lignes. Sans clé
+ * valable, elle répond 403 et ne dit rien de plus — une adresse qui
+ * détaillerait ce qu'elle attend serait un mode d'emploi pour la forcer. */
+$router->get('/taches/reseaux', function () use ($reseauxMeta, $diffusion): string {
+    header('X-Robots-Tag: noindex, nofollow');
+    header('Content-Type: text/plain; charset=utf-8');
+
+    if (!$reseauxMeta->cleTacheValide((string) ($_GET['cle'] ?? ''))) {
+        http_response_code(403);
+        return "non\n";
+    }
+
+    try {
+        $bilan = $diffusion->depiler(time(), 20);
+    } catch (Throwable $e) {
+        http_response_code(500);
+        return 'erreur : ' . $e->getMessage() . "\n";
+    }
+
+    return sprintf("partis %d\nechecs %d\n", $bilan['partis'], $bilan['echecs']);
+});
 
 // --- réglages techniques --------------------------------------------------
 $router->get('/admin/parametres',             $protege(fn() => $reglage->ecran()));

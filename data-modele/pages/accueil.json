@@ -9,18 +9,42 @@
         "texte": "Un village de trois cent cinquante Angelois entre la Saint-Nicolas et la forêt, aux portes des Vosges du Sud.",
         "image": "assets/img/site/village-vu-de-l-eglise.jpg",
         "voile": 92,
-        "bouton_principal": {"libelle": "Faire une démarche", "url": "/demarches"},
-        "bouton_secondaire": {"libelle": "Contacter la mairie", "url": "/contact"},
+        "bouton_principal": {
+            "libelle": "Faire une démarche",
+            "url": "/demarches"
+        },
+        "bouton_secondaire": {
+            "libelle": "Contacter la mairie",
+            "url": "/contact"
+        },
         "diaporama": {
             "aleatoire": true,
             "pause": 7,
             "vues": [
-                {"actif": true, "image": "assets/img/site/village-vu-de-l-eglise.jpg"},
-                {"actif": true, "image": "assets/img/site/rue-principale.jpg"},
-                {"actif": true, "image": "assets/img/site/mairie-ecole.jpg"},
-                {"actif": true, "image": "assets/img/site/eglise-saint-sebastien.jpg"},
-                {"actif": true, "image": "assets/img/site/fleurissement-place-du-village.jpg"},
-                {"actif": true, "image": "assets/img/site/chemin-forestier.jpg"}
+                {
+                    "actif": true,
+                    "image": "assets/img/site/village-vu-de-l-eglise.jpg"
+                },
+                {
+                    "actif": true,
+                    "image": "assets/img/site/rue-principale.jpg"
+                },
+                {
+                    "actif": true,
+                    "image": "assets/img/site/mairie-ecole.jpg"
+                },
+                {
+                    "actif": true,
+                    "image": "assets/img/site/eglise-saint-sebastien.jpg"
+                },
+                {
+                    "actif": true,
+                    "image": "assets/img/site/fleurissement-place-du-village.jpg"
+                },
+                {
+                    "actif": true,
+                    "image": "assets/img/site/chemin-forestier.jpg"
+                }
             ]
         }
     },
@@ -58,7 +82,10 @@
         "surtitre": "Vos démarches",
         "titre": "Ce que vous venez chercher",
         "texte": "Carte d’identité, inscription sur les listes électorales, recensement à 16 ans, déclaration de travaux : chaque fiche dit ce que la mairie fait elle-même, ce qu’elle ne fait pas, et où s’adresser dans ce cas.",
-        "lien": {"libelle": "Toutes les démarches", "url": "/demarches"}
+        "lien": {
+            "libelle": "Toutes les démarches",
+            "url": "/demarches"
+        }
     },
     "vie": {
         "surtitre": "La vie du village",
@@ -70,28 +97,99 @@
         "titre": "Un village ancien sur un ruisseau",
         "image": "assets/img/site/village-vu-de-l-eglise.jpg",
         "image_alt": "Les fermes du village devant les prés, avec la ligne des Vosges du Sud à l’horizon",
-        "paragraphes": "<p>Angeot s’étend sur 6,56 km² entre 360 et 417 mètres d’altitude, dans le nord-est du Territoire de Belfort. Le village doit peut-être son nom à l’Aine, ancien nom de la Saint-Nicolas, le ruisseau qui le traverse. Il apparaît dans les textes dès 1234, et son église remonte au haut Moyen Âge.</p><p>Au XIII<sup>e</sup> siècle, les comtes de Ferrette donnent en fief un château qui sera détruit lors des invasions suédoises de 1635 ; ses fondations dorment encore dans les champs derrière la cure. Longtemps commune du Haut-Rhin, Angeot reste française en 1871 avec les communes orientales de ce qui deviendra le Territoire de Belfort.</p><p>Aujourd’hui, ce sont les bénévoles qui font le village : le fleurissement au printemps, les décorations qui envahissent les rues à Noël, la marche populaire qui rassemble plus de mille participants, les concerts dans la salle Camille.</p>",
-        "lien": {"libelle": "Histoire & patrimoine", "url": "/histoire-et-patrimoine"}
+        "paragraphes": [
+            "Angeot s’étend sur 6,56 km² entre 360 et 417 mètres d’altitude, dans le nord-est du Territoire de Belfort. Le village doit peut-être son nom à l’Aine, ancien nom de la Saint-Nicolas, le ruisseau qui le traverse. Il apparaît dans les textes dès 1234, et son église remonte au haut Moyen Âge.",
+            "Au XIIIe siècle, les comtes de Ferrette donnent en fief un château qui sera détruit lors des invasions suédoises de 1635 ; ses fondations dorment encore dans les champs derrière la cure. Longtemps commune du Haut-Rhin, Angeot reste française en 1871 avec les communes orientales de ce qui deviendra le Territoire de Belfort.",
+            "Aujourd’hui, ce sont les bénévoles qui font le village : le fleurissement au printemps, les décorations qui envahissent les rues à Noël, la marche populaire qui rassemble plus de mille participants, les concerts dans la salle Camille."
+        ],
+        "lien": {
+            "libelle": "Histoire & patrimoine",
+            "url": "/histoire-et-patrimoine"
+        }
     },
     "indicateurs": {
         "titre": "La commune en quelques chiffres",
         "items": [
-            {"valeur": "354", "unite": "", "libelle": "habitants (recensement 2023)"},
-            {"valeur": "6,56", "unite": " km²", "libelle": "de superficie communale"},
-            {"valeur": "360", "unite": "–417 m", "libelle": "d’altitude, du ruisseau aux hauteurs"},
-            {"valeur": "1234", "unite": "", "libelle": "première mention écrite du village"}
+            {
+                "valeur": "354",
+                "unite": "",
+                "libelle": "habitants (recensement 2023)"
+            },
+            {
+                "valeur": "6,56",
+                "unite": " km²",
+                "libelle": "de superficie communale"
+            },
+            {
+                "valeur": "360",
+                "unite": "–417 m",
+                "libelle": "d’altitude, du ruisseau aux hauteurs"
+            },
+            {
+                "valeur": "1234",
+                "unite": "",
+                "libelle": "première mention écrite du village"
+            }
         ]
     },
     "rubriques": {
         "surtitre": "Le site",
         "titre": "Trouver autre chose",
         "items": [
-            {"icone": "mairie", "titre": "La mairie", "texte": "Équipe municipale, commissions, comptes-rendus des séances, délibérations, budget et publications.", "lien": {"libelle": "Voir la rubrique", "url": "/la-mairie"}},
-            {"icone": "association", "titre": "La salle Camille", "texte": "La salle communale : capacité, tarifs, caution et conditions de réservation.", "lien": {"libelle": "Voir la rubrique", "url": "/salle-camille"}},
-            {"icone": "foret", "titre": "Bois & forêts", "texte": "Affouage, entretien des chemins forestiers, lutte contre les scolytes de l’épicéa.", "lien": {"libelle": "Voir la rubrique", "url": "/bois-et-forets"}},
-            {"icone": "ecole", "titre": "Vie scolaire", "texte": "L’école, le Syndicat Intercommunal du Tilleul, la cantine, le périscolaire et les transports.", "lien": {"libelle": "Voir la rubrique", "url": "/vie-scolaire"}},
-            {"icone": "dechets", "titre": "Gérer mes déchets", "texte": "Jours de collecte des bacs bruns et jaunes, déchèteries, encombrants et déchets verts.", "lien": {"libelle": "Voir la rubrique", "url": "/gerer-mes-dechets"}},
-            {"icone": "urgence", "titre": "Numéros utiles", "texte": "Urgences, santé, dépannage des réseaux et services publics du secteur.", "lien": {"libelle": "Voir la rubrique", "url": "/numeros-utiles"}}
+            {
+                "icone": "mairie",
+                "titre": "La mairie",
+                "texte": "Équipe municipale, commissions, comptes-rendus des séances, délibérations, budget et publications.",
+                "lien": {
+                    "libelle": "Voir la rubrique",
+                    "url": "/la-mairie"
+                }
+            },
+            {
+                "icone": "association",
+                "titre": "La salle Camille",
+                "texte": "La salle communale : capacité, tarifs, caution et conditions de réservation.",
+                "lien": {
+                    "libelle": "Voir la rubrique",
+                    "url": "/salle-camille"
+                }
+            },
+            {
+                "icone": "foret",
+                "titre": "Bois & forêts",
+                "texte": "Affouage, entretien des chemins forestiers, lutte contre les scolytes de l’épicéa.",
+                "lien": {
+                    "libelle": "Voir la rubrique",
+                    "url": "/bois-et-forets"
+                }
+            },
+            {
+                "icone": "ecole",
+                "titre": "Vie scolaire",
+                "texte": "L’école, le Syndicat Intercommunal du Tilleul, la cantine, le périscolaire et les transports.",
+                "lien": {
+                    "libelle": "Voir la rubrique",
+                    "url": "/vie-scolaire"
+                }
+            },
+            {
+                "icone": "dechets",
+                "titre": "Gérer mes déchets",
+                "texte": "Jours de collecte des bacs bruns et jaunes, déchèteries, encombrants et déchets verts.",
+                "lien": {
+                    "libelle": "Voir la rubrique",
+                    "url": "/gerer-mes-dechets"
+                }
+            },
+            {
+                "icone": "urgence",
+                "titre": "Numéros utiles",
+                "texte": "Urgences, santé, dépannage des réseaux et services publics du secteur.",
+                "lien": {
+                    "libelle": "Voir la rubrique",
+                    "url": "/numeros-utiles"
+                }
+            }
         ]
     }
 }

@@ -147,6 +147,36 @@ $liens = (array) ($item['liens'] ?? []);
       'documents' => $documents,
   ]) ?>
 
+  <?php if (!empty($diffusable)): ?>
+    <fieldset>
+      <legend>Faire savoir</legend>
+      <p class="bo-aide">
+        Décochée, l’actualité reste sur le site. Cochée, elle part sur les
+        réseaux <strong>à l’enregistrement</strong>, avec son titre, son résumé
+        et sa photo — relisez-la avant de cocher, une publication partie ne se
+        rattrape pas en corrigeant la page.
+      </p>
+      <div class="bo-champ bo-champ--case">
+        <label>
+          <input type="checkbox" name="diffuser" value="1">
+          Publier aussi sur Facebook
+        </label>
+      </div>
+      <?php if (!empty($instagram)): ?>
+        <div class="bo-champ bo-champ--case">
+          <label>
+            <input type="checkbox" name="diffuser_instagram" value="1">
+            … et sur Instagram
+          </label>
+          <p class="bo-aide">
+            Sans photo, une image carrée aux couleurs de la commune est
+            fabriquée : Instagram n’accepte aucune publication sans image.
+          </p>
+        </div>
+      <?php endif; ?>
+    </fieldset>
+  <?php endif; ?>
+
   <div class="bo-barre-actions">
     <button class="bo-btn" type="submit">Enregistrer la fiche</button>
     <a class="bo-btn bo-btn--fantome" href="<?= url('/admin/avance?nom=' . $collection) ?>">Éditeur avancé</a>

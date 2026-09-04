@@ -501,7 +501,112 @@ efface aussi les traductions.
 
 ---
 
-## 13. Points de vigilance
+## 13. Publier sur Facebook et Instagram
+
+Le back-office peut publier sur la Page Facebook et le compte Instagram de la
+commune, depuis l'écran **Réseaux sociaux**. Rien ne part sans qu'on l'ait
+demandé, et tout part du serveur : aucun code de Meta n'est chargé sur le
+site, aucun traceur n'est déposé chez les visiteurs.
+
+Il y a un préalable, et il prend du temps : **Meta exige une application
+déclarée, et une revue avant d'accorder la publication.** Comptez de quelques
+jours à quelques semaines. Ce n'est pas un défaut du site, c'est la règle de
+Meta pour tout le monde.
+
+### Ce qu'il faut avoir
+
+- une **Page Facebook** (pas un profil personnel) administrée par la mairie ;
+- pour Instagram, un **compte professionnel ou créateur**, rattaché à cette
+  Page. Un compte Instagram personnel ne peut pas publier par l'API, et
+  l'écran le dira. La conversion se fait dans les réglages d'Instagram, en
+  quelques minutes et sans perdre les publications existantes.
+
+### Créer l'application Meta
+
+1. Aller sur `developers.facebook.com`, se connecter avec le compte qui
+   administre la Page, puis **Mes applications → Créer une application**.
+2. Choisir le cas d'usage **« Autre »**, puis le type **« Entreprise »**.
+3. Dans **Paramètres → Général**, relever l'**identifiant de l'application**
+   et la **clé secrète**. Ce sont eux qu'on saisit dans l'écran Réseaux
+   sociaux du back-office.
+4. Ajouter le produit **« Connexion Facebook »**, puis, dans ses paramètres,
+   coller dans **URI de redirection OAuth valides** l'adresse que l'écran
+   Réseaux sociaux affiche — exactement, à la lettre. Elle ressemble à :
+
+   ```
+   https://mairie-angeot.fr/admin/reseaux/retour
+   ```
+
+   Une adresse qui diffère d'un caractère, ou en `http` au lieu de `https`,
+   fait échouer la connexion avec un message de Meta peu bavard.
+
+### Demander la revue
+
+Dans **Vérification de l'application**, demander ces permissions :
+
+| Permission | Ce qu'elle sert |
+|---|---|
+| `pages_show_list` | lister les Pages, pour en choisir une |
+| `pages_read_engagement` | lire le nom de la Page et son compte lié |
+| `pages_manage_posts` | publier sur la Page |
+| `instagram_basic` | retrouver le compte Instagram de la Page |
+| `instagram_content_publish` | publier sur ce compte |
+
+Meta demande une capture ou une vidéo montrant l'usage. Filmez l'écran
+Réseaux sociaux : la connexion, la rédaction d'un message, la publication.
+C'est exactement ce qu'il veut voir.
+
+**En attendant la revue, tout fonctionne déjà** pour les comptes déclarés
+**testeurs** ou **administrateurs** de l'application (rubrique *Rôles*).
+Ajoutez-y le compte de la personne qui gère la Page : elle pourra publier
+avant même que la revue n'aboutisse.
+
+### Connecter les comptes
+
+Écran **Réseaux sociaux** du back-office :
+
+1. saisir l'identifiant et la clé secrète, puis **Enregistrer l'application** ;
+2. cliquer sur **Connecter Facebook** et accepter les autorisations ;
+3. si le compte administre plusieurs Pages, choisir celle de la commune.
+
+Le compte Instagram rattaché est détecté tout seul. S'il n'y en a pas, l'écran
+le dit et seule la publication Facebook est proposée : ce n'est pas une panne.
+
+### La tâche planifiée
+
+Une publication programmée est retenue par le site, pas par Meta — Instagram
+ne sait pas attendre une date. Il faut donc quelque chose qui la fasse partir
+à l'heure. Dans cPanel, **Tâches Cron**, ajouter la ligne que l'écran Réseaux
+sociaux affiche, du genre :
+
+```
+*/15 * * * *  wget -q -O /dev/null "https://mairie-angeot.fr/taches/reseaux?cle=…"
+```
+
+Cette adresse contient une clé qui vaut mot de passe : elle n'a pas à être
+partagée, et elle ne fait rien d'autre que dépiler la file.
+
+**Si le cron n'est pas réglé, rien n'est perdu** : les publications
+programmées partent dès que quelqu'un ouvre le back-office, et l'écran affiche
+combien étaient en retard. Mais elles partent en retard — le cron est là pour
+ça.
+
+### Ce qui peut échouer, et ce que ça veut dire
+
+| Message | Ce qu'il faut faire |
+|---|---|
+| « L'application n'a pas encore la permission de publier » | La revue n'est pas accordée : ajoutez le compte comme testeur dans l'application, ou attendez la revue |
+| « La connexion à Facebook a expiré ou été révoquée » | Reconnecter la Page depuis l'écran. Arrive si le mot de passe du compte a changé |
+| « Instagram télécharge l'image lui-même » | L'image doit être accessible en HTTPS depuis l'extérieur. Une publication Instagram n'est pas essayable depuis un poste local |
+| « Aucun compte Instagram professionnel » | Le compte Instagram n'est pas professionnel, ou pas rattaché à la Page |
+
+Une publication qui échoue **reste dans la file** et est réessayée. Au bout de
+trois essais elle passe au journal, marquée en échec avec son motif : rien ne
+disparaît en silence.
+
+---
+
+## 14. Points de vigilance
 
 **HTTPS** — le `.htaccess` force la redirection vers HTTPS. Activez le
 certificat SSL gratuit dans *cPanel → SSL/TLS Status* avant la mise en ligne,
@@ -521,7 +626,7 @@ exclu de git et ne doit jamais être partagé ni versionné.
 
 ---
 
-## 14. Tester en local avant d'envoyer
+## 15. Tester en local avant d'envoyer
 
 ```bash
 php -S localhost:8080 -t public public/index.php
@@ -533,7 +638,7 @@ façon exempté.
 
 ---
 
-## 15. Mettre à jour le site par FTP
+## 16. Mettre à jour le site par FTP
 
 Une fois le site en ligne, deux natures de fichiers cohabitent : le **code**,
 qui vient du dépôt, et l'**état vivant** du site, qui n'existe que sur le
@@ -618,9 +723,9 @@ diagnostic confirme que les droits d'écriture n'ont pas bougé.
 
 ---
 
-## 16. Mises à jour automatiques par git (recommandé)
+## 17. Mises à jour automatiques par git (recommandé)
 
-Le FTP de la section 15 reste possible, mais l'écran **Mises à jour** du
+Le FTP de la section 16 reste possible, mais l'écran **Mises à jour** du
 back-office fait la même chose sans risque d'erreur de manipulation : il ne
 peut pas toucher au contenu, parce qu'il ne remplace qu'une liste fermée de
 chemins de code.
@@ -740,7 +845,7 @@ de toute façon hors de portée de git.
 
 ---
 
-## 17. Droits d'accès
+## 18. Droits d'accès
 
 Trois choses défont les droits sans prévenir : un transfert FTP (qui applique
 les réglages du client FTP), le `umask` du serveur (qui rabote les droits des

@@ -101,7 +101,7 @@ rm -rf data/pages data/*.json data/admin storage/cache/* storage/sauvegardes/*
 
 ## La boucle qualité — non négociable
 
-Le niveau de ce projet ne vient pas du goût mais de la mesure. **Sept
+Le niveau de ce projet ne vient pas du goût mais de la mesure. **Neuf
 auditeurs, à faire passer avant de déclarer une tâche finie** :
 
 ```bash
@@ -114,13 +114,17 @@ python3 outils/verifs/bandeau.py         # chaque photo du diaporama, une à une
 python3 outils/verifs/entete.py          # l'en-tête aux bornes du réglage du logo
 python3 outils/verifs/couleur.py         # le site sous chaque teinte de la roue
 python3 outils/verifs/bulle.py           # le bouton de l’assistant sous chacun de ses réglages
+python3 outils/verifs/vignette.py        # l’image fabriquée pour Instagram, sous chaque couleur
+python3 outils/verifs/alertes.py         # ce que PHP dit tout bas, et que la page ne montre pas
 ```
 
 Chacun sort en code 1 s'il trouve quelque chose. **Zéro écart, zéro souci,
 zéro hôte tiers** : c'est la définition de « fini » ici, pas une option.
 
-Les quatre derniers existent pour la même raison : **les autres ne mesurent
-qu'une configuration à la fois.** `contraste.py` ne voit qu'une photo de
+Les six derniers existent pour deux raisons. Les quatre premiers, parce que
+**les autres ne mesurent qu'une configuration à la fois** ; les deux derniers,
+parce qu'ils regardent ailleurs — une image fabriquée, et le journal d'erreurs
+du serveur. `contraste.py` ne voit qu'une photo de
 diaporama par passage, puisqu'il est tiré au hasard ; aucun ne voit le site
 avec un autre réglage de taille de logo, ni avec une autre couleur de commune,
 que ceux du jour. Une page peut donc passer un jour et échouer le lendemain
@@ -131,7 +135,20 @@ réparties sur la roue plus quatre cas limites (gris sans saturation, rouge
 saturé, presque noir, presque blanc), et `bulle.py` force les cinq formes du
 bouton de l'assistant, ses bornes de taille, six couples de couleurs, ses cinq
 animations d'appel, les quatre coins de leur rythme et le rappel au
-défilement.
+défilement. `vignette.py` mesure l'image carrée fabriquée pour Instagram sous
+chaque couleur de commune, en lisant ses pixels.
+
+**`alertes.py` est d'une autre nature, et c'est le plus utile des neuf.** Il
+lit le **journal d'erreurs de PHP**, que personne ne lisait : une alerte ne
+sort pas dans la page, puisque `display_errors` est éteint en production — et
+doit l'être. La vérification que le socle proposait, `curl … | grep -ci
+"warning"`, ne mesurait donc que ce qui ne devrait jamais arriver. Le jour où
+ce script a existé, il a trouvé en trois minutes trois défauts silencieux :
+deux sections de contenu qui ne s'affichaient pas du tout, et une donnée
+passée à un gabarit qui n'y arrivait jamais.
+
+**Règle qui en découle : ce qui ne se voit pas dans la page doit être mesuré
+là où il se voit.** Le journal du serveur en fait partie.
 
 `bulle.py` a une raison de plus d'exister : **les six autres ne voient jamais
 ce bouton.** L'assistant est éteint tant qu'aucune clé n'est renseignée, donc

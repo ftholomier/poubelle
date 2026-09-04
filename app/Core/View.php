@@ -52,22 +52,34 @@ final class View
     /**
      * @param array<string, mixed> $data
      */
-    private function capture(string $template, array $data): string
+    private function capture(string $__nom, array $__donnees): string
     {
-        $file = $this->dir . '/' . $template . '.php';
-        if (!is_file($file)) {
-            throw new RuntimeException("Gabarit introuvable : {$template}.php");
+        /* Les variables locales de cette méthode sont préfixées, et ce n'est
+           pas une coquetterie. `extract()` en mode EXTR_SKIP écarte toute
+           donnée qui porterait le nom d'une variable déjà présente ici — sans
+           erreur, sans alerte, sans rien. Un contrôleur qui passait
+           `'file' => [...]` voyait donc son tableau remplacé par le chemin du
+           gabarit, et le gabarit parcourait une chaîne : trouvé par
+           `outils/verifs/alertes.py`, dans un écran neuf, sur le seul indice
+           d'une alerte PHP que personne ne lisait.
+
+           Un préfixe qu'aucune donnée de contenu ne portera jamais ferme la
+           question pour de bon, plutôt que d'interdire une liste de noms que
+           personne ne retiendra. */
+        $__gabarit = $this->dir . '/' . $__nom . '.php';
+        if (!is_file($__gabarit)) {
+            throw new RuntimeException("Gabarit introuvable : {$__nom}.php");
         }
 
         // Les données du rendu priment sur celles partagées : un contrôleur
         // qui passe explicitement une valeur doit l'emporter sur le repli
         // global, sans quoi elle serait silencieusement ignorée.
         // $view reste disponible dans le gabarit pour les inclusions imbriquées.
-        extract($data + $this->shared + ['view' => $this], EXTR_SKIP);
+        extract($__donnees + $this->shared + ['view' => $this], EXTR_SKIP);
 
         ob_start();
         try {
-            require $file;
+            require $__gabarit;
         } catch (Throwable $e) {
             ob_end_clean();
             throw $e;

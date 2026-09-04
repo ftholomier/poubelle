@@ -352,6 +352,8 @@ python3 outils/verifs/bandeau.py
 python3 outils/verifs/entete.py
 python3 outils/verifs/couleur.py
 python3 outils/verifs/bulle.py
+python3 outils/verifs/vignette.py
+python3 outils/verifs/alertes.py
 ```
 
 Voir § 4. **Tant qu'ils ne sont pas à zéro, le site n'est pas fini.**
@@ -366,7 +368,7 @@ main du client (SMTP, clés d'API, horaires).
 
 ## 4. Les auditeurs
 
-Sept scripts dans `outils/verifs/`, qui sortent en code 1 s'ils trouvent
+Neuf scripts dans `outils/verifs/`, qui sortent en code 1 s'ils trouvent
 quelque chose — branchables tels quels dans une chaîne d'intégration.
 
 | Script | Ce qu'il mesure |
@@ -377,6 +379,8 @@ quelque chose — branchables tels quels dans une chaîne d'intégration.
 | `bandeau.py` | Le texte du bandeau d'accueil sur **chaque** photo du diaporama forcée à son tour, à 390, 768 et 1440 px |
 | `entete.py` | L'en-tête aux **bornes du réglage de taille du logo**, dans les deux modes de barre et les deux dispositions de menu : débordement, déformation, chevauchement du burger, cible tactile |
 | `couleur.py` | Le contraste de six pages représentatives sous **douze teintes de la roue** plus quatre cas limites, en réglant tour à tour la couleur de la commune |
+| `vignette.py` | L'image carrée fabriquée pour Instagram, sous **chaque couleur de commune** : contraste du texte mesuré sur les pixels du JPEG |
+| `alertes.py` | Le **journal d'erreurs de PHP**, sur les 51 pages et les 26 écrans du back-office : ce qu'une alerte ne montre jamais dans la page |
 | `bulle.py` | Le bouton de l'assistant sous **les cinq formes, les bornes de taille, six couples de couleurs, les cinq animations, les quatre coins de leur rythme et le rappel au défilement** — contraste, cible tactile, débordement, nom accessible, budget de mouvement, réglage servi conforme au réglage demandé, respect du réglage système « moins d'animations », et aucun appel réseau bulle allumée |
 
 ### Pourquoi quatre auditeurs de plus, pour un diaporama et trois réglages
@@ -462,6 +466,44 @@ contrôle qui n'a jamais échoué n'est pas encore un contrôle.
 
 Cherchez les autres réglages de ce genre avant de livrer : tout ce qui peut
 être éteint est invisible à la mesure tant que quelqu'un ne l'allume pas.
+
+### Et deux auditeurs qui ne regardent pas la page
+
+`vignette.py` mesure une **image**, pas une page : le carré fabriqué pour
+Instagram quand une publication n'a pas de photo. C'est du texte sur un aplat
+qui suit la couleur de la commune, donc du contraste, et aucun des sept autres
+ne peut le voir puisque ce n'est pas un document HTML. Il lit les pixels du
+JPEG : le fond est l'aplat le plus fréquent, les encres sont les couleurs
+assez présentes pour former un caractère. Il a trouvé le sur-titre à 3,18:1
+avant même d'être fini — le ton choisi n'était résolu que contre les fonds
+sombres du site, pas contre celui-là.
+
+`alertes.py` regarde encore ailleurs : le **journal d'erreurs de PHP**. Une
+alerte n'apparaît pas dans la page, `display_errors` étant éteint en
+production — et devant l'être. La vérification classique
+
+```bash
+curl -s localhost:8080/ | grep -ci "warning\|fatal\|notice"
+```
+
+ne mesure donc que ce qui ne devrait jamais arriver, et rate tout le reste. Le
+script lance son propre serveur, parcourt le plan du site puis, si on lui
+donne de quoi se connecter, les écrans du back-office, et lit le journal.
+
+Ce qu'il a trouvé en trois minutes, le jour où il a existé :
+
+1. `foreach` sur une chaîne dans la section « le village » de l'accueil —
+   trois paragraphes d'histoire de la commune ne s'affichaient pas du tout, et
+   la page paraissait simplement un peu courte ;
+2. le même malentendu en sens inverse sur les fiches d'association : l'écran
+   d'édition déclare le champ en texte riche, le gabarit le parcourait comme
+   un tableau ;
+3. une donnée passée à un gabarit qui n'y arrivait jamais, parce qu'elle
+   s'appelait `file` et que `View::capture()` avait une variable locale du
+   même nom — `extract(..., EXTR_SKIP)` l'écartait sans un mot.
+
+Les trois étaient silencieux, et deux étaient là depuis des semaines. **Ce qui
+ne se voit pas dans la page doit être mesuré là où il se voit.**
 
 ### Comment `contraste.py` mesure
 
@@ -621,14 +663,16 @@ curl -s http://127.0.0.1:8081/sitemap.xml \
 # aucune alerte PHP
 curl -s http://127.0.0.1:8081/ | grep -ci "warning\|notice\|fatal"   # → 0
 
-# les sept auditeurs
+# les neuf auditeurs
 python3 outils/verifs/contraste.py && \
 python3 outils/verifs/mise-en-page.py && \
 python3 outils/verifs/traceurs.py && \
 python3 outils/verifs/bandeau.py && \
 python3 outils/verifs/entete.py && \
 python3 outils/verifs/couleur.py && \
-python3 outils/verifs/bulle.py
+python3 outils/verifs/bulle.py && \
+python3 outils/verifs/vignette.py && \
+python3 outils/verifs/alertes.py
 ```
 
 Puis, à la main, ce qu'aucun script ne voit :
