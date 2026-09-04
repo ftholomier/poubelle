@@ -34,6 +34,23 @@ final class ParametreController
         $this->permissions = new Permissions($racine);
     }
 
+    /**
+     * L'adresse expéditrice, ou rien.
+     *
+     * Vide, le Mailer en déduit une du domaine servant le site : c'est un cas
+     * prévu. Mal formée, en revanche, elle fait refuser tous les envois par le
+     * serveur SMTP, et l'écran affichait « enregistré » sans broncher.
+     */
+    private static function courrielValide(string $brut): string
+    {
+        $brut = trim($brut);
+        if ($brut === '') {
+            return '';
+        }
+
+        return filter_var($brut, FILTER_VALIDATE_EMAIL) !== false ? $brut : '';
+    }
+
     private function rediriger(string $chemin = '/admin/parametres'): string
     {
         header('Location: ' . url($chemin), true, 303);
@@ -163,7 +180,7 @@ final class ParametreController
             'securite'       => in_array($securite, ['tls', 'ssl', 'aucune'], true) ? $securite : 'tls',
             'identifiant'    => trim((string) ($_POST['identifiant'] ?? '')),
             'mot_de_passe'   => $motDePasse,
-            'expediteur'     => trim((string) ($_POST['expediteur'] ?? '')),
+            'expediteur'     => self::courrielValide((string) ($_POST['expediteur'] ?? '')),
             'nom_expediteur' => trim((string) ($_POST['nom_expediteur'] ?? '')) ?: 'Mairie d’Angeot',
         ];
         $actuel['contact'] = [
@@ -171,9 +188,19 @@ final class ParametreController
             'copie'        => trim((string) ($_POST['copie'] ?? '')),
         ];
 
+        // Une adresse mal formée est écartée plutôt qu'enregistrée, mais on le
+        // dit : la retirer en silence ferait chercher longtemps pourquoi le
+        // champ ne « s'enregistre pas ».
+        $expediteurSaisi = trim((string) ($_POST['expediteur'] ?? ''));
+        $expediteurRefuse = $expediteurSaisi !== '' && $actuel['smtp']['expediteur'] === '';
+
         try {
             $this->parametres->enregistrer($actuel);
-            Session::flash('succes', 'Paramètres d’envoi enregistrés.');
+            Session::flash('succes', $expediteurRefuse
+                ? 'Paramètres d’envoi enregistrés, sauf l’adresse expéditrice : '
+                . '« ' . $expediteurSaisi . ' » n’est pas une adresse électronique valide. '
+                . 'Laissée vide, elle est déduite du domaine du site.'
+                : 'Paramètres d’envoi enregistrés.');
         } catch (RuntimeException $e) {
             Session::flash('erreur', $e->getMessage());
         }

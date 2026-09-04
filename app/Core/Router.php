@@ -52,13 +52,20 @@ final class Router
 
     /**
      * Résout l'URI courante et exécute le handler correspondant.
+     *
+     * Une requête HEAD est traitée comme un GET : PHP se charge d'en retirer
+     * le corps. Sans cela, elle tombait en 404 — et c'est la requête que font
+     * les sondes de disponibilité des hébergeurs et les vérificateurs de
+     * liens. Un site rendu « hors service » par sa propre supervision est un
+     * défaut, pas une subtilité de protocole.
      */
     public function dispatch(string $method, string $uri): mixed
     {
         $path = rtrim(parse_url($uri, PHP_URL_PATH) ?: '/', '/') ?: '/';
+        $cherchee = $method === 'HEAD' ? 'GET' : $method;
 
         foreach ($this->routes as $route) {
-            if ($route['method'] !== $method) {
+            if ($route['method'] !== $cherchee) {
                 continue;
             }
             if (!preg_match($route['regex'], $path, $m)) {

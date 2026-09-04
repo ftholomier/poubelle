@@ -15,6 +15,14 @@ final class Mediatheque
 {
     private const MAX_OCTETS  = 15_000_000;
     private const LARGEUR_MAX = 1920;
+
+    /* Bornes du décodage. Elles ne protègent pas du poids du fichier — c'est
+       MAX_OCTETS qui s'en charge — mais de ce qu'il coûte une fois décodé :
+       quatre octets par pixel en mémoire. Quarante millions de pixels font
+       déjà 160 Mo, au-delà de ce qu'un mutualisé accorde à PHP. Aucune photo
+       d'appareil courant n'approche ces valeurs. */
+    private const COTE_MAX   = 8000;
+    private const PIXELS_MAX = 40000000;
     private const LARGEUR_MINI = 640;
 
     public function __construct(
@@ -76,6 +84,7 @@ final class Mediatheque
         }
 
         $chemin = $fichier['tmp_name'] ?? '';
+        $this->verifierDimensions($chemin);
         $mime = (new \finfo(FILEINFO_MIME_TYPE))->file($chemin) ?: '';
         $source = match ($mime) {
             'image/jpeg' => imagecreatefromjpeg($chemin),
@@ -165,9 +174,41 @@ final class Mediatheque
         }
     }
 
+    /**
+     * Refuse une image trop grande AVANT de la décoder.
+     *
+     * Le poids du fichier ne dit rien de ce qu'il coûtera en mémoire : un PNG
+     * de 20 000 × 20 000 pixels tient en deux cents kilo-octets et demande
+     * 1,6 Go une fois décodé. `memory_limit` est alors atteint au milieu de
+     * `imagecreatefrompng()` — page blanche, et sur mutualisé parfois le
+     * processus tué par l'hébergeur. La seule parade est de mesurer d'abord :
+     * `getimagesize()` lit l'en-tête, pas les pixels.
+     */
+    private function verifierDimensions(string $fichier): void
+    {
+        $taille = @getimagesize($fichier);
+        if ($taille === false) {
+            throw new RuntimeException('Ce fichier n’est pas une image lisible.');
+        }
+
+        [$largeur, $hauteur] = $taille;
+        if ($largeur > self::COTE_MAX || $hauteur > self::COTE_MAX
+            || $largeur * $hauteur > self::PIXELS_MAX) {
+            throw new RuntimeException(sprintf(
+                'Image trop grande : %d × %d pixels. Le maximum est de %d pixels de '
+                . 'côté et %d millions de pixels au total. Réduisez-la avant de l’envoyer.',
+                $largeur,
+                $hauteur,
+                self::COTE_MAX,
+                (int) (self::PIXELS_MAX / 1000000)
+            ));
+        }
+    }
+
     /** Ouvre une image, quel que soit son format d'origine. */
     private function ouvrir(string $fichier): \GdImage
     {
+        $this->verifierDimensions($fichier);
         $type = @exif_imagetype($fichier);
         $image = match ($type) {
             IMAGETYPE_JPEG => @imagecreatefromjpeg($fichier),

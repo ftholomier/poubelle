@@ -16,6 +16,17 @@ final class Auth
     private const VERROU_SEC   = 900;   // 15 minutes
     private const FENETRE_SEC  = 3600;
 
+    /**
+     * Au bout de deux heures sans rien faire, la session est close.
+     *
+     * Le poste du secrétariat d'une mairie est dans une pièce où passent des
+     * administrés, et le navigateur y reste ouvert d'un jour sur l'autre. Sans
+     * cette borne, une session vivait aussi longtemps que le navigateur —
+     * c'est-à-dire indéfiniment. Deux heures laissent le temps de rédiger un
+     * compte-rendu sans être interrompu.
+     */
+    private const INACTIVITE_SEC = 7200;
+
     public function __construct(
         private readonly string $fichierCompte,
         private readonly string $fichierTentatives,
@@ -43,12 +54,7 @@ final class Auth
             'hash'        => password_hash($motDePasse, PASSWORD_DEFAULT),
             'cree_le'     => date('c'),
         ];
-        file_put_contents(
-            $this->fichierCompte,
-            json_encode($donnees, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n",
-            LOCK_EX
-        );
-        @chmod($this->fichierCompte, Permissions::SECRET);
+        $this->ecrireCompte($donnees);
     }
 
     public function verifier(string $identifiant, string $motDePasse): bool
@@ -65,11 +71,7 @@ final class Auth
 
         if ($ok && password_needs_rehash($compte['hash'], PASSWORD_DEFAULT)) {
             $compte['hash'] = password_hash($motDePasse, PASSWORD_DEFAULT);
-            file_put_contents(
-                $this->fichierCompte,
-                json_encode($compte, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n",
-                LOCK_EX
-            );
+            $this->ecrireCompte($compte);
         }
         return $ok;
     }
@@ -94,21 +96,26 @@ final class Auth
         }
         $compte['modifie_le'] = date('c');
 
-        file_put_contents(
-            $this->fichierCompte,
-            json_encode($compte, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n",
-            LOCK_EX
-        );
-        @chmod($this->fichierCompte, Permissions::SECRET);
+        $this->ecrireCompte($compte);
 
         Session::regenerer();
-        Session::set('admin', ['identifiant' => $identifiant, 'depuis' => time()]);
+        Session::set('admin', [
+            'identifiant' => $identifiant,
+            'depuis'      => time(),
+            'vu_le'       => time(),
+        ]);
     }
 
     public function connecter(string $identifiant): void
     {
+        // L'identifiant de session change à la connexion : un cookie capté
+        // avant elle ne vaut plus rien après.
         Session::regenerer();
-        Session::set('admin', ['identifiant' => $identifiant, 'depuis' => time()]);
+        Session::set('admin', [
+            'identifiant' => $identifiant,
+            'depuis'      => time(),
+            'vu_le'       => time(),
+        ]);
     }
 
     public function deconnecter(): void
@@ -118,7 +125,23 @@ final class Auth
 
     public function connecte(): bool
     {
-        return is_array(Session::get('admin'));
+        $admin = Session::get('admin');
+        if (!is_array($admin)) {
+            return false;
+        }
+
+        $vu = (int) ($admin['vu_le'] ?? $admin['depuis'] ?? 0);
+        if ($vu > 0 && time() - $vu > self::INACTIVITE_SEC) {
+            $this->deconnecter();
+            return false;
+        }
+
+        // L'horodatage est repoussé à chaque écran : c'est l'inactivité qui
+        // ferme la session, pas sa durée totale.
+        $admin['vu_le'] = time();
+        Session::set('admin', $admin);
+
+        return true;
     }
 
     public function identifiant(): string
@@ -185,6 +208,36 @@ final class Auth
             @mkdir($dossier, Permissions::DOSSIER, true);
             umask($ancien);
         }
-        file_put_contents($this->fichierTentatives, json_encode($liste), LOCK_EX);
+        self::ecrireAtomique($this->fichierTentatives, json_encode($liste) ?: '{}');
+    }
+
+    /** @param array<string, mixed> $compte */
+    private function ecrireCompte(array $compte): void
+    {
+        self::ecrireAtomique(
+            $this->fichierCompte,
+            json_encode($compte, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n"
+        );
+        @chmod($this->fichierCompte, Permissions::SECRET);
+    }
+
+    /**
+     * Temporaire puis `rename()`, comme partout ailleurs dans ce dossier.
+     *
+     * Le compte administrateur était le seul fichier écrit en place. Une
+     * écriture interrompue — disque plein, quota d'hébergement atteint,
+     * processus tué — laissait un JSON tronqué, donc un compte illisible,
+     * donc un back-office qui repropose l'écran de première configuration et
+     * accepte de créer un nouveau compte. Le renommage est atomique : le
+     * fichier est l'ancien en entier, ou le nouveau en entier.
+     */
+    private static function ecrireAtomique(string $fichier, string $contenu): void
+    {
+        $temporaire = $fichier . '.' . bin2hex(random_bytes(6)) . '.tmp';
+        if (file_put_contents($temporaire, $contenu, LOCK_EX) === false
+            || !@rename($temporaire, $fichier)) {
+            @unlink($temporaire);
+            throw new \RuntimeException('Écriture impossible : ' . basename($fichier));
+        }
     }
 }

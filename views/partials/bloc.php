@@ -167,7 +167,10 @@ case 'contacts': ?>
               <span aria-hidden="true"><?= $view->partial('icones', ['nom' => 'courriel']) ?></span><?= e($item['email']) ?>
             </a></li>
           <?php endif; ?>
-          <?php if (!empty($item['site'])): ?>
+          <?php /* Le protocole est vérifié à l'affichage : la saisie vient du
+                   back-office, mais un « javascript: » recopié dans le champ
+                   ferait de la fiche de contact un vecteur d'exécution. */ ?>
+          <?php if (preg_match('~^https?://~i', (string) ($item['site'] ?? '')) === 1): ?>
             <li><a href="<?= e($item['site']) ?>" target="_blank" rel="noopener">
               <span aria-hidden="true"><?= $view->partial('icones', ['nom' => 'lien-externe']) ?></span><?= e(t('Site internet')) ?>
               <span class="sr-only"> — <?= e($item['nom'] ?? '') ?>, <?= e(t('ouvre un nouvel onglet')) ?></span>

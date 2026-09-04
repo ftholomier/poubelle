@@ -462,7 +462,38 @@ final class Blocs
         }
 
         $valeur = trim((string) $brut);
+
+        if (($nature === 'photo' || $nature === 'fichier') && $valeur !== '') {
+            return self::cheminAsset($valeur);
+        }
+
         return $valeur !== '' ? $valeur : null;
+    }
+
+    /**
+     * Un chemin de fichier servi par le site, ou rien.
+     *
+     * Ces champs sont des listes déroulantes à l'écran, mais rien n'empêche
+     * d'en poster autre chose : une adresse « javascript: » deviendrait le
+     * `href` d'un bouton de téléchargement. On exige donc un chemin relatif
+     * sous `assets/`, sans protocole et sans remontée de dossier.
+     *
+     * **Et non `Mediatheque::existe()`**, qui serait la réponse évidente : la
+     * médiathèque ne connaît que `assets/img/site`, alors que `fichier` porte
+     * des PDF rangés dans `assets/doc`. Valider par elle effacerait en silence
+     * le fichier de chaque document à l'enregistrement — précisément le genre
+     * de perte que ce dépôt cherche à éviter.
+     */
+    private static function cheminAsset(string $valeur): ?string
+    {
+        $propre = ltrim($valeur, '/');
+        if (!str_starts_with($propre, 'assets/')
+            || str_contains($propre, '..')
+            || preg_match('~^[a-z][a-z0-9+.-]*:~i', $propre) === 1) {
+            return null;
+        }
+
+        return $propre;
     }
 
     /** Lit `lien.libelle` dans un tableau imbriqué. */

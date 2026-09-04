@@ -231,16 +231,20 @@ final class ApiController
     public function collection(string $name, string $key = 'items'): string
     {
         try {
-            $data = $this->content->load($name);
+            /* `publies()` et non `load()` : c'est le même filtre que les pages
+               du site, et il manquait ici. Une actualité dépubliée dans le
+               back-office disparaissait de la page mais restait lisible sur
+               /api/actualites — une fiche de démarche en cours de rédaction
+               aussi. L'API est publique et sans authentification : ce qu'elle
+               rend doit être exactement ce que le site montre. */
+            $items = $this->content->publies($name, $key);
         } catch (RuntimeException) {
             return json_response(['erreur' => 'Ressource introuvable'], 404);
         }
 
-        $items = $data[$key] ?? [];
-
         return json_response([
             'donnees' => $items,
-            'total'   => is_countable($items) ? count($items) : 0,
+            'total'   => count($items),
         ]);
     }
 
@@ -255,7 +259,9 @@ final class ApiController
             return json_response(['erreur' => 'Ressource introuvable'], 404);
         }
 
-        return $item === null
+        // Un élément dépublié est introuvable, et non « trouvé mais caché » :
+        // répondre 404 ne dit pas à un curieux qu'il existe.
+        return $item === null || !Content::estPublie($item)
             ? json_response(['erreur' => 'Élément introuvable'], 404)
             : json_response(['donnees' => $item]);
     }
