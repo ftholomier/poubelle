@@ -263,8 +263,14 @@ final class Charte
 
     // -------------------------------------------------------------- couleurs
 
+    /* Les quatre fonctions qui suivent sont publiques parce que `Bulle` les
+       réutilise : il ne doit exister qu'une arithmétique de contraste dans le
+       code. Deux implémentations divergeraient au premier arrondi, et l'on ne
+       saurait plus laquelle croire le jour où l'une trouve ce que l'autre
+       rate. */
+
     /** @return array{float, float, float} teinte, saturation, luminosité */
-    private static function versTsl(string $hex): array
+    public static function versTsl(string $hex): array
     {
         [$r, $v, $b] = array_map(static fn(int $c): float => $c / 255, self::versRvb($hex));
         $max = max($r, $v, $b);
@@ -284,7 +290,7 @@ final class Charte
         return [$h * 60, $s * 100, $l * 100];
     }
 
-    private static function depuisTsl(float $h, float $s, float $l): string
+    public static function depuisTsl(float $h, float $s, float $l): string
     {
         $h = fmod(fmod($h, 360) + 360, 360) / 360;
         $s = max(0.0, min(100.0, $s)) / 100;
@@ -312,7 +318,7 @@ final class Charte
     }
 
     /** @return array{int, int, int} */
-    private static function versRvb(string $hex): array
+    public static function versRvb(string $hex): array
     {
         $hex = ltrim(self::normaliser($hex), '#');
 
@@ -338,7 +344,7 @@ final class Charte
     }
 
     /** Luminance relative, au sens des règles d'accessibilité. */
-    private static function luminance(string $hex): float
+    public static function luminance(string $hex): float
     {
         $somme = 0.0;
         foreach ([0.2126, 0.7152, 0.0722] as $i => $poids) {

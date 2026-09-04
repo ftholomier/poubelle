@@ -247,6 +247,18 @@ def auditer(pg, hauteur):
         # c'est-à-dire au pire.
         if t > 0:
             pg.add_style_tag(content='.entete{visibility:hidden !important}')
+        # La bulle de l'assistant est le même piège, en bas de la fenêtre et
+        # dans TOUTES les tranches : c'est un survol fixe, et le fond
+        # échantillonné sous un paragraphe qui passe derrière elle est le sien.
+        # Elle a fait ressortir soixante-sept faux écarts à 1,19 et 2,57:1 le
+        # jour où l'assistant a été allumé pour la première fois pendant un
+        # audit.
+        #
+        # La masquer ne coûte aucune mesure, à la différence de la barre : son
+        # fond est opaque, donc son libellé se mesure par composition et
+        # n'arrive jamais jusqu'ici. Sa forme, ses couleurs et sa cible tactile
+        # sont mesurées par bulle.py, qui la force sous tous ses réglages.
+        pg.add_style_tag(content='.assistant{visibility:hidden !important}')
         pg.wait_for_timeout(220)
         peint = Image.open(io.BytesIO(pg.screenshot())).convert('RGB')
 

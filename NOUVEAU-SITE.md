@@ -351,6 +351,7 @@ python3 outils/verifs/traceurs.py
 python3 outils/verifs/bandeau.py
 python3 outils/verifs/entete.py
 python3 outils/verifs/couleur.py
+python3 outils/verifs/bulle.py
 ```
 
 Voir § 4. **Tant qu'ils ne sont pas à zéro, le site n'est pas fini.**
@@ -365,7 +366,7 @@ main du client (SMTP, clés d'API, horaires).
 
 ## 4. Les auditeurs
 
-Six scripts dans `outils/verifs/`, qui sortent en code 1 s'ils trouvent
+Sept scripts dans `outils/verifs/`, qui sortent en code 1 s'ils trouvent
 quelque chose — branchables tels quels dans une chaîne d'intégration.
 
 | Script | Ce qu'il mesure |
@@ -376,8 +377,9 @@ quelque chose — branchables tels quels dans une chaîne d'intégration.
 | `bandeau.py` | Le texte du bandeau d'accueil sur **chaque** photo du diaporama forcée à son tour, à 390, 768 et 1440 px |
 | `entete.py` | L'en-tête aux **bornes du réglage de taille du logo**, dans les deux modes de barre et les deux dispositions de menu : débordement, déformation, chevauchement du burger, cible tactile |
 | `couleur.py` | Le contraste de six pages représentatives sous **douze teintes de la roue** plus quatre cas limites, en réglant tour à tour la couleur de la commune |
+| `bulle.py` | Le bouton de l'assistant sous **les cinq formes, les bornes de taille et six couples de couleurs** — contraste, cible tactile, débordement, nom accessible, et aucun appel réseau bulle allumée |
 
-### Pourquoi trois auditeurs de plus, pour un diaporama et deux réglages
+### Pourquoi quatre auditeurs de plus, pour un diaporama et trois réglages
 
 Le diaporama d'accueil tire sa photo au hasard. `contraste.py` n'en mesure
 donc qu'une par passage : le résultat dépend du tirage, une page passe un jour
@@ -416,6 +418,21 @@ le contraste exigé sur le fond où il sert. Si ce script trouve un écart, c'es
 une cible de contraste à corriger dans `Charte`, jamais la couleur choisie par
 la mairie.
 
+`bulle.py`, enfin, ajoute un cas que les six autres ne pouvaient pas voir, et
+c'est celui qui mérite le plus d'attention : **un réglage qui décide de la
+PRÉSENCE d'un élément cache cet élément aux auditeurs.** L'assistant est
+éteint tant qu'aucune clé n'est renseignée ; la bulle n'est donc dans aucune
+des pages qu'ils mesurent, et son libellé est resté à 2,57:1 pendant toute la
+vie du socle sans que rien ne le signale. Le script allume l'assistant avec
+une clé factice — aucun appel ne part, seul le bouton est rendu —, force les
+cinq formes, les deux bornes de taille et six couples de couleurs dont quatre
+volontairement illisibles, et vérifie sur chacun le contraste peint, la cible
+tactile, le débordement, le nom accessible du bouton et l'absence de requête
+tierce. Il rend la main sur les réglages d'origine, même s'il échoue.
+
+Cherchez les autres réglages de ce genre avant de livrer : tout ce qui peut
+être éteint est invisible à la mesure tant que quelqu'un ne l'allume pas.
+
 ### Comment `contraste.py` mesure
 
 Deux méthodes, parce qu'aucune ne suffit :
@@ -429,7 +446,7 @@ Deux méthodes, parce qu'aucune ne suffit :
 On retient **le pire pixel** de la zone, jamais la moyenne : un titre dont un
 seul mot passe sur une éclaircie est illisible sur ce mot-là.
 
-### Sept pièges de mesure, tous rencontrés
+### Huit pièges de mesure, tous rencontrés
 
 Un auditeur naïf rend des résultats faux **dans les deux sens**, ce qui est
 pire qu'aucun audit — et les trois derniers de cette liste produisaient à eux
@@ -463,7 +480,17 @@ gardez tous ces points :
    encore chargé ressort à 1,00:1. Et **descendez la page d'abord**, sinon on
    attend indéfiniment les images différées qui ne sont jamais entrées dans le
    cadre.
-7. **`alt=""` n'est pas un oubli.** C'est la déclaration correcte d'une image
+7. **Tout survol fixe fausse le fond, pas seulement la barre.** La barre
+   collante est celle à laquelle on pense ; la bulle de l'assistant, en bas à
+   droite, est dans *toutes* les tranches et non seulement les basses. Le jour
+   où l'assistant a été allumé pour la première fois pendant un audit, elle a
+   produit **soixante-sept faux écarts** à 1,19 et 2,57:1 — le fond
+   échantillonné sous chaque paragraphe qui passe derrière elle était le sien.
+   Effacez tout survol en position fixe avant de capturer. Ce qui coûte une
+   mesure ou non se décide au cas par cas : effacer la barre en tranche zéro
+   perdrait son propre texte, qui n'est mesurable que sur la photo ; effacer
+   la bulle ne perd rien, son fond étant opaque.
+8. **`alt=""` n'est pas un oubli.** C'est la déclaration correcte d'une image
    décorative — un logo posé à côté du nom écrit en toutes lettres. Seul un
    attribut *absent* est un défaut. De même, un fichier nommé d'après son
    sujet donne un `alt` légitime qui ressemble au nom du fichier : ce qui
@@ -564,13 +591,14 @@ curl -s http://127.0.0.1:8081/sitemap.xml \
 # aucune alerte PHP
 curl -s http://127.0.0.1:8081/ | grep -ci "warning\|notice\|fatal"   # → 0
 
-# les six auditeurs
+# les sept auditeurs
 python3 outils/verifs/contraste.py && \
 python3 outils/verifs/mise-en-page.py && \
 python3 outils/verifs/traceurs.py && \
 python3 outils/verifs/bandeau.py && \
 python3 outils/verifs/entete.py && \
-python3 outils/verifs/couleur.py
+python3 outils/verifs/couleur.py && \
+python3 outils/verifs/bulle.py
 ```
 
 Puis, à la main, ce qu'aucun script ne voit :

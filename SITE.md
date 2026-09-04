@@ -254,6 +254,26 @@ grille respecte. D'où trois correctifs : la règle sur le corps, un `min-width:
 anywhere` sur les liens qui portent une adresse. Avant : 39 px de débordement
 sur un écran de 320.
 
+**Le bouton de l'assistant est devenu réglable, et mesuré pour la première
+fois.** Forme (barre, pilule, rond, pastille, onglet), fond, couleur du texte,
+intitulé et taille se règlent dans l'écran Assistant IA (`app/Core/Bulle.php`).
+Le fond est libre ; la couleur du texte garde sa teinte et voit sa clarté
+résolue jusqu'à 4,5:1 sur ce fond, comme la charte. `outils/verifs/bulle.py`
+force les cinq formes, les bornes de taille et six couples de couleurs dont
+quatre volontairement illisibles — 180 réglages.
+
+Ce septième auditeur a immédiatement trouvé ce qu'aucun des six autres ne
+pouvait voir : **le libellé livré était à 2,57:1.** La bulle composait l'encre
+sur la couleur de marque depuis toujours, et l'assistant étant éteint tant
+qu'aucune clé n'est renseignée, elle n'était dans aucune des pages mesurées.
+Le libellé est maintenant blanc — 5,44:1 sur le bleu d'Angeot.
+
+Deux auditeurs ont dû être corrigés dans la foulée, pour un artefact et non
+pour un défaut : la bulle est un survol fixe, et le fond échantillonné sous un
+paragraphe qui passe derrière elle est le sien. `contraste.py` la masque donc
+avant de capturer — ce qui ne coûte aucune mesure, son fond étant opaque — et
+`bandeau.py` l'ajoute à la liste des survols qu'il efface déjà.
+
 **La couleur de la commune est devenue un réglage.** La charte était écrite
 en dur dans la feuille de style ; elle se dérive maintenant d'une seule couleur
 choisie dans l'écran Apparence (`app/Core/Charte.php`), avec un aperçu qui
@@ -339,13 +359,14 @@ chaque ligne se règle depuis le back-office.
 
 ## 9. Ce qui a été mesuré
 
-Les six auditeurs de `outils/verifs/` sont à zéro. Ce n'est pas une formalité :
+Les sept auditeurs de `outils/verifs/` sont à zéro. Ce n'est pas une formalité :
 ils mesurent le contraste réel de chaque texte peint à trois largeurs, les
 débordements et les cibles tactiles à cinq largeurs, l'absence de toute requête
 tierce avant consentement, le texte du bandeau sur chacune des six photos du
 diaporama forcée à son tour, l'en-tête aux deux bornes du réglage de taille
-du logo dans les deux modes de barre et les deux dispositions de menu, et le
-site entier sous seize couleurs de commune différentes.
+du logo dans les deux modes de barre et les deux dispositions de menu, le
+site entier sous seize couleurs de commune différentes, et le bouton de
+l'assistant sous cent quatre-vingts réglages.
 
 Ce qu'ils ont attrapé sur ce site-ci, et qu'aucun œil n'avait vu :
 
@@ -366,7 +387,9 @@ Ce qu'ils ont attrapé sur ce site-ci, et qu'aucun œil n'avait vu :
 - **le logo touchant le burger** aux quatre bornes du réglage de taille, en
   disposition latérale sur 320 et 390 px — le logo d'Angeot est plus large que
   celui du socle, et la largeur disponible se calcule désormais plutôt qu'elle
-  ne se devine.
+  ne se devine ;
+- **le libellé de la bulle de l'assistant à 2,57:1**, hérité du socle et
+  jamais mesuré parce que l'assistant est éteint par défaut.
 
 **La règle qui en découle vaut pour toute modification :** un réglage laissé à
 la mairie doit avoir son auditeur qui en force les bornes. Un curseur dont on

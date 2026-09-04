@@ -1459,3 +1459,137 @@ button { font: inherit; cursor: pointer; }
 textarea[data-editeur-source], textarea[data-editeur-champ] {
   font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: .85rem;
 }
+
+/* ---------- Assistant : le bouton du site ----------
+   L'aperçu reprend les classes du site (`assistant__bulle`, `assistant--rond`,
+   …) et non des classes à lui : les règles ci-dessous sont l'extrait de
+   site.css nécessaire pour le dessiner, avec les mêmes proportions calculées
+   à partir de --bulle-taille. C'est une duplication, assumée pour la même
+   raison que celle de la palette — le back-office ne charge pas la feuille du
+   site. Le site reste ce qui fait foi, et bulle.py le mesure, lui.
+
+   Une différence assumée : le survol et l'ombre portée ne sont pas repris.
+   L'aperçu montre une forme et un couple de couleurs, pas un état. */
+.bo-legende-champ {
+  display: block; margin-bottom: .35rem;
+  font-size: .78rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent);
+}
+
+.bo-formes { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+/* Les cartes sont des <label> dans un .bo-champ, où le style d'étiquette met
+   tout en petites capitales espacées. Il faut donc le défaire ici, sans quoi
+   le résumé de chaque forme se lit en capitales sur trois lignes. */
+.bo-champ .bo-forme {
+  display: block; cursor: pointer; margin-bottom: 0;
+  font-size: 1rem; font-weight: 400; letter-spacing: normal;
+  text-transform: none; color: var(--texte);
+}
+.bo-forme input { position: absolute; opacity: 0; width: 0; height: 0; }
+.bo-forme__corps {
+  display: grid; gap: .1rem .9rem; align-items: center; height: 100%;
+  grid-template-columns: 3.4rem minmax(0, 1fr);
+  padding: .8rem .9rem;
+  border: 1px solid var(--trait); border-radius: 4px;
+  background: var(--fond-2);
+  transition: border-color .15s, background .15s;
+}
+.bo-forme:hover .bo-forme__corps { border-color: var(--accent); }
+/* Le focus clavier doit se voir : la case est masquée, c'est donc la carte
+   qui porte l'anneau. */
+.bo-forme input:focus-visible + .bo-forme__corps { outline: 2px solid var(--accent-clair); outline-offset: 2px; }
+.bo-forme input:checked + .bo-forme__corps { border-color: var(--accent); background: var(--fond-3, var(--fond-2)); box-shadow: inset 0 0 0 1px var(--accent); }
+.bo-forme__dessin {
+  grid-row: 1 / 3; align-self: center; justify-self: center;
+  display: flex; align-items: center; justify-content: center;
+  width: 3.4rem; height: 2.2rem;
+  background: var(--accent); color: var(--fond);
+}
+.bo-forme__picto { display: block; width: 14px; height: 11px; border: 2px solid currentColor; }
+.bo-forme__dessin--pilule { border-radius: 999px; }
+.bo-forme__dessin--rond { width: 2.2rem; border-radius: 50%; }
+.bo-forme__dessin--pastille { width: 2.2rem; border-radius: .5rem; }
+/* L'étiquette est haute et étroite, et collée au bord de sa vignette. */
+.bo-forme__dessin--onglet {
+  width: 1.1rem; height: 2.6rem; margin-right: -1.15rem;
+  border-radius: .35rem 0 0 .35rem;
+}
+.bo-forme__dessin--onglet .bo-forme__picto { display: none; }
+.bo-forme__nom { align-self: end; font-weight: 600; color: var(--texte); }
+.bo-forme__resume { align-self: start; font-size: .82rem; line-height: 1.45; color: var(--texte-2); }
+
+.bo-couleurs { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); margin: 1.1rem 0; }
+.bo-couleur-champ > span {
+  display: block; margin-bottom: .35rem;
+  font-size: .78rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent);
+}
+.bo-couleur-champ input[type="color"] {
+  width: 100%; height: 3rem; padding: 2px;
+  background: var(--fond-2); border: 1px solid var(--trait); border-radius: 4px;
+  cursor: pointer;
+}
+.bo-couleur-champ output {
+  display: block; margin-top: .4rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .85rem; color: var(--texte-2);
+}
+/* Le fond suit la couleur de la commune : le champ reste lisible mais cesse
+   d'être modifiable, plutôt que de disparaître — une case qui fait
+   apparaître et disparaître un champ fait sauter la page sous la souris. */
+.bo-couleur-champ--inactif { opacity: .45; }
+
+.bo-apercu-bulle { margin-top: 1.2rem; }
+.bo-apercu-bulle__scene {
+  display: flex; justify-content: flex-end; align-items: center;
+  min-height: 6.5rem; padding: 1rem 1.2rem;
+  border: 1px solid var(--trait); border-radius: 4px;
+  /* Un damier clair : le bouton est fait pour se poser sur une page, pas sur
+     le fond sombre du back-office, et un fond uni mentirait sur son ombre. */
+  background:
+    repeating-conic-gradient(#e9e6dd 0% 25%, #f6f4ee 0% 50%) 0 0 / 18px 18px;
+}
+.bo-apercu-bulle .assistant__bulle {
+  display: inline-flex; align-items: center; justify-content: center; gap: .65rem;
+  min-height: var(--bulle-taille, 52px);
+  padding: 0 calc(var(--bulle-taille, 52px) * .25);
+  border: 0; border-radius: 0; cursor: default;
+  background: var(--bulle-fond); color: var(--bulle-texte);
+  font-weight: 700; font-size: clamp(13px, calc(var(--bulle-taille, 52px) * .287), 18px);
+}
+.bo-apercu-bulle .assistant__bulle-icone {
+  position: relative; flex: 0 0 auto;
+  width: calc(var(--bulle-taille, 52px) * .385);
+  height: calc(var(--bulle-taille, 52px) * .3);
+  border: 2px solid currentColor;
+}
+.bo-apercu-bulle .assistant__bulle-icone::after {
+  content: ""; position: absolute; left: 3px; bottom: -6px;
+  border: 4px solid transparent; border-top-color: currentColor; border-bottom: 0;
+}
+.bo-apercu-bulle.assistant--pilule .assistant__bulle { border-radius: 999px; }
+.bo-apercu-bulle.assistant--rond .assistant__bulle,
+.bo-apercu-bulle.assistant--pastille .assistant__bulle { width: var(--bulle-taille, 52px); padding: 0; gap: 0; }
+.bo-apercu-bulle.assistant--rond .assistant__bulle { border-radius: 50%; }
+.bo-apercu-bulle.assistant--pastille .assistant__bulle { border-radius: calc(var(--bulle-taille, 52px) * .28); }
+.bo-apercu-bulle.assistant--onglet .assistant__bulle {
+  writing-mode: vertical-rl;
+  width: max(44px, calc(var(--bulle-taille, 52px) * .74));
+  min-height: 0; padding: calc(var(--bulle-taille, 52px) * .38) 0;
+  border-radius: calc(var(--bulle-taille, 52px) * .22) 0 0 calc(var(--bulle-taille, 52px) * .22);
+  margin-right: -1.2rem;
+}
+.bo-apercu-bulle.assistant--onglet .assistant__bulle-icone { display: none; }
+.bo-apercu-bulle.assistant--rond .assistant__bulle-texte,
+.bo-apercu-bulle.assistant--pastille .assistant__bulle-texte {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%);
+}
+.bo-apercu-bulle__note { margin-top: .7rem; font-size: .85rem; color: var(--texte-2); }
+.bo-apercu-bulle__corrige {
+  margin-top: .5rem; padding: .7rem .9rem;
+  border-left: 3px solid var(--accent);
+  background: var(--fond-2);
+  font-size: .85rem; line-height: 1.5; color: var(--texte-2);
+}
+.bo-apercu-bulle__corrige[hidden] { display: none; }

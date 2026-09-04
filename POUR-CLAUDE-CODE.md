@@ -52,7 +52,7 @@ lecture : le site s'affiche complet, sans manipulation.
 
 ---
 
-## Les cinq auditeurs — c'est le cœur de la méthode
+## Les sept auditeurs — c'est le cœur de la méthode
 
 La qualité de ce projet ne vient pas du goût mais de la mesure. Cinq scripts
 Python pilotent un navigateur et sortent en code 1 s'ils trouvent quelque
@@ -67,6 +67,7 @@ python3 outils/verifs/traceurs.py        # aucune requête tierce sans consentem
 python3 outils/verifs/bandeau.py         # chaque photo du diaporama, une par une
 python3 outils/verifs/entete.py          # l'en-tête aux bornes de ses réglages
 python3 outils/verifs/couleur.py         # le site sous chaque teinte de la roue
+python3 outils/verifs/bulle.py           # le bouton de l’assistant sous chacun de ses réglages
 ```
 
 Ils demandent Python 3 et Playwright (`pip install playwright pillow` puis
@@ -81,7 +82,7 @@ saut de titre h1 → h3, un logo servi écrasé, une cible à 40 px sur la barre
 défilée, deux photos de bandeau à 4,4:1.
 
 **N'affaiblissez jamais un seuil pour faire passer une page.** Si un résultat
-vous semble faux, c'est probablement un vrai faux positif : les sept pièges de
+vous semble faux, c'est probablement un vrai faux positif : les huit pièges de
 mesure connus sont documentés dans `NOUVEAU-SITE.md`, § « Les auditeurs ».
 Corrigez le script en expliquant pourquoi, ne relevez pas le seuil.
 
@@ -180,7 +181,7 @@ crochets :
 > que tu as le droit d'adapter, d'améliorer et d'étoffer du moment que tu
 > gardes l'esprit global. Je te donne les droits d'accès à [adresse].
 >
-> Les cinq auditeurs de `outils/verifs/` doivent être à zéro avant que tu
+> Les sept auditeurs de `outils/verifs/` doivent être à zéro avant que tu
 > déclares quoi que ce soit fini. Pose-moi tes questions avant de développer si
 > tu en as. Développe dans une nouvelle branche.
 

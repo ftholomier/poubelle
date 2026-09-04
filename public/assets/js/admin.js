@@ -723,6 +723,144 @@
     peindre();
   })();
 
+  /* ---------- Assistant : le bouton du site ----------
+     Forme, libellé, taille, couleurs : l'aperçu suit la saisie sans
+     aller-retour serveur. La résolution de contraste est la MÊME que celle de
+     App\Core\Bulle — même seuil, même choix de sens, même pas d'un
+     demi-point. Si l'une change, l'autre doit changer : c'est du PHP que le
+     site tire ce qu'il peint, et bulle.py mesure le site.
+
+     Rien ici n'est nécessaire pour enregistrer : sans JavaScript, les champs
+     fonctionnent et l'écran montre l'état enregistré, rendu par le serveur. */
+  (function () {
+    var apercu = document.querySelector('[data-bulle-apercu]');
+    if (!apercu) return;
+
+    var MINI = 4.5;
+    var formes = [].slice.call(document.querySelectorAll('[data-bulle-forme]'));
+    var libelle = document.querySelector('[data-bulle-libelle]');
+    var nombre = document.querySelector('[data-bulle-taille]');
+    var curseur = document.querySelector('[data-bulle-curseur]');
+    var champFond = document.querySelector('[data-bulle-champ-fond]');
+    var fond = document.querySelector('[data-bulle-fond]');
+    var texte = document.querySelector('[data-bulle-texte]');
+    var suivre = document.querySelector('[data-bulle-suivre]');
+    var fondHex = document.querySelector('[data-bulle-fond-hex]');
+    var texteHex = document.querySelector('[data-bulle-texte-hex]');
+    var apercuTexte = document.querySelector('[data-bulle-apercu-texte]');
+    var sortieRapport = document.querySelector('[data-bulle-rapport]');
+    var noteCorrige = document.querySelector('[data-bulle-corrige]');
+    var commune = champFond ? champFond.getAttribute('data-bulle-commune') : '';
+
+    function versTsl(c) {
+      var r = parseInt(c.substr(1, 2), 16) / 255,
+          v = parseInt(c.substr(3, 2), 16) / 255,
+          b = parseInt(c.substr(5, 2), 16) / 255;
+      var max = Math.max(r, v, b), min = Math.min(r, v, b), l = (max + min) / 2;
+      if (max === min) return [0, 0, l * 100];
+      var d = max - min, s = l > 0.5 ? d / (2 - max - min) : d / (max + min), h;
+      if (max === r)      h = (v - b) / d + (v < b ? 6 : 0);
+      else if (max === v) h = (b - r) / d + 2;
+      else                h = (r - v) / d + 4;
+      return [h * 60, s * 100, l * 100];
+    }
+    function depuisTsl(h, s, l) {
+      h = ((h % 360) + 360) % 360 / 360;
+      s = Math.max(0, Math.min(100, s)) / 100;
+      l = Math.max(0, Math.min(100, l)) / 100;
+      var deux = function (n) { n = Math.round(n * 255).toString(16); return n.length < 2 ? "0" + n : n; };
+      if (s === 0) { var g = deux(l); return "#" + g + g + g; }
+      var q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
+      var canal = function (t) {
+        t = ((t % 1) + 1) % 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
+      return "#" + deux(canal(h + 1 / 3)) + deux(canal(h)) + deux(canal(h - 1 / 3));
+    }
+    function luminance(c) {
+      var somme = 0, poids = [0.2126, 0.7152, 0.0722];
+      for (var i = 0; i < 3; i++) {
+        var x = parseInt(c.substr(1 + i * 2, 2), 16) / 255;
+        somme += poids[i] * (x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4));
+      }
+      return somme;
+    }
+    function rapport(a, b) {
+      var la = luminance(a), lb = luminance(b);
+      return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+    }
+
+    function resoudreTexte(choisi, surFond) {
+      if (rapport(choisi, surFond) >= MINI) return choisi;
+      var tsl = versTsl(choisi), eclaircir = luminance(choisi) >= luminance(surFond);
+      if (rapport(eclaircir ? "#ffffff" : "#000000", surFond) < MINI) eclaircir = !eclaircir;
+      var sens = eclaircir ? 1 : -1;
+      for (var i = 0; i <= 200; i++) {
+        var l = tsl[2] + sens * i * 0.5;
+        if (l < 0 || l > 100) break;
+        var c = depuisTsl(tsl[0], tsl[1], l);
+        if (rapport(c, surFond) >= MINI) return c;
+      }
+      return eclaircir ? "#ffffff" : "#000000";
+    }
+
+    function formeChoisie() {
+      for (var i = 0; i < formes.length; i++) if (formes[i].checked) return formes[i].value;
+      return "barre";
+    }
+
+    function peindre() {
+      var forme = formeChoisie();
+      var suit = suivre && suivre.checked;
+      var couleurFond = suit && commune ? commune : (fond ? fond.value : commune);
+      var choisi = texte ? texte.value : "#ffffff";
+      var peint = resoudreTexte(choisi, couleurFond);
+
+      if (suit && commune && fond) fond.value = commune;
+      if (champFond) champFond.classList.toggle("bo-couleur-champ--inactif", !!suit);
+      if (fond) fond.disabled = !!suit;
+
+      var taille = nombre ? parseInt(nombre.value, 10) : 52;
+      if (isNaN(taille)) taille = 52;
+
+      apercu.className = "bo-apercu-bulle assistant--" + forme;
+      apercu.style.setProperty("--bulle-fond", couleurFond);
+      apercu.style.setProperty("--bulle-texte", peint);
+      apercu.style.setProperty("--bulle-taille", taille + "px");
+
+      if (apercuTexte && libelle) {
+        apercuTexte.textContent = libelle.value.trim() || libelle.getAttribute("placeholder") || "";
+      }
+
+      if (fondHex) fondHex.textContent = couleurFond;
+      if (texteHex) texteHex.textContent = choisi;
+      if (sortieRapport) {
+        sortieRapport.textContent = rapport(peint, couleurFond).toFixed(2).replace(".", ",") + ":1";
+      }
+      if (noteCorrige) noteCorrige.hidden = (peint === choisi);
+    }
+
+    /* Le curseur est révélé ici : sans script, seul le nombre s'affiche et
+       le formulaire fonctionne. */
+    if (curseur && nombre) {
+      curseur.hidden = false;
+      curseur.removeAttribute("aria-hidden");
+      curseur.addEventListener("input", function () { nombre.value = curseur.value; peindre(); });
+      nombre.addEventListener("input", function () { curseur.value = nombre.value; peindre(); });
+    }
+
+    for (var i = 0; i < formes.length; i++) formes[i].addEventListener("change", peindre);
+    if (libelle) libelle.addEventListener("input", peindre);
+    if (nombre) nombre.addEventListener("change", peindre);
+    if (fond) fond.addEventListener("input", peindre);
+    if (texte) texte.addEventListener("input", peindre);
+    if (suivre) suivre.addEventListener("change", peindre);
+    peindre();
+  })();
+
   /* ---------- Apparence : taille du logo ----------
      Le champ nombre est la source de vérité et fonctionne seul : le curseur
      est révélé ici, et l'aperçu suit. Rien de ce bloc n'est nécessaire pour

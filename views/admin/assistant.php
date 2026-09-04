@@ -9,8 +9,10 @@
  * @var string $notes
  * @var array $mesure
  * @var array|null $essai
+ * @var App\Core\Bulle $bulle
  */
 use App\Core\Assistant;
+use App\Core\Bulle;
 use App\Core\Csrf;
 
 $actif = (bool) ($reglages['actif'] ?? false);
@@ -84,15 +86,128 @@ $modeleChoisi = (string) ($reglages['modele'] ?? '');
   </fieldset>
 
   <fieldset>
-    <legend>Apparence de la bulle</legend>
+    <legend>Textes de l’assistant</legend>
     <div class="bo-champ">
       <label for="ia-titre">Titre</label>
       <input id="ia-titre" type="text" name="titre" value="<?= e($reglages['titre'] ?? '') ?>"
              placeholder="Une question ?">
+      <p class="bo-aide">Affiché en haut du panneau de discussion, et sur le bouton si vous ne lui donnez pas de libellé propre.</p>
     </div>
     <div class="bo-champ">
       <label for="ia-accueil">Message d’accueil</label>
       <textarea id="ia-accueil" name="accueil" rows="2" placeholder="Posez votre question…"><?= e($reglages['accueil'] ?? '') ?></textarea>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Le bouton sur le site</legend>
+    <p class="bo-aide">
+      C’est le bouton en bas à droite de chaque page, celui qui ouvre la
+      discussion. L’aperçu ci-dessous montre exactement ce que le visiteur verra.
+    </p>
+
+    <div class="bo-champ">
+      <span class="bo-legende-champ">Forme</span>
+      <div class="bo-formes">
+        <?php foreach (Bulle::FORMES as $id => $f): ?>
+          <label class="bo-forme">
+            <input type="radio" name="bulle_forme" value="<?= e($id) ?>"
+                   data-bulle-forme<?= $id === $bulle->forme() ? ' checked' : '' ?>>
+            <span class="bo-forme__corps">
+              <span class="bo-forme__dessin bo-forme__dessin--<?= e($id) ?>" aria-hidden="true">
+                <span class="bo-forme__picto"></span>
+              </span>
+              <span class="bo-forme__nom"><?= e($f['nom']) ?></span>
+              <span class="bo-forme__resume"><?= e($f['resume']) ?></span>
+            </span>
+          </label>
+        <?php endforeach; ?>
+      </div>
+    </div>
+
+    <div class="bo-champ">
+      <label for="ia-bulle-libelle">Intitulé</label>
+      <input id="ia-bulle-libelle" type="text" name="bulle_libelle" data-bulle-libelle
+             maxlength="<?= Bulle::LIBELLE_MAX ?>"
+             value="<?= e((string) ($reglages['bulle']['libelle'] ?? '')) ?>"
+             placeholder="<?= e($bulle->libelle()) ?>">
+      <p class="bo-aide">
+        <?= Bulle::LIBELLE_MAX ?> caractères au plus. Laissez vide pour reprendre le titre
+        de l’assistant. Les formes « Rond » et « Pastille » ne l’affichent pas, mais
+        le conservent pour les lecteurs d’écran et pour l’infobulle.
+      </p>
+    </div>
+
+    <div class="bo-champ">
+      <label for="ia-bulle-taille">Taille du bouton</label>
+      <?php /* Même partage que pour la taille du logo : le nombre est le
+               champ et fonctionne sans JavaScript, le curseur n'est que du
+               confort et reste caché tant que le script ne l'a pas révélé. */ ?>
+      <div class="bo-logo-saisie">
+        <input type="range" id="ia-bulle-curseur" hidden data-bulle-curseur
+               min="<?= Bulle::TAILLE_MIN ?>" max="<?= Bulle::TAILLE_MAX ?>"
+               step="<?= Bulle::TAILLE_PAS ?>" value="<?= $bulle->taille() ?>"
+               aria-hidden="true" tabindex="-1">
+        <input type="number" id="ia-bulle-taille" name="bulle_taille" data-bulle-taille
+               min="<?= Bulle::TAILLE_MIN ?>" max="<?= Bulle::TAILLE_MAX ?>"
+               step="<?= Bulle::TAILLE_PAS ?>" value="<?= $bulle->taille() ?>">
+        <span class="bo-logo-unite">px</span>
+      </div>
+      <p class="bo-aide">
+        De <?= Bulle::TAILLE_MIN ?> à <?= Bulle::TAILLE_MAX ?> pixels. Le plancher n’est pas
+        un goût : sous <?= Bulle::TAILLE_MIN ?> px, le bouton devient trop petit pour être
+        touché au pouce sans le manquer.
+      </p>
+    </div>
+
+    <div class="bo-champ bo-champ--case">
+      <label>
+        <input type="checkbox" name="bulle_fond_commune" data-bulle-suivre value="1"
+               <?= $bulle->suitLaCommune() ? ' checked' : '' ?>>
+        Utiliser la couleur de la commune comme fond
+      </label>
+      <p class="bo-aide">
+        Cochée, la bulle suit la couleur réglée dans <strong>Apparence</strong> et
+        change avec elle. Décochez pour lui donner une couleur à part — un rouge
+        d’alerte, par exemple.
+      </p>
+    </div>
+
+    <div class="bo-couleurs">
+      <label class="bo-couleur-champ<?= $bulle->suitLaCommune() ? ' bo-couleur-champ--inactif' : '' ?>"
+             data-bulle-champ-fond data-bulle-commune="<?= e($bulle->fondCommune()) ?>">
+        <span>Fond du bouton</span>
+        <input type="color" name="bulle_fond" data-bulle-fond value="<?= e($bulle->fond()) ?>">
+        <output data-bulle-fond-hex><?= e($bulle->fond()) ?></output>
+      </label>
+      <label class="bo-couleur-champ">
+        <span>Couleur du texte</span>
+        <input type="color" name="bulle_texte" data-bulle-texte value="<?= e($bulle->texteChoisi()) ?>">
+        <output data-bulle-texte-hex><?= e($bulle->texteChoisi()) ?></output>
+      </label>
+    </div>
+
+    <?php /* L'aperçu et le rapport mesuré sont rendus par le serveur : sans
+             JavaScript, l'écran montre l'état enregistré, exact. Le script ne
+             fait que les rafraîchir à chaque mouvement. */ ?>
+    <div class="bo-apercu-bulle <?= e($bulle->classe()) ?>" data-bulle-apercu
+         style="<?= e($bulle->style()) ?>">
+      <span class="bo-apercu-bulle__scene">
+        <button type="button" class="assistant__bulle" tabindex="-1" aria-hidden="true">
+          <span class="assistant__bulle-icone"></span>
+          <span class="assistant__bulle-texte" data-bulle-apercu-texte><?= e($bulle->libelle()) ?></span>
+        </button>
+      </span>
+      <p class="bo-apercu-bulle__note">
+        Contraste du libellé sur son fond :
+        <strong data-bulle-rapport><?= number_format($bulle->contraste(), 2, ',', ' ') ?>:1</strong>
+        — minimum exigé <?= number_format(Bulle::CONTRASTE_MINI, 1, ',', ' ') ?>:1.
+      </p>
+      <p class="bo-apercu-bulle__corrige"<?= $bulle->corrigee() ? '' : ' hidden' ?> data-bulle-corrige>
+        La couleur de texte choisie ne tenait pas ce minimum sur ce fond : sa
+        teinte est conservée, sa clarté a été ajustée jusqu’au seuil. Choisissez
+        un fond plus sombre ou plus clair pour retrouver la couleur exacte.
+      </p>
     </div>
   </fieldset>
 

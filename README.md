@@ -71,7 +71,7 @@ inconnu arrive sur le plan du site.
 
 ---
 
-## Les cinq auditeurs
+## Les sept auditeurs
 
 La qualité de ce site ne vient pas du goût mais de la mesure. Cinq scripts,
 qui sortent en code 1 s'ils trouvent quelque chose :
@@ -85,6 +85,7 @@ python3 outils/verifs/traceurs.py        # aucune requête tierce sans accord
 python3 outils/verifs/bandeau.py         # chaque photo du diaporama, une à une
 python3 outils/verifs/entete.py          # l'en-tête aux bornes du réglage du logo
 python3 outils/verifs/couleur.py         # le site sous chaque teinte de la roue
+python3 outils/verifs/bulle.py           # le bouton de l’assistant sous chacun de ses réglages
 ```
 
 Zéro écart, zéro souci, zéro hôte tiers : c'est la définition de « fini » ici.

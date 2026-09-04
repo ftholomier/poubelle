@@ -84,6 +84,16 @@ final class Assistant
         return $t !== '' ? $t : 'Une question ?';
     }
 
+    /**
+     * La bulle telle que la mairie l'a réglée : forme, couleurs, libellé,
+     * taille. Le gabarit ne lit jamais les paramètres lui-même — c'est ici que
+     * le bornage et la résolution de contraste ont lieu, une fois.
+     */
+    public function bulle(): Bulle
+    {
+        return Bulle::depuis($this->parametres, $this->titre());
+    }
+
     public function accueil(): string
     {
         $a = trim((string) $this->parametres->get('assistant.accueil', ''));

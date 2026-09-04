@@ -183,6 +183,26 @@ Un point d'ordre, facile à casser : le bloc `<style>` du gabarit est posé
 égale — c'est donc la dernière lue qui gagne. Placé avant, le réglage reste
 sans effet, en silence.
 
+### Le bouton de l'assistant : cinq formes, deux couleurs, un seuil
+
+L'écran Assistant IA laisse le client régler la bulle en bas à droite —
+forme (barre, pilule, rond, pastille, onglet), fond, couleur du texte,
+intitulé et taille. Le fond est libre ; la couleur du texte est une
+**intention** : `App\Core\Bulle` en conserve la teinte et résout sa clarté
+jusqu'à 4,5:1 sur le fond choisi, par la méthode de `Charte`. Un fond jaune et
+un texte blanc donnent donc un texte jaune sombre, pas 1,26:1 — et l'écran le
+dit, plutôt que de refuser d'enregistrer.
+
+Deux pièges valent d'être connus avant d'y toucher :
+
+- la taille ne descend pas sous 44 px, parce que c'est le minimum de cible
+  tactile que `mise-en-page.py` fait respecter ; l'onglet, étroit par nature,
+  garde ce plancher en largeur avec un `max()` ;
+- l'onglet annule le retrait du conteneur pour toucher le bord de l'écran. Ce
+  retrait vaut `clamp(1rem, 3vw, 1.8rem)` et passe à `.8rem` sous 520 px : il
+  est donc en variable (`--assistant-marge`). Écrit deux fois, il déborde de
+  trois pixels sur petit écran, et `mise-en-page.py` le refuse.
+
 ### Les briques de `app/Core`
 
 | Classe | Rôle | À reprendre tel quel ? |
@@ -204,6 +224,7 @@ sans effet, en silence.
 | `Permissions` | Analyse et réparation des droits | oui |
 | `Parametres` | Réglages techniques hors git | oui |
 | `Charte` | Toute la palette dérivée de la couleur choisie par le client, luminosité **résolue** pour tenir les contrastes | oui |
+| `Bulle` | Forme, couleurs, libellé et taille du bouton de l'assistant ; la couleur du texte y est résolue de la même façon | oui |
 | `Verrou` / `ConflitEcriture` | Verrou optimiste : deux administrateurs sur le même écran ne s'effacent plus | oui |
 
 ---
@@ -347,7 +368,7 @@ Trois conventions structurantes :
 | Photos | Médiathèque : envoi par lot, **rotation**, suppression |
 | Apparence | **Couleur de la commune**, disposition du menu, taille du logo |
 | Avis Google | Clé d'API, fiche, filtres, rythme du carrousel |
-| Assistant IA | Activation, clé Gemini, **liste dynamique des modèles**, documents, notes, question d'essai |
+| Assistant IA | Activation, clé Gemini, **liste dynamique des modèles**, **forme, couleurs, intitulé et taille du bouton**, documents, notes, question d'essai |
 | Conversations | Journal des échanges, coordonnées repérées, purge |
 | Référencement | Slugs, balises, redirections 301 |
 | Langues | Langues, traduction automatique, **clé DeepL et compteur** |

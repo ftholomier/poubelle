@@ -16,12 +16,19 @@ if (!isset($assistant) || !$assistant->actif()) {
 }
 use App\Core\Assistant;
 use App\Core\Csrf;
+
+$bulle = $assistant->bulle();
 ?>
-<div class="assistant" data-assistant>
+<div class="assistant <?= e($bulle->classe()) ?>" data-assistant style="<?= e($bulle->style()) ?>">
+  <?php /* Le libellé reste dans le document même quand la forme ne le montre
+           pas : masqué en CSS, il est lu par les lecteurs d'écran et donne au
+           bouton son nom accessible. Un `aria-label` en plus le remplacerait
+           au lieu de s'y ajouter. */ ?>
   <button type="button" class="assistant__bulle" data-assistant-ouvrir
-          aria-expanded="false" aria-controls="assistant-panneau">
+          aria-expanded="false" aria-controls="assistant-panneau"
+          title="<?= e($bulle->libelle()) ?>">
     <span class="assistant__bulle-icone" aria-hidden="true"></span>
-    <span class="assistant__bulle-texte"><?= e($assistant->titre()) ?></span>
+    <span class="assistant__bulle-texte"><?= e($bulle->libelle()) ?></span>
   </button>
 
   <section id="assistant-panneau" class="assistant__panneau" hidden aria-label="<?= e($assistant->titre()) ?>">

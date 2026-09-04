@@ -70,7 +70,10 @@ def mesurer(pg, largeur: int, photo: str) -> float:
             v.classList.toggle('est-visible', i === 0);
             v.style.opacity = i === 0 ? '1' : '0';
         });
-        document.querySelectorAll('.cookies, .entete').forEach(e => e.style.display = 'none');
+        // La bulle de l'assistant rejoint la liste pour la même raison que la
+        // barre et le bandeau cookies : c'est un survol fixe, et le bas du
+        // texte de bandeau passe derrière elle sur un écran court.
+        document.querySelectorAll('.cookies, .entete, .assistant').forEach(e => e.style.display = 'none');
     }""", photo)
     pg.wait_for_timeout(1200)
 

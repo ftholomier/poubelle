@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Admin;
 
 use App\Core\Assistant;
+use App\Core\Bulle;
+use App\Core\Charte;
 use App\Core\Csrf;
 use App\Core\Parametres;
 use App\Core\Session;
@@ -39,6 +41,10 @@ final class AssistantController
         return $this->view->render('admin/assistant', [
             'page'       => ['titre' => 'Assistant IA'],
             'reglages'   => $this->parametres->get('assistant', []),
+            // La bulle est construite ici plutôt que lue champ par champ dans
+            // le gabarit : l'écran montre alors exactement ce que le site
+            // sert, correction de contraste comprise.
+            'bulle'      => $this->assistant->bulle(),
             'modeles'    => $this->assistant->modeles(),
             'erreur'     => $this->assistant->derniereErreur(),
             'documents'  => $this->assistant->documents(),
@@ -62,6 +68,12 @@ final class AssistantController
             $cle = (string) ($actuel['assistant']['cle'] ?? '');
         }
 
+        $forme = (string) ($_POST['bulle_forme'] ?? '');
+        // Le fond vide n'est pas une absence de choix : c'est le choix de
+        // suivre la couleur de la commune, pour que la bulle reste accordée
+        // au site le jour où l'écran Apparence en change.
+        $suitLaCommune = isset($_POST['bulle_fond_commune']);
+
         $this->parametres->enregistrer(['assistant' => [
             'actif'       => isset($_POST['actif']),
             'cle'         => $cle,
@@ -69,10 +81,33 @@ final class AssistantController
             'titre'       => trim((string) ($_POST['titre'] ?? '')),
             'accueil'     => trim((string) ($_POST['accueil'] ?? '')),
             'source_site' => isset($_POST['source_site']),
+            'bulle'       => [
+                'forme'   => isset(Bulle::FORMES[$forme]) ? $forme : Bulle::FORME_DEFAUT,
+                'libelle' => mb_substr(trim((string) ($_POST['bulle_libelle'] ?? '')), 0, Bulle::LIBELLE_MAX),
+                'taille'  => self::taille($_POST['bulle_taille'] ?? Bulle::TAILLE_DEFAUT),
+                'fond'    => $suitLaCommune ? '' : Charte::normaliser((string) ($_POST['bulle_fond'] ?? '')),
+                'texte'   => Charte::normaliser((string) ($_POST['bulle_texte'] ?? Bulle::TEXTE_DEFAUT)),
+            ],
         ]] + $actuel);
 
         Session::flash('succes', 'Assistant enregistré.');
         return $this->rediriger();
+    }
+
+    /**
+     * Taille de la bulle, bornée à l'écriture.
+     *
+     * `Bulle` la borne aussi à la lecture — les deux, comme pour le logo :
+     * un fichier de paramètres recopié d'un autre site ou modifié à la main
+     * ne doit pas pouvoir poser un bouton de trois cents pixels sur le site.
+     *
+     * @param mixed $valeur
+     */
+    private static function taille(mixed $valeur): int
+    {
+        $n = is_numeric($valeur) ? (int) round((float) $valeur) : Bulle::TAILLE_DEFAUT;
+
+        return max(Bulle::TAILLE_MIN, min(Bulle::TAILLE_MAX, $n));
     }
 
     /** Rafraîchit la liste des modèles, sans attendre l'expiration du cache. */

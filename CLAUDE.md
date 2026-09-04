@@ -101,7 +101,7 @@ rm -rf data/pages data/*.json data/admin storage/cache/* storage/sauvegardes/*
 
 ## La boucle qualité — non négociable
 
-Le niveau de ce projet ne vient pas du goût mais de la mesure. **Six
+Le niveau de ce projet ne vient pas du goût mais de la mesure. **Sept
 auditeurs, à faire passer avant de déclarer une tâche finie** :
 
 ```bash
@@ -113,25 +113,36 @@ python3 outils/verifs/traceurs.py        # aucune requête tierce sans accord
 python3 outils/verifs/bandeau.py         # chaque photo du diaporama, une à une
 python3 outils/verifs/entete.py          # l'en-tête aux bornes du réglage du logo
 python3 outils/verifs/couleur.py         # le site sous chaque teinte de la roue
+python3 outils/verifs/bulle.py           # le bouton de l’assistant sous chacun de ses réglages
 ```
 
 Chacun sort en code 1 s'il trouve quelque chose. **Zéro écart, zéro souci,
 zéro hôte tiers** : c'est la définition de « fini » ici, pas une option.
 
-Les trois derniers existent pour la même raison : **les autres ne mesurent
+Les quatre derniers existent pour la même raison : **les autres ne mesurent
 qu'une configuration à la fois.** `contraste.py` ne voit qu'une photo de
 diaporama par passage, puisqu'il est tiré au hasard ; aucun ne voit le site
 avec un autre réglage de taille de logo, ni avec une autre couleur de commune,
 que ceux du jour. Une page peut donc passer un jour et échouer le lendemain
 sans qu'une ligne ait bougé. `bandeau.py` force chaque photo, `entete.py`
 force les deux bornes du réglage du logo dans les deux modes et les deux
-dispositions de menu — 96 mesures —, et `couleur.py` force douze teintes
+dispositions de menu — 96 mesures —, `couleur.py` force douze teintes
 réparties sur la roue plus quatre cas limites (gris sans saturation, rouge
-saturé, presque noir, presque blanc).
+saturé, presque noir, presque blanc), et `bulle.py` force les cinq formes du
+bouton de l'assistant, ses bornes de taille et six couples de couleurs.
+
+`bulle.py` a une raison de plus d'exister : **les six autres ne voient jamais
+ce bouton.** L'assistant est éteint tant qu'aucune clé n'est renseignée, donc
+la bulle n'est pas dans la page qu'ils mesurent. C'est ce trou qui a laissé
+passer, pendant toute la vie du socle, un libellé à 2,57:1 — l'encre sur la
+couleur de marque. Retenez-en la règle générale : **un réglage qui décide de
+la PRÉSENCE d'un élément cache cet élément aux auditeurs**, et il faut alors
+un script qui l'allume pour le mesurer.
 
 C'est rentable : le premier a trouvé deux photos à 4,4:1, le deuxième un logo
 servi écrasé au-delà de 100 px et une cible tactile à 40 px une fois la barre
-défilée. Aucun œil ne les avait vus.
+défilée, le dernier le libellé de la bulle à 2,57:1. Aucun œil ne les avait
+vus.
 
 **Règle qui en découle : tout réglage laissé à la mairie doit avoir son
 auditeur qui en force les bornes.** Un curseur dont on n'a mesuré que la valeur
@@ -145,7 +156,7 @@ d'opacité du chapô de bandeau — 4,05:1 là où le blanc plein donne 4,9:1.
 
 **N'affaiblissez jamais un auditeur pour faire passer une page.** Si un
 résultat vous semble faux, c'est probablement un vrai faux positif — les
-sept pièges de mesure connus sont documentés dans `NOUVEAU-SITE.md`, § « Les
+huit pièges de mesure connus sont documentés dans `NOUVEAU-SITE.md`, § « Les
 auditeurs ». Corrigez le script en expliquant pourquoi, ne relevez pas le
 seuil.
 
