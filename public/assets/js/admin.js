@@ -4,6 +4,76 @@
 (function () {
   'use strict';
 
+  /* ---------- Le menu en tiroir, sous 900 px ----------
+
+     Sans JavaScript, le tiroir reste fermé et le menu est inatteignable sur
+     un téléphone : c'est le seul endroit du back-office où le script n'est
+     pas qu'un confort. On rend donc le panneau atteignable au clavier et on
+     le referme par Échap, par le voile, et par le lien qu'on vient de suivre.
+
+     Chaque section de ce fichier a sa propre portée : `var` n'est pas limité
+     au bloc, et un nom réutilisé plus bas écraserait celui-ci — le piège est
+     au § 10 de KIT.md, il a déjà rendu un menu insensible aux clics. */
+  (function () {
+    var bouton  = document.querySelector('[data-menu-bouton]');
+    var panneau = document.querySelector('[data-menu-panneau]');
+    var voile   = document.querySelector('[data-menu-voile]');
+    if (!bouton || !panneau || !voile) return;
+
+    var ouvert = false;
+
+    function poser(etat) {
+      ouvert = etat;
+      panneau.classList.toggle('est-ouvert', etat);
+      voile.hidden = !etat;
+      bouton.setAttribute('aria-expanded', etat ? 'true' : 'false');
+      /* Le corps ne défile plus derrière le tiroir : sinon un doigt qui glisse
+         sur le voile fait défiler la page au lieu de la laisser tranquille. */
+      document.body.classList.toggle('bo-menu-ouvert', etat);
+    }
+
+    function ouvrir() {
+      poser(true);
+      /* Le premier lien de NAVIGATION prend le focus, et non le premier
+         élément focalisable : celui-ci est le logo, dont le libellé est une
+         image. Au lecteur d'écran, ouvrir un tiroir pour annoncer un logo ne
+         dit pas où l'on vient d'arriver. */
+      var premier = panneau.querySelector('.bo-lateral__nav a') || panneau.querySelector('a, button');
+      if (premier) premier.focus();
+    }
+
+    function fermer(rendreLeFocus) {
+      if (!ouvert) return;
+      poser(false);
+      if (rendreLeFocus) bouton.focus();
+    }
+
+    bouton.addEventListener('click', function () {
+      if (ouvert) { fermer(true); } else { ouvrir(); }
+    });
+
+    voile.addEventListener('click', function () { fermer(true); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' || e.keyCode === 27) fermer(true);
+    });
+
+    // Suivre un lien du menu change de page : le tiroir n'a plus lieu d'être
+    // ouvert, et le laisser ouvert le fait clignoter au chargement suivant.
+    panneau.addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('a')) fermer(false);
+    });
+
+    /* Repassé au-dessus de 900 px, le tiroir redevient un panneau dans le
+       flux : garder l'état « ouvert » y laisserait le voile en travers. */
+    if (window.matchMedia) {
+      var large = window.matchMedia('(min-width: 901px)');
+      var surLarge = function () { if (large.matches) fermer(false); };
+      if (large.addEventListener) { large.addEventListener('change', surLarge); }
+      else if (large.addListener) { large.addListener(surLarge); }
+    }
+  })();
+
   /* ---------- Classement du diaporama par glisser-déposer ----------
      Les flèches Monter / Descendre restent le chemin sans JavaScript. */
   var diapos = document.querySelector('[data-diapos-classables]');

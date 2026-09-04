@@ -163,7 +163,29 @@ button { font: inherit; cursor: pointer; }
 }
 .bo-lateral__pied button:hover { color: var(--rouge); border-color: var(--rouge); }
 
-.bo-principal { padding: 2.2rem clamp(1.4rem, 4vw, 3rem) 4rem; max-width: 1080px; }
+/* `min-width: 0` : sans lui, un élément de grille refuse de descendre sous la
+   largeur minimale de son contenu, et un bloc large — la commande shell de
+   l'écran Mises à jour, le tableau de l'écran Référencement — élargit la
+   colonne entière et fait déborder la page latéralement. L'`overflow-x: auto`
+   posé sur ces blocs ne suffit pas : il ne s'applique qu'une fois que le
+   parent a accepté d'être plus étroit qu'eux. Mesuré à 320 px : la colonne
+   réclamait 368 px. */
+/* Un `fieldset` porte, par la feuille de style du navigateur, un
+   `min-inline-size: min-content` qu'aucune largeur ne surcharge : il refuse de
+   descendre sous la largeur de son champ le plus large, et pousse la page à
+   déborder. Mesuré à 320 px : les fieldsets de la page d'accueil réclamaient
+   492 px. C'est une bizarrerie historique du HTML, pas un choix de ce socle. */
+fieldset { min-inline-size: 0; }
+
+/* Un enfant de flex ou de grille ne descend pas sous la largeur minimale de
+   son contenu tant qu'on ne le lui dit pas : c'est la cause la plus fréquente
+   d'une page qui défile latéralement sur téléphone. Les conteneurs du
+   back-office qui portent du texte long — le résumé d'un bloc, le titre d'une
+   fiche — le déclarent donc explicitement. */
+.bo-bloc-edit, .bo-bloc-edit__tete, .bo-champ, .bo-rangee > *,
+.bo-barre-actions > *, .bo-diapo, .bo-photo, .bo-ligne__corps { min-width: 0; }
+
+.bo-principal { min-width: 0; padding: 2.2rem clamp(1.4rem, 4vw, 3rem) 4rem; max-width: 1080px; }
 
 .bo-entete {
   display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
@@ -192,7 +214,7 @@ button { font: inherit; cursor: pointer; }
   font-family: var(--serif); font-weight: 600;
   color: var(--accent-clair); padding: 0 .6rem; font-size: 1.05rem;
 }
-.bo-rangee { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.bo-rangee { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); }
 
 .bo-champ label {
   display: block; margin-bottom: .35rem;
@@ -244,7 +266,7 @@ button { font: inherit; cursor: pointer; }
    seconde ligne dès 1400 px, ce qui donne l'impression d'un oubli. */
 .bo-stats {
   display: grid; gap: 1.1rem;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
   margin-bottom: 2rem;
 }
 @media (min-width: 1100px) {
@@ -340,13 +362,18 @@ button { font: inherit; cursor: pointer; }
 .bo-palmares__vues { flex: 0 0 3.5rem; text-align: right; color: var(--texte-2); font-variant-numeric: tabular-nums; }
 
 /* ---------- Tableau de bord : listes et gestes ---------- */
-.bo-colonnes { display: grid; gap: 1.4rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+/* `min(300px, 100%)` et non `300px` : une piste de grille garde sa largeur
+   minimale même quand la fenêtre est plus étroite qu'elle, et pousse alors la
+   page à déborder latéralement. Mesuré à 320 px : le panneau réclamait
+   300 px plus ses 48 px de rembourrage, soit 25 px de trop. Le `min()` laisse
+   la piste se réduire à la place disponible. Même garde sur les gestes. */
+.bo-colonnes { display: grid; gap: 1.4rem; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
 .bo-fil { display: grid; gap: .7rem; list-style: none; }
 .bo-fil li { display: flex; gap: .9rem; align-items: baseline; font-size: .92rem; }
 .bo-fil__date { flex: 0 0 4.6rem; color: var(--texte-2); font-size: .82rem; }
 .bo-fil__nom { flex: 1 1 auto; }
 
-.bo-gestes { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.bo-gestes { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); }
 .bo-geste {
   display: block; padding: .95rem 1.1rem;
   background: var(--fond); border: 1px solid var(--trait);
@@ -373,7 +400,7 @@ button { font: inherit; cursor: pointer; }
 /* ---------- Galerie ---------- */
 .bo-galerie {
   display: grid; gap: .9rem;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
   margin-top: 1.6rem;
 }
 .bo-media { position: relative; background: var(--fond-2); border: 1px solid var(--trait); }
@@ -393,7 +420,7 @@ button { font: inherit; cursor: pointer; }
 }
 
 /* ---------- Tarifs ---------- */
-.bo-tarifs { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+.bo-tarifs { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(110px, 100%), 1fr)); }
 .bo-tarifs .bo-champ label { font-size: .7rem; }
 
 /* ---------- Sauvegardes ---------- */
@@ -403,14 +430,74 @@ button { font: inherit; cursor: pointer; }
 .bo-sauvegardes li { display: flex; align-items: center; gap: 1rem; font-size: .85rem; color: var(--texte-2); }
 
 /* ---------- Responsive ---------- */
+/* ---------- Le menu en tiroir, sous 900 px ----------
+
+   Le panneau latéral se dépliait en barre horizontale : vingt-cinq liens
+   enroulés en haut de chaque écran, qui repoussaient le contenu d'un demi-
+   écran et rendaient l'écran de travail illisible sur un téléphone. Un tiroir
+   coûte le même CSS et rend la page au contenu.
+
+   Il reste dans le flux au-dessus de 900 px : le back-office se tient
+   d'abord sur l'écran du secrétariat, où la navigation visible en permanence
+   est un avantage, pas une gêne. */
+.bo-burger { display: none; }
+
 @media (max-width: 900px) {
   .bo-cadre { grid-template-columns: 1fr; }
-  .bo-lateral { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: .6rem; padding: .8rem 1rem; }
-  .bo-lateral__logo { border: 0; padding: 0; }
-  .bo-lateral__logo img { height: 54px; }
-  .bo-lateral__nav { display: flex; flex-wrap: wrap; gap: .1rem; padding: 0; }
-  .bo-lateral__nav a { padding: .45rem .7rem; border-left: 0; font-size: .85rem; }
-  .bo-lateral__pied { border: 0; padding: 0; grid-auto-flow: column; align-items: center; }
+
+  .bo-burger {
+    display: inline-flex; align-items: center; gap: .55rem;
+    background: none; border: 1px solid var(--trait); color: var(--texte-2);
+    padding: .5rem .8rem; min-height: 44px;
+    font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .bo-burger:hover { color: var(--accent-clair); border-color: var(--accent); }
+  /* Les trois traits sont dessinés par des ombres portées : pas d'image à
+     charger, et la couleur suit celle du texte. */
+  .bo-burger__traits,
+  .bo-burger__traits::before,
+  .bo-burger__traits::after {
+    display: block; width: 16px; height: 2px; background: currentColor;
+  }
+  .bo-burger__traits { position: relative; }
+  .bo-burger__traits::before, .bo-burger__traits::after { content: ""; position: absolute; left: 0; }
+  .bo-burger__traits::before { top: -5px; }
+  .bo-burger__traits::after  { top: 5px; }
+
+  .bo-entete { flex-wrap: wrap; align-items: center; }
+  .bo-entete h1 { flex: 1 1 100%; order: 3; }
+  .bo-entete__qui { order: 2; }
+
+  .bo-lateral {
+    position: fixed; top: 0; left: 0; z-index: 40;
+    width: min(280px, 86vw); height: 100svh;
+    transform: translateX(-100%);
+    transition: transform .28s ease;
+    overflow-y: auto;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0);   /* aucune ombre au repos */
+  }
+  .bo-lateral.est-ouvert { transform: translateX(0); }
+
+  .bo-voile {
+    position: fixed; inset: 0; z-index: 30;
+    background: rgba(6, 12, 16, .6);
+  }
+  /* `[hidden]` seul ne suffit pas quand une règle donne un display explicite :
+     le piège est documenté au § 10 de KIT.md, il a déjà coûté un panneau de
+     consentement visible d'emblée sur tout le site. */
+  .bo-voile[hidden] { display: none; }
+
+  /* Le contenu ne bouge pas : le tiroir passe par-dessus. Faire glisser la
+     page entière donne un déplacement de 280 px à chaque ouverture, et une
+     barre de défilement horizontale le temps de l'animation. */
+  .bo-principal { padding-top: 1.2rem; }
+
+  /* Le corps ne défile plus derrière le tiroir ouvert. */
+  body.bo-menu-ouvert { overflow: hidden; }
+}
+
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+  .bo-lateral { transition: none; }
 }
 
 /* ---------- Photos des hébergements et des étangs ---------- */
@@ -430,7 +517,7 @@ button { font: inherit; cursor: pointer; }
 
 .bo-zone__photos {
   display: grid; gap: .9rem;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(190px, 100%), 1fr));
   margin-bottom: 1.1rem;
 }
 .bo-photo { border: 1px solid var(--trait); background: var(--fond-3); }
@@ -460,7 +547,7 @@ button { font: inherit; cursor: pointer; }
 .bo-choix__corps { margin-top: 1rem; display: grid; gap: 1rem; }
 .bo-choix__grille {
   display: grid; gap: .5rem;
-  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(104px, 100%), 1fr));
   max-height: 330px; overflow-y: auto;
   padding: .6rem; border: 1px solid var(--trait);
   background: var(--fond);
@@ -502,6 +589,10 @@ button { font: inherit; cursor: pointer; }
 }
 .bo-diag { margin-top: 2.2rem; border-top: 1px solid var(--trait); padding-top: 1.5rem; }
 .bo-diag h2 { font-family: var(--serif); font-size: 1.1rem; color: var(--accent-clair); margin-bottom: .9rem; }
+/* Le diagnostic serveur est un tableau : ses colonnes ont une largeur
+   minimale que rien ne réduit. Sous 640 px il défile dans sa propre boîte
+   plutôt que d'emporter la page avec lui. */
+.bo-diag { max-width: 100%; overflow-x: auto; }
 .bo-diag table { width: 100%; border-collapse: collapse; font-size: .88rem; }
 .bo-diag tr { border-bottom: 1px solid rgba(124, 162, 189, .12); }
 .bo-diag th { text-align: left; font-weight: 400; color: var(--texte-2); padding: .55rem .8rem .55rem 0; }
@@ -625,7 +716,7 @@ button { font: inherit; cursor: pointer; }
 
 .bo-galerie {
   display: grid; gap: .9rem;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(180px, 100%), 1fr));
 }
 .bo-media {
   position: relative; background: var(--fond-2); border: 1px solid var(--trait);
@@ -755,7 +846,7 @@ button { font: inherit; cursor: pointer; }
 /* ---------- Diaporama du bandeau d'accueil ---------- */
 .bo-diapos {
   display: grid; gap: .9rem;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(190px, 100%), 1fr));
 }
 .bo-diapo {
   position: relative; border: 1px solid var(--trait); background: var(--fond);
@@ -764,8 +855,14 @@ button { font: inherit; cursor: pointer; }
 .bo-diapo--masquee img { filter: grayscale(1) brightness(.55); }
 .bo-diapo figcaption { padding: .5rem .6rem; display: grid; gap: .4rem; }
 .bo-diapo__rang { font-size: .74rem; color: var(--texte-2); }
-.bo-diapo__actions { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
-.bo-diapo__actions form { display: flex; gap: .3rem; }
+/* `min-width: 0` sur la rangée d'actions : sans lui, elle est un enfant de
+   grille qui refuse de se réduire, donc ne se replie jamais et sort de la
+   tuile. Cela s'est vu le jour où les boutons sont passés à 44 px pour être
+   tapables au doigt — la rangée réclamait alors 475 px dans une tuile de 320. */
+.bo-diapo__actions {
+  display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; min-width: 0;
+}
+.bo-diapo__actions form { display: flex; gap: .3rem; flex-wrap: wrap; }
 .bo-diapo__actions form:first-child button {
   width: 24px; height: 24px; padding: 0; line-height: 1;
   color: var(--accent-clair); background: rgba(244, 239, 230, .05);
@@ -826,7 +923,7 @@ button { font: inherit; cursor: pointer; }
 
 .bo-mosaique {
   display: grid; gap: .6rem;
-  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(124px, 100%), 1fr));
   max-height: 340px; overflow-y: auto;
   padding: .2rem; border: 1px solid var(--trait); background: var(--fond-2);
 }
@@ -1129,7 +1226,7 @@ button { font: inherit; cursor: pointer; }
    sans une ligne de JavaScript. */
 .bo-planche {
   list-style: none;
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
   gap: .7rem; margin: 1rem 0 1.4rem;
 }
 .bo-planche__photo {
@@ -1246,6 +1343,19 @@ button { font: inherit; cursor: pointer; }
   border: 1px solid rgba(255, 255, 255, .12);
   cursor: grab;
 }
+/* Six colonnes fixes — poignée, vignette, nom, bascule, ordre, retrait —
+   demandent 500 px au bas mot. Sur un téléphone la rangée devient une boîte
+   qui se replie : la vignette et le nom sur une ligne, les commandes sur la
+   suivante. C'est le seul écran du back-office où la grille ne pouvait pas
+   simplement se resserrer. */
+@media (max-width: 640px) {
+  .bo-diapo {
+    display: flex; flex-wrap: wrap; align-items: center; gap: .55rem .8rem;
+  }
+  .bo-diapo__nom { flex: 1 1 8rem; }
+  .bo-diapo .bo-bascule { margin-left: auto; }
+}
+
 .bo-diapo.est-portee { opacity: .45; cursor: grabbing; }
 .bo-diapo__poignee { color: #888; letter-spacing: -.15em; font-size: 1.1rem; }
 .bo-diapo img { width: 96px; height: 60px; object-fit: cover; display: block; }

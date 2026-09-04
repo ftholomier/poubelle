@@ -206,10 +206,25 @@ la ligne : il déborde. `mise-en-page.py --admin` relève désormais ce cas
 partout, et il a trouvé du même coup une centaine de cibles tactiles sous
 44 px dans le back-office, jusque-là non mesurées.
 
-Il n'y est pas mesuré sous 768 px, et c'est un choix assumé : le panneau
-latéral ne se replie pas, il déborde donc par construction sur un téléphone.
-Rendre le back-office utilisable à 320 px est un chantier à part, inscrit dans
-`SITE.md`.
+Il l'est aux mêmes cinq largeurs que le site, **téléphone compris**. Le
+panneau latéral se replie en tiroir sous 900 px, et le passage à 320 px a
+demandé de lever quatre causes de débordement, toutes classiques et toutes
+invisibles sur un grand écran :
+
+- **`min-width: 0`** sur ce qui doit pouvoir rétrécir. Un enfant de flex ou de
+  grille refuse de descendre sous la largeur minimale de son contenu tant
+  qu'on ne le lui dit pas. C'est de loin la cause la plus fréquente.
+- **`minmax(min(190px, 100%), 1fr)`** et jamais `minmax(190px, 1fr)` : une
+  piste de grille garde son minimum même quand la fenêtre est plus étroite
+  qu'elle, et pousse la page dehors.
+- **`fieldset { min-inline-size: 0 }`** : la feuille du navigateur y met
+  `min-content`, qu'aucune largeur ne surcharge. Bizarrerie historique du
+  HTML, pas un choix du socle.
+- **Une grille à colonnes fixes ne se resserre pas.** Les six colonnes d'une
+  vue de diaporama deviennent une rangée qui se replie sous 640 px.
+
+Retenez la liste : elle couvre à peu près tout ce qui fait défiler une page
+latéralement sur un téléphone.
 
 **Règle qui en découle : tout réglage laissé à la mairie doit avoir son
 auditeur qui en force les bornes.** Un curseur dont on n'a mesuré que la valeur

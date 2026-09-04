@@ -620,6 +620,16 @@ où on l'a mesuré, il a rendu une centaine de cibles tactiles sous 44 px en
 plus de la superposition. **Un écran qu'on livre est un écran qu'on mesure**,
 back-office compris.
 
+**Quatre causes couvrent presque tous les débordements latéraux sur
+téléphone**, et aucune ne se voit sur un grand écran. Un enfant de flex ou de
+grille qui n'a pas `min-width: 0` refuse de descendre sous la largeur minimale
+de son contenu ; une piste `minmax(190px, 1fr)` garde ses 190 px dans une
+fenêtre de 320 et pousse la page dehors — il faut `minmax(min(190px, 100%),
+1fr)` ; un `fieldset` porte de naissance un `min-inline-size: min-content`
+qu'aucune largeur ne surcharge ; et une grille à colonnes fixes ne se resserre
+pas, elle doit devenir une rangée qui se replie. Le back-office les avait
+toutes les quatre, et personne ne l'avait vu parce que personne ne le mesurait.
+
 **Un inventaire écrit à la main prend du retard sans le dire.** Deux listes de
 ce dépôt sont tenues à la main : les écrans du back-office que `alertes.py`
 visite, et `Seo::CONTENUS`, où l'on réécrit les liens internes quand un slug

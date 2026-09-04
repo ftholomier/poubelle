@@ -18,7 +18,8 @@ une piste qui défile horizontalement par construction.
 pas mesuré, et c'est là qu'un défaut est passé : une pastille de code faite
 pour occuper sa propre ligne, posée au fil d'un paragraphe, recouvrait la
 ligne du dessus sur deux écrans. Personne ne regardait. Les écrans visités
-sont ceux d'`alertes.py`, pour qu'il n'existe qu'un seul inventaire.
+sont ceux d'`alertes.py`, pour qu'il n'existe qu'un seul inventaire, et les
+largeurs sont celles du site — téléphone compris.
 
 Trois des contrôles ne s'y appliquent pas et sont écartés : le back-office n'a
 pas de lien d'évitement (il n'est pas un site public parcouru au clavier par
@@ -72,14 +73,12 @@ def pages_du_site(base):
 
 LARGEURS = (320, 390, 768, 1024, 1440)
 
-# Le back-office n'est pas mesuré sous 768 px, et c'est un choix, pas un
-# assouplissement : son panneau latéral de 250 px ne se replie pas, il déborde
-# donc par construction sur un écran de téléphone. Le rendre utilisable à
-# 320 px est un chantier à part — un menu repliable, une liste qui devient des
-# cartes — et non un défaut à corriger au détour d'un audit. Il est inscrit
-# dans SITE.md. Ce qui est mesuré ici, c'est l'écran du secrétariat et la
-# tablette posée sur le comptoir, où il est vraiment utilisé.
-LARGEURS_ADMIN = (768, 1024, 1440)
+# Le back-office est mesuré aux mêmes largeurs que le site. Il l'a d'abord été
+# à partir de 768 px seulement, son panneau latéral ne se repliant pas ; il se
+# replie désormais en tiroir sous 900 px, et il n'y a plus de raison de
+# l'épargner. Un secrétaire de mairie corrige une coquille depuis son
+# téléphone comme n'importe qui.
+LARGEURS_ADMIN = LARGEURS
 NAVIGATEUR = os.environ.get('CHROMIUM', '/opt/pw-browsers/chromium')
 
 CONTROLE = """() => {

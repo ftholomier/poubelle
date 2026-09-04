@@ -393,13 +393,7 @@ chaque ligne se règle depuis le back-office.
     panoramas manquent, et ce sont eux qui portent le bandeau d'accueil.
 12. **Déposer les comptes-rendus manquants.** Deux séances annoncées par
     l'ancien site n'avaient pas de PDF en ligne (17 août 2021, 1ᵉʳ avril 2025).
-13. **Rendre le back-office utilisable sur téléphone.** Il l'est sur écran et
-    sur tablette — les cibles tactiles y font 44 px depuis la mesure du
-    back-office par `mise-en-page.py --admin`. Sous 768 px, en revanche, le
-    panneau latéral de 250 px ne se replie pas et la page déborde
-    latéralement. C'est un chantier à part : un menu repliable, et les listes
-    de contenu rendues en cartes plutôt qu'en lignes.
-14. **Renseigner l'hébergeur** dans les mentions légales, § « Hébergement »,
+13. **Renseigner l'hébergeur** dans les mentions légales, § « Hébergement »,
     une fois le contrat pris.
 
 ---

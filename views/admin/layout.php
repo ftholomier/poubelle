@@ -71,7 +71,11 @@ $menu = [
 </head>
 <body class="bo">
 <div class="bo-cadre">
-  <aside class="bo-lateral">
+  <?php /* Le voile du menu escamotable. Il vit hors de l'aside pour couvrir
+           toute la page, et ne se voit qu'une fois le menu ouvert. */ ?>
+  <div class="bo-voile" data-menu-voile hidden></div>
+
+  <aside class="bo-lateral" id="bo-menu" data-menu-panneau>
     <a class="bo-lateral__logo" href="<?= url('/admin') ?>">
       <img src="<?= asset('assets/img/logo/logo-angeot-clair.svg') ?>" alt="Mairie d’Angeot — back-office">
     </a>
@@ -103,6 +107,15 @@ $menu = [
 
   <main class="bo-principal">
     <header class="bo-entete">
+      <?php /* Le bouton n'apparaît qu'en dessous de 900 px, où le panneau
+               latéral devient un tiroir. Il est rendu sur tous les écrans :
+               une règle d'affichage le montre ou le cache, ce qui évite un
+               bouton qui existerait ou non selon la largeur au chargement. */ ?>
+      <button class="bo-burger" type="button"
+              data-menu-bouton aria-expanded="false" aria-controls="bo-menu">
+        <span class="bo-burger__traits" aria-hidden="true"></span>
+        <span class="bo-burger__mot">Menu</span>
+      </button>
       <h1><?= e($page['titre'] ?? 'Administration') ?></h1>
       <span class="bo-entete__qui">Connecté : <?= e($auth->identifiant()) ?></span>
     </header>
