@@ -2199,8 +2199,11 @@ body.visionneuse-ouverte { overflow: hidden; }
   /* Le corps suit la taille, mais borné : sous 13 px le libellé devient
      illisible, au-delà de 18 px il occupe la moitié d'un téléphone. */
   font-size: clamp(13px, calc(var(--bulle-taille, 52px) * .287), 18px);
-  box-shadow: 0 6px 18px rgba(var(--bulle-fond-rgb, var(--bleu-rgb)), .3),
-              0 14px 40px rgba(var(--ardoise-rgb), .18);
+  /* En variable parce que les images-clés d'animation remplacent la propriété
+     entière : sans elle, l'ombre portée disparaîtrait pendant le halo. */
+  --bulle-ombre: 0 6px 18px rgba(var(--bulle-fond-rgb, var(--bleu-rgb)), .3),
+                 0 14px 40px rgba(var(--ardoise-rgb), .18);
+  box-shadow: var(--bulle-ombre);
   transition: transform var(--transition), box-shadow var(--transition);
 }
 .assistant__bulle:hover { transform: translateY(-2px); }
@@ -2253,6 +2256,101 @@ body.visionneuse-ouverte { overflow: hidden; }
 .assistant--pastille .assistant__bulle-texte {
   position: absolute; width: 1px; height: 1px;
   overflow: hidden; clip-path: inset(50%);
+}
+
+/* --- Les animations d'appel ----------------------------------------------
+   Un bouton immobile dans un coin ne se voit pas ; un bouton qui bat sans fin
+   est une gêne. Celles-ci font donc un mouvement bref, trois fois, puis plus
+   jamais.
+
+   Le budget de 1,6 s × 3 = 4,8 s n'est pas un chiffre rond par hasard :
+   au-delà de CINQ secondes, une animation qui démarre toute seule doit
+   pouvoir être mise en pause par le visiteur (WCAG 2.2.2, « Pause, arrêt,
+   masquer »). En dessous, elle n'a rien à demander à personne — et il aurait
+   fallu ajouter un bouton « arrêter l'animation » à côté du bouton de
+   discussion, ce qui aurait été absurde. `bulle.py` mesure cette durée sur les
+   styles calculés, pour qu'un jour où quelqu'un passe le nombre de cycles à
+   dix, ce soit dit.
+
+   Le délai d'entrée laisse la page se poser : une animation qui démarre
+   pendant que le bandeau se peint passe inaperçue, et fait deux mouvements
+   concurrents.
+
+   Trois choses l'arrêtent en plus : le survol et le focus — quelqu'un qui a
+   trouvé le bouton n'a plus besoin qu'on le lui montre —, le réglage système
+   « moins d'animations », par la règle générale posée en tête de cette
+   feuille, et la reprise d'une conversation, que le script retire. */
+.assistant[class*="assistant--anim-"] .assistant__bulle {
+  animation-duration: 1.6s;
+  animation-iteration-count: 3;
+  animation-delay: 1.4s;
+  animation-timing-function: cubic-bezier(.34, .8, .38, 1);
+}
+.assistant[class*="assistant--anim-"] .assistant__bulle:hover,
+.assistant[class*="assistant--anim-"] .assistant__bulle:focus-visible {
+  animation: none;
+}
+
+.assistant--anim-halo .assistant__bulle { animation-name: bulle-halo; }
+/* L'anneau est une ombre et non un élément : une ombre ne prend pas de place,
+   ne peut donc pas déborder de l'écran, et n'intercepte aucun clic. */
+@keyframes bulle-halo {
+  0%   { box-shadow: 0 0 0 0 rgba(var(--bulle-fond-rgb), .5), var(--bulle-ombre); }
+  65%  { box-shadow: 0 0 0 14px rgba(var(--bulle-fond-rgb), 0), var(--bulle-ombre); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--bulle-fond-rgb), 0), var(--bulle-ombre); }
+}
+
+.assistant--anim-rebond .assistant__bulle { animation-name: bulle-rebond; }
+@keyframes bulle-rebond {
+  0%, 42%, 100% { transform: translateY(0); }
+  18% { transform: translateY(-7px); }
+  30% { transform: translateY(-3px); }
+}
+
+/* L'axe est en bas : un pivot au centre décollerait le bas du bouton du coin
+   où il est posé, et l'oscillation aurait l'air d'un décrochage. L'angle reste
+   sous cinq degrés — au-delà, l'étiquette « onglet », haute et collée au bord,
+   sort de l'écran par le coin, et bulle.py le refuse. */
+@keyframes bulle-balancement {
+  0%, 55%, 100% { transform: rotate(0); }
+  12% { transform: rotate(-4.5deg); }
+  26% { transform: rotate(3deg); }
+  40% { transform: rotate(-1.5deg); }
+}
+.assistant--anim-balancement .assistant__bulle {
+  animation-name: bulle-balancement;
+  transform-origin: 50% 100%;
+}
+
+.assistant--anim-respiration .assistant__bulle { animation-name: bulle-respiration; }
+@keyframes bulle-respiration {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.07); }
+}
+
+/* L'étiquette « onglet » demande deux adaptations, et elles ne sont pas
+   cosmétiques : elle est la seule forme collée au bord de l'écran, si bien que
+   tout mouvement vers la droite la fait sortir du cadre.
+
+   · l'axe des transformations passe au coin bas-droit, celui par lequel elle
+     tient : la respiration l'enfle alors vers l'intérieur ;
+   · le balancement devient un mouvement horizontal. Une rotation de 4,5° sur
+     une étiquette de cent cinquante pixels de haut déplace son coin de huit
+     pixels vers la droite — hors écran, mesuré et non déduit. Le geste juste,
+     pour une étiquette, est de toute façon celui-ci : elle se décolle du bord
+     et y revient.
+
+   `bulle.py` relève la boîte à chaque image pendant les deux premiers cycles ;
+   sans ces deux règles, il refuse la combinaison — vérifié en les retirant. */
+.assistant--onglet .assistant__bulle { transform-origin: 100% 100%; }
+
+.assistant--onglet.assistant--anim-balancement .assistant__bulle {
+  animation-name: bulle-onglet-appel;
+}
+@keyframes bulle-onglet-appel {
+  0%, 55%, 100% { transform: translateX(0); }
+  16% { transform: translateX(-7px); }
+  34% { transform: translateX(-3px); }
 }
 
 .assistant__panneau {

@@ -69,6 +69,7 @@ final class AssistantController
         }
 
         $forme = (string) ($_POST['bulle_forme'] ?? '');
+        $anim  = (string) ($_POST['bulle_animation'] ?? '');
         // Le fond vide n'est pas une absence de choix : c'est le choix de
         // suivre la couleur de la commune, pour que la bulle reste accordée
         // au site le jour où l'écran Apparence en change.
@@ -82,11 +83,12 @@ final class AssistantController
             'accueil'     => trim((string) ($_POST['accueil'] ?? '')),
             'source_site' => isset($_POST['source_site']),
             'bulle'       => [
-                'forme'   => isset(Bulle::FORMES[$forme]) ? $forme : Bulle::FORME_DEFAUT,
-                'libelle' => mb_substr(trim((string) ($_POST['bulle_libelle'] ?? '')), 0, Bulle::LIBELLE_MAX),
-                'taille'  => self::taille($_POST['bulle_taille'] ?? Bulle::TAILLE_DEFAUT),
-                'fond'    => $suitLaCommune ? '' : Charte::normaliser((string) ($_POST['bulle_fond'] ?? '')),
-                'texte'   => Charte::normaliser((string) ($_POST['bulle_texte'] ?? Bulle::TEXTE_DEFAUT)),
+                'forme'     => isset(Bulle::FORMES[$forme]) ? $forme : Bulle::FORME_DEFAUT,
+                'animation' => isset(Bulle::ANIMATIONS[$anim]) ? $anim : Bulle::ANIMATION_DEFAUT,
+                'libelle'   => mb_substr(trim((string) ($_POST['bulle_libelle'] ?? '')), 0, Bulle::LIBELLE_MAX),
+                'taille'    => self::taille($_POST['bulle_taille'] ?? Bulle::TAILLE_DEFAUT),
+                'fond'      => $suitLaCommune ? '' : Charte::normaliser((string) ($_POST['bulle_fond'] ?? '')),
+                'texte'     => Charte::normaliser((string) ($_POST['bulle_texte'] ?? Bulle::TEXTE_DEFAUT)),
             ],
         ]] + $actuel);
 

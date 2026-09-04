@@ -193,6 +193,21 @@ jusqu'à 4,5:1 sur le fond choisi, par la méthode de `Charte`. Un fond jaune et
 un texte blanc donnent donc un texte jaune sombre, pas 1,26:1 — et l'écran le
 dit, plutôt que de refuser d'enregistrer.
 
+S'y ajoutent cinq **animations d'appel** — aucune, halo, rebond, balancement,
+respiration. Toutes obéissent au même budget : 1,6 s × 3 cycles = 4,8 s de
+mouvement, puis plus jamais. Ce n'est pas un chiffre rond par hasard :
+**au-delà de cinq secondes, une animation qui démarre seule doit pouvoir être
+mise en pause par le visiteur** (WCAG 2.2.2), ce qui obligerait à poser un
+bouton d'arrêt à côté du bouton de discussion. En dessous, elle n'a rien à
+demander à personne. `bulle.py` mesure ce budget sur les styles calculés, pour
+que le jour où quelqu'un passe le nombre de cycles à dix, ce soit dit.
+
+Le mouvement s'arrête aussi au survol, au focus, et pour un visiteur dont le
+système demande moins d'animations — par la règle générale posée en tête de
+site.css, que le script vérifie dans un contexte `reduced_motion`. Le script du
+site retire enfin la classe dès que le visiteur ouvre la discussion : continuer
+à agiter un bouton devant quelqu'un qui s'en sert n'a pas de sens.
+
 Deux pièges valent d'être connus avant d'y toucher :
 
 - la taille ne descend pas sous 44 px, parce que c'est le minimum de cible
@@ -201,7 +216,12 @@ Deux pièges valent d'être connus avant d'y toucher :
 - l'onglet annule le retrait du conteneur pour toucher le bord de l'écran. Ce
   retrait vaut `clamp(1rem, 3vw, 1.8rem)` et passe à `.8rem` sous 520 px : il
   est donc en variable (`--assistant-marge`). Écrit deux fois, il déborde de
-  trois pixels sur petit écran, et `mise-en-page.py` le refuse.
+  trois pixels sur petit écran, et `mise-en-page.py` le refuse ;
+- **une forme collée au bord ne peut pas tourner.** L'onglet est la seule dans
+  ce cas, et une rotation de 4,5° sur une étiquette de cent cinquante pixels de
+  haut déplace son coin de huit pixels hors de l'écran — mesuré, pas déduit.
+  Son axe de transformation passe donc au coin bas-droit, et son balancement
+  devient un mouvement horizontal : elle se décolle du bord et y revient.
 
 ### Les briques de `app/Core`
 

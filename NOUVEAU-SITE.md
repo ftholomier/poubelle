@@ -377,7 +377,7 @@ quelque chose — branchables tels quels dans une chaîne d'intégration.
 | `bandeau.py` | Le texte du bandeau d'accueil sur **chaque** photo du diaporama forcée à son tour, à 390, 768 et 1440 px |
 | `entete.py` | L'en-tête aux **bornes du réglage de taille du logo**, dans les deux modes de barre et les deux dispositions de menu : débordement, déformation, chevauchement du burger, cible tactile |
 | `couleur.py` | Le contraste de six pages représentatives sous **douze teintes de la roue** plus quatre cas limites, en réglant tour à tour la couleur de la commune |
-| `bulle.py` | Le bouton de l'assistant sous **les cinq formes, les bornes de taille et six couples de couleurs** — contraste, cible tactile, débordement, nom accessible, et aucun appel réseau bulle allumée |
+| `bulle.py` | Le bouton de l'assistant sous **les cinq formes, les bornes de taille, six couples de couleurs et les cinq animations** — contraste, cible tactile, débordement, nom accessible, budget de mouvement, respect du réglage système « moins d'animations », et aucun appel réseau bulle allumée |
 
 ### Pourquoi quatre auditeurs de plus, pour un diaporama et trois réglages
 
@@ -429,6 +429,26 @@ cinq formes, les deux bornes de taille et six couples de couleurs dont quatre
 volontairement illisibles, et vérifie sur chacun le contraste peint, la cible
 tactile, le débordement, le nom accessible du bouton et l'absence de requête
 tierce. Il rend la main sur les réglages d'origine, même s'il échoue.
+
+Il force aussi les cinq **animations d'appel** du bouton, et y mesure trois
+choses que l'œil ne mesure pas :
+
+- le **budget de mouvement** — durée × nombre de cycles —, qui doit rester sous
+  cinq secondes. Au-delà, une animation qui démarre seule doit pouvoir être
+  arrêtée par le visiteur (WCAG 2.2.2) ; en dessous, elle n'a rien à demander.
+  C'est la borne d'un réglage que personne ne pense à mesurer ;
+- la **boîte pendant le mouvement**, relevée à chaque image : c'est ce contrôle
+  qui a montré que l'onglet, seule forme collée au bord de l'écran, sortait de
+  huit pixels du cadre en tournant de 4,5°. Son balancement est devenu un
+  mouvement horizontal ;
+- le **respect du réglage système « moins d'animations »**, dans un contexte
+  qui le déclare. La feuille l'honore par une règle générale posée en tête —
+  et une règle générale est exactement ce qu'une règle plus spécifique écrite
+  six mois plus tard peut défaire sans qu'on s'en aperçoive.
+
+Ces trois contrôles ont été vérifiés en les faisant échouer exprès avant de les
+croire : dix cycles au lieu de trois, et la rotation rendue à l'onglet. Un
+contrôle qui n'a jamais échoué n'est pas encore un contrôle.
 
 Cherchez les autres réglages de ce genre avant de livrer : tout ce qui peut
 être éteint est invisible à la mesure tant que quelqu'un ne l'allume pas.

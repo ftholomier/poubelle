@@ -738,6 +738,8 @@
 
     var MINI = 4.5;
     var formes = [].slice.call(document.querySelectorAll('[data-bulle-forme]'));
+    var animations = [].slice.call(document.querySelectorAll('[data-bulle-animation]'));
+    var rejouer = document.querySelector('[data-bulle-rejouer]');
     var libelle = document.querySelector('[data-bulle-libelle]');
     var nombre = document.querySelector('[data-bulle-taille]');
     var curseur = document.querySelector('[data-bulle-curseur]');
@@ -811,6 +813,21 @@
       for (var i = 0; i < formes.length; i++) if (formes[i].checked) return formes[i].value;
       return "barre";
     }
+    function animationChoisie() {
+      for (var i = 0; i < animations.length; i++) if (animations[i].checked) return animations[i].value;
+      return "aucune";
+    }
+
+    /* Relancer une animation CSS demande de retirer la classe, de forcer un
+       recalcul, puis de la remettre : sans la lecture intermédiaire, le
+       navigateur regroupe les deux changements et ne voit rien à rejouer. */
+    function jouer() {
+      var anim = animationChoisie();
+      apercu.classList.remove("bo-apercu-bulle--joue");
+      if (anim === "aucune") return;
+      void apercu.offsetWidth;
+      apercu.classList.add("bo-apercu-bulle--joue");
+    }
 
     function peindre() {
       var forme = formeChoisie();
@@ -826,7 +843,15 @@
       var taille = nombre ? parseInt(nombre.value, 10) : 52;
       if (isNaN(taille)) taille = 52;
 
-      apercu.className = "bo-apercu-bulle assistant--" + forme;
+      var anim = animationChoisie();
+      // La classe est réécrite en bloc : on lui rend celle qui marque une
+      // animation en cours, sinon régler la taille ou la couleur pendant
+      // qu'elle se joue l'interromprait sans raison.
+      var joue = apercu.classList.contains("bo-apercu-bulle--joue");
+      apercu.className = "bo-apercu-bulle assistant--" + forme
+                       + (anim !== "aucune" ? " assistant--anim-" + anim : "")
+                       + (joue ? " bo-apercu-bulle--joue" : "");
+      if (rejouer) rejouer.disabled = (anim === "aucune");
       apercu.style.setProperty("--bulle-fond", couleurFond);
       apercu.style.setProperty("--bulle-texte", peint);
       apercu.style.setProperty("--bulle-taille", taille + "px");
@@ -852,13 +877,24 @@
       nombre.addEventListener("input", function () { curseur.value = nombre.value; peindre(); });
     }
 
+    /* Le bouton de rejeu n'existe que si le script est là : sans lui il ne
+       ferait rien, et un bouton qui ne fait rien est pire qu'absent. */
+    if (rejouer) {
+      rejouer.hidden = false;
+      rejouer.addEventListener("click", jouer);
+    }
+
     for (var i = 0; i < formes.length; i++) formes[i].addEventListener("change", peindre);
+    for (var k = 0; k < animations.length; k++) {
+      animations[k].addEventListener("change", function () { peindre(); jouer(); });
+    }
     if (libelle) libelle.addEventListener("input", peindre);
     if (nombre) nombre.addEventListener("change", peindre);
     if (fond) fond.addEventListener("input", peindre);
     if (texte) texte.addEventListener("input", peindre);
     if (suivre) suivre.addEventListener("change", peindre);
     peindre();
+    jouer();
   })();
 
   /* ---------- Apparence : taille du logo ----------

@@ -126,15 +126,49 @@ $modeleChoisi = (string) ($reglages['modele'] ?? '');
     </div>
 
     <div class="bo-champ">
+      <span class="bo-legende-champ">Animation d’appel</span>
+      <p class="bo-aide">
+        Un bouton immobile dans un coin passe inaperçu. Celles-ci font un
+        mouvement bref, <strong>trois fois de suite après l’arrivée sur la
+        page, puis plus jamais</strong> — et elles s’arrêtent net dès que le
+        visiteur survole le bouton ou l’a déjà ouvert. Un visiteur dont le
+        système demande moins d’animations n’en voit aucune.
+      </p>
+      <div class="bo-formes">
+        <?php foreach (Bulle::ANIMATIONS as $id => $a): ?>
+          <label class="bo-forme">
+            <input type="radio" name="bulle_animation" value="<?= e($id) ?>"
+                   data-bulle-animation<?= $id === $bulle->animation() ? ' checked' : '' ?>>
+            <span class="bo-forme__corps bo-forme__corps--anim">
+              <span class="bo-forme__nom"><?= e($a['nom']) ?></span>
+              <span class="bo-forme__resume"><?= e($a['resume']) ?></span>
+            </span>
+          </label>
+        <?php endforeach; ?>
+      </div>
+    </div>
+
+    <div class="bo-champ">
       <label for="ia-bulle-libelle">Intitulé</label>
       <input id="ia-bulle-libelle" type="text" name="bulle_libelle" data-bulle-libelle
              maxlength="<?= Bulle::LIBELLE_MAX ?>"
              value="<?= e((string) ($reglages['bulle']['libelle'] ?? '')) ?>"
              placeholder="<?= e($bulle->libelle()) ?>">
+      <?php /* La liste des formes qui n'affichent pas l'intitulé est tirée de
+               Bulle::FORMES et non écrite ici : une phrase recopiée devient
+               fausse à la première forme ajoutée, et personne ne la relit. */
+        $muettes = array_values(array_map(
+            static fn(array $f): string => '« ' . $f['nom'] . ' »',
+            array_filter(Bulle::FORMES, static fn(array $f): bool => !$f['libelle'])
+        ));
+        $derniere = array_pop($muettes);
+        $liste = $muettes === [] ? (string) $derniere
+               : implode(', ', $muettes) . ' et ' . $derniere;
+      ?>
       <p class="bo-aide">
         <?= Bulle::LIBELLE_MAX ?> caractères au plus. Laissez vide pour reprendre le titre
-        de l’assistant. Les formes « Rond » et « Pastille » ne l’affichent pas, mais
-        le conservent pour les lecteurs d’écran et pour l’infobulle.
+        de l’assistant. Les formes <?= e($liste) ?> ne l’affichent pas,
+        mais le conservent pour les lecteurs d’écran et pour l’infobulle.
       </p>
     </div>
 
@@ -198,6 +232,14 @@ $modeleChoisi = (string) ($reglages['modele'] ?? '');
           <span class="assistant__bulle-texte" data-bulle-apercu-texte><?= e($bulle->libelle()) ?></span>
         </button>
       </span>
+      <?php /* L'animation ne se joue que trois fois : sans ce bouton, la
+               mairie devrait recharger l'écran pour la revoir. Il n'apparaît
+               que si le script est là — sans lui, il ne ferait rien. */ ?>
+      <p class="bo-apercu-bulle__rejouer">
+        <button type="button" class="bo-btn bo-btn--fantome" data-bulle-rejouer hidden>
+          Rejouer l’animation
+        </button>
+      </p>
       <p class="bo-apercu-bulle__note">
         Contraste du libellé sur son fond :
         <strong data-bulle-rapport><?= number_format($bulle->contraste(), 2, ',', ' ') ?>:1</strong>

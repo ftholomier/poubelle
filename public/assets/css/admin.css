@@ -1500,6 +1500,10 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
    qui porte l'anneau. */
 .bo-forme input:focus-visible + .bo-forme__corps { outline: 2px solid var(--accent-clair); outline-offset: 2px; }
 .bo-forme input:checked + .bo-forme__corps { border-color: var(--accent); background: var(--fond-3, var(--fond-2)); box-shadow: inset 0 0 0 1px var(--accent); }
+/* Les cartes d'animation n'ont pas de vignette : une forme se dessine, un
+   mouvement ne se dessine pas. C'est l'aperçu qui le montre, en le jouant. */
+.bo-forme__corps--anim { grid-template-columns: minmax(0, 1fr); }
+
 .bo-forme__dessin {
   grid-row: 1 / 3; align-self: center; justify-self: center;
   display: flex; align-items: center; justify-content: center;
@@ -1551,6 +1555,10 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
     repeating-conic-gradient(#e9e6dd 0% 25%, #f6f4ee 0% 50%) 0 0 / 18px 18px;
 }
 .bo-apercu-bulle .assistant__bulle {
+  /* L'ardoise du site n'existe pas ici : l'ombre est reposée en neutre, et
+     en variable parce que les images-clés du halo remplacent la propriété. */
+  --bulle-ombre: 0 6px 18px rgba(0, 0, 0, .18);
+  box-shadow: var(--bulle-ombre);
   display: inline-flex; align-items: center; justify-content: center; gap: .65rem;
   min-height: var(--bulle-taille, 52px);
   padding: 0 calc(var(--bulle-taille, 52px) * .25);
@@ -1585,6 +1593,45 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
 .bo-apercu-bulle.assistant--pastille .assistant__bulle-texte {
   position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%);
 }
+/* Les images-clés reprennent celles de site.css, pour la même raison que les
+   formes : le back-office ne charge pas la feuille du site. Le site fait foi,
+   et bulle.py le mesure, lui. Une seule différence assumée : ici l'animation
+   se joue à la demande, sur une classe posée par le script, plutôt qu'à
+   l'arrivée sur la page. */
+.bo-apercu-bulle--joue .assistant__bulle {
+  animation-duration: 1.6s;
+  animation-iteration-count: 3;
+  animation-timing-function: cubic-bezier(.34, .8, .38, 1);
+}
+.bo-apercu-bulle--joue.assistant--anim-halo .assistant__bulle { animation-name: bulle-halo; }
+.bo-apercu-bulle--joue.assistant--anim-rebond .assistant__bulle { animation-name: bulle-rebond; }
+.bo-apercu-bulle--joue.assistant--anim-balancement .assistant__bulle {
+  animation-name: bulle-balancement; transform-origin: 50% 100%;
+}
+.bo-apercu-bulle--joue.assistant--anim-respiration .assistant__bulle { animation-name: bulle-respiration; }
+
+@keyframes bulle-halo {
+  0%   { box-shadow: 0 0 0 0 rgba(var(--bulle-fond-rgb, 70, 110, 139), .5), var(--bulle-ombre); }
+  65%  { box-shadow: 0 0 0 14px rgba(var(--bulle-fond-rgb, 70, 110, 139), 0), var(--bulle-ombre); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--bulle-fond-rgb, 70, 110, 139), 0), var(--bulle-ombre); }
+}
+@keyframes bulle-rebond {
+  0%, 42%, 100% { transform: translateY(0); }
+  18% { transform: translateY(-7px); }
+  30% { transform: translateY(-3px); }
+}
+@keyframes bulle-balancement {
+  0%, 55%, 100% { transform: rotate(0); }
+  12% { transform: rotate(-4.5deg); }
+  26% { transform: rotate(3deg); }
+  40% { transform: rotate(-1.5deg); }
+}
+@keyframes bulle-respiration {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.07); }
+}
+.bo-apercu-bulle__rejouer { margin-top: .7rem; }
+
 .bo-apercu-bulle__note { margin-top: .7rem; font-size: .85rem; color: var(--texte-2); }
 .bo-apercu-bulle__corrige {
   margin-top: .5rem; padding: .7rem .9rem;

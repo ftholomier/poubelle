@@ -18,11 +18,26 @@ appel réseau, seule la bulle est rendue — et force :
   · les cinq formes ;
   · les deux bornes de taille, plus la valeur livrée ;
   · six couples de couleurs, dont quatre volontairement mauvais (blanc sur
-    jaune pâle, noir sur noir, blanc sur blanc, texte et fond identiques).
+    jaune pâle, noir sur noir, blanc sur blanc, texte et fond identiques) ;
+  · les cinq animations d'appel, chacune sur chaque forme.
 
 Il vérifie sur chacun : le contraste réel du libellé peint sur son fond
 peint, la cible tactile, l'absence de débordement horizontal, le nom
 accessible du bouton, et qu'un libellé montré n'est pas tronqué.
+
+Sur les animations, il mesure trois choses que l'œil ne mesure pas :
+
+  · le **budget de mouvement**, durée × nombre de cycles, qui doit rester
+    sous cinq secondes. Au-delà, une animation qui démarre seule doit pouvoir
+    être mise en pause par le visiteur (WCAG 2.2.2) — et il faudrait donc
+    ajouter un bouton d'arrêt à côté du bouton de discussion. Le jour où
+    quelqu'un passera le nombre de cycles à dix, ce script le dira ;
+  · la **boîte pendant le mouvement**, relevée à chaque image pendant les deux
+    premiers cycles : un balancement de quelques degrés de trop sort
+    l'étiquette de l'écran par le coin — huit pixels, mesurés —, et une cible
+    tactile qui se réduit en cours d'animation n'est plus une cible ;
+  · le **respect du réglage « moins d'animations »** du système, mesuré dans
+    un contexte qui le déclare : aucune animation ne doit y courir.
 
 Il vérifie aussi qu'allumer l'assistant n'appelle personne. `traceurs.py` ne
 peut pas le voir non plus, pour la même raison que les autres : il mesure un
@@ -60,11 +75,16 @@ PAGE = '/'
 
 LARGEURS = (390, 1440)
 FORMES = ('barre', 'pilule', 'rond', 'pastille', 'onglet')
+ANIMATIONS = ('aucune', 'halo', 'rebond', 'balancement', 'respiration')
+
+# Le budget de mouvement, en secondes. Voir la note de durée dans site.css.
+MOUVEMENT_MAX = 5.0
 
 # Les bornes, et la valeur livrée entre les deux. Rien au-delà : le contrôleur
 # et la classe bornent toutes deux, et un réglage hors bornes ne peut pas
 # atteindre la page — c'est ce que vérifie `test_bornes`.
 TAILLES = (44, 52, 76)
+TAILLE_LIVREE = 52
 
 # Les quatre derniers couples sont des pièges : ils ne doivent PAS produire un
 # bouton illisible, puisque la couleur de texte est résolue avant d'être
@@ -114,8 +134,37 @@ RELEVE = """() => {
     libelleMontre: !!rt && rt.width > 2 && rt.height > 2,
     libelleTronque: !!t && t.scrollWidth > t.clientWidth + 1,
     libelle: t ? t.textContent.trim() : '',
+    animation: st.animationName,
+    // Le budget de mouvement se lit sur les styles calculés et non dans la
+    // feuille : c'est ce que le navigateur va réellement jouer.
+    duree: parseFloat(st.animationDuration) || 0,
+    cycles: st.animationIterationCount === 'infinite'
+      ? Infinity : (parseFloat(st.animationIterationCount) || 0),
   };
 }"""
+
+
+# Relève la boîte du bouton pendant que l'animation se joue. En
+# `requestAnimationFrame` plutôt qu'à intervalle fixe : on veut des images, pas
+# des instants, et c'est le seul moyen d'attraper l'extrémité d'un mouvement de
+# quatre dixièmes de seconde.
+SUIVRE = """(duree) => new Promise(fini => {
+  const b = document.querySelector('[data-assistant] .assistant__bulle');
+  if (!b) { fini(null); return; }
+  const boites = [];
+  const t0 = performance.now();
+  const tic = () => {
+    const r = b.getBoundingClientRect();
+    boites.push([r.left, r.top, r.width, r.height]);
+    if (performance.now() - t0 < duree) requestAnimationFrame(tic);
+    else fini({
+      boites: boites,
+      fenetre: [innerWidth, innerHeight],
+      deborde: document.documentElement.scrollWidth > innerWidth + 1,
+    });
+  };
+  tic();
+})"""
 
 
 def reglages() -> dict:
@@ -135,7 +184,7 @@ def ecrire(donnees: dict) -> None:
 
 
 def regler(origine: dict, forme: str, taille: int, fond: str, texte: str,
-           libelle: str) -> None:
+           libelle: str, animation: str = 'halo') -> None:
     """Allume l'assistant et pose un réglage de bulle.
 
     La clé est factice et le restera : aucune requête ne part vers Google,
@@ -147,7 +196,8 @@ def regler(origine: dict, forme: str, taille: int, fond: str, texte: str,
     assistant['actif'] = True
     assistant['cle'] = assistant.get('cle') or 'audit-bulle-sans-appel'
     assistant['bulle'] = {'forme': forme, 'taille': taille, 'fond': fond,
-                          'texte': texte, 'libelle': libelle}
+                          'texte': texte, 'libelle': libelle,
+                          'animation': animation}
     donnees['assistant'] = assistant
     ecrire(donnees)
 
@@ -218,6 +268,54 @@ def controler(v: dict, forme: str, taille: int, largeur: int, rapport) -> list:
     return ecarts
 
 
+def controler_animation(v: dict, suivi: dict, forme: str, animation: str) -> list:
+    """Ce qu'une animation doit tenir : un budget, et un cadre."""
+    ecarts = []
+    attendue = animation != 'aucune'
+    jouee = v['animation'] not in ('none', '')
+
+    if attendue and not jouee:
+        ecarts.append('animation « %s » demandée, aucune servie' % animation)
+    if not attendue and jouee:
+        ecarts.append('animation « %s » servie alors qu’aucune n’est demandée' % v['animation'])
+
+    if jouee:
+        budget = v['duree'] * v['cycles']
+        if budget > MOUVEMENT_MAX:
+            # Ce n'est pas un détail de confort : au-delà de cinq secondes, il
+            # faut offrir au visiteur de quoi arrêter le mouvement.
+            ecarts.append('budget de mouvement %.1f s (maximum %.1f) — '
+                          'au-delà, il faut un moyen de mettre en pause'
+                          % (budget, MOUVEMENT_MAX))
+
+    if suivi is None or not suivi['boites']:
+        return ecarts + ['boîte non relevée pendant l’animation']
+
+    largeur_f = suivi['fenetre'][0]
+    gauche = min(b[0] for b in suivi['boites'])
+    droite = max(b[0] + b[2] for b in suivi['boites'])
+    haut = min(b[1] for b in suivi['boites'])
+    bas = max(b[1] + b[3] for b in suivi['boites'])
+    petite_l = min(b[2] for b in suivi['boites'])
+    petite_h = min(b[3] for b in suivi['boites'])
+
+    # Une tolérance d'un pixel : les rectangles sont fractionnaires et une
+    # transformation en cours peut rendre 0,4 px de dépassement d'arrondi.
+    if gauche < -1 or droite > largeur_f + 1:
+        ecarts.append('sort de l’écran pendant l’animation : %.1f → %.1f px pour %d'
+                      % (gauche, droite, largeur_f))
+    if haut < -1 or bas > suivi['fenetre'][1] + 1:
+        ecarts.append('sort de l’écran en hauteur pendant l’animation : %.1f → %.1f px'
+                      % (haut, bas))
+    if petite_l < CIBLE_MINI - 1 or petite_h < CIBLE_MINI - 1:
+        ecarts.append('cible réduite à %.0f × %.0f px pendant l’animation'
+                      % (petite_l, petite_h))
+    if suivi['deborde']:
+        ecarts.append('la page déborde horizontalement pendant l’animation')
+
+    return ecarts
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     ap.add_argument('--base', default='http://127.0.0.1:8081')
@@ -248,7 +346,14 @@ def main() -> int:
             for _, pg in contextes.values():
                 pg.on('request', lambda r: hotes.setdefault(urlparse(r.url).hostname, 0))
 
+            # PREMIÈRE PASSE — formes, tailles, couleurs.
+            #
+            # Trois passes plutôt qu'un seul produit cartésien : les animations
+            # sont indépendantes des couleurs, et multiplier les deux ferait
+            # neuf cents chargements pour n'apprendre que ce que cinquante
+            # disent déjà. On croise ce qui interagit, on juxtapose le reste.
             for fond, texte, etiquette in COULEURS:
+                avant = total
                 for forme in FORMES:
                     for taille in TAILLES:
                         regler(origine, forme, taille, fond, texte,
@@ -266,7 +371,63 @@ def main() -> int:
                                 total += 1
                                 print('  ECART  %-9s %2d px %5d px  %s  [%s]'
                                       % (forme, taille, largeur, e, etiquette))
-                print('  %-6s %s' % ('ok' if not total else '·', etiquette))
+                print('  %-6s %s' % ('ok' if total == avant else 'ECART', etiquette))
+
+            # DEUXIÈME PASSE — les animations, sur chaque forme.
+            #
+            # Le suivi couvre le délai d'entrée et les deux premiers cycles :
+            # c'est là que se trouvent les extrêmes du mouvement.
+            SUIVI_MS = 3600
+            for animation in ANIMATIONS:
+                avant = total
+                for forme in FORMES:
+                    regler(origine, forme, TAILLE_LIVREE, '', '#ffffff',
+                           'Une question ?', animation)
+                    for largeur, (_, pg) in contextes.items():
+                        pg.goto(base + PAGE, wait_until='domcontentloaded')
+                        v = pg.evaluate(RELEVE)
+                        suivi = pg.evaluate(SUIVRE, SUIVI_MS)
+                        if v is None:
+                            total += 1
+                            print('  ECART  %-12s %-9s %5d px  bulle absente'
+                                  % (animation, forme, largeur))
+                            continue
+                        for e in controler_animation(v, suivi, forme, animation):
+                            total += 1
+                            print('  ECART  %-12s %-9s %5d px  %s'
+                                  % (animation, forme, largeur, e))
+                print('  %-6s animation « %s »' % ('ok' if total == avant else 'ECART', animation))
+
+            # TROISIÈME PASSE — le réglage « moins d'animations » du système.
+            #
+            # C'est une préférence d'accessibilité, pas une option de confort :
+            # elle est cochée par des gens que le mouvement met mal à l'aise,
+            # et parfois malades. La feuille de style la respecte par une règle
+            # générale posée en tête ; encore faut-il le vérifier, parce qu'une
+            # règle générale est exactement ce qu'une règle plus spécifique
+            # écrite six mois plus tard peut défaire sans qu'on s'en aperçoive.
+            sobre = navigateur.new_context(viewport={'width': 1440, 'height': 860},
+                                           reduced_motion='reduce')
+            sobre.add_cookies([{'name': 'cv_consentement', 'value': consentement, 'url': base}])
+            pgs = sobre.new_page()
+            avant = total
+            for animation in ANIMATIONS:
+                regler(origine, 'barre', TAILLE_LIVREE, '', '#ffffff',
+                       'Une question ?', animation)
+                pgs.goto(base + PAGE, wait_until='domcontentloaded')
+                pgs.wait_for_timeout(200)
+                v = pgs.evaluate(RELEVE)
+                # Le socle neutralise le mouvement en ramenant sa durée à un
+                # millième de seconde plutôt qu'en le supprimant : c'est ce qui
+                # évite qu'une animation d'apparition laisse un bloc invisible.
+                # Un mouvement d'un millième de seconde ne se voit pas.
+                if v and v['animation'] not in ('none', '') and v['duree'] > 0.05:
+                    total += 1
+                    print('  ECART  « moins d’animations » ignoré : %s pendant %.3f s'
+                          % (v['animation'], v['duree']))
+            print('  %-6s réglage système « moins d’animations »'
+                  % ('ok' if total == avant else 'ECART'))
+            sobre.close()
 
             tiers = sorted(h for h in hotes if h and h != interne)
             if tiers:
@@ -291,11 +452,14 @@ def main() -> int:
         # au milieu est un auditeur qu'on cesse de lancer.
         ecrire(origine)
 
-    mesures = len(COULEURS) * len(FORMES) * len(TAILLES) * len(LARGEURS)
+    mesures = (len(COULEURS) * len(FORMES) * len(TAILLES) * len(LARGEURS)
+               + len(ANIMATIONS) * len(FORMES) * len(LARGEURS)
+               + len(ANIMATIONS))
     print('---')
-    print('%d formes × %d tailles × %d couples de couleurs × %d largeurs '
-          '— %d réglages, %d écart(s).'
-          % (len(FORMES), len(TAILLES), len(COULEURS), len(LARGEURS), mesures, total))
+    print('%d formes × %d tailles × %d couples de couleurs, puis %d animations '
+          '× %d formes, puis le réglage système — %d réglages, %d écart(s).'
+          % (len(FORMES), len(TAILLES), len(COULEURS), len(ANIMATIONS),
+             len(FORMES), mesures, total))
     if total:
         print('Corrigez App\\Core\\Bulle ou la feuille de style, jamais le seuil : '
               'c’est la résolution de contraste qui doit tenir, pas le choix de '

@@ -69,6 +69,45 @@ final class Bulle
     public const FORME_DEFAUT = 'barre';
 
     /**
+     * Les animations d'appel.
+     *
+     * Elles ont toutes la même mécanique et le même budget : un mouvement bref,
+     * joué trois fois après un temps de latence, puis plus jamais. Ce n'est pas
+     * une question de goût — voir la note de durée dans site.css : au-delà de
+     * cinq secondes, une animation qui démarre seule doit pouvoir être arrêtée
+     * par le visiteur. En dessous, elle n'a rien à demander à personne, et un
+     * bouton qui bat sans fin dans le coin de l'écran est de toute façon une
+     * gêne, pas un appel.
+     *
+     * @var array<string, array{nom: string, resume: string}>
+     */
+    public const ANIMATIONS = [
+        'aucune' => [
+            'nom'    => 'Aucune',
+            'resume' => 'Le bouton reste immobile.',
+        ],
+        'halo' => [
+            'nom'    => 'Halo',
+            'resume' => 'Un anneau de la couleur du bouton s’en écarte et s’efface. Rien ne bouge : c’est la plus discrète.',
+        ],
+        'rebond' => [
+            'nom'    => 'Rebond',
+            'resume' => 'Le bouton fait deux petits sauts, comme s’il se rappelait à vous.',
+        ],
+        'balancement' => [
+            'nom'    => 'Balancement',
+            'resume' => 'Une oscillation légère, de quelques degrés, qui s’amortit.',
+        ],
+        'respiration' => [
+            'nom'    => 'Respiration',
+            'resume' => 'Le bouton enfle et redescend une fois par cycle. Très doux.',
+        ],
+    ];
+
+    /** Livrée : discrète, et la seule qui ne déplace pas le bouton. */
+    public const ANIMATION_DEFAUT = 'halo';
+
+    /**
      * Bornes de taille, en pixels.
      *
      * Le plancher n'est pas un goût : sous 44 px la cible tactile passe sous
@@ -136,10 +175,11 @@ final class Bulle
         return isset(self::FORMES[$f]) ? $f : self::FORME_DEFAUT;
     }
 
-    /** La forme montre-t-elle le libellé, ou seulement le picto ? */
-    public function montreLeLibelle(): bool
+    public function animation(): string
     {
-        return self::FORMES[$this->forme()]['libelle'];
+        $a = (string) ($this->reglages['animation'] ?? '');
+
+        return isset(self::ANIMATIONS[$a]) ? $a : self::ANIMATION_DEFAUT;
     }
 
     /**
@@ -203,10 +243,22 @@ final class Bulle
 
     // ------------------------------------------------------------------ rendu
 
-    /** La classe de forme posée sur le conteneur. */
+    /**
+     * Les classes posées sur le conteneur : la forme, et l'animation quand il
+     * y en a une.
+     *
+     * « aucune » ne pose pas de classe plutôt que d'en poser une qui ne fait
+     * rien : le JavaScript reconnaît une bulle animée au préfixe
+     * `assistant--anim-`, et il doit pouvoir la retirer.
+     */
     public function classe(): string
     {
-        return 'assistant--' . $this->forme();
+        $classes = ['assistant--' . $this->forme()];
+        if ($this->animation() !== 'aucune') {
+            $classes[] = 'assistant--anim-' . $this->animation();
+        }
+
+        return implode(' ', $classes);
     }
 
     /**

@@ -627,11 +627,25 @@
     var etat = memoire();
     var conversation = etat.id || (Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8));
 
+    /* L'animation d'appel n'a de sens que pour quelqu'un qui n'a pas encore vu
+       le bouton. Elle est retirée dès qu'il l'ouvre, et ne se rejoue pas dans
+       un onglet où une conversation est déjà commencée : continuer à agiter le
+       bouton devant quelqu'un qui s'en sert serait bête. La classe est
+       reconnue à son préfixe, comme dans la feuille de style. */
+    function cesserDappeler() {
+      for (var i = boite.classList.length - 1; i >= 0; i--) {
+        if (boite.classList[i].indexOf("assistant--anim-") === 0) {
+          boite.classList.remove(boite.classList[i]);
+        }
+      }
+    }
+
     function sauver() {
       retenir({ id: conversation, historique: historique, ouvert: !panneau.hidden });
     }
 
     function basculer(etatOuvert) {
+      if (etatOuvert) cesserDappeler();
       panneau.hidden = !etatOuvert;
       ouvrir.setAttribute("aria-expanded", etatOuvert ? "true" : "false");
       boite.classList.toggle("assistant--ouvert", etatOuvert);
@@ -673,6 +687,7 @@
       // pastille discrète : une discussion est en cours, sans rouvrir de
       // force un panneau que le visiteur avait fermé
       boite.classList.add("assistant--repris");
+      cesserDappeler();
       if (etat.ouvert) basculer(true);
     }
 
