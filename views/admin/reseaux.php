@@ -59,7 +59,7 @@ $contenus = (string) json_encode(
 <h2 class="bo-titre-section">L’application Meta</h2>
 <p class="bo-aide">
   Meta exige qu’une <strong>application</strong> soit déclarée sur
-  <span class="bo-code">developers.facebook.com</span>, et qu’elle passe une
+  <span class="bo-code bo-code--puce">developers.facebook.com</span>, et qu’elle passe une
   <strong>revue</strong> avant de pouvoir publier. Tant que la revue n’est pas
   accordée, seuls les comptes déclarés « testeurs » dans l’application peuvent
   publier — c’est normal, et cela permet déjà de tout essayer.
@@ -72,7 +72,7 @@ $contenus = (string) json_encode(
   <p class="bo-code bo-code--bloc"><?= e($retour) ?></p>
   <p class="bo-aide">
     Et demandez ces permissions à la revue :
-    <?php foreach ($permissions as $i => $p): ?><span class="bo-code"><?= e($p) ?></span><?= $i < count($permissions) - 1 ? ' ' : '' ?><?php endforeach; ?>
+    <?php foreach ($permissions as $i => $p): ?><span class="bo-code bo-code--puce"><?= e($p) ?></span><?= $i < count($permissions) - 1 ? ' ' : '' ?><?php endforeach; ?>
   </p>
 </div>
 

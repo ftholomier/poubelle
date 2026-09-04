@@ -99,6 +99,59 @@ button { font: inherit; cursor: pointer; }
   color: var(--accent-clair); border-left-color: var(--accent);
   background: rgba(124, 162, 189, .1);
 }
+/* Au doigt, une cible de 35 px se rate. Le back-office se tient de plus en
+   plus sur une tablette posée sur le comptoir du secrétariat, et le menu y
+   comptait vingt liens de 35 px, le lien vers le site 22. La règle des 44 px
+   du RGAA vaut là comme ailleurs ; elle ne s'applique qu'au pointeur grossier,
+   donc l'affichage dense au clavier et à la souris ne change pas d'un pixel.
+   Relevé par `mise-en-page.py --admin`, qui ne regardait pas ces écrans. */
+@media (hover: none) {
+  .bo-lateral__nav a,
+  .bo-lateral__pied a,
+  .bo-lateral__pied button {
+    min-height: 44px; display: flex; align-items: center;
+  }
+  .bo-lateral__nav a { padding-top: .5rem; padding-bottom: .5rem; }
+
+  /* Et tout ce qui se tape dans un formulaire. Une case à cocher fait 13 px :
+     c'est son étiquette qui porte la cible, encore faut-il que l'étiquette
+     soit assez haute. Un champ de recherche à 37 px et un bouton à 37 px se
+     ratent aussi d'un doigt sur un comptoir. */
+  .bo-btn,
+  .bo-champ input,
+  .bo-champ select,
+  .bo-case,
+  .bo-form summary,
+  .bo-zone summary {
+    min-height: 44px;
+  }
+  .bo-case { align-items: center; }
+  .bo-form summary, .bo-zone summary { display: flex; align-items: center; }
+
+  /* La barre de l'éditeur de texte riche et les onglets de l'écran
+     Référencement : des cibles de 30 et 21 px, les plus petites du
+     back-office. */
+  .bo-editeur__barre button { min-width: 44px; min-height: 44px; }
+  .bo-onglets-liens a { min-height: 44px; display: inline-flex; align-items: center; }
+
+  /* Les listes de contenu : le nom qui ouvre la fiche, les boutons qui la
+     montent, la descendent, la publient ou la retirent. Ce sont les gestes
+     les plus fréquents du back-office, et les plus petits. */
+  .bo-ligne__nom,
+  .bo-bascule,
+  .bo-diapo__retrait,
+  .bo-ligne button {
+    min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
+  }
+  .bo-ligne button { min-width: 44px; }
+
+  /* Les flèches qui ordonnent les vues du diaporama. */
+  [data-diapo-monter], [data-diapo-descendre] { min-width: 44px; min-height: 44px; }
+
+  /* Le palmarès des pages : chaque ligne ouvre la page sur le site. */
+  .bo-palmares__nom { min-height: 44px; display: inline-flex; align-items: center; }
+}
+
 .bo-lateral__pied {
   padding: 1.2rem 1.6rem 0; border-top: 1px solid var(--trait);
   display: grid; gap: .7rem; font-size: .88rem;
@@ -372,6 +425,23 @@ button { font: inherit; cursor: pointer; }
   background: var(--fond); border: 1px solid var(--trait);
   font-family: ui-monospace, Consolas, monospace; font-size: .8rem;
   color: var(--texte-2); line-height: 1.7; white-space: pre-wrap; word-break: break-word;
+}
+
+/* La même chose au fil du texte, et c'est une autre boîte.
+
+   `.bo-code` est un panneau : son rembourrage de 0,9 rem et son interligne de
+   1,7 supposent qu'il occupe sa propre ligne. Posé sur un <span> au milieu
+   d'un paragraphe, il devient une boîte EN LIGNE, dont le rembourrage vertical
+   ne pousse pas la ligne : la pastille faisait 46 px de haut dans une ligne de
+   22 et débordait d'une douzaine de pixels au-dessus et au-dessous, par-dessus
+   le texte voisin. Mesuré sur les écrans Réseaux sociaux et Assistant.
+
+   `inline-block` rend la boîte mesurable par la ligne, et le rembourrage
+   redevient celui d'une pastille. */
+.bo-code--puce {
+  display: inline-block; padding: .05rem .4rem; line-height: 1.5;
+  border-radius: 3px; overflow-x: visible; white-space: nowrap;
+  vertical-align: baseline;
 }
 .bo-version { display: grid; gap: .5rem; margin-bottom: 1.3rem; }
 .bo-version > div { display: flex; gap: 1rem; font-size: .9rem; }
@@ -686,7 +756,13 @@ button { font: inherit; cursor: pointer; }
   font-size: .8rem; font-weight: 700; color: var(--fond); background: var(--accent);
 }
 .bo-tuile--vide { display: grid; place-items: center; min-height: 110px; }
+/* `display: block` et non le défaut « inline » d'un <span> : le rembourrage
+   vertical d'une boîte en ligne ne pousse pas la ligne, il déborde par-dessus.
+   Sans conséquence visible ici, la tuile étant vide par ailleurs — mais c'est
+   la même faute que celle qui recouvrait le texte des écrans Réseaux sociaux
+   et Assistant, et mise-en-page.py la relève désormais partout. */
 .bo-tuile__vide {
+  display: block;
   padding: .8rem .6rem; text-align: center; font-size: .74rem; color: var(--texte-2); line-height: 1.4;
 }
 .bo-tuile[hidden] { display: none; }

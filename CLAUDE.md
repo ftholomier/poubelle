@@ -85,7 +85,8 @@ s'appliquent ici, et une modification qui les casse est un défaut.
 ## Ne jamais versionner
 
 `data/admin/` (compte et mot de passe SMTP), `data/*.json` et `data/pages/`
-(contenu vivant), `storage/` (cache et sauvegardes). Le contenu de départ vit
+(contenu vivant), `data/frequentation/` (pages vues), `storage/` (cache et
+sauvegardes). Le contenu de départ vit
 dans `data-modele/`, qui lui est versionné, et se recopie tout seul dans
 `data/` à la première lecture.
 
@@ -108,7 +109,8 @@ auditeurs, à faire passer avant de déclarer une tâche finie** :
 php -S 127.0.0.1:8081 -t public &
 
 python3 outils/verifs/contraste.py       # contraste réel de chaque texte
-python3 outils/verifs/mise-en-page.py    # débordement, cibles, titres, alt
+python3 outils/verifs/mise-en-page.py    # débordement, cibles, titres, alt, superpositions
+python3 outils/verifs/mise-en-page.py --admin id:mdp   # les mêmes, sur le back-office
 python3 outils/verifs/traceurs.py        # aucune requête tierce sans accord
 python3 outils/verifs/bandeau.py         # chaque photo du diaporama, voile au plancher
 python3 outils/verifs/entete.py          # l'en-tête aux bornes du réglage du logo
@@ -194,6 +196,20 @@ C'est rentable : le premier a trouvé deux photos à 4,4:1, le deuxième un logo
 servi écrasé au-delà de 100 px et une cible tactile à 40 px une fois la barre
 défilée, le dernier le libellé de la bulle à 2,57:1. Aucun œil ne les avait
 vus.
+
+**Le back-office se mesure aussi.** Il ne l'était pas : `mise-en-page.py` ne
+parcourait que le site public, et c'est là qu'un défaut a vécu tranquillement.
+Une pastille de code faite pour occuper sa propre ligne, posée au fil d'un
+paragraphe, recouvrait la ligne du dessus sur deux écrans — 46 px de haut dans
+une ligne de 22. Le rembourrage vertical d'une boîte **en ligne** ne pousse pas
+la ligne : il déborde. `mise-en-page.py --admin` relève désormais ce cas
+partout, et il a trouvé du même coup une centaine de cibles tactiles sous
+44 px dans le back-office, jusque-là non mesurées.
+
+Il n'y est pas mesuré sous 768 px, et c'est un choix assumé : le panneau
+latéral ne se replie pas, il déborde donc par construction sur un téléphone.
+Rendre le back-office utilisable à 320 px est un chantier à part, inscrit dans
+`SITE.md`.
 
 **Règle qui en découle : tout réglage laissé à la mairie doit avoir son
 auditeur qui en force les bornes.** Un curseur dont on n'a mesuré que la valeur

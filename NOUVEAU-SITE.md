@@ -378,7 +378,7 @@ rejoue les formulaires du back-office.
 | Script | Ce qu'il mesure |
 |---|---|
 | `contraste.py` | Le contraste réel de chaque texte, à 390, 768 et 1440 px |
-| `mise-en-page.py` | Débordement horizontal, cibles tactiles < 44 px, unicité du `h1` et hiérarchie des titres, `alt` présents et non recopiés, lien d'évitement — à 320, 390, 768, 1024 et 1440 px |
+| `mise-en-page.py` | Débordement horizontal, cibles tactiles < 44 px, unicité du `h1` et hiérarchie des titres, `alt` présents et non recopiés, lien d'évitement, **boîtes en ligne qui débordent de leur bloc** — à 320, 390, 768, 1024 et 1440 px. Avec `--admin id:mdp`, les mêmes contrôles sur les **écrans du back-office**, de 768 px à 1440 |
 | `traceurs.py` | Requêtes tierces après refus du consentement (bonne valeur : zéro), et vérification que l'accord débloque bien le plan |
 | `bandeau.py` | Le texte du bandeau d'accueil sur **chaque** photo du diaporama forcée à son tour, à 390, 768 et 1440 px, **le voile forcé à sa borne basse** (`Bandeau::VOILE_MINI`, lue dans le PHP) et non à la valeur du jour |
 | `entete.py` | L'en-tête aux **bornes du réglage de taille du logo**, dans les deux modes de barre et les deux dispositions de menu : débordement, déformation, chevauchement du burger, cible tactile |

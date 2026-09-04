@@ -302,6 +302,7 @@ l'apprenne.
 | `Charte` | Toute la palette dérivée de la couleur choisie par le client, luminosité **résolue** pour tenir les contrastes | oui |
 | `Bulle` | Forme, couleurs, libellé et taille du bouton de l'assistant ; la couleur du texte y est résolue de la même façon | oui |
 | `Reseaux` | Connexion OAuth à Meta et publication sur la Page Facebook et le compte Instagram | oui, en déclarant une application Meta |
+| `Frequentation` | Pages vues par jour et par page, comptées par le site lui-même : sans cookie, sans tiers, sans identifiant | oui |
 | `Publications` | File d'attente et journal des envois, écritures atomiques | oui |
 | `Publicateur` | L'interface que `Diffusion` attend d'un réseau : publier, lire un permalien. C'est elle qui rend la file vérifiable sans rien envoyer | oui |
 | `Diffusion` | Le seul chemin d'envoi : réunit Meta, la file et la fabrique d'image | oui |
@@ -604,6 +605,20 @@ que l'autre mesurait : deux écarts « bulle absente » qui ne venaient pas du
 site. Sur un poste de développement, il aurait détruit le contenu saisi. Un
 auditeur qui a besoin d'un contenu neuf doit prendre **son propre dossier**,
 d'où la variable `APP_DATA` de `config/config.php`.
+
+**Un rembourrage vertical sur une boîte « en ligne » déborde par-dessus le
+texte voisin.** C'est la faute la plus discrète du lot : un `<span>` stylé
+comme un panneau — rembourrage confortable, interligne généreux — posé au fil
+d'un paragraphe. La boîte grandit, la ligne non, et le surplus se peint sur la
+ligne du dessus. Mesuré à 46 px de haut dans une ligne de 22. La parade tient
+en un mot, `inline-block`, qui rend la boîte mesurable par la ligne.
+
+**Ce qui n'est pas mesuré finit par pourrir.** Le défaut ci-dessus a vécu
+parce que `mise-en-page.py` ne parcourait que le site public : le back-office
+n'était vu que par `alertes.py`, qui ne regarde que le journal de PHP. Le jour
+où on l'a mesuré, il a rendu une centaine de cibles tactiles sous 44 px en
+plus de la superposition. **Un écran qu'on livre est un écran qu'on mesure**,
+back-office compris.
 
 **Un inventaire écrit à la main prend du retard sans le dire.** Deux listes de
 ce dépôt sont tenues à la main : les écrans du back-office que `alertes.py`

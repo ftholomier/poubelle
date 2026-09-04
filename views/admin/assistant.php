@@ -53,7 +53,7 @@ $modeleChoisi = (string) ($reglages['modele'] ?? '');
              placeholder="<?= $cleEnregistree ? '•••••••••• (enregistrée)' : 'AIza…' ?>">
       <p class="bo-aide">
         Laissez vide pour conserver la clé déjà enregistrée.
-        La clé se crée sur <span class="bo-code">aistudio.google.com</span>, rubrique « API keys ».
+        La clé se crée sur <span class="bo-code bo-code--puce">aistudio.google.com</span>, rubrique « API keys ».
       </p>
     </div>
 

@@ -27,7 +27,7 @@ $cleEnregistree = ($reglages['cle_api'] ?? '') !== '';
                 <?= e(number_format((float) $r['note'], 1, ',', ' ')) ?>/5 — <?= e($r['total']) ?> avis
               </span>
             <?php endif; ?>
-            <code class="bo-code"><?= e($r['id']) ?></code>
+            <code class="bo-code bo-code--puce"><?= e($r['id']) ?></code>
           </div>
           <div class="bo-ligne__actions">
             <button class="bo-btn bo-btn--petit" type="button"
