@@ -124,6 +124,20 @@ indispensables, parce que la couleur de marque tombe à 2,51:1 sur l'ardoise et
 L'ardoise `#1c2f3b` est la même teinte assombrie à 22 % de luminosité : elle
 prolonge le blason au lieu de le contredire, et donne 13,82:1 avec le blanc.
 
+### La mairie peut en changer
+
+Ce bleu est la valeur livrée, pas une valeur figée : l'écran **Apparence →
+Couleur de la commune** laisse la mairie la choisir. Ce qu'elle choisit est
+une **teinte**, pas une palette — `App\Core\Charte` en dérive les cinq
+variantes et les neutres, en résolvant la luminosité de chacune jusqu'à ce
+qu'elle tienne le contraste exigé sur le fond où elle sert. Aucun choix ne
+peut donc rendre un texte illisible, et `outils/verifs/couleur.py` le mesure
+sur douze teintes de la roue plus quatre cas limites.
+
+La dérivation reproduit la palette réglée à la main ci-dessus à un centième
+de rapport près : le bleu livré n'est pas une exception au calcul, c'en est
+le résultat.
+
 ---
 
 ## 4. Le logo
@@ -240,6 +254,13 @@ grille respecte. D'où trois correctifs : la règle sur le corps, un `min-width:
 anywhere` sur les liens qui portent une adresse. Avant : 39 px de débordement
 sur un écran de 320.
 
+**La couleur de la commune est devenue un réglage.** La charte était écrite
+en dur dans la feuille de style ; elle se dérive maintenant d'une seule couleur
+choisie dans l'écran Apparence (`app/Core/Charte.php`), avec un aperçu qui
+refait le calcul en JavaScript avant d'enregistrer. Le socle exige qu'un
+réglage laissé au client ait son auditeur qui en force les bornes :
+`outils/verifs/couleur.py` est ce sixième auditeur.
+
 **Les auditeurs lisent désormais le plan du site.** `contraste.py`,
 `mise-en-page.py` et `traceurs.py` portaient une liste de pages écrite en dur,
 qui se périme dès qu'une page est ajoutée ou qu'un slug change depuis le
@@ -318,12 +339,13 @@ chaque ligne se règle depuis le back-office.
 
 ## 9. Ce qui a été mesuré
 
-Les cinq auditeurs de `outils/verifs/` sont à zéro. Ce n'est pas une formalité :
+Les six auditeurs de `outils/verifs/` sont à zéro. Ce n'est pas une formalité :
 ils mesurent le contraste réel de chaque texte peint à trois largeurs, les
 débordements et les cibles tactiles à cinq largeurs, l'absence de toute requête
 tierce avant consentement, le texte du bandeau sur chacune des six photos du
-diaporama forcée à son tour, et l'en-tête aux deux bornes du réglage de taille
-du logo dans les deux modes de barre et les deux dispositions de menu.
+diaporama forcée à son tour, l'en-tête aux deux bornes du réglage de taille
+du logo dans les deux modes de barre et les deux dispositions de menu, et le
+site entier sous seize couleurs de commune différentes.
 
 Ce qu'ils ont attrapé sur ce site-ci, et qu'aucun œil n'avait vu :
 

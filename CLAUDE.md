@@ -101,7 +101,7 @@ rm -rf data/pages data/*.json data/admin storage/cache/* storage/sauvegardes/*
 
 ## La boucle qualité — non négociable
 
-Le niveau de ce projet ne vient pas du goût mais de la mesure. **Cinq
+Le niveau de ce projet ne vient pas du goût mais de la mesure. **Six
 auditeurs, à faire passer avant de déclarer une tâche finie** :
 
 ```bash
@@ -112,20 +112,24 @@ python3 outils/verifs/mise-en-page.py    # débordement, cibles, titres, alt
 python3 outils/verifs/traceurs.py        # aucune requête tierce sans accord
 python3 outils/verifs/bandeau.py         # chaque photo du diaporama, une à une
 python3 outils/verifs/entete.py          # l'en-tête aux bornes du réglage du logo
+python3 outils/verifs/couleur.py         # le site sous chaque teinte de la roue
 ```
 
 Chacun sort en code 1 s'il trouve quelque chose. **Zéro écart, zéro souci,
 zéro hôte tiers** : c'est la définition de « fini » ici, pas une option.
 
-Les deux derniers existent pour la même raison : **les autres ne mesurent
+Les trois derniers existent pour la même raison : **les autres ne mesurent
 qu'une configuration à la fois.** `contraste.py` ne voit qu'une photo de
 diaporama par passage, puisqu'il est tiré au hasard ; aucun ne voit le site
-avec un autre réglage de taille de logo que celui du jour. Une page peut donc
-passer un jour et échouer le lendemain sans qu'une ligne ait bougé.
-`bandeau.py` force chaque photo, `entete.py` force les deux bornes du réglage
-du logo dans les deux modes et les deux dispositions de menu — 96 mesures.
+avec un autre réglage de taille de logo, ni avec une autre couleur de commune,
+que ceux du jour. Une page peut donc passer un jour et échouer le lendemain
+sans qu'une ligne ait bougé. `bandeau.py` force chaque photo, `entete.py`
+force les deux bornes du réglage du logo dans les deux modes et les deux
+dispositions de menu — 96 mesures —, et `couleur.py` force douze teintes
+réparties sur la roue plus quatre cas limites (gris sans saturation, rouge
+saturé, presque noir, presque blanc).
 
-C'est rentable : le premier a trouvé deux photos à 4,4:1, le second un logo
+C'est rentable : le premier a trouvé deux photos à 4,4:1, le deuxième un logo
 servi écrasé au-delà de 100 px et une cible tactile à 40 px une fois la barre
 défilée. Aucun œil ne les avait vus.
 

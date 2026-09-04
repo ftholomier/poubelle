@@ -158,6 +158,31 @@ le back-office sans rien protéger.
 
 ---
 
+### La couleur dominante : un choix de teinte, pas de palette
+
+L'écran Apparence laisse le client choisir « la couleur de la commune ». Ce
+n'est pas un jeu de variables CSS ouvert : `App\Core\Charte` ne pose jamais
+la couleur telle quelle. Elle en garde la **teinte**, borne la saturation
+entre 18 et 55 %, et **résout** la luminosité de chaque ton — pas à pas, par
+demi-points — jusqu'à ce qu'il tienne le contraste exigé sur le fond où il
+sert : 7:1 pour le foncé sur blanc, 4,5:1 pour la marque, 4,6:1 pour le clair
+sur chacun des cinq fonds sombres du site.
+
+Les neutres suivent la teinte mais gardent leur saturation et leur luminosité
+d'origine : c'est ce qui empêche un rouge saturé de transformer l'ardoise en
+brique. La conséquence pratique est qu'aucun contraste ne peut être cassé par
+un choix du client, et `outils/verifs/couleur.py` le vérifie sur douze teintes
+et quatre cas limites.
+
+L'aperçu de l'écran refait le même calcul en JavaScript
+(`public/assets/js/admin.js`) : les deux implémentations doivent rester
+d'accord au bit près, sinon l'aperçu ment.
+
+Un point d'ordre, facile à casser : le bloc `<style>` du gabarit est posé
+**après** `site.css`. Les deux déclarent des jetons sur `:root`, à spécificité
+égale — c'est donc la dernière lue qui gagne. Placé avant, le réglage reste
+sans effet, en silence.
+
 ### Les briques de `app/Core`
 
 | Classe | Rôle | À reprendre tel quel ? |
@@ -178,6 +203,7 @@ le back-office sans rien protéger.
 | `Conversations` | Journal des échanges avec l'assistant, repérage des coordonnées, purge à 12 mois | oui |
 | `Permissions` | Analyse et réparation des droits | oui |
 | `Parametres` | Réglages techniques hors git | oui |
+| `Charte` | Toute la palette dérivée de la couleur choisie par le client, luminosité **résolue** pour tenir les contrastes | oui |
 | `Verrou` / `ConflitEcriture` | Verrou optimiste : deux administrateurs sur le même écran ne s'effacent plus | oui |
 
 ---
@@ -319,7 +345,7 @@ Trois conventions structurantes :
 | Réalisations | Onglets par gamme, photos cochées sur planche-contact |
 | Contact | Coordonnées affichées, carte, champs du formulaire |
 | Photos | Médiathèque : envoi par lot, **rotation**, suppression |
-| Apparence | Disposition du menu, réglages visuels |
+| Apparence | **Couleur de la commune**, disposition du menu, taille du logo |
 | Avis Google | Clé d'API, fiche, filtres, rythme du carrousel |
 | Assistant IA | Activation, clé Gemini, **liste dynamique des modèles**, documents, notes, question d'essai |
 | Conversations | Journal des échanges, coordonnées repérées, purge |

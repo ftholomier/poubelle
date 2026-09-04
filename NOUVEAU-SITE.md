@@ -350,6 +350,7 @@ python3 outils/verifs/mise-en-page.py
 python3 outils/verifs/traceurs.py
 python3 outils/verifs/bandeau.py
 python3 outils/verifs/entete.py
+python3 outils/verifs/couleur.py
 ```
 
 Voir § 4. **Tant qu'ils ne sont pas à zéro, le site n'est pas fini.**
@@ -364,7 +365,7 @@ main du client (SMTP, clés d'API, horaires).
 
 ## 4. Les auditeurs
 
-Cinq scripts dans `outils/verifs/`, qui sortent en code 1 s'ils trouvent
+Six scripts dans `outils/verifs/`, qui sortent en code 1 s'ils trouvent
 quelque chose — branchables tels quels dans une chaîne d'intégration.
 
 | Script | Ce qu'il mesure |
@@ -374,8 +375,9 @@ quelque chose — branchables tels quels dans une chaîne d'intégration.
 | `traceurs.py` | Requêtes tierces après refus du consentement (bonne valeur : zéro), et vérification que l'accord débloque bien le plan |
 | `bandeau.py` | Le texte du bandeau d'accueil sur **chaque** photo du diaporama forcée à son tour, à 390, 768 et 1440 px |
 | `entete.py` | L'en-tête aux **bornes du réglage de taille du logo**, dans les deux modes de barre et les deux dispositions de menu : débordement, déformation, chevauchement du burger, cible tactile |
+| `couleur.py` | Le contraste de six pages représentatives sous **douze teintes de la roue** plus quatre cas limites, en réglant tour à tour la couleur de la commune |
 
-### Pourquoi deux auditeurs de plus, pour un diaporama et un curseur
+### Pourquoi trois auditeurs de plus, pour un diaporama et deux réglages
 
 Le diaporama d'accueil tire sa photo au hasard. `contraste.py` n'en mesure
 donc qu'une par passage : le résultat dépend du tirage, une page passe un jour
@@ -398,6 +400,21 @@ logo servi écrasé — `img{max-width:100%}` rogne la largeur sans toucher à l
 hauteur, d'où `object-fit: contain` — et une cible tactile à 40 px sur la
 barre défilée. Deux défauts qu'aucun réglage ne peut vouloir, et que la mairie
 aurait découverts en ligne.
+
+`couleur.py` applique la même règle au réglage suivant : la mairie choisit la
+couleur de la commune dans l'écran Apparence, et cette couleur repeint tout —
+aplats, filets, fonds sombres, voiles posés sur les photos. Les cinq autres
+scripts n'en mesurent qu'une teinte sur trois cent soixante, celle du jour.
+Celui-ci en force douze, plus les quatre cas qui mettent une dérivation en
+défaut bien avant le bleu : le gris parfaitement désaturé, le rouge à
+saturation maximale, une couleur presque noire, une couleur presque blanche.
+
+Le réglage tient parce que `App\\Core\\Charte` ne pose jamais la couleur
+choisie telle quelle : elle en garde la **teinte**, borne la saturation entre
+18 et 55 %, et **résout** la luminosité de chaque ton jusqu'à ce qu'il tienne
+le contraste exigé sur le fond où il sert. Si ce script trouve un écart, c'est
+une cible de contraste à corriger dans `Charte`, jamais la couleur choisie par
+la mairie.
 
 ### Comment `contraste.py` mesure
 
@@ -547,12 +564,13 @@ curl -s http://127.0.0.1:8081/sitemap.xml \
 # aucune alerte PHP
 curl -s http://127.0.0.1:8081/ | grep -ci "warning\|notice\|fatal"   # → 0
 
-# les cinq auditeurs
+# les six auditeurs
 python3 outils/verifs/contraste.py && \
 python3 outils/verifs/mise-en-page.py && \
 python3 outils/verifs/traceurs.py && \
 python3 outils/verifs/bandeau.py && \
-python3 outils/verifs/entete.py
+python3 outils/verifs/entete.py && \
+python3 outils/verifs/couleur.py
 ```
 
 Puis, à la main, ce qu'aucun script ne voit :

@@ -66,6 +66,7 @@ python3 outils/verifs/mise-en-page.py    # débordement, cibles tactiles, titres
 python3 outils/verifs/traceurs.py        # aucune requête tierce sans consentement
 python3 outils/verifs/bandeau.py         # chaque photo du diaporama, une par une
 python3 outils/verifs/entete.py          # l'en-tête aux bornes de ses réglages
+python3 outils/verifs/couleur.py         # le site sous chaque teinte de la roue
 ```
 
 Ils demandent Python 3 et Playwright (`pip install playwright pillow` puis

@@ -83,6 +83,19 @@ $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex
          n'en prévoit pas d'autre, et le contraste vient des graisses. */ ?>
 <link rel="preload" href="<?= url('assets/fonts/montserrat-latin-variable.woff2') ?>" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="<?= asset('assets/css/site.css') ?>">
+<?php /* La palette, dérivée de la couleur choisie au back-office.
+
+         Elle est posée APRÈS la feuille, et l'ordre est le point important :
+         les deux déclarent des jetons sur `:root`, à spécificité égale, et
+         c'est donc la dernière lue qui gagne. Placé avant, ce bloc était
+         proprement écrasé par site.css et le réglage restait sans effet.
+
+         Elle n'est pas écrite DANS site.css non plus : la feuille est un
+         fichier statique que le navigateur met en cache et que toutes les
+         pages partagent, alors que ces valeurs appartiennent au réglage et
+         doivent s'appliquer au premier rendu, sans clignotement. La feuille
+         garde ainsi la charte livrée et reste lisible seule. */ ?>
+<style><?= $charte->styleRacine() ?></style>
 <script type="application/ld+json"><?= $seo->jsonLd($cle, $fiche, base_absolue(), fn(string $c): string => absolu(image($c))) ?></script>
 </head>
 <body class="<?= $menuStyle === 'horizontal' ? 'menu-horizontal' : 'menu-lateral' ?>">

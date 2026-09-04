@@ -78,6 +78,12 @@ $view->share('menuStyle', $parametresSite->get('apparence.menu', 'horizontal'));
 // l'écriture et à la lecture.
 $view->share('logoHauteur', ApparenceController::hauteurLogo($parametresSite));
 $view->share('logoDeborde', ApparenceController::logoDeborde($parametresSite));
+// La couleur de la commune : le gabarit en repose la palette entière dans un
+// bloc :root, en tête de document. La dérivation est faite une fois par rendu
+// — une centaine de multiplications, invisibles à la mesure — plutôt qu'écrite
+// dans site.css, qui est un fichier statique partagé par toutes les pages et
+// mis en cache par le navigateur.
+$view->share('charte', new App\Core\Charte(ApparenceController::couleur($parametresSite)));
 // Actualités, agenda et Flash Info : le bandeau « En ce moment » les affiche
 // sur toutes les pages, il ne peut donc pas les redemander à chaque vue.
 $view->share('vivant', $vivant);

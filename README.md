@@ -84,6 +84,7 @@ python3 outils/verifs/mise-en-page.py    # débordement, cibles, titres, alt
 python3 outils/verifs/traceurs.py        # aucune requête tierce sans accord
 python3 outils/verifs/bandeau.py         # chaque photo du diaporama, une à une
 python3 outils/verifs/entete.py          # l'en-tête aux bornes du réglage du logo
+python3 outils/verifs/couleur.py         # le site sous chaque teinte de la roue
 ```
 
 Zéro écart, zéro souci, zéro hôte tiers : c'est la définition de « fini » ici.

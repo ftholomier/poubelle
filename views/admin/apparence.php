@@ -1,6 +1,6 @@
 <?php
 /**
- * Apparence : disposition du menu, et taille du logo dans l'en-tête.
+ * Apparence : couleur de la commune, disposition du menu, taille du logo.
  *
  * Chaque disposition est illustrée par un schéma en CSS pur plutôt que par
  * une capture d'écran : on voit tout de suite la différence, et le schéma ne
@@ -12,6 +12,8 @@
  * qui montre ce que « la barre suit le logo » coûte en hauteur avant qu'on
  * enregistre.
  *
+ * @var string $couleur
+ * @var array $palette
  * @var array $menus
  * @var string $courant
  * @var int $logo
@@ -40,6 +42,56 @@ $resumeBarre = static function (int $h, bool $deborde): string {
 ?>
 <form class="bo-form" method="post" action="<?= url('/admin/apparence') ?>">
   <?= Csrf::champ() ?>
+
+  <fieldset>
+    <legend>Couleur de la commune</legend>
+    <p class="bo-aide">
+      Vous choisissez une <strong>teinte</strong>, pas une palette : le site en
+      déduit lui-même les cinq tons dont il a besoin, en assombrissant ou en
+      éclaircissant votre couleur juste ce qu’il faut pour que chaque texte
+      reste lisible sur le fond où il est posé. Vous ne pouvez donc pas rendre
+      une page illisible, quelle que soit la couleur retenue.
+    </p>
+    <div class="bo-couleur">
+      <div class="bo-champ bo-couleur__choix">
+        <label for="couleur">Teinte</label>
+        <input type="color" id="couleur" name="couleur" value="<?= e($couleur) ?>"
+               data-couleur>
+        <output class="bo-couleur__hex" data-couleur-hex><?= e($couleur) ?></output>
+      </div>
+
+      <?php /* L'aperçu montre la palette réellement dérivée, jeton par jeton,
+               et le script la recalcule à chaque mouvement du sélecteur — avec
+               la même formule que Charte.php, pour que ce qu'on voit ici soit
+               ce qui sera enregistré. Sans JavaScript, il montre la palette
+               enregistrée : jamais rien de faux, seulement pas d'aperçu
+               immédiat. */ ?>
+      <div class="bo-palette" data-palette>
+        <?php
+        $tons = [
+            'bleu'        => 'Couleur de marque — aplats, filets, pictogrammes',
+            'bleu-fonce'  => 'Survols et bande « En ce moment »',
+            'bleu-texte'  => 'Petits libellés sur fond teinté',
+            'bleu-clair'  => 'Accents sur les sections sombres',
+            'bleu-barre'  => 'Survols de la barre translucide',
+            'ardoise'     => 'Sections sombres et pied de page',
+        ];
+        foreach ($tons as $cle => $role): ?>
+          <div class="bo-palette__ton">
+            <span class="bo-palette__pastille" data-ton="<?= e($cle) ?>"
+                  style="background: <?= e($palette[$cle]) ?>"></span>
+            <span class="bo-palette__nom" data-ton-hex="<?= e($cle) ?>"><?= e($palette[$cle]) ?></span>
+            <span class="bo-palette__role"><?= e($role) ?></span>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+    <p class="bo-aide">
+      Le blason et les photos ne changent pas : seuls les aplats, les filets et
+      les fonds suivent. Pour revenir au bleu ardoise tiré du blason, choisissez
+      <code>#456d8a</code>.
+    </p>
+  </fieldset>
 
   <fieldset>
     <legend>Disposition du menu</legend>

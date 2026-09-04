@@ -597,6 +597,132 @@
     window.addEventListener("hashchange", ouvrirCible);
   })();
 
+  /* ---------- Apparence : la couleur de la commune ----------
+     L'aperçu recalcule la palette à chaque mouvement du sélecteur, avec la
+     MÊME formule que App\Core\Charte : mêmes bornes de saturation, mêmes
+     cibles de contraste, même sens de recherche. C'est une duplication, et
+     elle est assumée — l'alternative serait un aller-retour serveur à chaque
+     pixel de la roue, sur un hébergement mutualisé. Si les cibles changent
+     d'un côté, elles doivent changer de l'autre : le commentaire de Charte.php
+     le rappelle, et couleur.py mesure le résultat côté serveur, qui fait foi.
+
+     Rien ici n'est nécessaire pour enregistrer : sans JavaScript, l'écran
+     montre la palette enregistrée et le formulaire fonctionne. */
+  (function () {
+    var champ = document.querySelector('[data-couleur]');
+    var boite = document.querySelector('[data-palette]');
+    if (!champ || !boite) return;
+
+    var hex = document.querySelector('[data-couleur-hex]');
+    var SAT_MIN = 18, SAT_MAX = 55;
+
+    function versTsl(c) {
+      var r = parseInt(c.substr(1, 2), 16) / 255,
+          v = parseInt(c.substr(3, 2), 16) / 255,
+          b = parseInt(c.substr(5, 2), 16) / 255;
+      var max = Math.max(r, v, b), min = Math.min(r, v, b), l = (max + min) / 2;
+      if (max === min) return [0, 0, l * 100];
+      var d = max - min,
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min), h;
+      if (max === r)      h = (v - b) / d + (v < b ? 6 : 0);
+      else if (max === v) h = (b - r) / d + 2;
+      else                h = (r - v) / d + 4;
+      return [h * 60, s * 100, l * 100];
+    }
+
+    function depuisTsl(h, s, l) {
+      h = ((h % 360) + 360) % 360 / 360;
+      s = Math.max(0, Math.min(100, s)) / 100;
+      l = Math.max(0, Math.min(100, l)) / 100;
+      var deux = function (n) { n = Math.round(n * 255).toString(16); return n.length < 2 ? "0" + n : n; };
+      if (s === 0) { var g = deux(l); return "#" + g + g + g; }
+      var q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
+      var canal = function (t) {
+        t = ((t % 1) + 1) % 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
+      return "#" + deux(canal(h + 1 / 3)) + deux(canal(h)) + deux(canal(h - 1 / 3));
+    }
+
+    function luminance(c) {
+      var somme = 0, poids = [0.2126, 0.7152, 0.0722];
+      for (var i = 0; i < 3; i++) {
+        var x = parseInt(c.substr(1 + i * 2, 2), 16) / 255;
+        somme += poids[i] * (x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4));
+      }
+      return somme;
+    }
+    function rapport(a, b) {
+      var la = luminance(a), lb = luminance(b);
+      return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+    }
+    function composer(dessus, alpha, dessous) {
+      var deux = function (n) { n = Math.round(n).toString(16); return n.length < 2 ? "0" + n : n; }, r = "#";
+      for (var i = 0; i < 3; i++) {
+        var a = parseInt(dessus.substr(1 + i * 2, 2), 16),
+            b = parseInt(dessous.substr(1 + i * 2, 2), 16);
+        r += deux(a * alpha + b * (1 - alpha));
+      }
+      return r;
+    }
+
+    var NEUTRES = {
+      "ardoise": [36, 17], "ardoise-2": [38, 13], "anthracite": [16, 16],
+      "encre-2": [23, 24], "fond-teinte": [24, 96]
+    };
+
+    function palette(choix) {
+      var tsl = versTsl(choix), h = tsl[0];
+      var sat = Math.max(SAT_MIN, Math.min(SAT_MAX, tsl[1]));
+      var n = {}, cle;
+      for (cle in NEUTRES) if (NEUTRES.hasOwnProperty(cle)) {
+        n[cle] = depuisTsl(h, NEUTRES[cle][0], NEUTRES[cle][1]);
+      }
+      function resoudre(depart, cibles, eclaircir) {
+        var sens = eclaircir ? 1 : -1;
+        for (var i = 0; i <= 200; i++) {
+          var l = depart + sens * i * 0.5;
+          if (l < 0 || l > 100) break;
+          var c = depuisTsl(h, sat, l), tenu = true;
+          for (var j = 0; j < cibles.length; j++) {
+            if (rapport(c, cibles[j][0]) < cibles[j][1]) { tenu = false; break; }
+          }
+          if (tenu) return c;
+        }
+        return depuisTsl(h, sat, eclaircir ? 100 : 0);
+      }
+      var fonce = resoudre(33, [["#ffffff", 7]], false);
+      var tuile = composer("#ffffff", 0.03, n["ardoise"]);
+      return {
+        "bleu":       resoudre(41, [["#ffffff", 4.5], [n["fond-teinte"], 4.5]], false),
+        "bleu-fonce": fonce,
+        "bleu-texte": resoudre(36, [[n["fond-teinte"], 6]], false),
+        "bleu-clair": resoudre(61, [[n["ardoise"], 4.6], [n["ardoise-2"], 4.6],
+                                    [n["anthracite"], 4.6], [n["encre-2"], 4.6],
+                                    [tuile, 4.6]], true),
+        "bleu-barre": resoudre(83, [["#565a5d", 4.6], [fonce, 4.6]], true),
+        "ardoise":    n["ardoise"]
+      };
+    }
+
+    function peindre() {
+      var p = palette(champ.value), cle;
+      for (cle in p) if (p.hasOwnProperty(cle)) {
+        var pastille = boite.querySelector('[data-ton="' + cle + '"]');
+        var libelle  = boite.querySelector('[data-ton-hex="' + cle + '"]');
+        if (pastille) pastille.style.background = p[cle];
+        if (libelle) libelle.textContent = p[cle];
+      }
+      if (hex) hex.textContent = champ.value;
+    }
+
+    champ.addEventListener("input", peindre);
+    peindre();
+  })();
+
   /* ---------- Apparence : taille du logo ----------
      Le champ nombre est la source de vérité et fonctionne seul : le curseur
      est révélé ici, et l'aperçu suit. Rien de ce bloc n'est nécessaire pour

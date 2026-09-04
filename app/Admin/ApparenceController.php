@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Charte;
 use App\Core\Content;
 use App\Core\Csrf;
 use App\Core\Parametres;
@@ -11,7 +12,7 @@ use App\Core\View;
 use RuntimeException;
 
 /**
- * Écran Apparence : disposition du menu de navigation et taille du logo.
+ * Écran Apparence : couleur de la commune, disposition du menu, taille du logo.
  *
  * Les choix sont des réglages de présentation, pas du contenu : ils vivent
  * dans data/admin/parametres.json, hors git. Une mise à jour du code ne peut
@@ -79,6 +80,12 @@ final class ApparenceController
             'menus'   => self::MENUS,
             'courant' => (string) $this->parametres->get('apparence.menu', 'lateral'),
             'logo'    => self::hauteurLogo($this->parametres),
+            'couleur' => self::couleur($this->parametres),
+            // L'aperçu de la palette montre ce que la couleur choisie produit
+            // réellement, jeton par jeton : la mairie voit les cinq tons et
+            // les fonds avant d'enregistrer, plutôt que de découvrir le site
+            // repeint après coup.
+            'palette' => (new Charte(self::couleur($this->parametres)))->jetons(),
             'deborde' => self::logoDeborde($this->parametres),
             'bornes'  => ['min' => self::LOGO_MIN, 'max' => self::LOGO_MAX, 'pas' => self::LOGO_PAS],
             // L'aperçu montre le vrai logo à sa vraie taille : c'est ce qui
@@ -107,17 +114,23 @@ final class ApparenceController
 
         $logo    = self::borner($_POST['logo'] ?? self::LOGO_DEFAUT);
         $deborde = isset($_POST['logo_deborde']);
+        // Charte::normaliser retombe sur la couleur livrée devant n'importe
+        // quelle saisie : le champ est un sélecteur de couleur, mais le
+        // fichier de paramètres se recopie d'un site à l'autre.
+        $couleur = Charte::normaliser((string) ($_POST['couleur'] ?? Charte::DEFAUT));
 
         $actuel = $this->parametres->tout();
         $actuel['apparence']['menu']         = $choix;
         $actuel['apparence']['logo']         = $logo;
         $actuel['apparence']['logo_deborde'] = $deborde;
+        $actuel['apparence']['couleur']      = $couleur;
 
         try {
             $this->parametres->enregistrer($actuel);
             Session::flash('succes', 'Apparence enregistrée : « '
                 . self::MENUS[$choix]['nom'] . ' », logo de ' . $logo . ' px, '
                 . ($deborde ? 'qui déborde de la barre' : 'la barre suit sa taille')
+                . ', couleur ' . $couleur
                 . '. Rechargez le site pour la voir.');
         } catch (RuntimeException $e) {
             Session::flash('erreur', $e->getMessage());
@@ -139,6 +152,19 @@ final class ApparenceController
     public static function hauteurLogo(Parametres $parametres): int
     {
         return self::borner($parametres->get('apparence.logo', self::LOGO_DEFAUT));
+    }
+
+    /**
+     * Couleur de la commune, ramenée à un hexadécimal valable.
+     *
+     * Statique et repassant par la normalisation, pour la même raison que la
+     * hauteur du logo : le site public la lit sans passer par
+     * l'administration, et un fichier de paramètres modifié à la main ne doit
+     * pas pouvoir poser autre chose qu'une couleur.
+     */
+    public static function couleur(Parametres $parametres): string
+    {
+        return Charte::normaliser((string) $parametres->get('apparence.couleur', Charte::DEFAUT));
     }
 
     /** La barre laisse-t-elle le logo la dépasser ? */

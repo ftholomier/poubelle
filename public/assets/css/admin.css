@@ -1296,6 +1296,46 @@ button { font: inherit; cursor: pointer; }
    le décalage du logo avec le même max(). Une image figée aurait menti dès
    le premier réglage, et un schéma approximatif aurait laissé la mairie
    découvrir le vrai résultat sur le site. */
+/* ---------- Apparence : la couleur de la commune ---------- */
+.bo-couleur {
+  display: grid; gap: 1.4rem;
+  grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+  align-items: start;
+  margin-bottom: 1rem;
+}
+.bo-couleur__choix input[type="color"] {
+  width: 100%; height: 3.4rem; padding: 2px;
+  background: var(--fond-2); border: 1px solid var(--trait); border-radius: 4px;
+  cursor: pointer;
+}
+.bo-couleur__hex {
+  display: block; margin-top: .5rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .9rem; color: var(--texte-2);
+}
+.bo-palette { display: grid; gap: .55rem; }
+.bo-palette__ton {
+  display: grid; gap: .8rem; align-items: center;
+  grid-template-columns: 2.4rem 6rem minmax(0, 1fr);
+}
+/* La pastille est bordée : sur le fond sombre du back-office, un ton clair
+   sans contour se confond avec la carte et l'on ne voit plus sa forme. */
+.bo-palette__pastille {
+  display: block; width: 2.4rem; height: 1.9rem;
+  border: 1px solid var(--trait); border-radius: 3px;
+}
+.bo-palette__nom {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .82rem; color: var(--texte);
+}
+.bo-palette__role { font-size: .85rem; color: var(--texte-2); }
+
+@media (max-width: 780px) {
+  .bo-couleur { grid-template-columns: 1fr; }
+  .bo-palette__ton { grid-template-columns: 2.4rem 6rem; }
+  .bo-palette__role { grid-column: 1 / -1; }
+}
+
 .bo-logo-reglage {
   display: grid; gap: 1.4rem;
   grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
