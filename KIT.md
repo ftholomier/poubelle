@@ -205,6 +205,14 @@ côté du bouton de discussion. Plutôt que de refuser un réglage, `Bulle` réd
 le nombre de rappels jusqu'à ce qu'il tienne — comme la couleur du texte est
 corrigée plutôt que refusée — et l'écran le dit.
 
+L'animation **se rejoue quand le visiteur s'arrête de faire défiler la page** —
+c'est le moment utile, quelqu'un qui vient de s'arrêter de lire est justement
+celui qui cherche quelque chose. Trois garde-fous, dans `site.js` : une
+distance minimale (350 px, un tremblement de molette n'est pas un parcours),
+un délai entre deux rappels (8 s), et un plafond de trois rappels après quoi le
+bouton se tait pour de bon. Chaque rappel dure ce que dure l'animation, donc
+respecte la même borne de cinq secondes.
+
 La durée gouverne deux choses à la fois, la lenteur du geste et l'attente
 avant qu'il ne revienne, puisqu'un cycle enchaîne sur le suivant : une mairie
 qui trouve que « ça revient trop vite » ralentit, ou demande moins de rappels.
@@ -227,6 +235,11 @@ Deux pièges valent d'être connus avant d'y toucher :
   retrait vaut `clamp(1rem, 3vw, 1.8rem)` et passe à `.8rem` sous 520 px : il
   est donc en variable (`--assistant-marge`). Écrit deux fois, il déborde de
   trois pixels sur petit écran, et `mise-en-page.py` le refuse ;
+- **le rappel au défilement annule le délai d'entrée**, et sa règle doit
+  battre celle du bloc général — même nombre de classes, la plus longue
+  l'emporterait et le délai resterait. Le sélecteur reprend donc celui du bloc
+  et lui ajoute une classe. Cela ne se voit pas en lisant, seulement en
+  mesurant ;
 - **une forme collée au bord ne peut pas tourner.** L'onglet est la seule dans
   ce cas, et une rotation de 4,5° sur une étiquette de cent cinquante pixels de
   haut déplace son coin de huit pixels hors de l'écran — mesuré, pas déduit.

@@ -2297,6 +2297,19 @@ body.visionneuse-ouverte { overflow: hidden; }
   animation: none;
 }
 
+/* Rejouée après un arrêt de défilement, l'animation part tout de suite : le
+   délai d'entrée sert à laisser la page se poser, et la page est posée depuis
+   longtemps. Attendre une seconde et demie de plus ferait démarrer le
+   mouvement alors que le visiteur a déjà repris sa lecture.
+
+   Le sélecteur reprend celui du bloc ci-dessus et lui ajoute une classe : à
+   spécificité égale, c'est la règle générale qui l'aurait emporté puisqu'elle
+   est plus longue, et le délai serait resté. Cela ne se voit pas en lisant —
+   seulement en mesurant. */
+.assistant[class*="assistant--anim-"].assistant--rappelle .assistant__bulle {
+  animation-delay: 0s;
+}
+
 .assistant--anim-halo .assistant__bulle { animation-name: bulle-halo; }
 /* L'anneau est une ombre et non un élément : une ombre ne prend pas de place,
    ne peut donc pas déborder de l'écran, et n'intercepte aucun clic. */

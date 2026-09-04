@@ -627,17 +627,76 @@
     var etat = memoire();
     var conversation = etat.id || (Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8));
 
-    /* L'animation d'appel n'a de sens que pour quelqu'un qui n'a pas encore vu
-       le bouton. Elle est retirée dès qu'il l'ouvre, et ne se rejoue pas dans
-       un onglet où une conversation est déjà commencée : continuer à agiter le
-       bouton devant quelqu'un qui s'en sert serait bête. La classe est
-       reconnue à son préfixe, comme dans la feuille de style. */
-    function cesserDappeler() {
-      for (var i = boite.classList.length - 1; i >= 0; i--) {
-        if (boite.classList[i].indexOf("assistant--anim-") === 0) {
-          boite.classList.remove(boite.classList[i]);
-        }
+    /* --- L'animation d'appel -------------------------------------------
+       Elle n'a de sens que pour quelqu'un qui n'a pas encore vu le bouton.
+       Elle est retirée dès qu'il l'ouvre, et ne se rejoue pas dans un onglet
+       où une conversation est déjà commencée : continuer à agiter le bouton
+       devant quelqu'un qui s'en sert serait bête. La classe est reconnue à son
+       préfixe, comme dans la feuille de style. */
+    var animationInitiale = "";
+    for (var ci = 0; ci < boite.classList.length; ci++) {
+      if (boite.classList[ci].indexOf("assistant--anim-") === 0) {
+        animationInitiale = boite.classList[ci];
       }
+    }
+    var appelTermine = false;
+
+    function cesserDappeler() {
+      appelTermine = true;
+      if (animationInitiale) boite.classList.remove(animationInitiale);
+    }
+
+    /* Le rappel au défilement : le visiteur parcourt la page, s'arrête, et le
+       bouton se signale de nouveau. C'est le moment utile — quelqu'un qui
+       vient de s'arrêter de lire est justement celui qui cherche quelque
+       chose.
+
+       Trois garde-fous, et ils ne sont pas décoratifs. Chaque rappel dure ce
+       que dure l'animation, soit cinq secondes au plus : c'est la borne posée
+       dans site.css, et elle vaut pour chaque déclenchement. S'y ajoutent une
+       distance minimale — un tremblement de molette n'est pas un parcours —,
+       un délai entre deux rappels, et un plafond : passé trois rappels, le
+       bouton se tait pour de bon. Un bouton qui se remet à bouger à chaque
+       arrêt de défilement serait insupportable au bout d'une page, et c'est
+       exactement le genre de chose qu'on ne voit pas en la programmant. */
+    var DEFILEMENT_MINI = 350;    // px parcourus depuis le dernier rappel
+    var ARRET_MS = 450;           // le défilement est considéré arrêté
+    var ENTRE_RAPPELS_MS = 8000;  // au plus tôt, après l'animation d'entrée
+    var RAPPELS_MAX = 3;
+
+    var rappelsFaits = 0;
+    var dernierRappel = Date.now();
+    var yRepere = window.pageYOffset || 0;
+    var minuteurArret = null;
+
+    function rappeler() {
+      if (!animationInitiale || appelTermine) return;
+      // Retirer, forcer un recalcul, remettre : sans la lecture intermédiaire,
+      // le navigateur regroupe les deux changements et ne voit rien à rejouer.
+      boite.classList.remove(animationInitiale);
+      void boite.offsetWidth;
+      // Le délai d'entrée n'a plus lieu d'être : le visiteur est là depuis
+      // longtemps, et attendre une seconde et demie après son arrêt ferait
+      // partir l'animation alors qu'il a déjà repris sa lecture.
+      boite.classList.add("assistant--rappelle");
+      boite.classList.add(animationInitiale);
+      rappelsFaits++;
+      dernierRappel = Date.now();
+      if (rappelsFaits >= RAPPELS_MAX) appelTermine = true;
+    }
+
+    if (animationInitiale) {
+      window.addEventListener("scroll", function () {
+        if (appelTermine) return;
+        if (minuteurArret) clearTimeout(minuteurArret);
+        minuteurArret = setTimeout(function () {
+          var y = window.pageYOffset || 0;
+          if (Math.abs(y - yRepere) < DEFILEMENT_MINI) return;
+          if (Date.now() - dernierRappel < ENTRE_RAPPELS_MS) return;
+          yRepere = y;
+          rappeler();
+        }, ARRET_MS);
+      }, { passive: true });
     }
 
     function sauver() {

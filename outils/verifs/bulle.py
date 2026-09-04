@@ -22,7 +22,10 @@ appel réseau, seule la bulle est rendue — et force :
   · les cinq animations d'appel, chacune sur chaque forme ;
   · les quatre coins du rythme — vitesse la plus vive et la plus lente,
     croisées avec un et trois rappels — plus le cas où le nombre de rappels
-    doit être réduit pour tenir dans le budget.
+    doit être réduit pour tenir dans le budget ;
+  · le rappel au défilement : le bouton se signale de nouveau quand le
+    visiteur s'arrête de faire défiler la page, et cesse au bout de trois
+    rappels.
 
 Il vérifie sur chacun : le contraste réel du libellé peint sur son fond
 peint, la cible tactile, l'absence de débordement horizontal, le nom
@@ -91,6 +94,13 @@ MOUVEMENT_MAX = 5.0
 # celui-ci comme pour la taille du logo.
 #
 # (vitesse en ms, rappels demandés, rappels attendus une fois le budget appliqué)
+# Le rappel au défilement, tel que site.js le règle. Les valeurs sont
+# recopiées ici, et c'est voulu : si quelqu'un les change dans le script sans y
+# penser, ce fichier le dira au lieu de suivre en silence.
+DEFILEMENT_MINI = 350     # px parcourus avant qu'un arrêt ne compte
+ENTRE_RAPPELS_MS = 8000   # délai minimal entre deux rappels
+RAPPELS_DEFILEMENT_MAX = 3
+
 RYTHMES = (
     (800, 1, 1),
     (800, 3, 3),
@@ -186,6 +196,23 @@ SUIVRE = """(duree) => new Promise(fini => {
   };
   tic();
 })"""
+
+
+# L'état de l'animation, à un instant donné. `getAnimations()` dit ce que le
+# navigateur joue réellement, là où les styles calculés ne diraient que ce
+# qu'il est censé jouer : une horloge proche de zéro signe un redémarrage.
+ANIMATION_EN_COURS = """() => {
+  const c = document.querySelector('[data-assistant]');
+  if (!c) return {enCours: 0, temps: null, delai: '', rappelle: false};
+  const b = c.querySelector('.assistant__bulle');
+  const a = b.getAnimations ? b.getAnimations() : [];
+  return {
+    enCours: a.length,
+    temps: a.length ? Math.round(a[0].currentTime) : null,
+    delai: getComputedStyle(b).animationDelay,
+    rappelle: c.classList.contains('assistant--rappelle'),
+  };
+}"""
 
 
 def reglages() -> dict:
@@ -464,7 +491,68 @@ def main() -> int:
                       % ('ok' if total == avant else 'ECART', vitesse, demandes,
                          attendus, vitesse * attendus / 1000))
 
-            # CINQUIÈME PASSE — le réglage « moins d'animations » du système.
+            # CINQUIÈME PASSE — le rappel au défilement.
+            #
+            # Le comportement se joue dans le temps, ce qu'aucun des autres
+            # contrôles ne fait : on parcourt la page, on s'arrête, et le
+            # bouton doit se signaler de nouveau — mais pas deux fois de suite,
+            # et pas indéfiniment. Les trois garde-fous se vérifient en une
+            # seule visite, en respectant les délais réels : c'est une minute
+            # de mesure, et c'est le prix d'un comportement qu'on ne peut pas
+            # déduire de la feuille de style.
+            _, pg = contextes[1440]
+            avant = total
+            for animation in ('halo', 'aucune'):
+                regler(origine, 'barre', TAILLE_LIVREE, '', '#ffffff',
+                       'Une question ?', animation)
+                pg.goto(base + PAGE, wait_until='domcontentloaded')
+                # On laisse l'animation d'entrée se terminer : un rappel qui
+                # tomberait pendant elle ne se distinguerait pas d'elle.
+                pg.wait_for_timeout(7200)
+                attendu = animation != 'aucune'
+
+                joues = 0
+                for tour in range(RAPPELS_DEFILEMENT_MAX + 1):
+                    pg.evaluate('(y) => window.scrollTo(0, y)',
+                                (tour + 1) * (DEFILEMENT_MINI * 3))
+                    pg.wait_for_timeout(1400)
+                    etat = pg.evaluate(ANIMATION_EN_COURS)
+                    # Un rappel qui vient de partir se reconnaît à son horloge
+                    # proche de zéro ET à l'absence de délai d'entrée.
+                    if etat['enCours'] and etat['temps'] < 1200 and etat['delai'] == '0s':
+                        joues += 1
+                        if not etat['rappelle']:
+                            total += 1
+                            print('  ECART  rappel au défilement sans la classe qui '
+                                  'annule le délai d’entrée')
+                    if tour == 0 and attendu and joues != 1:
+                        total += 1
+                        print('  ECART  aucun rappel après le premier arrêt de défilement')
+                    if tour == 0:
+                        # Deuxième arrêt tout de suite : le délai n'est pas
+                        # écoulé, rien ne doit repartir.
+                        pg.evaluate('() => window.scrollTo(0, %d)' % (DEFILEMENT_MINI * 8))
+                        pg.wait_for_timeout(1400)
+                        e2 = pg.evaluate(ANIMATION_EN_COURS)
+                        if e2['enCours'] and e2['temps'] < 400:
+                            total += 1
+                            print('  ECART  rappel rejoué avant le délai de %d ms'
+                                  % ENTRE_RAPPELS_MS)
+                    if tour < RAPPELS_DEFILEMENT_MAX:
+                        pg.wait_for_timeout(ENTRE_RAPPELS_MS)
+
+                if attendu and joues != RAPPELS_DEFILEMENT_MAX:
+                    total += 1
+                    print('  ECART  %d rappel(s) au défilement, %d attendu(s) — le '
+                          'plafond n’est pas celui du script'
+                          % (joues, RAPPELS_DEFILEMENT_MAX))
+                if not attendu and joues:
+                    total += 1
+                    print('  ECART  %d rappel(s) alors qu’aucune animation n’est réglée' % joues)
+                print('  %-6s rappel au défilement, animation « %s » : %d rappel(s)'
+                      % ('ok' if total == avant else 'ECART', animation, joues))
+
+            # SIXIÈME PASSE — le réglage « moins d'animations » du système.
             #
             # C'est une préférence d'accessibilité, pas une option de confort :
             # elle est cochée par des gens que le mouvement met mal à l'aise,
@@ -521,11 +609,12 @@ def main() -> int:
     mesures = (len(COULEURS) * len(FORMES) * len(TAILLES) * len(LARGEURS)
                + len(ANIMATIONS) * len(FORMES) * len(LARGEURS)
                + len(RYTHMES) * len(LARGEURS)
+               + 2
                + len(ANIMATIONS))
     print('---')
     print('%d formes × %d tailles × %d couples de couleurs, puis %d animations '
-          '× %d formes, puis %d rythmes, puis le réglage système '
-          '— %d réglages, %d écart(s).'
+          '× %d formes, puis %d rythmes, puis le rappel au défilement et le '
+          'réglage système — %d réglages, %d écart(s).'
           % (len(FORMES), len(TAILLES), len(COULEURS), len(ANIMATIONS),
              len(FORMES), len(RYTHMES), mesures, total))
     if total:

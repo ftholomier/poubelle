@@ -261,11 +261,13 @@ Le fond est libre ; la couleur du texte garde sa teinte et voit sa clarté
 résolue jusqu'à 4,5:1 sur ce fond, comme la charte. S'y ajoutent cinq
 **animations d'appel** — aucune, halo, rebond, balancement, respiration —, avec
 leur rythme : la durée d'un mouvement et le nombre de rappels, dont le produit
-ne dépasse jamais cinq secondes. Le survol, le focus, l'ouverture de la
-discussion ou le réglage système « moins d'animations » suffisent à les
-éteindre. `outils/verifs/bulle.py` force les cinq formes, les bornes de taille,
+ne dépasse jamais cinq secondes. Elles se rejouent quand le visiteur
+s'arrête de faire défiler la page — trois fois au plus, à huit secondes
+d'intervalle au moins. Le survol, le focus, l'ouverture de la discussion ou le
+réglage système « moins d'animations » suffisent à les éteindre. `outils/verifs/bulle.py` force les cinq formes, les bornes de taille,
 six couples de couleurs dont quatre volontairement illisibles, les cinq
-animations et les quatre coins du rythme — 249 réglages.
+animations, les quatre coins du rythme et le rappel au défilement —
+251 réglages.
 
 Ce septième auditeur a immédiatement trouvé ce qu'aucun des six autres ne
 pouvait voir : **le libellé livré était à 2,57:1.** La bulle composait l'encre
@@ -371,7 +373,7 @@ tierce avant consentement, le texte du bandeau sur chacune des six photos du
 diaporama forcée à son tour, l'en-tête aux deux bornes du réglage de taille
 du logo dans les deux modes de barre et les deux dispositions de menu, le
 site entier sous seize couleurs de commune différentes, et le bouton de
-l'assistant sous deux cent quarante-neuf réglages.
+l'assistant sous deux cent cinquante et un réglages.
 
 Ce qu'ils ont attrapé sur ce site-ci, et qu'aucun œil n'avait vu :
 

@@ -377,7 +377,7 @@ quelque chose — branchables tels quels dans une chaîne d'intégration.
 | `bandeau.py` | Le texte du bandeau d'accueil sur **chaque** photo du diaporama forcée à son tour, à 390, 768 et 1440 px |
 | `entete.py` | L'en-tête aux **bornes du réglage de taille du logo**, dans les deux modes de barre et les deux dispositions de menu : débordement, déformation, chevauchement du burger, cible tactile |
 | `couleur.py` | Le contraste de six pages représentatives sous **douze teintes de la roue** plus quatre cas limites, en réglant tour à tour la couleur de la commune |
-| `bulle.py` | Le bouton de l'assistant sous **les cinq formes, les bornes de taille, six couples de couleurs, les cinq animations et les quatre coins de leur rythme** — contraste, cible tactile, débordement, nom accessible, budget de mouvement, réglage servi conforme au réglage demandé, respect du réglage système « moins d'animations », et aucun appel réseau bulle allumée |
+| `bulle.py` | Le bouton de l'assistant sous **les cinq formes, les bornes de taille, six couples de couleurs, les cinq animations, les quatre coins de leur rythme et le rappel au défilement** — contraste, cible tactile, débordement, nom accessible, budget de mouvement, réglage servi conforme au réglage demandé, respect du réglage système « moins d'animations », et aucun appel réseau bulle allumée |
 
 ### Pourquoi quatre auditeurs de plus, pour un diaporama et trois réglages
 
@@ -439,6 +439,11 @@ choses que l'œil ne mesure pas :
   demander. C'est la borne d'un réglage que personne ne pense à mesurer, et
   elle est vérifiée aux quatre coins des deux curseurs — la mairie les règle
   librement, et c'est le nombre de rappels qui cède ;
+- le **rappel au défilement**, qui est le seul contrôle du dépôt à se jouer
+  dans le temps : on parcourt la page, on s'arrête, et le bouton doit se
+  signaler de nouveau — mais pas deux fois de suite, et pas indéfiniment. Une
+  minute de mesure, parce qu'il faut respecter les délais réels ; c'est le prix
+  d'un comportement qu'aucune lecture de la feuille de style ne peut déduire ;
 - la **conformité du réglage servi au réglage demandé** : sans elle, un jeton
   CSS mal branché ferait retomber l'animation sur sa durée livrée, le budget
   serait tenu, et personne ne verrait que le curseur ne sert plus à rien ;

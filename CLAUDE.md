@@ -130,7 +130,8 @@ dispositions de menu — 96 mesures —, `couleur.py` force douze teintes
 réparties sur la roue plus quatre cas limites (gris sans saturation, rouge
 saturé, presque noir, presque blanc), et `bulle.py` force les cinq formes du
 bouton de l'assistant, ses bornes de taille, six couples de couleurs, ses cinq
-animations d'appel et les quatre coins de leur rythme.
+animations d'appel, les quatre coins de leur rythme et le rappel au
+défilement.
 
 `bulle.py` a une raison de plus d'exister : **les six autres ne voient jamais
 ce bouton.** L'assistant est éteint tant qu'aucune clé n'est renseignée, donc
