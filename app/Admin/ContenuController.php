@@ -88,10 +88,10 @@ final class ContenuController
         ],
         'documents' => [
             'nom' => 'Documents', 'singulier' => 'document',
-            'aide' => 'Les PDF publiés : comptes-rendus, bulletins, documents intercommunaux. La famille décide de la page où le document apparaît.',
+            'aide' => 'Les PDF publiés : comptes-rendus, délibérations et arrêtés, budgets, bulletins, documents intercommunaux. La famille décide de la page où le document apparaît.',
             'champs' => [
                 'titre' => 'ligne', 'date' => 'date',
-                'famille' => 'choix:comptes-rendus|budgets|flash-info|publications',
+                'famille' => 'choix:comptes-rendus|deliberations|budgets|flash-info|publications',
                 'fichier' => 'fichier', 'texte' => 'zone',
             ],
         ],

@@ -314,7 +314,7 @@ $modeleChoisi = (string) ($reglages['modele'] ?? '');
         Inclure le contenu des pages et des fiches
       </label>
       <p class="bo-aide">
-        Textes des pages, gammes, engagements, réalisations et coordonnées, lus
+        Textes des pages, démarches, actualités, agenda et coordonnées, lus
         directement dans les fichiers de contenu. Une modification faite dans le
         back-office est prise en compte à la question suivante.
       </p>

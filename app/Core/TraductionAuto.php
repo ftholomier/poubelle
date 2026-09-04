@@ -35,6 +35,11 @@ final class TraductionAuto
 
     private const DELAI = 15;
 
+    /* L'agent utilisateur annoncé aux services de traduction. Il portait le
+       nom du site commercial dont vient le socle : un service qui journalise
+       ses appelants voyait une menuiserie derrière les requêtes d'une mairie. */
+    private const AGENT = 'Mozilla/5.0 (compatible; MairieAngeot/1.0)';
+
     /**
      * Une clé gratuite s'adresse à un autre serveur qu'une clé payante, et
      * le serveur qui n'est pas le sien répond 403. Le suffixe « :fx » n'est
@@ -47,8 +52,14 @@ final class TraductionAuto
     /** Caractères effectivement envoyés à DeepL pendant cette traduction. */
     private int $deepLCaracteres = 0;
 
-    public function __construct(private readonly string $cleDeepL = '')
-    {
+    public function __construct(
+        private readonly string $cleDeepL = '',
+        /* Envoyer le contenu du site à Google Traduction ou à MyMemory, c'est
+           le transmettre à un tiers. Une mairie n'a pas à le faire parce que
+           c'est commode : elle doit l'avoir décidé, et savoir où part le
+           texte. Le réglage est donc éteint tant que personne ne l'a coché. */
+        private readonly bool $gratuitsAutorises = false,
+    ) {
     }
 
     /**
@@ -123,8 +134,9 @@ final class TraductionAuto
 
         $sonde = 'Bonjour';
         try {
+            // viaDeepL() tient le compteur : l'incrémenter ici aussi
+            // ferait payer la sonde deux fois au quota.
             $this->viaDeepL([$sonde], 'EN-GB', 'fr');
-            $this->deepLCaracteres += mb_strlen($sonde);
             return ['ok' => true, 'souci' => '', 'caracteres' => $this->deepLCaracteres];
         } catch (RuntimeException $e) {
             return ['ok' => false, 'souci' => $e->getMessage(), 'caracteres' => 0];
@@ -166,6 +178,14 @@ final class TraductionAuto
      */
     private function traduireLot(array $textes, string $vers, string $depuis): array
     {
+        /* Les services gratuits reçoivent le texte des pages : c'est un
+           transfert vers un tiers, et une mairie ne le fait pas sans l'avoir
+           décidé. Sans accord donné dans l'écran Langues, seul DeepL est
+           tenté — le service avec lequel la commune a un contrat. */
+        if (!$this->gratuitsAutorises) {
+            return $this->viaDeepLSeul($textes, $vers, $depuis);
+        }
+
         try {
             return [$this->viaGoogle($textes, $vers, $depuis), 'Google Traduction'];
         } catch (RuntimeException $google) {
@@ -176,6 +196,23 @@ final class TraductionAuto
                 return $this->viaDeepLOuEchouer($textes, $vers, $depuis, $google, $secours);
             }
         }
+    }
+
+    /**
+     * @param string[] $textes
+     * @return array{0: string[], 1: string}
+     */
+    private function viaDeepLSeul(array $textes, string $vers, string $depuis): array
+    {
+        if ($this->cleDeepL === '') {
+            throw new RuntimeException(
+                'Aucune clé DeepL n’est enregistrée, et l’envoi du contenu aux services '
+                . 'de traduction gratuits n’a pas été autorisé. Renseignez une clé DeepL, '
+                . 'ou cochez l’autorisation dans l’écran Langues.'
+            );
+        }
+
+        return [$this->viaDeepL($textes, $vers, $depuis), 'DeepL'];
     }
 
     /**
@@ -199,9 +236,7 @@ final class TraductionAuto
         }
 
         try {
-            $traduits = $this->viaDeepL($textes, $vers, $depuis);
-            $this->deepLCaracteres += array_sum(array_map('mb_strlen', $textes));
-            return [$traduits, 'DeepL'];
+            return [$this->viaDeepL($textes, $vers, $depuis), 'DeepL'];
         } catch (RuntimeException $deepL) {
             throw new RuntimeException($gratuits . ' — DeepL : ' . $deepL->getMessage());
         }
@@ -218,6 +253,15 @@ final class TraductionAuto
      */
     private function viaDeepL(array $textes, string $vers, string $depuis): array
     {
+        /* Le décompte est fait ICI, et non chez l'appelant. Il l'était, et il
+           y avait un seul appelant ; le jour où le repli gratuit est devenu
+           facultatif, un second chemin a mené à DeepL sans rien compter —
+           c'est-à-dire exactement quand DeepL devient le seul service et que
+           le quota se met à compter vraiment. Le million de l'offre gratuite
+           n'est accordé qu'une fois pour la vie du compte : un compteur qui
+           s'arrête ne se voit qu'au refus. */
+        $this->deepLCaracteres += array_sum(array_map('mb_strlen', $textes));
+
         // le service attend un corps JSON et rend les textes dans l'ordre
         // reçu, ce qui évite le repère de découpe imposé par Google
         $envoi = json_encode([
@@ -351,7 +395,7 @@ final class TraductionAuto
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_TIMEOUT        => self::DELAI,
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_USERAGENT      => 'Mozilla/5.0 (compatible; MenuiserieTrehant/1.0)',
+                CURLOPT_USERAGENT      => self::AGENT,
             ]);
             if ($corpsEnvoye !== null) {
                 curl_setopt($ch, CURLOPT_POST, true);
@@ -374,7 +418,7 @@ final class TraductionAuto
             return $corps;
         }
 
-        $lignes = "User-Agent: Mozilla/5.0 (compatible; MenuiserieTrehant/1.0)\r\n";
+        $lignes = 'User-Agent: ' . self::AGENT . "\r\n";
         foreach ($entetes as $entete) {
             $lignes .= $entete . "\r\n";
         }

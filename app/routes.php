@@ -197,7 +197,10 @@ $router->get($c('la-mairie'),          fn() => $pages->simple('la-mairie'));
 $router->get($c('conseil-municipal'),  fn() => $pages->conseilMunicipal());
 $router->get($c('commissions'),        fn() => $pages->commissions());
 $router->get($c('comptes-rendus'),     fn() => $pages->documents('comptes-rendus', 'comptes-rendus'));
-$router->get($c('deliberations'),      fn() => $pages->simple('deliberations'));
+// Les délibérations et arrêtés sont d'abord des PDF : la page les liste, et
+// garde en dessous le texte qui explique ce qu'ils sont. Elle restait une page
+// de texte seul, sans moyen d'y déposer un acte.
+$router->get($c('deliberations'),      fn() => $pages->documents('deliberations', 'deliberations'));
 $router->get($c('budget'),             fn() => $pages->documents('budget', 'budgets'));
 $router->get($c('publications'),       fn() => $pages->documents('publications', 'publications'));
 $router->get($c('urbanisme'),          fn() => $pages->simple('urbanisme'));

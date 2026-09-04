@@ -18,11 +18,14 @@
     <div class="cookies__corps">
       <h2 class="cookies__titre" id="cookies-titre"><?= e(t('Votre vie privée')) ?></h2>
       <p class="cookies__texte" id="cookies-texte">
-        Ce site utilise uniquement les cookies nécessaires à son fonctionnement.
-        Avec votre accord, nous mesurerions aussi son audience et pourrions afficher
-        des contenus externes (plan d’accès, vidéos). Vous restez libre de refuser :
-        le site fonctionne à l’identique.
-        <a href="<?= route('mentions-legales') ?>">En savoir plus</a>
+        <?= e(t('Ce site utilise uniquement les cookies nécessaires à son fonctionnement. '
+              . 'Avec votre accord, nous mesurerions aussi son audience et pourrions afficher '
+              . 'des contenus externes (plan d’accès, vidéos). Vous restez libre de refuser : '
+              . 'le site fonctionne à l’identique.')) ?>
+        <?php /* La page de confidentialité, et non les mentions légales : c'est
+                 elle qui détaille les traceurs, leur durée et la façon de
+                 revenir sur son choix. */ ?>
+        <a href="<?= route('confidentialite') ?>"><?= e(t('En savoir plus')) ?></a>
       </p>
     </div>
     <div class="cookies__actions">

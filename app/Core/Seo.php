@@ -806,7 +806,14 @@ final class Seo
         $graphe = [$this->noeudCommune($site, $base, $commune, $media)];
 
         if ($item !== null) {
-            $graphe[] = $this->noeudFiche($cle, $item, $base, $commune, $media);
+            $graphe[] = $this->noeudFiche(
+                $cle,
+                $item,
+                $base,
+                $commune,
+                $media,
+                (string) ($site['nom'] ?? '')
+            );
         }
 
         $fil = $this->filAriane($cle, $item, $base);
@@ -814,9 +821,16 @@ final class Seo
             $graphe[] = $fil;
         }
 
+        /* JSON_HEX_TAG : ce JSON est posé DANS un <script>, et le navigateur
+           y cherche « </script » avant de lire du JSON. Un texte de mairie
+           contenant cette suite — une consigne sur un site web, un extrait de
+           code dans une actualité — fermerait le bloc et le reste passerait
+           en HTML. L'échappement des chevrons ferme la question, et coûte
+           quelques octets sur une balise que seuls les robots lisent. */
         return json_encode(
             ['@context' => 'https://schema.org', '@graph' => $graphe],
-            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR
+            JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE
+                | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR
         );
     }
 
@@ -852,7 +866,7 @@ final class Seo
         $mairie = [
             '@type'   => 'CityHall',
             '@id'     => $base . '/#mairie',
-            'name'    => 'Mairie de ' . (string) ($site['nom'] ?? ''),
+            'name'    => 'Mairie ' . self::de((string) ($site['nom'] ?? '')),
             'address' => $adresse,
             'image'   => $media($this->imagePartage()),
         ];
@@ -867,7 +881,7 @@ final class Seo
         $noeud = [
             '@type'       => 'GovernmentOrganization',
             '@id'         => $id,
-            'name'        => 'Commune de ' . (string) ($site['nom'] ?? ''),
+            'name'        => 'Commune ' . self::de((string) ($site['nom'] ?? '')),
             'alternateName' => (string) ($site['nom'] ?? ''),
             'description' => (string) ($site['accroche'] ?? ''),
             'url'         => $base . '/',
@@ -886,8 +900,22 @@ final class Seo
         if (($site['contact']['email'] ?? '') !== '') {
             $noeud['email'] = (string) $site['contact']['email'];
         }
-        if (($site['fondation']['fondatrice'] ?? '') !== '') {
-            $noeud['employee'] = ['@type' => 'Person', 'name' => (string) $site['fondation']['fondatrice']];
+        /* Le maire n'est pas un employé de la commune : il en est l'élu qui
+           la dirige. `employee` était hérité du socle commercial, où le champ
+           portait la fondatrice de l'entreprise ; schema.org a `member` pour
+           une organisation, et le rôle se dit dans `jobTitle`. La clé de
+           contenu suit la même correction : « fondatrice » se lit encore, le
+           temps que les sites déjà en ligne soient réenregistrés. */
+        $maire = (string) ($site['fondation']['maire'] ?? $site['fondation']['fondatrice'] ?? '');
+        if ($maire !== '') {
+            $noeud['member'] = [
+                '@type'    => 'Person',
+                'name'     => $maire,
+                // « qualite » qualifie la commune, pas la personne : c'est
+                // « Commune du Territoire de Belfort… », qui n'est pas un
+                // titre de fonction.
+                'jobTitle' => 'Maire',
+            ];
         }
 
         return $noeud;
@@ -958,6 +986,23 @@ final class Seo
         return $specifications !== [] ? $specifications : null;
     }
 
+    /**
+     * « de Belfort », mais « d'Angeot ».
+     *
+     * Les données structurées annonçaient « Commune de Angeot » aux moteurs :
+     * une faute de français sur le nom même de la commune, à l'endroit le plus
+     * repris. L'élision devant voyelle ou h muet est la seule règle qui compte
+     * ici ; le nom vient de site.json et change d'un site à l'autre.
+     */
+    private static function de(string $nom): string
+    {
+        $premiere = mb_strtolower(mb_substr(trim($nom), 0, 1));
+
+        return in_array($premiere, ['a', 'e', 'i', 'o', 'u', 'y', 'h', 'é', 'è', 'ê', 'à', 'î', 'ô', 'û'], true)
+            ? 'd’' . $nom
+            : 'de ' . $nom;
+    }
+
     private static function heure(string $h, string $m): string
     {
         return str_pad($h, 2, '0', STR_PAD_LEFT) . ':' . str_pad($m !== '' ? $m : '0', 2, '0', STR_PAD_LEFT);
@@ -972,8 +1017,14 @@ final class Seo
      * @param callable(string): string $media
      * @return array<string, mixed>
      */
-    private function noeudFiche(string $cle, array $item, string $base, string $commune, callable $media): array
-    {
+    private function noeudFiche(
+        string $cle,
+        array $item,
+        string $base,
+        string $commune,
+        callable $media,
+        string $nomCommune = ''
+    ): array {
         $url = $base . $this->chemin($cle, (string) ($item['slug'] ?? ''));
 
         if (isset($item['titre'])) {
@@ -1004,7 +1055,10 @@ final class Seo
             'serviceType'    => (string) ($item['nom'] ?? ''),
             'provider'       => ['@id' => $commune],
             'serviceOperator' => ['@id' => $commune],
-            'areaServed'     => ['@type' => 'AdministrativeArea', 'name' => 'Angeot'],
+            // Le nom vient de site.json : écrit en dur, il suivait le socle
+            // d'un site à l'autre et annonçait Angeot sur celui d'une autre
+            // commune.
+            'areaServed'     => ['@type' => 'AdministrativeArea', 'name' => $nomCommune],
             'audience'       => ['@type' => 'Audience', 'audienceType' => 'Administrés de la commune'],
         ];
     }

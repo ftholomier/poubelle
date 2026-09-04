@@ -10,7 +10,10 @@
  * @var App\Core\View $view
  */
 $site = $content->load('site');
-$resa = $site['reservation'];
+// « appel » depuis la correction du nommage ; « reservation » venait du site
+// commercial dont le socle est tiré. Les deux se lisent, le temps que les
+// sites déjà en ligne soient réenregistrés une fois.
+$resa = $site['appel'] ?? $site['reservation'] ?? ['principal' => ['libelle' => '', 'url' => '/contact']];
 $tel  = (string) ($site['contact']['telephone'] ?? '');
 ?>
 <section class="bande-cta">

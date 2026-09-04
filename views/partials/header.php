@@ -19,7 +19,10 @@
  * @var string $menuStyle
  */
 $chemin = rtrim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/', '/') ?: '/';
-$resa = $site['reservation'];
+// « appel » depuis la correction du nommage ; « reservation » venait du site
+// commercial dont le socle est tiré. Les deux se lisent, le temps que les
+// sites déjà en ligne soient réenregistrés une fois.
+$resa = $site['appel'] ?? $site['reservation'] ?? ['principal' => ['libelle' => '', 'url' => '/contact']];
 $horizontal = ($menuStyle ?? 'lateral') === 'horizontal';
 
 /** Une entrée de menu est-elle celle de la page affichée ? */

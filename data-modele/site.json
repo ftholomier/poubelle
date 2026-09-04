@@ -25,10 +25,10 @@
     },
     "fondation": {
         "annee": "",
-        "fondatrice": "Michel Nardin, maire",
+        "maire": "Michel Nardin",
         "qualite": "Commune du Territoire de Belfort, Grand Belfort Communauté d’Agglomération"
     },
-    "reservation": {
+    "appel": {
         "principal": {
             "libelle": "Écrire à la mairie",
             "url": "/demande-en-ligne"

@@ -49,8 +49,9 @@ $menuTexte = implode("\n", $lignes);
         <input id="s-annee" type="text" name="annee" value="<?= e($site['fondation']['annee'] ?? '') ?>">
       </div>
       <div class="bo-champ">
-        <label for="s-fondatrice">Fondatrice</label>
-        <input id="s-fondatrice" type="text" name="fondatrice" value="<?= e($site['fondation']['fondatrice'] ?? '') ?>">
+        <label for="s-maire">Maire</label>
+        <input id="s-maire" type="text" name="maire"
+               value="<?= e($site['fondation']['maire'] ?? $site['fondation']['fondatrice'] ?? '') ?>">
       </div>
       <div class="bo-champ">
         <label for="s-qualite">Qualité</label>
@@ -100,12 +101,12 @@ $menuTexte = implode("\n", $lignes);
       <div class="bo-champ">
         <label for="s-cta-lib">Libellé</label>
         <input id="s-cta-lib" type="text" name="cta_libelle"
-               value="<?= e($site['reservation']['principal']['libelle'] ?? '') ?>">
+               value="<?= e($site['appel']['principal']['libelle'] ?? $site['reservation']['principal']['libelle'] ?? '') ?>">
       </div>
       <div class="bo-champ">
         <label for="s-cta-url">Adresse</label>
         <input id="s-cta-url" type="text" name="cta_url"
-               value="<?= e($site['reservation']['principal']['url'] ?? '/contact') ?>">
+               value="<?= e($site['appel']['principal']['url'] ?? $site['reservation']['principal']['url'] ?? '/contact') ?>">
       </div>
     </div>
   </fieldset>

@@ -33,11 +33,4 @@ return [
             'cache'  => $racine . '/storage/cache',
         ];
     })(),
-
-    // Renseigné depuis le site source dès que l'accès réseau est ouvert.
-    'reservation' => [
-        'url'    => null,   // moteur de réservation externe
-        'label'  => 'Réserver',
-        'target' => '_blank',
-    ],
 ];

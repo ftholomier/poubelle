@@ -76,7 +76,11 @@ $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex
 <meta property="og:image" content="<?= e($partage) ?>">
 <meta property="og:locale" content="<?= e($langue === 'fr' ? 'fr_FR' : $langue) ?>">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#1D3730">
+<?php /* La couleur de la barre du navigateur suit la charte : elle était
+         restée sur le vert de l'ancien site, et une commune qui change sa
+         couleur dans le back-office se serait retrouvée avec une barre d'une
+         autre teinte que ses pages. */ ?>
+<meta name="theme-color" content="<?= e($charte->jetons()['bleu-fonce']) ?>">
 <link rel="icon" href="<?= asset('assets/img/logo/favicon-512.png') ?>" type="image/png">
 <link rel="apple-touch-icon" href="<?= asset('assets/img/logo/apple-touch-icon.png') ?>">
 <?php /* Une seule police, chargée en un seul fichier variable : la charte

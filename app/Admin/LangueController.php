@@ -88,12 +88,19 @@ final class LangueController
         $cle = trim((string) ($_POST['cle_deepl'] ?? ''));
         $cle = trim(preg_replace('/^DeepL-Auth-Key\s+/i', '', $cle) ?? $cle);
 
+        $gratuits = isset($_POST['gratuits']);
+
         $tout = $this->parametres->tout();
         $tout['traduction']['cle_deepl'] = $cle;
+        $tout['traduction']['gratuits']  = $gratuits;
         $this->parametres->enregistrer($tout);
 
         if ($cle === '') {
-            Session::flash('succes', 'Clé retirée : la traduction repassera par les services gratuits.');
+            Session::flash('succes', $gratuits
+                ? 'Clé retirée : la traduction passera par les services gratuits.'
+                : 'Clé retirée, et les services gratuits ne sont pas autorisés : '
+                . 'la traduction automatique est désormais hors service. '
+                . 'Les traductions déjà faites restent en place.');
             return $this->rediriger();
         }
 
@@ -164,6 +171,7 @@ final class LangueController
             'total'       => $total,
             'proposees'   => array_diff_key(Langues::CONNUES, $this->langues->toutes()),
             'cleDeepL'    => (string) $this->parametres->get('traduction.cle_deepl', ''),
+            'gratuitsAutorises' => (bool) $this->parametres->get('traduction.gratuits', false),
             'deepLUtilise' => (int) $this->parametres->get('traduction.deepl_caracteres', 0),
             'deepLQuota'   => self::DEEPL_QUOTA,
         ], 'admin/layout');

@@ -71,6 +71,9 @@ final class Parametres
         // (HTTP 429), leur adresse IP étant partagée avec d'autres sites
         'traduction' => [
             'cle_deepl' => '',
+            // Voir App\Core\TraductionAuto : le repli gratuit envoie le texte
+            // des pages chez Google puis MyMemory, et cela se décide.
+            'gratuits'  => false,
             // l'offre gratuite de DeepL n'accorde ce million qu'une fois, pour
             // la vie du compte : sans compteur, on ne sait qu'on l'a épuisé
             // qu'au moment où le service refuse

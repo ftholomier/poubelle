@@ -111,10 +111,21 @@ use App\Core\Csrf;
       <input id="l-cle" type="text" name="cle_deepl" value="<?= e($cleDeepL) ?>"
              spellcheck="false" autocapitalize="off"
              placeholder="00000000-0000-0000-0000-000000000000:fx">
-      <span class="aide">À créer sur <code>deepl.com/pro-api</code> (offre « Free »). Laissez vide
-        pour vous passer du secours : la traduction s’arrêtera alors dès que Google et MyMemory
-        refuseront, sans entamer de quota.</span>
+      <span class="aide">À créer sur <code>deepl.com/pro-api</code> (offre « Free »).</span>
     </div>
-    <button class="bo-btn" type="submit">Enregistrer la clé</button>
+
+    <div class="bo-champ">
+      <label class="bo-case">
+        <input type="checkbox" name="gratuits" value="1"<?= $gratuitsAutorises ? ' checked' : '' ?>>
+        Autoriser les services de traduction gratuits
+      </label>
+      <span class="aide">Sans clé DeepL, la traduction passe par
+        <strong>Google Traduction</strong> puis <strong>MyMemory</strong> : le texte des pages
+        leur est envoyé, et il sort donc du serveur de la commune. Ces deux services sont
+        gratuits mais comptent par adresse IP, partagée sur un hébergement mutualisé.
+        Décochez pour que rien ne parte ailleurs que chez DeepL.</span>
+    </div>
+
+    <button class="bo-btn" type="submit">Enregistrer</button>
   </fieldset>
 </form>

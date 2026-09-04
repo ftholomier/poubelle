@@ -1,4 +1,4 @@
-# Menuiserie Tréhant — configuration Apache du répertoire public.
+# Mairie d’Angeot — configuration Apache du répertoire public.
 # La racine web (DocumentRoot) doit pointer sur /public : /app, /config,
 # /data et /views restent alors hors d'atteinte depuis le navigateur.
 
