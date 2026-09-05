@@ -86,6 +86,13 @@ $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex
 <?php /* Une seule police, chargée en un seul fichier variable : la charte
          n'en prévoit pas d'autre, et le contraste vient des graisses. */ ?>
 <link rel="preload" href="<?= url('assets/fonts/montserrat-latin-variable.woff2') ?>" as="font" type="font/woff2" crossorigin>
+<?php /* La photo de bandeau, annoncée par la page (voir precharger_image).
+         Posée en fond CSS, le navigateur ne la découvrirait qu'après avoir
+         lu la feuille de style : deux allers-retours de retard sur la seule
+         image que le visiteur regarde. */ ?>
+<?php foreach (liens_de_precharge() as $__precharge): ?>
+  <link rel="preload" href="<?= e($__precharge) ?>" as="image" fetchpriority="high">
+<?php endforeach; ?>
 <link rel="stylesheet" href="<?= asset('assets/css/site.css') ?>">
 <?php /* La palette, dérivée de la couleur choisie au back-office.
 

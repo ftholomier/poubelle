@@ -29,7 +29,7 @@ $groupes = (array) ($conseil['groupes'] ?? []);
 <section class="section">
   <div class="conteneur">
     <figure class="figure-large reveler">
-      <img src="<?= image($conseil['photo']) ?>" alt="<?= e($conseil['photo_alt'] ?? '') ?>" loading="lazy">
+      <?= balise_image($conseil['photo'], (string) ($conseil['photo_alt'] ?? '')) ?>
       <?php if (!empty($conseil['photo_legende'])): ?>
         <figcaption class="figure-large__legende"><?= e($conseil['photo_legende']) ?></figcaption>
       <?php endif; ?>

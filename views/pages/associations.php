@@ -36,8 +36,8 @@ $hero = ($page['hero'] ?? []) + ['titre' => $page['titre'] ?? '', 'image' => '']
             <?php /* La photo est facultative : une association qui n'en fournit
                      pas garde une fiche de texte, sans trou dans la grille. */ ?>
             <?php if (!empty($asso['image'])): ?>
-              <img class="association__photo" src="<?= image($asso['image']) ?>"
-                   alt="<?= e($asso['image_alt'] ?? '') ?>" loading="lazy">
+              <?= balise_image($asso['image'], (string) ($asso['image_alt'] ?? ''),
+                                 ['classe' => 'association__photo']) ?>
             <?php endif; ?>
             <?php if (!empty($asso['objet'])): ?>
               <p class="association__objet"><?= e($asso['objet']) ?></p>

@@ -41,7 +41,10 @@ $suite = array_slice($items, 1);
     <article class="une reveler">
       <a class="une__lien" href="<?= route('actualites', $une['slug']) ?>">
         <div class="une__media">
-          <img src="<?= image($une['image'] ?? '') ?>" alt="<?= e($une['image_alt'] ?? '') ?>">
+          <?php /* La photo « à la une » ouvre la page : elle n'est pas
+                   différée, sans quoi elle partirait après tout le reste. */ ?>
+          <?= balise_image($une['image'] ?? '', (string) ($une['image_alt'] ?? ''),
+                           ['chargement' => 'eager', 'priorite' => true]) ?>
         </div>
         <div class="une__corps">
           <p class="surtitre"><?= e(date_texte((string) ($une['date'] ?? ''))) ?></p>
@@ -62,7 +65,7 @@ $suite = array_slice($items, 1);
         <li class="carte-actu reveler">
           <a href="<?= route('actualites', $item['slug']) ?>">
             <figure class="carte-actu__media">
-              <img src="<?= image($item['image'] ?? '', true) ?>" alt="<?= e($item['image_alt'] ?? '') ?>" loading="lazy">
+              <?= balise_image($item['image'] ?? '', (string) ($item['image_alt'] ?? ''), ['vignette' => true]) ?>
             </figure>
             <p class="carte-actu__date"><?= e(date_texte((string) ($item['date'] ?? ''))) ?></p>
             <h3 class="carte-actu__titre"><?= e($item['titre'] ?? '') ?></h3>

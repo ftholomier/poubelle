@@ -62,7 +62,7 @@ case 'duo': ?>
            cadre 4/3 réservé aux paysages. */ ?>
   <div class="duo<?= ($bloc['sens'] ?? '') === 'image-droite' ? ' duo--inverse' : '' ?><?= ($bloc['cadrage'] ?? '') === 'portrait' ? ' duo--portrait' : '' ?>">
     <div class="duo__media">
-      <img src="<?= image($bloc['image'] ?? '') ?>" alt="<?= e($bloc['image_alt'] ?? '') ?>" loading="lazy">
+      <?= balise_image($bloc['image'] ?? '', (string) ($bloc['image_alt'] ?? '')) ?>
     </div>
     <div class="duo__texte">
       <?php if (!empty($bloc['titre'])): ?><h2 class="titre-section"><?= e($bloc['titre']) ?></h2><?php endif; ?>
@@ -271,7 +271,7 @@ case 'chiffres': ?>
 // -------------------------------------------------------------- photo
 case 'photo': ?>
   <figure class="figure-large">
-    <img src="<?= image($bloc['image'] ?? '') ?>" alt="<?= e($bloc['image_alt'] ?? '') ?>" loading="lazy">
+    <?= balise_image($bloc['image'] ?? '', (string) ($bloc['image_alt'] ?? '')) ?>
     <?php if (!empty($bloc['legende'])): ?>
       <figcaption class="figure-large__legende"><?= e($bloc['legende']) ?></figcaption>
     <?php endif; ?>

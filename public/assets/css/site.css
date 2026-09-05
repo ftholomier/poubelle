@@ -204,7 +204,19 @@ body {
   overflow-wrap: break-word;
 }
 
-img { max-width: 100%; display: block; }
+/* `height: auto` va avec les attributs width/height que balise_image() pose
+   sur chaque photo : sans lui, une image contrainte en largeur garderait la
+   hauteur inscrite dans l'attribut et se déformerait. Les deux vont toujours
+   ensemble — c'est le prix à payer pour que le navigateur réserve la place
+   avant l'arrivée du fichier, et donc pour que la page ne saute plus. */
+img { max-width: 100%; height: auto; display: block; }
+
+/* `display: contents` : le <picture> ajouté autour des photos disparaît de
+   l'arbre de mise en page, et l'<img> reste l'élément de flex ou de grille
+   qu'il était. Sans cette ligne, c'est le <picture> qui devient l'élément,
+   l'<img> se dimensionne à son contenu, et toutes les cartes à photo
+   recadrée s'effondrent d'un coup. */
+picture { display: contents; }
 a { color: inherit; text-decoration: none; }
 ul, ol { list-style: none; }
 button { font: inherit; background: none; border: 0; cursor: pointer; color: inherit; }

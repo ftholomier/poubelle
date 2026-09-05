@@ -23,8 +23,8 @@ if (($items ?? []) === []) {
               data-visionneuse="<?= e(image($item['image'])) ?>"
               data-legende="<?= e($legende) ?>"
               aria-label="<?= e(t('Agrandir')) ?> — <?= e($legende) ?>">
-        <img src="<?= image($item['image'], true) ?>" alt="<?= e($legende) ?>"
-             loading="<?= $i < 8 ? 'eager' : 'lazy' ?>" decoding="async">
+        <?= balise_image($item['image'], $legende,
+                          ['vignette' => true, 'chargement' => $i < 8 ? 'eager' : 'lazy']) ?>
         <?php /* Étiquette inutile quand toute la galerie est d'une même
                  catégorie : elle ne ferait que répéter le titre. */ ?>
         <?php if ($etiquettes && ($item['categorie'] ?? '') !== ''): ?>

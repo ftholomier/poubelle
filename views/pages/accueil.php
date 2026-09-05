@@ -48,8 +48,13 @@ $voile = App\Core\Bandeau::voile($hero['voile'] ?? null);
          style="--pause: <?= $pause ?>s; --voile: <?= number_format($voile / 100, 2, '.', '') ?>">
   <div class="heros__fond heros__fond--diaporama" data-diaporama>
     <?php foreach ($vues as $rang => $vue): ?>
+      <?php /* Seule la première vue est annoncée à l'en-tête : c'est la
+               seule que le visiteur voit tout de suite, et les suivantes
+               n'apparaissent qu'après plusieurs secondes. */ ?>
       <div class="heros__photo<?= $rang === 0 ? ' est-visible' : '' ?>" data-vue
-           style="background-image:url('<?= image($vue['image']) ?>')"
+           style="background-image:url('<?= $rang === 0
+               ? precharger_image($vue['image'])
+               : image($vue['image']) ?>')"
            aria-hidden="true"></div>
     <?php endforeach; ?>
   </div>
@@ -165,7 +170,7 @@ $voile = App\Core\Bandeau::voile($hero['voile'] ?? null);
               <li class="carte-actu reveler">
                 <a href="<?= route('actualites', $actu['slug']) ?>">
                   <figure class="carte-actu__media">
-                    <img src="<?= image($actu['image'] ?? '', true) ?>" alt="<?= e($actu['image_alt'] ?? '') ?>" loading="lazy">
+                    <?= balise_image($actu['image'] ?? '', (string) ($actu['image_alt'] ?? ''), ['vignette' => true]) ?>
                   </figure>
                   <p class="carte-actu__date"><?= e(date_texte((string) ($actu['date'] ?? ''))) ?></p>
                   <h3 class="carte-actu__titre"><?= e($actu['titre'] ?? '') ?></h3>
@@ -210,8 +215,7 @@ $voile = App\Core\Bandeau::voile($hero['voile'] ?? null);
   <div class="conteneur">
     <div class="duo">
       <div class="duo__media reveler">
-        <img src="<?= image($page['village']['image']) ?>"
-             alt="<?= e($page['village']['image_alt'] ?? '') ?>" loading="lazy">
+        <?= balise_image($page['village']['image'], (string) ($page['village']['image_alt'] ?? '')) ?>
       </div>
 
       <div class="duo__texte reveler">

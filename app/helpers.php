@@ -180,6 +180,161 @@ if (!function_exists('image')) {
     }
 }
 
+if (!function_exists('dimensions_image')) {
+    /**
+     * Largeur et hauteur d'une image du site, ou null.
+     *
+     * `getimagesize()` ne lit que l'en-tête du fichier, quelques octets : une
+     * page de douze photos coûte douze petites lectures, et rien ne justifie
+     * d'y ajouter un cache sur disque avec ses écritures concurrentes et son
+     * invalidation à tenir. Le cache tient à la requête, pour les images qui
+     * reviennent.
+     *
+     * @return array{0: int, 1: int}|null
+     */
+    function dimensions_image(string $url): ?array
+    {
+        static $connues = [];
+
+        if (array_key_exists($url, $connues)) {
+            return $connues[$url];
+        }
+
+        $racine = (string) ($GLOBALS['config']['paths']['public'] ?? '');
+        // asset() ajoute un ?v= : le disque ne connaît pas ce suffixe.
+        $chemin = (string) (parse_url($url, PHP_URL_PATH) ?: '');
+        $fichier = $racine . '/' . ltrim($chemin, '/');
+
+        $taille = is_file($fichier) ? @getimagesize($fichier) : false;
+
+        return $connues[$url] = $taille === false
+            ? null
+            : [(int) $taille[0], (int) $taille[1]];
+    }
+}
+
+if (!function_exists('balise_image')) {
+    /**
+     * Une photo du contenu, avec ses dimensions et sa variante WebP.
+     *
+     * Les dix-huit `<img>` des gabarits étaient écrits à la main, et aucun ne
+     * portait `width`/`height` : le navigateur ne connaissait la place à
+     * réserver qu'une fois la photo arrivée, et la page sautait sous les
+     * doigts du lecteur — c'est ce que mesure le « décalage cumulé » des
+     * outils de performance. Les dimensions viennent du fichier lui-même :
+     * écrites dans le gabarit, elles auraient menti au premier recadrage.
+     *
+     * Le `<picture>` sert le WebP à qui le comprend et le JPEG aux autres,
+     * pour un quart à un tiers d'octets en moins. Il est neutralisé en CSS
+     * par `picture { display: contents }` : sans cela il deviendrait
+     * lui-même l'élément de flex ou de grille, et l'image cesserait de
+     * remplir sa carte.
+     *
+     * @param array{vignette?: bool, classe?: string, chargement?: string,
+     *              priorite?: bool, attributs?: string} $options
+     */
+    function balise_image(?string $chemin, string $alt, array $options = []): string
+    {
+        $url = image($chemin, (bool) ($options['vignette'] ?? false));
+        $mesure = dimensions_image($url);
+
+        $attributs = ' src="' . e($url) . '" alt="' . e($alt) . '"';
+        if ($mesure !== null) {
+            $attributs .= ' width="' . $mesure[0] . '" height="' . $mesure[1] . '"';
+        }
+        if (($options['classe'] ?? '') !== '') {
+            $attributs .= ' class="' . e((string) $options['classe']) . '"';
+        }
+        /* La première image d'une page ne doit PAS être différée : elle est
+           celle que le lecteur attend, et `loading="lazy"` la ferait partir
+           après le reste. D'où le choix explicite à chaque appel. */
+        $attributs .= ' loading="' . (($options['chargement'] ?? 'lazy') === 'eager' ? 'eager' : 'lazy') . '"';
+        $attributs .= ' decoding="async"';
+        if (($options['priorite'] ?? false) === true) {
+            $attributs .= ' fetchpriority="high"';
+        }
+        $attributs .= (string) ($options['attributs'] ?? '');
+
+        $webp = webp_de($url);
+        if ($webp === null) {
+            return '<img' . $attributs . '>';
+        }
+
+        return '<picture><source type="image/webp" srcset="' . e($webp) . '">'
+            . '<img' . $attributs . '></picture>';
+    }
+}
+
+if (!function_exists('webp_de')) {
+    /**
+     * L'adresse WebP d'une photo, si elle a été fabriquée.
+     *
+     * Elle l'est à l'import par la médiathèque, et par outils/images-webp.php
+     * pour les photos déjà en place. Absente, on sert le JPEG : le site ne
+     * dépend pas de la présence de la variante, ni du support de GD chez
+     * l'hébergeur.
+     */
+    function webp_de(string $url): ?string
+    {
+        static $connues = [];
+
+        if (array_key_exists($url, $connues)) {
+            return $connues[$url];
+        }
+
+        $chemin = (string) (parse_url($url, PHP_URL_PATH) ?: '');
+        $candidat = preg_replace('/\.(jpe?g|png)$/i', '.webp', $chemin);
+        if ($candidat === null || $candidat === $chemin) {
+            return $connues[$url] = null;
+        }
+
+        $racine = (string) ($GLOBALS['config']['paths']['public'] ?? '');
+
+        return $connues[$url] = is_file($racine . '/' . ltrim($candidat, '/'))
+            ? asset(ltrim($candidat, '/'))
+            : null;
+    }
+}
+
+if (!function_exists('precharger_image')) {
+    /**
+     * Demande le préchargement d'une image, et rend son adresse.
+     *
+     * Réservé à la photo de bandeau, qui est la plus grande de la page et
+     * donc celle sur laquelle se mesure le temps d'affichage perçu. Elle est
+     * posée en fond CSS : le navigateur ne la découvre qu'après avoir
+     * téléchargé et lu la feuille de style, soit deux allers-retours plus
+     * tard qu'une balise `<img>`. Le lien de préchargement la lui annonce
+     * dès l'en-tête du document.
+     *
+     * Rien d'autre ne doit passer par ici : précharger dix images revient à
+     * n'en précharger aucune, puisque toutes se disputent alors la même
+     * bande passante.
+     *
+     * Le gabarit rend l'adresse et l'écrit dans son style ; le registre sert
+     * à l'en-tête, rendu APRÈS la page — App\Core\View assemble le contenu
+     * puis la mise en page, dans cet ordre.
+     */
+    function precharger_image(?string $chemin): string
+    {
+        $url = image($chemin);
+        if (!isset($GLOBALS['precharges'])) {
+            $GLOBALS['precharges'] = [];
+        }
+        $GLOBALS['precharges'][$url] = true;
+
+        return $url;
+    }
+}
+
+if (!function_exists('liens_de_precharge')) {
+    /** @return string[] les adresses annoncées par la page en cours */
+    function liens_de_precharge(): array
+    {
+        return array_keys((array) ($GLOBALS['precharges'] ?? []));
+    }
+}
+
 if (!function_exists('jetons')) {
     /**
      * Remplace les jetons d'un texte saisi dans le back-office.

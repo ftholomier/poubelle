@@ -44,7 +44,7 @@ $hero = ($item['hero'] ?? []) + [
         <li class="carte-actu reveler">
           <a href="<?= route('actualites', $autre['slug']) ?>">
             <figure class="carte-actu__media">
-              <img src="<?= image($autre['image'] ?? '', true) ?>" alt="<?= e($autre['image_alt'] ?? '') ?>" loading="lazy">
+              <?= balise_image($autre['image'] ?? '', (string) ($autre['image_alt'] ?? ''), ['vignette' => true]) ?>
             </figure>
             <p class="carte-actu__date"><?= e(date_texte((string) ($autre['date'] ?? ''))) ?></p>
             <h3 class="carte-actu__titre"><?= e($autre['titre'] ?? '') ?></h3>

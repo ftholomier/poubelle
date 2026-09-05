@@ -13,7 +13,7 @@
 <section class="heros heros--page">
   <div class="heros__fond">
     <div class="heros__photo heros__photo--anime"
-         style="background-image:url('<?= image($hero['image'] ?? '') ?>')"></div>
+         style="background-image:url('<?= precharger_image($hero['image'] ?? '') ?>')"></div>
   </div>
   <div class="heros__contenu conteneur">
     <?php if (!empty($hero['surtitre'])): ?>
