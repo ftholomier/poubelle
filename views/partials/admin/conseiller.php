@@ -17,7 +17,13 @@ if (!isset($conseiller) || !$conseiller->actif()) {
 
 use App\Core\Csrf;
 ?>
-<div class="bo-conseil" data-conseil data-conseil-jeton="<?= e(Csrf::jeton()) ?>">
+<?php /* Les adresses viennent de url(), qui sait ajouter le préfixe d'une
+         implantation en sous-dossier. Le script ne les invente pas : c'est la
+         même règle que le fragment de l'assistant public, dont le JS lit
+         l'attribut action du formulaire plutôt que d'écrire /api/assistant. */ ?>
+<div class="bo-conseil" data-conseil data-conseil-jeton="<?= e(Csrf::jeton()) ?>"
+     data-conseil-adresse="<?= e(url('/admin/conseiller')) ?>"
+     data-conseil-adresse-bilan="<?= e(url('/admin/conseiller/bilan')) ?>">
   <?php /* Le libellé reste dans le document même quand la pastille est
            réduite : masqué en CSS, il est lu par les lecteurs d'écran et
            donne au bouton son nom accessible. Un aria-label en plus le

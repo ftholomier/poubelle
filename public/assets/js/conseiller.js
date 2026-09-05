@@ -18,6 +18,10 @@
   if (!boite) return;
 
   var jeton = boite.getAttribute("data-conseil-jeton") || "";
+  /* Jamais d'adresse écrite en dur : le site peut être servi depuis un
+     sous-dossier, et url() y ajoute un préfixe que ce fichier ne connaît pas. */
+  var ADRESSE = boite.getAttribute("data-conseil-adresse") || "";
+  var ADRESSE_BILAN = boite.getAttribute("data-conseil-adresse-bilan") || "";
   var pastille = boite.querySelector("[data-conseil-ouvrir]");
   var panneau = boite.querySelector("#bo-conseil-panneau");
   var fermer = boite.querySelector("[data-conseil-fermer]");
@@ -29,6 +33,7 @@
   var lancer = boite.querySelector("[data-conseil-lancer]");
 
   if (!pastille || !panneau || !fil || !form || !champ) return;
+  if (!ADRESSE || !ADRESSE_BILAN) return;
 
   /* Le fil de la conversation survit à un changement d'écran : le conseiller
      est ouvert PENDANT qu'on travaille, et l'on navigue en le lisant. Il ne
@@ -224,7 +229,7 @@
     message("agent", question);
     var patiente = attente(fil, "Le conseiller lit le site…");
 
-    demander("/admin/conseiller", { question: question, historique: historique })
+    demander(ADRESSE, { question: question, historique: historique })
       .then(function (json) {
         patiente.remove();
         message("conseil", json.reponse || "");
@@ -314,7 +319,7 @@
       zoneBilan.textContent = "";
       var patiente = attente(zoneBilan, "Le conseiller relit tout le site. Comptez une minute.");
 
-      demander("/admin/conseiller/bilan", {})
+      demander(ADRESSE_BILAN, {})
         .then(function (json) {
           patiente.remove();
           afficherBilan(json);
@@ -349,7 +354,7 @@
 
       // le dernier bilan connu s'affiche sans rien redemander à Google
       if (vise === "bilan" && zoneBilan && !zoneBilan.querySelector(".bo-conseil__reco")) {
-        fetch("/admin/conseiller/bilan", { credentials: "same-origin" })
+        fetch(ADRESSE_BILAN, { credentials: "same-origin" })
           .then(function (r) { return r.json(); })
           .then(function (json) { if (json && json.recommandations && json.recommandations.length) afficherBilan(json); })
           .catch(function () { /* pas de bilan enregistré : le texte d'accueil reste */ });
