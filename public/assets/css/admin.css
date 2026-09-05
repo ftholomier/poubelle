@@ -2093,13 +2093,21 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
 .bo-conseil__message--erreur { background: rgba(217, 138, 138, .12); color: var(--rouge); }
 .bo-conseil__puces { display: grid; gap: .35rem; padding-left: 1.1rem; list-style: disc; }
 
+/* L'encadré dit ce qu'il est. Sans son titre, c'était un cadre muet suivi
+   d'un bouton « Copier » : personne ne pouvait deviner que le cadre contenait
+   un texte destiné à être collé dans un champ du site. */
 .bo-conseil__proposition {
   border-left: 2px solid var(--accent); background: var(--fond);
-  padding: .7rem .9rem; display: grid; gap: .6rem;
+  padding: .7rem .9rem; display: grid; gap: .5rem;
+}
+.bo-conseil__proposition-titre {
+  font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent-clair);
 }
 .bo-conseil__proposition-texte { white-space: pre-wrap; }
-.bo-conseil__proposition-gestes { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
-.bo-conseil__aide { color: var(--texte-2); font-size: .78rem; }
+.bo-conseil__proposition-gestes {
+  display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-top: .2rem;
+}
 
 .bo-conseil__reco { display: grid; gap: .4rem; padding: .8rem .9rem; background: var(--fond-3); }
 /* La bande de gauche dit l'urgence sans compter sur la seule couleur : le

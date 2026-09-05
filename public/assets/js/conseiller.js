@@ -99,17 +99,31 @@
     });
   };
 
-  /* Un texte proposé, avec le bouton qui le pose dans un champ.
+  /* Un texte proposé par le conseiller, et ce qu'on peut en faire.
    *
-   * « Poser », et jamais « enregistrer » : la mairie voit le texte dans son
-   * formulaire, le relit, et valide elle-même. Un modèle de langage invente
-   * des pièces à fournir avec beaucoup d'aplomb — le dernier geste reste
-   * humain, c'est la règle de ce site. */
+   * La première version disait « Cliquez d'abord dans le champ à remplir, puis
+   * redemandez », et posait un bouton « Copier » sans dire quoi. Signalé à
+   * l'usage, et à juste titre : le message reprochait à l'agent de ne pas
+   * avoir fait une chose que rien ne lui avait demandée, « redemandez »
+   * laissait croire qu'il fallait reposer la question, et « Copier » ne
+   * disait ni quoi ni où.
+   *
+   * Trois règles en sont sorties, qui valent pour tout ce panneau :
+   *   · un encadré dit ce qu'il est — d'où le titre « Texte proposé » ;
+   *   · un bouton dit ce qu'il fait, et nomme sa cible ;
+   *   · on ne reproche jamais rien à l'agent : ce qui n'est pas possible
+   *     ne s'affiche pas, au lieu de s'afficher en reproche.
+   */
   var proposition = function (texte, ou) {
     if (!texte) return;
 
     var cadre = document.createElement("div");
     cadre.className = "bo-conseil__proposition";
+
+    var titre = document.createElement("p");
+    titre.className = "bo-conseil__proposition-titre";
+    titre.textContent = "Texte proposé";
+    cadre.appendChild(titre);
 
     var corps = document.createElement("p");
     corps.className = "bo-conseil__proposition-texte";
@@ -119,41 +133,53 @@
     var gestes = document.createElement("p");
     gestes.className = "bo-conseil__proposition-gestes";
 
-    /* Le champ visé est le dernier que l'agent a touché sur l'écran. C'est
-       plus sûr que de laisser le modèle nommer un champ : il se tromperait,
-       et poserait un texte dans la mauvaise case sans qu'on le voie. */
+    var copier = document.createElement("button");
+    copier.type = "button";
+    copier.className = "bo-btn bo-btn--petit";
+    copier.textContent = "Copier le texte";
+    copier.addEventListener("click", function () {
+      /* navigator.clipboard n'existe QUE sur une origine sûre : en https, ou
+         sur localhost. Un back-office servi en http — une recette, un site pas
+         encore basculé — n'y a pas droit, et le bouton ne faisait alors
+         strictement rien, sans le dire. On sélectionne le texte à la place :
+         l'agent finit au clavier, ce qu'il sait faire. */
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(texte).then(function () {
+          copier.textContent = "Texte copié";
+        }, selectionner);
+        return;
+      }
+      selectionner();
+    });
+
+    var selectionner = function () {
+      var plage = document.createRange();
+      plage.selectNodeContents(corps);
+      var selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(plage);
+      copier.textContent = "Sélectionné — faites Ctrl+C";
+    };
+
+    gestes.appendChild(copier);
+
+    /* Le second bouton n'apparaît que s'il a une cible, et il la NOMME. Sans
+       champ ouvert, il n'y a pas de bouton — et surtout pas de message pour
+       expliquer son absence. */
     if (dernierChamp && document.contains(dernierChamp)) {
       var poser = document.createElement("button");
       poser.type = "button";
-      poser.className = "bo-btn bo-btn--petit";
-      poser.textContent = "Poser dans « " + nomLisible(dernierChamp) + " »";
+      poser.className = "bo-btn bo-btn--contour bo-btn--petit";
+      poser.textContent = "Remplacer « " + nomLisible(dernierChamp) + " »";
       poser.addEventListener("click", function () {
         dernierChamp.value = texte;
         dernierChamp.dispatchEvent(new Event("input", { bubbles: true }));
         dernierChamp.focus();
-        poser.textContent = "Posé — à relire puis enregistrer";
+        poser.textContent = "Fait — relisez, puis enregistrez la page";
         poser.disabled = true;
       });
       gestes.appendChild(poser);
-    } else {
-      var aide = document.createElement("span");
-      aide.className = "bo-conseil__aide";
-      aide.textContent = "Cliquez d’abord dans le champ à remplir, puis redemandez.";
-      gestes.appendChild(aide);
     }
-
-    var copier = document.createElement("button");
-    copier.type = "button";
-    copier.className = "bo-btn bo-btn--fantome bo-btn--petit";
-    copier.textContent = "Copier";
-    copier.addEventListener("click", function () {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(texte).then(function () {
-          copier.textContent = "Copié";
-        }, function () { /* refus du navigateur : rien à dire */ });
-      }
-    });
-    gestes.appendChild(copier);
 
     cadre.appendChild(gestes);
     ou.appendChild(cadre);

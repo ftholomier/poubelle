@@ -42,6 +42,9 @@ Ce qui est contrôlé, à cinq largeurs :
 
   · l'ÉTAT : `hidden` doit cacher, une seule vue à la fois, et l'aller-retour
     entre les deux onglets doit revenir d'où il vient ;
+  · la LISIBILITÉ de l'encadré de texte proposé : un titre qui dit ce qu'il
+    est, des libellés de boutons qui nomment leur effet, et aucun texte qui
+    reproche à l'agent de ne pas avoir deviné ;
   · le contraste de chaque texte, par l'arithmétique de contraste.py ;
   · les cibles tactiles à 44 px — pastille, onglets, boutons, fermeture ;
   · le débordement latéral de la page, pastille posée ;
@@ -261,6 +264,7 @@ def mesurer(pg, base, chemin, largeur, contraste) -> list:
     pg.wait_for_timeout(250)
 
     ecarts += etat_coherent(pg, 'echange')
+    ecarts += proposition_lisible(pg)
     ecarts += hors_cadre(pg)
     ecarts += cibles_trop_petites(pg)
     ecarts += contrastes(pg, contraste)
@@ -355,6 +359,55 @@ def etat_coherent(pg, attendu: str) -> list:
     vues = pg.evaluate(VUES_VISIBLES)
     if vues != [attendu]:
         ecarts.append('vue(s) affichée(s) : %s — attendu : [%s]' % (vues or 'aucune', attendu))
+
+    return ecarts
+
+
+# Ce que doit contenir un encadré de texte proposé pour être compréhensible.
+#
+# La première version en affichait un sans titre, avec un bouton « Copier »
+# muet et, quand aucun champ n'était ouvert, la phrase « Cliquez d'abord dans
+# le champ à remplir, puis redemandez ». Signalé à l'usage : le cadre ne disait
+# pas ce qu'il était, le bouton ne disait ni quoi ni où, et la phrase
+# reprochait à l'agent de ne pas avoir fait une chose que rien ne lui avait
+# demandée. Rien de tout cela n'est mesurable au contraste ou au pixel — mais
+# la présence d'un titre et la longueur d'un libellé, si.
+PROPOSITION = """() => {
+  const cadre = document.querySelector('.bo-conseil__proposition');
+  if (!cadre) return null;
+  const titre = cadre.querySelector('.bo-conseil__proposition-titre');
+  return {
+    titre: titre ? titre.textContent.trim() : '',
+    boutons: [...cadre.querySelectorAll('button')].map(b => b.textContent.trim()),
+    // Tout texte de l'encadré qui n'est ni le titre, ni le texte proposé, ni
+    // un bouton : c'est là que se logeait le reproche.
+    autres: [...cadre.querySelectorAll('span, em, small')].map(e => e.textContent.trim()).filter(Boolean),
+  };
+}"""
+
+# Un libellé de bouton doit nommer son effet. « Copier » seul ne dit pas quoi,
+# « OK » ne dit rien. Deux mots au moins, et jamais un verbe orphelin.
+VERBES_ORPHELINS = ('copier', 'coller', 'poser', 'ok', 'valider', 'envoyer')
+
+
+def proposition_lisible(pg) -> list:
+    """L'encadré de texte proposé se comprend-il sans avoir écrit le code ?"""
+    v = pg.evaluate(PROPOSITION)
+    if v is None:
+        return ['aucun encadré de texte proposé : la doublure devrait en produire un']
+
+    ecarts = []
+    if v['titre'] == '':
+        ecarts.append('l’encadré de texte proposé n’a pas de titre : rien ne dit ce qu’il est')
+    if not v['boutons']:
+        ecarts.append('l’encadré ne propose aucune action')
+
+    for libelle in v['boutons']:
+        if libelle.lower().rstrip('.…') in VERBES_ORPHELINS:
+            ecarts.append('bouton « %s » : un verbe seul ne dit pas sur quoi il agit' % libelle)
+
+    for texte in v['autres']:
+        ecarts.append('texte non identifié dans l’encadré : « %s »' % texte[:70])
 
     return ecarts
 
