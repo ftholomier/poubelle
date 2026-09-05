@@ -91,12 +91,6 @@ final class Publications
         ));
     }
 
-    /** Combien attendent encore leur heure. */
-    public function enAttente(): int
-    {
-        return count($this->file());
-    }
-
     /** Combien auraient dû partir et n'ont pas encore été dépilées. */
     public function enRetard(int $maintenant): int
     {

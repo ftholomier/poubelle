@@ -573,11 +573,20 @@ final class PageController
             return '';
         }
 
-        http_response_code(404);
+        /* Le routeur a pu poser 405 : l'adresse existe, mais pas pour cette
+           méthode. On garde son code et on le dit, plutôt que d'écraser un
+           diagnostic juste par un « page introuvable » qui envoie chercher
+           une faute de frappe dans l'adresse. */
+        $code = http_response_code() === 405 ? 405 : 404;
+        http_response_code($code);
+
         return $this->rendre('erreur', 'accueil', [
-            'page'  => ['titre' => 'Page introuvable', 'meta' => ['robots' => 'noindex']],
-            'code'  => 404,
-            'titre' => 'Cette page n’existe pas',
+            'page'  => ['titre' => $code === 405 ? 'Requête impossible' : 'Page introuvable',
+                        'meta' => ['robots' => 'noindex']],
+            'code'  => $code,
+            'titre' => $code === 405
+                ? 'Cette adresse ne répond pas à ce type de requête'
+                : 'Cette page n’existe pas',
         ]);
     }
 

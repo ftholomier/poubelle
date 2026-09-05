@@ -311,7 +311,90 @@ final class AdminController
             ];
         }
 
+        /* L'hébergeur est une obligation légale, pas une préférence :
+           l'article 6-III de la LCEN impose de publier son nom, son adresse et
+           son téléphone. Le socle disait « disponibles sur demande », ce qui
+           ne suffit pas. Tant que le champ est vide, la page le dit au
+           visiteur et cette ligne le réclame à la mairie. */
+        if (!$this->hebergeurRenseigne()) {
+            $aFaire[] = [
+                'ton'    => 'urgent',
+                'texte'  => 'Les mentions légales ne nomment pas l’hébergeur du site (obligatoire)',
+                'url'    => '/admin/pages/mentions-legales',
+                'action' => 'Renseigner l’hébergeur',
+            ];
+        }
+
+        /* Un secret de signature qui ne peut pas être écrit est un secret
+           dérivé, donc plus faible. Antispam le signale dans le journal
+           d'erreurs — c'est-à-dire nulle part, pour une mairie. */
+        if (trim((string) $this->parametres->get('antispam.secret', '')) === ''
+            && !$this->parametres->inscriptible()) {
+            $aFaire[] = [
+                'ton'    => 'urgent',
+                'texte'  => 'Le dossier des réglages n’est pas inscriptible : la signature '
+                          . 'des formulaires est affaiblie',
+                'url'    => '/admin/parametres',
+                'action' => 'Voir le diagnostic',
+            ];
+        }
+
+        $perdues = $this->photosPerdues();
+        if ($perdues > 0) {
+            $aFaire[] = [
+                'ton'    => 'attention',
+                'texte'  => $perdues . ' bloc' . ($perdues > 1 ? 's pointent' : ' pointe')
+                          . ' vers une photo qui n’est plus dans la médiathèque',
+                'url'    => '/admin/photos',
+                'action' => 'Voir la médiathèque',
+            ];
+        }
+
         return $aFaire;
+    }
+
+    /** L'hébergeur du site est-il nommé dans les mentions légales ? */
+    private function hebergeurRenseigne(): bool
+    {
+        foreach ((array) $this->content->get('pages/mentions-legales', 'sections', []) as $bloc) {
+            if (is_array($bloc) && ($bloc['type'] ?? '') === 'hebergeur') {
+                return trim((string) ($bloc['raison'] ?? '')) !== '';
+            }
+        }
+
+        // Bloc absent : la page a été remaniée à la main, on ne réclame rien.
+        return true;
+    }
+
+    /**
+     * Combien de photos référencées par le contenu ont disparu du disque.
+     *
+     * `image()` rend « photo à venir » sans rien dire quand le fichier manque :
+     * une photo supprimée de la médiathèque mais encore citée par un bloc
+     * s'efface donc du site en silence, et la mairie ne l'apprend qu'en
+     * relisant ses pages une par une.
+     */
+    private function photosPerdues(): int
+    {
+        $racine = (string) ($GLOBALS['config']['paths']['public'] ?? '');
+        $perdues = 0;
+
+        foreach (array_keys(Contenus::avecPhotos()) as $nom) {
+            try {
+                $donnees = $this->content->load($nom);
+            } catch (\Throwable $e) {
+                continue;
+            }
+            array_walk_recursive($donnees, static function (mixed $valeur) use (&$perdues, $racine): void {
+                if (is_string($valeur)
+                    && str_starts_with($valeur, 'assets/img/site/')
+                    && !is_file($racine . '/' . $valeur)) {
+                    $perdues++;
+                }
+            });
+        }
+
+        return $perdues;
     }
 
     /** « 2026-06-30 » → « 30 juin 2026 ». */

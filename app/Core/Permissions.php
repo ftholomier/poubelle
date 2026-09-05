@@ -154,15 +154,6 @@ final class Permissions
     }
 
     /**
-     * Applique les droits attendus à un fichier qui vient d'être écrit.
-     */
-    public function fichierEcrit(string $chemin): void
-    {
-        $relatif = $this->relatif($chemin);
-        @chmod($chemin, $this->modeCible($chemin, $relatif));
-    }
-
-    /**
      * Crée un dossier avec les bons droits, umask neutralisé.
      */
     public function creerDossier(string $chemin, bool $secret = false): bool

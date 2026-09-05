@@ -13,7 +13,18 @@
         {
             "type": "texte",
             "titre": "État de conformité",
-            "paragraphes": "<p>Ce site a été conçu en visant le référentiel général d’amélioration de l’accessibilité (RGAA). Aucun audit de conformité complet n’a encore été réalisé par un tiers : la déclaration sera mise à jour lorsqu’il aura eu lieu, avec le taux de conformité et la liste des non-conformités constatées.</p>"
+            "paragraphes": "<p>Cette déclaration d’accessibilité a été établie le 5 septembre 2026. Elle s’applique au site de la commune, dans son intégralité.</p><p>Le site a été conçu en visant le référentiel général d’amélioration de l’accessibilité (RGAA), version 4.1. <strong>Aucun audit de conformité complet n’a encore été réalisé par un tiers</strong> : l’état de conformité est donc déclaré <strong>non conforme</strong>, faute de vérification indépendante, et non parce que des manquements auraient été constatés. La déclaration sera mise à jour lorsque l’audit aura eu lieu, avec le taux de conformité et la liste des non-conformités.</p><p>Les contrôles automatiques décrits ci-dessous sont, eux, passés à chaque modification du site.</p>"
+        },
+        {
+            "type": "texte",
+            "titre": "Schéma pluriannuel de mise en accessibilité",
+            "paragraphes": "<p>La commune s’est fixé les étapes suivantes. Elles sont volontairement modestes : une commune de sept cents habitants n’a ni service informatique ni budget d’audit annuel, et un calendrier qu’on ne tiendra pas ne vaut rien.</p>",
+            "liste": [
+                "2026 — maintenir à zéro écart les contrôles automatiques de contraste, de mise en page, de cibles tactiles et de hiérarchie des titres, à chaque modification du site",
+                "2026-2027 — faire relire le site par une personne utilisant un lecteur d’écran, et corriger ce qu’elle signale",
+                "2027 — faire réaliser un audit RGAA par un tiers, puis publier le taux de conformité et la liste des non-conformités",
+                "Chaque année — republier cette déclaration avec sa date de mise à jour"
+            ]
         },
         {
             "type": "texte",

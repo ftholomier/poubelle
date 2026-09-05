@@ -70,6 +70,11 @@ ECRANS = (
     # signaler, et l'assistant recommencerait à répondre au nom d'une commune
     # qui n'est pas la sienne.
     ('/admin/assistant',  '/admin/assistant/consignes', 'assistant.json'),
+    # Les mentions légales portent le bloc « hebergeur », dont les champs sont
+    # une obligation de la LCEN : un name= qui dérive les viderait, et la page
+    # se remettrait à dire que l'hébergeur n'est pas renseigné.
+    ('/admin/pages/mentions-legales', '/admin/pages/mentions-legales',
+     'pages/mentions-legales.json'),
 )
 
 # Le tableau de bord n'enregistre rien : il n'a pas sa place ci-dessus. Il est

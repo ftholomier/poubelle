@@ -346,6 +346,14 @@ chaque ligne se règle depuis le back-office.
 
 **Indispensable :**
 
+0. **L'hébergeur, dans les mentions légales.** C'est une obligation, pas une
+   politesse : l'article 6-III de la LCEN impose de **publier** la
+   dénomination, l'adresse et le téléphone de l'hébergeur. « Disponibles sur
+   demande auprès du secrétariat » — ce que disait le socle — ne suffit pas.
+   Le § « Hébergement » est devenu un bloc à champs (Contenu → Pages de
+   service → Mentions légales) ; tant qu'il est vide, **la page le dit au
+   visiteur** et le tableau de bord le réclame en rouge. Votre prestataire
+   d'hébergement vous donne ces trois lignes.
 1. **Le compte administrateur.** Le premier passage sur `/admin` le crée. Il
    n'y a aucun identifiant par défaut.
 2. **Le SMTP** (Paramètres → Courriel). Sans lui, les deux formulaires
@@ -393,8 +401,13 @@ chaque ligne se règle depuis le back-office.
     panoramas manquent, et ce sont eux qui portent le bandeau d'accueil.
 12. **Déposer les comptes-rendus manquants.** Deux séances annoncées par
     l'ancien site n'avaient pas de PDF en ligne (17 août 2021, 1ᵉʳ avril 2025).
-13. **Renseigner l'hébergeur** dans les mentions légales, § « Hébergement »,
-    une fois le contrat pris.
+13. **Republier la déclaration d'accessibilité chaque année**, avec sa date.
+    Elle porte désormais une date d'établissement et un schéma pluriannuel,
+    tous deux exigés par le RGAA ; une déclaration non datée ne vaut rien.
+14. **Renseigner la protection des formulaires** (Paramètres → Anti-spam) si
+    le site reçoit du courrier automatique. Elle charge alors un test de
+    Cloudflare sur les deux pages à formulaire, et seulement sur elles — c'est
+    décrit dans la politique de confidentialité, qu'il n'y a pas à modifier.
 
 ---
 

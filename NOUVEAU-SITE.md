@@ -253,6 +253,17 @@ crée le compte administrateur au premier passage.
    mêmes teintes éclaircies** en tête de `public/assets/css/admin.css` — le
    back-office est sur fond sombre, les valeurs du site n'y tiennent pas.
 
+**Les photos, une fois déposées :**
+
+```bash
+php outils/images-webp.php     # fabrique les variantes WebP qui allègent
+```
+
+La médiathèque le fait toute seule à chaque import ; le script ne sert qu'à
+rattraper des photos copiées directement dans `public/assets/img/site/`. Il ne
+garde une variante que si elle pèse moins que son JPEG — sur ce site-ci, 28
+des 78 étaient plus lourdes.
+
 ### Étape 3 — Les pages
 
 La table `Seo::PAGES` dans `app/Core/Seo.php` liste les pages fixes et leurs

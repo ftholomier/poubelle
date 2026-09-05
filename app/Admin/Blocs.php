@@ -165,6 +165,24 @@ final class Blocs
                 'lien'        => 'lien',
             ],
         ],
+        /* L'hébergeur est un bloc à champs, et non un paragraphe libre, pour
+           une raison de droit : l'article 6-III de la LCEN impose de PUBLIER
+           son nom, son adresse et son téléphone. Écrit en prose, le
+           renseignement se perd — le socle affirmait « coordonnées
+           disponibles sur demande auprès du secrétariat », ce qui ne suffit
+           pas. En champs, le tableau de bord sait dire qu'ils manquent. */
+        'hebergeur' => [
+            'nom'  => 'Hébergeur du site',
+            'aide' => 'Obligatoire sur les mentions légales : nom, adresse et téléphone de '
+                    . 'l’entreprise qui héberge le site. Votre prestataire vous les donne.',
+            'champs' => [
+                'titre'     => 'ligne',
+                'raison'    => 'ligne',
+                'adresse'   => 'zone',
+                'telephone' => 'ligne',
+                'site'      => 'ligne',
+            ],
+        ],
         'citation' => [
             'nom'  => 'Citation',
             'aide' => 'Une phrase seule, sur fond sombre.',

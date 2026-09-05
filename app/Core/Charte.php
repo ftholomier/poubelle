@@ -210,12 +210,6 @@ final class Charte
         return ':root{' . implode(';', $lignes) . '}';
     }
 
-    /** La couleur telle que la mairie l'a choisie, pour la réafficher. */
-    public function choisie(): string
-    {
-        return self::depuisTsl($this->teinte, $this->saturation, 41.0);
-    }
-
     // ------------------------------------------------------------ résolution
 
     /**

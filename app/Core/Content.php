@@ -45,11 +45,6 @@ final class Content
         $this->cache = [];
     }
 
-    public function langue(): string
-    {
-        return $this->langue;
-    }
-
     /**
      * Charge data/<name>.json.
      *
@@ -313,7 +308,7 @@ final class Content
      */
     private function amorcer(string $name): string
     {
-        $modele = $this->dirModele === '' ? '' : $this->dirModele . '/' . $name . '.json';
+        $modele = $this->cheminModele($name);
         if ($modele === '' || !is_file($modele)) {
             throw new RuntimeException("Contenu introuvable : {$name}.json");
         }
@@ -326,6 +321,35 @@ final class Content
         }
 
         return $modele;
+    }
+
+    /**
+     * Date de dernière modification d'un contenu, ou null.
+     *
+     * Sert au `lastmod` du plan de site. La date du fichier JSON est la bonne
+     * source : elle change exactement quand la mairie enregistre, sans qu'il
+     * faille tenir une date à la main dans le contenu — laquelle serait
+     * oubliée une fois sur deux.
+     *
+     * Le modèle sert de repli, comme pour la lecture : une page que personne
+     * n'a encore ouverte n'a pas de fichier dans data/, et le plan de site la
+     * livrait alors sans date. Mesuré : 19 dates sur 51 adresses.
+     */
+    public function modifie(string $name): ?int
+    {
+        foreach ([$this->path($name), $this->cheminModele($name)] as $fichier) {
+            if ($fichier !== '' && is_file($fichier)) {
+                clearstatcache(true, $fichier);
+                return (int) filemtime($fichier);
+            }
+        }
+
+        return null;
+    }
+
+    private function cheminModele(string $name): string
+    {
+        return $this->dirModele === '' ? '' : $this->dirModele . '/' . $name . '.json';
     }
 
     private function path(string $name): string

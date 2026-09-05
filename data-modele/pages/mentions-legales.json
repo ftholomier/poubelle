@@ -21,9 +21,12 @@
             "paragraphes": "<p>Monsieur Michel Nardin, maire d’Angeot.</p>"
         },
         {
-            "type": "texte",
+            "type": "hebergeur",
             "titre": "Hébergement",
-            "paragraphes": "<p>Le site est hébergé en France. Les coordonnées de l’hébergeur sont disponibles sur demande auprès du secrétariat de mairie.</p>"
+            "raison": "",
+            "adresse": "",
+            "telephone": "",
+            "site": ""
         },
         {
             "type": "texte",

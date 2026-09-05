@@ -166,12 +166,6 @@ final class Frequentation
         return $serie;
     }
 
-    /** Total des pages vues sur la période. */
-    public function total(int $jours = 30): int
-    {
-        return array_sum($this->parJour($jours));
-    }
-
     /**
      * Les pages les plus vues sur la période.
      *

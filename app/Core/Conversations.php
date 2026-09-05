@@ -69,6 +69,11 @@ final class Conversations
         $c['derniere'] = time();
         $c['lu'] = false;
 
+        /* Ce que le navigateur envoie, borné à ce que c'est : un chemin. Il
+           arrivait tel quel du corps de la requête, sans longueur maximale —
+           un journal de conversations n'a pas à porter le texte qu'on veut
+           bien y mettre. */
+        $page = mb_substr((string) (parse_url($page, PHP_URL_PATH) ?: ''), 0, 200);
         if ($page !== '' && !in_array($page, $c['pages'], true)) {
             $c['pages'][] = $page;
         }

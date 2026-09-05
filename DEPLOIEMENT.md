@@ -189,6 +189,12 @@ Puis, à la main :
 - [ ] Une modification dans le back-office apparaît sur le site
 - [ ] `/sitemap.xml` liste bien les pages, `/robots.txt` s'affiche
 
+### Une fois, à la première mise à jour
+
+Le cookie de session a changé de nom (`efadmin` → `mairie_session`) : les
+administrateurs déjà connectés le sont déconnectés une fois, et se
+reconnectent normalement. Rien d'autre à faire.
+
 ### Les en-têtes de sécurité
 
 Ils partent de deux endroits, et c'est voulu : `public/.htaccess` pose ce qui

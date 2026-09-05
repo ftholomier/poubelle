@@ -283,4 +283,28 @@ case 'carte': ?>
   <?= $view->partial('carte', ['implantation' => $bloc['implantation'] ?? []]) ?>
 <?php break;
 
+// ---------------------------------------------------------- hébergeur
+case 'hebergeur': ?>
+  <?php if (trim((string) ($bloc['raison'] ?? '')) === ''): ?>
+    <?php /* Rien n'est inventé : sans renseignement, la page dit qu'il manque
+             plutôt que d'affirmer un hébergeur. Le tableau de bord le réclame
+             tant que le champ est vide. */ ?>
+    <p>Les coordonnées de l’hébergeur n’ont pas encore été renseignées. Elles sont
+       obligatoires : merci de nous les demander par la page « Écrire à la mairie ».</p>
+  <?php else: ?>
+    <p class="coordonnees">
+      <strong><?= e($bloc['raison']) ?></strong>
+      <?php if (trim((string) ($bloc['adresse'] ?? '')) !== ''): ?>
+        <br><?= nl2br(e($bloc['adresse'])) ?>
+      <?php endif; ?>
+      <?php if (trim((string) ($bloc['telephone'] ?? '')) !== ''): ?>
+        <br><a href="<?= e(tel_lien($bloc['telephone'])) ?>"><?= e($bloc['telephone']) ?></a>
+      <?php endif; ?>
+      <?php if (trim((string) ($bloc['site'] ?? '')) !== ''): ?>
+        <br><a href="<?= e($bloc['site']) ?>" rel="noopener"><?= e($bloc['site']) ?></a>
+      <?php endif; ?>
+    </p>
+  <?php endif; ?>
+<?php break;
+
 endswitch; ?>

@@ -17,7 +17,11 @@ final class Session
         $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
             || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https';
 
-        session_name('efadmin');
+        /* « efadmin » venait du site commercial dont ce socle est tiré. Le
+           nom d'un cookie se lit dans le navigateur de l'administré : autant
+           qu'il dise ce qu'il est. Le changer invalide une fois les sessions
+           en cours, ce que DEPLOIEMENT.md signale. */
+        session_name('mairie_session');
         session_set_cookie_params([
             'lifetime' => 0,
             'path'     => '/',

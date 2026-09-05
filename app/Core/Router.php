@@ -64,17 +64,34 @@ final class Router
         $path = rtrim(parse_url($uri, PHP_URL_PATH) ?: '/', '/') ?: '/';
         $cherchee = $method === 'HEAD' ? 'GET' : $method;
 
+        $autresMethodes = [];
         foreach ($this->routes as $route) {
-            if ($route['method'] !== $cherchee) {
+            if (!preg_match($route['regex'], $path, $m)) {
                 continue;
             }
-            if (!preg_match($route['regex'], $path, $m)) {
+            if ($route['method'] !== $cherchee) {
+                $autresMethodes[$route['method']] = true;
                 continue;
             }
             array_shift($m);
             $params = $route['keys'] ? array_combine($route['keys'], $m) : [];
 
             return ($route['handler'])($params);
+        }
+
+        /* L'adresse existe, mais pas pour cette méthode : c'est un 405, pas un
+           404. La nuance n'est pas de la pédanterie — un POST envoyé sur une
+           adresse en GET rendait « page introuvable », et l'on cherchait une
+           faute de frappe dans l'URL au lieu d'une méthode de formulaire. */
+        if ($autresMethodes !== []) {
+            $permises = array_keys($autresMethodes);
+            if (in_array('GET', $permises, true)) {
+                $permises[] = 'HEAD';
+            }
+            http_response_code(405);
+            header('Allow: ' . implode(', ', $permises));
+
+            return $this->notFound ? ($this->notFound)() : '405';
         }
 
         http_response_code(404);

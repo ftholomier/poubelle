@@ -164,6 +164,21 @@ final class Parametres
     /**
      * @param array<string, mixed> $donnees
      */
+    /**
+     * Le fichier de réglages peut-il être écrit ?
+     *
+     * Sur un hébergement dont data/ est en lecture seule, le secret de
+     * signature anti-spam ne peut pas être conservé : Antispam se rabat alors
+     * sur un secret dérivé, plus faible, et l'écrit dans le journal — que
+     * personne ne lit. Le tableau de bord pose la question ici.
+     */
+    public function inscriptible(): bool
+    {
+        return is_file($this->fichier)
+            ? is_writable($this->fichier)
+            : is_dir(dirname($this->fichier)) && is_writable(dirname($this->fichier));
+    }
+
     public function enregistrer(array $donnees): void
     {
         $dossier = dirname($this->fichier);

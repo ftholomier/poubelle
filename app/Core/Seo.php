@@ -739,13 +739,19 @@ final class Seo
         $base = rtrim($base, '/');
         $langues = $langues !== [] ? $langues : [Langues::SOURCE];
 
-        /** @var array<int, array{cle: string, item: string|null, priorite: string}> $pages */
+        /* `lastmod` et rien d'autre. Google annonce depuis des années qu'il
+           ignore `changefreq` et `priority` — une priorité que le site
+           s'attribue lui-même n'apprend rien à personne — et qu'il ne lit
+           que la date de dernière modification, à condition qu'elle soit
+           honnête. Elle l'est ici : c'est la date du fichier JSON, qui change
+           exactement quand la mairie enregistre. */
+        /** @var array<int, array{cle: string, item: string|null, modifie: int|null}> $pages */
         $pages = [];
 
         foreach ($this->pages() as $cle => $page) {
             if ($this->indexable($cle)) {
                 $pages[] = ['cle' => $cle, 'item' => null,
-                            'priorite' => $cle === 'accueil' ? '1.0' : '0.8'];
+                            'modifie' => $this->content->modifie('pages/' . $cle)];
             }
         }
 
@@ -753,9 +759,16 @@ final class Seo
             if (!$this->indexable($cle)) {
                 continue;
             }
+            /* Une fiche n'a pas de fichier à elle : c'est la collection
+               entière qui est réenregistrée. Sa date de publication, quand
+               elle en porte une, est plus juste — et plus ancienne, donc plus
+               crédible qu'une date qui saute à chaque retouche d'une voisine. */
+            $dateCollection = $this->content->modifie($collection);
             foreach ($this->content->publies($collection) as $item) {
                 if (($item['slug'] ?? '') !== '') {
-                    $pages[] = ['cle' => $cle, 'item' => (string) $item['slug'], 'priorite' => '0.7'];
+                    $propre = strtotime((string) ($item['date'] ?? '')) ?: null;
+                    $pages[] = ['cle' => $cle, 'item' => (string) $item['slug'],
+                                'modifie' => $propre ?? $dateCollection];
                 }
             }
         }
@@ -774,8 +787,9 @@ final class Seo
                         . '" href="' . htmlspecialchars(
                             $base . $this->cheminEn($autre, $p['cle'], $p['item']), ENT_XML1) . '"/>';
                 }
-                $lignes[] = '    <changefreq>weekly</changefreq>';
-                $lignes[] = '    <priority>' . $p['priorite'] . '</priority>';
+                if ($p['modifie'] !== null) {
+                    $lignes[] = '    <lastmod>' . date('Y-m-d', $p['modifie']) . '</lastmod>';
+                }
                 $lignes[] = '  </url>';
             }
         }

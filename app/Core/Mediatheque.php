@@ -47,15 +47,6 @@ final class Mediatheque
         return array_map(fn(string $f) => $this->prefixe . '/' . basename($f), $fichiers);
     }
 
-    /**
-     * Vignette d'une image, ou l'image elle-même si aucune n'existe.
-     */
-    public function vignette(string $chemin): string
-    {
-        $mini = preg_replace('/\.(jpe?g|png|webp)$/i', '-mini.jpg', $chemin) ?? $chemin;
-        return is_file($this->dossier . '/' . basename($mini)) ? $mini : $chemin;
-    }
-
     public function existe(string $chemin): bool
     {
         return str_starts_with($chemin, $this->prefixe . '/')

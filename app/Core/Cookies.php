@@ -93,12 +93,4 @@ final class Cookies
 
         return $choix;
     }
-
-    /**
-     * Le visiteur a-t-il accepté cette catégorie ?
-     */
-    public static function accepte(string $categorie): bool
-    {
-        return (bool) (self::choix()[$categorie] ?? false);
-    }
 }

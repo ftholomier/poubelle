@@ -210,12 +210,6 @@ final class TexteRiche
         return trim(preg_replace('/\s+/u', ' ', $texte) ?? '');
     }
 
-    /** Le texte est-il vide une fois la mise en forme retirée ? */
-    public static function estVide(mixed $valeur): bool
-    {
-        return self::enTexte($valeur) === '';
-    }
-
     /** Classes admises sur un <span>. */
     private static function classesSpan(): array
     {

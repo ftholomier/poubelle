@@ -738,6 +738,57 @@ partis avec — la route existait toujours, d'où une erreur 500. Après toute
 suppression, croiser les méthodes appelées par les routes avec celles
 réellement définies.
 
+**Un fichier de routes est lu à chaque requête, même celles qu'il ne sert
+pas.** `routes-admin.php` ne fait que déclarer des routes, mais il armait le
+verrou anti-écrasement en tête de fichier : le site public l'armait donc
+aussi, `Content::load()` y notait une empreinte en session, et **chaque
+visiteur ouvrait une session PHP**. Un cookie posé pour rien, un fichier de
+session par visite sur le disque du mutualisé, et surtout le
+`Cache-Control: no-store` que PHP ajoute d'office dès qu'une session démarre —
+soit un site public qu'aucun navigateur n'avait le droit de garder. Ce qui est
+en tête d'un fichier de routes s'exécute pour toutes les adresses : le
+conditionner au préfixe.
+
+**Le nonce d'une politique de sécurité ne se recopie pas par les attributs.**
+Le navigateur vide l'attribut `nonce` dès l'analyse de la page — c'est une
+protection contre son vol par une feuille de style — et n'en garde la valeur
+que dans la *propriété*. Un script recréé en copiant ses attributs, comme le
+fait le module de consentement, part donc avec `nonce=""` et se fait refuser :
+la mesure d'audience acceptée ne se chargeait jamais, sans autre trace qu'une
+ligne de console. Copier `element.nonce`, pas `getAttribute('nonce')`.
+
+**Un nonce et `'unsafe-inline'` s'excluent.** Dès qu'une directive porte un
+nonce, le navigateur ignore `'unsafe-inline'` — c'est la norme, pas un défaut.
+Les scripts prennent donc le nonce, et les styles gardent `'unsafe-inline'` :
+le socle a besoin du style en ligne pour les jetons de la charte et la photo
+de bandeau, et le danger d'une injection est le script, pas la couleur.
+`style-src-attr` réglerait le cas plus finement mais n'est pas assez répandu :
+là où il n'est pas compris, la directive de repli bloque tout.
+
+**Le WebP n'est pas toujours plus léger.** Sur les 78 photos de ce site, 28
+variantes pesaient PLUS que leur JPEG — jusqu'à 42 % de plus, sur ce qui est
+très détaillé : un feuillage, du gravier. Servies, elles auraient ralenti le
+site au nom de l'accélérer, et rien ne l'aurait dit. La règle est de
+comparer et de jeter ce qui n'allège pas, jamais de convertir en confiance.
+
+**Un `<picture>` autour d'une image casse toutes les cartes à photo
+recadrée**, parce qu'il devient lui-même l'élément de flex ou de grille et que
+l'`<img>` se dimensionne alors à son contenu. `picture { display: contents }`
+le fait disparaître de l'arbre de mise en page, et rien d'autre ne bouge.
+
+**`text-overflow: ellipsis` ne s'applique pas à un conteneur `inline-flex`.**
+Une cible tactile passée en `inline-flex` pour tenir ses 44 px perd du même
+coup sa coupure : sur le tableau de bord, une adresse de page longue poussait
+l'écran 12 px dehors à 320 px. Et le défaut ne se voyait qu'une fois le site
+fréquenté, puisque sans visites la liste est vide — **une mesure sur un site
+neuf ne voit pas ce qu'un site vivant montre**.
+
+**La feuille de style n'est pas minifiée, et ne doit pas l'être.** 167 Ko qui
+tombent à environ 25 Ko une fois compressés par le serveur : c'est le
+`AddOutputFilterByType DEFLATE` du `.htaccess` qui fait le travail. Minifier
+demanderait une étape de build, que ce dépôt s'interdit, pour gagner quelques
+kilo-octets sur un fichier mis en cache un an.
+
 ---
 
 ## 11. Vérifications utiles
