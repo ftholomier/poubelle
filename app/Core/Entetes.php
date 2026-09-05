@@ -15,14 +15,16 @@ namespace App\Core;
  * puisque c'est précisément le script injecté dans la page qu'elle doit
  * arrêter.
  *
- * **Les cadres autorisés dépendent de la page.** Le plan d'accès est une
+ * **Ce qui est autorisé dépend de la page.** Le plan d'accès est une
  * `iframe` dont l'adresse est collée par la mairie : elle peut venir de
  * Google, d'OpenStreetMap ou d'ailleurs. Une liste écrite à la main dans un
  * fichier de configuration se périmerait au premier changement, et le plan
- * disparaîtrait sans message ni erreur. Les fragments qui montent une iframe
- * déclarent donc leur hôte par `autoriserCadre()`, et la politique se
- * construit à la fin du rendu, quand on sait ce que la page contient
- * vraiment.
+ * disparaîtrait sans message ni erreur. Les fragments qui chargent un tiers
+ * le déclarent donc eux-mêmes — `autoriserCadre()` pour une iframe,
+ * `autoriserProtecteur()` pour le test anti-robot des formulaires —, et la
+ * politique se construit à la fin du rendu, quand on sait ce que la page
+ * contient vraiment. Une page sans formulaire ne nomme donc pas Cloudflare,
+ * et une page sans plan ne nomme personne.
  *
  * **Le back-office ne doit jamais être mis en cache.** Un mutualisé passe
  * souvent derrière un cache partagé, et une page d'administration retenue là
@@ -35,6 +37,9 @@ final class Entetes
 
     /** @var array<string, true> hôtes des iframes montées par cette page */
     private static array $cadres = [];
+
+    /** La page charge-t-elle le test anti-robot des formulaires ? */
+    private static bool $protecteur = false;
 
     /**
      * Le nonce à poser sur chaque `<script>` et `<style>` écrit dans un
@@ -63,6 +68,20 @@ final class Entetes
         if (is_string($hote) && $hote !== '' && ($schema === 'https' || $schema === 'http')) {
             self::$cadres[$schema . '://' . $hote] = true;
         }
+    }
+
+    /**
+     * Déclare que la page charge le test anti-robot de Cloudflare.
+     *
+     * Appelé par App\Core\Antispam au moment où il rend le widget, et donc
+     * seulement sur les pages qui en portent un. Le déduire du réglage
+     * reviendrait à nommer Cloudflare dans la politique de TOUTES les pages
+     * dès que la clé est renseignée — un relâchement gratuit sur les
+     * quarante-neuf pages qui n'ont pas de formulaire.
+     */
+    public static function autoriserProtecteur(): void
+    {
+        self::$protecteur = true;
     }
 
     /**
@@ -119,9 +138,14 @@ final class Entetes
                 $lien[]   = 'https://*.analytics.google.com';
                 $lien[]   = 'https://*.googletagmanager.com';
             }
-            if (trim((string) $parametres->get('antispam.cle_site', '')) !== '') {
+            if (self::$protecteur) {
+                /* Turnstile monte son test dans une iframe et lui parle : les
+                   trois directives vont ensemble. N'en accorder que deux fait
+                   échouer la vérification sans message, et le formulaire
+                   refuse alors tous les envois — y compris les vrais. */
                 $script[] = 'https://challenges.cloudflare.com';
                 $cadre[]  = 'https://challenges.cloudflare.com';
+                $lien[]   = 'https://challenges.cloudflare.com';
             }
         }
 

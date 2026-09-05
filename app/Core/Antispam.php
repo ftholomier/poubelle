@@ -81,6 +81,10 @@ final class Antispam
             return '';
         }
 
+        // La politique de sécurité n'accorde Cloudflare qu'aux pages qui
+        // chargent réellement le test : elle est construite après le rendu.
+        Entetes::autoriserProtecteur();
+
         return '<div class="cf-turnstile" data-sitekey="' . e($cle) . '" data-language="auto"></div>'
             . '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>';
     }

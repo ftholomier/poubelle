@@ -36,9 +36,11 @@ final class Cookies
             'necessaires' => [
                 'titre'       => 'Cookies nécessaires',
                 'obligatoire' => true,
-                'texte'       => 'Indispensables au fonctionnement du site : ils gardent la trace '
-                    . 'de votre session, sécurisent les formulaires et mémorisent le choix que vous '
-                    . 'faites ici. Ils ne servent à aucun suivi et ne peuvent pas être désactivés.',
+                'texte'       => 'Indispensables au fonctionnement du site : ils mémorisent le '
+                    . 'choix que vous faites ici, et gardent la trace de votre session si vous '
+                    . 'utilisez l’assistant de discussion. La protection anti-robot des '
+                    . 'formulaires, fournie par Cloudflare, ne dépose quant à elle aucun cookie. '
+                    . 'Rien de tout cela ne sert à un suivi, et rien ne peut être désactivé.',
             ],
             'mesure' => [
                 'titre' => 'Mesure d’audience',

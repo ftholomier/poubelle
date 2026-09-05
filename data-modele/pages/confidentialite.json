@@ -34,7 +34,8 @@
             "titre": "Combien de temps elles sont conservées",
             "liste": [
                 "Les messages reçus par les formulaires sont conservés le temps de traiter la demande, puis archivés selon les règles applicables aux documents de la commune",
-                "Les échanges avec l’assistant de discussion, lorsqu’il est activé, sont purgés au plus tard au bout de douze mois",
+                "Les échanges avec l’assistant de discussion, lorsqu’il est activé, sont purgés au plus tard au bout de douze mois — les demandes de rappel qui en découlent suivent le sort des autres messages reçus",
+                "Les comptages de pages consultées sont conservés treize mois, puis effacés",
                 "Les journaux techniques du serveur sont conservés au maximum treize mois"
             ]
         },
@@ -52,10 +53,15 @@
             "titre": "Cookies et traceurs",
             "paragraphes": "<p>Le site fonctionne sans aucun cookie publicitaire ni traceur de réseau social. Seuls sont déposés, le cas échéant :</p>",
             "liste": [
-                "Un cookie de session, strictement nécessaire au fonctionnement des formulaires et de l’espace d’administration",
                 "Un cookie qui mémorise votre choix en matière de consentement, pour ne pas vous reposer la question à chaque page",
+                "Un cookie de session, déposé seulement si vous utilisez l’assistant de discussion, et sur l’espace d’administration réservé aux agents",
                 "Si vous l’acceptez : les cookies de la mesure d’audience, et ceux des contenus externes que vous choisissez d’afficher"
             ]
+        },
+        {
+            "type": "texte",
+            "titre": "La protection des formulaires, et la mesure de fréquentation",
+            "paragraphes": "<p>Deux dispositifs fonctionnent sans vous demander votre accord, parce que la loi ne l’exige pas dans ces deux cas précis. Nous préférons les décrire plutôt que de les passer sous silence.</p><p><strong>La protection des formulaires.</strong> Lorsqu’elle est activée, les pages « Écrire à la mairie » et « Contact » chargent un test anti-robot fourni par Cloudflare (Turnstile). Il ne dépose aucun cookie, ne vous suit sur aucun autre site et ne sert qu’à écarter les envois automatiques : c’est une mesure de sécurité strictement nécessaire au service que vous demandez. Aucune autre page du site ne le charge.</p><p><strong>La mesure de fréquentation.</strong> Le site compte les pages consultées sur son propre serveur, sans cookie, sans adresse IP et sans aucun identifiant : il n’enregistre qu’une date, une adresse de page et un nombre. Rien ne permet d’en isoler une visite ni d’en reconnaître une personne, et rien ne sort du serveur de la commune. Ces comptages sont effacés au bout de treize mois.</p>"
         },
         {
             "type": "texte",
