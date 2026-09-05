@@ -1,4 +1,5 @@
 {
+    "_version": 2,
     "items": [
         {"nom": "Comité travaux", "icone": "urbanisme", "actif": true, "role": "Voirie, bâtiments communaux, éclairage public et réseaux. Prépare et suit le programme annuel de travaux.", "membres": ["Stéphane Naegel (président)", "Céline Oppendinger", "Thierry Louvet", "Éric Periat", "Michel Nardin", "Gilles Cortinovis", "Anne Dupuis"]},
         {"nom": "Comité bois et forêt", "icone": "foret", "actif": true, "role": "Gestion de la forêt communale, ventes de bois, affouage, entretien des chemins forestiers.", "membres": ["Thierry Louvet (président)", "Stéphane Naegel", "Anne Dupuis", "André Cuene", "Patrick Paquot"]},

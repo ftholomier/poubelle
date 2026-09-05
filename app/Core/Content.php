@@ -71,6 +71,32 @@ final class Content
             throw new RuntimeException("JSON invalide : {$name}.json");
         }
 
+        /* Le contenu suit le code, et il le suit ICI plutôt qu'ailleurs.
+           C'est le seul point de passage obligé : tout ce qui lit du contenu
+           passe par load(), y compris l'éditeur avancé et les auditeurs. Une
+           migration posée dans un contrôleur en aurait laissé un de côté.
+
+           La réécriture a lieu tout de suite : le disque reste à la version
+           courante, et une étape ne se rejoue pas à chaque requête. Elle a
+           lieu AVANT le relevé d'empreinte ci-dessous, sans quoi le verrou
+           retiendrait celle d'avant la migration et refuserait à tort le
+           premier enregistrement de l'administrateur. */
+        $migre = Migrations::appliquer($name, $data);
+        if ($migre !== null) {
+            $data = $migre;
+            try {
+                $this->save($name, $data);
+                clearstatcache(true, $file);
+            } catch (RuntimeException | ConflitEcriture $e) {
+                /* data/ en lecture seule, ou une écriture concurrente : le
+                   contenu migré est servi depuis la mémoire et la page
+                   s'affiche. Refuser la page parce qu'un numéro de version
+                   n'a pas pu être écrit serait une panne créée de toutes
+                   pièces — et sur le site d'une mairie. */
+                error_log('Migration non conservée pour ' . $name . ' : ' . $e->getMessage());
+            }
+        }
+
         // Relève l'empreinte du fichier tel qu'il vient d'être lu, pour que
         // save() sache reconnaître une écriture concurrente. Sans effet hors
         // de l'affichage d'un écran d'administration (voir Verrou).
@@ -218,6 +244,18 @@ final class Content
         if (Verrou::perime($name, Verrou::empreinte($file))) {
             throw new ConflitEcriture($name);
         }
+
+        /* Estampiller ICI, et non chez les appelants. Un contenu écrit par ce
+           code EST à la version de ce code, par définition. Le poser à la
+           source ferme une panne redoutable : si un contrôleur reconstruisait
+           son tableau sans reprendre `_version`, le fichier retomberait à la
+           version 1 et load() le migrerait — donc le réécrirait — à CHAQUE
+           requête, indéfiniment. Une ligne ici, et le cas ne peut pas exister.
+
+           Conséquence assumée : enregistrer un contenu venu d'un code plus
+           récent le ramène à la version courante. C'est la vérité — il vient
+           d'être réécrit dans la forme que ce code sait produire. */
+        $data['_version'] = Migrations::VERSION;
 
         $tmp  = $file . '.' . bin2hex(random_bytes(6)) . '.tmp';
         $json = json_encode(

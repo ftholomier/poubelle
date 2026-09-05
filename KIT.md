@@ -246,6 +246,53 @@ Deux pièges valent d'être connus avant d'y toucher :
   Son axe de transformation passe donc au coin bas-droit, et son balancement
   devient un mouvement horizontal : elle se décolle du bord et y revient.
 
+### Le contenu du client survit-il à nos livraisons ?
+
+C'est la question que pose tout projet sans base de données, et il faut y
+répondre avant la première mise à jour, pas après.
+
+Le schéma vit dans le code, `Blocs::TYPES`. Le contenu vit en JSON chez le
+client. La relation entre les deux est **asymétrique**, et c'est tout le
+sujet :
+
+- **la lecture est tolérante** — `bloc.php` porte trente et un `?? ''`, un
+  champ manquant se rend en chaîne vide et rien ne casse ;
+- **l'écriture est destructive** — `Blocs::relire()` reconstruit chaque bloc à
+  partir du schéma courant : un type inconnu rend `null` et le bloc disparaît,
+  un champ non déclaré n'est pas recopié.
+
+Renommer un champ ne casse donc rien le jour de la livraison. Le site
+s'affiche, tout paraît normal, et la valeur de la mairie disparaît **au premier
+enregistrement qu'elle fera**, des semaines plus tard, sans message. C'est le
+pire scénario possible : la perte est différée, silencieuse, et impossible à
+relier à sa cause.
+
+Deux pièces répondent, et il faut les deux :
+
+`App\Core\Migrations` **transforme**. Chaque fichier porte un `_version` ;
+`Content::load()` applique les étapes manquantes et réécrit aussitôt, si bien
+que le disque est toujours à la version courante et qu'une étape ne se rejoue
+jamais. Trois détails qui ont leur raison :
+
+- **`save()` estampille la version**, pas les appelants. Un contrôleur qui
+  reconstruirait son tableau sans reprendre `_version` ferait retomber le
+  fichier à la version 1, donc le ferait migrer — donc réécrire — à chaque
+  requête, indéfiniment. Une ligne à la source, et le cas ne peut pas exister.
+- **Une migration ratée ne rend pas de page blanche.** Sur une installation
+  dont `data/` est en lecture seule, l'écriture échoue, le contenu migré est
+  servi depuis la mémoire, et l'échec part au journal.
+- **Une étape doit être prudente.** `versDeux` convertit le paragraphe
+  « Hébergement » en bloc à champs, mais SEULEMENT s'il est resté mot pour mot
+  celui du socle : une mairie qui l'aurait réécrit à la main garderait son
+  texte. Une migration qui écrase la prose du client est pire que pas de
+  migration.
+
+`outils/verifs/schema.php` **constate**. Parce qu'une migration ne s'écrit pas
+d'elle-même : renommer un champ en oubliant l'étape laisse le mécanisme muet,
+et l'on se retrouve exactement là où l'on était. Le script confronte tout le
+contenu au schéma et nomme le bloc, le champ et la conséquence. Contrôlé en
+renommant `paragraphes` en `corps` sans étape : 41 écarts, tous exacts.
+
 ### Le conseiller : l'exact opposé de l'assistant
 
 Deux classes appellent le même modèle, avec le même compte, et leurs consignes
@@ -352,6 +399,7 @@ l'apprenne.
 | `Verrou` / `ConflitEcriture` | Verrou optimiste : deux administrateurs sur le même écran ne s'effacent plus | oui |
 | `Conseiller` | Le conseiller du back-office : état du site, consigne, bilan. Partage la clé de `Assistant` et son appel réseau, jamais son interrupteur, sa consigne ni son modèle | oui |
 | `Connexion` | Une clé et un modèle : de quoi appeler Gemini une fois. Deux usages, une clé, deux modèles | oui |
+| `Migrations` | Fait suivre le contenu déjà écrit quand la forme attendue change : un `_version` par fichier, des étapes appliquées à la lecture | oui, en y ajoutant vos étapes |
 | `Entetes` | Le jeton de la politique de sécurité, les cadres autorisés par la page, `no-store` sur `/admin` et `/api` | oui |
 
 ---

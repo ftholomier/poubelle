@@ -102,7 +102,7 @@ rm -rf data/pages data/*.json data/admin storage/cache/* storage/sauvegardes/*
 
 ## La boucle qualité — non négociable
 
-Le niveau de ce projet ne vient pas du goût mais de la mesure. **Douze
+Le niveau de ce projet ne vient pas du goût mais de la mesure. **Treize
 auditeurs, à faire passer avant de déclarer une tâche finie** :
 
 ```bash
@@ -120,6 +120,7 @@ python3 outils/verifs/conseiller.py --admin id:mdp   # la pastille du conseiller
 python3 outils/verifs/vignette.py        # l’image fabriquée pour Instagram, sous chaque couleur
 python3 outils/verifs/alertes.py         # ce que PHP dit tout bas, et que la page ne montre pas
 php     outils/verifs/file.php           # la file de publication quand un seul réseau répond
+php     outils/verifs/schema.php         # le contenu écrit et le schéma du code disent-ils la même chose
 python3 outils/verifs/aller-retour.py    # enregistrer sans rien changer : le JSON ne doit pas maigrir
 ```
 
@@ -153,7 +154,23 @@ animations d'appel, les quatre coins de leur rythme et le rappel au
 défilement. `vignette.py` mesure l'image carrée fabriquée pour Instagram sous
 chaque couleur de commune, en lisant ses pixels.
 
-**`alertes.py` est d'une autre nature, et c'est le plus utile des douze.** Il
+**`schema.php` protège le contenu du client contre nos propres livraisons.**
+Le schéma vit dans `Blocs::TYPES`, le contenu vit chez la mairie, et la
+relation entre les deux est asymétrique : la lecture est tolérante — un champ
+manquant se rend en chaîne vide — tandis que **l'écriture est destructive**,
+`Blocs::relire()` reconstruisant chaque bloc à partir du schéma courant et
+jetant tout ce qu'il ne nomme plus.
+
+Renommer un champ ne casse donc rien tout de suite. Le site s'affiche, tout
+paraît normal, et la valeur de la mairie disparaît le jour où elle enregistre
+cet écran — des semaines plus tard, sans message, et sans que personne puisse
+relier la perte à la livraison. `App\Core\Migrations` sait transformer le
+contenu ancien ; mais **une migration ne s'écrit pas d'elle-même**, et
+renommer un champ en oubliant l'étape laisse le mécanisme muet. Ce script est
+la moitié qui constate : il confronte tout le contenu au schéma et nomme le
+bloc, le champ et la conséquence. Deux secondes, aucun navigateur.
+
+**`alertes.py` est d'une autre nature, et c'est le plus utile des treize.** Il
 lit le **journal d'erreurs de PHP**, que personne ne lisait : une alerte ne
 sort pas dans la page, puisque `display_errors` est éteint en production — et
 doit l'être. La vérification que le socle proposait, `curl … | grep -ci
@@ -164,8 +181,9 @@ passée à un gabarit qui n'y arrivait jamais.
 
 **Règle qui en découle : ce qui ne se voit pas dans la page doit être mesuré
 là où il se voit.** Le journal du serveur en fait partie, la file de
-publication aussi — d'où `file.php` —, et ce qu'un formulaire du back-office
-renvoie au disque, d'où `aller-retour.py`. Ni l'un ni l'autre n'ouvre de page.
+publication aussi — d'où `file.php` —, ce qu'un formulaire du back-office
+renvoie au disque, d'où `aller-retour.py`, et ce qu'une livraison fera au
+contenu déjà écrit, d'où `schema.php`. Aucun des trois n'ouvre de page.
 
 **`aller-retour.py` mesure un enregistrement, pas un affichage.** Un écran
 d'édition qui s'ouvre bien peut très bien vider une clé au moment de
