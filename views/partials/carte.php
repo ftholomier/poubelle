@@ -17,7 +17,11 @@ $carte = $implantation['carte'] ?? [];
 $adresse = trim(($implantation['rue'] ?? '') . ', ' . ($implantation['cp'] ?? '') . ' ' . ($implantation['ville'] ?? ''));
 ?>
 <article class="implantation reveler">
-  <?php if (($carte['embed'] ?? '') !== ''): ?>
+  <?php /* La politique de sécurité n'autorise que les cadres réellement
+           montés : le fragment déclare donc l'hôte du plan, plutôt qu'une
+           liste tenue ailleurs qui se périmerait au premier changement
+           d'adresse fait depuis le back-office. */ ?>
+  <?php if (($carte['embed'] ?? '') !== ''): App\Core\Entetes::autoriserCadre((string) $carte['embed']); ?>
     <div class="implantation__plan" data-cookies-contenu="externes">
       <div class="implantation__attente">
         <span class="implantation__attente-icone" aria-hidden="true"><?= $view->partial('icones', ['nom' => 'adresse']) ?></span>

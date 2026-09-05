@@ -67,7 +67,7 @@ $cleTitre = $reglages['titre'];
           </form>
           <a class="bo-btn bo-btn--petit bo-btn--contour" href="<?= url('/admin/' . $collection . '/' . $item['slug']) ?>">Modifier</a>
           <form method="post" action="<?= url('/admin/' . $collection . '/' . $item['slug'] . '/supprimer') ?>"
-                onsubmit="return confirm('Supprimer cette fiche ? La version précédente reste restaurable depuis l’Éditeur avancé.')">
+                data-confirmer="Supprimer cette fiche ? La version précédente reste restaurable depuis l’Éditeur avancé.">
             <?= Csrf::champ() ?>
             <button class="bo-btn bo-btn--petit bo-btn--danger" type="submit">Supprimer</button>
           </form>

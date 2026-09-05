@@ -237,7 +237,7 @@ $libelles = ['hebergements' => 'Hébergements', 'peche' => 'Étangs de pêche'];
             <td><code><?= e($vers) ?></code></td>
             <td class="bo-tableau__action">
               <form method="post" action="<?= url('/admin/referencement/redirection/retrait') ?>"
-                    onsubmit="return confirm('Supprimer la redirection depuis <?= e($depuis) ?> ? Cette adresse renverra alors une page introuvable.')">
+                    data-confirmer="Supprimer la redirection depuis <?= e($depuis) ?> ? Cette adresse renverra alors une page introuvable.">
                 <?= Csrf::champ() ?>
                 <input type="hidden" name="depuis" value="<?= e($depuis) ?>">
                 <button class="bo-lien-danger" type="submit">Supprimer</button>

@@ -126,9 +126,12 @@ $menu = [
     <?= $slot ?>
   </main>
 </div>
-<script src="<?= asset('assets/js/admin.js') ?>" defer></script>
+<?php /* Le nonce vient de App\Core\Entetes, comme sur le site public : le
+         back-office est servi sous la même politique de sécurité, en plus
+         strict — ni mesure d'audience, ni cadre, et jamais de cache. */ ?>
+<script nonce="<?= e(App\Core\Entetes::nonce()) ?>" src="<?= asset('assets/js/admin.js') ?>" defer></script>
 <?php /* Chargé partout : les écrans qui n'ont pas de champ riche n'y trouvent
          rien et le script se retire de lui-même, comme les autres blocs. */ ?>
-<script src="<?= asset('assets/js/editeur.js') ?>" defer></script>
+<script nonce="<?= e(App\Core\Entetes::nonce()) ?>" src="<?= asset('assets/js/editeur.js') ?>" defer></script>
 </body>
 </html>

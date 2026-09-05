@@ -33,6 +33,7 @@ $GLOBALS['config'] = $config;
 
 use App\Core\ConflitEcriture;
 use App\Core\Content;
+use App\Core\Entetes;
 use App\Core\Frequentation;
 use App\Core\Router;
 use App\Core\Session;
@@ -93,6 +94,13 @@ try {
         (new Frequentation($config['paths']['data'] . '/frequentation'))->noter($adresse);
     }
 
+    /* Les en-têtes partent APRÈS le rendu et avant le premier octet : c'est ce
+       qui permet à la politique de sécurité de n'autoriser que les cadres que
+       la page a réellement montés. Le contrôleur assemble en mémoire, rien
+       n'est écrit avant ce point. $parametresSite vient de routes.php, requis
+       plus haut dans cette même portée. */
+    Entetes::envoyer((string) (parse_url($adresse, PHP_URL_PATH) ?: '/'), $parametresSite);
+
     echo $sortie;
 } catch (ConflitEcriture $e) {
     // Deux administrateurs sur le même écran : rien n'a été écrit, et ce
@@ -113,6 +121,8 @@ try {
         throw $e;
     }
 
+    $sortie = $view->render('erreur', ['code' => 500, 'titre' => 'Une erreur est survenue']);
     http_response_code(500);
-    echo $view->render('erreur', ['code' => 500, 'titre' => 'Une erreur est survenue']);
+    Entetes::envoyer((string) (parse_url($adresse, PHP_URL_PATH) ?: '/'), $parametresSite);
+    echo $sortie;
 }

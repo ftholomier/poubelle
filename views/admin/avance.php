@@ -12,7 +12,7 @@ use App\Core\Csrf;
 <form method="get" action="<?= url('/admin/avance') ?>" class="bo-form" style="margin-bottom:1.4rem;">
   <div class="bo-champ" style="max-width:340px;">
     <label for="av-nom">Contenu</label>
-    <select id="av-nom" name="nom" onchange="this.form.submit()">
+    <select id="av-nom" name="nom" data-envoi-au-choix>
       <?php /* Le libellé lisible plutôt que le chemin du fichier : c'est le
                secrétariat qui choisit ici, et « pages/vie-scolaire.json » ne lui
                dit rien. Le chemin reste la valeur envoyée. */ ?>
@@ -50,7 +50,7 @@ use App\Core\Csrf;
         <li>
           <span><?= e($date) ?></span>
           <form method="post" action="<?= url('/admin/avance') ?>"
-                onsubmit="return confirm('Restaurer cette version ? Le contenu actuel sera lui-même sauvegardé.')">
+                data-confirmer="Restaurer cette version ? Le contenu actuel sera lui-même sauvegardé.">
             <?= Csrf::champ() ?>
             <input type="hidden" name="nom" value="<?= e($nom) ?>">
             <input type="hidden" name="restaurer" value="<?= e($s) ?>">

@@ -331,7 +331,8 @@ $contenus = (string) json_encode(
       </li>
     <?php endforeach; ?>
   </ul>
-  <form class="bo-form bo-form--inline" method="post" action="<?= url('/admin/reseaux/journal/vider') ?>">
+  <form class="bo-form bo-form--inline" method="post" action="<?= url('/admin/reseaux/journal/vider') ?>"
+        data-confirmer="Vider le journal des publications ? L’historique des envois sera perdu.">
     <?= Csrf::champ() ?>
     <button class="bo-btn bo-btn--fantome" type="submit">Vider le journal</button>
   </form>

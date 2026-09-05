@@ -420,6 +420,15 @@
     }
   });
 
+  /* Un sélecteur qui envoie son formulaire au changement. C'était un
+     onchange= dans le gabarit ; la politique de sécurité refuse désormais les
+     gestionnaires en ligne, et c'est tant mieux : ils sont invisibles au
+     moment où l'on cherche pourquoi une page bouge toute seule. */
+  document.addEventListener("change", function (e) {
+    var champ = e.target.closest("[data-envoi-au-choix]");
+    if (champ && champ.form) champ.form.submit();
+  });
+
   /* Reporte une valeur dans un champ : « utiliser cette fiche Google »
      évite au client de recopier un identifiant de trente caractères. */
   document.addEventListener("click", function (e) {

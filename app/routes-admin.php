@@ -33,11 +33,23 @@ use App\Core\Mediatheque;
 use App\Core\Parametres;
 use App\Core\Verrou;
 
-// Deux administrateurs peuvent travailler en même temps. Le verrou relève
-// l'empreinte des contenus affichés (requêtes GET) et refuse une écriture
-// qui effacerait celle d'un autre (requêtes POST). Armé ici, et ici seul :
-// le site public n'écrit aucun contenu.
-Verrou::armer($_SERVER['REQUEST_METHOD'] ?? 'GET');
+/* Deux administrateurs peuvent travailler en même temps. Le verrou relève
+   l'empreinte des contenus affichés (requêtes GET) et refuse une écriture qui
+   effacerait celle d'un autre (requêtes POST).
+
+   Il n'est armé que sur les adresses du back-office. Ce fichier est lu à
+   chaque requête — il ne fait que déclarer des routes —, si bien que le
+   verrou s'armait aussi sur le site public : Content::load() y notait donc
+   une empreinte en session, et OUVRAIT une session pour chaque visiteur. Trois
+   conséquences, toutes silencieuses : un cookie posé à qui n'en a pas besoin,
+   un fichier de session par visite sur le disque du mutualisé, et surtout le
+   « Cache-Control: no-store » que PHP ajoute d'office dès qu'une session
+   démarre — soit un site public qu'aucun navigateur n'avait le droit de
+   garder, pas même pour le bouton Retour. */
+$cheminDemande = (string) (parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/');
+if (str_starts_with($cheminDemande, '/admin')) {
+    Verrou::armer($_SERVER['REQUEST_METHOD'] ?? 'GET');
+}
 
 $auth = new Auth(
     $config['paths']['data'] . '/admin/compte.json',

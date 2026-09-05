@@ -100,7 +100,11 @@ $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex
          doivent s'appliquer au premier rendu, sans clignotement. La feuille
          garde ainsi la charte livrée et reste lisible seule. */ ?>
 <style><?= $charte->styleRacine() ?></style>
-<script type="application/ld+json"><?= $seo->jsonLd($cle, $fiche, base_absolue(), fn(string $c): string => absolu(image($c))) ?></script>
+<?php /* Le nonce vient de App\Core\Entetes : il autorise ce script-ci, et
+         lui seul. Tout <script> ajouté à un gabarit doit le porter, sans quoi
+         le navigateur le refuse — silencieusement pour l'utilisateur, mais
+         bruyamment dans la console, et mise-en-page.py le relève. */ ?>
+<script nonce="<?= e(App\Core\Entetes::nonce()) ?>" type="application/ld+json"><?= $seo->jsonLd($cle, $fiche, base_absolue(), fn(string $c): string => absolu(image($c))) ?></script>
 </head>
 <body class="<?= $menuStyle === 'horizontal' ? 'menu-horizontal' : 'menu-lateral' ?>">
 <a class="evitement" href="#contenu">Aller au contenu</a>
@@ -119,15 +123,15 @@ $indexer = $seo->indexable($cle) && ($page['meta']['robots'] ?? '') !== 'noindex
 <?php if ($mesure !== ''): ?>
   <!-- Chargé uniquement si le visiteur accepte la mesure d'audience : tant
        qu'il n'a pas choisi, ce bloc reste du texte inerte. -->
-  <script type="text/plain" data-cookies="mesure"
+  <script nonce="<?= e(App\Core\Entetes::nonce()) ?>" type="text/plain" data-cookies="mesure"
           src="https://www.googletagmanager.com/gtag/js?id=<?= e($mesure) ?>" async></script>
-  <script type="text/plain" data-cookies="mesure">
+  <script nonce="<?= e(App\Core\Entetes::nonce()) ?>" type="text/plain" data-cookies="mesure">
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', '<?= e($mesure) ?>', { anonymize_ip: true });
   </script>
 <?php endif; ?>
-<script src="<?= asset('assets/js/site.js') ?>" defer></script>
+<script nonce="<?= e(App\Core\Entetes::nonce()) ?>" src="<?= asset('assets/js/site.js') ?>" defer></script>
 </body>
 </html>

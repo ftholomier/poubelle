@@ -106,7 +106,7 @@ git checkout -- app config views tools public/index.php public/.htaccess \
         <?php endif; ?>
 
         <form method="post" action="<?= url('/admin/mises-a-jour/appliquer') ?>"
-              onsubmit="return confirm('Appliquer la mise à jour ? Une sauvegarde du contenu est créée avant toute modification.')">
+              data-confirmer="Appliquer la mise à jour ? Une sauvegarde du contenu est créée avant toute modification.">
           <?= Csrf::champ() ?>
           <button class="bo-btn" type="submit">Appliquer la mise à jour</button>
         </form>
@@ -143,7 +143,7 @@ git checkout -- app config views tools public/index.php public/.htaccess \
           <span class="date"><?= e($s['date']) ?></span>
           <span class="taille"><?= e(number_format($s['taille'] / 1048576, 1, ',', ' ')) ?> Mo</span>
           <form method="post" action="<?= url('/admin/mises-a-jour/restaurer') ?>"
-                onsubmit="return confirm('Restaurer le contenu et les photos de cette sauvegarde ? L’état actuel sera lui-même sauvegardé avant.')">
+                data-confirmer="Restaurer le contenu et les photos de cette sauvegarde ? L’état actuel sera lui-même sauvegardé avant.">
             <?= Csrf::champ() ?>
             <input type="hidden" name="archive" value="<?= e($s['fichier']) ?>">
             <button class="bo-btn bo-btn--contour bo-btn--petit" type="submit">Restaurer</button>

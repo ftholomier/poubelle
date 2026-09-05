@@ -303,6 +303,17 @@ def main():
                                 has_touch=tactile, is_mobile=tactile)
             ctx.add_cookies([{'name': 'cv_consentement', 'value': consentement, 'url': args.base}]
                             + biscuits_admin)
+            # La politique de sécurité refuse en silence : le visiteur voit une
+            # page amputée, pas un message. Le navigateur, lui, émet un
+            # événement — on l'écoute plutôt que de lire la console, qui mêle
+            # tout. Le script d'amorce tourne dans un monde isolé, hors de
+            # portée de la politique qu'il mesure.
+            ctx.add_init_script("""
+                window.__csp = [];
+                document.addEventListener('securitypolicyviolation', function (e) {
+                    window.__csp.push(e.effectiveDirective + ' ← ' + (e.blockedURI || 'en ligne'));
+                });
+            """)
             pg = ctx.new_page()
             ecrans = list(ECRANS_ADMIN) if biscuits_admin and largeur in LARGEURS_ADMIN else []
             for chemin in pages + ecrans:
@@ -312,6 +323,10 @@ def main():
                 pg.wait_for_timeout(500)
                 soucis = [x for x in pg.evaluate(CONTROLE)
                           if not (administration and hors_sujet_admin(x))]
+                # Une violation par directive et par cible suffit : la même
+                # image refusée trente fois ne dit rien de plus.
+                for v in sorted(set(pg.evaluate('window.__csp || []'))):
+                    soucis.append('politique de sécurité : %s' % v)
                 total += len(soucis)
                 print('%5d px  %-30s %s' % (largeur, chemin,
                                             'ok' if not soucis else '%d souci(s)' % len(soucis)))

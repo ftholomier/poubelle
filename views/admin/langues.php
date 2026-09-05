@@ -49,7 +49,7 @@ use App\Core\Csrf;
           </button>
         </form>
         <form method="post" action="<?= url('/admin/langues/' . rawurlencode($code) . '/supprimer') ?>"
-              onsubmit="return confirm('Supprimer <?= e($l['nom']) ?> ? Les traductions seront perdues.')">
+              data-confirmer="Supprimer <?= e($l['nom']) ?> ? Les traductions seront perdues.">
           <?= Csrf::champ() ?>
           <button class="bo-lien-danger" type="submit">Supprimer</button>
         </form>

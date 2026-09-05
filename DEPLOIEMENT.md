@@ -189,6 +189,33 @@ Puis, à la main :
 - [ ] Une modification dans le back-office apparaît sur le site
 - [ ] `/sitemap.xml` liste bien les pages, `/robots.txt` s'affiche
 
+### Les en-têtes de sécurité
+
+Ils partent de deux endroits, et c'est voulu : `public/.htaccess` pose ce qui
+ne change jamais, PHP pose ce qui dépend de la requête.
+
+```bash
+curl -sI https://votredomaine.fr/            # doit montrer Content-Security-Policy
+curl -sI https://votredomaine.fr/            # et Strict-Transport-Security
+curl -sI https://votredomaine.fr/admin       # doit montrer Cache-Control: no-store
+curl -sI https://votredomaine.fr/assets/css/site.css   # … immutable
+```
+
+- **HSTS** n'est posé que si la requête arrive déjà en HTTPS. Derrière un
+  répartiteur qui termine le TLS, c'est la règle de réécriture
+  `HTTPS_DERRIERE_PROXY` du `.htaccess` qui le déclenche : si l'en-tête manque
+  alors que le site est bien en HTTPS, c'est que l'hébergeur n'envoie pas
+  `X-Forwarded-Proto`.
+- **La politique de sécurité (CSP)** porte un jeton tiré au sort à chaque
+  requête. Un `<script>` ajouté à un gabarit sans ce jeton est refusé par le
+  navigateur — la page s'affiche, la fonction manque, et rien ne le dit hors
+  de la console. `mise-en-page.py` relève ces refus sur les 51 pages et les
+  29 écrans : c'est là qu'ils se voient.
+- **Le cadre du plan d'accès** est autorisé d'après l'adresse réellement
+  collée dans **Contact** : changer de fournisseur de carte ne demande donc
+  aucune modification du code. Si un plan reste blanc après acceptation des
+  contenus externes, vérifier que l'adresse du cadre est bien en `https://`.
+
 ---
 
 ## 7. Référencement

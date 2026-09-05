@@ -148,8 +148,18 @@ button { font: inherit; cursor: pointer; }
   /* Les flèches qui ordonnent les vues du diaporama. */
   [data-diapo-monter], [data-diapo-descendre] { min-width: 44px; min-height: 44px; }
 
-  /* Le palmarès des pages : chaque ligne ouvre la page sur le site. */
-  .bo-palmares__nom { min-height: 44px; display: inline-flex; align-items: center; }
+  /* Le palmarès des pages : chaque ligne ouvre la page sur le site.
+
+     `display: block` et non `inline-flex`, contrairement aux autres cibles
+     tactiles ci-dessus : `text-overflow: ellipsis` ne s'applique qu'à un
+     conteneur de bloc. En inline-flex, l'adresse ne se coupait plus et
+     « /demarches/inscription-sur-les-listes-electorales » poussait le
+     tableau de bord 12 px hors de l'écran à 320 px. Le défaut ne se voyait
+     qu'une fois le site fréquenté : sans visites, le palmarès est vide. */
+  .bo-palmares__nom {
+    min-height: 44px; line-height: 44px; display: block; min-width: 0;
+  }
+  .bo-palmares__ligne { min-width: 0; }
 }
 
 .bo-lateral__pied {

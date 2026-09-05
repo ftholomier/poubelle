@@ -39,7 +39,7 @@ foreach ($groupes as $textes) {
   </form>
 
   <form method="post" action="<?= url('/admin/langues/' . rawurlencode($code) . '/auto') ?>"
-        onsubmit="return confirm('Tout retraduire ? Vos corrections manuelles seront écrasées.')">
+        data-confirmer="Tout retraduire ? Vos corrections manuelles seront écrasées.">
     <?= Csrf::champ() ?>
     <input type="hidden" name="portee" value="tout">
     <button class="bo-lien-danger" type="submit">Tout retraduire</button>

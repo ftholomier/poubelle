@@ -896,6 +896,14 @@
             [].forEach.call(vieux.attributes, function (a) {
               if (a.name !== "type" && a.name !== "data-cookies") neuf.setAttribute(a.name, a.value);
             });
+            /* Le nonce ne se recopie PAS par les attributs. Le navigateur
+               vide l'attribut `nonce` dès l'analyse de la page — c'est une
+               protection contre son vol par une feuille de style — et n'en
+               garde la valeur que dans la propriété. Le script réveillé
+               partait donc avec nonce="" et la politique de sécurité le
+               refusait : la mesure d'audience acceptée ne se chargeait
+               jamais, sans autre trace qu'une ligne de console. */
+            if (vieux.nonce) neuf.nonce = vieux.nonce;
             neuf.text = vieux.text;
             vieux.parentNode.replaceChild(neuf, vieux);
           });
