@@ -48,7 +48,8 @@ final class Mailer
         $nom        = trim((string) $this->parametres->get('smtp.nom_expediteur', '')) ?: nom_du_site();
 
         if (!$this->parametres->smtpConfigure()) {
-            $this->envoyerParMail($destinataire, $sujet, $corps, $expediteur, $nom, $repondreA);
+            $this->envoyerParMail($destinataire, $sujet, $corps, $expediteur, $nom,
+                                  $repondreA, $nomRepondreA);
             return;
         }
 
@@ -65,6 +66,7 @@ final class Mailer
         string $expediteur,
         string $nom,
         string $repondreA,
+        string $nomRepondreA,
     ): void {
         $entetes = [
             'MIME-Version: 1.0',
@@ -74,8 +76,9 @@ final class Mailer
         if ($expediteur !== '') {
             $entetes[] = 'From: ' . $this->adresse($nom, $expediteur);
         }
-        if ($repondreA !== '') {
-            $entetes[] = 'Reply-To: ' . $repondreA;
+        $reponse = $this->reponseA($repondreA, $nomRepondreA);
+        if ($reponse !== '') {
+            $entetes[] = $reponse;
         }
 
         $ok = @mail(
@@ -222,10 +225,35 @@ final class Mailer
             // texte, et se trompent sur un message court et très étiqueté
             'Content-Language: fr',
         ];
-        if ($repondreA !== '' && filter_var($repondreA, FILTER_VALIDATE_EMAIL)) {
-            $lignes[] = 'Reply-To: ' . $this->adresse($nomRepondreA, $repondreA);
+        $reponse = $this->reponseA($repondreA, $nomRepondreA);
+        if ($reponse !== '') {
+            $lignes[] = $reponse;
         }
         return implode("\r\n", $lignes) . "\r\n";
+    }
+
+    /**
+     * L'en-tête Reply-To, ou rien.
+     *
+     * La garde est ici parce qu'un en-tête se coupe : une adresse qui
+     * contiendrait un retour à la ligne suivi de « Bcc: » ajouterait un
+     * destinataire caché au message. Les appelants valident tous l'adresse
+     * avant d'arriver — mais la branche mail() posait l'en-tête sans le
+     * moindre contrôle, alors que la branche SMTP le faisait. Deux
+     * transports, deux vérités : il suffisait d'un appelant futur qui oublie
+     * pour que le trou s'ouvre, du côté justement où l'on ne regarde pas,
+     * puisque mail() ne sert que là où le SMTP n'est pas configuré.
+     *
+     * Ni ici ni ailleurs on ne rejette l'envoi : une adresse de réponse
+     * douteuse fait perdre la réponse, pas le message. Le message part.
+     */
+    private function reponseA(string $email, string $nom): string
+    {
+        $email = trim($email);
+
+        return $email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL)
+            ? 'Reply-To: ' . $this->adresse($nom, $email)
+            : '';
     }
 
     private function adresse(string $nom, string $email): string
