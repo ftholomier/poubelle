@@ -246,6 +246,39 @@ Deux pièges valent d'être connus avant d'y toucher :
   Son axe de transformation passe donc au coin bas-droit, et son balancement
   devient un mouvement horizontal : elle se décolle du bord et y revient.
 
+### Le conseiller : l'exact opposé de l'assistant
+
+Deux classes appellent le même modèle, avec le même compte, et leurs consignes
+sont contraires. `Assistant` est enfermé dans le contenu du site et n'a le
+droit de rien inventer — c'est ce qui protège l'administré d'une règle
+administrative fabriquée. `Conseiller` est là pour dire ce qui MANQUE, donc
+pour parler de ce qui n'est pas dans le site. Un réglage n'aurait pas suffi :
+ce sont deux rôles opposés, et les mêler aurait produit un assistant qui
+improvise devant un visiteur.
+
+Ce qu'ils partagent est l'appel réseau, sorti dans `Assistant::generer()` :
+une seule route vers Google, une seule traduction de ses erreurs. Deux copies
+auraient divergé au premier message ajouté.
+
+Trois choses valent d'être reprises telles quelles :
+
+- **La liste des sources est explicite et bornée.** `Conseiller::etatDuSite()`
+  compose sept blocs nommés, chacun avec sa propre limite. On sait, en lisant
+  une méthode, exactement ce qui part chez Google.
+- **Ce qui contient des données personnelles est masqué à la source.** Les
+  questions des visiteurs partent sans les réponses, sans les demandes de
+  rappel, adresses et numéros remplacés. Le masque réutilise les motifs de
+  `Conversations::reperer` : une seule vérité sur ce qui ressemble à un numéro.
+- **Les défauts déjà mesurés sont donnés au modèle pour qu'il ne les répète
+  pas.** Rien n'use plus vite la confiance qu'un conseil qui redit ce que
+  l'écran affichait déjà.
+
+Côté navigateur, une règle et une seule : **rien de ce que le modèle renvoie
+ne passe par `innerHTML`.** Tout est posé en `textContent`, et la mise en forme
+est construite nœud par nœud. Le conseiller est un tiers qui écrit dans une
+page d'administration ; le traiter comme du texte est la seule façon d'être sûr
+qu'une réponse ne devient jamais du script.
+
 ### Publier sur Facebook et Instagram
 
 L'écran **Réseaux sociaux** publie sur la Page Facebook et le compte Instagram
@@ -308,6 +341,8 @@ l'apprenne.
 | `Diffusion` | Le seul chemin d'envoi : réunit Meta, la file et la fabrique d'image | oui |
 | `Vignette` | L'image carrée fabriquée quand une publication n'a pas de photo (GD) | oui, en fournissant blason PNG et police TTF |
 | `Verrou` / `ConflitEcriture` | Verrou optimiste : deux administrateurs sur le même écran ne s'effacent plus | oui |
+| `Conseiller` | Le conseiller du back-office : état du site, consigne, bilan. Partage la clé de `Assistant` et son appel réseau, jamais son interrupteur ni sa consigne | oui |
+| `Entetes` | Le jeton de la politique de sécurité, les cadres autorisés par la page, `no-store` sur `/admin` et `/api` | oui |
 
 ---
 

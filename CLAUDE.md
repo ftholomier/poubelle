@@ -102,7 +102,7 @@ rm -rf data/pages data/*.json data/admin storage/cache/* storage/sauvegardes/*
 
 ## La boucle qualité — non négociable
 
-Le niveau de ce projet ne vient pas du goût mais de la mesure. **Onze
+Le niveau de ce projet ne vient pas du goût mais de la mesure. **Douze
 auditeurs, à faire passer avant de déclarer une tâche finie** :
 
 ```bash
@@ -116,6 +116,7 @@ python3 outils/verifs/bandeau.py         # chaque photo du diaporama, voile au p
 python3 outils/verifs/entete.py          # l'en-tête aux bornes du réglage du logo
 python3 outils/verifs/couleur.py         # le site sous chaque teinte de la roue
 python3 outils/verifs/bulle.py           # le bouton de l’assistant sous chacun de ses réglages
+python3 outils/verifs/conseiller.py --admin id:mdp   # la pastille du conseiller, sous ses trois états
 python3 outils/verifs/vignette.py        # l’image fabriquée pour Instagram, sous chaque couleur
 python3 outils/verifs/alertes.py         # ce que PHP dit tout bas, et que la page ne montre pas
 php     outils/verifs/file.php           # la file de publication quand un seul réseau répond
@@ -152,7 +153,7 @@ animations d'appel, les quatre coins de leur rythme et le rappel au
 défilement. `vignette.py` mesure l'image carrée fabriquée pour Instagram sous
 chaque couleur de commune, en lisant ses pixels.
 
-**`alertes.py` est d'une autre nature, et c'est le plus utile des onze.** Il
+**`alertes.py` est d'une autre nature, et c'est le plus utile des douze.** Il
 lit le **journal d'erreurs de PHP**, que personne ne lisait : une alerte ne
 sort pas dans la page, puisque `display_errors` est éteint en production — et
 doit l'être. La vérification que le socle proposait, `curl … | grep -ci
@@ -191,6 +192,21 @@ passer, pendant toute la vie du socle, un libellé à 2,57:1 — l'encre sur la
 couleur de marque. Retenez-en la règle générale : **un réglage qui décide de
 la PRÉSENCE d'un élément cache cet élément aux auditeurs**, et il faut alors
 un script qui l'allume pour le mesurer.
+
+**`conseiller.py` pousse cette règle d'un cran, et c'est le cas le plus
+instructif des douze.** Allumer la pastille ne suffit pas : le panneau ouvert
+est **vide**. Les bulles de conversation, le bloc de texte proposé et les
+fiches du bilan n'existent qu'APRÈS une réponse de Google. Un auditeur qui se
+contentait d'ouvrir le panneau mesurait un cadre et deux onglets, et déclarait
+le tout conforme. Une doublure joue donc les réponses du modèle — aucune
+requête ne sort, rien n'est facturé, et c'est le vrai code de rendu qui est
+mesuré. **Quand ce qu'il faut mesurer n'apparaît qu'après la réponse d'un
+service extérieur, on double le service ; on ne saute pas la mesure.**
+
+Il a trouvé son défaut au premier passage, et aucun œil ne l'avait vu :
+`admin.css` ne remet pas les boutons à plat — chaque classe pose son propre
+fond —, si bien que deux boutons du panneau étaient peints du gris ButtonFace
+du navigateur, mesurés à 2,79:1.
 
 C'est rentable : le premier a trouvé deux photos à 4,4:1, le deuxième un logo
 servi écrasé au-delà de 100 px et une cible tactile à 40 px une fois la barre

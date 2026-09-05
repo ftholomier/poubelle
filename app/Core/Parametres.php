@@ -61,6 +61,9 @@ final class Parametres
         // titre que le mot de passe SMTP — d'où sa place dans ce fichier
         'assistant' => [
             'actif'       => false,
+            // Le conseiller du back-office partage la clé, jamais
+            // l'interrupteur : voir App\Core\Conseiller::actif().
+            'conseiller'  => false,
             'cle'         => '',
             'modele'      => '',          // vide = modèle par défaut du socle
             'titre'       => '',

@@ -70,6 +70,18 @@ ECRANS_ADMIN = (
 )
 
 
+# Les adresses du back-office qui répondent du JSON et non une page.
+#
+# Elles ne sont PAS dans ECRANS_ADMIN, que mise-en-page.py parcourt : mesurer
+# la hiérarchie des titres d'un objet JSON n'aurait pas de sens. Mais elles
+# exécutent du PHP, donc elles peuvent produire une alerte que personne ne
+# verrait — c'est exactement ce que cet auditeur-ci existe pour attraper. Elles
+# sont donc visitées ici, et acceptées par le contrôle des listes.
+ECRANS_JSON = (
+    '/admin/conseiller/bilan',
+)
+
+
 # Les routes GET du back-office qui ne sont pas des écrans à mesurer, et
 # pourquoi. Sans cette liste, le contrôle ci-dessous crierait à chaque passage
 # sur des adresses qu'il ne faut surtout pas visiter connecté.
@@ -111,7 +123,7 @@ def listes_a_jour() -> int:
                  # et les adresses qui en sortent sont listées à la main
                  # ci-dessus.
                  if '{' not in r and not r.endswith('/') and r not in HORS_MESURE]
-    for route in [r for r in concretes if r not in ECRANS_ADMIN]:
+    for route in [r for r in concretes if r not in ECRANS_ADMIN and r not in ECRANS_JSON]:
         ecarts += 1
         print('  écran non mesuré : %s — à ajouter à ECRANS_ADMIN' % route)
 
@@ -210,8 +222,9 @@ def main() -> int:
             if 'name="mot_de_passe"' in suite:
                 print('Connexion au back-office refusée : les écrans ne sont pas parcourus.')
             else:
-                chemins += list(ECRANS_ADMIN)
-                print('%d écrans du back-office' % len(ECRANS_ADMIN))
+                chemins += list(ECRANS_ADMIN) + list(ECRANS_JSON)
+                print('%d écrans du back-office, %d réponses JSON'
+                      % (len(ECRANS_ADMIN), len(ECRANS_JSON)))
 
         for chemin in chemins:
             try:

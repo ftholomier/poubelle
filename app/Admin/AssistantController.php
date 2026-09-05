@@ -78,6 +78,7 @@ final class AssistantController
 
         $this->parametres->enregistrer(['assistant' => [
             'actif'       => isset($_POST['actif']),
+            'conseiller'  => isset($_POST['conseiller']),
             'cle'         => $cle,
             'modele'      => trim((string) ($_POST['modele'] ?? '')),
             'titre'       => trim((string) ($_POST['titre'] ?? '')),

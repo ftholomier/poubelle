@@ -239,10 +239,27 @@ final class Assistant
 
         $contenus[] = ['role' => 'user', 'parts' => [['text' => $question]]];
 
+        return ['reponse' => $this->generer($this->consigne(), $contenus)];
+    }
+
+    /**
+     * Un appel au modèle, et le texte qu'il rend.
+     *
+     * Sorti de `repondre()` parce qu'il a deux appelants : l'assistant des
+     * visiteurs, et le conseiller du back-office (App\Core\Conseiller). Un
+     * seul chemin réseau, une seule traduction des erreurs de Google — deux
+     * copies auraient divergé au premier message d'erreur ajouté.
+     *
+     * @param array<int, array<string, mixed>> $contenus tours de conversation
+     *                                                   au format de l'API
+     * @param array<string, mixed> $reglages surcharges de generationConfig
+     */
+    public function generer(string $consigne, array $contenus, array $reglages = []): string
+    {
         $charge = [
-            'systemInstruction' => ['parts' => [['text' => $this->consigne()]]],
+            'systemInstruction' => ['parts' => [['text' => $consigne]]],
             'contents' => $contenus,
-            'generationConfig' => [
+            'generationConfig' => $reglages + [
                 'temperature'     => 0.2,
                 'maxOutputTokens' => 900,
             ],
@@ -276,7 +293,7 @@ final class Assistant
                 : 'Le modèle n’a rien renvoyé.');
         }
 
-        return ['reponse' => $reponse];
+        return $reponse;
     }
 
     /** Consigne système : c'est elle qui enferme le modèle dans le corpus. */
@@ -453,7 +470,7 @@ final class Assistant
      * c'est la même information sans le balisage, sans la navigation répétée
      * sur chaque page, et sans requête HTTP vers soi-même.
      */
-    private function texteDuSite(): string
+    public function texteDuSite(): string
     {
         $morceaux = [];
 

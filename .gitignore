@@ -17,6 +17,7 @@ data/pages/
 # reseaux sociaux : file d'attente, journal des envois, vignettes generees
 data/reseaux/
 # frequentation : pages vues par jour, ecrites par le site lui-meme
+data/conseiller/
 data/frequentation/
 public/assets/img/reseaux/*
 !public/assets/img/reseaux/.gitkeep

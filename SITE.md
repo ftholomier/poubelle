@@ -218,6 +218,28 @@ l'auditeur — le pire cas est ce qui compte, pas la photo du jour.
 
 ## 6. Ce qui a été ajouté au socle
 
+**Un conseiller dans le back-office** (`app/Core/Conseiller.php`). Une pastille
+en bas à droite de chaque écran d'administration, qui répond aux questions du
+secrétariat et sait faire le bilan du site. Il n'est visible que des agents
+connectés, jamais des visiteurs.
+
+Il ne faut pas le confondre avec l'assistant public, dont il est l'exact
+opposé : l'assistant est enfermé dans le contenu du site et n'a le droit de
+rien inventer ; le conseiller est là pour dire ce qui MANQUE, donc pour parler
+de ce qui n'y est pas. D'où deux classes et non un réglage.
+
+Ce qu'il lit : le contenu, les réglages de référencement, les comptages de
+fréquentation, les défauts déjà relevés par l'écran Référencement — pour ne
+pas les répéter —, et les questions posées à l'assistant public. Cette
+dernière source est la plus utile : une question qui revient et à laquelle le
+site ne répond pas est une page à écrire. C'est aussi la seule qui demande une
+précaution, décrite au § 7 ci-dessous.
+
+Ce qu'il ne fait pas : écrire. Il propose un texte, un bouton le pose dans le
+champ ouvert, et c'est la mairie qui relit et enregistre. Un modèle de langage
+invente des pièces à fournir avec beaucoup d'aplomb ; le dernier geste reste
+humain, comme partout ailleurs sur ce site.
+
 **Un verrou optimiste sur les contenus** (`app/Core/Verrou.php`). Le socle
 écrivait déjà par fichier temporaire puis `rename()`, ce qui garantit qu'aucun
 visiteur ne lit un JSON tronqué. Mais rien n'empêchait deux administrateurs
@@ -326,10 +348,19 @@ ne peut plus diverger de ce que le site sert.
 Trois modules du socle ne demandent qu'une clé pour s'allumer, et restent
 invisibles tant qu'elle est vide :
 
-- **l'assistant de discussion** (clé Gemini) — sa consigne est déjà écrite pour
-  Angeot : elle dit que la mairie n'établit ni carte d'identité ni passeport,
-  que les déchets relèvent du Grand Belfort, l'école du Syndicat du Tilleul, et
-  que les secours passent avant tout renvoi vers une page ;
+- **l'assistant de discussion** (clé Gemini) — les règles propres à la commune
+  sont déjà écrites dans `data-modele/assistant.json`, modifiables depuis
+  l'écran Assistant : la mairie n'établit ni carte d'identité ni passeport, les
+  déchets relèvent du Grand Belfort, l'école du Syndicat du Tilleul. Les
+  secours passent avant tout renvoi vers une page, et cela vient de la consigne
+  du socle ;
+- **le conseiller du back-office** (même clé Gemini, interrupteur distinct) —
+  on l'allume souvent en premier, pour préparer le site, sans exposer encore
+  l'assistant aux visiteurs. Il envoie à Google le contenu du site, ses
+  comptages de fréquentation et les questions posées à l'assistant : seules
+  les questions partent, sans les réponses, adresses et numéros masqués,
+  doublons réunis. La politique de confidentialité le décrit, et il ne
+  fonctionne que sur demande d'un agent ;
 - **les avis Google** (clé Google) — sans grand intérêt pour une mairie, mais
   le module est là ;
 - **la traduction automatique** (clé DeepL).

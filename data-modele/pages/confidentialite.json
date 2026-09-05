@@ -65,6 +65,11 @@
         },
         {
             "type": "texte",
+            "titre": "L’assistance dont la mairie dispose pour améliorer ce site",
+            "paragraphes": "<p>Le secrétariat dispose, dans son espace d’administration, d’un outil d’aide qui lui suggère des améliorations : pages à compléter, textes à reformuler, sujets attendus et absents. Cet outil s’appuie sur le service Gemini de Google, comme l’assistant de discussion.</p><p><strong>Ce qui lui est transmis.</strong> Le contenu public du site, ses réglages de référencement, les comptages de pages consultées — qui ne contiennent ni cookie, ni adresse IP, ni identifiant — et la liste des questions posées à l’assistant de discussion.</p><p><strong>Comment ces questions sont traitées avant l’envoi.</strong> Seules les questions partent, jamais les réponses ni les demandes de rappel. Les adresses électroniques, les numéros de téléphone et les longues suites de chiffres y sont remplacés par une mention neutre, et les questions identiques sont réunies. Ce qui est transmis est une liste de sujets, non un journal de conversations : l’objectif est de savoir ce que les administrés cherchent sans trouver, afin d’écrire la page qui manque.</p><p>Cet outil n’est utilisé que sur demande d’un agent, jamais automatiquement. Aucune donnée ne part lorsqu’il n’est pas sollicité, et il n’est jamais visible des visiteurs du site.</p>"
+        },
+        {
+            "type": "texte",
             "id": "cookies",
             "titre": "Les contenus tiers ne se chargent qu’avec votre accord",
             "paragraphes": "<p>Le plan d’accès de la page contact est fourni par un service tiers, qui dépose ses propres cookies. Il n’est chargé qu’après votre accord explicite : tant que vous n’avez pas répondu, ou si vous refusez, aucune requête n’est adressée à ce service.</p><p>Le lien « Itinéraire », lui, reste toujours disponible : c’est un lien sortant, il ne dépose rien.</p>",

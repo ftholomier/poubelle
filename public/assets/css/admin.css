@@ -1990,3 +1990,148 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
   background: var(--fond-2); border: 1px solid var(--trait); border-radius: 4px;
   overflow-wrap: anywhere; user-select: all;
 }
+
+/* ---------- Conseiller du back-office ---------- */
+/* Une pastille en bas à droite de chaque écran, et son panneau.
+ *
+ * Elle est en position fixe, donc hors du flux : elle ne peut pas faire
+ * déborder une page, mais elle peut en RECOUVRIR le bas. D'où le
+ * `padding-bottom` ajouté au contenu principal plus bas — sans lui, le
+ * dernier bouton d'un formulaire long se retrouve sous la pastille, et c'est
+ * précisément le bouton « Enregistrer ».
+ *
+ * Les couleurs sont celles du back-office, mesurées : l'encre --fond sur
+ * --accent donne 8,97:1, et le texte --texte sur --fond-2 tient 12:1. */
+.bo-conseil {
+  position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 60;
+  display: flex; flex-direction: column; align-items: flex-end; gap: .7rem;
+  max-width: calc(100vw - 2.4rem);
+}
+
+.bo-conseil__pastille {
+  display: inline-flex; align-items: center; gap: .5rem;
+  /* 44 px de haut : c'est une cible tactile, et le back-office se consulte
+     aussi au téléphone depuis qu'il se replie en tiroir. */
+  min-height: 44px; padding: 0 1.1rem;
+  background: var(--accent); color: var(--fond);
+  border: 1px solid var(--accent); border-radius: 999px;
+  font-weight: 600; font-size: .8rem; letter-spacing: .04em;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .35);
+  transition: background .25s, transform .25s;
+}
+.bo-conseil__pastille:hover { background: var(--accent-clair); transform: translateY(-1px); }
+.bo-conseil__pastille-icone { font-size: 1rem; line-height: 1; }
+
+.bo-conseil__panneau {
+  display: flex; flex-direction: column;
+  width: min(28rem, calc(100vw - 2.4rem));
+  /* La hauteur suit la fenêtre : sur un portable posé en paysage, un panneau
+     de 600 px fixes sortirait par le haut. */
+  height: min(34rem, calc(100vh - 6rem));
+  background: var(--fond-2); border: 1px solid var(--trait);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .45);
+  min-width: 0;
+}
+
+.bo-conseil__entete {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .9rem 1.1rem; border-bottom: 1px solid var(--trait);
+}
+.bo-conseil__titre { font-size: .95rem; letter-spacing: .06em; text-transform: uppercase; }
+/* `background: none` et `border: 0` : admin.css ne remet pas les boutons à
+   plat — chaque classe pose son propre fond —, et sans ces deux lignes le
+   navigateur peint son ButtonFace gris. Trouvé par outils/verifs/conseiller.py,
+   qui mesurait 2,79:1 sur un fond rgb(107,107,107) là où personne n'avait
+   pensé à regarder. */
+.bo-conseil__fermer {
+  min-width: 44px; min-height: 44px; font-size: 1rem;
+  background: none; border: 0; color: var(--texte-2);
+}
+.bo-conseil__fermer:hover { color: var(--texte); }
+
+.bo-conseil__onglets { display: flex; border-bottom: 1px solid var(--trait); }
+.bo-conseil__onglet {
+  flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 .6rem;
+  background: none; border: 0; border-bottom: 2px solid transparent;
+  /* --texte-2 tombait à 2,79:1 une fois le fond gris retiré : l'onglet au
+     repos reste du texte à lire, pas une mention secondaire. */
+  color: var(--texte); font-size: .78rem; font-weight: 600;
+}
+.bo-conseil__onglet.est-actif { color: var(--accent-clair); border-bottom-color: var(--accent); }
+
+.bo-conseil__vue { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+.bo-conseil__fil,
+.bo-conseil__bilan {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto;
+  padding: 1rem 1.1rem; display: grid; gap: .8rem; align-content: start;
+  font-size: .88rem; line-height: 1.6;
+}
+.bo-conseil__accueil { color: var(--texte-2); }
+.bo-conseil__date { color: var(--texte-2); font-size: .78rem; }
+.bo-conseil__attente { color: var(--texte-2); font-style: italic; }
+
+.bo-conseil__message { display: grid; gap: .5rem; padding: .7rem .9rem; }
+.bo-conseil__message--agent { background: var(--fond-3); justify-self: end; max-width: 85%; }
+.bo-conseil__message--conseil { background: rgba(124, 162, 189, .07); }
+.bo-conseil__message--erreur { background: rgba(217, 138, 138, .12); color: var(--rouge); }
+.bo-conseil__puces { display: grid; gap: .35rem; padding-left: 1.1rem; list-style: disc; }
+
+.bo-conseil__proposition {
+  border-left: 2px solid var(--accent); background: var(--fond);
+  padding: .7rem .9rem; display: grid; gap: .6rem;
+}
+.bo-conseil__proposition-texte { white-space: pre-wrap; }
+.bo-conseil__proposition-gestes { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.bo-conseil__aide { color: var(--texte-2); font-size: .78rem; }
+
+.bo-conseil__reco { display: grid; gap: .4rem; padding: .8rem .9rem; background: var(--fond-3); }
+/* La bande de gauche dit l'urgence sans compter sur la seule couleur : le
+   mot du domaine reste écrit à côté. */
+.bo-conseil__reco--forte { border-left: 3px solid var(--rouge); }
+.bo-conseil__reco--moyenne { border-left: 3px solid var(--accent); }
+.bo-conseil__reco--faible { border-left: 3px solid var(--trait); }
+.bo-conseil__reco-haut { display: flex; gap: .5rem; align-items: center; }
+.bo-conseil__etiquette {
+  font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--texte-2);
+}
+.bo-conseil__reco-titre { font-size: .92rem; }
+.bo-conseil__reco-geste { color: var(--accent-clair); }
+.bo-conseil__reco-lien { color: var(--accent-clair); text-decoration: underline; justify-self: start; min-height: 44px; display: inline-flex; align-items: center; }
+
+.bo-conseil__saisie {
+  display: grid; gap: .6rem; padding: .9rem 1.1rem;
+  border-top: 1px solid var(--trait); min-width: 0;
+}
+.bo-conseil__label {
+  font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--texte-2);
+}
+.bo-conseil__saisie textarea {
+  width: 100%; min-width: 0; resize: vertical;
+  background: var(--fond); color: var(--texte);
+  border: 1px solid var(--trait); padding: .6rem .7rem; font: inherit; font-size: .88rem;
+}
+/* 44 px : le back-office se consulte au téléphone depuis qu'il se replie en
+   tiroir, et `bo-btn--petit` mesure 37 px de haut. */
+.bo-conseil__saisie .bo-btn,
+.bo-conseil__proposition-gestes .bo-btn {
+  min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
+}
+.bo-conseil__saisie .bo-btn { justify-self: stretch; text-align: center; }
+
+/* Le contenu principal réserve la place de la pastille : sans cela, le
+   bouton « Enregistrer » d'un formulaire long se retrouve dessous. */
+.bo-principal { padding-bottom: 5rem; }
+
+@media (max-width: 640px) {
+  /* Sur un téléphone, le panneau prend toute la largeur utile : à 320 px,
+     une marge de chaque côté ne laisserait plus de quoi lire une phrase. */
+  .bo-conseil { right: .6rem; bottom: .6rem; left: .6rem; align-items: stretch; }
+  .bo-conseil__panneau { width: 100%; height: min(30rem, calc(100vh - 5rem)); }
+  .bo-conseil__pastille { justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bo-conseil__pastille { transition: none; }
+  .bo-conseil__pastille:hover { transform: none; }
+}

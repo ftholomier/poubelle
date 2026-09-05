@@ -16,6 +16,7 @@ use App\Admin\AdminController;
 use App\Admin\ApparenceController;
 use App\Admin\AssistantController;
 use App\Admin\ContenuController;
+use App\Admin\ConseillerController;
 use App\Admin\ConversationController;
 use App\Admin\AvisController;
 use App\Admin\EditionController;
@@ -99,8 +100,18 @@ $ctrlAvis  = new AvisController($view, $avis, $parametres);
 $ctrlIa    = new AssistantController($view, $assistant, $parametres);
 $ctrlConv  = new ConversationController($view, $conversations);
 
+/* Le conseiller partage la clé Gemini de l'assistant public mais pas son
+   interrupteur : une mairie veut souvent le conseiller d'abord, pour
+   préparer son site, avant d'exposer un robot aux visiteurs. */
+$conseiller = new App\Core\Conseiller($assistant, $parametres, $content, $seo,
+                                      $frequentation, $conversations,
+                                      $config['paths']['data']);
+$ctrlConseil = new ConseillerController($conseiller);
+
 // compteur du menu : lu une fois, partagé à tous les écrans du back-office
 $view->share('nonLues', $conversations->nonLues());
+// la pastille est posée par le gabarit du back-office, sur tous les écrans
+$view->share('conseiller', $conseiller);
 
 $view->share('auth', $auth);
 
@@ -195,6 +206,12 @@ $router->post('/admin/assistant/consignes',       $protege(fn() => $ctrlIa->cons
 $router->post('/admin/assistant/documents',       $protege(fn() => $ctrlIa->documentAjout()));
 $router->post('/admin/assistant/documents/retirer', $protege(fn() => $ctrlIa->documentSuppression()));
 $router->post('/admin/assistant/essai',           $protege(fn() => $ctrlIa->essai()));
+
+// --- conseiller du back-office ---------------------------------------------
+// Ces trois adresses répondent en JSON à la pastille, jamais une page.
+$router->post('/admin/conseiller',        $protege(fn() => $ctrlConseil->question()));
+$router->post('/admin/conseiller/bilan',  $protege(fn() => $ctrlConseil->bilan()));
+$router->get('/admin/conseiller/bilan',   $protege(fn() => $ctrlConseil->dernierBilan()));
 
 // --- conversations --------------------------------------------------------
 $router->get('/admin/conversations',            $protege(fn() => $ctrlConv->ecran()));

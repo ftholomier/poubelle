@@ -44,6 +44,24 @@ $modeleChoisi = (string) ($reglages['modele'] ?? '');
       </label>
       <p class="bo-aide">Décoché, la bulle disparaît entièrement du site : aucun code n’est envoyé au visiteur.</p>
     </div>
+    <?php /* Deux interrupteurs, une seule clé. Le conseiller ne s'adresse
+             qu'aux agents : on veut souvent l'allumer d'abord, pour préparer
+             le site, avant d'exposer l'assistant aux visiteurs. */ ?>
+    <div class="bo-champ bo-champ--case">
+      <label>
+        <input type="checkbox" name="conseiller" value="1"<?= !empty($reglages['conseiller']) ? ' checked' : '' ?>>
+        Afficher le conseiller dans le back-office
+      </label>
+      <p class="bo-aide">
+        Une pastille en bas à droite de chaque écran d’administration. Elle
+        conseille sur le contenu, la stratégie et le référencement, et sait
+        faire le bilan du site. Elle n’est visible que des agents connectés,
+        jamais des visiteurs. Elle envoie à Google le contenu du site, ses
+        chiffres de fréquentation et les questions posées à l’assistant, dont
+        les coordonnées sont masquées — c’est décrit dans la politique de
+        confidentialité.
+      </p>
+    </div>
   </fieldset>
 
   <fieldset>

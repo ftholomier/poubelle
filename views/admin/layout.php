@@ -126,6 +126,11 @@ $menu = [
     <?= $slot ?>
   </main>
 </div>
+<?php /* La pastille du conseiller ferme chaque écran. Posée ici plutôt que
+         dans les vingt-neuf vues : un écran ajouté demain l'aura sans qu'on y
+         pense, et le fragment se retire de lui-même quand le conseiller est
+         éteint. */ ?>
+<?= $view->partial('admin/conseiller') ?>
 <?php /* Le nonce vient de App\Core\Entetes, comme sur le site public : le
          back-office est servi sous la même politique de sécurité, en plus
          strict — ni mesure d'audience, ni cadre, et jamais de cache. */ ?>
@@ -133,5 +138,10 @@ $menu = [
 <?php /* Chargé partout : les écrans qui n'ont pas de champ riche n'y trouvent
          rien et le script se retire de lui-même, comme les autres blocs. */ ?>
 <script nonce="<?= e(App\Core\Entetes::nonce()) ?>" src="<?= asset('assets/js/editeur.js') ?>" defer></script>
+<?php /* Chargé seulement quand la pastille est là : ce fichier n'a rien à
+         faire dans un back-office dont le conseiller est éteint. */ ?>
+<?php if (isset($conseiller) && $conseiller->actif()): ?>
+  <script nonce="<?= e(App\Core\Entetes::nonce()) ?>" src="<?= asset('assets/js/conseiller.js') ?>" defer></script>
+<?php endif; ?>
 </body>
 </html>
