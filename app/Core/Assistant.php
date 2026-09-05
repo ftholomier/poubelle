@@ -78,6 +78,20 @@ final class Assistant
         return $m !== '' ? $m : self::MODELE_DEFAUT;
     }
 
+    /**
+     * La connexion de l'assistant public : sa clé, son modèle.
+     *
+     * Le conseiller du back-office a la sienne, qui peut désigner un autre
+     * compte et un autre modèle — voir App\Core\Connexion pour pourquoi. Tout
+     * ce qui appelle Gemini passe par un objet de ce type, jamais par les
+     * réglages directement : c'est ce qui rend l'appel indifférent à celui des
+     * deux qui l'a demandé.
+     */
+    public function connexion(): Connexion
+    {
+        return new Connexion($this->cle(), $this->modele());
+    }
+
     public function titre(): string
     {
         $t = trim((string) $this->parametres->get('assistant.titre', ''));
@@ -253,9 +267,17 @@ final class Assistant
      * @param array<int, array<string, mixed>> $contenus tours de conversation
      *                                                   au format de l'API
      * @param array<string, mixed> $reglages surcharges de generationConfig
+     * @param Connexion|null $via clé et modèle à employer ; à défaut, ceux de
+     *                            l'assistant public
      */
-    public function generer(string $consigne, array $contenus, array $reglages = []): string
+    public function generer(string $consigne, array $contenus, array $reglages = [],
+                            ?Connexion $via = null): string
     {
+        $via ??= $this->connexion();
+        if (!$via->utilisable()) {
+            throw new RuntimeException('Aucune clé d’API n’est enregistrée pour cet usage.');
+        }
+
         $charge = [
             'systemInstruction' => ['parts' => [['text' => $consigne]]],
             'contents' => $contenus,
@@ -269,7 +291,8 @@ final class Assistant
         ];
 
         [$code, $corps] = $this->requete(
-            self::API . '/models/' . rawurlencode($this->modele()) . ':generateContent?key=' . rawurlencode($this->cle()),
+            self::API . '/models/' . rawurlencode($via->modele)
+                . ':generateContent?key=' . rawurlencode($via->cle),
             ['Content-Type: application/json'],
             json_encode($charge, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             self::DELAI_RESEAU

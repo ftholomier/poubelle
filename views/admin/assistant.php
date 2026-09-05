@@ -19,6 +19,7 @@ use App\Core\Csrf;
 $actif = (bool) ($reglages['actif'] ?? false);
 $cleEnregistree = trim((string) ($reglages['cle'] ?? '')) !== '';
 $modeleChoisi = (string) ($reglages['modele'] ?? '');
+$modeleConseiller = (string) ($reglages['conseiller_modele'] ?? '');
 ?>
 <p class="bo-aide">
   L’assistant répond aux visiteurs depuis une bulle en bas à droite du site.
@@ -60,6 +61,35 @@ $modeleChoisi = (string) ($reglages['modele'] ?? '');
         chiffres de fréquentation et les questions posées à l’assistant, dont
         les coordonnées sont masquées — c’est décrit dans la politique de
         confidentialité.
+      </p>
+    </div>
+
+    <?php /* Même clé, autre modèle. Le conseiller relit le site entier pour
+             en faire le bilan ; l’assistant répond en trois phrases à un
+             visiteur qui attend. Les deux travaux ne demandent pas le même
+             modèle, et le conseiller n’est sollicité que quelques fois par
+             mois — le surcoût d’un modèle plus capable ne se voit pas. */ ?>
+    <div class="bo-champ">
+      <label for="ia-modele-conseiller">Modèle du conseiller</label>
+      <?php if ($modeles === []): ?>
+        <input id="ia-modele-conseiller" type="text" name="conseiller_modele"
+               value="<?= e($modeleConseiller) ?>"
+               placeholder="<?= e($modeleChoisi !== '' ? $modeleChoisi : Assistant::MODELE_DEFAUT) ?>">
+      <?php else: ?>
+        <select id="ia-modele-conseiller" name="conseiller_modele">
+          <option value="">Le même que l’assistant (<?= e($modeleChoisi !== '' ? $modeleChoisi : Assistant::MODELE_DEFAUT) ?>)</option>
+          <?php foreach ($modeles as $m): ?>
+            <option value="<?= e($m['id']) ?>"<?= $m['id'] === $modeleConseiller ? ' selected' : '' ?>>
+              <?= e($m['nom']) ?> — <?= e($m['id']) ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      <?php endif; ?>
+      <p class="bo-aide">
+        La clé est la même : c’est le même compte Google, et il n’y a rien de
+        plus à créer. Seul le modèle change. Laissé vide, le conseiller suit
+        celui de l’assistant ; un modèle plus capable se justifie surtout pour
+        le bilan, qui relit tout le site d’un coup.
       </p>
     </div>
   </fieldset>

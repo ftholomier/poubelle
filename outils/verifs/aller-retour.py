@@ -70,6 +70,11 @@ ECRANS = (
     # signaler, et l'assistant recommencerait à répondre au nom d'une commune
     # qui n'est pas la sienne.
     ('/admin/assistant',  '/admin/assistant/consignes', 'assistant.json'),
+    # Le formulaire principal du même écran, qui écrit ailleurs : la clé, le
+    # modèle de l'assistant, celui du conseiller et les réglages de la bulle.
+    # Il ne l'était pas, et c'est exactement le genre d'écran où un name= qui
+    # dérive vide un réglage sans que rien ne le signale.
+    ('/admin/assistant',  '/admin/assistant',           'admin/parametres.json'),
     # Les mentions légales portent le bloc « hebergeur », dont les champs sont
     # une obligation de la LCEN : un name= qui dérive les viderait, et la page
     # se remettrait à dire que l'hébergeur n'est pas renseigné.

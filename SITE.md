@@ -354,7 +354,9 @@ invisibles tant qu'elle est vide :
   déchets relèvent du Grand Belfort, l'école du Syndicat du Tilleul. Les
   secours passent avant tout renvoi vers une page, et cela vient de la consigne
   du socle ;
-- **le conseiller du back-office** (même clé Gemini, interrupteur distinct) —
+- **le conseiller du back-office** (même clé Gemini, interrupteur et modèle
+  distincts — il relit le site entier pour en faire le bilan, là où
+  l'assistant répond en trois phrases) —
   on l'allume souvent en premier, pour préparer le site, sans exposer encore
   l'assistant aux visiteurs. Il envoie à Google le contenu du site, ses
   comptages de fréquentation et les questions posées à l'assistant : seules

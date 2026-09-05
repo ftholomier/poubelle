@@ -260,6 +260,15 @@ Ce qu'ils partagent est l'appel réseau, sorti dans `Assistant::generer()` :
 une seule route vers Google, une seule traduction de ses erreurs. Deux copies
 auraient divergé au premier message ajouté.
 
+**Ils ne partagent pas le modèle**, et `App\Core\Connexion` est là pour ça :
+une clé, deux modèles. L'assistant répond à un visiteur qui attend, en trois
+phrases, et doit rester rapide et peu coûteux ; le conseiller relit cent vingt
+mille caractères pour en tirer un bilan classé, quelques fois par mois. Le
+second gagne à un modèle plus capable, et le surcoût ne se mesure pas à
+l'échelle d'une commune. La clé reste unique : c'est le même compte Google, et
+en demander deux aurait été une formalité sans contrepartie. Réglage vide, le
+conseiller suit le modèle de l'assistant.
+
 Trois choses valent d'être reprises telles quelles :
 
 - **La liste des sources est explicite et bornée.** `Conseiller::etatDuSite()`
@@ -341,7 +350,8 @@ l'apprenne.
 | `Diffusion` | Le seul chemin d'envoi : réunit Meta, la file et la fabrique d'image | oui |
 | `Vignette` | L'image carrée fabriquée quand une publication n'a pas de photo (GD) | oui, en fournissant blason PNG et police TTF |
 | `Verrou` / `ConflitEcriture` | Verrou optimiste : deux administrateurs sur le même écran ne s'effacent plus | oui |
-| `Conseiller` | Le conseiller du back-office : état du site, consigne, bilan. Partage la clé de `Assistant` et son appel réseau, jamais son interrupteur ni sa consigne | oui |
+| `Conseiller` | Le conseiller du back-office : état du site, consigne, bilan. Partage la clé de `Assistant` et son appel réseau, jamais son interrupteur, sa consigne ni son modèle | oui |
+| `Connexion` | Une clé et un modèle : de quoi appeler Gemini une fois. Deux usages, une clé, deux modèles | oui |
 | `Entetes` | Le jeton de la politique de sécurité, les cadres autorisés par la page, `no-store` sur `/admin` et `/api` | oui |
 
 ---

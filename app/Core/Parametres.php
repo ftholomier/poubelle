@@ -61,9 +61,13 @@ final class Parametres
         // titre que le mot de passe SMTP — d'où sa place dans ce fichier
         'assistant' => [
             'actif'       => false,
-            // Le conseiller du back-office partage la clé, jamais
-            // l'interrupteur : voir App\Core\Conseiller::actif().
+            /* Le conseiller du back-office partage la clé — un seul compte
+               Google à créer —, mais ni l'interrupteur ni le modèle : il
+               relit le site entier pour en faire le bilan, là où l'assistant
+               répond en trois phrases. Vide, il suit le modèle de
+               l'assistant. Voir App\Core\Connexion. */
             'conseiller'  => false,
+            'conseiller_modele' => '',
             'cle'         => '',
             'modele'      => '',          // vide = modèle par défaut du socle
             'titre'       => '',

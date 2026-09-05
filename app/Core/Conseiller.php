@@ -74,6 +74,22 @@ final class Conseiller
             && $this->assistant->cle() !== '';
     }
 
+    /**
+     * La connexion du conseiller : la clé de l'assistant, son modèle à lui.
+     *
+     * Une seule clé à renseigner — c'est le même compte Google —, mais deux
+     * modèles : le bilan relit cent vingt mille caractères et gagne à un
+     * modèle plus capable, quand l'assistant public répond en trois phrases et
+     * doit rester rapide. Vide, le réglage suit celui de l'assistant : la
+     * mairie qui ne veut pas s'en occuper n'a rien à faire.
+     */
+    public function connexion(): Connexion
+    {
+        $modele = trim((string) $this->parametres->get('assistant.conseiller_modele', ''));
+
+        return new Connexion($this->assistant->cle(), $modele !== '' ? $modele : $this->assistant->modele());
+    }
+
     /** Pourquoi il ne s'affiche pas, quand il ne s'affiche pas. */
     public function motifAbsence(): string
     {
@@ -109,7 +125,8 @@ final class Conseiller
             array_merge($this->amorce(), $this->tours($historique), [
                 ['role' => 'user', 'parts' => [['text' => $question]]],
             ]),
-            ['temperature' => 0.4, 'maxOutputTokens' => 1400]
+            ['temperature' => 0.4, 'maxOutputTokens' => 1400],
+            $this->connexion()
         );
     }
 
@@ -174,7 +191,8 @@ final class Conseiller
                 'maxOutputTokens'  => self::JETONS_BILAN,
                 'responseMimeType' => 'application/json',
                 'responseSchema'   => $schema,
-            ]
+            ],
+            $this->connexion()
         );
 
         $lu = json_decode($brut, true);
