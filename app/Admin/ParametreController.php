@@ -181,7 +181,10 @@ final class ParametreController
             'identifiant'    => trim((string) ($_POST['identifiant'] ?? '')),
             'mot_de_passe'   => $motDePasse,
             'expediteur'     => self::courrielValide((string) ($_POST['expediteur'] ?? '')),
-            'nom_expediteur' => trim((string) ($_POST['nom_expediteur'] ?? '')) ?: 'Mairie d’Angeot',
+            // Laissé vide, il suit le nom de la collectivité : c'est le
+            // Mailer qui comble, et non ce contrôleur, pour qu'un site repris
+            // d'une autre commune ne fige pas ici l'ancien nom.
+            'nom_expediteur' => trim((string) ($_POST['nom_expediteur'] ?? '')),
         ];
         $actuel['contact'] = [
             'destinataire' => trim((string) ($_POST['destinataire'] ?? '')),

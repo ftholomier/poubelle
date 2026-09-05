@@ -37,8 +37,16 @@ final class TraductionAuto
 
     /* L'agent utilisateur annoncé aux services de traduction. Il portait le
        nom du site commercial dont vient le socle : un service qui journalise
-       ses appelants voyait une menuiserie derrière les requêtes d'une mairie. */
-    private const AGENT = 'Mozilla/5.0 (compatible; MairieAngeot/1.0)';
+       ses appelants voyait une menuiserie derrière les requêtes d'une mairie.
+       Il a ensuite porté « MairieAngeot » en dur, ce qui déplaçait le
+       problème d'une commune à l'autre : il se déduit maintenant du nom. */
+    private static function agent(): string
+    {
+        $nom = preg_replace('/[^A-Za-z0-9]+/', '',
+            (string) @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', nom_du_site())) ?: 'Mairie';
+
+        return 'Mozilla/5.0 (compatible; ' . $nom . '/1.0)';
+    }
 
     /**
      * Une clé gratuite s'adresse à un autre serveur qu'une clé payante, et
@@ -395,7 +403,7 @@ final class TraductionAuto
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_TIMEOUT        => self::DELAI,
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_USERAGENT      => self::AGENT,
+                CURLOPT_USERAGENT      => self::agent(),
             ]);
             if ($corpsEnvoye !== null) {
                 curl_setopt($ch, CURLOPT_POST, true);
@@ -418,7 +426,7 @@ final class TraductionAuto
             return $corps;
         }
 
-        $lignes = 'User-Agent: ' . self::AGENT . "\r\n";
+        $lignes = 'User-Agent: ' . self::agent() . "\r\n";
         foreach ($entetes as $entete) {
             $lignes .= $entete . "\r\n";
         }

@@ -179,6 +179,7 @@ $router->get('/admin/assistant',                  $protege(fn() => $ctrlIa->ecra
 $router->post('/admin/assistant',                 $protege(fn() => $ctrlIa->envoi()));
 $router->post('/admin/assistant/modeles',         $protege(fn() => $ctrlIa->modeles()));
 $router->post('/admin/assistant/notes',           $protege(fn() => $ctrlIa->notes()));
+$router->post('/admin/assistant/consignes',       $protege(fn() => $ctrlIa->consignes()));
 $router->post('/admin/assistant/documents',       $protege(fn() => $ctrlIa->documentAjout()));
 $router->post('/admin/assistant/documents/retirer', $protege(fn() => $ctrlIa->documentSuppression()));
 $router->post('/admin/assistant/essai',           $protege(fn() => $ctrlIa->essai()));

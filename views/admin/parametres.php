@@ -96,7 +96,9 @@ $contact = $parametres['contact'];
       </div>
       <div class="bo-champ">
         <label for="p-nom">Nom affiché</label>
-        <input id="p-nom" type="text" name="nom_expediteur" value="<?= e($smtp['nom_expediteur']) ?>">
+        <input id="p-nom" type="text" name="nom_expediteur" value="<?= e($smtp['nom_expediteur']) ?>"
+               placeholder="<?= e(nom_du_site()) ?>">
+        <span class="aide">Laissez vide pour signer du nom de la collectivité.</span>
       </div>
     </div>
   </fieldset>

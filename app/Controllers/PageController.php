@@ -502,7 +502,7 @@ final class PageController
             'Bonjour,',
             '',
             'Vous venez de recevoir un message envoyé depuis le formulaire de',
-            'contact du site de la commune d’Angeot.',
+            'contact du site de ' . nom_du_site() . '.',
             '',
             'Coordonnées de la personne :',
             '',

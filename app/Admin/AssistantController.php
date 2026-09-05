@@ -49,6 +49,7 @@ final class AssistantController
             'erreur'     => $this->assistant->derniereErreur(),
             'documents'  => $this->assistant->documents(),
             'notes'      => $this->assistant->notesHtml(),
+            'consignes'  => $this->assistant->consignesCommune(),
             'mesure'     => $this->assistant->mesureCorpus(),
             'essai'      => Session::flashDonnees('assistant_essai'),
         ], 'admin/layout');
@@ -158,6 +159,30 @@ final class AssistantController
                 TexteRiche::nettoyer((string) ($_POST['notes'] ?? ''), true)
             );
             Session::flash('succes', 'Notes enregistrées.');
+        } catch (Throwable $e) {
+            Session::flash('erreur', $e->getMessage());
+        }
+
+        return $this->rediriger();
+    }
+
+    /**
+     * Les règles de service propres à la commune, une par ligne.
+     *
+     * Elles vivaient dans la consigne système, en dur : voir
+     * App\Core\Assistant::consignesCommune() pour ce que cela coûtait.
+     */
+    public function consignes(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger();
+        }
+
+        try {
+            $this->assistant->enregistrerConsignes(
+                preg_split('/\R/u', (string) ($_POST['consignes'] ?? '')) ?: []
+            );
+            Session::flash('succes', 'Consignes enregistrées.');
         } catch (Throwable $e) {
             Session::flash('erreur', $e->getMessage());
         }

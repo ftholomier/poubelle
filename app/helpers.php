@@ -316,6 +316,28 @@ if (!function_exists('poids')) {
     }
 }
 
+if (!function_exists('nom_du_site')) {
+    /**
+     * Le nom de la collectivité, tel qu'il signe un courriel ou une requête.
+     *
+     * Il était recopié en dur dans quatre fichiers de code : les deux valeurs
+     * de repli du nom d'expéditeur, celle du contrôleur qui l'enregistre, et
+     * l'agent annoncé aux services de traduction. Produire le site d'une
+     * autre commune demandait donc de les retrouver un par un — et celui
+     * qu'on oubliait signait les courriels au nom de la commune précédente.
+     *
+     * Le nom vit désormais à un seul endroit du code, config/config.php ; le
+     * reste passe par ici. Le nom affiché par le site lui-même reste celui de
+     * site.json, que la mairie modifie sans toucher au code.
+     */
+    function nom_du_site(): string
+    {
+        $nom = trim((string) ($GLOBALS['config']['app']['name'] ?? ''));
+
+        return $nom !== '' ? $nom : 'Mairie';
+    }
+}
+
 if (!function_exists('riche')) {
     /**
      * Sortie d'un texte mis en forme par la mairie.

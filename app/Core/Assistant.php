@@ -309,13 +309,7 @@ final class Assistant
                 . ($horaires !== '' ? " Ils sont : $horaires." : ''),
             'Le secrétariat n’est ouvert que trois jours par semaine : invite systématiquement à appeler avant de se déplacer, plutôt qu’à venir au hasard.',
             '',
-            'PROPRE À ANGEOT — ce que la commune ne fait pas, et qu’il faut dire tout de suite :',
-            'La mairie d’Angeot n’est pas équipée d’un dispositif de recueil : elle ne peut établir ni carte d’identité ni passeport. La demande se dépose dans une mairie équipée, sur rendez-vous.',
-            'Les déchets, l’eau et l’assainissement relèvent du Grand Belfort Communauté d’Agglomération, pas de la commune.',
-            'L’école, la cantine, la garderie, le centre de loisirs et les transports scolaires relèvent du Syndicat Intercommunal du Tilleul.',
-            'La salle communale s’appelle la salle Camille ; sa réservation, ses tarifs et sa caution sont décrits sur sa page, et passent par le secrétariat.',
-            'L’affouage est ouvert chaque année par délibération : les modalités changent d’une campagne à l’autre, ne cite que ce que disent les sources.',
-            '',
+            ...$this->blocCommune(),
             'URGENCES : si la question évoque un danger, un accident, une agression, une détresse ou une situation qui ne peut pas attendre, tu réponds d’abord d’appeler les secours — 15, 17, 18, ou 112 depuis un portable — avant toute autre chose. Tu ne fais alors ni renvoi vers une page, ni proposition de rappel.',
             '',
             'DONNÉES PERSONNELLES : tu ne demandes jamais de numéro de sécurité sociale, de coordonnées bancaires, de copie de pièce d’identité ni de mot de passe. Si le visiteur en donne spontanément, tu ne les répètes pas et tu invites à passer par le formulaire, qui est le seul canal prévu.',
@@ -326,6 +320,73 @@ final class Assistant
         ];
 
         return implode("\n", $lignes);
+    }
+
+    /**
+     * Le paragraphe de consignes propres à la commune, prêt à être inséré.
+     *
+     * @return string[] vide s'il n'y en a aucune : la consigne se referme
+     *                  alors sans titre orphelin
+     */
+    private function blocCommune(): array
+    {
+        $propres = $this->consignesCommune();
+        if ($propres === []) {
+            return [];
+        }
+
+        return array_merge(
+            ['PROPRE À CETTE COMMUNE — ce qu’elle ne fait pas, et qu’il faut dire tout de suite :'],
+            $propres,
+            ['']
+        );
+    }
+
+    /**
+     * Les règles de service propres à la commune, une par ligne.
+     *
+     * Elles étaient écrites dans la consigne ci-dessus, et c'était un défaut
+     * de fond : « la mairie n'est pas équipée d'un dispositif de recueil » est
+     * vrai d'Angeot et faux d'une commune voisine. Le socle servant de modèle,
+     * la mairie suivante aurait hérité d'un assistant qui affirme un service
+     * qu'elle rend, ou nie un service qu'elle ne rend pas — exactement ce que
+     * ce dépôt s'interdit. Elles vivent donc dans un contenu, modifiable
+     * depuis le back-office comme le reste.
+     *
+     * @return string[]
+     */
+    public function consignesCommune(): array
+    {
+        $lignes = [];
+        foreach ((array) $this->content->get('assistant', 'consignes', []) as $ligne) {
+            $ligne = trim((string) $ligne);
+            if ($ligne !== '') {
+                $lignes[] = $ligne;
+            }
+        }
+
+        return $lignes;
+    }
+
+    /**
+     * Enregistre les consignes propres à la commune.
+     *
+     * @param string[] $lignes
+     */
+    public function enregistrerConsignes(array $lignes): void
+    {
+        $propres = [];
+        foreach ($lignes as $ligne) {
+            $ligne = trim((string) $ligne);
+            if ($ligne !== '') {
+                // Une consigne est une phrase, pas un document : la borne
+                // évite qu'un copier-coller de page entière parte à chaque
+                // question et consomme le contexte du modèle.
+                $propres[] = mb_substr($ligne, 0, 400);
+            }
+        }
+
+        $this->content->save('assistant', ['consignes' => $propres]);
     }
 
     // ------------------------------------------------------------------- corpus

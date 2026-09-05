@@ -33,6 +33,12 @@ spl_autoload_register(static function (string $class) use ($config): void {
     }
 });
 
+/* Les helpers lisent la configuration par $GLOBALS : la poser ici, et non
+   dans public/index.php seul, pour que les points d'entrée qui amorcent
+   l'application sans passer par le contrôleur frontal — outils, tâches
+   planifiées, auditeurs — disposent des mêmes fonctions. */
+$GLOBALS['config'] = $config;
+
 require __DIR__ . '/helpers.php';
 
 return $config;

@@ -241,6 +241,11 @@ crée le compte administrateur au premier passage.
 
 ### Étape 2 — L'identité
 
+0. `config/config.php`, clé `app.name` : **le seul endroit du code** où le nom
+   de la collectivité est écrit. Le nom d'expéditeur des courriels et l'agent
+   annoncé aux services de traduction s'en déduisent, par `nom_du_site()`.
+   Il y en avait quatre auparavant, et celui qu'on oubliait signait les
+   courriels au nom de la commune précédente.
 1. `data-modele/site.json` : nom, adresse, téléphone, e-mail, réseaux, menu.
 2. `public/assets/img/logo/` : `logo-<marque>.svg`, `-clair.svg`,
    `embleme-*.svg`, `favicon-512.png`, `apple-touch-icon.png`.
@@ -332,7 +337,15 @@ sans quoi le plan se réduit à une bande et la page saute.
 
 La consigne système est dans `Assistant::consigne()`. C'est le seul endroit à
 réécrire pour un autre métier : elle dit au modèle de quoi il parle, sur quel
-ton, et vers quoi ramener.
+ton, et vers quoi ramener. **Elle ne contient plus rien de propre à une
+commune** — c'est une correction, pas un détail : « la mairie n'est pas équipée
+d'un dispositif de recueil » est vrai d'Angeot et faux de sa voisine, et le
+socle affirmait donc un service que la commune suivante rendait peut-être.
+
+Ce qui est propre à la commune vit dans `data-modele/assistant.json`, clé
+`consignes` : une phrase par règle, modifiable depuis `/admin/assistant` sans
+toucher au code. Les y écrire toutes, y compris les évidences locales — c'est
+ce qui évite un déplacement inutile à un administré.
 
 **Pour un service public, trois clauses sont non négociables** et ne figuraient
 pas dans la version commerciale : les secours passent avant tout renvoi vers

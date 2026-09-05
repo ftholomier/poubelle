@@ -8,6 +8,11 @@ declare(strict_types=1);
  */
 return [
     'app' => [
+        /* Le SEUL endroit du code où le nom de la collectivité est écrit.
+           Tout le reste passe par nom_du_site() (app/helpers.php) : nom
+           d'expéditeur des courriels, agent annoncé aux traducteurs. Le nom
+           que le visiteur lit vient, lui, de site.json — que la mairie
+           modifie depuis le back-office. */
         'name'     => 'Mairie d’Angeot',
         'env'      => getenv('APP_ENV') ?: 'production',
         'debug'    => filter_var(getenv('APP_DEBUG') ?: 'false', FILTER_VALIDATE_BOOL),

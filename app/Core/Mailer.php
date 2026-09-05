@@ -45,7 +45,7 @@ final class Mailer
         }
 
         $expediteur = (string) $this->parametres->get('smtp.expediteur') ?: $this->expediteurParDefaut();
-        $nom        = (string) $this->parametres->get('smtp.nom_expediteur', 'Mairie d’Angeot');
+        $nom        = trim((string) $this->parametres->get('smtp.nom_expediteur', '')) ?: nom_du_site();
 
         if (!$this->parametres->smtpConfigure()) {
             $this->envoyerParMail($destinataire, $sujet, $corps, $expediteur, $nom, $repondreA);

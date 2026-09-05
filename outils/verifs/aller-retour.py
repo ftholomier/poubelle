@@ -65,6 +65,11 @@ ECRANS = (
     # facilement — et où il se perdrait sans un mot.
     ('/admin/pages/album-photos', '/admin/pages/album-photos', 'pages/album-photos.json'),
     ('/admin/pages/le-village',   '/admin/pages/le-village',   'pages/le-village.json'),
+    # Les consignes propres à la commune : une textarea dont chaque ligne est
+    # une règle de service. Un name= qui dérive y viderait la liste sans rien
+    # signaler, et l'assistant recommencerait à répondre au nom d'une commune
+    # qui n'est pas la sienne.
+    ('/admin/assistant',  '/admin/assistant/consignes', 'assistant.json'),
 )
 
 # Le tableau de bord n'enregistre rien : il n'a pas sa place ci-dessus. Il est

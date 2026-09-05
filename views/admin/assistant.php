@@ -7,6 +7,7 @@
  * @var string $erreur
  * @var array $documents
  * @var string $notes
+ * @var string[] $consignes
  * @var array $mesure
  * @var array|null $essai
  * @var App\Core\Bulle $bulle
@@ -370,6 +371,30 @@ $modeleChoisi = (string) ($reglages['modele'] ?? '');
              accept=".pdf,.docx,.txt,.md">
     </div>
     <button class="bo-btn" type="submit">Envoyer</button>
+  </form>
+</div>
+
+<div class="bo-bloc">
+  <h2>Ce que la commune ne fait pas</h2>
+  <p class="bo-aide">
+    Une ligne par règle. Elles sont dites à l’assistant avant toute question,
+    pour qu’il l’annonce tout de suite plutôt qu’au terme d’une réponse :
+    « la mairie n’établit pas les cartes d’identité », « les déchets relèvent
+    de l’agglomération ». C’est ce qui évite un déplacement inutile.
+  </p>
+
+  <form class="bo-form" method="post" action="<?= url('/admin/assistant/consignes') ?>">
+    <?= Csrf::champ() ?>
+    <div class="bo-champ">
+      <label for="ia-consignes">Consignes propres à la commune</label>
+      <textarea id="ia-consignes" name="consignes" rows="7"
+                aria-describedby="ia-consignes-aide"><?= e(implode("\n", $consignes)) ?></textarea>
+      <p class="bo-aide" id="ia-consignes-aide">
+        Une phrase par ligne, 400 caractères au plus. Ne rien écrire ici que la
+        mairie n’ait vérifié : l’assistant le répétera tel quel.
+      </p>
+    </div>
+    <button class="bo-btn" type="submit">Enregistrer les consignes</button>
   </form>
 </div>
 

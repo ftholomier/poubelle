@@ -23,7 +23,8 @@ final class Parametres
             'identifiant'  => '',
             'mot_de_passe' => '',
             'expediteur'   => '',
-            'nom_expediteur' => 'Mairie d’Angeot',
+            // vide = le nom de la collectivité, voir nom_du_site()
+            'nom_expediteur' => '',
         ],
         'contact' => [
             'destinataire' => '',
