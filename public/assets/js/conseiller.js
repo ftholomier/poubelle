@@ -31,6 +31,8 @@
   var envoyer = boite.querySelector("[data-conseil-envoyer]");
   var zoneBilan = boite.querySelector("[data-conseil-bilan]");
   var lancer = boite.querySelector("[data-conseil-lancer]");
+  var agrandir = boite.querySelector("[data-conseil-agrandir]");
+  var nomAgrandir = boite.querySelector(".bo-conseil__agrandir-nom");
 
   if (!pastille || !panneau || !fil || !form || !champ) return;
   if (!ADRESSE || !ADRESSE_BILAN) return;
@@ -41,6 +43,7 @@
      du site public. */
   var CLE_FIL = "bo.conseil.fil";
   var CLE_OUVERT = "bo.conseil.ouvert";
+  var CLE_GRAND = "bo.conseil.grand";
   var historique = [];
 
   var lire = function (cle) {
@@ -218,12 +221,21 @@
 
   // -------------------------------------------------------------- conversation
 
+  /* Le champ suit la longueur de la question, dans les bornes fixées en CSS :
+     une ligne au repos pour laisser la place à la lecture, six au plus. */
+  var ajusterChamp = function () {
+    champ.style.height = "auto";
+    champ.style.height = Math.min(champ.scrollHeight, 128) + "px";
+  };
+  champ.addEventListener("input", ajusterChamp);
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var question = champ.value.replace(/^\s+|\s+$/g, "");
     if (!question) return;
 
     champ.value = "";
+    ajusterChamp();
     champ.disabled = true;
     if (envoyer) envoyer.disabled = true;
     message("agent", question);
@@ -269,6 +281,14 @@
       quand.className = "bo-conseil__date";
       quand.textContent = "Bilan du " + new Date(bilan.date * 1000).toLocaleDateString("fr-FR");
       zoneBilan.appendChild(quand);
+    }
+
+    /* Le bilan existe : le bouton qui l'a produit passe au second plan. Il
+       reste atteignable, mais ce n'est plus lui qu'on regarde. */
+    if (lancer) {
+      lancer.textContent = "Refaire le bilan";
+      lancer.classList.add("bo-btn--contour");
+      if (lancer.parentNode) lancer.parentNode.classList.add("est-refaite");
     }
 
     liste.forEach(function (r) {
@@ -372,6 +392,22 @@
     if (ouvrir) champ.focus();
   };
 
+  /* Agrandir / réduire. Le choix survit à un changement d'écran : on agrandit
+     pour lire un bilan, on navigue dans le back-office en le gardant ouvert,
+     et le retrouver rétréci à chaque page serait insupportable. */
+  var agrandirVers = function (grand) {
+    boite.classList.toggle("est-grand", grand);
+    if (agrandir) agrandir.setAttribute("aria-pressed", grand ? "true" : "false");
+    if (nomAgrandir) nomAgrandir.textContent = grand ? "Réduire" : "Agrandir";
+    ecrire(CLE_GRAND, grand ? "1" : "0");
+  };
+
+  if (agrandir) {
+    agrandir.addEventListener("click", function () {
+      agrandirVers(!boite.classList.contains("est-grand"));
+    });
+  }
+
   pastille.addEventListener("click", function () { basculer(panneau.hidden); });
   if (fermer) fermer.addEventListener("click", function () { basculer(false); pastille.focus(); });
 
@@ -390,5 +426,6 @@
       });
     } catch (e) { historique = []; }
   }
+  if (lire(CLE_GRAND) === "1") agrandirVers(true);
   if (lire(CLE_OUVERT) === "1") basculer(true);
 })();

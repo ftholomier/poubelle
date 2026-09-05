@@ -2030,14 +2030,31 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
   height: min(34rem, calc(100vh - 6rem));
   background: var(--fond-2); border: 1px solid var(--trait);
   box-shadow: 0 12px 40px rgba(0, 0, 0, .45);
-  min-width: 0;
+  min-width: 0; overflow: hidden;
 }
+/* LE piège du socle, et il a coûté cher ici : une règle d'affichage explicite
+   l'emporte sur l'attribut `hidden` du navigateur. Sans ces deux lignes, le
+   panneau restait ouvert avant tout clic, les DEUX vues s'empilaient l'une sur
+   l'autre, et changer d'onglet ne faisait rien de visible — le JS basculait
+   bien `hidden`, le CSS l'ignorait. Ce fichier et site.css portent déjà onze
+   règles de cette forme ; celle-ci manquait. */
+.bo-conseil__panneau[hidden] { display: none; }
+.bo-conseil__vue[hidden] { display: none; }
 
 .bo-conseil__entete {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: .9rem 1.1rem; border-bottom: 1px solid var(--trait);
+  display: flex; align-items: center; gap: .4rem;
+  padding: .5rem .6rem .5rem 1.1rem; border-bottom: 1px solid var(--trait);
 }
-.bo-conseil__titre { font-size: .95rem; letter-spacing: .06em; text-transform: uppercase; }
+.bo-conseil__titre {
+  flex: 1 1 auto; min-width: 0;
+  font-size: .95rem; letter-spacing: .06em; text-transform: uppercase;
+}
+.bo-conseil__agrandir {
+  min-height: 44px; padding: 0 .8rem;
+  background: none; border: 1px solid var(--trait); color: var(--texte);
+  font-size: .74rem; letter-spacing: .06em;
+}
+.bo-conseil__agrandir:hover { border-color: var(--accent); color: var(--accent-clair); }
 /* `background: none` et `border: 0` : admin.css ne remet pas les boutons à
    plat — chaque classe pose son propre fond —, et sans ces deux lignes le
    navigateur peint son ButtonFace gris. Trouvé par outils/verifs/conseiller.py,
@@ -2100,14 +2117,22 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
 .bo-conseil__reco-lien { color: var(--accent-clair); text-decoration: underline; justify-self: start; min-height: 44px; display: inline-flex; align-items: center; }
 
 .bo-conseil__saisie {
-  display: grid; gap: .6rem; padding: .9rem 1.1rem;
+  display: grid; gap: .6rem; padding: .7rem .9rem;
   border-top: 1px solid var(--trait); min-width: 0;
 }
-.bo-conseil__label {
-  font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--texte-2);
+/* Le champ et son bouton sur une ligne. `minmax(0, 1fr)` et non `1fr` : une
+   piste de grille garde la largeur minimale de son contenu, et le panneau
+   déborderait à 320 px. L'étiquette, elle, est lue sans être affichée — les
+   trois lignes de chrome d'origine mangeaient cent soixante-dix pixels sur
+   cinq cent quarante, c'est-à-dire l'essentiel de la place où l'on lit. */
+.bo-conseil__saisie--ligne {
+  grid-template-columns: minmax(0, 1fr) auto; align-items: end;
 }
 .bo-conseil__saisie textarea {
   width: 100%; min-width: 0; resize: vertical;
+  /* Une ligne au repos, six au plus : la zone de lecture ne rétrécit que si
+     l'on écrit vraiment une longue question. */
+  min-height: 44px; max-height: 8rem;
   background: var(--fond); color: var(--texte);
   border: 1px solid var(--trait); padding: .6rem .7rem; font: inherit; font-size: .88rem;
 }
@@ -2117,7 +2142,23 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
 .bo-conseil__proposition-gestes .bo-btn {
   min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
 }
-.bo-conseil__saisie .bo-btn { justify-self: stretch; text-align: center; }
+.bo-conseil__saisie .bo-btn { text-align: center; }
+/* Tant qu'aucun bilan n'existe, le bouton est la seule action de l'écran et
+   prend toute la largeur. Une fois le bilan rendu, le script le passe en
+   retrait : ce qui compte devient la liste, pas le bouton qui l'a produite. */
+.bo-conseil__saisie--action .bo-btn { justify-self: stretch; }
+.bo-conseil__saisie--action.est-refaite { justify-items: end; }
+.bo-conseil__saisie--action.est-refaite .bo-btn { justify-self: end; }
+
+/* Agrandi, le panneau prend presque tout l'écran : un bilan de huit
+   recommandations fait huit cents pixels de texte, et se lisait par une
+   fenêtre de trois cent cinquante. La taille compacte reste celle par défaut,
+   parce qu'elle convient à une question courte et laisse voir la page
+   derrière. */
+.bo-conseil.est-grand .bo-conseil__panneau {
+  width: min(46rem, calc(100vw - 2.4rem));
+  height: min(48rem, calc(100vh - 4rem));
+}
 
 /* Le contenu principal réserve la place de la pastille : sans cela, le
    bouton « Enregistrer » d'un formulaire long se retrouve dessous. */
@@ -2127,7 +2168,16 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
   /* Sur un téléphone, le panneau prend toute la largeur utile : à 320 px,
      une marge de chaque côté ne laisserait plus de quoi lire une phrase. */
   .bo-conseil { right: .6rem; bottom: .6rem; left: .6rem; align-items: stretch; }
-  .bo-conseil__panneau { width: 100%; height: min(30rem, calc(100vh - 5rem)); }
+  .bo-conseil__panneau,
+  .bo-conseil.est-grand .bo-conseil__panneau { width: 100%; }
+  .bo-conseil__panneau { height: min(30rem, calc(100vh - 5rem)); }
+  /* Agrandi sur téléphone, c'est toute la hauteur disponible : il n'y a pas
+     de place pour un entre-deux. */
+  .bo-conseil.est-grand .bo-conseil__panneau { height: calc(100vh - 4.5rem); }
+  /* Le libellé du bouton d'agrandissement s'efface, le picto suffit. */
+  .bo-conseil__agrandir-nom { display: none; }
+  .bo-conseil__agrandir::before { content: "⤢"; }
+  .bo-conseil.est-grand .bo-conseil__agrandir::before { content: "⤡"; }
   .bo-conseil__pastille { justify-content: center; }
 }
 

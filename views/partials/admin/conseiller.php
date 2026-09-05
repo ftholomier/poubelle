@@ -38,6 +38,15 @@ use App\Core\Csrf;
            aria-labelledby="bo-conseil-titre" hidden>
     <header class="bo-conseil__entete">
       <h2 class="bo-conseil__titre" id="bo-conseil-titre">Conseiller</h2>
+      <?php /* Un bilan fait couramment huit recommandations, soit huit cents
+               pixels de texte : il se lisait par une fenêtre de trois cent
+               cinquante. Le panneau s'agrandit donc à la demande, plutôt que
+               de choisir une taille qui serait trop grande pour une question
+               courte et trop petite pour un bilan. */ ?>
+      <button type="button" class="bo-conseil__agrandir" data-conseil-agrandir
+              aria-pressed="false">
+        <span class="bo-conseil__agrandir-nom">Agrandir</span>
+      </button>
       <button type="button" class="bo-conseil__fermer" data-conseil-fermer
               aria-label="Fermer le conseiller">✕</button>
     </header>
@@ -66,9 +75,13 @@ use App\Core\Csrf;
         </p>
       </div>
 
-      <form class="bo-conseil__saisie" data-conseil-form>
-        <label class="bo-conseil__label" for="bo-conseil-question">Votre question</label>
-        <textarea id="bo-conseil-question" name="question" rows="2"
+      <?php /* L'étiquette est lue mais pas affichée, et le bouton se place à
+               côté du champ plutôt qu'en dessous : les trois lignes de chrome
+               d'origine mangeaient cent soixante-dix pixels sur cinq cent
+               quarante, c'est-à-dire l'essentiel de la place où l'on lit. */ ?>
+      <form class="bo-conseil__saisie bo-conseil__saisie--ligne" data-conseil-form>
+        <label class="bo-visuellement-cache" for="bo-conseil-question">Votre question</label>
+        <textarea id="bo-conseil-question" name="question" rows="1"
                   data-conseil-question
                   placeholder="Par quoi devrais-je commencer ?"></textarea>
         <button class="bo-btn bo-btn--petit" type="submit" data-conseil-envoyer>Envoyer</button>
@@ -85,7 +98,11 @@ use App\Core\Csrf;
           n’est lancée que lorsque vous le demandez.
         </p>
       </div>
-      <div class="bo-conseil__saisie">
+      <?php /* Le bouton est en pleine largeur tant qu'aucun bilan n'existe :
+               c'est alors la seule action de l'écran. Une fois le bilan rendu,
+               le script le passe en retrait et le renomme — ce qui compte
+               devient la liste, pas le bouton qui l'a produite. */ ?>
+      <div class="bo-conseil__saisie bo-conseil__saisie--action">
         <button class="bo-btn bo-btn--petit" type="button" data-conseil-lancer>
           Faire le bilan
         </button>

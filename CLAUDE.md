@@ -208,6 +208,23 @@ Il a trouvé son défaut au premier passage, et aucun œil ne l'avait vu :
 fond —, si bien que deux boutons du panneau étaient peints du gris ButtonFace
 du navigateur, mesurés à 2,79:1.
 
+**Et il en a manqué un autre, ce qui est la leçon la plus utile des douze.**
+Il mesurait des tailles, des contrastes et des débordements — tout au vert —
+pendant que le panneau était en réalité ouvert avant tout clic et que les deux
+vues s'empilaient l'une sur l'autre. Cause : une règle `display: flex`
+explicite l'emporte sur l'attribut `hidden` du navigateur, dont la spécificité
+est nulle. Le JS basculait `hidden`, le CSS l'ignorait, changer d'onglet ne
+faisait rien de visible — et c'est l'utilisateur qui l'a signalé, pas
+l'auditeur.
+
+**Un auditeur qui ne mesure que la géométrie mesure juste sur une page
+fausse.** Celui-ci vérifie désormais l'ÉTAT avant tout le reste : tout élément
+portant `hidden` doit calculer `display: none`, une seule vue est affichée à la
+fois, et l'aller-retour entre les onglets revient d'où il vient. Trois lignes
+qui auraient trouvé le défaut à la première seconde. La règle générale :
+**quand une interface a des états, mesurez d'abord qu'elle est dans l'état où
+vous croyez la mesurer.**
+
 C'est rentable : le premier a trouvé deux photos à 4,4:1, le deuxième un logo
 servi écrasé au-delà de 100 px et une cible tactile à 40 px une fois la barre
 défilée, le dernier le libellé de la bulle à 2,57:1. Aucun œil ne les avait

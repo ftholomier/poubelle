@@ -24,8 +24,24 @@ Retenez-en la règle : quand ce qu'il faut mesurer n'apparaît qu'après une
 réponse d'un service extérieur, on double le service, on ne saute pas la
 mesure.
 
+**Il a d'abord été écrit sans mesurer l'ÉTAT, et c'est ce qui l'a rendu
+inutile pendant un jour.** Il relevait des tailles, des contrastes, des
+débordements — tout était vert — pendant que le panneau était en réalité
+ouvert avant tout clic et que les deux vues s'empilaient l'une sur l'autre.
+La cause : une règle `display: flex` explicite l'emporte sur l'attribut
+`hidden` du navigateur, si bien que le JS basculait `hidden` et que le CSS
+l'ignorait. Changer d'onglet ne faisait rien de visible.
+
+D'où le premier contrôle ci-dessous, et le plus important : **tout élément
+qui porte `hidden` doit calculer `display: none`.** Il tient en trois lignes,
+il aurait trouvé le défaut à la première seconde, et il vaut pour tout ce qui
+sera ajouté au panneau plus tard. Une mesure de géométrie sur un élément qui
+ne devrait pas être là est une mesure juste sur une page fausse.
+
 Ce qui est contrôlé, à cinq largeurs :
 
+  · l'ÉTAT : `hidden` doit cacher, une seule vue à la fois, et l'aller-retour
+    entre les deux onglets doit revenir d'où il vient ;
   · le contraste de chaque texte, par l'arithmétique de contraste.py ;
   · les cibles tactiles à 44 px — pastille, onglets, boutons, fermeture ;
   · le débordement latéral de la page, pastille posée ;
@@ -225,7 +241,9 @@ def mesurer(pg, base, chemin, largeur, contraste) -> list:
     if pg.locator('[data-conseil]').count() == 0:
         return ['la pastille est absente alors que le conseiller est allumé']
 
-    # --- état 1 : pastille fermée ------------------------------------------
+    # --- état 1 : pastille seule, panneau fermé -----------------------------
+    ecarts += etat_coherent(pg, '')
+
     debord = pg.evaluate('document.documentElement.scrollWidth - document.documentElement.clientWidth')
     if debord > 0:
         ecarts.append('la page déborde de %d px, pastille posée' % debord)
@@ -242,6 +260,7 @@ def mesurer(pg, base, chemin, largeur, contraste) -> list:
     pg.wait_for_selector('.bo-conseil__proposition', timeout=8000)
     pg.wait_for_timeout(250)
 
+    ecarts += etat_coherent(pg, 'echange')
     ecarts += hors_cadre(pg)
     ecarts += cibles_trop_petites(pg)
     ecarts += contrastes(pg, contraste)
@@ -253,12 +272,89 @@ def mesurer(pg, base, chemin, largeur, contraste) -> list:
     pg.wait_for_selector('.bo-conseil__reco', timeout=8000)
     pg.wait_for_timeout(250)
 
+    ecarts += etat_coherent(pg, 'bilan')
     ecarts += hors_cadre(pg)
     ecarts += cibles_trop_petites(pg)
     ecarts += contrastes(pg, contraste)
 
+    # --- état 4 : agrandi -----------------------------------------------------
+    # Une taille qu'un réglage décide est une taille que personne ne mesure :
+    # c'est la règle du dépôt sur les bornes laissées à la mairie, et elle vaut
+    # pour un bouton d'agrandissement comme pour un curseur.
+    pg.click('[data-conseil-agrandir]')
+    pg.wait_for_timeout(250)
+
+    ecarts += etat_coherent(pg, 'bilan')
+    ecarts += hors_cadre(pg)
+    ecarts += cibles_trop_petites(pg)
+    ecarts += contrastes(pg, contraste)
+
+    pg.click('[data-conseil-agrandir]')
+    pg.wait_for_timeout(200)
+
+    # --- état 5 : le retour à la question ------------------------------------
+    # C'est le geste que l'on fait après avoir lu un bilan, et c'est celui qui
+    # ne marchait pas. Il se mesure comme les autres.
+    pg.click('[data-conseil-onglet="echange"]')
+    pg.wait_for_timeout(200)
+    ecarts += etat_coherent(pg, 'echange')
+    if pg.evaluate("!!document.querySelector('.bo-conseil__proposition')") is False:
+        ecarts.append('la conversation a disparu en revenant de l’onglet Bilan')
+
     pg.click('[data-conseil-fermer]')
     pg.wait_for_timeout(150)
+    ecarts += etat_coherent(pg, '')
+
+    return ecarts
+
+
+# L'attribut `hidden` du navigateur pose `display: none` avec une spécificité
+# nulle : la moindre règle d'affichage écrite par l'auteur l'emporte. Le
+# symptôme est toujours le même — un élément « caché » qui s'affiche — et il ne
+# se voit pas dans le DOM, où l'attribut est bien là.
+MENTEURS = """() => {
+  const boite = document.querySelector('[data-conseil]');
+  if (!boite) return [];
+  const tout = [boite, ...boite.querySelectorAll('*')];
+  return tout.filter(el => el.hasAttribute('hidden')
+                        && getComputedStyle(el).display !== 'none')
+             .map(el => el.tagName.toLowerCase()
+                        + (el.id ? '#' + el.id : '')
+                        + (el.className ? '.' + String(el.className).split(' ')[0] : ''));
+}"""
+
+# Quelles vues sont réellement affichées, quel qu'en soit le moyen.
+VUES_VISIBLES = """() => [...document.querySelectorAll('[data-conseil-vue]')]
+    .filter(v => getComputedStyle(v).display !== 'none')
+    .map(v => v.getAttribute('data-conseil-vue'))"""
+
+PANNEAU_VISIBLE = """() => {
+  const p = document.querySelector('#bo-conseil-panneau');
+  return !!p && getComputedStyle(p).display !== 'none';
+}"""
+
+
+def etat_coherent(pg, attendu: str) -> list:
+    """L'état affiché est-il celui qu'on croit ?
+
+    `attendu` est le nom de la vue qui doit être seule à l'écran, ou la chaîne
+    vide quand le panneau doit être fermé.
+    """
+    ecarts = ['« %s » porte hidden mais reste affiché' % m for m in pg.evaluate(MENTEURS)]
+
+    visible = pg.evaluate(PANNEAU_VISIBLE)
+    if attendu == '':
+        if visible:
+            ecarts.append('le panneau est affiché alors qu’il devrait être fermé')
+        return ecarts
+
+    if not visible:
+        ecarts.append('le panneau devrait être ouvert et ne l’est pas')
+        return ecarts
+
+    vues = pg.evaluate(VUES_VISIBLES)
+    if vues != [attendu]:
+        ecarts.append('vue(s) affichée(s) : %s — attendu : [%s]' % (vues or 'aucune', attendu))
 
     return ecarts
 
@@ -395,7 +491,7 @@ def main() -> int:
         ecrire(origine)
 
     print('---')
-    print('%d largeur(s) × %d écran(s) × 3 états — %d écart(s).'
+    print('%d largeur(s) × %d écran(s) × 6 états — %d écart(s).'
           % (len(LARGEURS), len(ECRANS), total))
 
     return 1 if total else 0

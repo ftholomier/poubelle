@@ -821,6 +821,16 @@ recadrée**, parce qu'il devient lui-même l'élément de flex ou de grille et q
 l'`<img>` se dimensionne alors à son contenu. `picture { display: contents }`
 le fait disparaître de l'arbre de mise en page, et rien d'autre ne bouge.
 
+**Une règle `display` explicite annule l'attribut `hidden`.** Le style que le
+navigateur associe à `hidden` a une spécificité nulle : `.machin { display:
+flex }` l'emporte, et l'élément « caché » reste affiché. Le symptôme est
+déroutant, parce que le DOM montre bien l'attribut. Ce dépôt porte une douzaine
+de règles `.quelque-chose[hidden] { display: none }` pour cette seule raison —
+et le panneau du conseiller a été livré sans la sienne : il s'ouvrait avant
+tout clic, ses deux vues s'empilaient, et changer d'onglet ne faisait rien de
+visible. **Toute classe qui pose un `display` doit poser sa règle `[hidden]`
+dans la foulée.**
+
 **`text-overflow: ellipsis` ne s'applique pas à un conteneur `inline-flex`.**
 Une cible tactile passée en `inline-flex` pour tenir ses 44 px perd du même
 coup sa coupure : sur le tableau de bord, une adresse de page longue poussait
