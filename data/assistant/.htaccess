@@ -1,0 +1,10 @@
+# Conversations des administrés (noms, téléphones, adresses) et documents
+# confiés à l'assistant. Le refus est déjà posé par data/.htaccess ; celui-ci
+# le répète au cas où le dossier serait déplacé ou servi par un hôte virtuel
+# qui ne remonte pas jusqu'à data/.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Deny from all
+</IfModule>

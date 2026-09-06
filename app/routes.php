@@ -22,6 +22,7 @@ use App\Core\Assistant;
 use App\Core\Avis;
 use App\Core\Conversations;
 use App\Core\Langues;
+use App\Core\AdressePublique;
 use App\Core\Mailer;
 use App\Core\Parametres;
 use App\Core\Seo;
@@ -29,6 +30,12 @@ use App\Core\Vivant;
 use App\Core\Traducteur;
 
 $parametresSite = new Parametres($config['paths']['data'] . '/admin/parametres.json');
+
+/* L'adresse que le site écrit dans ses balises et ses courriels vient du
+   réglage, pas de l'en-tête Host de la requête. Posée ici, avant tout rendu :
+   origine() et base_absolue() la lisent dans la configuration. */
+AdressePublique::appliquer($parametresSite, $config['paths']['cache'] . '/adresse-publique.rappel');
+
 $langues    = new Langues($config['paths']['data'] . '/langues.json');
 $traducteur = new Traducteur($config['paths']['data'] . '/traductions');
 
@@ -61,7 +68,8 @@ $vivant = new Vivant($content);
 $pages = new PageController($view, $content, $parametresSite, new Mailer($parametresSite), $seo, $antispam, $vivant);
 $conversations = new Conversations($config['paths']['data'] . '/assistant/conversations');
 
-$api   = new ApiController($content, $assistant, $conversations, new Mailer($parametresSite), $parametresSite);
+$api   = new ApiController($content, $assistant, $conversations, new Mailer($parametresSite),
+                          $parametresSite, $antispam);
 
 $view->share('seo', $seo);
 $view->share('parametres', $parametresSite);
@@ -69,6 +77,9 @@ $view->share('langues', $langues);
 $view->share('langue', $langue);
 $view->share('avis', $avis);
 $view->share('assistant', $assistant);
+// Le piège et l'horloge de la demande de rappel : le fragment de l'assistant
+// les pose lui-même, comme les deux formulaires du site.
+$view->share('antispam', $antispam);
 // Disposition du menu : réglée dans le back-office, lue par l'en-tête et le
 // gabarit. Partagée ici pour qu'une page n'ait pas à la redemander.
 $view->share('menuStyle', $parametresSite->get('apparence.menu', 'horizontal'));

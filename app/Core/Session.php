@@ -21,8 +21,23 @@ final class Session
            nom d'un cookie se lit dans le navigateur de l'administré : autant
            qu'il dise ce qu'il est. Le changer invalide une fois les sessions
            en cours, ce que DEPLOIEMENT.md signale. */
+        /* Deux réglages que PHP ne pose pas comme il faut tout seul.
+           `use_strict_mode` fait refuser un identifiant de session que le
+           serveur n'a jamais émis : sans lui, une adresse contenant un
+           `?mairie_session=…` choisi par un tiers fixe la session de qui
+           l'ouvre, et l'attaquant n'a plus qu'à attendre la connexion.
+           `gc_maxlifetime` fixe la durée au bout de laquelle PHP jette le
+           fichier de session ; sur un mutualisé, il vaut souvent 1440 s, soit
+           24 minutes — alors qu'Auth promet deux heures d'inactivité. La
+           mairie rédigeait une page pendant une heure, enregistrait, et se
+           retrouvait déconnectée. Les deux durées doivent être la même. */
+        ini_set('session.use_strict_mode', '1');
+        ini_set('session.gc_maxlifetime', (string) Auth::INACTIVITE_SEC);
+
         session_name('mairie_session');
         session_set_cookie_params([
+            // 0 : le cookie meurt avec le navigateur. C'est le fichier de
+            // session, réglé juste au-dessus, qui décide de la durée réelle.
             'lifetime' => 0,
             'path'     => '/',
             'secure'   => $https,

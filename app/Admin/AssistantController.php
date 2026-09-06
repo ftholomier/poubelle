@@ -51,6 +51,9 @@ final class AssistantController
             'notes'      => $this->assistant->notesHtml(),
             'consignes'  => $this->assistant->consignesCommune(),
             'mesure'     => $this->assistant->mesureCorpus(),
+            // Le compteur du jour, en face du plafond : un réglage dont on ne
+            // voit pas où il en est ne se règle pas, il se devine.
+            'questionsDuJour' => $this->assistant->questionsDuJour(),
             'essai'      => Session::flashDonnees('assistant_essai'),
         ], 'admin/layout');
     }
@@ -85,6 +88,10 @@ final class AssistantController
             'titre'       => trim((string) ($_POST['titre'] ?? '')),
             'accueil'     => trim((string) ($_POST['accueil'] ?? '')),
             'source_site' => isset($_POST['source_site']),
+            /* Le plafond du jour : borné entre 0 (désarmé) et 5000, pour
+               qu'une faute de frappe dans le champ ne devienne pas une
+               facture. La valeur livrée reste celle du socle. */
+            'plafond_jour' => max(0, min(5000, (int) ($_POST['plafond_jour'] ?? Assistant::PLAFOND_JOUR))),
             'bulle'       => [
                 'forme'     => isset(Bulle::FORMES[$forme]) ? $forme : Bulle::FORME_DEFAUT,
                 'animation' => isset(Bulle::ANIMATIONS[$anim]) ? $anim : Bulle::ANIMATION_DEFAUT,

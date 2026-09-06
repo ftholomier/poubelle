@@ -42,6 +42,19 @@ final class Antispam
     /** Messages partis tolérés par adresse et par heure. */
     private const QUOTA_HORAIRE = 5;
 
+    /**
+     * Familles de quota. Chacune compte à part : cinq demandes envoyées par
+     * le formulaire ne doivent pas fermer l'assistant, et inversement.
+     */
+    public const FORMULAIRE = 'formulaire';
+    public const ASSISTANT  = 'assistant';
+    public const RAPPEL     = 'rappel';
+
+    /** Verdicts de l'horloge : le jeton périmé n'appelle pas la même consigne. */
+    private const JETON_BON    = 'bon';
+    private const JETON_FAUX   = 'faux';
+    private const JETON_PERIME = 'perime';
+
     private const VERIFICATION_TURNSTILE = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
     public function __construct(
@@ -98,18 +111,51 @@ final class Antispam
      */
     public function verifier(): ?string
     {
+        return $this->verifierValeurs(
+            (string) ($_POST['site'] ?? ''),
+            (string) ($_POST['_ouvert'] ?? ''),
+            self::FORMULAIRE,
+            self::QUOTA_HORAIRE
+        );
+    }
+
+    /**
+     * Les mêmes barrières, sur des valeurs fournies plutôt que sur $_POST.
+     *
+     * L'assistant poste du JSON : ses champs n'arrivent jamais dans $_POST, et
+     * la demande de rappel — qui part par courriel au secrétariat — n'avait de
+     * ce fait ni piège, ni horloge, ni quota. Une boîte aux lettres ouverte à
+     * qui sait écrire trois lignes de script. Passer les valeurs en argument
+     * évite de dupliquer les barrières pour le seul motif que la requête n'a
+     * pas la même forme.
+     */
+    public function verifierValeurs(
+        string $piege,
+        string $jeton,
+        string $famille = self::FORMULAIRE,
+        int $quota = self::QUOTA_HORAIRE
+    ): ?string {
         $refus = 'Votre envoi n’a pas pu être vérifié. Merci de réessayer, '
             . 'ou de nous appeler si cela se reproduit.';
 
-        if (trim((string) ($_POST['site'] ?? '')) !== '') {
+        if (trim($piege) !== '') {
             return $refus;
         }
 
-        if (!$this->horlogeValide((string) ($_POST['_ouvert'] ?? ''))) {
+        $horloge = $this->horloge($jeton);
+        if ($horloge === self::JETON_PERIME) {
+            /* Un message à part, et ce n'est pas du détail : le panneau de
+               l'assistant vit sur toutes les pages et peut rester ouvert des
+               heures. « Réessayez » y serait un mensonge — le jeton restera
+               périmé —, alors que recharger règle vraiment le problème. */
+            return 'Cette page est ouverte depuis longtemps. Rechargez-la, '
+                . 'puis renvoyez votre demande.';
+        }
+        if ($horloge !== self::JETON_BON) {
             return $refus;
         }
 
-        if ($this->comptePourCetteAdresse() >= self::QUOTA_HORAIRE) {
+        if ($this->comptePourCetteAdresse($famille) >= $quota) {
             return 'Vous avez envoyé plusieurs demandes coup sur coup. '
                 . 'Merci de patienter une heure, ou de nous appeler.';
         }
@@ -123,31 +169,37 @@ final class Antispam
 
     /**
      * Le jeton date-t-il d'assez longtemps, et vient-il bien de nous ?
+     *
+     * Rend l'une des trois constantes JETON_* : le jeton périmé se distingue
+     * du jeton faux, parce qu'il appelle une autre consigne pour le visiteur.
      */
-    private function horlogeValide(string $jeton): bool
+    private function horloge(string $jeton): string
     {
         $morceaux = explode('.', $jeton, 2);
         if (count($morceaux) !== 2 || !ctype_digit($morceaux[0])) {
-            return false;
+            return self::JETON_FAUX;
         }
 
         [$instant, $signature] = $morceaux;
         if (!hash_equals($this->signer($instant), $signature)) {
-            return false;
+            return self::JETON_FAUX;
         }
 
         $age = time() - (int) $instant;
+        if ($age < self::DELAI_MINIMAL) {
+            return self::JETON_FAUX;      // envoyé trop vite : un robot
+        }
 
-        return $age >= self::DELAI_MINIMAL && $age <= self::DUREE_JETON;
+        return $age <= self::DUREE_JETON ? self::JETON_BON : self::JETON_PERIME;
     }
 
     /**
      * Consigne un message effectivement parti. À appeler après l'envoi, et
      * seulement là : c'est ce qui distingue le quota d'un compteur d'échecs.
      */
-    public function enregistrerEnvoi(): void
+    public function enregistrerEnvoi(string $famille = self::FORMULAIRE): void
     {
-        $empreinte = $this->empreinte();
+        $empreinte = $this->empreinte($famille);
         if ($empreinte === null) {
             return;
         }
@@ -158,11 +210,31 @@ final class Antispam
     }
 
     /**
+     * Le quota horaire par adresse, réutilisable hors des formulaires.
+     *
+     * **Pourquoi cette méthode publique existe.** L'assistant comptait ses
+     * questions dans `$_SESSION` : trente par heure, mais une session par
+     * cookie, et un script qui n'en garde aucun repartait de zéro à chaque
+     * appel. Le quota ne coûtait donc rien à franchir, et la facture Gemini
+     * de la mairie était à la merci du premier venu. Le registre par adresse
+     * hachée existait déjà ici, avec sa purge et son écriture atomique : il
+     * n'y avait qu'à l'ouvrir. Le compteur de session est conservé — les deux
+     * se complètent, l'un ferme le navigateur, l'autre la machine.
+     *
+     * Les familles ne se mélangent pas : cinq envois de formulaire dans
+     * l'heure n'empêchent pas de poser une question à l'assistant.
+     */
+    public function quotaAtteint(string $famille, int $maximum): bool
+    {
+        return $this->comptePourCetteAdresse($famille) >= $maximum;
+    }
+
+    /**
      * Messages partis dans l'heure écoulée depuis cette adresse.
      */
-    private function comptePourCetteAdresse(): int
+    private function comptePourCetteAdresse(string $famille = self::FORMULAIRE): int
     {
-        $empreinte = $this->empreinte();
+        $empreinte = $this->empreinte($famille);
 
         return $empreinte === null ? 0 : count($this->registre()[$empreinte] ?? []);
     }
@@ -175,11 +247,11 @@ final class Antispam
      * du même endroit. Le sel est le secret de signature, donc propre à cette
      * installation : le condensat n'est pas rapprochable d'un autre site.
      */
-    private function empreinte(): ?string
+    private function empreinte(string $famille = self::FORMULAIRE): ?string
     {
         $adresse = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
 
-        return $adresse === '' ? null : hash_hmac('sha256', $adresse, $this->secret());
+        return $adresse === '' ? null : hash_hmac('sha256', $famille . ':' . $adresse, $this->secret());
     }
 
     /**

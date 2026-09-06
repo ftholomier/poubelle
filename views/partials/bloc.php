@@ -169,9 +169,12 @@ case 'contacts': ?>
           <?php endif; ?>
           <?php /* Le protocole est vérifié à l'affichage : la saisie vient du
                    back-office, mais un « javascript: » recopié dans le champ
-                   ferait de la fiche de contact un vecteur d'exécution. */ ?>
-          <?php if (preg_match('~^https?://~i', (string) ($item['site'] ?? '')) === 1): ?>
-            <li><a href="<?= e($item['site']) ?>" target="_blank" rel="noopener">
+                   ferait de la fiche de contact un vecteur d'exécution. Le
+                   contrôle est celui de App\Core\Adresse, comme partout —
+                   « target » impose en plus une adresse externe. */ ?>
+          <?php $siteContact = App\Core\Adresse::nettoyer((string) ($item['site'] ?? '')); ?>
+          <?php if (preg_match('~^https?://~i', $siteContact) === 1): ?>
+            <li><a href="<?= e($siteContact) ?>" target="_blank" rel="noopener">
               <span aria-hidden="true"><?= $view->partial('icones', ['nom' => 'lien-externe']) ?></span><?= e(t('Site internet')) ?>
               <span class="sr-only"> — <?= e($item['nom'] ?? '') ?>, <?= e(t('ouvre un nouvel onglet')) ?></span>
             </a></li>
@@ -300,8 +303,12 @@ case 'hebergeur': ?>
       <?php if (trim((string) ($bloc['telephone'] ?? '')) !== ''): ?>
         <br><a href="<?= e(tel_lien($bloc['telephone'])) ?>"><?= e($bloc['telephone']) ?></a>
       <?php endif; ?>
-      <?php if (trim((string) ($bloc['site'] ?? '')) !== ''): ?>
-        <br><a href="<?= e($bloc['site']) ?>" rel="noopener"><?= e($bloc['site']) ?></a>
+      <?php /* Même filtre qu'ailleurs : l'adresse de l'hébergeur est saisie
+               au back-office comme le reste, et elle partait ici en href brut.
+               Voir App\Core\Adresse. */ ?>
+      <?php $siteHebergeur = App\Core\Adresse::nettoyer((string) ($bloc['site'] ?? '')); ?>
+      <?php if ($siteHebergeur !== ''): ?>
+        <br><a href="<?= e($siteHebergeur) ?>" rel="noopener"><?= e($bloc['site']) ?></a>
       <?php endif; ?>
     </p>
   <?php endif; ?>

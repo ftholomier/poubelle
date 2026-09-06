@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Adresse;
 use App\Core\TexteRiche;
 
 /**
@@ -180,7 +181,7 @@ final class Blocs
                 'raison'    => 'ligne',
                 'adresse'   => 'zone',
                 'telephone' => 'ligne',
-                'site'      => 'ligne',
+                'site'      => 'url',
             ],
         ],
         'citation' => [
@@ -217,12 +218,12 @@ final class Blocs
             'titre'        => 'ligne',
             'texte'        => 'zone',
             'lien.libelle' => 'ligne',
-            'lien.url'     => 'ligne',
+            'lien.url'     => 'url',
         ],
         'liens' => [
             'titre' => 'ligne',
             'texte' => 'zone',
-            'url'   => 'ligne',
+            'url'   => 'url',
         ],
         'contacts' => [
             'nom'     => 'ligne',
@@ -231,7 +232,7 @@ final class Blocs
             'adresse' => 'zone',
             'tel'     => 'ligne',
             'email'   => 'ligne',
-            'site'    => 'ligne',
+            'site'    => 'url',
         ],
         'documents' => [
             'titre'   => 'ligne',
@@ -447,8 +448,17 @@ final class Blocs
 
         if ($nature === 'lien') {
             $libelle = trim((string) (is_array($brut) ? ($brut['libelle'] ?? '') : ''));
-            $url     = trim((string) (is_array($brut) ? ($brut['url'] ?? '') : ''));
+            $url     = Adresse::nettoyer((string) (is_array($brut) ? ($brut['url'] ?? '') : ''));
             return $url !== '' ? ['libelle' => $libelle, 'url' => $url] : null;
+        }
+
+        /* Toute adresse saisie passe par le même filtre, à l'écriture comme au
+           rendu. Écrite en « ligne », elle arrivait telle quelle dans le JSON :
+           un « javascript:… » posé dans un champ d'adresse devenait un lien
+           exécutable sur le site public. Voir App\Core\Adresse. */
+        if ($nature === 'url') {
+            $url = Adresse::nettoyer((string) $brut);
+            return $url !== '' ? $url : null;
         }
 
         if ($nature === 'date') {

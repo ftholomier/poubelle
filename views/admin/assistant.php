@@ -11,6 +11,7 @@
  * @var array $mesure
  * @var array|null $essai
  * @var App\Core\Bulle $bulle
+ * @var int $questionsDuJour
  */
 use App\Core\Assistant;
 use App\Core\Bulle;
@@ -351,6 +352,23 @@ $modeleConseiller = (string) ($reglages['conseiller_modele'] ?? '');
         La couleur de texte choisie ne tenait pas ce minimum sur ce fond : sa
         teinte est conservée, sa clarté a été ajustée jusqu’au seuil. Choisissez
         un fond plus sombre ou plus clair pour retrouver la couleur exacte.
+      </p>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Dépense</legend>
+    <div class="bo-champ">
+      <label for="ia-plafond">Questions payées par jour, au maximum</label>
+      <input id="ia-plafond" type="number" name="plafond_jour" min="0" max="5000" step="10"
+             value="<?= (int) ($reglages['plafond_jour'] ?? Assistant::PLAFOND_JOUR) ?>">
+      <p class="bo-aide">
+        Chaque réponse est facturée par Google. Les limites par visiteur arrêtent
+        une personne, pas une campagne menée depuis trente adresses différentes :
+        ce plafond-ci ferme la journée entière. Au-delà, l'assistant renvoie vers
+        le téléphone du secrétariat, et rappelle d'abord les numéros d'urgence.
+        <strong><?= (int) $questionsDuJour ?></strong> question<?= $questionsDuJour > 1 ? 's' : '' ?>
+        aujourd'hui. Mettre 0 retire le plafond.
       </p>
     </div>
   </fieldset>

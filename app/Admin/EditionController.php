@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Adresse;
 use App\Core\Bandeau;
 use App\Core\Content;
 use App\Core\Csrf;
@@ -87,33 +88,6 @@ final class EditionController
      *
      * @return string[]
      */
-    /**
-     * Une adresse saisie au back-office : interne, ou vers un autre site.
-     *
-     * Le préfixe « / » n'est posé que sur une adresse interne. Une adresse
-     * externe est acceptée telle quelle si elle est valide et en http(s) —
-     * jamais « javascript: », qui ferait du menu un vecteur d'exécution.
-     */
-    private static function adresse(string $brut): string
-    {
-        $brut = trim($brut);
-        if ($brut === '') {
-            return '/';
-        }
-
-        if (preg_match('~^https?://~i', $brut) === 1) {
-            return filter_var($brut, FILTER_VALIDATE_URL) !== false ? $brut : '/';
-        }
-
-        // Ni « mailto: », ni « tel: », ni « javascript: » : le bouton d'appel
-        // et le menu mènent à des pages.
-        if (preg_match('~^[a-z][a-z0-9+.-]*:~i', $brut) === 1) {
-            return '/';
-        }
-
-        return '/' . ltrim($brut, '/');
-    }
-
     private static function lignes(string $texte): array
     {
         $lignes = preg_split('/\R/', $texte) ?: [];
@@ -225,7 +199,7 @@ final class EditionController
         $appel = $site['appel'] ?? $site['reservation'] ?? [];
         $appel['principal']['libelle'] = trim((string) ($_POST['cta_libelle'] ?? ''))
             ?: (string) ($appel['principal']['libelle'] ?? '');
-        $appel['principal']['url'] = self::adresse((string) ($_POST['cta_url'] ?? ''));
+        $appel['principal']['url'] = Adresse::interne((string) ($_POST['cta_url'] ?? ''));
         $site['appel'] = $appel;
         unset($site['reservation']);
 
@@ -247,7 +221,7 @@ final class EditionController
             if (($parts[0] ?? '') === '') {
                 continue;
             }
-            $entree = ['libelle' => $parts[0], 'url' => self::adresse($parts[1] ?? '')];
+            $entree = ['libelle' => $parts[0], 'url' => Adresse::interne($parts[1] ?? '')];
 
             if ($sousEntree) {
                 $menu[count($menu) - 1]['sous_menu'][] = $entree;

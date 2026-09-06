@@ -1,0 +1,15 @@
+# Le contenu vivant de la mairie : comptes, mot de passe SMTP, jetons Meta,
+# clé de l'assistant, conversations des administrés. Rien ici ne doit être
+# atteignable par une URL.
+#
+# Ce fichier n'a de rôle que dans l'implantation « à plat » documentée par
+# DEPLOIEMENT.md, où la racine du dépôt est la racine web : l'implantation
+# normale range tout cela hors de public/, et le serveur ne peut de toute
+# façon pas y arriver. Il coûte six lignes et ferme le cas où l'hébergeur
+# n'offre pas de racine web personnalisable.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Deny from all
+</IfModule>

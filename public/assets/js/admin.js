@@ -1204,4 +1204,137 @@
     peindre();
   })();
 
+  /* ------------------------------------------------------------------
+     Ne pas perdre une heure de rédaction
+     ------------------------------------------------------------------
+     Deux mécanismes, pour deux causes distinctes.
+
+     Le BATTEMENT tient la session ouverte tant qu'un écran d'édition est
+     modifié. La session dure deux heures d'inactivité ; rédiger un
+     compte-rendu de conseil en prend facilement une, sans qu'une seule
+     requête ne parte entre-temps. Un appel toutes les dix minutes suffit, et
+     il ne part QUE si quelque chose a été saisi : une page ouverte et
+     oubliée ne doit pas rester connectée indéfiniment.
+
+     Le BROUILLON garde la saisie dans le navigateur. Il rattrape ce que le
+     battement ne peut pas : l'onglet fermé par erreur, le portable qui
+     s'éteint, la session perdue malgré tout. Il vit dans localStorage, donc
+     sur la machine de la mairie et nulle part ailleurs — rien ne part sur le
+     réseau —, il est effacé dès que l'enregistrement a réussi, et il ne se
+     repropose qu'explicitement : réécrire par-dessus une saisie plus récente
+     serait pire que la perte qu'il répare.
+     ------------------------------------------------------------------ */
+  (function () {
+    var form = document.querySelector('.bo-form[method="post"], form.bo-form');
+    if (!form || form.getAttribute('method') === null) return;
+    if (!form.querySelector('input[name=_csrf]')) return;
+
+    var CLE = 'mairie.brouillon.' + window.location.pathname;
+    var modifie = false;
+
+    /* --- le battement --- */
+    var BATTEMENT_MS = 600000;   // 10 min : six fois moins que l'inactivité tolérée
+    setInterval(function () {
+      if (!modifie) return;
+      // Un GET sans effet : il ne fait que toucher la date de la session.
+      fetch(document.body.getAttribute('data-battement') || '/admin/battement', {
+        credentials: 'same-origin',
+        headers: { 'X-Requested-With': 'fetch' }
+      }).catch(function () { /* hors ligne : le brouillon prend le relais */ });
+    }, BATTEMENT_MS);
+
+    /* --- le brouillon --- */
+    function champsSaisis() {
+      var valeurs = {};
+      var elements = form.querySelectorAll('input, textarea, select');
+      for (var i = 0; i < elements.length; i++) {
+        var e = elements[i];
+        if (!e.name || e.name === '_csrf' || e.type === 'file'
+            || e.type === 'password' || e.type === 'hidden') continue;
+        if (e.type === 'checkbox' || e.type === 'radio') {
+          valeurs[e.name + '|' + e.value] = e.checked ? '1' : '';
+        } else {
+          valeurs[e.name] = e.value;
+        }
+      }
+      return valeurs;
+    }
+
+    function ecrire() {
+      try {
+        localStorage.setItem(CLE, JSON.stringify({ date: Date.now(), champs: champsSaisis() }));
+      } catch (e) { /* mode privé, quota plein : le brouillon est un bonus */ }
+    }
+
+    function oublier() {
+      try { localStorage.removeItem(CLE); } catch (e) {}
+    }
+
+    form.addEventListener('input', function () {
+      modifie = true;
+      ecrire();
+    });
+    form.addEventListener('submit', function () {
+      /* L'envoi part : on efface. S'il échoue — jeton périmé —, la page
+         revient et le brouillon a disparu… d'où la réécriture juste avant,
+         qui laisse une copie datée pour la reproposition ci-dessous. */
+      ecrire();
+      modifie = false;
+    });
+
+    /* Reproposer, à l'ouverture de l'écran, un brouillon plus récent que ce
+       que le serveur vient de rendre. Jamais en silence : c'est la mairie qui
+       décide, sur un bandeau qu'elle peut refuser. */
+    (function reproposer() {
+      var brut;
+      try { brut = localStorage.getItem(CLE); } catch (e) { return; }
+      if (!brut) return;
+
+      var brouillon;
+      try { brouillon = JSON.parse(brut); } catch (e) { oublier(); return; }
+      if (!brouillon || !brouillon.champs) { oublier(); return; }
+
+      // Passé un jour, le brouillon n'est plus une aide : c'est un piège.
+      if (Date.now() - (brouillon.date || 0) > 86400000) { oublier(); return; }
+
+      // Rien à proposer si la page rend déjà exactement la même chose.
+      var actuels = champsSaisis();
+      var different = false;
+      for (var nom in brouillon.champs) {
+        if (Object.prototype.hasOwnProperty.call(brouillon.champs, nom)
+            && brouillon.champs[nom] !== actuels[nom]) { different = true; break; }
+      }
+      if (!different) { oublier(); return; }
+
+      var bandeau = document.createElement('div');
+      bandeau.className = 'bo-message bo-message--info';
+      bandeau.innerHTML = '<strong>Une saisie non enregistrée a été retrouvée sur cet écran.</strong> '
+        + 'Elle date du <span data-brouillon-date></span>. '
+        + '<button type="button" class="bo-btn bo-btn--petit" data-brouillon-reprendre>Reprendre ma saisie</button> '
+        + '<button type="button" class="bo-btn bo-btn--petit bo-btn--contour" data-brouillon-jeter>L’oublier</button>';
+      bandeau.querySelector('[data-brouillon-date]').textContent =
+        new Date(brouillon.date).toLocaleString('fr-FR');
+      form.parentNode.insertBefore(bandeau, form);
+
+      bandeau.querySelector('[data-brouillon-reprendre]').addEventListener('click', function () {
+        var elements = form.querySelectorAll('input, textarea, select');
+        for (var i = 0; i < elements.length; i++) {
+          var e = elements[i];
+          if (!e.name) continue;
+          if (e.type === 'checkbox' || e.type === 'radio') {
+            var v = brouillon.champs[e.name + '|' + e.value];
+            if (v !== undefined) e.checked = v === '1';
+          } else if (brouillon.champs[e.name] !== undefined) {
+            e.value = brouillon.champs[e.name];
+          }
+        }
+        bandeau.remove();
+      });
+      bandeau.querySelector('[data-brouillon-jeter]').addEventListener('click', function () {
+        oublier();
+        bandeau.remove();
+      });
+    })();
+  })();
+
 })();

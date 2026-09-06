@@ -42,6 +42,7 @@ $racine = dirname(__DIR__, 2);
 require $racine . '/app/bootstrap.php';
 
 use App\Admin\Blocs;
+use App\Core\Adresse;
 use App\Core\Migrations;
 
 $avecData = in_array('--data', $argv, true);
@@ -141,9 +142,80 @@ function ecartsDuFichier(string $chemin, string $nom): array
                 $champ
             );
         }
+
+        /* Les adresses déjà écrites survivent-elles au filtre ?
+           Depuis que les champs d'adresse passent par App\Core\Adresse, une
+           adresse que le filtre refuse sera VIDÉE au premier enregistrement —
+           silencieusement, comme un champ renommé. Le cas n'est pas théorique :
+           une adresse saisie sans « https:// », ou avec un espace, était
+           acceptée avant et ne l'est plus. Le signaler ici, c'est le corriger
+           avant la livraison plutôt qu'après la perte. */
+        foreach (adressesDuBloc($type, $bloc) as $chemin => $valeur) {
+            $propre = Adresse::nettoyer($valeur, true);
+            if ($propre !== $valeur) {
+                $ecarts[] = sprintf(
+                    'bloc %d (%s) : l’adresse « %s » de %s %s au premier enregistrement '
+                    . '(le filtre en rendrait « %s »). Corriger la saisie.',
+                    $rang,
+                    $type,
+                    $valeur,
+                    $chemin,
+                    $propre === '' ? 'sera VIDÉE' : 'sera RÉÉCRITE',
+                    $propre
+                );
+            }
+        }
     }
 
     return $ecarts;
+}
+
+/**
+ * Les adresses portées par un bloc, avec le chemin où les retrouver.
+ *
+ * Le schéma dit lesquelles : la nature « url », et le sous-champ `url` de la
+ * nature « lien ». Chercher par nom de champ aurait raté `lien.url` et pris
+ * `image`, qui n'est pas une adresse mais un nom de fichier.
+ *
+ * @return array<string, string> chemin lisible => adresse
+ */
+function adressesDuBloc(string $type, array $bloc): array
+{
+    $trouvees = [];
+
+    foreach (Blocs::TYPES[$type]['champs'] as $champ => $nature) {
+        $valeur = $bloc[$champ] ?? null;
+
+        if ($nature === 'url' && is_string($valeur) && $valeur !== '') {
+            $trouvees[$champ] = $valeur;
+        }
+        if ($nature === 'lien' && is_array($valeur) && ($valeur['url'] ?? '') !== '') {
+            $trouvees[$champ . '.url'] = (string) $valeur['url'];
+        }
+        if (str_starts_with($nature, 'items:') && is_array($valeur)) {
+            $sous = Blocs::SOUS_BLOCS[substr($nature, 6)] ?? [];
+            foreach ($valeur as $rang => $entree) {
+                if (!is_array($entree)) {
+                    continue;
+                }
+                foreach ($sous as $sousChamp => $sousNature) {
+                    if ($sousNature !== 'url') {
+                        continue;
+                    }
+                    // « lien.url » est un chemin dans l'entrée, pas une clé.
+                    $lu = $entree;
+                    foreach (explode('.', $sousChamp) as $morceau) {
+                        $lu = is_array($lu) ? ($lu[$morceau] ?? null) : null;
+                    }
+                    if (is_string($lu) && $lu !== '') {
+                        $trouvees[$champ . '[' . $rang . '].' . $sousChamp] = $lu;
+                    }
+                }
+            }
+        }
+    }
+
+    return $trouvees;
 }
 
 // ---------------------------------------------------------------------- main

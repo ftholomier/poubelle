@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\AdressePublique;
 use App\Core\Auth;
 use App\Core\Content;
 use App\Core\Conversations;
@@ -308,6 +309,21 @@ final class AdminController
                 'texte'  => 'Aucun compte Facebook ou Instagram connecté',
                 'url'    => '/admin/reseaux',
                 'action' => 'Connecter les comptes',
+            ];
+        }
+
+        /* Sans adresse publique réglée, le site écrit ses liens absolus
+           d'après l'en-tête Host de la requête — que le visiteur choisit.
+           Cela ne se voit nulle part dans une page : ni la mairie ni un
+           auditeur de mise en page ne peuvent le remarquer. D'où cette
+           ligne, et un rappel quotidien dans le journal de PHP. */
+        if (!AdressePublique::renseignee($this->parametres)) {
+            $aFaire[] = [
+                'ton'    => 'attention',
+                'texte'  => 'L’adresse du site n’est pas renseignée : les liens envoyés '
+                          . 'par e-mail et lus par Google suivent le navigateur',
+                'url'    => '/admin/parametres',
+                'action' => 'Renseigner l’adresse',
             ];
         }
 

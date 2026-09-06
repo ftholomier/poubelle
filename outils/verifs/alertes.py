@@ -79,6 +79,11 @@ ECRANS_ADMIN = (
 # sont donc visitées ici, et acceptées par le contrôle des listes.
 ECRANS_JSON = (
     '/admin/conseiller/bilan',
+    # Le battement de la session : appelé par admin.js toutes les dix minutes
+    # tant qu'un écran d'édition est modifié, pour qu'une heure de rédaction ne
+    # finisse pas par « jeton invalide ». Il ne rend rien, mais il exécute du
+    # PHP — donc il peut se plaindre, et personne ne le lirait.
+    '/admin/battement',
 )
 
 

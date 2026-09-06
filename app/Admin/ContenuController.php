@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\Adresse;
 use App\Core\Content;
 use App\Core\Csrf;
 use App\Core\Diffusion;
@@ -111,7 +112,7 @@ final class ContenuController
             'champs' => [
                 'nom' => 'ligne', 'sigle' => 'ligne', 'texte' => 'zone',
                 'missions' => 'lignes', 'adresse' => 'zone',
-                'tel' => 'ligne', 'email' => 'ligne', 'site' => 'ligne',
+                'tel' => 'ligne', 'email' => 'ligne', 'site' => 'url',
             ],
         ],
         'numeros' => [
@@ -138,7 +139,7 @@ final class ContenuController
         'contacts-assos' => ['nom' => 'ligne', 'role' => 'ligne',
                              'tel' => 'ligne', 'email' => 'ligne'],
         'numeros'        => ['numero' => 'ligne', 'libelle' => 'ligne',
-                             'texte' => 'zone', 'adresse' => 'zone', 'site' => 'ligne'],
+                             'texte' => 'zone', 'adresse' => 'zone', 'site' => 'url'],
         'colonnes'       => ['titre' => 'ligne', 'membres' => 'lignes'],
     ];
 
@@ -754,7 +755,10 @@ final class ContenuController
             if (!is_array($brut)) {
                 continue;
             }
-            $url = trim((string) ($brut['url'] ?? ''));
+            // Une fiche de démarche renvoie souvent vers service-public.fr :
+            // ce sont des adresses externes, et elles passent par le même
+            // filtre que le reste. Voir App\Core\Adresse.
+            $url = Adresse::nettoyer((string) ($brut['url'] ?? ''));
             if ($url === '') {
                 continue;
             }

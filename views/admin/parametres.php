@@ -13,9 +13,39 @@ use App\Core\Csrf;
 
 $smtp = $parametres['smtp'];
 $contact = $parametres['contact'];
+$adressePublique = (string) ($parametres['site']['adresse_publique'] ?? '');
 ?>
 
-<form class="bo-form" method="post" action="<?= url('/admin/parametres/messagerie') ?>">
+<section class="bo-zone">
+  <header class="bo-zone__tete">
+    <h2>Adresse publique du site</h2>
+    <p>Le domaine auquel le site répond, tel qu'il doit s'écrire lui-même.</p>
+  </header>
+  <form class="bo-form" method="post" action="<?= url('/admin/parametres/adresse') ?>">
+    <?= Csrf::champ() ?>
+    <div class="bo-champ bo-champ--large">
+      <label for="p-adresse">Adresse du site</label>
+      <input id="p-adresse" type="text" name="adresse_publique" inputmode="url"
+             value="<?= e($adressePublique) ?>" placeholder="https://angeot.fr">
+      <span class="aide">
+        <?php if ($adressePublique === ''): ?>
+          <strong>À renseigner.</strong> Tant que ce champ est vide, le site reprend l'adresse
+          demandée par le navigateur. Elle sert à écrire les liens que le site ne peut pas
+          deviner : la balise lue par Google, le plan du site, l'adresse de partage sur les
+          réseaux, les liens des e-mails envoyés au secrétariat et l'adresse de retour à
+          déclarer chez Meta. Le domaine seul, sans page ni barre finale.
+        <?php else: ?>
+          Le domaine seul, sans page ni barre finale. Sert à écrire la balise lue par Google,
+          le plan du site, l'adresse de partage sur les réseaux, les liens des e-mails et
+          l'adresse de retour déclarée chez Meta.
+        <?php endif; ?>
+      </span>
+    </div>
+    <button class="bo-btn" type="submit">Enregistrer l'adresse</button>
+  </form>
+</section>
+
+<form class="bo-form" method="post" action="<?= url('/admin/parametres/messagerie') ?>" style="margin-top:1.4rem;">
   <?= Csrf::champ() ?>
 
   <fieldset>

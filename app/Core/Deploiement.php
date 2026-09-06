@@ -40,6 +40,10 @@ final class Deploiement
         'data/.htaccess',
         'data/assistant/.htaccess',
         'storage/.htaccess',
+        // Le dossier des auditeurs n'est pas du code servi, mais il est
+        // présent sur le serveur : dans l'implantation à plat, ses .php
+        // seraient exécutés. Le refus doit donc suivre les mises à jour.
+        'outils/.htaccess',
         'README.md',
         'DEPLOIEMENT.md',
     ];

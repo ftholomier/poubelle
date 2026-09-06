@@ -286,7 +286,16 @@ final class Mailer
      */
     private function expediteurParDefaut(): string
     {
-        $hote = (string) ($_SERVER['HTTP_HOST'] ?? '');
+        /* L'adresse réglée d'abord : l'en-tête Host est écrit par le client,
+           et un From forgé sur son domaine ferait partir un courriel de la
+           mairie signé d'ailleurs. Il ne sert que si rien n'est réglé. */
+        $hote = (string) parse_url(
+            AdressePublique::normaliser((string) $this->parametres->get(AdressePublique::CLE, '')),
+            PHP_URL_HOST
+        );
+        if ($hote === '') {
+            $hote = (string) ($_SERVER['HTTP_HOST'] ?? '');
+        }
         $hote = strtolower(preg_replace('/:\d+$/', '', $hote) ?? '');
         $hote = preg_replace('/^www\./', '', $hote) ?? $hote;
 

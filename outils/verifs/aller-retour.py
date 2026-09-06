@@ -60,6 +60,11 @@ ECRANS = (
     ('/admin/contact',    '/admin/contact',             'site.json'),
     ('/admin/langues',    '/admin/langues/cle',         'admin/parametres.json'),
     ('/admin/parametres', '/admin/parametres/messagerie', 'admin/parametres.json'),
+    # L'adresse publique du site : sans elle, les liens des courriels et la
+    # balise lue par Google suivent l'en-tête Host de la requête. Un name= qui
+    # dérive la viderait, et le site retomberait sur ce comportement sans un
+    # mot. Voir App\Core\AdressePublique.
+    ('/admin/parametres', '/admin/parametres/adresse', 'admin/parametres.json'),
     # Une page de blocs, et la plus chargée en photos : c'est là que passe
     # Blocs::relireChamp(), le point où un chemin d'image se perd le plus
     # facilement — et où il se perdrait sans un mot.
@@ -165,9 +170,17 @@ def main() -> int:
     def lire_page(chemin: str) -> str:
         return session.open(BASE + chemin, timeout=20).read().decode('utf-8')
 
-    def poster(chemin: str, champs) -> None:
+    def poster(chemin: str, champs) -> str:
+        """Envoie le formulaire et rend la page d'arrivée.
+
+        urllib suit la redirection 303 tout seul : c'est donc CETTE page qui
+        porte le message éphémère, et lui seul. Le relire ensuite par un GET
+        ne montrerait plus rien — un message éphémère ne s'affiche qu'une
+        fois, et c'est ce qui a fait croire un instant que le refus était
+        resté muet."""
         corps = urllib.parse.urlencode(champs, doseq=True).encode('utf-8')
-        session.open(urllib.request.Request(BASE + chemin, data=corps), timeout=30)
+        reponse = session.open(urllib.request.Request(BASE + chemin, data=corps), timeout=30)
+        return reponse.read().decode('utf-8', 'replace')
 
     def contenu(fichier: str):
         chemin = os.path.join(donnees, fichier)
@@ -218,6 +231,42 @@ def main() -> int:
                         print('        perdu : %s = %r' % (cle, valeur))
             else:
                 print('     ok %-20s %s : %d valeurs, intactes' % (ecran, fichier, b))
+
+        # --- le jeton périmé -------------------------------------------------
+        # Une session expire pendant que la mairie rédige. L'enregistrement est
+        # alors refusé — c'est le rôle du jeton —, et deux choses doivent être
+        # vraies : le contenu déjà écrit ne doit pas bouger d'un octet, et
+        # l'écran suivant doit DIRE ce qui s'est passé. Il ne le disait pas :
+        # une trentaine de contrôleurs répondaient par une redirection muette,
+        # et la mairie ne pouvait pas distinguer un enregistrement réussi d'un
+        # enregistrement perdu.
+        ecran, action, fichier = ECRANS[0]
+        page = lire_page(ecran)
+        cible, champs = formulaire(page, action)
+        champs = [(nom, valeur) for nom, valeur in champs if nom != '_csrf']
+        champs.append(('_csrf', 'jeton-perime-' + '0' * 48))
+
+        avant = contenu(fichier)
+        try:
+            suite = poster(cible, champs)
+        except Exception as souci:
+            ecarts += 1
+            print('  ÉCHEC jeton périmé      la requête a échoué — %s' % souci)
+        else:
+            apres = contenu(fichier)
+            if feuilles(apres) != feuilles(avant) or apres != avant:
+                ecarts += 1
+                print('  ÉCART jeton périmé      %s a changé alors que le jeton était '
+                      'refusé' % fichier)
+            else:
+                print('     ok jeton périmé      %s intact' % fichier)
+
+            if 'session' not in suite.lower() or 'expir' not in suite.lower():
+                ecarts += 1
+                print('  ÉCART jeton périmé      l’écran ne dit pas que la session avait '
+                      'expiré : le refus est muet')
+            else:
+                print('     ok jeton périmé      l’écran explique le refus')
     finally:
         serveur.terminate()
         try:
@@ -227,7 +276,8 @@ def main() -> int:
         shutil.rmtree(donnees, ignore_errors=True)
 
     print('---')
-    print('%d écran(s) rejoué(s) — %d écart(s).' % (len(ECRANS), ecarts))
+    print('%d écran(s) rejoué(s), plus le cas du jeton périmé — %d écart(s).'
+          % (len(ECRANS), ecarts))
     if ecarts:
         print('Un enregistrement qui fait maigrir le JSON vient presque toujours d’un '
               '« name= » du gabarit que le contrôleur ne relit pas sous ce nom.')

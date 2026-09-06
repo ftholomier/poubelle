@@ -69,7 +69,9 @@ $menu = [
 <link rel="icon" href="<?= asset('assets/img/logo/favicon-512.png') ?>" type="image/png">
 <link rel="stylesheet" href="<?= asset('assets/css/admin.css') ?>">
 </head>
-<body class="bo">
+<?php /* L'adresse du battement est posée ici : le back-office peut vivre
+         dans un sous-répertoire, et admin.js n'a pas à le deviner. */ ?>
+<body class="bo" data-battement="<?= e(url('/admin/battement')) ?>">
 <div class="bo-cadre">
   <?php /* Le voile du menu escamotable. Il vit hors de l'aside pour couvrir
            toute la page, et ne se voit qu'une fois le menu ouvert. */ ?>

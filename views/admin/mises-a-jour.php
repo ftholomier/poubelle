@@ -11,10 +11,31 @@
  * @var array $sauvegardes
  */
 use App\Core\Csrf;
+use App\Core\Deploiement;
 
 $dateFr = static function (string $iso): string {
     $t = strtotime($iso);
     return $t ? date('d/m/Y à H:i', $t) : $iso;
+};
+
+/* La liste des chemins de la commande d'installation se calcule, elle ne se
+   recopie pas. Écrite en dur, elle a vécu des mois avec un dossier « tools »
+   qui n'a jamais existé (il s'appelle « outils ») et sans les .htaccess
+   ajoutés depuis : la commande échouait telle quelle, et l'agent qui la
+   suivait s'arrêtait là. Deploiement::CODE est la seule source. */
+$cheminsCode = static function (): string {
+    $lignes = [];
+    $courante = '';
+    foreach (Deploiement::cheminsCode() as $chemin) {
+        if ($courante !== '' && mb_strlen($courante . ' ' . $chemin) > 66) {
+            $lignes[] = $courante;
+            $courante = '';
+        }
+        $courante = $courante === '' ? $chemin : $courante . ' ' . $chemin;
+    }
+    $lignes[] = $courante;
+
+    return implode(" \\\n  ", $lignes);
 };
 ?>
 
@@ -34,9 +55,7 @@ $dateFr = static function (string $iso): string {
       <pre class="bo-code">cd ~/<var>dossier-du-site</var> &amp;&amp; test -f app/bootstrap.php &amp;&amp; \
 git clone --branch <var>BRANCHE</var> <var>ADRESSE_DU_DEPOT</var>.git depot-temporaire &amp;&amp; \
 mv depot-temporaire/.git . &amp;&amp; rm -rf depot-temporaire &amp;&amp; \
-git checkout -- app config views tools public/index.php public/.htaccess \
-  public/assets/css public/assets/js public/assets/fonts public/assets/img/logo \
-  data/.htaccess storage/.htaccess</pre>
+git checkout -- <?= e($cheminsCode()) ?></pre>
       <p class="bo-aide-bloc"><strong>Les commandes sont enchaînées par <code>&amp;&amp;</code> à
         dessein.</strong> Si le dossier n'existe pas ou n'est pas celui du site, rien ne
         s'exécute — sans quoi un <code>cd</code> qui échoue transformerait votre

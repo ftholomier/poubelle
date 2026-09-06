@@ -26,9 +26,28 @@ final class Csrf
         return '<input type="hidden" name="_csrf" value="' . e(self::jeton()) . '">';
     }
 
+    /**
+     * Le jeton d'un formulaire du back-office.
+     *
+     * **Le refus n'est plus silencieux.** Une trentaine de contrôleurs
+     * répondent `if (!Csrf::verifier()) return $this->rediriger();` : l'écran
+     * revenait vide, sans un mot, et la mairie n'avait aucun moyen de savoir
+     * si son enregistrement était passé. Le cas courant n'est d'ailleurs pas
+     * une attaque, c'est une session qui a expiré pendant la rédaction. Le
+     * message est posé ici plutôt que dans chaque contrôleur : un seul
+     * endroit, et rien à oublier au prochain écran.
+     */
     public static function verifier(): bool
     {
-        return self::verifierJeton($_POST['_csrf'] ?? '');
+        if (self::verifierJeton($_POST['_csrf'] ?? '')) {
+            return true;
+        }
+
+        Session::flash('erreur', 'Votre enregistrement n’a pas été pris en compte : la session '
+            . 'avait expiré. Reconnectez-vous, puis renvoyez l’écran — le navigateur a gardé '
+            . 'votre saisie, elle vous est reproposée à l’ouverture de l’écran.');
+
+        return false;
     }
 
     /**

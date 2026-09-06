@@ -755,6 +755,15 @@
       return champJeton ? champJeton.value : "";
     }
 
+    /* Le piège et l'horloge du formulaire de rappel voyagent dans le corps
+       JSON : ils sont dans la page comme sur les formulaires du site, mais
+       une requête fetch n'envoie pas les champs toute seule. Sans ces deux
+       lignes, le serveur les verrait vides et refuserait tout envoi. */
+    function valeurChamp(f, nom) {
+      var e = f.querySelector("[name=" + nom + "]");
+      return e ? e.value : "";
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (enCours) return;
@@ -829,6 +838,8 @@
           nom: formContact.nom.value,
           telephone: formContact.telephone.value,
           email: formContact.email.value,
+          site: valeurChamp(formContact, "site"),
+          _ouvert: valeurChamp(formContact, "_ouvert"),
           conversation: conversation,
           historique: historique
         })

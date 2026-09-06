@@ -40,6 +40,13 @@ final class Assistant
 
     /** Garde-fous sur ce qu'un visiteur peut envoyer. */
     public const QUESTION_MAX = 800;
+
+    /**
+     * Questions payées par jour, toutes adresses confondues, tant que la
+     * mairie n'en a pas décidé autrement. Quatre cents réponses dans une
+     * journée, pour sept cents habitants, ne sont plus des questions.
+     */
+    public const PLAFOND_JOUR = 400;
     private const HISTORIQUE_MAX = 12;         // tours conservés dans le contexte
 
     /** Documents : ce qu'on accepte, et jusqu'où. */
@@ -55,6 +62,15 @@ final class Assistant
         private readonly Content $content,
         private readonly string $dossierDonnees,
         private readonly string $fichierCache,
+        /* La couture par laquelle un auditeur remplace le réseau.
+           `outils/verifs/quota.php` mesure ce que renvoie /api/assistant à la
+           quarante-et-unième question : cette branche n'existe qu'en
+           production, puisqu'elle demande une clé Google et des appels
+           facturés. Une doublure la rend mesurable sans qu'aucune requête ne
+           sorte et sans que rien ne soit facturé — c'est la règle du socle,
+           celle qui a déjà donné file.php. Le site, lui, ne passe jamais
+           d'argument : il garde curl. */
+        private readonly mixed $reseau = null,
     ) {
     }
 
@@ -70,6 +86,97 @@ final class Assistant
     public function cle(): string
     {
         return trim((string) $this->parametres->get('assistant.cle', ''));
+    }
+
+    // ------------------------------------------------------- plafond journalier
+
+    /**
+     * Le nombre de questions que la commune accepte de payer par jour.
+     *
+     * **Pourquoi ce plafond existe.** Les quotas par session et par adresse
+     * arrêtent un visiteur, pas une campagne : trente adresses différentes
+     * font trente fois trente questions, et la facture Gemini n'a plus de
+     * borne. Une commune de sept cents habitants n'a aucune raison de payer
+     * quatre cents réponses dans la même journée ; si elle en reçoit tant,
+     * c'est que quelque chose ne va pas, et il vaut mieux que l'assistant se
+     * taise en renvoyant vers le téléphone que de découvrir la note.
+     *
+     * Le réglage est dans l'écran Assistant : c'est la mairie qui décide de sa
+     * dépense, pas le code. Zéro le désarme, pour qui préfère surveiller.
+     */
+    public function plafondJournalier(): int
+    {
+        $regle = (int) $this->parametres->get('assistant.plafond_jour', self::PLAFOND_JOUR);
+
+        return max(0, $regle);
+    }
+
+    /** Le plafond du jour est-il atteint ? */
+    public function plafondAtteint(): bool
+    {
+        $plafond = $this->plafondJournalier();
+
+        return $plafond > 0 && $this->questionsDuJour() >= $plafond;
+    }
+
+    /** Questions comptées aujourd'hui, toutes origines confondues. */
+    public function questionsDuJour(): int
+    {
+        $compteur = $this->compteur();
+
+        return ($compteur['jour'] ?? '') === date('Y-m-d') ? (int) ($compteur['questions'] ?? 0) : 0;
+    }
+
+    /**
+     * Compte une question réellement partie chez Google.
+     *
+     * Après la réponse, comme le quota horaire des formulaires : compter les
+     * tentatives refusées fermerait l'assistant à cause d'un visiteur qui
+     * s'y reprend à trois fois.
+     */
+    public function compterQuestion(): void
+    {
+        $aujourdhui = date('Y-m-d');
+        $compteur = $this->compteur();
+        $questions = ($compteur['jour'] ?? '') === $aujourdhui ? (int) ($compteur['questions'] ?? 0) : 0;
+
+        $this->ecrireCompteur(['jour' => $aujourdhui, 'questions' => $questions + 1]);
+    }
+
+    /** @return array<string, mixed> */
+    private function compteur(): array
+    {
+        $fichier = $this->dossierDonnees . '/assistant/compteur.json';
+        $brut = is_file($fichier) ? json_decode((string) file_get_contents($fichier), true) : null;
+
+        return is_array($brut) ? $brut : [];
+    }
+
+    /** @param array<string, mixed> $compteur */
+    private function ecrireCompteur(array $compteur): void
+    {
+        $fichier = $this->dossierDonnees . '/assistant/compteur.json';
+        $dossier = dirname($fichier);
+        if (!is_dir($dossier)) {
+            $ancien = umask(0);
+            @mkdir($dossier, Permissions::DOSSIER, true);
+            umask($ancien);
+        }
+        if (!is_dir($dossier)) {
+            return;                       // le compteur se perd, la réponse passe
+        }
+
+        $json = json_encode($compteur, JSON_UNESCAPED_SLASHES);
+        if ($json === false) {
+            return;
+        }
+
+        // Fichier temporaire puis rename() : deux visiteurs simultanés ne
+        // doivent pas laisser un compteur tronqué derrière eux.
+        $tmp = $fichier . '.' . bin2hex(random_bytes(6)) . '.tmp';
+        if (file_put_contents($tmp, $json, LOCK_EX) === false || !rename($tmp, $fichier)) {
+            @unlink($tmp);
+        }
     }
 
     public function modele(): string
@@ -758,6 +865,10 @@ final class Assistant
     /** @param string[] $entetes @return array{0:int, 1:string} */
     private function requete(string $url, array $entetes, ?string $corpsEnvoye, int $delai): array
     {
+        if (is_callable($this->reseau)) {
+            return ($this->reseau)($url, $entetes, $corpsEnvoye, $delai);
+        }
+
         if (function_exists('curl_init')) {
             $ch = curl_init($url);
             curl_setopt_array($ch, [

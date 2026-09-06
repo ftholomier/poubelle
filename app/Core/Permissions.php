@@ -23,14 +23,46 @@ final class Permissions
     /** Non parcourus : volumineux et sans incidence sur le site servi. */
     private const IGNORES = ['.git', 'node_modules', 'vendor'];
 
-    /** Contiennent un mot de passe ou une empreinte de mot de passe. */
-    private const SECRETS = ['data/admin', 'storage/deploiements'];
+    /**
+     * Contiennent un secret ou des données personnelles.
+     *
+     * data/admin porte l'empreinte du mot de passe d'administration, le mot
+     * de passe SMTP, la clé de l'assistant et les jetons Meta ; les archives
+     * de déploiement contiennent une copie de data/admin ; data/assistant
+     * porte les conversations des administrés — nom, téléphone, adresse,
+     * message —, ce qui en fait un fichier de données personnelles au sens
+     * du RGPD, et non un simple journal.
+     */
+    private const SECRETS = [
+        'data/admin',
+        'data/assistant',
+        'data/reseaux',
+        'data/conseiller',
+        'storage/deploiements',
+    ];
 
     /** Doivent rester inscriptibles, sinon le back-office ne peut plus écrire. */
-    private const INSCRIPTIBLES = ['data', 'data/pages', 'storage', 'public/assets/img/site'];
+    private const INSCRIPTIBLES = [
+        'data', 'data/pages', 'data/assistant', 'data/reseaux',
+        'storage', 'public/assets/img/site', 'public/assets/doc',
+    ];
 
     public function __construct(private readonly string $racine)
     {
+    }
+
+    /**
+     * Les dossiers qui contiennent un secret ou des données personnelles.
+     *
+     * Exposée pour outils/verifs/exposition.php, qui confronte cette liste
+     * aux refus Apache : c'est le seul moyen qu'un dossier ajouté ici sans
+     * son .htaccess soit signalé au lieu d'être découvert en ligne.
+     *
+     * @return string[]
+     */
+    public static function secrets(): array
+    {
+        return self::SECRETS;
     }
 
     // ------------------------------------------------------------------ analyse
@@ -187,6 +219,16 @@ final class Permissions
 
     private function estSecret(string $relatif): bool
     {
+        /* Un .htaccess est lu par le serveur web, pas par PHP. Sur un
+           hébergement où Apache tourne sous un autre utilisateur que le
+           propriétaire des fichiers, un .htaccess en 0640 lui devient
+           illisible — et Apache répond 500 sur tout le dossier au lieu de le
+           protéger. Ce sont justement les .htaccess de data/ et storage/ qui
+           ferment l'implantation à plat : les traiter en secret retournerait
+           la protection contre le site. Ils ne contiennent rien de secret. */
+        if (basename($relatif) === '.htaccess') {
+            return false;
+        }
         foreach (self::SECRETS as $prefixe) {
             if ($relatif === $prefixe || str_starts_with($relatif, $prefixe . '/')) {
                 return true;

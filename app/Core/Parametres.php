@@ -15,6 +15,13 @@ use RuntimeException;
 final class Parametres
 {
     private const DEFAUTS = [
+        /* Le domaine auquel le site répond, tel qu'il doit s'écrire lui-même.
+           Vide, il retombe sur l'en-tête Host de la requête — que le client
+           écrit, et qui a donc sa place ici plutôt que dans le code. Voir
+           App\Core\AdressePublique. */
+        'site' => [
+            'adresse_publique' => '',
+        ],
         'smtp' => [
             'actif'        => false,
             'hote'         => '',
@@ -73,6 +80,10 @@ final class Parametres
             'titre'       => '',
             'accueil'     => '',
             'source_site' => true,        // le contenu du site fait partie du corpus
+            /* Questions payées par jour, toutes adresses confondues. Les
+               quotas par session et par adresse arrêtent un visiteur, pas une
+               campagne. 0 désarme le plafond. Voir Assistant::PLAFOND_JOUR. */
+            'plafond_jour' => Assistant::PLAFOND_JOUR,
         ],
         // traduction automatique : sans clé, on se rabat sur des services
         // gratuits que beaucoup d'hébergements mutualisés voient refusés

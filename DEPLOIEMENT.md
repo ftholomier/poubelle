@@ -49,9 +49,11 @@ sur `angeot/public`.
 ### Méthode de repli — tout dans public_html
 
 Si vous ne pouvez pas déplacer la racine web, envoyez le projet dans
-`public_html/`. Des fichiers `.htaccess` de protection sont déjà présents
-dans `app/`, `config/`, `data/`, `views/`, `storage/` et `tools/` : ils
-bloquent tout accès direct.
+`public_html/`. Des fichiers `.htaccess` de protection sont présents dans
+**tous les dossiers du dépôt sauf `public/`** — `app/`, `config/`,
+`data/`, `data-modele/`, `views/`, `storage/` et `outils/` : ils bloquent
+tout accès direct. `outils/verifs/exposition.php` le vérifie, et c'est lui
+qu'il faut relancer si un dossier est ajouté au dépôt.
 
 **Cette méthode est moins sûre** — elle repose entièrement sur Apache. Après
 installation, vérifiez que `https://votredomaine.fr/data/site.json` renvoie
@@ -833,12 +835,18 @@ Cette étape se fait en SSH (o2switch fournit un accès SSH dans cPanel), ou
 via *cPanel → Git™ Version Control*. Deux situations selon que le site est
 déjà installé ou non.
 
+`VOTRE_BRANCHE`, dans les deux commandes qui suivent, est la branche que
+vous mettez en ligne — celle qu'affiche l'écran *Mises à jour* une fois le
+dépôt installé. Elle n'est pas écrite en dur ici : le nom d'une branche de
+travail change d'une livraison à l'autre, et celui qui figurait dans cette
+page renvoyait à un autre site.
+
 **Cas 1 — le site n'est pas encore en place.** C'est le cas le plus simple :
 tout vient du dépôt, en une commande.
 
 ```bash
 cd ~
-git clone --branch claude/redevelop-chapelle-website-xsnkxd \
+git clone --branch VOTRE_BRANCHE \
   https://github.com/ftholomier/poubelle.git angeot
 cd angeot
 mkdir -p storage/cache data/admin
@@ -854,18 +862,19 @@ rien ne s'exécute.
 
 ```bash
 cd ~/angeot && test -f app/bootstrap.php && \
-git clone --branch claude/redevelop-chapelle-website-xsnkxd \
+git clone --branch VOTRE_BRANCHE \
   https://github.com/ftholomier/poubelle.git depot-temporaire && \
 mv depot-temporaire/.git . && rm -rf depot-temporaire && \
-git checkout -- app config views tools public/index.php public/.htaccess \
-  public/assets/css public/assets/js public/assets/fonts \
-  public/assets/img/logo public/assets/img/ui \
-  data/.htaccess storage/.htaccess README.md DEPLOIEMENT.md
+git checkout -- $(php -r 'require "app/bootstrap.php"; echo implode(" ", App\Core\Deploiement::cheminsCode());')
 ```
 
-> Cette liste est exactement celle de `Deploiement::CODE`, que l'écran
-> *Mises à jour* applique ensuite. Pour l'obtenir sans risque de la recopier
-> de travers :
+> La liste des chemins n'est pas recopiée : elle est **calculée** par la
+> commande elle-même, depuis `Deploiement::CODE`. Une liste écrite à la main
+> se périme — celle qui figurait ici citait un dossier `tools/` qui n'a
+> jamais existé (il s'appelle `outils/`), et la commande échouait telle
+> quelle. L'écran *Mises à jour* affiche la même, calculée de même.
+>
+> Pour la lire seule :
 > `php -r 'require "app/bootstrap.php"; echo implode(" ", App\Core\Deploiement::cheminsCode()), "\n";'`
 
 La dernière commande aligne le code sur le dépôt. Elle liste explicitement
@@ -907,14 +916,15 @@ d'accès en lecture seule. L'écran affiche l'adresse du dépôt sans le jeton.
 
 | Remplacé | Jamais touché |
 |---|---|
-| `app/` `config/` `views/` `tools/` | `data/` (tout le contenu) |
+| `app/` `config/` `views/` | `data/` (tout le contenu) |
 | `public/index.php` `public/.htaccess` | `data/admin/` (compte, réglages SMTP) |
 | `public/assets/css` `js` `fonts` `img/logo` | `public/assets/img/site/` (photos) |
-| `data/.htaccess` `storage/.htaccess` | `storage/` (sauvegardes) |
+| `data/.htaccess` `storage/.htaccess` `outils/.htaccess` | `storage/` (sauvegardes) |
 | `README.md` `DEPLOIEMENT.md` | |
 
-`data/.htaccess` et `storage/.htaccess` sont dans la liste des fichiers
-remplacés : ce sont des protections, pas du contenu.
+Les `.htaccess` de `data/`, `storage/` et `outils/` sont dans la liste des
+fichiers remplacés : ce sont des protections, pas du contenu. Un site
+installé avant qu'ils n'existent les reçoit donc à la première mise à jour.
 
 Si une version modifie aussi des fichiers de contenu dans le dépôt, l'écran
 le signale avant d'appliquer — ces modifications sont **ignorées**, et le
@@ -991,13 +1001,13 @@ Vérifiez d'abord ce qui s'y trouve :
 cd ~ && ls -la
 ```
 
-Vous devez y voir `app`, `config`, `data`, `public`, `storage`, `tools`,
-`views` et `.git`, à côté de vos dossiers habituels (`public_html`, `mail`,
-`etc`, `logs`…). **Ces sept dossiers et le `.git` sont les seuls à retirer** —
-ne touchez à rien d'autre :
+Vous devez y voir `app`, `config`, `data`, `data-modele`, `outils`,
+`public`, `storage`, `views` et `.git`, à côté de vos dossiers habituels
+(`public_html`, `mail`, `etc`, `logs`…). **Ces huit dossiers et le `.git`
+sont les seuls à retirer** — ne touchez à rien d'autre :
 
 ```bash
-cd ~ && rm -rf .git app config data public storage tools views
+cd ~ && rm -rf .git app config data data-modele outils public storage views
 ```
 
 Reprenez ensuite au **cas 1** ci-dessus.

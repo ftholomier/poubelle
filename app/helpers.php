@@ -112,10 +112,19 @@ if (!function_exists('lien')) {
      */
     function lien(string $chemin): string
     {
+        /* Le filtre est appliqué ici AUSSI, et pas seulement à l'écriture.
+           Les deux sont nécessaires et aucun ne remplace l'autre : filtrer à
+           l'écriture seule laisse passer le contenu écrit avant que ce filtre
+           n'existe et celui que l'Éditeur avancé permet de coller à la main ;
+           filtrer au rendu seul laisse le fichier de contenu contaminé, et
+           l'assistant le lit. Une adresse refusée devient vide plutôt que
+           « # » : un lien qui disparaît se remarque. Voir App\Core\Adresse. */
+        $chemin = \App\Core\Adresse::nettoyer($chemin, true);
+
         // Une adresse externe ou un protocole (tel:, mailto:, https:) sort du
         // site : ni préfixe de langue, ni base à lui ajouter. Sans ce garde-fou,
         // un bouton « Nous appeler » réglé sur tel:… deviendrait /tel:….
-        if (preg_match('~^(?:[a-z][a-z0-9+.-]*:|//)~i', $chemin) === 1) {
+        if ($chemin === '' || preg_match('~^(?:[a-z][a-z0-9+.-]*:|//|#)~i', $chemin) === 1) {
             return $chemin;
         }
 

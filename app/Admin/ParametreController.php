@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Core\AdressePublique;
 use App\Core\Auth;
 use App\Core\Content;
 use App\Core\Csrf;
@@ -115,6 +116,45 @@ final class ParametreController
     }
 
     // ---------------------------------------------------- protection des formulaires
+
+    /**
+     * L'adresse publique du site.
+     *
+     * Tant qu'elle est vide, le site déduit son adresse de l'en-tête `Host`
+     * de la requête — que le visiteur écrit. Un `Host` forgé faisait alors
+     * écrire une adresse étrangère dans le canonical, le plan du site et les
+     * liens des courriels partis au nom de la mairie.
+     */
+    public function adresseEnvoi(): string
+    {
+        if (!Csrf::verifier()) {
+            return $this->rediriger();
+        }
+
+        $saisie = trim((string) ($_POST['adresse_publique'] ?? ''));
+        $propre = AdressePublique::normaliser($saisie);
+
+        if ($saisie !== '' && $propre === '') {
+            Session::flash('erreur', 'Cette adresse n’est pas reconnue. Attendu : le domaine du site seul, '
+                . 'par exemple https://angeot.fr — sans page ni barre finale.');
+            return $this->rediriger();
+        }
+
+        $actuel = $this->parametres->tout();
+        $actuel['site']['adresse_publique'] = $propre;
+
+        try {
+            $this->parametres->enregistrer($actuel);
+            Session::flash('succes', $propre === ''
+                ? 'Adresse publique effacée : le site suivra de nouveau l’adresse demandée '
+                  . 'par le navigateur, ce qui n’est pas sûr.'
+                : 'Adresse publique enregistrée : ' . $propre);
+        } catch (RuntimeException $e) {
+            Session::flash('erreur', $e->getMessage());
+        }
+
+        return $this->rediriger();
+    }
 
     /**
      * Clés Cloudflare Turnstile.

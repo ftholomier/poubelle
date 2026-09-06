@@ -59,6 +59,11 @@ $auth = new Auth(
 
 $mediatheque = new Mediatheque($config['paths']['public'] . '/assets/img/site');
 $parametres  = new Parametres($config['paths']['data'] . '/admin/parametres.json');
+
+/* Même adresse publique que sur le site : l'URI de retour OAuth affichée dans
+   l'écran Réseaux est recopiée telle quelle chez Meta, et une adresse déduite
+   de l'en-tête Host y aurait envoyé la mairie enregistrer n'importe quoi. */
+App\Core\AdressePublique::appliquer($parametres, $config['paths']['cache'] . '/adresse-publique.rappel');
 $mailer      = new Mailer($parametres);
 $deploiement = new Deploiement($config['paths']['root'], $parametres);
 $languesAdmin = new Langues($config['paths']['data'] . '/langues.json');
@@ -140,6 +145,17 @@ $router->post('/admin/connexion',     fn() => $admin->connexionEnvoi());
 $router->post('/admin/deconnexion',   fn() => $admin->deconnexion());
 
 // ----- écrans protégés ----------------------------------------------------
+/* Le battement : un GET sans effet, appelé par admin.js toutes les dix
+   minutes tant qu'un écran d'édition est modifié. Il ne fait que toucher la
+   date de la session — c'est $protege qui s'en charge —, pour qu'une heure
+   passée à rédiger un compte-rendu ne se termine pas par « jeton invalide ».
+   Aucune écriture, aucune donnée rendue : deux lignes valent mieux qu'une
+   heure de saisie perdue. */
+$router->get('/admin/battement', $protege(static function (): string {
+    header('Cache-Control: no-store');
+    return json_response(['vivant' => true]);
+}));
+
 $router->get('/admin',          $protege(fn() => $admin->tableauDeBord()));
 
 $router->get('/admin/site',     $protege(fn() => $edition->site()));
@@ -266,6 +282,7 @@ $router->get('/taches/reseaux', function () use ($reseauxMeta, $diffusion): stri
 $router->get('/admin/parametres',             $protege(fn() => $reglage->ecran()));
 $router->post('/admin/parametres/messagerie', $protege(fn() => $reglage->messagerieEnvoi()));
 $router->post('/admin/parametres/test',       $protege(fn() => $reglage->test()));
+$router->post('/admin/parametres/adresse',    $protege(fn() => $reglage->adresseEnvoi()));
 $router->post('/admin/parametres/antispam',   $protege(fn() => $reglage->antispamEnvoi()));
 $router->post('/admin/parametres/mesure',     $protege(fn() => $reglage->mesureEnvoi()));
 $router->post('/admin/parametres/compte',     $protege(fn() => $reglage->compteEnvoi()));

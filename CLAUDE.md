@@ -102,7 +102,7 @@ rm -rf data/pages data/*.json data/admin storage/cache/* storage/sauvegardes/*
 
 ## La boucle qualité — non négociable
 
-Le niveau de ce projet ne vient pas du goût mais de la mesure. **Treize
+Le niveau de ce projet ne vient pas du goût mais de la mesure. **Quinze
 auditeurs, à faire passer avant de déclarer une tâche finie** :
 
 ```bash
@@ -121,12 +121,16 @@ python3 outils/verifs/vignette.py        # l’image fabriquée pour Instagram, 
 python3 outils/verifs/alertes.py         # ce que PHP dit tout bas, et que la page ne montre pas
 php     outils/verifs/file.php           # la file de publication quand un seul réseau répond
 php     outils/verifs/schema.php         # le contenu écrit et le schéma du code disent-ils la même chose
+php     outils/verifs/exposition.php     # ce qu'une URL atteindrait si la racine web était celle du dépôt
+php     outils/verifs/quota.php          # ce que l'assistant refuse, et à qui
 python3 outils/verifs/aller-retour.py    # enregistrer sans rien changer : le JSON ne doit pas maigrir
 ```
 
-Les deux derniers ne pilotent aucun navigateur : `file.php` mesure ce que
-devient une publication quand un seul réseau répond, `aller-retour.py` ce que
-rend un écran d'édition quand on l'enregistre sans rien changer.
+Quatre ne pilotent aucun navigateur : `file.php` mesure ce que devient une
+publication quand un seul réseau répond, `exposition.php` ce qu'une URL
+atteindrait si la racine web était celle du dépôt, `quota.php` ce que
+l'assistant refuse et à qui, `aller-retour.py` ce que rend un écran d'édition
+quand on l'enregistre sans rien changer.
 
 **Ne les lancez pas en parallèle sans y penser.** Plusieurs écrivent dans
 `data/` pour forcer un réglage — `couleur.py` la teinte, `bulle.py` l'assistant
@@ -170,7 +174,7 @@ renommer un champ en oubliant l'étape laisse le mécanisme muet. Ce script est
 la moitié qui constate : il confronte tout le contenu au schéma et nomme le
 bloc, le champ et la conséquence. Deux secondes, aucun navigateur.
 
-**`alertes.py` est d'une autre nature, et c'est le plus utile des treize.** Il
+**`alertes.py` est d'une autre nature, et c'est le plus utile des quinze.** Il
 lit le **journal d'erreurs de PHP**, que personne ne lisait : une alerte ne
 sort pas dans la page, puisque `display_errors` est éteint en production — et
 doit l'être. La vérification que le socle proposait, `curl … | grep -ci
@@ -184,6 +188,24 @@ là où il se voit.** Le journal du serveur en fait partie, la file de
 publication aussi — d'où `file.php` —, ce qu'un formulaire du back-office
 renvoie au disque, d'où `aller-retour.py`, et ce qu'une livraison fera au
 contenu déjà écrit, d'où `schema.php`. Aucun des trois n'ouvre de page.
+
+Deux autres relèvent de la même famille. **`exposition.php` mesure le système
+de fichiers, pas une page.** Trois `.htaccess` étaient déclarés dans
+`Deploiement::CODE` et vantés par `DEPLOIEMENT.md` — et n'existaient pas. Dans
+l'implantation « à plat » que la documentation décrit elle-même, le compte
+d'administration, le mot de passe SMTP, les jetons Meta, la clé de l'assistant
+et les conversations des administrés étaient donc téléchargeables. Rien ne le
+montrait : un refus absent ne produit aucune erreur. La règle qu'il applique
+vaut mieux qu'une liste : **tout dossier du dépôt sauf `public/` doit refuser
+l'accès**, ce qui couvre d'avance celui qu'on ajoutera demain.
+
+**`quota.php` mesure une dépense.** Le quota de l'assistant vivait dans
+`$_SESSION` : un script sans cookie repartait de zéro à chaque appel, et la
+facture Gemini de la mairie n'avait plus de borne. Aucune page ne le montre —
+le site répond normalement, et le défaut ne se voit que sur un relevé Google.
+Comme `file.php`, il double le service extérieur : la doublure tient lieu de
+Gemini, aucune requête ne sort, rien n'est facturé, et c'est le vrai code de
+l'API qui est mesuré.
 
 **`aller-retour.py` mesure un enregistrement, pas un affichage.** Un écran
 d'édition qui s'ouvre bien peut très bien vider une clé au moment de

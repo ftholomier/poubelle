@@ -25,7 +25,10 @@ final class Auth
      * c'est-à-dire indéfiniment. Deux heures laissent le temps de rédiger un
      * compte-rendu sans être interrompu.
      */
-    private const INACTIVITE_SEC = 7200;
+    /* Publique parce que Session doit aligner gc_maxlifetime dessus : deux
+       durées séparées, c'est la plus courte qui gagne, sans que personne
+       comprenne pourquoi la déconnexion arrive avant l'heure annoncée. */
+    public const INACTIVITE_SEC = 7200;
 
     public function __construct(
         private readonly string $fichierCompte,

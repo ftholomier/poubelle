@@ -10,6 +10,7 @@
  * consentement.
  *
  * @var App\Core\Assistant $assistant
+ * @var App\Core\Antispam|null $antispam
  */
 if (!isset($assistant) || !$assistant->actif()) {
     return;
@@ -51,9 +52,14 @@ $bulle = $assistant->bulle();
       </button>
     </div>
 
+    <?php /* Les mêmes barrières que le formulaire de contact : le piège et
+             l'horloge signée. La demande de rappel part par courriel au
+             secrétariat, et elle n'avait rien — le jeton CSRF ne protège pas
+             d'un robot, qui sait le lire dans la page. */ ?>
     <form id="assistant-contact" class="assistant__contact" data-assistant-contact
           action="<?= url('/api/assistant/contact') ?>" hidden>
       <?= Csrf::champ() ?>
+      <?= isset($antispam) && $antispam instanceof App\Core\Antispam ? $antispam->champs() : '' ?>
       <p class="assistant__contact-titre"><?= e(t('Laissez un numéro : le secrétariat vous rappelle aux heures d’ouverture.')) ?></p>
       <label for="ac-nom"><?= e(t('Votre nom')) ?></label>
       <input id="ac-nom" name="nom" type="text" autocomplete="name" maxlength="80">

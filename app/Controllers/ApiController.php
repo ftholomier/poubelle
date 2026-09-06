@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\Antispam;
 use App\Core\Assistant;
 use App\Core\Content;
 use App\Core\Conversations;
@@ -20,13 +21,77 @@ use Throwable;
  */
 final class ApiController
 {
+    /**
+     * Questions tolérées par adresse et par heure.
+     *
+     * Plus haut que le quota des formulaires (cinq) : une conversation
+     * normale compte une dizaine d'échanges, et une famille derrière une même
+     * connexion doit pouvoir en tenir plusieurs. Assez bas pour qu'une boucle
+     * automatique s'arrête au bout d'une minute.
+     */
+    private const QUOTA_ADRESSE = 40;
+
+    /**
+     * Demandes de rappel tolérées par adresse et par heure.
+     *
+     * Trois : laisser deux fois son numéro par erreur est humain, en laisser
+     * quatre ne l'est plus. Chacune fait partir un courriel au secrétariat.
+     */
+    private const QUOTA_RAPPEL = 3;
+
     public function __construct(
         private readonly Content $content,
         private readonly ?Assistant $assistant = null,
         private readonly ?Conversations $conversations = null,
         private readonly ?Mailer $mailer = null,
         private readonly ?Parametres $parametres = null,
+        private readonly ?Antispam $antispam = null,
     ) {
+    }
+
+    /**
+     * Le message d'un refus, quel qu'en soit le motif.
+     *
+     * Les urgences passent avant tout renvoi, y compris avant le numéro du
+     * secrétariat : c'est la consigne du site, et elle vaut aussi pour un
+     * message d'erreur. Un visiteur qui tombe sur un assistant fermé peut
+     * être en train de chercher les pompiers.
+     */
+    private function refus(string $motif): string
+    {
+        $tel = trim((string) $this->content->get('site', 'contact.telephone', ''));
+
+        return $motif
+            . ' En cas d’urgence, composez le 15, le 18 ou le 112.'
+            . ($tel !== '' ? ' Pour la mairie : ' . $tel . '.' : '');
+    }
+
+    /**
+     * Les trois barrières de l'assistant, dans l'ordre du moins cher au plus
+     * cher à évaluer.
+     *
+     * Elles ne font pas double emploi : la session ferme un navigateur,
+     * l'adresse ferme une machine — un script qui ne garde aucun cookie
+     * repartait de zéro à chaque appel —, et le plafond du jour ferme une
+     * campagne menée depuis trente adresses. Chacune seule se contourne.
+     *
+     * @return string|null le message de refus, ou null si tout est ouvert
+     */
+    private function barrieres(string $famille): ?string
+    {
+        if (!$this->quotaDeSession()) {
+            return $this->refus('Vous avez atteint la limite de questions pour cette session.');
+        }
+
+        if ($this->antispam?->quotaAtteint($famille, self::QUOTA_ADRESSE) === true) {
+            return $this->refus('Beaucoup de demandes sont parties de votre connexion dans l’heure.');
+        }
+
+        if ($this->assistant?->plafondAtteint() === true) {
+            return $this->refus('L’assistant a répondu à toutes les questions prévues pour aujourd’hui.');
+        }
+
+        return null;
     }
 
     /**
@@ -60,10 +125,8 @@ final class ApiController
             return json_response(['erreur' => 'Question trop longue.'], 400);
         }
 
-        if (!$this->quotaDeSession()) {
-            return json_response([
-                'erreur' => 'Vous avez atteint la limite de questions pour cette session. Appelez-nous, nous répondrons plus vite.',
-            ], 429);
+        if (($refus = $this->barrieres(Antispam::ASSISTANT)) !== null) {
+            return json_response(['erreur' => $refus], 429);
         }
 
         $historique = [];
@@ -82,6 +145,12 @@ final class ApiController
         } catch (RuntimeException $e) {
             return json_response(['erreur' => $e->getMessage()], 502);
         }
+
+        /* Après la réponse, jamais avant : compter les tentatives refusées
+           fermerait l'assistant à cause d'un visiteur qui se reprend. C'est la
+           règle déjà suivie par le quota des formulaires. */
+        $this->antispam?->enregistrerEnvoi(Antispam::ASSISTANT);
+        $this->assistant->compterQuestion();
 
         // Le journal est tenu après coup : un échec d'écriture ne doit pas
         // priver le visiteur d'une réponse déjà obtenue.
@@ -133,9 +202,24 @@ final class ApiController
         if ($contact['email'] !== '' && !filter_var($contact['email'], FILTER_VALIDATE_EMAIL)) {
             return json_response(['erreur' => 'Cette adresse e-mail semble incorrecte.'], 400);
         }
-        if (!$this->quotaDeSession()) {
-            return json_response(['erreur' => 'Trop de demandes. Appelez-nous directement.'], 429);
+        /* Le piège et l'horloge, comme sur le formulaire de contact : cette
+           demande part par courriel au secrétariat, et un jeton CSRF ne dit
+           rien d'un robot — il est écrit dans la page, lisible par tous. */
+        $barriere = $this->antispam?->verifierValeurs(
+            (string) ($charge['site'] ?? ''),
+            (string) ($charge['_ouvert'] ?? ''),
+            Antispam::RAPPEL,
+            self::QUOTA_RAPPEL
+        );
+        if ($barriere !== null) {
+            return json_response(['erreur' => $barriere], 429);
         }
+
+        if (($refus = $this->barrieres(Antispam::RAPPEL)) !== null) {
+            return json_response(['erreur' => $refus], 429);
+        }
+
+        $this->antispam?->enregistrerEnvoi(Antispam::RAPPEL);
 
         try {
             $this->conversations?->contact((string) ($charge['conversation'] ?? ''), array_filter($contact));
