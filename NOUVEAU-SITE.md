@@ -387,14 +387,19 @@ délibérante.
 php -S 127.0.0.1:8081 -t public &
 python3 outils/verifs/contraste.py
 python3 outils/verifs/mise-en-page.py
+python3 outils/verifs/mise-en-page.py --admin id:mdp
 python3 outils/verifs/traceurs.py
 python3 outils/verifs/bandeau.py
 python3 outils/verifs/entete.py
 python3 outils/verifs/couleur.py
 python3 outils/verifs/bulle.py
+python3 outils/verifs/conseiller.py --admin id:mdp
 python3 outils/verifs/vignette.py
-python3 outils/verifs/alertes.py
+python3 outils/verifs/alertes.py --admin id:mdp
 php     outils/verifs/file.php
+php     outils/verifs/schema.php
+php     outils/verifs/exposition.php
+php     outils/verifs/quota.php
 python3 outils/verifs/aller-retour.py
 ```
 
@@ -410,10 +415,17 @@ main du client (SMTP, clés d'API, horaires).
 
 ## 4. Les auditeurs
 
-Onze scripts dans `outils/verifs/`, qui sortent en code 1 s'ils trouvent
-quelque chose — branchables tels quels dans une chaîne d'intégration. Neuf
-pilotent un navigateur ; le dixième, en PHP, n'ouvre aucune page ; le onzième
-rejoue les formulaires du back-office.
+Seize passages dans `outils/verifs/`, qui sortent en code 1 s'ils trouvent
+quelque chose — branchables tels quels dans une chaîne d'intégration. Onze
+pilotent un navigateur ; quatre n'ouvrent aucune page (`file.php`,
+`schema.php`, `exposition.php`, `quota.php`) ; le dernier rejoue les
+formulaires du back-office.
+
+**Comptez leurs codes de sortie, pas leurs dernières lignes.** Une boucle
+écrite `"$@" | tail -4; echo "[code $?]"` relève le code de `tail`, donc
+toujours zéro : elle a laissé passer un auditeur rouge pendant toute une
+livraison, en affichant « 6 souci(s) » juste au-dessus d'un « code 0 » que
+personne n'a rapproché. Relevez le code AVANT tout tuyau.
 
 | Script | Ce qu'il mesure |
 |---|---|
@@ -427,7 +439,11 @@ rejoue les formulaires du back-office.
 | `alertes.py` | Le **journal d'erreurs de PHP**, sur les 51 pages et les 29 écrans du back-office : ce qu'une alerte ne montre jamais dans la page. Il vérifie aussi que ses deux inventaires écrits à la main — les écrans à visiter, et `Seo::CONTENUS` — n'ont pas pris de retard sur les routes et les pages réelles |
 | `aller-retour.py` | Chaque **écran d'édition enregistré sans rien changer**, le formulaire rejoué tel que la page le rend : le JSON de contenu ne doit pas maigrir |
 | `file.php` | La **file de publication** quand un seul réseau répond : ce qui reste en file, ce qui est rejoué, ce que dit le journal, le verrou de dépilage, le recul entre deux essais, et l'assemblage du message avant mesure. Une doublure tient lieu de Meta, aucune requête ne sort |
-| `bulle.py` | Le bouton de l'assistant sous **les cinq formes, les bornes de taille, six couples de couleurs, les cinq animations, les quatre coins de leur rythme et le rappel au défilement** — contraste, cible tactile, débordement, nom accessible, budget de mouvement, réglage servi conforme au réglage demandé, respect du réglage système « moins d'animations », et aucun appel réseau bulle allumée |
+| `bulle.py` | Le bouton de l'assistant sous **les cinq formes, les bornes de taille, six couples de couleurs, les cinq animations, les quatre coins de leur rythme et le rappel au défilement** — contraste, cible tactile, débordement, nom accessible, budget de mouvement, réglage servi conforme au réglage demandé, respect du réglage système « moins d'animations », et aucun appel réseau bulle allumée. Une dernière passe **ouvre le panneau** et mesure ce qu'il contient : c'est là que le titre et « Être rappelé » sont restés à 2,57:1, derrière un clic que personne ne faisait |
+| `conseiller.py` | La pastille du back-office **sous ses trois états**, panneau fermé, ouvert et agrandi. Le panneau ouvert est vide tant que Google n'a pas répondu : une doublure joue les réponses du modèle, et c'est le vrai code de rendu qui est mesuré. Il vérifie l'ÉTAT avant la géométrie — tout élément portant `hidden` doit calculer `display: none` |
+| `schema.php` | Le **contenu écrit confronté au schéma** de `Blocs::TYPES` : un bloc dont le type a disparu, un champ que son type ne déclare plus, une adresse que le filtre viderait. L'écriture étant destructive, chacun de ces cas fait perdre la saisie de la mairie au premier enregistrement — des semaines plus tard, sans message |
+| `exposition.php` | Ce qu'une URL **atteindrait si la racine web était celle du dépôt** : tout dossier sauf `public/` doit refuser l'accès, chaque `.htaccess` promis par `Deploiement::CODE` doit exister, chaque dossier à secret doit être couvert |
+| `quota.php` | Ce que l'assistant **refuse, et à qui** : le quota par adresse, le fait que changer de session ne le rouvre pas, le plafond du jour, et l'étanchéité des familles de quota. Une doublure tient lieu de Gemini, aucune requête ne sort, rien n'est facturé |
 
 ### Pourquoi quatre auditeurs de plus, pour un diaporama et trois réglages
 
@@ -513,7 +529,7 @@ contrôle qui n'a jamais échoué n'est pas encore un contrôle.
 Cherchez les autres réglages de ce genre avant de livrer : tout ce qui peut
 être éteint est invisible à la mesure tant que quelqu'un ne l'allume pas.
 
-### Et quatre auditeurs qui ne regardent pas la page
+### Et six auditeurs qui ne regardent pas la page
 
 `vignette.py` mesure une **image**, pas une page : le carré fabriqué pour
 Instagram quand une publication n'a pas de photo. C'est du texte sur un aplat
@@ -585,6 +601,25 @@ n'est pas vérifié, et c'est exactement ainsi que le défaut revient.
 
 Il travaille dans **son propre `data/`**, désigné par la variable `APP_DATA` —
 pour une raison payée comptant : c'est le dixième piège de mesure, ci-dessous.
+
+`exposition.php` mesure le **système de fichiers**. Trois `.htaccess` étaient
+déclarés dans `Deploiement::CODE` et vantés par `DEPLOIEMENT.md` — et
+n'existaient pas. Dans l'implantation « à plat » que cette même documentation
+décrit, le compte d'administration, le mot de passe SMTP, les jetons Meta, la
+clé de l'assistant et les conversations des administrés étaient donc
+téléchargeables. Rien ne le montrait : un refus absent ne produit aucune
+erreur, aucune page ne change. La règle qu'il applique vaut mieux qu'une
+liste — **tout dossier du dépôt sauf `public/` doit refuser l'accès** —, ce qui
+couvre d'avance celui qu'on ajoutera demain. Deux secondes, aucun navigateur.
+
+`quota.php` mesure une **dépense**. Le quota de l'assistant vivait dans
+`$_SESSION` : un script qui ne garde aucun cookie repartait de zéro à chaque
+appel, et la facture Gemini de la mairie n'avait plus de borne. Le site
+répondait normalement, la bulle fonctionnait, et le défaut ne se serait vu que
+sur un relevé Google. Comme `file.php`, il double le service extérieur : la
+doublure tient lieu de Gemini, aucune requête ne sort, rien n'est facturé, et
+c'est le vrai code de l'API qui est mesuré — les trois barrières et leurs
+compteurs.
 
 ### Comment `contraste.py` mesure
 
@@ -763,17 +798,23 @@ curl -s http://127.0.0.1:8081/sitemap.xml \
 # aucune alerte PHP
 curl -s http://127.0.0.1:8081/ | grep -ci "warning\|notice\|fatal"   # → 0
 
-# les onze auditeurs
+# les seize passages — enchaînés par && : le premier rouge arrête la chaîne,
+# et c'est bien son code de sortie qu'on lit, pas celui d'un « tail »
 python3 outils/verifs/contraste.py && \
 python3 outils/verifs/mise-en-page.py && \
+python3 outils/verifs/mise-en-page.py --admin id:mdp && \
 python3 outils/verifs/traceurs.py && \
 python3 outils/verifs/bandeau.py && \
 python3 outils/verifs/entete.py && \
 python3 outils/verifs/couleur.py && \
 python3 outils/verifs/bulle.py && \
+python3 outils/verifs/conseiller.py --admin id:mdp && \
 python3 outils/verifs/vignette.py && \
-python3 outils/verifs/alertes.py && \
+python3 outils/verifs/alertes.py --admin id:mdp && \
 php     outils/verifs/file.php && \
+php     outils/verifs/schema.php && \
+php     outils/verifs/exposition.php && \
+php     outils/verifs/quota.php && \
 python3 outils/verifs/aller-retour.py
 ```
 
@@ -789,5 +830,5 @@ Puis, à la main, ce qu'aucun script ne voit :
 ## En une phrase
 
 Le socle ne bouge pas ; ce qui change tient dans vingt lignes de jetons, un
-dossier de contenu et une table de pages — et la qualité vient des cinq
-auditeurs, pas du goût.
+dossier de contenu et une table de pages — et la qualité vient des seize
+passages d'audit, pas du goût.
