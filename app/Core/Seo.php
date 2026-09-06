@@ -202,10 +202,32 @@ final class Seo
     /**
      * @return array<string, mixed>
      */
+    /**
+     * La fiche d'une page, ou un repli construit sur la clé.
+     *
+     * **Le repli est signalé.** Il est nécessaire — une page peut être ajoutée
+     * au code avant que le contenu ne la nomme —, mais il est aussi ce qui a
+     * laissé vivre un lien mort sur toutes les pages du site : un gabarit
+     * demandait `route('flash-info')` là où la clé est `info-a-la-une`, le
+     * repli a servi « flash-info » comme slug, et l'adresse rendue répondait
+     * 404. Rien ne le disait : ni erreur, ni page blanche, seulement un lien
+     * qui ne mène nulle part. Le journal de PHP le dit désormais, donc
+     * outils/verifs/alertes.py le relève.
+     *
+     * @return array<string, mixed>
+     */
     public function page(string $cle): array
     {
-        return $this->pages()[$cle] ?? ['nom' => $cle, 'slug' => $cle, 'titre' => '',
-                                        'description' => '', 'image' => '', 'indexer' => true];
+        $page = $this->pages()[$cle] ?? null;
+        if ($page !== null) {
+            return $page;
+        }
+
+        error_log('Seo : la clé de page « ' . $cle . ' » n’existe pas. Le lien servi '
+            . 'sera /' . $cle . ', qui répondra 404 si aucune route ne porte ce chemin.');
+
+        return ['nom' => $cle, 'slug' => $cle, 'titre' => '',
+                'description' => '', 'image' => '', 'indexer' => true];
     }
 
     public function slug(string $cle): string
@@ -880,7 +902,7 @@ final class Seo
         $mairie = [
             '@type'   => 'CityHall',
             '@id'     => $base . '/#mairie',
-            'name'    => 'Mairie ' . self::de((string) ($site['nom'] ?? '')),
+            'name'    => 'Mairie ' . de_nom((string) ($site['nom'] ?? '')),
             'address' => $adresse,
             'image'   => $media($this->imagePartage()),
         ];
@@ -895,7 +917,7 @@ final class Seo
         $noeud = [
             '@type'       => 'GovernmentOrganization',
             '@id'         => $id,
-            'name'        => 'Commune ' . self::de((string) ($site['nom'] ?? '')),
+            'name'        => 'Commune ' . de_nom((string) ($site['nom'] ?? '')),
             'alternateName' => (string) ($site['nom'] ?? ''),
             'description' => (string) ($site['accroche'] ?? ''),
             'url'         => $base . '/',
@@ -998,23 +1020,6 @@ final class Seo
         }
 
         return $specifications !== [] ? $specifications : null;
-    }
-
-    /**
-     * « de Belfort », mais « d'Angeot ».
-     *
-     * Les données structurées annonçaient « Commune de Angeot » aux moteurs :
-     * une faute de français sur le nom même de la commune, à l'endroit le plus
-     * repris. L'élision devant voyelle ou h muet est la seule règle qui compte
-     * ici ; le nom vient de site.json et change d'un site à l'autre.
-     */
-    private static function de(string $nom): string
-    {
-        $premiere = mb_strtolower(mb_substr(trim($nom), 0, 1));
-
-        return in_array($premiere, ['a', 'e', 'i', 'o', 'u', 'y', 'h', 'é', 'è', 'ê', 'à', 'î', 'ô', 'û'], true)
-            ? 'd’' . $nom
-            : 'de ' . $nom;
     }
 
     private static function heure(string $h, string $m): string

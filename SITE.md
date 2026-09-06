@@ -399,19 +399,32 @@ chaque ligne se règle depuis le back-office.
    réclame en rouge : ce garde-fou reste en place pour les sites suivants.
 1. **Le compte administrateur.** Le premier passage sur `/admin` le crée. Il
    n'y a aucun identifiant par défaut.
-2. **Le SMTP** (Paramètres → Courriel). Sans lui, les deux formulaires
+2. **L'adresse publique du site** (Paramètres → Adresse publique). Sans
+   elle, le site déduit son adresse de ce que le navigateur demande : la
+   balise lue par Google, le plan du site, les liens des courriels envoyés au
+   secrétariat et l'adresse de retour à déclarer chez Meta suivent alors un
+   en-tête que le visiteur écrit. Le tableau de bord la réclame tant qu'elle
+   est vide.
+3. **Le SMTP** (Paramètres → Courriel). Sans lui, les deux formulaires
    n'envoient rien. Vérifier ensuite qu'un message part réellement et que le
    `Reply-To` porte bien l'adresse du visiteur.
-3. **Vérifier l'équipe municipale.** Le conseil publié est celui de la
+4. **La phrase d'accroche du pied de page** (Coordonnées & menu → Pied de
+   page). Celle du socle affirmait que « les élus tiennent permanence le
+   samedi matin » : rien ne l'attestait, et un administré s'y déplace. Elle a
+   été remplacée par une phrase qui ne promet que les heures d'ouverture, et
+   elle est désormais modifiable. La mairie doit dire ce qu'elle tient
+   réellement — permanence des élus, jour de marché, rendez-vous du maire —
+   ou laisser la phrase telle quelle.
+5. **Vérifier l'équipe municipale.** Le conseil publié est celui de la
    mandature 2020-2026, tel que l'affichait le site précédent. Les élections
    de mars 2026 ayant eu lieu, la composition est à mettre à jour dès que la
    nouvelle équipe est installée : Contenu → Conseil municipal, puis
    Commissions & comités.
-4. **Vérifier les tarifs de la salle Camille** et les montants de caution :
+6. **Vérifier les tarifs de la salle Camille** et les montants de caution :
    ils sont repris du site précédent et sont votés par délibération. Tant
    qu'une délibération ne les confirme pas, ils engagent la commune sur des
    montants qu'elle n'a peut-être plus votés.
-5. **Refaire passer chaque fiche de démarche devant service-public.fr, et
+7. **Refaire passer chaque fiche de démarche devant service-public.fr, et
    noter la date de ce contrôle.** Les fiches ont été écrites à partir des
    règles en vigueur en 2026 ; les pièces, les seuils et les délais changent
    d'une année à l'autre, et une fiche périmée envoie un administré au guichet
@@ -422,32 +435,32 @@ chaque ligne se règle depuis le back-office.
 
 **Important :**
 
-6. **Les permanences du conciliateur de justice** (fiche « Saisir un
+8. **Les permanences du conciliateur de justice** (fiche « Saisir un
    conciliateur »). Elles changent : la page invite déjà à vérifier par
    téléphone, mais un contrôle annuel évite un déplacement pour rien.
-7. **Les jours de collecte des déchets.** Le calendrier du Grand Belfort est
+9. **Les jours de collecte des déchets.** Le calendrier du Grand Belfort est
    réédité chaque année ; la page décrit le rythme habituel et renvoie au
    calendrier en vigueur, qui fait foi.
-8. **Les publications.** La page « Publications » décrit le *Tambour Macot* et
+10. **Les publications.** La page « Publications » décrit le *Tambour Macot* et
    les *Angeot Info* mais ne porte aucun PDF : les déposer via Contenu →
    Documents, famille « publications ».
-9. **L'agenda.** Sept rendez-vous récurrents y figurent avec des dates
+11. **L'agenda.** Sept rendez-vous récurrents y figurent avec des dates
    plausibles reprises du rythme habituel des associations. **Les confirmer
    auprès de chaque association avant la mise en ligne** — une date fausse est
    pire qu'une date absente.
-10. **Les contacts d'associations.** Les noms et adresses sont ceux publiés par
+12. **Les contacts d'associations.** Les noms et adresses sont ceux publiés par
    l'ancien site ; demander à chaque association si elle les maintient.
 
 **Souhaitable :**
 
-11. **Compléter l'album photos** avec des vues récentes du village : les
+13. **Compléter l'album photos** avec des vues récentes du village : les
     panoramas manquent, et ce sont eux qui portent le bandeau d'accueil.
-12. **Déposer les comptes-rendus manquants.** Deux séances annoncées par
+14. **Déposer les comptes-rendus manquants.** Deux séances annoncées par
     l'ancien site n'avaient pas de PDF en ligne (17 août 2021, 1ᵉʳ avril 2025).
-13. **Republier la déclaration d'accessibilité chaque année**, avec sa date.
+15. **Republier la déclaration d'accessibilité chaque année**, avec sa date.
     Elle porte désormais une date d'établissement et un schéma pluriannuel,
     tous deux exigés par le RGAA ; une déclaration non datée ne vaut rien.
-14. **Renseigner la protection des formulaires** (Paramètres → Anti-spam) si
+16. **Renseigner la protection des formulaires** (Paramètres → Anti-spam) si
     le site reçoit du courrier automatique. Elle charge alors un test de
     Cloudflare sur les deux pages à formulaire, et seulement sur elles — c'est
     décrit dans la politique de confidentialité, qu'il n'y a pas à modifier.

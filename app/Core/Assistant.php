@@ -435,7 +435,7 @@ final class Assistant
         $horaires = trim((string) ($site['contact']['horaires'] ?? ''));
 
         $lignes = [
-            "Tu es l’assistant du site officiel de la mairie de $nom. Tu réponds en français, avec des phrases courtes, sur un ton clair et courtois — celui d’un agent d’accueil, pas celui d’un formulaire.",
+            "Tu es l’assistant du site officiel de la mairie " . de_nom($nom) . ". Tu réponds en français, avec des phrases courtes, sur un ton clair et courtois — celui d’un agent d’accueil, pas celui d’un formulaire.",
             '',
             'RÈGLE ABSOLUE : tu réponds UNIQUEMENT à partir des sources fournies dans cette conversation (contenu du site, documents joints, notes de la mairie). Tu n’utilises jamais tes connaissances générales, ni aucune autre source.',
             '',

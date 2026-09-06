@@ -16,6 +16,7 @@ if (!isset($assistant) || !$assistant->actif()) {
     return;
 }
 use App\Core\Assistant;
+use App\Core\Conversations;
 use App\Core\Csrf;
 
 $bulle = $assistant->bulle();
@@ -83,8 +84,14 @@ $bulle = $assistant->bulle();
       <button type="submit" class="assistant__envoyer" aria-label="<?= e(t('Envoyer')) ?>"></button>
     </form>
 
+    <?php /* La durée vient de Conversations::CONSERVATION, qui commande la
+             purge réelle. Écrite en toutes lettres dans le gabarit, elle
+             pouvait annoncer douze mois pendant que le code en effaçait au
+             bout de six — une information fausse sur le traitement de données
+             personnelles, ce qui n'est pas un détail de rédaction. */ ?>
     <p class="assistant__mention">
-      <?= e(t('Réponses générées à partir du contenu de ce site. Vos échanges sont conservés pour traiter votre demande, et effacés au bout de douze mois.')) ?>
+      <?= e(t('Réponses générées à partir du contenu de ce site. Vos échanges sont conservés pour traiter votre demande, et effacés au bout de')) ?>
+      <?= e(Conversations::dureeEnFrancais()) ?>.
     </p>
   </section>
 </div>

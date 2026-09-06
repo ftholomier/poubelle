@@ -23,6 +23,32 @@ final class Conversations
     /** Au-delà, les échanges sont effacés. */
     public const CONSERVATION = 12;   // mois
 
+    /**
+     * La même durée, écrite pour un visiteur.
+     *
+     * La bulle de l'assistant et la politique de confidentialité annoncent
+     * une durée de conservation ; c'est une information sur le traitement de
+     * données personnelles, et elle doit dire ce que le code fait vraiment.
+     * Écrite en toutes lettres dans le gabarit, elle pouvait promettre douze
+     * mois pendant que la purge en effaçait au bout de six, sans que personne
+     * ne rapproche les deux.
+     */
+    public static function dureeEnFrancais(): string
+    {
+        $mots = [1 => 'un', 2 => 'deux', 3 => 'trois', 6 => 'six', 12 => 'douze',
+                 18 => 'dix-huit', 24 => 'vingt-quatre', 36 => 'trente-six'];
+
+        if (self::CONSERVATION % 12 === 0 && self::CONSERVATION > 12) {
+            $ans = intdiv(self::CONSERVATION, 12);
+            return ($mots[$ans] ?? (string) $ans) . ' ans';
+        }
+        if (self::CONSERVATION === 12) {
+            return 'douze mois';
+        }
+
+        return ($mots[self::CONSERVATION] ?? (string) self::CONSERVATION) . ' mois';
+    }
+
     /** Garde-fous : au-delà, on cesse d'enregistrer plutôt que de gonfler. */
     private const MESSAGES_MAX = 60;
     private const TEXTE_MAX = 4000;

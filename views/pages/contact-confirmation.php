@@ -14,9 +14,19 @@
 $site = $content->load('site');
 $tel  = (string) ($site['contact']['telephone'] ?? '');
 $nom  = trim((string) ($valeurs['prenom'] ?: $valeurs['nom']));
+
+/* La photo de la page Contact, et non un fichier écrit en dur.
+   Celui qui l'était — « muret-parement-plate-bande.jpg », venu du site
+   commercial dont ce socle est tiré — n'existe plus : image() servait donc
+   « photo à venir » sur la page que le visiteur voit juste après avoir écrit à
+   la mairie. Passer par le contenu la fait suivre la mairie le jour où elle
+   change le bandeau de Contact, et ne laisse plus de nom de fichier à
+   oublier. */
+$photo = (string) ($content->get('pages/contact', 'hero.image', '')
+                   ?: $content->get('pages/accueil', 'hero.image', ''));
 ?>
 <?= $view->partial('hero-page', ['hero' => [
-    'image'    => 'assets/img/site/muret-parement-plate-bande.jpg',
+    'image'    => $photo,
     'surtitre' => $site['nom'],
     'titre'    => $nom !== '' ? 'Merci ' . $nom . ' !' : 'Merci !',
 ]]) ?>
@@ -33,7 +43,11 @@ $nom  = trim((string) ($valeurs['prenom'] ?: $valeurs['nom']));
 
     <div class="erreur-page__actions">
       <a class="btn btn--contour" href="<?= route('accueil') ?>"><?= e(t('Retour à l’accueil')) ?></a>
-      <a class="btn btn--bleu" href="<?= route('nos-services') ?>"><?= e(t('Découvrir nos services')) ?></a>
+      <?php /* « Nos services » était une rubrique du site commercial : la
+               route n'existe pas ici, et le bouton menait à un 404. Une mairie
+               renvoie vers ses démarches — c'est ce que le visiteur cherchait
+               probablement avant d'écrire. */ ?>
+      <a class="btn btn--bleu" href="<?= route('demarches') ?>"><?= e(t('Voir les démarches')) ?></a>
     </div>
   </div>
 </section>

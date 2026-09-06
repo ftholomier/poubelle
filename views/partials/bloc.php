@@ -295,7 +295,11 @@ case 'hebergeur': ?>
     <p>Les coordonnées de l’hébergeur n’ont pas encore été renseignées. Elles sont
        obligatoires : merci de nous les demander par la page « Écrire à la mairie ».</p>
   <?php else: ?>
-    <p class="coordonnees">
+    <?php /* Une classe à lui : « coordonnees » est ailleurs une grille de
+             fiches, et ce paragraphe n'en est pas une. Elle porte surtout la
+             taille des cibles tactiles — le téléphone et le site de
+             l'hébergeur sont deux liens au fil du texte, mesurés à 28 px. */ ?>
+    <p class="hebergeur">
       <strong><?= e($bloc['raison']) ?></strong>
       <?php if (trim((string) ($bloc['adresse'] ?? '')) !== ''): ?>
         <br><?= nl2br(e($bloc['adresse'])) ?>

@@ -30,6 +30,8 @@
         "qualite": "Commune du Territoire de Belfort, Grand Belfort Communauté d’Agglomération"
     },
     "appel": {
+        "titre": "Le secrétariat de mairie vous répond",
+        "texte": "Écrivez au secrétariat pour une pièce d’état civil, un dossier d’urbanisme, la réservation de la salle Camille ou le signalement d’un problème sur la voirie. Vous pouvez aussi passer aux heures d’ouverture, sans rendez-vous.",
         "principal": {
             "libelle": "Écrire à la mairie",
             "url": "/demande-en-ligne"
@@ -103,6 +105,7 @@
     "pied": {
         "seo": "Mairie d’Angeot (90150), Territoire de Belfort : état civil, urbanisme, listes électorales, recensement citoyen, location de la salle Camille, affouage et bois de chauffage, déchets, conseil municipal et comptes-rendus.",
         "proche_de": "Angeot appartient au Grand Belfort Communauté d’Agglomération, aux côtés de Bethonvilliers, Fontaine, Frais, Lagrange, Larivière, Vauthiermont, Reppe, Menoncourt, Petitefontaine, Lachapelle-sous-Rougemont et des autres communes du nord-est du Territoire de Belfort.",
-        "copyright": "© [year] Commune d’Angeot"
+        "copyright": "© [year] Commune d’Angeot",
+        "accroche": "Le secrétariat de mairie vous reçoit sans rendez-vous aux heures d’ouverture."
     }
 }

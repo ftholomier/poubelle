@@ -237,6 +237,12 @@ $router->get($c('actualites') . '/{slug}', fn(array $p) => $pages->actualite($p[
 $router->get($c('agenda'),             fn() => $pages->agenda());
 $router->get($c('info-a-la-une'),      fn() => $pages->documents('info-a-la-une', 'flash-info'));
 
+/* L'aperçu de la page de confirmation, pour un agent connecté.
+   Hors du back-office à dessein : la page porte le gabarit public, et
+   mise-en-page.py doit la mesurer avec les règles du site. Un visiteur y
+   reçoit un 404 — la page annonce un envoi qui n'a pas eu lieu. */
+$router->get('/apercu/confirmation',  fn() => $pages->apercuConfirmation());
+
 // Au quotidien
 $router->get($c('au-quotidien'),       fn() => $pages->simple('au-quotidien'));
 $router->get($c('dechets'),            fn() => $pages->simple('dechets'));

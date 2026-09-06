@@ -95,8 +95,23 @@ $menuTexte = implode("\n", $lignes);
   </fieldset>
 
   <fieldset>
-    <legend>Bouton d’appel à l’action</legend>
-    <p class="bo-aide">Affiché dans l’en-tête, le menu et le bas de chaque page.</p>
+    <legend>Bande d’appel, en bas de chaque page</legend>
+    <p class="bo-aide">Le titre, la phrase et le bouton affichés sous chaque page du site.</p>
+    <div class="bo-champ bo-champ--large">
+      <label for="s-appel-titre">Titre de la bande</label>
+      <input id="s-appel-titre" type="text" name="appel_titre"
+             value="<?= e($site['appel']['titre'] ?? '') ?>"
+             placeholder="Le secrétariat de mairie vous répond">
+    </div>
+    <div class="bo-champ bo-champ--large">
+      <label for="s-appel-texte">Phrase de la bande</label>
+      <textarea id="s-appel-texte" name="appel_texte" rows="3"><?= e($site['appel']['texte'] ?? '') ?></textarea>
+      <p class="bo-aide">
+        Deux ou trois lignes qui disent pour quoi écrire au secrétariat. Ce texte
+        était écrit dans le code et parlait de « la salle des fêtes » quand le
+        reste du site dit « la salle Camille » ; il se corrige désormais ici.
+      </p>
+    </div>
     <div class="bo-rangee">
       <div class="bo-champ">
         <label for="s-cta-lib">Libellé</label>
@@ -138,6 +153,17 @@ $menuTexte = implode("\n", $lignes);
     <div class="bo-champ">
       <label for="s-proche">Zone d’intervention</label>
       <textarea id="s-proche" name="pied_proche" rows="2"><?= e($site['pied']['proche_de']) ?></textarea>
+    </div>
+    <div class="bo-champ bo-champ--large">
+      <label for="s-accroche">Phrase d’accroche</label>
+      <input id="s-accroche" type="text" name="pied_accroche"
+             value="<?= e($site['pied']['accroche'] ?? '') ?>"
+             placeholder="Le secrétariat vous reçoit sans rendez-vous aux heures d’ouverture.">
+      <p class="bo-aide">
+        Sous le logo, au bas de chaque page. <strong>N’y annoncez que ce que la
+        commune fait vraiment</strong> : la phrase livrée par le socle promettait une
+        permanence des élus le samedi matin, et un administré s’y déplace.
+      </p>
     </div>
     <div class="bo-champ">
       <label for="s-copy">Mention de copyright</label>

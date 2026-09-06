@@ -8,6 +8,7 @@ use App\Core\Content;
 use App\Core\Mailer;
 use App\Core\Parametres;
 use App\Core\Seo;
+use App\Core\Session;
 use App\Core\View;
 use App\Core\Vivant;
 use RuntimeException;
@@ -337,6 +338,47 @@ final class PageController
         return $this->rendre('contact-confirmation', 'contact', [
             'page'    => ['titre' => 'Message envoyé', 'meta' => ['robots' => 'noindex']],
             'valeurs' => $valeurs,
+            'reponse' => t('Votre message est bien arrivé au secrétariat de mairie. '
+                . 'Il vous sera répondu sous quelques jours ouvrés.'),
+        ]);
+    }
+
+    /**
+     * L'aperçu de la page de confirmation, réservé à un agent connecté.
+     *
+     * **Pourquoi cette route existe.** Cette page ne s'atteint qu'après un
+     * envoi réussi : elle n'est dans aucun plan de site, aucun auditeur ne la
+     * voyait, et elle a vécu des mois avec une photo qui n'existait plus et un
+     * bouton vers une rubrique du site commercial d'origine. Un envoi pour de
+     * bon n'est pas mesurable non plus — il demande une messagerie configurée,
+     * que la machine d'un auditeur n'a pas, et il ferait partir un courriel.
+     *
+     * D'où cet aperçu. Il rend exactement la même vue, avec des valeurs
+     * d'exemple. Il sert à deux choses : la mairie voit ce que le visiteur
+     * lira après avoir écrit, et `mise-en-page.py --admin` mesure enfin la
+     * page. C'est la règle du socle — ce qui n'apparaît qu'après une action
+     * doit être atteignable autrement — appliquée à une page entière.
+     *
+     * Il est hors du back-office à dessein : la page porte le gabarit public,
+     * et doit donc être mesurée avec les règles du site, pas avec celles,
+     * plus tolérantes, du back-office.
+     */
+    public function apercuConfirmation(): string
+    {
+        if (!is_array(Session::get('admin'))) {
+            /* Un visiteur n'a rien à faire ici : la page annonce un envoi qui
+               n'a pas eu lieu. La clé de session est celle d'Auth ; il ne
+               s'agit que de savoir si un agent est derrière la requête, pas
+               de protéger une écriture — d'où le contrôle direct plutôt
+               qu'une instance d'Auth, que le site public n'a pas. */
+            return $this->introuvable();
+        }
+
+        return $this->rendre('contact-confirmation', 'contact', [
+            'page'    => ['titre' => 'Aperçu — message envoyé', 'meta' => ['robots' => 'noindex']],
+            'valeurs' => ['prenom' => 'Camille', 'nom' => 'Exemple',
+                          'email' => 'camille@example.fr', 'tel' => '',
+                          'message' => ''],
             'reponse' => t('Votre message est bien arrivé au secrétariat de mairie. '
                 . 'Il vous sera répondu sous quelques jours ouvrés.'),
         ]);

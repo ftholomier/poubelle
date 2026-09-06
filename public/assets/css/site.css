@@ -2837,6 +2837,12 @@ body.visionneuse-ouverte { overflow: hidden; }
   .pied__legal a,
   .pied__tel,
   .pied__contact a,
+  /* Le téléphone et le site de l'hébergeur, dans les mentions légales : deux
+     liens posés au fil d'un paragraphe, donc hauts comme leur ligne. Mesurés
+     à 28 px par mise-en-page.py le jour où la mairie a renseigné son
+     hébergeur — jusque-là le bloc était vide, et les deux liens n'existaient
+     pas. Un champ laissé vide cache ses défauts. */
+  .hebergeur a,
   .coordonnees__valeur {
     display: inline-flex; align-items: center; min-height: 44px;
   }

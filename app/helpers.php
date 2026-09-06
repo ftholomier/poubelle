@@ -105,6 +105,36 @@ if (!function_exists('route')) {
     }
 }
 
+if (!function_exists('de_nom')) {
+    /**
+     * « de Belfort », mais « d'Angeot ».
+     *
+     * Les données structurées annonçaient « Commune de Angeot » aux moteurs, et
+     * le pied de page « Mairie de Angeot » sur toutes les pages du site —
+     * pendant que les mentions légales écrivaient « Mairie d'Angeot ». Une
+     * faute de français sur le nom même de la commune, à l'endroit le plus
+     * repris, et le site se contredisait d'une page à l'autre.
+     *
+     * La règle vivait dans Seo, en privé : chaque gabarit qui avait besoin de
+     * la même chose recollait « de » à la main. Elle est ici, une fois, pour
+     * que la question ne se repose plus. L'élision devant voyelle ou h muet
+     * est la seule qui compte ; le nom vient de site.json et change d'un site
+     * à l'autre.
+     */
+    function de_nom(string $nom): string
+    {
+        $nom = trim($nom);
+        if ($nom === '') {
+            return '';
+        }
+        $premiere = mb_strtolower(mb_substr($nom, 0, 1));
+
+        return in_array($premiere, ['a', 'e', 'i', 'o', 'u', 'y', 'h', 'é', 'è', 'ê', 'à', 'î', 'ô', 'û'], true)
+            ? 'd’' . $nom
+            : 'de ' . $nom;
+    }
+}
+
 if (!function_exists('lien')) {
     /**
      * Adresse interne enregistrée dans le contenu (menu, boutons), remise

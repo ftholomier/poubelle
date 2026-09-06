@@ -200,12 +200,17 @@ final class EditionController
         $appel['principal']['libelle'] = trim((string) ($_POST['cta_libelle'] ?? ''))
             ?: (string) ($appel['principal']['libelle'] ?? '');
         $appel['principal']['url'] = Adresse::interne((string) ($_POST['cta_url'] ?? ''));
+        // Le titre et la phrase de la bande d'appel : ils étaient écrits dans
+        // le gabarit, donc hors de portée de la mairie.
+        $appel['titre'] = trim((string) ($_POST['appel_titre'] ?? ($appel['titre'] ?? '')));
+        $appel['texte'] = trim((string) ($_POST['appel_texte'] ?? ($appel['texte'] ?? '')));
         $site['appel'] = $appel;
         unset($site['reservation']);
 
         $site['pied']['seo']       = trim((string) ($_POST['pied_seo'] ?? ''));
         $site['pied']['proche_de'] = trim((string) ($_POST['pied_proche'] ?? ''));
         $site['pied']['copyright'] = trim((string) ($_POST['pied_copyright'] ?? $site['pied']['copyright']));
+        $site['pied']['accroche']  = trim((string) ($_POST['pied_accroche'] ?? ($site['pied']['accroche'] ?? '')));
 
         // --- menu : un libellé et une adresse par ligne, séparés par « | »
         // Le menu se saisit sur deux niveaux : une sous-entrée est décalée

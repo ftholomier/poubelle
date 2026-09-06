@@ -64,7 +64,11 @@ $flash = $vivant->dernierFlashInfo();
         <li class="en-ce-moment__item">
           <p class="en-ce-moment__quoi"><?= e(t('Dernier Flash Info')) ?></p>
           <p class="en-ce-moment__titre">
-            <a href="<?= route('flash-info') ?>"><?= e($flash['titre'] ?? '') ?></a>
+            <?php /* La clé de Seo::PAGES, pas le nom de la famille de
+                     documents : « flash-info » désigne la famille que la route
+                     sert, et route() en faisait /flash-info — mesuré 404, sur
+                     toutes les pages du site dès qu'un Flash Info est publié. */ ?>
+            <a href="<?= route('info-a-la-une') ?>"><?= e($flash['titre'] ?? '') ?></a>
           </p>
           <?php if (!empty($flash['date'])): ?>
             <p class="en-ce-moment__quand"><?= e(date_texte((string) $flash['date'])) ?></p>

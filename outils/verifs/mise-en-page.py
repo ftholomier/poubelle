@@ -291,6 +291,16 @@ def main():
     if args.admin:
         identifiant, _, mot_de_passe = args.admin.partition(':')
         biscuits_admin = connexion(args.base.rstrip('/'), identifiant, mot_de_passe)
+        # La page que le visiteur voit juste après avoir écrit à la mairie.
+        # Elle n'est dans aucun plan de site — on ne l'atteint qu'après un
+        # envoi réussi, donc jamais sur une machine sans messagerie — et elle
+        # a vécu des mois avec une photo qui n'existait plus et un bouton vers
+        # une rubrique du site commercial d'origine. Le site en offre un
+        # aperçu aux agents connectés ; il porte le gabarit PUBLIC, et se
+        # mesure donc avec les pages du site et non avec les écrans du
+        # back-office, qui ont leurs propres tolérances.
+        if not args.pages:
+            pages = pages + ['/apercu/confirmation']
 
     total = 0
     with sync_playwright() as p:
@@ -332,6 +342,7 @@ def main():
                                             'ok' if not soucis else '%d souci(s)' % len(soucis)))
                 for s in soucis:
                     print('              · %s' % s)
+
             ctx.close()
         b.close()
 

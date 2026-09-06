@@ -24,7 +24,15 @@ $tel = (string) ($site['contact']['telephone'] ?? '');
                src="<?= asset($site['logo']['clair'] ?? 'assets/img/logo/logo-angeot-clair.svg') ?>"
                alt="" width="711" height="232" loading="lazy">
         </a>
-        <p class="pied__accroche"><?= e(t('Le secrétariat de mairie vous reçoit sans rendez-vous aux heures d’ouverture, et les élus tiennent permanence le samedi matin.')) ?></p>
+        <?php /* Cette phrase affirmait que « les élus tiennent permanence le
+                 samedi matin ». Rien dans le contenu ne le disait, et une
+                 mairie n'a pas le droit d'annoncer un service qu'elle ne rend
+                 pas : un administré se déplace pour rien. Elle vient
+                 maintenant du contenu, où la mairie peut la corriger. */ ?>
+        <?php $accroche = trim((string) ($site['pied']['accroche'] ?? '')); ?>
+        <?php if ($accroche !== ''): ?>
+          <p class="pied__accroche"><?= e($accroche) ?></p>
+        <?php endif; ?>
         <?php if ($tel !== ''): ?>
           <a class="pied__tel" href="<?= e(tel_lien($tel)) ?>"><?= e($tel) ?></a>
         <?php endif; ?>
@@ -75,7 +83,11 @@ $tel = (string) ($site['contact']['telephone'] ?? '');
           <p class="pied__ligne">
             <span class="pied__icone" aria-hidden="true"><?= $view->partial('icones', ['nom' => 'adresse']) ?></span>
             <span>
-              <?= e(t('Mairie de')) ?> <?= e($site['nom']) ?><br>
+              <?php /* « Mairie de Angeot » sur toutes les pages, pendant que
+                       les mentions légales écrivaient « Mairie d'Angeot ».
+                       L'élision est dans de_nom(), une fois pour tout le
+                       site. */ ?>
+              <?= e(t('Mairie')) ?> <?= e(de_nom((string) $site['nom'])) ?><br>
               <?php foreach ($sites as $i => $lieu): ?>
                 <?php if ($i > 0): ?><span class="pied__separateur"></span><?php endif; ?>
                 <?php if (($lieu['rue'] ?? '') !== ''): ?><?= e($lieu['rue']) ?><br><?php endif; ?>

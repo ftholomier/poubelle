@@ -19,10 +19,15 @@ $tel  = (string) ($site['contact']['telephone'] ?? '');
 <section class="bande-cta">
   <div class="conteneur reveler">
     <p class="surtitre surtitre--clair surtitre--centre"><?= e(t('Une question, une démarche')) ?></p>
-    <h2 class="bande-cta__titre"><?= e(t('Le secrétariat de mairie vous répond')) ?></h2>
-    <p class="bande-cta__texte">
-      <?= e(t('Écrivez au secrétariat pour une pièce d’état civil, un dossier d’urbanisme, la réservation de la salle des fêtes ou le signalement d’un problème sur la voirie. Vous pouvez aussi passer aux heures d’ouverture, sans rendez-vous.')) ?>
-    </p>
+    <?php /* Le titre et le paragraphe viennent du contenu, non du gabarit.
+             Écrits ici, ils parlaient de « la salle des fêtes » quand tout le
+             reste du site dit « la salle Camille » — et la mairie n'avait
+             aucun moyen de les corriger. */ ?>
+    <h2 class="bande-cta__titre"><?= e($resa['titre'] ?? t('Le secrétariat de mairie vous répond')) ?></h2>
+    <?php $texteAppel = trim((string) ($resa['texte'] ?? '')); ?>
+    <?php if ($texteAppel !== ''): ?>
+      <p class="bande-cta__texte"><?= e($texteAppel) ?></p>
+    <?php endif; ?>
     <div class="bande-cta__actions">
       <?php if (($resa['principal']['url'] ?? '') !== ''): ?>
         <a class="btn btn--bleu" href="<?= lien($resa['principal']['url']) ?>">

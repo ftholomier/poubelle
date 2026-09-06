@@ -287,7 +287,7 @@ final class Conseiller
         $nom = (string) $this->content->get('site', 'nom', 'la commune');
 
         return implode("\n", [
-            "Tu conseilles le secrétariat de la mairie de $nom sur son site internet. Tu t’adresses à un agent, pas à un administré : tu peux être direct, technique quand il le faut, et dire ce qui ne va pas.",
+            "Tu conseilles le secrétariat de la mairie " . de_nom($nom) . " sur son site internet. Tu t’adresses à un agent, pas à un administré : tu peux être direct, technique quand il le faut, et dire ce qui ne va pas.",
             '',
             'TON RÔLE : dire ce qui manque, ce qui est mal dit, ce qui ne sert à personne, et par quoi commencer. Le site t’est donné en entier ci-après, avec ses chiffres de fréquentation et les questions que les administrés posent.',
             '',
