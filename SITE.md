@@ -379,14 +379,24 @@ chaque ligne se règle depuis le back-office.
 
 **Indispensable :**
 
-0. **L'hébergeur, dans les mentions légales.** C'est une obligation, pas une
-   politesse : l'article 6-III de la LCEN impose de **publier** la
-   dénomination, l'adresse et le téléphone de l'hébergeur. « Disponibles sur
-   demande auprès du secrétariat » — ce que disait le socle — ne suffit pas.
-   Le § « Hébergement » est devenu un bloc à champs (Contenu → Pages de
-   service → Mentions légales) ; tant qu'il est vide, **la page le dit au
-   visiteur** et le tableau de bord le réclame en rouge. Votre prestataire
-   d'hébergement vous donne ces trois lignes.
+0. **L'hébergeur — renseigné : OVH SAS, à confirmer contre le contrat.**
+   L'article 6-III de la LCEN impose de **publier** la dénomination,
+   l'adresse et le téléphone de l'hébergeur ; « disponibles sur demande
+   auprès du secrétariat » — ce que disait le socle — ne suffit pas. Le
+   § « Hébergement » est un bloc à champs (Contenu → Pages de service →
+   Mentions légales), et il porte désormais OVH SAS, 2 rue Kellermann,
+   59100 Roubaix, 09 72 10 10 07.
+
+   **Ce qui reste à faire tient en une vérification.** Le nom à publier est
+   celui de l'entreprise qui héberge réellement, pas celle dont on a acheté
+   la prestation : un hébergement revendu par une agence se publie au nom de
+   l'hébergeur final, et OVH facture sous plusieurs entités selon l'offre.
+   La facture ou le contrat le dit. S'il faut corriger, c'est un écran du
+   back-office, pas une livraison.
+
+   Tant que le champ « raison sociale » est vide, **la page le dit au
+   visiteur** plutôt que d'inventer un hébergeur, et le tableau de bord le
+   réclame en rouge : ce garde-fou reste en place pour les sites suivants.
 1. **Le compte administrateur.** Le premier passage sur `/admin` le crée. Il
    n'y a aucun identifiant par défaut.
 2. **Le SMTP** (Paramètres → Courriel). Sans lui, les deux formulaires

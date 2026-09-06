@@ -312,6 +312,22 @@ Les photos vont dans `public/assets/img/site/`, avec une version `-mini`
 pour les vignettes. Écrivez un `alt` qui décrit la scène, jamais le nom du
 fichier — l'auditeur de mise en page refuse les seconds.
 
+**Videz le bloc `hebergeur` des mentions légales, ou corrigez-le.** Il est
+renseigné dans ce dépôt — OVH SAS, l'hébergeur d'Angeot —, et c'est le seul
+champ du modèle qui nomme un tiers. Recopié tel quel, il fait publier au
+nouveau site une affirmation fausse sous l'article 6-III de la LCEN, et le
+garde-fou ne le rattrape pas : la page ne réclame l'hébergeur que tant que
+`raison` est **vide**, donc une valeur héritée passe inaperçue. Deux gestes
+possibles, l'un ou l'autre :
+
+- remettre les quatre champs à `""`, et le tableau de bord réclamera
+  l'hébergeur en rouge jusqu'à ce que le client donne les siens ;
+- écrire directement ceux du contrat d'hébergement du nouveau site.
+
+Le nom à publier est celui de l'entreprise qui héberge réellement, pas celle
+qui a vendu la prestation : un hébergement revendu par une agence se publie
+au nom de l'hébergeur final.
+
 ### Étape 6 — Les formulaires et l'anti-spam
 
 `app/Core/Antispam.php` protège les deux formulaires sans aucun réglage :
