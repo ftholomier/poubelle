@@ -7,6 +7,7 @@ use App\Core\Adresse;
 use App\Core\Content;
 use App\Core\Csrf;
 use App\Core\Diffusion;
+use App\Core\Documents;
 use App\Core\Liste;
 use App\Core\Mediatheque;
 use App\Core\Reseaux;
@@ -154,6 +155,10 @@ final class ContenuController
            qui n'a pas de réseaux sociaux, sans rien retirer. */
         private readonly ?Diffusion $diffusion = null,
         private readonly ?Reseaux $reseauxMeta = null,
+        /* Facultative comme la diffusion : sans elle, l'écran Documents
+           fonctionne comme avant — la liste déroulante des PDF déjà déposés —
+           et le formulaire d'envoi ne s'affiche pas. */
+        private readonly ?Documents $documents = null,
     ) {
     }
 
@@ -537,7 +542,40 @@ final class ContenuController
             'donnees'  => $this->content->load($nom),
             'medias'   => $this->mediatheque->lister(),
             'documents' => self::documentsDisponibles(),
+            // Le dépôt de PDF n'a de sens que sur l'écran Documents.
+            'depotPdf' => $nom === 'documents' && $this->documents !== null,
         ], 'admin/layout');
+    }
+
+    /**
+     * Dépôt d'un PDF depuis l'écran Documents.
+     *
+     * L'aide disait « les PDF se déposent par FTP » : publier un compte-rendu
+     * de conseil, la seule tâche mensuelle obligatoire d'un secrétariat,
+     * demandait donc une adresse de serveur et un mot de passe que personne
+     * n'a sous la main. Voir App\Core\Documents pour les garde-fous.
+     */
+    public function documentEnvoi(): string
+    {
+        if (!Csrf::verifier() || $this->documents === null) {
+            return $this->rediriger('/admin/listes/documents');
+        }
+
+        $envoi = $_FILES['document'] ?? null;
+        if (!is_array($envoi)) {
+            Session::flash('erreur', 'Aucun fichier reçu.');
+            return $this->rediriger('/admin/listes/documents');
+        }
+
+        try {
+            $chemin = $this->documents->televerser($envoi);
+            Session::flash('succes', 'Document déposé. Il est maintenant proposé dans la liste '
+                . '« Fichier » de chaque entrée ci-dessous : ' . basename($chemin));
+        } catch (RuntimeException $e) {
+            Session::flash('erreur', $e->getMessage());
+        }
+
+        return $this->rediriger('/admin/listes/documents');
     }
 
     public function listeEnvoi(string $nom): string
@@ -782,7 +820,13 @@ final class ContenuController
      */
     private static function documentsDisponibles(): array
     {
-        $dossier = dirname(__DIR__, 2) . '/public/assets/doc';
+        /* La racine web vient de la configuration, pas d'un `dirname()`.
+           DEPLOIEMENT.md décrit une implantation « à plat » où le contenu de
+           public/ est déplacé à la racine du site : le chemin écrit en dur
+           n'existait plus, la liste déroulante des documents devenait vide, et
+           rien ne le disait. C'est le même chemin que celui du reste du code. */
+        $dossier = ($GLOBALS['config']['paths']['public'] ?? dirname(__DIR__, 2) . '/public')
+            . '/assets/doc';
         $fichiers = is_dir($dossier) ? (glob($dossier . '/*.pdf') ?: []) : [];
         sort($fichiers);
 

@@ -89,7 +89,9 @@ $admin   = new AdminController($view, $content, $auth, $mediatheque,
                                $frequentation, $publications, $conversations,
                                $parametres, $reseauxMeta);
 $edition = new EditionController($view, $content, $mediatheque);
-$contenu = new ContenuController($view, $content, $mediatheque, $seo, $diffusion, $reseauxMeta);
+$depotDocuments = new App\Core\Documents($config['paths']['public'] . '/assets/doc');
+$contenu = new ContenuController($view, $content, $mediatheque, $seo, $diffusion, $reseauxMeta,
+                                 $depotDocuments);
 $media   = new MediaController($view, $content, $mediatheque);
 $majour  = new MiseAJourController($view, $deploiement);
 $ctrlLangues = new LangueController($view, $content, $languesAdmin, $traducteurAdmin,
@@ -187,6 +189,8 @@ foreach (array_keys(ContenuController::COLLECTIONS) as $nomCollection) {
 $router->get('/admin/listes/{nom}',        $protege(fn(array $p) => $contenu->liste($p['nom'])));
 $router->post('/admin/listes/{nom}',       $protege(fn(array $p) => $contenu->listeEnvoi($p['nom'])));
 $router->post('/admin/listes/{nom}/ajout', $protege(fn(array $p) => $contenu->listeAjout($p['nom'])));
+// Le dépôt d'un PDF, sur l'écran Documents. Voir App\Core\Documents.
+$router->post('/admin/documents/depot',    $protege(fn() => $contenu->documentEnvoi()));
 
 // --- conseil municipal ----------------------------------------------------
 $router->get('/admin/conseil',  $protege(fn() => $contenu->conseil()));

@@ -6,6 +6,7 @@
  * @var App\Core\Auth|mixed $auth
  * @var string $slot
  * @var array|null $page
+ * @var App\Core\Content $content
  */
 use App\Core\Csrf;
 use App\Core\Session;
@@ -78,8 +79,15 @@ $menu = [
   <div class="bo-voile" data-menu-voile hidden></div>
 
   <aside class="bo-lateral" id="bo-menu" data-menu-panneau>
+    <?php /* Le logo et le nom viennent du contenu, pas du code. Écrits en
+             dur, ils suivaient le prochain site produit avec NOUVEAU-SITE.md :
+             une autre commune se serait retrouvée avec le blason d'Angeot en
+             tête de son back-office, et n'aurait eu aucun écran pour le
+             changer. */ ?>
+    <?php $siteBo = $content->load('site'); ?>
     <a class="bo-lateral__logo" href="<?= url('/admin') ?>">
-      <img src="<?= asset('assets/img/logo/logo-angeot-clair.svg') ?>" alt="Mairie d’Angeot — back-office">
+      <img src="<?= asset((string) ($siteBo['logo']['clair'] ?? 'assets/img/logo/logo-clair.svg')) ?>"
+           alt="<?= e(trim('Mairie ' . de_nom((string) ($siteBo['nom'] ?? '')))) ?> — back-office">
     </a>
     <nav class="bo-lateral__nav" aria-label="Navigation du back-office">
       <?php foreach ($menu as [$famille, $ecrans]): ?>

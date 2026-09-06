@@ -699,6 +699,45 @@ site. Sur un poste de développement, il aurait détruit le contenu saisi. Un
 auditeur qui a besoin d'un contenu neuf doit prendre **son propre dossier**,
 d'où la variable `APP_DATA` de `config/config.php`.
 
+**Un panneau qui s'ouvre au clic est invisible pour l'auditeur qui ne clique
+pas.** `bulle.py` avait déjà appris qu'un réglage décidant de la PRÉSENCE d'un
+élément le cache aux auditeurs — il allume donc l'assistant pour mesurer son
+bouton. Il s'arrêtait pourtant au bouton fermé : le titre du panneau et le
+bouton « Être rappelé » sont restés à 2,57:1, soit exactement le couple —
+l'encre sur la couleur de marque — que cet auditeur-là avait fait corriger sur
+le libellé de la bulle. Le défaut était revenu vingt centimètres plus loin,
+derrière un clic. **Allumer ne suffit pas : il faut ouvrir, et mesurer ce qu'il
+y a dedans.**
+
+**Un flex `nowrap` avec `min-width: 0` peut écraser une colonne à zéro sans
+rien faire déborder.** `min-width: 0` est nécessaire pour qu'une ellipse
+fonctionne ; mais si les voisins ne se réduisent pas, le navigateur obéit et
+donne ZÉRO pixel de large à la colonne. Le texte se replie alors un mot par
+ligne, et la première ligne de la liste des actualités mesurait 1 527 px de
+haut sur un téléphone. Rien ne débordait, aucune cible n'était trop petite :
+les deux règles qui existaient voyaient une page parfaite. `mise-en-page.py`
+relève désormais le symptôme exact — une boîte de moins de huit pixels de
+large, haute de plus d'une ligne, qui porte pourtant du texte. Une première
+version comparait la largeur de la boîte à celle de son mot le plus long : elle
+signalait trente titres que le navigateur coupe très bien tout seul, et le vrai
+signal s'y noyait. **Un contrôle qui produit du bruit sera désarmé ; mieux vaut
+ne relever que l'indiscutable.**
+
+**Un auditeur qui laisse une trace mesure ses propres passes suivantes.**
+Ouvrir le panneau de l'assistant éteint son bouton — il n'a plus personne à
+appeler. La passe qui ouvrait le panneau avait été placée au milieu du script :
+les cinq passes d'animation qui suivaient ont toutes échoué, sur un état que
+l'auditeur avait posé lui-même. **Une passe qui change l'état va à la fin**, et
+ce qu'elle écrit dans le navigateur se nettoie derrière elle.
+
+**Un accordéon fermé n'est pas une page cachée : ses éléments ont des
+rectangles.** La mesure de recouvrement signalait douze paires de boutons
+superposés dans le back-office. Tous vivaient dans des `<details>` fermés, où
+plusieurs barres d'éditeur se retrouvent à la même position — invisibles,
+intouchables, et parfaitement superposées. `checkVisibility()` tranche la
+question d'un appel ; le deviner à partir de la hauteur, du `display` du parent
+ou de la position à l'écran ne suffisait pas.
+
 **Un rembourrage vertical sur une boîte « en ligne » déborde par-dessus le
 texte voisin.** C'est la faute la plus discrète du lot : un `<span>` stylé
 comme un panneau — rembourrage confortable, interligne généreux — posé au fil
@@ -790,6 +829,24 @@ mesurer un débordement, il faut le repérer en JS.
 Le monogramme de l'en-tête, posé à `left: 50%`, passait par-dessus le nom de
 l'entreprise sous 780 px. Le masquer coûtait l'identité visuelle ; la bonne
 réponse est de le faire rentrer dans le flux et de centrer le groupe.
+
+**Le même piège est revenu ailleurs, et c'est ce qui le rend instructif.** Le
+logo, centré en absolu sous 1 400 px en disposition horizontale, passait sous
+« Écrire à la mairie » de 800 à 1 040 px — mesuré à 820 : logo 318-502, bouton
+396-591. Deux raisons de ne pas l'avoir vu, et deux règles à en tirer :
+
+- **un élément centré en absolu ne déborde jamais, il glisse dessous.** La page
+  garde exactement sa largeur, et aucune mesure de débordement ne voit rien. Un
+  chevauchement se mesure en comparant les rectangles deux à deux — c'est ce
+  que fait désormais `entete.py`, entre le logo et chaque bouton visible ;
+- **la correction n'est pas un `max-width` calculé.** À 820 px, les deux
+  boutons de droite dépassent déjà le milieu de la barre : il n'y a plus de
+  place centrale à donner. Seul le retour dans le flux garantit l'absence de
+  recouvrement, quel que soit le réglage de taille du logo et la longueur des
+  libellés. La note ci-dessus le disait déjà ; le socle l'avait appliqué à une
+  largeur et oublié à l'autre. **Une correction de mise en page vaut pour
+  toutes les largeurs où sa cause existe, pas seulement pour celle qu'on
+  mesurait ce jour-là.**
 
 **Deux boutons dont la position dépend du contenu se cherchent à chaque
 image.** Les flèches de la visionneuse encadraient la photo : une image

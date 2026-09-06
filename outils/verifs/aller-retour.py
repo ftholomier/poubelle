@@ -80,6 +80,10 @@ ECRANS = (
     # Il ne l'était pas, et c'est exactement le genre d'écran où un name= qui
     # dérive vide un réglage sans que rien ne le signale.
     ('/admin/assistant',  '/admin/assistant',           'admin/parametres.json'),
+    # L'écran Documents, qui porte désormais le dépôt de PDF : le formulaire
+    # de la liste y voisine avec un formulaire d'envoi de fichier, et c'est le
+    # genre de voisinage où un name= se met à désigner le mauvais champ.
+    ('/admin/listes/documents', '/admin/listes/documents', 'documents.json'),
     # Les mentions légales portent le bloc « hebergeur », dont les champs sont
     # une obligation de la LCEN : un name= qui dérive les viderait, et la page
     # se remettrait à dire que l'hébergeur n'est pas renseigné.

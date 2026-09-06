@@ -11,7 +11,16 @@
  */
 use App\Core\Csrf;
 
-$libelles = ['hebergements' => 'Hébergements', 'peche' => 'Étangs de pêche'];
+/* Les intitulés des collections viennent de Seo::PAGES, qui décrit déjà
+   chaque page du site. La liste écrite ici nommait « Hébergements » et
+   « Étangs de pêche » — les rubriques du site commercial dont ce socle est
+   tiré : les deux clés n'existent plus, et les vraies collections
+   s'affichaient donc sous leur nom technique. Une seconde liste de libellés
+   finit toujours par diverger de la première. */
+$libelles = [];
+foreach (App\Core\Seo::PAGES as $cleSeo => $descripteur) {
+    $libelles[$cleSeo] = $descripteur['nom'];
+}
 ?>
 
 <nav class="bo-onglets-liens">
@@ -103,7 +112,7 @@ $libelles = ['hebergements' => 'Hébergements', 'peche' => 'Étangs de pêche'];
             </div>
             <span class="aide" id="aide-slug-<?= e($cle) ?>">Écrivez comme vous parlez —
               « Hébergements Territoire de Belfort » devient
-              <code>hebergements-territoire-de-belfort</code>. Accents, majuscules,
+              <code>salle-camille-angeot</code>. Accents, majuscules,
               espaces et ponctuation sont convertis à l’enregistrement.
               <?php if (isset($p['collection'])): ?>
                 Cette adresse préfixe aussi celle des fiches
@@ -260,7 +269,7 @@ $libelles = ['hebergements' => 'Hébergements', 'peche' => 'Étangs de pêche'];
         </div>
         <div class="bo-champ">
           <label for="r-vers">Redirige vers</label>
-          <input id="r-vers" type="text" name="vers" required placeholder="/hebergements">
+          <input id="r-vers" type="text" name="vers" required placeholder="/salle-camille">
         </div>
       </div>
       <button class="bo-btn" type="submit">Ajouter</button>

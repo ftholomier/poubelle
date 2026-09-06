@@ -1,0 +1,20 @@
+# Les PDF publiés par la mairie, déposés depuis le back-office.
+# Rien ici ne doit être exécuté : ce dossier reçoit des fichiers
+# envoyés depuis un navigateur.
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+RemoveHandler .php .phtml .phar .cgi .pl .py
+RemoveType .php .phtml .phar
+
+# Un PDF se télécharge plutôt qu'il ne s'ouvre dans la page : affiché
+# en ligne, il s'exécute dans l'origine du site, et un PDF sait porter
+# du JavaScript.
+<FilesMatch "\.pdf$">
+    <IfModule mod_headers.c>
+        Header set Content-Disposition "attachment"
+        Header set X-Content-Type-Options "nosniff"
+    </IfModule>
+</FilesMatch>
+
+Options -Indexes -ExecCGI

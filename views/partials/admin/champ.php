@@ -63,7 +63,8 @@ $aide      = $aide ?? '';
         <option value="<?= e($doc) ?>"<?= (string) $valeur === $doc ? ' selected' : '' ?>><?= e(basename($doc)) ?></option>
       <?php endforeach; ?>
     </select>
-    <p class="bo-aide">Les PDF se déposent par FTP dans <code>public/assets/doc/</code>, puis apparaissent dans cette liste.</p>
+    <p class="bo-aide">Les PDF se déposent depuis l'écran
+      <a href="<?= url('/admin/listes/documents') ?>">Documents</a>, puis apparaissent dans cette liste.</p>
   </div>
 
 <?php elseif ($nature === 'photo'): ?>

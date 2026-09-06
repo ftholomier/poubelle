@@ -137,7 +137,7 @@ $cleEnregistree = ($reglages['cle_api'] ?? '') !== '';
 
 <div class="bo-bloc">
   <h2>Retrouver l’identifiant de votre fiche</h2>
-  <p class="bo-aide">Indiquez le nom de la société et sa ville. La clé d’API doit être enregistrée au préalable.</p>
+  <p class="bo-aide">Indiquez le nom de la commune et son département. La clé d’API doit être enregistrée au préalable.</p>
   <form class="bo-form bo-form--inline" method="post" action="<?= url('/admin/avis/rechercher') ?>">
     <?= Csrf::champ() ?>
     <div class="bo-champ">

@@ -19,7 +19,11 @@
     if ($fichier === '') {
         continue;
     }
-    $chemin = dirname(__DIR__, 2) . '/public/' . ltrim($fichier, '/');
+    // Même raison qu'ailleurs : la racine web se lit, elle ne se devine pas.
+    // Écrite en dur, la taille du PDF tombait à zéro dans l'implantation à
+    // plat, et la page annonçait « 0 Ko » à côté de chaque document.
+    $chemin = ($GLOBALS['config']['paths']['public'] ?? dirname(__DIR__, 2) . '/public')
+        . '/' . ltrim($fichier, '/');
     $octets = is_file($chemin) ? (int) filesize($chemin) : 0;
     ?>
     <li class="document">

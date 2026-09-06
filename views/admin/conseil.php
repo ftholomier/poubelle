@@ -90,6 +90,6 @@ $groupes = (array) ($conseil['groupes'] ?? []);
 
   <div class="bo-barre-actions">
     <button class="bo-btn" type="submit">Enregistrer le conseil</button>
-    <a class="bo-btn bo-btn--fantome" href="<?= url('/admin/avance?nom=conseil') ?>">Éditeur avancé</a>
+    <a class="bo-btn bo-btn--fantome" href="<?= url('/admin/avance?nom=conseil') ?>"><span class="bo-btn__long">Éditeur avancé</span><span class="bo-btn__court" aria-hidden="true">Avancé</span></a>
   </div>
 </form>

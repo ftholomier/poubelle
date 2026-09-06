@@ -175,6 +175,68 @@ RELEVE = """() => {
 }"""
 
 
+# Ce que porte le PANNEAU une fois ouvert.
+#
+# Les cinq passes qui précèdent mesurent le bouton fermé. Le panneau, lui,
+# n'existe dans la page qu'après un clic — et personne ne cliquait :
+# contraste.py ne voit pas l'assistant du tout (il est éteint sans clé),
+# bulle.py s'arrêtait au bouton, couleur.py ne l'ouvre pas davantage. C'est ce
+# trou qui a laissé le titre du panneau et le bouton « Être rappelé » à 2,57:1
+# — l'encre sur la couleur de marque, exactement le couple que cet auditeur
+# avait déjà fait corriger sur le libellé de la bulle. La règle du socle vaut
+# donc au second degré : un réglage qui décide de la PRÉSENCE d'un élément le
+# cache aux auditeurs, et ouvrir le panneau ne suffit pas si l'on n'y mesure
+# que le cadre.
+#
+# Le fond est aplati couche par couche jusqu'à une couleur opaque : le titre
+# est posé sur l'en-tête du panneau, qui est peint, mais rien ne garantit que
+# ce soit lui qui porte la couleur.
+PANNEAU = """() => {
+  const p = document.querySelector('[data-assistant] .assistant__panneau');
+  if (!p || getComputedStyle(p).display === 'none') return null;
+
+  function fond(el) {
+    let couche = null;
+    for (let n = el; n; n = n.parentElement) {
+      const c = getComputedStyle(n).backgroundColor;
+      const m = c.match(/[\d.]+/g);
+      if (!m) continue;
+      const a = m.length > 3 ? parseFloat(m[3]) : 1;
+      if (a === 0) continue;
+      const rgb = [+m[0], +m[1], +m[2]];
+      couche = couche === null ? (a === 1 ? rgb : null) : couche;
+      if (a === 1) return rgb;
+    }
+    return [255, 255, 255];
+  }
+
+  const sortie = [];
+  for (const e of p.querySelectorAll('p, button, a, label, small, h1, h2, h3, textarea, input')) {
+    const st = getComputedStyle(e);
+    if (st.display === 'none' || st.visibility === 'hidden') continue;
+    const r = e.getBoundingClientRect();
+    if (!r.width || !r.height) continue;
+    // Le texte propre à l'élément, pas celui de ses enfants : sinon un
+    // conteneur serait mesuré avec la couleur de son premier descendant.
+    const propre = [...e.childNodes]
+      .filter(n => n.nodeType === 3).map(n => n.textContent.trim()).join(' ').trim();
+    const marque = propre || e.getAttribute('placeholder') || '';
+    if (!marque) continue;
+    const c = st.color.match(/[\d.]+/g);
+    sortie.push({
+      quoi: (e.className || e.tagName).toString().split(' ')[0],
+      texte: marque.slice(0, 30),
+      encre: [+c[0], +c[1], +c[2]],
+      fond: fond(e),
+      taille: parseFloat(st.fontSize) || 0,
+      gras: (parseInt(st.fontWeight, 10) || 400) >= 700,
+      cible: e.tagName === 'BUTTON' || e.tagName === 'A' ? Math.round(r.height) : 0,
+    });
+  }
+  return sortie;
+}"""
+
+
 # Relève la boîte du bouton pendant que l'animation se joue. En
 # `requestAnimationFrame` plutôt qu'à intervalle fixe : on veut des images, pas
 # des instants, et c'est le seul moyen d'attraper l'extrémité d'un mouvement de
@@ -315,6 +377,31 @@ def controler(v: dict, forme: str, taille: int, largeur: int, rapport) -> list:
     if not attendu and v['libelleMontre']:
         ecarts.append('libellé visible alors que la forme ne le montre pas')
 
+    return ecarts
+
+
+def controler_panneau(elements: list, rapport) -> list:
+    """Le contenu du panneau ouvert. Rend la liste des écarts.
+
+    Seuil de contraste : celui de l'auditeur de contraste — 3:1 pour un grand
+    texte (24 px, ou 18,66 px en gras), 4,5:1 sinon. Le relever ici plutôt que
+    de tout passer à 4,5 éviterait de signaler un titre de panneau parfaitement
+    lisible ; mais l'inverse serait pire, alors le gras n'ouvre le droit au
+    seuil bas qu'à partir de sa vraie borne.
+    """
+    ecarts = []
+    for e in elements:
+        seuil = 3.0 if (e['taille'] >= 24 or (e['gras'] and e['taille'] >= 18.66)) \
+            else CONTRASTE_MINI
+        r = rapport(e['encre'], e['fond'])
+        if r < seuil:
+            ecarts.append('« %s » (%s) à %.2f:1 sur son fond, seuil %.1f'
+                          % (e['texte'], e['quoi'], r, seuil))
+        # Une cible de moins de 44 px dans un panneau qu'on ouvre au doigt :
+        # le bouton de rappel est la seule action que l'assistant demande.
+        if e['cible'] and e['cible'] < CIBLE_MINI:
+            ecarts.append('cible « %s » à %d px (minimum %d)'
+                          % (e['texte'], e['cible'], CIBLE_MINI))
     return ecarts
 
 
@@ -597,6 +684,57 @@ def main() -> int:
             else:
                 print('  ok     réseau : %d hôte(s) contacté(s), tous internes' % len(hotes))
 
+            # DERNIÈRE PASSE — le panneau OUVERT, sous les mêmes couleurs.
+            #
+            # Elle vient en dernier, et ce n'est pas un détail d'ordre :
+            # ouvrir le panneau change l'état du bouton — il cesse de
+            # s'animer, puisqu'il n'a plus personne à appeler — et les passes
+            # d'animation, lancées après, mesuraient alors un bouton que cette
+            # passe-ci avait éteint. Un auditeur ne doit pas se mesurer
+            # lui-même : quand une passe laisse une trace, elle passe à la
+            # fin.
+            #
+            # Les passes précédentes ne voient que le bouton fermé. Ce qui est
+            # derrière — le titre, le message d'accueil, le bouton de rappel,
+            # la mention, le champ de saisie — n'existe dans la page qu'après
+            # un clic, et personne ne cliquait. C'est ce trou qui a laissé le
+            # titre et « Être rappelé » à 2,57:1, soit exactement le couple que
+            # cet auditeur avait déjà fait corriger sur le libellé de la bulle.
+            print('  --- le panneau ouvert ---')
+            for fond, texte, etiquette in COULEURS:
+                avant = total
+                regler(origine, 'barre', TAILLES[len(TAILLES) // 2], fond, texte,
+                       'Une question ?')
+                for largeur, (_, pg) in contextes.items():
+                    pg.goto(base + PAGE, wait_until='domcontentloaded')
+                    pg.wait_for_timeout(120)
+                    bouton = pg.query_selector('[data-assistant] [data-assistant-ouvrir]')
+                    if bouton is None:
+                        total += 1
+                        print('  ECART  %5d px  le bouton d’ouverture est absent' % largeur)
+                        continue
+                    bouton.click()
+                    pg.wait_for_timeout(320)
+                    elements = pg.evaluate(PANNEAU)
+                    if not elements:
+                        total += 1
+                        print('  ECART  %5d px  le panneau ne s’ouvre pas, ou il est vide'
+                              % largeur)
+                        continue
+                    for e in controler_panneau(elements, rapport):
+                        total += 1
+                        print('  ECART  panneau %5d px  %s  [%s]' % (largeur, e, etiquette))
+
+                    # Le panneau ouvert laisse une trace dans localStorage :
+                    # site.js y garde la conversation pour la reprendre, et
+                    # rouvre le panneau au chargement suivant. La bulle ne
+                    # s'anime pas tant qu'il est ouvert — les passes
+                    # d'animation qui suivent auraient donc toutes échoué,
+                    # pour un état laissé par CETTE passe et non par un défaut
+                    # du site. Un auditeur ne doit pas se mesurer lui-même.
+                    pg.evaluate('() => { try { localStorage.clear(); } catch (e) {} }')
+                print('  %-6s panneau — %s' % ('ok' if total == avant else 'ECART', etiquette))
+
             for ctx, _ in contextes.values():
                 ctx.close()
             navigateur.close()
@@ -613,8 +751,8 @@ def main() -> int:
                + len(ANIMATIONS))
     print('---')
     print('%d formes × %d tailles × %d couples de couleurs, puis %d animations '
-          '× %d formes, puis %d rythmes, puis le rappel au défilement et le '
-          'réglage système — %d réglages, %d écart(s).'
+          '× %d formes, puis %d rythmes, puis le rappel au défilement, le '
+          'réglage système et le panneau ouvert — %d réglages, %d écart(s).'
           % (len(FORMES), len(TAILLES), len(COULEURS), len(ANIMATIONS),
              len(FORMES), len(RYTHMES), mesures, total))
     if total:

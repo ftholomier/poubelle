@@ -101,6 +101,113 @@ CONTROLE = """() => {
     soucis.push('déborde de ' + (de.scrollWidth - de.clientWidth) + ' px — ' + coupables.join(', '));
   }
 
+  /* --- une colonne de texte écrasée ---------------------------------------
+     Un enfant de flex qui porte `min-width: 0` peut être réduit à ZÉRO par ses
+     voisins, sans que rien ne déborde : la page garde exactement sa largeur, le
+     texte se replie mot par mot, et la ligne devient un ruban vertical. Aucune
+     mesure de débordement ne le voit — c'est ainsi que les listes du
+     back-office ont vécu à 375 px avec un titre coupé à chaque mot et des
+     lignes de 1 527 px de haut.
+
+     Le contrôle est volontairement étroit : une boîte de moins de huit pixels
+     de large, haute de plus d'une ligne, qui porte pourtant du texte. Une
+     première version comparait la largeur de la boîte à celle de son mot le
+     plus long ; elle signalait des titres que le navigateur coupe très bien
+     tout seul, et le vrai signal — une colonne à zéro — se noyait parmi
+     trente faux. Mieux vaut ne relever que l'indiscutable.
+
+     Les boîtes d'un pixel sont écartées : c'est ainsi qu'on masque un texte
+     pour les lecteurs d'écran, et le piège à robots des formulaires. */
+  document.querySelectorAll('div, p, h1, h2, h3, h4, li, dd, td, section, article')
+    .forEach(e => {
+      const b = e.getBoundingClientRect();
+      if (b.width >= 8 || b.height <= 24) return;
+      const st = getComputedStyle(e);
+      if (st.overflow === 'hidden' || st.overflowX === 'hidden') return;
+      if (st.clipPath !== 'none' || st.position === 'absolute') return;
+      const texte = e.textContent.trim();
+      if (texte.length < 8) return;
+      soucis.push('colonne écrasée : ' + nom(e) + ' fait ' + Math.round(b.width)
+                  + ' px de large pour ' + Math.round(b.height) + ' px de haut — « '
+                  + texte.slice(0, 40).replace(/\s+/g, ' ') + ' »');
+    });
+
+  /* --- le panneau latéral du back-office, collé au bord -------------------
+     Un intitulé posé à zéro pixel du bord de la fenêtre n'est pas un
+     débordement : il tient parfaitement dans l'écran, et rien ne le signale.
+     C'est pourtant ce qui rendait « LE SITE » et « LA COMMUNE » illisibles à
+     côté de liens qui, eux, avaient leur marge.
+
+     C'est la position du TEXTE qu'on mesure, pas celle de la boîte : les liens
+     du panneau occupent toute la largeur et portent leur marge en rembourrage
+     intérieur. Mesurer leur boîte donnait zéro pour tous, et l'auditeur aurait
+     signalé un défaut là où il n'y en a pas — puis on aurait relevé le seuil,
+     et le vrai défaut serait repassé avec. */
+  const panneauLateral = document.querySelector('.bo-lateral');
+  if (panneauLateral) {
+    const bordPanneau = panneauLateral.getBoundingClientRect().left;
+    panneauLateral.querySelectorAll('a, p, span, button').forEach(e => {
+      const b = e.getBoundingClientRect();
+      if (b.width === 0 || b.height === 0 || !e.textContent.trim()) return;
+      const st = getComputedStyle(e);
+      const texteA = b.left + (parseFloat(st.paddingLeft) || 0) + (parseFloat(st.borderLeftWidth) || 0);
+      const gauche = texteA - bordPanneau;
+      if (gauche < 12) {
+        soucis.push('collé au bord du panneau : ' + nom(e) + ' à ' + Math.round(gauche)
+                    + ' px (minimum 12) — « ' + e.textContent.trim().slice(0, 30) + ' »');
+      }
+    });
+  }
+
+  /* --- deux cibles qui se recouvrent -------------------------------------
+     Un élément en position fixe ne fait rien déborder : il se pose PAR-DESSUS.
+     La pastille du conseiller, étirée sur toute la largeur d'un téléphone,
+     recouvrait ainsi le dernier bouton de la barre d'enregistrement — et la
+     dernière ligne des listes. Rien ne débordait, aucune cible n'était trop
+     petite : les deux règles existantes voyaient une page parfaite.
+
+     On ne compare que des cibles VISIBLES et non emboîtées : un bouton dans
+     un lien se recouvre par construction, et ce n'est pas un défaut. */
+  if (matchMedia('(hover: none)').matches) {
+    const cibles = [...document.querySelectorAll('a[href], button')].filter(e => {
+      const b = e.getBoundingClientRect();
+      const st = getComputedStyle(e);
+      /* Seulement ce qui est réellement à l'écran. Le tiroir du back-office
+         est fermé par `translateX(-100%)` : ses liens vivent à x = -275, hors
+         de vue et hors d'atteinte, et ils s'y recouvrent entre eux — le pied
+         du tiroir est posé par-dessus la liste qui défile dessous. Les
+         mesurer signalait douze chevauchements que personne ne peut toucher,
+         et le vrai — la pastille sur le bouton d'enregistrement — se serait
+         perdu dedans. */
+      /* checkVisibility() plutôt qu'un faisceau d'indices : les écrans de
+         liste rangent chaque fiche dans un <details>, et le contenu d'un
+         accordéon fermé ne se tape pas. Le navigateur sait le dire ; le
+         deviner à partir de la hauteur et du `display` du parent laissait
+         passer des barres d'éditeur repliées, qui se recouvraient entre
+         elles pour la seule raison qu'aucune n'était affichée. */
+      if (e.checkVisibility && !e.checkVisibility()) return false;
+      return b.width > 8 && b.height > 8 && st.visibility !== 'hidden'
+             && st.pointerEvents !== 'none'
+             && b.right > 0 && b.left < innerWidth
+             && b.bottom > 0;
+    });
+    for (let i = 0; i < cibles.length; i++) {
+      for (let j = i + 1; j < cibles.length; j++) {
+        const a = cibles[i], c = cibles[j];
+        if (a.contains(c) || c.contains(a)) continue;
+        const x = a.getBoundingClientRect(), y = c.getBoundingClientRect();
+        const largeur = Math.min(x.right, y.right) - Math.max(x.left, y.left);
+        const hauteur = Math.min(x.bottom, y.bottom) - Math.max(x.top, y.top);
+        // Quelques pixels de chevauchement viennent des ombres et des
+        // arrondis : c'est un recouvrement franc qu'on cherche.
+        if (largeur > 4 && hauteur > 4) {
+          soucis.push('deux cibles se recouvrent : ' + nom(a) + ' et ' + nom(c)
+                      + ' sur ' + Math.round(largeur) + '×' + Math.round(hauteur) + ' px');
+        }
+      }
+    }
+  }
+
   // --- cibles tactiles
   if (matchMedia('(hover: none)').matches) {
     document.querySelectorAll('a[href], button, summary, input, select').forEach(e => {

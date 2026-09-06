@@ -44,6 +44,10 @@ final class Deploiement
         // présent sur le serveur : dans l'implantation à plat, ses .php
         // seraient exécutés. Le refus doit donc suivre les mises à jour.
         'outils/.htaccess',
+        /* Le dossier des PDF reçoit désormais des fichiers envoyés depuis un
+           navigateur : sa configuration doit exister dès l'installation, et
+           non seulement après le premier dépôt. Voir App\Core\Documents. */
+        'public/assets/doc/.htaccess',
         'README.md',
         'DEPLOIEMENT.md',
     ];

@@ -320,7 +320,7 @@ p + p { margin-top: 1.05rem; }
               border-color var(--transition), transform var(--transition),
               box-shadow var(--transition);
 }
-.btn--petit { padding: .7rem 1.4rem; font-size: .7rem; }
+.btn--petit { padding: .7rem 1.4rem; font-size: .72rem; }
 .btn:hover,
 .bloc-texte .bouton:hover { transform: translateY(-2px); }
 .btn:active,
@@ -789,7 +789,7 @@ p + p { margin-top: 1.05rem; }
   white-space: nowrap;
 }
 .entete__tel:hover { color: var(--bleu-barre); }
-.entete__cta { padding: .78rem 1.5rem; font-size: .7rem; white-space: nowrap; }
+.entete__cta { padding: .78rem 1.5rem; font-size: .72rem; white-space: nowrap; }
 
 /* Le bouton d'appel à l'action garde le même aplat dans les deux états : la
    barre est sombre partout, le vert des aplats y porte du blanc à 4,9:1
@@ -911,7 +911,7 @@ body.menu-ouvert .panneau {
 }
 .panneau__num {
   font-family: var(--texte-police);
-  font-size: .68rem; font-weight: 700; letter-spacing: .12em;
+  font-size: .72rem; font-weight: 700; letter-spacing: .12em;
   color: var(--bleu-clair);
 }
 .panneau__lien:hover, .panneau__accordeon > button:hover { color: var(--bleu-clair); padding-left: .6rem; }
@@ -1899,25 +1899,28 @@ a.coordonnees__valeur:hover {
     --entete-h-compact-suivie: calc(var(--logo-h-reduit) + 26px);
   }
 
-  .entete--horizontal .entete__barre { justify-content: space-between; }
-  /* Sans la navigation centrale, le logo reprend la place qu'il occupe en
-     disposition latérale : les deux en-têtes redeviennent identiques. */
-  .entete--horizontal .entete__logo {
-    position: absolute; left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-  }
+  .entete--horizontal .entete__barre { justify-content: flex-start; }
 
-  /* Ici le logo est positionné en absolu, et non plus dans le flux : le
-     centrage vertical passe par top, pas par align-self. Le calcul est le
-     même, au repère près. */
-  :root.logo-deborde .entete--horizontal .entete__logo {
-    top: max(var(--logo-air-mini), calc((var(--entete-h) - var(--logo-h)) / 2));
-    transform: translateX(-50%);
-    margin-top: 0;
-  }
-  :root.logo-deborde .entete--horizontal.entete--pleine .entete__logo {
-    top: max(var(--logo-air-mini), calc((var(--entete-h-compact) - var(--logo-h-barre)) / 2));
-  }
+  /* Le logo RESTE DANS LE FLUX, et c'est le point.
+
+     Il était centré en absolu ici, pour que les deux dispositions se
+     ressemblent une fois la navigation centrale repliée. Un élément centré en
+     absolu ne cède la place à personne : il glisse sous ses voisins, et rien
+     ne déborde — la page garde exactement sa largeur, et aucune mesure de
+     débordement ne voit quoi que ce soit. Mesuré à 820 px, avec le réglage de
+     logo à 120 : le logo occupait 318-502 px et « Écrire à la mairie »
+     396-591. Le défaut existait de 800 à 1040 px, et entete.py ne mesurait ni
+     l'un ni l'autre.
+
+     Aucun max-width n'y aurait suffi : à cette largeur, les deux boutons de
+     droite dépassent déjà le milieu de la barre, et il n'y a donc pas de place
+     centrale à donner au logo. Dans le flux, c'est le flex qui répartit, et le
+     chevauchement devient impossible quel que soit le réglage de taille du
+     logo ou la longueur des libellés. C'est aussi ce que fait la disposition
+     latérale à ces largeurs : les deux en-têtes se ressemblent enfin
+     vraiment. Mesuré par outils/verifs/entete.py, qui compare désormais le
+     rectangle du logo à celui de chaque bouton visible. */
+  .entete--horizontal .entete__logo { margin-right: auto; }
 }
 
 @media (max-width: 1024px) {
@@ -2091,7 +2094,7 @@ a.coordonnees__valeur:hover {
 
 .galerie__etiquette {
   position: absolute; left: .7rem; top: .7rem;
-  font-size: .62rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
   color: #fff; background: rgba(var(--ardoise-2-rgb), .72);
   backdrop-filter: blur(4px);
   padding: .3rem .6rem; border-radius: var(--rayon);
@@ -2401,8 +2404,14 @@ body.visionneuse-ouverte { overflow: hidden; }
   padding: .95rem 1.1rem;
   background: var(--encre);
 }
+/* La couleur de marque sur l'encre donne 2,57:1 — exactement le couple que
+   bulle.py avait fait corriger sur le libellé du bouton, et qui était revenu
+   à l'intérieur du panneau, que personne ne mesurait. Le ton d'accent est
+   dérivé par Charte pour tenir 4,6:1 sur l'ardoise, et l'encre EST l'ardoise :
+   il tient donc sous chaque teinte de la roue, pas seulement sous celle
+   livrée. Mesuré à 5,99:1 avec la teinte du blason. */
 .assistant__titre {
-  font-weight: 700; font-size: .95rem; color: var(--bleu);
+  font-weight: 700; font-size: .95rem; color: var(--bleu-clair);
   letter-spacing: .04em;
 }
 .assistant__fermer {
@@ -2484,14 +2493,16 @@ body.visionneuse-ouverte { overflow: hidden; }
   padding: .7rem .8rem 0;
   background: var(--fond);
 }
+/* Même couple, même correction : 2,57:1 au repos comme au survol, sur le
+   bouton qui mène à la seule action que l'assistant demande. */
 .assistant__rappel {
   display: block; width: 100%;
   padding: .7rem 1rem;
-  background: var(--encre); color: var(--bleu);
+  background: var(--encre); color: var(--bleu-clair);
   font-weight: 700; font-size: .9rem;
   transition: background var(--transition), color var(--transition);
 }
-.assistant__rappel:hover { background: var(--bleu); color: var(--encre); }
+.assistant__rappel:hover { background: var(--bleu-clair); color: var(--encre); }
 
 .assistant__contact {
   padding: .9rem .8rem .2rem;
@@ -2646,7 +2657,7 @@ body.visionneuse-ouverte { overflow: hidden; }
   /* Deux colonnes de réalisations tenaient dans la largeur, mais leur
      étiquette repassait sur deux lignes et mangeait la photo. */
   .galerie { grid-template-columns: 1fr; }
-  .galerie__etiquette { left: 0; bottom: 0; font-size: .7rem; padding: .45rem .8rem; }
+  .galerie__etiquette { left: 0; bottom: 0; font-size: .72rem; padding: .45rem .8rem; }
 
   /* L'astérisque tenait dans une pastille d'une dizaine de pixels : à
      l'écran, un point sombre indéchiffrable. */
@@ -2654,10 +2665,14 @@ body.visionneuse-ouverte { overflow: hidden; }
     width: 1.35em; height: 1.35em; font-size: .8em;
   }
 
-  /* Un sur-titre de trois lignes n'est plus un sur-titre : l'interlettrage
-     large, qui fait sa tenue sur grand écran, le fait déborder ici. */
+  /* Un sur-titre de trois lignes n'est plus un sur-titre : sur téléphone on
+     resserre l'interlettrage et on retire le rembourrage, ce qui suffit à le
+     tenir sur une ligne. C'était la TAILLE qu'on abaissait auparavant — à
+     .66rem, soit 10,6 px, en dessous de ce qui se lit — et c'était le mauvais
+     levier : mesuré depuis, l'interlettrage seul y suffit, et mise-en-page.py
+     ne relève aucun débordement aux cinq largeurs. */
   .surtitre, .surtitre.surtitre {
-    font-size: .66rem; letter-spacing: .14em;
+    font-size: .72rem; letter-spacing: .14em;
     padding: 0;
   }
   .surtitre::before { width: 18px; }
@@ -2930,7 +2945,7 @@ body.visionneuse-ouverte { overflow: hidden; }
 }
 .bandeau-pratique__icone svg { width: 30px; height: 30px; }
 .bandeau-pratique__label {
-  font-size: .7rem; font-weight: 600;
+  font-size: .72rem; font-weight: 600;
   letter-spacing: .16em; text-transform: uppercase;
   color: var(--bleu-clair);
   margin-bottom: .4rem;
@@ -3243,7 +3258,7 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--bleu-clair); }
   border-top-color: var(--bleu-clair);
 }
 .elu__fonction {
-  font-size: .7rem; font-weight: 600;
+  font-size: .72rem; font-weight: 600;
   letter-spacing: .16em; text-transform: uppercase;
   color: var(--bleu-texte);
   margin-bottom: .6rem;
@@ -3271,7 +3286,7 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--bleu-clair); }
 .commission__titre { font-size: 1.28rem; font-weight: 300; margin-bottom: .5rem; }
 .commission__role { font-size: .92rem; color: var(--texte-doux); margin-bottom: 1.1rem; }
 .commission__sous-titre {
-  font-size: .7rem; font-weight: 600;
+  font-size: .72rem; font-weight: 600;
   letter-spacing: .14em; text-transform: uppercase;
   color: var(--bleu-texte);
   margin: 1rem 0 .5rem;
@@ -3418,7 +3433,7 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--bleu-clair); }
 }
 .evenement__jour { font-size: 1.9rem; font-weight: 200; line-height: 1; }
 .evenement__mois {
-  font-size: .68rem; font-weight: 600;
+  font-size: .72rem; font-weight: 600;
   letter-spacing: .12em; color: var(--bleu-clair);
   margin-top: .3rem;
 }
@@ -3710,7 +3725,7 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--bleu-clair); }
 /* L'intitulé porte la région pour les lecteurs d'écran ; à l'œil il ne doit
    pas concurrencer les trois entrées, qui sont l'information. */
 .en-ce-moment__intitule {
-  font-size: .7rem; font-weight: 700;
+  font-size: .72rem; font-weight: 700;
   letter-spacing: .18em; text-transform: uppercase;
   color: rgba(255, 255, 255, .82);
   margin-bottom: .7rem;
@@ -3728,7 +3743,7 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--bleu-clair); }
 .en-ce-moment__item:first-child { padding-left: 0; border-left: 0; }
 
 .en-ce-moment__quoi {
-  font-size: .68rem; font-weight: 700;
+  font-size: .72rem; font-weight: 700;
   letter-spacing: .14em; text-transform: uppercase;
   color: var(--bleu-barre);
 }
@@ -3778,7 +3793,7 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--bleu-clair); }
   background: var(--bleu-texte);
   border: 1px solid var(--bleu-texte); border-radius: var(--rayon);
   color: #fff;
-  font-size: .7rem; font-weight: 600;
+  font-size: .72rem; font-weight: 600;
   letter-spacing: .12em; text-transform: uppercase;
   white-space: nowrap;
   transition: background var(--transition), border-color var(--transition),
@@ -3819,7 +3834,7 @@ a.bandeau-pratique__valeur:hover { border-bottom-color: var(--bleu-clair); }
   display: inline-grid; place-items: center;
   min-width: 1.35rem; height: 1.35rem; padding-inline: .3rem;
   background: var(--encre); color: #fff;
-  font-size: .68rem; font-weight: 700; letter-spacing: 0;
+  font-size: .72rem; font-weight: 700; letter-spacing: 0;
   border-radius: 999px;
 }
 /* Un display explicite l'emporte sur le [hidden] du navigateur : sans cette

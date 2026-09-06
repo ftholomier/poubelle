@@ -30,7 +30,7 @@ $menuTexte = implode("\n", $lignes);
     <legend>Identité</legend>
     <div class="bo-rangee">
       <div class="bo-champ">
-        <label for="s-nom">Nom de la société</label>
+        <label for="s-nom">Nom de la commune</label>
         <input id="s-nom" type="text" name="nom" value="<?= e($site['nom']) ?>">
       </div>
       <div class="bo-champ">
@@ -43,11 +43,11 @@ $menuTexte = implode("\n", $lignes);
       <textarea id="s-accroche" name="accroche" rows="3"><?= e($site['accroche']) ?></textarea>
       <p class="bo-aide">Reprise dans les données structurées lues par Google. Deux à trois phrases.</p>
     </div>
+    <?php /* « Année de création » venait du socle commercial : une commune ne
+             se crée pas, et la première mention écrite du village est déjà un
+             des chiffres de la page d'accueil. Le champ n'était lu par aucun
+             gabarit — le retirer ne fait donc rien disparaître de visible. */ ?>
     <div class="bo-rangee">
-      <div class="bo-champ">
-        <label for="s-annee">Année de création</label>
-        <input id="s-annee" type="text" name="annee" value="<?= e($site['fondation']['annee'] ?? '') ?>">
-      </div>
       <div class="bo-champ">
         <label for="s-maire">Maire</label>
         <input id="s-maire" type="text" name="maire"
@@ -151,7 +151,7 @@ $menuTexte = implode("\n", $lignes);
       <textarea id="s-seo" name="pied_seo" rows="3"><?= e($site['pied']['seo']) ?></textarea>
     </div>
     <div class="bo-champ">
-      <label for="s-proche">Zone d’intervention</label>
+      <label for="s-proche">Communes voisines et intercommunalité</label>
       <textarea id="s-proche" name="pied_proche" rows="2"><?= e($site['pied']['proche_de']) ?></textarea>
     </div>
     <div class="bo-champ bo-champ--large">

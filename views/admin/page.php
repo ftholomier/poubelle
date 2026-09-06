@@ -74,7 +74,7 @@ $hero = $contenu['hero'] ?? [];
 
   <div class="bo-barre-actions">
     <button class="bo-btn" type="submit">Enregistrer la page</button>
-    <a class="bo-btn bo-btn--fantome" href="<?= url('/admin/avance?nom=pages/' . $cle) ?>">Éditeur avancé</a>
+    <a class="bo-btn bo-btn--fantome" href="<?= url('/admin/avance?nom=pages/' . $cle) ?>"><span class="bo-btn__long">Éditeur avancé</span><span class="bo-btn__court" aria-hidden="true">Avancé</span></a>
   </div>
 </form>
 

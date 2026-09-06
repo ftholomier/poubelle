@@ -11,6 +11,7 @@
  * @var array  $donnees
  * @var string[] $medias
  * @var string[] $documents
+ * @var bool $depotPdf
  * @var App\Core\View $view
  */
 use App\Admin\ContenuController;
@@ -31,6 +32,33 @@ $resume = static function (array $entree): string {
 };
 ?>
 <p class="bo-intro"><?= e($reglages['aide']) ?></p>
+
+<?php /* Le dépôt de PDF. Il vit dans son propre formulaire, avant celui de la
+         liste : un envoi de fichier et un enregistrement de contenu n'ont ni
+         la même durée ni le même risque d'échec, et les mêler ferait perdre la
+         saisie de la liste quand un document est refusé. */ ?>
+<?php if (!empty($depotPdf)): ?>
+  <section class="bo-zone">
+    <div class="bo-zone__tete">
+      <h2>Déposer un document</h2>
+    </div>
+    <form class="bo-form bo-form--inline" method="post"
+          action="<?= url('/admin/documents/depot') ?>" enctype="multipart/form-data">
+      <?= Csrf::champ() ?>
+      <div class="bo-champ bo-champ--large">
+        <label for="d-fichier">Fichier PDF</label>
+        <input id="d-fichier" type="file" name="document" accept="application/pdf,.pdf" required>
+        <p class="bo-aide">
+          Un compte-rendu, une délibération, un budget, un bulletin. 15 Mo au maximum.
+          Le fichier est renommé proprement à l'arrivée, et vient s'ajouter à la liste
+          « Fichier » de chaque entrée ci-dessous. Créez ensuite l'entrée qui le nomme
+          et le date : c'est elle qui décide de la page où il apparaît.
+        </p>
+      </div>
+      <button class="bo-btn" type="submit">Déposer</button>
+    </form>
+  </section>
+<?php endif; ?>
 
 <form class="bo-form" method="post" action="<?= url('/admin/listes/' . $liste) ?>" data-form-page>
   <?= Csrf::champ() ?>
@@ -120,7 +148,7 @@ $resume = static function (array $entree): string {
 
   <div class="bo-barre-actions">
     <button class="bo-btn" type="submit">Enregistrer</button>
-    <a class="bo-btn bo-btn--fantome" href="<?= url('/admin/avance?nom=' . $liste) ?>">Éditeur avancé</a>
+    <a class="bo-btn bo-btn--fantome" href="<?= url('/admin/avance?nom=' . $liste) ?>"><span class="bo-btn__long">Éditeur avancé</span><span class="bo-btn__court" aria-hidden="true">Avancé</span></a>
   </div>
 </form>
 

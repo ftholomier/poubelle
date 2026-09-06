@@ -841,6 +841,19 @@ fieldset { min-inline-size: 0; }
 .bo-tableau__action { text-align: right; white-space: nowrap; padding-right: 0 !important; }
 
 @media (max-width: 640px) {
+  /* Les lignes de liste passent à deux rangées.
+     `.bo-ligne` est un flex `nowrap` : le corps porte `min-width: 0` — ce qu'il
+     faut pour que l'ellipse fonctionne —, mais les quatre boutons d'action, eux,
+     ne se réduisent pas. Sur un téléphone, le corps était donc écrasé à ZÉRO :
+     le titre se repliait un mot par ligne, et la première ligne de la liste des
+     actualités mesurait 1 527 px de haut. Rien ne débordait pour autant, et
+     aucun auditeur ne le voyait — mise-en-page.py relève désormais ce cas.
+     Deux rangées valent mieux qu'une colonne à zéro. */
+  .bo-ligne { flex-wrap: wrap; }
+  .bo-ligne__corps { flex: 1 1 100%; }
+  .bo-ligne__actions, .bo-ligne__liens { flex-basis: 100%; }
+  .bo-ligne__liens { text-align: left; }
+
   .bo-seo summary { gap: .45rem; }
   .bo-seo__url { flex-basis: 100%; }
   .bo-prefixe { flex-wrap: wrap; }
@@ -1456,8 +1469,14 @@ fieldset { min-inline-size: 0; }
    ========================================================================== */
 
 /* ---------- Familles du menu latéral ---------- */
+/* Le rembourrage horizontal est celui des liens qu'elles coiffent : sans lui,
+   « LE SITE », « CONTENU » et « LA COMMUNE » étaient collés au bord gauche de
+   la fenêtre — à zéro pixel, quand les liens en ont 25,6 — sur tous les écrans
+   du back-office, du téléphone au grand écran. Personne ne l'avait vu parce
+   qu'aucune mesure ne regardait la distance au bord. */
 .bo-lateral__famille {
   margin: 1.5rem 0 .35rem;
+  padding-inline: 1.6rem;
   font-size: .64rem; font-weight: 700;
   letter-spacing: .18em; text-transform: uppercase;
   color: var(--texte-2);
@@ -1581,6 +1600,36 @@ fieldset { min-inline-size: 0; }
   margin-top: 1.6rem;
   padding: 1rem 0;
   background: linear-gradient(to top, var(--fond) 60%, transparent);
+}
+
+@media (max-width: 640px) {
+  /* Une seule rangée, et de la place à droite pour la pastille.
+     Sur deux rangées, la barre mesurait 140 px de haut : avec la pastille
+     étirée en dessous, près d'un quart d'un écran de téléphone était masqué en
+     permanence. Les boutons se partagent la largeur restante à parts égales,
+     et le rembourrage de droite garde la pastille hors de leur chemin — deux
+     cibles tactiles ne doivent jamais se recouvrir. */
+  .bo-barre-actions {
+    flex-wrap: nowrap; gap: .5rem;
+    padding: .7rem 4rem .7rem 0;
+  }
+  /* Pas de `white-space: nowrap` ici : l'écran Conseil porte un bouton au
+     libellé long, et l'empêcher de se couper faisait déborder la page de
+     77 px à 320. Le libellé court ci-dessous suffit à tenir la rangée. */
+  .bo-barre-actions .bo-btn {
+    flex: 1 1 0; min-width: 0; padding-inline: .6rem; text-align: center;
+  }
+  /* « Éditeur avancé » tenait sur deux lignes dans le tiers de largeur qui lui
+     revient : la barre repassait à 90 px de haut, et le gain de la rangée
+     unique était perdu. Le libellé court n'est servi qu'ici ; le long reste
+     dans le document pour les lecteurs d'écran, qui n'ont pas de contrainte
+     de largeur. */
+  .bo-btn__long { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+}
+
+/* Au-delà, c'est l'inverse : le libellé complet, et le court retiré. */
+@media (min-width: 641px) {
+  .bo-btn__court { display: none; }
 }
 
 /* --- Apparence : taille du logo -----------------------------------------
@@ -2176,6 +2225,24 @@ textarea[data-editeur-source], textarea[data-editeur-champ] {
   /* Sur un téléphone, le panneau prend toute la largeur utile : à 320 px,
      une marge de chaque côté ne laisserait plus de quoi lire une phrase. */
   .bo-conseil { right: .6rem; bottom: .6rem; left: .6rem; align-items: stretch; }
+
+  /* La PASTILLE, elle, redevient un rond en bas à droite.
+     Étirée sur toute la largeur — ce que `align-items: stretch` lui faisait —,
+     elle barrait l'écran juste au-dessus de la barre d'enregistrement : à
+     375 px, les deux occupaient ensemble près de deux cents pixels sur huit
+     cent douze, et la pastille recouvrait la dernière ligne de la liste. Le
+     libellé reste dans le document pour les lecteurs d'écran ; l'étoile suffit
+     à l'œil, comme la bulle de l'assistant se replie sur son picto. */
+  .bo-conseil__pastille {
+    align-self: flex-end;
+    width: 52px; height: 52px; min-height: 52px; padding: 0;
+    justify-content: center; border-radius: 999px;
+  }
+  .bo-conseil__pastille-nom {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip-path: inset(50%);
+  }
+  .bo-conseil__pastille-icone { font-size: 1.25rem; }
   .bo-conseil__panneau,
   .bo-conseil.est-grand .bo-conseil__panneau { width: 100%; }
   .bo-conseil__panneau { height: min(30rem, calc(100vh - 5rem)); }

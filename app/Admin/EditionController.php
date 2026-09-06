@@ -183,7 +183,6 @@ final class EditionController
         $site['adresse']['cp']    = trim((string) ($_POST['cp'] ?? $site['adresse']['cp']));
         $site['adresse']['ville'] = trim((string) ($_POST['ville'] ?? $site['adresse']['ville']));
 
-        $site['fondation']['annee']      = trim((string) ($_POST['annee'] ?? ''));
         // Le champ s'appelait « fondatrice », hérité du socle commercial, et
         // portait « Michel Nardin, maire ». L'ancienne clé est effacée à
         // l'enregistrement pour que le JSON ne garde pas les deux.

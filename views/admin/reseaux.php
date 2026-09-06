@@ -4,6 +4,7 @@
  *
  * @var App\Core\Reseaux $reseaux
  * @var string $retour
+ * @var App\Core\Parametres $parametres
  * @var list<string> $permissions
  * @var list<string> $manques
  * @var list<array{id: string, nom: string, jeton: string}> $pages
@@ -70,6 +71,19 @@ $contenus = (string) json_encode(
     exactement cette adresse :
   </p>
   <p class="bo-code bo-code--bloc"><?= e($retour) ?></p>
+  <?php /* Cette adresse se recopie telle quelle chez Meta : si le site ignore
+           encore la sienne, elle est déduite de ce que le navigateur demande —
+           donc de la machine depuis laquelle cet écran est ouvert, y compris
+           « 127.0.0.1:8081 ». La déclarer ainsi chez Meta ferait échouer toute
+           connexion en ligne, sans que le message d'erreur le dise. */ ?>
+  <?php if (!App\Core\AdressePublique::renseignee($parametres)): ?>
+    <p class="bo-message bo-message--erreur">
+      <strong>Ne recopiez pas encore cette adresse.</strong> L'adresse publique du site
+      n'est pas renseignée : celle-ci est déduite du navigateur, et ne vaudra pas en ligne.
+      Renseignez-la d'abord dans <a href="<?= url('/admin/parametres') ?>">Paramètres</a>,
+      puis revenez ici.
+    </p>
+  <?php endif; ?>
   <p class="bo-aide">
     Et demandez ces permissions à la revue :
     <?php foreach ($permissions as $i => $p): ?><span class="bo-code bo-code--puce"><?= e($p) ?></span><?= $i < count($permissions) - 1 ? ' ' : '' ?><?php endforeach; ?>

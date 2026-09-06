@@ -35,7 +35,14 @@ import sys
 
 from playwright.sync_api import sync_playwright
 
-LARGEURS = (320, 390, 768, 1440)
+# 820 et 1024 ne sont pas décoratifs. Entre 781 et 1399 px, la disposition
+# horizontale centre le logo en ABSOLU pendant que les deux boutons restent
+# dans le flux à droite : le logo passe alors sous « Écrire à la mairie »
+# sans que rien ne déborde, donc sans qu'aucune mesure de débordement ne le
+# voie. Mesuré à 820 px : logo 318-502, bouton 396-591. Ce trou de mesure
+# allait de 800 à 1040 px, et aucune des quatre largeurs d'origine n'y
+# tombait.
+LARGEURS = (320, 390, 768, 820, 1024, 1440)
 # Les deux dispositions ne donnent pas la même taille de logo sous 1080 px :
 # les mesurer toutes les deux, sinon la moitié des réglages possibles n'est
 # jamais vue.
@@ -126,6 +133,21 @@ MESURE = """() => {
     haut: l.top - b.top, bas: l.bottom - b.top,
     pleine: barre.classList.contains('entete--pleine'),
     surBurger: g ? !(l.right <= g.left || l.left >= g.right) : false,
+
+    /* Ce que le logo recouvre à droite. Un élément centré en absolu ne
+       « déborde » jamais : il glisse sous ses voisins, et la page reste
+       parfaitement à sa largeur. Le seul moyen de le voir est de comparer les
+       rectangles deux à deux — c'est ce que fait cette liste. */
+    surActions: [...document.querySelectorAll('.entete__droite a, .entete__droite button')]
+      .filter(e => {
+        const s = getComputedStyle(e);
+        if (s.display === 'none' || s.visibility === 'hidden') return false;
+        const r = e.getBoundingClientRect();
+        if (!r.width || !r.height) return false;
+        return !(l.right <= r.left || l.left >= r.right
+                 || l.bottom <= r.top || l.top >= r.bottom);
+      })
+      .map(e => (e.getAttribute('aria-label') || e.textContent || '').trim().slice(0, 32)),
     debordPage: doc.scrollWidth - doc.clientWidth,
     rapportPeint: peintH ? peintL / peintH : 0,
     rapportNaturel: (logo.naturalWidth && logo.naturalHeight)
@@ -257,8 +279,9 @@ def souci(m: dict, deborde: bool, largeur: int) -> list[str]:
 
     Le débordement voulu n'en est pas un : c'est le réglage. Ce qu'on refuse,
     c'est ce qu'aucun réglage ne peut vouloir — un logo hors de l'écran par le
-    haut, posé sur le burger, une page qui défile latéralement, un débordement
-    là où la mairie a demandé que la barre suive, ou des proportions fausses.
+    haut, posé sur le burger ou sous les boutons de droite, une page qui défile
+    latéralement, un débordement là où la mairie a demandé que la barre suive,
+    ou des proportions fausses.
 
     Un logo servi plus petit que demandé sur un écran étroit n'est pas un
     défaut : c'est la place qui manque, et il vaut mieux le réduire que le
@@ -270,6 +293,8 @@ def souci(m: dict, deborde: bool, largeur: int) -> list[str]:
         faits.append(f"la page déborde de {m['debordPage']:.0f} px en largeur")
     if m['surBurger']:
         faits.append('le logo touche le burger')
+    for cible in m.get('surActions') or []:
+        faits.append('le logo passe sous le bouton « %s »' % cible)
     if m['haut'] < -1:
         faits.append(f"le logo sort de la barre par le haut ({m['haut']:.0f} px)")
     if not deborde and m['bas'] > m['barre'] + 1:

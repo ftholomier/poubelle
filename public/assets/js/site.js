@@ -612,7 +612,7 @@
 
     var historique = [];
     var enCours = false;
-    var CLE = "lsc.assistant";
+    var CLE = "mairie.assistant";
 
     /* --- mémoire de l'onglet --- */
     function memoire() {

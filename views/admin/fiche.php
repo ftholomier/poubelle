@@ -179,7 +179,7 @@ $liens = (array) ($item['liens'] ?? []);
 
   <div class="bo-barre-actions">
     <button class="bo-btn" type="submit">Enregistrer la fiche</button>
-    <a class="bo-btn bo-btn--fantome" href="<?= url('/admin/avance?nom=' . $collection) ?>">Éditeur avancé</a>
+    <a class="bo-btn bo-btn--fantome" href="<?= url('/admin/avance?nom=' . $collection) ?>"><span class="bo-btn__long">Éditeur avancé</span><span class="bo-btn__court" aria-hidden="true">Avancé</span></a>
   </div>
 </form>
 

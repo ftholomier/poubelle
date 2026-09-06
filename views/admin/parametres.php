@@ -54,7 +54,7 @@ $adressePublique = (string) ($parametres['site']['adresse_publique'] ?? '');
       <div class="bo-champ">
         <label for="p-dest">Adresse qui reçoit les messages du formulaire</label>
         <input id="p-dest" type="email" name="destinataire" value="<?= e($contact['destinataire']) ?>"
-               placeholder="mairie.lsc@wanadoo.fr">
+               placeholder="secretariat@exemple.fr">
         <span class="aide">
           <?php if ($contact['destinataire'] === '' && $destinataireEffectif !== ''): ?>
             Vide : les demandes partent vers <strong><?= e($destinataireEffectif) ?></strong>,
@@ -107,7 +107,7 @@ $adressePublique = (string) ($parametres['site']['adresse_publique'] ?? '');
       <div class="bo-champ">
         <label for="p-id">Identifiant</label>
         <input id="p-id" type="text" name="identifiant" value="<?= e($smtp['identifiant']) ?>"
-               autocomplete="off" placeholder="mairie.lsc@wanadoo.fr">
+               autocomplete="off" placeholder="secretariat@exemple.fr">
       </div>
       <div class="bo-champ">
         <label for="p-mdp">Mot de passe</label>
@@ -121,7 +121,7 @@ $adressePublique = (string) ($parametres['site']['adresse_publique'] ?? '');
       <div class="bo-champ">
         <label for="p-exp">Adresse expéditrice</label>
         <input id="p-exp" type="email" name="expediteur" value="<?= e($smtp['expediteur']) ?>"
-               placeholder="mairie.lsc@wanadoo.fr">
+               placeholder="secretariat@exemple.fr">
         <span class="aide">Doit appartenir au domaine du serveur d'envoi, sinon les messages partent en indésirables.</span>
       </div>
       <div class="bo-champ">

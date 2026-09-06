@@ -13,6 +13,11 @@ namespace App\Core;
 final class Cookies
 {
     /** Nom du cookie qui mémorise le choix. Première partie, sans traceur. */
+    /* « cv_ » vient du socle commercial dont ce site est tiré, et le nom
+       reste tel quel À DESSEIN : le renommer effacerait le choix de tous les
+       visiteurs qui ont déjà répondu au bandeau, et leur reposerait la
+       question comme s'ils n'avaient rien dit. Un préfixe qui ne veut plus
+       rien dire coûte moins cher qu'un consentement perdu. */
     public const COOKIE = 'cv_consentement';
 
     /**
