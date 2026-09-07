@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#161922"/>
+  <circle cx="1030" cy="140" r="300" fill="#921732" opacity="0.30"/>
+  <text x="80" y="250" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="82" font-weight="700" fill="#921732">ROMAIN LEMAIRE</text>
+  <text x="80" y="316" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="34" letter-spacing="7" fill="#FFFFFF">LE COMPTABLE À LUNETTES</text>
+  <text x="80" y="410" font-family="'Poppins','Segoe UI',sans-serif" font-size="30" fill="#B8BCC4">Accompagnement dédié aux entreprises et à ses dirigeants</text>
+  <rect x="80" y="470" width="300" height="68" rx="34" fill="#0089F7"/>
+  <text x="230" y="513" text-anchor="middle" font-family="'Poppins','Segoe UI',sans-serif" font-size="25" font-weight="600" fill="#FFFFFF">Contactez-moi</text>
+</svg>

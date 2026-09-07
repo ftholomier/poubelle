@@ -1,0 +1,22 @@
+# Secrets et configuration locale
+.env
+
+# Données de production (contenus, comptes, demandes, téléversements)
+/data/*.json
+/data/pages/*.json
+/data/i18n/*.json
+/data/backups/
+/data/runtime/
+/data/uploads/
+!/data/.gitkeep
+
+# Journaux
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+# Divers
+.DS_Store
+Thumbs.db
+*.tmp
+*.lock
+node_modules/
