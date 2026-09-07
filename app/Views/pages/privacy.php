@@ -25,8 +25,19 @@
       <h2>Enregistrement des étapes intermédiaires</h2>
       <p>Le formulaire de candidature enregistre les informations que vous avez déjà saisies dès qu’une étape est validée, afin de ne pas vous les redemander et de pouvoir vous recontacter si vous avez indiqué vos coordonnées. Un dossier incomplet est traité comme une candidature abandonnée et supprimé dans les mêmes délais que les autres.</p>
 
+      <?php if (Bot::isReady()): ?>
+        <h2>Assistant conversationnel</h2>
+        <p>Le site propose un assistant qui répond à vos questions sur le métier et sur le réseau. Son usage est entièrement volontaire : rien n’est transmis tant que vous n’ouvrez pas la fenêtre de discussion et n’envoyez pas de message.</p>
+        <p><strong>Ce qui est transmis :</strong> votre question, les huit derniers échanges de la conversation en cours, et des extraits du contenu de ce site sélectionnés pour y répondre. Aucune donnée de votre candidature, aucun identifiant nominatif.</p>
+        <p><strong>À qui :</strong> Google LLC, via l’API Gemini, pour la seule production de la réponse. Voir les <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener nofollow">conditions de l’API Gemini</a>.</p>
+        <p><strong>Base légale :</strong> notre intérêt légitime à renseigner les candidats, mis en œuvre par votre usage volontaire de l’outil.</p>
+        <p><strong>Conservation :</strong> les échanges sont conservés 12 mois pour améliorer les réponses, puis supprimés automatiquement.</p>
+        <p>Les réponses étant produites par un modèle de langage, elles peuvent comporter des imprécisions : en cas de doute, fiez-vous au contenu du site ou contactez-nous. <strong>Merci de ne pas saisir de données sensibles</strong> (santé, situation financière détaillée, numéro de sécurité sociale) dans cette fenêtre.</p>
+      <?php endif; ?>
+
       <h2>Durée de conservation</h2>
-      <p>Candidatures : 24 mois à compter du dernier contact. Messages de contact : 12 mois. Journal d’audience : 12 mois glissants. Les CV sont supprimés en même temps que la candidature associée.</p>
+      <p>Candidatures envoyées : 24 mois à compter du dernier contact. Candidatures commencées puis abandonnées : 90 jours. Messages de contact : 12 mois. <?php if (Bot::isReady()): ?>Échanges avec l’assistant : 12 mois. <?php endif; ?>Journal des e-mails envoyés : 12 mois. Journal d’audience : 13 mois glissants. Les CV sont supprimés en même temps que la candidature associée.</p>
+      <p>Ces effacements sont automatiques : un traitement quotidien supprime les enregistrements arrivés à échéance, sans intervention de notre part.</p>
 
       <h2>Destinataires</h2>
       <p>Vos données sont traitées exclusivement par les équipes de <?= e($c['legal_name'] ?? 'Suisse Immo') ?> en charge du recrutement. Elles ne sont ni vendues, ni louées, ni transmises à des tiers, et sont hébergées en France chez <?= e($c['host'] ?? '') ?>.</p>
@@ -37,6 +48,7 @@
 
       <h2>Cookies</h2>
       <p>Le site n’utilise aucun cookie publicitaire ni de mesure d’audience tierce. Seul un cookie de session technique est déposé pour sécuriser les formulaires (protection anti-CSRF) ; il expire à la fermeture du navigateur.</p>
+      <p>Les polices de caractères sont hébergées sur notre propre serveur : aucune requête n’est adressée à un service tiers lors de l’affichage des pages, et votre adresse IP n’est transmise à personne.</p>
     </div>
   </div>
 </section>

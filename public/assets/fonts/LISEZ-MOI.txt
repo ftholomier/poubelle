@@ -1,0 +1,35 @@
+Polices auto-hébergées — site de recrutement Suisse Immo
+========================================================
+
+Ces fichiers sont hébergés localement pour ne transmettre aucune adresse IP
+de visiteur à un tiers. Charger une police depuis fonts.googleapis.com
+constitue un transfert de données personnelles vers Google, sans base légale
+en l'absence de consentement (délibérations CNIL ; jugement du tribunal
+régional de Munich du 20 janvier 2022, réf. 3 O 17493/20).
+
+Fichiers
+--------
+bricolage-grotesque-var.woff2   Bricolage Grotesque, fonte variable 200–800
+inter-var.woff2                 Inter, fonte variable 100–900
+space-grotesk-500.woff2         Space Grotesk, graisse 500
+
+Ce sont les sous-ensembles latins (U+0000–00FF) distribués par Google Fonts,
+suffisants pour le français. Les fontes variables couvrent toutes les
+graisses utilisées par le site avec un seul fichier.
+
+Licences
+--------
+Les trois familles sont publiées sous SIL Open Font License 1.1, qui
+autorise l'usage, la modification et la redistribution, y compris
+commerciale, tant que les fontes ne sont pas vendues seules.
+
+  Bricolage Grotesque  https://github.com/ateliertriay/bricolage
+  Inter                https://github.com/rsms/inter
+  Space Grotesk        https://github.com/floriankarsten/space-grotesk
+
+Mise à jour
+-----------
+Récupérer le woff2 latin depuis le dépôt officiel ou depuis la feuille de
+style Google (https://fonts.googleapis.com/css2?family=...), remplacer le
+fichier en conservant son nom : les déclarations @font-face en tête de
+public/assets/css/app.css et admin.css n'ont pas à changer.

@@ -16,6 +16,7 @@
     "address": "39 rue du Général Gaulard",
     "zip": "90000",
     "city": "BELFORT",
+    "publisher_name": "",
     "phone": "03.84.56.80.88",
     "phone_link": "+33384568088",
     "email": "contact@suisse-immo.fr",
@@ -24,6 +25,8 @@
     "vat": "FR35830167847",
     "insurance": "Axa N°7698534904",
     "host": "NUXIT",
+    "host_address": "NUXIT — 3 rue Roland Garros, 41000 Blois",
+    "host_phone": "02 54 74 46 03",
     "main_site": "https://www.suisse-immo.fr",
     "georisques": "https://www.georisques.gouv.fr"
   },

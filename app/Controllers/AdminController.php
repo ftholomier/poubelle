@@ -11,12 +11,19 @@ final class AdminController
         if (Auth::check()) { redirect(url('admin')); }
         $error = null;
         if (is_post()) {
+            $email = strtolower(trim((string) ($_POST['email'] ?? '')));
+            // Deux compteurs : par adresse IP seule, et par compte visé.
+            // L'empreinte visiteur inclut le User-Agent, qu'un attaquant
+            // change à chaque essai : elle ne convient pas ici.
+            $byIp = RateLimit::hit('login', 20, 900, 'ip:' . hash('sha256', client_ip()));
+            $byAccount = RateLimit::hit('login', 8, 900, 'compte:' . hash('sha256', $email));
+
             if (!Csrf::check($_POST['_csrf'] ?? null)) {
                 $error = 'Session expirée, merci de réessayer.';
-            } elseif (!RateLimit::hit('login', 10, 900)) {
-                $error = 'Trop de tentatives. Patientez quelques minutes.';
-            } elseif (Auth::attempt((string) ($_POST['email'] ?? ''), (string) ($_POST['password'] ?? ''))) {
-                redirect(url('admin'));
+            } elseif (!$byIp || !$byAccount) {
+                $error = 'Trop de tentatives de connexion. Réessayez dans un quart d’heure.';
+            } elseif (Auth::attempt($email, (string) ($_POST['password'] ?? ''))) {
+                redirect(url(Auth::mustChangePassword() ? 'admin/premiere-connexion' : 'admin'));
             } else {
                 $error = 'Identifiants incorrects.';
             }
@@ -26,15 +33,72 @@ final class AdminController
 
     public static function logout(): void
     {
-        Auth::logout();
+        // En POST avec jeton : un simple <img src="/admin/logout"> déposé
+        // ailleurs suffirait sinon à déconnecter l'équipe à distance.
+        if (is_post() && Csrf::check($_POST['_csrf'] ?? null)) {
+            Auth::logout();
+        }
         redirect(url('admin/login'));
+    }
+
+    /**
+     * Changement de mot de passe imposé à la première connexion.
+     * Toutes les autres routes du back-office y renvoient tant qu'il n'a
+     * pas eu lieu : le mot de passe d'installation circule en clair dans
+     * data/PREMIERE-CONNEXION.txt.
+     */
+    public static function firstLogin(): void
+    {
+        $user = Auth::requireLogin();
+        if (!Auth::mustChangePassword()) {
+            redirect(url('admin'));
+        }
+        $error = null;
+
+        if (is_post()) {
+            $pass = (string) ($_POST['password'] ?? '');
+            $confirm = (string) ($_POST['password_confirm'] ?? '');
+            if (!Csrf::check($_POST['_csrf'] ?? null)) {
+                $error = 'Session expirée, merci de réessayer.';
+            } elseif (mb_strlen($pass) < 12) {
+                $error = 'Choisissez un mot de passe d’au moins 12 caractères.';
+            } elseif ($pass !== $confirm) {
+                $error = 'Les deux saisies ne correspondent pas.';
+            } else {
+                Store::update('users', (string) ($user['id'] ?? ''), [
+                    'password_hash' => password_hash($pass, PASSWORD_DEFAULT),
+                    'must_change_password' => false,
+                ]);
+                @unlink(DATA_DIR . '/PREMIERE-CONNEXION.txt');
+                Session::start();
+                $_SESSION['admin']['must_change'] = false;
+                Session::flash('Mot de passe enregistré. Le fichier d’installation a été supprimé.');
+                redirect(url('admin'));
+            }
+        }
+
+        echo view('admin/first-login', ['error' => $error, 'user' => $user], 'admin/layout-bare');
     }
 
     // ---------------------------------------------------------- dashboard
 
-    public static function dashboard(): void
+    /**
+     * Garde commune aux écrans du back-office : session valide, puis
+     * changement de mot de passe imposé le cas échéant.
+     */
+    private static function guard(): array
     {
         $user = Auth::requireLogin();
+        if (Auth::mustChangePassword()) {
+            redirect(url('admin/premiere-connexion'));
+        }
+        return $user;
+    }
+
+    public static function dashboard(): void
+    {
+        $user = self::guard();
+        Housekeeping::maybeRun();   // filet quotidien, même sans trafic public
         $days = max(7, min(90, (int) ($_GET['days'] ?? 30)));
         $applications = self::applications();
         $submitted = array_values(array_filter($applications, static fn ($a) => ($a['status'] ?? '') !== 'brouillon'));
@@ -60,7 +124,7 @@ final class AdminController
 
     public static function applicationsList(): void
     {
-        $user = Auth::requireLogin();
+        $user = self::guard();
         $rows = self::applications();
         $stage = (string) ($_GET['stage'] ?? '');
         $q = trim((string) ($_GET['q'] ?? ''));
@@ -91,7 +155,7 @@ final class AdminController
 
     public static function applicationShow(array $params): void
     {
-        $user = Auth::requireLogin();
+        $user = self::guard();
         $row = Store::find('applications', (string) ($params['id'] ?? ''));
         if ($row === null) { self::adminNotFound(); return; }
 
@@ -120,7 +184,7 @@ final class AdminController
 
     public static function applicationDelete(array $params): void
     {
-        Auth::requireLogin();
+        self::guard();
         if (Csrf::check($_POST['_csrf'] ?? null)) {
             $row = Store::find('applications', (string) ($params['id'] ?? ''));
             if ($row && !empty($row['cv'])) { @unlink(UPLOAD_DIR . '/' . basename((string) $row['cv'])); }
@@ -132,7 +196,7 @@ final class AdminController
 
     public static function applicationsExport(): void
     {
-        Auth::requireLogin();
+        self::guard();
         $rows = self::applications();
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename="candidatures-' . date('Y-m-d') . '.csv"');
@@ -140,12 +204,12 @@ final class AdminController
         fwrite($out, "\xEF\xBB\xBF"); // BOM pour Excel
         fputcsv($out, ['ID', 'Date', 'Statut', 'Étape', 'Nom', 'E-mail', 'Téléphone', 'Secteur', 'Situation', 'Disponibilité', 'Expérience', 'Objectif', 'Origine', 'Message'], ';');
         foreach ($rows as $r) {
-            fputcsv($out, [
+            fputcsv($out, array_map('csv_safe', [
                 $r['id'] ?? '', fr_date((string) ($r['submitted_at'] ?? $r['created_at'] ?? ''), true),
                 $r['status'] ?? '', $r['stage'] ?? '', $r['name'] ?? '', $r['email'] ?? '', $r['phone'] ?? '',
                 $r['area'] ?? '', $r['situation'] ?? '', $r['availability'] ?? '', $r['experience'] ?? '',
                 $r['goal'] ?? '', $r['source'] ?? '', $r['message'] ?? '',
-            ], ';');
+            ]), ';');
         }
         fclose($out);
         exit;
@@ -153,7 +217,7 @@ final class AdminController
 
     public static function cv(array $params): void
     {
-        Auth::requireLogin();
+        self::guard();
         $row = Store::find('applications', (string) ($params['id'] ?? ''));
         $file = UPLOAD_DIR . '/' . basename((string) ($row['cv'] ?? ''));
         if (!$row || empty($row['cv']) || !is_file($file)) { self::adminNotFound(); return; }
@@ -168,7 +232,7 @@ final class AdminController
 
     public static function leads(): void
     {
-        $user = Auth::requireLogin();
+        $user = self::guard();
         $rows = Store::read('leads');
         usort($rows, static fn ($a, $b) => strcmp((string) ($b['created_at'] ?? ''), (string) ($a['created_at'] ?? '')));
         echo view('admin/leads', ['user' => $user, 'nav' => 'leads', 'title' => 'Messages & captures', 'rows' => $rows], 'admin/layout');
@@ -176,7 +240,7 @@ final class AdminController
 
     public static function leadDelete(array $params): void
     {
-        Auth::requireLogin();
+        self::guard();
         if (Csrf::check($_POST['_csrf'] ?? null)) {
             Store::delete('leads', (string) ($params['id'] ?? ''));
             Session::flash('Message supprimé.');
@@ -188,7 +252,7 @@ final class AdminController
 
     public static function contentEdit(array $params): void
     {
-        $user = Auth::requireLogin();
+        $user = self::guard();
         $schema = ContentSchema::all();
         $section = (string) ($params['section'] ?? array_key_first($schema));
         if (!isset($schema[$section])) { self::adminNotFound(); return; }
@@ -225,7 +289,7 @@ final class AdminController
 
     public static function posts(): void
     {
-        $user = Auth::requireLogin();
+        $user = self::guard();
         $rows = Store::read('posts');
         usort($rows, static fn ($a, $b) => strcmp((string) ($b['published_at'] ?? ''), (string) ($a['published_at'] ?? '')));
         echo view('admin/posts', ['user' => $user, 'nav' => 'posts', 'title' => 'Actualités', 'rows' => $rows], 'admin/layout');
@@ -233,7 +297,7 @@ final class AdminController
 
     public static function postEdit(array $params): void
     {
-        $user = Auth::requireLogin();
+        $user = self::guard();
         $id = (string) ($params['id'] ?? 'nouveau');
         $row = $id === 'nouveau' ? ['id' => '', 'title' => '', 'slug' => '', 'excerpt' => '', 'body' => '', 'category' => 'Marché immobilier', 'author' => 'La rédaction Suisse Immo', 'status' => 'draft', 'published_at' => date('c')] : Store::find('posts', $id);
         if ($row === null) { self::adminNotFound(); return; }
@@ -269,7 +333,7 @@ final class AdminController
 
     public static function postDelete(array $params): void
     {
-        Auth::requireLogin();
+        self::guard();
         if (Csrf::check($_POST['_csrf'] ?? null)) {
             Store::delete('posts', (string) ($params['id'] ?? ''));
             Session::flash('Article supprimé.');
@@ -281,7 +345,7 @@ final class AdminController
 
     public static function settings(): void
     {
-        $user = Auth::requireLogin();
+        $user = self::guard();
         if (is_post() && Csrf::check($_POST['_csrf'] ?? null)) {
             $s = Store::read('settings');
             foreach (['site', 'company', 'funnel', 'motion'] as $group) {
@@ -314,7 +378,7 @@ final class AdminController
 
     public static function users(): void
     {
-        $user = Auth::requireLogin();
+        $user = self::guard();
         if (is_post() && Csrf::check($_POST['_csrf'] ?? null)) {
             $action = (string) ($_POST['action'] ?? '');
             if ($action === 'create') {
@@ -363,7 +427,7 @@ final class AdminController
      */
     public static function sendEmail(): void
     {
-        $user = Auth::requireLogin();
+        $user = self::guard();
         if (!Csrf::check($_POST['_csrf'] ?? null)) {
             Session::flash('Session expirée, merci de réessayer.', 'error');
             redirect(url('admin/candidatures'));
@@ -419,7 +483,7 @@ final class AdminController
 
     public static function bot(): void
     {
-        $user = Auth::requireLogin();
+        $user = self::guard();
 
         if (is_post() && Csrf::check($_POST['_csrf'] ?? null)) {
             $cfg = Bot::config();
@@ -478,7 +542,7 @@ final class AdminController
     /** Rafraîchit la liste des modèles Gemini (appel AJAX depuis le back). */
     public static function botModels(): void
     {
-        Auth::requireLogin();
+        self::guard();
         Csrf::guard();
         $payload = request_payload();
         $key = trim((string) ($payload['api_key'] ?? ''));
@@ -495,7 +559,7 @@ final class AdminController
     /** Console de test du bot depuis le back-office. */
     public static function botTest(): void
     {
-        Auth::requireLogin();
+        self::guard();
         Csrf::guard();
         $payload = request_payload();
         $res = Bot::ask((string) ($payload['question'] ?? ''), (array) ($payload['history'] ?? []));
@@ -505,7 +569,7 @@ final class AdminController
 
     public static function botDocumentAdd(): void
     {
-        Auth::requireLogin();
+        self::guard();
         if (!Csrf::check($_POST['_csrf'] ?? null)) { redirect(url('admin/bot')); }
         if (empty($_FILES['document']['name'])) {
             Session::flash('Aucun fichier sélectionné.', 'error');
@@ -520,7 +584,7 @@ final class AdminController
 
     public static function botDocumentDelete(array $params): void
     {
-        Auth::requireLogin();
+        self::guard();
         if (Csrf::check($_POST['_csrf'] ?? null)) {
             Bot::deleteDocument((string) ($params['id'] ?? ''));
             Session::flash('Document retiré de la base de connaissances.');
@@ -530,7 +594,7 @@ final class AdminController
 
     public static function mails(): void
     {
-        $user = Auth::requireLogin();
+        $user = self::guard();
         echo view('admin/mails', ['user' => $user, 'nav' => 'mails', 'title' => 'Journal des e-mails', 'rows' => array_slice(Store::read('maillog'), 0, 100)], 'admin/layout');
     }
 
@@ -557,14 +621,127 @@ final class AdminController
         return $out;
     }
 
-    /** Nettoyage du HTML des articles : balises de mise en forme uniquement. */
+    /** Balises conservées dans le corps d'un article. */
+    private const HTML_ALLOWED = ['p', 'br', 'h2', 'h3', 'h4', 'ul', 'ol', 'li', 'strong', 'em', 'b', 'i', 'blockquote', 'a'];
+    /** Schémas d'URL autorisés sur un lien. */
+    private const HREF_SCHEMES = ['http', 'https', 'mailto', 'tel'];
+
+    /**
+     * Nettoyage du HTML des articles par liste blanche stricte.
+     *
+     * strip_tags() ne filtre que les balises : il laisse passer tous les
+     * attributs de celles qu'il conserve (style, href="data:…", target…).
+     * On repasse donc par l'arbre DOM : balise inconnue déballée en
+     * gardant son texte, aucun attribut sauf href sur les liens, et
+     * seulement vers un schéma sûr.
+     */
     private static function sanitizeHtml(string $html): string
     {
-        $html = preg_replace('#<(script|style|iframe|object|embed)[^>]*>.*?</\1>#is', '', $html) ?? '';
-        $html = strip_tags($html, '<p><br><h2><h3><h4><ul><ol><li><strong><em><b><i><blockquote><a>');
-        $html = preg_replace('/\son[a-z]+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $html) ?? '';
-        $html = preg_replace('/href\s*=\s*(["\'])\s*javascript:[^"\']*\1/i', 'href="#"', $html) ?? '';
-        return trim($html);
+        $html = trim($html);
+        if ($html === '') {
+            return '';
+        }
+
+        $doc = new DOMDocument();
+        $previous = libxml_use_internal_errors(true);
+        // Le préfixe force l'UTF-8 ; le corps est isolé pour ne pas récupérer
+        // le <html><body> ajouté automatiquement par la bibliothèque.
+        $doc->loadHTML(
+            '<?xml encoding="UTF-8"><div id="si-root">' . $html . '</div>',
+            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NONET
+        );
+        libxml_clear_errors();
+        libxml_use_internal_errors($previous);
+
+        $root = $doc->getElementById('si-root');
+        if ($root === null) {
+            return '';
+        }
+        self::sanitizeNode($root);
+
+        $out = '';
+        foreach ($root->childNodes as $child) {
+            $out .= $doc->saveHTML($child);
+        }
+        return trim($out);
+    }
+
+    /** Parcours récursif : nettoie ou déballe chaque élément. */
+    private static function sanitizeNode(DOMNode $node): void
+    {
+        // Copie : la liste vivante change pendant qu'on retire des nœuds.
+        foreach (iterator_to_array($node->childNodes) as $child) {
+            if ($child instanceof DOMText) {
+                continue;
+            }
+            if ($child instanceof DOMComment || $child instanceof DOMProcessingInstruction) {
+                $child->parentNode?->removeChild($child);
+                continue;
+            }
+            if (!$child instanceof DOMElement) {
+                $child->parentNode?->removeChild($child);
+                continue;
+            }
+
+            $tag = strtolower($child->tagName);
+
+            // Un <script> ou un <style> part avec son contenu ; toute autre
+            // balise inconnue est déballée, son texte étant légitime.
+            if (in_array($tag, ['script', 'style', 'iframe', 'object', 'embed', 'form', 'input'], true)) {
+                $child->parentNode?->removeChild($child);
+                continue;
+            }
+            if (!in_array($tag, self::HTML_ALLOWED, true)) {
+                self::sanitizeNode($child);
+                while ($child->firstChild !== null) {
+                    $child->parentNode?->insertBefore($child->firstChild, $child);
+                }
+                $child->parentNode?->removeChild($child);
+                continue;
+            }
+
+            // Tous les attributs sautent, href sur <a> est réévalué ensuite.
+            $href = $tag === 'a' ? (string) $child->getAttribute('href') : '';
+            foreach (iterator_to_array($child->attributes ?? []) as $attr) {
+                $child->removeAttribute($attr->nodeName);
+            }
+            if ($tag === 'a') {
+                $safe = self::safeHref($href);
+                if ($safe === null) {
+                    // Lien inexploitable : on garde le texte, pas l'ancre.
+                    self::sanitizeNode($child);
+                    while ($child->firstChild !== null) {
+                        $child->parentNode?->insertBefore($child->firstChild, $child);
+                    }
+                    $child->parentNode?->removeChild($child);
+                    continue;
+                }
+                $child->setAttribute('href', $safe);
+                if (str_starts_with($safe, 'http')) {
+                    $child->setAttribute('rel', 'noopener nofollow');
+                    $child->setAttribute('target', '_blank');
+                }
+            }
+            self::sanitizeNode($child);
+        }
+    }
+
+    /** @return string|null l'URL si son schéma est autorisé, null sinon */
+    private static function safeHref(string $href): ?string
+    {
+        $href = trim(html_entity_decode($href, ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+        // Les caractères de contrôle servent à masquer « javascript: ».
+        $href = preg_replace('/[\x00-\x20]/u', '', $href) ?? '';
+        if ($href === '') {
+            return null;
+        }
+        if (str_starts_with($href, '/') || str_starts_with($href, '#')) {
+            return $href;
+        }
+        if (!preg_match('#^([a-z][a-z0-9+.-]*):#i', $href, $m)) {
+            return $href;   // relatif
+        }
+        return in_array(strtolower($m[1]), self::HREF_SCHEMES, true) ? $href : null;
     }
 
     private static function adminNotFound(): void

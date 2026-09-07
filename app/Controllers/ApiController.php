@@ -4,14 +4,22 @@ declare(strict_types=1);
 /** API JSON consommée par le front (tunnel, simulateur, mesure). */
 final class ApiController
 {
-    /** Contenu public : permet de piloter le front sans rechargement. */
+    /**
+     * Contenu public : permet de piloter le front sans rechargement.
+     * Seules les clés dont le navigateur a besoin sont exposées — le
+     * bloc « funnel » contient aussi l'adresse interne de notification.
+     */
     public static function content(): void
     {
+        $funnel = (array) settings('funnel', []);
         json_out([
             'ok' => true,
             'simulator' => content('simulator'),
             'apply' => content('apply'),
-            'funnel' => settings('funnel'),
+            'funnel' => array_intersect_key($funnel, array_flip([
+                'response_delay', 'exit_intent', 'exit_intent_title',
+                'exit_intent_text', 'sticky_cta', 'sticky_cta_label', 'cv_upload',
+            ])),
         ]);
     }
 
@@ -68,14 +76,27 @@ final class ApiController
         ];
     }
 
-    /** Enregistrement d'un évènement de tunnel. */
+    /**
+     * Enregistrement d'un évènement d'interaction.
+     *
+     * Le jeton est exigé, et seuls les évènements réellement produits par
+     * l'interface sont acceptés : les étapes du tunnel, les candidatures
+     * et les messages sont journalisés par le serveur au moment où ils
+     * ont lieu. Les accepter ici permettrait de fabriquer de fausses
+     * conversions dans le tableau de bord.
+     */
     public static function track(): void
     {
+        Csrf::guard();
         $p = request_payload();
-        if (!RateLimit::hit('track', 200, 600)) {
+        $event = (string) ($p['event'] ?? '');
+        if (!in_array($event, Analytics::CLIENT_EVENTS, true)) {
+            json_out(['ok' => false, 'error' => 'Évènement non recevable.'], 422);
+        }
+        if (!RateLimit::hit('track', 300, 600)) {
             json_out(['ok' => false], 429);
         }
-        Analytics::track((string) ($p['event'] ?? ''), [
+        Analytics::track($event, [
             'page' => (string) ($p['page'] ?? ''),
             'source' => (string) ($p['source'] ?? ''),
         ]);
@@ -199,7 +220,7 @@ final class ApiController
         $name = self::str($p['name'] ?? '', 120);
         $email = self::str($p['email'] ?? '', 160);
         $phone = self::str($p['phone'] ?? '', 40);
-        $message = self::str($p['message'] ?? '', 4000);
+        $message = self::text($p['message'] ?? '', 4000);
         $origin = self::str($p['origin'] ?? 'contact', 40);
 
         $errors = [];
@@ -255,8 +276,13 @@ final class ApiController
         }
         $res = Bot::ask($question, $history);
         Bot::logConversation($question, (string) ($res['answer'] ?? $res['error'] ?? ''), (bool) $res['ok'], 'site');
+        if (!$res['ok']) {
+            // Le motif exact (clé refusée, quota, modèle inconnu) renseigne sur
+            // la configuration : il reste au journal et à la console de test.
+            json_out(['ok' => false, 'error' => 'L’assistant est momentanément indisponible. Écrivez-nous via le formulaire de contact.'], 503);
+        }
         unset($res['used'], $res['model']);   // détail interne, inutile côté visiteur
-        json_out($res, $res['ok'] ? 200 : 422);
+        json_out($res, 200);
     }
 
     // ---------------------------------------------------------------- outils
@@ -271,17 +297,30 @@ final class ApiController
             'situation' => self::str($p['situation'] ?? '', 120),
             'availability' => self::str($p['availability'] ?? '', 60),
             'experience' => self::str($p['experience'] ?? '', 120),
-            'goal' => self::str($p['goal'] ?? '', 2000),
+            'goal' => self::text($p['goal'] ?? '', 2000),
             'source' => self::str($p['source'] ?? '', 60),
-            'message' => self::str($p['message'] ?? '', 4000),
+            'message' => self::text($p['message'] ?? '', 4000),
             'simulation' => is_array($p['simulation'] ?? null) ? array_map(static fn ($v) => is_scalar($v) ? $v : '', $p['simulation']) : [],
         ];
     }
 
+    /** Champ mono-ligne : retours à la ligne et tabulations deviennent des espaces. */
     private static function str(mixed $v, int $max): string
     {
         $v = is_scalar($v) ? (string) $v : '';
         $v = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F]/u', '', $v) ?? '';
+        $v = preg_replace('/[\r\n\t]+/u', ' ', $v) ?? '';
+        $v = preg_replace('/ {2,}/u', ' ', $v) ?? '';
+        return mb_substr(trim($v), 0, $max);
+    }
+
+    /** Champ multi-lignes : les sauts de ligne sont conservés, normalisés. */
+    private static function text(mixed $v, int $max): string
+    {
+        $v = is_scalar($v) ? (string) $v : '';
+        $v = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F]/u', '', $v) ?? '';
+        $v = str_replace(["\r\n", "\r"], "\n", $v);
+        $v = preg_replace('/\n{3,}/u', "\n\n", $v) ?? '';
         return mb_substr(trim($v), 0, $max);
     }
 

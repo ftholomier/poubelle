@@ -21,7 +21,7 @@ final class Installer
                 @copy(APP_DIR . '/seed/' . $name . '.json', $target);
             }
         }
-        foreach (['applications', 'leads', 'events', 'ratelimit'] as $name) {
+        foreach (['applications', 'leads'] as $name) {
             $target = DATA_DIR . '/' . $name . '.json';
             if (!is_file($target)) {
                 @file_put_contents($target, "[]");
@@ -38,7 +38,10 @@ final class Installer
         self::upgrade();
 
         if (!is_file(DATA_DIR . '/users.json')) {
-            $password = getenv('ADMIN_PASSWORD') ?: 'SuisseImmo2026!';
+            // Sans consigne explicite, un mot de passe aléatoire : un mot de
+            // passe par défaut connu resterait valable sur toute installation
+            // dont l'exploitant n'a pas encore ouvert le back-office.
+            $password = getenv('ADMIN_PASSWORD') ?: self::randomPassword();
             Store::write('users', [[
                 'id' => Store::uid('usr-'),
                 'name' => 'Administrateur',
@@ -53,7 +56,7 @@ final class Installer
                 "Compte administrateur créé le " . date('d/m/Y H:i') . "\n" .
                 "Identifiant : " . (getenv('ADMIN_EMAIL') ?: 'admin@suisse-immo.fr') . "\n" .
                 "Mot de passe : " . $password . "\n\n" .
-                "Changez-le dès la première connexion depuis Back-office > Utilisateurs, puis supprimez ce fichier.\n");
+                "Le changement est imposé à la première connexion ; ce fichier est supprimé automatiquement à ce moment-là.\n");
         }
     }
 
@@ -72,6 +75,9 @@ final class Installer
         if (!is_array($seed)) {
             return;
         }
+        // Reprise du journal d'audience au format tableau (versions < 2026-09).
+        Analytics::migrateLegacy();
+
         $current = Store::read('settings');
         $changed = false;
         foreach ($seed as $group => $values) {
@@ -89,5 +95,18 @@ final class Installer
         if ($changed) {
             Store::write('settings', $current);
         }
+    }
+
+    /** Mot de passe d'installation : 16 caractères tirés au sort. */
+    public static function randomPassword(int $length = 16): string
+    {
+        // Alphabet sans caractères ambigus (0/O, 1/l/I) : le mot de passe est
+        // relu dans un fichier texte avant d'être saisi.
+        $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789@#%+=?';
+        $out = '';
+        for ($i = 0; $i < $length; $i++) {
+            $out .= $alphabet[random_int(0, strlen($alphabet) - 1)];
+        }
+        return $out;
     }
 }

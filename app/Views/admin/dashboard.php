@@ -6,6 +6,23 @@ $maxDaily = max(1, max(array_map(static fn ($d) => $d['views'], $daily ?: [['vie
 $funnelMax = max(1, (int) ($stats['funnel'][0]['value'] ?? 1));
 $totalStages = max(1, array_sum($by_stage));
 ?>
+<?php
+// Contrôle de complétude des mentions légales : les champs exigés par
+// l'article 6-III de la LCEN ne peuvent pas rester vides en production.
+$legalMissing = [];
+foreach (['publisher_name' => 'directeur de la publication', 'host_address' => 'adresse de l’hébergeur', 'host_phone' => 'téléphone de l’hébergeur'] as $k => $label) {
+    if (trim((string) settings('company.' . $k, '')) === '') { $legalMissing[] = $label; }
+}
+?>
+<?php if ($legalMissing): ?>
+  <div class="flash flash--error">
+    <strong>Mentions légales incomplètes.</strong>
+    Il manque : <?= e(implode(', ', $legalMissing)) ?>.
+    Ces informations sont obligatoires (LCEN, article 6-III) —
+    <a href="<?= e(url('admin/reglages')) ?>" style="text-decoration:underline">les renseigner</a>.
+  </div>
+<?php endif; ?>
+
 <div class="topbar">
   <h1>Tableau de bord</h1>
   <div class="row">

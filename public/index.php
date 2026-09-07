@@ -59,7 +59,8 @@ $router->post('/api/bot/chat', [ApiController::class, 'botChat']);
 
 // ------------------------------------------------------------ back-office
 $router->any('/admin/login', [AdminController::class, 'login']);
-$router->get('/admin/logout', [AdminController::class, 'logout']);
+$router->post('/admin/logout', [AdminController::class, 'logout']);
+$router->any('/admin/premiere-connexion', [AdminController::class, 'firstLogin']);
 $router->get('/admin', [AdminController::class, 'dashboard']);
 $router->get('/admin/candidatures', [AdminController::class, 'applicationsList']);
 $router->get('/admin/candidatures/export', [AdminController::class, 'applicationsExport']);

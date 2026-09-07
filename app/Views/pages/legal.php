@@ -12,11 +12,21 @@
         <div><dt>E-mail</dt><dd><?= e($c['email'] ?? '') ?></dd></div>
         <div><dt>SIRET</dt><dd><?= e($c['siret'] ?? '') ?></dd></div>
         <div><dt>Ville RCS</dt><dd><?= e($c['rcs'] ?? '') ?></dd></div>
+        <?php if (!empty($c['publisher_name'])): ?>
+          <div><dt>Directeur de la publication</dt><dd><?= e($c['publisher_name']) ?></dd></div>
+        <?php endif; ?>
         <div><dt>N° TVA Intra</dt><dd><?= e($c['vat'] ?? '') ?></dd></div>
         <div><dt>Forme juridique</dt><dd><?= e($c['form'] ?? '') ?></dd></div>
         <div><dt>Capital social</dt><dd><?= e($c['capital'] ?? '') ?></dd></div>
         <div><dt>Assurance RCP</dt><dd><?= e($c['insurance'] ?? '') ?></dd></div>
-        <div><dt>Hébergement</dt><dd><?= e($c['host'] ?? '') ?></dd></div>
+        <div>
+          <dt>Hébergeur</dt>
+          <dd>
+            <?= e($c['host'] ?? '') ?>
+            <?php if (!empty($c['host_address'])): ?><br><?= e($c['host_address']) ?><?php endif; ?>
+            <?php if (!empty($c['host_phone'])): ?><br><?= e($c['host_phone']) ?><?php endif; ?>
+          </dd>
+        </div>
       </dl>
     </div>
 

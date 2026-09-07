@@ -70,19 +70,52 @@ final class Session
     }
 }
 
-/** Limitation de débit simple, fichier JSON, fenêtre glissante. */
+/**
+ * Limitation de débit à fenêtre glissante, un fichier par usage.
+ *
+ * Séparer les compteurs évite qu'un usage très sollicité (la mesure
+ * d'audience) ne fasse réécrire le fichier des tentatives de connexion à
+ * chaque requête, et réduit d'autant la contention sur le verrou.
+ */
 final class RateLimit
 {
-    public static function hit(string $bucket, int $max = 10, int $window = 600): bool
+    public static function dir(): string
     {
-        $key = $bucket . ':' . visitor_hash();
+        $dir = DATA_DIR . '/ratelimit';
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
+        return $dir;
+    }
+
+    /**
+     * @param string $bucket usage (login, apply, lead, bot…)
+     * @param string $key    identifiant de l'appelant dans cet usage
+     */
+    public static function hit(string $bucket, int $max = 10, int $window = 600, ?string $key = null): bool
+    {
+        $bucket = preg_replace('/[^a-z0-9_-]/i', '', $bucket) ?: 'divers';
+        $key = $key !== null && $key !== '' ? $key : visitor_hash();
+        $file = self::dir() . '/' . $bucket . '.json';
         $now = time();
         $allowed = true;
-        Store::mutate('ratelimit', static function (array $rows) use ($key, $now, $max, $window, &$allowed): array {
+
+        $fh = @fopen($file, 'c+');
+        if ($fh === false) {
+            return true;   // ne jamais bloquer un visiteur sur un défaut d'écriture
+        }
+        try {
+            flock($fh, LOCK_EX);
+            $raw = stream_get_contents($fh) ?: '';
+            $rows = json_decode($raw, true);
+            if (!is_array($rows)) { $rows = []; }
+
+            // Purge des entrées expirées : le fichier ne grossit pas indéfiniment.
             foreach ($rows as $k => $stamps) {
-                $rows[$k] = array_values(array_filter($stamps, static fn ($t) => $t > $now - 86400));
-                if (!$rows[$k]) { unset($rows[$k]); }
+                $kept = array_values(array_filter((array) $stamps, static fn ($t) => $t > $now - max($window, 3600)));
+                if ($kept) { $rows[$k] = $kept; } else { unset($rows[$k]); }
             }
+
             $stamps = array_values(array_filter($rows[$key] ?? [], static fn ($t) => $t > $now - $window));
             if (count($stamps) >= $max) {
                 $allowed = false;
@@ -90,8 +123,18 @@ final class RateLimit
                 $stamps[] = $now;
             }
             $rows[$key] = $stamps;
-            return $rows;
-        });
+
+            $json = json_encode($rows, JSON_UNESCAPED_UNICODE);
+            if ($json !== false) {
+                ftruncate($fh, 0);
+                rewind($fh);
+                fwrite($fh, $json);
+                fflush($fh);
+            }
+        } finally {
+            flock($fh, LOCK_UN);
+            fclose($fh);
+        }
         return $allowed;
     }
 }
@@ -112,6 +155,7 @@ final class Auth
                         'email' => $u['email'] ?? '',
                         'name' => $u['name'] ?? '',
                         'role' => $u['role'] ?? 'admin',
+                        'must_change' => !empty($u['must_change_password']),
                         'since' => time(),
                     ];
                     Store::update('users', (string) ($u['id'] ?? ''), ['last_login' => date('c')]);
@@ -120,6 +164,21 @@ final class Auth
             }
         }
         return false;
+    }
+
+    /**
+     * Le compte doit-il changer son mot de passe avant toute autre action ?
+     * Relu depuis le stockage : une session ouverte avant le changement ne
+     * doit pas contourner l'écran obligatoire.
+     */
+    public static function mustChangePassword(): bool
+    {
+        $u = self::user();
+        if ($u === null) {
+            return false;
+        }
+        $row = Store::find('users', (string) ($u['id'] ?? ''));
+        return $row !== null && !empty($row['must_change_password']);
     }
 
     public static function user(): ?array

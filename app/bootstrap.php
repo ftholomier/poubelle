@@ -10,6 +10,7 @@ require __DIR__ . '/Router.php';
 require __DIR__ . '/ContentSchema.php';
 require __DIR__ . '/Mailer.php';
 require __DIR__ . '/Analytics.php';
+require __DIR__ . '/Housekeeping.php';
 require __DIR__ . '/DocText.php';
 require __DIR__ . '/Bot.php';
 require __DIR__ . '/Controllers/SiteController.php';
@@ -23,6 +24,12 @@ if (!is_file(DATA_DIR . '/settings.json')) {
     Installer::run();
 } else {
     Installer::upgrade();
+}
+
+// Purge des données échues : une fois par jour, déclenchée par le trafic
+// (1 requête publique sur 200) pour ne pas dépendre d'une tâche planifiée.
+if (PHP_SAPI !== 'cli' && random_int(1, 200) === 1) {
+    Housekeeping::maybeRun();
 }
 
 // En-têtes de sécurité communs.

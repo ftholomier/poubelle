@@ -154,3 +154,20 @@ function euro(mixed $v): string
 {
     return nb($v) . ' €';
 }
+
+/**
+ * Neutralise l'injection de formules dans un export CSV.
+ *
+ * Un tableur interprète une cellule commençant par =, +, - ou @ comme une
+ * formule : une candidature nommée « =1+1 » ou, pire, contenant un appel
+ * réseau, s'exécuterait à l'ouverture du fichier. L'apostrophe de tête
+ * force le tableur à traiter la valeur comme du texte.
+ */
+function csv_safe(mixed $value): string
+{
+    $v = (string) $value;
+    if ($v !== '' && str_contains("=+-@\t\r", $v[0])) {
+        return "'" . $v;
+    }
+    return $v;
+}

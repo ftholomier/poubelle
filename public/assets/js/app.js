@@ -31,7 +31,8 @@
 
   function track(event, meta) {
     try {
-      const body = JSON.stringify(Object.assign({ event: event, page: location.pathname }, meta || {}));
+      // Le jeton voyage dans le corps : sendBeacon ne peut pas poser d'en-tête.
+      const body = JSON.stringify(Object.assign({ _csrf: SI.csrf, event: event, page: location.pathname }, meta || {}));
       if (navigator.sendBeacon) {
         navigator.sendBeacon(SI.base + '/api/track', new Blob([body], { type: 'application/json' }));
       } else {
@@ -420,7 +421,8 @@
     initExitIntent();
     initAjaxForms();
     initCtaTracking();
-    track('page_view');
+    // La vue de page est comptée par le serveur (SiteController) : elle
+    // est ainsi fiable même sans JavaScript, et n'est pas comptée deux fois.
   }
 
   if (document.readyState === 'loading') {

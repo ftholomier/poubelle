@@ -25,9 +25,7 @@ $items2 = [
 <meta name="robots" content="noindex, nofollow">
 <title><?= e($title ?? 'Back-office') ?> — Suisse Immo</title>
 <link rel="icon" href="<?= e(url('assets/img/favicon.svg')) ?>" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="preload" as="font" type="font/woff2" href="<?= e(asset('fonts/inter-var.woff2')) ?>" crossorigin>
 <link rel="stylesheet" href="<?= e(asset('css/admin.css')) ?>">
 </head>
 <body>
@@ -59,7 +57,10 @@ $items2 = [
 
     <div class="side__foot">
       <div><?= e($user['name'] ?: $user['email'] ?? '') ?></div>
-      <a href="<?= e(url('admin/logout')) ?>" style="color:#ff8290">Se déconnecter</a>
+      <form method="post" action="<?= e(url('admin/logout')) ?>" style="margin-top:2px">
+        <?= Csrf::field() ?>
+        <button type="submit" style="color:#ff8290;font-size:.82rem;padding:0">Se déconnecter</button>
+      </form>
       <?php if ($pendingDrafts): ?>
         <div style="margin-top:10px;font-size:.78rem"><?= (int) $pendingDrafts ?> candidature<?= $pendingDrafts > 1 ? 's' : '' ?> abandonnée<?= $pendingDrafts > 1 ? 's' : '' ?> à relancer</div>
       <?php endif; ?>
