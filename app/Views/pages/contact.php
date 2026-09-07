@@ -6,7 +6,7 @@
   <div class="container">
     <div class="grid" style="grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:clamp(20px,3vw,48px);align-items:start">
       <div class="funnel-card" data-reveal="left">
-        <form class="stack" style="--gap:18px" method="post" action="<?= e(url('api/lead')) ?>"
+        <form class="stack" id="formulaire" style="--gap:18px" method="post" action="<?= e(url('api/lead')) ?>"
               data-ajax data-success="Message envoyé, nous revenons vers vous rapidement." data-done="#contact-done">
           <?= Csrf::field() ?>
           <input type="hidden" name="origin" value="contact">
@@ -51,7 +51,8 @@
         <div class="card">
           <span class="benefit__icon"><?= icon('mail') ?></span>
           <h3 class="h4" style="margin:14px 0 6px">Par e-mail</h3>
-          <a class="link-arrow" href="mailto:<?= e($c['email'] ?? '') ?>"><?= e($c['email'] ?? '') ?></a>
+          <p class="muted small" style="margin-bottom:10px"><?= e($c['email'] ?? '') ?></p>
+          <a class="link-arrow" href="#formulaire">Utiliser le formulaire <?= icon('arrow') ?></a>
         </div>
         <div class="card">
           <span class="benefit__icon"><?= icon('pin') ?></span>

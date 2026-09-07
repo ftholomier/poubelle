@@ -5,7 +5,8 @@
   <div class="container container--narrow">
     <div class="article__body">
       <h2>Responsable du traitement</h2>
-      <p><?= e($c['legal_name'] ?? '') ?>, <?= e($c['form'] ?? '') ?> au capital de <?= e($c['capital'] ?? '') ?>, <?= e($c['address'] ?? '') ?>, <?= e($c['zip'] ?? '') ?> <?= e($c['city'] ?? '') ?> — SIRET <?= e($c['siret'] ?? '') ?>. Contact : <a href="mailto:<?= e($c['email'] ?? '') ?>"><?= e($c['email'] ?? '') ?></a>.</p>
+      <p><?= e($c['legal_name'] ?? '') ?>, <?= e($c['form'] ?? '') ?> au capital de <?= e($c['capital'] ?? '') ?>, <?= e($c['address'] ?? '') ?>, <?= e($c['zip'] ?? '') ?> <?= e($c['city'] ?? '') ?> — SIRET <?= e($c['siret'] ?? '') ?>. Contact : <strong><?= e($c['email'] ?? '') ?></strong>
+        (ou via le <a href="<?= e(url('contact')) ?>">formulaire de contact</a>).</p>
 
       <h2>Données collectées</h2>
       <ul>
@@ -31,7 +32,8 @@
       <p>Vos données sont traitées exclusivement par les équipes de <?= e($c['legal_name'] ?? 'Suisse Immo') ?> en charge du recrutement. Elles ne sont ni vendues, ni louées, ni transmises à des tiers, et sont hébergées en France chez <?= e($c['host'] ?? '') ?>.</p>
 
       <h2>Vos droits</h2>
-      <p>Vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation, d’opposition et de portabilité. Écrivez à <a href="mailto:<?= e($c['email'] ?? '') ?>"><?= e($c['email'] ?? '') ?></a> ou par courrier au siège social. Vous pouvez également introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener nofollow">www.cnil.fr</a>).</p>
+      <p>Vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation, d’opposition et de portabilité. Écrivez à <strong><?= e($c['email'] ?? '') ?></strong>, passez par le
+        <a href="<?= e(url('contact')) ?>">formulaire de contact</a>, ou adressez un courrier au siège social. Vous pouvez également introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener nofollow">www.cnil.fr</a>).</p>
 
       <h2>Cookies</h2>
       <p>Le site n’utilise aucun cookie publicitaire ni de mesure d’audience tierce. Seul un cookie de session technique est déposé pour sécuriser les formulaires (protection anti-CSRF) ; il expire à la fermeture du navigateur.</p>

@@ -200,9 +200,19 @@ de dépendre du client mail du poste et laisse une trace exploitable.
 - Si `mail()` n'est pas configuré sur l'hébergement, le message est conservé au journal et un
   avertissement explicite s'affiche — rien n'est perdu silencieusement.
 
-Les adresses affichées sur le **site public** (pied de page, page contact, mentions légales)
-restent des liens `mailto:` : ce sont les coordonnées de l'agence, données à titre d'information,
-et la page contact propose déjà un vrai formulaire comme chemin principal.
+**Aucun lien `mailto:` sur le site public non plus.** L'adresse de l'agence reste affichée en
+clair — dans le pied de page, sur la page contact, dans les mentions légales et la politique de
+confidentialité — mais comme texte sélectionnable, jamais comme lien. Chaque endroit propose à
+côté un chemin qui fonctionne pour tout le monde :
+
+| Emplacement | Remplacement |
+|---|---|
+| Pied de page | Adresse en texte + lien « Écrire via le formulaire » vers `/contact` |
+| Page contact, carte « Par e-mail » | Adresse en texte + lien « Utiliser le formulaire » vers l'ancre `#formulaire` de la même page |
+| Politique de confidentialité | Adresse en gras + lien vers le formulaire, le courrier postal restant mentionné |
+
+Les liens `tel:` sont conservés : sur mobile, toucher un numéro pour appeler est le comportement
+attendu, et il ne dépend d'aucun logiciel à configurer.
 
 ## 9. Animation des halos
 

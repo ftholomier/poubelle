@@ -39,7 +39,8 @@
         <h4>Contact</h4>
         <ul>
           <li><a href="tel:<?= e($c['phone_link'] ?? '') ?>"><?= e($c['phone'] ?? '') ?></a></li>
-          <li><a href="mailto:<?= e($c['email'] ?? '') ?>"><?= e($c['email'] ?? '') ?></a></li>
+          <li><span class="muted"><?= e($c['email'] ?? '') ?></span></li>
+          <li><a href="<?= e(url('contact')) ?>">Écrire via le formulaire</a></li>
           <li><span class="muted"><?= e($c['address'] ?? '') ?><br><?= e($c['zip'] ?? '') ?> <?= e($c['city'] ?? '') ?></span></li>
         </ul>
         <a class="btn btn--ghost" style="margin-top:18px" href="<?= e(url('candidater')) ?>" data-cta="footer">Candidater <?= icon('arrow') ?></a>
