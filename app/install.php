@@ -36,28 +36,150 @@ final class Installer
         }
 
         self::upgrade();
+        self::ensureAdmin();
+    }
 
-        if (!is_file(DATA_DIR . '/users.json')) {
-            // Sans consigne explicite, un mot de passe aléatoire : un mot de
-            // passe par défaut connu resterait valable sur toute installation
-            // dont l'exploitant n'a pas encore ouvert le back-office.
-            $password = getenv('ADMIN_PASSWORD') ?: self::randomPassword();
-            Store::write('users', [[
-                'id' => Store::uid('usr-'),
-                'name' => 'Administrateur',
-                'email' => getenv('ADMIN_EMAIL') ?: 'admin@suisse-immo.fr',
-                'password_hash' => password_hash($password, PASSWORD_DEFAULT),
-                'role' => 'admin',
-                'active' => true,
-                'must_change_password' => true,
-                'created_at' => date('c'),
-            ]]);
-            @file_put_contents(DATA_DIR . '/PREMIERE-CONNEXION.txt',
-                "Compte administrateur créé le " . date('d/m/Y H:i') . "\n" .
-                "Identifiant : " . (getenv('ADMIN_EMAIL') ?: 'admin@suisse-immo.fr') . "\n" .
-                "Mot de passe : " . $password . "\n\n" .
-                "Le changement est imposé à la première connexion ; ce fichier est supprimé automatiquement à ce moment-là.\n");
+    /** Fichier déposé par FTP pour choisir soi-même ses identifiants. */
+    public const FICHIER_DEBLOCAGE = 'NOUVEAU-COMPTE.txt';
+
+    /**
+     * Garantit qu'un compte administrateur utilisable existe.
+     *
+     * Appelée à chaque requête, et non plus seulement à la toute première
+     * installation. Auparavant la création n'avait lieu que si
+     * `data/settings.json` était absent : supprimer `data/users.json` pour
+     * reprendre la main laissait donc le site sans aucun compte, et sans
+     * moyen d'en recréer un. C'est précisément le geste que documente la
+     * procédure de dépannage.
+     */
+    public static function ensureAdmin(): void
+    {
+        // Un fichier déposé par FTP a la priorité : il permet de choisir
+        // l'adresse et le mot de passe plutôt que de subir un tirage.
+        if (self::appliquerDeblocage()) {
+            return;
         }
+
+        $utilisable = false;
+        foreach (Store::read('users') as $u) {
+            if (($u['active'] ?? true) && ($u['password_hash'] ?? '') !== '') {
+                $utilisable = true;
+                break;
+            }
+        }
+        if ($utilisable) {
+            return;
+        }
+
+        // Sans consigne explicite, un mot de passe aléatoire : un mot de
+        // passe par défaut connu resterait valable sur toute installation
+        // dont l'exploitant n'a pas encore ouvert le back-office.
+        $email = getenv('ADMIN_EMAIL') ?: 'admin@suisse-immo.fr';
+        $password = getenv('ADMIN_PASSWORD') ?: self::randomPassword();
+        Store::write('users', [[
+            'id' => Store::uid('usr-'),
+            'name' => 'Administrateur',
+            'email' => $email,
+            'password_hash' => password_hash($password, PASSWORD_DEFAULT),
+            'role' => 'admin',
+            'active' => true,
+            'must_change_password' => true,
+            'created_at' => date('c'),
+        ]]);
+        @file_put_contents(DATA_DIR . '/PREMIERE-CONNEXION.txt',
+            "Compte administrateur créé le " . date('d/m/Y H:i') . "\n" .
+            "Identifiant : " . $email . "\n" .
+            "Mot de passe : " . $password . "\n\n" .
+            "Le changement est imposé à la première connexion ; ce fichier est supprimé automatiquement à ce moment-là.\n");
+    }
+
+    /**
+     * Applique un fichier `data/NOUVEAU-COMPTE.txt` déposé par FTP.
+     *
+     * Sur un hébergement sans accès SSH et dont la messagerie ne
+     * fonctionne pas, c'est le seul moyen de reprendre la main en
+     * choisissant ses identifiants. Déposer un fichier dans `data/`
+     * suppose déjà un accès complet au serveur : le niveau de confiance
+     * est celui du FTP, pas celui du web. Le fichier est traité puis
+     * supprimé, et le résultat écrit à sa place.
+     *
+     * Format attendu (deux lignes) :
+     *   email = vous@exemple.fr
+     *   motdepasse = votre mot de passe
+     *
+     * @return bool vrai si un fichier a été traité
+     */
+    public static function appliquerDeblocage(): bool
+    {
+        $fichier = DATA_DIR . '/' . self::FICHIER_DEBLOCAGE;
+        if (!is_file($fichier)) {
+            return false;
+        }
+        $contenu = (string) @file_get_contents($fichier);
+        @unlink($fichier);   // traité une seule fois, quoi qu'il arrive
+
+        $champs = [];
+        foreach (preg_split('/\r?\n/', $contenu) ?: [] as $ligne) {
+            if (!str_contains($ligne, '=')) {
+                continue;
+            }
+            [$cle, $valeur] = explode('=', $ligne, 2);
+            $cle = strtolower(trim(str_replace(['-', '_', ' '], '', $cle)));
+            $champs[$cle] = trim($valeur);
+        }
+        $email = strtolower((string) ($champs['email'] ?? ''));
+        $motDePasse = (string) ($champs['motdepasse'] ?? $champs['motdepassse'] ?? '');
+        $nom = (string) ($champs['nom'] ?? 'Administrateur');
+
+        $compteRendu = static function (string $texte): void {
+            @file_put_contents(DATA_DIR . '/' . self::FICHIER_DEBLOCAGE . '.resultat.txt',
+                date('d/m/Y H:i') . "\n" . $texte . "\n");
+        };
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $motDePasse === '') {
+            $compteRendu(
+                "Fichier ignoré : il doit contenir exactement ces deux lignes,\n"
+                . "sans guillemets :\n\n"
+                . "email = vous@exemple.fr\n"
+                . "motdepasse = votre mot de passe\n"
+            );
+            return false;
+        }
+
+        $champsCompte = [
+            'password_hash' => password_hash($motDePasse, PASSWORD_DEFAULT),
+            'must_change_password' => false,
+            'active' => true,
+            'password_changed_at' => date('c'),
+            'password_faible' => mb_strlen($motDePasse) < 12,
+        ];
+
+        $existant = null;
+        foreach (Store::read('users') as $u) {
+            if (strtolower((string) ($u['email'] ?? '')) === $email) {
+                $existant = $u;
+                break;
+            }
+        }
+        if ($existant !== null) {
+            Store::update('users', (string) ($existant['id'] ?? ''), $champsCompte);
+            $action = 'Mot de passe remplacé';
+        } else {
+            Store::push('users', $champsCompte + ['name' => $nom, 'email' => $email, 'role' => 'admin']);
+            $action = 'Compte créé';
+        }
+
+        @unlink(DATA_DIR . '/PREMIERE-CONNEXION.txt');
+        $compteRendu(
+            $action . " : " . $email . "\n"
+            . "Vous pouvez vous connecter sur " . url('admin/login') . "\n\n"
+            . "Supprimez ce fichier de compte rendu.\n"
+            . ($champsCompte['password_faible']
+                ? "\nAttention : mot de passe de moins de 12 caractères. Le back-office donne accès\n"
+                  . "à des candidatures nominatives — remplacez-le depuis Utilisateurs.\n"
+                : '')
+        );
+        return true;
     }
 
     /**

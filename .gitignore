@@ -5,6 +5,9 @@
 /data/uploads/*
 !/data/uploads/.gitkeep
 /data/PREMIERE-CONNEXION.txt
+/data/NOUVEAU-COMPTE.txt
+/data/NOUVEAU-COMPTE.txt.resultat.txt
+/data/REINITIALISATION.txt
 /data/events/
 /data/ratelimit/
 /data/logs/

@@ -238,6 +238,8 @@ Si l'hébergement n'envoie aucun courrier, un outil en ligne de commande crée u
 redéfinit le mot de passe. Il est hors de la racine publique **et** refuse de s'exécuter depuis
 le web : appelé par une URL, il répond 404.
 
+### Avec un accès SSH ou une tâche planifiée
+
 ```bash
 # Depuis la racine du projet, sur le serveur
 php outils/compte-admin.php --liste
@@ -254,14 +256,34 @@ Un mot de passe de moins de 12 caractères n'est pas refusé — l'outil sert ju
 une situation — mais le compte est marqué, et le tableau de bord affiche un rappel jusqu'à ce
 qu'il soit remplacé depuis *Utilisateurs*.
 
-**Sans accès SSH** (certains mutualisés n'en donnent pas), deux chemins :
+### Sans accès SSH — reprise en main par FTP
 
-1. Lancer ce fichier par une tâche planifiée, la plupart des panneaux d'hébergement permettent
-   d'exécuter un script PHP en ligne de commande.
-2. À défaut, supprimer `data/users.json` par FTP. Au chargement suivant, l'installateur recrée
-   un compte administrateur avec un mot de passe tiré au sort, écrit dans
-   `data/PREMIERE-CONNEXION.txt` — lisible par FTP, et supprimé dès la première connexion.
-   Cette voie efface les autres comptes éventuels.
+Deux gestes suffisent, avec un simple client FTP ou le gestionnaire de fichiers de
+l'hébergement. Déposer ou supprimer un fichier dans `data/` suppose déjà un accès complet au
+serveur : le niveau de confiance est celui du FTP, pas celui du web.
+
+**Choisir soi-même ses identifiants** — déposer dans `data/` un fichier nommé
+`NOUVEAU-COMPTE.txt` contenant exactement :
+
+```
+email = vous@exemple.fr
+motdepasse = votre mot de passe
+nom = Prénom Nom
+```
+
+Au chargement suivant de n'importe quelle page du site, le compte est créé (ou son mot de passe
+remplacé), le fichier est supprimé et le résultat écrit à côté dans
+`NOUVEAU-COMPTE.txt.resultat.txt`, à supprimer une fois lu.
+
+**Ou laisser le site en générer un** — supprimer `data/users.json`. Au chargement suivant, un
+compte administrateur est recréé avec un mot de passe tiré au sort, écrit dans
+`data/PREMIERE-CONNEXION.txt` : lisible par FTP, supprimé dès la première connexion. Cette voie
+efface les autres comptes éventuels.
+
+> Ce second geste ne fonctionnait pas avant septembre 2026 : la création de compte n'avait lieu
+> que si `data/settings.json` était absent. Supprimer `data/users.json` laissait donc le site
+> sans aucun compte et sans moyen d'en recréer un. L'existence d'un compte utilisable est
+> désormais vérifiée à chaque requête.
 
 ## 8. L'assistant IA (Gemini)
 

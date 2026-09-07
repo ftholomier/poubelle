@@ -30,6 +30,10 @@ if (!is_file(DATA_DIR . '/settings.json')) {
     Installer::run();
 } else {
     Installer::upgrade();
+    // Un compte administrateur utilisable doit toujours exister : c'est ce
+    // qui rend possible la reprise en main par simple accès au fichier
+    // (suppression de data/users.json, ou dépôt de NOUVEAU-COMPTE.txt).
+    Installer::ensureAdmin();
 }
 
 // Purge des données échues : une fois par jour, déclenchée par le trafic
