@@ -73,6 +73,16 @@
         }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
         items.forEach(function (el) { observer.observe(el); });
+
+        // Filet de sécurité : rien ne doit rester invisible durablement.
+        window.setTimeout(function () {
+            items.forEach(function (el) {
+                var box = el.getBoundingClientRect();
+                if (!el.classList.contains('is-revealed') && box.top < window.innerHeight * 1.5) {
+                    el.classList.add('is-revealed');
+                }
+            });
+        }, 4000);
     }
 
     /* ==================================================================

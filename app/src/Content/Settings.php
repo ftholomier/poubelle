@@ -188,8 +188,8 @@ final class Settings
             'forms' => [
                 'notify_email'  => '',
                 'success_message' => [
-                    'fr' => 'Merci ! Votre message est bien arrivé. Romain vous répond sous 24 h ouvrées.',
-                    'en' => 'Thank you! Your message has been received. Romain will reply within one business day.',
+                    'fr' => 'Merci ! Votre message est bien arrivé. Romain vous répond personnellement au plus vite.',
+                    'en' => 'Thank you! Your message has been received. Romain will reply personally, very soon.',
                 ],
                 'subjects' => [
                     ['value' => 'accompagnement', 'label' => ['fr' => 'Conseil et accompagnement',  'en' => 'Advisory and support']],

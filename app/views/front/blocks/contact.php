@@ -146,6 +146,13 @@ $mapQuery = (string) ($site['map_query'] ?? '');
                                 width="100%" height="260" style="border:0" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade"
                                 allowfullscreen></iframe>
+                            <?php /* Repli visible si la carte ne peut pas se charger. */ ?>
+                            <a class="contact__map-link"
+                               href="https://www.google.com/maps/search/?api=1&query=<?= e(rawurlencode($mapQuery)) ?>"
+                               target="_blank" rel="noopener noreferrer">
+                                <?= icon('pin', 'contact-list__icon', 16) ?>
+                                <span class="link-underline__text"><?= e($mapQuery) ?></span>
+                            </a>
                         </div>
                     <?php endif; ?>
                 </aside>

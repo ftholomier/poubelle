@@ -84,6 +84,11 @@ $canonical = $base . ($lang === $default ? '' : '/' . $lang) . ($path === '/' ? 
 
 <link rel="stylesheet" href="<?= e(asset('/assets/css/app.css')) ?>">
 
+<?php /* Sans JavaScript, rien ne doit rester invisible. */ ?>
+<noscript>
+    <style>[data-reveal] { opacity: 1 !important; transform: none !important; }</style>
+</noscript>
+
 <?php /* Charte graphique pilotée depuis le back-office */ ?>
 <style id="brand-tokens">
     :root {
