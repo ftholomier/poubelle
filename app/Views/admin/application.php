@@ -50,7 +50,7 @@ $fields = [
           <?php foreach ($fields as $label => $val): ?>
             <tr>
               <th style="width:40%;color:var(--muted);font-weight:500;font-size:.85rem"><?= e($label) ?></th>
-              <td><?= $val !== '' ? e($val) : '<span style="color:var(--muted)">—</span>' ?></td>
+              <td><?= $val !== '' ? e($val) : '<span class="txt-attenue">—</span>' ?></td>
             </tr>
           <?php endforeach; ?>
           <?php if (!empty($row['cv'])): ?>
@@ -128,10 +128,10 @@ $fields = [
       <div class="panel__head"><h2>Traçabilité</h2></div>
       <table class="data" style="min-width:0;font-size:.85rem">
         <tbody>
-          <tr><th style="color:var(--muted);font-weight:500">Référence</th><td style="font-family:ui-monospace,monospace"><?= e($row['id'] ?? '') ?></td></tr>
-          <tr><th style="color:var(--muted);font-weight:500">Première visite</th><td><?= e(fr_date($row['created_at'] ?? '', true)) ?></td></tr>
-          <tr><th style="color:var(--muted);font-weight:500">Dernière activité</th><td><?= e(fr_date($row['updated_at'] ?? $row['submitted_at'] ?? $row['created_at'] ?? '', true)) ?></td></tr>
-          <tr><th style="color:var(--muted);font-weight:500">Étape atteinte</th><td><?= (int) ($row['max_step'] ?? 4) ?> / 4</td></tr>
+          <tr><th class="txt-attenue txt-500">Référence</th><td style="font-family:ui-monospace,monospace"><?= e($row['id'] ?? '') ?></td></tr>
+          <tr><th class="txt-attenue txt-500">Première visite</th><td><?= e(fr_date($row['created_at'] ?? '', true)) ?></td></tr>
+          <tr><th class="txt-attenue txt-500">Dernière activité</th><td><?= e(fr_date($row['updated_at'] ?? $row['submitted_at'] ?? $row['created_at'] ?? '', true)) ?></td></tr>
+          <tr><th class="txt-attenue txt-500">Étape atteinte</th><td><?= (int) ($row['max_step'] ?? 4) ?> / 4</td></tr>
         </tbody>
       </table>
     </div>

@@ -12,7 +12,7 @@
             <tr>
               <td>
                 <strong><?= e($l['name'] ?? '') ?></strong>
-                <div style="font-size:.8rem;color:var(--muted)">
+                <div class="txt-mini">
                   <?= e($l['email'] ?? '') ?><?= !empty($l['phone']) ? ' · ' . e($l['phone']) : '' ?>
                 </div>
               </td>
@@ -22,8 +22,8 @@
                 </span>
               </td>
               <td style="color:var(--muted);max-width:380px"><?= e(excerpt((string) ($l['message'] ?? ''), 120)) ?: '—' ?></td>
-              <td style="color:var(--muted);white-space:nowrap"><?= e(fr_date($l['created_at'] ?? '', true)) ?></td>
-              <td style="text-align:right">
+              <td class="txt-attenue nowrap"><?= e(fr_date($l['created_at'] ?? '', true)) ?></td>
+              <td class="txt-droite">
                 <div class="row" style="gap:6px;justify-content:flex-end;flex-wrap:nowrap">
                   <button class="btn btn--sm" type="button"
                           data-mailer="lead"

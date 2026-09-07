@@ -16,9 +16,12 @@ avec back-office intégré. Aucune base de données : tout est stocké en JSON.
 | Données | Fichiers JSON dans `/data` (écriture atomique + verrou) |
 | Front | HTML5 / CSS3 / JavaScript vanilla — zéro dépendance runtime |
 | API | JSON interne (`/api/*`) pour le tunnel, le simulateur et la mesure |
-| Polices | Google Fonts (Bricolage Grotesque + Inter), avec repli système |
+| Polices | Bricolage Grotesque + Inter, **auto-hébergées** en woff2 variable (licence OFL) |
+| E-mails | Client SMTP natif (STARTTLS / TLS implicite / AUTH), repli sur `mail()` |
 
-Aucun appel réseau tiers hors polices : pas de tracker, pas de CDN, pas de cookie publicitaire.
+**Aucun appel réseau tiers, sans exception** : pas de tracker, pas de CDN, pas de Google Fonts,
+pas de cookie publicitaire. Une page du site ne contacte que son propre domaine — ce qui règle
+aussi le transfert de l'adresse IP des visiteurs vers un tiers (CNIL / arrêt de Munich, 2022).
 
 ## 2. Arborescence
 
@@ -26,20 +29,23 @@ Aucun appel réseau tiers hors polices : pas de tracker, pas de CDN, pas de cook
 public/                   ← racine web (à pointer par le vhost)
   index.php               contrôleur frontal + table de routage
   .htaccess               réécriture, en-têtes de sécurité, cache, gzip
-  robots.txt
   assets/css/app.css      design system du site public
   assets/css/admin.css    design system du back-office
   assets/js/app.js        animations, simulateur, pop-in, formulaires AJAX
   assets/js/funnel.js     tunnel de candidature en 4 étapes
   assets/js/admin.js      champs répétables, garde-fou, slug auto, console du bot
   assets/js/bot.js        widget de conversation
-  assets/img/             logo, favicon et visuel de partage (SVG)
+  assets/fonts/           polices variables woff2 + licences (LISEZ-MOI.txt)
+  assets/img/             logo et favicon (SVG), visuel de partage et icônes (PNG)
 
 app/                      ← code applicatif (hors racine web)
   bootstrap.php           chargement + installation au premier lancement
   config.php              constantes, fuseau, limites d'upload
   Router.php              routeur à motifs `{param}`
   Store.php               persistance JSON atomique
+  ErrorHandler.php        journalisation et présentation des erreurs
+  Housekeeping.php        purge quotidienne des données échues
+  Smtp.php                client SMTP sans dépendance
   Security.php            session, CSRF, limitation de débit, authentification
   Icons.php               icônes SVG en ligne
   Mailer.php              envoi + journalisation des e-mails
@@ -54,14 +60,17 @@ app/                      ← code applicatif (hors racine web)
 
 data/                     ← données d'exécution, jamais versionnées
   content.json  settings.json  posts.json
-  applications.json  leads.json  events.json  maillog.json  users.json
+  applications.json  leads.json  maillog.json  users.json
   bot.json  bot-docs.json  bot-chats.json
+  events/                 audience, un fichier JSONL par mois (ajout en fin de fichier)
+  ratelimit/              compteurs de limitation de débit
+  logs/                   journal des erreurs, un fichier par mois
   uploads/                CV déposés par les candidats
   uploads/bot/            documents de la base de connaissances + texte extrait
 ```
 
-`/data` est **hors de la racine web**. Un `.htaccess` de refus y est écrit à l'installation,
-au cas où l'hébergeur exposerait le dossier par erreur.
+`/data` et `/app` sont **hors de la racine web**. Chacun porte tout de même un `.htaccess` de
+refus et un `index.html` muet, au cas où l'hébergeur exposerait les dossiers par erreur.
 
 ## 3. Installation
 
@@ -80,14 +89,19 @@ Puis ouvrir <http://localhost:8000>. Le premier chargement crée `/data` et le c
 2. Si l'hébergeur impose une racine fixe : placer le contenu de `public/` à la racine et
    `app/` + `data/` dans le dossier parent, en ajustant le `require` de `public/index.php`.
 3. Droits d'écriture sur `data/` et `data/uploads/` (`chmod 775`).
-4. Définir le mot de passe admin **avant** le premier accès :
+4. Le compte administrateur est créé au premier chargement, avec un **mot de passe tiré au
+   sort** (16 caractères) écrit dans `data/PREMIERE-CONNEXION.txt`. Le back-office impose son
+   changement à la première connexion et supprime le fichier à ce moment-là. Pour choisir les
+   identifiants à l'avance :
    ```bash
    ADMIN_EMAIL="vous@suisse-immo.fr" ADMIN_PASSWORD="…" php -r 'require "app/bootstrap.php";'
    ```
-   Sinon un compte `admin@suisse-immo.fr` / `SuisseImmo2026!` est créé et les identifiants
-   sont écrits dans `data/PREMIERE-CONNEXION.txt` — **à changer puis supprimer immédiatement.**
 5. Décommenter la redirection HTTPS dans `public/.htaccess`.
 6. Renseigner l'URL réelle dans **Back-office → Réglages → URL publique**.
+7. Vérifier le bandeau de diagnostic du tableau de bord : il signale une extension PHP
+   manquante, un dossier `data/` non inscriptible ou des mentions légales incomplètes.
+8. Renseigner un serveur SMTP dans **Réglages → Envoi des e-mails** : `mail()` n'est pas
+   disponible partout et ses messages finissent souvent en indésirables.
 
 Installation dans un sous-dossier : renseigner le champ *Sous-dossier d'installation*
 (ex. `/recrutement`) dans les réglages ; toutes les URL s'ajustent.
@@ -128,22 +142,51 @@ Trois filets complémentaires :
 | **Bot IA** | Clé API Gemini, liste des modèles chargée en direct depuis Google, personnalité et consignes, choix des sources de connaissance, dépôt de documents, console de test, historique des conversations |
 | **Réglages** | Identité, mentions légales, e-mail de notification, délai de réponse annoncé, activation de la barre CTA / pop-in / dépôt de CV, **animation des halos (marche/arrêt + vitesse)** |
 | **Utilisateurs** | Création de comptes, changement de mot de passe (10 caractères minimum) |
-| **E-mails envoyés** | Journal des 100 derniers envois, avec leur contenu — utile si `mail()` n'est pas configuré |
+| **E-mails envoyés** | Journal paginé des envois : transport utilisé, erreur exacte, contenu des 60 derniers |
 
 L'éditeur de contenu est **piloté par un schéma** (`app/ContentSchema.php`) : ajouter un champ
 dans ce fichier suffit à le rendre éditable, sans toucher aux vues du back-office.
 
 ## 6. Sécurité
 
+**Authentification**
+- Mot de passe d'installation tiré au sort, changement imposé à la première connexion.
+- Hachage `password_hash()`, session régénérée à la connexion, expiration à 8 h,
+  déconnexion en POST avec jeton (un lien `GET` ne peut plus déconnecter à distance).
+- Limitation de débit à double clé : par adresse IP **et** par compte visé, pour qu'une
+  attaque répartie sur plusieurs adresses reste bloquée.
+
+**Entrées**
 - Jeton CSRF sur tous les formulaires et appels API mutants.
-- Mots de passe hachés via `password_hash()` ; session régénérée à la connexion ; expiration à 8 h.
-- Limitation de débit par empreinte visiteur : candidatures, messages, tentatives de connexion.
-- Anti-robot : champ leurre (honeypot) + délai minimal de remplissage.
-- Échappement systématique en sortie (`e()`), HTML des articles filtré sur liste blanche,
-  attributs `on*` et `javascript:` supprimés.
-- Uploads : extension et taille contrôlées (PDF/DOC/DOCX, 5 Mo), nom de fichier régénéré,
-  stockage hors racine web, téléchargement via une route authentifiée.
-- Écritures JSON atomiques (fichier temporaire + `rename`) sous verrou exclusif.
+- Anti-robot : champ leurre + délai minimal, sur l'envoi final **comme sur les brouillons**.
+- Champs à liste fermée (situation, disponibilité, expérience, origine) validés contre les
+  listes du back-office : une valeur forgée n'entre pas dans les données.
+- Uploads : taille, extension **et type réel** contrôlés (`fileinfo`, ou signature du fichier),
+  nom régénéré, stockage hors racine web, téléchargement via une route authentifiée.
+- Le point de mesure `/api/track` n'accepte que les évènements réellement produits par
+  l'interface : les conversions du tableau de bord ne peuvent pas être fabriquées.
+
+**Sorties**
+- Échappement systématique (`e()`), HTML des articles filtré par `DOMDocument` sur liste
+  blanche de balises, d'attributs et de schémas d'URL.
+- Exports CSV neutralisés contre l'injection de formules (`=`, `+`, `-`, `@`).
+- Aucun détail technique renvoyé au visiteur : les motifs d'échec restent au journal.
+
+**En-têtes**
+- `Content-Security-Policy` complète, avec un **nonce** sur les rares scripts en ligne :
+  aucun script injecté ne s'exécute, même en cas de faille d'échappement.
+- `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`,
+  et `Strict-Transport-Security` dès que la requête est chiffrée.
+- Cache : rien de personnel n'est conservé par un intermédiaire ; le back-office passe en
+  `no-store`, les ressources statiques versionnées en `immutable`.
+
+**Données**
+- Écritures JSON atomiques (fichier temporaire + `rename`) sous verrou exclusif ; un échec
+  d'écriture lève une exception plutôt que de disparaître en silence.
+- Purge quotidienne automatique selon les durées annoncées dans la politique de
+  confidentialité (voir §13), CV orphelins compris.
+- Toute erreur non rattrapée est journalisée dans `data/logs/` et présentée par une page 500
+  propre — jamais une page à moitié rendue ni une trace d'exécution.
 
 ## 7. L'assistant IA (Gemini)
 
@@ -175,8 +218,11 @@ transmise au navigateur. Le champ affiche uniquement les quatre derniers caract�
 vide conserve la clé en place. La liste des modèles est récupérée en direct auprès de Google
 (`GET /v1beta/models`), filtrée sur ceux qui supportent `generateContent`, et mise en cache.
 
-**Garde-fous** : consignes explicites interdisant d'inventer un chiffre ou une condition
-contractuelle ; réponse en texte brut, aucune balise du modèle n'est interprétée côté navigateur ;
+**Garde-fous** : règles non négociables placées en tête du prompt système — la base de
+connaissances y est déclarée comme *documentation de référence*, jamais comme des consignes, et
+les marqueurs de structure sont neutralisés dans les messages du visiteur, de sorte qu'une
+question du type « oublie tes instructions » ne referme pas la section documentaire ; consignes
+explicites interdisant d'inventer un chiffre ou une condition contractuelle ; réponse en texte brut, aucune balise du modèle n'est interprétée côté navigateur ;
 limitation à 25 questions par quart d'heure et par visiteur ; conservation des 200 derniers
 échanges pour relecture ; désactivation en un clic, qui retire le widget du site public.
 
@@ -197,8 +243,11 @@ de dépendre du client mail du poste et laisse une trace exploitable.
   jamais le destinataire — un champ trafiqué ne peut pas détourner l'envoi.
 - **Traçabilité** : chaque message part au journal *E-mails envoyés* et, pour une candidature,
   s'inscrit dans le suivi interne avec son objet et son corps (case décochable).
-- Si `mail()` n'est pas configuré sur l'hébergement, le message est conservé au journal et un
-  avertissement explicite s'affiche — rien n'est perdu silencieusement.
+- **Deux transports** : le serveur SMTP renseigné dans les réglages (STARTTLS, TLS implicite,
+  `AUTH LOGIN`/`PLAIN`), ou à défaut la fonction `mail()` de l'hébergeur. Le journal indique
+  pour chaque envoi le transport utilisé et l'erreur exacte — rien n'est perdu silencieusement.
+- Les adresses et l'objet sont débarrassés de tout caractère de contrôle : un retour à la ligne
+  dans un champ ne peut pas ajouter d'en-tête `Bcc` vers un tiers.
 
 **Aucun lien `mailto:` sur le site public non plus.** L'adresse de l'agence reste affichée en
 clair — dans le pied de page, sur la page contact, dans les mentions légales et la politique de
@@ -251,18 +300,83 @@ logo et celui des boutons ne se télescopent pas. Le rouge d'origine reste celui
 autonomes ; il suffit de changer la variable pour revenir à la teinte exacte de la charte.
 
 Le favicon (`public/assets/img/favicon.svg`) reprend le monogramme sur une pastille anthracite,
-lisible aussi bien dans un onglet clair que sombre.
+lisible aussi bien dans un onglet clair que sombre. Il est décliné en PNG (32, 180, 192 et
+512 px) pour les contextes qui ignorent le SVG — écran d'accueil iOS, manifeste d'application —
+et le visuel de partage `og-cover.png` (1200 × 630) pour les réseaux sociaux. Ces PNG sont
+produits par rastérisation des SVG : aucun outil externe n'est nécessaire pour les régénérer.
 
-## 11. Accessibilité & performance
+Les tracés du logo pèsent une vingtaine de kilo-octets : ils ne sont écrits qu'une fois par
+page, dans un `<symbol>` masqué, et chaque occurrence n'est plus qu'une référence `<use>`. Le
+même mécanisme sert la bibliothèque d'icônes (`icons_sprite()`).
 
+## 11. Polices
+
+Bricolage Grotesque et Inter sont **auto-hébergées** dans `public/assets/fonts/`, en woff2
+variable — un seul fichier couvre toutes les graisses. `public/assets/fonts/LISEZ-MOI.txt`
+rappelle la licence (SIL Open Font License 1.1, redistribution autorisée) et la marche à suivre
+pour mettre à jour un fichier. Les charger depuis Google Fonts transmettrait l'adresse IP de
+chaque visiteur à un tiers, ce que la CNIL et la jurisprudence allemande considèrent comme un
+transfert nécessitant un consentement.
+
+## 12. Accessibilité, référencement & performance
+
+**Accessibilité (RGAA / WCAG 2.1 AA)**
 - Navigation clavier complète, `aria-*` sur onglets, menu, tunnel et pop-in, lien d'évitement.
+- Piège de focus opérant dans la fenêtre de sortie : le focus y entre à l'ouverture, ne
+  s'échappe pas à la tabulation, et revient à son point de départ à la fermeture.
+- Le mot tournant du titre est masqué aux lecteurs d'écran au profit d'un texte stable ; la
+  série d'avis dupliquée pour le défilement est `aria-hidden`.
+- Hiérarchie des titres sans saut de niveau, vérifiée sur les dix pages.
+- Cibles tactiles d'au moins 44 × 44 px. Font exception les liens en pleine phrase, que le
+  critère WCAG 2.5.8 exempte explicitement.
+- Contrastes ≥ 4,5:1 mesurés sur les dix pages. Le rouge des fonds portant du texte blanc est
+  très légèrement assombri (`--red-ink`) : le rouge de marque n'atteignait que 4,33:1.
 - `prefers-reduced-motion` neutralise toutes les animations, y compris la dérive des halos.
-- Contrastes conformes AA sur le fond sombre.
-- Aucun script bloquant, animations en `transform`/`opacity`, images vectorielles.
-- Données structurées JSON-LD : `RealEstateAgent`, `JobPosting`, `FAQPage`.
-- `sitemap.xml` généré dynamiquement, anciennes URL WordPress redirigées en 301.
 
-## 12. Points à valider avant mise en ligne
+**Référencement**
+- Canonique sans chaîne de requête : `?utm_source=…` ne crée pas d'URL concurrente.
+- Titres sous 60 caractères, descriptions entre 120 et 160, sur toutes les pages.
+- Données structurées, chacune sur la seule page qu'elle décrit : `RealEstateAgent` partout,
+  `FAQPage` sur l'accueil, `JobPosting` (avec `datePosted` et `validThrough` glissants) sur la
+  page de candidature, `BlogPosting` sur les articles, `BreadcrumbList` sur les pages internes.
+- `sitemap.xml` avec `lastmod`, `robots.txt` servi par le routeur avec un interrupteur
+  d'indexation, `site.webmanifest`, anciennes URL WordPress redirigées en 301.
+- Vignette de partage et icône iOS en PNG : les réseaux sociaux et l'écran d'accueil
+  n'affichent pas les SVG.
+
+**Performance**
+- Logo et icônes écrits une seule fois par page dans un sprite `<symbol>` puis référencés par
+  `<use>` : la page d'accueil est passée de 125 à 87 Ko.
+- Polices auto-hébergées en woff2 variable, préchargées ; aucune requête vers un tiers.
+- `backdrop-filter` réservé aux quelques éléments uniques (en-tête, menu mobile, barre
+  flottante, fenêtre modale) et retiré des éléments répétés des dizaines de fois par page.
+- Ressources statiques suffixées de leur date de modification et servies en `immutable`.
+- Aucun script bloquant ; seules `transform` et `opacity` sont animées.
+
+## 13. Conformité RGPD / LCEN
+
+- **Mentions légales** : le tableau de bord signale l'absence du directeur de la publication ou
+  des coordonnées de l'hébergeur, obligatoires au titre de l'article 6-III de la LCEN.
+- **Durées de conservation**, appliquées par une purge quotidienne (`app/Housekeeping.php`)
+  déclenchée par le trafic, sans tâche planifiée à configurer :
+
+  | Donnée | Durée |
+  |---|---|
+  | Candidatures envoyées | 24 mois |
+  | Tunnels abandonnés (brouillons) | 3 mois |
+  | Messages de contact | 12 mois |
+  | Conversations de l'assistant | 12 mois |
+  | Journal des e-mails | 12 mois |
+  | Mesure d'audience | 13 mois |
+
+  Les CV devenus orphelins sont supprimés avec la candidature correspondante.
+- **Mesure d'audience** : maison, sans cookie ni identifiant persistant — l'empreinte visiteur
+  est un condensat non réversible, remis à zéro chaque jour. Aucun bandeau n'est donc requis.
+- **Aucun transfert vers un tiers** : polices auto-hébergées, aucun script externe. La seule
+  sortie possible est l'API Gemini, et uniquement si l'assistant est activé — ce cas est alors
+  déclaré dans la politique de confidentialité, qui l'affiche de façon conditionnelle.
+
+## 14. Points à valider avant mise en ligne
 
 Le simulateur est livré avec un barème **paramétrable et indicatif** (honoraires d'agence
 à 4,5 % du prix de vente, paliers 70 / 80 / 90 %). Ces valeurs ne figurent pas sur le site

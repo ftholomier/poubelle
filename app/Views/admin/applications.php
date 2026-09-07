@@ -50,12 +50,12 @@ $stages = (array) settings('pipeline.stages', []);
             <tr>
               <td>
                 <a class="strong" href="<?= e(url('admin/candidatures/' . $a['id'])) ?>"><?= e($a['name'] ?: '(nom non renseigné)') ?></a>
-                <div style="font-size:.8rem;color:var(--muted)">
+                <div class="txt-mini">
                   <?= e($a['email'] ?: '—') ?><?= !empty($a['phone']) ? ' · ' . e($a['phone']) : '' ?>
                 </div>
               </td>
               <td><?= e($a['area'] ?: '—') ?></td>
-              <td style="color:var(--muted)"><?= e($a['availability'] ?: '—') ?></td>
+              <td class="txt-attenue"><?= e($a['availability'] ?: '—') ?></td>
               <td>
                 <?php if ($showDrafts): ?>
                   <span class="badge">Étape <?= (int) ($a['max_step'] ?? 1) ?>/4</span>
@@ -63,9 +63,9 @@ $stages = (array) settings('pipeline.stages', []);
                   <span class="badge" style="color:<?= e($st['color'] ?? '#8d99ae') ?>"><i></i><?= e($st['label'] ?? 'Nouveau') ?></span>
                 <?php endif; ?>
               </td>
-              <td style="color:var(--muted)"><?= e($a['source'] ?: '—') ?></td>
-              <td style="color:var(--muted);white-space:nowrap"><?= e(fr_date($a['submitted_at'] ?? $a['created_at'] ?? '', true)) ?></td>
-              <td style="text-align:right">
+              <td class="txt-attenue"><?= e($a['source'] ?: '—') ?></td>
+              <td class="txt-attenue nowrap"><?= e(fr_date($a['submitted_at'] ?? $a['created_at'] ?? '', true)) ?></td>
+              <td class="txt-droite">
                 <a class="btn btn--sm btn--ghost" href="<?= e(url('admin/candidatures/' . $a['id'])) ?>">Ouvrir</a>
               </td>
             </tr>

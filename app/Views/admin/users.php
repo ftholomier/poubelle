@@ -16,8 +16,8 @@
         <?php foreach ($rows as $u): ?>
           <tr>
             <td><strong><?= e($u['name'] ?? '') ?></strong><?= ($u['id'] ?? '') === ($user['id'] ?? '') ? ' <span class="badge">vous</span>' : '' ?></td>
-            <td style="color:var(--muted)"><?= e($u['email'] ?? '') ?></td>
-            <td style="color:var(--muted)"><?= e(fr_date($u['last_login'] ?? '', true) ?: 'jamais') ?></td>
+            <td class="txt-attenue"><?= e($u['email'] ?? '') ?></td>
+            <td class="txt-attenue"><?= e(fr_date($u['last_login'] ?? '', true) ?: 'jamais') ?></td>
             <td>
               <form class="row" method="post" style="gap:8px">
                 <?= Csrf::field() ?>
@@ -27,7 +27,7 @@
                 <button class="btn btn--sm btn--ghost" type="submit">Changer</button>
               </form>
             </td>
-            <td style="text-align:right">
+            <td class="txt-droite">
               <?php if (($u['id'] ?? '') !== ($user['id'] ?? '')): ?>
                 <form method="post" data-confirmer="Supprimer ce compte ?">
                   <?= Csrf::field() ?>

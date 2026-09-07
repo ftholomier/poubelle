@@ -64,7 +64,12 @@
   $$('form[data-dirty-guard]').forEach((form) => {
     let dirty = false;
     form.addEventListener('input', () => { dirty = true; });
-    form.addEventListener('submit', () => { dirty = false; });
+    form.addEventListener('change', () => { dirty = true; });
+    // Toute soumission de formulaire de la page lève la garde : partir en
+    // se déconnectant, en supprimant une fiche ou en changeant de filtre
+    // déclenchait sinon l'avertissement « quitter le site ? » alors que
+    // rien n'était perdu.
+    document.addEventListener('submit', () => { dirty = false; }, true);
     window.addEventListener('beforeunload', (e) => {
       if (!dirty) return;
       e.preventDefault();

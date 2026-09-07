@@ -14,12 +14,25 @@ foreach (['publisher_name' => 'directeur de la publication', 'host_address' => '
     if (trim((string) settings('company.' . $k, '')) === '') { $legalMissing[] = $label; }
 }
 ?>
+<?php
+// Candidatures encore au stade « nouveau » : elles attendent un premier
+// contact. Sans rappel, elles se perdent entre deux connexions.
+$aValider = (int) ($by_stage['nouveau'] ?? 0);
+?>
+<?php if ($aValider > 0): ?>
+  <div class="flash flash--warn">
+    <strong><?= $aValider ?> candidature<?= $aValider > 1 ? 's' : '' ?> à traiter.</strong>
+    <?= $aValider > 1 ? 'Elles n’ont pas encore été contactées' : 'Elle n’a pas encore été contactée' ?> —
+    <a href="<?= e(url('admin/candidatures')) ?>?stage=nouveau" class="souligne">ouvrir la liste</a>.
+  </div>
+<?php endif; ?>
+
 <?php if ($legalMissing): ?>
   <div class="flash flash--error">
     <strong>Mentions légales incomplètes.</strong>
     Il manque : <?= e(implode(', ', $legalMissing)) ?>.
     Ces informations sont obligatoires (LCEN, article 6-III) —
-    <a href="<?= e(url('admin/reglages')) ?>" style="text-decoration:underline">les renseigner</a>.
+    <a href="<?= e(url('admin/reglages')) ?>" class="souligne">les renseigner</a>.
   </div>
 <?php endif; ?>
 
@@ -155,12 +168,12 @@ $manques = Installer::missingRequirements();
             <tr>
               <td>
                 <a class="strong" href="<?= e(url('admin/candidatures/' . $a['id'])) ?>"><?= e($a['name'] ?: 'Sans nom') ?></a>
-                <div style="font-size:.8rem;color:var(--muted)"><?= e($a['email'] ?? '') ?></div>
+                <div class="txt-mini"><?= e($a['email'] ?? '') ?></div>
               </td>
               <td><?= e($a['area'] ?? '—') ?></td>
-              <td style="color:var(--muted)"><?= e($a['situation'] ?? '—') ?></td>
+              <td class="txt-attenue"><?= e($a['situation'] ?? '—') ?></td>
               <td><span class="badge" style="color:<?= e($st['color'] ?? '#8d99ae') ?>"><i></i><?= e($st['label'] ?? 'Nouveau') ?></span></td>
-              <td style="color:var(--muted)"><?= e(fr_date($a['submitted_at'] ?? $a['created_at'] ?? '', true)) ?></td>
+              <td class="txt-attenue"><?= e(fr_date($a['submitted_at'] ?? $a['created_at'] ?? '', true)) ?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>

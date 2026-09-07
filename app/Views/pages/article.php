@@ -3,6 +3,13 @@
   <span class="glow glow--red" style="width:560px;height:560px;top:-240px;right:-180px;opacity:.25" aria-hidden="true"></span>
   <div class="container">
     <div class="article">
+      <?php if (!empty($apercu)): ?>
+        <p class="apercu-brouillon">
+          <?= icon('lock') ?>
+          <span><strong>Aperçu d’un brouillon.</strong> Cet article n’est visible que par les personnes connectées au back-office et n’est pas indexé.</span>
+          <a href="<?= e(url('admin/actualites/' . ($post['id'] ?? ''))) ?>">Reprendre l’édition</a>
+        </p>
+      <?php endif; ?>
       <a class="link-arrow" href="<?= e(url('actualites')) ?>" style="font-size:.88rem">← Toutes les actualités</a>
       <div class="post-card__meta" style="margin:26px 0 14px">
         <span class="chip chip--red"><?= e($post['category'] ?? 'Marché') ?></span>

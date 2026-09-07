@@ -36,6 +36,14 @@
             <option value="published" <?= ($row['status'] ?? '') === 'published' ? 'selected' : '' ?>>Publié</option>
           </select>
         </div>
+        <?php if (($row['slug'] ?? '') !== ''): ?>
+          <p class="help" style="margin:-6px 0 16px">
+            <a href="<?= e(url('actualites/' . $row['slug'])) ?>" target="_blank" rel="noopener" class="souligne">
+              Voir la page publique <?= icon('arrow-up-right') ?>
+            </a><br>
+            Un brouillon reste visible pour vous, connecté, et invisible pour le public comme pour les moteurs.
+          </p>
+        <?php endif; ?>
         <div class="field">
           <label for="published_at">Date de publication</label>
           <input class="input" id="published_at" name="published_at" type="datetime-local"

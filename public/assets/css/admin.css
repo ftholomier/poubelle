@@ -42,6 +42,10 @@
   --text:      #eaeef5;
   --muted:     #8d99ae;
   --red:       #e62f43;
+  /* Rouge légèrement assombri, réservé aux fonds portant du texte blanc :
+     le rouge de marque n'atteignait que 4,33:1, sous le seuil AA de 4,5.
+     L'écart visuel est imperceptible, le rouge d'accent reste intact. */
+  --red-ink:       #e02c3f;
   --logo-red:  #e62f43;
   --amber:     #e8a13a;
   --mint:      #35d07f;
@@ -129,7 +133,7 @@ svg { display: inline-block; vertical-align: middle; flex: none; max-width: 100%
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: .5em;
   padding: .68em 1.25em; border-radius: 10px;
-  background: var(--red); color: #fff; font-weight: 600; font-size: .9rem;
+  background: var(--red-ink); color: #fff; font-weight: 600; font-size: .9rem;
   transition: filter .2s, transform .2s var(--ease);
 }
 .btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
@@ -357,3 +361,15 @@ table.data a.strong:hover { color: #ff8290; }
 }
 .pagination__pages { display: flex; align-items: center; gap: 12px; }
 .pagination__num { white-space: nowrap; }
+
+/* ------------------------------------------- Classes utilitaires
+   Extraites des attributs style="" répétés dans les gabarits : mêmes
+   déclarations, écrites une seule fois. */
+.txt-attenue { color: var(--muted); }
+.txt-500 { font-weight: 500; }
+.txt-mini { font-size: .8rem; color: var(--muted); }
+.txt-droite { text-align: right; }
+.nowrap { white-space: nowrap; }
+.souligne { text-decoration: underline; }
+.col-pleine { grid-column: 1 / -1; }
+.panel__intro { font-size: .86rem; color: var(--muted); margin-bottom: 16px; }

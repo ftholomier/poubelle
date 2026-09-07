@@ -84,19 +84,26 @@ final class SiteController
     public static function article(array $params): void
     {
         $slug = (string) ($params['slug'] ?? '');
+        // Un brouillon reste invisible du public, mais un rédacteur connecté
+        // doit pouvoir relire sa mise en page avant de publier.
+        $apercu = Auth::user() !== null;
         $post = null;
-        foreach (self::published() as $p) {
+        foreach ($apercu ? Store::read('posts') : self::published() as $p) {
             if (($p['slug'] ?? '') === $slug) { $post = $p; break; }
         }
         if ($post === null) {
             self::notFound();
             return;
         }
-        Analytics::track('page_view', ['page' => '/actualites/' . $slug]);
+        $brouillon = ($post['status'] ?? 'published') !== 'published';
+        if (!$brouillon) {
+            Analytics::track('page_view', ['page' => '/actualites/' . $slug]);
+        }
         echo view('pages/article', [
             'page' => 'news',
             'post' => $post,
             'related' => array_slice(array_values(array_filter(self::published(), static fn ($p) => ($p['slug'] ?? '') !== $slug)), 0, 3),
+            'apercu' => $brouillon,
             'meta' => [
                 // Le suffixe de marque n'est conservé que s'il tient dans les
                 // 60 caractères affichés par les moteurs de recherche.
@@ -104,6 +111,8 @@ final class SiteController
                     ? (string) $post['title'] . ' — Suisse Immo'
                     : meta_trim((string) $post['title'], 60),
                 'description' => meta_trim((string) ($post['excerpt'] ?? ''), 158),
+                // Un brouillon n'a rien à faire dans un index.
+                'noindex' => $brouillon,
             ],
         ]);
     }
@@ -196,14 +205,25 @@ final class SiteController
         header('Content-Type: application/xml; charset=utf-8');
         header('Cache-Control: public, max-age=3600');
         $base = rtrim((string) settings('site.url', ''), '/');
-        $urls = ['/', '/le-reseau', '/le-metier', '/candidater', '/actualites', '/contact', '/mentions-legales', '/politique-de-confidentialite'];
-        foreach (self::published() as $p) {
-            $urls[] = '/actualites/' . ($p['slug'] ?? '');
+        // Date de dernière modification : les pages éditoriales suivent le
+        // fichier de contenu, chaque article sa propre date. Sans elle, les
+        // moteurs ne savent pas ce qui a bougé depuis leur dernier passage.
+        $contenuModifie = date('Y-m-d', (int) (@filemtime(Store::path('content')) ?: time()));
+        $urls = [];
+        foreach (['/', '/le-reseau', '/le-metier', '/candidater', '/actualites', '/contact'] as $u) {
+            $urls[$u] = $contenuModifie;
+        }
+        foreach (['/mentions-legales', '/politique-de-confidentialite'] as $u) {
+            $urls[$u] = date('Y-m-d', (int) (@filemtime(Store::path('settings')) ?: time()));
+        }
+        foreach (self::published() as $post) {
+            $date = (string) ($post['updated_at'] ?? $post['published_at'] ?? '');
+            $urls['/actualites/' . ($post['slug'] ?? '')] = $date !== '' ? date('Y-m-d', (int) strtotime($date)) : $contenuModifie;
         }
         echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-        foreach ($urls as $u) {
-            echo '  <url><loc>' . e($base . $u) . '</loc></url>' . "\n";
+        foreach ($urls as $u => $lastmod) {
+            echo '  <url><loc>' . e($base . $u) . '</loc><lastmod>' . e($lastmod) . '</lastmod></url>' . "\n";
         }
         echo '</urlset>';
     }

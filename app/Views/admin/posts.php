@@ -17,13 +17,13 @@
                 <a class="strong" href="<?= e(url('admin/actualites/' . $p['id'])) ?>"><?= e($p['title'] ?? '') ?></a>
                 <div style="font-size:.78rem;color:var(--muted)">/actualites/<?= e($p['slug'] ?? '') ?></div>
               </td>
-              <td style="color:var(--muted)"><?= e($p['category'] ?? '—') ?></td>
+              <td class="txt-attenue"><?= e($p['category'] ?? '—') ?></td>
               <td>
                 <span class="badge" style="color:<?= ($p['status'] ?? '') === 'published' ? '#35d07f' : '#8d99ae' ?>">
                   <i></i><?= ($p['status'] ?? '') === 'published' ? 'Publié' : 'Brouillon' ?>
                 </span>
               </td>
-              <td style="color:var(--muted);white-space:nowrap"><?= e(fr_date($p['published_at'] ?? '')) ?></td>
+              <td class="txt-attenue nowrap"><?= e(fr_date($p['published_at'] ?? '')) ?></td>
               <td style="text-align:right;white-space:nowrap">
                 <?php if (($p['status'] ?? '') === 'published'): ?>
                   <a class="btn btn--sm btn--ghost" href="<?= e(url('actualites/' . ($p['slug'] ?? ''))) ?>" target="_blank" rel="noopener">Voir</a>

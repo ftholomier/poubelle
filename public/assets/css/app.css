@@ -50,6 +50,10 @@
 
   /* Marque */
   --red:           #e62f43;
+  /* Rouge légèrement assombri, réservé aux fonds portant du texte blanc :
+     le rouge de marque n'atteignait que 4,33:1, sous le seuil AA de 4,5.
+     L'écart visuel est imperceptible, le rouge d'accent reste intact. */
+  --red-ink:           #e02c3f;
   --logo-red:      #e62f43;
   --red-soft:      #ff5567;
   --amber:         #ff8a3d;
@@ -138,7 +142,7 @@ a { color: inherit; text-decoration: none; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { background: none; border: 0; cursor: pointer; }
 
-::selection { background: var(--red); color: #fff; }
+::selection { background: var(--red-ink); color: #fff; }
 
 :focus-visible {
   outline: 2px solid var(--red-soft);
@@ -148,7 +152,7 @@ button { background: none; border: 0; cursor: pointer; }
 
 .skip-link {
   position: absolute; left: 12px; top: -60px; z-index: 200;
-  background: var(--red); color: #fff; padding: 10px 18px; border-radius: var(--r-pill);
+  background: var(--red-ink); color: #fff; padding: 10px 18px; border-radius: var(--r-pill);
   transition: top .2s var(--ease);
 }
 .skip-link:focus { top: 12px; }
@@ -242,7 +246,7 @@ section, .section, .cta-final, .hero__panel { overflow-x: clip; }
 
 /* ----------------------------------------------------- 5. Boutons */
 .btn {
-  --btn-bg: var(--red);
+  --btn-bg: var(--red-ink);
   --btn-fg: #fff;
   position: relative;
   display: inline-flex; align-items: center; justify-content: center; gap: .6em;
@@ -385,9 +389,10 @@ section, .section, .cta-final, .hero__panel { overflow-x: clip; }
   content: ""; position: absolute; z-index: -1;
   inset: -14px -22px -13px -18px;
   border-radius: 0 0 22px 22px;
-  background: linear-gradient(180deg, rgba(9,10,16,.35) 0%, rgba(9,10,16,.86) 62%);
-  -webkit-backdrop-filter: blur(20px) saturate(165%);
-  backdrop-filter: blur(20px) saturate(165%);
+  /* Pas de backdrop-filter ici : l'en-tête en applique déjà un, et un
+     flou imbriqué force une seconde couche de composition pour un gain
+     invisible sous ce dégradé presque opaque. */
+  background: linear-gradient(180deg, rgba(9,10,16,.55) 0%, rgba(9,10,16,.92) 62%);
   border-bottom: 1px solid var(--line);
   transition: border-color .45s var(--ease);
 }
@@ -855,7 +860,7 @@ input[type="range"]::-moz-range-thumb {
   background: var(--surface-3); color: var(--muted);
   transition: background-color .3s, color .3s;
 }
-.mission-tab[aria-selected="true"] .mission-tab__n { background: var(--red); color: #fff; }
+.mission-tab[aria-selected="true"] .mission-tab__n { background: var(--red-ink); color: #fff; }
 .mission-tab__title { font-weight: 600; font-size: .96rem; }
 .mission-tab__short { display: block; font-size: .78rem; color: var(--muted); font-weight: 400; }
 
@@ -1171,7 +1176,7 @@ input[type="range"]::-moz-range-thumb {
   font-family: var(--font-display); font-weight: 700; font-size: .88rem;
   transition: background-color .4s, border-color .4s, color .4s;
 }
-.funnel-step.is-active .funnel-step__n { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 8px 26px -10px rgba(230,47,67,.9); }
+.funnel-step.is-active .funnel-step__n { background: var(--red-ink); border-color: var(--red-ink); color: #fff; box-shadow: 0 8px 26px -10px rgba(230,47,67,.9); }
 .funnel-step.is-done .funnel-step__n { background: rgba(53,208,127,.16); border-color: var(--mint); color: var(--mint); }
 .funnel-step h2 { font-size: .98rem; }
 .funnel-step p { font-size: .82rem; color: var(--muted); }
@@ -1665,3 +1670,24 @@ input[type="range"]::-moz-range-thumb {
   .bot__toggle { width: 54px; height: 54px; }
   .bot__panel { bottom: 68px; right: -2px; max-height: calc(100svh - 190px); }
 }
+
+/* Bandeau d'aperçu affiché aux personnes connectées sur un brouillon. */
+.apercu-brouillon {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 26px; padding: 12px 18px;
+  border: 1px solid rgba(255,138,61,.4); border-radius: var(--r);
+  background: rgba(255,138,61,.09); color: #ffc79a; font-size: .88rem;
+}
+.apercu-brouillon a { color: inherit; text-decoration: underline; margin-left: auto; }
+
+/* ------------------------------------------- Classes utilitaires
+   Extraites des attributs style="" répétés dans les gabarits : mêmes
+   déclarations, écrites une seule fois. */
+.txt-attenue { color: var(--muted); }
+.txt-500 { font-weight: 500; }
+.txt-mini { font-size: .8rem; color: var(--muted); }
+.txt-droite { text-align: right; }
+.nowrap { white-space: nowrap; }
+.souligne { text-decoration: underline; }
+.col-pleine { grid-column: 1 / -1; }
+.panel__intro { font-size: .86rem; color: var(--muted); margin-bottom: 16px; }

@@ -111,7 +111,7 @@ $models = (array) $cfg['models'];
       <!-- -------------------------------------- Base de connaissances -->
       <div class="panel">
         <div class="panel__head"><h2>Base de connaissances</h2></div>
-        <p style="font-size:.86rem;color:var(--muted);margin-bottom:16px">
+        <p class="panel__intro">
           À chaque question, les passages les plus proches sont sélectionnés parmi ces sources et transmis au modèle
           comme seule matière autorisée. Décochez une source pour l’exclure sans la supprimer.
         </p>
@@ -124,7 +124,7 @@ $models = (array) $cfg['models'];
         ] as $key => [$label, $help]): ?>
           <label class="switch">
             <input type="checkbox" name="sources[<?= e($key) ?>]" value="1" <?= !empty($cfg['sources'][$key]) ? 'checked' : '' ?>><i aria-hidden="true"></i>
-            <span><strong><?= e($label) ?></strong> — <span style="color:var(--muted)"><?= e($help) ?></span></span>
+            <span><strong><?= e($label) ?></strong> — <span class="txt-attenue"><?= e($help) ?></span></span>
           </label>
         <?php endforeach; ?>
 
@@ -190,10 +190,10 @@ $models = (array) $cfg['models'];
             <tr>
               <td><strong><?= e($d['name'] ?? '') ?></strong></td>
               <td><span class="badge"><?= e(strtoupper((string) ($d['ext'] ?? ''))) ?></span></td>
-              <td style="color:var(--muted);white-space:nowrap"><?= nb($d['chars'] ?? 0) ?> car.</td>
+              <td class="txt-attenue nowrap"><?= nb($d['chars'] ?? 0) ?> car.</td>
               <td style="color:var(--muted);max-width:340px"><?= e(mb_substr((string) ($d['preview'] ?? ''), 0, 120)) ?>…</td>
-              <td style="color:var(--muted);white-space:nowrap"><?= e(fr_date($d['created_at'] ?? '')) ?></td>
-              <td style="text-align:right">
+              <td class="txt-attenue nowrap"><?= e(fr_date($d['created_at'] ?? '')) ?></td>
+              <td class="txt-droite">
                 <form method="post" action="<?= e(url('admin/bot/documents/' . ($d['id'] ?? '') . '/supprimer')) ?>" data-confirmer="Retirer ce document de la base de connaissances ?">
                   <?= Csrf::field() ?>
                   <button class="btn btn--sm btn--danger" type="submit">Retirer</button>
@@ -225,7 +225,7 @@ $models = (array) $cfg['models'];
                 <?= e(mb_substr((string) ($c['answer'] ?? ''), 0, 200)) ?>…
               </td>
               <td><span class="badge"><?= e($c['origin'] ?? '') ?></span></td>
-              <td style="color:var(--muted);white-space:nowrap"><?= e(fr_date($c['created_at'] ?? '', true)) ?></td>
+              <td class="txt-attenue nowrap"><?= e(fr_date($c['created_at'] ?? '', true)) ?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>

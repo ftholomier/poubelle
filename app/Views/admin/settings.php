@@ -77,7 +77,7 @@ $textareas = ['meta_description'];
         <label for="exit_intent_title">Titre de la pop-in de sortie</label>
         <input class="input" id="exit_intent_title" name="funnel[exit_intent_title]" value="<?= e((string) ($settings['funnel']['exit_intent_title'] ?? '')) ?>">
       </div>
-      <div class="field" style="grid-column:1/-1">
+      <div class="field col-pleine">
         <label for="exit_intent_text">Texte de la pop-in de sortie</label>
         <textarea class="textarea" id="exit_intent_text" name="funnel[exit_intent_text]" rows="2"><?= e((string) ($settings['funnel']['exit_intent_text'] ?? '')) ?></textarea>
       </div>
@@ -101,7 +101,7 @@ $textareas = ['meta_description'];
 
   <div class="panel">
     <div class="panel__head"><h2>Envoi des e-mails</h2></div>
-    <p style="font-size:.86rem;color:var(--muted);margin-bottom:16px">
+    <p class="panel__intro">
       Sans serveur SMTP renseigné, le site utilise la fonction <code>mail()</code> de l’hébergeur :
       elle n’est pas disponible partout et ses messages partent souvent en indésirables.
       Renseigner un compte SMTP authentifié fiabilise l’accusé de réception envoyé aux candidats.
@@ -146,7 +146,7 @@ $textareas = ['meta_description'];
 
   <div class="panel">
     <div class="panel__head"><h2>Animations du fond</h2></div>
-    <p style="font-size:.86rem;color:var(--muted);margin-bottom:16px">
+    <p class="panel__intro">
       Les halos colorés placés derrière les blocs du site peuvent dériver lentement.
       Le mouvement n’utilise que <code>transform</code> : il ne déclenche aucun recalcul de mise en page
       et reste automatiquement désactivé pour les visiteurs qui ont demandé à leur système de réduire les animations.
