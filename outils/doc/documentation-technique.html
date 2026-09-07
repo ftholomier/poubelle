@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Documentation technique — site de la mairie d'Angeot</title>
+<style>
+@page { size: A4; margin: 20mm 18mm 18mm 18mm;
+  @bottom-center { content: counter(page); } }
+:root{ --encre:#1d2328; --gris:#5a646c; --bleu:#456d8a; --bleu-f:#2f4d63;
+       --creme:#f6f3ee; --trait:#d8d2c8; }
+*{box-sizing:border-box}
+body{font-family:"Liberation Serif","DejaVu Serif",Georgia,serif;
+  color:var(--encre); font-size:10.4pt; line-height:1.55; margin:0;
+  text-align:justify; hyphens:auto;}
+h1,h2,h3,h4{font-family:"Liberation Sans","DejaVu Sans",Arial,sans-serif;
+  color:var(--bleu-f); line-height:1.25; text-align:left; hyphens:none;}
+h1{font-size:22pt;margin:0 0 .2em}
+h2{font-size:15pt;margin:1.9em 0 .5em;padding-bottom:.22em;
+   border-bottom:2px solid var(--bleu); break-after:avoid;}
+h3{font-size:11.6pt;margin:1.4em 0 .35em; break-after:avoid;}
+h4{font-size:10.4pt;margin:1.1em 0 .25em;color:var(--encre); break-after:avoid;}
+p{margin:0 0 .62em}
+code,kbd{font-family:"DejaVu Sans Mono","Liberation Mono",monospace;font-size:.88em;
+  background:var(--creme);padding:.06em .3em;border-radius:2px;}
+pre{font-family:"DejaVu Sans Mono",monospace;font-size:8.4pt;line-height:1.42;
+  background:var(--creme);border-left:3px solid var(--bleu);
+  padding:.65em .85em;margin:.7em 0;white-space:pre-wrap;text-align:left;
+  break-inside:avoid;}
+pre code{background:none;padding:0}
+ul,ol{margin:.2em 0 .7em;padding-left:1.35em}
+li{margin:.18em 0}
+table{width:100%;border-collapse:collapse;font-size:9pt;margin:.7em 0;
+  break-inside:avoid;text-align:left;}
+th,td{border:1px solid var(--trait);padding:.34em .5em;vertical-align:top}
+th{background:var(--creme);font-family:"Liberation Sans",sans-serif;
+   font-size:8.6pt;text-transform:uppercase;letter-spacing:.03em;color:var(--bleu-f)}
+.enc{background:var(--creme);border-left:4px solid var(--bleu);
+  padding:.7em .9em;margin:.9em 0;break-inside:avoid;font-size:9.7pt}
+.enc p:last-child{margin-bottom:0}
+.enc__t{font-family:"Liberation Sans",sans-serif;font-weight:700;
+  color:var(--bleu-f);display:block;margin-bottom:.25em;font-size:9.4pt;
+  text-transform:uppercase;letter-spacing:.04em}
+.garde{height:247mm;display:flex;flex-direction:column;justify-content:center;
+  text-align:left;break-after:page}
+.garde h1{font-size:30pt;border:none}
+.garde .st{font-size:13pt;color:var(--gris);margin:.4em 0 2.2em;
+  font-family:"Liberation Sans",sans-serif}
+.garde .meta{font-size:9.5pt;color:var(--gris);border-top:1px solid var(--trait);
+  padding-top:1em;margin-top:2.5em}
+.regle{border-top:3px solid var(--bleu);width:70mm;margin:0 0 1.6em}
+nav.som{break-after:page}
+nav.som ol{list-style:none;padding:0;counter-reset:s}
+nav.som > ol > li{counter-increment:s;margin:.35em 0;font-family:"Liberation Sans",sans-serif;
+  font-size:10.4pt;font-weight:700;color:var(--bleu-f)}
+nav.som > ol > li::before{content:counter(s) ". ";}
+nav.som ol ol{padding-left:1.4em;margin:.15em 0 .5em}
+nav.som ol ol li{font-weight:400;font-size:9.4pt;color:var(--encre);margin:.1em 0}
+.sec{break-before:page}
+.chiffres{display:grid;grid-template-columns:repeat(3,1fr);gap:.5em;margin:.8em 0}
+.chiffre{background:var(--creme);padding:.6em .7em;border-radius:3px}
+.chiffre b{display:block;font-family:"Liberation Sans",sans-serif;font-size:15pt;
+  color:var(--bleu-f);line-height:1.1}
+.chiffre span{font-size:8.4pt;color:var(--gris)}
+.arbre{font-family:"DejaVu Sans Mono",monospace;font-size:8.2pt;line-height:1.5;
+  white-space:pre;text-align:left}
+</style></head><body>
+
+<section class="garde">
+  <div class="regle"></div>
+  <h1>Site de la mairie d'Angeot</h1>
+  <p class="st">Documentation technique — architecture, logique, sécurité, contenu</p>
+  <p style="max-width:120mm">Un site institutionnel en PHP natif, sans base de données,
+  sans dépendance et sans étape de construction, conçu pour l'hébergement mutualisé
+  français. Ce document décrit ce que fait le code, pourquoi il le fait ainsi,
+  et ce qu'il refuse de faire.</p>
+  <p class="meta">
+    Dépôt <code>ftholomier/poubelle</code> · branche <code>claude/mairie-angeot-redesign-t54qiw</code><br>
+    PHP 8.1+ · 63 fichiers PHP · 66 gabarits · 0 dépendance · 0 base de données<br>
+    Septembre 2026
+  </p>
+</section>
+
+<nav class="som">
+<h2 style="margin-top:0">Sommaire</h2>
+<ol>
+<li>Le parti pris technique
+  <ol><li>Ce que le socle refuse, et pourquoi</li><li>Le format des chiffres</li></ol></li>
+<li>Structure du dépôt
+  <ol><li>L'arborescence</li><li>Les deux implantations possibles</li><li>Les espaces de noms</li></ol></li>
+<li>Le cycle d'une requête
+  <ol><li>Le contrôleur frontal</li><li>Le routeur</li><li>Les vues</li><li>Les en-têtes, envoyés après le rendu</li></ol></li>
+<li>Pas de base de données
+  <ol><li>Pourquoi</li><li>Comment le contenu est écrit</li><li>Le verrou optimiste</li><li>Le schéma, les migrations, et l'asymétrie destructrice</li></ol></li>
+<li>Le modèle de contenu
+  <ol><li>Une page est une suite de blocs typés</li><li>Le catalogue des types</li><li>Quand écrire une vue dédiée</li><li>Les pages, les slugs et le référencement</li></ol></li>
+<li>Le back-office
+  <ol><li>Authentification</li><li>Les écrans</li><li>La médiathèque et les documents</li><li>La mise à jour depuis le dépôt</li></ol></li>
+<li>Sécurité
+  <ol><li>Ce qui est exposé, et rien d'autre</li><li>CSRF, sessions, mots de passe</li><li>La politique de sécurité de contenu</li><li>Antispam et quotas</li><li>Échappement et URL</li><li>Permissions de fichiers</li></ol></li>
+<li>Vie privée et tiers
+  <ol><li>Aucune requête tierce sans consentement</li><li>La mesure d'audience interne</li></ol></li>
+<li>Apparence : une teinte, pas une palette</li>
+<li>Services extérieurs
+  <ol><li>L'assistant et le conseiller</li><li>Les réseaux sociaux</li><li>Le courrier</li><li>Le multilingue</li></ol></li>
+<li>La boucle qualité : seize auditeurs
+  <ol><li>Le principe</li><li>Ce que chacun mesure</li><li>Les règles qu'ils ont produites</li></ol></li>
+<li>Exploitation
+  <ol><li>Démarrer en local</li><li>Mettre en ligne</li><li>Ce qui ne se versionne jamais</li></ol></li>
+</ol>
+</nav>
+
+<!-- ================= 1 ================= -->
+<section class="sec">
+<h2>1. Le parti pris technique</h2>
+
+<h3>1.1 Ce que le socle refuse, et pourquoi</h3>
+<p>Ce site est écrit pour un endroit précis : l'hébergement mutualisé français à
+quelques euros par mois, celui qu'une commune de sept cents habitants peut payer
+et qu'un secrétariat peut faire durer dix ans. Cet endroit n'offre ni terminal,
+ni processus long, ni service de base de données fiable, ni chaîne de
+construction. Chacun des refus ci-dessous découle de là, et aucun n'est une
+préférence de style.</p>
+
+<table>
+<tr><th>Refusé</th><th>Raison</th></tr>
+<tr><td>Composer, <code>node_modules</code></td><td>Aucune commande à passer sur le serveur. Un dépôt cloné est un site qui marche. Un gestionnaire de paquets, c'est aussi une chaîne d'approvisionnement à surveiller pendant dix ans.</td></tr>
+<tr><td>Base de données</td><td>Voir § 4. Le contenu d'un site de mairie est de quelques centaines de kilo-octets, lu mille fois plus souvent qu'écrit.</td></tr>
+<tr><td>Étape de construction</td><td>Le CSS et le JS livrés sont ceux qu'on lit dans le dépôt. Ce qui se déboguerait en ligne est ce qui a été écrit.</td></tr>
+<tr><td>Cadre applicatif</td><td>Le routeur fait 90 lignes, le moteur de gabarits 70. Ce qui manquerait tiendrait en cinquante lignes de PHP.</td></tr>
+<tr><td>JavaScript moderne</td><td>ES5 tolérant : les postes d'une mairie ne sont pas renouvelés tous les trois ans. Chaque bloc se désarme seul si sa cible est absente de la page.</td></tr>
+</table>
+
+<p>Deux règles transversales encadrent le tout : <strong>PHP 8.1 minimum</strong>,
+avec <code>declare(strict_types=1)</code> en tête de chacun des 64 fichiers PHP du
+projet, et <strong>tout est nommé en français</strong> — classes, méthodes,
+variables, routes, clés JSON. <code>Antispam::verifier()</code>,
+<code>$valeurs['adresse']</code>, <code>/demande-en-ligne</code>. Le code est relu par
+des gens qui parlent de « délibérations » et de « démarches », pas de
+<em>deliberations</em> ni de <em>procedures</em>.</p>
+
+<h3>1.2 Le format des chiffres</h3>
+<div class="chiffres">
+  <div class="chiffre"><b>63</b><span>fichiers PHP · 19 599 lignes</span></div>
+  <div class="chiffre"><b>66</b><span>gabarits de vue · 8 391 lignes</span></div>
+  <div class="chiffre"><b>6 157</b><span>lignes de CSS écrites à la main</span></div>
+  <div class="chiffre"><b>3 362</b><span>lignes de JavaScript</span></div>
+  <div class="chiffre"><b>45</b><span>fichiers JSON de contenu livré</span></div>
+  <div class="chiffre"><b>16</b><span>auditeurs · 4 702 lignes</span></div>
+</div>
+<p>À quoi s'ajoutent 4 004 lignes de documentation en Markdown, versionnées avec le
+code : <code>CLAUDE.md</code> (les consignes de travail), <code>KIT.md</code> (la carte
+du code et les pièges rencontrés), <code>SITE.md</code> (les arbitrages propres à
+Angeot), <code>NOUVEAU-SITE.md</code> (la recette pour produire un autre site à
+l'identique) et <code>DEPLOIEMENT.md</code>.</p>
+</section>
+
+<!-- ================= 2 ================= -->
+<section class="sec">
+<h2>2. Structure du dépôt</h2>
+
+<h3>2.1 L'arborescence</h3>
+<div class="arbre">poubelle/
+├── public/              seul dossier atteignable par une URL
+│   ├── index.php        contrôleur frontal — le seul point d'entrée
+│   ├── .htaccess        réécriture, en-têtes constants, HSTS
+│   └── assets/          css/ js/ img/ fonts/ doc/
+├── app/
+│   ├── Core/            41 classes de service
+│   ├── Admin/           16 contrôleurs et descripteurs du back-office
+│   ├── Controllers/     PageController, ApiController
+│   ├── routes.php       292 lignes — le site public
+│   ├── routes-admin.php 318 lignes — le back-office
+│   └── helpers.php      e(), t(), lien(), de_nom()…
+├── views/
+│   ├── layout.php       le gabarit enveloppant
+│   ├── pages/           une vue par page qui en demande une
+│   ├── partials/        fragments, dont bloc.php
+│   └── admin/           les écrans du back-office
+├── data-modele/         le contenu livré, versionné (45 JSON)
+├── data/                le contenu vivant — JAMAIS versionné
+│   ├── admin/           compte, mot de passe SMTP
+│   ├── pages/           une page = un fichier JSON
+│   ├── assistant/ reseaux/ conseiller/ frequentation/
+├── storage/             cache, sauvegardes automatiques
+├── config/              amorce, chemins
+└── outils/verifs/       les 16 auditeurs</div>
+
+<div class="enc"><span class="enc__t">La règle qui gouverne tout le reste</span>
+<p><code>public/</code> est le seul dossier exposé. Rien d'autre ne doit être
+atteignable par une URL. C'est ce qui permet de laisser le compte
+d'administration, le mot de passe SMTP, les jetons Meta, la clé de l'assistant et
+les conversations des administrés dans des fichiers en clair sur le disque —
+et c'est ce que l'auditeur <code>exposition.php</code> mesure, dossier par dossier
+(§ 11.2).</p></div>
+
+<h3>2.2 Les deux implantations possibles</h3>
+<p><code>public/index.php</code> sait vivre dans deux configurations, et les distingue
+lui-même :</p>
+<ul>
+<li><strong>racine web = <code>public/</code></strong> — l'implantation propre, quand
+l'hébergeur permet de désigner un sous-dossier. Le reste du dépôt est physiquement
+hors d'atteinte.</li>
+<li><strong>implantation « à plat »</strong> — le dépôt entier déposé dans
+<code>www/</code>, parce que beaucoup de mutualisés ne savent rien faire d'autre.
+Là, seuls les <code>.htaccess</code> empêchent de télécharger
+<code>data/admin/compte.json</code>. Ils sont donc du code : listés dans
+<code>Deploiement::CODE</code>, mis à jour comme le reste, et vérifiés à chaque
+passage de l'auditeur.</li>
+</ul>
+
+<h3>2.3 Les espaces de noms</h3>
+<p><code>App\Core</code> (41 classes) porte les services : <code>Content</code>,
+<code>Router</code>, <code>View</code>, <code>Auth</code>, <code>Session</code>,
+<code>Csrf</code>, <code>Entetes</code>, <code>Antispam</code>, <code>Adresse</code>,
+<code>Permissions</code>, <code>Verrou</code>, <code>Migrations</code>,
+<code>Charte</code>, <code>Seo</code>, <code>Mediatheque</code>,
+<code>Documents</code>, <code>Mailer</code>, <code>Assistant</code>,
+<code>Conseiller</code>, <code>Connexion</code>, <code>Reseaux</code>,
+<code>Publications</code>, <code>Diffusion</code>, <code>Vignette</code>,
+<code>Deploiement</code>, <code>Frequentation</code>, <code>Langues</code>,
+<code>Traducteur</code>, <code>TexteRiche</code>, <code>Cookies</code>,
+<code>Bandeau</code>, <code>Bulle</code>, <code>Avis</code>, <code>Liste</code>,
+<code>Parametres</code>, <code>Vivant</code>, <code>ConflitEcriture</code>, etc.</p>
+<p><code>App\Admin</code> (16) porte le back-office, un contrôleur par famille
+d'écrans plus deux descripteurs, <code>Blocs</code> et <code>Contenus</code>.
+<code>App\Controllers</code> n'en compte que deux : <code>PageController</code>,
+qui rend les pages publiques, et <code>ApiController</code>, qui répond aux
+requêtes de l'assistant et des formulaires.</p>
+</section>
+
+<!-- ================= 3 ================= -->
+<section class="sec">
+<h2>3. Le cycle d'une requête</h2>
+
+<h3>3.1 Le contrôleur frontal</h3>
+<p>Toute requête qui ne désigne pas un fichier existant arrive sur
+<code>public/index.php</code>. Il déroule toujours le même enchaînement :</p>
+<ol>
+<li><strong>Passe-plat statique</strong> — quand on tourne sous le serveur de
+développement de PHP, une requête vers un fichier réel est rendue telle quelle.</li>
+<li><strong>Amorce</strong> — <code>$config = require $amorce;</code> résout les
+chemins selon l'implantation détectée (§ 2.2).</li>
+<li><strong>Construction</strong> — <code>Content</code>, <code>View</code>,
+<code>Router</code>, puis <code>require</code> des deux fichiers de routes.</li>
+<li><strong>Dispatch</strong> — le routeur exécute le gestionnaire correspondant,
+qui rend la page <em>en mémoire</em>.</li>
+<li><strong>Comptage</strong> — la page vue n'est enregistrée que si la réponse est
+un HTTP 200, et seulement si <code>pageVue()</code> l'accepte : sont écartés
+<code>/admin</code>, <code>/api/</code>, <code>/taches/</code>,
+<code>/assets/</code>, <code>/sitemap</code>, <code>/robots</code>, et les agents
+identifiés comme robots.</li>
+<li><strong>En-têtes</strong> — <code>Entetes::envoyer()</code>, <em>après</em> le
+rendu et <em>avant</em> le premier octet écrit (§ 3.4).</li>
+<li><strong>Affichage</strong>.</li>
+</ol>
+<p>Deux captures encadrent le tout. <code>ConflitEcriture</code> — le verrou
+optimiste (§ 4.3) — provoque une redirection 303 vers <code>/admin</code>, en ne
+reprenant du référent que son chemin, jamais l'hôte. Tout autre
+<code>Throwable</code> part dans le journal d'erreurs du serveur et rend une page
+d'erreur 500 : rien du message d'origine n'atteint le visiteur.</p>
+
+<h3>3.2 Le routeur</h3>
+<p><code>App\Core\Router</code> tient en une centaine de lignes. Les motifs
+acceptent des paramètres nommés — <code>{slug}</code> — compilés en expression
+régulière, et deux méthodes seulement sont déclarables : <code>get()</code> et
+<code>post()</code>. Deux détails valent d'être notés, parce que chacun a
+corrigé un défaut réel :</p>
+<ul>
+<li><strong>HEAD est traité comme GET.</strong> C'est la requête que font les
+sondes de disponibilité des hébergeurs et les vérificateurs de liens. Sans cela,
+elles recevaient un 404 : un site déclaré hors service par sa propre supervision.</li>
+<li><strong>Une adresse connue sous une autre méthode rend 405, pas 404.</strong>
+Un POST envoyé sur une route déclarée en GET affichait « page introuvable », et
+l'on cherchait une faute de frappe dans l'URL au lieu d'une méthode de
+formulaire.</li>
+</ul>
+
+<h3>3.3 Les vues</h3>
+<p><code>App\Core\View</code> rend des gabarits PHP natifs : pas de langage de
+gabarit, pas de compilation. Une vue est capturée par mise en tampon, puis
+injectée dans <code>$slot</code> à l'intérieur du <em>layout</em>.
+<code>partial()</code> inclut un fragment.</p>
+<div class="enc"><span class="enc__t">Un piège trouvé par un auditeur</span>
+<p>Les variables locales de la méthode de capture sont préfixées
+(<code>$__nom</code>, <code>$__donnees</code>, <code>$__gabarit</code>), et ce n'est
+pas une coquetterie. <code>extract()</code> en mode <code>EXTR_SKIP</code> écarte
+sans erreur ni alerte toute donnée portant le nom d'une variable déjà présente.
+Un contrôleur qui passait <code>'file' =&gt; [...]</code> voyait donc son tableau
+remplacé par le chemin du gabarit, et la vue parcourait une chaîne de caractères.
+Trouvé par <code>alertes.py</code>, sur le seul indice d'une alerte PHP que
+personne ne lisait.</p></div>
+
+<h3>3.4 Les en-têtes, envoyés après le rendu</h3>
+<p><code>.htaccess</code> pose ce qui est constant : <code>X-Content-Type-Options</code>,
+<code>Referrer-Policy</code>, HSTS. Trois en-têtes lui échappent, et
+<code>App\Core\Entetes</code> existe pour eux.</p>
+<p>Le premier est le cache. Le back-office et l'API reçoivent
+<code>Cache-Control: no-store, private</code> — un mutualisé passe souvent derrière
+un cache partagé, et une page d'administration retenue là s'affiche au visiteur
+suivant. Les pages publiques reçoivent <code>private, no-cache</code> : le
+navigateur peut les garder mais doit les revalider. Sans directive du tout, il
+devinerait une durée et servirait pendant des heures une page que la mairie vient
+de corriger.</p>
+<p>Le deuxième est la politique de sécurité de contenu, détaillée au § 7.3. C'est
+elle qui impose l'ordre inhabituel du § 3.1 : <strong>la page est assemblée en
+mémoire, puis les en-têtes sont posés, puis la page est affichée.</strong> La
+politique ne peut se construire qu'une fois qu'on sait ce que la page contient
+vraiment.</p>
+</section>
+
+<!-- ================= 4 ================= -->
+<section class="sec">
+<h2>4. Pas de base de données</h2>
+
+<h3>4.1 Pourquoi</h3>
+<p>Le contenu d'un site de mairie tient en quelques centaines de kilo-octets, est
+écrit quelques fois par mois et lu des milliers de fois. Une base relationnelle
+apporterait ici : un service à administrer, un mot de passe de plus, une
+sauvegarde d'un autre genre, un point de panne, une dépendance d'hébergement, un
+export à négocier le jour où la commune change de prestataire — et rien du côté
+des besoins réels, qui sont « lire un fichier » et « le réécrire entier ».</p>
+<p>Le contenu vit donc en JSON, un fichier par page, dans <code>data/pages/</code>.
+Le contenu de départ est versionné dans <code>data-modele/</code> et se recopie
+tout seul dans <code>data/</code> à la première lecture, fichier par fichier :
+c'est ce qui fait qu'un dépôt fraîchement cloné affiche un site complet sans
+aucune manipulation, et qu'une mise à jour du modèle ne défait jamais ce que la
+mairie a écrit.</p>
+<p>Une sauvegarde du site, c'est <code>tar</code>. Une restauration, c'est
+<code>tar</code>. Un historique, c'est <code>git</code> pour le code et un dossier
+de sauvegardes automatiques pour le contenu.</p>
+
+<h3>4.2 Comment le contenu est écrit</h3>
+<p><code>App\Core\Content</code> expose une API délibérément petite :
+<code>load</code>, <code>get</code>, <code>find</code>, <code>publies</code>,
+<code>menu</code>, <code>save</code>, <code>sauvegardes</code>,
+<code>restaurer</code>, <code>modifie</code>, <code>traduireEn</code>.</p>
+<div class="enc"><span class="enc__t">Écritures atomiques — sans exception</span>
+<p>Aucun fichier de contenu n'est jamais écrit par un <code>file_put_contents</code>
+direct. On écrit un fichier temporaire, puis <code>rename()</code>. Sur un système
+de fichiers POSIX, <code>rename()</code> est atomique : un lecteur voit soit
+l'ancien fichier entier, soit le nouveau, jamais un JSON tronqué. C'est ce qui
+remplace ici la transaction d'une base de données, et c'est suffisant parce
+qu'un fichier est l'unité d'écriture.</p></div>
+<p>La même discipline s'applique aux photos de la médiathèque, aux PDF déposés
+depuis le back-office (<code>Documents::televerser()</code> : envoi vers un nom
+temporaire, puis <code>rename()</code>) et au compteur de quota de l'assistant.</p>
+
+<h3>4.3 Le verrou optimiste</h3>
+<p>L'écriture atomique empêche de lire un fichier à moitié écrit. Elle n'empêche
+pas la perte silencieuse d'une saisie : la secrétaire ouvre l'éditeur de la page
+« Déchets », un élu l'ouvre aussi, elle enregistre, il enregistre — son
+formulaire à lui a été construit avant, il réécrit l'état d'avant, et le travail
+d'elle disparaît sans qu'aucune erreur ne s'affiche.</p>
+<p><code>App\Core\Verrou</code> ne verrouille rien au sens strict : il constate.</p>
+<ul>
+<li>À l'<strong>affichage</strong> d'un écran d'administration (GET), chaque contenu
+lu laisse son empreinte dans la session de celui qui regarde.</li>
+<li>À l'<strong>enregistrement</strong> (POST), <code>Content::save()</code> compare
+l'empreinte du fichier tel qu'il est maintenant à celle qui avait été relevée.
+Si elles diffèrent, l'écriture est refusée par une <code>ConflitEcriture</code>
+et l'administrateur est invité à recharger.</li>
+</ul>
+<p>Ce découpage GET/POST rend le dispositif invisible : aucun formulaire n'a de
+champ à porter, aucun contrôleur n'a d'appel à passer. Il tient à une condition
+unique — <strong>ne jamais relever d'empreinte pendant un POST</strong>, sans quoi
+la lecture que fait le contrôleur juste avant d'écrire rafraîchirait l'empreinte
+et le verrou ne verrait plus rien.</p>
+<p>Un contenu jamais lu pendant l'affichage n'a pas d'empreinte, et son écriture
+passe : c'est voulu. Renommer un slug ou une photo réécrit une vingtaine de
+fichiers que l'écran n'a pas montrés, et refuser ces écritures-là bloquerait le
+back-office sans rien protéger.</p>
+
+<h3>4.4 Le schéma, les migrations, et l'asymétrie destructrice</h3>
+<p>C'est le point le plus délicat de toute l'architecture, et il n'existe que
+parce qu'il n'y a pas de base de données pour porter un schéma.</p>
+<p>Le schéma vit dans le code — <code>App\Admin\Blocs::TYPES</code> — et le contenu
+vit chez la mairie. La relation entre les deux est <strong>asymétrique</strong> :</p>
+<ul>
+<li>la <strong>lecture est tolérante</strong> : un champ manquant se rend en chaîne
+vide, et rien ne casse ;</li>
+<li>l'<strong>écriture est destructive</strong> : <code>Blocs::relire()</code>
+reconstruit chaque bloc à partir du schéma courant et jette tout ce que ce schéma
+ne nomme plus.</li>
+</ul>
+<p>Conséquence : renommer un champ ne casse rien tout de suite. Le site s'affiche,
+tout paraît normal, et la valeur de la mairie disparaît le jour où elle
+enregistre cet écran — des semaines plus tard, sans message, et sans que personne
+puisse relier la perte à la livraison.</p>
+<p>Deux mécanismes répondent, et ils vont ensemble : <strong>l'un transforme,
+l'autre constate.</strong></p>
+<p><code>App\Core\Migrations</code> transforme. Chaque fichier de contenu porte un
+<code>_version</code>. À la lecture, les étapes manquantes sont appliquées dans
+l'ordre et le fichier est réécrit aussitôt : le disque est toujours à la version
+courante (<code>VERSION = 2</code>) et une étape ne se rejoue jamais. Un fichier
+sans <code>_version</code> est réputé être à la version 1. Une étape doit être
+prudente — ne transformer que ce qu'elle reconnaît avec certitude, laisser le
+reste intact : une migration qui écrase du texte écrit par la mairie est pire que
+l'absence de migration.</p>
+<p><code>outils/verifs/schema.php</code> constate. Une migration ne s'écrit pas
+d'elle-même : renommer un champ en oubliant l'étape laisse le mécanisme muet. Ce
+script confronte tout le contenu au schéma et nomme le bloc, le champ et la
+conséquence. Deux secondes, aucun navigateur.</p>
+</section>
+
+<!-- ================= 5 ================= -->
+<section class="sec">
+<h2>5. Le modèle de contenu</h2>
+
+<h3>5.1 Une page est une suite de blocs typés</h3>
+<p>Il n'y a pas de vue par page. Une page est un tableau JSON de blocs, chacun
+portant un <code>type</code> et ses valeurs. Les types sont décrits <em>une seule
+fois</em> dans <code>app/Admin/Blocs.php</code> et rendus par
+<code>views/partials/bloc.php</code>.</p>
+<p>Cette description unique sert simultanément trois choses : l'écran d'édition du
+back-office (un seul formulaire les édite tous), la relecture du POST, et le
+rendu public. Ajouter une page ne coûte donc qu'un fichier JSON, une entrée dans
+<code>Seo::PAGES</code> et une ligne de route.</p>
+<p>Chaque champ porte une <strong>nature</strong>, qui dit à la fois comment il se
+saisit et comment il se relit :</p>
+<table>
+<tr><th>Nature</th><th>Saisie et stockage</th></tr>
+<tr><td><code>ligne</code> / <code>zone</code></td><td>une ligne de texte ; un petit paragraphe</td></tr>
+<tr><td><code>riche</code></td><td>texte long mis en forme — gras, listes, bouton — filtré par <code>App\Core\TexteRiche</code> et stocké en HTML</td></tr>
+<tr><td><code>paragraphes</code></td><td>texte long en clair, découpé aux lignes vides</td></tr>
+<tr><td><code>lignes</code></td><td>une liste, une entrée par ligne</td></tr>
+<tr><td><code>photo</code></td><td>un choix dans la médiathèque</td></tr>
+<tr><td><code>fichier</code></td><td>chemin d'un PDF, relatif à <code>public/</code></td></tr>
+<tr><td><code>lien</code></td><td>couple libellé + adresse, nettoyée par <code>Adresse</code></td></tr>
+<tr><td><code>ancre</code></td><td>l'identifiant qui permet de pointer la section</td></tr>
+<tr><td><code>fond</code></td><td>blanc, teinté, sombre, ou l'alternance automatique</td></tr>
+<tr><td><code>icone</code></td><td>un choix parmi les 27 pictogrammes du site</td></tr>
+<tr><td><code>date</code></td><td>un jour, saisi au calendrier du navigateur, stocké en ISO</td></tr>
+<tr><td><code>choix:a|b</code></td><td>une liste fermée</td></tr>
+<tr><td><code>items:&lt;clé&gt;</code></td><td>une liste d'entrées, décrite par <code>SOUS_BLOCS</code></td></tr>
+</table>
+
+<h3>5.2 Le catalogue des types</h3>
+<p>Treize types de blocs : <code>texte</code>, <code>duo</code>, <code>cartes</code>,
+<code>liens</code>, <code>contacts</code>, <code>documents</code>,
+<code>etapes</code>, <code>tableau</code>, <code>encadre</code>,
+<code>hebergeur</code>, <code>citation</code>, <code>chiffres</code>,
+<code>photo</code>. Huit d'entre eux contiennent des listes d'entrées décrites par
+<code>SOUS_BLOCS</code> — les cartes d'une grille, les lignes d'un tableau, les
+étapes d'une démarche.</p>
+
+<h3>5.3 Quand écrire une vue dédiée</h3>
+<p>La règle est explicite, et elle est restrictive : <strong>on n'écrit une vue
+dédiée que si la mise en page dépend d'une donnée structurée</strong> — le
+trombinoscope du conseil municipal, la liste filtrable des démarches. Jamais pour
+du texte suivi. Une vue dédiée écrite par confort, c'est une page que la mairie ne
+peut plus modifier seule.</p>
+
+<h3>5.4 Les pages, les slugs et le référencement</h3>
+<p><code>App\Core\Seo::PAGES</code> est le registre unique : trente-cinq entrées,
+chacune associant une clé interne à un slug et un nom affiché. Ce registre
+alimente à lui seul les routes, le fil d'Ariane, le plan du site, le
+<code>sitemap.xml</code> et les redirections 301 depuis les adresses de l'ancien
+site. Une clé inconnue passée à <code>Seo::page()</code> est journalisée plutôt
+qu'ignorée en silence.</p>
+</section>
+
+<!-- ================= 6 ================= -->
+<section class="sec">
+<h2>6. Le back-office</h2>
+
+<h3>6.1 Authentification</h3>
+<p>Il n'y a <strong>aucun identifiant par défaut</strong>. Le compte vit dans
+<code>data/admin/compte.json</code>, hors dépôt git et hors racine web ; tant qu'il
+n'existe pas, <code>/admin</code> propose l'écran de première configuration. Le
+mot de passe est haché par <code>password_hash()</code> avec l'algorithme par
+défaut de PHP, et réhaché automatiquement si
+<code>password_needs_rehash()</code> le demande — c'est ce qui fait qu'un compte
+créé aujourd'hui suivra le durcissement des versions futures de PHP sans
+intervention.</p>
+<table>
+<tr><th>Borne</th><th>Valeur</th><th>Raison</th></tr>
+<tr><td>Échecs consécutifs</td><td>5</td><td>par IP, sur une fenêtre d'une heure</td></tr>
+<tr><td>Verrouillage</td><td>15 min</td><td>rend la force brute inopérante sans bloquer un élu qui se trompe</td></tr>
+<tr><td>Inactivité</td><td>2 h</td><td>le poste du secrétariat est dans une pièce où passent des administrés, et le navigateur y reste ouvert d'un jour sur l'autre</td></tr>
+</table>
+<p>La durée d'inactivité est publique (<code>Auth::INACTIVITE_SEC</code>) parce que
+<code>Session</code> doit y aligner <code>session.gc_maxlifetime</code> : deux durées
+séparées, c'est la plus courte qui gagne, sans que personne comprenne pourquoi la
+déconnexion arrive avant l'heure annoncée. La session porte son propre nom
+(<code>mairie_session</code>) et <code>session.use_strict_mode</code> est activé,
+ce qui interdit qu'un identifiant de session soit imposé de l'extérieur.</p>
+
+<h3>6.2 Les écrans</h3>
+<p>Seize contrôleurs, un par famille : contenu et édition de blocs, apparence,
+paramètres, médiathèque, référencement, avis et démarches, langues, réseaux
+sociaux, conversations de l'assistant, conseiller éditorial, mise à jour. Chaque
+formulaire porte <code>Csrf::champ()</code> et chaque traitement commence par
+<code>Csrf::verifier()</code> — sans exception.</p>
+
+<h3>6.3 La médiathèque et les documents</h3>
+<p>Les photos passent par <code>Mediatheque</code>, qui redimensionne et produit les
+vignettes. Les PDF passent par <code>App\Core\Documents</code>, ajouté parce que
+l'aide disait auparavant « les PDF se déposent par FTP » : publier un
+compte-rendu de conseil est la seule tâche vraiment mensuelle d'un secrétariat, et
+elle demandait une adresse de serveur et un mot de passe que personne n'a sous la
+main un mardi matin. La conséquence n'était pas un inconfort, c'était une rubrique
+qui cesse d'être tenue à jour.</p>
+<p>Trois garde-fous, dans cet ordre :</p>
+<ol>
+<li><strong>La signature du fichier</strong>, pas son extension ni son type
+déclaré. Un navigateur annonce ce qu'on lui dit d'annoncer et <code>.pdf</code>
+n'est qu'un suffixe : seuls les cinq premiers octets, <code>%PDF-</code>, font foi.
+Plafond : 15 Mio.</li>
+<li><strong>Le nom est réécrit, jamais repris.</strong> Un nom arrive d'un poste
+Windows avec des espaces, des accents et parfois des points en série — et c'est
+aussi par là que passe un <code>../</code>. Un homonyme reçoit un suffixe
+numérique plutôt que d'écraser.</li>
+<li><strong>L'écriture est atomique.</strong> Un envoi interrompu laisserait sinon
+un PDF tronqué, publié et illisible.</li>
+</ol>
+<p>Le dossier reçoit en outre son propre <code>.htaccess</code> : il vit sous
+<code>public/</code>, donc servi, et reçoit désormais des fichiers venus d'un
+navigateur. Il coupe l'exécution (<code>php_flag engine off</code>,
+<code>RemoveHandler</code>, <code>Options -ExecCGI</code>) et force
+<code>Content-Disposition: attachment</code> — <strong>un PDF affiché en ligne
+s'exécute dans l'origine du site, et un PDF sait porter du JavaScript.</strong></p>
+
+<h3>6.4 La mise à jour depuis le dépôt</h3>
+<p><code>App\Core\Deploiement</code> met le site à jour depuis git, depuis le
+back-office, sans terminal. Le principe de sûreté tient en une phrase :
+<strong>la mise à jour ne touche QUE les chemins listés dans
+<code>CODE</code>.</strong> <code>data/</code>, les photos envoyées et les
+sauvegardes n'y sont jamais, donc ne sont jamais écrasés — même si le dépôt en
+contient une version différente.</p>
+<p>La liste couvre <code>app/</code>, <code>config/</code>, <code>views/</code>,
+<code>public/index.php</code>, les feuilles de style et scripts, les logos,
+<code>data-modele/</code>, et — explicitement — les cinq <code>.htaccess</code> de
+sécurité, qui sont du code et non du contenu. Avant chaque mise à jour,
+<code>data/</code> et les photos du site sont sauvegardés dans une archive.
+L'appel à git passe par <code>proc_open</code> sans shell : aucun argument ne
+traverse un interpréteur de commandes.</p>
+</section>
+
+<!-- ================= 7 ================= -->
+<section class="sec">
+<h2>7. Sécurité</h2>
+
+<h3>7.1 Ce qui est exposé, et rien d'autre</h3>
+<p>Dans l'implantation à plat (§ 2.2), tout le dépôt est sous la racine web et seuls
+les <code>.htaccess</code> retiennent les secrets. Or trois d'entre eux étaient
+déclarés dans <code>Deploiement::CODE</code>, vantés par la documentation — et
+n'existaient pas. Le compte d'administration, le mot de passe SMTP, les jetons
+Meta, la clé de l'assistant et les conversations des administrés étaient
+téléchargeables. Rien ne le montrait : <strong>un refus absent ne produit aucune
+erreur.</strong></p>
+<p>D'où <code>outils/verifs/exposition.php</code>, qui mesure le système de
+fichiers et non une page. La règle qu'il applique vaut mieux qu'une liste :
+<strong>tout dossier du dépôt sauf <code>public/</code> doit refuser l'accès</strong>
+— ce qui couvre d'avance celui qu'on ajoutera demain. Il vérifie aussi que chaque
+<code>.htaccess</code> déclaré dans <code>Deploiement::CODE</code> existe
+réellement, et que chaque dossier listé par <code>Permissions::secrets()</code>
+est couvert.</p>
+
+<h3>7.2 CSRF, sessions, mots de passe</h3>
+<p>Un jeton par session, posé par <code>Csrf::champ()</code> dans chaque formulaire
+d'administration et vérifié par <code>Csrf::verifier()</code> en tête de chaque
+traitement. Un échec ne se solde pas par un silence : il affiche un message
+expliquant qu'une session a expiré et ce qu'il faut faire — parce qu'un rejet muet
+après vingt minutes de rédaction est perçu comme un bogue, et fait recommencer.</p>
+<p>Côté session : nom propre, <code>use_strict_mode</code>,
+<code>gc_maxlifetime</code> aligné sur l'inactivité, régénération de
+l'identifiant à la connexion.</p>
+
+<h3>7.3 La politique de sécurité de contenu</h3>
+<p>La CSP porte un <strong>nonce tiré au sort à chaque requête</strong> (seize
+octets, soit les 128 bits recommandés). Un fichier de configuration Apache ne peut
+pas le connaître ; sans nonce, il faudrait <code>'unsafe-inline'</code> sur les
+scripts, ce qui revient à ne pas avoir de CSP du tout puisque c'est précisément le
+script injecté que la politique doit arrêter.</p>
+<p>Surtout, <strong>ce qui est autorisé dépend de la page</strong>. Le plan d'accès
+est une <code>iframe</code> dont l'adresse est collée par la mairie : elle peut
+venir de Google, d'OpenStreetMap ou d'ailleurs. Une liste écrite à la main se
+périmerait au premier changement et le plan disparaîtrait sans message ni erreur.
+Les fragments qui chargent un tiers le déclarent donc eux-mêmes —
+<code>Entetes::autoriserCadre()</code> pour une iframe,
+<code>autoriserProtecteur()</code> pour le test anti-robot — et la politique se
+construit à la fin du rendu, quand on sait ce que la page contient vraiment.</p>
+<p>Résultat : une page sans formulaire ne nomme pas Cloudflare, une page sans plan
+ne nomme personne, et un hôte tiers n'est accordé que si un réglage l'a réellement
+allumé. Sans identifiant de mesure, Google n'y figure pas.</p>
+
+<h3>7.4 Antispam et quotas</h3>
+<p><code>App\Core\Antispam</code> combine quatre barrières, dans l'ordre du moins
+au plus coûteux : un champ piège invisible, une horloge signée en HMAC (un
+formulaire renvoyé en deux secondes n'a pas été rempli par un humain), un quota
+horaire par empreinte d'IP hachée, et — en option — le test Turnstile de
+Cloudflare, qui n'est chargé que si la clé est renseignée.</p>
+<p>Le quota est découpé en <strong>familles</strong> — formulaire de contact,
+assistant, rappel téléphonique — chacune avec son propre plafond, pour qu'un
+usage intensif de l'un ne ferme pas les autres.</p>
+<div class="enc"><span class="enc__t">Une dépense qui ne se voyait nulle part</span>
+<p>Le quota de l'assistant vivait dans <code>$_SESSION</code> : un script sans
+cookie repartait de zéro à chaque appel, et la facture Gemini de la mairie n'avait
+plus de borne. Aucune page ne le montre — le site répond normalement, et le défaut
+ne se voit que sur un relevé Google. Le compteur est désormais journalier et sur
+disque (<code>Assistant::PLAFOND_JOUR = 400</code>), et
+<code>outils/verifs/quota.php</code> le mesure avec une doublure qui tient lieu de
+Gemini : aucune requête ne sort, rien n'est facturé, et c'est le vrai code de
+l'API qui est exercé.</p></div>
+<p>Quand l'assistant refuse, il refuse en donnant d'abord les numéros d'urgence.
+C'est une règle du projet, pas un détail d'ergonomie : <strong>les urgences passent
+avant tout le reste</strong>, y compris avant un renvoi vers une page du site.</p>
+
+<h3>7.5 Échappement et URL</h3>
+<p><code>e()</code> sur toute sortie, sans exception — c'est la règle la plus
+mécanique du dépôt, et la plus facile à vérifier en relecture.</p>
+<p>Les adresses passent par <code>App\Core\Adresse</code>, <strong>un validateur
+unique appliqué deux fois : à l'écriture et au rendu</strong>. Valider seulement à
+l'écriture laisserait passer tout ce qui est déjà en base ; valider seulement au
+rendu laisserait la mairie croire son lien enregistré. Le nettoyage retire les
+caractères de contrôle (<code>\0 \t \n \r \v \f</code>) mais non les espaces
+avant de détecter le schéma — un <code>ja&#8203;va\tscript:</code> passait sinon —,
+n'accepte que <code>http</code> et <code>https</code> (plus <code>mailto:</code> et
+<code>tel:</code> pour les champs de contact), rejette les adresses
+protocole-relatives <code>//hôte</code>, et rend une chaîne vide dans tous les
+autres cas.</p>
+
+<h3>7.6 Permissions de fichiers</h3>
+<p><code>App\Core\Permissions</code> centralise les modes et la liste des dossiers
+« secrets » : <code>data/admin</code>, <code>data/assistant</code>,
+<code>data/reseaux</code>, <code>data/conseiller</code>. Un <code>.htaccess</code>
+n'est jamais traité comme un secret — Apache doit pouvoir le lire — et c'est
+exactement le genre de détail qui, oublié, désarme silencieusement toute la
+protection.</p>
+</section>
+
+<!-- ================= 8 ================= -->
+<section class="sec">
+<h2>8. Vie privée et tiers</h2>
+
+<h3>8.1 Aucune requête tierce sans consentement</h3>
+<p>C'est vrai partout, mais une mairie n'a pas le droit de déposer les cookies d'un
+autre avant que l'administré ait dit oui. Le site ne charge donc, tant qu'aucun
+accord n'a été donné, <strong>aucune ressource extérieure</strong> : polices,
+scripts, images et cartes viennent tous du domaine. L'auditeur
+<code>traceurs.py</code> le mesure page par page et sort en erreur au premier hôte
+tiers.</p>
+
+<h3>8.2 La mesure d'audience interne</h3>
+<p><code>App\Core\Frequentation</code> répond à la question « la page Déchets
+est-elle lue ? » sans rien envoyer nulle part. Le socle sait brancher Google
+Analytics, mais celui-ci ne se charge qu'après accord : sur un site de mairie, la
+moitié des gens refusent, et le chiffre obtenu ne dit plus rien de la
+fréquentation réelle.</p>
+<p><strong>Ce qui est enregistré, et c'est tout : une date, un chemin, un
+nombre.</strong> Pas d'adresse IP, pas de cookie, pas d'identifiant, pas d'agent
+utilisateur, pas de référent, pas d'horaire à la seconde. Rien qui permette de
+suivre quelqu'un d'une page à l'autre ni d'un jour au lendemain. C'est ce qui
+range cette mesure dans l'exemption de consentement prévue par la CNIL pour la
+mesure d'audience strictement nécessaire — et c'est aussi pourquoi elle ne peut
+pas dire « combien de visiteurs », seulement « combien de pages vues ». La nuance
+est écrite à l'écran plutôt que maquillée.</p>
+<p>Un fichier par mois, une ligne par jour ; treize mois gardés, de quoi comparer
+un mois à celui de l'an dernier ; au-delà de 400 pages distinctes, le détail par
+page cesse pour qu'un mois ne puisse pas enfler.</p>
+</section>
+
+<!-- ================= 9 ================= -->
+<section class="sec">
+<h2>9. Apparence : une teinte, pas une palette</h2>
+
+<p>Le projet pose une règle générale : <em>tout réglage laissé à la mairie doit
+avoir son auditeur qui en force les bornes</em>. Un sélecteur de couleur libre est
+le pire des réglages de ce point de vue — il touche les cent cinquante mesures de
+contraste du site d'un seul clic. Une couleur posée telle quelle dans
+<code>--bleu</code> rendrait invisible la moitié des libellés dès que quelqu'un
+choisirait un jaune ou un rose pâle.</p>
+<p>D'où le parti pris de <code>App\Core\Charte</code> : <strong>la mairie choisit
+une teinte, pas une palette.</strong> Les cinq tons de marque et les neutres
+teintés en sont dérivés :</p>
+<ul>
+<li>la <strong>teinte</strong> vient du choix et se propage à tout, marque et
+neutres ;</li>
+<li>la <strong>saturation</strong> vient du choix pour les tons de marque, bornée à
+[18 %, 55 %] — sous 18 % le site paraît en panne, au-delà de 55 % les aplats
+deviennent criards sur un site de service public. Les neutres gardent la leur,
+faible et fixe ;</li>
+<li>la <strong>luminosité</strong> des tons de marque n'est pas choisie : elle est
+<strong>résolue</strong>, ton par ton, jusqu'à atteindre le contraste que ce ton
+doit tenir sur le fond où il sert.</li>
+</ul>
+<p>C'est ce troisième point qui fait tout le travail. Le ton qui porte les petits
+libellés sur le crème est assombri jusqu'à 6:1 sur ce crème-là, quelle que soit la
+teinte ; celui des accents sur fond sombre est éclairci jusqu'à 4,6:1 sur la plus
+claire des surfaces sombres du site. <strong>La mairie ne peut donc pas produire
+une page illisible, et n'a rien à savoir du contraste.</strong> La teinte livrée
+pour Angeot est le bleu ardoise du blason, <code>#456d8a</code>.</p>
+<p><code>outils/verifs/couleur.py</code> force ce réglage sur douze teintes
+réparties sur la roue plus quatre cas limites — gris sans saturation, rouge
+saturé, presque noir, presque blanc — et repasse les auditeurs de contraste. C'est
+lui qui <em>prouve</em> la propriété, plutôt que de la promettre.</p>
+</section>
+
+<!-- ================= 10 ================= -->
+<section class="sec">
+<h2>10. Services extérieurs</h2>
+
+<h3>10.1 L'assistant et le conseiller</h3>
+<p>Deux usages de Gemini, tous deux éteints tant qu'aucune clé n'est renseignée.
+<code>Assistant</code> répond aux administrés depuis une bulle du site public ;
+<code>Conseiller</code> aide la secrétaire à rédiger depuis le back-office.
+<code>Connexion</code> porte l'appel HTTP commun.</p>
+<p>Le corpus est <strong>reconstruit à chaque question</strong> à partir du contenu
+réel du site : l'assistant ne peut donc pas répondre sur une version périmée d'une
+démarche, et une correction faite le matin est prise en compte l'après-midi. Sa
+consigne lui impose de donner les numéros d'urgence avant tout autre chose, et de
+ne jamais inventer une règle administrative.</p>
+
+<h3>10.2 Les réseaux sociaux</h3>
+<p><code>Reseaux</code> gère la connexion OAuth aux comptes Meta depuis le
+back-office, <code>Publications</code> tient la file d'attente,
+<code>Diffusion</code> publie, et <code>Vignette</code> fabrique avec GD une image
+carrée quand une actualité n'a pas de photo. Une tâche planifiée appelle
+<code>/taches/reseaux?cle=…</code>.</p>
+<div class="enc"><span class="enc__t">Une branche qu'on ne peut atteindre qu'en production</span>
+<p>Ce que fait la file quand Facebook accepte et qu'Instagram refuse ne s'affiche
+nulle part : il faut publier vraiment pour le voir, donc personne ne le voit
+jamais. La branche était fausse — la publication était retirée de la file et
+inscrite au journal comme réussie, Instagram n'était jamais retenté, et la mairie
+croyait avoir publié partout. <code>outils/verifs/file.php</code> substitue une
+doublure à Meta : aucune requête ne sort, et vingt-huit mesures tiennent en deux
+secondes. <strong>Une branche qu'on ne peut atteindre qu'en production doit avoir
+sa doublure, sans quoi elle n'est jamais exercée.</strong></p></div>
+
+<h3>10.3 Le courrier</h3>
+<p><code>Mailer</code> envoie par SMTP, avec les identifiants stockés dans
+<code>data/admin/</code>. Aucune bibliothèque : le dialogue SMTP est écrit à la
+main, ce qui suffit largement pour un accusé de réception de formulaire.</p>
+
+<h3>10.4 Le multilingue</h3>
+<p>Les textes d'interface passent tous par <code>t('…')</code> et sont relevés
+automatiquement pour la traduction — il n'y a rien à déclarer.
+<code>Langues</code> gère les langues actives, <code>Traducteur</code> les
+dictionnaires, <code>TraductionAuto</code> la traduction assistée du contenu, et
+la langue se porte par un préfixe d'URL.</p>
+</section>
+
+<!-- ================= 11 ================= -->
+<section class="sec">
+<h2>11. La boucle qualité : seize auditeurs</h2>
+
+<h3>11.1 Le principe</h3>
+<p>Le niveau de ce projet ne vient pas du goût, mais de la mesure. Seize scripts
+sont à faire passer avant de déclarer une tâche finie. <strong>Chacun sort en code
+1 s'il trouve quelque chose ; zéro écart, zéro souci, zéro hôte tiers, c'est la
+définition de « fini » ici, pas une option.</strong></p>
+<p>Douze pilotent un navigateur (Playwright/Chromium) ; quatre ne regardent aucune
+page. Ils ne doivent <strong>pas être lancés en parallèle sans y penser</strong> :
+plusieurs écrivent dans <code>data/</code> pour forcer un réglage —
+<code>couleur.py</code> la teinte, <code>bulle.py</code> l'assistant — et deux qui
+s'y croisent se mesurent l'un l'autre.</p>
+
+<h3>11.2 Ce que chacun mesure</h3>
+<table>
+<tr><th>Auditeur</th><th>Ce qu'il mesure</th></tr>
+<tr><td><code>contraste.py</code></td><td>le contraste réel de chaque texte, tel que rendu</td></tr>
+<tr><td><code>mise-en-page.py</code></td><td>débordement, cibles tactiles, hiérarchie des titres, textes alternatifs, superpositions — à cinq largeurs, téléphone compris</td></tr>
+<tr><td><code>mise-en-page.py --admin</code></td><td>les mêmes, sur le back-office</td></tr>
+<tr><td><code>traceurs.py</code></td><td>aucune requête tierce sans accord</td></tr>
+<tr><td><code>bandeau.py</code></td><td>chaque photo du diaporama, voile forcé à sa borne basse</td></tr>
+<tr><td><code>entete.py</code></td><td>l'en-tête aux deux bornes du réglage de logo, deux modes, deux dispositions — 96 mesures</td></tr>
+<tr><td><code>couleur.py</code></td><td>le site sous seize teintes de commune</td></tr>
+<tr><td><code>bulle.py</code></td><td>le bouton de l'assistant sous 251 réglages</td></tr>
+<tr><td><code>conseiller.py --admin</code></td><td>la pastille du conseiller sous ses trois états, réponses du modèle doublées</td></tr>
+<tr><td><code>vignette.py</code></td><td>l'image carrée fabriquée pour Instagram, pixel par pixel, sous chaque couleur</td></tr>
+<tr><td><code>alertes.py</code></td><td>ce que PHP dit tout bas, et que la page ne montre pas</td></tr>
+<tr><td><code>file.php</code></td><td>la file de publication quand un seul réseau répond</td></tr>
+<tr><td><code>schema.php</code></td><td>le contenu écrit et le schéma du code disent-ils la même chose</td></tr>
+<tr><td><code>exposition.php</code></td><td>ce qu'une URL atteindrait si la racine web était celle du dépôt</td></tr>
+<tr><td><code>quota.php</code></td><td>ce que l'assistant refuse, et à qui</td></tr>
+<tr><td><code>aller-retour.py</code></td><td>enregistrer sans rien changer : le JSON ne doit pas maigrir</td></tr>
+</table>
+
+<h3>11.3 Les règles qu'ils ont produites</h3>
+<p>Chaque auditeur existe parce qu'un défaut est passé. Les règles qui en découlent
+valent mieux que la liste des scripts, parce qu'elles s'appliquent à ce qu'on
+écrira demain.</p>
+
+<h4>Ce qui ne se voit pas dans la page doit être mesuré là où il se voit.</h4>
+<p><code>alertes.py</code> est le plus utile des seize : il lit le <em>journal
+d'erreurs de PHP</em>, que personne ne lisait. Une alerte ne sort pas dans la page,
+puisque <code>display_errors</code> est éteint en production — et doit l'être. La
+vérification que le socle proposait, <code>curl … | grep -ci "warning"</code>, ne
+mesurait donc que ce qui ne devrait jamais arriver. Le jour où ce script a existé,
+il a trouvé en trois minutes trois défauts silencieux : deux sections de contenu
+qui ne s'affichaient pas du tout, et une donnée passée à un gabarit qui n'y
+arrivait jamais.</p>
+
+<h4>Un réglage qui décide de la PRÉSENCE d'un élément cache cet élément aux auditeurs.</h4>
+<p>L'assistant est éteint tant qu'aucune clé n'est renseignée : sa bulle n'est donc
+pas dans la page que les autres mesurent. C'est ce trou qui a laissé passer,
+pendant toute la vie du socle, un libellé à 2,57:1 — l'encre sur la couleur de
+marque. Il faut alors un script qui allume l'élément pour le mesurer.</p>
+
+<h4>Quand ce qu'il faut mesurer n'apparaît qu'après la réponse d'un service extérieur, on double le service.</h4>
+<p>Allumer la pastille du conseiller ne suffisait pas : le panneau ouvert est
+<em>vide</em>. Les bulles de conversation et les fiches du bilan n'existent
+qu'<em>après</em> une réponse de Google. Un auditeur qui se contentait d'ouvrir le
+panneau mesurait un cadre et deux onglets, et déclarait le tout conforme. On ne
+saute pas la mesure : on double le service.</p>
+
+<h4>Quand une interface a des états, mesurez d'abord qu'elle est dans l'état où vous croyez la mesurer.</h4>
+<p>C'est la leçon la plus utile des seize. <code>conseiller.py</code> mesurait des
+tailles, des contrastes et des débordements — tout au vert — pendant que le
+panneau était en réalité ouvert avant tout clic et que les deux vues s'empilaient.
+Cause : une règle <code>display: flex</code> explicite l'emporte sur l'attribut
+<code>hidden</code>, dont la spécificité est nulle. Le JS basculait
+<code>hidden</code>, le CSS l'ignorait, changer d'onglet ne faisait rien de
+visible — et c'est l'utilisateur qui l'a signalé, pas l'auditeur.
+<strong>Un auditeur qui ne mesure que la géométrie mesure juste sur une page
+fausse.</strong> Il vérifie désormais l'état avant tout le reste.</p>
+
+<h4>Tout réglage laissé à la mairie doit avoir son auditeur qui en force les bornes.</h4>
+<p>Un curseur dont on n'a mesuré que la valeur livrée est un défaut en attente,
+découvert en ligne par la mairie. C'est ce qui a rattrapé le voile du bandeau :
+réglable de 0 à 100 et mesuré à sa seule valeur du jour, il laissait servir un
+titre blanc sur une photo claire.</p>
+
+<h4>Le back-office se mesure aussi.</h4>
+<p>Il ne l'était pas, et c'est là qu'un défaut a vécu tranquillement : une pastille
+de code faite pour occuper sa propre ligne, posée au fil d'un paragraphe,
+recouvrait la ligne du dessus sur deux écrans — 46 px de haut dans une ligne de
+22. Le rembourrage vertical d'une boîte <em>en ligne</em> ne pousse pas la ligne :
+il déborde. Le même passage a relevé une centaine de cibles tactiles sous 44 px
+jusque-là non mesurées.</p>
+
+<h4>Les quatre causes de débordement latéral sur téléphone.</h4>
+<p>Le passage du back-office à 320 px a demandé de lever quatre causes, toutes
+classiques et toutes invisibles sur un grand écran. La liste couvre à peu près
+tout ce qui fait défiler une page latéralement :</p>
+<ul>
+<li><code>min-width: 0</code> sur ce qui doit pouvoir rétrécir. Un enfant de flex ou
+de grille refuse de descendre sous la largeur minimale de son contenu tant qu'on ne
+le lui dit pas. De loin la cause la plus fréquente.</li>
+<li><code>minmax(min(190px, 100%), 1fr)</code> et jamais <code>minmax(190px, 1fr)</code> :
+une piste de grille garde son minimum même quand la fenêtre est plus étroite
+qu'elle, et pousse la page dehors.</li>
+<li><code>fieldset { min-inline-size: 0 }</code> : la feuille du navigateur y met
+<code>min-content</code>, qu'aucune largeur ne surcharge. Bizarrerie historique du
+HTML, pas un choix du socle.</li>
+<li>Une grille à colonnes fixes ne se resserre pas : elle doit devenir une rangée
+qui se replie.</li>
+</ul>
+
+<div class="enc"><span class="enc__t">La règle de conduite</span>
+<p><strong>N'affaiblissez jamais un auditeur pour faire passer une page.</strong> Si
+un résultat semble faux, c'est probablement un vrai faux positif ; corrigez le
+script en expliquant pourquoi, ne relevez pas le seuil. Un piège de mesure connu :
+<code>run () { "$@" | tail -4; }</code> rapporte le code de sortie de
+<code>tail</code>, pas celui de l'auditeur — un script qui imprime « 6 souci(s) »
+au-dessus d'un « [code 0] » a déjà trompé une relecture.</p></div>
+
+<p>Ce que ces scripts ont attrapé et qu'aucun œil n'avait vu : un texte à 4,36:1
+sur le fond crème, la couleur de marque à 2,16:1 sur l'anthracite, un sur-titre à
+2,04:1 sur une photo de bandeau, des cibles tactiles à 26 px, un saut de titre
+h1 → h3 sur une fiche de démarche, un logo servi écrasé au-delà de 100 px, et le
+blanc à 90 % d'opacité du chapô — 4,05:1 là où le blanc plein donne 4,9:1.</p>
+</section>
+
+<!-- ================= 12 ================= -->
+<section class="sec">
+<h2>12. Exploitation</h2>
+
+<h3>12.1 Démarrer en local</h3>
+<pre><code>php -S localhost:8080 -t public public/index.php</code></pre>
+<p><code>data-modele/</code> se recopie seul dans <code>data/</code> : le site
+s'affiche complet sans manipulation. <code>/admin</code> crée le compte
+administrateur au premier passage — il n'y a aucun identifiant par défaut.</p>
+<p>Vérifications rapides pendant le travail :</p>
+<pre><code>php -l views/pages/accueil.php                                # syntaxe
+curl -s localhost:8080/ | grep -ci "warning\|fatal\|notice"   # doit rendre 0</code></pre>
+<p>Et pour le back-office, la seule qui compte vraiment : <strong>ouvrir un écran
+ne suffit pas, ce qui casse c'est l'enregistrement.</strong> Un champ mal nommé
+vide une clé sans rien signaler. Après toute modification d'un écran d'édition,
+enregistrez sans rien changer et comparez le JSON avant/après : il ne doit pas
+maigrir. <code>aller-retour.py</code> le fait tout seul, sur les écrans déclarés
+en tête du script — <strong>ajoutez-y tout écran d'édition que vous créez</strong>,
+un écran absent de sa liste n'est pas vérifié, et c'est exactement ainsi que le
+défaut revient.</p>
+
+<h3>12.2 Mettre en ligne</h3>
+<p>Deux voies, décrites par <code>DEPLOIEMENT.md</code> : un dépôt cloné sur le
+serveur puis mis à jour depuis le back-office (§ 6.4), ou un dépôt de fichiers si
+l'hébergeur n'offre rien d'autre. Dans les deux cas, la racine web doit pointer sur
+<code>public/</code> quand c'est possible, et les <code>.htaccess</code> doivent
+être présents quand ça ne l'est pas.</p>
+
+<h3>12.3 Ce qui ne se versionne jamais</h3>
+<table>
+<tr><th>Chemin</th><th>Contenu</th></tr>
+<tr><td><code>data/admin/</code></td><td>compte administrateur, mot de passe SMTP</td></tr>
+<tr><td><code>data/*.json</code>, <code>data/pages/</code></td><td>le contenu vivant écrit par la mairie</td></tr>
+<tr><td><code>data/frequentation/</code></td><td>les pages vues</td></tr>
+<tr><td><code>storage/</code></td><td>cache et sauvegardes automatiques</td></tr>
+</table>
+<p>Seul <code>data-modele/</code> est versionné : c'est la source, et c'est lui qui
+doit le rester. Après un essai du back-office en local, un aller-retour dans un
+formulaire laisse du contenu modifié dans <code>data/</code> ; on remet donc à zéro
+avant de committer :</p>
+<pre><code>rm -rf data/pages data/*.json data/admin \
+       storage/cache/* storage/sauvegardes/*</code></pre>
+
+<div class="enc"><span class="enc__t">Ce qu'un site de service public exige en plus</span>
+<p>Ces règles ne s'appliquaient pas au site commercial dont vient le socle. Elles
+s'appliquent ici, et une modification qui les casse est un défaut.</p>
+<p><strong>Ne publiez jamais une règle administrative que vous n'avez pas
+vérifiée.</strong> Une démarche change de pièces, de seuils et de délais d'une
+année à l'autre ; une fiche périmée envoie un administré au guichet avec le
+mauvais dossier. Le site précédent décrivait l'urbanisme d'avant 2012 et les
+procurations d'avant 2022.</p>
+<p><strong>N'affirmez jamais un service que la mairie ne rend pas.</strong> La fiche
+« Carte d'identité » dit que la commune n'a pas de dispositif de recueil, parce que
+c'est vrai d'une commune de sept cents habitants ; le texte d'origine, recopié
+d'un modèle, affirmait le contraire.</p>
+<p><strong>Les urgences passent avant tout le reste</strong>, y compris avant un
+renvoi vers une page du site.</p>
+<p><strong>Aucune requête tierce sans consentement.</strong></p></div>
+</section>
+
+</body></html>
