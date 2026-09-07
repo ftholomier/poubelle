@@ -504,6 +504,53 @@ final class AdminController
         echo view('admin/settings', ['user' => $user, 'nav' => 'settings', 'title' => 'Réglages', 'settings' => Store::read('settings')], 'admin/layout');
     }
 
+    /**
+     * Envoi d'un e-mail de test depuis les réglages.
+     *
+     * Un envoi qui ne part pas ne se voit qu'au moment où un candidat
+     * n'est pas rappelé : ce bouton donne le verdict tout de suite, avec
+     * le transport réellement employé et le motif exact de l'échec.
+     */
+    public static function mailTest(): void
+    {
+        $user = self::guard();
+        if (!is_post() || !Csrf::check($_POST['_csrf'] ?? null)) {
+            redirect(url('admin/reglages'));
+        }
+
+        $destinataire = strtolower(trim((string) ($_POST['destinataire'] ?? '')));
+        if (!filter_var($destinataire, FILTER_VALIDATE_EMAIL)) {
+            $destinataire = (string) ($user['email'] ?? '');
+        }
+        if (!RateLimit::hit('mailtest', 10, 3600, 'compte:' . hash('sha256', (string) ($user['id'] ?? '')))) {
+            Session::flash('Trop d’essais d’envoi. Réessayez dans une heure.', 'error');
+            redirect(url('admin/reglages'));
+        }
+
+        $transport = Mailer::smtpConfigure()
+            ? 'le serveur SMTP ' . settings('mail.smtp_host', '')
+            : 'la fonction mail() de l’hébergeur';
+
+        $parti = Mailer::send(
+            $destinataire,
+            'Test d’envoi — back-office Suisse Immo',
+            '<h2 style="margin:0 0 12px">L’envoi fonctionne</h2>'
+            . '<p>Ce message a été envoyé depuis le back-office par ' . e($transport) . '.</p>'
+            . '<p style="font-size:13px;color:#8d99ae">Envoyé le ' . e(date('d/m/Y à H:i')) . '.</p>',
+            null,
+            true
+        );
+
+        if ($parti) {
+            Session::flash('E-mail de test envoyé à ' . $destinataire . ' par ' . $transport . '. Vérifiez la réception, indésirables compris.');
+        } else {
+            $journal = Store::read('maillog');
+            $motif = (string) ($journal[0]['error'] ?? 'motif inconnu');
+            Session::flash('Échec de l’envoi par ' . $transport . ' — ' . $motif, 'error');
+        }
+        redirect(url('admin/reglages'));
+    }
+
     public static function users(): void
     {
         $user = self::guard();

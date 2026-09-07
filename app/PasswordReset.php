@@ -161,7 +161,9 @@ final class PasswordReset
             . '<p><strong>Vous n’êtes pas à l’origine de cette demande ?</strong> Ignorez ce message : '
             . 'votre mot de passe actuel reste valable, et le lien expirera de lui-même.</p>';
 
-        $parti = Mailer::send($email, 'Réinitialisation de votre mot de passe — Suisse Immo', $corps);
+        // Message de service : il part même si les notifications sont
+        // désactivées dans les réglages.
+        $parti = Mailer::send($email, 'Réinitialisation de votre mot de passe — Suisse Immo', $corps, null, true);
 
         if (!$parti) {
             self::ecrireRepli($email, $lien);

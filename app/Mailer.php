@@ -17,7 +17,14 @@ final class Mailer
     /** Nombre total d'entrées conservées dans le journal. */
     private const ENTREES_CONSERVEES = 300;
 
-    public static function send(string $to, string $subject, string $htmlBody, ?string $replyTo = null): bool
+    /**
+     * @param bool $obligatoire message de service (réinitialisation de mot
+     *                          de passe, test d'envoi) : il part même si les
+     *                          notifications sont désactivées, sans quoi
+     *                          couper les notifications enfermerait
+     *                          l'exploitant hors du back-office.
+     */
+    public static function send(string $to, string $subject, string $htmlBody, ?string $replyTo = null, bool $obligatoire = false): bool
     {
         $to = self::adresse($to);
         $from = self::adresse((string) settings('company.email', 'contact@suisse-immo.fr'));
@@ -45,7 +52,11 @@ final class Mailer
         $erreur = '';
         $transport = 'désactivé';
 
-        if ($to !== '' && settings('funnel.notify_enabled', true)) {
+        if ($to === '') {
+            $erreur = 'Adresse destinataire invalide.';
+        } elseif (!$obligatoire && !settings('funnel.notify_enabled', true)) {
+            $erreur = 'Envoi désactivé dans les réglages.';
+        } else {
             if (self::smtpConfigure()) {
                 $transport = 'smtp';
                 try {
@@ -61,7 +72,7 @@ final class Mailer
                     $erreur = $e->getMessage();
                     ErrorHandler::log($e);
                 }
-            } elseif (function_exists('mail')) {
+            } elseif (self::mailDisponible()) {
                 // Repli : agent local. Les en-têtes To et Subject sont
                 // passés en arguments, on ne les répète pas.
                 $transport = 'mail()';
@@ -69,18 +80,59 @@ final class Mailer
                     $enTetes,
                     static fn ($h) => !str_starts_with($h, 'To: ') && !str_starts_with($h, 'Subject: ')
                 ));
-                $sent = @mail($to, self::encoder($subject), $corps, implode("\r\n", $entetesMail));
+                // Enveloppe d'expédition explicite : sans -f, l'agent local
+                // signe avec l'utilisateur système (www-data@serveur), une
+                // adresse qui n'existe pas et que les filtres rejettent.
+                $enveloppe = escapeshellcmd('-f' . $expediteur);
+                $sent = @mail($to, self::encoder($subject), $corps, implode("\r\n", $entetesMail), $enveloppe);
                 if (!$sent) {
-                    $erreur = 'La fonction mail() a échoué (aucun agent local ?).';
+                    $erreur = self::diagnosticMail();
                 }
             } else {
-                $erreur = 'Aucun transport disponible.';
+                $erreur = self::diagnosticMail();
             }
         }
 
         self::journaliser($to, $subject, $sent, $htmlBody, $transport, $erreur);
 
         return $sent;
+    }
+
+    /** La fonction mail() est-elle utilisable sur cet hébergement ? */
+    public static function mailDisponible(): bool
+    {
+        if (!function_exists('mail')) {
+            return false;
+        }
+        $desactivees = array_map('trim', explode(',', (string) ini_get('disable_functions')));
+        return !in_array('mail', $desactivees, true);
+    }
+
+    /**
+     * Explique pourquoi un envoi par mail() ne peut pas aboutir.
+     *
+     * « La fonction mail() a échoué » n'aide personne : selon les cas, la
+     * fonction est désactivée par l'hébergeur, ou bien le programme
+     * d'envoi déclaré dans sendmail_path n'existe pas sur la machine.
+     */
+    public static function diagnosticMail(): string
+    {
+        if (!function_exists('mail')) {
+            return 'La fonction mail() n’existe pas sur cet hébergement. Renseignez un serveur SMTP.';
+        }
+        $desactivees = array_map('trim', explode(',', (string) ini_get('disable_functions')));
+        if (in_array('mail', $desactivees, true)) {
+            return 'La fonction mail() est désactivée par l’hébergeur (disable_functions). Renseignez un serveur SMTP.';
+        }
+        $chemin = trim((string) ini_get('sendmail_path'));
+        if ($chemin === '') {
+            return 'Aucun programme d’envoi n’est configuré (sendmail_path vide). Renseignez un serveur SMTP.';
+        }
+        $binaire = explode(' ', $chemin)[0];
+        if ($binaire !== '' && !is_executable($binaire)) {
+            return 'Le programme d’envoi « ' . $binaire .' » est introuvable sur le serveur. Renseignez un serveur SMTP.';
+        }
+        return 'La fonction mail() a rendu la main sur un échec, sans motif. Le message a probablement été refusé par l’agent local.';
     }
 
     /** Un serveur SMTP est-il renseigné dans les réglages ? */

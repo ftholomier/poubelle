@@ -216,6 +216,10 @@ d'expiration et une empreinte de l'adresse IP demandeuse.
 Un mot de passe choisi par ce chemin lève aussi l'obligation de changement de la première
 connexion : c'est bien un mot de passe choisi par la personne.
 
+L'envoi passe par le serveur SMTP des réglages ; à défaut, par la fonction `mail()` de
+l'hébergeur, qui suffit sur la plupart des mutualisés. Ce message part même si les
+notifications sont désactivées : c'est un message de service, pas une notification.
+
 **Si aucun e-mail ne peut partir** — pas de serveur SMTP renseigné et pas d'agent local — le
 lien est écrit dans `data/REINITIALISATION.txt`, dossier refusé au web et hors racine publique.
 Il ne se lit qu'avec un accès au serveur, ce qui reste bien moins risqué que de modifier
@@ -283,6 +287,17 @@ de dépendre du client mail du poste et laisse une trace exploitable.
 - **Deux transports** : le serveur SMTP renseigné dans les réglages (STARTTLS, TLS implicite,
   `AUTH LOGIN`/`PLAIN`), ou à défaut la fonction `mail()` de l'hébergeur. Le journal indique
   pour chaque envoi le transport utilisé et l'erreur exacte — rien n'est perdu silencieusement.
+- **Repli `mail()`** : utilisé dès qu'aucun serveur SMTP n'est renseigné, avec une enveloppe
+  d'expédition explicite (`-f`). Sans elle, l'agent local signe le message avec l'utilisateur
+  système (`www-data@serveur`), une adresse inexistante que les filtres rejettent.
+- **Diagnostic plutôt qu'un constat** : *Réglages → Envoi des e-mails* annonce le transport
+  réellement actif et, s'il n'y en a aucun, la raison précise — fonction désactivée par
+  l'hébergeur, `sendmail_path` vide, ou programme d'envoi absent de la machine.
+- **Bouton d'essai** : un envoi réel depuis le back-office, dont le résultat s'affiche
+  immédiatement avec le transport employé et le motif exact d'un éventuel échec.
+- **Messages de service** (réinitialisation de mot de passe, essai d'envoi) : ils partent même
+  si les notifications sont désactivées dans les réglages. Couper les notifications ne doit pas
+  enfermer l'exploitant hors de son back-office.
 - Les adresses et l'objet sont débarrassés de tout caractère de contrôle : un retour à la ligne
   dans un champ ne peut pas ajouter d'en-tête `Bcc` vers un tiers.
 

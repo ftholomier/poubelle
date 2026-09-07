@@ -101,12 +101,45 @@ $textareas = ['meta_description'];
 
   <div class="panel">
     <div class="panel__head"><h2>Envoi des e-mails</h2></div>
+    <?php
+    // État réel du transport : dire « mail() prendra le relais » sans
+    // vérifier que l'hébergement en est capable ne rend service à personne.
+    $smtpPret = Mailer::smtpConfigure();
+    $mailDispo = Mailer::mailDisponible();
+    $motifMail = $mailDispo ? '' : Mailer::diagnosticMail();
+    if ($mailDispo && !$smtpPret) {
+        $chemin = trim((string) ini_get('sendmail_path'));
+        $binaire = $chemin === '' ? '' : explode(' ', $chemin)[0];
+        if ($binaire === '' || !is_executable($binaire)) {
+            $mailDispo = false;
+            $motifMail = Mailer::diagnosticMail();
+        }
+    }
+    ?>
     <p class="panel__intro">
       Sans serveur SMTP renseigné, le site utilise la fonction <code>mail()</code> de l’hébergeur :
       elle n’est pas disponible partout et ses messages partent souvent en indésirables.
       Renseigner un compte SMTP authentifié fiabilise l’accusé de réception envoyé aux candidats.
       Chaque tentative est tracée dans <strong>E-mails envoyés</strong>, avec son transport et son erreur éventuelle.
     </p>
+
+    <?php if ($smtpPret): ?>
+      <div class="flash flash--success">
+        <strong>Transport actuel : serveur SMTP</strong> (<?= e((string) ($settings['mail']['smtp_host'] ?? '')) ?>).
+        Le repli <code>mail()</code> n’est pas utilisé.
+      </div>
+    <?php elseif ($mailDispo): ?>
+      <div class="flash flash--warn">
+        <strong>Transport actuel : fonction <code>mail()</code> de l’hébergeur.</strong>
+        Elle est disponible sur ce serveur. Les messages partent, mais sans authentification :
+        une partie finit en indésirables. Un compte SMTP reste préférable.
+      </div>
+    <?php else: ?>
+      <div class="flash flash--error">
+        <strong>Aucun envoi n’est possible actuellement.</strong>
+        <?= e($motifMail) ?>
+      </div>
+    <?php endif; ?>
     <div class="grid grid--2">
       <div class="field">
         <label for="mail-from">Adresse expéditrice</label>
@@ -142,6 +175,11 @@ $textareas = ['meta_description'];
                placeholder="<?= ($settings['mail']['smtp_password'] ?? '') !== '' ? '•••••••• (inchangé si laissé vide)' : '' ?>" value="">
       </div>
     </div>
+
+    <p class="help" style="margin-top:18px">
+      Enregistrez d’abord les réglages, puis lancez un envoi de test : le résultat indique le
+      transport réellement employé et, en cas d’échec, le motif exact.
+    </p>
   </div>
 
   <div class="panel">
@@ -180,3 +218,24 @@ $textareas = ['meta_description'];
     <button class="btn" type="submit">Enregistrer les réglages</button>
   </div>
 </form>
+
+<?php // Formulaire distinct : un formulaire ne peut pas en contenir un autre. ?>
+<div class="panel">
+  <div class="panel__head"><h2>Tester l’envoi</h2></div>
+  <p class="panel__intro">
+    Envoie un message réel avec les réglages enregistrés. Le résultat s’affiche en haut de page,
+    avec le transport employé et, en cas d’échec, le motif exact renvoyé par le serveur.
+  </p>
+  <form method="post" action="<?= e(url('admin/reglages/test-email')) ?>">
+    <?= Csrf::field() ?>
+    <div class="row" style="gap:12px;align-items:flex-end;flex-wrap:wrap">
+      <div class="field" style="margin:0;flex:1;min-width:260px">
+        <label for="destinataire">Destinataire du test</label>
+        <input class="input" id="destinataire" name="destinataire" type="email"
+               value="<?= e((string) ($user['email'] ?? '')) ?>">
+      </div>
+      <button class="btn btn--ghost" type="submit">Envoyer un e-mail de test</button>
+    </div>
+  </form>
+</div>
+

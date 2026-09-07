@@ -80,6 +80,7 @@ $router->get('/admin/actualites', [AdminController::class, 'posts']);
 $router->any('/admin/actualites/{id}', [AdminController::class, 'postEdit']);
 $router->post('/admin/actualites/{id}/supprimer', [AdminController::class, 'postDelete']);
 $router->any('/admin/reglages', [AdminController::class, 'settings']);
+$router->post('/admin/reglages/test-email', [AdminController::class, 'mailTest']);
 $router->any('/admin/utilisateurs', [AdminController::class, 'users']);
 $router->any('/admin/bot', [AdminController::class, 'bot']);
 $router->post('/admin/bot/modeles', [AdminController::class, 'botModels']);
