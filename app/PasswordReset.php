@@ -108,6 +108,7 @@ final class PasswordReset
         Store::update('users', $id, [
             'password_hash' => password_hash($motDePasse, PASSWORD_DEFAULT),
             'must_change_password' => false,
+            'password_faible' => false,
             // Invalide les sessions ouvertes avant ce changement : si le mot
             // de passe a été perdu parce qu'un tiers l'avait, sa session ne
             // doit pas survivre à la reprise en main du compte.

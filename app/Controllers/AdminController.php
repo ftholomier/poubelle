@@ -146,6 +146,7 @@ final class AdminController
                 Store::update('users', (string) ($user['id'] ?? ''), [
                     'password_hash' => password_hash($pass, PASSWORD_DEFAULT),
                     'must_change_password' => false,
+                    'password_faible' => false,
                 ]);
                 @unlink(DATA_DIR . '/PREMIERE-CONNEXION.txt');
                 Session::start();
@@ -576,7 +577,11 @@ final class AdminController
                 if (strlen($pass) < 10) {
                     Session::flash('Mot de passe trop court (10 caractères minimum).', 'error');
                 } else {
-                    Store::update('users', (string) ($_POST['id'] ?? ''), ['password_hash' => password_hash($pass, PASSWORD_DEFAULT), 'must_change_password' => false]);
+                    Store::update('users', (string) ($_POST['id'] ?? ''), [
+                        'password_hash' => password_hash($pass, PASSWORD_DEFAULT),
+                        'must_change_password' => false,
+                        'password_faible' => mb_strlen($pass) < 12,
+                    ]);
                     Session::flash('Mot de passe modifié.');
                 }
             } elseif ($action === 'delete') {

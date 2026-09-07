@@ -18,7 +18,25 @@ foreach (['publisher_name' => 'directeur de la publication', 'host_address' => '
 // Candidatures encore au stade « nouveau » : elles attendent un premier
 // contact. Sans rappel, elles se perdent entre deux connexions.
 $aValider = (int) ($by_stage['nouveau'] ?? 0);
+
+// Comptes dont le mot de passe a été posé court, en dépannage : le
+// rappel reste affiché tant qu'il n'a pas été remplacé.
+$comptesFaibles = array_values(array_filter(
+    Store::read('users'),
+    static fn ($c) => !empty($c['password_faible'])
+));
 ?>
+<?php if ($comptesFaibles): ?>
+  <div class="flash flash--error">
+    <strong>Mot de passe provisoire en place.</strong>
+    <?= count($comptesFaibles) > 1 ? 'Ces comptes utilisent' : 'Le compte' ?>
+    <?= e(implode(', ', array_map(static fn ($c) => (string) ($c['email'] ?? ''), $comptesFaibles))) ?>
+    <?= count($comptesFaibles) > 1 ? '' : 'utilise' ?>
+    un mot de passe de moins de 12 caractères, posé en dépannage.
+    Le back-office donne accès à des candidatures nominatives —
+    <a href="<?= e(url('admin/utilisateurs')) ?>" class="souligne">choisissez-en un vrai</a>.
+  </div>
+<?php endif; ?>
 <?php if ($aValider > 0): ?>
   <div class="flash flash--warn">
     <strong><?= $aValider ?> candidature<?= $aValider > 1 ? 's' : '' ?> à traiter.</strong>

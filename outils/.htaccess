@@ -1,0 +1,13 @@
+# Aucun accès direct aux données depuis le web.
+#
+# En configuration normale, la racine web est /public et ce dossier est
+# déjà hors d'atteinte ; ce fichier couvre le cas d'un hébergement où la
+# racine pointe sur le dépôt entier. Les deux syntaxes sont encadrées :
+# « Deny from all » exige mod_access_compat, absent de certains Apache 2.4.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>

@@ -59,6 +59,9 @@ app/                      ← code applicatif (hors racine web)
   Controllers/            SiteController · ApiController · AdminController
   Views/                  layout, partials, pages, admin
 
+outils/                   ← scripts de maintenance, en ligne de commande uniquement
+  compte-admin.php        créer un compte ou redéfinir un mot de passe
+
 data/                     ← données d'exécution, jamais versionnées
   content.json  settings.json  posts.json
   applications.json  leads.json  maillog.json  users.json
@@ -228,6 +231,37 @@ est utilisé. C'est un filet de sécurité, pas un mode de fonctionnement : rens
 SMTP dans *Réglages → Envoi des e-mails*.
 
 Les demandes expirées depuis plus d'un jour sont supprimées par la purge quotidienne.
+
+### Reprendre la main sans passer par l'e-mail
+
+Si l'hébergement n'envoie aucun courrier, un outil en ligne de commande crée un compte ou en
+redéfinit le mot de passe. Il est hors de la racine publique **et** refuse de s'exécuter depuis
+le web : appelé par une URL, il répond 404.
+
+```bash
+# Depuis la racine du projet, sur le serveur
+php outils/compte-admin.php --liste
+php outils/compte-admin.php --email=vous@exemple.fr --mot-de-passe='une phrase de passe' --nom='Prénom Nom'
+php outils/compte-admin.php --email=vous@exemple.fr --mot-de-passe='…' --changement-impose
+```
+
+Si le compte existe, son mot de passe est remplacé ; sinon il est créé. L'outil ferme les
+sessions ouvertes, annule les demandes de réinitialisation en cours et supprime le fichier de
+repli. `--changement-impose` oblige à choisir un nouveau mot de passe dès la connexion : à
+utiliser quand le mot de passe transite par un canal peu sûr.
+
+Un mot de passe de moins de 12 caractères n'est pas refusé — l'outil sert justement à débloquer
+une situation — mais le compte est marqué, et le tableau de bord affiche un rappel jusqu'à ce
+qu'il soit remplacé depuis *Utilisateurs*.
+
+**Sans accès SSH** (certains mutualisés n'en donnent pas), deux chemins :
+
+1. Lancer ce fichier par une tâche planifiée, la plupart des panneaux d'hébergement permettent
+   d'exécuter un script PHP en ligne de commande.
+2. À défaut, supprimer `data/users.json` par FTP. Au chargement suivant, l'installateur recrée
+   un compte administrateur avec un mot de passe tiré au sort, écrit dans
+   `data/PREMIERE-CONNEXION.txt` — lisible par FTP, et supprimé dès la première connexion.
+   Cette voie efface les autres comptes éventuels.
 
 ## 8. L'assistant IA (Gemini)
 
