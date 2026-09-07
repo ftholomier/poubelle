@@ -44,6 +44,7 @@ app/                      ← code applicatif (hors racine web)
   Router.php              routeur à motifs `{param}`
   Store.php               persistance JSON atomique
   ErrorHandler.php        journalisation et présentation des erreurs
+  PasswordReset.php       réinitialisation de mot de passe par lien e-mail
   Housekeeping.php        purge quotidienne des données échues
   Smtp.php                client SMTP sans dépendance
   Security.php            session, CSRF, limitation de débit, authentification
@@ -61,6 +62,7 @@ app/                      ← code applicatif (hors racine web)
 data/                     ← données d'exécution, jamais versionnées
   content.json  settings.json  posts.json
   applications.json  leads.json  maillog.json  users.json
+  password-resets.json    demandes de réinitialisation (jetons hachés)
   bot.json  bot-docs.json  bot-chats.json
   events/                 audience, un fichier JSONL par mois (ajout en fin de fichier)
   ratelimit/              compteurs de limitation de débit
@@ -155,6 +157,7 @@ dans ce fichier suffit à le rendre éditable, sans toucher aux vues du back-off
   déconnexion en POST avec jeton (un lien `GET` ne peut plus déconnecter à distance).
 - Limitation de débit à double clé : par adresse IP **et** par compte visé, pour qu'une
   attaque répartie sur plusieurs adresses reste bloquée.
+- **Mot de passe oublié** : lien à usage unique envoyé par e-mail, valable une heure (voir §7).
 
 **Entrées**
 - Jeton CSRF sur tous les formulaires et appels API mutants.
@@ -184,11 +187,45 @@ dans ce fichier suffit à le rendre éditable, sans toucher aux vues du back-off
 - Écritures JSON atomiques (fichier temporaire + `rename`) sous verrou exclusif ; un échec
   d'écriture lève une exception plutôt que de disparaître en silence.
 - Purge quotidienne automatique selon les durées annoncées dans la politique de
-  confidentialité (voir §13), CV orphelins compris.
+  confidentialité (voir §14), CV orphelins compris.
 - Toute erreur non rattrapée est journalisée dans `data/logs/` et présentée par une page 500
   propre — jamais une page à moitié rendue ni une trace d'exécution.
 
-## 7. L'assistant IA (Gemini)
+## 7. Mot de passe oublié
+
+Le lien *Mot de passe oublié ?* de l'écran de connexion mène à `/admin/mot-de-passe-oublie`.
+La personne saisit son adresse et reçoit un lien de réinitialisation.
+
+**Ce qui est stocké** : jamais le jeton lui-même, seulement son empreinte SHA-256, comme un
+mot de passe. Une copie de `data/password-resets.json` ne permet donc pas de prendre la main
+sur un compte. Chaque demande retient l'identifiant du compte, l'empreinte, la date
+d'expiration et une empreinte de l'adresse IP demandeuse.
+
+**Ce qui protège le mécanisme**
+
+| Risque | Réponse |
+|---|---|
+| Découvrir quels comptes existent | Le message affiché est identique que l'adresse corresponde à un compte ou non ; aucune demande n'est créée pour une adresse inconnue |
+| Rejouer un lien | Usage unique : les demandes du compte sont supprimées dès qu'un mot de passe est enregistré |
+| Lien intercepté tardivement | Validité d'une heure ; le lien expiré affiche un écran explicite proposant d'en demander un autre |
+| Deviner un jeton | 256 bits d'aléa (`random_bytes`), comparaison en temps constant (`hash_equals`), format contrôlé avant toute lecture |
+| Inonder une boîte mail | 4 demandes par heure et par compte, 10 par heure et par adresse IP |
+| Une session ouverte par un tiers | Toute session ouverte avant le changement est fermée : `password_changed_at` est comparé à l'heure de connexion à chaque requête |
+| Jeton lu dans un cookie tiers | Le jeton n'est lu que dans `$_POST` puis `$_GET`, jamais via `$_REQUEST` |
+
+Un mot de passe choisi par ce chemin lève aussi l'obligation de changement de la première
+connexion : c'est bien un mot de passe choisi par la personne.
+
+**Si aucun e-mail ne peut partir** — pas de serveur SMTP renseigné et pas d'agent local — le
+lien est écrit dans `data/REINITIALISATION.txt`, dossier refusé au web et hors racine publique.
+Il ne se lit qu'avec un accès au serveur, ce qui reste bien moins risqué que de modifier
+`users.json` à la main, et le fichier est écrasé à chaque demande puis supprimé dès qu'un lien
+est utilisé. C'est un filet de sécurité, pas un mode de fonctionnement : renseignez un serveur
+SMTP dans *Réglages → Envoi des e-mails*.
+
+Les demandes expirées depuis plus d'un jour sont supprimées par la purge quotidienne.
+
+## 8. L'assistant IA (Gemini)
 
 Le bot ne répond jamais « de mémoire » : à chaque question, le serveur assemble une base de
 connaissances, en extrait les passages pertinents et les transmet au modèle comme **seule matière
@@ -229,7 +266,7 @@ limitation à 25 questions par quart d'heure et par visiteur ; conservation des 
 Le widget n'apparaît que si le bot est activé **et** qu'une clé est enregistrée. Sans cela, l'API
 publique répond un message d'indisponibilité renvoyant vers le formulaire de contact.
 
-## 8. Écrire aux candidats
+## 9. Écrire aux candidats
 
 Le bouton « Écrire » d'une fiche candidat, comme le bouton « Répondre » d'un message, ouvre un
 composeur intégré au back-office : **aucun lien `mailto:`**. L'envoi part du serveur, ce qui évite
@@ -263,7 +300,7 @@ côté un chemin qui fonctionne pour tout le monde :
 Les liens `tel:` sont conservés : sur mobile, toucher un numéro pour appeler est le comportement
 attendu, et il ne dépend d'aucun logiciel à configurer.
 
-## 9. Animation des halos
+## 10. Animation des halos
 
 Chaque bloc du site porte un halo coloré diffus en arrière-plan. Ils peuvent dériver lentement —
 translation, variation d'échelle — pour que le fond ne soit jamais complètement figé.
@@ -284,7 +321,7 @@ Seul `transform` est animé — jamais `opacity`, pour ne pas écraser l'intensi
 halo définie dans les vues — donc aucun recalcul de mise en page. Sur mobile le cycle est
 automatiquement rallongé de 60 %. `prefers-reduced-motion` fige tout, quel que soit le réglage.
 
-## 10. Identité visuelle
+## 11. Identité visuelle
 
 Le logo officiel du réseau (monogramme, croix suisse et mot-symbole « SuisseImmo ») a été
 vectorisé depuis le fichier d'origine et décliné en trois usages :
@@ -309,7 +346,7 @@ Les tracés du logo pèsent une vingtaine de kilo-octets : ils ne sont écrits q
 page, dans un `<symbol>` masqué, et chaque occurrence n'est plus qu'une référence `<use>`. Le
 même mécanisme sert la bibliothèque d'icônes (`icons_sprite()`).
 
-## 11. Polices
+## 12. Polices
 
 Bricolage Grotesque et Inter sont **auto-hébergées** dans `public/assets/fonts/`, en woff2
 variable — un seul fichier couvre toutes les graisses. `public/assets/fonts/LISEZ-MOI.txt`
@@ -318,7 +355,7 @@ pour mettre à jour un fichier. Les charger depuis Google Fonts transmettrait l'
 chaque visiteur à un tiers, ce que la CNIL et la jurisprudence allemande considèrent comme un
 transfert nécessitant un consentement.
 
-## 12. Accessibilité, référencement & performance
+## 13. Accessibilité, référencement & performance
 
 **Accessibilité (RGAA / WCAG 2.1 AA)**
 - Navigation clavier complète, `aria-*` sur onglets, menu, tunnel et pop-in, lien d'évitement.
@@ -353,7 +390,7 @@ transfert nécessitant un consentement.
 - Ressources statiques suffixées de leur date de modification et servies en `immutable`.
 - Aucun script bloquant ; seules `transform` et `opacity` sont animées.
 
-## 13. Conformité RGPD / LCEN
+## 14. Conformité RGPD / LCEN
 
 - **Mentions légales** : le tableau de bord signale l'absence du directeur de la publication ou
   des coordonnées de l'hébergeur, obligatoires au titre de l'article 6-III de la LCEN.
@@ -368,6 +405,7 @@ transfert nécessitant un consentement.
   | Conversations de l'assistant | 12 mois |
   | Journal des e-mails | 12 mois |
   | Mesure d'audience | 13 mois |
+  | Demandes de réinitialisation | 1 jour après expiration |
 
   Les CV devenus orphelins sont supprimés avec la candidature correspondante.
 - **Mesure d'audience** : maison, sans cookie ni identifiant persistant — l'empreinte visiteur
@@ -376,7 +414,7 @@ transfert nécessitant un consentement.
   sortie possible est l'API Gemini, et uniquement si l'assistant est activé — ce cas est alors
   déclaré dans la politique de confidentialité, qui l'affiche de façon conditionnelle.
 
-## 14. Points à valider avant mise en ligne
+## 15. Points à valider avant mise en ligne
 
 Le simulateur est livré avec un barème **paramétrable et indicatif** (honoraires d'agence
 à 4,5 % du prix de vente, paliers 70 / 80 / 90 %). Ces valeurs ne figurent pas sur le site

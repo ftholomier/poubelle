@@ -8,6 +8,11 @@
     <h1>Connexion</h1>
     <p class="sub">Accès réservé à l’équipe de recrutement.</p>
 
+    <?php // Messages venus d'un autre écran : mot de passe réinitialisé, session expirée… ?>
+    <?php foreach (Session::flash() as $f): ?>
+      <div class="flash flash--<?= e($f['type']) ?>"><?= e($f['message']) ?></div>
+    <?php endforeach; ?>
+
     <?php if (!empty($error)): ?>
       <div class="flash flash--error"><?= e($error) ?></div>
     <?php endif; ?>
@@ -25,7 +30,11 @@
       <button class="btn" style="width:100%;margin-top:6px" type="submit">Se connecter</button>
     </form>
 
-    <p style="margin-top:22px;font-size:.8rem;color:var(--muted);text-align:center">
+    <p style="margin-top:18px;font-size:.85rem;text-align:center">
+      <a href="<?= e(url('admin/mot-de-passe-oublie')) ?>" class="souligne">Mot de passe oublié ?</a>
+    </p>
+
+    <p style="margin-top:14px;font-size:.8rem;color:var(--muted);text-align:center">
       <a href="<?= e(url('/')) ?>">← Retour au site</a>
     </p>
   </div>

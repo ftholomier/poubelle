@@ -373,3 +373,17 @@ table.data a.strong:hover { color: #ff8290; }
 .souligne { text-decoration: underline; }
 .col-pleine { grid-column: 1 / -1; }
 .panel__intro { font-size: .86rem; color: var(--muted); margin-bottom: 16px; }
+
+/* ---------------------------------- Cibles tactiles (≥ 44 px)
+   Même règle que sur le site public : sur écran tactile, une commande
+   doit offrir au moins 44 × 44 px. Les écrans de connexion et de
+   réinitialisation sont consultés depuis un téléphone aussi souvent que
+   depuis un poste fixe. */
+@media (pointer: coarse), (max-width: 900px) {
+  .btn, .input, .select, .textarea { min-height: 44px; }
+  /* Liens de service isolés sous les formulaires : la zone est épaissie
+     sans décaler le texte. */
+  .login a { display: inline-block; padding-block: 14px; }
+  .side a, .side__foot button { min-height: 44px; display: inline-flex; align-items: center; }
+}
+

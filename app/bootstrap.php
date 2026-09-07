@@ -11,6 +11,7 @@ require __DIR__ . '/Router.php';
 require __DIR__ . '/ContentSchema.php';
 require __DIR__ . '/Smtp.php';
 require __DIR__ . '/Mailer.php';
+require __DIR__ . '/PasswordReset.php';
 require __DIR__ . '/Analytics.php';
 require __DIR__ . '/Housekeeping.php';
 require __DIR__ . '/DocText.php';

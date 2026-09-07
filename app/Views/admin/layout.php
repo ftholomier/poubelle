@@ -60,7 +60,7 @@ $items2 = [
       <div><?= e($user['name'] ?: $user['email'] ?? '') ?></div>
       <form method="post" action="<?= e(url('admin/logout')) ?>" style="margin-top:2px">
         <?= Csrf::field() ?>
-        <button type="submit" style="color:#ff8290;font-size:.82rem;padding:0">Se déconnecter</button>
+        <button type="submit" style="color:#ff8290;font-size:.82rem;padding:6px 0">Se déconnecter</button>
       </form>
       <?php if ($pendingDrafts): ?>
         <div style="margin-top:10px;font-size:.78rem"><?= (int) $pendingDrafts ?> candidature<?= $pendingDrafts > 1 ? 's' : '' ?> abandonnée<?= $pendingDrafts > 1 ? 's' : '' ?> à relancer</div>

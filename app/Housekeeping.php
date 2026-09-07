@@ -73,6 +73,9 @@ final class Housekeeping
         $removed['conversations'] = self::purgeCollection('bot-chats', self::RETENTION['bot_chats'], 'created_at');
         $removed['emails'] = self::purgeCollection('maillog', self::RETENTION['maillog'], 'created_at');
 
+        // --- Demandes de réinitialisation expirées ---
+        $removed['reinitialisations'] = PasswordReset::purger();
+
         // --- Audience : les fichiers mensuels entiers ---
         $removed['mois_audience'] = 0;
         $cutoff = date('Y-m', $now - self::RETENTION['events'] * 86400);

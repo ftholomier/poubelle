@@ -47,6 +47,84 @@ final class AdminController
      * pas eu lieu : le mot de passe d'installation circule en clair dans
      * data/PREMIERE-CONNEXION.txt.
      */
+    /**
+     * Demande de réinitialisation.
+     *
+     * Le message affiché est le même que l'adresse existe ou non : ce
+     * formulaire ne doit pas permettre de dresser la liste des comptes.
+     */
+    public static function forgotPassword(): void
+    {
+        if (Auth::check()) {
+            redirect(url('admin'));
+        }
+        $error = null;
+        $envoye = false;
+
+        if (is_post()) {
+            $email = strtolower(trim((string) ($_POST['email'] ?? '')));
+            // Deux compteurs, comme pour la connexion : par adresse IP pour
+            // freiner l'envoi en masse, par compte pour qu'une personne ne
+            // soit pas inondée de messages.
+            $parIp = RateLimit::hit('reset', 10, 3600, 'ip:' . hash('sha256', client_ip()));
+            $parCompte = RateLimit::hit('reset', 4, 3600, 'compte:' . hash('sha256', $email));
+
+            if (!Csrf::check($_POST['_csrf'] ?? null)) {
+                $error = 'Session expirée, merci de réessayer.';
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $error = 'Adresse e-mail invalide.';
+            } elseif (!$parIp || !$parCompte) {
+                $error = 'Trop de demandes envoyées. Réessayez dans une heure.';
+            } else {
+                PasswordReset::demander($email);
+                $envoye = true;
+            }
+        }
+
+        echo view('admin/forgot-password', [
+            'error' => $error,
+            'envoye' => $envoye,
+        ], 'admin/layout-bare');
+    }
+
+    /** Saisie du nouveau mot de passe, depuis le lien reçu par e-mail. */
+    public static function resetPassword(): void
+    {
+        // Explicitement POST puis GET : $_REQUEST inclurait aussi les
+        // cookies, qu'un tiers peut poser sur le domaine.
+        $jeton = (string) ($_POST['jeton'] ?? $_GET['jeton'] ?? '');
+        $error = null;
+        $valide = PasswordReset::trouver($jeton) !== null;
+
+        if ($valide && is_post()) {
+            $pass = (string) ($_POST['password'] ?? '');
+            $confirm = (string) ($_POST['password_confirm'] ?? '');
+            if (!Csrf::check($_POST['_csrf'] ?? null)) {
+                $error = 'Session expirée, merci de réessayer.';
+            } elseif (mb_strlen($pass) < PasswordReset::LONGUEUR_MIN) {
+                $error = 'Choisissez un mot de passe d’au moins ' . PasswordReset::LONGUEUR_MIN . ' caractères.';
+            } elseif ($pass !== $confirm) {
+                $error = 'Les deux saisies ne correspondent pas.';
+            } elseif (!PasswordReset::consommer($jeton, $pass)) {
+                $error = 'Ce lien n’est plus valable. Demandez-en un nouveau.';
+                $valide = false;
+            } else {
+                // La session éventuellement ouverte ici ne doit pas survivre
+                // à un changement demandé depuis un autre appareil.
+                Auth::logout();
+                @unlink(DATA_DIR . '/' . PasswordReset::FICHIER_REPLI);
+                Session::flash('Mot de passe enregistré. Vous pouvez vous connecter.');
+                redirect(url('admin/login'));
+            }
+        }
+
+        echo view('admin/reset-password', [
+            'error' => $error,
+            'valide' => $valide,
+            'jeton' => $jeton,
+        ], 'admin/layout-bare');
+    }
+
     public static function firstLogin(): void
     {
         $user = Auth::requireLogin();

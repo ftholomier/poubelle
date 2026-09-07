@@ -62,6 +62,8 @@ $router->post('/api/bot/chat', [ApiController::class, 'botChat']);
 // ------------------------------------------------------------ back-office
 $router->any('/admin/login', [AdminController::class, 'login']);
 $router->post('/admin/logout', [AdminController::class, 'logout']);
+$router->any('/admin/mot-de-passe-oublie', [AdminController::class, 'forgotPassword']);
+$router->any('/admin/nouveau-mot-de-passe', [AdminController::class, 'resetPassword']);
 $router->any('/admin/premiere-connexion', [AdminController::class, 'firstLogin']);
 $router->get('/admin', [AdminController::class, 'dashboard']);
 $router->get('/admin/candidatures', [AdminController::class, 'applicationsList']);

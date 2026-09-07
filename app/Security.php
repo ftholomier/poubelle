@@ -194,6 +194,19 @@ final class Auth
             self::logout();
             return null;
         }
+        // Une session ouverte avant le dernier changement de mot de passe
+        // n'est plus légitime : reprendre la main sur un compte doit
+        // déconnecter celui qui s'y trouvait déjà.
+        $ligne = Store::find('users', (string) ($u['id'] ?? ''));
+        if ($ligne === null || !($ligne['active'] ?? true)) {
+            self::logout();
+            return null;
+        }
+        $changement = (string) ($ligne['password_changed_at'] ?? '');
+        if ($changement !== '' && (int) strtotime($changement) > (int) ($u['since'] ?? 0)) {
+            self::logout();
+            return null;
+        }
         return $u;
     }
 
