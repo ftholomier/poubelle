@@ -32,7 +32,7 @@
                           data-mailer-name="<?= e($l['name'] ?? '') ?>"
                           data-mailer-area="votre secteur"
                           data-mailer-template="reponse"><?= icon('mail') ?> Répondre</button>
-                  <form method="post" action="<?= e(url('admin/messages/' . $l['id'] . '/supprimer')) ?>" onsubmit="return confirm('Supprimer ce message ?')">
+                  <form method="post" action="<?= e(url('admin/messages/' . $l['id'] . '/supprimer')) ?>" data-confirmer="Supprimer ce message ?">
                     <?= Csrf::field() ?>
                     <button class="btn btn--sm btn--danger" type="submit">Supprimer</button>
                   </form>
@@ -45,5 +45,7 @@
     </div>
   <?php endif; ?>
 </div>
+
+<?php partial('pagination', ['pager' => $pager ?? []]); ?>
 
 <?php partial('admin-mailer'); ?>

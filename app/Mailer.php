@@ -2,45 +2,149 @@
 declare(strict_types=1);
 
 /**
- * Envoi d'e-mails sans dépendance externe (fonction mail() native).
- * Chaque envoi est journalisé dans data/maillog.json, ce qui permet
- * de tout retrouver depuis le back-office même si le serveur SMTP
- * n'est pas configuré.
+ * Envoi d'e-mails sans dépendance externe.
+ *
+ * Deux transports : un serveur SMTP authentifié dès qu'il est renseigné
+ * dans les réglages (voir Smtp.php), sinon la fonction mail() locale.
+ * Chaque envoi est journalisé dans data/maillog.json avec son transport
+ * et l'éventuelle erreur, ce qui permet de tout retrouver depuis le
+ * back-office même quand rien ne part.
  */
 final class Mailer
 {
+    /** Nombre d'entrées conservées avec leur corps HTML complet. */
+    private const CORPS_CONSERVES = 60;
+    /** Nombre total d'entrées conservées dans le journal. */
+    private const ENTREES_CONSERVEES = 300;
+
     public static function send(string $to, string $subject, string $htmlBody, ?string $replyTo = null): bool
     {
-        $from = (string) settings('company.email', 'contact@suisse-immo.fr');
+        $to = self::adresse($to);
+        $from = self::adresse((string) settings('company.email', 'contact@suisse-immo.fr'));
+        $replyTo = self::adresse((string) ($replyTo ?: $from));
+        $subject = self::monoLigne($subject);
         $host = (string) (parse_url((string) settings('site.url', ''), PHP_URL_HOST) ?: 'suisse-immo.fr');
-        $boundaryFrom = 'Suisse Immo <no-reply@' . $host . '>';
+        $expediteur = (string) settings('mail.from', 'no-reply@' . $host);
+        $expediteur = self::adresse($expediteur) ?: 'no-reply@' . $host;
+        $nomExpediteur = self::monoLigne((string) settings('mail.from_name', 'Suisse Immo'));
 
-        $headers = [
+        $corps = self::wrap($subject, $htmlBody);
+        $enTetes = [
+            'Date: ' . date('r'),
+            'Message-ID: <' . bin2hex(random_bytes(12)) . '@' . $host . '>',
             'MIME-Version: 1.0',
             'Content-Type: text/html; charset=UTF-8',
-            'From: ' . $boundaryFrom,
-            'Reply-To: ' . ($replyTo ?: $from),
+            'From: ' . self::encoder($nomExpediteur) . ' <' . $expediteur . '>',
+            'Reply-To: ' . $replyTo,
+            'To: ' . $to,
+            'Subject: ' . self::encoder($subject),
             'X-Mailer: SuisseImmo-Funnel',
         ];
 
         $sent = false;
-        if (settings('funnel.notify_enabled', true) && function_exists('mail')) {
-            $sent = @mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', self::wrap($subject, $htmlBody), implode("\r\n", $headers));
+        $erreur = '';
+        $transport = 'désactivé';
+
+        if ($to !== '' && settings('funnel.notify_enabled', true)) {
+            if (self::smtpConfigure()) {
+                $transport = 'smtp';
+                try {
+                    $client = new Smtp(
+                        (string) settings('mail.smtp_host', ''),
+                        (int) settings('mail.smtp_port', 587),
+                        (string) settings('mail.smtp_encryption', 'tls'),
+                        (string) settings('mail.smtp_user', ''),
+                        (string) settings('mail.smtp_password', ''),
+                    );
+                    $sent = $client->envoyer($expediteur, $to, $subject, $corps, $enTetes);
+                } catch (Throwable $e) {
+                    $erreur = $e->getMessage();
+                    ErrorHandler::log($e);
+                }
+            } elseif (function_exists('mail')) {
+                // Repli : agent local. Les en-têtes To et Subject sont
+                // passés en arguments, on ne les répète pas.
+                $transport = 'mail()';
+                $entetesMail = array_values(array_filter(
+                    $enTetes,
+                    static fn ($h) => !str_starts_with($h, 'To: ') && !str_starts_with($h, 'Subject: ')
+                ));
+                $sent = @mail($to, self::encoder($subject), $corps, implode("\r\n", $entetesMail));
+                if (!$sent) {
+                    $erreur = 'La fonction mail() a échoué (aucun agent local ?).';
+                }
+            } else {
+                $erreur = 'Aucun transport disponible.';
+            }
         }
 
-        Store::mutate('maillog', static function (array $rows) use ($to, $subject, $sent, $htmlBody): array {
+        self::journaliser($to, $subject, $sent, $htmlBody, $transport, $erreur);
+
+        return $sent;
+    }
+
+    /** Un serveur SMTP est-il renseigné dans les réglages ? */
+    public static function smtpConfigure(): bool
+    {
+        return trim((string) settings('mail.smtp_host', '')) !== '';
+    }
+
+    /**
+     * Journal des envois.
+     *
+     * Le corps HTML complet n'est gardé que pour les envois récents : au
+     * bout de quelques mois, trois cents messages entiers font grossir le
+     * fichier pour rien, alors que l'objet et le destinataire suffisent à
+     * retracer ce qui est parti.
+     */
+    private static function journaliser(string $to, string $subject, bool $sent, string $body, string $transport, string $erreur): void
+    {
+        Store::mutate('maillog', static function (array $rows) use ($to, $subject, $sent, $body, $transport, $erreur): array {
             array_unshift($rows, [
                 'id' => Store::uid('mail-'),
                 'to' => $to,
                 'subject' => $subject,
                 'sent' => $sent,
-                'body' => $htmlBody,
+                'transport' => $transport,
+                'error' => $erreur,
+                'body' => $body,
                 'created_at' => date('c'),
             ]);
-            return array_slice($rows, 0, 300);
+            $rows = array_slice($rows, 0, self::ENTREES_CONSERVEES);
+            foreach ($rows as $i => $row) {
+                if ($i >= self::CORPS_CONSERVES && isset($row['body'])) {
+                    $rows[$i]['body'] = '';
+                    $rows[$i]['body_purged'] = true;
+                }
+            }
+            return $rows;
         });
+    }
 
-        return $sent;
+    /**
+     * Adresse e-mail nettoyée.
+     *
+     * Un retour à la ligne dans une adresse ou un objet permettrait
+     * d'ajouter des en-têtes arbitraires (Bcc vers un tiers) : les
+     * caractères de contrôle sont retirés avant toute utilisation.
+     */
+    private static function adresse(string $valeur): string
+    {
+        $valeur = trim(str_replace(["\r", "\n", "\0", "\t"], '', $valeur));
+        return filter_var($valeur, FILTER_VALIDATE_EMAIL) ? $valeur : '';
+    }
+
+    private static function monoLigne(string $valeur): string
+    {
+        return trim(preg_replace('/[\r\n\0]+/', ' ', $valeur) ?? '');
+    }
+
+    /** Encodage RFC 2047 : l'objet peut contenir des accents. */
+    private static function encoder(string $valeur): string
+    {
+        return preg_match('/[^\x20-\x7E]/', $valeur) === 1
+            ? '=?UTF-8?B?' . base64_encode($valeur) . '?='
+            : $valeur;
     }
 
     private static function wrap(string $title, string $body): string

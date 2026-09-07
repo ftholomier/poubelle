@@ -79,11 +79,9 @@ $stats = (array) content('stats');
               <label for="f-experience">Une expérience de la vente ou de la relation client ?</label>
               <select class="select" id="f-experience" name="experience">
                 <option value="">— Choisissez —</option>
-                <option>Aucune, mais très motivé(e)</option>
-                <option>Moins de 2 ans</option>
-                <option>2 à 5 ans</option>
-                <option>Plus de 5 ans</option>
-                <option>Déjà agent immobilier</option>
+                <?php foreach ((array) ($a['experiences'] ?? []) as $x): ?>
+                  <option><?= e($x) ?></option>
+                <?php endforeach; ?>
               </select>
             </div>
 

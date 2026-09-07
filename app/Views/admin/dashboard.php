@@ -23,6 +23,22 @@ foreach (['publisher_name' => 'directeur de la publication', 'host_address' => '
   </div>
 <?php endif; ?>
 
+<?php
+// Diagnostic de l'environnement : une extension absente ne se voit
+// autrement qu'au moment où la fonctionnalité concernée échoue.
+$manques = Installer::missingRequirements();
+?>
+<?php if ($manques): ?>
+  <div class="flash flash--<?= array_filter($manques, static fn ($m) => $m['requis']) ? 'error' : 'warn' ?>">
+    <strong>Environnement serveur incomplet.</strong>
+    <ul style="margin:8px 0 0;padding-left:18px">
+      <?php foreach ($manques as $m): ?>
+        <li><strong><?= e($m['libelle']) ?></strong><?= $m['requis'] ? ' (indispensable)' : '' ?> — <?= e($m['role']) ?></li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
+<?php endif; ?>
+
 <div class="topbar">
   <h1>Tableau de bord</h1>
   <div class="row">

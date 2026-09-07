@@ -114,7 +114,7 @@ $fields = [
         <?= Csrf::field() ?>
         <div class="field">
           <label for="stage">Étape du recrutement</label>
-          <select class="select" id="stage" name="stage" onchange="this.form.submit()">
+          <select class="select" id="stage" name="stage" data-envoi-auto>
             <?php foreach ($stages as $s): ?>
               <option value="<?= e($s['key']) ?>" <?= ($row['stage'] ?? 'nouveau') === $s['key'] ? 'selected' : '' ?>><?= e($s['label']) ?></option>
             <?php endforeach; ?>
@@ -142,7 +142,7 @@ $fields = [
         La suppression efface définitivement la candidature, ses notes et le CV associé.
       </p>
       <form method="post" action="<?= e(url('admin/candidatures/' . $row['id'] . '/supprimer')) ?>"
-            onsubmit="return confirm('Supprimer définitivement cette candidature ?')">
+            data-confirmer="Supprimer définitivement cette candidature ?">
         <?= Csrf::field() ?>
         <button class="btn btn--danger btn--sm" type="submit">Supprimer la candidature</button>
       </form>

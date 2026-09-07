@@ -96,4 +96,4 @@ $templates = [
   </div>
 </div>
 
-<script id="mailer-templates" type="application/json"><?= json_encode($templates, JSON_UNESCAPED_UNICODE) ?></script>
+<script nonce="<?= e(csp_nonce()) ?>" id="mailer-templates" type="application/json"><?= json_encode($templates, JSON_UNESCAPED_UNICODE) ?></script>

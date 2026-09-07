@@ -29,7 +29,7 @@
             </td>
             <td style="text-align:right">
               <?php if (($u['id'] ?? '') !== ($user['id'] ?? '')): ?>
-                <form method="post" onsubmit="return confirm('Supprimer ce compte ?')">
+                <form method="post" data-confirmer="Supprimer ce compte ?">
                   <?= Csrf::field() ?>
                   <input type="hidden" name="action" value="delete">
                   <input type="hidden" name="id" value="<?= e($u['id'] ?? '') ?>">

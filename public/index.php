@@ -31,6 +31,7 @@ $router->get('/mentions-legales', [SiteController::class, 'legal']);
 $router->get('/politique-de-confidentialite', [SiteController::class, 'privacy']);
 $router->get('/sitemap.xml', [SiteController::class, 'sitemap']);
 $router->get('/site.webmanifest', [SiteController::class, 'webmanifest']);
+$router->get('/robots.txt', [SiteController::class, 'robots']);
 
 // Redirections depuis les anciennes URL WordPress.
 $legacy = [

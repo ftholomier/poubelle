@@ -17,7 +17,30 @@
       "Aucune expérience immobilière requise",
       "Formation et outils inclus",
       "Vous démarrez en 30 jours"
-    ]
+    ],
+    "panel": {
+      "avatars": [
+        "KL",
+        "CY",
+        "DJ",
+        "BP"
+      ],
+      "avatars_more": "60+",
+      "avatars_label": "Agents déjà en poste dans le réseau",
+      "figure": 2000,
+      "figure_label": "biens vendus par le réseau depuis 2017",
+      "rows": [
+        {
+          "label": "Statut",
+          "value": "Agent commercial indépendant"
+        },
+        {
+          "label": "Plafond de rémunération",
+          "value": "Aucun"
+        }
+      ],
+      "cta": "Vérifier si mon secteur est libre"
+    }
   },
   "marquee": [
     "Belfort",
@@ -535,7 +558,14 @@
       "Autre"
     ],
     "success_title": "Candidature reçue.",
-    "success_text": "Merci ! Votre dossier est entre les mains de notre équipe. Nous revenons vers vous sous 48 heures ouvrées pour fixer votre rendez-vous stratégique."
+    "success_text": "Merci ! Votre dossier est entre les mains de notre équipe. Nous revenons vers vous sous 48 heures ouvrées pour fixer votre rendez-vous stratégique.",
+    "experiences": [
+      "Aucune, mais très motivé(e)",
+      "Moins de 2 ans",
+      "2 à 5 ans",
+      "Plus de 5 ans",
+      "Déjà agent immobilier"
+    ]
   },
   "contact": {
     "title": "Une question ? Écrivez-nous.",

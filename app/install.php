@@ -97,6 +97,57 @@ final class Installer
         }
     }
 
+    /**
+     * État de l'environnement PHP.
+     *
+     * Le site fonctionne sans base de données mais s'appuie sur quelques
+     * extensions : leur absence se manifeste autrement par une
+     * fonctionnalité silencieusement inopérante (extraction d'un .docx,
+     * détection du type d'un CV, TLS sortant). Le tableau de bord affiche
+     * ce diagnostic.
+     *
+     * @return array<int,array{cle:string,libelle:string,requis:bool,present:bool,role:string}>
+     */
+    public static function requirements(): array
+    {
+        $lignes = [
+            ['cle' => 'php', 'libelle' => 'PHP 8.1 ou plus', 'requis' => true,
+             'present' => PHP_VERSION_ID >= 80100,
+             'role' => 'Version actuelle : ' . PHP_VERSION . '.'],
+            ['cle' => 'json', 'libelle' => 'Extension json', 'requis' => true,
+             'present' => extension_loaded('json'),
+             'role' => 'Lecture et écriture de toutes les données du site.'],
+            ['cle' => 'mbstring', 'libelle' => 'Extension mbstring', 'requis' => true,
+             'present' => extension_loaded('mbstring'),
+             'role' => 'Découpe correcte des textes accentués (titres, extraits, e-mails).'],
+            ['cle' => 'fileinfo', 'libelle' => 'Extension fileinfo', 'requis' => false,
+             'present' => extension_loaded('fileinfo'),
+             'role' => 'Vérifie le type réel des CV déposés ; à défaut, seule la signature du fichier est contrôlée.'],
+            ['cle' => 'zip', 'libelle' => 'Extension zip', 'requis' => false,
+             'present' => class_exists('ZipArchive'),
+             'role' => 'Extraction du texte des documents .docx pour la base de connaissances du bot.'],
+            ['cle' => 'zlib', 'libelle' => 'Extension zlib', 'requis' => false,
+             'present' => function_exists('gzuncompress'),
+             'role' => 'Extraction du texte des PDF pour la base de connaissances du bot.'],
+            ['cle' => 'openssl', 'libelle' => 'Extension openssl', 'requis' => false,
+             'present' => extension_loaded('openssl'),
+             'role' => 'Connexion chiffrée au serveur SMTP et à l’API Gemini.'],
+            ['cle' => 'sortie', 'libelle' => 'Requêtes HTTP sortantes', 'requis' => false,
+             'present' => function_exists('curl_init') || filter_var(ini_get('allow_url_fopen'), FILTER_VALIDATE_BOOL),
+             'role' => 'Nécessaire au bot IA (API Gemini). Sans cela, le reste du site fonctionne normalement.'],
+            ['cle' => 'data', 'libelle' => 'Dossier /data accessible en écriture', 'requis' => true,
+             'present' => is_dir(DATA_DIR) && is_writable(DATA_DIR),
+             'role' => 'Stockage des candidatures, du contenu et des réglages.'],
+        ];
+        return $lignes;
+    }
+
+    /** Manques bloquants ou notables, pour l'alerte du tableau de bord. */
+    public static function missingRequirements(): array
+    {
+        return array_values(array_filter(self::requirements(), static fn ($l) => !$l['present']));
+    }
+
     /** Mot de passe d'installation : 16 caractères tirés au sort. */
     public static function randomPassword(int $length = 16): string
     {

@@ -50,9 +50,13 @@ final class Session
             'path' => '/',
             'httponly' => true,
             'samesite' => 'Lax',
-            'secure' => (($_SERVER['HTTPS'] ?? '') !== '' && $_SERVER['HTTPS'] !== 'off'),
+            'secure' => is_https(),
         ]);
         session_name('si_sess');
+        // PHP impose sinon ses propres en-têtes de cache (no-store) à toutes
+        // les réponses, y compris au plan de site ou au robots.txt : la
+        // politique de cache est décidée par l'application.
+        session_cache_limiter('');
         @session_start();
         self::$started = true;
     }

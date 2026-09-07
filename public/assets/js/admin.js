@@ -292,3 +292,40 @@
     sync();
   }
 })();
+
+/* ---------------------------------------------------------------------
+   Comportements déportés des attributs HTML.
+
+   Les gestionnaires en ligne (onsubmit, onchange, oninput) sont interdits
+   par la politique de sécurité du contenu : ils sont remplacés ici par
+   une délégation d'évènements sur des attributs data-*.
+   ------------------------------------------------------------------ */
+(function () {
+  'use strict';
+
+  // Confirmation avant une suppression définitive.
+  document.addEventListener('submit', (e) => {
+    const message = e.target.getAttribute && e.target.getAttribute('data-confirmer');
+    if (message && !window.confirm(message)) {
+      e.preventDefault();
+    }
+  });
+
+  // Filtres de liste : le formulaire part dès que la sélection change.
+  document.addEventListener('change', (e) => {
+    const champ = e.target;
+    if (champ.hasAttribute && champ.hasAttribute('data-envoi-auto') && champ.form) {
+      champ.form.submit();
+    }
+  });
+
+  // Curseur dont la valeur s'affiche à côté.
+  document.addEventListener('input', (e) => {
+    const champ = e.target;
+    if (!champ.getAttribute) return;
+    const cible = champ.getAttribute('data-sortie');
+    if (!cible) return;
+    const sortie = document.getElementById(cible);
+    if (sortie) sortie.textContent = champ.value + (champ.getAttribute('data-sortie-suffixe') || '');
+  });
+})();

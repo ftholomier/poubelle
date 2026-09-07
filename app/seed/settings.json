@@ -7,7 +7,8 @@
     "locale": "fr_FR",
     "meta_title": "Devenir agent immobilier indépendant — Suisse Immo",
     "meta_description": "Rejoignez Suisse Immo, réseau d’agences immobilières en Bourgogne-Franche-Comté : accompagnement juridique, commercial et digital, revenus sans plafond.",
-    "og_image": "/assets/img/og-cover.svg"
+    "og_image": "/assets/img/og-cover.png",
+    "indexable": true
   },
   "company": {
     "legal_name": "SUISSE IMMO",
@@ -78,5 +79,14 @@
   "motion": {
     "glow": true,
     "glow_cycle": 34
+  },
+  "mail": {
+    "from": "",
+    "from_name": "Suisse Immo",
+    "smtp_host": "",
+    "smtp_port": 587,
+    "smtp_encryption": "tls",
+    "smtp_user": "",
+    "smtp_password": ""
   }
 }

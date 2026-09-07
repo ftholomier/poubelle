@@ -64,7 +64,7 @@
 
 <?php if (!empty($row['id'])): ?>
   <form method="post" action="<?= e(url('admin/actualites/' . $row['id'] . '/supprimer')) ?>"
-        onsubmit="return confirm('Supprimer définitivement cet article ?')" style="margin-top:-12px">
+        data-confirmer="Supprimer définitivement cet article ?" style="margin-top:-12px">
     <?= Csrf::field() ?>
     <button class="btn btn--danger btn--sm" type="submit">Supprimer l’article</button>
   </form>

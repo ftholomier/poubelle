@@ -15,7 +15,7 @@ $stages = (array) settings('pipeline.stages', []);
     <?php if ($showDrafts): ?><input type="hidden" name="drafts" value="1"><?php endif; ?>
     <input class="input" style="max-width:280px" type="search" name="q" value="<?= e($q) ?>" placeholder="Nom, e-mail, téléphone, secteur…">
     <?php if (!$showDrafts): ?>
-      <select class="select" style="max-width:200px" name="stage" onchange="this.form.submit()">
+      <select class="select" style="max-width:200px" name="stage" data-envoi-auto>
         <option value="">Toutes les étapes</option>
         <?php foreach ($stages as $s): ?>
           <option value="<?= e($s['key']) ?>" <?= $stage === $s['key'] ? 'selected' : '' ?>><?= e($s['label']) ?> (<?= (int) ($by_stage[$s['key']] ?? 0) ?>)</option>
@@ -75,3 +75,5 @@ $stages = (array) settings('pipeline.stages', []);
     </div>
   <?php endif; ?>
 </div>
+
+<?php partial('pagination', ['pager' => $pager ?? []]); ?>

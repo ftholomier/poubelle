@@ -1,4 +1,4 @@
-<script>window.SI_BOT = { modelsUrl: <?= json_encode(url("admin/bot/modeles")) ?>, testUrl: <?= json_encode(url("admin/bot/test")) ?> };</script>
+<script nonce="<?= e(csp_nonce()) ?>">window.SI_BOT = { modelsUrl: <?= json_encode(url("admin/bot/modeles")) ?>, testUrl: <?= json_encode(url("admin/bot/test")) ?> };</script>
 <?php
 /** @var array $cfg @var array $docs @var array $chats */
 $hasKey = trim((string) $cfg['api_key']) !== '';
@@ -194,7 +194,7 @@ $models = (array) $cfg['models'];
               <td style="color:var(--muted);max-width:340px"><?= e(mb_substr((string) ($d['preview'] ?? ''), 0, 120)) ?>…</td>
               <td style="color:var(--muted);white-space:nowrap"><?= e(fr_date($d['created_at'] ?? '')) ?></td>
               <td style="text-align:right">
-                <form method="post" action="<?= e(url('admin/bot/documents/' . ($d['id'] ?? '') . '/supprimer')) ?>" onsubmit="return confirm('Retirer ce document de la base de connaissances ?')">
+                <form method="post" action="<?= e(url('admin/bot/documents/' . ($d['id'] ?? '') . '/supprimer')) ?>" data-confirmer="Retirer ce document de la base de connaissances ?">
                   <?= Csrf::field() ?>
                   <button class="btn btn--sm btn--danger" type="submit">Retirer</button>
                 </form>

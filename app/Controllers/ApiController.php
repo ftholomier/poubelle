@@ -111,6 +111,11 @@ final class ApiController
     {
         Csrf::guard();
         $p = request_payload();
+        // Même piège que sur l'envoi final : sans lui, un robot remplit la
+        // liste des candidatures de brouillons fantômes.
+        if (trim((string) ($p['website'] ?? '')) !== '') {
+            json_out(['ok' => true, 'draft_id' => '', 'step' => (int) ($p['step'] ?? 1)]);
+        }
         if (!RateLimit::hit('apply_step', 60, 900)) {
             json_out(['ok' => false, 'error' => 'Trop de requêtes, réessayez dans quelques minutes.'], 429);
         }
@@ -294,14 +299,32 @@ final class ApiController
             'email' => strtolower(self::str($p['email'] ?? '', 160)),
             'phone' => self::str($p['phone'] ?? '', 40),
             'area' => self::str($p['area'] ?? '', 160),
-            'situation' => self::str($p['situation'] ?? '', 120),
-            'availability' => self::str($p['availability'] ?? '', 60),
-            'experience' => self::str($p['experience'] ?? '', 120),
+            'situation' => self::choice($p['situation'] ?? '', 'apply.situations'),
+            'availability' => self::choice($p['availability'] ?? '', 'apply.availabilities'),
+            'experience' => self::choice($p['experience'] ?? '', 'apply.experiences'),
             'goal' => self::text($p['goal'] ?? '', 2000),
-            'source' => self::str($p['source'] ?? '', 60),
+            'source' => self::choice($p['source'] ?? '', 'apply.sources'),
             'message' => self::text($p['message'] ?? '', 4000),
             'simulation' => is_array($p['simulation'] ?? null) ? array_map(static fn ($v) => is_scalar($v) ? $v : '', $p['simulation']) : [],
         ];
+    }
+
+    /**
+     * Champ à liste fermée.
+     *
+     * Ces valeurs viennent de boutons radio ou de listes déroulantes : rien
+     * n'empêche d'en poster d'autres. Une valeur absente de la liste éditée
+     * dans le back-office est écartée, ce qui évite de retrouver du texte
+     * arbitraire dans l'export et les e-mails.
+     */
+    private static function choice(mixed $v, string $chemin): string
+    {
+        $valeur = self::str($v, 160);
+        if ($valeur === '') {
+            return '';
+        }
+        $options = array_map(static fn ($o) => (string) $o, (array) content($chemin, []));
+        return in_array($valeur, $options, true) ? $valeur : '';
     }
 
     /** Champ mono-ligne : retours à la ligne et tabulations deviennent des espaces. */
@@ -344,6 +367,14 @@ final class ApiController
         if (!array_key_exists($ext, UPLOAD_ALLOWED)) {
             return ['error' => 'Formats acceptés : PDF, DOC, DOCX.'];
         }
+        if (!is_uploaded_file((string) ($f['tmp_name'] ?? ''))) {
+            return ['error' => 'Le fichier n’a pas pu être envoyé.'];
+        }
+        // L'extension est déclarative : on vérifie le contenu réel. Un
+        // script renommé « cv.pdf » serait sinon stocké tel quel.
+        if (!self::mimeAutorise((string) $f['tmp_name'], $ext)) {
+            return ['error' => 'Ce fichier n’est pas un PDF ni un document Word valide.'];
+        }
         if (!is_dir(UPLOAD_DIR)) { @mkdir(UPLOAD_DIR, 0775, true); }
         $stored = Store::uid('cv-') . '.' . $ext;
         if (!@move_uploaded_file((string) $f['tmp_name'], UPLOAD_DIR . '/' . $stored)) {
@@ -351,6 +382,30 @@ final class ApiController
         }
         @chmod(UPLOAD_DIR . '/' . $stored, 0644);
         return ['file' => $stored, 'name' => mb_substr((string) $f['name'], 0, 120)];
+    }
+
+    /** Le type réel du fichier correspond-il à l'extension annoncée ? */
+    private static function mimeAutorise(string $chemin, string $ext): bool
+    {
+        $attendu = UPLOAD_ALLOWED[$ext] ?? '';
+        if (!class_exists('finfo')) {
+            // Sans l'extension fileinfo, on retombe sur la signature du
+            // fichier : elle suffit à écarter un script déguisé.
+            $tete = (string) @file_get_contents($chemin, false, null, 0, 8);
+            return $ext === 'pdf'
+                ? str_starts_with($tete, '%PDF-')
+                : (str_starts_with($tete, "PK\x03\x04") || str_starts_with($tete, "\xD0\xCF\x11\xE0"));
+        }
+        $reel = (string) (new finfo(FILEINFO_MIME_TYPE))->file($chemin);
+        $tolerés = [
+            'pdf' => ['application/pdf'],
+            'doc' => ['application/msword', 'application/vnd.ms-office', 'application/x-ole-storage'],
+            'docx' => [
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/zip',
+            ],
+        ];
+        return in_array($reel, $tolerés[$ext] ?? [$attendu], true);
     }
 
     private static function notifyApplication(array $a): void

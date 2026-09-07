@@ -137,6 +137,32 @@ final class SiteController
     }
 
     /**
+     * robots.txt.
+     *
+     * Servi par le routeur : l'adresse du plan de site suit le réglage
+     * site.url au lieu d'être figée dans un fichier, et un site déclaré
+     * hors ligne (site.indexable) est intégralement désindexé.
+     */
+    public static function robots(): void
+    {
+        header('Content-Type: text/plain; charset=utf-8');
+        header('Cache-Control: public, max-age=86400');
+        $base = rtrim((string) settings('site.url', ''), '/');
+        if (!settings('site.indexable', true)) {
+            echo "User-agent: *\nDisallow: /\n";
+            return;
+        }
+        echo "User-agent: *\n";
+        echo "Allow: /\n";
+        echo 'Disallow: ' . url('admin') . "\n";
+        echo 'Disallow: ' . url('api/') . "\n";
+        echo "\n";
+        if ($base !== '') {
+            echo 'Sitemap: ' . $base . url('sitemap.xml') . "\n";
+        }
+    }
+
+    /**
      * Manifeste d'application web.
      *
      * Servi par le routeur plutôt que déposé en fichier statique : le
@@ -168,6 +194,7 @@ final class SiteController
     public static function sitemap(): void
     {
         header('Content-Type: application/xml; charset=utf-8');
+        header('Cache-Control: public, max-age=3600');
         $base = rtrim((string) settings('site.url', ''), '/');
         $urls = ['/', '/le-reseau', '/le-metier', '/candidater', '/actualites', '/contact', '/mentions-legales', '/politique-de-confidentialite'];
         foreach (self::published() as $p) {

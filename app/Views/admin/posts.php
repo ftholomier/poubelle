@@ -37,3 +37,5 @@
     </div>
   <?php endif; ?>
 </div>
+
+<?php partial('pagination', ['pager' => $pager ?? []]); ?>

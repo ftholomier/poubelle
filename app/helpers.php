@@ -45,11 +45,19 @@ function url(string $path = '/'): string
     return $base . '/' . ltrim($path, '/');
 }
 
+/**
+ * URL d'une ressource statique, suffixée de sa date de modification.
+ *
+ * Le chemin était résolu sans le dossier « assets » : la version valait
+ * toujours 1 et les navigateurs conservaient indéfiniment une ancienne
+ * feuille de style après une mise en ligne.
+ */
 function asset(string $path): string
 {
-    $file = PUBLIC_DIR . '/' . ltrim($path, '/');
-    $v = is_file($file) ? (string) filemtime($file) : '1';
-    return url('assets/' . ltrim($path, '/')) . '?v=' . $v;
+    $relatif = 'assets/' . ltrim($path, '/');
+    $fichier = PUBLIC_DIR . '/' . $relatif;
+    $version = is_file($fichier) ? (string) filemtime($fichier) : '1';
+    return url($relatif) . '?v=' . $version;
 }
 
 function slugify(string $text): string
@@ -76,25 +84,32 @@ function excerpt(string $html, int $len = 160): string
     return mb_substr($t, 0, $len) . '…';
 }
 
-/** Rendu d'une vue dans un layout. */
-function view(string $tpl, array $vars = [], string $layout = 'layout'): string
+/**
+ * Rendu d'une vue dans un layout.
+ *
+ * Les variables internes portent un préfixe : sans lui, une clé nommée
+ * « tpl » ou « layout » dans les données passées à la vue écraserait le
+ * chemin du gabarit à inclure. EXTR_SKIP protège déjà des collisions,
+ * mais l'ordre d'extraction rendait le code fragile à la relecture.
+ */
+function view(string $__tpl, array $__vars = [], string $__layout = 'layout'): string
 {
-    extract($vars, EXTR_SKIP);
+    extract($__vars, EXTR_SKIP);
     ob_start();
-    require VIEW_DIR . '/' . $tpl . '.php';
+    require VIEW_DIR . '/' . $__tpl . '.php';
     $content_for_layout = ob_get_clean();
-    if ($layout === '') {
+    if ($__layout === '') {
         return (string) $content_for_layout;
     }
     ob_start();
-    require VIEW_DIR . '/' . $layout . '.php';
+    require VIEW_DIR . '/' . $__layout . '.php';
     return (string) ob_get_clean();
 }
 
-function partial(string $name, array $vars = []): void
+function partial(string $__name, array $__vars = []): void
 {
-    extract($vars, EXTR_SKIP);
-    require VIEW_DIR . '/partials/' . $name . '.php';
+    extract($__vars, EXTR_SKIP);
+    require VIEW_DIR . '/partials/' . $__name . '.php';
 }
 
 function json_out(mixed $payload, int $status = 200): never
@@ -122,6 +137,24 @@ function request_payload(): array
         return is_array($data) ? $data : [];
     }
     return $_POST;
+}
+
+/**
+ * La requête courante est-elle chiffrée ?
+ *
+ * Derrière un répartiteur de charge, HTTPS n'apparaît que dans
+ * X-Forwarded-Proto : sans cette lecture, l'en-tête HSTS ne serait
+ * jamais émis.
+ */
+function is_https(): bool
+{
+    if (($_SERVER['HTTPS'] ?? '') !== '' && strtolower((string) $_SERVER['HTTPS']) !== 'off') {
+        return true;
+    }
+    if ((int) ($_SERVER['SERVER_PORT'] ?? 0) === 443) {
+        return true;
+    }
+    return strtolower((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '')) === 'https';
 }
 
 function client_ip(): string
@@ -191,4 +224,20 @@ function meta_trim(string $text, int $max): string
         $cut = mb_substr($cut, 0, $space);
     }
     return rtrim($cut, " ,;:.–—-") . '…';
+}
+
+/**
+ * Jeton à usage unique autorisant les scripts en ligne de la page.
+ *
+ * La politique de sécurité du contenu interdit `unsafe-inline` pour les
+ * scripts : les quelques blocs en ligne du site portent ce nonce, ce qui
+ * neutralise l'injection d'un script tiers même en cas de faille XSS.
+ */
+function csp_nonce(): string
+{
+    static $nonce = null;
+    if ($nonce === null) {
+        $nonce = base64_encode(random_bytes(16));
+    }
+    return $nonce;
 }

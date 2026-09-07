@@ -29,8 +29,13 @@ final class Router
         }
         $path = rtrim($path, '/') ?: '/';
 
+        // HEAD est un GET dont on ne renvoie que les en-têtes : sans cette
+        // équivalence, tout le site répond 404 aux robots et aux sondes de
+        // supervision qui l'utilisent.
+        $recherche = $method === 'HEAD' ? 'GET' : $method;
+
         foreach ($this->routes as $route) {
-            if ($route['method'] !== '*' && $route['method'] !== $method) {
+            if ($route['method'] !== '*' && $route['method'] !== $recherche) {
                 continue;
             }
             $regex = '#^' . preg_replace('#\{([a-z_]+)\}#i', '(?P<$1>[^/]+)', str_replace('#', '\#', $route['pattern'])) . '$#u';

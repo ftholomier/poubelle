@@ -151,12 +151,12 @@ if (count($fil) > 1) {
     ];
 }
 ?>
-<script type="application/ld+json"><?= json_encode(
+<script nonce="<?= e(csp_nonce()) ?>" type="application/ld+json"><?= json_encode(
     ['@context' => 'https://schema.org', '@graph' => $graph],
     JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
 ) ?></script>
 
-<script>window.SI = { base: <?= json_encode(rtrim((string) settings('site.base_path', ''), '/')) ?>, csrf: <?= json_encode(Csrf::token()) ?> };</script>
+<script nonce="<?= e(csp_nonce()) ?>">window.SI = { base: <?= json_encode(rtrim((string) settings('site.base_path', ''), '/')) ?>, csrf: <?= json_encode(Csrf::token()) ?> };</script>
 </head>
 <?php
 // Animation des halos : activable et réglable depuis Back-office → Réglages.

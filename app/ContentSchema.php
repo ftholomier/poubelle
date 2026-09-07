@@ -27,6 +27,18 @@ final class ContentSchema
                     'cta_secondary' => ['label' => 'Bouton secondaire', 'type' => 'text'],
                     'cta_note' => ['label' => 'Mention sous les boutons', 'type' => 'text'],
                     'proofs' => ['label' => 'Preuves rapides', 'type' => 'tags'],
+                    'panel' => ['label' => 'Encart de preuve sociale', 'type' => 'fields', 'item' => [
+                        'avatars' => ['label' => 'Initiales des agents', 'type' => 'tags'],
+                        'avatars_more' => ['label' => 'Pastille « et plus »', 'type' => 'text'],
+                        'avatars_label' => ['label' => 'Légende sous les initiales', 'type' => 'text'],
+                        'figure' => ['label' => 'Chiffre mis en avant', 'type' => 'number'],
+                        'figure_label' => ['label' => 'Légende du chiffre', 'type' => 'text'],
+                        'rows' => ['label' => 'Lignes du récapitulatif', 'type' => 'list', 'item' => [
+                            'label' => ['label' => 'Intitulé', 'type' => 'text'],
+                            'value' => ['label' => 'Valeur', 'type' => 'text'],
+                        ]],
+                        'cta' => ['label' => 'Bouton de l’encart', 'type' => 'text'],
+                    ]],
                 ],
             ],
             'marquee' => [
@@ -247,6 +259,7 @@ final class ContentSchema
                         'hint' => ['label' => 'Sous-titre', 'type' => 'text'],
                     ]],
                     'situations' => ['label' => 'Situations proposées', 'type' => 'tags'],
+                    'experiences' => ['label' => 'Niveaux d’expérience proposés', 'type' => 'tags'],
                     'availabilities' => ['label' => 'Disponibilités proposées', 'type' => 'tags'],
                     'sources' => ['label' => 'Origines proposées', 'type' => 'tags'],
                     'success_title' => ['label' => 'Titre de confirmation', 'type' => 'text'],

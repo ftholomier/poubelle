@@ -39,25 +39,36 @@ final class Store
         return self::$cache[$name] = $data;
     }
 
+    /**
+     * Écriture atomique.
+     *
+     * Un échec silencieux ferait disparaître une candidature sans que
+     * personne ne le sache : chaque cause d'échec (disque plein, droits,
+     * données non sérialisables) lève une exception, journalisée par le
+     * gestionnaire global et signalée au visiteur.
+     *
+     * @throws RuntimeException si la collection n'a pas pu être écrite
+     */
     public static function write(string $name, array $data): bool
     {
         $file = self::path($name);
-        if (!is_dir(dirname($file))) {
-            @mkdir(dirname($file), 0775, true);
+        if (!is_dir(dirname($file)) && !@mkdir(dirname($file), 0775, true) && !is_dir(dirname($file))) {
+            throw new RuntimeException('Impossible de créer le dossier de données ' . dirname($file));
         }
         $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         if ($json === false) {
-            return false;
+            throw new RuntimeException('Collection « ' . $name . ' » non sérialisable : ' . json_last_error_msg());
         }
         $tmp = $file . '.' . bin2hex(random_bytes(4)) . '.tmp';
-        if (file_put_contents($tmp, $json, LOCK_EX) === false) {
+        $ecrit = @file_put_contents($tmp, $json, LOCK_EX);
+        if ($ecrit === false || $ecrit !== strlen($json)) {
             @unlink($tmp);
-            return false;
+            throw new RuntimeException('Écriture incomplète de « ' . $name . ' » (disque plein ou droits insuffisants ?)');
         }
         @chmod($tmp, 0664);
         if (!@rename($tmp, $file)) {
             @unlink($tmp);
-            return false;
+            throw new RuntimeException('Impossible de remplacer ' . $file);
         }
         self::$cache[$name] = $data;
         return true;

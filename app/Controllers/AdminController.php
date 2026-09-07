@@ -88,6 +88,10 @@ final class AdminController
      */
     private static function guard(): array
     {
+        // Les écrans du back-office affichent des données personnelles :
+        // aucun intermédiaire, ni le cache disque du navigateur, ne doit
+        // en conserver une copie après la déconnexion.
+        header('Cache-Control: no-store, no-cache, must-revalidate, private');
         $user = Auth::requireLogin();
         if (Auth::mustChangePassword()) {
             redirect(url('admin/premiere-connexion'));
@@ -120,6 +124,31 @@ final class AdminController
         ], 'admin/layout');
     }
 
+    /**
+     * Découpe une liste en pages.
+     *
+     * Les listes du back-office affichaient l'intégralité de la
+     * collection : au bout de quelques milliers de candidatures, la page
+     * devient impossible à charger. La pagination borne la mémoire comme
+     * le temps de rendu.
+     *
+     * @param array<int,array> $rows
+     * @return array{rows:array<int,array>,page:int,pages:int,total:int,par:int}
+     */
+    private static function paginer(array $rows, int $par = 50): array
+    {
+        $total = count($rows);
+        $pages = max(1, (int) ceil($total / $par));
+        $page = max(1, min($pages, (int) ($_GET['p'] ?? 1)));
+        return [
+            'rows' => array_slice($rows, ($page - 1) * $par, $par),
+            'page' => $page,
+            'pages' => $pages,
+            'total' => $total,
+            'par' => $par,
+        ];
+    }
+
     // ------------------------------------------------------- candidatures
 
     public static function applicationsList(): void
@@ -141,11 +170,14 @@ final class AdminController
             return true;
         }));
 
+        $pager = self::paginer($rows);
+
         echo view('admin/applications', [
             'user' => $user,
             'nav' => 'applications',
             'title' => $showDrafts ? 'Candidatures abandonnées' : 'Candidatures',
-            'rows' => $rows,
+            'rows' => $pager['rows'],
+            'pager' => $pager,
             'stage' => $stage,
             'q' => $q,
             'showDrafts' => $showDrafts,
@@ -235,7 +267,8 @@ final class AdminController
         $user = self::guard();
         $rows = Store::read('leads');
         usort($rows, static fn ($a, $b) => strcmp((string) ($b['created_at'] ?? ''), (string) ($a['created_at'] ?? '')));
-        echo view('admin/leads', ['user' => $user, 'nav' => 'leads', 'title' => 'Messages & captures', 'rows' => $rows], 'admin/layout');
+        $pager = self::paginer($rows);
+        echo view('admin/leads', ['user' => $user, 'nav' => 'leads', 'title' => 'Messages & captures', 'rows' => $pager['rows'], 'pager' => $pager], 'admin/layout');
     }
 
     public static function leadDelete(array $params): void
@@ -292,7 +325,8 @@ final class AdminController
         $user = self::guard();
         $rows = Store::read('posts');
         usort($rows, static fn ($a, $b) => strcmp((string) ($b['published_at'] ?? ''), (string) ($a['published_at'] ?? '')));
-        echo view('admin/posts', ['user' => $user, 'nav' => 'posts', 'title' => 'Actualités', 'rows' => $rows], 'admin/layout');
+        $pager = self::paginer($rows, 30);
+        echo view('admin/posts', ['user' => $user, 'nav' => 'posts', 'title' => 'Actualités', 'rows' => $pager['rows'], 'pager' => $pager], 'admin/layout');
     }
 
     public static function postEdit(array $params): void
@@ -348,7 +382,7 @@ final class AdminController
         $user = self::guard();
         if (is_post() && Csrf::check($_POST['_csrf'] ?? null)) {
             $s = Store::read('settings');
-            foreach (['site', 'company', 'funnel', 'motion'] as $group) {
+            foreach (['site', 'company', 'funnel', 'motion', 'mail'] as $group) {
                 foreach (($_POST[$group] ?? []) as $k => $v) {
                     if (!array_key_exists($k, $s[$group] ?? [])) { continue; }
                     $current = $s[$group][$k];
@@ -363,12 +397,28 @@ final class AdminController
                     }
                 }
             }
-            // Les cases à cocher absentes valent « faux ».
-            foreach (['notify_enabled', 'exit_intent', 'sticky_cta', 'cv_upload'] as $flag) {
-                $s['funnel'][$flag] = isset($_POST['funnel'][$flag]);
+            // Une case décochée n'est pas envoyée par le navigateur : elle vaut
+            // « faux ». Mais seul un groupe réellement présent dans la requête
+            // est remis à zéro, sinon un formulaire partiel désactiverait en
+            // silence des options qu'il n'affiche même pas.
+            if (isset($_POST['site'])) {
+                $s['site']['indexable'] = isset($_POST['site']['indexable']);
             }
-            $s['motion']['glow'] = isset($_POST['motion']['glow']);
-            $s['motion']['glow_cycle'] = max(8, min(180, (int) ($_POST['motion']['glow_cycle'] ?? 34)));
+            if (isset($_POST['funnel'])) {
+                foreach (['notify_enabled', 'exit_intent', 'sticky_cta', 'cv_upload'] as $flag) {
+                    $s['funnel'][$flag] = isset($_POST['funnel'][$flag]);
+                }
+            }
+            // Un champ mot de passe vide signifie « ne change rien » : sans
+            // cette exception, ouvrir puis enregistrer les réglages effacerait
+            // l'authentification SMTP.
+            if (isset($_POST['mail']) && trim((string) ($_POST['mail']['smtp_password'] ?? '')) === '') {
+                $s['mail']['smtp_password'] = (string) (Store::read('settings')['mail']['smtp_password'] ?? '');
+            }
+            if (isset($_POST['motion'])) {
+                $s['motion']['glow'] = isset($_POST['motion']['glow']);
+                $s['motion']['glow_cycle'] = max(8, min(180, (int) ($_POST['motion']['glow_cycle'] ?? $s['motion']['glow_cycle'] ?? 34)));
+            }
             Store::write('settings', $s);
             Session::flash('Réglages enregistrés.');
             redirect(url('admin/reglages'));
@@ -487,9 +537,16 @@ final class AdminController
 
         if (is_post() && Csrf::check($_POST['_csrf'] ?? null)) {
             $cfg = Bot::config();
+            // Le nom du modèle entre dans l'URL appelée : une valeur
+            // fantaisiste est refusée plutôt qu'enregistrée.
+            $modele = Bot::modeleValide((string) ($_POST['model'] ?? $cfg['model']));
+            if ($modele === null) {
+                Session::flash('Nom de modèle invalide : gardez celui proposé par la liste.', 'error');
+                redirect(url('admin/bot'));
+            }
             $patch = [
                 'enabled' => isset($_POST['enabled']),
-                'model' => trim((string) ($_POST['model'] ?? $cfg['model'])),
+                'model' => $modele,
                 'name' => mb_substr(trim((string) ($_POST['name'] ?? '')), 0, 60),
                 'role' => mb_substr(trim((string) ($_POST['role'] ?? '')), 0, 120),
                 'greeting' => mb_substr(trim((string) ($_POST['greeting'] ?? '')), 0, 500),
@@ -595,7 +652,8 @@ final class AdminController
     public static function mails(): void
     {
         $user = self::guard();
-        echo view('admin/mails', ['user' => $user, 'nav' => 'mails', 'title' => 'Journal des e-mails', 'rows' => array_slice(Store::read('maillog'), 0, 100)], 'admin/layout');
+        $pager = self::paginer(Store::read('maillog'), 50);
+        echo view('admin/mails', ['user' => $user, 'nav' => 'mails', 'title' => 'Journal des e-mails', 'rows' => $pager['rows'], 'pager' => $pager], 'admin/layout');
     }
 
     // ------------------------------------------------------------- outils

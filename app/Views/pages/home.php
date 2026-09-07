@@ -54,28 +54,32 @@ $marquee = (array) content('marquee');
 
     <!-- Preuve sociale immédiate -->
     <aside class="hero__panel" data-reveal="right" style="--d:260ms">
+      <?php $panel = (array) ($hero['panel'] ?? []); ?>
       <div class="hero__panel-head">
         <div>
           <div class="avatars" aria-hidden="true">
-            <span>KL</span><span>CY</span><span>DJ</span><span>BP</span><span class="is-more">60+</span>
+            <?php foreach ((array) ($panel['avatars'] ?? []) as $ini): ?>
+              <span><?= e($ini) ?></span>
+            <?php endforeach; ?>
+            <?php if (($panel['avatars_more'] ?? '') !== ''): ?>
+              <span class="is-more"><?= e($panel['avatars_more']) ?></span>
+            <?php endif; ?>
           </div>
-          <p class="small muted" style="margin-top:10px">Agents déjà en poste dans le réseau</p>
+          <p class="small muted" style="margin-top:10px"><?= e($panel['avatars_label'] ?? '') ?></p>
         </div>
         <span class="stars" aria-label="Note 5 sur 5"><?= str_repeat(icon('star'), 5) ?></span>
       </div>
 
-      <div class="hero__figure grad-text"><span class="count" data-count="2000">0</span>+</div>
-      <p class="muted small">biens vendus par le réseau depuis 2017</p>
+      <div class="hero__figure grad-text"><span class="count" data-count="<?= e((string) ($panel['figure'] ?? 0)) ?>">0</span>+</div>
+      <p class="muted small"><?= e($panel['figure_label'] ?? '') ?></p>
 
       <div class="hero__panel-list">
-        <div class="hero__panel-row">
-          <span class="muted small">Statut</span>
-          <b>Agent commercial indépendant</b>
-        </div>
-        <div class="hero__panel-row">
-          <span class="muted small">Plafond de rémunération</span>
-          <b class="grad-text">Aucun</b>
-        </div>
+        <?php foreach ((array) ($panel['rows'] ?? []) as $i => $row): ?>
+          <div class="hero__panel-row">
+            <span class="muted small"><?= e($row['label'] ?? '') ?></span>
+            <b<?= $i === 1 ? ' class="grad-text"' : '' ?>><?= e($row['value'] ?? '') ?></b>
+          </div>
+        <?php endforeach; ?>
         <div class="hero__panel-row">
           <span class="muted small">Réponse à votre candidature</span>
           <b><?= e(settings('funnel.response_delay', '48 h')) ?></b>
@@ -83,7 +87,7 @@ $marquee = (array) content('marquee');
       </div>
 
       <a class="btn btn--block btn--magnet" style="margin-top:24px" href="<?= e(url('candidater')) ?>" data-cta="hero-panel">
-        Vérifier si mon secteur est libre <?= icon('arrow') ?>
+        <?= e($panel['cta'] ?? '') ?> <?= icon('arrow') ?>
       </a>
     </aside>
   </div>

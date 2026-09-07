@@ -22,16 +22,32 @@
     Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
 </IfModule>
 
+# Ressources statiques : leur URL porte déjà un numéro de version issu de
+# la date de modification (voir la fonction asset()). Elles peuvent donc
+# être conservées longtemps et marquées « immutable » : le navigateur ne
+# les revalide plus du tout, et une mise en ligne change l'URL.
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType text/css "access plus 1 year"
     ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
     ExpiresByType image/svg+xml "access plus 6 months"
+    ExpiresByType image/png "access plus 6 months"
     ExpiresByType image/webp "access plus 6 months"
+    ExpiresByType image/jpeg "access plus 6 months"
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js|woff2)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    <FilesMatch "\.(png|jpe?g|svg|webp|ico)$">
+        Header set Cache-Control "public, max-age=15552000"
+    </FilesMatch>
 </IfModule>
 
 <IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml application/manifest+json text/plain application/xml
 </IfModule>
 
 Options -Indexes

@@ -50,6 +50,15 @@ $textareas = ['meta_description'];
   <?php endforeach; ?>
 
   <div class="panel">
+    <div class="panel__head"><h2>Référencement</h2></div>
+    <label class="switch">
+      <input type="checkbox" name="site[indexable]" value="1" <?= !empty($settings['site']['indexable']) ? 'checked' : '' ?>>
+      <i aria-hidden="true"></i>
+      <span><strong>Autoriser l’indexation par les moteurs</strong> — décochez pendant une refonte : le fichier robots.txt interdit alors tout le site</span>
+    </label>
+  </div>
+
+  <div class="panel">
     <div class="panel__head"><h2>Tunnel de conversion</h2></div>
     <div class="grid grid--2">
       <div class="field">
@@ -91,6 +100,51 @@ $textareas = ['meta_description'];
   </div>
 
   <div class="panel">
+    <div class="panel__head"><h2>Envoi des e-mails</h2></div>
+    <p style="font-size:.86rem;color:var(--muted);margin-bottom:16px">
+      Sans serveur SMTP renseigné, le site utilise la fonction <code>mail()</code> de l’hébergeur :
+      elle n’est pas disponible partout et ses messages partent souvent en indésirables.
+      Renseigner un compte SMTP authentifié fiabilise l’accusé de réception envoyé aux candidats.
+      Chaque tentative est tracée dans <strong>E-mails envoyés</strong>, avec son transport et son erreur éventuelle.
+    </p>
+    <div class="grid grid--2">
+      <div class="field">
+        <label for="mail-from">Adresse expéditrice</label>
+        <input class="input" id="mail-from" name="mail[from]" type="email" placeholder="no-reply@suisse-immo.fr" value="<?= e((string) ($settings['mail']['from'] ?? '')) ?>">
+      </div>
+      <div class="field">
+        <label for="mail-from_name">Nom affiché de l’expéditeur</label>
+        <input class="input" id="mail-from_name" name="mail[from_name]" value="<?= e((string) ($settings['mail']['from_name'] ?? '')) ?>">
+      </div>
+      <div class="field">
+        <label for="mail-smtp_host">Serveur SMTP <small class="help">vide = fonction mail() de l’hébergeur</small></label>
+        <input class="input" id="mail-smtp_host" name="mail[smtp_host]" placeholder="smtp.exemple.fr" value="<?= e((string) ($settings['mail']['smtp_host'] ?? '')) ?>">
+      </div>
+      <div class="field">
+        <label for="mail-smtp_port">Port</label>
+        <input class="input" id="mail-smtp_port" name="mail[smtp_port]" type="number" min="1" max="65535" value="<?= e((string) ($settings['mail']['smtp_port'] ?? 587)) ?>">
+      </div>
+      <div class="field">
+        <label for="mail-smtp_encryption">Chiffrement</label>
+        <select class="select" id="mail-smtp_encryption" name="mail[smtp_encryption]">
+          <?php foreach (['tls' => 'STARTTLS (port 587)', 'ssl' => 'TLS implicite (port 465)', 'none' => 'Aucun (déconseillé)'] as $v => $l): ?>
+            <option value="<?= e($v) ?>" <?= ($settings['mail']['smtp_encryption'] ?? 'tls') === $v ? 'selected' : '' ?>><?= e($l) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="field">
+        <label for="mail-smtp_user">Identifiant SMTP</label>
+        <input class="input" id="mail-smtp_user" name="mail[smtp_user]" autocomplete="off" value="<?= e((string) ($settings['mail']['smtp_user'] ?? '')) ?>">
+      </div>
+      <div class="field">
+        <label for="mail-smtp_password">Mot de passe SMTP</label>
+        <input class="input" id="mail-smtp_password" name="mail[smtp_password]" type="password" autocomplete="new-password"
+               placeholder="<?= ($settings['mail']['smtp_password'] ?? '') !== '' ? '•••••••• (inchangé si laissé vide)' : '' ?>" value="">
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
     <div class="panel__head"><h2>Animations du fond</h2></div>
     <p style="font-size:.86rem;color:var(--muted);margin-bottom:16px">
       Les halos colorés placés derrière les blocs du site peuvent dériver lentement.
@@ -114,7 +168,7 @@ $textareas = ['meta_description'];
         <input type="range" id="glow_cycle" name="motion[glow_cycle]" class="range"
                min="8" max="180" step="2"
                value="<?= e((string) ($settings['motion']['glow_cycle'] ?? 34)) ?>"
-               oninput="document.getElementById('glow-cycle-out').textContent = this.value + ' s'">
+               data-sortie="glow-cycle-out" data-sortie-suffixe=" s">
         <span style="font-size:.78rem;color:var(--muted);white-space:nowrap">180 s · Très lent</span>
         <output id="glow-cycle-out" class="badge" style="min-width:64px;justify-content:center"><?= e((string) ($settings['motion']['glow_cycle'] ?? 34)) ?> s</output>
       </div>
