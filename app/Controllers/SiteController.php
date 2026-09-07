@@ -22,7 +22,7 @@ final class SiteController
         echo view('pages/network', [
             'page' => 'network',
             'meta' => [
-                'title' => 'Le réseau Suisse Immo — agences physiques et agents mandataires',
+                'title' => 'Le réseau Suisse Immo — agences et mandataires',
                 'description' => 'Fondé en 2017 à Belfort, Suisse Immo réunit agences physiques et agents mandataires en Bourgogne-Franche-Comté. Découvrez le réseau avant de nous rejoindre.',
             ],
         ]);
@@ -34,7 +34,7 @@ final class SiteController
         echo view('pages/job', [
             'page' => 'job',
             'meta' => [
-                'title' => 'Le métier d’agent commercial immobilier — missions et compétences',
+                'title' => 'Le métier d’agent commercial immobilier — Suisse Immo',
                 'description' => 'Prospection, estimation, mandat, annonce, visites, négociation, signature : le quotidien d’un agent commercial immobilier indépendant chez Suisse Immo.',
             ],
         ]);
@@ -47,8 +47,8 @@ final class SiteController
         echo view('pages/apply', [
             'page' => 'apply',
             'meta' => [
-                'title' => 'Candidater — devenir agent commercial immobilier chez Suisse Immo',
-                'description' => 'Candidature en 4 étapes, 2 minutes. Obtenez un rendez-vous stratégique sous 48 h avec l’un de nos collaborateurs.',
+                'title' => 'Candidater chez Suisse Immo — agent immobilier',
+                'description' => 'Candidature en 4 étapes et 2 minutes : décrivez votre projet et obtenez un rendez-vous stratégique sous 48 h avec l’un de nos collaborateurs.',
             ],
             'bodyClass' => 'page-apply',
         ]);
@@ -58,7 +58,11 @@ final class SiteController
     {
         echo view('pages/thanks', [
             'page' => 'apply',
-            'meta' => ['title' => 'Candidature envoyée — Suisse Immo', 'description' => '', 'noindex' => true],
+            'meta' => [
+                'title' => 'Candidature envoyée — Suisse Immo',
+                'description' => 'Votre candidature d’agent commercial immobilier est enregistrée. Un collaborateur Suisse Immo vous rappelle pour fixer votre rendez-vous.',
+                'noindex' => true,
+            ],
             'bodyClass' => 'page-thanks',
         ]);
     }
@@ -72,7 +76,7 @@ final class SiteController
             'posts' => $posts,
             'meta' => [
                 'title' => 'Actualités du marché immobilier — Suisse Immo',
-                'description' => 'Taux, DPE, prix, volumes : l’analyse du marché immobilier par le réseau Suisse Immo.',
+                'description' => 'Taux, DPE, prix, volumes de transactions : l’analyse du marché immobilier en Bourgogne-Franche-Comté par les agences du réseau Suisse Immo.',
             ],
         ]);
     }
@@ -94,8 +98,12 @@ final class SiteController
             'post' => $post,
             'related' => array_slice(array_values(array_filter(self::published(), static fn ($p) => ($p['slug'] ?? '') !== $slug)), 0, 3),
             'meta' => [
-                'title' => (string) $post['title'] . ' — Suisse Immo',
-                'description' => (string) ($post['excerpt'] ?? ''),
+                // Le suffixe de marque n'est conservé que s'il tient dans les
+                // 60 caractères affichés par les moteurs de recherche.
+                'title' => mb_strlen((string) $post['title']) <= 47
+                    ? (string) $post['title'] . ' — Suisse Immo'
+                    : meta_trim((string) $post['title'], 60),
+                'description' => meta_trim((string) ($post['excerpt'] ?? ''), 158),
             ],
         ]);
     }
@@ -107,7 +115,7 @@ final class SiteController
             'page' => 'contact',
             'meta' => [
                 'title' => 'Contact — Suisse Immo Recrutement',
-                'description' => 'Une question sur le métier, le statut, la rémunération ou votre secteur ? Écrivez-nous, nous répondons sous 48 h.',
+                'description' => 'Une question sur le métier d’agent commercial immobilier, le statut, la rémunération ou votre secteur ? Écrivez-nous, nous répondons sous 48 h.',
             ],
         ]);
     }
@@ -116,7 +124,7 @@ final class SiteController
     {
         echo view('pages/legal', [
             'page' => 'legal',
-            'meta' => ['title' => 'Mentions légales — Suisse Immo', 'description' => 'Mentions légales du site de recrutement Suisse Immo.'],
+            'meta' => ['title' => 'Mentions légales — Suisse Immo', 'description' => 'Éditeur, hébergeur, propriété intellectuelle et responsabilité : les mentions légales du site de recrutement du réseau immobilier Suisse Immo.'],
         ]);
     }
 
@@ -124,8 +132,37 @@ final class SiteController
     {
         echo view('pages/privacy', [
             'page' => 'legal',
-            'meta' => ['title' => 'Politique de confidentialité — Suisse Immo', 'description' => 'Traitement des données personnelles des candidats et visiteurs.'],
+            'meta' => ['title' => 'Politique de confidentialité — Suisse Immo', 'description' => 'Données collectées, finalités, durées de conservation et exercice de vos droits pour les candidats et visiteurs du site de recrutement Suisse Immo.'],
         ]);
+    }
+
+    /**
+     * Manifeste d'application web.
+     *
+     * Servi par le routeur plutôt que déposé en fichier statique : le
+     * nom, les couleurs et le chemin de base proviennent des réglages,
+     * et le type MIME est garanti quel que soit l'hébergeur.
+     */
+    public static function webmanifest(): void
+    {
+        header('Content-Type: application/manifest+json; charset=utf-8');
+        header('Cache-Control: public, max-age=86400');
+        echo json_encode([
+            'name' => (string) settings('site.name', 'Suisse Immo Recrutement'),
+            'short_name' => 'Suisse Immo',
+            'description' => (string) settings('site.meta_description', ''),
+            'lang' => 'fr-FR',
+            'start_url' => url('/'),
+            'scope' => url('/'),
+            'display' => 'standalone',
+            'background_color' => '#07080c',
+            'theme_color' => '#07080c',
+            'icons' => [
+                ['src' => url('assets/img/favicon-192.png'), 'sizes' => '192x192', 'type' => 'image/png'],
+                ['src' => url('assets/img/favicon-512.png'), 'sizes' => '512x512', 'type' => 'image/png'],
+                ['src' => url('assets/img/apple-touch-icon.png'), 'sizes' => '180x180', 'type' => 'image/png'],
+            ],
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
 
     public static function sitemap(): void

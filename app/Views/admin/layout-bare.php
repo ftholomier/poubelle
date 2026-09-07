@@ -9,5 +9,5 @@
 <link rel="preload" as="font" type="font/woff2" href="<?= e(asset('fonts/inter-var.woff2')) ?>" crossorigin>
 <link rel="stylesheet" href="<?= e(asset('css/admin.css')) ?>">
 </head>
-<body><?= $content_for_layout ?></body>
+<body><?= icons_sprite() ?><?= $content_for_layout ?></body>
 </html>

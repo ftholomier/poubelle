@@ -22,7 +22,7 @@ $stats = (array) content('stats');
             <div class="funnel-step<?= $i === 0 ? ' is-active' : '' ?>" role="listitem">
               <span class="funnel-step__n"><?= $i + 1 ?></span>
               <div>
-                <h4><?= e($s['title'] ?? '') ?></h4>
+                <h2><?= e($s['title'] ?? '') ?></h2>
                 <p><?= e($s['hint'] ?? '') ?></p>
               </div>
             </div>

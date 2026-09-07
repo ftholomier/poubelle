@@ -15,7 +15,7 @@
       </div>
 
       <div>
-        <h4>Navigation</h4>
+        <h2>Navigation</h2>
         <ul>
           <li><a href="<?= e(url('/')) ?>">Accueil</a></li>
           <li><a href="<?= e(url('le-reseau')) ?>">Le réseau</a></li>
@@ -26,7 +26,7 @@
       </div>
 
       <div>
-        <h4>Rejoindre</h4>
+        <h2>Rejoindre</h2>
         <ul>
           <li><a href="<?= e(url('candidater')) ?>">Candidater</a></li>
           <li><a href="<?= e(url('/')) ?>#simulateur">Simuler mes revenus</a></li>
@@ -36,7 +36,7 @@
       </div>
 
       <div>
-        <h4>Contact</h4>
+        <h2>Contact</h2>
         <ul>
           <li><a href="tel:<?= e($c['phone_link'] ?? '') ?>"><?= e($c['phone'] ?? '') ?></a></li>
           <li><span class="muted"><?= e($c['email'] ?? '') ?></span></li>

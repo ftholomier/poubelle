@@ -158,6 +158,10 @@ button { background: none; border: 0; cursor: pointer; }
   clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
+/* Sprites SVG : les tracés ne sont écrits qu'une fois par page et
+   référencés par <use>. Le conteneur ne doit rien occuper. */
+.icon-sprite, .si-logo-sprite { display: none !important; }
+
 /* --------------------------------------------------- 3. Typographie */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
@@ -266,7 +270,8 @@ section, .section, .cta-final, .hero__panel { overflow-x: clip; }
 .btn--ghost {
   --btn-bg: transparent; --btn-fg: var(--text);
   border: 1px solid var(--line-strong);
-  backdrop-filter: blur(8px);
+  /* Volontairement sans backdrop-filter : élément répété des dizaines de fois par page,
+     le coût de compositing sur mobile est disproportionné. */
 }
 .btn--ghost::before { background: var(--glass-2); }
 .btn--ghost:hover { box-shadow: none; border-color: var(--text); }
@@ -307,7 +312,8 @@ section, .section, .cta-final, .hero__panel { overflow-x: clip; }
   border-radius: var(--r-pill);
   background: var(--glass);
   color: var(--text-dim);
-  backdrop-filter: blur(10px);
+  /* Volontairement sans backdrop-filter : élément répété des dizaines de fois par page,
+     le coût de compositing sur mobile est disproportionné. */
 }
 .chip--red { border-color: rgba(230,47,67,.4); color: var(--red-soft); background: rgba(230,47,67,.08); }
 .chip--mint { border-color: rgba(53,208,127,.35); color: var(--mint); background: rgba(53,208,127,.08); }
@@ -330,7 +336,8 @@ section, .section, .cta-final, .hero__panel { overflow-x: clip; }
   background: linear-gradient(168deg, var(--glass-2), var(--glass));
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
-  backdrop-filter: blur(14px);
+  /* Volontairement sans backdrop-filter : élément répété des dizaines de fois par page,
+     le coût de compositing sur mobile est disproportionné. */
   overflow: hidden;
   transition: transform .5s var(--ease-out), border-color .4s, background-color .4s;
 }
@@ -1005,12 +1012,12 @@ input[type="range"]::-moz-range-thumb {
 .footer > * { position: relative; z-index: 1; }
 .footer__grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.3fr; gap: clamp(24px, 3vw, 48px); }
 
-.footer h4 {
+.footer h2 {
   display: inline-flex; align-items: center; gap: 9px;
   font-size: .78rem; letter-spacing: .16em; text-transform: uppercase;
   color: var(--muted); margin-bottom: 16px; font-weight: 600;
 }
-.footer h4::before {
+.footer h2::before {
   content: ""; width: 16px; height: 2px; border-radius: 2px;
   background: linear-gradient(90deg, var(--red), var(--amber));
 }
@@ -1166,7 +1173,7 @@ input[type="range"]::-moz-range-thumb {
 }
 .funnel-step.is-active .funnel-step__n { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 8px 26px -10px rgba(230,47,67,.9); }
 .funnel-step.is-done .funnel-step__n { background: rgba(53,208,127,.16); border-color: var(--mint); color: var(--mint); }
-.funnel-step h4 { font-size: .98rem; }
+.funnel-step h2 { font-size: .98rem; }
 .funnel-step p { font-size: .82rem; color: var(--muted); }
 
 .funnel-card {
@@ -1262,9 +1269,15 @@ input[type="range"]::-moz-range-thumb {
   background: rgba(4,5,8,.78);
   backdrop-filter: blur(10px);
   opacity: 0; visibility: hidden;
-  transition: opacity .35s var(--ease), visibility .35s;
+  /* La visibilité bascule sans délai à l'ouverture (sinon le focus ne
+     peut pas entrer dans la fenêtre) et attend la fin du fondu à la
+     fermeture. */
+  transition: opacity .35s var(--ease), visibility 0s linear .35s;
 }
-.modal.is-open { opacity: 1; visibility: visible; }
+.modal.is-open {
+  opacity: 1; visibility: visible;
+  transition: opacity .35s var(--ease), visibility 0s linear 0s;
+}
 .modal__box {
   position: relative; width: min(100%, 520px);
   padding: clamp(28px, 4vw, 44px);
@@ -1382,12 +1395,50 @@ input[type="range"]::-moz-range-thumb {
   .sticky-cta__text small { display: none; }
   .sticky-cta__text b { font-size: .82rem; line-height: 1.25; }
   .sticky-cta .btn { white-space: nowrap; padding: .66em 1.05em; font-size: .82rem; }
-  .funnel-step h4 { display: none; }
+  .funnel-step h2 { display: none; }
   .funnel-steps { gap: 6px; }
   .tl-item { grid-template-columns: 44px 1fr; }
   .tl-dot { width: 44px; height: 44px; font-size: .85rem; }
   .timeline::before { left: 21px; }
   .hero__actions .btn { width: 100%; }
+}
+
+/* ------------------------------ 30 bis. Cibles tactiles (≥ 44 px) */
+/* Sur écran tactile, toute commande doit offrir au moins 44 × 44 px.
+   On élargit les zones sans toucher à la direction artistique : les
+   traits, liserés et alignements restent à leur place. */
+@media (pointer: coarse), (max-width: 900px) {
+  .btn, .sticky-cta__sim { min-height: 44px; }
+  .burger { width: 44px; height: 44px; }
+  .modal__close { width: 44px; height: 44px; }
+  .sticky-cta__close {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 44px; min-height: 44px; padding: 0;
+  }
+
+  /* Listes du pied de page : zone cliquable épaissie, liseré ramené
+     sous le texte pour que le survol reste identique. */
+  .footer ul { gap: 2px; }
+  .footer li a:not(.brand):not(.btn),
+  .footer__bottom a:not(.brand):not(.btn) { padding-top: 10px; padding-bottom: 13px; }
+  .footer li a:not(.brand):not(.btn)::after,
+  .footer__bottom a:not(.brand):not(.btn)::after { bottom: 10px; }
+
+  /* Lien fléché : hauteur portée à 44 px, le trait reste sous le mot. */
+  .link-arrow { padding-top: 11px; padding-bottom: 10px; }
+
+  /* Curseurs du simulateur : la piste reste fine, la zone de saisie
+     occupe toute la hauteur tactile. */
+  input[type="range"] { height: 44px; background: none; }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 4px; border-radius: var(--r-pill);
+    background: linear-gradient(90deg, var(--red) var(--fill, 40%), var(--surface-3) var(--fill, 40%));
+  }
+  input[type="range"]::-webkit-slider-thumb { margin-top: -10px; }
+  input[type="range"]::-moz-range-track {
+    height: 4px; border-radius: var(--r-pill);
+    background: linear-gradient(90deg, var(--red) var(--fill, 40%), var(--surface-3) var(--fill, 40%));
+  }
 }
 
 /* -------------------------------------- 31. Confort & impression */

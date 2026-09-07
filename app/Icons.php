@@ -1,10 +1,18 @@
 <?php
 declare(strict_types=1);
 
-/** Bibliothèque d'icônes SVG en ligne (aucune requête réseau). */
-function icon(string $name, string $class = ''): string
+/**
+ * Bibliothèque d'icônes SVG en ligne (aucune requête réseau).
+ *
+ * Les tracés ne sont écrits qu'une fois par page, dans le sprite
+ * `icons_sprite()` posé en tête de <body> ; chaque appel à `icon()`
+ * n'émet plus qu'une référence <use> d'une soixantaine d'octets.
+ *
+ * @return array<string,string> tracés indexés par nom d'icône
+ */
+function icon_paths(): array
 {
-    $paths = [
+    return [
         'arrow'    => '<path d="M5 12h14M13 6l6 6-6 6"/>',
         'arrow-up-right' => '<path d="M7 17 17 7M8 7h9v9"/>',
         'check'    => '<path d="m4 12 5 5L20 6"/>',
@@ -33,9 +41,26 @@ function icon(string $name, string $class = ''): string
         'file'     => '<path d="M13 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9l-6-6z"/><path d="M13 3v6h6"/>',
         'shield-check' => '<path d="M12 3l7 3v6c0 4.4-3 8.3-7 9.4C8 20.3 5 16.4 5 12V6l7-3z"/><path d="m9 12 2 2 4-4"/>',
     ];
-    $body = $paths[$name] ?? $paths['arrow'];
+}
+
+/** Sprite complet, à poser une seule fois en tête de <body>. */
+function icons_sprite(): string
+{
+    $out = '<svg class="icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">';
+    foreach (icon_paths() as $name => $body) {
+        $out .= '<symbol id="i-' . $name . '" viewBox="0 0 24 24" fill="none" stroke="currentColor"'
+            . ' stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' . $body . '</symbol>';
+    }
+    return $out . '</svg>';
+}
+
+function icon(string $name, string $class = ''): string
+{
+    if (!array_key_exists($name, icon_paths())) {
+        $name = 'arrow';
+    }
     $cls = $class !== '' ? ' class="' . e($class) . '"' : '';
-    return '<svg' . $cls . ' width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $body . '</svg>';
+    return '<svg' . $cls . ' width="20" height="20" aria-hidden="true"><use href="#i-' . $name . '"/></svg>';
 }
 
 /** Initiales pour les pastilles d'avatar. */

@@ -10,7 +10,7 @@
       <div class="tl-item">
         <span class="tl-dot"><?= icon('check') ?></span>
         <div class="tl-body">
-          <h3 class="h3">Votre dossier est reçu</h3>
+          <h2 class="h3">Votre dossier est reçu</h2>
           <p>Un accusé de réception vient de partir vers votre boîte mail.</p>
         </div>
       </div>
@@ -18,14 +18,14 @@
         <span class="tl-dot">2</span>
         <div class="tl-body">
           <span class="tl-duration"><?= icon('clock') ?> Sous <?= e(settings('funnel.response_delay', '48 h')) ?></span>
-          <h3 class="h3">Nous vous appelons</h3>
+          <h2 class="h3">Nous vous appelons</h2>
           <p>Un collaborateur vous contacte pour fixer votre rendez-vous stratégique et vérifier la disponibilité de votre secteur.</p>
         </div>
       </div>
       <div class="tl-item">
         <span class="tl-dot">3</span>
         <div class="tl-body">
-          <h3 class="h3">On construit votre lancement</h3>
+          <h2 class="h3">On construit votre lancement</h2>
           <p>Statut, formation, outils, objectifs : tout est cadré avant votre première prospection.</p>
         </div>
       </div>

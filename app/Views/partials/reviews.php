@@ -7,10 +7,12 @@
       <p class="lead"><?= e($t['lead'] ?? '') ?></p>
     </div>
   </div>
-  <div class="reviews-wrap" data-reveal>
+  <div class="reviews-wrap" data-reveal role="region" aria-label="Avis clients publiés sur Google">
     <div class="reviews">
-      <?php foreach (array_merge($items, $items) as $r): ?>
-        <article class="review">
+      <?php foreach (array_merge($items, $items) as $i => $r): ?>
+        <?php // La seconde série ne sert qu'à boucler le défilement : elle
+              // est masquée aux lecteurs d'écran pour ne pas être relue. ?>
+        <article class="review"<?= $i >= count($items) ? ' aria-hidden="true"' : '' ?>>
           <span class="stars" aria-label="<?= e((string) ($r['rating'] ?? 5)) ?> étoiles sur 5">
             <?php for ($i = 0; $i < (int) ($r['rating'] ?? 5); $i++) { echo icon('star'); } ?>
           </span>

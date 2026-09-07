@@ -343,3 +343,7 @@ table.data a.strong:hover { color: #ff8290; }
   background: #fff; border: 5px solid var(--red); box-shadow: 0 3px 12px rgba(230, 47, 67, .5);
 }
 #glow-speed.is-off { opacity: .4; pointer-events: none; }
+
+/* Sprites SVG : les tracés ne sont écrits qu'une fois par page et
+   référencés par <use>. Le conteneur ne doit rien occuper. */
+.icon-sprite, .si-logo-sprite { display: none !important; }

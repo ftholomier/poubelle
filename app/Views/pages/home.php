@@ -29,7 +29,7 @@ $marquee = (array) content('marquee');
         <span class="split-word"><i style="--d:60ms"><?= e($hero['title_before'] ?? '') ?></i></span><br>
         <span class="hero__rotator">
           <?php foreach ((array) ($hero['rotating'] ?? []) as $w): ?><span><?= e($w) ?></span><?php endforeach; ?>
-        </span><br>
+        </span><span class="sr-only"><?= e((array) ($hero['rotating'] ?? []) ? $hero['rotating'][0] : '') ?></span><br>
         <span class="split-word"><i style="--d:180ms"><?= e($hero['title_after'] ?? '') ?></i></span>
       </h1>
 

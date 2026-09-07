@@ -29,6 +29,7 @@ $items2 = [
 <link rel="stylesheet" href="<?= e(asset('css/admin.css')) ?>">
 </head>
 <body>
+<?= icons_sprite() ?>
 <div class="shell">
   <aside class="side">
     <a class="side__brand" href="<?= e(url('admin')) ?>">

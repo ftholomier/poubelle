@@ -5,6 +5,10 @@
 /data/uploads/*
 !/data/uploads/.gitkeep
 /data/PREMIERE-CONNEXION.txt
+/data/events/
+/data/ratelimit/
+/data/logs/
+/data/.housekeeping
 
 # Divers
 .DS_Store

@@ -171,3 +171,24 @@ function csv_safe(mixed $value): string
     }
     return $v;
 }
+
+/**
+ * Ramène un texte à la longueur maximale admise par les moteurs de
+ * recherche, en coupant sur une frontière de mot plutôt qu'au milieu.
+ *
+ * Sans ce garde-fou, un extrait d'article se termine par un mot tronqué
+ * dans la balise description, ce qui dégrade l'aperçu en résultat.
+ */
+function meta_trim(string $text, int $max): string
+{
+    $text = trim(preg_replace('/\s+/u', ' ', $text) ?? '');
+    if ($text === '' || mb_strlen($text) <= $max) {
+        return $text;
+    }
+    $cut = mb_substr($text, 0, $max - 1);
+    $space = mb_strrpos($cut, ' ');
+    if ($space !== false && $space > $max * 0.6) {
+        $cut = mb_substr($cut, 0, $space);
+    }
+    return rtrim($cut, " ,;:.–—-") . '…';
+}

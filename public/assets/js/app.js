@@ -143,6 +143,9 @@
     const rot = $('.hero__rotator');
     if (!rot) return;
     const words = $$('span', rot);
+    // Les mots défilent visuellement ; le titre accessible n'en contient
+    // qu'un seul, posé dans le HTML (span.sr-only).
+    rot.setAttribute('aria-hidden', 'true');
     if (words.length < 2) { words[0]?.classList.add('is-active'); return; }
     let i = 0;
     words[0].classList.add('is-active');
@@ -196,7 +199,12 @@
       const tabs = $$('[role="tab"]', wrap);
       const panels = $$('[role="tabpanel"]', wrap);
       function select(idx) {
-        tabs.forEach((t, i) => t.setAttribute('aria-selected', String(i === idx)));
+        tabs.forEach((t, i) => {
+          t.setAttribute('aria-selected', String(i === idx));
+          // Un seul onglet dans l'ordre de tabulation : la flèche sert à
+          // circuler entre eux, la tabulation à sortir du groupe.
+          t.setAttribute('tabindex', i === idx ? '0' : '-1');
+        });
         panels.forEach((p, i) => { p.hidden = i !== idx; });
       }
       tabs.forEach((tab, i) => {
@@ -285,13 +293,24 @@
     let armed = false;
     let dismissed = false;
 
+    // La bulle de l'assistant se cale au-dessus de la barre : elle doit
+    // connaître sa hauteur réelle, qui change entre mobile (empilée) et
+    // desktop, et retomber à zéro quand la barre disparaît.
+    function publishHeight() {
+      const visible = bar.classList.contains('is-visible');
+      const h = visible ? Math.round(bar.getBoundingClientRect().height) + 12 : 0;
+      document.documentElement.style.setProperty('--sticky-h', h + 'px');
+    }
+
     // La barre s'efface en bas de page pour ne pas masquer le CTA final.
     function update() {
       if (!armed || dismissed) return;
       const doc = document.documentElement;
       const nearBottom = window.scrollY + window.innerHeight > doc.scrollHeight - 420;
       bar.classList.toggle('is-visible', !nearBottom);
+      publishHeight();
     }
+    window.addEventListener('resize', publishHeight, { passive: true });
 
     // Affichage automatique 2 s après le chargement — ou dès le premier
     // défilement si le visiteur va plus vite que ça.
@@ -306,6 +325,7 @@
     close && close.addEventListener('click', () => {
       dismissed = true;
       bar.classList.remove('is-visible');
+      publishHeight();
       try { sessionStorage.setItem('si_cta_closed', '1'); } catch (e) {}
     });
 
@@ -320,33 +340,101 @@
   function initExitIntent() {
     const modal = $('#exit-modal');
     if (!modal) return;
-    let shown = sessionStorage.getItem('si_exit') === '1';
+
+    // Deux verrous : la session (une fois par onglet) et 24 h (un visiteur
+    // qui a déjà refusé ne doit pas revoir la fenêtre le lendemain matin).
+    const DAY = 86400000;
+    let shown = false;
+    try {
+      shown = sessionStorage.getItem('si_exit') === '1'
+        || Number(localStorage.getItem('si_exit_at') || 0) > Date.now() - DAY;
+    } catch (e) {}
+
+    let lastFocus = null;
+    const touch = window.matchMedia('(hover: none)').matches;
+    const start = Date.now();
+    let deepest = 0;
+    let idleTimer = null;
 
     function open() {
       if (shown) return;
       shown = true;
-      try { sessionStorage.setItem('si_exit', '1'); } catch (e) {}
+      try {
+        sessionStorage.setItem('si_exit', '1');
+        localStorage.setItem('si_exit_at', String(Date.now()));
+      } catch (e) {}
+      lastFocus = document.activeElement;
       modal.classList.add('is-open');
-      const first = $('input', modal);
-      first && first.focus();
+      // La fenêtre passe de visibility:hidden à visible : le focus n'est
+      // accepté qu'une fois le style appliqué, d'où la trame suivante.
+      requestAnimationFrame(() => {
+        const items = focusables();
+        items.length && items[0].focus();
+      });
     }
-    function close() { modal.classList.remove('is-open'); }
 
-    document.addEventListener('mouseout', (e) => {
-      if (!e.relatedTarget && e.clientY < 12) open();
-    });
-    // Sur mobile : déclenchement au retour arrière rapide en haut de page.
-    let lastY = window.scrollY, up = 0;
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      up = y < lastY ? up + (lastY - y) : 0;
-      lastY = y;
-      if (up > 900 && y < 300) open();
-    }, { passive: true });
+    // Éléments réellement atteignables au clavier : les champs cachés et
+    // le pot de miel (tabindex -1) doivent rester hors du parcours.
+    function focusables() {
+      return $$('button, input, select, textarea, a[href]', modal).filter((el) =>
+        el.type !== 'hidden' && el.tabIndex >= 0 && el.offsetParent !== null && !el.disabled);
+    }
+
+    function close() {
+      modal.classList.remove('is-open');
+      // Le focus revient à son point de départ ; s'il n'est plus
+      // atteignable, on le retire de la fenêtre qui vient de disparaître.
+      if (lastFocus && lastFocus.isConnected && typeof lastFocus.focus === 'function' && lastFocus.tabIndex >= 0) {
+        lastFocus.focus();
+      } else if (modal.contains(document.activeElement)) {
+        document.activeElement.blur();
+      }
+    }
+
+    if (!touch) {
+      // Desktop : le curseur quitte la fenêtre par le haut, vers les onglets.
+      document.addEventListener('mouseout', (e) => {
+        if (!e.relatedTarget && e.clientY < 12) open();
+      });
+    } else {
+      // Mobile : aucun signal d'intention de sortie n'existe. On attend
+      // trois conditions réunies plutôt que d'interrompre une lecture —
+      // un simple retour vers le haut de page n'en est pas une.
+      function armIdle() {
+        clearTimeout(idleTimer);
+        const engaged = Date.now() - start > 45000 && deepest > 0.6;
+        if (!engaged || shown) return;
+        idleTimer = setTimeout(open, 8000);
+      }
+      window.addEventListener('scroll', () => {
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - window.innerHeight;
+        if (max > 0) deepest = Math.max(deepest, (window.scrollY + window.innerHeight) / doc.scrollHeight);
+        armIdle();
+      }, { passive: true });
+      window.addEventListener('touchstart', armIdle, { passive: true });
+      setTimeout(armIdle, 46000);
+    }
 
     $$('[data-close]', modal).forEach((b) => b.addEventListener('click', close));
     modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    document.addEventListener('keydown', (e) => {
+      if (!modal.classList.contains('is-open')) return;
+      if (e.key === 'Escape') { close(); return; }
+      // Piège de focus : la tabulation ne sort pas de la fenêtre modale.
+      if (e.key === 'Tab') {
+        const items = focusables();
+        if (!items.length) return;
+        const first = items[0], last = items[items.length - 1];
+        // Le focus part de l'extérieur (ouverture au clavier, clic sur le
+        // fond) : on le ramène dans la fenêtre avant de boucler.
+        if (!modal.contains(document.activeElement)) {
+          e.preventDefault();
+          (e.shiftKey ? last : first).focus();
+        } else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
   }
 
   /* ------------------------------------------- Formulaires en AJAX */
