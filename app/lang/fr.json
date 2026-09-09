@@ -158,5 +158,8 @@
     "reviews.carousel": "Témoignages de nos coworkers",
     "reviews.prev": "Témoignage précédent",
     "reviews.next": "Témoignage suivant",
-    "reviews.goTo": "Témoignage {n}"
+    "reviews.goTo": "Témoignage {n}",
+    "filter.result": "{count} bureaux affichés",
+    "filter.resultOne": "1 bureau affiché",
+    "bot.actionSite": "Voir les bureaux {name}"
 }

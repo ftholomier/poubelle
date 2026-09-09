@@ -76,7 +76,7 @@ final class Facts
                 'total' => \count($atSite),
                 'available' => \count(Offices::filter($atSite, ['status' => 'available'])),
                 'minPrice' => self::minOf($atSite),
-                'url' => Router::availableOffices($lang, $id),
+                'url' => Router::officesAtSite($id, $lang),
             ];
         }
 
@@ -202,10 +202,9 @@ final class Facts
 
         $actions = [];
         if ($s['available'] > 0 && array_intersect($intents, ['availability', 'price', 'visit', 'meeting']) !== []) {
-            $actions[] = [
-                'label' => self::availableLabel($s['available']),
-                'url' => $site !== '' && isset($s['sites'][$site]) ? $s['sites'][$site]['url'] : $s['urls']['available'],
-            ];
+            $actions[] = $site !== '' && isset($s['sites'][$site])
+                ? ['label' => I18n::t('bot.actionSite', ['name' => $s['sites'][$site]['name']]), 'url' => $s['sites'][$site]['url']]
+                : ['label' => self::availableLabel($s['available']), 'url' => $s['urls']['available']];
         }
         if (\in_array('location', $intents, true) || \in_array('visit', $intents, true)) {
             $actions[] = ['label' => I18n::t('bot.actionVisit'), 'url' => $s['urls']['contact']];
@@ -250,10 +249,11 @@ final class Facts
         $answer = I18n::t($count === 1 ? 'bot.dataOne' : 'bot.dataMany', ['count' => $count])
             . ' ' . implode(' · ', $details) . '.';
 
-        $actions = [[
-            'label' => self::availableLabel($count),
-            'url' => $site !== '' && isset($s['sites'][$site]) ? $s['sites'][$site]['url'] : $s['urls']['available'],
-        ]];
+        // Une question ciblée sur un lieu renvoie vers les bureaux de ce lieu ;
+        // le libellé doit dire cela, pas « les bureaux libres ».
+        $actions = [$site !== '' && isset($s['sites'][$site])
+            ? ['label' => I18n::t('bot.actionSite', ['name' => $s['sites'][$site]['name']]), 'url' => $s['sites'][$site]['url']]
+            : ['label' => self::availableLabel($count), 'url' => $s['urls']['available']]];
         if ($count === 1) {
             $actions[] = ['label' => I18n::t('bot.actionOffice', ['name' => $scope[0]['name']]), 'url' => $scope[0]['url']];
         }

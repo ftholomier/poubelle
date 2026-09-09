@@ -158,5 +158,8 @@
     "reviews.carousel": "What our coworkers say",
     "reviews.prev": "Previous review",
     "reviews.next": "Next review",
-    "reviews.goTo": "Review {n}"
+    "reviews.goTo": "Review {n}",
+    "filter.result": "{count} offices shown",
+    "filter.resultOne": "1 office shown",
+    "bot.actionSite": "See the {name} offices"
 }

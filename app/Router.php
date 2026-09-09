@@ -132,10 +132,19 @@ final class Router
      * Page « Nos bureaux » déjà filtrée sur les bureaux libres : c'est la
      * destination de tous les liens qui promettent de montrer ce qui est
      * disponible, pour éviter au visiteur de cliquer un filtre de plus.
+     *
+     * Un seul filtre par URL : les pastilles de la page sont exclusives, un
+     * lien qui en cumulerait deux afficherait des compteurs incohérents.
      */
-    public static function availableOffices(?string $lang = null, string $site = ''): string
+    public static function availableOffices(?string $lang = null): string
     {
-        return self::url('offices', $lang, [], ['site' => $site, 'status' => 'available']);
+        return self::url('offices', $lang, [], ['status' => 'available']);
+    }
+
+    /** Page « Nos bureaux » filtrée sur un lieu. */
+    public static function officesAtSite(string $site, ?string $lang = null): string
+    {
+        return self::url('offices', $lang, [], ['site' => $site]);
     }
 
     public static function adminUrl(string $screen = '', array $query = []): string
