@@ -41,7 +41,7 @@ foreach (\array_slice(Offices::decorateAll(Offices::filter(Offices::published(),
       <div class="footer__links">
         <a class="footer__link" href="<?= Text::e(Router::url('spaces', $lang)) ?>"><?= Text::e(I18n::t('footer.spaces')) ?></a>
         <a class="footer__link" href="<?= Text::e(Router::url('offices', $lang)) ?>"><?= Text::e(I18n::t('footer.offices')) ?></a>
-        <a class="footer__link" href="<?= Text::e(Router::url('offices', $lang)) ?>#bureaux"><?= Text::e(I18n::t('footer.availability')) ?></a>
+        <a class="footer__link" href="<?= Text::e(Router::availableOffices($lang)) ?>"><?= Text::e(I18n::t('footer.availability')) ?></a>
         <a class="footer__link" href="<?= Text::e(Router::url('news', $lang)) ?>"><?= Text::e(I18n::t('footer.news')) ?></a>
       </div>
     </div>

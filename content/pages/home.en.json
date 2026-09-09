@@ -17,7 +17,8 @@
     "text": "Private offices and open-space desks in central Besançon. You sign, you drop your things, you get to work. Bills, high-speed internet, cleaning and the meeting room are all in, with no hidden fees.",
     "ctaPrimary": {
       "label": "See available offices",
-      "route": "offices"
+      "route": "offices",
+      "status": "available"
     },
     "ctaSecondary": {
       "label": "Book a viewing",

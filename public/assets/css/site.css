@@ -393,10 +393,28 @@ h1, h2, h3, h4 { font-family: 'Bricolage Grotesque', 'Manrope', sans-serif; font
 
 .grid { display: grid; gap: 26px; }
 .grid--places { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 38px; }
-.grid--offices { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; margin-top: 34px; }
-.grid--offices-lg { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; margin: 34px 0 20px; }
-/* Une ou deux disponibilités : une colonne pleine largeur, photo généreuse. */
-.grid--offices-spot { grid-template-columns: 1fr; gap: 26px; max-width: 900px; }
+/* Mosaïque du catalogue : toujours 4 colonnes sur grand écran, quel que soit
+   le nombre de résultats. Un nombre de colonnes fixe (et non « auto-fit »)
+   évite que les cartes s'étirent quand un filtre ne renvoie qu'un bureau. */
+.grid--offices,
+.grid--offices-lg { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+.grid--offices { margin-top: 34px; }
+.grid--offices-lg { margin: 34px 0 20px; }
+/* Une ou deux disponibilités sur l'accueil : une colonne, photo généreuse. */
+.grid--offices-spot { grid-template-columns: minmax(0, 1fr); gap: 26px; max-width: 900px; }
+
+@media (max-width: 1180px) {
+  .grid--offices:not(.grid--offices-spot),
+  .grid--offices-lg { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 880px) {
+  .grid--offices:not(.grid--offices-spot),
+  .grid--offices-lg { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .grid--offices:not(.grid--offices-spot),
+  .grid--offices-lg { grid-template-columns: minmax(0, 1fr); }
+}
 .grid--steps { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; margin-top: 40px; }
 .grid--reviews { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 32px; }
 .grid--news { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; margin-top: 36px; }

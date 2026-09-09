@@ -50,12 +50,22 @@ $faqItems = Content::list($hero === [] ? $page : $page, 'faq.items');
 
       <p class="hero__text" data-reveal data-delay="160"><?= Text::e(Content::text($hero, 'text')) ?></p>
 
+      <?php // Un bouton d'accueil peut viser une page filtrée : « status »
+            // est saisissable au back-office à côté de la route.
+            $ctaUrl = static fn (array $cta, string $default): string => Router::url(
+                (string) Content::text($cta, 'route', $default),
+                $lang,
+                [],
+                ['status' => (string) Content::text($cta, 'status', '')]
+            );
+            $ctaPrimary = (array) ($hero['ctaPrimary'] ?? []);
+            $ctaSecondary = (array) ($hero['ctaSecondary'] ?? []); ?>
       <div class="hero__actions" data-reveal data-delay="240">
-        <a class="btn btn--ink btn--lift" href="<?= Text::e(Router::url((string) Content::text($hero, 'ctaPrimary.route', 'offices'), $lang)) ?>" data-track="hero_primary">
+        <a class="btn btn--ink btn--lift" href="<?= Text::e($ctaUrl($ctaPrimary, 'offices')) ?>" data-track="hero_primary">
           <span><?= Text::e(Content::text($hero, 'ctaPrimary.label')) ?></span>
           <span class="btn--arrow" aria-hidden="true">→</span>
         </a>
-        <a class="btn btn--outline" href="<?= Text::e(Router::url((string) Content::text($hero, 'ctaSecondary.route', 'contact'), $lang)) ?>" data-track="hero_secondary">
+        <a class="btn btn--outline" href="<?= Text::e($ctaUrl($ctaSecondary, 'contact')) ?>" data-track="hero_secondary">
           <?= Text::e(Content::text($hero, 'ctaSecondary.label')) ?>
         </a>
       </div>
@@ -240,7 +250,7 @@ $faqItems = Content::list($hero === [] ? $page : $page, 'faq.items');
       <h2 class="band__title"><?= Text::e(View::fill(Content::text($page, 'band.title'), ['count' => $available])) ?></h2>
       <p class="band__text"><?= Text::e(Content::text($page, 'band.text')) ?></p>
       <div class="band__actions">
-        <a class="btn btn--yellow-cream btn--lift" href="<?= Text::e(Router::url('offices', $lang)) ?>" data-track="band_reserve"><?= Text::e(Content::text($page, 'band.cta1')) ?></a>
+        <a class="btn btn--yellow-cream btn--lift" href="<?= Text::e(Router::availableOffices($lang)) ?>" data-track="band_reserve"><?= Text::e(Content::text($page, 'band.cta1')) ?></a>
         <a class="btn btn--outline-cream" href="<?= Text::e(Router::url('contact', $lang)) ?>" data-track="band_contact"><?= Text::e(Content::text($page, 'band.cta2')) ?></a>
       </div>
     </div>

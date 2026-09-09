@@ -16,7 +16,7 @@ $delay = (int) ($delay ?? 0);
 // La photo occupe une colonne large en mise en avant, une vignette sinon.
 $sizes = $spotlight
     ? '(max-width: 760px) 100vw, 46vw'
-    : '(max-width: 620px) 100vw, (max-width: 1000px) 45vw, 400px';
+    : '(max-width: 560px) 100vw, (max-width: 880px) 45vw, (max-width: 1180px) 30vw, 290px';
 /** Assemble les fragments réellement renseignés. */
 $meta = static fn (array $parts): string => implode(' · ', array_filter(array_map('trim', $parts)));
 ?>

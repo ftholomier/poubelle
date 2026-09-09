@@ -104,7 +104,11 @@ final class Router
     }
 
     /** URL absolue-relative d'une route (préfixe de langue compris). */
-    public static function url(string $name, ?string $lang = null, array $params = []): string
+    /**
+     * @param array<string,string> $params valeurs des segments {id}, {slug}…
+     * @param array<string,string> $query  paramètres ajoutés après le « ? » (filtres)
+     */
+    public static function url(string $name, ?string $lang = null, array $params = [], array $query = []): string
     {
         $lang = $lang !== null && \in_array($lang, Config::LANGS, true) ? $lang : I18n::lang();
         $pattern = self::ROUTES[$lang][$name] ?? self::ROUTES[Config::DEFAULT_LANG][$name] ?? '';
@@ -113,12 +117,25 @@ final class Router
         }
         $prefix = Config::basePath() . ($lang === Config::DEFAULT_LANG ? '' : '/' . $lang);
         $url = $prefix . '/' . $pattern;
-        return rtrim($url, '/') === '' ? ($prefix === '' ? '/' : $prefix . '/') : rtrim($url, '/');
+        $url = rtrim($url, '/') === '' ? ($prefix === '' ? '/' : $prefix . '/') : rtrim($url, '/');
+
+        $query = array_filter($query, static fn ($v): bool => (string) $v !== '');
+        return $query === [] ? $url : $url . '?' . http_build_query($query);
     }
 
-    public static function absolute(string $name, ?string $lang = null, array $params = []): string
+    public static function absolute(string $name, ?string $lang = null, array $params = [], array $query = []): string
     {
-        return Config::baseUrl() . self::url($name, $lang, $params);
+        return Config::baseUrl() . self::url($name, $lang, $params, $query);
+    }
+
+    /**
+     * Page « Nos bureaux » déjà filtrée sur les bureaux libres : c'est la
+     * destination de tous les liens qui promettent de montrer ce qui est
+     * disponible, pour éviter au visiteur de cliquer un filtre de plus.
+     */
+    public static function availableOffices(?string $lang = null, string $site = ''): string
+    {
+        return self::url('offices', $lang, [], ['site' => $site, 'status' => 'available']);
     }
 
     public static function adminUrl(string $screen = '', array $query = []): string

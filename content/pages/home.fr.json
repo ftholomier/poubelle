@@ -17,7 +17,8 @@
     "text": "Bureaux privés et postes en open space à Besançon centre. Vous signez, vous posez vos affaires, vous travaillez. Charges, internet très haut débit, ménage, salle de réunion : tout est dedans, aucun frais caché.",
     "ctaPrimary": {
       "label": "Voir les bureaux libres",
-      "route": "offices"
+      "route": "offices",
+      "status": "available"
     },
     "ctaSecondary": {
       "label": "Réserver une visite",

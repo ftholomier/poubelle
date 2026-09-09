@@ -39,7 +39,7 @@ $tagline = (string) ($settings['site']['tagline'] ?? '');
            href="<?= Text::e(Router::url($item['route'], $lang)) ?>"
            <?= $isActive ? 'aria-current="page"' : '' ?>><?= Text::e(I18n::t($item['key'])) ?></a>
       <?php endforeach; ?>
-      <a class="nav__cta" href="<?= Text::e(Router::url('offices', $lang)) ?>" data-track="nav_reserve"><?= Text::e(I18n::t('nav.reserve')) ?></a>
+      <a class="nav__cta" href="<?= Text::e(Router::availableOffices($lang)) ?>" data-track="nav_reserve"><?= Text::e(I18n::t('nav.reserve')) ?></a>
     </nav>
   </div>
   <div class="header__progress" data-progress></div>

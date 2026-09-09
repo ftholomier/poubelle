@@ -57,7 +57,7 @@ foreach ((array) ($settings['sites'] ?? []) as $entry) {
         </div>
         <?php endif; ?>
 
-        <a class="btn btn--ink space__cta btn--stacked" href="<?= Text::e(Router::url('offices', $lang)) ?>?site=<?= Text::e($id) ?>">
+        <a class="btn btn--ink space__cta btn--stacked" href="<?= Text::e(Router::availableOffices($lang, $id)) ?>">
           <span class="btn__main"><?= Text::e(Content::i18n($space, 'cta', $lang)) ?></span>
           <span class="btn__sub"><?= Text::e(Offices::availabilityLabel($available)) ?></span>
         </a>

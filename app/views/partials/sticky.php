@@ -25,7 +25,7 @@ $halo = (string) ($settings['sticky']['halo'] ?? 'reserve');
     </span>
     <span class="sticky-cta__slot<?= $halo === 'reserve' ? ' sticky-cta__slot--halo' : '' ?>">
       <span class="sticky-cta__halo" aria-hidden="true"></span>
-      <a class="sticky-cta__btn sticky-cta__btn--solid" href="<?= Text::e(Router::url('offices', $lang)) ?>" data-track="cta_sticky_reserve">
+      <a class="sticky-cta__btn sticky-cta__btn--solid" href="<?= Text::e(Router::availableOffices($lang)) ?>" data-track="cta_sticky_reserve">
         <span class="sticky-cta__long"><?= Text::e(I18n::t('sticky.reserve')) ?></span>
         <span class="sticky-cta__short"><?= Text::e(I18n::t('sticky.reserveShort')) ?></span>
       </a>
