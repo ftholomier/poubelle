@@ -397,15 +397,15 @@ s_content(
 s = prs.slides[-1]
 for i, (n, who, what) in enumerate([
     ("Les généralistes", "OpenAI · Anthropic · Google · xAI",
-     "Les plus polyvalents, le meilleur écosystème. Le choix par défaut pour le travail quotidien. "
+     "Les plus polyvalents, le plus d'outils autour. Le choix par défaut au quotidien. "
      "Hébergement hors UE sauf offre entreprise."),
     ("Le souverain européen", "Mistral · Kyutai",
-     "Hébergement en Europe, excellent français, engagement contractuel sur la résidence des "
-     "données. La réponse quand la question 1 bloque."),
+     "Hébergement en Europe, excellent français, engagement écrit sur le pays où sont stockées "
+     "les données. La réponse quand la question 1 bloque."),
     ("Les modèles ouverts", "Llama · Mistral ouverts · Qwen · DeepSeek",
      "Installables chez vous : les données ne sortent jamais, l'usage ne se facture pas au message. "
      "Demande une compétence technique réelle."),
-    ("Les spécialisés", "Transcription · OCR · traduction · image · voix",
+    ("Les spécialisés", "Transcription · documents scannés · traduction · image · voix",
      "Une tâche, très bien faite, pour une fraction du prix. Souvent la meilleure réponse à un "
      "besoin précis et répétitif."),
 ]):
@@ -418,18 +418,20 @@ for i, (n, who, what) in enumerate([
     txt(s, x, y + 0.95, 5.5, 1.0, what, size=14.5, color=INK2, spacing=1.22)
 
 s_atelier(
-    5, 25, "Vous êtes responsable informatique — que choisissez-vous ?",
-    ["Par groupes de trois. Chaque groupe reçoit un cas :",
-     "*Groupe 1* — une PME industrielle de 50 personnes, données clients classiques.",
-     "*Groupe 2* — un cabinet d'avocats, dossiers couverts par le secret professionnel.",
-     "*Groupe 3* — une agence créative, beaucoup d'images, budget serré.",
-     "Répondez aux quatre questions dans l'ordre, puis choisissez une famille. *Trois minutes de "
-     "restitution par groupe.*"],
-    "Les trois groupes n'aboutiront pas au même choix, et c'est exactement le résultat attendu. "
-    "Faites-leur dire *quelle question a été décisive* dans chaque cas.",
+    5, 25, "Trois collègues vous demandent conseil",
+    ["Par groupes de trois. Chaque groupe reçoit une personne :",
+     "*Sophie*, assistante RH : elle doit trier 80 candidatures et rédiger les réponses.",
+     "*Marc*, artisan à son compte : il veut refaire ses devis et le texte de son site.",
+     "*Nadia*, agent en mairie : elle doit résumer les comptes rendus du conseil municipal.",
+     "Posez-vous les quatre questions *à sa place*, puis dites-lui quelle famille d'outils lui "
+     "convient. *Trois minutes pour raconter.*"],
+    "Les trois groupes ne donneront pas le même conseil, et c'est le résultat attendu. "
+    "Faites dire *quelle question a tranché* : pour Sophie ce sont les données personnelles, "
+    "pour Marc le prix, pour Nadia le lieu d'hébergement.",
     accent=J1, wash=J1W,
-    notes="Si le groupe est homogène (une seule entreprise), remplacez les trois cas par trois "
-          "services différents de leur propre organisation. C'est encore plus efficace.")
+    notes="Si le groupe vient d'une seule entreprise, remplacez Sophie, Marc et Nadia par trois "
+          "collègues réels de leur maison. C'est encore plus efficace. Personne n'a besoin de "
+          "connaître l'informatique pour faire cet atelier : ils conseillent quelqu'un, c'est tout.")
 
 # ═══════════════════════════════════════════ SÉQUENCE 7 — CADRE
 s_section(7, "JOUR 1", "Données, droit et cadre",
@@ -464,9 +466,9 @@ s_content(
     big="Former vos équipes à l'IA est une obligation européenne depuis février 2025.",
     items=[
         "*L'article 4 du règlement européen sur l'IA* impose aux organisations qui déploient des "
-        "systèmes d'IA de veiller au niveau de littératie de leurs collaborateurs — salariés, mais "
-        "aussi prestataires agissant pour leur compte.",
-        "C'est une obligation de moyens, proportionnée au rôle de chacun. "
+        "systèmes d'IA de veiller à ce que leurs équipes sachent s'en servir. Cela vaut pour les "
+        "salariés, mais aussi pour les prestataires qui travaillent pour eux.",
+        "La loi demande de faire des efforts, pas d'atteindre un résultat mesurable. "
         "*Cette formation y répond* : conservez l'attestation de participation.",
         "*Le RGPD continue de s'appliquer intégralement.* Saisir des données personnelles dans un "
         "outil tiers est un transfert de données, avec tout ce que cela implique.",
