@@ -78,6 +78,7 @@ foreach (\array_slice(Offices::decorateAll(Offices::filter(Offices::published(),
     <span class="footer__legal">
       <a href="<?= Text::e(Router::url('legal', $lang)) ?>"><?= Text::e(I18n::t('nav.legal')) ?></a>
       <a href="<?= Text::e(Router::url('privacy', $lang)) ?>"><?= Text::e(I18n::t('nav.privacy')) ?></a>
+      <button type="button" class="footer__cookies" data-consent-open><?= Text::e(I18n::t('consent.link')) ?></button>
     </span>
   </div>
 </footer>

@@ -40,7 +40,7 @@
             "note": "Cour intérieure — sonnez à l'interphone iOiO",
             "color": "#FFD100",
             "logo": "/assets/img/ioio-carnot.png",
-            "photo": "/media/espace-carnot.webp",
+            "photo": "/media/carnot-salle-reunion.webp",
             "mapUrl": "https://www.google.com/maps/search/?api=1&query=11+avenue+Carnot+25000+Besan%C3%A7on",
             "enabled": true,
             "i18n": {
@@ -76,7 +76,7 @@
             "note": "Face au parc Granvelle, au cœur de la boucle",
             "color": "#12B39A",
             "logo": "/assets/img/ioio-granvelle.png",
-            "photo": "/media/espace-granvelle.webp",
+            "photo": "/media/granvelle-facade.webp",
             "mapUrl": "https://www.google.com/maps/search/?api=1&query=3+rue+Granvelle+25000+Besan%C3%A7on",
             "enabled": true,
             "i18n": {
@@ -346,13 +346,16 @@
     "seo": {
         "titleSuffix": "Le iOiO — coworking et bureaux à Besançon",
         "description": "Bureaux privés et postes en open space tout compris au centre-ville de Besançon. Deux adresses : Carnot et Granvelle.",
-        "ogImage": "/media/espace-carnot.webp"
+        "ogImage": "/media/carnot-bureau-prive.jpg"
     },
     "analytics": {
         "provider": "none",
         "domain": "",
         "src": ""
     },
-    "updatedAt": "2026-09-09T18:58:52+02:00",
-    "updatedBy": "seed"
+    "updatedAt": "2026-09-09T20:36:44+02:00",
+    "updatedBy": "correction",
+    "consent": {
+        "enabled": true
+    }
 }

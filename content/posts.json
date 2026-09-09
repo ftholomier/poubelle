@@ -8,7 +8,7 @@
             "title": "Carnot 03 se libère : 11 m² au calme",
             "excerpt": "Le bureau 03 de l'espace Carnot est disponible immédiatement. Cour intérieure, fibre filaire, salle de réunion à deux portes.",
             "body": "<p>Le bureau 03 de l'espace Carnot vient de se libérer. 11 m² fermés, une fenêtre sur la cour intérieure, le mobilier neuf déjà installé.</p><p>Le loyer reste à <strong>320 € HT par mois, tout compris</strong> : charges, ménage, fibre filaire, salle de réunion et café. L'entrée peut se faire sous 48 h après la visite.</p><p>Comme toujours, la visite dure 20 minutes et le café est offert.</p>",
-            "image": "/media/p3.jpg",
+            "image": "/media/carnot-bureau-prive.jpg",
             "color": "#FFD100",
             "i18n": {
                 "en": {
@@ -25,7 +25,7 @@
             "title": "Nouveaux casiers et coin bar à Granvelle",
             "excerpt": "L'espace détente de Granvelle a été réaménagé cet été : table bar plus grande, nouveaux casiers à clé et machine à café remplacée.",
             "body": "<p>L'été a servi à refaire l'espace détente de Granvelle. La table bar de travail est plus grande, avec des prises à chaque place.</p><p>Chaque poste dédié dispose désormais de son <strong>casier à clé</strong>, et la machine à café a été remplacée par un modèle à grains.</p><p>Le coin canapé reste réservé aux rendez-vous informels : on y reçoit un client sans réserver la salle de réunion.</p>",
-            "image": "/media/p6.jpg",
+            "image": "/media/granvelle-facade.webp",
             "color": "#12B39A",
             "i18n": {
                 "en": {
@@ -42,7 +42,7 @@
             "title": "Pourquoi nos loyers restent tout compris",
             "excerpt": "Pas de refacturation de charges, pas de frais de dossier, pas de surprise en fin d'année. On explique le modèle en trois minutes.",
             "body": "<p>Un bureau à 300 € qui devient 380 € une fois les charges refacturées, ce n'est pas notre modèle. Au iOiO, le prix affiché est le prix payé.</p><p>Sont compris : charges, eau, électricité, chauffage, ménage, fibre, mobilier, salle de réunion, cuisine équipée et café. Il n'y a <strong>ni frais de dossier, ni dépôt de garantie lourd, ni régularisation annuelle</strong>.</p><p>Le contrat est une prestation de services, pas un bail commercial : le préavis est court et vous partez quand votre activité change.</p>",
-            "image": "/media/p7.jpg",
+            "image": "/media/carnot-salle-reunion.webp",
             "color": "#FFD100",
             "i18n": {
                 "en": {
@@ -53,6 +53,6 @@
             }
         }
     ],
-    "updatedAt": "2026-09-09T18:39:31+02:00",
-    "updatedBy": "seed"
+    "updatedAt": "2026-09-09T20:33:28+02:00",
+    "updatedBy": "correction"
 }

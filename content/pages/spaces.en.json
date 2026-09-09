@@ -7,7 +7,7 @@
     "seo": {
         "title": "Our spaces — Carnot and Granvelle",
         "description": "170 sqm across two addresses in central Besançon: private offices on avenue Carnot, coworking on rue Granvelle. All inclusive, 24/7 access.",
-        "ogImage": "/media/espace-granvelle.webp"
+        "ogImage": "/media/granvelle-facade.webp"
     },
     "kicker": "OUR SPACES · 170 SQM · CENTRAL BESANÇON",
     "title": "More than an office: a place that feels good.",
@@ -51,6 +51,11 @@
                     "title": "And all the rest",
                     "text": "Bills, water, electricity, heating and cleaning included."
                 }
+            ],
+            "photos": [
+                "/media/carnot-bureau-prive.jpg",
+                "/media/carnot-salle-reunion.webp",
+                "/media/carnot-cuisine.jpg"
             ]
         },
         {
@@ -90,9 +95,14 @@
                     "title": "And all the rest",
                     "text": "Bills, water, electricity, heating and cleaning included."
                 }
+            ],
+            "photos": [
+                "/media/granvelle-facade.webp",
+                "/media/granvelle-open-space-mezzanine.jpg",
+                "/media/granvelle-coin-detente.jpg"
             ]
         }
     ],
-    "updatedAt": "2026-09-09T18:39:31+02:00",
-    "updatedBy": "seed"
+    "updatedAt": "2026-09-09T20:33:28+02:00",
+    "updatedBy": "correction"
 }

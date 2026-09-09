@@ -16,9 +16,124 @@
   function $(selector, scope) { return (scope || document).querySelector(selector); }
   function $$(selector, scope) { return Array.prototype.slice.call((scope || document).querySelectorAll(selector)); }
 
+  /* ------------------------------------------------------ consentement */
+
+  var CONSENT_COOKIE = 'ioio_consent';
+  var CONSENT_VERSION = 1;
+
+  function readConsent() {
+    var match = document.cookie.match(new RegExp('(?:^|; )' + CONSENT_COOKIE + '=([^;]*)'));
+    if (!match) { return null; }
+    try {
+      var value = JSON.parse(decodeURIComponent(match[1]));
+      return value && value.v === CONSENT_VERSION ? value : null;
+    } catch (e) { return null; }
+  }
+
+  function consentAllows(category) {
+    var value = readConsent();
+    return !!(value && value[category]);
+  }
+  window.ioioConsent = consentAllows;
+
+  function writeConsent(choices) {
+    var value = { v: CONSENT_VERSION, at: new Date().toISOString(), analytics: !!choices.analytics, ai: !!choices.ai };
+    var attrs = '; path=' + (base || '/') + '; max-age=33696000; samesite=lax' + (location.protocol === 'https:' ? '; secure' : '');
+    document.cookie = CONSENT_COOKIE + '=' + encodeURIComponent(JSON.stringify(value)) + attrs;
+    if (value.analytics) { loadAnalytics(); }
+  }
+
+  /* Le script de mesure n'est injecté qu'après acceptation, sans rechargement. */
+  function loadAnalytics() {
+    var cfg = (window.IOIO && window.IOIO.analytics) || {};
+    if (!cfg.provider || cfg.provider === 'none' || document.querySelector('[data-analytics]')) { return; }
+    var script = document.createElement('script');
+    script.defer = true;
+    script.setAttribute('data-analytics', cfg.provider);
+    if (cfg.provider === 'plausible' && cfg.domain) {
+      script.dataset.domain = cfg.domain;
+      script.src = 'https://plausible.io/js/script.js';
+    } else if (cfg.provider === 'matomo' && cfg.src) {
+      window._paq = window._paq || [];
+      window._paq.push(['trackPageView'], ['enableLinkTracking']);
+      script.src = cfg.src;
+    } else {
+      return;
+    }
+    document.head.appendChild(script);
+  }
+
+  var consentBanner = $('[data-consent]');
+  var consentPanel = $('[data-consent-panel]');
+
+  function closeConsent() {
+    if (consentBanner) { consentBanner.hidden = true; }
+    if (consentPanel) { consentPanel.hidden = true; }
+    document.body.classList.remove('is-locked');
+  }
+
+  function openConsentPanel() {
+    if (!consentPanel) { return; }
+    var current = readConsent() || {};
+    $$('[data-consent-toggle]', consentPanel).forEach(function (input) {
+      input.checked = !!current[input.getAttribute('data-consent-toggle')];
+    });
+    consentPanel.hidden = false;
+    document.body.classList.add('is-locked');
+    var first = consentPanel.querySelector('button, input');
+    if (first) { setTimeout(function () { first.focus(); }, 120); }
+  }
+
+  function decide(choices, keepPanel) {
+    writeConsent(choices);
+    if (consentBanner) { consentBanner.hidden = true; }
+    if (!keepPanel) { closeConsent(); return; }
+    var saved = $('[data-consent-saved]', consentPanel);
+    if (saved) {
+      saved.hidden = false;
+      setTimeout(function () { closeConsent(); }, 1100);
+    } else {
+      closeConsent();
+    }
+  }
+
+  $$('[data-consent-accept]').forEach(function (b) {
+    b.addEventListener('click', function () { decide({ analytics: true, ai: true }, b.closest('[data-consent-panel]') !== null); });
+  });
+  $$('[data-consent-refuse]').forEach(function (b) {
+    b.addEventListener('click', function () { decide({ analytics: false, ai: false }, b.closest('[data-consent-panel]') !== null); });
+  });
+  $$('[data-consent-open]').forEach(function (b) {
+    b.addEventListener('click', function (e) { e.preventDefault(); openConsentPanel(); });
+  });
+  $$('[data-consent-close]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      consentPanel.hidden = true;
+      document.body.classList.remove('is-locked');
+    });
+  });
+  $$('[data-consent-save]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var choices = {};
+      $$('[data-consent-toggle]', consentPanel).forEach(function (input) {
+        choices[input.getAttribute('data-consent-toggle')] = input.checked;
+      });
+      decide(choices, true);
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && consentPanel && !consentPanel.hidden) {
+      consentPanel.hidden = true;
+      document.body.classList.remove('is-locked');
+    }
+  });
+
+  if (consentAllows('analytics')) { loadAnalytics(); }
+
   /* ------------------------------------------------------------ mesure */
 
   function track(name, props) {
+    if (!consentAllows('analytics')) { return; }
     try {
       if (typeof window.plausible === 'function') { window.plausible(name, { props: props || {} }); }
       if (window._paq && typeof window._paq.push === 'function') {

@@ -89,6 +89,10 @@ $reviewsCache = Store::read(Reviews::CACHE);
           <input class="field" id="s-inact" type="number" min="10" name="s[exitInactivity]" value="<?= (int) ($settings['exit']['inactivitySeconds'] ?? 45) ?>">
         </div>
         <div>
+          <label class="check"><input type="checkbox" name="s[consentEnabled]" value="1" <?= ($settings['consent']['enabled'] ?? true) ? 'checked' : '' ?>><span>Bandeau de consentement aux cookies</span></label>
+          <div class="hint">Trois catégories : nécessaires (toujours actives), mesure d'audience, et envoi des questions de l'assistant à Google. Refusé, aucun script tiers n'est chargé et l'assistant répond uniquement depuis l'index local.</div>
+        </div>
+        <div>
           <label class="check"><input type="checkbox" name="s[reviewsEnabled]" value="1" <?= !empty($settings['reviews']['enabled']) ? 'checked' : '' ?>><span>Afficher les avis sur l'accueil</span></label>
           <label class="label" style="margin-top:14px" for="s-badge">TEXTE DE LA PASTILLE D'AVIS</label>
           <input class="field" id="s-badge" type="text" name="s[reviewsBadge]" value="<?= Text::e((string) ($settings['reviews']['badge'] ?? '')) ?>">

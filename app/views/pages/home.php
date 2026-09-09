@@ -15,7 +15,11 @@ $lang = I18n::lang();
 $hero = (array) Content::get($page, 'hero', []);
 $available = Offices::availableCount();
 $minPrice = Offices::minPrice();
-$slides = Content::list($hero, 'slides', ['/media/p1.jpg']);
+// Le diaporama occupe ~560 px de large : on écarte tout visuel qui y serait agrandi.
+$slides = array_values(array_filter(
+    Content::list($hero, 'slides'),
+    static fn ($src): bool => \is_string($src) && App\Media::dimensions($src)['width'] >= 900
+));
 $sites = array_values(array_filter((array) ($settings['sites'] ?? []), static fn ($s): bool => \is_array($s) && ($s['enabled'] ?? true)));
 $featured = \array_slice(Offices::decorateAll(Offices::filter(Offices::published(), ['status' => 'available']), $lang), 0, 3);
 $marquee = array_values(array_filter((array) ($settings['marquee'] ?? []), 'is_array'));
@@ -125,7 +129,7 @@ $faqItems = Content::list($hero === [] ? $page : $page, 'faq.items');
         $siteAvailable = Offices::availableCount((string) $site['id']); ?>
       <article class="place-card" data-reveal data-delay="<?= $i * 120 ?>">
         <div class="place-card__media" style="background:<?= Text::e((string) ($site['color'] ?? '#FFD100')) ?>">
-          <?= View::image((string) ($site['photo'] ?? ''), (string) ($site['name'] ?? ''), ['placeholder' => (string) ($site['name'] ?? '')]) ?>
+          <?= View::image((string) ($site['photo'] ?? ''), (string) ($site['name'] ?? ''), ['placeholder' => (string) ($site['name'] ?? ''), 'minWidth' => 700, 'sizes' => '(max-width: 880px) 100vw, 600px']) ?>
           <?php if (!empty($site['logo'])): ?>
             <span class="place-card__logo" style="background-image:<?= View::bgUrl((string) $site['logo']) ?>"></span>
           <?php endif; ?>

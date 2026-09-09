@@ -7,7 +7,7 @@
     "seo": {
         "title": "Nos espaces — Carnot et Granvelle",
         "description": "170 m² sur deux adresses au centre de Besançon : bureaux privés avenue Carnot, coworking rue Granvelle. Tout compris, accès 24h/24.",
-        "ogImage": "/media/espace-granvelle.webp"
+        "ogImage": "/media/granvelle-facade.webp"
     },
     "kicker": "NOS ESPACES · 170 M² · BESANÇON CENTRE",
     "title": "Plus qu'un simple bureau : un endroit où l'on se sent bien.",
@@ -28,9 +28,9 @@
                 "Supermarché à 200 m"
             ],
             "photos": [
-                "/media/espace-carnot.webp",
-                "/media/p1.jpg",
-                "/media/p5.jpg"
+                "/media/carnot-bureau-prive.jpg",
+                "/media/carnot-salle-reunion.webp",
+                "/media/carnot-cuisine.jpg"
             ],
             "amenities": [
                 {
@@ -79,9 +79,9 @@
                 "Au centre de la boucle"
             ],
             "photos": [
-                "/media/espace-granvelle.webp",
-                "/media/p6.jpg",
-                "/media/p7.jpg"
+                "/media/granvelle-facade.webp",
+                "/media/granvelle-open-space-mezzanine.jpg",
+                "/media/granvelle-coin-detente.jpg"
             ],
             "amenities": [
                 {
@@ -117,6 +117,6 @@
             ]
         }
     ],
-    "updatedAt": "2026-09-09T18:39:31+02:00",
-    "updatedBy": "seed"
+    "updatedAt": "2026-09-09T20:33:28+02:00",
+    "updatedBy": "correction"
 }

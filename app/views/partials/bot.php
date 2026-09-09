@@ -10,7 +10,9 @@ if (empty($settings['ai']['enabled'])) {
 }
 $lang = I18n::lang();
 $suggestions = Gemini::suggestions($lang);
-$poweredByGemini = Gemini::configured();
+// Le pied du panneau doit dire la vérité : « propulsé par Gemini » seulement
+// si la clé existe ET si le visiteur a accepté l'envoi de ses questions.
+$poweredByGemini = Gemini::configured() && App\Consent::allows('ai');
 ?>
 <div class="bot" data-bot>
   <div class="bot__panel" data-bot-panel hidden role="dialog" aria-label="<?= Text::e(I18n::t('bot.title')) ?>">

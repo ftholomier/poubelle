@@ -23,7 +23,7 @@ $palette = ['#FFD100', '#12B39A', '#EDE5D5'];
         $title = Content::i18n($post, 'title', $lang); ?>
       <article class="post-card" data-reveal data-delay="<?= $i * 110 ?>">
         <div class="post-card__media" style="background:<?= Text::e((string) ($post['color'] ?? $palette[$i % 3])) ?>">
-          <?= View::image((string) ($post['image'] ?? ''), $title, ['placeholder' => $title]) ?>
+          <?= View::image((string) ($post['image'] ?? ''), $title, ['placeholder' => $title, 'minWidth' => 400, 'sizes' => '(max-width: 880px) 100vw, 380px']) ?>
           <a class="post-card__link" href="<?= Text::e($url) ?>"><span class="sr-only"><?= Text::e($title) ?></span></a>
         </div>
         <div class="post-card__body">

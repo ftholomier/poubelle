@@ -39,9 +39,9 @@
         },
         {
             "title": "Cookies",
-            "text": "Cookies techniques uniquement : langue choisie (12 mois), cookie de session anti-spam posé par les formulaires du site et l’assistant (durée de la visite), session du back-office, mémorisation de la fermeture de la fenêtre de rappel (durée de la session). Aucun cookie publicitaire, aucune mesure d’audience nominative."
+            "text": "Trois catégories, et rien d’autre. 1) Strictement nécessaires : session anti-spam des formulaires, langue choisie, mémorisation des fenêtres déjà fermées, enregistrement de votre choix de cookies (13 mois). Ils ne demandent pas de consentement. 2) Mesure d’audience : aucun script n’est chargé tant que vous n’avez pas accepté. 3) Assistant iOiO : vos questions ne sont transmises à Google (API Gemini) que si vous l’acceptez ; sinon l’assistant répond uniquement à partir des pages et documents du site, sans aucun envoi extérieur. Aucun cookie publicitaire, aucun traçage entre sites. Vous pouvez revenir sur votre choix à tout moment par le lien « Cookies » en bas de page."
         }
     ],
-    "updatedAt": "2026-09-09T19:27:14+02:00",
-    "updatedBy": "seed"
+    "updatedAt": "2026-09-09T20:39:53+02:00",
+    "updatedBy": "correction"
 }

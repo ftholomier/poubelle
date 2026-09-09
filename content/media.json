@@ -2,123 +2,186 @@
     "_schema": 1,
     "media": [
         {
-            "path": "/media/p1.jpg",
-            "name": "p1.jpg",
-            "alt": "p1",
-            "caption": "",
-            "width": 1080,
-            "height": 600,
-            "bytes": 78989,
-            "derivatives": [],
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "seed",
-            "i18n": {}
-        },
-        {
-            "path": "/media/p2.jpg",
-            "name": "p2.jpg",
-            "alt": "p2",
-            "caption": "",
-            "width": 225,
-            "height": 300,
-            "bytes": 17640,
-            "derivatives": [],
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "seed",
-            "i18n": {}
-        },
-        {
-            "path": "/media/p3.jpg",
-            "name": "p3.jpg",
-            "alt": "p3",
-            "caption": "",
-            "width": 195,
-            "height": 146,
-            "bytes": 11914,
-            "derivatives": [],
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "seed",
-            "i18n": {}
-        },
-        {
-            "path": "/media/p4.jpg",
-            "name": "p4.jpg",
-            "alt": "p4",
-            "caption": "",
-            "width": 195,
-            "height": 146,
-            "bytes": 12315,
-            "derivatives": [],
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "seed",
-            "i18n": {}
-        },
-        {
-            "path": "/media/p5.jpg",
-            "name": "p5.jpg",
-            "alt": "p5",
-            "caption": "",
-            "width": 195,
-            "height": 146,
-            "bytes": 13260,
-            "derivatives": [],
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "seed",
-            "i18n": {}
-        },
-        {
-            "path": "/media/p6.jpg",
-            "name": "p6.jpg",
-            "alt": "p6",
-            "caption": "",
-            "width": 260,
-            "height": 144,
-            "bytes": 12100,
-            "derivatives": [],
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "seed",
-            "i18n": {}
-        },
-        {
-            "path": "/media/p7.jpg",
-            "name": "p7.jpg",
-            "alt": "p7",
-            "caption": "",
-            "width": 260,
-            "height": 144,
-            "bytes": 14162,
-            "derivatives": [],
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "seed",
-            "i18n": {}
-        },
-        {
-            "path": "/media/espace-carnot.webp",
-            "name": "espace-carnot.webp",
-            "alt": "espace-carnot",
-            "caption": "",
+            "path": "/media/carnot-salle-reunion.webp",
+            "name": "carnot-salle-reunion.webp",
+            "alt": "Salle de réunion de l’espace Carnot, vue depuis le couloir",
+            "caption": "iOiO Carnot — salle de réunion",
+            "site": "carnot",
             "width": 1158,
             "height": 558,
             "bytes": 60046,
             "derivatives": [],
+            "lowres": false,
             "at": "2026-09-09T18:26:01+02:00",
-            "by": "seed",
-            "i18n": {}
+            "by": "migration",
+            "i18n": {
+                "en": {
+                    "alt": "Meeting room at the Carnot space, seen from the corridor",
+                    "caption": "iOiO Carnot — salle de réunion"
+                }
+            }
         },
         {
-            "path": "/media/espace-granvelle.webp",
-            "name": "espace-granvelle.webp",
-            "alt": "espace-granvelle",
-            "caption": "",
+            "path": "/media/granvelle-facade.webp",
+            "name": "granvelle-facade.webp",
+            "alt": "Façade du iOiO Granvelle, 3 rue Granvelle à Besançon",
+            "caption": "iOiO Granvelle — 3 rue Granvelle",
+            "site": "granvelle",
             "width": 1158,
             "height": 869,
             "bytes": 168420,
             "derivatives": [],
+            "lowres": false,
             "at": "2026-09-09T18:26:01+02:00",
-            "by": "seed",
-            "i18n": {}
+            "by": "migration",
+            "i18n": {
+                "en": {
+                    "alt": "Front of iOiO Granvelle, 3 rue Granvelle in Besançon",
+                    "caption": "iOiO Granvelle — 3 rue Granvelle"
+                }
+            }
+        },
+        {
+            "path": "/media/carnot-bureau-prive.jpg",
+            "name": "carnot-bureau-prive.jpg",
+            "alt": "Bureau privé de l’espace Carnot : table, fauteuil et chaises visiteurs",
+            "caption": "iOiO Carnot — bureau privé",
+            "site": "carnot",
+            "width": 1080,
+            "height": 600,
+            "bytes": 78989,
+            "derivatives": [],
+            "lowres": false,
+            "at": "2026-09-09T18:26:01+02:00",
+            "by": "migration",
+            "i18n": {
+                "en": {
+                    "alt": "Private office at the Carnot space: desk, armchair and visitor chairs",
+                    "caption": "iOiO Carnot — bureau privé"
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-bureau-mur-bleu.jpg",
+            "name": "granvelle-bureau-mur-bleu.jpg",
+            "alt": "Poste de travail devant le mur bleu de l’espace Granvelle",
+            "caption": "iOiO Granvelle — poste de travail",
+            "site": "granvelle",
+            "width": 225,
+            "height": 300,
+            "bytes": 17640,
+            "derivatives": [],
+            "lowres": true,
+            "at": "2026-09-09T18:26:01+02:00",
+            "by": "migration",
+            "i18n": {
+                "en": {
+                    "alt": "Desk in front of the blue wall at the Granvelle space",
+                    "caption": "iOiO Granvelle — poste de travail"
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-poste-mur-vert.jpg",
+            "name": "granvelle-poste-mur-vert.jpg",
+            "alt": "Poste de travail devant le mur vert de l’espace Granvelle",
+            "caption": "iOiO Granvelle — poste de travail",
+            "site": "granvelle",
+            "width": 195,
+            "height": 146,
+            "bytes": 11914,
+            "derivatives": [],
+            "lowres": true,
+            "at": "2026-09-09T18:26:01+02:00",
+            "by": "migration",
+            "i18n": {
+                "en": {
+                    "alt": "Desk in front of the green wall at the Granvelle space",
+                    "caption": "iOiO Granvelle — poste de travail"
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-open-space-mezzanine.jpg",
+            "name": "granvelle-open-space-mezzanine.jpg",
+            "alt": "Open space de Granvelle et sa mezzanine",
+            "caption": "iOiO Granvelle — open space",
+            "site": "granvelle",
+            "width": 195,
+            "height": 146,
+            "bytes": 12315,
+            "derivatives": [],
+            "lowres": true,
+            "at": "2026-09-09T18:26:01+02:00",
+            "by": "migration",
+            "i18n": {
+                "en": {
+                    "alt": "The Granvelle open space and its mezzanine",
+                    "caption": "iOiO Granvelle — open space"
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-coin-detente.jpg",
+            "name": "granvelle-coin-detente.jpg",
+            "alt": "Coin détente de Granvelle : fauteuils et tables basses sous la mezzanine",
+            "caption": "iOiO Granvelle — coin détente",
+            "site": "granvelle",
+            "width": 195,
+            "height": 146,
+            "bytes": 13260,
+            "derivatives": [],
+            "lowres": true,
+            "at": "2026-09-09T18:26:01+02:00",
+            "by": "migration",
+            "i18n": {
+                "en": {
+                    "alt": "Granvelle lounge: armchairs and coffee tables under the mezzanine",
+                    "caption": "iOiO Granvelle — coin détente"
+                }
+            }
+        },
+        {
+            "path": "/media/carnot-cuisine.jpg",
+            "name": "carnot-cuisine.jpg",
+            "alt": "Cuisine équipée de l’espace Carnot",
+            "caption": "iOiO Carnot — cuisine",
+            "site": "carnot",
+            "width": 260,
+            "height": 144,
+            "bytes": 12100,
+            "derivatives": [],
+            "lowres": true,
+            "at": "2026-09-09T18:26:01+02:00",
+            "by": "migration",
+            "i18n": {
+                "en": {
+                    "alt": "Fitted kitchen at the Carnot space",
+                    "caption": "iOiO Carnot — cuisine"
+                }
+            }
+        },
+        {
+            "path": "/media/carnot-couloir.jpg",
+            "name": "carnot-couloir.jpg",
+            "alt": "Couloir de l’espace Carnot desservant les bureaux privés",
+            "caption": "iOiO Carnot — couloir des bureaux",
+            "site": "carnot",
+            "width": 260,
+            "height": 144,
+            "bytes": 14162,
+            "derivatives": [],
+            "lowres": true,
+            "at": "2026-09-09T18:26:01+02:00",
+            "by": "migration",
+            "i18n": {
+                "en": {
+                    "alt": "Corridor serving the private offices at the Carnot space",
+                    "caption": "iOiO Carnot — couloir des bureaux"
+                }
+            }
         }
     ],
-    "updatedAt": "2026-09-09T18:53:54+02:00",
-    "updatedBy": "seed"
+    "updatedAt": "2026-09-09T20:32:14+02:00",
+    "updatedBy": "migration"
 }

@@ -67,20 +67,19 @@ $analytics = $settings['analytics'] ?? [];
 <link rel="apple-touch-icon" href="<?= Text::e($basePath) ?>/assets/img/ioio-mark.png">
 <meta name="theme-color" content="#0E0E0E">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="<?= Text::e($basePath) ?>/assets/css/fonts.css?v=<?= Text::e((string) @filemtime(Config::publicPath('assets/css/fonts.css'))) ?>">
 <link rel="stylesheet" href="<?= Text::e($basePath) ?>/assets/css/site.css?v=<?= Text::e((string) @filemtime(Config::publicPath('assets/css/site.css'))) ?>">
 
 <script type="application/ld+json"><?= json_encode(App\Seo::organization(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?></script>
 <?php if (!empty($jsonLd)): ?>
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?></script>
 <?php endif; ?>
-<?php if (($analytics['provider'] ?? 'none') === 'plausible' && !empty($analytics['domain'])): ?>
-<script defer data-domain="<?= Text::e((string) $analytics['domain']) ?>" src="https://plausible.io/js/script.js"></script>
-<?php elseif (($analytics['provider'] ?? 'none') === 'matomo' && !empty($analytics['src'])): ?>
+<?php // La mesure d'audience n'est chargée qu'une fois acceptée (voir site.js).
+if (App\Consent::allows('analytics') && ($analytics['provider'] ?? 'none') === 'plausible' && !empty($analytics['domain'])): ?>
+<script defer data-analytics="plausible" data-domain="<?= Text::e((string) $analytics['domain']) ?>" src="https://plausible.io/js/script.js"></script>
+<?php elseif (App\Consent::allows('analytics') && ($analytics['provider'] ?? 'none') === 'matomo' && !empty($analytics['src'])): ?>
 <script>var _paq=window._paq=window._paq||[];_paq.push(['trackPageView'],['enableLinkTracking']);</script>
-<script defer src="<?= Text::e((string) $analytics['src']) ?>"></script>
+<script defer data-analytics="matomo" src="<?= Text::e((string) $analytics['src']) ?>"></script>
 <?php endif; ?>
 </head>
 <body<?= empty($settings['sticky']['enabled']) ? ' class="no-sticky"' : '' ?>>
@@ -95,6 +94,10 @@ $analytics = $settings['analytics'] ?? [];
 </main>
 
 <?= View::partial('partials/footer', ['settings' => $settings]) ?>
+<?php // Le bandeau de consentement précède la barre CTA : le sélecteur de voisinage
+      // (.consent:not([hidden]) ~ .sticky-cta) peut alors l'effacer tant qu'aucun
+      // choix n'est fait, pour ne pas empiler deux éléments flottants. ?>
+<?= View::partial('partials/consent', ['settings' => $settings]) ?>
 <?= View::partial('partials/sticky', ['settings' => $settings]) ?>
 <?= View::partial('partials/bot', ['settings' => $settings]) ?>
 <?= View::partial('partials/exit', ['settings' => $settings]) ?>
@@ -106,6 +109,11 @@ window.IOIO = {
   exitIntent: <?= !empty($settings['exit']['enabled']) ? 'true' : 'false' ?>,
   exitInactivity: <?= (int) ($settings['exit']['inactivitySeconds'] ?? 45) ?>,
   chatToken: <?= json_encode(Csrf::token('chat')) ?>,
+  analytics: <?= json_encode([
+      'provider' => (string) ($analytics['provider'] ?? 'none'),
+      'domain' => (string) ($analytics['domain'] ?? ''),
+      'src' => (string) ($analytics['src'] ?? ''),
+  ]) ?>,
   i18n: {
     botError: <?= json_encode(I18n::t('bot.error')) ?>,
     exitSent: <?= json_encode(I18n::t('exit.sent')) ?>

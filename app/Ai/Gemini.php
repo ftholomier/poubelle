@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Ai;
 
 use App\Config;
+use App\Consent;
 use App\Content;
 use App\Http;
 use App\I18n;
@@ -72,7 +73,9 @@ final class Gemini
             return self::fallbackAnswer($lang, []);
         }
 
-        if (!self::configured()) {
+        // Sans clé — ou sans accord du visiteur pour l'envoi à Google — on répond
+        // uniquement à partir de l'index local : rien ne sort du serveur.
+        if (!self::configured() || !Consent::allows('ai')) {
             return self::quickAnswer($question, $lang) ?? self::extractiveAnswer($question, $passages, $lang);
         }
 

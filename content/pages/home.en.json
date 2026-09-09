@@ -7,7 +7,7 @@
     "seo": {
         "title": "All-inclusive coworking and offices in Besançon",
         "description": "Private offices and dedicated desks in central Besançon. Bills, fibre, cleaning, meeting room and coffee included. Two addresses: Carnot and Granvelle.",
-        "ogImage": "/media/espace-carnot.webp"
+        "ogImage": "/media/carnot-bureau-prive.jpg"
     },
     "hero": {
         "badge": "{count} DESKS AVAILABLE THIS MONTH",
@@ -45,7 +45,12 @@
             "kicker": "TURNKEY",
             "line1": "All inclusive,",
             "line2": "zero hidden fees"
-        }
+        },
+        "slides": [
+            "/media/carnot-bureau-prive.jpg",
+            "/media/carnot-salle-reunion.webp",
+            "/media/granvelle-facade.webp"
+        ]
     },
     "places": {
         "kicker": "OUR SPACES",
@@ -100,15 +105,15 @@
                 "a": "Bills, water, electricity, heating, cleaning, high-speed fibre, furniture, meeting room, fitted kitchen and coffee. There are no additional fees."
             },
             {
-                "q": "Can I come only a few days a week?",
-                "a": "Yes, a nomad desk three days a week is available at Granvelle for €90 excl. VAT per month, subject to availability."
-            },
-            {
                 "q": "Can I welcome my clients?",
                 "a": "Of course. Carnot has a meeting room with a projector; Granvelle has a bar area and a sofa corner for informal meetings."
+            },
+            {
+                "q": "Can I try before committing?",
+                "a": "Yes. The viewing takes 20 minutes, coffee included, and the service contract has a short notice period: you are never locked in."
             }
         ]
     },
-    "updatedAt": "2026-09-09T18:39:31+02:00",
-    "updatedBy": "seed"
+    "updatedAt": "2026-09-09T20:33:28+02:00",
+    "updatedBy": "correction"
 }

@@ -7,7 +7,7 @@
     "seo": {
         "title": "Contact and viewings",
         "description": "Book a 20-minute viewing at iOiO Carnot or Granvelle, coffee included.",
-        "ogImage": "/media/p4.jpg"
+        "ogImage": "/media/carnot-salle-reunion.webp"
     },
     "kicker": "CONTACT",
     "title": "Shall we meet?",
@@ -17,6 +17,6 @@
         "A dedicated desk",
         "Just a viewing"
     ],
-    "updatedAt": "2026-09-09T18:39:31+02:00",
-    "updatedBy": "seed"
+    "updatedAt": "2026-09-09T20:33:28+02:00",
+    "updatedBy": "correction"
 }

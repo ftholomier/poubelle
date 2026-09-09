@@ -179,7 +179,62 @@ par session), preuves calculées depuis le catalogue, avis Google.
 `cta_sticky_contact`, `cta_sticky_reserve`, `exit_popup_open`, `exit_popup_submit`,
 `chat_open`, `chat_question`, `reserve_submit`, `contact_submit`.
 
-## 9. Accessibilité et performance
+## 9. Photos : politique de définition
+
+Les visuels livrés avec le design sont, pour six d'entre eux, des **vignettes générées
+par l'ancien WordPress** (195×146, 225×300, 260×144 px). Affichées dans un bloc de
+400 à 600 px, elles deviennent floues. Le site s'en protège tout seul :
+
+* chaque emplacement déclare une **largeur minimale** (`View::image(..., ['minWidth' => 700])`) ;
+* une image plus étroite n'est jamais agrandie : le site affiche à la place la
+  vignette de marque (aplat coloré, anneau du logo, nom du bureau) ;
+* la fiche d'un bureau met automatiquement en grand **la première photo assez définie**
+  et bascule les autres en vignettes, où leur définition suffit ;
+* le back-office signale en clair les photos en basse définition à remplacer.
+
+Largeurs minimales en place : diaporama 900, grande vue et carte d'espace 700,
+image d'article 400, carte de bureau et vignette de fiche 190.
+
+Trois visuels seulement sont exploitables en grand format aujourd'hui :
+`carnot-bureau-prive.jpg` (1080×600), `carnot-salle-reunion.webp` (1158×558) et
+`granvelle-facade.webp` (1158×869). **Déposez les fichiers d'origine dans
+Photos** pour que chaque bureau ait sa vraie image : les affectations sont conservées.
+
+Les photos sont nommées par leur sujet réel et rattachées à leur lieu, si bien
+qu'un visuel de Granvelle ne peut plus se retrouver sur un bureau de Carnot :
+
+| Fichier | Lieu | Sujet |
+| --- | --- | --- |
+| `carnot-bureau-prive.jpg` | Carnot | bureau privé |
+| `carnot-salle-reunion.webp` | Carnot | salle de réunion |
+| `carnot-couloir.jpg` | Carnot | couloir des bureaux |
+| `carnot-cuisine.jpg` | Carnot | cuisine |
+| `granvelle-facade.webp` | Granvelle | façade, 3 rue Granvelle |
+| `granvelle-open-space-mezzanine.jpg` | Granvelle | open space et mezzanine |
+| `granvelle-coin-detente.jpg` | Granvelle | coin détente |
+| `granvelle-bureau-mur-bleu.jpg` | Granvelle | bureau privé |
+| `granvelle-poste-mur-vert.jpg` | Granvelle | poste dédié |
+
+## 10. Cookies et consentement
+
+Bandeau affiché à la première visite : **Tout accepter**, **Tout refuser**,
+**Paramètres**. Trois catégories, pas une de plus :
+
+| Catégorie | Contenu | Sans consentement |
+| --- | --- | --- |
+| Strictement nécessaires | session anti-spam des formulaires, langue, fenêtres déjà fermées, mémorisation du choix (13 mois) | actives, comme le permet l'article 82 de la loi Informatique et Libertés |
+| Mesure d'audience | Plausible ou Matomo | **aucun script chargé**, aucun événement envoyé |
+| Assistant iOiO | envoi des questions à Google (API Gemini) | l'assistant répond uniquement depuis l'index local du site, **rien ne sort du serveur** |
+
+Le choix est rejouable à tout moment par le lien « Cookies » du pied de page.
+Le bandeau se désactive dans **Réglages → Conversion**.
+
+Les polices Bricolage Grotesque et Manrope sont **hébergées sur le domaine**
+(`public/assets/fonts`) : aucune requête vers `fonts.googleapis.com` ni
+`fonts.gstatic.com`, donc aucune adresse IP transmise à un tiers avant
+consentement. Le site n'appelle aucun domaine externe tant que rien n'est accepté.
+
+## 11. Accessibilité et performance
 
 * Contraste conforme à la charte : le jaune est toujours un **fond**, jamais une encre.
 * Navigation au clavier, `aria-*` sur les composants interactifs, lien d'évitement,
@@ -191,7 +246,7 @@ par session), preuves calculées depuis le catalogue, avis Google.
 * Sans JavaScript : tous les contenus restent lisibles et les formulaires postent
   normalement (réponse JSON, aucune page blanche).
 
-## 10. Outils en ligne de commande
+## 12. Outils en ligne de commande
 
 ```bash
 php bin/seed.php [--force]     # contenus de démonstration
@@ -202,15 +257,17 @@ php bin/user.php password email "NouveauMotDePasse"
 php bin/user.php delete email
 ```
 
-## 11. À compléter avant la mise en ligne
+## 13. À compléter avant la mise en ligne
 
 * Mentions légales et politique de confidentialité : les champs entre crochets
   (`[forme juridique]`, `[SIRET]`, `[hébergeur]`…) se remplissent dans
   **Pages & contenus → Mentions légales**.
 * Coordonnées : téléphone et adresse email dans **Réglages → Site & lieux**
   (le téléphone laissé vide n'est simplement pas affiché).
-* Photos : remplacer les visuels de démonstration par les vraies photos des espaces
-  dans **Photos**, puis les affecter aux bureaux et aux lieux.
+* Photos : remplacer les six vignettes basse définition par les fichiers d'origine
+  dans **Photos** (voir § 9), puis affecter la bonne photo à chaque bureau.
+* Catalogue : vérifier dans **Bureaux & dispos** que la liste, les tarifs et les
+  disponibilités correspondent à la réalité commerciale du moment.
 * Clés API si l'assistant Gemini, les avis Google ou la traduction sont souhaités.
 * Décommenter l'en-tête `Strict-Transport-Security` dans `public/.htaccess` une fois
   le certificat HTTPS en place.

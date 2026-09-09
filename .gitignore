@@ -15,9 +15,8 @@ storage/docs/*
 storage/backups/*
 !storage/**/.gitkeep
 
-# Photos téléversées depuis le back-office (les photos livrées sont suivies)
-public/media/*-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f].webp
-public/media/*-[0-9][0-9][0-9]*.webp
+# Les photos livrées avec le projet sont suivies ; celles que le client
+# téléverse en production vivent sur le serveur, pas dans le dépôt.
 
 # Système
 .DS_Store

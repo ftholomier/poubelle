@@ -64,13 +64,13 @@ foreach ((array) ($settings['sites'] ?? []) as $entry) {
 
       <div class="space__gallery" data-reveal data-delay="120">
         <div class="space__shot space__shot--main">
-          <?= View::image((string) ($photos[0] ?? ''), (string) ($site['name'] ?? ''), ['placeholder' => (string) ($site['name'] ?? '')]) ?>
+          <?= View::image((string) ($photos[0] ?? ''), (string) ($site['name'] ?? ''), ['placeholder' => (string) ($site['name'] ?? ''), 'minWidth' => 700, 'sizes' => '(max-width: 880px) 100vw, 600px']) ?>
         </div>
         <div class="space__shot space__shot--small">
-          <?= View::image((string) ($photos[1] ?? ''), '', ['placeholder' => '—']) ?>
+          <?= View::image((string) ($photos[1] ?? ''), '', ['placeholder' => (string) ($site['shortName'] ?? ''), 'minWidth' => 190, 'sizes' => '300px']) ?>
         </div>
         <div class="space__shot space__shot--small">
-          <?= View::image((string) ($photos[2] ?? ''), '', ['placeholder' => '—']) ?>
+          <?= View::image((string) ($photos[2] ?? ''), '', ['placeholder' => (string) ($site['shortName'] ?? ''), 'minWidth' => 190, 'sizes' => '300px']) ?>
         </div>
       </div>
     </div>

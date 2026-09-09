@@ -66,13 +66,20 @@ final class View
         $path = trim($path);
         if ($path === '') {
             $placeholder = (string) ($options['placeholder'] ?? $alt);
-            return '<span class="cover-placeholder">' . Text::e($placeholder) . '</span>';
+            return '<span class="cover-placeholder"><span>' . Text::e($placeholder) . '</span></span>';
         }
 
         $class = (string) ($options['class'] ?? 'cover');
         $lang = (string) ($options['lang'] ?? I18n::lang());
         $alt = $alt !== '' ? $alt : Media::alt($path, $lang);
         $dimensions = Media::dimensions($path);
+
+        // Un visuel plus étroit que l'emplacement serait affiché agrandi, donc flou.
+        // On préfère la vignette de marque : mieux vaut un aplat propre qu'une photo bavée.
+        $minWidth = (int) ($options['minWidth'] ?? 0);
+        if ($minWidth > 0 && $dimensions['width'] > 0 && $dimensions['width'] < $minWidth) {
+            return '<span class="cover-placeholder"><span>' . Text::e((string) ($options['placeholder'] ?? $alt)) . '</span></span>';
+        }
         $srcset = Media::srcset($path);
         $sizes = (string) ($options['sizes'] ?? '(max-width: 880px) 100vw, 600px');
         $eager = (bool) ($options['eager'] ?? false);

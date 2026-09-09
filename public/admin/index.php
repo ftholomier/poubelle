@@ -474,6 +474,7 @@ if ($isPost) {
             $settings['sticky']['halo'] = (string) ($input['stickyHalo'] ?? 'reserve') === 'contact' ? 'contact' : 'reserve';
             $settings['exit']['enabled'] = !empty($input['exitEnabled']);
             $settings['exit']['inactivitySeconds'] = max(10, (int) ($input['exitInactivity'] ?? 45));
+            $settings['consent']['enabled'] = !empty($input['consentEnabled']);
             $settings['reviews']['enabled'] = !empty($input['reviewsEnabled']);
             $settings['reviews']['badge'] = trim((string) ($input['reviewsBadge'] ?? ''));
             $settings['analytics']['provider'] = \in_array((string) ($input['analyticsProvider'] ?? 'none'), ['none', 'plausible', 'matomo'], true) ? (string) $input['analyticsProvider'] : 'none';

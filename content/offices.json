@@ -25,8 +25,9 @@
                 "Fibre filaire"
             ],
             "photos": [
-                "/media/p1.jpg",
-                "/media/p5.jpg"
+                "/media/carnot-bureau-prive.jpg",
+                "/media/carnot-salle-reunion.webp",
+                "/media/carnot-couloir.jpg"
             ],
             "i18n": {
                 "en": {
@@ -66,8 +67,9 @@
                 "Accès badge 24h/24"
             ],
             "photos": [
-                "/media/p2.jpg",
-                "/media/p6.jpg"
+                "/media/carnot-bureau-prive.jpg",
+                "/media/carnot-couloir.jpg",
+                "/media/carnot-cuisine.jpg"
             ],
             "i18n": {
                 "en": {
@@ -107,9 +109,9 @@
                 "Salle de réunion incluse"
             ],
             "photos": [
-                "/media/p3.jpg",
-                "/media/p7.jpg",
-                "/media/espace-carnot.webp"
+                "/media/carnot-bureau-prive.jpg",
+                "/media/carnot-salle-reunion.webp",
+                "/media/carnot-cuisine.jpg"
             ],
             "i18n": {
                 "en": {
@@ -149,8 +151,9 @@
                 "Accès badge 24h/24"
             ],
             "photos": [
-                "/media/p4.jpg",
-                "/media/p1.jpg"
+                "/media/carnot-bureau-prive.jpg",
+                "/media/carnot-cuisine.jpg",
+                "/media/carnot-couloir.jpg"
             ],
             "i18n": {
                 "en": {
@@ -190,8 +193,9 @@
                 "Wifi fibre"
             ],
             "photos": [
-                "/media/p5.jpg",
-                "/media/espace-granvelle.webp"
+                "/media/granvelle-bureau-mur-bleu.jpg",
+                "/media/granvelle-facade.webp",
+                "/media/granvelle-coin-detente.jpg"
             ],
             "i18n": {
                 "en": {
@@ -231,7 +235,9 @@
                 "Wifi fibre"
             ],
             "photos": [
-                "/media/p6.jpg"
+                "/media/granvelle-open-space-mezzanine.jpg",
+                "/media/granvelle-facade.webp",
+                "/media/granvelle-coin-detente.jpg"
             ],
             "i18n": {
                 "en": {
@@ -271,8 +277,9 @@
                 "Café et thé compris"
             ],
             "photos": [
-                "/media/p7.jpg",
-                "/media/espace-granvelle.webp"
+                "/media/granvelle-poste-mur-vert.jpg",
+                "/media/granvelle-open-space-mezzanine.jpg",
+                "/media/granvelle-facade.webp"
             ],
             "i18n": {
                 "en": {
@@ -312,7 +319,9 @@
                 "Wifi fibre"
             ],
             "photos": [
-                "/media/p2.jpg"
+                "/media/granvelle-open-space-mezzanine.jpg",
+                "/media/granvelle-coin-detente.jpg",
+                "/media/granvelle-facade.webp"
             ],
             "i18n": {
                 "en": {
@@ -327,48 +336,8 @@
                     ]
                 }
             }
-        },
-        {
-            "id": "granvelle-14",
-            "site": "granvelle",
-            "name": "Granvelle — Nomade",
-            "type": "openspace",
-            "area": "3 j/semaine",
-            "price": 90,
-            "currency": "EUR",
-            "period": "month",
-            "vat": "excl",
-            "status": "available",
-            "availableFrom": "",
-            "enabled": true,
-            "featured": false,
-            "order": 9,
-            "color": "#FFD100",
-            "description": "La formule souple : trois jours par semaine en open space, dans la limite des places disponibles. Parfait pour tester le lieu.",
-            "features": [
-                "3 jours par semaine",
-                "Sans engagement long",
-                "Café et thé compris",
-                "Wifi fibre"
-            ],
-            "photos": [
-                "/media/p3.jpg"
-            ],
-            "i18n": {
-                "en": {
-                    "name": "Granvelle — Nomad",
-                    "area": "3 days/week",
-                    "description": "The flexible plan: three days a week in the open space, subject to availability. Perfect for trying the place out.",
-                    "features": [
-                        "3 days a week",
-                        "No long commitment",
-                        "Coffee and tea included",
-                        "Fibre wifi"
-                    ]
-                }
-            }
         }
     ],
-    "updatedAt": "2026-09-09T19:09:30+02:00",
-    "updatedBy": "test@ioio.fr"
+    "updatedAt": "2026-09-09T20:39:01+02:00",
+    "updatedBy": "correction"
 }

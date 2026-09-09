@@ -10,9 +10,18 @@ use App\Text;
 use App\View;
 
 $lang = I18n::lang();
-$photos = (array) $office['photos'];
-$main = (string) ($photos[0] ?? '');
-$thumbs = \array_slice($photos, 1, 3);
+$photos = array_values(array_filter((array) $office['photos'], 'is_string'));
+// La grande vue prend la première photo assez définie pour l'emplacement (680 px) ;
+// les autres passent en vignettes, où leur définition suffit.
+$main = '';
+foreach ($photos as $photo) {
+    if (App\Media::dimensions($photo)['width'] >= 700) {
+        $main = $photo;
+        break;
+    }
+}
+$main = $main !== '' ? $main : (string) ($photos[0] ?? '');
+$thumbs = \array_slice(array_values(array_filter($photos, static fn (string $p): bool => $p !== $main)), 0, 3);
 $site = null;
 foreach ((array) ($settings['sites'] ?? []) as $entry) {
     if ((string) ($entry['id'] ?? '') === (string) $office['site']) {
@@ -33,7 +42,7 @@ $isRented = ($office['status'] ?? '') === 'rented';
   <div class="fiche" data-gallery>
     <div data-reveal>
       <div class="fiche__main" style="background:<?= Text::e((string) $office['color']) ?>">
-        <?= View::image($main, (string) $office['name'], ['placeholder' => (string) $office['name'], 'eager' => true, 'id' => 'main', 'sizes' => '(max-width: 1080px) 100vw, 680px']) ?>
+        <?= View::image($main, (string) $office['name'], ['placeholder' => (string) $office['name'], 'eager' => true, 'id' => 'main', 'minWidth' => 700, 'sizes' => '(max-width: 1080px) 100vw, 680px']) ?>
       </div>
 
       <?php if ($thumbs !== []): ?>
@@ -43,7 +52,7 @@ $isRented = ($office['status'] ?? '') === 'rented';
                   data-src="<?= Text::e(Config::basePath() . (string) $photo) ?>"
                   data-alt="<?= Text::e(App\Media::alt((string) $photo, $lang, (string) $office['name'])) ?>"
                   aria-label="<?= Text::e(I18n::t('office.gallery')) ?> <?= $i + 2 ?>">
-            <?= View::image((string) $photo, (string) $office['name'], ['sizes' => '200px']) ?>
+            <?= View::image((string) $photo, (string) $office['name'], ['minWidth' => 190, 'sizes' => '200px']) ?>
           </button>
         <?php endforeach; ?>
       </div>

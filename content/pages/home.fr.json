@@ -7,7 +7,7 @@
     "seo": {
         "title": "Coworking et bureaux tout compris à Besançon",
         "description": "Bureaux privés et postes en open space à Besançon centre. Charges, fibre, ménage, salle de réunion et café compris. Deux adresses : Carnot et Granvelle.",
-        "ogImage": "/media/espace-carnot.webp"
+        "ogImage": "/media/carnot-bureau-prive.jpg"
     },
     "hero": {
         "badge": "{count} POSTES DISPONIBLES CE MOIS",
@@ -38,13 +38,9 @@
             }
         ],
         "slides": [
-            "/media/p1.jpg",
-            "/media/p2.jpg",
-            "/media/p3.jpg",
-            "/media/p4.jpg",
-            "/media/p5.jpg",
-            "/media/p6.jpg",
-            "/media/p7.jpg"
+            "/media/carnot-bureau-prive.jpg",
+            "/media/carnot-salle-reunion.webp",
+            "/media/granvelle-facade.webp"
         ],
         "cardPrice": {
             "label": "À PARTIR DE",
@@ -109,15 +105,15 @@
                 "a": "Charges, eau, électricité, chauffage, ménage, fibre très haut débit, mobilier, salle de réunion, cuisine équipée et café. Il n'y a pas de frais additionnels."
             },
             {
-                "q": "Puis-je venir seulement quelques jours par semaine ?",
-                "a": "Oui, un poste nomade 3 jours par semaine existe à Granvelle à 90 € HT/mois, dans la limite des places disponibles."
-            },
-            {
                 "q": "Puis-je recevoir mes clients ?",
                 "a": "Bien sûr. Carnot dispose d'une salle de réunion équipée d'un vidéoprojecteur ; Granvelle a un espace bar et un coin canapé pour les rendez-vous informels."
+            },
+            {
+                "q": "Puis-je essayer avant de m’engager ?",
+                "a": "Oui. La visite dure 20 minutes, café compris, et le contrat de prestation de services prévoit un préavis court : vous n'êtes jamais bloqué."
             }
         ]
     },
-    "updatedAt": "2026-09-09T19:21:41+02:00",
-    "updatedBy": "test@ioio.fr"
+    "updatedAt": "2026-09-09T20:33:28+02:00",
+    "updatedBy": "correction"
 }

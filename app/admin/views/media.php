@@ -35,6 +35,14 @@ echo View::admin('_layout_start', get_defined_vars());
     </form>
   </section>
 
+  <?php $lowres = array_filter($media, static fn (array $m): bool => (int) ($m['width'] ?? 0) < 800); ?>
+  <?php if ($lowres !== []): ?>
+    <div class="flash flash--error" style="margin-top:18px">
+      <?= \count($lowres) ?> photo(s) en basse définition : elles proviennent des vignettes de l’ancien site et ne peuvent pas remplir les grands emplacements sans devenir floues.
+      Déposez les fichiers d’origine pour les remplacer — les affectations aux bureaux et aux espaces sont conservées.
+    </div>
+  <?php endif; ?>
+
   <?php if ($media === []): ?>
     <p class="muted" style="margin-top:24px">Aucune photo pour l'instant.</p>
   <?php else: ?>
@@ -51,6 +59,10 @@ echo View::admin('_layout_start', get_defined_vars());
             <?= Text::e(Docs::humanSize((int) ($item['bytes'] ?? 0))) ?> ·
             <?= Text::e(Admin::humanDate((string) ($item['at'] ?? ''))) ?>
           </div>
+          <?php if ((int) ($item['width'] ?? 0) < 800): ?>
+            <div class="badge" style="background:#FFD100;margin-top:8px;display:inline-block">BASSE DÉFINITION</div>
+            <div class="hint">Trop petite pour les grands emplacements : le site affiche une vignette de marque à la place. Remplacez-la par l’originale (1600 px de large conseillés).</div>
+          <?php endif; ?>
 
           <form class="media-card__form" method="post" action="<?= Text::e(Router::adminUrl()) ?>">
             <?= Csrf::field('admin') ?>

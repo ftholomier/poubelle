@@ -23,7 +23,7 @@ $body = Content::i18n($post, 'body', $lang);
     <h1 class="article__title"><?= Text::e($title) ?></h1>
     <?php if (!empty($post['image'])): ?>
       <div class="article__media" style="background:<?= Text::e((string) ($post['color'] ?? '#FFD100')) ?>">
-        <?= View::image((string) $post['image'], $title, ['eager' => true, 'sizes' => '(max-width: 880px) 100vw, 760px']) ?>
+        <?= View::image((string) $post['image'], $title, ['eager' => true, 'minWidth' => 700, 'sizes' => '(max-width: 880px) 100vw, 760px']) ?>
       </div>
     <?php endif; ?>
     <div class="prose"><?= $body !== '' ? $body : '<p>' . Text::e(Content::i18n($post, 'excerpt', $lang)) . '</p>' ?></div>
@@ -38,7 +38,7 @@ $body = Content::i18n($post, 'body', $lang);
           $itemTitle = Content::i18n($item, 'title', $lang); ?>
         <article class="post-card" data-reveal data-delay="<?= $i * 110 ?>">
           <div class="post-card__media" style="background:<?= Text::e((string) ($item['color'] ?? '#FFD100')) ?>">
-            <?= View::image((string) ($item['image'] ?? ''), $itemTitle, ['placeholder' => $itemTitle]) ?>
+            <?= View::image((string) ($item['image'] ?? ''), $itemTitle, ['placeholder' => $itemTitle, 'minWidth' => 400, 'sizes' => '(max-width: 880px) 100vw, 380px']) ?>
             <a class="post-card__link" href="<?= Text::e($url) ?>"><span class="sr-only"><?= Text::e($itemTitle) ?></span></a>
           </div>
           <div class="post-card__body">

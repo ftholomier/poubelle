@@ -35,13 +35,13 @@
         },
         {
             "title": "Cookies et traduction",
-            "text": "Le site n'utilise que des cookies techniques (langue choisie, fermeture de la fenêtre de rappel). La traduction des contenus longs est assurée par Google Traduction ; les pages clés sont traduites manuellement."
+            "text": "The site only sets technical cookies. Audience measurement and sending assistant questions to Google require your consent, collected by the banner shown on your first visit and changeable from the « Cookies » link at the bottom of the page. Long-form content is machine translated by Google Translate; key pages are translated by hand."
         },
         {
             "title": "Avis clients",
             "text": "Les avis affichés sont issus de la fiche Google Business Profile du iOiO et récupérés via l'API Google Places. Ils ne sont ni filtrés ni modifiés."
         }
     ],
-    "updatedAt": "2026-09-09T18:39:31+02:00",
-    "updatedBy": "seed"
+    "updatedAt": "2026-09-09T20:39:53+02:00",
+    "updatedBy": "correction"
 }

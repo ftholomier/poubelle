@@ -7,7 +7,7 @@
     "seo": {
         "title": "Contact et visite",
         "description": "Réservez une visite de 20 minutes au iOiO Carnot ou Granvelle, café compris.",
-        "ogImage": "/media/p4.jpg"
+        "ogImage": "/media/carnot-salle-reunion.webp"
     },
     "kicker": "CONTACT",
     "title": "On se rencontre ?",
@@ -17,6 +17,6 @@
         "Un poste en open space",
         "Juste une visite"
     ],
-    "updatedAt": "2026-09-09T18:39:31+02:00",
-    "updatedBy": "seed"
+    "updatedAt": "2026-09-09T20:33:28+02:00",
+    "updatedBy": "correction"
 }

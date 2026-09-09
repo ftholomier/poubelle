@@ -15,7 +15,7 @@ $delay = (int) ($delay ?? 0);
 ?>
 <article class="office-card<?= $isList ? ' office-card--white' : '' ?>" data-reveal<?= $delay > 0 ? ' data-delay="' . $delay . '"' : '' ?>>
   <div class="office-card__media<?= $isList ? ' office-card__media--tall' : '' ?>" style="background:<?= Text::e((string) $office['color']) ?>">
-    <?= View::image((string) $office['cover'], (string) $office['name'], ['placeholder' => (string) $office['name']]) ?>
+    <?= View::image((string) $office['cover'], (string) $office['name'], ['placeholder' => (string) $office['name'], 'minWidth' => 190, 'sizes' => '(max-width: 620px) 100vw, 300px']) ?>
   </div>
   <div class="office-card__body<?= $isList ? ' office-card__body--lg' : '' ?>">
     <div class="office-card__row">

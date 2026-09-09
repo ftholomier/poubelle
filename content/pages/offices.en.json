@@ -7,7 +7,7 @@
     "seo": {
         "title": "Our available offices in Besançon",
         "description": "Private offices and dedicated desks to rent in Besançon. Monthly prices excl. VAT, all inclusive. Availability updated in real time.",
-        "ogImage": "/media/espace-carnot.webp"
+        "ogImage": "/media/carnot-bureau-prive.jpg"
     },
     "kicker": "OUR OFFICES",
     "title": "Pick your office",
@@ -22,6 +22,6 @@
         "Good vibes",
         "24/7 badge access"
     ],
-    "updatedAt": "2026-09-09T18:39:31+02:00",
-    "updatedBy": "seed"
+    "updatedAt": "2026-09-09T20:33:28+02:00",
+    "updatedBy": "correction"
 }
