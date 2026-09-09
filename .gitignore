@@ -2,3 +2,5 @@ formation-ia/_build/_tmp.pdf
 formation-ia/_build/_smoke*
 formation-ia/_build/node_modules/
 formation-ia/_build/package*.json
+formation-ia/_build/__pycache__/
+formation-ia/_build/_paged_*

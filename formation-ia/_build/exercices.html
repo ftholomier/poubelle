@@ -1,0 +1,422 @@
+<meta charset="utf-8">
+<link rel="stylesheet" href="polices/polices.css">
+<link rel="stylesheet" href="base.css">
+<style>
+.ex{break-before:page}
+.ex-head{display:grid;grid-template-columns:52px 1fr;gap:16px;align-items:start;
+  border-bottom:2.5px solid var(--accent);padding-bottom:13px}
+.ex-head .num{width:52px;height:52px;border-radius:50%;background:var(--accent);color:#fff;
+  font-family:var(--disp);font-weight:800;font-size:22pt;display:flex;align-items:center;
+  justify-content:center;line-height:1}
+.ex-head h2{font-size:19pt;margin-top:2px}
+.meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:8px}
+.meta span{font-family:var(--mono);font-size:7.6pt;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;padding:3px 7px;border-radius:3px;background:var(--wash-a);
+  color:var(--accent)}
+.meta span.n{background:var(--wash);color:var(--ink-3)}
+.obj{margin-top:14px;font-size:10.6pt;color:var(--ink-2);line-height:1.5}
+.obj strong{color:var(--ink)}
+h4.sec{font-family:var(--mono);font-size:8pt;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);margin-top:20px}
+.ruled{margin-top:9px}
+.ruled div{border-bottom:.75px solid var(--rule);height:26px}
+.ruled.tight div{height:22px}
+.answer{border:1px solid var(--rule);border-radius:4px;background:#FCFDFD;padding:11px 13px;
+  margin-top:9px}
+.answer .hint{font-family:var(--mono);font-size:7.6pt;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);display:block;margin-bottom:7px}
+.grid-boxes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.note-b{border:1px solid var(--rule);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;
+  padding:11px 13px;margin-top:14px;background:var(--wash);break-inside:avoid}
+.note-b .lbl{display:block;color:var(--accent);margin-bottom:5px}
+.note-b p{font-size:9.6pt;color:var(--ink-2)}
+table.fillt td{height:30px;border-bottom:.75px solid var(--rule)}
+table.fillt td.c{border-left:.75px solid var(--rule-soft)}
+.scorebox{display:flex;gap:14px;align-items:center;margin-top:9px}
+.scorebox .lab{font-size:9.6pt;color:var(--ink-2)}
+.scorebox .bx{width:46px;height:38px;border:1.5px solid var(--accent);border-radius:5px}
+/* grille d'automatisation vierge */
+.plot{margin-top:12px;display:flex}
+.ylab{width:20px;position:relative}
+.ylab span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);
+  white-space:nowrap;font-family:var(--mono);font-size:7.4pt;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3)}
+.gridbox{flex:1;height:320px;position:relative;border-left:1.5px solid var(--ink);
+  border-bottom:1.5px solid var(--ink)}
+.gridbox .qd{position:absolute;width:50%;height:50%;padding:8px 10px}
+.gridbox .qd b{font-family:var(--disp);font-size:9.4pt;font-weight:700;display:block;line-height:1.15}
+.gridbox .mv{position:absolute;left:50%;top:0;bottom:0;border-left:1px dashed var(--rule)}
+.gridbox .mh{position:absolute;top:50%;left:0;right:0;border-top:1px dashed var(--rule)}
+.xlab{display:flex;justify-content:space-between;padding-left:20px;margin-top:6px;
+  font-family:var(--mono);font-size:7.4pt;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3)}
+.card30{border:2px solid var(--accent);border-radius:7px;padding:16px 18px;margin-top:12px}
+.card30 h4{margin-top:0;font-size:11pt}
+</style>
+
+<!-- ═════════════════════ COUVERTURE ═════════════════════ -->
+<div class="cover">
+  <div class="top">
+    <div class="rule"></div>
+    <div class="lbl">Cahier d'exercices</div>
+    <h1>Neuf ateliers,<br>quatre livrables</h1>
+    <p class="sub">Les fiches à remplir pendant les deux journées. Emportez ce cahier :
+    c'est la trace de ce que vous avez produit, et le seul document de la formation
+    qui ne serve à rien tant qu'il est vierge.</p>
+    <div class="band">
+      <div><div class="lbl">Ateliers</div><div class="v">9</div></div>
+      <div><div class="lbl">Temps total</div><div class="v">4 h 10</div></div>
+      <div><div class="lbl">Livrables</div><div class="v">4</div></div>
+      <div><div class="lbl">Format</div><div class="v">À remplir</div></div>
+    </div>
+  </div>
+  <div class="bottom">
+    Prévoyez un stylo. Les zones grisées sont faites pour être écrites à la main —
+    ce qui est tapé s'oublie, ce qui est écrit se retient.
+  </div>
+</div>
+
+<!-- ═════════════════════ 1 ═════════════════════ -->
+<section class="ex j1" style="break-before:auto">
+  <div class="ex-head"><div class="num">1</div><div>
+    <h2>La biographie inventée</h2>
+    <div class="meta"><span>15 min</span><span class="n">Jour 1 · 08 h 45</span><span class="n">En grand groupe</span></div>
+  </div></div>
+  <p class="obj"><strong>Objectif :</strong> voir de ses yeux ce qu'est une hallucination,
+  et surtout mesurer à quel point elle est crédible.</p>
+
+  <h4 class="sec">Ce que vous observez</h4>
+  <p>Le formateur demande à l'IA une biographie de l'un d'entre vous, à partir du seul prénom
+  et du métier. Notez ci-dessous ce que la machine a affirmé, et ce qui était vrai.</p>
+
+  <table class="fillt">
+    <thead><tr><th style="width:56%">Ce que l'IA a affirmé</th><th style="width:14%">Vrai ?</th><th>Pourquoi c'était crédible</th></tr></thead>
+    <tbody>
+      <tr><td></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td><td class="c"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="answer">
+    <span class="hint">Ce que j'en retiens, en une phrase</span>
+    <div class="ruled tight"><div></div><div></div></div>
+  </div>
+
+  <div class="note-b">
+    <span class="lbl">À retenir</span>
+    <p>Une IA n'écrit pas n'importe quoi : elle écrit quelque chose de <strong>plausible</strong>.
+    C'est ce qui la rend utile — et c'est exactement ce qui la rend dangereuse quand on ne
+    vérifie pas.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════ 2 ═════════════════════ -->
+<section class="ex j1">
+  <div class="ex-head"><div class="num">2</div><div>
+    <h2>La même question, deux modèles différents</h2>
+    <div class="meta"><span>20 min</span><span class="n">Jour 1 · 11 h 15</span><span class="n">Individuel</span></div>
+  </div></div>
+  <p class="obj"><strong>Objectif :</strong> constater qu'il n'existe pas de meilleur modèle dans
+  l'absolu, seulement un style qui vous convient mieux qu'un autre.</p>
+
+  <h4 class="sec">Votre question</h4>
+  <p class="small muted">Une vraie question de votre métier, posée à l'identique aux deux outils.</p>
+  <div class="ruled"><div></div><div></div></div>
+
+  <div class="grid-boxes">
+    <div class="answer"><span class="hint">Outil A — nom</span>
+      <div class="ruled tight"><div></div></div>
+      <span class="hint" style="margin-top:11px">Ce que j'ai aimé</span>
+      <div class="ruled tight"><div></div><div></div><div></div></div>
+      <span class="hint" style="margin-top:11px">Ce qui m'a gêné</span>
+      <div class="ruled tight"><div></div><div></div></div>
+    </div>
+    <div class="answer"><span class="hint">Outil B — nom</span>
+      <div class="ruled tight"><div></div></div>
+      <span class="hint" style="margin-top:11px">Ce que j'ai aimé</span>
+      <div class="ruled tight"><div></div><div></div><div></div></div>
+      <span class="hint" style="margin-top:11px">Ce qui m'a gêné</span>
+      <div class="ruled tight"><div></div><div></div></div>
+    </div>
+  </div>
+
+  <div class="answer">
+    <span class="hint">Celui que je garde, et pourquoi — c'est le « pourquoi » qui compte</span>
+    <div class="ruled tight"><div></div><div></div></div>
+  </div>
+</section>
+
+<!-- ═════════════════════ 3 ═════════════════════ -->
+<section class="ex j1">
+  <div class="ex-head"><div class="num">3</div><div>
+    <h2>Chasse aux hallucinations</h2>
+    <div class="meta"><span>30 min</span><span class="n">Jour 1 · 11 h 35</span><span class="n">Individuel puis collectif</span></div>
+  </div></div>
+  <p class="obj"><strong>Objectif :</strong> apprendre à repérer une erreur plausible, et construire
+  sa propre carte de confiance.</p>
+
+  <h4 class="sec">Le protocole</h4>
+  <ol class="tight">
+    <li>Demandez des informations <strong>vérifiables</strong> : votre entreprise, une réglementation
+      de votre secteur, un chiffre de marché, une personne que vous connaissez.</li>
+    <li>Insistez : demandez des détails, des dates, des chiffres, des sources.</li>
+    <li>Vérifiez chaque affirmation — moteur de recherche, site officiel, votre propre connaissance.</li>
+  </ol>
+
+  <table class="fillt">
+    <thead><tr><th style="width:52%">Affirmation produite par l'IA</th><th style="width:16%">Vérifiée ?</th><th>Ce que dit la source réelle</th></tr></thead>
+    <tbody>
+      <tr><td></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td><td class="c"></td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="sec">Ma carte de confiance</h4>
+  <div class="grid-boxes" style="grid-template-columns:1fr 1fr 1fr">
+    <div class="answer"><span class="hint" style="color:#1F7A3D">Je délègue</span>
+      <div class="ruled tight"><div></div><div></div><div></div><div></div></div></div>
+    <div class="answer"><span class="hint" style="color:#B0791B">Je relis toujours</span>
+      <div class="ruled tight"><div></div><div></div><div></div><div></div></div></div>
+    <div class="answer"><span class="hint" style="color:#B3261E">Je ne demande jamais</span>
+      <div class="ruled tight"><div></div><div></div><div></div><div></div></div></div>
+  </div>
+</section>
+
+<!-- ═════════════════════ 4 ═════════════════════ -->
+<section class="ex j1">
+  <div class="ex-head"><div class="num">4</div><div>
+    <h2>Avant / après C.O.P.A.I.N.</h2>
+    <div class="meta"><span>35 min</span><span class="n">Jour 1 · 15 h 00</span><span class="n">Individuel</span></div>
+  </div></div>
+  <p class="obj"><strong>Objectif :</strong> mesurer vous-même l'écart entre un prompt spontané et
+  un prompt structuré, sur une tâche que vous devez réellement faire cette semaine.</p>
+
+  <h4 class="sec">Étape 1 — le prompt que j'aurais écrit ce matin</h4>
+  <div class="answer"><div class="ruled tight"><div></div><div></div><div></div></div></div>
+  <div class="scorebox"><span class="lab">Je note le résultat obtenu sur 10 :</span><div class="bx"></div></div>
+
+  <h4 class="sec">Étape 2 — la même demande, avec les six lettres</h4>
+  <div class="kv" style="margin-top:10px">
+    <div><div class="k">C · Contexte</div><div class="v"><div class="ruled tight" style="margin-top:0"><div></div></div></div></div>
+    <div><div class="k">O · Objectif</div><div class="v"><div class="ruled tight" style="margin-top:0"><div></div></div></div></div>
+    <div><div class="k">P · Persona</div><div class="v"><div class="ruled tight" style="margin-top:0"><div></div></div></div></div>
+    <div><div class="k">A · Audience</div><div class="v"><div class="ruled tight" style="margin-top:0"><div></div></div></div></div>
+    <div><div class="k">I · Instructions</div><div class="v"><div class="ruled tight" style="margin-top:0"><div></div><div></div></div></div></div>
+    <div><div class="k">N · Négations</div><div class="v"><div class="ruled tight" style="margin-top:0"><div></div></div></div></div>
+  </div>
+  <p class="small muted" style="margin-top:9px">Et n'oubliez pas la septième ligne :
+  <span class="mono">« Pose-moi les questions dont tu as besoin avant de commencer. »</span></p>
+  <div class="scorebox"><span class="lab">Je note le nouveau résultat sur 10 :</span><div class="bx"></div></div>
+
+  <div class="note-b">
+    <span class="lbl">Ce qu'on regarde au débrief</span>
+    <p>Pas votre note, mais <strong>l'écart</strong> — et surtout laquelle des six lettres a
+    produit le plus gros changement. Dans la plupart des groupes, c'est l'Audience ou les
+    Négations, précisément parce que ce sont celles qu'on oublie.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════ 5 ═════════════════════ -->
+<section class="ex j1">
+  <div class="ex-head"><div class="num">5</div><div>
+    <h2>Le choix du responsable informatique</h2>
+    <div class="meta"><span>25 min</span><span class="n">Jour 1 · 16 h 20</span><span class="n">Par groupes de 3</span></div>
+  </div></div>
+  <p class="obj"><strong>Objectif :</strong> comprendre que le critère décisif dépend du contexte
+  et jamais du classement des modèles.</p>
+
+  <div class="answer"><span class="hint">Le cas attribué à mon groupe</span>
+    <div class="ruled tight"><div></div><div></div></div></div>
+
+  <h4 class="sec">Les quatre questions, dans l'ordre</h4>
+  <table class="fillt">
+    <thead><tr><th style="width:38%">Question</th><th>Notre réponse pour ce cas</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1 · Où partent les données ?</strong></td><td class="c"></td></tr>
+      <tr><td><strong>2 · Écrit-il bien en français ?</strong></td><td class="c"></td></tr>
+      <tr><td><strong>3 · Est-ce déjà dans les outils utilisés ?</strong></td><td class="c"></td></tr>
+      <tr><td><strong>4 · Combien au volume réel ?</strong></td><td class="c"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid-boxes">
+    <div class="answer"><span class="hint">La famille que nous choisissons</span>
+      <div class="ruled tight"><div></div><div></div></div></div>
+    <div class="answer"><span class="hint">La question qui a été décisive</span>
+      <div class="ruled tight"><div></div><div></div></div></div>
+  </div>
+
+  <div class="note-b">
+    <span class="lbl">À noter pendant les restitutions</span>
+    <p>Ce que les autres groupes ont choisi, et pourquoi c'est différent :</p>
+    <div class="ruled tight"><div></div><div></div><div></div></div>
+  </div>
+</section>
+
+<!-- ═════════════════════ 6 ═════════════════════ -->
+<section class="ex neutral">
+  <div class="ex-head" style="border-color:var(--flag)">
+    <div class="num" style="background:var(--flag)">6</div><div>
+    <h2>Ma charte personnelle, en cinq lignes</h2>
+    <div class="meta"><span style="background:var(--flag-wash);color:var(--flag)">15 min</span><span class="n">Jour 1 · 17 h 15</span><span class="n">Livrable 1</span></div>
+  </div></div>
+  <p class="obj"><strong>Objectif :</strong> transformer ce qui a été dit sur les données et le
+  droit en cinq engagements que vous pouvez tenir. Cinq phrases, toutes commençant par
+  <strong>« Je »</strong>.</p>
+
+  <div class="answer" style="border-left:3px solid #1F7A3D">
+    <span class="hint" style="color:#1F7A3D">Deux choses que je m'autorise désormais</span>
+    <div class="ruled"><div></div><div></div></div>
+  </div>
+
+  <div class="answer" style="border-left:3px solid #B3261E;margin-top:12px">
+    <span class="hint" style="color:#B3261E">Deux choses que je ne ferai jamais</span>
+    <div class="ruled"><div></div><div></div></div>
+  </div>
+
+  <div class="answer" style="border-left:3px solid var(--flag);margin-top:12px">
+    <span class="hint" style="color:var(--flag)">Une chose que je dois aller vérifier auprès de mon organisation</span>
+    <div class="ruled"><div></div><div></div></div>
+  </div>
+
+  <div class="note-b" style="border-left-color:var(--flag);background:var(--flag-wash)">
+    <span class="lbl" style="color:var(--flag)">Le rappel des trois feux</span>
+    <p><strong>Vert</strong> — déjà public, ou qui pourrait l'être. Tous les outils.<br>
+    <strong>Orange</strong> — interne non sensible. Outil validé, compte professionnel,
+    entraînement désactivé.<br>
+    <strong>Rouge</strong> — personnel, confidentiel, contractuel. Aucun outil grand public.
+    <em>Dans le doute, c'est rouge.</em></p>
+  </div>
+
+  <div style="margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div><div class="lbl">Date</div><div class="ruled tight" style="margin-top:14px"><div></div></div></div>
+    <div><div class="lbl">Signature</div><div class="ruled tight" style="margin-top:14px"><div></div></div></div>
+  </div>
+</section>
+
+<!-- ═════════════════════ 7 ═════════════════════ -->
+<section class="ex j2">
+  <div class="ex-head"><div class="num">7</div><div>
+    <h2>Créez le vôtre, puis cassez celui du voisin</h2>
+    <div class="meta"><span>45 min</span><span class="n">Jour 2 · 11 h 15</span><span class="n">Livrable 2</span></div>
+  </div></div>
+  <p class="obj"><strong>Objectif :</strong> passer du prompt jetable à l'outil réutilisable,
+  sur une tâche que vous refaites chaque semaine.</p>
+
+  <div class="answer"><span class="hint">La tâche que je refais chaque semaine</span>
+    <div class="ruled tight"><div></div><div></div></div></div>
+
+  <h4 class="sec">La configuration de mon assistant</h4>
+  <div class="kv" style="margin-top:10px">
+    <div><div class="k">Nom</div><div class="v"><div class="ruled tight" style="margin-top:0"><div></div></div></div></div>
+    <div><div class="k">Mission</div><div class="v"><div class="ruled tight" style="margin-top:0"><div></div></div></div></div>
+    <div><div class="k">Contexte</div><div class="v"><div class="ruled tight" style="margin-top:0"><div></div><div></div></div></div></div>
+    <div><div class="k">Ton et format</div><div class="v"><div class="ruled tight" style="margin-top:0"><div></div><div></div></div></div></div>
+    <div><div class="k">Fichiers joints</div><div class="v"><div class="ruled tight" style="margin-top:0"><div></div></div></div></div>
+    <div><div class="k">Interdits</div><div class="v"><div class="ruled tight" style="margin-top:0"><div></div><div></div></div></div></div>
+  </div>
+
+  <h4 class="sec">Le test croisé — ce que mon voisin a réussi à casser</h4>
+  <table class="fillt">
+    <thead><tr><th style="width:50%">Ce qu'il a essayé</th><th>Ce que je corrige dans ma configuration</th></tr></thead>
+    <tbody>
+      <tr><td></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-b">
+    <span class="lbl">Ce qui casse presque toujours un assistant</span>
+    <p>Un contexte trop maigre, ou aucun exemple de sortie attendue. Si votre voisin l'a fait
+    dérailler en deux essais, ajoutez <strong>trois exemples de bon résultat</strong> avant
+    toute autre correction.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════ 8 ═════════════════════ -->
+<section class="ex j2">
+  <div class="ex-head"><div class="num">8</div><div>
+    <h2>Cartographiez vos tâches</h2>
+    <div class="meta"><span>35 min</span><span class="n">Jour 2 · 15 h 00</span><span class="n">Livrable 3</span></div>
+  </div></div>
+  <p class="obj"><strong>Objectif :</strong> identifier ce qui mérite d'être automatisé —
+  et surtout ce qui ne le mérite pas. <strong>Ne vous demandez pas si c'est techniquement
+  faisable :</strong> cette question tue l'exercice.</p>
+
+  <div class="plot">
+    <div class="ylab"><span>Temps passé à chaque fois</span></div>
+    <div class="gridbox">
+      <div class="qd" style="top:0;left:0;background:#F7F9FA"><b>Se faire aider,<br>ponctuellement</b></div>
+      <div class="qd" style="top:0;right:0;background:var(--j2-wash);text-align:right"><b style="color:var(--j2)">Automatiser<br>en premier</b></div>
+      <div class="qd" style="bottom:0;left:0"><b style="color:var(--ink-3)">Laisser<br>tel quel</b></div>
+      <div class="qd" style="bottom:0;right:0;background:var(--j1-wash);text-align:right"><b style="color:var(--j1)">En faire<br>un modèle</b></div>
+      <div class="mv"></div><div class="mh"></div>
+    </div>
+  </div>
+  <div class="xlab"><span>Rare</span><span>Fréquence</span><span>Plusieurs fois par jour</span></div>
+  <p class="small muted" style="margin-top:8px">Taille du point = répétitivité. Petit : chaque fois
+  différente. Gros : presque identique à chaque fois.</p>
+
+  <h4 class="sec">Mes trois candidates — les plus à droite et les plus hautes</h4>
+  <table class="fillt">
+    <thead><tr><th style="width:44%">Tâche</th><th style="width:20%">Fois par mois</th><th style="width:18%">Minutes</th><th>Heures / mois</th></tr></thead>
+    <tbody>
+      <tr><td></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr><td><strong>Total</strong></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-b">
+    <span class="lbl">Le chiffre qui compte</span>
+    <p>Le total en heures par mois est le seul argument qui parle à une direction.
+    Retenez-le, et présentez-le avec la tâche — jamais avec l'outil.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════ 9 ═════════════════════ -->
+<section class="ex j2">
+  <div class="ex-head"><div class="num">9</div><div>
+    <h2>Mon plan à trente jours</h2>
+    <div class="meta"><span>30 min</span><span class="n">Jour 2 · 15 h 45</span><span class="n">Livrable 4</span></div>
+  </div></div>
+  <p class="obj"><strong>Objectif :</strong> décider maintenant ce qui restera de ces deux jours
+  dans un mois. Découpez cette page et gardez-la visible.</p>
+
+  <div class="card30">
+    <h4>Trois usages que je mets en place la semaine prochaine</h4>
+    <p class="small muted">Précis. Pas « utiliser l'IA », mais « rédiger mes comptes rendus
+    avec l'assistant que j'ai créé ».</p>
+    <div class="ruled"><div></div><div></div><div></div></div>
+
+    <h4 style="margin-top:18px">Un seul outil que je décide de maîtriser vraiment</h4>
+    <div class="ruled"><div></div></div>
+
+    <h4 style="margin-top:18px">Une chose que je ne ferai pas — tirée de ma charte</h4>
+    <div class="ruled"><div></div></div>
+
+    <h4 style="margin-top:18px">Une personne que j'embarque avec moi</h4>
+    <p class="small muted">Sinon vous serez seul dans trois semaines. C'est le facteur le plus
+    déterminant, loin devant l'outil et le niveau.</p>
+    <div class="ruled"><div></div></div>
+
+    <h4 style="margin-top:18px">La date à laquelle je rouvre ce cahier</h4>
+    <div class="ruled"><div></div></div>
+  </div>
+
+  <div class="note-b">
+    <span class="lbl">Dans six mois</span>
+    <p>Reprenez la liste de ce qui n'avait pas marché pendant la formation et retestez-le.
+    La moitié de ces échecs seront résolus par une mise à jour que personne ne vous aura
+    annoncée.</p>
+  </div>
+</section>

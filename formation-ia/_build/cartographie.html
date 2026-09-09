@@ -1,0 +1,304 @@
+<meta charset="utf-8">
+<link rel="stylesheet" href="polices/polices.css">
+<link rel="stylesheet" href="base.css">
+<style>
+.mk{font-size:1px;color:#fff;line-height:0}
+.qbig{break-inside:avoid;margin-top:22px}
+.qbig .h{display:grid;grid-template-columns:38px 1fr;gap:14px;align-items:start}
+.qbig .n{width:38px;height:38px;border-radius:50%;background:var(--j1);color:#fff;
+  font-family:var(--disp);font-weight:800;font-size:15pt;display:flex;align-items:center;
+  justify-content:center;line-height:1}
+.qbig h3{margin-top:4px;font-size:14pt}
+.qbig .body{margin-left:52px}
+.sub-h{font-family:var(--mono);font-size:7.6pt;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3);margin-top:12px;display:block}
+.fam{border:1px solid var(--rule);border-top:3px solid var(--c);border-radius:0 0 6px 6px;
+  padding:15px 17px;margin-top:16px;break-inside:avoid}
+.fam h3{margin-top:0;font-size:14pt}
+.fam .who{font-family:var(--mono);font-size:8.4pt;font-weight:600;color:var(--c);margin-top:5px;
+  letter-spacing:.04em}
+.fam .g{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:11px}
+.fam .g .lbl{display:block;margin-bottom:4px}
+.fam .g p{font-size:9.4pt}
+.f1{--c:#1F6FA8} .f2{--c:#0B655E} .f3{--c:#5C4B9E} .f4{--c:#8A5A00}
+.fillrow{display:grid;grid-template-columns:38% 1fr;gap:16px;padding:9px 0;
+  border-bottom:.75px solid var(--rule);break-inside:avoid}
+.fillrow .q{font-weight:600;font-size:9.8pt}
+.fillrow .q em{display:block;font-style:normal;font-weight:400;font-size:8.6pt;
+  color:var(--ink-3);margin-top:2px}
+.fillrow .l{border-bottom:.75px solid var(--rule);height:22px;margin-top:14px}
+.stale{background:var(--wash);border:1px solid var(--rule);border-radius:6px;padding:15px 17px;
+  margin-top:16px;break-inside:avoid}
+.stale .g{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:10px}
+.stale .g .lbl{display:block;margin-bottom:6px}
+.stale ul{margin-top:0;padding-left:16px}
+.stale li{font-size:9.4pt;color:var(--ink-2);margin-top:4px}
+.stale .old li{color:var(--ink-3);text-decoration:line-through;text-decoration-thickness:.5px}
+</style>
+
+<div class="cover">
+  <div class="top">
+    <div class="rule"></div>
+    <div class="lbl">Module de référence · Séquence 6</div>
+    <h1>Cartographie<br>des modèles</h1>
+    <p class="sub">Comment choisir un outil d'IA sans avoir à suivre l'actualité —
+    et pourquoi construire ce choix sur des critères plutôt que sur des numéros de version.</p>
+    <div class="band">
+      <div><div class="lbl">Questions</div><div class="v">4, dans l'ordre</div></div>
+      <div><div class="lbl">Familles</div><div class="v">4</div></div>
+      <div><div class="lbl">Durée du test</div><div class="v">20 minutes</div></div>
+      <div><div class="lbl">À réévaluer</div><div class="v">Tous les 6 mois</div></div>
+    </div>
+  </div>
+  <div class="bottom">
+    Ce document remplace la séquence « quel modèle est le meilleur », qui périme en trois mois.
+    Il est conçu pour rester juste pendant deux ans, et pour être rempli avec les données
+    de votre propre organisation.
+  </div>
+</div>
+
+<section>
+  <div class="lbl">Le problème</div>
+  <h1 style="margin-top:8px">Pourquoi ce module a été réécrit</h1>
+  <p class="lede">Un support qui compare « GPT contre Claude contre Gemini » est faux avant
+  d'être imprimé. Trois versions sortent pendant que vous préparez la formation, les
+  classements s'inversent, et le participant qui vous cite six mois plus tard cite une
+  information périmée — en croyant qu'elle vient de vous.</p>
+
+  <p>Le remède n'est pas de mettre à jour plus souvent. C'est de déplacer le support d'un
+  cran : <strong>ne pas enseigner quel modèle choisir, mais comment choisir</strong>.
+  Les quatre questions qui suivent n'ont pas bougé depuis 2023 et ne bougeront pas
+  d'ici 2028 ; les familles se recomposeront à la marge, mais leur logique tiendra.</p>
+
+  <figure><img src="../02-infographies/06-cartographie-llm.png" alt="Quatre questions, quatre familles">
+  <figcaption>Infographie 06 — le support de projection de cette séquence</figcaption></figure>
+
+  <div class="stale">
+    <div class="lbl">Ce qui périme, et ce qui tient</div>
+    <div class="g">
+      <div class="old">
+        <span class="lbl">Ne construisez rien là-dessus</span>
+        <ul>
+          <li>Le nom et le numéro de version du modèle</li>
+          <li>Son classement dans les benchmarks</li>
+          <li>Son nombre de paramètres</li>
+          <li>La taille de sa fenêtre de contexte</li>
+          <li>Le prix au million de tokens</li>
+          <li>La liste de ce qu'il « ne sait pas encore faire »</li>
+        </ul>
+      </div>
+      <div>
+        <span class="lbl">Construisez là-dessus</span>
+        <ul>
+          <li>La localisation et le sort des données</li>
+          <li>La qualité perçue sur <em>vos</em> textes</li>
+          <li>L'intégration aux outils déjà en place</li>
+          <li>Le coût réel par personne et par mois</li>
+          <li>La capacité de l'organisation à maintenir la solution</li>
+          <li>Ce que l'éditeur s'engage à faire par contrat</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pb j1">
+  <div class="lbl">Le cœur du module</div>
+  <h1 style="margin-top:8px">Les quatre questions, dans cet ordre</h1>
+  <p class="lede">L'ordre compte autant que les questions. Chacune peut rendre les suivantes
+  sans objet, et c'est précisément ce qui fait gagner du temps.</p>
+
+  <div class="qbig">
+    <div class="h"><div class="n">1</div><div><h3>Où partent mes données ?</h3></div></div>
+    <div class="body">
+      <p>Cette question décide plus souvent que toutes les autres réunies. Si la réponse est
+      bloquante — secret professionnel, données de santé, marché public, clause contractuelle —
+      les trois suivantes ne se posent même pas, et vous venez d'économiser une étude comparative.</p>
+      <span class="sub-h">Comment y répondre</span>
+      <p>Trois sous-questions suffisent : où sont hébergés les serveurs ? l'éditeur s'engage-t-il
+      par contrat à ne pas entraîner ses modèles sur vos données ? combien de temps les
+      conversations sont-elles conservées ? Les réponses figurent dans les conditions
+      d'utilisation, pas dans la page commerciale.</p>
+      <span class="sub-h">Ce qui doit vous alerter</span>
+      <p>Une offre gratuite pour un usage professionnel régulier. Un éditeur qui répond
+      « vos données sont sécurisées » sans dire où elles sont. Et l'absence de décision de
+      votre propre organisation — c'est le principal facteur qui pousse les équipes vers
+      les comptes personnels.</p>
+    </div>
+  </div>
+
+  <div class="qbig">
+    <div class="h"><div class="n">2</div><div><h3>Écrit-il bien dans ma langue ?</h3></div></div>
+    <div class="body">
+      <p>Un modèle premier au classement peut produire un français correct mais plat, truffé
+      d'anglicismes de structure et de tournures qui trahissent la traduction. Sur des textes
+      destinés à vos clients, cela se voit.</p>
+      <span class="sub-h">Comment y répondre</span>
+      <p>Le test tient en dix minutes : donnez-lui trois de vos propres textes et demandez-lui
+      d'en écrire un quatrième dans le même style. <strong>Ne testez jamais sur un sujet
+      générique</strong> — tous les modèles s'en sortent. Testez sur votre vocabulaire métier,
+      vos formules d'usage, vos contraintes de ton.</p>
+      <span class="sub-h">Ce qui doit vous alerter</span>
+      <p>Un classement de benchmark comme seul argument. Ces tests mesurent des capacités
+      moyennes sur des tâches standardisées ; ils ne disent rien de la qualité d'écriture
+      dans votre langue, sur votre domaine.</p>
+    </div>
+  </div>
+
+  <div class="qbig">
+    <div class="h"><div class="n">3</div><div><h3>Est-ce déjà dans les outils que j'utilise ?</h3></div></div>
+    <div class="body">
+      <p>L'outil qu'on ouvre par réflexe bat systématiquement l'outil parfait qu'on oublie
+      d'ouvrir. Un assistant intégré à votre messagerie ou à votre suite bureautique sera
+      utilisé dix fois plus qu'un onglet de navigateur supplémentaire, même s'il est
+      objectivement moins bon.</p>
+      <span class="sub-h">Comment y répondre</span>
+      <p>Inventoriez ce que vos équipes ouvrent déjà chaque matin, et regardez ce que ces
+      outils proposent nativement. Comptez aussi le coût caché d'un outil de plus :
+      un compte à créer, un mot de passe, une politique d'accès, une formation.</p>
+      <span class="sub-h">Ce qui doit vous alerter</span>
+      <p>Un déploiement qui suppose que chacun change ses habitudes le même jour.
+      L'adoption ne se décrète pas ; elle se constate trois mois plus tard.</p>
+    </div>
+  </div>
+
+  <div class="qbig">
+    <div class="h"><div class="n">4</div><div><h3>Combien à mon volume réel ?</h3></div></div>
+    <div class="body">
+      <p>Raisonnez en abonnements mensuels par personne. Le prix au million de tokens ne veut
+      rien dire pour un utilisateur — personne ne sait convertir sa journée de travail en tokens,
+      et cette unité sert surtout à comparer des choses incomparables.</p>
+      <span class="sub-h">Comment y répondre</span>
+      <p>Multipliez le tarif par personne par le nombre de personnes qui s'en serviront vraiment,
+      pas par l'effectif total. Ajoutez le temps d'administration. Comparez au chiffre produit
+      par l'atelier de cartographie des tâches : les heures récupérées par mois.</p>
+      <span class="sub-h">Ce qui doit vous alerter</span>
+      <p>Un calcul de retour sur investissement fondé sur des gains de productivité théoriques.
+      Le seul chiffre solide est celui que vos propres équipes ont mesuré sur leurs propres tâches.</p>
+    </div>
+  </div>
+</section>
+
+<section class="pb j1">
+  <div class="lbl">Le paysage</div>
+  <h1 style="margin-top:8px">Quatre familles, et ce pour quoi chacune est faite</h1>
+  <p class="lede">Les acteurs cités sont ceux d'aujourd'hui et changeront ; la logique de
+  chaque famille, elle, est stable. Choisissez une case, pas un nom.</p>
+
+  <div class="fam f1">
+    <h3>Les généralistes</h3>
+    <div class="who">OpenAI · Anthropic · Google · xAI</div>
+    <div class="g">
+      <div><span class="lbl">Pour quoi</span>
+        <p>Les plus polyvalents, le plus grand écosystème d'outils tiers, les applications
+        mobiles les plus abouties, les fonctions d'assistant personnalisé les plus avancées.
+        Le choix par défaut pour le travail quotidien de bureau.</p></div>
+      <div><span class="lbl">Sa limite</span>
+        <p>Hébergement hors Union européenne sauf offre entreprise dédiée. C'est aussi la
+        famille qui bouge le plus vite : ce que vous testez aujourd'hui aura changé dans
+        six mois, en bien le plus souvent, mais vos repères aussi.</p></div>
+    </div>
+  </div>
+
+  <div class="fam f2">
+    <h3>Le souverain européen</h3>
+    <div class="who">Mistral · Kyutai</div>
+    <div class="g">
+      <div><span class="lbl">Pour quoi</span>
+        <p>Hébergement en Europe, excellent niveau de français, engagement contractuel sur la
+        résidence des données. Secteur public, santé, juridique, défense, et toute organisation
+        dont la question 1 est bloquante.</p></div>
+      <div><span class="lbl">Sa limite</span>
+        <p>Écosystème d'outils tiers plus restreint, et moins d'intégrations prêtes à l'emploi.
+        L'écart de capacité brute avec les généralistes s'est fortement resserré ; l'écart
+        d'écosystème demeure.</p></div>
+    </div>
+  </div>
+
+  <div class="fam f3">
+    <h3>Les modèles ouverts</h3>
+    <div class="who">Llama · Mistral ouverts · Qwen · DeepSeek</div>
+    <div class="g">
+      <div><span class="lbl">Pour quoi</span>
+        <p>Installables sur vos propres serveurs : les données ne sortent jamais, et l'usage
+        ne se facture pas au message. Le bon choix pour de très gros volumes, ou pour des
+        données qui ne peuvent structurellement pas sortir.</p></div>
+      <div><span class="lbl">Sa limite</span>
+        <p>Demande une compétence technique interne réelle, du matériel, et quelqu'un pour
+        maintenir l'ensemble dans la durée. <strong>Ce n'est pas un choix d'utilisateur,
+        c'est un choix d'organisation</strong> — et un engagement de plusieurs années.</p></div>
+    </div>
+  </div>
+
+  <div class="fam f4">
+    <h3>Les spécialisés</h3>
+    <div class="who">Transcription · OCR · traduction · image · voix</div>
+    <div class="g">
+      <div><span class="lbl">Pour quoi</span>
+        <p>Une tâche, très bien faite, pour une fraction du prix d'un généraliste. Souvent
+        la meilleure réponse à un besoin précis et répétitif : transcrire des réunions,
+        extraire du texte de documents scannés, traduire un catalogue.</p></div>
+      <div><span class="lbl">Sa limite</span>
+        <p>Ne sortent pas de leur domaine. Il en faut plusieurs, chacun avec son abonnement,
+        son compte et sa politique de confidentialité à vérifier séparément.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="pb j1">
+  <div class="lbl">À remplir</div>
+  <h1 style="margin-top:8px">Votre grille de décision</h1>
+  <p class="lede">À compléter avec les données de votre organisation, pas avec celles d'un
+  comparatif trouvé en ligne. Une page, quinze minutes, et vous aurez une réponse défendable.</p>
+
+  <h3>Les quatre questions, appliquées chez vous</h3>
+  <div style="margin-top:12px">
+    <div class="fillrow"><div class="q">1 · Où partent nos données ?
+      <em>Hébergement, engagement contractuel, durée de conservation</em></div>
+      <div><div class="l"></div><div class="l"></div></div></div>
+    <div class="fillrow"><div class="q">2 · Écrit-il bien pour nous ?
+      <em>Testé sur quels textes, jugé par qui</em></div>
+      <div><div class="l"></div><div class="l"></div></div></div>
+    <div class="fillrow"><div class="q">3 · Est-ce déjà dans nos outils ?
+      <em>Ce que nos équipes ouvrent déjà chaque matin</em></div>
+      <div><div class="l"></div><div class="l"></div></div></div>
+    <div class="fillrow"><div class="q">4 · Combien au volume réel ?
+      <em>Tarif par personne × utilisateurs réels + administration</em></div>
+      <div><div class="l"></div><div class="l"></div></div></div>
+    <div class="fillrow"><div class="q">La question décisive, chez nous
+      <em>Une seule, celle qui tranche</em></div>
+      <div><div class="l"></div></div></div>
+    <div class="fillrow"><div class="q">La famille retenue
+      <em>Une case, pas un nom de produit</em></div>
+      <div><div class="l"></div></div></div>
+  </div>
+
+  <h3 class="pb">Le protocole de test en vingt minutes</h3>
+  <p>À faire tourner sur chaque candidat sérieux, avec les mêmes entrées, par la même personne.
+  Vingt minutes suffisent à écarter les mauvais choix ; les longues études comparatives
+  n'apprennent presque rien de plus.</p>
+  <ol class="steps">
+    <li><strong>Cinq minutes — l'écriture.</strong> Donnez-lui trois de vos textes et demandez
+      un quatrième dans le même style. Jugez sur le ton et le vocabulaire métier, pas sur
+      la grammaire : tous sont bons en grammaire.</li>
+    <li><strong>Cinq minutes — le document.</strong> Faites-lui analyser un de vos documents
+      réels de dix à vingt pages. Posez trois questions dont vous connaissez la réponse.
+      Comptez les erreurs et regardez s'il cite ses sources.</li>
+    <li><strong>Cinq minutes — la tâche métier.</strong> Une vraie tâche de votre quotidien,
+      formulée avec les six lettres. C'est le test qui compte le plus.</li>
+    <li><strong>Cinq minutes — les réglages.</strong> Ouvrez les paramètres. Trouvez l'option
+      d'entraînement sur vos données. Si vous ne la trouvez pas en cinq minutes, c'est
+      une information en soi.</li>
+  </ol>
+
+  <div class="box box--warn">
+    <span class="lbl">La règle du réexamen</span>
+    <p>Refaites ce protocole <strong>tous les six mois</strong>, et gardez entre-temps une liste
+    de ce qui n'a pas marché. La moitié de ces échecs seront résolus par une mise à jour que
+    personne ne vous aura annoncée — et l'autre moitié vous dira si votre choix tient encore.</p>
+    <p style="margin-top:7px">En revanche, <strong>ne changez pas d'outil à chaque nouvelle
+    version.</strong> Le coût d'un changement — comptes, habitudes, prompts enregistrés,
+    assistants configurés — dépasse presque toujours le gain marginal d'un modèle légèrement
+    meilleur.</p>
+  </div>
+</section>

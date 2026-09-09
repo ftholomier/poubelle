@@ -1,0 +1,332 @@
+<meta charset="utf-8">
+<link rel="stylesheet" href="polices/polices.css">
+<style>
+:root{
+  --ink:#12181D; --ink-2:#545F69; --ink-3:#8A959D;
+  --rule:#DDE2E6; --rule-soft:#EDF0F2; --wash:#F5F7F8;
+  --j1:#0B655E; --j1-wash:#E4EFED;
+  --j2:#A32B57; --j2-wash:#F8E7EC;
+  --flag:#8A5A00; --flag-wash:#FAF1DE;
+  --go:#1F7A3D; --amb:#B0791B; --stop:#B3261E;
+  --disp:"Bricolage Grotesque","Trebuchet MS",sans-serif;
+  --body:"Public Sans","Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono","Consolas",monospace;
+}
+@page{size:A5;margin:0}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-family:var(--body);color:var(--ink);background:#fff;
+  font-variant-numeric:tabular-nums lining-nums;-webkit-font-smoothing:antialiased}
+.pg{width:148mm;height:210mm;padding:13mm 12mm 11mm;break-after:page;
+  display:flex;flex-direction:column;position:relative;overflow:hidden}
+.pg:last-child{break-after:auto}
+.hd{border-bottom:2px solid var(--acc,var(--ink));padding-bottom:7px;flex-shrink:0}
+.hd .n{font-family:var(--mono);font-size:7pt;font-weight:600;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--acc,var(--ink-3))}
+.hd h2{font-family:var(--disp);font-weight:800;font-size:15.5pt;letter-spacing:-.015em;
+  margin-top:4px;line-height:1.08}
+.bd{flex:1;padding-top:11px;min-height:0}
+.ft{flex-shrink:0;border-top:1px solid var(--rule-soft);padding-top:6px;
+  font-family:var(--mono);font-size:6.6pt;letter-spacing:.09em;color:var(--ink-3);
+  display:flex;justify-content:space-between}
+p{font-size:8.6pt;line-height:1.45;color:var(--ink-2)}
+strong{font-weight:600;color:var(--ink)}
+.lbl{font-family:var(--mono);font-size:6.8pt;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3)}
+.j1{--acc:var(--j1)} .j2{--acc:var(--j2)} .fl{--acc:var(--flag)}
+
+/* couverture */
+.cov{background:var(--ink);color:#fff;justify-content:space-between}
+.cov .bar{width:26mm;height:3px;background:var(--j1)}
+.cov h1{font-family:var(--disp);font-weight:800;font-size:27pt;line-height:0.98;
+  letter-spacing:-.025em;margin-top:9px;color:#fff}
+.cov .sub{font-size:9.2pt;color:#A8B4BC;margin-top:10px;line-height:1.45}
+.cov .idx{margin-top:auto}
+.cov .idx div{display:flex;gap:9px;padding:3.5px 0;border-bottom:1px solid #262E35;
+  font-size:8pt;color:#C6D0D6}
+.cov .idx span{font-family:var(--mono);font-size:7pt;color:#6C7A84;width:12px}
+
+/* copain */
+.let{display:grid;grid-template-columns:26px 1fr;gap:9px;padding:6.5px 0;
+  border-bottom:1px solid var(--rule-soft);align-items:start}
+.let:last-of-type{border-bottom:0}
+.let .L{width:26px;height:26px;border-radius:5px;display:flex;align-items:center;
+  justify-content:center;font-family:var(--disp);font-weight:800;font-size:13pt;color:#fff}
+.let .t{font-family:var(--disp);font-weight:700;font-size:10pt;letter-spacing:-.01em}
+.let .t i{font-style:normal;font-weight:400;font-family:var(--body);font-size:7.6pt;
+  color:var(--ink-3);margin-left:6px}
+.let .e{font-family:var(--mono);font-size:7.4pt;color:var(--ink-2);margin-top:2px;line-height:1.35}
+.plus{margin-top:10px;border:1.5px solid var(--j1);border-radius:6px;padding:9px 11px;
+  background:var(--j1-wash)}
+.plus .k{font-family:var(--mono);font-size:6.8pt;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--j1)}
+.plus p{font-family:var(--mono);font-size:8.4pt;color:var(--ink);margin-top:5px;line-height:1.4}
+
+/* listes numérotées */
+.num{counter-reset:n;list-style:none}
+.num li{counter-increment:n;position:relative;padding-left:20px;margin-top:8px;
+  font-size:8.6pt;line-height:1.42;color:var(--ink-2)}
+.num li::before{content:counter(n);position:absolute;left:0;top:1px;width:14px;height:14px;
+  border-radius:50%;background:var(--acc);color:#fff;font-family:var(--mono);font-size:6.8pt;
+  font-weight:600;display:flex;align-items:center;justify-content:center}
+.num li b{color:var(--ink);font-weight:600}
+
+/* erreurs */
+.err{margin-top:11px}
+.err div{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:5px 0;
+  border-bottom:1px solid var(--rule-soft);font-size:7.8pt}
+.err div:first-of-type{border-top:1px solid var(--rule)}
+.err .a{color:var(--stop)} .err .b{color:var(--ink-2)}
+.err .hdr{font-family:var(--mono);font-size:6.6pt;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-3);border-bottom:0;padding-bottom:2px}
+
+/* feux */
+.feu{border:1.5px solid var(--c);border-radius:6px;overflow:hidden;margin-top:9px}
+.feu .h{background:var(--c);color:#fff;padding:5px 10px;display:flex;align-items:center;gap:8px}
+.feu .h .dot{width:11px;height:11px;border-radius:50%;background:#fff;opacity:.9}
+.feu .h b{font-family:var(--disp);font-weight:800;font-size:11pt;letter-spacing:-.01em}
+.feu .h span{font-family:var(--mono);font-size:6.6pt;letter-spacing:.11em;text-transform:uppercase;
+  opacity:.85;margin-left:auto}
+.feu .c{padding:8px 10px}
+.feu .c p{font-size:8pt;line-height:1.4}
+.feu .c .o{font-family:var(--mono);font-size:7pt;color:var(--c);margin-top:5px;line-height:1.35;
+  font-weight:600}
+.vert{--c:var(--go)} .orange{--c:var(--amb)} .rouge{--c:var(--stop)}
+
+/* prompts */
+.pr{font-family:var(--mono);font-size:7.2pt;line-height:1.5;background:var(--wash);
+  border:1px solid var(--rule);border-radius:4px;padding:7px 9px;margin-top:6px;
+  white-space:pre-wrap;color:var(--ink)}
+.pr b{color:var(--j1);font-weight:600;display:block;font-size:6.6pt;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:3px}
+
+/* familles */
+.fam div{padding:6px 0;border-bottom:1px solid var(--rule-soft)}
+.fam .t{font-family:var(--disp);font-weight:700;font-size:9.5pt}
+.fam .d{font-size:7.8pt;color:var(--ink-2);line-height:1.4;margin-top:2px}
+.fam .d em{font-style:normal;color:var(--j2)}
+
+/* plan */
+.slot{border:1px solid var(--rule);border-radius:5px;padding:8px 10px;margin-top:8px}
+.slot .k{font-family:var(--mono);font-size:6.8pt;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--j2)}
+.slot .ln{border-bottom:.75px solid var(--rule);height:15px;margin-top:5px}
+</style>
+
+<!-- ═════ 1 · COUVERTURE ═════ -->
+<div class="pg cov">
+  <div>
+    <div class="bar"></div>
+    <h1>Mémo IA</h1>
+    <p class="sub">Les six lettres, les trois feux, et ce qu'il faut vérifier.
+    Tout ce qu'on oublie trois semaines après la formation.</p>
+  </div>
+  <div class="idx">
+    <div class="lbl" style="color:#6C7A84;padding-bottom:5px">Au dos de chaque page</div>
+    <div><span>02</span>La méthode C.O.P.A.I.N.</div>
+    <div><span>03</span>Cinq techniques, huit erreurs</div>
+    <div><span>04</span>La règle des trois feux</div>
+    <div><span>05</span>Huit prompts à copier</div>
+    <div><span>06</span>Choisir un outil</div>
+    <div><span>07</span>Vérifier avant de signer</div>
+    <div><span>08</span>Mon plan à trente jours</div>
+  </div>
+</div>
+
+<!-- ═════ 2 · COPAIN ═════ -->
+<div class="pg j1">
+  <div class="hd"><div class="n">Page 02 · Formuler</div><h2>La méthode C.O.P.A.I.N.</h2></div>
+  <div class="bd">
+    <p>Six informations que vous avez en tête et que la machine n'a pas.
+    L'ordre n'a aucune importance.</p>
+    <div style="margin-top:8px">
+      <div class="let"><div class="L" style="background:#0B655E">C</div><div>
+        <div class="t">Contexte <i>où sommes-nous ?</i></div>
+        <div class="e">Je suis responsable RH dans une PME de 60 personnes.</div></div></div>
+      <div class="let"><div class="L" style="background:#1A7F73">O</div><div>
+        <div class="t">Objectif <i>je veux quoi, exactement ?</i></div>
+        <div class="e">Rédige une offre d'emploi pour un poste de comptable.</div></div></div>
+      <div class="let"><div class="L" style="background:#5C4B9E">P</div><div>
+        <div class="t">Persona <i>il doit être qui ?</i></div>
+        <div class="e">Agis en recruteur expérimenté du secteur industriel.</div></div></div>
+      <div class="let"><div class="L" style="background:#8A5A00">A</div><div>
+        <div class="t">Audience <i>c'est pour qui ?</i></div>
+        <div class="e">Elle sera lue par des candidats juniors, bac+2.</div></div></div>
+      <div class="let"><div class="L" style="background:#1F6FA8">I</div><div>
+        <div class="t">Instructions <i>sous quelle forme ?</i></div>
+        <div class="e">400 mots, trois parties titrées, ton direct, tutoiement.</div></div></div>
+      <div class="let"><div class="L" style="background:#A32B57">N</div><div>
+        <div class="t">Négations <i>il ne doit pas quoi ?</i></div>
+        <div class="e">Pas de jargon RH, pas de « équipe dynamique ».</div></div></div>
+    </div>
+    <div class="plus">
+      <div class="k">Et la septième ligne, qui ne s'oublie pas</div>
+      <p>Pose-moi les questions dont tu as besoin avant de commencer.</p>
+    </div>
+  </div>
+  <div class="ft"><span>Mémo IA</span><span>02</span></div>
+</div>
+
+<!-- ═════ 3 · TECHNIQUES & ERREURS ═════ -->
+<div class="pg j1">
+  <div class="hd"><div class="n">Page 03 · Améliorer</div><h2>Cinq techniques, huit erreurs</h2></div>
+  <div class="bd">
+    <div class="lbl">Ce qui améliore le plus, dans l'ordre</div>
+    <ol class="num">
+      <li><b>Donnez des exemples.</b> Trois échantillons valent dix lignes de description.</li>
+      <li><b>Imposez le format.</b> « Tableau à trois colonnes : action, responsable, échéance. »</li>
+      <li><b>Demandez le raisonnement.</b> « Procède étape par étape avant de conclure. »</li>
+      <li><b>Découpez.</b> D'abord le plan, puis chaque partie, puis la relecture.</li>
+      <li><b>Itérez.</b> « Trop long, coupe de moitié en gardant les exemples. »</li>
+    </ol>
+
+    <div class="err">
+      <div class="hdr" style="border-bottom:0"><span>L'erreur</span><span>À la place</span></div>
+      <div><span class="a">Demander sans contexte</span><span class="b">Deux lignes sur qui vous êtes</span></div>
+      <div><span class="a">Garder le premier jet</span><span class="b">Trois allers-retours, c'est la norme</span></div>
+      <div><span class="a">Question trop large</span><span class="b">Découper en étapes</span></div>
+      <div><span class="a">Ne rien interdire</span><span class="b">Trois interdits explicites</span></div>
+      <div><span class="a">Croire un chiffre non sourcé</span><span class="b">Vérifier ailleurs, sans exception</span></div>
+      <div><span class="a">Conversation trop longue</span><span class="b">En rouvrir une neuve</span></div>
+      <div><span class="a">Coller du sensible</span><span class="b">Règle des trois feux, page 04</span></div>
+      <div><span class="a">Réécrire le même prompt</span><span class="b">L'enregistrer dès la 3ᵉ fois</span></div>
+    </div>
+  </div>
+  <div class="ft"><span>Mémo IA</span><span>03</span></div>
+</div>
+
+<!-- ═════ 4 · TROIS FEUX ═════ -->
+<div class="pg fl">
+  <div class="hd"><div class="n">Page 04 · Protéger</div><h2>La règle des trois feux</h2></div>
+  <div class="bd">
+    <p>Une question, avant chaque copier-coller : <strong>de quelle couleur est cette
+    information ?</strong></p>
+
+    <div class="feu vert"><div class="h"><div class="dot"></div><b>Vert</b><span>Allez-y</span></div>
+      <div class="c"><p>Déjà public, ou qui pourrait l'être demain sans gêner personne.
+        Textes de loi, plaquette diffusée, brouillon générique, question de méthode.</p>
+        <div class="o">Tous les outils, gratuits compris</div></div></div>
+
+    <div class="feu orange"><div class="h"><div class="dot"></div><b>Orange</b><span>Sous conditions</span></div>
+      <div class="c"><p>Interne mais non sensible : compte rendu sans nom propre, trame de
+        procédure, chiffres agrégés, support non diffusé.</p>
+        <div class="o">Outil validé, compte pro, entraînement désactivé</div></div></div>
+
+    <div class="feu rouge"><div class="h"><div class="dot"></div><b>Rouge</b><span>Jamais</span></div>
+      <div class="c"><p>Personnel, confidentiel ou contractuel : CV, santé, contrats, code
+        propriétaire, coordonnées bancaires, pièces d'identité.</p>
+        <div class="o">Aucun outil grand public</div></div></div>
+
+    <div class="plus" style="border-color:var(--flag);background:var(--flag-wash)">
+      <div class="k" style="color:var(--flag)">Les deux pièges</div>
+      <p style="font-family:var(--body);font-size:8pt;color:var(--ink-2);line-height:1.4">
+      Un document « anonymisé » qui garde une date, un montant et une ville ne l'est pas.
+      Et trois extraits orange dans trois conversations peuvent, réunis, faire un rouge.</p>
+    </div>
+  </div>
+  <div class="ft"><span>Mémo IA · Dans le doute, c'est rouge</span><span>04</span></div>
+</div>
+
+<!-- ═════ 5 · PROMPTS ═════ -->
+<div class="pg j1">
+  <div class="hd"><div class="n">Page 05 · Copier</div><h2>Huit prompts à garder sous la main</h2></div>
+  <div class="bd">
+    <div class="pr"><b>Écrire dans votre style</b>Voici trois textes que j'ai écrits. Analyse mon style, puis rédige [texte] de la même manière. N'affiche pas ton analyse.</div>
+    <div class="pr"><b>Raccourcir sans appauvrir</b>Réduis de moitié. Garde les chiffres, les noms et les exemples. Coupe d'abord les adjectifs et les transitions.</div>
+    <div class="pr"><b>Compte rendu à partir de notes</b>Rédige un compte rendu : décisions, actions avec responsable et échéance, points reportés. N'invente rien — si un responsable manque, écris « à désigner ».</div>
+    <div class="pr"><b>Comparer deux options</b>Compare [A] et [B] en tableau selon [critères]. Ajoute une ligne « dans quel cas choisir celle-ci ». Ne conclus pas à ma place.</div>
+    <div class="pr"><b>L'avocat du diable</b>Voici ma décision. Donne-moi les cinq meilleures objections, de la plus forte à la plus faible. Ne me rassure pas.</div>
+    <div class="pr"><b>Se faire expliquer</b>Explique [sujet] à quelqu'un qui connaît [mon domaine] mais rien à celui-ci. Utilise une analogie de mon domaine. Finis par les trois erreurs fréquentes.</div>
+    <div class="pr"><b>Se faire interroger</b>Pose-moi une question à la fois, attends ma réponse, corrige, enchaîne. Monte en difficulté. Ne donne jamais la réponse avant que j'aie essayé.</div>
+    <div class="pr"><b>Le prompt qui écrit les prompts</b>Je veux [résultat]. Écris le meilleur prompt possible : contexte, objectif, rôle, audience, format, interdits. Puis demande-moi ce qui manque.</div>
+  </div>
+  <div class="ft"><span>Mémo IA</span><span>05</span></div>
+</div>
+
+<!-- ═════ 6 · CHOISIR ═════ -->
+<div class="pg j1">
+  <div class="hd"><div class="n">Page 06 · Choisir</div><h2>Quel outil, pour quel usage</h2></div>
+  <div class="bd">
+    <div class="lbl">Les quatre questions, dans cet ordre</div>
+    <ol class="num">
+      <li><b>Où partent mes données ?</b> Si la réponse bloque, les trois autres ne se posent pas.</li>
+      <li><b>Écrit-il bien en français ?</b> Testez sur vos textes, pas sur un classement.</li>
+      <li><b>Est-ce déjà dans mes outils ?</b> Celui qu'on ouvre bat celui qu'on oublie.</li>
+      <li><b>Combien à mon volume réel ?</b> En abonnements par personne, pas au million de tokens.</li>
+    </ol>
+
+    <div class="lbl" style="margin-top:14px;display:block">Quatre familles</div>
+    <div class="fam">
+      <div><div class="t">Les généralistes</div><div class="d">Polyvalents, meilleur écosystème.
+        Le choix par défaut. <em>Hébergement hors UE sauf offre entreprise.</em></div></div>
+      <div><div class="t">Le souverain européen</div><div class="d">Hébergement UE, excellent
+        français, engagement contractuel. <em>Écosystème plus restreint.</em></div></div>
+      <div><div class="t">Les modèles ouverts</div><div class="d">Installables chez vous, données
+        jamais sorties. <em>Demande une compétence technique réelle.</em></div></div>
+      <div><div class="t">Les spécialisés</div><div class="d">Une tâche très bien faite, peu chère.
+        <em>Ne sortent pas de leur domaine.</em></div></div>
+    </div>
+
+    <div class="plus" style="margin-top:11px">
+      <div class="k">Ce qui sera faux dans six mois</div>
+      <p style="font-family:var(--body);font-size:8pt;color:var(--ink-2);line-height:1.4">
+      Le nom du modèle, son numéro de version, son classement, son nombre de paramètres,
+      son prix au token. Choisissez une famille, pas un modèle.</p>
+    </div>
+  </div>
+  <div class="ft"><span>Mémo IA</span><span>06</span></div>
+</div>
+
+<!-- ═════ 7 · VÉRIFIER ═════ -->
+<div class="pg fl">
+  <div class="hd"><div class="n">Page 07 · Vérifier</div><h2>Avant de signer, de diffuser, d'envoyer</h2></div>
+  <div class="bd">
+    <p>Il produit <strong>ce qui est plausible</strong>, pas ce qui est vrai. Le ton est aussi
+    assuré quand il a raison que quand il invente.</p>
+
+    <div class="lbl" style="margin-top:12px;display:block">À vérifier systématiquement</div>
+    <ol class="num" style="--acc:var(--stop)">
+      <li><b>Tout chiffre, date ou pourcentage</b> qu'il a produit lui-même.</li>
+      <li><b>Toute citation, référence de loi ou jurisprudence.</b> C'est là qu'il invente le mieux.</li>
+      <li><b>Tout nom propre</b> associé à une fonction, une entreprise ou une date.</li>
+      <li><b>Tout lien</b> qu'il vous donne : ouvrez-le vraiment. Une source citée n'est pas lue.</li>
+      <li><b>Tout calcul</b> dont le résultat vous engage.</li>
+    </ol>
+
+    <div class="lbl" style="margin-top:14px;display:block">Les signaux qui doivent alerter</div>
+    <ol class="num" style="--acc:var(--flag)">
+      <li>Aucune source cliquable dans la réponse.</li>
+      <li>Une précision suspecte : un chiffre à la décimale, une date exacte, un nom complet.</li>
+      <li>Une réponse qui arrive trop vite sur une question difficile.</li>
+      <li>Un ton parfaitement affirmatif là où un expert dirait « ça dépend ».</li>
+    </ol>
+
+    <div class="plus" style="border-color:var(--stop);background:#FBE9E7;margin-top:12px">
+      <div class="k" style="color:var(--stop)">La règle qui ne souffre aucune exception</div>
+      <p style="font-family:var(--body);font-size:8.4pt;color:var(--ink);line-height:1.4">
+      Un texte signé de votre nom vous engage, qu'il ait été écrit par vous ou proposé par
+      une machine. « C'est l'IA qui l'a écrit » n'est pas une défense.</p>
+    </div>
+  </div>
+  <div class="ft"><span>Mémo IA</span><span>07</span></div>
+</div>
+
+<!-- ═════ 8 · PLAN ═════ -->
+<div class="pg j2">
+  <div class="hd"><div class="n">Page 08 · Agir</div><h2>Mon plan à trente jours</h2></div>
+  <div class="bd">
+    <div class="slot"><div class="k">Trois usages, dès la semaine prochaine</div>
+      <div class="ln"></div><div class="ln"></div><div class="ln"></div></div>
+    <div class="slot"><div class="k">Un seul outil à maîtriser vraiment</div>
+      <div class="ln"></div></div>
+    <div class="slot"><div class="k">Une chose que je ne ferai pas</div>
+      <div class="ln"></div></div>
+    <div class="slot"><div class="k">Une personne que j'embarque</div>
+      <div class="ln"></div></div>
+    <div class="slot"><div class="k">La date où je rouvre ce mémo</div>
+      <div class="ln"></div></div>
+    <p style="margin-top:12px;font-size:8pt">Une heure par semaine, deux sources maximum,
+    et retestez tous les six mois ce qui n'avait pas marché : la moitié de vos échecs
+    d'aujourd'hui seront résolus par une mise à jour que personne ne vous annoncera.</p>
+  </div>
+  <div class="ft"><span>Mémo IA · Deux jours pour apprivoiser l'IA</span><span>08</span></div>
+</div>

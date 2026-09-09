@@ -1,0 +1,709 @@
+<meta charset="utf-8">
+<link rel="stylesheet" href="polices/polices.css">
+<link rel="stylesheet" href="base.css">
+<style>
+.mk{font-size:1px;color:#fff;line-height:0}
+.fiche{break-before:page}
+.f-head{border-bottom:2.5px solid var(--accent);padding-bottom:12px}
+.f-head .top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.f-head .num{font-family:var(--mono);font-size:8pt;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent)}
+.f-head .when{font-family:var(--mono);font-size:8pt;color:var(--ink-3);letter-spacing:.08em}
+.f-head h2{margin-top:7px;font-size:19pt}
+.f-head .obj{color:var(--ink-2);margin-top:8px;font-size:10.4pt;max-width:62ch}
+h4.sec{font-family:var(--mono);font-size:8pt;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent);margin-top:19px}
+h4.sec.n{color:var(--ink-3)}
+table.tm td:first-child{font-family:var(--mono);font-size:8.4pt;color:var(--accent);
+  white-space:nowrap;font-weight:600}
+table.tm th:first-child{width:15%}
+table.tm th:nth-child(2){width:42%}
+.script{margin-top:9px;padding:12px 14px;border-left:3px solid var(--accent);
+  background:var(--wash-a);border-radius:0 4px 4px 0;break-inside:avoid}
+.script p{font-size:10.2pt;color:var(--ink);line-height:1.5;font-style:italic}
+.script p + p{margin-top:7px}
+.script .who{font-family:var(--mono);font-size:7.6pt;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent);display:block;margin-bottom:6px;font-style:normal}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+.pit > div{display:grid;grid-template-columns:196px 1fr;gap:14px;padding:8px 0;
+  border-bottom:.75px solid var(--rule-soft);break-inside:avoid}
+.pit .w{font-weight:600;font-size:9.6pt;color:var(--ink)}
+.pit .r{color:var(--ink-2);font-size:9.6pt}
+.pit .r::before{content:"→ ";color:var(--accent);font-weight:600}
+.dial > div{padding:9px 0;border-bottom:.75px solid var(--rule-soft);break-inside:avoid}
+.dial .who{font-family:var(--disp);font-weight:700;font-size:10.5pt}
+.dial .how{color:var(--ink-2);font-size:9.8pt;margin-top:3px}
+.runsheet td:first-child{font-family:var(--mono);font-size:8.6pt;font-weight:600;color:var(--ink)}
+.runsheet .a td{background:var(--j1-wash)}
+.runsheet .b td{background:var(--j2-wash)}
+.runsheet .p td{color:var(--ink-3);font-style:italic}
+</style>
+
+<!-- ═══════════════════ COUVERTURE ═══════════════════ -->
+<div class="cover">
+  <div class="top">
+    <div class="rule"></div>
+    <div class="lbl">Document formateur — ne pas diffuser aux participants</div>
+    <h1>Fiches d'animation<br>des neuf ateliers</h1>
+    <p class="sub">Le minutage réel, les consignes mot à mot, les questions de débrief,
+    les pièges fréquents et le plan B pour chaque atelier. Plus le déroulé complet
+    des deux journées et la préparation en amont.</p>
+    <div class="band">
+      <div><div class="lbl">Fiches</div><div class="v">9 ateliers</div></div>
+      <div><div class="lbl">Temps animé</div><div class="v">4 h 10</div></div>
+      <div><div class="lbl">Effectif</div><div class="v">8 à 12</div></div>
+      <div><div class="lbl">Assistant</div><div class="v">Requis en J2</div></div>
+    </div>
+  </div>
+  <div class="bottom">
+    Une règle traverse toutes ces fiches&nbsp;: <strong>vingt minutes de théorie au maximum
+    avant de repasser en pratique</strong>. Si vous devez couper, coupez dans les séquences
+    de fond — jamais dans les ateliers, et jamais dans les débriefs.
+  </div>
+</div>
+
+<!-- ═══════════════════ PRÉPARATION ═══════════════════ -->
+<section>
+  <div class="lbl">Avant la formation</div>
+  <h1 style="margin-top:8px">Préparation</h1>
+
+  <h3>À J-7 — auprès du client</h3>
+  <ul>
+    <li><strong>Faire créer les comptes</strong> par les participants : ChatGPT, Gemini,
+      NotebookLM, Le Chat. Envoyez la liste avec les adresses. Sans cela, vous perdrez
+      vingt minutes le premier matin, et davantage le second.</li>
+    <li><strong>Demander quel outil est officiellement autorisé</strong> dans l'organisation.
+      Beaucoup n'ont jamais tranché — la question elle-même est utile, et la réponse
+      change ce que vous direz en séquence 7.</li>
+    <li><strong>Demander à chacun d'apporter trois documents professionnels</strong>
+      non confidentiels, pour l'atelier NotebookLM. Précisez « feu vert » et expliquez.</li>
+    <li><strong>Récupérer les métiers exacts</strong> des participants : tous vos exemples
+      doivent en être tirés.</li>
+  </ul>
+
+  <h3>À J-1 — vos préparatifs</h3>
+  <ul>
+    <li><strong>Tester le scénario d'automatisation</strong> qui sera démontré en J2.
+      Une démonstration qui plante sur une intégration détruit la crédibilité de la séquence.</li>
+    <li><strong>Préparer les exemples vidéo</strong> à l'avance et vérifier le son de la salle.
+      Ne jamais lancer une génération vidéo en direct.</li>
+    <li><strong>Vérifier vos abonnements</strong> : au moins deux comptes payants côté formateur.</li>
+    <li><strong>Imprimer</strong> : cahiers d'exercices, mémos A5, et la planche d'infographies
+      en A3 si vous pouvez l'afficher au mur.</li>
+  </ul>
+
+  <h3>Le matin même</h3>
+  <ul>
+    <li>Tester le wifi <strong>avec douze appareils connectés</strong>, pas avec le vôtre seul.
+      Prévoir un partage de connexion de secours.</li>
+    <li>Écrire au tableau les trois métiers les plus représentés : ils serviront toute la journée.</li>
+    <li>Ouvrir vos onglets de démonstration <strong>avant</strong> l'arrivée des participants,
+      et fermer tout le reste — vos courriels s'afficheront sinon en plein écran.</li>
+  </ul>
+
+  <div class="box box--warn">
+    <span class="lbl">Le point à ne pas rater</span>
+    <p>La séquence sur les données et le cadre légal, en fin de journée 1, est celle qu'on rogne
+    toujours quand on a pris du retard. <strong>Tenez-la.</strong> C'est celle qui lève les freins,
+    celle qui protège le client, et celle qui justifie l'attestation au titre de l'article 4.
+    S'il faut couper trente minutes, prenez-les sur l'histoire.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ DÉROULÉ ═══════════════════ -->
+<section class="pb">
+  <div class="lbl">Vue d'ensemble</div>
+  <h1 style="margin-top:8px">Le déroulé des deux journées</h1>
+
+  <h3>Jour 1 — Comprendre &amp; dialoguer</h3>
+  <table class="runsheet">
+    <thead><tr><th style="width:15%">Horaire</th><th style="width:11%">Durée</th><th style="width:44%">Séquence</th><th>Format</th></tr></thead>
+    <tbody>
+      <tr class="a"><td>08:45</td><td>30 min</td><td><strong>Accueil, baromètre — Atelier 1</strong></td><td>Grand groupe</td></tr>
+      <tr><td>09:15</td><td>60 min</td><td>L'IA sans le brouillard</td><td>Fond + démonstration</td></tr>
+      <tr class="p"><td>10:15</td><td>15 min</td><td>Pause</td><td></td></tr>
+      <tr><td>10:30</td><td>45 min</td><td>Soixante-dix ans en quarante-cinq minutes</td><td>Fond</td></tr>
+      <tr class="a"><td>11:15</td><td>20 min</td><td><strong>Atelier 2 — deux modèles</strong></td><td>Individuel</td></tr>
+      <tr class="a"><td>11:35</td><td>30 min</td><td><strong>Atelier 3 — hallucinations</strong></td><td>Individuel + collectif</td></tr>
+      <tr><td>12:05</td><td>25 min</td><td>Débrief : ce qu'il fait bien, ce qu'il fait mal</td><td>Construction collective</td></tr>
+      <tr class="p"><td>12:30</td><td>90 min</td><td>Déjeuner</td><td></td></tr>
+      <tr><td>14:00</td><td>60 min</td><td>L'art de parler aux machines — C.O.P.A.I.N.</td><td>Fond + démonstration</td></tr>
+      <tr class="a"><td>15:00</td><td>35 min</td><td><strong>Atelier 4 — avant / après</strong></td><td>Individuel</td></tr>
+      <tr class="p"><td>15:35</td><td>15 min</td><td>Pause</td><td></td></tr>
+      <tr><td>15:50</td><td>30 min</td><td>Cartographie des modèles</td><td>Fond</td></tr>
+      <tr class="a"><td>16:20</td><td>25 min</td><td><strong>Atelier 5 — le cas du responsable informatique</strong></td><td>Groupes de 3</td></tr>
+      <tr><td>16:45</td><td>30 min</td><td>Données, droit et cadre</td><td>Fond</td></tr>
+      <tr class="a"><td>17:15</td><td>15 min</td><td><strong>Atelier 6 — la charte en cinq lignes</strong></td><td>Individuel + lecture</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Jour 2 — Produire &amp; automatiser</h3>
+  <table class="runsheet">
+    <thead><tr><th style="width:15%">Horaire</th><th style="width:11%">Durée</th><th style="width:44%">Séquence</th><th>Format</th></tr></thead>
+    <tbody>
+      <tr><td>09:00</td><td>30 min</td><td>Retours du soir</td><td>Tour de table</td></tr>
+      <tr class="b"><td>09:30</td><td>90 min</td><td><strong>Le laboratoire — six outils en rotation</strong></td><td>Démo + manipulation</td></tr>
+      <tr class="p"><td>11:00</td><td>15 min</td><td>Pause</td><td></td></tr>
+      <tr><td>11:15</td><td>30 min</td><td>Fabriquer son propre assistant</td><td>Fond + démonstration</td></tr>
+      <tr class="b"><td>11:45</td><td>45 min</td><td><strong>Atelier 7 — créez le vôtre, cassez celui du voisin</strong></td><td>Individuel + binômes</td></tr>
+      <tr class="p"><td>12:30</td><td>90 min</td><td>Déjeuner</td><td></td></tr>
+      <tr><td>14:00</td><td>60 min</td><td>Agents et automatisation + démonstration</td><td>Fond + démo</td></tr>
+      <tr class="b"><td>15:00</td><td>35 min</td><td><strong>Atelier 8 — cartographiez vos tâches</strong></td><td>Individuel</td></tr>
+      <tr class="p"><td>15:35</td><td>15 min</td><td>Pause</td><td></td></tr>
+      <tr><td>15:50</td><td>30 min</td><td>Le futur, en trois horizons</td><td>Fond</td></tr>
+      <tr class="b"><td>16:20</td><td>30 min</td><td><strong>Atelier 9 — mon plan à trente jours</strong></td><td>Individuel + lecture</td></tr>
+      <tr><td>16:50</td><td>25 min</td><td>Quiz, remise du kit, évaluation</td><td>Clôture</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box box--tip">
+    <span class="lbl">Trente minutes de marge cachée</span>
+    <p>Les ateliers de création débordent toujours, particulièrement le 7. Gardez la séquence
+    « horizon 3 · dix ans » comme variable d'ajustement : elle est la plus facile à raccourcir
+    sans dommage, et vous pouvez la traiter en cinq minutes debout si nécessaire.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ FICHE 1 ═══════════════════ -->
+<section class="fiche neutral">
+  <div class="f-head" style="border-color:var(--ink)">
+    <div class="top"><span class="num" style="color:var(--ink)">Atelier 1 · 15 min</span>
+      <span class="when">Jour 1 · 08 h 45 · grand groupe</span></div>
+    <h2>La biographie inventée</h2>
+    <p class="obj">Poser le sujet des hallucinations par l'expérience, dans les dix premières
+    minutes, plutôt que par un avertissement que personne n'écoute.</p>
+  </div>
+
+  <h4 class="sec n">Préparation</h4>
+  <p>Un assistant ouvert et projeté. Repérez pendant le tour de table
+  <strong>deux ou trois participants visiblement à l'aise</strong> : commencez par eux.
+  N'y allez jamais avec quelqu'un qui semble mal à l'aise ou en retrait.</p>
+
+  <h4 class="sec">Minutage</h4>
+  <table class="tm">
+    <thead><tr><th>Temps</th><th>Vous</th><th>Les participants</th></tr></thead>
+    <tbody>
+      <tr><td>0-2 min</td><td>Vous annoncez l'exercice et demandez un volontaire.</td><td>Un volontaire donne son prénom et son métier.</td></tr>
+      <tr><td>2-5 min</td><td>Vous tapez la demande à l'écran, lentement, pour qu'ils la voient.</td><td>Ils regardent. Silence.</td></tr>
+      <tr><td>5-8 min</td><td>Vous lisez la réponse à voix haute, sans commentaire.</td><td>La personne concernée réagit spontanément — laissez faire.</td></tr>
+      <tr><td>8-12 min</td><td>Vous recommencez avec deux autres participants.</td><td>Ils commencent à anticiper les inventions. C'est gagné.</td></tr>
+      <tr><td>12-15 min</td><td>Débrief.</td><td>Ils remplissent la fiche 1 de leur cahier.</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="sec">Consigne, mot à mot</h4>
+  <div class="script">
+    <span class="who">À dire</span>
+    <p>« Je vais demander à l'IA de me raconter qui vous êtes. Je ne lui donne que votre prénom
+    et votre métier — rien d'autre. Écoutez bien, et notez ce qui est faux. »</p>
+    <p>Après lecture : « Alors, qu'est-ce qui était vrai ? … Et qu'est-ce qui était faux ?
+    Maintenant la vraie question : <strong>est-ce que ça sonnait faux ?</strong> »</p>
+  </div>
+
+  <h4 class="sec">Questions de débrief — 3 minutes</h4>
+  <ul class="tight">
+    <li>Combien d'affirmations fausses, sur combien au total ?</li>
+    <li>Qu'est-ce qui les rendait crédibles ? <em>Réponse attendue : la précision, le ton assuré,
+      les faux détails rassurants.</em></li>
+    <li>Si je ne vous connaissais pas, est-ce que j'aurais pu repérer l'erreur ?</li>
+  </ul>
+
+  <h4 class="sec">Pièges et réactions</h4>
+  <div class="pit">
+    <div><span class="w">Le modèle refuse de répondre</span><span class="r">Certains outils refusent de parler d'une personne privée. Reformulez : « imagine le parcours professionnel typique d'un [métier] prénommé [X] ». L'effet est identique.</span></div>
+    <div><span class="w">La réponse est très prudente et vague</span><span class="r">Insistez : demandez des dates, une formation, une entreprise. C'est en insistant qu'on obtient l'invention.</span></div>
+    <div><span class="w">Le volontaire est gêné</span><span class="r">Coupez court, remerciez, passez à quelqu'un d'autre. Ne transformez jamais l'exercice en mise en cause d'une personne.</span></div>
+  </div>
+
+  <h4 class="sec n">Plan B</h4>
+  <p><strong>Pas de connexion :</strong> lisez une biographie inventée que vous avez préparée
+  la veille sur un participant fictif, en annonçant qu'elle a été produite par l'IA. L'effet
+  est moindre mais le message passe.</p>
+</section>
+
+<!-- ═══════════════════ FICHE 2 ═══════════════════ -->
+<section class="fiche j1">
+  <div class="f-head">
+    <div class="top"><span class="num">Atelier 2 · 20 min</span>
+      <span class="when">Jour 1 · 11 h 15 · individuel</span></div>
+    <h2>La même question, deux modèles différents</h2>
+    <p class="obj">Faire constater qu'il n'existe pas de meilleur modèle dans l'absolu — et
+    provoquer le premier contact réel avec les outils.</p>
+  </div>
+
+  <h4 class="sec n">Préparation</h4>
+  <p>Vérifier que chacun a au moins deux comptes actifs. <strong>C'est le moment où les
+  problèmes de création de compte apparaissent</strong> : anticipez en mettant immédiatement
+  en binôme quiconque est bloqué, plutôt que de dépanner pendant que douze personnes attendent.</p>
+
+  <h4 class="sec">Minutage</h4>
+  <table class="tm">
+    <thead><tr><th>Temps</th><th>Vous</th><th>Les participants</th></tr></thead>
+    <tbody>
+      <tr><td>0-3 min</td><td>Consigne, et vous faites choisir la question avant d'ouvrir quoi que ce soit.</td><td>Ils écrivent leur question sur la fiche 2.</td></tr>
+      <tr><td>3-13 min</td><td>Vous circulez. Repérez deux réponses très différentes à projeter.</td><td>Ils interrogent les deux outils et comparent.</td></tr>
+      <tr><td>13-20 min</td><td>Débrief. Vous projetez les deux exemples repérés.</td><td>Deux ou trois témoignages.</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="sec">Consigne, mot à mot</h4>
+  <div class="script">
+    <span class="who">À dire</span>
+    <p>« Avant d'ouvrir quoi que ce soit : écrivez la question. Une vraie question de votre
+    métier, pas une question de test. Vous allez la poser <strong>à l'identique</strong> aux
+    deux outils — c'est la seule règle. »</p>
+    <p>« Ne cherchez pas lequel a raison. Cherchez lequel vous donne envie de continuer
+    à travailler avec lui. »</p>
+  </div>
+
+  <h4 class="sec">Questions de débrief — 7 minutes</h4>
+  <ul class="tight">
+    <li>Qui a préféré A ? Qui a préféré B ? <em>Faites voter à main levée : la salle se divise
+      toujours, et c'est le point de l'exercice.</em></li>
+    <li>Sur quel critère avez-vous tranché ? Le fond ou la forme ?</li>
+    <li>Est-ce que l'un des deux a dit quelque chose de faux ? <em>Transition vers l'atelier 3.</em></li>
+  </ul>
+
+  <h4 class="sec">Pièges et réactions</h4>
+  <div class="pit">
+    <div><span class="w">« Ils disent la même chose »</span><span class="r">Faites-leur poser une question plus ouverte, ou demander un texte à rédiger. Sur une question factuelle simple, les réponses convergent effectivement.</span></div>
+    <div><span class="w">Quelqu'un teste l'IA avec une devinette</span><span class="r">Laissez faire une fois, c'est un passage obligé, puis ramenez vers un usage professionnel : « et maintenant, une vraie tâche de votre semaine ».</span></div>
+    <div><span class="w">Le groupe finit en 8 minutes</span><span class="r">Ajoutez une consigne : « demandez maintenant à chacun de reformuler sa réponse pour un enfant de dix ans ». Cela introduit l'Audience avant l'heure.</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FICHE 3 ═══════════════════ -->
+<section class="fiche j1">
+  <div class="f-head">
+    <div class="top"><span class="num">Atelier 3 · 30 min</span>
+      <span class="when">Jour 1 · 11 h 35 · individuel puis collectif</span></div>
+    <h2>Chasse aux hallucinations</h2>
+    <p class="obj">L'atelier le plus important de la journée 1. Un participant qui a vérifié
+    lui-même une erreur ne l'oubliera plus — aucun avertissement ne produit cet effet.</p>
+  </div>
+
+  <div class="box box--warn">
+    <span class="lbl">Priorité</span>
+    <p>Si vous avez pris du retard, <strong>ne raccourcissez pas cet atelier</strong> :
+    coupez dans la séquence historique du matin. C'est celui dont dépend tout le rapport
+    critique des participants à l'outil pendant les deux jours.</p>
+  </div>
+
+  <h4 class="sec">Minutage</h4>
+  <table class="tm">
+    <thead><tr><th>Temps</th><th>Vous</th><th>Les participants</th></tr></thead>
+    <tbody>
+      <tr><td>0-3 min</td><td>Consigne. Insistez sur « vérifiable » et sur « insistez ».</td><td>Ils choisissent leur sujet.</td></tr>
+      <tr><td>3-15 min</td><td>Vous circulez et poussez ceux qui n'insistent pas assez.</td><td>Ils interrogent, puis vérifient chaque affirmation.</td></tr>
+      <tr><td>15-22 min</td><td>Vous tenez le compte au tableau : erreurs / affirmations.</td><td>Chacun annonce son score.</td></tr>
+      <tr><td>22-30 min</td><td>Vous animez la construction de la carte de confiance en trois colonnes.</td><td>Ils remplissent la fiche 3.</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="sec">Consigne, mot à mot</h4>
+  <div class="script">
+    <span class="who">À dire</span>
+    <p>« Vous allez essayer de le faire mentir. Posez des questions dont
+    <strong>vous connaissez la réponse</strong>, ou dont vous pouvez la vérifier en trente
+    secondes. Votre entreprise, votre secteur, une réglementation, un chiffre. »</p>
+    <p>« Et surtout : <strong>insistez</strong>. Demandez des dates, des noms, des sources,
+    des chiffres précis. C'est en insistant qu'on obtient l'invention — un modèle prudent
+    reste vague, un modèle poussé invente. »</p>
+    <p>« Ensuite, et c'est le plus important : vous vérifiez. Vraiment. Site officiel,
+    moteur de recherche, votre propre connaissance. »</p>
+  </div>
+
+  <h4 class="sec">Questions de débrief — 8 minutes</h4>
+  <ul class="tight">
+    <li>Combien d'erreurs au total dans la salle ? <em>Écrivez le chiffre au tableau, en grand.</em></li>
+    <li>Qui a eu zéro erreur ? <em>Demandez ce qu'ils ont demandé : c'est presque toujours une
+      question générale. La leçon se déduit toute seule.</em></li>
+    <li>Quelqu'un a-t-il eu une erreur <strong>qu'il n'aurait pas repérée</strong> s'il n'avait
+      pas vérifié ? C'est la question qui fait le silence.</li>
+    <li>Alors : qu'est-ce qu'on lui confie ? Qu'est-ce qu'on relit ? Qu'est-ce qu'on ne lui
+      demande jamais ?</li>
+  </ul>
+
+  <h4 class="sec">Pièges et réactions</h4>
+  <div class="pit">
+    <div><span class="w">L'outil cite ses sources et ne se trompe pas</span><span class="r">Excellent : faites ouvrir les sources. Une fois sur trois, la source existe mais ne dit pas ce que le résumé prétend. C'est encore plus instructif.</span></div>
+    <div><span class="w">Personne ne vérifie vraiment</span><span class="r">C'est le piège principal. Passez dans les rangs et demandez nommément : « vous avez vérifié où, exactement ? ».</span></div>
+    <div><span class="w">Un participant conclut « donc c'est inutilisable »</span><span class="r">Reprenez-le tout de suite : la conclusion n'est pas « c'est inutilisable » mais « ce n'est pas une source ». On ne jette pas un traitement de texte parce qu'il ne vérifie pas les faits.</span></div>
+  </div>
+
+  <h4 class="sec n">Plan B</h4>
+  <p><strong>Groupe très à l'aise :</strong> ajoutez la contrainte de trouver une erreur
+  <em>dans un domaine qu'ils maîtrisent professionnellement</em>. Le taux de détection monte,
+  et le débat qui suit sur « on ne repère que ce qu'on connaît » vaut de l'or.</p>
+</section>
+
+<!-- ═══════════════════ FICHE 4 ═══════════════════ -->
+<section class="fiche j1">
+  <div class="f-head">
+    <div class="top"><span class="num">Atelier 4 · 35 min</span>
+      <span class="when">Jour 1 · 15 h 00 · individuel</span></div>
+    <h2>Avant / après C.O.P.A.I.N.</h2>
+    <p class="obj">Faire mesurer l'écart par les participants eux-mêmes. La moyenne des
+    « avant » et des « après » écrite au tableau est le meilleur argument de la formation.</p>
+  </div>
+
+  <h4 class="sec">Minutage</h4>
+  <table class="tm">
+    <thead><tr><th>Temps</th><th>Vous</th><th>Les participants</th></tr></thead>
+    <tbody>
+      <tr><td>0-3 min</td><td>Consigne. Insistez : une tâche <strong>réelle</strong> de cette semaine.</td><td>Ils choisissent leur tâche.</td></tr>
+      <tr><td>3-10 min</td><td>Vous laissez faire sans intervenir.</td><td>Prompt spontané, résultat, note sur 10.</td></tr>
+      <tr><td>10-25 min</td><td>Vous circulez. Vérifiez les six lettres — l'Audience et les Négations manquent presque toujours.</td><td>Réécriture avec C.O.P.A.I.N., nouveau résultat, nouvelle note.</td></tr>
+      <tr><td>25-35 min</td><td>Vous relevez les notes au tableau et calculez les deux moyennes.</td><td>Chacun annonce ses deux notes.</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="sec">Consigne, mot à mot</h4>
+  <div class="script">
+    <span class="who">À dire</span>
+    <p>« Prenez une tâche que vous devez vraiment faire cette semaine. Pas un exercice —
+    quelque chose qui vous attend au bureau. »</p>
+    <p>« D'abord, écrivez le prompt que vous auriez écrit ce matin, avant la formation.
+    Ne trichez pas, c'est tout l'intérêt. Lancez-le. Notez le résultat sur dix. »</p>
+    <p>« Maintenant reprenez les six lettres, dans le désordre si vous voulez, mais
+    <strong>les six</strong>. Et n'oubliez pas la septième ligne. Relancez, renotez. »</p>
+  </div>
+
+  <h4 class="sec">Questions de débrief — 10 minutes</h4>
+  <ul class="tight">
+    <li>Moyenne avant, moyenne après. <em>Écrivez les deux chiffres et l'écart.</em></li>
+    <li><strong>Quelle lettre a produit le plus gros changement chez vous ?</strong>
+      <em>Faites voter lettre par lettre. C'est presque toujours A ou N.</em></li>
+    <li>Qui a utilisé la septième ligne ? Qu'est-ce que l'IA vous a demandé ?
+      <em>Faites lire une série de questions posées par le modèle.</em></li>
+    <li>Qui a mis moins après qu'avant ? <em>Ça arrive : généralement parce que la demande
+      était sur-contrainte. C'est un excellent contre-exemple à exploiter.</em></li>
+  </ul>
+
+  <h4 class="sec">Pièges et réactions</h4>
+  <div class="pit">
+    <div><span class="w">Ils écrivent d'emblée un bon prompt</span><span class="r">Signe que la séquence a bien marché — mais l'exercice perd son intérêt. Demandez de refaire l'étape 1 « comme votre collègue qui n'était pas là ».</span></div>
+    <div><span class="w">Quelqu'un ne trouve pas de tâche</span><span class="r">Proposez-lui trois classiques : rédiger un courriel difficile, résumer un document, préparer une réunion. Ne le laissez pas sécher plus de deux minutes.</span></div>
+    <div><span class="w">Les notes sont toutes à 8 et 9</span><span class="r">Les participants notent poliment. Recadrez : « 10, c'est ce que vous auriez envoyé sans rien retoucher. Combien vraiment ? » Les notes chutent, et l'écart devient visible.</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FICHE 5 ═══════════════════ -->
+<section class="fiche j1">
+  <div class="f-head">
+    <div class="top"><span class="num">Atelier 5 · 25 min</span>
+      <span class="when">Jour 1 · 16 h 20 · groupes de 3</span></div>
+    <h2>Le choix du responsable informatique</h2>
+    <p class="obj">Faire comprendre que le critère décisif dépend du contexte, en organisant
+    un désaccord entre les groupes.</p>
+  </div>
+
+  <h4 class="sec n">Préparation</h4>
+  <p>Trois cas écrits sur des feuilles séparées. <strong>Si le groupe vient d'une seule
+  organisation</strong>, remplacez les trois cas génériques par trois services réels de
+  leur maison — l'exercice devient nettement plus fort, et la restitution alimente
+  des décisions réelles.</p>
+
+  <h4 class="sec">Minutage</h4>
+  <table class="tm">
+    <thead><tr><th>Temps</th><th>Vous</th><th>Les participants</th></tr></thead>
+    <tbody>
+      <tr><td>0-3 min</td><td>Constitution des groupes, distribution des cas.</td><td>Ils s'installent en trios.</td></tr>
+      <tr><td>3-15 min</td><td>Vous passez dans les groupes et ramenez à l'ordre des questions.</td><td>Ils répondent aux quatre questions, puis choisissent une famille.</td></tr>
+      <tr><td>15-24 min</td><td>Vous animez, 3 minutes par groupe, chronomètre visible.</td><td>Restitutions.</td></tr>
+      <tr><td>24-25 min</td><td>Vous concluez sur le désaccord.</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="sec">Consigne, mot à mot</h4>
+  <div class="script">
+    <span class="who">À dire</span>
+    <p>« Vous êtes responsable informatique. On vous demande de choisir un outil d'IA pour
+    toute la structure. Vous avez douze minutes. »</p>
+    <p>« Répondez aux quatre questions <strong>dans l'ordre</strong>, sans sauter la première.
+    Puis choisissez une famille — pas un nom de produit. »</p>
+    <p>« À la restitution, vous me direz surtout <strong>quelle question a été décisive</strong>. »</p>
+  </div>
+
+  <h4 class="sec">Questions de débrief — 5 minutes</h4>
+  <ul class="tight">
+    <li>Les trois groupes ont-ils choisi la même famille ? <em>Non, et c'est le résultat attendu.</em></li>
+    <li>Pour chacun : quelle question a tranché ? <em>Cabinet d'avocats : la 1. Agence créative :
+      la 4. PME : souvent la 3.</em></li>
+    <li>Et chez vous, dans votre organisation réelle, quelle serait la question décisive ?</li>
+  </ul>
+
+  <h4 class="sec">Pièges et réactions</h4>
+  <div class="pit">
+    <div><span class="w">Un groupe cite un nom de modèle précis</span><span class="r">Acceptez, puis demandez : « et dans six mois, quand il y aura une nouvelle version ? » Ramenez à la famille.</span></div>
+    <div><span class="w">Un groupe répond « ça dépend » à tout</span><span class="r">Forcez la décision : « vous devez trancher aujourd'hui, votre direction attend une réponse ». La contrainte fait apparaître le vrai critère.</span></div>
+    <div><span class="w">Les trois groupes choisissent pareil</span><span class="r">Poussez le cas du cabinet d'avocats : « vos dossiers sont couverts par le secret professionnel — vous maintenez ce choix ? »</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FICHE 6 ═══════════════════ -->
+<section class="fiche neutral">
+  <div class="f-head" style="border-color:var(--flag)">
+    <div class="top"><span class="num" style="color:var(--flag)">Atelier 6 · 15 min</span>
+      <span class="when">Jour 1 · 17 h 15 · individuel puis lecture</span></div>
+    <h2>La charte en cinq lignes</h2>
+    <p class="obj">Transformer trente minutes de cadre juridique en cinq engagements tenables.
+    Premier livrable de la formation, et fin de la journée 1.</p>
+  </div>
+
+  <h4 class="sec">Minutage</h4>
+  <table class="tm">
+    <thead><tr><th>Temps</th><th>Vous</th><th>Les participants</th></tr></thead>
+    <tbody>
+      <tr><td>0-2 min</td><td>Consigne. Toutes les phrases commencent par « Je ».</td><td></td></tr>
+      <tr><td>2-9 min</td><td>Silence. Vous n'intervenez pas.</td><td>Ils écrivent leurs cinq lignes sur la fiche 6.</td></tr>
+      <tr><td>9-14 min</td><td>Vous demandez trois volontaires et relevez les points communs au tableau.</td><td>Trois lectures à voix haute.</td></tr>
+      <tr><td>14-15 min</td><td>Vous annoncez le devoir du soir, facultatif.</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="sec">Consigne, mot à mot</h4>
+  <div class="script" style="border-color:var(--flag);background:var(--flag-wash)">
+    <span class="who" style="color:var(--flag)">À dire</span>
+    <p>« Cinq phrases, toutes commençant par “Je”. Deux choses que vous vous autorisez
+    désormais. Deux choses que vous ne ferez jamais. Et une chose que vous devez aller
+    vérifier auprès de votre organisation. »</p>
+    <p>« Ce n'est pas un exercice de style. C'est ce que vous appliquerez lundi, et ce que
+    vous pourrez montrer à votre responsable s'il vous demande ce que vous avez retenu. »</p>
+  </div>
+
+  <h4 class="sec">Questions de débrief — 5 minutes</h4>
+  <ul class="tight">
+    <li>Trois lectures à voix haute. <em>Ne sautez jamais cette étape : l'engagement public
+      vaut dix fois l'engagement écrit.</em></li>
+    <li>Qu'est-ce qui revient chez tout le monde ? <em>Notez-le au tableau : c'est la charte
+      de l'équipe, écrite sans qu'ils s'en rendent compte.</em></li>
+    <li>Qui a une question à remonter à son organisation ? <em>Souvent la plus utile
+      pour le client.</em></li>
+  </ul>
+
+  <h4 class="sec">Pièges et réactions</h4>
+  <div class="pit">
+    <div><span class="w">Des engagements trop vagues</span><span class="r">« Je ferai attention » ne veut rien dire. Demandez : « attention à quoi, dans quel cas précis ? »</span></div>
+    <div><span class="w">Personne ne veut lire</span><span class="r">Commencez vous-même par lire la vôtre. Ça débloque toujours.</span></div>
+    <div><span class="w">Il est 17 h 25 et tout le monde regarde sa montre</span><span class="r">Réduisez à deux lectures, mais gardez-en au moins une. Ne terminez pas la journée sur une consigne écrite sans parole.</span></div>
+  </div>
+
+  <div class="box box--warn">
+    <span class="lbl">À dire avant de libérer la salle</span>
+    <p>Rappelez que cette formation répond à l'obligation de littératie IA de l'article 4 du
+    règlement européen, applicable depuis février 2025, et que l'attestation de participation
+    documente la démarche de leur employeur. <strong>C'est le moment de la journée où cette
+    information est le mieux reçue.</strong></p>
+  </div>
+</section>
+
+<!-- ═══════════════════ FICHE 7 ═══════════════════ -->
+<section class="fiche j2">
+  <div class="f-head">
+    <div class="top"><span class="num">Atelier 7 · 45 min</span>
+      <span class="when">Jour 2 · 11 h 45 · individuel puis binômes</span></div>
+    <h2>Créez le vôtre, puis cassez celui du voisin</h2>
+    <p class="obj">L'atelier phare de la journée 2, et celui dont les participants reparleront
+    à leur direction. Deuxième livrable.</p>
+  </div>
+
+  <div class="box box--warn">
+    <span class="lbl">Condition de réussite</span>
+    <p><strong>Prévoyez un assistant en salle.</strong> À douze participants qui configurent
+    chacun un outil, vous ne dépannerez pas seul. Si vous êtes seul, réduisez à huit
+    participants ou allongez de quinze minutes.</p>
+  </div>
+
+  <h4 class="sec">Minutage</h4>
+  <table class="tm">
+    <thead><tr><th>Temps</th><th>Vous</th><th>Les participants</th></tr></thead>
+    <tbody>
+      <tr><td>0-3 min</td><td>Consigne. Rappelez que c'est le même C.O.P.A.I.N. qu'hier.</td><td>Ils choisissent leur tâche hebdomadaire.</td></tr>
+      <tr><td>3-25 min</td><td>Vous circulez en priorité vers ceux qui n'ont rien écrit au bout de 5 minutes.</td><td>Configuration : nom, mission, contexte, ton, fichiers, interdits.</td></tr>
+      <tr><td>25-35 min</td><td>Vous formez les binômes et donnez la consigne de test.</td><td>Chacun essaie de casser l'assistant de l'autre.</td></tr>
+      <tr><td>35-42 min</td><td>Vous laissez corriger.</td><td>Correction de sa propre configuration.</td></tr>
+      <tr><td>42-45 min</td><td>Restitution croisée.</td><td>Deux binômes racontent ce qui a cassé.</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="sec">Consigne, mot à mot</h4>
+  <div class="script">
+    <span class="who">À dire — phase 1</span>
+    <p>« Une tâche que vous refaites <strong>chaque semaine</strong>. Pas une tâche
+    intéressante : une tâche répétitive. C'est là que se trouve le gain. »</p>
+    <p>« Vous savez déjà le faire : c'est le C.O.P.A.I.N. d'hier, écrit une fois pour toutes
+    au lieu d'être retapé à chaque conversation. »</p>
+  </div>
+  <div class="script">
+    <span class="who">À dire — phase 2, le test croisé</span>
+    <p>« Échangez de poste. Votre mission est simple : <strong>faites échouer l'assistant de
+    votre voisin.</strong> Cas limite, demande ambiguë, information manquante, requête hors
+    sujet. Soyez méchant, c'est le meilleur service que vous puissiez lui rendre. »</p>
+  </div>
+
+  <h4 class="sec">Questions de débrief — 3 minutes</h4>
+  <ul class="tight">
+    <li>Qu'est-ce qui a cassé les assistants ? <em>Réponse quasi systématique : contexte trop
+      maigre, ou aucun exemple de sortie attendue.</em></li>
+    <li>Qui a ajouté des exemples après le test ? Est-ce que ça a suffi ?</li>
+    <li>Qui va s'en servir dès demain matin ? <em>Faites lever la main : l'engagement compte.</em></li>
+  </ul>
+
+  <h4 class="sec">Pièges et réactions</h4>
+  <div class="pit">
+    <div><span class="w">L'outil de quelqu'un ne permet pas de créer d'assistant</span><span class="r">Prévu : faites-lui écrire la même configuration dans un document, comme prompt réutilisable. Quatre-vingts pour cent du gain est là de toute façon.</span></div>
+    <div><span class="w">Assistant trop large : « tu m'aides dans mon travail »</span><span class="r">Faites découper en deux ou trois assistants. Une mission qui ne tient pas en une phrase est une mission mal définie.</span></div>
+    <div><span class="w">Le test croisé tourne à la démonstration mutuelle</span><span class="r">Recadrez : « je n'ai pas dit “montrez”, j'ai dit “cassez”. Trouvez ce qui ne marche pas. »</span></div>
+    <div><span class="w">L'atelier déborde</span><span class="r">C'est prévu, prenez sur la marge cachée. Mais ne sacrifiez jamais la phase de test : c'est elle qui produit l'apprentissage.</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FICHE 8 ═══════════════════ -->
+<section class="fiche j2">
+  <div class="f-head">
+    <div class="top"><span class="num">Atelier 8 · 35 min</span>
+      <span class="when">Jour 2 · 15 h 00 · individuel</span></div>
+    <h2>Cartographiez vos tâches</h2>
+    <p class="obj">Produire le chiffre qui parle à une direction : le nombre d'heures par mois
+    récupérables. Troisième livrable.</p>
+  </div>
+
+  <h4 class="sec">Minutage</h4>
+  <table class="tm">
+    <thead><tr><th>Temps</th><th>Vous</th><th>Les participants</th></tr></thead>
+    <tbody>
+      <tr><td>0-3 min</td><td>Consigne. <strong>Insistez sur l'interdiction de penser « faisable ».</strong></td><td></td></tr>
+      <tr><td>3-15 min</td><td>Vous poussez ceux qui s'arrêtent à dix lignes : « continuez, visez trente ».</td><td>Ils listent leur semaine passée, sans trier.</td></tr>
+      <tr><td>15-25 min</td><td>Vous projetez la grille et circulez.</td><td>Ils placent chaque tâche sur la grille de la fiche 8.</td></tr>
+      <tr><td>25-32 min</td><td>Vous faites chiffrer les trois candidates.</td><td>Calcul en heures par mois.</td></tr>
+      <tr><td>32-35 min</td><td>Vous relevez les totaux et faites la somme pour la salle.</td><td>Chacun annonce son total.</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="sec">Consigne, mot à mot</h4>
+  <div class="script">
+    <span class="who">À dire</span>
+    <p>« Videz votre semaine dernière sur le papier. Tout. Y compris ce qui vous paraît trop
+    banal pour être noté — c'est justement là que se cachent les bonnes candidates. Visez
+    trente lignes. »</p>
+    <p>« Et une règle absolue : <strong>ne vous demandez pas si c'est techniquement
+    faisable.</strong> Cette question tue l'exercice en deux minutes. Le comment viendra après,
+    et il est presque toujours plus simple qu'on ne croit. »</p>
+  </div>
+
+  <h4 class="sec">Questions de débrief — 3 minutes</h4>
+  <ul class="tight">
+    <li>Combien d'heures par mois chacun ? <em>Additionnez pour toute la salle et écrivez
+      le total en grand. C'est le chiffre de la formation.</em></li>
+    <li>Y a-t-il des tâches qui reviennent chez plusieurs personnes ? <em>Ce sont les
+      candidates prioritaires pour l'organisation, pas pour l'individu.</em></li>
+    <li>Quelqu'un a-t-il une tâche qu'il faudrait simplement <strong>arrêter de faire</strong> ?
+      <em>La meilleure réponse de l'atelier, quand elle arrive.</em></li>
+  </ul>
+
+  <h4 class="sec">Pièges et réactions</h4>
+  <div class="pit">
+    <div><span class="w">Ils listent dix tâches et s'arrêtent</span><span class="r">Le blocage classique. Relancez par catégories : « et vos courriels ? vos réunions ? vos comptes rendus ? vos validations ? »</span></div>
+    <div><span class="w">« Chez moi rien n'est répétitif »</span><span class="r">Presque toujours faux. Demandez le nombre de courriels par jour, ou combien de fois par mois ils écrivent le même type de document.</span></div>
+    <div><span class="w">Tout est placé en haut à droite</span><span class="r">Signe qu'ils surestiment la fréquence. Faites chiffrer : « combien de fois par mois, exactement ? » La grille se redistribue seule.</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FICHE 9 ═══════════════════ -->
+<section class="fiche j2">
+  <div class="f-head">
+    <div class="top"><span class="num">Atelier 9 · 30 min</span>
+      <span class="when">Jour 2 · 16 h 20 · individuel puis lecture</span></div>
+    <h2>Mon plan à trente jours</h2>
+    <p class="obj">Le dernier livrable, et celui qui décide de ce qui restera dans un mois.
+    Le tour de lecture final est la partie essentielle : ne le sacrifiez pas.</p>
+  </div>
+
+  <h4 class="sec">Minutage</h4>
+  <table class="tm">
+    <thead><tr><th>Temps</th><th>Vous</th><th>Les participants</th></tr></thead>
+    <tbody>
+      <tr><td>0-3 min</td><td>Consigne, les cinq rubriques.</td><td></td></tr>
+      <tr><td>3-18 min</td><td>Silence, puis vous circulez pour faire préciser les usages trop vagues.</td><td>Ils remplissent la fiche 9 et le mémo A5.</td></tr>
+      <tr><td>18-28 min</td><td>Vous faites le tour complet : chacun dit son outil et sa personne.</td><td>Chacun lit deux éléments à voix haute.</td></tr>
+      <tr><td>28-30 min</td><td>Vous notez les binômes qui se forment naturellement.</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="sec">Consigne, mot à mot</h4>
+  <div class="script">
+    <span class="who">À dire</span>
+    <p>« Trois usages, mais précis. “Utiliser l'IA” n'est pas un usage. “Rédiger mes comptes
+    rendus de comité avec l'assistant que j'ai créé ce matin”, ça en est un. »</p>
+    <p>« Un seul outil à maîtriser. Un. Ceux qui en essaient dix n'en maîtrisent aucun. »</p>
+    <p>« Et une personne que vous embarquez. C'est la rubrique la plus importante de la page :
+    <strong>sans elle, vous serez seul dans trois semaines</strong>, et tout ceci n'aura servi
+    à rien. »</p>
+  </div>
+
+  <h4 class="sec">Le tour final — 10 minutes</h4>
+  <p>Chacun dit <strong>deux choses seulement</strong> : son outil unique, et la personne qu'il
+  embarque. C'est court, c'est rapide, et cela produit deux effets : les participants découvrent
+  qu'ils ont choisi les mêmes outils, et des binômes se forment spontanément dans la salle.
+  <strong>Notez ces binômes</strong> — c'est une information précieuse pour le client et pour
+  une éventuelle session de suivi.</p>
+
+  <h4 class="sec">Pièges et réactions</h4>
+  <div class="pit">
+    <div><span class="w">Des usages vagues</span><span class="r">« Je vais utiliser ChatGPT plus souvent » n'est pas un usage. Demandez : « pour quelle tâche, quel jour, à la place de quoi ? »</span></div>
+    <div><span class="w">Personne à embarquer</span><span class="r">Proposez quelqu'un de la salle. Deux personnes de services différents qui se recontactent dans un mois, c'est le meilleur résultat possible de la formation.</span></div>
+    <div><span class="w">Il est 16 h 55 et vous êtes en retard</span><span class="r">Réduisez le tour à l'outil seul, une personne après l'autre, sans commentaire. Trois minutes suffisent. Mais faites-le.</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SITUATIONS ═══════════════════ -->
+<section class="fiche neutral">
+  <div class="f-head" style="border-color:var(--ink)">
+    <div class="top"><span class="num" style="color:var(--ink)">Annexe</span></div>
+    <h2>Les six personnes que vous aurez dans la salle</h2>
+    <p class="obj">Elles sont là à chaque session. Les reconnaître tôt vous fait gagner
+    la journée.</p>
+  </div>
+
+  <div class="dial">
+    <div><div class="who">Le sceptique</div><div class="how">« C'est du vent, ça se trompe tout
+      le temps. » <strong>Ne le contredisez pas</strong> : il a raison sur les faits, et vous
+      l'aurez démontré vous-même à l'atelier 3. Faites-en votre allié en lui donnant un rôle :
+      « vous êtes chargé de vérifier tout ce que je montre ». Il devient le meilleur élève
+      de la salle.</div></div>
+
+    <div><div class="who">L'expert autoproclamé</div><div class="how">Il utilise l'IA depuis deux
+      ans et le fait savoir. <strong>Reconnaissez-le publiquement et confiez-lui du travail</strong> :
+      demandez-lui d'aider son voisin pendant les ateliers. Il cesse d'interrompre et vous gagnez
+      un assistant.</div></div>
+
+    <div><div class="who">Le décrocheur silencieux</div><div class="how">Il n'a rien tapé depuis
+      vingt minutes. Neuf fois sur dix, c'est un problème technique qu'il n'ose pas signaler.
+      <strong>Allez le voir sans le désigner</strong>, penchez-vous sur son écran, réglez, repartez.
+      Ne l'interrogez jamais devant le groupe.</div></div>
+
+    <div><div class="who">L'inquiet pour son emploi</div><div class="how">La question arrivera,
+      souvent à la pause plutôt qu'en salle. <strong>Ne la balayez pas</strong> et ne promettez rien.
+      Ce qui disparaît, ce sont des tâches ; ce qui prend de la valeur, c'est le jugement et la
+      relation. L'honnêteté sur l'incertitude vous fait gagner la salle entière.</div></div>
+
+    <div><div class="who">Le juriste inquiet</div><div class="how">Souvent le DPO ou un
+      responsable conformité. <strong>C'est votre meilleur allié</strong> : donnez-lui la parole
+      en séquence 7, faites-lui préciser la position de l'organisation. La séquence gagne en
+      autorité, et le client en repart avec une décision.</div></div>
+
+    <div><div class="who">Le bavard enthousiaste</div><div class="how">Il raconte chacune de
+      ses découvertes en direct, ce qui est sympathique et coûte dix minutes par heure.
+      <strong>Canalisez</strong> : « gardez ça pour le débrief, vous ouvrirez ». Il attend son
+      tour et le débrief est meilleur.</div></div>
+  </div>
+
+  <h4 class="sec n">Et si tout tombe en panne</h4>
+  <div class="pit">
+    <div><span class="w">Plus de wifi</span><span class="r">Basculez sur votre partage de connexion pour votre poste seulement, et passez en mode démonstration commentée. Les ateliers 5, 6, 8 et 9 se font entièrement sur papier — ce sont vos quatre séquences de secours.</span></div>
+    <div><span class="w">Le vidéoprojecteur lâche</span><span class="r">Les infographies sont imprimées dans le manuel du participant. Faites-les ouvrir à la bonne page et animez au paperboard.</span></div>
+    <div><span class="w">La démonstration d'automatisation plante</span><span class="r">Ne dépannez pas devant la salle plus de deux minutes. Décrivez le scénario au tableau, enchaînez sur l'atelier 8 — qui est de toute façon la vraie valeur de la séquence.</span></div>
+    <div><span class="w">Vous avez trente minutes de retard</span><span class="r">Coupez dans l'ordre : horizon 3 « dix ans », puis l'acte I de l'histoire, puis la démonstration vidéo. Ne touchez jamais aux ateliers 3, 4, 7 ni aux débriefs.</span></div>
+  </div>
+</section>

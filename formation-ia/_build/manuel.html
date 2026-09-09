@@ -1,0 +1,909 @@
+<meta charset="utf-8">
+<link rel="stylesheet" href="polices/polices.css">
+<link rel="stylesheet" href="base.css">
+<style>
+.mk{font-size:1px;color:#fff;line-height:0}
+.part{break-before:page}
+.part-open{border-bottom:3px solid var(--accent);padding-bottom:14px;margin-bottom:18px}
+.part-open .n{font-family:var(--mono);font-size:8.5pt;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent)}
+.part-open h2{margin-top:8px;font-size:24pt}
+.part-open .goal{color:var(--ink-2);margin-top:9px;font-size:11pt;max-width:60ch}
+.lnk{font-family:var(--mono);font-size:8.4pt;color:var(--j1);word-break:break-all}
+.q{font-family:var(--disp);font-weight:700;font-size:11pt;color:var(--ink);margin-top:14px}
+.a{margin-top:5px}
+.gloss > div{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:7px 0;
+  border-bottom:.75px solid var(--rule-soft);break-inside:avoid}
+.gloss .t{font-weight:600;font-size:9.8pt}
+.gloss .d{color:var(--ink-2);font-size:9.6pt}
+</style>
+
+<!-- ═══════════════════════════════════ COUVERTURE ═══════════════════════════════════ -->
+<div class="cover">
+  <div class="top">
+    <div class="rule"></div>
+    <div class="lbl">Manuel du participant</div>
+    <h1>Deux jours pour<br>apprivoiser l'IA</h1>
+    <p class="sub">Tout ce qui a été dit pendant la formation, plus ce qu'il n'y avait pas
+    le temps de dire : les explications, les neuf exercices, les liens vers les outils,
+    une bibliothèque de prompts et un glossaire.</p>
+    <div class="band">
+      <div><div class="lbl">Niveau</div><div class="v">Débutant</div></div>
+      <div><div class="lbl">Durée</div><div class="v">2 jours</div></div>
+      <div><div class="lbl">Exercices</div><div class="v">9 ateliers</div></div>
+      <div><div class="lbl">Livrables</div><div class="v">4 à emporter</div></div>
+    </div>
+  </div>
+  <div class="bottom">
+    Ce manuel est fait pour être annoté, corné et retrouvé six mois plus tard.
+    Les liens et les noms d'outils évoluent vite&nbsp;; les principes, beaucoup moins&nbsp;:
+    ce sont eux qui occupent la plus grande partie de ces pages.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ SOMMAIRE ═══════════════════════════════════ -->
+<section>
+  <div class="lbl">Sommaire</div>
+  <h1 style="margin-top:8px">Ce que vous trouverez ici</h1>
+
+  <div class="toc">
+    <div class="row"><span class="n">01</span><span class="t">Comprendre — ce que c'est, et pourquoi ça invente</span><span class="p" data-ref="m1">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Six mots qu'on emploie l'un pour l'autre</span><span class="p" data-ref="m1a">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Ce qui se passe quand vous appuyez sur Entrée</span><span class="p" data-ref="m1b">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Quatre mots de vocabulaire</span><span class="p" data-ref="m1c">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Pourquoi il invente, et pourquoi il ne le sait pas</span><span class="p" data-ref="m1d">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Soixante-dix ans d'histoire</span><span class="p" data-ref="m1e">—</span></div>
+
+    <div class="row"><span class="n">02</span><span class="t">Dialoguer — l'art de formuler une demande</span><span class="p" data-ref="m2">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">La méthode C.O.P.A.I.N.</span><span class="p" data-ref="m2a">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Cinq techniques qui changent tout</span><span class="p" data-ref="m2b">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Les huit erreurs les plus fréquentes</span><span class="p" data-ref="m2c">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Bibliothèque : vingt prompts prêts à l'emploi</span><span class="p" data-ref="m2d">—</span></div>
+
+    <div class="row"><span class="n">03</span><span class="t">Choisir — quel outil, pour quel usage</span><span class="p" data-ref="m3">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Les quatre questions, dans cet ordre</span><span class="p" data-ref="m3a">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Quatre familles de modèles</span><span class="p" data-ref="m3b">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Annuaire des outils cités en formation</span><span class="p" data-ref="m3c">—</span></div>
+
+    <div class="row"><span class="n">04</span><span class="t">Le cadre — données, droit, responsabilité</span><span class="p" data-ref="m4">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">La règle des trois feux</span><span class="p" data-ref="m4a">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Ce que devient ce que vous collez</span><span class="p" data-ref="m4b">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Ce que la loi demande déjà</span><span class="p" data-ref="m4c">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Droit d'auteur, biais, responsabilité</span><span class="p" data-ref="m4d">—</span></div>
+
+    <div class="row"><span class="n">05</span><span class="t">Produire — le laboratoire d'outils</span><span class="p" data-ref="m5">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Six outils, six usages</span><span class="p" data-ref="m5a">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Fabriquer son propre assistant</span><span class="p" data-ref="m5b">—</span></div>
+
+    <div class="row"><span class="n">06</span><span class="t">Automatiser — agents et garde-fous</span><span class="p" data-ref="m6">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Quatre marches, et à chacune un peu de contrôle en moins</span><span class="p" data-ref="m6a">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">La grille : quoi automatiser en premier</span><span class="p" data-ref="m6b">—</span></div>
+
+    <div class="row"><span class="n">07</span><span class="t">Après la formation</span><span class="p" data-ref="m7">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Les neuf exercices, en résumé</span><span class="p" data-ref="m7a">—</span></div>
+    <div class="row lvl2"><span></span><span class="t">Rester à jour sans y passer ses soirées</span><span class="p" data-ref="m7b">—</span></div>
+
+    <div class="row"><span class="n">08</span><span class="t">Annexes — glossaire et questions fréquentes</span><span class="p" data-ref="m8">—</span></div>
+  </div>
+
+  <div class="box box--tip" style="margin-top:26px">
+    <span class="lbl">Comment se servir de ce manuel</span>
+    <p>Il n'est pas fait pour être lu d'un bout à l'autre. Les parties 1 et 2 se lisent
+    une fois, tranquillement, dans les jours qui suivent la formation. Les parties 3, 4 et 5
+    sont des pages de référence&nbsp;: on y revient quand la question se pose. La partie 7
+    est la seule à lire tout de suite, parce qu'elle décide de ce qui restera de ces deux jours.</p>
+    <p style="margin-top:7px"><strong>Un signe à repérer&nbsp;:</strong> les encadrés bordés
+    d'ocre signalent un point de vigilance juridique ou de confidentialité. Ce sont les seuls
+    passages de ce manuel qui engagent votre responsabilité.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ PARTIE 1 ═══════════════════════════════════ -->
+<section class="part j1">
+  <span class="mk">§m1§</span>
+  <div class="part-open">
+    <div class="n">Partie 1</div>
+    <h2>Comprendre — ce que c'est, et pourquoi ça invente</h2>
+    <p class="goal">Le minimum à savoir sur le fonctionnement, sans une seule formule.
+    Tout le reste du manuel en découle.</p>
+  </div>
+
+  <h3><span class="mk">§m1a§</span>Six mots qu'on emploie l'un pour l'autre</h3>
+  <p>« Intelligence artificielle » ne désigne pas une technologie mais une famille. Six termes
+  circulent, chacun contenu dans le précédent, et les confondre conduit à des malentendus coûteux —
+  notamment quand un fournisseur vous vend « une solution IA » sans préciser laquelle.</p>
+
+  <figure><img src="../02-infographies/01-poupees-russes.png" alt="Les six niveaux, du plus large au plus étroit">
+  <figcaption>Infographie 01 — chaque terme est contenu dans le précédent</figcaption></figure>
+
+  <div class="kv">
+    <div><div class="k">IA</div><div class="v"><strong>Intelligence artificielle.</strong> Toute machine
+      accomplissant une tâche qu'on jugeait réservée à l'humain. Le terme ne dit rien de la technique :
+      un thermostat qui apprend vos habitudes en est une.</div></div>
+    <div><div class="k">ML</div><div class="v"><strong>Apprentissage automatique.</strong> La machine
+      déduit ses règles à partir d'exemples au lieu de les recevoir d'un programmeur. Votre filtre
+      anti-spam fonctionne ainsi depuis vingt ans.</div></div>
+    <div><div class="k">Deep learning</div><div class="v"><strong>Apprentissage profond.</strong> De
+      l'apprentissage automatique organisé en couches de neurones artificiels empilées. C'est ce qui
+      a rendu possibles la reconnaissance d'images et la transcription vocale.</div></div>
+    <div><div class="k">IA générative</div><div class="v">Elle <strong>produit</strong> du contenu neuf
+      au lieu de classer de l'existant : texte, image, voix, musique, code, vidéo.</div></div>
+    <div><div class="k">LLM</div><div class="v"><strong>Grand modèle de langage.</strong> Une IA
+      générative spécialisée dans le langage, entraînée sur d'immenses quantités de texte.
+      ChatGPT, Claude, Gemini et Le Chat en sont.</div></div>
+    <div><div class="k">Agent</div><div class="v">Un LLM branché sur des outils, autorisé à enchaîner
+      des actions vers un but. Il ne répond plus : <strong>il fait</strong>.</div></div>
+  </div>
+
+  <div class="box box--tip">
+    <span class="lbl">Le réflexe à garder</span>
+    <p>Quand quelqu'un dit « l'IA », demandez-lui duquel de ces six niveaux il parle.
+    Neuf fois sur dix, la question suffit à clarifier la conversation — et parfois à révéler
+    que votre interlocuteur ne le sait pas lui-même.</p>
+  </div>
+
+  <h3 class="pb"><span class="mk">§m1b§</span>Ce qui se passe quand vous appuyez sur Entrée</h3>
+  <p>Un grand modèle de langage ne comprend pas votre question au sens où vous l'entendez.
+  Il calcule, mot après mot, la suite la plus probable. Ce mécanisme, répété des milliers de fois
+  par seconde, suffit à produire des textes cohérents — et explique à peu près tous ses défauts.</p>
+
+  <figure><img src="../02-infographies/02-comment-marche-un-llm.png" alt="Découpage, probabilités, boucle">
+  <figcaption>Infographie 02 — les trois étapes, répétées pour chaque mot produit</figcaption></figure>
+
+  <ol class="steps">
+    <li><strong>Il découpe votre texte en tokens.</strong> Un token est un morceau de mot :
+      environ quatre caractères en français. « Anticonstitutionnellement » en fait une dizaine ;
+      « le » en fait un. C'est l'unité que le modèle manipule, et celle qui vous est facturée
+      si vous passez par une interface professionnelle.</li>
+    <li><strong>Il calcule la probabilité de chaque suite possible.</strong> Pour « Le chat dort
+      sur le… », le modèle attribue par exemple 34 % à « canapé », 21 % à « lit », 5 % à « clavier ».
+      Ces probabilités viennent de milliards de phrases lues pendant son entraînement.</li>
+    <li><strong>Il en choisit un, puis recommence.</strong> Le mot retenu est ajouté à la phrase,
+      qui redevient la question posée au modèle. Et ainsi de suite jusqu'au point final. Chaque mot
+      que vous lisez a coûté un calcul complet sur tout ce qui précède.</li>
+  </ol>
+
+  <h3><span class="mk">§m1c§</span>Quatre mots de vocabulaire, et pas un de plus</h3>
+  <div class="kv">
+    <div><div class="k">Token</div><div class="v">Le morceau de mot que le modèle manipule.
+      Environ quatre caractères en français. <strong>1 000 tokens ≈ 750 mots ≈ une page et demie.</strong>
+      C'est l'unité de facturation des interfaces professionnelles.</div></div>
+    <div><div class="k">Contexte</div><div class="v">Tout ce que le modèle garde sous les yeux
+      en même temps : votre conversation depuis le début, plus les documents fournis. Au-delà de
+      cette limite, <strong>il oublie le début sans vous prévenir</strong>. C'est pourquoi une très
+      longue conversation finit par dériver : mieux vaut en ouvrir une nouvelle.</div></div>
+    <div><div class="k">Température</div><div class="v">Le réglage qui décide s'il prend toujours
+      le mot le plus probable ou s'il ose descendre la liste. Basse pour du juridique ou du chiffré,
+      haute pour de la création. La plupart des interfaces grand public ne l'exposent pas.</div></div>
+    <div><div class="k">Hallucination</div><div class="v">Une affirmation fausse énoncée avec
+      assurance. <strong>Ce n'est pas un bug</strong> : c'est le fonctionnement normal d'une machine
+      qui produit du plausible. Le mot est mal choisi — le modèle ne délire pas, il complète.</div></div>
+  </div>
+
+  <h3><span class="mk">§m1d§</span>Pourquoi il invente, et pourquoi il ne le sait pas</h3>
+  <p>Un modèle de langage n'est pas une base de données. <strong>Il n'y a rien à consulter à
+  l'intérieur.</strong> Il n'a pas mémorisé des faits, il a intériorisé des régularités du langage.
+  « Le président de la République française est… » a une suite très probable, et elle sera souvent
+  juste. « Le numéro de téléphone du service client de… » a également une suite très probable :
+  dix chiffres, plausibles, et faux.</p>
+
+  <p>Le problème n'est pas qu'il se trompe — tout le monde se trompe. Le problème est
+  qu'<strong>il n'a aucun moyen interne de distinguer ce qu'il sait de ce qu'il complète</strong>.
+  L'assurance du ton est rigoureusement constante, que la réponse soit exacte ou inventée.
+  C'est ce qui rend l'erreur difficile à repérer, et c'est exactement ce qu'a montré le premier
+  exercice de la formation.</p>
+
+  <div class="box box--warn">
+    <span class="lbl">Ce qui atténue le problème, et ce qui ne le supprime pas</span>
+    <p>Les outils modernes vont chercher des sources réelles avant de répondre : c'est ce que font
+    Perplexity, NotebookLM, et les modes « recherche » des grands assistants. Cela réduit fortement
+    les hallucinations sans les éliminer, car le modèle peut encore <strong>mal résumer une source
+    correcte</strong>.</p>
+    <p>Le réflexe pratique tient en une phrase : <strong>s'il n'y a pas de lien cliquable, il n'y a
+    pas de vérification possible.</strong> Et une source citée n'est pas une source lue.</p>
+  </div>
+
+  <h3 class="pb"><span class="mk">§m1e§</span>Soixante-dix ans d'histoire, en trois actes</h3>
+  <p>L'IA n'est pas née en 2022 ; elle y est devenue visible. Connaître cette histoire évite
+  deux erreurs symétriques : croire que tout va basculer demain, et croire que rien n'a changé.</p>
+
+  <figure><img src="../02-infographies/03-frise-histoire.png" alt="Trois actes, de 1950 à aujourd'hui">
+  <figcaption>Infographie 03 — trois actes de durées très inégales</figcaption></figure>
+
+  <h4>Acte I · 1950-2011 — soixante ans de promesses, et deux hivers</h4>
+  <p>Turing pose la question en 1950. La conférence de Dartmouth invente l'expression en 1956 et
+  annonce la machine pensante pour dans vingt ans. Elle sera annoncée encore trois fois.
+  Deux « hivers de l'IA » — 1974-1980 puis 1987-1993 — voient les financements s'effondrer après
+  des promesses non tenues. En 1997, Deep Blue bat Kasparov : la machine calcule mieux que l'homme,
+  et ne comprend toujours rien à ce qu'elle fait.</p>
+
+  <h4>Acte II · 2012-2021 — la bascule technique, hors du regard du public</h4>
+  <p>En 2012, les réseaux de neurones profonds écrasent la concurrence en reconnaissance d'images.
+  En 2016, AlphaGo bat le champion du monde de go. En 2017, un article de huit pages intitulé
+  <em>Attention Is All You Need</em> décrit l'architecture Transformer : <strong>c'est le vrai point
+  de bascule</strong>, et le T de ChatGPT vient de là. Les premiers grands modèles sortent des
+  laboratoires entre 2018 et 2021, sans que le grand public en entende parler.</p>
+
+  <h4>Acte III · 2022-aujourd'hui — l'irruption dans le quotidien</h4>
+  <p>Novembre 2022 : ChatGPT atteint cent millions d'utilisateurs en deux mois, l'adoption la plus
+  rapide de l'histoire du logiciel. Suivent le multimodal en 2023, les agents en 2024, puis les
+  progrès du raisonnement et l'intégration dans les outils de bureau.</p>
+
+  <div class="box box--tip">
+    <span class="lbl">Ce qu'il faut retenir de la frise</span>
+    <p>Soixante ans pour devenir crédible, quatre ans pour devenir quotidienne. Ce n'est pas la
+    technologie qui a accéléré, c'est sa diffusion — et ce décalage explique pourquoi tout le monde
+    a simultanément l'impression d'être en retard. Vous ne l'êtes pas : personne n'a plus de
+    quatre ans de pratique.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ PARTIE 2 ═══════════════════════════════════ -->
+<section class="part j1">
+  <span class="mk">§m2§</span>
+  <div class="part-open">
+    <div class="n">Partie 2</div>
+    <h2>Dialoguer — l'art de formuler une demande</h2>
+    <p class="goal">Le même modèle, la même question, et deux résultats sans rapport.
+    Toute la différence tient dans la demande — et elle s'apprend en une heure.</p>
+  </div>
+
+  <h3><span class="mk">§m2a§</span>La méthode C.O.P.A.I.N.</h3>
+  <p>Un prompt raté est presque toujours un prompt auquel il manque l'une de six informations.
+  Vous les avez en tête ; la machine, non. L'acronyme sert seulement à ne rien oublier :
+  l'ordre des six éléments n'a aucune importance.</p>
+
+  <figure><img src="../02-infographies/04-methode-copain.png" alt="Les six lettres et un prompt assemblé">
+  <figcaption>Infographie 04 — les six lettres, puis le prompt assemblé</figcaption></figure>
+
+  <div class="kv">
+    <div><div class="k">C · Contexte</div><div class="v">Où sommes-nous, qui parle, dans quelle
+      situation. Une ligne suffit. <em>« Je suis responsable RH dans une PME industrielle de
+      60 personnes. »</em></div></div>
+    <div><div class="k">O · Objectif</div><div class="v">Ce que vous voulez obtenir, avec un verbe
+      d'action. <em>Rédige, compare, classe, corrige, résume</em> — jamais « aide-moi avec ».</div></div>
+    <div><div class="k">P · Persona</div><div class="v">Qui il doit être. Assigner un rôle change
+      le vocabulaire, le niveau de détail et les réflexes mobilisés.
+      <em>« Agis en recruteur expérimenté du secteur industriel. »</em></div></div>
+    <div><div class="k">A · Audience</div><div class="v">À qui la réponse s'adresse. Un texte pour
+      des experts et un texte pour des débutants n'ont rien en commun.
+      <em>« Elle sera lue par des candidats juniors, niveau bac+2. »</em></div></div>
+    <div><div class="k">I · Instructions</div><div class="v">La forme exacte : longueur, structure,
+      ton, format de sortie. <strong>C'est la lettre la plus rentable.</strong>
+      <em>« 400 mots, trois parties titrées, ton direct, tutoiement. »</em></div></div>
+    <div><div class="k">N · Négations</div><div class="v">Ce qu'il ne doit surtout pas faire.
+      Les interdits sont souvent plus efficaces que les consignes, et c'est la lettre que tout le
+      monde oublie. <em>« Pas de jargon RH, et pas de “rejoignez une équipe dynamique”. »</em></div></div>
+  </div>
+
+  <p class="lede" style="font-size:10.4pt">Et une septième ligne qui ne fait pas partie de
+  l'acronyme, mais qu'il faut prendre l'habitude d'ajouter :</p>
+  <div class="prompt">Pose-moi les questions dont tu as besoin avant de commencer à rédiger.</div>
+  <p>Elle transforme un monologue en entretien. Le modèle vous demandera trois ou quatre précisions
+  auxquelles vous n'auriez pas pensé, et la réponse finale sera meilleure que tout ce que vous
+  auriez obtenu du premier coup. C'est l'astuce la plus rentable de cette formation, et la plus
+  simple à retenir.</p>
+
+  <h3 class="pb"><span class="mk">§m2b§</span>Cinq techniques qui changent tout</h3>
+  <ol class="steps">
+    <li><strong>Donnez des exemples.</strong> Deux ou trois échantillons de ce que vous voulez
+      valent dix lignes de description. C'est de loin la technique la plus efficace, et la moins
+      utilisée. Collez trois de vos anciens textes en disant « voici mon style, respecte-le ».</li>
+    <li><strong>Imposez le format de sortie.</strong> « Réponds sous forme de tableau à trois
+      colonnes : action, responsable, échéance. » Vous économisez systématiquement un aller-retour.</li>
+    <li><strong>Demandez le raisonnement.</strong> « Procède étape par étape et montre-moi ton
+      raisonnement avant de conclure. » Améliore nettement l'analyse, la comparaison et tout ce qui
+      ressemble à du calcul.</li>
+    <li><strong>Découpez.</strong> Une grande demande donne un résultat moyen. Trois demandes
+      enchaînées — d'abord le plan, puis chaque partie, puis la relecture — donnent trois bons
+      résultats.</li>
+    <li><strong>Itérez.</strong> Le premier jet est une proposition, pas une livraison. Dites
+      précisément ce qui ne va pas et redemandez. « Trop long, coupe de moitié en gardant les
+      exemples » vaut mieux que de tout réécrire vous-même.</li>
+  </ol>
+
+  <h3><span class="mk">§m2c§</span>Les huit erreurs les plus fréquentes</h3>
+  <table class="zebra">
+    <thead><tr><th style="width:44%">L'erreur</th><th>Ce qu'il faut faire à la place</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Demander sans contexte</strong></td><td>Deux lignes sur qui vous êtes et pour quoi faire. C'est le plus gros gain, pour le plus petit effort.</td></tr>
+      <tr><td><strong>Se contenter du premier jet</strong></td><td>Le premier résultat est un brouillon de négociation. Trois allers-retours sont la norme, pas l'exception.</td></tr>
+      <tr><td><strong>Poser une question trop large</strong></td><td>« Fais-moi un plan de communication » ne veut rien dire. Découpez en étapes et traitez-les une par une.</td></tr>
+      <tr><td><strong>Ne jamais dire ce qu'on ne veut pas</strong></td><td>Trois interdits explicites suppriment plus de réécriture que dix consignes positives.</td></tr>
+      <tr><td><strong>Croire un chiffre non sourcé</strong></td><td>Tout chiffre, date, citation ou référence produit par le modèle est à vérifier ailleurs. Sans exception.</td></tr>
+      <tr><td><strong>Continuer une conversation trop longue</strong></td><td>Au-delà d'une certaine longueur, le modèle oublie le début. Ouvrez une nouvelle conversation et recollez l'essentiel.</td></tr>
+      <tr><td><strong>Coller des données sensibles</strong></td><td>Appliquez la règle des trois feux (partie 4). Anonymisez avant, pas après.</td></tr>
+      <tr><td><strong>Réécrire le même prompt chaque semaine</strong></td><td>Dès la troisième fois, enregistrez-le — ou faites-en un assistant (partie 5).</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="pb"><span class="mk">§m2d§</span>Bibliothèque : vingt prompts prêts à l'emploi</h3>
+  <p>Adaptez les parties entre crochets. Ces vingt formulations couvrent l'essentiel des usages
+  professionnels courants ; elles sont volontairement écrites pour être copiées telles quelles.</p>
+
+  <h4>Écrire et réécrire</h4>
+  <div class="prompt"><span class="cmt">01 — Adapter un texte à un public</span>
+Voici un texte destiné à [public d'origine]. Réécris-le pour [nouveau public], qui
+[ce qu'il connaît / ne connaît pas]. Garde la même longueur. Ne simplifie pas
+les chiffres. Texte : [coller].</div>
+  <div class="prompt"><span class="cmt">02 — Écrire dans votre style</span>
+Voici trois textes que j'ai écrits. Analyse mon style : longueur de phrase, vocabulaire,
+ton, tics d'écriture. Puis rédige [le nouveau texte] dans ce style. Ne me montre pas
+ton analyse, applique-la directement.</div>
+  <div class="prompt"><span class="cmt">03 — Raccourcir sans appauvrir</span>
+Réduis ce texte de moitié. Priorité absolue : garder les chiffres, les noms et les
+exemples concrets. Supprime en priorité les adjectifs et les phrases de transition.</div>
+  <div class="prompt"><span class="cmt">04 — Sortir de la page blanche</span>
+Je dois écrire [document] pour [audience]. Propose-moi cinq angles d'attaque différents,
+en une phrase chacun, du plus classique au plus inattendu. Ne rédige rien pour l'instant.</div>
+  <div class="prompt"><span class="cmt">05 — Relecture exigeante</span>
+Relis ce texte en trois passes séparées : d'abord l'orthographe et la grammaire, puis les
+répétitions et les lourdeurs, puis la logique de l'argumentation. Présente tes remarques
+en trois listes distinctes. Ne réécris pas le texte.</div>
+
+  <h4>Analyser et synthétiser</h4>
+  <div class="prompt"><span class="cmt">06 — Résumé structuré d'un document</span>
+Résume ce document en trois parties : ce qui est décidé, ce qui reste ouvert, ce qui
+demande une action de ma part. Pour chaque action, indique qui doit la faire si le
+document le précise. Si une information manque, écris « non précisé ».</div>
+  <div class="prompt"><span class="cmt">07 — Comparer deux options</span>
+Compare [option A] et [option B] sous forme de tableau, selon ces critères : [liste].
+Ajoute une dernière ligne « dans quel cas choisir celle-ci ». Ne conclus pas à ma place.</div>
+  <div class="prompt"><span class="cmt">08 — Préparer une réunion</span>
+Voici l'ordre du jour et les documents. Prépare-moi : les trois questions que je dois
+absolument poser, les deux objections auxquelles je dois m'attendre, et un chiffre
+à retenir par sujet.</div>
+  <div class="prompt"><span class="cmt">09 — Compte rendu à partir de notes</span>
+Voici mes notes brutes de réunion. Rédige un compte rendu structuré : décisions,
+actions avec responsable et échéance, points reportés. N'invente aucune information
+absente des notes — si un responsable n'est pas nommé, écris « à désigner ».</div>
+  <div class="prompt"><span class="cmt">10 — Extraire d'un tableau</span>
+Voici des données. Décris en cinq phrases ce qu'elles montrent, en citant les chiffres
+qui appuient chaque phrase. Signale toute anomalie ou valeur manquante. Ne fais aucune
+projection au-delà des données fournies.</div>
+
+  <h4>Décider et argumenter</h4>
+  <div class="prompt"><span class="cmt">11 — L'avocat du diable</span>
+Voici ma décision et mes arguments. Prends le rôle d'un contradicteur bienveillant et
+compétent : donne-moi les cinq meilleures objections, classées de la plus forte à la
+plus faible. Ne me rassure pas.</div>
+  <div class="prompt"><span class="cmt">12 — Checklist avant décision</span>
+Avant que je tranche sur [sujet], liste les dix questions que j'aurais dû me poser et
+que j'ai probablement oubliées. Une ligne par question, sans y répondre.</div>
+  <div class="prompt"><span class="cmt">13 — Reformuler une objection client</span>
+Voici le message d'un client mécontent. Identifie la demande réelle derrière le ton,
+propose trois réponses possibles — conciliante, ferme, intermédiaire — et dis-moi
+ce que chacune engage.</div>
+
+  <h4>Apprendre et expliquer</h4>
+  <div class="prompt"><span class="cmt">14 — Se faire expliquer un sujet</span>
+Explique-moi [sujet] comme à quelqu'un qui connaît bien [domaine que vous maîtrisez]
+mais rien à celui-ci. Utilise une analogie tirée de [votre domaine]. Termine par
+les trois erreurs de compréhension les plus fréquentes.</div>
+  <div class="prompt"><span class="cmt">15 — Se faire interroger</span>
+Je prépare [examen, entretien, présentation]. Pose-moi une question à la fois, attends
+ma réponse, corrige-la, puis enchaîne. Monte progressivement en difficulté. Ne me donne
+jamais la réponse avant que j'aie essayé.</div>
+  <div class="prompt"><span class="cmt">16 — Décoder un document technique ou juridique</span>
+Voici un extrait de [contrat, norme, règlement]. Traduis-le en français courant,
+paragraphe par paragraphe. Signale ce qui m'engage, ce qui est négociable, et ce qui
+est inhabituel par rapport à un document de ce type.</div>
+
+  <h4>Organiser et automatiser</h4>
+  <div class="prompt"><span class="cmt">17 — Décrire un processus pour l'automatiser</span>
+Je vais te décrire une tâche que je fais chaque semaine. Pose-moi des questions jusqu'à
+avoir compris chaque étape, chaque décision et chaque exception. Puis restitue le
+processus sous forme d'étapes numérotées avec les conditions.</div>
+  <div class="prompt"><span class="cmt">18 — Modèle réutilisable</span>
+À partir de ces trois exemples de [document], déduis une trame réutilisable avec des
+champs à remplir entre crochets. Indique pour chaque champ ce qu'on y met et une
+consigne d'une ligne.</div>
+  <div class="prompt"><span class="cmt">19 — Trier une liste</span>
+Classe ces éléments selon [critère], en trois catégories : à traiter maintenant,
+à traiter plus tard, à abandonner. Justifie chaque classement en une ligne. Signale
+les éléments que tu n'as pas su classer.</div>
+  <div class="prompt"><span class="cmt">20 — Le prompt qui écrit les prompts</span>
+Je veux obtenir [résultat]. Écris-moi le meilleur prompt possible pour cela, en
+appliquant : contexte, objectif, rôle, audience, instructions de format, et interdits.
+Puis demande-moi ce qui manque avant que je l'utilise.</div>
+</section>
+
+<!-- ═══════════════════════════════════ PARTIE 3 ═══════════════════════════════════ -->
+<section class="part j1">
+  <span class="mk">§m3§</span>
+  <div class="part-open">
+    <div class="n">Partie 3</div>
+    <h2>Choisir — quel outil, pour quel usage</h2>
+    <p class="goal">Il sort un nouveau modèle tous les mois. Voici comment choisir sans avoir
+    à suivre l'actualité — et l'annuaire des outils vus en formation.</p>
+  </div>
+
+  <h3><span class="mk">§m3a§</span>Les quatre questions, dans cet ordre</h3>
+  <figure><img src="../02-infographies/06-cartographie-llm.png" alt="Quatre questions, quatre familles">
+  <figcaption>Infographie 06 — construite sur des critères, pas sur des numéros de version</figcaption></figure>
+
+  <ol class="steps">
+    <li><strong>Où partent mes données ?</strong> Cette question décide plus souvent que toutes les
+      autres réunies. Si la réponse est bloquante — secret professionnel, données de santé, marché
+      public — les trois suivantes ne se posent même pas.</li>
+    <li><strong>Écrit-il bien dans ma langue ?</strong> Testez sur vos propres textes, jamais sur un
+      classement. Un modèle premier au benchmark peut produire un français scolaire et plat.
+      Le test : donnez-lui trois de vos textes et demandez-lui d'en écrire un quatrième.</li>
+    <li><strong>Est-ce déjà dans les outils que j'utilise ?</strong> L'outil qu'on ouvre par réflexe
+      bat systématiquement l'outil parfait qu'on oublie d'ouvrir. Un assistant intégré à votre suite
+      bureautique sera plus utilisé qu'un onglet de navigateur supplémentaire.</li>
+    <li><strong>Combien à mon volume réel ?</strong> Raisonnez en abonnements mensuels par personne.
+      Le prix au million de tokens ne veut rien dire pour un utilisateur, et sert surtout à comparer
+      des choses incomparables.</li>
+  </ol>
+
+  <div class="box box--tip">
+    <span class="lbl">Ce qui sera faux dans six mois</span>
+    <p>Le nom et le numéro de version du modèle, son classement dans les benchmarks, son nombre de
+    paramètres, son prix au million de tokens. C'est pourquoi ce manuel n'en cite aucun comme
+    critère de décision : <strong>choisissez une famille, pas un modèle.</strong></p>
+  </div>
+
+  <h3><span class="mk">§m3b§</span>Quatre familles de modèles</h3>
+  <table>
+    <thead><tr><th style="width:22%">Famille</th><th style="width:38%">Ce pour quoi elle est faite</th><th>Sa limite</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Les généralistes</strong><br><span class="small muted">OpenAI, Anthropic, Google, xAI</span></td>
+        <td>Les plus polyvalents, le meilleur écosystème d'outils, les applications mobiles les plus abouties. Le choix par défaut pour le travail quotidien.</td>
+        <td>Hébergement hors Union européenne sauf offre entreprise dédiée. C'est aussi la famille qui change le plus vite.</td></tr>
+      <tr><td><strong>Le souverain européen</strong><br><span class="small muted">Mistral, Kyutai</span></td>
+        <td>Hébergement en Europe, excellent niveau de français, engagement contractuel sur la résidence des données. Secteur public, santé, juridique, défense.</td>
+        <td>Écosystème d'outils tiers plus restreint, et moins d'intégrations toutes faites.</td></tr>
+      <tr><td><strong>Les modèles ouverts</strong><br><span class="small muted">Llama, Mistral ouverts, Qwen, DeepSeek</span></td>
+        <td>Installables sur vos propres serveurs : les données ne sortent jamais, et l'usage ne se facture pas au message. Gros volumes et confidentialité forte.</td>
+        <td>Demande une compétence technique interne réelle, et du matériel. Ce n'est pas un choix d'utilisateur, c'est un choix d'organisation.</td></tr>
+      <tr><td><strong>Les spécialisés</strong><br><span class="small muted">Transcription, OCR, traduction, image, voix</span></td>
+        <td>Une tâche, très bien faite, pour une fraction du prix d'un généraliste. Souvent la meilleure réponse à un besoin précis et répétitif.</td>
+        <td>Ne sortent pas de leur domaine. Il en faut plusieurs, et chacun a son abonnement.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="pb"><span class="mk">§m3c§</span>Annuaire des outils cités en formation</h3>
+  <div class="box box--warn">
+    <span class="lbl">Avertissement</span>
+    <p>Les adresses et les conditions tarifaires changent, parfois d'un trimestre à l'autre.
+    Vérifiez toujours la politique de confidentialité avant d'y déposer autre chose que du
+    « feu vert » (partie 4). <strong>Un outil gratuit se paie généralement en données.</strong></p>
+  </div>
+
+  <h4>Assistants généralistes</h4>
+  <table>
+    <thead><tr><th style="width:23%">Outil</th><th style="width:41%">À quoi il sert</th><th>Adresse</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ChatGPT</strong><br><span class="small muted">OpenAI</span></td><td>L'assistant le plus répandu. Mode vocal, création d'assistants personnalisés, analyse de fichiers.</td><td><span class="lnk">chatgpt.com</span></td></tr>
+      <tr><td><strong>Claude</strong><br><span class="small muted">Anthropic</span></td><td>Réputé pour l'écriture longue et l'analyse de documents volumineux.</td><td><span class="lnk">claude.ai</span></td></tr>
+      <tr><td><strong>Gemini</strong><br><span class="small muted">Google</span></td><td>Intégré à l'écosystème Google. Fort en traitement d'images et de très longs documents.</td><td><span class="lnk">gemini.google.com</span></td></tr>
+      <tr><td><strong>Le Chat</strong><br><span class="small muted">Mistral AI — France</span></td><td>L'alternative européenne. Hébergement UE, très bon niveau de français.</td><td><span class="lnk">chat.mistral.ai</span></td></tr>
+      <tr><td><strong>Copilot</strong><br><span class="small muted">Microsoft</span></td><td>Intégré à la suite bureautique. Utile si votre organisation est déjà sous Microsoft 365.</td><td><span class="lnk">copilot.microsoft.com</span></td></tr>
+    </tbody>
+  </table>
+
+  <h4>Documents, recherche et synthèse</h4>
+  <table>
+    <thead><tr><th style="width:23%">Outil</th><th style="width:41%">À quoi il sert</th><th>Adresse</th></tr></thead>
+    <tbody>
+      <tr><td><strong>NotebookLM</strong><br><span class="small muted">Google</span></td><td>Vous déposez vos documents, il ne répond qu'à partir de ceux-là, avec renvoi au passage source. Synthèse, carte mentale, quiz, podcast à deux voix.</td><td><span class="lnk">notebooklm.google.com</span></td></tr>
+      <tr><td><strong>Perplexity</strong></td><td>Recherche web sourcée : chaque affirmation renvoie à une page réelle et ouvrable.</td><td><span class="lnk">perplexity.ai</span></td></tr>
+      <tr><td><strong>Comet</strong><br><span class="small muted">Perplexity</span></td><td>Navigateur doté d'un agent capable de naviguer et d'agir sur les pages à votre place.</td><td><span class="lnk">perplexity.ai/comet</span></td></tr>
+    </tbody>
+  </table>
+
+  <h4>Image, voix, musique, vidéo</h4>
+  <table>
+    <thead><tr><th style="width:23%">Outil</th><th style="width:41%">À quoi il sert</th><th>Adresse</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Nano Banana</strong><br><span class="small muted">via Gemini / AI Studio</span></td><td>Génération et retouche d'image en langage naturel : supprimer un élément, changer un fond, aménager une pièce vide.</td><td><span class="lnk">gemini.google.com · aistudio.google.com</span></td></tr>
+      <tr><td><strong>Suno</strong></td><td>Génération musicale complète à partir d'une description : jingle, générique, musique d'attente.</td><td><span class="lnk">suno.com</span></td></tr>
+      <tr><td><strong>ElevenLabs</strong></td><td>Voix de synthèse et clonage vocal. Doublage, livre audio, messages d'accueil.</td><td><span class="lnk">elevenlabs.io</span></td></tr>
+      <tr><td><strong>Sora</strong><br><span class="small muted">OpenAI</span></td><td>Génération de séquences vidéo à partir d'une description écrite.</td><td><span class="lnk">sora.com</span></td></tr>
+      <tr><td><strong>Veo</strong><br><span class="small muted">Google</span></td><td>Génération vidéo, accessible via les outils Google.</td><td><span class="lnk">labs.google</span></td></tr>
+    </tbody>
+  </table>
+
+  <h4>Automatisation et création d'outils</h4>
+  <table>
+    <thead><tr><th style="width:23%">Outil</th><th style="width:41%">À quoi il sert</th><th>Adresse</th></tr></thead>
+    <tbody>
+      <tr><td><strong>n8n</strong></td><td>Automatisation visuelle : relier une messagerie, un tableur, un modèle et une notification dans un scénario qui tourne seul.</td><td><span class="lnk">n8n.io</span></td></tr>
+      <tr><td><strong>Zapier · Make</strong></td><td>Équivalents plus grand public, avec davantage de connecteurs prêts à l'emploi.</td><td><span class="lnk">zapier.com · make.com</span></td></tr>
+      <tr><td><strong>Emergent</strong></td><td>Développement assisté : on décrit une application en français, elle est produite puis corrigée par itérations.</td><td><span class="lnk">emergent.sh</span></td></tr>
+    </tbody>
+  </table>
+
+  <h4>Sources officielles et veille</h4>
+  <table>
+    <thead><tr><th style="width:23%">Source</th><th style="width:41%">Pourquoi la consulter</th><th>Adresse</th></tr></thead>
+    <tbody>
+      <tr><td><strong>CNIL</strong></td><td>Recommandations françaises sur l'IA et les données personnelles. La référence en cas de doute.</td><td><span class="lnk">cnil.fr/fr/intelligence-artificielle</span></td></tr>
+      <tr><td><strong>Règlement européen sur l'IA</strong></td><td>Le texte lui-même, article par article, dont l'article 4 sur la littératie.</td><td><span class="lnk">artificialintelligenceact.eu</span></td></tr>
+      <tr><td><strong>Kit de ressources de la formation</strong></td><td>Les liens, les prompts et les mises à jour post-formation.</td><td><span class="lnk">hlp-studio.notion.site/ressource-kit-ia-vous</span></td></tr>
+      <tr><td><strong>Superproductif</strong></td><td>Lettre d'information de veille en français, orientée usages professionnels.</td><td><span class="lnk">superproductif.fr/newsletter</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════════════════════ PARTIE 4 ═══════════════════════════════════ -->
+<section class="part neutral">
+  <span class="mk">§m4§</span>
+  <div class="part-open" style="border-color:var(--flag)">
+    <div class="n" style="color:var(--flag)">Partie 4</div>
+    <h2>Le cadre — données, droit, responsabilité</h2>
+    <p class="goal">La partie la plus courte du manuel, et la seule qui engage votre
+    responsabilité. À lire une fois en entier, puis à garder sous la main.</p>
+  </div>
+
+  <h3><span class="mk">§m4a§</span>La règle des trois feux</h3>
+  <p>Une seule question à se poser avant chaque copier-coller : <strong>de quelle couleur est
+  cette information ?</strong></p>
+
+  <figure><img src="../02-infographies/05-trois-feux.png" alt="Vert, orange, rouge">
+  <figcaption>Infographie 05 — à afficher près de son poste de travail</figcaption></figure>
+
+  <table>
+    <thead><tr><th style="width:14%">Feu</th><th style="width:40%">Quelles données</th><th>Quels outils</th></tr></thead>
+    <tbody>
+      <tr><td><strong style="color:#1F7A3D">Vert</strong></td>
+        <td>Tout ce qui est déjà public, ou qui pourrait l'être demain sans gêner personne : textes de loi, normes, articles de presse, votre plaquette commerciale diffusée, un brouillon générique sans nom ni chiffre, une question de méthode.</td>
+        <td>N'importe lequel, y compris les versions gratuites.</td></tr>
+      <tr><td><strong style="color:#B0791B">Orange</strong></td>
+        <td>Informations internes mais non sensibles : compte rendu sans nom propre, trame de procédure, chiffres agrégés sans détail par client, support de formation non diffusé.</td>
+        <td>Uniquement l'outil validé par votre organisation, sur un compte professionnel, avec l'entraînement sur vos données désactivé.</td></tr>
+      <tr><td><strong style="color:#B3261E">Rouge</strong></td>
+        <td>Données personnelles, confidentielles ou contractuelles : CV et dossiers de candidature, données de santé, contrats et conditions négociées, code source propriétaire, secrets de fabrication, coordonnées bancaires, pièces d'identité.</td>
+        <td>Aucun outil grand public. Seulement une solution hébergée par votre organisation, si elle existe.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box box--warn">
+    <span class="lbl">Les deux pièges classiques</span>
+    <p><strong>Le faux anonyme.</strong> Un document dont on a retiré les noms mais qui garde une
+    date, un montant et une ville n'est pas anonyme : il identifie souvent une seule personne
+    ou un seul dossier. L'anonymisation est un travail sérieux, pas un remplacement de mots.</p>
+    <p><strong>Le morceau innocent.</strong> Trois extraits « orange » collés dans trois conversations
+    différentes peuvent, réunis, reconstituer une information rouge. Raisonnez sur l'ensemble
+    de ce que vous confiez à un outil, pas sur chaque message pris isolément.</p>
+  </div>
+
+  <h3><span class="mk">§m4b§</span>Ce que devient ce que vous collez</h3>
+  <ul>
+    <li><strong>Offre grand public.</strong> Vos conversations peuvent être conservées, relues par
+      des humains pour le contrôle qualité, et servir à améliorer le modèle. C'est écrit dans les
+      conditions d'utilisation, et c'est le plus souvent désactivable dans les réglages.</li>
+    <li><strong>Offre entreprise.</strong> L'éditeur s'engage contractuellement à ne pas entraîner
+      ses modèles sur vos données, et propose généralement des garanties sur la localisation et la
+      durée de conservation. <strong>C'est la différence principale entre les deux offres</strong>,
+      bien plus que les fonctionnalités.</li>
+    <li><strong>Le réflexe à prendre aujourd'hui.</strong> Ouvrez les paramètres de l'outil que vous
+      utilisez, cherchez l'option d'amélioration du modèle et désactivez-la. Deux minutes, une fois.</li>
+  </ul>
+
+  <h3><span class="mk">§m4c§</span>Ce que la loi demande déjà</h3>
+  <div class="box box--warn">
+    <span class="lbl">Article 4 du règlement européen sur l'IA</span>
+    <p>Depuis le <strong>2 février 2025</strong>, les organisations qui déploient des systèmes d'IA
+    doivent veiller au niveau de littératie de leurs collaborateurs — salariés, mais aussi
+    prestataires agissant pour leur compte. L'obligation est proportionnée au rôle de chacun.</p>
+    <p>C'est une obligation de moyens et non de résultat, et elle reste très peu connue des PME.
+    <strong>Cette formation y répond&nbsp;: conservez votre attestation de participation</strong>,
+    elle documente la démarche de votre employeur.</p>
+  </div>
+  <p><strong>Le RGPD continue de s'appliquer intégralement.</strong> Saisir des données personnelles
+  dans un outil tiers constitue un traitement, et souvent un transfert hors Union européenne, avec
+  tout ce que cela implique : base légale, information des personnes, registre des traitements,
+  durée de conservation. Si votre organisation a un délégué à la protection des données, c'est à
+  lui que revient l'arbitrage — pas à vous, et surtout pas au cas par cas.</p>
+
+  <h3><span class="mk">§m4d§</span>Droit d'auteur, biais, responsabilité</h3>
+  <ul>
+    <li><strong>Les contenus générés.</strong> Le statut juridique d'une image ou d'un texte produit
+      par une IA reste discuté en Europe, et les conditions varient d'un outil à l'autre. Pour un
+      usage commercial, lisez la licence de l'outil — et méfiez-vous des styles imitant un artiste
+      identifiable, qui posent un problème distinct.</li>
+    <li><strong>Les biais.</strong> Le modèle a appris sur des textes existants, avec leurs
+      stéréotypes. Sur du recrutement, de l'évaluation, de l'orientation ou de l'attribution,
+      la vigilance doit être maximale — et ces usages relèvent souvent de catégories réglementées.</li>
+    <li><strong>La responsabilité ne se délègue pas.</strong> Un texte signé de votre nom vous engage,
+      qu'il ait été écrit par vous ou proposé par une machine. « C'est l'IA qui l'a écrit » n'est
+      pas une défense, ni devant un client, ni devant un juge.</li>
+  </ul>
+</section>
+
+<!-- ═══════════════════════════════════ PARTIE 5 ═══════════════════════════════════ -->
+<section class="part j2">
+  <span class="mk">§m5§</span>
+  <div class="part-open">
+    <div class="n">Partie 5</div>
+    <h2>Produire — le laboratoire d'outils</h2>
+    <p class="goal">Les six outils manipulés en journée 2, et la marche à suivre pour
+    fabriquer votre propre assistant.</p>
+  </div>
+
+  <h3><span class="mk">§m5a§</span>Six outils, six usages</h3>
+
+  <h4>NotebookLM — travailler à partir de vos propres documents</h4>
+  <p>Vous déposez des fichiers — PDF, notes, pages web, vidéos — et l'outil ne répond plus qu'à
+  partir de ceux-là, en renvoyant à chaque fois au passage source. Il produit aussi une synthèse,
+  une carte mentale, un questionnaire, et un podcast à deux voix qui résume vos documents.</p>
+  <p><strong>Les usages qui marchent le mieux :</strong> intégrer un nouvel arrivant à partir de vos
+  procédures, préparer une réunion à partir de dix documents, réviser un dossier volumineux,
+  transformer un support de formation en questionnaire.</p>
+
+  <h4>Génération et retouche d'image</h4>
+  <p>Modifier une photo réelle en décrivant le changement en français : supprimer un élément gênant,
+  changer un arrière-plan, meubler une pièce vide, décliner un visuel en plusieurs formats.
+  Ce qui demandait un logiciel et une compétence se fait en une phrase.</p>
+  <p><strong>Attention :</strong> les contenus générés portent une marque invisible qui permet de
+  les identifier, et un visuel modifié documentant un bien ou un produit engage votre
+  responsabilité commerciale.</p>
+
+  <h4>Le mode vocal</h4>
+  <p>Une conversation à voix haute, mains libres, avec possibilité d'interrompre. Cela change le
+  rapport à l'outil : on cesse de rédiger une requête, on parle. Utile en déplacement, pour
+  préparer un entretien ou traduire en direct. <strong>Le réflexe de confidentialité s'oublie plus
+  vite à l'oral</strong> — tout ce qui est dit est transmis comme du texte.</p>
+
+  <h4>Suno — génération musicale</h4>
+  <p>Décrivez un style, une ambiance, des paroles, et obtenez un morceau complet en quelques minutes.
+  Jingle, générique de podcast, musique d'attente téléphonique. Avant tout usage diffusé ou
+  commercial, lisez les conditions : la question de ce que vous possédez réellement n'est pas
+  tranchée de la même façon d'un outil à l'autre.</p>
+
+  <h4>Perplexity et le navigateur Comet — chercher, pas générer</h4>
+  <p>La différence essentielle avec un assistant classique : chaque affirmation renvoie à une page
+  réelle que vous pouvez ouvrir. C'est le bon outil dès qu'il s'agit d'un fait, d'un chiffre ou
+  d'une actualité. Comet va plus loin en donnant à l'agent la capacité de naviguer et d'agir sur
+  les pages. <strong>Une source citée n'est pas une source lue</strong> : le résumé peut trahir
+  une page pourtant correcte.</p>
+
+  <h4>Vidéo générative</h4>
+  <p>Produire une séquence à partir d'une description écrite, avec le son. Encore lent et coûteux,
+  mais la progression est rapide. L'enjeu principal aujourd'hui n'est pas la production mais la
+  réception : <strong>la question « comment reconnaître un faux » aura bientôt pour seule réponse
+  « en vérifiant la source »</strong>.</p>
+
+  <h3 class="pb"><span class="mk">§m5b§</span>Fabriquer son propre assistant</h3>
+  <p>Le passage du prompt jetable à l'outil qu'on rouvre tous les matins. Bonne nouvelle :
+  configurer un assistant demande exactement les mêmes six lettres que le prompt de la partie 2.
+  Vous savez déjà le faire — il reste à le ranger au bon endroit.</p>
+
+  <h4>Les cinq éléments à renseigner</h4>
+  <ol class="steps">
+    <li><strong>Un nom et une mission en une phrase.</strong> « Tu m'aides à rédiger les comptes
+      rendus de réunion du comité de direction. » Si vous n'arrivez pas à la formuler en une phrase,
+      l'assistant est trop large : découpez-en deux.</li>
+    <li><strong>Le contexte permanent.</strong> Qui vous êtes, votre organisation, votre secteur,
+      votre public habituel. Tout ce que vous retapiez à chaque conversation.</li>
+    <li><strong>Le ton et le format attendus</strong>, décrits précisément. C'est ce qui évite de
+      recorriger chaque sortie.</li>
+    <li><strong>Des fichiers de référence.</strong> Vos modèles, votre charte, et surtout
+      <strong>trois exemples de ce que vous considérez comme un bon résultat</strong>. Les exemples
+      valent mieux que les consignes, et de loin.</li>
+    <li><strong>Les interdits.</strong> Les formulations bannies, les sujets à ne pas aborder,
+      ce qu'il ne doit jamais inventer. « Si une information manque, écris “à compléter” plutôt
+      que de la deviner. »</li>
+  </ol>
+
+  <div class="box box--ex">
+    <span class="lbl">La méthode de test qui a été utilisée en formation</span>
+    <p>Faites tester votre assistant par quelqu'un d'autre, avec la consigne explicite d'essayer de
+    le faire échouer : cas limite, demande ambiguë, information manquante, requête hors sujet.
+    <strong>Ce que le test révèle est presque toujours la même chose</strong> : un contexte trop
+    maigre, ou aucun exemple de sortie attendue. Corrigez, et retestez.</p>
+  </div>
+
+  <h4>Et si vous n'avez pas d'assistant configurable ?</h4>
+  <p>Quatre-vingts pour cent du gain s'obtiennent sans aucune fonctionnalité particulière :
+  gardez vos meilleurs prompts dans un document partagé, avec un titre clair et une ligne
+  d'explication. Une équipe qui partage vingt bons prompts va plus loin qu'une équipe où chacun
+  configure son assistant dans son coin.</p>
+</section>
+
+<!-- ═══════════════════════════════════ PARTIE 6 ═══════════════════════════════════ -->
+<section class="part j2">
+  <span class="mk">§m6§</span>
+  <div class="part-open">
+    <div class="n">Partie 6</div>
+    <h2>Automatiser — agents et garde-fous</h2>
+    <p class="goal">Le modèle cesse de répondre et commence à agir. La question devient :
+    jusqu'où le laisser faire, et comment le savoir ?</p>
+  </div>
+
+  <h3><span class="mk">§m6a§</span>Quatre marches, et à chacune un peu de contrôle en moins</h3>
+  <figure><img src="../02-infographies/07-echelle-agents.png" alt="De l'assistant au système d'agents">
+  <figcaption>Infographie 07 — la différence n'est pas la puissance, c'est l'autonomie accordée</figcaption></figure>
+
+  <p>Ce qui distingue ces quatre niveaux n'est pas l'intelligence du modèle : c'est ce qu'on
+  l'autorise à faire sans vous demander. Un agent, ce n'est pas un modèle plus intelligent —
+  <strong>c'est le même modèle, à qui l'on a donné des mains et l'autorisation de s'en servir.</strong></p>
+
+  <h4>Les quatre ingrédients d'un agent</h4>
+  <ul>
+    <li><strong>Un objectif</strong> formulé en une phrase, qui n'est plus une question mais une mission.</li>
+    <li><strong>Des outils</strong> : lire une boîte mail, écrire dans un tableur, appeler un service,
+      chercher sur le web. Sans outils, un modèle ne peut rien faire d'autre que parler.</li>
+    <li><strong>Une mémoire</strong> de ce qu'il a déjà fait, appris et raté en chemin.</li>
+    <li><strong>Une boucle</strong> : il agit, observe le résultat, corrige, recommence — jusqu'à
+      atteindre l'objectif ou renoncer.</li>
+  </ul>
+
+  <div class="box box--warn">
+    <span class="lbl">La règle à partir de la marche 3</span>
+    <p>Un agent qui se trompe se trompe <strong>vite, et à grande échelle</strong> : là où vous
+    auriez envoyé un mauvais courrier, il en envoie deux cents. Trois garde-fous, non négociables :
+    rien de sensible ne part sans validation humaine ; tout ce qu'il fait reste consultable après
+    coup ; et il existe un moyen simple de tout arrêter.</p>
+    <p>Ce ne sont pas des freins : <strong>ce sont les conditions qui permettent d'y aller.</strong></p>
+  </div>
+
+  <h3><span class="mk">§m6b§</span>La grille : quoi automatiser en premier</h3>
+  <figure><img src="../02-infographies/08-grille-automatisation.png" alt="Fréquence, temps passé, répétitivité">
+  <figcaption>Infographie 08 — savoir quoi automatiser est le travail difficile</figcaption></figure>
+
+  <ol class="steps">
+    <li><strong>Videz votre semaine.</strong> Listez tout ce que vous avez fait la semaine dernière,
+      sans trier et sans juger. Visez trente lignes : les bonnes candidates sont souvent celles
+      qu'on ne pense pas à noter parce qu'elles paraissent trop banales.</li>
+    <li><strong>Placez chaque tâche sur la grille.</strong> Fréquence en abscisse, temps passé à
+      chaque fois en ordonnée, répétitivité par la taille du point.
+      <strong>Ne vous demandez pas si c'est techniquement faisable</strong> — cette question tue
+      l'exercice en deux minutes.</li>
+    <li><strong>Gardez les trois plus en haut à droite</strong>, et chiffrez-les en heures par mois.
+      Ce chiffre est ce que vous présenterez à votre direction : c'est le seul argument qui porte.</li>
+  </ol>
+
+  <p>Le comment vient après, et il est souvent plus simple qu'on ne croit : un assistant configuré
+  suffit pour les tâches courtes et fréquentes ; un scénario d'automatisation pour celles qui
+  relient plusieurs outils ; et parfois, la bonne réponse est simplement d'arrêter de faire
+  la tâche.</p>
+</section>
+
+<!-- ═══════════════════════════════════ PARTIE 7 ═══════════════════════════════════ -->
+<section class="part j2">
+  <span class="mk">§m7§</span>
+  <div class="part-open">
+    <div class="n">Partie 7</div>
+    <h2>Après la formation</h2>
+    <p class="goal">La seule partie à lire tout de suite. C'est elle qui décide de ce
+    qui restera de ces deux jours dans un mois.</p>
+  </div>
+
+  <h3><span class="mk">§m7a§</span>Les neuf exercices, en résumé</h3>
+  <p>Vous les avez faits en salle ; les fiches à remplir sont dans le cahier d'exercices.
+  Ce tableau sert à les refaire seul, ou à les faire faire à vos collègues.</p>
+  <table class="zebra">
+    <thead><tr><th style="width:6%">N°</th><th style="width:32%">Exercice</th><th style="width:11%">Durée</th><th>Ce qu'il produit</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>La biographie inventée</strong></td><td class="mono small">15 min</td><td>Une démonstration vécue de ce qu'est une hallucination, et de sa dangereuse plausibilité.</td></tr>
+      <tr><td>2</td><td><strong>La même question, deux modèles</strong></td><td class="mono small">20 min</td><td>La conscience qu'il n'y a pas de meilleur modèle dans l'absolu, seulement un style qui vous convient.</td></tr>
+      <tr><td>3</td><td><strong>Chasse aux hallucinations</strong></td><td class="mono small">30 min</td><td>Votre carte de confiance : ce qu'on délègue, ce qu'on relit, ce qu'on ne demande jamais.</td></tr>
+      <tr><td>4</td><td><strong>Avant / après C.O.P.A.I.N.</strong></td><td class="mono small">35 min</td><td>Un prompt structuré et testé, réutilisable dès le lendemain.</td></tr>
+      <tr><td>5</td><td><strong>Le choix du responsable informatique</strong></td><td class="mono small">25 min</td><td>La compréhension que le critère décisif dépend du contexte, pas du classement.</td></tr>
+      <tr><td>6</td><td><strong>Votre charte en cinq lignes</strong></td><td class="mono small">15 min</td><td><strong>Livrable 1</strong> — votre charte personnelle d'usage.</td></tr>
+      <tr><td>7</td><td><strong>Créez le vôtre, cassez celui du voisin</strong></td><td class="mono small">45 min</td><td><strong>Livrable 2</strong> — un assistant configuré et testé par un pair.</td></tr>
+      <tr><td>8</td><td><strong>Cartographiez vos tâches</strong></td><td class="mono small">35 min</td><td><strong>Livrable 3</strong> — trois tâches automatisables, chiffrées en heures par mois.</td></tr>
+      <tr><td>9</td><td><strong>Mon plan à trente jours</strong></td><td class="mono small">30 min</td><td><strong>Livrable 4</strong> — la carte que vous emportez.</td></tr>
+    </tbody>
+  </table>
+
+  <h3><span class="mk">§m7b§</span>Rester à jour sans y passer ses soirées</h3>
+  <ul>
+    <li><strong>Une heure par semaine, pas plus.</strong> Le domaine produit plus d'actualité qu'un
+      humain n'en peut absorber, et l'essentiel ne vous concerne pas. Bloquez le créneau dans votre
+      agenda, comme n'importe quel autre rendez-vous.</li>
+    <li><strong>Deux ou trois sources maximum</strong>, choisies pour leur capacité à trier.
+      Une lettre d'information de synthèse vaut mieux que dix comptes à suivre.</li>
+    <li><strong>Le meilleur apprentissage reste l'usage.</strong> Une heure passée sur une vraie
+      tâche vous apprendra plus que dix articles sur le dernier modèle sorti.</li>
+    <li><strong>Retestez tous les six mois ce qui n'avait pas marché.</strong> La moitié de vos
+      échecs d'aujourd'hui seront résolus par une mise à jour que personne ne vous annoncera.
+      Gardez une courte liste de ces échecs — c'est votre feuille de route.</li>
+    <li><strong>Ne restez pas seul.</strong> Le facteur le plus déterminant, un mois après une
+      formation, n'est ni l'outil ni le niveau : c'est d'avoir quelqu'un à qui montrer ce qu'on
+      a trouvé.</li>
+  </ul>
+
+  <div class="box box--ex">
+    <span class="lbl">Le plan à trente jours, si vous ne l'avez pas rempli</span>
+    <p><strong>Trois usages</strong> précis à mettre en place la semaine prochaine — pas
+    « utiliser l'IA », mais « rédiger mes comptes rendus de réunion avec l'assistant que j'ai créé ».<br>
+    <strong>Un outil</strong> à maîtriser vraiment, plutôt que dix à essayer.<br>
+    <strong>Une chose que vous ne ferez pas</strong>, tirée de votre charte.<br>
+    <strong>Une personne</strong> à embarquer avec vous.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ ANNEXES ═══════════════════════════════════ -->
+<section class="part neutral">
+  <span class="mk">§m8§</span>
+  <div class="part-open">
+    <div class="n">Annexes</div>
+    <h2>Glossaire et questions fréquentes</h2>
+    <p class="goal">Les trente mots que vous entendrez, et les questions que tout le monde
+    pose à la pause.</p>
+  </div>
+
+  <h3>Glossaire</h3>
+  <div class="gloss">
+    <div><div class="t">Agent</div><div class="d">Un modèle branché sur des outils, autorisé à enchaîner des actions vers un but sans validation à chaque étape.</div></div>
+    <div><div class="t">API</div><div class="d">La porte d'entrée technique d'un service, utilisée par les développeurs pour brancher un modèle dans un logiciel.</div></div>
+    <div><div class="t">Benchmark</div><div class="d">Test standardisé servant à comparer des modèles. Utile aux chercheurs, peu prédictif de votre usage réel.</div></div>
+    <div><div class="t">Biais</div><div class="d">Déformation systématique héritée des textes d'entraînement, qui se retrouve dans les réponses.</div></div>
+    <div><div class="t">Contexte</div><div class="d">Tout ce que le modèle garde sous les yeux en une fois. Au-delà, il oublie le début.</div></div>
+    <div><div class="t">Deep learning</div><div class="d">Apprentissage automatique organisé en couches de neurones artificiels empilées.</div></div>
+    <div><div class="t">Entraînement</div><div class="d">La phase, longue et coûteuse, où le modèle apprend. Elle est terminée quand vous l'utilisez.</div></div>
+    <div><div class="t">Filigrane invisible</div><div class="d">Marque intégrée aux contenus générés permettant de les identifier comme tels.</div></div>
+    <div><div class="t">Fine-tuning</div><div class="d">Réentraînement léger d'un modèle existant sur vos propres données, pour l'adapter à un domaine.</div></div>
+    <div><div class="t">Hallucination</div><div class="d">Affirmation fausse énoncée avec assurance. Fonctionnement normal, pas dysfonctionnement.</div></div>
+    <div><div class="t">IA générative</div><div class="d">IA qui produit du contenu neuf plutôt que de classer de l'existant.</div></div>
+    <div><div class="t">Inférence</div><div class="d">Le moment où le modèle répond à votre demande. À distinguer de l'entraînement.</div></div>
+    <div><div class="t">Jailbreak</div><div class="d">Technique visant à contourner les garde-fous d'un modèle. À connaître, pas à pratiquer au bureau.</div></div>
+    <div><div class="t">LLM</div><div class="d">Grand modèle de langage. Une IA générative spécialisée dans le texte.</div></div>
+    <div><div class="t">Modèle ouvert</div><div class="d">Modèle dont les poids sont publiés : installable sur vos propres serveurs.</div></div>
+    <div><div class="t">Multimodal</div><div class="d">Capable de traiter plusieurs types d'entrées : texte, image, son, vidéo.</div></div>
+    <div><div class="t">Paramètres</div><div class="d">Les milliards de valeurs internes ajustées pendant l'entraînement. Le nombre n'indique pas la qualité.</div></div>
+    <div><div class="t">Prompt</div><div class="d">La demande que vous adressez au modèle. Tout l'objet de la partie 2.</div></div>
+    <div><div class="t">RAG</div><div class="d">Technique consistant à faire chercher le modèle dans vos documents avant de répondre. Le principe de NotebookLM.</div></div>
+    <div><div class="t">Raisonnement</div><div class="d">Mode où le modèle prend le temps de dérouler des étapes intermédiaires avant de répondre. Plus lent, plus fiable sur l'analyse.</div></div>
+    <div><div class="t">Souveraineté</div><div class="d">Capacité à maîtriser la localisation et le contrôle de ses données et de ses outils.</div></div>
+    <div><div class="t">Température</div><div class="d">Réglage du degré de prise de risque dans le choix des mots.</div></div>
+    <div><div class="t">Token</div><div class="d">Morceau de mot, unité de traitement et de facturation. Environ quatre caractères en français.</div></div>
+    <div><div class="t">Transformer</div><div class="d">L'architecture décrite en 2017 qui a rendu possibles les modèles actuels. Le T de ChatGPT.</div></div>
+    <div><div class="t">Vibe coding</div><div class="d">Développement assisté : décrire une application en langage courant et la faire produire par itérations.</div></div>
+  </div>
+
+  <h3 class="pb">Questions fréquentes</h3>
+
+  <div class="q">Est-ce que l'IA apprend de ce que je lui écris ?</div>
+  <p class="a">Pas en direct : le modèle est figé au moment où vous l'utilisez. En revanche, vos
+  conversations peuvent être conservées et servir plus tard à entraîner une version suivante,
+  selon l'offre et vos réglages. C'est exactement ce que désactive l'option d'amélioration du
+  modèle dans les paramètres.</p>
+
+  <div class="q">Pourquoi me donne-t-il une réponse différente si je repose la même question ?</div>
+  <p class="a">Parce qu'il choisit chaque mot dans une liste de candidats probables, avec une part
+  d'aléatoire. C'est le réglage de température. Ce n'est pas de l'inconstance : c'est le
+  fonctionnement attendu, et c'est aussi pourquoi il ne faut jamais s'appuyer sur une réponse
+  unique pour un fait précis.</p>
+
+  <div class="q">Faut-il payer un abonnement ?</div>
+  <p class="a">Pour un usage professionnel régulier, oui : les versions gratuites limitent la
+  longueur des documents, l'accès aux modèles récents et souvent les fonctions les plus utiles
+  comme la création d'assistants. Mais commencez gratuitement, et ne payez que l'outil que vous
+  ouvrez déjà tous les jours.</p>
+
+  <div class="q">Est-ce que ça va supprimer mon métier ?</div>
+  <p class="a">Ce qui disparaît, ce sont des tâches — production de premier jet, mise en forme,
+  saisie, tri, traduction de routine — plus rarement des métiers entiers. Ce qui prend de la valeur :
+  la relation, le jugement, la responsabilité, la connaissance fine d'un contexte. La réponse
+  honnête est que personne ne sait à dix ans, et que la meilleure protection reste la capacité
+  à apprendre vite.</p>
+
+  <div class="q">Puis-je lui faire relire un contrat ?</div>
+  <p class="a">Techniquement oui, et c'est même un excellent usage pour comprendre un texte.
+  Mais un contrat est presque toujours « feu rouge » : il contient des conditions négociées et
+  des données de tiers. Ne le faites qu'avec un outil validé par votre organisation, et jamais
+  pour remplacer un avis juridique.</p>
+
+  <div class="q">Comment savoir si un texte a été écrit par une IA ?</div>
+  <p class="a">Les détecteurs automatiques sont peu fiables et produisent beaucoup de faux positifs —
+  ne fondez jamais une décision sur eux, particulièrement dans un cadre scolaire ou disciplinaire.
+  Les indices humains restent plus sûrs : uniformité du rythme, absence d'exemples précis,
+  transitions trop lisses, et cette manière très reconnaissable de n'avoir aucun avis.</p>
+
+  <div class="q">Mon organisation n'a rien décidé. Qu'est-ce que je fais ?</div>
+  <p class="a">Appliquez la règle des trois feux, restez au vert, et posez la question par écrit
+  à votre hiérarchie ou à votre délégué à la protection des données. L'absence de décision est
+  le principal facteur qui pousse les équipes vers les comptes personnels — c'est-à-dire vers
+  exactement ce qu'une organisation prudente voudrait éviter.</p>
+
+  <div class="q">Par où je commence, concrètement, lundi matin ?</div>
+  <p class="a">Par une seule tâche, celle que vous faites le plus souvent et que vous aimez le
+  moins. Écrivez-en le prompt avec les six lettres, testez-le trois fois, corrigez-le, puis
+  gardez-le. Une tâche bien traitée vaut mieux que dix essais dispersés — et c'est ce qui vous
+  donnera envie de continuer.</p>
+</section>
