@@ -1186,9 +1186,8 @@ a.bot__action:hover { background: var(--yellow); color: var(--ink); text-decorat
 
 /* ------------------------------------------------------------- carte réelle */
 
-.map__load { position: static; }
-/* Aperçu avant chargement : un seul bloc centré, lisible, qui ne recouvre
-   plus le décor au hasard. Il disparaît dès que le plan est chargé. */
+/* Repli quand aucune adresse n'est renseignée : le décor et l'adresse, sans
+   plan. Dès qu'une adresse existe, l'iframe est rendue par PHP à sa place. */
 .map__cover {
   position: absolute; inset: 0; z-index: 4;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
@@ -1196,7 +1195,6 @@ a.bot__action:hover { background: var(--yellow); color: var(--ink); text-decorat
   background: color-mix(in srgb, var(--sand) 78%, transparent);
 }
 .map__address { font: 800 15px/1.3 'Manrope', sans-serif; letter-spacing: .01em; }
-.map__hint { font: 600 12px/1.45 'Manrope', sans-serif; opacity: .7; max-width: 320px; }
 .map__frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 5; }
 .map.is-loaded .map__decor, .map.is-loaded .map__cover { display: none; }
 .map.is-loaded .map__switch { z-index: 6; }

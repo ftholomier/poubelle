@@ -65,6 +65,8 @@ $inventory = Consent::inventory();
         </div>
       <?php endforeach; ?>
 
+      <p class="consent-cat__text" style="margin-top:6px"><?= Text::e(I18n::t('consent.mapsNotice')) ?></p>
+
       <div class="consent-panel__actions">
         <button class="btn btn--ink btn--md btn--square" type="button" data-consent-save><?= Text::e(I18n::t('consent.save')) ?></button>
         <button class="btn btn--outline btn--md btn--square" type="button" data-consent-accept><?= Text::e(I18n::t('consent.acceptAll')) ?></button>

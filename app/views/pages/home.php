@@ -20,6 +20,9 @@ $slides = array_values(array_filter(
     Content::list($hero, 'slides'),
     static fn ($src): bool => \is_string($src) && App\Media::dimensions($src)['width'] >= 900
 ));
+// Ordre tiré au sort à chaque visite : deux passages sur l'accueil ne montrent
+// pas la même photo d'ouverture, et tous les espaces finissent par être vus.
+shuffle($slides);
 $sites = array_values(array_filter((array) ($settings['sites'] ?? []), static fn ($s): bool => \is_array($s) && ($s['enabled'] ?? true)));
 $featured = \array_slice(Offices::decorateAll(Offices::filter(Offices::published(), ['status' => 'available']), $lang), 0, 3);
 $marquee = array_values(array_filter((array) ($settings['marquee'] ?? []), 'is_array'));

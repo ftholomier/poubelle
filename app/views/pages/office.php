@@ -75,17 +75,17 @@ $isRented = ($office['status'] ?? '') === 'rented';
       <?php if ($site !== null): ?>
       <h2 class="fiche__h2 fiche__h2--map"><?= Text::e(I18n::t('office.where')) ?></h2>
       <?php $address = trim((string) ($site['address'] ?? '') . ', ' . (string) ($site['zip'] ?? '') . ' ' . (string) ($site['city'] ?? '')); ?>
-      <div class="map" data-map<?= App\Consent::allows('maps') ? ' data-map-auto' : '' ?>
-           data-embed="<?= Text::e(View::mapEmbed($address)) ?>" data-label="<?= Text::e((string) ($site['name'] ?? '')) ?>">
-        <span class="map__decor" aria-hidden="true">
-          <span class="map__road-h"></span>
-          <span class="map__road-v"></span>
-        </span>
-        <div class="map__cover" data-map-cover>
-          <span class="map__address"><?= Text::e((string) ($site['address'] ?? '')) ?></span>
-          <button type="button" class="btn btn--ink btn--md map__load" data-map-load><?= Text::e(I18n::t('contact.showMap')) ?></button>
-          <span class="map__hint"><?= Text::e(I18n::t('contact.mapHint')) ?></span>
-        </div>
+      <?php $embed = View::mapEmbed($address); ?>
+      <div class="map<?= $embed !== '' ? ' is-loaded' : '' ?>" data-map
+           data-embed="<?= Text::e($embed) ?>" data-label="<?= Text::e((string) ($site['name'] ?? '')) ?>">
+        <?php if ($embed !== ''): ?>
+          <iframe class="map__frame" src="<?= Text::e($embed) ?>" loading="lazy"
+                  title="<?= Text::e((string) ($site['name'] ?? '')) ?>"
+                  referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <?php else: ?>
+          <span class="map__decor" aria-hidden="true"><span class="map__road-h"></span><span class="map__road-v"></span></span>
+          <div class="map__cover"><span class="map__address"><?= Text::e((string) ($site['address'] ?? '')) ?></span></div>
+        <?php endif; ?>
       </div>
       <?php endif; ?>
     </div>

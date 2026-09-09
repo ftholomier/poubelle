@@ -278,19 +278,22 @@ photo → bureau est celle du site d'origine.
 ## 11. Cookies et consentement
 
 Bandeau affiché à la première visite : **Tout accepter**, **Tout refuser**,
-**Paramètres**. Quatre catégories, pas une de plus :
+**Paramètres**. Trois catégories, pas une de plus :
 
 | Catégorie | Contenu | Sans consentement |
 | --- | --- | --- |
 | Strictement nécessaires | session anti-spam des formulaires, langue, fenêtres déjà fermées, mémorisation du choix (13 mois) | actives, comme le permet l'article 82 de la loi Informatique et Libertés |
 | Mesure d'audience | Plausible ou Matomo | **aucun script chargé**, aucun événement envoyé |
 | Assistant iOiO | envoi des questions à Google (API Gemini) | l'assistant répond uniquement depuis l'index local du site, **rien ne sort du serveur** |
-| Plans Google Maps | plan des deux adresses, intégré sans clé API | un aperçu du quartier reste affiché, avec l'adresse et un bouton pour charger le plan |
 
-**Les plans s'affichent directement**, sans clic, dès que la catégorie est
-acceptée — y compris sur les pages ouvertes ensuite, et sans recharger celle en
-cours au moment de l'acceptation. La liste des catégories est pilotée par
-`Consent::CATEGORIES` : le panneau de paramétrage la suit automatiquement.
+**Plans Google Maps.** Sur décision de l'éditeur, les plans des pages Contact et
+fiche bureau sont **affichés directement**, sans clic et sans condition :
+l'`<iframe>` est rendue par PHP dès le chargement de la page (aucune clé API
+n'est nécessaire). Ils ne constituent donc pas une catégorie réglable ; le
+panneau le dit explicitement, puisque Google y dépose ses propres cookies. Le
+JavaScript ne sert plus qu'à changer d'adresse quand on clique une pastille de
+lieu. La liste des catégories est pilotée par `Consent::CATEGORIES` : le panneau
+de paramétrage la suit automatiquement.
 
 Le choix est rejouable à tout moment par le lien « Cookies » du pied de page.
 Le bandeau se désactive dans **Réglages → Conversion**.

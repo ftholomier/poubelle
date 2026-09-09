@@ -132,8 +132,6 @@
     "album.close": "Close",
     "album.prev": "Previous photo",
     "album.next": "Next photo",
-    "contact.showMap": "Show the map",
-    "contact.mapHint": "The map is served by Google: it only loads when you ask for it.",
     "bot.actionAvailable": "See the {count} available offices",
     "bot.actionOffice": "See {name}",
     "bot.actionOffices": "See the whole catalogue",
@@ -156,6 +154,5 @@
     "form.interestTitle": "INTERESTED IN THIS OFFICE?",
     "form.submitInterest": "I'm interested in this office",
     "form.notifyTitle": "LET ME KNOW WHEN IT FREES UP",
-    "consent.maps": "Google Maps",
-    "consent.mapsText": "Shows the map of both addresses right in the page. Google then sets its own cookies. If you decline, a preview of the area stays visible and you can load the map with one click."
+    "consent.mapsNotice": "The maps on the Contact and Offices pages come from Google Maps and are displayed directly: Google sets its own cookies there."
 }

@@ -39,13 +39,11 @@
   function writeConsent(choices) {
     var value = {
       v: CONSENT_VERSION, at: new Date().toISOString(),
-      analytics: !!choices.analytics, ai: !!choices.ai, maps: !!choices.maps
+      analytics: !!choices.analytics, ai: !!choices.ai
     };
     var attrs = '; path=' + (base || '/') + '; max-age=33696000; samesite=lax' + (location.protocol === 'https:' ? '; secure' : '');
     document.cookie = CONSENT_COOKIE + '=' + encodeURIComponent(JSON.stringify(value)) + attrs;
     if (value.analytics) { loadAnalytics(); }
-    // Plans acceptés : ils s'affichent tout de suite, sans recharger la page.
-    if (value.maps && typeof window.ioioLoadMaps === 'function') { window.ioioLoadMaps(); }
   }
 
   /* Le script de mesure n'est injecté qu'après acceptation, sans rechargement. */
@@ -103,10 +101,10 @@
   }
 
   $$('[data-consent-accept]').forEach(function (b) {
-    b.addEventListener('click', function () { decide({ analytics: true, ai: true, maps: true }, b.closest('[data-consent-panel]') !== null); });
+    b.addEventListener('click', function () { decide({ analytics: true, ai: true }, b.closest('[data-consent-panel]') !== null); });
   });
   $$('[data-consent-refuse]').forEach(function (b) {
-    b.addEventListener('click', function () { decide({ analytics: false, ai: false, maps: false }, b.closest('[data-consent-panel]') !== null); });
+    b.addEventListener('click', function () { decide({ analytics: false, ai: false }, b.closest('[data-consent-panel]') !== null); });
   });
   $$('[data-consent-open]').forEach(function (b) {
     b.addEventListener('click', function (e) { e.preventDefault(); openConsentPanel(); });
@@ -579,64 +577,35 @@
 
   /* ------------------------------------------------------------- cartes */
 
-  /* La carte réelle n'est chargée qu'au clic : aucune requête vers Google
-     tant que le visiteur ne l'a pas demandé. */
-  /* Les plans s'affichent directement dès que le visiteur a accepté la
-     catégorie « maps ». Sans accord, on montre un aperçu du quartier et un
-     bouton : Google n'est jamais contacté avant que le visiteur le veuille. */
-  window.ioioLoadMaps = function () {
-    $$('[data-map]').forEach(function (map) {
-      if (!map.classList.contains('is-loaded')) {
-        var active = $('[data-map-place].is-active', map);
-        map.__load(
-          (active && active.getAttribute('data-embed')) || map.getAttribute('data-embed'),
-          (active && active.getAttribute('data-label')) || map.getAttribute('data-label')
-        );
-      }
-    });
-  };
+  /* L'iframe du plan est rendue par PHP : elle est présente dès l'ouverture de
+     la page. Le JS ne sert qu'à passer d'une adresse à l'autre sur la page
+     contact, quand on clique une pastille de lieu. */
 
   $$('[data-map]').forEach(function (map) {
-    map.__load = function (url, label) {
-      if (!url || map.classList.contains('is-loaded')) { return; }
-      var frame = document.createElement('iframe');
-      frame.className = 'map__frame';
-      frame.src = url;
-      frame.loading = 'lazy';
-      frame.title = label || 'Carte';
-      frame.referrerPolicy = 'no-referrer-when-downgrade';
-      frame.setAttribute('allowfullscreen', '');
-      map.appendChild(frame);
-      map.classList.add('is-loaded');
-      track('map_open', { place: label || '' });
-    };
-
-    function swap(url, label) {
-      var frame = $('.map__frame', map);
-      if (!frame) { map.__load(url, label); return; }
-      frame.src = url;
-      frame.title = label || frame.title;
-      track('map_open', { place: label || '' });
-    }
-
-    $$('[data-map-load]', map).forEach(function (button) {
-      button.addEventListener('click', function () {
-        map.__load(map.getAttribute('data-embed'), map.getAttribute('data-label'));
-      });
-    });
-
-    // Sur la page contact, chaque pastille montre l'adresse de son lieu.
     $$('[data-map-place]', map).forEach(function (tag) {
       tag.addEventListener('click', function () {
+        var url = tag.getAttribute('data-embed');
+        var label = tag.getAttribute('data-label') || tag.textContent.trim();
+        if (!url) { return; }
+
         $$('[data-map-place]', map).forEach(function (t) { t.classList.remove('is-active'); });
         tag.classList.add('is-active');
-        swap(tag.getAttribute('data-embed'), tag.getAttribute('data-label') || tag.textContent.trim());
+
+        var frame = $('.map__frame', map);
+        if (!frame) {
+          frame = document.createElement('iframe');
+          frame.className = 'map__frame';
+          frame.loading = 'lazy';
+          frame.referrerPolicy = 'no-referrer-when-downgrade';
+          frame.setAttribute('allowfullscreen', '');
+          map.insertBefore(frame, map.firstChild);
+          map.classList.add('is-loaded');
+        }
+        frame.src = url;
+        frame.title = label;
+        track('map_open', { place: label });
       });
     });
-
-    if (map.hasAttribute('data-map-auto')) {
-      map.__load(map.getAttribute('data-embed'), map.getAttribute('data-label'));
-    }
   });
 
   /* ----------------------------------------------------- assistant iOiO */

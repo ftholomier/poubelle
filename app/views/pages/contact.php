@@ -99,14 +99,16 @@ $firstNeed = (string) ($needs[0] ?? '');
   $first = $sites[0] ?? [];
   $firstAddress = trim((string) ($first['address'] ?? '') . ', ' . (string) ($first['zip'] ?? '') . ' ' . (string) ($first['city'] ?? ''));
   ?>
-  <div class="map map--lg" data-reveal data-map<?= App\Consent::allows('maps') ? ' data-map-auto' : '' ?>
-       data-embed="<?= Text::e(View::mapEmbed($firstAddress)) ?>"
+  <?php $embed = View::mapEmbed($firstAddress); ?>
+  <div class="map map--lg<?= $embed !== '' ? ' is-loaded' : '' ?>" data-reveal data-map
+       data-embed="<?= Text::e($embed) ?>"
        data-label="<?= Text::e((string) ($first['name'] ?? '')) ?>">
-    <span class="map__decor" aria-hidden="true">
-      <span class="map__road-h"></span>
-      <span class="map__road-v"></span>
-    </span>
-    <div class="map__switch" data-map-switch>
+    <?php if ($embed !== ''): ?>
+      <iframe class="map__frame" src="<?= Text::e($embed) ?>" loading="lazy"
+              title="<?= Text::e((string) ($first['name'] ?? '')) ?>"
+              referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    <?php endif; ?>
+    <div class="map__switch">
       <?php foreach (\array_slice($sites, 0, 2) as $i => $site):
           $address = trim((string) ($site['address'] ?? '') . ', ' . (string) ($site['zip'] ?? '') . ' ' . (string) ($site['city'] ?? '')); ?>
         <button type="button" class="map__tag<?= $i === 0 ? ' is-active' : '' ?>" data-map-place
@@ -114,11 +116,6 @@ $firstNeed = (string) ($needs[0] ?? '');
                 data-label="<?= Text::e((string) ($site['name'] ?? '')) ?>"
                 style="background:<?= Text::e((string) ($site['color'] ?? '#FFD100')) ?>"><?= Text::e((string) ($site['shortName'] ?? '')) ?></button>
       <?php endforeach; ?>
-    </div>
-    <div class="map__cover" data-map-cover>
-      <span class="map__address"><?= Text::e($firstAddress) ?></span>
-      <button type="button" class="btn btn--ink btn--md map__load" data-map-load><?= Text::e(I18n::t('contact.showMap')) ?></button>
-      <span class="map__hint"><?= Text::e(I18n::t('contact.mapHint')) ?></span>
     </div>
   </div>
 </section>
