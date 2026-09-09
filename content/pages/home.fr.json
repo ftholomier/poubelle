@@ -10,17 +10,17 @@
         "ogImage": "/media/granvelle-openspace-01.webp"
     },
     "hero": {
-        "badge": "{count} BUREAUX DISPONIBLES À LA LOCATION",
-        "title1": "Location de bureaux",
-        "title2": "et coworking à Besançon,",
-        "highlight": "tout compris.",
-        "text": "Le iOiO propose un concept de location clé en main, tout compris, sous le modèle de la prestation de services : pas de frais cachés ni de frais additionnels. Vous signez votre contrat, vous posez vos affaires, et c'est parti.",
+        "badge": "{count} BUREAUX DISPONIBLES CE MOIS",
+        "title1": "Un bureau qui donne",
+        "title2": "envie d’y aller",
+        "highlight": "le lundi.",
+        "text": "Bureaux privés et postes en open space à Besançon centre. Vous signez, vous posez vos affaires, vous travaillez. Charges, internet très haut débit, ménage, salle de réunion : tout est dedans, aucun frais caché.",
         "ctaPrimary": {
-            "label": "Voir les disponibilités",
+            "label": "Voir les bureaux libres",
             "route": "offices"
         },
         "ctaSecondary": {
-            "label": "Nous contacter",
+            "label": "Réserver une visite",
             "route": "contact"
         },
         "stats": [
@@ -91,8 +91,8 @@
         "title": "Ils y sont bien"
     },
     "band": {
-        "title": "Il reste {count} places.",
-        "text": "Vous pouvez vous positionner et réserver votre emplacement : il n'y aura pas de la place pour tout le monde.",
+        "title": "Il reste {count} places. Pas 40.",
+        "text": "Vous pouvez vous positionner et réserver votre emplacement : il n’y aura pas de la place pour tout le monde.",
         "cta1": "Réserver mon bureau",
         "cta2": "Parler à un humain"
     },
@@ -117,6 +117,6 @@
             }
         ]
     },
-    "updatedAt": "2026-09-09T21:19:21+02:00",
+    "updatedAt": "2026-09-09T22:51:26+02:00",
     "updatedBy": "correction"
 }

@@ -10,17 +10,17 @@
         "ogImage": "/media/granvelle-openspace-01.webp"
     },
     "hero": {
-        "badge": "{count} OFFICES AVAILABLE TO RENT",
-        "title1": "Offices and coworking",
-        "title2": "in Besançon,",
-        "highlight": "all inclusive.",
-        "text": "The iOiO offers turnkey, all-inclusive rental as a service contract: no hidden fees, no add-ons. You sign, you drop your things, and off you go.",
+        "badge": "{count} OFFICES AVAILABLE THIS MONTH",
+        "title1": "An office you actually",
+        "title2": "want to walk into",
+        "highlight": "on a Monday.",
+        "text": "Private offices and open-space desks in central Besançon. You sign, you drop your things, you get to work. Bills, high-speed internet, cleaning and the meeting room are all in, with no hidden fees.",
         "ctaPrimary": {
-            "label": "See what is available",
+            "label": "See available offices",
             "route": "offices"
         },
         "ctaSecondary": {
-            "label": "Contact us",
+            "label": "Book a viewing",
             "route": "contact"
         },
         "stats": [
@@ -91,7 +91,7 @@
         "title": "They feel good here"
     },
     "band": {
-        "title": "{count} spots left.",
+        "title": "{count} spots left. Not 40.",
         "text": "You can take your spot and book it: there will not be room for everyone.",
         "cta1": "Book my office",
         "cta2": "Talk to a human"
@@ -117,6 +117,6 @@
             }
         ]
     },
-    "updatedAt": "2026-09-09T21:19:21+02:00",
+    "updatedAt": "2026-09-09T22:51:26+02:00",
     "updatedBy": "correction"
 }
