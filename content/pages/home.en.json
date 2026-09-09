@@ -52,12 +52,12 @@
         "cardBadge": {
             "kicker": "TURNKEY",
             "line1": "All inclusive,",
-            "line2": "no hidden fees"
+            "line2": "zero hidden fees"
         }
     },
     "places": {
-        "kicker": "OUR SPACES · 170 SQM",
-        "title": "Two spaces in the city centre",
+        "kicker": "OUR SPACES",
+        "title": "Two addresses, two moods",
         "cta": "Tour both spaces"
     },
     "availability": {
@@ -70,19 +70,19 @@
             {
                 "n": "1",
                 "title": "You visit",
-                "text": "We show you both spaces and the desks still free.",
+                "text": "20 minutes on site, coffee included. We show you both spaces and the free desks.",
                 "color": "#FFFFFF"
             },
             {
                 "n": "2",
                 "title": "You sign",
-                "text": "A service contract, no commercial lease, no admin fees.",
+                "text": "A simple service contract, no commercial lease, no admin fees.",
                 "color": "#FFD100"
             },
             {
                 "n": "3",
                 "title": "You work",
-                "text": "Drop your things and off you go: furniture, internet and bills are already there.",
+                "text": "Badge handed over, internet plugged in, coffee hot. Drop your things and off you go.",
                 "color": "#12B39A"
             }
         ]
@@ -92,7 +92,7 @@
     },
     "band": {
         "title": "{count} spots left. Not 40.",
-        "text": "You can take your spot and book it: there will not be room for everyone.",
+        "text": "A 20-minute viewing, a service contract, and you move in.",
         "cta1": "Book my office",
         "cta2": "Talk to a human"
     },
@@ -100,23 +100,23 @@
         "title": "Frequently asked",
         "items": [
             {
-                "q": "What is included in the price?",
-                "a": "Everything: bills, water, electricity, heating, cleaning, high-speed internet, furniture, meeting room and lounge. The price shown is per month excluding VAT, with no add-ons."
+                "q": "Is there a minimum term?",
+                "a": "No. The iOiO works with a service contract and a short notice period. You leave when your business changes."
             },
             {
-                "q": "What kind of contract is it?",
-                "a": "Turnkey rental as a service contract, not a commercial lease. You sign, you drop your things, you work."
+                "q": "What is really included in the price?",
+                "a": "Bills, water, electricity, heating, cleaning, high-speed internet, furniture, meeting room, fitted kitchen and coffee. There are no additional fees."
             },
             {
                 "q": "What is the difference between Carnot and Granvelle?",
-                "a": "Carnot, 11 avenue Carnot, gathers 4 closed private offices around an inner courtyard, with a meeting room, kitchen, shower and toilets. Granvelle, 3 rue Granvelle, is the coworking space: private offices or dedicated open-space desks, key locker, bar table and lounge."
+                "a": "Carnot, 11 avenue Carnot, is 4 closed private offices around an inner courtyard, with a meeting room, kitchen, shower and toilets. Granvelle, 3 rue Granvelle, is the coworking space: private offices or dedicated open-space desks, key locker, bar table and sofa corner."
             },
             {
                 "q": "Can I welcome my clients?",
-                "a": "Yes. Carnot has a shared meeting room with a video projection system; Granvelle has a bar work table and a sofa corner for informal meetings."
+                "a": "Of course. Carnot has a meeting room with a video projection system; Granvelle has a bar table and a sofa corner for informal meetings."
             }
         ]
     },
-    "updatedAt": "2026-09-09T22:51:26+02:00",
+    "updatedAt": "2026-09-09T22:53:00+02:00",
     "updatedBy": "correction"
 }

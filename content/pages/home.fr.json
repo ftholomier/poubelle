@@ -51,13 +51,13 @@
         },
         "cardBadge": {
             "kicker": "CLÉ EN MAIN",
-            "line1": "Tout compris,",
-            "line2": "aucun frais caché"
+            "line1": "Tout inclus,",
+            "line2": "zéro frais caché"
         }
     },
     "places": {
-        "kicker": "NOS ESPACES · 170 M²",
-        "title": "Deux espaces au centre-ville",
+        "kicker": "NOS ESPACES",
+        "title": "Deux adresses, deux ambiances",
         "cta": "Visiter les 2 espaces"
     },
     "availability": {
@@ -70,19 +70,19 @@
             {
                 "n": "1",
                 "title": "Vous visitez",
-                "text": "On vous montre les deux espaces et les postes encore libres.",
+                "text": "20 minutes sur place, café compris. On vous montre les deux espaces et les postes libres.",
                 "color": "#FFFFFF"
             },
             {
                 "n": "2",
                 "title": "Vous signez",
-                "text": "Un contrat de prestation de services, sans bail commercial ni frais de dossier.",
+                "text": "Un contrat de prestation de services simple, sans bail commercial ni frais de dossier.",
                 "color": "#FFD100"
             },
             {
                 "n": "3",
                 "title": "Vous travaillez",
-                "text": "Vous posez vos affaires et c'est parti : mobilier, internet et charges sont déjà là.",
+                "text": "Badge remis, internet branché, café chaud. Vous posez vos affaires et c’est parti.",
                 "color": "#12B39A"
             }
         ]
@@ -92,7 +92,7 @@
     },
     "band": {
         "title": "Il reste {count} places. Pas 40.",
-        "text": "Vous pouvez vous positionner et réserver votre emplacement : il n’y aura pas de la place pour tout le monde.",
+        "text": "Visite en 20 minutes, contrat en prestation de services, et vous vous installez.",
         "cta1": "Réserver mon bureau",
         "cta2": "Parler à un humain"
     },
@@ -100,23 +100,23 @@
         "title": "Questions fréquentes",
         "items": [
             {
-                "q": "Qu'est-ce qui est compris dans le tarif ?",
-                "a": "Tout : charges, eau, électricité, chauffage, ménage, internet très haut débit, mobilier, salle de réunion et espace détente. Le tarif annoncé est HT par mois, sans frais additionnel."
+                "q": "Y a-t-il un engagement de durée ?",
+                "a": "Non. Le iOiO fonctionne en contrat de prestation de services, avec un préavis court. Vous partez quand votre activité change."
             },
             {
-                "q": "Quelle est la forme du contrat ?",
-                "a": "Une location clé en main sous le modèle de la prestation de services, pas un bail commercial. Vous signez, vous posez vos affaires, vous travaillez."
+                "q": "Qu’est-ce qui est vraiment compris dans le prix ?",
+                "a": "Charges, eau, électricité, chauffage, ménage, internet très haut débit, mobilier, salle de réunion, cuisine équipée et café. Il n’y a pas de frais additionnels."
             },
             {
                 "q": "Quelle différence entre Carnot et Granvelle ?",
-                "a": "Carnot, 11 avenue Carnot, réunit 4 bureaux privés fermés autour d'une cour intérieure, avec salle de réunion, cuisine, douche et wc. Granvelle, 3 rue Granvelle, est l'espace de coworking : bureaux privés ou postes dédiés en open space, casier à clé, table bar et coin détente."
+                "a": "Carnot, 11 avenue Carnot, c’est 4 bureaux privés fermés autour d’une cour intérieure, avec salle de réunion, cuisine, douche et wc. Granvelle, 3 rue Granvelle, c’est le coworking : bureaux privés ou postes dédiés en open space, casier à clé, table bar et coin canapé."
             },
             {
                 "q": "Puis-je recevoir mes clients ?",
-                "a": "Oui. Carnot dispose d'une salle de réunion partagée équipée d'un système de vidéo-projection ; Granvelle a une table bar de travail et un coin canapé pour les rendez-vous informels."
+                "a": "Bien sûr. Carnot dispose d’une salle de réunion équipée d’un système de vidéo-projection ; Granvelle a une table bar et un coin canapé pour les rendez-vous informels."
             }
         ]
     },
-    "updatedAt": "2026-09-09T22:51:26+02:00",
+    "updatedAt": "2026-09-09T22:53:00+02:00",
     "updatedBy": "correction"
 }

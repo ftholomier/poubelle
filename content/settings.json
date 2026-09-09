@@ -8,12 +8,12 @@
         "city": "Besançon"
     },
     "top": {
-        "line1": "Tout compris — charges, eau, électricité, chauffage, ménage",
-        "line2": "2 adresses au centre-ville de Besançon · 170 m²",
+        "line1": "Tout compris — charges, ménage, internet, bonne humeur",
+        "line2": "2 adresses au centre-ville de Besançon",
         "i18n": {
             "en": {
-                "line1": "All inclusive — bills, water, electricity, heating, cleaning",
-                "line2": "2 addresses in central Besançon · 170 sqm"
+                "line1": "All inclusive — bills, cleaning, internet, good vibes",
+                "line2": "2 addresses in central Besançon"
             }
         }
     },
@@ -131,7 +131,7 @@
             "color": "#FFD100"
         },
         {
-            "label": "EAU, ÉLECTRICITÉ, CHAUFFAGE",
+            "label": "INTERNET TRÈS HAUT DÉBIT",
             "color": "#FFF8EA"
         },
         {
@@ -139,15 +139,15 @@
             "color": "#12B39A"
         },
         {
-            "label": "INTERNET TRÈS HAUT DÉBIT",
+            "label": "SALLE DE RÉUNION",
             "color": "#FFF8EA"
         },
         {
-            "label": "SALLE DE RÉUNION",
+            "label": "BONNE HUMEUR À VOLONTÉ",
             "color": "#FFD100"
         },
         {
-            "label": "AUCUN FRAIS CACHÉ",
+            "label": "ACCÈS 24H/24",
             "color": "#FFF8EA"
         }
     ],
@@ -365,7 +365,7 @@
         "domain": "",
         "src": ""
     },
-    "updatedAt": "2026-09-09T21:19:21+02:00",
+    "updatedAt": "2026-09-09T22:53:00+02:00",
     "updatedBy": "correction",
     "consent": {
         "enabled": true
