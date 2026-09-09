@@ -172,7 +172,10 @@ final class Config
             return rtrim($configured, '/');
         }
         $script = str_replace('\\', '/', (string) ($_SERVER['SCRIPT_NAME'] ?? ''));
-        $dir = rtrim(str_replace('/index.php', '', $script), '/');
+        // On retire le fichier exécuté, quel que soit son nom : index.php mais
+        // aussi chat.php, lead.php… sinon les liens fabriqués depuis un point
+        // d'entrée de l'API héritent de son chemin.
+        $dir = rtrim((string) preg_replace('#/[^/]*\.php$#', '', $script), '/');
         foreach (['/api', '/admin'] as $suffix) {
             if (str_ends_with($dir, $suffix)) {
                 $dir = substr($dir, 0, -\strlen($suffix));

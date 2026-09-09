@@ -400,8 +400,9 @@ h1, h2, h3, h4 { font-family: 'Bricolage Grotesque', 'Manrope', sans-serif; font
 .grid--offices-lg { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
 .grid--offices { margin-top: 34px; }
 .grid--offices-lg { margin: 34px 0 20px; }
-/* Une ou deux disponibilités sur l'accueil : une colonne, photo généreuse. */
-.grid--offices-spot { grid-template-columns: minmax(0, 1fr); gap: 26px; max-width: 900px; }
+/* Une ou deux disponibilités sur l'accueil : deux pavés côte à côte, et
+   dans chaque pavé la photo à gauche, le texte à droite, moitié-moitié. */
+.grid--offices-spot { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 
 @media (max-width: 1180px) {
   .grid--offices:not(.grid--offices-spot),
@@ -488,17 +489,26 @@ h1, h2, h3, h4 { font-family: 'Bricolage Grotesque', 'Manrope', sans-serif; font
 /* ---------------------------------------------- carte « disponibilité » mise en avant */
 .office-card--spot { flex-direction: row; align-items: stretch; }
 .office-card--spot .office-card__media {
-  flex: 0 0 46%; aspect-ratio: auto; min-height: 340px;
+  flex: 0 0 50%; aspect-ratio: auto; min-height: 300px;
   border-bottom: 0; border-right: 2px solid var(--ink);
 }
-.office-card--spot .office-card__body { flex: 1; justify-content: center; padding: 34px 38px 36px; }
-.office-card--spot .office-card__title { margin-top: 16px; font-size: 30px; }
-.office-card--spot .office-card__price { margin-top: 16px; }
-.office-card--spot .office-card__priceValue { font-size: 38px; }
+.office-card--spot .office-card__body { flex: 1; justify-content: center; padding: 26px 28px 28px; }
+.office-card--spot .office-card__title { margin-top: 14px; font-size: 25px; }
+.office-card--spot .office-card__price { margin-top: 14px; }
+.office-card--spot .office-card__priceValue { font-size: 33px; }
 .office-card--spot .office-card__cta,
-.office-card--spot .office-card__body > .office-card__cta.btn { width: auto; align-self: flex-start; margin-top: 28px; }
-.office-card--spot .office-card__count { right: 14px; bottom: 14px; }
-@media (max-width: 760px) {
+.office-card--spot .office-card__body > .office-card__cta.btn { width: auto; align-self: flex-start; margin-top: 24px; }
+.office-card--spot .office-card__count { right: 12px; bottom: 12px; }
+
+/* Sous 1080 px la moitié devient trop étroite : un pavé par ligne, la photo
+   reste à gauche. Sous 700 px, on empile photo puis texte. */
+@media (max-width: 1080px) {
+  .grid--offices-spot { grid-template-columns: minmax(0, 1fr); }
+  .office-card--spot .office-card__title { font-size: 28px; }
+  .office-card--spot .office-card__priceValue { font-size: 36px; }
+  .office-card--spot .office-card__body { padding: 30px 34px 32px; }
+}
+@media (max-width: 700px) {
   .office-card--spot { flex-direction: column; }
   .office-card--spot .office-card__media {
     flex: none; aspect-ratio: 4 / 3; min-height: 0;
@@ -855,6 +865,16 @@ textarea.field { resize: vertical; line-height: 1.5; min-height: 130px; }
   border: 1.5px solid rgba(14, 14, 14, .25); font: 700 11px/1 'Manrope', sans-serif; color: var(--ink);
 }
 a.bot__source:hover { background: var(--yellow); text-decoration: none; }
+/* Boutons d'action : la réponse mène quelque part, en un clic. */
+.bot__actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
+.bot__action {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 13px; border-radius: 999px; background: var(--ink); color: var(--cream);
+  border: 2px solid var(--ink); font: 800 11.5px/1 'Manrope', sans-serif;
+  transition: background-color .25s ease, color .25s ease, transform .25s var(--ease-pop);
+}
+.bot__action::after { content: '→'; font-size: 12px; }
+a.bot__action:hover { background: var(--yellow); color: var(--ink); text-decoration: none; transform: translateY(-2px); }
 .bot__typing { align-self: flex-start; display: flex; gap: 5px; padding: 14px 16px; border-radius: 16px 16px 16px 4px; background: var(--white); border: 2px solid var(--ink); }
 .bot__typing[hidden] { display: none; }
 .bot__typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--ink); animation: ioioDot 1.1s infinite; }

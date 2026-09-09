@@ -133,5 +133,22 @@
     "album.prev": "Photo précédente",
     "album.next": "Photo suivante",
     "contact.showMap": "Afficher la carte",
-    "contact.mapHint": "La carte est fournie par Google : elle ne se charge qu’à votre demande."
+    "contact.mapHint": "La carte est fournie par Google : elle ne se charge qu’à votre demande.",
+    "bot.actionAvailable": "Voir les {count} bureaux libres",
+    "bot.actionOffice": "Voir {name}",
+    "bot.actionOffices": "Voir tout le catalogue",
+    "bot.actionSpaces": "Découvrir les deux espaces",
+    "bot.actionVisit": "Réserver une visite",
+    "bot.actionNotify": "Être prévenu d’une libération",
+    "bot.dataOne": "Il reste {count} bureau libre en ce moment :",
+    "bot.dataMany": "Il reste {count} bureaux libres en ce moment :",
+    "bot.dataNone": "Aucun bureau n’est libre à cet instant.",
+    "bot.dataSoon": "{count} se libère(nt) prochainement : laissez-nous vos coordonnées et vous serez prévenu en premier.",
+    "bot.dataPricePrivate": "Bureau privé : {range} HT/mois.",
+    "bot.dataPriceOpen": "Poste en open space : {range} HT/mois.",
+    "bot.dataRange": "de {min} à {max}",
+    "bot.dataPriceNone": "Les tarifs sont indiqués bureau par bureau sur la page du catalogue.",
+    "bot.dataAllIn": "Tout est compris : charges, internet très haut débit, ménage et salle de réunion, sans frais de dossier.",
+    "bot.dataVisit": "La visite se fait sur rendez-vous, dans l’un des deux espaces. Laissez vos coordonnées et l’équipe vous rappelle pour fixer un créneau.",
+    "bot.actionAvailableOne": "Voir le bureau libre"
 }

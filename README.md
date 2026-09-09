@@ -149,13 +149,42 @@ horodatage `ts` (rejet sous 2 secondes), **quota** 5 requêtes / 10 min / IP
 
 | Intégration | Avec la clé | Sans la clé (repli livré) |
 | --- | --- | --- |
-| **Assistant Gemini** | RAG sur l'index local puis le modèle choisi dans la liste (`gemini-2.5-flash` par défaut), température 0,2, 400 jetons, timeout 8 s, une seule tentative | réponses rapides du back-office (mots-clés) puis extraction des phrases pertinentes de l'index — toujours sourcées |
+| **Assistant Gemini** | données du catalogue + RAG sur l'index local, puis le modèle choisi dans la liste (`gemini-2.5-flash` par défaut), température 0,2, 400 jetons, timeout 8 s, une seule tentative | réponses chiffrées calculées sur le catalogue, puis réponses rapides du back-office, puis extraction des phrases pertinentes de l'index — toujours sourcées |
 | **Avis Google Places** | récupération serveur, cache 24 h, avis non retouchés | avis saisis dans `content/reviews.json` |
 | **Google Translate** | bouton « Traduire depuis le français », résultat écrit **en brouillon** | traduction manuelle par onglet de langue |
 | **SMTP** | envoi authentifié | fonction `mail()` de l'hébergeur |
 
 Les clés se saisissent dans **Réglages → Clés API** (stockées dans `storage/secrets.json`,
 hors racine web, en droits `0600`) ou dans `.env`, qui reste prioritaire.
+
+### L'assistant lit les données, pas seulement les pages
+
+`app/Ai/Facts.php` calcule à chaque question l'état réel du catalogue :
+combien de bureaux sont libres au total, par lieu et par type, les fourchettes
+de prix, la liste nominative des bureaux disponibles avec leur tarif et leur URL,
+les adresses des deux lieux. Ces valeurs partent :
+
+- **dans le prompt de Gemini**, sous l'en-tête « DONNÉES DU CATALOGUE … elles font
+  foi » — le modèle n'a donc jamais à deviner un chiffre, et le prompt système lui
+  interdit d'écrire une URL ;
+- **directement en réponse** quand aucune clé n'est configurée : « Il reste 2 bureaux
+  libres en ce moment : Carnot — Bureau 03 (320 €) · Granvelle — Poste open space 12
+  (150 €). »
+
+Chaque réponse est accompagnée de **boutons d'action calculés côté serveur** —
+« Voir les 2 bureaux libres » vers `/nos-bureaux?status=available`, « Voir Carnot —
+Bureau 03 » vers sa fiche, « Réserver une visite » vers le contact. Ils sont justes
+quelle que soit la façon dont la réponse a été rédigée, puisqu'ils ne viennent pas
+du modèle.
+
+Les intentions sont repérées par préfixe (« disponibilités » reconnaît
+« disponible »), en français comme en anglais, et une relance sans mot-clé
+(« et à Carnot ? ») reprend l'intention du tour précédent.
+
+**La conversation suit le visiteur** : elle est conservée dans le `sessionStorage`
+du navigateur, donc d'une page à l'autre et pour la durée de l'onglet seulement.
+L'état ouvert/fermé du panneau est mémorisé de la même façon. Rien n'est stocké
+côté serveur, rien ne survit à la fermeture de l'onglet.
 
 ### Trois outils dans l'écran des clés
 

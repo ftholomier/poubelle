@@ -191,14 +191,17 @@ final class Gemini
     public static function defaultPrompt(): string
     {
         return "Tu es l'assistant du iOiO, coworking à Besançon. Réponds en 3 phrases maximum, "
-            . "dans la langue du visiteur, uniquement à partir des extraits fournis. Cite les sources. "
-            . "Si l'information manque, dis-le et propose le formulaire de contact ou le bouton "
-            . "« Réservez votre bureau ». N'invente jamais un tarif ni une disponibilité.";
+            . "dans la langue du visiteur, à partir des données du catalogue et des extraits fournis. "
+            . "Les DONNÉES DU CATALOGUE font foi : reprends leurs nombres et leurs tarifs tels quels, "
+            . "et cite les bureaux libres par leur nom quand la question porte sur les disponibilités. "
+            . "Si l'information manque, dis-le et propose le formulaire de contact. "
+            . "N'invente jamais un tarif, une disponibilité ni une adresse. "
+            . "N'écris pas d'URL dans ta réponse : des boutons de navigation sont ajoutés automatiquement.";
     }
 
     /**
      * @param array<int,array{role:string,text:string}> $history
-     * @return array{answer:string,sources:array<int,array{label:string,url:string}>,engine:string}
+     * @return array{answer:string,sources:array<int,array{label:string,url:string}>,actions:array<int,array{label:string,url:string}>,engine:string}
      */
     public static function ask(string $question, string $lang, array $history = []): array
     {
@@ -207,28 +210,21 @@ final class Gemini
             return self::fallbackAnswer($lang, []);
         }
 
+        // Boutons calculés côté serveur à partir du catalogue : ils sont justes
+        // quelle que soit la façon dont la réponse a été rédigée.
+        $actions = Facts::actionsFor($question, $lang, $history);
         $passages = Indexer::search($question, $lang, 6);
-        if ($passages === []) {
-            // Index vide ou question hors sujet : les réponses rapides du
-            // back-office restent utilisables avant de renvoyer vers l'équipe.
-            $quick = self::quickAnswer($question, $lang);
-            if ($quick !== null) {
-                return $quick;
-            }
-            self::logMiss($question, $lang);
-            return self::fallbackAnswer($lang, []);
-        }
 
-        // Sans clé — ou sans accord du visiteur pour l'envoi à Google — on répond
-        // uniquement à partir de l'index local : rien ne sort du serveur.
+        // Sans clé — ou sans accord du visiteur pour l'envoi à Google — la
+        // réponse est produite localement : d'abord les chiffres du catalogue,
+        // puis les réponses rapides, puis les extraits de l'index.
         if (!self::configured() || !Consent::allows('ai')) {
-            return self::quickAnswer($question, $lang) ?? self::extractiveAnswer($question, $passages, $lang);
+            return self::localAnswer($question, $passages, $lang, $actions, $history);
         }
 
         $answer = self::generate($question, $passages, $lang, $history);
         if ($answer === null) {
-            // Gemini indisponible : on répond quand même, à partir de l'index local.
-            return self::quickAnswer($question, $lang) ?? self::extractiveAnswer($question, $passages, $lang);
+            return self::localAnswer($question, $passages, $lang, $actions, $history);
         }
 
         if (self::looksLikeMiss($answer)) {
@@ -238,8 +234,41 @@ final class Gemini
         return [
             'answer' => $answer,
             'sources' => self::sourcesOf($passages),
+            'actions' => $actions,
             'engine' => 'gemini',
         ];
+    }
+
+    /**
+     * Réponse sans appel externe, dans l'ordre de fiabilité : données du
+     * catalogue, réponses rapides du back-office, extraits de l'index.
+     */
+    private static function localAnswer(string $question, array $passages, string $lang, array $actions, array $history = []): array
+    {
+        $data = Facts::answer($question, $lang, $history);
+        if ($data !== null) {
+            return [
+                'answer' => $data['answer'],
+                'sources' => self::sourcesOf($passages),
+                'actions' => $data['actions'] !== [] ? $data['actions'] : $actions,
+                'engine' => 'data',
+            ];
+        }
+
+        $quick = self::quickAnswer($question, $lang);
+        if ($quick !== null) {
+            $quick['actions'] = $actions;
+            return $quick;
+        }
+
+        if ($passages === []) {
+            self::logMiss($question, $lang);
+            return self::fallbackAnswer($lang, [], $actions);
+        }
+
+        $extractive = self::extractiveAnswer($question, $passages, $lang);
+        $extractive['actions'] = $actions;
+        return $extractive;
     }
 
     private static function generate(string $question, array $passages, string $lang, array $history): ?string
@@ -257,8 +286,13 @@ final class Gemini
                 $contents[] = ['role' => $role, 'parts' => [['text' => $text]]];
             }
         }
+        // Les chiffres du catalogue priment sur les extraits, qui peuvent dater.
+        $facts = Facts::brief($lang);
         $contents[] = ['role' => 'user', 'parts' => [['text' =>
-            "Langue du visiteur : {$lang}.\n\nExtraits disponibles :\n{$context}Question du visiteur : {$question}",
+            "Langue du visiteur : {$lang}.\n\n"
+            . "DONNÉES DU CATALOGUE, à jour à la seconde — elles font foi sur les nombres,\n"
+            . "les tarifs, les disponibilités et les liens :\n{$facts}\n\n"
+            . "Extraits des pages du site :\n{$context}Question du visiteur : {$question}",
         ]]];
 
         $url = 'https://generativelanguage.googleapis.com/v1beta/models/' . rawurlencode(self::model()) . ':generateContent';
@@ -328,6 +362,7 @@ final class Gemini
         return [
             'answer' => $answer,
             'sources' => self::sourcesOf($passages),
+            'actions' => [],
             'engine' => 'index',
         ];
     }
@@ -366,6 +401,7 @@ final class Gemini
                         return [
                             'answer' => self::withLiveFigures($answer),
                             'sources' => $sources,
+                            'actions' => [],
                             'engine' => 'quick',
                         ];
                     }
@@ -386,7 +422,7 @@ final class Gemini
     }
 
     /** Dégradation propre : on transmet à l'équipe. */
-    private static function fallbackAnswer(string $lang, array $passages): array
+    private static function fallbackAnswer(string $lang, array $passages, array $actions = []): array
     {
         $sources = self::sourcesOf($passages);
         if ($sources === []) {
@@ -395,6 +431,7 @@ final class Gemini
         return [
             'answer' => I18n::t('bot.fallback'),
             'sources' => $sources,
+            'actions' => $actions,
             'engine' => 'fallback',
         ];
     }

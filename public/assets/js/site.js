@@ -581,10 +581,38 @@
     var history = [];
     var busy = false;
 
+    /* La conversation suit le visiteur de page en page : elle est gardée dans
+       sessionStorage, donc pour la durée de l'onglet, et jamais au-delà. */
+    var STORE = 'ioio_chat';
+    var MAX_KEPT = 40;
+
+    function readStore() {
+      try {
+        var raw = sessionStorage.getItem(STORE);
+        var data = raw ? JSON.parse(raw) : null;
+        return data && Array.isArray(data.messages) ? data : { messages: [], open: false };
+      } catch (e) { return { messages: [], open: false }; }
+    }
+    function writeStore(data) {
+      try { sessionStorage.setItem(STORE, JSON.stringify(data)); } catch (e) { /* mode privé : on continue sans mémoire */ }
+    }
+    function remember(entry) {
+      var data = readStore();
+      data.messages.push(entry);
+      if (data.messages.length > MAX_KEPT) { data.messages = data.messages.slice(-MAX_KEPT); }
+      writeStore(data);
+    }
+    function rememberOpen(open) {
+      var data = readStore();
+      data.open = !!open;
+      writeStore(data);
+    }
+
     function toggleBot(open) {
       var willOpen = typeof open === 'boolean' ? open : panel.hidden;
       panel.hidden = !willOpen;
       launcher.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      rememberOpen(willOpen);
       if (willOpen) {
         track('chat_open');
         if (input) { setTimeout(function () { input.focus(); }, 150); }
@@ -593,7 +621,24 @@
     }
     function scrollLog() { if (log) { log.scrollTop = log.scrollHeight; } }
 
-    function addMessage(text, mine, sources) {
+    /* Liste de pastilles : sources consultées ou boutons de navigation. */
+    function pills(items, className) {
+      var list = document.createElement('span');
+      list.className = className;
+      items.forEach(function (item) {
+        var label = typeof item === 'string' ? item : item.label;
+        var url = typeof item === 'string' ? '' : item.url;
+        if (!label) { return; }
+        var pill = document.createElement(url ? 'a' : 'span');
+        pill.className = className === 'bot__actions' ? 'bot__action' : 'bot__source';
+        pill.textContent = label;
+        if (url) { pill.href = url; }
+        list.appendChild(pill);
+      });
+      return list.childNodes.length ? list : null;
+    }
+
+    function addMessage(text, mine, sources, actions) {
       var wrap = document.createElement('div');
       wrap.className = 'bot__msg' + (mine ? ' bot__msg--me' : '');
       var span = document.createElement('span');
@@ -601,27 +646,32 @@
       wrap.appendChild(span);
 
       if (sources && sources.length) {
-        var list = document.createElement('span');
-        list.className = 'bot__sources';
-        sources.forEach(function (source) {
-          var label = typeof source === 'string' ? source : source.label;
-          var url = typeof source === 'string' ? '' : source.url;
-          var pill = document.createElement(url ? 'a' : 'span');
-          pill.className = 'bot__source';
-          pill.textContent = label;
-          if (url) { pill.href = url; }
-          list.appendChild(pill);
-        });
-        wrap.appendChild(list);
+        var s = pills(sources, 'bot__sources');
+        if (s) { wrap.appendChild(s); }
+      }
+      if (actions && actions.length) {
+        var a = pills(actions, 'bot__actions');
+        if (a) { wrap.appendChild(a); }
       }
       log.appendChild(wrap);
       scrollLog();
     }
 
+    /* Restitution de l'échange en cours au chargement de chaque page. */
+    (function restore() {
+      var data = readStore();
+      data.messages.forEach(function (m) {
+        addMessage(m.text, m.mine, m.sources, m.actions);
+        history.push({ role: m.mine ? 'user' : 'model', text: m.text });
+      });
+      if (data.open) { toggleBot(true); }
+    })();
+
     function ask(question) {
       if (busy || !question) { return; }
       busy = true;
       addMessage(question, true);
+      remember({ text: question, mine: true });
       history.push({ role: 'user', text: question });
       if (typing) { typing.hidden = false; }
       scrollLog();
@@ -635,7 +685,10 @@
       }).then(function (r) { return r.json(); }).then(function (res) {
         if (typing) { typing.hidden = true; }
         var answer = (res && res.answer) || (cfg.i18n.botError || '');
-        addMessage(answer, false, (res && res.sources) || []);
+        var sources = (res && res.sources) || [];
+        var actions = (res && res.actions) || [];
+        addMessage(answer, false, sources, actions);
+        remember({ text: answer, mine: false, sources: sources, actions: actions });
         history.push({ role: 'model', text: answer });
       }).catch(function () {
         if (typing) { typing.hidden = true; }

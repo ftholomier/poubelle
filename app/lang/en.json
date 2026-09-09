@@ -133,5 +133,22 @@
     "album.prev": "Previous photo",
     "album.next": "Next photo",
     "contact.showMap": "Show the map",
-    "contact.mapHint": "The map is served by Google: it only loads when you ask for it."
+    "contact.mapHint": "The map is served by Google: it only loads when you ask for it.",
+    "bot.actionAvailable": "See the {count} available offices",
+    "bot.actionOffice": "See {name}",
+    "bot.actionOffices": "See the whole catalogue",
+    "bot.actionSpaces": "Discover both spaces",
+    "bot.actionVisit": "Book a viewing",
+    "bot.actionNotify": "Get notified when one frees up",
+    "bot.dataOne": "{count} office is available right now:",
+    "bot.dataMany": "{count} offices are available right now:",
+    "bot.dataNone": "No office is available at this very moment.",
+    "bot.dataSoon": "{count} will free up soon — leave us your details and you'll hear first.",
+    "bot.dataPricePrivate": "Private office: {range} excl. VAT/month.",
+    "bot.dataPriceOpen": "Open-space desk: {range} excl. VAT/month.",
+    "bot.dataRange": "from {min} to {max}",
+    "bot.dataPriceNone": "Prices are listed office by office on the catalogue page.",
+    "bot.dataAllIn": "Everything is included: bills, high-speed internet, cleaning and the meeting room, with no setup fee.",
+    "bot.dataVisit": "Viewings are by appointment, at either space. Leave your details and the team will call you back to set a time.",
+    "bot.actionAvailableOne": "See the available office"
 }

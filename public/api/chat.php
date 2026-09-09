@@ -27,7 +27,7 @@ if (!Csrf::check((string) ($input['csrf'] ?? ''), 'chat')) {
 }
 // 20 questions par heure et par IP, question de 500 caractères maximum.
 if (!RateLimit::allow('chat', 20, 3600)) {
-    Api::respond(['ok' => true, 'answer' => I18n::t('bot.throttled'), 'sources' => []]);
+    Api::respond(['ok' => true, 'answer' => I18n::t('bot.throttled'), 'sources' => [], 'actions' => []]);
 }
 
 $question = trim(mb_substr((string) ($input['q'] ?? ''), 0, 500));
@@ -52,5 +52,6 @@ Api::respond([
     'ok' => true,
     'answer' => $result['answer'],
     'sources' => $result['sources'],
+    'actions' => $result['actions'] ?? [],
     'engine' => $result['engine'],
 ]);
