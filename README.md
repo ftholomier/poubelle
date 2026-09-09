@@ -150,7 +150,7 @@ horodatage `ts` (rejet sous 2 secondes), **quota** 5 requêtes / 10 min / IP
 | Intégration | Avec la clé | Sans la clé (repli livré) |
 | --- | --- | --- |
 | **Assistant Gemini** | données du catalogue + RAG sur l'index local, puis le modèle choisi dans la liste (`gemini-2.5-flash` par défaut), température 0,2, 400 jetons, timeout 8 s, une seule tentative | réponses chiffrées calculées sur le catalogue, puis réponses rapides du back-office, puis extraction des phrases pertinentes de l'index — toujours sourcées |
-| **Avis Google Places** | récupération serveur, cache 24 h, avis non retouchés | avis saisis dans `content/reviews.json` |
+| **Avis Google Places** | récupération serveur, cache 24 h, avis non retouchés — **complétés** par ceux de `content/reviews.json` (l'API n'en renvoie que cinq) | avis saisis dans `content/reviews.json` |
 | **Google Translate** | bouton « Traduire depuis le français », résultat écrit **en brouillon** | traduction manuelle par onglet de langue |
 | **SMTP** | envoi authentifié | fonction `mail()` de l'hébergeur |
 

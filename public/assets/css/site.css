@@ -557,6 +557,78 @@ h1, h2, h3, h4 { font-family: 'Bricolage Grotesque', 'Manrope', sans-serif; font
 .review__name { display: block; font: 700 14px/1 'Manrope', sans-serif; }
 .review__source { display: block; margin-top: 4px; font: 600 11.5px/1 'Manrope', sans-serif; opacity: .55; }
 
+/* ------------------------------------------------ carrousel des témoignages */
+/* Défilement natif avec accroche : le glissement tactile et le clavier
+   fonctionnent sans une ligne de JavaScript ; le script n'ajoute que
+   l'avance automatique, les flèches et les pastilles. */
+.reviews-carousel { position: relative; margin-top: 32px; }
+.reviews-track {
+  display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-behavior: smooth; padding: 4px 4px 14px; margin: -4px -4px 0;
+  scrollbar-width: none;
+}
+.reviews-track::-webkit-scrollbar { display: none; }
+.reviews-track:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; border-radius: 24px; }
+/* Trois témoignages à la fois, jamais davantage : au-delà, on ne lit plus. */
+.reviews-track .review {
+  flex: 0 0 calc((100% - 40px) / 3); scroll-snap-align: start;
+  min-height: 268px; transition: transform .4s var(--ease-pop);
+}
+.reviews-track .review:hover { transform: translateY(-6px); }
+
+/* Un avis bavard ne doit pas étirer toute la rangée : il défile dans son pavé. */
+.reviews-track .review__text {
+  max-height: 8.2em; overflow-y: auto; padding-right: 8px;
+  scrollbar-width: thin; scrollbar-color: rgba(14, 14, 14, .35) transparent;
+  overscroll-behavior: contain;
+}
+.reviews-track .review__text::-webkit-scrollbar { width: 5px; }
+.reviews-track .review__text::-webkit-scrollbar-thumb { background: rgba(14, 14, 14, .3); border-radius: 999px; }
+.reviews-track .review__text::-webkit-scrollbar-track { background: transparent; }
+/* Un dégradé en bas dit qu'il reste du texte ; il s'efface une fois lu. */
+.reviews-track .review__text.is-scrollable {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent);
+          mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent);
+}
+.reviews-track .review__text.is-scrollable.is-end {
+  -webkit-mask-image: none; mask-image: none;
+}
+
+.reviews-arrow {
+  position: absolute; top: calc(50% - 22px); z-index: 3;
+  width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+  border: 2px solid var(--ink); background: var(--cream); color: var(--ink);
+  font: 700 24px/1 'Manrope', sans-serif; display: grid; place-items: center;
+  transition: transform .3s var(--ease-pop), background-color .3s ease, opacity .3s ease;
+}
+.reviews-arrow--prev { left: -22px; }
+.reviews-arrow--next { right: -22px; }
+.reviews-arrow:hover { background: var(--yellow); transform: scale(1.08); }
+.reviews-arrow[disabled] { opacity: .3; cursor: default; transform: none; }
+
+.reviews-dots { display: flex; justify-content: center; gap: 9px; margin-top: 16px; flex-wrap: wrap; }
+.reviews-dot {
+  width: 9px; height: 9px; border-radius: 50%; padding: 0; cursor: pointer;
+  border: 2px solid var(--ink); background: transparent;
+  transition: background-color .3s ease, transform .3s var(--ease-pop);
+}
+.reviews-dot.is-active { background: var(--ink); transform: scale(1.35); }
+
+@media (max-width: 1040px) {
+  .reviews-track .review { flex-basis: calc((100% - 20px) / 2); }
+  .reviews-arrow--prev { left: -8px; }
+  .reviews-arrow--next { right: -8px; }
+}
+@media (max-width: 700px) {
+  .reviews-track .review { flex-basis: 86%; min-height: 0; }
+  .reviews-track .review__text { max-height: 11em; }
+  .reviews-arrow { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reviews-track { scroll-behavior: auto; }
+  .reviews-track .review:hover { transform: none; }
+}
+
 /* ----------------------------------------------------------- bande finale */
 
 .band {

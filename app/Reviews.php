@@ -32,17 +32,58 @@ final class Reviews
 
         $googleReviews = \is_array($cache['reviews'] ?? null) ? $cache['reviews'] : [];
         if ($googleReviews !== []) {
+            // L'API Places ne renvoie que cinq avis, quel que soit le nombre
+            // réellement publié sur la fiche. On complète donc avec les avis
+            // enregistrés au back-office, sans jamais afficher deux fois le même.
+            $manual = self::manual(50)['reviews'];
+            $merged = self::mergeReviews($googleReviews, $manual);
+
             return [
                 'rating' => (float) ($cache['rating'] ?? 5),
-                'count' => (int) ($cache['count'] ?? \count($googleReviews)),
-                'reviews' => \array_slice($googleReviews, 0, $limit),
-                'source' => 'google',
+                'count' => (int) ($cache['count'] ?? \count($merged)),
+                'reviews' => \array_slice($merged, 0, $limit),
+                'source' => \count($merged) > \count($googleReviews) ? 'google+manual' : 'google',
                 'updatedAt' => (string) ($cache['fetchedAt'] ?? ''),
                 'url' => (string) ($cache['url'] ?? self::profileUrl()),
             ];
         }
 
         return self::manual($limit);
+    }
+
+    /**
+     * Fusionne deux listes d'avis en écartant les doublons : un même avis peut
+     * exister à la fois dans la réponse de Google et dans la saisie du
+     * back-office, sous une graphie légèrement différente.
+     *
+     * @param array<int,array<string,mixed>> $first  prioritaires (Google)
+     * @param array<int,array<string,mixed>> $second complémentaires
+     * @return array<int,array<string,mixed>>
+     */
+    private static function mergeReviews(array $first, array $second): array
+    {
+        $out = [];
+        $seen = [];
+        foreach ([...array_values($first), ...array_values($second)] as $review) {
+            if (!\is_array($review)) {
+                continue;
+            }
+            $key = self::fingerprint($review);
+            if ($key === '' || isset($seen[$key])) {
+                continue;
+            }
+            $seen[$key] = true;
+            $out[] = $review;
+        }
+        return $out;
+    }
+
+    /** Empreinte d'un avis : début du texte, sans accents ni ponctuation. */
+    private static function fingerprint(array $review): string
+    {
+        $text = mb_strtolower(Text::deaccent((string) ($review['text'] ?? '')));
+        $text = (string) preg_replace('/[^a-z0-9]+/', '', $text);
+        return mb_substr($text, 0, 40);
     }
 
     /** Avis saisis au back-office (repli et source par défaut). */

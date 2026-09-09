@@ -154,5 +154,9 @@
     "form.interestTitle": "INTÉRESSÉ PAR CE BUREAU ?",
     "form.submitInterest": "Ce bureau m’intéresse",
     "form.notifyTitle": "PRÉVENEZ-MOI QUAND IL SE LIBÈRE",
-    "consent.mapsNotice": "Les plans des pages Contact et Nos bureaux sont fournis par Google Maps et s’affichent directement : Google y dépose ses propres cookies."
+    "consent.mapsNotice": "Les plans des pages Contact et Nos bureaux sont fournis par Google Maps et s’affichent directement : Google y dépose ses propres cookies.",
+    "reviews.carousel": "Témoignages de nos coworkers",
+    "reviews.prev": "Témoignage précédent",
+    "reviews.next": "Témoignage suivant",
+    "reviews.goTo": "Témoignage {n}"
 }

@@ -575,6 +575,111 @@
     }, { passive: true });
   }
 
+  /* ------------------------------------------------- carrousel des avis */
+
+  /* Le défilement, l'accroche et le glissement tactile viennent du CSS. Le
+     script ajoute l'avance automatique, les flèches et les pastilles, et
+     s'efface dès que le visiteur prend la main. */
+
+  $$('[data-carousel]').forEach(function (carousel) {
+    var track = $('[data-carousel-track]', carousel);
+    var items = $$('[data-carousel-item]', carousel);
+    var dots = $$('[data-carousel-dot]', carousel);
+    var prev = $('[data-carousel-prev]', carousel);
+    var next = $('[data-carousel-next]', carousel);
+    if (!track || items.length < 2) { return; }
+
+    var timer = null;
+    var paused = false;
+    var DELAY = 5200;
+
+    function step() { return items[1].offsetLeft - items[0].offsetLeft; }
+    function maxScroll() { return track.scrollWidth - track.clientWidth; }
+
+    /* Quatre cartes tiennent à l'écran : il n'y a donc pas huit positions
+       d'arrêt mais huit moins trois. Les pastilles en trop sont masquées, sinon
+       les dernières pointeraient toutes vers la même vue. */
+    function stops() {
+      var unit = step() || 1;
+      var visible = Math.max(1, Math.round(track.clientWidth / unit));
+      return Math.max(1, items.length - visible + 1);
+    }
+
+    function current() {
+      var unit = step() || 1;
+      return Math.min(stops() - 1, Math.round(track.scrollLeft / unit));
+    }
+
+    function goTo(index) {
+      var last = stops() - 1;
+      track.scrollLeft = Math.min(maxScroll(), Math.max(0, Math.min(last, index) * step()));
+    }
+
+    function advance() {
+      // Arrivé au bout, on repart du début : le défilement ne s'arrête jamais.
+      if (track.scrollLeft >= maxScroll() - 2) { goTo(0); } else { goTo(current() + 1); }
+    }
+
+    function sync() {
+      var index = current();
+      var last = stops();
+      dots.forEach(function (dot, i) {
+        dot.hidden = i >= last;
+        dot.classList.toggle('is-active', i === index);
+        dot.setAttribute('aria-selected', i === index ? 'true' : 'false');
+      });
+      if (prev) { prev.disabled = track.scrollLeft <= 2; }
+      if (next) { next.disabled = track.scrollLeft >= maxScroll() - 2; }
+    }
+
+    function play() {
+      if (reduced || paused || timer) { return; }
+      timer = setInterval(advance, DELAY);
+    }
+    function stop() {
+      if (timer) { clearInterval(timer); timer = null; }
+    }
+
+    if (prev) { prev.addEventListener('click', function () { goTo(current() - 1); }); }
+    if (next) { next.addEventListener('click', function () { goTo(current() + 1); }); }
+    dots.forEach(function (dot, i) { dot.addEventListener('click', function () { goTo(i); }); });
+
+    var ticking = null;
+    track.addEventListener('scroll', function () {
+      if (ticking) { return; }
+      ticking = requestAnimationFrame(function () { ticking = null; sync(); });
+    }, { passive: true });
+
+    // On ne bouge pas sous les yeux du visiteur qui lit ou qui manipule.
+    ['mouseenter', 'focusin', 'touchstart'].forEach(function (event) {
+      carousel.addEventListener(event, function () { paused = true; stop(); }, { passive: true });
+    });
+    ['mouseleave', 'focusout'].forEach(function (event) {
+      carousel.addEventListener(event, function () { paused = false; play(); });
+    });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { stop(); } else { play(); }
+    });
+
+    /* Un témoignage trop long défile dans son pavé : on le signale par un
+       dégradé, qui s'efface quand le visiteur arrive au bout. */
+    function markOverflow() {
+      $$('.review__text', carousel).forEach(function (text) {
+        text.classList.toggle('is-scrollable', text.scrollHeight > text.clientHeight + 2);
+      });
+    }
+    $$('.review__text', carousel).forEach(function (text) {
+      text.addEventListener('scroll', function () {
+        text.classList.toggle('is-end', text.scrollTop + text.clientHeight >= text.scrollHeight - 2);
+      }, { passive: true });
+    });
+
+    window.addEventListener('resize', function () { sync(); markOverflow(); }, { passive: true });
+    sync();
+    markOverflow();
+    play();
+  });
+
   /* ------------------------------------------------------------- cartes */
 
   /* L'iframe du plan est rendue par PHP : elle est présente dès l'ouverture de

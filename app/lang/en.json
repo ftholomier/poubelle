@@ -154,5 +154,9 @@
     "form.interestTitle": "INTERESTED IN THIS OFFICE?",
     "form.submitInterest": "I'm interested in this office",
     "form.notifyTitle": "LET ME KNOW WHEN IT FREES UP",
-    "consent.mapsNotice": "The maps on the Contact and Offices pages come from Google Maps and are displayed directly: Google sets its own cookies there."
+    "consent.mapsNotice": "The maps on the Contact and Offices pages come from Google Maps and are displayed directly: Google sets its own cookies there.",
+    "reviews.carousel": "What our coworkers say",
+    "reviews.prev": "Previous review",
+    "reviews.next": "Next review",
+    "reviews.goTo": "Review {n}"
 }

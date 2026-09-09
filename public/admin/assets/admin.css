@@ -48,7 +48,15 @@ img { max-width: 100%; }
 .auth__check input { width: 18px; height: 18px; accent-color: var(--ink); }
 .auth__note { margin-top: 20px; padding: 14px 16px; border: 2px dashed rgba(14, 14, 14, .25); border-radius: 14px; font: 500 12.5px/1.5 'Manrope', sans-serif; opacity: .7; }
 
-.label { display: block; font: 700 12px/1 'Manrope', sans-serif; letter-spacing: .1em; opacity: .6; margin-bottom: 8px; }
+/* Le libellé porte parfois une pastille (« EN PLACE », « .ENV ») deux fois plus
+   haute que sa ligne de texte. En flex, la hauteur du bloc en tient compte et
+   la pastille passe à la ligne au lieu de déborder sur le champ voisin. */
+.label {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  font: 700 12px/1.35 'Manrope', sans-serif; letter-spacing: .1em; opacity: .6;
+  margin-bottom: 8px; min-height: 17px;
+}
+.label .badge { margin: 0 !important; padding: 4px 9px; font-size: 10px; }
 .label--mt { margin-top: 18px; }
 
 /* ------------------------------------------------------------- champs */

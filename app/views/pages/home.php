@@ -222,22 +222,39 @@ $faqItems = Content::list($hero === [] ? $page : $page, 'faq.items');
     </div>
     <h2 class="reviews-title"><?= Text::e(Content::text($page, 'reviews.title')) ?></h2>
   </div>
-  <div class="grid grid--reviews">
-    <?php $palette = ['#FFD100', '#12B39A', '#EDE5D5', '#FFFFFF'];
-    foreach ($reviews['reviews'] as $i => $review):
-        $name = (string) ($review['name'] ?? ''); ?>
-      <blockquote class="review" data-reveal data-delay="<?= $i * 90 ?>">
-        <div class="review__stars"><?= str_repeat('★', max(1, min(5, (int) ($review['rating'] ?? 5)))) ?></div>
-        <p class="review__text"><?= Text::e((string) ($review['text'] ?? '')) ?></p>
-        <footer class="review__footer">
-          <span class="review__avatar" style="background:<?= Text::e($palette[$i % \count($palette)]) ?>"><?= Text::e((string) ($review['initials'] ?? Text::initials($name))) ?></span>
-          <span>
-            <span class="review__name"><?= Text::e($name) ?></span>
-            <span class="review__source"><?= Text::e(I18n::t('reviews.source')) ?></span>
-          </span>
-        </footer>
-      </blockquote>
-    <?php endforeach; ?>
+  <?php $palette = ['#FFD100', '#12B39A', '#EDE5D5', '#FFFFFF'];
+        $list = $reviews['reviews'];
+        $many = \count($list) > 1; ?>
+  <div class="reviews-carousel" data-reveal<?= $many ? ' data-carousel' : '' ?>>
+    <div class="reviews-track" data-carousel-track<?= $many ? ' tabindex="0" role="region" aria-label="' . Text::e(I18n::t('reviews.carousel')) . '"' : '' ?>>
+      <?php foreach ($list as $i => $review): $name = (string) ($review['name'] ?? ''); ?>
+        <blockquote class="review" data-carousel-item>
+          <div class="review__stars"><?= str_repeat('★', max(1, min(5, (int) ($review['rating'] ?? 5)))) ?></div>
+          <p class="review__text"><?= Text::e((string) ($review['text'] ?? '')) ?></p>
+          <footer class="review__footer">
+            <span class="review__avatar" style="background:<?= Text::e($palette[$i % \count($palette)]) ?>"><?= Text::e((string) ($review['initials'] ?? Text::initials($name))) ?></span>
+            <span>
+              <span class="review__name"><?= Text::e($name) ?></span>
+              <span class="review__source"><?= Text::e(I18n::t('reviews.source')) ?></span>
+            </span>
+          </footer>
+        </blockquote>
+      <?php endforeach; ?>
+    </div>
+
+    <?php if ($many): ?>
+      <button class="reviews-arrow reviews-arrow--prev" type="button" data-carousel-prev
+              aria-label="<?= Text::e(I18n::t('reviews.prev')) ?>">‹</button>
+      <button class="reviews-arrow reviews-arrow--next" type="button" data-carousel-next
+              aria-label="<?= Text::e(I18n::t('reviews.next')) ?>">›</button>
+      <div class="reviews-dots" data-carousel-dots role="tablist" aria-label="<?= Text::e(I18n::t('reviews.carousel')) ?>">
+        <?php foreach ($list as $i => $review): ?>
+          <button class="reviews-dot<?= $i === 0 ? ' is-active' : '' ?>" type="button" role="tab"
+                  data-carousel-dot aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"
+                  aria-label="<?= Text::e(I18n::t('reviews.goTo', ['n' => $i + 1])) ?>"></button>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
   </div>
   <?php if (!empty($reviews['url'])): ?>
     <p style="margin-top:20px"><a class="link-underline link-underline--sm" href="<?= Text::url((string) $reviews['url']) ?>" target="_blank" rel="noopener"><?= Text::e(I18n::t('reviews.seeAll')) ?></a></p>

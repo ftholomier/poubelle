@@ -91,7 +91,7 @@ if ($page !== [] && !Content::isPublished($page)) {
 switch ($route['name']) {
     case 'home':
         echo View::page('home', [
-            'reviews' => Reviews::get(4),
+            'reviews' => Reviews::get(12),
             'jsonLd' => Seo::faq(Content::list($page, 'faq.items')),
         ]);
         break;
