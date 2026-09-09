@@ -90,7 +90,7 @@ $isRented = ($office['status'] ?? '') === 'rented';
       <div class="aside-book__head" style="background:<?= Text::e((string) $office['color']) ?>">
         <span class="status-pill status-pill--lg" style="background:<?= Text::e((string) $office['statusColor']) ?>"><?= Text::e((string) $office['statusLabel']) ?></span>
         <h1 class="aside-book__title"><?= Text::e((string) $office['name']) ?></h1>
-        <div class="aside-book__meta"><?= Text::e((string) $office['typeLabel'] . ' · ' . (string) $office['area'] . ' · ' . (string) $office['siteLabel']) ?></div>
+        <div class="aside-book__meta"><?= Text::e(implode(' · ', array_filter([(string) $office['typeLabel'], (string) $office['area'], (string) $office['siteLabel']]))) ?></div>
         <div class="aside-book__price">
           <span class="aside-book__priceValue"><?= Text::e((string) $office['priceLabel']) ?></span>
           <span class="aside-book__priceNote"><?= Text::e(I18n::t('office.perMonth')) ?></span>

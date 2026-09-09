@@ -5,18 +5,18 @@
     "status": "published",
     "nav": "Contact",
     "seo": {
-        "title": "Contact et visite",
-        "description": "Réservez une visite de 20 minutes au iOiO Carnot ou Granvelle, café compris.",
+        "title": "Contactez-nous",
+        "description": "Vous cherchez un bureau privé ou un poste en open space tout compris au centre-ville de Besançon ? Écrivez-nous.",
         "ogImage": "/media/carnot-salle-reunion.webp"
     },
     "kicker": "CONTACT",
-    "title": "On se rencontre ?",
-    "text": "Une visite dure 20 minutes, café compris. Dites-nous ce dont vous avez besoin, on vous propose deux créneaux.",
+    "title": "Contactez-nous",
+    "text": "Vous cherchez un bureau privé ou un bureau en open space dans un coworking pour travailler, tout compris et au centre-ville de Besançon ?",
     "needs": [
         "Un bureau privé",
         "Un poste en open space",
         "Juste une visite"
     ],
-    "updatedAt": "2026-09-09T20:33:28+02:00",
-    "updatedBy": "correction"
+    "updatedAt": "2026-09-09T21:15:45+02:00",
+    "updatedBy": "import-ioio.fr"
 }

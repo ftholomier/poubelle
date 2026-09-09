@@ -5,22 +5,22 @@
     "status": "published",
     "nav": "Accueil",
     "seo": {
-        "title": "Coworking et bureaux tout compris à Besançon",
-        "description": "Bureaux privés et postes en open space à Besançon centre. Charges, fibre, ménage, salle de réunion et café compris. Deux adresses : Carnot et Granvelle.",
-        "ogImage": "/media/carnot-bureau-prive.jpg"
+        "title": "Coworking et location de bureaux tout compris à Besançon",
+        "description": "Bureaux privés et postes en open space au centre-ville de Besançon. Tout compris, aucun frais caché. Deux adresses : 11 avenue Carnot et 3 rue Granvelle.",
+        "ogImage": "/media/granvelle-openspace-01.webp"
     },
     "hero": {
-        "badge": "{count} POSTES DISPONIBLES CE MOIS",
-        "title1": "Un bureau qui donne",
-        "title2": "envie d'y aller",
-        "highlight": "le lundi.",
-        "text": "Bureaux privés et postes en open space à Besançon centre. Vous signez, vous posez vos affaires, vous travaillez. Charges, fibre, ménage, salle de réunion et café : tout est dedans.",
+        "badge": "{count} BUREAUX DISPONIBLES À LA LOCATION",
+        "title1": "Location de bureaux",
+        "title2": "et coworking à Besançon,",
+        "highlight": "tout compris.",
+        "text": "Le iOiO propose un concept de location clé en main, tout compris, sous le modèle de la prestation de services : pas de frais cachés ni de frais additionnels. Vous signez votre contrat, vous posez vos affaires, et c'est parti.",
         "ctaPrimary": {
-            "label": "Voir les bureaux libres",
+            "label": "Voir les disponibilités",
             "route": "offices"
         },
         "ctaSecondary": {
-            "label": "Réserver une visite",
+            "label": "Nous contacter",
             "route": "contact"
         },
         "stats": [
@@ -30,7 +30,7 @@
             },
             {
                 "value": "7j/7",
-                "label": "accès 24h/24 par badge"
+                "label": "accès badge 24h/24 à Carnot"
             },
             {
                 "value": "0 €",
@@ -38,9 +38,12 @@
             }
         ],
         "slides": [
-            "/media/carnot-bureau-prive.jpg",
+            "/media/granvelle-openspace-01.webp",
+            "/media/carnot-bureau-03.webp",
+            "/media/granvelle-coin-detente.webp",
             "/media/carnot-salle-reunion.webp",
-            "/media/granvelle-facade.webp"
+            "/media/granvelle-openspace-mezzanine.webp",
+            "/media/carnot-bureau-vue.webp"
         ],
         "cardPrice": {
             "label": "À PARTIR DE",
@@ -48,13 +51,13 @@
         },
         "cardBadge": {
             "kicker": "CLÉ EN MAIN",
-            "line1": "Tout inclus,",
-            "line2": "zéro frais caché"
+            "line1": "Tout compris,",
+            "line2": "aucun frais caché"
         }
     },
     "places": {
-        "kicker": "NOS ESPACES",
-        "title": "Deux adresses, deux ambiances",
+        "kicker": "NOS ESPACES · 170 M²",
+        "title": "Deux espaces au centre-ville",
         "cta": "Visiter les 2 espaces"
     },
     "availability": {
@@ -67,19 +70,19 @@
             {
                 "n": "1",
                 "title": "Vous visitez",
-                "text": "20 minutes sur place, café compris. On vous montre les deux espaces et les postes libres.",
+                "text": "On vous montre les deux espaces et les postes encore libres.",
                 "color": "#FFFFFF"
             },
             {
                 "n": "2",
                 "title": "Vous signez",
-                "text": "Un contrat de prestation de services simple, sans bail commercial ni frais de dossier.",
+                "text": "Un contrat de prestation de services, sans bail commercial ni frais de dossier.",
                 "color": "#FFD100"
             },
             {
                 "n": "3",
                 "title": "Vous travaillez",
-                "text": "Badge remis, fibre branchée, café chaud. Vous pouvez entrer sous 48 h.",
+                "text": "Vous posez vos affaires et c'est parti : mobilier, internet et charges sont déjà là.",
                 "color": "#12B39A"
             }
         ]
@@ -88,8 +91,8 @@
         "title": "Ils y sont bien"
     },
     "band": {
-        "title": "Il reste {count} places. Pas 40.",
-        "text": "Visite en 20 minutes, contrat en prestation de services, entrée possible sous 48 h.",
+        "title": "Il reste {count} places.",
+        "text": "Vous pouvez vous positionner et réserver votre emplacement : il n'y aura pas de la place pour tout le monde.",
         "cta1": "Réserver mon bureau",
         "cta2": "Parler à un humain"
     },
@@ -97,23 +100,23 @@
         "title": "Questions fréquentes",
         "items": [
             {
-                "q": "Y a-t-il un engagement de durée ?",
-                "a": "Non. Le iOiO fonctionne en contrat de prestation de services, avec un préavis court. Vous partez quand votre activité change."
+                "q": "Qu'est-ce qui est compris dans le tarif ?",
+                "a": "Tout : charges, eau, électricité, chauffage, ménage, internet très haut débit, mobilier, salle de réunion et espace détente. Le tarif annoncé est HT par mois, sans frais additionnel."
             },
             {
-                "q": "Qu'est-ce qui est vraiment compris dans le prix ?",
-                "a": "Charges, eau, électricité, chauffage, ménage, fibre très haut débit, mobilier, salle de réunion, cuisine équipée et café. Il n'y a pas de frais additionnels."
+                "q": "Quelle est la forme du contrat ?",
+                "a": "Une location clé en main sous le modèle de la prestation de services, pas un bail commercial. Vous signez, vous posez vos affaires, vous travaillez."
+            },
+            {
+                "q": "Quelle différence entre Carnot et Granvelle ?",
+                "a": "Carnot, 11 avenue Carnot, réunit 4 bureaux privés fermés autour d'une cour intérieure, avec salle de réunion, cuisine, douche et wc. Granvelle, 3 rue Granvelle, est l'espace de coworking : bureaux privés ou postes dédiés en open space, casier à clé, table bar et coin détente."
             },
             {
                 "q": "Puis-je recevoir mes clients ?",
-                "a": "Bien sûr. Carnot dispose d'une salle de réunion équipée d'un vidéoprojecteur ; Granvelle a un espace bar et un coin canapé pour les rendez-vous informels."
-            },
-            {
-                "q": "Puis-je essayer avant de m’engager ?",
-                "a": "Oui. La visite dure 20 minutes, café compris, et le contrat de prestation de services prévoit un préavis court : vous n'êtes jamais bloqué."
+                "a": "Oui. Carnot dispose d'une salle de réunion partagée équipée d'un système de vidéo-projection ; Granvelle a une table bar de travail et un coin canapé pour les rendez-vous informels."
             }
         ]
     },
-    "updatedAt": "2026-09-09T20:33:28+02:00",
+    "updatedAt": "2026-09-09T21:19:21+02:00",
     "updatedBy": "correction"
 }

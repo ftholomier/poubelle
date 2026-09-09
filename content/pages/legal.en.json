@@ -6,42 +6,54 @@
     "nav": "Legal notice",
     "seo": {
         "title": "Legal notice",
-        "description": "Legal notice for the iOiO website, coworking in Besançon.",
+        "description": "Mentions légales du site du iOiO, location de bureaux et coworking à Besançon.",
         "noindex": true
     },
     "kicker": "LEGAL INFORMATION",
     "title": "Legal notice",
-    "text": "Fields in brackets must be completed in the back office before going live.",
+    "text": "Le iOiO — closed private office rental in Besançon and coworking / open space.",
     "blocks": [
         {
             "title": "Éditeur du site",
-            "text": "Le iOiO — [forme juridique] au capital de [montant] €\n[Adresse du siège], 25000 Besançon\nSIRET [numéro] — RCS Besançon [numéro] — TVA intracommunautaire [numéro]\nResponsable de la publication : [nom]\nContact : [email] — [téléphone]"
+            "text": "Dénomination : Le iOiO\nDirecteur de la publication : Stéphan Gayet\nNuméro SIRET : 818 266 934 00012\nLocation de bureaux privés fermés à Besançon et espace de coworking / open space.\nAdresses : 11 avenue Carnot et 3 rue Granvelle, 25000 Besançon\nTéléphone : +33 (0)6 09 15 25 73"
         },
         {
             "title": "Hébergement",
-            "text": "Site hébergé par [hébergeur], [adresse], [téléphone].\nHébergement mutualisé PHP 8.x, données stockées en fichiers JSON sur le serveur, aucune base de données."
+            "text": "Site hébergé par NUXIT.\nHébergement mutualisé PHP 8, données stockées en fichiers JSON sur le serveur, aucune base de données."
         },
         {
-            "title": "Propriété intellectuelle",
-            "text": "La marque iOiO, le logo « votre bureau au bout du fil », les textes et les photographies des espaces Carnot et Granvelle sont la propriété du iOiO. Toute reproduction, même partielle, est interdite sans accord écrit."
+            "title": "Développement",
+            "text": "Conception et développement : LE-DIGITAL.com"
         },
         {
-            "title": "Données personnelles (RGPD)",
-            "text": "Les formulaires de contact, de réservation et de rappel de disponibilités collectent nom, email, téléphone et message dans le seul but de répondre à la demande. Les données sont conservées 24 mois, ne sont ni vendues ni transmises à des tiers, et sont stockées en fichiers JSON sur le serveur. Droit d'accès, de rectification et de suppression : [email]."
+            "title": "Loi du 6 janvier 1978 relative à l'informatique et aux libertés",
+            "text": "Conformément à la loi n° 78-17 du 6 janvier 1978, vous pouvez à tout moment accéder aux informations personnelles vous concernant et détenues, demander leur modification ou leur suppression. Ce droit d'accès peut s'exercer en adressant un message par l'intermédiaire du formulaire de contact du site, en indiquant les champs ou informations dont la modification est souhaitée."
+        },
+        {
+            "title": "Recueil d'informations à caractère nominatif",
+            "text": "En vertu de la loi informatique et libertés du 6 janvier 1978, les données à caractère nominatif recueillies auprès des internautes par l'intermédiaire d'un formulaire ou autre ne sauraient en aucun cas être cédées à des tiers. Elles servent uniquement à répondre à la demande."
+        },
+        {
+            "title": "Responsabilité des utilisateurs",
+            "text": "L'utilisateur s'engage à utiliser les services proposés sur le site de façon loyale et honnête, conformément à leur destination, pour ses seuls besoins, et s'interdit d'en faire commerce auprès de tiers."
+        },
+        {
+            "title": "Propriété intellectuelle et bases de données",
+            "text": "L'ensemble des informations figurant sur le site, ainsi que leurs modalités de consultation, constituent les bases de données du site. Elles sont la propriété exclusive du directeur de la publication et sont protégées par le Code de la propriété intellectuelle. L'extraction et la réutilisation de tout ou partie du contenu sont interdites. La distribution, la modification ou la reproduction partielle ou totale de ce site sont interdites sans accord préalable écrit."
+        },
+        {
+            "title": "Liens vers le site",
+            "text": "Tout lien hypertexte de tout autre site vers ce site doit faire l'objet d'une autorisation expresse et préalable du directeur de la publication. Toute demande de lien s'effectue par l'intermédiaire du formulaire de contact du site."
         },
         {
             "title": "Assistant IA",
-            "text": "L'assistant du site s'appuie sur l'API Gemini. Les questions posées sont envoyées à Google pour génération de la réponse ; aucune donnée de compte n'est transmise. L'assistant ne répond qu'à partir des pages du site et des documents publiés au back-office : ses réponses n'ont pas de valeur contractuelle."
-        },
-        {
-            "title": "Cookies et traduction",
-            "text": "The site only sets technical cookies. Audience measurement and sending assistant questions to Google require your consent, collected by the banner shown on your first visit and changeable from the « Cookies » link at the bottom of the page. Long-form content is machine translated by Google Translate; key pages are translated by hand."
+            "text": "L'assistant du site s'appuie sur l'API Gemini de Google. Les questions posées ne lui sont transmises que si le visiteur l'a accepté dans le bandeau de consentement ; sinon, l'assistant répond uniquement à partir des pages et documents du site. Ses réponses n'ont pas de valeur contractuelle."
         },
         {
             "title": "Avis clients",
-            "text": "Les avis affichés sont issus de la fiche Google Business Profile du iOiO et récupérés via l'API Google Places. Ils ne sont ni filtrés ni modifiés."
+            "text": "Les avis affichés proviennent de la fiche Google Business Profile du iOiO. Ils ne sont ni filtrés ni modifiés."
         }
     ],
-    "updatedAt": "2026-09-09T20:39:53+02:00",
-    "updatedBy": "correction"
+    "updatedAt": "2026-09-09T21:15:45+02:00",
+    "updatedBy": "import-ioio.fr"
 }

@@ -12,6 +12,8 @@ use App\View;
 $variant = $variant ?? 'list';
 $isList = $variant === 'list';
 $delay = (int) ($delay ?? 0);
+/** Assemble les fragments réellement renseignés. */
+$meta = static fn (array $parts): string => implode(' · ', array_filter(array_map('trim', $parts)));
 ?>
 <article class="office-card<?= $isList ? ' office-card--white' : '' ?>" data-reveal<?= $delay > 0 ? ' data-delay="' . $delay . '"' : '' ?>>
   <div class="office-card__media<?= $isList ? ' office-card__media--tall' : '' ?>" style="background:<?= Text::e((string) $office['color']) ?>">
@@ -20,13 +22,13 @@ $delay = (int) ($delay ?? 0);
   <div class="office-card__body<?= $isList ? ' office-card__body--lg' : '' ?>">
     <div class="office-card__row">
       <span class="status-pill" style="background:<?= Text::e((string) $office['statusColor']) ?>"><?= Text::e((string) $office['statusLabel']) ?></span>
-      <span class="meta-note"><?= Text::e($isList ? (string) $office['typeLabel'] : (string) $office['siteLabel'] . ' · ' . (string) $office['area']) ?></span>
+      <span class="meta-note"><?= Text::e($isList ? (string) $office['typeLabel'] : $meta([(string) $office['siteLabel'], (string) $office['area']])) ?></span>
     </div>
     <h3 class="office-card__title<?= $isList ? ' office-card__title--lg' : '' ?>">
       <a href="<?= Text::e((string) $office['url']) ?>"><?= Text::e((string) $office['name']) ?></a>
     </h3>
     <?php if ($isList): ?>
-      <div class="office-card__sub"><?= Text::e((string) $office['siteLabel'] . ' · ' . (string) $office['area']) ?></div>
+      <div class="office-card__sub"><?= Text::e($meta([(string) $office['siteLabel'], (string) $office['area']])) ?></div>
     <?php endif; ?>
     <div class="office-card__price">
       <span class="office-card__priceValue"><?= Text::e((string) $office['priceLabel']) ?></span>

@@ -5,18 +5,18 @@
     "status": "published",
     "nav": "Contact",
     "seo": {
-        "title": "Contact and viewings",
-        "description": "Book a 20-minute viewing at iOiO Carnot or Granvelle, coffee included.",
+        "title": "Contact us",
+        "description": "Looking for a private office or an open-space desk, all inclusive, in central Besançon? Write to us.",
         "ogImage": "/media/carnot-salle-reunion.webp"
     },
     "kicker": "CONTACT",
-    "title": "Shall we meet?",
-    "text": "A viewing takes 20 minutes, coffee included. Tell us what you need and we offer two slots.",
+    "title": "Contact us",
+    "text": "Looking for a private office or an open-space desk in a coworking space, all inclusive, in central Besançon?",
     "needs": [
         "A private office",
-        "A dedicated desk",
+        "An open-space desk",
         "Just a viewing"
     ],
-    "updatedAt": "2026-09-09T20:33:28+02:00",
-    "updatedBy": "correction"
+    "updatedAt": "2026-09-09T21:15:45+02:00",
+    "updatedBy": "import-ioio.fr"
 }

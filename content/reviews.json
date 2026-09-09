@@ -1,42 +1,74 @@
 {
     "_schema": 1,
     "rating": 5,
-    "count": 10,
-    "url": "",
+    "count": 8,
+    "url": "https://www.google.com/search?q=le+ioio+coworking+besan%C3%A7on",
     "reviews": [
         {
-            "name": "Amandine V.",
+            "name": "Amandine Vilrus",
             "initials": "AV",
             "rating": 5,
             "enabled": true,
-            "at": "2026-08-20",
-            "text": "Un espace de coworking moderne, chaleureux et idéalement situé. On s'y sent vraiment comme à la maison !"
+            "at": "",
+            "text": "Un espace de coworking moderne, chaleureux et idéalement situé. On s’y sent vraiment comme à la maison ! Je recommande"
         },
         {
-            "name": "Laurent B.",
+            "name": "Skull M",
+            "initials": "SM",
+            "rating": 5,
+            "enabled": true,
+            "at": "",
+            "text": "Une belle découverte en plein centre de Besançon. Je suis maintenant fidèle à Granvelle que je trouve plus grand et où je me sens bien pour travailler."
+        },
+        {
+            "name": "Laurent durif",
+            "initials": "LD",
+            "rating": 5,
+            "enabled": true,
+            "at": "",
+            "text": "Localisation très bien situé, locaux modernes et agréables à utiliser. Je recommande."
+        },
+        {
+            "name": "Philippe MARTIN",
+            "initials": "PM",
+            "rating": 5,
+            "enabled": true,
+            "at": "",
+            "text": "Des bureaux très bien situés en centre-ville pour un cadre de travail pratique et confortable. Je recommande."
+        },
+        {
+            "name": "Laurent BOLE BESANCON",
             "initials": "LB",
             "rating": 5,
             "enabled": true,
-            "at": "2026-07-12",
-            "text": "Situé au centre ville, très pratique, un coworking sympa et convivial... que je conseille !"
+            "at": "",
+            "text": "Situé au centre ville, très pratique, un co-working sympa et convivial ....que je conseille !!! Merci"
         },
         {
-            "name": "Gwendoline D.",
+            "name": "Gwendoline dumez",
             "initials": "GD",
             "rating": 5,
             "enabled": true,
-            "at": "2026-06-28",
-            "text": "Un coworking où je me sens à l'aise pour travailler. Bien situé, agréable, avec une ambiance qui donne envie de revenir."
+            "at": "",
+            "text": "Un coworking où je me sens à l’aise pour travailler. Bien situé, agréable, et avec une ambiance qui donne envie de revenir."
         },
         {
-            "name": "Nikita S.",
-            "initials": "NS",
+            "name": "Val So",
+            "initials": "VS",
             "rating": 5,
             "enabled": true,
-            "at": "2026-05-15",
-            "text": "Super endroit pour bosser en plein centre de Besançon. Calme, lumineux et très agréable."
+            "at": "",
+            "text": "Un super espace bien conçu et bien placé au centre ville. Calme et en même temps l'ambiance est très sympa. Je vous recommande ce lieu"
+        },
+        {
+            "name": "Claire fazan",
+            "initials": "CF",
+            "rating": 5,
+            "enabled": true,
+            "at": "",
+            "text": "Un coworking bien tenu , moderne et agréable. On s’y sent vite à l’aise ."
         }
     ],
-    "updatedAt": "2026-09-09T18:39:31+02:00",
-    "updatedBy": "seed"
+    "updatedAt": "2026-09-09T21:17:31+02:00",
+    "updatedBy": "import-ioio.fr"
 }

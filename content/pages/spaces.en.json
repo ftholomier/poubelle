@@ -5,104 +5,119 @@
     "status": "published",
     "nav": "Our spaces",
     "seo": {
-        "title": "Our spaces — Carnot and Granvelle",
-        "description": "170 sqm across two addresses in central Besançon: private offices on avenue Carnot, coworking on rue Granvelle. All inclusive, 24/7 access.",
-        "ogImage": "/media/granvelle-facade.webp"
+        "title": "Our spaces — Carnot and Granvelle in Besançon",
+        "description": "170 sqm across two addresses in central Besançon: 4 private offices on avenue Carnot, coworking and closed offices on rue Granvelle.",
+        "ogImage": "/media/granvelle-openspace-01.webp"
     },
     "kicker": "OUR SPACES · 170 SQM · CENTRAL BESANÇON",
-    "title": "More than an office: a place that feels good.",
-    "text": "Turnkey rental as a service contract. Sign, drop your things, done.",
+    "title": "More than just an office!",
+    "text": "A place where you feel good, with services that help your business grow. Turnkey, all-inclusive rental as a service contract.",
     "spaces": [
         {
             "id": "carnot",
+            "bg": "#FFF8EA",
             "tag": "PRIVATE OFFICES · 70 SQM",
-            "text": "A human-sized business hub in an inner courtyard, a stone's throw from Micaud park. 4 private offices from 9 to 12 sqm, a meeting room and a fully refurbished lounge. Absolute quiet, 24/7 access.",
+            "text": "Located at 11 avenue Carnot, close to Micaud park in Besançon. This human-sized business hub in the heart of the city offers 4 private offices, a meeting room and a lounge (fully fitted kitchen, toilets, shower). Fully refurbished, set around an inner courtyard, which guarantees absolute quiet for its tenants.",
             "cta": "See the Carnot offices",
             "access": [
-                "Tram 50 m away",
+                "Tram 50 m",
                 "City loop 300 m",
                 "Car park 500 m",
                 "Viotte station 800 m",
+                "La Mouillère station 500 m",
                 "2 restaurants 50 m",
                 "Supermarket 200 m"
             ],
+            "photos": [
+                "/media/carnot-bureau-03.webp",
+                "/media/carnot-salle-reunion.webp",
+                "/media/carnot-cuisine.webp"
+            ],
             "amenities": [
                 {
-                    "title": "Private office",
-                    "text": "From 9 to 12 sqm, closed, quiet, 24/7 badge access."
+                    "title": "Office",
+                    "text": "Individual office of 9 to 12 sqm, quiet, 24/7 access.",
+                    "color": "#FFD100"
                 },
                 {
-                    "title": "Fibre",
-                    "text": "High-speed wired and wifi, at no extra cost."
+                    "title": "Internet",
+                    "text": "High-speed internet, wired and wifi.",
+                    "color": "#12B39A"
                 },
                 {
                     "title": "Furniture",
-                    "text": "Desk, armchair, visitor chairs and closed storage."
+                    "text": "Modern desk, visitor chairs and storage unit.",
+                    "color": "#FFD100"
                 },
                 {
-                    "title": "Meeting room",
-                    "text": "Shared, fitted with a video projection system."
+                    "title": "Meetings",
+                    "text": "Shared meeting room with a video projection system.",
+                    "color": "#EDE5D5"
                 },
                 {
                     "title": "Lounge",
-                    "text": "Fitted kitchen (coffee machine, fridge, microwave), shower and toilets."
+                    "text": "Fitted kitchen with coffee machine, fridge, microwave… Shower and toilets.",
+                    "color": "#12B39A"
                 },
                 {
-                    "title": "And all the rest",
-                    "text": "Bills, water, electricity, heating and cleaning included."
+                    "title": "And much more!",
+                    "text": "Everything is included: bills, water, electricity, heating, cleaning…",
+                    "color": "#FFD100"
                 }
-            ],
-            "photos": [
-                "/media/carnot-bureau-prive.jpg",
-                "/media/carnot-salle-reunion.webp",
-                "/media/carnot-cuisine.jpg"
             ]
         },
         {
             "id": "granvelle",
+            "bg": "#FFFFFF",
             "tag": "COWORKING · 100 SQM",
-            "text": "Facing Granvelle park, on a quiet street in the heart of the city loop. Private offices or dedicated open-space desks, key lockers, a bar work table and a sofa corner. A cocooning place that makes work feel good.",
+            "text": "iOiO « Granvelle » invites you to work in a coworking space on a quiet street, at 3 rue Granvelle, a sought-after spot in central Besançon, facing Granvelle park. iOiO Granvelle offers private offices or open-space desks: desk, armchair, key locker, lounge and meeting area. A cocooning place that makes work feel good.",
             "cta": "See the Granvelle desks",
             "access": [
                 "Facing Granvelle park",
                 "Bus and tram",
                 "Mairie car park",
                 "Chamars car park",
-                "Centre of the loop"
+                "In the heart of the city loop"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-01.webp",
+                "/media/granvelle-coin-detente.webp",
+                "/media/granvelle-cuisine.webp"
             ],
             "amenities": [
                 {
                     "title": "Dedicated desk",
-                    "text": "Your own desk in the open space, with a key locker."
+                    "text": "Private office or your own desk in the open space, armchair and key locker.",
+                    "color": "#12B39A"
                 },
                 {
-                    "title": "Fibre wifi",
-                    "text": "High-speed throughout the space."
+                    "title": "Internet",
+                    "text": "High-speed internet over wifi.",
+                    "color": "#FFD100"
                 },
                 {
                     "title": "Furniture",
-                    "text": "Desk, ergonomic chair and personal storage."
+                    "text": "Modern furniture: desk, armchair and key locker.",
+                    "color": "#FFD100"
                 },
                 {
                     "title": "Kitchen",
-                    "text": "Coffee machine, fridge, microwave, toilets."
+                    "text": "Fitted kitchen with coffee machine, fridge, microwave… toilets.",
+                    "color": "#EDE5D5"
                 },
                 {
                     "title": "Business / lounge",
-                    "text": "Bar work table, sofa and armchairs for your meetings."
+                    "text": "Bar work table, sofa and armchairs.",
+                    "color": "#12B39A"
                 },
                 {
-                    "title": "And all the rest",
-                    "text": "Bills, water, electricity, heating and cleaning included."
+                    "title": "And much more!",
+                    "text": "Everything is included: bills, water, electricity, heating, cleaning…",
+                    "color": "#FFD100"
                 }
-            ],
-            "photos": [
-                "/media/granvelle-facade.webp",
-                "/media/granvelle-open-space-mezzanine.jpg",
-                "/media/granvelle-coin-detente.jpg"
             ]
         }
     ],
-    "updatedAt": "2026-09-09T20:33:28+02:00",
+    "updatedAt": "2026-09-09T21:20:58+02:00",
     "updatedBy": "correction"
 }

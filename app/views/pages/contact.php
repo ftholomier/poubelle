@@ -31,6 +31,19 @@ $firstNeed = (string) ($needs[0] ?? '');
           </div>
         <?php endforeach; ?>
 
+        <?php $team = array_values(array_filter((array) ($settings['contact']['team'] ?? []), 'is_array')); ?>
+        <?php if ($team !== []): ?>
+        <div class="hours">
+          <div class="hours__label"><?= Text::e(I18n::t('contact.team')) ?></div>
+          <?php foreach ($team as $member): ?>
+            <div class="hours__value"><strong><?= Text::e((string) ($member['name'] ?? '')) ?></strong></div>
+          <?php endforeach; ?>
+          <?php if (!empty($settings['contact']['phone'])): ?>
+            <div class="hours__value"><a href="tel:<?= Text::e(preg_replace('/[^0-9+]/', '', (string) $settings['contact']['phone']) ?? '') ?>"><?= Text::e((string) $settings['contact']['phone']) ?></a></div>
+          <?php endif; ?>
+        </div>
+        <?php endif; ?>
+
         <div class="hours">
           <div class="hours__label"><?= Text::e(I18n::t('contact.hoursLabel')) ?></div>
           <div class="hours__value"><?= Text::e(Content::i18n((array) ($settings['contact'] ?? []), 'hours', $lang)) ?></div>

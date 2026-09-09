@@ -179,11 +179,30 @@ par session), preuves calculées depuis le catalogue, avis Google.
 `cta_sticky_contact`, `cta_sticky_reserve`, `exit_popup_open`, `exit_popup_submit`,
 `chat_open`, `chat_question`, `reserve_submit`, `contact_submit`.
 
-## 9. Photos : politique de définition
+## 9. Provenance du contenu
 
-Les visuels livrés avec le design sont, pour six d'entre eux, des **vignettes générées
-par l'ancien WordPress** (195×146, 225×300, 260×144 px). Affichées dans un bloc de
-400 à 600 px, elles deviennent floues. Le site s'en protège tout seul :
+Tout le contenu éditorial, le catalogue et les photos sont **repris du site
+d'origine ioio.fr**, et non inventés :
+
+| Donnée | Source |
+| --- | --- |
+| Catalogue (21 bureaux, tarifs, disponibilités, photos) | API WooCommerce `/wp-json/wc/store/v1/products` |
+| Textes « Nos espaces », accueil, contact | pages Elementor rendues |
+| Coordonnées, équipe, téléphone | page Contact |
+| Éditeur, SIRET, hébergeur | page Mentions légales |
+| Avis clients | widget Trustindex de la page d'accueil, textes non retouchés |
+| Articles | `/wp-json/wp/v2/posts` + pages rendues |
+| Photos | fichiers d'origine `wp-content/uploads`, en pleine résolution |
+
+Le catalogue réel : **21 bureaux**, dont 4 bureaux privés à Carnot (320 à 385 €
+HT/mois), 3 bureaux privés à Granvelle (350 à 360 €) et 14 postes en open space
+(150 €). Deux seulement sont disponibles : Carnot 03 et le poste open space 12.
+
+## 10. Photos : politique de définition
+
+Les 26 photos viennent des originaux de ioio.fr, converties en WebP, plafonnées à
+1600 px de large, avec des dérivés 800 et 400 px. Le site se protège en plus contre
+tout agrandissement, au cas où une petite image serait téléversée plus tard :
 
 * chaque emplacement déclare une **largeur minimale** (`View::image(..., ['minWidth' => 700])`) ;
 * une image plus étroite n'est jamais agrandie : le site affiche à la place la
@@ -195,27 +214,12 @@ par l'ancien WordPress** (195×146, 225×300, 260×144 px). Affichées dans un b
 Largeurs minimales en place : diaporama 900, grande vue et carte d'espace 700,
 image d'article 400, carte de bureau et vignette de fiche 190.
 
-Trois visuels seulement sont exploitables en grand format aujourd'hui :
-`carnot-bureau-prive.jpg` (1080×600), `carnot-salle-reunion.webp` (1158×558) et
-`granvelle-facade.webp` (1158×869). **Déposez les fichiers d'origine dans
-Photos** pour que chaque bureau ait sa vraie image : les affectations sont conservées.
+Chaque photo porte le nom de son sujet et l'identifiant de son lieu, si bien qu'un
+visuel de Granvelle ne peut pas se retrouver sur un bureau de Carnot. L'affectation
+photo → bureau est celle du site d'origine.
 
-Les photos sont nommées par leur sujet réel et rattachées à leur lieu, si bien
-qu'un visuel de Granvelle ne peut plus se retrouver sur un bureau de Carnot :
 
-| Fichier | Lieu | Sujet |
-| --- | --- | --- |
-| `carnot-bureau-prive.jpg` | Carnot | bureau privé |
-| `carnot-salle-reunion.webp` | Carnot | salle de réunion |
-| `carnot-couloir.jpg` | Carnot | couloir des bureaux |
-| `carnot-cuisine.jpg` | Carnot | cuisine |
-| `granvelle-facade.webp` | Granvelle | façade, 3 rue Granvelle |
-| `granvelle-open-space-mezzanine.jpg` | Granvelle | open space et mezzanine |
-| `granvelle-coin-detente.jpg` | Granvelle | coin détente |
-| `granvelle-bureau-mur-bleu.jpg` | Granvelle | bureau privé |
-| `granvelle-poste-mur-vert.jpg` | Granvelle | poste dédié |
-
-## 10. Cookies et consentement
+## 11. Cookies et consentement
 
 Bandeau affiché à la première visite : **Tout accepter**, **Tout refuser**,
 **Paramètres**. Trois catégories, pas une de plus :
@@ -234,7 +238,7 @@ Les polices Bricolage Grotesque et Manrope sont **hébergées sur le domaine**
 `fonts.gstatic.com`, donc aucune adresse IP transmise à un tiers avant
 consentement. Le site n'appelle aucun domaine externe tant que rien n'est accepté.
 
-## 11. Accessibilité et performance
+## 12. Accessibilité et performance
 
 * Contraste conforme à la charte : le jaune est toujours un **fond**, jamais une encre.
 * Navigation au clavier, `aria-*` sur les composants interactifs, lien d'évitement,
@@ -246,7 +250,7 @@ consentement. Le site n'appelle aucun domaine externe tant que rien n'est accept
 * Sans JavaScript : tous les contenus restent lisibles et les formulaires postent
   normalement (réponse JSON, aucune page blanche).
 
-## 12. Outils en ligne de commande
+## 13. Outils en ligne de commande
 
 ```bash
 php bin/seed.php [--force]     # contenus de démonstration
@@ -257,17 +261,17 @@ php bin/user.php password email "NouveauMotDePasse"
 php bin/user.php delete email
 ```
 
-## 13. À compléter avant la mise en ligne
+## 14. À compléter avant la mise en ligne
 
 * Mentions légales et politique de confidentialité : les champs entre crochets
   (`[forme juridique]`, `[SIRET]`, `[hébergeur]`…) se remplissent dans
   **Pages & contenus → Mentions légales**.
 * Coordonnées : téléphone et adresse email dans **Réglages → Site & lieux**
   (le téléphone laissé vide n'est simplement pas affiché).
-* Photos : remplacer les six vignettes basse définition par les fichiers d'origine
-  dans **Photos** (voir § 9), puis affecter la bonne photo à chaque bureau.
-* Catalogue : vérifier dans **Bureaux & dispos** que la liste, les tarifs et les
-  disponibilités correspondent à la réalité commerciale du moment.
+* Catalogue : vérifier dans **Bureaux & dispos** que les disponibilités sont à jour
+  au moment de la mise en ligne (elles ont été relevées sur ioio.fr).
+* Surfaces : le site d'origine n'indique pas de surface par bureau ; le champ est
+  vide et n'apparaît pas. À renseigner au back-office si vous le souhaitez.
 * Clés API si l'assistant Gemini, les avis Google ou la traduction sont souhaités.
 * Décommenter l'en-tête `Strict-Transport-Security` dans `public/.htaccess` une fois
   le certificat HTTPS en place.

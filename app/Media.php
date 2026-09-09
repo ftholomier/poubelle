@@ -59,14 +59,31 @@ final class Media
         ];
     }
 
-    /** srcset des dérivés existants. */
+    /**
+     * srcset : les dérivés ET le fichier maître, sans quoi un écran à haute
+     * densité serait servi en 800 px alors que l'original est plus grand.
+     */
     public static function srcset(string $path): string
     {
         $item = self::find($path);
-        $derivatives = \is_array($item['derivatives'] ?? null) ? $item['derivatives'] : [];
+        if ($item === null) {
+            return '';
+        }
+        $candidates = [];
+        foreach ((array) ($item['derivatives'] ?? []) as $width => $url) {
+            $candidates[(int) $width] = (string) $url;
+        }
+        $master = (int) ($item['width'] ?? 0);
+        if ($master > 0) {
+            $candidates[$master] = $path;
+        }
+        if (\count($candidates) < 2) {
+            return '';
+        }
+        krsort($candidates);
         $parts = [];
-        foreach ($derivatives as $width => $url) {
-            $parts[] = Config::basePath() . $url . ' ' . (int) $width . 'w';
+        foreach ($candidates as $width => $url) {
+            $parts[] = Config::basePath() . $url . ' ' . $width . 'w';
         }
         return implode(', ', $parts);
     }

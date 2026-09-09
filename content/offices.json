@@ -6,8 +6,8 @@
             "site": "carnot",
             "name": "Carnot — Bureau 01",
             "type": "private",
-            "area": "12 m²",
-            "price": 380,
+            "area": "",
+            "price": 320,
             "currency": "EUR",
             "period": "month",
             "vat": "excl",
@@ -16,29 +16,28 @@
             "enabled": true,
             "featured": false,
             "order": 1,
-            "color": "#EDE5D5",
-            "description": "Le plus grand bureau de la cour Carnot : deux postes confortables, une fenêtre plein sud et un rangement fermé. Idéal pour un binôme.",
+            "color": "#FFD100",
+            "description": "Bureau privé fermé de l'espace Carnot, au calme dans la cour intérieure du 11 avenue Carnot. Accès par badge 7j/7, 24h/24.",
             "features": [
-                "2 postes",
-                "Fenêtre plein sud",
-                "Rangement fermé",
-                "Fibre filaire"
+                "Bureau fermé de 9 à 12 m²",
+                "Accès badge 7j/7 24h/24",
+                "Internet filaire et wifi très haut débit",
+                "Salle de réunion partagée",
+                "Cuisine équipée, douche et wc"
             ],
             "photos": [
-                "/media/carnot-bureau-prive.jpg",
-                "/media/carnot-salle-reunion.webp",
-                "/media/carnot-couloir.jpg"
+                "/media/carnot-bureau-01.webp"
             ],
             "i18n": {
                 "en": {
                     "name": "Carnot — Office 01",
-                    "area": "12 sqm",
-                    "description": "The largest office in the Carnot courtyard: two comfortable desks, a south-facing window and closed storage. Perfect for a duo.",
+                    "description": "Private closed office at the Carnot space, quiet, in the inner courtyard of 11 avenue Carnot. Badge access 24/7.",
                     "features": [
-                        "2 desks",
-                        "South-facing window",
-                        "Closed storage",
-                        "Wired fibre"
+                        "Closed office, 9 to 12 sqm",
+                        "24/7 badge access",
+                        "High-speed wired and wifi internet",
+                        "Shared meeting room",
+                        "Fitted kitchen, shower and toilets"
                     ]
                 }
             }
@@ -48,39 +47,38 @@
             "site": "carnot",
             "name": "Carnot — Bureau 02",
             "type": "private",
-            "area": "10 m²",
-            "price": 340,
+            "area": "",
+            "price": 320,
             "currency": "EUR",
             "period": "month",
             "vat": "excl",
-            "status": "soon",
-            "availableFrom": "2026-10-01",
+            "status": "rented",
+            "availableFrom": "",
             "enabled": true,
             "featured": false,
             "order": 2,
-            "color": "#FFD100",
-            "description": "Bureau fermé au calme donnant sur la cour intérieure, à deux portes de la salle de réunion. Se libère le mois prochain.",
+            "color": "#12B39A",
+            "description": "Bureau privé fermé de l'espace Carnot, mobilier moderne et rangement fermé. Salle de réunion partagée à deux portes.",
             "features": [
-                "Bureau fermé",
-                "Vue sur cour",
-                "Salle de réunion à 2 portes",
-                "Accès badge 24h/24"
+                "Bureau fermé de 9 à 12 m²",
+                "Accès badge 7j/7 24h/24",
+                "Internet filaire et wifi très haut débit",
+                "Salle de réunion partagée",
+                "Cuisine équipée, douche et wc"
             ],
             "photos": [
-                "/media/carnot-bureau-prive.jpg",
-                "/media/carnot-couloir.jpg",
-                "/media/carnot-cuisine.jpg"
+                "/media/carnot-bureau-02.webp"
             ],
             "i18n": {
                 "en": {
                     "name": "Carnot — Office 02",
-                    "area": "10 sqm",
-                    "description": "Quiet closed office looking onto the inner courtyard, two doors from the meeting room. Free from next month.",
+                    "description": "Private closed office at the Carnot space, modern furniture and closed storage. Shared meeting room two doors away.",
                     "features": [
-                        "Closed office",
-                        "Courtyard view",
-                        "Meeting room two doors away",
-                        "24/7 badge access"
+                        "Closed office, 9 to 12 sqm",
+                        "24/7 badge access",
+                        "High-speed wired and wifi internet",
+                        "Shared meeting room",
+                        "Fitted kitchen, shower and toilets"
                     ]
                 }
             }
@@ -90,7 +88,7 @@
             "site": "carnot",
             "name": "Carnot — Bureau 03",
             "type": "private",
-            "area": "11 m²",
+            "area": "",
             "price": 320,
             "currency": "EUR",
             "period": "month",
@@ -100,29 +98,30 @@
             "enabled": true,
             "featured": true,
             "order": 3,
-            "color": "#FFD100",
-            "description": "Disponible immédiatement. Cour intérieure, lumière naturelle, fibre filaire et salle de réunion à deux portes. Mobilier neuf compris.",
+            "color": "#EDE5D5",
+            "description": "Bureau privé fermé disponible immédiatement au 11 avenue Carnot. Connexion filaire et wifi très haut débit, salle de réunion et cuisine équipée comprises.",
             "features": [
-                "Disponible tout de suite",
-                "Mobilier neuf",
-                "Fibre filaire",
-                "Salle de réunion incluse"
+                "Bureau fermé de 9 à 12 m²",
+                "Accès badge 7j/7 24h/24",
+                "Internet filaire et wifi très haut débit",
+                "Salle de réunion partagée",
+                "Cuisine équipée, douche et wc"
             ],
             "photos": [
-                "/media/carnot-bureau-prive.jpg",
+                "/media/carnot-bureau-03.webp",
                 "/media/carnot-salle-reunion.webp",
-                "/media/carnot-cuisine.jpg"
+                "/media/carnot-cuisine.webp"
             ],
             "i18n": {
                 "en": {
                     "name": "Carnot — Office 03",
-                    "area": "11 sqm",
-                    "description": "Available right now. Inner courtyard, natural light, wired fibre and the meeting room two doors away. New furniture included.",
+                    "description": "Private closed office available right now at 11 avenue Carnot. Wired and wifi high-speed internet, meeting room and fitted kitchen included.",
                     "features": [
-                        "Available now",
-                        "New furniture",
-                        "Wired fibre",
-                        "Meeting room included"
+                        "Closed office, 9 to 12 sqm",
+                        "24/7 badge access",
+                        "High-speed wired and wifi internet",
+                        "Shared meeting room",
+                        "Fitted kitchen, shower and toilets"
                     ]
                 }
             }
@@ -132,92 +131,90 @@
             "site": "carnot",
             "name": "Carnot — Bureau 04",
             "type": "private",
-            "area": "9 m²",
-            "price": 300,
+            "area": "",
+            "price": 385,
             "currency": "EUR",
             "period": "month",
             "vat": "excl",
-            "status": "available",
+            "status": "rented",
             "availableFrom": "",
             "enabled": true,
-            "featured": true,
+            "featured": false,
             "order": 4,
-            "color": "#12B39A",
-            "description": "Le format idéal pour un indépendant : un poste, un fauteuil, deux chaises visiteurs et le calme absolu de la cour.",
+            "color": "#FFD100",
+            "description": "Le plus grand bureau privé de l'espace Carnot, à deux pas du parc Micaud.",
             "features": [
-                "1 poste + visiteurs",
-                "Calme absolu",
-                "Douche et cuisine",
-                "Accès badge 24h/24"
+                "Bureau fermé de 9 à 12 m²",
+                "Accès badge 7j/7 24h/24",
+                "Internet filaire et wifi très haut débit",
+                "Salle de réunion partagée",
+                "Cuisine équipée, douche et wc"
             ],
             "photos": [
-                "/media/carnot-bureau-prive.jpg",
-                "/media/carnot-cuisine.jpg",
-                "/media/carnot-couloir.jpg"
+                "/media/carnot-bureau-04.webp"
             ],
             "i18n": {
                 "en": {
                     "name": "Carnot — Office 04",
-                    "area": "9 sqm",
-                    "description": "The right size for a freelancer: one desk, an armchair, two visitor chairs and the absolute quiet of the courtyard.",
+                    "description": "The largest private office at the Carnot space, a stone's throw from Micaud park.",
                     "features": [
-                        "1 desk + visitors",
-                        "Absolute quiet",
-                        "Shower and kitchen",
-                        "24/7 badge access"
+                        "Closed office, 9 to 12 sqm",
+                        "24/7 badge access",
+                        "High-speed wired and wifi internet",
+                        "Shared meeting room",
+                        "Fitted kitchen, shower and toilets"
                     ]
                 }
             }
         },
         {
-            "id": "granvelle-10",
+            "id": "granvelle-bureau-01",
             "site": "granvelle",
-            "name": "Granvelle — Bureau 10",
+            "name": "Granvelle — Bureau 01",
             "type": "private",
-            "area": "12 m²",
+            "area": "",
             "price": 360,
             "currency": "EUR",
             "period": "month",
             "vat": "excl",
-            "status": "available",
+            "status": "rented",
             "availableFrom": "",
             "enabled": true,
-            "featured": true,
+            "featured": false,
             "order": 5,
-            "color": "#FFD100",
-            "description": "Le seul bureau privé de Granvelle : fermé, lumineux, face au parc, avec l'espace détente et le coin bar à côté.",
+            "color": "#12B39A",
+            "description": "Bureau privé fermé du iOiO Granvelle, 3 rue Granvelle, face au parc. Mobilier moderne et casier de rangement à clé.",
             "features": [
-                "Bureau privé fermé",
-                "Face au parc Granvelle",
-                "Coin bar et canapé",
-                "Wifi fibre"
+                "Bureau fermé",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
             ],
             "photos": [
-                "/media/granvelle-bureau-mur-bleu.jpg",
-                "/media/granvelle-facade.webp",
-                "/media/granvelle-coin-detente.jpg"
+                "/media/granvelle-bureau-01.webp"
             ],
             "i18n": {
                 "en": {
-                    "name": "Granvelle — Office 10",
-                    "area": "12 sqm",
-                    "description": "The only private office at Granvelle: closed, bright, facing the park, with the lounge and bar corner next door.",
+                    "name": "Granvelle — Office 01",
+                    "description": "Private closed office at iOiO Granvelle, 3 rue Granvelle, facing the park. Modern furniture and a key locker.",
                     "features": [
-                        "Closed private office",
-                        "Facing Granvelle park",
-                        "Bar and sofa corner",
-                        "Fibre wifi"
+                        "Closed office",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
                     ]
                 }
             }
         },
         {
-            "id": "granvelle-11",
+            "id": "granvelle-bureau-02",
             "site": "granvelle",
-            "name": "Granvelle — Poste 11",
-            "type": "openspace",
-            "area": "Poste dédié",
-            "price": 150,
+            "name": "Granvelle — Bureau 02",
+            "type": "private",
+            "area": "",
+            "price": 350,
             "currency": "EUR",
             "period": "month",
             "vat": "excl",
@@ -226,81 +223,547 @@
             "enabled": true,
             "featured": false,
             "order": 6,
-            "color": "#12B39A",
-            "description": "Poste attitré en open space avec casier à clé, dans la partie la plus calme de l'espace.",
+            "color": "#EDE5D5",
+            "description": "Bureau privé fermé du iOiO Granvelle, au cœur de la boucle du centre-ville de Besançon.",
             "features": [
-                "Poste attitré",
-                "Casier à clé",
-                "Fauteuil ergonomique",
-                "Wifi fibre"
+                "Bureau fermé",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
             ],
             "photos": [
-                "/media/granvelle-open-space-mezzanine.jpg",
-                "/media/granvelle-facade.webp",
-                "/media/granvelle-coin-detente.jpg"
+                "/media/granvelle-bureau-02.webp",
+                "/media/granvelle-bureau-02b.webp"
             ],
             "i18n": {
                 "en": {
-                    "name": "Granvelle — Desk 11",
-                    "area": "Dedicated desk",
-                    "description": "Dedicated open-space desk with a key locker, in the quietest part of the space.",
+                    "name": "Granvelle — Office 02",
+                    "description": "Private closed office at iOiO Granvelle, in the heart of the Besançon city loop.",
                     "features": [
-                        "Dedicated desk",
+                        "Closed office",
                         "Key locker",
-                        "Ergonomic chair",
-                        "Fibre wifi"
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
                     ]
                 }
             }
         },
         {
-            "id": "granvelle-12",
+            "id": "granvelle-bureau-03",
             "site": "granvelle",
-            "name": "Granvelle — Poste 12",
-            "type": "openspace",
-            "area": "Poste dédié",
-            "price": 150,
+            "name": "Granvelle — Bureau 03",
+            "type": "private",
+            "area": "",
+            "price": 350,
             "currency": "EUR",
             "period": "month",
             "vat": "excl",
-            "status": "available",
+            "status": "rented",
             "availableFrom": "",
             "enabled": true,
             "featured": false,
             "order": 7,
             "color": "#FFD100",
-            "description": "Votre bureau attitré en open space, casier à clé, face au parc. Vous arrivez avec votre ordinateur, le reste est là.",
+            "description": "Bureau privé fermé du iOiO Granvelle, sous la mezzanine, dans une rue au calme.",
             "features": [
-                "Poste attitré",
-                "Casier à clé",
-                "Vue sur le parc",
-                "Café et thé compris"
+                "Bureau fermé",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
             ],
             "photos": [
-                "/media/granvelle-poste-mur-vert.jpg",
-                "/media/granvelle-open-space-mezzanine.jpg",
-                "/media/granvelle-facade.webp"
+                "/media/granvelle-bureau-03.webp",
+                "/media/granvelle-bureau-03b.webp"
             ],
             "i18n": {
                 "en": {
-                    "name": "Granvelle — Desk 12",
-                    "area": "Dedicated desk",
-                    "description": "Your own desk in the open space, key locker, facing the park. Bring your laptop, everything else is here.",
+                    "name": "Granvelle — Office 03",
+                    "description": "Private closed office at iOiO Granvelle, under the mezzanine, on a quiet street.",
                     "features": [
-                        "Dedicated desk",
+                        "Closed office",
                         "Key locker",
-                        "Park view",
-                        "Coffee and tea included"
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
                     ]
                 }
             }
         },
         {
-            "id": "granvelle-13",
+            "id": "granvelle-openspace-01",
             "site": "granvelle",
-            "name": "Granvelle — Poste 13",
+            "name": "Granvelle — Poste open space 01",
             "type": "openspace",
-            "area": "Poste dédié",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 8,
+            "color": "#12B39A",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-01.webp",
+                "/media/granvelle-openspace-03.webp",
+                "/media/granvelle-openspace-02.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 01",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-02",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 02",
+            "type": "openspace",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 9,
+            "color": "#EDE5D5",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-01.webp",
+                "/media/granvelle-openspace-03.webp",
+                "/media/granvelle-openspace-02.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 02",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-03",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 03",
+            "type": "openspace",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 10,
+            "color": "#FFD100",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-01.webp",
+                "/media/granvelle-openspace-03.webp",
+                "/media/granvelle-openspace-02.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 03",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-04",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 04",
+            "type": "openspace",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 11,
+            "color": "#12B39A",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-01.webp",
+                "/media/granvelle-openspace-03.webp",
+                "/media/granvelle-openspace-02.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 04",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-05",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 05",
+            "type": "openspace",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 12,
+            "color": "#EDE5D5",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-07.webp",
+                "/media/granvelle-openspace-04.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 05",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-06",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 06",
+            "type": "openspace",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 13,
+            "color": "#FFD100",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-07.webp",
+                "/media/granvelle-openspace-04.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 06",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-07",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 07",
+            "type": "openspace",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 14,
+            "color": "#12B39A",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-05.webp",
+                "/media/granvelle-openspace-06.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 07",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-08",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 08",
+            "type": "openspace",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 15,
+            "color": "#EDE5D5",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-05.webp",
+                "/media/granvelle-openspace-06.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 08",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-09",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 09",
+            "type": "openspace",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 16,
+            "color": "#FFD100",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-casiers.webp",
+                "/media/granvelle-openspace-mezzanine.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 09",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-10",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 10",
+            "type": "openspace",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 17,
+            "color": "#12B39A",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-casiers.webp",
+                "/media/granvelle-openspace-mezzanine.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 10",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-11",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 11",
+            "type": "openspace",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 18,
+            "color": "#EDE5D5",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-casiers.webp",
+                "/media/granvelle-openspace-mezzanine.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 11",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-12",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 12",
+            "type": "openspace",
+            "area": "",
             "price": 150,
             "currency": "EUR",
             "period": "month",
@@ -308,36 +771,121 @@
             "status": "available",
             "availableFrom": "",
             "enabled": true,
-            "featured": false,
-            "order": 8,
-            "color": "#EDE5D5",
-            "description": "Poste dédié côté fenêtre, à côté de la table bar de travail utilisée pour les rendez-vous informels.",
+            "featured": true,
+            "order": 19,
+            "color": "#FFD100",
+            "description": "Poste dédié disponible dans l'open space du iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé, wifi très haut débit.",
             "features": [
-                "Poste attitré côté fenêtre",
-                "Table bar à côté",
-                "Casier à clé",
-                "Wifi fibre"
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
             ],
             "photos": [
-                "/media/granvelle-open-space-mezzanine.jpg",
-                "/media/granvelle-coin-detente.jpg",
-                "/media/granvelle-facade.webp"
+                "/media/granvelle-openspace-casiers.webp",
+                "/media/granvelle-openspace-mezzanine.webp",
+                "/media/granvelle-coin-detente.webp"
             ],
             "i18n": {
                 "en": {
-                    "name": "Granvelle — Desk 13",
-                    "area": "Dedicated desk",
-                    "description": "Dedicated desk by the window, next to the bar table used for informal meetings.",
+                    "name": "Granvelle — Open space desk 12",
+                    "description": "Dedicated desk available in the iOiO Granvelle open space: your own desk, chair and key locker, high-speed wifi.",
                     "features": [
-                        "Dedicated desk by the window",
-                        "Bar table next door",
+                        "Your own desk in the open space",
                         "Key locker",
-                        "Fibre wifi"
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-13",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 13",
+            "type": "openspace",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 20,
+            "color": "#12B39A",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé. Possibilité de louer en bureau indépendant : voir le bureau 03 de Granvelle.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-mezzanine.webp",
+                "/media/granvelle-openspace-06.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 13",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker. Can also be rented as a separate office: see Granvelle office 03.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-openspace-14",
+            "site": "granvelle",
+            "name": "Granvelle — Poste open space 14",
+            "type": "openspace",
+            "area": "",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 21,
+            "color": "#EDE5D5",
+            "description": "Poste dédié en open space au iOiO Granvelle : bureau attitré, fauteuil et casier de rangement à clé.",
+            "features": [
+                "Bureau attitré en open space",
+                "Casier de rangement à clé",
+                "Wifi très haut débit",
+                "Table bar et coin détente",
+                "Cuisine équipée"
+            ],
+            "photos": [
+                "/media/granvelle-openspace-mezzanine.webp",
+                "/media/granvelle-openspace-06.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Open space desk 14",
+                    "description": "Dedicated desk in the iOiO Granvelle open space: your own desk, chair and key locker.",
+                    "features": [
+                        "Your own desk in the open space",
+                        "Key locker",
+                        "High-speed wifi",
+                        "Bar table and lounge",
+                        "Fitted kitchen"
                     ]
                 }
             }
         }
     ],
-    "updatedAt": "2026-09-09T20:39:01+02:00",
-    "updatedBy": "correction"
+    "updatedAt": "2026-09-09T21:13:07+02:00",
+    "updatedBy": "import-ioio.fr"
 }

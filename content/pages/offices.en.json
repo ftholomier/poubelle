@@ -5,23 +5,23 @@
     "status": "published",
     "nav": "Offices",
     "seo": {
-        "title": "Our available offices in Besançon",
-        "description": "Private offices and dedicated desks to rent in Besançon. Monthly prices excl. VAT, all inclusive. Availability updated in real time.",
-        "ogImage": "/media/carnot-bureau-prive.jpg"
+        "title": "Our offices to rent in Besançon",
+        "description": "Closed private offices and open-space desks to rent in central Besançon. Monthly prices excl. VAT, all inclusive, no hidden fees.",
+        "ogImage": "/media/carnot-bureau-03.webp"
     },
     "kicker": "OUR OFFICES",
     "title": "Pick your office",
-    "text": "Monthly prices excl. VAT, all inclusive. Availability is updated from the back office: what you see is real.",
+    "text": "Monthly rent excl. VAT, all inclusive, no hidden fees. Availability is updated from the back office: what you see is real.",
     "included": [
-        "Bills and utilities",
+        "Bills, water, electricity, heating",
         "Cleaning",
-        "High-speed fibre",
+        "High-speed internet",
         "Modern furniture",
-        "Meeting room",
+        "Shared meeting room",
         "Fitted kitchen",
-        "Good vibes",
-        "24/7 badge access"
+        "Shower and toilets at Carnot",
+        "24/7 badge access at Carnot"
     ],
-    "updatedAt": "2026-09-09T20:33:28+02:00",
-    "updatedBy": "correction"
+    "updatedAt": "2026-09-09T21:15:45+02:00",
+    "updatedBy": "import-ioio.fr"
 }

@@ -2,22 +2,200 @@
     "_schema": 1,
     "media": [
         {
-            "path": "/media/carnot-salle-reunion.webp",
-            "name": "carnot-salle-reunion.webp",
-            "alt": "Salle de réunion de l’espace Carnot, vue depuis le couloir",
-            "caption": "iOiO Carnot — salle de réunion",
+            "path": "/media/carnot-bureau-01.webp",
+            "name": "carnot-bureau-01.webp",
+            "alt": "Bureau privé 01 de l'espace Carnot",
+            "caption": "",
             "site": "carnot",
-            "width": 1158,
-            "height": 558,
-            "bytes": 60046,
-            "derivatives": [],
-            "lowres": false,
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "migration",
+            "width": 1080,
+            "height": 600,
+            "bytes": 42958,
+            "derivatives": {
+                "800": "/media/carnot-bureau-01-800.webp",
+                "400": "/media/carnot-bureau-01-400.webp"
+            },
+            "at": "2026-09-09T21:12:10+02:00",
+            "by": "import-ioio.fr",
             "i18n": {
                 "en": {
-                    "alt": "Meeting room at the Carnot space, seen from the corridor",
-                    "caption": "iOiO Carnot — salle de réunion"
+                    "alt": "Private office 01 at the Carnot space",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/carnot-bureau-02.webp",
+            "name": "carnot-bureau-02.webp",
+            "alt": "Bureau privé 02 de l'espace Carnot",
+            "caption": "",
+            "site": "carnot",
+            "width": 1080,
+            "height": 600,
+            "bytes": 61724,
+            "derivatives": {
+                "800": "/media/carnot-bureau-02-800.webp",
+                "400": "/media/carnot-bureau-02-400.webp"
+            },
+            "at": "2026-09-09T21:12:10+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Private office 02 at the Carnot space",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/carnot-bureau-03.webp",
+            "name": "carnot-bureau-03.webp",
+            "alt": "Bureau privé 03 de l'espace Carnot",
+            "caption": "",
+            "site": "carnot",
+            "width": 1080,
+            "height": 600,
+            "bytes": 59528,
+            "derivatives": {
+                "800": "/media/carnot-bureau-03-800.webp",
+                "400": "/media/carnot-bureau-03-400.webp"
+            },
+            "at": "2026-09-09T21:12:10+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Private office 03 at the Carnot space",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/carnot-bureau-04.webp",
+            "name": "carnot-bureau-04.webp",
+            "alt": "Bureau privé 04 de l'espace Carnot",
+            "caption": "",
+            "site": "carnot",
+            "width": 1080,
+            "height": 600,
+            "bytes": 110600,
+            "derivatives": {
+                "800": "/media/carnot-bureau-04-800.webp",
+                "400": "/media/carnot-bureau-04-400.webp"
+            },
+            "at": "2026-09-09T21:12:10+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Private office 04 at the Carnot space",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/carnot-bureau-vue.webp",
+            "name": "carnot-bureau-vue.webp",
+            "alt": "Bureau privé de l'espace Carnot, vue sur la fenêtre",
+            "caption": "",
+            "site": "carnot",
+            "width": 1080,
+            "height": 600,
+            "bytes": 117854,
+            "derivatives": {
+                "800": "/media/carnot-bureau-vue-800.webp",
+                "400": "/media/carnot-bureau-vue-400.webp"
+            },
+            "at": "2026-09-09T21:12:10+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Private office at the Carnot space",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/carnot-cuisine.webp",
+            "name": "carnot-cuisine.webp",
+            "alt": "Cuisine équipée de l'espace Carnot",
+            "caption": "",
+            "site": "carnot",
+            "width": 1080,
+            "height": 600,
+            "bytes": 47514,
+            "derivatives": {
+                "800": "/media/carnot-cuisine-800.webp",
+                "400": "/media/carnot-cuisine-400.webp"
+            },
+            "at": "2026-09-09T21:12:10+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Fitted kitchen at the Carnot space",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/carnot-salle-reunion.webp",
+            "name": "carnot-salle-reunion.webp",
+            "alt": "Salle de réunion de l'espace Carnot",
+            "caption": "",
+            "site": "carnot",
+            "width": 1080,
+            "height": 600,
+            "bytes": 80236,
+            "derivatives": {
+                "800": "/media/carnot-salle-reunion-800.webp",
+                "400": "/media/carnot-salle-reunion-400.webp"
+            },
+            "at": "2026-09-09T21:12:10+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Meeting room at the Carnot space",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/carnot-couloir.webp",
+            "name": "carnot-couloir.webp",
+            "alt": "Couloir desservant les bureaux privés de Carnot",
+            "caption": "",
+            "site": "carnot",
+            "width": 1080,
+            "height": 600,
+            "bytes": 86212,
+            "derivatives": {
+                "800": "/media/carnot-couloir-800.webp",
+                "400": "/media/carnot-couloir-400.webp"
+            },
+            "at": "2026-09-09T21:12:10+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Corridor serving the Carnot private offices",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/carnot-accueil.webp",
+            "name": "carnot-accueil.webp",
+            "alt": "Espace d'accueil de Carnot",
+            "caption": "",
+            "site": "carnot",
+            "width": 1600,
+            "height": 771,
+            "bytes": 103326,
+            "derivatives": {
+                "800": "/media/carnot-accueil-800.webp",
+                "400": "/media/carnot-accueil-400.webp"
+            },
+            "at": "2026-09-09T21:12:11+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Reception area at Carnot",
+                    "caption": ""
                 }
             }
         },
@@ -25,163 +203,377 @@
             "path": "/media/granvelle-facade.webp",
             "name": "granvelle-facade.webp",
             "alt": "Façade du iOiO Granvelle, 3 rue Granvelle à Besançon",
-            "caption": "iOiO Granvelle — 3 rue Granvelle",
+            "caption": "",
             "site": "granvelle",
-            "width": 1158,
-            "height": 869,
-            "bytes": 168420,
-            "derivatives": [],
-            "lowres": false,
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "migration",
+            "width": 1280,
+            "height": 960,
+            "bytes": 246366,
+            "derivatives": {
+                "800": "/media/granvelle-facade-800.webp",
+                "400": "/media/granvelle-facade-400.webp"
+            },
+            "at": "2026-09-09T21:12:11+02:00",
+            "by": "import-ioio.fr",
             "i18n": {
                 "en": {
                     "alt": "Front of iOiO Granvelle, 3 rue Granvelle in Besançon",
-                    "caption": "iOiO Granvelle — 3 rue Granvelle"
+                    "caption": ""
                 }
             }
         },
         {
-            "path": "/media/carnot-bureau-prive.jpg",
-            "name": "carnot-bureau-prive.jpg",
-            "alt": "Bureau privé de l’espace Carnot : table, fauteuil et chaises visiteurs",
-            "caption": "iOiO Carnot — bureau privé",
-            "site": "carnot",
-            "width": 1080,
-            "height": 600,
-            "bytes": 78989,
-            "derivatives": [],
-            "lowres": false,
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "migration",
-            "i18n": {
-                "en": {
-                    "alt": "Private office at the Carnot space: desk, armchair and visitor chairs",
-                    "caption": "iOiO Carnot — bureau privé"
-                }
-            }
-        },
-        {
-            "path": "/media/granvelle-bureau-mur-bleu.jpg",
-            "name": "granvelle-bureau-mur-bleu.jpg",
-            "alt": "Poste de travail devant le mur bleu de l’espace Granvelle",
-            "caption": "iOiO Granvelle — poste de travail",
+            "path": "/media/granvelle-bureau-01.webp",
+            "name": "granvelle-bureau-01.webp",
+            "alt": "Bureau privé 01 de Granvelle, mur vert",
+            "caption": "",
             "site": "granvelle",
-            "width": 225,
-            "height": 300,
-            "bytes": 17640,
-            "derivatives": [],
-            "lowres": true,
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "migration",
+            "width": 1280,
+            "height": 960,
+            "bytes": 77880,
+            "derivatives": {
+                "800": "/media/granvelle-bureau-01-800.webp",
+                "400": "/media/granvelle-bureau-01-400.webp"
+            },
+            "at": "2026-09-09T21:12:11+02:00",
+            "by": "import-ioio.fr",
             "i18n": {
                 "en": {
-                    "alt": "Desk in front of the blue wall at the Granvelle space",
-                    "caption": "iOiO Granvelle — poste de travail"
+                    "alt": "Private office 01 at Granvelle",
+                    "caption": ""
                 }
             }
         },
         {
-            "path": "/media/granvelle-poste-mur-vert.jpg",
-            "name": "granvelle-poste-mur-vert.jpg",
-            "alt": "Poste de travail devant le mur vert de l’espace Granvelle",
-            "caption": "iOiO Granvelle — poste de travail",
+            "path": "/media/granvelle-bureau-02.webp",
+            "name": "granvelle-bureau-02.webp",
+            "alt": "Bureau privé 02 de Granvelle",
+            "caption": "",
             "site": "granvelle",
-            "width": 195,
-            "height": 146,
-            "bytes": 11914,
-            "derivatives": [],
-            "lowres": true,
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "migration",
+            "width": 1512,
+            "height": 2016,
+            "bytes": 176956,
+            "derivatives": {
+                "800": "/media/granvelle-bureau-02-800.webp",
+                "400": "/media/granvelle-bureau-02-400.webp"
+            },
+            "at": "2026-09-09T21:12:12+02:00",
+            "by": "import-ioio.fr",
             "i18n": {
                 "en": {
-                    "alt": "Desk in front of the green wall at the Granvelle space",
-                    "caption": "iOiO Granvelle — poste de travail"
+                    "alt": "Private office 02 at Granvelle",
+                    "caption": ""
                 }
             }
         },
         {
-            "path": "/media/granvelle-open-space-mezzanine.jpg",
-            "name": "granvelle-open-space-mezzanine.jpg",
+            "path": "/media/granvelle-bureau-02b.webp",
+            "name": "granvelle-bureau-02b.webp",
+            "alt": "Bureau privé 02 de Granvelle, seconde vue",
+            "caption": "",
+            "site": "granvelle",
+            "width": 1600,
+            "height": 1200,
+            "bytes": 103250,
+            "derivatives": {
+                "800": "/media/granvelle-bureau-02b-800.webp",
+                "400": "/media/granvelle-bureau-02b-400.webp"
+            },
+            "at": "2026-09-09T21:12:12+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Private office 02 at Granvelle, second view",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-bureau-03.webp",
+            "name": "granvelle-bureau-03.webp",
+            "alt": "Bureau privé 03 de Granvelle, sous la mezzanine",
+            "caption": "",
+            "site": "granvelle",
+            "width": 1280,
+            "height": 960,
+            "bytes": 77802,
+            "derivatives": {
+                "800": "/media/granvelle-bureau-03-800.webp",
+                "400": "/media/granvelle-bureau-03-400.webp"
+            },
+            "at": "2026-09-09T21:12:12+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Private office 03 at Granvelle, under the mezzanine",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-bureau-03b.webp",
+            "name": "granvelle-bureau-03b.webp",
+            "alt": "Bureau privé 03 de Granvelle, seconde vue",
+            "caption": "",
+            "site": "granvelle",
+            "width": 1280,
+            "height": 960,
+            "bytes": 77164,
+            "derivatives": {
+                "800": "/media/granvelle-bureau-03b-800.webp",
+                "400": "/media/granvelle-bureau-03b-400.webp"
+            },
+            "at": "2026-09-09T21:12:12+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Private office 03 at Granvelle, second view",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-openspace-01.webp",
+            "name": "granvelle-openspace-01.webp",
+            "alt": "Open space de Granvelle, postes côté vitrine",
+            "caption": "",
+            "site": "granvelle",
+            "width": 1280,
+            "height": 960,
+            "bytes": 114482,
+            "derivatives": {
+                "800": "/media/granvelle-openspace-01-800.webp",
+                "400": "/media/granvelle-openspace-01-400.webp"
+            },
+            "at": "2026-09-09T21:12:13+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Granvelle open space, desks by the window",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-openspace-02.webp",
+            "name": "granvelle-openspace-02.webp",
+            "alt": "Open space de Granvelle, mur bleu",
+            "caption": "",
+            "site": "granvelle",
+            "width": 1280,
+            "height": 960,
+            "bytes": 115562,
+            "derivatives": {
+                "800": "/media/granvelle-openspace-02-800.webp",
+                "400": "/media/granvelle-openspace-02-400.webp"
+            },
+            "at": "2026-09-09T21:12:13+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Granvelle open space, blue wall",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-openspace-03.webp",
+            "name": "granvelle-openspace-03.webp",
+            "alt": "Open space de Granvelle vu de la vitrine",
+            "caption": "",
+            "site": "granvelle",
+            "width": 1280,
+            "height": 960,
+            "bytes": 136728,
+            "derivatives": {
+                "800": "/media/granvelle-openspace-03-800.webp",
+                "400": "/media/granvelle-openspace-03-400.webp"
+            },
+            "at": "2026-09-09T21:12:13+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Granvelle open space seen from the window",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-openspace-mezzanine.webp",
+            "name": "granvelle-openspace-mezzanine.webp",
             "alt": "Open space de Granvelle et sa mezzanine",
-            "caption": "iOiO Granvelle — open space",
+            "caption": "",
             "site": "granvelle",
-            "width": 195,
-            "height": 146,
-            "bytes": 12315,
-            "derivatives": [],
-            "lowres": true,
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "migration",
+            "width": 1280,
+            "height": 960,
+            "bytes": 92558,
+            "derivatives": {
+                "800": "/media/granvelle-openspace-mezzanine-800.webp",
+                "400": "/media/granvelle-openspace-mezzanine-400.webp"
+            },
+            "at": "2026-09-09T21:12:13+02:00",
+            "by": "import-ioio.fr",
             "i18n": {
                 "en": {
-                    "alt": "The Granvelle open space and its mezzanine",
-                    "caption": "iOiO Granvelle — open space"
+                    "alt": "Granvelle open space and its mezzanine",
+                    "caption": ""
                 }
             }
         },
         {
-            "path": "/media/granvelle-coin-detente.jpg",
-            "name": "granvelle-coin-detente.jpg",
-            "alt": "Coin détente de Granvelle : fauteuils et tables basses sous la mezzanine",
-            "caption": "iOiO Granvelle — coin détente",
+            "path": "/media/granvelle-openspace-casiers.webp",
+            "name": "granvelle-openspace-casiers.webp",
+            "alt": "Postes dédiés de Granvelle et casiers à clé",
+            "caption": "",
             "site": "granvelle",
-            "width": 195,
-            "height": 146,
-            "bytes": 13260,
-            "derivatives": [],
-            "lowres": true,
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "migration",
+            "width": 960,
+            "height": 1280,
+            "bytes": 107484,
+            "derivatives": {
+                "800": "/media/granvelle-openspace-casiers-800.webp",
+                "400": "/media/granvelle-openspace-casiers-400.webp"
+            },
+            "at": "2026-09-09T21:12:13+02:00",
+            "by": "import-ioio.fr",
             "i18n": {
                 "en": {
-                    "alt": "Granvelle lounge: armchairs and coffee tables under the mezzanine",
-                    "caption": "iOiO Granvelle — coin détente"
+                    "alt": "Granvelle dedicated desks and key lockers",
+                    "caption": ""
                 }
             }
         },
         {
-            "path": "/media/carnot-cuisine.jpg",
-            "name": "carnot-cuisine.jpg",
-            "alt": "Cuisine équipée de l’espace Carnot",
-            "caption": "iOiO Carnot — cuisine",
-            "site": "carnot",
-            "width": 260,
-            "height": 144,
-            "bytes": 12100,
-            "derivatives": [],
-            "lowres": true,
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "migration",
+            "path": "/media/granvelle-coin-detente.webp",
+            "name": "granvelle-coin-detente.webp",
+            "alt": "Coin détente de Granvelle : fauteuils et tables basses",
+            "caption": "",
+            "site": "granvelle",
+            "width": 1280,
+            "height": 960,
+            "bytes": 100164,
+            "derivatives": {
+                "800": "/media/granvelle-coin-detente-800.webp",
+                "400": "/media/granvelle-coin-detente-400.webp"
+            },
+            "at": "2026-09-09T21:12:14+02:00",
+            "by": "import-ioio.fr",
             "i18n": {
                 "en": {
-                    "alt": "Fitted kitchen at the Carnot space",
-                    "caption": "iOiO Carnot — cuisine"
+                    "alt": "Granvelle lounge: armchairs and coffee tables",
+                    "caption": ""
                 }
             }
         },
         {
-            "path": "/media/carnot-couloir.jpg",
-            "name": "carnot-couloir.jpg",
-            "alt": "Couloir de l’espace Carnot desservant les bureaux privés",
-            "caption": "iOiO Carnot — couloir des bureaux",
-            "site": "carnot",
-            "width": 260,
-            "height": 144,
-            "bytes": 14162,
-            "derivatives": [],
-            "lowres": true,
-            "at": "2026-09-09T18:26:01+02:00",
-            "by": "migration",
+            "path": "/media/granvelle-openspace-04.webp",
+            "name": "granvelle-openspace-04.webp",
+            "alt": "Open space de Granvelle, table bar de travail",
+            "caption": "",
+            "site": "granvelle",
+            "width": 1600,
+            "height": 1200,
+            "bytes": 161624,
+            "derivatives": {
+                "800": "/media/granvelle-openspace-04-800.webp",
+                "400": "/media/granvelle-openspace-04-400.webp"
+            },
+            "at": "2026-09-09T21:12:14+02:00",
+            "by": "import-ioio.fr",
             "i18n": {
                 "en": {
-                    "alt": "Corridor serving the private offices at the Carnot space",
-                    "caption": "iOiO Carnot — couloir des bureaux"
+                    "alt": "Granvelle open space, bar work table",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-openspace-05.webp",
+            "name": "granvelle-openspace-05.webp",
+            "alt": "Poste de travail de Granvelle et casiers",
+            "caption": "",
+            "site": "granvelle",
+            "width": 1600,
+            "height": 1200,
+            "bytes": 101784,
+            "derivatives": {
+                "800": "/media/granvelle-openspace-05-800.webp",
+                "400": "/media/granvelle-openspace-05-400.webp"
+            },
+            "at": "2026-09-09T21:12:14+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Granvelle desk and lockers",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-openspace-06.webp",
+            "name": "granvelle-openspace-06.webp",
+            "alt": "Open space de Granvelle sous la mezzanine",
+            "caption": "",
+            "site": "granvelle",
+            "width": 1600,
+            "height": 1200,
+            "bytes": 97244,
+            "derivatives": {
+                "800": "/media/granvelle-openspace-06-800.webp",
+                "400": "/media/granvelle-openspace-06-400.webp"
+            },
+            "at": "2026-09-09T21:12:15+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Granvelle open space under the mezzanine",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-openspace-07.webp",
+            "name": "granvelle-openspace-07.webp",
+            "alt": "Postes de travail de Granvelle, mur vert",
+            "caption": "",
+            "site": "granvelle",
+            "width": 1600,
+            "height": 1200,
+            "bytes": 92406,
+            "derivatives": {
+                "800": "/media/granvelle-openspace-07-800.webp",
+                "400": "/media/granvelle-openspace-07-400.webp"
+            },
+            "at": "2026-09-09T21:12:15+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Granvelle desks, green wall",
+                    "caption": ""
+                }
+            }
+        },
+        {
+            "path": "/media/granvelle-cuisine.webp",
+            "name": "granvelle-cuisine.webp",
+            "alt": "Cuisine équipée de Granvelle",
+            "caption": "",
+            "site": "granvelle",
+            "width": 1512,
+            "height": 2016,
+            "bytes": 119096,
+            "derivatives": {
+                "800": "/media/granvelle-cuisine-800.webp",
+                "400": "/media/granvelle-cuisine-400.webp"
+            },
+            "at": "2026-09-09T21:12:15+02:00",
+            "by": "import-ioio.fr",
+            "i18n": {
+                "en": {
+                    "alt": "Fitted kitchen at Granvelle",
+                    "caption": ""
                 }
             }
         }
     ],
-    "updatedAt": "2026-09-09T20:32:14+02:00",
-    "updatedBy": "migration"
+    "updatedAt": "2026-09-09T21:12:15+02:00",
+    "updatedBy": "import"
 }

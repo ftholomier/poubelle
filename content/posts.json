@@ -2,57 +2,74 @@
     "_schema": 1,
     "posts": [
         {
-            "slug": "carnot-03-se-libere",
-            "status": "published",
-            "date": "2026-09-02",
-            "title": "Carnot 03 se libère : 11 m² au calme",
-            "excerpt": "Le bureau 03 de l'espace Carnot est disponible immédiatement. Cour intérieure, fibre filaire, salle de réunion à deux portes.",
-            "body": "<p>Le bureau 03 de l'espace Carnot vient de se libérer. 11 m² fermés, une fenêtre sur la cour intérieure, le mobilier neuf déjà installé.</p><p>Le loyer reste à <strong>320 € HT par mois, tout compris</strong> : charges, ménage, fibre filaire, salle de réunion et café. L'entrée peut se faire sous 48 h après la visite.</p><p>Comme toujours, la visite dure 20 minutes et le café est offert.</p>",
-            "image": "/media/carnot-bureau-prive.jpg",
+            "slug": "location-de-bureau-a-besancon-lequilibre-parfait-entre-vie-et-travail",
+            "date": "2023-08-09",
+            "title": "Location de bureau à Besançon : l'équilibre parfait entre vie et travail",
+            "excerpt": "Besançon offre bien plus que sa beauté pittoresque et son histoire riche : un cadre où la location de bureau rime avec équilibre de vie.",
+            "body": "<p>Besançon, ville emblématique nichée au cœur de la Franche-Comté, offre bien plus que sa beauté pittoresque et son histoire riche.</p><h2>L'alliance parfaite : travail et épanouissement personnel</h2><p>Lorsque l'on pense à la location de bureau, l'équilibre entre vie professionnelle et personnelle est primordial. Besançon brille par son atmosphère paisible et son style de vie à taille humaine, créant ainsi un environnement propice à la concentration comme à la respiration.</p><h2>Une communauté dynamique de coworkers</h2><p>Besançon abrite une communauté de coworkers en pleine croissance, constituée d'entrepreneurs, de créatifs et de professionnels de divers secteurs. Intégrer cette communauté offre l'opportunité de partager des idées, des compétences et des projets.</p>",
+            "image": "/media/carnot-bureau-vue.webp",
             "color": "#FFD100",
+            "status": "published",
             "i18n": {
                 "en": {
-                    "title": "Carnot 03 is free: 11 sqm, nice and quiet",
-                    "excerpt": "Office 03 in the Carnot space is available right now. Inner courtyard, wired fibre, meeting room two doors away.",
-                    "body": "<p>Office 03 in the Carnot space has just been freed up. 11 closed sqm, a window onto the inner courtyard, new furniture already in place.</p><p>The rent stays at <strong>€320 excl. VAT per month, all inclusive</strong>: bills, cleaning, wired fibre, meeting room and coffee. You can move in within 48 h of the viewing.</p><p>As always, the viewing takes 20 minutes and the coffee is on us.</p>"
+                    "title": "",
+                    "excerpt": "",
+                    "body": ""
                 }
             }
         },
         {
-            "slug": "casiers-coin-bar-granvelle",
-            "status": "published",
-            "date": "2026-08-18",
-            "title": "Nouveaux casiers et coin bar à Granvelle",
-            "excerpt": "L'espace détente de Granvelle a été réaménagé cet été : table bar plus grande, nouveaux casiers à clé et machine à café remplacée.",
-            "body": "<p>L'été a servi à refaire l'espace détente de Granvelle. La table bar de travail est plus grande, avec des prises à chaque place.</p><p>Chaque poste dédié dispose désormais de son <strong>casier à clé</strong>, et la machine à café a été remplacée par un modèle à grains.</p><p>Le coin canapé reste réservé aux rendez-vous informels : on y reçoit un client sans réserver la salle de réunion.</p>",
-            "image": "/media/granvelle-facade.webp",
+            "slug": "developpez-vos-relations-professionnelles-grace-au-coworking",
+            "date": "2023-05-15",
+            "title": "Développez vos relations professionnelles grâce au coworking",
+            "excerpt": "Les espaces de coworking offrent un environnement de travail stimulant, flexible et économique — et surtout des rencontres.",
+            "body": "<p>Les espaces de coworking sont de plus en plus populaires, et pour cause. Ils offrent un environnement de travail stimulant, flexible et économique pour les travailleurs indépendants, les entrepreneurs et les petites équipes.</p><p>Voici quelques avantages des rencontres professionnelles dans un espace de coworking :</p><h2>Des compétences complémentaires</h2><p>Les espaces de coworking rassemblent des professionnels de différents secteurs d'activité, ce qui permet de rencontrer des personnes ayant des compétences et des expériences complémentaires.</p><h2>Le partage de connaissances</h2><p>Les rencontres professionnelles permettent également de partager des connaissances et des expériences avec d'autres professionnels. Cela peut être très bénéfique pour améliorer ses compétences.</p><h2>Des collaborations</h2><p>Travailler à côté d'autres professionnels conduit souvent à des collaborations sur des projets, à des synergies et à de nouvelles idées.</p><h2>Un environnement de travail positif</h2><p>Enfin, le coworking crée un cadre de travail positif, qui rompt l'isolement du travail à domicile.</p>",
+            "image": "/media/granvelle-coin-detente.webp",
             "color": "#12B39A",
+            "status": "published",
             "i18n": {
                 "en": {
-                    "title": "New lockers and bar corner at Granvelle",
-                    "excerpt": "The Granvelle lounge was refitted this summer: a bigger bar table, new key lockers and a new coffee machine.",
-                    "body": "<p>The summer was spent refitting the Granvelle lounge. The bar work table is bigger, with power sockets at every seat.</p><p>Every dedicated desk now comes with its own <strong>key locker</strong>, and the coffee machine has been replaced with a bean-to-cup model.</p><p>The sofa corner stays free for informal meetings: you can welcome a client without booking the meeting room.</p>"
+                    "title": "",
+                    "excerpt": "",
+                    "body": ""
                 }
             }
         },
         {
-            "slug": "loyers-tout-compris",
+            "slug": "quest-ce-que-le-coworking",
+            "date": "2023-05-09",
+            "title": "Qu'est-ce que le coworking",
+            "excerpt": "Partager un espace de travail avec d'autres indépendants : flexibilité, réseau et productivité.",
+            "body": "<p>Le coworking est une tendance en plein essor qui consiste à partager un espace de travail avec d'autres professionnels indépendants ou entrepreneurs. Cette pratique offre de nombreux avantages.</p><h2>La flexibilité</h2><p>Le coworking permet une grande flexibilité en termes d'horaires et de lieu de travail. Les espaces sont souvent ouverts sur une large plage horaire.</p><h2>Le réseau</h2><p>En partageant un espace de travail avec d'autres professionnels, les travailleurs indépendants rencontrent de nouvelles personnes et développent leur réseau.</p><h2>La productivité</h2><p>En travaillant dans un environnement professionnel et stimulant, on se concentre mieux que chez soi.</p><p>En conclusion, le coworking offre de nombreux avantages aux indépendants et aux entrepreneurs : flexibilité, opportunités de networking et productivité.</p>",
+            "image": "/media/granvelle-openspace-01.webp",
+            "color": "#EDE5D5",
             "status": "published",
-            "date": "2026-07-04",
-            "title": "Pourquoi nos loyers restent tout compris",
-            "excerpt": "Pas de refacturation de charges, pas de frais de dossier, pas de surprise en fin d'année. On explique le modèle en trois minutes.",
-            "body": "<p>Un bureau à 300 € qui devient 380 € une fois les charges refacturées, ce n'est pas notre modèle. Au iOiO, le prix affiché est le prix payé.</p><p>Sont compris : charges, eau, électricité, chauffage, ménage, fibre, mobilier, salle de réunion, cuisine équipée et café. Il n'y a <strong>ni frais de dossier, ni dépôt de garantie lourd, ni régularisation annuelle</strong>.</p><p>Le contrat est une prestation de services, pas un bail commercial : le préavis est court et vous partez quand votre activité change.</p>",
-            "image": "/media/carnot-salle-reunion.webp",
-            "color": "#FFD100",
             "i18n": {
                 "en": {
-                    "title": "Why our rents stay all-inclusive",
-                    "excerpt": "No rebilled charges, no admin fees, no year-end surprise. Here is the model in three minutes.",
-                    "body": "<p>An office at €300 that becomes €380 once charges are rebilled is not our model. At the iOiO, the price shown is the price paid.</p><p>Included: bills, water, electricity, heating, cleaning, fibre, furniture, meeting room, fitted kitchen and coffee. There are <strong>no admin fees, no heavy deposit and no annual adjustment</strong>.</p><p>The contract is a service agreement, not a commercial lease: notice is short and you leave when your business changes.</p>"
+                    "title": "",
+                    "excerpt": "",
+                    "body": ""
+                }
+            }
+        },
+        {
+            "slug": "louez-un-bureau-prive",
+            "date": "2023-05-09",
+            "title": "Louez un bureau privé",
+            "excerpt": "Confidentialité, flexibilité et maîtrise des coûts : pourquoi la location de bureaux privés séduit les entreprises de toutes tailles.",
+            "body": "<p>La location de bureaux privés est devenue une option de plus en plus populaire pour les entreprises de toutes tailles. Que vous soyez une start-up en pleine croissance ou une entreprise établie, louer un bureau privé présente plusieurs avantages.</p><h2>La confidentialité</h2><p>Les bureaux privés offrent un espace de travail isolé où l'on travaille sans être dérangé.</p><h2>La flexibilité</h2><p>Les entreprises peuvent louer pour une durée déterminée, ce qui permet de s'adapter facilement aux changements d'activité.</p><h2>La maîtrise des coûts</h2><p>Aucun investissement dans l'achat d'un espace de travail. Les bureaux privés sont souvent proposés tout compris.</p><h2>Un cadre professionnel</h2><p>La location de bureaux privés donne accès à des prestations mutualisées : salle de réunion, espace de restauration… dans des bâtiments modernes et bien entretenus.</p>",
+            "image": "/media/carnot-bureau-03.webp",
+            "color": "#FFD100",
+            "status": "published",
+            "i18n": {
+                "en": {
+                    "title": "",
+                    "excerpt": "",
+                    "body": ""
                 }
             }
         }
     ],
-    "updatedAt": "2026-09-09T20:33:28+02:00",
-    "updatedBy": "correction"
+    "updatedAt": "2026-09-09T21:17:31+02:00",
+    "updatedBy": "import-ioio.fr"
 }

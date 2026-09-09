@@ -5,23 +5,23 @@
     "status": "published",
     "nav": "Nos bureaux",
     "seo": {
-        "title": "Nos bureaux disponibles à Besançon",
-        "description": "Bureaux privés et postes en open space à louer à Besançon. Tarifs HT par mois, tout compris. Disponibilités mises à jour en temps réel.",
-        "ogImage": "/media/carnot-bureau-prive.jpg"
+        "title": "Nos bureaux à louer à Besançon",
+        "description": "Bureaux privés fermés et postes en open space à louer au centre-ville de Besançon. Tarifs HT par mois, tout compris, aucun frais caché.",
+        "ogImage": "/media/carnot-bureau-03.webp"
     },
     "kicker": "NOS BUREAUX",
     "title": "Choisissez votre bureau",
-    "text": "Tarifs HT par mois, tout compris. Disponibilités mises à jour depuis le back-office : ce que vous voyez est réel.",
+    "text": "Tarif de location HT par mois, tout compris, aucun frais caché. Les disponibilités sont mises à jour depuis le back-office : ce que vous voyez est réel.",
     "included": [
-        "Charges et fluides",
+        "Charges, eau, électricité, chauffage",
         "Ménage",
-        "Fibre très haut débit",
+        "Internet très haut débit",
         "Mobilier moderne",
-        "Salle de réunion",
+        "Salle de réunion partagée",
         "Cuisine équipée",
-        "Bonne humeur",
-        "Accès badge 24h/24"
+        "Douche et wc à Carnot",
+        "Accès badge 7j/7 24h/24 à Carnot"
     ],
-    "updatedAt": "2026-09-09T20:33:28+02:00",
-    "updatedBy": "correction"
+    "updatedAt": "2026-09-09T21:15:45+02:00",
+    "updatedBy": "import-ioio.fr"
 }
