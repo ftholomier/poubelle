@@ -62,6 +62,12 @@ final class Gemini
 
         $passages = Indexer::search($question, $lang, 6);
         if ($passages === []) {
+            // Index vide ou question hors sujet : les réponses rapides du
+            // back-office restent utilisables avant de renvoyer vers l'équipe.
+            $quick = self::quickAnswer($question, $lang);
+            if ($quick !== null) {
+                return $quick;
+            }
             self::logMiss($question, $lang);
             return self::fallbackAnswer($lang, []);
         }
