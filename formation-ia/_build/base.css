@@ -1,0 +1,190 @@
+/* =========================================================================
+   Formation IA — système de design partagé (documents imprimables A4)
+   ========================================================================= */
+
+:root{
+  --ink:#12181D; --ink-2:#545F69; --ink-3:#8A959D;
+  --rule:#DDE2E6; --rule-soft:#EDF0F2; --wash:#F5F7F8;
+  --j1:#0B655E; --j1-wash:#E4EFED; --j1-line:#9CCBC5;
+  --j2:#A32B57; --j2-wash:#F8E7EC; --j2-line:#E2A8BC;
+  --flag:#8A5A00; --flag-wash:#FAF1DE; --flag-line:#DCC189;
+  --disp:"Bricolage Grotesque","Trebuchet MS",sans-serif;
+  --body:"Public Sans","Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono","Consolas",monospace;
+}
+
+@page{ size:A4; margin:17mm 18mm 20mm 18mm; }
+
+*{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+html,body{ margin:0; padding:0; }
+body{
+  width:657.6px;                 /* largeur utile A4 : 210 − 36 mm */
+  font-family:var(--body); font-size:10.2pt; line-height:1.55;
+  color:var(--ink); background:#fff;
+  -webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums lining-nums;
+}
+
+/* ---------- titres ---------- */
+h1,h2,h3,h4{ font-family:var(--disp); font-weight:800; margin:0; text-wrap:balance; letter-spacing:-.015em; }
+h1{ font-size:25pt; line-height:1.06; }
+h2{ font-size:16pt; line-height:1.15; margin-top:22px; }
+h3{ font-size:12pt; line-height:1.25; font-weight:700; margin-top:18px; }
+h4{ font-size:10.5pt; line-height:1.3; font-weight:700; margin-top:14px; }
+h2,h3,h4{ break-after:avoid; }
+
+p{ margin:8px 0 0; }
+p:first-child{ margin-top:0; }
+strong{ font-weight:600; }
+em{ font-style:italic; }
+a{ color:var(--j1); text-decoration:none; border-bottom:.5px solid var(--j1-line); }
+
+ul,ol{ margin:8px 0 0; padding-left:17px; }
+li{ margin-top:4px; }
+li::marker{ color:var(--ink-3); }
+ul.tight li, ol.tight li{ margin-top:2px; }
+
+/* ---------- utilitaires ---------- */
+.lbl{
+  font-family:var(--mono); font-size:7.4pt; font-weight:600;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3);
+}
+.lede{ font-size:11.4pt; line-height:1.5; color:var(--ink-2); margin-top:10px; }
+.muted{ color:var(--ink-2); }
+.small{ font-size:9pt; }
+.mono{ font-family:var(--mono); }
+.nowrap{ white-space:nowrap; }
+.avoid{ break-inside:avoid; }
+.pb{ break-before:page; }
+
+/* ---------- couverture ---------- */
+.cover{ height:257mm; display:flex; flex-direction:column; break-after:page; }
+.cover .top{ flex:1; }
+.cover .rule{ height:5px; background:var(--ink); margin-bottom:16px; }
+.cover h1{ font-size:37pt; line-height:1.0; margin-top:12px; }
+.cover .sub{ font-size:13pt; color:var(--ink-2); margin-top:16px; max-width:52ch; line-height:1.45; }
+.cover .band{ display:flex; gap:0; margin-top:34px; border:1px solid var(--rule); border-radius:5px; overflow:hidden; }
+.cover .band div{ flex:1; padding:11px 14px; border-right:1px solid var(--rule-soft); }
+.cover .band div:last-child{ border-right:0; }
+.cover .band .v{ font-family:var(--disp); font-weight:700; font-size:12.5pt; margin-top:3px; }
+.cover .bottom{ border-top:1px solid var(--rule); padding-top:12px; font-size:9pt; color:var(--ink-3); }
+
+/* ---------- ouverture de chapitre ---------- */
+.chap{ break-before:page; }
+.chap-head{ border-bottom:2.5px solid var(--accent,var(--ink)); padding-bottom:11px; margin-bottom:16px; }
+.chap-head .n{
+  font-family:var(--mono); font-size:8pt; font-weight:600; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--accent,var(--ink-3));
+}
+.chap-head h2{ margin-top:7px; font-size:21pt; }
+.chap-head .goal{ color:var(--ink-2); margin-top:8px; font-size:10.5pt; }
+.j1{ --accent:var(--j1); --wash-a:var(--j1-wash); --line-a:var(--j1-line); }
+.j2{ --accent:var(--j2); --wash-a:var(--j2-wash); --line-a:var(--j2-line); }
+.neutral{ --accent:var(--ink); --wash-a:var(--wash); --line-a:var(--rule); }
+
+/* ---------- encadrés ---------- */
+.box{
+  break-inside:avoid; margin-top:14px; padding:13px 15px;
+  border:1px solid var(--rule); border-left:3px solid var(--accent,var(--ink));
+  border-radius:0 4px 4px 0; background:var(--wash);
+}
+.box > .lbl{ color:var(--accent,var(--ink-3)); display:block; }
+.box > .lbl + *{ margin-top:6px; }
+.box--ex{ background:var(--wash-a,var(--wash)); border-color:var(--line-a,var(--rule)); border-left-color:var(--accent); }
+.box--warn{ background:var(--flag-wash); border-color:var(--flag-line); border-left-color:var(--flag); }
+.box--warn > .lbl{ color:var(--flag); }
+.box--tip{ background:#fff; border-color:var(--rule); border-left-color:var(--ink); }
+.box--plain{ background:#fff; }
+
+/* ---------- blocs de prompt ---------- */
+.prompt{
+  break-inside:avoid; margin-top:10px; padding:12px 14px;
+  background:#F8FAFA; border:1px solid var(--rule); border-radius:4px;
+  font-family:var(--mono); font-size:8.6pt; line-height:1.62; color:var(--ink);
+  white-space:pre-wrap; word-break:break-word;
+}
+.prompt b{ color:var(--j1); font-weight:600; }
+.prompt .cmt{ color:var(--ink-3); }
+
+/* ---------- tableaux ---------- */
+table{ width:100%; border-collapse:collapse; margin-top:12px; font-size:9.4pt; break-inside:avoid; }
+th{
+  text-align:left; font-family:var(--mono); font-size:7.4pt; font-weight:600;
+  letter-spacing:.11em; text-transform:uppercase; color:var(--ink-3);
+  padding:0 9px 7px 0; border-bottom:1.5px solid var(--ink);
+}
+td{ padding:8px 9px 8px 0; border-bottom:.75px solid var(--rule-soft); vertical-align:top; color:var(--ink-2); }
+th:last-child,td:last-child{ padding-right:0; }
+td strong,td b{ color:var(--ink); }
+tr.hi td{ background:var(--wash-a,var(--wash)); }
+table.zebra tbody tr:nth-child(even) td{ background:#FAFBFC; }
+
+/* ---------- listes structurées ---------- */
+.kv{ margin-top:12px; border-top:1px solid var(--rule); }
+.kv > div{ display:grid; grid-template-columns:118px 1fr; gap:14px;
+  padding:8px 0; border-bottom:.75px solid var(--rule-soft); break-inside:avoid; }
+.kv dt, .kv .k{ font-family:var(--mono); font-size:8pt; font-weight:600; color:var(--ink-3);
+  letter-spacing:.06em; text-transform:uppercase; padding-top:1px; }
+.kv dd, .kv .v{ margin:0; color:var(--ink-2); font-size:9.8pt; }
+.kv .v strong{ color:var(--ink); }
+
+.steps{ counter-reset:s; margin-top:12px; padding:0; list-style:none; }
+.steps > li{
+  counter-increment:s; position:relative; padding-left:30px; margin-top:11px; break-inside:avoid;
+}
+.steps > li::before{
+  content:counter(s); position:absolute; left:0; top:0;
+  width:20px; height:20px; border-radius:50%; background:var(--accent,var(--ink)); color:#fff;
+  font-family:var(--mono); font-size:8.5pt; font-weight:600;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* ---------- grilles ---------- */
+.g2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px; }
+.g3{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px; }
+.card{ border:1px solid var(--rule); border-radius:5px; padding:13px 15px; break-inside:avoid; background:#fff; }
+.card h4{ margin-top:0; }
+.card p, .card ul{ font-size:9.4pt; color:var(--ink-2); }
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-block; font-family:var(--mono); font-size:7.2pt; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase; padding:2.5px 6px; border-radius:3px;
+  background:var(--wash-a,var(--wash)); color:var(--accent,var(--ink-2)); vertical-align:2px;
+}
+.chip--n{ background:var(--wash); color:var(--ink-3); }
+
+/* ---------- zones à remplir (cahier d'exercices) ---------- */
+.fill{ margin-top:10px; }
+.fill .line{ border-bottom:.75px solid var(--rule); height:23px; }
+.fill .line.tall{ height:29px; }
+.fill-box{
+  margin-top:9px; border:1px solid var(--rule); border-radius:4px; background:#FCFDFD;
+  padding:10px 12px; min-height:64px;
+}
+.fill-box .lbl{ display:block; margin-bottom:5px; }
+.score{ display:inline-flex; gap:4px; align-items:center; font-family:var(--mono); font-size:8.5pt; color:var(--ink-3); }
+.score .b{ width:15px; height:15px; border:1px solid var(--rule); border-radius:2px; }
+
+/* ---------- sommaire ---------- */
+.toc{ margin-top:18px; }
+.toc a{ border:0; color:inherit; }
+.toc .row{
+  display:grid; grid-template-columns:26px 1fr auto; gap:11px; align-items:baseline;
+  padding:7px 0; border-bottom:.75px solid var(--rule-soft);
+}
+.toc .row.lvl2{ padding-left:26px; grid-template-columns:0 1fr auto; }
+.toc .row.lvl2 .t{ font-size:9.4pt; color:var(--ink-2); }
+.toc .n{ font-family:var(--mono); font-size:8pt; font-weight:600; color:var(--ink-3); }
+.toc .t{ font-weight:600; font-size:10.4pt; }
+.toc .p{ font-family:var(--mono); font-size:8.6pt; color:var(--ink-3); }
+
+/* ---------- images / infographies ---------- */
+figure{ margin:16px 0 0; break-inside:avoid; }
+figure img{ width:100%; display:block; border:1px solid var(--rule-soft); border-radius:4px; }
+figcaption{ margin-top:6px; font-size:8.4pt; color:var(--ink-3); font-family:var(--mono); }
+
+/* ---------- séparateur ---------- */
+hr{ border:0; border-top:1px solid var(--rule); margin:20px 0 0; }
+.spacer{ height:10px; }

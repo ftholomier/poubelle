@@ -1,0 +1,93 @@
+<meta charset="utf-8"><link rel="stylesheet" href="polices/polices.css"><link rel="stylesheet" href="info.css">
+<style>
+.bd{gap:38px}
+.plot{flex:1;display:flex;flex-direction:column;min-width:0}
+.yaxis{display:flex;flex:1;min-height:0}
+.ylab{width:26px;flex-shrink:0;position:relative}
+.ylab span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);
+  white-space:nowrap;font-family:var(--mono);font-size:12px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3)}
+.grid{flex:1;position:relative;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.quad{position:absolute;width:50%;height:50%;padding:14px 16px;display:flex;flex-direction:column}
+.quad.tl{align-items:flex-start;justify-content:flex-start}
+.quad.tr{align-items:flex-end;justify-content:flex-start;text-align:right}
+.quad.bl{align-items:flex-start;justify-content:flex-end}
+.quad.br{align-items:flex-end;justify-content:flex-end;text-align:right}
+.quad .qt{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.015em;
+  line-height:1.12}
+.quad .qs{font-size:13.5px;color:var(--ink-2);line-height:1.35;margin-top:5px;max-width:23ch}
+.q-tl{top:0;left:0;background:#F7F9FA} .q-tr{top:0;right:0;background:var(--j2-wash)}
+.q-bl{bottom:0;left:0} .q-br{bottom:0;right:0;background:var(--j1-wash)}
+.q-tr .qt{color:var(--j2)} .q-br .qt{color:var(--j1)} .q-bl .qt{color:var(--ink-3)}
+.mid-v{position:absolute;left:50%;top:0;bottom:0;border-left:1.5px dashed #C4CED5}
+.mid-h{position:absolute;top:50%;left:0;right:0;border-top:1.5px dashed #C4CED5}
+.pt{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:8px}
+.pt .d{border-radius:50%;background:var(--ink);flex-shrink:0;border:2.5px solid #fff;
+  box-shadow:0 0 0 1.5px var(--ink)}
+.pt .n{font-size:13.5px;color:var(--ink);line-height:1.25;font-weight:600;
+  background:rgba(255,255,255,.86);padding:1px 4px;border-radius:3px}
+.pt.r{flex-direction:row-reverse}
+.xaxis{display:flex;justify-content:space-between;padding:9px 0 0 26px;font-family:var(--mono);
+  font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.side{width:352px;flex-shrink:0;display:flex;flex-direction:column}
+.side > .lbl{display:block;margin-bottom:11px}
+.side .c{border:1px solid var(--rule);border-radius:8px;padding:14px 16px;margin-bottom:12px}
+.side .c h3{font-family:var(--disp);font-weight:700;font-size:17px;letter-spacing:-.01em}
+.side .c p{font-size:14.5px;color:var(--ink-2);line-height:1.42;margin-top:6px}
+.side .c p b{color:var(--ink);font-weight:600}
+.sizes{margin-top:auto;border-top:1px solid var(--rule);padding-top:13px}
+.sizes .lbl{display:block;margin-bottom:9px}
+.sz{display:flex;align-items:center;gap:11px;margin-top:8px}
+.sz .d{border-radius:50%;background:var(--ink-3);flex-shrink:0}
+.sz span{font-size:14px;color:var(--ink-2)}
+</style>
+
+<div class="canvas">
+  <div class="hd">
+    <div class="kick">Séquence 9 · Atelier d'automatisation</div>
+    <h1>Placez vos tâches sur cette grille avant de choisir le moindre outil</h1>
+    <p class="sub">Savoir <em>quoi</em> automatiser est le travail difficile. Le comment se règle ensuite, et souvent en une heure.</p>
+  </div>
+
+  <div class="bd">
+    <div class="plot">
+      <div class="yaxis">
+        <div class="ylab"><span>Temps passé à chaque fois</span></div>
+        <div class="grid">
+          <div class="quad tl q-tl"><div class="qt">Se faire aider,<br>ponctuellement</div><div class="qs">Long mais rare : un assistant bien briefé suffit. Automatiser coûterait plus cher que la tâche.</div></div>
+          <div class="quad tr q-tr"><div class="qt">Automatiser<br>en premier</div><div class="qs">Long et fréquent : c'est ici que se trouvent vos heures. Commencez par la tâche la plus haute à droite.</div></div>
+          <div class="quad bl q-bl"><div class="qt">Laisser<br>tel quel</div><div class="qs">Court et rare. Le temps d'outiller ne sera jamais rentabilisé.</div></div>
+          <div class="quad br q-br"><div class="qt">En faire<br>un modèle</div><div class="qs">Court mais fréquent : un assistant personnalisé, un raccourci, une trame réutilisable.</div></div>
+          <div class="mid-v"></div><div class="mid-h"></div>
+
+          <div class="pt" style="left:15%;top:64%"><div class="d" style="width:10px;height:10px"></div><div class="n">Réserver une salle</div></div>
+          <div class="pt" style="left:30%;top:40%"><div class="d" style="width:11px;height:11px"></div><div class="n">Préparer le budget annuel</div></div>
+          <div class="pt" style="left:54%;top:34%"><div class="d" style="width:19px;height:19px"></div><div class="n">Synthétiser les appels<br>d'offres reçus</div></div>
+          <div class="pt r" style="left:88%;top:46%"><div class="d" style="width:22px;height:22px"></div><div class="n">Rédiger le compte rendu<br>hebdomadaire</div></div>
+          <div class="pt" style="left:62%;top:59%"><div class="d" style="width:20px;height:20px"></div><div class="n">Répondre aux mails<br>clients récurrents</div></div>
+          <div class="pt r" style="left:93%;top:68%"><div class="d" style="width:15px;height:15px"></div><div class="n">Reformuler et corriger</div></div>
+        </div>
+      </div>
+      <div class="xaxis"><span>Rare</span><span>Fréquence de la tâche</span><span>Plusieurs fois par jour</span></div>
+    </div>
+
+    <div class="side">
+      <span class="lbl">Comment s'en servir</span>
+      <div class="c"><h3>1 · Videz votre semaine</h3><p>Listez tout ce que vous avez fait la semaine dernière, sans trier. <b>Visez trente lignes</b> — les bonnes candidates sont souvent celles qu'on ne pense pas à noter.</p></div>
+      <div class="c"><h3>2 · Placez chaque tâche</h3><p>Une tâche, un point. Ne réfléchissez pas à la faisabilité technique : <b>elle ne compte pas encore.</b></p></div>
+      <div class="c"><h3>3 · Gardez les trois plus à droite</h3><p>Et chiffrez-les en heures par mois. Ce chiffre est ce que vous présenterez à votre direction.</p></div>
+
+      <div class="sizes">
+        <span class="lbl">Taille du point = répétitivité</span>
+        <div class="sz"><div class="d" style="width:10px;height:10px"></div><span>Chaque fois différente</span></div>
+        <div class="sz"><div class="d" style="width:16px;height:16px"></div><span>Même trame, contenu variable</span></div>
+        <div class="sz"><div class="d" style="width:22px;height:22px"></div><span>Presque identique à chaque fois</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ft">
+    <div class="msg">Une tâche très répétitive et très fréquente vaut de l'automatisation. <em>Une tâche rare et unique n'en vaudra jamais.</em></div>
+    <div class="src">Formation IA · 08</div>
+  </div>
+</div>

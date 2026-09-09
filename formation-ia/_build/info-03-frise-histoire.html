@@ -1,0 +1,90 @@
+<meta charset="utf-8"><link rel="stylesheet" href="polices/polices.css"><link rel="stylesheet" href="info.css">
+<style>
+.bd{gap:0}
+.act{flex:1;padding:0 32px 30px;position:relative;display:flex;flex-direction:column}
+.act:first-child{padding-left:0} .act:last-child{padding-right:0}
+.act + .act{border-left:1px solid var(--rule)}
+.act .ahd{padding-bottom:14px;border-bottom:2px solid var(--acc)}
+.act .anum{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--acc)}
+.act .ayr{font-family:var(--disp);font-weight:800;font-size:31px;letter-spacing:-.02em;margin-top:6px}
+.act h3{font-family:var(--disp);font-weight:700;font-size:17px;color:var(--ink-2);margin-top:5px;
+  line-height:1.25;letter-spacing:-.005em}
+.rail{margin-top:20px;padding-left:23px;border-left:2px solid var(--rule-soft);flex:1}
+.ev{position:relative;padding-bottom:19px}
+.ev::before{content:"";position:absolute;left:-30px;top:5px;width:11px;height:11px;
+  border-radius:50%;background:var(--acc);border:2.5px solid #fff;box-shadow:0 0 0 2px var(--acc)}
+.ev.win::before{background:#fff;box-shadow:0 0 0 2px #BFC8CE}
+.ev .y{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--acc);letter-spacing:.06em}
+.ev.win .y{color:#96A2A9}
+.ev p{font-size:16px;color:var(--ink-2);line-height:1.4;margin-top:3px}
+.ev p b{color:var(--ink);font-weight:600}
+.ev.star .y{color:var(--j2)}
+.ev.star::before{background:var(--j2);box-shadow:0 0 0 2px var(--j2);width:14px;height:14px;left:-31px}
+.ev.star p b{color:var(--j2)}
+.act:first-child .span{left:0} .act:last-child .span{right:0}
+.a1{--acc:#8A959D} .a2{--acc:#0B655E} .a3{--acc:#A32B57}
+.span{position:absolute;bottom:0;left:32px;right:32px;font-family:var(--mono);font-size:12px;
+  color:var(--ink-3);padding-top:11px;border-top:1px solid var(--rule-soft);letter-spacing:.05em}
+</style>
+
+<div class="canvas">
+  <div class="hd">
+    <div class="kick">Séquence 3 · Soixante-dix ans en quarante-cinq minutes</div>
+    <h1>L'IA n'est pas née en 2022 — elle y est seulement devenue visible</h1>
+    <p class="sub">Trois actes, et deux hivers pendant lesquels plus personne n'y croyait.</p>
+  </div>
+
+  <div class="bd">
+    <div class="act a1" style="padding-left:0">
+      <div class="ahd">
+        <div class="anum">Acte I</div>
+        <div class="ayr">1950 — 2011</div>
+        <h3>Soixante ans de promesses,<br>et deux hivers</h3>
+      </div>
+      <div class="rail">
+        <div class="ev"><div class="y">1950</div><p>Alan Turing pose la question : <b>« une machine peut-elle penser ? »</b> et propose un test pour y répondre.</p></div>
+        <div class="ev"><div class="y">1956</div><p>Conférence de Dartmouth : l'expression <b>« intelligence artificielle »</b> est inventée. On annonce la machine pensante pour dans vingt ans.</p></div>
+        <div class="ev win"><div class="y">1974 — 1980</div><p><b>Premier hiver.</b> Les résultats ne suivent pas, les financements s'arrêtent net.</p></div>
+        <div class="ev win"><div class="y">1987 — 1993</div><p><b>Deuxième hiver.</b> Les systèmes experts coûtent cher et déçoivent.</p></div>
+        <div class="ev"><div class="y">1997</div><p>Deep Blue bat Kasparov aux échecs. La machine calcule mieux — elle ne comprend toujours rien.</p></div>
+      </div>
+      <div class="span">62 ans</div>
+    </div>
+
+    <div class="act a2">
+      <div class="ahd">
+        <div class="anum">Acte II</div>
+        <div class="ayr">2012 — 2021</div>
+        <h3>La bascule technique,<br>hors du regard du public</h3>
+      </div>
+      <div class="rail">
+        <div class="ev"><div class="y">2012</div><p>Les réseaux de neurones profonds écrasent la concurrence en reconnaissance d'images. <b>Le deep learning décolle.</b></p></div>
+        <div class="ev"><div class="y">2016</div><p>AlphaGo bat le champion du monde de go, un jeu que l'on croyait hors de portée d'une machine.</p></div>
+        <div class="ev star"><div class="y">2017</div><p>Publication de <b>« Attention Is All You Need »</b> : l'architecture Transformer. Huit pages qui rendent possible tout ce qui suit.</p></div>
+        <div class="ev"><div class="y">2018 — 2021</div><p>Les premiers grands modèles de langage sortent des laboratoires. Le grand public n'en entend pas parler.</p></div>
+      </div>
+      <div class="span">10 ans</div>
+    </div>
+
+    <div class="act a3">
+      <div class="ahd">
+        <div class="anum">Acte III</div>
+        <div class="ayr">2022 — aujourd'hui</div>
+        <h3>L'irruption<br>dans le quotidien</h3>
+      </div>
+      <div class="rail">
+        <div class="ev"><div class="y">Novembre 2022</div><p><b>ChatGPT.</b> Cent millions d'utilisateurs en deux mois — l'adoption la plus rapide de l'histoire des logiciels.</p></div>
+        <div class="ev"><div class="y">2023</div><p>Le multimodal : les modèles lisent des images, des documents, entendent et parlent.</p></div>
+        <div class="ev"><div class="y">2024</div><p><b>Les agents.</b> Le modèle cesse de répondre pour commencer à agir : il navigue, exécute, enchaîne.</p></div>
+        <div class="ev"><div class="y">2025 — 2026</div><p>Le raisonnement s'améliore et l'IA s'installe dans les outils de bureau, souvent sans qu'on l'ait demandée.</p></div>
+      </div>
+      <div class="span">4 ans</div>
+    </div>
+  </div>
+
+  <div class="ft">
+    <div class="msg">Soixante ans pour devenir crédible. <em>Quatre ans pour devenir quotidienne.</em></div>
+    <div class="src">Formation IA · 03</div>
+  </div>
+</div>

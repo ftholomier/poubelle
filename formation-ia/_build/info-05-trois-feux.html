@@ -1,0 +1,73 @@
+<meta charset="utf-8"><link rel="stylesheet" href="polices/polices.css"><link rel="stylesheet" href="info.css">
+<style>
+.bd{gap:26px}
+.col{flex:1;border:2px solid var(--c);border-radius:11px;overflow:hidden;display:flex;
+  flex-direction:column;background:#fff}
+.col .top{background:var(--c);padding:16px 20px;color:#fff;display:flex;align-items:center;gap:14px}
+.led{width:34px;height:34px;border-radius:50%;background:#fff;flex-shrink:0;opacity:.95}
+.col .top .t{font-family:var(--disp);font-weight:800;font-size:26px;letter-spacing:-.02em;line-height:1.05}
+.col .top .s{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;
+  opacity:.82;margin-top:3px}
+.col .in{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column}
+.blk + .blk{margin-top:15px;padding-top:15px;border-top:1px solid var(--rule-soft)}
+.blk .lbl{display:block;color:var(--c)}
+.blk p{font-size:16px;color:var(--ink-2);line-height:1.42;margin-top:6px}
+.blk p b{color:var(--ink);font-weight:600}
+.blk ul{margin-top:7px;padding-left:16px}
+.blk li{font-size:15px;color:var(--ink-2);line-height:1.4;margin-top:4px}
+.tools{margin-top:auto;padding-top:15px;border-top:1px solid var(--rule-soft)}
+.tools .v{font-family:var(--disp);font-weight:700;font-size:17px;color:var(--c);
+  line-height:1.25;margin-top:5px}
+.go{--c:#1F7A3D} .amb{--c:#B0791B} .stop{--c:#B3261E}
+</style>
+
+<div class="canvas">
+  <div class="hd">
+    <div class="kick">Séquence 7 · Données, droit et cadre</div>
+    <h1>La règle des trois feux : ce que vous avez le droit de coller dans un chat</h1>
+    <p class="sub">Une seule question à se poser avant chaque copier-coller : de quelle couleur est cette information ?</p>
+  </div>
+
+  <div class="bd">
+    <div class="col go">
+      <div class="top"><div class="led"></div><div><div class="t">Vert</div><div class="s">Allez-y</div></div></div>
+      <div class="in">
+        <div class="blk"><span class="lbl">Quelles données</span>
+          <p>Tout ce qui est <b>déjà public</b>, ou qui pourrait l'être demain sans que cela pose problème à personne.</p></div>
+        <div class="blk"><span class="lbl">Exemples</span>
+          <ul><li>Un texte de loi, une norme, un article de presse</li><li>Votre plaquette commerciale déjà diffusée</li><li>Un brouillon générique sans nom ni chiffre</li><li>Une question de méthode ou de vocabulaire</li></ul></div>
+        <div class="tools"><span class="lbl">Outils autorisés</span>
+          <div class="v">N'importe lequel, y compris les versions gratuites.</div></div>
+      </div>
+    </div>
+
+    <div class="col amb">
+      <div class="top"><div class="led"></div><div><div class="t">Orange</div><div class="s">Sous conditions</div></div></div>
+      <div class="in">
+        <div class="blk"><span class="lbl">Quelles données</span>
+          <p>Des informations <b>internes mais non sensibles</b> : leur fuite serait gênante, pas grave.</p></div>
+        <div class="blk"><span class="lbl">Exemples</span>
+          <ul><li>Un compte rendu de réunion sans nom propre</li><li>Une trame de procédure interne</li><li>Des chiffres agrégés, sans détail par client</li><li>Un support de formation non diffusé</li></ul></div>
+        <div class="tools"><span class="lbl">Outils autorisés</span>
+          <div class="v">Uniquement l'outil validé par votre organisation, sur un compte professionnel, avec l'entraînement sur vos données désactivé.</div></div>
+      </div>
+    </div>
+
+    <div class="col stop">
+      <div class="top"><div class="led"></div><div><div class="t">Rouge</div><div class="s">Jamais</div></div></div>
+      <div class="in">
+        <div class="blk"><span class="lbl">Quelles données</span>
+          <p>Tout ce qui est <b>personnel, confidentiel ou contractuel</b>. Aucune exception, aucune urgence qui tienne.</p></div>
+        <div class="blk"><span class="lbl">Exemples</span>
+          <ul><li>CV, dossiers de candidature, évaluations</li><li>Données de santé, arrêts de travail</li><li>Contrats et conditions négociées avec un client</li><li>Code source propriétaire, secrets de fabrication</li><li>Coordonnées bancaires, pièces d'identité</li></ul></div>
+        <div class="tools"><span class="lbl">Outils autorisés</span>
+          <div class="v">Aucun outil grand public. Seulement une solution hébergée par votre organisation, si elle existe.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ft">
+    <div class="msg">Dans le doute, c'est rouge. Et un document « anonymisé » <em>qui garde une date, un montant et une ville</em> ne l'est pas.</div>
+    <div class="src">Formation IA · 05</div>
+  </div>
+</div>

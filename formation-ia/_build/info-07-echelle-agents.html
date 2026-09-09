@@ -1,0 +1,89 @@
+<meta charset="utf-8"><link rel="stylesheet" href="polices/polices.css"><link rel="stylesheet" href="info.css">
+<style>
+.bd{flex-direction:column;gap:0}
+.axis{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:13px}
+.axis .a{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);letter-spacing:.1em;
+  text-transform:uppercase;display:flex;align-items:center;gap:9px}
+.stairs{flex:1;display:flex;align-items:flex-end;gap:16px}
+.st{flex:1;border:1px solid var(--rule);border-top:4px solid var(--c);border-radius:0 0 9px 9px;
+  padding:16px 18px 17px;display:flex;flex-direction:column;background:#fff}
+.st .lv{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--c)}
+.st h3{font-family:var(--disp);font-weight:800;font-size:25px;letter-spacing:-.02em;
+  line-height:1.06;margin-top:7px}
+.st .does{font-size:16px;color:var(--ink);line-height:1.4;margin-top:10px;font-weight:600}
+.st .ex{font-size:14.5px;color:var(--ink-2);line-height:1.42;margin-top:8px}
+.st .ctl{margin-top:auto;padding-top:11px;border-top:1px solid var(--rule-soft)}
+.st .ctl .k{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3)}
+.st .ctl .v{font-size:14px;color:var(--c);font-weight:600;line-height:1.35;margin-top:4px}
+.s1{--c:#8A959D;height:70%} .s2{--c:#1F6FA8;height:80%}
+.s3{--c:#0B655E;height:90%} .s4{--c:#A32B57;height:100%}
+.band{margin-top:16px;border:1px solid #E2A8BC;background:var(--j2-wash);border-radius:8px;
+  padding:13px 17px;display:flex;align-items:center;gap:15px}
+.band svg{flex-shrink:0;color:var(--j2)}
+.band p{font-size:16px;color:var(--ink);line-height:1.4}
+.band p b{color:var(--j2);font-weight:600}
+</style>
+
+<div class="canvas">
+  <div class="hd">
+    <div class="kick">Séquence 8 · IA agentique et automatisation</div>
+    <h1>Quatre marches, et à chaque marche vous rendez un peu de contrôle</h1>
+    <p class="sub">La différence entre ces quatre niveaux n'est pas la puissance du modèle. C'est ce qu'on l'autorise à faire sans vous demander.</p>
+  </div>
+
+  <div class="bd">
+    <div class="axis">
+      <div class="a">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+        Autonomie de la machine
+      </div>
+      <div class="a">
+        Besoin de garde-fous
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+      </div>
+    </div>
+
+    <div class="stairs">
+      <div class="st s1">
+        <div class="lv">Marche 1</div>
+        <h3>L'assistant</h3>
+        <p class="does">Il répond. Vous relisez tout, à chaque fois.</p>
+        <p class="ex">ChatGPT, Le Chat, Gemini, tels qu'ils sortent de la boîte. Vous posez, il propose, vous décidez.</p>
+        <div class="ctl"><div class="k">Votre contrôle</div><div class="v">Total, message par message</div></div>
+      </div>
+      <div class="st s2">
+        <div class="lv">Marche 2</div>
+        <h3>L'outil sur mesure</h3>
+        <p class="does">Il répond selon vos règles et avec vos documents.</p>
+        <p class="ex">Un assistant personnalisé que vous avez paramétré une fois : instructions, ton, fichiers de référence, interdits.</p>
+        <div class="ctl"><div class="k">Votre contrôle</div><div class="v">Vous avez écrit les règles une fois pour toutes</div></div>
+      </div>
+      <div class="st s3">
+        <div class="lv">Marche 3</div>
+        <h3>L'agent</h3>
+        <p class="does">Il agit : il lit, décide, exécute, et enchaîne seul.</p>
+        <p class="ex">Un scénario d'automatisation, un agent qui navigue sur le web, trie une boîte mail ou remplit un tableur.</p>
+        <div class="ctl"><div class="k">Votre contrôle</div><div class="v">Se définit avant, plus pendant</div></div>
+      </div>
+      <div class="st s4">
+        <div class="lv">Marche 4</div>
+        <h3>Le système d'agents</h3>
+        <p class="does">Plusieurs agents se répartissent le travail et se relisent.</p>
+        <p class="ex">Une chaîne complète : l'un extrait, l'autre vérifie, un troisième traite les cas litigieux et alerte un humain.</p>
+        <div class="ctl"><div class="k">Votre contrôle</div><div class="v">Supervision, journal, et point d'arrêt humain</div></div>
+      </div>
+    </div>
+
+    <div class="band">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+      <p>Un agent qui se trompe se trompe <b>vite, et à grande échelle</b>. À partir de la marche 3, rien de sensible ne part sans validation humaine — et tout ce qu'il fait doit rester consultable après coup.</p>
+    </div>
+  </div>
+
+  <div class="ft">
+    <div class="msg">La bonne question n'est pas « jusqu'où peut-il aller ». C'est <em>« jusqu'où puis-je le laisser aller »</em>.</div>
+    <div class="src">Formation IA · 07</div>
+  </div>
+</div>

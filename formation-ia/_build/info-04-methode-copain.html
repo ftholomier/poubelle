@@ -1,0 +1,81 @@
+<meta charset="utf-8"><link rel="stylesheet" href="polices/polices.css"><link rel="stylesheet" href="info.css">
+<style>
+.bd{gap:46px}
+.rows{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.r{display:grid;grid-template-columns:54px 1fr;gap:17px;padding:10px 0;
+  border-bottom:1px solid var(--rule-soft);align-items:start}
+.rows .r:last-child{border-bottom:0}
+.L{width:54px;height:54px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--disp);font-weight:800;font-size:30px;color:#fff;letter-spacing:-.02em}
+.r .nm{font-family:var(--disp);font-weight:700;font-size:21px;letter-spacing:-.01em;
+  display:flex;align-items:baseline;gap:11px}
+.r .nm i{font-style:normal;font-family:var(--body);font-weight:400;font-size:15px;color:var(--ink-3)}
+.r .ex{font-family:var(--mono);font-size:13.5px;color:var(--ink-2);margin-top:5px;line-height:1.45;
+  padding-left:11px;border-left:2px solid var(--rule)}
+.side{width:512px;flex-shrink:0;display:flex;flex-direction:column}
+.side .lbl{margin-bottom:11px;display:block}
+.pr{flex:1;border:1px solid var(--rule);border-radius:9px;background:#F8FAFA;padding:22px 24px;
+  font-family:var(--mono);font-size:14.2px;line-height:1.85;color:var(--ink)}
+.pr span{padding:1px 3px;border-radius:3px}
+.pr .k{font-weight:600}
+.after{margin-top:14px;font-size:15px;color:var(--ink-2);line-height:1.45}
+.after b{color:var(--ink);font-weight:600}
+</style>
+
+<div class="canvas">
+  <div class="hd">
+    <div class="kick">Séquence 5 · L'art de parler aux machines</div>
+    <h1>C.O.P.A.I.N. — les six informations qui manquent à votre demande</h1>
+    <p class="sub">Un prompt raté est presque toujours un prompt à qui il manque l'une de ces six choses. Elles peuvent être données dans n'importe quel ordre.</p>
+  </div>
+
+  <div class="bd">
+    <div class="rows">
+      <div class="r"><div class="L" style="background:#0B655E">C</div><div>
+        <div class="nm">Contexte <i>où sommes-nous ?</i></div>
+        <div class="ex" style="border-color:#0B655E">Je suis responsable RH dans une PME industrielle de 60 personnes.</div>
+      </div></div>
+      <div class="r"><div class="L" style="background:#1A7F73">O</div><div>
+        <div class="nm">Objectif <i>qu'est-ce que je veux obtenir ?</i></div>
+        <div class="ex" style="border-color:#1A7F73">Rédige une offre d'emploi pour un poste de comptable.</div>
+      </div></div>
+      <div class="r"><div class="L" style="background:#5C4B9E">P</div><div>
+        <div class="nm">Persona <i>qui doit-il être ?</i></div>
+        <div class="ex" style="border-color:#5C4B9E">Agis en recruteur expérimenté du secteur industriel.</div>
+      </div></div>
+      <div class="r"><div class="L" style="background:#8A5A00">A</div><div>
+        <div class="nm">Audience <i>à qui la réponse s'adresse-t-elle ?</i></div>
+        <div class="ex" style="border-color:#8A5A00">Elle sera lue par des candidats juniors, niveau bac+2.</div>
+      </div></div>
+      <div class="r"><div class="L" style="background:#1F6FA8">I</div><div>
+        <div class="nm">Instructions <i>sous quelle forme, exactement ?</i></div>
+        <div class="ex" style="border-color:#1F6FA8">400 mots, trois parties titrées, ton direct, tutoiement.</div>
+      </div></div>
+      <div class="r"><div class="L" style="background:#A32B57">N</div><div>
+        <div class="nm">Négations <i>qu'est-ce qu'il ne doit pas faire ?</i></div>
+        <div class="ex" style="border-color:#A32B57">Pas de jargon RH, et surtout pas « rejoignez une équipe dynamique ».</div>
+      </div></div>
+    </div>
+
+    <div class="side">
+      <span class="lbl">Les six assemblés — un seul prompt</span>
+      <div class="pr">
+<span class="k" style="color:#5C4B9E;background:#EFEDF7">Agis en recruteur expérimenté du secteur industriel.</span>
+<span class="k" style="color:#0B655E;background:#E2EEEC">Je suis responsable RH dans une PME industrielle de 60 personnes.</span>
+<span class="k" style="color:#1A7F73;background:#E4EFED">Rédige une offre d'emploi pour un poste de comptable.</span>
+<span class="k" style="color:#8A5A00;background:#FAF1DE">Elle sera lue par des candidats juniors, niveau bac+2.</span>
+<span class="k" style="color:#1F6FA8;background:#E7F0F7">400 mots, trois parties titrées, ton direct, tutoiement.</span>
+<span class="k" style="color:#A32B57;background:#F8E7EC">Pas de jargon RH, et surtout pas « rejoignez une équipe dynamique ».</span>
+
+<span style="color:#8A959D">Pose-moi les questions dont tu as besoin
+avant de commencer à rédiger.</span>
+      </div>
+      <p class="after"><b>La dernière ligne ne fait pas partie de l'acronyme</b> — c'est le réflexe à prendre. Elle transforme un monologue en entretien, et améliore le résultat plus sûrement que n'importe quelle astuce.</p>
+    </div>
+  </div>
+
+  <div class="ft">
+    <div class="msg">Aucune de ces six lignes n'est difficile. <em>C'est de les oublier qui coûte cher.</em></div>
+    <div class="src">Formation IA · 04</div>
+  </div>
+</div>

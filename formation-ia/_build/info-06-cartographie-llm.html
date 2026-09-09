@@ -1,0 +1,103 @@
+<meta charset="utf-8"><link rel="stylesheet" href="polices/polices.css"><link rel="stylesheet" href="info.css">
+<style>
+.bd{gap:44px}
+.left{width:490px;flex-shrink:0;display:flex;flex-direction:column}
+.left > .lbl{display:block;margin-bottom:6px}
+.q{display:grid;grid-template-columns:32px 1fr;gap:15px;padding:14px 0;
+  border-bottom:1px solid var(--rule-soft);align-items:start}
+.q:last-of-type{border-bottom:0}
+.q .n{width:32px;height:32px;border-radius:50%;background:var(--j1);color:#fff;
+  font-family:var(--mono);font-size:14px;font-weight:600;display:flex;align-items:center;
+  justify-content:center}
+.q h3{font-family:var(--disp);font-weight:700;font-size:20px;letter-spacing:-.01em;line-height:1.2}
+.q p{font-size:15px;color:var(--ink-2);line-height:1.42;margin-top:4px}
+.q p b{color:var(--ink);font-weight:600}
+.stale{margin-top:auto;border:1px solid var(--rule);border-radius:8px;padding:14px 16px;
+  background:var(--wash)}
+.stale .lbl{display:block;margin-bottom:7px}
+.stale p{font-size:14.5px;color:var(--ink-2);line-height:1.45}
+.stale s{color:var(--ink-3);text-decoration-thickness:1px}
+
+.right{flex:1;display:flex;flex-direction:column}
+.right > .lbl{display:block;margin-bottom:11px}
+.fam{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px}
+.f{border:1px solid var(--rule);border-top:3px solid var(--c);border-radius:0 0 8px 8px;
+  padding:15px 17px;display:flex;flex-direction:column;background:#fff}
+.f h3{font-family:var(--disp);font-weight:800;font-size:20px;letter-spacing:-.015em;line-height:1.1}
+.f .who{font-family:var(--mono);font-size:12.5px;color:var(--c);margin-top:6px;line-height:1.5;
+  font-weight:600}
+.f .for{font-size:14.5px;color:var(--ink-2);line-height:1.42;margin-top:9px}
+.f .for b{color:var(--ink);font-weight:600}
+.f .warn{margin-top:auto;padding-top:9px;font-size:13px;color:var(--ink-3);line-height:1.4;
+  border-top:1px solid var(--rule-soft)}
+.f1{--c:#1F6FA8} .f2{--c:#0B655E} .f3{--c:#5C4B9E} .f4{--c:#8A5A00}
+</style>
+
+<div class="canvas">
+  <div class="hd">
+    <div class="kick">Séquence 6 · Cartographie des modèles</div>
+    <h1>Ne choisissez pas un modèle. Choisissez une famille, avec quatre questions.</h1>
+    <p class="sub">Les noms de version changent tous les trimestres ; les critères de choix, eux, n'ont pas bougé depuis 2023.</p>
+  </div>
+
+  <div class="bd">
+    <div class="left">
+      <span class="lbl">Les quatre questions, dans cet ordre</span>
+      <div class="q"><div class="n">1</div><div>
+        <h3>Où partent mes données ?</h3>
+        <p>Elle décide plus souvent que toutes les autres réunies. <b>Si la réponse est bloquante, le reste ne se pose plus.</b></p>
+      </div></div>
+      <div class="q"><div class="n">2</div><div>
+        <h3>Écrit-il bien dans ma langue ?</h3>
+        <p>Testez sur <b>vos propres textes</b>, pas sur un classement. Un modèle premier au benchmark peut écrire un français plat.</p>
+      </div></div>
+      <div class="q"><div class="n">3</div><div>
+        <h3>Est-ce déjà dans mes outils ?</h3>
+        <p>L'outil qu'on ouvre par réflexe bat toujours l'outil parfait qu'on oublie d'ouvrir.</p>
+      </div></div>
+      <div class="q"><div class="n">4</div><div>
+        <h3>Combien à mon volume réel ?</h3>
+        <p>Comptez en abonnements mensuels par personne, <b>pas au million de tokens</b> — personne ne sait convertir.</p>
+      </div></div>
+      <div class="stale">
+        <span class="lbl">Ce qui aura changé quand vous relirez ceci</span>
+        <p><s>Le nom et le numéro de version du modèle</s> · <s>Le classement des benchmarks</s> · <s>Le nombre de paramètres</s> · <s>Le prix au million de tokens</s></p>
+      </div>
+    </div>
+
+    <div class="right">
+      <span class="lbl">Quatre familles — et ce pour quoi chacune est faite</span>
+      <div class="fam">
+        <div class="f f1">
+          <h3>Les généralistes</h3>
+          <div class="who">OpenAI · Anthropic · Google · xAI</div>
+          <p class="for">Les plus polyvalents, le plus d'outils autour, les applications mobiles les plus abouties. <b>Le choix par défaut pour le travail quotidien.</b> C'est aussi la famille qui bouge le plus vite : ce que vous testez aujourd'hui aura changé dans six mois.</p>
+          <p class="warn">Hébergement hors Union européenne sauf offre entreprise dédiée.</p>
+        </div>
+        <div class="f f2">
+          <h3>Le souverain européen</h3>
+          <div class="who">Mistral · Kyutai</div>
+          <p class="for">Hébergement en Europe, excellent niveau de français, engagement contractuel sur la résidence des données. <b>La seule réponse quand la question 1 bloque.</b> Secteur public, santé, juridique, défense : souvent le seul choix contractuellement acceptable.</p>
+          <p class="warn">Écosystème d'outils tiers plus restreint.</p>
+        </div>
+        <div class="f f3">
+          <h3>Les modèles ouverts</h3>
+          <div class="who">Llama · Mistral ouverts · Qwen · DeepSeek</div>
+          <p class="for">Installables sur vos propres serveurs : vos données ne sortent jamais, et l'usage ne se facture pas au message. <b>Pour les gros volumes et le confidentiel.</b></p>
+          <p class="warn">Demande une compétence technique interne réelle.</p>
+        </div>
+        <div class="f f4">
+          <h3>Les spécialisés</h3>
+          <div class="who">Transcription · OCR · traduction · image · voix</div>
+          <p class="for">Une tâche, très bien faite, pour une fraction du prix d'un généraliste. <b>Souvent la meilleure réponse à un besoin précis et répétitif.</b></p>
+          <p class="warn">Ne sortent pas de leur domaine ; il en faut plusieurs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ft">
+    <div class="msg">Le meilleur modèle du classement n'est pas le vôtre. <em>Le vôtre est celui qui répond « oui » à la question 1.</em></div>
+    <div class="src">Formation IA · 06</div>
+  </div>
+</div>

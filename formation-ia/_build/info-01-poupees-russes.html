@@ -1,0 +1,91 @@
+<meta charset="utf-8"><link rel="stylesheet" href="polices/polices.css"><link rel="stylesheet" href="info.css">
+<style>
+.bd{gap:52px}
+.nest{width:690px;flex-shrink:0}
+.ring{border:2px solid;border-radius:11px;padding:40px 20px 18px;position:relative;height:100%}
+.ring > .tag{position:absolute;top:11px;left:18px;font-family:var(--disp);font-weight:700;
+  font-size:19px;letter-spacing:-.01em}
+.ring > .yr{position:absolute;top:14px;right:18px;font-family:var(--mono);font-size:12px;
+  font-weight:600;color:var(--ink-3)}
+.core{background:var(--j1);border-radius:9px;height:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:0 22px}
+.core .t{font-family:var(--disp);font-weight:800;font-size:31px;color:#fff;letter-spacing:-.02em}
+.core .d{font-size:15px;color:#BFE0DB;margin-top:8px;line-height:1.4}
+.core .y{font-family:var(--mono);font-size:12px;font-weight:600;color:#8FC9C2;margin-top:11px;
+  letter-spacing:.1em}
+.leg{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.row{display:grid;grid-template-columns:20px 1fr;gap:15px;padding:11px 0;
+  border-bottom:1px solid var(--rule-soft)}
+.row:last-child{border-bottom:0}
+.dot{width:16px;height:16px;border-radius:50%;border:none;margin-top:5px}
+.row h3{font-family:var(--disp);font-weight:700;font-size:20px;letter-spacing:-.01em}
+.row h3 span{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink-3);
+  margin-left:9px;letter-spacing:.08em}
+.row p{font-size:15.5px;color:var(--ink-2);line-height:1.42;margin-top:4px}
+.row p b{color:var(--ink);font-weight:600}
+</style>
+
+<div class="canvas">
+  <div class="hd">
+    <div class="kick">Séquence 2 · L'IA sans le brouillard</div>
+    <h1>Six mots qu'on emploie l'un pour l'autre — et qui ne veulent pas dire la même chose</h1>
+    <p class="sub">Chaque terme est contenu dans le précédent. Un LLM est une IA ; une IA n'est pas forcément un LLM.</p>
+  </div>
+
+  <div class="bd">
+    <div class="nest">
+      <div class="ring" style="border-color:#C4CED5;background:#FBFCFD">
+        <span class="tag">Intelligence artificielle</span><span class="yr">1956</span>
+        <div class="ring" style="border-color:#AFC3C9;background:#F5F9F9">
+          <span class="tag">Apprentissage automatique</span><span class="yr">Années 1980</span>
+          <div class="ring" style="border-color:#93BCB7;background:#EEF6F5">
+            <span class="tag">Apprentissage profond</span><span class="yr">2012</span>
+            <div class="ring" style="border-color:#71AFA8;background:#E6F2F0">
+              <span class="tag">IA générative</span><span class="yr">2014</span>
+              <div class="ring" style="border-color:#3F9188;background:#DCEDEA;padding-bottom:20px">
+                <span class="tag">Grands modèles de langage</span><span class="yr">2018</span>
+                <div class="core">
+                  <div class="t">Agents</div>
+                  <div class="d">Un modèle à qui l'on donne un but, des outils et le droit d'agir seul</div>
+                  <div class="y">Depuis 2024</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="leg">
+      <div class="row"><div class="dot" style="background:#C4CED5"></div><div>
+        <h3>Intelligence artificielle <span>le mot-valise</span></h3>
+        <p>Toute machine qui accomplit une tâche qu'on jugeait réservée à l'humain. <b>Un thermostat intelligent en est une.</b> Le terme ne dit rien de la technique employée.</p>
+      </div></div>
+      <div class="row"><div class="dot" style="background:#AFC3C9"></div><div>
+        <h3>Apprentissage automatique <span>machine learning</span></h3>
+        <p>La machine déduit ses règles d'exemples plutôt que de les recevoir. <b>Le filtre anti-spam de votre messagerie.</b></p>
+      </div></div>
+      <div class="row"><div class="dot" style="background:#93BCB7"></div><div>
+        <h3>Apprentissage profond <span>deep learning</span></h3>
+        <p>De l'apprentissage automatique en réseaux de neurones empilés. <b>La reconnaissance de visages, la voix de votre téléphone.</b></p>
+      </div></div>
+      <div class="row"><div class="dot" style="background:#71AFA8"></div><div>
+        <h3>IA générative <span>elle produit, elle ne classe pas</span></h3>
+        <p>Elle fabrique du contenu neuf au lieu de trier de l'existant. <b>Texte, image, voix, musique, code.</b></p>
+      </div></div>
+      <div class="row"><div class="dot" style="background:#3F9188"></div><div>
+        <h3>Grands modèles de langage <span>LLM</span></h3>
+        <p>Spécialisés dans le langage, entraînés sur des masses de texte. <b>ChatGPT, Claude, Gemini, Le Chat.</b></p>
+      </div></div>
+      <div class="row"><div class="dot" style="background:#0B655E"></div><div>
+        <h3>Agents <span>là où nous en sommes</span></h3>
+        <p>Un LLM branché sur des outils, qui enchaîne des actions vers un but. <b>Il ne répond plus : il fait.</b></p>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="ft">
+    <div class="msg">Quand quelqu'un dit « l'IA », demandez-lui <em>lequel de ces six cercles</em> il a en tête.</div>
+    <div class="src">Formation IA · 01</div>
+  </div>
+</div>
