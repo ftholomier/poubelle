@@ -1,0 +1,358 @@
+{
+    "_schema": 1,
+    "site": {
+        "name": "Le iOiO",
+        "tagline": "VOTRE BUREAU AU BOUT DU FIL",
+        "logo": "/assets/img/ioio-logo.png",
+        "mark": "/assets/img/ioio-mark.png",
+        "city": "Besançon"
+    },
+    "top": {
+        "line1": "Tout compris — charges, ménage, fibre, bonne humeur",
+        "line2": "2 adresses au centre-ville de Besançon",
+        "i18n": {
+            "en": {
+                "line1": "All inclusive — bills, cleaning, fibre, good vibes",
+                "line2": "2 addresses in central Besançon"
+            }
+        }
+    },
+    "contact": {
+        "email": "contact@ioio.fr",
+        "phone": "",
+        "hours": "Lundi → vendredi, 9h–18h. Locataires : accès badge 7j/7, 24h/24.",
+        "i18n": {
+            "en": {
+                "hours": "Monday → Friday, 9am–6pm. Tenants: badge access 24/7."
+            }
+        }
+    },
+    "sites": [
+        {
+            "id": "carnot",
+            "name": "Le iOiO « Carnot »",
+            "shortName": "Carnot",
+            "tag": "BUREAUX PRIVÉS",
+            "area": "70 m²",
+            "address": "11 avenue Carnot",
+            "zip": "25000",
+            "city": "Besançon",
+            "note": "Cour intérieure — sonnez à l'interphone iOiO",
+            "color": "#FFD100",
+            "logo": "/assets/img/ioio-carnot.png",
+            "photo": "/media/espace-carnot.webp",
+            "mapUrl": "https://www.google.com/maps/search/?api=1&query=11+avenue+Carnot+25000+Besan%C3%A7on",
+            "enabled": true,
+            "i18n": {
+                "en": {
+                    "tag": "PRIVATE OFFICES",
+                    "note": "Inner courtyard — ring the iOiO intercom",
+                    "description": "4 private offices in a quiet inner courtyard, next to Micaud park. Meeting room, fitted kitchen, shower.",
+                    "chips": [
+                        "11 avenue Carnot",
+                        "Tram 50 m away",
+                        "Meeting room"
+                    ],
+                    "cta": "See Carnot"
+                }
+            },
+            "description": "4 bureaux privés dans une cour intérieure au calme, à côté du parc Micaud. Salle de réunion, cuisine équipée, douche.",
+            "chips": [
+                "11 avenue Carnot",
+                "Tram à 50 m",
+                "Salle de réunion"
+            ],
+            "cta": "Voir Carnot"
+        },
+        {
+            "id": "granvelle",
+            "name": "Le iOiO « Granvelle »",
+            "shortName": "Granvelle",
+            "tag": "COWORKING",
+            "area": "100 m²",
+            "address": "3 rue Granvelle",
+            "zip": "25000",
+            "city": "Besançon",
+            "note": "Face au parc Granvelle, au cœur de la boucle",
+            "color": "#12B39A",
+            "logo": "/assets/img/ioio-granvelle.png",
+            "photo": "/media/espace-granvelle.webp",
+            "mapUrl": "https://www.google.com/maps/search/?api=1&query=3+rue+Granvelle+25000+Besan%C3%A7on",
+            "enabled": true,
+            "i18n": {
+                "en": {
+                    "tag": "COWORKING",
+                    "note": "Facing Granvelle park, in the heart of the loop",
+                    "description": "A cocooning place facing Granvelle park: private offices or open-space desks, key locker, lounge area.",
+                    "chips": [
+                        "3 rue Granvelle",
+                        "In the city loop",
+                        "Dedicated desks"
+                    ],
+                    "cta": "See Granvelle"
+                }
+            },
+            "description": "Un lieu cocooning face au parc Granvelle : bureaux privés ou postes en open space, casier à clé, espace détente.",
+            "chips": [
+                "3 rue Granvelle",
+                "Dans la boucle",
+                "Postes dédiés"
+            ],
+            "cta": "Voir Granvelle"
+        }
+    ],
+    "social": [
+        {
+            "label": "f",
+            "title": "Facebook",
+            "url": "https://www.facebook.com/leioio"
+        },
+        {
+            "label": "in",
+            "title": "LinkedIn",
+            "url": ""
+        }
+    ],
+    "marquee": [
+        {
+            "label": "CHARGES COMPRISES",
+            "color": "#FFD100"
+        },
+        {
+            "label": "FIBRE TRÈS HAUT DÉBIT",
+            "color": "#FFF8EA"
+        },
+        {
+            "label": "MÉNAGE INCLUS",
+            "color": "#12B39A"
+        },
+        {
+            "label": "SALLE DE RÉUNION",
+            "color": "#FFF8EA"
+        },
+        {
+            "label": "BONNE HUMEUR À VOLONTÉ",
+            "color": "#FFD100"
+        },
+        {
+            "label": "ACCÈS 24H/24",
+            "color": "#FFF8EA"
+        }
+    ],
+    "sticky": {
+        "enabled": true,
+        "halo": "reserve"
+    },
+    "exit": {
+        "enabled": true,
+        "inactivitySeconds": 45
+    },
+    "ai": {
+        "enabled": true,
+        "systemPrompt": "",
+        "suggestions": {
+            "fr": [
+                "Quels sont les tarifs ?",
+                "Qu'est-ce qui est libre ?",
+                "Comment on accède ?"
+            ],
+            "en": [
+                "What are the prices?",
+                "What is available?",
+                "How do I get there?"
+            ]
+        },
+        "quickAnswers": [
+            {
+                "keywords": [
+                    "prix",
+                    "tarif",
+                    "tarifs",
+                    "combien",
+                    "coût",
+                    "price",
+                    "cost"
+                ],
+                "enabled": true,
+                "answer": "Les postes en open space à Granvelle sont à 150 € HT/mois et les bureaux privés vont de 300 à 380 € HT/mois. Tout est compris : charges, eau, électricité, chauffage, ménage, fibre, café et salle de réunion. Le premier prix est actuellement de {prixMin} HT/mois.",
+                "sources": [
+                    {
+                        "label": "Page Nos bureaux",
+                        "url": "/nos-bureaux"
+                    }
+                ],
+                "i18n": {
+                    "en": {
+                        "answer": "Dedicated desks at Granvelle are €150 excl. VAT per month and private offices range from €300 to €380 excl. VAT per month. Everything is included: bills, water, electricity, heating, cleaning, fibre, coffee and the meeting room. The entry price is currently {prixMin} excl. VAT per month."
+                    }
+                }
+            },
+            {
+                "keywords": [
+                    "dispo",
+                    "disponible",
+                    "disponibilité",
+                    "libre",
+                    "available",
+                    "availability"
+                ],
+                "enabled": true,
+                "answer": "Il y a {dispos} postes libres aujourd’hui. La liste exacte, avec surfaces et tarifs, est sur la page « Nos bureaux » : elle est mise à jour depuis le back-office, donc toujours à jour.",
+                "sources": [
+                    {
+                        "label": "Disponibilités (temps réel)",
+                        "url": "/nos-bureaux?status=available"
+                    }
+                ],
+                "i18n": {
+                    "en": {
+                        "answer": "There are {dispos} desks free today. The exact list, with sizes and prices, is on the « Offices » page: it is updated from the back office, so it is always current."
+                    }
+                }
+            },
+            {
+                "keywords": [
+                    "parking",
+                    "tram",
+                    "acces",
+                    "accès",
+                    "venir",
+                    "gare",
+                    "adresse",
+                    "bus",
+                    "accede",
+                    "acceder",
+                    "arriver",
+                    "situe",
+                    "trouve",
+                    "metro"
+                ],
+                "enabled": true,
+                "answer": "Carnot : 11 avenue Carnot, tram à 50 m, boucle centre-ville à 300 m, parking à 500 m, gare Viotte à 800 m. Granvelle : 3 rue Granvelle, face au parc, parkings Mairie et Chamars à proximité.",
+                "sources": [
+                    {
+                        "label": "Page Nos espaces",
+                        "url": "/nos-espaces"
+                    }
+                ],
+                "i18n": {
+                    "en": {
+                        "answer": "Carnot: 11 avenue Carnot, tram 50 m away, city loop 300 m, car park 500 m, Viotte station 800 m. Granvelle: 3 rue Granvelle, facing the park, Mairie and Chamars car parks nearby."
+                    }
+                }
+            },
+            {
+                "keywords": [
+                    "wifi",
+                    "internet",
+                    "fibre",
+                    "debit",
+                    "débit",
+                    "connexion"
+                ],
+                "enabled": true,
+                "answer": "Fibre très haut débit sur les deux sites : filaire et wifi à Carnot, wifi à Granvelle. Aucun supplément.",
+                "sources": [
+                    {
+                        "label": "Page Nos espaces",
+                        "url": "/nos-espaces"
+                    }
+                ],
+                "i18n": {
+                    "en": {
+                        "answer": "High-speed fibre at both sites: wired and wifi at Carnot, wifi at Granvelle. No extra charge."
+                    }
+                }
+            },
+            {
+                "keywords": [
+                    "reunion",
+                    "réunion",
+                    "meeting",
+                    "salle",
+                    "client",
+                    "clients"
+                ],
+                "enabled": true,
+                "answer": "Carnot dispose d’une salle de réunion partagée équipée d’un vidéoprojecteur, incluse dans le loyer. À Granvelle, une table bar de travail et un coin canapé servent aux rendez-vous informels.",
+                "sources": [
+                    {
+                        "label": "Page Nos espaces",
+                        "url": "/nos-espaces"
+                    }
+                ],
+                "i18n": {
+                    "en": {
+                        "answer": "Carnot has a shared meeting room with a projector, included in the rent. At Granvelle, a bar work table and a sofa corner are used for informal meetings."
+                    }
+                }
+            },
+            {
+                "keywords": [
+                    "contrat",
+                    "engagement",
+                    "bail",
+                    "preavis",
+                    "préavis",
+                    "resiliation",
+                    "résiliation"
+                ],
+                "enabled": true,
+                "answer": "C’est un contrat de prestation de services, pas un bail commercial : souple, sans dépôt de garantie lourd, et vous pouvez entrer sous 48 h après la visite.",
+                "sources": [
+                    {
+                        "label": "Mentions légales",
+                        "url": "/mentions-legales"
+                    }
+                ],
+                "i18n": {
+                    "en": {
+                        "answer": "It is a service contract, not a commercial lease: flexible, no heavy deposit, and you can move in within 48 h of the viewing."
+                    }
+                }
+            },
+            {
+                "keywords": [
+                    "visite",
+                    "rdv",
+                    "rendez",
+                    "visiter"
+                ],
+                "enabled": true,
+                "answer": "Une visite dure 20 minutes, café compris. Cliquez sur « Réservez votre bureau » en bas de l’écran, ou laissez vos coordonnées dans le formulaire de contact : on vous propose deux créneaux.",
+                "sources": [
+                    {
+                        "label": "Page Contact",
+                        "url": "/contact"
+                    }
+                ],
+                "i18n": {
+                    "en": {
+                        "answer": "A viewing takes 20 minutes, coffee included. Click « Book your office » at the bottom of the screen, or leave your details in the contact form: we will offer you two slots."
+                    }
+                }
+            }
+        ]
+    },
+    "reviews": {
+        "enabled": true,
+        "badge": "10 derniers avis Google : 5 étoiles",
+        "i18n": {
+            "en": {
+                "badge": "Last 10 Google reviews: 5 stars"
+            }
+        }
+    },
+    "seo": {
+        "titleSuffix": "Le iOiO — coworking et bureaux à Besançon",
+        "description": "Bureaux privés et postes en open space tout compris au centre-ville de Besançon. Deux adresses : Carnot et Granvelle.",
+        "ogImage": "/media/espace-carnot.webp"
+    },
+    "analytics": {
+        "provider": "none",
+        "domain": "",
+        "src": ""
+    },
+    "updatedAt": "2026-09-09T18:58:52+02:00",
+    "updatedBy": "seed"
+}

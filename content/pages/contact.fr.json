@@ -1,0 +1,22 @@
+{
+    "_schema": 1,
+    "slug": "contact",
+    "lang": "fr",
+    "status": "published",
+    "nav": "Contact",
+    "seo": {
+        "title": "Contact et visite",
+        "description": "Réservez une visite de 20 minutes au iOiO Carnot ou Granvelle, café compris.",
+        "ogImage": "/media/p4.jpg"
+    },
+    "kicker": "CONTACT",
+    "title": "On se rencontre ?",
+    "text": "Une visite dure 20 minutes, café compris. Dites-nous ce dont vous avez besoin, on vous propose deux créneaux.",
+    "needs": [
+        "Un bureau privé",
+        "Un poste en open space",
+        "Juste une visite"
+    ],
+    "updatedAt": "2026-09-09T18:39:31+02:00",
+    "updatedBy": "seed"
+}

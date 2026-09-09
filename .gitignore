@@ -1,0 +1,28 @@
+# Secrets et configuration serveur
+.env
+storage/secrets.json
+
+# Données écrites en production
+content/users.json
+content/requests.json
+content/_versions/
+content/reviews.cache.json
+storage/logs/*
+storage/locks/*
+storage/sessions/*
+storage/index/*
+storage/docs/*
+storage/backups/*
+!storage/**/.gitkeep
+
+# Photos téléversées depuis le back-office (les photos livrées sont suivies)
+public/media/*-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f].webp
+public/media/*-[0-9][0-9][0-9]*.webp
+
+# Système
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Journal des questions sans réponse (contenu saisi par les visiteurs)
+content/ai-misses.json

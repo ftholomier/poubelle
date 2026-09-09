@@ -1,0 +1,374 @@
+{
+    "_schema": 1,
+    "offices": [
+        {
+            "id": "carnot-01",
+            "site": "carnot",
+            "name": "Carnot — Bureau 01",
+            "type": "private",
+            "area": "12 m²",
+            "price": 380,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 1,
+            "color": "#EDE5D5",
+            "description": "Le plus grand bureau de la cour Carnot : deux postes confortables, une fenêtre plein sud et un rangement fermé. Idéal pour un binôme.",
+            "features": [
+                "2 postes",
+                "Fenêtre plein sud",
+                "Rangement fermé",
+                "Fibre filaire"
+            ],
+            "photos": [
+                "/media/p1.jpg",
+                "/media/p5.jpg"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Carnot — Office 01",
+                    "area": "12 sqm",
+                    "description": "The largest office in the Carnot courtyard: two comfortable desks, a south-facing window and closed storage. Perfect for a duo.",
+                    "features": [
+                        "2 desks",
+                        "South-facing window",
+                        "Closed storage",
+                        "Wired fibre"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "carnot-02",
+            "site": "carnot",
+            "name": "Carnot — Bureau 02",
+            "type": "private",
+            "area": "10 m²",
+            "price": 340,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "soon",
+            "availableFrom": "2026-10-01",
+            "enabled": true,
+            "featured": false,
+            "order": 2,
+            "color": "#FFD100",
+            "description": "Bureau fermé au calme donnant sur la cour intérieure, à deux portes de la salle de réunion. Se libère le mois prochain.",
+            "features": [
+                "Bureau fermé",
+                "Vue sur cour",
+                "Salle de réunion à 2 portes",
+                "Accès badge 24h/24"
+            ],
+            "photos": [
+                "/media/p2.jpg",
+                "/media/p6.jpg"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Carnot — Office 02",
+                    "area": "10 sqm",
+                    "description": "Quiet closed office looking onto the inner courtyard, two doors from the meeting room. Free from next month.",
+                    "features": [
+                        "Closed office",
+                        "Courtyard view",
+                        "Meeting room two doors away",
+                        "24/7 badge access"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "carnot-03",
+            "site": "carnot",
+            "name": "Carnot — Bureau 03",
+            "type": "private",
+            "area": "11 m²",
+            "price": 320,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "available",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": true,
+            "order": 3,
+            "color": "#FFD100",
+            "description": "Disponible immédiatement. Cour intérieure, lumière naturelle, fibre filaire et salle de réunion à deux portes. Mobilier neuf compris.",
+            "features": [
+                "Disponible tout de suite",
+                "Mobilier neuf",
+                "Fibre filaire",
+                "Salle de réunion incluse"
+            ],
+            "photos": [
+                "/media/p3.jpg",
+                "/media/p7.jpg",
+                "/media/espace-carnot.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Carnot — Office 03",
+                    "area": "11 sqm",
+                    "description": "Available right now. Inner courtyard, natural light, wired fibre and the meeting room two doors away. New furniture included.",
+                    "features": [
+                        "Available now",
+                        "New furniture",
+                        "Wired fibre",
+                        "Meeting room included"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "carnot-04",
+            "site": "carnot",
+            "name": "Carnot — Bureau 04",
+            "type": "private",
+            "area": "9 m²",
+            "price": 300,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "available",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": true,
+            "order": 4,
+            "color": "#12B39A",
+            "description": "Le format idéal pour un indépendant : un poste, un fauteuil, deux chaises visiteurs et le calme absolu de la cour.",
+            "features": [
+                "1 poste + visiteurs",
+                "Calme absolu",
+                "Douche et cuisine",
+                "Accès badge 24h/24"
+            ],
+            "photos": [
+                "/media/p4.jpg",
+                "/media/p1.jpg"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Carnot — Office 04",
+                    "area": "9 sqm",
+                    "description": "The right size for a freelancer: one desk, an armchair, two visitor chairs and the absolute quiet of the courtyard.",
+                    "features": [
+                        "1 desk + visitors",
+                        "Absolute quiet",
+                        "Shower and kitchen",
+                        "24/7 badge access"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-10",
+            "site": "granvelle",
+            "name": "Granvelle — Bureau 10",
+            "type": "private",
+            "area": "12 m²",
+            "price": 360,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "available",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": true,
+            "order": 5,
+            "color": "#FFD100",
+            "description": "Le seul bureau privé de Granvelle : fermé, lumineux, face au parc, avec l'espace détente et le coin bar à côté.",
+            "features": [
+                "Bureau privé fermé",
+                "Face au parc Granvelle",
+                "Coin bar et canapé",
+                "Wifi fibre"
+            ],
+            "photos": [
+                "/media/p5.jpg",
+                "/media/espace-granvelle.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Office 10",
+                    "area": "12 sqm",
+                    "description": "The only private office at Granvelle: closed, bright, facing the park, with the lounge and bar corner next door.",
+                    "features": [
+                        "Closed private office",
+                        "Facing Granvelle park",
+                        "Bar and sofa corner",
+                        "Fibre wifi"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-11",
+            "site": "granvelle",
+            "name": "Granvelle — Poste 11",
+            "type": "openspace",
+            "area": "Poste dédié",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "rented",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 6,
+            "color": "#12B39A",
+            "description": "Poste attitré en open space avec casier à clé, dans la partie la plus calme de l'espace.",
+            "features": [
+                "Poste attitré",
+                "Casier à clé",
+                "Fauteuil ergonomique",
+                "Wifi fibre"
+            ],
+            "photos": [
+                "/media/p6.jpg"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Desk 11",
+                    "area": "Dedicated desk",
+                    "description": "Dedicated open-space desk with a key locker, in the quietest part of the space.",
+                    "features": [
+                        "Dedicated desk",
+                        "Key locker",
+                        "Ergonomic chair",
+                        "Fibre wifi"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-12",
+            "site": "granvelle",
+            "name": "Granvelle — Poste 12",
+            "type": "openspace",
+            "area": "Poste dédié",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "available",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 7,
+            "color": "#FFD100",
+            "description": "Votre bureau attitré en open space, casier à clé, face au parc. Vous arrivez avec votre ordinateur, le reste est là.",
+            "features": [
+                "Poste attitré",
+                "Casier à clé",
+                "Vue sur le parc",
+                "Café et thé compris"
+            ],
+            "photos": [
+                "/media/p7.jpg",
+                "/media/espace-granvelle.webp"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Desk 12",
+                    "area": "Dedicated desk",
+                    "description": "Your own desk in the open space, key locker, facing the park. Bring your laptop, everything else is here.",
+                    "features": [
+                        "Dedicated desk",
+                        "Key locker",
+                        "Park view",
+                        "Coffee and tea included"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-13",
+            "site": "granvelle",
+            "name": "Granvelle — Poste 13",
+            "type": "openspace",
+            "area": "Poste dédié",
+            "price": 150,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "available",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 8,
+            "color": "#EDE5D5",
+            "description": "Poste dédié côté fenêtre, à côté de la table bar de travail utilisée pour les rendez-vous informels.",
+            "features": [
+                "Poste attitré côté fenêtre",
+                "Table bar à côté",
+                "Casier à clé",
+                "Wifi fibre"
+            ],
+            "photos": [
+                "/media/p2.jpg"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Desk 13",
+                    "area": "Dedicated desk",
+                    "description": "Dedicated desk by the window, next to the bar table used for informal meetings.",
+                    "features": [
+                        "Dedicated desk by the window",
+                        "Bar table next door",
+                        "Key locker",
+                        "Fibre wifi"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "granvelle-14",
+            "site": "granvelle",
+            "name": "Granvelle — Nomade",
+            "type": "openspace",
+            "area": "3 j/semaine",
+            "price": 90,
+            "currency": "EUR",
+            "period": "month",
+            "vat": "excl",
+            "status": "available",
+            "availableFrom": "",
+            "enabled": true,
+            "featured": false,
+            "order": 9,
+            "color": "#FFD100",
+            "description": "La formule souple : trois jours par semaine en open space, dans la limite des places disponibles. Parfait pour tester le lieu.",
+            "features": [
+                "3 jours par semaine",
+                "Sans engagement long",
+                "Café et thé compris",
+                "Wifi fibre"
+            ],
+            "photos": [
+                "/media/p3.jpg"
+            ],
+            "i18n": {
+                "en": {
+                    "name": "Granvelle — Nomad",
+                    "area": "3 days/week",
+                    "description": "The flexible plan: three days a week in the open space, subject to availability. Perfect for trying the place out.",
+                    "features": [
+                        "3 days a week",
+                        "No long commitment",
+                        "Coffee and tea included",
+                        "Fibre wifi"
+                    ]
+                }
+            }
+        }
+    ],
+    "updatedAt": "2026-09-09T19:09:30+02:00",
+    "updatedBy": "test@ioio.fr"
+}

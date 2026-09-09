@@ -1,0 +1,98 @@
+{
+    "_schema": 1,
+    "slug": "spaces",
+    "lang": "en",
+    "status": "published",
+    "nav": "Our spaces",
+    "seo": {
+        "title": "Our spaces — Carnot and Granvelle",
+        "description": "170 sqm across two addresses in central Besançon: private offices on avenue Carnot, coworking on rue Granvelle. All inclusive, 24/7 access.",
+        "ogImage": "/media/espace-granvelle.webp"
+    },
+    "kicker": "OUR SPACES · 170 SQM · CENTRAL BESANÇON",
+    "title": "More than an office: a place that feels good.",
+    "text": "Turnkey rental as a service contract. Sign, drop your things, done.",
+    "spaces": [
+        {
+            "id": "carnot",
+            "tag": "PRIVATE OFFICES · 70 SQM",
+            "text": "A human-sized business hub in an inner courtyard, a stone's throw from Micaud park. 4 private offices from 9 to 12 sqm, a meeting room and a fully refurbished lounge. Absolute quiet, 24/7 access.",
+            "cta": "See the Carnot offices",
+            "access": [
+                "Tram 50 m away",
+                "City loop 300 m",
+                "Car park 500 m",
+                "Viotte station 800 m",
+                "2 restaurants 50 m",
+                "Supermarket 200 m"
+            ],
+            "amenities": [
+                {
+                    "title": "Private office",
+                    "text": "From 9 to 12 sqm, closed, quiet, 24/7 badge access."
+                },
+                {
+                    "title": "Fibre",
+                    "text": "High-speed wired and wifi, at no extra cost."
+                },
+                {
+                    "title": "Furniture",
+                    "text": "Desk, armchair, visitor chairs and closed storage."
+                },
+                {
+                    "title": "Meeting room",
+                    "text": "Shared, fitted with a video projection system."
+                },
+                {
+                    "title": "Lounge",
+                    "text": "Fitted kitchen (coffee machine, fridge, microwave), shower and toilets."
+                },
+                {
+                    "title": "And all the rest",
+                    "text": "Bills, water, electricity, heating and cleaning included."
+                }
+            ]
+        },
+        {
+            "id": "granvelle",
+            "tag": "COWORKING · 100 SQM",
+            "text": "Facing Granvelle park, on a quiet street in the heart of the city loop. Private offices or dedicated open-space desks, key lockers, a bar work table and a sofa corner. A cocooning place that makes work feel good.",
+            "cta": "See the Granvelle desks",
+            "access": [
+                "Facing Granvelle park",
+                "Bus and tram",
+                "Mairie car park",
+                "Chamars car park",
+                "Centre of the loop"
+            ],
+            "amenities": [
+                {
+                    "title": "Dedicated desk",
+                    "text": "Your own desk in the open space, with a key locker."
+                },
+                {
+                    "title": "Fibre wifi",
+                    "text": "High-speed throughout the space."
+                },
+                {
+                    "title": "Furniture",
+                    "text": "Desk, ergonomic chair and personal storage."
+                },
+                {
+                    "title": "Kitchen",
+                    "text": "Coffee machine, fridge, microwave, toilets."
+                },
+                {
+                    "title": "Business / lounge",
+                    "text": "Bar work table, sofa and armchairs for your meetings."
+                },
+                {
+                    "title": "And all the rest",
+                    "text": "Bills, water, electricity, heating and cleaning included."
+                }
+            ]
+        }
+    ],
+    "updatedAt": "2026-09-09T18:39:31+02:00",
+    "updatedBy": "seed"
+}

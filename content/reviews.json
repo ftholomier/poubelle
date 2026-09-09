@@ -1,0 +1,42 @@
+{
+    "_schema": 1,
+    "rating": 5,
+    "count": 10,
+    "url": "",
+    "reviews": [
+        {
+            "name": "Amandine V.",
+            "initials": "AV",
+            "rating": 5,
+            "enabled": true,
+            "at": "2026-08-20",
+            "text": "Un espace de coworking moderne, chaleureux et idéalement situé. On s'y sent vraiment comme à la maison !"
+        },
+        {
+            "name": "Laurent B.",
+            "initials": "LB",
+            "rating": 5,
+            "enabled": true,
+            "at": "2026-07-12",
+            "text": "Situé au centre ville, très pratique, un coworking sympa et convivial... que je conseille !"
+        },
+        {
+            "name": "Gwendoline D.",
+            "initials": "GD",
+            "rating": 5,
+            "enabled": true,
+            "at": "2026-06-28",
+            "text": "Un coworking où je me sens à l'aise pour travailler. Bien situé, agréable, avec une ambiance qui donne envie de revenir."
+        },
+        {
+            "name": "Nikita S.",
+            "initials": "NS",
+            "rating": 5,
+            "enabled": true,
+            "at": "2026-05-15",
+            "text": "Super endroit pour bosser en plein centre de Besançon. Calme, lumineux et très agréable."
+        }
+    ],
+    "updatedAt": "2026-09-09T18:39:31+02:00",
+    "updatedBy": "seed"
+}

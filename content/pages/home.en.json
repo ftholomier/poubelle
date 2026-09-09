@@ -1,0 +1,114 @@
+{
+    "_schema": 1,
+    "slug": "home",
+    "lang": "en",
+    "status": "published",
+    "nav": "Home",
+    "seo": {
+        "title": "All-inclusive coworking and offices in Besançon",
+        "description": "Private offices and dedicated desks in central Besançon. Bills, fibre, cleaning, meeting room and coffee included. Two addresses: Carnot and Granvelle.",
+        "ogImage": "/media/espace-carnot.webp"
+    },
+    "hero": {
+        "badge": "{count} DESKS AVAILABLE THIS MONTH",
+        "title1": "An office you actually",
+        "title2": "want to walk into",
+        "highlight": "on a Monday.",
+        "text": "Private offices and dedicated desks in central Besançon. Sign, drop your things, get to work. Bills, fibre, cleaning, meeting room and coffee are all in.",
+        "ctaPrimary": {
+            "label": "See available offices",
+            "route": "offices"
+        },
+        "ctaSecondary": {
+            "label": "Book a viewing",
+            "route": "contact"
+        },
+        "stats": [
+            {
+                "value": "170 sqm",
+                "label": "across 2 addresses"
+            },
+            {
+                "value": "7/7",
+                "label": "24/7 badge access"
+            },
+            {
+                "value": "€0",
+                "label": "hidden fees"
+            }
+        ],
+        "cardPrice": {
+            "label": "FROM",
+            "note": "excl. VAT/mo"
+        },
+        "cardBadge": {
+            "kicker": "TURNKEY",
+            "line1": "All inclusive,",
+            "line2": "zero hidden fees"
+        }
+    },
+    "places": {
+        "kicker": "OUR SPACES",
+        "title": "Two addresses, two moods",
+        "cta": "Tour both spaces"
+    },
+    "availability": {
+        "kicker": "AVAILABILITY",
+        "title": "What is free, right now"
+    },
+    "steps": {
+        "title": "Moved in, in 3 steps",
+        "items": [
+            {
+                "n": "1",
+                "title": "You visit",
+                "text": "20 minutes on site, coffee included. We show you both spaces and the free desks.",
+                "color": "#FFFFFF"
+            },
+            {
+                "n": "2",
+                "title": "You sign",
+                "text": "A simple service contract, no commercial lease, no admin fees.",
+                "color": "#FFD100"
+            },
+            {
+                "n": "3",
+                "title": "You work",
+                "text": "Badge handed over, fibre plugged in, coffee hot. You can move in within 48 h.",
+                "color": "#12B39A"
+            }
+        ]
+    },
+    "reviews": {
+        "title": "They feel good here"
+    },
+    "band": {
+        "title": "{count} spots left. Not 40.",
+        "text": "20-minute viewing, service-contract lease, move in within 48 h.",
+        "cta1": "Book my office",
+        "cta2": "Talk to a human"
+    },
+    "faq": {
+        "title": "Frequently asked",
+        "items": [
+            {
+                "q": "Is there a minimum term?",
+                "a": "No. The iOiO works with a service contract and a short notice period. You leave when your business changes."
+            },
+            {
+                "q": "What is really included in the price?",
+                "a": "Bills, water, electricity, heating, cleaning, high-speed fibre, furniture, meeting room, fitted kitchen and coffee. There are no additional fees."
+            },
+            {
+                "q": "Can I come only a few days a week?",
+                "a": "Yes, a nomad desk three days a week is available at Granvelle for €90 excl. VAT per month, subject to availability."
+            },
+            {
+                "q": "Can I welcome my clients?",
+                "a": "Of course. Carnot has a meeting room with a projector; Granvelle has a bar area and a sofa corner for informal meetings."
+            }
+        ]
+    },
+    "updatedAt": "2026-09-09T18:39:31+02:00",
+    "updatedBy": "seed"
+}

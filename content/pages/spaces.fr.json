@@ -1,0 +1,122 @@
+{
+    "_schema": 1,
+    "slug": "spaces",
+    "lang": "fr",
+    "status": "published",
+    "nav": "Nos espaces",
+    "seo": {
+        "title": "Nos espaces — Carnot et Granvelle",
+        "description": "170 m² sur deux adresses au centre de Besançon : bureaux privés avenue Carnot, coworking rue Granvelle. Tout compris, accès 24h/24.",
+        "ogImage": "/media/espace-granvelle.webp"
+    },
+    "kicker": "NOS ESPACES · 170 M² · BESANÇON CENTRE",
+    "title": "Plus qu'un simple bureau : un endroit où l'on se sent bien.",
+    "text": "Location clé en main sous forme de prestation de services. Vous signez, vous posez vos affaires, c'est parti.",
+    "spaces": [
+        {
+            "id": "carnot",
+            "bg": "#FFF8EA",
+            "tag": "BUREAUX PRIVÉS · 70 M²",
+            "text": "Une pépinière à taille humaine dans une cour intérieure, à deux pas du parc Micaud. 4 bureaux privés de 9 à 12 m², une salle de réunion et un espace détente entièrement refaits. Calme absolu, accès 7j/7 24h/24.",
+            "cta": "Voir les bureaux Carnot",
+            "access": [
+                "Tram à 50 m",
+                "Boucle à 300 m",
+                "Parking à 500 m",
+                "Gare Viotte à 800 m",
+                "2 restaurants à 50 m",
+                "Supermarché à 200 m"
+            ],
+            "photos": [
+                "/media/espace-carnot.webp",
+                "/media/p1.jpg",
+                "/media/p5.jpg"
+            ],
+            "amenities": [
+                {
+                    "title": "Bureau privé",
+                    "text": "De 9 à 12 m², fermé, au calme, accès badge 7j/7 24h/24.",
+                    "color": "#FFD100"
+                },
+                {
+                    "title": "Fibre",
+                    "text": "Très haut débit en filaire et en wifi, sans supplément.",
+                    "color": "#12B39A"
+                },
+                {
+                    "title": "Mobilier",
+                    "text": "Bureau, fauteuil, chaises visiteurs et rangement fermé.",
+                    "color": "#FFD100"
+                },
+                {
+                    "title": "Salle de réunion",
+                    "text": "Partagée, équipée d'un système de vidéoprojection.",
+                    "color": "#EDE5D5"
+                },
+                {
+                    "title": "Détente",
+                    "text": "Cuisine équipée (cafetière, frigo, micro-ondes), douche et wc.",
+                    "color": "#12B39A"
+                },
+                {
+                    "title": "Et tout le reste",
+                    "text": "Charges, eau, électricité, chauffage et ménage compris.",
+                    "color": "#FFD100"
+                }
+            ]
+        },
+        {
+            "id": "granvelle",
+            "bg": "#FFFFFF",
+            "tag": "COWORKING · 100 M²",
+            "text": "Face au parc Granvelle, dans une rue au calme au cœur de la boucle. Bureaux privés ou postes dédiés en open space, casier à clé, table bar de travail et coin canapé. Un lieu cocooning où l'on se sent bien pour travailler.",
+            "cta": "Voir les postes Granvelle",
+            "access": [
+                "Face au parc Granvelle",
+                "Bus et tram",
+                "Parking Mairie",
+                "Parking Chamars",
+                "Au centre de la boucle"
+            ],
+            "photos": [
+                "/media/espace-granvelle.webp",
+                "/media/p6.jpg",
+                "/media/p7.jpg"
+            ],
+            "amenities": [
+                {
+                    "title": "Poste dédié",
+                    "text": "Votre bureau attitré en open space, avec casier à clé.",
+                    "color": "#12B39A"
+                },
+                {
+                    "title": "Wifi fibre",
+                    "text": "Très haut débit partout dans l'espace.",
+                    "color": "#FFD100"
+                },
+                {
+                    "title": "Mobilier",
+                    "text": "Bureau, fauteuil ergonomique et rangement personnel.",
+                    "color": "#FFD100"
+                },
+                {
+                    "title": "Cuisine",
+                    "text": "Cafetière, frigo, micro-ondes, wc.",
+                    "color": "#EDE5D5"
+                },
+                {
+                    "title": "Business / détente",
+                    "text": "Table bar de travail, canapé et fauteuils pour vos rendez-vous.",
+                    "color": "#12B39A"
+                },
+                {
+                    "title": "Et tout le reste",
+                    "text": "Charges, eau, électricité, chauffage et ménage compris.",
+                    "color": "#FFD100"
+                }
+            ]
+        }
+    ],
+    "updatedAt": "2026-09-09T18:39:31+02:00",
+    "updatedBy": "seed"
+}

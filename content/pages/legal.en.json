@@ -1,0 +1,47 @@
+{
+    "_schema": 1,
+    "slug": "legal",
+    "lang": "en",
+    "status": "published",
+    "nav": "Legal notice",
+    "seo": {
+        "title": "Legal notice",
+        "description": "Legal notice for the iOiO website, coworking in Besançon.",
+        "noindex": true
+    },
+    "kicker": "LEGAL INFORMATION",
+    "title": "Legal notice",
+    "text": "Fields in brackets must be completed in the back office before going live.",
+    "blocks": [
+        {
+            "title": "Éditeur du site",
+            "text": "Le iOiO — [forme juridique] au capital de [montant] €\n[Adresse du siège], 25000 Besançon\nSIRET [numéro] — RCS Besançon [numéro] — TVA intracommunautaire [numéro]\nResponsable de la publication : [nom]\nContact : [email] — [téléphone]"
+        },
+        {
+            "title": "Hébergement",
+            "text": "Site hébergé par [hébergeur], [adresse], [téléphone].\nHébergement mutualisé PHP 8.x, données stockées en fichiers JSON sur le serveur, aucune base de données."
+        },
+        {
+            "title": "Propriété intellectuelle",
+            "text": "La marque iOiO, le logo « votre bureau au bout du fil », les textes et les photographies des espaces Carnot et Granvelle sont la propriété du iOiO. Toute reproduction, même partielle, est interdite sans accord écrit."
+        },
+        {
+            "title": "Données personnelles (RGPD)",
+            "text": "Les formulaires de contact, de réservation et de rappel de disponibilités collectent nom, email, téléphone et message dans le seul but de répondre à la demande. Les données sont conservées 24 mois, ne sont ni vendues ni transmises à des tiers, et sont stockées en fichiers JSON sur le serveur. Droit d'accès, de rectification et de suppression : [email]."
+        },
+        {
+            "title": "Assistant IA",
+            "text": "L'assistant du site s'appuie sur l'API Gemini. Les questions posées sont envoyées à Google pour génération de la réponse ; aucune donnée de compte n'est transmise. L'assistant ne répond qu'à partir des pages du site et des documents publiés au back-office : ses réponses n'ont pas de valeur contractuelle."
+        },
+        {
+            "title": "Cookies et traduction",
+            "text": "Le site n'utilise que des cookies techniques (langue choisie, fermeture de la fenêtre de rappel). La traduction des contenus longs est assurée par Google Traduction ; les pages clés sont traduites manuellement."
+        },
+        {
+            "title": "Avis clients",
+            "text": "Les avis affichés sont issus de la fiche Google Business Profile du iOiO et récupérés via l'API Google Places. Ils ne sont ni filtrés ni modifiés."
+        }
+    ],
+    "updatedAt": "2026-09-09T18:39:31+02:00",
+    "updatedBy": "seed"
+}

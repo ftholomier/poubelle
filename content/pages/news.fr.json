@@ -1,0 +1,16 @@
+{
+    "_schema": 1,
+    "slug": "news",
+    "lang": "fr",
+    "status": "published",
+    "nav": "L'actu",
+    "seo": {
+        "title": "L'actu du iOiO",
+        "description": "Les nouvelles des espaces Carnot et Granvelle : libérations, aménagements, vie du lieu.",
+        "ogImage": "/media/p2.jpg"
+    },
+    "kicker": "L'ACTU DU iOiO",
+    "title": "Ce qui se passe ici",
+    "updatedAt": "2026-09-09T18:39:31+02:00",
+    "updatedBy": "seed"
+}

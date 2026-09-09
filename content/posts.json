@@ -1,0 +1,58 @@
+{
+    "_schema": 1,
+    "posts": [
+        {
+            "slug": "carnot-03-se-libere",
+            "status": "published",
+            "date": "2026-09-02",
+            "title": "Carnot 03 se libère : 11 m² au calme",
+            "excerpt": "Le bureau 03 de l'espace Carnot est disponible immédiatement. Cour intérieure, fibre filaire, salle de réunion à deux portes.",
+            "body": "<p>Le bureau 03 de l'espace Carnot vient de se libérer. 11 m² fermés, une fenêtre sur la cour intérieure, le mobilier neuf déjà installé.</p><p>Le loyer reste à <strong>320 € HT par mois, tout compris</strong> : charges, ménage, fibre filaire, salle de réunion et café. L'entrée peut se faire sous 48 h après la visite.</p><p>Comme toujours, la visite dure 20 minutes et le café est offert.</p>",
+            "image": "/media/p3.jpg",
+            "color": "#FFD100",
+            "i18n": {
+                "en": {
+                    "title": "Carnot 03 is free: 11 sqm, nice and quiet",
+                    "excerpt": "Office 03 in the Carnot space is available right now. Inner courtyard, wired fibre, meeting room two doors away.",
+                    "body": "<p>Office 03 in the Carnot space has just been freed up. 11 closed sqm, a window onto the inner courtyard, new furniture already in place.</p><p>The rent stays at <strong>€320 excl. VAT per month, all inclusive</strong>: bills, cleaning, wired fibre, meeting room and coffee. You can move in within 48 h of the viewing.</p><p>As always, the viewing takes 20 minutes and the coffee is on us.</p>"
+                }
+            }
+        },
+        {
+            "slug": "casiers-coin-bar-granvelle",
+            "status": "published",
+            "date": "2026-08-18",
+            "title": "Nouveaux casiers et coin bar à Granvelle",
+            "excerpt": "L'espace détente de Granvelle a été réaménagé cet été : table bar plus grande, nouveaux casiers à clé et machine à café remplacée.",
+            "body": "<p>L'été a servi à refaire l'espace détente de Granvelle. La table bar de travail est plus grande, avec des prises à chaque place.</p><p>Chaque poste dédié dispose désormais de son <strong>casier à clé</strong>, et la machine à café a été remplacée par un modèle à grains.</p><p>Le coin canapé reste réservé aux rendez-vous informels : on y reçoit un client sans réserver la salle de réunion.</p>",
+            "image": "/media/p6.jpg",
+            "color": "#12B39A",
+            "i18n": {
+                "en": {
+                    "title": "New lockers and bar corner at Granvelle",
+                    "excerpt": "The Granvelle lounge was refitted this summer: a bigger bar table, new key lockers and a new coffee machine.",
+                    "body": "<p>The summer was spent refitting the Granvelle lounge. The bar work table is bigger, with power sockets at every seat.</p><p>Every dedicated desk now comes with its own <strong>key locker</strong>, and the coffee machine has been replaced with a bean-to-cup model.</p><p>The sofa corner stays free for informal meetings: you can welcome a client without booking the meeting room.</p>"
+                }
+            }
+        },
+        {
+            "slug": "loyers-tout-compris",
+            "status": "published",
+            "date": "2026-07-04",
+            "title": "Pourquoi nos loyers restent tout compris",
+            "excerpt": "Pas de refacturation de charges, pas de frais de dossier, pas de surprise en fin d'année. On explique le modèle en trois minutes.",
+            "body": "<p>Un bureau à 300 € qui devient 380 € une fois les charges refacturées, ce n'est pas notre modèle. Au iOiO, le prix affiché est le prix payé.</p><p>Sont compris : charges, eau, électricité, chauffage, ménage, fibre, mobilier, salle de réunion, cuisine équipée et café. Il n'y a <strong>ni frais de dossier, ni dépôt de garantie lourd, ni régularisation annuelle</strong>.</p><p>Le contrat est une prestation de services, pas un bail commercial : le préavis est court et vous partez quand votre activité change.</p>",
+            "image": "/media/p7.jpg",
+            "color": "#FFD100",
+            "i18n": {
+                "en": {
+                    "title": "Why our rents stay all-inclusive",
+                    "excerpt": "No rebilled charges, no admin fees, no year-end surprise. Here is the model in three minutes.",
+                    "body": "<p>An office at €300 that becomes €380 once charges are rebilled is not our model. At the iOiO, the price shown is the price paid.</p><p>Included: bills, water, electricity, heating, cleaning, fibre, furniture, meeting room, fitted kitchen and coffee. There are <strong>no admin fees, no heavy deposit and no annual adjustment</strong>.</p><p>The contract is a service agreement, not a commercial lease: notice is short and you leave when your business changes.</p>"
+                }
+            }
+        }
+    ],
+    "updatedAt": "2026-09-09T18:39:31+02:00",
+    "updatedBy": "seed"
+}

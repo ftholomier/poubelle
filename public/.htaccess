@@ -1,0 +1,59 @@
+# =============================================================================
+# Le iOiO — configuration Apache de la racine web.
+# Le DocumentRoot doit pointer sur ce dossier (/public).
+# =============================================================================
+
+Options -Indexes -MultiViews
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Le dossier /media ne sert que des images : aucun script n'y est exécutable.
+    RewriteRule ^media/.+\.(php|phtml|phar|cgi|pl|py|sh)$ - [F,L]
+
+    # Fichiers et dossiers réels servis tels quels (assets, media, api, admin).
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Tout le reste passe par le contrôleur frontal (URLs propres).
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Un JSON de contenu ne doit jamais être atteignable depuis le web.
+<FilesMatch "\.(json|log|lock|tmp|env|md)$">
+    Require all denied
+</FilesMatch>
+<Files "index.php">
+    Require all granted
+</Files>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()"
+    Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; img-src 'self' data: https://maps.googleapis.com https://maps.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://plausible.io; connect-src 'self' https://plausible.io; frame-src https://www.google.com"
+    # HSTS : à décommenter une fois le certificat HTTPS en place et vérifié.
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header unset X-Powered-By
+</IfModule>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+php_flag display_errors off
+php_value upload_max_filesize 12M
+php_value post_max_size 14M

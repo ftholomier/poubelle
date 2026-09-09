@@ -1,0 +1,22 @@
+{
+    "_schema": 1,
+    "slug": "contact",
+    "lang": "en",
+    "status": "published",
+    "nav": "Contact",
+    "seo": {
+        "title": "Contact and viewings",
+        "description": "Book a 20-minute viewing at iOiO Carnot or Granvelle, coffee included.",
+        "ogImage": "/media/p4.jpg"
+    },
+    "kicker": "CONTACT",
+    "title": "Shall we meet?",
+    "text": "A viewing takes 20 minutes, coffee included. Tell us what you need and we offer two slots.",
+    "needs": [
+        "A private office",
+        "A dedicated desk",
+        "Just a viewing"
+    ],
+    "updatedAt": "2026-09-09T18:39:31+02:00",
+    "updatedBy": "seed"
+}
