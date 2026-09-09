@@ -155,5 +155,7 @@
     "office.view": "Voir ce bureau",
     "form.interestTitle": "INTÉRESSÉ PAR CE BUREAU ?",
     "form.submitInterest": "Ce bureau m’intéresse",
-    "form.notifyTitle": "PRÉVENEZ-MOI QUAND IL SE LIBÈRE"
+    "form.notifyTitle": "PRÉVENEZ-MOI QUAND IL SE LIBÈRE",
+    "consent.maps": "Plans Google Maps",
+    "consent.mapsText": "Affiche le plan des deux adresses directement dans la page. Google dépose alors ses propres cookies. Refusé, un aperçu du quartier reste visible et vous pouvez charger le plan d’un clic."
 }

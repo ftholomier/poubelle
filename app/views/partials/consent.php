@@ -50,7 +50,7 @@ $inventory = Consent::inventory();
         <div class="consent-cat__cookies"><?= Text::e(I18n::t('consent.cookiesUsed')) ?> <code><?= Text::e(implode(', ', $inventory['necessary'])) ?></code></div>
       </div>
 
-      <?php foreach (['analytics', 'ai'] as $category): ?>
+      <?php foreach (App\Consent::CATEGORIES as $category): ?>
         <div class="consent-cat">
           <div class="consent-cat__head">
             <span class="consent-cat__name"><?= Text::e(I18n::t('consent.' . $category)) ?></span>

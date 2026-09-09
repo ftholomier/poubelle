@@ -155,5 +155,7 @@
     "office.view": "See this office",
     "form.interestTitle": "INTERESTED IN THIS OFFICE?",
     "form.submitInterest": "I'm interested in this office",
-    "form.notifyTitle": "LET ME KNOW WHEN IT FREES UP"
+    "form.notifyTitle": "LET ME KNOW WHEN IT FREES UP",
+    "consent.maps": "Google Maps",
+    "consent.mapsText": "Shows the map of both addresses right in the page. Google then sets its own cookies. If you decline, a preview of the area stays visible and you can load the map with one click."
 }

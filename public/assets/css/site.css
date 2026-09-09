@@ -693,9 +693,15 @@ h1, h2, h3, h4 { font-family: 'Bricolage Grotesque', 'Manrope', sans-serif; font
 .map__pin { position: absolute; left: 34%; top: 30%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .map__pinDot { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50% 50% 50% 4px; background: var(--yellow); border: 2px solid var(--ink); transform: rotate(45deg); }
 .map__pinLabel { padding: 6px 12px; border-radius: 999px; background: var(--ink); color: var(--cream); font: 800 12px/1 'Manrope', sans-serif; white-space: nowrap; }
-.map__tag { position: absolute; padding: 9px 14px; border-radius: 999px; border: 2px solid var(--ink); font: 800 13px/1 'Manrope', sans-serif; }
-.map__tag--1 { left: 22%; top: 26%; background: var(--yellow); }
-.map__tag--2 { left: 52%; top: 62%; background: var(--teal); }
+.map__decor { position: absolute; inset: 0; opacity: .5; }
+.map__switch { position: absolute; left: 16px; top: 16px; z-index: 6; display: flex; gap: 8px; flex-wrap: wrap; }
+.map__tag {
+  padding: 9px 14px; border-radius: 999px; border: 2px solid var(--ink);
+  font: 800 13px/1 'Manrope', sans-serif; cursor: pointer;
+  transition: transform .25s var(--ease-pop);
+}
+.map__tag:hover, .map__tag:focus-visible { transform: translateY(-2px); }
+.map__tag.is-active { box-shadow: 0 0 0 3px var(--ink) inset; }
 .map__note { position: absolute; right: 18px; bottom: 18px; padding: 8px 13px; border-radius: 999px; background: var(--cream); border: 2px solid var(--ink); font: 700 12px/1 'Manrope', sans-serif; }
 
 /* ---------------------------------------------------------------- l'actu */
@@ -1180,18 +1186,19 @@ a.bot__action:hover { background: var(--yellow); color: var(--ink); text-decorat
 
 /* ------------------------------------------------------------- carte réelle */
 
-.map__load {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 4;
-  border: 2px solid var(--ink); cursor: pointer; padding: 15px 24px; border-radius: 999px;
-  background-color: var(--yellow); background-image: linear-gradient(var(--ink), var(--ink));
-  background-repeat: no-repeat; background-position: 0 0; background-size: 0% 100%;
-  color: var(--ink); font: 800 14px/1 'Manrope', sans-serif;
-  transition: background-size .5s var(--ease-soft), color .35s ease;
+.map__load { position: static; }
+/* Aperçu avant chargement : un seul bloc centré, lisible, qui ne recouvre
+   plus le décor au hasard. Il disparaît dès que le plan est chargé. */
+.map__cover {
+  position: absolute; inset: 0; z-index: 4;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  padding: 24px; text-align: center;
+  background: color-mix(in srgb, var(--sand) 78%, transparent);
 }
-.map__load:hover, .map__load:focus-visible { background-size: 100% 100%; color: var(--cream); }
-.map__hint { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 4; padding: 8px 14px; border-radius: 999px; background: var(--cream); border: 2px solid var(--ink); font: 600 11.5px/1.3 'Manrope', sans-serif; max-width: 90%; text-align: center; }
+.map__address { font: 800 15px/1.3 'Manrope', sans-serif; letter-spacing: .01em; }
+.map__hint { font: 600 12px/1.45 'Manrope', sans-serif; opacity: .7; max-width: 320px; }
 .map__frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 5; }
-.map.is-loaded .map__road-h, .map.is-loaded .map__road-v, .map.is-loaded .map__pin,
-.map.is-loaded .map__tag, .map.is-loaded .map__load, .map.is-loaded .map__hint { display: none; }
+.map.is-loaded .map__decor, .map.is-loaded .map__cover { display: none; }
+.map.is-loaded .map__switch { z-index: 6; }
 .map__tag { cursor: pointer; z-index: 4; }
 .map__tag[aria-pressed="true"] { box-shadow: 0 0 0 4px rgba(14, 14, 14, .18); }

@@ -278,13 +278,19 @@ photo → bureau est celle du site d'origine.
 ## 11. Cookies et consentement
 
 Bandeau affiché à la première visite : **Tout accepter**, **Tout refuser**,
-**Paramètres**. Trois catégories, pas une de plus :
+**Paramètres**. Quatre catégories, pas une de plus :
 
 | Catégorie | Contenu | Sans consentement |
 | --- | --- | --- |
 | Strictement nécessaires | session anti-spam des formulaires, langue, fenêtres déjà fermées, mémorisation du choix (13 mois) | actives, comme le permet l'article 82 de la loi Informatique et Libertés |
 | Mesure d'audience | Plausible ou Matomo | **aucun script chargé**, aucun événement envoyé |
 | Assistant iOiO | envoi des questions à Google (API Gemini) | l'assistant répond uniquement depuis l'index local du site, **rien ne sort du serveur** |
+| Plans Google Maps | plan des deux adresses, intégré sans clé API | un aperçu du quartier reste affiché, avec l'adresse et un bouton pour charger le plan |
+
+**Les plans s'affichent directement**, sans clic, dès que la catégorie est
+acceptée — y compris sur les pages ouvertes ensuite, et sans recharger celle en
+cours au moment de l'acceptation. La liste des catégories est pilotée par
+`Consent::CATEGORIES` : le panneau de paramétrage la suit automatiquement.
 
 Le choix est rejouable à tout moment par le lien « Cookies » du pied de page.
 Le bandeau se désactive dans **Réglages → Conversion**.
