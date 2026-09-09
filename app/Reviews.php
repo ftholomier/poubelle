@@ -74,6 +74,77 @@ final class Reviews
         return $placeId ? 'https://search.google.com/local/reviews?placeid=' . rawurlencode($placeId) : '';
     }
 
+    /** La recherche d'établissement n'a besoin que de la clé, pas du Place ID. */
+    public static function canSearch(): bool
+    {
+        return Config::has('GOOGLE_PLACES_KEY');
+    }
+
+    /**
+     * Recherche d'un établissement par adresse ou par nom (Places API, Text Search).
+     * Sert au back-office à retrouver l'identifiant de la fiche sans quitter l'écran.
+     *
+     * @return array{ok:bool,places:array<int,array<string,mixed>>,error:string}
+     */
+    public static function searchPlaces(string $query, int $limit = 8): array
+    {
+        $query = trim($query);
+        if ($query === '') {
+            return ['ok' => false, 'places' => [], 'error' => 'Saisissez une adresse ou un nom d\'établissement.'];
+        }
+        if (!self::canSearch()) {
+            return ['ok' => false, 'places' => [], 'error' => 'Renseignez d\'abord la clé API Google Places.'];
+        }
+
+        $response = Http::postJson('https://places.googleapis.com/v1/places:searchText', [
+            'textQuery' => mb_substr($query, 0, 200),
+            'languageCode' => Config::DEFAULT_LANG,
+            'regionCode' => 'FR',
+            'maxResultCount' => max(1, min(20, $limit)),
+        ], [
+            'timeout' => 8,
+            'headers' => [
+                'X-Goog-Api-Key' => (string) Config::get('GOOGLE_PLACES_KEY'),
+                'X-Goog-FieldMask' => 'places.id,places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.googleMapsUri,places.primaryTypeDisplayName',
+            ],
+        ]);
+
+        if (!$response['ok'] || $response['json'] === null) {
+            $detail = (string) ($response['json']['error']['message'] ?? '');
+            Log::write('reviews', 'Places search : statut ' . $response['status'] . ' ' . substr($response['body'], 0, 300));
+            return [
+                'ok' => false,
+                'places' => [],
+                'error' => $detail !== ''
+                    ? 'Google : ' . mb_substr($detail, 0, 200)
+                    : 'Google n\'a pas répondu (statut ' . $response['status'] . '). Voir storage/logs/reviews.log.',
+            ];
+        }
+
+        $places = [];
+        foreach ((array) ($response['json']['places'] ?? []) as $place) {
+            $id = (string) ($place['id'] ?? '');
+            if ($id === '') {
+                continue;
+            }
+            $places[] = [
+                'id' => $id,
+                'name' => (string) ($place['displayName']['text'] ?? $id),
+                'address' => (string) ($place['formattedAddress'] ?? ''),
+                'type' => (string) ($place['primaryTypeDisplayName']['text'] ?? ''),
+                'rating' => (float) ($place['rating'] ?? 0),
+                'count' => (int) ($place['userRatingCount'] ?? 0),
+                'url' => (string) ($place['googleMapsUri'] ?? ''),
+            ];
+        }
+
+        return [
+            'ok' => true,
+            'places' => $places,
+            'error' => $places === [] ? 'Aucun établissement trouvé pour cette recherche.' : '',
+        ];
+    }
+
     /** Force le rafraîchissement (bouton du back-office et cron). */
     public static function refresh(): array
     {

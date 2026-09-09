@@ -109,7 +109,7 @@ bin/                  seed, cron, user, router de développement
 | **L'actu** | articles avec éditeur WYSIWYG, brouillon/publié, image, version anglaise |
 | **Demandes** | contacts, réservations et rappels de disponibilités, avec statut |
 | **Assistant IA** | documents indexés, prompt système, suggestions, questions restées sans réponse, réindexation |
-| **Réglages & clés** | identité, coordonnées, les deux lieux, conversion, mesure d'audience, **clés API**, comptes |
+| **Réglages & clés** | identité, coordonnées, les deux lieux, conversion, mesure d'audience, **clés API** (test de chaque intégration, recherche du Place ID par adresse, choix du modèle Gemini), comptes |
 
 Le catalogue est la source unique : la page « Nos bureaux », les cartes de l'accueil,
 le compteur « il reste N places », le badge du hero, la carte « à partir de »,
@@ -149,13 +149,29 @@ horodatage `ts` (rejet sous 2 secondes), **quota** 5 requêtes / 10 min / IP
 
 | Intégration | Avec la clé | Sans la clé (repli livré) |
 | --- | --- | --- |
-| **Assistant Gemini** | RAG sur l'index local puis `gemini-2.5-flash`, température 0,2, 400 jetons, timeout 8 s, une seule tentative | réponses rapides du back-office (mots-clés) puis extraction des phrases pertinentes de l'index — toujours sourcées |
+| **Assistant Gemini** | RAG sur l'index local puis le modèle choisi dans la liste (`gemini-2.5-flash` par défaut), température 0,2, 400 jetons, timeout 8 s, une seule tentative | réponses rapides du back-office (mots-clés) puis extraction des phrases pertinentes de l'index — toujours sourcées |
 | **Avis Google Places** | récupération serveur, cache 24 h, avis non retouchés | avis saisis dans `content/reviews.json` |
 | **Google Translate** | bouton « Traduire depuis le français », résultat écrit **en brouillon** | traduction manuelle par onglet de langue |
 | **SMTP** | envoi authentifié | fonction `mail()` de l'hébergeur |
 
 Les clés se saisissent dans **Réglages → Clés API** (stockées dans `storage/secrets.json`,
 hors racine web, en droits `0600`) ou dans `.env`, qui reste prioritaire.
+
+### Trois outils dans l'écran des clés
+
+1. **Tester les intégrations** — un bouton par intégration. Chaque test fait un vrai
+   appel, le plus court possible, avec la clé enregistrée, et affiche la réponse de
+   Google (ou l'erreur exacte : clé invalide, API non activée, quota) avec la durée.
+   Le test « Envoi d'emails » expédie un email réel à la boîte configurée et indique la
+   voie utilisée (SMTP ou `mail()`). Aucun test n'écrit dans le contenu du site.
+2. **Trouver l'identifiant de la fiche Google** — on saisit l'adresse postale (ou le nom)
+   de l'établissement, on choisit la bonne fiche dans les résultats, et son Place ID est
+   enregistré dans `GOOGLE_PLACE_ID`. Plus besoin d'aller le chercher à la main.
+3. **Modèles Gemini disponibles** — dès que la clé Gemini est enregistrée, le catalogue
+   des modèles du compte Google est récupéré (`GET /v1beta/models`, cache 24 h dans
+   `storage/gemini-models.json`) et `GEMINI_MODEL` devient une liste déroulante. Seuls
+   les modèles capables de répondre en texte sont proposés ; le panneau affiche la
+   description et la taille de contexte de chacun, avec un bouton de rafraîchissement.
 
 ## 7. Multilangue
 

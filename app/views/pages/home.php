@@ -34,9 +34,12 @@ $faqItems = Content::list($hero === [] ? $page : $page, 'faq.items');
 
   <div class="shell hero__inner">
     <div>
-      <div class="hero__badge" data-reveal>
-        <span></span>
-        <span><?= Text::e(View::fill(Content::text($hero, 'badge'), ['count' => $available])) ?></span>
+      <div class="hero__badge hero__badge--live" data-reveal>
+        <span class="hero__badgeDot" aria-hidden="true"></span>
+        <span class="hero__badgeText"><?= View::fill(
+            Text::e(Content::text($hero, 'badge')),
+            ['count' => '<strong class="hero__badgeCount" data-count-to="' . $available . '">' . $available . '</strong>']
+        ) ?></span>
       </div>
 
       <h1 class="hero__title" data-reveal data-delay="80">
@@ -149,7 +152,7 @@ $faqItems = Content::list($hero === [] ? $page : $page, 'faq.items');
               <span class="chip"><?= Text::e((string) $chip) ?></span>
             <?php endforeach; ?>
             <?php if ($siteAvailable > 0): ?>
-              <span class="chip"><?= Text::e(I18n::t('meta.offices', ['count' => $siteAvailable])) ?></span>
+              <span class="chip"><?= Text::e(Offices::availabilityLabel($siteAvailable)) ?></span>
             <?php endif; ?>
           </div>
           <a class="btn btn--ink btn--md place-card__cta" href="<?= Text::e(Router::url('offices', $lang)) ?>?site=<?= Text::e((string) $site['id']) ?>">
@@ -173,9 +176,12 @@ $faqItems = Content::list($hero === [] ? $page : $page, 'faq.items');
   <?php if ($featured === []): ?>
     <p class="empty-note"><?= Text::e(I18n::t('office.none')) ?></p>
   <?php else: ?>
-    <div class="grid grid--offices">
+    <?php // Une ou deux disponibilités : on les met en avant en pleine largeur
+          // plutôt que de les tasser dans une grille prévue pour quatre cartes.
+          $spotlight = \count($featured) <= 2; ?>
+    <div class="grid grid--offices<?= $spotlight ? ' grid--offices-spot' : '' ?>">
       <?php foreach ($featured as $i => $office): ?>
-        <?= View::partial('partials/office-card', ['office' => $office, 'variant' => 'featured', 'delay' => $i * 90]) ?>
+        <?= View::partial('partials/office-card', ['office' => $office, 'variant' => 'featured', 'spotlight' => $spotlight, 'delay' => $i * 90]) ?>
       <?php endforeach; ?>
     </div>
   <?php endif; ?>

@@ -119,6 +119,18 @@ final class View
         return $path === '' ? 'none' : "url('" . Text::e(Config::basePath() . $path) . "')";
     }
 
+    /**
+     * URL d'intégration Google Maps d'une adresse. Aucune clé requise ;
+     * l'iframe n'est chargée qu'au clic du visiteur, jamais au chargement.
+     */
+    public static function mapEmbed(string $address): string
+    {
+        $address = trim($address);
+        return $address === ''
+            ? ''
+            : 'https://www.google.com/maps?q=' . rawurlencode($address) . '&output=embed';
+    }
+
     /** Remplace {count} et consorts dans un texte éditorial. */
     public static function fill(string $text, array $replace): string
     {

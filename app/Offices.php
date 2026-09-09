@@ -71,6 +71,15 @@ final class Offices
         return \count(self::filter($offices, ['status' => 'available']));
     }
 
+    /** « Aucun bureau disponible », « 1 bureau disponible », « 3 bureaux disponibles ». */
+    public static function availabilityLabel(int $count): string
+    {
+        if ($count <= 0) {
+            return I18n::t('office.noneAvailable');
+        }
+        return I18n::t($count === 1 ? 'office.oneAvailable' : 'office.someAvailable', ['count' => $count]);
+    }
+
     public static function minPrice(): ?int
     {
         $prices = [];

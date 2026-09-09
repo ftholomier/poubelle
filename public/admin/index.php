@@ -17,6 +17,7 @@ use App\Auth;
 use App\Config;
 use App\Content;
 use App\Csrf;
+use App\Diagnostics;
 use App\I18n;
 use App\Media;
 use App\Offices;
@@ -510,6 +511,57 @@ if ($isPost) {
         case 'keys-save':
             Admin::saveKeys((array) ($_POST['k'] ?? []), $email);
             Session::flash('Clés API enregistrées (stockées hors racine web, en 0600).');
+            $redirect('settings', ['tab' => 'keys']);
+
+        case 'key-test':
+            $target = (string) ($_POST['target'] ?? '');
+            if (!\in_array($target, Diagnostics::TARGETS, true)) {
+                Session::flash('Test inconnu.', 'error');
+                $redirect('settings', ['tab' => 'keys']);
+            }
+            $tests = (array) (Session::get('key.tests') ?? []);
+            $tests[$target] = Diagnostics::run($target);
+            Session::set('key.tests', $tests);
+            Session::flash(
+                Diagnostics::label($target) . ' : ' . ($tests[$target]['ok'] ? 'test réussi.' : 'test en échec.'),
+                $tests[$target]['ok'] ? 'ok' : 'error'
+            );
+            $redirect('settings', ['tab' => 'keys']);
+
+        case 'place-search':
+            $found = Reviews::searchPlaces((string) ($_POST['q'] ?? ''));
+            Session::set('place.search', [
+                'q' => trim((string) ($_POST['q'] ?? '')),
+                'places' => $found['places'],
+                'error' => $found['error'],
+            ]);
+            if ($found['error'] !== '') {
+                Session::flash($found['error'], 'error');
+            }
+            $redirect('settings', ['tab' => 'keys']);
+
+        case 'place-use':
+            $placeId = trim((string) ($_POST['place_id'] ?? ''));
+            if ($placeId === '' || Config::isLockedByEnv('GOOGLE_PLACE_ID')) {
+                Session::flash('Identifiant de fiche non modifiable ici (défini dans .env).', 'error');
+            } else {
+                Admin::saveKeys(['GOOGLE_PLACE_ID' => $placeId], $email);
+                Session::forget('place.search');
+                Session::flash('Fiche Google sélectionnée : ' . $placeId, 'ok');
+            }
+            $redirect('settings', ['tab' => 'keys']);
+
+        case 'gemini-models-refresh':
+            $catalogue = Gemini::refreshModels();
+            $count = \count((array) $catalogue['models']);
+            Session::flash(
+                ($catalogue['error'] ?? '') === ''
+                    ? $count . ' modèles Gemini disponibles pour cette clé.'
+                    : (($catalogue['error'] === 'no-key')
+                        ? 'Renseignez d\'abord la clé API Gemini.'
+                        : 'Google n\'a pas renvoyé la liste des modèles. Voir storage/logs/ai.log.'),
+                ($catalogue['error'] ?? '') === '' ? 'ok' : 'error'
+            );
             $redirect('settings', ['tab' => 'keys']);
 
         case 'reviews-refresh':

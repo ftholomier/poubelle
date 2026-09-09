@@ -25,6 +25,14 @@ final class Gemini
     private const MAX_QUESTION = 500;
     private const MISSES_FILE = 'ai-misses.json';
 
+    /** Catalogue des modèles renvoyé par Google, mis en cache hors racine web. */
+    private const MODELS_FILE = 'gemini-models.json';
+    private const MODELS_TTL = 86400;   // 24 h avant de redemander la liste
+    private const MODELS_RETRY = 600;   // 10 min avant de retenter après un échec
+
+    /** Modèles qui ne savent pas répondre en texte : hors liste du back-office. */
+    private const MODELS_EXCLUDE = '/embedding|imagen|veo|aqa|tts|-image|native-audio|live-/i';
+
     public static function configured(): bool
     {
         return Config::has('GEMINI_API_KEY');
@@ -33,6 +41,144 @@ final class Gemini
     public static function model(): string
     {
         return (string) (Config::get('GEMINI_MODEL') ?? self::MODEL_DEFAULT);
+    }
+
+    /**
+     * Catalogue en cache, sans le moindre appel réseau : c'est ce que lisent
+     * les pages publiques et le rendu du back-office.
+     *
+     * @return array{models:array<int,array<string,mixed>>,fetchedAt:string,checkedAt:string,error:string}
+     */
+    public static function cachedModels(): array
+    {
+        $cache = Store::readStorage(self::MODELS_FILE);
+        $models = \is_array($cache['models'] ?? null) ? $cache['models'] : [];
+        return [
+            'models' => array_values(array_filter($models, 'is_array')),
+            'fetchedAt' => (string) ($cache['fetchedAt'] ?? ''),
+            'checkedAt' => (string) ($cache['checkedAt'] ?? ''),
+            'error' => (string) ($cache['error'] ?? ''),
+        ];
+    }
+
+    /**
+     * Liste affichée au back-office : le cache s'il est frais, sinon une
+     * tentative de rafraîchissement pour que le choix apparaisse dès que la
+     * clé est posée. L'échec est mémorisé 10 min afin de ne pas ralentir l'écran.
+     */
+    public static function models(): array
+    {
+        $cache = self::cachedModels();
+        if (!self::configured()) {
+            $cache['error'] = 'no-key';
+            return $cache;
+        }
+
+        $fresh = (time() - self::stamp($cache['fetchedAt'])) < self::MODELS_TTL;
+        $justTried = (time() - self::stamp($cache['checkedAt'])) < self::MODELS_RETRY;
+        if (($cache['models'] !== [] && $fresh) || $justTried) {
+            return $cache;
+        }
+        return self::refreshModels();
+    }
+
+    /** Rafraîchissement explicite : bouton du back-office ou enregistrement d'une clé. */
+    public static function refreshModels(): array
+    {
+        $cache = self::cachedModels();
+        if (!self::configured()) {
+            $cache['error'] = 'no-key';
+            return $cache;
+        }
+
+        $now = (new \DateTimeImmutable())->format(\DATE_ATOM);
+        $models = self::fetchModels();
+        if ($models === null) {
+            $cache['checkedAt'] = $now;
+            $cache['error'] = 'fetch';
+            Store::writeStorage(self::MODELS_FILE, $cache);
+            return $cache;
+        }
+
+        $payload = ['models' => $models, 'fetchedAt' => $now, 'checkedAt' => $now, 'error' => ''];
+        Store::writeStorage(self::MODELS_FILE, $payload);
+        return $payload;
+    }
+
+    /** true si le modèle enregistré ne figure pas (ou plus) dans le catalogue. */
+    public static function modelIsKnown(): bool
+    {
+        foreach (self::cachedModels()['models'] as $model) {
+            if ((string) ($model['id'] ?? '') === self::model()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * GET /v1beta/models : on ne retient que ceux qui savent répondre en texte.
+     * @return array<int,array<string,mixed>>|null
+     */
+    private static function fetchModels(): ?array
+    {
+        $models = [];
+        $token = '';
+        for ($page = 0; $page < 5; $page++) {
+            $url = 'https://generativelanguage.googleapis.com/v1beta/models?pageSize=200'
+                . ($token === '' ? '' : '&pageToken=' . rawurlencode($token));
+            $response = Http::getJson($url, [
+                'timeout' => self::TIMEOUT,
+                'headers' => ['x-goog-api-key' => (string) Config::get('GEMINI_API_KEY')],
+            ]);
+            if (!$response['ok'] || $response['json'] === null) {
+                Log::write('ai', 'Gemini : liste des modèles, statut ' . $response['status'] . ' ' . substr($response['body'], 0, 300));
+                return null;
+            }
+            foreach ((array) ($response['json']['models'] ?? []) as $model) {
+                $entry = self::normalizeModel((array) $model);
+                if ($entry !== null) {
+                    $models[$entry['id']] = $entry;
+                }
+            }
+            $token = (string) ($response['json']['nextPageToken'] ?? '');
+            if ($token === '') {
+                break;
+            }
+        }
+
+        $models = array_values($models);
+        // Modèles stables d'abord, puis du plus récent au plus ancien (2.5 avant 1.5).
+        usort($models, static fn (array $a, array $b): int => [$a['preview'], $b['id']] <=> [$b['preview'], $a['id']]);
+        return $models;
+    }
+
+    /** @return array<string,mixed>|null */
+    private static function normalizeModel(array $model): ?array
+    {
+        $id = (string) preg_replace('#^models/#', '', (string) ($model['name'] ?? ''));
+        $methods = array_map('strval', (array) ($model['supportedGenerationMethods'] ?? []));
+        if ($id === '' || !\in_array('generateContent', $methods, true)) {
+            return null;
+        }
+        if (preg_match(self::MODELS_EXCLUDE, $id) === 1) {
+            return null;
+        }
+
+        $label = trim((string) ($model['displayName'] ?? ''));
+        return [
+            'id' => $id,
+            'label' => $label === '' ? $id : $label,
+            'description' => trim((string) ($model['description'] ?? '')),
+            'input' => (int) ($model['inputTokenLimit'] ?? 0),
+            'output' => (int) ($model['outputTokenLimit'] ?? 0),
+            'preview' => preg_match('/preview|experimental|-exp/i', $id) === 1,
+        ];
+    }
+
+    private static function stamp(string $iso): int
+    {
+        return $iso === '' ? 0 : (strtotime($iso) ?: 0);
     }
 
     public static function systemPrompt(): string

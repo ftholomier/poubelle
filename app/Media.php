@@ -23,6 +23,15 @@ final class Media
         return $items;
     }
 
+    /** Toutes les photos rattachées à un lieu, dans l'ordre de la photothèque. */
+    public static function bySite(string $site): array
+    {
+        return array_values(array_filter(
+            self::all(),
+            static fn (array $m): bool => (string) ($m['site'] ?? '') === $site
+        ));
+    }
+
     public static function find(string $path): ?array
     {
         foreach (self::all() as $item) {

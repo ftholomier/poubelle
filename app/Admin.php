@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Ai\Gemini;
+
 /**
  * Aides du back-office : menu, écrans, et surtout le schéma d'édition des
  * pages. Le schéma décrit les champs éditables ; les vues le rendent et
@@ -309,7 +311,7 @@ final class Admin
     {
         return [
             ['key' => 'GEMINI_API_KEY', 'label' => 'Clé API Gemini', 'secret' => true, 'hint' => 'Assistant du site. Sans clé, l’assistant répond à partir de l’index local.'],
-            ['key' => 'GEMINI_MODEL', 'label' => 'Modèle Gemini', 'secret' => false, 'hint' => 'Par défaut : gemini-2.5-flash.'],
+            ['key' => 'GEMINI_MODEL', 'label' => 'Modèle Gemini', 'secret' => false, 'choices' => 'gemini', 'hint' => 'Liste chargée depuis Google dès que la clé est enregistrée. Par défaut : gemini-2.5-flash.'],
             ['key' => 'GOOGLE_PLACES_KEY', 'label' => 'Clé API Google Places', 'secret' => true, 'hint' => 'Récupération des avis Google (cache 24 h).'],
             ['key' => 'GOOGLE_PLACE_ID', 'label' => 'Identifiant de la fiche Google', 'secret' => false, 'hint' => 'Place ID de la fiche Google Business Profile.'],
             ['key' => 'GOOGLE_TRANSLATE_KEY', 'label' => 'Clé API Google Translate', 'secret' => true, 'hint' => 'Bouton « Traduire en anglais » du back-office.'],
@@ -327,6 +329,7 @@ final class Admin
     public static function saveKeys(array $input, string $by): bool
     {
         $secrets = Config::secrets();
+        $before = $secrets;
         foreach (self::keyDefs() as $def) {
             $key = $def['key'];
             if (!\array_key_exists($key, $input)) {
@@ -357,6 +360,12 @@ final class Admin
         $ok = @rename($tmp, $file);
         Config::forgetSecrets();
         Log::write('auth', 'Clés API mises à jour par ' . $by);
+
+        // La clé Gemini vient peut-être de changer : on redemande le catalogue
+        // des modèles pour que la liste déroulante soit à jour au retour d'écran.
+        if ($ok && ($secrets['GEMINI_API_KEY'] ?? '') !== ($before['GEMINI_API_KEY'] ?? '')) {
+            Gemini::refreshModels();
+        }
         return $ok;
     }
 }

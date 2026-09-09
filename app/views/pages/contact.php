@@ -6,6 +6,7 @@ use App\Content;
 use App\Csrf;
 use App\I18n;
 use App\Text;
+use App\View;
 
 $lang = I18n::lang();
 $sites = array_values(array_filter((array) ($settings['sites'] ?? []), static fn ($s): bool => \is_array($s) && ($s['enabled'] ?? true)));
@@ -94,13 +95,22 @@ $firstNeed = (string) ($needs[0] ?? '');
     </form>
   </div>
 
-  <?php $mapUrl = (string) ($sites[0]['mapUrl'] ?? ''); ?>
-  <a class="map map--lg" data-reveal href="<?= Text::url($mapUrl !== '' ? $mapUrl : '#') ?>" <?= $mapUrl !== '' ? 'target="_blank" rel="noopener"' : '' ?> aria-label="<?= Text::e(I18n::t('contact.mapNote')) ?>">
+  <?php
+  $first = $sites[0] ?? [];
+  $firstAddress = trim((string) ($first['address'] ?? '') . ', ' . (string) ($first['zip'] ?? '') . ' ' . (string) ($first['city'] ?? ''));
+  ?>
+  <div class="map map--lg" data-reveal data-map
+       data-embed="<?= Text::e(View::mapEmbed($firstAddress)) ?>"
+       data-label="<?= Text::e((string) ($first['name'] ?? '')) ?>">
     <span class="map__road-h"></span>
     <span class="map__road-v"></span>
-    <?php foreach (\array_slice($sites, 0, 2) as $i => $site): ?>
-      <span class="map__tag map__tag--<?= $i + 1 ?>" style="background:<?= Text::e((string) ($site['color'] ?? '#FFD100')) ?>"><?= Text::e((string) ($site['shortName'] ?? '')) ?></span>
+    <?php foreach (\array_slice($sites, 0, 2) as $i => $site):
+        $address = trim((string) ($site['address'] ?? '') . ', ' . (string) ($site['zip'] ?? '') . ' ' . (string) ($site['city'] ?? '')); ?>
+      <button type="button" class="map__tag map__tag--<?= $i + 1 ?>" data-map-place
+              data-embed="<?= Text::e(View::mapEmbed($address)) ?>"
+              style="background:<?= Text::e((string) ($site['color'] ?? '#FFD100')) ?>"><?= Text::e((string) ($site['shortName'] ?? '')) ?></button>
     <?php endforeach; ?>
-    <span class="map__note"><?= Text::e(I18n::t('contact.mapNote')) ?></span>
-  </a>
+    <button type="button" class="map__load" data-map-load><?= Text::e(I18n::t('contact.showMap')) ?></button>
+    <span class="map__hint"><?= Text::e(I18n::t('contact.mapHint')) ?></span>
+  </div>
 </section>

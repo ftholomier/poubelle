@@ -1,122 +1,122 @@
 {
-    "_schema": 1,
-    "slug": "home",
-    "lang": "en",
-    "status": "published",
-    "nav": "Home",
-    "seo": {
-        "title": "All-inclusive coworking and office rental in Besançon",
-        "description": "Private offices and open-space desks in central Besançon. All inclusive, no hidden fees. Two addresses: 11 avenue Carnot and 3 rue Granvelle.",
-        "ogImage": "/media/granvelle-openspace-01.webp"
+  "_schema": 1,
+  "slug": "home",
+  "lang": "en",
+  "status": "published",
+  "nav": "Home",
+  "seo": {
+    "title": "All-inclusive coworking and office rental in Besançon",
+    "description": "Private offices and open-space desks in central Besançon. All inclusive, no hidden fees. Two addresses: 11 avenue Carnot and 3 rue Granvelle.",
+    "ogImage": "/media/granvelle-openspace-01.webp"
+  },
+  "hero": {
+    "badge": "{count} OFFICES AVAILABLE RIGHT NOW",
+    "title1": "An office you actually",
+    "title2": "want to walk into",
+    "highlight": "on a Monday.",
+    "text": "Private offices and open-space desks in central Besançon. You sign, you drop your things, you get to work. Bills, high-speed internet, cleaning and the meeting room are all in, with no hidden fees.",
+    "ctaPrimary": {
+      "label": "See available offices",
+      "route": "offices"
     },
-    "hero": {
-        "badge": "{count} OFFICES AVAILABLE THIS MONTH",
-        "title1": "An office you actually",
-        "title2": "want to walk into",
-        "highlight": "on a Monday.",
-        "text": "Private offices and open-space desks in central Besançon. You sign, you drop your things, you get to work. Bills, high-speed internet, cleaning and the meeting room are all in, with no hidden fees.",
-        "ctaPrimary": {
-            "label": "See available offices",
-            "route": "offices"
-        },
-        "ctaSecondary": {
-            "label": "Book a viewing",
-            "route": "contact"
-        },
-        "stats": [
-            {
-                "value": "170 sqm",
-                "label": "across 2 addresses"
-            },
-            {
-                "value": "7/7",
-                "label": "24/7 badge access at Carnot"
-            },
-            {
-                "value": "€0",
-                "label": "hidden fees"
-            }
-        ],
-        "slides": [
-            "/media/granvelle-openspace-01.webp",
-            "/media/carnot-bureau-03.webp",
-            "/media/granvelle-coin-detente.webp",
-            "/media/carnot-salle-reunion.webp",
-            "/media/granvelle-openspace-mezzanine.webp",
-            "/media/carnot-bureau-vue.webp"
-        ],
-        "cardPrice": {
-            "label": "FROM",
-            "note": "excl. VAT/mo"
-        },
-        "cardBadge": {
-            "kicker": "TURNKEY",
-            "line1": "All inclusive,",
-            "line2": "zero hidden fees"
-        }
+    "ctaSecondary": {
+      "label": "Book a viewing",
+      "route": "contact"
     },
-    "places": {
-        "kicker": "OUR SPACES",
-        "title": "Two addresses, two moods",
-        "cta": "Tour both spaces"
+    "stats": [
+      {
+        "value": "170 sqm",
+        "label": "across 2 addresses"
+      },
+      {
+        "value": "7/7",
+        "label": "24/7 badge access at Carnot"
+      },
+      {
+        "value": "€0",
+        "label": "hidden fees"
+      }
+    ],
+    "slides": [
+      "/media/granvelle-openspace-01.webp",
+      "/media/carnot-bureau-03.webp",
+      "/media/granvelle-coin-detente.webp",
+      "/media/carnot-salle-reunion.webp",
+      "/media/granvelle-openspace-mezzanine.webp",
+      "/media/carnot-bureau-vue.webp"
+    ],
+    "cardPrice": {
+      "label": "FROM",
+      "note": "excl. VAT/mo"
     },
-    "availability": {
-        "kicker": "AVAILABILITY",
-        "title": "What is free, right now"
-    },
-    "steps": {
-        "title": "Moved in, in 3 steps",
-        "items": [
-            {
-                "n": "1",
-                "title": "You visit",
-                "text": "20 minutes on site, coffee included. We show you both spaces and the free desks.",
-                "color": "#FFFFFF"
-            },
-            {
-                "n": "2",
-                "title": "You sign",
-                "text": "A simple service contract, no commercial lease, no admin fees.",
-                "color": "#FFD100"
-            },
-            {
-                "n": "3",
-                "title": "You work",
-                "text": "Badge handed over, internet plugged in, coffee hot. Drop your things and off you go.",
-                "color": "#12B39A"
-            }
-        ]
-    },
-    "reviews": {
-        "title": "They feel good here"
-    },
-    "band": {
-        "title": "{count} spots left. Not 40.",
-        "text": "A 20-minute viewing, a service contract, and you move in.",
-        "cta1": "Book my office",
-        "cta2": "Talk to a human"
-    },
-    "faq": {
-        "title": "Frequently asked",
-        "items": [
-            {
-                "q": "Is there a minimum term?",
-                "a": "No. The iOiO works with a service contract and a short notice period. You leave when your business changes."
-            },
-            {
-                "q": "What is really included in the price?",
-                "a": "Bills, water, electricity, heating, cleaning, high-speed internet, furniture, meeting room, fitted kitchen and coffee. There are no additional fees."
-            },
-            {
-                "q": "What is the difference between Carnot and Granvelle?",
-                "a": "Carnot, 11 avenue Carnot, is 4 closed private offices around an inner courtyard, with a meeting room, kitchen, shower and toilets. Granvelle, 3 rue Granvelle, is the coworking space: private offices or dedicated open-space desks, key locker, bar table and sofa corner."
-            },
-            {
-                "q": "Can I welcome my clients?",
-                "a": "Of course. Carnot has a meeting room with a video projection system; Granvelle has a bar table and a sofa corner for informal meetings."
-            }
-        ]
-    },
-    "updatedAt": "2026-09-09T22:53:00+02:00",
-    "updatedBy": "correction"
+    "cardBadge": {
+      "kicker": "TURNKEY",
+      "line1": "All inclusive,",
+      "line2": "zero hidden fees"
+    }
+  },
+  "places": {
+    "kicker": "OUR SPACES",
+    "title": "Two addresses, two moods",
+    "cta": "Tour both spaces"
+  },
+  "availability": {
+    "kicker": "AVAILABILITY",
+    "title": "What is free, right now"
+  },
+  "steps": {
+    "title": "Moved in, in 3 steps",
+    "items": [
+      {
+        "n": "1",
+        "title": "You visit",
+        "text": "20 minutes on site, coffee included. We show you both spaces and the free desks.",
+        "color": "#FFFFFF"
+      },
+      {
+        "n": "2",
+        "title": "You sign",
+        "text": "A simple service contract, no commercial lease, no admin fees.",
+        "color": "#FFD100"
+      },
+      {
+        "n": "3",
+        "title": "You work",
+        "text": "Badge handed over, internet plugged in, coffee hot. Drop your things and off you go.",
+        "color": "#12B39A"
+      }
+    ]
+  },
+  "reviews": {
+    "title": "They feel good here"
+  },
+  "band": {
+    "title": "{count} spots left. Not 40.",
+    "text": "A 20-minute viewing, a service contract, and you move in.",
+    "cta1": "Book my office",
+    "cta2": "Talk to a human"
+  },
+  "faq": {
+    "title": "Frequently asked",
+    "items": [
+      {
+        "q": "Is there a minimum term?",
+        "a": "No. The iOiO works with a service contract and a short notice period. You leave when your business changes."
+      },
+      {
+        "q": "What is really included in the price?",
+        "a": "Bills, water, electricity, heating, cleaning, high-speed internet, furniture, meeting room, fitted kitchen and coffee. There are no additional fees."
+      },
+      {
+        "q": "What is the difference between Carnot and Granvelle?",
+        "a": "Carnot, 11 avenue Carnot, is 4 closed private offices around an inner courtyard, with a meeting room, kitchen, shower and toilets. Granvelle, 3 rue Granvelle, is the coworking space: private offices or dedicated open-space desks, key locker, bar table and sofa corner."
+      },
+      {
+        "q": "Can I welcome my clients?",
+        "a": "Of course. Carnot has a meeting room with a video projection system; Granvelle has a bar table and a sofa corner for informal meetings."
+      }
+    ]
+  },
+  "updatedAt": "2026-09-09T22:53:00+02:00",
+  "updatedBy": "correction"
 }

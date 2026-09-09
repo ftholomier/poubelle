@@ -97,6 +97,7 @@ if (App\Consent::allows('analytics') && ($analytics['provider'] ?? 'none') === '
 <?php // Le bandeau de consentement précède la barre CTA : le sélecteur de voisinage
       // (.consent:not([hidden]) ~ .sticky-cta) peut alors l'effacer tant qu'aucun
       // choix n'est fait, pour ne pas empiler deux éléments flottants. ?>
+<?= View::partial('partials/lightbox') ?>
 <?= View::partial('partials/consent', ['settings' => $settings]) ?>
 <?= View::partial('partials/sticky', ['settings' => $settings]) ?>
 <?= View::partial('partials/bot', ['settings' => $settings]) ?>

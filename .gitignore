@@ -13,6 +13,7 @@ storage/sessions/*
 storage/index/*
 storage/docs/*
 storage/backups/*
+storage/gemini-models.json
 !storage/**/.gitkeep
 
 # Les photos livrées avec le projet sont suivies ; celles que le client

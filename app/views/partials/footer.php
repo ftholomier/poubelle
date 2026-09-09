@@ -39,10 +39,10 @@ foreach (\array_slice(Offices::decorateAll(Offices::filter(Offices::published(),
     <div>
       <div class="footer__colTitle"><?= Text::e(I18n::t('footer.colBrand')) ?></div>
       <div class="footer__links">
-        <a class="footer__link" href="<?= Text::e(Router::url('spaces', $lang)) ?>"><?= Text::e(I18n::t('nav.spaces')) ?></a>
-        <a class="footer__link" href="<?= Text::e(Router::url('offices', $lang)) ?>"><?= Text::e(I18n::t('nav.offices')) ?></a>
+        <a class="footer__link" href="<?= Text::e(Router::url('spaces', $lang)) ?>"><?= Text::e(I18n::t('footer.spaces')) ?></a>
+        <a class="footer__link" href="<?= Text::e(Router::url('offices', $lang)) ?>"><?= Text::e(I18n::t('footer.offices')) ?></a>
         <a class="footer__link" href="<?= Text::e(Router::url('offices', $lang)) ?>#bureaux"><?= Text::e(I18n::t('footer.availability')) ?></a>
-        <a class="footer__link" href="<?= Text::e(Router::url('news', $lang)) ?>"><?= Text::e(I18n::t('nav.news')) ?></a>
+        <a class="footer__link" href="<?= Text::e(Router::url('news', $lang)) ?>"><?= Text::e(I18n::t('footer.news')) ?></a>
       </div>
     </div>
 

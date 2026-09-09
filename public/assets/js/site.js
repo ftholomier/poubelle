@@ -147,6 +147,42 @@
     el.addEventListener('click', function () { track(el.getAttribute('data-track')); });
   });
 
+  /* --------------------------------- compteur de disponibilités (page d'accueil) */
+
+  /* Le chiffre monte de 0 à sa valeur : c'est ce qui accroche l'œil à l'arrivée.
+     Sans animation demandée, on laisse simplement la valeur affichée par PHP. */
+  $$('[data-count-to]').forEach(function (el) {
+    var target = parseInt(el.getAttribute('data-count-to') || '0', 10);
+    if (reduced || !(target > 0)) { return; }
+
+    var started = false;
+    function run() {
+      if (started) { return; }
+      started = true;
+      var t0 = 0;
+      var span = 900;
+      function step(now) {
+        if (!t0) { t0 = now; }
+        var p = Math.min(1, (now - t0) / span);
+        el.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) { requestAnimationFrame(step); }
+      }
+      el.textContent = '0';
+      requestAnimationFrame(step);
+    }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { run(); io.disconnect(); }
+        });
+      }, { threshold: 0.6 });
+      io.observe(el);
+    } else {
+      run();
+    }
+  });
+
   /* ------------------------------------------ apparition au scroll (reveal) */
 
   var seen = new WeakSet();
@@ -428,6 +464,109 @@
       });
     }
   }
+
+  /* --------------------------------------------------- album photo (lightbox) */
+
+  var lightbox = $('[data-lightbox]');
+  if (lightbox) {
+    var lbImg = $('[data-lightbox-img]', lightbox);
+    var lbCaption = $('[data-lightbox-caption]', lightbox);
+    var lbCounter = $('[data-lightbox-counter]', lightbox);
+    var album = [];
+    var current = 0;
+
+    function collect(button) {
+      var grid = button.closest('[data-album]');
+      return $$('[data-album-open]', grid).map(function (b) {
+        return { src: b.getAttribute('data-full'), caption: b.getAttribute('data-caption') || '' };
+      });
+    }
+
+    function show(index) {
+      if (!album.length) { return; }
+      current = (index + album.length) % album.length;
+      var photo = album[current];
+      lbImg.src = photo.src;
+      lbImg.alt = photo.caption;
+      lbCaption.textContent = photo.caption;
+      lbCounter.textContent = (current + 1) + ' / ' + album.length;
+    }
+
+    function openLightbox(button) {
+      album = collect(button);
+      lightbox.hidden = false;
+      document.body.classList.add('is-locked');
+      show(parseInt(button.getAttribute('data-album-open') || '0', 10));
+      var close = $('[data-lightbox-close]', lightbox);
+      if (close) { close.focus(); }
+      track('album_open');
+    }
+
+    function closeLightbox() {
+      lightbox.hidden = true;
+      document.body.classList.remove('is-locked');
+      lbImg.removeAttribute('src');
+    }
+
+    $$('[data-album-open]').forEach(function (button) {
+      button.addEventListener('click', function () { openLightbox(button); });
+    });
+    $$('[data-lightbox-close]', lightbox).forEach(function (b) { b.addEventListener('click', closeLightbox); });
+    $$('[data-lightbox-prev]', lightbox).forEach(function (b) { b.addEventListener('click', function () { show(current - 1); }); });
+    $$('[data-lightbox-next]', lightbox).forEach(function (b) { b.addEventListener('click', function () { show(current + 1); }); });
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox || e.target.classList.contains('lightbox__stage')) { closeLightbox(); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (lightbox.hidden) { return; }
+      if (e.key === 'Escape') { closeLightbox(); }
+      if (e.key === 'ArrowLeft') { show(current - 1); }
+      if (e.key === 'ArrowRight') { show(current + 1); }
+    });
+
+    // Balayage horizontal sur mobile.
+    var touchX = null;
+    lightbox.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+    lightbox.addEventListener('touchend', function (e) {
+      if (touchX === null) { return; }
+      var delta = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(delta) > 50) { show(current + (delta < 0 ? 1 : -1)); }
+      touchX = null;
+    }, { passive: true });
+  }
+
+  /* ------------------------------------------------------------- cartes */
+
+  /* La carte réelle n'est chargée qu'au clic : aucune requête vers Google
+     tant que le visiteur ne l'a pas demandé. */
+  $$('[data-map]').forEach(function (map) {
+    function load(url, label) {
+      if (!url) { return; }
+      var frame = document.createElement('iframe');
+      frame.className = 'map__frame';
+      frame.src = url;
+      frame.loading = 'lazy';
+      frame.title = label || 'Carte';
+      frame.referrerPolicy = 'no-referrer-when-downgrade';
+      frame.setAttribute('allowfullscreen', '');
+      map.appendChild(frame);
+      map.classList.add('is-loaded');
+      track('map_open', { place: label || '' });
+    }
+
+    $$('[data-map-load]', map).forEach(function (button) {
+      button.addEventListener('click', function () {
+        load(map.getAttribute('data-embed'), map.getAttribute('data-label'));
+      });
+    });
+
+    // Sur la page contact, chaque pastille charge la carte de son adresse.
+    $$('[data-map-place]', map).forEach(function (tag) {
+      tag.addEventListener('click', function () {
+        load(tag.getAttribute('data-embed'), tag.textContent.trim());
+      });
+    });
+  });
 
   /* ----------------------------------------------------- assistant iOiO */
 

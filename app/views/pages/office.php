@@ -73,16 +73,17 @@ $isRented = ($office['status'] ?? '') === 'rented';
 
       <?php if ($site !== null): ?>
       <h2 class="fiche__h2 fiche__h2--map"><?= Text::e(I18n::t('office.where')) ?></h2>
-      <a class="map" href="<?= Text::url((string) ($site['mapUrl'] ?? '#')) ?>" target="_blank" rel="noopener"
-         aria-label="<?= Text::e((string) ($site['address'] ?? '') . ' — ' . I18n::t('contact.mapNote')) ?>">
+      <?php $address = trim((string) ($site['address'] ?? '') . ', ' . (string) ($site['zip'] ?? '') . ' ' . (string) ($site['city'] ?? '')); ?>
+      <div class="map" data-map data-embed="<?= Text::e(View::mapEmbed($address)) ?>" data-label="<?= Text::e((string) ($site['name'] ?? '')) ?>">
         <span class="map__road-h"></span>
         <span class="map__road-v"></span>
         <span class="map__pin">
           <span class="map__pinDot"></span>
           <span class="map__pinLabel"><?= Text::e((string) ($site['address'] ?? '')) ?></span>
         </span>
-        <span class="map__note"><?= Text::e(I18n::t('contact.mapNote')) ?></span>
-      </a>
+        <button type="button" class="map__load" data-map-load><?= Text::e(I18n::t('contact.showMap')) ?></button>
+        <span class="map__hint"><?= Text::e(I18n::t('contact.mapHint')) ?></span>
+      </div>
       <?php endif; ?>
     </div>
 

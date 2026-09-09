@@ -11,13 +11,21 @@ use App\View;
 
 $variant = $variant ?? 'list';
 $isList = $variant === 'list';
+$spotlight = (bool) ($spotlight ?? false);
 $delay = (int) ($delay ?? 0);
+// La photo occupe une colonne large en mise en avant, une vignette sinon.
+$sizes = $spotlight
+    ? '(max-width: 760px) 100vw, 46vw'
+    : '(max-width: 620px) 100vw, (max-width: 1000px) 45vw, 400px';
 /** Assemble les fragments réellement renseignés. */
 $meta = static fn (array $parts): string => implode(' · ', array_filter(array_map('trim', $parts)));
 ?>
-<article class="office-card<?= $isList ? ' office-card--white' : '' ?>" data-reveal<?= $delay > 0 ? ' data-delay="' . $delay . '"' : '' ?>>
-  <div class="office-card__media<?= $isList ? ' office-card__media--tall' : '' ?>" style="background:<?= Text::e((string) $office['color']) ?>">
-    <?= View::image((string) $office['cover'], (string) $office['name'], ['placeholder' => (string) $office['name'], 'minWidth' => 190, 'sizes' => '(max-width: 620px) 100vw, 300px']) ?>
+<article class="office-card<?= $isList ? ' office-card--white' : '' ?><?= $spotlight ? ' office-card--spot' : '' ?>" data-reveal<?= $delay > 0 ? ' data-delay="' . $delay . '"' : '' ?>>
+  <div class="office-card__media" style="background:<?= Text::e((string) $office['color']) ?>">
+    <?= View::image((string) $office['cover'], (string) $office['name'], ['placeholder' => (string) $office['name'], 'minWidth' => 190, 'sizes' => $sizes]) ?>
+    <?php if (\count((array) $office['photos']) > 1): ?>
+      <span class="office-card__count"><?= \count((array) $office['photos']) ?> photos</span>
+    <?php endif; ?>
   </div>
   <div class="office-card__body<?= $isList ? ' office-card__body--lg' : '' ?>">
     <div class="office-card__row">

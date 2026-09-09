@@ -2,10 +2,13 @@
 /** Réglages : identité et lieux, clés API, comptes. */
 
 use App\Admin;
+use App\Ai\Gemini;
 use App\Config;
 use App\Csrf;
+use App\Diagnostics;
 use App\Reviews;
 use App\Router;
+use App\Session;
 use App\Store;
 use App\Text;
 use App\View;
@@ -14,6 +17,19 @@ echo View::admin('_layout_start', get_defined_vars());
 
 $tab = \in_array($tab, ['site', 'keys', 'users'], true) ? $tab : 'site';
 $reviewsCache = Store::read(Reviews::CACHE);
+
+// Catalogue Gemini : chargé une seule fois, uniquement sur l'onglet des clés.
+$gemini = $tab === 'keys' ? Gemini::models() : ['models' => [], 'fetchedAt' => '', 'error' => ''];
+$geminiModels = (array) $gemini['models'];
+$geminiCurrent = Gemini::model();
+
+// Résultats des derniers tests d'intégration, conservés le temps de la session.
+$keyTests = (array) (Session::get('key.tests') ?? []);
+
+// Dernière recherche d'établissement Google, conservée le temps de choisir.
+$placeSearch = (array) (Session::get('place.search') ?? []);
+$placeResults = (array) ($placeSearch['places'] ?? []);
+$placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
 ?>
 <div class="screen">
   <div class="tablist">
@@ -184,10 +200,37 @@ $reviewsCache = Store::read(Reviews::CACHE);
               <?php if ($locked): ?><span class="badge" style="background:#EDE5D5;margin-left:6px">.ENV</span>
               <?php elseif ($set): ?><span class="badge" style="background:#12B39A;margin-left:6px">EN PLACE</span><?php endif; ?>
             </label>
-            <input class="field" id="k-<?= Text::e($key) ?>" type="<?= $def['secret'] ? 'password' : 'text' ?>"
-                   name="k[<?= Text::e($key) ?>]" value="<?= Text::e($value) ?>"
-                   autocomplete="off" <?= $locked ? 'disabled' : '' ?>>
-            <?php if (!empty($def['hint'])): ?><div class="hint"><?= Text::e((string) $def['hint']) ?></div><?php endif; ?>
+            <?php if (($def['choices'] ?? '') === 'gemini' && $geminiModels !== []): ?>
+              <select class="field" id="k-<?= Text::e($key) ?>" name="k[<?= Text::e($key) ?>]" <?= $locked ? 'disabled' : '' ?>>
+                <?php $known = false;
+                foreach ($geminiModels as $model):
+                    $id = (string) ($model['id'] ?? '');
+                    $known = $known || $id === $geminiCurrent; ?>
+                  <option value="<?= Text::e($id) ?>" <?= $id === $geminiCurrent ? 'selected' : '' ?>>
+                    <?= Text::e($id) ?><?= $id === Gemini::MODEL_DEFAULT ? ' — recommandé' : '' ?><?= !empty($model['preview']) ? ' — préversion' : '' ?>
+                  </option>
+                <?php endforeach; ?>
+                <?php if (!$known): ?>
+                  <option value="<?= Text::e($geminiCurrent) ?>" selected><?= Text::e($geminiCurrent) ?> — hors catalogue</option>
+                <?php endif; ?>
+              </select>
+            <?php else: ?>
+              <input class="field" id="k-<?= Text::e($key) ?>" type="<?= $def['secret'] ? 'password' : 'text' ?>"
+                     name="k[<?= Text::e($key) ?>]" value="<?= Text::e($value) ?>"
+                     autocomplete="off" <?= $locked ? 'disabled' : '' ?>>
+            <?php endif; ?>
+            <?php if (($def['choices'] ?? '') === 'gemini'): ?>
+              <div class="hint">
+                <?php if ($geminiModels !== []): ?>
+                  <?= \count($geminiModels) ?> modèles proposés par Google pour cette clé<?php
+                  if ((string) $gemini['fetchedAt'] !== ''): ?>, liste du <?= Text::e(Admin::humanDate((string) $gemini['fetchedAt'])) ?><?php endif; ?>.
+                <?php elseif (($gemini['error'] ?? '') === 'no-key'): ?>
+                  Enregistrez d'abord la clé API Gemini : la liste des modèles disponibles s'affichera ici.
+                <?php else: ?>
+                  Liste indisponible (Google n'a pas répondu). Saisissez l'identifiant du modèle à la main ou réessayez.
+                <?php endif; ?>
+              </div>
+            <?php elseif (!empty($def['hint'])): ?><div class="hint"><?= Text::e((string) $def['hint']) ?></div><?php endif; ?>
           </div>
         <?php endforeach; ?>
       </div>
@@ -197,6 +240,150 @@ $reviewsCache = Store::read(Reviews::CACHE);
       </div>
     </section>
   </form>
+
+  <section class="panel panel--pad" style="margin-top:18px">
+    <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Tester les intégrations</h2>
+    <p class="muted" style="margin:8px 0 14px">
+      Chaque test fait un vrai appel avec la clé enregistrée — la plus petite requête possible — et affiche
+      la réponse obtenue. Rien n'est modifié sur le site. Le test d'envoi expédie un email réel à la boîte configurée.
+    </p>
+
+    <div class="panel__scroll" style="border:2px solid #0E0E0E">
+      <div class="row row--head row--tests"><span>INTÉGRATION</span><span>RÉSULTAT</span><span style="text-align:right">ACTION</span></div>
+      <?php foreach (Diagnostics::TARGETS as $target):
+          $test = (array) ($keyTests[$target] ?? []);
+          $ready = Diagnostics::configured($target); ?>
+        <div class="row row--tests">
+          <div>
+            <div class="row__title"><?= Text::e(Diagnostics::label($target)) ?></div>
+            <div class="row__sub" style="font-family:ui-monospace,monospace"><?= Text::e(implode(' · ', Diagnostics::keysOf($target))) ?></div>
+          </div>
+          <div>
+            <?php if ($test === []): ?>
+              <span class="row__sub" style="margin:0"><?= $ready ? 'Jamais testé.' : 'Clé absente : le site fonctionne sans, en mode dégradé.' ?></span>
+            <?php else: ?>
+              <span class="badge" style="background:<?= ($test['ok'] ?? false) ? '#12B39A' : '#FF6B5B' ?>">
+                <?= ($test['ok'] ?? false) ? 'OK' : 'ÉCHEC' ?>
+              </span>
+              <span class="row__sub" style="margin-left:8px"><?= (int) ($test['ms'] ?? 0) ?> ms · <?= Text::e(Admin::humanDate((string) ($test['at'] ?? ''))) ?></span>
+              <div class="row__sub" style="margin-top:6px;opacity:.85"><?= Text::e((string) ($test['detail'] ?? '')) ?></div>
+            <?php endif; ?>
+          </div>
+          <form method="post" action="<?= Text::e(Router::adminUrl()) ?>" style="text-align:right">
+            <?= Csrf::field('admin') ?>
+            <input type="hidden" name="action" value="key-test">
+            <input type="hidden" name="target" value="<?= Text::e($target) ?>">
+            <button class="btn btn--outline btn--sm" type="submit" <?= $ready ? '' : 'disabled' ?>>
+              <?= $target === 'mail' ? 'Envoyer un test' : 'Tester' ?>
+            </button>
+          </form>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  </section>
+
+  <section class="panel panel--pad" style="margin-top:18px">
+    <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Trouver l'identifiant de la fiche Google</h2>
+    <p class="muted" style="margin:8px 0 14px">
+      <?php if (!Reviews::canSearch()): ?>
+        Renseignez d'abord la clé API Google Places ci-dessus : vous pourrez ensuite chercher l'établissement
+        par son adresse et choisir la bonne fiche, sans avoir à copier l'identifiant à la main.
+      <?php else: ?>
+        Saisissez l'adresse postale (ou le nom) de l'établissement, puis choisissez la bonne fiche dans la liste :
+        son identifiant sera enregistré dans <strong>GOOGLE_PLACE_ID</strong>.
+        <?php if ($placeCurrent !== ''): ?><br>Fiche actuelle : <strong><?= Text::e($placeCurrent) ?></strong>.<?php endif; ?>
+      <?php endif; ?>
+    </p>
+
+    <form method="post" action="<?= Text::e(Router::adminUrl()) ?>" class="place-search">
+      <?= Csrf::field('admin') ?>
+      <input type="hidden" name="action" value="place-search">
+      <label class="sr-only" for="place-q">Adresse ou nom de l'établissement</label>
+      <input class="field" id="place-q" type="search" name="q" maxlength="200"
+             value="<?= Text::e((string) ($placeSearch['q'] ?? '')) ?>"
+             placeholder="11 avenue Carnot, 25000 Besançon" <?= Reviews::canSearch() ? '' : 'disabled' ?>>
+      <button class="btn btn--ink" type="submit" <?= Reviews::canSearch() ? '' : 'disabled' ?>>Rechercher</button>
+    </form>
+
+    <?php if ($placeResults !== []): ?>
+      <div class="panel__scroll" style="max-height:360px;overflow:auto;border:2px solid #0E0E0E;margin-top:16px">
+        <div class="row row--head row--places"><span>ÉTABLISSEMENT</span><span>AVIS</span><span style="text-align:right">ACTION</span></div>
+        <?php foreach ($placeResults as $place): $id = (string) ($place['id'] ?? ''); ?>
+          <div class="row row--places<?= $id === $placeCurrent ? ' is-current' : '' ?>">
+            <div>
+              <div class="row__title">
+                <?= Text::e((string) ($place['name'] ?? '')) ?>
+                <?php if ($id === $placeCurrent): ?><span class="badge" style="background:#12B39A;margin-left:6px">FICHE ACTUELLE</span><?php endif; ?>
+              </div>
+              <div class="row__sub"><?= Text::e((string) ($place['address'] ?? '')) ?></div>
+              <div class="row__sub" style="font-family:ui-monospace,monospace;opacity:.75"><?= Text::e($id) ?></div>
+            </div>
+            <div class="row__value">
+              <?php if ((float) ($place['rating'] ?? 0) > 0): ?>
+                ★ <?= Text::e(number_format((float) $place['rating'], 1, ',', ' ')) ?>
+                <span class="row__sub" style="margin:0">(<?= (int) ($place['count'] ?? 0) ?>)</span>
+              <?php else: ?>—<?php endif; ?>
+            </div>
+            <form method="post" action="<?= Text::e(Router::adminUrl()) ?>" style="text-align:right">
+              <?= Csrf::field('admin') ?>
+              <input type="hidden" name="action" value="place-use">
+              <input type="hidden" name="place_id" value="<?= Text::e($id) ?>">
+              <button class="btn btn--outline btn--sm" type="submit"
+                      <?= Config::isLockedByEnv('GOOGLE_PLACE_ID') ? 'disabled' : '' ?>>Utiliser cette fiche</button>
+            </form>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    <?php elseif (($placeSearch['error'] ?? '') !== ''): ?>
+      <p class="muted" style="margin:14px 0 0"><?= Text::e((string) $placeSearch['error']) ?></p>
+    <?php endif; ?>
+  </section>
+
+  <section class="panel panel--pad" style="margin-top:18px">
+    <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Modèles Gemini disponibles</h2>
+    <p class="muted" style="margin:8px 0 14px">
+      <?php if (!Gemini::configured()): ?>
+        Aucune clé API Gemini enregistrée. Renseignez-la ci-dessus : le catalogue des modèles de votre compte
+        Google sera chargé automatiquement et proposé dans la liste « Modèle Gemini ».
+      <?php elseif ($geminiModels === []): ?>
+        La clé est en place mais Google n'a pas renvoyé de liste. Vérifiez que l'API « Generative Language »
+        est activée sur le projet, puis rafraîchissez. Détail dans <strong>storage/logs/ai.log</strong>.
+      <?php else: ?>
+        <?= \count($geminiModels) ?> modèles capables de répondre en texte, tels que Google les déclare pour votre clé.
+        Liste récupérée <?= Text::e(Admin::humanDate((string) $gemini['fetchedAt'])) ?>, rafraîchie automatiquement toutes les 24 h.
+        Modèle actif : <strong><?= Text::e($geminiCurrent) ?></strong>.
+      <?php endif; ?>
+    </p>
+
+    <?php if ($geminiModels !== []): ?>
+      <div class="panel__scroll" style="max-height:340px;overflow:auto;border:2px solid #0E0E0E">
+        <div class="row row--head row--models"><span>MODÈLE</span><span>DESCRIPTION</span><span style="text-align:right">CONTEXTE</span></div>
+        <?php foreach ($geminiModels as $model): $id = (string) ($model['id'] ?? ''); ?>
+          <div class="row row--models<?= $id === $geminiCurrent ? ' is-current' : '' ?>">
+            <div>
+              <div class="row__title"><?= Text::e($id) ?></div>
+              <div class="row__sub">
+                <?= Text::e((string) ($model['label'] ?? '')) ?>
+                <?php if ($id === $geminiCurrent): ?><span class="badge" style="background:#12B39A;margin-left:6px">ACTIF</span><?php endif; ?>
+                <?php if ($id === Gemini::MODEL_DEFAULT): ?><span class="badge" style="background:#FFD100;margin-left:6px">RECOMMANDÉ</span><?php endif; ?>
+                <?php if (!empty($model['preview'])): ?><span class="badge" style="background:#EDE5D5;margin-left:6px">PRÉVERSION</span><?php endif; ?>
+              </div>
+            </div>
+            <div class="row__sub"><?= Text::e(mb_strimwidth((string) ($model['description'] ?? ''), 0, 150, '…')) ?></div>
+            <div class="row__sub" style="text-align:right">
+              <?= (int) ($model['input'] ?? 0) > 0 ? Text::e(number_format((int) $model['input'], 0, ',', ' ')) . ' tokens' : '—' ?>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
+
+    <form method="post" action="<?= Text::e(Router::adminUrl()) ?>" style="margin-top:14px">
+      <?= Csrf::field('admin') ?>
+      <input type="hidden" name="action" value="gemini-models-refresh">
+      <button class="btn btn--outline" type="submit" <?= Gemini::configured() ? '' : 'disabled' ?>>Rafraîchir la liste des modèles</button>
+    </form>
+  </section>
 
   <section class="panel panel--pad" style="margin-top:18px">
     <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Avis Google</h2>

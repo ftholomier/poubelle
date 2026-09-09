@@ -57,8 +57,9 @@ foreach ((array) ($settings['sites'] ?? []) as $entry) {
         </div>
         <?php endif; ?>
 
-        <a class="btn btn--ink space__cta" href="<?= Text::e(Router::url('offices', $lang)) ?>?site=<?= Text::e($id) ?>">
-          <?= Text::e(Content::i18n($space, 'cta', $lang)) ?><?= $available > 0 ? ' (' . $available . ')' : '' ?>
+        <a class="btn btn--ink space__cta btn--stacked" href="<?= Text::e(Router::url('offices', $lang)) ?>?site=<?= Text::e($id) ?>">
+          <span class="btn__main"><?= Text::e(Content::i18n($space, 'cta', $lang)) ?></span>
+          <span class="btn__sub"><?= Text::e(Offices::availabilityLabel($available)) ?></span>
         </a>
       </div>
 
@@ -74,6 +75,28 @@ foreach ((array) ($settings['sites'] ?? []) as $entry) {
         </div>
       </div>
     </div>
+
+    <?php $album = App\Media::bySite($id); if ($album !== []): ?>
+    <div class="album" data-album>
+      <div class="album__head">
+        <h3 class="album__title"><?= Text::e(I18n::t('album.title', ['name' => (string) ($site['shortName'] ?? '')])) ?></h3>
+        <span class="album__count"><?= \count($album) ?> <?= Text::e(I18n::t('album.photos')) ?></span>
+      </div>
+      <div class="album__grid">
+        <?php foreach ($album as $index => $photo):
+            $path = (string) $photo['path'];
+            $alt = App\Media::alt($path, $lang); ?>
+          <button class="album__item" type="button"
+                  data-album-open="<?= $index ?>"
+                  data-full="<?= Text::e(App\Config::basePath() . $path) ?>"
+                  data-caption="<?= Text::e($alt) ?>"
+                  aria-label="<?= Text::e($alt) ?>">
+            <?= View::image($path, $alt, ['class' => 'album__img', 'sizes' => '(max-width: 620px) 45vw, 220px']) ?>
+          </button>
+        <?php endforeach; ?>
+      </div>
+    </div>
+    <?php endif; ?>
 
     <?php $amenities = Content::list($space, 'amenities'); if ($amenities !== []): ?>
     <div class="grid grid--amenities">
