@@ -34,11 +34,19 @@ final class Translator
             $response = Http::postJson(
                 'https://translation.googleapis.com/language/translate/v2?key=' . rawurlencode((string) Config::get('GOOGLE_TRANSLATE_KEY')),
                 ['q' => $chunk, 'source' => $source, 'target' => $target, 'format' => 'html'],
-                ['timeout' => 15]
+                ['timeout' => 15, 'headers' => ['Referer' => Config::apiReferer()]]
             );
             if (!$response['ok'] || $response['json'] === null) {
                 Log::write('translate', 'Échec (' . $response['status'] . ') ' . substr($response['body'], 0, 300));
-                return ['ok' => false, 'error' => 'Google Translate a renvoyé une erreur (' . $response['status'] . ').'];
+                // Le message de Google dit précisément ce qui bloque (clé, quota,
+                // référent) : on le remonte au back-office plutôt qu'un code nu.
+                $detail = trim((string) ($response['json']['error']['message'] ?? ''));
+                return [
+                    'ok' => false,
+                    'error' => $detail !== ''
+                        ? 'Google : ' . mb_substr($detail, 0, 220)
+                        : 'Google Translate a renvoyé une erreur (' . $response['status'] . ').',
+                ];
             }
             foreach ((array) ($response['json']['data']['translations'] ?? []) as $item) {
                 $out[] = html_entity_decode((string) ($item['translatedText'] ?? ''), ENT_QUOTES, 'UTF-8');

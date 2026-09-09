@@ -190,9 +190,20 @@ côté serveur, rien ne survit à la fermeture de l'onglet.
 
 1. **Tester les intégrations** — un bouton par intégration. Chaque test fait un vrai
    appel, le plus court possible, avec la clé enregistrée, et affiche la réponse de
-   Google (ou l'erreur exacte : clé invalide, API non activée, quota) avec la durée.
-   Le test « Envoi d'emails » expédie un email réel à la boîte configurée et indique la
-   voie utilisée (SMTP ou `mail()`). Aucun test n'écrit dans le contenu du site.
+   Google avec la durée. En cas d'échec, le message de Google est repris tel quel et
+   suivi du geste à faire (clé invalide, API non activée, facturation, quota,
+   restriction de clé). Le test « Envoi d'emails » expédie un email réel à la boîte
+   configurée et indique la voie utilisée (SMTP ou `mail()`). Aucun test n'écrit dans
+   le contenu du site.
+
+   > **Restriction « Sites Web » d'une clé Google.** Cette restriction vérifie l'en-tête
+   > `Referer` du navigateur ; or le site appelle Places et Translate **depuis le
+   > serveur**, sans référent — Google répond alors
+   > `Requests from referer <empty> are blocked`. Le site envoie donc désormais
+   > l'adresse publique comme référent sur tous les appels Google (réglable via
+   > `GOOGLE_API_REFERER`, sinon `SITE_URL`). Le réglage le plus propre reste **une clé
+   > distincte pour le serveur, restreinte « Adresses IP »** sur l'IP de l'hébergement,
+   > la clé restreinte par référent étant réservée aux usages navigateur.
 2. **Trouver l'identifiant de la fiche Google** — on saisit l'adresse postale (ou le nom)
    de l'établissement, on choisit la bonne fiche dans les résultats, et son Place ID est
    enregistré dans `GOOGLE_PLACE_ID`. Plus besoin d'aller le chercher à la main.

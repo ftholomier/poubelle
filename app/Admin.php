@@ -315,6 +315,7 @@ final class Admin
             ['key' => 'GOOGLE_PLACES_KEY', 'label' => 'Clé API Google Places', 'secret' => true, 'hint' => 'Récupération des avis Google (cache 24 h).'],
             ['key' => 'GOOGLE_PLACE_ID', 'label' => 'Identifiant de la fiche Google', 'secret' => false, 'hint' => 'Place ID de la fiche Google Business Profile.'],
             ['key' => 'GOOGLE_TRANSLATE_KEY', 'label' => 'Clé API Google Translate', 'secret' => true, 'hint' => 'Bouton « Traduire en anglais » du back-office.'],
+            ['key' => 'GOOGLE_API_REFERER', 'label' => 'Référent envoyé à Google', 'secret' => false, 'hint' => 'À renseigner si vos clés Google sont restreintes « Sites Web » : par exemple https://www.ioio.fr/. Par défaut, l’adresse publique du site.'],
             ['key' => 'MAIL_FROM', 'label' => 'Adresse expéditrice', 'secret' => false, 'hint' => 'Doit appartenir au domaine du site pour ne pas finir en spam.'],
             ['key' => 'MAIL_TO', 'label' => 'Boîte qui reçoit les demandes', 'secret' => false, 'hint' => 'Par défaut : l’email de contact des réglages.'],
             ['key' => 'SMTP_HOST', 'label' => 'Serveur SMTP', 'secret' => false, 'hint' => 'Laissez vide pour utiliser la fonction mail() de l’hébergeur.'],

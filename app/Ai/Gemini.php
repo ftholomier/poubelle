@@ -129,7 +129,10 @@ final class Gemini
                 . ($token === '' ? '' : '&pageToken=' . rawurlencode($token));
             $response = Http::getJson($url, [
                 'timeout' => self::TIMEOUT,
-                'headers' => ['x-goog-api-key' => (string) Config::get('GEMINI_API_KEY')],
+                'headers' => [
+                'x-goog-api-key' => (string) Config::get('GEMINI_API_KEY'),
+                'Referer' => Config::apiReferer(),
+            ],
             ]);
             if (!$response['ok'] || $response['json'] === null) {
                 Log::write('ai', 'Gemini : liste des modèles, statut ' . $response['status'] . ' ' . substr($response['body'], 0, 300));
@@ -307,7 +310,10 @@ final class Gemini
             'safetySettings' => [],
         ], [
             'timeout' => self::TIMEOUT,
-            'headers' => ['x-goog-api-key' => (string) Config::get('GEMINI_API_KEY')],
+            'headers' => [
+                'x-goog-api-key' => (string) Config::get('GEMINI_API_KEY'),
+                'Referer' => Config::apiReferer(),
+            ],
         ]);
 
         if (!$response['ok'] || $response['json'] === null) {

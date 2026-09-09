@@ -120,7 +120,7 @@ final class Diagnostics
             $search = Reviews::searchPlaces('coworking Besançon', 1);
             return $search['ok']
                 ? ['ok' => true, 'detail' => "La clé fonctionne. Il reste à choisir l'identifiant de la fiche ci-dessus."]
-                : ['ok' => false, 'detail' => (string) $search['error']];
+                : ['ok' => false, 'detail' => $search['error'] . self::remedy((string) $search['error'])];
         }
 
         $placeId = (string) Config::get('GOOGLE_PLACE_ID');
@@ -153,7 +153,8 @@ final class Diagnostics
         $source = 'Bonjour, bienvenue au iOiO.';
         $result = Translator::translate([$source], 'en');
         if (($result['ok'] ?? false) !== true) {
-            return ['ok' => false, 'detail' => (string) ($result['error'] ?? 'Traduction refusée.')];
+            $error = (string) ($result['error'] ?? 'Traduction refusée.');
+            return ['ok' => false, 'detail' => $error . self::remedy($error)];
         }
 
         $first = trim((string) (($result['texts'] ?? [])[0] ?? ''));
@@ -193,11 +194,44 @@ final class Diagnostics
     {
         $message = trim((string) ($response['json']['error']['message'] ?? ''));
         if ($message !== '') {
-            return $context . ' — Google : ' . mb_substr($message, 0, 220);
+            return $context . ' — Google : ' . mb_substr($message, 0, 220) . self::remedy($message);
         }
         if ((string) $response['error'] !== '') {
             return $context . ' — réseau : ' . mb_substr((string) $response['error'], 0, 160);
         }
         return $context . ' — statut HTTP ' . $response['status'] . '.';
+    }
+
+    /**
+     * Traduit les refus les plus fréquents en geste à faire. La restriction
+     * « Sites Web » d'une clé Google est le piège classique : elle vérifie le
+     * référent du navigateur, alors que le site appelle depuis le serveur.
+     */
+    public static function remedy(string $message): string
+    {
+        $low = mb_strtolower($message);
+
+        if (str_contains($low, 'referer') || str_contains($low, 'referrer')) {
+            return ' → Cette clé est restreinte « Sites Web » dans Google Cloud, or le site'
+                . ' l\'appelle depuis le serveur. Le référent ' . Config::apiReferer() . ' est désormais envoyé :'
+                . ' vérifiez qu\'il figure dans les référents autorisés. Le réglage recommandé reste'
+                . ' une clé distincte restreinte « Adresses IP » sur l\'IP du serveur.';
+        }
+        if (str_contains($low, 'api key not valid') || str_contains($low, 'api_key_invalid')) {
+            return ' → La clé est refusée telle quelle : recopiez-la depuis Google Cloud (sans espace).';
+        }
+        if (str_contains($low, 'has not been used') || str_contains($low, 'is disabled')) {
+            return ' → L\'API correspondante n\'est pas activée sur ce projet Google Cloud : activez-la puis réessayez.';
+        }
+        if (str_contains($low, 'billing')) {
+            return ' → La facturation n\'est pas active sur le projet Google Cloud.';
+        }
+        if (str_contains($low, 'quota') || str_contains($low, 'exhausted')) {
+            return ' → Quota atteint côté Google : réessayez plus tard ou relevez la limite du projet.';
+        }
+        if (str_contains($low, 'ip address') || str_contains($low, 'blocked')) {
+            return ' → La restriction de la clé refuse cet appel : vérifiez les restrictions dans Google Cloud.';
+        }
+        return '';
     }
 }

@@ -106,6 +106,7 @@ final class Reviews
             'headers' => [
                 'X-Goog-Api-Key' => (string) Config::get('GOOGLE_PLACES_KEY'),
                 'X-Goog-FieldMask' => 'places.id,places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.googleMapsUri,places.primaryTypeDisplayName',
+                'Referer' => Config::apiReferer(),
             ],
         ]);
 
@@ -169,6 +170,7 @@ final class Reviews
             'headers' => [
                 'X-Goog-Api-Key' => $key,
                 'X-Goog-FieldMask' => 'id,rating,userRatingCount,googleMapsUri,reviews',
+                'Referer' => Config::apiReferer(),
             ],
             'timeout' => 8,
         ]);

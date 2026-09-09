@@ -184,6 +184,23 @@ final class Config
         return $dir === '/' ? '' : $dir;
     }
 
+    /**
+     * Référent envoyé aux API Google.
+     *
+     * Une clé Google restreinte « Sites Web » vérifie l'en-tête Referer de la
+     * requête. Les appels partant du serveur n'en ont aucun et sont refusés
+     * (« Requests from referer <empty> are blocked »). On envoie donc le
+     * domaine public du site, qui correspond aux référents autorisés.
+     */
+    public static function apiReferer(): string
+    {
+        $configured = trim((string) (self::get('GOOGLE_API_REFERER') ?? ''));
+        if ($configured !== '') {
+            return $configured;
+        }
+        return rtrim(self::baseUrl(), '/') . '/';
+    }
+
     public static function isDebug(): bool
     {
         return self::bool('APP_DEBUG', false);
