@@ -150,5 +150,10 @@
     "bot.dataPriceNone": "Les tarifs sont indiqués bureau par bureau sur la page du catalogue.",
     "bot.dataAllIn": "Tout est compris : charges, internet très haut débit, ménage et salle de réunion, sans frais de dossier.",
     "bot.dataVisit": "La visite se fait sur rendez-vous, dans l’un des deux espaces. Laissez vos coordonnées et l’équipe vous rappelle pour fixer un créneau.",
-    "bot.actionAvailableOne": "Voir le bureau libre"
+    "bot.actionAvailableOne": "Voir le bureau libre",
+    "filter.reset": "Voir tout le catalogue",
+    "office.view": "Voir ce bureau",
+    "form.interestTitle": "INTÉRESSÉ PAR CE BUREAU ?",
+    "form.submitInterest": "Ce bureau m’intéresse",
+    "form.notifyTitle": "PRÉVENEZ-MOI QUAND IL SE LIBÈRE"
 }

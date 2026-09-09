@@ -23,7 +23,29 @@ $buildUrl = static function (array $override) use ($lang, $activeSite, $activeTy
     ], $override), static fn (string $v): bool => $v !== '');
     return Router::url('offices', $lang) . ($query === [] ? '' : '?' . http_build_query($query));
 };
-$countWith = static fn (array $criteria): int => \count(Offices::filter($all, $criteria));
+/**
+ * Nombre de bureaux qu'un filtre donnerait réellement, compte tenu des filtres
+ * déjà actifs. Un compteur calculé sur tout le catalogue mentirait : « Openspace 14 »
+ * alors qu'en combinaison avec « Disponible » un seul poste répond.
+ */
+$countIf = static function (array $facet) use ($all, $activeSite, $activeType, $activeStatus): int {
+    $criteria = array_replace([
+        'site' => $activeSite,
+        'type' => $activeType,
+        'status' => $activeStatus,
+    ], $facet);
+    return \count(Offices::filter($all, array_filter($criteria, static fn (string $v): bool => $v !== '')));
+};
+
+/** Une pastille sans résultat n'est plus cliquable : elle ne mène plus dans le vide. */
+$chip = static function (string $label, int $count, string $href, bool $active): string {
+    $dead = $count === 0 && !$active;
+    $classes = 'filter' . ($active ? ' is-active' : '') . ($dead ? ' filter--empty' : '');
+    $inner = Text::e($label) . ' <span>' . $count . '</span>';
+    return $dead
+        ? '<span class="' . $classes . '" aria-disabled="true">' . $inner . '</span>'
+        : '<a class="' . $classes . '" href="' . Text::e($href) . '">' . $inner . '</a>';
+};
 ?>
 
 <section class="shell section--first" style="padding-top:60px">
@@ -32,29 +54,43 @@ $countWith = static fn (array $criteria): int => \count(Offices::filter($all, $c
   <p class="section-lead"><?= Text::e(Content::text($page, 'text')) ?></p>
 
   <div class="filters" id="bureaux" role="group" aria-label="Filtres">
-    <a class="filter<?= $activeSite === '' && $activeType === '' && $activeStatus === '' ? ' is-active' : '' ?>" href="<?= Text::e(Router::url('offices', $lang)) ?>">
-      <?= Text::e(I18n::t('filter.all')) ?> <span><?= \count($all) ?></span>
-    </a>
+    <?= $chip(
+        I18n::t('filter.all'),
+        \count($all),
+        Router::url('offices', $lang),
+        $activeSite === '' && $activeType === '' && $activeStatus === ''
+    ) ?>
     <?php foreach ((array) ($settings['sites'] ?? []) as $site):
         if (($site['enabled'] ?? true) === false) { continue; }
-        $id = (string) ($site['id'] ?? ''); ?>
-      <a class="filter<?= $activeSite === $id ? ' is-active' : '' ?>" href="<?= Text::e($buildUrl(['site' => $activeSite === $id ? '' : $id])) ?>">
-        <?= Text::e((string) ($site['shortName'] ?? $id)) ?> <span><?= $countWith(['site' => $id]) ?></span>
-      </a>
+        $id = (string) ($site['id'] ?? '');
+        if ($id === '') { continue; } ?>
+      <?= $chip(
+          (string) ($site['shortName'] ?? $id),
+          $countIf(['site' => $id]),
+          $buildUrl(['site' => $activeSite === $id ? '' : $id]),
+          $activeSite === $id
+      ) ?>
     <?php endforeach; ?>
     <span class="filters__sep" aria-hidden="true"></span>
     <?php foreach (['private', 'openspace'] as $type): ?>
-      <a class="filter<?= $activeType === $type ? ' is-active' : '' ?>" href="<?= Text::e($buildUrl(['type' => $activeType === $type ? '' : $type])) ?>">
-        <?= Text::e(Offices::typeLabel($type)) ?> <span><?= $countWith(['type' => $type]) ?></span>
-      </a>
+      <?= $chip(
+          Offices::typeLabel($type),
+          $countIf(['type' => $type]),
+          $buildUrl(['type' => $activeType === $type ? '' : $type]),
+          $activeType === $type
+      ) ?>
     <?php endforeach; ?>
-    <a class="filter<?= $activeStatus === 'available' ? ' is-active' : '' ?>" href="<?= Text::e($buildUrl(['status' => $activeStatus === 'available' ? '' : 'available'])) ?>">
-      <?= Text::e(I18n::t('filter.available')) ?> <span><?= $countWith(['status' => 'available']) ?></span>
-    </a>
+    <?= $chip(
+        I18n::t('filter.available'),
+        $countIf(['status' => 'available']),
+        $buildUrl(['status' => $activeStatus === 'available' ? '' : 'available']),
+        $activeStatus === 'available'
+    ) ?>
   </div>
 
   <?php if ($offices === []): ?>
     <p class="empty-note"><?= Text::e(I18n::t('office.none')) ?>
+      <a class="link-underline link-underline--sm" href="<?= Text::e(Router::url('offices', $lang)) ?>"><?= Text::e(I18n::t('filter.reset')) ?></a>
       <a class="link-underline link-underline--sm" href="<?= Text::e(Router::url('contact', $lang)) ?>"><?= Text::e(I18n::t('footer.writeUs')) ?></a>
     </p>
   <?php else: ?>

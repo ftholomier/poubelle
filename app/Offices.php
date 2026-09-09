@@ -71,6 +71,67 @@ final class Offices
         return \count(self::filter($offices, ['status' => 'available']));
     }
 
+    /**
+     * Liste « ce qui est compris » d'une fiche : les points forts du bureau,
+     * puis les prestations générales de la page, sans redite.
+     *
+     * Les deux sources disent souvent la même chose avec des mots différents
+     * (« Internet filaire et wifi très haut débit » / « Internet très haut
+     * débit »). On compare les mots utiles : si l'entrée générale est déjà
+     * couverte par un point fort du bureau, on ne la répète pas.
+     *
+     * @param array<int,string> $features points forts du bureau (prioritaires)
+     * @param array<int,string> $included prestations communes de la page
+     * @return array<int,string>
+     */
+    public static function mergeFeatures(array $features, array $included): array
+    {
+        $kept = [];
+        $keptWords = [];
+
+        foreach ([...array_values($features), ...array_values($included)] as $item) {
+            $item = trim((string) $item);
+            if ($item === '') {
+                continue;
+            }
+            $words = self::significantWords($item);
+            if ($words === []) {
+                continue;
+            }
+
+            foreach ($keptWords as $existing) {
+                if (self::covers($existing, $words) || self::covers($words, $existing)) {
+                    continue 2; // déjà dit, sous une autre forme
+                }
+            }
+            $kept[] = $item;
+            $keptWords[] = $words;
+        }
+        return $kept;
+    }
+
+    /** true si $long reprend au moins deux tiers des mots utiles de $short. */
+    private static function covers(array $long, array $short): bool
+    {
+        if ($short === [] || \count($long) < \count($short)) {
+            return false;
+        }
+        $common = \count(array_intersect($short, $long));
+        return $common / \count($short) >= 0.66;
+    }
+
+    /** @return array<int,string> mots porteurs de sens, sans accents ni liaisons */
+    private static function significantWords(string $text): array
+    {
+        $skip = ['de', 'du', 'des', 'la', 'le', 'les', 'et', 'ou', 'un', 'une', 'en', 'au', 'aux', 'a',
+            'the', 'and', 'or', 'of', 'in', 'to', 'with'];
+        $parts = preg_split('/[^a-z0-9]+/', mb_strtolower(Text::deaccent($text)), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        return array_values(array_unique(array_filter(
+            $parts,
+            static fn (string $w): bool => mb_strlen($w) > 1 && !\in_array($w, $skip, true)
+        )));
+    }
+
     /** « Aucun bureau disponible », « 1 bureau disponible », « 3 bureaux disponibles ». */
     public static function availabilityLabel(int $count): string
     {
@@ -161,7 +222,9 @@ final class Offices
             'photos' => $photos,
             'cover' => $photos[0] ?? '',
             'url' => Router::url('office', $lang, ['id' => (string) ($office['id'] ?? '')]),
-            'cta' => $status === 'rented' ? I18n::t('office.notifyMe') : I18n::t('office.book'),
+            // La carte ne demande rien : elle mène à la fiche, où le visiteur
+            // choisit lui-même de se manifester ou d'être prévenu.
+            'cta' => I18n::t('office.view'),
             'availableFrom' => (string) ($office['availableFrom'] ?? ''),
         ]);
     }

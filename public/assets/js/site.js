@@ -311,16 +311,53 @@
   var gallery = $('[data-gallery]');
   if (gallery) {
     var main = $('[data-gallery-main]', gallery);
+
+    /* Le grand format et la vignette échangent leurs places. On déplace la
+       source complète — src ET srcset, sinon le navigateur continue de servir
+       la candidate du srcset et l'image ne change pas — mais chaque emplacement
+       garde son propre attribut sizes, qui décrit sa taille d'affichage. */
+    function grab(img) {
+      return {
+        src: img.getAttribute('src') || '',
+        srcset: img.getAttribute('srcset') || '',
+        width: img.getAttribute('width') || '',
+        height: img.getAttribute('height') || '',
+        alt: img.getAttribute('alt') || ''
+      };
+    }
+    function put(img, data) {
+      if (data.srcset) { img.setAttribute('srcset', data.srcset); } else { img.removeAttribute('srcset'); }
+      if (data.width) { img.setAttribute('width', data.width); } else { img.removeAttribute('width'); }
+      if (data.height) { img.setAttribute('height', data.height); } else { img.removeAttribute('height'); }
+      img.setAttribute('alt', data.alt);
+      img.setAttribute('src', data.src);
+    }
+
     $$('[data-gallery-thumb]', gallery).forEach(function (thumb) {
       thumb.addEventListener('click', function () {
         if (!main) { return; }
-        var src = thumb.getAttribute('data-src');
-        if (src) {
-          main.src = src;
-          main.alt = thumb.getAttribute('data-alt') || main.alt;
+        var small = thumb.querySelector('img');
+
+        if (small) {
+          var wasMain = grab(main);
+          var wasThumb = grab(small);
+          put(main, wasThumb);
+          put(small, wasMain);
+          thumb.setAttribute('data-src', wasMain.src);
+          thumb.setAttribute('data-alt', wasMain.alt);
+        } else {
+          // Vignette rendue en pastille (photo trop petite) : pas d'échange possible.
+          var src = thumb.getAttribute('data-src');
+          if (!src) { return; }
+          main.removeAttribute('srcset');
+          main.setAttribute('alt', thumb.getAttribute('data-alt') || main.getAttribute('alt') || '');
+          main.setAttribute('src', src);
         }
+
+        main.classList.remove('is-swapping');
+        void main.offsetWidth;              // relance l'animation à chaque échange
+        main.classList.add('is-swapping');
         $$('[data-gallery-thumb]', gallery).forEach(function (t) { t.classList.remove('is-active'); });
-        thumb.classList.add('is-active');
       });
     });
   }

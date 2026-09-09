@@ -158,17 +158,34 @@ final class Mailer
         return $headers;
     }
 
+    /**
+     * Corps du message, en quoted-printable.
+     *
+     * Le gabarit HTML tient sur une seule ligne de plusieurs milliers de
+     * caractères. En 8bit, le serveur de mail la recoupe lui-même vers 78
+     * caractères, parfois au milieu d'une balise : le destinataire lit alors
+     * « < /p> » en clair. Le quoted-printable place des coupures douces (=)
+     * qui garantissent des lignes courtes sans jamais toucher au contenu.
+     */
     private static function multipart(string $boundary, string $text, string $html): string
     {
         return "--{$boundary}\r\n"
             . "Content-Type: text/plain; charset=UTF-8\r\n"
-            . "Content-Transfer-Encoding: 8bit\r\n\r\n"
-            . $text . "\r\n\r\n"
+            . "Content-Transfer-Encoding: quoted-printable\r\n\r\n"
+            . self::qp($text) . "\r\n\r\n"
             . "--{$boundary}\r\n"
             . "Content-Type: text/html; charset=UTF-8\r\n"
-            . "Content-Transfer-Encoding: 8bit\r\n\r\n"
-            . $html . "\r\n\r\n"
+            . "Content-Transfer-Encoding: quoted-printable\r\n\r\n"
+            . self::qp($html) . "\r\n\r\n"
             . "--{$boundary}--\r\n";
+    }
+
+    /** Encodage quoted-printable, en lignes CRLF telles que l'attend SMTP. */
+    private static function qp(string $value): string
+    {
+        $value = str_replace(["\r\n", "\r"], "\n", $value);
+        $encoded = quoted_printable_encode($value);
+        return str_replace(["\r\n", "\n"], "\r\n", str_replace("\r\n", "\n", $encoded));
     }
 
     private static function encodeHeader(string $value): string

@@ -150,5 +150,10 @@
     "bot.dataPriceNone": "Prices are listed office by office on the catalogue page.",
     "bot.dataAllIn": "Everything is included: bills, high-speed internet, cleaning and the meeting room, with no setup fee.",
     "bot.dataVisit": "Viewings are by appointment, at either space. Leave your details and the team will call you back to set a time.",
-    "bot.actionAvailableOne": "See the available office"
+    "bot.actionAvailableOne": "See the available office",
+    "filter.reset": "See the whole catalogue",
+    "office.view": "See this office",
+    "form.interestTitle": "INTERESTED IN THIS OFFICE?",
+    "form.submitInterest": "I'm interested in this office",
+    "form.notifyTitle": "LET ME KNOW WHEN IT FREES UP"
 }

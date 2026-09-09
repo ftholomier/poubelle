@@ -5,6 +5,7 @@ use App\Config;
 use App\Content;
 use App\Csrf;
 use App\I18n;
+use App\Offices;
 use App\Router;
 use App\Text;
 use App\View;
@@ -62,10 +63,10 @@ $isRented = ($office['status'] ?? '') === 'rented';
         <p class="fiche__desc"><?= Text::e((string) $office['description']) ?></p>
       <?php endif; ?>
 
-      <?php $features = (array) $office['features']; if ($features !== [] || $included !== []): ?>
+      <?php $features = Offices::mergeFeatures((array) $office['features'], $included); if ($features !== []): ?>
       <h2 class="fiche__h2"><?= Text::e(I18n::t('office.included')) ?></h2>
       <div class="grid grid--included">
-        <?php foreach (array_merge($features, $included) as $item): ?>
+        <?php foreach ($features as $item): ?>
           <div class="included"><span class="included__check">✓</span><span><?= Text::e((string) $item) ?></span></div>
         <?php endforeach; ?>
       </div>
@@ -110,7 +111,7 @@ $isRented = ($office['status'] ?? '') === 'rented';
         <input type="hidden" name="lang" value="<?= Text::e($lang) ?>">
         <input class="honey" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-        <div class="form__kicker"><?= Text::e($isRented ? I18n::t('office.notifyMe') : I18n::t('form.reserveTitle')) ?></div>
+        <div class="form__kicker"><?= Text::e($isRented ? I18n::t('form.notifyTitle') : I18n::t('form.interestTitle')) ?></div>
         <label class="sr-only" for="r-name"><?= Text::e(I18n::t('form.name')) ?></label>
         <input class="field" id="r-name" type="text" name="name" required maxlength="120" autocomplete="name" placeholder="<?= Text::e(I18n::t('form.name')) ?>">
         <label class="sr-only" for="r-email"><?= Text::e(I18n::t('form.email')) ?></label>
@@ -122,7 +123,7 @@ $isRented = ($office['status'] ?? '') === 'rented';
                onfocus="this.type='date'" onblur="if(!this.value){this.type='text'}">
 
         <button class="btn btn--yellow btn--block btn--square" type="submit" style="margin-top:6px">
-          <?= Text::e($isRented ? I18n::t('office.notifyMe') : I18n::t('form.submitReserve')) ?>
+          <?= Text::e($isRented ? I18n::t('office.notifyMe') : I18n::t('form.submitInterest')) ?>
         </button>
         <div class="form__note"><?= Text::e(I18n::t('form.note')) ?></div>
         <div class="alert" data-form-alert hidden role="status"></div>
