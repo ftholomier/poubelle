@@ -18,7 +18,7 @@ Api::requireMethod('POST');
 
 $input = $_POST !== [] ? $_POST : Api::jsonBody();
 $lang = Api::lang($input);
-Api::guard($input, 'reserve');
+$guard = Api::guard($input, 'reserve');
 
 $name = Api::str($input, 'name', 120);
 $email = Api::email($input);
@@ -38,6 +38,9 @@ $decorated = Offices::decorate($office, $lang);
 
 $saved = Requests::add([
     'type' => 'reserve',
+    'spam' => $guard['quarantine'],
+    'spamScore' => $guard['score'],
+    'spamReasons' => $guard['reasons'],
     'name' => $name,
     'email' => $email,
     'phone' => $phone,
@@ -53,15 +56,17 @@ $html = '<p><strong>Nouvelle réservation</strong> (réf. ' . Text::e($saved['re
     . '<p>' . Text::e($name) . ' — ' . Text::e($email) . ($phone !== '' ? ' — ' . Text::e($phone) : '') . '</p>'
     . ($startDate !== '' ? '<p>Entrée souhaitée : ' . Text::e($startDate) . '</p>' : '')
     . '<p><a class="btn" href="' . Text::e(Router::absolute('office', $lang, ['id' => $officeId])) . '">Voir la fiche</a></p>';
-Mailer::send(Mailer::inbox(), 'Réservation — ' . $decorated['name'], $html, '', $email);
-
-Mailer::send(
-    $email,
-    'Votre demande pour ' . $decorated['name'] . ' — Le iOiO',
-    '<p>Bonjour ' . Text::e($name) . ',</p>'
-    . '<p>Nous avons bien reçu votre demande pour <strong>' . Text::e($decorated['name']) . '</strong> ('
-    . Text::e($decorated['priceLabel']) . ' HT/mois, tout compris). Nous revenons vers vous sous 24 h ouvrées avec deux créneaux de visite.</p>'
-    . '<p class="muted">Référence : ' . Text::e($saved['ref']) . '</p>'
-);
+// En quarantaine, rien ne part : ni l'alerte à l'équipe, ni l'accusé au visiteur.
+if (!$guard['quarantine']) {
+    Mailer::send(Mailer::inbox(), 'Réservation — ' . $decorated['name'], $html, '', $email);
+    Mailer::send(
+        $email,
+        'Votre demande pour ' . $decorated['name'] . ' — Le iOiO',
+        '<p>Bonjour ' . Text::e($name) . ',</p>'
+        . '<p>Nous avons bien reçu votre demande pour <strong>' . Text::e($decorated['name']) . '</strong> ('
+        . Text::e($decorated['priceLabel']) . ' HT/mois, tout compris). Nous revenons vers vous sous 24 h ouvrées avec deux créneaux de visite.</p>'
+        . '<p class="muted">Référence : ' . Text::e($saved['ref']) . '</p>'
+    );
+}
 
 Api::respond(['ok' => true, 'ref' => $saved['ref'], 'message' => I18n::t('form.sentReserve')]);

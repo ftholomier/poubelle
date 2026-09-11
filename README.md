@@ -138,12 +138,49 @@ l'email envoyé après la pop-up de sortie et l'assistant lisent tous `content/o
 | `/api/contact.php` | POST | `{ ok:true, ref:"C-0909-123" }` |
 | `/api/reserve.php` | POST | `{ ok:true, ref:"R-0909-014" }` |
 | `/api/lead.php` | POST | `{ ok:true }` — envoie au visiteur la liste réelle des bureaux libres |
-| `/api/chat.php` | POST | `{ ok:true, answer, sources:[{label,url}], engine }` |
+| `/api/chat.php` | POST | `{ ok:true, answer, sources:[{label,url}], actions:[{label,url}], engine }` |
+| `/api/pixel.php?t=…` | GET | GIF 1×1 — marque le formulaire comme réellement affiché par un navigateur |
 
-Sécurité commune à tous les POST : jeton **CSRF** en session, champ **honeypot** `hp`,
-horodatage `ts` (rejet sous 2 secondes), **quota** 5 requêtes / 10 min / IP
-(20 questions/h pour l'assistant), `filter_var` + longueurs maximales,
-échappement à l'affichage, réponses toujours en `application/json` avec `nosniff`.
+Sécurité commune à tous les POST : jeton **CSRF** en session, `filter_var` +
+longueurs maximales, échappement à l'affichage, réponses toujours en
+`application/json` avec `nosniff`, et la protection anti-spam décrite ci-dessous.
+
+### Anti-spam des formulaires — `app/Spam.php`
+
+Aucun service tiers, aucune image à déchiffrer. Chaque envoi reçoit une **note de
+suspicion** ; trois issues seulement :
+
+| Note | Ce qui se passe |
+| --- | --- |
+| sous le 1er seuil (4) | l'envoi passe, le visiteur ne voit rien |
+| entre les deux seuils | une question arithmétique en toutes lettres est posée — ce tour ne consomme aucun quota |
+| au-dessus du 2nd (8) | **quarantaine** : la demande est enregistrée et visible dans *Demandes → Suspects*, mais **aucun email n'est envoyé** |
+
+Ce qui alimente la note :
+
+1. **Jeton signé** (`ft`) posé à l'affichage du formulaire : HMAC-SHA256 sur
+   l'horodatage, le nom du formulaire et un nonce, avec une clé propre à
+   l'installation (`storage/app-secret.txt`, ou `APP_SECRET`). Il remplace
+   l'ancien champ `ts`, qu'un robot pouvait simplement omettre.
+2. **Pixel de présence** — la page charge `/api/pixel.php?t=<nonce>`. Un
+   navigateur qui affiche réellement le formulaire le demande ; un script qui
+   poste directement, jamais. Signal fort mais jamais bloquant à lui seul : un
+   visiteur qui bloque les images n'est pas inquiété.
+3. **Trois champs leurres** invisibles (`website`, `company`, `hp`) : remplis,
+   l'envoi part en quarantaine sans discussion.
+4. **Contenu** — liens, alphabet sans rapport avec le site, majuscules,
+   mots signalés, message déjà reçu, et **langue différente de celle du
+   formulaire** (le démarchage automatique arrive en anglais sur les pages FR).
+5. **Adresse email** — domaine jetable connu, domaine sans serveur de
+   messagerie (`checkdnsrr`, résultat en cache 7 jours).
+6. **Quotas** par IP *et* par adresse email, puis **blocage automatique** de
+   l'IP pendant 24 h après cinq envois suspects.
+
+Tout est réglable dans **Réglages → Anti-spam** : les deux seuils, le délai
+minimal, la durée de validité du formulaire, les quotas, la durée de blocage,
+la vérification du domaine et la liste de mots. Les motifs retenus sont
+affichés sur chaque ligne suspecte, et un bouton « Ce n'est pas du spam »
+remet la demande dans la liste normale.
 
 ## 6. Intégrations — et ce qui se passe sans clé
 

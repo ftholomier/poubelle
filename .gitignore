@@ -26,3 +26,4 @@ Thumbs.db
 
 # Journal des questions sans réponse (contenu saisi par les visiteurs)
 content/ai-misses.json
+storage/app-secret.txt

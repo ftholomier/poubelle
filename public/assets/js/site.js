@@ -402,6 +402,29 @@
     box.hidden = false;
   }
 
+  /* Un envoi jugé automatique n'est pas refusé : le serveur renvoie une
+     question simple, qu'on insère au-dessus du bouton. Le visiteur répond et
+     renvoie son message ; personne d'autre ne voit jamais ce champ. */
+  function showChallenge(form, challenge) {
+    var block = $('[data-challenge]', form);
+    if (!block) {
+      block = document.createElement('div');
+      block.className = 'challenge';
+      block.setAttribute('data-challenge', '');
+      block.innerHTML =
+        '<label class="challenge__label"></label>' +
+        '<input class="field" type="text" name="challenge" inputmode="numeric" autocomplete="off" required>' +
+        '<p class="challenge__hint"></p>';
+      var submit = $('[type="submit"]', form);
+      if (submit) { form.insertBefore(block, submit); } else { form.appendChild(block); }
+    }
+    $('.challenge__label', block).textContent = challenge.question || '';
+    $('.challenge__hint', block).textContent = challenge.hint || '';
+    var input = $('[name="challenge"]', block);
+    input.value = '';
+    input.focus();
+  }
+
   $$('[data-ajax-form]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -417,6 +440,10 @@
           form.reset();
           var needsInput = $('[data-needs-input]', form);
           if (needsInput) { needsInput.value = needsInput.getAttribute('data-default') || ''; }
+          var asked = $('[data-challenge]', form);
+          if (asked) { asked.remove(); }
+        } else if (res && res.challenge) {
+          showChallenge(form, res.challenge);
         } else {
           setAlert(form, (res && res.error) || form.getAttribute('data-failure') || 'Envoi impossible.', false);
         }
@@ -425,8 +452,6 @@
       }).finally(function () {
         form.dataset.busy = '0';
         if (submit) { submit.disabled = false; }
-        var ts = $('[name="ts"]', form);
-        if (ts) { ts.value = String(Math.floor(Date.now() / 1000)); }
       });
     });
   });

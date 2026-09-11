@@ -161,5 +161,8 @@
     "reviews.goTo": "Review {n}",
     "filter.result": "{count} offices shown",
     "filter.resultOne": "1 office shown",
-    "bot.actionSite": "See the {name} offices"
+    "bot.actionSite": "See the {name} offices",
+    "spam.challenge": "Quick check: what is {a} + {b}?",
+    "spam.challengeHint": "Answer with digits. This only appears when a submission looked automated.",
+    "spam.answer": "Your answer"
 }

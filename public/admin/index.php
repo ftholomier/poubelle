@@ -25,6 +25,7 @@ use App\Requests;
 use App\Reviews;
 use App\Router;
 use App\Session;
+use App\Spam;
 use App\Store;
 use App\Text;
 use App\Translator;
@@ -551,6 +552,49 @@ if ($isPost) {
             }
             $redirect('settings', ['tab' => 'keys']);
 
+        case 'antispam-save':
+            $settings = Content::settings();
+            $input = (array) ($_POST['a'] ?? []);
+            $clamp = static fn (string $key, int $min, int $max, int $default): int
+                => max($min, min($max, (int) ($input[$key] ?? $default)));
+
+            $settings['antispam'] = [
+                'enabled' => !empty($input['enabled']),
+                'challengeAt' => $clamp('challengeAt', 1, 30, Spam::DEFAULTS['challengeAt']),
+                'quarantineAt' => $clamp('quarantineAt', 2, 40, Spam::DEFAULTS['quarantineAt']),
+                'minSeconds' => $clamp('minSeconds', 0, 60, Spam::DEFAULTS['minSeconds']),
+                'maxHours' => $clamp('maxHours', 1, 72, Spam::DEFAULTS['maxHours']),
+                'perIp' => $clamp('perIp', 1, 100, Spam::DEFAULTS['perIp']),
+                'perIpWindow' => $clamp('perIpWindow', 60, 86400, Spam::DEFAULTS['perIpWindow']),
+                'perEmailPerDay' => $clamp('perEmailPerDay', 1, 100, Spam::DEFAULTS['perEmailPerDay']),
+                'blockHours' => $clamp('blockHours', 1, 720, Spam::DEFAULTS['blockHours']),
+                'strikesBeforeBlock' => $clamp('strikesBeforeBlock', 2, 50, Spam::DEFAULTS['strikesBeforeBlock']),
+                'checkMx' => !empty($input['checkMx']),
+                'words' => array_values(array_filter(array_map(
+                    static fn (string $w): string => mb_strtolower(trim($w)),
+                    explode("\n", str_replace("\r\n", "\n", (string) ($input['words'] ?? '')))
+                ))),
+            ];
+            // Un seuil de quarantaine sous celui de la question n'aurait pas de sens.
+            $settings['antispam']['quarantineAt'] = max(
+                $settings['antispam']['quarantineAt'],
+                $settings['antispam']['challengeAt'] + 1
+            );
+
+            Session::flash(Store::write('settings.json', $settings, $email) ? 'Réglages anti-spam enregistrés.' : 'Enregistrement impossible.', 'ok');
+            $redirect('settings', ['tab' => 'spam']);
+
+        case 'request-spam':
+            $ref = (string) ($_POST['ref'] ?? '');
+            $toSpam = (string) ($_POST['spam'] ?? '') === '1';
+            Session::flash(
+                Requests::setSpam($ref, $toSpam, $email)
+                    ? ($toSpam ? 'Demande mise de côté.' : 'Demande réintégrée : répondez directement au visiteur, aucun email ne part rétroactivement.')
+                    : 'Demande introuvable.',
+                'ok'
+            );
+            $redirect('requests', $toSpam ? [] : ['tab' => 'spam']);
+
         case 'gemini-models-refresh':
             $catalogue = Gemini::refreshModels();
             $count = \count((array) $catalogue['models']);
@@ -646,7 +690,7 @@ switch ($screen) {
         break;
 
     case 'requests':
-        $data += ['requests' => Requests::all()];
+        $data += ['requests' => Requests::all(), 'tab' => (string) ($_GET['tab'] ?? '')];
         break;
 
     case 'docs':
@@ -671,7 +715,10 @@ switch ($screen) {
         $offices = Offices::all();
         $data += [
             'offices' => $offices,
-            'requests' => \array_slice(Requests::all(), 0, 6),
+            // Le tableau de bord ne montre que les demandes légitimes ; les
+            // envois en quarantaine ont leur propre onglet.
+            'requests' => \array_slice(Requests::filterSpam(Requests::all(), false), 0, 6),
+            'spamCount' => Requests::countSpam(),
             'stats' => Indexer::stats(),
             'pagesCount' => \count(glob(Config::contentPath('pages/*.json')) ?: []),
             'settings' => Content::settings(),

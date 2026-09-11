@@ -161,5 +161,8 @@
     "reviews.goTo": "Témoignage {n}",
     "filter.result": "{count} bureaux affichés",
     "filter.resultOne": "1 bureau affiché",
-    "bot.actionSite": "Voir les bureaux {name}"
+    "bot.actionSite": "Voir les bureaux {name}",
+    "spam.challenge": "Vérification rapide : combien font {a} + {b} ?",
+    "spam.challengeHint": "Répondez en chiffres. Cette question n'apparaît que si votre envoi a semblé automatique.",
+    "spam.answer": "Votre réponse"
 }

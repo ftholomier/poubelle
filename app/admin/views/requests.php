@@ -11,16 +11,34 @@ use App\View;
 echo View::admin('_layout_start', get_defined_vars());
 
 $typeLabels = ['contact' => 'Contact', 'reserve' => 'Réservation', 'lead' => 'Rappel dispos'];
+
+$tab = ($tab ?? '') === 'spam' ? 'spam' : 'inbox';
+$clean = Requests::filterSpam($requests, false);
+$suspects = Requests::filterSpam($requests, true);
+$requests = $tab === 'spam' ? $suspects : $clean;
 ?>
 <div class="screen">
-  <section class="panel" style="margin-top:24px">
+  <div class="tablist">
+    <a class="tab<?= $tab === 'inbox' ? ' is-active' : '' ?>" href="<?= Text::e(Router::adminUrl('requests')) ?>">Demandes <?= \count($clean) ?></a>
+    <a class="tab<?= $tab === 'spam' ? ' is-active' : '' ?>" href="<?= Text::e(Router::adminUrl('requests', ['tab' => 'spam'])) ?>">Suspects <?= \count($suspects) ?></a>
+  </div>
+
+  <?php if ($tab === 'spam'): ?>
+    <p class="muted" style="margin:16px 0 0">
+      Ces envois ont dépassé le seuil de suspicion : ils sont conservés ici et <strong>n'ont déclenché aucun email</strong>.
+      Chaque ligne indique pourquoi. « Ce n'est pas du spam » remet la demande dans la liste normale — pensez alors à
+      répondre directement au visiteur, aucun email ne part rétroactivement.
+    </p>
+  <?php endif; ?>
+
+  <section class="panel" style="margin-top:18px">
     <div class="panel__head">
-      <h2><?= \count($requests) ?> demande(s)</h2>
+      <h2><?= \count($requests) ?> <?= $tab === 'spam' ? 'envoi(s) mis de côté' : 'demande(s)' ?></h2>
       <span class="panel__file">content/requests.json · conservation 24 mois</span>
     </div>
     <div class="panel__scroll">
       <?php if ($requests === []): ?>
-        <div class="panel__body muted">Aucune demande pour l'instant.</div>
+        <div class="panel__body muted"><?= $tab === 'spam' ? 'Rien en quarantaine : aucun envoi n\'a dépassé le seuil.' : 'Aucune demande pour l\'instant.' ?></div>
       <?php else: ?>
         <div class="row row--head row--requests">
           <span>PERSONNE</span><span>SUJET</span><span>REÇUE</span><span>STATUT</span><span style="text-align:right">ACTION</span>
@@ -45,6 +63,12 @@ $typeLabels = ['contact' => 'Contact', 'reserve' => 'Réservation', 'lead' => 'R
               <?php if (!empty($request['message'])): ?>
                 <div class="row__sub" style="margin-top:8px;white-space:pre-line;opacity:.8"><?= Text::e(mb_substr((string) $request['message'], 0, 400)) ?></div>
               <?php endif; ?>
+              <?php $reasons = (array) ($request['spamReasons'] ?? []); if ($reasons !== []): ?>
+                <div class="row__reasons">
+                  <span class="badge" style="background:#FF6B5B">NOTE <?= (int) ($request['spamScore'] ?? 0) ?></span>
+                  <span><?= Text::e(implode(' · ', array_map('strval', $reasons))) ?></span>
+                </div>
+              <?php endif; ?>
             </div>
             <div class="row__value"><?= Text::e(Admin::humanDate((string) ($request['at'] ?? ''))) ?></div>
             <form method="post" action="<?= Text::e(Router::adminUrl()) ?>">
@@ -59,6 +83,13 @@ $typeLabels = ['contact' => 'Contact', 'reserve' => 'Réservation', 'lead' => 'R
               <noscript><button class="btn btn--sm btn--outline" type="submit">OK</button></noscript>
             </form>
             <div class="row__actions">
+              <form method="post" action="<?= Text::e(Router::adminUrl()) ?>">
+                <?= Csrf::field('admin') ?>
+                <input type="hidden" name="action" value="request-spam">
+                <input type="hidden" name="ref" value="<?= Text::e($ref) ?>">
+                <input type="hidden" name="spam" value="<?= $tab === 'spam' ? '0' : '1' ?>">
+                <button class="btn btn--sm btn--outline" type="submit"><?= $tab === 'spam' ? 'Ce n\'est pas du spam' : 'Mettre de côté' ?></button>
+              </form>
               <form method="post" action="<?= Text::e(Router::adminUrl()) ?>" data-confirm="Supprimer définitivement cette demande ?">
                 <?= Csrf::field('admin') ?>
                 <input type="hidden" name="action" value="request-delete">

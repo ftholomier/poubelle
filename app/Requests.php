@@ -35,6 +35,11 @@ final class Requests
             'lang' => I18n::lang(),
             'source' => '',
             'status' => 'new',
+            // Quarantaine : la demande est conservée et visible au back-office,
+            // mais n'a déclenché aucun email tant qu'elle n'est pas validée.
+            'spam' => false,
+            'spamScore' => 0,
+            'spamReasons' => [],
             'at' => (new \DateTimeImmutable())->format(\DATE_ATOM),
             'ip' => hash('sha256', RateLimit::ip() . '|ioio'), // pseudonymisée : jamais l'IP en clair
         ], $payload, ['ref' => $ref]));
@@ -45,6 +50,30 @@ final class Requests
 
         Store::write(self::FILE, ['_schema' => Config::SCHEMA, 'requests' => \array_slice($items, 0, 2000)]);
         return ['ref' => $ref];
+    }
+
+    /** Demandes normales (false) ou mises de côté (true). */
+    public static function filterSpam(array $items, bool $spam): array
+    {
+        return array_values(array_filter($items, static fn (array $r): bool => (bool) ($r['spam'] ?? false) === $spam));
+    }
+
+    public static function countSpam(): int
+    {
+        return \count(self::filterSpam(self::all(), true));
+    }
+
+    /** Sort une demande de la quarantaine, ou l'y remet. */
+    public static function setSpam(string $ref, bool $spam, string $by): bool
+    {
+        $items = self::all();
+        foreach ($items as $i => $item) {
+            if ((string) ($item['ref'] ?? '') === $ref) {
+                $items[$i]['spam'] = $spam;
+                return Store::write(self::FILE, ['_schema' => Config::SCHEMA, 'requests' => $items], $by);
+            }
+        }
+        return false;
     }
 
     public static function setStatus(string $ref, string $status, string $by): bool

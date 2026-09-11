@@ -62,10 +62,9 @@ $firstNeed = (string) ($needs[0] ?? '');
           data-ajax-form data-event="contact_submit"
           data-success="<?= Text::e(I18n::t('form.sentContact')) ?>" data-failure="<?= Text::e(I18n::t('form.error')) ?>">
       <?= Csrf::field('contact') ?>
-      <input type="hidden" name="ts" value="<?= time() ?>">
       <input type="hidden" name="lang" value="<?= Text::e($lang) ?>">
       <input type="hidden" name="need" value="<?= Text::e($firstNeed) ?>" data-needs-input data-default="<?= Text::e($firstNeed) ?>">
-      <input class="honey" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <?= App\Spam::fields('contact') ?>
 
       <div class="form__title"><?= Text::e(I18n::t('form.contactTitle')) ?></div>
 

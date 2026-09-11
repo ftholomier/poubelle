@@ -9,13 +9,15 @@ use App\Diagnostics;
 use App\Reviews;
 use App\Router;
 use App\Session;
+use App\Spam;
 use App\Store;
 use App\Text;
 use App\View;
 
 echo View::admin('_layout_start', get_defined_vars());
 
-$tab = \in_array($tab, ['site', 'keys', 'users'], true) ? $tab : 'site';
+$tab = \in_array($tab, ['site', 'keys', 'spam', 'users'], true) ? $tab : 'site';
+$spam = Spam::config();
 $reviewsCache = Store::read(Reviews::CACHE);
 
 // Catalogue Gemini : chargé une seule fois, uniquement sur l'onglet des clés.
@@ -33,7 +35,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
 ?>
 <div class="screen">
   <div class="tablist">
-    <?php foreach (['site' => 'Site & lieux', 'keys' => 'Clés API & emails', 'users' => 'Comptes'] as $key => $label): ?>
+    <?php foreach (['site' => 'Site & lieux', 'keys' => 'Clés API & emails', 'spam' => 'Anti-spam', 'users' => 'Comptes'] as $key => $label): ?>
       <a class="tab<?= $tab === $key ? ' is-active' : '' ?>" href="<?= Text::e(Router::adminUrl('settings', ['tab' => $key])) ?>"><?= Text::e($label) ?></a>
     <?php endforeach; ?>
   </div>
@@ -402,6 +404,89 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
       <input type="hidden" name="action" value="reviews-refresh">
       <button class="btn btn--outline" type="submit" <?= Reviews::configured() ? '' : 'disabled' ?>>Rafraîchir maintenant</button>
     </form>
+  </section>
+
+  <?php elseif ($tab === 'spam'): ?>
+  <form method="post" action="<?= Text::e(Router::adminUrl()) ?>">
+    <?= Csrf::field('admin') ?>
+    <input type="hidden" name="action" value="antispam-save">
+
+    <section class="panel panel--pad" style="margin-top:18px">
+      <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Protection des formulaires</h2>
+      <p class="muted" style="margin:8px 0 0">
+        Chaque envoi reçoit une note de suspicion. Sous le premier seuil il passe sans rien demander ; au-dessus,
+        une question simple est posée au visiteur ; au-dessus du second, l'envoi part en quarantaine dans
+        <strong>Demandes → Suspects</strong> sans déclencher d'email. Aucun service tiers, aucune image à déchiffrer.
+      </p>
+
+      <label class="check" style="margin-top:18px"><input type="checkbox" name="a[enabled]" value="1" <?= $spam['enabled'] ? 'checked' : '' ?>><span>Protection active</span></label>
+
+      <div class="grid-2" style="margin-top:18px">
+        <div>
+          <label class="label" for="a-challenge">NOTE À PARTIR DE LAQUELLE ON POSE UNE QUESTION</label>
+          <input class="field" id="a-challenge" type="number" min="1" max="30" name="a[challengeAt]" value="<?= (int) $spam['challengeAt'] ?>">
+          <div class="hint">Plus bas, plus de visiteurs voient la question. Défaut : <?= (int) Spam::DEFAULTS['challengeAt'] ?>.</div>
+        </div>
+        <div>
+          <label class="label" for="a-quarantine">NOTE À PARTIR DE LAQUELLE ON MET DE CÔTÉ</label>
+          <input class="field" id="a-quarantine" type="number" min="2" max="40" name="a[quarantineAt]" value="<?= (int) $spam['quarantineAt'] ?>">
+          <div class="hint">Toujours au-dessus du seuil précédent. Défaut : <?= (int) Spam::DEFAULTS['quarantineAt'] ?>.</div>
+        </div>
+        <div>
+          <label class="label" for="a-min">DÉLAI MINIMAL AVANT ENVOI (SECONDES)</label>
+          <input class="field" id="a-min" type="number" min="0" max="60" name="a[minSeconds]" value="<?= (int) $spam['minSeconds'] ?>">
+          <div class="hint">Un humain met quelques secondes à remplir un formulaire ; un robot, zéro.</div>
+        </div>
+        <div>
+          <label class="label" for="a-max">DURÉE DE VALIDITÉ DU FORMULAIRE (HEURES)</label>
+          <input class="field" id="a-max" type="number" min="1" max="72" name="a[maxHours]" value="<?= (int) $spam['maxHours'] ?>">
+          <div class="hint">Au-delà, la page doit être rechargée. Évite le rejeu d'un vieux formulaire.</div>
+        </div>
+        <div>
+          <label class="label" for="a-perip">ENVOIS AUTORISÉS PAR ADRESSE IP</label>
+          <input class="field" id="a-perip" type="number" min="1" max="100" name="a[perIp]" value="<?= (int) $spam['perIp'] ?>">
+        </div>
+        <div>
+          <label class="label" for="a-window">…SUR UNE FENÊTRE DE (SECONDES)</label>
+          <input class="field" id="a-window" type="number" min="60" max="86400" name="a[perIpWindow]" value="<?= (int) $spam['perIpWindow'] ?>">
+        </div>
+        <div>
+          <label class="label" for="a-peremail">ENVOIS PAR ADRESSE EMAIL ET PAR JOUR</label>
+          <input class="field" id="a-peremail" type="number" min="1" max="100" name="a[perEmailPerDay]" value="<?= (int) $spam['perEmailPerDay'] ?>">
+        </div>
+        <div>
+          <label class="label" for="a-strikes">ENVOIS SUSPECTS AVANT BLOCAGE DE L'IP</label>
+          <input class="field" id="a-strikes" type="number" min="2" max="50" name="a[strikesBeforeBlock]" value="<?= (int) $spam['strikesBeforeBlock'] ?>">
+        </div>
+        <div>
+          <label class="label" for="a-block">DURÉE DU BLOCAGE (HEURES)</label>
+          <input class="field" id="a-block" type="number" min="1" max="720" name="a[blockHours]" value="<?= (int) $spam['blockHours'] ?>">
+        </div>
+      </div>
+
+      <label class="check" style="margin-top:18px"><input type="checkbox" name="a[checkMx]" value="1" <?= $spam['checkMx'] ? 'checked' : '' ?>><span>Vérifier que le domaine de l'email reçoit bien du courrier</span></label>
+
+      <label class="label label--mt" for="a-words">MOTS QUI AUGMENTENT LA NOTE — UN PAR LIGNE</label>
+      <textarea class="field" id="a-words" name="a[words]" rows="6"><?= Text::e(implode("\n", array_map('strval', (array) $spam['words']))) ?></textarea>
+      <div class="hint">Recherchés dans le nom, le sujet et le message, sans tenir compte de la casse.</div>
+
+      <div class="form-actions">
+        <button class="btn btn--ink" type="submit">Enregistrer</button>
+        <span class="form-actions__note"><?= (int) App\Requests::countSpam() ?> envoi(s) actuellement en quarantaine.</span>
+      </div>
+    </section>
+  </form>
+
+  <section class="panel panel--pad" style="margin-top:18px">
+    <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Ce qui est vérifié, dans l'ordre</h2>
+    <ol class="muted" style="margin:12px 0 0;padding-left:20px;line-height:1.8">
+      <li><strong>Jeton signé</strong> posé à l'affichage du formulaire : ni omissible, ni antidatable.</li>
+      <li><strong>Pixel de présence</strong> : un vrai navigateur charge l'image du formulaire, un script non.</li>
+      <li><strong>Champs leurres</strong> invisibles à l'écran : remplis, l'envoi est mis de côté sans discussion.</li>
+      <li><strong>Contenu</strong> : liens, alphabet inattendu, majuscules, mots signalés, langue différente de celle du formulaire, message déjà reçu.</li>
+      <li><strong>Adresse email</strong> : domaine jetable connu, domaine qui ne reçoit pas de courrier.</li>
+      <li><strong>Quotas</strong> par IP et par adresse, puis blocage automatique du récidiviste.</li>
+    </ol>
   </section>
 
   <?php else: ?>

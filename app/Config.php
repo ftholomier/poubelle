@@ -201,6 +201,39 @@ final class Config
         return rtrim(self::baseUrl(), '/') . '/';
     }
 
+    /**
+     * Clé de signature propre à l'installation, pour les jetons de formulaire.
+     *
+     * Elle est tirée au sort au premier appel et conservée hors racine web.
+     * Une clé posée dans l'environnement (APP_SECRET) reste prioritaire, ce
+     * qui permet de partager la même valeur entre plusieurs serveurs.
+     */
+    public static function appSecret(): string
+    {
+        $configured = trim((string) (self::get('APP_SECRET') ?? ''));
+        if ($configured !== '') {
+            return $configured;
+        }
+
+        $file = self::storagePath('app-secret.txt');
+        $stored = is_readable($file) ? trim((string) file_get_contents($file)) : '';
+        if (\strlen($stored) >= 32) {
+            return $stored;
+        }
+
+        $secret = bin2hex(random_bytes(32));
+        if (!is_dir(\dirname($file))) {
+            @mkdir(\dirname($file), 0775, true);
+        }
+        if (@file_put_contents($file, $secret, LOCK_EX) !== false) {
+            @chmod($file, 0600);
+            return $secret;
+        }
+        // Disque en lecture seule : on reste fonctionnel le temps de la requête.
+        Log::write('error', 'Clé de signature non enregistrable : ' . $file);
+        return hash('sha256', self::root() . '|ioio|fallback');
+    }
+
     public static function isDebug(): bool
     {
         return self::bool('APP_DEBUG', false);

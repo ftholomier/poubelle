@@ -108,10 +108,9 @@ $isRented = ($office['status'] ?? '') === 'rented';
             data-ajax-form data-event="reserve_submit"
             data-success="<?= Text::e(I18n::t('form.sentReserve')) ?>" data-failure="<?= Text::e(I18n::t('form.error')) ?>">
         <?= Csrf::field('reserve') ?>
-        <input type="hidden" name="ts" value="<?= time() ?>">
         <input type="hidden" name="officeId" value="<?= Text::e((string) $office['id']) ?>">
         <input type="hidden" name="lang" value="<?= Text::e($lang) ?>">
-        <input class="honey" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <?= App\Spam::fields('reserve') ?>
 
         <div class="form__kicker"><?= Text::e($isRented ? I18n::t('form.notifyTitle') : I18n::t('form.interestTitle')) ?></div>
         <label class="sr-only" for="r-name"><?= Text::e(I18n::t('form.name')) ?></label>

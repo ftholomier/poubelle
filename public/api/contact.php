@@ -17,7 +17,7 @@ Api::requireMethod('POST');
 
 $input = $_POST !== [] ? $_POST : Api::jsonBody();
 $lang = Api::lang($input);
-Api::guard($input, 'contact');
+$guard = Api::guard($input, 'contact');
 
 $name = Api::str($input, 'name', 120);
 $email = Api::email($input);
@@ -31,6 +31,9 @@ if ($name === '' || $email === '') {
 
 $saved = Requests::add([
     'type' => 'contact',
+    'spam' => $guard['quarantine'],
+    'spamScore' => $guard['score'],
+    'spamReasons' => $guard['reasons'],
     'name' => $name,
     'email' => $email,
     'phone' => $phone,
@@ -45,10 +48,14 @@ $html = '<p><strong>Nouvelle demande de contact</strong> (réf. ' . Text::e($sav
     . ($need !== '' ? '<p>Besoin : ' . Text::e($need) . '</p>' : '')
     . ($message !== '' ? '<p>' . nl2br(Text::e($message)) . '</p>' : '')
     . '<p class="muted">Reçu depuis le site, langue « ' . Text::e($lang) . ' ».</p>';
-Mailer::send(Mailer::inbox(), 'Contact — ' . $name, $html, '', $email);
+// Une demande en quarantaine n'est jamais transmise : elle attend votre avis
+// au back-office. Le visiteur, lui, reçoit la même réponse que les autres.
+if (!$guard['quarantine']) {
+    Mailer::send(Mailer::inbox(), 'Contact — ' . $name, $html, '', $email);
+}
 
 $settings = Content::settings();
-if (!empty($settings['contact']['autoReply'])) {
+if (!$guard['quarantine'] && !empty($settings['contact']['autoReply'])) {
     Mailer::send($email, 'Nous avons bien reçu votre message — Le iOiO', '<p>Bonjour ' . Text::e($name) . ',</p><p>' . Text::e(I18n::t('form.sentContact')) . '</p>');
 }
 

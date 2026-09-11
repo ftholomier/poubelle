@@ -23,10 +23,9 @@ $minPrice = Offices::minPrice();
       <p class="exit__text"><?= Text::e(I18n::t('exit.sub')) ?></p>
       <form class="exit__form" data-exit-form method="post" action="<?= Text::e(Config::basePath()) ?>/api/lead.php">
         <?= Csrf::field('lead') ?>
-        <input type="hidden" name="ts" value="<?= time() ?>">
         <input type="hidden" name="source" value="exit-intent">
         <input type="hidden" name="lang" value="<?= Text::e(I18n::lang()) ?>">
-        <input class="honey" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <?= App\Spam::fields('lead') ?>
         <label class="sr-only" for="exit-email"><?= Text::e(I18n::t('form.emailSimple')) ?></label>
         <input class="exit__input" id="exit-email" type="email" name="email" required
                placeholder="<?= Text::e(I18n::t('exit.placeholder')) ?>" autocomplete="email">

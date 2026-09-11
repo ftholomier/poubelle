@@ -43,25 +43,66 @@ final class Api
     }
 
     /**
-     * Contrôles communs à tous les formulaires publics :
-     * jeton CSRF, honeypot vide, délai minimal de 2 s, quota par IP.
+     * Contrôles communs à tous les formulaires publics : jeton CSRF, jeton
+     * signé, pixel de présence, champs leurres, note de suspicion et quotas.
+     *
+     * Renvoie ce que l'appelant doit savoir pour la suite : un envoi mis en
+     * quarantaine est enregistré mais n'est pas transmis par email.
+     *
+     * @return array{quarantine:bool,score:int,reasons:array<int,string>}
      */
-    public static function guard(array $input, string $form, int $max = 5, int $window = 600): void
+    public static function guard(array $input, string $form): array
     {
         if (!Csrf::check((string) ($input['csrf'] ?? ''), $form)) {
             self::fail(I18n::t('form.csrf'), 419);
         }
-        if (trim((string) ($input['hp'] ?? '')) !== '') {
-            Log::write('spam', 'Honeypot rempli sur ' . $form . ' depuis ' . RateLimit::ip());
-            self::respond(['ok' => true]); // On ne renseigne pas les robots.
+        if (!Spam::enabled()) {
+            return ['quarantine' => false, 'score' => 0, 'reasons' => []];
         }
-        $ts = (int) ($input['ts'] ?? 0);
-        if ($ts > 0 && time() - $ts < 2) {
-            self::fail(I18n::t('form.tooFast'), 429);
+
+        // Récidiviste déjà bloqué : on n'explique rien, on ne garde rien.
+        if (Spam::blocked()) {
+            Log::write('spam', 'Envoi refusé (IP bloquée) sur ' . $form . '.');
+            self::respond(['ok' => true]);
         }
-        if (!RateLimit::allow($form, $max, $window)) {
+
+        $judgement = Spam::score($input, $form);
+        $verdict = Spam::verdict($judgement['score']);
+
+        // Note intermédiaire : une question suffit à prouver qu'on est humain.
+        // Ce tour-là ne consomme pas de quota — rien n'a encore été envoyé, et
+        // le visiteur ne doit pas être bloqué pour avoir simplement répondu.
+        if ($verdict === 'challenge') {
+            $answer = trim((string) ($input['challenge'] ?? ''));
+            if ($answer === '' || !Spam::checkChallenge($answer)) {
+                Log::write('spam', 'Question posée sur ' . $form . ' (note ' . $judgement['score'] . ' : '
+                    . implode(', ', $judgement['reasons']) . ').');
+                self::respond(['ok' => false, 'challenge' => Spam::makeChallenge()]);
+            }
+        }
+
+        $config = Spam::config();
+        if (!RateLimit::allow($form, (int) $config['perIp'], (int) $config['perIpWindow'])) {
             self::fail(I18n::t('form.throttled'), 429);
         }
+
+        $email = self::email($input);
+        if ($email !== '' && !RateLimit::allow('email', (int) $config['perEmailPerDay'], 86400, $email)) {
+            self::fail(I18n::t('form.throttled'), 429);
+        }
+
+        if ($verdict === 'challenge') {
+            return ['quarantine' => false, 'score' => $judgement['score'], 'reasons' => $judgement['reasons']];
+        }
+
+        if ($verdict === 'quarantine') {
+            Spam::strike();
+            Log::write('spam', 'Quarantaine sur ' . $form . ' (note ' . $judgement['score'] . ' : '
+                . implode(', ', $judgement['reasons']) . ').');
+            return ['quarantine' => true, 'score' => $judgement['score'], 'reasons' => $judgement['reasons']];
+        }
+
+        return ['quarantine' => false, 'score' => $judgement['score'], 'reasons' => $judgement['reasons']];
     }
 
     public static function str(array $input, string $key, int $max = 200): string

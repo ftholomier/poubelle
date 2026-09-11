@@ -18,7 +18,7 @@ Api::requireMethod('POST');
 
 $input = $_POST !== [] ? $_POST : Api::jsonBody();
 $lang = Api::lang($input);
-Api::guard($input, 'lead', 3, 600);
+$guard = Api::guard($input, 'lead');
 
 $email = Api::email($input);
 if ($email === '') {
@@ -27,11 +27,20 @@ if ($email === '') {
 
 $saved = Requests::add([
     'type' => 'lead',
+    'spam' => $guard['quarantine'],
+    'spamScore' => $guard['score'],
+    'spamReasons' => $guard['reasons'],
     'email' => $email,
     'subject' => 'Rappel des disponibilités',
     'lang' => $lang,
     'source' => Api::str($input, 'source', 40) ?: 'exit-intent',
 ]);
+
+// En quarantaine, aucun email ne part : l'adresse est peut-être celle d'un
+// tiers que l'on ne veut surtout pas solliciter à sa place.
+if ($guard['quarantine']) {
+    Api::respond(['ok' => true, 'ref' => $saved['ref'], 'message' => I18n::t('exit.sent')]);
+}
 
 // Réponse immédiate au visiteur : la liste réelle des bureaux libres.
 $rows = '';
