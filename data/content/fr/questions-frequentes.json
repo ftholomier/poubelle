@@ -1,0 +1,22 @@
+{
+    "id": "questions-frequentes",
+    "slug": "questions-frequentes",
+    "title": "Questions fréquentes",
+    "status": "publish",
+    "excerpt": "Le site est-il vraiment gratuit ? Oui, des deux côtés. Déposer un CV, déposer une annonce, consulter l'annuaire et postuler ne coûtent rien et n'ont jamais rien coûté. Le site vit de la publicité affichée dans les empla…",
+    "body": "<h2>Le site est-il vraiment gratuit ?</h2>\n<p>Oui, des deux côtés. Déposer un CV, déposer une annonce, consulter l'annuaire et postuler\nne coûtent rien et n'ont jamais rien coûté. Le site vit de la publicité affichée dans les\nemplacements prévus à cet effet. Aucune commission n'est prélevée sur une embauche.</p>\n<h2>Faut-il créer un compte ?</h2>\n<p>Non pour déposer un CV ou une annonce. Un compte sert à retrouver et modifier vos\npublications, et à suivre les candidatures reçues.</p>\n<h2>Qu'est-ce que le GUSO ?</h2>\n<p>Le Guichet unique du spectacle occasionnel est le dispositif qui permet à un employeur\ndont l'activité principale n'est pas le spectacle d'embaucher un artiste ou un technicien\ndu spectacle en une seule déclaration. Il regroupe l'ensemble des cotisations sociales.\nPour les règles applicables à votre situation, référez-vous au\n<a href=\"https://www.guso.fr\" rel=\"noopener noreferrer\" target=\"_blank\">site officiel du GUSO</a>.</p>\n<h2>Comment fonctionne le statut d'intermittent ?</h2>\n<p>Le régime d'assurance chômage des intermittents du spectacle (annexes 8 et 10) ouvre des\ndroits sous condition d'un nombre d'heures travaillées sur une période de référence. Les\nseuils, les périodes et les modalités de calcul évoluent régulièrement et dépendent de\nchaque situation individuelle. <strong>Ce site ne délivre pas de conseil juridique.</strong>\nAdressez-vous à\n<a href=\"https://www.francetravail.fr\" rel=\"noopener noreferrer\" target=\"_blank\">France Travail\nspectacle</a>, à <a href=\"https://www.audiens.org\" rel=\"noopener noreferrer\" target=\"_blank\">Audiens</a>\nou à un syndicat professionnel pour une réponse qui engage.</p>\n<h2>Comment supprimer mes données ?</h2>\n<p>Écrivez à l'adresse indiquée dans les mentions légales en précisant l'adresse e-mail\nassociée à votre fiche. Votre profil et les fichiers joints sont supprimés, et non\nsimplement masqués.</p>\n<h2>Une annonce vous paraît suspecte ?</h2>\n<p>Signalez-la : une annonce qui demande un paiement, des coordonnées bancaires ou des\ndocuments d'identité avant tout entretien n'a rien à faire ici et sera retirée.</p>",
+    "menu": true,
+    "seo": {
+        "title": "Questions fréquentes",
+        "description": "Le site est-il vraiment gratuit ? Oui, des deux côtés. Déposer un CV, déposer une annonce, consulter l'annuaire et postuler ne coûtent rien et n'ont jamai…"
+    },
+    "published_at": "2026-09-21T20:44:40+02:00",
+    "schema": 3,
+    "lang": "fr",
+    "source_hash": "e3f9427a9691c7f3",
+    "translated": false,
+    "created_at": "2026-09-21T20:44:40+02:00",
+    "updated_at": "2026-09-21T20:44:40+02:00",
+    "revision": 1,
+    "legacy_id": 0
+}

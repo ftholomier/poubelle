@@ -1,0 +1,22 @@
+{
+    "id": "comment-deposer-une-annonce",
+    "slug": "comment-deposer-une-annonce",
+    "title": "Publier une offre d'emploi",
+    "status": "publish",
+    "excerpt": "La publication d'une annonce est immédiate et gratuite. Aucune commission n'est prélevée sur les embauches, et les candidatures vous parviennent directement par e-mail. Ce que doit contenir une bonne annonce Le statut d…",
+    "body": "<p>La publication d'une annonce est immédiate et gratuite. Aucune commission n'est prélevée\nsur les embauches, et les candidatures vous parviennent directement par e-mail.</p>\n<h2>Ce que doit contenir une bonne annonce</h2>\n<ul>\n<li><strong>Le statut du poste</strong> : CDD d'usage, CDI intermittent, cachet, GUSO,\nstage. C'est la première information que cherchent les candidats.</li>\n<li><strong>La rémunération</strong>, même sous forme de fourchette. Les annonces chiffrées\nreçoivent nettement plus de réponses.</li>\n<li><strong>Le lieu et les dates</strong>, en précisant les déplacements et la prise en\ncharge des défraiements.</li>\n<li><strong>Les missions concrètes</strong> et l'équipe dans laquelle s'insère le poste.</li>\n</ul>\n<h2>La relecture automatique</h2>\n<p>Avant publication, l'assistant du site relit votre annonce et signale ce qui manque\nsouvent : statut non précisé, rémunération absente, intitulé genré sans forme épicène,\ndescription trop courte. Ce sont des suggestions, jamais des blocages : vous restez maître\ndu texte publié.</p>\n<h2>Après la publication</h2>\n<p>Votre annonce apparaît immédiatement dans la liste des offres et dans l'annuaire des\nemployeurs, avec une fiche qui regroupe toutes vos publications. Pour la modifier ou la\nretirer, contactez-nous depuis la page de mentions légales.</p>",
+    "menu": true,
+    "seo": {
+        "title": "Publier une offre d'emploi",
+        "description": "La publication d'une annonce est immédiate et gratuite. Aucune commission n'est prélevée sur les embauches, et les candidatures vous parviennent directeme…"
+    },
+    "published_at": "2026-09-21T20:44:40+02:00",
+    "schema": 3,
+    "lang": "fr",
+    "source_hash": "cf6697fc508752ce",
+    "translated": false,
+    "created_at": "2026-09-21T20:44:40+02:00",
+    "updated_at": "2026-09-21T20:44:40+02:00",
+    "revision": 1,
+    "legacy_id": 0
+}

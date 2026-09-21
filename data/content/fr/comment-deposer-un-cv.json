@@ -1,0 +1,22 @@
+{
+    "id": "comment-deposer-un-cv",
+    "slug": "comment-deposer-un-cv",
+    "title": "Déposer son CV sur intermittent.fr",
+    "status": "publish",
+    "excerpt": "Déposer un CV sur intermittent.fr est gratuit, sans abonnement ni commission. Votre profil rejoint un annuaire consulté par les compagnies, les prestataires techniques, les salles et les productions qui recrutent. Ce qu…",
+    "body": "<p>Déposer un CV sur intermittent.fr est gratuit, sans abonnement ni commission. Votre\nprofil rejoint un annuaire consulté par les compagnies, les prestataires techniques, les\nsalles et les productions qui recrutent.</p>\n<h2>Ce qu'il faut préparer</h2>\n<ul>\n<li>Votre métier principal, tel qu'un employeur le chercherait : « régisseur son »,\n« costumière », « chef opérateur », « monteuse ».</li>\n<li>Votre ville de départ, qui sert aux recherches par région.</li>\n<li>Vos compétences : matériel maîtrisé, logiciels, habilitations, langues.</li>\n<li>Un CV au format PDF ou DOCX, 5 Mo maximum.</li>\n</ul>\n<h2>Les étapes</h2>\n<ol>\n<li>Remplissez le formulaire de dépôt : métier, ville et adresse e-mail sont obligatoires,\nle reste est facultatif.</li>\n<li>Ajoutez vos compétences en cliquant dans la liste proposée, puis complétez librement.</li>\n<li>Joignez votre CV, puis publiez. Vous pouvez aussi enregistrer un brouillon et revenir\nplus tard.</li>\n</ol>\n<h2>Qui voit quoi</h2>\n<p>Votre fiche publique affiche votre nom, votre métier, votre ville, vos compétences et\nvotre présentation. <strong>Votre adresse e-mail reste masquée par défaut</strong> : elle\nn'apparaît que si vous cochez explicitement la case correspondante. Vous pouvez à tout\nmoment retirer votre profil de l'annuaire ou demander la suppression de vos données.</p>\n<h2>Nos conseils</h2>\n<ul>\n<li>Un intitulé précis rapporte plus de contacts qu'un intitulé général : « régisseur son\nspectacle vivant » plutôt que « technicien ».</li>\n<li>Mentionnez vos disponibilités et votre mobilité : beaucoup de missions sont en tournée.</li>\n<li>Tenez votre fiche à jour : les profils récents remontent en tête de l'annuaire.</li>\n</ul>",
+    "menu": true,
+    "seo": {
+        "title": "Déposer son CV sur intermittent.fr",
+        "description": "Déposer un CV sur intermittent.fr est gratuit, sans abonnement ni commission. Votre profil rejoint un annuaire consulté par les compagnies, les prestatair…"
+    },
+    "published_at": "2026-09-21T20:44:40+02:00",
+    "schema": 3,
+    "lang": "fr",
+    "source_hash": "31a80f2879027075",
+    "translated": false,
+    "created_at": "2026-09-21T20:44:40+02:00",
+    "updated_at": "2026-09-21T20:44:40+02:00",
+    "revision": 1,
+    "legacy_id": 0
+}

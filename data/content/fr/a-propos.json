@@ -1,0 +1,22 @@
+{
+    "id": "a-propos",
+    "slug": "a-propos",
+    "title": "À propos d'intermittent.fr",
+    "status": "publish",
+    "excerpt": "intermittent.fr met en relation, depuis 2005, les intermittents du spectacle et les structures qui recrutent : compagnies, prestataires techniques, salles, productions audiovisuelles et cinématographiques. Notre princip…",
+    "body": "<p>intermittent.fr met en relation, depuis 2005, les intermittents du spectacle et les\nstructures qui recrutent : compagnies, prestataires techniques, salles, productions\naudiovisuelles et cinématographiques.</p>\n<h2>Notre principe</h2>\n<p>Le site est gratuit des deux côtés du plateau, sans abonnement ni commission. Il se\nfinance par la publicité, affichée dans des emplacements identifiés et chargée uniquement\naprès votre consentement.</p>\n<h2>Ce que vous y trouvez</h2>\n<ul>\n<li>Des offres d'emploi déposées directement par les employeurs, classées par famille de\nmétier, type de contrat et région.</li>\n<li>Un annuaire de CV d'intermittents, consultable librement.</li>\n<li>Un annuaire des structures qui recrutent, avec leurs publications.</li>\n</ul>\n<h2>Modération</h2>\n<p>Les annonces sont relues et les contenus manifestement frauduleux sont retirés. Le site\nn'est ni un intermédiaire de placement, ni un employeur : il met en relation, la\ncontractualisation se fait directement entre les parties.</p>",
+    "menu": true,
+    "seo": {
+        "title": "À propos d'intermittent.fr",
+        "description": "intermittent.fr met en relation, depuis 2005, les intermittents du spectacle et les structures qui recrutent : compagnies, prestataires techniques, salles…"
+    },
+    "published_at": "2026-09-21T20:44:40+02:00",
+    "schema": 3,
+    "lang": "fr",
+    "source_hash": "7ea060dc0d9d8c51",
+    "translated": false,
+    "created_at": "2026-09-21T20:44:40+02:00",
+    "updated_at": "2026-09-21T20:44:40+02:00",
+    "revision": 1,
+    "legacy_id": 0
+}
