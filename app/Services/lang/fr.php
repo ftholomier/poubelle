@@ -32,6 +32,9 @@ return [
     'home.badge_free'   => '100 % gratuit',
     'home.badge_quick'  => 'Inscription en 1 minute',
     'home.badge_since'  => 'Depuis %s',
+    'stats.jobs'        => 'offres publiées',
+    'stats.cv'          => 'CV en ligne',
+    'stats.employers'   => 'structures qui recrutent',
     'home.families'     => 'Par famille de métier',
     'home.families_note'=> 'Six familles couvrent le spectacle vivant, le cinéma et la technique.',
     'home.fresh'        => 'Fraîchement en ligne',
@@ -109,6 +112,7 @@ return [
     'job.ask_regie_note'=> 'Une question sur cette annonce, le statut ou le GUSO ? L’assistant répond avec les infos du site.',
     'job.starts'        => 'Démarrage',
     'job.published'     => 'Publiée %s',
+    'job.expires'       => 'Se termine le %s',
     'job.no_salary'     => 'Rémunération à négocier',
 
     // CV
@@ -240,11 +244,13 @@ return [
     'footer.site'       => 'Le site',
     'footer.reviews'    => 'Avis Google',
     'footer.reviews_all'=> 'Voir les %s avis',
-    'footer.legal'      => 'Mentions légales',
+    'footer.legal'      => 'Mentions légales / Politique de confidentialité - Conditions générales d’utilisation.',
+    'footer.legal_short'=> 'Mentions légales',
     'footer.terms'      => 'CGU',
     'footer.cookies'    => 'Cookies',
     'footer.gdpr'       => 'RGPD',
     'footer.free'       => 'Site 100 % gratuit, sans commission',
+    'footer.partner'    => 'Créez votre CV en ligne',
     'footer.follow'     => 'Nous suivre',
 
     // Consentement

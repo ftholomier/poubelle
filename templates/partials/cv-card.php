@@ -2,14 +2,14 @@
 /**
  * Carte de profil. @var array $cv ligne d'index
  */
+use App\Core\View;
 use App\Services\I18n;
-
-$color = tile_color((string) $cv['name']);
 ?>
 <a class="card card-link cv-card" href="<?= e(I18n::url('/cv/' . $cv['slug'])) ?>" data-reveal>
-  <span class="tile tile-64" style="background:<?= e($color) ?>;color:<?= e(on_color($color)) ?>">
-    <?= e(initials((string) $cv['name'])) ?>
-  </span>
+  <?= View::partial('partials/avatar', [
+        'name' => (string) $cv['name'], 'size' => 'tile-64', 'kind' => 'photo',
+        'id' => !empty($cv['has_photo']) ? (string) $cv['id'] : '', 'chars' => 2,
+      ]) ?>
   <span class="cv-name"><?= e(str_excerpt((string) $cv['name'], 32)) ?></span>
   <span class="cv-role"><?= e(str_excerpt((string) ($cv['title'] ?: '—'), 46)) ?></span>
   <span class="cv-meta">

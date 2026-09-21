@@ -68,6 +68,15 @@ final class Index
 
     private static function buildJobs(): array
     {
+        // Le logo appartient à l'employeur : on le reporte sur ses offres pour
+        // que la liste n'ait pas à ouvrir une seconde fiche par ligne.
+        $logos = [];
+        foreach (EmployerRepository::all() as $employer) {
+            if (($employer['logo']['path'] ?? '') !== '') {
+                $logos[(string) $employer['slug']] = (string) $employer['id'];
+            }
+        }
+
         $items = [];
         foreach (JobRepository::all() as $job) {
             if (($job['status'] ?? '') === 'spam') {
@@ -80,6 +89,8 @@ final class Index
                 'status'    => $job['status'],
                 'company'   => $job['company']['name'] ?? '',
                 'company_slug' => $job['company']['slug'] ?? '',
+                'company_tagline' => $job['company']['tagline'] ?? '',
+                'logo_id'   => $logos[(string) ($job['company']['slug'] ?? '')] ?? '',
                 'city'      => $job['location']['city'] ?? '',
                 'region'    => $job['location']['region'] ?? '',
                 'remote'    => (bool) ($job['location']['remote'] ?? false),
@@ -122,6 +133,7 @@ final class Index
                 'skills'   => array_slice(array_values((array) ($cv['skills'] ?? [])), 0, 8),
                 'available'=> (bool) ($cv['available'] ?? true),
                 'has_file' => ($cv['file']['path'] ?? '') !== '' || ($cv['file']['legacy_url'] ?? '') !== '',
+                'has_photo'=> ($cv['photo']['path'] ?? '') !== '',
                 'excerpt'  => str_excerpt((string) ($cv['summary'] ?? ''), 150),
                 'published_at' => $cv['published_at'] ?: $cv['created_at'],
                 'haystack' => self::haystack([
@@ -158,6 +170,7 @@ final class Index
                 'city'      => $employer['location']['city'] ?? '',
                 'website'   => $employer['website'],
                 'tagline'   => str_excerpt((string) ($employer['tagline'] ?: $employer['description']), 110),
+                'has_logo'  => ($employer['logo']['path'] ?? '') !== '',
                 'job_count' => $jobCounts[$slug] ?? 0,
                 'haystack'  => self::haystack([$employer['name'], $employer['kind'],
                                                $employer['location']['city'] ?? '', $employer['description']]),

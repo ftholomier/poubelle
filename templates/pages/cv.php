@@ -4,16 +4,17 @@ use App\Core\View;
 use App\Services\I18n;
 use App\Support\Icon;
 
-$color = tile_color((string) $cv['name']);
 $hasFile = ($cv['file']['path'] ?? '') !== '';
+$hasPhoto = ($cv['photo']['path'] ?? '') !== '';
 ?>
 <div class="container">
   <a class="back-link" href="<?= e(I18n::url('/cv')) ?>"><?= Icon::svg('arrow-l', 16) ?><?= e(I18n::t('cv.back')) ?></a>
 
   <header class="profile-head" data-reveal>
-    <span class="tile tile-92" style="background:<?= e($color) ?>;color:<?= e(on_color($color)) ?>">
-      <?= e(initials((string) $cv['name'])) ?>
-    </span>
+    <?= View::partial('partials/avatar', [
+          'name' => (string) $cv['name'], 'size' => 'tile-92', 'kind' => 'photo',
+          'id' => $hasPhoto ? (string) $cv['id'] : '', 'chars' => 2,
+        ]) ?>
     <div style="min-width:0">
       <span class="tag <?= !empty($cv['available']) ? 'tag-teal' : 'tag-soft' ?>">
         <span class="dot"></span><?= e(!empty($cv['available']) ? I18n::t('cv.available') : I18n::t('cv.unavailable')) ?>

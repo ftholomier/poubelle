@@ -4,7 +4,7 @@ use App\Core\View;
 use App\Services\I18n;
 use App\Support\Icon;
 
-$color = tile_color((string) $employer['name']);
+$hasLogo = ($employer['logo']['path'] ?? '') !== '';
 $live = array_values(array_filter($jobs, static fn(array $j) => $j['status'] === 'publish'));
 $past = array_values(array_filter($jobs, static fn(array $j) => $j['status'] !== 'publish'));
 ?>
@@ -12,18 +12,22 @@ $past = array_values(array_filter($jobs, static fn(array $j) => $j['status'] !==
   <a class="back-link" href="<?= e(I18n::url('/employeurs')) ?>"><?= Icon::svg('arrow-l', 16) ?><?= e(I18n::t('nav.employers')) ?></a>
 
   <header class="profile-head" data-reveal>
-    <span class="tile tile-92" style="background:<?= e($color) ?>;color:<?= e(on_color($color)) ?>">
-      <?= e(initials((string) $employer['name'], 2)) ?>
+    <span class="<?= $hasLogo ? 'tile-logo' : '' ?>">
+      <?= View::partial('partials/avatar', [
+            'name' => (string) $employer['name'], 'size' => 'tile-92', 'kind' => 'logo',
+            'id' => $hasLogo ? (string) $employer['id'] : '', 'chars' => 2,
+          ]) ?>
     </span>
     <div style="min-width:0">
       <span class="tag <?= count($live) > 0 ? 'tag-teal' : 'tag-soft' ?>">
         <?= count($live) > 0 ? e(I18n::t('employers.jobs', count($live))) : e(I18n::t('employers.none')) ?>
       </span>
       <h1 style="margin-top:12px"><?= e($employer['name']) ?></h1>
-      <p class="role">
-        <?= e($employer['kind'] ?: '—') ?>
-        <?php if (($employer['location']['city'] ?? '') !== ''): ?> · <?= e($employer['location']['city']) ?><?php endif; ?>
-      </p>
+      <?php $sub = array_filter([
+            (string) ($employer['tagline'] ?: $employer['kind']),
+            (string) ($employer['location']['city'] ?? ''),
+      ], 'strlen'); ?>
+      <?php if ($sub !== []): ?><p class="role"><?= e(implode(' · ', $sub)) ?></p><?php endif; ?>
     </div>
     <?php if (($employer['website'] ?? '') !== ''): ?>
       <div class="profile-actions">

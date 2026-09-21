@@ -75,6 +75,19 @@ foreach ($dump->rows(['wp_posts', 'wp_terms', 'wp_term_taxonomy', 'wp_users']) a
 }
 printf("   %d articles · %d termes · %d comptes\n", count($posts), count($terms), count($users));
 
+// WordPress référence les logos par identifiant de pièce jointe, pas par URL :
+// sans cette table, les logos d'employeurs sont perdus à l'import.
+$attachments = [];
+foreach ($posts as $id => $post) {
+    if ((string) $post['post_type'] === 'attachment') {
+        $guid = trim((string) $post['guid']);
+        if ($guid !== '') {
+            $attachments[$id] = $guid;
+        }
+    }
+}
+printf("   %d pièces jointes référencées\n", count($attachments));
+
 echo "→ Passe 2/2 : métadonnées et rattachements\n";
 
 $postMeta = $userMeta = $postTerms = [];
@@ -113,6 +126,18 @@ $umeta = static fn(int $id, string $key, string $default = ''): string
 
 $taxOf = static fn(int $id, string $taxonomy): array
     => array_values(array_unique($postTerms[$id][$taxonomy] ?? []));
+
+/** Une méta peut contenir soit une URL, soit un identifiant de pièce jointe. */
+$mediaUrl = static function (string $value) use ($attachments): string {
+    $value = trim($value);
+    if ($value === '' || $value === '0') {
+        return '';
+    }
+    if (str_starts_with($value, 'http')) {
+        return $value;
+    }
+    return ctype_digit($value) ? ($attachments[(int) $value] ?? '') : '';
+};
 
 /** Retrouve un fichier de l'ancien site dans l'archive uploads fournie. */
 $localFile = static function (string $legacyUrl) use ($uploadsDir): string {
@@ -227,6 +252,8 @@ foreach ($posts as $id => $post) {
         'tagline'     => $meta($id, '_company_tagline'),
         'description' => Wp::toText($meta($id, '_company_description')),
         'website'     => Wp::url($meta($id, '_company_website')),
+        'logo'        => ['legacy_url' => $mediaUrl($meta($id, '_company_logo'))
+                                        ?: $mediaUrl($meta($id, '_thumbnail_id'))],
         'social'      => [
             'facebook' => Wp::url($meta($id, '_company_facebook')),
             'twitter'  => Wp::url($meta($id, '_company_twitter')),
@@ -430,6 +457,7 @@ foreach ($users as $id => $user) {
             'tagline'     => $umeta($id, '_company_tagline'),
             'description' => Wp::toText($umeta($id, '_company_description')),
             'website'     => Wp::url($umeta($id, '_company_website')),
+            'logo'        => ['legacy_url' => $mediaUrl($umeta($id, '_company_logo'))],
             'social'      => [
                 'facebook' => Wp::url($umeta($id, '_company_facebook')),
                 'twitter'  => Wp::url($umeta($id, '_company_twitter')),
@@ -528,6 +556,10 @@ foreach ($pages as $page) {
     PageRepository::save($page, 'fr');
 }
 foreach ($employers as $employer) {
+    $legacy = (string) ($employer['logo']['legacy_url'] ?? '');
+    if ($legacy !== '') {
+        $employer['logo']['path'] = $adoptFile($legacy, 'logo', (string) $employer['id']);
+    }
     EmployerRepository::save($employer);
 }
 

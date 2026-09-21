@@ -6,6 +6,7 @@
  *
  * @var array $job ligne d'index ou offre externe normalisée
  */
+use App\Core\View;
 use App\Services\I18n;
 
 $external = !empty($job['external']);
@@ -15,8 +16,11 @@ $attrs = $external ? ' target="_blank" rel="nofollow noopener noreferrer"' : '';
 ?>
 <a class="card card-link job-row<?= $external ? ' is-external' : '' ?>"
    href="<?= e($href) ?>"<?= $attrs ?> data-reveal>
-  <span class="tile tile-48" style="background:<?= e($color) ?>;color:<?= e(on_color($color)) ?>">
-    <?= e(initials((string) ($job['company'] ?: $job['title']), 1)) ?>
+  <span class="<?= !empty($job['logo_id']) ? 'tile-logo' : '' ?>">
+    <?= View::partial('partials/avatar', [
+          'name' => (string) ($job['company'] ?: $job['title']), 'size' => 'tile-48',
+          'kind' => 'logo', 'id' => (string) ($job['logo_id'] ?? ''), 'chars' => 1,
+        ]) ?>
   </span>
 
   <span class="job-body">

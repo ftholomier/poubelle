@@ -30,8 +30,13 @@ $applyHref = $job['apply']['url'] !== ''
         <?php endif; ?>
 
         <header class="detail-head">
-          <span class="tile tile-60" style="background:<?= e($color) ?>;color:<?= e(on_color($color)) ?>">
-            <?= e(initials((string) ($job['company']['name'] ?: $job['title']), 1)) ?>
+          <span class="<?= ($employer['logo']['path'] ?? '') !== '' ? 'tile-logo' : '' ?>">
+            <?= View::partial('partials/avatar', [
+                  'name' => (string) ($job['company']['name'] ?: $job['title']), 'size' => 'tile-60',
+                  'kind' => 'logo',
+                  'id' => ($employer['logo']['path'] ?? '') !== '' ? (string) $employer['id'] : '',
+                  'chars' => 1,
+                ]) ?>
           </span>
           <div style="min-width:0">
             <div class="company"><?= e($job['company']['name'] ?: '—') ?></div>
@@ -58,6 +63,10 @@ $applyHref = $job['apply']['url'] !== ''
           <?php endif; ?>
           <span class="tag tag-soft"><?= Icon::svg('clock', 14, '#4A4470', 2) ?>
             <?= e(I18n::t('job.published', time_ago((string) ($job['published_at'] ?: $job['created_at'])))) ?></span>
+          <?php if (($job['expires_at'] ?? '') !== ''): ?>
+            <span class="tag tag-soft"><?= Icon::svg('calendar', 14, '#4A4470', 2) ?>
+              <?= e(I18n::t('job.expires', date('d/m/Y', (int) strtotime((string) $job['expires_at'])))) ?></span>
+          <?php endif; ?>
         </div>
 
         <div class="prose">
@@ -112,8 +121,12 @@ $applyHref = $job['apply']['url'] !== ''
         <div class="card" data-reveal>
           <h3><?= e(I18n::t('job.employer')) ?></h3>
           <div class="employer-card" style="margin-top:14px">
-            <span class="tile tile-48" style="background:<?= e($color) ?>;color:<?= e(on_color($color)) ?>">
-              <?= e(initials((string) $employer['name'], 2)) ?>
+            <span class="<?= ($employer['logo']['path'] ?? '') !== '' ? 'tile-logo' : '' ?>">
+              <?= View::partial('partials/avatar', [
+                    'name' => (string) $employer['name'], 'size' => 'tile-48', 'kind' => 'logo',
+                    'id' => ($employer['logo']['path'] ?? '') !== '' ? (string) $employer['id'] : '',
+                    'chars' => 2,
+                  ]) ?>
             </span>
             <span style="min-width:0">
               <span class="name"><?= e($employer['name']) ?></span><br>

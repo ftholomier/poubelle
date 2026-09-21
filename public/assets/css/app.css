@@ -290,6 +290,15 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
 .sticker-white  { background: var(--white);  color: var(--ink); transform: rotate(1.8deg); }
 .sticker-violet { background: var(--violet); color: #fff; transform: rotate(-1.2deg); }
 
+/* Tuile d'initiale colorée, ou vraie image quand la fiche en a une. */
+.tile-media { overflow: hidden; padding: 0; }
+.tile-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Un logo se voit en entier : on ne le rogne pas comme un portrait. */
+.tile-logo img { object-fit: contain; background: #fff; padding: 3px; }
+/* Le conteneur n'existe que pour porter la classe : il ne doit pas devenir
+   lui-même un élément flex, sinon il casse l'alignement de la carte. */
+.tile-logo { display: contents; }
+
 /* Tuile d'initiale colorée */
 .tile {
   display: flex; align-items: center; justify-content: center;
@@ -586,12 +595,27 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
   color: var(--ink); white-space: nowrap;
 }
 
+/* Bandeau de chiffres, repris du site d'origine. */
+.stats-band {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px; margin-top: 44px;
+}
+.stat {
+  background: var(--white); border: var(--card-border); border-radius: 20px;
+  box-shadow: var(--card-shadow); padding: 22px; text-align: center;
+}
+.stat-n {
+  display: block; font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(34px, 5vw, 48px); line-height: 1; letter-spacing: -.03em;
+}
+.stat-l { display: block; margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--meta); }
+
 /* ------------------------------------------------------------- grilles */
 
 .grid-families { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
 .grid-jobs     { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
 .grid-cv       { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
-.grid-employers{ display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+.grid-employers{ display: grid; grid-template-columns: repeat(auto-fit, minmax(265px, 1fr)); gap: 16px; }
 .grid-steps    { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
 
 .family-card { display: flex; align-items: center; gap: 13px; padding: 16px; border-radius: 18px; }
@@ -610,7 +634,10 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
 .job-card { display: flex; flex-direction: column; gap: 12px; height: 100%; min-width: 0; overflow: hidden; }
 .job-card .job-top { display: flex; align-items: center; gap: 11px; }
 .job-card .company { font-size: 13px; font-weight: 700; line-height: 1.3; }
-.job-card .age { font-size: 11.5px; color: var(--meta); }
+.job-card .age {
+  font-size: 11.5px; color: var(--meta);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
 .job-card .job-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; line-height: 1.25; letter-spacing: -.015em; }
 .job-card .job-foot {
   margin-top: auto; padding-top: 12px; border-top: 1px solid var(--rule);
@@ -634,9 +661,21 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
 .cv-card .tag-row { justify-content: center; margin-top: 4px; }
 
 /* Carte employeur */
-.employer-card { display: flex; align-items: center; gap: 13px; }
+/* Nom et baseline occupent toute la largeur ; le compteur passe en pied de
+   carte plutôt que de se disputer la place avec un nom long. */
+.employer-card { display: flex; flex-direction: column; gap: 12px; height: 100%; }
+.employer-card .employer-top { display: flex; align-items: center; gap: 13px; min-width: 0; }
+.employer-card .employer-id { flex: 1; min-width: 0; }
+.employer-card .employer-foot {
+  margin-top: auto; padding-top: 11px; border-top: 1px solid var(--rule);
+  display: flex;
+}
 .employer-card .name { font-weight: 700; font-size: 15px; line-height: 1.3; }
-.employer-card .sub { font-size: 12.5px; color: var(--meta); }
+.employer-card .sub {
+  font-size: 12.5px; color: var(--meta);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
 /* ------------------------------------------------ « comment ça marche » */
 

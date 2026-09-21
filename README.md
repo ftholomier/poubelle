@@ -293,17 +293,44 @@ désormais déduites du champ libre, en gérant les régions d'avant 2016, les
 sigles (PACA, IDF), les codes départements et les adresses hors de France :
 88/89 offres et 121/159 CV sont géolocalisées.
 
+**Validation par le site d'origine** : la page d'accueil archivée le 14/09/2026
+affichait « 52 emplois publiés · 137 CV publiés · 40 entreprises ». Le site
+reconstruit calcule 51, 137 et 39 sur les données migrées — l'écart d'une offre
+et d'un employeur vient d'une annonce expirée entre l'archive et l'export.
+
 **Fichiers joints** : les CV PDF, photos de candidats et logos sont référencés
 mais absents de l'export fourni (ils vivent dans `wp-content/uploads/resumes/`
 et `wp-content/uploads/job-manager-uploads/`, frères de `uploads/AAAA/MM/`).
-Les fiches conservent l'URL d'origine et affichent « CV non disponible ».
-Une fois les dossiers récupérés :
+Les fiches conservent l'URL d'origine, et une fiche sans image retombe sur sa
+tuile à initiales.
+
+Trois voies pour les récupérer, de la plus complète à la plus partielle :
 
 ```bash
+# 1. Depuis une archive du serveur — la seule voie complète
 php bin/import-wordpress.php --dump=… --uploads=/chemin/wp-content/uploads
-# ou, depuis le site en ligne :
+
+# 2. Depuis le site encore en ligne
 php bin/fetch-media.php
+
+# 3. Depuis la Wayback Machine, quand le site n'est plus joignable
+php bin/import-wayback.php
 ```
+
+La troisième voie a déjà été passée : **24 fichiers récupérés** (7 photos de
+candidats, 17 logos d'employeurs). Les CV PDF, eux, n'ont jamais été archivés
+par archive.org — seul un accès au serveur les ramènera.
+
+## Images
+
+Une fiche affiche sa vraie image dès qu'elle en a une, et sa tuile à initiales
+colorée sinon (`templates/partials/avatar.php`). Cela vaut pour les photos de
+candidats, les logos d'employeurs — reportés sur leurs offres — et les grandes
+vignettes des pages de détail.
+
+Les fichiers vivent dans `data/uploads/`, hors racine web, et sont servis par
+`/media/{photo|logo|cv}/{id}` après contrôle des droits. Un CV part avec
+`X-Robots-Tag: noindex`.
 
 ---
 
