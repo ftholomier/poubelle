@@ -17,6 +17,14 @@
 
   /* Accents */
   --coral:          #FF4B3E;
+  /*
+   * Variante assombrie, réservée aux aplats portant du texte blanc.
+   * Le corail de la charte ne donne que 3,32:1 avec du blanc, sous les 4,5
+   * exigés par le handoff ; celle-ci donne 4,86:1 pour une différence à peine
+   * perceptible. Le #FF4B3E reste utilisé partout ailleurs : ombres portées,
+   * bordures, étiquette « .fr », points d'état, filets de survol.
+   */
+  --coral-solid:    #D92B21;
   --yellow:         #FFC531;
   --violet:         #6D4AFF;
   --teal:           #0FBFA4;
@@ -77,7 +85,13 @@ body.is-admin { background: var(--ink-admin); color: #fff; padding-bottom: 40px;
 p, h1, h2, h3, h4 { text-wrap: pretty; }
 img, svg, video { max-width: 100%; height: auto; display: block; }
 a { color: var(--coral); text-decoration: none; }
-a:hover { color: var(--ink); }
+/*
+ * Le survol générique ne doit pas repeindre les composants qui fixent déjà
+ * leur propre couleur. `a:hover` a une spécificité de (0,1,1) et l'emportait
+ * sur `.btn-coral` (0,1,0) : un bouton-lien passait en encre au survol, donc
+ * en encre sur encre — invisible — sur les boutons dont le fond devient sombre.
+ */
+a:not(.btn):not(.tag):not(.chip):not(.card-link):hover { color: var(--ink); }
 ::selection { background: var(--yellow); color: var(--ink); }
 input, textarea, select, button { font: inherit; color: inherit; }
 button { cursor: pointer; }
@@ -171,8 +185,8 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
   transition: background-position .5s var(--ease), transform .3s ease, color 0s linear .25s;
 }
 
-.btn-coral  { color: #fff;       background-image: linear-gradient(90deg, var(--ink) 0 50%, var(--coral) 50% 100%); }
-.btn-ink    { color: #fff;       background-image: linear-gradient(90deg, var(--coral) 0 50%, var(--ink) 50% 100%); }
+.btn-coral  { color: #fff;       background-image: linear-gradient(90deg, var(--ink) 0 50%, var(--coral-solid) 50% 100%); }
+.btn-ink    { color: #fff;       background-image: linear-gradient(90deg, var(--coral-solid) 0 50%, var(--ink) 50% 100%); }
 .btn-violet { color: #fff;       background-image: linear-gradient(90deg, var(--ink) 0 50%, var(--violet) 50% 100%); }
 .btn-white  { color: var(--ink); background-image: linear-gradient(90deg, var(--yellow) 0 50%, var(--white) 50% 100%); }
 
@@ -247,7 +261,7 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
 }
 .tag-soft   { background: var(--cream); color: var(--text); border: 1px solid var(--rule); }
 .tag-ink    { background: var(--ink); color: #fff; }
-.tag-coral  { background: var(--coral); color: #fff; }
+.tag-coral  { background: var(--coral-solid); color: #fff; }
 .tag-violet { background: var(--violet); color: #fff; }
 .tag-teal   { background: var(--teal); color: var(--teal-ink); }
 .tag-pink   { background: var(--pink); color: var(--ink); }
@@ -286,7 +300,7 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
   font-size: 13px; font-weight: 800; padding: 8px 15px; border-radius: 12px;
   box-shadow: 3px 4px 0 rgba(0,0,0,.35);
 }
-.sticker-coral  { background: var(--coral);  color: #fff; transform: rotate(-2.5deg); }
+.sticker-coral  { background: var(--coral-solid);  color: #fff; transform: rotate(-2.5deg); }
 .sticker-white  { background: var(--white);  color: var(--ink); transform: rotate(1.8deg); }
 .sticker-violet { background: var(--violet); color: #fff; transform: rotate(-1.2deg); }
 
@@ -385,7 +399,7 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
   background: var(--white); border: 2.5px solid var(--ink); color: var(--ink);
   transition: background .3s ease, color .3s ease;
 }
-.step.is-done .step-num, .step.is-current .step-num { background: var(--coral); color: #fff; border-color: var(--coral); }
+.step.is-done .step-num, .step.is-current .step-num { background: var(--coral-solid); color: #fff; border-color: var(--coral-solid); }
 .step-label { font-size: 13.5px; font-weight: 700; }
 .step-bar { flex: 1 1 24px; min-width: 18px; height: 2.5px; background: var(--rule); }
 
@@ -828,7 +842,7 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
   border: none; border-radius: 999px; padding: 9px 18px 9px 9px;
   font-size: 14px; font-weight: 700;
   box-shadow: 4px 5px 0 var(--yellow);
-  background-image: linear-gradient(90deg, var(--coral) 0 50%, var(--ink) 50% 100%);
+  background-image: linear-gradient(90deg, var(--coral-solid) 0 50%, var(--ink) 50% 100%);
   background-size: 200% 100%; background-position: 100% 0;
   transition: background-position .5s var(--ease), transform .3s ease;
 }
@@ -875,7 +889,7 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
 .regie-form input:focus { border-color: var(--ink); }
 .regie-send {
   width: 40px; height: 40px; border-radius: 50%; border: none; flex: none;
-  background: var(--coral); color: #fff;
+  background: var(--coral-solid); color: #fff;
   display: flex; align-items: center; justify-content: center;
   transition: transform .25s ease;
 }
