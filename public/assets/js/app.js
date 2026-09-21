@@ -303,6 +303,46 @@
     });
   }
 
+  /* --------------------------------------------------- mises de côté */
+
+  /**
+   * « Mettre de côté » : la liste vit dans le navigateur du visiteur.
+   * Aucun compte requis, aucune donnée envoyée au serveur.
+   */
+  function initBookmarks() {
+    var buttons = $$('[data-bookmark]');
+    if (!buttons.length) { return; }
+
+    function read() {
+      try { return JSON.parse(window.localStorage.getItem('imtt_saved') || '[]'); }
+      catch (e) { return []; }
+    }
+    function write(list) {
+      try { window.localStorage.setItem('imtt_saved', JSON.stringify(list.slice(-200))); }
+      catch (e) { /* stockage indisponible */ }
+    }
+
+    buttons.forEach(function (btn) {
+      var id = btn.getAttribute('data-bookmark');
+      var on = btn.getAttribute('data-bookmark-on') || 'Mise de côté';
+      var off = btn.textContent.trim();
+
+      function paint(saved) {
+        btn.textContent = saved ? on : off;
+        btn.setAttribute('aria-pressed', String(saved));
+      }
+      paint(read().indexOf(id) !== -1);
+
+      btn.addEventListener('click', function () {
+        var list = read();
+        var at = list.indexOf(id);
+        if (at === -1) { list.push(id); } else { list.splice(at, 1); }
+        write(list);
+        paint(at === -1);
+      });
+    });
+  }
+
   /* ------------------------------------------- consentement et publicité */
 
   function initConsent() {
@@ -358,6 +398,7 @@
     initExitIntent();
     initRegie();
     initForms();
+    initBookmarks();
     initConsent();
   }
 

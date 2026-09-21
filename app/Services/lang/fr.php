@@ -100,6 +100,7 @@ return [
     'job.apply_direct'  => 'Votre candidature part directement à l’employeur, sans intermédiaire ni frais.',
     'job.apply_none'    => 'L’employeur n’a pas laissé de contact public pour cette annonce.',
     'job.save'          => 'Mettre de côté',
+    'job.saved'         => 'Mise de côté ✓',
     'job.employer'      => "L'employeur",
     'job.employer_jobs' => 'Voir ses autres offres',
     'job.ask_regie'     => 'Demandez à Régie',

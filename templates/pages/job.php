@@ -104,7 +104,8 @@ $applyHref = $job['apply']['url'] !== ''
           </a>
         <?php endif; ?>
         <button type="button" class="btn btn-ghost-light btn-block" style="margin-top:9px"
-                data-bookmark="<?= e($job['id']) ?>"><?= e(I18n::t('job.save')) ?></button>
+                data-bookmark="<?= e($job['id']) ?>" aria-pressed="false"
+                data-bookmark-on="<?= e(I18n::t('job.saved')) ?>"><?= e(I18n::t('job.save')) ?></button>
       </div>
 
       <?php if ($employer !== null): ?>
