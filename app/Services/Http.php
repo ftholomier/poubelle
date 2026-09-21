@@ -35,6 +35,10 @@ final class Http
             $encoded = json_encode($body, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $encoded);
             $headers[] = 'Content-Type: application/json';
+        } elseif (!empty($options['form'])) {
+            // OAuth2 client_credentials attend un corps de formulaire, pas du JSON.
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query((array) $options['form']));
+            $headers[] = 'Content-Type: application/x-www-form-urlencoded';
         }
         if ($headers !== []) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);

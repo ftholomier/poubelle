@@ -20,6 +20,7 @@ $entries = [
     ['/admin/traductions',     'admin.translations', '#FFC531'],
     ['/admin/sauvegardes',     'admin.backups',      '#6D4AFF'],
     ['/admin/utilisateurs',    'admin.users',        '#0FBFA4'],
+    ['/admin/offres-externes', 'admin.sources',      '#0FBFA4'],
     ['/admin/publicite',       'admin.ads',          '#FF7AB8'],
 ];
 $current = parse_url((string) ($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH) ?: '';

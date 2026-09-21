@@ -28,7 +28,7 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
     <div class="fb-field">
       <?= Icon::svg('pin', 18, '#6B6590') ?>
       <label class="visually-hidden" for="f-city"><?= e(I18n::t('search.city')) ?></label>
-      <input id="f-city" type="search" name="city" value="<?= e($criteria['city']) ?>" placeholder="<?= e(I18n::t('search.city')) ?>">
+      <input id="f-city" type="search" name="city" data-places value="<?= e($criteria['city']) ?>" placeholder="<?= e(I18n::t('search.city')) ?>">
     </div>
     <?php foreach ($criteria['category'] as $value): ?>
       <input type="hidden" name="category[]" value="<?= e($value) ?>">
@@ -115,6 +115,10 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
           <a class="btn btn-coral" href="<?= e(I18n::url('/offres')) ?>"><?= e(I18n::t('search.reset')) ?></a>
         </div>
       <?php else: ?>
+        <?php if (($external ?? 0) > 0): ?>
+          <p class="external-note"><?= Icon::svg('globe', 15, '#6B6590', 2) ?>
+            <?= e(I18n::t('jobs.external_note', (int) $external)) ?></p>
+        <?php endif; ?>
         <div class="result-list">
           <?php foreach ($results['items'] as $i => $job): ?>
             <?= View::partial('partials/job-row', ['job' => $job]) ?>

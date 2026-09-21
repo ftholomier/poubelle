@@ -16,6 +16,7 @@ use App\Domain\JobRepository;
 use App\Domain\PageRepository;
 use App\Domain\UserRepository;
 use App\Services\Ads;
+use App\Services\Aggregator;
 use App\Services\Auth;
 use App\Services\I18n;
 use App\Services\Knowledge;
@@ -476,6 +477,49 @@ final class AdminController extends Controller
             'client' => Ads::client(),
             'notice' => $notice,
         ], I18n::t('admin.ads'));
+    }
+
+    /* --------------------------------------------------- offres externes */
+
+    public function sources(Request $request, array $params): Response
+    {
+        if (($guard = $this->guard()) !== null) {
+            return $guard;
+        }
+
+        $notice = '';
+        if ($request->isPost() && Csrf::check($request)) {
+            if ($request->input('action') === 'clear') {
+                $count = Aggregator::clearCache();
+                Audit::log('sources.cache_cleared', ['files' => $count], $this->userId());
+                $notice = I18n::t('admin.saved');
+            } else {
+                foreach (array_keys(Aggregator::sources()) as $key) {
+                    Aggregator::setSourceEnabled($key, $request->input('source_' . $key) === '1');
+                }
+                Audit::log('sources.updated', [], $this->userId());
+                $notice = I18n::t('admin.saved');
+            }
+        }
+
+        $rows = [];
+        $cache = Aggregator::cacheStatus();
+        foreach (Aggregator::sources() as $key => $source) {
+            $rows[$key] = [
+                'name'       => $source->name(),
+                'configured' => $source->isConfigured(),
+                'enabled'    => Aggregator::isSourceEnabled($key),
+                'cached'     => (int) ($cache[$key]['jobs'] ?? 0),
+                'age'        => (int) ($cache[$key]['age'] ?? -1),
+            ];
+        }
+
+        return $this->screen('admin/sources', [
+            'rows'     => $rows,
+            'settings' => (array) Config::get('sources', []),
+            'active'   => Aggregator::isEnabled(),
+            'notice'   => $notice,
+        ], I18n::t('admin.sources'));
     }
 
     /* ---------------------------------------------------------------- privé */

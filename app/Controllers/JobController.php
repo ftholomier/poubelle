@@ -8,6 +8,7 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Domain\EmployerRepository;
 use App\Domain\JobRepository;
+use App\Services\Aggregator;
 use App\Services\I18n;
 use App\Services\Search;
 use App\Storage\Index;
@@ -21,10 +22,16 @@ final class JobController extends Controller
         $results = Search::jobs($criteria);
         $facets = Index::meta('jobs');
 
+        // Les offres externes complètent la page courante sans jamais entrer
+        // dans les compteurs : « 51 offres » reste le nombre d'annonces déposées ici.
+        $blended = Aggregator::blend($results['items'], $criteria);
+        $results['items'] = $blended['items'];
+
         $newest = Index::load('jobs')[0]['published_at'] ?? '';
 
         return $this->page('pages/jobs', [
             'results'  => $results,
+            'external' => $blended['external'],
             'facets'   => $facets,
             'criteria' => $criteria,
             'query'    => $this->queryParams($request),

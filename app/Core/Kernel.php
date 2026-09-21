@@ -103,6 +103,7 @@ final class Kernel
         $router->get('/api/search/cv',       [ApiController::class, 'cv']);
         $router->get('/api/search/employers',[ApiController::class, 'employers']);
         $router->get('/api/suggest',         [ApiController::class, 'suggest']);
+        $router->get('/api/places',          [ApiController::class, 'places']);
         $router->post('/api/regie',          [ApiController::class, 'regie']);
         $router->post('/api/report',         [ApiController::class, 'report']);
 
@@ -125,6 +126,7 @@ final class Kernel
         $router->any('/admin/sauvegardes',         [AdminController::class, 'backups']);
         $router->any('/admin/utilisateurs',        [AdminController::class, 'users']);
         $router->any('/admin/publicite',           [AdminController::class, 'ads']);
+        $router->any('/admin/offres-externes',     [AdminController::class, 'sources']);
 
         return $router;
     }

@@ -81,6 +81,38 @@ return [
         ],
     ],
 
+    /**
+     * Offres externes greffées dans les résultats, comme le faisait l'extension
+     * Indeed du site WordPress. Réglages repris de l'ancienne installation.
+     */
+    'sources' => [
+        'enabled'   => true,
+        'cache_ttl' => 3600,    // 1 h : un agrégateur ne bouge pas plus vite
+        'before'    => 5,       // offres externes affichées avant les annonces du site
+        'after'     => 25,      // et après
+        'country'   => 'fr',
+        'location'  => 'France',
+
+        // Les 30 métiers ciblés par l'ancien site. Sert de requête par défaut
+        // quand le visiteur n'a pas saisi de mot-clé.
+        'query' => 'superviseur or accessoiriste or animateur or assistant or reportage or plateau or '
+                 . 'radio or television or sonorisateur or bruiteur or technicien or machiniste or '
+                 . 'monteur or coiffeur or cadreur or costume or cinema or producteur or mixeur or '
+                 . 'habilleur or maquilleur or costumier or eclairagiste or realisateur or regisseur or '
+                 . 'decorateur or intermittent or spectacle or production audiovisuelle',
+
+        'france_travail' => [
+            // Domaine « L » du ROME : spectacle, cinéma et audiovisuel.
+            // Vider ce tableau pour chercher uniquement sur les mots-clés.
+            'rome' => [
+                'L1101', 'L1103', 'L1201', 'L1202', 'L1203', 'L1204',
+                'L1301', 'L1302', 'L1303', 'L1304',
+                'L1501', 'L1502', 'L1503', 'L1504', 'L1505',
+                'L1506', 'L1507', 'L1508', 'L1509', 'L1510',
+            ],
+        ],
+    ],
+
     'reviews' => [
         'place_id' => '',
         'ttl'      => 43200,   // 12 h
