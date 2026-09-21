@@ -92,6 +92,16 @@ final class Secrets
                     'placeholder' => 'ca-pub-0000000000000000',
                     'public' => true,
                 ],
+                'adsense_infeed_layout' => [
+                    'label' => 'Clé de mise en page in-feed',
+                    'help'  => 'Uniquement si l’emplacement « In-feed liste » reçoit une unité de '
+                             . 'type In-feed : AdSense fournit alors un data-ad-layout-key à recopier '
+                             . 'ici. Laissé vide, cet emplacement se comporte comme un bloc display '
+                             . 'classique, ce qui convient à une unité « Display ».',
+                    'doc'   => ['Créer une unité In-feed', 'https://support.google.com/adsense/answer/9183363'],
+                    'placeholder' => '-fb+5w+4e-db+86',
+                    'public' => true,
+                ],
             ],
             'slots' => true,   // les sept identifiants d'emplacement, générés
         ],

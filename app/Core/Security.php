@@ -17,11 +17,15 @@ final class Security
         return self::$nonce;
     }
 
-    public static function sendHeaders(bool $allowAds = false): void
+    /**
+     * @param bool|null $allowAds null = déduit du consentement du visiteur.
+     */
+    public static function sendHeaders(?bool $allowAds = null): void
     {
         if (headers_sent()) {
             return;
         }
+        $allowAds ??= self::adsConsented();
 
         header('X-Content-Type-Options: nosniff');
         header('X-Frame-Options: SAMEORIGIN');
@@ -55,6 +59,21 @@ final class Security
             "frame-src 'self'" . $adHosts,
         ];
         header('Content-Security-Policy: ' . implode('; ', $csp));
+    }
+
+    /**
+     * Le consentement est mémorisé côté navigateur, mais le CSP se décide côté
+     * serveur : le choix du visiteur est donc aussi déposé dans un cookie, seul
+     * moyen pour PHP de savoir s'il doit ouvrir les domaines publicitaires.
+     * Ce cookie sert uniquement à mémoriser un refus ou un accord : à ce titre
+     * il est exempté de consentement.
+     */
+    private static function adsConsented(): bool
+    {
+        if (($_COOKIE['imtt_consent'] ?? '') !== 'all') {
+            return false;
+        }
+        return trim((string) Config::get('ads.client', '')) !== '';
     }
 
     /** Redirection HTTP → HTTPS. Le certificat doit être réparé côté hébergeur. */

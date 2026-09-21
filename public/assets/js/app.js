@@ -495,21 +495,55 @@
 
   /* ------------------------------------------- consentement et publicité */
 
+  /** Le cookie fait foi : c'est le seul canal que PHP peut lire pour ouvrir le CSP. */
+  function consentCookie() {
+    var m = document.cookie.match(/(?:^|;\s*)imtt_consent=(all|none)/);
+    return m ? m[1] : null;
+  }
+
+  function storeConsent(choice) {
+    try { window.localStorage.setItem('imtt_consent', choice); } catch (e) { /* bloqué */ }
+    document.cookie = 'imtt_consent=' + choice + ';path=/;max-age=15552000;SameSite=Lax'
+      + (location.protocol === 'https:' ? ';Secure' : '');
+  }
+
   function initConsent() {
     var banner = $('[data-cmp]');
-    var consent = null;
-    try { consent = window.localStorage.getItem('imtt_consent'); } catch (e) { /* bloqué */ }
+    var stored = null;
+    try { stored = window.localStorage.getItem('imtt_consent'); } catch (e) { /* bloqué */ }
+    var consent = consentCookie() || stored;
 
-    if (consent === 'all') { loadAds(); }
+    if (consent === 'all') {
+      // Le CSP n'autorise les domaines publicitaires que si le serveur a vu le
+      // cookie. Choix mémorisé avant sa mise en place : on le repose, puis on
+      // recharge une seule fois pour obtenir les bons en-têtes.
+      //
+      // Deux garde-fous contre la boucle de rechargement : le cookie doit avoir
+      // été réellement écrit, et le marqueur de session doit être relisible.
+      // Sans stockage, on préfère renoncer à la publicité.
+      if (!consentCookie()) {
+        storeConsent('all');
+        if (consentCookie() && session('imtt_csp') !== '1') {
+          session('imtt_csp', '1');
+          if (session('imtt_csp') === '1') { location.reload(); return; }
+        }
+      }
+      loadAds();
+    }
+
     if (!banner) { return; }
     banner.hidden = consent !== null;
 
     $$('[data-cmp-choice]', banner).forEach(function (btn) {
       btn.addEventListener('click', function () {
         var choice = btn.getAttribute('data-cmp-choice');
-        try { window.localStorage.setItem('imtt_consent', choice); } catch (e) { /* bloqué */ }
+        storeConsent(choice);
         banner.hidden = true;
-        if (choice === 'all') { loadAds(); }
+        if (choice !== 'all') { return; }
+        // Rechargement : les en-têtes de la page courante interdisent encore
+        // pagead2, le script serait bloqué par le navigateur. Cookies refusés
+        // par le navigateur : inutile de recharger, le CSP ne changera pas.
+        if (consentCookie()) { location.reload(); } else { loadAds(); }
       });
     });
   }
