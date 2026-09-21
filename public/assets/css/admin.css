@@ -1,0 +1,148 @@
+/* ============================================================================
+   Back-office — fond sombre #0F0C26, cartes claires, même vocabulaire visuel
+   que le site public (ombres pleines, pilules, tuiles colorées).
+   ========================================================================== */
+
+.admin-shell { min-height: 100vh; display: flex; flex-direction: column; }
+
+.admin-top {
+  background: var(--ink); border-bottom: 1px solid rgba(255,255,255,.1);
+  padding: 13px 0; position: sticky; top: 0; z-index: 60;
+}
+.admin-top .inner {
+  max-width: 1320px; margin: 0 auto; padding: 0 var(--gutter);
+  display: flex; align-items: center; gap: 18px;
+}
+.admin-top .spacer { flex: 1; }
+.admin-who { font-size: 13px; color: rgba(255,255,255,.66); }
+.admin-who strong { color: #fff; }
+
+.admin-body { flex: 1; max-width: 1320px; width: 100%; margin: 0 auto; padding: 26px var(--gutter) 56px; }
+.admin-grid { display: grid; grid-template-columns: minmax(0, 210px) minmax(0, 1fr); gap: 24px; align-items: start; }
+
+/* Menu latéral : 9 entrées, puce de couleur */
+.admin-nav { display: flex; flex-direction: column; gap: 3px; position: sticky; top: 84px; }
+.admin-nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 13px; border-radius: 12px;
+  font-size: 14px; font-weight: 600; color: rgba(255,255,255,.72);
+  transition: background .25s ease, color .25s ease;
+}
+.admin-nav a:hover { background: rgba(255,255,255,.07); color: #fff; }
+.admin-nav a[aria-current="page"] { background: var(--ink); color: #fff; }
+.admin-nav .bullet { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+
+.admin-card {
+  background: #fff; color: var(--ink);
+  border: var(--card-border); border-radius: 20px;
+  box-shadow: var(--card-shadow); padding: 22px;
+}
+.admin-card + .admin-card { margin-top: 18px; }
+.admin-card h2 { font-size: 22px; }
+.admin-card h3 { font-size: 16px; }
+
+.admin-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.admin-head h1 { color: #fff; font-size: clamp(26px, 3vw, 36px); }
+.admin-head p { color: rgba(255,255,255,.6); margin: 6px 0 0; font-size: 14px; }
+
+/* Indicateurs */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 20px; }
+.kpi {
+  background: #fff; border: var(--card-border); border-radius: 18px;
+  box-shadow: 4px 5px 0 var(--ink); padding: 18px;
+}
+.kpi .n { font-family: var(--font-display); font-weight: 800; font-size: 34px; line-height: 1; letter-spacing: -.02em; }
+.kpi .l { font-size: 12.5px; color: var(--meta); font-weight: 700; margin-top: 7px; }
+
+/* Tables */
+.admin-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.admin-table th {
+  text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--meta); font-weight: 800; padding: 0 12px 10px; white-space: nowrap;
+}
+.admin-table td { padding: 12px; border-top: 1px solid var(--rule); vertical-align: middle; }
+.admin-table tr:hover td { background: var(--cream); }
+.admin-table .t { font-weight: 700; }
+.admin-table .s { font-size: 12.5px; color: var(--meta); }
+.admin-table .actions { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
+.table-scroll { overflow-x: auto; margin: 0 -6px; padding: 0 6px; }
+
+/* Pastilles d'état */
+.state { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 4px 11px; font-size: 11.5px; font-weight: 800; white-space: nowrap; }
+.state-ok      { background: var(--ok-bg);   color: var(--ok-fg); }
+.state-wait    { background: var(--wait-bg); color: var(--wait-fg); }
+.state-err     { background: var(--err-bg);  color: var(--err-fg); }
+.state-neutral { background: var(--cream);   color: var(--meta); border: 1px solid var(--rule); }
+
+/* Éditeur */
+.editor-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 18px; align-items: start; }
+.editor-toolbar {
+  display: flex; gap: 5px; flex-wrap: wrap;
+  padding: 10px; border: 1.5px solid var(--rule); border-radius: 14px 14px 0 0;
+  border-bottom: none; background: var(--cream);
+}
+.editor-toolbar button {
+  min-width: 34px; height: 34px; padding: 0 9px;
+  border: 1px solid transparent; border-radius: 9px; background: #fff;
+  font-size: 13px; font-weight: 700;
+  transition: border-color .2s ease, background .2s ease;
+}
+.editor-toolbar button:hover { border-color: var(--ink); background: var(--yellow); }
+.editor-toolbar .sep { width: 1px; background: var(--rule); margin: 4px 3px; }
+
+.editor-area {
+  min-height: 420px; padding: 20px 22px;
+  border: 1.5px solid var(--rule); border-radius: 0 0 14px 14px;
+  background: #fff; outline: none; font-size: 16px; line-height: 1.75; color: var(--text);
+}
+.editor-area:focus { border-color: var(--coral); }
+.editor-area h2 { font-size: 22px; color: var(--ink); margin: 26px 0 10px; }
+.editor-area h3 { font-size: 18px; color: var(--ink); margin: 20px 0 8px; }
+.editor-area p { margin: 0 0 13px; }
+.editor-area ul, .editor-area ol { padding-left: 22px; line-height: 1.9; }
+.editor-area blockquote { border-left: 3px solid var(--yellow); padding-left: 14px; margin: 0 0 14px; }
+
+.editor-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  flex-wrap: wrap; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--rule);
+}
+.editor-foot .status { font-size: 12.5px; color: var(--meta); }
+
+.lock-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--wait-bg); color: var(--wait-fg);
+  border-radius: 999px; padding: 6px 13px; font-size: 12px; font-weight: 800;
+}
+.lock-pill.is-mine { background: var(--ok-bg); color: var(--ok-fg); }
+
+/* Carte sombre de la base de connaissance */
+.kb-card { background: var(--ink); color: #fff; border-color: var(--ink); }
+.kb-card h3 { color: #fff; }
+.kb-card .doc {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.1); font-size: 13px;
+}
+.kb-card .doc:last-child { border-bottom: 0; }
+.kb-card .doc .kind {
+  font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
+  background: var(--yellow); color: var(--ink); border-radius: 6px; padding: 3px 7px; flex: none;
+}
+.kb-card .doc .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Écrans de connexion */
+.auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+.auth-stack { width: 100%; max-width: 430px; display: flex; flex-direction: column; gap: 18px; }
+.auth-card { background: #fff; color: var(--ink); border: var(--card-border); border-radius: 24px; box-shadow: 6px 7px 0 var(--ink); padding: 30px; }
+.auth-card h1 { font-size: 26px; margin: 18px 0 6px; }
+.auth-card p { font-size: 14px; color: var(--text); margin: 0 0 20px; }
+.auth-note {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14);
+  border-radius: 18px; padding: 18px; color: rgba(255,255,255,.7); font-size: 13px; line-height: 1.6;
+}
+.auth-note h2 { color: #fff; font-size: 15px; margin-bottom: 8px; }
+
+@media (max-width: 900px) {
+  .admin-grid, .editor-grid { grid-template-columns: minmax(0, 1fr); }
+  .admin-nav { position: static; flex-direction: row; flex-wrap: wrap; }
+  .admin-nav a { flex: 1 1 150px; }
+}
