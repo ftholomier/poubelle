@@ -18,6 +18,7 @@ use App\Domain\UserRepository;
 use App\Services\Ads;
 use App\Services\Aggregator;
 use App\Services\Auth;
+use App\Services\ContentTranslator;
 use App\Services\I18n;
 use App\Services\Knowledge;
 use App\Services\Mailer;
@@ -357,8 +358,15 @@ final class AdminController extends Controller
                         }
                     }
                 }
-                Audit::log('i18n.refreshed', ['items' => $done], $this->userId());
-                $notice = I18n::t('admin.saved');
+
+                // Les annonces et profils, plafonnés : un clic ne doit pas
+                // déclencher des milliers d'appels facturés au caractère.
+                $records = ContentTranslator::translateMissing(null, 150);
+
+                Audit::log('i18n.refreshed',
+                    ['pages' => $done, 'records' => $records['done']], $this->userId());
+                $notice = sprintf('%s %d élément(s) d’interface et de page, %d fiche(s) traduite(s).',
+                    I18n::t('admin.saved'), $done, $records['done']);
             }
         }
 
@@ -373,6 +381,7 @@ final class AdminController extends Controller
 
         return $this->screen('admin/translations', [
             'matrix'    => $matrix,
+            'records'   => ContentTranslator::stats(),
             'available' => Translator::available(),
             'notice'    => $notice,
         ], I18n::t('admin.translations'));

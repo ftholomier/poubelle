@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Core\Request;
 use App\Core\Response;
 use App\Domain\CvRepository;
+use App\Services\ContentTranslator;
 use App\Services\I18n;
 use App\Services\Search;
 use App\Storage\Index;
@@ -17,6 +18,7 @@ final class CvController extends Controller
         $criteria = $this->criteria($request);
         $criteria['per_page'] = 12;
         $results = Search::cv($criteria);
+        $results['items'] = ContentTranslator::applyToRows($results['items'], 'cv', I18n::lang());
         $facets = Index::meta('cv');
 
         return $this->page('pages/cv-list', [
@@ -37,6 +39,8 @@ final class CvController extends Controller
         if ($cv === null || ($cv['status'] ?? '') !== 'publish' || !($cv['listed'] ?? false)) {
             return $this->notFound('/cv');
         }
+
+        $cv = ContentTranslator::translateOnDemand($cv, 'cv', I18n::lang(), $request->ip());
 
         // Profils voisins : même métier ou même ville.
         $related = [];

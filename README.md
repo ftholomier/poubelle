@@ -197,7 +197,42 @@ vers `data/content/{lang}/`.
 Depuis le back-office : *Traductions* → `Traduire ce qui manque`. Seul ce qui
 manque part à l'API : une clé déjà traduite n'est jamais renvoyée.
 
+### Ce qui est traduit
+
+| Contenu | Traduit | Comment |
+| --- | --- | --- |
+| Interface | oui | Une seule source FR, cache par langue. |
+| Pages éditoriales | oui | Stockées par langue dans `data/content/{lang}/`. |
+| **Annonces** | **oui** | Titre, description, conditions et profil recherché. Cache par fiche dans `data/i18n/job/{lang}/`, indexé sur une empreinte du texte source : une annonce modifiée est remise en file, une annonce inchangée n'est jamais repayée. |
+| CV | non par défaut | Textes personnels, qui se lisent d'ordinaire dans leur langue. Activable par `i18n.translate_cv`. |
+| Offres externes | non | Elles appartiennent à leur source et renvoient vers elle. |
+
+Une annonce consultée dans une langue non encore traduite est traduite à la
+volée puis mise en cache — le visiteur suivant ne l'attend plus. La traduction
+à la demande est bornée à 12 fiches par heure et par IP, pour qu'un robot
+d'indexation ne se transforme pas en facture. Le traitement par lot depuis le
+back-office est plafonné à 150 fiches par clic.
+
+Une traduction en cache est **toujours** servie, même si la clé d'API est
+retirée ensuite : l'API n'est nécessaire que pour la produire.
+
 ---
+
+## Configuration
+
+Tout se règle depuis *Back-office → Clés d'API* : assistant Régie, traduction,
+avis Google, AdSense et ses sept emplacements, les quatre sources d'offres
+externes, expédition des e-mails, clé de signature. Chaque champ porte son mode
+d'emploi et un lien vers la console où créer la clé ; chaque groupe a un bouton
+qui interroge réellement le service plutôt que de valider un format.
+
+Les valeurs vivent dans `data/private/secrets.json`, hors racine web, en 0600.
+Un secret n'est jamais renvoyé au navigateur : l'écran n'affiche qu'une
+empreinte partielle (`AIza••••••••4f2a`) et un champ laissé vide conserve la
+valeur en place. Le journal retient quelles clés ont changé, jamais leur valeur.
+
+`config/secrets.php` reste utilisable pour un déploiement automatisé : le
+magasin piloté depuis l'interface l'emporte simplement sur le fichier.
 
 ## Dégradation sans clé d'API
 
@@ -241,7 +276,9 @@ Trois garanties :
 | **Jooble** | `jooble_key` | Clé en libre-service. Complément utile. |
 
 Chaque source s'active dès que ses clés sont présentes, et se pilote depuis
-*Back-office → Offres externes* (activation, état du cache, vidage). Une source
+*Back-office → Offres externes* (activation, état du cache, vidage). Les clés
+elles-mêmes se saisissent dans *Back-office → Clés d'API*, avec un lien direct
+vers la console de chaque fournisseur et un bouton qui teste la connexion. Une source
 en panne ne casse jamais la page : au pire, il n'y a que les annonces locales.
 
 Les codes ROME interrogés côté France Travail sont dans

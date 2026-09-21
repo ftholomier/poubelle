@@ -9,6 +9,7 @@ use App\Core\Response;
 use App\Domain\EmployerRepository;
 use App\Domain\JobRepository;
 use App\Services\Aggregator;
+use App\Services\ContentTranslator;
 use App\Services\I18n;
 use App\Services\Search;
 use App\Storage\Index;
@@ -24,6 +25,9 @@ final class JobController extends Controller
 
         // Les offres externes complètent la page courante sans jamais entrer
         // dans les compteurs : « 51 offres » reste le nombre d'annonces déposées ici.
+        // Les cartes affichent le titre et l'extrait traduits quand ils existent.
+        $results['items'] = ContentTranslator::applyToRows($results['items'], 'job', I18n::lang());
+
         $blended = Aggregator::blend($results['items'], $criteria);
         $results['items'] = $blended['items'];
 
@@ -50,6 +54,10 @@ final class JobController extends Controller
             return $this->notFound('/offres');
         }
 
+        // Une annonce consultée dans une autre langue est traduite à la volée
+        // puis mise en cache : le visiteur suivant n'attend plus.
+        $job = ContentTranslator::translateOnDemand($job, 'job', I18n::lang(), $request->ip());
+
         $employerSlug = (string) ($job['company']['slug'] ?? '');
         $employer = $employerSlug !== '' ? EmployerRepository::find($employerSlug) : null;
 
@@ -68,9 +76,11 @@ final class JobController extends Controller
             'employer'  => $employer,
             'siblings'  => array_slice($siblings, 0, 3),
         ], [
-            'title' => (string) $job['title'],
-            'desc'  => str_excerpt((string) $job['description'], 155),
-            'path'  => '/offre/' . $job['slug'],
+            'title'        => (string) $job['title'],
+            'desc'         => str_excerpt((string) $job['description'], 155),
+            'path'         => '/offre/' . $job['slug'],
+            'translated'   => !empty($job['translated']),
+            'untranslated' => !I18n::isPivot() && empty($job['translated']),
         ]);
     }
 }

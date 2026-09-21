@@ -20,6 +20,11 @@ return [
     // FR est la langue pivot : les autres sont des traductions en cache.
     'i18n' => [
         'pivot'     => 'fr',
+        // Les annonces sont traduites : c'est le contenu qu'un visiteur
+        // étranger vient chercher. Les CV ne le sont pas par défaut — ce sont
+        // des textes personnels, et un CV se lit d'ordinaire dans sa langue.
+        'translate_jobs' => true,
+        'translate_cv'   => false,
         'languages' => [
             'fr' => ['name' => 'Français',  'locale' => 'fr_FR'],
             'en' => ['name' => 'English',   'locale' => 'en_GB'],

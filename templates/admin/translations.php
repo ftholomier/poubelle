@@ -26,6 +26,52 @@ $languages = I18n::languages();
 <?php endif; ?>
 
 <div class="admin-card">
+  <h2>Annonces et profils</h2>
+  <p class="muted" style="font-size:14px;margin:6px 0 16px">
+    Une fiche modifiée est automatiquement remise en file : la traduction en cache
+    est indexée sur le texte source. Une fiche consultée dans une langue non encore
+    traduite est traduite à la volée, puis servie depuis le cache aux suivants.
+  </p>
+  <div class="table-scroll">
+    <table class="admin-table">
+      <thead>
+        <tr><th>Type</th><th>Publiées</th>
+          <?php foreach ($languages as $code => $meta): if ($code === 'fr') continue; ?>
+            <th><?= e(strtoupper((string) $code)) ?></th>
+          <?php endforeach; ?>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach (['job' => 'Offres d’emploi', 'cv' => 'CV'] as $type => $label): ?>
+          <?php $row = $records[$type] ?? ['enabled' => false, 'total' => 0, 'langs' => []]; ?>
+          <tr>
+            <td><span class="t"><?= e($label) ?></span><br>
+              <span class="state <?= $row['enabled'] ? 'state-ok' : 'state-neutral' ?>">
+                <?= $row['enabled'] ? 'Traduction active' : 'Désactivée' ?>
+              </span>
+            </td>
+            <td class="s"><?= (int) $row['total'] ?></td>
+            <?php foreach ($languages as $code => $meta): if ($code === 'fr') continue; ?>
+              <?php $n = (int) ($row['langs'][$code] ?? 0); $total = (int) $row['total']; ?>
+              <td>
+                <span class="state <?= $total > 0 && $n >= $total ? 'state-ok' : ($n > 0 ? 'state-wait' : 'state-neutral') ?>">
+                  <?= $n ?>/<?= $total ?>
+                </span>
+              </td>
+            <?php endforeach; ?>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted" style="font-size:13px;margin-top:14px">
+    Les CV sont exclus par défaut : ce sont des textes personnels, et un CV se lit
+    d’ordinaire dans sa langue. Réglable par <code>i18n.translate_cv</code>.
+  </p>
+</div>
+
+<div class="admin-card">
+  <h2>Pages éditoriales</h2>
   <div class="table-scroll">
     <table class="admin-table">
       <thead>
