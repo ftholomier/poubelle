@@ -160,6 +160,106 @@ $pages = [
     ],
 ];
 
+/**
+ * Convertit le Markdown simple de bin/content/ en HTML.
+ * Volontairement minimal : titres, paragraphes, listes et liens suffisent aux
+ * pages éditoriales, et ça évite une dépendance pour quatre balises.
+ */
+function markdownToHtml(string $markdown): string
+{
+    $out = '';
+    $inList = false;
+    $paragraph = [];
+
+    $flush = static function () use (&$paragraph, &$out): void {
+        if ($paragraph !== []) {
+            $out .= '<p>' . implode('<br>', $paragraph) . "</p>\n";
+            $paragraph = [];
+        }
+    };
+    $inline = static function (string $text): string {
+        $text = htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        // [libellé](url) -> lien, en marquant les liens sortants.
+        return (string) preg_replace_callback(
+            '/\[([^\]]+)\]\(([^)]+)\)/',
+            static function (array $m): string {
+                $href = $m[2];
+                $external = str_starts_with($href, 'http');
+                return sprintf('<a href="%s"%s>%s</a>', $href,
+                    $external ? ' rel="noopener noreferrer" target="_blank"' : '', $m[1]);
+            },
+            $text,
+        );
+    };
+
+    foreach (preg_split('/\R/', $markdown) ?: [] as $line) {
+        $line = rtrim($line);
+
+        if ($line === '') {
+            if ($inList) { $out .= "</ul>\n"; $inList = false; }
+            $flush();
+            continue;
+        }
+        if (str_starts_with($line, '# ')) {
+            if ($inList) { $out .= "</ul>\n"; $inList = false; }
+            $flush();
+            continue;   // le titre de niveau 1 est le titre de la page
+        }
+        if (str_starts_with($line, '### ')) {
+            if ($inList) { $out .= "</ul>\n"; $inList = false; }
+            $flush();
+            $out .= '<h3>' . $inline(substr($line, 4)) . "</h3>\n";
+            continue;
+        }
+        if (str_starts_with($line, '## ')) {
+            if ($inList) { $out .= "</ul>\n"; $inList = false; }
+            $flush();
+            $heading = substr($line, 3);
+            $out .= '<h2 id="' . slugify($heading, 40) . '">' . $inline($heading) . "</h2>\n";
+            continue;
+        }
+        if (str_starts_with($line, '* ')) {
+            $flush();
+            if (!$inList) { $out .= "<ul>\n"; $inList = true; }
+            $out .= '<li>' . $inline(substr($line, 2)) . "</li>\n";
+            continue;
+        }
+        if ($inList) { $out .= "</ul>\n"; $inList = false; }
+        $paragraph[] = $inline($line);
+    }
+    if ($inList) { $out .= "</ul>\n"; }
+    $flush();
+
+    return trim($out);
+}
+
+// Les pages dont le texte vit dans bin/content/ : elles sont toujours
+// réécrites, car ce fichier est la source de vérité.
+$fromFile = [
+    'mentions-legales' => 'Politique de confidentialité',
+];
+foreach ($fromFile as $slug => $title) {
+    $file = __DIR__ . '/content/' . $slug . '.md';
+    if (!is_file($file)) {
+        continue;
+    }
+    $body = markdownToHtml((string) file_get_contents($file));
+    $text = trim((string) preg_replace('/\s+/', ' ', strip_tags($body)));
+
+    PageRepository::save([
+        'id'      => $slug,
+        'slug'    => $slug,
+        'title'   => $title,
+        'status'  => 'publish',
+        'excerpt' => str_excerpt($text, 220),
+        'body'    => $body,
+        'menu'    => true,
+        'seo'     => ['title' => $title, 'description' => str_excerpt($text, 155)],
+        'published_at' => date('c'),
+    ], 'fr');
+    printf("   écrite depuis bin/content : %s (%d caractères)\n", $slug, strlen($body));
+}
+
 $created = $skipped = 0;
 foreach ($pages as $page) {
     if (!$force && PageRepository::find($page['slug'], 'fr') !== null) {

@@ -85,6 +85,23 @@ $tabs = [
   </div>
 </div>
 
+<section class="container">
+  <div class="stats-band" data-reveal>
+    <?php foreach ([
+        ['n' => $stats['jobs'],      'label' => 'stats.jobs',      'color' => '#FF4B3E'],
+        ['n' => $stats['cv'],        'label' => 'stats.cv',        'color' => '#0FBFA4'],
+        ['n' => $stats['employers'], 'label' => 'stats.employers', 'color' => '#6D4AFF'],
+    ] as $stat): ?>
+      <div class="stat">
+        <span class="stat-n" style="color:<?= e($stat['color']) ?>">
+          <?= e(number_format((int) $stat['n'], 0, ',', ' ')) ?>
+        </span>
+        <span class="stat-l"><?= e(I18n::t($stat['label'])) ?></span>
+      </div>
+    <?php endforeach; ?>
+  </div>
+</section>
+
 <div class="container"><?= View::partial('partials/ad', ['slot' => 'home_top']) ?></div>
 
 <section class="section container">

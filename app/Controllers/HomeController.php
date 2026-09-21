@@ -15,8 +15,18 @@ final class HomeController extends Controller
     {
         $facets = Index::meta('jobs');
 
+        $employers = Index::load('employers');
+
         return $this->page('pages/home', [
             'facets'   => $facets,
+            // Les trois compteurs qu'affichait le site d'origine, calculés
+            // sur les données réelles plutôt que saisis en dur.
+            'stats'    => [
+                'jobs'      => (int) ($facets['total'] ?? 0),
+                'cv'        => (int) (Index::meta('cv')['total'] ?? 0),
+                'employers' => count(array_filter($employers,
+                                 static fn(array $e) => (int) $e['job_count'] > 0)),
+            ],
             'families' => Search::jobFamilies(6),
             'latest'   => Search::latestJobs(4),
             'profiles' => Search::latestCv(4),

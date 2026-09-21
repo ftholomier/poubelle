@@ -13,6 +13,8 @@ return [
         'email'       => 'contact@le-digital.com',
         'since'       => 2005,
         'timezone'    => 'Europe/Paris',
+        // Lien partenaire présent dans le pied de page du site d'origine.
+        'partner_url' => 'https://www.genius-cv.com',
     ],
 
     // FR est la langue pivot : les autres sont des traductions en cache.

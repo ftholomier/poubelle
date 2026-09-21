@@ -43,7 +43,13 @@
         shown++;
         observer.unobserve(entry.target);
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+    }, {
+      // Le seuil de 8 % ne peut pas être atteint par un bloc plus haut que
+      // douze écrans : une page longue (mentions légales) resterait invisible.
+      // Le 0 sert de filet, le 0.08 garde le déclenchement voulu ailleurs.
+      threshold: [0, 0.08],
+      rootMargin: '0px 0px -60px 0px',
+    });
 
     nodes.forEach(function (n) { observer.observe(n); });
   }

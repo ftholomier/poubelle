@@ -6,12 +6,6 @@ use App\Services\Reviews;
 use App\Support\Icon;
 
 $reviews = Reviews::get();
-$socials = [
-    'facebook'  => 'https://www.facebook.com/intermittent.fr',
-    'instagram' => 'https://www.instagram.com/intermittent.fr',
-    'linkedin'  => 'https://www.linkedin.com/company/intermittent-fr',
-    'youtube'   => 'https://www.youtube.com/@intermittentfr',
-];
 $columns = [
     'footer.seekers' => [
         '/cv'            => I18n::t('nav.cv'),
@@ -25,7 +19,7 @@ $columns = [
     ],
     'footer.site' => [
         '/ressources'      => I18n::t('nav.resources'),
-        '/mentions-legales'=> I18n::t('footer.legal'),
+        '/mentions-legales'=> I18n::t('footer.legal_short'),
         '/admin'           => I18n::t('nav.login'),
     ],
 ];
@@ -36,14 +30,6 @@ $columns = [
       <div class="footer-col">
         <a class="logo logo-sm logo-light" href="<?= e(I18n::url('/')) ?>">intermittent<span class="tld">.fr</span></a>
         <p class="footer-about"><?= e(I18n::t('footer.about', (string) Config::get('site.since'))) ?></p>
-        <h4><?= e(I18n::t('footer.follow')) ?></h4>
-        <div class="socials">
-          <?php foreach ($socials as $name => $href): ?>
-            <a href="<?= e($href) ?>" rel="noopener noreferrer" target="_blank" aria-label="<?= e(ucfirst($name)) ?>">
-              <?= Icon::svg($name, 18, 'currentColor', 2) ?>
-            </a>
-          <?php endforeach; ?>
-        </div>
       </div>
 
       <?php foreach ($columns as $titleKey => $links): ?>
@@ -87,11 +73,14 @@ $columns = [
     <div class="footer-legal">
       <nav aria-label="<?= e(I18n::t('footer.legal')) ?>">
         <a href="<?= e(I18n::url('/mentions-legales')) ?>"><?= e(I18n::t('footer.legal')) ?></a>
-        <a href="<?= e(I18n::url('/mentions-legales')) ?>#cgu"><?= e(I18n::t('footer.terms')) ?></a>
-        <a href="<?= e(I18n::url('/mentions-legales')) ?>#cookies"><?= e(I18n::t('footer.cookies')) ?></a>
-        <a href="<?= e(I18n::url('/mentions-legales')) ?>#rgpd"><?= e(I18n::t('footer.gdpr')) ?></a>
       </nav>
-      <span><?= e(I18n::t('footer.free')) ?></span>
+      <span>
+        <?= e(I18n::t('footer.free')) ?>
+        <?php if (($partner = (string) Config::get('site.partner_url')) !== ''): ?>
+          · <a href="<?= e($partner) ?>" rel="noopener nofollow" target="_blank">
+              <?= e(I18n::t('footer.partner')) ?></a>
+        <?php endif; ?>
+      </span>
     </div>
   </div>
 </footer>
