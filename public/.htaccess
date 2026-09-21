@@ -1,0 +1,32 @@
+# intermittent.fr — Apache
+# La racine web doit pointer sur ce dossier.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # HTTP -> HTTPS (le certificat doit être réparé côté hébergeur).
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # Les fichiers réels sont servis directement ; tout le reste passe par index.php.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  <FilesMatch "\.(css|js|woff2|svg|png|jpg|webp)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
+
+# Rien d'exécutable ni de sensible ne doit fuir depuis /public.
+<FilesMatch "^\.|\.(json|md|sql|zip|log|ini|yml|lock)$">
+  Require all denied
+</FilesMatch>
+
+Options -Indexes
+DirectoryIndex index.php

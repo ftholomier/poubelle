@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /media/cv/
+
+Sitemap: https://www.intermittent.fr/sitemap.xml

@@ -1,0 +1,26 @@
+# ---------------------------------------------------------------------------
+# Données personnelles : JAMAIS versionnées.
+# Le dépôt est public ; data/ contient les e-mails, les CV et les empreintes
+# de mot de passe de personnes réelles. Ces fichiers sont régénérés par
+#   php bin/import-wordpress.php --dump=…
+# ---------------------------------------------------------------------------
+data/users/
+data/cv/
+data/jobs/
+data/employers/
+data/uploads/
+data/backups/
+data/logs/
+data/private/
+data/index/
+data/i18n/
+
+# Le contenu éditorial (pages publiques) reste versionné : data/content/
+
+# Secrets
+config/secrets.php
+
+# Divers
+*.sqlite
+.DS_Store
+Thumbs.db
