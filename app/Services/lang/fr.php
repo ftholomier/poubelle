@@ -295,6 +295,16 @@ return [
     'admin.users'        => 'Utilisateurs',
     'admin.ads'          => 'Publicité',
     'admin.sources'      => 'Offres externes',
+    'admin.settings'     => 'Clés d’API',
+    'admin.settings_note'=> 'Tout se configure ici : aucune modification de fichier sur le serveur. '
+                          . 'Les clés sont stockées hors racine web, en lecture seule pour le serveur '
+                          . 'web, et ne sont jamais réaffichées en entier.',
+    'admin.secret_set'   => 'Enregistrée',
+    'admin.secret_empty' => 'Non renseignée',
+    'admin.secret_keep'  => 'Laissez vide pour conserver la valeur actuelle.',
+    'admin.secret_clear' => 'Effacer',
+    'admin.test'         => 'Tester la connexion',
+    'admin.generate'     => 'Générer une clé',
     'admin.sources_note' => 'Ces offres complètent les annonces déposées sur le site. Elles ne sont jamais '
                           . 'enregistrées localement et renvoient vers leur site d’origine.',
     'admin.source_ready' => 'Configurée',

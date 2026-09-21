@@ -127,6 +127,7 @@ final class Kernel
         $router->any('/admin/utilisateurs',        [AdminController::class, 'users']);
         $router->any('/admin/publicite',           [AdminController::class, 'ads']);
         $router->any('/admin/offres-externes',     [AdminController::class, 'sources']);
+        $router->any('/admin/cles-api',            [AdminController::class, 'settings']);
 
         return $router;
     }

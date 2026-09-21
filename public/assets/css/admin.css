@@ -146,3 +146,32 @@
   .admin-nav { position: static; flex-direction: row; flex-wrap: wrap; }
   .admin-nav a { flex: 1 1 150px; }
 }
+
+/* ------------------------------------------------- réglages et clés d'API */
+
+.secret-row { padding: 18px 0; border-top: 1px solid var(--rule); }
+.secret-row:first-of-type { border-top: 0; padding-top: 6px; }
+.secret-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.secret-head .label { margin: 0; }
+.secret-help { font-size: 13px; color: var(--text-2); line-height: 1.55; margin: 6px 0 0; max-width: 72ch; }
+.secret-help a { font-weight: 600; }
+.secret-current { margin: 10px 0 0; }
+.secret-current code {
+  background: var(--cream); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 4px 10px; font-size: 13px; letter-spacing: .04em;
+}
+.secret-field { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+.secret-field .input { flex: 1 1 320px; }
+.secret-clear { font-size: 13px; white-space: nowrap; }
+.secret-clear input { accent-color: var(--err-fg); }
+
+/* Barre d'enregistrement : fine et collée en bas, pour masquer le moins
+   possible du formulaire qu'elle sert à valider. */
+.save-bar {
+  position: sticky; bottom: 0; z-index: 30;
+  margin: 18px -6px -8px; padding: 12px 18px;
+  display: flex; align-items: center; justify-content: flex-end; gap: 14px; flex-wrap: wrap;
+  background: rgba(15, 12, 38, .92); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, .14); border-radius: 16px;
+}
+.save-bar-note { font-size: 12.5px; color: rgba(255, 255, 255, .6); margin-right: auto; }

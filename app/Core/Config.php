@@ -13,29 +13,41 @@ final class Config
     {
         self::$data = $config;
         self::$secrets = $secrets;
-
-        // Les secrets peuvent écraser quelques valeurs de config.
-        if (!empty($secrets['adsense_client'])) {
-            self::$data['ads']['client'] = $secrets['adsense_client'];
-        }
-        if (!empty($secrets['places_id'])) {
-            self::$data['reviews']['place_id'] = $secrets['places_id'];
-        }
     }
 
     public static function get(string $path, mixed $default = null): mixed
     {
+        // Deux valeurs de configuration sont en réalité des identifiants
+        // modifiables depuis le back-office : on les lit au moment de l'appel.
+        if ($path === 'ads.client') {
+            return self::secret('adsense_client', arr_get(self::$data, $path, $default));
+        }
+        if ($path === 'reviews.place_id') {
+            return self::secret('places_id', arr_get(self::$data, $path, $default));
+        }
         return arr_get(self::$data, $path, $default);
     }
 
-    /** Un secret absent renvoie '' : l'appelant doit dégrader proprement. */
+    /**
+     * Un secret absent renvoie '' : l'appelant doit dégrader proprement.
+     *
+     * Deux sources : le magasin piloté depuis le back-office l'emporte sur
+     * config/secrets.php, ce qui permet de démarrer avec un fichier posé à la
+     * main puis de basculer sur l'interface sans rien casser.
+     */
     public static function secret(string $key, mixed $default = ''): mixed
     {
+        if (\App\Services\Secrets::has($key)) {
+            return \App\Services\Secrets::get($key, $default);
+        }
         return self::$secrets[$key] ?? $default;
     }
 
     public static function has(string $key): bool
     {
+        if (\App\Services\Secrets::has($key)) {
+            return true;
+        }
         $value = self::$secrets[$key] ?? '';
         return is_array($value) ? $value !== [] : trim((string) $value) !== '';
     }

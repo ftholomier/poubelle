@@ -22,6 +22,8 @@ use App\Services\I18n;
 use App\Services\Knowledge;
 use App\Services\Mailer;
 use App\Services\Sanitizer;
+use App\Services\Secrets;
+use App\Services\SecretsTest;
 use App\Services\Translator;
 use App\Services\Validator;
 use App\Storage\Audit;
@@ -520,6 +522,58 @@ final class AdminController extends Controller
             'active'   => Aggregator::isEnabled(),
             'notice'   => $notice,
         ], I18n::t('admin.sources'));
+    }
+
+    /* ------------------------------------------------------- clés d'API */
+
+    public function settings(Request $request, array $params): Response
+    {
+        if (($guard = $this->guard(true)) !== null) {
+            return $guard;
+        }
+
+        $notice = '';
+        $test = null;
+
+        if ($request->isPost() && Csrf::check($request)) {
+            $action = (string) $request->input('action', 'save');
+
+            if ($action === 'test') {
+                $group = (string) $request->input('group', '');
+                $test = ['group' => $group] + SecretsTest::run($group);
+                Audit::log('secrets.tested', ['group' => $group, 'ok' => $test['ok']], $this->userId());
+            } elseif ($action === 'generate') {
+                Secrets::save(['app_key' => Secrets::generateKey()], [], $this->userId());
+                $notice = I18n::t('admin.saved');
+            } else {
+                // Un champ laissé vide ne doit pas effacer la valeur en place :
+                // le formulaire ne réaffiche jamais un secret.
+                $values = [];
+                foreach (array_keys(Secrets::flatten()) as $key) {
+                    if (array_key_exists($key, $request->post)) {
+                        $values[$key] = (string) $request->post[$key];
+                    }
+                }
+                $slots = $request->post['adsense_slots'] ?? [];
+                if (is_array($slots)) {
+                    $values['adsense_slots'] = $slots;
+                }
+                $clear = array_values(array_filter(
+                    (array) ($request->post['clear'] ?? []),
+                    static fn($k) => is_string($k) && $k !== '',
+                ));
+
+                Secrets::save($values, $clear, $this->userId());
+                $notice = I18n::t('admin.saved');
+            }
+        }
+
+        return $this->screen('admin/settings', [
+            'catalog' => Secrets::CATALOG,
+            'slots'   => Ads::slots(),
+            'notice'  => $notice,
+            'test'    => $test,
+        ], I18n::t('admin.settings'));
     }
 
     /* ---------------------------------------------------------------- privé */
