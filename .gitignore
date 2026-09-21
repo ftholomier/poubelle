@@ -14,6 +14,7 @@ data/logs/
 data/private/
 data/index/
 data/i18n/
+data/manifest.json   # artefact laissé par l'extraction d'un instantané
 
 # Le contenu éditorial (pages publiques) reste versionné : data/content/
 
