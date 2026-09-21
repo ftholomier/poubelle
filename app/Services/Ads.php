@@ -20,7 +20,16 @@ final class Ads
         return Config::path('data') . '/private/ads.json';
     }
 
-    /** @return array<string, array{format:string,label:string,enabled:bool,slot:string}> */
+    /** Unité servie par tout emplacement laissé vide. */
+    public static function defaultSlot(): string
+    {
+        return trim((string) Config::secret('adsense_default_slot', ''));
+    }
+
+    /**
+     * @return array<string, array{format:string,label:string,enabled:bool,
+     *                             slot:string,own:string,inherited:bool}>
+     */
     public static function slots(): array
     {
         if (self::$state !== null) {
@@ -30,14 +39,20 @@ final class Ads
         $configured = (array) Config::get('ads.slots', []);
         $overrides = Json::read(self::statePath());
         $slotIds = (array) Config::secret('adsense_slots', []);
+        $default = self::defaultSlot();
 
         $out = [];
         foreach ($configured as $name => $slot) {
+            // Un emplacement sans identifiant propre retombe sur l'unité par
+            // défaut : une seule unité display suffit à couvrir le site.
+            $own = trim((string) ($slotIds[$name] ?? ''));
             $out[$name] = [
-                'format'  => (string) $slot['format'],
-                'label'   => (string) $slot['label'],
-                'enabled' => (bool) ($overrides[$name] ?? $slot['enabled']),
-                'slot'    => (string) ($slotIds[$name] ?? ''),
+                'format'    => (string) $slot['format'],
+                'label'     => (string) $slot['label'],
+                'enabled'   => (bool) ($overrides[$name] ?? $slot['enabled']),
+                'slot'      => $own !== '' ? $own : $default,
+                'own'       => $own,
+                'inherited' => $own === '' && $default !== '',
             ];
         }
         return self::$state = $out;

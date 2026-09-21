@@ -88,7 +88,7 @@ use App\Support\Icon;
               </button>
             <?php endif; ?>
 
-            <?php if ($isSet): ?>
+            <?php if ($isSet && !$public): ?>
               <label class="check secret-clear">
                 <input type="checkbox" name="clear[]" value="<?= e($key) ?>">
                 <span><?= e(I18n::t('admin.secret_clear')) ?></span>
@@ -109,7 +109,9 @@ use App\Support\Icon;
           </div>
           <p class="secret-help">
             AdSense → Annonces → Par unité publicitaire. Chaque bloc créé porte un identifiant
-            numérique à recopier ici. Un emplacement sans identifiant affiche le cadre de la maquette.
+            numérique à recopier ici. Un emplacement laissé vide reprend l’unité par défaut
+            ci-dessus ; si elle est vide elle aussi, l’emplacement affiche le cadre de la maquette.
+            Vider un champ efface bien son identifiant.
           </p>
           <div class="grid-fields" style="margin-top:12px">
             <?php foreach ($slots as $name => $slot): ?>
@@ -118,8 +120,8 @@ use App\Support\Icon;
                   <?= e($slot['label']) ?> <span class="opt"><?= e($slot['format']) ?></span>
                 </span>
                 <input class="input" type="text" name="adsense_slots[<?= e($name) ?>]"
-                       value="<?= e($slot['slot']) ?>" autocomplete="off"
-                       placeholder="<?= e($name) ?>">
+                       value="<?= e($slot['own']) ?>" autocomplete="off"
+                       placeholder="<?= $slot['inherited'] ? 'unité par défaut' : e($name) ?>">
               </label>
             <?php endforeach; ?>
           </div>
@@ -136,7 +138,10 @@ use App\Support\Icon;
   </p>
 
   <div class="save-bar">
-    <span class="save-bar-note">Les champs laissés vides conservent leur valeur.</span>
+    <span class="save-bar-note">
+      Une clé masquée laissée vide conserve sa valeur — elle s’efface par sa case « Effacer ».
+      Une valeur affichée en clair s’efface en vidant son champ.
+    </span>
     <button type="submit" name="action" value="save" class="btn btn-coral">
       <?= e(I18n::t('admin.save')) ?>
     </button>

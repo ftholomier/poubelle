@@ -569,8 +569,39 @@
       if (frame && unit) { frame.hidden = true; }
       if (unit) {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
+        watchFill(slot, unit);
       }
     });
+  }
+
+  /**
+   * AdSense pose data-ad-status="unfilled" quand il n'a pas d'annonce à servir
+   * — domaine non approuvé, unité trop récente, inventaire vide. L'unité est
+   * alors de hauteur nulle mais les marges de l'emplacement subsistent, d'où
+   * un blanc dans la page : on replie le bloc.
+   */
+  function watchFill(slot, unit) {
+    function settle() {
+      var status = unit.getAttribute('data-ad-status');
+      if (status === 'filled') { slot.classList.remove('is-unfilled'); return true; }
+      if (status === 'unfilled') { slot.classList.add('is-unfilled'); return true; }
+      return false;
+    }
+    if (settle()) { return; }
+
+    var observer = null;
+    if ('MutationObserver' in window) {
+      observer = new MutationObserver(function () { if (settle()) { observer.disconnect(); } });
+      observer.observe(unit, { attributes: true, attributeFilter: ['data-ad-status'] });
+    }
+
+    // Filet : script bloqué ou sans réponse, personne ne posera l'attribut.
+    window.setTimeout(function () {
+      if (observer) { observer.disconnect(); }
+      if (!unit.getAttribute('data-ad-status') && unit.offsetHeight < 8) {
+        slot.classList.add('is-unfilled');
+      }
+    }, 4000);
   }
 
   /* ----------------------------------------------------------- démarrage */

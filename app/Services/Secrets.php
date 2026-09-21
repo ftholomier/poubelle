@@ -81,15 +81,26 @@ final class Secrets
 
         'adsense' => [
             'label' => 'Publicité AdSense',
-            'intro' => 'Les sept emplacements du site. Sans identifiant, ils affichent le cadre '
-                     . 'en pointillés de la maquette. Les scripts ne sont chargés qu’après '
-                     . 'consentement du visiteur.',
+            'intro' => 'Les sept emplacements du site. Une seule unité « Display » suffit : '
+                     . 'renseignez l’unité par défaut, les emplacements laissés vides la '
+                     . 'reprennent. Sans aucune unité, ils affichent le cadre en pointillés de '
+                     . 'la maquette. Les scripts ne sont chargés qu’après consentement du visiteur.',
             'doc'   => ['Console AdSense', 'https://www.google.com/adsense/'],
             'keys'  => [
                 'adsense_client' => [
                     'label' => 'Identifiant éditeur',
                     'help'  => 'AdSense → Compte → Informations sur le compte. Commence par ca-pub-.',
                     'placeholder' => 'ca-pub-0000000000000000',
+                    'public' => true,
+                ],
+                'adsense_default_slot' => [
+                    'label' => 'Unité par défaut (display)',
+                    'help'  => 'Identifiant utilisé par tout emplacement laissé vide ci-dessous. '
+                             . 'Une seule unité « Display » responsive suffit donc à couvrir les '
+                             . 'sept emplacements. Vide à son tour, l’emplacement affiche le cadre '
+                             . 'de la maquette.',
+                    'doc'   => ['Créer une unité Display', 'https://support.google.com/adsense/answer/9183549'],
+                    'placeholder' => '0000000000',
                     'public' => true,
                 ],
                 'adsense_infeed_layout' => [
@@ -231,22 +242,60 @@ final class Secrets
      * @param array<string, string|array> $values
      * @param string[]                    $clear  clés à effacer explicitement
      */
+    /**
+     * Un champ vide efface ou conserve, selon ce que le formulaire réaffiche.
+     *
+     * Une clé masquée n'est jamais réaffichée : son champ est vide à chaque
+     * ouverture de l'écran, et un simple enregistrement effacerait tout. Elle
+     * ne peut donc s'effacer que par la case « Effacer ».
+     *
+     * Une valeur affichée en clair — identifiant éditeur, identifiants
+     * d'emplacement AdSense — est au contraire pré-remplie : le champ porte
+     * l'état voulu, et le vider l'efface.
+     */
     public static function save(array $values, array $clear = [], ?int $userId = null): bool
     {
         $store = self::all();
+        $meta = self::flatten();
         $changed = [];
 
         foreach ($values as $key => $value) {
+            // Les listes sont toujours réaffichées en entier : le formulaire
+            // renvoie l'état voulu, champs vides compris, et remplace.
             if (is_array($value)) {
-                $sub = array_filter(array_map('trim', array_map('strval', $value)), 'strlen');
-                if ($sub !== []) {
-                    $store[$key] = array_replace((array) ($store[$key] ?? []), $sub);
+                $sub = [];
+                foreach ($value as $name => $item) {
+                    $item = trim((string) $item);
+                    if ($item !== '') {
+                        $sub[(string) $name] = $item;
+                    }
+                }
+                if ($sub === (array) ($store[$key] ?? [])) {
+                    continue;
+                }
+                if ($sub === []) {
+                    unset($store[$key]);
+                    $changed[] = $key . ' (effacée)';
+                } else {
+                    $store[$key] = $sub;
                     $changed[] = $key;
                 }
                 continue;
             }
+
             $value = trim((string) $value);
-            if ($value !== '' && $value !== (string) ($store[$key] ?? '')) {
+            $current = (string) ($store[$key] ?? '');
+
+            if ($value === '' && empty($meta[$key]['public'])) {
+                continue;
+            }
+            if ($value === $current) {
+                continue;
+            }
+            if ($value === '') {
+                unset($store[$key]);
+                $changed[] = $key . ' (effacée)';
+            } else {
                 $store[$key] = $value;
                 $changed[] = $key;
             }

@@ -30,9 +30,16 @@ use App\Services\I18n;
           <tr>
             <td><span class="t"><?= e($slot['label']) ?></span><br><span class="s"><?= e($name) ?></span></td>
             <td class="s"><?= e($slot['format']) ?></td>
-            <td><?= $slot['slot'] !== ''
-                ? '<span class="state state-ok">' . e($slot['slot']) . '</span>'
-                : '<span class="state state-neutral">—</span>' ?></td>
+            <td><?php
+              if ($slot['slot'] === '') {
+                  echo '<span class="state state-neutral">—</span>';
+              } else {
+                  echo '<span class="state state-ok">' . e($slot['slot']) . '</span>';
+                  if ($slot['inherited']) {
+                      echo '<br><span class="s">unité par défaut</span>';
+                  }
+              }
+            ?></td>
             <td class="s"><?php
               // Ce que le site contrôle. Le remplissage, lui, dépend d'AdSense.
               if (!$slot['enabled']) {
@@ -40,7 +47,7 @@ use App\Services\I18n;
               } elseif ($client === '') {
                   echo '<span class="state state-wait">identifiant éditeur manquant</span>';
               } elseif ($slot['slot'] === '') {
-                  echo '<span class="state state-wait">identifiant d’emplacement manquant</span>';
+                  echo '<span class="state state-wait">aucune unité, ni propre ni par défaut</span>';
               } else {
                   echo '<span class="state state-ok">code posé</span>';
               }
@@ -61,7 +68,11 @@ use App\Services\I18n;
 
 <div class="admin-card" style="margin-top:22px">
   <h2 style="margin-top:0">« Code posé » et pourtant aucune annonce ?</h2>
-  <p class="s">Le site ne maîtrise que la pose du code. Quatre conditions restent du côté de Google :</p>
+  <p class="s">
+    Le site ne maîtrise que la pose du code. Lorsqu’AdSense n’a rien à servir, l’emplacement se
+    replie de lui-même : la page ne garde pas d’espace vide. Quatre conditions restent du côté
+    de Google :
+  </p>
   <ol class="s" style="margin:10px 0 0; padding-left:20px; line-height:1.7">
     <li><strong>Le consentement du visiteur.</strong> Tant qu’il n’a pas cliqué « Tout accepter »
         dans le bandeau, aucun script publicitaire n’est chargé et le cadre en pointillés reste
@@ -75,10 +86,11 @@ use App\Services\I18n;
         testez en navigation privée, extensions désactivées.</li>
   </ol>
   <p class="s" style="margin-top:12px">
-    Le même identifiant d’unité peut servir aux sept emplacements : AdSense l’accepte, mais ses
-    statistiques ne distingueront plus les emplacements entre eux. Une unité par emplacement donne
-    un rapport lisible. Seul l’emplacement <em>In-feed liste</em> demande une attention
-    particulière : avec une unité « Display », laissez vide la clé de mise en page dans
-    <a href="/admin/cles-api">Clés d’API</a>.
+    Un emplacement laissé vide dans <a href="/admin/cles-api">Clés d’API</a> reprend
+    automatiquement l’<strong>unité par défaut</strong> : une seule unité « Display » responsive
+    suffit donc à couvrir le site. Renseigner une unité propre à un emplacement reste préférable
+    si vous voulez que les statistiques AdSense les distinguent. Seul l’emplacement
+    <em>In-feed liste</em> demande une attention particulière : avec une unité « Display »,
+    laissez vide la clé de mise en page.
   </p>
 </div>

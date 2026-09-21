@@ -92,10 +92,21 @@ final class SecretsTest
         if (!preg_match('/^ca-pub-\d{10,20}$/', $client)) {
             return self::fail('Format inattendu : un identifiant éditeur ressemble à ca-pub-0000000000000000.');
         }
-        $filled = count(array_filter(Ads::slots(), static fn(array $s) => $s['slot'] !== ''));
+        $slots = Ads::slots();
+        $own = count(array_filter($slots, static fn(array $s) => $s['own'] !== ''));
+        $inherited = count(array_filter($slots, static fn(array $s) => $s['inherited']));
+        $empty = count($slots) - $own - $inherited;
+
+        if ($empty === count($slots)) {
+            return self::fail(
+                'Identifiant éditeur valide, mais aucune unité : renseignez au moins '
+                . 'l’unité par défaut, sans quoi les emplacements restent au cadre de la maquette.',
+            );
+        }
         return self::ok(sprintf(
-            'Identifiant valide. %d emplacement(s) sur %d ont un identifiant de bloc.',
-            $filled, count(Ads::slots()),
+            'Identifiant valide. %d emplacement(s) avec une unité propre, %d reprenant '
+            . 'l’unité par défaut, %d sans unité sur %d.',
+            $own, $inherited, $empty, count($slots),
         ));
     }
 

@@ -979,6 +979,11 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
 .ad-slot[data-slot="list_side"] .ad-frame { min-height: 320px; }
 .ad-slot[data-slot="profile_side"] .ad-frame { min-height: 250px; }
 
+/* AdSense n'a pas d'annonce à servir : sans cela l'emplacement laisse un blanc,
+   car ses marges subsistent alors que l'unité est de hauteur nulle. */
+.ad-slot.is-unfilled { display: none; }
+ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
+
 /* Bandeau de consentement */
 .cmp {
   position: fixed; left: 16px; bottom: 16px; z-index: 96;
