@@ -309,6 +309,8 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
 
 /* Zone de dépôt de fichier */
 .dropzone {
+  display: block;   /* c'est un <label> : sans ça, le cadre pointillé se fragmente */
+  position: relative; cursor: pointer;
   border: 2.5px dashed var(--ink); border-radius: 18px;
   padding: 30px 22px; text-align: center; background: var(--white);
   transition: border-color .3s ease, background .3s ease;

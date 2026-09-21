@@ -133,10 +133,9 @@ $steps = ['post_cv.step1' => 'bloc-profil', 'post_cv.step2' => 'bloc-competences
 
       <label class="dropzone" data-dropzone>
         <input type="file" name="cv_file" accept=".pdf,.doc,.docx,application/pdf">
-        <?= Icon::svg('upload', 26, '#17123A', 2) ?>
-        <div style="margin-top:10px;font-weight:700"><?= e(I18n::t('post_cv.file_drop')) ?></div>
-        <div class="meta"><?= e(I18n::t('post_cv.file_note')) ?></div>
-        <div class="dz-name" data-dz-name></div>
+        <span style="display:flex;justify-content:center"><?= Icon::svg('upload', 26, '#17123A', 2) ?></span>
+        <span style="display:block;margin-top:10px;font-weight:700"><?= e(I18n::t('post_cv.file_drop')) ?></span>
+        <span class="dz-name" data-dz-name style="display:block"></span>
       </label>
       <?php if ($err('cv_file') !== ''): ?><span class="field-error"><?= e($err('cv_file')) ?></span><?php endif; ?>
 
