@@ -1,5 +1,5 @@
 <?php
-/** Matrice de traduction. @var array $matrix @var bool $available @var string $notice */
+/** Matrice de traduction. @var array $matrix @var bool $available @var string $notice @var bool $noticeOk */
 use App\Core\Csrf;
 use App\Services\I18n;
 
@@ -20,7 +20,19 @@ $languages = I18n::languages();
   <?php endif; ?>
 </div>
 
-<?php if ($notice !== ''): ?><div class="notice notice-ok" role="status"><?= e($notice) ?></div><?php endif; ?>
+<?php if ($notice !== ''): ?>
+  <div class="notice <?= ($noticeOk ?? true) ? 'notice-ok' : 'notice-err' ?>" role="status">
+    <?= e($notice) ?>
+    <?php if (!($noticeOk ?? true)): ?>
+      <br>
+      Un refus porte presque toujours sur le projet Google, pas sur le site : l’API
+      <em>Cloud Translation</em> n’est pas activée, la clé est restreinte à une autre API,
+      ou la facturation n’est pas active sur le projet. Le bouton
+      <strong>Tester la connexion</strong> de <a href="/admin/cles-api">Clés d’API</a> renvoie
+      le message de Google en un clic.
+    <?php endif; ?>
+  </div>
+<?php endif; ?>
 <?php if (!$available): ?>
   <div class="notice notice-wait"><?= e(I18n::t('admin.translate_unavailable')) ?></div>
 <?php endif; ?>

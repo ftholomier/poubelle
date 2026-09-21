@@ -63,11 +63,44 @@ final class Http
     /** Décode une réponse JSON, ou [] en cas d'échec. */
     public static function json(string $method, string $url, array $options = []): array
     {
+        $call = self::call($method, $url, $options);
+        return $call['ok'] ? $call['data'] : [];
+    }
+
+    /**
+     * Comme json(), mais conserve la raison de l'échec.
+     *
+     * Une API refuse rarement sans l'expliquer : Google répond 403 avec un
+     * message précis (« API non activée », « clé invalide », « facturation
+     * absente »). json() jette ce corps avec le reste, et l'appelant ne peut
+     * alors que deviner. Cette variante le remonte tel quel.
+     *
+     * @return array{ok:bool, status:int, data:array, error:string}
+     */
+    public static function call(string $method, string $url, array $options = []): array
+    {
         $response = self::request($method, $url, $options);
-        if ($response['status'] < 200 || $response['status'] >= 300) {
-            return [];
-        }
         $data = json_decode($response['body'], true);
-        return is_array($data) ? $data : [];
+        $data = is_array($data) ? $data : [];
+
+        $ok = $response['status'] >= 200 && $response['status'] < 300;
+        if ($ok) {
+            return ['ok' => true, 'status' => $response['status'], 'data' => $data, 'error' => ''];
+        }
+
+        // Message de l'API d'abord, erreur réseau ensuite, code HTTP en dernier.
+        $error = trim((string) ($data['error']['message'] ?? $data['error_description'] ?? ''));
+        if ($error === '' && is_string($data['error'] ?? null)) {
+            $error = trim((string) $data['error']);
+        }
+        if ($error === '') {
+            $error = $response['error'] !== ''
+                ? $response['error']
+                : ($response['status'] === 0
+                    ? 'aucune réponse du serveur'
+                    : 'réponse HTTP ' . $response['status']);
+        }
+
+        return ['ok' => false, 'status' => $response['status'], 'data' => $data, 'error' => $error];
     }
 }

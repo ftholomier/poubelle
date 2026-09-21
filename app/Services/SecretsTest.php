@@ -46,7 +46,7 @@ final class SecretsTest
             return self::fail('Aucune clé enregistrée. L’assistant fonctionne en mode dégradé.');
         }
         $model = (string) Config::get('regie.model', 'gemini-2.5-flash');
-        $response = Http::json('POST',
+        $call = Http::call('POST',
             'https://generativelanguage.googleapis.com/v1beta/models/' . rawurlencode($model)
             . ':generateContent?key=' . urlencode((string) Config::secret('gemini_api_key')),
             [
@@ -55,10 +55,14 @@ final class SecretsTest
                 'timeout' => 20,
             ],
         );
-        $text = trim((string) ($response['candidates'][0]['content']['parts'][0]['text'] ?? ''));
+        if (!$call['ok']) {
+            return self::fail('Refus de l’API Gemini : ' . $call['error']);
+        }
+        $text = trim((string) ($call['data']['candidates'][0]['content']['parts'][0]['text'] ?? ''));
         return $text !== ''
             ? self::ok('Gemini répond. Modèle : ' . $model . '.')
-            : self::fail('Gemini n’a pas répondu : clé invalide, quota épuisé, ou modèle indisponible.');
+            : self::fail('Gemini a répondu sans texte : modèle « ' . $model . '  » indisponible '
+                       . 'pour ce compte, ou réponse filtrée.');
     }
 
     private static function translate(): array
@@ -67,9 +71,13 @@ final class SecretsTest
             return self::fail('Aucune clé enregistrée. Les pages non traduites restent en français.');
         }
         $result = Translator::translate(['bonjour'], 'en');
-        return $result !== []
-            ? self::ok('Traduction active. « bonjour » → « ' . $result[0] . ' ».')
-            : self::fail('L’API a refusé la requête : clé invalide, API non activée, ou facturation absente.');
+        if ($result !== []) {
+            return self::ok('Traduction active. « bonjour » → « ' . $result[0] . ' ».');
+        }
+        $reason = Translator::lastError();
+        return self::fail($reason !== ''
+            ? 'Refus de l’API Google : ' . $reason
+            : 'L’API a refusé la requête, sans message.');
     }
 
     private static function reviews(): array
@@ -78,9 +86,13 @@ final class SecretsTest
             return self::fail('Clé ou identifiant de fiche manquant. Le bloc d’avis reste masqué.');
         }
         $data = Reviews::get();
-        return $data !== null && $data['count'] > 0
-            ? self::ok(sprintf('Fiche trouvée : %s/5 sur %d avis.', $data['rating'], $data['count']))
-            : self::fail('Aucun avis remonté : vérifiez l’identifiant de fiche et l’activation de Places API.');
+        if ($data !== null && $data['count'] > 0) {
+            return self::ok(sprintf('Fiche trouvée : %s/5 sur %d avis.', $data['rating'], $data['count']));
+        }
+        $reason = Reviews::lastError();
+        return self::fail($reason !== ''
+            ? 'Refus de l’API Places : ' . $reason
+            : 'Aucun avis remonté : vérifiez l’identifiant de fiche et l’activation de Places API.');
     }
 
     private static function adsense(): array

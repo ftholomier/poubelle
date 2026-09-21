@@ -13,6 +13,14 @@ use App\Storage\Json;
  */
 final class Reviews
 {
+    /** Raison du dernier refus de l'API, pour le test de connexion. */
+    private static string $lastError = '';
+
+    public static function lastError(): string
+    {
+        return self::$lastError;
+    }
+
     private const ENDPOINT = 'https://places.googleapis.com/v1/places/';
 
     public static function available(): bool
@@ -41,13 +49,15 @@ final class Reviews
         }
 
         $placeId = (string) Config::get('reviews.place_id');
-        $response = Http::json('GET', self::ENDPOINT . rawurlencode($placeId), [
+        $call = Http::call('GET', self::ENDPOINT . rawurlencode($placeId), [
             'headers' => [
                 'X-Goog-Api-Key: ' . (string) Config::secret('places_api_key'),
                 'X-Goog-FieldMask: rating,userRatingCount,googleMapsUri,reviews',
             ],
             'timeout' => 15,
         ]);
+        self::$lastError = $call['ok'] ? '' : $call['error'];
+        $response = $call['ok'] ? $call['data'] : [];
 
         if ($response === []) {
             // L'API a échoué : on prolonge le cache existant plutôt que d'afficher un trou.

@@ -336,9 +336,11 @@ final class AdminController extends Controller
         }
 
         $notice = '';
+        $noticeOk = true;
         if ($request->isPost() && Csrf::check($request)) {
             if (!Translator::available()) {
                 $notice = I18n::t('admin.translate_unavailable');
+                $noticeOk = false;
             } else {
                 $done = 0;
                 foreach (array_keys(I18n::languages()) as $lang) {
@@ -364,9 +366,28 @@ final class AdminController extends Controller
                 $records = ContentTranslator::translateMissing(null, 150);
 
                 Audit::log('i18n.refreshed',
-                    ['pages' => $done, 'records' => $records['done']], $this->userId());
-                $notice = sprintf('%s %d élément(s) d’interface et de page, %d fiche(s) traduite(s).',
-                    I18n::t('admin.saved'), $done, $records['done']);
+                    ['pages' => $done, 'records' => $records['done'],
+                     'failed' => $records['failed']], $this->userId());
+
+                // Zéro traduit alors que tout est à faire : l'API a refusé.
+                // Le dire, plutôt qu'annoncer « Enregistré » en vert.
+                $error = Translator::lastError();
+                if ($done === 0 && $records['done'] === 0 && $error !== '') {
+                    $notice = 'Aucune traduction : l’API Google a refusé la requête. ' . $error;
+                    $noticeOk = false;
+                } else {
+                    $notice = sprintf('%s %d élément(s) d’interface et de page, %d fiche(s) traduite(s).',
+                        I18n::t('admin.saved'), $done, $records['done']);
+                    if ($records['failed'] > 0) {
+                        $notice .= sprintf(' %d échec(s)%s.', $records['failed'],
+                            $error !== '' ? ' — ' . $error : '');
+                        $noticeOk = false;
+                    }
+                    if ($records['remaining'] > 0) {
+                        $notice .= sprintf(' Il reste %d fiche(s) à traduire : relancez pour continuer.',
+                            $records['remaining']);
+                    }
+                }
             }
         }
 
@@ -384,6 +405,7 @@ final class AdminController extends Controller
             'records'   => ContentTranslator::stats(),
             'available' => Translator::available(),
             'notice'    => $notice,
+            'noticeOk'  => $noticeOk,
         ], I18n::t('admin.translations'));
     }
 

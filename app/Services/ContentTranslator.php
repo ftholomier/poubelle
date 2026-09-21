@@ -168,12 +168,13 @@ final class ContentTranslator
      */
     public static function translateMissing(?string $onlyLang = null, int $max = 120): array
     {
-        $done = $skipped = $failed = 0;
+        $done = $skipped = $failed = $remaining = 0;
         if (!Translator::available()) {
-            return ['done' => 0, 'skipped' => 0, 'failed' => 0];
+            return ['done' => 0, 'skipped' => 0, 'failed' => 0, 'remaining' => 0];
         }
 
         $languages = $onlyLang !== null ? [$onlyLang] : array_keys(I18n::languages());
+        $budget = true;
 
         foreach (['job' => JobRepository::all(), 'cv' => CvRepository::all()] as $type => $records) {
             if (!self::enabled($type)) {
@@ -193,8 +194,12 @@ final class ContentTranslator
                         $skipped++;
                         continue;
                     }
-                    if ($done + $failed >= $max) {
-                        return ['done' => $done, 'skipped' => $skipped, 'failed' => $failed];
+                    // Plafond atteint : on continue de compter ce qui reste,
+                    // pour annoncer combien de relances sont nécessaires.
+                    if (!$budget || $done + $failed >= $max) {
+                        $budget = false;
+                        $remaining++;
+                        continue;
                     }
                     if (self::translate($record, $type, $lang)) {
                         $done++;
@@ -205,8 +210,9 @@ final class ContentTranslator
             }
         }
 
-        Audit::log('i18n.records_translated', ['done' => $done, 'failed' => $failed]);
-        return ['done' => $done, 'skipped' => $skipped, 'failed' => $failed];
+        Audit::log('i18n.records_translated',
+            ['done' => $done, 'failed' => $failed, 'remaining' => $remaining]);
+        return ['done' => $done, 'skipped' => $skipped, 'failed' => $failed, 'remaining' => $remaining];
     }
 
     /**
