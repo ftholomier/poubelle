@@ -91,6 +91,8 @@ return [
     'jobs.expired'      => 'Offre expirée',
     'jobs.filled'       => 'Poste pourvu',
     'jobs.remote'       => 'Télétravail possible',
+    'jobs.via'          => 'via %s',
+    'jobs.external_note'=> '%d offre(s) proposée(s) par nos sources partenaires, en plus des annonces déposées ici.',
     'job.back'          => 'Retour aux offres',
     'job.post'          => 'Le poste',
     'job.profile'       => 'Profil recherché',
@@ -264,8 +266,10 @@ return [
                           . 'Le jeton est stocké haché : il ne peut pas être relu depuis le serveur.',
     'admin.forgot_send'  => 'Envoyer le lien',
     'admin.forgot_done'  => 'Si cette adresse correspond à un compte, un lien vient d’être envoyé.',
-    'admin.security'     => 'Mots de passe en Argon2id · jeton haché dans /data/private/auth/ · '
-                          . 'blocage après 5 tentatives par IP · journal horodaté.',
+    // Décrit le dispositif de sécurité : réservé aux écrans authentifiés,
+    // jamais affiché sur la page de connexion (ce serait renseigner un attaquant).
+    'admin.security'     => 'Mots de passe en Argon2id · jeton de récupération à usage unique, haché · '
+                          . 'blocage temporisé après plusieurs tentatives · journal horodaté.',
     'admin.new_password' => 'Nouveau mot de passe',
     'admin.new_password_note' => '10 caractères minimum.',
     'admin.reset_submit' => 'Enregistrer le mot de passe',
@@ -284,6 +288,12 @@ return [
     'admin.backups'      => 'Sauvegardes',
     'admin.users'        => 'Utilisateurs',
     'admin.ads'          => 'Publicité',
+    'admin.sources'      => 'Offres externes',
+    'admin.sources_note' => 'Ces offres complètent les annonces déposées sur le site. Elles ne sont jamais '
+                          . 'enregistrées localement et renvoient vers leur site d’origine.',
+    'admin.source_ready' => 'Configurée',
+    'admin.source_missing' => 'Clés absentes',
+    'admin.clear_cache'  => 'Vider le cache',
     'admin.kpi_jobs'     => 'Offres actives',
     'admin.kpi_cv'       => 'CV en ligne',
     'admin.kpi_regie'    => 'Questions à Régie',

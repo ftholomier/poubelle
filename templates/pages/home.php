@@ -65,7 +65,7 @@ $tabs = [
       <div class="sb-field">
         <?= Icon::svg('pin', 18, '#6B6590') ?>
         <label class="visually-hidden" for="city"><?= e(I18n::t('search.city')) ?></label>
-        <input id="city" type="search" name="city" placeholder="<?= e(I18n::t('search.city')) ?>">
+        <input id="city" type="search" name="city" data-places placeholder="<?= e(I18n::t('search.city')) ?>">
       </div>
       <button type="submit" class="btn btn-coral"><?= e(I18n::t('search.submit')) ?></button>
     </form>

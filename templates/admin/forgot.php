@@ -26,8 +26,4 @@ use App\Services\I18n;
     <p style="margin:20px 0 0"><a href="/admin" style="font-size:13.5px">← <?= e(I18n::t('admin.login')) ?></a></p>
   </div>
 
-  <div class="auth-note">
-    <h2>Sécurité</h2>
-    <p><?= e(I18n::t('admin.security')) ?></p>
-  </div>
 </div>

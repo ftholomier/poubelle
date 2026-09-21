@@ -214,6 +214,40 @@ absente se désactive proprement plutôt que d'échouer :
 
 ---
 
+## Offres externes
+
+La liste d'offres greffe, autour des annonces déposées ici, des offres venues
+de sources externes — comme le faisait l'extension Indeed du site WordPress.
+Les réglages d'origine sont repris : 5 offres externes avant les annonces du
+site, 25 après, pays `fr`, et la requête de 30 métiers du spectacle.
+
+Trois garanties :
+
+- Une offre externe n'est **jamais** enregistrée comme une annonce locale. Elle
+  vit en cache (1 h), porte la mention de sa provenance, et renvoie vers le
+  site d'origine en `rel="nofollow noopener"`.
+- Elle n'entre ni dans le plan du site, ni dans l'index de recherche, ni dans
+  les compteurs : « 51 offres » reste le nombre d'annonces déposées ici.
+- Une annonce publiée sur intermittent.fr prime sur sa reprise chez un
+  agrégateur : le doublon est écarté.
+
+### Sources disponibles
+
+| Source | Accès | État |
+| --- | --- | --- |
+| **Indeed** | Flux partenaire (`indeed_feed_url`), point d'entrée partenaire (`indeed_api_base`), ou ancien publisher ID | ⚠ L'API publisher historique, celle qu'utilisait l'extension WordPress, **a été fermée par Indeed**. Leur recherche est passée en accès partenaire, sans inscription libre-service. Le publisher ID du site (`4142992219966569`) est conservé au cas où, mais il ne renvoie probablement plus rien. Le scraping de leurs pages est contraire à leurs conditions et n'est pas implémenté. |
+| **France Travail** | `client_id` + `client_secret` sur [francetravail.io](https://francetravail.io), API « Offres d'emploi v2 » | Gratuit, libre-service, officiel. **La source la plus pertinente ici** : elle couvre nativement le domaine « L » du ROME (spectacle, cinéma, audiovisuel), ce qu'aucun agrégateur généraliste ne fait aussi proprement. |
+| **Adzuna** | `app_id` + `app_key` | Palier gratuit, libre-service. Bon repli généraliste. |
+| **Jooble** | `jooble_key` | Clé en libre-service. Complément utile. |
+
+Chaque source s'active dès que ses clés sont présentes, et se pilote depuis
+*Back-office → Offres externes* (activation, état du cache, vidage). Une source
+en panne ne casse jamais la page : au pire, il n'y a que les annonces locales.
+
+Les codes ROME interrogés côté France Travail sont dans
+`config.php → sources.france_travail.rome` ; vider ce tableau bascule la
+recherche sur les seuls mots-clés.
+
 ## Publicité et consentement
 
 Sept emplacements, activables individuellement depuis le back-office :
@@ -281,5 +315,12 @@ php bin/fetch-media.php
 - Les filtres de recherche fonctionnent **sans JavaScript** (formulaires `GET`).
   Le JS n'ajoute que du confort.
 - Les animations sont coupées sous `prefers-reduced-motion: reduce`.
+- Au survol d'un bouton, la couleur du texte ne se fond jamais : soit elle ne
+  change pas (quand une seule couleur tient sur les deux fonds), soit elle
+  bascule d'un coup à mi-parcours. Un fondu de 350 ms sur un fond qui glisse en
+  500 ms donnait, au milieu du geste, du blanc sur jaune à 1,58:1.
+- Le champ « Ville ou région » propose les lieux dès la première lettre
+  (`/api/places`), en ignorant accents, casse et abréviations : « st etien »
+  trouve « Saint-Étienne ». Sans JavaScript, c'est un champ texte ordinaire.
 - Polices auto-hébergées (178 Ko), aucune requête vers un domaine tiers au
   chargement.

@@ -30,8 +30,4 @@ use App\Services\I18n;
     </form>
   </div>
 
-  <div class="auth-note">
-    <h2><?= e(I18n::t('admin.forgot_title')) ?></h2>
-    <p><?= e(I18n::t('admin.security')) ?></p>
-  </div>
 </div>

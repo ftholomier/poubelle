@@ -303,6 +303,150 @@
     });
   }
 
+  /* ------------------------------------------- autocomplétion des lieux */
+
+  /**
+   * Champ « Ville ou région » : propose les lieux dès les premières lettres.
+   * Liste déroulante accessible (combobox ARIA), pilotable au clavier.
+   * Sans JavaScript, le champ reste un champ texte ordinaire qui fonctionne.
+   */
+  function initPlaces() {
+    $$('[data-places]').forEach(function (input) {
+      var panel = document.createElement('ul');
+      panel.className = 'ac-list';
+      panel.setAttribute('role', 'listbox');
+      panel.id = 'ac-' + Math.random().toString(36).slice(2, 8);
+      panel.hidden = true;
+
+      var wrap = document.createElement('div');
+      wrap.className = 'ac-wrap';
+      input.parentNode.insertBefore(wrap, input);
+      wrap.appendChild(input);
+      wrap.appendChild(panel);
+
+      input.setAttribute('role', 'combobox');
+      input.setAttribute('aria-autocomplete', 'list');
+      input.setAttribute('aria-expanded', 'false');
+      input.setAttribute('aria-controls', panel.id);
+      input.setAttribute('autocomplete', 'off');
+
+      var items = [];
+      var active = -1;
+      var timer = null;
+      var lastQuery = '';
+
+      function close() {
+        panel.hidden = true;
+        panel.innerHTML = '';
+        items = [];
+        active = -1;
+        input.setAttribute('aria-expanded', 'false');
+        input.removeAttribute('aria-activedescendant');
+      }
+
+      function choose(index) {
+        if (!items[index]) { return; }
+        input.value = items[index].label;
+        close();
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+
+      function highlight(index) {
+        $$('li', panel).forEach(function (li, i) {
+          var on = i === index;
+          li.setAttribute('aria-selected', String(on));
+          li.classList.toggle('is-active', on);
+          if (on) { input.setAttribute('aria-activedescendant', li.id); }
+        });
+        active = index;
+      }
+
+      function render(list) {
+        items = list;
+        panel.innerHTML = '';
+        if (!list.length) { close(); return; }
+
+        list.forEach(function (item, i) {
+          var li = document.createElement('li');
+          li.id = panel.id + '-' + i;
+          li.setAttribute('role', 'option');
+          li.setAttribute('aria-selected', 'false');
+
+          var name = document.createElement('span');
+          name.className = 'ac-name';
+          name.textContent = item.label;
+          li.appendChild(name);
+
+          if (item.count > 0) {
+            var n = document.createElement('span');
+            n.className = 'ac-count';
+            n.textContent = item.count;
+            li.appendChild(n);
+          }
+          if (item.kind === 'region') {
+            li.classList.add('is-region');
+          }
+
+          // mousedown plutôt que click : le blur du champ ne doit pas
+          // fermer la liste avant que la sélection soit prise en compte.
+          li.addEventListener('mousedown', function (e) { e.preventDefault(); choose(i); });
+          li.addEventListener('mouseenter', function () { highlight(i); });
+          panel.appendChild(li);
+        });
+
+        panel.hidden = false;
+        input.setAttribute('aria-expanded', 'true');
+        active = -1;
+      }
+
+      function query() {
+        var value = input.value.trim();
+        if (value.length < 1) { close(); return; }
+        if (value === lastQuery) { return; }
+        lastQuery = value;
+
+        fetch('/api/places?q=' + encodeURIComponent(value), { headers: { Accept: 'application/json' } })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            // La réponse peut arriver après une nouvelle frappe : on l'ignore.
+            if (input.value.trim() !== value) { return; }
+            render((data && data.items) || []);
+          })
+          .catch(function () { close(); });
+      }
+
+      input.addEventListener('input', function () {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(query, 160);
+      });
+
+      input.addEventListener('keydown', function (e) {
+        if (panel.hidden && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+          query();
+          return;
+        }
+        if (panel.hidden) { return; }
+
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          highlight((active + 1) % items.length);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          highlight(active <= 0 ? items.length - 1 : active - 1);
+        } else if (e.key === 'Enter' && active >= 0) {
+          e.preventDefault();
+          choose(active);
+        } else if (e.key === 'Escape') {
+          close();
+        } else if (e.key === 'Tab') {
+          close();
+        }
+      });
+
+      input.addEventListener('blur', function () { window.setTimeout(close, 120); });
+    });
+  }
+
   /* --------------------------------------------------- mises de côté */
 
   /**
@@ -398,6 +542,7 @@
     initExitIntent();
     initRegie();
     initForms();
+    initPlaces();
     initBookmarks();
     initConsent();
   }

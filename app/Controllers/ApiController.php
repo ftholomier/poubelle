@@ -88,6 +88,129 @@ final class ApiController extends Controller
         return Response::json(['items' => array_values(array_slice($seen, 0, 10))]);
     }
 
+    /**
+     * Autocomplétion du champ « Ville ou région ».
+     *
+     * Les propositions viennent des données du site — les villes et régions où
+     * il y a réellement des offres ou des profils — complétées par les
+     * 18 régions françaises. Le rapprochement ignore les accents, la casse et
+     * les traits d'union : « st etienne » trouve « Saint-Étienne ».
+     */
+    public function places(Request $request, array $params): Response
+    {
+        $needle = self::expand(Index::haystack([(string) $request->get('q', '')]));
+        if (mb_strlen($needle) < 1) {
+            return Response::json(['items' => []]);
+        }
+
+        $counts = [];
+        foreach (['jobs', 'cv'] as $collection) {
+            foreach (Index::load($collection) as $row) {
+                foreach (['city', 'region'] as $field) {
+                    $value = self::cleanPlace((string) ($row[$field] ?? ''));
+                    if ($value === '') {
+                        continue;
+                    }
+                    $key = mb_strtolower($value);
+                    $counts[$key] = [
+                        'label' => $counts[$key]['label'] ?? $value,
+                        'kind'  => $field === 'region' ? 'region' : 'city',
+                        'n'     => ($counts[$key]['n'] ?? 0) + 1,
+                    ];
+                }
+            }
+        }
+
+        // Régions et grandes villes sont toujours proposables, même sans offre.
+        foreach (self::REGIONS as $region) {
+            $counts[mb_strtolower($region)] ??= ['label' => $region, 'kind' => 'region', 'n' => 0];
+        }
+        foreach (self::CITIES as $city) {
+            $counts[mb_strtolower($city)] ??= ['label' => $city, 'kind' => 'city', 'n' => 0];
+        }
+
+        $matches = [];
+        foreach ($counts as $entry) {
+            $hay = self::expand(Index::haystack([$entry['label']]));
+            if ($hay === '') {
+                continue;
+            }
+            // Un début de mot vaut mieux qu'une occurrence au milieu.
+            $position = strpos($hay, $needle);
+            if ($position === false) {
+                continue;
+            }
+            $startsWord = $position === 0 || $hay[$position - 1] === ' ';
+            $entry['score'] = ($position === 0 ? 1000 : ($startsWord ? 500 : 100)) + (int) $entry['n'];
+            $matches[] = $entry;
+        }
+
+        usort($matches, static fn(array $a, array $b) => [$b['score'], $a['label']] <=> [$a['score'], $b['label']]);
+
+        return Response::json([
+            'items' => array_map(
+                static fn(array $m) => ['label' => $m['label'], 'kind' => $m['kind'], 'count' => $m['n']],
+                array_slice($matches, 0, 8),
+            ),
+        ])->withHeader('Cache-Control', 'public, max-age=600');
+    }
+
+    /**
+     * Écarte les valeurs de lieu inexploitables héritées de l'ancien site :
+     * champs libres cumulant plusieurs villes (« Marseille, Lyon, Paris »),
+     * ou tronqués par l'ancien nettoyage (« Ile de », « Paris + Hauts-de »).
+     * Elles restent dans les fiches ; elles ne sont simplement pas proposées.
+     */
+    private static function cleanPlace(string $raw): string
+    {
+        $value = trim($raw);
+        if ($value === '' || mb_strlen($value) < 3 || mb_strlen($value) > 40) {
+            return '';
+        }
+        if (preg_match('#[/+,;()]|\bet\b#iu', $value)) {
+            return '';
+        }
+        // Se termine par un mot de liaison : le nom a été coupé.
+        if (preg_match('/\b(de|du|des|le|la|les|sur|en|aux)\s*$/iu', $value)) {
+            return '';
+        }
+        return $value;
+    }
+
+    /** « st etienne » doit trouver « Saint-Étienne », et inversement. */
+    private static function expand(string $normalized): string
+    {
+        return trim((string) preg_replace(
+            ['/\bst\b/', '/\bste\b/', '/\bmt\b/'],
+            ['saint', 'sainte', 'mont'],
+            $normalized,
+        ));
+    }
+
+    /** Grandes villes françaises, pour proposer un lieu sans offre en cours. */
+    private const CITIES = [
+        'Paris', 'Marseille', 'Lyon', 'Toulouse', 'Nice', 'Nantes', 'Montpellier', 'Strasbourg',
+        'Bordeaux', 'Lille', 'Rennes', 'Reims', 'Saint-Étienne', 'Le Havre', 'Toulon', 'Grenoble',
+        'Dijon', 'Angers', 'Nîmes', 'Villeurbanne', 'Clermont-Ferrand', 'Le Mans', 'Aix-en-Provence',
+        'Brest', 'Tours', 'Amiens', 'Limoges', 'Annecy', 'Perpignan', 'Besançon', 'Metz', 'Orléans',
+        'Rouen', 'Argenteuil', 'Mulhouse', 'Montreuil', 'Caen', 'Nancy', 'Saint-Denis', 'Roubaix',
+        'Tourcoing', 'Nanterre', 'Avignon', 'Vitry-sur-Seine', 'Créteil', 'Poitiers', 'Dunkerque',
+        'Versailles', 'Aubervilliers', 'Aulnay-sous-Bois', 'Asnières-sur-Seine', 'Colombes',
+        'Saint-Paul', 'Rueil-Malmaison', 'Pau', 'Le Tampon', 'Antibes', 'Saint-Maur-des-Fossés',
+        'Champigny-sur-Marne', 'La Rochelle', 'Cannes', 'Calais', 'Béziers', 'Colmar', 'Bourges',
+        'Drancy', 'Mérignac', 'Ajaccio', 'Saint-Nazaire', 'Valence', 'Quimper', 'Troyes', 'Lorient',
+        'Chambéry', 'Niort', 'Sarcelles', 'Villejuif', 'Hyères', 'Beauvais', 'Cholet', 'Vannes',
+        'La Roche-sur-Yon', 'Arles', 'Bayonne', 'Bastia', 'Narbonne', 'Albi', 'Biarritz', 'Sète',
+    ];
+
+    /** Les 18 régions, proposées même sans offre associée. */
+    private const REGIONS = [
+        'Île-de-France', 'Auvergne-Rhône-Alpes', "Provence-Alpes-Côte d'Azur", 'Occitanie',
+        'Nouvelle-Aquitaine', 'Hauts-de-France', 'Grand Est', 'Pays de la Loire', 'Bretagne',
+        'Normandie', 'Bourgogne-Franche-Comté', 'Centre-Val de Loire', 'Corse',
+        'Guadeloupe', 'Martinique', 'Guyane', 'La Réunion', 'Mayotte',
+    ];
+
     /** Assistant « Régie ». Le jeton CSRF évite qu'un tiers fasse consommer le quota. */
     public function regie(Request $request, array $params): Response
     {

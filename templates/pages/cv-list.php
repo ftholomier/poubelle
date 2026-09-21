@@ -19,7 +19,7 @@ use App\Support\Icon;
     <div class="fb-field">
       <?= Icon::svg('pin', 18, '#6B6590') ?>
       <label class="visually-hidden" for="f-city"><?= e(I18n::t('search.city')) ?></label>
-      <input id="f-city" type="search" name="city" value="<?= e($criteria['city']) ?>" placeholder="<?= e(I18n::t('search.city')) ?>">
+      <input id="f-city" type="search" name="city" data-places value="<?= e($criteria['city']) ?>" placeholder="<?= e(I18n::t('search.city')) ?>">
     </div>
     <button type="submit" class="btn btn-coral"><?= e(I18n::t('search.filter')) ?></button>
   </form>
