@@ -66,6 +66,20 @@ final class Knowledge
             self::addChunks($chunks, (string) $cv['name'], '/cv/' . $cv['slug'], 'profil', $body);
         }
 
+        // Les fiches employeurs : l'assistant peut ainsi renvoyer vers la page
+        // d'une structure, et pas seulement vers ses offres.
+        foreach (Index::load('employers') as $employer) {
+            $body = implode("\n", array_filter([
+                (string) $employer['name'],
+                (string) $employer['tagline'],
+                (string) $employer['kind'] !== '' ? 'Type : ' . (string) $employer['kind'] : '',
+                (string) $employer['city'] !== '' ? 'Ville : ' . (string) $employer['city'] : '',
+                ((int) $employer['job_count']) . ' offre(s) publiée(s) sur intermittent.fr',
+            ]));
+            self::addChunks($chunks, (string) $employer['name'],
+                '/employeur/' . $employer['slug'], 'employeur', $body);
+        }
+
         foreach (self::documents() as $doc) {
             self::addChunks($chunks, (string) $doc['title'], '', 'document', (string) $doc['text']);
         }

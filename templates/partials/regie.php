@@ -11,6 +11,7 @@ if (!Config::get('regie.enabled', true)) {
 ?>
 <div class="regie" data-regie
      data-endpoint="/api/regie"
+     data-lang="<?= e(I18n::lang()) ?>"
      data-csrf="<?= e(Csrf::token('regie')) ?>"
      data-offline="<?= e(I18n::t('regie.offline')) ?>">
 

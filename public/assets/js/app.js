@@ -187,16 +187,10 @@
     });
     $$('[data-regie-close]', regiePanel).forEach(function (b) { b.addEventListener('click', closeRegie); });
 
-    function bubble(text, who, source) {
+    function bubble(text, who) {
       var el = document.createElement('div');
       el.className = 'bubble bubble-' + who;
       el.textContent = text;
-      if (source) {
-        var s = document.createElement('span');
-        s.className = 'source';
-        s.textContent = source;
-        el.appendChild(s);
-      }
       thread.appendChild(el);
       thread.scrollTop = thread.scrollHeight;
       return el;
@@ -212,16 +206,22 @@
       fetch(root.getAttribute('data-endpoint'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: question, _csrf: root.getAttribute('data-csrf') })
+        body: JSON.stringify({
+          question: question,
+          // /api/regie n'est pas montée par langue : la page indique la sienne,
+          // sans quoi la réponse et ses liens suivraient celle du navigateur.
+          lang: root.getAttribute('data-lang') || '',
+          _csrf: root.getAttribute('data-csrf')
+        })
       })
         .then(function (r) { return r.json(); })
         .then(function (data) {
-          pending.textContent = data.answer || root.getAttribute('data-offline');
-          if (data.source) {
-            var s = document.createElement('span');
-            s.className = 'source';
-            s.textContent = data.source;
-            pending.appendChild(s);
+          // data.html vient du serveur : échappé, avec des liens internes
+          // restreints aux pages réellement citées. data.answer est le repli.
+          if (data.html) {
+            pending.innerHTML = data.html;
+          } else {
+            pending.textContent = data.answer || root.getAttribute('data-offline');
           }
         })
         .catch(function () { pending.textContent = root.getAttribute('data-offline'); })

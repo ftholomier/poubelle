@@ -225,12 +225,20 @@ final class ApiController extends Controller
             return Response::json(['answer' => I18n::t('form.err_rate')], 429);
         }
 
+        // La route n'est pas montée par langue : la page nous dit la sienne, pour
+        // que la réponse et ses liens restent dans la langue consultée.
+        $lang = (string) ($body['lang'] ?? $request->input('lang', ''));
+        if (I18n::isSupported($lang)) {
+            I18n::boot($lang);
+        }
+
         $question = trim((string) ($body['question'] ?? $request->input('question', '')));
         $answer = Regie::ask($question);
 
         return Response::json([
             'answer'   => $answer['answer'],
-            'source'   => $answer['source'],
+            // HTML construit côté serveur : liens internes échappés et filtrés.
+            'html'     => $answer['html'],
             'grounded' => $answer['grounded'],
         ]);
     }

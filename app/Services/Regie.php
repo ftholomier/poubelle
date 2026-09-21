@@ -24,13 +24,13 @@ final class Regie
     }
 
     /**
-     * @return array{answer:string, source:string, grounded:bool}
+     * @return array{answer:string, html:string, grounded:bool}
      */
     public static function ask(string $question): array
     {
         $question = trim(mb_substr($question, 0, 600));
         if ($question === '') {
-            return self::reply(I18n::t('regie.placeholder'), '', false);
+            return self::reply(I18n::t('regie.placeholder'), [], false);
         }
 
         $context = Knowledge::search($question, 5);
@@ -68,7 +68,7 @@ final class Regie
         self::remember($question, $text);
         Audit::log('regie.answered', ['chars' => mb_strlen($text), 'sources' => count($context)]);
 
-        return self::reply($text, self::sourceLabel($context), $context !== []);
+        return self::reply($text, $context, $context !== []);
     }
 
     /** Instruction système : périmètre, ton, interdits. */
@@ -83,6 +83,8 @@ final class Regie
 
         1. Réponds uniquement à partir des extraits du site fournis dans le contexte. Si le contexte
            ne contient pas la réponse, dis-le simplement et propose la page la plus proche.
+        1 bis. Ne parle jamais de tes sources, des « extraits », du « contexte » ni de la base de
+           connaissance : le visiteur ne doit voir qu'une réponse directe.
         2. N'invente jamais une offre, un profil, un employeur, un chiffre, un prix ou une date.
         3. Tu ne donnes aucun conseil juridique définitif sur le statut d'intermittent, les heures,
            les allocations ou un contrat. Tu peux expliquer les grands principes en termes généraux,
@@ -92,7 +94,11 @@ final class Regie
         5. Ne divulgue jamais de coordonnées personnelles d'un candidat : renvoie vers sa fiche.
         6. Réponds en français, dans la langue de la question si elle est posée dans une autre langue
            parmi : anglais, espagnol, allemand, italien, portugais, néerlandais.
-        7. Trois phrases maximum, ton direct et concret, pas de formule d'accueil.
+        7. Chaque fois que tu cites une offre, un profil, une entreprise ou une page du site,
+           transforme son nom en lien Markdown : [Nom exact](/chemin). Le chemin est celui donné
+           entre parenthèses dans l'extrait correspondant, recopié à l'identique. N'écris jamais un
+           chemin qui n'apparaît pas dans les extraits, et ne mets pas de lien vers un site externe.
+        8. Trois phrases maximum, ton direct et concret, pas de formule d'accueil.
         TXT;
     }
 
@@ -113,7 +119,9 @@ final class Regie
                 $i + 1,
                 $chunk['kind'],
                 $chunk['title'],
-                $chunk['url'] !== '' ? ' (' . $chunk['url'] . ')' : '',
+                // Le chemin est annoncé explicitement : c'est celui que le
+                // modèle doit recopier pour en faire un lien.
+                $chunk['url'] !== '' ? ' — lien : ' . $chunk['url'] : ' — aucun lien',
                 $chunk['text'],
             );
         }
@@ -146,32 +154,119 @@ final class Regie
             }
         }
         if ($best === null) {
-            return self::reply(I18n::t('regie.no_scope'), '', false);
+            return self::reply(I18n::t('regie.no_scope'), [], false);
         }
 
         $answer = str_excerpt((string) $best['text'], 320);
         if ((string) $best['url'] !== '') {
-            $answer .= "\n→ " . I18n::url((string) $best['url']);
+            // Même sans modèle, la réponse pointe la page concernée.
+            $answer .= "\n→ [" . str_excerpt((string) $best['title'], 80) . ']('
+                     . '/' . trim((string) $best['url'], '/') . ')';
         }
-        return self::reply($answer, self::sourceLabel($context), true);
+        return self::reply($answer, $context, true);
     }
 
-    private static function sourceLabel(array $context): string
+    /**
+     * Le fil affiche du HTML : il est construit ici, jamais par le modèle.
+     * Tout est échappé, et seuls les chemins présents dans les extraits retenus
+     * peuvent devenir des liens — une adresse inventée perd son lien et ne
+     * laisse que son libellé.
+     *
+     * @param array<int, array<string, mixed>> $context
+     * @return array{answer:string, html:string, grounded:bool}
+     */
+    private static function reply(string $answer, array $context, bool $grounded): array
     {
-        if ($context === []) {
-            return '';
-        }
-        $titles = [];
-        foreach (array_slice($context, 0, 2) as $chunk) {
-            $titles[] = str_excerpt((string) $chunk['title'], 40);
-        }
-        return 'Source : ' . implode(' · ', $titles);
+        return [
+            'answer'   => self::plain($answer),
+            'html'     => self::render($answer, self::allowedPaths($context)),
+            'grounded' => $grounded,
+        ];
     }
 
-    /** @return array{answer:string, source:string, grounded:bool} */
-    private static function reply(string $answer, string $source, bool $grounded): array
+    /** @return array<string, string> chemin interne => libellé par défaut */
+    private static function allowedPaths(array $context): array
     {
-        return ['answer' => $answer, 'source' => $source, 'grounded' => $grounded];
+        $allowed = [];
+        foreach ($context as $chunk) {
+            $url = trim((string) ($chunk['url'] ?? ''));
+            if ($url === '' || !str_starts_with($url, '/')) {
+                continue;
+            }
+            $allowed['/' . trim($url, '/')] = str_excerpt((string) ($chunk['title'] ?? ''), 80);
+        }
+        return $allowed;
+    }
+
+    /** Version texte, pour l'historique et les clients sans HTML. */
+    private static function plain(string $text): string
+    {
+        return trim((string) preg_replace(
+            '#\[([^\]\n]{1,160})\]\((/[^)\s]{0,200})\)#u', '$1', self::tidy($text)));
+    }
+
+    /** @param array<string, string> $allowed */
+    private static function render(string $text, array $allowed): string
+    {
+        $pattern = '#\[([^\]\n]{1,160})\]\((/[A-Za-z0-9\-/_%.]{0,200})\)#u';
+        $out = '';
+        $offset = 0;
+
+        while (preg_match($pattern, $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
+            $start = (int) $m[0][1];
+            $out .= self::escape(substr($text, $offset, $start - $offset), $allowed);
+
+            $label = (string) $m[1][0];
+            $path  = '/' . trim((string) $m[2][0], '/');
+            $out  .= isset($allowed[$path]) ? self::anchor($path, $label) : e($label);
+
+            $offset = $start + strlen((string) $m[0][0]);
+        }
+        $out .= self::escape(substr($text, $offset), $allowed);
+
+        return nl2br($out, false);
+    }
+
+    /**
+     * Texte brut : on échappe, puis on relie les chemins écrits en clair.
+     * Le tri du plus long au plus court évite qu'un chemin court n'entame un
+     * chemin plus long qui le contient.
+     *
+     * @param array<string, string> $allowed
+     */
+    private static function escape(string $plain, array $allowed): string
+    {
+        $escaped = e(self::tidy($plain));
+        if ($allowed === []) {
+            return $escaped;
+        }
+
+        $paths = array_keys($allowed);
+        usort($paths, static fn(string $a, string $b): int => strlen($b) <=> strlen($a));
+
+        $map = [];
+        $i = 0;
+        foreach ($paths as $path) {
+            if (!str_contains($escaped, $path)) {
+                continue;
+            }
+            $key = "\x00lien" . (++$i) . "\x00";
+            $map[$key] = self::anchor($path, $allowed[$path] !== '' ? $allowed[$path] : $path);
+            $escaped = str_replace($path, $key, $escaped);
+        }
+        return strtr($escaped, $map);
+    }
+
+    private static function anchor(string $path, string $label): string
+    {
+        return '<a href="' . e(I18n::url($path)) . '">' . e(trim($label)) . '</a>';
+    }
+
+    /** Le modèle glisse parfois du gras ou des puces : le fil reste en texte simple. */
+    private static function tidy(string $text): string
+    {
+        $text = (string) preg_replace('/\*\*(.+?)\*\*/us', '$1', $text);
+        return (string) preg_replace('/^\s*[-*•]\s+/mu', '', $text);
     }
 
     /** @return array<int, array{role:string,text:string}> */

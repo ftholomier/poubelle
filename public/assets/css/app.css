@@ -874,7 +874,9 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
 .bubble { max-width: 86%; padding: 10px 13px; font-size: 13.5px; line-height: 1.55; }
 .bubble-bot  { background: var(--white); border-radius: 16px 16px 16px 5px; align-self: flex-start; border: 1px solid var(--rule); }
 .bubble-user { background: var(--ink); color: #fff; border-radius: 16px 16px 5px 16px; align-self: flex-end; }
-.bubble-bot .source { display: block; margin-top: 7px; font-size: 11.5px; color: var(--meta); }
+/* Liens vers les pages du site, posés par l'assistant dans ses réponses. */
+.bubble-bot a { color: var(--coral-solid); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.bubble-bot a:hover, .bubble-bot a:focus-visible { color: var(--ink); }
 
 .regie-suggestions { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 15px 12px; }
 .regie-suggestions button {
