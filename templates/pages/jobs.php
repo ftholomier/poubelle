@@ -99,12 +99,18 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
             <?php endforeach; ?>
           <?php endforeach; ?>
           <label class="visually-hidden" for="sort"><?= e(I18n::t('search.sort')) ?></label>
-          <select id="sort" name="sort" class="select" style="width:auto;padding:9px 13px;border-width:1.5px;border-radius:999px;font-size:13.5px"
-                  onchange="this.form.submit()">
+          <?php // Le tri s'envoie par son bouton ; le script le déclenche au
+                // changement et masque alors le bouton. Un gestionnaire en
+                // attribut serait refusé par la politique de sécurité. ?>
+          <select id="sort" name="sort" class="select" data-autosubmit
+                  style="width:auto;padding:9px 13px;border-width:1.5px;border-radius:999px;font-size:13.5px">
             <option value="recent" <?= $criteria['sort'] === 'recent' ? 'selected' : '' ?>><?= e(I18n::t('search.sort_recent')) ?></option>
             <option value="oldest" <?= $criteria['sort'] === 'oldest' ? 'selected' : '' ?>><?= e(I18n::t('search.sort_oldest')) ?></option>
             <option value="title"  <?= $criteria['sort'] === 'title'  ? 'selected' : '' ?>><?= e(I18n::t('search.sort_title')) ?></option>
           </select>
+          <button type="submit" class="btn btn-ghost btn-sm" data-autosubmit-go>
+            <?= e(I18n::t('search.sort')) ?>
+          </button>
         </form>
       </div>
 

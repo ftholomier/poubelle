@@ -17,6 +17,9 @@ use App\Services\Sources\JoobleSource;
 final class SecretsTest
 {
     /** @return array{ok:bool, message:string} */
+    /** Les groupes qui savent se vérifier ; les autres n'affichent pas de bouton. */
+    public const TESTABLE = ['regie', 'translate', 'reviews', 'adsense', 'sources', 'mail'];
+
     public static function run(string $group): array
     {
         return match ($group) {

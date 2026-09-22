@@ -6,6 +6,7 @@
 use App\Core\Csrf;
 use App\Services\I18n;
 use App\Services\Secrets;
+use App\Services\SecretsTest;
 use App\Support\Icon;
 ?>
 <div class="admin-head">
@@ -21,13 +22,18 @@ use App\Support\Icon;
   <?= Csrf::field('admin-settings') ?>
 
   <?php foreach ($catalog as $groupKey => $group): ?>
-    <div class="admin-card">
+    <div class="admin-card" id="grp-<?= e($groupKey) ?>">
       <div class="admin-head" style="margin-bottom:12px">
         <h2><?= e($group['label']) ?></h2>
-        <button type="submit" name="action" value="test" class="btn btn-ghost btn-sm"
-                formnovalidate onclick="this.form.group.value='<?= e($groupKey) ?>'">
-          <?= e(I18n::t('admin.test')) ?>
-        </button>
+        <?php // Le groupe voyage dans la valeur du bouton : un gestionnaire en
+              // attribut serait refusé par la politique de sécurité de la page. ?>
+        <?php if (in_array($groupKey, SecretsTest::TESTABLE, true)): ?>
+          <button type="submit" name="test" value="<?= e($groupKey) ?>"
+                  formaction="/admin/cles-api#grp-<?= e($groupKey) ?>"
+                  class="btn btn-ghost btn-sm" formnovalidate>
+            <?= e(I18n::t('admin.test')) ?>
+          </button>
+        <?php endif; ?>
       </div>
 
       <?php if (($group['intro'] ?? '') !== ''): ?>
@@ -129,8 +135,6 @@ use App\Support\Icon;
       <?php endif; ?>
     </div>
   <?php endforeach; ?>
-
-  <input type="hidden" name="group" value="">
 
   <p class="secret-help" style="margin:18px 0 0">
     Les clés sont écrites dans <code>data/private/secrets.json</code>, hors racine web,

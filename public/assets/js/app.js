@@ -664,9 +664,24 @@
     initForms();
     initPlaces();
     initBookmarks();
+    initAutoSubmit();
     initConsent();
     initGoogleConsentLink();
     initAdDiag();
+  }
+
+  /**
+   * Champs qui renvoient leur formulaire dès qu'ils changent — le tri des
+   * offres, par exemple. Le bouton reste le mécanisme réel : il n'est masqué
+   * qu'une fois ce script en place, pour que le tri marche sans JavaScript.
+   */
+  function initAutoSubmit() {
+    $$('[data-autosubmit]').forEach(function (field) {
+      var form = field.form;
+      if (!form) { return; }
+      field.addEventListener('change', function () { form.submit(); });
+      $$('[data-autosubmit-go]', form).forEach(function (btn) { btn.hidden = true; });
+    });
   }
 
   /* --------------------------------------------- diagnostic publicitaire */

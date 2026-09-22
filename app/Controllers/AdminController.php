@@ -612,9 +612,10 @@ final class AdminController extends Controller
 
         if ($request->isPost() && Csrf::check($request)) {
             $action = (string) $request->input('action', 'save');
+            // Le bouton de test porte son groupe dans sa propre valeur.
+            $group = (string) $request->input('test', '');
 
-            if ($action === 'test') {
-                $group = (string) $request->input('group', '');
+            if ($group !== '') {
                 $test = ['group' => $group] + SecretsTest::run($group);
                 Audit::log('secrets.tested', ['group' => $group, 'ok' => $test['ok']], $this->userId());
             } elseif ($action === 'generate') {
