@@ -505,7 +505,6 @@ final class AdminController extends Controller
                 $parsed = $this->applySnippet((string) $request->input('snippet', ''));
                 $notice = AdSnippet::summary($parsed);
             } else {
-                Ads::setMode((string) $request->input('mode', 'auto'));
                 Ads::setConsentMode((string) $request->input('consent', 'google'));
                 foreach (array_keys(Ads::slots()) as $name) {
                     Ads::setEnabled($name, $request->input('slot_' . $name) === '1');
@@ -548,7 +547,6 @@ final class AdminController extends Controller
             'adsense_default_slot'  => $parsed['slot'],
             'adsense_infeed_layout' => $parsed['layout'],
         ], [], $this->userId());
-        Ads::setMode($parsed['mode']);
 
         Audit::log('ads.snippet', [
             'mode' => $parsed['mode'],

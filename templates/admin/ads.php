@@ -98,27 +98,22 @@ use App\Services\I18n;
     </span>
   </label>
 
-  <h2>Mode de diffusion</h2>
-  <label class="check" style="align-items:flex-start;margin:10px 0">
-    <input type="radio" name="mode" value="auto" <?= $mode === 'auto' ? 'checked' : '' ?>>
-    <span>
-      <strong>Annonces automatiques</strong> — rien à créer chez AdSense au-delà du compte.
-      L’identifiant éditeur suffit : Google choisit lui-même où placer les annonces dans la page.
-      Les sept emplacements ci-dessous ne sont alors pas posés.
-      <br><span class="s">À activer aussi côté Google : AdSense → Annonces → Par site → votre
-      site → <em>Annonces automatiques</em>.</span>
-    </span>
-  </label>
-  <label class="check" style="align-items:flex-start;margin:10px 0 20px">
-    <input type="radio" name="mode" value="slots" <?= $mode === 'slots' ? 'checked' : '' ?>>
-    <span>
-      <strong>Emplacements du site</strong> — les sept emplacements de la maquette, chacun servi
-      par une unité AdSense. Placement maîtrisé et statistiques par emplacement, mais il faut
-      créer les unités et recopier leur identifiant dans <a href="/admin/cles-api">Clés d’API</a>.
-    </span>
-  </label>
+  <h2>Diffusion</h2>
+  <p class="s" style="margin-bottom:18px">
+    <?php if ($client === ''): ?>
+      Sans identifiant éditeur, les emplacements affichent le cadre en pointillés de la maquette.
+    <?php elseif ($mode === 'slots'): ?>
+      Les emplacements ci-dessous portent leur unité : c’est exactement le code que Google vous a
+      donné, posé sur chaque bloc actif. Un emplacement sans unité ne réserve pas de place — si
+      les annonces automatiques sont actives sur votre compte, Google peut y placer les siennes.
+    <?php else: ?>
+      Aucune unité n’est configurée : seul le script AdSense est chargé. Les annonces n’appara&icirc;tront
+      que si les <em>annonces automatiques</em> sont actives sur votre compte
+      (AdSense → Annonces → Par site). Pour maîtriser les emplacements, collez votre code ci-dessus.
+    <?php endif; ?>
+  </p>
 
-  <div class="table-scroll"<?= $mode === 'auto' ? ' style="opacity:.55"' : '' ?>>
+  <div class="table-scroll">
     <table class="admin-table">
       <thead><tr><th>Emplacement</th><th>Format</th><th>Identifiant</th><th>Diffusion</th><th>Actif</th></tr></thead>
       <tbody>

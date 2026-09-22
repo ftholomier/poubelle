@@ -27,34 +27,22 @@ final class Ads
     }
 
     /**
-     * Deux façons de diffuser, au choix depuis le back-office.
+     * Ce que fait le site, pour l'afficher — jamais pour en décider.
      *
-     * « auto » : les annonces automatiques de Google. Le seul réglage est
-     * l'identifiant éditeur — aucune unité à créer ni à recopier, Google place
-     * les annonces lui-même. Les emplacements dessinés ne sont alors pas posés,
-     * puisque Google choisit les siens.
-     *
-     * « slots » : les sept emplacements de la maquette, chacun servi par une
-     * unité AdSense identifiée. Placement maîtrisé, statistiques par
-     * emplacement, mais il faut créer les unités.
+     * « slots » : au moins une unité est configurée, les emplacements la
+     * portent. « auto » : aucune unité, seul le script est chargé et Google
+     * place ce qu'il veut, si les annonces automatiques sont actives sur le
+     * compte. Cet état se déduit de la configuration ; aucun réglage ne peut
+     * plus empêcher une unité pourtant saisie de s'afficher.
      */
     public static function mode(): string
     {
-        $stored = Json::read(self::statePath())['mode'] ?? null;
-        if (is_string($stored)) {
-            return $stored === 'slots' ? 'slots' : 'auto';
+        foreach (array_keys(self::slots()) as $name) {
+            if (self::isLive($name)) {
+                return 'slots';
+            }
         }
-
-        // Aucun choix enregistré : on déduit plutôt que d'imposer. Des unités
-        // déjà saisies veulent dire des emplacements voulus — les ignorer
-        // couperait une configuration qui marchait. Sinon, l'automatique, qui
-        // ne demande rien de plus que l'identifiant éditeur.
-        $slotIds = array_filter(array_map(
-            static fn($v): string => trim((string) $v),
-            (array) Config::secret('adsense_slots', []),
-        ), 'strlen');
-
-        return ($slotIds !== [] || self::defaultSlot() !== '') ? 'slots' : 'auto';
+        return 'auto';
     }
 
     /** Le code collé par l'éditeur, réaffiché tel quel dans le formulaire. */
@@ -67,14 +55,6 @@ final class Ads
     {
         $state = Json::read(self::statePath());
         $state['snippet'] = mb_substr(trim($snippet), 0, 4000);
-        Json::write(self::statePath(), $state);
-        self::$state = null;
-    }
-
-    public static function setMode(string $mode): void
-    {
-        $state = Json::read(self::statePath());
-        $state['mode'] = $mode === 'slots' ? 'slots' : 'auto';
         Json::write(self::statePath(), $state);
         self::$state = null;
     }
@@ -118,31 +98,10 @@ final class Ads
         return self::consentMode() === 'google' && self::client() !== '';
     }
 
-    /** Annonces automatiques : rien d'autre que l'identifiant éditeur. */
-    public static function isAuto(): bool
-    {
-        return self::mode() === 'auto' && self::client() !== '';
-    }
-
-    /**
-     * Le script AdSense est-il utile sur cette page ?
-     * En mode auto il suffit de l'identifiant éditeur ; en mode emplacements
-     * il faut au moins une unité effectivement servie.
-     */
+    /** Le script AdSense n'a besoin que du compte : il sert les deux cas. */
     public static function scriptNeeded(): bool
     {
-        if (self::client() === '') {
-            return false;
-        }
-        if (self::mode() === 'auto') {
-            return true;
-        }
-        foreach (array_keys(self::slots()) as $name) {
-            if (self::isLive($name)) {
-                return true;
-            }
-        }
-        return false;
+        return self::client() !== '';
     }
 
     /**
@@ -187,12 +146,16 @@ final class Ads
         return (string) Config::get('ads.client', '');
     }
 
-    /** L'unité n'est servie que si le compte et l'identifiant d'emplacement existent. */
+    /**
+     * Une unité configurée est toujours posée.
+     *
+     * Elle ne dépend d'aucun « mode » : un réglage capable d'empêcher une unité
+     * pourtant saisie de s'afficher est un piège, et c'en fut un. Les annonces
+     * automatiques de Google ne s'excluent pas des emplacements du site — elles
+     * s'y ajoutent, et se règlent dans la console AdSense, pas ici.
+     */
     public static function isLive(string $name): bool
     {
-        if (self::mode() === 'auto') {
-            return false;   // Google place les annonces, pas nous.
-        }
         $slot = self::slots()[$name] ?? null;
         return $slot !== null && $slot['enabled'] && self::client() !== '' && $slot['slot'] !== '';
     }

@@ -10,9 +10,13 @@ use App\Core\Config;
 use App\Services\Ads;
 use App\Services\I18n;
 
-// Annonces automatiques : Google place les siennes, on ne réserve rien —
-// ni unité, ni cadre en pointillés qui resterait vide.
-if (Ads::isAuto() || !Ads::isEnabled($slot)) {
+if (!Ads::isEnabled($slot)) {
+    return;
+}
+// Compte configuré mais pas d'unité ici : on ne réserve rien. Le cadre en
+// pointillés est une aide de maquette, pas quelque chose à montrer au public,
+// et Google peut de toute façon y placer une annonce automatique.
+if (!Ads::isLive($slot) && Ads::client() !== '') {
     return;
 }
 $config = Ads::slots()[$slot];
