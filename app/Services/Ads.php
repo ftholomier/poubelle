@@ -79,6 +79,45 @@ final class Ads
         self::$state = null;
     }
 
+    /**
+     * Qui recueille le consentement publicitaire.
+     *
+     * « google » : le CMP de Google (Confidentialité et messages, ex-Funding
+     * Choices). Depuis janvier 2024, AdSense impose pour le trafic européen un
+     * CMP certifié IAB TCF v2.2 ; un bandeau maison n'en est pas un, et sans
+     * signal TCF Google ne sert pas d'annonce. Ce CMP est affiché par le script
+     * AdSense lui-même : il doit donc se charger dès l'ouverture de la page,
+     * sinon la fenêtre de consentement n'a jamais lieu d'apparaître. C'est le
+     * fonctionnement prévu et certifié par Google : le script se charge, il
+     * demande, et rien n'est déposé ni personnalisé avant la réponse.
+     *
+     * « site » : le bandeau du site, qui conditionne le chargement du script.
+     * Respectueux, mais muet pour Google : à réserver aux cas où AdSense n'est
+     * pas utilisé, ou hors d'Europe.
+     */
+    public static function consentMode(): string
+    {
+        $stored = Json::read(self::statePath())['consent'] ?? null;
+        if (is_string($stored)) {
+            return $stored === 'site' ? 'site' : 'google';
+        }
+        return 'google';
+    }
+
+    public static function setConsentMode(string $mode): void
+    {
+        $state = Json::read(self::statePath());
+        $state['consent'] = $mode === 'site' ? 'site' : 'google';
+        Json::write(self::statePath(), $state);
+        self::$state = null;
+    }
+
+    /** Le CMP de Google se charge-t-il sur cette page ? */
+    public static function googleConsent(): bool
+    {
+        return self::consentMode() === 'google' && self::client() !== '';
+    }
+
     /** Annonces automatiques : rien d'autre que l'identifiant éditeur. */
     public static function isAuto(): bool
     {

@@ -506,10 +506,12 @@ final class AdminController extends Controller
                 $notice = AdSnippet::summary($parsed);
             } else {
                 Ads::setMode((string) $request->input('mode', 'auto'));
+                Ads::setConsentMode((string) $request->input('consent', 'google'));
                 foreach (array_keys(Ads::slots()) as $name) {
                     Ads::setEnabled($name, $request->input('slot_' . $name) === '1');
                 }
-                Audit::log('ads.updated', ['mode' => Ads::mode()], $this->userId());
+                Audit::log('ads.updated',
+                    ['mode' => Ads::mode(), 'consent' => Ads::consentMode()], $this->userId());
                 $notice = I18n::t('admin.saved');
             }
         }
@@ -519,6 +521,7 @@ final class AdminController extends Controller
             'client'  => Ads::client(),
             'mode'    => Ads::mode(),
             'snippet' => Ads::snippet(),
+            'consent' => Ads::consentMode(),
             'parsed'  => $parsed,
             'notice'  => $notice,
         ], I18n::t('admin.ads'));

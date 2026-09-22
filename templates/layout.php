@@ -41,6 +41,7 @@ $canonical = rtrim((string) Config::get('site.url'), '/') . I18n::url($path ?? '
 <body<?= App\Services\Ads::scriptNeeded()
     ? ' data-ads-client="' . e(App\Services\Ads::client()) . '"'
       . ' data-ads-mode="' . e(App\Services\Ads::mode()) . '"'
+      . ' data-ads-consent="' . e(App\Services\Ads::consentMode()) . '"'
     : '' ?>>
 <a class="skip-link" href="#main"><?= e(I18n::t('nav.skip')) ?></a>
 
@@ -66,7 +67,10 @@ $canonical = rtrim((string) Config::get('site.url'), '/') . I18n::url($path ?? '
 <?= App\Core\View::partial('partials/cta-bar') ?>
 <?= App\Core\View::partial('partials/regie') ?>
 <?= App\Core\View::partial('partials/exit-popup') ?>
-<?= App\Core\View::partial('partials/cmp') ?>
+<?php // Avec le CMP de Google, c'est lui qui demande : deux bandeaux nuiraient. ?>
+<?php if (!App\Services\Ads::googleConsent()): ?>
+  <?= App\Core\View::partial('partials/cmp') ?>
+<?php endif; ?>
 <?php if (($_GET['pub'] ?? '') === 'diag'): ?>
   <?= App\Core\View::partial('partials/ad-diag') ?>
 <?php endif; ?>

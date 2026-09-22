@@ -513,6 +513,15 @@
     try { stored = window.localStorage.getItem('imtt_consent'); } catch (e) { /* bloqué */ }
     var consent = consentCookie() || stored;
 
+    // Le CMP de Google est affiché par le script AdSense lui-même : le
+    // retenir derrière un bandeau maison l'empêcherait d'apparaître, et
+    // Google, privé de signal TCF, ne servirait aucune annonce en Europe.
+    if (document.body.getAttribute('data-ads-consent') === 'google') {
+      loadAds();
+      if (banner) { banner.hidden = true; }
+      return;
+    }
+
     if (consent === 'all') {
       // Le CSP n'autorise les domaines publicitaires que si le serveur a vu le
       // cookie. Choix mémorisé avant sa mise en place : on le repose, puis on
@@ -555,6 +564,26 @@
         banner.scrollIntoView({ block: 'nearest' });
         var first = $('[data-cmp-choice]', banner);
         if (first) { first.focus(); }
+      });
+    });
+  }
+
+  /** Rouvre la fenêtre de consentement de Google depuis le pied de page. */
+  function initGoogleConsentLink() {
+    if (document.body.getAttribute('data-ads-consent') !== 'google') { return; }
+
+    $$('[data-cmp-reopen]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        window.googlefc = window.googlefc || {};
+        window.googlefc.callbackQueue = window.googlefc.callbackQueue || [];
+        if (typeof window.googlefc.showRevocationMessage === 'function') {
+          window.googlefc.showRevocationMessage();
+          return;
+        }
+        // Le CMP n'a pas fini de s'initialiser : on se met dans sa file.
+        window.googlefc.callbackQueue.push({
+          CONSENT_API_READY: function () { window.googlefc.showRevocationMessage(); }
+        });
       });
     });
   }
@@ -636,6 +665,7 @@
     initPlaces();
     initBookmarks();
     initConsent();
+    initGoogleConsentLink();
     initAdDiag();
   }
 
@@ -668,9 +698,22 @@
       var stored = null;
       try { stored = window.localStorage.getItem('imtt_consent'); } catch (e) { stored = 'illisible'; }
 
-      var cookie = consentCookie();
-      line('Consentement (cookie)', cookie || 'aucun', cookie === 'all' ? 'ok' : 'ko');
-      line('Consentement (local)', stored || 'aucun');
+      var who = document.body.getAttribute('data-ads-consent') || 'bandeau du site';
+      line('Consentement géré par', who === 'google' ? 'Google (CMP certifié)' : 'bandeau du site',
+           who === 'google' ? 'ok' : null);
+
+      if (who === 'google') {
+        var fc = window.googlefc;
+        var cmp = !fc ? 'absent — activez « Confidentialité et messages » dans AdSense'
+                      : (typeof fc.showRevocationMessage === 'function' ? 'chargé' : 'en cours');
+        line('Fenêtre Google (CMP)', cmp, cmp === 'chargé' ? 'ok' : 'ko');
+        line('API TCF v2.2', typeof window.__tcfapi === 'function' ? 'présente' : 'absente',
+             typeof window.__tcfapi === 'function' ? 'ok' : 'ko');
+      } else {
+        var cookie = consentCookie();
+        line('Consentement (cookie)', cookie || 'aucun', cookie === 'all' ? 'ok' : 'ko');
+        line('Consentement (local)', stored || 'aucun');
+      }
       line('Mode côté serveur', document.body.getAttribute('data-ads-mode') || 'publicité désactivée');
       line('Identifiant éditeur', document.body.getAttribute('data-ads-client') || 'absent',
            document.body.getAttribute('data-ads-client') ? 'ok' : 'ko');

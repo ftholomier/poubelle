@@ -41,9 +41,7 @@ final class Security
         $nonce = self::nonce();
 
         // Les domaines publicitaires ne sont autorisés qu'une fois le consentement donné.
-        $adHosts = $allowAds
-            ? ' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com'
-            : '';
+        $adHosts = $allowAds ? ' ' . implode(' ', self::AD_HOSTS) : '';
 
         $csp = [
             "default-src 'self'",
@@ -62,18 +60,46 @@ final class Security
     }
 
     /**
-     * Le consentement est mémorisé côté navigateur, mais le CSP se décide côté
-     * serveur : le choix du visiteur est donc aussi déposé dans un cookie, seul
-     * moyen pour PHP de savoir s'il doit ouvrir les domaines publicitaires.
-     * Ce cookie sert uniquement à mémoriser un refus ou un accord : à ce titre
-     * il est exempté de consentement.
+     * Domaines de la régie et de son CMP. fundingchoicesmessages sert la
+     * fenêtre de consentement de Google, adtrafficquality sa vérification
+     * anti-fraude : sans eux la fenêtre ne s'affiche pas.
+     */
+    private const AD_HOSTS = [
+        'https://pagead2.googlesyndication.com',
+        'https://googleads.g.doubleclick.net',
+        'https://tpc.googlesyndication.com',
+        'https://www.googletagservices.com',
+        'https://adservice.google.com',
+        'https://fundingchoicesmessages.google.com',
+        'https://ep1.adtrafficquality.google',
+        'https://ep2.adtrafficquality.google',
+        'https://www.google.com',
+    ];
+
+    /**
+     * Le CSP se décide côté serveur, alors que le consentement se donne côté
+     * navigateur. Deux cas, selon qui le recueille.
+     *
+     * Le CMP de Google est affiché par le script AdSense : les domaines
+     * doivent donc être ouverts dès la première page, sans quoi la fenêtre de
+     * consentement ne pourrait jamais apparaître. Ouvrir le CSP ne charge
+     * rien par soi-même ; c'est le script qui demande, puis respecte la
+     * réponse.
+     *
+     * Avec le bandeau du site, c'est le choix du visiteur qui commande. Il est
+     * déposé dans un cookie, seul canal lisible par PHP ; ce cookie ne sert
+     * qu'à mémoriser un accord ou un refus, et est à ce titre exempté de
+     * consentement.
      */
     private static function adsConsented(): bool
     {
-        if (($_COOKIE['imtt_consent'] ?? '') !== 'all') {
+        if (trim((string) Config::get('ads.client', '')) === '') {
             return false;
         }
-        return trim((string) Config::get('ads.client', '')) !== '';
+        if (\App\Services\Ads::consentMode() === 'google') {
+            return true;
+        }
+        return ($_COOKIE['imtt_consent'] ?? '') === 'all';
     }
 
     /** Redirection HTTP → HTTPS. Le certificat doit être réparé côté hébergeur. */

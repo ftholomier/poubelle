@@ -2,7 +2,7 @@
 /**
  * Emplacements publicitaires.
  * @var array $slots @var string $client @var string $mode
- * @var string $snippet @var array|null $parsed @var string $notice
+ * @var string $snippet @var array|null $parsed @var string $consent @var string $notice
  */
 use App\Core\Csrf;
 use App\Services\I18n;
@@ -72,7 +72,33 @@ use App\Services\I18n;
 <form method="post" class="admin-card">
   <?= Csrf::field('admin-ads') ?>
 
-  <h2 style="margin-top:0">Mode de diffusion</h2>
+  <h2 style="margin-top:0">Recueil du consentement</h2>
+  <p class="s">
+    Depuis janvier 2024, AdSense impose un CMP certifié IAB TCF v2.2 pour tout trafic européen.
+    Sans ce signal, Google ne sert aucune annonce en France, quel que soit le code posé.
+  </p>
+  <label class="check" style="align-items:flex-start;margin:10px 0">
+    <input type="radio" name="consent" value="google" <?= $consent === 'google' ? 'checked' : '' ?>>
+    <span>
+      <strong>Fenêtre de Google</strong> — la vraie fenêtre de consentement, certifiée. Elle est
+      affichée par le script AdSense lui-même, qui se charge donc dès l’ouverture de la page : rien
+      n’est déposé ni personnalisé avant la réponse du visiteur. Le bandeau du site s’efface.
+      <br><span class="s">À activer une fois côté Google :
+      <a href="https://www.google.com/adsense/new/u/0/pub/privacymessaging" target="_blank"
+         rel="noopener noreferrer">AdSense → Confidentialité et messages</a> → message RGPD →
+      publier pour l’Espace économique européen et le Royaume-Uni.</span>
+    </span>
+  </label>
+  <label class="check" style="align-items:flex-start;margin:10px 0 22px">
+    <input type="radio" name="consent" value="site" <?= $consent === 'site' ? 'checked' : '' ?>>
+    <span>
+      <strong>Bandeau du site</strong> — le script publicitaire n’est chargé qu’après acceptation.
+      Sobre, mais muet pour Google : <strong>aucune annonce ne sera diffusée en Europe</strong>.
+      À réserver aux cas où AdSense n’est pas utilisé.
+    </span>
+  </label>
+
+  <h2>Mode de diffusion</h2>
   <label class="check" style="align-items:flex-start;margin:10px 0">
     <input type="radio" name="mode" value="auto" <?= $mode === 'auto' ? 'checked' : '' ?>>
     <span>
@@ -148,6 +174,12 @@ use App\Services\I18n;
             : '<span class="state state-err">absent</span> — à saisir dans <a href="/admin/cles-api">Clés d’API</a>' ?></td>
       </tr>
       <tr>
+        <td><span class="t">Consentement</span></td>
+        <td class="s"><?= $consent === 'google'
+            ? '<span class="state state-ok">fenêtre de Google</span> — certifiée TCF v2.2, requise en Europe'
+            : '<span class="state state-err">bandeau du site</span> — non certifié : Google ne diffusera pas en Europe' ?></td>
+      </tr>
+      <tr>
         <td><span class="t">Mode</span></td>
         <td class="s"><?= $mode === 'auto'
             ? 'Annonces automatiques : le script est chargé, Google place les annonces.'
@@ -179,9 +211,10 @@ use App\Services\I18n;
   <ol class="s" style="margin:10px 0 0; padding-left:20px; line-height:1.7">
     <li><strong>Le site doit être ajouté et validé</strong> dans <em>AdSense → Sites</em>. Tant
         qu’il est « en cours d’examen », rien n’est diffusé, où que soit posé le code.</li>
-    <li><strong>Le consentement du visiteur.</strong> Avant son clic sur « Tout accepter », aucun
-        script publicitaire n’est chargé. Pour tester : effacez les cookies du site, rechargez,
-        acceptez.</li>
+    <li><strong>Le message de consentement doit être publié</strong> dans
+        <em>AdSense → Confidentialité et messages</em>, pour l’Espace économique européen et le
+        Royaume-Uni. Le site charge la fenêtre, mais c’est Google qui la fournit : tant qu’aucun
+        message n’y est publié, rien ne s’affiche et rien n’est diffusé.</li>
     <li><strong>Une unité neuve met du temps à se remplir</strong> — de quelques heures à 48 h.</li>
     <li><strong>Un bloqueur de publicité</strong> suffit à tout masquer : testez en navigation
         privée, extensions désactivées.</li>
