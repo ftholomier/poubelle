@@ -71,7 +71,25 @@ final class Request
 
     public function ip(): string
     {
-        return (string) ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
+        return Net::clientIp();
+    }
+
+    /**
+     * Robot d'indexation ou d'aspiration : on ne déclenche pour lui ni appel
+     * d'API facturé, ni requête vers un partenaire.
+     */
+    public function isBot(): bool
+    {
+        $agent = strtolower($this->userAgent());
+        if ($agent === '') {
+            return true;
+        }
+        return (bool) preg_match(
+            '/bot|crawl|spider|slurp|facebookexternalhit|embedly|quora|pinterest|bingpreview|'
+            . 'yandex|baidu|duckduck|semrush|ahrefs|mj12|dotbot|petal|applebot|gptbot|'
+            . 'claudebot|ccbot|perplexity|headlesschrome|python-requests|curl|wget|okhttp/',
+            $agent,
+        );
     }
 
     public function userAgent(): string

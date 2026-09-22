@@ -12,7 +12,14 @@ final class Wp
         return (bool) preg_match('/^[a-z]{10}$/', trim($title));
     }
 
-    /** Nettoie le HTML WordPress en conservant une mise en forme simple. */
+    /**
+     * Nettoie le HTML WordPress en conservant une mise en forme simple.
+     *
+     * `strip_tags` ne filtre que les balises : les attributs des balises
+     * gardées passeraient tels quels, `onclick` et `href="javascript:"`
+     * compris. Le résultat est donc repassé par le Sanitizer du site, qui
+     * applique une liste blanche d'attributs et vérifie les URL.
+     */
     public static function cleanHtml(string $html): string
     {
         $html = str_replace(["\r\n", "\r"], "\n", $html);
@@ -21,7 +28,7 @@ final class Wp
         $html = str_replace(['&nbsp;', "\xc2\xa0"], ' ', $html);
         $html = strip_tags($html, '<p><br><strong><em><ul><ol><li><h2><h3><h4><a><blockquote>');
         $html = preg_replace('/\n{3,}/', "\n\n", $html) ?? $html;
-        return trim($html);
+        return \App\Services\Sanitizer::html(trim($html));
     }
 
     /** Texte brut, pour les extraits et l'index de recherche. */

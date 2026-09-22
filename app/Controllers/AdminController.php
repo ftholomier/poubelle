@@ -40,7 +40,7 @@ final class AdminController extends Controller
 
     public function login(Request $request, array $params): Response
     {
-        if (Auth::check()) {
+        if (Auth::isStaff()) {
             return Response::redirect('/admin/tableau-de-bord', 302);
         }
 
@@ -53,6 +53,7 @@ final class AdminController extends Controller
                     (string) $request->input('email', ''),
                     (string) $request->input('password', ''),
                     $request->ip(),
+                    true,   // back-office : rôles staff uniquement
                 );
                 if ($result['ok']) {
                     return Response::redirect('/admin/tableau-de-bord', 303);
@@ -667,10 +668,32 @@ final class AdminController extends Controller
 
     /* ---------------------------------------------------------------- privé */
 
+    /**
+     * Le back-office n'est ouvert qu'aux rôles déclarés dans
+     * `security.staff_roles`. Un compte repris de WordPress peut se connecter
+     * au site, jamais à l'administration : sa session existe peut-être, elle ne
+     * vaut pas autorisation.
+     */
     private function guard(bool $adminOnly = false): ?Response
     {
         if (!Auth::check()) {
             return Response::redirect('/admin', 302);
+        }
+        if (!Auth::isStaff()) {
+            Audit::log('admin.forbidden', [
+                'role' => Auth::user()['role'] ?? '',
+                'path' => (string) ($_SERVER['REQUEST_URI'] ?? ''),
+            ], $this->userId());
+            Auth::logout();
+            return Response::html(
+                View::render('pages/error', [
+                    'code'  => 403,
+                    'title' => I18n::t('error.403_title'),
+                    'body'  => I18n::t('error.403_body'),
+                    'path'  => '/',
+                ]),
+                403,
+            );
         }
         if ($adminOnly && !Auth::isAdmin()) {
             return Response::redirect('/admin/tableau-de-bord', 302);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Domain;
 
 use App\Core\Config;
+use App\Services\Sanitizer;
 use App\Storage\Json;
 use App\Storage\Lock;
 use App\Storage\Schema;
@@ -62,6 +63,10 @@ final class PageRepository
     public static function save(array $page, string $lang = 'fr'): bool
     {
         $page = Schema::upgrade($page, 'page');
+        // Dernière ligne de défense : le corps est rendu sans échappement par
+        // le gabarit, quelle que soit sa provenance (éditeur, import WordPress,
+        // traduction automatique). Rien n'entre en base sans passer ici.
+        $page['body'] = Sanitizer::html((string) ($page['body'] ?? ''));
         $page['lang'] = $lang;
         $page['updated_at'] = date('c');
         if (($page['created_at'] ?? '') === '') {

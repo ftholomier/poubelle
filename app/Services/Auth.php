@@ -21,12 +21,24 @@ final class Auth
 {
     private const SESSION_KEY = 'auth_user';
 
+    /**
+     * Empreinte Argon2id d'un mot de passe aléatoire, servant de comparaison
+     * factice quand l'adresse est inconnue. Elle doit être *valide*, sinon
+     * password_verify échoue sans calculer et le temps de réponse trahit
+     * l'existence du compte. Les paramètres suivent la configuration ; celle-ci
+     * n'est qu'un repli si le fichier ne peut être écrit.
+     */
+    private const DUMMY_FALLBACK =
+        '$argon2id$v=19$m=65536,t=4,p=2$QzhWSllpelFCNDFGYVgwbA$6h+ddJerqm/n17b4P4nFdHfCLDePuY5t+WzL4Ua3Y00';
+
     /* ------------------------------------------------------------ connexion */
 
     /**
+     * @param bool $staffOnly refuse l'ouverture de session aux rôles sans accès
+     *                        au back-office (candidats, employeurs)
      * @return array{ok:bool, user:array|null, error:string, wait:int}
      */
-    public static function login(string $email, string $password, string $ip): array
+    public static function login(string $email, string $password, string $ip, bool $staffOnly = false): array
     {
         $max = (int) Config::get('security.login_max_tries', 5);
         $lock = (int) Config::get('security.login_lock_secs', 900);
@@ -42,8 +54,7 @@ final class Auth
         // Comparaison factice : le temps de réponse ne doit pas révéler
         // si l'adresse existe.
         if ($user === null) {
-            password_verify($password, '$argon2id$v=19$m=65536,t=4,p=2$' . base64_encode(random_bytes(16))
-                . '$' . base64_encode(random_bytes(32)));
+            password_verify($password, self::dummyHash());
             Audit::log('auth.unknown_email', ['email' => self::mask($email)]);
             return ['ok' => false, 'user' => null, 'error' => I18n::t('admin.err_credentials'), 'wait' => 0];
         }
@@ -68,6 +79,21 @@ final class Auth
         if (!$verified) {
             Audit::log('auth.bad_password', ['user' => $user['id'], 'email' => self::mask($email)]);
             return ['ok' => false, 'user' => null, 'error' => I18n::t('admin.err_credentials'), 'wait' => 0];
+        }
+
+        // Identifiants justes mais rôle sans accès au back-office : aucune
+        // session n'est ouverte. Les ~230 comptes repris de WordPress
+        // (candidats, employeurs) s'arrêtent ici.
+        if ($staffOnly && !self::isStaffRole((string) ($user['role'] ?? ''))) {
+            Audit::log('auth.denied_role', ['user' => $user['id'], 'role' => $user['role']], (int) $user['id']);
+            return ['ok' => false, 'user' => null, 'error' => I18n::t('admin.err_no_access'), 'wait' => 0];
+        }
+
+        // Mot de passe marqué à renouveler depuis l'écran « Utilisateurs » :
+        // la connexion reste fermée tant qu'il n'est pas changé.
+        if (!empty($user['must_reset'])) {
+            Audit::log('auth.must_reset', ['user' => $user['id']], (int) $user['id']);
+            return ['ok' => false, 'user' => null, 'error' => I18n::t('admin.err_must_reset'), 'wait' => 0];
         }
 
         if ($needsRehash) {
@@ -120,9 +146,58 @@ final class Auth
         return (self::user()['role'] ?? '') === 'admin';
     }
 
+    /** Le compte connecté a-t-il accès au back-office ? */
+    public static function isStaff(): bool
+    {
+        return self::check() && self::isStaffRole((string) (self::user()['role'] ?? ''));
+    }
+
+    public static function isStaffRole(string $role): bool
+    {
+        $roles = (array) Config::get('security.staff_roles', ['admin']);
+        return $role !== '' && in_array($role, $roles, true);
+    }
+
     public static function hash(string $password): string
     {
         return password_hash($password, PASSWORD_ARGON2ID, self::argonOptions());
+    }
+
+    /**
+     * Empreinte factice valide, calculée une fois avec les paramètres Argon2 en
+     * vigueur puis conservée hors racine web. La vérifier coûte exactement le
+     * même temps qu'une vraie : l'existence d'un compte ne se lit plus au
+     * chronomètre.
+     */
+    private static function dummyHash(): string
+    {
+        static $hash = null;
+        if ($hash !== null) {
+            return $hash;
+        }
+
+        // Hors du dossier des jetons : pruneTokens() ne doit pas l'emporter.
+        $dir = Config::path('data') . '/private';
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
+        $file = $dir . '/dummy-hash.json';
+        $state = Json::read($file);
+        $options = self::argonOptions();
+        $stamp = implode(',', $options);
+
+        if (is_string($state['hash'] ?? null)
+            && ($state['options'] ?? '') === $stamp
+            && str_starts_with($state['hash'], '$argon2id$')) {
+            return $hash = $state['hash'];
+        }
+
+        $fresh = password_hash(bin2hex(random_bytes(16)), PASSWORD_ARGON2ID, $options);
+        if (!is_string($fresh) || $fresh === '') {
+            return $hash = self::DUMMY_FALLBACK;
+        }
+        Json::write($file, ['hash' => $fresh, 'options' => $stamp]);
+        return $hash = $fresh;
     }
 
     private static function argonOptions(): array

@@ -30,9 +30,7 @@ final class Session
 
     public static function isHttps(): bool
     {
-        return (($_SERVER['HTTPS'] ?? '') !== '' && ($_SERVER['HTTPS'] ?? '') !== 'off')
-            || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https')
-            || (int) ($_SERVER['SERVER_PORT'] ?? 80) === 443;
+        return Net::isHttps();
     }
 
     public static function get(string $key, mixed $default = null): mixed

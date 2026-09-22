@@ -43,20 +43,62 @@ final class Mailer
         return $ok;
     }
 
-    /** Copie locale : un lien de récupération n'est jamais perdu faute de MTA. */
+    /**
+     * Trace des envois ratés, pour diagnostiquer un hébergement sans MTA.
+     *
+     * Un envoi réussi n'est pas archivé : conserver le corps de chaque message
+     * reviendrait à garder une copie durable de données personnelles, et
+     * surtout des liens de récupération — quiconque lirait le dossier
+     * prendrait la main sur les comptes concernés. Les jetons sont donc
+     * expurgés même dans la trace d'échec ; en l'absence de MTA, un mot de
+     * passe se réinitialise depuis le serveur avec `php bin/create-admin.php`.
+     */
     private static function archive(string $to, string $subject, string $body, bool $sent): void
     {
+        if ($sent) {
+            return;
+        }
+
         $dir = Config::path('data') . '/logs/mail';
         if (!is_dir($dir)) {
-            @mkdir($dir, 0775, true);
+            @mkdir($dir, 0700, true);
         }
-        Json::write($dir . '/' . date('Ymd-His') . '-' . substr(sha1($to . $subject), 0, 8) . '.json', [
+
+        $file = $dir . '/' . date('Ymd-His') . '-' . substr(sha1($to . $subject), 0, 8) . '.json';
+        $ok = Json::write($file, [
             'at'      => date('c'),
             'to'      => $to,
             'subject' => $subject,
-            'body'    => $body,
-            'sent'    => $sent,
+            'body'    => self::redact($body),
+            'sent'    => false,
         ]);
+        if ($ok) {
+            @chmod($file, 0600);
+        }
+    }
+
+    /** Retire d'un corps de message tout ce qui vaut identifiant. */
+    public static function redact(string $body): string
+    {
+        $body = (string) preg_replace('/([?&](?:token|jeton|key)=)[^&\s]+/i', '$1***', $body);
+        return (string) preg_replace('/\b[a-f0-9]{32,}\b/i', '***', $body);
+    }
+
+    /**
+     * Supprime les traces d'échec passées. Appelé par bin/cron.php.
+     *
+     * @return int nombre de fichiers supprimés
+     */
+    public static function purge(int $days = 7): int
+    {
+        $limit = time() - max(1, $days) * 86400;
+        $removed = 0;
+        foreach (glob(Config::path('data') . '/logs/mail/*.json') ?: [] as $file) {
+            if ((int) @filemtime($file) < $limit) {
+                $removed += @unlink($file) ? 1 : 0;
+            }
+        }
+        return $removed;
     }
 
     private static function encodeHeader(string $value): string

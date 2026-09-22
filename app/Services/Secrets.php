@@ -347,6 +347,46 @@ final class Secrets
         return bin2hex(random_bytes(24));
     }
 
+    /**
+     * Clé interne de l'installation, utilisée pour hacher les adresses IP des
+     * limiteurs de débit et du journal. Elle est créée au premier appel :
+     * aucune installation ne tourne plus avec une constante publique, qui
+     * rendrait les empreintes d'IP réversibles par simple énumération.
+     */
+    public static function appKey(): string
+    {
+        static $key = null;
+        if ($key !== null) {
+            return $key;
+        }
+
+        $stored = (string) self::get('app_key', '');
+        if ($stored !== '') {
+            return $key = $stored;
+        }
+
+        // config/secrets.php peut la porter : on la reprend sans rien écrire.
+        $fromFile = (string) Config::secret('app_key', '');
+        if ($fromFile !== '') {
+            return $key = $fromFile;
+        }
+
+        $fresh = self::generateKey();
+        $store = self::all();
+        $store['app_key'] = $fresh;
+        if (Json::write(self::path(), $store)) {
+            @chmod(self::path(), 0600);
+            self::$store = $store;
+            Audit::log('secrets.app_key_generated');
+            return $key = $fresh;
+        }
+
+        // Stockage en lecture seule : on ne peut pas persister, mais on ne
+        // retombe pas sur une constante connue de tous.
+        Audit::log('secrets.app_key_unwritable');
+        return $key = hash('sha256', __DIR__ . '|' . (string) Config::get('site.url'));
+    }
+
     /** Toutes les clés du catalogue, aplaties. @return array<string, array> */
     public static function flatten(): array
     {

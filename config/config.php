@@ -57,6 +57,19 @@ return [
         'argon'            => ['memory_cost' => 65536, 'time_cost' => 4, 'threads' => 2],
         'hsts'             => true,
         'force_https'      => true,
+
+        // Seuls ces rôles ouvrent le back-office. Les comptes repris de
+        // WordPress (candidate, employer) n'y ont aucun accès.
+        'staff_roles'      => ['admin'],
+
+        /**
+         * Proxys autorisés à réécrire l'adresse du visiteur et le protocole.
+         * Vide = on ne croit que REMOTE_ADDR, ce qui est le bon réglage sur un
+         * hébergement mutualisé classique. Derrière un CDN, y placer ses plages
+         * (« 173.245.48.0/20 », « 2400:cb00::/32 »…) sans quoi les limiteurs de
+         * débit compteraient toutes les visites sur la même empreinte.
+         */
+        'trusted_proxies'  => [],
     ],
 
     'uploads' => [

@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Storage;
 
 use App\Core\Config;
+use App\Core\Net;
+use App\Services\Secrets;
 
 /** Journal horodaté : connexions, publications, incidents de stockage. */
 final class Audit
@@ -19,7 +21,9 @@ final class Audit
             'at'      => date('c'),
             'event'   => $event,
             'user'    => $userId,
-            'ip'      => $_SERVER['REMOTE_ADDR'] ?? null,
+            // Empreinte, jamais l'adresse : elle permet de rapprocher deux
+            // lignes du même visiteur sans conserver de donnée identifiante.
+            'ip'      => self::fingerprint(),
             'context' => $context,
         ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
@@ -28,6 +32,38 @@ final class Audit
             $line . "\n",
             FILE_APPEND | LOCK_EX,
         );
+    }
+
+    /** Empreinte courte et non réversible de l'adresse du visiteur. */
+    private static function fingerprint(): ?string
+    {
+        if (PHP_SAPI === 'cli' && ($_SERVER['REMOTE_ADDR'] ?? '') === '') {
+            return null;
+        }
+        $ip = Net::clientIp();
+        return $ip === '' ? null : substr(hash_hmac('sha256', $ip, Secrets::appKey()), 0, 16);
+    }
+
+    /**
+     * Supprime les fichiers de journal plus vieux que la durée de conservation.
+     * Appelé par bin/cron.php : rien ne s'accumule indéfiniment.
+     *
+     * @return int nombre de fichiers supprimés
+     */
+    public static function purge(int $months = 12): int
+    {
+        $keep = [];
+        for ($i = 0; $i < max(1, $months); $i++) {
+            $keep[] = date('Y-m', strtotime('-' . $i . ' month'));
+        }
+
+        $removed = 0;
+        foreach (glob(Config::path('data') . '/logs/audit-*.jsonl') ?: [] as $file) {
+            if (preg_match('/audit-(\d{4}-\d{2})\.jsonl$/', $file, $m) && !in_array($m[1], $keep, true)) {
+                $removed += @unlink($file) ? 1 : 0;
+            }
+        }
+        return $removed;
     }
 
     /** Dernières entrées, plus récentes d'abord — alimente « Journal & sauvegardes ». */

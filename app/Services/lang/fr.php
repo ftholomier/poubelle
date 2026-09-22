@@ -288,6 +288,9 @@ return [
     'admin.err_credentials' => 'Adresse e-mail ou mot de passe incorrect.',
     'admin.err_rate'     => 'Trop de tentatives. Réessayez dans quelques minutes.',
     'admin.err_disabled' => 'Ce compte est désactivé.',
+    'admin.err_no_access'=> 'Ce compte n’a pas accès à l’administration du site.',
+    'admin.err_must_reset' => 'Votre mot de passe doit être renouvelé. '
+                            . 'Utilisez « Mot de passe oublié ? » pour en choisir un nouveau.',
     'admin.dashboard'    => 'Tableau de bord',
     'admin.contents'     => 'Pages & contenus',
     'admin.jobs'         => 'Offres d’emploi',
@@ -348,6 +351,11 @@ return [
     'ago.years'         => 'il y a %d ans',
     'error.404_title'   => 'Page introuvable',
     'error.404_body'    => 'Cette page a quitté l’affiche. Retournez à l’accueil ou parcourez les offres.',
+    'error.403_title'   => 'Accès réservé',
+    'error.403_body'    => 'Votre compte n’a pas accès à l’administration du site. '
+                         . 'Vous pouvez en revanche déposer une annonce ou un CV.',
+    'error.search_here' => 'Chercher sur le site',
+    'error.useful'      => 'Pages utiles',
     'error.500_title'   => 'Incident technique',
     'error.500_body'    => 'Quelque chose s’est mal passé de notre côté. Réessayez dans un instant.',
     'error.home'        => 'Retour à l’accueil',

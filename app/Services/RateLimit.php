@@ -25,7 +25,8 @@ final class RateLimit
     private static function key(string $ip): string
     {
         // L'IP n'est jamais stockée en clair : seule une empreinte sert de clé.
-        return substr(hash_hmac('sha256', $ip, (string) Config::secret('app_key', 'intermittent')), 0, 24);
+        // La clé de l'installation est créée au premier appel, jamais devinable.
+        return substr(hash_hmac('sha256', $ip, Secrets::appKey()), 0, 24);
     }
 
     /**

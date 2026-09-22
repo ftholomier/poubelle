@@ -69,6 +69,11 @@ $user['must_reset'] = false;
 
 UserRepository::save($user);
 UserRepository::reindex();
+
+// Clé interne de l'installation : créée ici si elle manque, pour qu'aucun site
+// ne tourne avec l'empreinte d'IP par défaut des limiteurs de débit.
+App\Services\Secrets::appKey();
+
 Audit::log($isNew ? 'user.admin_created' : 'user.admin_promoted', ['user' => $user['id']]);
 
 printf("%s : %s (id %s)\n", $isNew ? 'Compte créé' : 'Compte promu administrateur', $email, $user['id']);
