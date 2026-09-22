@@ -21,7 +21,13 @@ $siteName = (string) Config::get('site.name');
 $base = rtrim((string) Config::get('site.url'), '/');
 $path = $path ?? '/';
 
-$pageTitle = ($title ?? '') !== '' ? $title . ' · ' . $siteName : $siteName;
+// Le nom du site clôt le titre, sauf s'il s'y trouve déjà : un gabarit de
+// référencement peut l'avoir placé lui-même, par la variable {site} ou
+// en toutes lettres. L'y répéter gâcherait deux fois la place que Google
+// accorde à un titre.
+$title = trim((string) ($title ?? ''));
+$pageTitle = $title === '' ? $siteName
+    : (str_contains($title, $siteName) ? $title : $title . ' · ' . $siteName);
 $description = $desc ?? (string) Config::get('site.baseline');
 
 /**
@@ -64,7 +70,7 @@ $ogImage = Seo::ogImage($ogImage ?? '');
 <?php endif; ?>
 
 <meta property="og:site_name" content="<?= e($siteName) ?>">
-<meta property="og:title" content="<?= e($title ?? $siteName) ?>">
+<meta property="og:title" content="<?= e($title !== '' ? $title : $siteName) ?>">
 <meta property="og:description" content="<?= e($description) ?>">
 <meta property="og:type" content="<?= e($ogType ?? 'website') ?>">
 <meta property="og:url" content="<?= e($canonical) ?>">
@@ -73,7 +79,7 @@ $ogImage = Seo::ogImage($ogImage ?? '');
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="<?= e($title ?? $siteName) ?>">
+<meta name="twitter:title" content="<?= e($title !== '' ? $title : $siteName) ?>">
 <meta name="twitter:description" content="<?= e($description) ?>">
 <meta name="twitter:image" content="<?= e($ogImage) ?>">
 

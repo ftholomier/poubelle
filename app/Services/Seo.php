@@ -40,11 +40,24 @@ final class Seo
         'resources' => ['path' => '/ressources',         'label' => 'Ressources'],
     ];
 
-    /** Variables acceptées dans les gabarits de titre, par type de fiche. */
+    /**
+     * Variables acceptées dans les gabarits de titre et de description.
+     *
+     * Chaque rubrique déclare les siennes ; le contrôleur correspondant les
+     * fournit à chaque rendu. Une variable absente est retirée du texte plutôt
+     * que laissée en évidence.
+     */
     public const PLACEHOLDERS = [
-        'job'      => ['{titre}', '{employeur}', '{ville}', '{contrat}', '{site}'],
-        'cv'       => ['{nom}', '{metier}', '{ville}', '{annees}', '{site}'],
-        'employer' => ['{nom}', '{ville}', '{offres}', '{site}'],
+        'home'      => ['{site}', '{offres}', '{profils}'],
+        'jobs'      => ['{total}', '{ville}', '{motcle}', '{site}'],
+        'job'       => ['{titre}', '{employeur}', '{ville}', '{region}', '{contrat}', '{salaire}', '{site}'],
+        'cvs'       => ['{total}', '{ville}', '{motcle}', '{site}'],
+        'cv'        => ['{nom}', '{metier}', '{ville}', '{region}', '{annees}', '{competences}', '{site}'],
+        'employers' => ['{total}', '{site}'],
+        'employer'  => ['{nom}', '{ville}', '{offres}', '{site}'],
+        'post_cv'   => ['{site}'],
+        'post_job'  => ['{site}'],
+        'resources' => ['{site}'],
     ];
 
     private static ?array $store = null;
@@ -159,14 +172,23 @@ final class Seo
         $settings = (array) (self::all()['routes'][$key] ?? []);
         $vars['{site}'] = (string) Config::get('site.name');
 
+        // Un gabarit qui ne donnerait qu'une chaîne vide — toutes ses variables
+        // absentes — laisserait la page sans titre : on garde alors celui que
+        // le contrôleur a calculé.
         $title = trim((string) ($settings['title'] ?? ''));
         if ($title !== '') {
-            $meta['title'] = self::fill($title, $vars);
+            $filled = self::fill($title, $vars);
+            if ($filled !== '') {
+                $meta['title'] = $filled;
+            }
         }
 
         $description = trim((string) ($settings['description'] ?? ''));
         if ($description !== '') {
-            $meta['desc'] = self::fill($description, $vars);
+            $filled = self::fill($description, $vars);
+            if ($filled !== '') {
+                $meta['desc'] = $filled;
+            }
         }
 
         if (($settings['robots'] ?? '') === 'noindex' && ($meta['robots'] ?? '') === '') {
@@ -176,12 +198,38 @@ final class Seo
         return $meta;
     }
 
+    /**
+     * Remplit un gabarit et nettoie ce que les variables absentes laissent
+     * derrière elles.
+     *
+     * Une fiche sans ville, sans employeur ou sans ancienneté est courante :
+     * le titre ne doit ni montrer une accolade, ni garder une parenthèse vide
+     * ou deux séparateurs collés.
+     */
     private static function fill(string $template, array $vars): string
     {
         $out = strtr($template, $vars);
+
         // Une variable non fournie ne doit pas rester visible dans le titre.
         $out = (string) preg_replace('/\{[a-z_]+\}/u', '', $out);
-        return trim((string) preg_replace('/\s{2,}|\s+([—·|-])\s+$/u', ' ', $out), " \t—·|-");
+
+        // Délimiteurs devenus vides : « Monteuse () ».
+        $out = (string) preg_replace('/\(\s*\)|\[\s*\]|«\s*»/u', '', $out);
+
+        // Séparateurs qui se suivent : « Costumière ·  · intermittent.fr ».
+        $out = (string) preg_replace('/\s*([—·|,–-])(?:\s*[—·|,–-])+\s*/u', ' $1 ', $out);
+
+        // Séparateur resté en tête ou en queue.
+        $out = (string) preg_replace('/^[\s—·|,–]+|[\s—·|,–]+$/u', '', $out);
+        $out = (string) preg_replace('/^\s*-\s+|\s+-\s*$/u', '', $out);
+
+        // Espaces : un seul, et un de chaque côté des séparateurs qui en
+        // prennent. La virgule et le trait d'union n'en prennent pas à gauche.
+        $out = (string) preg_replace('/\s*([—·|])\s*/u', ' $1 ', $out);
+        $out = (string) preg_replace('/\s+,/u', ',', $out);
+        $out = (string) preg_replace('/\s{2,}/u', ' ', $out);
+
+        return trim($out);
     }
 
     /**

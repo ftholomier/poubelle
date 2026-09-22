@@ -35,6 +35,11 @@ final class CvController extends Controller
             'title' => I18n::t('cv.title', number_format((int) ($facets['total'] ?? 0), 0, ',', ' ')),
             'desc'  => I18n::t('home.profiles_note'),
             'path'  => '/cv',
+            'seo_vars' => [
+                '{total}'  => number_format((int) ($facets['total'] ?? 0), 0, ',', ' '),
+                '{ville}'  => (string) ($criteria['city'] ?? ''),
+                '{motcle}' => (string) ($criteria['q'] ?? ''),
+            ],
             'schema'=> StructuredData::breadcrumb([
                 [(string) Config::get('site.name'), '/'],
                 [I18n::t('nav.cv'), '/cv'],
@@ -111,6 +116,15 @@ final class CvController extends Controller
             'desc'   => str_excerpt((string) $cv['summary'], 155),
             'path'   => '/cv/' . $cv['slug'],
             'schema' => StructuredData::person($cv),
+            'seo_vars' => [
+                '{nom}'          => (string) $cv['name'],
+                '{metier}'       => (string) $cv['title'],
+                '{ville}'        => (string) ($cv['location']['city'] ?? ''),
+                '{region}'       => (string) ($cv['location']['region'] ?? ''),
+                '{annees}'       => (int) ($cv['experience_years'] ?? 0) > 0
+                                    ? I18n::t('cv.years', (int) $cv['experience_years']) : '',
+                '{competences}'  => implode(', ', array_slice((array) ($cv['skills'] ?? []), 0, 4)),
+            ],
         ]);
     }
 }

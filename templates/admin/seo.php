@@ -38,6 +38,13 @@ use App\Services\Seo;
       La modifier met en place une redirection permanente depuis l’ancienne, y compris pour les
       fiches. Un titre vide laisse celui calculé par la page.
     </p>
+    <p class="secret-help">
+      Les variables entre accolades sont remplacées par les valeurs de la fiche affichée :
+      <code>{metier} · {ville}</code> devient <code>Régisseur son · Lyon</code>. Une valeur
+      absente disparaît avec son séparateur, sans laisser de parenthèse vide ni de point médian
+      orphelin. Le nom du site s’ajoute à la fin du titre, sauf si <code>{site}</code> l’a déjà
+      placé ailleurs.
+    </p>
 
     <?php foreach ($routes as $key => $meta): ?>
       <?php
@@ -74,7 +81,9 @@ use App\Services\Seo;
             <input class="input" type="text" name="routes[<?= e($key) ?>][title]"
                    value="<?= e((string) ($saved['title'] ?? '')) ?>" maxlength="180">
             <?php if ($vars !== []): ?>
-              <span class="opt">variables : <?= e(implode(' ', $vars)) ?></span>
+              <span class="opt">
+                variables : <?= e(implode(' ', $vars)) ?>
+              </span>
             <?php endif; ?>
           </label>
         </div>

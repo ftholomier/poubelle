@@ -62,6 +62,11 @@ final class JobController extends Controller
             'title' => I18n::t('jobs.title', number_format((int) $results['total'], 0, ',', ' ')),
             'desc'  => I18n::t('home.lede'),
             'path'  => '/offres',
+            'seo_vars' => [
+                '{total}'  => number_format((int) $results['total'], 0, ',', ' '),
+                '{ville}'  => (string) ($criteria['city'] ?? ''),
+                '{motcle}' => (string) ($criteria['q'] ?? ''),
+            ],
             'schema'=> StructuredData::breadcrumb([
                 [(string) Config::get('site.name'), '/'],
                 [I18n::t('nav.jobs'), '/offres'],
@@ -170,6 +175,14 @@ final class JobController extends Controller
             // plus à être proposée en résultat de recherche.
             'robots'       => $expired ? 'noindex, follow' : '',
             'schema'       => StructuredData::jobPosting($job, $employer),
+            'seo_vars'     => [
+                '{titre}'     => (string) $job['title'],
+                '{employeur}' => (string) ($job['company']['name'] ?? ''),
+                '{ville}'     => (string) ($job['location']['city'] ?? ''),
+                '{region}'    => (string) ($job['location']['region'] ?? ''),
+                '{contrat}'   => implode(', ', (array) ($job['contract'] ?? [])),
+                '{salaire}'   => (string) ($job['salary'] ?? ''),
+            ],
         ]);
     }
 

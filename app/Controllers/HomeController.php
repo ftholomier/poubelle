@@ -23,6 +23,9 @@ final class HomeController extends Controller
         ));
 
         $employers = Index::load('employers');
+        // Lu une fois : l'index des CV pèse près de 200 Ko et sert
+        // deux fois, au compteur de la page et au gabarit de titre.
+        $cvTotal = (int) (Index::meta('cv')['total'] ?? 0);
 
         // Le bandeau et les trois compteurs parlent du même ensemble : ce que
         // le visiteur peut consulter, annonces du site et partenaires réunis.
@@ -37,7 +40,7 @@ final class HomeController extends Controller
                 // Ce que le visiteur peut réellement consulter aujourd'hui :
                 // les annonces déposées ici et celles de nos partenaires.
                 'jobs'      => (int) $facets['total'],
-                'cv'        => (int) (Index::meta('cv')['total'] ?? 0),
+                'cv'        => $cvTotal,
                 'employers' => count(array_filter($employers,
                                  static fn(array $e) => (int) $e['job_count'] > 0)),
             ],
@@ -50,6 +53,11 @@ final class HomeController extends Controller
             'desc'  => I18n::t('home.lede'),
             'path'  => '/',
             'schema'=> StructuredData::site(),
+            // Variables offertes au gabarit de titre réglé au back-office.
+            'seo_vars' => [
+                '{offres}'  => number_format((int) ($facets['total'] ?? 0), 0, ',', ' '),
+                '{profils}' => number_format($cvTotal, 0, ',', ' '),
+            ],
         ]);
     }
 
