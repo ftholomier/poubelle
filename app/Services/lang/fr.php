@@ -260,6 +260,7 @@ return [
     'cmp.accept'        => 'Tout accepter',
     'cmp.refuse'        => 'Continuer sans publicité ciblée',
     'cmp.learn'         => 'En savoir plus',
+    'cmp.manage'         => 'Préférences publicitaires',
 
     // Back-office
     'admin.title'        => 'Espace administration',

@@ -67,6 +67,9 @@ $canonical = rtrim((string) Config::get('site.url'), '/') . I18n::url($path ?? '
 <?= App\Core\View::partial('partials/regie') ?>
 <?= App\Core\View::partial('partials/exit-popup') ?>
 <?= App\Core\View::partial('partials/cmp') ?>
+<?php if (($_GET['pub'] ?? '') === 'diag'): ?>
+  <?= App\Core\View::partial('partials/ad-diag') ?>
+<?php endif; ?>
 
 <script src="/assets/js/app.js?v=<?= e(App\Core\Config::get('storage.schema')) ?>" defer></script>
 </body>

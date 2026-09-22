@@ -73,6 +73,9 @@ $columns = [
     <div class="footer-legal">
       <nav aria-label="<?= e(I18n::t('footer.legal')) ?>">
         <a href="<?= e(I18n::url('/mentions-legales')) ?>"><?= e(I18n::t('footer.legal')) ?></a>
+        <?php if (App\Services\Ads::client() !== ''): ?>
+          · <button type="button" class="linklike" data-cmp-reopen><?= e(I18n::t('cmp.manage')) ?></button>
+        <?php endif; ?>
       </nav>
       <span>
         <?= e(I18n::t('footer.free')) ?>

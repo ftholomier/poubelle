@@ -40,8 +40,21 @@ final class Ads
      */
     public static function mode(): string
     {
-        $mode = (string) (Json::read(self::statePath())['mode'] ?? 'auto');
-        return $mode === 'slots' ? 'slots' : 'auto';
+        $stored = Json::read(self::statePath())['mode'] ?? null;
+        if (is_string($stored)) {
+            return $stored === 'slots' ? 'slots' : 'auto';
+        }
+
+        // Aucun choix enregistré : on déduit plutôt que d'imposer. Des unités
+        // déjà saisies veulent dire des emplacements voulus — les ignorer
+        // couperait une configuration qui marchait. Sinon, l'automatique, qui
+        // ne demande rien de plus que l'identifiant éditeur.
+        $slotIds = array_filter(array_map(
+            static fn($v): string => trim((string) $v),
+            (array) Config::secret('adsense_slots', []),
+        ), 'strlen');
+
+        return ($slotIds !== [] || self::defaultSlot() !== '') ? 'slots' : 'auto';
     }
 
     public static function setMode(string $mode): void

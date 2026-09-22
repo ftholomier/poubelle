@@ -546,6 +546,17 @@
         if (consentCookie()) { location.reload(); } else { loadAds(); }
       });
     });
+
+    // Revenir sur son choix doit être aussi simple que de le donner : sans
+    // cela un refus reste figé six mois, sans aucun moyen de l'annuler.
+    $$('[data-cmp-reopen]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        banner.hidden = false;
+        banner.scrollIntoView({ block: 'nearest' });
+        var first = $('[data-cmp-choice]', banner);
+        if (first) { first.focus(); }
+      });
+    });
   }
 
   /** Les scripts publicitaires ne sont chargés qu'après consentement explicite. */
@@ -563,6 +574,11 @@
     script.async = true;
     script.crossOrigin = 'anonymous';
     script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(client);
+    // Un bloqueur ou un pare-feu fait échouer ce chargement sans rien dire :
+    // sans ce témoin, c'est indiscernable d'un refus de Google.
+    script.addEventListener('load',  function () { window.__imttAdsScript = 'chargé'; });
+    script.addEventListener('error', function () { window.__imttAdsScript = 'bloqué'; });
+    window.__imttAdsScript = 'en cours';
     document.head.appendChild(script);
 
     if (document.body.getAttribute('data-ads-mode') === 'auto') { return; }
@@ -620,6 +636,82 @@
     initPlaces();
     initBookmarks();
     initConsent();
+    initAdDiag();
+  }
+
+  /* --------------------------------------------- diagnostic publicitaire */
+
+  /**
+   * Rend lisible, dans le navigateur du visiteur, la chaîne que le serveur ne
+   * voit pas : consentement mémorisé, chargement du script, réponse de Google
+   * emplacement par emplacement.
+   */
+  function initAdDiag() {
+    var panel = $('[data-ad-diag]');
+    if (!panel) { return; }
+    panel.hidden = false;
+
+    var list = $('[data-ad-diag-list]', panel);
+
+    function line(term, value, state) {
+      var dt = document.createElement('dt');
+      dt.textContent = term;
+      var dd = document.createElement('dd');
+      dd.textContent = value;
+      if (state) { dd.className = 'is-' + state; }
+      list.appendChild(dt);
+      list.appendChild(dd);
+    }
+
+    function refresh() {
+      list.textContent = '';
+      var stored = null;
+      try { stored = window.localStorage.getItem('imtt_consent'); } catch (e) { stored = 'illisible'; }
+
+      var cookie = consentCookie();
+      line('Consentement (cookie)', cookie || 'aucun', cookie === 'all' ? 'ok' : 'ko');
+      line('Consentement (local)', stored || 'aucun');
+      line('Mode côté serveur', document.body.getAttribute('data-ads-mode') || 'publicité désactivée');
+      line('Identifiant éditeur', document.body.getAttribute('data-ads-client') || 'absent',
+           document.body.getAttribute('data-ads-client') ? 'ok' : 'ko');
+
+      var tag = document.querySelector('script[src*=adsbygoogle]');
+      var state = window.__imttAdsScript || 'non injecté';
+      line('Script AdSense', state, state === 'chargé' ? 'ok' : (state === 'bloqué' ? 'ko' : null));
+      if (tag) { line('  source', tag.src); }
+      line('File adsbygoogle',
+           Array.isArray(window.adsbygoogle) ? window.adsbygoogle.length + ' unité(s) poussée(s)'
+                                             : typeof window.adsbygoogle);
+
+      var units = $$('ins.adsbygoogle');
+      if (!units.length) {
+        line('Unités dans la page', document.body.getAttribute('data-ads-mode') === 'auto'
+          ? 'aucune, normal en mode automatique' : 'aucune');
+      }
+      units.forEach(function (unit) {
+        var status = unit.getAttribute('data-ad-status') || 'sans réponse';
+        var box = unit.getBoundingClientRect();
+        line(unit.getAttribute('data-ad-slot') || 'unité',
+             status + ' · ' + Math.round(box.width) + '×' + Math.round(box.height),
+             status === 'filled' ? 'ok' : 'ko');
+      });
+    }
+
+    refresh();
+    window.setTimeout(refresh, 3000);
+    window.setTimeout(refresh, 8000);
+
+    var reset = $('[data-ad-diag-reset]', panel);
+    if (reset) {
+      reset.addEventListener('click', function () {
+        try { window.localStorage.removeItem('imtt_consent'); } catch (e) { /* bloqué */ }
+        try { window.sessionStorage.removeItem('imtt_csp'); } catch (e) { /* bloqué */ }
+        document.cookie = 'imtt_consent=;path=/;max-age=0';
+        location.reload();
+      });
+    }
+    var close = $('[data-ad-diag-close]', panel);
+    if (close) { close.addEventListener('click', function () { panel.hidden = true; }); }
   }
 
   if (document.readyState === 'loading') {
