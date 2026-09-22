@@ -167,8 +167,10 @@
 
 /* Barre d'enregistrement : fine et collée en bas, pour masquer le moins
    possible du formulaire qu'elle sert à valider. */
+/* Posée en fin de formulaire, jamais flottante : collante, elle passait
+   par-dessus les champs hauts — la zone de mots-clés devenait intouchable,
+   le clic atterrissant sur la barre. */
 .save-bar {
-  position: sticky; bottom: 0; z-index: 30;
   margin: 18px -6px -8px; padding: 12px 18px;
   display: flex; align-items: center; justify-content: flex-end; gap: 14px; flex-wrap: wrap;
   background: rgba(15, 12, 38, .92); backdrop-filter: blur(10px);
