@@ -104,7 +104,11 @@ use App\Services\I18n;
            placeholder="croupier, hôtesse de l’air" spellcheck="false">
   </label>
 
-  <div class="save-bar" style="margin-top:20px">
+</div>
+
+  <?php // Hors des cartes : une barre collante posée dedans recouvrirait le
+        // dernier champ dès qu'on descend. ?>
+  <div class="save-bar">
     <span class="save-bar-note">Enregistrer vide le cache : les sources seront réinterrogées.</span>
     <button type="submit" class="btn btn-coral"><?= e(I18n::t('admin.save')) ?></button>
   </div>
