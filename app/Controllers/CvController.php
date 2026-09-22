@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\Config;
 use App\Core\Csrf;
 use App\Core\Request;
 use App\Core\Response;
@@ -34,6 +35,10 @@ final class CvController extends Controller
             'title' => I18n::t('cv.title', number_format((int) ($facets['total'] ?? 0), 0, ',', ' ')),
             'desc'  => I18n::t('home.profiles_note'),
             'path'  => '/cv',
+            'schema'=> StructuredData::breadcrumb([
+                [(string) Config::get('site.name'), '/'],
+                [I18n::t('nav.cv'), '/cv'],
+            ]),
         ]);
     }
 

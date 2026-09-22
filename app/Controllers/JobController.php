@@ -57,6 +57,10 @@ final class JobController extends Controller
                 (int) ($facets['total'] ?? 0) + $blended['external'], 0, ',', ' ')),
             'desc'  => I18n::t('home.lede'),
             'path'  => '/offres',
+            'schema'=> StructuredData::breadcrumb([
+                [(string) Config::get('site.name'), '/'],
+                [I18n::t('nav.jobs'), '/offres'],
+            ]),
         ]);
     }
 

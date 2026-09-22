@@ -664,17 +664,26 @@
     if (!bar) { return; }
     document.body.classList.add('has-cta');
 
+    var narrow = window.matchMedia('(max-width: 720px)');
     var last = window.pageYOffset;
     var ticking = false;
+
+    function paint(tucked) {
+      bar.classList.toggle('is-tucked', tucked);
+      document.body.classList.toggle('cta-tucked', tucked);
+    }
+
+    // Sur petit écran, la barre part repliée : le premier écran — le titre et
+    // la recherche — doit rester entièrement lisible.
+    paint(narrow.matches && window.pageYOffset < 240);
 
     window.addEventListener('scroll', function () {
       if (ticking) { return; }
       ticking = true;
       window.requestAnimationFrame(function () {
         var now = window.pageYOffset;
-        var down = now > last && now > 200;
-        bar.classList.toggle('is-tucked', down);
-        document.body.classList.toggle('cta-tucked', down);
+        var tucked = narrow.matches && now < 240 ? true : (now > last && now > 200);
+        paint(tucked);
         last = now;
         ticking = false;
       });

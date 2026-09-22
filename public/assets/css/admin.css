@@ -55,7 +55,10 @@
 .kpi .l { font-size: 12.5px; color: var(--meta); font-weight: 700; margin-top: 7px; }
 
 /* Tables */
-.admin-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+/* Le conteneur défile : mieux vaut une largeur honnête qu'un intitulé
+   d'annonce écrasé sur quatre lignes. */
+.admin-table { width: 100%; min-width: 1180px; border-collapse: collapse; font-size: 14px; }
+.admin-table .t { display: block; min-width: 200px; }
 .admin-table th {
   text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em;
   color: var(--meta); font-weight: 800; padding: 0 12px 10px; white-space: nowrap;
@@ -64,7 +67,7 @@
 .admin-table tr:hover td { background: var(--cream); }
 .admin-table .t { font-weight: 700; }
 .admin-table .s { font-size: 12.5px; color: var(--meta); }
-.admin-table .actions { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
+.admin-table .actions { display: flex; gap: 6px; justify-content: flex-end; }
 .table-scroll { overflow-x: auto; margin: 0 -6px; padding: 0 6px; }
 
 /* Pastilles d'état */
@@ -206,3 +209,19 @@
 }
 .secret-row .check { display: flex; align-items: flex-start; gap: 9px; font-size: 14px; }
 .secret-row .check input { margin-top: 3px; }
+
+
+/**
+ * Actions d'une ligne de liste.
+ *
+ * Avec un bouton de plus, elles s'empilaient et chaque ligne du tableau
+ * devenait trois fois trop haute.
+ */
+.admin-table .actions {
+  /* Une seule ligne : le conteneur du tableau défile déjà si nécessaire. */
+  flex-wrap: nowrap; white-space: nowrap; align-items: center; min-width: 330px;
+}
+.admin-table .actions form { display: inline-flex; flex: none; }
+.admin-table .actions .btn {
+  white-space: nowrap; padding: 7px 12px; font-size: 13px; min-height: 34px; flex: none;
+}

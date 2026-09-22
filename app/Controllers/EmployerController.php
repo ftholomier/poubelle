@@ -28,6 +28,10 @@ final class EmployerController extends Controller
             'title' => I18n::t('employers.title'),
             'desc'  => I18n::t('employers.lede'),
             'path'  => '/employeurs',
+            'schema'=> StructuredData::breadcrumb([
+                [(string) \App\Core\Config::get('site.name'), '/'],
+                [I18n::t('nav.employers'), '/employeurs'],
+            ]),
         ]);
     }
 

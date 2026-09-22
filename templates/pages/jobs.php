@@ -50,7 +50,7 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
         <?php if ($criteria['city'] !== ''): ?><input type="hidden" name="city" value="<?= e($criteria['city']) ?>"><?php endif; ?>
 
         <?php if ($partners !== []): ?>
-          <h3><?= e(I18n::t('search.origin')) ?></h3>
+          <h2 class="filter-title"><?= e(I18n::t('search.origin')) ?></h2>
           <div class="filter-list">
             <label class="check">
               <input type="checkbox" name="source[]" value="site"
@@ -68,7 +68,7 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
           </div>
         <?php endif; ?>
 
-        <h3<?= $partners !== [] ? ' style="margin-top:20px"' : '' ?>><?= e(I18n::t('search.family')) ?></h3>
+        <h2 class="filter-title"<?= $partners !== [] ? ' style="margin-top:20px"' : '' ?>><?= e(I18n::t('search.family')) ?></h2>
         <div class="filter-list">
           <?php foreach (array_slice((array) ($facets['categories'] ?? []), 0, 8, true) as $name => $count): ?>
             <label class="check">
@@ -80,7 +80,7 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
           <?php endforeach; ?>
         </div>
 
-        <h3 style="margin-top:20px"><?= e(I18n::t('search.contract')) ?></h3>
+        <h2 class="filter-title" style="margin-top:20px"><?= e(I18n::t('search.contract')) ?></h2>
         <div class="tag-row">
           <?php foreach ((array) ($facets['contracts'] ?? []) as $name => $count): ?>
             <label class="chip" style="cursor:pointer">
@@ -91,7 +91,7 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
           <?php endforeach; ?>
         </div>
 
-        <h3 style="margin-top:20px"><?= e(I18n::t('search.region')) ?></h3>
+        <h2 class="filter-title" style="margin-top:20px"><?= e(I18n::t('search.region')) ?></h2>
         <div class="filter-list">
           <?php foreach (array_slice((array) ($facets['regions'] ?? []), 0, 6, true) as $name => $count): ?>
             <label class="check">
@@ -155,7 +155,7 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
 
       <?php if ($results['items'] === []): ?>
         <div class="card empty">
-          <h3><?= e(I18n::t('search.none')) ?></h3>
+          <h2 class="filter-title"><?= e(I18n::t('search.none')) ?></h2>
           <p><?= e(I18n::t('search.none_note')) ?></p>
           <a class="btn btn-coral" href="<?= e(I18n::url('/offres')) ?>"><?= e(I18n::t('search.reset')) ?></a>
         </div>

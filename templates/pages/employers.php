@@ -30,7 +30,7 @@ use App\Support\Icon;
 
   <?php if ($results['items'] === []): ?>
     <div class="card empty">
-      <h3><?= e(I18n::t('search.none')) ?></h3>
+      <h2 class="filter-title"><?= e(I18n::t('search.none')) ?></h2>
       <p><?= e(I18n::t('search.none_note')) ?></p>
     </div>
   <?php else: ?>

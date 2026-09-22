@@ -36,7 +36,7 @@ $columns = [
 
       <?php foreach ($columns as $titleKey => $links): ?>
       <div class="footer-col">
-        <h4><?= e(I18n::t($titleKey)) ?></h4>
+        <h3 class="footer-title"><?= e(I18n::t($titleKey)) ?></h3>
         <ul>
           <?php foreach ($links as $href => $label): ?>
             <li><a href="<?= e(str_starts_with($href, '/admin') ? $href : I18n::url($href)) ?>"><?= e($label) ?></a></li>
@@ -47,7 +47,7 @@ $columns = [
 
       <?php if ($reviews !== null && $reviews['count'] > 0): ?>
       <div class="footer-col reviews">
-        <h4><?= e(I18n::t('footer.reviews')) ?></h4>
+        <h3 class="footer-title"><?= e(I18n::t('footer.reviews')) ?></h3>
         <div class="score"><?= e(number_format($reviews['rating'], 1, ',', ' ')) ?></div>
         <?php // Cinq étoiles pleines quelle que soit la note, c'était annoncer
               // 5/5 à côté d'un chiffre qui disait autre chose. ?>

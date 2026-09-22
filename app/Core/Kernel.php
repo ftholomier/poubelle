@@ -30,7 +30,12 @@ final class Kernel
         // La session n'est ouverte que si le visiteur en porte déjà une : une
         // visite anonyme ne pose aucun cookie et reste donc cachable.
         Session::startIfExists();
-        I18n::boot(I18n::detect($request->path));
+
+        // Le back-office est en français : il suivait la langue du navigateur,
+        // ce qui affichait ses dates au format anglais.
+        I18n::boot(str_starts_with($request->path, '/admin')
+            ? 'fr'
+            : I18n::detect($request->path));
 
         $router = $this->routes();
 

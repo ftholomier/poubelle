@@ -43,7 +43,7 @@ use App\Support\Icon;
 
   <?php if ($results['items'] === []): ?>
     <div class="card empty">
-      <h3><?= e(I18n::t('search.none')) ?></h3>
+      <h2 class="filter-title"><?= e(I18n::t('search.none')) ?></h2>
       <p><?= e(I18n::t('search.none_note')) ?></p>
       <a class="btn btn-coral" href="<?= e(I18n::url('/cv')) ?>"><?= e(I18n::t('search.reset')) ?></a>
     </div>

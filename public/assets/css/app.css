@@ -1190,11 +1190,52 @@ ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
 .tag-row a.tag, .filters a, .lang-menu a { min-height: 40px; display: inline-flex; align-items: center; }
 .nav-toggle, .lang-btn { min-width: 44px; min-height: 44px; }
 
-/* La barre CTA se replie au défilement vers le bas sur petit écran. */
+/**
+ * Barre d'action sur petit écran.
+ *
+ * Elle occupait un cinquième de la hauteur en permanence et recouvrait le
+ * champ de recherche de l'accueil. Elle s'y réduit aux deux boutons, part
+ * repliée et ne se montre qu'une fois le premier écran passé, puis se replie
+ * dès que le visiteur redescend.
+ */
 @media (max-width: 720px) {
-  .cta-bar { transition: transform .25s var(--ease); }
-  .cta-bar.is-tucked { transform: translateX(-50%) translateY(86%); }
-  body { padding-bottom: 96px; }
+  .cta-bar {
+    padding: 10px 14px;
+    transition: transform .25s var(--ease);
+  }
+  .cta-bar .cta-note { display: none; }
+  .cta-bar .btn { padding: 11px 18px; font-size: 14px; }
+  /* L'animation d'entrée fige sa transformation finale (fill-mode: both) et
+     l'emporterait sur celle-ci : on la coupe une fois la barre repliée. */
+  .cta-bar.is-tucked { animation: none; transform: translateX(-50%) translateY(110%); }
+  body.has-cta { padding-bottom: 76px; }
+  body.has-cta.cta-tucked { padding-bottom: 12px; }
+}
+
+/**
+ * Les titres de colonne et de filtre montaient d'un ou deux niveaux d'un coup
+ * dans la hiérarchie : ils gardent leur aspect, mais plus leur balise.
+ */
+.footer-title { font-size: 14px; font-weight: 700; margin: 0 0 12px; letter-spacing: .01em; }
+.filter-title { font-size: 15px; font-weight: 700; margin: 0 0 10px; }
+
+/* La case et son libellé forment une seule cible, assez haute pour le doigt. */
+.check { min-height: 32px; }
+.check input { width: 20px; height: 20px; }
+
+/**
+ * Liens de navigation et de pied de page : cibles confortables.
+ *
+ * Une ligne de texte de 21 px de haut passe encore sous la souris ; au doigt
+ * elle se rate une fois sur trois. 24 px partout, 40 sur petit écran.
+ */
+.site-nav a, .footer-col a, .footer-legal a, .hero-cats a {
+  display: inline-flex; align-items: center; min-height: 24px;
+}
+@media (max-width: 720px) {
+  .site-nav a, .footer-col a, .footer-legal a {
+    min-height: 40px;
+  }
 }
 
 /**
@@ -1203,10 +1244,19 @@ ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
  * barre, et redescend quand celle-ci se replie ou n'existe pas.
  */
 @media (max-width: 720px) {
-  .regie { bottom: 128px; }
+  .regie { bottom: 128px; right: 14px; }
   body.cta-tucked .regie,
-  body:not(.has-cta) .regie { bottom: 22px; }
+  body:not(.has-cta) .regie { bottom: 20px; }
   body:not(.has-cta) { padding-bottom: 24px; }
+
+  /* Le libellé disparaît : un rond de 48 px masque nettement moins de contenu
+     qu'un bouton large posé sur le bas de l'écran. */
+  .regie-launcher {
+    width: 48px; height: 48px; padding: 0; gap: 0;
+    justify-content: center; box-shadow: 3px 4px 0 var(--yellow);
+    font-size: 0;
+  }
+  .regie-launcher .regie-avatar { margin: 0; }
 }
 
 /* Offres mises de côté, restituées en tête de liste. */

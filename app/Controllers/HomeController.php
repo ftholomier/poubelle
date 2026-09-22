@@ -9,6 +9,7 @@ use App\Core\Response;
 use App\Services\Aggregator;
 use App\Services\I18n;
 use App\Services\Search;
+use App\Services\StructuredData;
 use App\Storage\Index;
 
 final class HomeController extends Controller
@@ -48,6 +49,7 @@ final class HomeController extends Controller
             'title' => I18n::t('home.h1_a') . ' ' . I18n::t('home.h1_b'),
             'desc'  => I18n::t('home.lede'),
             'path'  => '/',
+            'schema'=> StructuredData::site(),
         ]);
     }
 
