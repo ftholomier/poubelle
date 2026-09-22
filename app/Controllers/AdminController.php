@@ -280,16 +280,42 @@ final class AdminController extends Controller
         }
         $this->handleRowAction($request, 'job');
 
+        // Actions groupées sur l'historique repris de WordPress.
+        if ($request->isPost() && Csrf::check($request)) {
+            $bulk = (string) $request->input('bulk', '');
+            if ($bulk === 'date') {
+                $n = JobLifecycle::stampUndated();
+                Session::flash('notice', $n . ' annonce(s) datée(s).');
+                return Response::redirect('/admin/offres', 303);
+            }
+            if ($bulk === 'archive') {
+                $n = JobLifecycle::archiveUndated();
+                Session::flash('notice', $n . ' annonce(s) archivée(s).');
+                return Response::redirect('/admin/offres', 303);
+            }
+        }
+
         $all = $this->sortByDate(JobRepository::all());
         $filter = (string) $request->get('etat', '');
+
+        // Les annonces reprises de l'ancien site n'ont pas de date de fin :
+        // on annonce clairement quand elles passeront en archive.
+        $undated = count(array_filter(
+            $all,
+            static fn(array $j) => (string) ($j['status'] ?? '') === 'publish'
+                && trim((string) ($j['expires_at'] ?? '')) === '',
+        ));
 
         return $this->screen('admin/jobs', [
             'items'  => $filter === '' ? $all : array_values(array_filter(
                 $all,
                 static fn(array $j) => (string) ($j['status'] ?? '') === $filter,
             )),
-            'counts' => $this->countByStatus($all),
-            'filter' => $filter,
+            'counts'   => $this->countByStatus($all),
+            'filter'   => $filter,
+            'undated'  => $undated,
+            'graceEnd' => JobLifecycle::startedAt()
+                        + max(0, (int) Config::get('jobs.legacy_grace_days', 30)) * 86400,
         ], I18n::t('admin.jobs'));
     }
 

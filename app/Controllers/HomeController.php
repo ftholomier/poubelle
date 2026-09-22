@@ -26,7 +26,7 @@ final class HomeController extends Controller
 
         // Le bandeau et les trois compteurs parlent du même ensemble : ce que
         // le visiteur peut consulter, annonces du site et partenaires réunis.
-        $facets['total'] = (int) ($facets['total'] ?? 0) + $partners;
+        $facets['total'] = Search::liveJobCount() + $partners;
 
         return $this->page('pages/home', [
             'facets'   => $facets,

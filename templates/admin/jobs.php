@@ -1,6 +1,12 @@
 <?php
-/** Offres d'emploi. @var array $items @var array $counts @var string $filter */
+/**
+ * Offres d'emploi.
+ * @var array  $items @var array $counts @var string $filter
+ * @var int    $undated   annonces publiées sans date de fin
+ * @var int    $graceEnd  horodatage de fin du délai de grâce
+ */
 use App\Core\Csrf;
+use App\Core\Session;
 use App\Core\View;
 use App\Services\Auth;
 use App\Services\I18n;
@@ -13,6 +19,31 @@ $state = ['publish' => ['state-ok', 'admin.state_publish'], 'draft' => ['state-w
 <div class="admin-head">
   <div><h1><?= e(I18n::t('admin.jobs')) ?></h1><p><?= count($items) ?> annonce(s)</p></div>
 </div>
+
+<?php if (($notice = Session::flash('notice')) !== null): ?>
+  <div class="notice notice-ok" role="status"><?= e((string) $notice) ?></div>
+<?php endif; ?>
+
+<?php if (($undated ?? 0) > 0): ?>
+  <?php // Les annonces reprises de l'ancien site n'ont pas de date de fin.
+        // Plutôt que de les archiver dans le dos de l'exploitant, on annonce
+        // l'échéance et on laisse le choix. ?>
+  <div class="notice notice-wait" role="status">
+    <strong><?= (int) $undated ?></strong> annonce(s) reprises de l’ancien site n’ont pas de date de fin.
+    Elles restent en ligne jusqu’au <strong><?= e(format_date(date('c', (int) $graceEnd))) ?></strong>,
+    puis passeront en archive. Prolongez celles qui valent la peine, ou tranchez maintenant :
+    <form method="post" style="display:inline-flex;gap:8px;margin-left:8px">
+      <?= Csrf::field('admin-jobs') ?>
+      <button type="submit" name="bulk" value="date" class="btn btn-ghost btn-sm">
+        Inscrire les dates
+      </button>
+      <button type="submit" name="bulk" value="archive" class="btn btn-ghost btn-sm"
+              data-confirm="Archiver maintenant toutes les annonces sans date de fin ? Elles quitteront les listes ; chacune reste prolongeable.">
+        Tout archiver
+      </button>
+    </form>
+  </div>
+<?php endif; ?>
 
 <?= View::partial('admin/partials-state-tabs', [
       'counts' => $counts ?? [],

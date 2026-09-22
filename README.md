@@ -331,8 +331,23 @@ Passé ce délai, `bin/cron.php` la passe en « expirée » : elle quitte les li
 les compteurs et le plan du site, sa fiche reste lisible sous un bandeau et en
 `noindex`, et l'archive répond 410 au bout de six mois.
 
-Le back-office propose *Prolonger* sur chaque annonce expirée : elle repart pour
-une durée complète.
+### L'historique repris de WordPress
+
+Les annonces importées n'ont pas de date de fin. Les dater rétroactivement les
+aurait toutes archivées à la seconde où les durées de vie sont entrées en
+service : le site se serait retrouvé sans une seule offre, compteurs à part.
+
+Elles bénéficient donc d'un délai de grâce — `jobs.legacy_grace_days`, trente
+jours par défaut — décompté à partir de la première mise en service, notée une
+fois pour toutes dans `data/private/lifecycle.json`.
+
+L'écran *Offres d'emploi* annonce la date d'échéance et propose deux décisions :
+
+| Action | Effet |
+| --- | --- |
+| *Inscrire les dates* | Rend visible la date de fin déjà appliquée. Rien ne disparaît. |
+| *Tout archiver* | Archive immédiatement l'historique sans attendre l'échéance. |
+| *Prolonger* (par ligne) | Remet une annonce en ligne pour une durée complète. |
 
 ---
 

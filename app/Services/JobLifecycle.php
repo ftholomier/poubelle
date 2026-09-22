@@ -7,6 +7,7 @@ use App\Core\Config;
 use App\Domain\JobRepository;
 use App\Storage\Audit;
 use App\Storage\Index;
+use App\Storage\Json;
 
 /**
  * Durée de vie d'une annonce.
@@ -75,25 +76,68 @@ final class JobLifecycle
     }
 
     /**
-     * Une annonce est-elle périmée ?
+     * Instant où le site a commencé à appliquer les durées de vie.
      *
-     * Sans date de fin inscrite — les annonces reprises de WordPress n'en ont
-     * pas — on la calcule à la volée depuis la date de publication. Les listes,
-     * les compteurs et le plan du site sont donc justes dès la mise en ligne,
-     * sans attendre le premier passage de la tâche planifiée, qui se contente
-     * ensuite d'inscrire le statut sur disque.
+     * Il sert de point de départ au délai de grâce des annonces reprises de
+     * WordPress : sans lui, elles auraient toutes été datées dans le passé et
+     * archivées à la seconde de la mise en ligne.
      */
-    public static function isExpired(array $item, ?int $now = null): bool
+    public static function startedAt(): int
     {
-        $expires = trim((string) ($item['expires_at'] ?? ''));
-        if ($expires === '') {
-            $published = trim((string) ($item['published_at'] ?? $item['created_at'] ?? ''));
-            if ($published === '') {
-                return false;
-            }
-            $expires = self::expiresAt($item);
+        static $at = null;
+        if ($at !== null) {
+            return $at;
         }
 
+        $dir = Config::path('data') . '/private';
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
+        $file = $dir . '/lifecycle.json';
+
+        $state = Json::read($file);
+        $stored = (int) ($state['started_at'] ?? 0);
+        if ($stored > 0) {
+            return $at = $stored;
+        }
+
+        $at = time();
+        Json::write($file, ['started_at' => $at, 'noted' => date('c', $at)]);
+        Audit::log('job.lifecycle_started', ['grace_days' => (int) Config::get('jobs.legacy_grace_days', 30)]);
+        return $at;
+    }
+
+    /**
+     * Date de fin réellement appliquée à une annonce.
+     *
+     * Trois cas. Une date inscrite fait foi. Une annonce sans date mais assez
+     * récente prend sa date de publication plus sa durée de vie. Une annonce
+     * ancienne — tout l'historique repris de l'ancien site — bénéficie du délai
+     * de grâce : elle reste en ligne le temps que l'exploitant fasse le tri.
+     */
+    public static function effectiveExpiry(array $item): string
+    {
+        $expires = trim((string) ($item['expires_at'] ?? ''));
+        if ($expires !== '') {
+            return $expires;
+        }
+        if (trim((string) ($item['published_at'] ?? $item['created_at'] ?? '')) === '') {
+            return '';
+        }
+
+        $natural = strtotime(self::expiresAt($item));
+        $grace = self::startedAt() + max(0, (int) Config::get('jobs.legacy_grace_days', 30)) * 86400;
+
+        return date('c', max((int) $natural, $grace));
+    }
+
+    /** Une annonce est-elle périmée ? */
+    public static function isExpired(array $item, ?int $now = null): bool
+    {
+        $expires = self::effectiveExpiry($item);
+        if ($expires === '') {
+            return false;
+        }
         $timestamp = strtotime($expires);
         return $timestamp !== false && $timestamp < ($now ?? time());
     }
@@ -105,18 +149,79 @@ final class JobLifecycle
         if ($days <= 0) {
             return false;
         }
-        // Même règle que pour l'expiration : une annonce sans date de fin
-        // inscrite n'échappe pas à l'archivage.
-        $raw = trim((string) ($item['expires_at'] ?? ''));
+        // Même règle que pour l'expiration, délai de grâce compris.
+        $raw = self::effectiveExpiry($item);
         if ($raw === '') {
-            if (trim((string) ($item['published_at'] ?? $item['created_at'] ?? '')) === '') {
-                return false;
-            }
-            $raw = self::expiresAt($item);
+            return false;
         }
 
         $expires = strtotime($raw);
         return $expires !== false && $expires < ($now ?? time()) - $days * 86400;
+    }
+
+    /**
+     * Inscrit la date de fin appliquée sur les annonces qui n'en ont pas.
+     * Rien ne disparaît : c'est la même date que celle déjà utilisée pour
+     * l'affichage, rendue visible au back-office.
+     *
+     * @return int nombre d'annonces datées
+     */
+    public static function stampUndated(): int
+    {
+        $count = 0;
+        foreach (JobRepository::all() as $job) {
+            if (($job['status'] ?? '') !== 'publish' || trim((string) ($job['expires_at'] ?? '')) !== '') {
+                continue;
+            }
+            $job['expires_at'] = self::effectiveExpiry($job);
+            if ($job['expires_at'] !== '') {
+                JobRepository::save($job);
+                $count++;
+            }
+        }
+        if ($count > 0) {
+            Index::rebuild('jobs');
+            Audit::log('job.dated_batch', ['count' => $count]);
+        }
+        return $count;
+    }
+
+    /**
+     * Archive tout de suite l'historique sans date de fin, sans attendre la
+     * fin du délai de grâce. Décision de l'exploitant, jamais automatique.
+     *
+     * @return int nombre d'annonces archivées
+     */
+    public static function archiveUndated(): int
+    {
+        $count = 0;
+        foreach (JobRepository::all() as $job) {
+            if (($job['status'] ?? '') !== 'publish' || trim((string) ($job['expires_at'] ?? '')) !== '') {
+                continue;
+            }
+            $job['expires_at'] = self::expiresAt($job);   // date naturelle, déjà passée
+            $job['status'] = 'expired';
+            JobRepository::save($job);
+            $count++;
+        }
+        if ($count > 0) {
+            Index::rebuild('jobs');
+            Index::rebuild('employers');
+            Audit::log('job.archived_batch', ['count' => $count]);
+        }
+        return $count;
+    }
+
+    /** Annonces publiées auxquelles il manque encore une date de fin. */
+    public static function undated(): int
+    {
+        $count = 0;
+        foreach (Index::load('jobs') as $row) {
+            if (($row['status'] ?? '') === 'publish' && trim((string) ($row['expires_at'] ?? '')) === '') {
+                $count++;
+            }
+        }
+        return $count;
     }
 
     /**
@@ -127,31 +232,41 @@ final class JobLifecycle
      */
     public static function expire(): int
     {
-        $changed = 0;
+        $expired = 0;
+        $dated = 0;
+
         foreach (JobRepository::all() as $job) {
             if (($job['status'] ?? '') !== 'publish') {
                 continue;
             }
+
+            $touched = false;
             if (trim((string) ($job['expires_at'] ?? '')) === '') {
-                // Annonce antérieure à la mise en place des durées de vie.
-                $job['expires_at'] = self::expiresAt($job);
+                // Annonce antérieure à la mise en place des durées de vie :
+                // on inscrit la date réellement appliquée, délai de grâce
+                // compris, pour qu'elle devienne lisible au back-office.
+                $job['expires_at'] = self::effectiveExpiry($job);
+                $touched = $job['expires_at'] !== '';
+                $dated += $touched ? 1 : 0;
             }
-            if (!self::isExpired($job)) {
-                if (($job['expires_at'] ?? '') !== '') {
-                    JobRepository::save($job);
-                }
-                continue;
+
+            if (self::isExpired($job)) {
+                $job['status'] = 'expired';
+                $touched = true;
+                $expired++;
             }
-            $job['status'] = 'expired';
-            JobRepository::save($job);
-            $changed++;
+            if ($touched) {
+                JobRepository::save($job);
+            }
         }
 
-        if ($changed > 0) {
+        // Dater une annonce change ce que montre la liste autant que
+        // l'expirer : l'index doit suivre dans les deux cas.
+        if ($expired > 0 || $dated > 0) {
             Index::rebuild('jobs');
             Index::rebuild('employers');
-            Audit::log('job.expired_batch', ['count' => $changed]);
+            Audit::log('job.expired_batch', ['expirees' => $expired, 'datees' => $dated]);
         }
-        return $changed;
+        return $expired;
     }
 }

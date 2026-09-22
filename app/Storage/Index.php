@@ -205,7 +205,14 @@ final class Index
     private static function facetsFor(string $name, array $items): array
     {
         if ($name === 'jobs') {
-            $live = array_filter($items, static fn(array $i) => $i['status'] === 'publish');
+            // Une annonce périmée ne se parcourt plus : elle ne doit pas non
+            // plus être comptée. Les compteurs annonçaient cinquante et une
+            // offres au-dessus d'une liste vide.
+            $live = array_filter(
+                $items,
+                static fn(array $i) => $i['status'] === 'publish'
+                    && !\App\Services\JobLifecycle::isExpired($i),
+            );
             $categories = $contracts = $regions = [];
             foreach ($live as $item) {
                 foreach ((array) $item['category'] as $c) {

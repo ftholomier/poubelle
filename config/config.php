@@ -96,6 +96,16 @@ return [
         'lifetime_days'      => 30,   // CDD d'usage, cachets, missions courtes
         'lifetime_days_long' => 45,   // CDI et CDI intermittent
         'archive_after_days' => 180,  // au-delà, la fiche répond 410
+
+        /**
+         * Délai laissé aux annonces qui n'ont pas de date de fin — celles
+         * reprises de WordPress. Sans lui, la mise en place des durées de vie
+         * les aurait toutes archivées d'un coup et le site se serait retrouvé
+         * sans une seule offre. Elles tiennent donc ce nombre de jours à
+         * compter de la première mise en service, le temps que l'exploitant
+         * prolonge celles qui valent la peine.
+         */
+        'legacy_grace_days'  => 30,
     ],
 
     /**

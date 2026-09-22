@@ -41,7 +41,13 @@ final class JobController extends Controller
         $results['local_total'] = (int) $results['total'];
         $results['total'] = $results['local_total'] + $blended['external'];
 
-        $newest = Index::load('jobs')[0]['published_at'] ?? '';
+        // Le titre compte ce que la page affiche réellement, annonces du site
+        // et partenaires réunis : l'index, reconstruit une fois par jour,
+        // pourrait avoir pris du retard sur une expiration de la nuit.
+        $facets['total'] = (int) $results['total'];
+
+        $live = Search::live(Index::load('jobs'));
+        $newest = $live[0]['published_at'] ?? '';
 
         return $this->page('pages/jobs', [
             'results'  => $results,
@@ -53,8 +59,7 @@ final class JobController extends Controller
             // Seuls les partenaires configurés et actifs sont proposés.
             'partners' => Aggregator::activePartners(),
         ], [
-            'title' => I18n::t('jobs.title', number_format(
-                (int) ($facets['total'] ?? 0) + $blended['external'], 0, ',', ' ')),
+            'title' => I18n::t('jobs.title', number_format((int) $results['total'], 0, ',', ' ')),
             'desc'  => I18n::t('home.lede'),
             'path'  => '/offres',
             'schema'=> StructuredData::breadcrumb([
