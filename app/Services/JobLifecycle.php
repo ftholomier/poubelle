@@ -105,11 +105,18 @@ final class JobLifecycle
         if ($days <= 0) {
             return false;
         }
-        $expires = strtotime((string) ($item['expires_at'] ?? '')) ?: null;
-        if ($expires === null) {
-            return false;
+        // Même règle que pour l'expiration : une annonce sans date de fin
+        // inscrite n'échappe pas à l'archivage.
+        $raw = trim((string) ($item['expires_at'] ?? ''));
+        if ($raw === '') {
+            if (trim((string) ($item['published_at'] ?? $item['created_at'] ?? '')) === '') {
+                return false;
+            }
+            $raw = self::expiresAt($item);
         }
-        return $expires < ($now ?? time()) - $days * 86400;
+
+        $expires = strtotime($raw);
+        return $expires !== false && $expires < ($now ?? time()) - $days * 86400;
     }
 
     /**
