@@ -76,6 +76,11 @@ abstract class AbstractSource implements JobSource
 
     protected function setting(string $path, mixed $default = null): mixed
     {
+        // Les mots-clés se règlent depuis le back-office : ce sont eux que
+        // l'éditeur taperait dans le moteur de l'agrégateur.
+        if ($path === 'query') {
+            return \App\Services\Aggregator::query();
+        }
         return Config::get('sources.' . $path, $default);
     }
 

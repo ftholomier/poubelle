@@ -1,5 +1,9 @@
 <?php
-/** Offres externes. @var array $rows @var array $settings @var bool $active @var string $notice */
+/**
+ * Offres externes.
+ * @var array $rows @var array $settings @var string $query @var string $exclude
+ * @var bool $filter @var bool $active @var string $notice
+ */
 use App\Core\Csrf;
 use App\Services\I18n;
 ?>
@@ -23,8 +27,10 @@ use App\Services\I18n;
   </div>
 <?php endif; ?>
 
-<form method="post" class="admin-card">
+<form method="post">
   <?= Csrf::field('admin-sources') ?>
+
+<div class="admin-card">
   <div class="table-scroll">
     <table class="admin-table">
       <thead><tr><th>Source</th><th>Clés</th><th>En cache</th><th>Âge du cache</th><th>Active</th></tr></thead>
@@ -51,13 +57,53 @@ use App\Services\I18n;
       </tbody>
     </table>
   </div>
-  <button type="submit" class="btn btn-coral" style="margin-top:18px"><?= e(I18n::t('admin.save')) ?></button>
+</div>
+
+<div class="admin-card">
+  <h2 style="margin-top:0">Ce que l’on demande aux agrégateurs</h2>
+  <p class="s">
+    Les mots-clés envoyés à Jooble, Adzuna et aux autres — exactement ce que vous taperiez dans
+    leur propre moteur. Séparez les métiers par <code>or</code> pour qu’ils soient cherchés
+    séparément.
+  </p>
+  <label class="field" style="margin-top:12px">
+    <span class="label" style="font-weight:600">Mots-clés recherchés</span>
+    <textarea class="input" name="query" rows="5" spellcheck="false"
+              style="font-size:13px"><?= e($query) ?></textarea>
+  </label>
+
+  <h2 style="margin-top:26px">Ne garder que le secteur</h2>
+  <p class="s">
+    Aucun agrégateur ne sait filtrer par branche : « technicien », « production » ou « montage »
+    y ramènent autant d’usines que de plateaux. Le tri se fait donc ici, sur l’intitulé et le
+    résumé de chaque offre remontée — statut d’intermittent, métiers du plateau, de l’image, du
+    son, de la scène et de l’événementiel. Les annonces déposées sur le site ne sont jamais
+    filtrées.
+  </p>
+  <label class="check" style="margin:12px 0">
+    <input type="checkbox" name="filter" value="1" <?= $filter ? 'checked' : '' ?>>
+    <span>Ne remonter que les offres du spectacle, de l’audiovisuel et de l’événementiel</span>
+  </label>
+
+  <label class="field" style="margin-top:10px">
+    <span class="label" style="font-weight:600">Mots à écarter en plus</span>
+    <span class="s">Séparés par des virgules. Pour bannir un intitulé qui reviendrait sans
+      relever du secteur.</span>
+    <input class="input" type="text" name="exclude" value="<?= e($exclude) ?>"
+           placeholder="croupier, hôtesse de l’air" spellcheck="false">
+  </label>
+
+  <div class="save-bar" style="margin-top:20px">
+    <span class="save-bar-note">Enregistrer vide le cache : les sources seront réinterrogées.</span>
+    <button type="submit" class="btn btn-coral"><?= e(I18n::t('admin.save')) ?></button>
+  </div>
 </form>
 
 <div class="admin-card">
   <h2>Réglages</h2>
   <p class="muted" style="font-size:14px;margin:6px 0 16px">
     Repris de l'ancienne installation WordPress, modifiables dans <code>config/config.php</code>.
+    Les mots-clés et le tri par secteur, eux, se règlent ci-dessus.
   </p>
   <table class="admin-table">
     <tbody>
@@ -70,8 +116,6 @@ use App\Services\I18n;
       <tr><td class="t">Pays / lieu par défaut</td>
           <td class="s"><?= e(strtoupper((string) ($settings['country'] ?? ''))) ?> ·
               <?= e((string) ($settings['location'] ?? '')) ?></td></tr>
-      <tr><td class="t">Requête par défaut</td>
-          <td class="s"><?= e(str_excerpt((string) ($settings['query'] ?? ''), 220)) ?></td></tr>
       <tr><td class="t">Codes ROME (France Travail)</td>
           <td class="s"><?= e(implode(', ', (array) ($settings['france_travail']['rome'] ?? []))) ?></td></tr>
     </tbody>

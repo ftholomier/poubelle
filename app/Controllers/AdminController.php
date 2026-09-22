@@ -574,7 +574,15 @@ final class AdminController extends Controller
                 foreach (array_keys(Aggregator::sources()) as $key) {
                     Aggregator::setSourceEnabled($key, $request->input('source_' . $key) === '1');
                 }
-                Audit::log('sources.updated', [], $this->userId());
+                Aggregator::saveSettings(
+                    (string) $request->input('query', ''),
+                    (string) $request->input('exclude', ''),
+                    $request->input('filter') === '1',
+                );
+                // Les mots-clés ayant changé, le cache ne vaut plus rien.
+                Aggregator::clearCache();
+                Audit::log('sources.updated',
+                    ['filtre' => Aggregator::filterEnabled()], $this->userId());
                 $notice = I18n::t('admin.saved');
             }
         }
@@ -594,6 +602,9 @@ final class AdminController extends Controller
         return $this->screen('admin/sources', [
             'rows'     => $rows,
             'settings' => (array) Config::get('sources', []),
+            'query'    => Aggregator::query(),
+            'exclude'  => implode(', ', Aggregator::exclude()),
+            'filter'   => Aggregator::filterEnabled(),
             'active'   => Aggregator::isEnabled(),
             'notice'   => $notice,
         ], I18n::t('admin.sources'));

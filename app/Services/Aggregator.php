@@ -9,6 +9,7 @@ use App\Services\Sources\FranceTravailSource;
 use App\Services\Sources\IndeedSource;
 use App\Services\Sources\JobSource;
 use App\Services\Sources\JoobleSource;
+use App\Services\Sources\Sector;
 use App\Storage\Audit;
 use App\Storage\Index;
 use App\Storage\Json;
@@ -79,6 +80,47 @@ final class Aggregator
         Json::write(self::statePath(), $state);
     }
 
+    /* -------------------------------------------- réglages du back-office */
+
+    /**
+     * Les mots-clés envoyés aux agrégateurs — ce que vous taperiez dans leur
+     * propre moteur. Modifiables depuis le back-office ; à défaut, la liste
+     * des trente métiers reprise de l'ancien site.
+     */
+    public static function query(): string
+    {
+        $stored = trim((string) (Json::read(self::statePath())['query'] ?? ''));
+        return $stored !== '' ? $stored : trim((string) Config::get('sources.query', ''));
+    }
+
+    /**
+     * Mots à écarter en plus de la liste intégrée : de quoi bannir un intitulé
+     * qui reviendrait sans cesse sans relever du secteur.
+     *
+     * @return string[]
+     */
+    public static function exclude(): array
+    {
+        $raw = (string) (Json::read(self::statePath())['exclude'] ?? '');
+        $terms = preg_split('/[,;\r\n]+/', $raw) ?: [];
+        return array_values(array_filter(array_map('trim', $terms), 'strlen'));
+    }
+
+    /** Le tri par secteur s'applique-t-il aux offres externes ? */
+    public static function filterEnabled(): bool
+    {
+        return (bool) (Json::read(self::statePath())['filter'] ?? true);
+    }
+
+    public static function saveSettings(string $query, string $exclude, bool $filter): void
+    {
+        $state = Json::read(self::statePath());
+        $state['query']   = mb_substr(trim($query), 0, 2000);
+        $state['exclude'] = mb_substr(trim($exclude), 0, 2000);
+        $state['filter']  = $filter;
+        Json::write(self::statePath(), $state);
+    }
+
     /* ---------------------------------------------------------- recherche */
 
     /**
@@ -111,6 +153,18 @@ final class Aggregator
         }
 
         $jobs = self::dedupe(array_values($collected));
+
+        // Aucun agrégateur ne sait filtrer par branche : le tri se fait ici,
+        // sur l'intitulé et le résumé de chaque offre remontée.
+        if (self::filterEnabled()) {
+            $exclude = self::exclude();
+            $jobs = array_values(array_filter($jobs, static fn(array $j): bool => Sector::matches(
+                (string) ($j['title'] ?? ''),
+                (string) ($j['excerpt'] ?? ''),
+                (string) ($j['company'] ?? ''),
+            ) && !Sector::excluded($exclude,
+                (string) ($j['title'] ?? ''), (string) ($j['excerpt'] ?? ''))));
+        }
 
         usort($jobs, static fn(array $a, array $b) => strcmp((string) $b['published_at'], (string) $a['published_at']));
         return array_slice($jobs, 0, $limit);
