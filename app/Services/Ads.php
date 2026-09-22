@@ -27,6 +27,59 @@ final class Ads
     }
 
     /**
+     * Deux façons de diffuser, au choix depuis le back-office.
+     *
+     * « auto » : les annonces automatiques de Google. Le seul réglage est
+     * l'identifiant éditeur — aucune unité à créer ni à recopier, Google place
+     * les annonces lui-même. Les emplacements dessinés ne sont alors pas posés,
+     * puisque Google choisit les siens.
+     *
+     * « slots » : les sept emplacements de la maquette, chacun servi par une
+     * unité AdSense identifiée. Placement maîtrisé, statistiques par
+     * emplacement, mais il faut créer les unités.
+     */
+    public static function mode(): string
+    {
+        $mode = (string) (Json::read(self::statePath())['mode'] ?? 'auto');
+        return $mode === 'slots' ? 'slots' : 'auto';
+    }
+
+    public static function setMode(string $mode): void
+    {
+        $state = Json::read(self::statePath());
+        $state['mode'] = $mode === 'slots' ? 'slots' : 'auto';
+        Json::write(self::statePath(), $state);
+        self::$state = null;
+    }
+
+    /** Annonces automatiques : rien d'autre que l'identifiant éditeur. */
+    public static function isAuto(): bool
+    {
+        return self::mode() === 'auto' && self::client() !== '';
+    }
+
+    /**
+     * Le script AdSense est-il utile sur cette page ?
+     * En mode auto il suffit de l'identifiant éditeur ; en mode emplacements
+     * il faut au moins une unité effectivement servie.
+     */
+    public static function scriptNeeded(): bool
+    {
+        if (self::client() === '') {
+            return false;
+        }
+        if (self::mode() === 'auto') {
+            return true;
+        }
+        foreach (array_keys(self::slots()) as $name) {
+            if (self::isLive($name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @return array<string, array{format:string,label:string,enabled:bool,
      *                             slot:string,own:string,inherited:bool}>
      */
@@ -71,6 +124,9 @@ final class Ads
     /** L'unité n'est servie que si le compte et l'identifiant d'emplacement existent. */
     public static function isLive(string $name): bool
     {
+        if (self::mode() === 'auto') {
+            return false;   // Google place les annonces, pas nous.
+        }
         $slot = self::slots()[$name] ?? null;
         return $slot !== null && $slot['enabled'] && self::client() !== '' && $slot['slot'] !== '';
     }

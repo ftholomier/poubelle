@@ -67,6 +67,12 @@ final class Response
         foreach ($this->headers as $name => $value) {
             header($name . ': ' . $value);
         }
+
+        // Une réponse à HEAD porte les en-têtes de la réponse GET, sans le
+        // corps. Apache le retire de lui-même ; le serveur intégré de PHP non.
+        if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'HEAD') {
+            return;
+        }
         echo $this->body;
     }
 }

@@ -1,5 +1,5 @@
 <?php
-/** Emplacements publicitaires. @var array $slots @var string $client @var string $notice */
+/** Emplacements publicitaires. @var array $slots @var string $client @var string $mode @var string $notice */
 use App\Core\Csrf;
 use App\Services\I18n;
 ?>
@@ -22,7 +22,28 @@ use App\Services\I18n;
 
 <form method="post" class="admin-card">
   <?= Csrf::field('admin-ads') ?>
-  <div class="table-scroll">
+
+  <h2 style="margin-top:0">Mode de diffusion</h2>
+  <label class="check" style="align-items:flex-start;margin:10px 0">
+    <input type="radio" name="mode" value="auto" <?= $mode === 'auto' ? 'checked' : '' ?>>
+    <span>
+      <strong>Annonces automatiques</strong> — rien à créer chez AdSense au-delà du compte.
+      L’identifiant éditeur suffit : Google choisit lui-même où placer les annonces dans la page.
+      Les sept emplacements ci-dessous ne sont alors pas posés.
+      <br><span class="s">À activer aussi côté Google : AdSense → Annonces → Par site → votre
+      site → <em>Annonces automatiques</em>.</span>
+    </span>
+  </label>
+  <label class="check" style="align-items:flex-start;margin:10px 0 20px">
+    <input type="radio" name="mode" value="slots" <?= $mode === 'slots' ? 'checked' : '' ?>>
+    <span>
+      <strong>Emplacements du site</strong> — les sept emplacements de la maquette, chacun servi
+      par une unité AdSense. Placement maîtrisé et statistiques par emplacement, mais il faut
+      créer les unités et recopier leur identifiant dans <a href="/admin/cles-api">Clés d’API</a>.
+    </span>
+  </label>
+
+  <div class="table-scroll"<?= $mode === 'auto' ? ' style="opacity:.55"' : '' ?>>
     <table class="admin-table">
       <thead><tr><th>Emplacement</th><th>Format</th><th>Identifiant</th><th>Diffusion</th><th>Actif</th></tr></thead>
       <tbody>
@@ -67,30 +88,53 @@ use App\Services\I18n;
 </form>
 
 <div class="admin-card" style="margin-top:22px">
-  <h2 style="margin-top:0">« Code posé » et pourtant aucune annonce ?</h2>
+  <h2 style="margin-top:0">Ce que le site fait, et ce qui dépend de Google</h2>
+
+  <table class="admin-table" style="margin-top:10px">
+    <tbody>
+      <tr>
+        <td><span class="t">Identifiant éditeur</span></td>
+        <td><?= $client !== ''
+            ? '<span class="state state-ok">' . e($client) . '</span>'
+            : '<span class="state state-err">absent</span> — à saisir dans <a href="/admin/cles-api">Clés d’API</a>' ?></td>
+      </tr>
+      <tr>
+        <td><span class="t">Mode</span></td>
+        <td class="s"><?= $mode === 'auto'
+            ? 'Annonces automatiques : le script est chargé, Google place les annonces.'
+            : 'Emplacements du site : chaque bloc actif porte son unité.' ?></td>
+      </tr>
+      <tr>
+        <td>
+          <span class="t">Fichier ads.txt</span><br>
+          <span class="s">exigé par AdSense à la racine du domaine</span>
+        </td>
+        <td class="s">
+          <?php if ($client !== ''): ?>
+            <span class="state state-ok">servi</span>
+            <code>google.com, <?= e(str_starts_with($client, 'ca-') ? substr($client, 3) : $client) ?>, DIRECT, f08c47fec0942fa0</code><br>
+            <a href="/ads.txt" target="_blank" rel="noopener">Vérifier /ads.txt</a>
+          <?php else: ?>
+            <span class="state state-wait">en attente de l’identifiant éditeur</span>
+          <?php endif; ?>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin:22px 0 6px">Un bloc reste vide malgré tout ?</h3>
   <p class="s">
-    Le site ne maîtrise que la pose du code. Lorsqu’AdSense n’a rien à servir, l’emplacement se
-    replie de lui-même : la page ne garde pas d’espace vide. Quatre conditions restent du côté
-    de Google :
+    Lorsqu’AdSense n’a rien à servir, l’emplacement se replie de lui-même : la page ne garde pas
+    d’espace vide. Quatre conditions restent du côté de Google, et aucune ne se règle ici :
   </p>
   <ol class="s" style="margin:10px 0 0; padding-left:20px; line-height:1.7">
-    <li><strong>Le consentement du visiteur.</strong> Tant qu’il n’a pas cliqué « Tout accepter »
-        dans le bandeau, aucun script publicitaire n’est chargé et le cadre en pointillés reste
-        affiché. Pour vérifier vous-même : effacez les cookies du site, rechargez, acceptez.</li>
-    <li><strong>Le domaine doit être approuvé.</strong> AdSense ne diffuse que sur les sites listés
-        et validés dans <em>AdSense → Sites</em>. Rien ne s’affiche sur un domaine inconnu, ni en
-        local, ni sur une préproduction.</li>
-    <li><strong>Une unité neuve met du temps à se remplir.</strong> Comptez de quelques heures à
-        48 h après sa création avant les premières impressions.</li>
-    <li><strong>Un bloqueur de publicité</strong> dans votre navigateur suffit à tout masquer :
-        testez en navigation privée, extensions désactivées.</li>
+    <li><strong>Le site doit être ajouté et validé</strong> dans <em>AdSense → Sites</em>. Tant
+        qu’il est « en cours d’examen », rien n’est diffusé, où que soit posé le code.</li>
+    <li><strong>Le consentement du visiteur.</strong> Avant son clic sur « Tout accepter », aucun
+        script publicitaire n’est chargé. Pour tester : effacez les cookies du site, rechargez,
+        acceptez.</li>
+    <li><strong>Une unité neuve met du temps à se remplir</strong> — de quelques heures à 48 h.</li>
+    <li><strong>Un bloqueur de publicité</strong> suffit à tout masquer : testez en navigation
+        privée, extensions désactivées.</li>
   </ol>
-  <p class="s" style="margin-top:12px">
-    Un emplacement laissé vide dans <a href="/admin/cles-api">Clés d’API</a> reprend
-    automatiquement l’<strong>unité par défaut</strong> : une seule unité « Display » responsive
-    suffit donc à couvrir le site. Renseigner une unité propre à un emplacement reste préférable
-    si vous voulez que les statistiques AdSense les distinguent. Seul l’emplacement
-    <em>In-feed liste</em> demande une attention particulière : avec une unité « Display »,
-    laissez vide la clé de mise en page.
-  </p>
 </div>

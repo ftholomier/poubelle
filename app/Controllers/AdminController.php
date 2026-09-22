@@ -498,16 +498,18 @@ final class AdminController extends Controller
 
         $notice = '';
         if ($request->isPost() && Csrf::check($request)) {
+            Ads::setMode((string) $request->input('mode', 'auto'));
             foreach (array_keys(Ads::slots()) as $name) {
                 Ads::setEnabled($name, $request->input('slot_' . $name) === '1');
             }
-            Audit::log('ads.updated', [], $this->userId());
+            Audit::log('ads.updated', ['mode' => Ads::mode()], $this->userId());
             $notice = I18n::t('admin.saved');
         }
 
         return $this->screen('admin/ads', [
             'slots'  => Ads::slots(),
             'client' => Ads::client(),
+            'mode'   => Ads::mode(),
             'notice' => $notice,
         ], I18n::t('admin.ads'));
     }

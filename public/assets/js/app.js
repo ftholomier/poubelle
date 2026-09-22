@@ -549,13 +549,15 @@
   }
 
   /** Les scripts publicitaires ne sont chargés qu'après consentement explicite. */
+  /**
+   * Deux modes, décidés côté serveur et lus sur le <body> : « auto », où le
+   * script seul suffit — Google place les annonces lui-même — et « slots »,
+   * où chaque emplacement de la maquette porte son unité.
+   */
   function loadAds() {
-    var slots = $$('.ad-slot[data-client]');
-    if (!slots.length || window.__imttAds) { return; }
+    var client = document.body.getAttribute('data-ads-client');
+    if (!client || window.__imttAds) { return; }
     window.__imttAds = true;
-
-    var client = slots[0].getAttribute('data-client');
-    if (!client) { return; }
 
     var script = document.createElement('script');
     script.async = true;
@@ -563,7 +565,9 @@
     script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(client);
     document.head.appendChild(script);
 
-    slots.forEach(function (slot) {
+    if (document.body.getAttribute('data-ads-mode') === 'auto') { return; }
+
+    $$('.ad-slot[data-client]').forEach(function (slot) {
       var frame = $('.ad-frame', slot);
       var unit = $('ins.adsbygoogle', slot);
       if (frame && unit) { frame.hidden = true; }

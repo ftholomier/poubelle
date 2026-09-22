@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Core;
 
 use App\Controllers\AdminController;
+use App\Controllers\AdsTxtController;
 use App\Controllers\ApiController;
 use App\Controllers\CvController;
 use App\Controllers\EmployerController;
@@ -97,6 +98,8 @@ final class Kernel
         $router->addLocalized('GET', '/{slug}', [PageController::class, 'show']);
 
         $router->get('/sitemap.xml', [SitemapController::class, 'xml']);
+        // Exigé par AdSense à la racine exacte du domaine.
+        $router->get('/ads.txt', [AdsTxtController::class, 'txt']);
 
         // --- API interne ----------------------------------------------------
         $router->get('/api/search/jobs',     [ApiController::class, 'jobs']);

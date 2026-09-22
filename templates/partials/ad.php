@@ -10,7 +10,9 @@ use App\Core\Config;
 use App\Services\Ads;
 use App\Services\I18n;
 
-if (!Ads::isEnabled($slot)) {
+// Annonces automatiques : Google place les siennes, on ne réserve rien —
+// ni unité, ni cadre en pointillés qui resterait vide.
+if (Ads::isAuto() || !Ads::isEnabled($slot)) {
     return;
 }
 $config = Ads::slots()[$slot];

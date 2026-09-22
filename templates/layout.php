@@ -38,7 +38,10 @@ $canonical = rtrim((string) Config::get('site.url'), '/') . I18n::url($path ?? '
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/css/app.css?v=<?= e(App\Core\Config::get('storage.schema')) ?>">
 </head>
-<body>
+<body<?= App\Services\Ads::scriptNeeded()
+    ? ' data-ads-client="' . e(App\Services\Ads::client()) . '"'
+      . ' data-ads-mode="' . e(App\Services\Ads::mode()) . '"'
+    : '' ?>>
 <a class="skip-link" href="#main"><?= e(I18n::t('nav.skip')) ?></a>
 
 <?= App\Core\View::partial('partials/header', ['path' => $path ?? '/']) ?>

@@ -61,6 +61,13 @@ final class Router
     /** @return array{0:callable|array,1:array}|null */
     public function match(string $method, string $path): ?array
     {
+        // HEAD, c'est GET sans le corps : la norme impose qu'une ressource
+        // servie en GET réponde aussi en HEAD. Les robots — dont celui qui
+        // relève ads.txt — s'en servent couramment, et un 405 les bloque.
+        if ($method === 'HEAD') {
+            $method = 'GET';
+        }
+
         $pathMatchedOtherMethod = false;
 
         foreach ($this->routes as $route) {
