@@ -56,6 +56,16 @@ final class Response
         return $this;
     }
 
+    public function hasHeader(string $name): bool
+    {
+        foreach (array_keys($this->headers) as $existing) {
+            if (strcasecmp((string) $existing, $name) === 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function status(): int
     {
         return $this->status;

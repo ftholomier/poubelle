@@ -9,6 +9,18 @@ use App\Storage\Audit;
 /** Outils communs aux adaptateurs : normalisation et garde-fous. */
 abstract class AbstractSource implements JobSource
 {
+    /**
+     * Délai d'attente d'un partenaire.
+     *
+     * Vingt secondes par source, quatre sources en série, c'était jusqu'à
+     * quatre-vingts secondes d'attente pour le visiteur. Six suffisent : au-delà,
+     * l'API est en panne et le cache prend le relais.
+     */
+    protected static function timeout(): int
+    {
+        return max(2, (int) \App\Core\Config::get('sources.timeout', 6));
+    }
+
     public function key(): string
     {
         return strtolower(str_replace(' ', '-', $this->name()));

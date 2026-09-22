@@ -138,6 +138,7 @@ return [
     'sources' => [
         'enabled'   => true,
         'cache_ttl' => 3600,    // 1 h : un agrégateur ne bouge pas plus vite
+        'timeout'   => 6,       // par source ; au-delà, le cache prend le relais
         'before'    => 5,       // offres externes affichées avant les annonces du site
         'after'     => 25,      // et après
         'country'   => 'fr',

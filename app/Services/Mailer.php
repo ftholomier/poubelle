@@ -182,8 +182,6 @@ final class Mailer
      * Corps multipart : le texte, puis chaque pièce jointe en base64.
      *
      * @param array{name:string,mime:string,content:string}[] $attachments
-     * @param bool $sensitive message relayant des données personnelles : en cas
-     *                        d'échec, seul le fait est tracé, jamais le corps
      */
     private static function multipart(string $boundary, string $text, array $attachments): string
     {

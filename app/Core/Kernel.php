@@ -27,7 +27,9 @@ final class Kernel
             return $redirect;
         }
 
-        Session::start();
+        // La session n'est ouverte que si le visiteur en porte déjà une : une
+        // visite anonyme ne pose aucun cookie et reste donc cachable.
+        Session::startIfExists();
         I18n::boot(I18n::detect($request->path));
 
         $router = $this->routes();
@@ -56,7 +58,40 @@ final class Kernel
             return $this->fail($request, 500, $e);
         }
 
-        return $response;
+        return $this->withCaching($request, $response);
+    }
+
+    /**
+     * Politique de cache de la réponse.
+     *
+     * Une page publique servie à un visiteur anonyme peut vivre quelques
+     * minutes dans le navigateur et dans le cache du serveur ; `stale-while-
+     * revalidate` évite que l'expiration se traduise par une attente. Dès
+     * qu'une session existe — donc dès qu'une page est personnalisée — plus
+     * rien n'est partagé.
+     */
+    private function withCaching(Request $request, Response $response): Response
+    {
+        if ($request->method !== 'GET' && $request->method !== 'HEAD') {
+            return $response;
+        }
+        // Une réponse qui a déjà choisi sa politique la garde.
+        if ($response->hasHeader('Cache-Control')) {
+            return $response;
+        }
+        if (str_starts_with($request->path, '/admin')) {
+            return $response->withHeader('Cache-Control', 'private, no-store');
+        }
+        if (Session::exists()) {
+            return $response->withHeader('Cache-Control', 'private, no-cache');
+        }
+        if ($response->status() !== 200) {
+            return $response;
+        }
+        return $response->withHeader(
+            'Cache-Control',
+            'public, max-age=300, stale-while-revalidate=600',
+        );
     }
 
     private function invoke(callable|array $handler, Request $request, array $params): Response
@@ -139,6 +174,7 @@ final class Kernel
         $router->get('/api/search/employers',[ApiController::class, 'employers']);
         $router->get('/api/suggest',         [ApiController::class, 'suggest']);
         $router->get('/api/places',          [ApiController::class, 'places']);
+        $router->get('/api/jeton',           [ApiController::class, 'token']);
         $router->post('/api/regie',          [ApiController::class, 'regie']);
         $router->post('/api/report',         [ApiController::class, 'report']);
 

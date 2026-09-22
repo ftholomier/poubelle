@@ -96,8 +96,11 @@ final class CvController extends Controller
             'cv'        => $cv,
             'related'   => array_slice($related, 0, 4),
             'reachable' => Contact::reachable($cv),
+            // Même principe que la candidature : le jeton n'est rendu que pour
+            // qui ouvre le formulaire, jamais pour un simple lecteur.
+            'showForm'  => $errors !== [] || (string) $request->get('contacter', '') !== '',
             'errors'    => $errors,
-            'sent'      => (string) Session::flash('contact_done') === (string) $cv['slug'],
+            'sent'      => (string) Session::peekFlash('contact_done') === (string) $cv['slug'],
         ], [
             'title'  => (string) $cv['name'] . ' — ' . (string) $cv['title'],
             'desc'   => str_excerpt((string) $cv['summary'], 155),

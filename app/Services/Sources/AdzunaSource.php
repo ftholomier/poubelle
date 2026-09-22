@@ -51,7 +51,7 @@ final class AdzunaSource extends AbstractSource
         }
 
         $data = Http::json('GET', self::ENDPOINT . $country . '/search/' . $page . '?' . http_build_query($params),
-            ['timeout' => 20]);
+            ['timeout' => self::timeout()]);
         if ($data === []) {
             return $this->fail('réponse vide');
         }

@@ -1,0 +1,16 @@
+{
+  "name": "intermittent.fr",
+  "short_name": "intermittent",
+  "description": "Offres d'emploi et annuaire de CV pour les intermittents du spectacle.",
+  "lang": "fr",
+  "start_url": "/fr/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFF7ED",
+  "theme_color": "#17123A",
+  "icons": [
+    { "src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/img/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

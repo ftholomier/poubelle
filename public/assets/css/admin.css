@@ -177,3 +177,32 @@
   border: 1px solid rgba(255, 255, 255, .14); border-radius: 16px;
 }
 .save-bar-note { font-size: 12.5px; color: rgba(255, 255, 255, .6); margin-right: auto; }
+
+/* Onglets d'état des listes : le travail à faire se voit d'un coup d'œil. */
+.state-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 16px; }
+.state-tabs .chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  min-height: 36px; padding: 7px 13px; border-radius: 999px;
+  border: 1px solid var(--rule); background: var(--white);
+  font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none;
+}
+.state-tabs .chip.is-on { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.state-tabs .chip .n { font-variant-numeric: tabular-nums; opacity: .65; }
+.state-tabs .chip:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
+.admin-table .state-err { background: #FBE9EA; color: #B4232C; }
+
+/* Formulaires de la rubrique référencement : deux colonnes qui se replient. */
+.grid-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.grid-fields .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.grid-fields .label { font-size: 13px; font-weight: 600; }
+.grid-fields .opt { font-size: 12.5px; color: var(--muted); }
+.grid-fields .input, .secret-row textarea.input {
+  width: 100%; border-radius: 12px; border: 1px solid var(--rule);
+  background: var(--white); color: var(--ink); font: inherit; font-size: 14.5px; padding: 10px 12px;
+}
+.secret-row textarea.input { resize: vertical; }
+.grid-fields .input:focus-visible, .secret-row textarea.input:focus-visible {
+  outline: 3px solid var(--coral); outline-offset: 2px;
+}
+.secret-row .check { display: flex; align-items: flex-start; gap: 9px; font-size: 14px; }
+.secret-row .check input { margin-top: 3px; }

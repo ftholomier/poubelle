@@ -178,6 +178,25 @@
   var regiePanel = null;
   var regieLauncher = null;
 
+  /**
+   * Jeton anti-CSRF d'un formulaire public, obtenu à la demande.
+   *
+   * Les pages ne le portent plus : le rendre partout obligeait à ouvrir une
+   * session pour chaque visiteur, ce qui rendait le site entier incachable.
+   */
+  var tokenCache = {};
+
+  function formToken(form) {
+    if (tokenCache[form]) { return Promise.resolve(tokenCache[form]); }
+    return fetch('/api/jeton?form=' + encodeURIComponent(form), { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        tokenCache[form] = data.token || '';
+        return tokenCache[form];
+      })
+      .catch(function () { return ''; });
+  }
+
   function closeRegie() {
     if (regiePanel && !regiePanel.hidden) {
       regiePanel.hidden = true;
@@ -204,6 +223,9 @@
       regiePanel.hidden = false;
       regieLauncher.hidden = true;
       if (input) { input.focus(); }
+      // Le jeton se demande à l'ouverture : la session n'existe que pour qui
+      // se sert réellement de l'assistant.
+      formToken('regie');
     });
     $$('[data-regie-close]', regiePanel).forEach(function (b) { b.addEventListener('click', closeRegie); });
 
@@ -223,15 +245,17 @@
       if (input) { input.value = ''; }
       var pending = bubble('…', 'bot');
 
-      fetch(root.getAttribute('data-endpoint'), {
+      formToken('regie').then(function (token) {
+      return fetch(root.getAttribute('data-endpoint'), {
         method: 'POST',
+        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           question: question,
           // /api/regie n'est pas montée par langue : la page indique la sienne,
           // sans quoi la réponse et ses liens suivraient celle du navigateur.
           lang: root.getAttribute('data-lang') || '',
-          _csrf: root.getAttribute('data-csrf')
+          _csrf: token
         })
       })
         .then(function (r) { return r.json(); })
@@ -246,6 +270,7 @@
         })
         .catch(function () { pending.textContent = root.getAttribute('data-offline'); })
         .then(function () { busy = false; thread.scrollTop = thread.scrollHeight; });
+      });
     }
 
     if (form) {
@@ -568,6 +593,35 @@
   }
 
   /**
+   * Ouvre un formulaire public — candidature, message à un candidat — et va
+   * chercher son jeton au passage.
+   *
+   * Sans JavaScript, le lien reste un lien : il recharge la page avec le
+   * formulaire déjà ouvert. Personne n'est bloqué.
+   */
+  function initFormReveal() {
+    $$('[data-form-reveal]').forEach(function (link) {
+      var name = link.getAttribute('data-form-reveal');
+      var form = document.getElementById(link.getAttribute('aria-controls') || '');
+      if (!form) { return; }
+
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        link.setAttribute('aria-expanded', 'true');
+        form.hidden = false;
+        link.hidden = true;
+
+        var field = $('input[name="_csrf"]', form);
+        formToken(name).then(function (token) {
+          if (field) { field.value = token; }
+          var first = $('input[type="text"], input[type="email"], textarea', form);
+          if (first) { first.focus(); }
+        });
+      });
+    });
+  }
+
+  /**
    * Un formulaire refusé renvoyait sa page sans rien annoncer à qui navigue au
    * clavier ou à l'oreille : le résumé d'erreurs prend le focus.
    */
@@ -774,6 +828,7 @@
     initPlaces();
     initBookmarks();
     initSavedList();
+    initFormReveal();
     initErrorFocus();
     initCtaBar();
     initAutoSubmit();

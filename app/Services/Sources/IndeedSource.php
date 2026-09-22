@@ -69,7 +69,7 @@ final class IndeedSource extends AbstractSource
      */
     private function fromFeed(array $criteria): array
     {
-        $response = Http::request('GET', (string) Config::secret('indeed_feed_url'), ['timeout' => 25]);
+        $response = Http::request('GET', (string) Config::secret('indeed_feed_url'), ['timeout' => self::timeout()]);
         if ($response['status'] !== 200 || $response['body'] === '') {
             return $this->fail('flux injoignable', ['status' => $response['status']]);
         }
@@ -169,7 +169,7 @@ final class IndeedSource extends AbstractSource
             'useragent' => $_SERVER['HTTP_USER_AGENT'] ?? 'intermittent.fr',
         ];
 
-        $data = Http::json('GET', $base . '?' . http_build_query($params), ['timeout' => 15]);
+        $data = Http::json('GET', $base . '?' . http_build_query($params), ['timeout' => self::timeout()]);
         if ($data === []) {
             return $this->fail('API sans réponse exploitable (accès publisher probablement fermé)');
         }

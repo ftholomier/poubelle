@@ -21,11 +21,13 @@ use App\Services\Aggregator;
 use App\Services\Auth;
 use App\Services\ContentTranslator;
 use App\Services\I18n;
+use App\Services\JobLifecycle;
 use App\Services\Knowledge;
 use App\Services\Mailer;
 use App\Services\Notifier;
 use App\Services\Sanitizer;
 use App\Services\Secrets;
+use App\Services\Seo;
 use App\Services\SecretsTest;
 use App\Services\Translator;
 use App\Services\Validator;
@@ -265,8 +267,16 @@ final class AdminController extends Controller
         }
         $this->handleRowAction($request, 'job');
 
+        $all = $this->sortByDate(JobRepository::all());
+        $filter = (string) $request->get('etat', '');
+
         return $this->screen('admin/jobs', [
-            'items' => $this->sortByDate(JobRepository::all()),
+            'items'  => $filter === '' ? $all : array_values(array_filter(
+                $all,
+                static fn(array $j) => (string) ($j['status'] ?? '') === $filter,
+            )),
+            'counts' => $this->countByStatus($all),
+            'filter' => $filter,
         ], I18n::t('admin.jobs'));
     }
 
@@ -277,8 +287,16 @@ final class AdminController extends Controller
         }
         $this->handleRowAction($request, 'cv');
 
+        $all = $this->sortByDate(CvRepository::all());
+        $filter = (string) $request->get('etat', '');
+
         return $this->screen('admin/cvs', [
-            'items' => $this->sortByDate(CvRepository::all()),
+            'items'  => $filter === '' ? $all : array_values(array_filter(
+                $all,
+                static fn(array $c) => (string) ($c['status'] ?? '') === $filter,
+            )),
+            'counts' => $this->countByStatus($all),
+            'filter' => $filter,
         ], I18n::t('admin.cvs'));
     }
 
@@ -672,6 +690,124 @@ final class AdminController extends Controller
         ], I18n::t('admin.settings'));
     }
 
+    /* --------------------------------------------------------- référencement */
+
+    /**
+     * Titres, descriptions et adresses de toutes les pages du site.
+     *
+     * Changer l'adresse d'une rubrique ou le slug d'une page laisse derrière
+     * elle une redirection permanente : aucun lien ne se casse, et le
+     * référencement acquis se reporte sur la nouvelle adresse.
+     */
+    public function seo(Request $request, array $params): Response
+    {
+        if (($guard = $this->guard(true)) !== null) {
+            return $guard;
+        }
+
+        $notice = '';
+        $errors = [];
+
+        if ($request->isPost() && Csrf::check($request)) {
+            $scope = (string) $request->input('scope', 'routes');
+
+            if ($scope === 'routes') {
+                $result = Seo::save(
+                    (array) ($request->post['routes'] ?? []),
+                    ['og_image' => (string) $request->input('og_image', '')],
+                    $this->userId(),
+                );
+                $errors = $result['errors'];
+                $notice = $result['ok'] && $errors === [] ? I18n::t('admin.saved') : '';
+            } elseif ($scope === 'pages') {
+                $notice = $this->savePagesSeo((array) ($request->post['pages'] ?? []), $errors);
+            }
+        }
+
+        $pages = [];
+        foreach (PageRepository::all('fr') as $page) {
+            $pages[] = [
+                'slug'        => (string) $page['slug'],
+                'title'       => (string) $page['title'],
+                'seo_title'   => (string) ($page['seo']['title'] ?? ''),
+                'description' => (string) ($page['seo']['description'] ?? ''),
+                'robots'      => (string) ($page['seo']['robots'] ?? ''),
+                'status'      => (string) $page['status'],
+            ];
+        }
+
+        return $this->screen('admin/seo', [
+            'routes'   => Seo::ROUTES,
+            'settings' => Seo::all()['routes'] ?? [],
+            'pages'    => $pages,
+            'ogImage'  => (string) (Seo::all()['og_image'] ?? ''),
+            'notice'   => $notice,
+            'errors'   => $errors,
+        ], I18n::t('admin.seo'));
+    }
+
+    /**
+     * Enregistre les métas des pages éditoriales. Un slug modifié déplace le
+     * fichier et laisse une redirection derrière lui.
+     *
+     * @param array<string, array<string,string>> $input
+     * @param string[]                            $errors
+     */
+    private function savePagesSeo(array $input, array &$errors): string
+    {
+        $changed = 0;
+
+        foreach ($input as $slug => $fields) {
+            $slug = slugify((string) $slug);
+            $page = PageRepository::find($slug, 'fr');
+            if ($page === null) {
+                continue;
+            }
+
+            $page['title'] = mb_substr(trim((string) ($fields['title'] ?? $page['title'])), 0, 180) ?: $page['title'];
+            $page['seo']['title'] = mb_substr(trim((string) ($fields['seo_title'] ?? '')), 0, 180);
+            $page['seo']['description'] = mb_substr(trim((string) ($fields['description'] ?? '')), 0, 320);
+            $page['seo']['robots'] = ($fields['robots'] ?? '') === 'noindex' ? 'noindex' : '';
+
+            $wanted = slugify((string) ($fields['slug'] ?? $slug));
+            if ($wanted !== '' && $wanted !== $slug) {
+                if (PageRepository::find($wanted, 'fr') !== null) {
+                    $errors[] = sprintf('« %s » : l’adresse /%s est déjà prise.', $page['title'], $wanted);
+                } else {
+                    $page['slug'] = $wanted;
+                    $page['id'] = $wanted;
+                    PageRepository::save($page, 'fr');
+                    PageRepository::delete($slug, 'fr');
+                    // Les traductions suivent le renommage.
+                    foreach (array_keys((array) Config::get('i18n.languages', [])) as $lang) {
+                        if ($lang === 'fr') {
+                            continue;
+                        }
+                        $translated = PageRepository::find($slug, $lang);
+                        if ($translated !== null && ($translated['fallback'] ?? false) === false) {
+                            $translated['slug'] = $wanted;
+                            $translated['id'] = $wanted;
+                            PageRepository::save($translated, $lang);
+                            PageRepository::delete($slug, $lang);
+                        }
+                    }
+                    Seo::renamePage($slug, $wanted, $this->userId());
+                    $changed++;
+                    continue;
+                }
+            }
+
+            PageRepository::save($page, 'fr');
+            $changed++;
+        }
+
+        if ($changed > 0) {
+            Index::rebuild('pages');
+            Audit::log('seo.pages_updated', ['count' => $changed], $this->userId());
+        }
+        return $errors === [] ? I18n::t('admin.saved') : '';
+    }
+
     /* ------------------------------------------------------ alertes e-mail */
 
     /**
@@ -764,6 +900,17 @@ final class AdminController extends Controller
         return null;
     }
 
+    /** @return array<string,int> combien de fiches par état, pour les onglets */
+    private function countByStatus(array $items): array
+    {
+        $counts = [];
+        foreach ($items as $item) {
+            $status = (string) ($item['status'] ?? 'draft');
+            $counts[$status] = ($counts[$status] ?? 0) + 1;
+        }
+        return $counts;
+    }
+
     private function userId(): int
     {
         return (int) (Auth::user()['id'] ?? 0);
@@ -804,7 +951,18 @@ final class AdminController extends Controller
             if ($action === 'publish' && ($record['published_at'] ?? '') === '') {
                 $record['published_at'] = date('c');
             }
+            // Publier une annonce lui rend une durée de vie entière : sans
+            // cela, elle ressortirait déjà périmée.
+            if ($action === 'publish' && $type === 'job') {
+                $record['expires_at'] = JobLifecycle::expiresAt($record, time());
+            }
             $repo::save($record);
+        } elseif ($action === 'extend' && $type === 'job') {
+            // Remettre une annonce expirée en ligne pour une période complète.
+            $record['status'] = 'publish';
+            $record['expires_at'] = JobLifecycle::expiresAt($record, time());
+            $repo::save($record);
+            Audit::log('job.extended', ['id' => $id, 'until' => $record['expires_at']], $this->userId());
         } elseif ($action === 'delete' && Auth::isAdmin()) {
             Backup::snapshot('suppression-' . $type, $this->userId());
             $repo::delete($id);

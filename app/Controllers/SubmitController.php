@@ -32,7 +32,7 @@ final class SubmitController extends Controller
 
     public function cvForm(Request $request, array $params): Response
     {
-        return $this->renderCvForm([], [], (string) Session::flash('cv_done'));
+        return $this->renderCvForm([], [], (string) Session::peekFlash('cv_done'));
     }
 
     public function cvSubmit(Request $request, array $params): Response
@@ -144,7 +144,7 @@ final class SubmitController extends Controller
 
     public function jobForm(Request $request, array $params): Response
     {
-        return $this->renderJobForm([], [], (string) Session::flash('job_done'));
+        return $this->renderJobForm([], [], (string) Session::peekFlash('job_done'));
     }
 
     public function jobSubmit(Request $request, array $params): Response

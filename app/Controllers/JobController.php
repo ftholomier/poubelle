@@ -66,6 +66,18 @@ final class JobController extends Controller
     }
 
     /**
+     * Le formulaire ne porte son jeton que si le visiteur l'a demandé.
+     *
+     * Rendre un jeton anti-CSRF sur chaque fiche ouvrait une session pour tous
+     * les passants — robots compris — et rendait la page incachable. Le lien
+     * « Postuler » l'obtient, par JavaScript ou par un simple aller-retour.
+     */
+    private function wantsForm(Request $request, array $errors): bool
+    {
+        return $errors !== [] || (string) $request->get('candidater', '') !== '';
+    }
+
+    /**
      * Candidature relayée à l'employeur. L'adresse de celui-ci ne figure nulle
      * part dans la page : le site fait passer le message, la réponse revient
      * directement au candidat.
@@ -136,8 +148,9 @@ final class JobController extends Controller
             'siblings'  => array_slice($siblings, 0, 3),
             'expired'   => $expired,
             'canApply'  => !$expired && trim((string) ($job['apply']['email'] ?? '')) !== '',
+            'showForm'  => $this->wantsForm($request, $errors),
             'errors'    => $errors,
-            'sent'      => (string) Session::flash('apply_done') === (string) $job['slug'],
+            'sent'      => (string) Session::peekFlash('apply_done') === (string) $job['slug'],
         ], [
             'title'        => (string) $job['title'],
             'desc'         => str_excerpt((string) $job['description'], 155),

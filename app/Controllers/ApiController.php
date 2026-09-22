@@ -212,6 +212,28 @@ final class ApiController extends Controller
     ];
 
     /** Assistant « Régie ». Le jeton CSRF évite qu'un tiers fasse consommer le quota. */
+    /**
+     * Jeton anti-CSRF d'un formulaire public, remis à la demande.
+     *
+     * Les formulaires rares — assistant, candidature, message à un candidat —
+     * ne portent plus leur jeton dans la page : il est réclamé au moment où le
+     * visiteur s'en sert. Une session n'est donc ouverte que pour celui qui
+     * agit, et les pages restent cachables pour tous les autres.
+     */
+    public function token(Request $request, array $params): Response
+    {
+        $form = (string) $request->get('form', '');
+        if (!in_array($form, self::PUBLIC_FORMS, true)) {
+            return Response::json(['error' => 'unknown-form'], 400);
+        }
+
+        return Response::json(['form' => $form, 'token' => Csrf::token($form)])
+            ->withHeader('Cache-Control', 'private, no-store');
+    }
+
+    /** Formulaires publics autorisés à réclamer un jeton. */
+    private const PUBLIC_FORMS = ['regie', 'apply', 'contact'];
+
     public function regie(Request $request, array $params): Response
     {
         $body = $request->jsonBody();

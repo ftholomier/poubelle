@@ -42,7 +42,7 @@ final class JoobleSource extends AbstractSource
                 'location' => $criteria['city'] !== '' ? $criteria['city'] : (string) $this->setting('location', 'France'),
                 'page'     => max(1, (int) $criteria['page']),
             ],
-            'timeout' => 20,
+            'timeout' => self::timeout(),
         ]);
         if ($data === []) {
             return $this->fail('réponse vide');

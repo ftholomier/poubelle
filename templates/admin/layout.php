@@ -22,6 +22,7 @@ $entries = [
     ['/admin/utilisateurs',    'admin.users',        '#0FBFA4'],
     ['/admin/offres-externes', 'admin.sources',      '#0FBFA4'],
     ['/admin/publicite',       'admin.ads',          '#FF7AB8'],
+    ['/admin/referencement',   'admin.seo',          '#6D4AFF'],
     ['/admin/alertes',         'admin.alerts',       '#FFC531'],
     ['/admin/cles-api',        'admin.settings',     '#FF4B3E'],
 ];

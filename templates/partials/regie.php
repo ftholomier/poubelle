@@ -1,7 +1,6 @@
 <?php
 /** Assistant IA « Régie ». Au-dessus de la barre CTA, jamais par-dessus. */
 use App\Core\Config;
-use App\Core\Csrf;
 use App\Services\I18n;
 use App\Support\Icon;
 
@@ -12,7 +11,10 @@ if (!Config::get('regie.enabled', true)) {
 <div class="regie" data-regie
      data-endpoint="/api/regie"
      data-lang="<?= e(I18n::lang()) ?>"
-     data-csrf="<?= e(Csrf::token('regie')) ?>"
+     <?php // Le jeton n'est plus rendu ici : le demander à chaque page ouvrait
+           // une session pour tous les visiteurs et rendait le site incachable.
+           // Il est réclamé à l'ouverture du panneau. ?>
+     data-token-url="/api/jeton?form=regie"
      data-offline="<?= e(I18n::t('regie.offline')) ?>">
 
   <button type="button" class="regie-launcher" data-regie-open aria-label="<?= e(I18n::t('regie.open')) ?>">

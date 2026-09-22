@@ -40,11 +40,24 @@ final class JobLifecycle
         return $short;
     }
 
-    /** Date de fin à inscrire sur une annonce qui n'en a pas. */
+    /**
+     * Date de fin à inscrire sur une annonce qui n'en a pas.
+     *
+     * Une date de début annoncée dans le futur commande : un tournage prévu en
+     * janvier reste d'actualité même s'il a été publié six mois plus tôt.
+     * L'annonce tient alors jusqu'à une semaine après le démarrage.
+     */
     public static function expiresAt(array $job, ?int $from = null): string
     {
         $from ??= (int) (strtotime((string) ($job['published_at'] ?: $job['created_at'] ?: 'now')) ?: time());
-        return date('c', $from + self::lifetimeDays($job) * 86400);
+        $expires = $from + self::lifetimeDays($job) * 86400;
+
+        $starts = strtotime((string) ($job['starts_at'] ?? ''));
+        if ($starts !== false && $starts > $expires) {
+            $expires = $starts + 7 * 86400;
+        }
+
+        return date('c', $expires);
     }
 
     /** Complète une annonce avant enregistrement : date de fin systématique. */

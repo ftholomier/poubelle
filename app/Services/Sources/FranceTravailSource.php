@@ -84,7 +84,7 @@ final class FranceTravailSource extends AbstractSource
 
         $response = Http::request('GET', self::SEARCH_URL . '?' . http_build_query($params), [
             'headers' => ['Authorization: Bearer ' . $token, 'Accept: application/json'],
-            'timeout' => 20,
+            'timeout' => self::timeout(),
         ]);
 
         // 204 = aucune offre pour ces critères : ce n'est pas une erreur.
@@ -154,7 +154,7 @@ final class FranceTravailSource extends AbstractSource
 
         $response = Http::request('POST', self::TOKEN_URL, [
             'headers' => ['Content-Type: application/x-www-form-urlencoded'],
-            'timeout' => 15,
+            'timeout' => self::timeout(),
             'form'    => [
                 'grant_type'    => 'client_credentials',
                 'client_id'     => (string) Config::secret('francetravail_client_id'),

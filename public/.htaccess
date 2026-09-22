@@ -9,6 +9,12 @@
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
+  # Un seul hôte canonique. Sans cette règle, intermittent.fr et
+  # www.intermittent.fr servaient le même site : deux adresses pour chaque
+  # page, et un référencement partagé entre les deux.
+  RewriteCond %{HTTP_HOST} ^intermittent\.fr$ [NC]
+  RewriteRule ^(.*)$ https://www.intermittent.fr/$1 [R=301,L]
+
   # Les fichiers réels sont servis directement ; tout le reste passe par index.php.
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
@@ -18,15 +24,41 @@
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  <FilesMatch "\.(css|js|woff2|svg|png|jpg|webp)$">
+
+  # Les assets portent une empreinte de version dans leur URL (voir le helper
+  # asset()) : leur cache peut être long sans jamais servir une vieille copie.
+  <FilesMatch "\.(css|js|woff2|svg|png|jpg|jpeg|webp|ico)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
+  <FilesMatch "\.(webmanifest|txt)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+</IfModule>
+
+# Compression : le HTML d'une page de résultats se réduit des deux tiers.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml \
+    application/javascript application/json application/xml \
+    application/rss+xml image/svg+xml application/manifest+json
+</IfModule>
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/xml \
+    application/javascript application/json application/xml \
+    application/rss+xml image/svg+xml application/manifest+json
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType application/manifest+json .webmanifest
 </IfModule>
 
 # Rien d'exécutable ni de sensible ne doit fuir depuis /public.
 <FilesMatch "^\.|\.(json|md|sql|zip|log|ini|yml|lock)$">
   Require all denied
 </FilesMatch>
+# … sauf le manifeste, qui est un .webmanifest et doit rester lisible.
+<Files "site.webmanifest">
+  Require all granted
+</Files>
 
 Options -Indexes
 DirectoryIndex index.php

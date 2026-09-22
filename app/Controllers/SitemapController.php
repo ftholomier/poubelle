@@ -7,6 +7,7 @@ use App\Core\Config;
 use App\Core\Request;
 use App\Core\Response;
 use App\Services\I18n;
+use App\Services\JobLifecycle;
 use App\Storage\Index;
 
 /** Plan du site, avec une entrée par langue et les balises hreflang associées. */
@@ -39,7 +40,16 @@ final class SitemapController extends Controller
     private function build(): string
     {
         $base = rtrim((string) Config::get('site.url'), '/');
-        $languages = array_keys(I18n::languages());
+
+        /**
+         * Seules les langues réellement traduites figurent au plan. Déclarer
+         * sept versions d'une page qui n'existe qu'en français revenait à
+         * proposer six doublons à l'indexation.
+         */
+        $languages = array_values(array_filter(
+            array_keys(I18n::languages()),
+            static fn(string $code) => $code === 'fr' || I18n::hasTranslations($code),
+        ));
 
         /** @var array<int, array{path:string, lastmod:string, priority:string}> $paths */
         $paths = [
@@ -53,13 +63,17 @@ final class SitemapController extends Controller
         ];
 
         foreach (Index::load('jobs') as $job) {
-            if (($job['status'] ?? '') !== 'publish') {
+            // Une annonce périmée n'a plus à être proposée à l'indexation.
+            if (($job['status'] ?? '') !== 'publish' || JobLifecycle::isExpired($job)) {
                 continue;
             }
             $paths[] = ['path' => '/offre/' . $job['slug'],
                         'lastmod' => (string) $job['published_at'], 'priority' => '0.7'];
         }
         foreach (Index::load('cv') as $cv) {
+            if (($cv['status'] ?? '') !== 'publish') {
+                continue;
+            }
             $paths[] = ['path' => '/cv/' . $cv['slug'],
                         'lastmod' => (string) $cv['published_at'], 'priority' => '0.5'];
         }
@@ -85,9 +99,12 @@ final class SitemapController extends Controller
                         $xml .= '    <lastmod>' . date('Y-m-d', $timestamp) . "</lastmod>\n";
                     }
                 }
-                foreach ($languages as $alternate) {
-                    $xml .= '    <xhtml:link rel="alternate" hreflang="' . e($alternate)
-                          . '" href="' . e($base . I18n::url($entry['path'], $alternate)) . "\"/>\n";
+                // Une seule langue ne justifie aucune balise d'alternative.
+                if (count($languages) > 1) {
+                    foreach ($languages as $alternate) {
+                        $xml .= '    <xhtml:link rel="alternate" hreflang="' . e($alternate)
+                              . '" href="' . e($base . I18n::url($entry['path'], $alternate)) . "\"/>\n";
+                    }
                 }
                 $xml .= '    <priority>' . e($entry['priority']) . "</priority>\n";
                 $xml .= "  </url>\n";

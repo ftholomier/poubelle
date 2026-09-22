@@ -171,7 +171,13 @@ final class Aggregator
      * @param  array{q?:string,city?:string,page?:int} $criteria
      * @return array<int, array<string, mixed>>
      */
-    public static function fetch(array $criteria, int $limit): array
+    /**
+     * @param bool $refresh true dans le cron : autorise l'appel réseau quand le
+     *                      cache est périmé. Dans une requête de visiteur, on
+     *                      sert le cache tel quel — une page d'accueil ne doit
+     *                      pas attendre quatre API en série.
+     */
+    public static function fetch(array $criteria, int $limit, bool $refresh = false): array
     {
         if ($limit <= 0 || !Config::get('sources.enabled', true)) {
             return [];
@@ -197,7 +203,7 @@ final class Aggregator
             if ($wanted !== [] && !in_array($key, $wanted, true)) {
                 continue;
             }
-            foreach (self::cached($source, $query) as $job) {
+            foreach (self::cached($source, $query, $refresh) as $job) {
                 $collected[$job['id']] = $job;
             }
         }
@@ -313,7 +319,7 @@ final class Aggregator
             return ['items' => $localItems, 'external' => 0];
         }
 
-        $external = self::fetch($criteria, $before + $after);
+        $external = self::fetch($criteria, $before + $after, false);
         if ($external === []) {
             return ['items' => $localItems, 'external' => 0];
         }
@@ -343,13 +349,21 @@ final class Aggregator
     }
 
     /** @return array<int, array<string, mixed>> */
-    private static function cached(JobSource $source, array $query): array
+    private static function cached(JobSource $source, array $query, bool $refresh = false): array
     {
         $file = self::cachePath($source, $query);
         $ttl = max(60, (int) Config::get('sources.cache_ttl', 3600));
 
         $cache = Json::read($file);
-        if ($cache !== [] && (time() - (int) ($cache['at'] ?? 0)) < $ttl) {
+        $fresh = $cache !== [] && (time() - (int) ($cache['at'] ?? 0)) < $ttl;
+        if ($fresh) {
+            return (array) ($cache['jobs'] ?? []);
+        }
+
+        // Cache périmé hors du cron : on sert quand même. Mieux vaut une offre
+        // d'hier tout de suite qu'une page bloquée vingt secondes sur une API
+        // tierce. Le rafraîchissement viendra de la passe planifiée.
+        if (!$refresh && $cache !== []) {
             return (array) ($cache['jobs'] ?? []);
         }
 

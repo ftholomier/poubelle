@@ -1,12 +1,24 @@
 <?php
-/** CV déposés. @var array $items */
+/** CV déposés. @var array $items @var array $counts @var string $filter */
 use App\Core\Csrf;
+use App\Core\View;
 use App\Services\Auth;
 use App\Services\I18n;
 ?>
 <div class="admin-head">
   <div><h1><?= e(I18n::t('admin.cvs')) ?></h1><p><?= count($items) ?> profil(s)</p></div>
 </div>
+
+<?= View::partial('admin/partials-state-tabs', [
+      'counts' => $counts ?? [],
+      'filter' => $filter ?? '',
+      'labels' => [
+        'pending' => I18n::t('admin.state_pending'),
+        'publish' => I18n::t('admin.state_publish'),
+        'draft'   => I18n::t('admin.state_draft'),
+        'spam'    => I18n::t('admin.state_spam'),
+      ],
+    ]) ?>
 
 <div class="admin-card">
   <div class="table-scroll">

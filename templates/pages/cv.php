@@ -9,6 +9,7 @@ use App\Support\Icon;
 $hasFile = ($cv['file']['path'] ?? '') !== '';
 $hasPhoto = ($cv['photo']['path'] ?? '') !== '';
 $reachable = $reachable ?? false;
+$showForm = $showForm ?? false;
 $errors = $errors ?? [];
 $sent = $sent ?? false;
 ?>
@@ -146,8 +147,23 @@ $sent = $sent ?? false;
             </p>
           <?php endif; ?>
 
-          <form method="post" class="apply-form" action="<?= e(I18n::url('/cv/' . $cv['slug'])) ?>#contacter">
-            <?= Csrf::field('contact') ?>
+          <?php if (!$showForm): ?>
+            <a class="btn btn-coral btn-block" data-form-reveal="contact"
+               aria-controls="contact-form" aria-expanded="false"
+               href="<?= e(I18n::url('/cv/' . $cv['slug'])) ?>?contacter=1#contacter">
+              <?= e(I18n::t('cv.contact')) ?>
+            </a>
+          <?php endif; ?>
+
+          <form method="post" class="apply-form" id="contact-form"
+                data-token-form="contact" <?= $showForm ? '' : 'hidden' ?>
+                action="<?= e(I18n::url('/cv/' . $cv['slug'])) ?>?contacter=1#contacter">
+            <?php if ($showForm): ?>
+              <?= Csrf::field('contact') ?>
+            <?php else: ?>
+              <input type="hidden" name="_csrf" value="">
+              <input type="hidden" name="_form" value="contact">
+            <?php endif; ?>
             <?= SpamGuard::fields() ?>
 
             <label class="field">

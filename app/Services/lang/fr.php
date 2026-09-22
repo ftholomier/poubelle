@@ -346,6 +346,9 @@ return [
     'admin.users'        => 'Utilisateurs',
     'admin.ads'          => 'Publicité',
     'admin.sources'      => 'Offres externes',
+    'admin.seo'          => 'Référencement',
+    'admin.seo_note'     => 'Les adresses, titres et descriptions de toutes les pages du site. '
+                          . 'Une adresse modifiée redirige l’ancienne, sans perdre le référencement acquis.',
     'admin.alerts'       => 'Alertes & e-mails',
     'admin.alerts_note'  => 'L’adresse qui reçoit l’activité du site, ce qui déclenche une alerte, '
                           . 'et par quel chemin les e-mails partent.',
@@ -371,6 +374,8 @@ return [
     'admin.state_publish'=> 'Publié',
     'admin.state_draft'  => 'Brouillon',
     'admin.state_expired'=> 'Expiré',
+    'admin.state_pending'=> 'À modérer',
+    'admin.state_spam'   => 'Spam',
     'admin.lock'         => 'Verrou : %s · %d min',
     'admin.lock_taken'   => 'Contenu verrouillé par %s depuis %d min. Édition impossible.',
     'admin.save'         => 'Enregistrer',

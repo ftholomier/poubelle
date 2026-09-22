@@ -21,6 +21,7 @@ $isGuso = (bool) array_filter((array) $job['contract'],
 // relaie le message et place le candidat en adresse de réponse.
 $externalApply = (string) ($job['apply']['url'] ?? '');
 $canApply = $canApply ?? false;
+$showForm = $showForm ?? false;
 $errors = $errors ?? [];
 $sent = $sent ?? false;
 $expired = $expired ?? false;
@@ -131,9 +132,25 @@ $expired = $expired ?? false;
             </p>
           <?php endif; ?>
 
-          <form method="post" enctype="multipart/form-data" class="apply-form"
-                action="<?= e(I18n::url('/offre/' . $job['slug'])) ?>#candidater">
-            <?= Csrf::field('apply') ?>
+          <?php if (!$showForm): ?>
+            <?php // Sans jeton dans la page, la fiche reste cachable. Le lien
+                  // le réclame : par JavaScript, ou par cet aller-retour. ?>
+            <a class="btn btn-coral btn-block" data-form-reveal="apply"
+               aria-controls="apply-form" aria-expanded="false"
+               href="<?= e(I18n::url('/offre/' . $job['slug'])) ?>?candidater=1#candidater">
+              <?= e(I18n::t('job.apply')) ?>
+            </a>
+          <?php endif; ?>
+
+          <form method="post" enctype="multipart/form-data" class="apply-form" id="apply-form"
+                data-token-form="apply" <?= $showForm ? '' : 'hidden' ?>
+                action="<?= e(I18n::url('/offre/' . $job['slug'])) ?>?candidater=1#candidater">
+            <?php if ($showForm): ?>
+              <?= Csrf::field('apply') ?>
+            <?php else: ?>
+              <input type="hidden" name="_csrf" value="">
+              <input type="hidden" name="_form" value="apply">
+            <?php endif; ?>
             <?= SpamGuard::fields() ?>
 
             <label class="field">
