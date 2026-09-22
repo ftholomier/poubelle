@@ -85,6 +85,9 @@ final class Index
             $items[] = [
                 'id'        => $job['id'],
                 'slug'      => $job['slug'],
+                // Numéro de l'article WordPress d'origine : il permet de
+                // rattraper les vieilles adresses en « ?p=1027 ».
+                'legacy_id' => $job['legacy_id'] ?? '',
                 'title'     => $job['title'],
                 'status'    => $job['status'],
                 'company'   => $job['company']['name'] ?? '',
@@ -127,6 +130,7 @@ final class Index
             $items[] = [
                 'id'       => $cv['id'],
                 'slug'     => $cv['slug'],
+                'legacy_id'=> $cv['legacy_id'] ?? '',
                 'status'   => $cv['status'],
                 'name'     => $cv['name'],
                 'title'    => $cv['title'],

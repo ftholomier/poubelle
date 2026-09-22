@@ -33,10 +33,20 @@ final class NotFound
      */
     public static function response(string $section = '/', string $path = '', bool $json = false): Response
     {
-        $target = self::target();
+        $path = (string) (parse_url($path, PHP_URL_PATH) ?: $path);
 
-        if (!$json && $target !== '' && !self::isFile($path) && rtrim($path, '/') !== rtrim($target, '/')) {
-            return Response::redirect($target, 302);
+        if (!$json && !self::isAsset($path)) {
+            // D'abord la bonne page, si on sait la retrouver : c'est elle que
+            // le lien visait, et elle seule reporte le référencement acquis.
+            $hit = Redirects::match($path, $_GET);
+            if ($hit !== null && rtrim($hit['path'], '/') !== rtrim($path, '/')) {
+                return Response::redirect(I18n::url($hit['path']), $hit['status']);
+            }
+
+            $target = self::target();
+            if ($target !== '' && rtrim($path, '/') !== rtrim($target, '/')) {
+                return Response::redirect($target, 302);
+            }
         }
 
         Security::sendHeaders();
@@ -45,6 +55,9 @@ final class NotFound
             'title' => I18n::t('error.404_title'),
             'body'  => I18n::t('error.404_body'),
             'path'  => $section !== '' ? $section : '/',
+            // Les mots de l'adresse deviennent une recherche : « régisseur son
+            // Lyon » vaut mieux qu'un champ vide.
+            'query' => $json ? '' : Redirects::terms($path),
         ]), 404);
     }
 
@@ -59,11 +72,23 @@ final class NotFound
     }
 
     /**
-     * Le chemin désigne-t-il un fichier ? Une extension courte en fin
-     * d'adresse suffit à le dire ; les slugs du site n'en portent pas.
+     * Extensions d'un document, donc d'une adresse qui mérite d'être
+     * rattrapée : l'ancien site servait ses pages en « .html » et « .php ».
      */
-    private static function isFile(string $path): bool
+    private const DOCUMENTS = ['html', 'htm', 'php', 'phtml', 'shtml', 'asp', 'aspx', 'jsp'];
+
+    /**
+     * Le chemin désigne-t-il un fichier à servir tel quel ?
+     *
+     * Une image, une feuille de style ou un script manquant doit recevoir son
+     * 404 : le rediriger ferait recevoir du HTML à la balise qui l'appelle.
+     * Une page en « .html », elle, est une vieille adresse comme une autre.
+     */
+    private static function isAsset(string $path): bool
     {
-        return preg_match('/\.[A-Za-z0-9]{1,8}$/', rtrim($path, '/')) === 1;
+        if (preg_match('/\.([A-Za-z0-9]{1,8})$/', rtrim($path, '/'), $m) !== 1) {
+            return false;
+        }
+        return !in_array(strtolower($m[1]), self::DOCUMENTS, true);
     }
 }

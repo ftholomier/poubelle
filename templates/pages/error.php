@@ -4,6 +4,9 @@
  *
  * Une impasse sans issue fait repartir le visiteur : la page propose donc une
  * recherche et les quatre entrées principales du site.
+ *
+ * @var string $query  mots tirés de l'adresse demandée, déjà dans le champ de
+ *                     recherche — le visiteur n'a qu'à valider.
  */
 use App\Services\I18n;
 use App\Support\Icon;
@@ -18,7 +21,8 @@ use App\Support\Icon;
           role="search" style="margin-top:22px;max-width:520px">
       <label class="sr-only" for="err-q"><?= e(I18n::t('error.search_here')) ?></label>
       <span class="ico"><?= Icon::svg('search', 18, '#8A83A8', 2) ?></span>
-      <input id="err-q" type="search" name="q" placeholder="<?= e(I18n::t('search.keyword')) ?>">
+      <input id="err-q" type="search" name="q" value="<?= e((string) ($query ?? '')) ?>"
+             placeholder="<?= e(I18n::t('search.keyword')) ?>">
       <button type="submit" class="btn btn-coral btn-sm"><?= e(I18n::t('search.submit')) ?></button>
     </form>
 

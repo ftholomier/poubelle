@@ -131,18 +131,24 @@ return [
     /**
      * Pages introuvables.
      *
-     * `redirect_404` renvoie le visiteur vers `redirect_404_to` au lieu de lui
-     * montrer la page d'erreur. C'est un choix d'exploitation : plus personne
-     * ne bute sur un mur, mais Google voit un « soft 404 » et peut garder en
-     * index une adresse qui n'existe plus. Le mettre à false rétablit la page
-     * d'erreur, qui propose déjà la recherche et les rubriques.
+     * Une adresse inconnue passe d'abord par le rapprochement de
+     * `Services\Redirects` : numéro d'article WordPress, slug exact, puis
+     * ressemblance des mots. La plupart des vieux liens retrouvent ainsi leur
+     * fiche, en 301 — c'est la seule réponse qui reporte le référencement
+     * acquis sur la nouvelle adresse.
+     *
+     * Ce qui reste arrive sur la page 404, dont la recherche est déjà remplie
+     * des mots de l'adresse. `redirect_404` la remplace par un renvoi vers
+     * `redirect_404_to`. À laisser à false : un renvoi systématique vaut un
+     * « soft 404 » pour Google, qui peut alors garder en index une adresse
+     * disparue, et il masque les pannes — une route cassée ne se verrait plus.
      *
      * Les requêtes d'API, les fichiers manquants et les archives anciennes —
      * qui répondent 410, exprès, pour être désindexées — ne sont jamais
      * redirigés.
      */
     'errors' => [
-        'redirect_404'    => true,
+        'redirect_404'    => false,
         'redirect_404_to' => '/',
     ],
 

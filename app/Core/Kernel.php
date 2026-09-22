@@ -16,6 +16,7 @@ use App\Controllers\SitemapController;
 use App\Controllers\SubmitController;
 use App\Services\I18n;
 use App\Services\NotFound;
+use App\Services\Redirects;
 use App\Services\Seo;
 use App\Storage\Audit;
 
@@ -37,6 +38,13 @@ final class Kernel
         I18n::boot(str_starts_with($request->path, '/admin')
             ? 'fr'
             : I18n::detect($request->path));
+
+        // « /?p=1027 » : l'adresse de WordPress quand les permaliens jolis
+        // n'étaient pas encore en place. Le chemin, lui, est valide — c'est
+        // l'accueil — donc aucun 404 ne viendrait rattraper le lien.
+        if ($request->method === 'GET' && ($legacy = Redirects::legacyQuery($_GET)) !== '') {
+            return Response::redirect(I18n::url($legacy), 301);
+        }
 
         $router = $this->routes();
 
