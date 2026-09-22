@@ -307,7 +307,20 @@ return [
     'cmp.body'          => 'Le site est gratuit grâce à la publicité. Nous utilisons des cookies publicitaires '
                          . 'uniquement si vous les acceptez. Le reste du site fonctionne sans.',
     'cmp.accept'        => 'Tout accepter',
-    'cmp.refuse'        => 'Continuer sans publicité ciblée',
+    'cmp.refuse'        => 'Tout refuser',
+    'cmp.settings'      => 'Réglages',
+    'cmp.settings_title'=> 'Choisir ce que j’accepte',
+    'cmp.save'          => 'Enregistrer mes choix',
+    'cmp.cat_needed'    => 'Nécessaires au site',
+    'cmp.cat_needed_note' => 'Votre connexion, la sécurité des formulaires et la mémoire de ce '
+                           . 'choix. Sans eux le site ne fonctionne pas ; ils ne se refusent pas.',
+    'cmp.cat_ads'       => 'Affichage des annonces',
+    'cmp.cat_ads_note'  => 'Charge le script publicitaire de Google, qui finance le site. '
+                         . 'Refusé, aucune annonce ne s’affiche et aucun cookie publicitaire '
+                         . 'n’est déposé.',
+    'cmp.cat_perso'     => 'Annonces personnalisées',
+    'cmp.cat_perso_note'=> 'Adapte les annonces à votre navigation. Refusé, les annonces '
+                         . 'restent affichées mais sans profilage.',
     'cmp.learn'         => 'En savoir plus',
     'cmp.manage'         => 'Préférences publicitaires',
 

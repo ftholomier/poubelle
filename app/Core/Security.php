@@ -99,7 +99,9 @@ final class Security
         if (\App\Services\Ads::consentMode() === 'google') {
             return true;
         }
-        return ($_COOKIE['imtt_consent'] ?? '') === 'all';
+        // « all » : annonces personnalisées. « pub » : annonces sans
+        // profilage — le script est le même, le CSP doit donc l'être aussi.
+        return in_array((string) ($_COOKIE['imtt_consent'] ?? ''), ['all', 'pub'], true);
     }
 
     /** Redirection HTTP → HTTPS. Le certificat doit être réparé côté hébergeur. */

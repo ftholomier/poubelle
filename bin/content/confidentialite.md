@@ -268,7 +268,7 @@ Lorsque le consentement de l'utilisateur est légalement nécessaire, celui-ci e
 ### Cookies strictement nécessaires
 
 * `imtt` : identifiant de session, déposé uniquement lorsqu'une action le réclame — connexion à l'administration, ouverture d'un formulaire de candidature ou de contact, usage de l'assistant. Il disparaît à la fermeture du navigateur.
-* `imtt_consent` : mémorise votre choix en matière de publicité. Sans lui, la question vous serait reposée à chaque page. Durée : six mois.
+* `imtt_consent` : mémorise votre choix en matière de publicité — tout accepté, annonces sans personnalisation, ou tout refusé. Sans lui, la question vous serait reposée à chaque page. Durée : six mois.
 
 Ces deux cookies sont exemptés de consentement : ils ne servent qu'à fournir le service que vous avez demandé.
 
@@ -276,7 +276,15 @@ Ces deux cookies sont exemptés de consentement : ils ne servent qu'à fournir l
 
 Le site peut afficher des annonces fournies par Google AdSense afin de financer sa gratuité. Ces annonces reposent sur des cookies et identifiants déposés par Google et ses partenaires, susceptibles de servir à la personnalisation publicitaire et à la mesure d'audience.
 
-**Aucun de ces scripts n'est chargé avant votre accord.** Tant que vous n'avez pas accepté, les domaines publicitaires sont bloqués au niveau de la politique de sécurité du site : rien n'est déposé, rien n'est lu. Vous pouvez revenir sur votre choix à tout moment par le lien « Préférences publicitaires » situé en pied de page.
+**Aucun de ces scripts n'est chargé avant votre accord.** Tant que vous n'avez pas accepté, les domaines publicitaires sont bloqués au niveau de la politique de sécurité du site : rien n'est déposé, rien n'est lu.
+
+La fenêtre de consentement propose trois réponses, et refuser ne demande pas plus de clics qu'accepter :
+
+* **Tout accepter** : les annonces sont affichées et adaptées à votre navigation.
+* **Réglages**, en n'autorisant que l'affichage : les annonces restent affichées, mais Google reçoit la consigne de ne pas les personnaliser.
+* **Tout refuser** : aucun script publicitaire n'est chargé, aucun cookie publicitaire n'est déposé.
+
+Ne pas répondre ne vaut pas accord : la question reste posée tant que vous n'avez pas choisi. Vous pouvez revenir sur votre choix à tout moment par le lien « Préférences publicitaires » situé en pied de page.
 
 Les informations de Google sur ces traitements sont publiées sur la page [Comment Google utilise les données](https://policies.google.com/technologies/partner-sites).
 

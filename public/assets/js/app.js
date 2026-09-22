@@ -144,6 +144,10 @@
     document.addEventListener('mouseout', function (e) {
       if (e.clientY >= 8 || e.relatedTarget !== null) { return; }
       if (session('imtt_exit_seen') === '1') { return; }
+      // Une question attend déjà une réponse : lui en superposer une seconde
+      // ferait deux panneaux l'un sur l'autre dans le même coin.
+      var cmp = $('[data-cmp]');
+      if (cmp && !cmp.hidden) { return; }
       session('imtt_exit_seen', '1');
       exitEl.hidden = false;
       lastFocus = document.activeElement;
@@ -692,10 +696,26 @@
 
   /* ------------------------------------------- consentement et publicité */
 
+  /**
+   * Trois réponses possibles, et une seule chaîne pour les porter :
+   *
+   *   « all »  — annonces affichées et personnalisées ;
+   *   « pub »  — annonces affichées, sans profilage ;
+   *   « none » — aucun script publicitaire.
+   *
+   * « all » et « none » existaient avant les réglages détaillés : les garder
+   * tels quels évite de reposer la question aux visiteurs qui ont déjà répondu.
+   */
+
   /** Le cookie fait foi : c'est le seul canal que PHP peut lire pour ouvrir le CSP. */
   function consentCookie() {
-    var m = document.cookie.match(/(?:^|;\s*)imtt_consent=(all|none)/);
+    var m = document.cookie.match(/(?:^|;\s*)imtt_consent=(all|none|pub)/);
     return m ? m[1] : null;
+  }
+
+  /** Ce choix autorise-t-il le chargement du script publicitaire ? */
+  function adsAllowed(choice) {
+    return choice === 'all' || choice === 'pub';
   }
 
   function storeConsent(choice) {
@@ -704,22 +724,48 @@
       + (location.protocol === 'https:' ? ';Secure' : '');
   }
 
+  /** Bascule entre la question et le détail des réglages. */
+  function cmpView(banner, name) {
+    $$('[data-cmp-view]', banner).forEach(function (view) {
+      view.hidden = view.getAttribute('data-cmp-view') !== name;
+    });
+  }
+
+  /**
+   * Les cases reflètent le choix en cours, et « personnalisées » ne vaut rien
+   * sans « affichage » : cocher la seconde seule décrirait un réglage que le
+   * script ne sait pas appliquer.
+   */
+  function cmpSyncBoxes(banner, choice) {
+    var ads = $('[data-cmp-cat="ads"]', banner);
+    var perso = $('[data-cmp-cat="perso"]', banner);
+    if (!ads || !perso) { return; }
+
+    ads.checked = adsAllowed(choice);
+    perso.checked = choice === 'all';
+    perso.disabled = !ads.checked;
+  }
+
   function initConsent() {
     var banner = $('[data-cmp]');
     var stored = null;
     try { stored = window.localStorage.getItem('imtt_consent'); } catch (e) { /* bloqué */ }
-    var consent = consentCookie() || stored;
+
+    // Ce que le serveur a vu en rendant cette page : c'est lui qui a décidé
+    // si le CSP laisse passer pagead2, donc lui qui dit s'il faut recharger.
+    var served = consentCookie();
+    var consent = served || stored;
 
     // Le CMP de Google est affiché par le script AdSense lui-même : le
     // retenir derrière un bandeau maison l'empêcherait d'apparaître, et
     // Google, privé de signal TCF, ne servirait aucune annonce en Europe.
     if (document.body.getAttribute('data-ads-consent') === 'google') {
-      loadAds();
+      loadAds(true);
       if (banner) { banner.hidden = true; }
       return;
     }
 
-    if (consent === 'all') {
+    if (adsAllowed(consent)) {
       // Le CSP n'autorise les domaines publicitaires que si le serveur a vu le
       // cookie. Choix mémorisé avant sa mise en place : on le repose, puis on
       // recharge une seule fois pour obtenir les bons en-têtes.
@@ -727,40 +773,90 @@
       // Deux garde-fous contre la boucle de rechargement : le cookie doit avoir
       // été réellement écrit, et le marqueur de session doit être relisible.
       // Sans stockage, on préfère renoncer à la publicité.
-      if (!consentCookie()) {
-        storeConsent('all');
+      if (!served) {
+        storeConsent(consent);
         if (consentCookie() && session('imtt_csp') !== '1') {
           session('imtt_csp', '1');
           if (session('imtt_csp') === '1') { location.reload(); return; }
         }
       }
-      loadAds();
+      loadAds(consent === 'all');
     }
 
     if (!banner) { return; }
     banner.hidden = consent !== null;
+    cmpView(banner, 'choice');
+    cmpSyncBoxes(banner, consent);
+
+    /**
+     * Enregistre la réponse, referme, et met la page en conformité avec elle.
+     *
+     * Deux raisons de recharger, toutes deux inévitables. Les en-têtes de
+     * cette page ont été décidés avant la réponse : tant que le serveur
+     * n'avait pas vu d'accord, le CSP interdit pagead2 et le script serait
+     * bloqué. Et un script publicitaire déjà chargé ne se décharge pas : qui
+     * retire la personnalisation, ou retire tout, continuerait de voir ce
+     * qu'il vient de refuser jusqu'à la page suivante.
+     *
+     * Refuser sans que rien n'ait été chargé ne recharge donc rien : c'est le
+     * seul cas où la page obéit déjà.
+     */
+    function answer(choice) {
+      storeConsent(choice);
+      banner.hidden = true;
+      if (choice === served) { return; }
+
+      if (adsAllowed(served) || adsAllowed(choice)) {
+        // Cookies refusés par le navigateur : recharger ne changerait rien,
+        // le serveur ne verrait toujours pas le choix.
+        if (consentCookie()) { location.reload(); return; }
+        if (adsAllowed(choice)) { loadAds(choice === 'all'); }
+      }
+    }
 
     $$('[data-cmp-choice]', banner).forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var choice = btn.getAttribute('data-cmp-choice');
-        storeConsent(choice);
-        banner.hidden = true;
-        if (choice !== 'all') { return; }
-        // Rechargement : les en-têtes de la page courante interdisent encore
-        // pagead2, le script serait bloqué par le navigateur. Cookies refusés
-        // par le navigateur : inutile de recharger, le CSP ne changera pas.
-        if (consentCookie()) { location.reload(); } else { loadAds(); }
+        answer(btn.getAttribute('data-cmp-choice'));
+      });
+    });
+
+    $$('[data-cmp-view-to]', banner).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        cmpView(banner, btn.getAttribute('data-cmp-view-to'));
+        var title = $('[data-cmp-settings-title]', banner);
+        if (title) { title.focus(); }
+      });
+    });
+
+    var adsBox = $('[data-cmp-cat="ads"]', banner);
+    if (adsBox) {
+      adsBox.addEventListener('change', function () {
+        var perso = $('[data-cmp-cat="perso"]', banner);
+        if (!perso) { return; }
+        perso.disabled = !adsBox.checked;
+        if (!adsBox.checked) { perso.checked = false; }
+      });
+    }
+
+    $$('[data-cmp-save]', banner).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var perso = $('[data-cmp-cat="perso"]', banner);
+        if (!adsBox || !adsBox.checked) { answer('none'); return; }
+        answer(perso && perso.checked ? 'all' : 'pub');
       });
     });
 
     // Revenir sur son choix doit être aussi simple que de le donner : sans
-    // cela un refus reste figé six mois, sans aucun moyen de l'annuler.
+    // cela un refus reste figé six mois, sans aucun moyen de l'annuler. On
+    // ouvre directement le détail : qui rouvre ce panneau vient y régler
+    // quelque chose, pas relire la question.
     $$('[data-cmp-reopen]').forEach(function (btn) {
       btn.addEventListener('click', function () {
+        cmpSyncBoxes(banner, consentCookie() || stored);
+        cmpView(banner, 'settings');
         banner.hidden = false;
-        banner.scrollIntoView({ block: 'nearest' });
-        var first = $('[data-cmp-choice]', banner);
-        if (first) { first.focus(); }
+        var title = $('[data-cmp-settings-title]', banner);
+        if (title) { title.focus(); }
       });
     });
   }
@@ -791,10 +887,20 @@
    * script seul suffit — Google place les annonces lui-même — et « slots »,
    * où chaque emplacement de la maquette porte son unité.
    */
-  function loadAds() {
+  /**
+   * @param {boolean} personalized  faux : annonces servies sans profilage.
+   *   Le drapeau doit être posé avant le chargement du script, Google le lit
+   *   à l'initialisation.
+   */
+  function loadAds(personalized) {
     var client = document.body.getAttribute('data-ads-client');
     if (!client || window.__imttAds) { return; }
     window.__imttAds = true;
+
+    window.adsbygoogle = window.adsbygoogle || [];
+    if (!personalized) {
+      window.adsbygoogle.requestNonPersonalizedAds = 1;
+    }
 
     var script = document.createElement('script');
     script.async = true;
@@ -928,7 +1034,11 @@
              typeof window.__tcfapi === 'function' ? 'ok' : 'ko');
       } else {
         var cookie = consentCookie();
-        line('Consentement (cookie)', cookie || 'aucun', cookie === 'all' ? 'ok' : 'ko');
+        line('Consentement (cookie)',
+             cookie === 'all' ? 'annonces personnalisées'
+             : cookie === 'pub' ? 'annonces sans profilage'
+             : cookie === 'none' ? 'refusé' : 'aucun',
+             adsAllowed(cookie) ? 'ok' : 'ko');
         line('Consentement (local)', stored || 'aucun');
       }
       line('Mode côté serveur', document.body.getAttribute('data-ads-mode') || 'publicité désactivée');

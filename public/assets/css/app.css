@@ -1012,14 +1012,40 @@ ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
 /* Bandeau de consentement */
 .cmp {
   position: fixed; left: 16px; bottom: 16px; z-index: 96;
-  width: 360px; max-width: calc(100vw - 32px);
+  width: 380px; max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px); overflow: auto;
   background: var(--white); border: var(--card-border); border-radius: 20px;
   box-shadow: var(--card-shadow); padding: 20px;
   animation: popIn .35s var(--ease) both;
 }
-.cmp h4 { margin-bottom: 8px; }
+.cmp-title { font-size: 17px; margin: 0 0 8px; }
+.cmp-title:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
 .cmp p { font-size: 13px; color: var(--text); margin: 0 0 16px; line-height: 1.55; }
-.cmp .row { display: flex; flex-direction: column; gap: 8px; }
+
+/* Accepter et refuser ont la même taille et la même force : la CNIL demande
+   que refuser ne soit ni plus long ni moins visible qu'accepter. Seule la
+   teinte les distingue. */
+.cmp-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.cmp-actions .btn { flex: 1 1 140px; justify-content: center; padding-inline: 12px; }
+
+/* Les réglages détaillés, eux, restent au second plan : ils n'entrent pas
+   dans l'équivalence exigée entre les deux réponses. */
+.cmp-more {
+  display: block; margin: 12px auto 0;
+  font-size: 12.5px; color: var(--muted);
+}
+
+.cmp-cats { display: grid; gap: 12px; margin: 0 0 16px; }
+.cmp-cat {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px;
+  align-items: start; cursor: pointer;
+}
+.cmp-cat input { margin: 2px 0 0; width: 18px; height: 18px; accent-color: var(--coral); }
+.cmp-cat input:disabled { cursor: default; }
+.cmp-cat input:disabled + span { opacity: .62; }
+.cmp-cat strong { display: block; font-size: 13.5px; }
+.cmp-cat em { display: block; font-style: normal; font-size: 12px; color: var(--muted); line-height: 1.45; }
+.cmp-cat:has(input:disabled) { cursor: default; }
 
 /* ================================================= sobriété d'animation */
 
@@ -1097,7 +1123,7 @@ ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
   .card { padding: 18px; }
   .job-row { flex-wrap: wrap; }
   .job-row .job-aside { text-align: left; align-items: flex-start; width: 100%; }
-  .cmp { left: 8px; right: 8px; width: auto; bottom: 8px; }
+  .cmp { left: 8px; right: 8px; width: auto; max-width: none; bottom: 8px; padding: 16px; }
 }
 
 .nav-toggle {

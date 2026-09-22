@@ -92,9 +92,14 @@ use App\Services\I18n;
   <label class="check" style="align-items:flex-start;margin:10px 0 22px">
     <input type="radio" name="consent" value="site" <?= $consent === 'site' ? 'checked' : '' ?>>
     <span>
-      <strong>Bandeau du site</strong> — le script publicitaire n’est chargé qu’après acceptation.
-      Sobre, mais muet pour Google : <strong>aucune annonce ne sera diffusée en Europe</strong>.
-      À réserver aux cas où AdSense n’est pas utilisé.
+      <strong>Bandeau du site</strong> — la fenêtre en bas à gauche, aux couleurs du site. Trois
+      réponses : « Tout accepter », « Tout refuser » — de même taille, comme l’exige la CNIL — et
+      « Réglages », qui permet de garder les annonces sans les laisser se personnaliser. Le script
+      publicitaire n’est chargé qu’après acceptation, et le refus est révocable depuis le pied de
+      page.
+      <br><span class="s">Sobre, mais muet pour Google : il n’émet pas le signal TCF, donc
+      <strong>aucune annonce ne sera diffusée en Europe</strong>. À réserver aux cas où AdSense
+      n’est pas utilisé, ou le temps d’une mise au point.</span>
     </span>
   </label>
 
