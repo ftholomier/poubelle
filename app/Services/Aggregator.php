@@ -153,6 +153,7 @@ final class Aggregator
         }
 
         $jobs = self::dedupe(array_values($collected));
+        $jobs = self::applyCriteria($jobs, $criteria);
 
         // Aucun agrégateur ne sait filtrer par branche : le tri se fait ici,
         // sur l'intitulé et le résumé de chaque offre remontée.
@@ -168,6 +169,83 @@ final class Aggregator
 
         usort($jobs, static fn(array $a, array $b) => strcmp((string) $b['published_at'], (string) $a['published_at']));
         return array_slice($jobs, 0, $limit);
+    }
+
+    /**
+     * Applique aux offres externes les filtres de la page, autant que leurs
+     * données le permettent.
+     *
+     * Un agrégateur ne renvoie qu'un intitulé, une entreprise, un lieu, parfois
+     * un type de contrat. Quand un critère porte sur une donnée absente, l'offre
+     * est écartée plutôt que montrée au hasard : une liste filtrée sur « CDI »
+     * ne doit contenir que des CDI, fût-ce au prix de quelques offres en moins.
+     *
+     * @param  array<int, array<string, mixed>> $jobs
+     * @return array<int, array<string, mixed>>
+     */
+    public static function applyCriteria(array $jobs, array $criteria): array
+    {
+        $words = array_filter(
+            explode(' ', Index::haystack([(string) ($criteria['q'] ?? '')])),
+            static fn(string $w): bool => strlen($w) > 1,
+        );
+        $city      = Index::haystack([(string) ($criteria['city'] ?? '')]);
+        $regions   = array_filter(array_map('strval', (array) ($criteria['region'] ?? [])), 'strlen');
+        $contracts = array_filter(array_map('strval', (array) ($criteria['contract'] ?? [])), 'strlen');
+        // Les offres externes ne portent pas les catégories du site : un filtre
+        // par catégorie ne peut pas les concerner.
+        $categories = array_filter(array_map('strval', (array) ($criteria['category'] ?? [])), 'strlen');
+
+        if ($categories !== []) {
+            return [];
+        }
+
+        return array_values(array_filter($jobs, static function (array $job) use ($words, $city, $regions, $contracts): bool {
+            $lieu = Index::haystack([(string) ($job['city'] ?? ''), (string) ($job['region'] ?? '')]);
+            $texte = Index::haystack([
+                (string) ($job['title'] ?? ''),
+                (string) ($job['company'] ?? ''),
+                (string) ($job['excerpt'] ?? ''),
+            ]);
+
+            foreach ($words as $word) {
+                if (!str_contains($texte, $word)) {
+                    return false;
+                }
+            }
+            if ($city !== '' && !str_contains($lieu, $city)) {
+                return false;
+            }
+            if ($regions !== []) {
+                $trouve = false;
+                foreach ($regions as $region) {
+                    if (str_contains($lieu, Index::haystack([$region]))) {
+                        $trouve = true;
+                        break;
+                    }
+                }
+                if (!$trouve) {
+                    return false;
+                }
+            }
+            if ($contracts !== []) {
+                $declares = array_map(
+                    static fn($c): string => Index::haystack([(string) $c]),
+                    (array) ($job['contract'] ?? []),
+                );
+                $declares = array_filter($declares, 'strlen');
+                if ($declares === []) {
+                    return false;   // contrat inconnu : on ne l'annonce pas comme tel
+                }
+                foreach ($contracts as $wanted) {
+                    if (in_array(Index::haystack([$wanted]), $declares, true)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return true;
+        }));
     }
 
     /**

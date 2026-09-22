@@ -91,7 +91,14 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
 
     <div>
       <div class="result-head">
-        <span class="result-count"><?= e(I18n::t('search.results', number_format((int) $results['total'], 0, ',', ' '))) ?></span>
+        <span class="result-count">
+          <?= e(I18n::t('search.results', number_format((int) $results['total'], 0, ',', ' '))) ?>
+          <?php if (($external ?? 0) > 0): ?>
+            <span class="s"><?= e(I18n::t('search.breakdown',
+              number_format((int) ($results['local_total'] ?? $results['total']), 0, ',', ' '),
+              number_format((int) $external, 0, ',', ' '))) ?></span>
+          <?php endif; ?>
+        </span>
         <form method="get">
           <?php foreach ($query as $key => $value): if ($key === 'sort') continue; ?>
             <?php foreach ((array) $value as $one): ?>

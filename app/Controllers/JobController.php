@@ -23,13 +23,17 @@ final class JobController extends Controller
         $results = Search::jobs($criteria);
         $facets = Index::meta('jobs');
 
-        // Les offres externes complètent la page courante sans jamais entrer
-        // dans les compteurs : « 51 offres » reste le nombre d'annonces déposées ici.
         // Les cartes affichent le titre et l'extrait traduits quand ils existent.
         $results['items'] = ContentTranslator::applyToRows($results['items'], 'job', I18n::lang());
 
+        // Les offres partenaires comptent dans ce que voit le visiteur : la
+        // pagination reste guidée par les annonces du site — seules elles se
+        // parcourent page par page — mais les compteurs annoncent les deux,
+        // avec leur détail, plutôt qu'un total qui en cacherait la moitié.
         $blended = Aggregator::blend($results['items'], $criteria);
         $results['items'] = $blended['items'];
+        $results['local_total'] = (int) $results['total'];
+        $results['total'] = $results['local_total'] + $blended['external'];
 
         $newest = Index::load('jobs')[0]['published_at'] ?? '';
 
@@ -41,7 +45,8 @@ final class JobController extends Controller
             'query'    => $this->queryParams($request),
             'newest'   => $newest,
         ], [
-            'title' => I18n::t('jobs.title', number_format((int) ($facets['total'] ?? 0), 0, ',', ' ')),
+            'title' => I18n::t('jobs.title', number_format(
+                (int) ($facets['total'] ?? 0) + $blended['external'], 0, ',', ' ')),
             'desc'  => I18n::t('home.lede'),
             'path'  => '/offres',
         ]);

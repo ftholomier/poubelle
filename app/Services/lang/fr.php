@@ -82,6 +82,7 @@ return [
     'search.sort_oldest'=> 'Plus anciennes',
     'search.sort_title' => 'Ordre alphabétique',
     'search.results'    => '%s résultat(s)',
+    'search.breakdown'    => '%s du site · %s de nos partenaires',
     'search.none'       => 'Aucun résultat',
     'search.none_note'  => 'Essayez avec moins de filtres, ou un mot-clé plus large.',
     'search.page'       => 'Page %d sur %d',
