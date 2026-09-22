@@ -113,6 +113,14 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
     </aside>
 
     <div>
+      <?php // Restitution des offres mises de côté : le bouton existait, la
+            // page qui les montre manquait. Tout est côté navigateur. ?>
+      <section class="card saved-box" data-saved-list hidden
+               data-remove-label="<?= e(I18n::t('saved.remove')) ?>">
+        <h2 class="h3"><?= e(I18n::t('saved.title')) ?></h2>
+        <ul class="saved-items" data-saved-items></ul>
+      </section>
+
       <div class="result-head">
         <span class="result-count">
           <?= e(I18n::t('search.results', number_format((int) $results['total'], 0, ',', ' '))) ?>
@@ -134,6 +142,7 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
                 // attribut serait refusé par la politique de sécurité. ?>
           <select id="sort" name="sort" class="select" data-autosubmit
                   style="width:auto;padding:9px 13px;border-width:1.5px;border-radius:999px;font-size:13.5px">
+            <option value="relevance"<?= ($criteria['sort'] ?? '') === 'relevance' ? ' selected' : '' ?>><?= e(I18n::t('search.sort_relevance')) ?></option>
             <option value="recent" <?= $criteria['sort'] === 'recent' ? 'selected' : '' ?>><?= e(I18n::t('search.sort_recent')) ?></option>
             <option value="oldest" <?= $criteria['sort'] === 'oldest' ? 'selected' : '' ?>><?= e(I18n::t('search.sort_oldest')) ?></option>
             <option value="title"  <?= $criteria['sort'] === 'title'  ? 'selected' : '' ?>><?= e(I18n::t('search.sort_title')) ?></option>

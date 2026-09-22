@@ -17,8 +17,14 @@ $to = min($pages, $from + 4);
 $from = max(1, $to - 4);
 ?>
 <nav class="pagination" aria-label="<?= e(I18n::t('search.page', $page, $pages)) ?>">
-  <a class="<?= $page <= 1 ? 'is-off' : '' ?>" href="<?= e(Search::urlWith($query, 'page', $page - 1)) ?>"
-     rel="prev"<?= $page <= 1 ? ' aria-disabled="true" tabindex="-1"' : '' ?>><?= e(I18n::t('search.previous')) ?></a>
+  <?php // Un lien inactif reste un lien : il figurait dans l'ordre de
+        // tabulation et menait à « ?page=0 ». Inactif, ce n'est plus un lien. ?>
+  <?php if ($page <= 1): ?>
+    <span class="is-off"><?= e(I18n::t('search.previous')) ?></span>
+  <?php else: ?>
+    <a href="<?= e(Search::urlWith($query, 'page', $page - 1 <= 1 ? null : $page - 1)) ?>"
+       rel="prev"><?= e(I18n::t('search.previous')) ?></a>
+  <?php endif; ?>
 
   <?php if ($from > 1): ?>
     <a href="<?= e(Search::urlWith($query, 'page', null)) ?>">1</a>
@@ -38,6 +44,9 @@ $from = max(1, $to - 4);
     <a href="<?= e(Search::urlWith($query, 'page', $pages)) ?>"><?= $pages ?></a>
   <?php endif; ?>
 
-  <a class="<?= $page >= $pages ? 'is-off' : '' ?>" href="<?= e(Search::urlWith($query, 'page', $page + 1)) ?>"
-     rel="next"<?= $page >= $pages ? ' aria-disabled="true" tabindex="-1"' : '' ?>><?= e(I18n::t('search.next')) ?></a>
+  <?php if ($page >= $pages): ?>
+    <span class="is-off"><?= e(I18n::t('search.next')) ?></span>
+  <?php else: ?>
+    <a href="<?= e(Search::urlWith($query, 'page', $page + 1)) ?>" rel="next"><?= e(I18n::t('search.next')) ?></a>
+  <?php endif; ?>
 </nav>

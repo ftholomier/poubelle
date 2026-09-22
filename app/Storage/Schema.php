@@ -38,7 +38,9 @@ final class Schema
             'skills' => [], 'experiences' => [], 'education' => [], 'links' => [],
             'file' => ['path' => '', 'name' => '', 'size' => 0, 'legacy_url' => ''],
             'photo' => ['path' => '', 'legacy_url' => ''],
-            'contact' => ['email' => '', 'phone' => '', 'public' => false],
+            // `form` : le candidat accepte d'être contacté via le site sans
+            // que son adresse soit affichée. `public` l'affiche en clair.
+            'contact' => ['email' => '', 'phone' => '', 'public' => false, 'form' => true],
             'available' => true, 'listed' => true, 'featured' => false,
             'author_id' => 0, 'views' => 0,
             'created_at' => '', 'updated_at' => '', 'published_at' => '',
@@ -56,7 +58,7 @@ final class Schema
             'schema' => 3, 'id' => '', 'slug' => '', 'title' => '', 'status' => 'draft',
             'excerpt' => '', 'body' => '', 'lang' => 'fr', 'source_hash' => '',
             'translated' => false, 'menu' => false,
-            'seo' => ['title' => '', 'description' => ''],
+            'seo' => ['title' => '', 'description' => '', 'robots' => ''],
             'created_at' => '', 'updated_at' => '', 'published_at' => '',
             'revision' => 1, 'legacy_id' => 0,
         ],

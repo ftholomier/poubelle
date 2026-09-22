@@ -77,6 +77,64 @@ final class Upload
         ];
     }
 
+    /**
+     * Lit une pièce jointe sans jamais l'écrire sur le disque du site.
+     *
+     * Une candidature transporte le CV du candidat : il part vers l'employeur
+     * et disparaît. Rien n'est conservé, donc rien n'est à purger plus tard.
+     *
+     * @return array{ok:bool,error:string,name:string,mime:string,content:string}
+     */
+    public static function read(array $file, string $allow = 'cv', int $max = 0): array
+    {
+        $fail = static fn(string $message): array
+            => ['ok' => false, 'error' => $message, 'name' => '', 'mime' => '', 'content' => ''];
+
+        $code = (int) ($file['error'] ?? UPLOAD_ERR_NO_FILE);
+        if ($code === UPLOAD_ERR_NO_FILE) {
+            return $fail('');
+        }
+        if ($code === UPLOAD_ERR_INI_SIZE || $code === UPLOAD_ERR_FORM_SIZE) {
+            return $fail(I18n::t('form.err_file_size'));
+        }
+        if ($code !== UPLOAD_ERR_OK) {
+            return $fail(I18n::t('form.error'));
+        }
+
+        $tmp = (string) ($file['tmp_name'] ?? '');
+        if ($tmp === '' || !is_uploaded_file($tmp)) {
+            return $fail(I18n::t('form.error'));
+        }
+
+        $max = $max > 0 ? $max : (int) Config::get('uploads.max_bytes', 5 * 1024 * 1024);
+        $size = (int) ($file['size'] ?? 0);
+        if ($size <= 0 || $size > $max) {
+            return $fail(I18n::t('form.err_file_size'));
+        }
+
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $mime = (string) $finfo->file($tmp);
+        $allowed = (array) Config::get($allow === 'image' ? 'uploads.image_mimes' : 'uploads.cv_mimes', []);
+        if (!isset($allowed[$mime])) {
+            Audit::log('upload.rejected', ['mime' => $mime, 'kind' => 'attachment']);
+            return $fail(I18n::t('form.err_file_type'));
+        }
+
+        $content = (string) @file_get_contents($tmp);
+        @unlink($tmp);
+        if ($content === '') {
+            return $fail(I18n::t('form.error'));
+        }
+
+        return [
+            'ok'      => true,
+            'error'   => '',
+            'name'    => self::safeName((string) ($file['name'] ?? 'cv.' . $allowed[$mime])),
+            'mime'    => $mime,
+            'content' => $content,
+        ];
+    }
+
     /** Nom d'affichage assaini : jamais utilisé comme chemin. */
     private static function safeName(string $name): string
     {

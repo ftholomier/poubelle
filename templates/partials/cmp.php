@@ -7,8 +7,11 @@ if (Ads::client() === '') {
     return;   // aucun compte AdSense configuré : rien à demander
 }
 ?>
-<aside class="cmp" data-cmp role="dialog" aria-label="<?= e(I18n::t('cmp.title')) ?>" hidden>
-  <h4><?= e(I18n::t('cmp.title')) ?></h4>
+<?php // Bandeau, pas fenêtre modale : « dialog » forcerait un lecteur d'écran
+      // à traiter le reste de la page comme inaccessible. ?>
+<aside class="cmp" data-cmp role="region" aria-live="polite"
+       aria-label="<?= e(I18n::t('cmp.title')) ?>" hidden>
+  <h2 class="cmp-title"><?= e(I18n::t('cmp.title')) ?></h2>
   <p><?= e(I18n::t('cmp.body')) ?></p>
   <div class="row">
     <button type="button" class="btn btn-coral btn-sm" data-cmp-choice="all"><?= e(I18n::t('cmp.accept')) ?></button>

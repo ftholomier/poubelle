@@ -23,6 +23,7 @@ use App\Services\ContentTranslator;
 use App\Services\I18n;
 use App\Services\Knowledge;
 use App\Services\Mailer;
+use App\Services\Notifier;
 use App\Services\Sanitizer;
 use App\Services\Secrets;
 use App\Services\SecretsTest;
@@ -659,11 +660,73 @@ final class AdminController extends Controller
         }
 
         return $this->screen('admin/settings', [
-            'catalog' => Secrets::CATALOG,
+            // Le groupe « Envoi des e-mails » a son propre écran : il n'apparaît
+            // pas deux fois.
+            'catalog' => array_filter(
+                Secrets::CATALOG,
+                static fn(array $group) => ($group['screen'] ?? 'settings') === 'settings',
+            ),
             'slots'   => Ads::slots(),
             'notice'  => $notice,
             'test'    => $test,
         ], I18n::t('admin.settings'));
+    }
+
+    /* ------------------------------------------------------ alertes e-mail */
+
+    /**
+     * Adresse d'alerte, choix des événements notifiés et transport des
+     * e-mails. Le bouton « Tester » envoie un vrai message : c'est la seule
+     * vérification qui prouve la chaîne complète.
+     */
+    public function alerts(Request $request, array $params): Response
+    {
+        if (($guard = $this->guard(true)) !== null) {
+            return $guard;
+        }
+
+        $notice = '';
+        $test = null;
+
+        if ($request->isPost() && Csrf::check($request)) {
+            if ((string) $request->input('test', '') !== '') {
+                $test = ['group' => 'mail'] + SecretsTest::run('mail');
+                Audit::log('secrets.tested', ['group' => 'mail', 'ok' => $test['ok']], $this->userId());
+            } else {
+                $values = [];
+                foreach (array_keys((array) (Secrets::CATALOG['mail']['keys'] ?? [])) as $key) {
+                    if (array_key_exists($key, $request->post)) {
+                        $values[$key] = (string) $request->post[$key];
+                    }
+                }
+
+                // Cases décochées : le navigateur ne les renvoie pas, on note
+                // donc explicitement « off » pour chaque événement absent.
+                $checked = (array) ($request->post['events'] ?? []);
+                $events = [];
+                foreach (array_keys(Notifier::EVENTS) as $event) {
+                    $events[$event] = in_array($event, $checked, true) ? 'on' : 'off';
+                }
+                $values['alert_events'] = $events;
+
+                $clear = array_values(array_filter(
+                    (array) ($request->post['clear'] ?? []),
+                    static fn($k) => is_string($k) && $k !== '',
+                ));
+
+                Secrets::save($values, $clear, $this->userId());
+                $notice = I18n::t('admin.saved');
+            }
+        }
+
+        return $this->screen('admin/alerts', [
+            'group'      => Secrets::CATALOG['mail'],
+            'events'     => Notifier::EVENTS,
+            'recipients' => Notifier::recipients(),
+            'transport'  => Mailer::transport(),
+            'notice'     => $notice,
+            'test'       => $test,
+        ], I18n::t('admin.alerts'));
     }
 
     /* ---------------------------------------------------------------- privé */

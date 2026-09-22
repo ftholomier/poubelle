@@ -64,11 +64,17 @@ final class I18n
         return $formatted === false ? (string) $text : $formatted;
     }
 
-    /** Préfixe un chemin avec la langue active : '/offres' -> '/fr/offres'. */
+    /**
+     * Préfixe un chemin avec la langue active : '/offres' -> '/fr/offres'.
+     *
+     * Le chemin reçu est toujours l'adresse interne, celle qu'écrit le code.
+     * Seo la traduit en adresse publique du moment, ce qui permet de renommer
+     * une rubrique depuis le back-office sans toucher à un seul gabarit.
+     */
     public static function url(string $path = '/', ?string $lang = null): string
     {
         $lang ??= self::$lang;
-        $path = '/' . ltrim($path, '/');
+        $path = Seo::publicPath('/' . ltrim($path, '/'));
         return $path === '/' ? '/' . $lang . '/' : '/' . $lang . rtrim($path, '/');
     }
 

@@ -7,6 +7,8 @@ use App\Storage\Index;
 $facets = Index::meta('jobs');
 $teasers = Search::latestJobs(2);
 ?>
+<?php // « aria-modal » sans piège de focus laisse le lecteur d'écran sortir de
+      // la fenêtre sans la fermer : le JS installe le piège et la touche Échap. ?>
 <div class="exit-overlay" data-exit-popup role="dialog" aria-modal="true"
      aria-label="<?= e(I18n::t('exit.title')) ?>" hidden>
   <div class="exit-card">

@@ -8,6 +8,7 @@ use App\Core\Response;
 use App\Domain\EmployerRepository;
 use App\Services\I18n;
 use App\Services\Search;
+use App\Services\StructuredData;
 use App\Storage\Index;
 
 final class EmployerController extends Controller
@@ -37,10 +38,13 @@ final class EmployerController extends Controller
             return $this->notFound('/employeurs');
         }
 
-        $jobs = array_values(array_filter(
+        // Brouillons, spams et annonces expirées n'ont rien à faire sur une
+        // page publique : la fiche employeur ne liste que ce qui est en ligne.
+        $jobs = Search::live(array_values(array_filter(
             Index::load('jobs'),
-            static fn(array $row) => $row['company_slug'] === $employer['slug'],
-        ));
+            static fn(array $row) => $row['company_slug'] === $employer['slug']
+                                     && ($row['status'] ?? '') === 'publish',
+        )));
 
         return $this->page('pages/employer', [
             'employer' => $employer,
@@ -49,7 +53,8 @@ final class EmployerController extends Controller
             'title' => (string) $employer['name'],
             'desc'  => str_excerpt((string) ($employer['description'] ?: $employer['tagline']), 155)
                         ?: I18n::t('employers.lede'),
-            'path'  => '/employeur/' . $employer['slug'],
+            'path'   => '/employeur/' . $employer['slug'],
+            'schema' => StructuredData::organization($employer),
         ]);
     }
 }

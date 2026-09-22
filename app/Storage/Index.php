@@ -118,7 +118,9 @@ final class Index
     {
         $items = [];
         foreach (CvRepository::all() as $cv) {
-            if (!($cv['listed'] ?? true) || ($cv['status'] ?? '') === 'spam') {
+            // « listed » ne suffit pas : un brouillon listé figurerait dans le
+            // sitemap alors que sa fiche répond 404.
+            if (!($cv['listed'] ?? true) || ($cv['status'] ?? '') !== 'publish') {
                 continue;
             }
             $items[] = [

@@ -7,6 +7,7 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Core\View;
 use App\Services\I18n;
+use App\Services\Seo;
 
 /** Base commune : rendu d'une page publique avec sa mise en page. */
 abstract class Controller
@@ -16,10 +17,18 @@ abstract class Controller
      */
     protected function page(string $template, array $data = [], array $meta = []): Response
     {
+        // Titre, description et directive robots réglés au back-office
+        // l'emportent sur ceux calculés par le contrôleur.
+        $meta = Seo::apply($meta, (array) ($meta['seo_vars'] ?? []));
+
         return Response::html(View::render($template, $data + [
             'title'      => $meta['title'] ?? '',
             'desc'       => $meta['desc'] ?? '',
             'path'       => $meta['path'] ?? '/',
+            'robots'     => $meta['robots'] ?? '',
+            'schema'     => $meta['schema'] ?? [],
+            'ogType'     => $meta['ogType'] ?? 'website',
+            'ogImage'    => $meta['ogImage'] ?? '',
             // Trois états : page pivot, page réellement traduite, ou page
             // servie en français faute de traduction disponible.
             'translated'   => $meta['translated'] ?? (!I18n::isPivot() && I18n::hasTranslations()),
@@ -50,8 +59,12 @@ abstract class Controller
             // clé d'un partenaire.
             'source'   => $request->all('source'),
             'skill'    => $request->all('skill'),
-            'sort'     => in_array($request->get('sort', ''), ['recent', 'oldest', 'title'], true)
-                            ? (string) $request->get('sort') : 'recent',
+            // Une recherche par mot-clé se classe par pertinence, sinon la
+            // meilleure réponse se retrouve en page trois derrière des
+            // annonces plus récentes mais hors sujet.
+            'sort'     => in_array($request->get('sort', ''), ['relevance', 'recent', 'oldest', 'title'], true)
+                            ? (string) $request->get('sort')
+                            : ((string) $request->get('q', '') !== '' ? 'relevance' : 'recent'),
             'page'     => max(1, $request->intval('page', 1)),
         ];
     }

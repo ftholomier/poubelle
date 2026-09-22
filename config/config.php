@@ -87,6 +87,36 @@ return [
         'infeed_every' => 6,
     ],
 
+    /**
+     * Durée de vie d'une annonce. Une offre de spectacle se périme vite : une
+     * liste pleine d'annonces de 2017 dessert autant le visiteur que le
+     * référencement, et Google for Jobs exige une date de fin.
+     */
+    'jobs' => [
+        'lifetime_days'      => 30,   // CDD d'usage, cachets, missions courtes
+        'lifetime_days_long' => 45,   // CDI et CDI intermittent
+        'archive_after_days' => 180,  // au-delà, la fiche répond 410
+    ],
+
+    /**
+     * Modération des dépôts publics.
+     *   auto   — publication immédiate, sauf soupçon de spam
+     *   always — tout passe par la file d'attente
+     *   never  — publication immédiate quoi qu'il arrive (déconseillé)
+     */
+    'moderation' => [
+        'mode'      => 'auto',
+        'min_secs'  => 4,      // un formulaire rempli plus vite est un robot
+        'max_links' => 2,      // au-delà, l'annonce part en modération
+    ],
+
+    /** Mise en relation : candidature à une offre, message à un candidat. */
+    'contact' => [
+        'max_per_hour'   => 5,
+        'message_max'    => 4000,
+        'attachment_max' => 3 * 1024 * 1024,
+    ],
+
     // Les 7 emplacements de la maquette. `enabled` est piloté depuis le back-office.
     'ads' => [
         'client'     => '',      // ca-pub-... (secrets.php peut l'écraser)

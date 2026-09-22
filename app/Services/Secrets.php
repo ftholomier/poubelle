@@ -173,17 +173,61 @@ final class Secrets
         ],
 
         'mail' => [
-            'label' => 'Envoi d’e-mails',
-            'intro' => 'Utilisé pour les liens de récupération de mot de passe. Si le serveur '
-                     . 'n’a pas de MTA, les messages sont archivés dans data/logs/mail/ '
-                     . 'plutôt que perdus.',
+            // Rendu par l'écran « Alertes & e-mails », pas par « Clés d'API ».
+            'screen' => 'alerts',
+            'label' => 'Envoi des e-mails',
+            'intro' => 'Deux transports possibles. Sans serveur SMTP renseigné, le site utilise '
+                     . 'la fonction mail() de PHP, qui suffit tant que l’hébergement porte un '
+                     . 'MTA. Renseigner un serveur SMTP authentifié améliore nettement la '
+                     . 'délivrabilité : les alertes cessent de partir en indésirable.',
             'keys'  => [
+                'alert_email' => [
+                    'label' => 'Adresse qui reçoit les alertes',
+                    'help'  => 'Toute l’activité du site y est envoyée : dépôts, modération, '
+                             . 'candidatures, messages aux candidats, signalements, incidents. '
+                             . 'Plusieurs adresses possibles, séparées par des virgules. '
+                             . 'Vide : les alertes partent à l’adresse de contact du site.',
+                    'placeholder' => 'vous@votre-domaine.fr',
+                    'public' => true,
+                ],
                 'mail_from' => [
                     'label' => 'Adresse d’expédition',
                     'help'  => 'Doit appartenir au domaine du site, sans quoi les messages '
                              . 'partiront en indésirable.',
                     'placeholder' => 'no-reply@intermittent.fr',
                     'public' => true,
+                ],
+                'smtp_host' => [
+                    'label' => 'Serveur SMTP',
+                    'help'  => 'Laissez vide pour utiliser mail(). Chez o2switch : '
+                             . 'mail.votre-domaine.fr, ou le serveur de votre service d’envoi.',
+                    'placeholder' => 'mail.intermittent.fr',
+                    'public' => true,
+                ],
+                'smtp_port' => [
+                    'label' => 'Port',
+                    'help'  => '587 avec STARTTLS (recommandé), 465 en SSL direct, 25 sans '
+                             . 'chiffrement. Vide : 587.',
+                    'placeholder' => '587',
+                    'public' => true,
+                ],
+                'smtp_secure' => [
+                    'label' => 'Chiffrement',
+                    'help'  => '« tls » pour STARTTLS sur le port 587, « ssl » pour le port 465, '
+                             . '« none » pour une liaison en clair — à éviter.',
+                    'placeholder' => 'tls',
+                    'public' => true,
+                ],
+                'smtp_user' => [
+                    'label' => 'Identifiant SMTP',
+                    'help'  => 'En général l’adresse e-mail complète du compte d’envoi.',
+                    'placeholder' => 'no-reply@intermittent.fr',
+                    'public' => true,
+                ],
+                'smtp_pass' => [
+                    'label' => 'Mot de passe SMTP',
+                    'help'  => 'Stocké hors racine web, en 0600, et jamais réaffiché. '
+                             . 'Il n’apparaît dans aucun journal.',
                 ],
             ],
         ],

@@ -12,9 +12,12 @@ use App\Domain\CvRepository;
 use App\Domain\EmployerRepository;
 use App\Domain\JobRepository;
 use App\Services\I18n;
+use App\Services\JobLifecycle;
 use App\Services\JobReview;
+use App\Services\Notifier;
 use App\Services\RateLimit;
 use App\Services\Sanitizer;
+use App\Services\SpamGuard;
 use App\Services\Upload;
 use App\Services\Validator;
 use App\Storage\Audit;
@@ -53,10 +56,21 @@ final class SubmitController extends Controller
             ->listOf('skills_free', 24)
             ->checkbox('listed')
             ->checkbox('contact_public')
+            ->checkbox('contact_closed')
             ->accepted('gdpr');
 
         $isDraft = $request->input('action') === 'draft';
         $values = $v->values();
+
+        // Champ piège et temps de saisie : l'essentiel du spam s'arrête ici.
+        $verdict = SpamGuard::inspect($request, [
+            'title'   => (string) $values['name'],
+            'summary' => (string) $values['summary'],
+        ], 'cv');
+        if ($verdict['action'] === 'reject') {
+            Audit::log('cv.blocked', ['reasons' => $verdict['reasons']]);
+            return $this->renderCvForm($request->post, ['_form' => I18n::t('form.err_spam')]);
+        }
 
         // Le fichier n'est traité qu'une fois le reste validé.
         $id = CvRepository::nextId();
@@ -81,7 +95,7 @@ final class SubmitController extends Controller
         $cv = [
             'id'      => $id,
             'slug'    => CvRepository::uniqueSlug(($values['name'] ?: 'profil') . '-' . substr($id, -5)),
-            'status'  => $isDraft ? 'draft' : 'publish',
+            'status'  => $isDraft ? 'draft' : ($verdict['action'] === 'pending' ? 'pending' : 'publish'),
             'name'    => $values['name'],
             'title'   => $values['title'],
             'summary' => Sanitizer::text((string) $values['summary']),
@@ -96,15 +110,33 @@ final class SubmitController extends Controller
                 'public' => (bool) $values['contact_public'],
             ],
             'available' => true,
-            'listed'    => !$isDraft && (bool) $values['listed'],
-            'published_at' => $isDraft ? '' : date('c'),
+            'listed'    => !$isDraft && $verdict['action'] === 'publish' && (bool) $values['listed'],
+            'published_at' => $isDraft || $verdict['action'] === 'pending' ? '' : date('c'),
         ];
+        // Case « ne pas me faire contacter » : le formulaire de mise en
+        // relation disparaît de la fiche, sans rien exposer.
+        $cv['contact']['form'] = !(bool) ($values['contact_closed'] ?? false);
 
         CvRepository::save($cv);
         Index::rebuild('cv');
-        Audit::log('cv.submitted', ['id' => $id, 'draft' => $isDraft]);
+        Audit::log('cv.submitted', ['id' => $id, 'status' => $cv['status']]);
 
-        Session::flash('cv_done', $isDraft ? 'draft' : $cv['slug']);
+        if ($cv['status'] === 'pending') {
+            Notifier::notify('moderation', 'CV en attente de modération', [
+                'Profil' => (string) $cv['title'],
+                'Ville'  => (string) ($cv['location']['city'] ?? ''),
+                'Motif'  => implode(', ', $verdict['reasons']),
+            ], '/admin/cv');
+        } elseif (!$isDraft) {
+            Notifier::notify('cv.new', 'Nouveau CV déposé', [
+                'Profil'     => (string) $cv['title'],
+                'Ville'      => (string) ($cv['location']['city'] ?? ''),
+                'Expérience' => (int) $cv['experience_years'] . ' an(s)',
+                'CV joint'   => ($cv['file']['path'] ?? '') !== '',
+            ], I18n::url('/cv/' . $cv['slug'], 'fr'));
+        }
+
+        Session::flash('cv_done', $isDraft ? 'draft' : ($cv['status'] === 'pending' ? 'pending' : $cv['slug']));
         return Response::redirect(I18n::url('/deposer-un-cv'), 303);
     }
 
@@ -142,12 +174,21 @@ final class SubmitController extends Controller
         $values = $v->values();
         $isPreview = $request->input('action') === 'preview';
 
+        $verdict = SpamGuard::inspect($request, [
+            'title'       => (string) $values['title'],
+            'description' => (string) $values['description'],
+        ], 'job');
+        if (!$isPreview && $verdict['action'] === 'reject') {
+            Audit::log('job.blocked', ['reasons' => $verdict['reasons']]);
+            return $this->renderJobForm($request->post, ['_form' => I18n::t('form.err_spam')]);
+        }
+
         $id = JobRepository::nextId();
         $job = [
             'id'      => $id,
             'slug'    => JobRepository::uniqueSlug(($values['title'] ?: 'offre') . '-' . substr($id, -5)),
             'title'   => $values['title'],
-            'status'  => 'publish',
+            'status'  => $verdict['action'] === 'pending' ? 'pending' : 'publish',
             'description' => Sanitizer::text((string) $values['description']),
             'company' => [
                 'name'    => $values['company'],
@@ -161,8 +202,11 @@ final class SubmitController extends Controller
             'tags'     => $values['tags'],
             'starts_at'=> $values['starts_at'],
             'apply'    => ['email' => $values['apply_email'], 'url' => ''],
-            'published_at' => date('c'),
+            'published_at' => $verdict['action'] === 'pending' ? '' : date('c'),
         ];
+        // Toute annonce porte une date de fin : les listes restent fraîches et
+        // le balisage JobPosting dispose du `validThrough` qu'exige Google.
+        $job = JobLifecycle::stamp($job);
 
         $review = JobReview::check($job);
 
@@ -175,9 +219,25 @@ final class SubmitController extends Controller
         $this->touchEmployer($job);
         Index::rebuild('jobs');
         Index::rebuild('employers');
-        Audit::log('job.submitted', ['id' => $id]);
+        Audit::log('job.submitted', ['id' => $id, 'status' => $job['status']]);
 
-        Session::flash('job_done', $job['slug']);
+        if ($job['status'] === 'pending') {
+            Notifier::notify('moderation', 'Annonce en attente de modération', [
+                'Intitulé'  => (string) $job['title'],
+                'Employeur' => (string) $job['company']['name'],
+                'Motif'     => implode(', ', $verdict['reasons']),
+            ], '/admin/offres');
+        } else {
+            Notifier::notify('job.new', 'Nouvelle offre déposée', [
+                'Intitulé'  => (string) $job['title'],
+                'Employeur' => (string) $job['company']['name'],
+                'Lieu'      => (string) ($job['location']['city'] ?: $job['location']['region']),
+                'Contrat'   => implode(', ', (array) $job['contract']),
+                'En ligne jusqu’au' => date('d/m/Y', (int) strtotime((string) $job['expires_at'])),
+            ], I18n::url('/offre/' . $job['slug'], 'fr'));
+        }
+
+        Session::flash('job_done', $job['status'] === 'pending' ? 'pending' : $job['slug']);
         return Response::redirect(I18n::url('/deposer-une-annonce'), 303);
     }
 

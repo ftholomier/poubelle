@@ -1113,3 +1113,104 @@ ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
   body { background: #fff; padding: 0; }
   .card { box-shadow: none; border-width: 1px; }
 }
+
+/* ==================================================== corrections d'audit */
+
+/* Contenu réservé aux technologies d'assistance. */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/**
+ * Champ piège du filtre anti-robots. Il doit rester dans le flux pour qu'un
+ * automate le remplisse, mais sortir de l'écran et de l'ordre de tabulation
+ * pour qu'un humain ne le voie jamais.
+ */
+.hp-field {
+  position: absolute; left: -9999px; top: auto;
+  width: 1px; height: 1px; overflow: hidden;
+}
+
+/**
+ * Anneau de focus des champs de recherche.
+ *
+ * Les `input` portent `outline: none` pour que la barre blanche reste d'un
+ * seul tenant ; sans état visible, la navigation au clavier se faisait à
+ * l'aveugle. L'anneau se pose donc sur le conteneur.
+ */
+.searchbar:focus-within,
+.filter-bar:focus-within,
+.regie-form:focus-within {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+}
+.searchbar input:focus-visible,
+.filter-bar input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
+
+/* Barre de recherche de la page d'erreur : même dessin, largeur libre. */
+.searchbar-lg { box-shadow: 5px 6px 0 var(--coral); margin: 0; }
+.searchbar-lg .ico { display: inline-flex; padding-left: 12px; }
+.searchbar-lg input {
+  border: none; outline: none; background: transparent;
+  flex: 1 1 180px; min-width: 0; font-size: 15px; padding: 14px 10px; color: var(--ink);
+}
+
+/* Titres de cartes latérales : un h2 stylé comme un h3, sans saut de niveau. */
+.card-title { font-size: 18px; font-weight: 700; margin: 0; line-height: 1.25; }
+.card-dark .card-title { color: var(--white); }
+.aside-note { color: rgba(255,255,255,.72); font-size: 14px; margin: 10px 0 18px; }
+.card:not(.card-dark) .aside-note { color: var(--muted); }
+.h3 { font-size: 19px; font-weight: 700; }
+
+/* Formulaire de candidature et de mise en relation. */
+.apply-form { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+.apply-form .field { display: flex; flex-direction: column; gap: 6px; }
+.apply-form .label { font-size: 13px; font-weight: 600; }
+.card-dark .apply-form .label { color: rgba(255,255,255,.88); }
+.card-dark .apply-form .opt { color: rgba(255,255,255,.6); }
+.apply-form .input {
+  width: 100%; border-radius: 12px; border: 1px solid var(--rule);
+  background: var(--white); color: var(--ink); font: inherit; font-size: 15px; padding: 11px 13px;
+}
+.apply-form textarea.input { resize: vertical; min-height: 96px; }
+.apply-form .input:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
+
+/* Étoiles d'avis : seules les pleines sont colorées. */
+.stars .star-off { opacity: .28; }
+
+/**
+ * Cibles tactiles : la recommandation est 44 px, les puces et liens de
+ * pagination en faisaient moins de 32.
+ */
+.pagination a, .pagination span {
+  min-width: 44px; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.tag-row a.tag, .filters a, .lang-menu a { min-height: 40px; display: inline-flex; align-items: center; }
+.nav-toggle, .lang-btn { min-width: 44px; min-height: 44px; }
+
+/* La barre CTA se replie au défilement vers le bas sur petit écran. */
+@media (max-width: 720px) {
+  .cta-bar { transition: transform .25s var(--ease); }
+  .cta-bar.is-tucked { transform: translateX(-50%) translateY(86%); }
+  body { padding-bottom: 96px; }
+}
+
+/**
+ * Sur mobile, le lanceur de l'assistant recouvrait le champ de recherche de
+ * l'accueil et le premier champ du dépôt de CV : il remonte au-dessus de la
+ * barre, et redescend quand celle-ci se replie ou n'existe pas.
+ */
+@media (max-width: 720px) {
+  .regie { bottom: 128px; }
+  body.cta-tucked .regie,
+  body:not(.has-cta) .regie { bottom: 22px; }
+  body:not(.has-cta) { padding-bottom: 24px; }
+}
+
+/* Offres mises de côté, restituées en tête de liste. */
+.saved-box { margin-bottom: 16px; padding: 18px 20px; }
+.saved-items { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.saved-items li { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.saved-items a { font-weight: 600; }

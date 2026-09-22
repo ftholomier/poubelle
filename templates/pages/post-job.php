@@ -5,6 +5,7 @@
  * @var array|null $preview @var array $categories @var array $contracts
  */
 use App\Core\Csrf;
+use App\Services\SpamGuard;
 use App\Services\I18n;
 use App\Support\Icon;
 
@@ -21,8 +22,13 @@ $picked = static function (string $field, string $value) use ($old): bool {
     <div class="card card-lg" style="margin-top:34px" data-reveal>
       <span class="tag tag-violet"><?= e(I18n::t('post_job.badge')) ?></span>
       <h1 class="h1-sub" style="margin-top:16px"><?= e(I18n::t('post_job.done')) ?></h1>
+      <?php if ($done === 'pending'): ?>
+        <p class="lede" style="margin:12px 0 0"><?= e(I18n::t('post_job.pending_note')) ?></p>
+      <?php endif; ?>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
-        <a class="btn btn-violet" href="<?= e(I18n::url('/offre/' . $done)) ?>"><?= e(I18n::t('job.post')) ?></a>
+        <?php if ($done !== 'pending'): ?>
+          <a class="btn btn-violet" href="<?= e(I18n::url('/offre/' . $done)) ?>"><?= e(I18n::t('job.post')) ?></a>
+        <?php endif; ?>
         <a class="btn btn-ghost" href="<?= e(I18n::url('/cv')) ?>"><?= e(I18n::t('nav.cv')) ?></a>
       </div>
     </div>
@@ -35,9 +41,11 @@ $picked = static function (string $field, string $value) use ($old): bool {
   </div>
 
   <?php if ($err('_form') !== ''): ?>
-    <div class="notice notice-err" role="alert" style="margin-top:24px"><?= e($err('_form')) ?></div>
+    <div class="notice notice-err" role="alert" tabindex="-1" data-error-focus
+         style="margin-top:24px"><?= e($err('_form')) ?></div>
   <?php elseif ($errors !== []): ?>
-    <div class="notice notice-err" role="alert" style="margin-top:24px"><?= e(I18n::t('form.error')) ?></div>
+    <div class="notice notice-err" role="alert" tabindex="-1" data-error-focus
+         style="margin-top:24px"><?= e(I18n::t('form.error')) ?></div>
   <?php endif; ?>
 
   <?php if ($review !== []): ?>
@@ -62,6 +70,7 @@ $picked = static function (string $field, string $value) use ($old): bool {
 
   <form class="card card-lg" method="post" novalidate style="margin-top:24px" data-reveal>
     <?= Csrf::field('post-job') ?>
+    <?= SpamGuard::fields() ?>
 
     <h2><?= e(I18n::t('post_job.title')) ?></h2>
     <div class="grid-fields" style="margin-top:18px">

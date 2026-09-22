@@ -47,8 +47,13 @@ $columns = [
       <div class="footer-col reviews">
         <h4><?= e(I18n::t('footer.reviews')) ?></h4>
         <div class="score"><?= e(number_format($reviews['rating'], 1, ',', ' ')) ?></div>
-        <div class="stars" aria-label="<?= e($reviews['rating']) ?>/5">
-          <?php for ($i = 0; $i < 5; $i++): ?><?= Icon::star(15) ?><?php endfor; ?>
+        <?php // Cinq étoiles pleines quelle que soit la note, c'était annoncer
+              // 5/5 à côté d'un chiffre qui disait autre chose. ?>
+        <div class="stars" role="img" aria-label="<?= e(number_format($reviews['rating'], 1, ',', ' ')) ?>/5">
+          <?php $full = (int) floor((float) $reviews['rating']); ?>
+          <?php for ($i = 0; $i < 5; $i++): ?>
+            <span class="<?= $i < $full ? 'star-on' : 'star-off' ?>"><?= Icon::star(15) ?></span>
+          <?php endfor; ?>
         </div>
         <?php foreach ($reviews['reviews'] as $review): ?>
           <div class="review">

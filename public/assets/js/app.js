@@ -126,8 +126,13 @@
   var exitEl = null;
 
   function closeExit() {
-    if (exitEl) { exitEl.hidden = true; }
+    if (!exitEl || exitEl.hidden) { return; }
+    exitEl.hidden = true;
+    // Le focus revient d'où il venait, sinon il repart en haut de page.
+    if (lastFocus && typeof lastFocus.focus === 'function') { lastFocus.focus(); }
   }
+
+  var lastFocus = null;
 
   function initExitIntent() {
     exitEl = $('[data-exit-popup]');
@@ -141,8 +146,23 @@
       if (session('imtt_exit_seen') === '1') { return; }
       session('imtt_exit_seen', '1');
       exitEl.hidden = false;
+      lastFocus = document.activeElement;
       var focusable = $('a, button', exitEl);
       if (focusable) { focusable.focus(); }
+    });
+
+    // `aria-modal` promet que le reste de la page est inerte : sans piège de
+    // focus, la promesse était fausse.
+    exitEl.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { closeExit(); return; }
+      if (e.key !== 'Tab') { return; }
+      var items = $$('a[href], button:not([disabled]), input, select, textarea', exitEl)
+        .filter(function (el) { return el.offsetParent !== null; });
+      if (!items.length) { return; }
+      var first = items[0];
+      var last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
 
     $$('[data-exit-close]', exitEl).forEach(function (btn) {
@@ -459,38 +479,127 @@
    * « Mettre de côté » : la liste vit dans le navigateur du visiteur.
    * Aucun compte requis, aucune donnée envoyée au serveur.
    */
+  /**
+   * Offres mises de côté.
+   *
+   * Le bouton ne stockait qu'un identifiant, et aucune page ne savait les
+   * restituer : la fonctionnalité était morte pour le visiteur. On mémorise
+   * donc de quoi reconstituer la liste — titre et adresse — et la liste des
+   * offres l'affiche en tête.
+   */
+  function readSaved() {
+    try {
+      var raw = JSON.parse(window.localStorage.getItem('imtt_saved') || '[]');
+      if (!Array.isArray(raw)) { return []; }
+      // Ancien format : un simple tableau d'identifiants.
+      return raw.map(function (item) {
+        return typeof item === 'string' ? { id: item, title: '', url: '' } : item;
+      }).filter(function (item) { return item && item.id; });
+    } catch (e) { return []; }
+  }
+
+  function writeSaved(list) {
+    try { window.localStorage.setItem('imtt_saved', JSON.stringify(list.slice(-200))); }
+    catch (e) { /* stockage indisponible */ }
+  }
+
   function initBookmarks() {
     var buttons = $$('[data-bookmark]');
     if (!buttons.length) { return; }
-
-    function read() {
-      try { return JSON.parse(window.localStorage.getItem('imtt_saved') || '[]'); }
-      catch (e) { return []; }
-    }
-    function write(list) {
-      try { window.localStorage.setItem('imtt_saved', JSON.stringify(list.slice(-200))); }
-      catch (e) { /* stockage indisponible */ }
-    }
 
     buttons.forEach(function (btn) {
       var id = btn.getAttribute('data-bookmark');
       var on = btn.getAttribute('data-bookmark-on') || 'Mise de côté';
       var off = btn.textContent.trim();
+      var title = btn.getAttribute('data-bookmark-title') || document.title.split(' · ')[0];
+      var url = btn.getAttribute('data-bookmark-url') || location.pathname;
 
+      function indexOf(list) {
+        for (var i = 0; i < list.length; i++) { if (list[i].id === id) { return i; } }
+        return -1;
+      }
       function paint(saved) {
         btn.textContent = saved ? on : off;
         btn.setAttribute('aria-pressed', String(saved));
       }
-      paint(read().indexOf(id) !== -1);
+      paint(indexOf(readSaved()) !== -1);
 
       btn.addEventListener('click', function () {
-        var list = read();
-        var at = list.indexOf(id);
-        if (at === -1) { list.push(id); } else { list.splice(at, 1); }
-        write(list);
+        var list = readSaved();
+        var at = indexOf(list);
+        if (at === -1) { list.push({ id: id, title: title, url: url }); } else { list.splice(at, 1); }
+        writeSaved(list);
         paint(at === -1);
       });
     });
+  }
+
+  /** Restitution des offres mises de côté, en tête de la liste des offres. */
+  function initSavedList() {
+    var host = $('[data-saved-list]');
+    if (!host) { return; }
+
+    function render() {
+      var list = readSaved().filter(function (item) { return item.url; });
+      if (!list.length) { host.hidden = true; return; }
+
+      host.hidden = false;
+      var ul = $('[data-saved-items]', host);
+      ul.textContent = '';
+      list.slice().reverse().forEach(function (item) {
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.title || item.url;
+        var del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'linklike';
+        del.textContent = host.getAttribute('data-remove-label') || 'Retirer';
+        del.addEventListener('click', function () {
+          writeSaved(readSaved().filter(function (row) { return row.id !== item.id; }));
+          render();
+        });
+        li.appendChild(a);
+        li.appendChild(del);
+        ul.appendChild(li);
+      });
+    }
+    render();
+  }
+
+  /**
+   * Un formulaire refusé renvoyait sa page sans rien annoncer à qui navigue au
+   * clavier ou à l'oreille : le résumé d'erreurs prend le focus.
+   */
+  function initErrorFocus() {
+    var box = $('[data-error-focus]');
+    if (box) { box.focus(); }
+  }
+
+  /**
+   * La barre d'action fixe mangeait un cinquième de l'écran en permanence.
+   * Elle se replie dès que le visiteur descend, et revient dès qu'il remonte.
+   */
+  function initCtaBar() {
+    var bar = $('[data-cta-bar]');
+    if (!bar) { return; }
+    document.body.classList.add('has-cta');
+
+    var last = window.pageYOffset;
+    var ticking = false;
+
+    window.addEventListener('scroll', function () {
+      if (ticking) { return; }
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        var now = window.pageYOffset;
+        var down = now > last && now > 200;
+        bar.classList.toggle('is-tucked', down);
+        document.body.classList.toggle('cta-tucked', down);
+        last = now;
+        ticking = false;
+      });
+    }, { passive: true });
   }
 
   /* ------------------------------------------- consentement et publicité */
@@ -664,6 +773,9 @@
     initForms();
     initPlaces();
     initBookmarks();
+    initSavedList();
+    initErrorFocus();
+    initCtaBar();
     initAutoSubmit();
     initConsent();
     initGoogleConsentLink();

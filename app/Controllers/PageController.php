@@ -7,6 +7,7 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Domain\PageRepository;
 use App\Services\I18n;
+use App\Services\Seo;
 use App\Storage\Index;
 
 final class PageController extends Controller
@@ -15,6 +16,14 @@ final class PageController extends Controller
     public function show(Request $request, array $params): Response
     {
         $slug = (string) ($params['slug'] ?? '');
+
+        // Page renommée depuis la rubrique SEO : l'ancienne adresse redirige
+        // au lieu de disparaître, et le référencement acquis se reporte.
+        $moved = Seo::pageRedirect($slug);
+        if ($moved !== '') {
+            return Response::redirect(I18n::url('/' . $moved), 301);
+        }
+
         $page = PageRepository::find($slug, I18n::lang());
 
         if ($page === null || ($page['status'] ?? '') !== 'publish') {
@@ -25,6 +34,8 @@ final class PageController extends Controller
             'title'      => (string) ($page['seo']['title'] ?: $page['title']),
             'desc'       => (string) ($page['seo']['description'] ?: $page['excerpt']),
             'path'       => '/' . $page['slug'],
+            'robots'     => ($page['seo']['robots'] ?? '') === 'noindex' ? 'noindex, follow' : '',
+            'ogType'     => 'article',
             // Le bandeau « traduit automatiquement » n'apparaît que sur une vraie traduction.
             'translated' => !I18n::isPivot() && (bool) ($page['translated'] ?? false),
         ]);

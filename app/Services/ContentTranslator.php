@@ -220,8 +220,13 @@ final class ContentTranslator
      * langue non encore traduite. Bornée par IP pour ne pas transformer un
      * robot d'indexation en facture.
      */
-    public static function translateOnDemand(array $record, string $type, string $lang, string $ip): array
-    {
+    public static function translateOnDemand(
+        array $record,
+        string $type,
+        string $lang,
+        string $ip,
+        bool $isBot = false,
+    ): array {
         if ($lang === 'fr') {
             return $record;
         }
@@ -230,6 +235,14 @@ final class ContentTranslator
         // nécessaire que pour la produire, pas pour la relire.
         if (self::isFresh($record, $type, $lang)) {
             return self::apply($record, $type, $lang);
+        }
+
+        // Un robot parcourt six variantes de chaque fiche : le laisser
+        // déclencher des traductions revient à payer pour des pages que
+        // personne ne lit. Il reçoit la version française, signalée comme
+        // telle et en noindex.
+        if ($isBot) {
+            return $record;
         }
 
         if (!self::enabled($type) || !Translator::available()) {

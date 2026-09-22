@@ -3,12 +3,16 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Core\Csrf;
 use App\Core\Request;
 use App\Core\Response;
+use App\Core\Session;
 use App\Domain\CvRepository;
+use App\Services\Contact;
 use App\Services\ContentTranslator;
 use App\Services\I18n;
 use App\Services\Search;
+use App\Services\StructuredData;
 use App\Storage\Index;
 
 final class CvController extends Controller
@@ -35,12 +39,44 @@ final class CvController extends Controller
 
     public function show(Request $request, array $params): Response
     {
-        $cv = CvRepository::findBySlug((string) ($params['slug'] ?? ''));
+        return $this->render($request, (string) ($params['slug'] ?? ''));
+    }
+
+    /**
+     * Message adressé à un candidat. Son adresse n'apparaît jamais dans la
+     * page : le site relaie, et la réponse part vers l'employeur.
+     */
+    public function contact(Request $request, array $params): Response
+    {
+        $slug = (string) ($params['slug'] ?? '');
+        $cv = CvRepository::findBySlug($slug);
+        if ($cv === null || !Contact::reachable($cv)) {
+            return $this->notFound('/cv');
+        }
+        if (!Csrf::check($request)) {
+            return $this->render($request, $slug, ['_form' => I18n::t('form.err_csrf')]);
+        }
+
+        $result = Contact::message($request, $cv);
+        if (!$result['ok']) {
+            return $this->render($request, $slug, ['_form' => $result['error']]);
+        }
+
+        Session::flash('contact_done', $cv['slug']);
+        return Response::redirect(I18n::url('/cv/' . $cv['slug']), 303);
+    }
+
+    private function render(Request $request, string $slug, array $errors = []): Response
+    {
+        $cv = CvRepository::findBySlug($slug);
         if ($cv === null || ($cv['status'] ?? '') !== 'publish' || !($cv['listed'] ?? false)) {
             return $this->notFound('/cv');
         }
 
-        $cv = ContentTranslator::translateOnDemand($cv, 'cv', I18n::lang(), $request->ip());
+        // Pas d'appel de traduction facturé pour un robot.
+        $cv = ContentTranslator::translateOnDemand(
+            $cv, 'cv', I18n::lang(), $request->ip(), $request->isBot(),
+        );
 
         // Profils voisins : même métier ou même ville.
         $related = [];
@@ -57,12 +93,16 @@ final class CvController extends Controller
         }
 
         return $this->page('pages/cv', [
-            'cv'      => $cv,
-            'related' => array_slice($related, 0, 4),
+            'cv'        => $cv,
+            'related'   => array_slice($related, 0, 4),
+            'reachable' => Contact::reachable($cv),
+            'errors'    => $errors,
+            'sent'      => (string) Session::flash('contact_done') === (string) $cv['slug'],
         ], [
-            'title' => (string) $cv['name'] . ' — ' . (string) $cv['title'],
-            'desc'  => str_excerpt((string) $cv['summary'], 155),
-            'path'  => '/cv/' . $cv['slug'],
+            'title'  => (string) $cv['name'] . ' — ' . (string) $cv['title'],
+            'desc'   => str_excerpt((string) $cv['summary'], 155),
+            'path'   => '/cv/' . $cv['slug'],
+            'schema' => StructuredData::person($cv),
         ]);
     }
 }

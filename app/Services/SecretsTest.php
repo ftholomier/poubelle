@@ -143,20 +143,33 @@ final class SecretsTest
         return ['ok' => $good > 0, 'message' => implode(' · ', $lines)];
     }
 
+    /**
+     * Le test envoie un vrai message à l'adresse d'alerte : c'est la seule
+     * preuve qui vaille, transport compris.
+     */
     private static function mail(): array
     {
         $from = (string) Config::secret('mail_from', '');
-        if ($from === '' || !filter_var($from, FILTER_VALIDATE_EMAIL)) {
-            return self::fail('Adresse d’expédition absente ou invalide.');
+        if ($from !== '' && !filter_var($from, FILTER_VALIDATE_EMAIL)) {
+            return self::fail('Adresse d’expédition invalide.');
         }
-        if (!function_exists('mail')) {
-            return self::fail('La fonction mail() est désactivée : les messages seront archivés dans data/logs/mail/.');
+        if (!Smtp::configured() && !function_exists('mail')) {
+            return self::fail('Aucun serveur SMTP renseigné et la fonction mail() est '
+                            . 'désactivée sur cet hébergement : aucun e-mail ne peut partir.');
         }
+
+        $result = Notifier::test();
+        if (!$result['ok']) {
+            return self::fail($result['message']);
+        }
+
         $host = parse_url((string) Config::get('site.url'), PHP_URL_HOST) ?: '';
-        $domain = substr(strrchr($from, '@') ?: '', 1);
-        return $domain !== '' && str_contains($host, $domain)
-            ? self::ok('Adresse cohérente avec le domaine du site.')
-            : self::ok('Adresse valide, mais son domaine diffère de celui du site : '
-                     . 'risque de classement en indésirable.');
+        $domain = $from === '' ? '' : substr(strrchr($from, '@') ?: '', 1);
+        $warning = $domain !== '' && !str_contains($host, $domain)
+            ? ' Attention : le domaine de l’adresse d’expédition diffère de celui du site, '
+              . 'ce qui augmente le risque de classement en indésirable.'
+            : '';
+
+        return self::ok($result['message'] . $warning);
     }
 }

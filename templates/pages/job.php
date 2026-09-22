@@ -6,18 +6,24 @@
  * @var array|null $employer  fiche employeur si connue
  * @var array      $siblings  autres offres du même employeur
  */
+use App\Core\Csrf;
 use App\Core\View;
 use App\Services\I18n;
+use App\Services\SpamGuard;
 use App\Support\Icon;
 
 $color = tile_color((string) ($job['company']['name'] ?: $job['title']));
 $isGuso = (bool) array_filter((array) $job['contract'],
     static fn(string $c) => stripos($c, 'guso') !== false || stripos($c, 'usage') !== false);
-$applyHref = $job['apply']['url'] !== ''
-    ? $job['apply']['url']
-    : ($job['apply']['email'] !== ''
-        ? 'mailto:' . $job['apply']['email'] . '?subject=' . rawurlencode('Candidature — ' . $job['title'])
-        : '');
+
+// L'adresse de l'employeur ne figure plus dans la page : elle était moissonnée
+// par les robots dès la mise en ligne. La candidature passe par le site, qui
+// relaie le message et place le candidat en adresse de réponse.
+$externalApply = (string) ($job['apply']['url'] ?? '');
+$canApply = $canApply ?? false;
+$errors = $errors ?? [];
+$sent = $sent ?? false;
+$expired = $expired ?? false;
 ?>
 <div class="container">
   <a class="back-link" href="<?= e(I18n::url('/offres')) ?>"><?= Icon::svg('arrow-l', 16) ?><?= e(I18n::t('job.back')) ?></a>
@@ -25,8 +31,12 @@ $applyHref = $job['apply']['url'] !== ''
   <div class="layout-detail">
     <article class="detail-main">
       <div class="card card-lg" data-reveal>
-        <?php if ($job['status'] !== 'publish'): ?>
-          <div class="notice notice-wait"><?= e(I18n::t('jobs.expired')) ?></div>
+        <?php if ($expired): ?>
+          <div class="notice notice-wait">
+            <strong><?= e(I18n::t('jobs.expired')) ?></strong> ·
+            <?= e(I18n::t('jobs.expired_note')) ?>
+            <a href="<?= e(I18n::url('/offres')) ?>"><?= e(I18n::t('job.back')) ?></a>
+          </div>
         <?php endif; ?>
 
         <header class="detail-head">
@@ -59,13 +69,13 @@ $applyHref = $job['apply']['url'] !== ''
           <?php endif; ?>
           <?php if (($job['starts_at'] ?? '') !== ''): ?>
             <span class="tag tag-soft"><?= Icon::svg('calendar', 14, '#4A4470', 2) ?>
-              <?= e(I18n::t('job.starts')) ?> <?= e(date('d/m/Y', (int) strtotime((string) $job['starts_at']))) ?></span>
+              <?= e(I18n::t('job.starts')) ?> <?= e(format_date((string) $job['starts_at'])) ?></span>
           <?php endif; ?>
           <span class="tag tag-soft"><?= Icon::svg('clock', 14, '#4A4470', 2) ?>
             <?= e(I18n::t('job.published', time_ago((string) ($job['published_at'] ?: $job['created_at'])))) ?></span>
           <?php if (($job['expires_at'] ?? '') !== ''): ?>
             <span class="tag tag-soft"><?= Icon::svg('calendar', 14, '#4A4470', 2) ?>
-              <?= e(I18n::t('job.expires', date('d/m/Y', (int) strtotime((string) $job['expires_at'])))) ?></span>
+              <?= e(I18n::t('job.expires', format_date((string) $job['expires_at']))) ?></span>
           <?php endif; ?>
         </div>
 
@@ -101,25 +111,76 @@ $applyHref = $job['apply']['url'] !== ''
     </article>
 
     <aside class="detail-aside">
-      <div class="card card-dark" data-reveal>
-        <h3><?= e(I18n::t('job.apply_title')) ?></h3>
-        <p style="color:rgba(255,255,255,.72);font-size:14px;margin:10px 0 18px">
-          <?= e($applyHref !== '' ? I18n::t('job.apply_direct') : I18n::t('job.apply_none')) ?>
-        </p>
-        <?php if ($applyHref !== ''): ?>
-          <a class="btn btn-coral btn-block" href="<?= e($applyHref) ?>"
-             <?= str_starts_with($applyHref, 'http') ? 'rel="noopener noreferrer" target="_blank"' : '' ?>>
-            <?= e(I18n::t('job.apply')) ?>
+      <div class="card card-dark" id="candidater" data-reveal>
+        <h2 class="card-title"><?= e(I18n::t('job.apply_title')) ?></h2>
+
+        <?php if ($sent): ?>
+          <p class="notice notice-ok" style="margin:12px 0 0"><?= e(I18n::t('apply.done')) ?></p>
+        <?php elseif ($externalApply !== ''): ?>
+          <p class="aside-note"><?= e(I18n::t('job.apply_external')) ?></p>
+          <a class="btn btn-coral btn-block" href="<?= e($externalApply) ?>"
+             rel="noopener noreferrer" target="_blank">
+            <?= e(I18n::t('job.apply')) ?> <?= Icon::svg('arrow-r', 14, '#fff', 2) ?>
           </a>
+        <?php elseif ($canApply): ?>
+          <p class="aside-note"><?= e(I18n::t('job.apply_direct')) ?></p>
+
+          <?php if (!empty($errors['_form'])): ?>
+            <p class="notice notice-err" role="alert" tabindex="-1" data-error-focus>
+              <?= e((string) $errors['_form']) ?>
+            </p>
+          <?php endif; ?>
+
+          <form method="post" enctype="multipart/form-data" class="apply-form"
+                action="<?= e(I18n::url('/offre/' . $job['slug'])) ?>#candidater">
+            <?= Csrf::field('apply') ?>
+            <?= SpamGuard::fields() ?>
+
+            <label class="field">
+              <span class="label"><?= e(I18n::t('apply.name')) ?> *</span>
+              <input class="input" type="text" name="name" id="apply-name" required
+                     autocomplete="name" maxlength="120">
+            </label>
+            <label class="field">
+              <span class="label"><?= e(I18n::t('apply.email')) ?> *</span>
+              <input class="input" type="email" name="email" id="apply-email" required
+                     autocomplete="email" maxlength="180">
+            </label>
+            <label class="field">
+              <span class="label"><?= e(I18n::t('apply.phone')) ?> <span class="opt"><?= e(I18n::t('form.optional')) ?></span></span>
+              <input class="input" type="tel" name="phone" id="apply-phone"
+                     autocomplete="tel" maxlength="40">
+            </label>
+            <label class="field">
+              <span class="label"><?= e(I18n::t('apply.message')) ?> *</span>
+              <textarea class="input" name="message" id="apply-message" rows="5" required
+                        maxlength="4000" aria-describedby="apply-message-help"></textarea>
+              <span class="opt" id="apply-message-help"><?= e(I18n::t('apply.message_help')) ?></span>
+            </label>
+            <label class="field">
+              <span class="label"><?= e(I18n::t('apply.file')) ?> <span class="opt"><?= e(I18n::t('form.optional')) ?></span></span>
+              <input class="input" type="file" name="cv_file" id="apply-file"
+                     accept=".pdf,.doc,.docx" aria-describedby="apply-file-help">
+              <span class="opt" id="apply-file-help"><?= e(I18n::t('apply.file_help')) ?></span>
+            </label>
+
+            <button type="submit" class="btn btn-coral btn-block"><?= e(I18n::t('job.apply')) ?></button>
+            <p class="aside-note" style="margin-top:10px"><?= e(I18n::t('apply.privacy')) ?></p>
+          </form>
+        <?php else: ?>
+          <p class="aside-note"><?= e($expired ? I18n::t('apply.err_closed') : I18n::t('job.apply_none')) ?></p>
         <?php endif; ?>
+
         <button type="button" class="btn btn-ghost-light btn-block" style="margin-top:9px"
                 data-bookmark="<?= e($job['id']) ?>" aria-pressed="false"
+                data-bookmark-title="<?= e($job['title']) ?>"
+                data-bookmark-url="<?= e(I18n::url('/offre/' . $job['slug'])) ?>"
                 data-bookmark-on="<?= e(I18n::t('job.saved')) ?>"><?= e(I18n::t('job.save')) ?></button>
       </div>
 
       <?php if ($employer !== null): ?>
         <div class="card" data-reveal>
-          <h3><?= e(I18n::t('job.employer')) ?></h3>
+          <h2 class="card-title"><?= e(I18n::t('job.employer')) ?></h2>
           <div class="employer-card" style="margin-top:14px">
             <span class="<?= ($employer['logo']['path'] ?? '') !== '' ? 'tile-logo' : '' ?>">
               <?= View::partial('partials/avatar', [
@@ -144,7 +205,7 @@ $applyHref = $job['apply']['url'] !== ''
       <?php endif; ?>
 
       <div class="card card-yellow" data-reveal>
-        <h3><?= Icon::svg('robot', 19, '#17123A', 2) ?> <?= e(I18n::t('job.ask_regie')) ?></h3>
+        <h2 class="card-title"><?= Icon::svg('robot', 19, '#17123A', 2) ?> <?= e(I18n::t('job.ask_regie')) ?></h2>
         <p style="font-size:14px;color:#17123A;margin:10px 0 0"><?= e(I18n::t('job.ask_regie_note')) ?></p>
       </div>
     </aside>

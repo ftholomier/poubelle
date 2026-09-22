@@ -24,6 +24,11 @@ final class Search
         if ($status !== 'any') {
             $items = array_values(array_filter($items, static fn(array $i) => ($i['status'] ?? '') === $status));
         }
+        // La date de fin prime sur le statut : même si la passe quotidienne
+        // n'a pas encore tourné, une annonce périmée ne s'affiche plus.
+        if ($status === 'publish') {
+            $items = self::live($items);
+        }
 
         // Provenance : une sélection qui ne mentionne pas « site » écarte les
         // annonces déposées ici, les partenaires étant servis par l'agrégateur.
@@ -81,7 +86,24 @@ final class Search
     public static function latestJobs(int $limit = 4): array
     {
         $live = array_filter(Index::load('jobs'), static fn(array $i) => ($i['status'] ?? '') === 'publish');
-        return array_slice(array_values($live), 0, $limit);
+        return array_slice(self::live(array_values($live)), 0, $limit);
+    }
+
+    /** Écarte les annonces dont la date de fin est passée. */
+    public static function live(array $items): array
+    {
+        $now = time();
+        return array_values(array_filter(
+            $items,
+            static fn(array $i) => !JobLifecycle::isExpired($i, $now),
+        ));
+    }
+
+    /** Nombre d'annonces du site réellement en ligne — sert aux compteurs. */
+    public static function liveJobCount(): int
+    {
+        $live = array_filter(Index::load('jobs'), static fn(array $i) => ($i['status'] ?? '') === 'publish');
+        return count(self::live($live));
     }
 
     /** Les N profils les plus récents — bloc « Des profils prêts à embarquer ». */

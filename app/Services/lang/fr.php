@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 return [
     // Navigation et éléments persistants
+    'nav.main'          => 'Navigation principale',
     'nav.jobs'          => "Offres d'emploi",
     'nav.cv'            => 'Annuaire CV',
     'nav.employers'     => 'Employeurs',
@@ -80,6 +81,7 @@ return [
     'search.origin_site'=> 'Annonces déposées ici',
     'search.skills'     => 'Compétences',
     'search.sort'       => 'Trier',
+    'search.sort_relevance' => 'Pertinence',
     'search.sort_recent'=> 'Plus récentes',
     'search.sort_oldest'=> 'Plus anciennes',
     'search.sort_title' => 'Ordre alphabétique',
@@ -95,6 +97,7 @@ return [
     'jobs.title'        => "%s offres d'emploi",
     'jobs.freshness'    => 'Mises à jour en continu · dernière annonce %s',
     'jobs.expired'      => 'Offre expirée',
+    'jobs.expired_note' => 'Cette annonce n’est plus en ligne. Les offres du moment sont ici :',
     'jobs.filled'       => 'Poste pourvu',
     'jobs.remote'       => 'Télétravail possible',
     'jobs.via'          => 'via %s',
@@ -106,8 +109,37 @@ return [
     'job.apply_title'   => 'Candidature en 1 clic',
     'job.apply'         => 'Postuler',
     'job.apply_direct'  => 'Votre candidature part directement à l’employeur, sans intermédiaire ni frais.',
-    'job.apply_none'    => 'L’employeur n’a pas laissé de contact public pour cette annonce.',
+    'job.apply_external'=> 'L’employeur reçoit les candidatures sur son propre site.',
+    'job.apply_none'    => 'L’employeur n’a pas laissé de contact pour cette annonce.',
+
+    // Candidature et mise en relation
+    'apply.name'        => 'Votre nom',
+    'apply.email'       => 'Votre e-mail',
+    'apply.phone'       => 'Téléphone',
+    'apply.message'     => 'Votre message',
+    'apply.message_help'=> 'Présentez-vous en quelques lignes : métier, disponibilités, expérience utile.',
+    'apply.file'        => 'Votre CV',
+    'apply.file_help'   => 'PDF ou Word, 3 Mo maximum. Le fichier part à l’employeur et n’est pas conservé.',
+    'apply.privacy'     => 'Votre message et votre CV sont transmis à l’employeur puis effacés. '
+                         . 'Le site n’en garde aucune copie.',
+    'apply.done'        => 'Candidature envoyée. L’employeur vous répondra directement.',
+    'apply.err_closed'  => 'Cette annonce ne reçoit plus de candidature.',
+    'apply.err_send'    => 'L’envoi a échoué. Réessayez dans quelques minutes.',
+    'apply.err_name'    => 'Indiquez votre nom.',
+    'apply.err_message' => 'Votre message est trop court : quelques phrases suffisent, mais il en faut.',
+
+    'cv.contact_title'  => 'Contacter ce profil',
+    'cv.contact_intro'  => 'Votre message lui est transmis par le site. Son adresse n’est jamais affichée, '
+                         . 'et il vous répondra directement.',
+    'cv.contact_company'=> 'Votre structure',
+    'cv.contact_send'   => 'Envoyer le message',
+    'cv.contact_done'   => 'Message envoyé. Le candidat vous répondra directement.',
+    'cv.err_closed'     => 'Ce candidat ne souhaite pas être contacté via le site.',
+    'cv.no_file'        => 'Ce profil n’a pas joint de CV téléchargeable.',
+    'cv.closed_note'    => 'Ce candidat ne reçoit pas de message par le site.',
     'job.save'          => 'Mettre de côté',
+    'saved.title'       => 'Vos offres mises de côté',
+    'saved.remove'      => 'Retirer',
     'job.saved'         => 'Mise de côté ✓',
     'job.employer'      => "L'employeur",
     'job.employer_jobs' => 'Voir ses autres offres',
@@ -141,8 +173,18 @@ return [
     'employers.jobs'    => '%d offre(s)',
     'employers.none'    => 'Aucune offre en ligne',
     'employers.visit'   => 'Site web',
+    'employers.hiring_only' => 'Avec offres en ligne',
 
     // Dépôt de CV
+    'post_cv.mail_public'    => 'Afficher mon adresse e-mail sur ma fiche publique',
+    'post_cv.mail_public_note' => 'Déconseillé : une adresse visible est moissonnée par les robots. '
+                              . 'Sans cela, les employeurs vous écrivent par le formulaire du site.',
+    'post_cv.no_contact'     => 'Ne pas recevoir de message par le site',
+    'post_cv.no_contact_note'=> 'Votre fiche reste consultable, mais aucun employeur ne pourra vous écrire.',
+    'post_cv.pending_note'   => 'Votre profil est en attente de relecture. Il paraîtra dès validation, '
+                              . 'en général sous 24 heures.',
+    'post_job.pending_note'  => 'Votre annonce est en attente de relecture. Elle paraîtra dès validation, '
+                              . 'en général sous 24 heures.',
     'post_cv.badge'     => 'Gratuit · 2 minutes',
     'post_cv.title'     => 'Déposez votre CV',
     'post_cv.lede'      => 'Votre profil rejoint un annuaire consulté chaque jour par les employeurs du spectacle.',
@@ -206,6 +248,8 @@ return [
     'form.err_email'    => 'Cette adresse e-mail n’est pas valide.',
     'form.err_file_type'=> 'Format non accepté : PDF ou DOCX uniquement.',
     'form.err_file_size'=> 'Fichier trop lourd : 5 Mo maximum.',
+    'form.err_spam'     => 'Ce dépôt a été refusé par le filtre anti-robots. '
+                         . 'Si vous êtes bien humain, réessayez en remplissant le formulaire normalement.',
     'form.err_csrf'     => 'Votre session a expiré. Merci de renvoyer le formulaire.',
     'form.err_rate'     => 'Trop de tentatives. Réessayez dans quelques minutes.',
     'form.gdpr'         => "J'accepte que mes données soient publiées sur intermittent.fr et je peux "
@@ -302,6 +346,9 @@ return [
     'admin.users'        => 'Utilisateurs',
     'admin.ads'          => 'Publicité',
     'admin.sources'      => 'Offres externes',
+    'admin.alerts'       => 'Alertes & e-mails',
+    'admin.alerts_note'  => 'L’adresse qui reçoit l’activité du site, ce qui déclenche une alerte, '
+                          . 'et par quel chemin les e-mails partent.',
     'admin.settings'     => 'Clés d’API',
     'admin.settings_note'=> 'Tout se configure ici : aucune modification de fichier sur le serveur. '
                           . 'Les clés sont stockées hors racine web, en lecture seule pour le serveur '
@@ -344,10 +391,14 @@ return [
     // Divers
     'ads.placeholder'   => 'Emplacement publicitaire',
     'ago.now'           => 'à l’instant',
+    'ago.hour'          => 'il y a %d h',
     'ago.hours'         => 'il y a %d h',
     'ago.yesterday'     => 'hier',
+    'ago.day'           => 'il y a %d jour',
     'ago.days'          => 'il y a %d jours',
+    'ago.month'         => 'il y a %d mois',
     'ago.months'        => 'il y a %d mois',
+    'ago.year'          => 'il y a %d an',
     'ago.years'         => 'il y a %d ans',
     'error.404_title'   => 'Page introuvable',
     'error.404_body'    => 'Cette page a quitté l’affiche. Retournez à l’accueil ou parcourez les offres.',
@@ -356,6 +407,9 @@ return [
                          . 'Vous pouvez en revanche déposer une annonce ou un CV.',
     'error.search_here' => 'Chercher sur le site',
     'error.useful'      => 'Pages utiles',
+    'error.410_title'   => 'Annonce archivée',
+    'error.410_body'    => 'Cette offre est trop ancienne pour rester en ligne. '
+                         . 'Les annonces du moment vous attendent dans la liste.',
     'error.500_title'   => 'Incident technique',
     'error.500_body'    => 'Quelque chose s’est mal passé de notre côté. Réessayez dans un instant.',
     'error.home'        => 'Retour à l’accueil',

@@ -4,6 +4,7 @@
  * @var array $old  @var array $errors  @var string $done  @var array $suggested
  */
 use App\Core\Csrf;
+use App\Services\SpamGuard;
 use App\Services\I18n;
 use App\Support\Icon;
 
@@ -16,9 +17,11 @@ $steps = ['post_cv.step1' => 'bloc-profil', 'post_cv.step2' => 'bloc-competences
     <div class="card card-lg" style="margin-top:34px" data-reveal>
       <span class="tag tag-teal"><span class="dot"></span><?= e(I18n::t('post_cv.done')) ?></span>
       <h1 class="h1-sub" style="margin-top:16px"><?= e(I18n::t('post_cv.done')) ?></h1>
-      <p class="lede" style="margin:12px 0 22px"><?= e(I18n::t('post_cv.done_note')) ?></p>
+      <p class="lede" style="margin:12px 0 22px">
+        <?= e($done === 'pending' ? I18n::t('post_cv.pending_note') : I18n::t('post_cv.done_note')) ?>
+      </p>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <?php if ($done !== 'draft'): ?>
+        <?php if ($done !== 'draft' && $done !== 'pending'): ?>
           <a class="btn btn-coral" href="<?= e(I18n::url('/cv/' . $done)) ?>"><?= e(I18n::t('cv.summary')) ?></a>
         <?php endif; ?>
         <a class="btn btn-ghost" href="<?= e(I18n::url('/offres')) ?>"><?= e(I18n::t('nav.jobs')) ?></a>
@@ -44,14 +47,17 @@ $steps = ['post_cv.step1' => 'bloc-profil', 'post_cv.step2' => 'bloc-competences
     <?php endforeach; ?>
   </div>
 
+  <?php // Le résumé d'erreurs prend le focus : sans cela, un visiteur au
+        // clavier ou au lecteur d'écran ne sait pas pourquoi rien ne s'est passé. ?>
   <?php if ($err('_form') !== ''): ?>
-    <div class="notice notice-err" role="alert"><?= e($err('_form')) ?></div>
+    <div class="notice notice-err" role="alert" tabindex="-1" data-error-focus><?= e($err('_form')) ?></div>
   <?php elseif ($errors !== []): ?>
-    <div class="notice notice-err" role="alert"><?= e(I18n::t('form.error')) ?></div>
+    <div class="notice notice-err" role="alert" tabindex="-1" data-error-focus><?= e(I18n::t('form.error')) ?></div>
   <?php endif; ?>
 
   <form class="card card-lg" method="post" enctype="multipart/form-data" novalidate data-reveal>
     <?= Csrf::field('post-cv') ?>
+    <?= SpamGuard::fields() ?>
 
     <section id="bloc-profil">
       <h2><?= e(I18n::t('post_cv.step1')) ?></h2>
@@ -147,7 +153,13 @@ $steps = ['post_cv.step1' => 'bloc-profil', 'post_cv.step2' => 'bloc-competences
         </label>
         <label class="check">
           <input type="checkbox" name="contact_public" value="1" <?= !empty($old['contact_public']) ? 'checked' : '' ?>>
-          <span>Afficher mon adresse e-mail sur ma fiche publique</span>
+          <span><?= e(I18n::t('post_cv.mail_public')) ?><br>
+            <span class="meta"><?= e(I18n::t('post_cv.mail_public_note')) ?></span></span>
+        </label>
+        <label class="check">
+          <input type="checkbox" name="contact_closed" value="1" <?= !empty($old['contact_closed']) ? 'checked' : '' ?>>
+          <span><?= e(I18n::t('post_cv.no_contact')) ?><br>
+            <span class="meta"><?= e(I18n::t('post_cv.no_contact_note')) ?></span></span>
         </label>
         <label class="check">
           <input type="checkbox" name="gdpr" value="1" required <?= !empty($old['gdpr']) ? 'checked' : '' ?>>

@@ -21,8 +21,10 @@ use App\Support\Icon;
 
   <div class="result-head" style="margin-top:26px">
     <span class="result-count"><?= e(I18n::t('search.results', number_format((int) $results['total'], 0, ',', ' '))) ?></span>
-    <a class="btn btn-ghost btn-sm" href="?hiring=<?= empty($criteria['hiring']) ? '1' : '0' ?>">
-      <?= empty($criteria['hiring']) ? 'Avec offres en ligne' : e(I18n::t('search.reset')) ?>
+    <?php // Le filtre conservait son seul paramètre et perdait la recherche en cours. ?>
+    <a class="btn btn-ghost btn-sm"
+       href="<?= e(App\Services\Search::urlWith($query, 'hiring', empty($criteria['hiring']) ? 1 : null)) ?>">
+      <?= e(empty($criteria['hiring']) ? I18n::t('employers.hiring_only') : I18n::t('search.reset')) ?>
     </a>
   </div>
 
