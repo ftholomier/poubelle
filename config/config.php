@@ -128,16 +128,68 @@ return [
     ],
 
     // Les 7 emplacements de la maquette. `enabled` est piloté depuis le back-office.
+    /**
+     * Pages introuvables.
+     *
+     * `redirect_404` renvoie le visiteur vers `redirect_404_to` au lieu de lui
+     * montrer la page d'erreur. C'est un choix d'exploitation : plus personne
+     * ne bute sur un mur, mais Google voit un « soft 404 » et peut garder en
+     * index une adresse qui n'existe plus. Le mettre à false rétablit la page
+     * d'erreur, qui propose déjà la recherche et les rubriques.
+     *
+     * Les requêtes d'API, les fichiers manquants et les archives anciennes —
+     * qui répondent 410, exprès, pour être désindexées — ne sont jamais
+     * redirigés.
+     */
+    'errors' => [
+        'redirect_404'    => true,
+        'redirect_404_to' => '/',
+    ],
+
     'ads' => [
         'client'     => '',      // ca-pub-... (secrets.php peut l'écraser)
+        /**
+         * Les emplacements de la maquette, dans l'ordre du parcours.
+         *
+         * Chacun s'active séparément depuis « Publicité » et n'affiche rien
+         * tant qu'aucune unité ne lui est attribuée : en ajouter ici ne pose
+         * pas d'annonce, cela ouvre une case à remplir.
+         *
+         * Un mot sur la mesure : Google n'impose plus de nombre maximum, mais
+         * exige toujours que le contenu l'emporte sur la publicité. Sur une
+         * fiche courte, trois blocs valent mieux que cinq — et rapportent
+         * souvent davantage, la valeur d'une impression baissant avec leur
+         * nombre.
+         */
         'slots'      => [
-            'home_top'     => ['format' => 'leaderboard',  'label' => 'Bannière haute',      'enabled' => true],
-            'home_mid'     => ['format' => 'in-article',   'label' => 'Milieu d\'accueil',   'enabled' => true],
-            'list_side'    => ['format' => '300x600',      'label' => 'Colonne de liste',    'enabled' => true],
-            'list_infeed'  => ['format' => 'in-feed',      'label' => 'In-feed liste',       'enabled' => true],
-            'job_below'    => ['format' => 'in-article',   'label' => 'Sous une offre',      'enabled' => true],
-            'profile_side' => ['format' => '300x250',      'label' => 'Colonne de profil',   'enabled' => true],
-            'dir_bottom'   => ['format' => 'leaderboard',  'label' => 'Bas d\'annuaire',     'enabled' => true],
+            // Accueil
+            'home_top'      => ['format' => 'leaderboard', 'label' => 'Accueil — bannière haute',  'enabled' => true],
+            'home_mid'      => ['format' => 'in-article',  'label' => 'Accueil — milieu',          'enabled' => true],
+            'home_bottom'   => ['format' => 'leaderboard', 'label' => 'Accueil — bas de page',     'enabled' => true],
+
+            // Liste des offres
+            'list_side'     => ['format' => '300x600',     'label' => 'Offres — colonne',          'enabled' => true],
+            'list_infeed'   => ['format' => 'in-feed',     'label' => 'Offres — dans la liste',    'enabled' => true],
+
+            // Fiche d'offre
+            'job_inline'    => ['format' => 'in-article',  'label' => 'Offre — dans le texte',     'enabled' => true],
+            'job_below'     => ['format' => 'in-article',  'label' => 'Offre — sous la fiche',     'enabled' => true],
+            'job_side'      => ['format' => '300x250',     'label' => 'Offre — colonne',           'enabled' => true],
+
+            // Annuaire de CV
+            'cv_infeed'     => ['format' => 'in-feed',     'label' => 'Annuaire — dans la grille', 'enabled' => true],
+            'cv_bottom'     => ['format' => 'leaderboard', 'label' => 'Annuaire — bas de page',    'enabled' => true],
+
+            // Fiche de profil
+            'profile_inline'=> ['format' => 'in-article',  'label' => 'Profil — dans le texte',    'enabled' => true],
+            'profile_side'  => ['format' => '300x250',     'label' => 'Profil — colonne',          'enabled' => true],
+
+            // Employeurs
+            'emp_infeed'    => ['format' => 'in-feed',     'label' => 'Employeurs — dans la grille', 'enabled' => true],
+            'dir_bottom'    => ['format' => 'leaderboard', 'label' => 'Employeurs — bas de page',  'enabled' => true],
+
+            // Pages de contenu et ressources
+            'page_inline'   => ['format' => 'in-article',  'label' => 'Pages — dans le texte',     'enabled' => true],
         ],
     ],
 

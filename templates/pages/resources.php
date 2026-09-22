@@ -1,5 +1,6 @@
 <?php
 /** Index des pages éditoriales. @var array $pages */
+use App\Core\View;
 use App\Services\I18n;
 ?>
 <div class="container">
@@ -23,4 +24,6 @@ use App\Services\I18n;
       <?php endforeach; ?>
     </div>
   <?php endif; ?>
+
+  <?= View::partial('partials/ad', ['slot' => 'page_inline']) ?>
 </div>

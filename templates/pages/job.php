@@ -86,6 +86,14 @@ $expired = $expired ?? false;
             <?php if (trim($paragraph) !== ''): ?><p><?= nl2br(e(trim($paragraph))) ?></p><?php endif; ?>
           <?php endforeach; ?>
 
+          <?php // Seulement s'il reste du texte après : sur une annonce courte,
+                // ce bloc se retrouverait collé à celui du dessous, et deux
+                // annonces à la suite pour trois lignes d'offre, c'est ce que
+                // Google appelle un contenu dominé par la publicité. ?>
+          <?php if (!empty($job['requirements']) || trim((string) $job['conditions']) !== ''): ?>
+            <?= View::partial('partials/ad', ['slot' => 'job_inline']) ?>
+          <?php endif; ?>
+
           <?php if (!empty($job['requirements'])): ?>
             <h2><?= e(I18n::t('job.profile')) ?></h2>
             <ul>
@@ -225,6 +233,11 @@ $expired = $expired ?? false;
         <h2 class="card-title"><?= Icon::svg('robot', 19, '#17123A', 2) ?> <?= e(I18n::t('job.ask_regie')) ?></h2>
         <p style="font-size:14px;color:#17123A;margin:10px 0 0"><?= e(I18n::t('job.ask_regie_note')) ?></p>
       </div>
+
+      <?php // En bas de colonne, à distance du bouton « Postuler » : une
+            // annonce collée à un bouton récolte des clics par erreur, que
+            // Google finit par facturer au site en le suspendant. ?>
+      <?= View::partial('partials/ad', ['slot' => 'job_side']) ?>
     </aside>
   </div>
 

@@ -7,6 +7,7 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Core\View;
 use App\Services\I18n;
+use App\Services\NotFound;
 use App\Services\Seo;
 
 /** Base commune : rendu d'une page publique avec sa mise en page. */
@@ -38,12 +39,7 @@ abstract class Controller
 
     protected function notFound(string $path = '/'): Response
     {
-        return Response::html(View::render('pages/error', [
-            'code'  => 404,
-            'title' => I18n::t('error.404_title'),
-            'body'  => I18n::t('error.404_body'),
-            'path'  => $path,
-        ]), 404);
+        return NotFound::response($path, (string) ($_SERVER['REQUEST_URI'] ?? ''));
     }
 
     /** Critères de recherche lus depuis la query string (donc sans JS). */

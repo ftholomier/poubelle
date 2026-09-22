@@ -59,6 +59,8 @@ $sent = $sent ?? false;
         </div>
       <?php endif; ?>
 
+      <?= View::partial('partials/ad', ['slot' => 'profile_inline']) ?>
+
       <?php if (!empty($cv['experiences'])): ?>
         <div class="card card-lg" style="margin-top:18px" data-reveal>
           <h2><?= e(I18n::t('cv.experiences')) ?></h2>

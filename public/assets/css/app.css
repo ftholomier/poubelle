@@ -977,7 +977,18 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
 }
 .ad-slot .ad-frame .fmt { font-weight: 500; font-size: 11px; }
 .ad-slot[data-slot="list_side"] .ad-frame { min-height: 320px; }
-.ad-slot[data-slot="profile_side"] .ad-frame { min-height: 250px; }
+.ad-slot[data-slot="profile_side"] .ad-frame,
+.ad-slot[data-slot="job_side"] .ad-frame { min-height: 250px; }
+
+/* Un emplacement glissé dans une grille de fiches en occupe toute la largeur :
+   à la taille d'une carte, il se confondrait avec une offre ou un profil —
+   exactement ce que Google interdit. */
+.grid-jobs > .ad-slot,
+.grid-cv > .ad-slot,
+.grid-employers > .ad-slot { grid-column: 1 / -1; margin: 8px 0; }
+
+/* En colonne, les marges verticales de la page seraient trop larges. */
+.detail-aside > .ad-slot { margin: 0; }
 
 /* AdSense n'a pas d'annonce à servir : sans cela l'emplacement laisse un blanc,
    car ses marges subsistent alors que l'unité est de hauteur nulle. */

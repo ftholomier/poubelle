@@ -15,6 +15,7 @@ use App\Controllers\PageController;
 use App\Controllers\SitemapController;
 use App\Controllers\SubmitController;
 use App\Services\I18n;
+use App\Services\NotFound;
 use App\Services\Seo;
 use App\Storage\Audit;
 
@@ -233,16 +234,7 @@ final class Kernel
             }
         }
 
-        Security::sendHeaders();
-        return Response::html(
-            View::render('pages/error', [
-                'code'  => 404,
-                'title' => I18n::t('error.404_title'),
-                'body'  => I18n::t('error.404_body'),
-                'path'  => '/',
-            ]),
-            404,
-        );
+        return NotFound::response('/', $request->path, $request->wantsJson());
     }
 
     private function fail(Request $request, int $code, \Throwable $e): Response

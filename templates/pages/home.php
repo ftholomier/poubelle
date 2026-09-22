@@ -195,3 +195,5 @@ $tabs = [
     </div>
   </div>
 </div>
+
+<div class="container"><?= View::partial('partials/ad', ['slot' => 'home_bottom']) ?></div>

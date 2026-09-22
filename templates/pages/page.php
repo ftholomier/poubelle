@@ -1,5 +1,6 @@
 <?php
 /** Page éditoriale (mentions légales, CGU…). @var array $page */
+use App\Core\View;
 use App\Services\I18n;
 ?>
 <div class="container" style="max-width:860px">
@@ -15,4 +16,10 @@ use App\Services\I18n;
   <article class="card card-lg prose" style="margin-top:22px" data-reveal>
     <?= $page['body'] /* nettoyé à l'import et à l'enregistrement : voir Sanitizer */ ?>
   </article>
+
+  <?php // Après le texte, et jamais sur les pages légales : on ne fait pas
+        // lire des mentions obligatoires à travers une annonce. ?>
+  <?php if (!in_array((string) $page['slug'], ['mentions-legales', 'confidentialite', 'cgu'], true)): ?>
+    <?= View::partial('partials/ad', ['slot' => 'page_inline']) ?>
+  <?php endif; ?>
 </div>

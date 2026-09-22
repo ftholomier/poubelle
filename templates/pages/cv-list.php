@@ -1,8 +1,11 @@
 <?php
 /** Annuaire de CV. @var array $results @var array $facets @var array $criteria @var array $query */
+use App\Core\Config;
 use App\Core\View;
 use App\Services\I18n;
 use App\Support\Icon;
+
+$infeed = max(2, (int) Config::get('search.infeed_every', 6));
 ?>
 <div class="container">
   <div class="page-head" data-reveal>
@@ -49,9 +52,18 @@ use App\Support\Icon;
     </div>
   <?php else: ?>
     <div class="grid-cv">
-      <?php foreach ($results['items'] as $cv): ?><?= View::partial('partials/cv-card', ['cv' => $cv]) ?><?php endforeach; ?>
+      <?php foreach ($results['items'] as $i => $cv): ?>
+        <?= View::partial('partials/cv-card', ['cv' => $cv]) ?>
+        <?php // Jamais en dernière position : une annonce qui ferme la grille
+              // se confond avec une fiche, ce que Google interdit. ?>
+        <?php if (($i + 1) % $infeed === 0 && $i + 1 < count($results['items'])): ?>
+          <?= View::partial('partials/ad', ['slot' => 'cv_infeed']) ?>
+        <?php endif; ?>
+      <?php endforeach; ?>
     </div>
   <?php endif; ?>
+
+  <?= View::partial('partials/ad', ['slot' => 'cv_bottom']) ?>
 
   <?= View::partial('partials/pagination', ['results' => $results, 'query' => $query]) ?>
 
