@@ -47,6 +47,26 @@ final class Aggregator
         return $out;
     }
 
+    /**
+     * Partenaires effectivement interrogeables : clés configurées et source
+     * active. C'est la seule liste qu'il soit honnête de proposer au visiteur.
+     *
+     * @return array<string, string> clé => nom affiché
+     */
+    public static function activePartners(): array
+    {
+        if (!Config::get('sources.enabled', true)) {
+            return [];
+        }
+        $out = [];
+        foreach (self::sources() as $key => $source) {
+            if ($source->isConfigured() && self::isSourceEnabled($key)) {
+                $out[$key] = $source->name();
+            }
+        }
+        return $out;
+    }
+
     public static function isEnabled(): bool
     {
         if (!Config::get('sources.enabled', true)) {
@@ -106,17 +126,39 @@ final class Aggregator
         return array_values(array_filter(array_map('trim', $terms), 'strlen'));
     }
 
+    /**
+     * Codes ROME envoyés à France Travail.
+     *
+     * Cette source ne se pilote pas aux mots-clés : son répertoire des métiers
+     * est un filtre sectoriel autrement plus sûr qu'une recherche plein texte.
+     * C'est donc ce levier-là qui est rendu modifiable — l'équivalent, pour
+     * elle, de la liste de mots-clés des autres.
+     *
+     * @return string[]
+     */
+    public static function romeCodes(): array
+    {
+        $raw = trim((string) (Json::read(self::statePath())['rome'] ?? ''));
+        if ($raw === '') {
+            return (array) Config::get('sources.france_travail.rome', []);
+        }
+        $codes = preg_split('/[^A-Za-z0-9]+/', strtoupper($raw)) ?: [];
+        return array_values(array_filter($codes, static fn(string $c): bool
+            => preg_match('/^[A-Z]\d{4}$/', $c) === 1));
+    }
+
     /** Le tri par secteur s'applique-t-il aux offres externes ? */
     public static function filterEnabled(): bool
     {
         return (bool) (Json::read(self::statePath())['filter'] ?? true);
     }
 
-    public static function saveSettings(string $query, string $exclude, bool $filter): void
+    public static function saveSettings(string $query, string $exclude, bool $filter, string $rome = ''): void
     {
         $state = Json::read(self::statePath());
         $state['query']   = mb_substr(trim($query), 0, 2000);
         $state['exclude'] = mb_substr(trim($exclude), 0, 2000);
+        $state['rome']    = mb_substr(trim($rome), 0, 600);
         $state['filter']  = $filter;
         Json::write(self::statePath(), $state);
     }
@@ -136,15 +178,23 @@ final class Aggregator
         }
 
         $query = [
-            'q'     => trim((string) ($criteria['q'] ?? '')),
-            'city'  => trim((string) ($criteria['city'] ?? '')),
-            'page'  => max(1, (int) ($criteria['page'] ?? 1)),
-            'limit' => $limit,
+            'q'      => trim((string) ($criteria['q'] ?? '')),
+            'city'   => trim((string) ($criteria['city'] ?? '')),
+            'page'   => max(1, (int) ($criteria['page'] ?? 1)),
+            'limit'  => $limit,
+            'source' => $criteria['source'] ?? [],
         ];
+
+        // Provenance demandée : on n'interroge que ces partenaires. « site »
+        // ne désigne aucune source — le demander seul ne remonte donc rien.
+        $wanted = array_filter(array_map('strval', (array) ($criteria['source'] ?? [])), 'strlen');
 
         $collected = [];
         foreach (self::sources() as $key => $source) {
             if (!$source->isConfigured() || !self::isSourceEnabled($key)) {
+                continue;
+            }
+            if ($wanted !== [] && !in_array($key, $wanted, true)) {
                 continue;
             }
             foreach (self::cached($source, $query) as $job) {

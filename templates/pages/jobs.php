@@ -3,7 +3,8 @@
  * Liste d'offres : en-tête sombre, barre de filtres, deux colonnes.
  * Les filtres passent par GET et fonctionnent sans JavaScript.
  *
- * @var array $results  @var array $facets  @var array $criteria  @var array $query  @var string $newest
+ * @var array $results  @var array $facets  @var array $criteria  @var array $query
+ * @var string $newest  @var array $partners
  */
 use App\Core\Config;
 use App\Core\View;
@@ -33,6 +34,9 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
     <?php foreach ($criteria['category'] as $value): ?>
       <input type="hidden" name="category[]" value="<?= e($value) ?>">
     <?php endforeach; ?>
+    <?php foreach ($criteria['source'] as $value): ?>
+      <input type="hidden" name="source[]" value="<?= e($value) ?>">
+    <?php endforeach; ?>
     <?php foreach ($criteria['contract'] as $value): ?>
       <input type="hidden" name="contract[]" value="<?= e($value) ?>">
     <?php endforeach; ?>
@@ -45,7 +49,26 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
         <?php if ($criteria['q'] !== ''): ?><input type="hidden" name="q" value="<?= e($criteria['q']) ?>"><?php endif; ?>
         <?php if ($criteria['city'] !== ''): ?><input type="hidden" name="city" value="<?= e($criteria['city']) ?>"><?php endif; ?>
 
-        <h3><?= e(I18n::t('search.family')) ?></h3>
+        <?php if ($partners !== []): ?>
+          <h3><?= e(I18n::t('search.origin')) ?></h3>
+          <div class="filter-list">
+            <label class="check">
+              <input type="checkbox" name="source[]" value="site"
+                     <?= $checked($criteria['source'], 'site') ? 'checked' : '' ?>>
+              <span><?= e(I18n::t('search.origin_site')) ?></span>
+              <span class="n"><?= (int) ($facets['total'] ?? 0) ?></span>
+            </label>
+            <?php foreach ($partners as $key => $nom): ?>
+              <label class="check">
+                <input type="checkbox" name="source[]" value="<?= e((string) $key) ?>"
+                       <?= $checked($criteria['source'], (string) $key) ? 'checked' : '' ?>>
+                <span><?= e($nom) ?></span>
+              </label>
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
+
+        <h3<?= $partners !== [] ? ' style="margin-top:20px"' : '' ?>><?= e(I18n::t('search.family')) ?></h3>
         <div class="filter-list">
           <?php foreach (array_slice((array) ($facets['categories'] ?? []), 0, 8, true) as $name => $count): ?>
             <label class="check">

@@ -25,6 +25,13 @@ final class Search
             $items = array_values(array_filter($items, static fn(array $i) => ($i['status'] ?? '') === $status));
         }
 
+        // Provenance : une sélection qui ne mentionne pas « site » écarte les
+        // annonces déposées ici, les partenaires étant servis par l'agrégateur.
+        $sources = array_filter(array_map('strval', (array) ($criteria['source'] ?? [])), 'strlen');
+        if ($sources !== [] && !in_array('site', $sources, true)) {
+            $items = [];
+        }
+
         $items = self::applyText($items, (string) ($criteria['q'] ?? ''));
         $items = self::applyCity($items, (string) ($criteria['city'] ?? ''));
         $items = self::applyList($items, 'category', $criteria['category'] ?? []);

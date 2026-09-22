@@ -578,6 +578,7 @@ final class AdminController extends Controller
                     (string) $request->input('query', ''),
                     (string) $request->input('exclude', ''),
                     $request->input('filter') === '1',
+                    (string) $request->input('rome', ''),
                 );
                 // Les mots-clés ayant changé, le cache ne vaut plus rien.
                 Aggregator::clearCache();
@@ -604,6 +605,7 @@ final class AdminController extends Controller
             'settings' => (array) Config::get('sources', []),
             'query'    => Aggregator::query(),
             'exclude'  => implode(', ', Aggregator::exclude()),
+            'rome'     => implode(', ', Aggregator::romeCodes()),
             'filter'   => Aggregator::filterEnabled(),
             'active'   => Aggregator::isEnabled(),
             'notice'   => $notice,

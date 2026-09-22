@@ -2,7 +2,7 @@
 /**
  * Offres externes.
  * @var array $rows @var array $settings @var string $query @var string $exclude
- * @var bool $filter @var bool $active @var string $notice
+ * @var bool $filter @var string $rome @var bool $active @var string $notice
  */
 use App\Core\Csrf;
 use App\Services\I18n;
@@ -72,6 +72,17 @@ use App\Services\I18n;
               style="font-size:13px"><?= e($query) ?></textarea>
   </label>
 
+  <label class="field" style="margin-top:16px">
+    <span class="label" style="font-weight:600">Codes ROME — France Travail</span>
+    <span class="s">
+      Cette source ne se pilote pas aux mots-clés : son répertoire des métiers est un filtre
+      sectoriel autrement plus sûr. Les codes du spectacle et de l’audiovisuel commencent par L.
+      Séparés par des virgules ; vingt au maximum sont envoyés.
+    </span>
+    <input class="input" type="text" name="rome" value="<?= e($rome) ?>" spellcheck="false"
+           placeholder="L1101, L1201, L1509">
+  </label>
+
   <h2 style="margin-top:26px">Ne garder que le secteur</h2>
   <p class="s">
     Aucun agrégateur ne sait filtrer par branche : « technicien », « production » ou « montage »
@@ -116,8 +127,6 @@ use App\Services\I18n;
       <tr><td class="t">Pays / lieu par défaut</td>
           <td class="s"><?= e(strtoupper((string) ($settings['country'] ?? ''))) ?> ·
               <?= e((string) ($settings['location'] ?? '')) ?></td></tr>
-      <tr><td class="t">Codes ROME (France Travail)</td>
-          <td class="s"><?= e(implode(', ', (array) ($settings['france_travail']['rome'] ?? []))) ?></td></tr>
     </tbody>
   </table>
 </div>

@@ -52,6 +52,7 @@ abstract class AbstractSource implements JobSource
             // Ce qui distingue une offre externe d'une annonce déposée ici.
             'external'     => true,
             'source'       => $this->name(),
+            'source_key'   => $this->key(),
             'url'          => $url,
         ];
     }
@@ -80,6 +81,10 @@ abstract class AbstractSource implements JobSource
         // l'éditeur taperait dans le moteur de l'agrégateur.
         if ($path === 'query') {
             return \App\Services\Aggregator::query();
+        }
+        // France Travail se cible aux codes ROME plutôt qu'aux mots-clés.
+        if ($path === 'france_travail.rome') {
+            return \App\Services\Aggregator::romeCodes();
         }
         return Config::get('sources.' . $path, $default);
     }

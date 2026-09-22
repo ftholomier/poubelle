@@ -76,6 +76,8 @@ return [
     'search.family'     => 'Famille de métier',
     'search.contract'   => 'Type de contrat',
     'search.region'     => 'Région',
+    'search.origin'     => 'Provenance',
+    'search.origin_site'=> 'Annonces déposées ici',
     'search.skills'     => 'Compétences',
     'search.sort'       => 'Trier',
     'search.sort_recent'=> 'Plus récentes',

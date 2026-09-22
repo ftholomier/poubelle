@@ -44,6 +44,8 @@ final class JobController extends Controller
             'criteria' => $criteria,
             'query'    => $this->queryParams($request),
             'newest'   => $newest,
+            // Seuls les partenaires configurés et actifs sont proposés.
+            'partners' => Aggregator::activePartners(),
         ], [
             'title' => I18n::t('jobs.title', number_format(
                 (int) ($facets['total'] ?? 0) + $blended['external'], 0, ',', ' ')),

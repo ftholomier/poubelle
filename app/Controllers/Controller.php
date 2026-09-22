@@ -46,6 +46,9 @@ abstract class Controller
             'category' => $request->all('category'),
             'contract' => $request->all('contract'),
             'region'   => $request->all('region'),
+            // Provenance : « site » pour les annonces déposées ici, sinon la
+            // clé d'un partenaire.
+            'source'   => $request->all('source'),
             'skill'    => $request->all('skill'),
             'sort'     => in_array($request->get('sort', ''), ['recent', 'oldest', 'title'], true)
                             ? (string) $request->get('sort') : 'recent',
@@ -56,7 +59,7 @@ abstract class Controller
     /** Paramètres à reporter dans les liens de pagination et de filtre. */
     protected function queryParams(Request $request): array
     {
-        $keep = ['q', 'city', 'category', 'contract', 'region', 'skill', 'sort'];
+        $keep = ['q', 'city', 'category', 'contract', 'region', 'skill', 'sort', 'source'];
         $out = [];
         foreach ($keep as $key) {
             $value = $request->query[$key] ?? null;
