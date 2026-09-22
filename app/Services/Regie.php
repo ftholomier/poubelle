@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Core\Config;
 use App\Core\Session;
 use App\Storage\Audit;
+use App\Storage\Json;
 
 /**
  * Assistant « Régie ».
@@ -18,9 +19,114 @@ final class Regie
     private const ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/';
     private const HISTORY_KEY = 'regie_history';
 
+    /** Repli si Google n'a pas répondu : de quoi choisir sans rien inventer. */
+    private const MODELES_CONNUS = [
+        'gemini-2.5-flash' => 'Gemini 2.5 Flash — rapide et économique',
+        'gemini-2.5-pro'   => 'Gemini 2.5 Pro — plus fin, plus lent',
+    ];
+
+    /** Une liste vieille d'un jour suffit : Google en publie rarement. */
+    private const MODELES_TTL = 86400;
+
     public static function available(): bool
     {
         return Config::get('regie.enabled', true) && Config::has('gemini_api_key');
+    }
+
+    /**
+     * Lit le catalogue renvoyé par Google.
+     *
+     * Il mélange tout : modèles de conversation, d'embedding, d'image, et
+     * variantes expérimentales. On ne garde que ceux qui savent répondre à
+     * une conversation, sous leur nom court, avec la taille de contexte —
+     * c'est elle qui dit combien de pages du site tiennent dans une question.
+     *
+     * @param  array<int, array<string, mixed>> $catalogue
+     * @return array<string, string>
+     */
+    private static function readModels(array $catalogue): array
+    {
+        $models = [];
+        foreach ($catalogue as $model) {
+            if (!in_array('generateContent', (array) ($model['supportedGenerationMethods'] ?? []), true)) {
+                continue;
+            }
+            $name = (string) preg_replace('#^models/#', '', (string) ($model['name'] ?? ''));
+            if ($name === '') {
+                continue;
+            }
+            $label = trim((string) ($model['displayName'] ?? '')) ?: $name;
+            $limit = (int) ($model['inputTokenLimit'] ?? 0);
+            $models[$name] = $limit > 0
+                ? $label . ' — ' . number_format($limit / 1000, 0, ',', ' ') . 'k de contexte'
+                : $label;
+        }
+
+        uksort($models, 'strnatcasecmp');
+        return $models;
+    }
+
+    /** Modèle employé pour répondre : celui choisi au back-office, sinon le défaut. */
+    public static function model(): string
+    {
+        $chosen = trim((string) Config::secret('regie_model', ''));
+        return $chosen !== '' ? $chosen : (string) Config::get('regie.model', 'gemini-2.5-flash');
+    }
+
+    /**
+     * Modèles que le compte peut réellement appeler, demandés à Google.
+     *
+     * Une liste écrite en dur vieillit mal — Gemini 1.5 a disparu en un an —
+     * et surtout elle ment : elle propose des modèles auxquels la clé n'a pas
+     * droit. On demande donc au fournisseur, et on ne garde que ceux qui
+     * savent répondre à une conversation.
+     *
+     * @param  bool $refresh vrai pour ignorer le cache (bouton « Actualiser »)
+     * @return array{models: array<string,string>, at: int, error: string}
+     */
+    public static function models(bool $refresh = false): array
+    {
+        $file = Config::path('data') . '/private/gemini-models.json';
+        $cache = Json::read($file);
+
+        $fresh = !$refresh
+            && ($cache['models'] ?? []) !== []
+            && time() - (int) ($cache['at'] ?? 0) < self::MODELES_TTL;
+        if ($fresh) {
+            return ['models' => (array) $cache['models'], 'at' => (int) $cache['at'], 'error' => ''];
+        }
+
+        $key = trim((string) Config::secret('gemini_api_key', ''));
+        if ($key === '') {
+            return ['models' => self::MODELES_CONNUS, 'at' => 0,
+                    'error' => 'Aucune clé Gemini : liste par défaut.'];
+        }
+
+        $call = Http::call('GET',
+            'https://generativelanguage.googleapis.com/v1beta/models?pageSize=200&key=' . urlencode($key),
+            ['timeout' => 20],
+        );
+        if (!$call['ok']) {
+            // On garde la dernière liste connue plutôt que de vider le menu.
+            return [
+                'models' => (array) ($cache['models'] ?? self::MODELES_CONNUS),
+                'at'     => (int) ($cache['at'] ?? 0),
+                'error'  => 'Google n’a pas répondu : ' . $call['error'],
+            ];
+        }
+
+        $models = self::readModels((array) ($call['data']['models'] ?? []));
+
+        if ($models === []) {
+            return ['models' => self::MODELES_CONNUS, 'at' => 0,
+                    'error' => 'Google n’a renvoyé aucun modèle conversationnel.'];
+        }
+
+        $at = time();
+        Json::write($file, ['at' => $at, 'models' => $models]);
+        Audit::log('regie.models_listed', ['count' => count($models)]);
+
+        return ['models' => $models, 'at' => $at, 'error' => ''];
     }
 
     /**
@@ -52,7 +158,7 @@ final class Regie
             // sont dans l'instruction système et dans le filtrage ci-dessous.
         ];
 
-        $model = (string) Config::get('regie.model', 'gemini-2.5-flash');
+        $model = self::model();
         $response = Http::json('POST',
             self::ENDPOINT . rawurlencode($model) . ':generateContent?key='
                 . urlencode((string) Config::secret('gemini_api_key')),

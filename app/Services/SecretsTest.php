@@ -48,7 +48,9 @@ final class SecretsTest
         if (!Config::has('gemini_api_key')) {
             return self::fail('Aucune clé enregistrée. L’assistant fonctionne en mode dégradé.');
         }
-        $model = (string) Config::get('regie.model', 'gemini-2.5-flash');
+        // Le modèle réellement employé par l'assistant, pas celui du
+        // fichier de configuration : sinon le test répond d'autre chose.
+        $model = Regie::model();
         $call = Http::call('POST',
             'https://generativelanguage.googleapis.com/v1beta/models/' . rawurlencode($model)
             . ':generateContent?key=' . urlencode((string) Config::secret('gemini_api_key')),

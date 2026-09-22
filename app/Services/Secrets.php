@@ -38,6 +38,15 @@ final class Secrets
                              . 'généreux. La clé reste sur le serveur, jamais exposée au visiteur.',
                     'placeholder' => 'AIza…',
                 ],
+                'regie_model' => [
+                    'label' => 'Modèle',
+                    'help'  => 'La liste est celle que Google renvoie pour votre clé : elle ne '
+                             . 'propose donc que des modèles réellement appelables, et suit leurs '
+                             . 'arrivées et leurs retraits. Un modèle « Flash » répond vite et '
+                             . 'coûte peu ; un « Pro » raisonne mieux sur une question tordue.',
+                    'public'  => true,
+                    'choices' => 'regie_models',
+                ],
             ],
         ],
 

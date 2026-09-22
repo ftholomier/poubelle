@@ -27,6 +27,7 @@ use App\Services\Mailer;
 use App\Services\Notifier;
 use App\Services\Sanitizer;
 use App\Services\Search;
+use App\Services\Regie;
 use App\Services\Secrets;
 use App\Services\Seo;
 use App\Services\SecretsTest;
@@ -722,6 +723,16 @@ final class AdminController extends Controller
                 $test = ['group' => $group] + SecretsTest::run($group);
                 Audit::log('secrets.tested', ['group' => $group, 'ok' => $test['ok']], $this->userId());
             }
+
+            // La clé vient peut-être d'être saisie : on redemande la liste des
+            // modèles plutôt que de la laisser vide jusqu'au lendemain.
+            $refreshModels = $action === 'models';
+        }
+
+        // Liste des modèles de l'assistant, demandée à Google et mise en cache.
+        $models = Regie::models($refreshModels ?? false);
+        if ($models['error'] !== '') {
+            $errors[] = $models['error'];
         }
 
         return $this->screen('admin/settings', [
@@ -735,6 +746,9 @@ final class AdminController extends Controller
             'notice'  => $notice,
             'errors'  => $errors,
             'test'    => $test,
+            // Menus déroulants, par clé de réglage.
+            'choices' => ['regie_model' => $models['models']],
+            'choicesAt' => ['regie_model' => $models['at']],
         ], I18n::t('admin.settings'));
     }
 

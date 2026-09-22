@@ -3,6 +3,8 @@
  * Clés d'API et identifiants.
  * @var array $catalog @var array $slots @var string $notice @var array|null $test
  * @var string[] $errors
+ * @var array $choices    menus déroulants, par clé de réglage
+ * @var array $choicesAt  date de la dernière liste obtenue, par clé
  */
 use App\Core\Csrf;
 use App\Services\I18n;
@@ -68,12 +70,30 @@ use App\Support\Icon;
         <div class="secret-row">
           <div class="secret-head">
             <label class="label" for="f-<?= e($key) ?>"><?= e($meta['label']) ?></label>
+            <?php // Un menu déroulant a toujours une valeur : « non renseigné »
+                  // n'y voudrait rien dire, on dit d'où vient la valeur. ?>
             <span class="state <?= $isSet ? 'state-ok' : 'state-neutral' ?>">
-              <?= e($isSet ? I18n::t('admin.secret_set') : I18n::t('admin.secret_empty')) ?>
+              <?php if (isset($choices[$key])): ?>
+                <?= e($isSet ? I18n::t('admin.choice_set') : I18n::t('admin.choice_default')) ?>
+              <?php else: ?>
+                <?= e($isSet ? I18n::t('admin.secret_set') : I18n::t('admin.secret_empty')) ?>
+              <?php endif; ?>
             </span>
           </div>
 
           <p class="secret-help"><?= e($meta['help']) ?></p>
+
+          <?php if (isset($choices[$key])): ?>
+            <p class="secret-help">
+              <?php if ((int) ($choicesAt[$key] ?? 0) > 0): ?>
+                <?= count((array) $choices[$key]) ?> modèle(s) obtenus de Google, liste du
+                <?= e(date('d/m/Y à H\hi', (int) $choicesAt[$key])) ?>.
+              <?php else: ?>
+                Liste de secours : Google n’a pas encore répondu. Enregistrez une clé,
+                puis actualisez.
+              <?php endif; ?>
+            </p>
+          <?php endif; ?>
 
           <?php if (!empty($meta['doc'])): ?>
             <p class="secret-help">
@@ -88,11 +108,33 @@ use App\Support\Icon;
           <?php endif; ?>
 
           <div class="secret-field">
-            <input class="input" type="<?= $public ? 'text' : 'password' ?>"
-                   id="f-<?= e($key) ?>" name="<?= e($key) ?>"
-                   value="<?= $public ? e($current) : '' ?>"
-                   autocomplete="off" spellcheck="false"
-                   placeholder="<?= e($meta['placeholder'] ?? ($isSet ? I18n::t('admin.secret_keep') : '')) ?>">
+            <?php if (isset($choices[$key])): ?>
+              <?php // Réglage à choisir dans une liste que le fournisseur tient
+                    // à jour : on n'écrit pas à la main un nom de modèle. ?>
+              <select class="input" id="f-<?= e($key) ?>" name="<?= e($key) ?>">
+                <?php foreach ((array) $choices[$key] as $value => $label): ?>
+                  <option value="<?= e((string) $value) ?>"
+                          <?= (string) $value === $current ? 'selected' : '' ?>>
+                    <?= e((string) $label) ?>
+                  </option>
+                <?php endforeach; ?>
+                <?php // Un modèle retiré du catalogue reste proposé tant qu'il
+                      // est en place : sinon l'enregistrement le remplacerait
+                      // en silence par le premier de la liste. ?>
+                <?php if ($current !== '' && !isset($choices[$key][$current])): ?>
+                  <option value="<?= e($current) ?>" selected><?= e($current) ?> (plus proposé)</option>
+                <?php endif; ?>
+              </select>
+              <button type="submit" name="action" value="models" class="btn btn-ghost btn-sm" formnovalidate>
+                <?= e(I18n::t('admin.refresh_list')) ?>
+              </button>
+            <?php else: ?>
+              <input class="input" type="<?= $public ? 'text' : 'password' ?>"
+                     id="f-<?= e($key) ?>" name="<?= e($key) ?>"
+                     value="<?= $public ? e($current) : '' ?>"
+                     autocomplete="off" spellcheck="false"
+                     placeholder="<?= e($meta['placeholder'] ?? ($isSet ? I18n::t('admin.secret_keep') : '')) ?>">
+            <?php endif; ?>
 
             <?php if (!empty($meta['generate'])): ?>
               <button type="submit" name="action" value="generate" class="btn btn-ghost btn-sm" formnovalidate>

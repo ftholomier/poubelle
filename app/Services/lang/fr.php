@@ -376,6 +376,9 @@ return [
     'admin.secret_keep'  => 'Laissez vide pour conserver la valeur actuelle.',
     'admin.secret_clear' => 'Effacer',
     'admin.test'         => 'Enregistrer et tester',
+    'admin.refresh_list' => 'Actualiser la liste',
+    'admin.choice_set'     => 'Choisi',
+    'admin.choice_default' => 'Par défaut',
     'admin.generate'     => 'Générer une clé',
     'admin.sources_note' => 'Ces offres complètent les annonces déposées sur le site. Elles ne sont jamais '
                           . 'enregistrées localement et renvoient vers leur site d’origine.',
