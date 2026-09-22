@@ -345,7 +345,7 @@
     });
 
     // Filtres : envoi automatique à la coche (le bouton reste là sans JS).
-    $$('[data-autosubmit]').forEach(function (form) {
+    $$('[data-autosubmit-form]').forEach(function (form) {
       $$('input[type="checkbox"], select', form).forEach(function (field) {
         field.addEventListener('change', function () { form.submit(); });
       });
@@ -593,6 +593,31 @@
   }
 
   /**
+   * Tout ce qui sort du site s'ouvre à côté.
+   *
+   * Un lien externe ou un téléchargement qui remplace la page fait perdre au
+   * visiteur l'annonce ou le profil qu'il était en train de lire. Les gabarits
+   * posent déjà l'attribut là où ils le peuvent ; ce filet couvre le reste,
+   * y compris les liens écrits dans une page éditoriale.
+   */
+  function initExternalLinks() {
+    var host = location.host;
+    $$('main a[href], footer a[href]').forEach(function (link) {
+      if (link.target === '_blank') { return; }
+
+      var href = link.getAttribute('href') || '';
+      if (href.charAt(0) === '#' || /^(mailto|tel|javascript):/i.test(href)) { return; }
+
+      var external = /^https?:\/\//i.test(href) && link.host !== host;
+      var download = /^\/media\//.test(href) || link.hasAttribute('download');
+      if (!external && !download) { return; }
+
+      link.target = '_blank';
+      link.rel = (link.rel ? link.rel + ' ' : '') + 'noopener noreferrer';
+    });
+  }
+
+  /**
    * Ouvre un formulaire public — candidature, message à un candidat — et va
    * chercher son jeton au passage.
    *
@@ -828,6 +853,7 @@
     initPlaces();
     initBookmarks();
     initSavedList();
+    initExternalLinks();
     initFormReveal();
     initErrorFocus();
     initCtaBar();
@@ -843,7 +869,7 @@
    * qu'une fois ce script en place, pour que le tri marche sans JavaScript.
    */
   function initAutoSubmit() {
-    $$('[data-autosubmit]').forEach(function (field) {
+    $$('[data-autosubmit-field]').forEach(function (field) {
       var form = field.form;
       if (!form) { return; }
       field.addEventListener('change', function () { form.submit(); });

@@ -15,12 +15,13 @@ final class Upload
 {
     /**
      * @param  array $file  une entrée de $_FILES
-     * @return array{ok:bool,error:string,path:string,name:string,size:int}
+     * @return array{ok:bool,error:string,path:string,name:string,size:int,width:int,height:int}
      */
     public static function store(array $file, string $kind, string $id, string $allow = 'cv'): array
     {
         $fail = static fn(string $message): array
-            => ['ok' => false, 'error' => $message, 'path' => '', 'name' => '', 'size' => 0];
+            => ['ok' => false, 'error' => $message, 'path' => '', 'name' => '',
+                'size' => 0, 'width' => 0, 'height' => 0];
 
         $code = (int) ($file['error'] ?? UPLOAD_ERR_NO_FILE);
         if ($code === UPLOAD_ERR_NO_FILE) {
@@ -68,12 +69,29 @@ final class Upload
         }
         @chmod($target, 0644);
 
+        // Une photo de 1,6 Mo servie telle quelle dans une vignette de 96 px
+        // pesait plus lourd que toute la page : on la ramène à taille utile et
+        // on produit sa vignette.
+        $width = 0;
+        $height = 0;
+        if ($allow === 'image') {
+            $processed = Image::process($target, $relative);
+            if ($processed['ok']) {
+                clearstatcache(true, $target);
+                $size = (int) filesize($target);
+                $width = $processed['width'];
+                $height = $processed['height'];
+            }
+        }
+
         return [
-            'ok'    => true,
-            'error' => '',
-            'path'  => $relative,
-            'name'  => self::safeName((string) ($file['name'] ?? 'document.' . $extension)),
-            'size'  => $size,
+            'ok'     => true,
+            'error'  => '',
+            'path'   => $relative,
+            'name'   => self::safeName((string) ($file['name'] ?? 'document.' . $extension)),
+            'size'   => $size,
+            'width'  => $width,
+            'height' => $height,
         ];
     }
 
@@ -154,6 +172,11 @@ final class Upload
         // Garde-fou : on ne supprime que sous data/uploads.
         if ($base !== false && $real !== false && str_starts_with($real, $base)) {
             @unlink($real);
+            // La vignette suit son original, sinon elle resterait orpheline.
+            $thumb = realpath(Config::path('data') . '/uploads/' . Image::thumbPath($relative));
+            if ($thumb !== false && str_starts_with($thumb, $base)) {
+                @unlink($thumb);
+            }
         }
     }
 }

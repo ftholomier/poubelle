@@ -25,3 +25,6 @@ config/secrets.php
 *.sqlite
 .DS_Store
 Thumbs.db
+
+# Artéfacts d'autres projets déposés par erreur à la racine.
+/*.svg

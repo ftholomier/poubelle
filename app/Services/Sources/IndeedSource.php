@@ -69,7 +69,11 @@ final class IndeedSource extends AbstractSource
      */
     private function fromFeed(array $criteria): array
     {
-        $response = Http::request('GET', (string) Config::secret('indeed_feed_url'), ['timeout' => self::timeout()]);
+        $url = self::safeUrl((string) Config::secret('indeed_feed_url'));
+        if ($url === '') {
+            return [];
+        }
+        $response = Http::request('GET', $url, ['timeout' => self::timeout()]);
         if ($response['status'] !== 200 || $response['body'] === '') {
             return $this->fail('flux injoignable', ['status' => $response['status']]);
         }
@@ -152,7 +156,7 @@ final class IndeedSource extends AbstractSource
     private function fromApi(array $criteria): array
     {
         $base = Config::has('indeed_api_base')
-            ? (string) Config::secret('indeed_api_base')
+            ? self::safeUrl((string) Config::secret('indeed_api_base'))
             : self::LEGACY_API;
 
         $params = [

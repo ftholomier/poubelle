@@ -20,6 +20,8 @@ $columns = [
     'footer.site' => [
         '/ressources'      => I18n::t('nav.resources'),
         '/mentions-legales'=> I18n::t('footer.legal_short'),
+        '/confidentialite' => I18n::t('footer.privacy'),
+        '/cgu'             => I18n::t('footer.terms'),
         '/admin'           => I18n::t('nav.login'),
     ],
 ];
@@ -77,7 +79,11 @@ $columns = [
 
     <div class="footer-legal">
       <nav aria-label="<?= e(I18n::t('footer.legal')) ?>">
-        <a href="<?= e(I18n::url('/mentions-legales')) ?>"><?= e(I18n::t('footer.legal')) ?></a>
+        <a href="<?= e(I18n::url('/mentions-legales')) ?>"><?= e(I18n::t('footer.legal_short')) ?></a>
+        <span aria-hidden="true">·</span>
+        <a href="<?= e(I18n::url('/confidentialite')) ?>"><?= e(I18n::t('footer.privacy')) ?></a>
+        <span aria-hidden="true">·</span>
+        <a href="<?= e(I18n::url('/cgu')) ?>"><?= e(I18n::t('footer.terms')) ?></a>
         <?php if (App\Services\Ads::client() !== ''): ?>
           · <button type="button" class="linklike" data-cmp-reopen><?= e(I18n::t('cmp.manage')) ?></button>
         <?php endif; ?>

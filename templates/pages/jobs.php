@@ -45,7 +45,7 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
 
   <div class="layout-list">
     <aside class="filters">
-      <form class="card filter-card" method="get" data-autosubmit>
+      <form class="card filter-card" method="get" data-autosubmit-form>
         <?php if ($criteria['q'] !== ''): ?><input type="hidden" name="q" value="<?= e($criteria['q']) ?>"><?php endif; ?>
         <?php if ($criteria['city'] !== ''): ?><input type="hidden" name="city" value="<?= e($criteria['city']) ?>"><?php endif; ?>
 
@@ -140,7 +140,7 @@ $checked = static fn(array $list, string $value): bool => in_array($value, $list
           <?php // Le tri s'envoie par son bouton ; le script le déclenche au
                 // changement et masque alors le bouton. Un gestionnaire en
                 // attribut serait refusé par la politique de sécurité. ?>
-          <select id="sort" name="sort" class="select" data-autosubmit
+          <select id="sort" name="sort" class="select" data-autosubmit-field
                   style="width:auto;padding:9px 13px;border-width:1.5px;border-radius:999px;font-size:13.5px">
             <option value="relevance"<?= ($criteria['sort'] ?? '') === 'relevance' ? ' selected' : '' ?>><?= e(I18n::t('search.sort_relevance')) ?></option>
             <option value="recent" <?= $criteria['sort'] === 'recent' ? 'selected' : '' ?>><?= e(I18n::t('search.sort_recent')) ?></option>

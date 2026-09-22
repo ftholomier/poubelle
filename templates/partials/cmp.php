@@ -12,7 +12,9 @@ if (Ads::client() === '') {
 <aside class="cmp" data-cmp role="region" aria-live="polite"
        aria-label="<?= e(I18n::t('cmp.title')) ?>" hidden>
   <h2 class="cmp-title"><?= e(I18n::t('cmp.title')) ?></h2>
-  <p><?= e(I18n::t('cmp.body')) ?></p>
+  <p><?= e(I18n::t('cmp.body')) ?>
+    <a href="<?= e(I18n::url('/confidentialite')) ?>"><?= e(I18n::t('footer.privacy')) ?></a>
+  </p>
   <div class="row">
     <button type="button" class="btn btn-coral btn-sm" data-cmp-choice="all"><?= e(I18n::t('cmp.accept')) ?></button>
     <button type="button" class="btn btn-ghost btn-sm" data-cmp-choice="none"><?= e(I18n::t('cmp.refuse')) ?></button>

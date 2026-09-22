@@ -268,6 +268,12 @@ final class ApiController extends Controller
     /** Signalement d'une traduction ou d'un contenu, depuis le bandeau jaune. */
     public function report(Request $request, array $params): Response
     {
+        // Signalement sans jeton — il n'écrit qu'une ligne de journal — mais
+        // l'origine doit être le site : un formulaire hébergé ailleurs ne doit
+        // pas pouvoir remplir le journal à distance.
+        if (!$this->sameOrigin($request)) {
+            return Response::json(['ok' => false], 403);
+        }
         if (RateLimit::hit('report', $request->ip(), 10, 3600) > 0) {
             return Response::json(['ok' => false], 429);
         }
@@ -280,6 +286,24 @@ final class ApiController extends Controller
         ]);
 
         return Response::json(['ok' => true]);
+    }
+
+    /** L'en-tête Origin (ou Referer) désigne-t-il bien ce site ? */
+    private function sameOrigin(Request $request): bool
+    {
+        $origin = (string) ($_SERVER['HTTP_ORIGIN'] ?? '');
+        if ($origin === '') {
+            $referer = (string) ($_SERVER['HTTP_REFERER'] ?? '');
+            if ($referer === '') {
+                return false;
+            }
+            $origin = (string) parse_url($referer, PHP_URL_SCHEME) . '://'
+                    . (string) parse_url($referer, PHP_URL_HOST)
+                    . (($port = parse_url($referer, PHP_URL_PORT)) ? ':' . $port : '');
+        }
+
+        $host = (string) ($_SERVER['HTTP_HOST'] ?? '');
+        return $host !== '' && str_ends_with($origin, '://' . $host);
     }
 
     /** Projection publique d'une offre : rien de plus que ce qui est déjà affiché. */

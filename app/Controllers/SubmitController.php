@@ -11,6 +11,7 @@ use App\Core\Session;
 use App\Domain\CvRepository;
 use App\Domain\EmployerRepository;
 use App\Domain\JobRepository;
+use App\Services\Geo;
 use App\Services\I18n;
 use App\Services\JobLifecycle;
 use App\Services\JobReview;
@@ -284,8 +285,7 @@ final class SubmitController extends Controller
     /** Ville saisie librement -> ville + région, avec la même logique qu'à l'import. */
     private function parsePlace(string $raw): array
     {
-        require_once Config::path('root') . '/bin/lib/Wp.php';
-        $parsed = \Bin\Wp::parseLocation($raw);
+        $parsed = Geo::parseLocation($raw);
         return ['city' => $parsed['city'], 'region' => $parsed['region'], 'country' => $parsed['country']];
     }
 

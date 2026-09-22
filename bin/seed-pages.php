@@ -236,7 +236,12 @@ function markdownToHtml(string $markdown): string
 // Les pages dont le texte vit dans bin/content/ : elles sont toujours
 // réécrites, car ce fichier est la source de vérité.
 $fromFile = [
-    'mentions-legales' => 'Politique de confidentialité',
+    // Trois documents distincts : les mentions exigées par la LCEN, le
+    // traitement des données, et les règles d'usage du service. Les réunir
+    // sous un seul titre laissait deux obligations sur trois non couvertes.
+    'mentions-legales' => 'Mentions légales',
+    'confidentialite'  => 'Politique de confidentialité',
+    'cgu'              => 'Conditions générales d’utilisation',
 ];
 foreach ($fromFile as $slug => $title) {
     $file = __DIR__ . '/content/' . $slug . '.md';

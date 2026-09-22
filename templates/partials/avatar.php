@@ -11,10 +11,20 @@
  */
 $color = tile_color($name);
 $has = ($id ?? '') !== '';
+
+// Les dimensions réservent la place avant le chargement : sans elles, la mise
+// en page saute quand les images arrivent.
+$box = (int) (preg_match('/tile-(\d+)/', (string) ($size ?? ''), $m) ? $m[1] : 64);
+
+// Au-delà d'une vignette de liste, on sert l'original ; en dessous, la version
+// réduite suffit largement, même sur un écran à haute densité.
+$thumb = $box <= 96;
 ?>
 <?php if ($has): ?>
   <span class="tile <?= e($size) ?> tile-media" style="background:<?= e($color) ?>">
-    <img src="/media/<?= e($kind) ?>/<?= e($id) ?>" alt="" loading="lazy" decoding="async">
+    <img src="/media/<?= e($kind) ?>/<?= e($id) ?><?= $thumb ? '?t=1' : '' ?>"
+         alt="" loading="lazy" decoding="async"
+         width="<?= $box ?>" height="<?= $box ?>">
   </span>
 <?php else: ?>
   <span class="tile <?= e($size) ?>" style="background:<?= e($color) ?>;color:<?= e(on_color($color)) ?>">

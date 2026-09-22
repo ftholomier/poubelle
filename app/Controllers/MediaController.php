@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\Config;
+use App\Services\Image;
 use App\Core\Request;
 use App\Core\Response;
 use App\Domain\CvRepository;
@@ -32,6 +33,14 @@ final class MediaController extends Controller
         $relative = $this->resolve($kind, $id);
         if ($relative === null) {
             return Response::text('', 404);
+        }
+
+        // Les listes demandent la vignette : 256 px au lieu de l'original.
+        if ($kind !== 'cv' && (string) $request->get('t', '') !== '') {
+            $thumb = Image::thumbPath($relative);
+            if (is_file(Config::path('data') . '/uploads/' . $thumb)) {
+                $relative = $thumb;
+            }
         }
 
         $base = realpath(Config::path('data') . '/uploads');

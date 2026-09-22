@@ -164,7 +164,7 @@ $steps = ['post_cv.step1' => 'bloc-profil', 'post_cv.step2' => 'bloc-competences
         <label class="check">
           <input type="checkbox" name="gdpr" value="1" required <?= !empty($old['gdpr']) ? 'checked' : '' ?>>
           <span><?= e(I18n::t('form.gdpr')) ?>
-            <a href="<?= e(I18n::url('/mentions-legales')) ?>"><?= e(I18n::t('form.gdpr_link')) ?></a></span>
+            <a href="<?= e(I18n::url('/confidentialite')) ?>"><?= e(I18n::t('form.gdpr_link')) ?></a></span>
         </label>
         <?php if ($err('gdpr') !== ''): ?><span class="field-error"><?= e($err('gdpr')) ?></span><?php endif; ?>
       </div>

@@ -91,14 +91,74 @@ final class Backup
         if ($zip->open($file) !== true) {
             return false;
         }
-        $ok = $zip->extractTo(Config::path('data'));
+
+        /**
+         * Extraire par-dessus l'existant n'effaçait rien : une fiche créée
+         * après l'instantané survivait à la restauration, qui ne ramenait donc
+         * pas exactement l'état d'origine. On extrait à côté, puis on permute
+         * dossier par dossier — l'ancien contenu reste sous la main jusqu'au
+         * bout, et un échec en cours de route n'abîme rien.
+         */
+        $staging = Config::path('data') . '/private/restore-' . bin2hex(random_bytes(6));
+        if (!@mkdir($staging, 0775, true)) {
+            $zip->close();
+            return false;
+        }
+        $ok = $zip->extractTo($staging);
         $zip->close();
+
+        if ($ok) {
+            $trash = $staging . '-remplace';
+            @mkdir($trash, 0775, true);
+
+            foreach (glob($staging . '/*', GLOB_ONLYDIR) ?: [] as $source) {
+                $folder = basename($source);
+                // Les sauvegardes elles-mêmes ne sont jamais remplacées :
+                // restaurer ne doit pas effacer les autres instantanés.
+                if ($folder === 'backups') {
+                    continue;
+                }
+                $target = Config::path('data') . '/' . $folder;
+                if (is_dir($target) && !@rename($target, $trash . '/' . $folder)) {
+                    $ok = false;
+                    break;
+                }
+                if (!@rename($source, $target)) {
+                    // Retour arrière immédiat sur ce dossier.
+                    @rename($trash . '/' . $folder, $target);
+                    $ok = false;
+                    break;
+                }
+            }
+
+            self::removeTree($trash);
+        }
+        self::removeTree($staging);
 
         if ($ok) {
             Index::rebuildAll();
             Audit::log('backup.restored', ['file' => basename($name)], $userId);
+        } else {
+            Audit::log('backup.restore_failed', ['file' => basename($name)], $userId);
         }
         return $ok;
+    }
+
+    /** Supprime un dossier et son contenu, sans jamais suivre un lien. */
+    private static function removeTree(string $path): void
+    {
+        if (!is_dir($path) || is_link($path)) {
+            @unlink($path);
+            return;
+        }
+        foreach (scandir($path) ?: [] as $entry) {
+            if ($entry === '.' || $entry === '..') {
+                continue;
+            }
+            $child = $path . '/' . $entry;
+            is_dir($child) && !is_link($child) ? self::removeTree($child) : @unlink($child);
+        }
+        @rmdir($path);
     }
 
     public static function delete(string $name): bool

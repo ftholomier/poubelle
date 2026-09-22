@@ -1,5 +1,9 @@
 <?php
-/** Tableau de bord. @var array $kpi @var array $rows @var array $journal @var array $backups @var array $knowledge */
+/**
+ * Tableau de bord.
+ * @var array $kpi @var int $pending @var array $rows @var array $journal
+ * @var array $backups @var array $knowledge
+ */
 use App\Services\I18n;
 use App\Support\Icon;
 
@@ -20,6 +24,15 @@ $stateLabel = static fn(string $s): string => match ($s) {
   </div>
   <a class="btn btn-coral btn-sm" href="/admin/contenus"><?= Icon::svg('plus', 15, '#fff', 2.2) ?> Nouveau contenu</a>
 </div>
+
+<?php if (($pending ?? 0) > 0): ?>
+  <?php // Ce qui attend une décision passe avant les compteurs. ?>
+  <div class="notice notice-wait" role="status">
+    <strong><?= (int) $pending ?></strong> dépôt(s) en attente de modération.
+    <a href="/admin/offres?etat=pending">Voir les annonces</a> ·
+    <a href="/admin/cv?etat=pending">Voir les CV</a>
+  </div>
+<?php endif; ?>
 
 <div class="kpi-grid">
   <?php foreach ([

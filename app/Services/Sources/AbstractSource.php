@@ -21,6 +21,45 @@ abstract class AbstractSource implements JobSource
         return max(2, (int) \App\Core\Config::get('sources.timeout', 6));
     }
 
+    /**
+     * Filtre une adresse configurable avant de l'appeler depuis le serveur.
+     *
+     * Les points d'entrée Indeed se règlent au back-office : sans contrôle, une
+     * adresse comme « http://127.0.0.1:8080/admin » ou « file:///etc/passwd »
+     * serait lue par le serveur et son contenu remonté. On exige HTTPS et un
+     * hôte public.
+     */
+    protected static function safeUrl(string $url): string
+    {
+        $url = trim($url);
+        if ($url === '') {
+            return '';
+        }
+
+        $parts = parse_url($url);
+        $scheme = strtolower((string) ($parts['scheme'] ?? ''));
+        $host = (string) ($parts['host'] ?? '');
+        if ($scheme !== 'https' || $host === '') {
+            return '';
+        }
+
+        // Adresse littérale : elle doit être publique et routable.
+        if (filter_var($host, FILTER_VALIDATE_IP) !== false) {
+            $public = filter_var(
+                $host,
+                FILTER_VALIDATE_IP,
+                FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE,
+            );
+            return $public === false ? '' : $url;
+        }
+
+        // Nom local ou réservé : on n'y va pas.
+        if (!str_contains($host, '.') || preg_match('/\.(local|internal|localhost|test)$/i', $host) === 1) {
+            return '';
+        }
+        return $url;
+    }
+
     public function key(): string
     {
         return strtolower(str_replace(' ', '-', $this->name()));

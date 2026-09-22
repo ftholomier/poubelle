@@ -143,7 +143,10 @@ JSON (`content/`, `jobs/`, `cv/`, `employers/`, `users/`, `index/`) et un
 séparément.
 
 **Depuis le back-office** : *Sauvegardes* → `Restaurer`. L'état courant est
-sauvegardé avant écrasement, donc une restauration reste réversible.
+sauvegardé avant écrasement, donc une restauration reste réversible. La
+restauration extrait l'instantané à côté puis permute les dossiers : une fiche
+créée après l'instantané disparaît bien, et un échec en cours de route ne
+laisse rien d'abîmé.
 
 **En ligne de commande** :
 
@@ -168,7 +171,11 @@ php bin/reindex.php
 | --- | --- |
 | Mots de passe | Argon2id. Les empreintes WordPress (`$wp$` bcrypt, `$P$` phpass) sont acceptées une dernière fois et **converties à la première connexion réussie** — personne n'a à réinitialiser. |
 | Récupération | Jeton à usage unique, 30 minutes, stocké **haché** (`sha256`) dans `data/private/auth/`. |
-| Limitation de débit | Par IP, sur fichier : connexion (5/15 min), dépôts (5/h), assistant (20/10 min), récupération (5/h). L'IP n'est jamais stockée en clair, seulement un HMAC. |
+| Accès au back-office | Réservé aux rôles listés dans `security.staff_roles` (par défaut `admin`). Un compte candidat ou employeur peut se connecter au site, jamais à l'administration : la connexion le refuse et une session non habilitée reçoit un 403. |
+| Limitation de débit | Par IP, sur fichier : connexion (5/15 min), dépôts (5/h), mise en relation (5/h), assistant (20/10 min), récupération (5/h). L'IP n'est jamais stockée en clair, seulement un HMAC dérivé de `app_key`, créée au premier démarrage. |
+| Journal | `data/logs/audit-AAAA-MM.jsonl`. L'adresse IP y figure sous forme d'empreinte tronquée, jamais en clair. Rétention : douze mois, appliquée par le cron. |
+| Dépôts publics | Champ piège, délai minimal de saisie signé et relecture du contenu. Un dépôt douteux part en file de modération plutôt que d'être publié. |
+| Proxys | `security.trusted_proxies` : les en-têtes `X-Forwarded-For` et `X-Forwarded-Proto` ne sont lus que derrière un proxy déclaré. Vide par défaut, ce qui est le bon réglage sur un mutualisé. |
 | CSRF | Un jeton par formulaire, comparé en temps constant. |
 | Cookies | `SameSite=Strict`, `HttpOnly`, `Secure` dès que HTTPS est actif. |
 | En-têtes | CSP avec nonce, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`. |
@@ -285,6 +292,50 @@ Les codes ROME interrogés côté France Travail sont dans
 `config.php → sources.france_travail.rome` ; vider ce tableau bascule la
 recherche sur les seuls mots-clés.
 
+## Alertes e-mail
+
+*Alertes & e-mails* réunit l'adresse qui reçoit l'activité du site, le choix des
+événements notifiés et le transport des messages.
+
+Deux transports : la fonction `mail()` de PHP par défaut, et un client SMTP
+authentifié dès qu'un serveur est renseigné — ce qui vaut mieux pour la
+délivrabilité. Le bouton *Envoyer un message de test* envoie un vrai message :
+c'est la seule vérification qui prouve la chaîne complète.
+
+Un plafond de soixante alertes par heure évite qu'une vague de dépôts remplisse
+la boîte ; au-delà, les alertes sont seulement journalisées.
+
+---
+
+## Référencement
+
+*Référencement* pilote l'adresse, le titre, la méta description et la directive
+robots de chaque rubrique et de chaque page éditoriale.
+
+Le code parle en chemins internes — `/offres`, `/offre/{slug}` — et `I18n::url()`
+les traduit en adresses publiques. Renommer une rubrique met donc en place une
+redirection permanente depuis l'ancienne, fiches comprises, sans toucher à un
+seul gabarit.
+
+Les gabarits de titre acceptent des variables : `{titre}`, `{employeur}`,
+`{ville}`, `{contrat}`, `{site}` pour une offre ; `{nom}`, `{metier}`,
+`{ville}`, `{annees}` pour un CV.
+
+---
+
+## Durée de vie des annonces
+
+Une annonce reste en ligne trente jours, quarante-cinq pour un poste permanent,
+ou jusqu'à une semaine après sa date de démarrage si celle-ci est plus lointaine.
+Passé ce délai, `bin/cron.php` la passe en « expirée » : elle quitte les listes,
+les compteurs et le plan du site, sa fiche reste lisible sous un bandeau et en
+`noindex`, et l'archive répond 410 au bout de six mois.
+
+Le back-office propose *Prolonger* sur chaque annonce expirée : elle repart pour
+une durée complète.
+
+---
+
 ## Publicité et consentement
 
 Sept emplacements, activables individuellement depuis le back-office :
@@ -307,7 +358,31 @@ visiteur n'a pas répondu, aucune requête ne part vers Google.
 | `bin/fetch-fonts.php` | Auto-héberge Bricolage Grotesque et Plus Jakarta Sans. |
 | `bin/reindex.php` | Reconstruit les index et la base de connaissance. |
 | `bin/backup.php` | Instantanés : créer, lister, restaurer. |
+| `bin/cron.php` | Tâches planifiées : expiration des annonces, cache des partenaires, traduction par lot, réindexation, purges, sauvegarde. |
+| `bin/optimize-images.php` | Redimensionne les images déjà téléversées et produit leurs vignettes. |
 | `bin/router-dev.php` | Routeur du serveur PHP intégré (développement). |
+
+### Tâches planifiées
+
+Une seule ligne de crontab suffit : chaque tâche porte son propre intervalle et
+ne s'exécute que si elle est due.
+
+```cron
+0,30 * * * * /usr/local/bin/php /home/COMPTE/site/bin/cron.php --quiet
+```
+
+Chez o2switch, cela se règle dans cPanel → *Tâches planifiées*. Sans cette
+ligne, les annonces ne s'archivent pas d'elles-mêmes, le cache des partenaires
+ne se rafraîchit plus et les journaux ne sont jamais purgés.
+
+| Tâche | Intervalle | Effet |
+| --- | --- | --- |
+| `expire` | 30 min | Passe en « expirée » toute annonce dont la date de fin est dépassée. |
+| `sources` | 30 min | Rafraîchit le cache des offres partenaires, hors requête de visiteur. |
+| `translate` | 1 h | Traduit par lot les fiches manquantes. |
+| `reindex` | 1 j | Reconstruit les index dénormalisés. |
+| `purge` | 1 j | Journal à 12 mois, traces d'e-mail à 7 jours, verrous à 7 jours. |
+| `backup` | 1 j | Instantané quotidien, avec rotation. |
 
 ---
 

@@ -26,6 +26,7 @@ use App\Services\Knowledge;
 use App\Services\Mailer;
 use App\Services\Notifier;
 use App\Services\Sanitizer;
+use App\Services\Search;
 use App\Services\Secrets;
 use App\Services\Seo;
 use App\Services\SecretsTest;
@@ -156,13 +157,25 @@ final class AdminController extends Controller
             ];
         }
 
+        // Les compteurs annoncent ce qui est réellement en ligne, et ce qui
+        // attend une décision : un chiffre gonflé par des annonces périmées
+        // n'aide personne.
+        $pending = count(array_filter(
+            JobRepository::all(),
+            static fn(array $j) => ($j['status'] ?? '') === 'pending',
+        )) + count(array_filter(
+            CvRepository::all(),
+            static fn(array $c) => ($c['status'] ?? '') === 'pending',
+        ));
+
         return $this->screen('admin/dashboard', [
             'kpi' => [
-                'jobs'  => (int) ($jobFacets['total'] ?? 0),
+                'jobs'  => Search::liveJobCount(),
                 'cv'    => (int) ($cvFacets['total'] ?? 0),
                 'regie' => count(Audit::recent(200, 'regie.answered')),
                 'ads'   => count(array_filter(Ads::slots(), static fn(array $s) => $s['enabled'])),
             ],
+            'pending' => $pending,
             'rows'      => $rows,
             'journal'   => Audit::recent(12),
             'backups'   => array_slice(Backup::listAll(), 0, 5),
