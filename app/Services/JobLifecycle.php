@@ -20,8 +20,15 @@ use App\Storage\Index;
  */
 final class JobLifecycle
 {
-    /** Contrats considérés comme durables : on leur laisse plus de temps. */
-    private const LONG_CONTRACTS = ['cdi', 'cdd', 'permanent', 'temps plein', 'temps partiel'];
+    /**
+     * Contrats considérés comme durables : on leur laisse plus de temps.
+     *
+     * « CDD d'usage » n'en fait pas partie : c'est le contrat au cachet du
+     * spectacle, par nature court. Le préfixe seul l'aurait attrapé, d'où la
+     * comparaison exacte après normalisation.
+     */
+    private const LONG_CONTRACTS = ['cdi', 'cdd', 'permanent', 'temps plein', 'temps partiel',
+                                    'cdi intermittent'];
 
     /** Durée de vie, en jours, d'après le type de contrat. */
     public static function lifetimeDays(array $job): int
@@ -31,10 +38,8 @@ final class JobLifecycle
 
         foreach ((array) ($job['contract'] ?? []) as $contract) {
             $needle = mb_strtolower(trim((string) $contract));
-            foreach (self::LONG_CONTRACTS as $word) {
-                if ($needle !== '' && str_starts_with($needle, $word)) {
-                    return $long;
-                }
+            if ($needle !== '' && in_array($needle, self::LONG_CONTRACTS, true)) {
+                return $long;
             }
         }
         return $short;
