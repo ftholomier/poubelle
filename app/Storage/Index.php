@@ -100,6 +100,7 @@ final class Index
                 'tags'      => array_slice(array_values((array) ($job['tags'] ?? [])), 0, 8),
                 'excerpt'   => str_excerpt((string) ($job['description'] ?? ''), 180),
                 'published_at' => $job['published_at'] ?: $job['created_at'],
+                'starts_at' => $job['starts_at'] ?? '',
                 'expires_at'=> $job['expires_at'] ?? '',
                 'filled'    => (bool) ($job['filled'] ?? false),
                 'featured'  => (bool) ($job['featured'] ?? false),

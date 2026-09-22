@@ -74,12 +74,26 @@ final class JobLifecycle
         return $job;
     }
 
+    /**
+     * Une annonce est-elle périmée ?
+     *
+     * Sans date de fin inscrite — les annonces reprises de WordPress n'en ont
+     * pas — on la calcule à la volée depuis la date de publication. Les listes,
+     * les compteurs et le plan du site sont donc justes dès la mise en ligne,
+     * sans attendre le premier passage de la tâche planifiée, qui se contente
+     * ensuite d'inscrire le statut sur disque.
+     */
     public static function isExpired(array $item, ?int $now = null): bool
     {
         $expires = trim((string) ($item['expires_at'] ?? ''));
         if ($expires === '') {
-            return false;
+            $published = trim((string) ($item['published_at'] ?? $item['created_at'] ?? ''));
+            if ($published === '') {
+                return false;
+            }
+            $expires = self::expiresAt($item);
         }
+
         $timestamp = strtotime($expires);
         return $timestamp !== false && $timestamp < ($now ?? time());
     }
