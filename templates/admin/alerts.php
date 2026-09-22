@@ -7,6 +7,8 @@
  * @var string[]    $recipients  adresses qui recevront réellement les alertes
  * @var string      $transport   « smtp » ou « mail »
  * @var string      $notice
+ * @var string[]    $errors
+ * @var array       $posted      valeurs refusées, à redonner à corriger
  * @var array|null  $test
  */
 use App\Core\Csrf;
@@ -22,17 +24,17 @@ use App\Services\Secrets;
 </div>
 
 <?php if ($notice !== ''): ?><div class="notice notice-ok" role="status"><?= e($notice) ?></div><?php endif; ?>
+<?php if ($errors !== []): ?>
+  <div class="notice notice-err" role="alert" tabindex="-1" data-error-focus>
+    <?php foreach ($errors as $error): ?><div><?= e($error) ?></div><?php endforeach; ?>
+  </div>
+<?php endif; ?>
 
 <form method="post">
   <?= Csrf::field('admin-alerts') ?>
 
   <div class="admin-card">
-    <div class="admin-head" style="margin-bottom:12px">
-      <h2>État de l’envoi</h2>
-      <button type="submit" name="test" value="mail" class="btn btn-ghost btn-sm" formnovalidate>
-        Envoyer un message de test
-      </button>
-    </div>
+    <div class="admin-head" style="margin-bottom:12px"><h2>État de l’envoi</h2></div>
 
     <?php if ($test !== null): ?>
       <div class="notice <?= $test['ok'] ? 'notice-ok' : 'notice-err' ?>" role="status">
@@ -85,7 +87,11 @@ use App\Services\Secrets;
     <?php foreach ((array) ($group['keys'] ?? []) as $key => $meta): ?>
       <?php
       $public  = !empty($meta['public']);
-      $current = Secrets::display($key, $public);
+      // Après un refus, le champ redonne ce qui vient d'être saisi : personne
+      // ne doit retaper une liste d'adresses pour une virgule de travers.
+      $current = array_key_exists($key, $posted) && $public
+          ? (string) $posted[$key]
+          : Secrets::display($key, $public);
       $isSet   = Secrets::has($key);
       ?>
       <div class="secret-row">
@@ -123,10 +129,14 @@ use App\Services\Secrets;
   <div class="save-bar">
     <span class="save-bar-note">
       Le mot de passe SMTP laissé vide conserve sa valeur ; il s’efface par sa case « Effacer ».
-      Les autres champs s’effacent en les vidant.
+      Les autres champs s’effacent en les vidant. Le test enregistre d’abord, puis envoie un
+      message à l’adresse ci-dessus.
     </span>
     <button type="submit" name="action" value="save" class="btn btn-coral">
       <?= e(I18n::t('admin.save')) ?>
+    </button>
+    <button type="submit" name="action" value="test" class="btn btn-ghost-light" formnovalidate>
+      Enregistrer et envoyer un test
     </button>
   </div>
 </form>

@@ -36,6 +36,24 @@ final class Notifier
     /** Plafond d'alertes par heure : au-delà, on journalise sans envoyer. */
     private const MAX_PER_HOUR = 60;
 
+    /**
+     * Découpe une liste d'adresses saisie à la main, sans rien valider.
+     * Virgule, point-virgule ou simple espace font office de séparateur.
+     *
+     * @return string[]
+     */
+    public static function split(string $raw): array
+    {
+        $out = [];
+        foreach (preg_split('/[,;\s]+/', $raw) ?: [] as $address) {
+            $address = trim($address);
+            if ($address !== '') {
+                $out[] = $address;
+            }
+        }
+        return array_values(array_unique($out));
+    }
+
     /** @return string[] */
     public static function recipients(): array
     {
@@ -44,14 +62,10 @@ final class Notifier
             $raw = (string) Config::get('site.email', '');
         }
 
-        $out = [];
-        foreach (preg_split('/[,;\s]+/', $raw) ?: [] as $address) {
-            $address = trim($address);
-            if ($address !== '' && filter_var($address, FILTER_VALIDATE_EMAIL) !== false) {
-                $out[] = $address;
-            }
-        }
-        return array_values(array_unique($out));
+        return array_values(array_filter(
+            self::split($raw),
+            static fn(string $a) => filter_var($a, FILTER_VALIDATE_EMAIL) !== false,
+        ));
     }
 
     /** Une alerte est active tant qu'elle n'a pas été décochée. */

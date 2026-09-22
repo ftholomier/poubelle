@@ -2,6 +2,7 @@
 /**
  * Clés d'API et identifiants.
  * @var array $catalog @var array $slots @var string $notice @var array|null $test
+ * @var string[] $errors
  */
 use App\Core\Csrf;
 use App\Services\I18n;
@@ -17,6 +18,11 @@ use App\Support\Icon;
 </div>
 
 <?php if ($notice !== ''): ?><div class="notice notice-ok" role="status"><?= e($notice) ?></div><?php endif; ?>
+<?php if ($errors !== []): ?>
+  <div class="notice notice-err" role="alert" tabindex="-1" data-error-focus>
+    <?php foreach ($errors as $error): ?><div><?= e($error) ?></div><?php endforeach; ?>
+  </div>
+<?php endif; ?>
 
 <form method="post">
   <?= Csrf::field('admin-settings') ?>

@@ -362,7 +362,7 @@ return [
     'admin.secret_empty' => 'Non renseignée',
     'admin.secret_keep'  => 'Laissez vide pour conserver la valeur actuelle.',
     'admin.secret_clear' => 'Effacer',
-    'admin.test'         => 'Tester la connexion',
+    'admin.test'         => 'Enregistrer et tester',
     'admin.generate'     => 'Générer une clé',
     'admin.sources_note' => 'Ces offres complètent les annonces déposées sur le site. Elles ne sont jamais '
                           . 'enregistrées localement et renvoient vers leur site d’origine.',
@@ -393,6 +393,9 @@ return [
     'admin.state_missing'=> 'Manquant',
     'admin.translate_all'=> 'Traduire ce qui manque',
     'admin.saved'        => 'Enregistré.',
+    'admin.save_failed'  => 'Enregistrement impossible : le site n’a pas pu écrire dans '
+                          . 'data/private. Vérifiez les droits du dossier et l’espace disque.',
+    'admin.bad_email'    => 'Adresse e-mail invalide : « %s ». Rien n’a été enregistré.',
     'admin.translate_unavailable' => 'Aucune clé Google Cloud Translation configurée : la traduction automatique est désactivée.',
 
     // Divers

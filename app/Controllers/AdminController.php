@@ -680,6 +680,7 @@ final class AdminController extends Controller
         }
 
         $notice = '';
+        $errors = [];
         $test = null;
 
         if ($request->isPost() && Csrf::check($request)) {
@@ -687,32 +688,39 @@ final class AdminController extends Controller
             // Le bouton de test porte son groupe dans sa propre valeur.
             $group = (string) $request->input('test', '');
 
-            if ($group !== '') {
-                $test = ['group' => $group] + SecretsTest::run($group);
-                Audit::log('secrets.tested', ['group' => $group, 'ok' => $test['ok']], $this->userId());
-            } elseif ($action === 'generate') {
-                Secrets::save(['app_key' => Secrets::generateKey()], [], $this->userId());
+            // Un champ laissé vide ne doit pas effacer la valeur en place :
+            // le formulaire ne réaffiche jamais un secret.
+            $values = [];
+            foreach (array_keys(Secrets::flatten()) as $key) {
+                if (array_key_exists($key, $request->post)) {
+                    $values[$key] = (string) $request->post[$key];
+                }
+            }
+            $slots = $request->post['adsense_slots'] ?? [];
+            if (is_array($slots)) {
+                $values['adsense_slots'] = $slots;
+            }
+            if ($action === 'generate') {
+                $values['app_key'] = Secrets::generateKey();
+            }
+            $clear = array_values(array_filter(
+                (array) ($request->post['clear'] ?? []),
+                static fn($k) => is_string($k) && $k !== '',
+            ));
+
+            // Tous les boutons de cet écran — enregistrer, engendrer une clé,
+            // tester — commencent par enregistrer la saisie. Le test comme la
+            // génération la faisaient disparaître, ce qui donnait l'impression
+            // qu'un réglage « ne se change pas ».
+            if (Secrets::save($values, $clear, $this->userId())) {
                 $notice = I18n::t('admin.saved');
             } else {
-                // Un champ laissé vide ne doit pas effacer la valeur en place :
-                // le formulaire ne réaffiche jamais un secret.
-                $values = [];
-                foreach (array_keys(Secrets::flatten()) as $key) {
-                    if (array_key_exists($key, $request->post)) {
-                        $values[$key] = (string) $request->post[$key];
-                    }
-                }
-                $slots = $request->post['adsense_slots'] ?? [];
-                if (is_array($slots)) {
-                    $values['adsense_slots'] = $slots;
-                }
-                $clear = array_values(array_filter(
-                    (array) ($request->post['clear'] ?? []),
-                    static fn($k) => is_string($k) && $k !== '',
-                ));
+                $errors[] = I18n::t('admin.save_failed');
+            }
 
-                Secrets::save($values, $clear, $this->userId());
-                $notice = I18n::t('admin.saved');
+            if ($group !== '' && $errors === []) {
+                $test = ['group' => $group] + SecretsTest::run($group);
+                Audit::log('secrets.tested', ['group' => $group, 'ok' => $test['ok']], $this->userId());
             }
         }
 
@@ -725,6 +733,7 @@ final class AdminController extends Controller
             ),
             'slots'   => Ads::slots(),
             'notice'  => $notice,
+            'errors'  => $errors,
             'test'    => $test,
         ], I18n::t('admin.settings'));
     }
@@ -861,20 +870,29 @@ final class AdminController extends Controller
         }
 
         $notice = '';
+        $errors = [];
         $test = null;
+        $posted = [];
 
         if ($request->isPost() && Csrf::check($request)) {
-            if ((string) $request->input('test', '') !== '') {
-                $test = ['group' => 'mail'] + SecretsTest::run('mail');
-                Audit::log('secrets.tested', ['group' => 'mail', 'ok' => $test['ok']], $this->userId());
-            } else {
-                $values = [];
-                foreach (array_keys((array) (Secrets::CATALOG['mail']['keys'] ?? [])) as $key) {
-                    if (array_key_exists($key, $request->post)) {
-                        $values[$key] = (string) $request->post[$key];
-                    }
-                }
+            // « test » reste accepté sous son ancien nom : un formulaire encore
+            // affiché dans un onglet ouvert doit continuer de fonctionner.
+            $action = (string) $request->input('test', '') !== ''
+                ? 'test'
+                : (string) $request->input('action', 'save');
 
+            $values = [];
+            foreach (array_keys((array) (Secrets::CATALOG['mail']['keys'] ?? [])) as $key) {
+                if (array_key_exists($key, $request->post)) {
+                    $values[$key] = (string) $request->post[$key];
+                }
+            }
+            // Gardées de côté : en cas de refus, le formulaire redonne à
+            // corriger ce qui vient d'être saisi, jamais l'état précédent.
+            $posted = $values;
+            $errors = $this->checkMailAddresses($values);
+
+            if ($errors === []) {
                 // Cases décochées : le navigateur ne les renvoie pas, on note
                 // donc explicitement « off » pour chaque événement absent.
                 $checked = (array) ($request->post['events'] ?? []);
@@ -889,8 +907,22 @@ final class AdminController extends Controller
                     static fn($k) => is_string($k) && $k !== '',
                 ));
 
-                Secrets::save($values, $clear, $this->userId());
-                $notice = I18n::t('admin.saved');
+                // Un enregistrement qui échoue — dossier en lecture seule,
+                // disque plein — ne doit pas s'annoncer comme réussi : c'est
+                // ce qui fait croire qu'une adresse « ne se change pas ».
+                if (Secrets::save($values, $clear, $this->userId())) {
+                    $notice = I18n::t('admin.saved');
+                    $posted = [];
+                } else {
+                    $errors[] = I18n::t('admin.save_failed');
+                }
+            }
+
+            // Le test part après l'enregistrement : il éprouve les réglages
+            // qui viennent d'être saisis, pas ceux d'avant.
+            if ($action === 'test' && $errors === []) {
+                $test = ['group' => 'mail'] + SecretsTest::run('mail');
+                Audit::log('secrets.tested', ['group' => 'mail', 'ok' => $test['ok']], $this->userId());
             }
         }
 
@@ -900,8 +932,38 @@ final class AdminController extends Controller
             'recipients' => Notifier::recipients(),
             'transport'  => Mailer::transport(),
             'notice'     => $notice,
+            'errors'     => $errors,
+            'posted'     => $posted,
             'test'       => $test,
         ], I18n::t('admin.alerts'));
+    }
+
+    /**
+     * Contrôle des adresses saisies sur l'écran des alertes.
+     *
+     * Une adresse mal formée n'aurait jamais reçu la moindre alerte : elle
+     * aurait été enregistrée, réaffichée telle quelle, puis écartée en
+     * silence au moment de l'envoi. Le formulaire la refuse.
+     *
+     * @param  array<string,string> $values
+     * @return string[]
+     */
+    private function checkMailAddresses(array $values): array
+    {
+        $errors = [];
+
+        foreach (Notifier::split((string) ($values['alert_email'] ?? '')) as $address) {
+            if (filter_var($address, FILTER_VALIDATE_EMAIL) === false) {
+                $errors[] = I18n::t('admin.bad_email', $address);
+            }
+        }
+
+        $from = trim((string) ($values['mail_from'] ?? ''));
+        if ($from !== '' && filter_var($from, FILTER_VALIDATE_EMAIL) === false) {
+            $errors[] = I18n::t('admin.bad_email', $from);
+        }
+
+        return $errors;
     }
 
     /* ---------------------------------------------------------------- privé */
