@@ -57,6 +57,20 @@ final class Ads
         return ($slotIds !== [] || self::defaultSlot() !== '') ? 'slots' : 'auto';
     }
 
+    /** Le code collé par l'éditeur, réaffiché tel quel dans le formulaire. */
+    public static function snippet(): string
+    {
+        return (string) (Json::read(self::statePath())['snippet'] ?? '');
+    }
+
+    public static function setSnippet(string $snippet): void
+    {
+        $state = Json::read(self::statePath());
+        $state['snippet'] = mb_substr(trim($snippet), 0, 4000);
+        Json::write(self::statePath(), $state);
+        self::$state = null;
+    }
+
     public static function setMode(string $mode): void
     {
         $state = Json::read(self::statePath());

@@ -1,5 +1,9 @@
 <?php
-/** Emplacements publicitaires. @var array $slots @var string $client @var string $mode @var string $notice */
+/**
+ * Emplacements publicitaires.
+ * @var array $slots @var string $client @var string $mode
+ * @var string $snippet @var array|null $parsed @var string $notice
+ */
 use App\Core\Csrf;
 use App\Services\I18n;
 ?>
@@ -12,7 +16,52 @@ use App\Services\I18n;
   </div>
 </div>
 
-<?php if ($notice !== ''): ?><div class="notice notice-ok" role="status"><?= e($notice) ?></div><?php endif; ?>
+<?php // Une lecture de code a son propre retour, juste sous le champ collé. ?>
+<?php if ($notice !== '' && $parsed === null): ?>
+  <div class="notice notice-ok" role="status"><?= e($notice) ?></div>
+<?php endif; ?>
+
+<form method="post" class="admin-card">
+  <?= Csrf::field('admin-ads') ?>
+  <input type="hidden" name="action" value="snippet">
+
+  <h2 style="margin-top:0">Coller le code AdSense</h2>
+  <p class="s">
+    Le plus direct : copiez le bloc que Google vous donne dans
+    <em>AdSense → Annonces</em> et collez-le ici. Le site en lit l’identifiant éditeur, l’unité
+    et son format, puis pose lui-même le code sur les emplacements — l’unité trouvée sert
+    <strong>tous les blocs</strong>. Collez l’extrait complet, ou seulement la ligne
+    <code>&lt;script …&gt;</code> pour les annonces automatiques.
+  </p>
+  <p class="s" style="opacity:.75">
+    Le code collé n’est pas réinjecté tel quel : un <code>&lt;script&gt;</code> inline forcerait
+    à relâcher la politique de sécurité de la page. Il est relu, puis réécrit proprement.
+  </p>
+
+  <label class="field" style="margin-top:12px">
+    <span class="visually-hidden">Code AdSense</span>
+    <textarea class="input" name="snippet" rows="9" spellcheck="false"
+              style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px"
+              placeholder="&lt;script async src=&quot;https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-…&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;"><?= e($snippet) ?></textarea>
+  </label>
+
+  <?php if ($parsed !== null): ?>
+    <div class="notice <?= $parsed['client'] !== '' ? 'notice-ok' : 'notice-err' ?>" role="status"
+         style="margin-top:14px">
+      <strong>Lu dans votre code :</strong>
+      identifiant éditeur <?= $parsed['client'] !== '' ? '<code>' . e($parsed['client']) . '</code>' : '—' ?>,
+      unité <?= $parsed['slot'] !== '' ? '<code>' . e($parsed['slot']) . '</code>' : 'aucune' ?><?php
+        if ($parsed['format'] !== ''): ?>, format <code><?= e($parsed['format']) ?></code><?php endif; ?>.
+      <?php foreach ($parsed['notes'] as $note): ?>
+        <br><?= e($note) ?>
+      <?php endforeach; ?>
+    </div>
+  <?php endif; ?>
+
+  <div style="margin-top:16px">
+    <button type="submit" class="btn btn-coral">Lire ce code et l’appliquer</button>
+  </div>
+</form>
 <?php if ($client === ''): ?>
   <div class="notice notice-wait">
     Sans identifiant éditeur, les emplacements affichent le cadre en pointillés de la maquette.
