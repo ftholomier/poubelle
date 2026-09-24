@@ -55,26 +55,33 @@
 .kpi .l { font-size: 12.5px; color: var(--meta); font-weight: 700; margin-top: 7px; }
 
 /* Tables */
-/* Le conteneur défile : mieux vaut une largeur honnête qu'un intitulé
-   d'annonce écrasé sur quatre lignes. */
-.admin-table { width: 100%; min-width: 1180px; border-collapse: collapse; font-size: 14px; }
-.admin-table .t { display: block; min-width: 200px; }
+/* Pleine largeur de la carte. Les 1180 px imposés jusqu'ici dépassaient la
+   carte sur tous les écrans — elle n'en offre jamais plus de 1000 — et la
+   colonne des boutons sortait du cadre. Sous 640 px, le conteneur défile
+   plutôt que d'écraser les colonnes. */
+.admin-table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 14px; }
+.admin-table .t { display: block; min-width: 160px; }
 .admin-table th {
   text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em;
-  color: var(--meta); font-weight: 800; padding: 0 12px 10px; white-space: nowrap;
+  color: var(--meta); font-weight: 800; padding: 0 10px 10px;
 }
-.admin-table td { padding: 12px; border-top: 1px solid var(--rule); vertical-align: middle; }
+/* Un mot plus long que sa colonne ne dépasse pas : il passe à la ligne en
+   dernier recours, sans que les mots ordinaires soient coupés en deux. */
+.admin-table td { padding: 12px 10px; border-top: 1px solid var(--rule); vertical-align: middle; overflow-wrap: break-word; }
 .admin-table tr:hover td { background: var(--cream); }
 .admin-table .t { font-weight: 700; }
 .admin-table .s { font-size: 12.5px; color: var(--meta); }
-.admin-table .actions { display: flex; gap: 6px; justify-content: flex-end; }
+/* Boutons d'une ligne : collés au bord droit, visibles même quand le tableau défile. */
+.admin-table td.actions { position: sticky; right: 0; background: var(--white); text-align: right; white-space: nowrap; }
+.admin-table td.actions > * + * { margin-left: 6px; }
+/* Son en-tête, vide, suit le mouvement : il masque ceux des colonnes qui défilent dessous. */
+.admin-table thead th:last-child:empty { position: sticky; right: 0; background: var(--white); }
 .table-scroll { overflow-x: auto; margin: 0 -6px; padding: 0 6px; }
 /* Référence des éléments en position absolue du tableau (libellés réservés aux
    lecteurs d'écran des cases à cocher) : sans elle, ils échappent au défilement. */
 .table-scroll { position: relative; }
-/* Tableau clé / valeur (réglages, état) : deux colonnes, pas la largeur d'une
-   liste. Hérité de .admin-table, le min-width de 1180 px le faisait sortir de sa
-   carte, et la page défilait de côté même sur un ordinateur. */
+/* Tableau clé / valeur (réglages, état) : deux colonnes, sans plancher de
+   largeur. Hors conteneur défilant, il faisait défiler la page elle-même. */
 .admin-table.table-kv { min-width: 0; }
 
 /* Pastilles d'état */
@@ -257,13 +264,9 @@
  * Avec un bouton de plus, elles s'empilaient et chaque ligne du tableau
  * devenait trois fois trop haute.
  */
-.admin-table .actions {
-  /* Une seule ligne : le conteneur du tableau défile déjà si nécessaire. */
-  flex-wrap: nowrap; white-space: nowrap; align-items: center; min-width: 330px;
-}
-.admin-table .actions form { display: inline-flex; flex: none; }
+.admin-table .actions form { display: inline-flex; vertical-align: middle; }
 .admin-table .actions .btn {
-  white-space: nowrap; padding: 7px 12px; font-size: 13px; min-height: 34px; flex: none;
+  white-space: nowrap; padding: 7px 11px; font-size: 13px; min-height: 34px; vertical-align: middle;
 }
 
 /* Métiers proches : une case par métier, rangées par famille. */
