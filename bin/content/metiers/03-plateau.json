@@ -1,0 +1,497 @@
+{
+  "family": "plateau",
+  "trades": [
+    {
+      "slug": "machiniste",
+      "name": "Machiniste",
+      "name_f": "",
+      "rome": "L1506",
+      "summary": "Il monte les décors, manipule les éléments de scène et assure les changements à vue.",
+      "intro": "Le machiniste monte, démonte et manipule les décors et les éléments de scène : panneaux, praticables, rideaux, perches. Au théâtre ou à l’opéra, il réalise les changements de décor pendant les représentations, souvent à vue ou dans le noir, au top du régisseur. Au cinéma, le machiniste installe les rails de travelling, les grues et les supports de caméra. C’est un métier physique, précis, et central pour la sécurité du plateau.",
+      "missions": [
+        "Monter et démonter les décors selon les plans du décorateur et du régisseur plateau",
+        "Manœuvrer les perches, les cintres et les équipes de levage",
+        "Réaliser les changements de décor pendant les représentations",
+        "Au cinéma, installer travellings, grues, dollies et supports de caméra",
+        "Charger et décharger les décors en tournée, en les protégeant",
+        "Vérifier la stabilité et la sécurité de chaque élément"
+      ],
+      "day": "Dans un opéra, la journée d’un machiniste alterne montages et services de représentation. Le matin, l’équipe démonte le décor de la veille et monte celui du spectacle suivant : praticables, escaliers, toiles à accrocher aux perches. L’après-midi, répétition technique : chaque changement de décor est répété jusqu’à devenir silencieux et sûr. Le soir, dans le noir, au top du régisseur, les machinistes font glisser un mur ou descendre une toile en quelques secondes.",
+      "skills": [
+        "Force physique et bonne coordination en équipe",
+        "Précision et respect absolu des consignes de sécurité",
+        "Lecture de plans de décor et d’implantation",
+        "Connaissance des systèmes de levage, des nœuds et des accessoires d’accroche",
+        "Réactivité pendant les changements en représentation",
+        "Discrétion : un changement réussi ne se voit pas"
+      ],
+      "training": "Le métier s’apprend en bonne partie sur le terrain. Des formations spécifiques existent : parcours de machiniste-constructeur dans les centres du spectacle (CFPTS, ISTS, Grim Édif), CAP de menuiserie complété par une spécialisation, formations à l’accroche et au levage. Au cinéma, on devient machiniste en commençant comme renfort sur les tournages.",
+      "schools": [
+        "CFPTS, parcours machiniste-constructeur (Bagnolet)",
+        "ISTS (Avignon)",
+        "Grim Édif (Lyon)",
+        "CAP menuiserie, puis spécialisation spectacle",
+        "Formation accroche et levage"
+      ],
+      "statut": "Le machiniste est souvent intermittent, engagé en CDDU par les théâtres, les compagnies, les opéras ou les productions de cinéma, et relève de l’annexe 8. Les grandes maisons — opéras, théâtres nationaux — emploient aussi des équipes de machinistes permanents.",
+      "pay": {
+        "min": 140,
+        "max": 220,
+        "unit": "jour",
+        "note": "Au cinéma, le machiniste est payé à la semaine, en général entre 1 200 et 1 700 € brut. Les machinistes permanents d’une grande maison gagnent entre 1 900 et 2 800 € brut par mois selon l’ancienneté."
+      },
+      "career": "Le machiniste peut devenir chef machiniste, puis régisseur plateau ou régisseur général. Au cinéma, il évolue vers le poste de chef machiniste, responsable des mouvements de caméra. Certains se spécialisent dans l’accroche et deviennent riggers.",
+      "faq": [
+        {
+          "q": "Machiniste et cintrier, quelle différence ?",
+          "a": "Le cintrier est un machiniste spécialisé dans les cintres, la partie haute de la cage de scène d’où l’on manœuvre les perches et les toiles. Dans beaucoup de théâtres, les machinistes font les deux."
+        },
+        {
+          "q": "Que fait un machiniste au cinéma ?",
+          "a": "Il installe et fait fonctionner tout ce qui porte ou déplace la caméra : rails de travelling, dollies, grues, bras. Il travaille avec le cadreur et le directeur de la photographie."
+        },
+        {
+          "q": "Faut-il une formation ?",
+          "a": "Ce n’est pas obligatoire, mais les formations à l’accroche, au levage et au travail en hauteur sont très demandées. Un CAP de menuiserie est un bon point de départ."
+        },
+        {
+          "q": "Le métier est-il physique ?",
+          "a": "Oui, très : port de charges, travail en hauteur, horaires décalés. Les bonnes pratiques de manutention sont indispensables pour durer."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8) ou permanent",
+        "training": "Formation courte ou CAP, puis terrain",
+        "sectors": "Théâtre, opéra, tournées, cinéma"
+      },
+      "related": ["regisseur-plateau", "technicien-plateau", "rigger", "constructeur-de-decors"],
+      "keywords": [
+        "machiniste", "chef machiniste", "cheffe machiniste", "cintrier", "cintrière",
+        "machiniste cinéma"
+      ],
+      "search": "machiniste"
+    },
+    {
+      "slug": "regisseur-plateau",
+      "name": "Régisseur plateau",
+      "name_f": "Régisseuse plateau",
+      "rome": "",
+      "summary": "Il organise la scène pendant les montages et les représentations, et coordonne les machinistes.",
+      "intro": "Le régisseur plateau est responsable de tout ce qui se passe sur la scène pendant les montages et les représentations : décors, changements, circulation des artistes, sécurité. Il encadre les machinistes et les techniciens plateau, organise les manipulations et donne les tops des changements. En tournée comme dans un lieu, il est le garant du bon déroulement matériel du spectacle.",
+      "missions": [
+        "Préparer l’implantation des décors et la conduite plateau avec le régisseur général",
+        "Organiser le montage et le démontage, et encadrer les machinistes",
+        "Coordonner les changements de décor et la circulation en coulisses",
+        "Veiller à la sécurité de la scène : charges suspendues, trappes, dégagements",
+        "Faire le lien entre les artistes, les techniciens et l’équipe d’accueil",
+        "Tenir à jour la documentation plateau pour les reprises et la tournée"
+      ],
+      "day": "Le jour d’un accueil, le régisseur plateau arrive avec le camion. Il organise le déchargement, implante le décor au sol, supervise l’accroche des éléments et le montage des pendrillons. Pendant les raccords, il répète avec les machinistes chaque changement et règle la circulation des artistes en coulisses. Le soir, il suit la représentation depuis le plateau, casque sur les oreilles, pour donner ou relayer les tops. Après le salut, il dirige le démontage et le chargement.",
+      "skills": [
+        "Organisation et sens de l’anticipation",
+        "Connaissance de la machinerie, de l’accroche et des règles de sécurité des lieux de spectacle",
+        "Autorité bienveillante pour encadrer une équipe de machinistes",
+        "Lecture de plans et de conduites",
+        "Calme et vigilance pendant les représentations",
+        "Habilitation au travail en hauteur, voire formation à la sécurité incendie (SSIAP)"
+      ],
+      "training": "La plupart des régisseurs plateau sont d’anciens machinistes ou techniciens plateau. Les formations de régie du spectacle — DN MADE mention spectacle, parcours de régie du CFPTS et de l’ISTS, sections régie des écoles supérieures comme l’ENSATT ou le TNS — y préparent aussi. Les formations à l’accroche, au levage et à la sécurité des lieux de spectacle sont des atouts.",
+      "schools": [
+        "DN MADE mention spectacle (ex-DMA régie du spectacle)",
+        "CFPTS (Bagnolet)",
+        "ISTS (Avignon)",
+        "ENSATT (Lyon)",
+        "Formations accroche, levage et sécurité incendie"
+      ],
+      "statut": "Le régisseur plateau peut être permanent d’un théâtre ou d’un opéra, en CDI, ou intermittent engagé par une compagnie pour une création et sa tournée, en CDDU au titre de l’annexe 8.",
+      "pay": {
+        "min": 160,
+        "max": 280,
+        "unit": "jour",
+        "note": "En poste permanent, un régisseur plateau gagne en général entre 2 200 et 3 000 € brut par mois. Les tournées ajoutent des indemnités de déplacement."
+      },
+      "career": "Le régisseur plateau évolue naturellement vers la régie générale, puis la direction technique. Certains se tournent vers la construction de décors ou la scénographie.",
+      "faq": [
+        {
+          "q": "Régisseur plateau et régisseur général, quelle différence ?",
+          "a": "Le régisseur plateau s’occupe de la scène : décors, changements, machinistes. Le régisseur général coordonne toutes les équipes techniques — lumière, son, plateau — et le planning d’ensemble."
+        },
+        {
+          "q": "Faut-il avoir été machiniste ?",
+          "a": "C’est le parcours le plus courant. On comprend mieux ce qu’on demande à une équipe quand on a soi-même manipulé des perches et des décors."
+        },
+        {
+          "q": "Qu’est-ce que la conduite plateau ?",
+          "a": "Le document qui liste, dans l’ordre, tous les changements et manipulations d’un spectacle, avec leurs tops et les personnes qui les réalisent. C’est lui qui permet de reprendre le spectacle en tournée."
+        },
+        {
+          "q": "Le poste existe-t-il dans l’événementiel ?",
+          "a": "Oui, sur les grands événements on parle souvent de régisseur de scène ou de stage manager. Les compétences sont très proches."
+        }
+      ],
+      "brief": {
+        "status": "Permanent (CDI) ou intermittent (annexe 8)",
+        "training": "Parcours de machiniste, formation de régie",
+        "sectors": "Théâtre, opéra, danse, tournées"
+      },
+      "related": ["machiniste", "technicien-plateau", "regisseur-general", "accessoiriste"],
+      "keywords": [
+        "régisseur plateau", "régisseuse plateau", "régisseur de plateau", "régisseuse de plateau",
+        "régie plateau", "régisseur de scène", "régisseuse de scène", "stage manager"
+      ],
+      "search": "régisseur plateau"
+    },
+    {
+      "slug": "technicien-plateau",
+      "name": "Technicien plateau",
+      "name_f": "Technicienne plateau",
+      "rome": "",
+      "summary": "Polyvalent, il monte et exploite décors, lumière et son dans les salles et sur les tournées.",
+      "intro": "Le technicien plateau est un technicien polyvalent du spectacle vivant. Selon les besoins, il décharge le camion, monte le décor, accroche des projecteurs, câble le son ou manipule des éléments pendant la représentation. On le trouve surtout dans les salles polyvalentes, les petites et moyennes scènes et les compagnies en tournée, où une équipe réduite doit tout faire. C’est un métier idéal pour découvrir la technique du spectacle dans son ensemble.",
+      "missions": [
+        "Charger, décharger et installer le matériel et les décors",
+        "Monter les pendrillons, les tapis de danse et les praticables",
+        "Participer à l’accroche et au câblage de la lumière et du son",
+        "Assurer les manipulations et les changements pendant les représentations",
+        "Démonter, ranger et entretenir le matériel",
+        "Appliquer les règles de sécurité sur la scène et en hauteur"
+      ],
+      "day": "Dans une salle municipale qui accueille un spectacle par semaine, le technicien plateau commence par le déchargement avec l’équipe de la compagnie. Il pose le tapis de danse, monte les pendrillons, aide à l’accroche des projecteurs, installe les enceintes. L’après-midi, il reste en renfort pendant les réglages, puis prépare les loges. Le soir, il assure les manipulations prévues ou reste en coulisses, prêt à intervenir. Après le spectacle viennent le démontage et le rangement.",
+      "skills": [
+        "Polyvalence : bases en lumière, en son et en machinerie",
+        "Bonne condition physique",
+        "Sens du travail en équipe et adaptabilité",
+        "Respect des règles de sécurité",
+        "Débrouillardise face aux contraintes de chaque lieu",
+        "Habilitation électrique et travail en hauteur appréciés"
+      ],
+      "training": "Le métier est accessible par une formation courte aux techniques du spectacle, au CFPTS, à l’ISTS, chez Grim Édif ou dans les formations régionales des centres de ressources du spectacle vivant. Beaucoup commencent par du bénévolat sur des festivals ou des renforts dans une salle. L’habilitation électrique et la formation au travail en hauteur sont vivement conseillées.",
+      "schools": [
+        "CFPTS (Bagnolet)",
+        "ISTS (Avignon)",
+        "Grim Édif (Lyon)",
+        "Habilitation électrique et formation au travail en hauteur"
+      ],
+      "statut": "Le technicien plateau est le plus souvent intermittent, engagé en CDDU pour chaque montage ou représentation, et relève de l’annexe 8. Les collectivités qui gèrent des salles emploient aussi des techniciens permanents, parfois sous statut de fonctionnaire territorial.",
+      "pay": {
+        "min": 140,
+        "max": 210,
+        "unit": "jour",
+        "note": "Un technicien plateau permanent dans une salle gagne en général entre 1 800 et 2 400 € brut par mois."
+      },
+      "career": "La polyvalence du technicien plateau lui permet de choisir ensuite une spécialité — lumière, son, machinerie — ou d’évoluer vers la régie générale d’une salle.",
+      "faq": [
+        {
+          "q": "Technicien plateau et machiniste, quelle différence ?",
+          "a": "Le machiniste est spécialisé dans les décors et la machinerie. Le technicien plateau est polyvalent : il touche aussi à la lumière et au son, surtout dans les petites équipes."
+        },
+        {
+          "q": "Peut-on débuter sans diplôme ?",
+          "a": "Oui. Beaucoup de techniciens plateau ont commencé en renfort, sur des festivals ou dans une salle. Une formation courte aide ensuite à structurer les bases et à se faire embaucher."
+        },
+        {
+          "q": "Est-ce un bon premier métier ?",
+          "a": "C’est même l’un des meilleurs pour découvrir toutes les facettes de la technique du spectacle, avant de choisir une spécialité."
+        },
+        {
+          "q": "Quels sont les horaires ?",
+          "a": "Décalés : montages le matin, représentations le soir, démontages la nuit, week-ends travaillés. C’est le rythme du spectacle vivant."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8), parfois permanent",
+        "training": "Formation courte aux techniques du spectacle",
+        "sectors": "Salles, compagnies, festivals"
+      },
+      "related": ["machiniste", "regisseur-plateau", "technicien-lumiere", "technicien-son"],
+      "keywords": [
+        "technicien plateau", "technicienne plateau", "technicien de plateau", "technicienne de plateau",
+        "technicien polyvalent", "technicienne polyvalente", "technicien du spectacle",
+        "technicienne du spectacle", "technicien de scène", "technicienne de scène",
+        "régisseur polyvalent", "régisseuse polyvalente", "technicien spectacle",
+        "technicienne spectacle"
+      ],
+      "search": "technicien plateau"
+    },
+    {
+      "slug": "rigger",
+      "name": "Rigger",
+      "name_f": "",
+      "rome": "",
+      "summary": "Il accroche en hauteur les structures, moteurs et charges qui portent lumière, son et décors.",
+      "intro": "Le rigger, ou accrocheur, installe les points d’accroche qui supportent les structures, les ponts, les moteurs et tout ce qui est suspendu au-dessus d’une scène ou d’un public : projecteurs, enceintes, écrans, décors. Il travaille en hauteur, souvent dans les charpentes des salles et des halls d’exposition, et calcule les charges avec précision. Sur les concerts, les salons et les grands événements, c’est un poste de sécurité essentiel.",
+      "missions": [
+        "Étudier le plan d’accroche et les charges à suspendre",
+        "Repérer les points d’accroche dans la charpente ou le grill",
+        "Installer élingues, manilles, moteurs et palans",
+        "Lever les structures et les ponts, puis les mettre à niveau",
+        "Vérifier les équipements de levage et tenir leur registre",
+        "Démonter en sécurité et contrôler le matériel après usage"
+      ],
+      "day": "Au montage d’un concert en aréna, les riggers sont les premiers dans la salle. Deux « up riggers » montent dans la charpente, harnachés, pendant que les « down riggers » préparent au sol les élingues et les moteurs. Point par point, ils installent les accroches selon le plan fourni par la production, puis les équipes lèvent les ponts qui porteront la lumière et le son. En fin de soirée, après le concert, tout est descendu et démonté dans l’ordre inverse.",
+      "skills": [
+        "Aisance totale en hauteur et maîtrise des équipements de protection",
+        "Connaissance des matériels de levage et des charges admissibles",
+        "Lecture et calcul de plans d’accroche",
+        "Rigueur et sens des responsabilités : une erreur peut avoir des conséquences graves",
+        "Travail en binôme et communication claire",
+        "Anglais technique pour les tournées internationales"
+      ],
+      "training": "Le métier demande des formations spécifiques : travail en hauteur et port du harnais, accroche et levage, utilisation des palans et moteurs, souvent complétées par une formation aux techniques de cordes. Les centres du spectacle comme le CFPTS et l’ISTS en proposent. La plupart des riggers viennent de la machinerie ou de la technique du spectacle et se spécialisent après quelques années.",
+      "schools": [
+        "Formation au travail en hauteur et au port du harnais",
+        "Formation accroche et levage (CFPTS, ISTS)",
+        "Formations aux palans et moteurs de levage",
+        "Parcours de machiniste ou de technicien"
+      ],
+      "statut": "Le rigger est en général intermittent, engagé en CDDU par les prestataires techniques, les salles ou les producteurs de tournées, et relève de l’annexe 8. Certains sont permanents chez les grands prestataires de structures.",
+      "pay": {
+        "min": 200,
+        "max": 350,
+        "unit": "jour",
+        "note": "Le rigger compte parmi les techniciens les mieux rémunérés d’un montage, en raison des responsabilités et des risques du poste."
+      },
+      "career": "Un rigger expérimenté devient chef rigger sur les tournées et les grands événements, responsable du plan d’accroche. Certains évoluent vers un bureau d’études de structures ou vers la direction technique d’événements.",
+      "faq": [
+        {
+          "q": "Rigger et cordiste, quelle différence ?",
+          "a": "Le cordiste travaille suspendu sur cordes, dans le bâtiment comme dans le spectacle. Le rigger est spécialisé dans l’accroche des charges au-dessus des scènes ; beaucoup de riggers ont d’ailleurs une formation de cordiste."
+        },
+        {
+          "q": "Qu’est-ce qu’un up rigger ?",
+          "a": "Celui qui monte dans la charpente pour installer les points d’accroche. Le down rigger reste au sol pour préparer le matériel et le lui faire monter."
+        },
+        {
+          "q": "Le métier est-il dangereux ?",
+          "a": "Il comporte de vrais risques, d’où les formations obligatoires, les équipements de protection et les vérifications systématiques. La culture de la sécurité est au cœur du métier."
+        },
+        {
+          "q": "Faut-il parler anglais ?",
+          "a": "Sur les tournées internationales, oui : les plans d’accroche et les échanges avec les équipes étrangères se font souvent en anglais."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "Travail en hauteur, accroche et levage",
+        "sectors": "Concerts, salons, événementiel, tournées"
+      },
+      "related": ["machiniste", "technicien-plateau", "technicien-evenementiel", "directeur-technique"],
+      "keywords": [
+        "rigger", "riggeuse", "accrocheur", "accrocheuse", "accroche levage", "up rigger", "chef rigger",
+        "cheffe rigger"
+      ],
+      "search": "rigger"
+    },
+    {
+      "slug": "constructeur-de-decors",
+      "name": "Constructeur de décors",
+      "name_f": "Constructrice de décors",
+      "rome": "L1503",
+      "summary": "En atelier, il fabrique les décors d’après les plans du scénographe : bois, métal, résine.",
+      "intro": "Le constructeur de décors fabrique en atelier les éléments de décor d’un spectacle, d’un film ou d’une exposition, à partir des plans du scénographe ou du chef décorateur. Menuiserie, serrurerie, sculpture, résine : il assemble des volumes qui doivent être beaux, légers, démontables et sûrs. Il accompagne souvent le montage du décor sur scène ou sur le plateau de tournage.",
+      "missions": [
+        "Étudier les plans et maquettes du scénographe ou du chef décorateur",
+        "Choisir les matériaux et les techniques de fabrication",
+        "Fabriquer les éléments en bois, en métal ou en matériaux composites",
+        "Concevoir des décors démontables, transportables et résistants aux tournées",
+        "Respecter les normes de réaction au feu des matériaux",
+        "Monter le décor sur place et l’ajuster avec l’équipe plateau"
+      ],
+      "day": "Dans un atelier de construction, la journée commence par un point avec le chef d’atelier : quel élément, pour quelle date. Le constructeur découpe, assemble et renforce les châssis d’un grand mur tournant, pendant qu’un collègue soude la structure d’un escalier. L’après-midi, on essaie les assemblages, on vérifie les cotes sur plan, on prépare le transport. À l’approche d’une première, l’équipe part plusieurs jours au théâtre pour le montage et les derniers ajustements.",
+      "skills": [
+        "Savoir-faire en menuiserie, souvent en serrurerie ou en soudure",
+        "Lecture de plans techniques et sens des volumes",
+        "Maîtrise des machines d’atelier et de l’outillage électroportatif",
+        "Connaissance des normes de sécurité et de réaction au feu",
+        "Ingéniosité pour concilier légèreté, solidité et démontage",
+        "Précision et travail en équipe"
+      ],
+      "training": "Le constructeur de décors a souvent une formation initiale en menuiserie, en ébénisterie ou en métallerie (CAP, bac pro, BTS), complétée par une spécialisation dans le spectacle. Les parcours de machiniste-constructeur du CFPTS ou de l’ISTS, et les DN MADE mention espace, ouvrent aussi la voie. Les grands ateliers de décors forment beaucoup en interne.",
+      "schools": [
+        "CAP, bac pro ou BTS en menuiserie, ébénisterie ou métallerie",
+        "CFPTS, parcours machiniste-constructeur (Bagnolet)",
+        "ISTS (Avignon)",
+        "DN MADE mention espace"
+      ],
+      "statut": "Selon l’employeur, le constructeur de décors est intermittent, engagé en CDDU pour la construction d’un spectacle ou d’un film au titre de l’annexe 8, ou salarié permanent d’un atelier de construction, d’un théâtre national ou d’un opéra.",
+      "pay": {
+        "min": 150,
+        "max": 250,
+        "unit": "jour",
+        "note": "Les constructeurs permanents d’un atelier gagnent en général entre 1 900 et 2 700 € brut par mois ; les chefs d’atelier se situent au-delà."
+      },
+      "career": "Le constructeur peut devenir chef d’atelier ou chef constructeur, et se tourner vers la conception technique des décors. Certains créent leur propre atelier de construction pour le spectacle, l’événementiel ou la muséographie.",
+      "faq": [
+        {
+          "q": "Constructeur de décors et accessoiriste, quelle différence ?",
+          "a": "Le constructeur fabrique les grands éléments de décor ; l’accessoiriste fabrique ou trouve les objets manipulés par les artistes et ceux qui habillent le décor."
+        },
+        {
+          "q": "Faut-il être menuisier ?",
+          "a": "C’est le parcours le plus fréquent. La menuiserie est la base du métier, souvent complétée par la métallerie, la sculpture et le travail de la résine."
+        },
+        {
+          "q": "Qu’est-ce que la réaction au feu ?",
+          "a": "La manière dont un matériau se comporte face au feu. Les décors doivent respecter des classements précis, vérifiés avant l’accueil du public : c’est une contrainte centrale de la construction."
+        },
+        {
+          "q": "Travaille-t-on aussi pour le cinéma ?",
+          "a": "Oui, les ateliers construisent aussi des décors de cinéma, de télévision, d’expositions et de salons. Les contraintes diffèrent : un décor de tournage ne voyage pas, mais doit être prêt vite."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8) ou salarié d’atelier",
+        "training": "Menuiserie ou métallerie, puis spécialisation",
+        "sectors": "Théâtre, opéra, cinéma, événementiel, musées"
+      },
+      "related": ["chef-decorateur", "accessoiriste", "machiniste", "regisseur-plateau"],
+      "keywords": [
+        "constructeur de décors", "constructrice de décors", "constructeur décor", "constructrice décor",
+        "constructeur décors", "menuisier de théâtre", "menuisière de théâtre", "menuisier décor",
+        "menuisière décor", "chef constructeur", "cheffe constructrice", "menuisier de décor",
+        "menuisière de décor"
+      ],
+      "search": "constructeur décor"
+    },
+    {
+      "slug": "accessoiriste",
+      "name": "Accessoiriste",
+      "name_f": "",
+      "rome": "L1503",
+      "summary": "Il trouve, fabrique et gère les objets manipulés par les artistes et ceux qui habillent le décor.",
+      "intro": "L’accessoiriste s’occupe de tous les objets d’un spectacle ou d’un film : ceux que manipulent les comédiens — une lettre, une tasse, une arme factice — et ceux qui habillent le décor. Il les trouve, les achète, les loue ou les fabrique, veille à ce qu’ils soient à leur place à chaque représentation ou à chaque prise, et les répare. Au cinéma, on distingue l’accessoiriste de plateau et l’accessoiriste de décor.",
+      "missions": [
+        "Dresser la liste des accessoires à partir du texte ou du dépouillement du scénario",
+        "Chercher, louer, acheter ou fabriquer les objets",
+        "Préparer et placer les accessoires avant chaque représentation ou chaque prise",
+        "Assurer la continuité des objets d’une scène à l’autre au cinéma",
+        "Réparer, entretenir et ranger les accessoires",
+        "Gérer les accessoires délicats : nourriture, liquides, armes factices, effets"
+      ],
+      "day": "Sur un tournage, l’accessoiriste de plateau arrive avant l’équipe pour préparer la scène : un repas à dresser, un journal daté du bon jour, des verres remplis au même niveau que la veille. Pendant les prises, il reste près du plateau, prêt à remettre chaque objet exactement à sa place entre deux prises. Au théâtre, la journée se passe davantage en atelier ou en coulisse : fabriquer un faux gâteau, patiner un fauteuil, préparer la table des accessoires avant l’entrée du public.",
+      "skills": [
+        "Habileté manuelle et polyvalence : peinture, sculpture, couture, bricolage",
+        "Débrouillardise et réseau de fournisseurs, brocanteurs et loueurs",
+        "Mémoire visuelle et sens du détail pour la continuité",
+        "Culture historique et artistique pour les objets d’époque",
+        "Organisation rigoureuse",
+        "Réactivité en représentation comme en tournage"
+      ],
+      "training": "Il existe peu de formations dédiées : l’accessoiriste vient souvent des métiers d’art — DN MADE, écoles d’arts appliqués, formations en sculpture, en peinture ou en ébénisterie — ou de la régie. Les centres du spectacle proposent des modules spécifiques, et beaucoup apprennent en assistant un accessoiriste confirmé, au théâtre ou sur les tournages.",
+      "schools": [
+        "DN MADE (métiers d’art et du design)",
+        "Écoles d’arts appliqués",
+        "CFPTS (Bagnolet)",
+        "Assistanat auprès d’un accessoiriste confirmé"
+      ],
+      "statut": "L’accessoiriste est majoritairement intermittent, engagé en CDDU pour un spectacle, un tournage ou une série, et relève de l’annexe 8. Les opéras et les grands théâtres emploient aussi des accessoiristes permanents dans leurs ateliers.",
+      "pay": {
+        "min": 150,
+        "max": 240,
+        "unit": "jour",
+        "note": "Au cinéma, l’accessoiriste est payé à la semaine, souvent entre 1 300 et 1 900 € brut. Le budget d’achat et de location des accessoires est distinct du salaire."
+      },
+      "career": "L’accessoiriste peut devenir chef accessoiriste, ensemblier au cinéma — le spécialiste de l’ameublement des décors — ou évoluer vers la décoration et la scénographie.",
+      "faq": [
+        {
+          "q": "Accessoiriste de plateau et de décor, quelle différence ?",
+          "a": "Au cinéma, l’accessoiriste de décor installe les objets qui habillent le décor ; l’accessoiriste de plateau gère ceux que manipulent les comédiens pendant les prises, et leur continuité."
+        },
+        {
+          "q": "Faut-il savoir tout fabriquer ?",
+          "a": "Non, mais il faut savoir beaucoup de choses un peu : peindre, coller, patiner, coudre, réparer. Et savoir où trouver ce qu’on ne sait pas faire."
+        },
+        {
+          "q": "Qu’est-ce que la continuité ?",
+          "a": "Le fait qu’un objet soit exactement dans le même état d’un plan à l’autre, même tournés à des jours différents : un verre à moitié plein doit le rester. L’accessoiriste prend photos et notes pour s’en assurer."
+        },
+        {
+          "q": "Le métier existe-t-il dans le spectacle vivant ?",
+          "a": "Oui, surtout dans les opéras, les grands théâtres et les spectacles à gros décor. Dans les petites compagnies, c’est souvent le régisseur plateau qui assure ce rôle."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8), parfois permanent",
+        "training": "Métiers d’art, puis assistanat",
+        "sectors": "Cinéma, séries, théâtre, opéra"
+      },
+      "related": ["chef-decorateur", "constructeur-de-decors", "regisseur-plateau", "costumier"],
+      "keywords": [
+        "accessoiriste", "chef accessoiriste", "cheffe accessoiriste", "ensemblier", "ensemblière",
+        "accessoiriste de plateau", "accessoiriste de décor"
+      ],
+      "search": "accessoiriste"
+    },
+    {
+      "slug": "chef-decorateur",
+      "name": "Chef décorateur",
+      "name_f": "Cheffe décoratrice",
+      "rome": "L1503",
+      "summary": "Au cinéma et à la télévision, il conçoit les décors d’un film et dirige leur fabrication.",
+      "intro": "Le chef décorateur conçoit l’univers visuel d’un film, d’une série ou d’une émission : les décors construits en studio, mais aussi l’aménagement des lieux réels choisis en repérage. En dialogue avec le réalisateur et le directeur de la photographie, il dessine, fait construire, meubler et patiner chaque espace. Il dirige toute l’équipe déco — ensembliers, accessoiristes, constructeurs, peintres — et gère un budget souvent important.",
+      "missions": [
+        "Lire le scénario et proposer au réalisateur une vision des décors",
+        "Mener les repérages et choisir les lieux de tournage avec la mise en scène",
+        "Dessiner les plans, maquettes et rendus 3D des décors",
+        "Établir et suivre le budget de la décoration",
+        "Diriger l’équipe déco et superviser la construction",
+        "Adapter les décors aux contraintes de l’image, de la lumière et du plan de travail"
+      ],
+      "day": "En préparation, le chef décorateur partage son temps entre les repérages, son bureau et l’atelier. Le matin, visite d’un appartement à transformer en logement des années 1970 ; l’après-midi, réunion avec le réalisateur et le chef opérateur sur les couleurs d’un décor de studio ; le soir, point budget avec la production. Pendant le tournage, il garde un œil sur les décors en service et prépare ceux des semaines suivantes, souvent plusieurs à la fois.",
+      "skills": [
+        "Grande culture visuelle, historique et architecturale",
+        "Dessin, plans, et maîtrise d’outils comme SketchUp, AutoCAD ou Vectorworks",
+        "Gestion de budget et de planning",
+        "Direction d’une équipe pluridisciplinaire",
+        "Sens de l’image et dialogue avec la mise en scène et la photographie",
+        "Capacité à trouver des solutions sous contrainte de temps"
+      ],
+      "training": "Le chef décorateur est souvent diplômé d’une école d’architecture intérieure, d’arts appliqués ou d’une formation spécialisée, comme le département décor de La Fémis. Il commence en général comme assistant décorateur ou ensemblier, et gravit les échelons sur plusieurs années de tournages. Les écoles de scénographie, comme l’ENSATT ou les Arts décoratifs, forment aussi de nombreux décorateurs.",
+      "schools": [
+        "La Fémis, département décor (Paris)",
+        "ENSATT, scénographie (Lyon)",
+        "École nationale supérieure des Arts décoratifs (Paris)",
+        "Écoles d’architecture intérieure",
+        "Assistanat, puis premier assistant décorateur"
+      ],
+      "statut": "Le chef décorateur est engagé en CDDU pour la durée d’un film ou d’une série, sous la convention collective de la production cinématographique ou audiovisuelle, et relève de l’annexe 8. La préparation, souvent longue, fait partie du contrat.",
+      "pay": {
+        "min": 2200,
+        "max": 3500,
+        "unit": "semaine",
+        "note": "Montants indicatifs pour une semaine de préparation ou de tournage de fiction. Sur les grosses productions et en publicité, la rémunération dépasse souvent ce niveau."
+      },
+      "career": "Le chef décorateur construit sa carrière de film en film, souvent aux côtés de réalisateurs fidèles. Il travaille aussi pour la publicité, les clips, les expositions ou les parcs à thème, et certains deviennent directeurs artistiques.",
+      "faq": [
+        {
+          "q": "Chef décorateur et scénographe, quelle différence ?",
+          "a": "Le chef décorateur travaille pour l’image, au cinéma et à la télévision. Le scénographe conçoit l’espace d’un spectacle vivant ou d’une exposition, pour un public présent dans la salle."
+        },
+        {
+          "q": "Qu’est-ce qu’un ensemblier ?",
+          "a": "Le spécialiste de l’ameublement et de l’habillage des décors : meubles, objets, textiles. Il travaille sous la direction du chef décorateur."
+        },
+        {
+          "q": "Combien de temps dure la préparation ?",
+          "a": "De quelques semaines pour un petit film à plusieurs mois pour une production d’époque. C’est souvent la phase la plus intense du métier."
+        },
+        {
+          "q": "Comment débuter ?",
+          "a": "Comme stagiaire ou assistant dans une équipe déco, sur des courts métrages, des clips ou des publicités. Le réseau des chefs décorateurs fait l’essentiel des recrutements."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "Architecture intérieure, arts appliqués, école de cinéma",
+        "sectors": "Cinéma, séries, publicité, télévision"
+      },
+      "related": ["accessoiriste", "constructeur-de-decors", "realisateur", "chef-operateur"],
+      "keywords": [
+        "chef décorateur", "cheffe décoratrice", "décorateur cinéma", "décoratrice cinéma",
+        "assistant décorateur", "assistante décoratrice", "décorateur de cinéma", "décoratrice de cinéma",
+        "scénographe", "set designer", "production designer"
+      ],
+      "search": "chef décorateur"
+    }
+  ]
+}

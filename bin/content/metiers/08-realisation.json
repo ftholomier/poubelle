@@ -1,0 +1,282 @@
+{
+  "family": "realisation",
+  "trades": [
+    {
+      "slug": "realisateur",
+      "name": "Réalisateur",
+      "name_f": "Réalisatrice",
+      "rome": "L1304",
+      "summary": "Il dirige la fabrication d’un film, d’une série, d’un documentaire ou d’une émission, de l’écriture au montage.",
+      "intro": "Le réalisateur porte la vision artistique d’un film, d’une série, d’un documentaire, d’un clip, d’une publicité ou d’une émission de télévision. Il choisit les comédiens avec la production, prépare le découpage, dirige les acteurs et l’équipe technique pendant le tournage, puis supervise le montage, le son et l’étalonnage. Au cinéma, il est souvent aussi l’auteur ou le coauteur du scénario. En télévision, le réalisateur de plateau orchestre en direct les caméras d’une émission depuis la régie.",
+      "missions": [
+        "Écrire ou adapter le scénario, seul ou avec des scénaristes",
+        "Préparer le découpage technique et le plan de travail avec l’assistant réalisateur",
+        "Choisir les comédiens, les décors et l’équipe avec la production",
+        "Diriger les acteurs et l’équipe technique pendant le tournage",
+        "Superviser le montage, le mixage, l’étalonnage et les effets visuels",
+        "Accompagner la sortie de l’œuvre : festivals, projections, presse"
+      ],
+      "day": "Sur un tournage de long métrage, la réalisatrice arrive sur le décor une heure avant l’équipe pour repenser une scène avec le chef opérateur. À neuf heures, elle répète avec les comédiens, puis place la caméra : plan large, contrechamp, gros plans. Entre deux prises, elle glisse une indication à l’actrice, rassure un jeune comédien, arbitre avec la production la demi-heure qui manque. Le soir, pendant que l’équipe range, elle regarde les rushes avec le monteur et prépare la séquence du lendemain. En télévision, un réalisateur d’émission passe sa journée en régie, face à un mur d’écrans, à annoncer les plans en direct.",
+      "skills": [
+        "Vision artistique et sens du récit",
+        "Direction d’acteurs",
+        "Connaissance technique de l’image, du son et du montage",
+        "Capacité à décider vite et à tenir un plan de travail",
+        "Leadership et communication avec une équipe nombreuse",
+        "Culture cinématographique et audiovisuelle"
+      ],
+      "training": "Il n’existe pas de voie unique. Beaucoup de réalisateurs sont passés par La Fémis, l’ENS Louis-Lumière, l’ESAV à Toulouse, la CinéFabrique à Lyon ou un master de cinéma à l’université ; d’autres viennent de l’assistanat, du montage, de l’image ou du court métrage autoproduit. En télévision, on débute souvent comme assistant réalisateur ou cadreur avant de réaliser ses premières émissions. Le premier court métrage, souvent soutenu par une région ou par le CNC, sert de carte de visite.",
+      "schools": [
+        "La Fémis, département réalisation (Paris)",
+        "ENS Louis-Lumière, section cinéma (Saint-Denis)",
+        "CinéFabrique (Lyon)",
+        "ESAV (Toulouse)",
+        "Licences et masters cinéma et audiovisuel"
+      ],
+      "statut": "Le réalisateur est très souvent intermittent, engagé en CDDU par la société de production, et relève en général de l’annexe 8. Coauteur de l’œuvre, il perçoit aussi des droits d’auteur, gérés par la SACD pour la fiction et par la Scam pour le documentaire. En télévision, certaines chaînes emploient des réalisateurs permanents.",
+      "pay": {
+        "min": 300,
+        "max": 600,
+        "unit": "jour",
+        "note": "Au cinéma, le salaire de réalisation se négocie souvent au forfait, selon le budget du film, et s’ajoute aux droits d’auteur. En publicité, les journées de réalisation sont nettement mieux payées ; en documentaire, souvent moins."
+      },
+      "career": "Le réalisateur construit sa carrière de film en film : du court au long métrage, du documentaire à la fiction, de la série à la publicité. Certains deviennent aussi producteurs, créent leur société ou enseignent. En télévision, un réalisateur de plateau peut évoluer vers les grands directs, les émissions de prestige ou la direction artistique d’une chaîne.",
+      "faq": [
+        {
+          "q": "Réalisateur et metteur en scène, quelle différence ?",
+          "a": "On parle de réalisateur au cinéma, à la télévision et dans l’audiovisuel, et de metteur en scène au théâtre, à l’opéra et dans le spectacle vivant. Les deux dirigent les interprètes et portent la vision d’une œuvre."
+        },
+        {
+          "q": "Faut-il une école pour devenir réalisateur ?",
+          "a": "Non, mais elle aide : elle apporte une formation technique, un réseau et l’occasion de réaliser des films. Beaucoup de réalisateurs sont autodidactes ou viennent d’autres postes du plateau."
+        },
+        {
+          "q": "Le réalisateur touche-t-il des droits d’auteur ?",
+          "a": "Oui. Il est coauteur de l’œuvre audiovisuelle et perçoit des droits sur son exploitation, gérés le plus souvent par la SACD pour la fiction et par la Scam pour le documentaire."
+        },
+        {
+          "q": "Qu’est-ce qu’un réalisateur de plateau ?",
+          "a": "En télévision, c’est celui qui réalise une émission en direct ou dans les conditions du direct. Depuis la régie, il choisit les plans des différentes caméras et guide les cadreurs à l’oreillette."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8) et auteur",
+        "training": "École de cinéma ou parcours de terrain",
+        "sectors": "Cinéma, séries, télévision, documentaire, publicité"
+      },
+      "related": ["assistant-realisateur", "scripte", "chef-operateur", "monteur"],
+      "keywords": [
+        "réalisateur", "réalisatrice", "réalisateur tv", "réalisatrice tv", "réalisateur de plateau",
+        "réalisatrice de plateau", "réalisateur documentaire", "réalisatrice documentaire",
+        "réalisateur de documentaires", "réalisatrice de documentaires"
+      ],
+      "search": "réalisateur"
+    },
+    {
+      "slug": "assistant-realisateur",
+      "name": "Assistant réalisateur",
+      "name_f": "Assistante réalisatrice",
+      "rome": "L1304",
+      "summary": "Il organise le tournage, établit le plan de travail et fait respecter le planning sur le plateau.",
+      "intro": "L’assistant réalisateur est le chef d’orchestre de l’organisation d’un tournage. En préparation, il dépouille le scénario, établit le plan de travail et coordonne tous les départements. Sur le plateau, il fait respecter le planning, prépare chaque plan, dirige la figuration et lance les prises. Sur un long métrage ou une série, le premier assistant est épaulé par un deuxième assistant, chargé des feuilles de service et des comédiens, et parfois par un troisième assistant et des stagiaires. Son métier : que le réalisateur n’ait à penser qu’à son film.",
+      "missions": [
+        "Dépouiller le scénario : décors, comédiens, accessoires, effets, figuration",
+        "Établir le plan de travail et le planning de tournage avec la production",
+        "Coordonner les départements pendant la préparation",
+        "Rédiger ou superviser les feuilles de service quotidiennes",
+        "Faire respecter le planning et la sécurité sur le plateau",
+        "Diriger la figuration et organiser l’arrivée des comédiens"
+      ],
+      "day": "Le premier assistant réalisateur arrive sur le plateau à sept heures, feuille de service à la main. Il vérifie que les comédiens sont au maquillage, que le décor est prêt, que la figuration est habillée. Pendant la mise en place, il fait le lien entre le réalisateur, le chef opérateur et la régie. Avant chaque prise, il demande le silence et lance la séquence ; entre deux plans, il surveille la montre et anticipe le décor suivant. En fin de journée, il fait le point avec la production sur le retard accumulé et valide avec le deuxième assistant la feuille de service du lendemain.",
+      "skills": [
+        "Sens aigu de l’organisation et de l’anticipation",
+        "Autorité naturelle et diplomatie",
+        "Connaissance de toutes les étapes et de tous les métiers d’un tournage",
+        "Maîtrise des logiciels de dépouillement et de plan de travail",
+        "Résistance au stress et à la fatigue",
+        "Connaissance des règles de sécurité sur un plateau"
+      ],
+      "training": "L’assistant réalisateur se forme dans une école de cinéma ou dans un BTS Métiers de l’audiovisuel option gestion de production, puis surtout sur le terrain. On commence souvent comme stagiaire mise en scène ou troisième assistant, avant de devenir deuxième puis premier assistant. Des formations continues, parfois financées par l’Afdas, forment aux outils de dépouillement et de plan de travail, ainsi qu’aux règles de sécurité des tournages.",
+      "schools": [
+        "Écoles de cinéma : La Fémis, ENS Louis-Lumière, ESAV, CinéFabrique",
+        "BTS Métiers de l’audiovisuel, option gestion de production",
+        "Licences et masters cinéma et audiovisuel",
+        "Stages de mise en scène sur les tournages"
+      ],
+      "statut": "L’assistant réalisateur est quasiment toujours intermittent, engagé en CDDU pour la préparation et le tournage d’un film, d’une série ou d’une publicité, et relève de l’annexe 8. Le premier assistant réalisateur a le plus souvent le statut de cadre.",
+      "pay": {
+        "min": 1900,
+        "max": 2900,
+        "unit": "semaine",
+        "note": "Ces montants concernent le premier assistant. Le deuxième assistant est payé un peu moins, souvent entre 1 300 et 1 900 € brut par semaine. En publicité, les tarifs à la journée sont plus élevés."
+      },
+      "career": "L’assistant réalisateur peut devenir premier assistant sur des longs métrages et des séries importantes, ou évoluer vers la réalisation, la direction de production ou la production. Certains font toute leur carrière comme premier assistant, un poste très recherché.",
+      "faq": [
+        {
+          "q": "Premier et deuxième assistant, quelle différence ?",
+          "a": "Le premier assistant organise le tournage et dirige le plateau aux côtés du réalisateur. Le deuxième prépare les feuilles de service, gère les convocations et accompagne les comédiens. Sur les gros tournages, un troisième assistant et des stagiaires complètent l’équipe."
+        },
+        {
+          "q": "Qu’est-ce qu’un plan de travail ?",
+          "a": "Le calendrier du tournage. Il regroupe les séquences par décor, par comédien et par contrainte, pour tourner dans l’ordre le plus efficace, qui est rarement celui du scénario."
+        },
+        {
+          "q": "L’assistant réalisateur veut-il forcément devenir réalisateur ?",
+          "a": "Pas toujours. C’est un métier à part entière, très technique, et de nombreux premiers assistants en ont fait leur spécialité. Le poste reste toutefois une excellente école de la réalisation."
+        },
+        {
+          "q": "Qu’est-ce que la feuille de service ?",
+          "a": "Le document envoyé chaque soir à toute l’équipe : horaires de convocation, séquences à tourner, lieux, comédiens, matériel et consignes particulières du lendemain."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "École de cinéma, BTS audiovisuel, stages",
+        "sectors": "Cinéma, séries, publicité, clips"
+      },
+      "related": ["realisateur", "scripte", "directeur-de-production", "regisseur-general"],
+      "keywords": [
+        "assistant réalisateur", "assistante réalisatrice", "assistant réalisation",
+        "assistante réalisation", "assistant de réalisation", "assistante de réalisation",
+        "stagiaire mise en scène"
+      ],
+      "search": "assistant réalisateur"
+    },
+    {
+      "slug": "scripte",
+      "name": "Scripte",
+      "name_f": "Scripte",
+      "rome": "L1304",
+      "summary": "Garant de la continuité d’un film, le scripte note tout ce qui est tourné pour que les plans raccordent au montage.",
+      "intro": "Le scripte veille à la continuité d’un film ou d’une série : d’un plan à l’autre, tournés parfois à des semaines d’écart, tout doit raccorder, du verre à moitié plein à la direction des regards. Il minute le scénario en préparation, suit chaque prise sur le plateau et rédige les rapports qui guideront le montage : durée, objectif, mouvements, dialogues modifiés, prises retenues. Longtemps exercé presque uniquement par des femmes, d’où l’usage de « la scripte », le métier s’est ouvert à tous et reste l’un des plus précis du plateau.",
+      "missions": [
+        "Minuter le scénario et en vérifier la cohérence en préparation",
+        "Noter pour chaque plan l’objectif, le cadre, les mouvements et la durée",
+        "Surveiller les raccords : costumes, accessoires, positions, regards, dialogues",
+        "Signaler les prises retenues et les écarts avec le scénario",
+        "Rédiger les rapports quotidiens pour la production et le montage",
+        "Assurer le lien entre le plateau et la salle de montage"
+      ],
+      "day": "Sur le plateau, la scripte est assise près du combo, carnet et tablette en main. Avant la première prise, elle rappelle au comédien qu’il tenait sa tasse de la main gauche dans le plan tourné la semaine dernière. Pendant chaque prise, elle suit le texte, chronomètre, note les variations de dialogue et la position de chacun. Entre deux plans, elle échange avec le réalisateur sur les prises à garder et vérifie ses photos de raccord. Le soir, elle met au propre ses rapports et les envoie à la production et au monteur, qui s’en serviront dès le lendemain.",
+      "skills": [
+        "Mémoire visuelle et attention extrême aux détails",
+        "Connaissance du découpage, du montage et de la grammaire du cinéma",
+        "Rigueur dans la prise de notes et la rédaction des rapports",
+        "Concentration sur de longues journées",
+        "Discrétion et diplomatie avec le réalisateur et les comédiens",
+        "Maîtrise des outils numériques de continuité"
+      ],
+      "training": "La voie la plus reconnue est le département scripte de La Fémis, qui recrute sur concours. Des formations continues, comme celle du CEFPF, préparent aussi au métier. Beaucoup de scriptes viennent d’une licence ou d’un master de cinéma et apprennent au contact d’une scripte confirmée, en stage sur les tournages. Une solide culture du montage est un atout majeur, car c’est pour la salle de montage que le scripte travaille.",
+      "schools": [
+        "La Fémis, département scripte (Paris)",
+        "CEFPF, formation de scripte",
+        "Licences et masters cinéma et audiovisuel",
+        "Stages auprès d’une scripte confirmée"
+      ],
+      "statut": "Le scripte est intermittent, engagé en CDDU pour la préparation et le tournage d’un film, d’une série ou d’une publicité, et relève de l’annexe 8. Sur un long métrage, il a le plus souvent le statut de cadre.",
+      "pay": {
+        "min": 1700,
+        "max": 2500,
+        "unit": "semaine",
+        "note": "Sur les séries et les fictions de télévision, le rythme de tournage est soutenu et le salaire peut se négocier à la journée. En publicité, les journées sont mieux payées."
+      },
+      "career": "Le scripte peut enchaîner longs métrages et séries prestigieuses, travailler en fidélité avec des réalisateurs, ou évoluer vers l’assistanat de réalisation, le montage, la direction littéraire ou la réalisation.",
+      "faq": [
+        {
+          "q": "Qu’est-ce qu’un faux raccord ?",
+          "a": "Une incohérence entre deux plans censés se suivre : une cigarette plus longue, une cravate dénouée, un regard dans la mauvaise direction. Le scripte est là pour les éviter."
+        },
+        {
+          "q": "Dit-on un ou une scripte ?",
+          "a": "Les deux. Le métier a longtemps été exercé presque uniquement par des femmes, d’où l’usage de « la scripte », mais il compte aujourd’hui aussi des hommes."
+        },
+        {
+          "q": "Le scripte travaille-t-il après le tournage ?",
+          "a": "Ses rapports servent pendant tout le montage. Il est parfois consulté pour retrouver une prise ou vérifier un dialogue, mais son contrat couvre surtout la préparation et le tournage."
+        },
+        {
+          "q": "Le métier existe-t-il en télévision ?",
+          "a": "Oui, sur les séries, les fictions et certaines émissions. En direct, le scripte peut aussi minuter le déroulé de l’émission depuis la régie."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "La Fémis, formations spécialisées",
+        "sectors": "Cinéma, séries, fiction télé, publicité"
+      },
+      "related": ["assistant-realisateur", "realisateur", "monteur", "accessoiriste"],
+      "keywords": ["scripte", "script girl", "scripte de tournage"],
+      "search": "scripte"
+    },
+    {
+      "slug": "metteur-en-scene",
+      "name": "Metteur en scène",
+      "name_f": "Metteuse en scène",
+      "rome": "L1301",
+      "summary": "Il imagine et dirige la mise en scène d’une pièce, d’un opéra ou d’un spectacle, de la lecture du texte à la première.",
+      "intro": "Le metteur en scène donne forme à un spectacle. Il choisit ou commande un texte, imagine l’univers de la représentation, réunit une équipe artistique et dirige les interprètes jusqu’à la première. Au théâtre, à l’opéra, dans le cirque, la danse ou le spectacle musical, il travaille avec le scénographe, l’éclairagiste, le créateur son, le costumier et la direction technique pour que chaque élément serve son propos. Souvent à la tête de sa propre compagnie, il porte aussi le projet auprès des théâtres, des programmateurs et des financeurs.",
+      "missions": [
+        "Choisir, adapter ou commander le texte et définir le projet artistique",
+        "Constituer l’équipe artistique et technique, et distribuer les rôles",
+        "Concevoir la mise en scène avec la scénographie, la lumière, le son et le costume",
+        "Diriger les répétitions et le travail des interprètes",
+        "Arbitrer les choix artistiques jusqu’aux dernières répétitions",
+        "Défendre le projet auprès des coproducteurs, des programmateurs et de la presse"
+      ],
+      "day": "En période de création, la metteuse en scène arrive au théâtre à dix heures. Le matin, elle travaille une scène avec deux comédiens : on essaie une autre entrée, on déplace un silence, on reprend dix fois la même réplique. Après la pause, elle fait le point avec l’éclairagiste et le scénographe sur le changement de décor du deuxième acte. L’après-midi, filage d’une partie de la pièce, puis notes aux comédiens. Le soir, loin du plateau, elle répond aux coproducteurs et prépare le dossier de la tournée de la saison prochaine.",
+      "skills": [
+        "Vision artistique et capacité à la transmettre",
+        "Direction d’acteurs, de chanteurs ou de danseurs",
+        "Connaissance du répertoire, de la dramaturgie et de l’histoire du théâtre",
+        "Compréhension des métiers techniques de la scène",
+        "Capacité à diriger une équipe et à trancher",
+        "Sens du montage de projet et de la recherche de financements"
+      ],
+      "training": "Il n’existe pas de parcours unique. Des écoles supérieures d’art dramatique, comme le TNS à Strasbourg ou l’ENSATT à Lyon, proposent des sections de mise en scène sur concours, et le Conservatoire national supérieur d’art dramatique forme des comédiens qui deviennent souvent metteurs en scène. Beaucoup commencent comme comédiens ou assistants à la mise en scène, avant de monter leurs premiers spectacles avec une compagnie. Les universités proposent aussi des licences et des masters en arts du spectacle.",
+      "schools": [
+        "TNS, section mise en scène (Strasbourg)",
+        "ENSATT, département mise en scène (Lyon)",
+        "CNSAD, Conservatoire national supérieur d’art dramatique (Paris)",
+        "Licences et masters en arts du spectacle",
+        "Assistanat à la mise en scène"
+      ],
+      "statut": "Le metteur en scène est considéré par le Code du travail comme un artiste du spectacle. Engagé en CDDU pour une création, il relève de l’annexe 10 de l’assurance chômage. Il peut aussi percevoir des droits d’auteur sur sa mise en scène, gérés par la SACD. Certains dirigent un théâtre ou un centre dramatique en tant que salariés permanents.",
+      "pay": {
+        "min": 3000,
+        "max": 15000,
+        "unit": "creation",
+        "note": "La rémunération se négocie pour chaque création : un salaire pour la période de répétitions, parfois un forfait, auxquels peuvent s’ajouter des droits d’auteur sur les représentations. Elle est bien plus modeste dans les petites compagnies, bien plus élevée sur les grosses productions lyriques."
+      },
+      "career": "Le metteur en scène construit son parcours de création en création. Il fonde souvent sa compagnie, obtient des aides et des conventionnements, devient artiste associé d’un théâtre, puis peut diriger un centre dramatique national ou une scène nationale. D’autres mettent en scène pour l’opéra, le cirque, le spectacle musical, ou passent à la réalisation.",
+      "faq": [
+        {
+          "q": "Metteur en scène et réalisateur, quelle différence ?",
+          "a": "Le metteur en scène travaille pour le spectacle vivant, joué en direct devant le public ; le réalisateur pour le cinéma et l’audiovisuel, où l’œuvre est enregistrée puis montée."
+        },
+        {
+          "q": "Faut-il être comédien pour devenir metteur en scène ?",
+          "a": "Ce n’est pas obligatoire, mais c’est un parcours fréquent : l’expérience du plateau aide à diriger les acteurs. D’autres viennent de la dramaturgie, de la scénographie, de la danse ou de la musique."
+        },
+        {
+          "q": "Comment un metteur en scène est-il payé ?",
+          "a": "Par la compagnie ou le théâtre producteur : un salaire pour les répétitions, parfois complété par des droits d’auteur sur les représentations. Pour un jeune metteur en scène, les premières créations sont souvent peu rémunérées."
+        },
+        {
+          "q": "Que fait un assistant à la mise en scène ?",
+          "a": "Il seconde le metteur en scène pendant les répétitions : notes, suivi du texte et des déplacements, lien avec l’équipe technique. C’est une excellente porte d’entrée dans le métier."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 10) et auteur",
+        "training": "TNS, ENSATT, conservatoires, assistanat",
+        "sectors": "Théâtre, opéra, cirque, danse, spectacle musical"
+      },
+      "related": ["comedien", "eclairagiste", "regisseur-general", "choregraphe"],
+      "keywords": [
+        "metteur en scène", "metteuse en scène", "mise en scène", "assistant à la mise en scène",
+        "assistante à la mise en scène", "assistant mise en scène", "assistante mise en scène"
+      ],
+      "search": "metteur en scène"
+    }
+  ]
+}

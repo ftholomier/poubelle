@@ -1,0 +1,287 @@
+{
+  "family": "costume",
+  "trades": [
+    {
+      "slug": "costumier",
+      "name": "Costumier",
+      "name_f": "Costumière",
+      "rome": "L1502",
+      "summary": "Il conçoit, fabrique ou adapte les costumes d’un spectacle, d’un film ou d’une série.",
+      "intro": "Le costumier conçoit, fabrique, adapte et entretient les costumes des comédiens, des danseurs, des chanteurs et des figurants. Selon la production, il dessine les costumes avec le metteur en scène ou le réalisateur, les coupe et les coud en atelier, les chine, les loue ou transforme des pièces existantes. Au cinéma et dans les séries, le chef costumier dirige une équipe d’assistants, d’habilleurs et de couturiers. Au théâtre et à l’opéra, les ateliers de costumes réunissent coupeurs, couturiers, modistes et teinturiers autour de chaque création.",
+      "missions": [
+        "Étudier le texte, le scénario ou le projet de mise en scène pour définir chaque personnage",
+        "Concevoir les costumes : recherches, croquis, choix des matières et des couleurs",
+        "Couper, assembler et coudre les costumes, ou les faire réaliser en atelier",
+        "Acheter, louer ou transformer des pièces existantes selon le budget",
+        "Organiser les essayages et ajuster les costumes sur les artistes",
+        "Gérer le stock, l’entretien et le suivi des costumes pendant les représentations ou le tournage"
+      ],
+      "day": "Sur la préparation d’un film d’époque, la cheffe costumière passe la matinée chez un loueur de costumes à sélectionner des vestes et des robes pour quarante figurants. De retour à l’atelier, elle fait le point avec la couturière sur la robe du rôle principal, en cours de montage. L’après-midi est consacré aux essayages : l’actrice passe deux heures en cabine, on épingle, on raccourcit, on photographie chaque tenue pour la continuité. Le soir, il reste à reprendre le budget et à préparer la liste des costumes de la semaine de tournage suivante.",
+      "skills": [
+        "Maîtrise de la coupe, du moulage et de la couture, à la main comme à la machine",
+        "Connaissance de l’histoire du costume et des matières textiles",
+        "Dessin, sens des couleurs et des volumes",
+        "Lecture d’un texte ou d’un scénario pour construire un personnage",
+        "Gestion d’un budget, d’un planning et d’une équipe d’atelier",
+        "Patience, diplomatie et sens du détail lors des essayages"
+      ],
+      "training": "Le costumier se forme le plus souvent en DN MADE mention spectacle, parcours costume, le diplôme en trois ans qui a remplacé l’ancien DMA costumier-réalisateur, ou en DTMS option techniques de l’habillage. Les profils attirés par la conception visent l’ENSATT, à Lyon, ou la section scénographie-costumes du TNS, à Strasbourg. Un CAP ou un BTS des métiers de la mode apporte aussi une base solide en couture, à compléter par des stages dans les ateliers des théâtres, des opéras et sur les tournages.",
+      "schools": [
+        "DN MADE mention spectacle, parcours costume",
+        "DTMS option techniques de l’habillage",
+        "ENSATT, départements conception et réalisation de costumes (Lyon)",
+        "TNS, section scénographie-costumes (Strasbourg)",
+        "CAP et BTS métiers de la mode"
+      ],
+      "statut": "Le costumier est majoritairement intermittent, engagé en CDDU pour une création, une tournée ou un tournage, et relève de l’annexe 8. Les opéras, les grandes maisons de théâtre et certains parcs à spectacles emploient des costumiers permanents dans leurs ateliers. Le créateur de costumes peut aussi être rémunéré en partie en droits d’auteur pour sa conception.",
+      "pay": {
+        "min": 150,
+        "max": 260,
+        "unit": "jour",
+        "note": "Au cinéma et dans les séries, le chef costumier est payé à la semaine, souvent entre 1 500 et 2 500 € brut. Au théâtre, la conception des costumes est souvent réglée au forfait, en plus des journées d’atelier."
+      },
+      "career": "Le costumier peut devenir chef costumier, créateur de costumes ou chef d’atelier dans un opéra ou un grand théâtre. Il peut aussi se spécialiser dans la coupe, la teinture ou la patine des costumes, ou évoluer vers la scénographie et la direction artistique d’une production.",
+      "faq": [
+        {
+          "q": "Costumier et créateur de costumes, quelle différence ?",
+          "a": "Le créateur de costumes conçoit : il dessine, choisit les matières et définit l’esthétique avec le metteur en scène ou le réalisateur. Le costumier, au sens large, réalise, adapte et suit les costumes. Sur les petites productions, une seule personne fait souvent les deux."
+        },
+        {
+          "q": "Faut-il savoir coudre pour être costumier ?",
+          "a": "Oui. Même un créateur de costumes doit comprendre la coupe et le montage d’un vêtement pour dialoguer avec l’atelier. La couture reste la base du métier."
+        },
+        {
+          "q": "Où travaille un costumier ?",
+          "a": "Au théâtre, à l’opéra, dans la danse et le cirque, au cinéma, dans les séries et la publicité, mais aussi dans les parcs à thème et les grands spectacles historiques."
+        },
+        {
+          "q": "Le costumier est-il présent pendant les représentations ?",
+          "a": "Pendant les représentations, ce sont surtout les habilleurs qui aident les artistes à se changer et entretiennent les costumes. Le costumier revient pour les reprises, les remplacements d’artistes et les réparations importantes."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8), parfois permanent",
+        "training": "DN MADE costume, ENSATT, DTMS habillage",
+        "sectors": "Théâtre, opéra, danse, cinéma, séries"
+      },
+      "related": ["habilleur", "maquilleur", "coiffeur-perruquier", "chef-decorateur"],
+      "keywords": [
+        "costumier", "costumière", "chef costumier", "cheffe costumière", "créateur de costumes",
+        "créatrice de costumes", "créateur costumes", "créatrice costumes", "assistant costumier",
+        "assistante costumière", "costumier réalisateur", "costumière réalisatrice", "atelier costumes",
+        "costume designer", "costume assistant"
+      ],
+      "search": "costumier"
+    },
+    {
+      "slug": "habilleur",
+      "name": "Habilleur",
+      "name_f": "Habilleuse",
+      "rome": "L1502",
+      "summary": "Il prépare, entretient et aide à enfiler les costumes des artistes pendant le spectacle ou le tournage.",
+      "intro": "L’habilleur prend en charge les costumes au quotidien. Il les prépare avant chaque représentation ou chaque prise, aide les artistes à s’habiller, orchestre les changements rapides en coulisses et assure l’entretien : lavage, repassage, défroissage et petites réparations. Au théâtre, à l’opéra, dans la comédie musicale, la revue ou sur un tournage, il est le dernier maillon de la chaîne du costume, celui qui garantit qu’un artiste entre en scène dans une tenue impeccable, à la seconde près.",
+      "missions": [
+        "Préparer et disposer les costumes dans les loges avant chaque représentation",
+        "Aider les artistes à s’habiller et à se changer, y compris lors des changements rapides",
+        "Entretenir les costumes : lavage, repassage, défroissage, teinture légère",
+        "Réaliser les retouches et les réparations entre deux représentations",
+        "Tenir à jour l’inventaire des costumes et la conduite des changements",
+        "Emballer, ranger et suivre les costumes en tournée"
+      ],
+      "day": "Sur une comédie musicale, l’habilleuse arrive trois heures avant le lever de rideau. Elle récupère le linge lavé la veille, repasse les chemises, vérifie chaque costume selon la conduite et recoud une agrafe arrachée pendant la dernière représentation. Une heure avant le spectacle, elle aide les artistes à s’habiller en loge. Pendant la représentation, elle se tient en coulisse avec les costumes du deuxième tableau : un changement complet doit se faire en quarante-cinq secondes, dans la pénombre. Après le salut, elle récupère les tenues, lance les machines et note les réparations du lendemain.",
+      "skills": [
+        "Maîtrise de la couture, des retouches et du repassage",
+        "Connaissance de l’entretien des matières fragiles",
+        "Rapidité et sang-froid pendant les changements en coulisses",
+        "Discrétion, tact et bienveillance envers les artistes",
+        "Rigueur dans le suivi de la conduite des costumes",
+        "Disponibilité en soirée, le week-end et en tournée"
+      ],
+      "training": "L’habilleur se forme avec un CAP métiers de la mode, un DTMS option techniques de l’habillage ou une formation continue spécialisée dans le costume de spectacle, souvent financée par l’Afdas. Beaucoup de professionnels viennent de la couture ou du costume et découvrent l’habillage en assistant un habilleur confirmé dans un théâtre ou sur une tournée. La connaissance des règles de sécurité en coulisses s’apprend sur le terrain.",
+      "schools": [
+        "CAP métiers de la mode, vêtement flou ou vêtement tailleur",
+        "DTMS option techniques de l’habillage",
+        "Formations continues au costume et à l’habillage de spectacle",
+        "Assistanat auprès d’un habilleur confirmé"
+      ],
+      "statut": "L’habilleur est le plus souvent intermittent, engagé en CDDU à la journée ou pour une série de représentations, un tournage ou une tournée, et relève de l’annexe 8. Les opéras et certains grands théâtres emploient aussi des habilleurs permanents.",
+      "pay": {
+        "min": 130,
+        "max": 200,
+        "unit": "jour",
+        "note": "Au cinéma, l’habilleur est payé à la semaine, souvent entre 1 100 et 1 600 € brut. Selon la convention collective, les heures de nuit et du dimanche peuvent être majorées."
+      },
+      "career": "L’habilleur peut devenir chef habilleur sur une grosse production, responsable de l’habillage d’une maison d’opéra, ou évoluer vers la fabrication et la conception de costumes. L’expérience des tournées ouvre aussi les portes des grands spectacles musicaux internationaux.",
+      "faq": [
+        {
+          "q": "Habilleur et costumier, quelle différence ?",
+          "a": "Le costumier conçoit ou fabrique les costumes ; l’habilleur les fait vivre au quotidien. Il habille les artistes, entretient et répare les costumes pendant toute la durée du spectacle ou du tournage."
+        },
+        {
+          "q": "Qu’est-ce qu’un changement rapide ?",
+          "a": "Un changement de costume effectué en coulisses en quelques dizaines de secondes, entre deux scènes. Il se prépare et se répète comme une chorégraphie : chaque geste de l’habilleur est prévu à l’avance."
+        },
+        {
+          "q": "L’habilleur travaille-t-il au cinéma ?",
+          "a": "Oui. Sur un tournage, il prépare les tenues de chaque séquence, habille les comédiens et les figurants et veille à la continuité des costumes d’un plan à l’autre."
+        },
+        {
+          "q": "Quels horaires faut-il prévoir ?",
+          "a": "Des horaires décalés : avant, pendant et après les représentations, donc souvent en soirée et le week-end. En tournée s’ajoutent les déplacements et l’installation dans chaque nouveau lieu."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8), parfois permanent",
+        "training": "CAP mode, DTMS habillage",
+        "sectors": "Théâtre, opéra, comédie musicale, cinéma, séries"
+      },
+      "related": ["costumier", "maquilleur", "coiffeur-perruquier", "regisseur-plateau"],
+      "keywords": [
+        "habilleur", "habilleuse", "chef habilleur", "cheffe habilleuse", "habilleur spectacle",
+        "habilleuse spectacle", "habilleur de tournée", "habilleuse de tournée"
+      ],
+      "search": "habilleur"
+    },
+    {
+      "slug": "maquilleur",
+      "name": "Maquilleur",
+      "name_f": "Maquilleuse",
+      "rome": "L1501",
+      "summary": "Il maquille les artistes pour la scène ou la caméra, du teint naturel aux effets spéciaux.",
+      "intro": "Le maquilleur prépare le visage, et parfois le corps, des artistes pour la scène, le plateau de tournage ou la photo. Il adapte son travail à la lumière, à la caméra, au personnage et à la durée de la représentation : teint naturel pour la télévision, maquillage de caractère au théâtre, vieillissement, blessures ou prothèses au cinéma. Sur les grosses productions, le chef maquilleur conçoit les maquillages avec le réalisateur ou le metteur en scène et dirige une équipe, tandis que les maquilleurs effets spéciaux fabriquent prothèses et transformations en atelier.",
+      "missions": [
+        "Concevoir les maquillages à partir du texte, du scénario et des indications de mise en scène",
+        "Réaliser des essais et les faire valider",
+        "Maquiller les artistes avant chaque représentation ou chaque séquence",
+        "Assurer les raccords maquillage tout au long de la journée de tournage",
+        "Créer des effets spéciaux : vieillissement, cicatrices, blessures, prothèses",
+        "Gérer les produits, l’hygiène du matériel et les allergies éventuelles des artistes"
+      ],
+      "day": "Sur un tournage de série, la maquilleuse arrive avant tout le monde, à six heures, pour préparer les comédiens de la première séquence. Il faut vingt minutes pour un teint naturel, une heure et demie pour transformer une actrice de trente ans en grand-mère. Pendant les prises, elle se tient près du combo, sa trousse à la main, pour les raccords : sueur, rougeur, maquillage qui file sous les projecteurs. Entre deux décors, elle démaquille, change de personnage et note tout pour la continuité. En fin de journée, elle prépare les prothèses de la scène de l’accident, prévue le lendemain.",
+      "skills": [
+        "Maîtrise des techniques de maquillage beauté, de caractère et d’effets spéciaux",
+        "Connaissance de la peau, des produits et des règles d’hygiène",
+        "Compréhension de l’effet de la lumière et de la caméra sur le maquillage",
+        "Sens artistique, sens du détail et de l’observation",
+        "Rapidité et précision, notamment pour les raccords",
+        "Tact et discrétion dans la relation avec les artistes"
+      ],
+      "training": "La plupart des maquilleurs sortent d’écoles de maquillage professionnel, dont les cursus d’un à trois ans couvrent la beauté, la mode, la scène, le cinéma et les effets spéciaux. Un CAP ou un BP esthétique apporte une base appréciée sur la peau et l’hygiène. Le maquillage d’effets spéciaux et la fabrication de prothèses s’apprennent souvent en complément, dans des formations spécialisées. Les stages sur les tournages, à l’opéra et dans les théâtres restent la meilleure porte d’entrée, avec un book soigné.",
+      "schools": [
+        "Écoles de maquillage professionnel : scène, cinéma, effets spéciaux",
+        "CAP et BP esthétique",
+        "Formations spécialisées en effets spéciaux et prothèses",
+        "Stages en théâtre, à l’opéra et sur les tournages"
+      ],
+      "statut": "Le maquilleur est majoritairement intermittent, engagé en CDDU pour un tournage, une émission ou une série de représentations, et relève de l’annexe 8. Les chaînes de télévision, les opéras et certains théâtres emploient des maquilleurs permanents. Dans la mode, la photo et l’événementiel, beaucoup exercent aussi en indépendants.",
+      "pay": {
+        "min": 180,
+        "max": 320,
+        "unit": "jour",
+        "note": "Au cinéma, le chef maquilleur est payé à la semaine, souvent entre 1 600 et 2 600 € brut. Les spécialistes des effets spéciaux et des prothèses sont souvent mieux payés, parfois au forfait."
+      },
+      "career": "Le maquilleur peut devenir chef maquilleur sur des longs métrages ou des séries, se spécialiser dans les effets spéciaux et les prothèses, rejoindre une grande maison d’opéra ou ouvrir son atelier. Certains ajoutent la coiffure et la perruque à leurs compétences pour devenir maquilleur-coiffeur, un profil très recherché sur les tournages.",
+      "faq": [
+        {
+          "q": "Maquillage de scène et maquillage de cinéma, quelle différence ?",
+          "a": "Sur scène, le maquillage doit se lire de loin, sous des projecteurs puissants : il est plus marqué. À la caméra, surtout en haute définition, il doit être invisible de près et rester identique d’une prise à l’autre."
+        },
+        {
+          "q": "Qu’est-ce qu’un maquilleur effets spéciaux ?",
+          "a": "Un spécialiste des transformations : vieillissement, blessures, cicatrices, créatures. Il sculpte, moule et pose des prothèses en silicone ou en latex, souvent préparées en atelier plusieurs semaines avant le tournage."
+        },
+        {
+          "q": "Faut-il un diplôme pour être maquilleur ?",
+          "a": "Aucun diplôme n’est exigé pour maquiller sur un spectacle ou un tournage, mais une vraie formation est indispensable pour maîtriser les techniques et l’hygiène. Le book et les références comptent beaucoup à l’embauche."
+        },
+        {
+          "q": "Le maquilleur fait-il aussi la coiffure ?",
+          "a": "Sur les petites productions, souvent. Sur les grosses, les équipes sont distinctes, mais les profils maquilleur-coiffeur sont très appréciés en télévision, en publicité et dans le spectacle vivant."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8), parfois indépendant",
+        "training": "École de maquillage professionnel",
+        "sectors": "Cinéma, séries, télévision, théâtre, opéra"
+      },
+      "related": ["coiffeur-perruquier", "costumier", "habilleur", "comedien"],
+      "keywords": [
+        "maquilleur", "maquilleuse", "chef maquilleur", "cheffe maquilleuse",
+        "maquilleur effets spéciaux", "maquilleuse effets spéciaux", "maquillage effets spéciaux",
+        "maquilleur sfx", "maquilleuse sfx", "maquilleur coiffeur", "maquilleuse coiffeuse",
+        "maquilleur artistique", "maquilleuse artistique", "make up artist", "makeup artist"
+      ],
+      "search": "maquilleur"
+    },
+    {
+      "slug": "coiffeur-perruquier",
+      "name": "Coiffeur perruquier",
+      "name_f": "Coiffeuse perruquière",
+      "rome": "L1501",
+      "summary": "Il coiffe les artistes et fabrique ou entretient les perruques et postiches d’un spectacle ou d’un film.",
+      "intro": "Le coiffeur perruquier coiffe les artistes pour la scène ou la caméra, et conçoit, fabrique, pose et entretient les perruques, postiches, barbes et moustaches. Il reconstitue une coiffure d’époque, transforme un comédien en quelques minutes ou prépare dix perruques identiques pour une tournée. Au cinéma et en télévision, le chef coiffeur travaille main dans la main avec le chef maquilleur et le chef costumier. À l’opéra et au théâtre, les ateliers de perruques réalisent des pièces entièrement à la main, cheveu par cheveu.",
+      "missions": [
+        "Concevoir les coiffures des personnages avec la mise en scène, le costume et le maquillage",
+        "Fabriquer perruques et postiches : prise de mesures, montage, implantation des cheveux",
+        "Coiffer les artistes avant chaque représentation ou chaque séquence",
+        "Poser et raccorder perruques, barbes, moustaches et favoris",
+        "Entretenir, laver et remettre en forme les perruques entre deux représentations",
+        "Assurer la continuité des coiffures tout au long d’un tournage"
+      ],
+      "day": "À l’atelier perruques d’un opéra, la journée commence par l’implantation d’une perruque destinée à la prochaine production : au crochet, cheveu par cheveu, un travail de plusieurs dizaines d’heures. En fin d’après-midi, la perruquière rejoint les loges, où trente choristes attendent leurs perruques du XVIIIe siècle avant le lever de rideau. Pendant la représentation, elle reste en coulisses pour un changement de coiffure entre deux actes. Après le spectacle, elle récupère les pièces, les nettoie et les remet en forme sur leurs marottes pour le lendemain.",
+      "skills": [
+        "Maîtrise de la coiffure, de la coupe et des coiffures d’époque",
+        "Fabrication de perruques et de postiches : tulle, implantation, montage",
+        "Connaissance de l’histoire de la coiffure et du costume",
+        "Rapidité d’exécution et sens du détail",
+        "Travail en équipe avec le costume et le maquillage",
+        "Disponibilité en horaires décalés et en tournée"
+      ],
+      "training": "Le coiffeur perruquier part généralement d’un CAP métiers de la coiffure, complété par un BP coiffure ou une mention complémentaire, puis se spécialise dans la perruque et la posticherie de spectacle. Quelques organismes et les ateliers des grandes maisons d’opéra enseignent la fabrication à la main, qui demande plusieurs années de pratique. L’apprentissage auprès d’un perruquier de théâtre ou de cinéma reste la voie la plus sûre.",
+      "schools": [
+        "CAP métiers de la coiffure",
+        "BP coiffure",
+        "Formations en perruque et posticherie de spectacle",
+        "Apprentissage dans un atelier perruques de théâtre ou d’opéra"
+      ],
+      "statut": "Le coiffeur perruquier est souvent intermittent, engagé en CDDU pour un tournage, une émission ou une série de représentations, et relève de l’annexe 8. Les opéras, certains théâtres et les chaînes de télévision emploient des perruquiers et des coiffeurs permanents. Quelques perruquiers exercent en artisans indépendants.",
+      "pay": {
+        "min": 170,
+        "max": 300,
+        "unit": "jour",
+        "note": "Au cinéma, le chef coiffeur est payé à la semaine, souvent entre 1 500 et 2 500 € brut. Une perruque sur mesure implantée à la main se facture à part, parfois plusieurs milliers d’euros la pièce."
+      },
+      "career": "Le coiffeur perruquier peut devenir chef coiffeur de longs métrages ou de séries, chef d’atelier perruques dans une grande maison d’opéra, ou ouvrir son atelier de posticherie. Certains élargissent leur pratique au maquillage pour devenir maquilleur-coiffeur.",
+      "faq": [
+        {
+          "q": "Coiffeur de spectacle et coiffeur en salon, quelle différence ?",
+          "a": "La base technique est la même, mais le coiffeur de spectacle crée des coiffures de personnage, souvent d’époque, qui doivent tenir sous les projecteurs et rester identiques d’une représentation ou d’une prise à l’autre. Il travaille aussi beaucoup avec des perruques."
+        },
+        {
+          "q": "Combien de temps faut-il pour fabriquer une perruque ?",
+          "a": "Une perruque entièrement implantée à la main demande souvent plusieurs dizaines d’heures, parfois plus de cent pour une pièce complexe. Adapter une perruque existante va beaucoup plus vite."
+        },
+        {
+          "q": "Qu’est-ce qu’un posticheur ?",
+          "a": "Un artisan qui fabrique des postiches : barbes, moustaches, favoris, sourcils ou compléments de cheveux. Dans le spectacle, le perruquier assure généralement aussi ce travail."
+        },
+        {
+          "q": "Faut-il un diplôme de coiffure ?",
+          "a": "Dans les faits, oui : le CAP métiers de la coiffure est la base attendue, et tenir un salon exige une qualification reconnue. La spécialisation en perruque vient ensuite, par la pratique."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8), parfois permanent",
+        "training": "CAP coiffure, puis spécialisation perruque",
+        "sectors": "Opéra, théâtre, cinéma, séries, télévision"
+      },
+      "related": ["maquilleur", "costumier", "habilleur", "comedien"],
+      "keywords": [
+        "coiffeur perruquier", "coiffeuse perruquière", "perruquier", "perruquière", "posticheur",
+        "posticheuse", "chef coiffeur", "cheffe coiffeuse", "coiffeur", "coiffeuse",
+        "maquilleur coiffeur", "maquilleuse coiffeuse"
+      ],
+      "search": "coiffeur perruquier"
+    }
+  ]
+}

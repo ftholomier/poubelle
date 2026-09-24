@@ -1,0 +1,439 @@
+{
+  "family": "evenementiel",
+  "trades": [
+    {
+      "slug": "chef-de-projet-evenementiel",
+      "name": "Chef de projet événementiel",
+      "name_f": "Cheffe de projet événementiel",
+      "rome": "E1107",
+      "summary": "Il conçoit et pilote des événements, salons, congrès, soirées ou lancements, du brief du client au jour J.",
+      "intro": "Le chef de projet événementiel conçoit, organise et pilote des événements de toutes tailles : séminaires, congrès, salons, conventions d’entreprise, lancements de produits, soirées de gala, festivals, événements sportifs ou culturels. À partir du brief du client, il imagine un concept, bâtit le budget, choisit les lieux et les prestataires, coordonne les équipes techniques et artistiques, puis supervise l’événement sur place, souvent jusqu’au démontage. Il travaille en agence, chez un annonceur, pour un lieu ou pour un organisateur de salons.",
+      "missions": [
+        "Analyser le brief du client et proposer un concept",
+        "Construire le budget, le rétroplanning et la recommandation",
+        "Rechercher les lieux et choisir les prestataires : technique, traiteur, décor, artistes",
+        "Coordonner les équipes et les fournisseurs jusqu’au jour J",
+        "Superviser le montage, le déroulé et le démontage de l’événement",
+        "Faire le bilan avec le client et suivre la facturation"
+      ],
+      "day": "À deux jours d’une convention d’entreprise pour huit cents personnes, la cheffe de projet événementiel arrive à huit heures au centre de congrès. Elle fait le point avec le régisseur général sur le montage de la plénière, vérifie l’accrochage de l’écran LED, puis valide le plan de table du dîner avec le traiteur. En début d’après-midi, le client demande de déplacer une intervention : il faut revoir le conducteur, prévenir la régie, briefer les hôtesses. Le soir, elle assiste à la répétition générale avec l’animateur. Le jour J, elle sera là de six heures à minuit, oreillette vissée.",
+      "skills": [
+        "Organisation, anticipation et gestion des priorités",
+        "Maîtrise des budgets et négociation avec les prestataires",
+        "Créativité pour imaginer des concepts",
+        "Connaissance des métiers techniques : son, lumière, vidéo, structures",
+        "Sang-froid et réactivité le jour J",
+        "Aisance relationnelle avec les clients et les équipes"
+      ],
+      "training": "Le chef de projet événementiel est souvent diplômé d’une école de commerce, d’un bachelor ou d’un master en communication et événementiel, ou d’un BTS Communication ou Tourisme complété par une spécialisation. Des écoles spécialisées dans l’événementiel existent dans la plupart des grandes villes. L’expérience compte beaucoup : on débute souvent comme assistant ou chargé de projet, en agence ou chez un organisateur de salons.",
+      "schools": [
+        "Bachelors et masters en communication et événementiel",
+        "Écoles de commerce, spécialisation événementiel",
+        "BTS Communication ou Tourisme, puis spécialisation",
+        "Licences professionnelles métiers de l’événementiel"
+      ],
+      "statut": "Le chef de projet événementiel est le plus souvent salarié en CDI ou en CDD d’une agence, d’un annonceur ou d’un organisateur, sous la convention collective de son employeur. Il ne relève en général pas de l’intermittence. Certains travaillent en freelance, notamment pour des agences en période de forte activité.",
+      "pay": {
+        "min": 2500,
+        "max": 4000,
+        "unit": "mois",
+        "note": "Salaire mensuel brut indicatif, selon l’expérience et la taille de l’agence. Un chargé de projet débutant commence plus bas ; un directeur de projet expérimenté gagne davantage."
+      },
+      "career": "Le chef de projet événementiel peut devenir directeur de projet, directeur de clientèle ou directeur d’agence, créer sa propre agence, ou rejoindre le service événementiel d’une grande entreprise, d’un lieu ou d’un festival.",
+      "faq": [
+        {
+          "q": "Chef de projet événementiel et régisseur général, quelle différence ?",
+          "a": "Le chef de projet porte la relation avec le client, le concept, le budget et la coordination d’ensemble. Le régisseur général dirige la partie technique de l’événement : montage, équipes, sécurité, déroulé."
+        },
+        {
+          "q": "Le chef de projet événementiel est-il intermittent ?",
+          "a": "En général non : il est salarié permanent ou freelance. Ce sont surtout les techniciens et les artistes engagés sur l’événement qui relèvent de l’intermittence."
+        },
+        {
+          "q": "Quelles sont les périodes les plus chargées ?",
+          "a": "Le printemps, le début de l’automne et la fin d’année, avec les séminaires, les salons, les conventions et les soirées de fin d’année. L’été est plus calme, sauf pour les festivals."
+        },
+        {
+          "q": "Faut-il une école spécialisée ?",
+          "a": "Elle aide à entrer dans le métier, mais les agences recrutent aussi des profils de communication, de commerce, de tourisme ou de production culturelle, à condition d’avoir fait ses preuves en stage."
+        }
+      ],
+      "brief": {
+        "status": "Salarié (CDI, CDD) ou freelance",
+        "training": "Bachelor ou master en événementiel",
+        "sectors": "Agences, entreprises, salons, festivals, lieux"
+      },
+      "related": [
+        "technicien-evenementiel", "regisseur-general", "hote-evenementiel", "charge-de-production"
+      ],
+      "keywords": [
+        "chef de projet événementiel", "cheffe de projet événementiel", "chef de projet événementielle",
+        "cheffe de projet événementielle", "chef de projets événementiels", "chef de projet événement",
+        "chef de projet event", "cheffe de projet event", "chargé de projet événementiel",
+        "chargée de projet événementiel", "chargée de projet événementielle",
+        "chargé de projets événementiels", "directeur de projet événementiel",
+        "directrice de projet événementiel", "responsable événementiel", "responsable événementielle",
+        "coordinateur événementiel", "coordinatrice événementielle", "event manager"
+      ],
+      "search": "chef de projet événementiel"
+    },
+    {
+      "slug": "technicien-evenementiel",
+      "name": "Technicien événementiel",
+      "name_f": "Technicienne événementielle",
+      "rome": "",
+      "summary": "Polyvalent, il installe et exploite le son, la lumière, la vidéo et les structures des salons, congrès et soirées.",
+      "intro": "Le technicien événementiel installe, exploite et démonte le matériel technique des événements : conventions, congrès, salons, lancements de produits, soirées, concerts privés, festivals. Son, lumière, vidéo, écrans LED, structures, câblage, régie : il est souvent polyvalent, avec une spécialité dominante. Il travaille pour un prestataire technique, un loueur de matériel ou une agence, et se déplace de lieu en lieu, avec des horaires qui suivent le rythme de l’événement : montages de nuit, exploitation le jour J, démontage dans la foulée.",
+      "missions": [
+        "Préparer et charger le matériel au dépôt du prestataire",
+        "Monter les installations : son, lumière, vidéo, structures, câblage",
+        "Effectuer les réglages et les tests avant l’ouverture",
+        "Exploiter la régie pendant l’événement ou assister le régisseur",
+        "Démonter, ranger et vérifier le matériel",
+        "Appliquer les règles de sécurité : électricité, travail en hauteur, levage"
+      ],
+      "day": "Pour un technicien événementiel, une convention commence la veille au soir au dépôt : chargement du camion, vérification des consoles et des vidéoprojecteurs. Montage de nuit dans un palais des congrès : structures, projecteurs, diffusion son, écrans. À six heures, tests avec le régisseur, puis répétition avec les intervenants. Pendant la journée, il tient la régie vidéo et lance les films à chaque intervention. Le soir, soirée de gala dans la même salle : changement de configuration en deux heures, puis démontage complet après le départ des invités.",
+      "skills": [
+        "Polyvalence technique : son, lumière, vidéo, structures",
+        "Habilitation électrique et formations à la sécurité",
+        "Rapidité et méthode au montage comme au démontage",
+        "Sens du service et de la relation avec le client",
+        "Résistance physique et disponibilité en horaires décalés",
+        "Capacité à résoudre les pannes sous pression"
+      ],
+      "training": "Le technicien événementiel se forme souvent par un BTS Métiers de l’audiovisuel, un DN MADE mention spectacle ou une formation qualifiante aux techniques du spectacle, comme celles du CFPTS à Bagnolet ou de l’ISTS à Avignon. Les formations courtes à l’habilitation électrique, au travail en hauteur, à l’accroche et à la conduite de nacelle sont très demandées par les prestataires. Beaucoup apprennent sur le terrain, en commençant comme renfort de montage.",
+      "schools": [
+        "BTS Métiers de l’audiovisuel",
+        "DN MADE mention spectacle",
+        "CFPTS (Bagnolet) et ISTS (Avignon)",
+        "Habilitation électrique, travail en hauteur, CACES nacelle"
+      ],
+      "statut": "Le technicien événementiel peut être intermittent, engagé en CDDU par un prestataire technique, et relever de l’annexe 8 lorsque son employeur applique une convention collective du spectacle, comme celle des entreprises techniques au service de la création et de l’événement. Beaucoup sont aussi salariés permanents des prestataires, ou travaillent en renfort en intérim.",
+      "pay": {
+        "min": 140,
+        "max": 230,
+        "unit": "jour",
+        "note": "Tarif journalier brut indicatif en intermittence. Les montages de nuit et les journées à rallonge sont fréquents ; les techniciens spécialisés, comme les pupitreurs ou les techniciens LED, sont mieux payés."
+      },
+      "career": "Le technicien événementiel peut se spécialiser dans le son, la lumière, la vidéo ou le rigging, devenir régisseur, chef d’équipe, responsable technique d’un prestataire, ou directeur technique d’événements.",
+      "faq": [
+        {
+          "q": "Technicien événementiel et technicien du spectacle, quelle différence ?",
+          "a": "Les compétences sont proches. Le technicien événementiel travaille surtout pour des entreprises et des agences, sur des conventions, des salons ou des soirées, avec des délais courts et des configurations toujours nouvelles."
+        },
+        {
+          "q": "Faut-il être polyvalent ?",
+          "a": "C’est un atout majeur : sur un événement, les équipes sont réduites et chacun doit savoir un peu tout faire. Une spécialité forte reste appréciée pour évoluer."
+        },
+        {
+          "q": "Quelles habilitations sont demandées ?",
+          "a": "L’habilitation électrique, les formations au travail en hauteur et au port du harnais, et souvent le CACES pour la conduite de nacelles ou de chariots."
+        },
+        {
+          "q": "Les horaires sont-ils difficiles ?",
+          "a": "Oui : montages de nuit, journées longues, week-ends. En contrepartie, le travail est varié et les lieux changent sans cesse."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8), permanent ou intérim",
+        "training": "BTS audiovisuel, formations techniques du spectacle",
+        "sectors": "Conventions, salons, congrès, soirées, festivals"
+      },
+      "related": ["technicien-son", "technicien-lumiere", "technicien-video", "rigger"],
+      "keywords": [
+        "technicien événementiel", "technicienne événementielle", "technicienne événementiel",
+        "technicien polyvalent événementiel", "technicienne polyvalente événementielle",
+        "technicien de l’événementiel", "technicienne de l’événementiel", "technicien event",
+        "technicienne event", "technicien audiovisuel événementiel",
+        "technicienne audiovisuelle événementielle", "régisseur événementiel",
+        "régisseuse événementielle"
+      ],
+      "search": "technicien événementiel"
+    },
+    {
+      "slug": "hote-evenementiel",
+      "name": "Hôte événementiel",
+      "name_f": "Hôtesse événementielle",
+      "rome": "M1601",
+      "summary": "Il accueille, oriente et renseigne le public et les invités des salons, congrès, soirées et festivals.",
+      "intro": "L’hôte événementiel, ou hôtesse d’accueil événementiel, est le premier visage d’un événement. Il accueille les participants, contrôle les invitations et les badges, oriente le public, gère le vestiaire, renseigne les visiteurs sur un stand, accompagne les intervenants ou distribue des documents. On le retrouve sur les salons professionnels, les congrès, les conventions d’entreprise, les soirées de gala, les événements sportifs, les festivals et les lancements de produits. Le métier demande une excellente présentation, le sens du service et souvent la pratique de langues étrangères.",
+      "missions": [
+        "Accueillir les invités et contrôler les accès, les badges et les listes",
+        "Orienter et renseigner le public",
+        "Gérer le vestiaire, la billetterie ou les inscriptions",
+        "Accompagner les intervenants et les personnalités",
+        "Animer un stand, distribuer des documents ou des échantillons",
+        "Relayer les informations et les incidents à l’organisateur"
+      ],
+      "day": "Pour un congrès médical international, l’hôtesse arrive à sept heures au palais des congrès, dans la tenue fournie par l’agence. Briefing avec la responsable d’équipe : plan des salles, horaires, consignes de sécurité, liste des intervenants. De huit à dix heures, pic d’arrivées : elle scanne les badges, renseigne en anglais et en espagnol, oriente vers les salles. En milieu de matinée, elle accompagne un orateur jusqu’à la régie pour sa présentation. L’après-midi, elle tient l’accueil d’une salle de conférences, puis aide au vestiaire du cocktail de clôture.",
+      "skills": [
+        "Excellente présentation et sens de l’accueil",
+        "Aisance relationnelle et amabilité en toutes circonstances",
+        "Pratique d’une ou plusieurs langues étrangères, souvent l’anglais",
+        "Capacité à rester debout et disponible pendant de longues heures",
+        "Réactivité et sens de l’initiative face aux imprévus",
+        "Discrétion et respect des consignes"
+      ],
+      "training": "Aucun diplôme n’est exigé, mais les agences apprécient un bac ou un BTS dans l’accueil, le tourisme, le commerce ou les langues, ainsi qu’une première expérience de l’accueil. La maîtrise de l’anglais, voire d’une autre langue, ouvre les missions les mieux payées, notamment sur les congrès internationaux. Les agences forment leurs équipes aux consignes, à la tenue et aux règles de sécurité avant chaque événement.",
+      "schools": [
+        "Bac ou BTS dans l’accueil, le tourisme ou le commerce",
+        "Licence de langues étrangères appliquées",
+        "Formations internes des agences d’accueil événementiel"
+      ],
+      "statut": "L’hôte événementiel est généralement salarié en CDD d’usage par une agence d’accueil, pour la durée de chaque mission. Il ne relève pas de l’intermittence du spectacle. Le métier est souvent exercé en complément d’études ou d’une autre activité, parfois en CDI chez les grands organisateurs.",
+      "pay": {
+        "min": 12,
+        "max": 16,
+        "unit": "heure",
+        "note": "Taux horaire brut indicatif, proche du SMIC pour les missions simples, plus élevé pour les profils bilingues et les événements de prestige. Les heures de nuit et du dimanche peuvent être majorées."
+      },
+      "career": "L’hôte événementiel peut devenir chef d’équipe, responsable de l’accueil d’un grand événement, chargé de recrutement ou de planning dans une agence, ou évoluer vers l’organisation d’événements comme assistant de projet.",
+      "faq": [
+        {
+          "q": "Hôtesse d’accueil et hôtesse événementielle, quelle différence ?",
+          "a": "L’hôtesse d’accueil en entreprise occupe le même poste chaque jour. L’hôtesse événementielle intervient par missions, sur des événements toujours différents : salons, congrès, soirées, festivals."
+        },
+        {
+          "q": "Faut-il parler anglais ?",
+          "a": "Ce n’est pas toujours exigé, mais c’est un vrai atout : les congrès, les salons internationaux et les événements de prestige recherchent des profils bilingues, mieux payés."
+        },
+        {
+          "q": "Le métier est-il ouvert aux hommes ?",
+          "a": "Oui. Les agences recrutent des hôtes comme des hôtesses, selon les besoins de chaque événement."
+        },
+        {
+          "q": "Comment trouver des missions ?",
+          "a": "En s’inscrivant auprès des agences d’accueil événementiel, qui recrutent toute l’année et surtout avant les grands salons, et en répondant aux annonces des organisateurs."
+        }
+      ],
+      "brief": {
+        "status": "CDD d’usage en agence, hors intermittence",
+        "training": "Aucun diplôme requis, langues appréciées",
+        "sectors": "Salons, congrès, soirées, festivals, sport"
+      },
+      "related": [
+        "chef-de-projet-evenementiel", "animateur-evenementiel", "technicien-evenementiel", "figurant"
+      ],
+      "keywords": [
+        "hôte événementiel", "hôtesse événementielle", "hôtesse événementiel",
+        "hôte d’accueil événementiel", "hôtesse d’accueil événementiel",
+        "hôtesse d’accueil événementielle", "hôte d’accueil", "hôtesse d’accueil", "hôte de salon",
+        "hôtesse de salon", "hôtesse congrès", "hôte congrès"
+      ],
+      "search": "hôtesse événementielle"
+    },
+    {
+      "slug": "animateur-evenementiel",
+      "name": "Animateur événementiel",
+      "name_f": "Animatrice événementielle",
+      "rome": "L1101",
+      "summary": "Micro en main, il anime soirées, salons, mariages et événements d’entreprise pour faire vivre le public.",
+      "intro": "L’animateur événementiel fait vivre un événement et son public : soirée d’entreprise, salon, lancement de produit, mariage, festival, événement sportif, arbre de Noël, animation commerciale. Selon les missions, il présente au micro, mène des jeux et des quiz, chauffe une salle avant un enregistrement, présente un podium ou joue un personnage costumé. Il adapte son ton à chaque public et travaille en lien étroit avec l’organisateur, le DJ et l’équipe technique. Le métier réunit des profils très différents, du présentateur professionnel au comédien qui anime en complément.",
+      "missions": [
+        "Préparer le déroulé de l’animation avec l’organisateur",
+        "Présenter l’événement au micro et annoncer les temps forts",
+        "Mener des jeux, des quiz, des concours et des animations participatives",
+        "Chauffer le public avant un spectacle ou un enregistrement",
+        "Improviser pour gérer les imprévus et les temps morts",
+        "Coordonner ses interventions avec le DJ et la régie"
+      ],
+      "day": "Pour une soirée de fin d’année d’entreprise, l’animatrice arrive au lieu en milieu d’après-midi. Elle refait le point avec la cheffe de projet sur le conducteur : discours du directeur, remise des trophées, quiz, ouverture du bal. Elle teste son micro avec le technicien son, cale ses lancements de musique avec le DJ et répète la remise des prix. À vingt heures, elle accueille les six cents invités, enchaîne les séquences, relance l’ambiance après le dîner. À minuit, elle passe le relais au DJ et quitte la scène, la voix un peu éraillée.",
+      "skills": [
+        "Aisance au micro et présence sur scène",
+        "Sens de l’improvisation et de l’humour",
+        "Capacité à s’adapter à tous les publics",
+        "Voix posée et bonne diction",
+        "Préparation rigoureuse des déroulés",
+        "Énergie et endurance sur de longues soirées"
+      ],
+      "training": "Il n’existe pas de diplôme spécifique. Beaucoup d’animateurs viennent du théâtre, de l’improvisation, de la radio ou de l’animation commerciale. Une formation de comédien, des stages d’improvisation, de pose de voix et de prise de parole en public sont de vrais atouts. Pour l’animation auprès des enfants et en centres de vacances, le BAFA est souvent demandé. L’expérience et les vidéos de prestations comptent beaucoup pour se faire recruter.",
+      "schools": [
+        "Cours de théâtre et d’improvisation",
+        "Formations à la prise de parole et à la pose de voix",
+        "BAFA pour l’animation jeunesse",
+        "Expérience en radio ou en animation commerciale"
+      ],
+      "statut": "L’animateur événementiel qui se produit comme artiste peut être engagé en CDDU et payé au cachet, et relève alors de l’annexe 10. D’autres travaillent en auto-entrepreneur et facturent leurs prestations, ou sont salariés d’agences d’animation. Le statut dépend de la nature de la mission et de l’employeur.",
+      "pay": {
+        "min": 150,
+        "max": 400,
+        "unit": "prestation",
+        "note": "Tarif brut indicatif par soirée ou par journée d’animation. Les animateurs reconnus, les présentateurs de grands événements et les prestations bilingues se négocient bien au-delà."
+      },
+      "career": "L’animateur événementiel peut devenir présentateur de grands événements, maître de cérémonie, animateur de radio ou de télévision, chauffeur de salle, ou créer sa propre agence d’animation. Certains passent à la scène comme humoristes ou comédiens.",
+      "faq": [
+        {
+          "q": "Animateur événementiel et DJ, quelle différence ?",
+          "a": "Le DJ gère la musique ; l’animateur gère le micro, les jeux et le lien avec le public. Certains cumulent les deux, sous l’appellation DJ animateur."
+        },
+        {
+          "q": "Qu’est-ce qu’un chauffeur de salle ?",
+          "a": "Un animateur qui met le public en condition avant et pendant l’enregistrement d’une émission : il explique les consignes, fait applaudir, entretient l’énergie entre deux séquences."
+        },
+        {
+          "q": "Faut-il être intermittent ?",
+          "a": "Pas forcément. Les animateurs engagés au cachet comme artistes relèvent de l’intermittence ; d’autres travaillent en auto-entrepreneur ou pour des agences. Tout dépend du cadre de la mission."
+        },
+        {
+          "q": "Comment se faire connaître ?",
+          "a": "Par une vidéo de démonstration, un site ou des réseaux sociaux soignés, et par le bouche-à-oreille des agences, des lieux de réception et des organisateurs."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 10), indépendant ou salarié",
+        "training": "Théâtre, improvisation, pose de voix",
+        "sectors": "Soirées, salons, mariages, entreprises, sport"
+      },
+      "related": ["dj", "hote-evenementiel", "comedien", "chef-de-projet-evenementiel"],
+      "keywords": [
+        "animateur événementiel", "animatrice événementielle", "animatrice événementiel",
+        "animateur de soirée", "animatrice de soirée", "animateur soirée", "animatrice soirée",
+        "animateur micro", "animatrice micro", "animateur mariage", "animatrice mariage",
+        "animateur podium", "animatrice podium", "animateur de salon", "animatrice de salon",
+        "maître de cérémonie", "maîtresse de cérémonie", "chauffeur de salle", "chauffeuse de salle",
+        "speaker", "speakerine", "mascotte", "père noël", "mère noël", "animateur", "animatrice",
+        "animation de soirée", "animation soirée", "animation mariage", "animation anniversaire"
+      ],
+      "search": "animateur événementiel"
+    },
+    {
+      "slug": "dj",
+      "name": "DJ",
+      "name_f": "DJ",
+      "rome": "L1101",
+      "summary": "Il sélectionne, enchaîne et mixe la musique en club, en soirée, en festival ou lors d’événements privés.",
+      "intro": "Le DJ, ou disc-jockey, choisit, enchaîne et mixe des morceaux pour faire danser et vibrer un public : en club, en bar, en festival, en soirée d’entreprise, en mariage ou pour un événement de marque. Il lit la salle, adapte sa sélection à l’énergie du moment et construit une progression tout au long de son set. Certains DJ produisent aussi leur propre musique et se produisent comme artistes ; d’autres se spécialisent dans l’animation de soirées privées, où ils gèrent aussi le micro, la sonorisation et parfois la lumière.",
+      "missions": [
+        "Préparer sa sélection musicale et ses sets selon l’événement",
+        "Installer et régler le matériel : platines, contrôleur, table de mixage, sonorisation",
+        "Mixer en direct en s’adaptant à l’ambiance et au public",
+        "Échanger avec l’organisateur sur le déroulé et les temps forts",
+        "Assurer l’animation au micro lors des soirées privées",
+        "Produire ses morceaux et développer sa communication"
+      ],
+      "day": "Samedi, mariage dans un domaine viticole. Le DJ arrive à quinze heures avec son matériel : enceintes, caissons de basse, platines, jeux de lumière. Installation, tests, point avec le traiteur et la coordinatrice du mariage. À dix-neuf heures, musique d’ambiance pendant le cocktail, puis annonce de l’entrée des mariés au micro. Après le dîner, ouverture du bal et quatre heures de mix, entre les demandes des invités et ses propres enchaînements. À trois heures du matin, dernier morceau, puis démontage et route du retour.",
+      "skills": [
+        "Culture musicale large et curiosité permanente",
+        "Maîtrise technique du mix et du matériel",
+        "Capacité à lire une salle et à gérer l’énergie du public",
+        "Connaissances de base en sonorisation",
+        "Sens du relationnel avec les organisateurs et les clients",
+        "Résistance aux horaires de nuit"
+      ],
+      "training": "Il n’existe pas de diplôme obligatoire. Des écoles et des formations spécialisées enseignent le mix, la production musicale et la gestion de carrière, et des formations courtes permettent d’apprendre les bases. Beaucoup de DJ se forment seuls, en s’entraînant pendant des centaines d’heures, puis jouent dans des bars et des soirées pour se faire un nom. Une formation en sonorisation est très utile, surtout pour les soirées privées.",
+      "schools": [
+        "Écoles et formations au mix et à la production musicale",
+        "Formations courtes en sonorisation",
+        "Pratique en bar, en club et en soirée"
+      ],
+      "statut": "Le DJ qui se produit en artiste peut être engagé en CDDU et payé au cachet, et relève alors de l’annexe 10. Beaucoup exercent aussi en auto-entrepreneur, surtout pour les mariages et les soirées privées, ou sont salariés d’une agence d’animation. Le choix dépend de la nature des prestations et de la clientèle.",
+      "pay": {
+        "min": 250,
+        "max": 800,
+        "unit": "prestation",
+        "note": "Tarif brut indicatif par soirée, matériel souvent compris pour les soirées privées. Un DJ de club reconnu ou un artiste programmé en festival se négocie bien au-delà."
+      },
+      "career": "Le DJ peut devenir résident d’un club, se produire en festival, développer une carrière d’artiste en produisant sa musique, créer sa société d’animation, ou évoluer vers la programmation, la direction artistique d’un lieu ou la radio.",
+      "faq": [
+        {
+          "q": "Faut-il savoir produire sa musique ?",
+          "a": "Pas pour mixer en soirée. Mais pour être programmé en club ou en festival comme artiste, produire ses propres morceaux est aujourd’hui presque indispensable."
+        },
+        {
+          "q": "Le DJ peut-il être intermittent ?",
+          "a": "Oui, lorsqu’il est engagé au cachet par un employeur du spectacle pour une prestation artistique. Pour les mariages et les soirées privées, beaucoup travaillent en auto-entrepreneur."
+        },
+        {
+          "q": "Quel matériel faut-il ?",
+          "a": "Au minimum un contrôleur ou des platines et une bonne bibliothèque musicale. Pour les soirées privées, il faut aussi une sonorisation, des micros et souvent un peu de lumière."
+        },
+        {
+          "q": "DJ et DJ animateur, quelle différence ?",
+          "a": "Le DJ de club se concentre sur la musique. Le DJ animateur, courant dans les mariages et les soirées d’entreprise, gère aussi le micro, les annonces et les jeux."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 10) ou auto-entrepreneur",
+        "training": "Autodidacte ou école de mix",
+        "sectors": "Clubs, festivals, mariages, soirées d’entreprise"
+      },
+      "related": ["animateur-evenementiel", "technicien-son", "musicien", "technicien-evenementiel"],
+      "keywords": [
+        "dj", "disc jockey", "deejay", "dj animateur", "dj animatrice", "animateur dj", "animatrice dj",
+        "dj mariage", "dj résident", "dj résidente"
+      ],
+      "search": "dj"
+    },
+    {
+      "slug": "monteur-de-stands",
+      "name": "Monteur de stands",
+      "name_f": "Monteuse de stands",
+      "rome": "",
+      "summary": "Il assemble, installe et démonte les stands des salons, des foires et des expositions.",
+      "intro": "Le monteur de stands installe les espaces d’exposition des salons professionnels, des foires, des congrès et des événements de marque. À partir des plans du standiste ou de l’agence, il monte les structures, les cloisons, les planchers, le mobilier, les enseignes et l’éclairage, puis démonte tout à la fin de l’événement, souvent en une nuit. Il travaille pour un standiste, un menuisier agenceur ou un prestataire événementiel, dans les parcs des expositions et les palais des congrès, en France comme à l’étranger.",
+      "missions": [
+        "Charger et décharger le matériel et les éléments de stand",
+        "Lire et interpréter les plans de montage",
+        "Assembler structures, cloisons, planchers et habillages",
+        "Installer le mobilier, la signalétique, les enseignes et l’éclairage",
+        "Réaliser les finitions et les retouches avant l’ouverture",
+        "Démonter, conditionner et ranger les éléments après l’événement"
+      ],
+      "day": "À trois jours de l’ouverture d’un grand salon, le monteur de stands arrive à sept heures au parc des expositions, dans un hall encore vide et bruyant. Avec son équipe, il décharge le semi-remorque, repère l’emplacement au sol et commence par le plancher technique. L’après-midi, il assemble la structure en aluminium, pose les cloisons et l’habillage graphique. Le lendemain, il installe le mobilier, les écrans et l’éclairage, puis fait les finitions avant le passage du client. Le soir de la clôture, tout doit être démonté et chargé avant le matin.",
+      "skills": [
+        "Habileté manuelle et maîtrise de l’outillage électroportatif",
+        "Lecture de plans et sens de l’organisation",
+        "Notions de menuiserie, de peinture et d’électricité",
+        "Travail en équipe et rapidité d’exécution",
+        "Respect des règles de sécurité sur les chantiers",
+        "Disponibilité, y compris la nuit, le week-end et en déplacement"
+      ],
+      "training": "Aucun diplôme n’est obligatoire pour débuter, mais un CAP ou un bac professionnel en menuiserie, agencement, métallerie ou électricité est très apprécié. L’habilitation électrique, le CACES pour les nacelles et les chariots et les formations au travail en hauteur facilitent l’embauche et permettent d’évoluer. Beaucoup apprennent le métier directement sur les salons, en commençant comme aide-monteur.",
+      "schools": [
+        "CAP ou bac pro menuiserie, agencement ou métallerie",
+        "CAP ou bac pro électricité",
+        "CACES nacelle et chariot, habilitation électrique",
+        "Apprentissage sur le terrain comme aide-monteur"
+      ],
+      "statut": "Le monteur de stands est le plus souvent salarié d’un standiste ou d’un prestataire, en CDI, en CDD ou en intérim, sous la convention collective de son employeur. Il ne relève en général pas de l’intermittence, sauf lorsqu’il est engagé par une entreprise du spectacle ou de l’événement qui applique une convention permettant le CDDU.",
+      "pay": {
+        "min": 120,
+        "max": 200,
+        "unit": "jour",
+        "note": "Rémunération journalière brute indicative. Les montages de nuit, les week-ends et les déplacements donnent souvent lieu à des majorations et à des indemnités."
+      },
+      "career": "Le monteur de stands peut devenir chef d’équipe, chef de chantier, responsable de montage ou chargé de production chez un standiste. Avec une formation en conception, il peut évoluer vers le métier de standiste ou de dessinateur d’agencement.",
+      "faq": [
+        {
+          "q": "Monteur de stands et standiste, quelle différence ?",
+          "a": "Le standiste conçoit et vend le stand, souvent avec un architecte ou un designer. Le monteur de stands le construit sur place et le démonte à la fin de l’événement."
+        },
+        {
+          "q": "Faut-il un diplôme ?",
+          "a": "Non pour débuter, mais une formation en menuiserie, en agencement ou en électricité aide beaucoup, tout comme les habilitations et les CACES."
+        },
+        {
+          "q": "Le métier est-il physique ?",
+          "a": "Oui : port de charges, longues journées, travail debout et parfois en hauteur. Les délais très courts demandent aussi de l’endurance."
+        },
+        {
+          "q": "Peut-on travailler à l’étranger ?",
+          "a": "Oui, de nombreux standistes suivent leurs clients sur les grands salons internationaux, en Europe et au-delà."
+        }
+      ],
+      "brief": {
+        "status": "Salarié, CDD ou intérim, rarement intermittent",
+        "training": "CAP menuiserie ou électricité, CACES",
+        "sectors": "Salons, foires, congrès, expositions"
+      },
+      "related": ["constructeur-de-decors", "technicien-evenementiel", "machiniste", "rigger"],
+      "keywords": [
+        "monteur de stands", "monteuse de stands", "monteur stand", "monteuse stand",
+        "chef monteur de stands", "cheffe monteuse de stands", "monteur installateur de stands",
+        "monteuse installatrice de stands", "installateur de stands", "installatrice de stands",
+        "menuisier de stands", "menuisière de stands"
+      ],
+      "search": "monteur de stands"
+    }
+  ]
+}

@@ -1,0 +1,373 @@
+{
+  "family": "production",
+  "trades": [
+    {
+      "slug": "charge-de-production",
+      "name": "Chargé de production",
+      "name_f": "Chargée de production",
+      "rome": "L1302",
+      "summary": "Il organise la fabrication d’un spectacle, d’une tournée ou d’un tournage : budget, contrats, planning et logistique.",
+      "intro": "Le chargé de production organise concrètement la fabrication d’un spectacle, d’une tournée, d’un festival, d’un tournage ou d’une émission. Il établit et suit le budget, prépare les contrats des artistes et des techniciens, planifie les répétitions, les transports et l’hébergement, et fait le lien entre l’équipe artistique, les lieux d’accueil et les partenaires. Dans le spectacle vivant, il travaille pour une compagnie, un théâtre ou un producteur de concerts ; dans l’audiovisuel, pour une société de production, sous la responsabilité du directeur de production.",
+      "missions": [
+        "Élaborer et suivre le budget de production",
+        "Préparer les contrats des artistes, des techniciens et des lieux",
+        "Planifier les répétitions, les dates, les transports et l’hébergement",
+        "Coordonner les équipes artistiques, techniques et administratives",
+        "Suivre les demandes de subventions, les coproductions et les partenariats",
+        "Préparer les déclarations sociales et les bilans de fin de production"
+      ],
+      "day": "Dans une compagnie de théâtre en tournée, la chargée de production commence sa journée par les feuilles de route de la semaine : horaires de train, hôtels, adresses des théâtres, contacts des régisseurs d’accueil. En fin de matinée, elle relance un théâtre qui n’a pas renvoyé son contrat de cession. L’après-midi, elle met à jour le budget de la prochaine création avec l’administrateur, puis prépare les contrats d’engagement de deux comédiens remplaçants. Le soir d’une première, elle est au théâtre, veille à l’accueil des programmateurs invités et règle les derniers détails avec la billetterie.",
+      "skills": [
+        "Organisation, anticipation et rigueur",
+        "Maîtrise des budgets et des outils de suivi",
+        "Connaissance du droit social du spectacle et des contrats",
+        "Aisance relationnelle et diplomatie",
+        "Réactivité face aux imprévus",
+        "Connaissance des réseaux de diffusion et des financements publics"
+      ],
+      "training": "Le chargé de production est souvent diplômé d’une licence professionnelle ou d’un master en administration et gestion de la culture ou du spectacle vivant, proposés par de nombreuses universités et par des écoles comme l’ENSATT ou l’IESA. Dans l’audiovisuel, le BTS Métiers de l’audiovisuel option gestion de production et les écoles de cinéma forment aux mêmes fonctions. Les stages et les premiers postes d’assistant de production sont déterminants.",
+      "schools": [
+        "Masters en administration et gestion de la culture",
+        "Licences professionnelles métiers du spectacle vivant",
+        "ENSATT, département administration (Lyon)",
+        "BTS Métiers de l’audiovisuel, option gestion de production",
+        "Stages et assistanat de production"
+      ],
+      "statut": "Dans le spectacle vivant, le chargé de production est souvent salarié permanent, en CDI ou en CDD, d’une compagnie, d’un lieu ou d’un producteur, et ne relève pas toujours de l’intermittence. Dans l’audiovisuel et le cinéma, il est le plus souvent intermittent, engagé en CDDU pour une production, et relève de l’annexe 8.",
+      "pay": {
+        "min": 2200,
+        "max": 3200,
+        "unit": "mois",
+        "note": "Salaire mensuel brut indicatif d’un poste permanent. En audiovisuel, le chargé de production intermittent est payé à la semaine ou à la journée, selon la convention collective et la taille de la production."
+      },
+      "career": "Le chargé de production peut devenir directeur de production, administrateur de compagnie ou de lieu, secrétaire général, directeur d’un festival ou producteur. Certains se spécialisent dans la diffusion, la production déléguée ou les productions internationales.",
+      "faq": [
+        {
+          "q": "Chargé de production et administrateur, quelle différence ?",
+          "a": "Le chargé de production organise la fabrication concrète d’un projet : planning, logistique, contrats, budget de production. L’administrateur gère la structure dans son ensemble : comptabilité, paie, subventions, stratégie financière."
+        },
+        {
+          "q": "Le chargé de production est-il intermittent ?",
+          "a": "Cela dépend du secteur. Dans le spectacle vivant, le poste est souvent permanent ; dans l’audiovisuel et le cinéma, il est le plus souvent occupé par des intermittents, engagés pour chaque production."
+        },
+        {
+          "q": "Qu’est-ce qu’un contrat de cession ?",
+          "a": "Le contrat par lequel une compagnie ou un producteur vend un spectacle à un lieu ou à un festival pour une ou plusieurs dates, avec son prix et ses conditions techniques."
+        },
+        {
+          "q": "Quelles qualités faut-il en priorité ?",
+          "a": "Une grande rigueur, le goût des chiffres et des plannings, et une vraie aisance relationnelle : le chargé de production passe ses journées à négocier et à coordonner."
+        }
+      ],
+      "brief": {
+        "status": "Permanent ou intermittent (annexe 8) selon le secteur",
+        "training": "Master ou licence pro en gestion culturelle",
+        "sectors": "Compagnies, théâtres, festivals, concerts, audiovisuel"
+      },
+      "related": [
+        "administrateur-de-production", "directeur-de-production", "charge-de-diffusion",
+        "regisseur-general"
+      ],
+      "keywords": [
+        "chargé de production", "chargée de production", "charge de production", "attaché de production",
+        "attachée de production", "assistant de production", "assistante de production",
+        "assistant production", "assistante production", "ass de prod", "coordinateur de production",
+        "coordinatrice de production", "responsable de production", "chargé de production audiovisuelle",
+        "chargée de production audiovisuelle"
+      ],
+      "search": "chargé de production spectacle"
+    },
+    {
+      "slug": "directeur-de-production",
+      "name": "Directeur de production",
+      "name_f": "Directrice de production",
+      "rome": "L1302",
+      "summary": "Il gère le budget, les contrats et l’organisation d’un film ou d’une série pour le compte du producteur.",
+      "intro": "Au cinéma et dans l’audiovisuel, le directeur de production est le bras droit du producteur. Il établit le devis du film ou de la série, recrute les équipes, négocie les contrats, les décors et les prestations techniques, puis veille pendant toute la préparation et le tournage à ce que le film se fasse dans le budget et dans les délais. Il encadre la régie, le chargé de production et les administrateurs de production. Dans le spectacle vivant, le titre désigne plutôt la personne qui dirige la production d’un lieu, d’un festival ou d’un grand spectacle.",
+      "missions": [
+        "Établir le devis et le plan de financement opérationnel avec le producteur",
+        "Recruter les équipes techniques et négocier les contrats",
+        "Négocier les décors, le matériel, les studios et les prestataires",
+        "Suivre les dépenses et arbitrer avec le réalisateur et le producteur",
+        "Garantir le respect du droit social, des assurances et de la sécurité",
+        "Préparer les comptes de fin de production"
+      ],
+      "day": "À six semaines du tournage d’une série, le directeur de production arrive au bureau avec un problème : un décor vient de se désister. Il passe la matinée au téléphone avec le régisseur général pour trouver une solution, puis recalcule le coût d’un jour de tournage supplémentaire. L’après-midi, il reçoit un chef électricien pour un entretien, négocie le devis du loueur de caméras et arbitre avec la réalisatrice entre une scène de nuit et une grue. Le soir, il envoie au producteur le point budgétaire de la semaine.",
+      "skills": [
+        "Maîtrise des devis, des budgets et du contrôle des coûts",
+        "Connaissance approfondie des conventions collectives et du droit social",
+        "Sens de la négociation",
+        "Connaissance de tous les métiers et étapes d’un tournage",
+        "Capacité à arbitrer entre ambitions artistiques et contraintes",
+        "Leadership et gestion d’équipe"
+      ],
+      "training": "Le directeur de production a le plus souvent gravi les échelons de la production : régie, assistanat, chargé de production, administration de production. Les écoles de cinéma, comme La Fémis avec son département production ou le CEFPF, et les masters de production audiovisuelle forment à ces fonctions. L’expérience reste décisive : on confie rarement un budget de long métrage sans plusieurs années de terrain.",
+      "schools": [
+        "La Fémis, département production (Paris)",
+        "CEFPF, formations à la production",
+        "Masters de production cinéma et audiovisuelle",
+        "BTS Métiers de l’audiovisuel, option gestion de production",
+        "Parcours de régie et d’administration de production"
+      ],
+      "statut": "Au cinéma et dans l’audiovisuel, le directeur de production est le plus souvent intermittent, engagé en CDDU pour chaque film ou série, avec le statut de cadre, et relève de l’annexe 8. Dans le spectacle vivant, les directeurs de production sont plutôt salariés permanents d’un lieu, d’un festival ou d’un producteur.",
+      "pay": {
+        "min": 2500,
+        "max": 4500,
+        "unit": "semaine",
+        "note": "Salaire hebdomadaire brut indicatif sur un long métrage ou une série, très variable selon le budget. Dans le spectacle vivant, le poste est généralement payé au mois."
+      },
+      "career": "Le directeur de production peut devenir producteur exécutif ou producteur délégué, créer sa propre société de production, ou diriger la production d’une chaîne, d’une plateforme ou d’un grand festival.",
+      "faq": [
+        {
+          "q": "Directeur de production et producteur, quelle différence ?",
+          "a": "Le producteur porte le projet, trouve le financement et prend le risque financier. Le directeur de production gère l’argent réuni : il organise la fabrication du film et veille au respect du budget."
+        },
+        {
+          "q": "Faut-il une école pour devenir directeur de production ?",
+          "a": "Une école aide à entrer dans le milieu, mais la plupart des directeurs de production ont d’abord appris sur le terrain, poste après poste, en régie et en administration de production."
+        },
+        {
+          "q": "Qui dirige le directeur de production ?",
+          "a": "Il répond au producteur. En retour, il encadre le régisseur général, le chargé de production, l’administrateur de production et la comptabilité du film."
+        },
+        {
+          "q": "Le poste existe-t-il dans le spectacle vivant ?",
+          "a": "Oui, dans les grands lieux, les festivals et les productions de spectacles musicaux, où il dirige toute la chaîne de production. Dans les compagnies, on parle plutôt d’administrateur ou de chargé de production."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent cadre (annexe 8), permanent en spectacle vivant",
+        "training": "Parcours de production, La Fémis, CEFPF",
+        "sectors": "Cinéma, séries, télévision, publicité, grands spectacles"
+      },
+      "related": [
+        "charge-de-production", "administrateur-de-production", "assistant-realisateur",
+        "regisseur-general"
+      ],
+      "keywords": [
+        "directeur de production", "directrice de production", "directeur production",
+        "directrice production", "producteur exécutif", "productrice exécutive", "line producer"
+      ],
+      "search": "directeur de production audiovisuel"
+    },
+    {
+      "slug": "administrateur-de-production",
+      "name": "Administrateur de production",
+      "name_f": "Administratrice de production",
+      "rome": "L1302",
+      "summary": "Il gère la paie, les contrats, les déclarations sociales et le suivi comptable d’une production ou d’une compagnie.",
+      "intro": "L’administrateur de production assure la gestion administrative, sociale et financière d’une production. Au cinéma et dans l’audiovisuel, il prépare les contrats de toute l’équipe, établit la paie des intermittents, effectue les déclarations aux caisses du spectacle et suit la comptabilité du film jusqu’aux comptes de fin de production. Dans le spectacle vivant, l’administrateur de compagnie ou de lieu joue un rôle proche et plus large : budgets, subventions, paie, relations avec les partenaires. C’est le garant de la solidité juridique et financière du projet.",
+      "missions": [
+        "Rédiger les contrats de travail des artistes et des techniciens",
+        "Établir la paie et les déclarations sociales, notamment auprès d’Audiens et de France Travail",
+        "Suivre la comptabilité et les engagements de dépenses",
+        "Préparer les dossiers de subventions, d’aides et de crédits d’impôt",
+        "Veiller au respect des conventions collectives et du droit du travail",
+        "Établir les bilans et les comptes de fin de production"
+      ],
+      "day": "Sur un long métrage, l’administratrice de production commence par intégrer les heures de la semaine transmises par les chefs de poste : heures supplémentaires, nuits, repas décalés. Elle vérifie chaque ligne avant de lancer la paie de soixante intermittents. En fin de matinée, elle répond à un comédien qui n’a pas reçu son attestation employeur. L’après-midi, elle prépare le dossier de crédit d’impôt avec l’expert-comptable, puis fait le point avec le directeur de production sur l’écart entre le devis et les dépenses réelles.",
+      "skills": [
+        "Maîtrise de la paie des intermittents et des conventions collectives du spectacle",
+        "Connaissance du droit social, des contrats et de la fiscalité de la culture",
+        "Rigueur comptable et sens du détail",
+        "Maîtrise des logiciels de paie et de gestion",
+        "Discrétion et sens de la confidentialité",
+        "Capacité à expliquer des règles complexes simplement"
+      ],
+      "training": "L’administrateur de production est généralement titulaire d’un master en administration de la culture, en gestion ou en droit, ou d’une licence professionnelle spécialisée dans l’administration du spectacle. Les formations continues à la paie du spectacle et à la gestion des productions, proposées par des organismes spécialisés et parfois financées par l’Afdas, sont très utiles. L’expérience comme assistant d’administration ou chargé de production est souvent un passage obligé.",
+      "schools": [
+        "Masters en administration de la culture et du spectacle",
+        "Licences professionnelles administration du spectacle",
+        "ENSATT, département administration (Lyon)",
+        "Formations continues à la paie du spectacle",
+        "Masters de droit ou de gestion"
+      ],
+      "statut": "Au cinéma et dans l’audiovisuel, l’administrateur de production est souvent intermittent, engagé pour la durée d’une production, et relève de l’annexe 8. Dans le spectacle vivant, les administrateurs de compagnie ou de lieu sont souvent salariés en CDI ou en CDD, parfois à temps partagé entre plusieurs compagnies.",
+      "pay": {
+        "min": 2400,
+        "max": 3800,
+        "unit": "mois",
+        "note": "Salaire mensuel brut indicatif d’un poste permanent. Au cinéma, l’administrateur de production est payé à la semaine pendant la durée du film. Les postes à temps partagé se multiplient dans les compagnies."
+      },
+      "career": "L’administrateur de production peut devenir administrateur d’un lieu ou d’un festival, directeur administratif et financier d’une société de production, directeur de production ou secrétaire général. Certains créent un bureau de production qui gère plusieurs compagnies.",
+      "faq": [
+        {
+          "q": "Administrateur de production et comptable, quelle différence ?",
+          "a": "Le comptable tient les comptes. L’administrateur de production pilote toute la gestion d’un projet : contrats, paie, déclarations, budget, subventions. Il travaille avec un expert-comptable, sans s’y limiter."
+        },
+        {
+          "q": "Pourquoi la paie du spectacle est-elle si particulière ?",
+          "a": "Parce qu’elle combine contrats courts, cachets et heures, caisses spécifiques comme Audiens et les congés spectacles, conventions collectives variées et règles de l’assurance chômage des intermittents. C’est une spécialité à part entière."
+        },
+        {
+          "q": "Peut-on travailler pour plusieurs compagnies ?",
+          "a": "Oui, c’est fréquent. De nombreux administrateurs travaillent à temps partagé, directement ou au sein d’un bureau de production qui mutualise ces services."
+        },
+        {
+          "q": "Qu’est-ce que le GUSO ?",
+          "a": "Le guichet unique du spectacle occasionnel. Il permet aux organisateurs dont le spectacle n’est pas l’activité principale, comme une mairie ou une association, de déclarer et de payer simplement artistes et techniciens."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8) ou permanent",
+        "training": "Master en administration de la culture",
+        "sectors": "Cinéma, audiovisuel, compagnies, lieux, festivals"
+      },
+      "related": [
+        "charge-de-production", "directeur-de-production", "charge-de-diffusion", "directeur-technique"
+      ],
+      "keywords": [
+        "administrateur de production", "administratrice de production", "administrateur de compagnie",
+        "administratrice de compagnie", "administrateur de tournage", "administratrice de tournage",
+        "administrateur du spectacle", "administratrice du spectacle", "administrateur spectacle",
+        "administratrice spectacle", "chargé d’administration", "chargée d’administration",
+        "assistant d’administration", "assistante d’administration", "administrateur de spectacle",
+        "administratrice de spectacle"
+      ],
+      "search": "administrateur de production spectacle"
+    },
+    {
+      "slug": "charge-de-diffusion",
+      "name": "Chargé de diffusion",
+      "name_f": "Chargée de diffusion",
+      "rome": "L1303",
+      "summary": "Il vend les spectacles d’une compagnie ou d’un producteur aux théâtres, aux festivals et aux programmateurs.",
+      "intro": "Le chargé de diffusion fait tourner les spectacles. Pour une compagnie de théâtre, de danse, de cirque ou un groupe de musique, il prospecte les théâtres, les scènes nationales, les festivals et les programmateurs, présente les créations, négocie les dates et les conditions de vente, puis organise la tournée avec la production. Il connaît les réseaux, les calendriers de programmation et les goûts de chaque lieu. Dans les musiques actuelles, le même métier s’appelle souvent booker ou tourneur.",
+      "missions": [
+        "Définir la stratégie de diffusion d’un spectacle ou d’un artiste",
+        "Prospecter les lieux, les festivals et les programmateurs",
+        "Présenter les créations : dossiers, teasers, invitations aux représentations",
+        "Négocier les dates, les prix et les conditions des contrats de cession",
+        "Construire et suivre le calendrier de tournée",
+        "Entretenir un réseau de programmateurs et suivre leurs saisons"
+      ],
+      "day": "Au bureau de la compagnie, la chargée de diffusion passe sa matinée au téléphone : trois programmateurs à relancer pour la saison prochaine, un festival qui propose deux dates en juillet. Elle met à jour le dossier artistique de la nouvelle création et envoie le teaser à une scène nationale. L’après-midi, elle négocie le prix d’une série de représentations et vérifie avec la production la faisabilité technique d’une salle plus petite. Le soir, elle part voir le spectacle d’une compagnie amie à un festival, où elle croise une dizaine de programmateurs.",
+      "skills": [
+        "Connaissance des réseaux de programmation et des lieux",
+        "Sens commercial et art de la négociation",
+        "Culture artistique solide et capacité à défendre un projet",
+        "Aisance à l’écrit comme à l’oral",
+        "Organisation et suivi rigoureux des contacts",
+        "Persévérance et goût du relationnel"
+      ],
+      "training": "Le chargé de diffusion sort souvent d’un master ou d’une licence professionnelle en gestion de projets culturels ou en administration du spectacle vivant. Les formations continues à la diffusion, proposées par des organismes spécialisés, permettent de se professionnaliser. Mais le carnet d’adresses et la connaissance du terrain, acquis en stage, en assistanat ou en fréquentant les festivals, comptent au moins autant que le diplôme.",
+      "schools": [
+        "Masters en gestion de projets culturels",
+        "Licences professionnelles métiers du spectacle vivant",
+        "Formations continues à la diffusion du spectacle",
+        "Stages en compagnie, en bureau de production ou en festival"
+      ],
+      "statut": "Le chargé de diffusion est souvent salarié d’une compagnie ou d’un bureau de production, en CDI, en CDD ou à temps partagé. Il peut aussi être intermittent, notamment lorsqu’il travaille pour plusieurs compagnies. Certains exercent en indépendants, rémunérés au pourcentage des ventes.",
+      "pay": {
+        "min": 2000,
+        "max": 3000,
+        "unit": "mois",
+        "note": "Salaire mensuel brut indicatif. Une partie de la rémunération peut être liée aux dates vendues, surtout pour les indépendants et dans les musiques actuelles."
+      },
+      "career": "Le chargé de diffusion peut devenir directeur d’un bureau de production, programmateur d’un lieu ou d’un festival, agent artistique ou tourneur. Certains créent leur propre structure de diffusion pour accompagner plusieurs compagnies.",
+      "faq": [
+        {
+          "q": "Chargé de diffusion et programmateur, quelle différence ?",
+          "a": "Le chargé de diffusion vend des spectacles ; le programmateur les achète pour son lieu ou son festival. Les deux métiers se parlent en permanence."
+        },
+        {
+          "q": "Chargé de diffusion et tourneur, est-ce la même chose ?",
+          "a": "Presque. Dans les musiques actuelles, le tourneur ou booker vend les concerts d’un artiste et organise souvent aussi la tournée, en prenant parfois un risque financier. Dans le théâtre et la danse, on parle plutôt de chargé de diffusion."
+        },
+        {
+          "q": "Comment se construit une tournée ?",
+          "a": "Souvent un an ou plus à l’avance : les programmateurs bâtissent leur saison de nombreux mois avant. Le chargé de diffusion les invite à voir le spectacle, puis négocie dates et conditions."
+        },
+        {
+          "q": "Faut-il un gros réseau pour débuter ?",
+          "a": "Non, il se construit. Les stages, les festivals comme Avignon, les rencontres professionnelles et le travail pour une première compagnie permettent de se faire connaître des programmateurs."
+        }
+      ],
+      "brief": {
+        "status": "Salarié, intermittent ou indépendant",
+        "training": "Master en gestion de projets culturels",
+        "sectors": "Théâtre, danse, cirque, musique, arts de la rue"
+      },
+      "related": [
+        "charge-de-production", "administrateur-de-production", "tour-manager", "metteur-en-scene"
+      ],
+      "keywords": [
+        "chargé de diffusion", "chargée de diffusion", "charge de diffusion",
+        "chargé de production et de diffusion", "chargée de production et de diffusion",
+        "chargé de production diffusion", "chargée de production diffusion", "responsable de diffusion",
+        "responsable diffusion", "attaché de diffusion", "attachée de diffusion", "booker", "bookeuse",
+        "chargé de booking", "chargée de booking", "diffuseur", "diffuseuse"
+      ],
+      "search": "chargé de diffusion spectacle"
+    },
+    {
+      "slug": "tour-manager",
+      "name": "Tour manager",
+      "name_f": "Tour manageuse",
+      "rome": "L1302",
+      "summary": "Il accompagne un artiste ou un groupe en tournée et organise tout, du planning aux hôtels et aux comptes.",
+      "intro": "Le tour manager accompagne un artiste, un groupe ou une troupe pendant la tournée et en assure toute l’organisation. Il prépare les feuilles de route, gère les voyages, l’hébergement, les horaires et les relations avec chaque salle, veille au respect des contrats et des conditions d’accueil, tient la caisse et les comptes de la tournée. Interlocuteur unique de l’organisateur sur place, il protège aussi l’artiste de ce qui pourrait le détourner de la scène. Dans les musiques actuelles, il travaille souvent en binôme avec le régisseur de tournée.",
+      "missions": [
+        "Préparer les feuilles de route et le planning détaillé de la tournée",
+        "Organiser les voyages, l’hébergement et la restauration de l’équipe",
+        "Faire le lien avec les organisateurs et vérifier les conditions d’accueil",
+        "Gérer la caisse, les dépenses et les comptes de la tournée",
+        "Veiller au respect des horaires, des contrats et des temps de repos",
+        "Accompagner l’artiste : presse, invitations, rencontres avec le public"
+      ],
+      "day": "Jour de concert à Lyon. Le tour manager se lève avant le groupe pour vérifier le départ du bus et les horaires de la balance. À midi, il arrive à la salle, retrouve le directeur de production local, vérifie les loges, le catering et les invitations. L’après-midi, il cale une interview radio pour la chanteuse et règle avec la billetterie la liste des invités. Pendant le concert, il gère les imprévus en coulisses. Après le spectacle, il fait les comptes avec l’organisateur, puis rassemble tout le monde pour le départ vers Marseille.",
+      "skills": [
+        "Organisation irréprochable et sens de l’anticipation",
+        "Aisance en anglais pour les tournées internationales",
+        "Gestion d’un budget et d’une caisse",
+        "Diplomatie, sang-froid et autorité",
+        "Connaissance du fonctionnement des salles et des festivals",
+        "Grande disponibilité et résistance à la fatigue"
+      ],
+      "training": "Il n’existe pas de diplôme spécifique. Les tour managers viennent souvent de la production, de la régie, de l’administration du spectacle ou du management d’artistes, et apprennent sur la route. Une formation en gestion de projets culturels, en production de musiques actuelles ou en administration du spectacle aide à maîtriser les contrats et les budgets. L’anglais est indispensable dès qu’on tourne à l’étranger.",
+      "schools": [
+        "Formations en production de musiques actuelles",
+        "Licences et masters en gestion de projets culturels",
+        "Formations continues en administration du spectacle",
+        "Expérience en régie ou en production de tournée"
+      ],
+      "statut": "Le tour manager est souvent intermittent, engagé en CDDU par le producteur ou le tourneur pour la durée d’une tournée. Selon la fonction retenue au contrat, il peut relever de l’annexe 8. Certains exercent en indépendants ou sont salariés d’une société de production de concerts.",
+      "pay": {
+        "min": 200,
+        "max": 350,
+        "unit": "jour",
+        "note": "Tarif journalier brut indicatif, souvent incluant les jours de voyage. Sur les grosses tournées internationales, les rémunérations peuvent être nettement plus élevées."
+      },
+      "career": "Le tour manager peut accompagner des artistes de plus en plus importants, devenir directeur de tournée ou directeur de production chez un tourneur, ou évoluer vers le management d’artistes et la production de concerts.",
+      "faq": [
+        {
+          "q": "Tour manager et régisseur de tournée, quelle différence ?",
+          "a": "Le régisseur de tournée s’occupe de la technique : matériel, équipes, montages dans chaque salle. Le tour manager s’occupe de tout le reste : voyages, hébergement, horaires, argent, relations avec les organisateurs et avec l’artiste. Sur les petites tournées, une seule personne cumule parfois les deux."
+        },
+        {
+          "q": "Faut-il parler anglais ?",
+          "a": "Oui, dès que la tournée passe les frontières ou accueille des équipes étrangères. C’est aussi la langue de nombreux documents techniques et contrats du secteur."
+        },
+        {
+          "q": "Le tour manager est-il le manager de l’artiste ?",
+          "a": "Non. Le manager développe la carrière de l’artiste sur le long terme ; le tour manager organise la tournée au quotidien. Ils travaillent évidemment main dans la main."
+        },
+        {
+          "q": "Quelle vie mène un tour manager ?",
+          "a": "Une vie sur la route, rythmée par les départs matinaux, les soirées de concert et les nuits de trajet. C’est exaltant mais exigeant, avec de longues périodes loin de chez soi."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent ou indépendant",
+        "training": "Pas de diplôme dédié, parcours en production",
+        "sectors": "Concerts, musiques actuelles, spectacles en tournée"
+      },
+      "related": ["regisseur-de-tournee", "backliner", "charge-de-production", "musicien"],
+      "keywords": [
+        "tour manager", "tour manageuse", "tour manageur", "tourmanager", "road manager",
+        "directeur de tournée", "directrice de tournée", "manager de tournée"
+      ],
+      "search": "tour manager"
+    }
+  ]
+}

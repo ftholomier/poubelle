@@ -1,0 +1,214 @@
+{
+  "family": "regie",
+  "trades": [
+    {
+      "slug": "regisseur-general",
+      "name": "Régisseur général",
+      "name_f": "Régisseuse générale",
+      "rome": "L1509",
+      "summary": "Il coordonne toutes les équipes techniques d’un spectacle ou d’un lieu, et en garantit la sécurité.",
+      "intro": "Le régisseur général est le chef d’orchestre technique d’un spectacle, d’une tournée ou d’un lieu. Il planifie les montages, coordonne les équipes lumière, son, plateau et vidéo, fait le lien avec les artistes et la production, et veille au respect des règles de sécurité. Pendant les représentations, c’est souvent lui qui donne les tops. Au cinéma, le régisseur général a un autre rôle : il organise la logistique du tournage.",
+      "missions": [
+        "Établir la fiche technique et le planning des montages, répétitions et démontages",
+        "Coordonner les équipes lumière, son, plateau et vidéo",
+        "Préparer l’accueil technique avec chaque lieu de tournée",
+        "Veiller à la sécurité du public et des équipes, et à la conformité des installations",
+        "Suivre le budget technique et les commandes de matériel",
+        "Tenir la conduite générale et donner les tops en représentation"
+      ],
+      "day": "En tournée, la veille d’une date, le régisseur général appelle le directeur technique du lieu pour vérifier le planning, les accès, le matériel fourni. Le jour venu, il accueille l’équipe locale, répartit le travail, arbitre les priorités entre la lumière qui veut régler et le plateau qui doit monter le décor. Il vérifie les issues de secours, rencontre le responsable sécurité, fait le point avec les artistes avant les raccords. Le soir, casque sur la tête, il donne les tops de la conduite générale, puis supervise le démontage et le chargement.",
+      "skills": [
+        "Vision d’ensemble des techniques du spectacle : son, lumière, plateau, vidéo",
+        "Connaissance de la réglementation des établissements recevant du public",
+        "Organisation, gestion du planning et du budget",
+        "Autorité et diplomatie entre les équipes et la production",
+        "Sang-froid face aux imprévus",
+        "Anglais pour les tournées et les accueils internationaux"
+      ],
+      "training": "Le régisseur général a presque toujours été technicien puis régisseur d’une spécialité avant d’accéder au poste. Les formations de régie des écoles supérieures — ENSATT, TNS, ISTS — et les formations de régisseur général du CFPTS y préparent, de même que les formations à la sécurité des lieux de spectacle, indispensables pour encadrer l’accueil du public.",
+      "schools": [
+        "ENSATT, régie (Lyon)",
+        "Théâtre national de Strasbourg, section régie-création",
+        "ISTS (Avignon)",
+        "CFPTS, formation de régisseur général (Bagnolet)",
+        "Formation à la sécurité incendie (SSIAP)"
+      ],
+      "statut": "Le régisseur général est permanent dans beaucoup de lieux — théâtres, scènes nationales, salles de musiques actuelles — en CDI, sous la CCNEAC ou la convention du spectacle vivant privé. En compagnie et en tournée, il est intermittent, engagé en CDDU au titre de l’annexe 8. Au cinéma, le régisseur général relève de la convention de la production cinématographique.",
+      "pay": {
+        "min": 220,
+        "max": 380,
+        "unit": "jour",
+        "note": "En poste permanent, un régisseur général gagne en général entre 2 600 et 3 800 € brut par mois selon la taille du lieu. En tournée, les indemnités de déplacement s’ajoutent."
+      },
+      "career": "Le régisseur général évolue vers la direction technique d’un lieu ou d’un festival, la direction de production, ou la régie de grandes tournées et d’événements internationaux.",
+      "faq": [
+        {
+          "q": "Régisseur général au théâtre et au cinéma, est-ce le même métier ?",
+          "a": "Non. Au théâtre, il coordonne les équipes techniques et le déroulé du spectacle. Au cinéma, le régisseur général organise la logistique du tournage : lieux, autorisations, transports, cantine, loges."
+        },
+        {
+          "q": "Quelle différence avec le directeur technique ?",
+          "a": "Le directeur technique dirige la technique d’un lieu ou d’une structure dans la durée : budget, équipements, équipes permanentes. Le régisseur général organise la technique d’un spectacle ou d’une période donnée."
+        },
+        {
+          "q": "Faut-il une formation en sécurité ?",
+          "a": "Elle est fortement conseillée, et souvent exigée par les lieux : la sécurité du public et des équipes relève en bonne partie du régisseur général."
+        },
+        {
+          "q": "Peut-on y accéder rapidement ?",
+          "a": "Rarement. Le poste demande une solide expérience technique et une connaissance de toutes les spécialités ; il vient après plusieurs années de régie."
+        }
+      ],
+      "brief": {
+        "status": "Permanent (CDI) ou intermittent (annexe 8)",
+        "training": "Parcours de régie, formations de sécurité",
+        "sectors": "Théâtres, salles, festivals, tournées, cinéma"
+      },
+      "related": ["directeur-technique", "regisseur-de-tournee", "regisseur-plateau", "regisseur-son"],
+      "keywords": [
+        "régisseur général", "régisseuse générale", "régie générale", "régisseur principal",
+        "régisseuse principale", "régisseur technique", "régisseuse technique", "régisseur d’extérieur",
+        "régisseuse d’extérieur"
+      ],
+      "search": "régisseur général"
+    },
+    {
+      "slug": "directeur-technique",
+      "name": "Directeur technique",
+      "name_f": "Directrice technique",
+      "rome": "L1509",
+      "summary": "Il dirige la technique d’un lieu, d’un festival ou d’une production : équipes, budget, sécurité.",
+      "intro": "Le directeur technique est responsable de l’ensemble des moyens techniques d’un théâtre, d’une salle de concert, d’un festival ou d’une compagnie. Il dirige les équipes permanentes et intermittentes, gère le budget et les investissements, entretient le bâtiment et les équipements, et garantit la sécurité des spectacles. Il étudie la faisabilité technique de chaque projet artistique accueilli ou créé.",
+      "missions": [
+        "Étudier la faisabilité technique des spectacles programmés ou créés",
+        "Recruter et encadrer les équipes techniques, et établir leurs plannings",
+        "Élaborer et suivre le budget technique et les investissements",
+        "Entretenir le bâtiment et les équipements scéniques",
+        "Garantir le respect de la réglementation et la sécurité du public et des salariés",
+        "Représenter la technique auprès de la direction, des artistes et des partenaires"
+      ],
+      "day": "Dans une scène nationale, la journée du directeur technique alterne réunions et terrain. Le matin, point avec les régisseurs sur les accueils de la semaine, puis rendez-vous avec un scénographe pour étudier une création : le décor tiendra-t-il dans la cage de scène, combien de temps de montage faut-il ? L’après-midi, arbitrage budgétaire sur le remplacement des projecteurs, échange avec la commission de sécurité, passage sur le plateau pendant un montage. Le soir, il vient souvent voir la représentation.",
+      "skills": [
+        "Expertise transversale des techniques du spectacle",
+        "Maîtrise de la réglementation des lieux recevant du public et du droit du travail",
+        "Gestion budgétaire et conduite de projets d’équipement",
+        "Management d’équipes et gestion des plannings",
+        "Capacité à dialoguer avec les artistes comme avec les administrations",
+        "Anticipation et sens des responsabilités"
+      ],
+      "training": "Le directeur technique est le plus souvent un ancien régisseur général. Les formations de direction technique des écoles supérieures, comme l’ENSATT ou l’ISTS, et les formations continues en sécurité, en réglementation et en management préparent au poste. Une formation en gestion de projets culturels complète utilement le parcours.",
+      "schools": [
+        "ENSATT (Lyon)",
+        "ISTS (Avignon)",
+        "CFPTS, formations de direction technique (Bagnolet)",
+        "Formations sécurité et réglementation des lieux de spectacle"
+      ],
+      "statut": "Le directeur technique est en général salarié permanent, en CDI, dans un théâtre, une salle, un festival ou une grande compagnie, sous la CCNEAC ou la convention du spectacle vivant privé. Dans les petites structures et sur les festivals, le poste peut être tenu par un intermittent, engagé pour la saison ou l’édition.",
+      "pay": {
+        "min": 3000,
+        "max": 4800,
+        "unit": "mois",
+        "note": "Dans les grandes maisons — opéras, théâtres nationaux, grands festivals — la rémunération dépasse souvent le haut de la fourchette ; dans les petites structures, elle est plus proche du bas."
+      },
+      "career": "Le directeur technique peut rejoindre une structure plus importante, diriger la technique d’un grand festival ou d’un opéra, ou évoluer vers la direction d’un lieu ou le conseil en équipement de salles.",
+      "faq": [
+        {
+          "q": "Directeur technique et régisseur général, quelle différence ?",
+          "a": "Le directeur technique dirige la technique d’une structure dans la durée : équipes, budget, bâtiment. Le régisseur général organise la technique d’un spectacle, d’une tournée ou d’une période."
+        },
+        {
+          "q": "Le poste existe-t-il dans l’événementiel ?",
+          "a": "Oui, les agences et les grands événements emploient des directeurs techniques qui conçoivent et supervisent les installations de chaque événement."
+        },
+        {
+          "q": "Quelles responsabilités en matière de sécurité ?",
+          "a": "Elles sont lourdes : conformité des installations, sécurité des spectacles et des salariés, relations avec la commission de sécurité. C’est une part centrale du poste."
+        },
+        {
+          "q": "Faut-il un diplôme d’ingénieur ?",
+          "a": "Non. La plupart des directeurs techniques du spectacle viennent de la régie. Une formation d’ingénieur est un atout pour certains postes liés aux équipements ou au bâtiment."
+        }
+      ],
+      "brief": {
+        "status": "Salarié permanent (CDI) le plus souvent",
+        "training": "Parcours de régie générale, formations de direction",
+        "sectors": "Théâtres, opéras, festivals, salles, événementiel"
+      },
+      "related": ["regisseur-general", "regisseur-de-tournee", "rigger", "administrateur-de-production"],
+      "keywords": [
+        "directeur technique", "directrice technique", "direction technique",
+        "directeur technique adjoint", "directrice technique adjointe"
+      ],
+      "search": "directeur technique spectacle"
+    },
+    {
+      "slug": "regisseur-de-tournee",
+      "name": "Régisseur de tournée",
+      "name_f": "Régisseuse de tournée",
+      "rome": "L1509",
+      "summary": "Il organise techniquement la tournée d’un spectacle ou d’un artiste, date après date.",
+      "intro": "Le régisseur de tournée prépare et accompagne techniquement la tournée d’un spectacle, d’une compagnie ou d’un artiste. Il adapte la fiche technique à chaque lieu, anticipe les montages avec les équipes locales, organise le transport du matériel et encadre l’équipe qui voyage. Sur la route, il est le premier interlocuteur technique des salles et le garant de la qualité du spectacle d’une ville à l’autre.",
+      "missions": [
+        "Envoyer et négocier la fiche technique avec chaque lieu de la tournée",
+        "Planifier les montages, les démontages et les temps de trajet",
+        "Organiser le transport du décor et du matériel, et la logistique de l’équipe",
+        "Encadrer l’équipe technique en tournée et les renforts locaux",
+        "Adapter le spectacle aux contraintes de chaque salle",
+        "Faire le bilan de chaque date et tenir à jour la documentation"
+      ],
+      "day": "Sur une tournée de théâtre, le régisseur de tournée a préparé la date plusieurs semaines à l’avance avec le lieu : plans, puissance électrique, horaires, loges. Le jour venu, il arrive avec le camion, présente l’équipe à l’équipe d’accueil et adapte l’implantation à une scène plus petite que prévu. Pendant les raccords, il arbitre les ajustements avec le metteur en scène. Le soir, il assure souvent une régie pendant la représentation, puis dirige le démontage et prépare la route du lendemain.",
+      "skills": [
+        "Polyvalence technique : son, lumière, plateau",
+        "Sens de l’organisation et de la logistique",
+        "Capacité d’adaptation à des lieux très différents",
+        "Aisance relationnelle avec les équipes d’accueil",
+        "Gestion du stress et de la fatigue des longues tournées",
+        "Permis B, et idéalement permis poids lourd"
+      ],
+      "training": "Le régisseur de tournée est souvent un ancien régisseur lumière, son ou plateau qui a élargi ses compétences. Les formations de régie générale du CFPTS et de l’ISTS, et les sections régie des écoles supérieures, préparent bien au poste. Le permis poids lourd et les formations à la sécurité des lieux de spectacle sont des plus.",
+      "schools": [
+        "CFPTS, formations de régie (Bagnolet)",
+        "ISTS (Avignon)",
+        "ENSATT (Lyon)",
+        "Permis C ou formation à la conduite de véhicules utilitaires"
+      ],
+      "statut": "Le régisseur de tournée est presque toujours intermittent, engagé en CDDU par la compagnie ou le producteur pour la durée de la tournée, et relève de l’annexe 8. La rémunération des jours de voyage et de repos est à préciser dans le contrat.",
+      "pay": {
+        "min": 200,
+        "max": 350,
+        "unit": "jour",
+        "note": "Aux salaires s’ajoutent les défraiements de tournée — repas, hébergement — versés selon les barèmes de la convention collective applicable."
+      },
+      "career": "Le régisseur de tournée peut devenir régisseur général d’un lieu, directeur technique d’une compagnie, ou tour manager, en prenant en charge l’organisation complète des tournées.",
+      "faq": [
+        {
+          "q": "Régisseur de tournée et tour manager, quelle différence ?",
+          "a": "Le régisseur de tournée s’occupe de la technique ; le tour manager gère l’ensemble de la tournée : planning, voyages, hébergements, finances, relations avec les organisateurs. Sur les petites tournées, une seule personne fait souvent les deux."
+        },
+        {
+          "q": "Faut-il le permis poids lourd ?",
+          "a": "Ce n’est pas obligatoire, mais c’est un vrai atout : beaucoup de compagnies transportent elles-mêmes leur décor dans un camion de plus de 3,5 tonnes."
+        },
+        {
+          "q": "Comment se préparent les dates ?",
+          "a": "Par l’échange de la fiche technique avec chaque lieu, plusieurs semaines avant : plans, matériel disponible, horaires. Un bon régisseur de tournée arrive en ayant déjà réglé la plupart des problèmes."
+        },
+        {
+          "q": "La vie en tournée est-elle difficile ?",
+          "a": "Elle est exigeante : trajets, nuits courtes, éloignement. Mais c’est aussi un métier de rencontres et de découverte de lieux très différents."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "Parcours de régie, polyvalence technique",
+        "sectors": "Théâtre, danse, concerts, cirque"
+      },
+      "related": ["regisseur-general", "tour-manager", "backliner", "directeur-technique"],
+      "keywords": [
+        "régisseur de tournée", "régisseuse de tournée", "régie de tournée", "régisseur tournée",
+        "régisseuse tournée"
+      ],
+      "search": "régisseur de tournée"
+    }
+  ]
+}

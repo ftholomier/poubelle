@@ -1,0 +1,425 @@
+{
+  "family": "image",
+  "trades": [
+    {
+      "slug": "cadreur",
+      "name": "Cadreur",
+      "name_f": "Cadreuse",
+      "rome": "L1505",
+      "summary": "Derrière la caméra, il compose les plans et suit l’action, en direct ou en tournage.",
+      "intro": "Le cadreur, ou caméraman, compose l’image et suit l’action à travers la caméra. Sur un plateau de télévision, il cadre en direct les plans demandés par le réalisateur ; sur un tournage de fiction, il réalise les mouvements décidés avec le directeur de la photographie ; dans l’événementiel et le spectacle, il capte un concert ou une conférence pour les écrans géants. Précision du geste et sens de l’image font le métier.",
+      "missions": [
+        "Préparer et vérifier la caméra, les optiques et les accessoires",
+        "Composer les plans selon les indications du réalisateur ou du directeur de la photographie",
+        "Suivre l’action en direct, avec des mouvements fluides et un point juste",
+        "Travailler avec les machinistes sur les travellings, grues et stabilisateurs",
+        "En direct, anticiper les demandes de la régie et proposer des plans",
+        "Entretenir le matériel et gérer les supports d’enregistrement"
+      ],
+      "day": "Sur une émission de plateau, le cadreur arrive pour la répétition générale : il prend connaissance du conducteur, repère sa position, règle sa caméra et ses marques avec la réalisation. Pendant le direct, casque sur les oreilles, il suit les consignes du réalisateur — « caméra 3, plan large, on part sur toi » — tout en cherchant de lui-même le plan qui raconte. Sur un tournage de fiction, la journée est plus longue et plus lente : répétitions, mise en place, prises recommencées jusqu’au mouvement parfait.",
+      "skills": [
+        "Sens du cadre, de la composition et du rythme",
+        "Maîtrise des caméras professionnelles et des optiques",
+        "Précision du geste, notamment en mouvement ou à l’épaule",
+        "Réactivité et anticipation en direct",
+        "Communication fluide avec la réalisation et l’équipe image",
+        "Endurance physique, surtout à l’épaule ou au stabilisateur"
+      ],
+      "training": "Le cadreur est souvent passé par une formation aux métiers de l’image : BTS Métiers de l’audiovisuel option métiers de l’image, ENS Louis-Lumière, La Fémis, écoles de cinéma publiques ou privées. Il commence en général comme assistant caméra, ou comme assistant en régie de télévision. Les spécialisations — steadicam, drone, prises de vues sous-marines — passent par des formations et des certifications propres.",
+      "schools": [
+        "BTS Métiers de l’audiovisuel, option métiers de l’image",
+        "ENS Louis-Lumière, section cinéma (Saint-Denis)",
+        "La Fémis, département image (Paris)",
+        "ESAV (Toulouse)",
+        "INA (formations professionnelles)"
+      ],
+      "statut": "Le cadreur est majoritairement intermittent, engagé en CDDU par les chaînes, les sociétés de production ou les prestataires, sous la convention de la production audiovisuelle ou cinématographique, et relève de l’annexe 8. Les chaînes de télévision emploient aussi des cadreurs permanents.",
+      "pay": {
+        "min": 220,
+        "max": 400,
+        "unit": "jour",
+        "note": "Sur un long métrage, le cadreur est payé à la semaine, souvent entre 1 800 et 2 800 € brut. Les spécialités comme le steadicam se facturent au-dessus de la fourchette, souvent avec le matériel."
+      },
+      "career": "Le cadreur peut évoluer vers la direction de la photographie ou la réalisation, ou se spécialiser : steadicam, drone, prises de vues aériennes ou sportives. En télévision, il peut devenir chef opérateur de prise de vues.",
+      "faq": [
+        {
+          "q": "Cadreur et caméraman, c’est pareil ?",
+          "a": "Oui, les deux termes désignent la même fonction. « Cadreur » est l’usage au cinéma et à la télévision, « caméraman » est plus courant dans le langage de tous les jours et dans l’événementiel."
+        },
+        {
+          "q": "Cadreur et directeur de la photographie, quelle différence ?",
+          "a": "Le directeur de la photographie conçoit l’image, la lumière et les mouvements ; le cadreur les réalise à la caméra. Sur les petites productions, le directeur de la photographie cadre souvent lui-même."
+        },
+        {
+          "q": "Qu’est-ce qu’un opérateur steadicam ?",
+          "a": "Un cadreur spécialisé dans le stabilisateur porté, qui permet des mouvements fluides en marchant ou en courant. C’est une spécialité exigeante physiquement, et très recherchée."
+        },
+        {
+          "q": "Le métier recrute-t-il ?",
+          "a": "La télévision, l’événementiel, la captation de spectacles et la publicité offrent beaucoup de missions. La concurrence est plus forte au cinéma, où l’on entre souvent par l’assistanat."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8), parfois permanent",
+        "training": "BTS, école de cinéma ou de télévision",
+        "sectors": "Télévision, cinéma, événementiel, captation"
+      },
+      "related": ["chef-operateur", "assistant-camera", "videaste", "technicien-video"],
+      "keywords": [
+        "cadreur", "cadreuse", "caméraman", "camérawoman", "opérateur caméra", "opératrice caméra",
+        "opérateur steadicam", "opératrice steadicam", "cadreur steadicam", "cadreuse steadicam",
+        "camera operator"
+      ],
+      "search": "cadreur"
+    },
+    {
+      "slug": "chef-operateur",
+      "name": "Chef opérateur",
+      "name_f": "Cheffe opératrice",
+      "rome": "L1505",
+      "summary": "Directeur de la photographie, il conçoit la lumière et l’image d’un film et dirige l’équipe image.",
+      "intro": "Le chef opérateur, ou directeur de la photographie, est responsable de l’image d’un film, d’une série, d’un clip ou d’une publicité. Avec le réalisateur, il définit la lumière, le cadre, les mouvements de caméra, les optiques et l’atmosphère visuelle de chaque scène. Il dirige les équipes caméra, électrique et machinerie, et suit l’image jusqu’à l’étalonnage. C’est l’un des métiers les plus créatifs et les plus exigeants du cinéma.",
+      "missions": [
+        "Définir avec le réalisateur l’esthétique visuelle du film",
+        "Préparer le tournage : repérages, choix de la caméra, des optiques et du matériel lumière",
+        "Concevoir la lumière de chaque scène et diriger le chef électricien",
+        "Décider des cadres et des mouvements avec le cadreur et le chef machiniste",
+        "Garantir la cohérence de l’image d’une scène et d’un jour à l’autre",
+        "Superviser l’étalonnage pour fixer le rendu final"
+      ],
+      "day": "Sur un tournage de long métrage, le chef opérateur arrive tôt pour préparer l’éclairage de la première scène avec le chef électricien. Pendant la répétition des comédiens, il ajuste la lumière et discute du découpage avec le réalisateur. Entre les prises, il vérifie l’image sur le moniteur, demande une diffusion supplémentaire, change d’optique. Il garde en tête le plan de travail : la lumière du jour tourne, il faut finir la séquence avant que le soleil ne passe derrière l’immeuble.",
+      "skills": [
+        "Maîtrise de la lumière, du cadre et de la colorimétrie",
+        "Connaissance approfondie des caméras numériques et des optiques",
+        "Culture artistique : peinture, photographie, cinéma",
+        "Direction de plusieurs équipes techniques",
+        "Dialogue avec le réalisateur et capacité à traduire une intention en image",
+        "Gestion du temps et du budget image"
+      ],
+      "training": "Le chef opérateur est très souvent diplômé d’une grande école de cinéma — département image de La Fémis, ENS Louis-Lumière, ESAV à Toulouse, INSAS à Bruxelles — ou d’un BTS Métiers de l’audiovisuel option image. Il gravit ensuite les échelons : assistant caméra, cadreur, puis directeur de la photographie de courts métrages, de clips et de documentaires avant les longs.",
+      "schools": [
+        "La Fémis, département image (Paris)",
+        "ENS Louis-Lumière, section cinéma (Saint-Denis)",
+        "ESAV (Toulouse)",
+        "INSAS (Bruxelles)",
+        "BTS Métiers de l’audiovisuel, option métiers de l’image"
+      ],
+      "statut": "Le chef opérateur est engagé en CDDU pour la préparation et le tournage d’un film ou d’une série, sous la convention collective de la production cinématographique ou audiovisuelle, et relève de l’annexe 8. En publicité, il est souvent rémunéré à la journée.",
+      "pay": {
+        "min": 2500,
+        "max": 4500,
+        "unit": "semaine",
+        "note": "Montants indicatifs pour une semaine de tournage de fiction ; les minima dépendent du budget du film. Les chefs opérateurs reconnus et la publicité se situent nettement au-dessus."
+      },
+      "career": "Le chef opérateur construit sa filmographie de projet en projet, souvent en fidélité avec des réalisateurs. Certains passent à la réalisation, d’autres se spécialisent dans la publicité, le clip ou les séries haut de gamme.",
+      "faq": [
+        {
+          "q": "Chef opérateur et directeur de la photographie, est-ce pareil ?",
+          "a": "Oui. « Directeur de la photographie » est le titre au générique, « chef opérateur » l’usage courant sur les plateaux."
+        },
+        {
+          "q": "Faut-il avoir fait une grande école ?",
+          "a": "Pas obligatoirement, mais la plupart des chefs opérateurs de long métrage sont passés par une école de cinéma ou un BTS image. Le réseau des écoles compte beaucoup dans ce métier."
+        },
+        {
+          "q": "Le chef opérateur cadre-t-il lui-même ?",
+          "a": "Cela dépend des productions. Sur les petits films, les documentaires et les clips, il cadre souvent ; sur les grosses productions, il travaille avec un cadreur."
+        },
+        {
+          "q": "Quel rôle joue-t-il à l’étalonnage ?",
+          "a": "Un rôle central : il fixe avec l’étalonneur le rendu final des couleurs et des contrastes, pour que l’image corresponde à ce qu’il a voulu au tournage."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "École de cinéma, puis assistanat et cadrage",
+        "sectors": "Cinéma, séries, publicité, clips"
+      },
+      "related": ["cadreur", "assistant-camera", "chef-electricien", "etalonneur"],
+      "keywords": [
+        "chef opérateur", "cheffe opératrice", "directeur de la photographie",
+        "directrice de la photographie", "chef op", "cheffe op", "directeur photo", "directrice photo",
+        "director of photography", "dop"
+      ],
+      "search": "chef opérateur"
+    },
+    {
+      "slug": "assistant-camera",
+      "name": "Assistant caméra",
+      "name_f": "Assistante caméra",
+      "rome": "L1505",
+      "summary": "Il prépare la caméra, fait le point pendant les prises et gère les images tournées.",
+      "intro": "L’assistant caméra prépare et entretient la caméra et ses accessoires, et assure la mise au point pendant les prises. Sur un tournage de fiction, on distingue le premier assistant, qui fait le point et dirige l’équipe caméra, et le second assistant, chargé du clap, des rapports image et du matériel. Avec le numérique s’ajoute le technicien des données, qui copie et sécurise les images sur le plateau. C’est un métier de précision et de rigueur.",
+      "missions": [
+        "Préparer la caméra, les optiques, les filtres et les accessoires chez le loueur et sur le plateau",
+        "Faire la mise au point pendant les prises, souvent à distance",
+        "Changer les optiques et configurer la caméra selon les plans",
+        "Tenir le clap et les rapports image",
+        "Gérer les cartes mémoire et, avec le technicien des données, la sauvegarde des images",
+        "Veiller au bon fonctionnement et à la propreté du matériel"
+      ],
+      "day": "Le premier assistant caméra arrive avant l’équipe pour monter la caméra, vérifier les optiques et les batteries. Pendant la répétition, il mesure les distances, pose des marques au sol et note les déplacements des comédiens. Pendant la prise, les yeux sur l’écran de contrôle et la main sur la télécommande de point, il fait suivre la netteté au visage du comédien. Le second assistant tient le clap, remplit les rapports et prépare le matériel du plan suivant. En fin de journée, les cartes partent en sauvegarde.",
+      "skills": [
+        "Excellente connaissance des caméras et des optiques de cinéma",
+        "Précision et concentration pour la mise au point",
+        "Organisation et rigueur dans la gestion du matériel et des données",
+        "Anticipation des besoins du cadreur et du chef opérateur",
+        "Résistance au stress et aux longues journées",
+        "Discrétion et esprit d’équipe"
+      ],
+      "training": "Les assistants caméra sortent souvent d’un BTS Métiers de l’audiovisuel option image, de l’ENS Louis-Lumière ou d’une école de cinéma. Beaucoup commencent comme stagiaires image sur des tournages, puis comme seconds assistants. Les formations proposées par les loueurs de matériel et les fabricants permettent de se tenir à jour sur les caméras.",
+      "schools": [
+        "BTS Métiers de l’audiovisuel, option métiers de l’image",
+        "ENS Louis-Lumière, section cinéma (Saint-Denis)",
+        "La Fémis, département image (Paris)",
+        "Formations des loueurs et des fabricants de caméras"
+      ],
+      "statut": "L’assistant caméra est intermittent, engagé en CDDU pour la préparation et le tournage, sous la convention collective de la production cinématographique ou audiovisuelle, et relève de l’annexe 8.",
+      "pay": {
+        "min": 1400,
+        "max": 2100,
+        "unit": "semaine",
+        "note": "Montants indicatifs pour un premier assistant caméra sur une fiction ; un second assistant se situe en dessous. En publicité, la rémunération est souvent à la journée, et plus élevée."
+      },
+      "career": "Le second assistant devient premier assistant, puis cadreur ou directeur de la photographie. Certains se spécialisent dans la gestion des données numériques sur les tournages.",
+      "faq": [
+        {
+          "q": "Premier et second assistant caméra, quelle différence ?",
+          "a": "Le premier assistant fait la mise au point et dirige l’équipe caméra ; le second tient le clap, remplit les rapports, gère le matériel et assiste le premier."
+        },
+        {
+          "q": "Qu’est-ce qu’un data manager ?",
+          "a": "Le technicien qui, sur le plateau, copie et sécurise les images numériques, contrôle leur qualité et prépare les fichiers pour le montage et l’étalonnage. On l’appelle aussi DIT."
+        },
+        {
+          "q": "La mise au point se fait-elle à la main ?",
+          "a": "Oui, le plus souvent, grâce à une télécommande qui agit sur la bague de point de l’optique. C’est un savoir-faire difficile, qui fait la réputation d’un assistant."
+        },
+        {
+          "q": "Comment débuter ?",
+          "a": "Comme stagiaire ou renfort sur des courts métrages et des publicités, puis comme second assistant. Les loueurs de caméras sont aussi une bonne porte d’entrée."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "BTS image ou école de cinéma, puis plateau",
+        "sectors": "Cinéma, séries, publicité"
+      },
+      "related": ["chef-operateur", "cadreur", "perchman", "etalonneur"],
+      "keywords": [
+        "assistant caméra", "assistante caméra", "premier assistant caméra", "première assistante caméra",
+        "second assistant caméra", "seconde assistante caméra", "pointeur", "pointeuse", "data manager",
+        "camera assistant"
+      ],
+      "search": "assistant caméra"
+    },
+    {
+      "slug": "technicien-video",
+      "name": "Technicien vidéo",
+      "name_f": "Technicienne vidéo",
+      "rome": "",
+      "summary": "Il installe et fait fonctionner projecteurs vidéo, écrans et murs de LED sur scène et en événement.",
+      "intro": "Le technicien vidéo installe et exploite le matériel de diffusion d’images d’un spectacle, d’un concert ou d’un événement : vidéoprojecteurs, écrans, murs de LED, caméras de retransmission, régie vidéo. Au théâtre, il envoie les images conçues pour la création ; en concert et en congrès, il diffuse sur écran géant ce que filment les cadreurs. C’est un métier en plein essor, porté par la place croissante de l’image sur scène.",
+      "missions": [
+        "Installer vidéoprojecteurs, écrans et murs de LED selon le plan",
+        "Câbler les signaux vidéo et le réseau, puis régler les images : géométrie, couleurs, calage",
+        "Programmer et exploiter les médias sur un serveur ou un logiciel de diffusion",
+        "Assurer la régie vidéo en direct : sources, mélangeur, écrans",
+        "Synchroniser la vidéo avec la lumière et le son",
+        "Dépanner et entretenir le matériel"
+      ],
+      "day": "Au montage d’une convention d’entreprise, le technicien vidéo installe le mur de LED en fond de scène avec l’équipe structure, puis règle les vidéoprojecteurs des écrans latéraux. L’après-midi, il charge les présentations des intervenants et les films sur le serveur, teste les sources et les enchaînements avec le régisseur. Pendant l’événement, il est en régie : il envoie les supports au bon moment, bascule sur la caméra quand un intervenant prend la parole, et règle l’ordinateur qui refuse de s’afficher.",
+      "skills": [
+        "Connaissance des signaux et formats vidéo (HDMI, SDI, vidéo sur IP)",
+        "Maîtrise des serveurs et logiciels de diffusion (Resolume, Millumin, Watchout, Modulo Pi)",
+        "Réglage des vidéoprojecteurs et des murs de LED",
+        "Bases en réseau informatique",
+        "Réactivité en direct",
+        "Travail en équipe avec la lumière et le son"
+      ],
+      "training": "Le technicien vidéo vient souvent d’un BTS Métiers de l’audiovisuel, d’une formation aux techniques du spectacle ou d’une formation en informatique et réseaux. Des centres comme le CFPTS et l’ISTS proposent des formations à la régie vidéo et aux logiciels de diffusion, et les fabricants forment à leurs matériels. Beaucoup apprennent aussi chez un prestataire.",
+      "schools": [
+        "BTS Métiers de l’audiovisuel",
+        "CFPTS, régie vidéo (Bagnolet)",
+        "ISTS (Avignon)",
+        "Formations aux logiciels de diffusion (Millumin, Resolume, Watchout)"
+      ],
+      "statut": "Le technicien vidéo est souvent intermittent, engagé en CDDU par les prestataires, les salles ou les compagnies, et relève de l’annexe 8. Dans l’événementiel, c’est fréquemment la convention collective des entreprises techniques au service de la création et de l’événement qui s’applique. Les grands prestataires emploient aussi des permanents.",
+      "pay": {
+        "min": 180,
+        "max": 320,
+        "unit": "jour",
+        "note": "Les spécialistes des murs de LED et des serveurs médias se situent souvent en haut de la fourchette, voire au-delà sur les grands événements."
+      },
+      "career": "Le technicien vidéo peut devenir régisseur vidéo, concepteur vidéo pour le spectacle, ou chef de projet audiovisuel dans l’événementiel. Certains se spécialisent dans le mapping ou les installations immersives.",
+      "faq": [
+        {
+          "q": "Technicien vidéo et vidéaste, quelle différence ?",
+          "a": "Le vidéaste crée les images d’un spectacle ou réalise des films ; le technicien vidéo installe et exploite le matériel qui les diffuse. Au théâtre, les deux travaillent ensemble."
+        },
+        {
+          "q": "Qu’est-ce qu’un serveur média ?",
+          "a": "Un ordinateur ou un logiciel spécialisé qui diffuse les vidéos d’un spectacle en synchronisation avec la lumière et le son, souvent sur plusieurs écrans à la fois."
+        },
+        {
+          "q": "Le mapping, c’est quoi ?",
+          "a": "La projection d’images sur des surfaces qui ne sont pas des écrans — façades, décors, objets — en épousant leurs formes. C’est une spécialité très demandée dans l’événementiel."
+        },
+        {
+          "q": "Faut-il être informaticien ?",
+          "a": "Non, mais une bonne aisance avec l’informatique et les réseaux est indispensable : la vidéo circule de plus en plus sur des réseaux informatiques."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8), parfois permanent",
+        "training": "BTS audiovisuel ou formation spectacle",
+        "sectors": "Concerts, théâtre, congrès, événementiel"
+      },
+      "related": ["cadreur", "videaste", "pupitreur-lumiere", "technicien-evenementiel"],
+      "keywords": [
+        "technicien vidéo", "technicienne vidéo", "régisseur vidéo", "régisseuse vidéo", "technicien led",
+        "technicienne led", "opérateur vidéo", "opératrice vidéo", "technicien audiovisuel",
+        "technicienne audiovisuel", "technicien audiovisuelle", "technicienne audiovisuelle"
+      ],
+      "search": "technicien vidéo"
+    },
+    {
+      "slug": "videaste",
+      "name": "Vidéaste",
+      "name_f": "",
+      "rome": "",
+      "summary": "Il filme, monte et crée des vidéos : captations de spectacles, films d’entreprise, images pour la scène.",
+      "intro": "Le vidéaste conçoit, tourne et monte des vidéos, souvent seul ou en très petite équipe. Captations de spectacles et de concerts, bandes-annonces, films institutionnels, contenus pour les réseaux sociaux, images projetées sur scène : il maîtrise toute la chaîne, de la prise de vues au montage final. Dans le spectacle vivant, le vidéaste de création conçoit les images qui font partie de la scénographie.",
+      "missions": [
+        "Comprendre la demande du client ou du metteur en scène et proposer une approche",
+        "Préparer le tournage : découpage, matériel, autorisations",
+        "Filmer, souvent seul, en gérant l’image, le son et la lumière",
+        "Monter, étalonner et mixer les vidéos",
+        "Livrer les fichiers aux bons formats pour chaque diffusion",
+        "Au théâtre, créer les images projetées et les ajuster en répétition"
+      ],
+      "day": "Pour une captation de spectacle, le vidéaste repère la salle la veille : positions des caméras, lumière, arrivée du son de la régie. Le soir de la représentation, il installe deux ou trois caméras, lance les enregistrements et cadre lui-même la caméra principale. Les jours suivants, il monte les images, synchronise le son de la console, étalonne et livre une version intégrale et une bande-annonce de deux minutes pour la diffusion de la compagnie.",
+      "skills": [
+        "Maîtrise de la prise de vues, du son et de l’éclairage de base",
+        "Montage et étalonnage (Premiere Pro, DaVinci Resolve, Final Cut)",
+        "Sens du récit et du rythme",
+        "Autonomie et organisation",
+        "Relation client et compréhension des besoins de communication",
+        "Veille sur les formats et les usages des réseaux sociaux"
+      ],
+      "training": "Le vidéaste se forme dans un BTS Métiers de l’audiovisuel, une licence ou un DN MADE en image, une école de cinéma ou d’audiovisuel, voire en autodidacte avec un portfolio solide. La polyvalence est essentielle : prise de vues, son, montage, étalonnage. Pour la vidéo de spectacle, des formations spécifiques existent dans les écoles de théâtre et les centres du spectacle.",
+      "schools": [
+        "BTS Métiers de l’audiovisuel",
+        "Licences et DN MADE en image et audiovisuel",
+        "Écoles de cinéma et d’audiovisuel",
+        "Formations à la vidéo de spectacle (ENSATT, CFPTS)"
+      ],
+      "statut": "Le vidéaste peut être intermittent, engagé en CDDU pour une captation ou une création de spectacle au titre de l’annexe 8, mais beaucoup travaillent aussi en indépendant, sous statut d’auto-entrepreneur ou en société, pour les films d’entreprise et les contenus web. Les prestations facturées ainsi ne comptent pas pour l’intermittence.",
+      "pay": {
+        "min": 200,
+        "max": 400,
+        "unit": "jour",
+        "note": "En indépendant, le vidéaste facture en général un forfait par projet, tournage et montage compris. Les tarifs varient beaucoup selon l’expérience et le type de client."
+      },
+      "career": "Le vidéaste peut se spécialiser — captation de spectacles, création vidéo pour la scène, documentaire, contenus de marque — ou évoluer vers la réalisation. Certains créent leur propre société de production.",
+      "faq": [
+        {
+          "q": "Vidéaste et réalisateur, quelle différence ?",
+          "a": "Le réalisateur dirige une équipe et porte la vision d’un film ; le vidéaste fait souvent tout lui-même, de la prise de vues au montage, sur des formats plus courts."
+        },
+        {
+          "q": "Faut-il un gros matériel ?",
+          "a": "Un équipement fiable suffit pour débuter : une caméra, quelques optiques, un micro, un éclairage léger et un ordinateur de montage. La qualité du regard compte plus que le matériel."
+        },
+        {
+          "q": "Peut-on être vidéaste et intermittent ?",
+          "a": "Oui, pour les activités relevant du spectacle et de l’audiovisuel, sous contrat CDDU. Les prestations facturées en indépendant ne comptent pas pour l’intermittence."
+        },
+        {
+          "q": "Qu’est-ce que la vidéo de scène ?",
+          "a": "Les images projetées pendant un spectacle, qui font partie de la scénographie. Le vidéaste les conçoit avec le metteur en scène et les ajuste pendant les répétitions."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8) ou indépendant",
+        "training": "BTS audiovisuel, école de cinéma ou portfolio",
+        "sectors": "Captation, spectacle, entreprises, web"
+      },
+      "related": ["cadreur", "monteur", "technicien-video", "realisateur"],
+      "keywords": [
+        "vidéaste", "réalisateur vidéo", "réalisatrice vidéo", "captation vidéo", "concepteur vidéo",
+        "conceptrice vidéo", "créateur vidéo", "créatrice vidéo"
+      ],
+      "search": "vidéaste"
+    },
+    {
+      "slug": "photographe-de-plateau",
+      "name": "Photographe de plateau",
+      "name_f": "",
+      "rome": "",
+      "summary": "Sur un tournage ou un spectacle, il réalise les photos qui serviront à la promotion.",
+      "intro": "Le photographe de plateau réalise les images fixes d’un film, d’une série ou d’un spectacle : photos de scène, portraits des comédiens, images de tournage. Ces photos alimentent l’affiche, le dossier de presse, les réseaux sociaux et les archives de la production. Présent pendant les prises, il doit capter l’instant sans jamais gêner le travail de l’équipe, ni faire le moindre bruit.",
+      "missions": [
+        "Photographier les scènes pendant les prises, en silence et hors champ",
+        "Réaliser des portraits et des photos de promotion des comédiens",
+        "Documenter le tournage : équipe, coulisses, décors",
+        "Trier, retoucher et livrer les images à la production",
+        "Respecter les validations des comédiens et de la production",
+        "Au théâtre, photographier les répétitions et les représentations"
+      ],
+      "day": "Le photographe de plateau n’est pas toujours présent tous les jours du tournage : la production le fait venir sur les scènes clés. Ce jour-là, il se place au plus près de la caméra, dans son axe, et déclenche au moment de la prise avec un boîtier silencieux. Entre les plans, il saisit un moment de détente entre deux comédiens, un réglage du chef opérateur. Le soir, il trie ses images, les retouche et les envoie pour validation.",
+      "skills": [
+        "Maîtrise de la photographie en lumière difficile",
+        "Discrétion absolue pendant les prises",
+        "Sens de l’image et de la composition cinématographique",
+        "Retouche et traitement des images (Lightroom, Photoshop)",
+        "Relation de confiance avec les comédiens",
+        "Réactivité pour saisir l’instant"
+      ],
+      "training": "Le photographe de plateau est d’abord un photographe, formé dans une école de photographie — École nationale supérieure de la photographie d’Arles, ENS Louis-Lumière section photographie, écoles privées — ou en autodidacte. Il se spécialise ensuite par la pratique sur les tournages et les spectacles, souvent en commençant par les courts métrages et les compagnies.",
+      "schools": [
+        "École nationale supérieure de la photographie (Arles)",
+        "ENS Louis-Lumière, section photographie (Saint-Denis)",
+        "Écoles privées de photographie",
+        "Pratique sur courts métrages et spectacles"
+      ],
+      "statut": "Sur un tournage, le photographe de plateau est en général engagé en CDDU comme technicien, sous la convention de la production cinématographique ou audiovisuelle, et relève de l’annexe 8 ; l’exploitation de ses images peut en outre donner lieu à des droits d’auteur. Dans le spectacle vivant, il travaille souvent en indépendant, comme artiste-auteur.",
+      "pay": {
+        "min": 250,
+        "max": 450,
+        "unit": "jour",
+        "note": "Aux journées de travail s’ajoutent parfois des droits d’auteur pour l’exploitation des photos, négociés avec la production."
+      },
+      "career": "Le photographe de plateau peut devenir le photographe attitré de certains réalisateurs ou de théâtres, se spécialiser dans le portrait d’artistes, ou exposer et publier son travail. Certains évoluent vers la direction de la photographie.",
+      "faq": [
+        {
+          "q": "Le photographe de plateau est-il présent tout le tournage ?",
+          "a": "Rarement. La production le fait souvent venir une partie des jours, choisis pour leurs scènes importantes ou la présence des comédiens principaux."
+        },
+        {
+          "q": "Comment photographier sans faire de bruit ?",
+          "a": "Avec des boîtiers au déclenchement silencieux, notamment les hybrides en mode obturateur électronique. Le moindre clic est interdit pendant une prise."
+        },
+        {
+          "q": "Les photos appartiennent-elles au photographe ?",
+          "a": "Il reste l’auteur de ses images, mais leur exploitation est cédée à la production selon les termes du contrat : durée, supports, territoires."
+        },
+        {
+          "q": "Comment se faire connaître ?",
+          "a": "Par un portfolio de photos de spectacles et de tournages, souvent constitué avec des compagnies et des courts métrages. Les attachés de presse et les producteurs recommandent les photographes fiables."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8) ou artiste-auteur",
+        "training": "École de photographie, puis plateaux",
+        "sectors": "Cinéma, séries, théâtre, danse"
+      },
+      "related": ["chef-operateur", "cadreur", "videaste", "chef-decorateur"],
+      "keywords": [
+        "photographe de plateau", "photographe plateau", "photographe de spectacle",
+        "photographe spectacle", "photographe de tournage"
+      ],
+      "search": "photographe de plateau"
+    }
+  ]
+}

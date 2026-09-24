@@ -1,0 +1,353 @@
+{
+  "family": "lumiere",
+  "trades": [
+    {
+      "slug": "eclairagiste",
+      "name": "Éclairagiste",
+      "name_f": "",
+      "rome": "L1504",
+      "summary": "Il conçoit la lumière d’un spectacle : ambiances, couleurs, effets, jusqu’à la conduite finale.",
+      "intro": "L’éclairagiste, aussi appelé concepteur ou créateur lumière, imagine l’éclairage d’un spectacle en dialogue avec le metteur en scène, le chorégraphe ou l’artiste. Il choisit les projecteurs, dessine le plan de feux, compose les ambiances et règle chaque changement de lumière. Sa création sert le récit et guide le regard du public, du théâtre à la danse, de l’opéra au concert.",
+      "missions": [
+        "Lire le projet artistique et échanger avec le metteur en scène, le scénographe et le costumier",
+        "Concevoir le plan de feux : choix, position et couleur de chaque projecteur",
+        "Diriger l’accroche et le réglage des projecteurs avec l’équipe lumière",
+        "Composer les états lumineux et leurs enchaînements, puis encoder la conduite au pupitre",
+        "Adapter la création aux lieux de tournée, dont les équipements diffèrent",
+        "Transmettre la conduite et la fiche technique au régisseur lumière qui l’exploitera"
+      ],
+      "day": "En période de création, l’éclairagiste passe ses journées au théâtre. Le matin, il fait accrocher et régler les projecteurs d’après son plan, en dirigeant les techniciens depuis la salle. L’après-midi et le soir, il assiste aux répétitions, compose les états lumineux scène après scène et les enregistre au pupitre avec le régisseur. Ce sont de longues séances d’ajustement, des couleurs essayées puis abandonnées, des allers-retours avec le metteur en scène. À la première, il transmet une conduite terminée à l’équipe qui assurera les représentations.",
+      "skills": [
+        "Sensibilité artistique : sens de la couleur, de l’espace et de la dramaturgie",
+        "Connaissance approfondie des projecteurs traditionnels, asservis et à LED",
+        "Maîtrise d’un pupitre (grandMA, ETC Eos…) et d’un logiciel de plan comme Vectorworks",
+        "Culture électrique et respect des règles de sécurité",
+        "Capacité à traduire une intention artistique en choix techniques",
+        "Écoute et diplomatie au sein de l’équipe de création"
+      ],
+      "training": "La conception lumière s’apprend dans quelques formations de haut niveau, comme le département conception lumière de l’ENSATT à Lyon, la section régie-création du Théâtre national de Strasbourg ou les parcours de l’ISTS d’Avignon. Beaucoup d’éclairagistes ont d’abord été techniciens puis régisseurs lumière, et ont appris la création en assistant un concepteur. Une habilitation électrique est indispensable pour intervenir sur les installations.",
+      "schools": [
+        "ENSATT, conception lumière (Lyon)",
+        "Théâtre national de Strasbourg, section régie-création",
+        "ISTS (Avignon)",
+        "CFPTS (Bagnolet)",
+        "Habilitation électrique"
+      ],
+      "statut": "L’éclairagiste est presque toujours intermittent : il est engagé en CDDU pour la durée d’une création, puis parfois pour les reprises et les tournées, et relève de l’annexe 8. Certaines productions ajoutent une rémunération propre à la création, négociée au contrat. Quelques lieux emploient des éclairagistes permanents.",
+      "pay": {
+        "min": 250,
+        "max": 450,
+        "unit": "jour",
+        "note": "La création est souvent payée au forfait, sur la base de plusieurs semaines de travail. Un éclairagiste reconnu, sur une grosse production d’opéra ou de concert, se situe au-delà de cette fourchette."
+      },
+      "career": "L’éclairagiste bâtit sa carrière de création en création, en s’associant souvent durablement à un metteur en scène ou à une compagnie. Il peut élargir son champ à la scénographie, à la mise en lumière d’architecture ou d’expositions, ou à la conception lumière de concerts et d’événements.",
+      "faq": [
+        {
+          "q": "Éclairagiste et régisseur lumière, quelle différence ?",
+          "a": "L’éclairagiste crée la lumière d’un spectacle ; le régisseur lumière organise et exploite l’éclairage au quotidien, dans un lieu ou en tournée. Les deux travaillent main dans la main pendant la création."
+        },
+        {
+          "q": "Faut-il une habilitation électrique ?",
+          "a": "Oui, dès qu’on intervient sur des installations électriques. L’habilitation, délivrée par l’employeur après une formation, est demandée par la plupart des lieux et des prestataires."
+        },
+        {
+          "q": "Quels logiciels apprendre ?",
+          "a": "Un pupitre au moins, grandMA ou ETC Eos en tête, un logiciel de plan comme Vectorworks, et idéalement un outil de prévisualisation 3D pour préparer la création hors du théâtre."
+        },
+        {
+          "q": "Peut-on vivre de la création lumière ?",
+          "a": "Oui, mais la concurrence est forte et les débuts se font souvent en parallèle d’un travail de régie. La régularité vient avec la fidélité de quelques metteurs en scène ou compagnies."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "École supérieure ou parcours de régie lumière",
+        "sectors": "Théâtre, danse, opéra, concerts, événementiel"
+      },
+      "related": ["regisseur-lumiere", "pupitreur-lumiere", "technicien-lumiere", "chef-decorateur"],
+      "keywords": [
+        "éclairagiste", "concepteur lumière", "conceptrice lumière", "créateur lumière",
+        "créatrice lumière", "designer lumière", "light designer", "lighting designer"
+      ],
+      "search": "éclairagiste"
+    },
+    {
+      "slug": "regisseur-lumiere",
+      "name": "Régisseur lumière",
+      "name_f": "Régisseuse lumière",
+      "rome": "L1504",
+      "summary": "Il prépare, monte et envoie la lumière des spectacles, dans un lieu ou en tournée.",
+      "intro": "Le régisseur lumière est responsable de l’éclairage d’un lieu ou d’un spectacle en tournée. Il étudie les fiches techniques, organise le montage des projecteurs avec les techniciens, reprend ou adapte la conduite lumière et l’envoie pendant les représentations. Garant du matériel et de la sécurité électrique, il fait le lien entre l’éclairagiste, la direction technique et le plateau.",
+      "missions": [
+        "Étudier les fiches techniques et les plans de feux des spectacles accueillis ou en tournée",
+        "Organiser le montage, l’accroche et le réglage des projecteurs avec l’équipe",
+        "Encoder ou adapter la conduite lumière sur le pupitre du lieu",
+        "Envoyer la lumière pendant les représentations, au top du régisseur général",
+        "Entretenir le parc : lampes, filtres, câbles, projecteurs asservis",
+        "Veiller au respect des règles de sécurité électrique et du travail en hauteur"
+      ],
+      "day": "Dans une scène nationale, la journée d’accueil d’un spectacle commence tôt : le régisseur lumière implante les projecteurs d’après le plan de feux de la compagnie, avec deux ou trois techniciens. Vient le réglage, projecteur par projecteur, souvent dans le noir et depuis une nacelle. L’après-midi, il reprend la conduite au pupitre avec l’éclairagiste ou le régisseur de la compagnie et fait les raccords avec les artistes. Le soir, il envoie la lumière depuis la régie, attentif au moindre top, puis prépare le démontage ou la journée suivante.",
+      "skills": [
+        "Maîtrise des pupitres lumière courants et des protocoles DMX et réseau",
+        "Connaissance des projecteurs traditionnels, asservis et à LED",
+        "Habilitation électrique et pratique du travail en hauteur",
+        "Organisation et encadrement d’une équipe de techniciens",
+        "Lecture de plans de feux et de fiches techniques",
+        "Rigueur et concentration en représentation"
+      ],
+      "training": "Le régisseur lumière est souvent passé par un parcours de technicien lumière avant de prendre des responsabilités. Les formations aux techniques du spectacle — DN MADE mention spectacle (ex-DMA régie du spectacle), CFPTS, ISTS, Grim Édif — préparent au métier. Les habilitations électriques et le CACES nacelle sont très demandés, et la formation continue, que l’Afdas peut financer, permet d’apprendre de nouveaux pupitres.",
+      "schools": [
+        "DN MADE mention spectacle (ex-DMA régie du spectacle)",
+        "CFPTS (Bagnolet)",
+        "ISTS (Avignon)",
+        "Grim Édif (Lyon)",
+        "CACES nacelle (R486) et habilitation électrique"
+      ],
+      "statut": "Deux cas coexistent : régisseur lumière permanent d’un théâtre ou d’une salle, en CDI, sous la CCNEAC ou la convention du spectacle vivant privé ; ou intermittent en compagnie et en tournée, engagé en CDDU et indemnisé au titre de l’annexe 8.",
+      "pay": {
+        "min": 170,
+        "max": 300,
+        "unit": "jour",
+        "note": "Un régisseur lumière permanent gagne en général entre 2 200 et 3 200 € brut par mois. En tournée, les indemnités de déplacement s’ajoutent au salaire."
+      },
+      "career": "Le régisseur lumière peut évoluer vers la régie générale et la direction technique, ou vers la création en devenant éclairagiste. Certains se spécialisent comme pupitreurs sur les concerts et les grands événements.",
+      "faq": [
+        {
+          "q": "Quelle différence entre régisseur lumière et éclairagiste ?",
+          "a": "L’éclairagiste conçoit la lumière d’un spectacle ; le régisseur lumière la met en œuvre et l’exploite, dans son lieu ou en tournée. Sur les petites productions, le régisseur assure souvent aussi la création."
+        },
+        {
+          "q": "Le CACES nacelle est-il obligatoire ?",
+          "a": "Pour conduire une nacelle, il faut une autorisation de conduite délivrée par l’employeur, en pratique fondée sur un CACES. La plupart des lieux l’exigent pour régler les projecteurs en hauteur."
+        },
+        {
+          "q": "Quels pupitres faut-il connaître ?",
+          "a": "Les plus répandus en France sont grandMA, ETC Eos, Avab et Chamsys. Savoir passer de l’un à l’autre est un vrai atout en tournée, où chaque lieu a son équipement."
+        },
+        {
+          "q": "Le métier est-il ouvert aux débutants ?",
+          "a": "Pas directement : on devient régisseur après quelques années de technicien lumière. En revanche, les postes de technicien sont accessibles avec une formation courte."
+        }
+      ],
+      "brief": {
+        "status": "Salarié permanent (CDI) ou intermittent (annexe 8)",
+        "training": "Formation technique du spectacle, habilitations",
+        "sectors": "Théâtres, opéras, salles, festivals, tournées"
+      },
+      "related": ["eclairagiste", "technicien-lumiere", "pupitreur-lumiere", "regisseur-general"],
+      "keywords": [
+        "régisseur lumière", "régisseuse lumière", "régie lumière", "régisseur éclairage",
+        "régisseuse éclairage"
+      ],
+      "search": "régisseur lumière"
+    },
+    {
+      "slug": "technicien-lumiere",
+      "name": "Technicien lumière",
+      "name_f": "Technicienne lumière",
+      "rome": "L1504",
+      "summary": "Il accroche, câble et règle les projecteurs, puis entretient le parc lumière.",
+      "intro": "Le technicien lumière, souvent appelé électricien de spectacle, installe et entretient le matériel d’éclairage : projecteurs, câbles, gradateurs, structures. Il travaille sous la direction du régisseur lumière ou de l’éclairagiste, dans les théâtres, chez les prestataires, sur les festivals et les événements. Au cinéma, on l’appelle électricien de plateau. C’est la porte d’entrée la plus courante dans les métiers de la lumière.",
+      "missions": [
+        "Décharger, préparer et accrocher les projecteurs selon le plan de feux",
+        "Câbler les circuits, les gradateurs et les lignes DMX",
+        "Régler les projecteurs : orientation, ouverture, couleur, couteaux",
+        "Utiliser les nacelles et intervenir en hauteur en sécurité",
+        "Dépanner en cours de représentation ou de tournage",
+        "Entretenir le parc : lampes, fiches, câbles, petites réparations"
+      ],
+      "day": "Au montage d’un festival, le technicien lumière passe la matinée en hauteur : il accroche les projecteurs sur les ponts ou le grill, les sécurise, tire les câbles vers les gradateurs. L’après-midi, il règle les faisceaux un par un, guidé depuis la salle par le régisseur. Pendant les concerts, il reste disponible pour changer une lampe ou remplacer un câble défaillant entre deux groupes. La nuit, il démonte avec l’équipe et range le matériel dans les flight cases.",
+      "skills": [
+        "Bases solides en électricité et habilitation électrique",
+        "Aisance en hauteur et pratique des nacelles",
+        "Rigueur dans le câblage et le repérage des circuits",
+        "Condition physique et goût du travail d’équipe",
+        "Curiosité pour les technologies nouvelles : LED, asservis, réseaux",
+        "Permis B, très souvent demandé"
+      ],
+      "training": "Le métier est accessible avec une formation courte : formations qualifiantes du CFPTS, de l’ISTS ou de Grim Édif, ou CAP et bac pro en électricité complétés par une spécialisation spectacle. L’habilitation électrique et le CACES nacelle ouvrent beaucoup de portes. Beaucoup commencent en renfort chez un prestataire ou sur un festival.",
+      "schools": [
+        "CFPTS (Bagnolet)",
+        "ISTS (Avignon)",
+        "Grim Édif (Lyon)",
+        "CAP ou bac pro en électricité, puis spécialisation",
+        "CACES nacelle (R486) et habilitation électrique"
+      ],
+      "statut": "Le technicien lumière est le plus souvent intermittent, engagé en CDDU par les lieux, les compagnies ou les prestataires, et relève de l’annexe 8. Au cinéma, l’électricien est engagé pour la durée d’un tournage sous la convention de la production cinématographique. Les grands prestataires et certains théâtres emploient aussi des permanents.",
+      "pay": {
+        "min": 140,
+        "max": 220,
+        "unit": "jour",
+        "note": "Au cinéma, un électricien de plateau est payé à la semaine, en général entre 1 200 et 1 700 € brut selon le budget. Les heures supplémentaires sont fréquentes en montage comme en tournage."
+      },
+      "career": "Avec l’expérience, le technicien lumière devient régisseur lumière ou pupitreur, et peut s’orienter vers la création. Au cinéma, il évolue vers le poste de chef électricien.",
+      "faq": [
+        {
+          "q": "Technicien lumière et électricien, est-ce pareil ?",
+          "a": "Dans le spectacle vivant, on dit indifféremment technicien lumière ou électricien. Au cinéma, l’électricien de plateau travaille sous les ordres du chef électricien et du directeur de la photographie."
+        },
+        {
+          "q": "Faut-il être électricien de formation ?",
+          "a": "Ce n’est pas obligatoire, mais une base en électricité est indispensable. Beaucoup viennent d’un CAP ou d’un bac pro en électricité, d’autres d’une formation aux techniques du spectacle."
+        },
+        {
+          "q": "Le vertige est-il rédhibitoire ?",
+          "a": "Presque : une grande partie du travail se fait en hauteur, sur des nacelles, des ponts ou des passerelles. Les formations au travail en hauteur aident, mais il faut être à l’aise."
+        },
+        {
+          "q": "Où trouver du travail ?",
+          "a": "Chez les prestataires techniques, dans les théâtres et les salles, sur les festivals et au cinéma. Les renforts d’été sont une bonne porte d’entrée."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8), parfois permanent",
+        "training": "Formation courte, habilitation électrique",
+        "sectors": "Théâtres, festivals, prestataires, cinéma"
+      },
+      "related": ["regisseur-lumiere", "eclairagiste", "chef-electricien", "technicien-plateau"],
+      "keywords": [
+        "technicien lumière", "technicienne lumière", "électricien spectacle", "électricienne spectacle",
+        "électricien de plateau", "électricienne de plateau", "technicien éclairage",
+        "technicienne éclairage", "lighting technician"
+      ],
+      "search": "technicien lumière"
+    },
+    {
+      "slug": "pupitreur-lumiere",
+      "name": "Pupitreur lumière",
+      "name_f": "Pupitreuse lumière",
+      "rome": "L1504",
+      "summary": "Au pupitre, il programme et joue en direct la lumière des concerts, des émissions et des événements.",
+      "intro": "Le pupitreur lumière programme et pilote la console qui commande les projecteurs, en particulier les projecteurs asservis. Sur un concert, une émission de télévision ou un grand événement, il encode les effets et joue la lumière en direct, en rythme avec la musique ou le déroulé. C’est un spécialiste très recherché, au croisement de la technique informatique et du sens du spectacle.",
+      "missions": [
+        "Préparer les fichiers du spectacle hors ligne, sur un visualiseur 3D",
+        "Patcher les projecteurs, souvent plusieurs centaines, et organiser la console",
+        "Programmer les palettes, les effets et les mémoires avec l’éclairagiste",
+        "Jouer la lumière en direct, en suivant la musique ou le conducteur",
+        "Gérer les réseaux lumière (Art-Net, sACN) et les consoles de secours",
+        "Adapter le spectacle à chaque lieu d’une tournée"
+      ],
+      "day": "La veille d’un concert, le pupitreur a souvent déjà passé plusieurs jours sur son visualiseur à préparer le spectacle. Le jour venu, il vérifie le patch avec l’équipe, recale les positions des asservis sur le décor réel, ajuste les effets pendant les balances. Le soir, derrière la console, il joue la lumière morceau par morceau, en improvisant parfois sur les passages libres. Après le concert, il sauvegarde le fichier et note les ajustements pour la date suivante.",
+      "skills": [
+        "Maîtrise experte d’au moins une console : grandMA, ETC, Chamsys, Hog",
+        "Connaissance des projecteurs asservis et de leurs modes",
+        "Pratique des visualiseurs 3D (Capture, Depence, WYSIWYG)",
+        "Sens du rythme et culture musicale pour les concerts",
+        "Compétences réseau : Art-Net, sACN, adressage",
+        "Sang-froid en direct"
+      ],
+      "training": "Il n’existe pas de diplôme de pupitreur : on le devient après un parcours de technicien ou de régisseur lumière, puis par des formations constructeurs sur les consoles — grandMA, ETC — et beaucoup de pratique sur visualiseur. Les centres du spectacle, comme le CFPTS ou l’ISTS, proposent des modules de programmation. Le réseau des prestataires et des éclairagistes de concerts est déterminant.",
+      "schools": [
+        "Formations constructeurs (grandMA, ETC)",
+        "CFPTS (Bagnolet)",
+        "ISTS (Avignon)",
+        "Pratique sur visualiseur 3D"
+      ],
+      "statut": "Le pupitreur est généralement intermittent, engagé en CDDU pour une tournée, une émission ou un événement, et relève de l’annexe 8. Certains pupitreurs très demandés facturent aussi en société la programmation hors ligne.",
+      "pay": {
+        "min": 200,
+        "max": 380,
+        "unit": "jour",
+        "note": "Les jours de programmation hors ligne sont en général payés comme des jours de travail. Sur les grandes tournées et les émissions de prime time, les tarifs dépassent souvent le haut de la fourchette."
+      },
+      "career": "Le pupitreur peut devenir éclairagiste de concerts, directeur de la photographie pour la télévision, ou se spécialiser dans la programmation de grands événements et de parcs d’attractions. Certains deviennent formateurs pour les fabricants de consoles.",
+      "faq": [
+        {
+          "q": "Pupitreur et éclairagiste, quelle différence ?",
+          "a": "L’éclairagiste conçoit la lumière ; le pupitreur la programme et la joue sur la console. Sur les concerts, un éclairagiste travaille souvent avec un pupitreur dédié, parfois il fait les deux."
+        },
+        {
+          "q": "Quelle console apprendre en premier ?",
+          "a": "grandMA reste la référence sur les concerts et les événements, ETC Eos domine au théâtre. Apprendre l’une rend l’autre plus facile : les logiques de programmation se ressemblent."
+        },
+        {
+          "q": "Qu’est-ce qu’un visualiseur ?",
+          "a": "Un logiciel qui simule en 3D la scène et les projecteurs. Il permet de programmer un spectacle à l’avance, sans salle ni matériel, ce qui fait gagner des jours de montage."
+        },
+        {
+          "q": "Le métier recrute-t-il ?",
+          "a": "Oui, les bons pupitreurs sont recherchés, surtout pour les concerts et la télévision. Mais il faut d’abord faire ses preuves, souvent comme technicien ou assistant pupitreur."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "Parcours lumière, formations constructeurs",
+        "sectors": "Concerts, télévision, événementiel, festivals"
+      },
+      "related": ["eclairagiste", "regisseur-lumiere", "technicien-lumiere", "technicien-video"],
+      "keywords": [
+        "pupitreur", "pupitreuse", "pupitreur lumière", "pupitreuse lumière", "opérateur lumière",
+        "opératrice lumière", "programmeur lumière", "programmeuse lumière"
+      ],
+      "search": "pupitreur lumière"
+    },
+    {
+      "slug": "chef-electricien",
+      "name": "Chef électricien",
+      "name_f": "Cheffe électricienne",
+      "rome": "L1504",
+      "summary": "Au cinéma, il met en œuvre la lumière voulue par le directeur de la photographie et dirige les électriciens.",
+      "intro": "Le chef électricien, qu’on appelle souvent le chef électro, est le bras droit du directeur de la photographie sur un tournage. Il traduit ses intentions en installations concrètes : choix des projecteurs, puissance, placement, diffusion, alimentation électrique du plateau. Il dirige l’équipe d’électriciens, prépare le matériel avec le loueur et garantit la sécurité électrique d’un plateau où l’on manipule des kilowatts.",
+      "missions": [
+        "Préparer le tournage avec le directeur de la photographie : repérages, liste de matériel, plan de feux",
+        "Commander le matériel lumière et les groupes électrogènes chez le loueur",
+        "Diriger l’équipe d’électriciens et répartir les installations",
+        "Mettre en place la lumière de chaque plan, puis l’ajuster pendant les répétitions",
+        "Calculer les puissances et garantir la sécurité de la distribution électrique",
+        "Anticiper les installations des scènes suivantes pour tenir le plan de travail"
+      ],
+      "day": "La journée de tournage commence avant l’arrivée des comédiens : le chef électricien et son équipe prééclairent le décor d’après les indications du directeur de la photographie. Pendant la mise en place, il ajuste chaque source, ajoute une diffusion, coupe une lumière parasite. Entre les plans, il pense déjà au suivant, souvent sur un autre axe, parfois de nuit et en extérieur, avec un groupe électrogène à gérer. En fin de journée, il fait le point sur le matériel et prépare le lendemain avec le chef machiniste.",
+      "skills": [
+        "Excellente connaissance des projecteurs de cinéma et des sources LED",
+        "Maîtrise de l’électricité de puissance et habilitation électrique",
+        "Sens de l’image, en dialogue constant avec le directeur de la photographie",
+        "Direction d’équipe et organisation sur des journées longues",
+        "Anticipation du plan de travail et des contraintes de chaque décor",
+        "Rigueur absolue en matière de sécurité"
+      ],
+      "training": "Le chef électricien a presque toujours commencé comme électricien de plateau, puis comme « best boy », le second de l’équipe, avant d’être chef. Une formation en électricité, un BTS Métiers de l’audiovisuel option métiers de l’image ou un passage par une école de cinéma aident à démarrer. L’habilitation électrique est indispensable, et la connaissance des groupes électrogènes très appréciée.",
+      "schools": [
+        "BTS Métiers de l’audiovisuel, option métiers de l’image",
+        "Formation en électricité et habilitation électrique",
+        "Parcours électricien, puis second électricien (best boy)"
+      ],
+      "statut": "Le chef électricien est intermittent, engagé en CDDU pour la durée d’un film, d’une série ou d’une publicité, sous la convention collective de la production cinématographique ou de la production audiovisuelle. Il relève de l’annexe 8. Les tournages s’enchaînent par le réseau des directeurs de la photographie, qui constituent souvent leur équipe.",
+      "pay": {
+        "min": 1700,
+        "max": 2600,
+        "unit": "semaine",
+        "note": "Montants indicatifs pour une semaine de tournage de fiction ; ils varient selon le budget et la catégorie du film. La publicité paie souvent à la journée, au-dessus de ces niveaux."
+      },
+      "career": "Le chef électricien peut devenir le chef attitré d’un directeur de la photographie, se spécialiser dans les grosses productions ou la publicité, ou évoluer vers la direction de la photographie. Certains créent une société de location de matériel lumière.",
+      "faq": [
+        {
+          "q": "Qu’est-ce qu’un best boy ?",
+          "a": "Le second de l’équipe électrique. Il gère le matériel, le planning des électriciens et les relations avec le loueur, et remplace le chef électricien en cas de besoin."
+        },
+        {
+          "q": "Chef électricien et chef opérateur, quelle différence ?",
+          "a": "Le chef opérateur, ou directeur de la photographie, conçoit l’image et la lumière. Le chef électricien met en œuvre cette lumière et dirige les électriciens."
+        },
+        {
+          "q": "Le métier est-il dangereux ?",
+          "a": "Il comporte des risques électriques et de travail en hauteur, d’où l’importance des habilitations et des procédures. Un bon chef électricien est d’abord quelqu’un de très rigoureux sur la sécurité."
+        },
+        {
+          "q": "Comment rejoindre une équipe électrique ?",
+          "a": "Le plus souvent comme électricien stagiaire ou renfort, sur des courts métrages et des publicités. Les chefs électriciens recrutent surtout par le bouche-à-oreille."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "Parcours d’électricien de plateau, habilitation électrique",
+        "sectors": "Cinéma, séries, publicité, clips"
+      },
+      "related": ["chef-operateur", "technicien-lumiere", "machiniste", "cadreur"],
+      "keywords": [
+        "chef électricien", "cheffe électricienne", "chef électro", "cheffe électro",
+        "best boy électrique", "second électricien", "seconde électricienne"
+      ],
+      "search": "chef électricien"
+    }
+  ]
+}

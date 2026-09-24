@@ -1,0 +1,355 @@
+{
+  "family": "postprod",
+  "trades": [
+    {
+      "slug": "monteur",
+      "name": "Monteur",
+      "name_f": "Monteuse",
+      "rome": "L1507",
+      "summary": "Il assemble les images et les sons d’un film ou d’un reportage pour en construire le récit.",
+      "intro": "Le monteur assemble les images tournées et les sons pour construire le récit d’un film, d’une série, d’un documentaire, d’un reportage ou d’une publicité. Il choisit les prises, fixe l’ordre et la durée des plans, crée le rythme et l’émotion, en dialogue étroit avec le réalisateur. On parle de chef monteur sur un long métrage, de monteur truquiste quand il intègre des effets, et de monteur son pour la bande sonore.",
+      "missions": [
+        "Dérusher : visionner toutes les images et repérer les meilleures prises",
+        "Construire un premier assemblage, puis l’affiner avec le réalisateur",
+        "Travailler le rythme, les raccords et la structure du récit",
+        "Intégrer la musique, les sons, les titres et les premiers effets",
+        "Préparer les fichiers pour l’étalonnage, le mixage et les effets visuels",
+        "Livrer les versions finales aux formats de diffusion"
+      ],
+      "day": "En salle de montage, la journée d’un chef monteur de documentaire commence par le visionnage des séquences tournées la veille. Il sélectionne, assemble, essaie une autre structure pour l’ouverture du film. L’après-midi, le réalisateur vient voir la séquence : on discute, on coupe une scène à laquelle on tenait, on déplace une interview. Le soir, le monteur reprend seul le rythme d’une séquence, au dixième de seconde près. Sur un magazine de télévision, tout va plus vite : un sujet se monte parfois dans la journée.",
+      "skills": [
+        "Maîtrise des logiciels de montage : Avid Media Composer, Premiere Pro, DaVinci Resolve",
+        "Sens du récit, du rythme et de l’émotion",
+        "Culture cinématographique et audiovisuelle",
+        "Écoute et diplomatie avec le réalisateur et la production",
+        "Organisation rigoureuse des rushes et des versions",
+        "Capacité de concentration sur de longues séances"
+      ],
+      "training": "Le monteur se forme souvent dans un BTS Métiers de l’audiovisuel option montage et post-production, au département montage de La Fémis, dans les formations de l’INA ou dans une école de cinéma. Il débute comme assistant monteur, poste clé pour apprendre la gestion des rushes et la chaîne de post-production, avant de monter ses premiers courts métrages, documentaires ou sujets de télévision.",
+      "schools": [
+        "BTS Métiers de l’audiovisuel, option montage et post-production",
+        "La Fémis, département montage (Paris)",
+        "INA (formations professionnelles)",
+        "ESAV (Toulouse)",
+        "Écoles de cinéma et d’audiovisuel"
+      ],
+      "statut": "Le monteur est très majoritairement intermittent, engagé en CDDU par les productions, les chaînes ou les sociétés de post-production, sous la convention de la production audiovisuelle ou cinématographique, et relève de l’annexe 8. Certaines chaînes et agences emploient des monteurs permanents.",
+      "pay": {
+        "min": 220,
+        "max": 380,
+        "unit": "jour",
+        "note": "Sur un long métrage, le chef monteur est payé à la semaine, souvent entre 1 800 et 2 800 € brut. Un assistant monteur se situe en dessous."
+      },
+      "career": "Le monteur peut devenir chef monteur de longs métrages ou de séries, se spécialiser dans la bande-annonce, la publicité, le clip ou le documentaire, ou évoluer vers la réalisation. Certains s’orientent vers l’étalonnage ou les effets visuels.",
+      "faq": [
+        {
+          "q": "Monteur et chef monteur, quelle différence ?",
+          "a": "Sur un long métrage ou une série, le chef monteur dirige le montage et travaille avec un ou plusieurs assistants. En télévision et en entreprise, on parle simplement de monteur."
+        },
+        {
+          "q": "Quel logiciel apprendre ?",
+          "a": "Avid Media Composer reste la référence au cinéma et dans les séries, Premiere Pro domine sur le web et dans l’institutionnel, DaVinci Resolve progresse partout. En connaître deux est un vrai atout."
+        },
+        {
+          "q": "Le monteur est-il un technicien ou un artiste ?",
+          "a": "Les deux. La technique est indispensable, mais le montage est une écriture : on dit souvent qu’un film se réécrit une dernière fois en salle de montage, après le scénario et le tournage."
+        },
+        {
+          "q": "Peut-on monter à distance ?",
+          "a": "De plus en plus, grâce aux outils de montage partagé. Mais les étapes décisives se font souvent en présence du réalisateur, dans la même pièce."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "BTS montage, école de cinéma, INA",
+        "sectors": "Cinéma, séries, documentaire, télévision, publicité"
+      },
+      "related": ["etalonneur", "mixeur-son", "motion-designer", "realisateur"],
+      "keywords": [
+        "monteur", "monteuse", "monteur vidéo", "monteuse vidéo", "chef monteur", "cheffe monteuse",
+        "assistant monteur", "assistante monteuse", "monteur truquiste", "monteuse truquiste",
+        "monteur audiovisuel", "monteuse audiovisuel", "monteur image", "monteuse image", "video editor",
+        "film editor"
+      ],
+      "search": "monteur vidéo"
+    },
+    {
+      "slug": "etalonneur",
+      "name": "Étalonneur",
+      "name_f": "Étalonneuse",
+      "rome": "L1507",
+      "summary": "En fin de post-production, il ajuste couleurs et lumières de chaque plan pour fixer l’image finale.",
+      "intro": "L’étalonneur intervient à la fin de la post-production d’un film, d’une série, d’un documentaire ou d’une publicité. Plan par plan, il ajuste la couleur, la luminosité et les contrastes pour harmoniser des images tournées à des moments et dans des lumières différentes, et pour donner au film son atmosphère. Il travaille avec le directeur de la photographie et le réalisateur, sur des écrans calibrés au plus près de la diffusion.",
+      "missions": [
+        "Préparer le projet d’étalonnage à partir du montage final",
+        "Définir avec le réalisateur et le chef opérateur l’intention colorimétrique",
+        "Harmoniser les plans d’une même séquence",
+        "Créer les ambiances : nuit, époque, saison, univers du film",
+        "Respecter les normes des diffuseurs : télévision, cinéma, plateformes, HDR",
+        "Livrer les masters aux différents formats de diffusion"
+      ],
+      "day": "Dans une salle d’étalonnage plongée dans la pénombre, l’étalonneur avance séquence par séquence. Le matin, il fait une première passe seul : il équilibre les plans, corrige une dominante verte due à un éclairage de bureau, rattrape un ciel brûlé. L’après-midi, le chef opérateur le rejoint : ensemble, ils affinent le contraste d’une scène de nuit, cherchent la teinte exacte d’une peau. En fin de semaine, le réalisateur valide le film séquence par séquence.",
+      "skills": [
+        "Maîtrise experte de DaVinci Resolve ou Baselight",
+        "Connaissance approfondie de la colorimétrie et des espaces couleur",
+        "Œil très fin pour les nuances et les contrastes",
+        "Culture picturale et cinématographique",
+        "Dialogue avec le chef opérateur et le réalisateur",
+        "Connaissance des normes de diffusion, dont le HDR"
+      ],
+      "training": "L’étalonneur a souvent une formation en image — ENS Louis-Lumière, BTS Métiers de l’audiovisuel option image ou montage — et se spécialise en commençant comme assistant étalonneur dans une société de post-production. Des formations spécifiques sur DaVinci Resolve et Baselight, parfois certifiantes, existent, notamment à l’INA.",
+      "schools": [
+        "ENS Louis-Lumière, section cinéma (Saint-Denis)",
+        "BTS Métiers de l’audiovisuel, option image ou montage",
+        "INA (formations professionnelles)",
+        "Formations certifiantes DaVinci Resolve"
+      ],
+      "statut": "L’étalonneur est soit salarié permanent d’une société de post-production, soit intermittent engagé en CDDU pour l’étalonnage d’un film ou d’une série, au titre de l’annexe 8. Certains travaillent en indépendant, surtout pour la publicité et le clip.",
+      "pay": {
+        "min": 300,
+        "max": 550,
+        "unit": "jour",
+        "note": "Les étalonneurs reconnus du cinéma et de la publicité se situent au-dessus de la fourchette. Un étalonneur permanent en post-production gagne en général entre 2 500 et 4 000 € brut par mois."
+      },
+      "career": "L’étalonneur peut devenir étalonneur principal d’une société de post-production, se spécialiser dans le cinéma ou la publicité, ou évoluer vers la supervision de la post-production image.",
+      "faq": [
+        {
+          "q": "À quoi sert l’étalonnage ?",
+          "a": "À harmoniser les couleurs d’un film tourné sur des semaines, dans des lumières différentes, et à lui donner son atmosphère. Sans étalonnage, deux plans d’une même scène ne se raccorderaient pas."
+        },
+        {
+          "q": "Faut-il être coloriste ou peintre ?",
+          "a": "Pas nécessairement, mais une grande sensibilité aux couleurs et une culture visuelle sont indispensables. Beaucoup d’étalonneurs viennent de la photographie ou de l’image de film."
+        },
+        {
+          "q": "Qu’est-ce que le HDR ?",
+          "a": "Une norme d’image à plage dynamique étendue, avec des noirs plus profonds et des blancs plus lumineux. Les plateformes la demandent de plus en plus, et elle réclame un savoir-faire propre."
+        },
+        {
+          "q": "Comment devenir étalonneur ?",
+          "a": "Le plus souvent en entrant comme assistant dans une société de post-production, après une formation en image. La maîtrise de DaVinci Resolve est aujourd’hui un passage obligé."
+        }
+      ],
+      "brief": {
+        "status": "Salarié de post-production ou intermittent (annexe 8)",
+        "training": "Formation image, puis assistanat",
+        "sectors": "Cinéma, séries, publicité, clips"
+      },
+      "related": ["monteur", "chef-operateur", "graphiste-vfx", "motion-designer"],
+      "keywords": [
+        "étalonneur", "étalonneuse", "étalonnage", "coloriste", "étalonneur vidéo", "étalonneuse vidéo",
+        "colorist"
+      ],
+      "search": "étalonneur"
+    },
+    {
+      "slug": "motion-designer",
+      "name": "Motion designer",
+      "name_f": "",
+      "rome": "",
+      "summary": "Il anime graphismes, textes et illustrations : génériques, habillages télé, vidéos, écrans de scène.",
+      "intro": "Le motion designer donne du mouvement au graphisme : textes animés, logos, infographies, illustrations, formes abstraites. Il crée des génériques de films et de séries, des habillages d’émissions, des vidéos explicatives, des contenus pour les réseaux sociaux ou des images diffusées pendant les concerts et les événements. À la croisée du graphisme, de l’animation et du montage, c’est un métier très demandé.",
+      "missions": [
+        "Comprendre la demande et proposer des pistes graphiques et d’animation",
+        "Réaliser les maquettes, les storyboards et les planches de style",
+        "Animer textes, logos, illustrations et éléments 2D ou 3D",
+        "Synchroniser l’animation avec la musique et le son",
+        "Intégrer les animations au montage et livrer aux bons formats",
+        "Décliner un habillage sur plusieurs formats et plateformes"
+      ],
+      "day": "Pour l’habillage d’une nouvelle émission, le motion designer présente le matin trois pistes graphiques à la chaîne. Une fois la direction choisie, il anime le générique dans After Effects, ajuste le rythme sur la musique, puis décline les éléments : bandeaux de titre, transitions, jingles. Pour une tournée de concerts, il prépare aussi des boucles vidéo qui seront diffusées sur les écrans derrière l’artiste, au tempo de chaque chanson.",
+      "skills": [
+        "Maîtrise d’After Effects, d’Illustrator et de Photoshop",
+        "Notions de 3D (Cinema 4D, Blender) de plus en plus demandées",
+        "Sens graphique : typographie, couleurs, composition",
+        "Sens du rythme et de l’animation",
+        "Capacité à tenir des délais serrés",
+        "Écoute du client et de la direction artistique"
+      ],
+      "training": "Le motion designer se forme dans une école de graphisme, d’animation ou d’arts appliqués : DN MADE mention graphisme ou animation, Gobelins, ECV, LISAA, e-artsup, ou formations spécialisées en motion design. La bande démo compte autant que le diplôme.",
+      "schools": [
+        "DN MADE mention graphisme ou animation",
+        "Gobelins, l’école de l’image (Paris)",
+        "ECV, LISAA, e-artsup",
+        "Formations spécialisées en motion design"
+      ],
+      "statut": "Le motion designer travaille souvent en indépendant, sous statut d’auto-entrepreneur ou en société, pour des agences, des chaînes et des marques, ou comme salarié permanent d’une agence. Il peut aussi être engagé en CDDU par une production audiovisuelle, par exemple comme graphiste ou truquiste, et relever alors de l’annexe 8.",
+      "pay": {
+        "min": 250,
+        "max": 450,
+        "unit": "jour",
+        "note": "En indépendant, les tarifs varient beaucoup selon l’expérience et le client. Un motion designer salarié en agence gagne en général entre 2 300 et 3 500 € brut par mois."
+      },
+      "career": "Le motion designer peut devenir directeur artistique, se spécialiser dans la 3D, le générique de cinéma ou la vidéo de scène, ou créer son propre studio.",
+      "faq": [
+        {
+          "q": "Motion designer et animateur 2D, quelle différence ?",
+          "a": "L’animateur 2D donne vie à des personnages et à des histoires, souvent pour des films d’animation. Le motion designer anime surtout du graphisme — textes, formes, infographies — pour la communication, l’habillage et la scène."
+        },
+        {
+          "q": "Faut-il savoir dessiner ?",
+          "a": "Un bon sens graphique est indispensable, mais pas forcément un talent de dessinateur. La typographie et la composition comptent davantage."
+        },
+        {
+          "q": "Quels logiciels apprendre ?",
+          "a": "After Effects en premier, avec Illustrator et Photoshop. Cinema 4D ou Blender pour la 3D, et un logiciel de montage pour intégrer son travail."
+        },
+        {
+          "q": "Le métier existe-t-il dans le spectacle ?",
+          "a": "Oui : les concerts, les festivals et les grands événements utilisent de plus en plus d’animations graphiques diffusées sur écrans géants et murs de LED."
+        }
+      ],
+      "brief": {
+        "status": "Indépendant, salarié ou intermittent",
+        "training": "École de graphisme ou d’animation, bande démo",
+        "sectors": "Télévision, publicité, web, concerts, événementiel"
+      },
+      "related": ["animateur-2d-3d", "graphiste-vfx", "monteur", "technicien-video"],
+      "keywords": [
+        "motion designer", "motion design", "graphiste motion", "graphiste animateur",
+        "graphiste animatrice", "habillage antenne"
+      ],
+      "search": "motion designer"
+    },
+    {
+      "slug": "animateur-2d-3d",
+      "name": "Animateur 2D et 3D",
+      "name_f": "Animatrice 2D et 3D",
+      "rome": "L1510",
+      "summary": "Dans les films d’animation, il donne vie aux personnages en créant leurs mouvements, image par image.",
+      "intro": "L’animateur 2D ou 3D crée les mouvements des personnages et des objets d’un film d’animation, d’une série, d’un jeu vidéo ou d’une publicité. En 2D, il dessine les poses successives ; en 3D, il anime des personnages modélisés, en réglant chaque geste et chaque expression. Il interprète la scène comme un comédien, à partir du storyboard et des indications du réalisateur. La France compte parmi les pays les plus dynamiques de l’animation.",
+      "missions": [
+        "Étudier le storyboard, l’animatique et les indications du réalisateur",
+        "Créer les poses clés et le jeu des personnages",
+        "Animer les mouvements, les expressions et la synchronisation des lèvres",
+        "Respecter le style, le rythme et les modèles du film",
+        "Intégrer les retours du superviseur d’animation",
+        "Livrer les plans dans les délais de la production"
+      ],
+      "day": "Dans un studio d’animation, la journée commence par la revue : le superviseur passe en revue les plans animés la veille et donne ses retours. L’animateur reprend ensuite son plan du jour — un personnage qui se lève, hésite, puis court vers la porte. Il se filme parfois en train de mimer le geste pour trouver le bon rythme, pose les attitudes principales, puis affine le mouvement image par image. En fin de journée, il soumet son travail pour la revue suivante.",
+      "skills": [
+        "Maîtrise des principes de l’animation : timing, anticipation, poids",
+        "Logiciels : Toon Boom Harmony ou TVPaint en 2D, Maya ou Blender en 3D",
+        "Sens du jeu et observation du mouvement",
+        "Dessin solide, surtout en 2D",
+        "Capacité à intégrer les retours et à tenir les quotas de production",
+        "Esprit d’équipe dans une chaîne de fabrication"
+      ],
+      "training": "La France dispose d’écoles d’animation réputées dans le monde entier : Gobelins à Paris, l’ESMA, l’École Émile Cohl à Lyon, MoPA à Arles, Rubika à Valenciennes, et La Poudrière pour la réalisation. Les formations durent de trois à cinq ans et se concluent souvent par un film de fin d’études, véritable carte de visite.",
+      "schools": [
+        "Gobelins, l’école de l’image (Paris)",
+        "ESMA (Montpellier, Nantes, Toulouse, Lyon)",
+        "École Émile Cohl (Lyon)",
+        "MoPA (Arles)",
+        "Rubika (Valenciennes)"
+      ],
+      "statut": "L’animateur est le plus souvent intermittent, engagé en CDDU par les studios pour la durée d’une production, sous la convention collective de la production de films d’animation, et relève de l’annexe 8. Les grands studios emploient aussi des animateurs en CDI ou en CDD de longue durée.",
+      "pay": {
+        "min": 2200,
+        "max": 3300,
+        "unit": "mois",
+        "note": "Montants indicatifs pour un animateur confirmé ; les débutants démarrent en dessous, les superviseurs d’animation au-dessus. Les studios rémunèrent souvent à la semaine sur la durée d’une production."
+      },
+      "career": "L’animateur peut devenir chef animateur, superviseur d’animation, puis réalisateur. Il peut aussi se tourner vers le jeu vidéo, la publicité ou le storyboard.",
+      "faq": [
+        {
+          "q": "2D ou 3D, faut-il choisir ?",
+          "a": "Les écoles forment souvent aux deux, mais les carrières se spécialisent. La 3D domine en volume, la 2D reste très présente dans les séries et les films d’auteur."
+        },
+        {
+          "q": "La France est-elle un bon pays pour l’animation ?",
+          "a": "Oui, c’est l’un des premiers producteurs de films et de séries d’animation, avec des studios reconnus et des écoles recherchées par les studios étrangers."
+        },
+        {
+          "q": "Combien de temps pour animer un plan ?",
+          "a": "De quelques heures à plusieurs jours selon la complexité. Les studios fixent des objectifs en secondes animées par semaine."
+        },
+        {
+          "q": "Faut-il savoir dessiner pour la 3D ?",
+          "a": "C’est un atout, pas une obligation absolue : l’animation 3D repose d’abord sur le sens du mouvement et du jeu. Le dessin reste indispensable en 2D."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8) ou CDD de production",
+        "training": "École d’animation (trois à cinq ans)",
+        "sectors": "Films et séries d’animation, jeu vidéo, publicité"
+      },
+      "related": ["motion-designer", "graphiste-vfx", "monteur", "realisateur"],
+      "keywords": [
+        "animateur 2d", "animatrice 2d", "animateur 3d", "animatrice 3d", "animation 3d", "animation 2d",
+        "animateur de personnages", "animatrice de personnages"
+      ],
+      "search": "animateur 3D"
+    },
+    {
+      "slug": "graphiste-vfx",
+      "name": "Graphiste VFX",
+      "name_f": "",
+      "rome": "L1510",
+      "summary": "Il crée les effets visuels numériques d’un film : incrustations, décors virtuels, explosions, foules.",
+      "intro": "Le graphiste VFX, pour « visual effects », fabrique les effets visuels numériques d’un film, d’une série ou d’une publicité : incrustation sur fond vert, effacement d’éléments indésirables, décors prolongés, créatures, explosions, simulations de foule ou de fumée. Selon sa spécialité, il est compositeur — il assemble les couches d’image —, modeleur, animateur d’effets ou éclairagiste 3D. C’est un métier très technique, au service de l’illusion.",
+      "missions": [
+        "Analyser les plans à truquer avec le superviseur des effets visuels",
+        "Détourer, nettoyer et préparer les images",
+        "Assembler les couches d’image en compositing",
+        "Créer ou intégrer des éléments 3D, des particules et des simulations",
+        "Faire correspondre lumière, grain et mouvement de caméra",
+        "Livrer les plans validés dans les délais de la post-production"
+      ],
+      "day": "Dans un studio d’effets visuels, le compositeur reçoit le matin la liste de ses plans : un comédien tourné sur fond vert à intégrer dans une rue de Paris des années 1920. Il détoure le personnage, assemble les couches du décor numérique, ajuste la lumière pour qu’elle tombe du bon côté, ajoute le grain de l’image d’origine. En revue, le superviseur demande davantage de fumée à l’arrière-plan : il relance le calcul et reprend le plan.",
+      "skills": [
+        "Maîtrise de Nuke pour le compositing, de Houdini, Maya ou Blender pour la 3D",
+        "Compréhension fine de la photographie : lumière, optique, perspective",
+        "Sens du détail et patience",
+        "Capacité à intégrer rapidement les retours",
+        "Travail en équipe dans une chaîne de production",
+        "Anglais technique, langue de travail du secteur"
+      ],
+      "training": "Les graphistes VFX sortent d’écoles spécialisées en images numériques : ArtFX à Montpellier, Rubika, l’ESMA, l’ATI de l’université Paris 8, ou Gobelins. Les parcours durent en général de trois à cinq ans. Une bande démo solide est indispensable pour entrer en studio, souvent comme débutant en rotoscopie ou en préparation d’images.",
+      "schools": [
+        "ArtFX (Montpellier)",
+        "Rubika (Valenciennes)",
+        "ESMA",
+        "ATI, université Paris 8",
+        "Gobelins, l’école de l’image (Paris)"
+      ],
+      "statut": "Le graphiste VFX est souvent intermittent, engagé en CDDU par les studios d’effets visuels pour la durée d’un projet, sous la convention de la production audiovisuelle ou cinématographique, et relève de l’annexe 8. Les grands studios emploient aussi des salariés en CDI.",
+      "pay": {
+        "min": 250,
+        "max": 450,
+        "unit": "jour",
+        "note": "Un débutant démarre en dessous de la fourchette ; les superviseurs VFX se situent nettement au-dessus. En CDI, un compositeur confirmé gagne en général entre 2 600 et 3 800 € brut par mois."
+      },
+      "career": "Le graphiste VFX peut devenir référent de sa spécialité, superviseur des effets visuels d’un film, ou se tourner vers le jeu vidéo et la réalité virtuelle.",
+      "faq": [
+        {
+          "q": "Qu’est-ce que le compositing ?",
+          "a": "L’assemblage de plusieurs couches d’images — prise de vues réelle, décors numériques, effets — en un plan unique et crédible. C’est le cœur de nombreux effets visuels."
+        },
+        {
+          "q": "VFX et SFX, quelle différence ?",
+          "a": "Les VFX sont les effets visuels numériques, créés en post-production. Les SFX sont les effets spéciaux réalisés au tournage : explosions réelles, pluie artificielle, maquillages prothétiques."
+        },
+        {
+          "q": "Quel logiciel apprendre ?",
+          "a": "Nuke pour le compositing, Houdini pour les simulations, Maya ou Blender pour la 3D. Les studios attendent une vraie maîtrise d’au moins un de ces outils."
+        },
+        {
+          "q": "Comment entrer en studio ?",
+          "a": "Avec une bande démo qui montre des plans finis, souvent en commençant par des postes de rotoscopie ou de préparation d’images, où l’on apprend la rigueur de la production."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8) ou salarié de studio",
+        "training": "École d’images numériques, bande démo",
+        "sectors": "Cinéma, séries, publicité, jeu vidéo"
+      },
+      "related": ["motion-designer", "animateur-2d-3d", "etalonneur", "monteur"],
+      "keywords": [
+        "graphiste vfx", "vfx", "compositeur vfx", "compositrice vfx", "compositing", "truquiste",
+        "infographiste 3d", "graphiste 3d", "effets visuels", "infographiste 2d", "compositor"
+      ],
+      "search": "vfx"
+    }
+  ]
+}

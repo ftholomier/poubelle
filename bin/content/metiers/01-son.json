@@ -69,7 +69,7 @@
       "keywords": [
         "ingénieur du son", "ingénieure du son", "ingénieur son", "ingénieure son", "ingé son",
         "ingé façade", "ingénieur façade", "ingénieur retours", "chef opérateur du son",
-        "cheffe opératrice du son"
+        "cheffe opératrice du son", "chef opérateur son", "cheffe opératrice son", "sound engineer"
       ],
       "search": "ingénieur du son"
     },
@@ -206,7 +206,9 @@
       "related": ["ingenieur-du-son", "regisseur-son", "backliner", "technicien-evenementiel"],
       "keywords": [
         "technicien son", "technicienne son", "sonorisateur", "sonorisatrice",
-        "technicien sonorisation", "technicienne sonorisation", "technicien audio", "technicienne audio"
+        "technicien sonorisation", "technicienne sonorisation", "technicien audio", "technicienne audio",
+        "technicien du son", "technicienne du son", "opérateur son", "opératrice son",
+        "opérateur du son", "opératrice du son", "sound technician"
       ],
       "search": "technicien son"
     },
@@ -410,7 +412,7 @@
       "related": ["ingenieur-du-son", "bruiteur", "monteur", "perchman"],
       "keywords": [
         "mixeur son", "mixeuse son", "mixeur cinéma", "mixeuse cinéma", "mixeur audio",
-        "mixeuse audio", "monteur son", "monteuse son"
+        "mixeuse audio", "monteur son", "monteuse son", "assistant monteur son", "assistante monteuse son"
       ],
       "search": "mixeur son"
     },
@@ -460,7 +462,7 @@
         },
         {
           "q": "Faut-il savoir jouer d’un instrument ?",
-          "a": "C’est presque indispensable : il faut accorder, tester et comprendre ce qu’un musicien attend de son son. Beaucoup de backliners sont eux-mêmes guitaristes, bassistes ou batteurs."
+          "a": "C’est presque indispensable : il faut accorder, tester et comprendre ce qu’un musicien attend de son instrument. Beaucoup de backliners sont eux-mêmes guitaristes, bassistes ou batteurs."
         },
         {
           "q": "Le backliner est-il en tournée toute l’année ?",
@@ -478,8 +480,8 @@
       },
       "related": ["technicien-son", "regisseur-de-tournee", "musicien", "tour-manager"],
       "keywords": [
-        "backliner", "backlineuse", "backline", "technicien instruments", "technicienne instruments",
-        "roadie"
+        "backliner", "backlineuse", "backlineur", "backline", "technicien instruments",
+        "technicienne instruments", "roadie"
       ],
       "search": "backliner"
     }

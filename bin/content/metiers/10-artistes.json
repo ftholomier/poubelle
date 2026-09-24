@@ -1,0 +1,569 @@
+{
+  "family": "artistes",
+  "trades": [
+    {
+      "slug": "comedien",
+      "name": "Comédien",
+      "name_f": "Comédienne",
+      "rome": "L1203",
+      "summary": "Il interprète des personnages au théâtre, au cinéma, à la télévision, en doublage ou dans la rue.",
+      "intro": "Le comédien donne vie à un personnage, sur une scène de théâtre, devant une caméra, derrière un micro de doublage ou dans la rue. Il apprend son texte, travaille le rôle avec le metteur en scène ou le réalisateur, répète, joue, et recommence chaque soir ou à chaque prise avec la même justesse. Le métier est aussi fait d’auditions, de castings, de stages et de périodes creuses : la plupart des comédiens alternent théâtre, tournages, lectures, voix off, doublage et ateliers pour vivre de leur art.",
+      "missions": [
+        "Préparer les auditions et les castings",
+        "Apprendre le texte et construire le personnage",
+        "Répéter avec le metteur en scène et les partenaires de jeu",
+        "Jouer en représentation, en tournage ou en studio d’enregistrement",
+        "Entretenir sa voix, son corps et sa technique de jeu",
+        "Animer des ateliers ou des lectures, en complément de la scène"
+      ],
+      "day": "Pendant une série de représentations, la comédienne consacre sa matinée à autre chose : une audition pour un téléfilm, où elle passe cinq minutes devant la directrice de casting après une heure d’attente. L’après-midi, elle enregistre une voix off dans un studio de doublage. À dix-huit heures, elle arrive au théâtre pour l’échauffement, le maquillage et un raccord sur une scène qui a flotté la veille. À vingt et une heures, le rideau se lève. Après le spectacle, elle échange avec quelques spectateurs, puis rentre relire la scène qu’elle tourne dans trois jours.",
+      "skills": [
+        "Technique de jeu, de voix, de diction et de corps",
+        "Mémoire et capacité à apprendre vite un texte",
+        "Écoute des partenaires et du metteur en scène",
+        "Capacité à se remettre en question",
+        "Endurance physique et nerveuse",
+        "Persévérance face aux refus et aux périodes sans contrat"
+      ],
+      "training": "Les comédiens se forment dans les conservatoires, du conservatoire municipal au conservatoire à rayonnement régional, puis, pour certains, dans les écoles supérieures d’art dramatique accessibles sur concours : CNSAD à Paris, TNS à Strasbourg, ENSATT à Lyon, École du Nord à Lille, ERACM à Cannes et Marseille, et d’autres. Ces écoles délivrent le plus souvent le diplôme national supérieur professionnel de comédien. Des cours privés préparent aussi au métier. Stages et formation continue, notamment au jeu face caméra et au doublage, accompagnent toute la carrière.",
+      "schools": [
+        "CNSAD, Conservatoire national supérieur d’art dramatique (Paris)",
+        "TNS, école supérieure d’art dramatique (Strasbourg)",
+        "ENSATT, département jeu (Lyon)",
+        "École du Nord (Lille) et ERACM (Cannes, Marseille)",
+        "Conservatoires à rayonnement régional et cours privés"
+      ],
+      "statut": "Le comédien est un artiste du spectacle : engagé en CDDU, payé au cachet ou à la journée, il relève de l’annexe 10 de l’assurance chômage des intermittents. Pour ouvrir des droits, il doit justifier de 507 heures de travail sur les douze derniers mois, un cachet comptant pour 12 heures. Quelques troupes permanentes, comme la Comédie-Française, emploient des comédiens à l’année.",
+      "pay": {
+        "min": 120,
+        "max": 250,
+        "unit": "cachet",
+        "note": "Cachet brut indicatif par représentation dans le spectacle vivant. Au cinéma et à la télévision, les minima conventionnels par jour de tournage sont bien plus élevés, de l’ordre de plusieurs centaines d’euros ; la voix off et le doublage ont leurs propres barèmes."
+      },
+      "career": "Le comédien construit sa carrière de rencontre en rencontre : premiers rôles, compagnie de théâtre, séries, cinéma. Beaucoup diversifient leur activité : doublage, voix off, livres audio, mise en scène, enseignement du théâtre, écriture. Certains fondent leur compagnie pour porter leurs propres projets.",
+      "faq": [
+        {
+          "q": "Comédien et acteur, quelle différence ?",
+          "a": "Aucune sur le fond : on dit plus volontiers comédien au théâtre et acteur au cinéma, mais les deux mots désignent le même métier."
+        },
+        {
+          "q": "Faut-il une école pour devenir comédien ?",
+          "a": "Ce n’est pas obligatoire, mais une formation solide est presque indispensable : elle apporte la technique, le réseau et la visibilité auprès des metteurs en scène et des directeurs de casting."
+        },
+        {
+          "q": "Qu’est-ce qu’un cachet ?",
+          "a": "La rémunération forfaitaire d’un artiste pour une représentation ou une journée de travail. Pour l’assurance chômage des intermittents, chaque cachet compte pour 12 heures."
+        },
+        {
+          "q": "Faut-il un agent ?",
+          "a": "Un agent artistique aide à accéder aux castings du cinéma et de la télévision et négocie les contrats, contre un pourcentage des cachets. Au théâtre, les engagements passent souvent directement par les compagnies."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 10)",
+        "training": "Conservatoires, écoles supérieures d’art dramatique",
+        "sectors": "Théâtre, cinéma, télévision, doublage, voix off"
+      },
+      "related": ["metteur-en-scene", "figurant", "chanteur", "marionnettiste"],
+      "keywords": [
+        "comédien", "comédienne", "acteur", "actrice", "artiste dramatique", "comédien voix off",
+        "comédienne voix off", "voix off", "comédien doublage", "comédienne doublage",
+        "comédien de doublage", "comédienne de doublage", "actor", "actress"
+      ],
+      "search": "comédien"
+    },
+    {
+      "slug": "musicien",
+      "name": "Musicien",
+      "name_f": "Musicienne",
+      "rome": "L1202",
+      "summary": "Il joue d’un ou plusieurs instruments en concert, en studio, en orchestre ou pour le spectacle.",
+      "intro": "Le musicien interprète des œuvres ou crée sa propre musique, seul ou en formation : orchestre symphonique, ensemble de musique de chambre, groupe de musiques actuelles, big band, orchestre de bal, fosse d’opéra ou de comédie musicale. Il joue en concert, enregistre en studio, accompagne des chanteurs, des spectacles de théâtre ou de danse, et compose parfois pour l’image. Le musicien d’orchestre permanent a un poste à l’année ; la grande majorité des musiciens enchaînent concerts, tournées, séances d’enregistrement et cours pour vivre de leur instrument.",
+      "missions": [
+        "Travailler son instrument et entretenir sa technique au quotidien",
+        "Préparer et répéter le répertoire, seul et avec les autres musiciens",
+        "Jouer en concert, en tournée, en fosse ou en studio",
+        "Accompagner des chanteurs, des comédiens ou des danseurs",
+        "Composer, arranger ou improviser selon les projets",
+        "Transmettre : cours, ateliers, interventions en milieu scolaire"
+      ],
+      "day": "Pour un bassiste de musiques actuelles, une journée de tournée commence dans le van, entre deux villes. À quinze heures, arrivée à la salle : déchargement, installation du matériel avec le backliner, puis balance avec l’ingénieur du son. Après un repas rapide en loge, le groupe se retrouve pour caler la liste des morceaux du soir. À vingt et une heures trente, concert. À minuit, on range, on charge, on repart. Le lendemain, jour sans concert, il enregistre une séance en studio pour un autre artiste et donne deux cours de basse en visioconférence.",
+      "skills": [
+        "Maîtrise technique de son instrument",
+        "Lecture de partitions, oreille et sens du rythme",
+        "Capacité à jouer en groupe et à s’adapter",
+        "Rigueur du travail personnel quotidien",
+        "Créativité pour arranger, improviser ou composer",
+        "Sens de l’organisation et du réseau pour trouver des engagements"
+      ],
+      "training": "Les musiciens classiques se forment dans les conservatoires, jusqu’au diplôme d’études musicales, puis dans les pôles d’enseignement supérieur et les conservatoires nationaux supérieurs de Paris et de Lyon, qui délivrent le diplôme national supérieur professionnel de musicien. Les musiciens de jazz et de musiques actuelles passent par les départements spécialisés des conservatoires, par des écoles comme l’ATLA, le CIAM ou la MAI, ou apprennent sur scène. Pour enseigner, le diplôme d’État de professeur de musique est la référence.",
+      "schools": [
+        "CNSMD de Paris et de Lyon",
+        "Pôles d’enseignement supérieur de la musique",
+        "Conservatoires à rayonnement régional et départemental",
+        "Écoles de musiques actuelles : ATLA (Paris), CIAM (Bordeaux), MAI (Nancy)",
+        "Diplôme d’État de professeur de musique"
+      ],
+      "statut": "Le musicien est un artiste du spectacle : engagé en CDDU et payé au cachet, il relève de l’annexe 10 de l’assurance chômage des intermittents, avec la règle des 507 heures sur douze mois. Les musiciens des orchestres permanents et les enseignants sont salariés à l’année. Les enregistrements ouvrent aussi des droits voisins, gérés par l’Adami ou la Spedidam.",
+      "pay": {
+        "min": 120,
+        "max": 300,
+        "unit": "cachet",
+        "note": "Cachet brut indicatif par concert. Un musicien d’orchestre permanent est payé au mois, selon la grille de sa formation ; les séances de studio ont leurs propres barèmes."
+      },
+      "career": "Le musicien peut devenir soliste, chef de pupitre ou musicien d’orchestre titulaire, directeur musical d’un spectacle, arrangeur, compositeur pour l’image, réalisateur artistique en studio ou enseignant. Beaucoup mènent plusieurs projets de front.",
+      "faq": [
+        {
+          "q": "Peut-on vivre de la musique en étant intermittent ?",
+          "a": "Oui, c’est même le cas le plus fréquent. Il faut réunir 507 heures sur douze mois, soit 43 cachets, pour bénéficier de l’assurance chômage des intermittents, qui complète les revenus entre deux engagements."
+        },
+        {
+          "q": "Faut-il savoir lire la musique ?",
+          "a": "Dans le classique, en fosse et en studio, c’est indispensable. Dans les musiques actuelles, beaucoup jouent d’oreille, mais savoir lire reste un atout pour les remplacements et les séances."
+        },
+        {
+          "q": "Qu’est-ce qu’un musicien de session ?",
+          "a": "Un musicien engagé pour enregistrer en studio sur le disque d’un autre artiste, ou pour l’accompagner en tournée. Il doit s’adapter très vite à des univers variés."
+        },
+        {
+          "q": "Qu’est-ce que la Spedidam ?",
+          "a": "La société qui collecte et redistribue les droits voisins des musiciens et artistes interprètes, notamment lorsque les enregistrements auxquels ils ont participé sont diffusés."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 10), parfois permanent",
+        "training": "Conservatoires, pôles supérieurs, écoles de musiques actuelles",
+        "sectors": "Concerts, orchestres, studios, théâtre musical, bals"
+      },
+      "related": ["chanteur", "backliner", "ingenieur-du-son", "tour-manager"],
+      "keywords": [
+        "musicien", "musicienne", "instrumentiste", "guitariste", "bassiste", "batteur", "batteuse",
+        "pianiste", "claviériste", "violoniste", "violoncelliste", "altiste", "contrebassiste",
+        "saxophoniste", "trompettiste", "tromboniste", "clarinettiste", "flûtiste", "percussionniste",
+        "accordéoniste", "harpiste", "organiste", "chef d’orchestre", "cheffe d’orchestre", "musician"
+      ],
+      "search": "musicien"
+    },
+    {
+      "slug": "chanteur",
+      "name": "Chanteur",
+      "name_f": "Chanteuse",
+      "rome": "L1202",
+      "summary": "Il interprète des chansons, des airs d’opéra ou des chœurs, en concert, sur scène ou en studio.",
+      "intro": "Le chanteur fait de sa voix son instrument. Chanteur lyrique à l’opéra ou dans un chœur, interprète de variétés, de jazz ou de musiques actuelles, chanteur de comédie musicale, de bal ou de cabaret, choriste en studio ou en tournée : les pratiques sont très différentes, mais toutes demandent une technique vocale solide, une présence en scène et une grande hygiène de vie. Beaucoup de chanteurs sont aussi auteurs, compositeurs ou musiciens, et la plupart combinent concerts, enregistrements et enseignement.",
+      "missions": [
+        "Travailler sa voix et sa technique vocale au quotidien",
+        "Apprendre et interpréter un répertoire : chansons, rôles, partitions de chœur",
+        "Répéter avec les musiciens, le chef de chœur ou le metteur en scène",
+        "Se produire en concert, en représentation ou en tournée",
+        "Enregistrer en studio, en solo ou comme choriste",
+        "Écrire, composer ou arranger pour ses propres projets"
+      ],
+      "day": "Pour une chanteuse lyrique engagée sur une production d’opéra, la journée commence par des vocalises chez elle, puis une répétition musicale avec le chef de chant. L’après-midi, répétition en scène : le metteur en scène règle les déplacements du deuxième acte pendant qu’elle chante à mi-voix pour se ménager. En fin d’après-midi, elle se repose, boit beaucoup d’eau et évite de parler. Les soirs de représentation, elle arrive deux heures avant le lever de rideau pour le maquillage, la perruque et l’échauffement. Une chanteuse de variétés vit un rythme proche en tournée : balance, concert, route.",
+      "skills": [
+        "Technique vocale, justesse et souffle",
+        "Présence scénique et interprétation",
+        "Oreille musicale et, selon les répertoires, lecture de partitions",
+        "Hygiène de vie rigoureuse pour préserver sa voix",
+        "Maîtrise des langues du répertoire, notamment pour le lyrique",
+        "Résistance au trac et à la pression"
+      ],
+      "training": "Les chanteurs lyriques se forment dans les conservatoires puis, sur concours, dans les conservatoires nationaux supérieurs de Paris et de Lyon, les pôles supérieurs ou les académies liées aux maisons d’opéra. Les chanteurs de musiques actuelles et de comédie musicale suivent des cours de chant, des formations spécialisées comme celles du Studio des Variétés, et apprennent beaucoup sur scène. Dans tous les cas, le travail avec un professeur de chant se poursuit pendant toute la carrière.",
+      "schools": [
+        "CNSMD de Paris et de Lyon, départements chant",
+        "Conservatoires à rayonnement régional",
+        "Académies des maisons d’opéra",
+        "Écoles de comédie musicale et de musiques actuelles",
+        "Studio des Variétés (Paris)"
+      ],
+      "statut": "Le chanteur est un artiste du spectacle : engagé en CDDU et payé au cachet, il relève de l’annexe 10 de l’assurance chômage des intermittents. Les artistes des chœurs des opéras nationaux et régionaux sont souvent permanents. Les chanteurs qui enregistrent perçoivent des droits voisins, et ceux qui écrivent, des droits d’auteur versés par la Sacem.",
+      "pay": {
+        "min": 150,
+        "max": 350,
+        "unit": "cachet",
+        "note": "Cachet brut indicatif par concert ou représentation. Un soliste d’opéra reconnu est payé bien davantage ; un choriste de studio est souvent rémunéré à la séance."
+      },
+      "career": "Le chanteur peut évoluer vers les premiers rôles à l’opéra, une carrière solo, la comédie musicale, le doublage chanté ou la direction de chœur. Beaucoup deviennent aussi professeurs de chant ou coachs vocaux.",
+      "faq": [
+        {
+          "q": "Chanteur lyrique et chanteur de variétés, quelle différence ?",
+          "a": "Le chanteur lyrique chante sans amplification, sur un répertoire écrit, souvent en plusieurs langues, avec une technique très codifiée. Le chanteur de variétés ou de musiques actuelles chante au micro et construit son propre style."
+        },
+        {
+          "q": "Qu’est-ce qu’un choriste ?",
+          "a": "Un chanteur qui accompagne un artiste principal en concert ou en studio, en assurant les voix d’accompagnement. À l’opéra, les artistes du chœur forment un ensemble à part entière."
+        },
+        {
+          "q": "Faut-il savoir lire la musique ?",
+          "a": "Pour le lyrique, les chœurs et les séances de studio, oui. Dans les musiques actuelles, ce n’est pas indispensable, mais c’est un vrai avantage professionnel."
+        },
+        {
+          "q": "Comment protéger sa voix ?",
+          "a": "Par l’échauffement, le repos, l’hydratation et un suivi régulier avec un professeur de chant et, si besoin, un phoniatre. La voix est un instrument fragile, qui se ménage."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 10), parfois permanent",
+        "training": "Conservatoires, cours de chant, écoles spécialisées",
+        "sectors": "Opéra, concerts, comédie musicale, studios, bals"
+      },
+      "related": ["musicien", "comedien", "danseur", "ingenieur-du-son"],
+      "keywords": [
+        "chanteur", "chanteuse", "choriste", "artiste lyrique", "chanteur lyrique", "chanteuse lyrique",
+        "artiste du chœur", "artiste des chœurs", "soprano", "mezzo", "ténor", "baryton",
+        "chanteur de bal", "chanteuse de bal", "singer", "auteur compositeur interprète",
+        "autrice compositrice interprète", "auteure compositrice interprète"
+      ],
+      "search": "chanteur"
+    },
+    {
+      "slug": "danseur",
+      "name": "Danseur",
+      "name_f": "Danseuse",
+      "rome": "L1201",
+      "summary": "Il interprète des chorégraphies sur scène, dans un ballet, une compagnie, un spectacle ou un clip.",
+      "intro": "Le danseur interprète les chorégraphies d’un spectacle : ballet classique, danse contemporaine, hip-hop, jazz, danses du monde, comédie musicale, cabaret, clip ou événement. Il apprend les pas, les phrases et les intentions avec le chorégraphe ou le répétiteur, répète pendant des semaines, puis danse en représentation et en tournée. Métier d’une grande exigence physique, il demande un entraînement quotidien. Le danseur de ballet est souvent permanent d’une grande maison ; les danseurs contemporains et de spectacle travaillent en majorité par projets, en intermittents.",
+      "missions": [
+        "S’entraîner chaque jour : cours, barre, préparation physique",
+        "Apprendre et mémoriser les chorégraphies",
+        "Répéter avec le chorégraphe, le répétiteur et les autres interprètes",
+        "Danser en représentation, en tournée, en tournage ou en événement",
+        "Participer à la création en proposant des matériaux chorégraphiques",
+        "Entretenir sa condition physique et prévenir les blessures"
+      ],
+      "day": "Pour une danseuse d’une compagnie contemporaine en création, la journée commence à dix heures par un cours technique d’une heure et demie. Suit la répétition : la chorégraphe reprend un duo, demande une improvisation, filme, fait refaire. Après la pause, place au filage d’une partie de la pièce, puis à un temps de travail avec l’éclairagiste pour caler les entrées. En fin de journée, séance d’étirements et de kinésithérapie pour soigner une cheville fragile. Les jours de tournée, le cours du matin se fait sur le plateau du théâtre, avant le spectacle du soir.",
+      "skills": [
+        "Excellente technique dans un ou plusieurs styles de danse",
+        "Condition physique, souplesse et endurance",
+        "Mémoire du mouvement et musicalité",
+        "Capacité d’interprétation et d’improvisation",
+        "Rigueur et discipline de travail",
+        "Adaptabilité à des univers chorégraphiques variés"
+      ],
+      "training": "Les danseurs commencent très jeunes, au conservatoire ou dans une école de danse, puis intègrent sur audition une formation supérieure : conservatoires nationaux supérieurs de Paris et de Lyon, École de danse de l’Opéra de Paris, CNDC d’Angers, École supérieure de danse de Cannes Rosella Hightower, ou des écoles européennes réputées. Ces cursus délivrent souvent le diplôme national supérieur professionnel de danseur. En hip-hop et dans les danses urbaines, beaucoup se forment aussi dans les battles, les stages et les collectifs.",
+      "schools": [
+        "CNSMD de Paris et de Lyon",
+        "École de danse de l’Opéra national de Paris",
+        "CNDC d’Angers",
+        "École supérieure de danse de Cannes Rosella Hightower",
+        "Conservatoires à rayonnement régional"
+      ],
+      "statut": "Le danseur est un artiste du spectacle : engagé en CDDU et payé au cachet, il relève de l’annexe 10 de l’assurance chômage des intermittents. Les danseurs des ballets de l’Opéra de Paris, des opéras régionaux et de certaines compagnies sont permanents. Pour enseigner la danse classique, contemporaine ou jazz contre rémunération, le diplôme d’État de professeur de danse est obligatoire.",
+      "pay": {
+        "min": 120,
+        "max": 250,
+        "unit": "cachet",
+        "note": "Cachet brut indicatif par représentation. Les répétitions sont aussi rémunérées, au cachet ou à l’heure. Dans un ballet permanent, le danseur est payé au mois selon la grille de la maison."
+      },
+      "career": "La carrière d’interprète est souvent plus courte que dans d’autres métiers artistiques. Le danseur peut devenir soliste, puis chorégraphe, répétiteur, maître de ballet, professeur de danse diplômé d’État, ou se reconvertir dans des métiers du corps et du mouvement.",
+      "faq": [
+        {
+          "q": "À quel âge faut-il commencer la danse ?",
+          "a": "Pour le classique, souvent vers huit ou dix ans pour viser une carrière professionnelle. En contemporain et en hip-hop, les parcours sont plus variés et certains danseurs commencent plus tard."
+        },
+        {
+          "q": "Peut-on enseigner la danse sans diplôme ?",
+          "a": "Pas en danse classique, contemporaine et jazz : le diplôme d’État de professeur de danse est obligatoire pour enseigner contre rémunération. Pour les autres styles, il n’est pas exigé."
+        },
+        {
+          "q": "Comment se passent les auditions ?",
+          "a": "Les compagnies publient des appels à auditions. Le danseur envoie CV, photos et vidéos, puis participe à un cours et à l’apprentissage d’une phrase chorégraphique devant le chorégraphe."
+        },
+        {
+          "q": "Que devient un danseur après sa carrière ?",
+          "a": "Il peut transmettre, chorégraphier, répéter, ou changer de métier. Des dispositifs d’accompagnement à la reconversion existent, notamment pour les danseurs intermittents."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 10), parfois permanent",
+        "training": "Conservatoires nationaux, écoles supérieures de danse",
+        "sectors": "Compagnies, ballets, comédie musicale, cabaret, clips"
+      },
+      "related": ["choregraphe", "chanteur", "artiste-de-cirque", "comedien"],
+      "keywords": [
+        "danseur", "danseuse", "danseur interprète", "danseuse interprète", "artiste chorégraphique",
+        "artiste de ballet", "ballerine", "dancer"
+      ],
+      "search": "danseur"
+    },
+    {
+      "slug": "choregraphe",
+      "name": "Chorégraphe",
+      "name_f": "Chorégraphe",
+      "rome": "L1201",
+      "summary": "Il crée les mouvements et la structure d’une pièce de danse, d’un spectacle, d’un clip ou d’un défilé.",
+      "intro": "Le chorégraphe imagine et compose des danses. Il crée des pièces pour sa compagnie ou pour d’autres, règle les chorégraphies d’un opéra, d’une comédie musicale, d’un film, d’un clip, d’une cérémonie ou d’un défilé, et transmet son écriture aux interprètes en répétition. Il travaille avec des danseurs, mais aussi avec le compositeur, l’éclairagiste, le scénographe et le costumier. Souvent ancien danseur, il dirige fréquemment sa propre compagnie et en porte le projet artistique auprès des lieux et des financeurs.",
+      "missions": [
+        "Concevoir le projet chorégraphique et son univers",
+        "Créer les mouvements, les phrases et la structure de la pièce",
+        "Choisir les interprètes, souvent sur audition",
+        "Diriger les répétitions et transmettre son écriture",
+        "Travailler avec la musique, la lumière, la scénographie et le costume",
+        "Diriger sa compagnie et défendre ses projets auprès des partenaires"
+      ],
+      "day": "En résidence de création dans un centre chorégraphique, le chorégraphe arrive au studio avant ses cinq danseurs pour revoir les vidéos de la veille. Après le cours du matin, il propose une consigne d’improvisation, filme, sélectionne des fragments et les fixe avec les interprètes. L’après-midi, il retravaille l’enchaînement de deux séquences avec le compositeur, présent au studio. En fin de journée, il fait le point avec son administratrice sur la tournée de la saison suivante et prépare une présentation publique du travail, prévue à la fin de la semaine.",
+      "skills": [
+        "Vision artistique et capacité d’invention",
+        "Solide culture et pratique de la danse",
+        "Sens de l’espace, du rythme et de la musicalité",
+        "Pédagogie pour transmettre une écriture aux interprètes",
+        "Direction d’une équipe artistique",
+        "Montage de projets et recherche de financements"
+      ],
+      "training": "La plupart des chorégraphes sont d’anciens danseurs formés dans les conservatoires et les écoles supérieures de danse. Certains cursus accompagnent spécifiquement la création, comme les masters en création chorégraphique proposés par des centres chorégraphiques nationaux ou des universités, ainsi que les programmes de résidence pour jeunes chorégraphes. L’apprentissage passe surtout par l’expérience d’interprète auprès d’autres chorégraphes, puis par les premières créations.",
+      "schools": [
+        "CNSMD de Paris et de Lyon",
+        "CNDC d’Angers",
+        "Masters en création chorégraphique",
+        "Programmes de résidence des centres chorégraphiques nationaux"
+      ],
+      "statut": "Le chorégraphe est considéré par le Code du travail comme un artiste du spectacle pour la réalisation de sa conception : engagé en CDDU, il relève de l’annexe 10 de l’assurance chômage des intermittents. Il peut percevoir des droits d’auteur sur ses chorégraphies, gérés par la SACD. Les directeurs de centres chorégraphiques nationaux sont salariés de leur structure.",
+      "pay": {
+        "min": 200,
+        "max": 450,
+        "unit": "jour",
+        "note": "Tarif journalier brut indicatif en création ou en transmission. Pour une commande, la chorégraphie est souvent payée au forfait, auquel peuvent s’ajouter des droits d’auteur sur les représentations."
+      },
+      "career": "Le chorégraphe peut fonder et développer sa compagnie, devenir artiste associé d’un théâtre, diriger un centre chorégraphique national ou un ballet, ou travailler à la commande pour l’opéra, le cinéma, la publicité et les grands événements.",
+      "faq": [
+        {
+          "q": "Faut-il avoir été danseur pour devenir chorégraphe ?",
+          "a": "Presque toujours. La pratique de la danse est la base de l’écriture chorégraphique, même si certains chorégraphes viennent des arts plastiques, du théâtre ou du cirque."
+        },
+        {
+          "q": "Le chorégraphe touche-t-il des droits d’auteur ?",
+          "a": "Oui. Une chorégraphie est une œuvre protégée : le chorégraphe peut percevoir des droits sur sa diffusion, généralement gérés par la SACD."
+        },
+        {
+          "q": "Qu’est-ce qu’un centre chorégraphique national ?",
+          "a": "Un lieu de création et de diffusion de la danse, soutenu par l’État et les collectivités, et dirigé par un chorégraphe. On en compte une vingtaine en France."
+        },
+        {
+          "q": "Chorégraphe et répétiteur, quelle différence ?",
+          "a": "Le chorégraphe crée l’œuvre ; le répétiteur, souvent un ancien interprète, la transmet et la fait répéter, notamment lors des reprises et des remplacements."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 10) et auteur",
+        "training": "Parcours de danseur, masters de création",
+        "sectors": "Danse, opéra, comédie musicale, clips, événements"
+      },
+      "related": ["danseur", "metteur-en-scene", "artiste-de-cirque", "eclairagiste"],
+      "keywords": [
+        "chorégraphe", "assistant chorégraphe", "assistante chorégraphe", "répétiteur de danse",
+        "répétitrice de danse", "maître de ballet", "maîtresse de ballet", "chorégraphie"
+      ],
+      "search": "chorégraphe"
+    },
+    {
+      "slug": "artiste-de-cirque",
+      "name": "Artiste de cirque",
+      "name_f": "Artiste de cirque",
+      "rome": "L1204",
+      "summary": "Acrobate, jongleur, trapéziste ou clown, le circassien crée et interprète des numéros et des spectacles de cirque.",
+      "intro": "L’artiste de cirque, ou circassien, maîtrise une ou plusieurs disciplines : acrobatie au sol, portés, trapèze, tissu, corde, mât chinois, fil, jonglage, équilibres, roue Cyr, clown. Il crée ses numéros, les intègre à des spectacles et se produit sous chapiteau, en salle, dans la rue, en cabaret, sur des événements ou dans de grandes productions internationales. Le cirque contemporain mêle souvent la prouesse à la danse, au théâtre et à la musique. C’est un métier d’athlète autant que d’artiste, qui exige un entraînement quotidien et une grande rigueur de sécurité.",
+      "missions": [
+        "S’entraîner chaque jour dans sa discipline et en préparation physique",
+        "Créer, écrire et perfectionner ses numéros",
+        "Répéter les spectacles avec le metteur en piste ou le metteur en scène",
+        "Se produire sous chapiteau, en salle, dans la rue ou en événement",
+        "Vérifier son matériel et ses points d’accroche avec l’équipe technique",
+        "Participer au montage et au démontage, notamment dans les petites compagnies"
+      ],
+      "day": "Pour une trapéziste en tournée avec une compagnie de cirque contemporain, la journée commence par une heure de préparation physique sous le chapiteau encore frais. Elle vérifie ensuite son agrès avec le rigger : cordes, mousquetons, points d’accroche. L’après-midi, répétition d’une nouvelle séquence avec la metteuse en scène et un musicien, puis sieste obligatoire avant le spectacle. À vingt heures trente, elle entre en piste. Après les saluts, étirements et soins, et parfois un coup de main au démontage si la compagnie part le lendemain.",
+      "skills": [
+        "Excellente condition physique, force et souplesse",
+        "Maîtrise technique d’une ou plusieurs disciplines",
+        "Sens artistique, présence et interprétation",
+        "Rigueur absolue dans la sécurité et l’entretien du matériel",
+        "Esprit de troupe et goût de la vie de tournée",
+        "Créativité pour écrire ses propres numéros"
+      ],
+      "training": "La formation commence souvent dans une école de loisir ou une école préparatoire, puis se poursuit dans une école supérieure accessible sur concours : Centre national des arts du cirque à Châlons-en-Champagne, Académie Fratellini à Saint-Denis, Esacto’Lido à Toulouse, ou des écoles européennes comme l’ESAC à Bruxelles. Le brevet artistique des techniques du cirque sanctionne un premier niveau professionnel, et les écoles supérieures délivrent le diplôme national supérieur professionnel d’artiste de cirque. Les familles du cirque traditionnel transmettent aussi le métier de génération en génération.",
+      "schools": [
+        "CNAC, Centre national des arts du cirque (Châlons-en-Champagne)",
+        "Académie Fratellini (Saint-Denis)",
+        "Esacto’Lido (Toulouse)",
+        "ESAC (Bruxelles)",
+        "Écoles préparatoires aux arts du cirque"
+      ],
+      "statut": "L’artiste de cirque est un artiste du spectacle : engagé en CDDU et payé au cachet, il relève de l’annexe 10 de l’assurance chômage des intermittents. Les grands cirques et certaines productions internationales proposent des contrats à la saison. Les artistes qui écrivent leurs numéros peuvent percevoir des droits d’auteur.",
+      "pay": {
+        "min": 120,
+        "max": 300,
+        "unit": "cachet",
+        "note": "Cachet brut indicatif par représentation. Les contrats de saison des grandes productions internationales et les numéros de haut niveau en cabaret sont souvent mieux rémunérés."
+      },
+      "career": "L’artiste de cirque peut créer sa compagnie, devenir metteur en piste ou metteur en scène, enseigner dans une école de cirque, coacher des numéros ou se reconvertir dans le rigging, la régie ou la préparation physique. La durée de la carrière d’interprète dépend beaucoup de la discipline pratiquée.",
+      "faq": [
+        {
+          "q": "Circassien, qu’est-ce que ça veut dire ?",
+          "a": "C’est le nom donné aux artistes de cirque, surtout dans le cirque contemporain. Il désigne aussi bien les acrobates et les jongleurs que les clowns ou les trapézistes."
+        },
+        {
+          "q": "Faut-il être issu d’une famille de cirque ?",
+          "a": "Plus aujourd’hui. Les familles du cirque traditionnel transmettent toujours le métier, mais la plupart des artistes du cirque contemporain sortent d’écoles spécialisées."
+        },
+        {
+          "q": "Qu’est-ce que le cirque contemporain ?",
+          "a": "Une approche née dans les années 1970, qui mêle prouesse technique, théâtre, danse et musique autour d’un propos artistique, souvent sans animaux et sans simple enchaînement de numéros."
+        },
+        {
+          "q": "Comment gérer les risques physiques ?",
+          "a": "Par l’entraînement, la préparation physique, l’échauffement systématique et un matériel vérifié avec l’équipe technique. Les blessures font partie des risques du métier et se préviennent au quotidien."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 10)",
+        "training": "CNAC, Académie Fratellini, écoles supérieures",
+        "sectors": "Cirque, arts de la rue, cabaret, événementiel"
+      },
+      "related": ["danseur", "marionnettiste", "rigger", "choregraphe"],
+      "keywords": [
+        "circassien", "circassienne", "artiste de cirque", "artiste cirque", "acrobate", "jongleur",
+        "jongleuse", "trapéziste", "équilibriste", "fildefériste", "contorsionniste", "clown",
+        "artiste aérien", "artiste aérienne", "cracheur de feu", "cracheuse de feu", "échassier",
+        "échassière"
+      ],
+      "search": "artiste de cirque"
+    },
+    {
+      "slug": "marionnettiste",
+      "name": "Marionnettiste",
+      "name_f": "Marionnettiste",
+      "rome": "L1204",
+      "summary": "Il fabrique et manipule des marionnettes pour donner vie à des personnages sur scène ou à l’écran.",
+      "intro": "Le marionnettiste donne vie à des objets et à des figures : marionnettes à gaine, à fils, à tiges, de table, portées, ombres, marionnettes géantes ou objets détournés. Il manipule, joue, prête sa voix, et souvent conçoit et fabrique lui-même ses marionnettes. Il se produit au théâtre, dans les festivals, dans la rue, auprès du jeune public, mais aussi à la télévision et au cinéma d’animation en volume. Le théâtre de marionnettes contemporain s’adresse autant aux adultes qu’aux enfants et croise volontiers la danse, les arts plastiques et le numérique.",
+      "missions": [
+        "Concevoir et fabriquer des marionnettes et des objets scéniques",
+        "Manipuler les marionnettes en jouant et en prêtant sa voix",
+        "Répéter avec le metteur en scène et les autres interprètes",
+        "Se produire en salle, en festival, dans la rue ou en tournage",
+        "Entretenir et réparer les marionnettes en tournée",
+        "Animer des ateliers de fabrication et de manipulation"
+      ],
+      "day": "Dans l’atelier de la compagnie, le marionnettiste consacre sa matinée à terminer la tête d’un nouveau personnage : sculpture, moulage, peinture, puis mécanisme des yeux. L’après-midi, répétition au plateau : il faut trouver la démarche de la marionnette, le rythme de sa respiration, synchroniser ses gestes avec le texte. Le lendemain, il part en tournée scolaire : deux représentations dans la journée pour des classes de maternelle, suivies d’un échange avec les enfants, puis démontage du castelet et route vers la ville suivante.",
+      "skills": [
+        "Techniques de manipulation de différents types de marionnettes",
+        "Jeu d’acteur, voix et sens du rythme",
+        "Savoir-faire manuel : sculpture, couture, mécanique, peinture",
+        "Précision des gestes et endurance physique",
+        "Imagination et sens du détail",
+        "Capacité à s’adresser à tous les publics"
+      ],
+      "training": "La formation de référence est l’École nationale supérieure des arts de la marionnette, à Charleville-Mézières, qui recrute sur concours et délivre le diplôme national supérieur professionnel de comédien, spécialité acteur-marionnettiste. D’autres voies existent : formations continues proposées par des compagnies et des lieux dédiés à la marionnette, stages, compagnonnage auprès de marionnettistes confirmés. Beaucoup viennent du théâtre, des arts plastiques ou des métiers d’art.",
+      "schools": [
+        "ESNAM, École nationale supérieure des arts de la marionnette (Charleville-Mézières)",
+        "Formations continues des lieux dédiés à la marionnette",
+        "Compagnonnage au sein de compagnies",
+        "Écoles d’art et de métiers d’art, pour la fabrication"
+      ],
+      "statut": "Le marionnettiste est un artiste du spectacle : engagé en CDDU et payé au cachet, il relève de l’annexe 10 de l’assurance chômage des intermittents. Quand il fabrique des marionnettes pour d’autres compagnies, ce travail est payé à part, en salaire ou sur facture selon son statut.",
+      "pay": {
+        "min": 110,
+        "max": 220,
+        "unit": "cachet",
+        "note": "Cachet brut indicatif par représentation. Les représentations scolaires, souvent deux par jour, et les ateliers complètent les revenus. La fabrication d’une marionnette se chiffre à part."
+      },
+      "career": "Le marionnettiste peut créer sa compagnie, mettre en scène, se spécialiser dans la fabrication pour d’autres artistes, travailler pour la télévision ou le cinéma d’animation en volume, ou transmettre son art en atelier et en formation.",
+      "faq": [
+        {
+          "q": "Le théâtre de marionnettes est-il réservé aux enfants ?",
+          "a": "Non. Le jeune public reste important, mais de nombreux spectacles de marionnettes contemporaines s’adressent aux adultes, avec des formes très variées."
+        },
+        {
+          "q": "Le marionnettiste fabrique-t-il ses marionnettes ?",
+          "a": "Souvent, surtout dans les petites compagnies. Sur les grosses productions, la fabrication peut être confiée à des constructeurs spécialisés, et le marionnettiste se concentre sur le jeu."
+        },
+        {
+          "q": "Qu’est-ce qu’un castelet ?",
+          "a": "Le petit théâtre, souvent démontable, derrière lequel se cachent les marionnettistes pour manipuler les marionnettes à gaine, comme celles de Guignol."
+        },
+        {
+          "q": "Où se former ?",
+          "a": "L’ESNAM, à Charleville-Mézières, est l’école supérieure de référence en France. La ville accueille aussi le Festival mondial des théâtres de marionnettes, rendez-vous incontournable de la profession."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 10)",
+        "training": "ESNAM, compagnonnage, formations continues",
+        "sectors": "Théâtre, jeune public, festivals, rue, animation"
+      },
+      "related": ["comedien", "artiste-de-cirque", "accessoiriste", "constructeur-de-decors"],
+      "keywords": [
+        "marionnettiste", "acteur marionnettiste", "actrice marionnettiste",
+        "manipulateur de marionnettes", "manipulatrice de marionnettes", "constructeur de marionnettes",
+        "constructrice de marionnettes", "marionnettes"
+      ],
+      "search": "marionnettiste"
+    },
+    {
+      "slug": "figurant",
+      "name": "Figurant",
+      "name_f": "Figurante",
+      "rome": "L1203",
+      "summary": "Il apparaît à l’arrière-plan d’un film, d’une série ou d’une publicité pour donner vie aux scènes.",
+      "intro": "Le figurant, ou artiste de complément, peuple les scènes d’un film, d’une série, d’un téléfilm, d’une publicité ou d’un clip : passants dans une rue, clients d’un café, spectateurs d’un match, soldats d’une scène d’époque. Il ne dit pas de texte, sauf lorsqu’il tient une silhouette, un petit rôle avec une action ou une réplique. Accessible sans formation, la figuration demande surtout de la disponibilité, de la patience et le respect des consignes. C’est souvent une activité d’appoint, et parfois une première porte d’entrée sur les plateaux.",
+      "missions": [
+        "S’inscrire auprès des agences et des directeurs de casting de figuration",
+        "Se présenter à l’heure, avec les tenues demandées",
+        "Passer à l’habillage, au maquillage et à la coiffure",
+        "Suivre les consignes de l’assistant réalisateur chargé de la figuration",
+        "Refaire les mêmes gestes à l’identique à chaque prise",
+        "Respecter la confidentialité du tournage"
+      ],
+      "day": "Convocation à six heures trente sur le parking d’un gymnase transformé en base de tournage. Le figurant passe d’abord à l’habillage, où l’on vérifie que sa tenue correspond aux années 1980 demandées, puis au maquillage et à la coiffure. Vient l’attente, souvent longue, avant que le deuxième assistant réalisateur ne place les figurants dans le décor : il sera un client assis à une table du fond. Pendant chaque prise, il fait semblant de discuter, sans bruit, et reprend exactement les mêmes gestes. La journée se termine après le dernier plan, parfois tard le soir.",
+      "skills": [
+        "Disponibilité, souvent à la dernière minute",
+        "Ponctualité et respect des consignes",
+        "Patience pendant les longues attentes",
+        "Capacité à refaire les mêmes gestes à l’identique",
+        "Discrétion et confidentialité",
+        "Garde-robe variée, souvent mise à contribution"
+      ],
+      "training": "Aucune formation n’est exigée. Il suffit de s’inscrire auprès des agences de casting de figuration, souvent en ligne, avec des photos récentes, ses mensurations et ses disponibilités. Certains profils sont très recherchés : sportifs, musiciens, cavaliers, propriétaires de véhicules anciens, personnes à l’allure d’époque. Ceux qui veulent faire de la figuration un tremplin vers le jeu d’acteur ont intérêt à suivre en parallèle des cours de théâtre.",
+      "schools": [
+        "Aucun diplôme requis",
+        "Inscription auprès des agences de casting de figuration",
+        "Cours de théâtre pour évoluer vers les silhouettes et les rôles"
+      ],
+      "statut": "Le figurant est salarié pour chaque journée de tournage, en CDDU, comme artiste de complément, et relève de l’annexe 10 de l’assurance chômage des intermittents. Rares sont ceux qui atteignent les 507 heures annuelles avec la seule figuration : c’est le plus souvent un complément de revenus.",
+      "pay": {
+        "min": 100,
+        "max": 160,
+        "unit": "jour",
+        "note": "Cachet brut indicatif pour une journée de tournage d’environ huit heures, encadré par les conventions collectives du cinéma et de l’audiovisuel. Les heures supplémentaires, les tournages de nuit et les silhouettes sont mieux payés."
+      },
+      "career": "La figuration peut ouvrir la voie aux silhouettes, puis aux petits rôles pour ceux qui se forment au jeu. Elle permet aussi de découvrir les métiers du plateau : certains figurants deviennent ensuite assistants de production, régisseurs ou stagiaires mise en scène.",
+      "faq": [
+        {
+          "q": "Figurant et silhouette, quelle différence ?",
+          "a": "Le figurant reste à l’arrière-plan, sans texte. La silhouette a une action particulière ou une courte réplique, ce qui la rend identifiable à l’écran. Elle est mieux payée."
+        },
+        {
+          "q": "Comment devenir figurant ?",
+          "a": "En s’inscrivant auprès des agences de casting de figuration, qui recherchent des profils pour chaque tournage. L’inscription est en principe gratuite : méfiez-vous des agences qui la font payer."
+        },
+        {
+          "q": "Le figurant est-il salarié ?",
+          "a": "Oui. Il reçoit un bulletin de paie pour chaque journée, et ses heures comptent pour ses droits sociaux et, le cas échéant, pour l’intermittence."
+        },
+        {
+          "q": "Peut-on être figurant à tout âge ?",
+          "a": "Oui, les tournages recherchent tous les âges. Les enfants peuvent figurer, avec une autorisation administrative préalable et des horaires strictement encadrés."
+        }
+      ],
+      "brief": {
+        "status": "Artiste de complément (annexe 10)",
+        "training": "Aucun diplôme requis",
+        "sectors": "Cinéma, séries, publicité, clips"
+      },
+      "related": ["comedien", "assistant-realisateur", "maquilleur", "habilleur"],
+      "keywords": [
+        "figurant", "figurante", "figuration", "artiste de complément", "silhouette", "doublure",
+        "doublure lumière"
+      ],
+      "search": "figurant"
+    }
+  ]
+}
