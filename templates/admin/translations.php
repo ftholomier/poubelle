@@ -64,9 +64,16 @@ $months = $perMonth > 0 ? $pending['durable'] / $perMonth : 0.0;
     Google offre <?= $n(\App\Services\TranslationBudget::FREE_MONTHLY) ?> caractères par mois, puis facture
     environ 20 $ le million. Chaque envoi est compté avant de partir : au-delà du plafond, plus rien ne part,
     et le site sert le français. Réparti sur le mois, le plafond donne une part par jour ; la tâche planifiée
-    et le bouton « Tout traduire » en prennent les trois quarts, le reste attend les visiteurs qui ouvrent une
-    page dans leur langue.
+    et le bouton « <?= e(I18n::t('admin.translate_all')) ?> » en prennent les trois quarts, le reste attend les
+    visiteurs qui ouvrent une page dans leur langue.
   </p>
+
+  <?php if ($monthly > 0 && $usage['month_chars'] >= $monthly): ?>
+    <div class="notice notice-wait" style="margin:0 0 14px">
+      Le plafond du mois est atteint : plus aucune traduction ne part avant le 1er. Les pages déjà traduites
+      restent servies ; les autres s’affichent en français.
+    </div>
+  <?php endif; ?>
 
   <?php if ($monthly > 0): ?>
     <div class="budget-meters">
@@ -114,6 +121,17 @@ $months = $perMonth > 0 ? $pending['durable'] / $perMonth : 0.0;
     </label>
     <button type="submit" class="btn btn-coral btn-sm">Enregistrer</button>
   </form>
+
+  <?php $estimated = array_filter((array) ($usage['estimated'] ?? [])); ?>
+  <?php if ($estimated !== []): ?>
+    <?php $labels = ['interface' => 'interface', 'pages' => 'pages', 'family' => 'familles', 'trade' => 'fiches métiers',
+                     'job' => 'offres', 'cv' => 'CV']; ?>
+    <p class="muted" style="font-size:13.5px;margin:16px 0 0">
+      Déjà traduit ce mois-ci avant la mise en place du compteur, d’après le cache du site :
+      <?php $bits = []; foreach ($estimated as $key => $chars) { $bits[] = ($labels[$key] ?? $key) . ' ' . $n((int) $chars); } ?>
+      <?= e(implode(' · ', $bits)) ?> caractères. Estimation prudente : le relevé de la console Google fait foi.
+    </p>
+  <?php endif; ?>
 
   <p class="muted" style="font-size:13.5px;margin:16px 0 0">
     Reste à traduire : <strong><?= $n($pending['durable']) ?></strong> caractères pour l’interface, les pages

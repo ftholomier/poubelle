@@ -401,6 +401,101 @@ final class ContentTranslator
     }
 
     /**
+     * Ce que le site a envoyé à Google ce mois-ci, d'après ses propres caches.
+     *
+     * Le compteur du plafond n'existe pas avant la version qui l'apporte : sans
+     * ce relevé, il partirait de zéro et laisserait traduire un mois déjà bien
+     * entamé. On compte le texte source de chaque traduction mise en cache ce
+     * mois-ci. L'interface n'a pas de date par chaîne : son fichier est compté
+     * en entier s'il a bougé ce mois-ci — mieux vaut surestimer que payer.
+     *
+     * @return array{month:int, today:int, parts: array<string, int>}
+     */
+    public static function sentThisMonth(): array
+    {
+        $month = date('Y-m');
+        $today = date('Y-m-d');
+        $parts = ['interface' => 0, 'pages' => 0, 'family' => 0, 'trade' => 0, 'job' => 0, 'cv' => 0];
+        $todayChars = 0;
+        $pivot = require Config::path('root') . '/app/Services/lang/fr.php';
+        $pages = PageRepository::published('fr');
+
+        foreach (array_keys(I18n::languages()) as $lang) {
+            if ($lang === 'fr') {
+                continue;
+            }
+
+            $file = I18n::cachePath($lang);
+            if (is_file($file) && date('Y-m', (int) filemtime($file)) === $month) {
+                $size = 0;
+                foreach (array_intersect_key($pivot, Json::read($file)) as $text) {
+                    $size += mb_strlen((string) $text);
+                }
+                $parts['interface'] += $size;
+                $todayChars += date('Y-m-d', (int) filemtime($file)) === $today ? $size : 0;
+            }
+
+            foreach ($pages as $page) {
+                $translated = PageRepository::find((string) $page['slug'], $lang);
+                $at = (string) ($translated['updated_at'] ?? '');
+                if ($translated === null || !empty($translated['fallback']) || substr($at, 0, 7) !== $month) {
+                    continue;
+                }
+                $size = mb_strlen((string) $page['body'] . $page['title'] . $page['excerpt']
+                    . ($page['seo']['title'] ?? '') . ($page['seo']['description'] ?? ''));
+                $parts['pages'] += $size;
+                $todayChars += substr($at, 0, 10) === $today ? $size : 0;
+            }
+
+            foreach (self::TYPES as $type) {
+                $dir = Config::path('data') . '/i18n/' . $type . '/' . preg_replace('/[^a-z]/', '', $lang);
+                foreach (glob($dir . '/*.json') ?: [] as $cacheFile) {
+                    $cached = Json::read($cacheFile);
+                    $at = (string) ($cached['at'] ?? '');
+                    if (substr($at, 0, 7) !== $month) {
+                        continue;
+                    }
+                    $size = self::sourceSize($type, $cached);
+                    $parts[$type] += $size;
+                    $todayChars += substr($at, 0, 10) === $today ? $size : 0;
+                }
+            }
+        }
+
+        return ['month' => array_sum($parts), 'today' => $todayChars, 'parts' => $parts];
+    }
+
+    /**
+     * Taille du texte source d'une traduction en cache. La fiche française
+     * fait foi ; supprimée depuis, on se rabat sur la longueur traduite.
+     */
+    private static function sourceSize(string $type, array $cached): int
+    {
+        $id = (string) ($cached['id'] ?? '');
+        $record = match ($type) {
+            'job'    => JobRepository::find($id),
+            'cv'     => CvRepository::find($id),
+            'trade'  => TradeRepository::find($id),
+            'family' => isset(Trades::families()[$id]) ? Trades::families()[$id] + ['id' => $id] : null,
+            default  => null,
+        };
+        if ($record !== null) {
+            if (in_array($type, self::STRUCTURED, true)) {
+                return mb_strlen(implode('', self::segments($record, $type)));
+            }
+            $text = '';
+            foreach (self::FIELDS[$type] ?? [] as $field) {
+                $text .= (string) ($record[$field] ?? '');
+            }
+            return mb_strlen($text . implode('', array_map('strval', (array) ($record['requirements'] ?? []))));
+        }
+        $text = implode('', array_map('strval', (array) ($cached['values'] ?? [])))
+              . implode('', array_map('strval', (array) ($cached['fields'] ?? [])))
+              . implode('', array_map('strval', (array) ($cached['requirements'] ?? [])));
+        return mb_strlen($text);
+    }
+
+    /**
      * Ce qui reste à traduire, en caractères : de quoi dire à l'exploitant
      * combien de jours le budget demandera.
      *

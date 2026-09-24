@@ -68,11 +68,42 @@ final class TranslationBudget
      * que le mois avait consommé au matin : la part du jour se calcule sur
      * lui, sinon elle rétrécirait à mesure que la journée avance.
      *
-     * @return array{month:string, month_chars:int, day:string, day_chars:int, day_start:int, alerted:string}
+     * @return array{month:string, month_chars:int, day:string, day_chars:int, day_start:int, alerted:string, estimated:array}
      */
     public static function usage(): array
     {
+        self::bootstrap();
         return self::roll(Json::read(self::usageFile()));
+    }
+
+    /**
+     * Premier démarrage : le compteur part de ce que le site a déjà traduit
+     * ce mois-ci, relevé dans ses caches, plutôt que de zéro. Sans quoi un
+     * mois déjà entamé repartirait pour un plafond entier.
+     */
+    private static function bootstrap(): void
+    {
+        if (is_file(self::usageFile())) {
+            return;
+        }
+        $sent = ContentTranslator::sentThisMonth();
+        $usage = [
+            'month'       => date('Y-m'),
+            'month_chars' => $sent['month'],
+            'day'         => date('Y-m-d'),
+            'day_chars'   => $sent['today'],
+            'day_start'   => max(0, $sent['month'] - $sent['today']),
+            'alerted'     => '',
+            'estimated'   => $sent['parts'],
+        ];
+        // « x » : si deux requêtes démarrent ensemble, la seconde garde le
+        // relevé de la première.
+        $handle = @fopen(self::usageFile(), 'x');
+        if ($handle !== false) {
+            fwrite($handle, (string) json_encode($usage));
+            fclose($handle);
+            Audit::log('translate.budget_started', ['month_chars' => $sent['month'], 'parts' => $sent['parts']]);
+        }
     }
 
     private static function roll(array $usage): array
@@ -92,6 +123,8 @@ final class TranslationBudget
             'day_chars'   => (int) ($usage['day_chars'] ?? 0),
             'day_start'   => (int) ($usage['day_start'] ?? 0),
             'alerted'     => (string) ($usage['alerted'] ?? ''),
+            // Relevé du premier démarrage, pour l'écran du back-office : il ne vaut que pour son mois.
+            'estimated'   => (array) ($usage['estimated'] ?? []),
         ];
     }
 
@@ -164,6 +197,7 @@ final class TranslationBudget
     public static function adjust(int $monthChars): void
     {
         $monthChars = max(0, $monthChars);
+        self::bootstrap();
         $handle = @fopen(self::usageFile(), 'c+');
         if ($handle === false) {
             return;
@@ -190,6 +224,7 @@ final class TranslationBudget
         if ($chars <= 0) {
             return;
         }
+        self::bootstrap();
         $handle = @fopen(self::usageFile(), 'c+');
         if ($handle === false) {
             return;
