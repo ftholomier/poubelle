@@ -30,6 +30,7 @@ use App\Services\Sanitizer;
 use App\Services\Search;
 use App\Services\Regie;
 use App\Services\RegieHistory;
+use App\Services\RegieMail;
 use App\Services\Secrets;
 use App\Services\Seo;
 use App\Services\SecretsTest;
@@ -482,6 +483,9 @@ final class AdminController extends Controller
             'pages'     => $pages,
             'retention' => RegieHistory::retention(),
             'gemini'    => Regie::available(),
+            // Envoi par e-mail des conversations terminées : actif, vers qui, après quel silence.
+            'mailing'   => ['on' => Notifier::enabled('regie'), 'to' => Notifier::recipients(),
+                            'idle' => RegieMail::idleMinutes()],
         ], 'Échanges avec Régie');
     }
 

@@ -24,6 +24,7 @@ use App\Services\ContentTranslator;
 use App\Services\JobLifecycle;
 use App\Services\Mailer;
 use App\Services\RegieHistory;
+use App\Services\RegieMail;
 use App\Services\Trades;
 use App\Storage\Audit;
 use App\Storage\Backup;
@@ -94,6 +95,11 @@ $tasks = [
     }],
 
     // Les index dénormalisés suivent les changements de statut.
+    // Conversations avec Régie terminées (une demi-heure sans question) : par e-mail.
+    'regie-mail' => [600, static function (): string {
+        return RegieMail::run();
+    }],
+
     'reindex' => [86400, static function (): string {
         foreach (['jobs', 'cv', 'employers', 'pages', 'trades'] as $name) {
             Index::rebuild($name);

@@ -20,6 +20,9 @@ final class Regie
     private const ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/';
     private const HISTORY_KEY = 'regie_history';
 
+    /** Lien Markdown vers une page du site, tel que le modèle l'écrit : [Nom](/chemin). */
+    public const LINK = '#\[([^\]\n]{1,160})\]\((/[A-Za-z0-9\-/_%.]{0,200})\)#u';
+
     /** Repli si Google n'a pas répondu : de quoi choisir sans rien inventer. */
     private const MODELES_CONNUS = [
         'gemini-2.5-flash' => 'Gemini 2.5 Flash — rapide et économique',
@@ -464,7 +467,7 @@ final class Regie
     /** @param array<string, string> $allowed */
     private static function render(string $text, array $allowed): string
     {
-        $pattern = '#\[([^\]\n]{1,160})\]\((/[A-Za-z0-9\-/_%.]{0,200})\)#u';
+        $pattern = self::LINK;
         $out = '';
         $offset = 0;
 
@@ -519,7 +522,7 @@ final class Regie
     }
 
     /** Le modèle glisse parfois du gras ou des puces : le fil reste en texte simple. */
-    private static function tidy(string $text): string
+    public static function tidy(string $text): string
     {
         $text = (string) preg_replace('/\*\*(.+?)\*\*/us', '$1', $text);
         return (string) preg_replace('/^\s*[-*•]\s+/mu', '', $text);

@@ -13,6 +13,7 @@
  * @var int    $page       @var int $pages
  * @var int    $retention  durée de conservation, en mois
  * @var bool   $gemini     l'IA est-elle branchée ?
+ * @var array  $mailing    envoi par e-mail : on, to (adresses), idle (minutes)
  */
 use App\Core\Csrf;
 use App\Core\Session;
@@ -35,6 +36,17 @@ $self = $link($page > 1 ? ['p' => $page] : []);
   <div>
     <h1>Assistant IA</h1>
     <p>Ce que les visiteurs demandent à Régie, et ce qu’elle leur répond, avec la date et l’heure.</p>
+    <p>
+      <?php if ($mailing['on'] && $mailing['to'] !== []): ?>
+        Chaque conversation vous est aussi envoyée par e-mail, à <?= e(implode(', ', $mailing['to'])) ?>,
+        une fois terminée : <?= (int) $mailing['idle'] ?> minutes sans nouvelle question.
+      <?php elseif ($mailing['on']): ?>
+        L’envoi des conversations par e-mail attend une adresse d’alerte.
+      <?php else: ?>
+        L’envoi des conversations par e-mail est coupé.
+      <?php endif; ?>
+      <a href="/admin/alertes">Alertes &amp; e-mails</a>
+    </p>
   </div>
 </div>
 

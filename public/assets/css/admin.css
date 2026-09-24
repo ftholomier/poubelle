@@ -44,6 +44,7 @@
 .admin-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
 .admin-head h1 { color: #fff; font-size: clamp(26px, 3vw, 36px); }
 .admin-head p { color: rgba(255,255,255,.6); margin: 6px 0 0; font-size: 14px; }
+.admin-head p a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
 
 /* Indicateurs */
 .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 20px; }

@@ -273,5 +273,8 @@ return [
         // durée de conservation en mois. 0 : rien n'est gardé, et la tâche
         // planifiée efface l'existant.
         'history_months' => 12,
+        // Chaque conversation terminée part par e-mail (alerte « Conversation
+        // avec l'assistant Régie ») : terminée après tant de minutes sans question.
+        'mail_idle_minutes' => 30,
     ],
 ];

@@ -28,6 +28,7 @@ final class Notifier
         'application'    => 'Candidature envoyée à un employeur',
         'contact'        => 'Message envoyé à un candidat',
         'report'         => 'Signalement d’une annonce',
+        'regie'          => 'Conversation avec l’assistant Régie',
         'user.new'       => 'Nouveau compte créé',
         'backup'         => 'Sauvegarde ou restauration',
         'translate'      => 'Plafond de traduction atteint',
@@ -85,6 +86,31 @@ final class Notifier
      */
     public static function notify(string $event, string $title, array $facts = [], string $link = ''): bool
     {
+        $body = '';
+        foreach ($facts as $label => $value) {
+            if (is_bool($value)) {
+                $value = $value ? 'oui' : 'non';
+            }
+            $value = trim((string) $value);
+            if ($value !== '') {
+                $body .= $label . ' : ' . $value . "\n";
+            }
+        }
+        if ($link !== '') {
+            $body .= "\n" . (str_starts_with($link, 'http') ? $link : rtrim((string) Config::get('site.url'), '/') . $link) . "\n";
+        }
+        return self::message($event, $title, $body);
+    }
+
+    /**
+     * Alerte dont l'appelant rédige le corps — une conversation avec
+     * l'assistant, par exemple —, sous les mêmes garde-fous que notify() :
+     * type coupé, aucune adresse, plafond horaire.
+     *
+     * @param bool $sensitive corps à ne jamais laisser sur le disque si l'envoi échoue
+     */
+    public static function message(string $event, string $title, string $body, bool $sensitive = false): bool
+    {
         if (!self::enabled($event)) {
             return false;
         }
@@ -102,24 +128,13 @@ final class Notifier
         $site = (string) Config::get('site.name');
         $base = rtrim((string) Config::get('site.url'), '/');
 
-        $body = $title . "\n" . str_repeat('-', max(8, mb_strlen($title))) . "\n\n";
-        foreach ($facts as $label => $value) {
-            if (is_bool($value)) {
-                $value = $value ? 'oui' : 'non';
-            }
-            $value = trim((string) $value);
-            if ($value !== '') {
-                $body .= $label . ' : ' . $value . "\n";
-            }
-        }
-        if ($link !== '') {
-            $body .= "\n" . (str_starts_with($link, 'http') ? $link : $base . $link) . "\n";
-        }
-        $body .= "\n—\n" . $site . " · alerte automatique.\n"
-               . "Pour changer l'adresse ou couper ce type d'alerte : "
-               . $base . "/admin/alertes\n";
+        $text = $title . "\n" . str_repeat('-', max(8, mb_strlen($title))) . "\n\n"
+              . (rtrim($body) !== '' ? rtrim($body) . "\n" : '')
+              . "\n—\n" . $site . " · alerte automatique.\n"
+              . "Pour changer l'adresse ou couper ce type d'alerte : "
+              . $base . "/admin/alertes\n";
 
-        $ok = Mailer::send($recipients, '[' . $site . '] ' . $title, $body);
+        $ok = Mailer::send($recipients, '[' . $site . '] ' . $title, $text, '', [], $sensitive);
         if (!$ok) {
             Audit::log('alert.failed', ['event' => $event, 'error' => Mailer::lastError()]);
         }
