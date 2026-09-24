@@ -24,12 +24,30 @@ final class Index
     public static function load(string $name): array
     {
         $data = Json::read(self::path($name));
-        if ($data === []) {
-            // Index absent (premier démarrage, restauration) : on le reconstruit.
+        if ($data === [] || self::outdated($name, $data)) {
+            // Index absent (premier démarrage, restauration), ou plus ancien
+            // que les fiches qu'un déploiement vient d'apporter : on le reconstruit.
             self::rebuild($name);
             $data = Json::read(self::path($name));
         }
         return $data['items'] ?? [];
+    }
+
+    /**
+     * Les fiches métiers d'origine voyagent avec le code : envoyées sur le
+     * serveur, elles sont en ligne à la visite suivante, sans attendre la
+     * reconstruction de la nuit. Une date de fichier dans le futur — horloge
+     * du poste qui a envoyé les fichiers — ne déclenche rien : l'index serait
+     * sinon reconstruit à chaque visite.
+     */
+    private static function outdated(string $name, array $data): bool
+    {
+        if ($name !== 'trades') {
+            return false;
+        }
+        $built = (int) strtotime((string) ($data['generated_at'] ?? ''));
+        $seeds = TradeRepository::seedsTime();
+        return $seeds > $built && $seeds <= time();
     }
 
     public static function meta(string $name): array

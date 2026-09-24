@@ -72,6 +72,16 @@ final class TradeRepository extends Repository
         return $seeds;
     }
 
+    /** Date du plus récent fichier d'origine, 0 s'il n'y en a aucun. */
+    public static function seedsTime(): int
+    {
+        $newest = 0;
+        foreach (glob(self::seedDir() . '/*.json') ?: [] as $file) {
+            $newest = max($newest, (int) @filemtime($file));
+        }
+        return $newest;
+    }
+
     /** Fiche d'origine d'un métier, pour la restaurer après une fausse manœuvre. */
     public static function seed(string $id): ?array
     {
