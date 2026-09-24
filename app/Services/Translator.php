@@ -66,12 +66,25 @@ final class Translator
             return [];
         }
 
+        // Google facture chaque caractère envoyé : le plafond se vérifie avant
+        // l'envoi, et un refus arrête le reste du lot dans cette requête.
+        $chars = 0;
+        foreach ((array) ($payload['q'] ?? []) as $text) {
+            $chars += mb_strlen((string) $text);
+        }
+        if (!TranslationBudget::allows($chars)) {
+            self::$lastError = 'Plafond de traduction : ' . TranslationBudget::refusal() . '.';
+            self::$blocked = true;
+            return [];
+        }
+
         $call = Http::call('POST',
             self::ENDPOINT . '?key=' . urlencode((string) Config::secret('translate_api_key')),
             ['json' => $payload, 'timeout' => $timeout],
         );
 
         if ($call['ok']) {
+            TranslationBudget::record($chars);
             self::$lastError = '';
             return $call['data'];
         }
@@ -93,8 +106,12 @@ final class Translator
     /**
      * Traduit une liste de chaînes depuis le français.
      *
+     * Envoyées par paquets de cent : si un paquet est refusé — plafond atteint,
+     * panne —, les paquets déjà traduits sont rendus, dans l'ordre. Ils ont été
+     * facturés : les jeter obligerait à payer deux fois.
+     *
      * @param  string[] $strings
-     * @return string[] même ordre, vide si l'API est indisponible
+     * @return string[] même ordre, tronqué au premier paquet refusé ; vide si l'API est indisponible
      */
     public static function translate(array $strings, string $target): array
     {
@@ -112,11 +129,11 @@ final class Translator
             ], 30);
 
             $translations = $response['data']['translations'] ?? null;
-            if (!is_array($translations)) {
+            if (!is_array($translations) || count($translations) !== count($chunk)) {
                 if (self::$lastError === '') {
                     self::$lastError = 'réponse inattendue de l’API';
                 }
-                return [];
+                return $out;
             }
             foreach ($translations as $entry) {
                 $out[] = html_entity_decode((string) ($entry['translatedText'] ?? ''), ENT_QUOTES, 'UTF-8');
@@ -149,19 +166,40 @@ final class Translator
      */
     public static function translatePage(array $page, string $target): ?array
     {
-        if (!self::available()) {
+        if (!self::available() || self::$blocked) {
             return null;
         }
 
-        $body = self::translateHtml((string) ($page['body'] ?? ''), $target);
-        $short = self::translate([
+        $source = (string) ($page['body'] ?? '');
+        $fields = [
             (string) ($page['title'] ?? ''),
             (string) ($page['excerpt'] ?? ''),
             (string) ($page['seo']['title'] ?? ''),
             (string) ($page['seo']['description'] ?? ''),
-        ], $target);
+        ];
 
-        if ($body === '' && $short === []) {
+        // Une page se traduit en deux envois, corps puis titres : le budget
+        // doit couvrir les deux avant le premier, sinon on paierait un corps
+        // traduit pour une page qu'on ne pourrait pas enregistrer.
+        $chars = mb_strlen($source) + array_sum(array_map('mb_strlen', $fields));
+        if (!TranslationBudget::allows($chars)) {
+            self::$lastError = 'Plafond de traduction : ' . TranslationBudget::refusal() . '.';
+            self::$blocked = true;
+            return null;
+        }
+
+        // Le budget des deux envois est accordé : ils ne sont plus vérifiés un
+        // à un, sans quoi une longue page, admise seule un jour neuf, verrait
+        // ses titres refusés après un corps déjà payé. Ils restent comptés.
+        [$body, $short] = TranslationBudget::unmetered(static fn(): array => [
+            self::translateHtml($source, $target),
+            self::translate($fields, $target),
+        ]);
+
+        // Une traduction à moitié faite — corps traduit, titre resté en
+        // français — serait enregistrée comme à jour, et ne serait jamais
+        // reprise : rien n'est gardé tant que tout n'est pas traduit.
+        if (($source !== '' && $body === '') || count($short) !== count($fields)) {
             return null;
         }
 

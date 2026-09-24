@@ -75,13 +75,21 @@ $tasks = [
         return Trades::refreshPartnerFeeds((int) Config::get('trades.partner_refresh_per_run', 1));
     }],
 
-    // Traduction par lot, bornée : les fiches consultées dans une autre langue
-    // sont prêtes d'avance, sans facturer une visite de robot.
+    // Traduction par lot, dans le plafond du jour : interface, pages et fiches
+    // métiers langue par langue, puis les offres. Les pages consultées dans
+    // une autre langue sont prêtes d'avance, sans facturer une visite de robot.
     'translate' => [3600, static function (): string {
-        $result = ContentTranslator::translateMissing(null, 40);
-        return ($result['done'] ?? 0) > 0
-            ? sprintf('%d fiche(s) traduite(s), %d restante(s)', $result['done'], $result['remaining'] ?? 0)
-            : '';
+        $result = ContentTranslator::translateSite(40);
+        $parts = array_filter([
+            $result['strings'] > 0 ? sprintf('%d texte(s) d’interface', $result['strings']) : '',
+            $result['pages'] > 0 ? sprintf('%d page(s)', $result['pages']) : '',
+            $result['done'] > 0 ? sprintf('%d fiche(s)', $result['done']) : '',
+        ]);
+        if ($parts === []) {
+            return '';
+        }
+        return 'traduit : ' . implode(', ', $parts) . sprintf(' ; %d restante(s)', $result['remaining'])
+             . ($result['stopped'] !== '' ? ' — ' . $result['stopped'] : '');
     }],
 
     // Les index dénormalisés suivent les changements de statut.

@@ -30,6 +30,7 @@ final class Notifier
         'report'         => 'Signalement d’une annonce',
         'user.new'       => 'Nouveau compte créé',
         'backup'         => 'Sauvegarde ou restauration',
+        'translate'      => 'Plafond de traduction atteint',
         'system'         => 'Incident technique',
     ];
 

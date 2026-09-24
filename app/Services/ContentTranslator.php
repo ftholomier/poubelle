@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Core\Config;
 use App\Domain\CvRepository;
 use App\Domain\JobRepository;
+use App\Domain\PageRepository;
 use App\Domain\TradeRepository;
 use App\Storage\Audit;
 use App\Storage\Json;
@@ -45,7 +46,7 @@ final class ContentTranslator
         'family' => 'translate_trades',
     ];
 
-    /** Types traduits par lot, dans cet ordre : les familles d'abord, dix lignes qui habillent toute la mosaïque. */
+    /** Types de fiches, dans l'ordre de l'écran du back-office. */
     public const TYPES = ['family', 'trade', 'job', 'cv'];
 
     public static function enabled(string $type): bool
@@ -297,54 +298,159 @@ final class ContentTranslator
             static fn(array $record): bool => ($record['status'] ?? '') === 'publish'));
     }
 
+    /** Ce qui ne périme pas, traduit en premier, langue par langue. */
+    private const DURABLE = ['family', 'trade'];
+
+    /** Ce qui passe — les offres expirent —, traduit une fois le durable fait. */
+    private const PERISHABLE = ['job', 'cv'];
+
     /**
-     * Traduit tout ce qui manque. Le plafond évite qu'un clic déclenche des
-     * milliers d'appels et une facture inattendue.
+     * Traduit ce qui manque, dans l'ordre où cela sert le plus, jusqu'au
+     * plafond du jour ou au nombre de fiches demandé.
      *
-     * @return array{done:int, skipped:int, failed:int}
+     *  1. Le durable, langue par langue, l'anglais d'abord : textes
+     *     d'interface, pages éditoriales, familles et fiches métiers. Une
+     *     langue complète vaut mieux que six à moitié.
+     *  2. Le périssable ensuite : offres, et CV s'ils sont activés. D'ici là,
+     *     une offre ouverte par un visiteur se traduit à la volée, sur la part
+     *     de la journée qui lui est réservée.
+     *
+     * Le lot laisse aux visiteurs leur part du budget, et s'arrête net au
+     * premier refus : ce qui reste attend la prochaine exécution.
+     *
+     * @return array{strings:int, pages:int, done:int, skipped:int, failed:int, remaining:int, stopped:string}
      */
-    public static function translateMissing(?string $onlyLang = null, int $max = 120): array
+    public static function translateSite(int $max = 120): array
     {
-        $done = $skipped = $failed = $remaining = 0;
+        $result = ['strings' => 0, 'pages' => 0, 'done' => 0, 'skipped' => 0, 'failed' => 0,
+                   'remaining' => 0, 'stopped' => ''];
         if (!Translator::available()) {
-            return ['done' => 0, 'skipped' => 0, 'failed' => 0, 'remaining' => 0];
+            return $result;
         }
 
-        $languages = $onlyLang !== null ? [$onlyLang] : array_keys(I18n::languages());
-        $budget = true;
+        $result = TranslationBudget::batch(static function () use ($max, $result): array {
+            $languages = array_values(array_filter(
+                array_keys(I18n::languages()),
+                static fn(string $lang): bool => $lang !== 'fr',
+            ));
 
-        foreach (self::TYPES as $type) {
-            if (!self::enabled($type)) {
-                continue;
-            }
-            foreach (self::records($type) as $record) {
+            foreach ([self::DURABLE, self::PERISHABLE] as $types) {
                 foreach ($languages as $lang) {
-                    if ($lang === 'fr') {
-                        continue;
+                    if ($types === self::DURABLE && !Translator::blocked()) {
+                        $result['strings'] += I18n::refresh($lang);
+                        $result['pages'] += self::translatePages($lang);
                     }
-                    if (self::isFresh($record, $type, $lang)) {
-                        $skipped++;
-                        continue;
-                    }
-                    // Plafond atteint : on continue de compter ce qui reste,
-                    // pour annoncer combien de relances sont nécessaires.
-                    if (!$budget || $done + $failed >= $max) {
-                        $budget = false;
-                        $remaining++;
-                        continue;
-                    }
-                    if (self::translate($record, $type, $lang)) {
-                        $done++;
-                    } else {
-                        $failed++;
+                    foreach ($types as $type) {
+                        if (!self::enabled($type)) {
+                            continue;
+                        }
+                        foreach (self::records($type) as $record) {
+                            if (self::isFresh($record, $type, $lang)) {
+                                $result['skipped']++;
+                                continue;
+                            }
+                            // Budget épuisé ou plafond de fiches atteint : on
+                            // compte ce qui reste, pour dire où l'on en est.
+                            if (Translator::blocked() || $result['done'] + $result['failed'] >= $max) {
+                                $result['remaining']++;
+                                continue;
+                            }
+                            if (self::translate($record, $type, $lang)) {
+                                $result['done']++;
+                            } elseif (Translator::blocked()) {
+                                $result['remaining']++;
+                            } else {
+                                $result['failed']++;
+                            }
+                        }
                     }
                 }
             }
-        }
+            return $result;
+        });
 
-        Audit::log('i18n.records_translated',
-            ['done' => $done, 'failed' => $failed, 'remaining' => $remaining]);
-        return ['done' => $done, 'skipped' => $skipped, 'failed' => $failed, 'remaining' => $remaining];
+        if (Translator::blocked()) {
+            $result['stopped'] = Translator::lastError();
+        }
+        Audit::log('i18n.records_translated', [
+            'strings' => $result['strings'], 'pages' => $result['pages'], 'done' => $result['done'],
+            'failed' => $result['failed'], 'remaining' => $result['remaining'],
+        ]);
+        return $result;
+    }
+
+    /** Pages éditoriales publiées, dans une langue : celles dont la traduction manque ou a vieilli. */
+    private static function translatePages(string $lang): int
+    {
+        $done = 0;
+        foreach (PageRepository::published('fr') as $page) {
+            if (Translator::blocked()) {
+                break;
+            }
+            $states = PageRepository::translationStates((string) $page['slug']);
+            if (($states[$lang]['state'] ?? '') === 'fresh') {
+                continue;
+            }
+            $translated = Translator::translatePage($page, $lang);
+            if ($translated !== null) {
+                PageRepository::save($translated, $lang);
+                $done++;
+            }
+        }
+        return $done;
+    }
+
+    /**
+     * Ce qui reste à traduire, en caractères : de quoi dire à l'exploitant
+     * combien de jours le budget demandera.
+     *
+     * @return array{durable:int, perishable:int, langs: array<string, array{durable:int, perishable:int}>}
+     */
+    public static function pending(): array
+    {
+        $pivot = require Config::path('root') . '/app/Services/lang/fr.php';
+        $out = ['durable' => 0, 'perishable' => 0, 'langs' => []];
+
+        foreach (array_keys(I18n::languages()) as $lang) {
+            if ($lang === 'fr') {
+                continue;
+            }
+            $durable = 0;
+            foreach (array_diff_key($pivot, Json::read(I18n::cachePath($lang))) as $text) {
+                $durable += mb_strlen((string) $text);
+            }
+            foreach (PageRepository::published('fr') as $page) {
+                $states = PageRepository::translationStates((string) $page['slug']);
+                if (($states[$lang]['state'] ?? '') !== 'fresh') {
+                    $durable += mb_strlen((string) $page['body'] . $page['title'] . $page['excerpt']);
+                }
+            }
+            $perishable = 0;
+            foreach ([...self::DURABLE, ...self::PERISHABLE] as $type) {
+                if (!self::enabled($type)) {
+                    continue;
+                }
+                foreach (self::records($type) as $record) {
+                    if (self::isFresh($record, $type, $lang)) {
+                        continue;
+                    }
+                    $size = in_array($type, self::STRUCTURED, true)
+                        ? mb_strlen(implode('', self::segments($record, $type)))
+                        : mb_strlen(implode('', array_map(
+                            static fn(string $f): string => (string) ($record[$f] ?? ''), self::FIELDS[$type],
+                        )) . implode('', (array) ($record['requirements'] ?? [])));
+                    if (in_array($type, self::DURABLE, true)) {
+                        $durable += $size;
+                    } else {
+                        $perishable += $size;
+                    }
+                }
+            }
+            $out['langs'][$lang] = ['durable' => $durable, 'perishable' => $perishable];
+            $out['durable'] += $durable;
+            $out['perishable'] += $perishable;
+        }
+        return $out;
     }
 
     /**

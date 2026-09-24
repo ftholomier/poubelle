@@ -28,6 +28,11 @@ return [
         // Les fiches métiers aussi : soixante pages durables, qui répondent
         // dans chaque langue à « comment devenir… » et « combien gagne… ».
         'translate_trades' => true,
+        // Plafond de caractères envoyés à Google par mois, réglable au
+        // back-office (Traductions). Google en offre 500 000 : 490 000 garde
+        // une marge. Réparti sur les jours du mois ; 0 lève toute limite.
+        'budget_monthly' => 490000,
+        'budget_spread'  => true,
         'languages' => [
             'fr' => ['name' => 'Français',  'locale' => 'fr_FR'],
             'en' => ['name' => 'English',   'locale' => 'en_GB'],

@@ -33,6 +33,7 @@ use App\Services\Secrets;
 use App\Services\Seo;
 use App\Services\SecretsTest;
 use App\Services\Trades;
+use App\Services\TranslationBudget;
 use App\Services\Translator;
 use App\Services\Validator;
 use App\Storage\Audit;
@@ -400,55 +401,60 @@ final class AdminController extends Controller
 
         $notice = '';
         $noticeOk = true;
-        if ($request->isPost() && Csrf::check($request)) {
+        if ($request->isPost() && Csrf::check($request) && $request->input('action') === 'budget') {
+            // Plafond saisi en caractères ; les espaces de lecture « 490 000 » passent.
+            $monthly = (int) preg_replace('/\D+/', '', (string) $request->input('monthly', '0'));
+            $spread = (string) $request->input('spread', '') === '1';
+            // Relevé de la console Google, facultatif : il recale le compteur du mois.
+            $measured = trim((string) $request->input('measured', ''));
+            if ($measured !== '') {
+                TranslationBudget::adjust((int) preg_replace('/\D+/', '', $measured));
+            }
+            if (TranslationBudget::save($monthly, $spread)) {
+                Audit::log('i18n.budget_saved', ['monthly' => $monthly, 'spread' => $spread,
+                    'measured' => $measured !== '' ? (int) preg_replace('/\D+/', '', $measured) : null], $this->userId());
+                $notice = $monthly > 0
+                    ? sprintf('Plafond enregistré : %s caractères par mois%s.',
+                        number_format($monthly, 0, ',', ' '), $spread ? ', répartis sur les jours du mois' : '')
+                    : 'Plafond levé : la traduction n’est plus limitée, la facturation Google redevient possible.';
+            } else {
+                $notice = 'Le plafond n’a pas pu être enregistré : vérifiez les droits d’écriture de data/private.';
+                $noticeOk = false;
+            }
+        } elseif ($request->isPost() && Csrf::check($request)) {
             if (!Translator::available()) {
                 $notice = I18n::t('admin.translate_unavailable');
                 $noticeOk = false;
             } else {
-                $done = 0;
-                foreach (array_keys(I18n::languages()) as $lang) {
-                    if ($lang === 'fr') {
-                        continue;
-                    }
-                    $done += I18n::refresh($lang);
-                    foreach (PageRepository::published('fr') as $page) {
-                        $states = PageRepository::translationStates((string) $page['slug']);
-                        if (($states[$lang]['state'] ?? '') === 'fresh') {
-                            continue;
-                        }
-                        $translated = Translator::translatePage($page, $lang);
-                        if ($translated !== null) {
-                            PageRepository::save($translated, $lang);
-                            $done++;
-                        }
-                    }
-                }
-
-                // Les annonces et profils, plafonnés : un clic ne doit pas
-                // déclencher des milliers d'appels facturés au caractère.
-                $records = ContentTranslator::translateMissing(null, 150);
+                // Interface, pages, familles et fiches métiers langue par
+                // langue, puis les offres ; dans le plafond du jour, et
+                // plafonné en nombre : un clic ne déclenche pas une facture.
+                $result = ContentTranslator::translateSite(150);
 
                 Audit::log('i18n.refreshed',
-                    ['pages' => $done, 'records' => $records['done'],
-                     'failed' => $records['failed']], $this->userId());
+                    ['strings' => $result['strings'], 'pages' => $result['pages'],
+                     'records' => $result['done'], 'failed' => $result['failed']], $this->userId());
 
-                // Zéro traduit alors que tout est à faire : l'API a refusé.
-                // Le dire, plutôt qu'annoncer « Enregistré » en vert.
                 $error = Translator::lastError();
-                if ($done === 0 && $records['done'] === 0 && $error !== '') {
+                $budgetStop = $result['stopped'] !== '' && str_starts_with($result['stopped'], 'Plafond');
+                if ($result['strings'] + $result['pages'] + $result['done'] === 0 && $error !== '' && !$budgetStop) {
+                    // Zéro traduit alors que tout est à faire : l'API a refusé.
+                    // Le dire, plutôt qu'annoncer « Enregistré » en vert.
                     $notice = 'Aucune traduction : l’API Google a refusé la requête. ' . $error;
                     $noticeOk = false;
                 } else {
-                    $notice = sprintf('%s %d élément(s) d’interface et de page, %d fiche(s) traduite(s).',
-                        I18n::t('admin.saved'), $done, $records['done']);
-                    if ($records['failed'] > 0) {
-                        $notice .= sprintf(' %d échec(s)%s.', $records['failed'],
-                            $error !== '' ? ' — ' . $error : '');
+                    $notice = sprintf('%s %d texte(s) d’interface, %d page(s), %d fiche(s) traduite(s).',
+                        I18n::t('admin.saved'), $result['strings'], $result['pages'], $result['done']);
+                    if ($result['failed'] > 0) {
+                        $notice .= sprintf(' %d échec(s)%s.', $result['failed'], $error !== '' ? ' — ' . $error : '');
                         $noticeOk = false;
                     }
-                    if ($records['remaining'] > 0) {
-                        $notice .= sprintf(' Il reste %d fiche(s) à traduire : relancez pour continuer.',
-                            $records['remaining']);
+                    if ($budgetStop) {
+                        $notice .= ' ' . $result['stopped'];
+                    }
+                    if ($result['remaining'] > 0) {
+                        $notice .= sprintf(' Il reste %d fiche(s) à traduire : la tâche planifiée continue, '
+                            . 'dans la limite du plafond.', $result['remaining']);
                     }
                 }
             }
@@ -463,12 +469,20 @@ final class AdminController extends Controller
             ];
         }
 
+        $usage = TranslationBudget::usage();
+
         return $this->screen('admin/translations', [
             'matrix'    => $matrix,
             'records'   => ContentTranslator::stats(),
             'available' => Translator::available(),
             'notice'    => $notice,
             'noticeOk'  => $noticeOk,
+            'budget'    => TranslationBudget::settings() + [
+                'usage'       => $usage,
+                'daily'       => TranslationBudget::dailyLimit($usage),
+                'batch'       => TranslationBudget::batchLimit($usage),
+            ],
+            'pending'   => ContentTranslator::pending(),
         ], I18n::t('admin.translations'));
     }
 

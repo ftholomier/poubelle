@@ -75,7 +75,10 @@ final class SecretsTest
         if (!Translator::available()) {
             return self::fail('Aucune clé enregistrée. Les pages non traduites restent en français.');
         }
-        $result = Translator::translate(['bonjour'], 'en');
+        // Hors plafond : un test ne doit pas échouer parce que la journée est
+        // épuisée, et « bonjour » ne pèse rien.
+        Translator::reset();
+        $result = TranslationBudget::unmetered(static fn(): array => Translator::translate(['bonjour'], 'en'));
         if ($result !== []) {
             return self::ok('Traduction active. « bonjour » → « ' . $result[0] . ' ».');
         }
