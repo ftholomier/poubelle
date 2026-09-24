@@ -177,7 +177,13 @@ final class Aggregator
      *                      sert le cache tel quel — une page d'accueil ne doit
      *                      pas attendre quatre API en série.
      */
-    public static function fetch(array $criteria, int $limit, bool $refresh = false): array
+    /**
+     * @param bool $offline vrai : jamais d'appel réseau, même sans cache. Une
+     *                      fiche métier interroge un flux par métier ; sans ce
+     *                      garde-fou, son premier visiteur attendrait quatre
+     *                      API tierces avant de voir la page.
+     */
+    public static function fetch(array $criteria, int $limit, bool $refresh = false, bool $offline = false): array
     {
         if ($limit <= 0 || !Config::get('sources.enabled', true)) {
             return [];
@@ -203,7 +209,7 @@ final class Aggregator
             if ($wanted !== [] && !in_array($key, $wanted, true)) {
                 continue;
             }
-            foreach (self::cached($source, $query, $refresh) as $job) {
+            foreach (self::cached($source, $query, $refresh, $offline) as $job) {
                 $collected[$job['id']] = $job;
             }
         }
@@ -349,7 +355,7 @@ final class Aggregator
     }
 
     /** @return array<int, array<string, mixed>> */
-    private static function cached(JobSource $source, array $query, bool $refresh = false): array
+    private static function cached(JobSource $source, array $query, bool $refresh = false, bool $offline = false): array
     {
         $file = self::cachePath($source, $query);
         $ttl = max(60, (int) Config::get('sources.cache_ttl', 3600));
@@ -365,6 +371,12 @@ final class Aggregator
         // tierce. Le rafraîchissement viendra de la passe planifiée.
         if (!$refresh && $cache !== []) {
             return (array) ($cache['jobs'] ?? []);
+        }
+
+        // Hors ligne, pas de cache : on renonce plutôt que d'appeler. C'est la
+        // tâche planifiée qui remplira ce cache.
+        if ($offline) {
+            return [];
         }
 
         $jobs = [];
@@ -423,7 +435,7 @@ final class Aggregator
     }
 
     /** Une annonce déposée ici prime toujours sur sa reprise chez un agrégateur. */
-    private static function withoutLocalDuplicates(array $external, array $localItems): array
+    public static function withoutLocalDuplicates(array $external, array $localItems): array
     {
         $local = [];
         foreach ($localItems as $item) {

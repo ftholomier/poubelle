@@ -58,6 +58,7 @@ final class SitemapController extends Controller
             ['path' => '/cv',          'lastmod' => '', 'priority' => '0.8'],
             ['path' => '/employeurs',  'lastmod' => '', 'priority' => '0.7'],
             ['path' => '/ressources',  'lastmod' => '', 'priority' => '0.5'],
+            ['path' => '/metiers',     'lastmod' => '', 'priority' => '0.8'],
             ['path' => '/deposer-un-cv',       'lastmod' => '', 'priority' => '0.9'],
             ['path' => '/deposer-une-annonce', 'lastmod' => '', 'priority' => '0.9'],
         ];
@@ -79,6 +80,15 @@ final class SitemapController extends Controller
         }
         foreach (Index::load('employers') as $employer) {
             $paths[] = ['path' => '/employeur/' . $employer['slug'], 'lastmod' => '', 'priority' => '0.4'];
+        }
+        // Les fiches métiers : du contenu durable, qui ne périme pas comme une
+        // annonce — c'est lui qui installe le site sur les requêtes métier.
+        foreach (Index::load('trades') as $trade) {
+            if (($trade['status'] ?? '') !== 'publish') {
+                continue;
+            }
+            $paths[] = ['path' => '/metiers/' . $trade['slug'],
+                        'lastmod' => (string) $trade['updated_at'], 'priority' => '0.7'];
         }
         foreach (Index::load('pages') as $page) {
             $paths[] = ['path' => '/' . $page['slug'],

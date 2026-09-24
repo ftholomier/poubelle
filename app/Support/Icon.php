@@ -43,6 +43,18 @@ final class Icon
         'instagram'=> '<rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.8" cy="7.2" r="1" fill="currentColor" stroke="none"/>',
         'linkedin' => '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 10.5V16M8 7.6v.1M12 16v-3.2a1.8 1.8 0 013.6 0V16"/>',
         'youtube'  => '<rect x="3" y="6" width="18" height="12" rx="4"/><path d="M11 9.8l3.6 2.2-3.6 2.2z" fill="currentColor" stroke="none"/>',
+
+        // Familles de métiers.
+        'mic'      => '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21M8.5 21h7"/>',
+        'bulb'     => '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-3.5 10.9c.7.5 1 1.3 1 2.1h5c0-.8.3-1.6 1-2.1A6 6 0 0012 3z"/>',
+        'stage'    => '<path d="M3 4h18M5 4v16M19 4v16M3 20h18"/><path d="M5 4c1.5 3.5 4 5 7 5s5.5-1.5 7-5"/>',
+        'clipboard'=> '<rect x="5" y="4.5" width="14" height="16.5" rx="2"/><path d="M9 4.5V3h6v1.5M8.5 10h7M8.5 13.5h7M8.5 17h4"/>',
+        'camera'   => '<rect x="3" y="7" width="12" height="10" rx="2"/><path d="M15 10.5l6-3.5v10l-6-3.5z"/>',
+        'film'     => '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 3v18M16 3v18M4 7.5h4M4 12h4M4 16.5h4M16 7.5h4M16 12h4M16 16.5h4"/>',
+        'shirt'    => '<path d="M8.5 3.5L3 6.5l2 4 3-1.2V21h8V9.3l3 1.2 2-4-5.5-3c-.6 1.6-2.1 2.6-3.5 2.6s-2.9-1-3.5-2.6z"/>',
+        'clapper'  => '<rect x="3.5" y="10" width="17" height="10" rx="1.5"/><path d="M3.5 10l1.8-5.6 15.2 2.3-.8 3.3"/><path d="M8.2 4.9l2.6 4.6M13.3 5.6l2.6 4.6"/>',
+        'mask'     => '<path d="M4 4.5c2.7 1 5.3 1 8 0 2.7 1 5.3 1 8 0V11c0 5-3.6 9-8 9s-8-4-8-9z"/><path d="M8 10.5c.6-.6 1.6-.6 2.2 0M13.8 10.5c.6-.6 1.6-.6 2.2 0M9 14.5c1.7 1.5 4.3 1.5 6 0"/>',
+        'party'    => '<path d="M4 20l4.5-12.5 8 8z"/><path d="M14 3.5c.5 1.3.3 2.5-.5 3.5M18 6l-1.5 1.5M20.5 10c-1.2-.3-2.3 0-3.2.8M16.5 3v1"/>',
     ];
 
     public static function svg(string $name, int $size = 18, string $color = 'currentColor', float $stroke = 2.2): string

@@ -37,7 +37,8 @@ final class Redirects
         'au', 'aux', 'pour', 'par', 'sur', 'dans', 'avec', 'chez', 'sans',
         'offre', 'offres', 'emploi', 'emplois', 'annonce', 'annonces', 'job',
         'jobs', 'cv', 'profil', 'profils', 'fiche', 'page', 'index', 'html',
-        'php', 'www', 'intermittent', 'fr', 'spectacle',
+        'php', 'www', 'intermittent', 'fr', 'spectacle', 'metier', 'metiers',
+        'devenir', 'salaire', 'formation',
     ];
 
     /** Part des mots de l'adresse qu'une fiche doit couvrir pour l'emporter. */
@@ -77,14 +78,47 @@ final class Redirects
             if (isset($map['slugs'][$segment])) {
                 return ['path' => $map['slugs'][$segment], 'status' => 301];
             }
+            // Le même slug entouré de mots de remplissage : « fiche-metier-
+            // perchman », « devenir-regisseur-son ». Une fois ces mots ôtés,
+            // c'est une correspondance exacte, donc permanente.
+            $core = implode('-', self::words($segment));
+            if ($core !== '' && $core !== $segment && isset($map['slugs'][$core])) {
+                return ['path' => $map['slugs'][$core], 'status' => 301];
+            }
+            if ($core !== '' && isset($map['cores'][$core])) {
+                return ['path' => $map['cores'][$core], 'status' => 301];
+            }
             if (ctype_digit($segment) && isset($map['legacy'][$segment])) {
                 return ['path' => $map['legacy'][$segment], 'status' => 301];
             }
         }
 
-        // 3. Rapprochement par mots sur le segment le plus fourni.
-        $best = self::nearest(self::words(implode(' ', $segments)), $map['slugs']);
+        // 3. Rapprochement par mots. Une adresse qui porte le préfixe d'une
+        //    rubrique n'est rapprochée que de fiches de cette rubrique : une
+        //    adresse de métier ne doit pas mener au CV d'une personne.
+        $section = self::sectionOf($path);
+        $pool = $section === ''
+            ? $map['slugs']
+            : array_filter($map['slugs'], static fn(string $target) => str_starts_with($target, $section));
+        $best = self::nearest(self::words(implode(' ', $segments)), $pool);
         return $best === null ? null : ['path' => $best, 'status' => 302];
+    }
+
+    /**
+     * Préfixe interne de la rubrique d'une adresse (« /metiers/ »,
+     * « /offre/ »…), vide si elle n'en porte pas. Les adresses publiques
+     * viennent des réglages de référencement : elles peuvent avoir été renommées.
+     */
+    private static function sectionOf(string $path): string
+    {
+        $bare = (string) preg_replace('#^/[a-z]{2}(?=/|$)#', '', '/' . ltrim($path, '/'));
+        foreach (['trade' => '/metiers/', 'job' => '/offre/', 'cv' => '/cv/', 'employer' => '/employeur/'] as $key => $internal) {
+            $public = rtrim(Seo::routePath($key), '/') . '/';
+            if (str_starts_with($bare, $public)) {
+                return $internal;
+            }
+        }
+        return '';
     }
 
     /**
@@ -141,11 +175,20 @@ final class Redirects
         $runnerUp = 0.0;
 
         foreach ($slugs as $slug => $target) {
-            $common = count(array_intersect($words, self::words($slug)));
+            $slugWords = self::words($slug);
+            $common = count(array_intersect($words, $slugWords));
             if ($common === 0) {
                 continue;
             }
             $score = $common / count($words);
+            // L'adresse contient le slug entier, plus quelques mots :
+            // « /metiers/ingenieur-son-studio » vise l'ingénieur du son. Un slug
+            // d'un seul mot est exclu de cette règle — « musicien » se
+            // retrouverait dans trop d'adresses. Deux slugs entiers dans la
+            // même adresse s'annulent : l'écart exigé plus bas les départage.
+            if (count($slugWords) >= 2 && $common === count($slugWords)) {
+                $score = max($score, 0.9);
+            }
             if ($score > $bestScore) {
                 $runnerUp = $bestScore;
                 $bestScore = $score;
@@ -200,7 +243,7 @@ final class Redirects
         }
 
         $file = Config::path('data') . '/index/redirects.json';
-        $sources = ['jobs', 'cv', 'employers', 'pages'];
+        $sources = ['jobs', 'cv', 'employers', 'pages', 'trades'];
 
         $newest = 0;
         foreach ($sources as $name) {
@@ -208,10 +251,13 @@ final class Redirects
         }
 
         $cached = Json::read($file);
-        if ($cached !== [] && (int) ($cached['at'] ?? 0) >= $newest) {
+        // Un répertoire écrit par une version antérieure n'a pas de « cores » :
+        // on le reconstruit plutôt que de rater des correspondances.
+        if ($cached !== [] && (int) ($cached['at'] ?? 0) >= $newest && isset($cached['cores'])) {
             return self::$map = [
                 'slugs'  => (array) ($cached['slugs'] ?? []),
                 'legacy' => (array) ($cached['legacy'] ?? []),
+                'cores'  => (array) $cached['cores'],
             ];
         }
 
@@ -222,6 +268,7 @@ final class Redirects
             'cv'        => '/cv/',
             'employers' => '/employeur/',
             'pages'     => '/',
+            'trades'    => '/metiers/',
         ];
 
         foreach ($sources as $name) {
@@ -242,7 +289,24 @@ final class Redirects
             }
         }
 
-        Json::write($file, ['at' => time(), 'slugs' => $slugs, 'legacy' => $legacy]);
-        return self::$map = ['slugs' => $slugs, 'legacy' => $legacy];
+        // Forme réduite de chaque slug, sans ses petits mots : « ingenieur-du-
+        // son » devient « ingenieur-son ». Deux fiches qui se réduisent à la
+        // même forme sont ambiguës : ni l'une ni l'autre n'est proposée.
+        $cores = [];
+        $ambiguous = [];
+        foreach ($slugs as $slug => $target) {
+            $core = implode('-', self::words((string) $slug));
+            if ($core === '') {
+                continue;
+            }
+            if (isset($cores[$core]) && $cores[$core] !== $target) {
+                $ambiguous[$core] = true;
+            }
+            $cores[$core] ??= $target;
+        }
+        $cores = array_diff_key($cores, $ambiguous);
+
+        Json::write($file, ['at' => time(), 'slugs' => $slugs, 'legacy' => $legacy, 'cores' => $cores]);
+        return self::$map = ['slugs' => $slugs, 'legacy' => $legacy, 'cores' => $cores];
     }
 }

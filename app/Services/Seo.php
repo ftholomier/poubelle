@@ -38,6 +38,8 @@ final class Seo
         'post_cv'   => ['path' => '/deposer-un-cv',      'label' => 'Déposer un CV'],
         'post_job'  => ['path' => '/deposer-une-annonce','label' => 'Déposer une annonce'],
         'resources' => ['path' => '/ressources',         'label' => 'Ressources'],
+        'trades'    => ['path' => '/metiers',            'label' => 'Les métiers (mosaïque)'],
+        'trade'     => ['path' => '/metiers',            'label' => 'Fiche métier', 'prefix' => true],
     ];
 
     /**
@@ -58,6 +60,8 @@ final class Seo
         'post_cv'   => ['{site}'],
         'post_job'  => ['{site}'],
         'resources' => ['{site}'],
+        'trades'    => ['{total}', '{site}'],
+        'trade'     => ['{metier}', '{metier_f}', '{famille}', '{salaire}', '{site}'],
     ];
 
     private static ?array $store = null;
@@ -176,7 +180,7 @@ final class Seo
         // absentes — laisserait la page sans titre : on garde alors celui que
         // le contrôleur a calculé.
         $title = trim((string) ($settings['title'] ?? ''));
-        if ($title !== '') {
+        if ($title !== '' && empty($meta['own_title'])) {
             $filled = self::fill($title, $vars);
             if ($filled !== '') {
                 $meta['title'] = $filled;
@@ -184,7 +188,7 @@ final class Seo
         }
 
         $description = trim((string) ($settings['description'] ?? ''));
-        if ($description !== '') {
+        if ($description !== '' && empty($meta['own_desc'])) {
             $filled = self::fill($description, $vars);
             if ($filled !== '') {
                 $meta['desc'] = $filled;

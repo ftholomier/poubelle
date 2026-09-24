@@ -80,6 +80,29 @@ final class Knowledge
                 '/employeur/' . $employer['slug'], 'employeur', $body);
         }
 
+        // Les fiches métiers répondent aux questions qu'on pose le plus à
+        // l'assistant : comment devenir régisseur, combien gagne un machiniste.
+        foreach (\App\Domain\TradeRepository::all() as $trade) {
+            if (($trade['status'] ?? '') !== 'publish') {
+                continue;
+            }
+            $faq = array_map(
+                static fn(array $f): string => (string) ($f['q'] ?? '') . ' ' . (string) ($f['a'] ?? ''),
+                (array) $trade['faq'],
+            );
+            $body = implode("\n", array_filter([
+                (string) $trade['name'] . ' — fiche métier',
+                (string) $trade['intro'],
+                'Missions : ' . implode(' ; ', (array) $trade['missions']),
+                'Formation : ' . (string) $trade['training'],
+                'Statut : ' . (string) $trade['statut'],
+                'Rémunération indicative : ' . \App\Services\Trades::payLabel((array) $trade['pay'])
+                    . '. ' . (string) ($trade['pay']['note'] ?? ''),
+                implode("\n", $faq),
+            ]));
+            self::addChunks($chunks, (string) $trade['name'], '/metiers/' . $trade['slug'], 'métier', $body);
+        }
+
         foreach (self::documents() as $doc) {
             self::addChunks($chunks, (string) $doc['title'], '', 'document', (string) $doc['text']);
         }

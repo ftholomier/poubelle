@@ -1058,6 +1058,103 @@ ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
 .cmp-cat em { display: block; font-style: normal; font-size: 12px; color: var(--muted); line-height: 1.45; }
 .cmp-cat:has(input:disabled) { cursor: default; }
 
+/* ============================================================== métiers */
+
+/* Chaque famille a sa teinte : fond pâle pour le pictogramme, encre plus
+   soutenue pour le texte. Les couples dépassent 4,5:1 de contraste. */
+.tone-coral  { --tone: var(--coral);  --tone-bg: #FFE3E0; --tone-ink: #B4291E; }
+.tone-yellow { --tone: var(--yellow); --tone-bg: #FFF1CC; --tone-ink: #7A5A00; }
+.tone-violet { --tone: var(--violet); --tone-bg: #E9E3FF; --tone-ink: #4B2FD1; }
+.tone-teal   { --tone: var(--teal);   --tone-bg: #D8F5EF; --tone-ink: #06705F; }
+.tone-pink   { --tone: var(--pink);   --tone-bg: #FFE3F0; --tone-ink: #A8286A; }
+
+.trade-icon {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--ink);
+  background: var(--tone-bg, var(--cream)); color: var(--tone-ink, var(--ink));
+  transition: background-color .25s ease, color .25s ease;
+}
+.trade-icon-lg { width: 58px; height: 58px; border-radius: 16px; }
+
+/* Sommaire des familles */
+.trade-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 4px; }
+.trade-jump .chip {
+  display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 7px 14px;
+  border-radius: 999px; border: 1.5px solid var(--ink); background: var(--white);
+  font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none;
+}
+.trade-jump .chip svg { color: var(--tone-ink); }
+.trade-jump .chip .n { opacity: .6; font-variant-numeric: tabular-nums; }
+.trade-jump .chip:hover { background: var(--tone-bg); }
+.trade-jump .chip:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
+
+/* Familles et pavés */
+.trade-family { margin-top: 56px; scroll-margin-top: 96px; }
+.trade-family-head { display: flex; gap: 18px; align-items: flex-start; margin-bottom: 22px; }
+.trade-family-head h2 { margin: 2px 0 6px; font-size: clamp(24px, 3vw, 32px); }
+.trade-family-head p { margin: 0; color: var(--text); max-width: 780px; line-height: 1.6; }
+
+.grid-trades { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+.grid-trades > .ad-slot { grid-column: 1 / -1; margin: 8px 0; }
+
+.trade-tile { display: flex; flex-direction: column; gap: 10px; padding: 18px; }
+.trade-tile .trade-name { font-size: 18px; line-height: 1.2; margin: 2px 0 0; }
+.trade-tile .trade-sum { font-size: 13.5px; color: var(--text); line-height: 1.5; }
+.trade-tile .trade-count { align-self: flex-start; margin-top: auto; }
+.trade-tile:hover .trade-icon, .trade-tile:focus-visible .trade-icon { background: var(--tone); color: var(--ink); }
+
+/* Fiche métier */
+.trade-head { display: flex; gap: 18px; align-items: center; }
+.trade-kicker {
+  margin: 0 0 6px; font-size: 12.5px; font-weight: 700; color: var(--text-2);
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.trade-kicker a { color: var(--tone-ink); text-decoration: none; }
+.trade-kicker a:hover { text-decoration: underline; }
+.trade-lede { font-size: 17.5px; line-height: 1.65; color: var(--ink-2); margin: 22px 0 16px; }
+.trade-body h2 { margin-top: 36px; }
+.trade-body h3 { font-size: 17px; margin: 22px 0 6px; }
+.trade-pay { display: flex; align-items: center; gap: 10px; font-size: 21px; margin: 10px 0 12px; color: var(--ink); }
+.trade-disclaimer {
+  font-size: 13px; line-height: 1.55; color: var(--meta);
+  border-left: 3px solid var(--rule); padding-left: 12px; margin-top: 14px;
+}
+.trade-faq h3 { font-size: 16.5px; }
+
+.trade-brief dl { display: grid; gap: 12px; margin: 14px 0 20px; }
+.trade-brief dt { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; opacity: .72; }
+.trade-brief dd { margin: 3px 0 0; font-size: 14.5px; line-height: 1.45; }
+
+.trade-siblings { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 9px; }
+.trade-siblings a { font-size: 14.5px; font-weight: 600; color: var(--ink); text-decoration: none; }
+.trade-siblings a:hover { text-decoration: underline; }
+
+.trade-partners { display: flex; align-items: center; gap: 8px; font-size: 16px; margin: 28px 0 12px; color: var(--text-2); }
+
+.trade-cta { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 56px; }
+.trade-cta .card { padding: 26px 28px; }
+.trade-cta h2 { font-size: 23px; margin: 0 0 8px; }
+.trade-cta p { color: var(--text); margin: 0 0 18px; line-height: 1.55; }
+.card-coral-soft { background: #FFE3E0; }
+.card-violet-soft { background: #E9E3FF; }
+
+.ad-slot[data-slot="trade_side"] .ad-frame { min-height: 250px; }
+
+/* Une grille courte garde des cartes à leur taille : avec auto-fit, un
+   profil unique s'étirait sur toute la largeur de la page. */
+.grid-keep { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+@media (max-width: 720px) {
+  .trade-family { margin-top: 44px; }
+  .trade-family-head { gap: 14px; }
+  .trade-icon-lg { width: 48px; height: 48px; border-radius: 14px; }
+  .grid-trades { grid-template-columns: repeat(auto-fill, minmax(156px, 1fr)); gap: 12px; }
+  .trade-tile { padding: 14px; gap: 8px; }
+  .trade-tile .trade-name { font-size: 16px; }
+  .trade-tile .trade-sum { display: none; }
+  .trade-lede { font-size: 16.5px; }
+}
+
 /* ================================================= sobriété d'animation */
 
 @media (prefers-reduced-motion: reduce) {

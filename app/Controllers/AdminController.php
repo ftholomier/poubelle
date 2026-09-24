@@ -14,6 +14,7 @@ use App\Domain\CvRepository;
 use App\Domain\EmployerRepository;
 use App\Domain\JobRepository;
 use App\Domain\PageRepository;
+use App\Domain\TradeRepository;
 use App\Domain\UserRepository;
 use App\Services\Ads;
 use App\Services\AdSnippet;
@@ -31,6 +32,7 @@ use App\Services\Regie;
 use App\Services\Secrets;
 use App\Services\Seo;
 use App\Services\SecretsTest;
+use App\Services\Trades;
 use App\Services\Translator;
 use App\Services\Validator;
 use App\Storage\Audit;
@@ -750,6 +752,255 @@ final class AdminController extends Controller
             'choices' => ['regie_model' => $models['models']],
             'choicesAt' => ['regie_model' => $models['at']],
         ], I18n::t('admin.settings'));
+    }
+
+    /* --------------------------------------------------------------- métiers */
+
+    /**
+     * Rubrique « Les métiers » : la liste des fiches, et la création d'un
+     * métier qui n'existait pas dans les fiches d'origine.
+     */
+    public function trades(Request $request, array $params): Response
+    {
+        if (($guard = $this->guard()) !== null) {
+            return $guard;
+        }
+
+        $errors = [];
+        if ($request->isPost() && Csrf::check($request) && $request->input('action') === 'create') {
+            $name = trim((string) $request->input('name', ''));
+            $family = (string) $request->input('family', '');
+            if ($name === '') {
+                $errors[] = 'Donnez un nom au métier.';
+            } elseif (!isset(Trades::families()[$family])) {
+                $errors[] = 'Choisissez une famille.';
+            } else {
+                $slug = TradeRepository::uniqueSlug($name);
+                TradeRepository::save([
+                    'id' => $slug, 'slug' => $slug, 'name' => $name, 'family' => $family,
+                    // Brouillon : une fiche vide n'a rien à faire en ligne.
+                    'status' => 'draft', 'keywords' => [$name],
+                ]);
+                Index::rebuild('trades');
+                Audit::log('trade.created', ['slug' => $slug], $this->userId());
+                return Response::redirect('/admin/metier/' . $slug, 303);
+            }
+        }
+
+        $rows = Index::load('trades');
+        $counts = Trades::jobCounts();
+        $modified = [];
+        foreach ($rows as $row) {
+            $record = TradeRepository::find((string) $row['id']);
+            $modified[(string) $row['id']] = $record !== null && TradeRepository::isModified($record);
+        }
+
+        return $this->screen('admin/trades', [
+            'rows'     => $rows,
+            'families' => Trades::families(),
+            'counts'   => $counts,
+            'modified' => $modified,
+            'errors'   => $errors,
+        ], I18n::t('admin.trades'));
+    }
+
+    /** Édition d'une fiche métier. */
+    public function trade(Request $request, array $params): Response
+    {
+        if (($guard = $this->guard()) !== null) {
+            return $guard;
+        }
+
+        $id = (string) preg_replace('/[^a-z0-9\-]/', '', (string) ($params['id'] ?? ''));
+        $trade = TradeRepository::find($id);
+        if ($trade === null) {
+            return $this->screen('admin/404', [], I18n::t('error.404_title'));
+        }
+
+        $user = Auth::user();
+        $resource = 'trade:' . $id;
+        $lock = Lock::acquire($resource, (int) $user['id'], (string) $user['name']);
+        $notice = '';
+        $errors = [];
+
+        if ($request->isPost()) {
+            $action = (string) $request->input('action', 'publish');
+
+            if ($lock === null) {
+                $held = Lock::inspect($resource);
+                $errors[] = I18n::t('admin.lock_taken',
+                    (string) ($held['user_name'] ?? '—'), (int) ($held['age_minutes'] ?? 0));
+            } elseif (!Csrf::check($request)) {
+                $errors[] = I18n::t('form.err_csrf');
+            } elseif ($action === 'delete') {
+                if ((string) $request->input('confirm_delete', '') !== 'oui') {
+                    $errors[] = 'Cochez la case de confirmation pour supprimer la fiche.';
+                } else {
+                    Backup::snapshot('metier-supprime-' . $id, $this->userId());
+                    TradeRepository::delete($id);
+                    Lock::release($resource, (int) $user['id']);
+                    Index::rebuild('trades');
+                    Knowledge::rebuild();
+                    Audit::log('trade.deleted', ['slug' => $trade['slug']], $this->userId());
+                    return Response::redirect('/admin/metiers', 303);
+                }
+            } elseif ($action === 'restore') {
+                $restored = TradeRepository::restore($id);
+                if ($restored === null) {
+                    $errors[] = 'Ce métier n’a pas de texte d’origine à restaurer.';
+                } else {
+                    $trade = $restored;
+                    Index::rebuild('trades');
+                    Knowledge::rebuild();
+                    Audit::log('trade.restored', ['slug' => $trade['slug']], $this->userId());
+                    $notice = 'Texte d’origine restauré. L’adresse et l’état de publication sont conservés.';
+                }
+            } else {
+                [$candidate, $errors] = $this->readTradeForm($request, $trade);
+                if ($errors === []) {
+                    $candidate['status'] = $action === 'draft' ? 'draft' : 'publish';
+                    if ($candidate['status'] === 'publish' && trim((string) ($trade['published_at'] ?? '')) === '') {
+                        $candidate['published_at'] = date('c');
+                    }
+                    if (TradeRepository::save($candidate)) {
+                        $trade = TradeRepository::find($id) ?? $candidate;
+                        Index::rebuild('trades');
+                        Knowledge::rebuild();
+                        Audit::log('trade.saved', ['slug' => $trade['slug'], 'status' => $trade['status']],
+                            $this->userId());
+                        $notice = $trade['status'] === 'publish'
+                            ? 'Fiche enregistrée et publiée.'
+                            : 'Fiche enregistrée en brouillon : elle n’est pas visible sur le site.';
+                    } else {
+                        $errors[] = I18n::t('admin.save_failed');
+                    }
+                } else {
+                    // Les valeurs refusées restent dans le formulaire, à corriger.
+                    $trade = $candidate;
+                }
+            }
+        }
+
+        return $this->screen('admin/trade', [
+            'trade'      => $trade,
+            'families'   => Trades::families(),
+            'all'        => Index::load('trades'),
+            'units'      => Trades::UNITS,
+            'matches'    => count(Trades::matchingJobs($trade, 1000)),
+            'profiles'   => count(Trades::matchingProfiles($trade, 1000)),
+            'hasSeed'    => TradeRepository::seed($id) !== null,
+            'modified'   => TradeRepository::isModified($trade),
+            'lock'       => $lock,
+            'lockHolder' => $lock === null ? Lock::inspect($resource) : null,
+            'notice'     => $notice,
+            'errors'     => $errors,
+        ], (string) $trade['name']);
+    }
+
+    /**
+     * Lit le formulaire d'une fiche métier.
+     *
+     * @return array{0: array<string, mixed>, 1: string[]} fiche candidate, erreurs
+     */
+    private function readTradeForm(Request $request, array $trade): array
+    {
+        $errors = [];
+        $text = static fn(string $key): string => trim(Sanitizer::text((string) ($request->post[$key] ?? '')));
+        // Une ligne par élément : c'est ainsi qu'on écrit une liste à la main.
+        $lines = static fn(string $key): array => array_values(array_filter(array_map(
+            'trim', preg_split('/\r\n|\r|\n/', Sanitizer::text((string) ($request->post[$key] ?? ''))) ?: [],
+        ), 'strlen'));
+
+        $candidate = $trade;
+        $candidate['name']     = $text('name');
+        $candidate['name_f']   = $text('name_f');
+        $candidate['family']   = (string) ($request->post['family'] ?? '');
+        $candidate['rome']     = strtoupper($text('rome'));
+        $candidate['summary']  = $text('summary');
+        $candidate['intro']    = $text('intro');
+        $candidate['missions'] = $lines('missions');
+        $candidate['day']      = $text('day');
+        $candidate['skills']   = $lines('skills');
+        $candidate['training'] = $text('training');
+        $candidate['schools']  = $lines('schools');
+        $candidate['statut']   = $text('statut');
+        $candidate['career']   = $text('career');
+        $candidate['search']   = $text('search');
+        $candidate['brief'] = [
+            'status'   => $text('brief_status'),
+            'training' => $text('brief_training'),
+            'sectors'  => $text('brief_sectors'),
+        ];
+        $candidate['pay'] = [
+            'min'  => max(0, (int) ($request->post['pay_min'] ?? 0)),
+            'max'  => max(0, (int) ($request->post['pay_max'] ?? 0)),
+            'unit' => (string) ($request->post['pay_unit'] ?? 'jour'),
+            'note' => $text('pay_note'),
+        ];
+        $candidate['seo'] = [
+            'title'       => $text('seo_title'),
+            'description' => $text('seo_description'),
+        ];
+
+        // Mots-clés : un par ligne ou séparés par des virgules.
+        $keywords = preg_split('/[\r\n,;]+/', Sanitizer::text((string) ($request->post['keywords'] ?? ''))) ?: [];
+        $candidate['keywords'] = array_values(array_unique(array_filter(array_map('trim', $keywords), 'strlen')));
+
+        $faq = [];
+        $questions = (array) ($request->post['faq_q'] ?? []);
+        $answers = (array) ($request->post['faq_a'] ?? []);
+        foreach ($questions as $i => $question) {
+            $q = trim(Sanitizer::text((string) $question));
+            $a = trim(Sanitizer::text((string) ($answers[$i] ?? '')));
+            if ($q !== '' && $a !== '') {
+                $faq[] = ['q' => $q, 'a' => $a];
+            } elseif ($q !== '' || $a !== '') {
+                $errors[] = 'Question fréquente n° ' . ((int) $i + 1) . ' : il faut la question et sa réponse.';
+            }
+        }
+        $candidate['faq'] = $faq;
+
+        $slugs = [];
+        foreach (Index::load('trades') as $row) {
+            $slugs[(string) $row['slug']] = (string) $row['id'];
+        }
+        $candidate['related'] = array_values(array_filter(
+            array_map('strval', (array) ($request->post['related'] ?? [])),
+            static fn(string $slug) => isset($slugs[$slug]) && $slug !== $trade['slug'],
+        ));
+
+        if ($candidate['name'] === '') {
+            $errors[] = 'Le nom du métier est obligatoire.';
+        }
+        if (!isset(Trades::families()[$candidate['family']])) {
+            $errors[] = 'Choisissez une famille.';
+        }
+        if (!isset(Trades::UNITS[$candidate['pay']['unit']])) {
+            $errors[] = 'Unité de rémunération inconnue.';
+        }
+        if ($candidate['pay']['max'] > 0 && $candidate['pay']['min'] > $candidate['pay']['max']) {
+            $errors[] = 'La rémunération minimale dépasse la maximale.';
+        }
+        if ($candidate['rome'] !== '' && preg_match('/^[A-N]\d{4}$/', $candidate['rome']) !== 1) {
+            $errors[] = 'Code ROME attendu sous la forme L1508.';
+        }
+
+        // Nouvelle adresse : l'ancienne rejoint les adresses rattrapées, pour
+        // que les liens déjà partagés et indexés continuent de mener ici.
+        $wanted = slugify((string) ($request->post['slug'] ?? $trade['slug']));
+        if ($wanted === '') {
+            $errors[] = 'L’adresse de la fiche ne peut pas être vide.';
+        } elseif ($wanted !== $trade['slug']) {
+            if (isset($slugs[$wanted]) && $slugs[$wanted] !== $trade['id']) {
+                $errors[] = 'Cette adresse est déjà celle d’une autre fiche.';
+            } else {
+                $former = array_values(array_unique(array_merge((array) $trade['former_slugs'], [(string) $trade['slug']])));
+                $candidate['former_slugs'] = array_values(array_diff($former, [$wanted]));
+                $candidate['slug'] = $wanted;
+            }
+        }
+
+        return [$candidate, $errors];
     }
 
     /* --------------------------------------------------------- référencement */

@@ -18,6 +18,7 @@ $columns = [
         '/cv'                  => I18n::t('home.profiles'),
     ],
     'footer.site' => [
+        '/metiers'         => I18n::t('nav.trades'),
         '/ressources'      => I18n::t('nav.resources'),
         '/mentions-legales'=> I18n::t('footer.legal_short'),
         '/confidentialite' => I18n::t('footer.privacy'),

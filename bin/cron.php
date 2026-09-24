@@ -23,6 +23,7 @@ use App\Services\Aggregator;
 use App\Services\ContentTranslator;
 use App\Services\JobLifecycle;
 use App\Services\Mailer;
+use App\Services\Trades;
 use App\Storage\Audit;
 use App\Storage\Backup;
 use App\Storage\Index;
@@ -65,6 +66,15 @@ $tasks = [
         return sprintf('%d offre(s) partenaire en cache (%.1f s)', count($jobs), microtime(true) - $before);
     }],
 
+    // Flux partenaire des fiches métiers, quelques-uns par passage : la page
+    // d'une fiche ne fait jamais d'appel réseau, elle lit ce que ceci prépare.
+    'trades' => [1800, static function (): string {
+        if (!Config::get('sources.enabled')) {
+            return '';
+        }
+        return Trades::refreshPartnerFeeds((int) Config::get('trades.partner_refresh_per_run', 1));
+    }],
+
     // Traduction par lot, bornée : les fiches consultées dans une autre langue
     // sont prêtes d'avance, sans facturer une visite de robot.
     'translate' => [3600, static function (): string {
@@ -76,7 +86,7 @@ $tasks = [
 
     // Les index dénormalisés suivent les changements de statut.
     'reindex' => [86400, static function (): string {
-        foreach (['jobs', 'cv', 'employers', 'pages'] as $name) {
+        foreach (['jobs', 'cv', 'employers', 'pages', 'trades'] as $name) {
             Index::rebuild($name);
         }
         return 'index reconstruits';

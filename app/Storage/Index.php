@@ -8,6 +8,7 @@ use App\Domain\CvRepository;
 use App\Domain\EmployerRepository;
 use App\Domain\JobRepository;
 use App\Domain\PageRepository;
+use App\Domain\TradeRepository;
 
 /**
  * Index de recherche dénormalisé, régénéré à chaque publication.
@@ -40,7 +41,7 @@ final class Index
     public static function rebuildAll(): array
     {
         $report = [];
-        foreach (['jobs', 'cv', 'employers', 'pages'] as $name) {
+        foreach (['jobs', 'cv', 'employers', 'pages', 'trades'] as $name) {
             $report[$name] = self::rebuild($name);
         }
         return $report;
@@ -53,6 +54,7 @@ final class Index
             'cv'        => self::buildCv(),
             'employers' => self::buildEmployers(),
             'pages'     => self::buildPages(),
+            'trades'    => self::buildTrades(),
             default     => [],
         };
 
@@ -187,6 +189,38 @@ final class Index
             return [$b['job_count'], mb_strtolower((string) $a['name'])]
                <=> [$a['job_count'], mb_strtolower((string) $b['name'])];
         });
+        return $items;
+    }
+
+    /**
+     * Fiches métiers. L'amorçage passe ici : un déploiement qui apporte un
+     * métier nouveau le fait apparaître à la reconstruction suivante, sans
+     * commande à lancer.
+     */
+    private static function buildTrades(): array
+    {
+        TradeRepository::seedMissing();
+
+        $items = [];
+        foreach (TradeRepository::all() as $trade) {
+            $items[] = [
+                'id'           => $trade['id'],
+                'slug'         => $trade['slug'],
+                'name'         => $trade['name'],
+                'name_f'       => $trade['name_f'],
+                'family'       => $trade['family'],
+                'status'       => $trade['status'],
+                'summary'      => $trade['summary'],
+                'keywords'     => $trade['keywords'],
+                'rome'         => $trade['rome'],
+                'former_slugs' => $trade['former_slugs'],
+                'updated_at'   => $trade['updated_at'],
+            ];
+        }
+        // Ordre alphabétique sans tenir compte des accents : « Éclairagiste »
+        // se range à la lettre E, pas après le Z.
+        usort($items, static fn(array $a, array $b)
+            => strcmp(self::haystack([$a['name']]), self::haystack([$b['name']])));
         return $items;
     }
 

@@ -13,6 +13,7 @@ use App\Controllers\JobController;
 use App\Controllers\MediaController;
 use App\Controllers\PageController;
 use App\Controllers\SitemapController;
+use App\Controllers\TradeController;
 use App\Controllers\SubmitController;
 use App\Services\I18n;
 use App\Services\NotFound;
@@ -135,6 +136,8 @@ final class Kernel
         $cv        = Seo::routePath('cv');
         $employers = Seo::routePath('employers');
         $employer  = Seo::routePath('employer');
+        $trades    = Seo::routePath('trades');
+        $trade     = Seo::routePath('trade');
 
         $public = [
             ['GET',  Seo::routePath('home'),      [HomeController::class,     'index']],
@@ -151,6 +154,8 @@ final class Kernel
             ['GET',  Seo::routePath('post_job'),  [SubmitController::class,   'jobForm']],
             ['POST', Seo::routePath('post_job'),  [SubmitController::class,   'jobSubmit']],
             ['GET',  Seo::routePath('resources'), [PageController::class,     'resources']],
+            ['GET',  $trades,                     [TradeController::class,    'index']],
+            ['GET',  $trade . '/{slug}',          [TradeController::class,    'show']],
         ];
         foreach ($public as [$method, $pattern, $handler]) {
             $router->addLocalized($method, $pattern, $handler);
@@ -203,6 +208,8 @@ final class Kernel
         $router->get('/admin/tableau-de-bord',     [AdminController::class, 'dashboard']);
         $router->any('/admin/contenus',            [AdminController::class, 'contents']);
         $router->any('/admin/contenu/{slug}',      [AdminController::class, 'editor']);
+        $router->any('/admin/metiers',             [AdminController::class, 'trades']);
+        $router->any('/admin/metier/{id}',         [AdminController::class, 'trade']);
         $router->any('/admin/offres',              [AdminController::class, 'jobs']);
         $router->any('/admin/cv',                  [AdminController::class, 'cvs']);
         $router->any('/admin/employeurs',          [AdminController::class, 'employers']);

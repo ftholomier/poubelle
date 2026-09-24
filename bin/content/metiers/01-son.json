@@ -1,0 +1,487 @@
+{
+  "family": "son",
+  "trades": [
+    {
+      "slug": "ingenieur-du-son",
+      "name": "Ingénieur du son",
+      "name_f": "Ingénieure du son",
+      "rome": "L1508",
+      "summary": "Il capte, mixe et restitue le son d’un concert, d’un spectacle ou d’un tournage.",
+      "intro": "L’ingénieur du son est responsable de la qualité sonore d’un projet, du premier micro posé jusqu’au mixage final. En concert, il tient la console de façade ou celle des retours ; en studio, il enregistre et mixe ; sur un tournage, il dirige l’équipe son. C’est un métier à la fois technique et artistique, très demandé dans le spectacle vivant comme dans l’audiovisuel.",
+      "missions": [
+        "Étudier la fiche technique, choisir les micros, la console et le système de diffusion adaptés au lieu",
+        "Installer et câbler le plateau, puis mener les balances avec les musiciens ou les comédiens",
+        "Mixer en direct la façade pour le public, ou les retours pour les artistes sur scène",
+        "Enregistrer en studio, éditer les prises et réaliser le mixage d’un disque ou d’un film",
+        "Sur un tournage, diriger le perchman et garantir des prises de son directes exploitables au montage",
+        "Veiller au respect des niveaux sonores réglementaires et à la protection auditive du public"
+      ],
+      "day": "Sur une date de tournée, la journée commence souvent en fin de matinée par le déchargement et l’installation du système avec l’équipe locale. L’après-midi est consacré au patch, au calage du système dans la salle — mesures, égalisation, alignement des enceintes — puis aux balances, instrument par instrument. Après un repas rapide vient le concert : deux heures de concentration totale derrière la console, à suivre les morceaux, les nuances et les imprévus. Suivent le démontage et le chargement du camion, parfois tard dans la nuit, avant de reprendre la route vers la ville suivante.",
+      "skills": [
+        "Maîtrise des consoles numériques (Yamaha, DiGiCo, Avid, Allen & Heath…) et d’un logiciel comme Pro Tools",
+        "Connaissances solides en acoustique, en électronique et en réseaux audio (Dante, MADI)",
+        "Oreille musicale fine et culture artistique large",
+        "Calme et réactivité face aux pannes et aux imprévus du direct",
+        "Sens du relationnel avec les artistes, qui confient leur son à l’ingé",
+        "Résistance physique : longues journées, déplacements, horaires décalés"
+      ],
+      "training": "Le métier s’apprend par une formation technique, puis se consolide sur le terrain. Les voies les plus reconnues sont les écoles publiques très sélectives, accessibles après le bac ou un bac+2, comme la section son de l’ENS Louis-Lumière ou le département son de La Fémis. Le BTS Métiers de l’audiovisuel option métiers du son, les licences professionnelles en techniques du son et les centres de formation du spectacle vivant forment aussi de nombreux ingénieurs. Beaucoup commencent comme technicien son ou assistant avant de prendre la console.",
+      "schools": [
+        "ENS Louis-Lumière (Saint-Denis)",
+        "La Fémis, département son (Paris)",
+        "BTS Métiers de l’audiovisuel, option métiers du son",
+        "ISTS (Avignon)",
+        "CFPTS (Bagnolet)",
+        "SAE Institute (Paris, Lyon)"
+      ],
+      "statut": "Dans le spectacle vivant et l’audiovisuel, l’ingénieur du son est le plus souvent intermittent du spectacle : il enchaîne les contrats à durée déterminée d’usage (CDDU) et relève de l’annexe 8 de l’assurance chômage, qui demande 507 heures travaillées sur douze mois pour ouvrir des droits. Certains sont salariés permanents d’un studio, d’une salle ou d’un prestataire technique. En studio indépendant, le statut d’auto-entrepreneur existe aussi, mais les heures facturées ainsi ne comptent pas pour l’intermittence.",
+      "pay": {
+        "min": 200,
+        "max": 400,
+        "unit": "jour",
+        "note": "En tournée, un ingénieur façade reconnu dépasse souvent le haut de la fourchette. Sur un long métrage, le chef opérateur du son est payé à la semaine, autour de 2 000 à 3 000 € brut selon le budget de la production."
+      },
+      "career": "Après quelques années, l’ingénieur du son peut se spécialiser — façade, retours, studio, post-production, prise de son cinéma — ou prendre la tête d’une équipe comme régisseur son ou chef opérateur du son. Les plus expérimentés deviennent ingénieurs attitrés d’un artiste, concepteurs de systèmes de diffusion, ou ouvrent leur propre studio.",
+      "faq": [
+        {
+          "q": "Quelle différence entre ingénieur du son et technicien son ?",
+          "a": "Le technicien son installe, câble et entretient le matériel ; l’ingénieur du son conçoit et réalise le mixage. Dans les petites équipes, la même personne tient souvent les deux rôles, et beaucoup d’ingénieurs ont commencé comme techniciens."
+        },
+        {
+          "q": "Faut-il un diplôme pour devenir ingénieur du son ?",
+          "a": "Aucun diplôme n’est légalement exigé, mais le niveau technique attendu rend une formation presque indispensable. Les écoles publiques sont très sélectives ; les BTS, licences professionnelles et centres de formation du spectacle constituent des voies d’accès solides."
+        },
+        {
+          "q": "Un ingénieur du son peut-il être intermittent ?",
+          "a": "Oui, c’est même le cas le plus fréquent dans le spectacle et l’audiovisuel. Il faut réunir 507 heures de travail sur douze mois, sous contrats CDDU, pour ouvrir des droits au titre de l’annexe 8."
+        },
+        {
+          "q": "Quelles qualités sont les plus recherchées ?",
+          "a": "L’oreille, bien sûr, mais aussi la capacité à rester calme en direct, la ponctualité et le sens du service. Un ingénieur du son est jugé autant sur ses relations avec les artistes que sur la qualité de son mixage."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8) ou salarié permanent",
+        "training": "BTS, licence pro ou école spécialisée",
+        "sectors": "Concerts, théâtre, studio, cinéma, télévision"
+      },
+      "related": ["regisseur-son", "technicien-son", "mixeur-son", "perchman"],
+      "keywords": [
+        "ingénieur du son", "ingénieure du son", "ingénieur son", "ingénieure son", "ingé son",
+        "ingé façade", "ingénieur façade", "ingénieur retours", "chef opérateur du son",
+        "cheffe opératrice du son"
+      ],
+      "search": "ingénieur du son"
+    },
+    {
+      "slug": "regisseur-son",
+      "name": "Régisseur son",
+      "name_f": "Régisseuse son",
+      "rome": "L1508",
+      "summary": "Il organise la partie son d’un lieu ou d’un spectacle et coordonne les techniciens.",
+      "intro": "Le régisseur son est le responsable de tout ce qui touche au son dans un théâtre, une salle de concert ou sur une tournée. Il prépare l’accueil technique des spectacles, gère le parc de matériel, encadre les techniciens et assure souvent lui-même la diffusion sonore pendant les représentations. C’est un poste pivot entre la direction technique, les compagnies et le plateau.",
+      "missions": [
+        "Lire et adapter les fiches techniques des spectacles accueillis, et négocier les ajustements avec les compagnies",
+        "Planifier le montage, les balances et le démontage, et répartir le travail entre les techniciens son",
+        "Gérer, entretenir et renouveler le parc de micros, de consoles, d’enceintes et de câbles",
+        "Installer et régler la diffusion, puis envoyer musiques et effets sonores en représentation",
+        "Programmer les conduites son des créations, sur QLab ou sur la console",
+        "Faire respecter les règles de sécurité, notamment sur les niveaux sonores et le câblage"
+      ],
+      "day": "Dans un théâtre, la journée d’un régisseur son s’organise autour de l’accueil d’une compagnie. Le matin, c’est le montage : il implante les enceintes, câble le plateau et vérifie que le matériel demandé est prêt. L’après-midi, il cale le système et retrouve l’équipe artistique pour les balances et les raccords, en ajustant la conduite son scène par scène. Le soir, il est en régie pour la représentation, prêt à envoyer chaque effet au bon moment. Entre deux spectacles, il prépare les prochains accueils et commande les pièces manquantes.",
+      "skills": [
+        "Bonne maîtrise des consoles numériques et des logiciels de conduite comme QLab",
+        "Lecture de fiches techniques et de plans d’implantation",
+        "Organisation, anticipation et capacité à encadrer une petite équipe",
+        "Connaissance de la réglementation sur les niveaux sonores et de la sécurité électrique",
+        "Diplomatie avec les compagnies en tournée, dont les demandes ne cadrent pas toujours avec le lieu",
+        "Précision et sang-froid en représentation"
+      ],
+      "training": "La plupart des régisseurs son viennent de la technique : ils ont été techniciens son ou ingénieurs du son avant de prendre des responsabilités d’organisation. Les formations spécialisées du spectacle vivant, comme le DN MADE mention spectacle (ex-DMA régie du spectacle), le BTS Métiers de l’audiovisuel option son ou les parcours du CFPTS et de l’ISTS, préparent bien au poste. La formation continue, que l’Afdas peut financer, permet de se tenir à jour sur les consoles et les réseaux audio.",
+      "schools": [
+        "DN MADE mention spectacle (ex-DMA régie du spectacle)",
+        "BTS Métiers de l’audiovisuel, option métiers du son",
+        "CFPTS (Bagnolet)",
+        "ISTS (Avignon)",
+        "ENSATT (Lyon)"
+      ],
+      "statut": "Deux situations coexistent. Dans les théâtres, scènes nationales et salles de concert, le régisseur son est souvent salarié permanent, en CDI, sous la convention collective des entreprises artistiques et culturelles (CCNEAC) ou celle du spectacle vivant privé. En compagnie ou en tournée, il est plutôt intermittent, engagé en CDDU pour chaque série de dates et indemnisé au titre de l’annexe 8.",
+      "pay": {
+        "min": 170,
+        "max": 300,
+        "unit": "jour",
+        "note": "Un régisseur son permanent gagne en général entre 2 200 et 3 200 € brut par mois, selon la taille du lieu et son ancienneté. En tournée, les jours de voyage font l’objet d’un tarif propre, à préciser au contrat."
+      },
+      "career": "Avec l’expérience, le régisseur son peut devenir régisseur général, puis directeur technique d’un lieu. D’autres se tournent vers la création sonore pour le théâtre et la danse, ou vers l’ingénierie du son en tournée de concerts.",
+      "faq": [
+        {
+          "q": "Quelle différence entre régisseur son et ingénieur du son ?",
+          "a": "L’ingénieur du son est d’abord un spécialiste du mixage ; le régisseur son ajoute à la technique une responsabilité d’organisation : planning, matériel, équipe, accueil des spectacles. Dans un théâtre, c’est lui l’interlocuteur son des compagnies."
+        },
+        {
+          "q": "Le régisseur son est-il intermittent ?",
+          "a": "Il peut l’être, surtout en compagnie et en tournée. Dans les lieux qui ont une programmation régulière, le poste est souvent permanent, en CDI. Les deux statuts se croisent au fil d’une carrière."
+        },
+        {
+          "q": "Quels logiciels faut-il connaître ?",
+          "a": "QLab pour les conduites son au théâtre, une ou deux familles de consoles numériques courantes, et un logiciel d’édition comme Reaper ou Pro Tools. La connaissance des réseaux audio Dante devient incontournable."
+        },
+        {
+          "q": "Peut-on devenir régisseur son sans diplôme ?",
+          "a": "Oui, par l’expérience : beaucoup ont commencé comme techniciens, parfois très jeunes dans une salle ou sur un festival. Une formation reste un atout pour les postes permanents, qui mettent souvent plusieurs candidats en concurrence."
+        }
+      ],
+      "brief": {
+        "status": "Salarié permanent (CDI) ou intermittent (annexe 8)",
+        "training": "Formation technique du spectacle, puis expérience",
+        "sectors": "Théâtres, salles de concert, festivals, tournées"
+      },
+      "related": ["ingenieur-du-son", "technicien-son", "regisseur-general", "regisseur-lumiere"],
+      "keywords": ["régisseur son", "régisseuse son", "régie son", "régisseur audio", "régisseuse audio"],
+      "search": "régisseur son"
+    },
+    {
+      "slug": "technicien-son",
+      "name": "Technicien son",
+      "name_f": "Technicienne son",
+      "rome": "L1508",
+      "summary": "Il installe, câble et entretient le matériel de sonorisation des spectacles et des événements.",
+      "intro": "Le technicien son, aussi appelé sonorisateur, installe et fait fonctionner le matériel de sonorisation : enceintes, micros, consoles, câblage. On le retrouve dans les salles de spectacle, chez les prestataires techniques, sur les festivals et les événements d’entreprise. C’est souvent la porte d’entrée des métiers du son, et un métier à part entière pour qui aime le terrain.",
+      "missions": [
+        "Charger, décharger et installer le matériel de sonorisation selon le plan d’implantation",
+        "Câbler les micros, les retours et la diffusion, puis vérifier chaque ligne",
+        "Accrocher ou poser les enceintes en respectant les règles de sécurité",
+        "Assister l’ingénieur du son pendant les balances et le spectacle",
+        "Assurer la maintenance courante du parc : tests, soudure de câbles, petites réparations",
+        "Démonter, ranger et contrôler le matériel en fin de prestation"
+      ],
+      "day": "Chez un prestataire technique, la journée commence au dépôt : préparation du matériel d’après la liste de la prestation, tests, chargement du camion. Sur le site — une salle de congrès, un festival, une place de village — l’équipe installe la diffusion, tire les câbles, pose les micros. Pendant l’événement, le technicien son reste au plateau pour changer un micro, régler un retour ou dépanner une ligne. Le soir, tout est démonté et rechargé ; le lendemain, retour au dépôt pour ranger et signaler le matériel défectueux.",
+      "skills": [
+        "Connaissances de base en électricité, en électronique et en acoustique",
+        "Rigueur dans le câblage et le repérage des lignes",
+        "Pratique des consoles analogiques et numériques courantes",
+        "Habileté manuelle : soudure, dépannage, petite maintenance",
+        "Bonne condition physique et goût du travail en équipe",
+        "Permis B, souvent indispensable chez les prestataires"
+      ],
+      "training": "On devient technicien son par une formation courte ou par l’expérience. Le BTS Métiers de l’audiovisuel, les formations qualifiantes des centres du spectacle — CFPTS, ISTS, Grim Édif à Lyon — et les écoles privées de son ouvrent la voie. Beaucoup commencent en renfort sur des festivals ou chez un prestataire local. Les habilitations électriques et les formations au travail en hauteur facilitent l’embauche.",
+      "schools": [
+        "BTS Métiers de l’audiovisuel, option métiers du son",
+        "CFPTS (Bagnolet)",
+        "ISTS (Avignon)",
+        "Grim Édif (Lyon)",
+        "Habilitation électrique et formation au travail en hauteur"
+      ],
+      "statut": "Le technicien son est généralement intermittent du spectacle, engagé en CDDU pour chaque prestation, et relève de l’annexe 8. Chez les grands prestataires techniques, une partie des équipes est permanente. Dans l’événementiel, c’est souvent la convention collective des entreprises techniques au service de la création et de l’événement qui s’applique.",
+      "pay": {
+        "min": 140,
+        "max": 220,
+        "unit": "jour",
+        "note": "Les journées longues donnent lieu à des heures supplémentaires. Un technicien son permanent chez un prestataire gagne en général entre 1 900 et 2 500 € brut par mois."
+      },
+      "career": "Le technicien son évolue vers l’ingénierie du son — façade ou retours — ou vers la régie son d’un lieu. Certains se spécialisent dans la maintenance et la conception de systèmes, d’autres deviennent chefs d’équipe chez un prestataire, voire créent leur propre société de location.",
+      "faq": [
+        {
+          "q": "Sonorisateur et technicien son, est-ce le même métier ?",
+          "a": "Oui, les deux termes désignent le technicien qui installe et fait fonctionner la sonorisation. « Sonorisateur » est plus courant dans l’événementiel et chez les prestataires, « technicien son » dans les salles."
+        },
+        {
+          "q": "Peut-on débuter sans expérience ?",
+          "a": "Oui, c’est l’un des métiers les plus accessibles du secteur. Les festivals et les prestataires recrutent des renforts chaque été ; c’est souvent là que tout commence, avant une formation pour consolider les bases."
+        },
+        {
+          "q": "Quel est le rythme de travail ?",
+          "a": "Irrégulier : des semaines très chargées pendant la saison des festivals et des événements, plus calmes en hiver. Les journées de montage et de démontage sont longues et physiques."
+        },
+        {
+          "q": "Quelle convention collective s’applique ?",
+          "a": "Cela dépend de l’employeur : spectacle vivant subventionné ou privé, entreprises techniques de l’événement, audiovisuel. La convention figure sur le contrat et fixe les minima de salaire."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8), parfois permanent",
+        "training": "Formation courte ou expérience de terrain",
+        "sectors": "Salles, festivals, prestataires, événementiel"
+      },
+      "related": ["ingenieur-du-son", "regisseur-son", "backliner", "technicien-evenementiel"],
+      "keywords": [
+        "technicien son", "technicienne son", "sonorisateur", "sonorisatrice",
+        "technicien sonorisation", "technicienne sonorisation", "technicien audio", "technicienne audio"
+      ],
+      "search": "technicien son"
+    },
+    {
+      "slug": "perchman",
+      "name": "Perchman",
+      "name_f": "Perchwoman",
+      "rome": "L1508",
+      "summary": "Sur un tournage, il place le micro au plus près des comédiens, sans jamais entrer dans le cadre.",
+      "intro": "Le perchman, ou perchiste, tient la perche au bout de laquelle est fixé le micro qui enregistre les dialogues d’un film, d’une série ou d’une émission. Placé au plus près des comédiens, il suit leurs déplacements sans jamais apparaître dans le cadre ni projeter d’ombre. Il travaille sous la direction du chef opérateur du son, qui compte sur lui pour des dialogues nets et exploitables au montage.",
+      "missions": [
+        "Préparer et entretenir les micros, perches, suspensions et bonnettes",
+        "Lire le découpage et le plan de travail pour anticiper chaque scène",
+        "Placer le micro au plus près de la source, en restant hors champ et sans ombre portée",
+        "Suivre les déplacements des comédiens pendant la prise",
+        "Poser les micros HF sur les comédiens avec discrétion et gérer leurs fréquences",
+        "Enregistrer les sons seuls et les ambiances demandés par le chef opérateur du son"
+      ],
+      "day": "Sur un tournage de fiction, la journée commence tôt, avec la préparation du matériel et la pose des micros HF sur les comédiens au moment du maquillage. Pendant la mise en place, le perchman observe les répétitions, repère les déplacements et cherche avec le chef opérateur et l’électricien la position qui évite les ombres. Puis viennent les prises, souvent nombreuses, bras tendus au-dessus de la tête pendant de longues minutes. Entre deux plans, il change les piles, repositionne un micro et enregistre quelques sons seuls. Les journées dépassent souvent dix heures.",
+      "skills": [
+        "Excellente condition physique : bras, épaules et dos sont très sollicités",
+        "Sens de l’espace et de l’image, pour comprendre le cadre et la lumière et s’y glisser",
+        "Oreille attentive aux défauts de prise : bruits de vêtements, souffle, réverbération",
+        "Discrétion et tact, notamment pour la pose des micros sur les comédiens",
+        "Maîtrise des systèmes HF et de la gestion des fréquences",
+        "Patience et concentration sur des journées longues"
+      ],
+      "training": "Le perchman se forme souvent dans une école de son ou de cinéma — ENS Louis-Lumière, La Fémis, BTS Métiers de l’audiovisuel option son — avant d’apprendre le geste sur les plateaux, comme stagiaire puis assistant son. La technique de perche s’acquiert surtout par la pratique, auprès d’un chef opérateur du son. Des stages courts de prise de son cinéma existent aussi en formation continue.",
+      "schools": [
+        "ENS Louis-Lumière (Saint-Denis)",
+        "La Fémis, département son (Paris)",
+        "BTS Métiers de l’audiovisuel, option métiers du son",
+        "INA (formations professionnelles)"
+      ],
+      "statut": "Le perchman est presque toujours intermittent : il est engagé en CDDU pour la durée d’un tournage, sous la convention collective de la production cinématographique ou de la production audiovisuelle, et relève de l’annexe 8. Les tournages se comptent en semaines, ce qui aide à réunir les 507 heures nécessaires, à condition d’enchaîner les projets.",
+      "pay": {
+        "min": 1400,
+        "max": 2000,
+        "unit": "semaine",
+        "note": "Montants indicatifs pour une semaine de tournage ; les minima varient selon le budget du film et la convention appliquée. En télévision, le perchman est souvent payé à la journée, autour de 200 à 280 € brut."
+      },
+      "career": "Le perchman devient le plus souvent chef opérateur du son après plusieurs années de plateau. Certains se tournent vers la post-production — montage son, mixage, bruitage — où leur connaissance des prises directes est précieuse.",
+      "faq": [
+        {
+          "q": "Perchman ou perchiste ?",
+          "a": "Les deux se disent. « Perchman » reste le plus courant sur les plateaux, « perchiste » a l’avantage d’être neutre ; on entend aussi « perchwoman »."
+        },
+        {
+          "q": "Le métier est-il très physique ?",
+          "a": "Oui. Tenir une perche de trois à cinq mètres à bout de bras, parfois plusieurs minutes par prise, demande un vrai entraînement et une bonne hygiène posturale pour durer."
+        },
+        {
+          "q": "Comment trouver son premier tournage ?",
+          "a": "Par le réseau, surtout : stages sur des courts métrages, assistanat sur des tournages étudiants ou publicitaires. Les chefs opérateurs du son recommandent les perchmen avec qui ils aiment travailler."
+        },
+        {
+          "q": "Pourquoi ne pas tout enregistrer avec des micros HF ?",
+          "a": "Parce que la perche donne un son plus naturel, avec la bonne perspective. Les HF servent de complément, surtout sur les plans larges ou en extérieur, mais une bonne prise perche reste la référence au montage."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "École de son ou de cinéma, puis plateau",
+        "sectors": "Cinéma, séries, télévision, publicité"
+      },
+      "related": ["ingenieur-du-son", "mixeur-son", "bruiteur", "assistant-camera"],
+      "keywords": [
+        "perchman", "perchwoman", "perchiste", "assistant son", "assistante son",
+        "opérateur de prise de son", "opératrice de prise de son"
+      ],
+      "search": "perchman"
+    },
+    {
+      "slug": "bruiteur",
+      "name": "Bruiteur",
+      "name_f": "Bruiteuse",
+      "rome": "L1508",
+      "summary": "En studio, il recrée à la main les bruits d’un film : pas, frottements, objets, chocs.",
+      "intro": "Le bruiteur recrée en studio les sons du quotidien qui n’ont pas été enregistrés au tournage, ou qu’il faut refaire pour la version internationale d’un film : les pas, le froissement d’un manteau, une porte qui claque, un verre posé sur une table. Face à l’écran, il joue ces sons en synchronisme avec l’image, à l’aide d’une collection d’objets parfois étonnante. C’est un métier rare, à la fois artisanal et artistique.",
+      "missions": [
+        "Visionner le film et repérer, plan par plan, tous les sons à recréer",
+        "Choisir les objets, les surfaces et les chaussures qui donneront le son juste",
+        "Jouer les bruits en direct face à l’image, en synchronisme parfait",
+        "Travailler avec l’ingénieur du son de bruitage, qui enregistre chaque passe",
+        "Réaliser la version internationale, sans dialogues, qui servira aux doublages étrangers",
+        "Constituer et entretenir une collection d’accessoires sonores"
+      ],
+      "day": "Une journée de bruitage se passe dans un auditorium, face à un grand écran. Le bruiteur et l’ingénieur du son avancent bobine par bobine : d’abord les pas de chaque personnage, sur le sol qui convient — parquet, gravier, carrelage —, puis les froissements de vêtements, enfin les accessoires. Chaque passe est rejouée jusqu’à coller parfaitement à l’image. Sur un long métrage, il faut souvent une à deux semaines pour tout bruiter.",
+      "skills": [
+        "Sens du rythme et de la synchronisation, proche de celui d’un musicien ou d’un comédien",
+        "Imagination sonore : savoir qu’un gant de cuir ou un chou peut devenir tout autre chose",
+        "Écoute très fine des matières et des textures",
+        "Endurance : le bruitage se pratique debout, en mouvement, pendant des heures",
+        "Précision du geste et sens de l’interprétation",
+        "Curiosité et goût de l’expérimentation"
+      ],
+      "training": "Il n’existe presque pas de formation initiale dédiée au bruitage. Les bruiteurs viennent souvent du théâtre, de la musique ou des métiers du son, et apprennent auprès d’un bruiteur confirmé, en assistanat. Une formation en son à l’image — BTS Métiers de l’audiovisuel option son, ENS Louis-Lumière, formations professionnelles de l’INA — aide à comprendre la chaîne de post-production dans laquelle le bruitage s’inscrit.",
+      "schools": [
+        "Assistanat auprès d’un bruiteur confirmé",
+        "BTS Métiers de l’audiovisuel, option métiers du son",
+        "ENS Louis-Lumière (Saint-Denis)",
+        "INA (formations professionnelles)"
+      ],
+      "statut": "Le bruiteur est généralement intermittent, engagé en CDDU pour la durée du bruitage d’un film ou d’une série, et relève de l’annexe 8 de l’assurance chômage. Il travaille pour des sociétés de post-production ou directement pour les productions. Le métier compte peu de professionnels, ce qui rend le réseau décisif.",
+      "pay": {
+        "min": 250,
+        "max": 450,
+        "unit": "jour",
+        "note": "Tarifs indicatifs pour une journée de bruitage en auditorium ; ils varient selon la notoriété du bruiteur et le budget du film ou de la série."
+      },
+      "career": "L’évolution se fait surtout en notoriété : un bruiteur reconnu est demandé par les réalisateurs et les monteurs son. Certains se tournent vers le montage son ou le design sonore, d’autres deviennent formateurs.",
+      "faq": [
+        {
+          "q": "Pourquoi refaire les bruits d’un film ?",
+          "a": "Au tournage, le micro vise les dialogues ; les autres sons sont souvent faibles, masqués ou inutilisables. Le bruitage permet aussi de livrer une version internationale, sans voix, pour les doublages."
+        },
+        {
+          "q": "Bruiteur et sound designer, quelle différence ?",
+          "a": "Le bruiteur joue les sons en direct face à l’image, avec des objets réels. Le sound designer crée et transforme des sons, souvent par ordinateur, pour inventer des univers sonores."
+        },
+        {
+          "q": "Le bruitage existe-t-il encore à l’ère numérique ?",
+          "a": "Oui, et il reste très demandé : les banques de sons ne remplacent pas un bruitage joué, qui colle exactement au geste et à l’intention de chaque personnage."
+        },
+        {
+          "q": "Comment débuter ?",
+          "a": "En assistant un bruiteur en activité, souvent après une formation en son ou une pratique théâtrale ou musicale. Le réseau et la persévérance comptent beaucoup dans ce petit milieu."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "Assistanat, souvent après une formation son",
+        "sectors": "Cinéma, séries, animation, jeu vidéo"
+      },
+      "related": ["mixeur-son", "ingenieur-du-son", "perchman", "monteur"],
+      "keywords": ["bruiteur", "bruiteuse", "bruitage"],
+      "search": "bruiteur"
+    },
+    {
+      "slug": "mixeur-son",
+      "name": "Mixeur son",
+      "name_f": "Mixeuse son",
+      "rome": "L1508",
+      "summary": "En post-production, il équilibre dialogues, musiques et effets pour donner au film son relief sonore.",
+      "intro": "Le mixeur son intervient à la toute fin de la post-production d’un film, d’une série ou d’un documentaire. En auditorium, il rassemble les pistes préparées par les monteurs son — dialogues, bruitages, ambiances, musique — et les équilibre pour que chaque scène sonne juste, en stéréo, en 5.1 ou en Dolby Atmos. Il travaille main dans la main avec le réalisateur, qui valide chaque bobine.",
+      "missions": [
+        "Préparer la session de mixage à partir des pistes livrées par le montage son",
+        "Équilibrer dialogues, musique, bruitages et ambiances, scène par scène",
+        "Traiter les voix : égalisation, compression, réduction de bruit",
+        "Spatialiser le son en 5.1, 7.1 ou Dolby Atmos selon la diffusion prévue",
+        "Respecter les normes de volume sonore des chaînes de télévision et des plateformes",
+        "Livrer les versions finales et la version internationale destinée au doublage"
+      ],
+      "day": "Le mixage d’un long métrage s’étale sur plusieurs semaines en auditorium. Chaque jour, le mixeur avance sur quelques bobines : il écoute, ajuste les niveaux, retravaille une réplique trop sourde, place la musique pour qu’elle porte l’émotion sans couvrir les voix. En fin de journée, le réalisateur et parfois le monteur viennent écouter et demander des retouches. Sur une série télévisée, le rythme est plus soutenu : un épisode peut se mixer en deux ou trois jours.",
+      "skills": [
+        "Maîtrise experte de Pro Tools et des consoles de mixage cinéma",
+        "Connaissance des formats multicanaux et des normes de diffusion (EBU R128, Dolby)",
+        "Oreille exceptionnelle et mémoire auditive",
+        "Sens du récit : le son sert l’histoire avant tout",
+        "Écoute et diplomatie face aux demandes du réalisateur et de la production",
+        "Capacité de concentration sur de longues séances"
+      ],
+      "training": "Le mixeur son est presque toujours passé par une école de son : ENS Louis-Lumière, La Fémis, BTS Métiers de l’audiovisuel option son, formations de l’INA. Il commence en général comme assistant mixeur ou monteur son, avant de mixer ses premiers courts métrages et documentaires. La pratique du Dolby Atmos et des normes de volume sonore devient un atout décisif.",
+      "schools": [
+        "ENS Louis-Lumière (Saint-Denis)",
+        "La Fémis, département son (Paris)",
+        "BTS Métiers de l’audiovisuel, option métiers du son",
+        "INA (formations professionnelles)"
+      ],
+      "statut": "Beaucoup de mixeurs sont intermittents, engagés en CDDU par les productions ou les studios de post-production pour la durée d’un mixage, et relèvent de l’annexe 8. Les grands auditoriums emploient aussi des mixeurs permanents. Quelques mixeurs indépendants facturent en société, notamment pour la publicité.",
+      "pay": {
+        "min": 250,
+        "max": 450,
+        "unit": "jour",
+        "note": "Sur un long métrage, un mixeur confirmé est payé à la semaine, souvent entre 2 000 et 3 000 € brut. La publicité et les grandes plateformes rémunèrent en général au-dessus de la fourchette."
+      },
+      "career": "Le mixeur son peut devenir chef mixeur d’un auditorium, se spécialiser dans le mixage musical ou immersif, ou superviser le son de productions entières comme superviseur son.",
+      "faq": [
+        {
+          "q": "Quelle différence entre monteur son et mixeur ?",
+          "a": "Le monteur son prépare : il choisit, nettoie et synchronise les sons sur des pistes. Le mixeur assemble ces pistes et fixe l’équilibre final. Sur les petites productions, la même personne fait souvent les deux."
+        },
+        {
+          "q": "Qu’est-ce que le Dolby Atmos ?",
+          "a": "Un format de son immersif qui place des sons au-dessus et tout autour du spectateur. De plus en plus de films et de séries sont mixés dans ce format, pour la salle comme pour les plateformes."
+        },
+        {
+          "q": "Combien de temps dure le mixage d’un film ?",
+          "a": "Pour un long métrage, de deux à quatre semaines en moyenne selon le budget et la complexité ; pour un épisode de série, quelques jours."
+        },
+        {
+          "q": "Faut-il être musicien ?",
+          "a": "Ce n’est pas obligatoire, mais une culture musicale aide beaucoup : le mixeur doit placer la musique au bon niveau, au bon moment, et dialoguer avec les compositeurs."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8) ou salarié d’un studio",
+        "training": "École de son, puis assistanat",
+        "sectors": "Cinéma, séries, documentaire, publicité"
+      },
+      "related": ["ingenieur-du-son", "bruiteur", "monteur", "perchman"],
+      "keywords": [
+        "mixeur son", "mixeuse son", "mixeur cinéma", "mixeuse cinéma", "mixeur audio",
+        "mixeuse audio", "monteur son", "monteuse son"
+      ],
+      "search": "mixeur son"
+    },
+    {
+      "slug": "backliner",
+      "name": "Backliner",
+      "name_f": "Backlineuse",
+      "rome": "",
+      "summary": "En tournée, il prépare, installe et entretient les instruments des musiciens.",
+      "intro": "Le backliner est le technicien des instruments sur une tournée ou un festival. Guitares, basses, batterie, claviers, amplis : il les prépare, les accorde, les installe sur scène et les remplace en urgence si une corde casse en plein morceau. Discret et indispensable, il permet aux musiciens de jouer sans se soucier de leur matériel. Le mot vient de l’anglais backline, l’ensemble des instruments et des amplis d’un groupe.",
+      "missions": [
+        "Préparer, accorder et régler les instruments avant chaque concert",
+        "Installer la backline sur scène selon le plan de scène du groupe",
+        "Assurer les changements d’instruments et d’accordage pendant le concert",
+        "Intervenir en urgence : corde cassée, peau de batterie percée, ampli défaillant",
+        "Entretenir le matériel : cordes, réglages, petites réparations, électronique",
+        "Charger, décharger et protéger les instruments pendant les transports"
+      ],
+      "day": "Le jour d’un concert, le backliner arrive avec l’équipe technique, bien avant le groupe. Il installe les instruments, change les cordes des guitares, accorde, vérifie les pédales d’effets et les amplis. Pendant les balances, il reste au bord de la scène pour régler le détail qu’un musicien lui demande. Le soir, en coulisse, il suit la setlist, tend la bonne guitare au bon moment et répare dans l’urgence ce qui lâche. Après le concert, tout repart en flight cases pour la route.",
+      "skills": [
+        "Très bonne connaissance des instruments, souvent en tant que musicien soi-même",
+        "Savoir-faire en lutherie et en électronique de base",
+        "Réactivité et sang-froid : une intervention se joue en quelques secondes",
+        "Discrétion : le backliner ne doit jamais attirer l’attention du public",
+        "Relation de confiance avec les musiciens",
+        "Anglais courant pour les tournées internationales"
+      ],
+      "training": "Il n’existe pas de diplôme spécifique de backliner. La plupart sont musiciens et ont appris la technique au contact des groupes, avant de se former à la lutherie ou à l’électronique. Les formations aux techniques du spectacle, comme celles du CFPTS ou de l’ISTS, et les formations de luthier et de technicien de l’ITEMM, au Mans, apportent des bases solides. Le réseau des tourneurs et des groupes fait le reste.",
+      "schools": [
+        "ITEMM, lutherie et maintenance d’instruments (Le Mans)",
+        "CFPTS (Bagnolet)",
+        "ISTS (Avignon)",
+        "Expérience de musicien et de roadie"
+      ],
+      "statut": "Le backliner est en général intermittent du spectacle, engagé en CDDU par le producteur de la tournée ou par un prestataire, et relève de l’annexe 8. En tournée, la rémunération des jours de voyage et de repos est à vérifier dans le contrat.",
+      "pay": {
+        "min": 150,
+        "max": 250,
+        "unit": "jour",
+        "note": "Sur les grandes tournées internationales, les backliners attitrés d’un artiste sont souvent mieux payés, avec des indemnités de déplacement en plus."
+      },
+      "career": "Un backliner expérimenté peut devenir stage manager, régisseur de tournée ou technicien attitré d’un artiste. D’autres ouvrent un atelier de lutherie ou de réparation d’amplis, ou rejoignent un loueur de backline.",
+      "faq": [
+        {
+          "q": "Backliner et roadie, c’est pareil ?",
+          "a": "Pas tout à fait. Le roadie désigne largement les techniciens de tournée qui montent et démontent le matériel ; le backliner est spécialisé dans les instruments des musiciens."
+        },
+        {
+          "q": "Faut-il savoir jouer d’un instrument ?",
+          "a": "C’est presque indispensable : il faut accorder, tester et comprendre ce qu’un musicien attend de son son. Beaucoup de backliners sont eux-mêmes guitaristes, bassistes ou batteurs."
+        },
+        {
+          "q": "Le backliner est-il en tournée toute l’année ?",
+          "a": "Cela dépend des artistes et des saisons. Les festivals d’été concentrent l’activité ; l’hiver, certains travaillent en atelier ou chez un loueur de matériel."
+        },
+        {
+          "q": "Comment se faire connaître ?",
+          "a": "En travaillant d’abord avec des groupes locaux, puis sur des festivals. Les régisseurs et les tour managers recommandent les backliners fiables : la réputation fait l’essentiel des embauches."
+        }
+      ],
+      "brief": {
+        "status": "Intermittent (annexe 8)",
+        "training": "Pratique musicale, lutherie, techniques du spectacle",
+        "sectors": "Tournées, festivals, salles de concert"
+      },
+      "related": ["technicien-son", "regisseur-de-tournee", "musicien", "tour-manager"],
+      "keywords": [
+        "backliner", "backlineuse", "backline", "technicien instruments", "technicienne instruments",
+        "roadie"
+      ],
+      "search": "backliner"
+    }
+  ]
+}

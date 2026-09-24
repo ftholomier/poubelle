@@ -196,6 +196,12 @@ return [
 
             // Pages de contenu et ressources
             'page_inline'   => ['format' => 'in-article',  'label' => 'Pages — dans le texte',     'enabled' => true],
+
+            // Les métiers : des pages longues, lues jusqu'au bout — le meilleur
+            // inventaire du site après les fiches d'offre.
+            'trades_infeed' => ['format' => 'in-feed',     'label' => 'Métiers — entre deux familles', 'enabled' => true],
+            'trade_inline'  => ['format' => 'in-article',  'label' => 'Métier — dans le texte',    'enabled' => true],
+            'trade_side'    => ['format' => '300x250',     'label' => 'Métier — colonne',          'enabled' => true],
         ],
     ],
 
@@ -235,6 +241,20 @@ return [
     'reviews' => [
         'place_id' => '',
         'ttl'      => 43200,   // 12 h
+    ],
+
+    /**
+     * Fiches métiers.
+     *
+     * `partner_refresh_per_run` : nombre de métiers dont le flux partenaire est
+     * redemandé à chaque passage de la tâche planifiée (toutes les trente
+     * minutes). À 1, chacune des soixante fiches est rafraîchie environ toutes
+     * les trente heures, pour une cinquantaine d'appels par jour et par
+     * partenaire — de quoi rester loin des quotas gratuits. À relever si les
+     * offres partenaires d'une fiche paraissent trop anciennes.
+     */
+    'trades' => [
+        'partner_refresh_per_run' => 1,
     ],
 
     'regie' => [

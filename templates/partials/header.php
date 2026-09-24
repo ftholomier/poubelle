@@ -17,6 +17,7 @@ $links = [
     '/offres'     => I18n::t('nav.jobs'),
     '/cv'         => I18n::t('nav.cv'),
     '/employeurs' => I18n::t('nav.employers'),
+    '/metiers'    => I18n::t('nav.trades'),
     '/ressources' => I18n::t('nav.resources'),
 ];
 ?>

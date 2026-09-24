@@ -13,6 +13,7 @@ use App\Support\Icon;
 $entries = [
     ['/admin/tableau-de-bord', 'admin.dashboard',    '#FF4B3E'],
     ['/admin/contenus',        'admin.contents',     '#FFC531'],
+    ['/admin/metiers',         'admin.trades',       '#0FBFA4'],
     ['/admin/offres',          'admin.jobs',         '#6D4AFF'],
     ['/admin/cv',              'admin.cvs',          '#0FBFA4'],
     ['/admin/employeurs',      'admin.employers',    '#FF7AB8'],

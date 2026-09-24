@@ -202,6 +202,131 @@ final class StructuredData
      *
      * @param array<int, array{0:string,1:string}> $trail  [libellé, chemin]
      */
+    /** Unités de rémunération des fiches métiers, dans le vocabulaire schema.org. */
+    private const PAY_UNITS = ['heure' => 'HOUR', 'jour' => 'DAY', 'semaine' => 'WEEK', 'mois' => 'MONTH'];
+
+    /**
+     * Mosaïque des métiers : le fil d'Ariane et la liste des fiches, qui dit
+     * à Google que cette page est le sommaire d'un ensemble.
+     *
+     * @param array<string, array<int, array<string, mixed>>> $groups
+     */
+    public static function tradeIndex(array $groups): array
+    {
+        $base = rtrim((string) Config::get('site.url'), '/');
+        $items = [];
+        $position = 1;
+        foreach ($groups as $rows) {
+            foreach ($rows as $row) {
+                $items[] = [
+                    '@type'    => 'ListItem',
+                    'position' => $position++,
+                    'name'     => (string) $row['name'],
+                    'url'      => $base . I18n::url('/metiers/' . $row['slug']),
+                ];
+            }
+        }
+
+        return self::graph([
+            self::breadcrumb([
+                [(string) Config::get('site.name'), '/'],
+                [I18n::t('nav.trades'), '/metiers'],
+            ]),
+            ['@type' => 'ItemList', 'name' => I18n::t('trades.title'), 'itemListElement' => $items],
+        ]);
+    }
+
+    /**
+     * Fiche métier : fil d'Ariane, métier (Occupation) et questions fréquentes.
+     *
+     * La rémunération n'est balisée que pour une unité de temps : un cachet ou
+     * une prestation n'a pas d'équivalent dans le vocabulaire, et une valeur
+     * approximative ferait rejeter le bloc entier.
+     */
+    public static function trade(array $trade, array $family): array
+    {
+        $occupation = [
+            '@type'              => 'Occupation',
+            'name'               => (string) $trade['name'],
+            'description'        => (string) $trade['intro'],
+            'occupationLocation' => ['@type' => 'Country', 'name' => 'France'],
+            'occupationalCategory' => (string) $family['name'],
+        ];
+        if (trim((string) $trade['name_f']) !== '') {
+            $occupation['alternateName'] = (string) $trade['name_f'];
+        }
+        if ((array) $trade['missions'] !== []) {
+            $occupation['responsibilities'] = implode(' ; ', (array) $trade['missions']);
+        }
+        if ((array) $trade['skills'] !== []) {
+            $occupation['skills'] = implode(' ; ', (array) $trade['skills']);
+        }
+        if (trim((string) ($trade['brief']['training'] ?? '')) !== '') {
+            $occupation['educationRequirements'] = (string) $trade['brief']['training'];
+        }
+        if (trim((string) $trade['rome']) !== '') {
+            // Le répertoire des métiers de France Travail : un code que les
+            // moteurs savent relier aux offres du même métier.
+            $occupation['occupationalCategory'] = [
+                '@type'     => 'CategoryCode',
+                'codeValue' => (string) $trade['rome'],
+                'inCodeSet' => 'ROME (France Travail)',
+                'name'      => (string) $family['name'],
+            ];
+        }
+
+        $unit = self::PAY_UNITS[(string) ($trade['pay']['unit'] ?? '')] ?? '';
+        $min = (int) ($trade['pay']['min'] ?? 0);
+        $max = (int) ($trade['pay']['max'] ?? 0);
+        if ($unit !== '' && $min > 0 && $max >= $min) {
+            $occupation['estimatedSalary'] = [
+                '@type'    => 'MonetaryAmountDistribution',
+                'name'     => 'brut',
+                'currency' => 'EUR',
+                'duration' => Trades::payDuration((array) $trade['pay']),
+                'percentile10' => $min,
+                'percentile90' => $max,
+                'median'   => (int) round(($min + $max) / 2),
+            ];
+        }
+
+        $nodes = [
+            self::breadcrumb([
+                [(string) Config::get('site.name'), '/'],
+                [I18n::t('nav.trades'), '/metiers'],
+                [(string) $trade['name'], '/metiers/' . $trade['slug']],
+            ]),
+            $occupation,
+        ];
+
+        $questions = [];
+        foreach ((array) $trade['faq'] as $item) {
+            $q = trim((string) ($item['q'] ?? ''));
+            $a = trim((string) ($item['a'] ?? ''));
+            if ($q !== '' && $a !== '') {
+                $questions[] = [
+                    '@type' => 'Question',
+                    'name'  => $q,
+                    'acceptedAnswer' => ['@type' => 'Answer', 'text' => $a],
+                ];
+            }
+        }
+        if ($questions !== []) {
+            $nodes[] = ['@type' => 'FAQPage', 'mainEntity' => $questions];
+        }
+
+        return self::graph($nodes);
+    }
+
+    /** Plusieurs blocs dans un seul script : un contexte, un graphe. */
+    private static function graph(array $nodes): array
+    {
+        foreach ($nodes as &$node) {
+            unset($node['@context']);
+        }
+        return ['@context' => 'https://schema.org', '@graph' => array_values($nodes)];
+    }
+
     public static function breadcrumb(array $trail): array
     {
         $base = rtrim((string) Config::get('site.url'), '/');

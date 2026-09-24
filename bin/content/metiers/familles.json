@@ -1,0 +1,81 @@
+{
+  "families": [
+    {
+      "key": "son",
+      "name": "Son",
+      "tone": "coral",
+      "icon": "mic",
+      "intro": "De la façade d’un concert à la perche d’un tournage, les métiers du son captent, amplifient et mixent tout ce que le public entend. Techniciens du spectacle vivant, du cinéma et de l’audiovisuel, ils travaillent le plus souvent sous le régime de l’intermittence."
+    },
+    {
+      "key": "lumiere",
+      "name": "Lumière",
+      "tone": "yellow",
+      "icon": "bulb",
+      "intro": "Concevoir un éclairage, le monter, l’envoyer au pupitre : les métiers de la lumière font exister la scène et le plateau de tournage. Ils demandent une solide culture électrique, souvent une habilitation, et un vrai sens de l’image."
+    },
+    {
+      "key": "plateau",
+      "name": "Plateau, machinerie et décor",
+      "tone": "violet",
+      "icon": "stage",
+      "intro": "Machinistes, riggers, constructeurs et accessoiristes bâtissent l’espace où le spectacle se joue. Ce sont des métiers physiques et précis, où la sécurité du plateau prime sur tout le reste."
+    },
+    {
+      "key": "regie",
+      "name": "Régie et direction technique",
+      "tone": "teal",
+      "icon": "clipboard",
+      "intro": "La régie générale et la direction technique tiennent ensemble toutes les équipes : elles planifient, coordonnent et garantissent que le spectacle, la tournée ou l’événement se déroule sans accroc et en sécurité."
+    },
+    {
+      "key": "image",
+      "name": "Image et vidéo",
+      "tone": "pink",
+      "icon": "camera",
+      "intro": "Cadrer, éclairer une scène pour la caméra, diffuser de la vidéo sur un plateau ou un écran géant : les métiers de l’image vont du cinéma au direct télé, en passant par le spectacle vivant et l’événementiel."
+    },
+    {
+      "key": "postprod",
+      "name": "Montage, post-production et animation",
+      "tone": "coral",
+      "icon": "film",
+      "intro": "Une fois le tournage terminé, le film se fabrique encore : montage, étalonnage, effets visuels, animation 2D et 3D. Des métiers d’écran, exigeants en logiciels, où le récit se joue au dixième de seconde."
+    },
+    {
+      "key": "costume",
+      "name": "Costume, maquillage et coiffure",
+      "tone": "yellow",
+      "icon": "shirt",
+      "intro": "Costumiers, habilleurs, maquilleurs et perruquiers donnent aux personnages leur apparence et la maintiennent d’une représentation, ou d’une prise, à l’autre. Artisanat, créativité et rapidité en coulisses."
+    },
+    {
+      "key": "realisation",
+      "name": "Réalisation et mise en scène",
+      "tone": "violet",
+      "icon": "clapper",
+      "intro": "Réalisateurs, assistants, scriptes et metteurs en scène portent la vision artistique d’un film ou d’un spectacle et organisent le travail de toute une équipe pour qu’elle prenne forme."
+    },
+    {
+      "key": "production",
+      "name": "Production et diffusion",
+      "tone": "teal",
+      "icon": "briefcase",
+      "intro": "Budgets, contrats, plannings, tournées : les métiers de la production et de la diffusion rendent les projets possibles, puis les font voyager. Ils se situent à la frontière de l’artistique et de la gestion."
+    },
+    {
+      "key": "artistes",
+      "name": "Artistes",
+      "tone": "pink",
+      "icon": "mask",
+      "intro": "Comédiens, musiciens, chanteurs, danseurs, circassiens : les artistes interprètes sont au cœur du spectacle. La plupart travaillent au cachet, sous l’annexe 10 du régime de l’intermittence."
+    },
+    {
+      "key": "evenementiel",
+      "name": "Événementiel",
+      "tone": "coral",
+      "icon": "party",
+      "intro": "Salons, congrès, lancements, soirées et festivals mobilisent chefs de projet, techniciens, hôtes et animateurs. Des métiers de terrain et de délais serrés, à la croisée du spectacle et de la communication."
+    }
+  ]
+}
