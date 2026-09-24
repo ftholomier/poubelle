@@ -18,10 +18,12 @@ use App\Storage\Schema;
  *  • Les fiches en service, dans data/trades/, que l'exploitant modifie depuis
  *    le back-office. Elles ne quittent jamais le serveur.
  *
- * Un déploiement n'écrase donc jamais une correction faite en ligne : il ne
- * fait qu'ajouter les métiers nouveaux. Et une fiche supprimée au back-office
- * ne ressuscite pas au déploiement suivant — le registre des amorçages garde
- * la trace de ce qui a déjà été proposé.
+ * Un déploiement n'écrase donc jamais une correction faite en ligne : il
+ * ajoute les métiers nouveaux, et fait suivre les mises à jour de texte aux
+ * seules fiches que personne n'a retouchées — l'empreinte enregistrée à
+ * l'amorçage dit si le texte en service est encore celui qu'on y a mis. Une
+ * fiche supprimée au back-office ne ressuscite pas au déploiement suivant :
+ * le registre des amorçages garde la trace de ce qui a déjà été proposé.
  */
 final class TradeRepository extends Repository
 {
@@ -77,9 +79,10 @@ final class TradeRepository extends Repository
     }
 
     /**
-     * Crée les fiches d'origine qui n'ont encore jamais été proposées.
+     * Crée les fiches d'origine qui n'ont encore jamais été proposées, et met
+     * à jour celles qui n'ont jamais été retouchées.
      *
-     * @return int nombre de fiches créées
+     * @return int nombre de fiches créées ou mises à jour
      */
     public static function seedMissing(): int
     {
@@ -87,10 +90,11 @@ final class TradeRepository extends Repository
         $state = Json::read($registry, ['slugs' => []]);
         $seeded = (array) ($state['slugs'] ?? []);
         $before = count($seeded);
-        $created = 0;
+        $changed = 0;
 
         foreach (self::seeds() as $slug => $seed) {
             if (isset($seeded[$slug])) {
+                $changed += self::follow($slug, $seed) ? 1 : 0;
                 continue;
             }
             if (self::find($slug) === null) {
@@ -98,9 +102,9 @@ final class TradeRepository extends Repository
                 $record['id'] = $slug;
                 $record['status'] = (string) ($seed['status'] ?? 'publish');
                 $record['published_at'] = date('c');
-                $record['seed_hash'] = self::hash($seed);
+                $record['seed_hash'] = self::contentHash($seed);
                 self::save($record);
-                $created++;
+                $changed++;
             }
             $seeded[$slug] = date('c');
         }
@@ -108,7 +112,43 @@ final class TradeRepository extends Repository
         if (count($seeded) !== $before) {
             Json::write($registry, ['slugs' => $seeded]);
         }
-        return $created;
+        return $changed;
+    }
+
+    /**
+     * Reporte sur une fiche la nouvelle version de son texte d'origine, si
+     * personne n'y a touché depuis qu'on l'y a mis.
+     */
+    private static function follow(string $id, array $seed): bool
+    {
+        $record = self::find($id);
+        if ($record === null) {
+            return false;       // supprimée au back-office : elle le reste
+        }
+        $target = self::contentHash($seed);
+        $current = self::contentHash($record);
+        if ($current === $target) {
+            return false;
+        }
+
+        $stored = (string) ($record['seed_hash'] ?? '');
+        // Les fiches amorcées avant cette règle portent l'empreinte de la fiche
+        // d'origine entière, telle qu'elle était lue alors : on la recalcule
+        // sur le texte en service. Et une fiche jamais réenregistrée depuis sa
+        // création n'a pas pu être retouchée.
+        $untouched = $stored === $current
+            || ($stored !== '' && $stored === self::formerHash($record, $seed))
+            || ($stored !== '' && (string) $record['created_at'] === (string) $record['updated_at']);
+        if (!$untouched) {
+            return false;
+        }
+
+        $seed = Schema::upgrade($seed, 'trade');
+        foreach (self::CONTENT_FIELDS as $field) {
+            $record[$field] = $seed[$field];
+        }
+        $record['seed_hash'] = $target;
+        return self::save($record);
     }
 
     /**
@@ -128,7 +168,7 @@ final class TradeRepository extends Repository
         ]));
         $restored = $keep + $seed;
         $restored['seo'] = ['title' => '', 'description' => ''];
-        $restored['seed_hash'] = self::hash($seed);
+        $restored['seed_hash'] = self::contentHash($seed);
 
         return self::save($restored) ? self::find($id) : null;
     }
@@ -158,8 +198,28 @@ final class TradeRepository extends Repository
         'keywords', 'search',
     ];
 
-    private static function hash(array $seed): string
+    /**
+     * Empreinte à l'ancienne : la fiche d'origine entière, dans l'ordre de son
+     * fichier. Recalculée sur le texte en service, elle retombe sur celle
+     * qu'on a enregistrée si personne n'y a touché.
+     */
+    private static function formerHash(array $record, array $seed): string
     {
-        return substr(sha1((string) json_encode($seed)), 0, 12);
+        $raw = [];
+        foreach (array_keys($seed) as $key) {
+            $raw[$key] = $key === 'slug' ? (string) $record['id'] : ($record[$key] ?? null);
+        }
+        return substr(sha1((string) json_encode($raw)), 0, 12);
+    }
+
+    /** Empreinte du texte d'une fiche, d'origine ou en service, valeurs par défaut comprises. */
+    private static function contentHash(array $trade): string
+    {
+        $trade = Schema::upgrade($trade, 'trade');
+        $content = [];
+        foreach (self::CONTENT_FIELDS as $field) {
+            $content[$field] = $trade[$field] ?? null;
+        }
+        return substr(sha1((string) json_encode($content)), 0, 12);
     }
 }

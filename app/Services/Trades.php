@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Core\Config;
 use App\Domain\TradeRepository;
+use App\Services\Sources\Sector;
 use App\Storage\Index;
 use App\Storage\Json;
 
@@ -15,6 +16,10 @@ use App\Storage\Json;
  * les profils disponibles, les métiers voisins. Le rapprochement se fait sur
  * les mots-clés de la fiche, cherchés dans l'intitulé seul — le texte d'une
  * annonce parle de tout, son intitulé dit ce qu'elle est.
+ *
+ * Un intitulé revient au métier le plus précis qu'il nomme : « monteur de
+ * stands » n'est pas une offre de monteur vidéo, ni « monteur son » une offre
+ * de monteur tout court. Voir owners().
  */
 final class Trades
 {
@@ -28,6 +33,7 @@ final class Trades
         'cachet'     => 'par cachet',
         'mois'       => 'par mois',
         'prestation' => 'par prestation',
+        'creation'   => 'par création',
         'heure'      => 'de l’heure',
     ];
 
@@ -37,6 +43,12 @@ final class Trades
     /** Lus une fois par requête : une fiche s'en sert pour cinq blocs. */
     private static ?array $rows = null;
     private static ?array $liveJobs = null;
+    /** @var array<string, string>|null motif de chaque fiche publiée, par slug */
+    private static ?array $patterns = null;
+    /** @var array<string, string[]> premier mot d'un mot-clé => fiches qui l'emploient */
+    private static array $heads = [];
+    /** @var array<string, string[]> intitulé normalisé => métiers qu'il désigne */
+    private static array $owners = [];
 
     /** @return array<int, array<string, mixed>> */
     private static function rows(): array
@@ -58,6 +70,9 @@ final class Trades
     {
         self::$rows = null;
         self::$liveJobs = null;
+        self::$patterns = null;
+        self::$heads = [];
+        self::$owners = [];
     }
 
     /* ----------------------------------------------------------- familles */
@@ -168,6 +183,7 @@ final class Trades
      * Chaque mot accepte son pluriel : « régisseurs son » est une offre de
      * régisseur son. Les féminins, eux, sont trop irréguliers pour une règle —
      * régisseuse, costumière, technicienne : ils figurent parmi les mots-clés.
+     * L'écriture inclusive passe aussi : « chargé(e) de production ».
      */
     public static function pattern(array $keywords): string
     {
@@ -181,7 +197,9 @@ final class Trades
                 static fn(string $w): string => preg_quote($w, '/') . (preg_match('/[sx]$/', $w) ? '' : 's?'),
                 explode(' ', $norm),
             );
-            $alternatives[] = implode(' ', $words);
+            // La terminaison inclusive ne compte qu'entre deux mots : après le
+            // dernier, elle ne change rien à la trouvaille.
+            $alternatives[] = implode(Sector::INCLUSIF . ' ', $words);
         }
         if ($alternatives === []) {
             return '';
@@ -194,6 +212,132 @@ final class Trades
     public static function titleMatches(string $pattern, string $title): bool
     {
         return $pattern !== '' && preg_match($pattern, Index::haystack([$title])) === 1;
+    }
+
+    /** @return array<string, string> motif de chaque fiche publiée, par slug */
+    private static function patterns(): array
+    {
+        if (self::$patterns === null) {
+            self::$patterns = [];
+            self::$heads = [];
+            foreach (self::published() as $row) {
+                $slug = (string) $row['slug'];
+                $keywords = self::keywords($row);
+                $pattern = self::pattern($keywords);
+                if ($pattern === '') {
+                    continue;
+                }
+                self::$patterns[$slug] = $pattern;
+                foreach ($keywords as $keyword) {
+                    $head = self::head(strtok(Index::haystack([(string) $keyword]), ' ') ?: '');
+                    if ($head !== '') {
+                        self::$heads[$head][$slug] = $slug;
+                    }
+                }
+            }
+        }
+        return self::$patterns;
+    }
+
+    /** Un mot sans sa marque de pluriel : « régisseurs » et « régisseur » se rangent ensemble. */
+    private static function head(string $word): string
+    {
+        return rtrim($word, 's');
+    }
+
+    /**
+     * Métiers que désigne un intitulé.
+     *
+     * Chaque fiche y cherche ses mots-clés ; une trouvaille que chevauche celle,
+     * plus longue, d'une autre fiche ne compte pas. « Chef monteur de stands »
+     * revient au monteur de stands, pas au monteur vidéo, quand « réalisateur
+     * monteur » nomme deux métiers et revient aux deux. À longueur égale, les
+     * deux fiches gardent l'offre : « maquilleuse coiffeuse ».
+     *
+     * @return string[] slugs
+     */
+    public static function owners(string $title): array
+    {
+        $haystack = Index::haystack([$title]);
+        if ($haystack === '') {
+            return [];
+        }
+        if (!isset(self::$owners[$haystack])) {
+            if (count(self::$owners) > 5000) {
+                self::$owners = [];
+            }
+            // Un mot-clé ne peut se trouver que là où figure son premier mot :
+            // seules ces fiches passent l'intitulé au crible.
+            $patterns = self::patterns();
+            $candidates = [];
+            foreach (explode(' ', $haystack) as $word) {
+                foreach (self::$heads[self::head($word)] ?? [] as $slug) {
+                    $candidates[$slug] = $patterns[$slug];
+                }
+            }
+            self::$owners[$haystack] = self::ownersAmong($candidates, $haystack);
+        }
+        return self::$owners[$haystack];
+    }
+
+    /**
+     * @param  array<string, string> $patterns slug => motif
+     * @return string[]
+     */
+    private static function ownersAmong(array $patterns, string $haystack): array
+    {
+        $spans = [];
+        foreach ($patterns as $slug => $pattern) {
+            if (preg_match_all($pattern, $haystack, $found, PREG_OFFSET_CAPTURE) > 0) {
+                foreach ($found[0] as [$text, $start]) {
+                    $spans[(string) $slug][] = [$start, $start + strlen($text)];
+                }
+            }
+        }
+
+        $owners = [];
+        foreach ($spans as $slug => $mine) {
+            foreach ($mine as [$start, $end]) {
+                if (!self::outmatched((string) $slug, $start, $end, $spans)) {
+                    $owners[] = (string) $slug;
+                    break;
+                }
+            }
+        }
+        return $owners;
+    }
+
+    /** Une autre fiche a-t-elle trouvé plus long à cet endroit ? */
+    private static function outmatched(string $slug, int $start, int $end, array $spans): bool
+    {
+        foreach ($spans as $other => $theirs) {
+            if ((string) $other === $slug) {
+                continue;
+            }
+            foreach ($theirs as [$s, $e]) {
+                if ($s < $end && $start < $e && ($e - $s) > ($end - $start)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /** L'intitulé relève-t-il de ce métier, et non d'un métier plus précis ? */
+    private static function belongs(array $trade, string $pattern, string $title): bool
+    {
+        if (!self::titleMatches($pattern, $title)) {
+            return false;
+        }
+        $slug = (string) $trade['slug'];
+        $patterns = self::patterns();
+        if (($patterns[$slug] ?? null) === $pattern) {
+            return in_array($slug, self::owners($title), true);
+        }
+        // Brouillon, ou fiche tout juste retouchée : on la mesure aux autres
+        // telle qu'elle est, sans toucher au cache des fiches publiées.
+        $patterns[$slug] = $pattern;
+        return in_array($slug, self::ownersAmong($patterns, Index::haystack([$title])), true);
     }
 
     /**
@@ -209,7 +353,7 @@ final class Trades
         }
         $live = array_filter(
             self::liveJobs(),
-            static fn(array $job) => self::titleMatches($pattern, (string) ($job['title'] ?? '')),
+            static fn(array $job) => self::belongs($trade, $pattern, (string) ($job['title'] ?? '')),
         );
         usort($live, static fn(array $a, array $b)
             => strcmp((string) ($b['published_at'] ?? ''), (string) ($a['published_at'] ?? '')));
@@ -221,9 +365,10 @@ final class Trades
      *
      * Deux viviers, lus en cache seulement : le flux propre au métier, que la
      * tâche planifiée rafraîchit à tour de rôle, et le flux général du site en
-     * attendant. L'intitulé doit porter un mot-clé du métier : c'est un tri
-     * plus sévère que le filtre sectoriel, qui laisse encore passer des
-     * offres hors secteur.
+     * attendant. L'intitulé doit porter un mot-clé du métier, et passer seul
+     * le filtre sectoriel : le résumé d'une offre d'usine peut parler de
+     * « production » et de « son » équipe, son intitulé ne ment pas. Les
+     * termes bannis au back-office s'appliquent ici aussi.
      *
      * @param  array<int, array<string, mixed>> $local annonces du site déjà affichées
      * @return array<int, array<string, mixed>>
@@ -243,6 +388,7 @@ final class Trades
             Aggregator::fetch([], 40, false, true),
         );
 
+        $exclude = Aggregator::exclude();
         $out = [];
         $seen = [];
         foreach ($pool as $job) {
@@ -251,7 +397,10 @@ final class Trades
                 continue;
             }
             $seen[$id] = true;
-            if (self::titleMatches($pattern, (string) ($job['title'] ?? ''))) {
+            $title = (string) ($job['title'] ?? '');
+            if (self::belongs($trade, $pattern, $title)
+                && Sector::matches($title)
+                && !Sector::excluded($exclude, $title)) {
                 $out[] = $job;
             }
         }
@@ -285,7 +434,7 @@ final class Trades
         }
         $out = [];
         foreach (Index::load('cv') as $cv) {
-            if (($cv['status'] ?? '') === 'publish' && self::titleMatches($pattern, (string) ($cv['title'] ?? ''))) {
+            if (($cv['status'] ?? '') === 'publish' && self::belongs($trade, $pattern, (string) ($cv['title'] ?? ''))) {
                 $out[] = $cv;
                 if (count($out) >= $limit) {
                     break;
@@ -332,21 +481,11 @@ final class Trades
      */
     public static function jobCounts(): array
     {
-        $titles = [];
+        $counts = array_fill_keys(array_map(static fn(array $row) => (string) $row['slug'], self::published()), 0);
         foreach (self::liveJobs() as $job) {
-            $titles[] = Index::haystack([(string) ($job['title'] ?? '')]);
-        }
-
-        $counts = [];
-        foreach (self::published() as $row) {
-            $pattern = self::pattern(self::keywords($row));
-            $n = 0;
-            foreach ($titles as $title) {
-                if ($pattern !== '' && preg_match($pattern, $title) === 1) {
-                    $n++;
-                }
+            foreach (self::owners((string) ($job['title'] ?? '')) as $slug) {
+                $counts[$slug]++;
             }
-            $counts[(string) $row['slug']] = $n;
         }
         return $counts;
     }

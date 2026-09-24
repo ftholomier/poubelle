@@ -38,8 +38,11 @@ final class Redirects
         'offre', 'offres', 'emploi', 'emplois', 'annonce', 'annonces', 'job',
         'jobs', 'cv', 'profil', 'profils', 'fiche', 'page', 'index', 'html',
         'php', 'www', 'intermittent', 'fr', 'spectacle', 'metier', 'metiers',
-        'devenir', 'salaire', 'formation',
+        'devenir', 'salaire', 'formation', 'es', 'it', 'pt', 'nl',
     ];
+
+    /** Mots de deux lettres qui disent pourtant un métier. */
+    private const COURTS = ['dj', 'vj', 'tv', 'op', '2d', '3d'];
 
     /** Part des mots de l'adresse qu'une fiche doit couvrir pour l'emporter. */
     private const SEUIL = 0.7;
@@ -67,6 +70,7 @@ final class Redirects
         }
 
         $segments = array_values(array_filter(explode('/', trim($path, '/')), 'strlen'));
+        $section = self::sectionOf($path);
 
         // 2. Slug exact. On part de la fin : c'est là que WordPress plaçait le
         //    titre, derrière la date ou le type d'article.
@@ -88,6 +92,11 @@ final class Redirects
             if ($core !== '' && isset($map['cores'][$core])) {
                 return ['path' => $map['cores'][$core], 'status' => 301];
             }
+            // Un autre nom du métier : « salaire-maquilleuse », « circassien ».
+            // Jamais depuis l'adresse d'une autre rubrique.
+            if ($core !== '' && isset($map['aliases'][$core]) && in_array($section, ['', '/metiers/'], true)) {
+                return ['path' => $map['aliases'][$core], 'status' => 301];
+            }
             if (ctype_digit($segment) && isset($map['legacy'][$segment])) {
                 return ['path' => $map['legacy'][$segment], 'status' => 301];
             }
@@ -96,7 +105,6 @@ final class Redirects
         // 3. Rapprochement par mots. Une adresse qui porte le préfixe d'une
         //    rubrique n'est rapprochée que de fiches de cette rubrique : une
         //    adresse de métier ne doit pas mener au CV d'une personne.
-        $section = self::sectionOf($path);
         $pool = $section === ''
             ? $map['slugs']
             : array_filter($map['slugs'], static fn(string $target) => str_starts_with($target, $section));
@@ -111,7 +119,13 @@ final class Redirects
      */
     private static function sectionOf(string $path): string
     {
-        $bare = (string) preg_replace('#^/[a-z]{2}(?=/|$)#', '', '/' . ltrim($path, '/'));
+        // Seul un vrai code de langue est retiré : « /cv/… » n'est pas une
+        // adresse en langue « cv ».
+        $bare = '/' . ltrim($path, '/');
+        $lang = strtok(ltrim($bare, '/'), '/');
+        if (is_string($lang) && I18n::isSupported($lang)) {
+            $bare = (string) substr($bare, strlen($lang) + 1);
+        }
         foreach (['trade' => '/metiers/', 'job' => '/offre/', 'cv' => '/cv/', 'employer' => '/employeur/'] as $key => $internal) {
             $public = rtrim(Seo::routePath($key), '/') . '/';
             if (str_starts_with($bare, $public)) {
@@ -215,7 +229,7 @@ final class Redirects
 
         $out = [];
         foreach ($parts as $word) {
-            if (strlen($word) >= 3 && !in_array($word, self::VIDES, true)) {
+            if ((strlen($word) >= 3 || in_array($word, self::COURTS, true)) && !in_array($word, self::VIDES, true)) {
                 $out[$word] = $word;
             }
         }
@@ -234,7 +248,8 @@ final class Redirects
      * index en coûterait six cents à chaque adresse inconnue — un robot qui
      * ratisse de vieux liens ne doit pas peser sur le site.
      *
-     * @return array{slugs: array<string,string>, legacy: array<string,string>}
+     * @return array{slugs: array<string,string>, legacy: array<string,string>,
+     *                cores: array<string,string>, aliases: array<string,string>}
      */
     private static function map(): array
     {
@@ -251,13 +266,14 @@ final class Redirects
         }
 
         $cached = Json::read($file);
-        // Un répertoire écrit par une version antérieure n'a pas de « cores » :
-        // on le reconstruit plutôt que de rater des correspondances.
-        if ($cached !== [] && (int) ($cached['at'] ?? 0) >= $newest && isset($cached['cores'])) {
+        // Un répertoire écrit par une version antérieure n'a pas tout ce qu'il
+        // faut : on le reconstruit plutôt que de rater des correspondances.
+        if ($cached !== [] && (int) ($cached['at'] ?? 0) >= $newest && isset($cached['cores'], $cached['aliases'])) {
             return self::$map = [
-                'slugs'  => (array) ($cached['slugs'] ?? []),
-                'legacy' => (array) ($cached['legacy'] ?? []),
-                'cores'  => (array) $cached['cores'],
+                'slugs'   => (array) ($cached['slugs'] ?? []),
+                'legacy'  => (array) ($cached['legacy'] ?? []),
+                'cores'   => (array) $cached['cores'],
+                'aliases' => (array) $cached['aliases'],
             ];
         }
 
@@ -306,7 +322,30 @@ final class Redirects
         }
         $cores = array_diff_key($cores, $ambiguous);
 
-        Json::write($file, ['at' => time(), 'slugs' => $slugs, 'legacy' => $legacy, 'cores' => $cores]);
-        return self::$map = ['slugs' => $slugs, 'legacy' => $legacy, 'cores' => $cores];
+        // Les autres noms d'un métier mènent à sa fiche : son féminin et ses
+        // mots-clés. Un nom que deux fiches se partagent n'est à personne.
+        $aliases = [];
+        $shared = [];
+        foreach (Index::load('trades') as $row) {
+            if (($row['status'] ?? '') !== 'publish') {
+                continue;
+            }
+            $target = '/metiers/' . $row['slug'];
+            foreach (array_merge([(string) ($row['name_f'] ?? '')], (array) ($row['keywords'] ?? [])) as $name) {
+                $core = implode('-', self::words((string) $name));
+                if ($core === '') {
+                    continue;
+                }
+                if (isset($aliases[$core]) && $aliases[$core] !== $target) {
+                    $shared[$core] = true;
+                }
+                $aliases[$core] ??= $target;
+            }
+        }
+        $aliases = array_diff_key($aliases, $shared);
+
+        $map = ['slugs' => $slugs, 'legacy' => $legacy, 'cores' => $cores, 'aliases' => $aliases];
+        Json::write($file, ['at' => time()] + $map);
+        return self::$map = $map;
     }
 }

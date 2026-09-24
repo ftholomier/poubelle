@@ -964,10 +964,25 @@ final class AdminController extends Controller
         foreach (Index::load('trades') as $row) {
             $slugs[(string) $row['slug']] = (string) $row['id'];
         }
-        $candidate['related'] = array_values(array_filter(
+        $checked = array_values(array_filter(
             array_map('strval', (array) ($request->post['related'] ?? [])),
             static fn(string $slug) => isset($slugs[$slug]) && $slug !== $trade['slug'],
         ));
+        // Les cases suivent l'ordre des familles, la fiche le sien — c'est lui
+        // qui décide des voisins montrés en premier : on le garde, les voisins
+        // cochés à l'instant viennent à la suite. Un voisin sans case, dont la
+        // fiche n'existe pas encore, reste en place : il s'affichera à son arrivée.
+        $related = [];
+        foreach ((array) $trade['related'] as $slug) {
+            $slug = (string) $slug;
+            if (in_array($slug, $checked, true) || !isset($slugs[$slug])) {
+                $related[] = $slug;
+            }
+        }
+        foreach ($checked as $slug) {
+            $related[] = $slug;
+        }
+        $candidate['related'] = array_values(array_unique($related));
 
         if ($candidate['name'] === '') {
             $errors[] = 'Le nom du métier est obligatoire.';

@@ -281,7 +281,7 @@ $defaultTitle = I18n::t('trade.seo_title', (string) $trade['name']);
       <p class="secret-help" style="margin-top:0">
         <?= $modified
             ? 'Cette fiche a été modifiée. La restauration remet le texte d’origine, sans toucher à son adresse ni à son état de publication.'
-            : 'Cette fiche porte encore son texte d’origine.' ?>
+            : 'Cette fiche porte encore son texte d’origine : elle suivra ses mises à jour tant que vous ne la modifiez pas.' ?>
       </p>
       <button type="submit" class="btn btn-ghost btn-sm" <?= $modified ? '' : 'disabled' ?>>Restaurer le texte d’origine</button>
     </form>

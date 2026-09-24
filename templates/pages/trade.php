@@ -149,7 +149,7 @@ $offers = count($jobs) + count($partners);
           <?php if (trim((string) $trade['rome']) !== ''): ?>
             <dt><?= e(I18n::t('trade.brief_rome')) ?></dt><dd><?= e((string) $trade['rome']) ?></dd>
           <?php endif; ?>
-          <?php if (trim((string) $trade['name_f']) !== ''): ?>
+          <?php if (trim((string) $trade['name_f']) !== '' && $trade['name_f'] !== $trade['name']): ?>
             <dt><?= e(I18n::t('trade.brief_f')) ?></dt><dd><?= e((string) $trade['name_f']) ?></dd>
           <?php endif; ?>
         </dl>

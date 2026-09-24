@@ -252,7 +252,7 @@ final class StructuredData
             'occupationLocation' => ['@type' => 'Country', 'name' => 'France'],
             'occupationalCategory' => (string) $family['name'],
         ];
-        if (trim((string) $trade['name_f']) !== '') {
+        if (trim((string) $trade['name_f']) !== '' && $trade['name_f'] !== $trade['name']) {
             $occupation['alternateName'] = (string) $trade['name_f'];
         }
         if ((array) $trade['missions'] !== []) {

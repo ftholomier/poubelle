@@ -11,8 +11,11 @@ namespace App\Services\Sources;
  * ou « montage » ramènent autant d'usines que de plateaux. Le tri se fait donc
  * ici, sur l'intitulé et le résumé de chaque offre remontée.
  *
- * Trois listes, et une règle :
+ * Quatre listes, et une règle :
  *
+ *  • FAUX_AMIS — des intitulés d'autres branches qui portent un marqueur :
+ *    le « machiniste receveur » conduit un bus, le « régisseur de recettes »
+ *    tient une caisse municipale. Ils écartent l'offre sans appel.
  *  • MARQUEURS — un seul suffit. Personne n'écrit « perchman » ou « CDDU »
  *    hors du secteur.
  *  • METIERS — des intitulés que le secteur partage avec d'autres. Ils ne
@@ -26,6 +29,15 @@ namespace App\Services\Sources;
  */
 final class Sector
 {
+    /** Homonymes d'autres branches : écartés même en présence d'un marqueur. */
+    private const FAUX_AMIS = [
+        'machiniste receveur', 'regisseur de recettes', 'regisseur des recettes',
+        'regisseur d avances', 'regisseur d avance', 'regisseur comptable',
+        'regie de recettes', 'regie d avances', 'operateur de production',
+        'plateau technique', 'moissonneuse', 'coiffeur en salon', 'coiffeur salon',
+        'coiffure mixte',
+    ];
+
     /** Un seul de ces termes suffit à retenir l'offre. */
     private const MARQUEURS = [
         // statut et cadre d'emploi
@@ -38,13 +50,17 @@ final class Sector
         'backliner', 'roadie', 'rigger', 'chef operateur', 'chef machiniste',
         'assistant realisateur', 'realisateur', 'scripte', 'etalonneur',
         'ingenieur du son', 'chef electro', 'technicien plateau', 'projectionniste',
-        'video jockey', 'light jockey', 'pupitreur',
+        'video jockey', 'light jockey', 'pupitreur', 'truquiste', 'assistant camera',
+        'constructeur de decor', 'monteur de stand', 'standiste', 'perruquier',
+        'vfx', 'compositing', 'effets speciaux', 'animateur 2d', 'animateur 3d',
+        'metteur en scene', 'metteuse en scene', 'mise en scene', 'choregraphe',
+        'administrateur de compagnie', 'tour manager', 'dj', 'disc jockey',
         // plateaux, salles, scènes
         'tournage', 'captation', 'figurant', 'figuration', 'casting', 'plateau tele',
         'comedien', 'danseur', 'danseuse', 'musicien', 'choriste', 'chanteur',
         'chanteuse', 'circassien', 'marionnettiste', 'humoriste', 'artiste de rue',
-        'artiste lyrique', 'realisatrice', 'regisseuse', 'monteuse', 'costumiere',
-        'habilleuse', 'cadreuse',
+        'artiste lyrique', 'artiste de cirque', 'acrobate', 'trapeziste', 'jongleur',
+        'equilibriste', 'contorsionniste', 'realisatrice', 'costumiere', 'cadreuse',
         // instrumentistes : le nom du pupitre suffit à situer l'offre
         'violoniste', 'violoncelliste', 'pianiste', 'guitariste', 'bassiste',
         'batteur', 'accordeoniste', 'saxophoniste', 'trompettiste', 'flutiste',
@@ -65,7 +81,7 @@ final class Sector
         'animateur', 'animation', 'technicien', 'monteur', 'montage', 'operateur', 'regie',
         'production', 'producteur', 'assistant', 'coordinateur', 'charge de production',
         'charge de diffusion', 'diffusion', 'maquilleur', 'coiffeur', 'decorateur',
-        'decor', 'lumiere', 'son', 'image', 'camera', 'video', 'dj', 'installateur',
+        'decor', 'lumiere', 'son', 'image', 'camera', 'video', 'installateur',
         'stand', 'logistique', 'hote', 'hotesse', 'chef de projet', 'directeur technique',
         'illustrateur', 'photographe', 'cameraman', 'videaste', 'graphiste',
     ];
@@ -99,6 +115,8 @@ final class Sector
         'chauffeur poids lourd', 'chauffeur pl', 'livreur', 'coursier', 'ambulancier',
         'professeur des ecoles', 'educateur specialise', 'agent immobilier',
         'maintenance industrielle', 'technicien de laboratoire', 'technicien informatique',
+        'videosurveillance', 'video surveillance', 'videoprotection', 'video protection',
+        'alarme', 'salon de coiffure', 'institut de beaute', 'estheticien', 'barbier',
     ];
 
     /** Vrai si l'offre relève du spectacle, de l'audiovisuel ou de l'événementiel. */
@@ -106,6 +124,10 @@ final class Sector
     {
         $text = self::normalize(implode(' ', $parts));
         if (trim($text) === '') {
+            return false;
+        }
+
+        if (self::hit($text, self::FAUX_AMIS)) {
             return false;
         }
 
@@ -159,8 +181,17 @@ final class Sector
     }
 
     /**
-     * Le suffixe facultatif couvre pluriels et féminins — « régisseuse »,
-     * « techniciennes », « monteurs » — sans qu'il faille tout énumérer.
+     * Terminaisons de l'écriture inclusive, que la normalisation détache du
+     * mot : « chargé(e) de production » devient « charge e de production ».
+     * Elles sont tolérées après chaque mot d'un terme.
+     */
+    public const INCLUSIF = '(?: (?:[flns]?e|sse|euse|t?rice|ere)s?)?';
+
+    /**
+     * Pluriels et féminins sans tout énumérer. Chaque mot d'un terme admet un
+     * suffixe — « techniciennes », « monteurs », « événementielle » — et les
+     * mots en -eur leurs féminins en -eure, -euse et -rice : « ingénieure »,
+     * « régisseuse », « animatrice ».
      *
      * @param string[] $terms
      */
@@ -169,8 +200,15 @@ final class Sector
         static $cache = [];
         $key = md5(implode('|', $terms));
         $cache[$key] ??= '/(?<![a-z])(?:' . implode('|', array_map(
-            static fn(string $t): string => preg_quote($t, '/'), $terms,
-        )) . ')(?:s|e|es|ne|nes|rice|rices|euse|euses|ure|ures)?(?![a-z])/';
+            static fn(string $term): string => implode(' ', array_map(
+                static fn(string $word): string => (str_ends_with($word, 'eur') && strlen($word) > 4
+                    ? preg_quote(substr($word, 0, -3), '/') . '(?:eur|eure|euse|rice)'
+                    : preg_quote($word, '/'))
+                    . '(?:s|e|es|le|les|ne|nes|rice|rices|euse|euses|ure|ures)?' . self::INCLUSIF,
+                explode(' ', $term),
+            )),
+            $terms,
+        )) . ')(?![a-z])/';
 
         return preg_match($cache[$key], $text) === 1;
     }

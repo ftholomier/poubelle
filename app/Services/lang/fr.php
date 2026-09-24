@@ -411,7 +411,7 @@ return [
     'admin.translate_all'=> 'Traduire ce qui manque',
     'admin.saved'        => 'Enregistré.',
     'admin.trades'       => 'Les métiers',
-    'admin.trades_note'  => '%d fiche(s) publiée(s) sur %d. Le texte d’origine de chaque fiche reste restaurable après modification.',
+    'admin.trades_note'  => '%d fiche(s) publiée(s) sur %d. Une fiche d’origine suit les mises à jour de son texte ; dès que vous la modifiez, elle n’est plus jamais écrasée, et son texte d’origine reste restaurable.',
     'admin.save_failed'  => 'Enregistrement impossible : le site n’a pas pu écrire dans '
                           . 'data/private. Vérifiez les droits du dossier et l’espace disque.',
     'admin.bad_email'    => 'Adresse e-mail invalide : « %s ». Rien n’a été enregistré.',
