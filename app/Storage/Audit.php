@@ -53,8 +53,11 @@ final class Audit
     public static function purge(int $months = 12): int
     {
         $keep = [];
+        // Depuis le 1er du mois : « -1 month » un 31 retombe dans le même mois,
+        // et le mois précédent partait à la purge avant son heure.
+        $first = date('Y-m-01');
         for ($i = 0; $i < max(1, $months); $i++) {
-            $keep[] = date('Y-m', strtotime('-' . $i . ' month'));
+            $keep[] = date('Y-m', (int) strtotime($first . ' -' . $i . ' month'));
         }
 
         $removed = 0;
@@ -70,7 +73,7 @@ final class Audit
     public static function recent(int $limit = 30, ?string $prefix = null): array
     {
         $out = [];
-        $months = [date('Y-m'), date('Y-m', strtotime('-1 month'))];
+        $months = [date('Y-m'), date('Y-m', (int) strtotime(date('Y-m-01') . ' -1 month'))];
 
         foreach ($months as $month) {
             $file = Config::path('data') . '/logs/audit-' . $month . '.jsonl';

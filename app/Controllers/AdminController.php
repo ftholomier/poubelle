@@ -29,6 +29,7 @@ use App\Services\Notifier;
 use App\Services\Sanitizer;
 use App\Services\Search;
 use App\Services\Regie;
+use App\Services\RegieHistory;
 use App\Services\Secrets;
 use App\Services\Seo;
 use App\Services\SecretsTest;
@@ -172,11 +173,14 @@ final class AdminController extends Controller
             static fn(array $c) => ($c['status'] ?? '') === 'pending',
         ));
 
+        $assistant = RegieHistory::stats();
+
         return $this->screen('admin/dashboard', [
             'kpi' => [
                 'jobs'  => Search::liveJobCount(),
                 'cv'    => (int) ($cvFacets['total'] ?? 0),
-                'regie' => count(Audit::recent(200, 'regie.answered')),
+                // Les 30 derniers jours de l'historique, comme l'écran Assistant IA.
+                'regie' => RegieHistory::retention() > 0 ? $assistant['month'] : count(Audit::recent(200, 'regie.answered')),
                 'ads'   => count(array_filter(Ads::slots(), static fn(array $s) => $s['enabled'])),
             ],
             'pending' => $pending,
@@ -184,6 +188,7 @@ final class AdminController extends Controller
             'journal'   => Audit::recent(12),
             'backups'   => array_slice(Backup::listAll(), 0, 5),
             'knowledge' => Knowledge::stats(),
+            'assistant' => $assistant,
         ], I18n::t('admin.dashboard'));
     }
 
@@ -389,6 +394,95 @@ final class AdminController extends Controller
             'stats'     => Knowledge::stats(),
             'notice'    => $notice,
         ], I18n::t('admin.documents'));
+    }
+
+    /* ------------------------------------------------- échanges avec Régie */
+
+    /** Conversations affichées par page de l'historique. */
+    private const CHATS_PER_PAGE = 20;
+
+    public function assistant(Request $request, array $params): Response
+    {
+        if (($guard = $this->guard()) !== null) {
+            return $guard;
+        }
+
+        if ($request->isPost() && Csrf::check($request) && $request->input('action') === 'delete') {
+            $removed = RegieHistory::remove((string) $request->input('conv', ''));
+            if ($removed > 0) {
+                Audit::log('regie.conversation_deleted', ['exchanges' => $removed], $this->userId());
+                Session::flash('notice', $removed . ' échange(s) effacé(s) de l’historique.');
+            }
+            // Retour à la même vue, filtres compris.
+            $back = (string) parse_url((string) ($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_QUERY);
+            return Response::redirect('/admin/assistant' . ($back !== '' ? '?' . $back : ''), 303);
+        }
+
+        $months = RegieHistory::months();
+        $month = (string) $request->get('mois', '');
+        if ($month !== 'tout' && !in_array($month, $months, true)) {
+            $month = $months[0] ?? date('Y-m');
+        }
+        $query = trim(mb_substr((string) $request->get('q', ''), 0, 120));
+        $view = (string) $request->get('vue', '');
+        if (!in_array($view, ['', 'sans-lien', 'sans-ia'], true)) {
+            $view = '';
+        }
+
+        // Un fil s'affiche en entier dès qu'un de ses échanges répond aux
+        // filtres : une relance ne se comprend pas sans la question d'avant.
+        $needles = array_filter(explode(' ', Index::haystack([$query])), 'strlen');
+        $matches = static function (array $exchange) use ($needles, $view): bool {
+            if ($view === 'sans-lien' && $exchange['links'] !== []) {
+                return false;
+            }
+            if ($view === 'sans-ia' && $exchange['source'] === 'ia') {
+                return false;
+            }
+            $haystack = Index::haystack([$exchange['q'], $exchange['a']]);
+            foreach ($needles as $needle) {
+                if (!str_contains($haystack, $needle)) {
+                    return false;
+                }
+            }
+            return true;
+        };
+
+        $threads = [];
+        $questions = 0;
+        foreach (RegieHistory::conversations(RegieHistory::exchanges($month === 'tout' ? $months : [$month])) as $thread) {
+            $hits = [];
+            foreach ($thread['exchanges'] as $i => $exchange) {
+                if ($matches($exchange)) {
+                    $hits[] = $i;
+                }
+            }
+            if ($hits === []) {
+                continue;
+            }
+            // Sans filtre, rien à souligner.
+            $thread['hits'] = $query !== '' || $view !== '' ? $hits : [];
+            $questions += count($thread['exchanges']);
+            $threads[] = $thread;
+        }
+
+        $pages = max(1, (int) ceil(count($threads) / self::CHATS_PER_PAGE));
+        $page = min($pages, max(1, (int) $request->get('p', '1')));
+
+        return $this->screen('admin/assistant', [
+            'stats'     => RegieHistory::stats(),
+            'months'    => $months,
+            'month'     => $month,
+            'query'     => $query,
+            'view'      => $view,
+            'threads'   => array_slice($threads, ($page - 1) * self::CHATS_PER_PAGE, self::CHATS_PER_PAGE),
+            'total'     => count($threads),
+            'questions' => $questions,
+            'page'      => $page,
+            'pages'     => $pages,
+            'retention' => RegieHistory::retention(),
+            'gemini'    => Regie::available(),
+        ], 'Échanges avec Régie');
     }
 
     /* --------------------------------------------------------- traductions */

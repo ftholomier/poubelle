@@ -16,6 +16,8 @@ use App\Support\Icon;
   </form>
 </div>
 
+<?= \App\Core\View::partial('admin/partials-assistant-tabs', ['current' => '/admin/documents']) ?>
+
 <?php if ($notice !== ''): ?><div class="notice notice-ok" role="status"><?= e($notice) ?></div><?php endif; ?>
 
 <div class="admin-card">

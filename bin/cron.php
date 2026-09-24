@@ -23,6 +23,7 @@ use App\Services\Aggregator;
 use App\Services\ContentTranslator;
 use App\Services\JobLifecycle;
 use App\Services\Mailer;
+use App\Services\RegieHistory;
 use App\Services\Trades;
 use App\Storage\Audit;
 use App\Storage\Backup;
@@ -100,13 +101,16 @@ $tasks = [
         return 'index reconstruits';
     }],
 
-    // Rétention : journal à douze mois, traces d'e-mail à sept jours.
+    // Rétention : journal à douze mois, échanges avec Régie selon
+    // regie.history_months, traces d'e-mail à sept jours.
     'purge' => [86400, static function (): string {
         $logs = Audit::purge(12);
+        $chats = RegieHistory::purge();
         $mails = Mailer::purge(7);
         $locks = purgeLocks(7);
         $parts = [];
         if ($logs > 0)  { $parts[] = $logs . ' journal(aux)'; }
+        if ($chats > 0) { $parts[] = $chats . ' mois d’échanges avec Régie'; }
         if ($mails > 0) { $parts[] = $mails . ' trace(s) d’e-mail'; }
         if ($locks > 0) { $parts[] = $locks . ' verrou(s)'; }
         return $parts === [] ? '' : 'purge : ' . implode(', ', $parts);

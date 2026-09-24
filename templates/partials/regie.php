@@ -51,5 +51,10 @@ if (!Config::get('regie.enabled', true)) {
         <?= Icon::svg('send', 17, '#fff', 2) ?>
       </button>
     </form>
+    <?php // Dit au moment de la question ce que devient l'échange : il est gardé, sans rien qui identifie. ?>
+    <p class="regie-note">
+      <?= e(I18n::t('regie.privacy')) ?>
+      <a href="<?= e(I18n::url('/confidentialite')) ?>#assistant"><?= e(I18n::t('regie.privacy_link')) ?></a>
+    </p>
   </div>
 </div>

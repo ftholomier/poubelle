@@ -255,7 +255,8 @@ final class ApiController extends Controller
         }
 
         $question = trim((string) ($body['question'] ?? $request->input('question', '')));
-        $answer = Regie::ask($question);
+        // Page d'où part la question, pour l'historique du back-office.
+        $answer = Regie::ask($question, (string) ($body['page'] ?? ''));
 
         return Response::json([
             'answer'   => $answer['answer'],

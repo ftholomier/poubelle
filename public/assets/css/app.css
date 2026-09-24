@@ -896,6 +896,9 @@ h4 { font-size: 16px; letter-spacing: -.01em; }
   transition: transform .25s ease;
 }
 .regie-send:hover { transform: scale(1.06); }
+.regie-note { margin: 0; padding: 0 15px 11px; background: var(--white); font-size: 11px; line-height: 1.45; color: var(--meta); }
+.regie-note a { color: var(--meta); text-decoration: underline; text-underline-offset: 2px; }
+.regie-note a:hover, .regie-note a:focus-visible { color: var(--ink); }
 
 /* ==================================================== pop-up de sortie */
 

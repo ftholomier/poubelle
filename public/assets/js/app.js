@@ -339,6 +339,9 @@
           // /api/regie n'est pas montée par langue : la page indique la sienne,
           // sans quoi la réponse et ses liens suivraient celle du navigateur.
           lang: root.getAttribute('data-lang') || '',
+          // Chemin seul, sans paramètres : l'historique du back-office dit
+          // d'où partait la question.
+          page: location.pathname,
           _csrf: token
         })
       })

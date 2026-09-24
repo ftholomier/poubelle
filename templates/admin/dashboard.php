@@ -2,7 +2,7 @@
 /**
  * Tableau de bord.
  * @var array $kpi @var int $pending @var array $rows @var array $journal
- * @var array $backups @var array $knowledge
+ * @var array $backups @var array $knowledge @var array $assistant  fréquentation de Régie
  */
 use App\Services\I18n;
 use App\Support\Icon;
@@ -117,12 +117,14 @@ $stateLabel = static fn(string $s): string => match ($s) {
     </div>
 
     <div>
-      <h3><?= e(I18n::t('admin.documents')) ?></h3>
+      <h3><?= e(I18n::t('admin.assistant')) ?></h3>
       <p style="font-size:13.5px;color:var(--text);margin:10px 0 0">
+        <?= e(number_format((int) $assistant['month'], 0, ',', ' ')) ?> question(s) ces 30 derniers jours ·
         <?= e(number_format((int) $knowledge['chunks'], 0, ',', ' ')) ?> fragments indexés ·
         <?= (int) $knowledge['documents'] ?> document(s)
       </p>
-      <a class="btn btn-ghost btn-sm" style="margin-top:14px" href="/admin/documents">Gérer</a>
+      <a class="btn btn-ghost btn-sm" style="margin-top:14px" href="/admin/assistant">Voir les échanges</a>
+      <a class="btn btn-ghost btn-sm" style="margin-top:14px" href="/admin/documents">Documents</a>
     </div>
   </div>
 </div>

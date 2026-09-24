@@ -213,6 +213,7 @@ final class Kernel
         $router->any('/admin/offres',              [AdminController::class, 'jobs']);
         $router->any('/admin/cv',                  [AdminController::class, 'cvs']);
         $router->any('/admin/employeurs',          [AdminController::class, 'employers']);
+        $router->any('/admin/assistant',           [AdminController::class, 'assistant']);
         $router->any('/admin/documents',           [AdminController::class, 'documents']);
         $router->any('/admin/traductions',         [AdminController::class, 'translations']);
         $router->any('/admin/sauvegardes',         [AdminController::class, 'backups']);

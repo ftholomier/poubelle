@@ -269,5 +269,9 @@ return [
         'model'       => 'gemini-2.5-flash',
         'max_context' => 12,
         'enabled'     => true,
+        // Historique anonyme des échanges, lu au back-office (Assistant IA) :
+        // durée de conservation en mois. 0 : rien n'est gardé, et la tâche
+        // planifiée efface l'existant.
+        'history_months' => 12,
     ],
 ];

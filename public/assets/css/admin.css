@@ -247,3 +247,45 @@
 .budget-form .opt { display: block; font-size: 12.5px; color: var(--meta); margin-top: 6px; }
 .budget-form .check { align-self: center; }
 @media (max-width: 900px) { .budget-form { grid-template-columns: 1fr; } }
+
+/* ------------------------------------------------- Échanges avec Régie */
+/* Une conversation par carte : l'heure à gauche, la question puis la réponse. */
+.chat-filters {
+  display: grid; gap: 14px; align-items: end;
+  grid-template-columns: minmax(240px, 2fr) repeat(2, minmax(170px, 1fr)) auto;
+}
+.chat-filters .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; margin: 0; }
+.chat-filters .label { font-size: 13px; font-weight: 600; }
+.chat-filters-go { display: flex; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 900px) {
+  .chat-filters { grid-template-columns: 1fr 1fr; }
+  .chat-search { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) { .chat-filters { grid-template-columns: 1fr; } }
+.chat-count { font-size: 13.5px; margin: 16px 0 0; }
+.chat-list { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
+.chat { border: 1px solid var(--rule); border-radius: 16px; overflow: hidden; background: #fff; }
+.chat-head {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
+  padding: 10px 14px; background: var(--cream); border-bottom: 1px solid var(--rule); font-size: 13px;
+}
+.chat-head .when { font-weight: 800; }
+.chat-head .spacer { flex: 1; }
+.chat-head form { margin: 0; }
+.chat-page { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chat-turn { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 12px; padding: 14px; }
+.chat-turn + .chat-turn { border-top: 1px dashed var(--rule); }
+.chat-turn.is-match { background: #FFF8E1; }
+.chat-turn .time { font-size: 12.5px; color: var(--meta); font-variant-numeric: tabular-nums; padding-top: 1px; }
+.chat .who {
+  display: block; margin-bottom: 2px;
+  font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--meta);
+}
+.chat-q { margin: 0; font-weight: 700; font-size: 14.5px; overflow-wrap: anywhere; }
+.chat-a { margin-top: 10px; font-size: 14px; line-height: 1.55; overflow-wrap: anywhere; }
+.chat-a a { color: var(--coral-solid); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.chat-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 10px; }
+/* Une étiquette longue (« Gemini n'a pas répondu… ») passe à la ligne sur un écran étroit. */
+.chat-tags .state { white-space: normal; }
+.chat-pager { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 18px; }
+.chat-privacy { font-size: 12.5px; margin: 18px 0 0; }

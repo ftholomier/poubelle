@@ -272,6 +272,9 @@ return [
     'regie.suggest3'    => 'Des offres en régie son ?',
     'regie.suggest4'    => 'Comment devenir machiniste ?',
     'regie.offline'     => 'L’assistant est momentanément indisponible.',
+    'regie.privacy'     => 'Échanges conservés sans rien qui vous identifie, pour améliorer l’assistant. '
+                         . 'N’y indiquez pas de données personnelles.',
+    'regie.privacy_link'=> 'En savoir plus',
     'regie.no_answer'   => 'Je ne trouve pas la réponse dans le contenu du site. Je réponds aux questions '
                          . 'sur les offres, les profils, les métiers et le fonctionnement d’intermittent.fr.',
     'regie.legal'       => 'Je ne donne pas de conseil juridique sur le statut d’intermittent. '
@@ -359,6 +362,7 @@ return [
     'admin.cvs'          => 'CV déposés',
     'admin.employers'    => 'Employeurs',
     'admin.documents'    => 'Docs de l’IA',
+    'admin.assistant'    => 'Assistant IA',
     'admin.translations' => 'Traductions',
     'admin.backups'      => 'Sauvegardes',
     'admin.users'        => 'Utilisateurs',

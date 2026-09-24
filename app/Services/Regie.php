@@ -131,20 +131,23 @@ final class Regie
     }
 
     /**
+     * @param  string $page chemin de la page d'où part la question, pour l'historique
      * @return array{answer:string, html:string, grounded:bool}
      */
-    public static function ask(string $question): array
+    public static function ask(string $question, string $page = ''): array
     {
         $question = trim(mb_substr($question, 0, 600));
         if ($question === '') {
             return self::reply(I18n::t('regie.placeholder'), [], false);
         }
 
+        $started = microtime(true);
         $context = Knowledge::search(self::searchable($question), 6);
+        $exchange = ['question' => $question, 'page' => $page, 'started' => $started];
 
         if (!self::available()) {
             // Sans clé d'API, on reste utile : on renvoie ce que l'index contient.
-            return self::fallback($question, $context);
+            return self::finish($exchange, ...self::fallback($context));
         }
 
         $payload = [
@@ -168,15 +171,81 @@ final class Regie
 
         $text = trim((string) ($response['candidates'][0]['content']['parts'][0]['text'] ?? ''));
         if ($text === '') {
-            Audit::log('regie.empty_response', ['question' => mb_substr($question, 0, 120)]);
-            return self::fallback($question, $context);
+            self::journal('regie.empty_response', ['model' => $model]);
+            return self::finish($exchange + ['note' => 'gemini_empty'], ...self::fallback($context));
         }
 
         $text = self::withLink($text, $context);
         self::remember($question, $text);
-        Audit::log('regie.answered', ['chars' => mb_strlen($text), 'sources' => count($context)]);
+        self::journal('regie.answered', ['chars' => mb_strlen($text), 'sources' => count($context)]);
 
-        return self::reply($text, $context, $context !== []);
+        return self::finish($exchange + ['model' => $model], $text, $context, $context !== [], 'ia');
+    }
+
+    /**
+     * Une ligne de journal par question, seulement quand l'historique est
+     * coupé. Le journal porte l'heure à la seconde et l'empreinte de l'adresse
+     * du visiteur, qui figure aussi à côté de son compte lorsqu'il se connecte :
+     * en croisant les heures, on rattacherait une question anonyme à une
+     * personne. L'historique, lui, dit tout sans rien d'identifiant.
+     */
+    private static function journal(string $event, array $context): void
+    {
+        if (RegieHistory::retention() === 0) {
+            Audit::log($event, $context);
+        }
+    }
+
+    /**
+     * Répond, et garde l'échange dans l'historique du back-office.
+     *
+     * @param array{question:string, page:string, started:float, note?:string, model?:string} $exchange
+     * @param array<int, array<string, mixed>> $context extraits dont la réponse peut citer les pages
+     * @return array{answer:string, html:string, grounded:bool}
+     */
+    private static function finish(array $exchange, string $text, array $context, bool $grounded, string $source): array
+    {
+        RegieHistory::record([
+            'question' => $exchange['question'],
+            'answer'   => $text,
+            'links'    => self::cited($text, $context),
+            'source'   => $source,
+            'page'     => $exchange['page'],
+            'lang'     => I18n::lang(),
+            'ms'       => (int) round((microtime(true) - $exchange['started']) * 1000),
+            'model'    => $exchange['model'] ?? '',
+            'note'     => $exchange['note'] ?? '',
+        ]);
+        return self::reply($text, $context, $grounded);
+    }
+
+    /**
+     * Pages que la réponse cite vraiment, en lien ou en clair : l'historique
+     * les garde pour les rendre cliquables, comme le visiteur les a vues.
+     *
+     * @return array<string, string> chemin interne => libellé
+     */
+    private static function cited(string $text, array $context): array
+    {
+        $cited = [];
+        foreach (self::allowedPaths($context) as $path => $label) {
+            if (preg_match('#(?<![A-Za-z0-9/_-])' . preg_quote($path, '#') . '(?![A-Za-z0-9/_-])#', $text) === 1) {
+                $cited[$path] = $label;
+            }
+        }
+        return $cited;
+    }
+
+    /**
+     * Réponse enregistrée, rendue pour le back-office comme le visiteur l'a
+     * lue : texte échappé, liens limités aux pages qu'elle citait, ouverts
+     * dans un nouvel onglet pour ne pas quitter l'historique.
+     *
+     * @param array<string, string> $links chemin interne => libellé
+     */
+    public static function display(string $text, array $links): string
+    {
+        return str_replace('<a href="', '<a target="_blank" rel="noopener" href="', self::render($text, $links));
     }
 
     /** Mots qui annoncent une relance : la question s'appuie sur la précédente. */
@@ -317,7 +386,10 @@ final class Regie
     private const MIN_SCORE = 3.0;
     private const MIN_COVERAGE = 0.5;
 
-    private static function fallback(string $question, array $context): array
+    /**
+     * @return array{0:string, 1:array, 2:bool, 3:string} texte, extraits cités, réponse fondée, provenance
+     */
+    private static function fallback(array $context): array
     {
         $best = null;
         foreach ($context as $chunk) {
@@ -328,7 +400,7 @@ final class Regie
             }
         }
         if ($best === null) {
-            return self::reply(I18n::t('regie.no_answer'), [], false);
+            return [I18n::t('regie.no_answer'), [], false, 'none'];
         }
 
         $answer = str_excerpt((string) $best['text'], 320);
@@ -337,7 +409,7 @@ final class Regie
             $answer .= "\n→ [" . str_excerpt((string) ($best['label'] ?? $best['title']), 80) . ']('
                      . '/' . trim((string) $best['url'], '/') . ')';
         }
-        return self::reply($answer, $context, true);
+        return [$answer, $context, true, 'index'];
     }
 
     /**
@@ -472,5 +544,6 @@ final class Regie
     public static function forget(): void
     {
         Session::forget(self::HISTORY_KEY);
+        RegieHistory::reset();
     }
 }
