@@ -120,7 +120,7 @@ use App\Services\I18n;
     Repris de l'ancienne installation WordPress, modifiables dans <code>config/config.php</code>.
     Les mots-clés et le tri par secteur, eux, se règlent ci-dessus.
   </p>
-  <table class="admin-table">
+  <table class="admin-table table-kv">
     <tbody>
       <tr><td class="t">Offres externes avant les annonces du site</td>
           <td class="s"><?= (int) ($settings['before'] ?? 0) ?></td></tr>

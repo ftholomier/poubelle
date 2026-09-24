@@ -69,6 +69,13 @@
 .admin-table .s { font-size: 12.5px; color: var(--meta); }
 .admin-table .actions { display: flex; gap: 6px; justify-content: flex-end; }
 .table-scroll { overflow-x: auto; margin: 0 -6px; padding: 0 6px; }
+/* Référence des éléments en position absolue du tableau (libellés réservés aux
+   lecteurs d'écran des cases à cocher) : sans elle, ils échappent au défilement. */
+.table-scroll { position: relative; }
+/* Tableau clé / valeur (réglages, état) : deux colonnes, pas la largeur d'une
+   liste. Hérité de .admin-table, le min-width de 1180 px le faisait sortir de sa
+   carte, et la page défilait de côté même sur un ordinateur. */
+.admin-table.table-kv { min-width: 0; }
 
 /* Pastilles d'état */
 .state { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 4px 11px; font-size: 11.5px; font-weight: 800; white-space: nowrap; }
@@ -148,6 +155,37 @@
   .admin-grid, .editor-grid { grid-template-columns: minmax(0, 1fr); }
   .admin-nav { position: static; flex-direction: row; flex-wrap: wrap; }
   .admin-nav a { flex: 1 1 150px; }
+}
+
+/* Téléphone : sur une ligne, logo, nom, « Voir le site » et « Déconnexion »
+   demandaient plus de 600 px et tout le back-office défilait de côté. L'en-tête
+   passe sur deux lignes — logo et déconnexion, puis nom et lien vers le site —
+   et cesse d'être collant : deux lignes figées mangeraient l'écran. */
+@media (max-width: 640px) {
+  .is-admin { --gutter: 16px; }
+  .admin-top { position: static; padding: 12px 0; }
+  .admin-top .inner {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 12px;
+    grid-template-areas: "logo out" "who site";
+  }
+  .admin-top .spacer { display: none; }
+  .admin-top .logo { grid-area: logo; align-self: center; justify-self: start; }
+  .admin-top .inner > form { grid-area: out; justify-self: end; }
+  .admin-top .inner > .btn { grid-area: site; justify-self: end; }
+  .admin-who {
+    grid-area: who; align-self: center; min-width: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .admin-top .btn { white-space: nowrap; }
+
+  /* Clé au-dessus de sa valeur : deux colonnes ne tiennent pas. */
+  .table-kv, .table-kv tbody, .table-kv tr, .table-kv td { display: block; width: auto; }
+  .table-kv tr { border-top: 1px solid var(--rule); padding: 10px 0; }
+  .table-kv tr:first-child { border-top: 0; }
+  .table-kv td { border-top: 0; padding: 3px 0; }
+  .table-kv .t { min-width: 0; }
+  .table-kv .state { white-space: normal; }
+  .table-kv code { overflow-wrap: anywhere; }
 }
 
 /* ------------------------------------------------- réglages et clés d'API */

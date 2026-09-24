@@ -165,7 +165,7 @@ use App\Services\I18n;
 <div class="admin-card" style="margin-top:22px">
   <h2 style="margin-top:0">Ce que le site fait, et ce qui dépend de Google</h2>
 
-  <table class="admin-table" style="margin-top:10px">
+  <table class="admin-table table-kv" style="margin-top:10px">
     <tbody>
       <tr>
         <td><span class="t">Identifiant éditeur</span></td>
