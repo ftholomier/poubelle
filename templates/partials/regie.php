@@ -35,11 +35,11 @@ if (!Config::get('regie.enabled', true)) {
     </div>
 
     <div class="regie-thread" data-regie-thread>
-      <div class="bubble bubble-bot"><?= e(I18n::t('regie.hello')) ?></div>
+      <div class="bubble bubble-bot"><?= e(I18n::t('regie.welcome')) ?></div>
     </div>
 
     <div class="regie-suggestions">
-      <?php foreach (['regie.suggest1', 'regie.suggest2', 'regie.suggest3'] as $key): ?>
+      <?php foreach (['regie.suggest1', 'regie.suggest2', 'regie.suggest3', 'regie.suggest4'] as $key): ?>
         <button type="button" data-regie-suggest><?= e(I18n::t($key)) ?></button>
       <?php endforeach; ?>
     </div>

@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Core\Config;
 use App\Core\Session;
 use App\Storage\Audit;
+use App\Storage\Index;
 use App\Storage\Json;
 
 /**
@@ -139,7 +140,7 @@ final class Regie
             return self::reply(I18n::t('regie.placeholder'), [], false);
         }
 
-        $context = Knowledge::search($question, 5);
+        $context = Knowledge::search(self::searchable($question), 6);
 
         if (!self::available()) {
             // Sans clé d'API, on reste utile : on renvoie ce que l'index contient.
@@ -171,10 +172,71 @@ final class Regie
             return self::fallback($question, $context);
         }
 
+        $text = self::withLink($text, $context);
         self::remember($question, $text);
         Audit::log('regie.answered', ['chars' => mb_strlen($text), 'sources' => count($context)]);
 
         return self::reply($text, $context, $context !== []);
+    }
+
+    /** Mots qui annoncent une relance : la question s'appuie sur la précédente. */
+    private const RELANCES = ['et', 'mais', 'puis', 'alors', 'aussi', 'il', 'elle', 'ils', 'elles', 'ca',
+                              'cela', 'celui', 'celle', 'lui', 'leur', 'y', 'en', 'and', 'it', 'he', 'she', 'they'];
+
+    /**
+     * Texte de la recherche. Une relance — « et combien il gagne ? », « quelle
+     * formation ? » — ne nomme plus le métier : on la complète de la question
+     * précédente pour retrouver la bonne fiche. Une question qui se suffit à
+     * elle-même, même courte, est cherchée telle quelle.
+     */
+    private static function searchable(string $question): string
+    {
+        $words = array_values(array_filter(explode(' ', Index::haystack([$question])), 'strlen'));
+        $meaningful = array_filter($words, static fn(string $w): bool
+            => mb_strlen($w) > 2 && !in_array($w, ['quel', 'quelle', 'quels', 'quelles', 'comment',
+                'combien', 'pourquoi', 'quand', 'est', 'sont', 'faut', 'peut', 'pour', 'avec', 'une', 'des', 'les'], true));
+        $followUp = count($meaningful) <= 1 || array_intersect($words, self::RELANCES) !== [];
+        if (!$followUp) {
+            return $question;
+        }
+        foreach (array_reverse(self::history()) as $turn) {
+            if (($turn['role'] ?? '') === 'user') {
+                return (string) $turn['text'] . ' ' . $question;
+            }
+        }
+        return $question;
+    }
+
+    /**
+     * Une réponse mène toujours quelque part. Si le modèle n'a cité aucune
+     * page du site, on ajoute le lien de l'extrait le plus pertinent, pourvu
+     * qu'il réponde vraiment à la question.
+     *
+     * @param array<int, array<string, mixed>> $context
+     */
+    private static function withLink(string $text, array $context): string
+    {
+        $allowed = self::allowedPaths($context);
+        if ($allowed === []) {
+            return $text;
+        }
+        // Un chemin du site déjà cité, en lien Markdown ou en clair, suffit.
+        foreach (array_keys($allowed) as $path) {
+            if (preg_match('#(?<![A-Za-z0-9/_-])' . preg_quote($path, '#') . '(?![A-Za-z0-9/_-])#', $text) === 1) {
+                return $text;
+            }
+        }
+        foreach ($context as $chunk) {
+            $url = trim((string) ($chunk['url'] ?? ''));
+            // Seuil plus haut que pour citer un extrait : un lien ajouté d'office
+            // doit répondre à coup sûr, pas seulement toucher un mot de la question.
+            if ($url !== '' && (float) ($chunk['score'] ?? 0) >= self::MIN_SCORE
+                && (float) ($chunk['coverage'] ?? 0) >= 0.75) {
+                return rtrim($text) . "\n→ [" . str_excerpt((string) ($chunk['label'] ?? $chunk['title']), 80)
+                     . '](/' . trim($url, '/') . ')';
+            }
+        }
+        return $text;
     }
 
     /** Instruction système : périmètre, ton, interdits. */
@@ -182,8 +244,10 @@ final class Regie
     {
         return <<<'TXT'
         Tu es « Régie », l'assistant du site intermittent.fr, qui publie des offres d'emploi et un
-        annuaire de CV pour les intermittents du spectacle en France. Le site est gratuit des deux
-        côtés : déposer un CV, déposer une annonce, chercher et recruter ne coûtent rien.
+        annuaire de CV pour les intermittents du spectacle en France, ainsi que des fiches sur les
+        métiers du spectacle, de l'audiovisuel et de l'événementiel : missions, formation, statut,
+        salaire indicatif. Le site est gratuit des deux côtés : déposer un CV, déposer une annonce,
+        chercher et recruter ne coûtent rien.
 
         Règles, dans l'ordre de priorité :
 
@@ -200,10 +264,14 @@ final class Regie
         5. Ne divulgue jamais de coordonnées personnelles d'un candidat : renvoie vers sa fiche.
         6. Réponds en français, dans la langue de la question si elle est posée dans une autre langue
            parmi : anglais, espagnol, allemand, italien, portugais, néerlandais.
-        7. Chaque fois que tu cites une offre, un profil, une entreprise ou une page du site,
-           transforme son nom en lien Markdown : [Nom exact](/chemin). Le chemin est celui donné
-           entre parenthèses dans l'extrait correspondant, recopié à l'identique. N'écris jamais un
-           chemin qui n'apparaît pas dans les extraits, et ne mets pas de lien vers un site externe.
+        7. Chaque fois que tu cites une offre, un profil, une entreprise, un métier ou une page du
+           site, transforme son nom en lien Markdown : [Nom exact](/chemin). Le chemin est celui
+           indiqué dans l'extrait (« lien : /chemin ») ou écrit entre parenthèses dans son texte,
+           recopié à l'identique. N'écris jamais un chemin qui n'y figure pas, et ne mets pas de
+           lien vers un site externe.
+        7 bis. Chaque réponse se termine par un lien vers la page du site la plus utile pour la
+           suite : la fiche métier, le formulaire pour déposer un CV ou une annonce, la liste des
+           offres ou l'annuaire.
         8. Trois phrases maximum, ton direct et concret, pas de formule d'accueil.
         TXT;
     }
@@ -260,13 +328,13 @@ final class Regie
             }
         }
         if ($best === null) {
-            return self::reply(I18n::t('regie.no_scope'), [], false);
+            return self::reply(I18n::t('regie.no_answer'), [], false);
         }
 
         $answer = str_excerpt((string) $best['text'], 320);
         if ((string) $best['url'] !== '') {
             // Même sans modèle, la réponse pointe la page concernée.
-            $answer .= "\n→ [" . str_excerpt((string) $best['title'], 80) . ']('
+            $answer .= "\n→ [" . str_excerpt((string) ($best['label'] ?? $best['title']), 80) . ']('
                      . '/' . trim((string) $best['url'], '/') . ')';
         }
         return self::reply($answer, $context, true);
@@ -290,16 +358,26 @@ final class Regie
         ];
     }
 
-    /** @return array<string, string> chemin interne => libellé par défaut */
+    /**
+     * Chemins que la réponse peut transformer en liens : ceux des extraits
+     * retenus, et les pages qu'un extrait cite lui-même — la liste des métiers
+     * d'une famille, par exemple.
+     *
+     * @return array<string, string> chemin interne => libellé par défaut
+     */
     private static function allowedPaths(array $context): array
     {
         $allowed = [];
         foreach ($context as $chunk) {
             $url = trim((string) ($chunk['url'] ?? ''));
-            if ($url === '' || !str_starts_with($url, '/')) {
-                continue;
+            if ($url !== '' && str_starts_with($url, '/')) {
+                $allowed['/' . trim($url, '/')] ??= str_excerpt((string) ($chunk['label'] ?? $chunk['title'] ?? ''), 80);
             }
-            $allowed['/' . trim($url, '/')] = str_excerpt((string) ($chunk['title'] ?? ''), 80);
+            foreach ((array) ($chunk['links'] ?? []) as $path => $label) {
+                if (str_starts_with((string) $path, '/')) {
+                    $allowed['/' . trim((string) $path, '/')] ??= str_excerpt((string) $label, 80);
+                }
+            }
         }
         return $allowed;
     }

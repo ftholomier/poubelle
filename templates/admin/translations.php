@@ -38,7 +38,7 @@ $languages = I18n::languages();
 <?php endif; ?>
 
 <div class="admin-card">
-  <h2>Annonces et profils</h2>
+  <h2>Annonces, profils et fiches métiers</h2>
   <p class="muted" style="font-size:14px;margin:6px 0 16px">
     Une fiche modifiée est automatiquement remise en file : la traduction en cache
     est indexée sur le texte source. Une fiche consultée dans une langue non encore
@@ -54,7 +54,8 @@ $languages = I18n::languages();
         </tr>
       </thead>
       <tbody>
-        <?php foreach (['job' => 'Offres d’emploi', 'cv' => 'CV'] as $type => $label): ?>
+        <?php foreach (['job' => 'Offres d’emploi', 'cv' => 'CV', 'trade' => 'Fiches métiers',
+                        'family' => 'Familles de métiers'] as $type => $label): ?>
           <?php $row = $records[$type] ?? ['enabled' => false, 'total' => 0, 'langs' => []]; ?>
           <tr>
             <td><span class="t"><?= e($label) ?></span><br>
@@ -78,7 +79,10 @@ $languages = I18n::languages();
   </div>
   <p class="muted" style="font-size:13px;margin-top:14px">
     Les CV sont exclus par défaut : ce sont des textes personnels, et un CV se lit
-    d’ordinaire dans sa langue. Réglable par <code>i18n.translate_cv</code>.
+    d’ordinaire dans sa langue. Réglable par <code>i18n.translate_cv</code>. Les fiches
+    métiers et leurs familles sont traduites, réglage <code>i18n.translate_trades</code> :
+    environ 4 000 caractères par fiche et par langue, soit près de 1,5 million de caractères
+    pour les soixante fiches dans les six langues, une fois pour toutes.
   </p>
 </div>
 

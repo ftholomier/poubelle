@@ -55,6 +55,11 @@ final class I18n
     /** Traduit une clé. Les arguments passent par sprintf. */
     public static function t(string $key, mixed ...$args): string
     {
+        // Hors requête — tâche planifiée, script — rien n'a amorcé la langue :
+        // le français sert alors, plutôt que des identifiants bruts.
+        if (self::$pivot === []) {
+            self::$pivot = require Config::path('root') . '/app/Services/lang/fr.php';
+        }
         $text = self::$strings[$key] ?? self::$pivot[$key] ?? $key;
         if ($args === []) {
             return (string) $text;

@@ -25,6 +25,9 @@ return [
         // des textes personnels, et un CV se lit d'ordinaire dans sa langue.
         'translate_jobs' => true,
         'translate_cv'   => false,
+        // Les fiches métiers aussi : soixante pages durables, qui répondent
+        // dans chaque langue à « comment devenir… » et « combien gagne… ».
+        'translate_trades' => true,
         'languages' => [
             'fr' => ['name' => 'Français',  'locale' => 'fr_FR'],
             'en' => ['name' => 'English',   'locale' => 'en_GB'],

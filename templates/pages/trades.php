@@ -21,7 +21,7 @@ use App\Support\Icon;
   <?php // Sommaire des familles : on saute à la sienne sans faire défiler
         // soixante pavés. ?>
   <nav class="trade-jump" aria-label="<?= e(I18n::t('trades.jump')) ?>">
-    <?php foreach ($groups as $key => $rows): $family = Trades::family((string) $key); ?>
+    <?php foreach ($groups as $key => $rows): $family = $families[$key] ?? Trades::family((string) $key); ?>
       <a class="chip tone-<?= e($family['tone']) ?>" href="#famille-<?= e((string) $key) ?>">
         <?= Icon::svg($family['icon'], 15, 'currentColor', 2) ?>
         <?= e($family['name']) ?> <span class="n"><?= count($rows) ?></span>
@@ -30,7 +30,7 @@ use App\Support\Icon;
   </nav>
 
   <?php $position = 0; ?>
-  <?php foreach ($groups as $key => $rows): $family = Trades::family((string) $key); $position++; ?>
+  <?php foreach ($groups as $key => $rows): $family = $families[$key] ?? Trades::family((string) $key); $position++; ?>
     <section class="trade-family" id="famille-<?= e((string) $key) ?>"
              aria-labelledby="famille-<?= e((string) $key) ?>-titre">
       <div class="trade-family-head tone-<?= e($family['tone']) ?>">

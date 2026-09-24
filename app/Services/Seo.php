@@ -178,9 +178,11 @@ final class Seo
 
         // Un gabarit qui ne donnerait qu'une chaîne vide — toutes ses variables
         // absentes — laisserait la page sans titre : on garde alors celui que
-        // le contrôleur a calculé.
+        // le contrôleur a calculé. Les gabarits sont écrits en français : dans
+        // une autre langue, le titre traduit calculé par le contrôleur reste.
+        $french = I18n::isPivot();
         $title = trim((string) ($settings['title'] ?? ''));
-        if ($title !== '' && empty($meta['own_title'])) {
+        if ($title !== '' && $french && empty($meta['own_title'])) {
             $filled = self::fill($title, $vars);
             if ($filled !== '') {
                 $meta['title'] = $filled;
@@ -188,7 +190,7 @@ final class Seo
         }
 
         $description = trim((string) ($settings['description'] ?? ''));
-        if ($description !== '' && empty($meta['own_desc'])) {
+        if ($description !== '' && $french && empty($meta['own_desc'])) {
             $filled = self::fill($description, $vars);
             if ($filled !== '') {
                 $meta['desc'] = $filled;

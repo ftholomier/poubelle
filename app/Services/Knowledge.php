@@ -5,13 +5,22 @@ namespace App\Services;
 
 use App\Core\Config;
 use App\Domain\PageRepository;
+use App\Domain\TradeRepository;
 use App\Storage\Index;
 use App\Storage\Json;
 
 /**
  * Base de connaissance locale de l'assistant.
- * Contenu : pages publiées, offres, profils, et documents ajoutés depuis le
- * back-office (PDF, Markdown, JSON). Régénérée à chaque publication.
+ *
+ * Contenu : les pages clés du site, les pages éditoriales, les offres en
+ * ligne, les profils de l'annuaire, les employeurs, les fiches métiers en
+ * entier, et les documents ajoutés depuis le back-office (PDF, Markdown,
+ * JSON). Chaque fragment porte le chemin de sa page : c'est lui que
+ * l'assistant transforme en lien dans sa réponse.
+ *
+ * Elle se reconstruit d'elle-même dès qu'un index du site est plus récent
+ * qu'elle : une offre publiée, une fiche corrigée ou un déploiement sont
+ * connus de l'assistant à la question suivante.
  */
 final class Knowledge
 {
@@ -32,16 +41,44 @@ final class Knowledge
         return $dir;
     }
 
+    /** Index dont dépend la base : si l'un est plus récent qu'elle, elle se reconstruit. */
+    private const SOURCES = ['jobs', 'cv', 'employers', 'pages', 'trades'];
+
     /** @return array{count:int, generated_at:string} */
     public static function rebuild(): array
     {
+        // La base est écrite en français, quelle que soit la langue de la
+        // requête qui la reconstruit : c'est l'assistant qui traduit.
+        $lang = I18n::lang();
+        if ($lang !== 'fr') {
+            I18n::boot('fr');
+        }
+        try {
+            return self::build();
+        } finally {
+            if ($lang !== 'fr') {
+                I18n::boot($lang);
+            }
+        }
+    }
+
+    /** @return array{count:int, generated_at:string} */
+    private static function build(): array
+    {
         $chunks = [];
+
+        // Les pages clés d'abord : « où déposer mon CV ? » doit mener au
+        // formulaire, pas seulement au guide qui l'explique.
+        foreach (self::siteMap() as [$url, $title, $text, $words]) {
+            self::addChunks($chunks, $title, $url, 'page', $text, $words);
+        }
 
         foreach (PageRepository::published('fr') as $page) {
             self::addSections($chunks, (string) $page['title'], '/' . $page['slug'], (string) $page['body']);
         }
 
-        foreach (Index::load('jobs') as $job) {
+        // Offres en ligne seulement : une annonce expirée n'a plus à être proposée.
+        foreach (Search::live(Index::load('jobs')) as $job) {
             if (($job['status'] ?? '') !== 'publish') {
                 continue;
             }
@@ -80,28 +117,7 @@ final class Knowledge
                 '/employeur/' . $employer['slug'], 'employeur', $body);
         }
 
-        // Les fiches métiers répondent aux questions qu'on pose le plus à
-        // l'assistant : comment devenir régisseur, combien gagne un machiniste.
-        foreach (\App\Domain\TradeRepository::all() as $trade) {
-            if (($trade['status'] ?? '') !== 'publish') {
-                continue;
-            }
-            $faq = array_map(
-                static fn(array $f): string => (string) ($f['q'] ?? '') . ' ' . (string) ($f['a'] ?? ''),
-                (array) $trade['faq'],
-            );
-            $body = implode("\n", array_filter([
-                (string) $trade['name'] . ' — fiche métier',
-                (string) $trade['intro'],
-                'Missions : ' . implode(' ; ', (array) $trade['missions']),
-                'Formation : ' . (string) $trade['training'],
-                'Statut : ' . (string) $trade['statut'],
-                'Rémunération indicative : ' . \App\Services\Trades::payLabel((array) $trade['pay'])
-                    . '. ' . (string) ($trade['pay']['note'] ?? ''),
-                implode("\n", $faq),
-            ]));
-            self::addChunks($chunks, (string) $trade['name'], '/metiers/' . $trade['slug'], 'métier', $body);
-        }
+        self::addTrades($chunks);
 
         foreach (self::documents() as $doc) {
             self::addChunks($chunks, (string) $doc['title'], '', 'document', (string) $doc['text']);
@@ -113,6 +129,149 @@ final class Knowledge
         ]);
 
         return ['count' => count($chunks), 'generated_at' => date('c')];
+    }
+
+    /**
+     * Pages clés du site, décrites en quelques lignes pour que l'assistant
+     * envoie tout droit vers le formulaire, la liste ou l'annuaire concerné.
+     *
+     * @return array<int, array{0:string, 1:string, 2:string, 3:string}> chemin, titre, texte,
+     *         mots par lesquels on la cherche
+     */
+    private static function siteMap(): array
+    {
+        $trades = count(Trades::published());
+        return [
+            ['/', 'Accueil d’intermittent.fr',
+             'intermittent.fr publie depuis 2005 des offres d’emploi et un annuaire de CV pour les intermittents '
+             . 'du spectacle, de l’audiovisuel et de l’événementiel. Le site est gratuit des deux côtés : déposer '
+             . 'un CV, publier une annonce, chercher un emploi et recruter ne coûtent rien, sans commission ni abonnement.',
+             'site accueil gratuit présentation intermittent'],
+            ['/offres', 'Offres d’emploi',
+             'Toutes les offres d’emploi du spectacle vivant, du cinéma, de l’audiovisuel et de l’événementiel : '
+             . 'techniciens, artistes, production, régie. Recherche par mot-clé, ville, région et type de contrat. '
+             . 'Les annonces déposées sur le site côtoient celles de sites partenaires.',
+             'offres emploi emplois job jobs travail mission chercher trouver postuler candidater'],
+            ['/cv', 'Annuaire des CV',
+             'L’annuaire des CV d’intermittents et de professionnels du spectacle : recherche par métier, compétence '
+             . 'et ville. Les employeurs contactent les profils par le formulaire du site, sans intermédiaire ; '
+             . 'les coordonnées des candidats restent masquées.',
+             'annuaire cv profils candidats trouver technicien artiste recruter recrute embaucher'],
+            ['/employeurs', 'Les employeurs du spectacle',
+             'Les structures qui recrutent sur intermittent.fr : compagnies, théâtres, salles, festivals, prestataires '
+             . 'techniques, sociétés de production, agences événementielles, chacune avec ses offres en ligne.',
+             'employeurs structures entreprises compagnies recruteurs'],
+            ['/deposer-un-cv', 'Déposer un CV',
+             'Déposer son CV est gratuit et prend deux minutes : métier principal, expérience, ville, mobilité, '
+             . 'compétences, présentation, et fichier CV en PDF ou DOCX de 5 Mo au plus. Le profil rejoint l’annuaire '
+             . 'consulté chaque jour par les employeurs du spectacle, et l’on peut choisir de ne pas y figurer. Les '
+             . 'coordonnées restent masquées : les employeurs écrivent par le formulaire de contact.',
+             'déposer publier mettre cv profil inscrire inscription candidature postuler'],
+            ['/deposer-une-annonce', 'Déposer une annonce',
+             'Publier une offre d’emploi est gratuit et sans commission : intitulé du poste, structure, lieu, '
+             . 'rémunération, date de démarrage, type de contrat, description et adresse de réception des '
+             . 'candidatures. Avant publication, l’assistant vérifie que le statut, la rémunération et l’écriture '
+             . 'inclusive sont mentionnés. L’annonce apparaît aussi sur la fiche du métier concerné.',
+             'déposer publier poster diffuser annonce offre recruter recrute embaucher recrutement'],
+            ['/metiers', 'Les métiers du spectacle',
+             sprintf('%d fiches métiers du spectacle, de l’audiovisuel et de l’événementiel : missions, journée '
+             . 'type, formation et écoles, statut d’intermittent, salaire indicatif et offres d’emploi du moment, '
+             . 'métier par métier.', $trades),
+             'métiers fiches métier liste familles'],
+            ['/ressources', 'Ressources',
+             'Les guides d’intermittent.fr : déposer un CV, publier une annonce, questions fréquentes, présentation '
+             . 'du site, conditions d’utilisation et confidentialité.',
+             'ressources guides aide conseils'],
+        ];
+    }
+
+    /**
+     * Fiches métiers, section par section : « comment devenir régisseur ? »
+     * trouve la section formation de la bonne fiche, pas un long fragment où
+     * elle se noie. Chaque section garde le lien de sa fiche, et les
+     * synonymes du métier — « perchiste » pour le perchman — pèsent dans la
+     * recherche sans encombrer le texte.
+     */
+    private static function addTrades(array &$chunks): void
+    {
+        $byFamily = [];
+        foreach (TradeRepository::all() as $trade) {
+            if (($trade['status'] ?? '') !== 'publish') {
+                continue;
+            }
+            $url = '/metiers/' . $trade['slug'];
+            $name = (string) $trade['name'];
+            $inline = Trades::inline($name);
+            $aliases = implode(' ', array_merge([(string) $trade['name_f']], (array) $trade['keywords']));
+            $list = static fn(string $label, array $items): string
+                => $items === [] ? '' : $label . ' : ' . implode(' ; ', array_map('strval', $items)) . '.';
+            $pay = Trades::payLabel((array) $trade['pay']);
+
+            // Titre, textes, et les mots par lesquels on pose la question —
+            // « combien gagne » ne figure dans aucune fiche, « salaire » si.
+            $sections = [
+                [$name . ' — le métier', [
+                    (string) $trade['summary'], (string) $trade['intro'],
+                    $list('Missions', (array) $trade['missions']),
+                ], 'métier fiche missions rôle travail fait'],
+                [$name . ' — une journée type', [(string) $trade['day']], 'journée quotidien horaires'],
+                [$name . ' — compétences et qualités', [$list('Compétences', (array) $trade['skills'])],
+                 'compétences qualités savoir faire aptitudes'],
+                ['Comment devenir ' . $inline . ' ?', [
+                    (string) $trade['training'], $list('Formations et écoles', (array) $trade['schools']),
+                ], 'devenir formation formations diplôme diplômes école écoles études apprendre cursus'],
+                [$name . ' — statut et contrat', [
+                    (string) $trade['statut'], (string) ($trade['brief']['status'] ?? ''),
+                ], 'statut intermittent intermittence contrat cddu annexe chômage salarié'],
+                ['Quel salaire pour un ' . $inline . ' ?', [
+                    $pay !== '' ? 'Rémunération indicative : ' . $pay . '.' : '',
+                    (string) ($trade['pay']['note'] ?? ''),
+                    I18n::t('trade.pay_disclaimer'),
+                ], 'salaire salaires combien gagne gagner gagnent rémunération payé paie tarif cachet brut'],
+                [$name . ' — évolution de carrière', [(string) $trade['career']],
+                 'évolution carrière avenir débouchés perspectives'],
+            ];
+            foreach ((array) $trade['faq'] as $item) {
+                $question = trim((string) ($item['q'] ?? ''));
+                if ($question !== '') {
+                    $sections[] = [$name . ' — ' . $question, [(string) ($item['a'] ?? '')], ''];
+                }
+            }
+
+            foreach ($sections as [$title, $parts, $words]) {
+                $text = implode("\n", array_filter(array_map('trim', $parts), 'strlen'));
+                self::addChunks($chunks, $title, $url, 'métier', $text, $aliases . ' ' . $words, $name);
+            }
+            $byFamily[(string) $trade['family']][$url] = $name;
+        }
+
+        // Une famille, ses métiers et leurs liens : « quels métiers dans le
+        // son ? » reçoit la liste, chaque nom menant à sa fiche.
+        foreach (Trades::families() as $key => $family) {
+            $trades = $byFamily[$key] ?? [];
+            if ($trades === []) {
+                continue;
+            }
+            $names = [];
+            foreach ($trades as $url => $name) {
+                $names[] = $name . ' (' . $url . ')';
+            }
+            $text = trim((string) $family['intro']) . "\nMétiers : " . implode(', ', $names) . '.';
+            self::addChunks($chunks, 'Les métiers — ' . $family['name'], '/metiers', 'métier', $text,
+                '', 'Les métiers', $trades);
+        }
+    }
+
+    /** Vrai si un index du site a bougé depuis la dernière construction. */
+    private static function stale(array $data): bool
+    {
+        $built = (int) strtotime((string) ($data['generated_at'] ?? ''));
+        foreach (self::SOURCES as $name) {
+            if ((int) @filemtime(Index::path($name)) > $built) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Documents indexés, ajoutés depuis le back-office. */
@@ -165,27 +324,38 @@ final class Knowledge
     {
         $data = Json::read(self::path());
         $chunks = $data['chunks'] ?? [];
-        if ($chunks === []) {
+        if ($chunks === [] || self::stale($data)) {
             self::rebuild();
             $chunks = Json::read(self::path())['chunks'] ?? [];
         }
 
+        // Les mots de deux lettres comptent quand ils nomment quelque chose :
+        // « dj », « tv », « 3d ».
         $words = array_values(array_filter(
             explode(' ', Index::haystack([$question])),
-            static fn(string $w) => mb_strlen($w) > 2 && !in_array($w, self::STOP, true),
+            static fn(string $w) => (mb_strlen($w) > 2 || (mb_strlen($w) === 2 && !in_array($w, self::STOP2, true)))
+                && !in_array($w, self::STOP, true),
         ));
         if ($words === []) {
             return [];
+        }
+
+        // Un mot compte à partir d'un début de mot : « formation » trouve
+        // « formations », mais pas « myschoolformation » ; « son » trouve
+        // « sonorisation », mais pas « personne ».
+        $patterns = [];
+        foreach ($words as $word) {
+            $patterns[$word] = '/(?<![a-z0-9])' . preg_quote($word, '/') . '/';
         }
 
         // Pondération IDF : un mot présent partout (« offre », « emploi », « cv »)
         // ne doit pas faire remonter la page la plus longue du site.
         $total = count($chunks);
         $idf = [];
-        foreach ($words as $word) {
+        foreach ($patterns as $word => $pattern) {
             $documents = 0;
             foreach ($chunks as $chunk) {
-                if (str_contains((string) $chunk['haystack'], $word)) {
+                if (preg_match($pattern, (string) $chunk['haystack']) === 1) {
                     $documents++;
                 }
             }
@@ -195,30 +365,32 @@ final class Knowledge
         $scored = [];
         foreach ($chunks as $chunk) {
             $score = 0.0;
-            $length = max(1, mb_strlen((string) $chunk['haystack']));
+            $found = 0;
+            $haystack = (string) $chunk['haystack'];
+            $title = Index::haystack([$chunk['title']]);
+            // La longueur est celle du texte cité : les synonymes ajoutés pour
+            // la recherche ne doivent pas faire passer un fragment pour long.
+            $length = max(1, mb_strlen((string) $chunk['text']));
 
-            foreach ($words as $word) {
+            foreach ($patterns as $word => $pattern) {
+                $hits = preg_match_all($pattern, $haystack);
+                if ($hits > 0) {
+                    $found++;
+                }
                 $weight = $idf[$word] ?? 0.0;
                 if ($weight <= 0) {
                     continue;
                 }
-                $hits = substr_count((string) $chunk['haystack'], $word);
                 if ($hits > 0) {
                     // Saturation logarithmique + normalisation par la longueur :
                     // un fragment court et précis bat un long fragment vague.
                     $score += $weight * (1 + log(1 + $hits)) * (600 / ($length + 400));
                 }
-                if (str_contains(Index::haystack([$chunk['title']]), $word)) {
+                if (preg_match($pattern, $title) === 1) {
                     $score += $weight * 2.0;
                 }
             }
             if ($score > 0) {
-                $found = 0;
-                foreach ($words as $word) {
-                    if (str_contains((string) $chunk['haystack'], $word)) {
-                        $found++;
-                    }
-                }
                 $chunk['score'] = round($score, 3);
                 // Un seul mot rare touché par hasard ne fait pas une réponse :
                 // la couverture dit quelle part de la question est vraiment traitée.
@@ -260,11 +432,13 @@ final class Knowledge
             }
             // Une section très longue est re-découpée par taille.
             if (mb_strlen($text) > self::CHUNK * 1.6) {
-                self::addChunks($chunks, $heading !== '' ? $title . ' — ' . $heading : $title, $url, 'page', $text);
+                self::addChunks($chunks, $heading !== '' ? $title . ' — ' . $heading : $title, $url, 'page', $text,
+                    '', $title);
                 continue;
             }
             $chunks[] = [
                 'title'    => $heading !== '' ? $title . ' — ' . $heading : $title,
+                'label'    => $title,
                 'url'      => $url,
                 'kind'     => 'page',
                 'text'     => $text,
@@ -273,8 +447,21 @@ final class Knowledge
         }
     }
 
-    private static function addChunks(array &$chunks, string $title, string $url, string $kind, string $text): void
-    {
+    /**
+     * @param string                $aliases mots pesés par la recherche, absents du texte cité
+     * @param string                $label   nom de la page, pour le lien — le titre peut être celui d'une section
+     * @param array<string, string> $links   autres pages que le fragment peut citer : chemin => nom
+     */
+    private static function addChunks(
+        array &$chunks,
+        string $title,
+        string $url,
+        string $kind,
+        string $text,
+        string $aliases = '',
+        string $label = '',
+        array $links = [],
+    ): void {
         $text = trim((string) preg_replace('/[ \t]+/', ' ', $text));
         if ($text === '') {
             return;
@@ -307,13 +494,18 @@ final class Knowledge
             if (mb_strlen($piece) < 40) {
                 continue;
             }
-            $chunks[] = [
+            $chunk = [
                 'title'    => $title,
+                'label'    => $label !== '' ? $label : $title,
                 'url'      => $url,
                 'kind'     => $kind,
                 'text'     => $piece,
-                'haystack' => Index::haystack([$title, $piece]),
+                'haystack' => Index::haystack([$title, $piece, $aliases]),
             ];
+            if ($links !== []) {
+                $chunk['links'] = $links;
+            }
+            $chunks[] = $chunk;
             if ($length <= self::CHUNK) {
                 break;
             }
@@ -330,5 +522,12 @@ final class Knowledge
     }
 
     private const STOP = ['les', 'des', 'une', 'pour', 'dans', 'avec', 'sur', 'par', 'que', 'qui',
-                          'est', 'sont', 'the', 'and', 'vous', 'nous', 'mon', 'mes', 'comment', 'quoi'];
+                          'est', 'sont', 'the', 'and', 'vous', 'nous', 'mon', 'mes', 'comment', 'quoi',
+                          'quel', 'quelle', 'quels', 'quelles', 'etre', 'avoir', 'faut', 'peut', 'faire',
+                          'elle', 'ils', 'elles', 'ton', 'tes', 'ses', 'leur', 'leurs', 'cette', 'ces'];
+
+    /** Mots de deux lettres sans contenu ; les autres — « dj », « tv » — restent. */
+    private const STOP2 = ['de', 'du', 'la', 'le', 'un', 'en', 'et', 'ou', 'au', 'ce', 'il', 'je', 'tu',
+                           'on', 'ne', 'se', 'sa', 'ta', 'ma', 'me', 'te', 'es', 'si', 'ni', 'qu', 'est',
+                           'to', 'of', 'in', 'is', 'an', 'at', 'on', 'my', 'do', 'be'];
 }

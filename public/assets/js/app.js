@@ -201,10 +201,30 @@
       .catch(function () { return ''; });
   }
 
+  /**
+   * Le fil suit le visiteur de page en page : les réponses donnent des liens,
+   * et suivre un lien ne doit pas effacer la conversation. Il vit dans
+   * sessionStorage, le temps de l'onglet ; un stockage refusé ne fait que
+   * revenir au comportement d'avant.
+   */
+  var REGIE_THREAD = 'imtt_regie_thread';
+  var REGIE_OPEN = 'imtt_regie_open';
+
+  function regieStore(key, value) {
+    try {
+      if (value === null) { sessionStorage.removeItem(key); } else { sessionStorage.setItem(key, value); }
+    } catch (e) { /* stockage indisponible : le fil repartira de zéro */ }
+  }
+
+  function regieRead(key) {
+    try { return sessionStorage.getItem(key); } catch (e) { return null; }
+  }
+
   function closeRegie() {
     if (regiePanel && !regiePanel.hidden) {
       regiePanel.hidden = true;
       if (regieLauncher) { regieLauncher.hidden = false; regieLauncher.focus(); }
+      regieStore(REGIE_OPEN, null);
     }
   }
 
@@ -223,14 +243,16 @@
 
     regiePanel.hidden = true;
 
-    regieLauncher.addEventListener('click', function () {
+    function openRegie(focus) {
       regiePanel.hidden = false;
       regieLauncher.hidden = true;
-      if (input) { input.focus(); }
+      if (focus && input) { input.focus(); }
       // Le jeton se demande à l'ouverture : la session n'existe que pour qui
       // se sert réellement de l'assistant.
       formToken('regie');
-    });
+    }
+
+    regieLauncher.addEventListener('click', function () { openRegie(true); });
     $$('[data-regie-close]', regiePanel).forEach(function (b) { b.addEventListener('click', closeRegie); });
 
     function bubble(text, who) {
@@ -242,10 +264,68 @@
       return el;
     }
 
+    // Fil de la page précédente : questions en texte, réponses dans le HTML
+    // que le serveur a construit et échappé.
+    var saved = [];
+    try { saved = JSON.parse(regieRead(REGIE_THREAD) || '[]') || []; } catch (e) { saved = []; }
+    // Relu depuis le stockage, le HTML repasse au tamis : du texte, des
+    // sauts de ligne et des liens internes, rien d'autre.
+    function safeReply(el, html) {
+      var box = document.createElement('div');
+      box.innerHTML = String(html || '');
+      (function copy(from, to) {
+        Array.prototype.forEach.call(from.childNodes, function (node) {
+          if (node.nodeType === 3) {
+            to.appendChild(document.createTextNode(node.textContent));
+          } else if (node.nodeName === 'BR') {
+            to.appendChild(document.createElement('br'));
+          } else if (node.nodeName === 'A' && /^\/[a-z]{2}(\/|$)/.test(node.getAttribute('href') || '')) {
+            var a = document.createElement('a');
+            a.setAttribute('href', node.getAttribute('href'));
+            a.textContent = node.textContent;
+            to.appendChild(a);
+          } else {
+            copy(node, to);
+          }
+        });
+      })(box, el);
+    }
+
+    saved.forEach(function (item) {
+      if (item.who === 'bot') {
+        safeReply(bubble('', 'bot'), item.html);
+      } else {
+        bubble(String(item.text || ''), 'user');
+      }
+    });
+
+    // Les suggestions servent à lancer la conversation : une fois lancée,
+    // elles laissent la place au fil.
+    var suggestions = $('.regie-suggestions', regiePanel);
+    function hideSuggestions() { if (suggestions) { suggestions.hidden = true; } }
+    if (saved.length) { hideSuggestions(); }
+
+    function remember(entry) {
+      saved.push(entry);
+      regieStore(REGIE_THREAD, JSON.stringify(saved.slice(-24)));
+      hideSuggestions();
+    }
+
+    // Un lien suivi depuis une réponse rouvre l'assistant sur la page d'arrivée.
+    thread.addEventListener('click', function (e) {
+      var link = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+      if (link) { regieStore(REGIE_OPEN, '1'); }
+    });
+    if (regieRead(REGIE_OPEN) === '1' && saved.length) {
+      openRegie(false);
+      thread.scrollTop = thread.scrollHeight;
+    }
+
     function ask(question) {
       if (busy || !question.trim()) { return; }
       busy = true;
       bubble(question, 'user');
+      remember({ who: 'user', text: question });
       if (input) { input.value = ''; }
       var pending = bubble('…', 'bot');
 
@@ -268,6 +348,7 @@
           // restreints aux pages réellement citées. data.answer est le repli.
           if (data.html) {
             pending.innerHTML = data.html;
+            remember({ who: 'bot', html: data.html });
           } else {
             pending.textContent = data.answer || root.getAttribute('data-offline');
           }

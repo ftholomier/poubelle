@@ -6,6 +6,8 @@ namespace App\Controllers;
 use App\Core\Config;
 use App\Core\Request;
 use App\Core\Response;
+use App\Domain\TradeRepository;
+use App\Services\ContentTranslator;
 use App\Services\I18n;
 use App\Services\JobLifecycle;
 use App\Storage\Index;
@@ -83,12 +85,27 @@ final class SitemapController extends Controller
         }
         // Les fiches métiers : du contenu durable, qui ne périme pas comme une
         // annonce — c'est lui qui installe le site sur les requêtes métier.
+        // Chacune n'est proposée que dans les langues où elle est traduite :
+        // ailleurs, la version française servie à défaut est en noindex.
+        $tradeIds = [];
         foreach (Index::load('trades') as $trade) {
             if (($trade['status'] ?? '') !== 'publish') {
                 continue;
             }
+            $tradeIds[] = (string) $trade['id'];
+            $record = TradeRepository::find((string) $trade['id']);
             $paths[] = ['path' => '/metiers/' . $trade['slug'],
-                        'lastmod' => (string) $trade['updated_at'], 'priority' => '0.7'];
+                        'lastmod' => (string) $trade['updated_at'], 'priority' => '0.7',
+                        'langs' => array_values(array_filter($languages, static fn(string $code): bool
+                            => $code === 'fr' || ($record !== null && ContentTranslator::isFresh($record, 'trade', $code)))),
+                       ];
+        }
+        // La mosaïque suit la même règle, mesurée sur l'ensemble des fiches.
+        foreach ($paths as $i => $entry) {
+            if ($entry['path'] === '/metiers') {
+                $paths[$i]['langs'] = array_values(array_filter($languages, static fn(string $code): bool
+                    => ContentTranslator::coverage('trade', $code, $tradeIds) >= 0.9));
+            }
         }
         foreach (Index::load('pages') as $page) {
             $paths[] = ['path' => '/' . $page['slug'],
@@ -100,7 +117,8 @@ final class SitemapController extends Controller
              . ' xmlns:xhtml="http://www.w3.org/1999/xhtml">' . "\n";
 
         foreach ($paths as $entry) {
-            foreach ($languages as $lang) {
+            $entryLanguages = (array) ($entry['langs'] ?? $languages);
+            foreach ($entryLanguages as $lang) {
                 $xml .= "  <url>\n";
                 $xml .= '    <loc>' . e($base . I18n::url($entry['path'], $lang)) . "</loc>\n";
                 if ($entry['lastmod'] !== '') {
@@ -110,8 +128,8 @@ final class SitemapController extends Controller
                     }
                 }
                 // Une seule langue ne justifie aucune balise d'alternative.
-                if (count($languages) > 1) {
-                    foreach ($languages as $alternate) {
+                if (count($entryLanguages) > 1) {
+                    foreach ($entryLanguages as $alternate) {
                         $xml .= '    <xhtml:link rel="alternate" hreflang="' . e($alternate)
                               . '" href="' . e($base . I18n::url($entry['path'], $alternate)) . "\"/>\n";
                     }

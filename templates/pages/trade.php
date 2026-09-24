@@ -13,6 +13,7 @@
  * @var array  $partners  offres partenaires correspondantes
  * @var array  $profiles  profils de l'annuaire correspondants
  * @var array  $related   métiers proches (lignes d'index)
+ * @var array  $siblings  autres métiers de la famille (lignes d'index)
  * @var array  $counts    slug => annonces en ligne
  */
 use App\Core\View;
@@ -22,15 +23,10 @@ use App\Support\Icon;
 
 $name = (string) $trade['name'];
 $inline = Trades::inline($name);
-$de = Trades::de($name) . $inline;          // « de régisseur son », « d’accessoiriste »
 $query = (string) (Trades::partnerCriteria($trade)['q'] ?? $name);
 $jobsUrl = I18n::url('/offres') . '?q=' . rawurlencode($query);
 $cvUrl = I18n::url('/cv') . '?q=' . rawurlencode($query);
 $brief = (array) $trade['brief'];
-$siblings = array_values(array_filter(
-    Trades::byFamily()[(string) $trade['family']] ?? [],
-    static fn(array $row) => $row['slug'] !== $trade['slug'],
-));
 $offers = count($jobs) + count($partners);
 ?>
 <div class="container">
@@ -177,13 +173,13 @@ $offers = count($jobs) + count($partners);
 
   <section class="section" id="offres">
     <div class="section-head">
-      <h2><?= e(I18n::t('trade.h_jobs', $de)) ?></h2>
-      <a class="btn btn-ghost btn-sm" href="<?= e($jobsUrl) ?>"><?= e(I18n::t('trade.all_jobs', $de)) ?> <?= Icon::svg('arrow-r', 15) ?></a>
+      <h2><?= e(Trades::phrase('trade.jobs_of', $name)) ?></h2>
+      <a class="btn btn-ghost btn-sm" href="<?= e($jobsUrl) ?>"><?= e(Trades::phrase('trade.all_jobs_of', $name)) ?> <?= Icon::svg('arrow-r', 15) ?></a>
     </div>
 
     <?php if ($jobs === [] && $partners === []): ?>
       <div class="card empty">
-        <p><?= e(I18n::t('trade.no_jobs', $de)) ?></p>
+        <p><?= e(Trades::phrase('trade.no_jobs_of', $name)) ?></p>
         <a class="btn btn-coral" href="<?= e(I18n::url('/deposer-un-cv')) ?>"><?= e(I18n::t('trade.post_cv')) ?></a>
       </div>
     <?php else: ?>
@@ -204,7 +200,7 @@ $offers = count($jobs) + count($partners);
   <?php if ($profiles !== []): ?>
     <section class="section">
       <div class="section-head">
-        <h2><?= e(I18n::t('trade.h_profiles', $de)) ?></h2>
+        <h2><?= e(Trades::phrase('trade.profiles_of', $name)) ?></h2>
         <a class="btn btn-ghost btn-sm" href="<?= e($cvUrl) ?>"><?= e(I18n::t('trade.all_profiles')) ?> <?= Icon::svg('arrow-r', 15) ?></a>
       </div>
       <div class="grid-cv grid-keep">
@@ -219,7 +215,7 @@ $offers = count($jobs) + count($partners);
       <div class="grid-trades">
         <?php foreach ($related as $row): ?>
           <?= View::partial('partials/trade-tile', [
-                'row' => $row, 'family' => Trades::family((string) $row['family']),
+                'row' => $row, 'family' => Trades::localFamily((string) $row['family']),
                 'count' => $counts[$row['slug']] ?? 0,
               ]) ?>
         <?php endforeach; ?>

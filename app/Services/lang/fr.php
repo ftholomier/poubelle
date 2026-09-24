@@ -264,14 +264,16 @@ return [
     'regie.close'       => 'Fermer',
     'regie.placeholder' => 'Posez votre question…',
     'regie.send'        => 'Envoyer',
-    'regie.hello'       => 'Bonjour ! Je réponds à vos questions sur le site, les offres et les démarches '
-                         . 'des intermittents. Que cherchez-vous ?',
+    'regie.welcome'     => 'Bonjour ! Je réponds à vos questions sur le site, les offres, les métiers du '
+                         . 'spectacle et les démarches des intermittents, avec le lien vers la bonne page. '
+                         . 'Que cherchez-vous ?',
     'regie.suggest1'    => 'Comment déposer un CV ?',
     'regie.suggest2'    => 'C’est quoi le GUSO ?',
     'regie.suggest3'    => 'Des offres en régie son ?',
+    'regie.suggest4'    => 'Comment devenir machiniste ?',
     'regie.offline'     => 'L’assistant est momentanément indisponible.',
-    'regie.no_scope'    => 'Je ne trouve pas la réponse dans le contenu du site. Je réponds aux questions '
-                         . 'sur les offres, les profils et le fonctionnement d’intermittent.fr.',
+    'regie.no_answer'   => 'Je ne trouve pas la réponse dans le contenu du site. Je réponds aux questions '
+                         . 'sur les offres, les profils, les métiers et le fonctionnement d’intermittent.fr.',
     'regie.legal'       => 'Je ne donne pas de conseil juridique sur le statut d’intermittent. '
                          . 'Adressez-vous à France Travail spectacle, à Audiens ou à un syndicat professionnel.',
 
@@ -462,14 +464,28 @@ return [
     'trade.h_status'      => 'Statut et contrat',
     'trade.h_pay'         => 'Quel salaire pour un %s ?',
     'trade.pay_none'      => 'Pas de repère chiffré pour ce métier : la rémunération dépend trop du projet pour qu’une fourchette ait un sens.',
+    'trade.pay_range'     => '%s à %s brut %s',
+    'trade.pay_single'    => '%s brut %s',
+    'trade.unit_jour'       => 'par jour',
+    'trade.unit_semaine'    => 'par semaine',
+    'trade.unit_cachet'     => 'par cachet',
+    'trade.unit_mois'       => 'par mois',
+    'trade.unit_prestation' => 'par prestation',
+    'trade.unit_creation'   => 'par création',
+    'trade.unit_heure'      => 'de l’heure',
     'trade.pay_disclaimer'=> 'Fourchette indicative, en brut, relevée en 2026. Elle varie selon la structure, l’expérience et la convention collective applicable, dont les minima font foi.',
     'trade.h_career'      => 'Évolution de carrière',
     'trade.h_faq'         => 'Questions fréquentes',
-    'trade.h_jobs'        => 'Offres d’emploi %s',
+    // Le nom du métier suit « de » : chaque phrase a sa forme élidée, « _v ».
+    'trade.jobs_of'       => 'Offres d’emploi de %s',
+    'trade.jobs_of_v'     => 'Offres d’emploi d’%s',
+    'trade.all_jobs_of'   => 'Toutes les offres de %s',
+    'trade.all_jobs_of_v' => 'Toutes les offres d’%s',
+    'trade.no_jobs_of'    => 'Aucune offre de %s en ligne en ce moment. Déposez votre CV : les employeurs consultent l’annuaire pour recruter.',
+    'trade.no_jobs_of_v'  => 'Aucune offre d’%s en ligne en ce moment. Déposez votre CV : les employeurs consultent l’annuaire pour recruter.',
+    'trade.profiles_of'   => 'Profils de %s disponibles',
+    'trade.profiles_of_v' => 'Profils d’%s disponibles',
     'trade.h_partners'    => 'Chez nos partenaires',
-    'trade.no_jobs'       => 'Aucune offre %s en ligne en ce moment. Déposez votre CV : les employeurs consultent l’annuaire pour recruter.',
-    'trade.all_jobs'      => 'Toutes les offres %s',
-    'trade.h_profiles'    => 'Profils %s disponibles',
     'trade.all_profiles'  => 'Voir l’annuaire',
     'trade.h_related'     => 'Métiers proches',
     'trade.brief'         => 'En bref',

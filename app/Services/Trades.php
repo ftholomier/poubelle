@@ -492,7 +492,11 @@ final class Trades
 
     /* --------------------------------------------------------- rédaction */
 
-    /** « 180 à 300 € brut par jour », ou rien si la fiche ne donne pas de chiffre. */
+    /**
+     * « 180 à 300 € brut par jour », ou rien si la fiche ne donne pas de
+     * chiffre. Les mots passent par les chaînes d'interface : la fiche
+     * anglaise dit « per day », pas « par jour ».
+     */
     public static function payLabel(array $pay): string
     {
         $min = (int) ($pay['min'] ?? 0);
@@ -501,11 +505,12 @@ final class Trades
             return '';
         }
         $money = static fn(int $n): string => number_format($n, 0, ',', "\u{202F}") . "\u{00A0}€";
-        $range = $min > 0 && $max > $min
-            ? $money($min) . ' à ' . $money($max)
-            : $money(max($min, $max));
-        $unit = self::UNITS[(string) ($pay['unit'] ?? '')] ?? '';
-        return trim($range . ' brut ' . $unit);
+        $unit = (string) ($pay['unit'] ?? '');
+        $label = isset(self::UNITS[$unit]) ? I18n::t('trade.unit_' . $unit) : '';
+        $text = $min > 0 && $max > $min
+            ? I18n::t('trade.pay_range', $money($min), $money($max), $label)
+            : I18n::t('trade.pay_single', $money(max($min, $max)), $label);
+        return trim((string) preg_replace('/\s+/u', ' ', $text));
     }
 
     /** Durée ISO de l'unité, vide si elle n'en a pas (cachet, prestation). */
@@ -514,24 +519,61 @@ final class Trades
         return self::DURATIONS[(string) ($pay['unit'] ?? '')] ?? '';
     }
 
-    /** « de » ou « d’ » devant le nom du métier : « offres d’accessoiriste ». */
-    public static function de(string $name): string
+    /**
+     * Phrase d'interface qui porte le nom du métier après « de » : « Offres
+     * d’emploi de régisseur son », mais « d’accessoiriste ». Chaque clé a sa
+     * variante élidée, suffixée « _v » ; les autres langues, qui n'élident
+     * pas, prennent toujours la forme pleine.
+     */
+    public static function phrase(string $key, string $name): string
     {
         $first = substr(Index::haystack([$name]), 0, 1);
-        return in_array($first, ['a', 'e', 'i', 'o', 'u', 'y', 'h'], true) ? 'd’' : 'de ';
+        $elided = I18n::isPivot() && in_array($first, ['a', 'e', 'i', 'o', 'u', 'y', 'h'], true);
+        return I18n::t($elided ? $key . '_v' : $key, self::inline($name));
     }
 
     /**
      * Minuscule initiale dans le fil d'une phrase, sauf pour un sigle :
-     * « un régisseur son », mais « un DJ ».
+     * « un régisseur son », mais « un DJ ». L'allemand garde la majuscule
+     * de ses noms communs.
      */
     public static function inline(string $name): string
     {
         $first = strtok($name, ' ') ?: $name;
-        if (mb_strtoupper($first) === $first) {
+        if (mb_strtoupper($first) === $first || I18n::lang() === 'de') {
             return $name;
         }
         return mb_strtolower(mb_substr($name, 0, 1)) . mb_substr($name, 1);
+    }
+
+    /* ------------------------------------------------------ autres langues */
+
+    /** Famille dans la langue de la page, si sa traduction existe. */
+    public static function localFamily(string $key): array
+    {
+        $family = self::family($key);
+        return ContentTranslator::applyToRow($family + ['id' => $family['key']], 'family', I18n::lang());
+    }
+
+    /** @return array<string, array<string, mixed>> familles dans la langue de la page */
+    public static function localFamilies(): array
+    {
+        $out = [];
+        foreach (array_keys(self::families()) as $key) {
+            $out[$key] = self::localFamily((string) $key);
+        }
+        return $out;
+    }
+
+    /**
+     * Lignes d'index — mosaïque, métiers proches — dans la langue de la page.
+     *
+     * @param  array<int, array<string, mixed>> $rows
+     * @return array<int, array<string, mixed>>
+     */
+    public static function localRows(array $rows): array
+    {
+        return ContentTranslator::applyToRows($rows, 'trade', I18n::lang());
     }
 
     /* ---------------------------------------------------- tâche planifiée */
