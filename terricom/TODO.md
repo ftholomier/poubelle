@@ -31,17 +31,20 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
 - [x] Synchronisation des contenus : flux iCal et RSS (territoire, fiches), connecteur signé des entreprises
       (Premium : publications, fiche, événements, offres d’emploi), agendas externes iCal importés chaque heure
 - [x] Marque blanche testée de bout en bout ; hors-ligne vérifié sur la compilation de production
+- [x] Contrôles finaux : compilation de production, parcours de tous les espaces (bureau et mobile), tests
+      unitaires et e2e complets, worker, base de démonstration réinitialisée, documentation à jour
 
 ## En cours
 
-- [ ] Contrôles finaux (voir ci-dessous)
+Rien : toutes les fonctions du cahier des charges sont livrées (voir « Fait »).
 
-## À faire ensuite
+## Pistes pour la suite (hors cahier des charges initial)
 
 - [ ] Multilingue, pistes suivantes : traduction des publications, événements et offres d’emploi ; autres langues
       (espagnol, italien, néerlandais : l’IA les gère déjà) ; lettre du territoire par langue d’abonné
-- [ ] Contrôles finaux : `next build`, tests complets, parcours de tous les espaces, `db:reset`
-- [ ] Documentation finale (README, architecture) et rapport de livraison
+- [ ] Connecteurs natifs (fiche Google, Meta) en complément du connecteur générique signé
+- [ ] Revenus « à terme » du cahier des charges (§ 24) : cartes cadeaux territoriales ; place de marché seulement
+      si le pilote l’exprime (§ 29, e-commerce volontairement non prioritaire)
 
 ## Limites connues
 
