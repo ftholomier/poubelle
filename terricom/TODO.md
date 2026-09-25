@@ -36,6 +36,8 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
 - [x] Dossier de réalisation en PDF à la charte (`docs/dossier`, `npm run dossier`) : design, ergonomie,
       fonctionnalités, IA, technique, hébergement, sécurité, RGPD, qualité, démonstration ; `npm start` lance le
       serveur autonome ; plus de bande vide en bas des espaces privés hors mode démonstration
+- [x] Présentation aux élus (`docs/presentation`, `npm run presentation`) : de la communauté de communes au
+      commerce, sans vocabulaire technique ; PDF paysage avec étapes de construction, version HTML animée
 
 ## En cours
 

@@ -37,7 +37,8 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
 | `0d5440b`            | Multilingue                     | Portail en anglais et en allemand (module `MULTILINGUAL`) : interface, formats, SEO par langue, emails visiteurs ; traductions IA des fiches et des textes, saisie manuelle                 |
 | `6dd80e9`            | Synchronisation                 | Flux iCal et RSS (territoire, fiches), connecteur signé des entreprises (Premium), agendas externes iCal importés chaque heure, protection SSRF, hors-ligne vérifié en production           |
 | `13b481a`            | Contrôles finaux                | Compilation de production, parcours automatique des 6 espaces (bureau et mobile, 0 signalement), 33 tests e2e et 57 tests unitaires, worker vérifié, base de démonstration réinitialisée    |
-| (ce lot)             | Dossier de réalisation          | PDF de 30 pages à la charte, du design à l’hébergement, captures de la compilation de production ; `npm start` sur le serveur autonome ; coques pleine hauteur corrigées hors démonstration |
+| `f626383`            | Dossier de réalisation          | PDF de 30 pages à la charte, du design à l’hébergement, captures de la compilation de production ; `npm start` sur le serveur autonome ; coques pleine hauteur corrigées hors démonstration |
+| (ce lot)             | Présentation aux élus           | Diaporama paysage : communauté de communes → commune → commerce → habitants, puis accompagnement ; captures annotées, étapes animées                                                        |
 
 ## Décisions
 

@@ -65,6 +65,7 @@ Comptes (mot de passe `Terricom2026!`, code de double authentification : secret 
 | `npm test`                        | Tests unitaires (Vitest)                                       |
 | `npm run test:e2e`                | Parcours de bout en bout (Playwright, serveur lancé)           |
 | `npm run dossier`                 | Dossier de réalisation en PDF (`docs/dossier`)                 |
+| `npm run presentation`            | Présentation aux élus en PDF paysage (`docs/presentation`)     |
 
 ## Pile technique
 
@@ -99,6 +100,8 @@ tests/            unit (Vitest), e2e (Playwright)
 - [Exploitation (supervision, sauvegardes, incidents)](docs/exploitation.md)
 - [Sécurité](docs/securite.md)
 - [RGPD et registre des traitements](docs/rgpd.md)
+- [Présentation aux élus (PDF paysage)](docs/presentation/terricom-presentation-elus.pdf), aussi jouable avec
+  animations dans un navigateur (`docs/presentation/presentation.html`, flèches du clavier)
 - [Dossier de réalisation (PDF, 30 pages à la charte)](docs/dossier/terricom-dossier-de-realisation.pdf) : le projet
   expliqué à chaque niveau (design, ergonomie, fonctionnalités, IA, technique, hébergement, sécurité, RGPD, qualité)
 
