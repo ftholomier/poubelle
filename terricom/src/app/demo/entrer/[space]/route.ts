@@ -45,6 +45,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ spac
   const target = new URL(path, origin);
   // ?vers=/chemin : écran précis ; {est} désigne la fiche du compte professionnel de démonstration.
   const next = req.nextUrl.searchParams.get('vers');
-  if (next && next.startsWith('/') && !next.startsWith('//') && (estId || !next.includes('{est}'))) target.pathname = next.replace('{est}', estId ?? '');
+  if (next && next.startsWith('/') && !next.startsWith('//') && (estId || !next.includes('{est}'))) {
+    const dest = new URL(next.replace('{est}', estId ?? ''), origin);
+    target.pathname = dest.pathname;
+    target.search = dest.search;
+  }
   return NextResponse.redirect(target, 302);
 }

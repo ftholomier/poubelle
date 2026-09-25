@@ -84,10 +84,7 @@ export default async function AgendaPage({ params, searchParams }: Props) {
       </div>
 
       {featured ? (
-        <div
-          className="split"
-          style={{ ['--cols' as string]: 'minmax(0,1.3fr) minmax(0,1fr)', ['--gap' as string]: '22px', ['--align' as string]: 'start', marginBottom: 30 }}
-        >
+        <div className="split" style={{ ['--cols' as string]: 'minmax(0,1.3fr) minmax(0,1fr)', ['--gap' as string]: '22px', marginBottom: 30 }}>
           <Link
             href={`${base}/agenda/${featured.ev.slug}`}
             className="card-lift"

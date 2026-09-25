@@ -91,6 +91,7 @@ export default async function EventsProPage({ params, searchParams }: Props) {
           <h2 className="panel-title">{editing ? 'Modifier l’événement' : 'Nouvel événement'}</h2>
           <input
             name="title"
+            aria-label="Titre de l'événement"
             className="input"
             placeholder="Titre (ex. Atelier pain au levain pour enfants)"
             defaultValue={editing?.title}
@@ -98,7 +99,7 @@ export default async function EventsProPage({ params, searchParams }: Props) {
             maxLength={255}
           />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 10 }}>
-            <select name="kind" className="select" defaultValue={editing?.kind ?? 'ATELIER'}>
+            <select name="kind" aria-label="Type d'événement" className="select" defaultValue={editing?.kind ?? 'ATELIER'}>
               {(Object.keys(EVENT_KINDS) as EventKind[]).map((k) => (
                 <option key={k} value={k}>
                   {EVENT_KINDS[k].label}
@@ -120,24 +121,48 @@ export default async function EventsProPage({ params, searchParams }: Props) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 10 }}>
             <input
               name="locationName"
+              aria-label="Lieu"
               className="input"
               placeholder={`Lieu (par défaut : ${est.name})`}
               defaultValue={editing?.locationName ?? ''}
               maxLength={255}
             />
-            <input name="address" className="input" placeholder="Adresse (par défaut : la vôtre)" defaultValue={editing?.address ?? ''} maxLength={255} />
+            <input
+              name="address"
+              aria-label="Adresse"
+              className="input"
+              placeholder="Adresse (par défaut : la vôtre)"
+              defaultValue={editing?.address ?? ''}
+              maxLength={255}
+            />
             <input
               name="priceText"
+              aria-label="Tarif"
               className="input"
               placeholder="Tarif (ex. Gratuit, 8 € sur inscription)"
               defaultValue={editing?.priceText ?? ''}
               maxLength={120}
             />
-            <input name="capacity" type="number" min={1} className="input" placeholder="Places (facultatif)" defaultValue={editing?.capacity ?? ''} />
+            <input
+              name="capacity"
+              aria-label="Nombre de places (facultatif)"
+              type="number"
+              min={1}
+              className="input"
+              placeholder="Places (facultatif)"
+              defaultValue={editing?.capacity ?? ''}
+            />
           </div>
-          <input name="registrationUrl" className="input" placeholder="Lien d'inscription (facultatif)" defaultValue={editing?.registrationUrl ?? ''} />
+          <input
+            name="registrationUrl"
+            aria-label="Lien d'inscription (facultatif)"
+            className="input"
+            placeholder="Lien d'inscription (facultatif)"
+            defaultValue={editing?.registrationUrl ?? ''}
+          />
           <textarea
             name="description"
+            aria-label="Description de l'événement"
             rows={4}
             className="textarea"
             placeholder="Décrivez le déroulé, le public, ce qu'il faut apporter…"

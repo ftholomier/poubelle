@@ -91,6 +91,7 @@ export async function GET(req: Request) {
       '/cgv',
       '/confidentialite',
       '/accessibilite',
+      '/plan-du-site',
     ].map((p, i) => ({ loc: `${origin}${p}`, priority: i === 0 ? 1 : i < 6 ? 0.8 : 0.4 }));
     const list = await db
       .select()

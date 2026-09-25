@@ -48,7 +48,7 @@ export function renderNewsletter(v: NewsletterView): { html: string; text: strin
           ) => `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #EFEBE2;border-radius:10px;margin:0 0 10px;border-collapse:separate;overflow:hidden"><tr>
 <td width="90" style="width:90px;padding:0;vertical-align:top">${
             it.image
-              ? `<a href="${esc(link(it.url))}"><img src="${esc(it.image)}" width="90" height="80" alt="" style="display:block;width:90px;height:80px;object-fit:cover;border:0;border-radius:10px 0 0 10px"></a>`
+              ? `<a href="${esc(link(it.url))}"><img src="${esc(it.image)}" width="90" height="80" alt="${esc(it.name)}" style="display:block;width:90px;height:80px;object-fit:cover;border:0;border-radius:10px 0 0 10px"></a>`
               : `<div style="width:90px;height:80px;background:${v.color};border-radius:10px 0 0 10px"></div>`
           }</td>
 <td style="padding:10px 10px 10px 14px;vertical-align:middle;font-family:${FONT}"><a href="${esc(link(it.url))}" style="color:#14201B;text-decoration:none;font-weight:700;font-size:14px">${esc(it.name)}</a><div style="font-size:13px;color:#5E655F;line-height:1.4">${esc(it.text)}</div></td>

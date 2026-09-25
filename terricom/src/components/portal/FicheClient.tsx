@@ -77,7 +77,7 @@ export function FicheGallery({ photos, stamp, color, name }: { photos: GalleryPh
               gridRow: i === 0 && shown.length !== 1 && shown.length !== 2 ? 'span 2' : undefined,
             }}
           >
-            <Photo src={i === 0 ? p.large : p.src} alt={p.alt} color={color} label={name} eager={i === 0} />
+            <Photo src={i === 0 ? p.large : p.src} alt={p.alt} color={color} label={i === shown.length - 1 && extra > 0 ? ' ' : name} eager={i === 0} />
             {i === 0 && stamp ? (
               <span
                 style={{

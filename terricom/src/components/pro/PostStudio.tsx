@@ -244,6 +244,7 @@ export function PostStudio({
         <b style={{ fontSize: 16 }}>Votre publication</b>
         <input
           name="title"
+          aria-label="Titre de la publication"
           className="input"
           placeholder="Titre (ex. Le pain au Comté est de retour)"
           value={title}
@@ -253,6 +254,7 @@ export function PostStudio({
         />
         <textarea
           name="body"
+          aria-label="Texte de la publication"
           className="textarea"
           rows={4}
           placeholder="Texte affiché sur votre fiche"
@@ -262,7 +264,13 @@ export function PostStudio({
         />
         {kind === 'PROMO' ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 10 }}>
-            <input name="promoLabel" className="input" placeholder="Offre en gros caractères (ex. -10 %)" maxLength={32} />
+            <input
+              name="promoLabel"
+              aria-label="Offre en gros caractères (ex. -10 %)"
+              className="input"
+              placeholder="Offre en gros caractères (ex. -10 %)"
+              maxLength={32}
+            />
             <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 12, color: 'var(--muted)', fontWeight: 600 }}>
               Valable jusqu&apos;au
               <input name="validTo" type="date" className="input" />

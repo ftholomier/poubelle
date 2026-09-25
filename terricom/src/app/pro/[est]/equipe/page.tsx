@@ -70,8 +70,8 @@ export default async function TeamPage({ params }: Props) {
             <p style={{ margin: 0, fontSize: 14, color: 'var(--muted)' }}>
               Un salarié, un associé, votre agence : chacun a son propre accès, retirable à tout moment. Aucun mot de passe partagé.
             </p>
-            <input name="email" type="email" className="input" placeholder="email@exemple.fr" required />
-            <select name="role" className="select" defaultValue="EDITOR">
+            <input name="email" aria-label="Email de la personne invitée" type="email" className="input" placeholder="email@exemple.fr" required />
+            <select name="role" aria-label="Rôle" className="select" defaultValue="EDITOR">
               <option value="EDITOR">Collaborateur·rice : fiche, publications, messages</option>
               <option value="OWNER">Titulaire : tout, y compris l&apos;offre et l&apos;équipe</option>
             </select>

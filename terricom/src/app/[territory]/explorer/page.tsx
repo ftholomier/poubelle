@@ -37,16 +37,21 @@ export default async function ExplorerPage({ params, searchParams }: Props) {
   ]);
   const filtered = Boolean(state.q || state.family || state.toggles.length || state.commune);
   return (
-    <ExplorerClient
-      territorySlug={t.slug}
-      base={portal.base}
-      initialState={state}
-      initial={{ total: res.total, ids: res.items.map((i) => i.id), items: res.items.slice(0, 40).map(toExplorerItem), answer: res.answer }}
-      filtered={filtered}
-      points={toMapPoints(cards, portal.base)}
-      map={portal.mapConfig}
-      aiEnabled={ai}
-      communes={communes.map((c) => ({ slug: c.slug, name: c.name }))}
-    />
+    <>
+      <h1 className="sr-only">
+        {state.q ? `Résultats pour « ${state.q} » · ${t.name}` : `Explorer la carte des commerces, artisans et producteurs · ${t.name}`}
+      </h1>
+      <ExplorerClient
+        territorySlug={t.slug}
+        base={portal.base}
+        initialState={state}
+        initial={{ total: res.total, ids: res.items.map((i) => i.id), items: res.items.slice(0, 40).map(toExplorerItem), answer: res.answer }}
+        filtered={filtered}
+        points={toMapPoints(cards, portal.base)}
+        map={portal.mapConfig}
+        aiEnabled={ai}
+        communes={communes.map((c) => ({ slug: c.slug, name: c.name }))}
+      />
+    </>
   );
 }

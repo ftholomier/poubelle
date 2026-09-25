@@ -81,6 +81,7 @@ export function SiteFooter() {
         ['/cgv', 'Conditions de vente'],
         ['/confidentialite', 'Confidentialité'],
         ['/accessibilite', 'Accessibilité'],
+        ['/plan-du-site', 'Plan du site'],
       ],
     },
   ];

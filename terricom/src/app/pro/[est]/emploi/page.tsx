@@ -90,6 +90,7 @@ export default async function JobsProPage({ params, searchParams }: Props) {
             <h2 className="panel-title">{editing ? 'Modifier l’offre' : 'Nouvelle offre'}</h2>
             <input
               name="title"
+              aria-label="Intitulé du poste"
               className="input"
               placeholder="Intitulé du poste (ex. Apprenti·e boulanger·e)"
               defaultValue={editing?.title}
@@ -97,19 +98,41 @@ export default async function JobsProPage({ params, searchParams }: Props) {
               maxLength={255}
             />
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: 10 }}>
-              <select name="contractType" className="select" defaultValue={editing?.contractType ?? 'CDI'}>
+              <select name="contractType" aria-label="Type de contrat" className="select" defaultValue={editing?.contractType ?? 'CDI'}>
                 {(Object.keys(CONTRACT_TYPES) as ContractType[]).map((c) => (
                   <option key={c} value={c}>
                     {CONTRACT_TYPES[c].label}
                   </option>
                 ))}
               </select>
-              <input name="startText" className="input" placeholder="Début (ex. Dès que possible)" defaultValue={editing?.startText ?? ''} maxLength={160} />
-              <input name="salaryText" className="input" placeholder="Rémunération" defaultValue={editing?.salaryText ?? ''} maxLength={160} />
-              <input name="workTimeText" className="input" placeholder="Temps de travail" defaultValue={editing?.workTimeText ?? ''} maxLength={160} />
+              <input
+                name="startText"
+                aria-label="Début"
+                className="input"
+                placeholder="Début (ex. Dès que possible)"
+                defaultValue={editing?.startText ?? ''}
+                maxLength={160}
+              />
+              <input
+                name="salaryText"
+                aria-label="Rémunération"
+                className="input"
+                placeholder="Rémunération"
+                defaultValue={editing?.salaryText ?? ''}
+                maxLength={160}
+              />
+              <input
+                name="workTimeText"
+                aria-label="Temps de travail"
+                className="input"
+                placeholder="Temps de travail"
+                defaultValue={editing?.workTimeText ?? ''}
+                maxLength={160}
+              />
             </div>
             <textarea
               name="description"
+              aria-label="Description du poste"
               className="textarea"
               rows={4}
               placeholder="Le poste, l'équipe, l'ambiance…"
@@ -119,6 +142,7 @@ export default async function JobsProPage({ params, searchParams }: Props) {
             />
             <textarea
               name="missions"
+              aria-label="Missions (une par ligne)"
               className="textarea"
               rows={3}
               placeholder="Missions (une par ligne)"
@@ -127,6 +151,7 @@ export default async function JobsProPage({ params, searchParams }: Props) {
             />
             <textarea
               name="profile"
+              aria-label="Profil recherché (un point par ligne)"
               className="textarea"
               rows={3}
               placeholder="Profil recherché (un point par ligne)"
@@ -135,6 +160,7 @@ export default async function JobsProPage({ params, searchParams }: Props) {
             />
             <input
               name="applyEmail"
+              aria-label="Email qui reçoit les candidatures (facultatif)"
               type="email"
               className="input"
               placeholder="Email qui reçoit les candidatures (facultatif)"

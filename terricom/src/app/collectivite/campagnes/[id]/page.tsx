@@ -439,7 +439,7 @@ export default async function CampaignEditPage({ params, searchParams }: Props) 
                     </option>
                   ))}
                 </select>
-                <input name="title" className="input" placeholder="Surprise du jour (ex. -20 % sur les coffrets)" required />
+                <input name="title" aria-label="Surprise du jour" className="input" placeholder="Surprise du jour (ex. -20 % sur les coffrets)" required />
                 <select name="establishmentId" className="input" aria-label="Établissement" style={{ gridColumn: '1 / -1' }} defaultValue="">
                   <option value="">Établissement participant…</option>
                   {joined.map((p) => (

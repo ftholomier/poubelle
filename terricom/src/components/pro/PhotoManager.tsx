@@ -42,55 +42,23 @@ export function PhotoManager({ estId, photos, max }: { estId: string; photos: It
                 {i === 0 ? 'Principale' : ph.tag}
               </span>
             ) : null}
-            <div
-              style={{
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: 'flex',
-                gap: 2,
-                justifyContent: 'center',
-                padding: 4,
-                background: 'linear-gradient(180deg,transparent,rgba(20,32,27,.75))',
-              }}
-            >
+            <div style={{ position: 'absolute', right: 6, top: 6, display: 'flex', gap: 4 }}>
               {i > 0 ? (
                 <form action={photoAction}>
                   <input type="hidden" name="estId" value={estId} />
                   <input type="hidden" name="photoId" value={ph.id} />
-                  <button name="op" value="up" className="btn btn-light btn-xs" aria-label="Déplacer avant" title="Déplacer avant" style={{ padding: 4 }}>
-                    <Icon name="arrowLeft" size={13} />
-                  </button>
-                </form>
-              ) : null}
-              {i > 0 ? (
-                <form action={photoAction}>
-                  <input type="hidden" name="estId" value={estId} />
-                  <input type="hidden" name="photoId" value={ph.id} />
-                  <button name="op" value="first" className="btn btn-light btn-xs" title="Choisir comme photo principale" style={{ padding: 4 }}>
+                  <button
+                    name="op"
+                    value="first"
+                    className="btn btn-light btn-xs"
+                    aria-label="Choisir comme photo principale"
+                    title="Choisir comme photo principale"
+                    style={{ padding: 4 }}
+                  >
                     <Icon name="star" size={13} />
                   </button>
                 </form>
               ) : null}
-              <form action={photoAction}>
-                <input type="hidden" name="estId" value={estId} />
-                <input type="hidden" name="photoId" value={ph.id} />
-                <input type="hidden" name="op" value="tag" />
-                <select
-                  name="tag"
-                  defaultValue={ph.tag ?? ''}
-                  aria-label="Étiquette de la photo"
-                  onChange={(e) => e.currentTarget.form?.requestSubmit()}
-                  style={{ fontSize: 11, borderRadius: 6, border: 0, padding: '3px 2px', maxWidth: 62 }}
-                >
-                  {TAGS.map((t) => (
-                    <option key={t} value={t}>
-                      {t || 'Étiquette'}
-                    </option>
-                  ))}
-                </select>
-              </form>
               <form action={photoAction} onSubmit={(e) => !confirm('Supprimer cette photo ?') && e.preventDefault()}>
                 <input type="hidden" name="estId" value={estId} />
                 <input type="hidden" name="photoId" value={ph.id} />
@@ -104,6 +72,47 @@ export function PhotoManager({ estId, photos, max }: { estId: string; photos: It
                 >
                   <Icon name="trash" size={13} />
                 </button>
+              </form>
+            </div>
+            <div
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: 0,
+                display: 'flex',
+                gap: 4,
+                alignItems: 'center',
+                padding: 6,
+                background: 'linear-gradient(180deg,transparent,rgba(20,32,27,.75))',
+              }}
+            >
+              {i > 0 ? (
+                <form action={photoAction}>
+                  <input type="hidden" name="estId" value={estId} />
+                  <input type="hidden" name="photoId" value={ph.id} />
+                  <button name="op" value="up" className="btn btn-light btn-xs" aria-label="Déplacer avant" title="Déplacer avant" style={{ padding: 4 }}>
+                    <Icon name="arrowLeft" size={13} />
+                  </button>
+                </form>
+              ) : null}
+              <form action={photoAction} style={{ flex: 1, minWidth: 0 }}>
+                <input type="hidden" name="estId" value={estId} />
+                <input type="hidden" name="photoId" value={ph.id} />
+                <input type="hidden" name="op" value="tag" />
+                <select
+                  name="tag"
+                  defaultValue={ph.tag ?? ''}
+                  aria-label="Étiquette de la photo"
+                  onChange={(e) => e.currentTarget.form?.requestSubmit()}
+                  style={{ fontSize: 11, borderRadius: 6, border: 0, padding: '4px 2px', width: '100%' }}
+                >
+                  {TAGS.map((t) => (
+                    <option key={t} value={t}>
+                      {t || 'Étiquette'}
+                    </option>
+                  ))}
+                </select>
               </form>
             </div>
           </div>

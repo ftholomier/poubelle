@@ -264,7 +264,15 @@ export default async function EstablishmentDetailPage({ params }: Props) {
                 <ActionForm action={setStatusAction} style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
                   <input type="hidden" name="estId" value={e.id} />
                   <input type="hidden" name="op" value="suspend" />
-                  <textarea name="reason" className="input" rows={2} placeholder="Motif (communiqué au professionnel)" required maxLength={300} />
+                  <textarea
+                    name="reason"
+                    aria-label="Motif de la suspension (communiqué au professionnel)"
+                    className="input"
+                    rows={2}
+                    placeholder="Motif (communiqué au professionnel)"
+                    required
+                    maxLength={300}
+                  />
                   <button type="submit" className="btn btn-danger btn-sm" style={{ alignSelf: 'flex-start' }}>
                     Suspendre
                   </button>
@@ -279,6 +287,7 @@ export default async function EstablishmentDetailPage({ params }: Props) {
                 <input type="hidden" name="estId" value={e.id} />
                 <textarea
                   name="body"
+                  aria-label="Message au professionnel"
                   className="input"
                   rows={3}
                   required

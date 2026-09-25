@@ -1432,7 +1432,8 @@ async function main() {
       ),
       60,
     ),
-  ].slice(0, 42);
+    // 42 commerces visibles : la boulangerie Martin est seulement invitée et Céramiques Lison est suspendue.
+  ].slice(0, 44);
   await db.insert(S.campaignParticipants).values(
     noelPool.map((e) => {
       const key = Object.entries(estByKey).find(([, v]) => v.id === e.id)?.[0];
@@ -1812,7 +1813,7 @@ async function main() {
         lat: d.lat,
         lng: d.lng,
         lastInteractionAt: daysAgo(2 + i * 2),
-        createdAt: daysAgo(220 - i * 8),
+        createdAt: daysAgo(12 + i * 2 + stageIdx * 18),
       })
       .returning();
     await db.insert(S.dealContacts).values([
@@ -1834,7 +1835,8 @@ async function main() {
     ]);
     const logs = stageLog
       .slice(0, stageIdx + 1)
-      .map(([kind, text], k) => ({ dealId: deal.id, kind, text, occurredAt: daysAgo(210 - i * 8 - k * 18), userId: camille.id }));
+      // La dernière étape correspond à la dernière interaction ; les précédentes s'espacent de 18 jours.
+      .map(([kind, text], k) => ({ dealId: deal.id, kind, text, occurredAt: daysAgo(2 + i * 2 + (stageIdx - k) * 18), userId: camille.id }));
     await db.insert(S.dealActivities).values(logs);
     const group = stageIdx >= 7 ? 'act' : stageIdx >= 5 ? 'onb' : stageIdx >= 3 ? 'neg' : 'pro';
     await db.insert(S.dealTasks).values(ACTIONS[group].map(([text, due], k) => ({ dealId: deal.id, text, dueText: due, sortOrder: k })));

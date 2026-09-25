@@ -161,6 +161,7 @@ export function FicheEditor(p: FicheEditorProps) {
           <textarea
             form="fiche-form"
             name="description"
+            aria-label="Description de l'activité"
             rows={5}
             className="textarea"
             value={description}

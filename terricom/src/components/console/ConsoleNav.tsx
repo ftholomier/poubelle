@@ -23,6 +23,18 @@ function isOn(pathname: string, href: string, exact?: boolean) {
   return exact ? pathname === href : pathname === href || pathname.startsWith(`${href}/`);
 }
 
+/** Titre de la console ; la section courante est précisée pour les lecteurs d'écran. */
+export function ConsoleTitle() {
+  const pathname = usePathname();
+  const current = TABS.find((t) => isOn(pathname, t.href, t.exact)) ?? SUB.find((t) => isOn(pathname, t.href));
+  return (
+    <h1 className="display" style={{ fontSize: 32, letterSpacing: '-0.025em', margin: 0 }}>
+      Console terricom
+      {current ? <span className="sr-only"> : {current.label}</span> : null}
+    </h1>
+  );
+}
+
 export function ConsoleTabs() {
   const pathname = usePathname();
   return (

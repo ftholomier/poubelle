@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { stopImpersonationAction } from './actions';
-import { ConsoleSubNav, ConsoleTabs } from '@/components/console/ConsoleNav';
+import { ConsoleSubNav, ConsoleTabs, ConsoleTitle } from '@/components/console/ConsoleNav';
 import { DemoBar } from '@/components/DemoBar';
 import { UserMenu } from '@/components/app/UserMenu';
 import { ToastProvider } from '@/components/ui/Feedback';
@@ -56,9 +56,7 @@ export default async function ConsoleLayout({ children }: { children: ReactNode 
               <div style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                 Super administration
               </div>
-              <div className="display" style={{ fontSize: 32, letterSpacing: '-0.025em' }}>
-                Console terricom
-              </div>
+              <ConsoleTitle />
             </div>
             <ConsoleTabs />
             <UserMenu

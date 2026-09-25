@@ -33,10 +33,13 @@ test.describe('site de la marque', () => {
       ['/cgu', 'Conditions générales d’utilisation'],
       ['/confidentialite', 'Politique de confidentialité'],
       ['/accessibilite', 'Déclaration d’accessibilité'],
+      ['/plan-du-site', 'Plan du site'],
     ]) {
       await page.goto(path);
       await expect(page.getByRole('heading', { level: 1 })).toHaveText(title);
     }
+    // Le plan du site ne propose que les pages des modules actifs de chaque portail.
+    await expect(page.getByRole('link', { name: 'Circuits' }).first()).toHaveAttribute('href', /\/valdeloue\/circuits$/);
     await page.goto('/marque');
     await expect(page.getByText('Le territoire, en vitrine.').first()).toBeVisible();
   });

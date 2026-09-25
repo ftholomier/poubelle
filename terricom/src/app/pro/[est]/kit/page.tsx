@@ -87,7 +87,6 @@ export default async function KitPage({ params, searchParams }: Props) {
             gap: 16,
             boxShadow: '0 24px 50px rgba(20,32,27,.18)',
             transform: 'rotate(-1.5deg)',
-            maxWidth: 420,
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

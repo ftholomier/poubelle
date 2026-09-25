@@ -30,7 +30,15 @@ export function ApplyForm({ jobId, companyName }: { jobId: string; companyName: 
         Email
       </label>
       <input id="apply-email" name="email" type="email" className="input" placeholder="Email" autoComplete="email" required maxLength={254} />
-      <input name="phone" type="tel" className="input" placeholder="Téléphone (facultatif)" autoComplete="tel" maxLength={32} />
+      <input
+        name="phone"
+        type="tel"
+        className="input"
+        placeholder="Téléphone (facultatif)"
+        aria-label="Téléphone (facultatif)"
+        autoComplete="tel"
+        maxLength={32}
+      />
       <label
         style={{
           border: '2px dashed var(--sand-3)',
@@ -46,7 +54,14 @@ export function ApplyForm({ jobId, companyName }: { jobId: string; companyName: 
         {file ? `✓ ${file}` : '+ Déposer mon CV (PDF)'}
         <input type="file" name="cv" accept="application/pdf" className="sr-only" onChange={(e) => setFile(e.target.files?.[0]?.name ?? null)} />
       </label>
-      <textarea name="message" rows={3} className="textarea" placeholder="Quelques mots sur vous (facultatif)" maxLength={3000} />
+      <textarea
+        name="message"
+        rows={3}
+        className="textarea"
+        placeholder="Quelques mots sur vous (facultatif)"
+        aria-label="Quelques mots sur vous (facultatif)"
+        maxLength={3000}
+      />
       <label className="checkbox" style={{ fontSize: 12, color: 'var(--muted)' }}>
         <input type="checkbox" name="consent" required />
         <span>J&apos;accepte que ma candidature soit transmise à {companyName}.</span>
