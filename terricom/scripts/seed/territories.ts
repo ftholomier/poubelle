@@ -1,0 +1,177 @@
+import { I } from './data';
+
+/** Autres clients de la plateforme (console) — communes principales, volumes indicatifs. */
+export type OtherTerritory = {
+  slug: string;
+  name: string;
+  legalName: string;
+  kind: 'CC' | 'CA' | 'COMMUNE';
+  status: 'ACTIVE' | 'ONBOARDING';
+  initials: string;
+  colorPrimary: string;
+  colorAccent: string;
+  population: number;
+  dept: string;
+  licenceCents: number;
+  setupCents: number;
+  signedAt: string;
+  premiumRate: number;
+  claimRate: number;
+  primaryHost: string | null;
+  hero: string;
+  communes: { insee: string; name: string; postal: string; pop: number; lat: number; lng: number; count: number }[];
+};
+
+export const OTHER_TERRITORIES: OtherTerritory[] = [
+  {
+    slug: 'dole',
+    name: 'Dole',
+    legalName: 'Ville de Dole',
+    kind: 'COMMUNE',
+    status: 'ACTIVE',
+    initials: 'DO',
+    colorPrimary: '#2C4A7A',
+    colorAccent: '#F2C94C',
+    population: 23800,
+    dept: '39',
+    licenceCents: 240000,
+    setupCents: 200000,
+    signedAt: '2026-04-02',
+    premiumRate: 0.09,
+    claimRate: 0.52,
+    primaryHost: null,
+    hero: I.market,
+    communes: [{ insee: '39198', name: 'Dole', postal: '39100', pop: 23800, lat: 47.0922, lng: 5.4897, count: 140 }],
+  },
+  {
+    slug: 'quimperle',
+    name: 'Pays de Quimperlé',
+    legalName: 'Quimperlé Communauté',
+    kind: 'CA',
+    status: 'ACTIVE',
+    initials: 'QC',
+    colorPrimary: '#1F5A6B',
+    colorAccent: '#F4B266',
+    population: 56000,
+    dept: '29',
+    licenceCents: 1500000,
+    setupCents: 600000,
+    signedAt: '2026-02-12',
+    premiumRate: 0.14,
+    claimRate: 0.61,
+    primaryHost: null,
+    hero: I.valley,
+    communes: [
+      { insee: '29233', name: 'Quimperlé', postal: '29300', pop: 12600, lat: 47.8728, lng: -3.5492, count: 60 },
+      { insee: '29150', name: 'Moëlan-sur-Mer', postal: '29350', pop: 6900, lat: 47.8142, lng: -3.6283, count: 30 },
+      { insee: '29031', name: 'Clohars-Carnoët', postal: '29360', pop: 4300, lat: 47.7967, lng: -3.5847, count: 25 },
+      { insee: '29004', name: 'Bannalec', postal: '29380', pop: 5700, lat: 47.9333, lng: -3.6997, count: 25 },
+      { insee: '29274', name: 'Scaër', postal: '29390', pop: 5300, lat: 48.0286, lng: -3.7011, count: 20 },
+    ],
+  },
+  {
+    slug: 'haut-jura',
+    name: 'Haut-Jura',
+    legalName: 'Communauté de communes Haut-Jura Saint-Claude',
+    kind: 'CC',
+    status: 'ONBOARDING',
+    initials: 'HJ',
+    colorPrimary: '#3E6FB0',
+    colorAccent: '#F4B266',
+    population: 19000,
+    dept: '39',
+    licenceCents: 800000,
+    setupCents: 500000,
+    signedAt: '2026-08-20',
+    premiumRate: 0,
+    claimRate: 0.04,
+    primaryHost: null,
+    hero: I.mountains,
+    communes: [
+      { insee: '39478', name: 'Saint-Claude', postal: '39200', pop: 9400, lat: 46.3872, lng: 5.8636, count: 55 },
+      { insee: '39510', name: 'Septmoncel Les Molunes', postal: '39310', pop: 900, lat: 46.3678, lng: 5.9131, count: 15 },
+      { insee: '39331', name: 'Longchaumois', postal: '39400', pop: 1100, lat: 46.4633, lng: 5.9322, count: 20 },
+    ],
+  },
+  {
+    slug: 'pays-de-lure',
+    name: 'Pays de Lure',
+    legalName: 'Communauté de communes du Pays de Lure',
+    kind: 'CC',
+    status: 'ONBOARDING',
+    initials: 'PL',
+    colorPrimary: '#7A2E26',
+    colorAccent: '#F6C9C1',
+    population: 17500,
+    dept: '70',
+    licenceCents: 700000,
+    setupCents: 400000,
+    signedAt: '2026-09-01',
+    premiumRate: 0,
+    claimRate: 0.02,
+    primaryHost: null,
+    hero: I.forest,
+    communes: [
+      { insee: '70310', name: 'Lure', postal: '70200', pop: 8200, lat: 47.6836, lng: 6.4964, count: 50 },
+      { insee: '70455', name: 'Roye', postal: '70200', pop: 1300, lat: 47.6711, lng: 6.5419, count: 20 },
+    ],
+  },
+  {
+    slug: 'grand-figeac',
+    name: 'Grand Figeac',
+    legalName: 'Communauté de communes du Grand Figeac',
+    kind: 'CC',
+    status: 'ONBOARDING',
+    initials: 'GF',
+    colorPrimary: '#3B3A36',
+    colorAccent: '#C9E26B',
+    population: 43000,
+    dept: '46',
+    licenceCents: 1400000,
+    setupCents: 800000,
+    signedAt: '2026-07-10',
+    premiumRate: 0,
+    claimRate: 0.03,
+    primaryHost: null,
+    hero: I.valley,
+    communes: [
+      { insee: '46102', name: 'Figeac', postal: '46100', pop: 9800, lat: 44.6086, lng: 2.0317, count: 60 },
+      { insee: '46055', name: 'Capdenac-Gare', postal: '12700', pop: 4400, lat: 44.5758, lng: 2.0819, count: 30 },
+      { insee: '46015', name: 'Bagnac-sur-Célé', postal: '46270', pop: 1600, lat: 44.6653, lng: 2.1597, count: 20 },
+    ],
+  },
+];
+
+/** Pipeline commercial (console S5). */
+export type DealSeed = {
+  name: string;
+  kind: 'CC' | 'CA' | 'COMMUNE';
+  communes: number;
+  pop: number;
+  licence: number;
+  prob: number;
+  stage: 'PROSPECT' | 'FIRST_CONTACT' | 'DEMO' | 'PROPOSAL' | 'NEGOTIATION' | 'SIGNED' | 'ONBOARDING' | 'ACTIVE';
+  contact: string;
+  next: string;
+  lat: number;
+  lng: number;
+  territory?: string;
+};
+
+export const DEALS: DealSeed[] = [
+  { name: 'Val de Loue', kind: 'CC', communes: 24, pop: 22400, licence: 900000, prob: 100, stage: 'ACTIVE', contact: 'Claire Duval', next: 'Bilan trimestriel · 16 janv.', lat: 47.1, lng: 6.14, territory: 'valdeloue' },
+  { name: 'Dole', kind: 'COMMUNE', communes: 1, pop: 23800, licence: 240000, prob: 100, stage: 'ACTIVE', contact: 'Marc Aubry', next: 'Renouvellement · mars', lat: 47.09, lng: 5.49, territory: 'dole' },
+  { name: 'Pays de Quimperlé', kind: 'CA', communes: 16, pop: 56000, licence: 1500000, prob: 100, stage: 'ACTIVE', contact: 'Yann Le Goff', next: 'Atelier campagnes · 9 janv.', lat: 47.87, lng: -3.55, territory: 'quimperle' },
+  { name: 'Haut-Jura', kind: 'CC', communes: 29, pop: 19000, licence: 800000, prob: 100, stage: 'ONBOARDING', contact: 'Sophie Grand', next: 'Formation admins · 18 oct.', lat: 46.39, lng: 5.86, territory: 'haut-jura' },
+  { name: 'Pays de Lure', kind: 'CC', communes: 21, pop: 17500, licence: 700000, prob: 100, stage: 'ONBOARDING', contact: 'Denis Faivre', next: 'Import SIRENE · 7 oct.', lat: 47.68, lng: 6.49, territory: 'pays-de-lure' },
+  { name: 'Grand Figeac', kind: 'CC', communes: 92, pop: 43000, licence: 1400000, prob: 100, stage: 'SIGNED', contact: 'Hélène Martres', next: 'Lancement presse · 12 nov.', lat: 44.61, lng: 2.03, territory: 'grand-figeac' },
+  { name: 'Monts du Lyonnais', kind: 'CC', communes: 32, pop: 35000, licence: 1100000, prob: 70, stage: 'NEGOTIATION', contact: 'Julien Perret', next: 'Conseil communautaire · 16 oct.', lat: 45.66, lng: 4.43 },
+  { name: 'Cœur de Savoie', kind: 'CC', communes: 41, pop: 37000, licence: 1200000, prob: 55, stage: 'PROPOSAL', contact: 'Aurélie Blanc', next: 'Proposition v2 · 3 oct.', lat: 45.49, lng: 6.1 },
+  { name: 'Sud Vendée Littoral', kind: 'CC', communes: 27, pop: 28000, licence: 800000, prob: 60, stage: 'NEGOTIATION', contact: 'Pierre Guérin', next: 'Arbitrage tarif · 8 oct.', lat: 46.47, lng: -0.81 },
+  { name: 'Pays de Morlaix', kind: 'CA', communes: 26, pop: 64000, licence: 1400000, prob: 30, stage: 'DEMO', contact: 'Erwan Kerleau', next: 'Démo en ligne · 14 oct.', lat: 48.58, lng: -3.83 },
+  { name: "Pays d'Auge", kind: 'CA', communes: 58, pop: 70000, licence: 1500000, prob: 25, stage: 'FIRST_CONTACT', contact: 'Isabelle Roy', next: 'RDV salon des maires', lat: 49.15, lng: 0.23 },
+  { name: 'Val de Saône', kind: 'CC', communes: 33, pop: 21000, licence: 750000, prob: 20, stage: 'FIRST_CONTACT', contact: 'Nadia Benali', next: 'Relance email · 1er oct.', lat: 47.42, lng: 5.22 },
+  { name: 'Causses et Vallée de la Dordogne', kind: 'CC', communes: 77, pop: 46000, licence: 1300000, prob: 20, stage: 'FIRST_CONTACT', contact: 'Thierry Laval', next: 'Rencontre congrès · nov.', lat: 44.89, lng: 1.72 },
+  { name: "Vallée de l'Ubaye", kind: 'CC', communes: 13, pop: 7800, licence: 400000, prob: 15, stage: 'PROSPECT', contact: 'Élodie Martin', next: 'Premier appel · 30 sept.', lat: 44.39, lng: 6.65 },
+  { name: 'Haut-Allier', kind: 'CC', communes: 42, pop: 16000, licence: 600000, prob: 10, stage: 'PROSPECT', contact: 'Luc Chabrier', next: 'Envoyer la plaquette', lat: 45.02, lng: 3.52 },
+];
