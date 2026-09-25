@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>terricom · teaser</title>
+<style>
+@font-face { font-family: 'Bricolage'; font-weight: 200 800; src: url('../../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-opsz-normal.woff2') format('woff2-variations'); }
+@font-face { font-family: 'Instrument'; font-weight: 400 700; src: url('../../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2') format('woff2-variations'); }
+html, body { margin: 0; background: #000; }
+#stage { width: 1920px; height: 1080px; position: relative; overflow: hidden; background: #14201B; font-family: 'Bricolage'; }
+.layer { position: absolute; inset: 0; }
+#shot { position: absolute; left: 50%; top: 50%; will-change: transform; }
+#shot .bar { height: 42px; background: #EFEBE1; border-radius: 22px 22px 0 0; display: flex; align-items: center; gap: 10px; padding: 0 20px; }
+#shot .bar i { width: 13px; height: 13px; border-radius: 50%; background: #D3CCBC; }
+#shot img { display: block; width: 100%; }
+#shot.framed { border-radius: 22px; box-shadow: 0 40px 90px rgba(0,0,0,.45); background: #FFFDF8; }
+#shot.framed img { border-radius: 0 0 22px 22px; }
+#shot.phone { background: #14201B; border-radius: 60px; padding: 14px; box-shadow: 0 40px 90px rgba(0,0,0,.5); }
+#shot.phone img { border-radius: 47px; }
+#shot.phone .bar, #shot.crop .bar { display: none; }
+#flash { background: #fff; opacity: 0; }
+#words { display: grid; place-items: center; pointer-events: none; }
+#word { font-weight: 800; letter-spacing: -0.045em; line-height: .95; text-align: center; color: #F7F4EC; font-size: 150px; text-shadow: 0 8px 40px rgba(0,0,0,.35); }
+#word em { font-style: normal; color: #F4B266; }
+#tag { position: absolute; left: 50%; bottom: 110px; transform: translateX(-50%) rotate(-4deg); background: #F4B266; color: #14201B; font-weight: 800; font-size: 54px; padding: 16px 34px; border-radius: 22px; white-space: nowrap; box-shadow: 0 18px 40px rgba(0,0,0,.3); }
+#end { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 34px; background: #14201B; opacity: 0; }
+.logo { display: flex; align-items: center; gap: 40px; }
+.mark { width: 190px; height: 190px; border-radius: 50% 50% 50% 14%; transform: rotate(-45deg); background: #F4B266; display: grid; place-items: center; }
+.mark span { transform: rotate(45deg); font-weight: 800; font-size: 130px; color: #14201B; margin-top: -16px; line-height: 1; }
+.wm { font-weight: 800; letter-spacing: -0.05em; font-size: 250px; color: #F7F4EC; line-height: .9; }
+.wm i { color: #F4B266; font-style: normal; }
+.slogan { font-size: 76px; font-weight: 800; letter-spacing: -0.035em; color: #F7F4EC; }
+.slogan em { font-style: normal; color: #F4B266; }
+.domain { font-family: 'Instrument'; font-weight: 600; font-size: 46px; color: #14201B; background: #F4B266; padding: 14px 40px; border-radius: 999px; }
+#vignette { background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.45)); pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="layer" id="bg"></div>
+  <div id="shot"><div class="bar"><i></i><i></i><i></i></div><img id="img" alt=""></div>
+  <div class="layer" id="flash"></div>
+  <div class="layer" id="vignette"></div>
+  <div class="layer" id="words"><div id="word"></div></div>
+  <div id="tag" style="display:none"></div>
+  <div class="layer" id="end">
+    <div class="logo"><div class="mark"><span>t</span></div><div class="wm">terricom<i>.</i></div></div>
+    <div class="slogan">Le territoire, <em>en vitrine.</em></div>
+    <div class="domain">terricom.fr</div>
+  </div>
+</div>
+<script>
+const B = 60 / 128; // durée d'un temps (s)
+const DESK = ['p-accueil','c-tableau','p-explorer','e-tableau','p-campagne','c-ia','p-circuit','e-ia','p-fiche','c-statistiques','k-tableau','p-commune','c-newsletter','p-minisite','e-kit','p-agenda','c-campagnes','p-emploi','e-publications','c-circuits','c-personnalisation','e-offre','c-entreprises','p-ouvert','m-site','e-minisite','c-revendications','s-ia'].filter(n => n !== 's-ia');
+const PHONES = ['m-accueil','m-fiche','m-explorer-de'];
+const COLORS = ['#1F6B52','#14201B','#F4B266','#6E2A2A','#1F6B52','#F7F4EC','#14201B'];
+const imgs = {};
+async function preload() {
+  await Promise.all([...DESK, ...PHONES].map(n => new Promise(r => { const i = new Image(); i.onload = i.onerror = r; i.src = `../dossier/captures/${n}.jpg`; imgs[n] = i; })));
+  await document.fonts.ready;
+}
+// Aléatoire déterministe
+const rnd = (k) => { const x = Math.sin(k * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const ease = (p) => 1 - Math.pow(1 - p, 3);
+const pop = (p) => { const c = 1.7; p = Math.min(1, p); return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+
+// Mots par temps
+const WORDS = [
+  [0, 2, 'Vos <em>commerces.</em>'], [2, 4, 'Vos <em>communes.</em>'], [4, 6, 'Votre <em>territoire.</em>'], [6, 8, 'Et si tout était<br><em>en vitrine ?</em>'],
+  [10, 12, 'Chercher.'], [12, 14, 'Trouver.'], [14, 16, '<em>Pousser la porte.</em>'],
+  [48, 50, 'Bientôt'], [50, 52, 'sur <em>votre</em>'], [52, 54, '<em>territoire.</em>'],
+];
+const TAGS = [[16, 20, 'Une fiche pour chaque commerce'], [20, 24, 'Ouvert maintenant'], [24, 28, 'Campagnes clés en main'], [28, 32, 'Circuits à tampons'],
+  [32, 36, 'Publier en une phrase'], [36, 40, 'Dans la poche'], [40, 44, '3 langues'], [44, 48, 'Hébergé en France'], [56, 59, 'Gratuit pour chaque commerce']];
+
+const $ = (id) => document.getElementById(id);
+let current = '';
+async function render(t) {
+  const beat = t / B;
+  const stage = $('stage');
+  // Fin : logo et domaine
+  const endStart = 62;
+  const ep = (beat - endStart) / 1.2;
+  $('end').style.opacity = beat >= endStart ? 1 : 0;
+  if (beat >= endStart) {
+    const s = pop(Math.max(0, ep));
+    document.querySelector('.logo').style.transform = `scale(${0.4 + 0.6 * s})`;
+    const sl = Math.min(1, Math.max(0, (beat - endStart - 1) / 0.8));
+    document.querySelector('.slogan').style.cssText = `opacity:${sl};transform:translateY(${(1 - ease(sl)) * 40}px)`;
+    const dm = Math.min(1, Math.max(0, (beat - endStart - 2) / 0.8));
+    document.querySelector('.domain').style.cssText = `opacity:${dm};transform:scale(${0.6 + 0.4 * pop(dm)})`;
+    $('flash').style.opacity = Math.max(0, 0.9 - (beat - endStart) * 1.5);
+    return;
+  }
+  // Coupes : 1 par temps en montée, 2 par temps dans les drops, flashs stroboscopiques dans la pause
+  let cut, cutLen;
+  if (beat < 8) { cutLen = 2; } else if (beat < 16) { cutLen = 1; } else if (beat < 48) { cutLen = 0.5; }
+  else if (beat < 56) { cutLen = beat < 52 ? 1 : beat < 54 ? 0.5 : 0.25; } else { cutLen = 0.5; }
+  cut = Math.floor(beat / cutLen);
+  const local = (beat - cut * cutLen) / cutLen; // 0 → 1 dans la coupe
+  const k = cut * 7 + Math.floor(cutLen * 8);
+  const r1 = rnd(k), r2 = rnd(k + 1), r3 = rnd(k + 2), r4 = rnd(k + 3);
+  const shot = $('shot'), img = $('img');
+  let mode = beat < 16 ? 'crop' : r1 < 0.12 ? 'phone' : r1 < 0.55 ? 'framed' : 'crop';
+  if (beat >= 48 && beat < 56) mode = 'crop';
+  const pool = mode === 'phone' ? PHONES : DESK;
+  const name = pool[Math.floor(r2 * pool.length * 7) % pool.length];
+  if (current !== name) { img.src = imgs[name].src; current = name; await img.decode().catch(() => {}); }
+  stage.style.background = COLORS[cut % COLORS.length];
+  shot.className = mode;
+  let tr = '', blur = 0;
+  if (mode === 'framed') {
+    shot.style.width = '1560px';
+    const z = 1.14 - 0.1 * ease(local), rot = (r3 - 0.5) * 5;
+    tr = `translate(-50%,-50%) translate(${(r4 - 0.5) * 120 * (1 - local)}px, ${(1 - ease(local)) * 60}px) rotate(${rot}deg) scale(${z})`;
+  } else if (mode === 'phone') {
+    shot.style.width = '430px';
+    tr = `translate(-50%,-50%) translateY(${(1 - ease(Math.min(1, local * 2))) * 500}px) rotate(${(r3 - 0.5) * 12}deg)`;
+  } else {
+    shot.style.width = '1920px';
+    const z = 2.1 + r3 * 1.2 - 0.35 * local;
+    const dx = (r4 - 0.5) * 1400 + (r1 - 0.5) * 300 * local, dy = (r2 - 0.5) * 700 - 120 * local;
+    tr = `translate(-50%,-50%) translate(${dx}px, ${dy}px) scale(${z})`;
+    blur = beat < 8 ? 14 : beat < 16 ? 3 : beat >= 48 && beat < 56 ? 5 : 1.2;
+  }
+  shot.style.transform = tr;
+  shot.style.filter = blur ? `blur(${blur}px) saturate(1.1)` : 'none';
+  shot.style.opacity = beat < 8 ? 0.45 : beat >= 48 && beat < 56 ? (local < 0.35 ? 0.9 : 0.08) : 1;
+  $('flash').style.opacity = beat >= 16 && local < 0.18 && cut % 2 === 0 ? 0.55 * (1 - local / 0.18) : 0;
+  if (beat >= 16 && beat < 16.3) $('flash').style.opacity = 0.9 * (1 - (beat - 16) / 0.3);
+  if (beat >= 56 && beat < 56.3) $('flash').style.opacity = 0.9 * (1 - (beat - 56) / 0.3);
+  // Mots
+  const w = WORDS.find(([a, b]) => beat >= a && beat < b);
+  const word = $('word');
+  if (w) { word.innerHTML = w[2]; const p = (beat - w[0]) / 0.35; word.style.transform = `scale(${0.6 + 0.4 * pop(Math.max(0, p))})`; word.style.opacity = 1; }
+  else word.style.opacity = 0;
+  $('vignette').style.opacity = w ? 1 : 0.6;
+  if (w && mode === 'crop') shot.style.opacity = Math.min(parseFloat(shot.style.opacity), 0.35);
+  // Étiquettes ambre
+  const g = TAGS.find(([a, b]) => beat >= a && beat < b);
+  const tag = $('tag');
+  if (g) { tag.style.display = 'block'; tag.textContent = g[2]; const p = (beat - g[0]) / 0.3; tag.style.transform = `translateX(-50%) rotate(${(g[0] % 8 ? 3 : -4)}deg) scale(${0.5 + 0.5 * pop(Math.max(0, p))})`; }
+  else tag.style.display = 'none';
+}
+window.clip = { preload, render, duration: 64 * B + 2.5 };
+</script>
+</body>
+</html>
