@@ -111,13 +111,14 @@ export const NAME_PATTERNS: Record<string, NameFn[]> = {
 
 /** Répartition des catégories générées (poids). */
 export const CATEGORY_WEIGHTS: [string, number][] = [
-  ['boulangerie', 6], ['boucherie', 4], ['coiffure', 9], ['institut-beaute', 5], ['pharmacie', 3], ['fleuriste', 2],
-  ['librairie', 2], ['electricien', 6], ['maconnerie', 7], ['couvreur', 4], ['peintre', 5], ['plombier-chauffagiste', 5],
-  ['menuiserie', 4], ['garage', 5], ['restaurant', 7], ['bistrot', 4], ['pizzeria', 3], ['traiteur', 2], ['auberge', 2],
-  ['ferme', 6], ['maraicher', 3], ['apiculteur', 2], ['fromagerie', 3], ['brasserie-artisanale', 1], ['epicerie', 3],
-  ['superette', 2], ['caviste', 1], ['pret-a-porter', 2], ['informatique', 2], ['taxi', 2], ['conseil', 6],
-  ['hebergement', 5], ['paysagiste', 3], ['auto-ecole', 1], ['bricolage', 1], ['opticien', 1], ['tabac-presse', 2],
-  ['metiers-d-art', 2], ['ebeniste', 1], ['chocolatier', 1],
+  // Répartition proche d'un bourg-centre rural : ~27 % commerces, 22 % artisans, 10 % producteurs, 15 % restauration, 26 % services.
+  ['boulangerie', 6], ['boucherie', 5], ['coiffure', 7], ['institut-beaute', 4], ['pharmacie', 4], ['fleuriste', 3],
+  ['librairie', 3], ['electricien', 4], ['maconnerie', 7], ['couvreur', 4], ['peintre', 5], ['plombier-chauffagiste', 4],
+  ['menuiserie', 4], ['garage', 4], ['restaurant', 8], ['bistrot', 5], ['pizzeria', 3], ['traiteur', 2], ['auberge', 2],
+  ['ferme', 5], ['maraicher', 3], ['apiculteur', 2], ['fromagerie', 3], ['brasserie-artisanale', 1], ['epicerie', 4],
+  ['superette', 3], ['caviste', 2], ['pret-a-porter', 4], ['informatique', 2], ['taxi', 1], ['conseil', 3],
+  ['hebergement', 3], ['paysagiste', 2], ['auto-ecole', 1], ['bricolage', 2], ['opticien', 2], ['tabac-presse', 3],
+  ['metiers-d-art', 2], ['ebeniste', 1], ['chocolatier', 1], ['cordonnerie', 1],
 ];
 
 type HoursTpl = [number, string, string][];

@@ -4,7 +4,8 @@ import type { Family } from '@/lib/constants';
 import { fmtDistance, haversine, parisDate } from '@/lib/format';
 import { normalizeText } from '@/lib/slug';
 import { answerSearch, interpretSearch } from '../ai/features';
-import type { SearchIntent, SearchVocabulary } from '../ai/rules';
+import { memo } from '../cache';
+import { interpretQuery, type SearchIntent, type SearchVocabulary } from '../ai/rules';
 import type { AiContext } from '../ai/client';
 import { db } from '../db';
 import {
@@ -31,6 +32,8 @@ export type SearchParams = {
   near?: { lat: number; lng: number } | null;
   limit?: number;
   withAnswer?: boolean;
+  /** Module « Assistant IA » actif sur le territoire (sinon : interprétation par règles, sans réponse rédigée). */
+  ai?: boolean;
 };
 
 export type SearchResultItem = EstablishmentCard & { distanceM: number | null; distance: string };
@@ -96,7 +99,13 @@ export async function searchTerritory(
 ): Promise<SearchResponse> {
   const q = (params.q ?? '').trim().slice(0, 200);
   const vocab = await getVocabulary(territory.id);
-  const intent = q ? await interpretSearch(q, vocab, { ...ctx, territoryId: territory.id }) : null;
+  // L'interprétation d'une même requête est mise en cache 10 min (coût et latence de l'IA).
+  const aiAllowed = params.ai !== false;
+  const intent = !q
+    ? null
+    : aiAllowed
+      ? await memo(`intent:${territory.id}:${normalizeText(q)}`, 600_000, () => interpretSearch(q, vocab, { ...ctx, territoryId: territory.id }))
+      : { ...interpretQuery(q, vocab), source: 'rules' as const };
   const natural = Boolean(intent?.natural);
 
   const conds: SQL[] = [eq(establishments.territoryId, territory.id), publicStatusFilter()];
@@ -133,7 +142,7 @@ export async function searchTerritory(
       cards = await loadCards(and(...conds, sql`${establishments.searchVector} @@ ${tq}`), { limit: 300, orderBy: [sql`${rank} DESC`] });
     }
   } else {
-    cards = await loadCards(and(...conds), { limit: 500 });
+    cards = await loadCards(and(...conds), { limit: 5000 });
   }
 
   if (openNow) cards = cards.filter((c) => c.open.open);
@@ -145,17 +154,39 @@ export async function searchTerritory(
     return { ...c, distanceM: d, distance: fmtDistance(d) };
   });
   if (!q || natural) {
-    items.sort((a, b) => (a.distanceM ?? 1e12) - (b.distanceM ?? 1e12));
-    if (!q) items.sort((a, b) => Number(b.open.open) - Number(a.open.open));
+    const dist = (a: SearchResultItem, b: SearchResultItem) => (a.distanceM ?? 1e12) - (b.distanceM ?? 1e12);
+    if (params.near) items.sort((a, b) => Number(b.open.open) - Number(a.open.open) || dist(a, b));
+    else if (natural) {
+      // Recherche en langage naturel : les pros engagés dans une campagne en cours remontent pour les idées cadeaux.
+      const boost = intent?.kind === 'gift' || intent?.kind === 'local' ? await activeOffers(items.slice(0, 400).map((i) => i.id)) : new Map();
+      items.sort(
+        (a, b) =>
+          Number(b.open.open) - Number(a.open.open) ||
+          Number(boost.has(b.id)) - Number(boost.has(a.id)) ||
+          Number(b.isFeatured) - Number(a.isFeatured) ||
+          Number(Boolean(b.coverUrl)) - Number(Boolean(a.coverUrl)) ||
+          dist(a, b),
+      );
+    } else
+      // Tri « recommandés » : ouverts d'abord, puis mises en avant (Premium), fiches complètes, proximité.
+      items.sort(
+        (a, b) =>
+          Number(b.open.open) - Number(a.open.open) ||
+          Number(b.isFeatured) - Number(a.isFeatured) ||
+          Number(Boolean(b.coverUrl)) - Number(Boolean(a.coverUrl)) ||
+          Math.round(b.completeness / 20) - Math.round(a.completeness / 20) ||
+          dist(a, b),
+      );
   }
   const total = items.length;
   items = items.slice(0, params.limit ?? 200);
 
   let answer: SearchResponse['answer'] = null;
-  if (params.withAnswer !== false && intent?.natural) {
+  if (aiAllowed && params.withAnswer !== false && intent?.natural) {
     const top = items.slice(0, 6);
     const offers = top.length ? await activeOffers(top.map((t) => t.id)) : new Map();
-    answer = await answerSearch(
+    const answerKey = `answer:${territory.id}:${normalizeText(q)}:${top.map((t) => t.id).join(',')}`;
+    answer = await memo(answerKey, 600_000, async () => answerSearch(
       q,
       intent,
       top.map((t) => ({
@@ -170,7 +201,7 @@ export async function searchTerritory(
         campaign: offers.get(t.id)?.campaign ?? null,
       })),
       { ...ctx, territoryId: territory.id },
-    );
+    ));
   }
   return { items, total, intent, answer };
 }
@@ -191,4 +222,21 @@ export async function activeOffers(ids: string[]): Promise<Map<string, { offer: 
       ),
     );
   return new Map(rows.map((r) => [r.id, { offer: r.offer, campaign: r.campaign }]));
+}
+
+/** Réduit un résultat aux champs affichés par l'explorateur. */
+export function toExplorerItem(i: SearchResultItem): import('@/lib/explorer').ExplorerItem {
+  return {
+    id: i.id,
+    name: i.name,
+    path: i.path,
+    activity: i.activity,
+    color: i.color,
+    communeName: i.communeName,
+    coverUrl: i.coverUrl,
+    isOpen: i.open.open,
+    openLabel: i.open.unknown ? '' : i.open.shortLabel,
+    tags: i.tags.slice(0, 3),
+    distance: i.distance,
+  };
 }

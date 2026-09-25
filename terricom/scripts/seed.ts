@@ -165,8 +165,8 @@ async function main() {
       heroTitle: 'Le Val de Loue,|fait main & fait ici.',
       heroSubtitle: 'Artisans, producteurs, restaurants et commerces de 24 communes. Trouvez, poussez la porte, soutenez.',
       heroImageUrl: D.U(D.I.valley, 2000),
-      centerLat: 47.075,
-      centerLng: 6.11,
+      centerLat: 47.1062,
+      centerLng: 6.1446,
       defaultZoom: 11,
       contactEmail: 'economie@cc-valdeloue.fr',
       websiteUrl: 'https://www.cc-valdeloue.fr',
@@ -181,6 +181,10 @@ async function main() {
         footerText: 'Une initiative de la Communauté de communes du Val de Loue et de ses 24 communes.',
         dpoEmail: 'dpo@cc-valdeloue.fr',
         legalPublisher: 'Communauté de communes du Val de Loue, 2 place de l’Hôtel de Ville, 25290 Ornans',
+        circuitsTitle: 'Suivez le fil de la Loue',
+        livingTitle: 'Une rivière, des forêts, et 20 minutes de Besançon.',
+        livingText: 'Logement, écoles, transport : la collectivité vous accompagne pour vous installer.',
+        directionsProvider: 'google',
       },
       quotaEstablishments: 1500,
       quotaEmailsMonthly: 40000,
@@ -225,7 +229,7 @@ async function main() {
   await db
     .update(S.communes)
     .set({
-      tagline: 'La « petite Venise comtoise » et ses professionnels, de la rue Pierre Vernier aux bords de Loue.',
+      tagline: 'La « petite Venise comtoise » et ses {pros} professionnels, de la rue Pierre Vernier aux bords de Loue.',
       description:
         "Ville natale de Gustave Courbet, Ornans aligne ses maisons sur pilotis au-dessus de la Loue. Commerces de centre-bourg, artisans et producteurs y font vivre la « petite Venise comtoise ».",
       heroImageUrl: D.U(D.I.mountains, 2000),
@@ -658,7 +662,7 @@ async function main() {
   const fri1 = nextWeekday(4, 1);
   const sun1 = nextWeekday(6, 2);
   const wed1 = nextWeekday(2, 4);
-  const EVT: (typeof S.events.$inferInsert & { est?: string })[] = [
+  const EVT: (Omit<typeof S.events.$inferInsert, 'slug' | 'territoryId'> & { est?: string })[] = [
     { est: 'b2', title: 'Dégustation Comté 24 mois', kind: 'DEGUSTATION', startsAt: parisAt(fri1, '17:00'), endsAt: parisAt(fri1, '19:00'), locationName: 'Fromagerie du Plateau', address: 'Route de Salins, Amancey', priceText: 'Gratuit', imageUrl: D.U(D.I.cheese, 1400), description: "Trois affinages, trois caractères : l'équipe de la Fromagerie du Plateau vous fait goûter ses Comté de 12, 18 et 24 mois, accompagnés d'un vin jaune du Jura." },
     { title: "Fête de la pomme & marché d'automne", kind: 'MARCHE', startsAt: parisAt(addIso(sat1, 7), '09:00'), endsAt: parisAt(addIso(sat1, 7), '18:00'), organizerName: "Mairie d'Ornans", locationName: 'Place Courbet', address: 'Place Gustave Courbet, Ornans', priceText: 'Entrée libre', isFeatured: true, imageUrl: D.U(D.I.market, 1400), description: "60 exposants, pressoir à l'ancienne, jus de pomme des vergers de la vallée, animations pour les enfants et concert de la fanfare à 16h. Organisé par la Mairie d'Ornans et l'union des commerçants.", lat: 47.1063, lng: 6.1455 },
     { est: 'b8', title: "Portes ouvertes de l'atelier", kind: 'PORTES_OUVERTES', startsAt: parisAt(sun1, '10:00'), endsAt: parisAt(sun1, '17:00'), locationName: 'Céramiques Lison', address: 'Rue de la Source, Nans-sous-Sainte-Anne', priceText: 'Gratuit', imageUrl: D.U(D.I.pottery, 1400), description: "Poussez la porte de l'atelier : démonstrations de tournage toutes les heures, pièces uniques à prix doux et cuisson raku en extérieur à 15h." },
@@ -716,13 +720,39 @@ async function main() {
     }),
   );
   // Offres complémentaires des entreprises générées (37 offres au total sur le territoire)
-  const jobTitles: [string, 'CDI' | 'CDD' | 'ALTERNANCE' | 'SAISONNIER' | 'STAGE'][] = [
-    ['Coiffeur·se', 'CDI'], ['Apprenti·e boucher·e', 'ALTERNANCE'], ['Maçon·ne qualifié·e', 'CDI'], ['Électricien·ne', 'CDI'],
-    ['Employé·e polyvalent·e', 'CDD'], ['Commis de cuisine', 'SAISONNIER'], ['Vendeur·se', 'CDD'], ['Assistant·e administratif·ve', 'CDI'],
-    ['Aide à domicile', 'CDI'], ['Couvreur·se', 'CDI'], ['Stagiaire communication', 'STAGE'], ['Préparateur·rice en pharmacie', 'CDI'],
-  ];
-  const extraJobs = r.sample(genClaimedVdl, 29).map((e, i) => {
-    const [title, contract] = jobTitles[i % jobTitles.length];
+  // Intitulés cohérents avec le métier de chaque entreprise.
+  type Ct = 'CDI' | 'CDD' | 'ALTERNANCE' | 'SAISONNIER' | 'STAGE';
+  const jobTitles: Record<string, [string, Ct][]> = {
+    coiffure: [['Coiffeur·se', 'CDI'], ['Apprenti·e coiffeur·se', 'ALTERNANCE']],
+    'institut-beaute': [['Esthéticien·ne', 'CDI']],
+    boucherie: [['Apprenti·e boucher·e', 'ALTERNANCE'], ['Boucher·e qualifié·e', 'CDI']],
+    boulangerie: [['Vendeur·se en boulangerie', 'CDD']],
+    maconnerie: [['Maçon·ne qualifié·e', 'CDI']],
+    electricien: [['Électricien·ne', 'CDI'], ['Apprenti·e électricien·ne', 'ALTERNANCE']],
+    couvreur: [['Couvreur·se', 'CDI']],
+    peintre: [['Peintre en bâtiment', 'CDI']],
+    menuiserie: [['Menuisier·ère poseur·se', 'CDI']],
+    'plombier-chauffagiste': [['Plombier·e chauffagiste', 'CDI']],
+    garage: [['Mécanicien·ne automobile', 'CDI']],
+    superette: [['Employé·e polyvalent·e', 'CDD']],
+    epicerie: [['Employé·e polyvalent·e', 'CDD']],
+    restaurant: [['Commis de cuisine', 'SAISONNIER'], ['Serveur·se', 'SAISONNIER']],
+    pizzeria: [['Pizzaïolo', 'CDI']],
+    bistrot: [['Serveur·se', 'SAISONNIER']],
+    auberge: [['Commis de cuisine', 'SAISONNIER']],
+    'pret-a-porter': [['Vendeur·se', 'CDD']],
+    librairie: [['Libraire', 'CDD']],
+    fleuriste: [['Fleuriste', 'CDI']],
+    pharmacie: [['Préparateur·rice en pharmacie', 'CDI']],
+    conseil: [['Assistant·e administratif·ve', 'CDI'], ['Stagiaire communication', 'STAGE']],
+    informatique: [['Technicien·ne informatique', 'CDI']],
+    hebergement: [['Réceptionniste saison', 'SAISONNIER']],
+    paysagiste: [['Ouvrier·ère paysagiste', 'SAISONNIER']],
+    ferme: [['Ouvrier·ère agricole', 'SAISONNIER']],
+    fromagerie: [['Fromager·ère', 'CDI']],
+  };
+  const extraJobs = r.sample(genClaimedVdl.filter((e) => jobTitles[e.category]), 29).map((e, i) => {
+    const [title, contract] = r.pick(jobTitles[e.category]);
     return {
       territoryId: vdl.id,
       communeId: communeRows[e.commune].id,
@@ -734,7 +764,7 @@ async function main() {
       startText: r.pick(['Dès que possible', 'Novembre 2026', 'Janvier 2027', 'Printemps 2027']),
       salaryText: r.pick(['Selon profil', 'SMIC + primes', '1 900 – 2 200 € brut', 'Grille conventionnelle']),
       workTimeText: r.pick(['Temps plein', '35 h', '28 h / semaine', 'Temps partiel possible']),
-      description: `${e.name} renforce son équipe à ${e.commune}.`,
+      description: `${e.name} renforce son équipe à ${e.commune} : rejoignez une entreprise locale où chaque personne compte.`,
       missions: ['Accueillir et conseiller la clientèle', "Participer à la vie de l'entreprise"],
       profile: ['Sérieux et motivation', 'Débutant·e accepté·e'],
       publishedAt: daysAgo(r.int(1, 40)),

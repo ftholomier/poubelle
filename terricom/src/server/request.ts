@@ -26,3 +26,10 @@ export function deviceType(userAgent: string): 'mobile' | 'tablet' | 'desktop' {
   if (/mobi|iphone|android/i.test(userAgent)) return 'mobile';
   return 'desktop';
 }
+
+/** Origine publique de la requête (derrière l'ingress : en-têtes X-Forwarded-*). */
+export function publicOrigin(h: Headers): string {
+  const host = (h.get('x-forwarded-host') ?? h.get('host') ?? 'localhost:3000').split(',')[0].trim();
+  const proto = (h.get('x-forwarded-proto') ?? '').split(',')[0].trim() || (/^(localhost|127\.|\[::1\])/.test(host) || host.endsWith('.localhost') || host.includes('.localhost:') ? 'http' : 'https');
+  return `${proto}://${host}`;
+}

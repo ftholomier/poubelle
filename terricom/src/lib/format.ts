@@ -42,6 +42,16 @@ export function fmtTime(t: string | null | undefined): string {
   return `${Number(h)}h${(m ?? '00').padStart(2, '0')}`;
 }
 
+/** « 8h », « 16h30 » (heures rondes sans minutes). */
+export function fmtTimeShort(t: string | null | undefined): string {
+  if (!t) return '';
+  const [h, m] = t.split(':');
+  return m && m !== '00' ? `${Number(h)}h${m}` : `${Number(h)}h`;
+}
+
+export const WEEKDAYS_SHORT = ['Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.', 'Dim.'];
+export const WEEKDAYS_LONG = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+
 /** Parties d'une date dans le fuseau de Paris. */
 export function parisParts(d: Date): { year: number; month: number; day: number; hour: number; minute: number; weekday: number } {
   const parts = new Intl.DateTimeFormat('en-GB', {
@@ -64,6 +74,16 @@ export function parisParts(d: Date): { year: number; month: number; day: number;
     minute: Number(get('minute')),
     weekday: wd, // 0 = lundi
   };
+}
+
+/** Instant correspondant à une date et une heure « à l'heure de Paris » (AAAA-MM-JJ, HH:MM). */
+export function fromParisLocal(date: string, time: string): Date {
+  const [y, m, d] = date.split('-').map(Number);
+  const [hh, mm] = time.split(':').map(Number);
+  const guess = Date.UTC(y, m - 1, d, hh, mm);
+  const p = parisParts(new Date(guess));
+  const offset = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute) - guess;
+  return new Date(guess - offset);
 }
 
 /** Date locale (Paris) au format ISO AAAA-MM-JJ. */
@@ -213,4 +233,36 @@ export function fmtPhone(p: string | null | undefined): string {
 export function telHref(p: string): string {
   const digits = p.replace(/[^\d+]/g, '');
   return `tel:${digits.startsWith('0') ? `+33${digits.slice(1)}` : digits}`;
+}
+
+/** Lien d'itinéraire vers un point (fournisseur choisi par le territoire). */
+export function directionsHref(lat: number, lng: number, provider: 'google' | 'osm' | 'apple' = 'google'): string {
+  if (provider === 'osm') return `https://www.openstreetmap.org/directions?to=${lat}%2C${lng}`;
+  if (provider === 'apple') return `https://maps.apple.com/?daddr=${lat},${lng}`;
+  return `https://www.google.com/maps/dir/?api=1&destination=${lat}%2C${lng}`;
+}
+
+/** Heure Paris d'un instant, au format court (« 10h », « 17h30 »). */
+export function fmtHourOf(d: Date): string {
+  const p = parisParts(d);
+  return p.minute ? `${p.hour}h${String(p.minute).padStart(2, '0')}` : `${p.hour}h`;
+}
+
+/** « 10h – 20h » (événements). */
+export function fmtEventHours(start: Date, end: Date | null): string {
+  if (!end) return `à partir de ${fmtHourOf(start)}`;
+  const sameDay = parisDate(start) === parisDate(end);
+  return sameDay ? `${fmtHourOf(start)} – ${fmtHourOf(end)}` : `${fmtHourOf(start)} → ${fmtDayMonth(end)} ${fmtHourOf(end)}`;
+}
+
+/** « SAM. 14 DÉC. · 10H–20H » (bandeau d'événement à la une). */
+export function fmtEventBadge(start: Date, end: Date | null): string {
+  const wd = WEEKDAYS_SHORT[parisParts(start).weekday];
+  const hours = end && parisDate(start) === parisDate(end) ? `${fmtHourOf(start)}–${fmtHourOf(end)}` : fmtHourOf(start);
+  return `${wd} ${fmtDayMonth(start)} · ${hours}`.toUpperCase();
+}
+
+/** Date de demain (Paris), AAAA-MM-JJ. */
+export function tomorrowIso(): string {
+  return parisDate(new Date(Date.now() + 86_400_000));
 }

@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import nodemailer from 'nodemailer';
+import nodemailer, { type Transporter } from 'nodemailer';
 import { db } from '../db';
 import { emails } from '../db/schema';
 import { env } from '../env';
@@ -39,12 +39,12 @@ export async function sendEmail(mail: OutgoingEmail): Promise<string> {
   return row.id;
 }
 
-let transporter: nodemailer.Transporter | null = null;
+let transporter: Transporter | null = null;
 
-function getTransporter(): nodemailer.Transporter {
+function getTransporter(): Transporter {
   if (!transporter) {
     if (!env.SMTP_URL) throw new Error('SMTP_URL non configuré');
-    transporter = nodemailer.createTransport(env.SMTP_URL, { pool: true, maxConnections: 5 });
+    transporter = nodemailer.createTransport(env.SMTP_URL);
   }
   return transporter;
 }

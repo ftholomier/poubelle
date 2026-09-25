@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { connect } from 'node:net';
-import sharp from 'sharp';
+import sharp, { type Metadata } from 'sharp';
 import { db } from './db';
 import { media, type MediaVariants } from './db/schema';
 import { logger } from './logger';
@@ -75,7 +75,7 @@ export async function saveImageUpload(input: File | Buffer, ctx: UploadContext) 
   if (buf.length === 0) throw new MediaError('Fichier vide.');
   if (buf.length > MAX_IMAGE_BYTES) throw new MediaError('Image trop lourde (10 Mo maximum).');
 
-  let meta: sharp.Metadata;
+  let meta: Metadata;
   try {
     meta = await sharp(buf, { limitInputPixels: 40_000_000, failOn: 'error' }).metadata();
   } catch {

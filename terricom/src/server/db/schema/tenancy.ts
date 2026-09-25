@@ -32,6 +32,16 @@ export type TerritorySettings = {
   dpoEmail?: string;
   legalPublisher?: string;
   hostingNotice?: string;
+  /** Service d'itinéraire proposé sur les fiches. */
+  directionsProvider?: 'google' | 'osm' | 'apple';
+  /** Rubrique mise en avant dans la navigation (slug de campagne). */
+  featuredCampaignSlug?: string;
+  /** Titre de la rubrique Circuits (« Suivez le fil de la Loue »). */
+  circuitsTitle?: string;
+  /** Encadré « Vivre ici » des offres d'emploi (attractivité du territoire). */
+  livingTitle?: string;
+  livingText?: string;
+  livingImageUrl?: string;
 };
 
 export type HomeBlock =
