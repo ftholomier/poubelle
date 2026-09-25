@@ -46,10 +46,30 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Pages de secours (plateforme et portails) : jamais évincées par le nettoyage.
+const isOffline = (u) => new URL(u).pathname.endsWith(OFFLINE);
+
 async function trim(name, max) {
   const cache = await caches.open(name);
-  const keys = await cache.keys();
+  const keys = (await cache.keys()).filter((k) => !isOffline(k.url));
   for (const k of keys.slice(0, Math.max(0, keys.length - max))) await cache.delete(k);
+}
+
+// Portail servi par chemin (/<territoire>/…) : sa page de secours, à ses couleurs, est mise de côté.
+self.addEventListener('message', (event) => {
+  const d = event.data;
+  if (DEV || !d || d.type !== 'cache-offline' || typeof d.url !== 'string' || !/^\\/[a-z0-9-]+\\/hors-ligne$/.test(d.url)) return;
+  event.waitUntil(
+    caches
+      .open(CACHE)
+      .then((c) => c.match(d.url).then((hit) => hit || c.add(new Request(d.url, { cache: 'reload' }))))
+      .catch(() => undefined),
+  );
+});
+
+async function offlineFor(url) {
+  const seg = url.pathname.split('/')[1];
+  return (seg && (await caches.match('/' + seg + OFFLINE))) || (await caches.match(OFFLINE));
 }
 
 self.addEventListener('fetch', (event) => {
@@ -71,7 +91,7 @@ self.addEventListener('fetch', (event) => {
           }
           return res;
         })
-        .catch(async () => (await caches.match(req)) || (await caches.match(OFFLINE)) || Response.error()),
+        .catch(async () => (await caches.match(req)) || (await offlineFor(url)) || Response.error()),
     );
     return;
   }

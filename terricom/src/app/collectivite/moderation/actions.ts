@@ -104,6 +104,10 @@ export async function approvePostAction(_prev: ModState, form: FormData): Promis
     .set({ status: future ? 'SCHEDULED' : 'PUBLISHED', publishedAt: future ? null : now, moderatedById: ctx.actor.user.id, moderatedAt: now, updatedAt: now })
     .where(eq(posts.id, p.id));
   if (!future && p.channels.includes('SOCIAL')) await enqueue('posts.social-sync', { postId: p.id }, { dedupeKey: `social:${p.id}` });
+  if (!future && p.establishmentId) {
+    const { emitPostPublished } = await import('@/server/services/connectors');
+    await emitPostPublished(p.id);
+  }
   if (p.establishmentId) await db.update(establishments).set({ lastActivityAt: now }).where(eq(establishments.id, p.establishmentId));
   await audit({
     actor: { user: ctx.actor.user },

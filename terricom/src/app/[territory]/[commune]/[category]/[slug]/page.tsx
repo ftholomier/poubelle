@@ -57,7 +57,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: { absolute: `${title} · ${t.name}` },
     description,
-    alternates: { canonical: withLang(url, tr.locale) },
+    // Flux de l'établissement (actualités RSS, événements iCal), repris sur son site ou dans un agrégateur.
+    alternates: { canonical: withLang(url, tr.locale), types: { 'application/rss+xml': `${url}/actualites.xml`, 'text/calendar': `${url}/agenda.ics` } },
     openGraph: {
       type: 'website',
       title,

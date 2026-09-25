@@ -28,6 +28,9 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
       langue mémorisé, `hreflang`, canoniques et plan du site par langue, emails de double validation traduits,
       traductions IA des fiches (tâche `i18n.translate`) et des textes du portail (« Langues du portail »),
       version rédigée par le professionnel, repli sur le français, pages légales en français
+- [x] Synchronisation des contenus : flux iCal et RSS (territoire, fiches), connecteur signé des entreprises
+      (Premium : publications, fiche, événements, offres d’emploi), agendas externes iCal importés chaque heure
+- [x] Marque blanche testée de bout en bout ; hors-ligne vérifié sur la compilation de production
 
 ## En cours
 
@@ -37,8 +40,6 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
 
 - [ ] Multilingue, pistes suivantes : traduction des publications, événements et offres d’emploi ; autres langues
       (espagnol, italien, néerlandais : l’IA les gère déjà) ; lettre du territoire par langue d’abonné
-- [ ] Test e2e de la marque blanche
-- [ ] Vérifier le hors-ligne sur une compilation de production (`npm run build && npm start`)
 - [ ] Contrôles finaux : `next build`, tests complets, parcours de tous les espaces, `db:reset`
 - [ ] Documentation finale (README, architecture) et rapport de livraison
 

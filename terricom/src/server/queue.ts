@@ -20,7 +20,9 @@ export type QueueName =
   | 'billing.overdue'
   | 'domains.sync'
   | 'demo.reset'
-  | 'i18n.translate';
+  | 'i18n.translate'
+  | 'connector.deliver'
+  | 'agenda.sync';
 
 export type EnqueueOptions = { runAt?: Date; dedupeKey?: string; maxAttempts?: number };
 

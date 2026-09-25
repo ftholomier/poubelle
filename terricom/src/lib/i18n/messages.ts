@@ -471,6 +471,11 @@ const fr = {
   'follow.unsubscribing': 'Désinscription…',
   'follow.unsubscribe': 'Me désinscrire',
   'layout.metaDesc': 'Commerces, artisans et producteurs de {name}.',
+  'agenda.subscribe': 'S’abonner à l’agenda',
+  'agenda.subscribeHint': 'Ajoute tous les rendez-vous à votre agenda (Google, Outlook, iPhone), mis à jour automatiquement.',
+  'news.rss': 'Flux RSS',
+  'feeds.newsTitle': 'Actualités · {name}',
+  'feeds.agendaTitle': 'Agenda · {name}',
 } as const;
 
 export type MessageKey = keyof typeof fr;
@@ -939,6 +944,11 @@ const en: Dict = {
   'follow.unsubscribing': 'Unsubscribing…',
   'follow.unsubscribe': 'Unsubscribe',
   'layout.metaDesc': 'Shops, craftspeople and producers in {name}.',
+  'agenda.subscribe': 'Subscribe to the calendar',
+  'agenda.subscribeHint': 'Adds every event to your calendar (Google, Outlook, iPhone), kept up to date automatically.',
+  'news.rss': 'RSS feed',
+  'feeds.newsTitle': 'News · {name}',
+  'feeds.agendaTitle': 'What’s on · {name}',
 };
 
 const de: Dict = {
@@ -1404,6 +1414,11 @@ const de: Dict = {
   'follow.unsubscribing': 'Wird abgemeldet…',
   'follow.unsubscribe': 'Abmelden',
   'layout.metaDesc': 'Geschäfte, Handwerker und Erzeuger in {name}.',
+  'agenda.subscribe': 'Kalender abonnieren',
+  'agenda.subscribeHint': 'Fügt alle Termine Ihrem Kalender hinzu (Google, Outlook, iPhone), automatisch aktualisiert.',
+  'news.rss': 'RSS-Feed',
+  'feeds.newsTitle': 'Neuigkeiten · {name}',
+  'feeds.agendaTitle': 'Veranstaltungen · {name}',
 };
 
 export const MESSAGES = { fr, en, de } as const;

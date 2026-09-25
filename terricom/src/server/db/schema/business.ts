@@ -30,8 +30,14 @@ export const companies = pgTable('companies', {
   billingName: varchar({ length: 255 }),
   billingAddress: text(),
   vatNumber: varchar({ length: 32 }),
-  /** Connecteur de diffusion (réseaux sociaux via Make, Zapier, n8n…) */
+  /**
+   * Connecteur de synchronisation (offres Premium et Communication) : adresse appelée à chaque contenu publié
+   * (Make, Zapier, n8n, site de l'entreprise…), requêtes signées HMAC avec webhookSecret (chiffré).
+   */
   socialWebhookUrl: text(),
+  webhookSecret: text(),
+  webhookLastAt: tstz(),
+  webhookLastStatus: varchar({ length: 120 }),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

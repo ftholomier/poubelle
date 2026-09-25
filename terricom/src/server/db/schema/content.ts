@@ -1,5 +1,21 @@
 import { sql } from 'drizzle-orm';
-import { boolean, date, doublePrecision, index, integer, jsonb, pgTable, smallint, text, time, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  date,
+  doublePrecision,
+  index,
+  integer,
+  jsonb,
+  pgTable,
+  smallint,
+  text,
+  time,
+  timestamp,
+  unique,
+  uuid,
+  varchar,
+  type AnyPgColumn,
+} from 'drizzle-orm/pg-core';
 import { citext, createdAt, pk, tstz, updatedAt } from './_common';
 import { establishmentForms, establishments, media } from './business';
 import { appointmentStatus, authorType, contractType, eventKind, inboxStatus, jobStatus, poiKind, postKind, postStatus, publishStatus } from './enums';
@@ -112,15 +128,41 @@ export const events = pgTable(
     status: publishStatus().notNull().default('PUBLISHED'),
     isFeatured: boolean().notNull().default(false),
     campaignId: uuid(),
+    /** Événement importé d'un agenda externe (iCal) : source et identifiant d'origine (UID). */
+    sourceFeedId: uuid().references((): AnyPgColumn => calendarFeeds.id, { onDelete: 'cascade' }),
+    externalUid: varchar({ length: 255 }),
     createdById: uuid().references(() => users.id, { onDelete: 'set null' }),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
   (t) => [
     unique('events_territory_slug_uq').on(t.territoryId, t.slug),
+    unique('events_feed_uid_uq').on(t.sourceFeedId, t.externalUid),
     index('events_territory_start_idx').on(t.territoryId, t.startsAt),
     index('events_establishment_idx').on(t.establishmentId),
   ],
+);
+
+/** Agendas externes (iCal) synchronisés dans l'agenda du territoire ou d'une commune (office de tourisme, mairie…). */
+export const calendarFeeds = pgTable(
+  'calendar_feeds',
+  {
+    id: pk(),
+    territoryId: uuid()
+      .notNull()
+      .references(() => territories.id, { onDelete: 'cascade' }),
+    communeId: uuid().references(() => communes.id, { onDelete: 'cascade' }),
+    name: varchar({ length: 160 }).notNull(),
+    url: text().notNull(),
+    kind: eventKind().notNull().default('AUTRE'),
+    active: boolean().notNull().default(true),
+    lastSyncAt: tstz(),
+    lastStatus: varchar({ length: 255 }),
+    lastCount: integer().notNull().default(0),
+    createdById: uuid().references(() => users.id, { onDelete: 'set null' }),
+    createdAt: createdAt(),
+  },
+  (t) => [index('calendar_feeds_territory_idx').on(t.territoryId)],
 );
 
 /** Marchés hebdomadaires récurrents. */

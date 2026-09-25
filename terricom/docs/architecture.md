@@ -55,15 +55,15 @@ fois par créneau grâce à une mise à jour conditionnelle de `job_schedules` ;
 console (« Tâches de fond ») : suspension, exécution manuelle, relance des échecs.
 
 Tâches à la demande : envoi d’emails, préparation et envoi par lots des lettres (territoire et
-entreprises), notifications push (`push.send`), traduction des fiches (`i18n.translate`), géocodage et
-import SIRENE, diffusion sur les réseaux.
+entreprises), notifications push (`push.send`), traduction des fiches (`i18n.translate`), envoi aux
+connecteurs des entreprises (`connector.deliver`), géocodage et import SIRENE, diffusion sur les réseaux.
 
 | Tâche                                                                     | Fréquence     |
 | ------------------------------------------------------------------------- | ------------- |
 | Sonde de disponibilité, publications programmées, newsletters programmées | chaque minute |
 | Domaines personnalisés (Ingress cert-manager)                             | 5 min         |
 | Statut des campagnes                                                      | 15 min        |
-| Agrégats d’audience, index de recherche                                   | horaire       |
+| Agrégats d’audience, index de recherche, agendas externes (iCal)          | horaire       |
 | Relances des fiches et récapitulatif des revendications                   | 9 h 30        |
 | Factures échues                                                           | 7 h           |
 | Purge de rétention (RGPD, sessions, journaux)                             | 3 h 15        |
@@ -101,6 +101,14 @@ en-têtes `List-Unsubscribe` en un clic, double consentement des abonnés.
 
 `/api/v1` (lecture seule, clé par territoire, 120 requêtes/min, CORS) : territoire, communes, catégories,
 fiches, agenda, actualités ; description OpenAPI sur `/api/v1/openapi.json`. Détails : [api.md](api.md).
+
+## Synchronisation des contenus
+
+Flux publics (iCal, RSS) générés à la demande (`src/lib/ics.ts`, `src/lib/rss.ts`, `src/server/services/feeds.ts`) ;
+connecteur signé des entreprises (`src/server/services/connectors.ts`) ; import des agendas externes
+(`src/server/services/calendar-sync.ts`, table `calendar_feeds`, événements liés par `source_feed_id` et
+`external_uid`). Tout appel sortant vers une adresse fournie par un utilisateur passe par `src/server/net.ts`
+(protection SSRF).
 
 ## Portail multilingue
 

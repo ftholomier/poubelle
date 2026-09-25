@@ -17,6 +17,7 @@ import { deleteMediaFiles } from '../media';
 import { sendEmail } from '../mail/send';
 import { claimReminderTemplate, pendingClaimsDigestTemplate } from '../mail/templates';
 import { enqueue, purgeFinishedJobs } from '../queue';
+import { emitPostPublished } from '../services/connectors';
 import { refreshCompleteness, refreshSearchKeywords } from '../services/establishments';
 import { flagOverdueInvoices } from '../services/console-billing';
 import { appUrl, portalUrl } from '../urls';
@@ -53,6 +54,7 @@ export async function publishDuePosts(): Promise<{ published: number; pending: n
     published++;
     if (p.establishmentId) await db.update(establishments).set({ lastActivityAt: now }).where(eq(establishments.id, p.establishmentId));
     if (p.channels.includes('SOCIAL')) await enqueue('posts.social-sync', { postId: p.id }, { dedupeKey: `social:${p.id}` });
+    if (p.establishmentId) await emitPostPublished(p.id);
   }
   // Promotions et annonces expirées depuis plus de 30 jours : archivées (elles restent consultables dans l'espace pro).
   const archived = await db.execute(sql`

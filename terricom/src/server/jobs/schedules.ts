@@ -26,6 +26,7 @@ export const SCHEDULES: ScheduleDef[] = [
   { name: 'billing.overdue', queue: 'billing.overdue', everyMinutes: 1440, at: '07:00', label: 'Factures échues' },
   { name: 'maintenance.purge', queue: 'maintenance.purge', everyMinutes: 1440, at: '03:15', label: 'Purge RGPD, sessions et journaux (rétention)' },
   { name: 'demo.reset', queue: 'demo.reset', everyMinutes: 1440, at: '04:30', label: 'Réinitialisation du jeu de démonstration', demoOnly: true },
+  { name: 'agenda.sync', queue: 'agenda.sync', everyMinutes: 60, label: 'Synchronisation des agendas externes (iCal)' },
 ];
 
 export const QUEUE_LABELS: Record<QueueName, string> = {
@@ -47,4 +48,6 @@ export const QUEUE_LABELS: Record<QueueName, string> = {
   'domains.sync': 'Domaines personnalisés',
   'demo.reset': 'Réinitialisation démo',
   'i18n.translate': 'Traduction des fiches (portail multilingue)',
+  'connector.deliver': 'Connecteurs des entreprises (synchronisation)',
+  'agenda.sync': 'Agendas externes (iCal)',
 };

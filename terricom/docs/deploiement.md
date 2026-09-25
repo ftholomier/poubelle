@@ -71,6 +71,8 @@ https:// {
 une fois avec `npx web-push generate-vapid-keys` : les changer invalide les abonnements existants), et en option
 `SOCIAL_WEBHOOK_URL`, `SOCIAL_WEBHOOK_SECRET`.
 Les valeurs d’exemple de `.env.example` sont signalées dans la console (« Secrets en coffre-fort »).
+`OUTBOUND_ALLOW_PRIVATE` doit rester absent (ou `false`) en production : il lèverait la protection contre les
+appels vers le réseau interne (connecteurs, agendas externes).
 
 ### Mise en place
 

@@ -75,6 +75,13 @@ nouvelle option s’ajoute aussi à la console (`src/app/console/facturation/`) 
   marque blanche) ; lettres en lots via `src/server/services/newsletters.ts`.
 - **Notifications push** : `notifyCompany`, `notifyTerritoryStaff`, `notifyUsers` (`src/server/push.ts`)
   mettent en file une tâche `push.send` ; sans clés VAPID, rien n’est envoyé.
+- **Appels sortants vers une adresse saisie par un utilisateur** (connecteurs, agendas externes) : toujours
+  `safeFetch` / `assertPublicUrl` (`src/server/net.ts`) — adresses publiques uniquement, redirections
+  vérifiées, taille et durée bornées. `OUTBOUND_ALLOW_PRIVATE=true` (développement, tests) autorise
+  `localhost` ; jamais en production.
+- **Connecteur des entreprises** : `emitPostPublished`, `emitEventPublished`, `emitJobPublished`,
+  `emitListingUpdated` (`src/server/services/connectors.ts`) à appeler après chaque mise en ligne ; l’envoi
+  passe par la tâche `connector.deliver` (signature HMAC, reprise).
 
 ## Pièges rencontrés (à ne pas reproduire)
 
@@ -86,6 +93,10 @@ nouvelle option s’ajoute aussi à la console (`src/app/console/facturation/`) 
 | Menu du site de la marque modifié                                         | Classe `.site-nav` réutilisée                                                  | Préfixe `.est-nav`                                                                                  |
 | Nom accessible d’un champ trop long (le lecteur d’écran lit toute l’aide) | `<small>` d’aide placé dans le `<label>`                                       | `<small>` hors du label, relié par `aria-describedby`                                               |
 | Tableau des sections partagé modifié                                      | `push()` sur une constante exportée                                            | `visibleSections()` renvoie une copie                                                               |
+| `next start` renvoie 404 partout                                          | Sortie `standalone` : `next start` n’est pas le bon serveur                    | `node .next/standalone/server.js` (copier `.next/static` et `public`, voir Dockerfile)              |
+| Toutes les pages en 404 sur un autre port que 3000                        | Hôte absent de `PLATFORM_HOSTS` : traité comme domaine de territoire           | `PLATFORM_HOSTS=localhost:3100,…` pour tester sur un autre port                                     |
+| Test hors-ligne faussé                                                    | L’émulation hors-ligne de Playwright n’affecte pas le service worker           | Arrêter réellement le serveur (`scripts/dev/offline.mjs`, `SERVER_PID`)                             |
+| Serveur de développement saturé après une longue session                  | Mémoire de Turbopack en développement                                          | Relancer avec `NODE_OPTIONS=--max-old-space-size=4096`                                              |
 | Échec d’hydratation du portail traduit                                    | `<script nonce>` en ligne dans un composant (le navigateur masque le `nonce`)  | Composant client `HtmlLang` (effet) plutôt qu’un script en ligne                                    |
 | Règle ESLint `react-hooks/immutability` sur `document.cookie`             | Écriture d’une valeur globale dans le corps d’un composant                     | Fonction de module appelée par le gestionnaire (`switchTo`)                                         |
 | Action serveur en ligne qui échoue à la sérialisation                     | Fonction (traducteur `tr`) capturée par la fermeture                           | Ne capturer que des valeurs simples (`langParam`)                                                   |

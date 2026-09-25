@@ -88,3 +88,92 @@ test.describe('portail multilingue', () => {
     await expect(page.getByText(/fiches? traduites? sur/)).toBeVisible();
   });
 });
+
+test.describe('marque blanche', () => {
+  test('activée depuis la console : le portail ne mentionne plus terricom, puis retour à la normale', async ({ page }) => {
+    const toggle = async (on: boolean) => {
+      await page.goto('/demo/entrer/console?vers=/console/territoires');
+      await page.getByRole('row', { name: /^Dole/ }).first().click();
+      await expect(page.locator('.display', { hasText: /^Dole$/ })).toBeVisible();
+      const box = page.getByLabel('Marque blanche');
+      if (on) await box.check();
+      else await box.uncheck();
+      await page.locator('form', { has: box }).getByRole('button', { name: 'Appliquer' }).click();
+      await expect(page.getByRole('button', { name: 'Appliquer' })).toBeEnabled();
+      await page.reload();
+      if (on) await expect(page.getByLabel('Marque blanche')).toBeChecked();
+      else await expect(page.getByLabel('Marque blanche')).not.toBeChecked();
+    };
+    await toggle(false);
+    await page.goto('/dole');
+    await expect(page.getByText('Propulsé par terricom.')).toBeVisible();
+
+    await toggle(true);
+    await page.goto('/dole');
+    await expect(page.getByRole('contentinfo')).toBeVisible();
+    await expect(page.getByText('Propulsé par terricom.')).toHaveCount(0);
+
+    await toggle(false);
+    await page.goto('/dole');
+    await expect(page.getByText('Propulsé par terricom.')).toBeVisible();
+  });
+});
+
+test.describe('synchronisation des contenus', () => {
+  test('flux publics : agenda iCal et actualités RSS du territoire et d’une fiche', async ({ request }) => {
+    const ics = await request.get('/valdeloue/agenda.ics');
+    expect(ics.headers()['content-type']).toContain('text/calendar');
+    expect(await ics.text()).toContain('BEGIN:VEVENT');
+    const rss = await request.get('/valdeloue/actualites.xml');
+    expect(rss.headers()['content-type']).toContain('application/rss+xml');
+    expect(await rss.text()).toContain('<item>');
+    const fiche = await request.get('/valdeloue/ornans/boulangerie/boulangerie-martin/actualites.xml');
+    expect(fiche.ok()).toBeTruthy();
+    expect((await request.get('/valdeloue/ornans/boulangerie/boulangerie-martin/agenda.ics')).headers()['content-type']).toContain('text/calendar');
+  });
+
+  test('back-office : agenda externe synchronisé, affiché sur le portail, puis retiré', async ({ page }) => {
+    await page.goto(`/demo/entrer/collectivite?vers=${encodeURIComponent('/collectivite/agenda?onglet=synchronisation')}`);
+    await expect(page.getByText('Office de tourisme Loue-Lison')).toBeVisible();
+    await page.getByLabel('Nom de l’agenda').fill('Agenda e2e');
+    await page.getByLabel('Adresse de l’agenda (iCal)').fill('http://localhost:3000/demo/agenda-externe.ics');
+    await page.getByRole('button', { name: 'Ajouter et synchroniser' }).click();
+    await expect(page.getByText('Agenda e2e')).toBeVisible();
+    await expect(page.getByText(/6 événements à venir/).first()).toBeVisible();
+
+    await page.goto('/valdeloue/agenda');
+    await expect(page.getByText('Marché nocturne des producteurs').first()).toBeVisible();
+
+    await page.goto(`/demo/entrer/collectivite?vers=${encodeURIComponent('/collectivite/agenda?onglet=synchronisation')}`);
+    const before = await page.getByText('Agenda e2e', { exact: true }).count();
+    const row = page
+      .locator('div', { has: page.getByText('Agenda e2e', { exact: true }) })
+      .filter({ has: page.getByRole('button', { name: 'Retirer' }) })
+      .last();
+    await row.getByRole('button', { name: 'Retirer' }).click();
+    await expect(page.getByText('Agenda e2e', { exact: true })).toHaveCount(before - 1);
+  });
+
+  test('espace pro : connecteur réservé aux offres Premium et Communication', async ({ page }) => {
+    await page.goto('/demo/entrer/pro?vers=/pro/{est}/synchronisation');
+    await expect(page.getByText('Vos actualités (RSS)')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Synchronisez vos contenus avec vos outils' })).toBeVisible();
+
+    await page.goto('/demo/entrer/pro-communication?vers=/pro/{est}/synchronisation');
+    const url = page.getByLabel('Adresse du connecteur');
+    await url.fill('http://exemple.fr/hook');
+    await page.getByRole('button', { name: 'Enregistrer' }).click();
+    await expect(page.getByText('Adresse sécurisée (https://) attendue.')).toBeVisible();
+
+    // Adresse locale injoignable : acceptée en développement, l'essai échoue proprement.
+    await url.fill('https://localhost:9/hook');
+    await page.getByRole('button', { name: 'Enregistrer' }).click();
+    await expect(page.getByText('Secret de signature')).toBeVisible();
+    await page.getByRole('button', { name: 'Envoyer un essai' }).click();
+    await expect(page.getByText(/L’essai a échoué/)).toBeVisible();
+
+    await url.fill('');
+    await page.getByRole('button', { name: 'Enregistrer' }).click();
+    await expect(page.getByText('Secret de signature')).toHaveCount(0);
+  });
+});

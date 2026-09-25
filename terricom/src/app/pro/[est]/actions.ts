@@ -268,6 +268,8 @@ export async function saveFiche(_prev: ActionState, form: FormData): Promise<Act
     });
   }
   if (changes.length) {
+    const { emitListingUpdated } = await import('@/server/services/connectors');
+    await emitListingUpdated(e.id, e.companyId);
     await audit({
       actor: actorOf(ctx),
       category: 'MODIFICATION',
@@ -706,6 +708,10 @@ export async function createPost(_prev: ActionState, form: FormData): Promise<Ac
     const { enqueue } = await import('@/server/queue');
     await enqueue('posts.social-sync', { postId: post.id });
   }
+  if (status === 'PUBLISHED') {
+    const { emitPostPublished } = await import('@/server/services/connectors');
+    await emitPostPublished(post.id);
+  }
   const { refreshCompleteness } = await import('@/server/services/establishments');
   await refreshCompleteness(ctx.est.id);
   refresh(ctx, `${ctx.base}/publications`);
@@ -902,6 +908,7 @@ export async function saveJob(_prev: ActionState, form: FormData): Promise<Actio
     profile: lines(d.profile),
     applyEmail: d.applyEmail || null,
   };
+  let jobId = d.jobId || null;
   if (d.jobId) {
     await db
       .update(jobs)
@@ -917,17 +924,25 @@ export async function saveJob(_prev: ActionState, form: FormData): Promise<Actio
       if (Number(n) >= 1)
         return { status: 'error', message: 'L’offre Essentiel permet une offre d’emploi publiée à la fois. Passez Premium pour en publier davantage.' };
     }
-    await db.insert(jobs).values({
-      ...values,
-      territoryId: ctx.est.territoryId,
-      communeId: ctx.est.communeId,
-      establishmentId: ctx.est.id,
-      slug: `${slugify(`${d.title}-${ctx.est.name}`).slice(0, 120)}-${Date.now().toString(36).slice(-4)}`,
-      status: 'PUBLISHED',
-      publishedAt: new Date(),
-      expiresAt: new Date(Date.now() + 60 * 86_400_000),
-      createdById: ctx.actor.user.id,
-    });
+    const [created] = await db
+      .insert(jobs)
+      .values({
+        ...values,
+        territoryId: ctx.est.territoryId,
+        communeId: ctx.est.communeId,
+        establishmentId: ctx.est.id,
+        slug: `${slugify(`${d.title}-${ctx.est.name}`).slice(0, 120)}-${Date.now().toString(36).slice(-4)}`,
+        status: 'PUBLISHED',
+        publishedAt: new Date(),
+        expiresAt: new Date(Date.now() + 60 * 86_400_000),
+        createdById: ctx.actor.user.id,
+      })
+      .returning({ id: jobs.id });
+    jobId = created.id;
+  }
+  if (jobId) {
+    const { emitJobPublished } = await import('@/server/services/connectors');
+    await emitJobPublished(jobId);
   }
   refresh(ctx, `${ctx.base}/emploi`);
   return { status: 'ok', message: d.jobId ? 'Offre mise à jour.' : 'Offre publiée pour 60 jours.' };
@@ -1031,6 +1046,7 @@ export async function saveEvent(_prev: ActionState, form: FormData): Promise<Act
     lng: ctx.est.lng,
     ...(imageUrl ? { imageUrl } : {}),
   };
+  let eventId = d.eventId || null;
   if (d.eventId) {
     await db
       .update(events)
@@ -1038,19 +1054,27 @@ export async function saveEvent(_prev: ActionState, form: FormData): Promise<Act
       .where(and(eq(events.id, d.eventId), eq(events.establishmentId, ctx.est.id)));
   } else {
     const { slugify } = await import('@/lib/slug');
-    await db.insert(events).values({
-      ...values,
-      territoryId: ctx.est.territoryId,
-      communeId: ctx.est.communeId,
-      establishmentId: ctx.est.id,
-      authorType: 'ESTABLISHMENT',
-      slug: `${slugify(`${d.title}-${d.date}`).slice(0, 140)}-${Date.now().toString(36).slice(-3)}`,
-      program: EVENT_PROGRAM_TEMPLATES[d.kind] ?? [],
-      imageUrl: imageUrl ?? ctx.est.coverUrl,
-      status: 'PUBLISHED',
-      accessibilityText: ctx.est.attributes.some((a) => a.slug === 'acces-pmr') ? 'Accès PMR' : null,
-      createdById: ctx.actor.user.id,
-    });
+    const [created] = await db
+      .insert(events)
+      .values({
+        ...values,
+        territoryId: ctx.est.territoryId,
+        communeId: ctx.est.communeId,
+        establishmentId: ctx.est.id,
+        authorType: 'ESTABLISHMENT',
+        slug: `${slugify(`${d.title}-${d.date}`).slice(0, 140)}-${Date.now().toString(36).slice(-3)}`,
+        program: EVENT_PROGRAM_TEMPLATES[d.kind] ?? [],
+        imageUrl: imageUrl ?? ctx.est.coverUrl,
+        status: 'PUBLISHED',
+        accessibilityText: ctx.est.attributes.some((a) => a.slug === 'acces-pmr') ? 'Accès PMR' : null,
+        createdById: ctx.actor.user.id,
+      })
+      .returning({ id: events.id });
+    eventId = created.id;
+  }
+  if (eventId) {
+    const { emitEventPublished } = await import('@/server/services/connectors');
+    await emitEventPublished(eventId);
   }
   refresh(ctx, `${ctx.base}/evenements`);
   return { status: 'ok', message: d.eventId ? 'Événement mis à jour.' : 'Événement publié dans l’agenda du territoire.' };
@@ -1135,4 +1159,79 @@ export async function removeMember(form: FormData): Promise<void> {
     targetId: userId,
   });
   refresh(ctx, `${ctx.base}/equipe`);
+}
+
+// ─── Synchronisation : connecteur de l'entreprise ──────────────────────────
+
+async function connectorCtx(form: FormData) {
+  const ctx = await proCtx(form.get('estId'));
+  if (ctx.role === 'STAFF') throw new Error('Le connecteur est réservé à l’entreprise');
+  return ctx;
+}
+
+/** Adresse du connecteur (https, publique) ; un secret de signature est créé au premier enregistrement. */
+export async function saveConnector(_prev: ActionState, form: FormData): Promise<ActionState> {
+  const ctx = await connectorCtx(form);
+  if (!ctx.limits.contentSync) return { status: 'error', message: 'La synchronisation est incluse dans les offres Premium et Communication.' };
+  const raw = String(form.get('url') ?? '').trim();
+  const { companies } = await import('@/server/db/schema');
+  const { newConnectorSecret } = await import('@/server/services/connectors');
+  if (!raw) {
+    await db.update(companies).set({ socialWebhookUrl: null, updatedAt: new Date() }).where(eq(companies.id, ctx.est.companyId));
+    refresh(ctx, `${ctx.base}/synchronisation`);
+    return { status: 'ok', message: 'Connecteur désactivé.' };
+  }
+  const { assertPublicUrl, OutboundError } = await import('@/server/net');
+  try {
+    await assertPublicUrl(raw);
+  } catch (err) {
+    return { status: 'error', message: err instanceof OutboundError ? err.message : 'Adresse invalide.' };
+  }
+  const [company] = await db.select({ secret: companies.webhookSecret }).from(companies).where(eq(companies.id, ctx.est.companyId)).limit(1);
+  await db
+    .update(companies)
+    .set({ socialWebhookUrl: raw.slice(0, 1000), ...(company?.secret ? {} : { webhookSecret: newConnectorSecret().stored }), updatedAt: new Date() })
+    .where(eq(companies.id, ctx.est.companyId));
+  await audit({
+    actor: actorOf(ctx),
+    category: 'CONFIGURATION',
+    action: 'company.connector',
+    summary: `${ctx.est.name} : connecteur de synchronisation enregistré (${new URL(raw).host})`,
+    territoryId: ctx.est.territoryId,
+    targetType: 'company',
+    targetId: ctx.est.companyId,
+  });
+  refresh(ctx, `${ctx.base}/synchronisation`);
+  return { status: 'ok', message: 'Connecteur enregistré : vos prochains contenus y seront envoyés.' };
+}
+
+/** Nouveau secret de signature (l'ancien cesse immédiatement d'être valable). */
+export async function rotateConnectorSecret(_prev: ActionState, form: FormData): Promise<ActionState> {
+  const ctx = await connectorCtx(form);
+  if (!ctx.limits.contentSync) return { status: 'error', message: 'La synchronisation est incluse dans les offres Premium et Communication.' };
+  const { companies } = await import('@/server/db/schema');
+  const { newConnectorSecret } = await import('@/server/services/connectors');
+  await db.update(companies).set({ webhookSecret: newConnectorSecret().stored, updatedAt: new Date() }).where(eq(companies.id, ctx.est.companyId));
+  await audit({
+    actor: actorOf(ctx),
+    category: 'SECURITE',
+    action: 'company.connector_secret',
+    summary: `${ctx.est.name} : secret du connecteur renouvelé`,
+    territoryId: ctx.est.territoryId,
+    targetType: 'company',
+    targetId: ctx.est.companyId,
+  });
+  refresh(ctx, `${ctx.base}/synchronisation`);
+  return { status: 'ok', message: 'Nouveau secret créé : mettez-le à jour dans votre outil.' };
+}
+
+/** Envoi d'un message d'essai signé, résultat affiché immédiatement. */
+export async function testConnector(_prev: ActionState, form: FormData): Promise<ActionState> {
+  const ctx = await connectorCtx(form);
+  const { rateLimit } = await import('@/server/auth/rate-limit');
+  if (!(await rateLimit(`connector-test:${ctx.est.companyId}`, 10, 600)).ok) return { status: 'error', message: 'Trop d’essais : patientez quelques minutes.' };
+  const { sendConnectorTest } = await import('@/server/services/connectors');
+  const r = await sendConnectorTest(ctx.est.companyId, ctx.est.id);
+  refresh(ctx, `${ctx.base}/synchronisation`);
+  return r.ok ? { status: 'ok', message: `Essai reçu par votre outil (${r.status}).` } : { status: 'error', message: `L’essai a échoué : ${r.status}` };
 }

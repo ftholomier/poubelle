@@ -60,6 +60,9 @@ export default async function NewsPage({ params, searchParams }: Props) {
               {postKindL(k, POST_KINDS[k].short, L)}
             </Link>
           ))}
+          <a href={portalUrl(t, '/actualites.xml')} className="chip" title={tr('feeds.newsTitle', { name: t.name })}>
+            {tr('news.rss')}
+          </a>
         </nav>
       </div>
       {shown.length ? (

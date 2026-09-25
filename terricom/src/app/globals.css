@@ -3010,3 +3010,26 @@ p {
     max-width: none;
   }
 }
+
+/* Champ à copier (flux, connecteur) */
+.copy-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.copy-field-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.copy-field-row {
+  display: flex;
+  gap: 6px;
+  min-width: 0;
+}
+.copy-field-row .input {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+}

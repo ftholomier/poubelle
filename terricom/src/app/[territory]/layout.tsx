@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import type { CSSProperties, ReactNode } from 'react';
 import { DemoBar } from '@/components/DemoBar';
 import { HtmlLang } from '@/components/portal/HtmlLang';
+import { PortalOffline } from '@/components/pwa/PortalOffline';
 import { I18nProvider } from '@/components/portal/I18n';
 import { PageViewTracker } from '@/components/portal/PageViewTracker';
 import { PortalFooter, PortalHeader, sectionFromPath } from '@/components/portal/PortalChrome';
@@ -65,8 +66,12 @@ export default async function PortalLayout({ children, params }: Props) {
           <link rel="alternate" hrefLang="x-default" href={pageUrl} />
         </>
       ) : null}
+      {/* Flux publics : actualités (RSS) et agenda (iCal), découvrables par les navigateurs et agrégateurs. */}
+      <link rel="alternate" type="application/rss+xml" title={tr('feeds.newsTitle', { name: t.name })} href={portalUrl(t, '/actualites.xml')} />
+      <link rel="alternate" type="text/calendar" title={tr('feeds.agendaTitle', { name: t.name })} href={portalUrl(t, '/agenda.ics')} />
       {/* Le conteneur porte déjà la langue ; le document entier la reprend dès l'hydratation. */}
       {tr.locale !== 'fr' ? <HtmlLang locale={tr.locale} /> : null}
+      <PortalOffline base={portal.base} />
       <a href="#contenu" className="skip-link">
         {tr('common.skip')}
       </a>

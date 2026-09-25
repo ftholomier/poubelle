@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { EventRow } from '@/components/portal/Cards';
+import { Icon } from '@/components/ui/Icon';
 import { Photo } from '@/components/ui/Photo';
 import { EVENT_KINDS, type EventKind } from '@/lib/constants';
 import { truncate } from '@/lib/format';
@@ -52,6 +53,14 @@ export default async function AgendaPage({ params, searchParams }: Props) {
           <h1 className="display" style={{ fontSize: 'clamp(38px,5vw,52px)', letterSpacing: '-0.035em', margin: 0, lineHeight: 1 }}>
             {tr('agenda.h1')}
           </h1>
+          <a
+            href={portalUrl(t, '/agenda.ics').replace(/^https?:/, 'webcal:')}
+            className="btn-link"
+            title={tr('agenda.subscribeHint')}
+            style={{ display: 'inline-flex', gap: 6, alignItems: 'center', marginTop: 10, fontSize: 14 }}
+          >
+            <Icon name="calendar" size={15} /> {tr('agenda.subscribe')}
+          </a>
         </div>
         <nav aria-label={tr('agenda.filterAria')} style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {FILTERS.map((f) => {

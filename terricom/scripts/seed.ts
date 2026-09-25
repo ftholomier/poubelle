@@ -108,6 +108,7 @@ async function main() {
         customQr: false,
         customForms: false,
         extraPages: false,
+        contentSync: false,
       },
     },
     {
@@ -124,6 +125,7 @@ async function main() {
         "Offres d'emploi",
         'Prise de rendez-vous',
         'Formulaires personnalisés et pages supplémentaires',
+        'Synchronisation de vos contenus (connecteur)',
       ],
       limits: {
         postsPerMonth: null,
@@ -140,6 +142,7 @@ async function main() {
         customQr: true,
         customForms: true,
         extraPages: true,
+        contentSync: true,
       },
     },
     {
@@ -164,6 +167,7 @@ async function main() {
         customQr: true,
         customForms: true,
         extraPages: true,
+        contentSync: true,
       },
     },
   ]);
@@ -1336,6 +1340,28 @@ async function main() {
       };
     });
   await db.insert(S.jobs).values(extraJobs);
+
+  // Agenda externe synchronisé (office de tourisme fictif, servi en mode démo par /demo/agenda-externe.ics).
+  {
+    const { importIcsText } = await import('@/server/services/calendar-sync');
+    const { demoExternalAgendaIcs } = await import('@/server/demo/external-agenda');
+    const [feed] = await db
+      .insert(S.calendarFeeds)
+      .values({
+        territoryId: vdl.id,
+        name: 'Office de tourisme Loue-Lison',
+        url: `${process.env.APP_URL ?? 'http://localhost:3000'}/demo/agenda-externe.ics`,
+        kind: 'ANIMATION',
+        createdById: claire.id,
+        createdAt: daysAgo(40),
+      })
+      .returning();
+    const res = await importIcsText(feed, demoExternalAgendaIcs());
+    await db
+      .update(S.calendarFeeds)
+      .set({ lastSyncAt: daysAgo(0, 7), lastCount: res.imported, lastStatus: `${res.imported} événements à venir` })
+      .where(eq(S.calendarFeeds.id, feed.id));
+  }
 
   // ─── Circuits ─────────────────────────────────────────────────────────────
   console.log('→ Circuits, campagnes, newsletter');

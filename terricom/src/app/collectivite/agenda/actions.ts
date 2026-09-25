@@ -324,3 +324,94 @@ export async function togglePoiAction(form: FormData): Promise<void> {
 function poiScope(ctx: BoContext) {
   return ctx.communeIds ? inArray(pointsOfInterest.communeId, ctx.communeIds) : undefined;
 }
+
+// ─── Agendas externes (iCal) ────────────────────────────────────────────────
+
+const EVENT_KIND_VALUES = ['MARCHE', 'DEGUSTATION', 'PORTES_OUVERTES', 'ATELIER', 'CONCERT', 'ANIMATION', 'SALON', 'AUTRE'] as const;
+
+/** Ajoute un agenda externe (office de tourisme, mairie, association) et le synchronise aussitôt. */
+export async function addCalendarFeedAction(_prev: AgendaState, form: FormData): Promise<AgendaState> {
+  const ctx = await loadBoContext();
+  const parsed = z
+    .object({
+      name: z.string().trim().min(2, 'Nommez l’agenda (ex. « Office de tourisme »).').max(160),
+      url: z.string().trim().max(1000),
+      communeId: optUuid,
+      kind: z.enum(EVENT_KIND_VALUES),
+    })
+    .safeParse(strings(form));
+  if (!parsed.success) return { status: 'error', message: parsed.error.issues[0]?.message };
+  const d = parsed.data;
+  const communeId = d.communeId || (ctx.level === 'COMMUNE' ? (ctx.communes[0]?.id ?? null) : null);
+  if (!communeAllowed(ctx, communeId)) return { status: 'error', message: 'Commune hors de votre périmètre.' };
+  const url = d.url.replace(/^webcal:\/\//i, 'https://');
+  const { assertPublicUrl, OutboundError } = await import('@/server/net');
+  try {
+    await assertPublicUrl(url, { allowHttp: true });
+  } catch (err) {
+    return { status: 'error', message: err instanceof OutboundError ? err.message : 'Adresse invalide.' };
+  }
+  const { calendarFeeds } = await import('@/server/db/schema');
+  const [feed] = await db
+    .insert(calendarFeeds)
+    .values({ territoryId: ctx.territory.id, communeId, name: d.name, url, kind: d.kind, createdById: ctx.actor.user.id })
+    .returning();
+  const { syncCalendarFeeds } = await import('@/server/services/calendar-sync');
+  const r = await syncCalendarFeeds(feed.id);
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'agenda.feed_add',
+    summary: `Agenda externe « ${d.name} » ajouté (${new URL(url).host})`,
+    territoryId: ctx.territory.id,
+    targetType: 'calendar_feed',
+    targetId: feed.id,
+  });
+  done(ctx);
+  return r.errors
+    ? { status: 'error', message: 'Agenda enregistré, mais la première synchronisation a échoué : voir l’état ci-dessous.' }
+    : { status: 'ok', message: `Agenda synchronisé : ${r.imported} événement${r.imported > 1 ? 's' : ''} à venir.` };
+}
+
+async function scopedFeed(ctx: BoContext, raw: FormDataEntryValue | null) {
+  const id = z.string().uuid().parse(raw);
+  const { calendarFeeds } = await import('@/server/db/schema');
+  const [feed] = await db
+    .select()
+    .from(calendarFeeds)
+    .where(and(eq(calendarFeeds.id, id), eq(calendarFeeds.territoryId, ctx.territory.id)))
+    .limit(1);
+  if (!feed) return null;
+  if (ctx.level === 'COMMUNE' && (!feed.communeId || !ctx.communes.some((c) => c.id === feed.communeId))) return null;
+  return feed;
+}
+
+export async function syncCalendarFeedAction(_prev: AgendaState, form: FormData): Promise<AgendaState> {
+  const ctx = await loadBoContext();
+  const feed = await scopedFeed(ctx, form.get('feedId'));
+  if (!feed) return { status: 'error', message: 'Agenda introuvable.' };
+  const { syncCalendarFeeds } = await import('@/server/services/calendar-sync');
+  const r = await syncCalendarFeeds(feed.id);
+  done(ctx);
+  return r.errors
+    ? { status: 'error', message: 'La synchronisation a échoué : voir l’état de l’agenda.' }
+    : { status: 'ok', message: `${r.imported} événement(s) à jour.` };
+}
+
+export async function removeCalendarFeedAction(form: FormData): Promise<void> {
+  const ctx = await loadBoContext();
+  const feed = await scopedFeed(ctx, form.get('feedId'));
+  if (!feed) return;
+  const { removeCalendarFeed } = await import('@/server/services/calendar-sync');
+  await removeCalendarFeed(ctx.territory.id, feed.id, ctx.level === 'COMMUNE' ? ctx.communes.map((c) => c.id) : null);
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'agenda.feed_remove',
+    summary: `Agenda externe « ${feed.name} » retiré (ses événements importés sont supprimés)`,
+    territoryId: ctx.territory.id,
+    targetType: 'calendar_feed',
+    targetId: feed.id,
+  });
+  done(ctx);
+}

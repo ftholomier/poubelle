@@ -7,6 +7,8 @@ import { runSireneImport } from '../services/imports';
 import { syncCustomDomains } from './domains';
 import { dispatchDueNewsletters, dispatchNewsletter, sendNewsletterBatch } from '../services/newsletters';
 import { translateEstablishment } from '../services/translations';
+import { deliverConnectorEvent, type ConnectorEvent } from '../services/connectors';
+import { syncCalendarFeeds } from '../services/calendar-sync';
 import {
   billingDaily,
   claimReminders,
@@ -55,6 +57,16 @@ export const HANDLERS: Record<QueueName, Handler> = {
   'domains.sync': () => syncCustomDomains(),
   'demo.reset': () => demoReset(),
   'i18n.translate': (p) => translateEstablishment(str(p, 'establishmentId')),
+  'connector.deliver': (p) =>
+    deliverConnectorEvent({
+      companyId: str(p, 'companyId'),
+      establishmentId: typeof p.establishmentId === 'string' ? p.establishmentId : null,
+      type: str(p, 'type') as ConnectorEvent,
+      data: (p.data ?? {}) as Record<string, unknown>,
+      deliveryId: str(p, 'deliveryId'),
+      createdAt: str(p, 'createdAt'),
+    }),
+  'agenda.sync': (p) => syncCalendarFeeds(typeof p.feedId === 'string' ? p.feedId : undefined),
 };
 
 export async function runJob(queue: string, payload: Payload): Promise<unknown> {

@@ -36,6 +36,7 @@ const FLAGS: [string, string][] = [
   ['customQr', 'QR codes personnalisés'],
   ['customForms', 'Formulaires personnalisés'],
   ['extraPages', 'Pages supplémentaires'],
+  ['contentSync', 'Synchronisation des contenus (connecteur)'],
 ];
 
 export default async function BillingPage({ searchParams }: Props) {

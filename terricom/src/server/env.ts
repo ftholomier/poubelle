@@ -16,6 +16,11 @@ const schema = z.object({
   PLATFORM_DOMAIN: z.string().default('terricom.fr'),
   PLATFORM_HOSTS: z.string().default('localhost:3000,127.0.0.1:3000'),
   DEMO_MODE: bool,
+  /**
+   * Autorise les appels sortants (connecteurs, agendas externes) vers des adresses internes.
+   * Développement et tests uniquement : en production, ces adresses sont refusées (protection SSRF).
+   */
+  OUTBOUND_ALLOW_PRIVATE: bool,
 
   DATABASE_URL: z.string().min(1).default('postgres://terricom:terricom@localhost:5432/terricom'),
   DATABASE_POOL_MAX: z.coerce.number().int().positive().default(10),

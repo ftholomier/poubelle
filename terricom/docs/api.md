@@ -65,3 +65,50 @@ curl -H "Authorization: Bearer $TERRICOM_KEY" \
 `src/server/services/openapi.ts` (description), routes `src/app/api/v1/**/route.ts`, page de gestion
 `src/app/collectivite/api/`. Les données exposées sont exactement celles du portail public : aucune donnée
 personnelle d’abonné, de client ou d’auteur de message n’est accessible.
+
+## Flux publics (sans clé)
+
+Pour reprendre les contenus sur un site sans développement (widget RSS, agenda partagé) :
+
+| Adresse                                                      | Contenu                                                           |
+| ------------------------------------------------------------ | ----------------------------------------------------------------- |
+| `/<territoire>/agenda.ics`                                   | Agenda du territoire (iCalendar, abonnement `webcal://` possible) |
+| `/<territoire>/actualites.xml`                               | Actualités et offres des professionnels (RSS 2.0)                 |
+| `/<territoire>/<commune>/<catégorie>/<fiche>/agenda.ics`     | Événements d’un établissement                                     |
+| `/<territoire>/<commune>/<catégorie>/<fiche>/actualites.xml` | Actualités d’un établissement                                     |
+
+Sur un domaine dédié (`commerces.exemple.fr`), le préfixe `/<territoire>` disparaît. Les flux sont annoncés
+dans les pages (`<link rel="alternate">`), mis en cache 15 minutes et ouverts en CORS.
+
+## Connecteur des entreprises (webhooks)
+
+Offres Premium et Communication (« Synchronisation » dans l’espace pro) : à chaque contenu publié, la
+plateforme envoie un `POST` JSON à l’adresse choisie par l’entreprise (scénario Make, Zapier, n8n, site).
+
+```json
+{
+  "id": "0b4c…",
+  "type": "post.published",
+  "created_at": "2026-09-25T08:00:00.000Z",
+  "territory": { "slug": "valdeloue", "name": "Val de Loue" },
+  "establishment": { "id": "…", "name": "La Cave Comtoise", "url": "https://…" },
+  "data": { "title": "…", "body": "…", "variants": { "facebook": "…", "instagram": "…" } }
+}
+```
+
+- Types : `post.published`, `listing.updated` (coordonnées, description, horaires), `event.published`,
+  `job.published`, `test`.
+- En-têtes : `X-Terricom-Event`, `X-Terricom-Delivery` (identifiant unique), `X-Terricom-Timestamp`
+  (secondes), `X-Terricom-Signature: sha256=<HMAC-SHA256 hexadécimal de « horodatage.corps »>` avec le secret
+  de l’entreprise (`whsec_…`, renouvelable). Refuser les messages trop anciens (plus de 5 minutes).
+- Réponse attendue : un statut 2xx. Sinon l’envoi est retenté (5 tentatives, délai croissant) ; une erreur
+  4xx autre que 408, 425 ou 429 est définitive.
+- Seules les adresses `https://` publiques sont acceptées (adresses internes et redirections vers elles
+  refusées).
+
+## Agendas externes (synchronisation entrante)
+
+Dans le back-office (« Agenda & actualités » → « Agendas externes »), une collectivité ou une mairie ajoute
+l’adresse iCalendar d’un agenda existant (office de tourisme, association). Les événements à venir (un an,
+500 au plus) sont importés, mis à jour chaque heure (tâche `agenda.sync`) et retirés s’ils disparaissent de
+la source ou sont annulés (`STATUS:CANCELLED`). Les récurrences ne sont pas développées (première occurrence).

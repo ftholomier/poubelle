@@ -22,6 +22,8 @@ export type PlanLimits = {
   customForms?: boolean;
   /** Pages supplémentaires de la fiche. */
   extraPages?: boolean;
+  /** Synchronisation des contenus : connecteur (webhook signé) vers les outils de l'entreprise. */
+  contentSync?: boolean;
 };
 
 /** Offres entreprises, modifiables par l'exploitant (personnalisation des offres). */

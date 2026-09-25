@@ -201,6 +201,7 @@ export async function updatePlanAction(_prev: ActionState, form: FormData): Prom
     'customQr',
     'customForms',
     'extraPages',
+    'contentSync',
   ];
   const limits: PlanLimits = {
     ...plan.limits,

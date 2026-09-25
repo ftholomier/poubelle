@@ -2,8 +2,11 @@ import { and, asc, desc, eq, gte, inArray, isNull, ne } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
+  addCalendarFeedAction,
   archiveEventAction,
   archiveNewsAction,
+  removeCalendarFeedAction,
+  syncCalendarFeedAction,
   saveEventAction,
   saveMarketAction,
   saveNewsAction,
@@ -16,11 +19,12 @@ import { ActionForm } from '@/components/pro/ActionForm';
 import { FileDrop } from '@/components/ui/FileDrop';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import { EVENT_KINDS, POI_KINDS, type EventKind, type PoiKind } from '@/lib/constants';
-import { daysAgoDate, fmtEventBadge, fmtShortDate, parisDate, parisParts, WEEKDAYS_LONG } from '@/lib/format';
+import { daysAgoDate, fmtEventBadge, fmtShortDate, parisDate, parisParts, relativeTime, WEEKDAYS_LONG } from '@/lib/format';
 import { db } from '@/server/db';
-import { communes, establishments, events, markets, pointsOfInterest, posts } from '@/server/db/schema';
+import { calendarFeeds, communes, establishments, events, markets, pointsOfInterest, posts } from '@/server/db/schema';
 import { env } from '@/server/env';
 import { loadBoContext } from '@/server/services/backoffice';
+import { portalUrl } from '@/server/urls';
 
 export const metadata: Metadata = { title: 'Agenda & actualités' };
 
@@ -31,6 +35,7 @@ const TABS = [
   { key: 'evenements', label: 'Événements' },
   { key: 'marches', label: 'Marchés' },
   { key: 'lieux', label: 'Lieux sur la carte' },
+  { key: 'synchronisation', label: 'Agendas externes' },
 ] as const;
 
 export default async function AgendaPage({ searchParams }: Props) {
@@ -189,6 +194,7 @@ export default async function AgendaPage({ searchParams }: Props) {
         communeName: communes.name,
         estName: establishments.name,
         authorType: events.authorType,
+        sourceFeedId: events.sourceFeedId,
       })
       .from(events)
       .leftJoin(communes, eq(communes.id, events.communeId))
@@ -203,7 +209,8 @@ export default async function AgendaPage({ searchParams }: Props) {
       )
       .orderBy(asc(events.startsAt))
       .limit(60);
-    const editing = list.find((e) => e.id === sp.id && e.authorType !== 'ESTABLISHMENT') ?? null;
+    // Les événements d'une fiche ou d'un agenda externe se modifient à leur source.
+    const editing = list.find((e) => e.id === sp.id && e.authorType !== 'ESTABLISHMENT' && !e.sourceFeedId) ?? null;
     const p = editing ? parisParts(editing.startsAt) : null;
     const e2 = editing?.endsAt ? parisParts(editing.endsAt) : null;
     const hhmm = (x: { hour: number; minute: number }) => `${String(x.hour).padStart(2, '0')}:${String(x.minute).padStart(2, '0')}`;
@@ -239,7 +246,7 @@ export default async function AgendaPage({ searchParams }: Props) {
                   >
                     {EVENT_KINDS[ev.kind as EventKind].label}
                   </span>
-                  {ev.authorType === 'ESTABLISHMENT' ? (
+                  {ev.authorType === 'ESTABLISHMENT' || ev.sourceFeedId ? (
                     <b>{ev.title}</b>
                   ) : (
                     <Link href={`/collectivite/agenda?onglet=evenements&id=${ev.id}`} style={{ fontWeight: 700 }}>
@@ -250,6 +257,7 @@ export default async function AgendaPage({ searchParams }: Props) {
                     {fmtEventBadge(ev.startsAt, ev.endsAt)} · {ev.estName ?? ev.organizerName ?? ctx.scopeName}
                     {ev.communeName ? ` · ${ev.communeName}` : ''}
                     {ev.isFeatured ? ' · ★ à la une' : ''}
+                    {ev.sourceFeedId ? ' · agenda externe (synchronisé)' : ''}
                   </div>
                 </div>
                 <form action={archiveEventAction}>
@@ -343,6 +351,104 @@ export default async function AgendaPage({ searchParams }: Props) {
               </SubmitButton>
             </ActionForm>
           </section>
+        </div>
+      </div>
+    );
+  }
+
+  if (tab === 'synchronisation') {
+    const feeds = await db
+      .select({ f: calendarFeeds, communeName: communes.name })
+      .from(calendarFeeds)
+      .leftJoin(communes, eq(communes.id, calendarFeeds.communeId))
+      .where(and(eq(calendarFeeds.territoryId, ctx.territory.id), ctx.communeIds ? inArray(calendarFeeds.communeId, ctx.communeIds) : undefined))
+      .orderBy(asc(calendarFeeds.name));
+    const base = portalUrl(ctx.territory, '');
+    return (
+      <div className="app-content">
+        {tabs}
+        <div className="split" style={{ ['--cols' as string]: 'minmax(0,1.2fr) minmax(0,1fr)', ['--gap' as string]: '18px', ['--align' as string]: 'start' }}>
+          <section className="bo-card" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div>
+              <b>Agendas synchronisés</b>
+              <p style={{ margin: '4px 0 0', fontSize: 13, color: 'var(--muted)', lineHeight: 1.5 }}>
+                Les événements d’un agenda existant (office de tourisme, mairie, association) sont repris automatiquement dans l’agenda du portail, mis à jour
+                chaque heure et retirés s’ils sont annulés.
+              </p>
+            </div>
+            {feeds.map(({ f, communeName }) => (
+              <div key={f.id} style={{ borderTop: '1px solid var(--line-2)', paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'baseline', flexWrap: 'wrap' }}>
+                  <b>{f.name}</b>
+                  <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+                    {EVENT_KINDS[f.kind as EventKind].label} · {communeName ?? 'Tout le territoire'}
+                  </span>
+                </div>
+                <div className="mono" style={{ fontSize: 12, color: 'var(--muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {f.url}
+                </div>
+                <div style={{ fontSize: 13, color: f.lastStatus?.startsWith('Échec') ? 'var(--danger-fg)' : 'var(--muted-3)' }} role="status">
+                  {f.lastSyncAt ? `${f.lastStatus ?? ''} · ${relativeTime(f.lastSyncAt)}` : 'Jamais synchronisé'}
+                </div>
+                <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                  <ActionForm action={syncCalendarFeedAction} resetOnSuccess={false}>
+                    <input type="hidden" name="feedId" value={f.id} />
+                    <SubmitButton className="btn btn-outline btn-sm" pendingLabel="Synchronisation…">
+                      Synchroniser maintenant
+                    </SubmitButton>
+                  </ActionForm>
+                  <form action={removeCalendarFeedAction}>
+                    <input type="hidden" name="feedId" value={f.id} />
+                    <button type="submit" className="btn-link" style={{ fontSize: 13, color: 'var(--danger-fg)' }}>
+                      Retirer
+                    </button>
+                  </form>
+                </div>
+              </div>
+            ))}
+            {!feeds.length ? <span style={{ fontSize: 13, color: 'var(--muted)' }}>Aucun agenda externe pour l’instant.</span> : null}
+          </section>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            <section className="bo-card">
+              <b>Ajouter un agenda</b>
+              <ActionForm action={addCalendarFeedAction} style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}>
+                <input name="name" className="input" placeholder="Nom (ex. Office de tourisme)" required maxLength={160} aria-label="Nom de l’agenda" />
+                <input
+                  name="url"
+                  className="input"
+                  placeholder="Adresse iCal (https://… .ics ou webcal://…)"
+                  required
+                  maxLength={1000}
+                  aria-label="Adresse de l’agenda (iCal)"
+                />
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  <select name="kind" className="input" defaultValue="ANIMATION" aria-label="Type des événements">
+                    {(Object.keys(EVENT_KINDS) as EventKind[]).map((k) => (
+                      <option key={k} value={k}>
+                        {EVENT_KINDS[k].label}
+                      </option>
+                    ))}
+                  </select>
+                  {communeSelect('communeId', null, ctx.level === 'COMMUNE')}
+                </div>
+                <SubmitButton className="btn btn-brand" pendingLabel="Synchronisation…" style={{ alignSelf: 'flex-start' }}>
+                  Ajouter et synchroniser
+                </SubmitButton>
+              </ActionForm>
+            </section>
+            <section className="bo-card" style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: 13 }}>
+              <b>Diffuser l’agenda du portail</b>
+              <span style={{ color: 'var(--muted)', lineHeight: 1.5 }}>
+                Dans l’autre sens, l’agenda et les actualités du portail se reprennent sur le site de la collectivité ou d’une mairie :
+              </span>
+              <code className="mono" style={{ fontSize: 12, wordBreak: 'break-all' }}>
+                {base}/agenda.ics
+              </code>
+              <code className="mono" style={{ fontSize: 12, wordBreak: 'break-all' }}>
+                {base}/actualites.xml
+              </code>
+            </section>
+          </div>
         </div>
       </div>
     );

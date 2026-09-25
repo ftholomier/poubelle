@@ -15,11 +15,11 @@ Servi sur `https://<territoire>.terricom.fr`, sur le domaine de la collectivité
 | Fiche d’établissement          | Galerie avec visionneuse, logo, labels, onglets, offre du moment (campagne ou promotion), produits, actualités et événements, recrutement, contact, horaires (exceptions comprises), accès et plan, paiement, accessibilité, tarifs, réseaux sociaux, JSON-LD `LocalBusiness`, revendication |
 | Fonctions payantes de la fiche | Pages supplémentaires, formulaires personnalisés (Premium) ; bouton « Suivre » et mini-site aux couleurs de l’établissement (Communication) — voir plus bas                                                                                                                                  |
 | Communes                       | Liste des communes, page de commune (fiches par catégorie, opérations commerciales de la commune), page catégorie                                                                                                                                                                            |
-| Agenda                         | Événements (filtres, export iCalendar), marchés                                                                                                                                                                                                                                              |
+| Agenda                         | Événements (filtres, export iCalendar), marchés, abonnement à l’agenda (iCal), agendas externes synchronisés                                                                                                                                                                                 |
 | Campagnes                      | Page de campagne aux couleurs choisies, participants et offres, calendrier de l’Avent                                                                                                                                                                                                        |
 | Circuits                       | Parcours, étapes, passeport à tampons (QR code sur place)                                                                                                                                                                                                                                    |
 | Emploi                         | Offres d’emploi, candidature avec CV (analyse antivirus), encadré « Vivre ici »                                                                                                                                                                                                              |
-| Actualités                     | Publications des commerces et de la collectivité                                                                                                                                                                                                                                             |
+| Actualités                     | Publications des commerces et de la collectivité, flux RSS                                                                                                                                                                                                                                   |
 | Lettre d’information           | Inscription en double opt-in, désinscription en un clic                                                                                                                                                                                                                                      |
 | Légal et SEO                   | Mentions légales, données personnelles, accessibilité, plan du site, `sitemap.xml`, `robots.txt`, URL canoniques                                                                                                                                                                             |
 
@@ -35,6 +35,7 @@ Servi sur `https://<territoire>.terricom.fr`, sur le domaine de la collectivité
 | Statistiques                         | Courbe des vues, provenance, heures d’affluence, recherches qui mènent à la fiche, export CSV                                                                             |
 | Kit vitrine & QR                     | Affichette, autocollant, carte de visite (PDF), QR code haute définition                                                                                                  |
 | Mini-site & formulaires              | Pages supplémentaires, formulaires personnalisés, réglages du mini-site                                                                                                   |
+| Synchronisation                      | Flux RSS et iCal de la fiche à reprendre sur son site ; connecteur signé vers Make, Zapier, n8n ou le site de l’entreprise (Premium)                                      |
 | Clients                              | Abonnés de l’entreprise, lettres aux clients, ajout sur attestation, export CSV                                                                                           |
 | Messages                             | Boîte de réception (contact, formulaires avec réponses champ par champ), réponse par email                                                                                |
 | Événements, Recrutement, Rendez-vous | Création d’événements, offres d’emploi et candidatures, demandes de rendez-vous (confirmer, décliner, annuler)                                                            |
@@ -51,6 +52,7 @@ Servi sur `https://<territoire>.terricom.fr`, sur le domaine de la collectivité
 | Offres d’emploi, prise de rendez-vous, QR codes personnalisés        |                    |            ✓            |            ✓            |
 | Formulaires personnalisés, pages supplémentaires                     |                    |            ✓            |            ✓            |
 | Mise en avant enrichie dans les listes et la recherche               |                    |            ✓            |            ✓            |
+| Synchronisation des contenus (connecteur vers vos outils)            |                    |            ✓            |            ✓            |
 | Publication sur les réseaux sociaux                                  |                    |                         |            ✓            |
 | Clients abonnés et lettres aux clients, export des contacts          |                    |                         |            ✓            |
 | Mini-site personnalisable                                            |                    |                         |            ✓            |
@@ -96,7 +98,7 @@ Deux niveaux : **territoire** (intercommunalité) et **commune** (mairie, périm
 | Entreprises         | Liste filtrable, fiche détaillée, création, import CSV ou SIRENE avec correspondance des colonnes, invitations (email ou courrier PDF), export CSV       |
 | Revendications      | Validation des revendications, justificatifs, modération des publications                                                                                |
 | Campagnes           | Assistant IA, campagnes territoriales ou communales (une mairie ne modifie que les siennes), calendrier de l’Avent, participants, affiche A5 et QR codes |
-| Agenda & actualités | Événements, marchés, lieux économiques (zones d’activité, halles, tiers-lieux… placés sur la carte)                                                      |
+| Agenda & actualités | Événements, marchés, lieux économiques (zones d’activité, halles, tiers-lieux… placés sur la carte), agendas externes iCal synchronisés                  |
 | Newsletter          | Composition, audiences (manuelles, par zone, par activité, professionnels), programmation, statistiques                                                  |
 | Circuits            | Parcours, étapes, tampons imprimables                                                                                                                    |
 | Statistiques        | Audience du portail, rapport PDF, export CSV                                                                                                             |
@@ -128,6 +130,18 @@ Lecture seule des données publiées d’un territoire, clé par usage : voir [a
 - **Notifications push** (« Mon compte » → Notifications, par appareil) : nouveaux messages et réponses aux
   formulaires, demandes de rendez-vous, candidatures pour les professionnels ; revendications à valider pour
   les agents du territoire et de la commune. Un essai peut être envoyé depuis la page.
+
+## Synchronisation des contenus
+
+- **Flux publics** (toutes les offres) : agenda iCal et actualités RSS du territoire et de chaque fiche, à
+  reprendre sur le site de la mairie, de l’office de tourisme ou de l’entreprise ; bouton « S’abonner à
+  l’agenda » sur le portail.
+- **Connecteur des entreprises** (Premium, Communication) : publication, événement, offre d’emploi ou fiche
+  modifiée sont envoyés, signés, à l’outil de l’entreprise (Make, Zapier, n8n, site) pour republier sans
+  ressaisie sur les réseaux sociaux, la fiche Google ou le site ; essai en un clic, secret renouvelable,
+  renvois automatiques. Détails : [api.md](api.md).
+- **Agendas externes** (collectivité, mairie) : l’agenda iCal d’un office de tourisme ou d’une association est
+  repris chaque heure dans l’agenda du portail (mise à jour, retrait des événements annulés).
 
 ## Portail multilingue (module `MULTILINGUAL`)
 
