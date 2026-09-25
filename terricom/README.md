@@ -68,7 +68,8 @@ Comptes (mot de passe `Terricom2026!`, code de double authentification : secret 
 Next.js 16 (App Router, composants serveur, actions serveur), React 19, TypeScript, PostgreSQL 16 avec
 Drizzle ORM, recherche plein texte PostgreSQL, file de tâches PostgreSQL (`FOR UPDATE SKIP LOCKED`),
 Leaflet et OpenStreetMap, génération PDF (pdf-lib, polices de la charte), Claude (Anthropic) pour les
-assistants avec repli déterministe sans IA, stockage objet compatible S3, SMTP, Stripe pour les abonnements.
+assistants avec repli déterministe sans IA, stockage objet compatible S3, SMTP, Stripe pour les abonnements,
+Web Push (VAPID) pour les notifications, API publique REST documentée en OpenAPI.
 
 ```
 src/
@@ -79,12 +80,16 @@ src/
 scripts/          migrations, graine, worker
 drizzle/          migrations SQL versionnées
 deploy/kubernetes Kustomize (base, overlays production / démo), PostgreSQL HA, cert-manager
-docs/             architecture, déploiement, exploitation, sécurité, RGPD
+docs/             fonctionnalités, développement, journal, API, architecture, déploiement, exploitation, sécurité, RGPD
 tests/            unit (Vitest), e2e (Playwright)
 ```
 
 ## Documentation
 
+- [Fonctionnalités par espace et par offre](docs/fonctionnalites.md)
+- [Guide de développement : conventions, pièges connus](docs/developpement.md)
+- [Journal des lots et décisions](docs/journal.md) · [TODO](TODO.md)
+- [API publique v1](docs/api.md)
 - [Architecture](docs/architecture.md)
 - [Déploiement (Docker, Kubernetes haute disponibilité)](docs/deploiement.md)
 - [Exploitation (supervision, sauvegardes, incidents)](docs/exploitation.md)

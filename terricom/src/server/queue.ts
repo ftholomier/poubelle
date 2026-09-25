@@ -4,6 +4,7 @@ import { queueJobs } from './db/schema';
 
 export type QueueName =
   | 'email.send'
+  | 'push.send'
   | 'newsletter.dispatch'
   | 'newsletter.send-batch'
   | 'posts.publish-due'

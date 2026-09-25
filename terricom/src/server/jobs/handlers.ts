@@ -1,6 +1,7 @@
 import { parisDate } from '@/lib/format';
 import { logger } from '../logger';
 import { deliverEmail } from '../mail/send';
+import { deliverPush, type PushPayload } from '../push';
 import type { QueueName } from '../queue';
 import { runSireneImport } from '../services/imports';
 import { syncCustomDomains } from './domains';
@@ -31,6 +32,12 @@ const str = (p: Payload, key: string): string => {
 /** Correspondance file → traitement. Toute file déclarée dans QueueName doit avoir son traitement. */
 export const HANDLERS: Record<QueueName, Handler> = {
   'email.send': (p) => deliverEmail(str(p, 'emailId')),
+  'push.send': (p) => {
+    const ids = Array.isArray(p.userIds) ? p.userIds.filter((x): x is string => typeof x === 'string') : [];
+    const payload = p.payload as PushPayload | undefined;
+    if (!payload || typeof payload.title !== 'string' || typeof payload.url !== 'string') throw new Error('Notification invalide');
+    return deliverPush(ids, payload);
+  },
   'newsletter.dispatch': (p) => (typeof p.newsletterId === 'string' ? dispatchNewsletter(p.newsletterId) : dispatchDueNewsletters()),
   'newsletter.send-batch': (p) => sendNewsletterBatch(str(p, 'newsletterId')),
   'posts.publish-due': () => publishDuePosts(),

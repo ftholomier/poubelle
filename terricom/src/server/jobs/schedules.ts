@@ -30,6 +30,7 @@ export const SCHEDULES: ScheduleDef[] = [
 
 export const QUEUE_LABELS: Record<QueueName, string> = {
   'email.send': 'Emails transactionnels',
+  'push.send': 'Notifications push',
   'newsletter.dispatch': 'Préparation des newsletters',
   'newsletter.send-batch': 'Envoi des newsletters (lots)',
   'posts.publish-due': 'Publications programmées',

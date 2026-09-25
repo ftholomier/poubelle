@@ -33,6 +33,8 @@ export type TerritorySettings = {
   adoptionGoalLabel?: string;
   /** Double authentification exigée pour toute l'équipe (sinon : administrateurs seulement). */
   requireMfaForAll?: boolean;
+  /** Marque blanche (option) : aucune mention de terricom sur le portail ni dans les emails du territoire. */
+  whiteLabel?: boolean;
 };
 
 export type HomeBlock = 'search' | 'openNow' | 'campaign' | 'map' | 'feed' | 'circuits' | 'jobs' | 'newsletter';

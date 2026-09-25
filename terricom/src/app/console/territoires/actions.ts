@@ -12,7 +12,7 @@ import { startImpersonation } from '@/server/auth/session';
 import { requirePlatformStaff, type Actor } from '@/server/authz';
 import { invalidate } from '@/server/cache';
 import { db } from '@/server/db';
-import { supportTickets, territories } from '@/server/db/schema';
+import { supportTickets, territories, type TerritorySettings } from '@/server/db/schema';
 import { sendEmail } from '@/server/mail/send';
 import { staffInvitationTemplate } from '@/server/mail/templates';
 import { attachCommunes, createTerritory, detachCommune, inviteTerritoryAdmin, setTerritoryModule } from '@/server/services/console-territories';
@@ -98,20 +98,30 @@ export async function setTerritoryStatusAction(_prev: ActionState, form: FormDat
   const actor = await consoleActor(['PLATFORM_ADMIN']);
   if (!actor) return { status: 'error', message: 'Réservé aux super administrateurs.' };
   const parsed = z
-    .object({ territoryId: z.string().uuid(), status: z.enum(['ONBOARDING', 'ACTIVE', 'SUSPENDED', 'CHURNED']), isPilot: z.string().optional() })
+    .object({
+      territoryId: z.string().uuid(),
+      status: z.enum(['ONBOARDING', 'ACTIVE', 'SUSPENDED', 'CHURNED']),
+      isPilot: z.string().optional(),
+      whiteLabel: z.string().optional(),
+    })
     .safeParse(Object.fromEntries(form));
   if (!parsed.success) return { status: 'error', message: 'Statut invalide.' };
   const d = parsed.data;
   const t = await territoryOf(d.territoryId);
   if (!t) return { status: 'error', message: 'Territoire introuvable.' };
   const isPilot = d.isPilot === 'on';
-  if (t.status === d.status && t.isPilot === isPilot) return { status: 'ok', message: 'Aucun changement.' };
-  await db.update(territories).set({ status: d.status, isPilot, updatedAt: new Date() }).where(eq(territories.id, t.id));
+  const settings = (t.settings ?? {}) as TerritorySettings;
+  const whiteLabel = d.whiteLabel === 'on';
+  if (t.status === d.status && t.isPilot === isPilot && Boolean(settings.whiteLabel) === whiteLabel) return { status: 'ok', message: 'Aucun changement.' };
+  await db
+    .update(territories)
+    .set({ status: d.status, isPilot, settings: { ...settings, whiteLabel }, updatedAt: new Date() })
+    .where(eq(territories.id, t.id));
   await audit({
     actor: { user: actor.user },
     category: 'CONFIGURATION',
     action: 'territory.status',
-    summary: `${t.name} : statut « ${TERRITORY_STATUS[d.status as TerritoryStatus].label} »${isPilot ? ' (pilote)' : ''}`,
+    summary: `${t.name} : statut « ${TERRITORY_STATUS[d.status as TerritoryStatus].label} »${isPilot ? ' (pilote)' : ''}${whiteLabel ? ', marque blanche' : ''}`,
     territoryId: t.id,
     targetType: 'territory',
     targetId: t.id,

@@ -4,10 +4,10 @@
 
 Le `Dockerfile` produit deux images non-root (uid 10001) :
 
-| Cible | Contenu | Commande |
-| --- | --- | --- |
-| `web` | Next.js en sortie autonome (`server.js`), polices des PDF incluses | `node server.js` (port 3000) |
-| `tools` | dépendances d’exécution, `src`, `scripts`, migrations | `node --import tsx scripts/worker.ts` ; migrations : `scripts/migrate.ts` |
+| Cible   | Contenu                                                            | Commande                                                                  |
+| ------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| `web`   | Next.js en sortie autonome (`server.js`), polices des PDF incluses | `node server.js` (port 3000)                                              |
+| `tools` | dépendances d’exécution, `src`, `scripts`, migrations              | `node --import tsx scripts/worker.ts` ; migrations : `scripts/migrate.ts` |
 
 ```bash
 docker build --target web   -t ghcr.io/<organisation>/terricom-web:1.0.0 .
@@ -55,12 +55,12 @@ https:// {
 
 ### DNS
 
-| Enregistrement | Cible |
-| --- | --- |
-| `terricom.fr`, `www.terricom.fr` | adresse du répartiteur de l’Ingress |
-| `*.terricom.fr` | idem (un portail par territoire) |
-| `portails.terricom.fr` | idem : cible des CNAME des domaines des collectivités |
-| `commerces.<collectivité>.fr` (chez la collectivité) | `CNAME portails.terricom.fr` |
+| Enregistrement                                       | Cible                                                 |
+| ---------------------------------------------------- | ----------------------------------------------------- |
+| `terricom.fr`, `www.terricom.fr`                     | adresse du répartiteur de l’Ingress                   |
+| `*.terricom.fr`                                      | idem (un portail par territoire)                      |
+| `portails.terricom.fr`                               | idem : cible des CNAME des domaines des collectivités |
+| `commerces.<collectivité>.fr` (chez la collectivité) | `CNAME portails.terricom.fr`                          |
 
 ### Secrets (`terricom-secrets`)
 
@@ -81,14 +81,14 @@ kubectl -n terricom rollout status deploy/terricom-web
 
 ### Ce que garantissent les manifestes
 
-| Composant | Disponibilité |
-| --- | --- |
-| web | 3 à 12 réplicas (HPA CPU/mémoire), répartis par zone et par nœud, `maxUnavailable: 0`, PDB `minAvailable: 2`, sondes de démarrage / disponibilité (`/api/ready`) / vie (`/api/health`), arrêt progressif |
-| worker | 2 réplicas actifs, PDB, sonde de vie (port 9090), arrêt propre sur SIGTERM (tâches en cours terminées) |
-| PostgreSQL | 3 instances CloudNativePG sur 3 zones, réplication synchrone, bascule automatique, WAL archivés en continu, sauvegarde de base quotidienne (rétention 30 jours), pooler PgBouncer |
-| Sauvegarde logique | CronJob `terricom-backup` : `pg_dump` quotidien chiffré sur le stockage objet |
-| Antivirus | ClamAV × 2 |
-| Sécurité | espace de noms en profil « restricted », conteneurs non-root en lecture seule, capacités retirées, NetworkPolicy par défaut en refus, comptes de service à privilèges minimaux |
+| Composant          | Disponibilité                                                                                                                                                                                            |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| web                | 3 à 12 réplicas (HPA CPU/mémoire), répartis par zone et par nœud, `maxUnavailable: 0`, PDB `minAvailable: 2`, sondes de démarrage / disponibilité (`/api/ready`) / vie (`/api/health`), arrêt progressif |
+| worker             | 2 réplicas actifs, PDB, sonde de vie (port 9090), arrêt propre sur SIGTERM (tâches en cours terminées)                                                                                                   |
+| PostgreSQL         | 3 instances CloudNativePG sur 3 zones, réplication synchrone, bascule automatique, WAL archivés en continu, sauvegarde de base quotidienne (rétention 30 jours), pooler PgBouncer                        |
+| Sauvegarde logique | CronJob `terricom-backup` : `pg_dump` quotidien chiffré sur le stockage objet                                                                                                                            |
+| Antivirus          | ClamAV × 2                                                                                                                                                                                               |
+| Sécurité           | espace de noms en profil « restricted », conteneurs non-root en lecture seule, capacités retirées, NetworkPolicy par défaut en refus, comptes de service à privilèges minimaux                           |
 
 Les migrations s’exécutent dans un conteneur d’initialisation de chaque pod web : le verrou consultatif
 PostgreSQL garantit qu’une seule instance les applique. Les migrations sont additives (compatibles avec la

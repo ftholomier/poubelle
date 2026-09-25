@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { TerritoryBadge } from '@/components/ui/Brand';
+import type { TerritorySettings } from '@/server/db/schema';
 import { campaignNavLabel, type PortalContext } from '@/server/services/portal';
 import { appUrl } from '@/server/urls';
 
@@ -72,7 +73,7 @@ export function PortalHeader({ portal, section }: { portal: PortalContext; secti
 
 export function PortalFooter({ portal }: { portal: PortalContext }) {
   const { territory: t, base, modules } = portal;
-  const settings = t.settings as { footerText?: string };
+  const settings = t.settings as TerritorySettings;
   const col: CSSProperties = { display: 'flex', flexDirection: 'column', gap: 6 };
   return (
     <footer style={{ background: 'var(--ink)', color: 'var(--sage)' }}>
@@ -131,9 +132,11 @@ export function PortalFooter({ portal }: { portal: PortalContext }) {
           <Link href={`${base}/accessibilite`} style={{ color: 'inherit' }}>
             Accessibilité
           </Link>
-          <a href={appUrl('/')} style={{ color: 'var(--sage-3)' }}>
-            Propulsé par terricom.
-          </a>
+          {settings.whiteLabel ? null : (
+            <a href={appUrl('/')} style={{ color: 'var(--sage-3)' }}>
+              Propulsé par terricom.
+            </a>
+          )}
         </div>
       </div>
     </footer>

@@ -1,5 +1,6 @@
 import { sql } from 'drizzle-orm';
 import { db } from '../db';
+import { env } from '../env';
 import { recurringRevenue } from './billing';
 import { groupOf } from './crm';
 import { PIPELINE_GROUPS, type DealStage } from '@/lib/constants';
@@ -124,4 +125,85 @@ export async function serviceHealth() {
     latency: r?.latency ?? null,
     tickets: r?.tickets ?? 0,
   };
+}
+
+export type TerritoryEconomics = {
+  id: string;
+  name: string;
+  status: string;
+  establishments: number;
+  activeCompanies: number;
+  premiumCompanies: number;
+  revenueMonthlyCents: number;
+  premiumMonthlyCents: number;
+  campaignViews: number;
+  emails: number;
+  costMonthlyCents: number;
+  costDetail: { ai: number; emails: number; storage: number; infra: number };
+};
+
+/**
+ * Usage et rentabilité par territoire sur 30 jours : entreprises actives, vues des campagnes,
+ * revenu mensuel (licence + offres) et coût d'exploitation estimé (IA, emails, stockage, part d'infrastructure).
+ */
+export async function territoryEconomics(): Promise<TerritoryEconomics[]> {
+  const data = await rows<{
+    id: string;
+    name: string;
+    status: string;
+    ests: number;
+    active_companies: number;
+    premium_companies: number;
+    premium_mrr: number;
+    licence_mrr: number;
+    campaign_views: number;
+    emails: number;
+    tin: number;
+    tout: number;
+    bytes: number;
+  }>(sql`
+    select t.id, t.name, t.status,
+      (select count(*)::int from establishments e where e.territory_id = t.id and e.status <> 'ARCHIVED') as ests,
+      (select count(distinct e.company_id)::int from establishments e
+        where e.territory_id = t.id and e.last_activity_at >= now() - interval '30 days'
+          and exists (select 1 from company_members m where m.company_id = e.company_id)) as active_companies,
+      (select count(distinct s.company_id)::int from company_subscriptions s
+        where s.status = 'ACTIVE' and exists (select 1 from establishments e where e.company_id = s.company_id and e.territory_id = t.id)) as premium_companies,
+      (select coalesce(sum(p.price_monthly_cents), 0)::int from company_subscriptions s join plans p on p.key = s.plan
+        where s.status = 'ACTIVE' and exists (select 1 from establishments e where e.company_id = s.company_id and e.territory_id = t.id)) as premium_mrr,
+      (select coalesce(sum(c.amount_cents), 0)::int / 12 from territory_contracts c where c.territory_id = t.id and c.kind = 'LICENCE' and c.status = 'ACTIVE') as licence_mrr,
+      (select count(*)::int from analytics_events a where a.territory_id = t.id and a.type = 'CAMPAIGN_VIEW' and a.occurred_at >= now() - interval '30 days') as campaign_views,
+      (select count(*)::int from emails m where m.territory_id = t.id and m.created_at >= now() - interval '30 days') as emails,
+      (select coalesce(sum(u.input_tokens), 0)::bigint from ai_usage u where u.territory_id = t.id and u.created_at >= now() - interval '30 days') as tin,
+      (select coalesce(sum(u.output_tokens), 0)::bigint from ai_usage u where u.territory_id = t.id and u.created_at >= now() - interval '30 days') as tout,
+      (select coalesce(sum(md.size_bytes), 0)::bigint from media md where md.territory_id = t.id) as bytes
+    from territories t
+    where t.status in ('ACTIVE', 'ONBOARDING')
+    order by t.name
+  `);
+  const totalEsts = Math.max(
+    1,
+    data.reduce((n, d) => n + Number(d.ests), 0),
+  );
+  return data.map((d) => {
+    const ai = (Number(d.tin) / 1e6) * env.AI_COST_INPUT_PER_MTOK + (Number(d.tout) / 1e6) * env.AI_COST_OUTPUT_PER_MTOK;
+    const emails = (Number(d.emails) / 1000) * env.COST_EMAIL_PER_THOUSAND;
+    const storage = (Number(d.bytes) / 1024 ** 3) * env.COST_STORAGE_PER_GB_MONTH;
+    const infra = env.COST_INFRA_MONTHLY * (Number(d.ests) / totalEsts);
+    const cents = (v: number) => Math.round(v * 100);
+    return {
+      id: d.id,
+      name: d.name,
+      status: d.status,
+      establishments: Number(d.ests),
+      activeCompanies: Number(d.active_companies),
+      premiumCompanies: Number(d.premium_companies),
+      premiumMonthlyCents: Number(d.premium_mrr),
+      revenueMonthlyCents: Number(d.premium_mrr) + Number(d.licence_mrr),
+      campaignViews: Number(d.campaign_views),
+      emails: Number(d.emails),
+      costMonthlyCents: cents(ai + emails + storage + infra),
+      costDetail: { ai: cents(ai), emails: cents(emails), storage: cents(storage), infra: cents(infra) },
+    };
+  });
 }

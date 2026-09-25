@@ -6,7 +6,7 @@ import { MapView } from '@/components/maps/MapView';
 import { fmtDecimal, fmtEuros, fmtInt } from '@/lib/format';
 import { requirePlatformStaff } from '@/server/authz';
 import { env } from '@/server/env';
-import { mapLabels, mrrSeries, pipeline, platformKpis, serviceHealth } from '@/server/services/console';
+import { mapLabels, mrrSeries, pipeline, platformKpis, serviceHealth, territoryEconomics } from '@/server/services/console';
 
 export const metadata: Metadata = { title: 'Vue d’ensemble' };
 
@@ -18,7 +18,7 @@ export default async function ConsoleOverview({ searchParams }: Props) {
   const sp = await searchParams;
   const actor = await requirePlatformStaff();
   const crmTab = CRM_TABS.find((t) => t === sp.crm);
-  const [k, mrr, pipe, labels, health] = await Promise.all([platformKpis(), mrrSeries(), pipeline(), mapLabels(), serviceHealth()]);
+  const [k, mrr, pipe, labels, health, eco] = await Promise.all([platformKpis(), mrrSeries(), pipeline(), mapLabels(), serviceHealth(), territoryEconomics()]);
   const kpis = [
     {
       l: 'ARR',
@@ -33,6 +33,23 @@ export default async function ConsoleOverview({ searchParams }: Props) {
     { l: 'Churn Premium', v: `${fmtDecimal(k.churn * 100, 1)} %`, d: 'mensuel', bg: '#fff', fg: 'var(--text)' },
   ];
   const max = Math.max(1, ...mrr.map((m) => m.licences + m.premium));
+  // Usage et rentabilité (30 jours) : panier moyen des offres, entreprises actives, campagnes, coûts.
+  const sum = (f: (e: (typeof eco)[number]) => number) => eco.reduce((n, e) => n + f(e), 0);
+  const premiumCompanies = sum((e) => e.premiumCompanies);
+  const usage = [
+    {
+      l: 'Panier moyen des offres',
+      v: premiumCompanies ? `${fmtEuros(Math.round(sum((e) => e.premiumMonthlyCents) / premiumCompanies))}` : '—',
+      d: 'par entreprise abonnée et par mois',
+    },
+    { l: 'Entreprises actives', v: fmtInt(sum((e) => e.activeCompanies)), d: `sur 30 jours · ${fmtInt(k.claimed)} fiches revendiquées` },
+    { l: 'Vues des campagnes', v: fmtInt(sum((e) => e.campaignViews)), d: 'sur 30 jours, tous territoires' },
+    {
+      l: 'Coût d’exploitation',
+      v: eco.length ? fmtEuros(Math.round(sum((e) => e.costMonthlyCents) / eco.length)) : '—',
+      d: 'par territoire et par mois (estimé)',
+    },
+  ];
   const healthRows = [
     {
       l: 'Disponibilité 30 j',
@@ -158,6 +175,67 @@ export default async function ConsoleOverview({ searchParams }: Props) {
           </section>
         </div>
       </div>
+      <section className="console-card" style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 14 }} aria-labelledby="usage-title">
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap', alignItems: 'baseline' }}>
+          <b id="usage-title">Usage et rentabilité par territoire</b>
+          <span style={{ fontSize: 12, color: 'var(--muted)' }}>30 derniers jours · coûts estimés : IA, emails, stockage et part d’infrastructure</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(170px,1fr))', gap: 10 }}>
+          {usage.map((u) => (
+            <div key={u.l} style={{ background: 'var(--console-bg)', borderRadius: 14, padding: '12px 14px' }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--muted)' }}>{u.l}</div>
+              <div className="display" style={{ fontSize: 26, letterSpacing: '-0.02em' }}>
+                {u.v}
+              </div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--muted-3)' }}>{u.d}</div>
+            </div>
+          ))}
+        </div>
+        <div className="table-wrap">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th scope="col">Territoire</th>
+                <th scope="col">Fiches</th>
+                <th scope="col">Entreprises actives</th>
+                <th scope="col">Abonnées</th>
+                <th scope="col">Vues campagnes</th>
+                <th scope="col">Emails</th>
+                <th scope="col">Revenu mensuel</th>
+                <th scope="col">Coût mensuel</th>
+                <th scope="col">Marge</th>
+              </tr>
+            </thead>
+            <tbody>
+              {eco.map((e) => {
+                const margin = e.revenueMonthlyCents - e.costMonthlyCents;
+                return (
+                  <tr key={e.id}>
+                    <td>
+                      <Link href={`/console/territoires?t=${e.id}`} style={{ fontWeight: 700, color: 'inherit' }}>
+                        {e.name}
+                      </Link>
+                      {e.status === 'ONBOARDING' ? <span style={{ fontSize: 11, color: 'var(--muted)' }}> · onboarding</span> : null}
+                    </td>
+                    <td>{fmtInt(e.establishments)}</td>
+                    <td>{fmtInt(e.activeCompanies)}</td>
+                    <td>{fmtInt(e.premiumCompanies)}</td>
+                    <td>{fmtInt(e.campaignViews)}</td>
+                    <td>{fmtInt(e.emails)}</td>
+                    <td>{fmtEuros(e.revenueMonthlyCents)}</td>
+                    <td
+                      title={`IA ${fmtEuros(e.costDetail.ai)} · emails ${fmtEuros(e.costDetail.emails)} · stockage ${fmtEuros(e.costDetail.storage)} · infrastructure ${fmtEuros(e.costDetail.infra)}`}
+                    >
+                      {fmtEuros(e.costMonthlyCents)}
+                    </td>
+                    <td style={{ fontWeight: 700, color: margin >= 0 ? 'var(--green)' : 'var(--danger-fg)' }}>{fmtEuros(margin)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
       {crmTab ? (
         <RouteModal closeHref="/console" label="Suivi commercial">
           <CrmPanel

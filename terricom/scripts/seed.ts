@@ -2493,6 +2493,16 @@ Visite des caves le vendredi à 15 h, sur réservation.`,
   console.log("→ Statistiques d'audience (simulation depuis le lancement pilote)");
   const { seedAnalytics } = await import('./seed/analytics');
   await seedAnalytics({ db, sql, territoryId: vdl.id, b1: estByKey.b1.id, launch: '2026-03-02', now });
+  // Vues des pages de campagne (opérations commerciales en cours ou passées), de leur lancement à aujourd'hui.
+  await db.execute(sql`
+    INSERT INTO analytics_events (occurred_at, territory_id, ref_id, type, source, visitor_hash, path, device)
+    SELECT ts, c.territory_id, c.id, 'CAMPAIGN_VIEW', (ARRAY['DIRECT','SOCIAL','NEWSLETTER','QR','GOOGLE'])[1 + floor(random() * 5)::int]::traffic_source,
+      left(md5(c.id::text || ts::text || random()::text), 32), '/campagnes/' || c.slug,
+      (ARRAY['mobile','mobile','desktop','tablet'])[1 + floor(random() * 4)::int]
+    FROM campaigns c
+    CROSS JOIN LATERAL generate_series(greatest(c.starts_at::timestamptz, now() - interval '60 days'), least(c.ends_at::timestamptz + interval '1 day', now()),
+      interval '1 minute' * (CASE WHEN c.slug LIKE 'noel%' THEN 25 ELSE 70 END)) AS ts
+    WHERE c.status IN ('ACTIVE', 'ENDED') AND c.starts_at <= current_date`);
 
   // ─── Scores de complétude et index de recherche ──────────────────────────
   console.log('→ Index de recherche et complétude des fiches');

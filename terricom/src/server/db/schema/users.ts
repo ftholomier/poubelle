@@ -104,3 +104,22 @@ export const rateLimits = pgTable('rate_limits', {
   count: integer().notNull().default(0),
   resetAt: timestamp({ withTimezone: true }).notNull(),
 });
+
+/** Abonnements aux notifications push (un par navigateur ou appareil). */
+export const pushSubscriptions = pgTable(
+  'push_subscriptions',
+  {
+    id: pk(),
+    userId: uuid()
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    endpoint: text().notNull().unique(),
+    p256dh: varchar({ length: 200 }).notNull(),
+    auth: varchar({ length: 100 }).notNull(),
+    userAgent: varchar({ length: 255 }),
+    failures: integer().notNull().default(0),
+    lastSuccessAt: tstz(),
+    createdAt: createdAt(),
+  },
+  (t) => [index('push_subscriptions_user_idx').on(t.userId)],
+);

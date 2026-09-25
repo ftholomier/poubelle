@@ -2,7 +2,8 @@
  * Gabarit HTML des emails transactionnels, fidèle à la charte :
  * fond crème, carte papier, titres Bricolage Grotesque (repli Arial), bouton vert Loue.
  */
-export type EmailBrand = { name: string; color: string; accent: string };
+/** whiteLabel : emails d'un territoire en marque blanche, sans mention de la plateforme. */
+export type EmailBrand = { name: string; color: string; accent: string; whiteLabel?: boolean };
 
 export const TERRICOM_BRAND: EmailBrand = { name: 'terricom', color: '#1F6B52', accent: '#F4B266' };
 
@@ -28,6 +29,9 @@ export function renderEmail(opts: {
   unsubscribeUrl?: string;
 }): { html: string; text: string } {
   const brand = opts.brand ?? TERRICOM_BRAND;
+  const defaultFooter = brand.whiteLabel
+    ? `Vous recevez cet email car une action a été réalisée sur le portail ${brand.name}.`
+    : 'Vous recevez cet email car une action a été réalisée sur terricom.fr, la plateforme de valorisation économique de votre territoire.';
   const body = (opts.paragraphs ?? []).map(paragraph).join('') + (opts.html ?? '');
   const button = opts.cta
     ? `<table role="presentation" cellspacing="0" cellpadding="0" style="margin:22px 0 6px"><tr><td style="background:${brand.color};border-radius:12px"><a href="${esc(opts.cta.url)}" style="display:inline-block;padding:13px 20px;font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none">${esc(opts.cta.label)}</a></td></tr></table>`
@@ -46,7 +50,7 @@ ${opts.eyebrow ? `<div style="font-size:12px;font-weight:800;letter-spacing:1px;
 <h1 style="margin:0 0 16px;font-family:'Bricolage Grotesque',Arial,sans-serif;font-weight:800;font-size:26px;line-height:1.15;letter-spacing:-0.5px;color:#14201B">${esc(opts.title)}</h1>
 ${body}${button}
 </td></tr>
-<tr><td style="padding:16px 8px;font-family:Arial,sans-serif;font-size:12px;line-height:1.5;color:#5E655F">${esc(opts.footer ?? 'Vous recevez cet email car une action a été réalisée sur terricom.fr, la plateforme de valorisation économique de votre territoire.')}${unsubscribe}</td></tr>
+<tr><td style="padding:16px 8px;font-family:Arial,sans-serif;font-size:12px;line-height:1.5;color:#5E655F">${esc(opts.footer ?? defaultFooter)}${unsubscribe}</td></tr>
 </table></td></tr></table></body></html>`;
   const text = [
     opts.eyebrow?.toUpperCase(),
@@ -55,7 +59,7 @@ ${body}${button}
     ...(opts.paragraphs ?? []),
     opts.cta ? `${opts.cta.label} : ${opts.cta.url}` : '',
     '',
-    opts.footer ?? '— terricom',
+    opts.footer ?? (brand.whiteLabel ? `— ${brand.name}` : '— terricom'),
     opts.unsubscribeUrl ? `Se désinscrire : ${opts.unsubscribeUrl}` : '',
   ]
     .filter((l) => l !== undefined)

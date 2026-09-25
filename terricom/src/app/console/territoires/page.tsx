@@ -16,7 +16,7 @@ import { requirePlatformStaff } from '@/server/authz';
 import { groupOf } from '@/server/services/crm';
 import { listClients, territoryCommunes, territoryPanel } from '@/server/services/console-territories';
 import { db } from '@/server/db';
-import { deals, territories } from '@/server/db/schema';
+import { deals, territories, type TerritorySettings } from '@/server/db/schema';
 import { asc, eq } from 'drizzle-orm';
 
 export const metadata: Metadata = { title: 'Territoires & abonnements' };
@@ -338,6 +338,13 @@ export default async function ConsoleTerritories({ searchParams }: Props) {
                     </label>
                     <label style={{ display: 'flex', gap: 6, alignItems: 'center', fontSize: 13, fontWeight: 600, paddingBottom: 10 }}>
                       <input type="checkbox" name="isPilot" defaultChecked={panel.territory.isPilot} /> Pilote
+                    </label>
+                    <label
+                      style={{ display: 'flex', gap: 6, alignItems: 'center', fontSize: 13, fontWeight: 600, paddingBottom: 10 }}
+                      title="Aucune mention de terricom sur le portail ni dans les emails du territoire"
+                    >
+                      <input type="checkbox" name="whiteLabel" defaultChecked={Boolean((panel.territory.settings as TerritorySettings | null)?.whiteLabel)} /> Marque
+                      blanche
                     </label>
                     <SubmitButton className="btn btn-outline btn-sm" pendingLabel="…">
                       Appliquer

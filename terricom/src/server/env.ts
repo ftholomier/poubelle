@@ -46,6 +46,15 @@ const schema = z.object({
   /** Tarifs d'estimation des coûts IA (€ par million de jetons), affichés dans la console. */
   AI_COST_INPUT_PER_MTOK: z.coerce.number().min(0).default(5),
   AI_COST_OUTPUT_PER_MTOK: z.coerce.number().min(0).default(25),
+  /** Coûts d'exploitation estimés (console) : envoi d'emails, stockage, infrastructure mensuelle répartie par fiche. */
+  COST_EMAIL_PER_THOUSAND: z.coerce.number().min(0).default(0.9),
+  COST_STORAGE_PER_GB_MONTH: z.coerce.number().min(0).default(0.025),
+  COST_INFRA_MONTHLY: z.coerce.number().min(0).default(650),
+
+  /** Notifications push (Web Push, clés VAPID) : sans clés, la fonction est désactivée proprement. */
+  VAPID_PUBLIC_KEY: z.string().optional(),
+  VAPID_PRIVATE_KEY: z.string().optional(),
+  VAPID_SUBJECT: z.string().default('mailto:contact@terricom.fr'),
 
   MAP_TILE_URL: z.string().default('https://tile.openstreetmap.org/{z}/{x}/{y}.png'),
   MAP_TILE_ATTRIBUTION: z.string().default('© OpenStreetMap contributors'),

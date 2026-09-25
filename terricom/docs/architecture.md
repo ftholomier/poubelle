@@ -33,18 +33,18 @@
 
 Schéma Drizzle dans `src/server/db/schema/` (≈ 60 tables), migrations SQL versionnées dans `drizzle/`.
 
-| Domaine | Tables principales |
-| --- | --- |
-| Tenancy | `territories`, `territory_domains`, `territory_modules`, `communes`, `commune_memberships` |
-| Utilisateurs | `users`, `sessions`, `role_assignments`, `tokens`, `rate_limits` |
-| Entreprises | `companies`, `company_members`, `establishments`, horaires, attributs, `media`, `products` |
-| Revendication | `claims`, `establishment_revisions` |
-| Contenus | `posts`, `events`, `markets`, `jobs`, `job_applications`, `messages`, `appointments` |
-| Animation | `campaigns`, `advent_doors`, `circuits`, `passports`, `passport_stamps` |
-| Newsletter | `subscribers`, `audiences`, `newsletters`, `newsletter_deliveries`, `company_contacts` |
-| Audience | `analytics_events` (13 mois), `analytics_daily` (agrégats) |
-| Facturation | `plans`, `company_subscriptions`, `territory_contracts`, `invoices` |
-| Plateforme | `audit_log` (chaîné), `queue_jobs`, `job_schedules`, `emails`, `ai_usage`, `support_tickets`, `ticket_messages`, `privacy_requests`, `health_probes`, `deals` (CRM) |
+| Domaine       | Tables principales                                                                                                                                                                  |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tenancy       | `territories`, `territory_domains`, `territory_modules`, `territory_categories`, `communes`, `commune_memberships`                                                                  |
+| Utilisateurs  | `users`, `sessions`, `role_assignments`, `tokens`, `rate_limits`, `push_subscriptions`                                                                                              |
+| Entreprises   | `companies`, `company_members`, `establishments` (dont `mini_site`, `theme_color`), horaires, attributs, `media`, `products`, `establishment_pages`, `establishment_forms`          |
+| Revendication | `claims`, `establishment_revisions`                                                                                                                                                 |
+| Contenus      | `posts`, `events`, `markets`, `points_of_interest`, `jobs`, `job_applications`, `messages` (réponses de formulaires), `appointments`                                                |
+| Animation     | `campaigns`, `advent_doors`, `circuits`, `passports`, `passport_stamps`                                                                                                             |
+| Newsletter    | `subscribers`, `audiences` (critères dynamiques), `newsletters` (territoire, commune ou entreprise), `newsletter_deliveries`, `company_contacts` (clients abonnés d’une entreprise) |
+| Audience      | `analytics_events` (13 mois), `analytics_daily` (agrégats)                                                                                                                          |
+| Facturation   | `plans`, `company_subscriptions`, `territory_contracts`, `invoices`                                                                                                                 |
+| Plateforme    | `audit_log` (chaîné), `queue_jobs`, `job_schedules`, `emails`, `ai_usage`, `api_keys`, `support_tickets`, `ticket_messages`, `privacy_requests`, `health_probes`, `deals` (CRM)     |
 
 ## Traitements asynchrones
 
@@ -54,15 +54,18 @@ worker arrêté brutalement. Les tâches planifiées (`src/server/jobs/schedules
 fois par créneau grâce à une mise à jour conditionnelle de `job_schedules` ; elles se pilotent depuis la
 console (« Tâches de fond ») : suspension, exécution manuelle, relance des échecs.
 
-| Tâche | Fréquence |
-| --- | --- |
+Tâches à la demande : envoi d’emails, préparation et envoi par lots des lettres (territoire et
+entreprises), notifications push (`push.send`), géocodage et import SIRENE, diffusion sur les réseaux.
+
+| Tâche                                                                     | Fréquence     |
+| ------------------------------------------------------------------------- | ------------- |
 | Sonde de disponibilité, publications programmées, newsletters programmées | chaque minute |
-| Domaines personnalisés (Ingress cert-manager) | 5 min |
-| Statut des campagnes | 15 min |
-| Agrégats d’audience, index de recherche | horaire |
-| Relances des fiches et récapitulatif des revendications | 9 h 30 |
-| Factures échues | 7 h |
-| Purge de rétention (RGPD, sessions, journaux) | 3 h 15 |
+| Domaines personnalisés (Ingress cert-manager)                             | 5 min         |
+| Statut des campagnes                                                      | 15 min        |
+| Agrégats d’audience, index de recherche                                   | horaire       |
+| Relances des fiches et récapitulatif des revendications                   | 9 h 30        |
+| Factures échues                                                           | 7 h           |
+| Purge de rétention (RGPD, sessions, journaux)                             | 3 h 15        |
 
 ## Recherche
 
@@ -91,3 +94,14 @@ territoire, factures, tampons des circuits.
 Transactionnels via `sendEmail` (file `email.send`, SMTP) ou boîte d’envoi consultable dans la console en
 mode démonstration. Newsletters en lots avec pixel d’ouverture, liens de clic signés (HMAC),
 en-têtes `List-Unsubscribe` en un clic, double consentement des abonnés.
+
+## API publique
+
+`/api/v1` (lecture seule, clé par territoire, 120 requêtes/min, CORS) : territoire, communes, catégories,
+fiches, agenda, actualités ; description OpenAPI sur `/api/v1/openapi.json`. Détails : [api.md](api.md).
+
+## Notifications et application installable
+
+Notifications Web Push (clés VAPID) vers les appareils des professionnels et des agents : nouveaux messages,
+réponses aux formulaires, demandes de rendez-vous, candidatures, revendications à valider. Les abonnements
+sont enregistrés par appareil (`push_subscriptions`) et purgés s’ils expirent.

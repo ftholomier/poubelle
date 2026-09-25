@@ -25,6 +25,7 @@ const TITLES: [string, string][] = [
   ['/collectivite/circuits', 'Circuits & parcours'],
   ['/collectivite/statistiques', 'Statistiques'],
   ['/collectivite/personnalisation', 'Personnalisation & rôles'],
+  ['/collectivite/api', 'API & données ouvertes'],
   ['/collectivite/support', 'Aide & support'],
 ];
 
@@ -41,7 +42,12 @@ export default async function BackOfficeLayout({ children }: { children: ReactNo
     { href: '/collectivite/newsletter', label: 'Newsletters' },
     { href: '/collectivite/circuits', label: 'Circuits' },
     { href: '/collectivite/statistiques', label: 'Statistiques' },
-    ...(ctx.level === 'TERRITORY' ? [{ href: '/collectivite/personnalisation', label: 'Personnalisation' }] : []),
+    ...(ctx.level === 'TERRITORY'
+      ? [
+          { href: '/collectivite/personnalisation', label: 'Personnalisation' },
+          { href: '/collectivite/api', label: 'API & données' },
+        ]
+      : []),
   ];
   const sub =
     ctx.level === 'TERRITORY'
