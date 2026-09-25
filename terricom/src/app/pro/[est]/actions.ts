@@ -344,6 +344,53 @@ export async function uploadPhotos(_prev: ActionState, form: FormData): Promise<
   return { status: 'ok', message: `${added} photo${added > 1 ? 's ajoutées' : ' ajoutée'}.` };
 }
 
+/** Logo de l'établissement (hors galerie) : réencodé en WebP, transparence conservée. */
+export async function uploadLogo(_prev: ActionState, form: FormData): Promise<ActionState> {
+  const ctx = await proCtx(form.get('estId'));
+  const file = form.get('logo');
+  if (!(file instanceof File) || !file.size) return { status: 'error', message: 'Choisissez une image.' };
+  const { saveImageUpload, MediaError } = await import('@/server/media');
+  const { establishments } = await import('@/server/db/schema');
+  try {
+    const m = await saveImageUpload(file, {
+      ownerType: 'ESTABLISHMENT_LOGO',
+      ownerId: ctx.est.id,
+      territoryId: ctx.est.territoryId,
+      alt: `Logo ${ctx.est.name}`,
+      uploadedById: ctx.actor.user.id,
+    });
+    const variants = (m.variants ?? {}) as Record<string, string>;
+    await db
+      .update(establishments)
+      .set({ logoUrl: variants.w320 ?? variants.w640 ?? m.url, updatedAt: new Date(), lastActivityAt: new Date() })
+      .where(eq(establishments.id, ctx.est.id));
+  } catch (err) {
+    return { status: 'error', message: err instanceof MediaError ? err.message : "Le logo n'a pas pu être enregistré." };
+  }
+  const { refreshCompleteness } = await import('@/server/services/establishments');
+  await refreshCompleteness(ctx.est.id);
+  await audit({
+    actor: actorOf(ctx),
+    category: 'MODIFICATION',
+    action: 'establishment.logo',
+    summary: `Logo de « ${ctx.est.name} » mis à jour`,
+    territoryId: ctx.est.territoryId,
+    targetType: 'establishment',
+    targetId: ctx.est.id,
+  });
+  refresh(ctx, `${ctx.base}/fiche`);
+  return { status: 'ok', message: 'Logo enregistré.' };
+}
+
+export async function removeLogo(form: FormData): Promise<void> {
+  const ctx = await proCtx(form.get('estId'));
+  const { establishments } = await import('@/server/db/schema');
+  await db.update(establishments).set({ logoUrl: null, updatedAt: new Date() }).where(eq(establishments.id, ctx.est.id));
+  const { refreshCompleteness } = await import('@/server/services/establishments');
+  await refreshCompleteness(ctx.est.id);
+  refresh(ctx, `${ctx.base}/fiche`);
+}
+
 async function afterPhotos(ctx: Awaited<ReturnType<typeof proCtx>>) {
   const { establishments, media } = await import('@/server/db/schema');
   const { asc } = await import('drizzle-orm');

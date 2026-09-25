@@ -11,7 +11,7 @@ import { CONTRACT_TYPES, POST_KINDS, type PostKind } from '@/lib/constants';
 import { directionsHref, fmtLongDate, fmtPhone, relativeTime, tomorrowIso, truncate } from '@/lib/format';
 import { weeklyRows } from '@/lib/hours';
 import { sized, variantUrl } from '@/lib/images';
-import type { TerritorySettings } from '@/server/db/schema';
+import type { Socials, TerritorySettings } from '@/server/db/schema';
 import { breadcrumbJsonLd, localBusinessJsonLd } from '@/server/seo';
 import { getPublicEstablishment, relatedCards } from '@/server/services/establishments';
 import { getPortal } from '@/server/services/portal';
@@ -80,6 +80,17 @@ export default async function FichePage({ params }: Props) {
   const payments = e.attributes.filter((a) => a.group === 'PAYMENT').map((a) => a.label);
   const accessibility = e.attributes.filter((a) => a.group === 'ACCESSIBILITY').map((a) => a.label);
   const services = e.attributes.filter((a) => a.group === 'SERVICE').map((a) => a.label);
+  const labels = e.attributes.filter((a) => a.group === 'LABEL');
+  const socials = e.socials as Socials;
+  const socialLinks: [string, string][] = [];
+  for (const [label, href] of [
+    ['Facebook', socials.facebook],
+    ['Instagram', socials.instagram],
+    ['LinkedIn', socials.linkedin],
+    ['TikTok', socials.tiktok],
+    ['YouTube', socials.youtube],
+  ] as [string, string | undefined][])
+    if (href && /^https?:\/\//.test(href)) socialLinks.push([label, href]);
   const localMade = e.attributes.some((a) => a.slug === 'fabrication-locale');
   const nextException = e.exceptions.find((x) => x.closed);
 
@@ -167,32 +178,43 @@ export default async function FichePage({ params }: Props) {
         style={{ ['--cols' as string]: 'minmax(0,1fr) 380px', ['--gap' as string]: '40px', ['--align' as string]: 'start', paddingTop: 30, paddingBottom: 60 }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 34, minWidth: 0 }}>
-          <div>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 12, fontWeight: 800, color: e.color, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
-                {e.activity} · {e.commune.name}
-              </span>
-              {e.status === 'VALIDATED' ? (
-                <span className="mint-tag" title="Informations vérifiées par la collectivité">
-                  ✓ Fiche vérifiée
+          <div style={{ display: 'flex', gap: 18, alignItems: 'flex-start' }}>
+            {e.logoUrl ? (
+              <img
+                src={sized(e.logoUrl, 160, 160) ?? e.logoUrl}
+                alt={`Logo ${e.name}`}
+                width={72}
+                height={72}
+                style={{ width: 72, height: 72, borderRadius: 18, objectFit: 'contain', background: '#fff', border: '1px solid var(--line)', flexShrink: 0 }}
+              />
+            ) : null}
+            <div style={{ minWidth: 0 }}>
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
+                <span style={{ fontSize: 12, fontWeight: 800, color: e.color, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+                  {e.activity} · {e.commune.name}
                 </span>
+                {e.status === 'VALIDATED' ? (
+                  <span className="mint-tag" title="Informations vérifiées par la collectivité">
+                    ✓ Fiche vérifiée
+                  </span>
+                ) : null}
+              </div>
+              <h1 className="display" style={{ fontSize: 'clamp(40px,4.6vw,64px)', letterSpacing: '-0.035em', lineHeight: 0.95, margin: '0 0 16px' }}>
+                {e.name}
+              </h1>
+              {tags.length ? (
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                  {tags.map((tg) => (
+                    <span
+                      key={tg.slug}
+                      style={{ fontSize: 13, padding: '6px 12px', borderRadius: 999, background: 'var(--mint)', color: 'var(--green)', fontWeight: 600 }}
+                    >
+                      {tg.label}
+                    </span>
+                  ))}
+                </div>
               ) : null}
             </div>
-            <h1 className="display" style={{ fontSize: 'clamp(40px,4.6vw,64px)', letterSpacing: '-0.035em', lineHeight: 0.95, margin: '0 0 16px' }}>
-              {e.name}
-            </h1>
-            {tags.length ? (
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                {tags.map((tg) => (
-                  <span
-                    key={tg.slug}
-                    style={{ fontSize: 13, padding: '6px 12px', borderRadius: 999, background: 'var(--mint)', color: 'var(--green)', fontWeight: 600 }}
-                  >
-                    {tg.label}
-                  </span>
-                ))}
-              </div>
-            ) : null}
           </div>
 
           <FicheTabs tabs={tabs} />
@@ -211,6 +233,36 @@ export default async function FichePage({ params }: Props) {
                 <p style={{ fontSize: 16, lineHeight: 1.6, margin: 0, maxWidth: 720, whiteSpace: 'pre-line' }}>{pg.body}</p>
               </div>
             ))}
+            {labels.length ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <h3 className="h3" style={{ margin: '6px 0 0' }}>
+                  Labels &amp; certifications
+                </h3>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  {labels.map((l) => (
+                    <li
+                      key={l.slug}
+                      style={{
+                        display: 'inline-flex',
+                        gap: 6,
+                        alignItems: 'center',
+                        fontSize: 14,
+                        fontWeight: 700,
+                        padding: '7px 12px',
+                        borderRadius: 10,
+                        background: 'var(--paper)',
+                        border: '1px solid var(--line)',
+                      }}
+                    >
+                      <span aria-hidden="true" style={{ color: 'var(--green)' }}>
+                        ✓
+                      </span>
+                      {l.label}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
             {!claimed ? (
               <div className="alert alert-info" style={{ fontSize: 14 }}>
                 Cette fiche a été créée à partir des données publiques des entreprises. Vous êtes le ou la gérante ?{' '}
@@ -388,7 +440,30 @@ export default async function FichePage({ params }: Props) {
               </div>
               {e.phone ? <div style={{ color: 'var(--muted)' }}>{fmtPhone(e.phone)}</div> : null}
               {e.serviceArea ? <div style={{ color: 'var(--muted)' }}>Intervient : {e.serviceArea}</div> : null}
+              {e.email ? (
+                <div>
+                  <a href={`mailto:${e.email}`} style={{ fontWeight: 600 }}>
+                    {e.email}
+                  </a>
+                </div>
+              ) : null}
             </address>
+            {socialLinks.length ? (
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }} aria-label="Réseaux sociaux">
+                {socialLinks.map(([label, href]) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer me"
+                    className="btn btn-light btn-xs"
+                    style={{ borderRadius: 999, fontWeight: 700 }}
+                  >
+                    {label} ↗
+                  </a>
+                ))}
+              </div>
+            ) : null}
             {mapPoints.length ? (
               <div style={{ height: 180, borderRadius: 14, overflow: 'hidden' }}>
                 <MapView
@@ -431,12 +506,18 @@ export default async function FichePage({ params }: Props) {
                 </div>
               ) : null}
             </div>
-            {payments.length || accessibility.length || services.length ? (
+            {payments.length || accessibility.length || services.length || e.priceInfo || e.accessibilityInfo ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 13, borderTop: '1px solid var(--line)', paddingTop: 14 }}>
                 {payments.length ? (
                   <div style={rowLine}>
                     <span style={{ color: 'var(--muted)' }}>Paiement</span>
                     <b style={{ textAlign: 'right' }}>{payments.map((p) => (p === 'Carte bancaire' ? 'CB' : p)).join(' · ')}</b>
+                  </div>
+                ) : null}
+                {e.priceInfo ? (
+                  <div style={rowLine}>
+                    <span style={{ color: 'var(--muted)' }}>Tarifs</span>
+                    <b style={{ textAlign: 'right' }}>{e.priceInfo}</b>
                   </div>
                 ) : null}
                 {accessibility.length ? (
@@ -445,6 +526,7 @@ export default async function FichePage({ params }: Props) {
                     <b style={{ textAlign: 'right' }}>{accessibility.join(' · ')}</b>
                   </div>
                 ) : null}
+                {e.accessibilityInfo ? <div style={{ color: 'var(--muted)', fontSize: 12 }}>{e.accessibilityInfo}</div> : null}
                 {services.length ? (
                   <div style={rowLine}>
                     <span style={{ color: 'var(--muted)' }}>Services</span>

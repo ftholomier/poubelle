@@ -3,6 +3,7 @@
 import { useActionState, useMemo, useState, useTransition, type CSSProperties, type ReactNode } from 'react';
 import { improveDescriptionAction, saveFiche, type ActionState } from '@/app/pro/[est]/actions';
 import { Switch, useToast } from '@/components/ui/Feedback';
+import { LogoField } from './LogoField';
 
 type Range = { opensAt: string; closesAt: string };
 type Day = { open: boolean; ranges: Range[] };
@@ -11,6 +12,7 @@ type Attr = { slug: string; label: string; group: string };
 
 export type FicheEditorProps = {
   estId: string;
+  logoUrl: string | null;
   values: {
     name: string;
     categoryId: string;
@@ -113,6 +115,7 @@ export function FicheEditor(p: FicheEditorProps) {
 
       <section id="identite" className="panel" style={{ scrollMarginTop: 90 }}>
         <h2 className="panel-title">Identité</h2>
+        <LogoField estId={p.estId} logoUrl={p.logoUrl} name={p.values.name} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 12 }}>
           <label style={label}>
             Nom commercial

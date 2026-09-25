@@ -55,6 +55,7 @@ export default async function FicheEditorPage({ params }: Props) {
       <div className="split" style={{ ['--cols' as string]: 'minmax(0,1fr) 360px', ['--gap' as string]: '22px', ['--align' as string]: 'start' }}>
         <FicheEditor
           estId={est.id}
+          logoUrl={est.logoUrl}
           values={{
             name: est.name,
             categoryId: est.categoryId,
