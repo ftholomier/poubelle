@@ -1,145 +1,184 @@
-"""Musique du teaser terricom : électro entraînante à 128 BPM, composée par synthèse (libre de droits).
+"""Musique du teaser terricom : style bande-annonce de film épique, composée par synthèse (libre de droits).
 
-Structure en temps (1 temps = 60/128 s) : 0-8 intro (nappe, charleston), 8-16 montée (grosse caisse, basse),
-16-48 drop, 48-56 pause et montée de tension, 56-62 dernier drop, 62-64 impact final et queue.
+Tempo 128 (calé sur les coupes de l'image), ré mineur, accords ré m – si♭ – fa – do.
+Structure en temps : 0-8 grondement et chœurs, 8-16 cordes staccato et tambours qui montent,
+16-48 tutti (tambours, cuivres, cordes, chœurs ; thème héroïque dès 32), 48-56 suspension et montée,
+56-62 dernier tutti, 62 impact final et résonance.
 Usage : python3 scripts/teaser_musique.py docs/teaser/musique.wav   (nécessite numpy)
 """
 import sys, wave
 import numpy as np
 
 SR = 44100
-BPM = 128
-B = 60 / BPM
+B = 60 / 128
 TOTAL = 64 * B + 2.5
 N = int(TOTAL * SR)
-L = np.zeros(N); R = np.zeros(N)
-rng = np.random.default_rng(7)
+rng = np.random.default_rng(11)
+dry = np.zeros((N, 2)); wet = np.zeros((N, 2))
 
-def at(beat): return int(beat * B * SR)
+def at(beat): return int(round(beat * B * SR))
 
-def add(sig, beat, gain=1.0, pan=0.0, buf=None):
-    i = at(beat) if buf is None else buf
-    j = min(N, i + len(sig))
+def put(sig, beat, g=1.0, pan=0.0, rev=0.3):
+    i = at(beat); j = min(N, i + len(sig))
     if j <= i: return
-    s = sig[: j - i] * gain
-    L[i:j] += s * (1 - max(pan, 0)); R[i:j] += s * (1 + min(pan, 0))
+    s = sig[: j - i] * g
+    lr = np.array([np.sqrt(0.5 - pan / 2), np.sqrt(0.5 + pan / 2)])
+    dry[i:j] += s[:, None] * lr; wet[i:j] += s[:, None] * lr * rev
 
-def env(n, a=0.002, d=0.2):
-    t = np.arange(n) / SR
-    return np.minimum(1, t / a) * np.exp(-t / d)
+def smooth(x, n):
+    # Moyenne glissante de même longueur (filtre passe-bas simple)
+    if n <= 1: return x
+    c = np.cumsum(np.concatenate([np.zeros(n), x])); return (c[n:] - c[:-n]) / n
 
-def saw(f, dur, harm=None):
-    t = np.arange(int(dur * SR)) / SR
-    k = np.arange(1, int(min(40, 9000 / f)) + 1 if harm is None else harm + 1)
-    return (np.sin(2 * np.pi * np.outer(k, f * t)) / k[:, None]).sum(0) * 0.6
+def tone(f, dur, harm, amp=lambda k: 1 / k, det=(1.0,), vib=0.0):
+    n = int(dur * SR); t = np.arange(n) / SR; out = np.zeros(n)
+    for d in det:
+        ph = 2 * np.pi * f * d * t + (vib * np.sin(2 * np.pi * 5.2 * t) if vib else 0)
+        for k in range(1, harm + 1):
+            if f * d * k > 12000: break
+            out += np.sin(k * ph + rng.uniform(0, 6.28)) * amp(k)
+    return out / len(det)
+
+def adsr(n, a, r, sustain=True):
+    t = np.arange(n) / SR; e = np.minimum(1, t / max(a, 1e-4))
+    rel = np.minimum(1, (n - np.arange(n)) / (r * SR))
+    return e * rel
 
 # ── Instruments
-def kick():
-    n = int(0.45 * SR); t = np.arange(n) / SR
-    f = 45 + 110 * np.exp(-t / 0.035)
-    ph = 2 * np.pi * np.cumsum(f) / SR
-    return np.sin(ph) * np.exp(-t / 0.28) + rng.normal(0, 1, n) * np.exp(-t / 0.004) * 0.3
+def taiko(pitch=1.0, big=1.0):
+    n = int(1.2 * SR); t = np.arange(n) / SR
+    f = (48 + 60 * np.exp(-t / 0.05)) * pitch
+    body = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t / (0.45 * big))
+    skin = smooth(rng.normal(0, 1, n), 12) * np.exp(-t / 0.06) * 2.5
+    return (body + skin) * 0.9
 
-def clap():
-    n = int(0.25 * SR); t = np.arange(n) / SR
-    x = rng.normal(0, 1, n); x = x - np.roll(x, 1) * 0.5
-    e = sum(np.exp(-(t - o) / 0.012) * (t >= o) for o in (0, 0.012, 0.024)) + np.exp(-t / 0.09) * 0.6
-    return x * e * 0.5
+def snare_ens():
+    n = int(0.4 * SR); t = np.arange(n) / SR
+    x = rng.normal(0, 1, n); x = x - smooth(x, 6)
+    return x * np.exp(-t / 0.09) * 0.5 + np.sin(2 * np.pi * 190 * t) * np.exp(-t / 0.05) * 0.3
 
-def hat(open_=False):
-    n = int((0.18 if open_ else 0.05) * SR); t = np.arange(n) / SR
-    x = rng.normal(0, 1, n); x = np.diff(np.diff(x, prepend=0), prepend=0)
-    return x * np.exp(-t / (0.06 if open_ else 0.012)) * 0.35
+def braam(root, dur=3.0):
+    n = int(dur * SR); t = np.arange(n) / SR
+    s = sum(tone(root * m, dur, 18, det=(0.994, 1.0, 1.007)) * g for m, g in ((1, 1), (2, 0.7), (3, 0.35)))
+    growl = 1 + 0.25 * np.sin(2 * np.pi * 28 * t)
+    return s * growl * np.minimum(1, t / 0.03) * np.exp(-t / 1.4) * 0.5
 
-def pluck(f, dur=0.22):
-    s = saw(f, dur, harm=8)
-    return s * env(len(s), 0.001, 0.07)
+def brass(f, dur):
+    s = tone(f, dur, 16, det=(0.997, 1.003))
+    return s * adsr(len(s), 0.07, 0.15) * 0.45
 
-KICK, CLAP, HAT, OHAT = kick(), clap(), hat(), hat(True)
-PROG = [  # (basse, accord)
-    (110.00, (220.00, 261.63, 329.63)),  # la mineur
-    (87.31, (174.61, 220.00, 261.63)),   # fa
-    (130.81, (261.63, 329.63, 392.00)),  # do
-    (98.00, (196.00, 246.94, 293.66)),   # sol
-]
-def chord_at(beat): return PROG[int(beat // 4) % 4]
+def string_stac(f):
+    s = tone(f, 0.22, 20, det=(0.995, 1.0, 1.005))
+    n = len(s); t = np.arange(n) / SR
+    return s * np.minimum(1, t / 0.004) * np.exp(-t / 0.08) * 0.35
 
-side = np.ones(N)  # compression rythmique (la nappe « respire » avec la grosse caisse)
-def duck(beat):
-    i = at(beat); n = int(0.3 * SR); t = np.arange(n) / SR
-    j = min(N, i + n); side[i:j] = np.minimum(side[i:j], (1 - 0.8 * np.exp(-t / 0.09))[: j - i])
+def choir(f, dur):
+    formant = lambda k: np.exp(-((f * k - 750) / 300) ** 2) + 0.6 * np.exp(-((f * k - 1150) / 250) ** 2) + 0.25 / k
+    s = tone(f, dur, 24, amp=formant, det=(0.996, 1.0, 1.004), vib=0.012)
+    return s * adsr(len(s), 0.35, 0.6) * 0.5
 
-pad = np.zeros(N)
-def pad_chord(beat, beats, gain):
-    _, notes = chord_at(beat)
-    for f in notes:
-        for det, pan in ((0.996, -0.5), (1.0, 0.0), (1.004, 0.5)):
-            s = saw(f * det, beats * B, harm=12)
-            e = np.minimum(1, np.arange(len(s)) / (0.05 * SR)) * np.minimum(1, (len(s) - np.arange(len(s))) / (0.08 * SR))
-            i = at(beat); j = min(N, i + len(s)); pad[i:j] += (s * e * gain)[: j - i]
+def lead(f, dur):
+    s = tone(f, dur, 14, det=(0.998, 1.002), vib=0.01)
+    return s * adsr(len(s), 0.06, 0.12) * 0.4
 
-# Intro et montée : nappe tenue
-for bar in range(0, 16, 4): pad_chord(bar, 4, 0.05 if bar < 8 else 0.06)
-# Drops : accords en contretemps
-for drop in ((16, 48), (56, 62)):
-    for b8 in np.arange(drop[0], drop[1], 0.5):
-        if b8 % 1 == 0.5: pad_chord(b8, 0.45, 0.09)
-# Pause : nappe large
-for bar in range(48, 56, 4): pad_chord(bar, 4, 0.07)
-pad_chord(62, 6, 0.08)
+def swell(beats):
+    n = at(beats); t = np.arange(n) / SR
+    x = rng.normal(0, 1, n); x = x - smooth(x, 3)
+    return x * (t / t[-1]) ** 3 * 0.35
 
-# Batterie
-for b in range(8, 48):
-    add(KICK, b, 0.9); duck(b)
-for b in range(56, 62):
-    add(KICK, b, 0.95); duck(b)
-for b in list(range(16, 48)) + list(range(56, 62)):
-    if b % 2 == 1: add(CLAP, b, 0.55, 0.1)
-for h in np.arange(0, 48, 0.5):
-    if h % 1 == 0.5: add(OHAT if h >= 16 else HAT, h, 0.5 if h >= 16 else 0.4, 0.3)
-for h in np.arange(16, 48, 0.25):
-    if h % 0.5: add(HAT, h, 0.22, -0.3)
-for h in np.arange(56, 62, 0.25): add(HAT, h, 0.28 if h % 0.5 else 0.18, -0.3)
+def crash():
+    n = int(3 * SR); t = np.arange(n) / SR
+    x = rng.normal(0, 1, n); x = x - smooth(x, 4)
+    return x * np.exp(-t / 1.1) * 0.35
 
-# Basse en contretemps (pompe)
-for rng_ in ((8, 48), (56, 62)):
-    for b8 in np.arange(rng_[0], rng_[1], 0.5):
-        f, _ = chord_at(b8)
-        s = saw(f / 2 if b8 % 1 == 0 else f / 2, 0.42 * B * 2, harm=10) * env(int(0.42 * B * 2 * SR), 0.003, 0.18)
-        add(s, b8, 0.32 if b8 % 1 else 0.18)
+# Harmonie : ré m, si♭, fa, do (une mesure de 4 temps chacun)
+D2, Bb1, F2, C2 = 73.42, 58.27, 87.31, 65.41
+PROG = [(D2, (293.66, 349.23, 440.00)), (Bb1, (293.66, 349.23, 466.16)), (F2, (261.63, 349.23, 440.00)), (C2, (261.63, 329.63, 392.00))]
+def chord(beat): return PROG[int(beat // 4) % 4]
+OST = [0, 0, 7, 0, 3, 0, 7, 0, 0, 0, 7, 0, 3, 5, 7, 5]  # motif de cordes (demi-tons au-dessus de la fondamentale)
 
-# Arpège pendant la seconde moitié du drop et le dernier drop
-for rng_ in ((32, 48), (56, 62)):
-    for i16, b16 in enumerate(np.arange(rng_[0], rng_[1], 0.25)):
-        _, notes = chord_at(b16)
-        f = (notes + tuple(n * 2 for n in notes))[i16 % 6]
-        add(pluck(f), b16, 0.11, 0.4 if i16 % 2 else -0.4)
+# 0-8 : grondement, chœurs
+put(braam(36.71, 4), 0, 0.9, rev=0.5)
+put(braam(36.71, 4), 4, 0.8, rev=0.5)
+put(choir(146.83, 8 * B + 0.5), 0, 0.5, -0.2, 0.6); put(choir(220.0, 8 * B + 0.5), 0, 0.4, 0.2, 0.6)
+for b in (0, 4, 6, 7): put(taiko(0.8, 1.4), b, 0.8, rev=0.5)
 
-# Montée de tension : roulement accéléré et balayage de bruit
-for b in range(48, 56):
-    step = 1 if b < 50 else 0.5 if b < 52 else 0.25 if b < 54 else 0.125
-    for s_ in np.arange(b, b + 1, step): add(CLAP, s_, 0.15 + 0.5 * (s_ - 48) / 8, 0)
-n = at(56) - at(48); t = np.arange(n) / SR
-noise = rng.normal(0, 1, n); noise = noise - np.roll(noise, 1) * (0.9 - 0.8 * t / t[-1])
-sweep = np.sin(2 * np.pi * np.cumsum(200 + 1800 * (t / t[-1]) ** 2) / SR)
-add((noise * 0.12 + sweep * 0.08) * (t / t[-1]) ** 2, 48)
+# 8-16 : cordes et tambours qui montent
+for i, s16 in enumerate(np.arange(8, 16, 0.25)):
+    root = chord(s16)[0] * 4
+    put(string_stac(root * 2 ** (OST[i % 16] / 12)), s16, 0.35 + 0.5 * (s16 - 8) / 8, 0.3 if i % 2 else -0.3, 0.25)
+for b in np.arange(8, 16, 1): put(taiko(1.0), b, 0.6 + 0.4 * (b - 8) / 8, rev=0.35)
+for b in np.arange(14, 16, 0.25): put(snare_ens(), b, 0.2 + 0.5 * (b - 14) / 2, rev=0.3)
+put(swell(2), 14, 0.9, rev=0.4)
+for bar in (8, 12): put(choir(chord(bar)[1][0] / 2, 4 * B + 0.4), bar, 0.45, 0, 0.6)
 
-# Impacts
-def impact(beat, g):
-    n = int(2.2 * SR); t = np.arange(n) / SR
-    crash = rng.normal(0, 1, n); crash = crash - np.roll(crash, 1) * 0.3
-    sub = np.sin(2 * np.pi * np.cumsum(60 * np.exp(-t / 0.8) + 30) / SR)
-    add(crash * np.exp(-t / 0.7) * 0.25 * g + sub * np.exp(-t / 0.9) * 0.6 * g, beat); add(KICK, beat, g)
-impact(16, 0.8); impact(56, 1.0); impact(62, 1.1)
+# Tutti
+def tutti(a, b, theme):
+    for bar in np.arange(a, b, 4):
+        root, notes = chord(bar)
+        dur = min(4, b - bar) * B + 0.25
+        put(braam(root / 2 if root > 70 else root, 2.5), bar, 0.55, rev=0.45)
+        for k, f in enumerate(notes): put(brass(f / 2, dur), bar, 0.55, (k - 1) * 0.4, 0.35)
+        put(tone(root, dur, 10) * adsr(int(dur * SR), 0.02, 0.1) * 0.5, bar, 0.6, rev=0.2)
+        for f in notes: put(choir(f, dur), bar, 0.28, 0, 0.6)
+    for i, s16 in enumerate(np.arange(a, b, 0.25)):
+        root = chord(s16)[0] * 4
+        put(string_stac(root * 2 ** (OST[i % 16] / 12)), s16, 0.75, 0.3 if i % 2 else -0.3, 0.25)
+        put(string_stac(root * 2 * 2 ** (OST[i % 16] / 12)), s16, 0.3, -0.3 if i % 2 else 0.3, 0.25)
+    for b8 in np.arange(a, b, 0.5):
+        pos = b8 % 4
+        if pos in (0, 2): put(taiko(0.9, 1.3), b8, 1.0, rev=0.4)
+        elif pos in (1.5, 3.5): put(taiko(1.25), b8, 0.6, rev=0.3)
+        if pos in (1, 3): put(snare_ens(), b8, 0.55, rev=0.35)
+    if theme:  # thème héroïque (cor)
+        motif = [(0, 587.33, 1.5), (1.5, 440.00, 0.5), (2, 698.46, 2), (4, 659.26, 1.5), (5.5, 587.33, 0.5), (6, 466.16, 2),
+                 (8, 523.25, 1.5), (9.5, 587.33, 0.5), (10, 698.46, 2), (12, 783.99, 1.5), (13.5, 698.46, 0.5), (14, 659.26, 2)]
+        for start in np.arange(theme, b, 16):
+            for off, f, d in motif:
+                if start + off < b: put(lead(f, d * B + 0.1), start + off, 0.55, 0.1, 0.5)
 
-L += pad * side; R += pad * side
-mix = np.stack([L, R], 1)
-mix /= np.abs(mix).max() + 1e-9
-mix = np.tanh(mix * 1.6) / np.tanh(1.6) * 0.95
-fade = np.ones(N); fn = int(1.2 * SR); fade[-fn:] = np.linspace(1, 0, fn)
-mix *= fade[:, None]
-out = sys.argv[1] if len(sys.argv) > 1 else 'musique.wav'
-with wave.open(out, 'wb') as w:
+put(crash(), 16, 1.0, rev=0.5)
+tutti(16, 48, 32)
+put(crash(), 32, 0.8, rev=0.5)
+
+# 48-56 : suspension et montée
+put(choir(146.83, 8 * B + 0.4), 48, 0.55, -0.2, 0.7); put(choir(220.0, 8 * B + 0.4), 48, 0.45, 0.2, 0.7)
+put(tone(36.71, 8 * B, 6) * adsr(at(8), 0.3, 0.3) * 0.6, 48, 0.8, rev=0.3)
+for b in np.arange(48, 52, 1): put(taiko(0.75, 1.5), b, 0.55, rev=0.5)
+for b in np.arange(52, 56, 0.25): put(snare_ens(), b, 0.15 + 0.6 * (b - 52) / 4, rev=0.35)
+for b in np.arange(54, 56, 0.125): put(taiko(1.1), b, 0.25 + 0.6 * (b - 54) / 2, rev=0.3)
+n = at(8); t = np.arange(n) / SR
+rise = np.sin(2 * np.pi * np.cumsum(110 * 2 ** (3 * (t / t[-1]) ** 1.5)) / SR) * (t / t[-1]) ** 2 * 0.25
+put(rise, 48, 1.0, rev=0.5); put(swell(4), 52, 1.1, rev=0.5)
+
+# 56-62 : dernier tutti
+put(crash(), 56, 1.1, rev=0.5)
+tutti(56, 62, 56)
+
+# 62 : impact final
+put(braam(36.71, 4.5), 62, 1.3, rev=0.6)
+for f in (73.42, 146.83, 220.0, 293.66, 349.23, 440.0): put(brass(f, 4.2), 62, 0.45, rev=0.5)
+put(choir(293.66, 4.2), 62, 0.5, rev=0.7); put(choir(440.0, 4.2), 62, 0.4, rev=0.7)
+put(taiko(0.7, 2.0), 62, 1.4, rev=0.6); put(crash(), 62, 1.2, rev=0.6)
+
+# Réverbération de salle (convolution avec une réponse impulsionnelle synthétique)
+ir_n = int(2.8 * SR); ti = np.arange(ir_n) / SR
+out = dry.copy()
+for ch in range(2):
+    ir = rng.normal(0, 1, ir_n) * np.exp(-ti / 0.75); ir[: int(0.02 * SR)] = 0
+    ir = smooth(ir, 3)
+    m = 1 << int(np.ceil(np.log2(N + ir_n)))
+    conv = np.fft.irfft(np.fft.rfft(wet[:, ch], m) * np.fft.rfft(ir, m), m)[:N]
+    out[:, ch] += conv / np.abs(ir).sum() * 60
+# Nuances : intro retenue, montée, tutti, suspension, explosion finale
+pts = [(0, 0.35), (7.5, 0.5), (8, 0.45), (16, 0.75), (16.01, 0.85), (48, 0.85), (48.5, 0.55), (56, 0.9), (56.01, 1.0), (70, 1.0)]
+curve = np.interp(np.arange(N) / SR / B, [p_[0] for p_ in pts], [p_[1] for p_ in pts])
+out *= curve[:, None]
+out /= np.abs(out).max() + 1e-9
+out = np.tanh(out * 1.3) / np.tanh(1.3) * 0.95
+fn = int(1.5 * SR); out[-fn:] *= np.linspace(1, 0, fn)[:, None]
+dst = sys.argv[1] if len(sys.argv) > 1 else 'musique.wav'
+with wave.open(dst, 'wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
-    w.writeframes((mix * 32767).astype('<i2').tobytes())
-print(f'{out} : {TOTAL:.1f} s, {BPM} BPM')
+    w.writeframes((out * 32767).astype('<i2').tobytes())
+print(f'{dst} : {TOTAL:.1f} s, style épique')
