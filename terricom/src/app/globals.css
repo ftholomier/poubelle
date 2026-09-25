@@ -2519,3 +2519,61 @@ p {
 .explore-chip.on .explore-chip-count {
   color: var(--green);
 }
+
+/* Carte : couches événements, marchés, lieux économiques */
+.tc-ov {
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: var(--c);
+  border: 2px solid #fff;
+  box-shadow: 0 3px 10px rgba(20, 32, 27, 0.35);
+  display: grid;
+  place-items: center;
+}
+.tc-ov svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.map-layers {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 500;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: calc(100% - 70px);
+}
+.map-layers button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(20, 32, 27, 0.12);
+  cursor: pointer;
+}
+.map-layers button[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--cream);
+  border-color: var(--ink);
+}
+.map-layers .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--c);
+  box-shadow: 0 0 0 1.5px #fff;
+}

@@ -2,7 +2,7 @@ import { sql } from 'drizzle-orm';
 import { boolean, date, doublePrecision, index, integer, jsonb, pgTable, smallint, text, time, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { citext, createdAt, pk, tstz, updatedAt } from './_common';
 import { establishments, media } from './business';
-import { appointmentStatus, authorType, contractType, eventKind, inboxStatus, jobStatus, postKind, postStatus, publishStatus } from './enums';
+import { appointmentStatus, authorType, contractType, eventKind, inboxStatus, jobStatus, poiKind, postKind, postStatus, publishStatus } from './enums';
 import { communes, territories } from './tenancy';
 import { users } from './users';
 
@@ -261,4 +261,28 @@ export const appointments = pgTable(
     createdAt: createdAt(),
   },
   (t) => [index('appointments_est_idx').on(t.establishmentId, t.preferredAt)],
+);
+
+/** Points d'intérêt économiques affichés sur la carte : zones d'activités, halles, office de tourisme… */
+export const pointsOfInterest = pgTable(
+  'points_of_interest',
+  {
+    id: pk(),
+    territoryId: uuid()
+      .notNull()
+      .references(() => territories.id, { onDelete: 'cascade' }),
+    communeId: uuid().references(() => communes.id, { onDelete: 'set null' }),
+    kind: poiKind().notNull().default('AUTRE'),
+    name: varchar({ length: 255 }).notNull(),
+    description: text(),
+    address: varchar({ length: 255 }),
+    url: text(),
+    lat: doublePrecision().notNull(),
+    lng: doublePrecision().notNull(),
+    isActive: boolean().notNull().default(true),
+    createdById: uuid().references(() => users.id, { onDelete: 'set null' }),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index('points_of_interest_territory_idx').on(t.territoryId)],
 );

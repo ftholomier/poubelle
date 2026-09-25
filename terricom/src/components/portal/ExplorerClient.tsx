@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { MapView, type MapPoint } from '@/components/maps/MapView';
+import { MapView, OVERLAY_STYLE, type MapPoint, type OverlayKind, type OverlayPoint } from '@/components/maps/MapView';
 import { Icon } from '@/components/ui/Icon';
 import { Photo } from '@/components/ui/Photo';
 import type { Family } from '@/lib/constants';
@@ -29,10 +29,11 @@ type Props = {
   aiEnabled: boolean;
   communes: { slug: string; name: string }[];
   filters: ExplorerFilterGroup[];
+  overlays: OverlayPoint[];
 };
 
 /** P2 — Explorer : liste filtrable, carte synchronisée et réponse de l'assistant. */
-export function ExplorerClient({ territorySlug, base, initialState, initial, filtered, points, map, aiEnabled, communes, filters }: Props) {
+export function ExplorerClient({ territorySlug, base, initialState, initial, filtered, points, map, aiEnabled, communes, filters, overlays }: Props) {
   const [state, setState] = useState<ExplorerState>(initialState);
   const [query, setQuery] = useState(initialState.q);
   const [data, setData] = useState<ExplorerResponse>(initial);
@@ -44,6 +45,12 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
   const [mapHidden, setMapHidden] = useState(true);
   const [locating, setLocating] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [layers, setLayers] = useState<OverlayKind[]>([]);
+  const layerCounts = useMemo(() => {
+    const c: Partial<Record<OverlayKind, number>> = {};
+    for (const o of overlays) c[o.kind] = (c[o.kind] ?? 0) + 1;
+    return c;
+  }, [overlays]);
   const firstRun = useRef(true);
   const reqId = useRef(0);
 
@@ -405,7 +412,24 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
         ) : null}
       </div>
       <div className="explore-map">
+        {overlays.length ? (
+          <div className="map-layers" role="group" aria-label="Afficher sur la carte">
+            {(Object.keys(OVERLAY_STYLE) as OverlayKind[])
+              .filter((k) => layerCounts[k])
+              .map((k) => {
+                const on = layers.includes(k);
+                return (
+                  <button key={k} type="button" aria-pressed={on} onClick={() => setLayers((ls) => (ls.includes(k) ? ls.filter((x) => x !== k) : [...ls, k]))}>
+                    <span className="dot" style={{ ['--c' as string]: OVERLAY_STYLE[k].color }} aria-hidden="true" />
+                    {OVERLAY_STYLE[k].label} · {layerCounts[k]}
+                  </button>
+                );
+              })}
+          </div>
+        ) : null}
         <MapView
+          overlays={overlays}
+          overlayKinds={layers}
           mode="explore"
           wheel
           tileUrl={map.tileUrl}

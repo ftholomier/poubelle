@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { FAMILIES, FAMILY_ORDER, type Family, type ModuleKey, POST_KINDS, type PostKind, PUBLIC_STATUSES } from '@/lib/constants';
 import type { ExplorerFilterGroup } from '@/lib/explorer';
-import { parisDate } from '@/lib/format';
+import { fmtTimeShort, parisDate, WEEKDAYS_LONG } from '@/lib/format';
 import { memo } from '../cache';
 import { db } from '../db';
 import {
@@ -18,6 +18,7 @@ import {
   events,
   jobs,
   markets,
+  pointsOfInterest,
   posts,
   territories,
 } from '../db/schema';
@@ -75,6 +76,80 @@ const FILTER_GROUPS: [string, string][] = [
   ['LABEL', 'Labels & certifications'],
   ['PAYMENT', 'Moyens de paiement'],
 ];
+
+export type MapOverlay = {
+  id: string;
+  kind: 'EVENT' | 'MARKET' | 'POI';
+  lat: number;
+  lng: number;
+  name: string;
+  color: string;
+  subtitle?: string;
+  href?: string;
+  linkLabel?: string;
+};
+
+/** Couches de la carte : événements des 60 prochains jours, marchés hebdomadaires, lieux économiques. */
+export async function mapOverlays(territoryId: string, base: string): Promise<MapOverlay[]> {
+  const until = new Date(Date.now() + 60 * 86_400_000);
+  const [evs, mks, pois] = await Promise.all([
+    upcomingEvents(territoryId, { limit: 200 }),
+    db
+      .select({ m: markets, c: { name: communes.name, slug: communes.slug } })
+      .from(markets)
+      .innerJoin(communes, eq(communes.id, markets.communeId))
+      .where(and(eq(markets.territoryId, territoryId), eq(markets.isActive, true))),
+    db
+      .select()
+      .from(pointsOfInterest)
+      .where(and(eq(pointsOfInterest.territoryId, territoryId), eq(pointsOfInterest.isActive, true))),
+  ]);
+  const { POI_KINDS } = await import('@/lib/constants');
+  return [
+    ...evs
+      .filter(({ ev }) => ev.lat != null && ev.lng != null && ev.startsAt <= until)
+      .map(({ ev, c }) => ({
+        id: `ev:${ev.id}`,
+        kind: 'EVENT' as const,
+        lat: ev.lat!,
+        lng: ev.lng!,
+        name: ev.title,
+        color: '#7A5BB5',
+        subtitle: [
+          ev.startsAt.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Paris' }),
+          ev.locationName ?? c?.name,
+        ]
+          .filter(Boolean)
+          .join(' · '),
+        href: `${base}/agenda/${ev.slug}`,
+        linkLabel: 'Voir l’événement',
+      })),
+    ...mks
+      .filter(({ m }) => m.lat != null && m.lng != null)
+      .map(({ m, c }) => ({
+        id: `mk:${m.id}`,
+        kind: 'MARKET' as const,
+        lat: m.lat!,
+        lng: m.lng!,
+        name: m.name,
+        color: '#C8892A',
+        subtitle: `Chaque ${WEEKDAYS_LONG[m.weekday] ?? ''} ${fmtTimeShort(m.startTime)}–${fmtTimeShort(m.endTime)}${m.place ? ` · ${m.place}` : ''}`,
+        href: `${base}/${c.slug}`,
+        linkLabel: `Voir ${c.name}`,
+      })),
+    ...pois.map((p) => ({
+      id: `poi:${p.id}`,
+      kind: 'POI' as const,
+      lat: p.lat,
+      lng: p.lng,
+      name: p.name,
+      color: '#14201B',
+      subtitle: [POI_KINDS[p.kind].label, p.address].filter(Boolean).join(' · '),
+      href: p.url ?? undefined,
+      linkLabel: 'Site internet',
+    })),
+  ];
+}
 
 /** Filtres avancés de l'explorateur : attributs réellement présents sur les fiches publiques du territoire. */
 export function explorerFilters(territoryId: string): Promise<ExplorerFilterGroup[]> {

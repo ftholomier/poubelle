@@ -364,6 +364,59 @@ async function main() {
       lng: 6.0745,
     },
   ]);
+  // Lieux économiques de la carte (zones d'activités, tourisme, tiers-lieu, halle).
+  await db.insert(S.pointsOfInterest).values([
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      kind: 'OFFICE_TOURISME',
+      name: 'Office de tourisme Destination Loue Lison',
+      address: '7 rue Pierre Vernier, Ornans',
+      description: 'Accueil des visiteurs, billetterie, boutique des produits du territoire.',
+      lat: 47.1058,
+      lng: 6.1459,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      kind: 'ZONE_ACTIVITE',
+      name: 'Zone d’activités des Prés de la Loue',
+      address: 'Route de Besançon, Ornans',
+      description: '32 entreprises : artisans du bâtiment, garages, négoce agricole.',
+      lat: 47.1112,
+      lng: 6.1318,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      kind: 'HALLE',
+      name: 'Halle d’Ornans',
+      address: 'Place de la Halle, Ornans',
+      description: 'Marché des producteurs bio le mercredi, animations saisonnières.',
+      lat: 47.1071,
+      lng: 6.1437,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Quingey'].id,
+      kind: 'TIERS_LIEU',
+      name: 'La Fabrique, tiers-lieu de Quingey',
+      address: 'Ancienne gare, Quingey',
+      description: 'Coworking, atelier partagé et permanences de la chambre de métiers.',
+      lat: 47.1011,
+      lng: 5.8871,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Tarcenay-Foucherans'].id,
+      kind: 'PEPINIERE',
+      name: 'Pépinière d’entreprises du Plateau',
+      address: 'Rue des Artisans, Tarcenay-Foucherans',
+      description: 'Bureaux et ateliers pour les entreprises de moins de trois ans.',
+      lat: 47.1601,
+      lng: 6.1154,
+    },
+  ]);
 
   console.log('→ Agents de la collectivité');
   const claire = await mkUser({

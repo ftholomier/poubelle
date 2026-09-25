@@ -1,6 +1,6 @@
 'use server';
 
-import { and, eq } from 'drizzle-orm';
+import { and, eq, inArray } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { EVENT_PROGRAM_TEMPLATES } from '@/lib/constants';
@@ -9,7 +9,7 @@ import { slugify } from '@/lib/slug';
 import { audit } from '@/server/audit';
 import { invalidate } from '@/server/cache';
 import { db } from '@/server/db';
-import { events, markets, posts } from '@/server/db/schema';
+import { events, markets, pointsOfInterest, posts } from '@/server/db/schema';
 import { MediaError, saveImageUpload } from '@/server/media';
 import { loadBoContext, type BoContext } from '@/server/services/backoffice';
 
@@ -228,7 +228,9 @@ export async function saveMarketAction(_prev: AgendaState, form: FormData): Prom
     await db
       .update(markets)
       .set(values)
-      .where(and(eq(markets.id, d.marketId), eq(markets.territoryId, ctx.territory.id)));
+      .where(
+        and(eq(markets.id, d.marketId), eq(markets.territoryId, ctx.territory.id), ctx.communeIds ? inArray(markets.communeId, ctx.communeIds) : undefined),
+      );
   else await db.insert(markets).values({ ...values, territoryId: ctx.territory.id });
   await audit({
     actor: { user: ctx.actor.user },
@@ -247,9 +249,78 @@ export async function toggleMarketAction(form: FormData): Promise<void> {
   const [m] = await db
     .select()
     .from(markets)
-    .where(and(eq(markets.id, id), eq(markets.territoryId, ctx.territory.id)))
+    .where(and(eq(markets.id, id), eq(markets.territoryId, ctx.territory.id), ctx.communeIds ? inArray(markets.communeId, ctx.communeIds) : undefined))
     .limit(1);
   if (!m) return;
   await db.update(markets).set({ isActive: !m.isActive }).where(eq(markets.id, m.id));
   done(ctx);
+}
+
+const POI_KIND = z.enum(['ZONE_ACTIVITE', 'HALLE', 'OFFICE_TOURISME', 'TIERS_LIEU', 'PEPINIERE', 'GARE', 'AUTRE']);
+
+/** Lieu économique affiché sur la carte du portail (zone d'activités, halle, office de tourisme…). */
+export async function savePoiAction(_prev: AgendaState, form: FormData): Promise<AgendaState> {
+  const ctx = await loadBoContext();
+  const parsed = z
+    .object({
+      poiId: optUuid,
+      name: z.string().trim().min(3, 'Nom requis').max(255),
+      kind: POI_KIND,
+      communeId: optUuid,
+      address: z.string().trim().max(255),
+      url: z.union([z.literal(''), z.string().trim().url('Adresse web invalide').max(500)]),
+      description: z.string().trim().max(1000),
+      lat: z.coerce.number().min(-90).max(90),
+      lng: z.coerce.number().min(-180).max(180),
+    })
+    .safeParse(strings(form));
+  if (!parsed.success) return { status: 'error', message: parsed.error.issues[0]?.message };
+  const d = parsed.data;
+  const communeId = d.communeId || null;
+  if (!communeAllowed(ctx, communeId)) return { status: 'error', message: 'Commune hors de votre périmètre.' };
+  if (d.url && !/^https?:\/\//.test(d.url)) return { status: 'error', message: 'L’adresse web doit commencer par https://' };
+  const values = {
+    name: d.name,
+    kind: d.kind,
+    communeId,
+    address: d.address || null,
+    url: d.url || null,
+    description: d.description || null,
+    lat: d.lat,
+    lng: d.lng,
+    updatedAt: new Date(),
+  };
+  if (d.poiId)
+    await db
+      .update(pointsOfInterest)
+      .set(values)
+      .where(and(eq(pointsOfInterest.id, d.poiId), eq(pointsOfInterest.territoryId, ctx.territory.id), poiScope(ctx)));
+  else await db.insert(pointsOfInterest).values({ ...values, territoryId: ctx.territory.id, createdById: ctx.actor.user.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'MODIFICATION',
+    action: 'poi.save',
+    summary: `Lieu « ${d.name} » enregistré sur la carte`,
+    territoryId: ctx.territory.id,
+  });
+  revalidatePath('/collectivite/agenda');
+  return { status: 'ok', message: 'Lieu enregistré : il apparaît sur la carte du portail.' };
+}
+
+export async function togglePoiAction(form: FormData): Promise<void> {
+  const ctx = await loadBoContext();
+  const id = z.string().uuid().parse(form.get('poiId'));
+  const [p] = await db
+    .select()
+    .from(pointsOfInterest)
+    .where(and(eq(pointsOfInterest.id, id), eq(pointsOfInterest.territoryId, ctx.territory.id), poiScope(ctx)))
+    .limit(1);
+  if (!p) return;
+  await db.update(pointsOfInterest).set({ isActive: !p.isActive, updatedAt: new Date() }).where(eq(pointsOfInterest.id, p.id));
+  revalidatePath('/collectivite/agenda');
+}
+
+/** Une commune ne gère que les lieux situés chez elle. */
+function poiScope(ctx: BoContext) {
+  return ctx.communeIds ? inArray(pointsOfInterest.communeId, ctx.communeIds) : undefined;
 }

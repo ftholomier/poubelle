@@ -64,6 +64,11 @@ const PATHS: Record<string, string> = {
 
 export type IconName = keyof typeof PATHS;
 
+/** Tracé SVG d'une icône (pour les repères HTML des cartes). */
+export function iconPath(name: IconName): string {
+  return PATHS[name];
+}
+
 export function Icon({
   name,
   size = 18,

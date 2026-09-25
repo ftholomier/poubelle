@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { ExplorerClient } from '@/components/portal/ExplorerClient';
 import { isFilteredState, parseExplorerParams, toSearchParams } from '@/lib/explorer';
-import { allCards, explorerFilters, getPortal, toMapPoints } from '@/server/services/portal';
+import { allCards, explorerFilters, getPortal, mapOverlays, toMapPoints } from '@/server/services/portal';
 import { searchTerritory, toExplorerItem } from '@/server/services/search';
 import { getTerritoryCommunes } from '@/server/services/territories';
 import { portalUrl } from '@/server/urls';
@@ -30,11 +30,12 @@ export default async function ExplorerPage({ params, searchParams }: Props) {
   const state = parseExplorerParams(await searchParams);
   const t = portal.territory;
   const ai = portal.modules.has('AI');
-  const [res, cards, communes, filters] = await Promise.all([
+  const [res, cards, communes, filters, overlays] = await Promise.all([
     searchTerritory(t, { ...toSearchParams(state), limit: 5000, ai }),
     allCards(t.id),
     getTerritoryCommunes(t.id),
     explorerFilters(t.id),
+    mapOverlays(t.id, portal.base),
   ]);
   const filtered = isFilteredState(state);
   return (
@@ -53,6 +54,7 @@ export default async function ExplorerPage({ params, searchParams }: Props) {
         aiEnabled={ai}
         communes={communes.map((c) => ({ slug: c.slug, name: c.name }))}
         filters={filters}
+        overlays={overlays}
       />
     </>
   );

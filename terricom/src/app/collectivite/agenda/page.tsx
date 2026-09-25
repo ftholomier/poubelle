@@ -1,14 +1,25 @@
 import { and, asc, desc, eq, gte, inArray, isNull, ne } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { archiveEventAction, archiveNewsAction, saveEventAction, saveMarketAction, saveNewsAction, toggleMarketAction } from './actions';
+import {
+  archiveEventAction,
+  archiveNewsAction,
+  saveEventAction,
+  saveMarketAction,
+  saveNewsAction,
+  savePoiAction,
+  toggleMarketAction,
+  togglePoiAction,
+} from './actions';
+import { PositionPicker } from '@/components/bo/PositionPicker';
 import { ActionForm } from '@/components/pro/ActionForm';
 import { FileDrop } from '@/components/ui/FileDrop';
 import { SubmitButton } from '@/components/ui/SubmitButton';
-import { EVENT_KINDS, type EventKind } from '@/lib/constants';
+import { EVENT_KINDS, POI_KINDS, type EventKind, type PoiKind } from '@/lib/constants';
 import { daysAgoDate, fmtEventBadge, fmtShortDate, parisDate, parisParts, WEEKDAYS_LONG } from '@/lib/format';
 import { db } from '@/server/db';
-import { communes, establishments, events, markets, posts } from '@/server/db/schema';
+import { communes, establishments, events, markets, pointsOfInterest, posts } from '@/server/db/schema';
+import { env } from '@/server/env';
 import { loadBoContext } from '@/server/services/backoffice';
 
 export const metadata: Metadata = { title: 'Agenda & actualités' };
@@ -19,6 +30,7 @@ const TABS = [
   { key: 'actualites', label: 'Actualités' },
   { key: 'evenements', label: 'Événements' },
   { key: 'marches', label: 'Marchés' },
+  { key: 'lieux', label: 'Lieux sur la carte' },
 ] as const;
 
 export default async function AgendaPage({ searchParams }: Props) {
@@ -328,6 +340,105 @@ export default async function AgendaPage({ searchParams }: Props) {
               <FileDrop name="image" accept="image/jpeg,image/png,image/webp" label="Visuel (facultatif)" />
               <SubmitButton className="btn btn-brand" pendingLabel="Enregistrement…" style={{ alignSelf: 'flex-start' }}>
                 {editing ? 'Enregistrer' : 'Ajouter à l’agenda'}
+              </SubmitButton>
+            </ActionForm>
+          </section>
+        </div>
+      </div>
+    );
+  }
+
+  if (tab === 'lieux') {
+    const pois = await db
+      .select({ p: pointsOfInterest, communeName: communes.name })
+      .from(pointsOfInterest)
+      .leftJoin(communes, eq(communes.id, pointsOfInterest.communeId))
+      .where(and(eq(pointsOfInterest.territoryId, ctx.territory.id), ctx.communeIds ? inArray(pointsOfInterest.communeId, ctx.communeIds) : undefined))
+      .orderBy(asc(pointsOfInterest.name));
+    const editing = pois.find((x) => x.p.id === sp.id)?.p ?? null;
+    const center: [number, number] = editing
+      ? [editing.lat, editing.lng]
+      : [ctx.commune?.lat ?? ctx.territory.centerLat ?? 46.6, ctx.commune?.lng ?? ctx.territory.centerLng ?? 2.6];
+    return (
+      <div className="app-content">
+        {tabs}
+        <div className="split" style={{ ['--cols' as string]: 'minmax(0,1fr) minmax(0,1fr)', ['--gap' as string]: '18px', ['--align' as string]: 'start' }}>
+          <section className="bo-card" style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <b>Lieux économiques</b>
+            <span style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 8 }}>
+              Zones d’activités, halles, office de tourisme, tiers-lieux… affichés sur la carte du portail avec les événements et les marchés.
+            </span>
+            {pois.map(({ p, communeName }) => (
+              <div
+                key={p.id}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  gap: 10,
+                  padding: '10px 0',
+                  borderTop: '1px solid var(--line-2)',
+                  fontSize: 14,
+                  opacity: p.isActive ? 1 : 0.55,
+                }}
+              >
+                <Link href={`/collectivite/agenda?onglet=lieux&id=${p.id}`} style={{ color: 'var(--text)', minWidth: 0 }}>
+                  <b>{p.name}</b>
+                  <span style={{ display: 'block', fontSize: 12, color: 'var(--muted)' }}>
+                    {POI_KINDS[p.kind as PoiKind].label}
+                    {communeName ? ` · ${communeName}` : ''}
+                    {p.address ? ` · ${p.address}` : ''}
+                  </span>
+                </Link>
+                <form action={togglePoiAction}>
+                  <input type="hidden" name="poiId" value={p.id} />
+                  <button type="submit" className="btn-link" style={{ fontSize: 12 }}>
+                    {p.isActive ? 'Masquer' : 'Afficher'}
+                  </button>
+                </form>
+              </div>
+            ))}
+            {!pois.length ? <span style={{ fontSize: 13, color: 'var(--muted)' }}>Aucun lieu pour l’instant.</span> : null}
+          </section>
+          <section className="bo-card">
+            <b>{editing ? 'Modifier le lieu' : 'Nouveau lieu'}</b>
+            <ActionForm
+              key={editing?.id ?? 'new'}
+              action={savePoiAction}
+              resetOnSuccess={!editing}
+              style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}
+            >
+              <input type="hidden" name="poiId" value={editing?.id ?? ''} />
+              <input
+                name="name"
+                className="input"
+                placeholder="Nom (ex. Zone d’activités des Prés)"
+                defaultValue={editing?.name ?? ''}
+                required
+                aria-label="Nom"
+              />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                <select name="kind" className="input" defaultValue={editing?.kind ?? 'ZONE_ACTIVITE'} aria-label="Type de lieu">
+                  {(Object.keys(POI_KINDS) as PoiKind[]).map((k) => (
+                    <option key={k} value={k}>
+                      {POI_KINDS[k].label}
+                    </option>
+                  ))}
+                </select>
+                {communeSelect('communeId', editing?.communeId ?? null, ctx.level === 'COMMUNE')}
+              </div>
+              <input name="address" className="input" placeholder="Adresse" defaultValue={editing?.address ?? ''} aria-label="Adresse" />
+              <input name="url" className="input" placeholder="Site internet (https://…)" defaultValue={editing?.url ?? ''} aria-label="Site internet" />
+              <textarea
+                name="description"
+                className="input"
+                rows={2}
+                placeholder="En quelques mots (entreprises présentes, services…)"
+                defaultValue={editing?.description ?? ''}
+                aria-label="Description"
+              />
+              <PositionPicker lat={center[0]} lng={center[1]} tileUrl={env.MAP_TILE_URL} attribution={env.MAP_TILE_ATTRIBUTION} />
+              <SubmitButton className="btn btn-brand" pendingLabel="Enregistrement…" style={{ alignSelf: 'flex-start' }}>
+                {editing ? 'Enregistrer' : 'Ajouter à la carte'}
               </SubmitButton>
             </ActionForm>
           </section>

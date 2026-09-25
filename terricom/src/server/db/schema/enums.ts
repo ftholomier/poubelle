@@ -68,6 +68,7 @@ export const authorType = pgEnum('author_type', ['ESTABLISHMENT', 'COMMUNE', 'TE
 export const eventKind = pgEnum('event_kind', ['MARCHE', 'DEGUSTATION', 'PORTES_OUVERTES', 'ATELIER', 'CONCERT', 'ANIMATION', 'SALON', 'AUTRE']);
 
 export const publishStatus = pgEnum('publish_status', ['DRAFT', 'PUBLISHED', 'ARCHIVED']);
+export const poiKind = pgEnum('poi_kind', ['ZONE_ACTIVITE', 'HALLE', 'OFFICE_TOURISME', 'TIERS_LIEU', 'PEPINIERE', 'GARE', 'AUTRE']);
 
 export const contractType = pgEnum('contract_type', ['CDI', 'CDD', 'ALTERNANCE', 'SAISONNIER', 'STAGE', 'INTERIM', 'INDEPENDANT']);
 

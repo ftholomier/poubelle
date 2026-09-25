@@ -2,6 +2,7 @@
 
 import type * as Leaflet from 'leaflet';
 import { useEffect, useRef, type CSSProperties } from 'react';
+import { iconPath, type IconName } from '@/components/ui/Icon';
 
 export type MapPoint = {
   id: string;
@@ -12,6 +13,17 @@ export type MapPoint = {
   subtitle?: string;
   image?: string | null;
   href?: string;
+  linkLabel?: string;
+};
+
+/** Couches complémentaires : événements, marchés, points d'intérêt économiques. */
+export type OverlayKind = 'EVENT' | 'MARKET' | 'POI';
+export type OverlayPoint = MapPoint & { kind: OverlayKind };
+
+export const OVERLAY_STYLE: Record<OverlayKind, { color: string; icon: IconName; label: string }> = {
+  EVENT: { color: '#7A5BB5', icon: 'calendar', label: 'Événements' },
+  MARKET: { color: '#C8892A', icon: 'store', label: 'Marchés' },
+  POI: { color: '#14201B', icon: 'building', label: 'Lieux économiques' },
 };
 
 export type HeatPoint = { name: string; lat: number; lng: number; value: number };
@@ -38,6 +50,9 @@ type Props = {
   ariaLabel?: string;
   /** picker : position choisie par glisser-déposer */
   onPick?: (lat: number, lng: number) => void;
+  /** Couches complémentaires et celles à afficher. */
+  overlays?: OverlayPoint[];
+  overlayKinds?: OverlayKind[];
 };
 
 /** Au-delà de ce nombre de repères, ils sont regroupés (lisibilité et performances). */
@@ -48,7 +63,7 @@ const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&
 function popupHtml(p: MapPoint): string {
   return `<div class="tc-popup">${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy">` : ''}<div class="tc-popup-body"><b>${esc(p.name)}</b>${
     p.subtitle ? `<small>${esc(p.subtitle)}</small>` : ''
-  }${p.href ? `<a href="${esc(p.href)}">Voir la fiche</a>` : ''}</div></div>`;
+  }${p.href ? `<a href="${esc(p.href)}">${esc(p.linkLabel ?? 'Voir la fiche')}</a>` : ''}</div></div>`;
 }
 
 /**
@@ -61,6 +76,7 @@ export function MapView(props: Props) {
   const LRef = useRef<typeof Leaflet | null>(null);
   const markers = useRef(new Map<string, Leaflet.Marker>());
   const clusterRef = useRef<Leaflet.MarkerClusterGroup | null>(null);
+  const overlayRef = useRef<Partial<Record<OverlayKind, Leaflet.LayerGroup>>>({});
   const propsRef = useRef(props);
   // Les dernières props sont lues par les gestionnaires Leaflet (glisser-déposer du repère…).
   useEffect(() => {
@@ -122,7 +138,10 @@ export function MapView(props: Props) {
           map.addLayer(cluster);
           clusterRef.current = cluster;
         } else initial.forEach((m) => m.addTo(map));
-        if (pts.length) map.fitBounds(L.latLngBounds(pts.map((x) => [x.lat, x.lng])), { padding: [40, 40] });
+        // Cadrage sur les adresses visibles (filtre de commune, recherche), sinon sur tout le territoire.
+        const framed = visible ? pts.filter((x) => visible.has(x.id)) : pts;
+        const frame = framed.length ? framed : pts;
+        if (frame.length) map.fitBounds(L.latLngBounds(frame.map((x) => [x.lat, x.lng])), { padding: [40, 40], maxZoom: 15 });
         else map.setView(p.center ?? [46.6, 2.6], p.zoom ?? 11);
       } else if (p.mode === 'fiche') {
         const focus = pts.find((x) => x.id === p.focusId) ?? pts[0];
@@ -186,7 +205,33 @@ export function MapView(props: Props) {
           }
         }
         map.setView(p.center ?? [46.6, 2.6], p.zoom ?? 6);
-      } else if (p.mode === 'picker') {
+      }
+      // Couches complémentaires (hors regroupement) : une couche par type, affichée à la demande.
+      if (p.overlays?.length) {
+        const shown = new Set(p.overlayKinds ?? []);
+        for (const kind of Object.keys(OVERLAY_STYLE) as OverlayKind[]) {
+          const list = p.overlays.filter((o) => o.kind === kind && Number.isFinite(o.lat) && Number.isFinite(o.lng));
+          if (!list.length) continue;
+          const st = OVERLAY_STYLE[kind];
+          const group = L.layerGroup(
+            list.map((o) =>
+              L.marker([o.lat, o.lng], {
+                title: o.name,
+                icon: L.divIcon({
+                  className: '',
+                  iconSize: [28, 28],
+                  iconAnchor: [14, 14],
+                  popupAnchor: [0, -14],
+                  html: `<div class="tc-ov" style="--c:${st.color}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${iconPath(st.icon)}"/></svg></div>`,
+                }),
+              }).bindPopup(popupHtml(o)),
+            ),
+          );
+          overlayRef.current[kind] = group;
+          if (shown.has(kind)) group.addTo(map);
+        }
+      }
+      if (p.mode === 'picker') {
         const start = p.center ?? [46.6, 2.6];
         const pt: MapPoint = { id: 'pick', lat: start[0], lng: start[1], name: '•', color: '#1F6B52' };
         const m = L.marker(start, { icon: icon(pt, true), draggable: true }).addTo(map);
@@ -198,8 +243,10 @@ export function MapView(props: Props) {
       }
     })();
     const markerMap = markers.current;
+    const overlayMap = overlayRef.current;
     return () => {
       cancelled = true;
+      for (const k of Object.keys(overlayMap) as OverlayKind[]) delete overlayMap[k];
       mapRef.current?.remove();
       mapRef.current = null;
       clusterRef.current = null;
@@ -224,15 +271,34 @@ export function MapView(props: Props) {
       }
       if (toRemove.length) cluster.removeLayers(toRemove);
       if (toAdd.length) cluster.addLayers(toAdd);
-      return;
+    } else {
+      for (const [id, m] of markers.current) {
+        const on = !visible || visible.has(id);
+        if (on && !map.hasLayer(m)) m.addTo(map);
+        if (!on && map.hasLayer(m)) map.removeLayer(m);
+      }
     }
-    for (const [id, m] of markers.current) {
-      const on = !visible || visible.has(id);
-      if (on && !map.hasLayer(m)) m.addTo(map);
-      if (!on && map.hasLayer(m)) map.removeLayer(m);
+    // La carte suit les résultats : cadrage sur les adresses visibles.
+    const L = LRef.current;
+    if (props.mode === 'explore' && L) {
+      const shown = [...markers.current].filter(([id]) => !visible || visible.has(id)).map(([, m]) => m.getLatLng());
+      if (shown.length) map.fitBounds(L.latLngBounds(shown), { padding: [40, 40], maxZoom: 15, animate: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visibleKey, props.mode]);
+
+  // Affichage des couches complémentaires
+  const overlayKey = (props.overlayKinds ?? []).join(',');
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const shown = new Set(props.overlayKinds ?? []);
+    for (const [kind, group] of Object.entries(overlayRef.current) as [OverlayKind, Leaflet.LayerGroup][]) {
+      if (shown.has(kind) && !map.hasLayer(group)) group.addTo(map);
+      if (!shown.has(kind) && map.hasLayer(group)) map.removeLayer(group);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [overlayKey]);
 
   // Mise en avant d'un repère (survol d'un résultat)
   useEffect(() => {

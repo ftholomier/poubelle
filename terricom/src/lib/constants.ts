@@ -48,6 +48,19 @@ export const POST_KIND_ORDER: PostKind[] = ['NEWS', 'PROMO', 'EVENT', 'NOUVEAUTE
 
 export type EventKind = 'MARCHE' | 'DEGUSTATION' | 'PORTES_OUVERTES' | 'ATELIER' | 'CONCERT' | 'ANIMATION' | 'SALON' | 'AUTRE';
 
+export type PoiKind = 'ZONE_ACTIVITE' | 'HALLE' | 'OFFICE_TOURISME' | 'TIERS_LIEU' | 'PEPINIERE' | 'GARE' | 'AUTRE';
+
+/** Points d'intérêt économiques (carte du portail). */
+export const POI_KINDS: Record<PoiKind, { label: string; short: string }> = {
+  ZONE_ACTIVITE: { label: 'Zone d’activités', short: 'Zone d’activités' },
+  HALLE: { label: 'Halle, marché couvert', short: 'Halle' },
+  OFFICE_TOURISME: { label: 'Office de tourisme', short: 'Tourisme' },
+  TIERS_LIEU: { label: 'Tiers-lieu, espace de coworking', short: 'Tiers-lieu' },
+  PEPINIERE: { label: 'Pépinière, hôtel d’entreprises', short: 'Pépinière' },
+  GARE: { label: 'Gare, pôle d’échanges', short: 'Gare' },
+  AUTRE: { label: 'Autre lieu', short: 'Lieu' },
+};
+
 export const EVENT_KINDS: Record<EventKind, { label: string; plural: string; bg: string }> = {
   MARCHE: { label: 'Marché', plural: 'Marchés', bg: '#F4B266' },
   DEGUSTATION: { label: 'Dégustation', plural: 'Dégustations', bg: '#D6E8B4' },

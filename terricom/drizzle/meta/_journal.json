@@ -64,6 +64,13 @@
       "when": 1790311712917,
       "tag": "0008_campaign_communes",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1790312428099,
+      "tag": "0009_points_of_interest",
+      "breakpoints": true
     }
   ]
 }
