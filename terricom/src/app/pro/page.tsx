@@ -46,6 +46,13 @@ export default async function ProHome({ searchParams }: Props) {
                 <span style={{ color: 'var(--green)', fontWeight: 700 }}>Gérer →</span>
               </Link>
             ))}
+            <Link
+              href="/pro/inscription"
+              className="card card-link"
+              style={{ padding: '14px 16px', borderRadius: 16, borderStyle: 'dashed', color: 'var(--green)', fontWeight: 700 }}
+            >
+              + Ajouter un établissement (autre adresse de votre entreprise)
+            </Link>
           </div>
         </main>
       );

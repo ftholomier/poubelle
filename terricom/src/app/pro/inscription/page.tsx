@@ -24,7 +24,23 @@ export default async function SignupPage({ searchParams }: Props) {
   const [session, territories] = await Promise.all([getSession(), signupTerritories(territory?.id ?? null)]);
   const categories = await signupCategories(territories.map((t) => t.id));
   let prefill: SignupPrefill | null = null;
-  if (env.DEMO_MODE) {
+  // Nouvel établissement d'une entreprise déjà présente : le SIREN est prérempli (reste le NIC).
+  const siren = sp.siren && /^\d{9}$/.test(sp.siren) && session ? sp.siren : null;
+  if (siren)
+    prefill = {
+      siret: siren,
+      name: '',
+      categoryId: '',
+      activityLabel: '',
+      street: '',
+      communeId: '',
+      phone: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    };
+  else if (env.DEMO_MODE) {
     const ornans = territories.flatMap((t) => t.communes).find((c) => c.name === 'Ornans') ?? territories[0]?.communes[0];
     const cat = categories.find((c) => /c[ée]ramique|poterie|artisan/i.test(c.name)) ?? categories[0];
     const suffix = randomToken(3)
@@ -55,6 +71,7 @@ export default async function SignupPage({ searchParams }: Props) {
         {session ? (
           <div className="alert alert-info" role="status">
             Connecté·e en tant que {fullName(session.user)} : la fiche sera rattachée à ce compte.
+            {siren ? ' Complétez le numéro SIRET du nouvel établissement (les 5 derniers chiffres).' : ''}
           </div>
         ) : null}
         {territories.length ? (

@@ -120,6 +120,7 @@ export default async function ProAppLayout({ children, params }: Props) {
               links={[
                 { href: '/compte', label: 'Mon compte et sécurité' },
                 ...(others.length > 1 ? [{ href: '/pro?choisir=1', label: 'Changer d’établissement' }] : []),
+                ...(ctx.role !== 'STAFF' ? [{ href: `/pro/inscription?siren=${ctx.est.siret?.slice(0, 9) ?? ''}`, label: 'Ajouter un établissement' }] : []),
                 ...(ctx.role === 'STAFF' ? [{ href: '/collectivite', label: 'Retour au back-office' }] : []),
               ]}
             />
