@@ -79,6 +79,11 @@ spec:
                 name: terricom-config
             - secretRef:
                 name: terricom-secrets
+          env:
+            # Écoute sur toutes les interfaces : une adresse IP explicite casserait les
+            # réécritures du proxy (portails servis sur leur propre domaine).
+            - name: HOSTNAME
+              value: 0.0.0.0
           startupProbe:
             httpGet: { path: /api/health, port: http }
             periodSeconds: 3

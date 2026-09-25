@@ -15,6 +15,7 @@ x-app-env: &app-env
     STORAGE_DRIVER: local
     STORAGE_LOCAL_DIR: /app/storage
     HEALTH_PROBE_URL: http://web:3000
+    HOSTNAME: 0.0.0.0
 
 services:
   postgres:

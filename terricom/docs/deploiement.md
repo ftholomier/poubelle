@@ -15,6 +15,11 @@ docker build --target tools -t ghcr.io/<organisation>/terricom-tools:1.0.0 .
 ```
 
 La compilation ne lit aucun secret ni aucune base : toute la configuration est injectée à l’exécution.
+
+Le serveur web doit écouter sur `HOSTNAME=0.0.0.0` (valeur de l’image, imposée dans les manifestes et
+`docker-compose.yml`) ou sur un nom d’hôte : avec une adresse IP explicite, Next.js traiterait les réécritures
+des portails servis sur leur propre domaine comme des requêtes externes (un avertissement est journalisé au
+démarrage).
 La CI (`.github/workflows/terricom.yml`) construit et publie les deux images sur GHCR à chaque étiquette
 `terricom-vX.Y.Z` et sur `main`, avec SBOM et attestation de provenance.
 
