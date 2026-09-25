@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-export type NavItem = { href: string; label: string; badge?: string | null; badgeBg?: string; exact?: boolean } | { separator: true };
+export type NavItem = { href: string; label: string; badge?: string | null; badgeBg?: string; badgeFg?: string; exact?: boolean } | { separator: true };
 
 /** Navigation latérale des espaces connectés (élément actif selon l'URL). */
 export function AppNav({ items, label }: { items: NavItem[]; label: string }) {
@@ -17,7 +17,7 @@ export function AppNav({ items, label }: { items: NavItem[]; label: string }) {
           <Link key={item.href} href={item.href} className="app-nav-item" aria-current={on ? 'page' : undefined}>
             <span>{item.label}</span>
             {item.badge ? (
-              <span className="app-nav-badge" style={{ background: item.badgeBg ?? 'var(--amber)' }}>
+              <span className="app-nav-badge" style={{ background: item.badgeBg ?? 'var(--amber)', color: item.badgeFg }}>
                 {item.badge}
               </span>
             ) : null}

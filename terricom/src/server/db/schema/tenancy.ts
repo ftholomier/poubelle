@@ -42,6 +42,11 @@ export type TerritorySettings = {
   livingTitle?: string;
   livingText?: string;
   livingImageUrl?: string;
+  /** Objectif d'adoption affiché au tableau de bord (part de fiches revendiquées). */
+  adoptionGoalPct?: number;
+  adoptionGoalLabel?: string;
+  /** Double authentification exigée pour toute l'équipe (sinon : administrateurs seulement). */
+  requireMfaForAll?: boolean;
 };
 
 export type HomeBlock =

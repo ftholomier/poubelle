@@ -108,8 +108,8 @@ export async function seedAnalytics(ctx: Ctx): Promise<void> {
       ['marché ornans', 530, 3],
       ['garage', 402, 12],
       ['cordonnier', 212, 0],
-      ['coiffeur ornans', 344, 7],
-      ['miel', 198, 3],
+      ['coiffeur ornans', 154, 7],
+      ['miel', 138, 3],
       ['comté', 187, 5],
       ['pizza', 176, 4],
       ['électricien', 165, 9],
@@ -132,7 +132,7 @@ export async function seedAnalytics(ctx: Ctx): Promise<void> {
        SELECT v.day + make_interval(mins => (420 + floor(random() * 900))::int), $1, 'SEARCH', 'PLATFORM_SEARCH',
          (ARRAY['boulangerie','fromagerie','vin jura','ouvert maintenant','restaurant ornans','artisan','bio','menuisier','chocolat','épicerie vrac','absinthe','garage quingey'])[1 + floor(random()*12)::int],
          1 + floor(random()*25)::int, v.vh, v.dev
-       FROM v WHERE random() < 0.3`,
+       FROM v WHERE random() < 0.03`,
       [ctx.territoryId],
     );
 

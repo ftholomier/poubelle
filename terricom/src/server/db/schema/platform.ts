@@ -177,3 +177,67 @@ export const apiKeys = pgTable(
   },
   (t) => [index('api_keys_territory_idx').on(t.territoryId)],
 );
+
+export type ImportMapping = Partial<
+  Record<'name' | 'siret' | 'naf' | 'category' | 'street' | 'postalCode' | 'inseeCode' | 'city' | 'phone' | 'email' | 'website' | 'lat' | 'lng', string>
+>;
+
+export type ImportRow = {
+  line: number;
+  name: string;
+  siret: string | null;
+  categoryId: string | null;
+  categoryName: string | null;
+  communeId: string | null;
+  communeName: string | null;
+  street: string | null;
+  postalCode: string | null;
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+  lat: number | null;
+  lng: number | null;
+  /** CREATE : nouvelle fiche ; MERGE : complète une fiche existante ; SKIP : ligne en erreur ou doublon du fichier */
+  action: 'CREATE' | 'MERGE' | 'SKIP';
+  existingId?: string | null;
+  errors: string[];
+};
+
+export type ImportReport = {
+  valid: number;
+  merged: number;
+  duplicatesInFile: number;
+  errors: number;
+  total: number;
+  created?: number;
+  updated?: number;
+  invited?: number;
+  /** Fiches créées sans email : invitation par courrier. */
+  letterIds?: string[];
+};
+
+/** Lots d'import (CSV ou base SIRENE) : analyse, correspondance des colonnes, puis création des fiches. */
+export const importBatches = pgTable(
+  'import_batches',
+  {
+    id: pk(),
+    territoryId: uuid()
+      .notNull()
+      .references(() => territories.id, { onDelete: 'cascade' }),
+    createdById: uuid().references(() => users.id, { onDelete: 'set null' }),
+    source: varchar({ length: 16 }).notNull().default('CSV'),
+    filename: varchar({ length: 255 }).notNull(),
+    status: varchar({ length: 16 }).notNull().default('ANALYZED'),
+    headers: text().array().notNull().default(sql`'{}'::text[]`),
+    mapping: jsonb().$type<ImportMapping>().notNull().default(sql`'{}'::jsonb`),
+    rawRows: jsonb().$type<Record<string, string>[]>().notNull().default(sql`'[]'::jsonb`),
+    rows: jsonb().$type<ImportRow[]>().notNull().default(sql`'[]'::jsonb`),
+    report: jsonb().$type<ImportReport>().notNull().default(sql`'{}'::jsonb`),
+    defaultCategoryId: uuid(),
+    error: text(),
+    committedAt: tstz(),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index('import_batches_territory_idx').on(t.territoryId, t.createdAt)],
+);

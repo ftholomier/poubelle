@@ -47,7 +47,7 @@ function loadFontFiles() {
   return fontCache;
 }
 
-async function newDoc() {
+export async function newDoc() {
   const pdf = await PDFDocument.create();
   pdf.registerFontkit(fontkit);
   const files = await loadFontFiles();
@@ -61,13 +61,13 @@ async function newDoc() {
   return { pdf, fonts };
 }
 
-function hex(c: string): RGB {
+export function hex(c: string): RGB {
   const v = c.replace('#', '');
   return rgb(parseInt(v.slice(0, 2), 16) / 255, parseInt(v.slice(2, 4), 16) / 255, parseInt(v.slice(4, 6), 16) / 255);
 }
 
 /** Découpe un texte en lignes tenant dans une largeur donnée. */
-function wrap(text: string, font: PDFFont, size: number, width: number): string[] {
+export function wrap(text: string, font: PDFFont, size: number, width: number): string[] {
   const words = text.split(/\s+/);
   const lines: string[] = [];
   let line = '';
@@ -83,7 +83,7 @@ function wrap(text: string, font: PDFFont, size: number, width: number): string[
 }
 
 /** Dessine un QR code vectoriel (modules pleins) dans un carré de côté `size`. */
-function drawQr(page: PDFPage, data: string, x: number, y: number, size: number, color = '#14201B') {
+export function drawQr(page: PDFPage, data: string, x: number, y: number, size: number, color = '#14201B') {
   const qr = QRCode.create(data, { errorCorrectionLevel: 'M' });
   const n = qr.modules.size;
   const cell = size / n;
@@ -95,7 +95,7 @@ function drawQr(page: PDFPage, data: string, x: number, y: number, size: number,
   }
 }
 
-function roundedRect(page: PDFPage, x: number, y: number, w: number, h: number, r: number, color: RGB) {
+export function roundedRect(page: PDFPage, x: number, y: number, w: number, h: number, r: number, color: RGB) {
   const path = `M ${r} 0 H ${w - r} A ${r} ${r} 0 0 1 ${w} ${r} V ${h - r} A ${r} ${r} 0 0 1 ${w - r} ${h} H ${r} A ${r} ${r} 0 0 1 0 ${h - r} V ${r} A ${r} ${r} 0 0 1 ${r} 0 Z`;
   // drawSvgPath utilise un repère orienté vers le bas : on part du coin supérieur gauche.
   page.drawSvgPath(path, { x, y: y + h, color });

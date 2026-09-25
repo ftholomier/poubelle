@@ -1,7 +1,7 @@
-import { and, eq } from 'drizzle-orm';
+import { and, desc, eq, gte, sql } from 'drizzle-orm';
 import { sha256 } from '../crypto';
 import { db } from '../db';
-import { subscribers } from '../db/schema';
+import { newsletterDeliveries, newsletters, subscribers } from '../db/schema';
 
 /** Confirmation du double opt-in (lien reçu par email). */
 export async function confirmSubscription(territoryId: string, token: string) {
@@ -25,6 +25,14 @@ export async function unsubscribe(token: string) {
   if (!sub) return null;
   if (sub.status !== 'UNSUBSCRIBED') {
     await db.update(subscribers).set({ status: 'UNSUBSCRIBED', unsubscribedAt: new Date() }).where(eq(subscribers.id, sub.id));
+    // Attribuée à la dernière lettre reçue (statistique de désinscription).
+    const [last] = await db
+      .select({ newsletterId: newsletterDeliveries.newsletterId })
+      .from(newsletterDeliveries)
+      .where(and(eq(newsletterDeliveries.subscriberId, sub.id), gte(newsletterDeliveries.sentAt, new Date(Date.now() - 30 * 86_400_000))))
+      .orderBy(desc(newsletterDeliveries.sentAt))
+      .limit(1);
+    if (last) await db.update(newsletters).set({ statsUnsubscribes: sql`${newsletters.statsUnsubscribes} + 1` }).where(eq(newsletters.id, last.newsletterId));
   }
   return sub;
 }

@@ -12,6 +12,7 @@ export type QueueName =
   | 'maintenance.purge'
   | 'claims.reminders'
   | 'import.geocode'
+  | 'import.sirene'
   | 'search.refresh'
   | 'campaigns.status';
 

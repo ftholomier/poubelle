@@ -40,11 +40,11 @@ export function Photo({
     return (
       <div
         className={`img-fallback ${className ?? ''}`}
-        style={{ background: `linear-gradient(135deg, ${color}, color-mix(in srgb, ${color} 70%, #14201B))`, fontSize: 'clamp(22px, 4vw, 40px)', ...style }}
+        style={{ background: `linear-gradient(135deg, ${color}, color-mix(in srgb, ${color} 70%, #14201B))`, ...style }}
         role={alt ? 'img' : undefined}
         aria-label={alt || undefined}
       >
-        {(label ?? alt).trim().charAt(0).toUpperCase()}
+        <span aria-hidden="true">{(label ?? alt).trim().charAt(0).toUpperCase()}</span>
       </div>
     );
   }

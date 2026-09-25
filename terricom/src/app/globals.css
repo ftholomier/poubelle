@@ -780,6 +780,12 @@ p {
   color: #fff;
   width: 100%;
   height: 100%;
+  container-type: size;
+  line-height: 1;
+}
+/* L'initiale s'adapte à la taille de la vignette (conteneur). */
+.img-fallback > span {
+  font-size: min(40px, 52cqmin);
 }
 
 /* ─── Formulaires ───────────────────────────────────────────────────────── */
@@ -1480,4 +1486,158 @@ p {
   .show-md {
     display: none !important;
   }
+}
+
+/* ─── Back-office collectivité : barre latérale sombre ──────────────────── */
+.app-shell.bo {
+  grid-template-columns: 256px minmax(0, 1fr);
+}
+.bo .app-aside {
+  background: var(--ink);
+  color: var(--cream);
+  border-right: 0;
+  gap: 3px;
+}
+.bo .app-nav {
+  gap: 3px;
+}
+.bo .app-nav-item {
+  color: var(--sage-4);
+}
+.bo .app-nav-item:hover {
+  background: var(--dark-2);
+  color: var(--cream);
+}
+.bo .app-nav-item[aria-current='page'] {
+  background: var(--cream);
+  color: var(--ink);
+}
+.bo .app-nav-sep {
+  background: var(--dark-3);
+}
+.bo .app-topbar {
+  padding: 16px 30px;
+}
+.bo .app-content {
+  padding: 24px 30px 50px;
+  gap: 18px;
+}
+.bo-scope-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--dark-2);
+  border-radius: 10px;
+  padding: 3px;
+  margin: 0 4px 14px;
+}
+.bo-scope-tabs a,
+.bo-scope-tabs button {
+  border: 0;
+  padding: 7px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  background: transparent;
+  color: var(--sage);
+  text-align: center;
+  cursor: pointer;
+}
+.bo-scope-tabs [aria-current='true'] {
+  background: var(--amber);
+  color: var(--ink);
+}
+.bo-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+  min-width: 220px;
+}
+.bo-search input {
+  border: 0;
+  background: transparent;
+  padding: 9px 0;
+  font-size: 13px;
+  outline: none;
+  flex: 1;
+  min-width: 0;
+  color: var(--text);
+}
+.bo-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 22px;
+}
+.bo-chip {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  border: 1.5px solid var(--line);
+  background: var(--paper);
+  color: var(--text);
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.bo-chip[aria-current='true'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+.bo-chip small {
+  font-size: 11px;
+  opacity: 0.7;
+}
+.bo-table-head {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+@media (max-width: 900px) {
+  .app-shell.bo {
+    grid-template-columns: 1fr;
+  }
+  .bo .app-topbar,
+  .bo .app-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .bo-search {
+    min-width: 0;
+    flex: 1;
+  }
+}
+.bo .app-title {
+  font-size: 24px;
+  line-height: 1.1;
+}
+.bo-user {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 8px 0;
+  border-top: 1px solid var(--dark-3);
+  color: var(--cream);
+  font-size: 12px;
+}
+.bo-user a {
+  color: inherit;
+}
+/* Aperçu des lettres : polices de la charte à la place des polices de repli des messageries. */
+.nl-preview [style*='Bricolage'] {
+  font-family: var(--font-display) !important;
+}
+.nl-preview [style*='Instrument'] {
+  font-family: var(--font-body) !important;
 }

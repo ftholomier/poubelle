@@ -39,7 +39,11 @@ async function main() {
   const r = R.rng(20260925);
   const now = new Date();
   const DAY = 86_400_000;
-  const daysAgo = (n: number, h = 10) => new Date(now.getTime() - n * DAY - (now.getHours() - h) * 3_600_000);
+  const daysAgo = (n: number, h = 10) => {
+    const d = new Date(now.getTime() - n * DAY - (now.getHours() - h) * 3_600_000);
+    // Jamais dans le futur (graine lancée tôt le matin).
+    return d > now ? new Date(now.getTime() - (5 + n) * 60_000) : d;
+  };
   const hoursAgo = (n: number) => new Date(now.getTime() - n * 3_600_000);
   const isoDay = (d: Date) => parisDate(d);
   const addIso = (iso: string, n: number) => {
@@ -632,7 +636,12 @@ async function main() {
       kind: i % 2 ? 'PROMO' : 'NEWS',
       status: 'PENDING',
       title: ['Grande braderie de fin de saison', '-50 % sur tout le magasin ce week-end', 'Nouveau : nous livrons à domicile', 'Soirée dégustation vendredi'][i],
-      body: 'Publication en attente de modération.',
+      body: [
+        'Du vendredi au dimanche, on fait de la place avant la nouvelle saison : fins de séries, articles d’exposition et petits prix sur tout le stock. Venez tôt, les quantités sont limitées !',
+        'Ce week-end seulement, profitez de -50 % sur toute la boutique (hors nouveautés). Offre valable samedi et dimanche, dans la limite des stocks disponibles.',
+        'Bonne nouvelle : nous livrons désormais à domicile dans un rayon de 15 km, du mardi au samedi. Commande par téléphone la veille avant 18 h, livraison offerte dès 30 €.',
+        'Vendredi à partir de 18 h 30, soirée dégustation en présence de producteurs du Val de Loue : comté, vins du Jura et douceurs locales. Entrée libre, réservation conseillée.',
+      ][i],
       channels: ['FICHE', 'TERRITOIRE'],
       createdAt: hoursAgo(3 + i * 5),
       createdById: e.ownerId,
