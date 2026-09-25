@@ -14,7 +14,10 @@ export type QueueName =
   | 'import.geocode'
   | 'import.sirene'
   | 'search.refresh'
-  | 'campaigns.status';
+  | 'campaigns.status'
+  | 'health.probe'
+  | 'billing.overdue'
+  | 'demo.reset';
 
 export type EnqueueOptions = { runAt?: Date; dedupeKey?: string; maxAttempts?: number };
 
@@ -22,12 +25,7 @@ export type EnqueueOptions = { runAt?: Date; dedupeKey?: string; maxAttempts?: n
  * Ajoute une tâche à la file PostgreSQL. La clé de déduplication évite les doublons
  * (ex. une seule tâche de publication par créneau).
  */
-export async function enqueue(
-  queue: QueueName,
-  payload: Record<string, unknown> = {},
-  opts: EnqueueOptions = {},
-  tx: DbOrTx = db,
-): Promise<void> {
+export async function enqueue(queue: QueueName, payload: Record<string, unknown> = {}, opts: EnqueueOptions = {}, tx: DbOrTx = db): Promise<void> {
   await tx
     .insert(queueJobs)
     .values({
@@ -102,8 +100,6 @@ export async function purgeFinishedJobs(): Promise<number> {
 }
 
 export async function queueStats(): Promise<Record<string, number>> {
-  const res = await db.execute<{ status: string; n: number }>(
-    sql`SELECT status, count(*)::int AS n FROM queue_jobs GROUP BY status`,
-  );
+  const res = await db.execute<{ status: string; n: number }>(sql`SELECT status, count(*)::int AS n FROM queue_jobs GROUP BY status`);
   return Object.fromEntries(res.rows.map((r) => [r.status, Number(r.n)]));
 }

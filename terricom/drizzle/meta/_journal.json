@@ -36,6 +36,20 @@
       "when": 1790301433994,
       "tag": "0004_import_batches",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790303742565,
+      "tag": "0005_health_probes",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790305490023,
+      "tag": "0006_ticket_messages",
+      "breakpoints": true
     }
   ]
 }

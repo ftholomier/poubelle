@@ -3,8 +3,7 @@ import type { OutgoingEmail } from './send';
 
 type TerritoryLike = { name: string; colorPrimary: string; colorAccent: string };
 
-const brandOf = (t?: TerritoryLike | null): EmailBrand =>
-  t ? { name: t.name, color: t.colorPrimary, accent: t.colorAccent } : TERRICOM_BRAND;
+const brandOf = (t?: TerritoryLike | null): EmailBrand => (t ? { name: t.name, color: t.colorPrimary, accent: t.colorAccent } : TERRICOM_BRAND);
 
 export function verifyEmailTemplate(p: { to: string; firstName: string; url: string }): OutgoingEmail {
   const { html, text } = renderEmail({
@@ -30,12 +29,7 @@ export function passwordResetTemplate(p: { to: string; url: string }): OutgoingE
   return { to: p.to, subject: 'Réinitialisez votre mot de passe', html, text, template: 'password-reset' };
 }
 
-export function claimInvitationTemplate(p: {
-  to: string;
-  establishmentName: string;
-  territory: TerritoryLike;
-  url: string;
-}): OutgoingEmail {
+export function claimInvitationTemplate(p: { to: string; establishmentName: string; territory: TerritoryLike; url: string }): OutgoingEmail {
   const { html, text } = renderEmail({
     brand: brandOf(p.territory),
     eyebrow: `Offert par ${p.territory.name}`,
@@ -105,20 +99,12 @@ export function claimRejectedTemplate(p: { to: string; firstName: string; establ
 export function verificationCodeTemplate(p: { to: string; code: string; establishmentName: string }): OutgoingEmail {
   const { html, text } = renderEmail({
     title: `Votre code : ${p.code}`,
-    paragraphs: [
-      `Saisissez ce code pour prouver que vous gérez « ${p.establishmentName} ». Il est valable 30 minutes.`,
-    ],
+    paragraphs: [`Saisissez ce code pour prouver que vous gérez « ${p.establishmentName} ». Il est valable 30 minutes.`],
   });
   return { to: p.to, subject: `Code de vérification : ${p.code}`, html, text, template: 'verification-code' };
 }
 
-export function staffInvitationTemplate(p: {
-  to: string;
-  inviter: string;
-  scopeName: string;
-  roleLabel: string;
-  url: string;
-}): OutgoingEmail {
+export function staffInvitationTemplate(p: { to: string; inviter: string; scopeName: string; roleLabel: string; url: string }): OutgoingEmail {
   const { html, text } = renderEmail({
     eyebrow: p.scopeName,
     title: `${p.inviter} vous invite sur terricom`,
@@ -147,7 +133,7 @@ export function newsletterConfirmTemplate(p: { to: string; territory: TerritoryL
     title: 'Confirmez votre inscription',
     paragraphs: [
       `Vous avez demandé à recevoir « ${p.newsletterName} » de ${p.territory.name}. Un clic pour confirmer (double validation, comme le veut le RGPD).`,
-      "Sans confirmation, aucun email ne vous sera envoyé et votre adresse sera effacée sous 30 jours.",
+      'Sans confirmation, aucun email ne vous sera envoyé et votre adresse sera effacée sous 30 jours.',
     ],
     cta: { label: 'Je confirme', url: p.url },
     footer: 'Vos données ne sont jamais revendues. Désinscription en un clic depuis chaque lettre.',
@@ -223,22 +209,20 @@ export function appointmentResponseTemplate(p: {
   const { html, text } = renderEmail({
     title: p.confirmed ? `Rendez-vous confirmé : ${p.when}` : 'Votre demande de rendez-vous',
     paragraphs: [
-      p.confirmed
-        ? `${p.establishmentName} vous attend ${p.when}.`
-        : `${p.establishmentName} ne peut pas vous recevoir sur ce créneau.`,
+      p.confirmed ? `${p.establishmentName} vous attend ${p.when}.` : `${p.establishmentName} ne peut pas vous recevoir sur ce créneau.`,
       ...(p.note ? [p.note] : []),
     ],
   });
-  return { to: p.to, subject: `${p.establishmentName} : ${p.confirmed ? 'rendez-vous confirmé' : 'réponse à votre demande'}`, html, text, template: 'appointment-response' };
+  return {
+    to: p.to,
+    subject: `${p.establishmentName} : ${p.confirmed ? 'rendez-vous confirmé' : 'réponse à votre demande'}`,
+    html,
+    text,
+    template: 'appointment-response',
+  };
 }
 
-export function campaignInvitationTemplate(p: {
-  to: string;
-  territory: TerritoryLike;
-  campaignName: string;
-  message: string;
-  url: string;
-}): OutgoingEmail {
+export function campaignInvitationTemplate(p: { to: string; territory: TerritoryLike; campaignName: string; message: string; url: string }): OutgoingEmail {
   const { html, text } = renderEmail({
     brand: brandOf(p.territory),
     eyebrow: 'Invitation de la collectivité',
@@ -303,4 +287,47 @@ export function applicationStatusTemplate(p: { to: string; jobTitle: string; com
     ],
   });
   return { to: p.to, subject: `${p.companyName} — ${p.jobTitle}`, html, text, template: 'application-status' };
+}
+
+export function invoiceReminderTemplate(p: { to: string; customerName: string; number: string; amount: string; dueAt: string; url: string }): OutgoingEmail {
+  const { html, text } = renderEmail({
+    eyebrow: 'Facturation terricom',
+    title: `Facture ${p.number} : rappel d’échéance`,
+    paragraphs: [
+      `Bonjour, sauf erreur de notre part, la facture ${p.number} adressée à ${p.customerName} (${p.amount} TTC) arrivait à échéance le ${p.dueAt}.`,
+      'Si le règlement est en cours (mandat administratif, Chorus Pro), merci de ne pas tenir compte de ce message. Pour toute question, répondez simplement à cet email.',
+    ],
+    cta: { label: 'Télécharger la facture', url: p.url },
+  });
+  return { to: p.to, subject: `Rappel : facture ${p.number}`, html, text, template: 'invoice-reminder' };
+}
+
+export function ticketReplyTemplate(p: { to: string; number: number; subject: string; reply: string; resolved: boolean }): OutgoingEmail {
+  const { html, text } = renderEmail({
+    eyebrow: `Support terricom · ticket n°${p.number}`,
+    title: p.resolved ? `Votre demande « ${p.subject} » est résolue` : `Réponse à votre demande « ${p.subject} »`,
+    paragraphs: [
+      p.reply,
+      p.resolved ? 'Si le problème persiste, répondez à cet email : le ticket sera rouvert.' : 'Répondez à cet email pour compléter votre demande.',
+    ],
+  });
+  return { to: p.to, subject: `[Support n°${p.number}] ${p.subject}`, html, text, template: 'ticket-reply' };
+}
+
+export function ticketCreatedTemplate(p: {
+  to: string;
+  number: number;
+  subject: string;
+  territory: string;
+  author: string;
+  body: string;
+  url: string;
+}): OutgoingEmail {
+  const { html, text } = renderEmail({
+    eyebrow: `Support · ${p.territory}`,
+    title: `Nouveau ticket n°${p.number} : ${p.subject}`,
+    paragraphs: [`${p.author} a ouvert une demande :`, p.body],
+    cta: { label: 'Ouvrir le ticket', url: p.url },
+  });
+  return { to: p.to, subject: `[Support n°${p.number}] ${p.subject}`, html, text, template: 'ticket-created' };
 }

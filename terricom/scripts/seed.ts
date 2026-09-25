@@ -56,7 +56,8 @@ async function main() {
     const probe = new Date(`${iso}T12:00:00Z`);
     const off = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Paris', timeZoneName: 'shortOffset' })
       .formatToParts(probe)
-      .find((p) => p.type === 'timeZoneName')!.value.replace('GMT', '');
+      .find((p) => p.type === 'timeZoneName')!
+      .value.replace('GMT', '');
     const [sign, hh] = [off.startsWith('-') ? '-' : '+', off.replace(/[+-]/, '').padStart(2, '0')];
     return new Date(`${iso}T${hhmm}:00${sign}${hh}:00`);
   };
@@ -84,7 +85,20 @@ async function main() {
       tagline: 'Offert par votre collectivité',
       sortOrder: 1,
       features: ['Fiche complète et référencée', 'Photos, horaires, carte', '3 publications / mois', 'QR code vitrine', 'Statistiques essentielles'],
-      limits: { postsPerMonth: 3, aiPerMonth: 5, scheduling: false, newsletterChannel: false, socialChannel: false, advancedStats: false, jobs: false, appointments: false, miniSite: false, customerNewsletter: false, contactsExport: false, customQr: false },
+      limits: {
+        postsPerMonth: 3,
+        aiPerMonth: 5,
+        scheduling: false,
+        newsletterChannel: false,
+        socialChannel: false,
+        advancedStats: false,
+        jobs: false,
+        appointments: false,
+        miniSite: false,
+        customerNewsletter: false,
+        contactsExport: false,
+        customQr: false,
+      },
     },
     {
       key: 'PREMIUM',
@@ -92,8 +106,28 @@ async function main() {
       priceMonthlyCents: 2400,
       tagline: 'Pour transformer les vues en clients',
       sortOrder: 2,
-      features: ['Assistant IA de rédaction', 'Publications illimitées et programmées', 'Diffusion newsletter territoriale', 'Statistiques avancées', "Offres d'emploi", 'Prise de rendez-vous'],
-      limits: { postsPerMonth: null, aiPerMonth: null, scheduling: true, newsletterChannel: true, socialChannel: false, advancedStats: true, jobs: true, appointments: true, miniSite: false, customerNewsletter: false, contactsExport: false, customQr: true },
+      features: [
+        'Assistant IA de rédaction',
+        'Publications illimitées et programmées',
+        'Diffusion newsletter territoriale',
+        'Statistiques avancées',
+        "Offres d'emploi",
+        'Prise de rendez-vous',
+      ],
+      limits: {
+        postsPerMonth: null,
+        aiPerMonth: null,
+        scheduling: true,
+        newsletterChannel: true,
+        socialChannel: false,
+        advancedStats: true,
+        jobs: true,
+        appointments: true,
+        miniSite: false,
+        customerNewsletter: false,
+        contactsExport: false,
+        customQr: true,
+      },
     },
     {
       key: 'COMMUNICATION',
@@ -102,7 +136,20 @@ async function main() {
       tagline: 'Votre mini-agence marketing',
       sortOrder: 3,
       features: ['Tout Premium', 'Newsletter à vos clients', 'Publication réseaux sociaux', 'Mini-site personnalisable', 'Export des contacts consentis'],
-      limits: { postsPerMonth: null, aiPerMonth: null, scheduling: true, newsletterChannel: true, socialChannel: true, advancedStats: true, jobs: true, appointments: true, miniSite: true, customerNewsletter: true, contactsExport: true, customQr: true },
+      limits: {
+        postsPerMonth: null,
+        aiPerMonth: null,
+        scheduling: true,
+        newsletterChannel: true,
+        socialChannel: true,
+        advancedStats: true,
+        jobs: true,
+        appointments: true,
+        miniSite: true,
+        customerNewsletter: true,
+        contactsExport: true,
+        customQr: true,
+      },
     },
   ]);
 
@@ -140,9 +187,23 @@ async function main() {
       .returning();
     return row;
   };
-  const camille = await mkUser({ email: 'camille@terricom.fr', first: 'Camille', last: 'Moreau', mfa: true, avatar: D.U(D.I.p2, 120, 120), job: 'Responsable des partenariats territoriaux' });
+  const camille = await mkUser({
+    email: 'camille@terricom.fr',
+    first: 'Camille',
+    last: 'Moreau',
+    mfa: true,
+    avatar: D.U(D.I.p2, 120, 120),
+    job: 'Responsable des partenariats territoriaux',
+  });
   const support = await mkUser({ email: 'support@terricom.fr', first: 'Support', last: 'terricom', mfa: true, job: 'Assistance' });
-  const sales = await mkUser({ email: 'alexandre@terricom.fr', first: 'Alexandre', last: 'Perrot', mfa: true, avatar: D.U(D.I.p3, 120, 120), job: 'Développement commercial' });
+  const sales = await mkUser({
+    email: 'alexandre@terricom.fr',
+    first: 'Alexandre',
+    last: 'Perrot',
+    mfa: true,
+    avatar: D.U(D.I.p3, 120, 120),
+    job: 'Développement commercial',
+  });
   await db.insert(S.roleAssignments).values([
     { userId: camille.id, role: 'PLATFORM_ADMIN' },
     { userId: camille.id, role: 'PLATFORM_SALES' },
@@ -237,7 +298,7 @@ async function main() {
     .set({
       tagline: 'La « petite Venise comtoise » et ses {pros} professionnels, de la rue Pierre Vernier aux bords de Loue.',
       description:
-        "Ville natale de Gustave Courbet, Ornans aligne ses maisons sur pilotis au-dessus de la Loue. Commerces de centre-bourg, artisans et producteurs y font vivre la « petite Venise comtoise ».",
+        'Ville natale de Gustave Courbet, Ornans aligne ses maisons sur pilotis au-dessus de la Loue. Commerces de centre-bourg, artisans et producteurs y font vivre la « petite Venise comtoise ».',
       heroImageUrl: D.U(D.I.mountains, 2000),
       mayorQuote: 'Nos commerçants font vivre le centre-bourg. Cette plateforme leur donne la vitrine numérique qu’ils méritent, gratuitement.',
       mayorName: 'Anne Roussel',
@@ -258,17 +319,85 @@ async function main() {
     .where(eq(S.communes.id, communeRows['Quingey'].id));
 
   await db.insert(S.markets).values([
-    { territoryId: vdl.id, communeId: communeRows['Ornans'].id, name: 'Marché du centre', place: 'Place Courbet', weekday: 5, startTime: '08:00', endTime: '13:00', lat: 47.1063, lng: 6.1452 },
-    { territoryId: vdl.id, communeId: communeRows['Ornans'].id, name: 'Producteurs bio', place: 'Halle', weekday: 2, startTime: '16:00', endTime: '19:00', lat: 47.1071, lng: 6.1437 },
-    { territoryId: vdl.id, communeId: communeRows['Quingey'].id, name: 'Marché de Quingey', place: 'Place de la Mairie', weekday: 5, startTime: '08:00', endTime: '12:30', lat: 47.1029, lng: 5.8838 },
-    { territoryId: vdl.id, communeId: communeRows['Amancey'].id, name: 'Marché des producteurs', place: 'Place du village', weekday: 4, startTime: '16:30', endTime: '19:30', lat: 47.0409, lng: 6.0745 },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      name: 'Marché du centre',
+      place: 'Place Courbet',
+      weekday: 5,
+      startTime: '08:00',
+      endTime: '13:00',
+      lat: 47.1063,
+      lng: 6.1452,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      name: 'Producteurs bio',
+      place: 'Halle',
+      weekday: 2,
+      startTime: '16:00',
+      endTime: '19:00',
+      lat: 47.1071,
+      lng: 6.1437,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Quingey'].id,
+      name: 'Marché de Quingey',
+      place: 'Place de la Mairie',
+      weekday: 5,
+      startTime: '08:00',
+      endTime: '12:30',
+      lat: 47.1029,
+      lng: 5.8838,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Amancey'].id,
+      name: 'Marché des producteurs',
+      place: 'Place du village',
+      weekday: 4,
+      startTime: '16:30',
+      endTime: '19:30',
+      lat: 47.0409,
+      lng: 6.0745,
+    },
   ]);
 
   console.log('→ Agents de la collectivité');
-  const claire = await mkUser({ email: 'c.duval@cc-valdeloue.fr', first: 'Claire', last: 'Duval', mfa: true, avatar: D.U(D.I.p4, 120, 120), job: 'Directrice du développement économique' });
-  const thomas = await mkUser({ email: 't.girod@cc-valdeloue.fr', first: 'Thomas', last: 'Girod', mfa: true, avatar: D.U(D.I.p3, 120, 120), job: 'Chargé de communication' });
-  const anne = await mkUser({ email: 'commerce@ornans.fr', first: 'Anne', last: 'Roussel', mfa: true, avatar: D.U(D.I.p2, 120, 120), job: 'Adjointe au commerce' });
-  const hugo = await mkUser({ email: 'mairie@quingey.fr', first: 'Hugo', last: 'Lambert', mfa: false, avatar: D.U(D.I.p1, 120, 120), job: 'Conseiller délégué au commerce' });
+  const claire = await mkUser({
+    email: 'c.duval@cc-valdeloue.fr',
+    first: 'Claire',
+    last: 'Duval',
+    mfa: true,
+    avatar: D.U(D.I.p4, 120, 120),
+    job: 'Directrice du développement économique',
+  });
+  const thomas = await mkUser({
+    email: 't.girod@cc-valdeloue.fr',
+    first: 'Thomas',
+    last: 'Girod',
+    mfa: true,
+    avatar: D.U(D.I.p3, 120, 120),
+    job: 'Chargé de communication',
+  });
+  const anne = await mkUser({
+    email: 'commerce@ornans.fr',
+    first: 'Anne',
+    last: 'Roussel',
+    mfa: true,
+    avatar: D.U(D.I.p2, 120, 120),
+    job: 'Adjointe au commerce',
+  });
+  const hugo = await mkUser({
+    email: 'mairie@quingey.fr',
+    first: 'Hugo',
+    last: 'Lambert',
+    mfa: false,
+    avatar: D.U(D.I.p1, 120, 120),
+    job: 'Conseiller délégué au commerce',
+  });
   await db.insert(S.roleAssignments).values([
     { userId: claire.id, role: 'TERRITORY_ADMIN', territoryId: vdl.id, createdById: camille.id },
     { userId: thomas.id, role: 'TERRITORY_EDITOR', territoryId: vdl.id, createdById: claire.id },
@@ -278,7 +407,18 @@ async function main() {
 
   // ─── Établissements détaillés ─────────────────────────────────────────────
   console.log('→ Établissements des maquettes');
-  type EstRef = { id: string; companyId: string; name: string; category: string; commune: string; status: string; lat: number; lng: number; ownerId: string | null; plan: string };
+  type EstRef = {
+    id: string;
+    companyId: string;
+    name: string;
+    category: string;
+    commune: string;
+    status: string;
+    lat: number;
+    lng: number;
+    ownerId: string | null;
+    plan: string;
+  };
   const estByKey: Record<string, EstRef> = {};
   const allEsts: EstRef[] = [];
   const hoursRows: (typeof S.openingHours.$inferInsert)[] = [];
@@ -328,7 +468,10 @@ async function main() {
         phone: e.phone,
         email: e.email ?? null,
         website: e.website ?? null,
-        socials: e.plan !== 'ESSENTIEL' ? { facebook: `https://facebook.com/${slugify(e.name)}`, instagram: `https://instagram.com/${slugify(e.name).replace(/-/g, '')}` } : {},
+        socials:
+          e.plan !== 'ESSENTIEL'
+            ? { facebook: `https://facebook.com/${slugify(e.name)}`, instagram: `https://instagram.com/${slugify(e.name).replace(/-/g, '')}` }
+            : {},
         coverUrl: D.U(e.cover, 1200),
         isFeatured: ['b1', 'b9', 'b3', 'b2'].includes(e.key),
         hoursConfirmedAt: e.status === 'VALIDATED' ? daysAgo(r.int(5, 60)) : null,
@@ -343,12 +486,25 @@ async function main() {
       .returning();
     let ownerId: string | null = null;
     if (claimed && e.owner) {
-      const owner = await mkUser({ email: e.owner.email, first: e.owner.first, last: e.owner.last, createdAt: daysAgo(e.key === 'b1' ? 40 : 150), avatar: e.key === 'b1' ? D.U(D.I.p2, 100, 100) : undefined });
+      const owner = await mkUser({
+        email: e.owner.email,
+        first: e.owner.first,
+        last: e.owner.last,
+        createdAt: daysAgo(e.key === 'b1' ? 40 : 150),
+        avatar: e.key === 'b1' ? D.U(D.I.p2, 100, 100) : undefined,
+      });
       ownerId = owner.id;
       memberRows.push({ companyId: company.id, userId: owner.id, role: 'OWNER' });
     }
     if (e.plan !== 'ESSENTIEL') {
-      subscriptionRows.push({ companyId: company.id, plan: e.plan, status: 'ACTIVE', provider: 'MANUAL', startedAt: daysAgo(r.int(40, 180)), currentPeriodEnd: new Date(now.getTime() + r.int(3, 28) * DAY) });
+      subscriptionRows.push({
+        companyId: company.id,
+        plan: e.plan,
+        status: 'ACTIVE',
+        provider: 'MANUAL',
+        startedAt: daysAgo(r.int(40, 180)),
+        currentPeriodEnd: new Date(now.getTime() + r.int(3, 28) * DAY),
+      });
     }
     for (const [wd, o, c] of e.hours) hoursRows.push({ establishmentId: est.id, weekday: wd, opensAt: o, closesAt: c });
     for (const slug of e.attrs) attrLinks.push({ establishmentId: est.id, attributeId: attrBySlug.get(slug)!.id });
@@ -369,7 +525,18 @@ async function main() {
     (e.products ?? []).forEach(([n, p, img], i) =>
       productRows.push({ establishmentId: est.id, name: n, priceText: p, imageUrl: D.U(img, 500, 300), sortOrder: i }),
     );
-    const ref: EstRef = { id: est.id, companyId: company.id, name: e.name, category: e.category, commune: e.commune, status: e.status, lat: e.lat, lng: e.lng, ownerId, plan: e.plan };
+    const ref: EstRef = {
+      id: est.id,
+      companyId: company.id,
+      name: e.name,
+      category: e.category,
+      commune: e.commune,
+      status: e.status,
+      lat: e.lat,
+      lng: e.lng,
+      ownerId,
+      plan: e.plan,
+    };
     estByKey[e.key] = ref;
     allEsts.push(ref);
   }
@@ -396,7 +563,14 @@ async function main() {
       const siret = completeSiret(`${String(400000000 + siretSeq++).padStart(9, '0')}${String(r.int(1000, 9999))}`);
       const [company] = await db
         .insert(S.companies)
-        .values({ siren: siret.slice(0, 9), legalName: name.toUpperCase(), tradeName: name, nafCode: cat.nafCodes[0] ?? null, plan, createdAt: daysAgo(r.int(150, 220)) })
+        .values({
+          siren: siret.slice(0, 9),
+          legalName: name.toUpperCase(),
+          tradeName: name,
+          nafCode: cat.nafCodes[0] ?? null,
+          plan,
+          createdAt: daysAgo(r.int(150, 220)),
+        })
         .returning();
       const spread = Math.min(0.012, 0.0025 + (communeRow.population ?? 500) / 900_000);
       const lat = (communeRow.lat ?? 47) + (r.next() - 0.5) * spread;
@@ -441,15 +615,30 @@ async function main() {
         const last = r.pick(R.SURNAMES);
         const [owner] = await db
           .insert(S.users)
-          .values({ email: `${slugify(first)}.${slugify(last)}.${est.id.slice(0, 6)}@exemple.test`, firstName: first, lastName: last, emailVerifiedAt: daysAgo(100), createdAt: daysAgo(r.int(20, 160)) })
+          .values({
+            email: `${slugify(first)}.${slugify(last)}.${est.id.slice(0, 6)}@exemple.test`,
+            firstName: first,
+            lastName: last,
+            emailVerifiedAt: daysAgo(100),
+            createdAt: daysAgo(r.int(20, 160)),
+          })
           .returning();
         ownerId = owner.id;
         memberRows.push({ companyId: company.id, userId: owner.id, role: 'OWNER' });
         if (plan !== 'ESSENTIEL')
-          subscriptionRows.push({ companyId: company.id, plan, status: 'ACTIVE', provider: r.chance(0.5) ? 'STRIPE' : 'MANUAL', startedAt: daysAgo(r.int(10, 200)), currentPeriodEnd: new Date(now.getTime() + r.int(2, 29) * DAY) });
+          subscriptionRows.push({
+            companyId: company.id,
+            plan,
+            status: 'ACTIVE',
+            provider: r.chance(0.5) ? 'STRIPE' : 'MANUAL',
+            startedAt: daysAgo(r.int(10, 200)),
+            currentPeriodEnd: new Date(now.getTime() + r.int(2, 29) * DAY),
+          });
       }
-      for (const [wd, o, c] of R.hoursFor(catSlug, r)) if (claimed || r.chance(0.5)) hoursRows.push({ establishmentId: est.id, weekday: wd, opensAt: o, closesAt: c });
-      for (const slug of R.attributesFor(catSlug, r)) if (claimed || r.chance(0.3)) attrLinks.push({ establishmentId: est.id, attributeId: attrBySlug.get(slug)!.id });
+      for (const [wd, o, c] of R.hoursFor(catSlug, r))
+        if (claimed || r.chance(0.5)) hoursRows.push({ establishmentId: est.id, weekday: wd, opensAt: o, closesAt: c });
+      for (const slug of R.attributesFor(catSlug, r))
+        if (claimed || r.chance(0.3)) attrLinks.push({ establishmentId: est.id, attributeId: attrBySlug.get(slug)!.id });
       if (status === 'VALIDATED' || status === 'CLAIMED') {
         const n = status === 'VALIDATED' ? r.int(3, 6) : r.int(0, 2);
         const pool2 = r.shuffle([img, D.I.store, D.I.team, D.I.crafts, D.I.board2, D.I.workshop]);
@@ -465,7 +654,13 @@ async function main() {
             sortOrder: k,
           });
         if (status === 'VALIDATED' && r.chance(0.6))
-          for (let k = 0; k < r.int(2, 4); k++) productRows.push({ establishmentId: est.id, name: `${activity} — prestation ${k + 1}`, priceText: r.chance(0.5) ? 'Sur devis' : `${r.int(5, 60)} €`, sortOrder: k });
+          for (let k = 0; k < r.int(2, 4); k++)
+            productRows.push({
+              establishmentId: est.id,
+              name: `${activity} — prestation ${k + 1}`,
+              priceText: r.chance(0.5) ? 'Sur devis' : `${r.int(5, 60)} €`,
+              sortOrder: k,
+            });
       }
       const ref: EstRef = { id: est.id, companyId: company.id, name, category: catSlug, commune: communeRow.name, status, lat, lng, ownerId, plan };
       genEsts.push(ref);
@@ -480,6 +675,7 @@ async function main() {
   // ─── Autres territoires clients ───────────────────────────────────────────
   console.log('→ Autres territoires clients');
   const territoryBySlug: Record<string, typeof S.territories.$inferSelect> = { valdeloue: vdl };
+  const adminBySlug: Record<string, { id: string; firstName: string | null; lastName: string | null }> = { valdeloue: claire };
   for (const t of OTHER_TERRITORIES) {
     const [tr] = await db
       .insert(S.territories)
@@ -504,23 +700,50 @@ async function main() {
       })
       .returning();
     territoryBySlug[t.slug] = tr;
-    await db.insert(S.territoryModules).values(
-      (['PORTAL', 'MAP', 'NEWSLETTER', 'IMPORT', 'CAMPAIGNS'] as const).map((m) => ({ territoryId: tr.id, module: m, enabled: true })),
-    );
+    await db
+      .insert(S.territoryModules)
+      .values((['PORTAL', 'MAP', 'NEWSLETTER', 'IMPORT', 'CAMPAIGNS'] as const).map((m) => ({ territoryId: tr.id, module: m, enabled: true })));
     await db.insert(S.territoryDomains).values({ territoryId: tr.id, host: `${t.slug}.terricom.fr`, verifiedAt: t.signedAt });
     for (const c of t.communes) {
       const [cr] = await db
         .insert(S.communes)
-        .values({ inseeCode: c.insee, name: c.name, slug: slugify(c.name), postalCodes: [c.postal], departmentCode: t.dept, population: c.pop, lat: c.lat, lng: c.lng })
+        .values({
+          inseeCode: c.insee,
+          name: c.name,
+          slug: slugify(c.name),
+          postalCodes: [c.postal],
+          departmentCode: t.dept,
+          population: c.pop,
+          lat: c.lat,
+          lng: c.lng,
+        })
         .returning();
       await db.insert(S.communeMemberships).values({ communeId: cr.id, territoryId: tr.id, validFrom: t.signedAt });
       await generateFor(tr.id, cr, c.count, t.claimRate, t.premiumRate);
     }
     await db.insert(S.territoryContracts).values([
-      { territoryId: tr.id, kind: 'LICENCE', label: `Licence annuelle ${t.name}`, amountCents: t.licenceCents, startsAt: t.signedAt, endsAt: addIso(t.signedAt, 365), status: 'ACTIVE', signedAt: t.signedAt },
-      { territoryId: tr.id, kind: 'SETUP', label: 'Mise en service (paramétrage, import, formation)', amountCents: t.setupCents, startsAt: t.signedAt, status: 'ACTIVE', signedAt: t.signedAt },
+      {
+        territoryId: tr.id,
+        kind: 'LICENCE',
+        label: `Licence annuelle ${t.name}`,
+        amountCents: t.licenceCents,
+        startsAt: t.signedAt,
+        endsAt: addIso(t.signedAt, 365),
+        status: 'ACTIVE',
+        signedAt: t.signedAt,
+      },
+      {
+        territoryId: tr.id,
+        kind: 'SETUP',
+        label: 'Mise en service (paramétrage, import, formation)',
+        amountCents: t.setupCents,
+        startsAt: t.signedAt,
+        status: 'ACTIVE',
+        signedAt: t.signedAt,
+      },
     ]);
     const admin = await mkUser({ email: `admin@${t.slug}.exemple.test`, first: 'Admin', last: t.name, mfa: true, login: false });
+    adminBySlug[t.slug] = admin;
     await db.insert(S.roleAssignments).values({ userId: admin.id, role: 'TERRITORY_ADMIN', territoryId: tr.id, createdById: camille.id });
   }
 
@@ -541,25 +764,143 @@ async function main() {
 
   // ─── Contrat du territoire pilote ─────────────────────────────────────────
   await db.insert(S.territoryContracts).values([
-    { territoryId: vdl.id, kind: 'LICENCE', label: 'Licence annuelle — territoire partenaire pilote', amountCents: 900000, startsAt: '2026-03-01', endsAt: '2027-02-28', status: 'ACTIVE', signedAt: '2026-02-10', notes: 'Conditions pilote : retours mensuels, témoignage et étude de cas.' },
-    { territoryId: vdl.id, kind: 'SETUP', label: 'Mise en service : paramétrage, import SIRENE, formation des 24 communes', amountCents: 500000, startsAt: '2026-02-10', status: 'ACTIVE', signedAt: '2026-02-10' },
+    {
+      territoryId: vdl.id,
+      kind: 'LICENCE',
+      label: 'Licence annuelle — territoire partenaire pilote',
+      amountCents: 900000,
+      startsAt: '2026-03-01',
+      endsAt: '2027-02-28',
+      status: 'ACTIVE',
+      signedAt: '2026-02-10',
+      notes: 'Conditions pilote : retours mensuels, témoignage et étude de cas.',
+    },
+    {
+      territoryId: vdl.id,
+      kind: 'SETUP',
+      label: 'Mise en service : paramétrage, import SIRENE, formation des 24 communes',
+      amountCents: 500000,
+      startsAt: '2026-02-10',
+      status: 'ACTIVE',
+      signedAt: '2026-02-10',
+    },
   ]);
 
   // ─── Publications (fil du territoire) ────────────────────────────────────
   console.log('→ Publications, événements, emplois');
   const postRows: (typeof S.posts.$inferInsert)[] = [
-    { est: 'b9', kind: 'PROMO' as const, title: 'Coffret « Loue gourmande » : -15 % jusqu’à la fin du mois', body: 'Ganaches aux herbes, galets de la Loue et pralinés à l’ancienne : le coffret star passe à 23,80 € jusqu’au 31. Emballage cadeau offert.', at: hoursAgo(2), img: D.I.choco, promo: '-15 %', validTo: addIso(today, 20), views: 186 },
-    { est: 'b1', kind: 'NOUVEAUTE' as const, title: 'Le pain au Comté est de retour le vendredi', body: 'Tous les vendredis et samedis, notre pain au levain garni de Comté 18 mois du Plateau. Pensez à le réserver !', at: daysAgo(1), img: D.I.bread, views: 412 },
-    { est: 'b3', kind: 'EVENT' as const, title: 'Soirée truite & vin jaune, samedi 20h', body: 'Menu unique à 38 € : truite de la Loue au vin jaune, morilles et dessert au kirsch de Mouthier. Réservation conseillée.', at: daysAgo(1, 16), img: D.I.terrace, views: 233 },
-    { est: 'b8', kind: 'EVENT' as const, title: "Portes ouvertes de l'atelier, dimanche", body: 'Démonstrations de tournage toutes les heures et cuisson raku à 15h.', at: daysAgo(2), img: D.I.pottery, views: 158 },
-    { est: 'b6', kind: 'NOUVEAUTE' as const, title: 'Arrivage : 12 nouveaux vins du Jura', body: 'Savagnins ouillés, crémants et deux vins jaunes de petits domaines : venez les goûter samedi.', at: daysAgo(3), img: D.I.vine, views: 301 },
-    { est: 'b13', kind: 'HOURS' as const, title: 'Ouvert le dimanche matin en octobre', body: 'De 9h30 à 12h30, tous les dimanches du mois.', at: daysAgo(4), img: D.I.grocery, views: 97 },
-    { est: 'b1', kind: 'PROMO' as const, title: 'Brioches du dimanche -10 % pour la rentrée', body: 'Commandez en boutique ou en click & collect.', at: daysAgo(6), img: D.I.bakery, promo: '-10 %', validTo: addIso(today, 12), views: 288 },
-    { est: 'b1', kind: 'HOURS' as const, title: 'Fermeture exceptionnelle le 25 décembre', body: 'Réouverture le 26 à 6h30. Les commandes de bûches sont ouvertes dès novembre.', at: daysAgo(38), img: D.I.store, views: 121 },
-    { est: 'b14', kind: 'NEWS' as const, title: 'La Bleue de la Loue médaillée au concours de Pontarlier', body: 'Notre absinthe blanche décroche l’or : merci à toute l’équipe de la distillerie.', at: daysAgo(5), img: D.I.toast, views: 340 },
-    { est: 'b2', kind: 'EVENT' as const, title: 'Dégustation Comté 24 mois vendredi', body: 'Trois affinages, trois caractères : venez goûter la différence.', at: daysAgo(2, 9), img: D.I.cheese, views: 176 },
-    { est: 'b15', kind: 'NEWS' as const, title: 'Concert folk vendredi soir en terrasse', body: 'Le trio « Les Gorges » joue dès 19h, entrée libre.', at: daysAgo(7), img: D.I.food, views: 132 },
-    { est: 'b3', kind: 'JOB' as const, title: 'On recrute pour la saison prochaine', body: 'Serveur·se saison été, logement possible. Candidatez depuis notre fiche.', at: daysAgo(5, 11), img: D.I.terrace, views: 88 },
+    {
+      est: 'b9',
+      kind: 'PROMO' as const,
+      title: 'Coffret « Loue gourmande » : -15 % jusqu’à la fin du mois',
+      body: 'Ganaches aux herbes, galets de la Loue et pralinés à l’ancienne : le coffret star passe à 23,80 € jusqu’au 31. Emballage cadeau offert.',
+      at: hoursAgo(2),
+      img: D.I.choco,
+      promo: '-15 %',
+      validTo: addIso(today, 20),
+      views: 186,
+    },
+    {
+      est: 'b1',
+      kind: 'NOUVEAUTE' as const,
+      title: 'Le pain au Comté est de retour le vendredi',
+      body: 'Tous les vendredis et samedis, notre pain au levain garni de Comté 18 mois du Plateau. Pensez à le réserver !',
+      at: daysAgo(1),
+      img: D.I.bread,
+      views: 412,
+    },
+    {
+      est: 'b3',
+      kind: 'EVENT' as const,
+      title: 'Soirée truite & vin jaune, samedi 20h',
+      body: 'Menu unique à 38 € : truite de la Loue au vin jaune, morilles et dessert au kirsch de Mouthier. Réservation conseillée.',
+      at: daysAgo(1, 16),
+      img: D.I.terrace,
+      views: 233,
+    },
+    {
+      est: 'b8',
+      kind: 'EVENT' as const,
+      title: "Portes ouvertes de l'atelier, dimanche",
+      body: 'Démonstrations de tournage toutes les heures et cuisson raku à 15h.',
+      at: daysAgo(2),
+      img: D.I.pottery,
+      views: 158,
+    },
+    {
+      est: 'b6',
+      kind: 'NOUVEAUTE' as const,
+      title: 'Arrivage : 12 nouveaux vins du Jura',
+      body: 'Savagnins ouillés, crémants et deux vins jaunes de petits domaines : venez les goûter samedi.',
+      at: daysAgo(3),
+      img: D.I.vine,
+      views: 301,
+    },
+    {
+      est: 'b13',
+      kind: 'HOURS' as const,
+      title: 'Ouvert le dimanche matin en octobre',
+      body: 'De 9h30 à 12h30, tous les dimanches du mois.',
+      at: daysAgo(4),
+      img: D.I.grocery,
+      views: 97,
+    },
+    {
+      est: 'b1',
+      kind: 'PROMO' as const,
+      title: 'Brioches du dimanche -10 % pour la rentrée',
+      body: 'Commandez en boutique ou en click & collect.',
+      at: daysAgo(6),
+      img: D.I.bakery,
+      promo: '-10 %',
+      validTo: addIso(today, 12),
+      views: 288,
+    },
+    {
+      est: 'b1',
+      kind: 'HOURS' as const,
+      title: 'Fermeture exceptionnelle le 25 décembre',
+      body: 'Réouverture le 26 à 6h30. Les commandes de bûches sont ouvertes dès novembre.',
+      at: daysAgo(38),
+      img: D.I.store,
+      views: 121,
+    },
+    {
+      est: 'b14',
+      kind: 'NEWS' as const,
+      title: 'La Bleue de la Loue médaillée au concours de Pontarlier',
+      body: 'Notre absinthe blanche décroche l’or : merci à toute l’équipe de la distillerie.',
+      at: daysAgo(5),
+      img: D.I.toast,
+      views: 340,
+    },
+    {
+      est: 'b2',
+      kind: 'EVENT' as const,
+      title: 'Dégustation Comté 24 mois vendredi',
+      body: 'Trois affinages, trois caractères : venez goûter la différence.',
+      at: daysAgo(2, 9),
+      img: D.I.cheese,
+      views: 176,
+    },
+    {
+      est: 'b15',
+      kind: 'NEWS' as const,
+      title: 'Concert folk vendredi soir en terrasse',
+      body: 'Le trio « Les Gorges » joue dès 19h, entrée libre.',
+      at: daysAgo(7),
+      img: D.I.food,
+      views: 132,
+    },
+    {
+      est: 'b3',
+      kind: 'JOB' as const,
+      title: 'On recrute pour la saison prochaine',
+      body: 'Serveur·se saison été, logement possible. Candidatez depuis notre fiche.',
+      at: daysAgo(5, 11),
+      img: D.I.terrace,
+      views: 88,
+    },
   ].map((p) => ({
     territoryId: vdl.id,
     communeId: communeRows[D.ESTABLISHMENTS.find((e) => e.key === p.est)!.commune].id,
@@ -635,7 +976,9 @@ async function main() {
       authorType: 'ESTABLISHMENT',
       kind: i % 2 ? 'PROMO' : 'NEWS',
       status: 'PENDING',
-      title: ['Grande braderie de fin de saison', '-50 % sur tout le magasin ce week-end', 'Nouveau : nous livrons à domicile', 'Soirée dégustation vendredi'][i],
+      title: ['Grande braderie de fin de saison', '-50 % sur tout le magasin ce week-end', 'Nouveau : nous livrons à domicile', 'Soirée dégustation vendredi'][
+        i
+      ],
       body: [
         'Du vendredi au dimanche, on fait de la place avant la nouvelle saison : fins de séries, articles d’exposition et petits prix sur tout le stock. Venez tôt, les quantités sont limitées !',
         'Ce week-end seulement, profitez de -50 % sur toute la boutique (hors nouveautés). Offre valable samedi et dimanche, dans la limite des stocks disponibles.',
@@ -657,7 +1000,14 @@ async function main() {
       authorType: 'ESTABLISHMENT',
       kind: r.pick(['NEWS', 'PROMO', 'NOUVEAUTE', 'HOURS'] as const),
       status: 'PUBLISHED',
-      title: r.pick(['Nouveaux horaires pour la rentrée', 'Arrivage de la semaine', 'Offre spéciale ce mois-ci', 'Merci pour votre fidélité !', 'Nous recrutons un apprenti', 'Fermeture pour congés du 20 au 27']),
+      title: r.pick([
+        'Nouveaux horaires pour la rentrée',
+        'Arrivage de la semaine',
+        'Offre spéciale ce mois-ci',
+        'Merci pour votre fidélité !',
+        'Nous recrutons un apprenti',
+        'Fermeture pour congés du 20 au 27',
+      ]),
       body: 'Retrouvez tous les détails en boutique.',
       channels: ['FICHE', 'COMMUNE'],
       publishedAt: at,
@@ -674,15 +1024,128 @@ async function main() {
   const sun1 = nextWeekday(6, 2);
   const wed1 = nextWeekday(2, 4);
   const EVT: (Omit<typeof S.events.$inferInsert, 'slug' | 'territoryId'> & { est?: string })[] = [
-    { est: 'b2', title: 'Dégustation Comté 24 mois', kind: 'DEGUSTATION', startsAt: parisAt(fri1, '17:00'), endsAt: parisAt(fri1, '19:00'), locationName: 'Fromagerie du Plateau', address: 'Route de Salins, Amancey', priceText: 'Gratuit', imageUrl: D.U(D.I.cheese, 1400), description: "Trois affinages, trois caractères : l'équipe de la Fromagerie du Plateau vous fait goûter ses Comté de 12, 18 et 24 mois, accompagnés d'un vin jaune du Jura." },
-    { title: "Fête de la pomme & marché d'automne", kind: 'MARCHE', startsAt: parisAt(addIso(sat1, 7), '09:00'), endsAt: parisAt(addIso(sat1, 7), '18:00'), organizerName: "Mairie d'Ornans", locationName: 'Place Courbet', address: 'Place Gustave Courbet, Ornans', priceText: 'Entrée libre', isFeatured: true, imageUrl: D.U(D.I.market, 1400), description: "60 exposants, pressoir à l'ancienne, jus de pomme des vergers de la vallée, animations pour les enfants et concert de la fanfare à 16h. Organisé par la Mairie d'Ornans et l'union des commerçants.", lat: 47.1063, lng: 6.1455 },
-    { est: 'b8', title: "Portes ouvertes de l'atelier", kind: 'PORTES_OUVERTES', startsAt: parisAt(sun1, '10:00'), endsAt: parisAt(sun1, '17:00'), locationName: 'Céramiques Lison', address: 'Rue de la Source, Nans-sous-Sainte-Anne', priceText: 'Gratuit', imageUrl: D.U(D.I.pottery, 1400), description: "Poussez la porte de l'atelier : démonstrations de tournage toutes les heures, pièces uniques à prix doux et cuisson raku en extérieur à 15h." },
-    { est: 'b1', title: 'Atelier pain au levain pour enfants', kind: 'ATELIER', startsAt: parisAt(wed1, '14:00'), endsAt: parisAt(wed1, '16:00'), locationName: 'Boulangerie Martin', address: '12 rue Pierre Vernier, Ornans', priceText: '8 € · sur inscription', capacity: 10, imageUrl: D.U(D.I.cook, 1400), description: 'Les petits boulangers de 6 à 12 ans façonnent leur pain au levain avec Sophie. 10 places, goûter offert.' },
-    { title: 'Marché de nuit', kind: 'MARCHE', startsAt: parisAt(addIso(fri1, 7), '17:00'), endsAt: parisAt(addIso(fri1, 7), '22:00'), organizerName: 'Mairie de Quingey', locationName: 'Halle couverte', address: 'Halle couverte, Quingey', priceText: 'Entrée libre', imageUrl: D.U(D.I.crowd, 1400), description: 'Producteurs, artisans et food-trucks sous la halle illuminée, avec un concert de fanfare à 19h.', lat: 47.1031, lng: 5.8829 },
-    { est: 'b14', title: 'Visite & dégustation de la distillerie', kind: 'DEGUSTATION', startsAt: parisAt(addIso(sat1, 14), '15:00'), endsAt: parisAt(addIso(sat1, 14), '17:00'), locationName: 'Distillerie du Val', address: 'Mouthier-Haute-Pierre', priceText: '12 € · dès 18 ans', imageUrl: D.U(D.I.toast, 1400), description: "Des alambics en cuivre à la dégustation : l'histoire de l'absinthe et des eaux-de-vie de la vallée, racontée par ceux qui les distillent." },
-    { est: 'b11', title: "Atelier bougies à la cire d'abeille", kind: 'ATELIER', startsAt: parisAt(addIso(sat1, 21), '14:00'), endsAt: parisAt(addIso(sat1, 21), '16:00'), locationName: 'Miellerie des Côtes', address: 'Chemin des ruchers, Lods', priceText: '15 € · sur inscription', imageUrl: D.U(D.I.board2, 1400), description: 'Roulez vos bougies à la cire des ruches du plateau et repartez avec un pot de miel de sapin.' },
-    { est: 'b16', title: "Portes ouvertes de l'ébénisterie", kind: 'PORTES_OUVERTES', startsAt: parisAt(addIso(sun1, 14), '10:00'), endsAt: parisAt(addIso(sun1, 14), '16:00'), locationName: 'Ébénisterie Rolland', address: '15 Grande rue, Amancey', priceText: 'Gratuit', imageUrl: D.U(D.I.vases, 1400), description: "Mobilier sur mesure, marqueterie et restauration : l'atelier ouvre ses portes, avec une vente de planches à découper en chutes de bois local." },
-    { title: "Marché de Noël d'Ornans", kind: 'MARCHE', startsAt: parisAt(`${now.getFullYear()}-12-12`, '10:00'), endsAt: parisAt(`${now.getFullYear()}-12-12`, '20:00'), organizerName: "Mairie d'Ornans", locationName: 'Place Courbet', address: 'Place Gustave Courbet, Ornans', priceText: 'Entrée libre', isFeatured: true, imageUrl: D.U(D.I.market, 1400), description: "60 exposants, vin chaud des producteurs, atelier bougies pour les enfants et arrivée du Père Noël en barque sur la Loue à 17h. Organisé par la Mairie d'Ornans et l'union des commerçants.", lat: 47.1063, lng: 6.1455 },
+    {
+      est: 'b2',
+      title: 'Dégustation Comté 24 mois',
+      kind: 'DEGUSTATION',
+      startsAt: parisAt(fri1, '17:00'),
+      endsAt: parisAt(fri1, '19:00'),
+      locationName: 'Fromagerie du Plateau',
+      address: 'Route de Salins, Amancey',
+      priceText: 'Gratuit',
+      imageUrl: D.U(D.I.cheese, 1400),
+      description:
+        "Trois affinages, trois caractères : l'équipe de la Fromagerie du Plateau vous fait goûter ses Comté de 12, 18 et 24 mois, accompagnés d'un vin jaune du Jura.",
+    },
+    {
+      title: "Fête de la pomme & marché d'automne",
+      kind: 'MARCHE',
+      startsAt: parisAt(addIso(sat1, 7), '09:00'),
+      endsAt: parisAt(addIso(sat1, 7), '18:00'),
+      organizerName: "Mairie d'Ornans",
+      locationName: 'Place Courbet',
+      address: 'Place Gustave Courbet, Ornans',
+      priceText: 'Entrée libre',
+      isFeatured: true,
+      imageUrl: D.U(D.I.market, 1400),
+      description:
+        "60 exposants, pressoir à l'ancienne, jus de pomme des vergers de la vallée, animations pour les enfants et concert de la fanfare à 16h. Organisé par la Mairie d'Ornans et l'union des commerçants.",
+      lat: 47.1063,
+      lng: 6.1455,
+    },
+    {
+      est: 'b8',
+      title: "Portes ouvertes de l'atelier",
+      kind: 'PORTES_OUVERTES',
+      startsAt: parisAt(sun1, '10:00'),
+      endsAt: parisAt(sun1, '17:00'),
+      locationName: 'Céramiques Lison',
+      address: 'Rue de la Source, Nans-sous-Sainte-Anne',
+      priceText: 'Gratuit',
+      imageUrl: D.U(D.I.pottery, 1400),
+      description:
+        "Poussez la porte de l'atelier : démonstrations de tournage toutes les heures, pièces uniques à prix doux et cuisson raku en extérieur à 15h.",
+    },
+    {
+      est: 'b1',
+      title: 'Atelier pain au levain pour enfants',
+      kind: 'ATELIER',
+      startsAt: parisAt(wed1, '14:00'),
+      endsAt: parisAt(wed1, '16:00'),
+      locationName: 'Boulangerie Martin',
+      address: '12 rue Pierre Vernier, Ornans',
+      priceText: '8 € · sur inscription',
+      capacity: 10,
+      imageUrl: D.U(D.I.cook, 1400),
+      description: 'Les petits boulangers de 6 à 12 ans façonnent leur pain au levain avec Sophie. 10 places, goûter offert.',
+    },
+    {
+      title: 'Marché de nuit',
+      kind: 'MARCHE',
+      startsAt: parisAt(addIso(fri1, 7), '17:00'),
+      endsAt: parisAt(addIso(fri1, 7), '22:00'),
+      organizerName: 'Mairie de Quingey',
+      locationName: 'Halle couverte',
+      address: 'Halle couverte, Quingey',
+      priceText: 'Entrée libre',
+      imageUrl: D.U(D.I.crowd, 1400),
+      description: 'Producteurs, artisans et food-trucks sous la halle illuminée, avec un concert de fanfare à 19h.',
+      lat: 47.1031,
+      lng: 5.8829,
+    },
+    {
+      est: 'b14',
+      title: 'Visite & dégustation de la distillerie',
+      kind: 'DEGUSTATION',
+      startsAt: parisAt(addIso(sat1, 14), '15:00'),
+      endsAt: parisAt(addIso(sat1, 14), '17:00'),
+      locationName: 'Distillerie du Val',
+      address: 'Mouthier-Haute-Pierre',
+      priceText: '12 € · dès 18 ans',
+      imageUrl: D.U(D.I.toast, 1400),
+      description: "Des alambics en cuivre à la dégustation : l'histoire de l'absinthe et des eaux-de-vie de la vallée, racontée par ceux qui les distillent.",
+    },
+    {
+      est: 'b11',
+      title: "Atelier bougies à la cire d'abeille",
+      kind: 'ATELIER',
+      startsAt: parisAt(addIso(sat1, 21), '14:00'),
+      endsAt: parisAt(addIso(sat1, 21), '16:00'),
+      locationName: 'Miellerie des Côtes',
+      address: 'Chemin des ruchers, Lods',
+      priceText: '15 € · sur inscription',
+      imageUrl: D.U(D.I.board2, 1400),
+      description: 'Roulez vos bougies à la cire des ruches du plateau et repartez avec un pot de miel de sapin.',
+    },
+    {
+      est: 'b16',
+      title: "Portes ouvertes de l'ébénisterie",
+      kind: 'PORTES_OUVERTES',
+      startsAt: parisAt(addIso(sun1, 14), '10:00'),
+      endsAt: parisAt(addIso(sun1, 14), '16:00'),
+      locationName: 'Ébénisterie Rolland',
+      address: '15 Grande rue, Amancey',
+      priceText: 'Gratuit',
+      imageUrl: D.U(D.I.vases, 1400),
+      description:
+        "Mobilier sur mesure, marqueterie et restauration : l'atelier ouvre ses portes, avec une vente de planches à découper en chutes de bois local.",
+    },
+    {
+      title: "Marché de Noël d'Ornans",
+      kind: 'MARCHE',
+      startsAt: parisAt(`${now.getFullYear()}-12-12`, '10:00'),
+      endsAt: parisAt(`${now.getFullYear()}-12-12`, '20:00'),
+      organizerName: "Mairie d'Ornans",
+      locationName: 'Place Courbet',
+      address: 'Place Gustave Courbet, Ornans',
+      priceText: 'Entrée libre',
+      isFeatured: true,
+      imageUrl: D.U(D.I.market, 1400),
+      description:
+        "60 exposants, vin chaud des producteurs, atelier bougies pour les enfants et arrivée du Père Noël en barque sur la Loue à 17h. Organisé par la Mairie d'Ornans et l'union des commerçants.",
+      lat: 47.1063,
+      lng: 6.1455,
+    },
   ];
   const { EVENT_PROGRAM_TEMPLATES } = await import('@/lib/constants');
   await db.insert(S.events).values(
@@ -734,12 +1197,21 @@ async function main() {
   // Intitulés cohérents avec le métier de chaque entreprise.
   type Ct = 'CDI' | 'CDD' | 'ALTERNANCE' | 'SAISONNIER' | 'STAGE';
   const jobTitles: Record<string, [string, Ct][]> = {
-    coiffure: [['Coiffeur·se', 'CDI'], ['Apprenti·e coiffeur·se', 'ALTERNANCE']],
+    coiffure: [
+      ['Coiffeur·se', 'CDI'],
+      ['Apprenti·e coiffeur·se', 'ALTERNANCE'],
+    ],
     'institut-beaute': [['Esthéticien·ne', 'CDI']],
-    boucherie: [['Apprenti·e boucher·e', 'ALTERNANCE'], ['Boucher·e qualifié·e', 'CDI']],
+    boucherie: [
+      ['Apprenti·e boucher·e', 'ALTERNANCE'],
+      ['Boucher·e qualifié·e', 'CDI'],
+    ],
     boulangerie: [['Vendeur·se en boulangerie', 'CDD']],
     maconnerie: [['Maçon·ne qualifié·e', 'CDI']],
-    electricien: [['Électricien·ne', 'CDI'], ['Apprenti·e électricien·ne', 'ALTERNANCE']],
+    electricien: [
+      ['Électricien·ne', 'CDI'],
+      ['Apprenti·e électricien·ne', 'ALTERNANCE'],
+    ],
     couvreur: [['Couvreur·se', 'CDI']],
     peintre: [['Peintre en bâtiment', 'CDI']],
     menuiserie: [['Menuisier·ère poseur·se', 'CDI']],
@@ -747,7 +1219,10 @@ async function main() {
     garage: [['Mécanicien·ne automobile', 'CDI']],
     superette: [['Employé·e polyvalent·e', 'CDD']],
     epicerie: [['Employé·e polyvalent·e', 'CDD']],
-    restaurant: [['Commis de cuisine', 'SAISONNIER'], ['Serveur·se', 'SAISONNIER']],
+    restaurant: [
+      ['Commis de cuisine', 'SAISONNIER'],
+      ['Serveur·se', 'SAISONNIER'],
+    ],
     pizzeria: [['Pizzaïolo', 'CDI']],
     bistrot: [['Serveur·se', 'SAISONNIER']],
     auberge: [['Commis de cuisine', 'SAISONNIER']],
@@ -755,33 +1230,41 @@ async function main() {
     librairie: [['Libraire', 'CDD']],
     fleuriste: [['Fleuriste', 'CDI']],
     pharmacie: [['Préparateur·rice en pharmacie', 'CDI']],
-    conseil: [['Assistant·e administratif·ve', 'CDI'], ['Stagiaire communication', 'STAGE']],
+    conseil: [
+      ['Assistant·e administratif·ve', 'CDI'],
+      ['Stagiaire communication', 'STAGE'],
+    ],
     informatique: [['Technicien·ne informatique', 'CDI']],
     hebergement: [['Réceptionniste saison', 'SAISONNIER']],
     paysagiste: [['Ouvrier·ère paysagiste', 'SAISONNIER']],
     ferme: [['Ouvrier·ère agricole', 'SAISONNIER']],
     fromagerie: [['Fromager·ère', 'CDI']],
   };
-  const extraJobs = r.sample(genClaimedVdl.filter((e) => jobTitles[e.category]), 29).map((e, i) => {
-    const [title, contract] = r.pick(jobTitles[e.category]);
-    return {
-      territoryId: vdl.id,
-      communeId: communeRows[e.commune].id,
-      establishmentId: e.id,
-      slug: slugify(`${title}-${e.name}-${i}`),
-      title,
-      contractType: contract,
-      status: 'PUBLISHED' as const,
-      startText: r.pick(['Dès que possible', 'Novembre 2026', 'Janvier 2027', 'Printemps 2027']),
-      salaryText: r.pick(['Selon profil', 'SMIC + primes', '1 900 – 2 200 € brut', 'Grille conventionnelle']),
-      workTimeText: r.pick(['Temps plein', '35 h', '28 h / semaine', 'Temps partiel possible']),
-      description: `${e.name} renforce son équipe à ${e.commune} : rejoignez une entreprise locale où chaque personne compte.`,
-      missions: ['Accueillir et conseiller la clientèle', "Participer à la vie de l'entreprise"],
-      profile: ['Sérieux et motivation', 'Débutant·e accepté·e'],
-      publishedAt: daysAgo(r.int(1, 40)),
-      createdAt: daysAgo(r.int(1, 40)),
-    };
-  });
+  const extraJobs = r
+    .sample(
+      genClaimedVdl.filter((e) => jobTitles[e.category]),
+      29,
+    )
+    .map((e, i) => {
+      const [title, contract] = r.pick(jobTitles[e.category]);
+      return {
+        territoryId: vdl.id,
+        communeId: communeRows[e.commune].id,
+        establishmentId: e.id,
+        slug: slugify(`${title}-${e.name}-${i}`),
+        title,
+        contractType: contract,
+        status: 'PUBLISHED' as const,
+        startText: r.pick(['Dès que possible', 'Novembre 2026', 'Janvier 2027', 'Printemps 2027']),
+        salaryText: r.pick(['Selon profil', 'SMIC + primes', '1 900 – 2 200 € brut', 'Grille conventionnelle']),
+        workTimeText: r.pick(['Temps plein', '35 h', '28 h / semaine', 'Temps partiel possible']),
+        description: `${e.name} renforce son équipe à ${e.commune} : rejoignez une entreprise locale où chaque personne compte.`,
+        missions: ['Accueillir et conseiller la clientèle', "Participer à la vie de l'entreprise"],
+        profile: ['Sérieux et motivation', 'Débutant·e accepté·e'],
+        publishedAt: daysAgo(r.int(1, 40)),
+        createdAt: daysAgo(r.int(1, 40)),
+      };
+    });
   await db.insert(S.jobs).values(extraJobs);
 
   // ─── Circuits ─────────────────────────────────────────────────────────────
@@ -814,11 +1297,28 @@ async function main() {
     const passportsCount = i === 0 ? 312 : i === 1 ? 64 : 88;
     for (let p = 0; p < passportsCount; p++) {
       const created = daysAgo(r.int(0, 120));
-      const nStamps = r.weighted([[0, 2], [1, 3], [2, 3], [3, 2], [4, 1.5], [5, 1.2], [6, 0.5], [7, 0.4]] as [number, number][]);
+      const nStamps = r.weighted([
+        [0, 2],
+        [1, 3],
+        [2, 3],
+        [3, 2],
+        [4, 1.5],
+        [5, 1.2],
+        [6, 0.5],
+        [7, 0.4],
+      ] as [number, number][]);
       const completed = nStamps >= c.threshold;
       const [pp] = await db
         .insert(S.passports)
-        .values({ circuitId: circ.id, tokenHash: sha256(randomToken(16)), createdAt: created, lastSeenAt: created, completedAt: completed ? created : null, rewardCode: completed ? shortCode(6) : null, rewardClaimedAt: completed && r.chance(0.5) ? created : null })
+        .values({
+          circuitId: circ.id,
+          tokenHash: sha256(randomToken(16)),
+          createdAt: created,
+          lastSeenAt: created,
+          completedAt: completed ? created : null,
+          rewardCode: completed ? shortCode(6) : null,
+          rewardClaimedAt: completed && r.chance(0.5) ? created : null,
+        })
         .returning();
       const chosen = r.sample(stops, Math.min(nStamps, stops.length));
       if (chosen.length) await db.insert(S.passportStamps).values(chosen.map((s) => ({ passportId: pp.id, stopId: s.id, stampedAt: created })));
@@ -834,7 +1334,8 @@ async function main() {
       slug: 'noel-chez-vos-commercants',
       name: 'Noël chez vos commerçants',
       tagline: "Un calendrier de l'Avent avec une surprise par jour",
-      description: "Chaque jour, une case s'ouvre : une remise, un atelier, une dégustation. 42 commerces du Val de Loue jouent le jeu, et le marché de Noël d'Ornans vous attend le 12 décembre.",
+      description:
+        "Chaque jour, une case s'ouvre : une remise, un atelier, une dégustation. 42 commerces du Val de Loue jouent le jeu, et le marché de Noël d'Ornans vous attend le 12 décembre.",
       startsAt: `${year}-12-01`,
       endsAt: `${year}-12-24`,
       status: 'SCHEDULED',
@@ -877,45 +1378,113 @@ async function main() {
     .returning();
   const [artisanat] = await db
     .insert(S.campaigns)
-    .values({ territoryId: vdl.id, slug: 'semaine-de-l-artisanat', name: "Semaine de l'artisanat", tagline: "Portes ouvertes d'ateliers", description: "Une semaine pour découvrir les ateliers du territoire : démonstrations, visites et rencontres.", startsAt: `${year + 1}-03-22`, endsAt: `${year + 1}-03-29`, status: 'SCHEDULED', cardImageUrl: D.U(D.I.crafts, 1200), heroImageUrl: D.U(D.I.crafts, 2000), criteria: { families: ['ARTISAN'] }, createdById: claire.id })
+    .values({
+      territoryId: vdl.id,
+      slug: 'semaine-de-l-artisanat',
+      name: "Semaine de l'artisanat",
+      tagline: "Portes ouvertes d'ateliers",
+      description: 'Une semaine pour découvrir les ateliers du territoire : démonstrations, visites et rencontres.',
+      startsAt: `${year + 1}-03-22`,
+      endsAt: `${year + 1}-03-29`,
+      status: 'SCHEDULED',
+      cardImageUrl: D.U(D.I.crafts, 1200),
+      heroImageUrl: D.U(D.I.crafts, 2000),
+      criteria: { families: ['ARTISAN'] },
+      createdById: claire.id,
+    })
     .returning();
   const [madeInCamp] = await db
     .insert(S.campaigns)
-    .values({ territoryId: vdl.id, slug: 'made-in-val-de-loue', name: 'Made in Val de Loue', tagline: 'Sélection fabrication locale', description: 'La sélection permanente des produits fabriqués sur le territoire.', startsAt: addIso(today, -60), endsAt: `${year + 2}-12-31`, status: 'DRAFT', cardImageUrl: D.U(D.I.pottery, 1200), heroImageUrl: D.U(D.I.pottery, 2000), criteria: { attributeSlugs: ['fabrication-locale'] }, createdById: thomas.id })
+    .values({
+      territoryId: vdl.id,
+      slug: 'made-in-val-de-loue',
+      name: 'Made in Val de Loue',
+      tagline: 'Sélection fabrication locale',
+      description: 'La sélection permanente des produits fabriqués sur le territoire.',
+      startsAt: addIso(today, -60),
+      endsAt: `${year + 2}-12-31`,
+      status: 'DRAFT',
+      cardImageUrl: D.U(D.I.pottery, 1200),
+      heroImageUrl: D.U(D.I.pottery, 2000),
+      criteria: { attributeSlugs: ['fabrication-locale'] },
+      createdById: thomas.id,
+    })
     .returning();
 
   const noelPool = [
     ...['b1', 'b9', 'b8', 'b2', 'b6', 'b14', 'b11', 'b13', 'b15'].map((k) => estByKey[k]),
-    ...r.sample(genClaimedVdl.filter((e) => ['boulangerie', 'boucherie', 'fleuriste', 'epicerie', 'caviste', 'pret-a-porter', 'librairie', 'chocolatier', 'fromagerie', 'ferme', 'apiculteur', 'metiers-d-art'].includes(e.category)), 60),
+    ...r.sample(
+      genClaimedVdl.filter((e) =>
+        [
+          'boulangerie',
+          'boucherie',
+          'fleuriste',
+          'epicerie',
+          'caviste',
+          'pret-a-porter',
+          'librairie',
+          'chocolatier',
+          'fromagerie',
+          'ferme',
+          'apiculteur',
+          'metiers-d-art',
+        ].includes(e.category),
+      ),
+      60,
+    ),
   ].slice(0, 42);
   await db.insert(S.campaignParticipants).values(
     noelPool.map((e) => {
       const key = Object.entries(estByKey).find(([, v]) => v.id === e.id)?.[0];
       const offer = key && D.OFFERS[key] ? D.OFFERS[key] : null;
-      return { campaignId: noel.id, establishmentId: e.id, status: key === 'b1' ? ('INVITED' as const) : ('JOINED' as const), offerLabel: key === 'b1' ? null : offer ?? r.pick(['-10 %', 'Surprise en boutique', 'Emballage offert', 'Dégustation']), invitedAt: daysAgo(12), joinedAt: key === 'b1' ? null : daysAgo(r.int(1, 11)) };
+      return {
+        campaignId: noel.id,
+        establishmentId: e.id,
+        status: key === 'b1' ? ('INVITED' as const) : ('JOINED' as const),
+        offerLabel: key === 'b1' ? null : (offer ?? r.pick(['-10 %', 'Surprise en boutique', 'Emballage offert', 'Dégustation'])),
+        invitedAt: daysAgo(12),
+        joinedAt: key === 'b1' ? null : daysAgo(r.int(1, 11)),
+      };
     }),
   );
-  await db.insert(S.adventDoors).values(
-    D.ADVENT.map((title, i) => ({ campaignId: noel.id, day: i + 1, title, establishmentId: D.ADVENT_EST[i + 1] ? estByKey[D.ADVENT_EST[i + 1]].id : null })),
+  await db
+    .insert(S.adventDoors)
+    .values(
+      D.ADVENT.map((title, i) => ({ campaignId: noel.id, day: i + 1, title, establishmentId: D.ADVENT_EST[i + 1] ? estByKey[D.ADVENT_EST[i + 1]].id : null })),
+    );
+  await db.insert(S.campaignParticipants).values(
+    r
+      .sample(
+        genClaimedVdl.filter((e) => ['boulangerie', 'boucherie', 'coiffure', 'pret-a-porter', 'fleuriste', 'librairie', 'epicerie'].includes(e.category)),
+        18,
+      )
+      .map((e) => ({
+        campaignId: rentree.id,
+        establishmentId: e.id,
+        status: 'JOINED' as const,
+        offerLabel: r.pick(['-10 %', '-15 % sur la 2e pièce', 'Carte fidélité doublée', 'Café offert']),
+        joinedAt: daysAgo(r.int(5, 20)),
+      })),
   );
   await db.insert(S.campaignParticipants).values(
-    r.sample(genClaimedVdl.filter((e) => ['boulangerie', 'boucherie', 'coiffure', 'pret-a-porter', 'fleuriste', 'librairie', 'epicerie'].includes(e.category)), 18).map((e) => ({
-      campaignId: rentree.id,
-      establishmentId: e.id,
-      status: 'JOINED' as const,
-      offerLabel: r.pick(['-10 %', '-15 % sur la 2e pièce', 'Carte fidélité doublée', 'Café offert']),
-      joinedAt: daysAgo(r.int(5, 20)),
-    })),
-  );
-  await db.insert(S.campaignParticipants).values(
-    r.sample(genClaimedVdl.filter((e) => ['menuiserie', 'maconnerie', 'couvreur', 'peintre', 'metiers-d-art', 'ebeniste', 'boulangerie'].includes(e.category)), 27).map((e) => ({ campaignId: artisanat.id, establishmentId: e.id, status: 'INVITED' as const, invitedAt: daysAgo(3) })),
+    r
+      .sample(
+        genClaimedVdl.filter((e) => ['menuiserie', 'maconnerie', 'couvreur', 'peintre', 'metiers-d-art', 'ebeniste', 'boulangerie'].includes(e.category)),
+        27,
+      )
+      .map((e) => ({ campaignId: artisanat.id, establishmentId: e.id, status: 'INVITED' as const, invitedAt: daysAgo(3) })),
   );
   const fab = await db
     .select({ id: S.establishmentAttributes.establishmentId })
     .from(S.establishmentAttributes)
     .where(eq(S.establishmentAttributes.attributeId, attrBySlug.get('fabrication-locale')!.id));
   await db.insert(S.campaignParticipants).values(
-    r.sample(fab.map((f) => f.id).filter((id) => allEsts.find((e) => e.id === id && communeRows[e.commune])), 64).map((id) => ({ campaignId: madeInCamp.id, establishmentId: id, status: 'JOINED' as const, joinedAt: daysAgo(r.int(1, 50)) })),
+    r
+      .sample(
+        fab.map((f) => f.id).filter((id) => allEsts.find((e) => e.id === id && communeRows[e.commune])),
+        64,
+      )
+      .map((id) => ({ campaignId: madeInCamp.id, establishmentId: id, status: 'JOINED' as const, joinedAt: daysAgo(r.int(1, 50)) })),
   );
 
   // ─── Newsletter : audiences, abonnés, lettres ─────────────────────────────
@@ -936,7 +1505,8 @@ async function main() {
   for (let i = 0; i < total; i++) {
     const tourist = i >= 4120 && i < 5500;
     const pro = i >= 5500;
-    const communeName = tourist || pro ? null : r.weighted(D.VAL_DE_LOUE_COMMUNES.map((c) => [c.name, c.name === 'Ornans' ? 1740 / 4120 : c.pop / 22400] as [string, number]));
+    const communeName =
+      tourist || pro ? null : r.weighted(D.VAL_DE_LOUE_COMMUNES.map((c) => [c.name, c.name === 'Ornans' ? 1740 / 4120 : c.pop / 22400] as [string, number]));
     const status = r.chance(0.012) ? 'UNSUBSCRIBED' : r.chance(0.02) ? 'PENDING' : 'CONFIRMED';
     const created = daysAgo(r.int(0, 200));
     subRows.push({
@@ -959,8 +1529,17 @@ async function main() {
     if (i % 18 === 0) subAud.push({ idx: i, aud: audC.id });
   }
   const insertedSubs: { id: string }[] = [];
-  for (let i = 0; i < subRows.length; i += 500) insertedSubs.push(...(await db.insert(S.subscribers).values(subRows.slice(i, i + 500)).returning({ id: S.subscribers.id })));
-  await insertMany(S.subscriberAudiences, subAud.map((s) => ({ subscriberId: insertedSubs[s.idx].id, audienceId: s.aud })));
+  for (let i = 0; i < subRows.length; i += 500)
+    insertedSubs.push(
+      ...(await db
+        .insert(S.subscribers)
+        .values(subRows.slice(i, i + 500))
+        .returning({ id: S.subscribers.id })),
+    );
+  await insertMany(
+    S.subscriberAudiences,
+    subAud.map((s) => ({ subscriberId: insertedSubs[s.idx].id, audienceId: s.aud })),
+  );
 
   const nlBase = { territoryId: vdl.id, audienceIds: [audH.id, audT.id], createdById: thomas.id };
   for (const [n, subject, sentDays, opens] of [
@@ -1006,10 +1585,69 @@ async function main() {
   // ─── Revendications en attente (C3) ───────────────────────────────────────
   console.log('→ Revendications, messages, historique');
   const claimants = [
-    { key: 'b5', first: 'Julien', last: 'Mougin', email: 'julien@chauffage-mougin.fr', avatar: D.I.p1, risk: 'LOW' as const, hours: 2, siret: '79012345600018', holder: 'MOUGIN JULIEN', checks: [{ ok: true, label: 'SIRET vérifié', detail: 'Titulaire : MOUGIN JULIEN' }, { ok: true, label: 'Domaine email', detail: 'chauffage-mougin.fr = site de la fiche' }, { ok: false, label: 'Téléphone', detail: 'Numéro différent de celui importé' }] },
-    { key: 'b12', first: 'Marc', last: 'Petit', email: 'marc.petit@gmail.com', avatar: D.I.p3, risk: 'MEDIUM' as const, hours: 26, siret: '31234567800017', holder: 'SARL GARAGE DES TILLEULS', checks: [{ ok: false, label: 'SIRET', detail: 'Nom du gérant différent' }, { ok: false, label: 'Email personnel', detail: 'Domaine non professionnel' }, { ok: true, label: 'Kbis déposé', detail: 'Daté de moins de 3 mois' }] },
-    { key: 'b11', first: 'Léa', last: 'Bouvier', email: 'contact@miellerie-cotes.fr', avatar: D.I.p2, risk: 'LOW' as const, hours: 30, siret: '90123456700015', holder: 'BOUVIER LEA', checks: [{ ok: true, label: 'SIRET vérifié', detail: 'Titulaire : BOUVIER LEA' }, { ok: true, label: 'Code courrier', detail: 'Saisi il y a 2 jours' }, { ok: true, label: 'Téléphone', detail: 'Identique à la fiche' }] },
-    { key: 'b16', first: 'Paul', last: 'Rolland', email: 'paul@rolland-ebeniste.fr', avatar: D.I.p1, risk: 'LOW' as const, hours: 72, siret: '75312468900014', holder: 'ROLLAND PAUL', checks: [{ ok: true, label: 'SIRET vérifié', detail: 'Titulaire : ROLLAND PAUL' }, { ok: true, label: 'Domaine email', detail: 'Cohérent' }] },
+    {
+      key: 'b5',
+      first: 'Julien',
+      last: 'Mougin',
+      email: 'julien@chauffage-mougin.fr',
+      avatar: D.I.p1,
+      risk: 'LOW' as const,
+      hours: 2,
+      siret: '79012345600018',
+      holder: 'MOUGIN JULIEN',
+      checks: [
+        { ok: true, label: 'SIRET vérifié', detail: 'Titulaire : MOUGIN JULIEN' },
+        { ok: true, label: 'Domaine email', detail: 'chauffage-mougin.fr = site de la fiche' },
+        { ok: false, label: 'Téléphone', detail: 'Numéro différent de celui importé' },
+      ],
+    },
+    {
+      key: 'b12',
+      first: 'Marc',
+      last: 'Petit',
+      email: 'marc.petit@gmail.com',
+      avatar: D.I.p3,
+      risk: 'MEDIUM' as const,
+      hours: 26,
+      siret: '31234567800017',
+      holder: 'SARL GARAGE DES TILLEULS',
+      checks: [
+        { ok: false, label: 'SIRET', detail: 'Nom du gérant différent' },
+        { ok: false, label: 'Email personnel', detail: 'Domaine non professionnel' },
+        { ok: true, label: 'Kbis déposé', detail: 'Daté de moins de 3 mois' },
+      ],
+    },
+    {
+      key: 'b11',
+      first: 'Léa',
+      last: 'Bouvier',
+      email: 'contact@miellerie-cotes.fr',
+      avatar: D.I.p2,
+      risk: 'LOW' as const,
+      hours: 30,
+      siret: '90123456700015',
+      holder: 'BOUVIER LEA',
+      checks: [
+        { ok: true, label: 'SIRET vérifié', detail: 'Titulaire : BOUVIER LEA' },
+        { ok: true, label: 'Code courrier', detail: 'Saisi il y a 2 jours' },
+        { ok: true, label: 'Téléphone', detail: 'Identique à la fiche' },
+      ],
+    },
+    {
+      key: 'b16',
+      first: 'Paul',
+      last: 'Rolland',
+      email: 'paul@rolland-ebeniste.fr',
+      avatar: D.I.p1,
+      risk: 'LOW' as const,
+      hours: 72,
+      siret: '75312468900014',
+      holder: 'ROLLAND PAUL',
+      checks: [
+        { ok: true, label: 'SIRET vérifié', detail: 'Titulaire : ROLLAND PAUL' },
+        { ok: true, label: 'Domaine email', detail: 'Cohérent' },
+      ],
+    },
   ];
   for (const c of claimants) {
     const u = await mkUser({ email: c.email, first: c.first, last: c.last, avatar: D.U(c.avatar, 100, 100), createdAt: hoursAgo(c.hours) });
@@ -1032,9 +1670,34 @@ async function main() {
   const approvedClaims = genEsts
     .filter((e) => e.ownerId && communeRows[e.commune])
     .slice(0, 180)
-    .map((e) => ({ establishmentId: e.id, territoryId: vdl.id, userId: e.ownerId!, status: 'APPROVED' as const, method: 'SIRET', riskLevel: 'LOW' as const, reviewerId: r.chance(0.6) ? claire.id : anne.id, reviewedAt: daysAgo(r.int(1, 150)), createdAt: daysAgo(r.int(2, 160)) }));
+    .map((e) => ({
+      establishmentId: e.id,
+      territoryId: vdl.id,
+      userId: e.ownerId!,
+      status: 'APPROVED' as const,
+      method: 'SIRET',
+      riskLevel: 'LOW' as const,
+      reviewerId: r.chance(0.6) ? claire.id : anne.id,
+      reviewedAt: daysAgo(r.int(1, 150)),
+      createdAt: daysAgo(r.int(2, 160)),
+    }));
   await insertMany(S.claims, approvedClaims);
-  await db.insert(S.claims).values({ establishmentId: estByKey.b1.id, territoryId: vdl.id, userId: sophieId, status: 'APPROVED', method: 'SIRET', siretProvided: fixSiret('81234567800019'), sireneHolder: 'MARTIN SOPHIE', riskLevel: 'LOW', reviewerId: anne.id, reviewedAt: daysAgo(39), createdAt: daysAgo(40), checks: [{ ok: true, label: 'SIRET vérifié', detail: 'Titulaire : MARTIN SOPHIE' }] });
+  await db
+    .insert(S.claims)
+    .values({
+      establishmentId: estByKey.b1.id,
+      territoryId: vdl.id,
+      userId: sophieId,
+      status: 'APPROVED',
+      method: 'SIRET',
+      siretProvided: fixSiret('81234567800019'),
+      sireneHolder: 'MARTIN SOPHIE',
+      riskLevel: 'LOW',
+      reviewerId: anne.id,
+      reviewedAt: daysAgo(39),
+      createdAt: daysAgo(40),
+      checks: [{ ok: true, label: 'SIRET vérifié', detail: 'Titulaire : MARTIN SOPHIE' }],
+    });
 
   await db.insert(S.establishmentRevisions).values([
     { establishmentId: estByKey.b5.id, source: 'IMPORT', summary: 'Fiche précréée (import SIRENE)', createdAt: daysAgo(200) },
@@ -1050,9 +1713,32 @@ async function main() {
 
   // Messages reçus par Boulangerie Martin (E2)
   await db.insert(S.messages).values([
-    { establishmentId: estByKey.b1.id, territoryId: vdl.id, senderName: 'Julie P.', senderEmail: 'julie.p@exemple.test', body: 'Bonjour, peut-on commander 2 galettes pour le 6 janvier ?', createdAt: hoursAgo(2) },
-    { establishmentId: estByKey.b1.id, territoryId: vdl.id, senderName: 'Marc D.', senderEmail: 'marc.d@exemple.test', body: 'Faites-vous du pain sans gluten ?', createdAt: daysAgo(1, 15) },
-    { establishmentId: estByKey.b1.id, territoryId: vdl.id, source: 'COLLECTIVITE', fromUserId: anne.id, senderName: "Mairie d'Ornans", senderEmail: 'commerce@ornans.fr', body: 'Merci de confirmer vos horaires de la Toussaint pour la page de la commune.', createdAt: daysAgo(3, 9) },
+    {
+      establishmentId: estByKey.b1.id,
+      territoryId: vdl.id,
+      senderName: 'Julie P.',
+      senderEmail: 'julie.p@exemple.test',
+      body: 'Bonjour, peut-on commander 2 galettes pour le 6 janvier ?',
+      createdAt: hoursAgo(2),
+    },
+    {
+      establishmentId: estByKey.b1.id,
+      territoryId: vdl.id,
+      senderName: 'Marc D.',
+      senderEmail: 'marc.d@exemple.test',
+      body: 'Faites-vous du pain sans gluten ?',
+      createdAt: daysAgo(1, 15),
+    },
+    {
+      establishmentId: estByKey.b1.id,
+      territoryId: vdl.id,
+      source: 'COLLECTIVITE',
+      fromUserId: anne.id,
+      senderName: "Mairie d'Ornans",
+      senderEmail: 'commerce@ornans.fr',
+      body: 'Merci de confirmer vos horaires de la Toussaint pour la page de la commune.',
+      createdAt: daysAgo(3, 9),
+    },
   ]);
   await db.insert(S.jobApplications).values({
     jobId: (await db.select({ id: S.jobs.id }).from(S.jobs).where(eq(S.jobs.establishmentId, estByKey.b1.id)).limit(1))[0].id,
@@ -1077,16 +1763,34 @@ async function main() {
   ];
   const stageOrder = ['PROSPECT', 'FIRST_CONTACT', 'DEMO', 'PROPOSAL', 'NEGOTIATION', 'SIGNED', 'ONBOARDING', 'ACTIVE'];
   const NOTE: Record<string, string> = {
-    PROSPECT: "Territoire au tissu commercial fragile, forte attente sur la redynamisation des centres-bourgs. Budget à inscrire au prochain exercice : viser une démo avant le débat d'orientation budgétaire.",
-    NEGOTIATION: 'Intérêt fort du vice-président. Point d’attention : la DGS souhaite comparer avec la solution régionale. Argument clé : gratuité pour les entreprises et fiches précréées dès J1.',
+    PROSPECT:
+      "Territoire au tissu commercial fragile, forte attente sur la redynamisation des centres-bourgs. Budget à inscrire au prochain exercice : viser une démo avant le débat d'orientation budgétaire.",
+    NEGOTIATION:
+      'Intérêt fort du vice-président. Point d’attention : la DGS souhaite comparer avec la solution régionale. Argument clé : gratuité pour les entreprises et fiches précréées dès J1.',
     ONBOARDING: 'Contrat signé. Référent technique identifié, import des données en cours. Objectif : 30 % de fiches revendiquées à 3 mois.',
     ACTIVE: 'Client satisfait, adoption au-dessus de la moyenne. Potentiel de montée en gamme sur les modules seconde génération (IA, circuits).',
   };
   const ACTIONS: Record<string, [string, string][]> = {
-    pro: [['Qualifier le besoin (appel 20 min)', 'cette sem.'], ['Envoyer la plaquette terricom.fr', 'J+2'], ['Proposer une démo en ligne', 'J+7']],
-    neg: [['Envoyer la proposition chiffrée', 'fait ?'], ['Préparer la note pour le conseil communautaire', 'J+3'], ['Répondre aux questions RGPD / hébergement', 'J+5']],
-    onb: [['Import SIRENE et contrôle des doublons', 'en cours'], ['Former les administrateurs communaux', 'J+4'], ['Planifier le lancement presse', 'J+20']],
-    act: [["Bilan d'usage trimestriel", 'janv.'], ['Proposer le module Assistant IA', 'févr.'], ["Recueillir un témoignage d'élu", 'mars']],
+    pro: [
+      ['Qualifier le besoin (appel 20 min)', 'cette sem.'],
+      ['Envoyer la plaquette terricom.fr', 'J+2'],
+      ['Proposer une démo en ligne', 'J+7'],
+    ],
+    neg: [
+      ['Envoyer la proposition chiffrée', 'fait ?'],
+      ['Préparer la note pour le conseil communautaire', 'J+3'],
+      ['Répondre aux questions RGPD / hébergement', 'J+5'],
+    ],
+    onb: [
+      ['Import SIRENE et contrôle des doublons', 'en cours'],
+      ['Former les administrateurs communaux', 'J+4'],
+      ['Planifier le lancement presse', 'J+20'],
+    ],
+    act: [
+      ["Bilan d'usage trimestriel", 'janv.'],
+      ['Proposer le module Assistant IA', 'févr.'],
+      ["Recueillir un témoignage d'élu", 'mars'],
+    ],
   };
   for (const [i, d] of DEALS.entries()) {
     const stageIdx = stageOrder.indexOf(d.stage);
@@ -1114,51 +1818,301 @@ async function main() {
       .returning();
     await db.insert(S.dealContacts).values([
       { dealId: deal.id, name: d.contact, role: 'Vice-président·e développement économique', tag: 'Décideur', sortOrder: 0 },
-      { dealId: deal.id, name: r.pick(['Martine Rolland', 'Sylvie Carrez', 'Jean-Marc Boillot']), role: 'Directrice générale des services', tag: 'Influence', sortOrder: 1 },
-      { dealId: deal.id, name: r.pick(['Kevin Morel', 'Laura Pichon', 'Nathan Vidal']), role: 'Chargé·e de mission commerce', tag: 'Utilisateur', sortOrder: 2 },
+      {
+        dealId: deal.id,
+        name: r.pick(['Martine Rolland', 'Sylvie Carrez', 'Jean-Marc Boillot']),
+        role: 'Directrice générale des services',
+        tag: 'Influence',
+        sortOrder: 1,
+      },
+      {
+        dealId: deal.id,
+        name: r.pick(['Kevin Morel', 'Laura Pichon', 'Nathan Vidal']),
+        role: 'Chargé·e de mission commerce',
+        tag: 'Utilisateur',
+        sortOrder: 2,
+      },
     ]);
-    const logs = stageLog.slice(0, stageIdx + 1).map(([kind, text], k) => ({ dealId: deal.id, kind, text, occurredAt: daysAgo(210 - i * 8 - k * 18), userId: camille.id }));
+    const logs = stageLog
+      .slice(0, stageIdx + 1)
+      .map(([kind, text], k) => ({ dealId: deal.id, kind, text, occurredAt: daysAgo(210 - i * 8 - k * 18), userId: camille.id }));
     await db.insert(S.dealActivities).values(logs);
     const group = stageIdx >= 7 ? 'act' : stageIdx >= 5 ? 'onb' : stageIdx >= 3 ? 'neg' : 'pro';
     await db.insert(S.dealTasks).values(ACTIONS[group].map(([text, due], k) => ({ dealId: deal.id, text, dueText: due, sortOrder: k })));
-    const docs: [string, number][] = [['Plaquette terricom.pdf', 0], ['Support de démo.pdf', 2], ['Proposition commerciale v2.pdf', 3], ['Contrat signé.pdf', 5], ['Convention RGPD.pdf', 5]];
+    const docs: [string, number][] = [
+      ['Plaquette terricom.pdf', 0],
+      ['Support de démo.pdf', 2],
+      ['Proposition commerciale v2.pdf', 3],
+      ['Contrat signé.pdf', 5],
+      ['Convention RGPD.pdf', 5],
+    ];
     await db.insert(S.dealDocuments).values(docs.filter(([, s]) => stageIdx >= s).map(([name]) => ({ dealId: deal.id, name })));
   }
 
   // ─── Factures ─────────────────────────────────────────────────────────────
   const { createInvoice } = await import('@/server/services/billing');
-  await createInvoice({ customerType: 'TERRITORY', territoryId: vdl.id, customerName: 'Communauté de communes du Val de Loue', customerAddress: '2 place de l’Hôtel de Ville, 25290 Ornans', issuedAt: '2026-02-10', lines: [{ label: 'Mise en service : paramétrage, import SIRENE, formation', quantity: 1, unitCents: 500000, vatRate: 20 }], status: 'PAID', paidAt: '2026-03-18', paymentMethod: 'MANDAT_ADMINISTRATIF', chorusRef: 'CPP-2026-004512' });
-  await createInvoice({ customerType: 'TERRITORY', territoryId: vdl.id, customerName: 'Communauté de communes du Val de Loue', customerAddress: '2 place de l’Hôtel de Ville, 25290 Ornans', issuedAt: '2026-03-01', lines: [{ label: 'Licence annuelle terricom — territoire pilote (mars 2026 – février 2027)', quantity: 1, unitCents: 900000, vatRate: 20 }], status: 'PAID', paidAt: '2026-04-06', paymentMethod: 'MANDAT_ADMINISTRATIF', chorusRef: 'CPP-2026-006021' });
+  await createInvoice({
+    customerType: 'TERRITORY',
+    territoryId: vdl.id,
+    customerName: 'Communauté de communes du Val de Loue',
+    customerAddress: '2 place de l’Hôtel de Ville, 25290 Ornans',
+    issuedAt: '2026-02-10',
+    lines: [{ label: 'Mise en service : paramétrage, import SIRENE, formation', quantity: 1, unitCents: 500000, vatRate: 20 }],
+    status: 'PAID',
+    paidAt: '2026-03-18',
+    paymentMethod: 'MANDAT_ADMINISTRATIF',
+    chorusRef: 'CPP-2026-004512',
+  });
+  await createInvoice({
+    customerType: 'TERRITORY',
+    territoryId: vdl.id,
+    customerName: 'Communauté de communes du Val de Loue',
+    customerAddress: '2 place de l’Hôtel de Ville, 25290 Ornans',
+    issuedAt: '2026-03-01',
+    lines: [{ label: 'Licence annuelle terricom — territoire pilote (mars 2026 – février 2027)', quantity: 1, unitCents: 900000, vatRate: 20 }],
+    status: 'PAID',
+    paidAt: '2026-04-06',
+    paymentMethod: 'MANDAT_ADMINISTRATIF',
+    chorusRef: 'CPP-2026-006021',
+  });
   for (const t of OTHER_TERRITORIES) {
-    await createInvoice({ customerType: 'TERRITORY', territoryId: territoryBySlug[t.slug].id, customerName: t.legalName, issuedAt: t.signedAt, lines: [{ label: 'Mise en service', quantity: 1, unitCents: t.setupCents, vatRate: 20 }, { label: 'Licence annuelle terricom', quantity: 1, unitCents: t.licenceCents, vatRate: 20 }], status: t.status === 'ACTIVE' ? 'PAID' : 'ISSUED', paidAt: t.status === 'ACTIVE' ? addIso(t.signedAt, 35) : undefined, paymentMethod: 'MANDAT_ADMINISTRATIF' });
+    await createInvoice({
+      customerType: 'TERRITORY',
+      territoryId: territoryBySlug[t.slug].id,
+      customerName: t.legalName,
+      issuedAt: t.signedAt,
+      lines: [
+        { label: 'Mise en service', quantity: 1, unitCents: t.setupCents, vatRate: 20 },
+        { label: 'Licence annuelle terricom', quantity: 1, unitCents: t.licenceCents, vatRate: 20 },
+      ],
+      status: t.status === 'ACTIVE' ? 'PAID' : 'ISSUED',
+      paidAt: t.status === 'ACTIVE' ? addIso(t.signedAt, 35) : undefined,
+      paymentMethod: 'MANDAT_ADMINISTRATIF',
+    });
   }
 
   // ─── Utilisation IA, tickets, RGPD ────────────────────────────────────────
-  const aiRows = Array.from({ length: 420 }, () => ({
-    territoryId: vdl.id,
-    feature: r.weighted([['WRITER', 5], ['IMPROVE', 2], ['SEARCH', 6], ['TERRITORIAL', 1]] as [('WRITER' | 'IMPROVE' | 'SEARCH' | 'TERRITORIAL'), number][]),
-    model: 'claude-opus-5',
-    inputTokens: r.int(900, 4000),
-    outputTokens: r.int(300, 1500),
-    credits: r.int(2, 8),
-    createdAt: new Date(now.getFullYear(), now.getMonth(), r.int(1, Math.max(1, now.getDate())), r.int(8, 20)),
-  }));
+  const premiumCompanies = allEsts.filter((e) => e.plan !== 'ESSENTIEL' && e.ownerId).map((e) => e.companyId);
+  const aiRows = Array.from({ length: 420 }, () => {
+    const feature = r.weighted([
+      ['WRITER', 5],
+      ['IMPROVE', 2],
+      ['SEARCH', 6],
+      ['TERRITORIAL', 1],
+    ] as ['WRITER' | 'IMPROVE' | 'SEARCH' | 'TERRITORIAL', number][]);
+    return {
+      territoryId: vdl.id,
+      companyId: (feature === 'WRITER' || feature === 'IMPROVE') && premiumCompanies.length ? r.pick(premiumCompanies) : null,
+      feature,
+      model: 'claude-opus-5',
+      inputTokens: r.int(900, 4000),
+      outputTokens: r.int(300, 1500),
+      credits: r.int(2, 8),
+      createdAt: new Date(now.getFullYear(), now.getMonth(), r.int(1, Math.max(1, now.getDate())), r.int(8, 20)),
+    };
+  });
   await insertMany(S.aiUsage, aiRows);
-  await db.insert(S.supportTickets).values(
+  const TICKETS: [string, string, string, 'OPEN' | 'PENDING' | 'RESOLVED', string][] = [
     [
-      ['Import CSV : colonnes non reconnues', 'haut-jura'],
-      ['Ajouter un administrateur communal', 'pays-de-lure'],
-      ['Logo du portail flou sur mobile', 'valdeloue'],
-      ['Question sur la facturation Chorus Pro', 'grand-figeac'],
-      ['Newsletter : domaine d’envoi personnalisé', 'quimperle'],
-      ['Doublons après import SIRENE', 'haut-jura'],
-      ['Formation des agents de la mairie', 'dole'],
-    ].map(([subject, t], i) => ({ subject, territoryId: territoryBySlug[t].id, status: 'OPEN' as const, body: '', createdAt: daysAgo(i + 1), createdById: camille.id })),
+      'Import CSV : colonnes non reconnues',
+      'haut-jura',
+      "Bonjour, notre fichier de la CCI a des colonnes « Enseigne » et « Adresse complète » que l'assistant d'import ne propose pas. Faut-il retravailler le fichier ?",
+      'OPEN',
+      'NORMAL',
+    ],
+    [
+      'Ajouter un administrateur communal',
+      'pays-de-lure',
+      'La mairie de Lure souhaite un deuxième agent. Comment lui donner accès uniquement à sa commune ?',
+      'OPEN',
+      'LOW',
+    ],
+    [
+      'Logo du portail flou sur mobile',
+      'valdeloue',
+      'Notre logo apparaît pixelisé sur iPhone dans l’en-tête du portail. Le fichier fourni fait 300 px de large.',
+      'PENDING',
+      'NORMAL',
+    ],
+    [
+      'Question sur la facturation Chorus Pro',
+      'grand-figeac',
+      'Notre service financier a besoin du numéro d’engagement sur la facture de mise en service. Pouvez-vous la rééditer ?',
+      'OPEN',
+      'HIGH',
+    ],
+    [
+      'Newsletter : domaine d’envoi personnalisé',
+      'quimperle',
+      'Nous aimerions envoyer la lettre depuis actu@quimperle-co.bzh. Quels enregistrements DNS ajouter ?',
+      'OPEN',
+      'NORMAL',
+    ],
+    [
+      'Doublons après import SIRENE',
+      'haut-jura',
+      'Une vingtaine d’établissements apparaissent deux fois (siège et établissement secondaire). Peut-on les fusionner en masse ?',
+      'OPEN',
+      'HIGH',
+    ],
+    ['Formation des agents de la mairie', 'dole', 'Pourriez-vous nous proposer une session en visio pour les trois agents de l’accueil ?', 'OPEN', 'LOW'],
+  ];
+  const ticketRows = await db
+    .insert(S.supportTickets)
+    .values(
+      TICKETS.map(([subject, t, body, status, priority], i) => ({
+        subject,
+        territoryId: territoryBySlug[t].id,
+        status,
+        priority,
+        body,
+        createdAt: daysAgo(i + 1),
+        createdById: adminBySlug[t].id,
+      })),
+    )
+    .returning();
+  await db.insert(S.ticketMessages).values(
+    ticketRows.map((t) => {
+      const author = Object.entries(territoryBySlug).find(([, tr]) => tr.id === t.territoryId)?.[0] ?? 'valdeloue';
+      const a = adminBySlug[author];
+      return { ticketId: t.id, authorId: a.id, authorLabel: `${a.firstName ?? ''} ${a.lastName ?? ''}`.trim(), body: t.body, createdAt: t.createdAt };
+    }),
   );
+  const logoTicket = ticketRows.find((t) => t.subject.startsWith('Logo'));
+  if (logoTicket)
+    await db.insert(S.ticketMessages).values({
+      ticketId: logoTicket.id,
+      authorId: support.id,
+      authorLabel: 'Support terricom',
+      fromSupport: true,
+      body: 'Bonjour Claire, pour un rendu net sur les écrans haute densité, déposez un logo SVG ou un PNG de 600 px de large minimum depuis Personnalisation > Identité. Dites-nous si le problème persiste.',
+      createdAt: new Date(logoTicket.createdAt.getTime() + 3 * 3_600_000),
+    });
+  await db
+    .insert(S.privacyRequests)
+    .values([
+      ...Array.from({ length: 17 }, (_, i) => ({
+        email: `habitant${i + 1}@demo.terricom.test`,
+        kind: 'EXPORT' as const,
+        status: 'DONE' as const,
+        territoryId: vdl.id,
+        createdAt: daysAgo(150 - i * 8),
+        completedAt: daysAgo(149 - i * 8),
+      })),
+      ...Array.from({ length: 9 }, (_, i) => ({
+        email: `ancien${i + 1}@demo.terricom.test`,
+        kind: 'DELETE' as const,
+        status: 'DONE' as const,
+        territoryId: vdl.id,
+        createdAt: daysAgo(140 - i * 12),
+        completedAt: daysAgo(139 - i * 12),
+      })),
+    ]);
+
   await db.insert(S.privacyRequests).values([
-    ...Array.from({ length: 17 }, (_, i) => ({ email: `habitant${i + 1}@demo.terricom.test`, kind: 'EXPORT' as const, status: 'DONE' as const, territoryId: vdl.id, createdAt: daysAgo(150 - i * 8), completedAt: daysAgo(149 - i * 8) })),
-    ...Array.from({ length: 9 }, (_, i) => ({ email: `ancien${i + 1}@demo.terricom.test`, kind: 'DELETE' as const, status: 'DONE' as const, territoryId: vdl.id, createdAt: daysAgo(140 - i * 12), completedAt: daysAgo(139 - i * 12) })),
+    { email: 'lea.moutot@exemple.test', kind: 'EXPORT', status: 'OPEN', territoryId: vdl.id, note: 'Reçue par email au DPO de la CC', createdAt: daysAgo(4) },
+    {
+      email: 'paul.vernier@exemple.test',
+      kind: 'DELETE',
+      status: 'OPEN',
+      territoryId: vdl.id,
+      note: 'Courrier reçu en mairie d’Ornans',
+      createdAt: daysAgo(2),
+    },
   ]);
+
+  // Désabonnements Premium récents (churn mensuel) : deux entreprises repassées en Essentiel.
+  const churned = allEsts.filter((e) => e.plan === 'ESSENTIEL' && e.ownerId).slice(0, 2);
+  if (churned.length)
+    await db
+      .insert(S.companySubscriptions)
+      .values(
+        churned.map((e, i) => ({
+          companyId: e.companyId,
+          plan: 'PREMIUM' as const,
+          status: 'CANCELED' as const,
+          provider: 'STRIPE',
+          startedAt: daysAgo(160 + i * 20),
+          canceledAt: daysAgo(9 + i * 12),
+        })),
+      );
+
+  // ─── Emails émis (boîte d'envoi de démonstration) ────────────────────────
+  const T = await import('@/server/mail/templates');
+  const outbox = [
+    {
+      ...T.claimInvitationTemplate({
+        to: 'contact@ferme-des-granges.exemple.test',
+        establishmentName: 'Ferme des Granges',
+        territory: vdl,
+        url: `${process.env.APP_URL ?? 'http://localhost:3000'}/pro/revendiquer`,
+      }),
+      territoryId: vdl.id,
+      at: daysAgo(6, 9),
+    },
+    {
+      ...T.staffInvitationTemplate({
+        to: 'agent.accueil@ornans.fr',
+        inviter: 'Claire Duval',
+        scopeName: 'Commune d’Ornans',
+        roleLabel: 'Agent communal',
+        url: `${process.env.APP_URL ?? 'http://localhost:3000'}/invitation/demo`,
+      }),
+      territoryId: vdl.id,
+      at: daysAgo(4, 11),
+    },
+    {
+      ...T.newsletterConfirmTemplate({
+        to: 'lea.moutot@exemple.test',
+        territory: vdl,
+        newsletterName: 'La lettre du Val de Loue',
+        url: `${process.env.APP_URL ?? 'http://localhost:3000'}/valdeloue`,
+      }),
+      territoryId: vdl.id,
+      at: daysAgo(3, 18),
+    },
+    {
+      ...T.ticketReplyTemplate({
+        to: 'c.duval@cc-valdeloue.fr',
+        number: 3,
+        subject: 'Logo du portail flou sur mobile',
+        reply: 'Bonjour Claire, pour un rendu net sur les écrans haute densité, déposez un logo SVG ou un PNG de 600 px de large minimum.',
+        resolved: false,
+      }),
+      territoryId: vdl.id,
+      at: daysAgo(3, 15),
+    },
+    {
+      ...T.securityAlertTemplate({
+        to: 'h.lambert@cc-valdeloue.fr',
+        title: 'Votre compte a été verrouillé temporairement',
+        detail: 'Plusieurs tentatives de connexion ont échoué. Par sécurité, votre compte est verrouillé 15 minutes.',
+      }),
+      territoryId: vdl.id,
+      at: daysAgo(2, 14),
+    },
+  ];
+  await db
+    .insert(S.emails)
+    .values(
+      outbox.map(({ at, ...m }) => ({
+        to: m.to,
+        subject: m.subject,
+        html: m.html,
+        text: m.text,
+        template: m.template ?? null,
+        territoryId: m.territoryId,
+        status: 'OUTBOX' as const,
+        createdAt: at,
+      })),
+    );
+
+  // ─── Sondes de disponibilité (30 jours, une par minute) ───────────────────
+  await db.execute(sql`
+    INSERT INTO health_probes (at, ok, latency_ms)
+    SELECT ts, (n % 4801) <> 17, 118 + (random() * 48)::int
+    FROM (SELECT ts, row_number() OVER (ORDER BY ts) AS n
+          FROM generate_series(now() - interval '30 days', now() - interval '1 minute', interval '1 minute') AS ts) g`);
 
   // ─── Statistiques d'audience simulées ────────────────────────────────────
   console.log("→ Statistiques d'audience (simulation depuis le lancement pilote)");
@@ -1178,20 +2132,97 @@ async function main() {
 
   // ─── Journal d'audit ──────────────────────────────────────────────────────
   const auditEntries: Parameters<typeof audit>[0][] = [
-    { actor: 'Système', category: 'IMPORT', action: 'import.sirene', summary: `Import SIRENE Val de Loue : ${allEsts.filter((e) => communeRows[e.commune]).length} fiches créées`, territoryId: vdl.id },
-    { actor: { user: camille }, category: 'CONFIGURATION', action: 'module.enable', summary: 'Module « Assistant IA » activé pour Val de Loue', territoryId: vdl.id },
-    { actor: 'Système', category: 'IMPORT', action: 'import.sirene', summary: 'Import SIRENE Haut-Jura : 90 fiches créées', territoryId: territoryBySlug['haut-jura'].id },
-    { actor: { user: claire }, category: 'MODERATION', action: 'establishment.suspend', summary: 'A suspendu « Céramiques Lison » (inactive 5 mois)', territoryId: vdl.id, targetType: 'establishment', targetId: estByKey.b8.id },
-    { actor: { user: thomas }, category: 'ENVOI', action: 'newsletter.schedule', summary: 'Newsletter n°47 programmée (5 320 destinataires)', territoryId: vdl.id },
-    { actor: { user: hugo }, category: 'SECURITE', action: 'auth.locked', summary: 'Connexion refusée : 5 tentatives, compte verrouillé 15 min', territoryId: vdl.id },
-    { actor: 'Système', category: 'RGPD', action: 'privacy.export', summary: 'Export RGPD généré pour un habitant (demande n°17)', territoryId: vdl.id },
-    { actor: { user: anne }, category: 'MODIFICATION', action: 'establishment.update', summary: 'A modifié les horaires de « Boulangerie Martin »', territoryId: vdl.id, targetType: 'establishment', targetId: estByKey.b1.id },
-    { actor: { id: support.id, label: 'Support terricom' }, category: 'SUPPORT', action: 'support.impersonate', summary: 'Accès support ouvert sur Haut-Jura (ticket #1, 30 min)', territoryId: territoryBySlug['haut-jura'].id },
-    { actor: { user: claire }, category: 'VALIDATION', action: 'claim.approve', summary: 'A validé la revendication « Ferme des Granges »', territoryId: vdl.id },
+    {
+      at: daysAgo(205, 9),
+      actor: 'Système',
+      category: 'IMPORT',
+      action: 'import.sirene',
+      summary: `Import SIRENE Val de Loue : ${allEsts.filter((e) => communeRows[e.commune]).length} fiches créées`,
+      territoryId: vdl.id,
+    },
+    {
+      at: daysAgo(3, 16),
+      actor: { user: camille },
+      category: 'CONFIGURATION',
+      action: 'module.enabled',
+      summary: 'Module « Assistant IA » activé pour Val de Loue',
+      territoryId: vdl.id,
+    },
+    {
+      at: daysAgo(3, 10),
+      actor: 'Système',
+      category: 'RGPD',
+      action: 'privacy.export',
+      summary: 'Export RGPD généré pour un habitant (demande n°17)',
+      territoryId: vdl.id,
+    },
+    {
+      at: daysAgo(2, 11),
+      actor: { user: claire },
+      category: 'MODERATION',
+      action: 'establishment.suspend',
+      summary: 'A suspendu « Céramiques Lison » (inactive 5 mois)',
+      territoryId: vdl.id,
+      targetType: 'establishment',
+      targetId: estByKey.b8.id,
+    },
+    {
+      at: daysAgo(2, 14),
+      actor: { user: hugo },
+      category: 'SECURITE',
+      action: 'auth.locked',
+      summary: 'Connexion refusée : 5 tentatives, compte verrouillé 15 min',
+      territoryId: vdl.id,
+    },
+    {
+      at: daysAgo(2, 17),
+      actor: { user: thomas },
+      category: 'ENVOI',
+      action: 'newsletter.schedule',
+      summary: 'Newsletter n°47 programmée (5 320 destinataires)',
+      territoryId: vdl.id,
+    },
+    {
+      at: daysAgo(2, 18),
+      actor: 'Système',
+      category: 'IMPORT',
+      action: 'import.sirene',
+      summary: 'Import SIRENE Haut-Jura : 90 fiches créées',
+      territoryId: territoryBySlug['haut-jura'].id,
+    },
+    {
+      at: daysAgo(1, 8),
+      actor: { user: anne },
+      category: 'MODIFICATION',
+      action: 'establishment.update',
+      summary: 'A modifié les horaires de « Boulangerie Martin »',
+      territoryId: vdl.id,
+      targetType: 'establishment',
+      targetId: estByKey.b1.id,
+    },
+    {
+      at: daysAgo(1, 9),
+      actor: { id: support.id, label: 'Support terricom' },
+      category: 'SUPPORT',
+      action: 'support.impersonation_start',
+      summary: 'Accès support ouvert sur Haut-Jura (ticket #1, 30 min)',
+      territoryId: territoryBySlug['haut-jura'].id,
+    },
+    {
+      at: daysAgo(0, 9),
+      actor: { user: claire },
+      category: 'VALIDATION',
+      action: 'claim.approve',
+      summary: 'A validé la revendication « Ferme des Granges »',
+      territoryId: vdl.id,
+    },
   ];
+  auditEntries.sort((a, b) => a.at!.getTime() - b.at!.getTime());
   for (const a of auditEntries) await audit(a);
 
-  const counts = await db.execute<{ t: string; n: number }>(sql`SELECT 'establishments' t, count(*)::int n FROM establishments UNION ALL SELECT 'users', count(*)::int FROM users UNION ALL SELECT 'analytics_events', count(*)::int FROM analytics_events UNION ALL SELECT 'subscribers', count(*)::int FROM subscribers`);
+  const counts = await db.execute<{ t: string; n: number }>(
+    sql`SELECT 'establishments' t, count(*)::int n FROM establishments UNION ALL SELECT 'users', count(*)::int FROM users UNION ALL SELECT 'analytics_events', count(*)::int FROM analytics_events UNION ALL SELECT 'subscribers', count(*)::int FROM subscribers`,
+  );
   console.log(`\n✓ Jeu de démonstration créé en ${Math.round((Date.now() - started) / 1000)} s`);
   for (const row of counts.rows) console.log(`   ${row.t.padEnd(18)} ${row.n}`);
   console.log(`

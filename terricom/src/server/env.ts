@@ -36,9 +36,14 @@ const schema = z.object({
   MAIL_DRIVER: z.enum(['smtp', 'outbox']).default('outbox'),
   SMTP_URL: z.string().optional(),
   MAIL_FROM: z.string().default('terricom <bonjour@terricom.fr>'),
+  /** Boîte de l'équipe support (notification des nouveaux tickets). */
+  SUPPORT_EMAIL: z.string().email().default('support@terricom.fr'),
 
   ANTHROPIC_API_KEY: z.string().optional(),
   AI_MODEL: z.string().default('claude-opus-5'),
+  /** Tarifs d'estimation des coûts IA (€ par million de jetons), affichés dans la console. */
+  AI_COST_INPUT_PER_MTOK: z.coerce.number().min(0).default(5),
+  AI_COST_OUTPUT_PER_MTOK: z.coerce.number().min(0).default(25),
 
   MAP_TILE_URL: z.string().default('https://tile.openstreetmap.org/{z}/{x}/{y}.png'),
   MAP_TILE_ATTRIBUTION: z.string().default('© OpenStreetMap contributors'),
@@ -58,6 +63,9 @@ const schema = z.object({
   SMS_WEBHOOK_URL: z.string().url().optional(),
   SMS_WEBHOOK_TOKEN: z.string().optional(),
 
+  /** Jeton d'accès aux métriques Prometheus (/api/metrics). */
+  METRICS_TOKEN: z.string().min(16).optional(),
+
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
 });
@@ -65,9 +73,7 @@ const schema = z.object({
 export type Env = z.infer<typeof schema>;
 
 function load(): Env {
-  const parsed = schema.safeParse(
-    Object.fromEntries(Object.entries(process.env).map(([k, v]) => [k, v === '' ? undefined : v])),
-  );
+  const parsed = schema.safeParse(Object.fromEntries(Object.entries(process.env).map(([k, v]) => [k, v === '' ? undefined : v])));
   if (!parsed.success) {
     const details = parsed.error.issues.map((i) => `  • ${i.path.join('.')}: ${i.message}`).join('\n');
     throw new Error(`Configuration invalide :\n${details}`);
@@ -81,7 +87,5 @@ export const isProd = env.NODE_ENV === 'production';
 
 /** Hôtes (host:port) qui servent la plateforme elle-même et non un portail de territoire. */
 export const platformHosts = new Set(
-  [env.PLATFORM_DOMAIN, `www.${env.PLATFORM_DOMAIN}`, ...env.PLATFORM_HOSTS.split(',')]
-    .map((h) => h.trim().toLowerCase())
-    .filter(Boolean),
+  [env.PLATFORM_DOMAIN, `www.${env.PLATFORM_DOMAIN}`, ...env.PLATFORM_HOSTS.split(',')].map((h) => h.trim().toLowerCase()).filter(Boolean),
 );

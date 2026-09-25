@@ -9,11 +9,7 @@ import { logger } from './logger';
 const GENESIS = '0'.repeat(64);
 const AUDIT_LOCK = 72_727_001;
 
-export type AuditActor =
-  | { id: string; label: string }
-  | { user: { id: string; firstName: string; lastName: string; email: string } }
-  | 'Système'
-  | string;
+export type AuditActor = { id: string; label: string } | { user: { id: string; firstName: string; lastName: string; email: string } } | 'Système' | string;
 
 export type AuditEntry = {
   actor: AuditActor | null;
@@ -25,6 +21,8 @@ export type AuditEntry = {
   targetId?: string | null;
   metadata?: Record<string, unknown>;
   ip?: string | null;
+  /** Date de l'événement : uniquement pour la reprise d'historique (import, jeu de démonstration). */
+  at?: Date;
 };
 
 function resolveActor(actor: AuditActor | null): { id: string | null; label: string } {
@@ -48,7 +46,11 @@ function canonical(e: {
 }): string {
   const sortKeys = (v: unknown): unknown =>
     v && typeof v === 'object' && !Array.isArray(v)
-      ? Object.fromEntries(Object.keys(v as object).sort().map((k) => [k, sortKeys((v as Record<string, unknown>)[k])]))
+      ? Object.fromEntries(
+          Object.keys(v as object)
+            .sort()
+            .map((k) => [k, sortKeys((v as Record<string, unknown>)[k])]),
+        )
       : Array.isArray(v)
         ? v.map(sortKeys)
         : v;
@@ -65,7 +67,7 @@ export async function audit(entry: AuditEntry, tx?: DbOrTx): Promise<void> {
     const last = await t.select({ hash: auditLog.hash }).from(auditLog).orderBy(desc(auditLog.id)).limit(1);
     const prevHash = last[0]?.hash ?? GENESIS;
     const actor = resolveActor(entry.actor);
-    const occurredAt = new Date();
+    const occurredAt = entry.at ?? new Date();
     const record = {
       occurredAt: occurredAt.toISOString(),
       actorUserId: actor.id,

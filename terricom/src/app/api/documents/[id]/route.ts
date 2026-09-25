@@ -27,6 +27,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     const [claim] = await db.select().from(claims).where(eq(claims.kbisMediaId, doc.id)).limit(1);
     allowed = Boolean(claim && (territoryAccess(actor, claim.territoryId) || claim.userId === actor.user.id));
   }
+  if (!allowed && doc.ownerType === 'DEAL_DOCUMENT') allowed = actor.isPlatformStaff;
   if (!allowed) return new NextResponse('Introuvable', { status: 404 });
   const file = await storage().get(doc.storageKey);
   if (!file) return new NextResponse('Introuvable', { status: 404 });
@@ -34,7 +35,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     actor: { user: actor.user },
     category: 'RGPD',
     action: 'document.viewed',
-    summary: `Consultation d'un document privé (${doc.ownerType === 'CLAIM_KBIS' ? 'Kbis' : 'CV'})`,
+    summary: `Consultation d'un document privé (${doc.ownerType === 'CLAIM_KBIS' ? 'Kbis' : doc.ownerType === 'DEAL_DOCUMENT' ? 'document commercial' : 'CV'})`,
     territoryId: doc.territoryId,
     targetType: 'media',
     targetId: doc.id,

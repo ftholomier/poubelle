@@ -11,9 +11,7 @@ export function fmtInt(n: number | null | undefined): string {
 }
 
 export function fmtDecimal(n: number, digits = 1): string {
-  return new Intl.NumberFormat('fr-FR', { minimumFractionDigits: digits, maximumFractionDigits: digits })
-    .format(n)
-    .replace(/ | /g, ' ');
+  return new Intl.NumberFormat('fr-FR', { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(n).replace(/ | /g, ' ');
 }
 
 /** Montant en centimes → « 9 000 € » (ou avec décimales si nécessaire). */
@@ -117,9 +115,7 @@ export function fmtLongDate(d: Date | string, withYear = false): string {
 
 /** « 14/12/2026 » */
 export function fmtShortDate(d: Date | string): string {
-  return new Intl.DateTimeFormat('fr-FR', { timeZone: TZ, day: '2-digit', month: '2-digit', year: 'numeric' }).format(
-    toDate(d),
-  );
+  return new Intl.DateTimeFormat('fr-FR', { timeZone: TZ, day: '2-digit', month: '2-digit', year: 'numeric' }).format(toDate(d));
 }
 
 /** « 12/12 09:42 » (journal d'audit) */
@@ -275,4 +271,9 @@ export function nowMs(): number {
 /** Date située n jours avant maintenant. */
 export function daysAgoDate(n: number): Date {
   return new Date(Date.now() - n * 86_400_000);
+}
+
+/** « septembre 2026 » (fuseau de Paris). */
+export function fmtMonthYear(d: Date | string = new Date()): string {
+  return toDate(d).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric', timeZone: TZ });
 }

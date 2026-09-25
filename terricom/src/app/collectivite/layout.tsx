@@ -25,6 +25,7 @@ const TITLES: [string, string][] = [
   ['/collectivite/circuits', 'Circuits & parcours'],
   ['/collectivite/statistiques', 'Statistiques'],
   ['/collectivite/personnalisation', 'Personnalisation & rôles'],
+  ['/collectivite/support', 'Aide & support'],
 ];
 
 export default async function BackOfficeLayout({ children }: { children: ReactNode }) {
@@ -82,6 +83,9 @@ export default async function BackOfficeLayout({ children }: { children: ReactNo
             </form>
           ) : null}
           <AppNav items={items} label="Back-office" />
+          <Link href="/collectivite/support" className="bo-help">
+            <span aria-hidden="true">?</span> Aide & support
+          </Link>
           <div className="bo-user">
             <Link href="/compte" style={{ display: 'flex', gap: 10, alignItems: 'center', minWidth: 0, flex: 1 }}>
               <span style={{ width: 34, height: 34, borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
@@ -93,7 +97,12 @@ export default async function BackOfficeLayout({ children }: { children: ReactNo
               </span>
             </Link>
             <form action={logoutAction}>
-              <button type="submit" aria-label="Se déconnecter" title="Se déconnecter" style={{ background: 'none', border: 0, color: 'var(--sage-2)', fontSize: 16, cursor: 'pointer', padding: 4 }}>
+              <button
+                type="submit"
+                aria-label="Se déconnecter"
+                title="Se déconnecter"
+                style={{ background: 'none', border: 0, color: 'var(--sage-2)', fontSize: 16, cursor: 'pointer', padding: 4 }}
+              >
                 ⎋
               </button>
             </form>
@@ -113,7 +122,13 @@ export default async function BackOfficeLayout({ children }: { children: ReactNo
                 </label>
                 <input id="bo-q" name="q" placeholder="Rechercher une entreprise…" />
               </form>
-              <a href={portal} target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-sm" style={{ border: '1.5px solid var(--ink)', color: 'var(--ink)' }}>
+              <a
+                href={portal}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline btn-sm"
+                style={{ border: '1.5px solid var(--ink)', color: 'var(--ink)' }}
+              >
                 Voir le portail ↗
               </a>
             </div>

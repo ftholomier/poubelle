@@ -1,28 +1,8 @@
 import { sql } from 'drizzle-orm';
-import {
-  bigserial,
-  boolean,
-  index,
-  integer,
-  jsonb,
-  pgTable,
-  serial,
-  text,
-  timestamp,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { bigserial, boolean, index, integer, jsonb, pgTable, serial, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { citext, createdAt, pk, tstz, updatedAt } from './_common';
 import { companies } from './business';
-import {
-  aiFeature,
-  auditCategory,
-  emailStatus,
-  privacyRequestKind,
-  privacyRequestStatus,
-  queueStatus,
-  ticketStatus,
-} from './enums';
+import { aiFeature, auditCategory, emailStatus, privacyRequestKind, privacyRequestStatus, queueStatus, ticketStatus } from './enums';
 import { territories } from './tenancy';
 import { users } from './users';
 
@@ -43,7 +23,10 @@ export const auditLog = pgTable(
     targetType: varchar({ length: 64 }),
     targetId: varchar({ length: 64 }),
     summary: text().notNull(),
-    metadata: jsonb().$type<Record<string, unknown>>().notNull().default(sql`'{}'::jsonb`),
+    metadata: jsonb()
+      .$type<Record<string, unknown>>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
     ipHash: varchar({ length: 64 }),
     prevHash: varchar({ length: 64 }).notNull(),
     hash: varchar({ length: 64 }).notNull(),
@@ -61,7 +44,10 @@ export const queueJobs = pgTable(
   {
     id: bigserial({ mode: 'number' }).primaryKey(),
     queue: varchar({ length: 64 }).notNull(),
-    payload: jsonb().$type<Record<string, unknown>>().notNull().default(sql`'{}'::jsonb`),
+    payload: jsonb()
+      .$type<Record<string, unknown>>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
     runAt: tstz().notNull().defaultNow(),
     status: queueStatus().notNull().default('QUEUED'),
     attempts: integer().notNull().default(0),
@@ -96,7 +82,10 @@ export const emails = pgTable(
     status: emailStatus().notNull().default('QUEUED'),
     error: text(),
     providerId: varchar({ length: 255 }),
-    headers: jsonb().$type<Record<string, string>>().notNull().default(sql`'{}'::jsonb`),
+    headers: jsonb()
+      .$type<Record<string, string>>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
     territoryId: uuid(),
     attempts: integer().notNull().default(0),
     createdAt: createdAt(),
@@ -121,10 +110,7 @@ export const aiUsage = pgTable(
     fallback: boolean().notNull().default(false),
     createdAt: createdAt(),
   },
-  (t) => [
-    index('ai_usage_territory_idx').on(t.territoryId, t.createdAt),
-    index('ai_usage_company_idx').on(t.companyId, t.createdAt),
-  ],
+  (t) => [index('ai_usage_territory_idx').on(t.territoryId, t.createdAt), index('ai_usage_company_idx').on(t.companyId, t.createdAt)],
 );
 
 export const supportTickets = pgTable(
@@ -143,6 +129,24 @@ export const supportTickets = pgTable(
     updatedAt: updatedAt(),
   },
   (t) => [index('support_tickets_status_idx').on(t.status)],
+);
+
+/** Fil d'échanges d'un ticket : messages de la collectivité, réponses et notes internes du support. */
+export const ticketMessages = pgTable(
+  'ticket_messages',
+  {
+    id: pk(),
+    ticketId: uuid()
+      .notNull()
+      .references(() => supportTickets.id, { onDelete: 'cascade' }),
+    authorId: uuid().references(() => users.id, { onDelete: 'set null' }),
+    authorLabel: varchar({ length: 255 }).notNull(),
+    fromSupport: boolean().notNull().default(false),
+    internal: boolean().notNull().default(false),
+    body: text().notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [index('ticket_messages_ticket_idx').on(t.ticketId, t.createdAt)],
 );
 
 /** Demandes d'exercice des droits RGPD (export, suppression, rectification). */
@@ -170,7 +174,10 @@ export const apiKeys = pgTable(
     name: varchar({ length: 160 }).notNull(),
     prefix: varchar({ length: 12 }).notNull(),
     keyHash: varchar({ length: 64 }).notNull().unique(),
-    scopes: text().array().notNull().default(sql`'{read}'::text[]`),
+    scopes: text()
+      .array()
+      .notNull()
+      .default(sql`'{read}'::text[]`),
     lastUsedAt: timestamp({ withTimezone: true }),
     createdAt: createdAt(),
     revokedAt: tstz(),
@@ -228,11 +235,26 @@ export const importBatches = pgTable(
     source: varchar({ length: 16 }).notNull().default('CSV'),
     filename: varchar({ length: 255 }).notNull(),
     status: varchar({ length: 16 }).notNull().default('ANALYZED'),
-    headers: text().array().notNull().default(sql`'{}'::text[]`),
-    mapping: jsonb().$type<ImportMapping>().notNull().default(sql`'{}'::jsonb`),
-    rawRows: jsonb().$type<Record<string, string>[]>().notNull().default(sql`'[]'::jsonb`),
-    rows: jsonb().$type<ImportRow[]>().notNull().default(sql`'[]'::jsonb`),
-    report: jsonb().$type<ImportReport>().notNull().default(sql`'{}'::jsonb`),
+    headers: text()
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
+    mapping: jsonb()
+      .$type<ImportMapping>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
+    rawRows: jsonb()
+      .$type<Record<string, string>[]>()
+      .notNull()
+      .default(sql`'[]'::jsonb`),
+    rows: jsonb()
+      .$type<ImportRow[]>()
+      .notNull()
+      .default(sql`'[]'::jsonb`),
+    report: jsonb()
+      .$type<ImportReport>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
     defaultCategoryId: uuid(),
     error: text(),
     committedAt: tstz(),
@@ -240,4 +262,17 @@ export const importBatches = pgTable(
     updatedAt: updatedAt(),
   },
   (t) => [index('import_batches_territory_idx').on(t.territoryId, t.createdAt)],
+);
+
+/** Sondes de disponibilité (le worker interroge /api/health chaque minute). */
+export const healthProbes = pgTable(
+  'health_probes',
+  {
+    id: bigserial({ mode: 'number' }).primaryKey(),
+    at: tstz().notNull().defaultNow(),
+    ok: boolean().notNull(),
+    latencyMs: integer().notNull(),
+    detail: varchar({ length: 255 }),
+  },
+  (t) => [index('health_probes_at_idx').on(t.at)],
 );

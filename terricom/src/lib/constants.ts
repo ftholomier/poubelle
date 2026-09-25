@@ -46,15 +46,7 @@ export const POST_KINDS: Record<PostKind, { label: string; short: string; bg: st
 
 export const POST_KIND_ORDER: PostKind[] = ['NEWS', 'PROMO', 'EVENT', 'NOUVEAUTE', 'HOURS', 'JOB'];
 
-export type EventKind =
-  | 'MARCHE'
-  | 'DEGUSTATION'
-  | 'PORTES_OUVERTES'
-  | 'ATELIER'
-  | 'CONCERT'
-  | 'ANIMATION'
-  | 'SALON'
-  | 'AUTRE';
+export type EventKind = 'MARCHE' | 'DEGUSTATION' | 'PORTES_OUVERTES' | 'ATELIER' | 'CONCERT' | 'ANIMATION' | 'SALON' | 'AUTRE';
 
 export const EVENT_KINDS: Record<EventKind, { label: string; plural: string; bg: string }> = {
   MARCHE: { label: 'Marché', plural: 'Marchés', bg: '#F4B266' },
@@ -114,14 +106,7 @@ export const ESTABLISHMENT_STATUS: Record<EstablishmentStatus, { label: string; 
   ARCHIVED: { label: 'Archivée', bg: '#E4E7E1', fg: '#5E655F' },
 };
 
-export const ESTABLISHMENT_STATUS_ORDER: EstablishmentStatus[] = [
-  'PRECREATED',
-  'TO_COMPLETE',
-  'CLAIMED',
-  'VALIDATED',
-  'SUSPENDED',
-  'ARCHIVED',
-];
+export const ESTABLISHMENT_STATUS_ORDER: EstablishmentStatus[] = ['PRECREATED', 'TO_COMPLETE', 'CLAIMED', 'VALIDATED', 'SUSPENDED', 'ARCHIVED'];
 
 /** Statuts visibles sur le portail public. */
 export const PUBLIC_STATUSES: EstablishmentStatus[] = ['PRECREATED', 'TO_COMPLETE', 'CLAIMED', 'VALIDATED'];
@@ -156,14 +141,7 @@ export const TERRITORY_STATUS: Record<TerritoryStatus, { label: string; color: s
   CHURNED: { label: 'Résilié', color: '#9A9F95' },
 };
 
-export type StaffRole =
-  | 'PLATFORM_ADMIN'
-  | 'PLATFORM_SUPPORT'
-  | 'PLATFORM_SALES'
-  | 'TERRITORY_ADMIN'
-  | 'TERRITORY_EDITOR'
-  | 'COMMUNE_ADMIN'
-  | 'COMMUNE_EDITOR';
+export type StaffRole = 'PLATFORM_ADMIN' | 'PLATFORM_SUPPORT' | 'PLATFORM_SALES' | 'TERRITORY_ADMIN' | 'TERRITORY_EDITOR' | 'COMMUNE_ADMIN' | 'COMMUNE_EDITOR';
 
 export const STAFF_ROLES: Record<StaffRole, string> = {
   PLATFORM_ADMIN: 'Super administrateur',
@@ -175,17 +153,7 @@ export const STAFF_ROLES: Record<StaffRole, string> = {
   COMMUNE_EDITOR: 'Agent communal',
 };
 
-export type ModuleKey =
-  | 'PORTAL'
-  | 'MAP'
-  | 'NEWSLETTER'
-  | 'IMPORT'
-  | 'CAMPAIGNS'
-  | 'AI'
-  | 'CIRCUITS'
-  | 'JOBS'
-  | 'MULTILINGUAL'
-  | 'APPOINTMENTS';
+export type ModuleKey = 'PORTAL' | 'MAP' | 'NEWSLETTER' | 'IMPORT' | 'CAMPAIGNS' | 'AI' | 'CIRCUITS' | 'JOBS' | 'MULTILINGUAL' | 'APPOINTMENTS';
 
 export const MODULES: Record<ModuleKey, { label: string; tag: 'MVP' | 'V2' }> = {
   PORTAL: { label: 'Portail & fiches', tag: 'MVP' },
@@ -200,40 +168,11 @@ export const MODULES: Record<ModuleKey, { label: string; tag: 'MVP' | 'V2' }> = 
   APPOINTMENTS: { label: 'Prise de rendez-vous', tag: 'V2' },
 };
 
-export const MODULE_ORDER: ModuleKey[] = [
-  'PORTAL',
-  'MAP',
-  'NEWSLETTER',
-  'IMPORT',
-  'CAMPAIGNS',
-  'AI',
-  'CIRCUITS',
-  'JOBS',
-  'MULTILINGUAL',
-  'APPOINTMENTS',
-];
+export const MODULE_ORDER: ModuleKey[] = ['PORTAL', 'MAP', 'NEWSLETTER', 'IMPORT', 'CAMPAIGNS', 'AI', 'CIRCUITS', 'JOBS', 'MULTILINGUAL', 'APPOINTMENTS'];
 
-export type DealStage =
-  | 'PROSPECT'
-  | 'FIRST_CONTACT'
-  | 'DEMO'
-  | 'PROPOSAL'
-  | 'NEGOTIATION'
-  | 'SIGNED'
-  | 'ONBOARDING'
-  | 'ACTIVE'
-  | 'LOST';
+export type DealStage = 'PROSPECT' | 'FIRST_CONTACT' | 'DEMO' | 'PROPOSAL' | 'NEGOTIATION' | 'SIGNED' | 'ONBOARDING' | 'ACTIVE' | 'LOST';
 
-export const DEAL_STAGES: DealStage[] = [
-  'PROSPECT',
-  'FIRST_CONTACT',
-  'DEMO',
-  'PROPOSAL',
-  'NEGOTIATION',
-  'SIGNED',
-  'ONBOARDING',
-  'ACTIVE',
-];
+export const DEAL_STAGES: DealStage[] = ['PROSPECT', 'FIRST_CONTACT', 'DEMO', 'PROPOSAL', 'NEGOTIATION', 'SIGNED', 'ONBOARDING', 'ACTIVE'];
 
 export const DEAL_STAGE_LABELS: Record<DealStage, string> = {
   PROSPECT: 'Prospect',
@@ -281,6 +220,24 @@ export const AUDIT_CATEGORIES: Record<AuditCategory, { label: string; bg: string
   AUTH: { label: 'Connexion', bg: '#E4E7E1' },
   FACTURATION: { label: 'Facturation', bg: '#F4B266' },
 };
+
+/** Durées de conservation (registre des traitements, purge automatique par le worker). */
+export const RETENTION = {
+  /** Abonnés sans aucune ouverture : suppression après 3 ans. */
+  subscribersInactiveMonths: 36,
+  /** Messages envoyés aux professionnels : 3 ans après le dernier échange. */
+  messagesMonths: 36,
+  /** Candidatures (et CV) : 2 ans maximum. */
+  applicationsMonths: 24,
+  /** Demandes de rendez-vous : 12 mois. */
+  appointmentsMonths: 12,
+  /** Journal d'audit : 12 mois. */
+  auditMonths: 12,
+  /** Événements d'audience bruts : 13 mois, puis agrégats anonymes. */
+  analyticsRawMonths: 13,
+  /** Passeports des circuits : 12 mois. */
+  passportsMonths: 12,
+} as const;
 
 export const WEEKDAYS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] as const;
 export const WEEKDAYS_SHORT = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'] as const;
