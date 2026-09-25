@@ -33,6 +33,9 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
 - [x] Marque blanche testée de bout en bout ; hors-ligne vérifié sur la compilation de production
 - [x] Contrôles finaux : compilation de production, parcours de tous les espaces (bureau et mobile), tests
       unitaires et e2e complets, worker, base de démonstration réinitialisée, documentation à jour
+- [x] Dossier de réalisation en PDF à la charte (`docs/dossier`, `npm run dossier`) : design, ergonomie,
+      fonctionnalités, IA, technique, hébergement, sécurité, RGPD, qualité, démonstration ; `npm start` lance le
+      serveur autonome ; plus de bande vide en bas des espaces privés hors mode démonstration
 
 ## En cours
 

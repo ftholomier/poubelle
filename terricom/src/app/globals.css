@@ -1265,7 +1265,7 @@ p {
 
 /* ─── Écrans d'accès ────────────────────────────────────────────────────── */
 .auth-shell {
-  min-height: calc(100vh - 44px);
+  min-height: calc(100vh - var(--demo-bar-h));
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
@@ -1306,7 +1306,7 @@ p {
 .app-shell {
   display: grid;
   grid-template-columns: 248px minmax(0, 1fr);
-  min-height: calc(100vh - 44px);
+  min-height: calc(100vh - var(--demo-bar-h));
 }
 .app-aside {
   background: var(--paper);
@@ -1646,7 +1646,7 @@ p {
 /* ─── Console plateforme ────────────────────────────────────────────────── */
 .console-page {
   background: var(--console-bg);
-  min-height: calc(100vh - 44px);
+  min-height: calc(100vh - var(--demo-bar-h));
 }
 .console-wrap {
   max-width: 1400px;
@@ -2389,7 +2389,14 @@ p {
   }
 }
 
-/* Barre de démonstration : une ligne défilante sur mobile */
+/* Barre de démonstration : une ligne défilante sur mobile. Les coques pleine hauteur ne lui réservent
+   sa place que lorsqu'elle est affichée (mode démonstration), sinon une bande vide apparaîtrait en bas. */
+:root {
+  --demo-bar-h: 0px;
+}
+body:has(.demo-bar) {
+  --demo-bar-h: 44px;
+}
 .demo-bar {
   background: #14201b;
   color: #f7f4ec;

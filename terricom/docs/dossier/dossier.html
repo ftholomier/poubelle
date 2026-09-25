@@ -1,0 +1,1609 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>terricom · Dossier de réalisation</title>
+<style>
+@font-face { font-family: 'Bricolage'; font-weight: 200 800; src: url('../../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-opsz-normal.woff2') format('woff2-variations'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'Bricolage'; font-weight: 200 800; src: url('../../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-ext-opsz-normal.woff2') format('woff2-variations'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: 'Instrument'; font-weight: 400 700; src: url('../../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2') format('woff2-variations'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'Instrument'; font-weight: 400 700; src: url('../../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-ext-wght-normal.woff2') format('woff2-variations'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+
+:root {
+  --ink: #14201B; --ink2: #2A3A33; --green: #1F6B52; --amber: #F4B266; --cream: #F7F4EC; --paper: #FFFDF8;
+  --line: #E4DFD3; --brick: #C8702A; --text2: #4A514C; --muted: #6B726D; --sage: #AEBDB5; --sage2: #D6E0DA;
+  --leaf: #D6E8B4; --mint: #E1ECE5; --lilac: #DCD3F3; --sky: #CDE3F2; --rose: #F6C9C1; --sand: #EFEBE1;
+  --commerce: #C8892A; --artisan: #3E6FB0; --producteur: #3F8F4E; --resto: #D95C4E; --services: #7A5BB5;
+}
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: 'Instrument', system-ui, sans-serif; color: var(--ink); background: #9a9a9a; font-size: 12.4px; line-height: 1.55; -webkit-print-color-adjust: exact; print-color-adjust: exact; text-rendering: optimizeLegibility; }
+@media screen { .page { margin: 12px auto; box-shadow: 0 6px 30px rgba(0,0,0,.25); } }
+@media print { body { background: none; } }
+.page { width: 210mm; height: 297mm; position: relative; overflow: hidden; background: var(--cream); break-after: page; padding: 16mm 17mm 22mm; display: flex; flex-direction: column; gap: 5mm; }
+.page:last-child { break-after: auto; }
+.page.dark { background: var(--ink); color: var(--cream); }
+.foot { position: absolute; left: 17mm; right: 17mm; bottom: 9mm; display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 2.6mm; }
+.foot .brand { font-family: 'Bricolage'; font-weight: 800; font-size: 11px; color: var(--ink); letter-spacing: -0.02em; }
+.foot .brand i, .wm i { color: var(--amber); font-style: normal; }
+.foot .num { font-weight: 700; color: var(--ink); }
+.eyebrow { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--brick); }
+h1, h2, h3, .display { font-family: 'Bricolage'; font-weight: 800; letter-spacing: -0.035em; margin: 0; }
+h2 { font-size: 33px; line-height: 1.02; }
+h2 em { font-style: normal; color: var(--green); }
+h3 { font-size: 15.5px; letter-spacing: -0.015em; line-height: 1.2; margin: 0 0 4px; }
+h4 { font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 4px; color: var(--muted); }
+p { margin: 0; }
+.lead { font-size: 13.8px; color: var(--text2); line-height: 1.55; max-width: 165mm; }
+.head { display: flex; flex-direction: column; gap: 2.4mm; }
+.small { font-size: 10.6px; color: var(--muted); line-height: 1.45; }
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; }
+.card p + p { margin-top: 5px; }
+.card.green { background: var(--green); color: #fff; border: 0; }
+.card.green h4 { color: var(--amber); }
+.card.ink { background: var(--ink); color: var(--cream); border: 0; }
+.card.ink h4 { color: var(--amber); }
+.card.amber { background: var(--amber); border: 0; }
+.card.mint { background: var(--mint); border: 0; }
+.card.sand { background: var(--sand); border: 0; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; }
+.row { display: flex; gap: 3mm; align-items: stretch; }
+.grow { flex: 1; min-width: 0; }
+ul.dots { margin: 0; padding-left: 14px; }
+ul.dots li { margin: 1.6px 0; }
+ul.dots li::marker { color: var(--brick); }
+ul.checks { list-style: none; margin: 0; padding: 0; }
+ul.checks li { position: relative; padding-left: 16px; margin: 2px 0; }
+ul.checks li::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--green); font-weight: 800; }
+.card.green ul.checks li::before, .card.ink ul.checks li::before { color: var(--amber); }
+.stamp { display: inline-block; background: var(--amber); color: var(--ink); font-family: 'Bricolage'; font-weight: 800; font-size: 12px; padding: 5px 10px; border-radius: 10px; transform: rotate(-4deg); white-space: nowrap; }
+.chip { display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); padding: 2.5px 9px; font-size: 10.2px; font-weight: 600; white-space: nowrap; }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+code, .mono { font-family: 'DejaVu Sans Mono', ui-monospace, monospace; font-size: 9.6px; }
+code { background: var(--sand); padding: 0.5px 4px; border-radius: 4px; white-space: nowrap; }
+.card.ink code, .card.green code { background: rgba(255,255,255,.12); color: inherit; }
+table.t { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 10.8px; line-height: 1.42; }
+table.t th { text-align: left; font-size: 8.8px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 800; padding: 5px 7px; border-bottom: 1.5px solid var(--ink); }
+table.t td { padding: 5px 7px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.t td:first-child { font-weight: 700; }
+table.t td.c, table.t th.c { text-align: center; }
+table.t .yes { color: var(--green); font-weight: 800; }
+table.t .no { color: #B9B3A5; }
+.shot { border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--paper); }
+.shot .bar { height: 17px; display: flex; align-items: center; gap: 4px; padding: 0 8px; background: var(--sand); border-bottom: 1px solid var(--line); font-size: 7.6px; color: var(--muted); }
+.shot .bar i { width: 6px; height: 6px; border-radius: 50%; background: #D3CCBC; display: inline-block; }
+.shot .bar span { margin-left: 6px; background: var(--paper); border-radius: 5px; padding: 0 7px; line-height: 11px; }
+.shot img { display: block; width: 100%; }
+.shot.crop img { object-fit: cover; object-position: top; }
+.caption { font-size: 9.6px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
+.phone { background: var(--ink); border-radius: 22px; padding: 5px; }
+.phone img { border-radius: 17px; display: block; width: 100%; }
+.kpi { display: flex; flex-direction: column; gap: 3px; }
+.kpi .n { font-family: 'Bricolage'; font-weight: 800; font-size: 30px; letter-spacing: -0.045em; line-height: .95; }
+.kpi .l { font-size: 10.4px; color: var(--text2); line-height: 1.35; }
+.card.ink .kpi .l, .card.green .kpi .l, .card.ink.kpi .l, .card.green.kpi .l { color: var(--sage2); }
+.num-badge { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: var(--amber); font-family: 'Bricolage'; font-weight: 800; font-size: 11px; flex-shrink: 0; }
+.mark { width: 34px; height: 34px; border-radius: 50% 50% 50% 14%; transform: rotate(-45deg); background: var(--amber); display: inline-grid; place-items: center; flex-shrink: 0; }
+.mark span { transform: rotate(45deg); font-family: 'Bricolage'; font-weight: 800; font-size: 22px; line-height: 1; color: var(--ink); margin-top: -3px; }
+.wm { font-family: 'Bricolage'; font-weight: 800; letter-spacing: -0.05em; line-height: .9; }
+.arrow { color: var(--brick); font-weight: 800; }
+.sep { height: 1px; background: var(--line); margin: 1mm 0; }
+.tag { display: inline-block; font-size: 8.8px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 2px 7px; border-radius: 6px; background: var(--mint); color: var(--green); }
+.tag.amber { background: #FBE3C4; color: #8A4E12; }
+.tag.lilac { background: var(--lilac); color: #4A3780; }
+.tag.sky { background: var(--sky); color: #24527A; }
+.tag.rose { background: var(--rose); color: #8A2E23; }
+.quote { font-family: 'Bricolage'; font-weight: 700; font-size: 15px; letter-spacing: -0.02em; line-height: 1.25; }
+
+/* Couverture */
+.cover { padding: 15mm 17mm; gap: 0; justify-content: space-between; }
+.cover .blob { position: absolute; right: -52mm; top: -44mm; width: 150mm; height: 150mm; border-radius: 50% 50% 50% 12%; transform: rotate(-45deg); background: var(--green); opacity: .55; }
+.cover .blob2 { position: absolute; left: -30mm; bottom: -60mm; width: 110mm; height: 110mm; border-radius: 50% 50% 50% 12%; transform: rotate(135deg); background: var(--ink2); opacity: .8; }
+.cover .badge { position: absolute; right: 22mm; top: 44mm; width: 34mm; height: 34mm; border-radius: 50%; background: var(--amber); color: var(--ink); display: grid; place-items: center; text-align: center; font-family: 'Bricolage'; font-weight: 800; font-size: 14px; line-height: 1.05; transform: rotate(-8deg); }
+.cover-top { position: relative; display: flex; justify-content: space-between; font-size: 10.5px; color: var(--sage); }
+.cover-main { position: relative; display: flex; flex-direction: column; gap: 7mm; margin-top: 30mm; }
+.logo-xl { display: flex; align-items: center; gap: 7mm; }
+.logo-xl .mark { width: 26mm; height: 26mm; }
+.logo-xl .mark span { font-size: 64px; margin-top: -7px; }
+.logo-xl .wm { font-size: 92px; color: var(--cream); }
+.cover h1 { font-size: 46px; line-height: 1; color: var(--cream); letter-spacing: -0.04em; }
+.cover h1 em { font-style: normal; color: var(--amber); }
+.cover-lead { font-size: 16px; line-height: 1.45; color: var(--sage2); max-width: 150mm; }
+.cover-levels { position: relative; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9mm; }
+.cover-levels span { border: 1px solid #3B4D45; color: var(--cream); border-radius: 999px; padding: 4px 11px; font-size: 11px; font-weight: 600; }
+.cover-levels span b { color: var(--amber); font-family: 'Bricolage'; margin-right: 4px; }
+.cover-bottom { position: relative; display: flex; justify-content: space-between; align-items: flex-end; gap: 10mm; }
+.cover-card { background: var(--cream); color: var(--ink); border-radius: 18px; padding: 12px 16px; display: grid; grid-template-columns: repeat(4, auto); gap: 5mm; }
+.cover-card .kpi .n { font-size: 25px; }
+.cover-card .kpi .l { font-size: 9.6px; }
+
+/* Sommaire */
+.toc { display: flex; flex-direction: column; }
+.toc a { display: grid; grid-template-columns: 11mm 1fr auto; align-items: baseline; gap: 2mm; padding: 2.6mm 0; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+.toc .n { font-family: 'Bricolage'; font-weight: 800; color: var(--brick); font-size: 13px; }
+.toc .t { font-family: 'Bricolage'; font-weight: 700; font-size: 15px; letter-spacing: -0.02em; }
+.toc .t small { display: block; font-family: 'Instrument'; font-weight: 400; font-size: 10.2px; color: var(--muted); letter-spacing: 0; margin-top: 1px; }
+.toc .p { font-family: 'Bricolage'; font-weight: 800; font-size: 13px; }
+
+/* Schémas */
+.chain { display: flex; align-items: center; gap: 1.6mm; flex-wrap: nowrap; }
+.chain .node { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 6px 9px; text-align: center; flex: 1; }
+.chain .node b { display: block; font-family: 'Bricolage'; font-size: 12.5px; letter-spacing: -0.01em; }
+.chain .node span { font-size: 9px; color: var(--muted); line-height: 1.25; display: block; }
+.chain .node.hl { background: var(--green); color: #fff; border: 0; }
+.chain .node.hl span { color: var(--sage2); }
+.chain .to { color: var(--brick); font-weight: 800; font-size: 13px; }
+.arch { display: grid; gap: 2.2mm; }
+.arch .lane { display: grid; gap: 2.2mm; }
+.arch .box { border-radius: 12px; padding: 7px 10px; background: var(--paper); border: 1px solid var(--line); font-size: 10.4px; line-height: 1.35; }
+.arch .box b { display: block; font-family: 'Bricolage'; font-size: 12.5px; letter-spacing: -0.01em; margin-bottom: 1px; }
+.arch .box.ink { background: var(--ink); color: var(--cream); border: 0; }
+.arch .box.ink span { color: var(--sage2); }
+.arch .box.green { background: var(--green); color: #fff; border: 0; }
+.arch .box.green span { color: var(--sage2); }
+.arch .box.amber { background: var(--amber); border: 0; }
+.arch .down { text-align: center; color: var(--brick); font-weight: 800; font-size: 12px; line-height: 1; }
+.swatch { border-radius: 16px; padding: 12px; min-height: 30mm; display: flex; flex-direction: column; justify-content: space-between; }
+.swatch b { font-family: 'Bricolage'; font-size: 17px; letter-spacing: -0.02em; }
+.swatch .spec { font-size: 8.9px; line-height: 1.45; font-family: 'DejaVu Sans Mono', monospace; }
+.ratio { display: flex; height: 9mm; border-radius: 10px; overflow: hidden; font-size: 9px; font-weight: 700; }
+.ratio div { display: grid; place-items: center; }
+.persona { display: flex; flex-direction: column; gap: 4px; }
+.persona ol { margin: 0; padding-left: 15px; font-size: 10.6px; line-height: 1.42; }
+.persona ol li { margin: 2px 0; }
+.persona ol li::marker { color: var(--brick); font-weight: 800; }
+.yes-no { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; font-size: 10.6px; }
+.yes-no div { border-radius: 10px; padding: 6px 9px; }
+.yes-no .y { background: var(--mint); }
+.yes-no .n { background: #F6E3DF; color: #7A3B32; text-decoration: line-through; text-decoration-color: rgba(122,59,50,.4); }
+
+/* Pages de contenu : aucun bloc ne se tasse, un dépassement se voit (et se mesure). */
+.page.spread { justify-content: space-between; }
+.push { margin-top: auto; }
+table.t.compact td { padding: 3.7px 7px; }
+.shot.cut img { height: var(--h, 40mm); object-fit: cover; object-position: top; }
+.page > * { flex-shrink: 0; }
+.shots2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 4mm; }
+.plan-h { font-family: 'Bricolage'; font-weight: 800; font-size: 12.5px; letter-spacing: -0.01em; text-transform: none; color: var(--ink); }
+.plan-h small { display: block; font-family: 'Instrument'; font-weight: 600; font-size: 9.4px; letter-spacing: 0; color: var(--muted); }
+table.t.offers td { padding: 4.2px 7px; }
+table.t.offers td:first-child { font-weight: 600; }
+table.t.offers th.c, table.t.offers td.c { width: 17%; }
+table.t.offers .hl { background: rgba(31,107,82,.07); }
+.stack { display: grid; grid-template-columns: 30mm 1fr; gap: 0; font-size: 10.6px; }
+.stack div { padding: 4.5px 0; border-bottom: 1px solid var(--line); }
+.stack div:nth-child(odd) { font-weight: 800; color: var(--ink); }
+.stack div:nth-child(even) { color: var(--text2); }
+.lanes { display: flex; flex-direction: column; gap: 1.8mm; }
+.lanes .lane { display: grid; gap: 2mm; }
+.lanes .box { border-radius: 12px; padding: 6px 9px; background: var(--paper); border: 1px solid var(--line); font-size: 9.8px; line-height: 1.35; color: var(--text2); }
+.lanes .box b { display: block; font-family: 'Bricolage'; font-size: 12px; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1px; }
+.lanes .box.ink { background: var(--ink); border: 0; color: var(--sage2); }
+.lanes .box.ink b { color: var(--cream); }
+.lanes .box.green { background: var(--green); border: 0; color: var(--sage2); }
+.lanes .box.green b { color: #fff; }
+.lanes .box.amber { background: var(--amber); border: 0; color: var(--ink); }
+.lanes .box.mint { background: var(--mint); border: 0; }
+.lanes .link { text-align: center; font-size: 9.2px; color: var(--brick); font-weight: 800; letter-spacing: .02em; line-height: 1.1; }
+.chain.small .node { padding: 5px 6px; }
+.chain.small .node b { font-size: 11px; }
+.chain.small .node span { font-size: 8.6px; }
+.big-quote { font-family: 'Bricolage'; font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; }
+.back { justify-content: space-between; padding: 18mm 17mm; }
+.back .blob { position: absolute; left: -40mm; top: -50mm; width: 140mm; height: 140mm; border-radius: 50% 50% 50% 12%; transform: rotate(-45deg); background: var(--green); opacity: .45; }
+.back .blob2 { position: absolute; right: -45mm; bottom: -55mm; width: 130mm; height: 130mm; border-radius: 50% 50% 50% 12%; transform: rotate(135deg); background: var(--ink2); opacity: .9; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ COUVERTURE ═══════════════════════ -->
+<section class="page dark cover">
+  <div class="blob"></div>
+  <div class="blob2"></div>
+  <div class="badge">Version<br>livrée<br>1.0</div>
+  <div class="cover-top"><span>terricom.fr</span><span>Dossier de réalisation · septembre 2026</span></div>
+  <div class="cover-main">
+    <div class="logo-xl"><span class="mark"><span>t</span></span><span class="wm">terricom<i>.</i></span></div>
+    <h1>Dossier de réalisation :<br><em>tout ce qui a été développé.</em></h1>
+    <p class="cover-lead">La plateforme numérique d'animation et de valorisation économique du territoire, expliquée à chaque niveau : ce qui a été construit, comment, et pourquoi.</p>
+    <div class="cover-levels">
+      <span><b>01</b>Vision</span><span><b>02</b>Design</span><span><b>03</b>Ergonomie</span><span><b>04</b>Fonctionnalités</span><span><b>05</b>Intelligence artificielle</span><span><b>06</b>Technique</span><span><b>07</b>Hébergement</span><span><b>08</b>Sécurité</span><span><b>09</b>RGPD</span><span><b>10</b>Qualité</span>
+    </div>
+  </div>
+  <div class="cover-bottom">
+    <div class="cover-card">
+      <div class="kpi"><span class="n">5</span><span class="l">espaces<br>connectés</span></div>
+      <div class="kpi"><span class="n">93</span><span class="l">écrans<br>développés</span></div>
+      <div class="kpi"><span class="n">35/35</span><span class="l">sections du cahier<br>des charges</span></div>
+      <div class="kpi"><span class="n">3</span><span class="l">langues sur<br>le portail</span></div>
+    </div>
+    <span class="stamp" style="font-size:15px;padding:8px 14px">Le territoire, en vitrine.</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════ SOMMAIRE ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">Sommaire</div>
+    <h2>Un dossier, <em>plusieurs lectures.</em></h2>
+  </div>
+  <div class="row" style="gap:8mm;flex:1">
+    <div class="toc grow">
+      <a data-target="s00"><span class="n">00</span><span class="t">Synthèse<small>Ce qui est livré, en une page ; couverture du cahier des charges</small></span><span class="p"></span></a>
+      <a data-target="s01"><span class="n">01</span><span class="t">Vision et positionnement<small>Une plateforme d'animation, pas un annuaire ; acteurs ; modèle économique</small></span><span class="p"></span></a>
+      <a data-target="s02"><span class="n">02</span><span class="t">Design<small>La charte appliquée : logo, couleurs, typographies, ton, écrans</small></span><span class="p"></span></a>
+      <a data-target="s03"><span class="n">03</span><span class="t">Ergonomie<small>Principes, parcours types, accessibilité, mobile, langues</small></span><span class="p"></span></a>
+      <a data-target="s04"><span class="n">04</span><span class="t">Fonctionnalités<small>Portail, espace entreprise, offres, back-office, console</small></span><span class="p"></span></a>
+      <a data-target="s05"><span class="n">05</span><span class="t">Intelligence artificielle<small>Cinq assistants, avec leurs garde-fous et leur repli</small></span><span class="p"></span></a>
+      <a data-target="s06"><span class="n">06</span><span class="t">Technique<small>Architecture, données, multi-territoire, tâches, intégrations</small></span><span class="p"></span></a>
+      <a data-target="s07"><span class="n">07</span><span class="t">Hébergement et exploitation<small>Kubernetes haute disponibilité, sauvegardes, supervision</small></span><span class="p"></span></a>
+      <a data-target="s08"><span class="n">08</span><span class="t">Sécurité<small>Identité, droits, traçabilité, protections, infrastructure</small></span><span class="p"></span></a>
+      <a data-target="s09"><span class="n">09</span><span class="t">Données personnelles (RGPD)<small>Rôles, registre, durées, droits des personnes</small></span><span class="p"></span></a>
+      <a data-target="s10"><span class="n">10</span><span class="t">Qualité et vérifications<small>Tests, parcours automatiques, production</small></span><span class="p"></span></a>
+      <a data-target="s11"><span class="n">11</span><span class="t">Démonstration et mise en route<small>Comptes, données du pilote, lancement, documentation</small></span><span class="p"></span></a>
+      <a data-target="s12"><span class="n">12</span><span class="t">Limites connues et suite<small>Ce qui reste à brancher, pistes après le pilote</small></span><span class="p"></span></a>
+    </div>
+    <div style="width:58mm;display:flex;flex-direction:column;gap:3mm">
+      <div class="card ink">
+        <h4>Comment lire ce dossier</h4>
+        <p style="font-size:11px;line-height:1.5">Chaque partie se lit seule. Selon votre rôle :</p>
+      </div>
+      <div class="card">
+        <h4>Élus, direction</h4>
+        <p class="small">00 Synthèse · 01 Vision · 12 Suite</p>
+      </div>
+      <div class="card">
+        <h4>Développement économique, communication</h4>
+        <p class="small">02 Design · 03 Ergonomie · 04 Fonctionnalités · 05 IA · 11 Démonstration</p>
+      </div>
+      <div class="card">
+        <h4>DSI, RSSI, DPO</h4>
+        <p class="small">06 Technique · 07 Hébergement · 08 Sécurité · 09 RGPD · 10 Qualité</p>
+      </div>
+      <div class="card green">
+        <h4>En une phrase</h4>
+        <p class="quote" style="color:#fff">Votre collectivité offre à chaque professionnel une présence numérique bien référencée, sans qu'il ait à créer son propre site.</p>
+      </div>
+      <p class="small" style="margin-top:auto">Version livrée le 25 septembre 2026. Les chiffres cités proviennent du code et du jeu de démonstration du territoire pilote du Val de Loue.</p>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>Dossier de réalisation</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 00 SYNTHÈSE ═══════════════════════ -->
+<section class="page" id="s00">
+  <div class="head">
+    <div class="eyebrow">00 · Synthèse</div>
+    <h2>Tout le cahier des charges <em>est développé.</em></h2>
+    <p class="lead">terricom est une plateforme SaaS unique, partagée par tous les territoires. Chaque territoire a son portail public, chaque entreprise son espace, les intercommunalités et les communes ont leur back-office, et l'exploitant sa console. La collectivité finance le socle : la fiche de chaque professionnel est gratuite, et seuls les services qui lui font gagner du temps sont payants.</p>
+  </div>
+  <div>
+    <h4>Cinq espaces, une seule plateforme</h4>
+    <div class="chain small">
+      <div class="node"><b>Site de la marque</b><span>terricom.fr, pour les prospects</span></div>
+      <div class="node hl"><b>Portail du territoire</b><span>habitants et visiteurs</span></div>
+      <div class="node"><b>Espace entreprise</b><span>professionnels et équipes</span></div>
+      <div class="node"><b>Back-office</b><span>intercommunalité et communes</span></div>
+      <div class="node"><b>Console</b><span>exploitant de la plateforme</span></div>
+    </div>
+  </div>
+  <div class="grid4">
+    <div class="card kpi"><span class="n">93</span><span class="l">écrans et 52 points d'accès (API, flux, fichiers, PDF)</span></div>
+    <div class="card kpi"><span class="n">72</span><span class="l">tables, 16 migrations versionnées, ~56 000 lignes de code typé</span></div>
+    <div class="card kpi"><span class="n">3</span><span class="l">langues sur le portail : français, anglais, allemand (464 libellés chacune)</span></div>
+    <div class="card kpi"><span class="n">90</span><span class="l">tests automatisés : 57 unitaires et 33 parcours de bout en bout</span></div>
+    <div class="card kpi"><span class="n">0</span><span class="l">anomalie au parcours automatique des 6 espaces, sur ordinateur et sur mobile</span></div>
+    <div class="card kpi"><span class="n">12</span><span class="l">tâches planifiées, sur 20 files de traitement de fond</span></div>
+    <div class="card kpi"><span class="n">5</span><span class="l">assistants d'intelligence artificielle, tous avec un repli sans IA</span></div>
+    <div class="card kpi green"><span class="n" style="color:var(--amber)">35/35</span><span class="l">sections du cahier des charges couvertes</span></div>
+  </div>
+  <div class="head" style="margin-top:1mm">
+    <h3>Les trois décisions produit du cahier des charges, tenues</h3>
+  </div>
+  <div class="grid3">
+    <div class="card">
+      <span class="num-badge">1</span>
+      <h3 style="margin-top:6px">La fiche de base reste gratuite</h3>
+      <p class="small">L'offre Essentiel, offerte par la collectivité, est complète : fiche, photos, horaires, carte, QR code vitrine, 3 publications par mois, statistiques essentielles. Aucune carte bancaire n'est demandée et aucune fiche n'est grisée.</p>
+    </div>
+    <div class="card">
+      <span class="num-badge">2</span>
+      <h3 style="margin-top:6px">Le Premium fait gagner du temps</h3>
+      <p class="small">Il ne débloque pas « trois photos de plus » : assistant IA, publications illimitées et programmées, statistiques avancées, rendez-vous, formulaires, recrutement, synchronisation, puis lettres aux clients, réseaux sociaux et mini-site dans l'offre Communication.</p>
+    </div>
+    <div class="card">
+      <span class="num-badge">3</span>
+      <h3 style="margin-top:6px">Entreprise, établissement, commune et territoire sont séparés</h3>
+      <p class="small">Une entreprise (SIREN) gère plusieurs établissements (SIRET) dans plusieurs communes. Le rattachement des communes est historisé : une commune peut changer d'intercommunalité sans rien perdre.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card ink grow">
+      <h4>Ce que le produit n'est pas</h4>
+      <p style="font-size:11.2px;line-height:1.5">Ni un annuaire amélioré, ni une place de marché. Le commerce en ligne complet (paiement, KYC, litiges, livraison) est écarté volontairement, comme le recommande le cahier des charges : terricom génère de la visibilité, des contacts et du passage en boutique, sans intervenir dans la vente.</p>
+    </div>
+    <div class="card grow">
+      <h4>Livré en plus du socle</h4>
+      <p class="small">Toute la seconde génération du cahier des charges est également livrée : application installable, notifications, portail multilingue, synchronisations externes, audiences avancées, formulaires, rendez-vous, circuits à tampons, marque blanche et API publique.</p>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>00 · Synthèse</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 00 COUVERTURE DU CAHIER DES CHARGES ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">00 · Synthèse</div>
+    <h2>Le cahier des charges, <em>point par point.</em></h2>
+    <p class="lead">Les 35 sections du cahier des charges fonctionnel (version 0.1), regroupées par thème, avec la réponse livrée.</p>
+  </div>
+  <table class="t compact">
+    <thead><tr><th style="width:23%">Sections</th><th style="width:34%">Attendu</th><th>Réponse livrée</th><th class="c" style="width:7%">État</th></tr></thead>
+    <tbody>
+      <tr><td>1 · 2 Vision, architecture</td><td>Plateforme unique et multi-territoriale ; hiérarchie jusqu'à l'établissement</td><td>Un seul code pour tous les territoires, données cloisonnées, rattachement des communes historisé</td><td class="c yes">✓</td></tr>
+      <tr><td>3 Utilisateurs et rôles</td><td>Exploitant, administrateurs territoriaux et communaux, entreprises, collaborateurs</td><td>9 rôles ; périmètre revérifié côté serveur à chaque action ; accès support temporaire et journalisé</td><td class="c yes">✓</td></tr>
+      <tr><td>4 · 5 Portail, cartographie</td><td>Recherche multicritère, filtres, carte OpenStreetMap</td><td>Explorateur liste et carte, filtres en un geste, calques des événements, marchés et lieux économiques</td><td class="c yes">✓</td></tr>
+      <tr><td>6 · 7 Fiche, référencement</td><td>URL propre, 26 rubriques, référencement naturel</td><td>Adresse <code>/territoire/commune/catégorie/fiche</code>, Schema.org, Open Graph, plan du site, canoniques, hreflang</td><td class="c yes">✓</td></tr>
+      <tr><td>8 · 9 · 10 Actualités, campagnes, circuits</td><td>Publications multi-niveaux, campagnes thématiques, parcours partagés par QR code</td><td>Fil fiche, commune et territoire ; campagnes dont un calendrier de l'Avent ; circuits avec passeport à tampons</td><td class="c yes">✓</td></tr>
+      <tr><td>11 · 12 Newsletter, communication</td><td>Audiences, consentements RGPD ; communications des entreprises Premium</td><td>Audiences dynamiques, double consentement, lettres des entreprises à leurs clients, réseaux sociaux</td><td class="c yes">✓</td></tr>
+      <tr><td>13 · 14 IA, recherche intelligente</td><td>Assistants rédactionnel, fiche et territorial ; recherche en langage naturel</td><td>5 assistants (dont la recherche et la traduction), repli par règles quand l'IA est indisponible</td><td class="c yes">✓</td></tr>
+      <tr><td>15 · 16 QR codes, recrutement</td><td>QR vitrine, circuits, campagnes ; emplois, stages, saisonniers</td><td>Kit vitrine en PDF, QR personnalisés, rubrique « Travailler sur notre territoire », candidature avec CV</td><td class="c yes">✓</td></tr>
+      <tr><td>17 · 18 Données, revendication</td><td>Import en masse, 6 états de fiche, revendication vérifiée, historique</td><td>Import CSV et SIRENE, invitations, vérification SIRET, justificatif ou courrier, historique des modifications</td><td class="c yes">✓</td></tr>
+      <tr><td>19 Personnalisation</td><td>Logo, couleurs, domaine, catégories, accueil, contenus</td><td>Tout est réglable par la collectivité, plus la marque blanche (option de l'exploitant)</td><td class="c yes">✓</td></tr>
+      <tr><td>20 · 21 Freemium, Premium</td><td>Gratuit sans carte bancaire ; Premium générateur de valeur</td><td>3 offres (Essentiel, Premium, Communication) ; droits en base, contrôlés côté serveur</td><td class="c yes">✓</td></tr>
+      <tr><td>22 à 26 Modèle économique, KPI</td><td>Licences, mise en service, revenus, simulation, indicateurs</td><td>Contrats et factures, simulateur économique, indicateurs d'adoption, d'usage, de communication et de rentabilité</td><td class="c yes">✓</td></tr>
+      <tr><td>27 · 28 · 29 MVP et générations</td><td>MVP pilote, seconde génération, e-commerce non prioritaire</td><td>MVP et seconde génération livrés ; e-commerce écarté comme recommandé</td><td class="c yes">✓</td></tr>
+      <tr><td>30 · 31 · 32 Technique, sécurité, RGPD</td><td>SaaS multi-tenant haute disponibilité, MFA, RBAC, audit, RGPD</td><td>Kubernetes HA, double authentification, journal d'audit chaîné, registre et purges automatiques</td><td class="c yes">✓</td></tr>
+      <tr><td>33 · 34 · 35 Pilote, présentation</td><td>Territoire pilote ; argumentaire partant du problème</td><td>Val de Loue en pilote, site de la marque, pages collectivités et professionnels, démonstration</td><td class="c yes">✓</td></tr>
+    </tbody>
+  </table>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>00 · Synthèse</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 01 VISION ═══════════════════════ -->
+<section class="page" id="s01">
+  <div class="head">
+    <div class="eyebrow">01 · Vision et positionnement</div>
+    <h2>Une plateforme d'animation, <em>pas un annuaire.</em></h2>
+    <p class="lead">terricom donne à la collectivité une vision complète de son tissu économique, et à chaque professionnel les moyens de tenir sa présence numérique, sans avoir à créer son propre site.</p>
+  </div>
+  <div>
+    <h4>Une hiérarchie pensée dès le départ</h4>
+    <div class="chain">
+      <div class="node"><b>Plateforme</b><span>exploitant, offres, facturation</span></div><span class="to">→</span>
+      <div class="node"><b>Territoire</b><span>intercommunalité ou commune indépendante</span></div><span class="to">→</span>
+      <div class="node"><b>Commune</b><span>rattachement historisé</span></div><span class="to">→</span>
+      <div class="node"><b>Entreprise</b><span>SIREN, collaborateurs, offre</span></div><span class="to">→</span>
+      <div class="node hl"><b>Établissement</b><span>SIRET, fiche publique</span></div><span class="to">→</span>
+      <div class="node"><b>Contenus</b><span>actualités, événements, emplois</span></div>
+    </div>
+  </div>
+  <div class="grid2" style="grid-template-columns:1.15fr 1fr">
+    <div class="card">
+      <h3>Pour qui ?</h3>
+      <table class="t" style="margin-top:4px">
+        <tbody>
+          <tr><td style="width:30%">Habitants et visiteurs</td><td>Trouver, en quelques secondes, qui est ouvert, où, et comment venir ; découvrir campagnes, circuits, événements et emplois.</td></tr>
+          <tr><td>Professionnels</td><td>Une vitrine gratuite et bien référencée, tenue à jour en quelques minutes ; des outils pour communiquer et vendre plus.</td></tr>
+          <tr><td>Communes</td><td>Leurs entreprises, leurs marchés, leurs opérations commerciales et leurs lettres, dans leur périmètre.</td></tr>
+          <tr><td>Intercommunalités</td><td>La vue d'ensemble, l'animation du territoire, l'import des données, la modération et les statistiques consolidées.</td></tr>
+          <tr><td>Exploitant</td><td>Les territoires, les contrats, les offres, la facturation, le support et la supervision.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:3mm">
+      <div class="card green">
+        <h4>Modèle économique</h4>
+        <p style="font-size:11px;line-height:1.5">La collectivité achète la couverture numérique de son territoire. Les professionnels entrent gratuitement ; ceux qui veulent aller plus loin prennent une option.</p>
+      </div>
+      <table class="t">
+        <tbody>
+          <tr><td>Commune indépendante</td><td>licence de l'ordre de 1 200 à 2 400 € HT par an</td></tr>
+          <tr><td>Intercommunalité</td><td>6 000 à 15 000 € HT par an, communes membres incluses (pas de seconde licence)</td></tr>
+          <tr><td>Mise en service</td><td>2 000 à 8 000 € HT (paramétrage, import, formation, lancement)</td></tr>
+          <tr><td>Professionnels</td><td>Essentiel 0 € · Premium 24 € · Communication 49 € par mois</td></tr>
+        </tbody>
+      </table>
+      <p class="small">Tous ces montants se règlent dans la console. Le simulateur économique reprend les trois scénarios du cahier des charges.</p>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card ink"><h4>Le constat</h4><p style="font-size:11px;line-height:1.5">Des fiches incomplètes ou obsolètes, dispersées entre Google, Facebook et quelques sites. Les petites entreprises n'ont ni le temps ni le budget d'un site.</p></div>
+    <div class="card green"><h4>La réponse</h4><p style="font-size:11px;line-height:1.5">Une vitrine commune animée par la collectivité : une fiche référencée par établissement, une carte, des campagnes, des circuits, une lettre, des statistiques.</p></div>
+  </div>
+  <div class="grid4">
+    <div class="card"><h3>Local</h3><p class="small">Chaque écran parle d'un lieu réel et de gens réels.</p></div>
+    <div class="card"><h3>Utile</h3><p class="small">Horaires justes, adresse, bouton appeler. Le reste vient après.</p></div>
+    <div class="card"><h3>Partagé</h3><p class="small">Une plateforme commune financée par la collectivité, gratuite pour les pros.</p></div>
+    <div class="card"><h3>Vivant</h3><p class="small">Campagnes, circuits, tampons : donner envie de sortir.</p></div>
+  </div>
+  <p class="small">Les quatre piliers de la plateforme de marque guident aussi les choix fonctionnels : ce qui ne sert pas l'un d'eux n'a pas sa place à l'écran.</p>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>01 · Vision et positionnement</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 02 DESIGN 1/3 ═══════════════════════ -->
+<section class="page" id="s02">
+  <div class="head">
+    <div class="eyebrow">02 · Design</div>
+    <h2>La charte, <em>appliquée à chaque écran.</em></h2>
+    <p class="lead">La charte graphique fournie a été reprise telle quelle : logo, couleurs, typographies, ton et règles d'usage. Elle est codée une seule fois, sous forme de variables partagées par tous les espaces, pour qu'aucun écran ne s'en écarte.</p>
+  </div>
+  <div class="grid2" style="grid-template-columns:1.1fr 1fr">
+    <div class="card" style="display:flex;flex-direction:column;gap:4mm">
+      <h4>Logo</h4>
+      <div style="display:flex;align-items:center;gap:4mm"><span class="mark" style="width:44px;height:44px"><span style="font-size:28px;margin-top:-4px">t</span></span><span class="wm" style="font-size:44px">terricom<i>.</i></span></div>
+      <div style="display:flex;gap:3mm;align-items:center">
+        <div style="background:var(--ink);border-radius:12px;padding:8px 12px;display:flex;align-items:center;gap:8px"><span class="mark" style="width:22px;height:22px"><span style="font-size:14px;margin-top:-2px">t</span></span><span class="wm" style="font-size:20px;color:var(--cream)">terricom<i>.</i></span></div>
+        <div style="background:var(--amber);border-radius:12px;padding:8px 12px"><span class="wm" style="font-size:20px">terricom.</span></div>
+        <div style="background:var(--green);border-radius:12px;width:40px;height:40px;display:grid;place-items:center"><span class="mark" style="width:22px;height:22px"><span style="font-size:14px;margin-top:-2px">t</span></span></div>
+      </div>
+      <p class="small">Le symbole est un carré aux trois coins arrondis, pivoté à 45°, qui forme un repère de carte. Au centre, le « t » de terricom évoque une enseigne. Ce symbole est repris tel quel pour les repères de la carte interactive, l'icône de l'application installable et les favicons.</p>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;gap:3mm">
+      <h4>Usage de la marque</h4>
+      <ul class="checks small" style="color:var(--text2)">
+        <li>« terricom » s'écrit toujours en minuscules, même en début de phrase.</li>
+        <li>Le point ambre termine le nom : il reprend l'accent chaud de la palette.</li>
+        <li>Chaque territoire garde sa propre identité sur son portail (initiales, couleurs, logo) ; terricom signe discrètement en pied de page, ou pas du tout en marque blanche.</li>
+        <li>Pas de déformation, d'ombre, de couleur hors palette, ni de changement de police.</li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    <h4>Couleurs principales</h4>
+    <div class="grid4">
+      <div class="swatch" style="background:#14201B;color:#F7F4EC"><b>Encre</b><span class="spec">Texte, fonds sombres<br>#14201B · RVB 20 32 27<br>Pantone 5463 C</span></div>
+      <div class="swatch" style="background:#1F6B52;color:#fff"><b>Vert Loue</b><span class="spec">Couleur principale<br>#1F6B52 · RVB 31 107 82<br>Pantone 7727 C</span></div>
+      <div class="swatch" style="background:#F4B266;color:#14201B"><b>Ambre</b><span class="spec">Accent, pastilles, appels à l’action<br>#F4B266 · RVB 244 178 102<br>Pantone 1355 C</span></div>
+      <div class="swatch" style="background:#F7F4EC;color:#14201B;border:1px solid #E4DFD3"><b>Crème</b><span class="spec">Fond de page<br>#F7F4EC · RVB 247 244 236<br>Pantone 9224 C</span></div>
+    </div>
+  </div>
+  <div class="ratio">
+    <div style="width:60%;background:#F7F4EC;border:1px solid #E4DFD3;border-radius:10px 0 0 10px">Crème 60 %</div>
+    <div style="width:25%;background:#14201B;color:#F7F4EC">Encre 25 %</div>
+    <div style="width:10%;background:#1F6B52;color:#fff">Vert 10 %</div>
+    <div style="width:5%;background:#F4B266">5 %</div>
+  </div>
+  <div class="row" style="align-items:center">
+    <div class="chips grow">
+      <span class="chip"><span class="dot" style="background:var(--commerce)"></span>Commerce #C8892A</span>
+      <span class="chip"><span class="dot" style="background:var(--artisan)"></span>Artisan #3E6FB0</span>
+      <span class="chip"><span class="dot" style="background:var(--producteur)"></span>Producteur #3F8F4E</span>
+      <span class="chip"><span class="dot" style="background:var(--resto)"></span>Restauration #D95C4E</span>
+      <span class="chip"><span class="dot" style="background:var(--services)"></span>Services #7A5BB5</span>
+      <span class="chip"><span class="dot" style="background:var(--brick)"></span>Brique #C8702A</span>
+    </div>
+  </div>
+  <p class="small">Les couleurs secondaires distinguent seulement les familles d'activité sur la carte et dans les listes, jamais les fonds de page. Le brique signe les surtitres, comme ceux de ce dossier. Les contrastes texte et fond respectent le niveau AA (4,5 : 1).</p>
+  <div class="grid2">
+    <div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/marque</span></div><img src="captures/m-marque.jpg" alt=""></div>
+    <div class="card" style="display:flex;flex-direction:column;gap:2.5mm">
+      <h3>La charte, publiée en ligne</h3>
+      <p class="small">La page « La marque » du site reprend la charte fournie : plateforme de marque, logo, couleurs, typographies, ton, photographie et applications. Elle sert de référence aux collectivités et aux prestataires.</p>
+      <p class="small">Les mêmes règles sont codées une seule fois dans l'application ; les documents générés (kit vitrine, affiches, courriers, factures, rapports) utilisent les polices et les couleurs de la charte, comme ce dossier.</p>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>02 · Design</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 02 DESIGN 2/3 ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">02 · Design</div>
+    <h2>Typographies, ton <em>et pointe de fun.</em></h2>
+  </div>
+  <div class="grid2">
+    <div class="card" style="display:flex;gap:4mm;align-items:center">
+      <span class="display" style="font-size:64px;line-height:.9;color:var(--green)">Aa</span>
+      <div><h3 style="font-size:18px">Bricolage Grotesque</h3><p class="small">Titres · Semibold 600 et ExtraBold 800 · interlettrage −3 % à −5 % · Google Fonts, libre</p></div>
+    </div>
+    <div class="card" style="display:flex;gap:4mm;align-items:center">
+      <span style="font-family:'Instrument';font-weight:600;font-size:60px;line-height:.9;color:var(--brick)">Aa</span>
+      <div><h3 style="font-size:18px;font-family:'Instrument';letter-spacing:0">Instrument Sans</h3><p class="small">Texte et interface · Regular 400 à Bold 700 · Google Fonts, libre</p></div>
+    </div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;gap:2.4mm">
+    <div style="display:grid;grid-template-columns:30mm 1fr;align-items:baseline"><span class="small">Display · 800</span><span class="display" style="font-size:40px;letter-spacing:-0.045em;line-height:1">Le territoire, en vitrine.</span></div>
+    <div class="sep"></div>
+    <div style="display:grid;grid-template-columns:30mm 1fr;align-items:baseline"><span class="small">Titre 1 · 800</span><span class="display" style="font-size:28px">Noël chez vos commerçants</span></div>
+    <div style="display:grid;grid-template-columns:30mm 1fr;align-items:baseline"><span class="small">Titre 2 · 800</span><span class="display" style="font-size:21px;letter-spacing:-0.025em">Ouvert près de vous</span></div>
+    <div style="display:grid;grid-template-columns:30mm 1fr;align-items:baseline"><span class="small">Titre 3 · 700</span><span style="font-family:'Bricolage';font-weight:700;font-size:15px">Boulangerie Martin</span></div>
+    <div style="display:grid;grid-template-columns:30mm 1fr;align-items:baseline"><span class="small">Texte · 400</span><span style="font-size:12.5px">Pains au levain naturel, viennoiseries au beurre AOP et galettes comtoises.</span></div>
+    <div style="display:grid;grid-template-columns:30mm 1fr;align-items:baseline"><span class="small">Libellé · 800</span><span class="eyebrow" style="font-size:10.5px;color:var(--brick)">Campagne du territoire</span></div>
+  </div>
+  <div class="grid2" style="grid-template-columns:1.25fr 1fr">
+    <div class="card">
+      <h4>Ton : sérieux sur le fond, souriant sur la forme</h4>
+      <div style="display:flex;flex-direction:column;gap:2mm;margin-top:2mm">
+        <div class="small" style="font-weight:700;color:var(--ink)">On tutoie la clarté</div>
+        <div class="yes-no"><div class="y">Votre fiche est complète à 72 %.</div><div class="n">Le taux de complétion de votre profil établissement s'élève à 72 %.</div></div>
+        <div class="small" style="font-weight:700;color:var(--ink)">On célèbre</div>
+        <div class="yes-no"><div class="y">Bienvenue Sophie, la vitrine est à vous !</div><div class="n">Votre demande de revendication a été traitée avec succès.</div></div>
+        <div class="small" style="font-weight:700;color:var(--ink)">On reste concret</div>
+        <div class="yes-no"><div class="y">23 producteurs vous ouvrent leurs portes jusqu'au 24.</div><div class="n">Une offre riche et diversifiée pour tous les publics.</div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:3mm">
+      <div class="card" style="position:relative;min-height:46mm">
+        <h4>Pastilles et tampons</h4>
+        <div style="display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-top:3mm">
+          <span class="stamp">Fait ici</span>
+          <span class="stamp" style="background:var(--green);color:#fff;transform:rotate(5deg)">Ouvert !</span>
+          <span class="stamp" style="background:transparent;border:2px dashed var(--green);color:var(--green);transform:rotate(-6deg)">VISITÉ ✓</span>
+          <span class="stamp" style="background:var(--ink);color:var(--amber);transform:rotate(3deg)">★ Vitrine Or</span>
+          <span style="display:inline-grid;place-items:center;width:17mm;height:17mm;border-radius:50%;border:2px solid var(--brick);color:var(--brick);font-family:'Bricolage';font-weight:800;font-size:10px;transform:rotate(-8deg);text-align:center;line-height:1.1">ORNANS<br>✓</span>
+        </div>
+        <p class="small" style="margin-top:3mm">Rotation de −6° à +6°, deux pastilles au plus par écran, réservées aux moments de réussite ou de découverte : un tampon de circuit, une vitrine complète, un commerce ouvert.</p>
+      </div>
+      <div class="card sand">
+        <h4>Mots de la marque</h4>
+        <div class="chips"><span class="chip">proche</span><span class="chip">fait ici</span><span class="chip">ouvert</span><span class="chip">pousser la porte</span><span class="chip">vitrine</span><span class="chip">ensemble</span><span class="chip">découvrir</span><span class="chip">simple</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>Formes</h3><p class="small">Coins arrondis de 16 à 24 px, cartes claires cernées d'un filet sable, aucune ombre lourde.</p></div>
+    <div class="card"><h3>Photographie</h3><p class="small">De vraies photos des professionnels, en lumière naturelle. Sans photo, un visuel de repli prend la couleur de l'activité.</p></div>
+    <div class="card"><h3>Icônes et carte</h3><p class="small">Des icônes au trait. Sur la carte, les repères reprennent le symbole et les regroupements affichent un nombre.</p></div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>02 · Design</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 02 DESIGN 3/3 ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">02 · Design</div>
+    <h2>Des écrans fidèles <em>aux maquettes.</em></h2>
+    <p class="lead">Chaque maquette fournie a son écran développé et interactif. Les écrans ajoutés pour couvrir le cahier des charges suivent les mêmes composants.</p>
+  </div>
+  <div class="shot"><div class="bar"><i></i><i></i><i></i><span>valdeloue.terricom.fr</span></div><img src="captures/p-accueil.jpg" alt=""></div>
+  <p class="caption">P1 · Accueil du portail du Val de Loue : accroche du territoire, recherche en langage naturel, compteur des commerces ouverts, pastille ambre. Dans l'environnement de développement, les photos ne sont pas chargées (accès externe bloqué) et chaque carte affiche son visuel de repli.</p>
+  <div class="grid4" style="font-size:10.4px">
+    <div class="card"><h4>Portail · P1 à P8</h4><p class="small">Accueil, explorateur, fiche, commune, campagne, circuits, agenda, emploi</p></div>
+    <div class="card"><h4>Entreprise · E1 à E7</h4><p class="small">Revendication, tableau de bord, fiche, publications, statistiques, kit vitrine, offres</p></div>
+    <div class="card"><h4>Collectivité · C1 à C8</h4><p class="small">Tableau de bord, entreprises, revendications, campagnes, newsletter, circuits, statistiques, personnalisation</p></div>
+    <div class="card"><h4>Console · S1 à S5</h4><p class="small">Vue d'ensemble, territoires, audit et sécurité, simulateur, outils d'exploitation</p></div>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>Aux couleurs du territoire</h3><p class="small">Chaque portail reprend la couleur principale, l'accent, les initiales et le logo de sa collectivité. La mise à jour depuis le back-office est instantanée.</p></div>
+    <div class="card"><h3>Aux couleurs du commerce</h3><p class="small">Avec l'offre Communication, le mini-site d'un établissement prend sa couleur de marque. Le contraste est vérifié automatiquement, et la teinte corrigée si nécessaire, pour rester lisible.</p></div>
+    <div class="card"><h3>Marque blanche</h3><p class="small">En option, le portail et les emails d'un territoire ne mentionnent plus terricom. Les mentions légales conservent l'identification du prestataire.</p></div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>02 · Design</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 03 ERGONOMIE 1/2 ═══════════════════════ -->
+<section class="page" id="s03">
+  <div class="head">
+    <div class="eyebrow">03 · Ergonomie</div>
+    <h2>Utile d'abord : l'information juste, <em>en trois gestes.</em></h2>
+    <p class="lead">Chaque écran répond d'abord à la question de la personne qui l'ouvre : « Est-ce ouvert ? », « Que dois-je faire aujourd'hui ? », « Où en est mon territoire ? ». Le reste vient ensuite.</p>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>L'essentiel en premier</h3><p class="small">Ouvert ou fermé en temps réel, y compris les horaires exceptionnels et les jours fériés. Appeler, itinéraire et site web sont à portée de pouce.</p></div>
+    <div class="card"><h3>Une recherche qui comprend</h3><p class="small">« Un fromage à offrir », « réparer ma chaudière », « restaurants ouverts ce soir » : pas besoin de connaître la bonne catégorie. Les filtres s'activent en un geste.</p></div>
+    <div class="card"><h3>Mobile d'abord</h3><p class="small">Le commerce de proximité se cherche au téléphone. Toutes les pages sont conçues pour 390 px de large avant de l'être pour l'ordinateur.</p></div>
+    <div class="card"><h3>Des tableaux de bord qui disent quoi faire</h3><p class="small">« Vos prochaines actions », complétude de la vitrine, messages à traiter, revendications à valider : chaque espace s'ouvre sur ce qui demande une action.</p></div>
+    <div class="card"><h3>L'IA propose, l'humain décide</h3><p class="small">Les assistants rédigent des brouillons modifiables. Rien n'est publié ou envoyé sans validation, et tout reste possible sans IA.</p></div>
+    <div class="card"><h3>Un retour immédiat</h3><p class="small">Messages de confirmation, états vides qui expliquent quoi faire, étapes guidées pour la revendication, aperçus avant envoi.</p></div>
+  </div>
+  <div class="push">
+    <h4>Parcours types</h4>
+    <div class="grid4">
+      <div class="card persona"><span class="tag">Habitant</span><h3>« Qui est ouvert ce soir ? »</h3><ol><li>Accueil : question en langage naturel</li><li>Explorateur : liste et carte synchronisées</li><li>Fiche : horaires, appeler, itinéraire</li><li>Suivre le commerce, s'abonner à la lettre</li></ol></div>
+      <div class="card persona"><span class="tag amber">Professionnel</span><h3>« Ma fiche existe déjà »</h3><ol><li>Recherche de sa fiche, « Gérer cette entreprise »</li><li>Vérification SIRET, justificatif ou code courrier</li><li>Complétude guidée, jusqu'à la Vitrine Or</li><li>Publication assistée, diffusée partout</li></ol></div>
+      <div class="card persona"><span class="tag lilac">Agent</span><h3>« Lancer Noël »</h3><ol><li>Import SIRENE : le portail n'est jamais vide</li><li>Invitations des pros, par email ou courrier</li><li>Assistant de campagne : sélection, textes</li><li>Newsletter à l'audience choisie, statistiques</li></ol></div>
+      <div class="card persona"><span class="tag sky">Exploitant</span><h3>« Ouvrir un territoire »</h3><ol><li>Création : communes via l'API Géo</li><li>Contrat, modules, quotas, administrateur</li><li>Domaine et couleurs du portail</li><li>Suivi d'usage et de rentabilité</li></ol></div>
+    </div>
+  </div>
+  <div class="card ink" style="display:flex;gap:6mm;align-items:center">
+    <span class="display" style="font-size:40px;color:var(--amber)">3</span>
+    <p style="font-size:11.5px;line-height:1.5">Trois gestes au plus pour l'information clé : l'état d'ouverture et les boutons appeler et itinéraire sont visibles dès la liste de résultats. Sur une fiche, ils restent accessibles dans la barre latérale et en bas d'écran sur mobile.</p>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>03 · Ergonomie</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 03 ERGONOMIE 2/2 ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">03 · Ergonomie</div>
+    <h2>Accessible, installable, <em>et dans trois langues.</em></h2>
+    <p class="lead">Le portail suit le référentiel d'accessibilité des services publics, s'installe comme une application sur le téléphone et parle la langue du visiteur.</p>
+  </div>
+  <div class="row" style="gap:5mm">
+    <div class="grow" style="display:flex;flex-direction:column;gap:3mm">
+      <div class="card">
+        <h3>Accessibilité (RGAA 4.1)</h3>
+        <ul class="checks small" style="color:var(--text2)">
+          <li>Navigation complète au clavier, lien d'évitement, focus visible.</li>
+          <li>Contrastes renforcés, niveau AA, y compris sur les couleurs choisies par les territoires et les commerces.</li>
+          <li>Formulaires étiquetés, aides reliées aux champs, erreurs annoncées aux lecteurs d'écran.</li>
+          <li>Textes alternatifs, carte doublée d'une liste équivalente, zones mises à jour annoncées.</li>
+          <li>Respect de la préférence de réduction des animations.</li>
+          <li>Langue déclarée pour chaque page et chaque contenu cité dans une autre langue.</li>
+          <li>Déclaration d'accessibilité publiée sur chaque portail.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Application installable</h3>
+        <p class="small">Chaque portail s'installe sur l'écran d'accueil (Android, iPhone, ordinateur) avec son nom, ses couleurs et une icône générée à ses initiales. Les pages déjà consultées restent lisibles sans réseau, sinon une page de secours aux couleurs du portail s'affiche. Les espaces privés ne sont jamais conservés sur l'appareil.</p>
+      </div>
+      <div class="card">
+        <h3>Notifications</h3>
+        <p class="small">Sur leur téléphone ou leur ordinateur, les professionnels sont prévenus d'un nouveau message, d'une demande de rendez-vous, d'une candidature ou d'une réponse à un formulaire, et les agents d'une revendication à valider.</p>
+      </div>
+      <div class="card green">
+        <h4>Portail multilingue</h4>
+        <p style="font-size:11px;line-height:1.5">Français, anglais et allemand, avec le choix mémorisé et une adresse par langue pour Google. Les heures, dates et nombres suivent l'usage de chaque langue. Les fiches sont traduites par l'IA, et le professionnel peut écrire sa propre version.</p>
+      </div>
+    </div>
+    <div style="width:100mm;display:flex;flex-direction:column;gap:2mm">
+      <div class="grid2" style="gap:2.5mm">
+        <div><div class="phone"><img src="captures/m-accueil.jpg" alt=""></div><p class="caption">Accueil sur mobile</p></div>
+        <div><div class="phone"><img src="captures/m-fiche.jpg" alt=""></div><p class="caption">Fiche : photos, statut, actions</p></div>
+      </div>
+      <div class="grid2" style="gap:2.5mm">
+        <div><div class="phone"><img src="captures/m-explorer-de.jpg" alt=""></div><p class="caption">Explorateur en allemand</p></div>
+        <div class="card sand" style="display:flex;flex-direction:column;justify-content:center;gap:2mm">
+          <span class="stamp" style="align-self:flex-start">FR · EN · DE</span>
+          <p class="small">464 libellés par langue, vérifiés par les tests : aucune clé manquante et les mêmes variables dans les trois langues.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>03 · Ergonomie</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 04 FONCTIONNALITÉS · PORTAIL 1/2 ═══════════════════════ -->
+<section class="page spread" id="s04">
+  <div class="head">
+    <div class="eyebrow">04 · Fonctionnalités · Portail public</div>
+    <h2>Le portail : tout le territoire, <em>en vitrine.</em></h2>
+    <p class="lead">Chaque territoire a son portail, sur son adresse terricom.fr ou sur le domaine de la collectivité. Tout y est public, référencé par les moteurs de recherche et pensé d'abord pour le téléphone. Dans le Val de Loue, 812 fiches publiques y sont en ligne dès le lancement.</p>
+  </div>
+  <div>
+    <div class="shot"><div class="bar"><i></i><i></i><i></i><span>valdeloue.terricom.fr/explorer</span></div><img src="captures/p-explorer.jpg" alt=""></div>
+    <p class="caption">P2 · Explorateur : résultats et carte liés, filtres en un geste, calques des événements, des marchés et des lieux économiques. Les fonds de carte OpenStreetMap ne se chargent pas dans l'environnement de développement ; les repères et les regroupements sont ceux du portail.</p>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Explorer</h3><p class="small">Liste et carte synchronisées, repères regroupés au-delà de 80 points, tri recommandé ou « autour de moi ». Filtres : famille, catégorie, commune, ouvert maintenant ou ce soir, services, accessibilité, labels, paiement.</p></div>
+    <div class="card"><h3>Chercher en langage naturel</h3><p class="small">« Un cadeau local pour Noël », « réparer ma chaudière » : la question devient des filtres, et une réponse courte cite les adresses trouvées. La recherche tolère les accents oubliés et les fautes de frappe.</p></div>
+  </div>
+  <div class="row">
+    <div class="shot" style="width:112mm;flex-shrink:0"><img src="captures/p-ouvert.jpg" alt=""></div>
+    <div class="card grow"><h3>Savoir si c'est ouvert</h3><p class="small">Statut calculé à la minute, à l'heure de Paris, horaires exceptionnels compris. À l'approche d'un jour férié, chaque professionnel est invité à confirmer ses horaires.</p></div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>04 · Fonctionnalités</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 04 FONCTIONNALITÉS · PORTAIL 2/2 ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">04 · Fonctionnalités · Portail public</div>
+    <h2>Donner envie de sortir : <em>campagnes, circuits, agenda.</em></h2>
+  </div>
+  <div class="shots2">
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>…/ornans/boulangerie/boulangerie-martin</span></div><img src="captures/p-fiche.jpg" alt=""></div><p class="caption">P3 · Fiche : galerie, statut d'ouverture, appeler, itinéraire, onglets. Adresse lisible et données structurées pour Google.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>…/campagnes/noel-chez-vos-commercants</span></div><img src="captures/p-campagne.jpg" alt=""></div><p class="caption">P5 · Campagne « Noël chez vos commerçants » : participants, offres et calendrier de l'Avent qui s'ouvre jour après jour.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>…/circuits/le-fil-de-la-loue-gourmande</span></div><img src="captures/p-circuit.jpg" alt=""></div><p class="caption">P6 · Circuit : étapes sur la carte et passeport à tampons, validé en scannant le QR code en vitrine.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>valdeloue.terricom.fr/agenda</span></div><img src="captures/p-agenda.jpg" alt=""></div><p class="caption">P7 · Agenda : événements et marchés, filtres par type, abonnement au calendrier, agendas externes repris automatiquement.</p></div>
+  </div>
+  <div class="shots2">
+    <div><div class="shot cut" style="--h:41mm"><div class="bar"><i></i><i></i><i></i><span>valdeloue.terricom.fr/ornans</span></div><img src="captures/p-commune.jpg" alt=""></div><p class="caption">P4 · Commune : chiffres clés par famille, actualités, mot de la mairie, opérations commerciales.</p></div>
+    <div><div class="shot cut" style="--h:41mm"><div class="bar"><i></i><i></i><i></i><span>valdeloue.terricom.fr/emploi</span></div><img src="captures/p-emploi.jpg" alt=""></div><p class="caption">P8 · Emploi : « Travailler sur notre territoire », emplois, stages, saisonniers, candidature avec CV.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Fiche complète</h3><p class="small">Galerie, logo, labels, offre du moment, produits, actualités et événements, recrutement, contact, horaires, accès, paiement, accessibilité, tarifs, réseaux sociaux, lien « Gérer cette entreprise ».</p></div>
+    <div class="card"><h3>Référencement</h3><p class="small">Adresse <code>/commune/catégorie/fiche</code>, données Schema.org, aperçus Open Graph, plan du site, adresses canoniques et versions par langue, flux RSS des actualités.</p></div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>04 · Fonctionnalités</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 04 FONCTIONNALITÉS · ESPACE ENTREPRISE ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">04 · Fonctionnalités · Espace entreprise</div>
+    <h2>L'espace pro : <em>sa vitrine en quelques minutes.</em></h2>
+    <p class="lead">Le professionnel revendique sa fiche, la complète, publie et suit ses résultats. Le tableau de bord lui dit quoi faire ensuite, et l'assistant rédige avec lui.</p>
+  </div>
+  <div class="shots2">
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/pro · Tableau de bord</span></div><img src="captures/e-tableau.jpg" alt=""></div><p class="caption">E2 · Tableau de bord : complétude de la vitrine, prochaines actions, vues, appels, itinéraires, scans du QR code, messages, invitation de la collectivité.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/pro · Publications</span></div><img src="captures/e-publications.jpg" alt=""></div><p class="caption">E4 · Publications : une phrase suffit, l'assistant rédige pour tous les canaux ; diffusion sur la fiche, la commune, le territoire et la lettre ; programmation.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/pro · Ma fiche</span></div><img src="captures/e-fiche.jpg" alt=""></div><p class="caption">E3 · Ma fiche : éditeur complet, audit de la fiche, aperçu du résultat Google ; chaque enregistrement est publié aussitôt et historisé.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/pro · Mini-site</span></div><img src="captures/e-minisite.jpg" alt=""></div><p class="caption">Mini-site, pages et formulaires (La Cave Comtoise, offre Communication) : pages supplémentaires, formulaires sur mesure, couleur de marque.</p></div>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>Revendication</h3><p class="small">Recherche de sa fiche, vérification du SIRET, puis justificatif ou code reçu par courrier ou par SMS. La collectivité valide.</p></div>
+    <div class="card"><h3>Messages et rendez-vous</h3><p class="small">Boîte de réception (contact, formulaires), réponse par email ; rendez-vous à confirmer, décliner ou annuler.</p></div>
+    <div class="card"><h3>Kit vitrine et QR code</h3><p class="small">Affichette, autocollant et carte de visite en PDF à la charte ; QR code haute définition dont les scans sont comptés.</p></div>
+    <div class="card"><h3>Statistiques</h3><p class="small">Vues, provenance, heures d'affluence, recherches qui mènent à la fiche, export CSV.</p></div>
+    <div class="card"><h3>Recrutement et événements</h3><p class="small">Offres d'emploi et candidatures avec CV ; événements repris dans l'agenda du territoire.</p></div>
+    <div class="card"><h3>Équipe et établissements</h3><p class="small">Collaborateurs invités, plusieurs établissements par entreprise, changement d'offre en ligne.</p></div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>04 · Fonctionnalités</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 04 FONCTIONNALITÉS · OFFRES ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">04 · Fonctionnalités · Offres des professionnels</div>
+    <h2>Gratuit pour exister, <em>payant pour gagner du temps.</em></h2>
+    <p class="lead">Trois offres. L'Essentiel, financé par la collectivité, donne une présence complète. Premium et Communication ajoutent des services qui font gagner du temps ou des clients.</p>
+  </div>
+  <table class="t offers">
+    <thead>
+      <tr>
+        <th>Fonction</th>
+        <th class="c"><span class="plan-h">Essentiel<small>offert · 0 €</small></span></th>
+        <th class="c hl"><span class="plan-h" style="color:var(--green)">Premium<small>24 € HT par mois</small></span></th>
+        <th class="c"><span class="plan-h" style="color:var(--brick)">Communication<small>49 € HT par mois</small></span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Fiche complète, photos, horaires, carte, QR code vitrine, statistiques essentielles</td><td class="c yes">✓</td><td class="c yes hl">✓</td><td class="c yes">✓</td></tr>
+      <tr><td>Publications</td><td class="c">3 par mois</td><td class="c hl">illimitées, programmées</td><td class="c">illimitées, programmées</td></tr>
+      <tr><td>Assistant de rédaction</td><td class="c">5 par mois</td><td class="c hl">illimité</td><td class="c">illimité</td></tr>
+      <tr><td>Diffusion dans la lettre du territoire, statistiques avancées</td><td class="c no">—</td><td class="c yes hl">✓</td><td class="c yes">✓</td></tr>
+      <tr><td>Offres d'emploi, prise de rendez-vous, QR codes personnalisés</td><td class="c no">—</td><td class="c yes hl">✓</td><td class="c yes">✓</td></tr>
+      <tr><td>Formulaires personnalisés, pages supplémentaires</td><td class="c no">—</td><td class="c yes hl">✓</td><td class="c yes">✓</td></tr>
+      <tr><td>Mise en avant enrichie dans les listes et la recherche</td><td class="c no">—</td><td class="c yes hl">✓</td><td class="c yes">✓</td></tr>
+      <tr><td>Synchronisation des contenus vers ses outils</td><td class="c no">—</td><td class="c yes hl">✓</td><td class="c yes">✓</td></tr>
+      <tr><td>Publication sur les réseaux sociaux</td><td class="c no">—</td><td class="c no hl">—</td><td class="c yes">✓</td></tr>
+      <tr><td>Clients abonnés, lettres aux clients, export des contacts</td><td class="c no">—</td><td class="c no hl">—</td><td class="c yes">✓</td></tr>
+      <tr><td>Mini-site personnalisable</td><td class="c no">—</td><td class="c no hl">—</td><td class="c yes">✓</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2">
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>…/ornans/caviste/la-cave-comtoise</span></div><img src="captures/p-minisite.jpg" alt=""></div><p class="caption">Mini-site de La Cave Comtoise (offre Communication) : couleur de marque, pages « Dégustations du samedi » et « Coffrets entreprises », bouton « Commander un coffret ».</p></div>
+    <div class="card" style="display:flex;flex-direction:column;gap:2.4mm">
+      <p class="small"><b style="color:var(--ink)">Clients abonnés.</b> Bouton « Suivre » sur la fiche, double confirmation, lettres de l'entreprise (4 au plus par 30 jours), désinscription en un clic, ouvertures et clics mesurés. La collectivité n'a pas accès à ces contacts.</p>
+      <p class="small"><b style="color:var(--ink)">Formulaires sur mesure.</b> Modèles « devis », « réservation », « atelier » et huit types de champs. Chaque réponse arrive dans la messagerie, avec une notification.</p>
+      <p class="small"><b style="color:var(--ink)">Pages et mini-site.</b> Jusqu'à 8 pages par fiche, en mise en forme simple et sûre. Couleur de marque au contraste vérifié, en-tête photo ou bandeau, bouton principal, sections réordonnées.</p>
+    </div>
+  </div>
+  <div class="card ink" style="display:flex;gap:6mm;align-items:center">
+    <span class="stamp" style="transform:rotate(-5deg)">Contrôlé côté serveur</span>
+    <p style="font-size:11px;line-height:1.5">Les droits de chaque offre sont stockés en base et réglables depuis la console. Ils sont vérifiés à chaque action et à chaque affichage public. Une fonction non incluse est présentée avec un lien vers « Mon offre », sans jamais griser la fiche. Paiement par carte (Stripe) ou par virement sur facture.</p>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>04 · Fonctionnalités</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 04 FONCTIONNALITÉS · BACK-OFFICE 1/2 ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">04 · Fonctionnalités · Back-office collectivité</div>
+    <h2>Le back-office : <em>piloter et animer.</em></h2>
+    <p class="lead">Deux niveaux de droits : l'intercommunalité voit tout son territoire, une mairie ne voit que sa commune et ne modifie que ses propres opérations. Chaque écran s'ouvre sur ce qui demande une action.</p>
+  </div>
+  <div class="shots2">
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/collectivite · Tableau de bord</span></div><img src="captures/c-tableau.jpg" alt=""></div><p class="caption">C1 · Tableau de bord : adoption face à l'objectif, météo du commerce local, densité par commune, podium des communes.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/collectivite · Entreprises</span></div><img src="captures/c-entreprises.jpg" alt=""></div><p class="caption">C2 · Entreprises : état de chaque fiche, complétude, offre ; import CSV ou SIRENE, invitations, export.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/collectivite · Campagnes</span></div><img src="captures/c-campagnes.jpg" alt=""></div><p class="caption">C4 · Campagnes territoriales ou communales ; l'assistant territorial en prépare une à partir d'une phrase.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/collectivite · Newsletter</span></div><img src="captures/c-newsletter.jpg" alt=""></div><p class="caption">C5 · Newsletter : lettre composée à partir de l'actualité de la semaine, audiences (habitants, touristes, entreprises, communes, circuits), programmation.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/collectivite · Circuits</span></div><img src="captures/c-circuits.jpg" alt=""></div><p class="caption">C6 · Circuits : étapes sur la carte, passeports ouverts, tampons scannés, paniers gagnés, tampons imprimables.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/collectivite · Statistiques</span></div><img src="captures/c-statistiques.jpg" alt=""></div><p class="caption">C7 · Statistiques : visiteurs, recherches des habitants et signaux faibles, détail par commune, rapport PDF.</p></div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>04 · Fonctionnalités</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 04 FONCTIONNALITÉS · BACK-OFFICE 2/2 ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">04 · Fonctionnalités · Back-office collectivité</div>
+    <h2>Animer, communiquer, <em>personnaliser.</em></h2>
+    <p class="lead">Tout ce qu'il faut pour faire vivre le territoire au fil de l'année, dans un seul outil, avec les droits de chacun.</p>
+  </div>
+  <table class="t">
+    <thead><tr><th style="width:17%">Rubrique</th><th>Ce que l'on y fait</th><th style="width:22%">Qui</th></tr></thead>
+    <tbody>
+      <tr><td>Campagnes</td><td>Opérations thématiques (Noël, rentrée, artisanat…), calendrier de l'Avent, participants et offres, affiche A5 et QR codes, statistiques de vues</td><td>Territoire ; une mairie pour sa commune</td></tr>
+      <tr><td>Circuits</td><td>Parcours et étapes, passeport à tampons, tampons imprimables, récompense à la clé</td><td>Territoire</td></tr>
+      <tr><td>Agenda et actualités</td><td>Événements, marchés, lieux économiques sur la carte (zones d'activité, halles, tiers-lieux), agendas externes iCal repris chaque heure</td><td>Territoire et communes</td></tr>
+      <tr><td>Newsletter</td><td>Lettre composée à partir de l'actualité, audiences dynamiques, envoi de test, programmation, ouvertures et clics, double consentement des abonnés</td><td>Territoire et communes</td></tr>
+      <tr><td>Flux publics</td><td>Agenda iCal et actualités RSS du territoire, à reprendre sur le site de la mairie ou de l'office de tourisme</td><td>Tous</td></tr>
+      <tr><td>Personnalisation</td><td>Couleurs, logo, textes, blocs de l'accueil, catégories propres au territoire, domaine personnalisé avec certificat automatique</td><td>Administrateur territorial</td></tr>
+      <tr><td>Équipe</td><td>Invitations, rôles, double authentification exigible pour toute l'équipe</td><td>Administrateurs</td></tr>
+      <tr><td>Langues du portail</td><td>Traduction des textes du portail, proposée par l'IA et relue ; avancement des fiches traduites</td><td>Module Multilingue</td></tr>
+      <tr><td>API et données</td><td>Clés de l'API publique (création, révocation), documentation</td><td>Administrateur territorial</td></tr>
+    </tbody>
+  </table>
+  <div class="grid3">
+    <div class="card"><h3>Importer, inviter</h3><p class="small">Import SIRENE ou CSV avec correspondance des colonnes et géocodage. Invitations par email ou par courrier PDF. Le portail n'est jamais vide.</p></div>
+    <div class="card"><h3>Valider, modérer</h3><p class="small">Revendications avec justificatif et niveau de risque, modération des publications, historique de chaque fiche.</p></div>
+    <div class="card"><h3>Mesurer</h3><p class="small">Audience du portail sans cookie, adoption par commune, rapport PDF du territoire, exports CSV.</p></div>
+  </div>
+  <div class="grid2 push">
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/collectivite · Personnalisation</span></div><img src="captures/c-personnalisation.jpg" alt=""></div><p class="caption">C8 · Personnalisation et rôles : logo, palette, textes de l'accueil avec aperçu en direct, équipe et double authentification.</p></div>
+    <div style="display:flex;flex-direction:column;gap:3mm">
+    <div class="card green">
+      <h4>Territoire et communes</h4>
+      <p style="font-size:11px;line-height:1.5">Une commune rattachée à l'intercommunalité n'achète pas de seconde licence : ses agents reçoivent un accès communal. Ils voient les entreprises de leur commune, lancent leurs propres opérations et consultent celles du territoire sans pouvoir les modifier.</p>
+    </div>
+    <div class="card">
+      <h4>Ce que la collectivité ne voit pas</h4>
+      <p class="small">Les clients abonnés d'une entreprise et ses lettres restent à l'entreprise : ni affichage ni export dans le back-office. Les documents privés (Kbis, CV) ne sont montrés qu'aux personnes habilitées, et chaque consultation est journalisée.</p>
+    </div>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>04 · Fonctionnalités</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 04 FONCTIONNALITÉS · CONSOLE ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">04 · Fonctionnalités · Console de l'exploitant</div>
+    <h2>La console : <em>exploiter la plateforme.</em></h2>
+    <p class="lead">L'exploitant ouvre les territoires, suit les contrats et la facturation, supervise le service et assure le support. Il n'entre dans le back-office d'un territoire qu'avec un accès temporaire, justifié et tracé.</p>
+  </div>
+  <div class="shots2">
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/console</span></div><img src="captures/s-console.jpg" alt=""></div><p class="caption">S1 · Vue d'ensemble : revenu récurrent annuel, territoires, établissements, conversion et churn, carte, pipeline, disponibilité.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/console/territoires</span></div><img src="captures/s-territoires.jpg" alt=""></div><p class="caption">S2 · Territoires et abonnements : clients et prospects, modules activés, quotas, communes, accès support temporaire.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/console/simulateur</span></div><img src="captures/s-simulateur.jpg" alt=""></div><p class="caption">S4 · Simulateur économique : les scénarios du cahier des charges et l'effet de mutualisation.</p></div>
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/console/facturation</span></div><img src="captures/s-facturation.jpg" alt=""></div><p class="caption">Facturation : revenu récurrent, factures émises et encaissées, retards, licences à renouveler, nouvelle facture.</p></div>
+  </div>
+  <div class="grid2 push">
+    <div class="card" style="display:flex;flex-direction:column;gap:2mm;justify-content:center">
+      <h4>Les rubriques de la console</h4>
+      <ul class="dots small" style="color:var(--text2)">
+        <li><b>Vue d'ensemble</b> et rentabilité par territoire</li>
+        <li><b>Territoires</b> : création, modules, quotas, marque blanche, communes</li>
+        <li><b>Suivi commercial</b> : étapes, contacts, activités, tâches, documents</li>
+        <li><b>Facturation</b> : contrats, factures, licences à renouveler, prix des offres</li>
+        <li><b>Usage de l'IA</b>, <b>emails</b> émis, <b>tâches de fond</b></li>
+        <li><b>Audit et sécurité</b> : journal chaîné, demandes RGPD</li>
+        <li><b>Support</b> : tickets, accès temporaire</li>
+      </ul>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;gap:2.4mm">
+      <p class="small"><b style="color:var(--ink)">Rentabilité par territoire.</b> Panier moyen des offres, entreprises actives, vues des campagnes, coût d'exploitation estimé (IA, emails, stockage, part d'infrastructure) et marge.</p>
+      <p class="small"><b style="color:var(--ink)">Facturation publique.</b> Contrats de licence et de mise en service, factures numérotées en continu, référence Chorus Pro, relance des factures échues.</p>
+      <p class="small"><b style="color:var(--ink)">Ouvrir un territoire.</b> Communes chargées depuis l'API Géo, contrats, modules, quotas, invitation de l'administrateur : le territoire est prêt à être importé.</p>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>04 · Fonctionnalités</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 05 INTELLIGENCE ARTIFICIELLE ═══════════════════════ -->
+<section class="page" id="s05">
+  <div class="head">
+    <div class="eyebrow">05 · Intelligence artificielle</div>
+    <h2>Cinq assistants, <em>jamais indispensables.</em></h2>
+    <p class="lead">L'IA intervient là où l'on manque de temps ou d'inspiration : rédiger, décrire, lancer une campagne, chercher, traduire. Elle propose des brouillons, ne publie jamais seule, et chaque fonction marche aussi sans elle.</p>
+  </div>
+  <div class="grid3">
+    <div class="card persona"><span class="tag amber">Professionnels</span><h3>Assistant rédactionnel</h3><p class="small">Une phrase suffit : il écrit le texte de la fiche, les publications Facebook, Instagram et LinkedIn, un email aux clients et un titre pour Google. Trois tons : chaleureux, pro, fun.</p><p class="small"><b style="color:var(--ink)">Sans IA :</b> modèles de texte par type de publication.</p></div>
+    <div class="card persona"><span class="tag amber">Professionnels</span><h3>Assistant de fiche</h3><p class="small">Réécrit la description pour qu'elle soit claire et bien référencée, audite la fiche et propose les prochaines actions, avec ce qu'elles apportent à la complétude.</p><p class="small"><b style="color:var(--ink)">Sans IA :</b> description composée à partir des produits, services et moyens de paiement.</p></div>
+    <div class="card persona"><span class="tag lilac">Collectivités</span><h3>Assistant territorial</h3><p class="small">« Mettre en avant les producteurs locaux avant Noël » : dates, sélection des participants, page de campagne, objet et introduction de la newsletter, plan de communication.</p><p class="small"><b style="color:var(--ink)">Sans IA :</b> sélection par règles (activité, complétude) et calendrier type.</p></div>
+    <div class="card persona"><span class="tag">Habitants</span><h3>Recherche intelligente</h3><p class="small">Traduit une question en filtres (catégories, communes, services, « ouvert ce soir ») et rédige une réponse courte qui cite les adresses trouvées, sans rien inventer.</p><p class="small"><b style="color:var(--ink)">Sans IA :</b> analyseur de requêtes (synonymes, intentions, horaires).</p></div>
+    <div class="card persona"><span class="tag sky">Visiteurs</span><h3>Traduction</h3><p class="small">Traduit les textes du portail et les fiches en anglais et en allemand, plusieurs champs en un seul appel, à chaque modification de la fiche.</p><p class="small"><b style="color:var(--ink)">Sans IA :</b> texte français, avec la mention « Texte original en français ».</p></div>
+    <div class="card ink">
+      <h4>Garde-fous</h4>
+      <ul class="checks" style="font-size:10.6px;line-height:1.42">
+        <li>Réponses structurées, validées, identifiants revérifiés.</li>
+        <li>Consigne : n'inventer ni prix, ni date, ni label.</li>
+        <li>Aucune donnée personnelle d'habitant transmise.</li>
+        <li>Quota mensuel de crédits par territoire.</li>
+        <li>Chaque appel journalisé ; module désactivable.</li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    <h4>Le chemin d'une demande</h4>
+    <div class="chain">
+      <div class="node"><b>Demande</b><span>une phrase, un brouillon, une question</span></div><span class="to">→</span>
+      <div class="node"><b>Règles</b><span>résultat de repli toujours calculable</span></div><span class="to">→</span>
+      <div class="node"><b>IA</b><span>si la clé, le quota et le module le permettent</span></div><span class="to">→</span>
+      <div class="node"><b>Contrôle</b><span>format, identifiants, longueurs</span></div><span class="to">→</span>
+      <div class="node hl"><b>Brouillon</b><span>modifiable, validé par une personne</span></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/console/ia</span></div><img src="captures/s-ia.jpg" alt=""></div><p class="caption">Console · Usage de l'IA : appels, crédits consommés sur les quotas des territoires, coût estimé, part des replis, usage par fonction.</p></div>
+    <div style="display:flex;flex-direction:column;gap:3mm">
+    <div class="card">
+      <h3>Pourquoi un repli systématique ?</h3>
+      <p class="small">Un service public numérique ne doit pas s'arrêter parce qu'un fournisseur est indisponible ou qu'un quota est atteint. Sans clé d'API, en cas d'erreur ou de refus, le résultat par règles prend le relais sans message d'erreur : l'utilisateur n'est jamais bloqué. Les tests automatiques vérifient ces replis.</p>
+    </div>
+    <div class="card green">
+      <h4>Le modèle</h4>
+      <p style="font-size:11px;line-height:1.5">Claude, d'Anthropic, appelé par son kit officiel avec des réponses au format imposé. La consommation (crédits, fonction, territoire) est visible dans la console.</p>
+    </div>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>05 · Intelligence artificielle</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 06 TECHNIQUE 1/3 ═══════════════════════ -->
+<section class="page" id="s06">
+  <div class="head">
+    <div class="eyebrow">06 · Technique</div>
+    <h2>Une seule application, <em>tous les territoires.</em></h2>
+    <p class="lead">terricom est une application web unique, partagée par tous les territoires : un seul code, une seule base, des données cloisonnées. Les pages sont rendues sur le serveur, pour la vitesse et le référencement ; la carte, les éditeurs et les assistants s'animent dans le navigateur.</p>
+  </div>
+  <div class="lanes">
+    <div class="lane" style="grid-template-columns:repeat(4,1fr)">
+      <div class="box"><b>Habitants, visiteurs</b>portails, 3 langues, application installable</div>
+      <div class="box"><b>Professionnels</b>espace pro, notifications</div>
+      <div class="box"><b>Collectivités</b>back-office, API publique</div>
+      <div class="box"><b>Exploitant</b>console, supervision</div>
+    </div>
+    <div class="link">↓ HTTPS, certificats automatiques</div>
+    <div class="box amber" style="text-align:center"><b>Entrée HTTPS (Ingress)</b>terricom.fr · *.terricom.fr · domaines des collectivités, par exemple commerces.ville.fr</div>
+    <div class="link">↓ aiguillage par nom de domaine vers le bon territoire</div>
+    <div class="lane" style="grid-template-columns:1fr 12mm 1fr;align-items:center">
+      <div class="box green"><b>Application web · 3 à 12 instances</b>pages rendues côté serveur, actions serveur, API publique, flux iCal et RSS, PDF, notifications</div>
+      <div class="link" style="font-size:14px">⇄</div>
+      <div class="box ink"><b>PostgreSQL 16 haute disponibilité</b>3 instances sur 3 zones, réplication synchrone, recherche plein texte, file de tâches</div>
+    </div>
+    <div class="link">↓ file de tâches</div>
+    <div class="box ink"><b>Worker · 2 instances</b>emails et lettres par lots, publications programmées, traductions, connecteurs, notifications, imports, purge RGPD ; 12 tâches planifiées</div>
+    <div class="link">↓ services externes</div>
+    <div class="lane" style="grid-template-columns:repeat(6,1fr)">
+      <div class="box mint"><b>Emails</b>SMTP</div>
+      <div class="box mint"><b>Fichiers</b>stockage S3</div>
+      <div class="box mint"><b>Antivirus</b>ClamAV</div>
+      <div class="box mint"><b>Données</b>API Géo, SIRENE, BAN</div>
+      <div class="box mint"><b>IA</b>Claude</div>
+      <div class="box mint"><b>Paiement</b>Stripe</div>
+    </div>
+  </div>
+  <div class="grid4">
+    <div class="card kpi"><span class="n">~56 k</span><span class="l">lignes de TypeScript strict</span></div>
+    <div class="card kpi"><span class="n">93</span><span class="l">écrans · 70 composants d'interface</span></div>
+    <div class="card kpi"><span class="n">72</span><span class="l">tables · 16 migrations versionnées</span></div>
+    <div class="card kpi"><span class="n">52</span><span class="l">points d'accès : API, flux, fichiers, PDF</span></div>
+  </div>
+  <div class="card">
+    <div class="stack" style="grid-template-columns:32mm 1fr 32mm 1fr;column-gap:4mm">
+      <div>Interface</div><div>Next.js 16, React 19, TypeScript</div>
+      <div>Données</div><div>PostgreSQL 16, Drizzle ORM</div>
+      <div>Validation</div><div>Zod, à chaque entrée</div>
+      <div>Carte</div><div>Leaflet et OpenStreetMap</div>
+      <div>Documents</div><div>PDF aux polices de la charte</div>
+      <div>IA</div><div>kit officiel Anthropic</div>
+      <div>Notifications</div><div>Web Push (VAPID)</div>
+      <div>Tests</div><div>Vitest, Playwright</div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Organisation du code</h3>
+    <div class="stack" style="grid-template-columns:30mm 1fr 30mm 1fr;column-gap:4mm;margin-top:3px">
+      <div><code>src/app</code></div><div>pages et routes des cinq espaces, API</div>
+      <div><code>src/server</code></div><div>identité, droits, audit, services, tâches, emails, PDF, IA</div>
+      <div><code>src/components</code></div><div>interface à la charte, carte</div>
+      <div><code>src/lib</code></div><div>formats, horaires, langues, adresses</div>
+      <div><code>drizzle</code></div><div>migrations SQL versionnées</div>
+      <div><code>scripts</code></div><div>migrations, démonstration, worker</div>
+      <div><code>deploy</code></div><div>Kubernetes : production, démonstration</div>
+      <div><code>docs · tests</code></div><div>documentation, tests et parcours</div>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>06 · Technique</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 06 TECHNIQUE 2/3 ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">06 · Technique</div>
+    <h2>Des données cloisonnées, <em>une hiérarchie historisée.</em></h2>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Aiguillage par domaine</h3><p class="small">Chaque requête est aiguillée selon son adresse : valdeloue.terricom.fr, le domaine vérifié d'une collectivité, ou /valdeloue sur la plateforme. Une fois le territoire identifié, toutes les lectures sont filtrées par son identifiant, et chaque action serveur revérifie le périmètre de l'utilisateur.</p></div>
+    <div class="card"><h3>Rattachement historisé</h3><p class="small">Le lien entre une commune et son intercommunalité est daté. Une commune qui change d'intercommunalité emporte ses fiches, ses publications, ses événements et ses offres d'emploi ; l'ancien rattachement reste dans l'historique.</p></div>
+  </div>
+  <table class="t">
+    <thead><tr><th style="width:20%">Domaine</th><th>Ce qui est stocké</th></tr></thead>
+    <tbody>
+      <tr><td>Territoires</td><td>territoires, domaines, modules activés, catégories propres, communes et rattachements datés</td></tr>
+      <tr><td>Utilisateurs</td><td>comptes, sessions, rôles par périmètre, jetons d'invitation, appareils abonnés aux notifications</td></tr>
+      <tr><td>Entreprises</td><td>entreprises (SIREN), membres, établissements (SIRET), horaires et exceptions, attributs, photos, produits, pages, formulaires, mini-site</td></tr>
+      <tr><td>Revendication</td><td>demandes, justificatifs, niveau de risque, historique des modifications des fiches</td></tr>
+      <tr><td>Contenus</td><td>publications, événements, marchés, lieux économiques, offres d'emploi, candidatures, messages, rendez-vous</td></tr>
+      <tr><td>Animation</td><td>campagnes, cases du calendrier de l'Avent, circuits, passeports et tampons</td></tr>
+      <tr><td>Newsletter</td><td>abonnés et consentements, audiences, lettres (territoire, commune, entreprise), envois, clients des entreprises</td></tr>
+      <tr><td>Audience</td><td>événements de visite (13 mois), agrégats quotidiens anonymes</td></tr>
+      <tr><td>Facturation</td><td>offres, abonnements, contrats des territoires, factures</td></tr>
+      <tr><td>Plateforme</td><td>journal d'audit chaîné, file de tâches, emails, usage de l'IA, clés d'API, tickets, demandes RGPD, suivi commercial</td></tr>
+    </tbody>
+  </table>
+  <div>
+    <h4>Le cycle de vie d'une fiche : six états</h4>
+    <div class="chain small">
+      <div class="node"><b>Précréée</b><span>import SIRENE ou CSV</span></div><span class="to">→</span>
+      <div class="node"><b>À compléter</b><span>invitation envoyée</span></div><span class="to">→</span>
+      <div class="node"><b>Revendiquée</b><span>demande du professionnel</span></div><span class="to">→</span>
+      <div class="node hl"><b>Validée</b><span>par la collectivité</span></div>
+      <span class="to" style="color:var(--line)">|</span>
+      <div class="node"><b>Suspendue</b><span>masquée du public</span></div>
+      <div class="node"><b>Archivée</b><span>activité cessée</span></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Recherche plein texte</h3><p class="small">Index PostgreSQL pondéré (nom, activité, description), insensible aux accents, tolérant aux fautes, enrichi de mots-clés dérivés : catégories, synonymes, services, produits. Index et complétude recalculés chaque heure.</p></div>
+    <div class="card"><h3>Migrations sans interruption</h3><p class="small">16 migrations SQL versionnées, toutes additives : l'ancienne version de l'application fonctionne pendant le déploiement de la nouvelle. Un verrou garantit qu'une seule instance les applique.</p></div>
+    <div class="card"><h3>Photos et documents</h3><p class="small">Format réel vérifié, images réencodées et déclinées en WebP, métadonnées supprimées, documents analysés par l'antivirus. Stockage objet S3 en production.</p></div>
+    <div class="card"><h3>Documents imprimables</h3><p class="small">PDF générés sur le serveur aux polices de la charte : kit vitrine, affiches, courriers d'invitation, rapport de territoire, factures, tampons des circuits.</p></div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>06 · Technique</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 06 TECHNIQUE 3/3 ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">06 · Technique</div>
+    <h2>Tâches de fond <em>et intégrations.</em></h2>
+    <p class="lead">Ce qui prend du temps (envois, imports, traductions, synchronisations) passe par une file de tâches, pour que les écrans restent rapides. Les intégrations s'appuient sur des standards ouverts : iCal, RSS, JSON signé, OpenAPI.</p>
+  </div>
+  <div class="grid2" style="grid-template-columns:1fr 1.12fr">
+    <div class="card">
+      <h3>File de tâches et planification</h3>
+      <p class="small">La file est stockée dans PostgreSQL : plusieurs workers se partagent les tâches sans doublon, les échecs sont relancés avec un délai croissant et les tâches d'un worker arrêté sont reprises. Vingt files, pilotables depuis la console.</p>
+      <table class="t" style="margin-top:6px;font-size:10.2px">
+        <tbody>
+          <tr><td>Chaque minute</td><td>sonde de disponibilité, publications et lettres programmées</td></tr>
+          <tr><td>5 et 15 minutes</td><td>domaines personnalisés ; ouverture et clôture des campagnes</td></tr>
+          <tr><td>Chaque heure</td><td>statistiques, index de recherche, agendas externes</td></tr>
+          <tr><td>Chaque nuit</td><td>purge de rétention (3 h 15), factures échues (7 h), relances des fiches (9 h 30), remise à zéro de la démonstration (4 h 30)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Intégrations</h3>
+      <table class="t" style="margin-top:4px;font-size:10.2px">
+        <tbody>
+          <tr><td style="width:30%">API publique v1</td><td>lecture seule des données publiées, clé par usage, 120 requêtes par minute, description OpenAPI</td></tr>
+          <tr><td>Flux publics</td><td>agenda iCal et actualités RSS du territoire et de chaque fiche</td></tr>
+          <tr><td>Agendas externes</td><td>agenda iCal d'un office de tourisme ou d'une association repris chaque heure</td></tr>
+          <tr><td>Données publiques</td><td>API Géo (communes), SIRENE (entreprises), BAN (adresses)</td></tr>
+          <tr><td>Emails, SMS</td><td>SMTP, désinscription en un clic ; SMS par passerelle pour les codes</td></tr>
+          <tr><td>Paiement</td><td>Stripe Checkout, ou virement sur facture</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Le connecteur des entreprises (Premium)</h3>
+    <div class="row" style="gap:4mm;margin:2mm 0 3mm">
+      <div class="shot" style="width:86mm;flex-shrink:0"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/pro · Synchronisation</span></div><img src="captures/e-synchro.jpg" alt=""></div>
+      <div class="grow" style="display:flex;flex-direction:column;gap:2mm">
+        <p class="small">À chaque publication, événement, offre d'emploi ou modification de fiche, terricom prévient l'outil choisi par l'entreprise (Make, Zapier, n8n ou son site), qui republie sans ressaisie.</p>
+        <p class="small">En-têtes <code>X-Terricom-Event</code>, <code>X-Terricom-Timestamp</code>, <code>X-Terricom-Signature</code>. Essai en un clic, secret renouvelable, statut du dernier envoi affiché.</p>
+        <p class="small">Les flux RSS et iCal de la fiche, à reprendre sur son propre site, sont inclus dans toutes les offres.</p>
+      </div>
+    </div>
+    <div class="chain small">
+      <div class="node"><b>Contenu publié</b><span>publication, événement, emploi, fiche</span></div><span class="to">→</span>
+      <div class="node"><b>File d'envoi</b><span>5 tentatives, délai croissant</span></div><span class="to">→</span>
+      <div class="node hl"><b>JSON signé</b><span>HMAC-SHA256 et horodatage</span></div><span class="to">→</span>
+      <div class="node"><b>Make, Zapier, n8n</b><span>ou le site de l'entreprise</span></div><span class="to">→</span>
+      <div class="node"><b>Partout</b><span>réseaux sociaux, fiche Google, site</span></div>
+    </div>
+  </div>
+  <div class="card ink">
+    <h4>Appels sortants protégés</h4>
+    <p style="font-size:10.8px;line-height:1.5">Toute adresse saisie par un utilisateur (connecteur, agenda externe) est vérifiée avant l'appel : https obligatoire (http toléré pour les agendas), aucun identifiant dans l'adresse, aucune adresse interne ou privée, redirections revérifiées une à une (3 au plus), taille et durée bornées.</p>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>06 · Technique</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 07 HÉBERGEMENT 1/2 ═══════════════════════ -->
+<section class="page" id="s07">
+  <div class="head">
+    <div class="eyebrow">07 · Hébergement et exploitation</div>
+    <h2>Haute disponibilité, <em>hébergé en France.</em></h2>
+    <p class="lead">La production tourne sur Kubernetes, sur trois zones de disponibilité d'un hébergeur en France. Chaque composant est redondant : la perte d'une zone entière n'interrompt pas le service.</p>
+  </div>
+  <div class="lanes">
+    <div class="box amber" style="text-align:center"><b>Entrée HTTPS · ingress-nginx et cert-manager</b>certificat générique *.terricom.fr, certificats des domaines des collectivités émis et renouvelés automatiquement</div>
+    <div class="lane" style="grid-template-columns:repeat(3,1fr)">
+      <div class="box" style="display:flex;flex-direction:column;gap:4px"><b>Zone A</b><span class="chip" style="background:var(--green);color:#fff;border:0">web</span><span class="chip">worker</span><span class="chip" style="background:var(--ink);color:var(--amber);border:0">PostgreSQL · primaire</span><span class="chip">ClamAV</span></div>
+      <div class="box" style="display:flex;flex-direction:column;gap:4px"><b>Zone B</b><span class="chip" style="background:var(--green);color:#fff;border:0">web</span><span class="chip">worker</span><span class="chip" style="background:var(--ink);color:var(--cream);border:0">PostgreSQL · réplique synchrone</span><span class="chip">ClamAV</span></div>
+      <div class="box" style="display:flex;flex-direction:column;gap:4px"><b>Zone C</b><span class="chip" style="background:var(--green);color:#fff;border:0">web</span><span class="chip" style="background:var(--ink);color:var(--cream);border:0">PostgreSQL · réplique</span><span class="chip">PgBouncer</span></div>
+    </div>
+    <div class="lane" style="grid-template-columns:repeat(3,1fr)">
+      <div class="box mint"><b>Stockage objet S3</b>photos et documents (versionnés), sauvegardes chiffrées</div>
+      <div class="box mint"><b>Coffre-fort des secrets</b>External Secrets : aucun secret dans le code ni dans l'image</div>
+      <div class="box mint"><b>Supervision</b>métriques Prometheus, journaux JSON, sonde publique chaque minute</div>
+    </div>
+    <p class="caption" style="margin:0">Répartition indicative : les instances web sont réparties automatiquement par zone et par nœud ; la base bascule seule sur une réplique si la zone primaire tombe.</p>
+  </div>
+  <table class="t">
+    <thead><tr><th style="width:20%">Composant</th><th>Ce que garantissent les manifestes Kubernetes</th></tr></thead>
+    <tbody>
+      <tr><td>Application web</td><td>3 à 12 instances selon la charge, au moins 2 toujours disponibles, mise à jour progressive sans interruption, sondes de démarrage, de disponibilité et de vie, arrêt progressif</td></tr>
+      <tr><td>Worker</td><td>2 instances actives, sonde de vie, arrêt propre : les tâches en cours se terminent avant l'arrêt</td></tr>
+      <tr><td>PostgreSQL</td><td>3 instances sur 3 zones (CloudNativePG), réplication synchrone, bascule automatique, archivage continu, regroupement de connexions</td></tr>
+      <tr><td>Antivirus</td><td>ClamAV en 2 instances pour les documents déposés (Kbis, CV)</td></tr>
+      <tr><td>Isolement</td><td>profil de sécurité « restricted », conteneurs non-root en lecture seule, trafic réseau refusé par défaut</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2">
+    <div class="card"><h3>Prérequis du cluster</h3><ul class="dots small" style="color:var(--text2);margin-top:2px">
+      <li>3 zones de disponibilité en France, mise à l'échelle automatique</li>
+      <li>ingress-nginx et cert-manager (certificat générique par DNS)</li>
+      <li>CloudNativePG, ou PostgreSQL 16 managé en France</li>
+      <li>External Secrets relié au coffre-fort de l'hébergeur</li>
+      <li>stockage objet S3 pour les photos et les sauvegardes</li>
+    </ul></div>
+    <div class="card"><h3>Noms de domaine</h3><table class="t" style="font-size:10.2px;margin-top:3px"><tbody>
+      <tr><td style="width:44%">terricom.fr, www</td><td>site de la marque et espaces</td></tr>
+      <tr><td>*.terricom.fr</td><td>un portail par territoire</td></tr>
+      <tr><td>portails.terricom.fr</td><td>cible des domaines des collectivités</td></tr>
+      <tr><td>commerces.ville.fr</td><td>CNAME posé par la collectivité ; certificat émis dans les 5 minutes</td></tr>
+    </tbody></table></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Livraison</h3><p class="small">Deux images (web, outils) publiées à chaque version, avec inventaire des composants (SBOM) et attestation de provenance. Configurations « production » et « démonstration ».</p></div>
+    <div class="card"><h3>Serveur unique</h3><p class="small">Pour une préproduction ou une démonstration : Docker Compose avec PostgreSQL, web, worker, boîte d'emails de test et antivirus en option.</p></div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>07 · Hébergement et exploitation</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 07 HÉBERGEMENT 2/2 ═══════════════════════ -->
+<section class="page spread">
+  <div class="head">
+    <div class="eyebrow">07 · Hébergement et exploitation</div>
+    <h2>Superviser, sauvegarder, <em>restaurer.</em></h2>
+  </div>
+  <div class="grid4">
+    <div class="card kpi green"><span class="n" style="color:var(--amber)">~ 0</span><span class="l">perte de données : quelques secondes au plus (RPO)</span></div>
+    <div class="card kpi"><span class="n">&lt; 5 min</span><span class="l">de reprise en cas de panne d'une zone (RTO)</span></div>
+    <div class="card kpi"><span class="n">1 h</span><span class="l">pour une restauration complète</span></div>
+    <div class="card kpi"><span class="n">30 j</span><span class="l">de retour possible à un instant donné</span></div>
+  </div>
+  <table class="t">
+    <thead><tr><th style="width:30%">Sauvegarde</th><th>Fréquence</th><th>Rétention</th><th>Restauration</th></tr></thead>
+    <tbody>
+      <tr><td>Journaux de transactions (WAL)</td><td>en continu</td><td>30 jours</td><td>à la seconde près (PITR)</td></tr>
+      <tr><td>Sauvegarde de base</td><td>chaque nuit, 1 h 30</td><td>30 jours</td><td>nouveau cluster</td></tr>
+      <tr><td>Export logique chiffré</td><td>chaque nuit, 2 h 15</td><td>selon le stockage</td><td>restauration logique</td></tr>
+      <tr><td>Photos et documents</td><td>stockage versionné</td><td>selon le stockage</td><td>version précédente</td></tr>
+    </tbody>
+  </table>
+  <div class="grid2">
+    <div class="card">
+      <h3>Supervision</h3>
+      <table class="t" style="font-size:10.2px;margin-top:4px">
+        <tbody>
+          <tr><td style="width:34%"><code>/api/health</code></td><td>le processus répond</td></tr>
+          <tr><td><code>/api/ready</code></td><td>la base répond en moins de 2 s</td></tr>
+          <tr><td><code>/api/metrics</code></td><td>métriques Prometheus (jeton, réseau interne)</td></tr>
+          <tr><td>Console</td><td>disponibilité sur 30 jours, temps de réponse, files, emails, composants</td></tr>
+        </tbody>
+      </table>
+      <p class="small" style="margin-top:5px">Alertes conseillées : retard de la file au-delà de 10 minutes, échecs d'emails, disponibilité sous 99,9 %, certificat expirant sous 14 jours, réplication en retard.</p>
+    </div>
+    <div class="card">
+      <h3>Incident : quatre temps</h3>
+      <ol class="small" style="margin:4px 0 0;padding-left:15px;color:var(--text2);line-height:1.5">
+        <li><b style="color:var(--ink)">Qualifier</b> : console, métriques, journaux.</li>
+        <li><b style="color:var(--ink)">Contenir</b> : suspendre une tâche planifiée ou un territoire, révoquer des sessions.</li>
+        <li><b style="color:var(--ink)">Communiquer</b> : informer les collectivités ; en cas de violation de données, notification à la CNIL sous 72 h avec l'aide de terricom.</li>
+        <li><b style="color:var(--ink)">Tracer</b> : le journal d'audit est inaltérable et exportable.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="grid2" style="grid-template-columns:1.2fr 1fr">
+    <div class="card"><h3>Rotation des secrets</h3>
+      <table class="t" style="font-size:10.2px;margin-top:3px"><tbody>
+        <tr><td style="width:36%">Secret de session</td><td>liens des lettres déjà envoyées invalidés ; sessions conservées</td></tr>
+        <tr><td>Clé de chiffrement</td><td>données ré-chiffrées avant le retrait de l'ancienne clé</td></tr>
+        <tr><td>Sel d'audience</td><td>les visiteurs anonymes repartent de zéro</td></tr>
+        <tr><td>Clés des services</td><td>coffre-fort mis à jour, instances redémarrées</td></tr>
+      </tbody></table>
+    </div>
+    <div class="card"><h3>Métriques exposées</h3>
+      <div class="chips" style="margin-top:2mm">
+        <span class="chip">tâches par file et par état</span><span class="chip">retard de la file</span><span class="chip">emails sur 24 h</span><span class="chip">établissements</span><span class="chip">territoires actifs</span><span class="chip">sessions actives</span><span class="chip">durée de fonctionnement</span>
+      </div>
+      <p class="small" style="margin-top:2.5mm">Journaux en JSON, une ligne par événement, collectés par la pile du cluster.</p>
+    </div>
+  </div>
+  <div class="card ink" style="display:flex;gap:6mm;align-items:center">
+    <span class="display" style="font-size:34px;color:var(--amber);white-space:nowrap">Tous les 3 mois</span>
+    <p style="font-size:11px;line-height:1.5">un test de restauration est prévu et consigné. Les procédures (restauration à un instant donné, restauration logique, rotation des secrets, accès support, demandes RGPD) sont écrites pas à pas dans la documentation d'exploitation.</p>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>07 · Hébergement et exploitation</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 08 SÉCURITÉ 1/2 ═══════════════════════ -->
+<section class="page spread" id="s08">
+  <div class="head">
+    <div class="eyebrow">08 · Sécurité</div>
+    <h2>Qui peut faire quoi, <em>et qui l'a fait.</em></h2>
+    <p class="lead">Les données d'un territoire, de ses entreprises et de ses habitants sont protégées à chaque niveau : identité, droits, traçabilité, application, fichiers et infrastructure.</p>
+  </div>
+  <div class="grid2" style="grid-template-columns:1fr 1.05fr">
+    <div class="card">
+      <h3>Identité et sessions</h3>
+      <ul class="checks small" style="color:var(--text2)">
+        <li>Mots de passe hachés (scrypt), 10 caractères au minimum.</li>
+        <li>Double authentification par application (TOTP) et 10 codes de secours ; obligatoire pour l'exploitant et les administrateurs, exigible par une collectivité pour toute son équipe.</li>
+        <li>Secrets de double authentification chiffrés en base (AES-256-GCM).</li>
+        <li>Compte verrouillé 15 minutes après 5 échecs, alerte au titulaire, même message que le compte existe ou non.</li>
+        <li>Session : jeton aléatoire de 256 bits en cookie protégé, seule son empreinte est stockée ; fin après 14 jours d'inactivité, 30 jours au plus ; sessions révocables depuis « Mon compte ».</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Neuf rôles, un périmètre chacun</h3>
+      <table class="t" style="font-size:10.2px;margin-top:4px">
+        <tbody>
+          <tr><td style="width:27%">Exploitant</td><td>super administrateur, support, commercial<br><span class="small">toute la plateforme ; le back-office d'un territoire seulement par accès support</span></td></tr>
+          <tr><td>Territoire</td><td>administrateur territorial, chargé de communication<br><span class="small">tout le territoire ; équipe et personnalisation pour l'administrateur</span></td></tr>
+          <tr><td>Commune</td><td>administrateur communal, agent communal<br><span class="small">les entreprises et les opérations de leur commune</span></td></tr>
+          <tr><td>Entreprise</td><td>titulaire, collaborateur<br><span class="small">ses établissements ; offre et équipe pour le titulaire</span></td></tr>
+        </tbody>
+      </table>
+      <p class="small" style="margin-top:5px">Chaque action serveur revérifie ce périmètre. L'accès du support à un back-office dure 30 minutes, exige un motif, s'affiche dans un bandeau et est journalisé.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Un journal d'audit inaltérable</h3>
+    <p class="small" style="margin-bottom:3mm">Chaque entrée contient l'empreinte de la précédente : modifier ou supprimer une ligne casse la chaîne, et un déclencheur PostgreSQL refuse de toute façon ces opérations (hors purge de rétention autorisée). L'intégrité se vérifie en un clic depuis la console.</p>
+    <div class="chain small">
+      <div class="node"><b>Entrée n − 1</b><span>empreinte A</span></div><span class="to">→</span>
+      <div class="node hl"><b>Entrée n</b><span>auteur, action, cible, date, empreinte A → empreinte B</span></div><span class="to">→</span>
+      <div class="node"><b>Entrée n + 1</b><span>contient l'empreinte B</span></div><span class="to">→</span>
+      <div class="node"><b>Vérification</b><span>la chaîne est recalculée</span></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div><div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/console/audit</span></div><img src="captures/s-audit.jpg" alt=""></div><p class="caption">S3 · Audit et sécurité : journal filtrable et exportable, vérification de la chaîne, état de la sécurité, demandes RGPD.</p></div>
+    <div class="card sand">
+    <h4>Ce qui est tracé</h4>
+    <div class="chips" style="margin-top:2mm">
+      <span class="chip">connexions et échecs</span><span class="chip">revendications validées ou refusées</span><span class="chip">modifications de fiches</span><span class="chip">modération</span><span class="chip">envois</span><span class="chip">imports</span><span class="chip">configuration</span><span class="chip">accès support</span><span class="chip">consultation de documents privés</span><span class="chip">exports</span><span class="chip">opérations RGPD</span><span class="chip">facturation</span>
+    </div>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>08 · Sécurité</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 08 SÉCURITÉ 2/2 ═══════════════════════ -->
+<section class="page">
+  <div class="head">
+    <div class="eyebrow">08 · Sécurité</div>
+    <h2>Protéger l'application, <em>les fichiers et l'infrastructure.</em></h2>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Dans le navigateur</h3><p class="small">Politique de sécurité du contenu stricte, avec un jeton unique par requête pour chaque script. HSTS (2 ans, préchargement), interdiction d'intégrer les pages ailleurs, en-têtes contre le reniflage de type, les fuites de provenance et les fonctions sensibles du navigateur.</p></div>
+    <div class="card"><h3>À l'entrée du serveur</h3><p class="small">Chaque donnée reçue est validée (Zod) ; toutes les requêtes SQL sont paramétrées ; les actions serveur vérifient l'origine de la requête. Les exports CSV neutralisent les formules ; l'aperçu des emails s'affiche dans un cadre isolé, sans script.</p></div>
+    <div class="card"><h3>Contre les abus</h3><p class="small">Limitation de débit sur les connexions, codes, invitations, imports, envois, assistants et formulaires publics, et à l'entrée HTTPS ; pièges à robots ; invitations à usage unique (7 jours), stockées hachées ; liens des lettres signés.</p></div>
+    <div class="card"><h3>Fichiers déposés</h3><p class="small">Type réel vérifié sur le contenu, taille bornée, images réencodées (métadonnées et géolocalisation supprimées), documents analysés par l'antivirus, documents privés servis après contrôle des droits, dans un cadre isolé, chaque consultation journalisée.</p></div>
+    <div class="card"><h3>Appels sortants</h3><p class="small">Connecteurs et agendas externes ne peuvent pas viser le réseau interne : adresses privées refusées, redirections revérifiées, taille et durée bornées. Les secrets des connecteurs sont chiffrés en base.</p></div>
+    <div class="card"><h3>Infrastructure</h3><p class="small">Conteneurs non-root en lecture seule, privilèges retirés, profil « restricted », réseau fermé par défaut, comptes de service minimaux, secrets en coffre-fort, sauvegardes chiffrées, images accompagnées d'une attestation de provenance.</p></div>
+  </div>
+  <div class="card">
+    <h3>En résumé, pour le RSSI</h3>
+    <table class="t" style="font-size:10.4px;margin-top:3px">
+      <thead><tr><th style="width:30%">Exigence</th><th>Réponse</th></tr></thead>
+      <tbody>
+        <tr><td>Authentification forte</td><td>double authentification, obligatoire pour l'exploitant et les administrateurs</td></tr>
+        <tr><td>Contrôle d'accès</td><td>9 rôles, périmètre revérifié côté serveur à chaque action</td></tr>
+        <tr><td>Cloisonnement</td><td>données séparées par territoire, filtrées à chaque requête</td></tr>
+        <tr><td>Traçabilité</td><td>journal d'audit chaîné, inaltérable, vérifiable et exportable</td></tr>
+        <tr><td>Chiffrement</td><td>HTTPS partout (HSTS), secrets chiffrés en base, sauvegardes chiffrées</td></tr>
+        <tr><td>Disponibilité</td><td>3 zones, bascule automatique, restauration à la seconde près</td></tr>
+        <tr><td>Hébergement</td><td>en France, conteneurs durcis, réseau fermé par défaut</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid2" style="grid-template-columns:1.2fr 1fr">
+    <div class="card ink">
+      <h4>Vérifié automatiquement</h4>
+      <ul class="checks" style="font-size:10.6px;line-height:1.45">
+        <li>En-têtes de sécurité et jeton unique des scripts, à chaque version.</li>
+        <li>Espaces protégés inaccessibles sans connexion.</li>
+        <li>Documents privés, exports et métriques refusés sans habilitation.</li>
+        <li>Double authentification (vecteurs officiels), chiffrement, hachage, comparaison en temps constant, injection CSV, protection des appels sortants.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Signaler une faille</h3>
+      <p class="small">Un fichier <code>/.well-known/security.txt</code> indique l'adresse securite@terricom.fr. Les dépendances et les images sont décrites (SBOM), ce qui permet de réagir vite à une vulnérabilité publiée.</p>
+      <p class="small">Avant l'ouverture au public, un test d'intrusion par un tiers est recommandé (voir partie 12).</p>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>08 · Sécurité</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 09 RGPD ═══════════════════════ -->
+<section class="page" id="s09">
+  <div class="head">
+    <div class="eyebrow">09 · Données personnelles (RGPD)</div>
+    <h2>Le minimum de données, <em>pour le temps nécessaire.</em></h2>
+    <p class="lead">Chaque traitement a sa base légale et sa durée de conservation, appliquée chaque nuit par une purge automatique. Les droits des personnes s'exercent en libre-service ou par une demande suivie.</p>
+  </div>
+  <div class="grid2">
+    <div class="card"><h4>Portails des territoires</h4><p class="small">La collectivité est responsable de traitement ; terricom est sous-traitant (article 28), avec une convention annexée au contrat.</p></div>
+    <div class="card"><h4>Comptes, facturation, site</h4><p class="small">Pour les comptes des professionnels et des agents, la facturation des options et le site terricom.fr, terricom est responsable de traitement.</p></div>
+  </div>
+  <table class="t">
+    <thead><tr><th style="width:24%">Traitement</th><th>Base légale</th><th style="width:36%">Conservation</th></tr></thead>
+    <tbody>
+      <tr><td>Fiches des établissements</td><td>mission d'intérêt public, intérêt légitime</td><td>tant que l'établissement est actif ; opposition possible</td></tr>
+      <tr><td>Lettre d'information</td><td>consentement, double confirmation</td><td>30 jours si non confirmée ; 3 ans sans ouverture</td></tr>
+      <tr><td>Messages et formulaires</td><td>consentement</td><td>3 ans</td></tr>
+      <tr><td>Candidatures</td><td>mesures précontractuelles</td><td>2 ans, CV supprimé avec la candidature</td></tr>
+      <tr><td>Rendez-vous</td><td>mesures précontractuelles</td><td>12 mois</td></tr>
+      <tr><td>Passeport des circuits</td><td>exécution du service</td><td>12 mois après la dernière utilisation (jeton anonyme)</td></tr>
+      <tr><td>Mesure d'audience</td><td>intérêt légitime, exemptée de consentement</td><td>13 mois, puis agrégats anonymes ; aucun cookie</td></tr>
+      <tr><td>Revendication</td><td>prévention de la fraude</td><td>justificatif supprimé 12 mois après la décision</td></tr>
+      <tr><td>Journal d'audit, emails</td><td>obligation de sécurité, exécution du service</td><td>12 mois</td></tr>
+    </tbody>
+  </table>
+  <div class="grid3">
+    <div class="card"><h3>Droits des personnes</h3><p class="small">Export JSON et suppression du compte en libre-service. Pour les autres personnes, la demande est suivie dans la console (échéance d'un mois) : export ou effacement de toutes les données liées à l'adresse, chaque étape journalisée.</p></div>
+    <div class="card"><h3>Audience sans cookie</h3><p class="small">Pages vues, provenance et appareil, avec une empreinte quotidienne non réversible : pas de bandeau de consentement à imposer aux visiteurs.</p></div>
+    <div class="card"><h3>Clients des entreprises</h3><p class="small">L'entreprise est responsable de ses contacts, terricom son sous-traitant. Une personne désinscrite ne peut pas être réinscrite par l'entreprise.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="card green" style="display:flex;gap:5mm;align-items:center">
+      <span class="display" style="font-size:38px;color:var(--amber)">72 h</span>
+      <p style="font-size:11px;line-height:1.5">En cas de violation, terricom informe la collectivité sans délai et l'assiste pour la notification à la CNIL.</p>
+    </div>
+    <div class="card"><h4>Sous-traitants ultérieurs</h4><p class="small">Hébergement et stockage en France, envoi d'emails, paiement des options, fournisseur d'IA (sans donnée personnelle d'habitant, désactivable par territoire). Transferts hors UE encadrés par les clauses contractuelles types.</p></div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>09 · Données personnelles</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 10 QUALITÉ ═══════════════════════ -->
+<section class="page spread" id="s10">
+  <div class="head">
+    <div class="eyebrow">10 · Qualité et vérifications</div>
+    <h2>Testé à chaque version, <em>vérifié écran par écran.</em></h2>
+    <p class="lead">Chaque modification passe par la même chaîne de contrôles. Avant la livraison, un robot a parcouru chaque espace avec chaque profil, sur ordinateur et sur mobile.</p>
+  </div>
+  <div class="grid4">
+    <div class="card kpi"><span class="n">57</span><span class="l">tests unitaires : horaires, sécurité, recherche, traductions, flux</span></div>
+    <div class="card kpi"><span class="n">33</span><span class="l">parcours de bout en bout dans un vrai navigateur</span></div>
+    <div class="card kpi"><span class="n">612</span><span class="l">pages parcourues par le robot, sur ordinateur et mobile</span></div>
+    <div class="card kpi green"><span class="n" style="color:var(--amber)">0</span><span class="l">anomalie restante à la livraison</span></div>
+  </div>
+  <div>
+    <h4>La chaîne d'intégration continue</h4>
+    <div class="chain small">
+      <div class="node"><b>Types</b><span>TypeScript strict</span></div><span class="to">→</span>
+      <div class="node"><b>Lint</b><span>règles React et Next.js</span></div><span class="to">→</span>
+      <div class="node"><b>Format</b><span>Prettier</span></div><span class="to">→</span>
+      <div class="node"><b>Unitaires</b><span>Vitest</span></div><span class="to">→</span>
+      <div class="node"><b>Compilation</b><span>production</span></div><span class="to">→</span>
+      <div class="node"><b>Parcours</b><span>Playwright, base réelle</span></div><span class="to">→</span>
+      <div class="node hl"><b>Images</b><span>SBOM, provenance</span></div>
+    </div>
+  </div>
+  <div class="grid2" style="grid-template-columns:1fr 1fr">
+    <div class="card">
+      <h3>Le parcours automatique</h3>
+      <table class="t" style="font-size:10.2px;margin-top:4px">
+        <thead><tr><th>Espace</th><th class="c">Ordinateur</th><th class="c">Mobile</th></tr></thead>
+        <tbody>
+          <tr><td>Visiteur (portail et site)</td><td class="c">180</td><td class="c">45</td></tr>
+          <tr><td>Professionnel · Essentiel</td><td class="c">39</td><td class="c">—</td></tr>
+          <tr><td>Professionnel · Communication</td><td class="c">43</td><td class="c">43</td></tr>
+          <tr><td>Intercommunalité</td><td class="c">80</td><td class="c">45</td></tr>
+          <tr><td>Mairie</td><td class="c">60</td><td class="c">—</td></tr>
+          <tr><td>Console</td><td class="c">47</td><td class="c">30</td></tr>
+        </tbody>
+      </table>
+      <p class="small" style="margin-top:5px">Contrôlés sur chaque page : statut, erreurs JavaScript et console, ressources en échec, textes suspects, débordement horizontal, identifiants en double.</p>
+    </div>
+    <div class="card">
+      <h3>Ce que couvrent les parcours</h3>
+      <ul class="dots small" style="color:var(--text2)">
+        <li>Accueil, recherche, carte, filtres avancés, fiche prête pour Google</li>
+        <li>Mini-site, pages et formulaires ; limites de l'offre Essentiel</li>
+        <li>Tableaux de bord pro, collectivité, mairie et console</li>
+        <li>Revendication, demande de démonstration, pages légales</li>
+        <li>API publique (clé créée, utilisée, révoquée), OpenAPI</li>
+        <li>Langues, marque blanche, application installable</li>
+        <li>Flux iCal et RSS, agenda externe, connecteur</li>
+        <li>En-têtes de sécurité, accès refusés, sondes de santé</li>
+        <li>Mobile sans défilement horizontal</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Une méthode, à chaque lot</h3>
+    <div class="chain small" style="margin-top:2mm">
+      <div class="node"><b>Développer</b><span>au plus près des maquettes</span></div><span class="to">→</span>
+      <div class="node"><b>Contrôler</b><span>types, lint, tests</span></div><span class="to">→</span>
+      <div class="node"><b>Parcourir</b><span>chaque espace, chaque profil</span></div><span class="to">→</span>
+      <div class="node"><b>Documenter</b><span>journal, liste des tâches, guides</span></div><span class="to">→</span>
+      <div class="node hl"><b>Livrer</b><span>version enregistrée et publiée</span></div>
+    </div>
+  </div>
+  <div class="card sand">
+    <h4>Vérifié aussi sur la compilation de production</h4>
+    <p class="small">Lecture hors connexion de l'application installable, tâches de fond (synchronisation d'un agenda externe), bascule de la marque blanche, jeu de démonstration réinitialisé. Les écrans de ce dossier sont des captures de cette compilation.</p>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>10 · Qualité</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 11 DÉMONSTRATION ═══════════════════════ -->
+<section class="page" id="s11">
+  <div class="head">
+    <div class="eyebrow">11 · Démonstration et mise en route</div>
+    <h2>Le Val de Loue, <em>territoire pilote.</em></h2>
+    <p class="lead">Le jeu de démonstration reproduit un territoire réaliste, pour présenter chaque espace avec des données crédibles. Le site de la marque présente l'offre aux collectivités et aux professionnels.</p>
+  </div>
+  <div class="shot"><div class="bar"><i></i><i></i><i></i><span>terricom.fr</span></div><img src="captures/m-site.jpg" alt=""></div>
+  <div class="grid4">
+    <div class="card kpi"><span class="n">813</span><span class="l">fiches dans le Val de Loue, 24 communes</span></div>
+    <div class="card kpi"><span class="n">1 383</span><span class="l">établissements sur 6 territoires</span></div>
+    <div class="card kpi"><span class="n">5 425</span><span class="l">abonnés confirmés aux lettres des territoires</span></div>
+    <div class="card kpi"><span class="n">4 h 30</span><span class="l">remise à zéro chaque nuit de l'instance de démonstration</span></div>
+  </div>
+  <div class="grid2" style="grid-template-columns:1.25fr 1fr">
+    <div class="card">
+      <h3>Comptes de démonstration</h3>
+      <table class="t" style="font-size:10.2px;margin-top:4px">
+        <tbody>
+          <tr><td style="width:44%">Super administrateur</td><td><code>camille@terricom.fr</code></td></tr>
+          <tr><td>Admin territoriale</td><td><code>c.duval@cc-valdeloue.fr</code></td></tr>
+          <tr><td>Chargé de communication</td><td><code>t.girod@cc-valdeloue.fr</code></td></tr>
+          <tr><td>Admin communale (Ornans)</td><td><code>commerce@ornans.fr</code></td></tr>
+          <tr><td>Boulangerie · Essentiel</td><td><code>sophie@boulangerie-martin.fr</code></td></tr>
+          <tr><td>Caviste · Communication</td><td><code>julie@cave-comtoise.fr</code></td></tr>
+        </tbody>
+      </table>
+      <p class="small" style="margin-top:5px">Mot de passe et code de double authentification : voir le fichier README du projet. En mode démonstration, une barre permet d'entrer dans chaque espace sans mot de passe.</p>
+    </div>
+    <div class="card">
+      <h3>Ouvrir un territoire</h3>
+      <ol class="small" style="margin:4px 0 0;padding-left:15px;color:var(--text2);line-height:1.5">
+        <li>Création dans la console : communes, contrat, modules.</li>
+        <li>Import SIRENE : toutes les fiches précréées.</li>
+        <li>Personnalisation : couleurs, logo, accueil, domaine.</li>
+        <li>Invitations des professionnels, par email ou courrier.</li>
+        <li>Lancement avec une campagne et la première lettre.</li>
+        <li>Suivi de l'adoption et des statistiques.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>11 · Démonstration</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ 12 LIMITES ET SUITE ═══════════════════════ -->
+<section class="page spread" id="s12">
+  <div class="head">
+    <div class="eyebrow">12 · Limites connues et suite</div>
+    <h2>Ce qui reste à brancher, <em>et la suite.</em></h2>
+    <p class="lead">Le code couvre tout le cahier des charges. Le passage en production demande surtout de raccorder les services externes et de faire valider la plateforme par des tiers.</p>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h3>Pour la mise en production</h3>
+      <ul class="checks small" style="color:var(--text2)">
+        <li>Provisionner le cluster en France (3 zones), le stockage objet et le coffre-fort des secrets.</li>
+        <li>Renseigner les services : envoi d'emails, clé d'IA, paiement, passerelle SMS, clés des notifications.</li>
+        <li>Configurer les DNS : terricom.fr, *.terricom.fr, portails.terricom.fr.</li>
+        <li>Faire réaliser un audit d'accessibilité RGAA et un test d'intrusion.</li>
+        <li>Mener un test de charge et un premier test de restauration.</li>
+        <li>Signer la convention de sous-traitance (RGPD) avec la collectivité pilote.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Limites connues</h3>
+      <ul class="dots small" style="color:var(--text2)">
+        <li>Dans l'environnement de développement, les fonds de carte, les photos externes, les API publiques et l'IA sont bloqués : les captures montrent les visuels de repli. Tout fonctionne en production.</li>
+        <li>Les photos de démonstration sont des adresses externes ; en production, les photos sont déposées par les professionnels.</li>
+        <li>Les publications, événements et offres d'emploi restent dans la langue de leur auteur ; les espaces privés sont en français.</li>
+        <li>Les pages légales restent en français, qui fait foi.</li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    <h4>Pistes après le pilote</h4>
+    <div class="grid3">
+      <div class="card"><span class="tag">Langues</span><h3 style="margin-top:5px">Plus de contenus traduits</h3><p class="small">Traduire publications, événements et offres d'emploi ; ajouter l'espagnol, l'italien, le néerlandais (déjà gérés par l'IA) ; lettre dans la langue de l'abonné.</p></div>
+      <div class="card"><span class="tag amber">Connecteurs</span><h3 style="margin-top:5px">Connecteurs natifs</h3><p class="small">Mise à jour directe de la fiche Google et publication sur Meta, en complément du connecteur générique signé.</p></div>
+      <div class="card"><span class="tag lilac">Revenus</span><h3 style="margin-top:5px">Cartes cadeaux territoriales</h3><p class="small">Revenu « à terme » prévu au cahier des charges ; place de marché seulement si le pilote l'exprime.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Mise en service d'un territoire : un calendrier type</h3>
+    <div class="chain small" style="margin-top:2mm">
+      <div class="node"><b>Semaine 1</b><span>contrat, création du territoire, domaine</span></div><span class="to">→</span>
+      <div class="node"><b>Semaine 2</b><span>import SIRENE, catégories, personnalisation</span></div><span class="to">→</span>
+      <div class="node"><b>Semaine 3</b><span>formation des agents et des mairies</span></div><span class="to">→</span>
+      <div class="node"><b>Semaine 4</b><span>invitations des professionnels</span></div><span class="to">→</span>
+      <div class="node hl"><b>Lancement</b><span>campagne et première lettre</span></div>
+    </div>
+    <p class="small" style="margin-top:2mm">Proposition indicative, à ajuster avec la collectivité pilote. La mise en service est facturée de 2 000 à 8 000 € HT selon le périmètre.</p>
+  </div>
+  <div class="card ink">
+    <h4>Documentation livrée avec le code</h4>
+    <p style="font-size:10.8px;line-height:1.55">README (démarrage, comptes, scripts) · fonctionnalités par espace et par offre · architecture · API publique · déploiement · exploitation · sécurité · RGPD et registre des traitements · guide de développement · journal des lots et des décisions · liste des tâches.</p>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>12 · Limites et suite</span><span class="num"></span></div>
+</section>
+
+<!-- ═══════════════════════ QUATRIÈME DE COUVERTURE ═══════════════════════ -->
+<section class="page dark back">
+  <div class="blob"></div>
+  <div class="blob2"></div>
+  <div class="cover-top"><span>terricom.fr</span><span>Dossier de réalisation · septembre 2026</span></div>
+  <div style="position:relative;display:flex;flex-direction:column;gap:8mm">
+    <div class="logo-xl"><span class="mark"><span>t</span></span><span class="wm">terricom<i>.</i></span></div>
+    <p class="big-quote" style="font-size:40px;color:var(--cream)">Sérieux sur le fond,<br><span style="color:var(--amber)">souriant sur la forme.</span></p>
+    <p class="cover-lead">Une fiche référencée pour chaque commerce, artisan et producteur, offerte par la collectivité. Un portail pour chaque territoire. Des outils simples pour que chacun anime son économie locale.</p>
+    <div class="cover-levels" style="margin-top:2mm">
+      <span><b>·</b>Local</span><span><b>·</b>Utile</span><span><b>·</b>Partagé</span><span><b>·</b>Vivant</span>
+    </div>
+  </div>
+  <div class="cover-bottom">
+    <p style="font-size:10.5px;color:var(--sage);line-height:1.6;max-width:110mm;position:relative">Les écrans reproduits sont des captures de la version livrée, avec le jeu de démonstration du Val de Loue. Les noms de personnes et d'entreprises de démonstration sont fictifs.</p>
+    <span class="stamp" style="font-size:15px;padding:8px 14px;transform:rotate(4deg)">Le territoire, en vitrine.</span>
+  </div>
+</section>
+
+<script>
+(() => {
+  // Typographie française : espaces insécables, apostrophes courbes, points de suspension.
+  // Espace insécable (U+00A0) : les polices de la charte n'ont pas d'espace fine visible.
+  const NNBSP = '\u00A0';
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: (n) => (n.parentElement.closest('code, pre, script, style, .mono, .spec') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
+  });
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  for (const n of nodes) {
+    let t = n.nodeValue;
+    t = t.replace(/'/g, '’').replace(/\.\.\./g, '…');
+    t = t.replace(/ ([;!?])/g, NNBSP + '$1').replace(/ ([:»])/g, '\u00A0$1').replace(/« /g, '«\u00A0');
+    t = t.replace(/(\d) (%|€|h\b|min\b|mm\b|Mo\b|ko\b|j\b|s\b|mois\b|ans?\b|jours\b|octets\b)/g, '$1' + NNBSP + '$2');
+    t = t.replace(/(\d) (\d{3})\b/g, '$1' + NNBSP + '$2').replace(/(\d\u00A0h) (\d)/g, '$1' + NNBSP + '$2');
+    t = t.replace(/ — /g, ' — ');
+    n.nodeValue = t;
+  }
+
+  // Numéros de page, sommaire, contrôle des débordements.
+  const pages = [...document.querySelectorAll('.page')];
+  const total = pages.length;
+  pages.forEach((p, i) => {
+    const num = p.querySelector('.foot .num');
+    if (num) num.textContent = `${String(i + 1).padStart(2, '0')} / ${total}`;
+  });
+  for (const a of document.querySelectorAll('.toc a[data-target]')) {
+    const target = document.getElementById(a.dataset.target);
+    const idx = pages.indexOf(target?.closest('.page'));
+    a.querySelector('.p').textContent = idx >= 0 ? String(idx + 1).padStart(2, '0') : '??';
+  }
+  // Mesure (appelée après le chargement des polices) : place libre en bas de chaque page, débordements latéraux.
+  window.__measure = () => {
+    const mm = 96 / 25.4;
+    return pages.map((p, i) => {
+      const box = p.getBoundingClientRect();
+      const cs = getComputedStyle(p);
+      const limitBottom = box.bottom - parseFloat(cs.paddingBottom);
+      const limitRight = box.right - parseFloat(cs.paddingRight);
+      const limitLeft = box.left + parseFloat(cs.paddingLeft);
+      let bottom = 0;
+      for (const c of p.children) {
+        const pos = getComputedStyle(c).position;
+        if (pos === 'absolute' || pos === 'fixed') continue;
+        bottom = Math.max(bottom, c.getBoundingClientRect().bottom);
+      }
+      const wide = [];
+      if (!p.classList.contains('dark')) {
+        for (const el of p.querySelectorAll('*')) {
+          if (el.closest('.foot, .blob, .blob2, .badge')) continue;
+          const r = el.getBoundingClientRect();
+          if (r.width && (r.right > limitRight + 2 || r.left < limitLeft - 2)) {
+            wide.push(`${el.tagName.toLowerCase()}.${el.className} « ${(el.textContent || '').trim().slice(0, 40)} »`);
+          }
+        }
+      }
+      return { page: i + 1, free: Math.round(((limitBottom - bottom) / mm) * 10) / 10, wide: wide.slice(0, 5) };
+    });
+  };
+  window.__dossier = { total };
+})();
+</script>
+</body>
+</html>

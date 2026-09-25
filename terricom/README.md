@@ -55,7 +55,7 @@ Comptes (mot de passe `Terricom2026!`, code de double authentification : secret 
 
 | Commande                          | Rôle                                                           |
 | --------------------------------- | -------------------------------------------------------------- |
-| `npm run dev` / `build` / `start` | Application Next.js                                            |
+| `npm run dev` / `build` / `start` | Application Next.js (`start` : serveur autonome de production) |
 | `npm run worker`                  | File de tâches et tâches planifiées                            |
 | `npm run db:generate`             | Nouvelle migration depuis le schéma Drizzle                    |
 | `npm run db:migrate`              | Applique les migrations (verrou consultatif, sûr en parallèle) |
@@ -64,6 +64,7 @@ Comptes (mot de passe `Terricom2026!`, code de double authentification : secret 
 | `npm run check`                   | Formate les fichiers modifiés, types, lint, tests unitaires    |
 | `npm test`                        | Tests unitaires (Vitest)                                       |
 | `npm run test:e2e`                | Parcours de bout en bout (Playwright, serveur lancé)           |
+| `npm run dossier`                 | Dossier de réalisation en PDF (`docs/dossier`)                 |
 
 ## Pile technique
 
@@ -98,6 +99,8 @@ tests/            unit (Vitest), e2e (Playwright)
 - [Exploitation (supervision, sauvegardes, incidents)](docs/exploitation.md)
 - [Sécurité](docs/securite.md)
 - [RGPD et registre des traitements](docs/rgpd.md)
+- [Dossier de réalisation (PDF, 30 pages à la charte)](docs/dossier/terricom-dossier-de-realisation.pdf) : le projet
+  expliqué à chaque niveau (design, ergonomie, fonctionnalités, IA, technique, hébergement, sécurité, RGPD, qualité)
 
 ## Configuration
 

@@ -32,6 +32,7 @@ tests/unit, tests/e2e    Vitest, Playwright
 | `npm run db:reset`                                                    | Base neuve + migrations + jeu Val de Loue (≈ 15 s)                                |
 | `npx tsc --noEmit -p .` · `npx eslint src` · `npx prettier --check .` | Contrôles avant chaque commit                                                     |
 | `npx vitest run` · `npx playwright test`                              | Tests unitaires · parcours (serveur lancé)                                        |
+| `npm run dossier` (`-- --apercus <dossier>`)                          | Dossier de réalisation en PDF, pages contrôlées (aperçus PNG en option)           |
 
 ## Base de données
 
@@ -85,21 +86,23 @@ nouvelle option s’ajoute aussi à la console (`src/app/console/facturation/`) 
 
 ## Pièges rencontrés (à ne pas reproduire)
 
-| Symptôme                                                                  | Cause                                                                          | Correctif                                                                                           |
-| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
-| Boucle de réécriture en production                                        | `HOSTNAME` défini sur une adresse IP : Next considère la requête comme externe | Écouter sur `0.0.0.0` (manifestes, compose) ; avertissement au démarrage (`src/instrumentation.ts`) |
-| Erreur d’hydratation sur la page des catégories                           | `formAction` + `name` sur des boutons dans `ActionForm`                        | Formulaires externes et attribut `form=`                                                            |
-| Page en erreur 500 « Functions are not valid as a child »                 | Fonction passée comme enfant d’`ActionForm` depuis un composant serveur        | Enfants simples + `SubmitButton`                                                                    |
-| Menu du site de la marque modifié                                         | Classe `.site-nav` réutilisée                                                  | Préfixe `.est-nav`                                                                                  |
-| Nom accessible d’un champ trop long (le lecteur d’écran lit toute l’aide) | `<small>` d’aide placé dans le `<label>`                                       | `<small>` hors du label, relié par `aria-describedby`                                               |
-| Tableau des sections partagé modifié                                      | `push()` sur une constante exportée                                            | `visibleSections()` renvoie une copie                                                               |
-| `next start` renvoie 404 partout                                          | Sortie `standalone` : `next start` n’est pas le bon serveur                    | `node .next/standalone/server.js` (copier `.next/static` et `public`, voir Dockerfile)              |
-| Toutes les pages en 404 sur un autre port que 3000                        | Hôte absent de `PLATFORM_HOSTS` : traité comme domaine de territoire           | `PLATFORM_HOSTS=localhost:3100,…` pour tester sur un autre port                                     |
-| Test hors-ligne faussé                                                    | L’émulation hors-ligne de Playwright n’affecte pas le service worker           | Arrêter réellement le serveur (`scripts/dev/offline.mjs`, `SERVER_PID`)                             |
-| Serveur de développement saturé après une longue session                  | Mémoire de Turbopack en développement                                          | Relancer avec `NODE_OPTIONS=--max-old-space-size=4096`                                              |
-| Échec d’hydratation du portail traduit                                    | `<script nonce>` en ligne dans un composant (le navigateur masque le `nonce`)  | Composant client `HtmlLang` (effet) plutôt qu’un script en ligne                                    |
-| Règle ESLint `react-hooks/immutability` sur `document.cookie`             | Écriture d’une valeur globale dans le corps d’un composant                     | Fonction de module appelée par le gestionnaire (`switchTo`)                                         |
-| Action serveur en ligne qui échoue à la sérialisation                     | Fonction (traducteur `tr`) capturée par la fermeture                           | Ne capturer que des valeurs simples (`langParam`)                                                   |
+| Symptôme                                                                  | Cause                                                                            | Correctif                                                                                           |
+| ------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Boucle de réécriture en production                                        | `HOSTNAME` défini sur une adresse IP : Next considère la requête comme externe   | Écouter sur `0.0.0.0` (manifestes, compose) ; avertissement au démarrage (`src/instrumentation.ts`) |
+| Erreur d’hydratation sur la page des catégories                           | `formAction` + `name` sur des boutons dans `ActionForm`                          | Formulaires externes et attribut `form=`                                                            |
+| Page en erreur 500 « Functions are not valid as a child »                 | Fonction passée comme enfant d’`ActionForm` depuis un composant serveur          | Enfants simples + `SubmitButton`                                                                    |
+| Menu du site de la marque modifié                                         | Classe `.site-nav` réutilisée                                                    | Préfixe `.est-nav`                                                                                  |
+| Nom accessible d’un champ trop long (le lecteur d’écran lit toute l’aide) | `<small>` d’aide placé dans le `<label>`                                         | `<small>` hors du label, relié par `aria-describedby`                                               |
+| Tableau des sections partagé modifié                                      | `push()` sur une constante exportée                                              | `visibleSections()` renvoie une copie                                                               |
+| `next start` renvoie 404 partout                                          | Sortie `standalone` : `next start` n’est pas le bon serveur                      | `npm start` lance `scripts/start.sh` (serveur autonome, fichiers statiques copiés)                  |
+| Toutes les pages en 404 sur un autre port que 3000                        | Hôte absent de `PLATFORM_HOSTS` : traité comme domaine de territoire             | `PLATFORM_HOSTS=localhost:3100,…` pour tester sur un autre port                                     |
+| Test hors-ligne faussé                                                    | L’émulation hors-ligne de Playwright n’affecte pas le service worker             | Arrêter réellement le serveur (`scripts/dev/offline.mjs`, `SERVER_PID`)                             |
+| Serveur de développement saturé après une longue session                  | Mémoire de Turbopack en développement                                            | Relancer avec `NODE_OPTIONS=--max-old-space-size=4096`                                              |
+| Échec d’hydratation du portail traduit                                    | `<script nonce>` en ligne dans un composant (le navigateur masque le `nonce`)    | Composant client `HtmlLang` (effet) plutôt qu’un script en ligne                                    |
+| Règle ESLint `react-hooks/immutability` sur `document.cookie`             | Écriture d’une valeur globale dans le corps d’un composant                       | Fonction de module appelée par le gestionnaire (`switchTo`)                                         |
+| Action serveur en ligne qui échoue à la sérialisation                     | Fonction (traducteur `tr`) capturée par la fermeture                             | Ne capturer que des valeurs simples (`langParam`)                                                   |
+| Bande vide en bas des espaces privés hors démonstration                   | Hauteur de la barre de démonstration (44 px) retirée même quand elle est absente | `calc(100vh - var(--demo-bar-h))` : 44 px seulement si `.demo-bar` est affichée                     |
+| Espaces fines invisibles dans le dossier PDF                              | Les polices de la charte n’affichent pas l’espace fine (U+202F)                  | Espace insécable ordinaire (U+00A0) dans `docs/dossier/dossier.html`                                |
 
 ## Application installable (PWA) et notifications
 
@@ -149,6 +152,16 @@ nouvelle option s’ajoute aussi à la console (`src/app/console/facturation/`) 
 - Outils de vérification dans `scripts/dev/` (non versionnés) : `crawl.mjs` parcourt un espace et signale
   erreurs, textes suspects, débordements, défauts d’accessibilité (`SPACE=anon|pro|pro-communication|
 collectivite|commune|console`, `MOBILE=1`, `EXTRA=chemins`).
+
+## Dossier de réalisation (PDF)
+
+- Source : `docs/dossier/dossier.html`, page HTML à la charte (polices de `node_modules/@fontsource-variable`,
+  captures dans `docs/dossier/captures`). Chaque page A4 est une `<section class="page">` ; `spread` répartit
+  l’espace libre, `push` envoie un bloc en bas de page.
+- `npm run dossier` produit `docs/dossier/terricom-dossier-de-realisation.pdf` et refuse de le faire si un bloc
+  dépasse de sa page (place libre affichée page par page). `-- --apercus <dossier>` enregistre un PNG par page.
+- Captures : compilation de production lancée en mode démonstration sur un port libre (par exemple
+  `PLATFORM_HOSTS=localhost:3100 PORT=3100`), puis `node scripts/dossier-captures.mjs http://localhost:3100`.
 
 ## Environnement de développement (bac à sable)
 
