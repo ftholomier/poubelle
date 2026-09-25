@@ -25,6 +25,7 @@ import {
 import { isValidSiret, lookupSiret, type SireneEstablishment } from '../integrations/public-data';
 import { sendEmail } from '../mail/send';
 import { claimApprovedTemplate, claimNeedsInfoTemplate, claimRejectedTemplate, claimSubmittedTemplate } from '../mail/templates';
+import { notifyTerritoryStaff } from '../push';
 import { isMobileNumber, maskPhone, sendSms, smsAvailable } from '../sms';
 import { appUrl } from '../urls';
 import { refreshCompleteness } from './establishments';
@@ -450,6 +451,16 @@ export async function submitClaim(input: {
     }),
     territoryId: t.est.territoryId,
   });
+  await notifyTerritoryStaff(
+    t.est.territoryId,
+    {
+      title: 'Revendication à valider',
+      body: `${t.est.name} (${t.commune.name}) : demande de ${input.user.firstName}.`,
+      url: '/collectivite/moderation',
+      tag: 'claims',
+    },
+    t.est.communeId,
+  );
   return { claimId: claim.id, demoCode: code, approved: false };
 }
 

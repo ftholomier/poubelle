@@ -1,15 +1,18 @@
 import { redirect } from 'next/navigation';
 import { updateProfileAction } from './actions';
 import { ActionForm } from '@/components/pro/ActionForm';
+import { PushSettings } from '@/components/pwa/PushSettings';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import { STAFF_ROLES } from '@/lib/constants';
 import { fmtLongDate } from '@/lib/format';
 import { getActor } from '@/server/authz';
+import { userSubscriptionCount, vapidPublicKey } from '@/server/push';
 
 export default async function ProfilePage() {
   const actor = await getActor();
   if (!actor) redirect('/connexion?next=/compte');
   const u = actor.user;
+  const devices = await userSubscriptionCount(u.id);
   return (
     <div className="app-content" style={{ maxWidth: 820 }}>
       <section
@@ -62,6 +65,22 @@ export default async function ProfilePage() {
             Enregistrer
           </SubmitButton>
         </ActionForm>
+      </section>
+      <section
+        id="notifications"
+        className="card"
+        style={{ borderRadius: 20, padding: 24, marginTop: 16, display: 'flex', flexDirection: 'column', gap: 12, scrollMarginTop: 90 }}
+        aria-labelledby="notif-title"
+      >
+        <div>
+          <h2 id="notif-title" className="display" style={{ fontSize: 22, margin: 0 }}>
+            Notifications et application
+          </h2>
+          <p style={{ margin: '4px 0 0', color: 'var(--muted)', fontSize: 14 }}>
+            Soyez prévenu·e sur ce téléphone ou cet ordinateur : nouveaux messages, demandes de rendez-vous, candidatures, revendications à valider.
+          </p>
+        </div>
+        <PushSettings vapidKey={vapidPublicKey()} devices={devices} />
       </section>
       <section
         className="card"

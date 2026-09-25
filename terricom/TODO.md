@@ -19,20 +19,21 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
 - [x] Offres Premium et Communication : clients abonnés, lettres aux clients, formulaires, pages supplémentaires, mini-site
 - [x] Marque blanche (option par territoire)
 - [x] Indicateurs de la console : panier moyen, entreprises actives, vues des campagnes, coût d’exploitation, marge
-- [x] API publique v1 (clés, limitation, OpenAPI, page « API & données »)
+- [x] API publique v1 (clés, limitation, OpenAPI, page « API & données ») et tests e2e
+- [x] Notifications push : abonnements par appareil, déclencheurs (messages, formulaires, rendez-vous,
+      candidatures, revendications), page « Mon compte », invitation dans la messagerie pro
+- [x] PWA : manifeste par portail et pour l’espace pro, icônes générées, service worker (hors-ligne des pages
+      publiques, jamais des espaces privés), page hors-ligne, installation
 
 ## En cours
 
-- [ ] Notifications push (Web Push) : service, file `push.send` et migration faits ; reste l’interface
-      d’abonnement, les déclencheurs (messages, rendez-vous, candidatures, revendications) et les tests
-- [ ] PWA : manifeste par territoire, icônes générées, service worker (hors-ligne, pages publiques seulement),
-      installation
 - [ ] Portail multilingue (module `MULTILINGUAL`) : interface en anglais, traductions des fiches par l’IA,
       sélecteur de langue, `hreflang`
 
 ## À faire ensuite
 
-- [ ] Tests e2e de l’API publique et de la marque blanche
+- [ ] Test e2e de la marque blanche
+- [ ] Vérifier le hors-ligne sur une compilation de production (`npm run build && npm start`)
 - [ ] Contrôles finaux : `next build`, tests complets, parcours de tous les espaces, `db:reset`
 - [ ] Documentation finale (README, architecture) et rapport de livraison
 

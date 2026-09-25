@@ -1,4 +1,4 @@
-import { and, eq, inArray, sql } from 'drizzle-orm';
+import { and, eq, inArray, or, sql } from 'drizzle-orm';
 import webpush from 'web-push';
 import { db } from './db';
 import { companyMembers, pushSubscriptions, roleAssignments } from './db/schema';
@@ -107,13 +107,18 @@ export async function notifyCompany(companyId: string, payload: PushPayload): Pr
   );
 }
 
-/** Équipe du territoire (administrateurs et éditeurs), pour les tâches de validation. */
-export async function notifyTerritoryStaff(territoryId: string, payload: PushPayload): Promise<void> {
+/** Équipe du territoire (administrateurs et éditeurs) et, si précisé, agents de la commune concernée. */
+export async function notifyTerritoryStaff(territoryId: string, payload: PushPayload, communeId?: string | null): Promise<void> {
   if (!pushConfigured()) return;
   const rows = await db
     .select({ userId: roleAssignments.userId })
     .from(roleAssignments)
-    .where(and(eq(roleAssignments.territoryId, territoryId), inArray(roleAssignments.role, ['TERRITORY_ADMIN', 'TERRITORY_EDITOR'])));
+    .where(
+      or(
+        and(eq(roleAssignments.territoryId, territoryId), inArray(roleAssignments.role, ['TERRITORY_ADMIN', 'TERRITORY_EDITOR'])),
+        communeId ? and(eq(roleAssignments.communeId, communeId), inArray(roleAssignments.role, ['COMMUNE_ADMIN', 'COMMUNE_EDITOR'])) : undefined,
+      ),
+    );
   await notifyUsers(
     rows.map((r) => r.userId),
     payload,

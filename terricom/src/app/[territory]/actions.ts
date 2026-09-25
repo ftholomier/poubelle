@@ -28,6 +28,7 @@ import {
 import { env } from '@/server/env';
 import { sendEmail } from '@/server/mail/send';
 import { ensureVisitorPassport, stampPassport } from '@/server/services/circuits';
+import { notifyCompany } from '@/server/push';
 import { requestFollow } from '@/server/services/customers';
 import { getTerritoryCommunes } from '@/server/services/territories';
 import {
@@ -202,6 +203,12 @@ export async function sendContactMessage(_prev: FormState, form: FormData): Prom
       territoryId: est.territoryId,
     });
   }
+  await notifyCompany(est.companyId, {
+    title: `Nouveau message pour ${est.name}`,
+    body: `${d.name} : ${d.body.slice(0, 120)}`,
+    url: `/pro/${est.id}/messages`,
+    tag: `messages-${est.id}`,
+  });
   await track({
     type: 'CONTACT_SENT',
     territoryId: est.territoryId,
@@ -268,6 +275,12 @@ export async function applyToJob(_prev: FormState, form: FormData): Promise<Form
     });
   }
   await sendEmail({ ...applicationAckTemplate({ to: d.email, jobTitle: job.job.title, companyName: job.est.name }), territoryId: job.est.territoryId });
+  await notifyCompany(job.est.companyId, {
+    title: `Nouvelle candidature : ${job.job.title}`,
+    body: `${d.fullName} a postulé.`,
+    url: `/pro/${job.est.id}/emploi`,
+    tag: `emploi-${job.est.id}`,
+  });
   const info = await requestInfo();
   await track({ type: 'JOB_APPLY', territoryId: job.est.territoryId, establishmentId: job.est.id, refId: job.job.id, userAgent: info.userAgent, ip: info.ip });
   return { status: 'ok', message: `${job.est.name} a bien reçu votre candidature. Réponse en moyenne sous 5 jours.` };
@@ -318,6 +331,12 @@ export async function requestAppointment(_prev: FormState, form: FormData): Prom
       territoryId: est.territoryId,
     });
   }
+  await notifyCompany(est.companyId, {
+    title: 'Nouvelle demande de rendez-vous',
+    body: `${d.fullName}, ${when}${d.service ? ` · ${d.service}` : ''}`,
+    url: `/pro/${est.id}/rendez-vous`,
+    tag: `rdv-${est.id}`,
+  });
   const info = await requestInfo();
   await track({ type: 'APPOINTMENT_REQUEST', territoryId: est.territoryId, establishmentId: est.id, userAgent: info.userAgent, ip: info.ip });
   return { status: 'ok', message: `Demande envoyée à ${est.name} pour le ${when}. Vous recevrez une confirmation par email.` };
@@ -458,6 +477,12 @@ export async function submitCustomForm(_prev: FormState, form: FormData): Promis
     });
     await sendEmail({ ...mail, subject: `${f.title} : nouvelle demande de ${d.name}`, template: 'custom-form', territoryId: est.territoryId });
   }
+  await notifyCompany(est.companyId, {
+    title: `${f.title} : nouvelle demande`,
+    body: `${d.name} a rempli le formulaire.`,
+    url: `/pro/${est.id}/messages`,
+    tag: `messages-${est.id}`,
+  });
   await track({
     type: 'CONTACT_SENT',
     territoryId: est.territoryId,

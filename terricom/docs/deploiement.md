@@ -67,7 +67,9 @@ https:// {
 `DATABASE_URL`, `SESSION_SECRET`, `DATA_ENCRYPTION_KEY` (32 octets base64), `ANALYTICS_SALT`,
 `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_PUBLIC_URL`, `SMTP_URL`,
 `ANTHROPIC_API_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `METRICS_TOKEN`,
-`SMS_WEBHOOK_URL`, `SMS_WEBHOOK_TOKEN`, et en option `SOCIAL_WEBHOOK_URL`, `SOCIAL_WEBHOOK_SECRET`.
+`SMS_WEBHOOK_URL`, `SMS_WEBHOOK_TOKEN`, `VAPID_PUBLIC_KEY` et `VAPID_PRIVATE_KEY` (notifications push, générées
+une fois avec `npx web-push generate-vapid-keys` : les changer invalide les abonnements existants), et en option
+`SOCIAL_WEBHOOK_URL`, `SOCIAL_WEBHOOK_SECRET`.
 Les valeurs d’exemple de `.env.example` sont signalées dans la console (« Secrets en coffre-fort »).
 
 ### Mise en place

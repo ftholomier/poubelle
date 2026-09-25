@@ -1,5 +1,5 @@
 import '@/components/portal/portal.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import type { CSSProperties, ReactNode } from 'react';
 import { DemoBar } from '@/components/DemoBar';
 import { PageViewTracker } from '@/components/portal/PageViewTracker';
@@ -14,12 +14,25 @@ type Props = { children: ReactNode; params: Promise<{ territory: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { territory: param } = await params;
   const { territory: t } = await getPortal(param);
+  const { base } = await getPortal(param);
+  // Application installable propre au portail (sur son domaine, ou sous /<territoire>).
+  const q = base ? `?territoire=${t.slug}` : '';
   return {
     title: { default: `${t.name} — ${t.tagline}`, template: `%s · ${t.name}` },
     description: t.heroSubtitle ?? `Commerces, artisans et producteurs de ${t.name}.`,
     openGraph: { siteName: t.name, locale: 'fr_FR', type: 'website', url: portalUrl(t, '/') },
     alternates: { canonical: portalUrl(t, '/') },
+    applicationName: t.name,
+    manifest: `/manifest.webmanifest${q}`,
+    appleWebApp: { capable: true, title: t.name, statusBarStyle: 'default' },
+    icons: { apple: `/api/pwa/icon?size=180${base ? `&t=${t.slug}` : ''}` },
   };
+}
+
+export async function generateViewport({ params }: Props): Promise<Viewport> {
+  const { territory: param } = await params;
+  const { territory: t } = await getPortal(param);
+  return { themeColor: t.colorPrimary };
 }
 
 export default async function PortalLayout({ children, params }: Props) {

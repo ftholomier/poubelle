@@ -20,7 +20,9 @@ export default async function ProHome({ searchParams }: Props) {
   const actor = await getActor();
   if (actor && (!actor.user.mfaEnabled || actor.session.mfaVerified)) {
     const list = await managedEstablishments(actor.user.id);
-    if (list.length === 1 && !sp.choisir) redirect(`/pro/${list[0].id}`);
+    // Raccourcis de l'application installée (?vers=messages…) : rubrique de l'établissement unique.
+    const section = ['messages', 'publications', 'statistiques', 'fiche', 'rendez-vous', 'clients'].includes(sp.vers ?? '') ? `/${sp.vers}` : '';
+    if (list.length === 1 && !sp.choisir) redirect(`/pro/${list[0].id}${section}`);
     if (list.length > 1) {
       return (
         <main className="container" style={{ paddingTop: 50, paddingBottom: 70, maxWidth: 820 }}>

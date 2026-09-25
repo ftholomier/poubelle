@@ -87,6 +87,17 @@ nouvelle option s’ajoute aussi à la console (`src/app/console/facturation/`) 
 | Nom accessible d’un champ trop long (le lecteur d’écran lit toute l’aide) | `<small>` d’aide placé dans le `<label>`                                       | `<small>` hors du label, relié par `aria-describedby`                                               |
 | Tableau des sections partagé modifié                                      | `push()` sur une constante exportée                                            | `visibleSections()` renvoie une copie                                                               |
 
+## Application installable (PWA) et notifications
+
+- `src/app/sw.js/route.ts` génère le service worker (même script sur chaque hôte). En développement il ne met
+  rien en cache ; pour tester le hors-ligne, utiliser `npm run build && npm start`.
+- Les pages privées (`/pro`, `/collectivite`, `/console`, `/compte`, `/api`…) ne sont jamais mises en cache.
+- Manifeste : `src/app/manifest.webmanifest/route.ts` (portail selon l’hôte ou `?territoire=`) ; icônes :
+  `src/app/api/pwa/icon/route.tsx` (`next/og`).
+- Push : `src/server/push.ts` ; interface `src/components/pwa/PushSettings.tsx`. Chromium sans interface
+  (tests) refuse les notifications : lancer Playwright avec `channel: 'chromium'` pour obtenir l’autorisation ;
+  l’abonnement reste impossible dans un contexte privé ou sans accès au service push (bac à sable).
+
 ## Tests
 
 - Unitaires (`tests/unit`) : formats, horaires, recherche, sécurité, couleurs et sections du mini-site,

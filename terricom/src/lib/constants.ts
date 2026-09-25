@@ -290,6 +290,8 @@ export const RESERVED_SLUGS = new Set([
   'robots.txt',
   'favicon.ico',
   'manifest.webmanifest',
+  'sw.js',
+  'hors-ligne',
   '_next',
 ]);
 
@@ -308,4 +310,7 @@ export const PORTAL_SECTIONS = new Set([
   'accessibilite',
   'passeport',
   'recherche',
+  'suivre',
+  'hors-ligne',
+  'tampon',
 ]);

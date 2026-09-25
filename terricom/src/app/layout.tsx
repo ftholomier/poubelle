@@ -5,6 +5,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
+import { PwaRegister } from '@/components/pwa/PwaRegister';
 import { env } from '@/server/env';
 
 export const metadata: Metadata = {
@@ -14,6 +15,9 @@ export const metadata: Metadata = {
     "La plateforme d'animation et de valorisation économique du territoire : une vitrine numérique pour chaque commerce, artisan et producteur, offerte par la collectivité.",
   applicationName: 'terricom',
   formatDetection: { telephone: false },
+  manifest: '/manifest.webmanifest',
+  appleWebApp: { capable: true, title: 'terricom', statusBarStyle: 'default' },
+  icons: { apple: '/api/pwa/icon?size=180' },
 };
 
 export const viewport: Viewport = {
@@ -25,7 +29,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body>
+        {children}
+        <PwaRegister />
+      </body>
     </html>
   );
 }

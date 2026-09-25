@@ -188,3 +188,57 @@ export async function deleteAccountAction(_prev: AccountState, form: FormData): 
   await destroySession();
   redirect('/connexion?compte-supprime=1');
 }
+
+// ─── Notifications push (cet appareil) ─────────────────────────────────────
+
+const pushSubscriptionSchema = z.object({
+  endpoint: z.string().url().max(2000),
+  keys: z.object({ p256dh: z.string().min(20).max(200), auth: z.string().min(8).max(100) }),
+});
+
+export async function savePushSubscriptionAction(json: string): Promise<{ ok: boolean; message: string }> {
+  const { user } = await requireSession();
+  const { pushConfigured, savePushSubscription } = await import('@/server/push');
+  if (!pushConfigured()) return { ok: false, message: 'Les notifications ne sont pas configurées sur ce serveur.' };
+  let raw: unknown;
+  try {
+    raw = JSON.parse(json);
+  } catch {
+    return { ok: false, message: 'Abonnement illisible.' };
+  }
+  const sub = pushSubscriptionSchema.safeParse(raw);
+  if (!sub.success || !sub.data.endpoint.startsWith('https://')) return { ok: false, message: 'Abonnement invalide.' };
+  const { requestInfo } = await import('@/server/request');
+  const info = await requestInfo();
+  await savePushSubscription(user.id, sub.data, info.userAgent);
+  await audit({
+    actor: { user },
+    category: 'SECURITE',
+    action: 'push.subscribe',
+    summary: 'Notifications activées sur un appareil',
+    targetType: 'user',
+    targetId: user.id,
+  });
+  return { ok: true, message: 'Notifications activées sur cet appareil.' };
+}
+
+export async function removePushSubscriptionAction(endpoint: string): Promise<{ ok: boolean; message: string }> {
+  const { user } = await requireSession();
+  const { deletePushSubscription } = await import('@/server/push');
+  await deletePushSubscription(user.id, String(endpoint).slice(0, 2000));
+  return { ok: true, message: 'Notifications désactivées sur cet appareil.' };
+}
+
+export async function testPushAction(): Promise<{ ok: boolean; message: string }> {
+  const { user } = await requireSession();
+  const { deliverPush } = await import('@/server/push');
+  const res = await deliverPush([user.id], {
+    title: 'Notifications activées',
+    body: 'Vous serez prévenu·e des nouveaux messages et demandes.',
+    url: '/compte',
+    tag: 'test',
+  });
+  return res.sent
+    ? { ok: true, message: `Notification envoyée à ${res.sent} appareil${res.sent > 1 ? 's' : ''}.` }
+    : { ok: false, message: 'Aucun appareil abonné n’a pu être joint.' };
+}

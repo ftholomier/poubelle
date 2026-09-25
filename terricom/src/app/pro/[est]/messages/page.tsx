@@ -5,6 +5,7 @@ import { ActionForm } from '@/components/pro/ActionForm';
 import { fmtInboxTime, fmtPhone, fmtStamp, telHref } from '@/lib/format';
 import { db } from '@/server/db';
 import { messages } from '@/server/db/schema';
+import { pushConfigured, userSubscriptionCount } from '@/server/push';
 import { loadProContext } from '@/server/services/pro';
 
 type Props = { params: Promise<{ est: string }>; searchParams: Promise<Record<string, string | undefined>> };
@@ -24,6 +25,7 @@ export default async function MessagesPage({ params, searchParams }: Props) {
     .orderBy(desc(messages.createdAt))
     .limit(200);
   const selected = list.find((m) => m.id === sp.m) ?? list[0] ?? null;
+  const suggestPush = pushConfigured() && ctx.role !== 'STAFF' && (await userSubscriptionCount(ctx.actor.user.id)) === 0;
   if (selected && !selected.readAt) {
     await db
       .update(messages)
@@ -32,6 +34,14 @@ export default async function MessagesPage({ params, searchParams }: Props) {
   }
   return (
     <div className="app-content">
+      {suggestPush ? (
+        <div className="alert alert-info" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+          <span>Soyez prévenu·e sur votre téléphone à chaque nouveau message ou demande.</span>
+          <Link href="/compte#notifications" style={{ fontWeight: 700 }}>
+            Activer les notifications →
+          </Link>
+        </div>
+      ) : null}
       <div style={{ display: 'flex', gap: 6 }}>
         <Link href={`${base}/messages`} className={`chip${!archived ? ' is-active' : ''}`}>
           Boîte de réception

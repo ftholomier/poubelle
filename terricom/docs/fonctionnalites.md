@@ -117,6 +117,17 @@ Deux niveaux : **territoire** (intercommunalité) et **commune** (mairie, périm
 
 Lecture seule des données publiées d’un territoire, clé par usage : voir [api.md](api.md).
 
+## Application installable et notifications
+
+- **Application installable (PWA)** : manifeste propre à chaque portail (nom, couleurs, icônes générées aux
+  initiales du territoire) et à l’espace professionnel (raccourcis Messages et Publications) ; installation sur
+  l’écran d’accueil (Android, iPhone, ordinateur).
+- **Hors connexion** : les pages publiques déjà consultées restent lisibles ; une page de secours s’affiche
+  sinon. Les espaces privés (pro, collectivité, console, compte) ne sont jamais conservés sur l’appareil.
+- **Notifications push** (« Mon compte » → Notifications, par appareil) : nouveaux messages et réponses aux
+  formulaires, demandes de rendez-vous, candidatures pour les professionnels ; revendications à valider pour
+  les agents du territoire et de la commune. Un essai peut être envoyé depuis la page.
+
 ## Marque blanche
 
 Option activée par l’exploitant (console → territoire) : le portail et les emails du territoire ne

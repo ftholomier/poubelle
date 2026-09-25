@@ -1,5 +1,5 @@
 # Configuration non secrète. Les secrets (DATABASE_URL, SESSION_SECRET, DATA_ENCRYPTION_KEY,
-# ANALYTICS_SALT, S3_*, SMTP_URL, ANTHROPIC_API_KEY, STRIPE_*, METRICS_TOKEN, SMS_WEBHOOK_TOKEN…)
+# ANALYTICS_SALT, S3_*, SMTP_URL, ANTHROPIC_API_KEY, STRIPE_*, METRICS_TOKEN, SMS_WEBHOOK_TOKEN, VAPID_*…)
 # sont fournis par le Secret « terricom-secrets » (voir overlays/production/externalsecret.yaml).
 apiVersion: v1
 kind: ConfigMap
@@ -30,3 +30,4 @@ data:
   K8S_WEB_SERVICE: terricom-web
   K8S_INGRESS_CLASS: nginx
   K8S_CLUSTER_ISSUER: letsencrypt-http01
+  VAPID_SUBJECT: 'mailto:contact@terricom.fr'
