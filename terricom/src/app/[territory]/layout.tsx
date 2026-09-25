@@ -26,7 +26,9 @@ export default async function PortalLayout({ children, params }: Props) {
   const { territory: param } = await params;
   const portal = await getPortal(param);
   const info = await requestInfo();
-  const section = sectionFromPath(info.pathname, portal.base);
+  let section = sectionFromPath(info.pathname, portal.base);
+  // L'entrée « campagne » du menu ne désigne que la campagne à la une, pas les autres opérations.
+  if (section === 'campagne' && !info.pathname.split('/').includes(portal.featuredCampaign?.slug ?? '')) section = 'autre';
   const t = portal.territory;
   return (
     <div style={{ '--brand': t.colorPrimary, '--brand-accent': t.colorAccent } as CSSProperties}>

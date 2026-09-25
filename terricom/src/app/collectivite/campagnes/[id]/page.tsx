@@ -1,4 +1,4 @@
-import { and, asc, eq } from 'drizzle-orm';
+import { and, asc, eq, inArray } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -11,7 +11,7 @@ import { fmtInt, relativeTime } from '@/lib/format';
 import { sized } from '@/lib/images';
 import { db } from '@/server/db';
 import { adventDoors, campaignParticipants, campaigns, communes, establishments } from '@/server/db/schema';
-import { loadBoContext } from '@/server/services/backoffice';
+import { campaignScope, canEditCampaign, loadBoContext, shortLegalName } from '@/server/services/backoffice';
 import { portalUrl } from '@/server/urls';
 
 export const metadata: Metadata = { title: 'Campagne' };
@@ -35,9 +35,11 @@ export default async function CampaignEditPage({ params, searchParams }: Props) 
   const [c] = await db
     .select()
     .from(campaigns)
-    .where(and(eq(campaigns.id, id), eq(campaigns.territoryId, ctx.territory.id)))
+    .where(and(eq(campaigns.id, id), campaignScope(ctx)))
     .limit(1);
   if (!c) notFound();
+  const editable = canEditCampaign(ctx, c);
+  const [owner] = c.communeId ? await db.select({ name: communes.name }).from(communes).where(eq(communes.id, c.communeId)).limit(1) : [];
   const [participants, doors] = await Promise.all([
     db
       .select({
@@ -53,7 +55,8 @@ export default async function CampaignEditPage({ params, searchParams }: Props) 
       .from(campaignParticipants)
       .innerJoin(establishments, eq(establishments.id, campaignParticipants.establishmentId))
       .innerJoin(communes, eq(communes.id, establishments.communeId))
-      .where(eq(campaignParticipants.campaignId, c.id))
+      // Une commune ne voit que ses propres établissements dans une campagne du territoire.
+      .where(and(eq(campaignParticipants.campaignId, c.id), ctx.communeIds ? inArray(establishments.communeId, ctx.communeIds) : undefined))
       .orderBy(asc(campaignParticipants.status), asc(establishments.name)),
     c.mode === 'ADVENT' ? db.select().from(adventDoors).where(eq(adventDoors.campaignId, c.id)).orderBy(asc(adventDoors.day)) : Promise.resolve([]),
   ]);
@@ -68,6 +71,11 @@ export default async function CampaignEditPage({ params, searchParams }: Props) 
       <Link href="/collectivite/campagnes" style={{ fontSize: 13, fontWeight: 600 }}>
         ← Toutes les campagnes
       </Link>
+      {!editable ? (
+        <div className="alert alert-info" role="note">
+          Campagne pilotée par la {shortLegalName(ctx.territory.legalName)} : vous la consultez. Les établissements de votre commune qui y participent sont listés ci-dessous.
+        </div>
+      ) : null}
       {sp.ok === 'invites' ? (
         <div className="alert alert-ok" role="status">
           Campagne créée et invitations envoyées dans la messagerie des professionnels.
@@ -87,7 +95,8 @@ export default async function CampaignEditPage({ params, searchParams }: Props) 
       >
         <div style={{ minWidth: 0 }}>
           <div style={{ fontSize: 12, opacity: 0.85 }}>
-            Campagne · {c.startsAt.split('-').reverse().join('/')} → {c.endsAt.split('-').reverse().join('/')}
+            {owner ? `Opération communale · ${owner.name}` : 'Campagne du territoire'} · {c.startsAt.split('-').reverse().join('/')} →{' '}
+            {c.endsAt.split('-').reverse().join('/')}
           </div>
           <h2 className="display" style={{ fontSize: 30, margin: 0, letterSpacing: '-0.02em' }}>
             {c.name}
@@ -131,100 +140,109 @@ export default async function CampaignEditPage({ params, searchParams }: Props) 
           ['--align' as string]: 'start',
         }}
       >
-        <section className="bo-card">
-          <b>Paramètres</b>
-          <ActionForm
-            action={updateCampaignAction}
-            resetOnSuccess={false}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 12,
-              marginTop: 12,
-            }}
-          >
-            <input type="hidden" name="campaignId" value={c.id} />
-            <label className="field">
-              <span>Nom</span>
-              <input name="name" className="input" defaultValue={c.name} required maxLength={200} />
-            </label>
-            <label className="field">
-              <span>Accroche</span>
-              <input name="tagline" className="input" defaultValue={c.tagline ?? ''} maxLength={250} />
-            </label>
-            <label className="field">
-              <span>Présentation (page publique)</span>
-              <textarea name="description" className="input" rows={4} defaultValue={c.description} maxLength={4000} />
-            </label>
-            <div
+        {editable ? (
+          <section className="bo-card">
+            <b>Paramètres</b>
+            <ActionForm
+              action={updateCampaignAction}
+              resetOnSuccess={false}
               style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))',
+                display: 'flex',
+                flexDirection: 'column',
                 gap: 12,
+                marginTop: 12,
               }}
             >
+              <input type="hidden" name="campaignId" value={c.id} />
               <label className="field">
-                <span>Début</span>
-                <input name="startsAt" type="date" className="input" defaultValue={c.startsAt} required />
+                <span>Nom</span>
+                <input name="name" className="input" defaultValue={c.name} required maxLength={200} />
               </label>
               <label className="field">
-                <span>Fin</span>
-                <input name="endsAt" type="date" className="input" defaultValue={c.endsAt} required />
+                <span>Accroche</span>
+                <input name="tagline" className="input" defaultValue={c.tagline ?? ''} maxLength={250} />
               </label>
               <label className="field">
-                <span>Statut</span>
-                <select name="status" className="input" defaultValue={c.status}>
-                  <option value="DRAFT">Brouillon</option>
-                  <option value="SCHEDULED">Programmée</option>
-                  <option value="ACTIVE">En cours</option>
-                  <option value="ENDED">Terminée</option>
-                </select>
+                <span>Présentation (page publique)</span>
+                <textarea name="description" className="input" rows={4} defaultValue={c.description} maxLength={4000} />
+              </label>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))',
+                  gap: 12,
+                }}
+              >
+                <label className="field">
+                  <span>Début</span>
+                  <input name="startsAt" type="date" className="input" defaultValue={c.startsAt} required />
+                </label>
+                <label className="field">
+                  <span>Fin</span>
+                  <input name="endsAt" type="date" className="input" defaultValue={c.endsAt} required />
+                </label>
+                <label className="field">
+                  <span>Statut</span>
+                  <select name="status" className="input" defaultValue={c.status}>
+                    <option value="DRAFT">Brouillon</option>
+                    <option value="SCHEDULED">Programmée</option>
+                    <option value="ACTIVE">En cours</option>
+                    <option value="ENDED">Terminée</option>
+                  </select>
+                </label>
+                <label className="field">
+                  <span>Format</span>
+                  <select name="mode" className="input" defaultValue={c.mode}>
+                    <option value="STANDARD">Sélection d’offres</option>
+                    <option value="ADVENT">Calendrier de l’Avent</option>
+                  </select>
+                </label>
+                <label className="field">
+                  <span>Couleur de fond</span>
+                  <input name="colorBg" type="color" className="input" defaultValue={c.colorBg} style={{ padding: 4, height: 44 }} />
+                </label>
+                <label className="field">
+                  <span>Couleur du texte</span>
+                  <input name="colorText" type="color" className="input" defaultValue={c.colorText} style={{ padding: 4, height: 44 }} />
+                </label>
+              </div>
+              <label className="field">
+                <span>Bouton d’action (facultatif)</span>
+                <input name="ctaLabel" className="input" defaultValue={c.ctaLabel ?? ''} maxLength={64} placeholder="Ex. Ouvrir la case du jour" />
               </label>
               <label className="field">
-                <span>Format</span>
-                <select name="mode" className="input" defaultValue={c.mode}>
-                  <option value="STANDARD">Sélection d’offres</option>
-                  <option value="ADVENT">Calendrier de l’Avent</option>
-                </select>
+                <span>Message d’invitation aux professionnels</span>
+                <textarea name="invitationMessage" className="input" rows={3} defaultValue={c.invitationMessage ?? ''} maxLength={2000} />
               </label>
-              <label className="field">
-                <span>Couleur de fond</span>
-                <input name="colorBg" type="color" className="input" defaultValue={c.colorBg} style={{ padding: 4, height: 44 }} />
-              </label>
-              <label className="field">
-                <span>Couleur du texte</span>
-                <input name="colorText" type="color" className="input" defaultValue={c.colorText} style={{ padding: 4, height: 44 }} />
-              </label>
-            </div>
-            <label className="field">
-              <span>Bouton d’action (facultatif)</span>
-              <input name="ctaLabel" className="input" defaultValue={c.ctaLabel ?? ''} maxLength={64} placeholder="Ex. Ouvrir la case du jour" />
-            </label>
-            <label className="field">
-              <span>Message d’invitation aux professionnels</span>
-              <textarea name="invitationMessage" className="input" rows={3} defaultValue={c.invitationMessage ?? ''} maxLength={2000} />
-            </label>
-            <div className="field">
-              <span>Visuel</span>
-              {c.heroImageUrl ? (
-                <div
-                  style={{
-                    height: 110,
-                    borderRadius: 12,
-                    overflow: 'hidden',
-                    marginBottom: 6,
-                  }}
-                >
-                  <Photo src={sized(c.heroImageUrl, 800, 300)} alt="" label={c.name} />
-                </div>
-              ) : null}
-              <FileDrop name="hero" accept="image/jpeg,image/png,image/webp" label="Remplacer le visuel (JPEG, PNG ou WebP)" />
-            </div>
-            <SubmitButton className="btn btn-brand" style={{ alignSelf: 'flex-start' }} pendingLabel="Enregistrement…">
-              Enregistrer
-            </SubmitButton>
-          </ActionForm>
-        </section>
+              <div className="field">
+                <span>Visuel</span>
+                {c.heroImageUrl ? (
+                  <div
+                    style={{
+                      height: 110,
+                      borderRadius: 12,
+                      overflow: 'hidden',
+                      marginBottom: 6,
+                    }}
+                  >
+                    <Photo src={sized(c.heroImageUrl, 800, 300)} alt="" label={c.name} />
+                  </div>
+                ) : null}
+                <FileDrop name="hero" accept="image/jpeg,image/png,image/webp" label="Remplacer le visuel (JPEG, PNG ou WebP)" />
+              </div>
+              <SubmitButton className="btn btn-brand" style={{ alignSelf: 'flex-start' }} pendingLabel="Enregistrement…">
+                Enregistrer
+              </SubmitButton>
+            </ActionForm>
+          </section>
+        ) : (
+          <section className="bo-card" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <b>Présentation</b>
+            {c.tagline ? <b style={{ fontSize: 15 }}>{c.tagline}</b> : null}
+            <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, whiteSpace: 'pre-line' }}>{c.description || 'Pas encore de présentation.'}</p>
+            {c.invitationMessage ? <p style={{ margin: 0, fontSize: 13, color: 'var(--muted)' }}>Message aux professionnels : {c.invitationMessage}</p> : null}
+          </section>
+        )}
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           {plan.pageTitle || plan.plan?.length ? (
@@ -288,7 +306,7 @@ export default async function CampaignEditPage({ params, searchParams }: Props) 
               }}
             >
               <b>Établissements ({participants.length})</b>
-              {notYetInvited ? (
+              {editable && notYetInvited ? (
                 <ActionForm action={inviteParticipantsAction}>
                   <input type="hidden" name="campaignId" value={c.id} />
                   <button type="submit" className="btn btn-dark btn-sm">
@@ -297,16 +315,18 @@ export default async function CampaignEditPage({ params, searchParams }: Props) 
                 </ActionForm>
               ) : null}
             </div>
-            <ActionForm action={addParticipantAction} style={{ display: 'flex', gap: 8 }}>
-              <input type="hidden" name="campaignId" value={c.id} />
-              <label htmlFor="add-p" className="sr-only">
-                Ajouter un établissement
-              </label>
-              <input id="add-p" name="q" className="input" placeholder="Ajouter un établissement (nom)…" />
-              <button type="submit" className="btn btn-outline btn-sm">
-                Ajouter
-              </button>
-            </ActionForm>
+            {editable ? (
+              <ActionForm action={addParticipantAction} style={{ display: 'flex', gap: 8 }}>
+                <input type="hidden" name="campaignId" value={c.id} />
+                <label htmlFor="add-p" className="sr-only">
+                  Ajouter un établissement
+                </label>
+                <input id="add-p" name="q" className="input" placeholder="Ajouter un établissement (nom)…" />
+                <button type="submit" className="btn btn-outline btn-sm">
+                  Ajouter
+                </button>
+              </ActionForm>
+            ) : null}
             <div
               style={{
                 display: 'flex',
@@ -367,25 +387,29 @@ export default async function CampaignEditPage({ params, searchParams }: Props) 
                   >
                     {PSTATUS[p.status].label}
                   </span>
-                  <form action={removeParticipantAction}>
-                    <input type="hidden" name="campaignId" value={c.id} />
-                    <input type="hidden" name="estId" value={p.id} />
-                    <button
-                      type="submit"
-                      aria-label={`Retirer ${p.name}`}
-                      style={{
-                        border: 0,
-                        background: 'var(--danger-bg)',
-                        color: 'var(--danger-fg)',
-                        borderRadius: 6,
-                        width: 24,
-                        height: 24,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      ×
-                    </button>
-                  </form>
+                  {editable ? (
+                    <form action={removeParticipantAction}>
+                      <input type="hidden" name="campaignId" value={c.id} />
+                      <input type="hidden" name="estId" value={p.id} />
+                      <button
+                        type="submit"
+                        aria-label={`Retirer ${p.name}`}
+                        style={{
+                          border: 0,
+                          background: 'var(--danger-bg)',
+                          color: 'var(--danger-fg)',
+                          borderRadius: 6,
+                          width: 24,
+                          height: 24,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        ×
+                      </button>
+                    </form>
+                  ) : (
+                    <span />
+                  )}
                 </div>
               ))}
               {!participants.length ? <span style={{ fontSize: 13, color: 'var(--muted)' }}>Aucun établissement pour l’instant.</span> : null}
@@ -423,35 +447,37 @@ export default async function CampaignEditPage({ params, searchParams }: Props) 
                   );
                 })}
               </div>
-              <ActionForm
-                action={saveDoorAction}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '80px 1fr',
-                  gap: 8,
-                }}
-              >
-                <input type="hidden" name="campaignId" value={c.id} />
-                <select name="day" className="input" aria-label="Jour">
-                  {Array.from({ length: 24 }, (_, i) => (
-                    <option key={i} value={i + 1}>
-                      {i + 1}
-                    </option>
-                  ))}
-                </select>
-                <input name="title" aria-label="Surprise du jour" className="input" placeholder="Surprise du jour (ex. -20 % sur les coffrets)" required />
-                <select name="establishmentId" className="input" aria-label="Établissement" style={{ gridColumn: '1 / -1' }} defaultValue="">
-                  <option value="">Établissement participant…</option>
-                  {joined.map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {p.name}
-                    </option>
-                  ))}
-                </select>
-                <button type="submit" className="btn btn-outline btn-sm" style={{ gridColumn: '1 / -1', justifySelf: 'start' }}>
-                  Enregistrer la case
-                </button>
-              </ActionForm>
+              {editable ? (
+                <ActionForm
+                  action={saveDoorAction}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '80px 1fr',
+                    gap: 8,
+                  }}
+                >
+                  <input type="hidden" name="campaignId" value={c.id} />
+                  <select name="day" className="input" aria-label="Jour">
+                    {Array.from({ length: 24 }, (_, i) => (
+                      <option key={i} value={i + 1}>
+                        {i + 1}
+                      </option>
+                    ))}
+                  </select>
+                  <input name="title" aria-label="Surprise du jour" className="input" placeholder="Surprise du jour (ex. -20 % sur les coffrets)" required />
+                  <select name="establishmentId" className="input" aria-label="Établissement" style={{ gridColumn: '1 / -1' }} defaultValue="">
+                    <option value="">Établissement participant…</option>
+                    {joined.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.name}
+                      </option>
+                    ))}
+                  </select>
+                  <button type="submit" className="btn btn-outline btn-sm" style={{ gridColumn: '1 / -1', justifySelf: 'start' }}>
+                    Enregistrer la case
+                  </button>
+                </ActionForm>
+              ) : null}
             </section>
           ) : null}
         </div>

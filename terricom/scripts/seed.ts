@@ -1488,6 +1488,65 @@ async function main() {
       .map((id) => ({ campaignId: madeInCamp.id, establishmentId: id, status: 'JOINED' as const, joinedAt: daysAgo(r.int(1, 50)) })),
   );
 
+  // Opération communale portée par la mairie d'Ornans (sélection déterministe : le tirage
+  // aléatoire du reste du jeu de données reste inchangé).
+  const [quinzaine] = await db
+    .insert(S.campaigns)
+    .values({
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      slug: 'quinzaine-commerciale-d-ornans',
+      name: 'Quinzaine commerciale d’Ornans',
+      tagline: 'Les commerces du centre-ville fêtent l’automne',
+      description:
+        "Pendant quinze jours, les commerçants d'Ornans vous réservent une offre, et chaque achat donne une chance de gagner un panier garni de produits d'ici. Une opération de la Mairie d'Ornans.",
+      startsAt: addIso(today, 8),
+      endsAt: addIso(today, 22),
+      status: 'SCHEDULED',
+      mode: 'STANDARD',
+      colorBg: '#C8892A',
+      colorBgDark: '#8A5A14',
+      colorText: '#14201B',
+      colorTextSoft: '#3D2A0B',
+      heroImageUrl: D.U(D.I.store, 2000),
+      cardImageUrl: D.U(D.I.store, 1200),
+      criteria: { families: ['COMMERCE'], communeIds: [communeRows['Ornans'].id] },
+      invitationMessage: "La Mairie d'Ornans organise sa quinzaine commerciale : proposez une offre, elle sera mise en avant sur la page de la commune.",
+      createdById: anne.id,
+      createdAt: daysAgo(6),
+    })
+    .returning();
+  const SHOPS = [
+    'boulangerie',
+    'boucherie',
+    'coiffure',
+    'pret-a-porter',
+    'fleuriste',
+    'librairie',
+    'epicerie',
+    'caviste',
+    'chocolatier',
+    'fromagerie',
+    'opticien',
+    'bricolage',
+    'tabac-presse',
+    'cordonnerie',
+    'institut-de-beaute',
+  ];
+  const quinzainePool = genClaimedVdl.filter((e) => e.commune === 'Ornans' && SHOPS.includes(e.category)).slice(0, 14);
+  const quinzaineOffers = ['-10 %', 'Café offert', 'Carte fidélité doublée', '-15 % sur la 2e pièce', 'Surprise en boutique'];
+  if (quinzainePool.length)
+    await db.insert(S.campaignParticipants).values(
+      quinzainePool.map((e, i) => ({
+        campaignId: quinzaine.id,
+        establishmentId: e.id,
+        status: i < 9 ? ('JOINED' as const) : ('INVITED' as const),
+        offerLabel: i < 9 ? quinzaineOffers[i % quinzaineOffers.length] : null,
+        invitedAt: daysAgo(5),
+        joinedAt: i < 9 ? daysAgo(1 + (i % 4)) : null,
+      })),
+    );
+
   // ─── Newsletter : audiences, abonnés, lettres ─────────────────────────────
   const [audH, audT, audE, audO, audC] = await db
     .insert(S.audiences)

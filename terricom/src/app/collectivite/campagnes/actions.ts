@@ -11,7 +11,7 @@ import { db } from '@/server/db';
 import { adventDoors, campaignParticipants, campaigns, categories, communes, establishments, messages, posts, subscribers } from '@/server/db/schema';
 import { planCampaign, type CampaignPlan } from '@/server/ai/features';
 import { MediaError, saveImageUpload } from '@/server/media';
-import { estScope, loadBoContext, type BoContext } from '@/server/services/backoffice';
+import { canEditCampaign, estScope, loadBoContext, type BoContext } from '@/server/services/backoffice';
 import { slugify } from '@/lib/slug';
 import { sized } from '@/lib/images';
 
@@ -147,6 +147,7 @@ export async function createFromPlanAction(_prev: CampState, form: FormData): Pr
     .insert(campaigns)
     .values({
       territoryId: ctx.territory.id,
+      communeId: communeOf(ctx),
       slug: await uniqueSlug(ctx.territory.id, p.name),
       name: p.name,
       tagline: p.tagline || null,
@@ -154,7 +155,7 @@ export async function createFromPlanAction(_prev: CampState, form: FormData): Pr
       startsAt: p.startsAt,
       endsAt: p.endsAt < p.startsAt ? p.startsAt : p.endsAt,
       status: 'DRAFT',
-      criteria: { families: p.families, attributeSlugs: p.attributeSlugs },
+      criteria: { families: p.families, attributeSlugs: p.attributeSlugs, ...(ctx.communeIds ? { communeIds: ctx.communeIds } : {}) },
       aiPlan: {
         pageTitle: p.pageTitle,
         pageText: p.pageText,
@@ -226,6 +227,8 @@ export async function createCampaignAction(_prev: CampState, form: FormData): Pr
     .insert(campaigns)
     .values({
       territoryId: ctx.territory.id,
+      communeId: communeOf(ctx),
+      criteria: ctx.communeIds ? { communeIds: ctx.communeIds } : {},
       slug: await uniqueSlug(ctx.territory.id, d.name),
       name: d.name,
       startsAt: d.startsAt,
@@ -246,14 +249,31 @@ export async function createCampaignAction(_prev: CampState, form: FormData): Pr
   redirect(`/collectivite/campagnes/${camp.id}`);
 }
 
+/** Au niveau communal, une nouvelle campagne est une opération de la commune. */
+function communeOf(ctx: BoContext): string | null {
+  return ctx.level === 'COMMUNE' ? (ctx.commune?.id ?? null) : null;
+}
+
+/** Campagne du territoire modifiable par l'agent (une commune ne modifie que ses propres opérations). */
 async function scopedCampaign(ctx: BoContext, raw: unknown) {
-  const id = uuid.parse(raw);
+  const id = uuid.safeParse(raw);
+  if (!id.success) return null;
   const [c] = await db
     .select()
     .from(campaigns)
-    .where(and(eq(campaigns.id, id), eq(campaigns.territoryId, ctx.territory.id)))
+    .where(and(eq(campaigns.id, id.data), eq(campaigns.territoryId, ctx.territory.id)))
     .limit(1);
-  return c ?? null;
+  return c && canEditCampaign(ctx, c) ? c : null;
+}
+
+/** Établissement du périmètre de l'agent. */
+async function inScope(ctx: BoContext, estId: string): Promise<boolean> {
+  const [row] = await db
+    .select({ id: establishments.id })
+    .from(establishments)
+    .where(and(estScope(ctx), eq(establishments.id, estId)))
+    .limit(1);
+  return Boolean(row);
 }
 
 const color = z.string().regex(/^#[0-9a-fA-F]{6}$/);
@@ -290,6 +310,12 @@ export async function updateCampaignAction(_prev: CampState, form: FormData): Pr
       return { status: 'error', message: err instanceof MediaError ? err.message : 'Image refusée.' };
     }
   }
+  // Texte secondaire : couleur du texte adoucie vers le fond.
+  const blend = (a: string, b: string, w: number) => {
+    const [x, y] = [parseInt(a.slice(1), 16), parseInt(b.slice(1), 16)];
+    const ch = (sh: number) => Math.round(((x >> sh) & 255) * w + ((y >> sh) & 255) * (1 - w));
+    return `#${[16, 8, 0].map((sh) => ch(sh).toString(16).padStart(2, '0')).join('')}`;
+  };
   const darker = (hex: string) => {
     const n = parseInt(hex.slice(1), 16);
     const f = (v: number) => Math.max(0, Math.round(v * 0.78));
@@ -308,6 +334,7 @@ export async function updateCampaignAction(_prev: CampState, form: FormData): Pr
       colorBg: d.colorBg,
       colorBgDark: darker(d.colorBg),
       colorText: d.colorText,
+      colorTextSoft: blend(d.colorText, d.colorBg, 0.75),
       ctaLabel: d.ctaLabel || null,
       invitationMessage: d.invitationMessage || null,
       heroImageUrl,
@@ -377,7 +404,7 @@ export async function removeParticipantAction(form: FormData): Promise<void> {
   const ctx = await loadBoContext();
   const c = await scopedCampaign(ctx, form.get('campaignId'));
   const estId = uuid.parse(form.get('estId'));
-  if (!c) return;
+  if (!c || !(await inScope(ctx, estId))) return;
   await db.delete(campaignParticipants).where(and(eq(campaignParticipants.campaignId, c.id), eq(campaignParticipants.establishmentId, estId)));
   revalidatePath(`/collectivite/campagnes/${c.id}`);
 }
@@ -390,7 +417,16 @@ export async function saveDoorAction(_prev: CampState, form: FormData): Promise<
   const title = z.string().trim().min(2).max(255).safeParse(form.get('title'));
   if (!title.success) return { status: 'error', message: 'Titre de la case requis.' };
   const est = String(form.get('establishmentId') ?? '');
-  const estId = uuid.safeParse(est).success ? est : null;
+  let estId: string | null = uuid.safeParse(est).success ? est : null;
+  // La case ne peut mettre en avant qu'un participant de la campagne, dans le périmètre de l'agent.
+  if (estId) {
+    const [p] = await db
+      .select({ id: campaignParticipants.establishmentId })
+      .from(campaignParticipants)
+      .where(and(eq(campaignParticipants.campaignId, c.id), eq(campaignParticipants.establishmentId, estId)))
+      .limit(1);
+    if (!p || !(await inScope(ctx, estId))) estId = null;
+  }
   await db
     .insert(adventDoors)
     .values({ campaignId: c.id, day, title: title.data, establishmentId: estId })

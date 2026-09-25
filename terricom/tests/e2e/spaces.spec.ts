@@ -15,6 +15,19 @@ test.describe('espaces de démonstration', () => {
     await expect(page.getByText(/établissements?/).first()).toBeVisible();
   });
 
+  test('mairie : ses opérations modifiables, les campagnes du territoire en consultation', async ({ page }) => {
+    await page.goto('/demo/entrer/commune');
+    await page.waitForURL(/\/collectivite/);
+    await page.goto('/collectivite/campagnes');
+    await expect(page.getByText('Opération communale · Ornans')).toBeVisible();
+    await page.getByRole('link', { name: /La rentrée chez vos commerçants/ }).click();
+    await expect(page.getByRole('note')).toContainText('vous la consultez');
+    await expect(page.getByRole('button', { name: 'Enregistrer' })).toHaveCount(0);
+    await page.goto('/collectivite/campagnes');
+    await page.getByRole('link', { name: /Quinzaine commerciale/ }).click();
+    await expect(page.getByRole('button', { name: 'Enregistrer' })).toBeVisible();
+  });
+
   test('console : vue d’ensemble et suivi commercial en modale', async ({ page }) => {
     await page.goto('/demo/entrer/console');
     await page.waitForURL(/\/console/);

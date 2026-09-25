@@ -49,7 +49,7 @@ export default async function CampaignPage({ params }: Props) {
   const { portal, data } = await load(territory, slug);
   if (!data) notFound();
   const { base, territory: t } = portal;
-  const { campaign: c, participants, calendar, today } = data;
+  const { campaign: c, owner, participants, calendar, today } = data;
   const offers = participants.filter((p) => p.offer).length;
   const advent = c.mode === 'ADVENT';
   const started = c.startsAt <= today;
@@ -63,14 +63,17 @@ export default async function CampaignPage({ params }: Props) {
         ? { big: `J-${Math.max(0, daysBetween(today, christmas))}`, small: 'avant Noël' }
         : { big: `J-${daysBetween(today, c.endsAt)}`, small: 'avant la fin' };
   const todayParts = parisParts(new Date());
-  const soft = c.colorTextSoft;
+  // Thème clair (texte foncé) : fond principal plutôt que sa variante sombre, pour garder le contraste.
+  const lightText = isLight(c.colorText);
+  const pageBg = lightText ? c.colorBgDark : c.colorBg;
+  const soft = isLight(c.colorTextSoft) === lightText ? c.colorTextSoft : c.colorText;
 
   return (
-    <div style={{ background: c.colorBgDark, color: c.colorText }}>
+    <div style={{ background: pageBg, color: c.colorText }}>
       <Beacon type="CAMPAIGN_VIEW" territoryId={t.id} refId={c.id} />
       <section style={{ position: 'relative', overflow: 'hidden' }}>
         {c.heroImageUrl ? (
-          <Photo src={sized(c.heroImageUrl, 2000)} alt="" eager color={c.colorBgDark} label=" " style={{ position: 'absolute', inset: 0, opacity: 0.35 }} />
+          <Photo src={sized(c.heroImageUrl, 2000)} alt="" eager color={pageBg} label=" " style={{ position: 'absolute', inset: 0, opacity: 0.35 }} />
         ) : null}
         <div
           className="container split"
@@ -99,6 +102,14 @@ export default async function CampaignPage({ params }: Props) {
             >
               {periodLabel(c.startsAt, c.endsAt)}
             </span>
+            {owner ? (
+              <div style={{ fontSize: 13, fontWeight: 700, color: soft, marginBottom: 8 }}>
+                Une opération de la commune de{' '}
+                <Link href={`${base}/${owner.slug}`} style={{ color: 'inherit', textDecoration: 'underline' }}>
+                  {owner.name}
+                </Link>
+              </div>
+            ) : null}
             <h1 className="display" style={{ fontSize: 'clamp(52px,6.5vw,100px)', letterSpacing: '-0.04em', lineHeight: 0.88, margin: '0 0 18px' }}>
               {c.name}
             </h1>
@@ -145,7 +156,7 @@ export default async function CampaignPage({ params }: Props) {
         </section>
       ) : null}
 
-      <section style={{ background: c.colorText, color: 'var(--text)' }}>
+      <section style={{ background: lightText ? c.colorText : 'var(--cream)', color: 'var(--text)' }}>
         <div className="container" style={{ paddingTop: 50, paddingBottom: 60 }}>
           <h2 className="display" style={{ fontSize: 36, letterSpacing: '-0.02em', margin: '0 0 20px' }}>
             Les commerces participants
@@ -202,4 +213,11 @@ export default async function CampaignPage({ params }: Props) {
       </section>
     </div>
   );
+}
+
+/** Couleur claire (luminance perçue) : sert de fond à la liste des participants, sinon crème. */
+function isLight(hex: string): boolean {
+  const n = parseInt(hex.replace('#', '').slice(0, 6), 16);
+  if (Number.isNaN(n)) return false;
+  return 0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255) > 170;
 }

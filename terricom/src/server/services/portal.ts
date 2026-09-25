@@ -71,16 +71,18 @@ export function countPublicEstablishments(territoryId: string): Promise<number> 
 /** Campagne mise à la une : celle choisie par la collectivité, sinon calendrier de l'Avent en cours ou à venir (90 j), sinon campagne active. */
 export async function getFeaturedCampaign(territoryId: string, preferredSlug?: string) {
   const today = parisDate();
-  const rows = await db
+  let rows = await db
     .select()
     .from(campaigns)
     .where(and(eq(campaigns.territoryId, territoryId), inArray(campaigns.status, ['ACTIVE', 'SCHEDULED']), gte(campaigns.endsAt, today)))
     .orderBy(asc(campaigns.startsAt));
-  if (!rows.length) return null;
   if (preferredSlug) {
     const pref = rows.find((c) => c.slug === preferredSlug);
     if (pref) return pref;
   }
+  // Les opérations communales s'affichent sur la page de leur commune, pas à la une du territoire.
+  rows = rows.filter((c) => !c.communeId);
+  if (!rows.length) return null;
   const soon = new Date(Date.now() + 90 * 86_400_000).toISOString().slice(0, 10);
   return rows.find((c) => c.mode === 'ADVENT' && c.startsAt <= soon) ?? rows.find((c) => c.status === 'ACTIVE' && c.startsAt <= today) ?? rows[0];
 }
@@ -256,6 +258,41 @@ export function communeCounts(territoryId: string): Promise<Map<string, number>>
 }
 
 /** Campagne publique avec ses participants visibles et son calendrier (les cases futures restent secrètes). */
+/**
+ * Opérations en cours ou à venir qui concernent une commune : celles qu'elle porte, et celles du
+ * territoire auxquelles participent ses professionnels (avec leur nombre).
+ */
+export async function communeCampaigns(territoryId: string, communeId: string) {
+  const today = parisDate();
+  const localJoined = sql`(select count(*)::int from campaign_participants p join establishments e on e.id = p.establishment_id
+    where p.campaign_id = ${campaigns.id} and p.status = 'JOINED' and e.commune_id = ${communeId}
+    and e.status in ('PRECREATED', 'TO_COMPLETE', 'CLAIMED', 'VALIDATED'))`;
+  return db
+    .select({
+      id: campaigns.id,
+      slug: campaigns.slug,
+      name: campaigns.name,
+      tagline: campaigns.tagline,
+      startsAt: campaigns.startsAt,
+      endsAt: campaigns.endsAt,
+      colorBg: campaigns.colorBg,
+      colorText: campaigns.colorText,
+      own: sql<boolean>`${campaigns.communeId} is not null`,
+      joined: sql<number>`${localJoined}`,
+    })
+    .from(campaigns)
+    .where(
+      and(
+        eq(campaigns.territoryId, territoryId),
+        inArray(campaigns.status, ['ACTIVE', 'SCHEDULED']),
+        gte(campaigns.endsAt, today),
+        or(eq(campaigns.communeId, communeId), and(isNull(campaigns.communeId), sql`${localJoined} > 0`)),
+      ),
+    )
+    .orderBy(asc(campaigns.startsAt))
+    .limit(4);
+}
+
 export async function getPublicCampaign(territoryId: string, slug: string) {
   const [camp] = await db
     .select()
@@ -299,8 +336,12 @@ export async function getPublicCampaign(territoryId: string, slug: string) {
     const e = d.establishmentId ? byId.get(d.establishmentId) : undefined;
     return { day: d.day, date, open, title: open ? d.title : null, path: open && e ? e.path : null };
   });
+  const [owner] = camp.communeId
+    ? await db.select({ name: communes.name, slug: communes.slug }).from(communes).where(eq(communes.id, camp.communeId)).limit(1)
+    : [];
   return {
     campaign: camp,
+    owner: owner ?? null,
     participants: cards.map((c) => ({ ...c, offer: offers.get(c.id)?.offer ?? null, offerDescription: offers.get(c.id)?.offerDescription ?? null })),
     calendar,
     today,

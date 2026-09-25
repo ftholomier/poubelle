@@ -1,11 +1,11 @@
-import { and, count, eq, inArray, ne, type SQL } from 'drizzle-orm';
+import { and, count, eq, inArray, isNull, ne, or, type SQL } from 'drizzle-orm';
 import { cookies } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
 import { cache } from 'react';
 import { STAFF_ROLES, type StaffRole } from '@/lib/constants';
 import { requireActor, staffTerritoryIds, type Actor } from '../authz';
 import { db } from '../db';
-import { claims, communes, establishments, type TerritorySettings } from '../db/schema';
+import { campaigns, claims, communes, establishments, type TerritorySettings } from '../db/schema';
 import { getTerritoriesByIds, getTerritoryCommunes, type Commune, type Territory } from './territories';
 
 /**
@@ -124,6 +124,22 @@ export const loadBoContext = cache(async (): Promise<BoContext> => {
 /** Filtre SQL des établissements du périmètre courant. */
 export function estScope(ctx: BoContext): SQL {
   return and(eq(establishments.territoryId, ctx.territory.id), ctx.communeIds ? inArray(establishments.communeId, ctx.communeIds) : undefined)!;
+}
+
+/**
+ * Campagnes visibles : toutes au niveau territorial ; au niveau communal, celles de la commune
+ * et celles du territoire (ces dernières en consultation seule).
+ */
+export function campaignScope(ctx: BoContext): SQL {
+  return and(
+    eq(campaigns.territoryId, ctx.territory.id),
+    ctx.communeIds ? or(isNull(campaigns.communeId), inArray(campaigns.communeId, ctx.communeIds)) : undefined,
+  )!;
+}
+
+/** Une campagne se modifie au niveau territorial, ou par la commune qui la porte. */
+export function canEditCampaign(ctx: BoContext, c: { communeId: string | null }): boolean {
+  return ctx.level === 'TERRITORY' || (c.communeId !== null && (ctx.communeIds ?? []).includes(c.communeId));
 }
 
 /** Réservé aux administrateurs (territoire ou commune). */

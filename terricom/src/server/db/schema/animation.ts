@@ -3,7 +3,7 @@ import { date, doublePrecision, index, integer, jsonb, numeric, pgTable, primary
 import { createdAt, pk, tstz, updatedAt } from './_common';
 import { establishments } from './business';
 import { campaignMode, campaignStatus, participantStatus, publishStatus } from './enums';
-import { territories } from './tenancy';
+import { communes, territories } from './tenancy';
 import { users } from './users';
 
 export type CampaignCriteria = {
@@ -31,6 +31,8 @@ export const campaigns = pgTable(
     territoryId: uuid()
       .notNull()
       .references(() => territories.id, { onDelete: 'cascade' }),
+    /** Opération portée par une commune (null : campagne du territoire entier). */
+    communeId: uuid().references(() => communes.id, { onDelete: 'set null' }),
     slug: varchar({ length: 160 }).notNull(),
     name: varchar({ length: 255 }).notNull(),
     tagline: varchar({ length: 255 }),
@@ -60,7 +62,11 @@ export const campaigns = pgTable(
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
-  (t) => [unique('campaigns_territory_slug_uq').on(t.territoryId, t.slug), index('campaigns_territory_status_idx').on(t.territoryId, t.status)],
+  (t) => [
+    unique('campaigns_territory_slug_uq').on(t.territoryId, t.slug),
+    index('campaigns_territory_status_idx').on(t.territoryId, t.status),
+    index('campaigns_commune_idx').on(t.communeId),
+  ],
 );
 
 export const campaignParticipants = pgTable(

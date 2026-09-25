@@ -11,7 +11,7 @@ import { FAMILIES, type EventKind } from '@/lib/constants';
 import { fmtInt, fmtTimeShort, relativeTime, WEEKDAYS_SHORT } from '@/lib/format';
 import { sized } from '@/lib/images';
 import { breadcrumbJsonLd } from '@/server/seo';
-import { allCards, communeMarkets, familyCounts, getFeed, getPortal, toMapPoints, upcomingEvents } from '@/server/services/portal';
+import { allCards, communeCampaigns, communeMarkets, familyCounts, getFeed, getPortal, toMapPoints, upcomingEvents } from '@/server/services/portal';
 import { getCommuneInTerritory } from '@/server/services/territories';
 import { portalUrl } from '@/server/urls';
 
@@ -43,12 +43,13 @@ export default async function CommunePage({ params }: Props) {
   const { portal, commune } = await load(territory, slug);
   if (!commune) notFound();
   const { base, territory: t } = portal;
-  const [counts, feed, markets, events, cards] = await Promise.all([
+  const [counts, feed, markets, events, cards, operations] = await Promise.all([
     familyCounts(t.id, commune.id),
     getFeed(t.id, { communeId: commune.id, limit: 4, channel: 'COMMUNE' }),
     communeMarkets(commune.id),
     upcomingEvents(t.id, { communeId: commune.id, limit: 3 }),
     allCards(t.id),
+    portal.modules.has('CAMPAIGNS') ? communeCampaigns(t.id, commune.id) : Promise.resolve([]),
   ]);
   const points = toMapPoints(
     cards.filter((c) => c.communeId === commune.id),
@@ -231,6 +232,38 @@ export default async function CommunePage({ params }: Props) {
                 </figcaption>
               ) : null}
             </figure>
+          ) : null}
+          {operations.length ? (
+            <div className="card" style={{ borderRadius: 20, padding: 22, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ fontWeight: 700 }}>Opérations commerciales</div>
+              {operations.map((o) => (
+                <Link
+                  key={o.id}
+                  href={`${base}/campagnes/${o.slug}`}
+                  className="card-link"
+                  style={{
+                    background: o.colorBg,
+                    color: o.colorText,
+                    borderRadius: 14,
+                    padding: '12px 14px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                  }}
+                >
+                  <b className="display" style={{ fontSize: 17 }}>
+                    {o.name}
+                  </b>
+                  <span style={{ fontSize: 12, opacity: 0.9 }}>
+                    {o.own
+                      ? `Opération de ${commune.name}`
+                      : `${fmtInt(o.joined)} professionnel${o.joined > 1 ? 's' : ''} de ${commune.name} participe${o.joined > 1 ? 'nt' : ''}`}
+                    {' · '}
+                    {o.startsAt.split('-').reverse().slice(0, 2).join('/')} → {o.endsAt.split('-').reverse().slice(0, 2).join('/')}
+                  </span>
+                </Link>
+              ))}
+            </div>
           ) : null}
           {markets.length ? (
             <div className="card" style={{ borderRadius: 20, padding: 22 }}>

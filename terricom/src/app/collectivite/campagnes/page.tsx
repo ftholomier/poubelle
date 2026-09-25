@@ -6,8 +6,8 @@ import { Photo } from '@/components/ui/Photo';
 import { fmtInt } from '@/lib/format';
 import { sized } from '@/lib/images';
 import { db } from '@/server/db';
-import { campaigns, establishments, posts } from '@/server/db/schema';
-import { estScope, loadBoContext } from '@/server/services/backoffice';
+import { campaigns, communes, establishments, posts } from '@/server/db/schema';
+import { campaignScope, canEditCampaign, estScope, loadBoContext } from '@/server/services/backoffice';
 
 export const metadata: Metadata = { title: 'Campagnes' };
 
@@ -39,7 +39,10 @@ export default async function CampaignsPage() {
   const list = await db
     .select({
       id: campaigns.id,
+      communeId: campaigns.communeId,
+      communeName: communes.name,
       name: campaigns.name,
+      colorBg: campaigns.colorBg,
       tagline: campaigns.tagline,
       status: campaigns.status,
       mode: campaigns.mode,
@@ -52,7 +55,8 @@ export default async function CampaignsPage() {
       views: sql<number>`(select count(*)::int from analytics_events a where a.ref_id = "campaigns"."id" and a.type = 'CAMPAIGN_VIEW') + (select coalesce(sum(p.view_count), 0)::int from posts p where p.campaign_id = "campaigns"."id")`,
     })
     .from(campaigns)
-    .where(eq(campaigns.territoryId, t))
+    .leftJoin(communes, eq(communes.id, campaigns.communeId))
+    .where(campaignScope(ctx))
     .orderBy(asc(campaigns.startsAt));
   list.sort((a, b) => ORDER[a.status] - ORDER[b.status] || a.startsAt.localeCompare(b.startsAt));
   const [[{ n: ests }], [{ n: nPosts }]] = await Promise.all([
@@ -79,7 +83,7 @@ export default async function CampaignsPage() {
             style={{ background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: 20, overflow: 'hidden', color: 'var(--text)' }}
           >
             <div style={{ position: 'relative', height: 120 }}>
-              <Photo src={sized(c.image, 600, 300)} alt="" label={c.name} color="#7A2E26" />
+              <Photo src={sized(c.image, 600, 300)} alt="" label={c.name} color={c.colorBg} />
               <span
                 style={{
                   position: 'absolute',
@@ -100,6 +104,11 @@ export default async function CampaignsPage() {
               <div className="display" style={{ fontSize: 19 }}>
                 {c.name}
               </div>
+              {c.communeId || ctx.level === 'COMMUNE' ? (
+                <span style={{ fontSize: 11, fontWeight: 800, color: canEditCampaign(ctx, c) ? 'var(--green)' : 'var(--muted)' }}>
+                  {c.communeName ? `Opération communale · ${c.communeName}` : 'Campagne du territoire · consultation'}
+                </span>
+              ) : null}
               <div style={{ fontSize: 13, color: 'var(--muted)' }}>
                 {period(c.startsAt, c.endsAt)} · {c.mode === 'ADVENT' ? 'calendrier de l’Avent' : (c.tagline ?? 'campagne').toLowerCase()}
               </div>
