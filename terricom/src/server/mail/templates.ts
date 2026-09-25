@@ -203,19 +203,24 @@ export function appointmentResponseTemplate(p: {
   to: string;
   establishmentName: string;
   confirmed: boolean;
+  cancelled?: boolean;
   when: string;
   note: string | null;
 }): OutgoingEmail {
   const { html, text } = renderEmail({
-    title: p.confirmed ? `Rendez-vous confirmé : ${p.when}` : 'Votre demande de rendez-vous',
+    title: p.cancelled ? `Rendez-vous annulé : ${p.when}` : p.confirmed ? `Rendez-vous confirmé : ${p.when}` : 'Votre demande de rendez-vous',
     paragraphs: [
-      p.confirmed ? `${p.establishmentName} vous attend ${p.when}.` : `${p.establishmentName} ne peut pas vous recevoir sur ce créneau.`,
+      p.cancelled
+        ? `${p.establishmentName} doit annuler votre rendez-vous ${p.when}. Nous vous prions de l’excuser : n’hésitez pas à proposer un autre créneau.`
+        : p.confirmed
+          ? `${p.establishmentName} vous attend ${p.when}.`
+          : `${p.establishmentName} ne peut pas vous recevoir sur ce créneau.`,
       ...(p.note ? [p.note] : []),
     ],
   });
   return {
     to: p.to,
-    subject: `${p.establishmentName} : ${p.confirmed ? 'rendez-vous confirmé' : 'réponse à votre demande'}`,
+    subject: `${p.establishmentName} : ${p.cancelled ? 'rendez-vous annulé' : p.confirmed ? 'rendez-vous confirmé' : 'réponse à votre demande'}`,
     html,
     text,
     template: 'appointment-response',

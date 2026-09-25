@@ -56,6 +56,8 @@ export type EstablishmentCard = {
   attributeSlugs: string[];
   open: OpenStatus;
   isFeatured: boolean;
+  /** Offre Premium ou Communication : mise en avant enrichie dans les listes et la recherche. */
+  premium: boolean;
   completeness: number;
   status: EstablishmentStatus;
   companyId: string;
@@ -89,6 +91,7 @@ export async function loadCards(
         status: establishments.status,
         companyId: establishments.companyId,
         updatedAt: establishments.updatedAt,
+        premium: sql<boolean>`${companies.plan} <> 'ESSENTIEL'`,
       },
       c: { id: communes.id, name: communes.name, slug: communes.slug },
       k: { id: categories.id, name: categoryDisplayName, slug: categories.slug, family: categories.family },
@@ -96,9 +99,20 @@ export async function loadCards(
     .from(establishments)
     .innerJoin(communes, eq(communes.id, establishments.communeId))
     .innerJoin(categories, eq(categories.id, establishments.categoryId))
-    .leftJoin(territoryCategories, and(eq(territoryCategories.territoryId, establishments.territoryId), eq(territoryCategories.categoryId, establishments.categoryId)))
+    .innerJoin(companies, eq(companies.id, establishments.companyId))
+    .leftJoin(
+      territoryCategories,
+      and(eq(territoryCategories.territoryId, establishments.territoryId), eq(territoryCategories.categoryId, establishments.categoryId)),
+    )
     .where(where)
-    .orderBy(...(opts.orderBy ?? [desc(establishments.isFeatured), desc(establishments.completeness), asc(establishments.name)]))
+    .orderBy(
+      ...(opts.orderBy ?? [
+        desc(establishments.isFeatured),
+        desc(sql`${companies.plan} <> 'ESSENTIEL'`),
+        desc(establishments.completeness),
+        asc(establishments.name),
+      ]),
+    )
     .limit(opts.limit ?? 500)
     .offset(opts.offset ?? 0);
   if (!rows.length) return [];
@@ -175,6 +189,7 @@ export async function loadCards(
       attributeSlugs: a.map((x) => x.slug),
       open: st,
       isFeatured: e.isFeatured,
+      premium: Boolean(e.premium),
       completeness: e.completeness,
       status: e.status as EstablishmentStatus,
       companyId: e.companyId,

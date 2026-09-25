@@ -774,7 +774,7 @@ export async function replyMessage(_prev: ActionState, form: FormData): Promise<
 export async function respondAppointment(_prev: ActionState, form: FormData): Promise<ActionState> {
   const ctx = await proCtx(form.get('estId'));
   const id = uuid.parse(form.get('appointmentId'));
-  const decision = z.enum(['CONFIRMED', 'DECLINED']).parse(form.get('decision'));
+  const decision = z.enum(['CONFIRMED', 'DECLINED', 'CANCELLED']).parse(form.get('decision'));
   const note = z
     .string()
     .trim()
@@ -787,6 +787,8 @@ export async function respondAppointment(_prev: ActionState, form: FormData): Pr
     .where(and(eq(appointments.id, id), eq(appointments.establishmentId, ctx.est.id)))
     .limit(1);
   if (!a) return { status: 'error', message: 'Demande introuvable.' };
+  // Une demande se confirme ou se décline ; seul un rendez-vous confirmé peut être annulé.
+  if (decision === 'CANCELLED' ? a.status !== 'CONFIRMED' : a.status !== 'REQUESTED') return { status: 'error', message: 'Ce rendez-vous a déjà été traité.' };
   await db
     .update(appointments)
     .set({ status: decision, responseNote: note || null, respondedAt: new Date() })
@@ -799,13 +801,18 @@ export async function respondAppointment(_prev: ActionState, form: FormData): Pr
       to: a.email,
       establishmentName: ctx.est.name,
       confirmed: decision === 'CONFIRMED',
+      cancelled: decision === 'CANCELLED',
       when: `le ${when}`,
       note: note || null,
     }),
     territoryId: ctx.est.territoryId,
   });
   refresh(ctx, `${ctx.base}/rendez-vous`);
-  return { status: 'ok', message: decision === 'CONFIRMED' ? 'Rendez-vous confirmé au client.' : 'Réponse envoyée au client.' };
+  return {
+    status: 'ok',
+    message:
+      decision === 'CONFIRMED' ? 'Rendez-vous confirmé au client.' : decision === 'CANCELLED' ? 'Annulation envoyée au client.' : 'Réponse envoyée au client.',
+  };
 }
 
 // ─── Recrutement ────────────────────────────────────────────────────────────

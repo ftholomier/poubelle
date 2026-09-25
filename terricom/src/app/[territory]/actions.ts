@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { track } from '@/server/analytics';
 import { rateLimit } from '@/server/auth/rate-limit';
 import { ipHash, randomToken, sha256 } from '@/server/crypto';
+import { PUBLIC_STATUSES } from '@/lib/constants';
 import { fromParisLocal } from '@/lib/format';
 import { db } from '@/server/db';
 import {
@@ -12,6 +13,7 @@ import {
   audiences,
   circuitStops,
   circuits,
+  companies,
   companyMembers,
   establishments,
   jobApplications,
@@ -275,7 +277,13 @@ export async function requestAppointment(_prev: FormState, form: FormData): Prom
   if (!(await throttle('rdv', 6, 3600))) return { status: 'error', message: 'Trop de demandes, réessayez plus tard.' };
   const d = parsed.data;
   const [est] = await db.select().from(establishments).where(eq(establishments.id, d.establishmentId)).limit(1);
-  if (!est || !est.appointmentsEnabled) return { status: 'error', message: 'La prise de rendez-vous n’est pas proposée ici.' };
+  if (!est || !est.appointmentsEnabled || !PUBLIC_STATUSES.includes(est.status))
+    return { status: 'error', message: 'La prise de rendez-vous n’est pas proposée ici.' };
+  // Contrôles côté serveur : module activé par le territoire et offre de l'entreprise.
+  const [{ getEnabledModules }, { planLimits }] = await Promise.all([import('@/server/services/territories'), import('@/server/services/billing')]);
+  const [co] = await db.select({ plan: companies.plan }).from(companies).where(eq(companies.id, est.companyId)).limit(1);
+  if (!(await getEnabledModules(est.territoryId)).has('APPOINTMENTS') || !co || !(await planLimits(co.plan)).appointments)
+    return { status: 'error', message: 'La prise de rendez-vous n’est pas proposée ici.' };
   const preferredAt = fromParisLocal(d.date, d.time);
   if (preferredAt.getTime() < Date.now()) return { status: 'error', message: 'Choisissez un créneau à venir.' };
   await db.insert(appointments).values({

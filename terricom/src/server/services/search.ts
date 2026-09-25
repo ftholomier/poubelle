@@ -180,6 +180,7 @@ export async function searchTerritory(
           Number(b.open.open) - Number(a.open.open) ||
           Number(boost.has(b.id)) - Number(boost.has(a.id)) ||
           Number(b.isFeatured) - Number(a.isFeatured) ||
+          Number(b.premium) - Number(a.premium) ||
           Number(Boolean(b.coverUrl)) - Number(Boolean(a.coverUrl)) ||
           dist(a, b),
       );
@@ -189,6 +190,7 @@ export async function searchTerritory(
         (a, b) =>
           Number(b.open.open) - Number(a.open.open) ||
           Number(b.isFeatured) - Number(a.isFeatured) ||
+          Number(b.premium) - Number(a.premium) ||
           Number(Boolean(b.coverUrl)) - Number(Boolean(a.coverUrl)) ||
           Math.round(b.completeness / 20) - Math.round(a.completeness / 20) ||
           dist(a, b),
