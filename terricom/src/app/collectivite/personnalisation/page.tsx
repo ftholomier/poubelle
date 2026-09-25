@@ -102,7 +102,18 @@ export default async function PersonalizationPage() {
             ) : null}
           </div>
           {team.map((u) => (
-            <div key={u.roleId} style={{ display: 'grid', gridTemplateColumns: '36px 1fr 1.2fr auto', gap: 12, alignItems: 'center', padding: '10px 18px', borderTop: '1px solid var(--line-2)', fontSize: 13 }}>
+            <div
+              key={u.roleId}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '36px 1fr 1.2fr auto',
+                gap: 12,
+                alignItems: 'center',
+                padding: '10px 18px',
+                borderTop: '1px solid var(--line-2)',
+                fontSize: 13,
+              }}
+            >
               <span style={{ width: 34, height: 34, borderRadius: '50%', overflow: 'hidden' }}>
                 <Photo src={sized(u.avatarUrl, 80, 80)} alt="" label={fullName(u)} color="#7A5BB5" />
               </span>
@@ -113,7 +124,9 @@ export default async function PersonalizationPage() {
               <span style={{ fontWeight: 600 }}>
                 {STAFF_ROLES[u.role]}
                 {u.communeName ? ` · ${u.communeName}` : ''}
-                <span style={{ display: 'block', fontSize: 11, color: 'var(--muted)', fontWeight: 400 }}>{u.lastLoginAt ? `connecté·e ${relativeTime(u.lastLoginAt)}` : 'jamais connecté·e'}</span>
+                <span style={{ display: 'block', fontSize: 11, color: 'var(--muted)', fontWeight: 400 }}>
+                  {u.lastLoginAt ? `connecté·e ${relativeTime(u.lastLoginAt)}` : 'jamais connecté·e'}
+                </span>
               </span>
               <span style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
                 {u.mfa ? (
@@ -121,7 +134,19 @@ export default async function PersonalizationPage() {
                 ) : admin ? (
                   <form action={mfaReminderAction}>
                     <input type="hidden" name="userId" value={u.userId} />
-                    <button type="submit" title="Envoyer un rappel" style={{ fontSize: 11, fontWeight: 800, padding: '3px 8px', borderRadius: 999, background: 'var(--warn-bg)', border: 0, cursor: 'pointer' }}>
+                    <button
+                      type="submit"
+                      title="Envoyer un rappel"
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 800,
+                        padding: '3px 8px',
+                        borderRadius: 999,
+                        background: 'var(--warn-bg)',
+                        border: 0,
+                        cursor: 'pointer',
+                      }}
+                    >
                       Sans MFA · relancer
                     </button>
                   </form>
@@ -131,7 +156,19 @@ export default async function PersonalizationPage() {
                 {admin && u.userId !== ctx.actor.user.id ? (
                   <form action={revokeRoleAction}>
                     <input type="hidden" name="roleId" value={u.roleId} />
-                    <button type="submit" aria-label={`Retirer l’accès de ${fullName(u)}`} style={{ border: 0, background: 'var(--danger-bg)', color: 'var(--danger-fg)', borderRadius: 6, width: 22, height: 22, cursor: 'pointer' }}>
+                    <button
+                      type="submit"
+                      aria-label={`Retirer l’accès de ${fullName(u)}`}
+                      style={{
+                        border: 0,
+                        background: 'var(--danger-bg)',
+                        color: 'var(--danger-fg)',
+                        borderRadius: 6,
+                        width: 22,
+                        height: 22,
+                        cursor: 'pointer',
+                      }}
+                    >
                       ×
                     </button>
                   </form>
@@ -151,7 +188,10 @@ export default async function PersonalizationPage() {
         <section className="bo-card" style={{ padding: 20, borderRadius: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
           <b>Adresse du portail</b>
           {domains.map((d) => (
-            <div key={d.id} style={{ display: 'flex', border: '1px solid var(--line)', borderRadius: 10, overflow: 'hidden', fontSize: 14, alignItems: 'center' }}>
+            <div
+              key={d.id}
+              style={{ display: 'flex', border: '1px solid var(--line)', borderRadius: 10, overflow: 'hidden', fontSize: 14, alignItems: 'center' }}
+            >
               <span style={{ padding: 11, background: 'var(--sand)', color: 'var(--muted)' }}>https://</span>
               <span style={{ flex: 1, padding: 11 }}>{d.host}</span>
               {d.verifiedAt ? (
@@ -180,7 +220,17 @@ export default async function PersonalizationPage() {
           <b style={{ marginTop: 8 }}>Modules du contrat</b>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
             {modules.map((m) => (
-              <span key={m.module} style={{ fontSize: 12, fontWeight: 700, padding: '4px 10px', borderRadius: 999, background: m.enabled ? 'var(--mint)' : 'var(--sand)', color: m.enabled ? 'var(--green)' : 'var(--muted)' }}>
+              <span
+                key={m.module}
+                style={{
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: '4px 10px',
+                  borderRadius: 999,
+                  background: m.enabled ? 'var(--mint)' : 'var(--sand)',
+                  color: m.enabled ? 'var(--green)' : 'var(--muted)',
+                }}
+              >
                 {m.enabled ? '✓' : '○'} {MODULES[m.module]?.label ?? m.module}
               </span>
             ))}
@@ -189,7 +239,11 @@ export default async function PersonalizationPage() {
         </section>
         <section className="bo-card" style={{ padding: 20, borderRadius: 20 }}>
           <b>Règles du territoire</b>
-          <ActionForm action={saveSettingsAction} resetOnSuccess={false} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 12, marginTop: 12 }}>
+          <ActionForm
+            action={saveSettingsAction}
+            resetOnSuccess={false}
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 12, marginTop: 12 }}
+          >
             <label className="field">
               <span>Validation des revendications</span>
               <select name="claimValidation" className="input" defaultValue={s.claimValidation ?? 'MANUAL'} disabled={!admin}>
@@ -210,7 +264,13 @@ export default async function PersonalizationPage() {
             </label>
             <label className="field">
               <span>Nom de la newsletter</span>
-              <input name="newsletterName" className="input" defaultValue={s.newsletterName ?? ''} placeholder={`${t.name} · Le week-end local`} disabled={!admin} />
+              <input
+                name="newsletterName"
+                className="input"
+                defaultValue={s.newsletterName ?? ''}
+                placeholder={`${t.name} · Le week-end local`}
+                disabled={!admin}
+              />
             </label>
             <label className="field">
               <span>Itinéraires proposés</span>
@@ -237,7 +297,13 @@ export default async function PersonalizationPage() {
               <input name="footerText" className="input" defaultValue={s.footerText ?? ''} maxLength={400} disabled={!admin} />
             </label>
             <label style={{ display: 'flex', gap: 8, fontSize: 14, alignItems: 'center', gridColumn: '1 / -1' }}>
-              <input type="checkbox" name="requireMfaForAll" defaultChecked={s.requireMfaForAll === true} disabled={!admin} style={{ accentColor: 'var(--green)' }} />
+              <input
+                type="checkbox"
+                name="requireMfaForAll"
+                defaultChecked={s.requireMfaForAll === true}
+                disabled={!admin}
+                style={{ accentColor: 'var(--green)' }}
+              />
               Exiger la double authentification pour toute l’équipe (obligatoire pour les administrateurs)
             </label>
             {admin ? (

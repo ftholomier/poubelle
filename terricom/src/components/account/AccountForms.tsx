@@ -18,9 +18,21 @@ export function RecoveryCodes({ codes }: { codes: string[] }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <p style={{ margin: 0, fontSize: 14, color: 'var(--muted)' }}>
-        Conservez ces codes de secours en lieu sûr (gestionnaire de mots de passe, papier) : chacun permet une connexion si vous perdez votre téléphone. Ils ne seront plus affichés.
+        Conservez ces codes de secours en lieu sûr (gestionnaire de mots de passe, papier) : chacun permet une connexion si vous perdez votre téléphone. Ils ne
+        seront plus affichés.
       </p>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(120px,1fr))', gap: 8, fontFamily: 'var(--font-mono)', fontSize: 15, background: 'var(--cream)', borderRadius: 12, padding: 14 }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill,minmax(120px,1fr))',
+          gap: 8,
+          fontFamily: 'var(--font-mono)',
+          fontSize: 15,
+          background: 'var(--cream)',
+          borderRadius: 12,
+          padding: 14,
+        }}
+      >
         {codes.map((c) => (
           <span key={c}>{c}</span>
         ))}
@@ -60,7 +72,18 @@ export function MfaSetup({ secret, qrSvg }: { secret: string; qrSvg: string }) {
         <label className="sr-only" htmlFor="mfa-setup-code">
           Code à 6 chiffres
         </label>
-        <input id="mfa-setup-code" name="code" className="input" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9 ]{6,7}" maxLength={7} required placeholder="000 000" style={{ maxWidth: 180, fontFamily: 'var(--font-mono)', fontSize: 18 }} />
+        <input
+          id="mfa-setup-code"
+          name="code"
+          className="input"
+          inputMode="numeric"
+          autoComplete="one-time-code"
+          pattern="[0-9 ]{6,7}"
+          maxLength={7}
+          required
+          placeholder="000 000"
+          style={{ maxWidth: 180, fontFamily: 'var(--font-mono)', fontSize: 18 }}
+        />
         <button type="submit" className="btn btn-brand" disabled={pending}>
           {pending ? 'Vérification…' : 'Activer la double authentification'}
         </button>
@@ -81,7 +104,16 @@ export function RegenerateCodesForm() {
           <label className="sr-only" htmlFor="regen-pass">
             Mot de passe
           </label>
-          <input id="regen-pass" name="password" type="password" className="input" placeholder="Votre mot de passe" autoComplete="current-password" required style={{ maxWidth: 240 }} />
+          <input
+            id="regen-pass"
+            name="password"
+            type="password"
+            className="input"
+            placeholder="Votre mot de passe"
+            autoComplete="current-password"
+            required
+            style={{ maxWidth: 240 }}
+          />
           <button type="submit" className="btn btn-outline" disabled={pending}>
             Générer de nouveaux codes de secours
           </button>
@@ -100,7 +132,17 @@ export function DisableMfaForm() {
         <label className="sr-only" htmlFor="mfa-off-code">
           Code de l&apos;application
         </label>
-        <input id="mfa-off-code" name="code" className="input" inputMode="numeric" pattern="[0-9 ]{6,7}" maxLength={7} placeholder="Code à 6 chiffres" required style={{ maxWidth: 180 }} />
+        <input
+          id="mfa-off-code"
+          name="code"
+          className="input"
+          inputMode="numeric"
+          pattern="[0-9 ]{6,7}"
+          maxLength={7}
+          placeholder="Code à 6 chiffres"
+          required
+          style={{ maxWidth: 180 }}
+        />
         <button type="submit" className="btn btn-ghost" disabled={pending} style={{ color: 'var(--danger-fg)' }}>
           Désactiver
         </button>

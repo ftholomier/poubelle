@@ -74,7 +74,12 @@ export async function submitClaimAction(_prev: ClaimFormState, form: FormData): 
   if (method.data === 'KBIS') {
     if (!(file instanceof File) || file.size === 0) return { status: 'error', message: 'Déposez votre extrait Kbis (PDF de moins de 3 mois).' };
     try {
-      const doc = await saveDocumentUpload(file, { ownerType: 'CLAIM_KBIS', territoryId: target.est.territoryId, establishmentId: target.est.id, uploadedById: user.id });
+      const doc = await saveDocumentUpload(file, {
+        ownerType: 'CLAIM_KBIS',
+        territoryId: target.est.territoryId,
+        establishmentId: target.est.id,
+        uploadedById: user.id,
+      });
       kbisMediaId = doc.id;
     } catch (err) {
       return { status: 'error', message: err instanceof MediaError ? err.message : 'Le document n’a pas pu être enregistré.' };
@@ -118,7 +123,12 @@ export async function addDocumentAction(_prev: ClaimFormState, form: FormData): 
   const file = form.get('kbis');
   if (!(file instanceof File) || file.size === 0) return { status: 'error', message: 'Déposez votre document (PDF).' };
   try {
-    const doc = await saveDocumentUpload(file, { ownerType: 'CLAIM_KBIS', territoryId: ctx.est.territoryId, establishmentId: ctx.est.id, uploadedById: user.id });
+    const doc = await saveDocumentUpload(file, {
+      ownerType: 'CLAIM_KBIS',
+      territoryId: ctx.est.territoryId,
+      establishmentId: ctx.est.id,
+      uploadedById: user.id,
+    });
     await addClaimDocument(claimId.data, user.id, doc.id);
   } catch (err) {
     if (err instanceof MediaError || err instanceof ClaimError) return { status: 'error', message: err.message };
@@ -133,6 +143,7 @@ export async function simulateApprovalAction(form: FormData): Promise<void> {
   const claimId = uuid.parse(form.get('claimId'));
   const user = await requireUser(`/pro/revendiquer/suivi/${claimId}`);
   const ctx = await claimForUser(claimId, user.id);
-  if (ctx && (ctx.claim.status === 'PENDING' || ctx.claim.status === 'NEEDS_INFO')) await approveClaim(claimId, 'Démonstration', 'Validation simulée (démonstration)');
+  if (ctx && (ctx.claim.status === 'PENDING' || ctx.claim.status === 'NEEDS_INFO'))
+    await approveClaim(claimId, 'Démonstration', 'Validation simulée (démonstration)');
   redirect(`/pro/revendiquer/suivi/${claimId}`);
 }

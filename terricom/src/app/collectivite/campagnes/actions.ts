@@ -18,7 +18,12 @@ import { sized } from '@/lib/images';
 export type CampState = { status: 'idle' | 'ok' | 'error'; message?: string };
 
 export type PlanResult =
-  | { ok: true; plan: CampaignPlan; picks: { id: string; name: string; image: string | null; commune: string }[]; analysed: { establishments: number; posts: number; events: number } }
+  | {
+      ok: true;
+      plan: CampaignPlan;
+      picks: { id: string; name: string; image: string | null; commune: string }[];
+      analysed: { establishments: number; posts: number; events: number };
+    }
   | { ok: false; message: string };
 
 const uuid = z.string().uuid();
@@ -32,7 +37,8 @@ export async function planCampaignAction(prompt: string): Promise<PlanResult> {
   const ctx = await loadBoContext();
   const clean = prompt.trim().slice(0, 600);
   if (clean.length < 10) return { ok: false, message: 'Décrivez votre idée en une phrase (10 caractères minimum).' };
-  if (!(await rateLimit(`ai-campaign:${ctx.actor.user.id}`, 20, 3600)).ok) return { ok: false, message: 'Beaucoup de demandes en peu de temps : réessayez dans quelques minutes.' };
+  if (!(await rateLimit(`ai-campaign:${ctx.actor.user.id}`, 20, 3600)).ok)
+    return { ok: false, message: 'Beaucoup de demandes en peu de temps : réessayez dans quelques minutes.' };
   const rows = await db
     .select({
       id: establishments.id,
@@ -42,7 +48,9 @@ export async function planCampaignAction(prompt: string): Promise<PlanResult> {
       commune: communes.name,
       completeness: establishments.completeness,
       coverUrl: establishments.coverUrl,
-      attrs: sql<string[]>`coalesce((select array_agg(a.slug) from establishment_attributes ea join attributes a on a.id = ea.attribute_id where ea.establishment_id = "establishments"."id"), '{}')`,
+      attrs: sql<
+        string[]
+      >`coalesce((select array_agg(a.slug) from establishment_attributes ea join attributes a on a.id = ea.attribute_id where ea.establishment_id = "establishments"."id"), '{}')`,
     })
     .from(establishments)
     .innerJoin(categories, eq(categories.id, establishments.categoryId))
@@ -51,13 +59,27 @@ export async function planCampaignAction(prompt: string): Promise<PlanResult> {
     .orderBy(sql`${establishments.completeness} desc`)
     .limit(400);
   const [[subs], [postCount]] = await Promise.all([
-    db.select({ n: count() }).from(subscribers).where(and(eq(subscribers.territoryId, ctx.territory.id), eq(subscribers.status, 'CONFIRMED'))),
-    db.select({ n: count() }).from(posts).where(and(eq(posts.territoryId, ctx.territory.id), eq(posts.status, 'PUBLISHED'))),
+    db
+      .select({ n: count() })
+      .from(subscribers)
+      .where(and(eq(subscribers.territoryId, ctx.territory.id), eq(subscribers.status, 'CONFIRMED'))),
+    db
+      .select({ n: count() })
+      .from(posts)
+      .where(and(eq(posts.territoryId, ctx.territory.id), eq(posts.status, 'PUBLISHED'))),
   ]);
   const plan = await planCampaign(
     clean,
     ctx.territory.name,
-    rows.map((r) => ({ id: r.id, name: r.name, activity: r.activity, family: r.family, commune: r.commune, attributes: r.attrs ?? [], completeness: r.completeness })),
+    rows.map((r) => ({
+      id: r.id,
+      name: r.name,
+      activity: r.activity,
+      family: r.family,
+      commune: r.commune,
+      attributes: r.attrs ?? [],
+      completeness: r.completeness,
+    })),
     Number(subs?.n ?? 0),
     { territoryId: ctx.territory.id, userId: ctx.actor.user.id },
   );
@@ -77,11 +99,17 @@ const planSchema = z.object({
   newsletterSubject: z.string().trim().max(250).optional().default(''),
   newsletterIntro: z.string().trim().max(1000).optional().default(''),
   criteriaText: z.string().trim().max(500).optional().default(''),
-  families: z.array(z.enum(['COMMERCE', 'ARTISAN', 'PRODUCTEUR', 'RESTAURATION', 'SERVICES'])).max(5).default([]),
+  families: z
+    .array(z.enum(['COMMERCE', 'ARTISAN', 'PRODUCTEUR', 'RESTAURATION', 'SERVICES']))
+    .max(5)
+    .default([]),
   attributeSlugs: z.array(z.string().max(80)).max(20).default([]),
   startsAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   endsAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  plan: z.array(z.object({ date: z.string().max(40), text: z.string().max(300) })).max(12).default([]),
+  plan: z
+    .array(z.object({ date: z.string().max(40), text: z.string().max(300) }))
+    .max(12)
+    .default([]),
   selectedIds: z.array(uuid).max(400).default([]),
   prompt: z.string().max(600).optional(),
 });
@@ -108,7 +136,12 @@ export async function createFromPlanAction(_prev: CampState, form: FormData): Pr
   const p = parsed.data;
   const invite = form.get('invite') === '1';
   const scoped = p.selectedIds.length
-    ? (await db.select({ id: establishments.id }).from(establishments).where(and(estScope(ctx), inArray(establishments.id, p.selectedIds)))).map((r) => r.id)
+    ? (
+        await db
+          .select({ id: establishments.id })
+          .from(establishments)
+          .where(and(estScope(ctx), inArray(establishments.id, p.selectedIds)))
+      ).map((r) => r.id)
     : [];
   const [camp] = await db
     .insert(campaigns)
@@ -122,7 +155,14 @@ export async function createFromPlanAction(_prev: CampState, form: FormData): Pr
       endsAt: p.endsAt < p.startsAt ? p.startsAt : p.endsAt,
       status: 'DRAFT',
       criteria: { families: p.families, attributeSlugs: p.attributeSlugs },
-      aiPlan: { pageTitle: p.pageTitle, pageText: p.pageText, newsletterSubject: p.newsletterSubject, newsletterIntro: p.newsletterIntro, plan: p.plan, prompt: p.prompt },
+      aiPlan: {
+        pageTitle: p.pageTitle,
+        pageText: p.pageText,
+        newsletterSubject: p.newsletterSubject,
+        newsletterIntro: p.newsletterIntro,
+        plan: p.plan,
+        prompt: p.prompt,
+      },
       invitationMessage: `${ctx.scopeName} lance « ${p.name} » du ${p.startsAt.split('-').reverse().join('/')} au ${p.endsAt.split('-').reverse().join('/')}. Participez gratuitement en proposant une offre ou une animation : elle sera mise en avant sur le portail et dans la newsletter.`,
       createdById: ctx.actor.user.id,
     })
@@ -164,28 +204,55 @@ async function notifyParticipants(ctx: BoContext, campaignId: string, ids: strin
         body: `Vous êtes invité·e à la campagne « ${name} ». ${text} Rejoignez-la depuis votre tableau de bord.`,
       })),
     );
-  await db.update(campaignParticipants).set({ invitedAt: new Date() }).where(and(eq(campaignParticipants.campaignId, campaignId), inArray(campaignParticipants.establishmentId, ids)));
+  await db
+    .update(campaignParticipants)
+    .set({ invitedAt: new Date() })
+    .where(and(eq(campaignParticipants.campaignId, campaignId), inArray(campaignParticipants.establishmentId, ids)));
 }
 
 export async function createCampaignAction(_prev: CampState, form: FormData): Promise<CampState> {
   const ctx = await loadBoContext();
   const parsed = z
-    .object({ name: z.string().trim().min(3, 'Nom trop court').max(200), startsAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date de début'), endsAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date de fin') })
+    .object({
+      name: z.string().trim().min(3, 'Nom trop court').max(200),
+      startsAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date de début'),
+      endsAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date de fin'),
+    })
     .safeParse(Object.fromEntries(form));
   if (!parsed.success) return { status: 'error', message: parsed.error.issues[0]?.message };
   const d = parsed.data;
   if (d.endsAt < d.startsAt) return { status: 'error', message: 'La fin doit suivre le début.' };
   const [camp] = await db
     .insert(campaigns)
-    .values({ territoryId: ctx.territory.id, slug: await uniqueSlug(ctx.territory.id, d.name), name: d.name, startsAt: d.startsAt, endsAt: d.endsAt, status: 'DRAFT', createdById: ctx.actor.user.id })
+    .values({
+      territoryId: ctx.territory.id,
+      slug: await uniqueSlug(ctx.territory.id, d.name),
+      name: d.name,
+      startsAt: d.startsAt,
+      endsAt: d.endsAt,
+      status: 'DRAFT',
+      createdById: ctx.actor.user.id,
+    })
     .returning({ id: campaigns.id });
-  await audit({ actor: actorOf(ctx), category: 'MODIFICATION', action: 'campaign.create', summary: `Campagne « ${d.name} » créée`, territoryId: ctx.territory.id, targetType: 'campaign', targetId: camp.id });
+  await audit({
+    actor: actorOf(ctx),
+    category: 'MODIFICATION',
+    action: 'campaign.create',
+    summary: `Campagne « ${d.name} » créée`,
+    territoryId: ctx.territory.id,
+    targetType: 'campaign',
+    targetId: camp.id,
+  });
   redirect(`/collectivite/campagnes/${camp.id}`);
 }
 
 async function scopedCampaign(ctx: BoContext, raw: unknown) {
   const id = uuid.parse(raw);
-  const [c] = await db.select().from(campaigns).where(and(eq(campaigns.id, id), eq(campaigns.territoryId, ctx.territory.id))).limit(1);
+  const [c] = await db
+    .select()
+    .from(campaigns)
+    .where(and(eq(campaigns.id, id), eq(campaigns.territoryId, ctx.territory.id)))
+    .limit(1);
   return c ?? null;
 }
 
@@ -248,7 +315,15 @@ export async function updateCampaignAction(_prev: CampState, form: FormData): Pr
       updatedAt: new Date(),
     })
     .where(eq(campaigns.id, c.id));
-  await audit({ actor: actorOf(ctx), category: 'MODIFICATION', action: 'campaign.update', summary: `Campagne « ${d.name} » mise à jour (${d.status.toLowerCase()})`, territoryId: ctx.territory.id, targetType: 'campaign', targetId: c.id });
+  await audit({
+    actor: actorOf(ctx),
+    category: 'MODIFICATION',
+    action: 'campaign.update',
+    summary: `Campagne « ${d.name} » mise à jour (${d.status.toLowerCase()})`,
+    territoryId: ctx.territory.id,
+    targetType: 'campaign',
+    targetId: c.id,
+  });
   invalidate(`campaign:${ctx.territory.id}`);
   revalidatePath(`/collectivite/campagnes/${c.id}`);
   return { status: 'ok', message: 'Campagne enregistrée.' };
@@ -265,7 +340,15 @@ export async function inviteParticipantsAction(_prev: CampState, form: FormData)
   const ids = pending.map((p) => p.id);
   if (!ids.length) return { status: 'error', message: 'Aucun établissement à inviter.' };
   await notifyParticipants(ctx, c.id, ids, c.name, c.invitationMessage ?? '');
-  await audit({ actor: actorOf(ctx), category: 'ENVOI', action: 'campaign.invite', summary: `${ids.length} invitations envoyées pour « ${c.name} »`, territoryId: ctx.territory.id, targetType: 'campaign', targetId: c.id });
+  await audit({
+    actor: actorOf(ctx),
+    category: 'ENVOI',
+    action: 'campaign.invite',
+    summary: `${ids.length} invitations envoyées pour « ${c.name} »`,
+    territoryId: ctx.territory.id,
+    targetType: 'campaign',
+    targetId: c.id,
+  });
   revalidatePath(`/collectivite/campagnes/${c.id}`);
   return { status: 'ok', message: `${ids.length} établissement${ids.length > 1 ? 's' : ''} invité${ids.length > 1 ? 's' : ''}.` };
 }

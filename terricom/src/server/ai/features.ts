@@ -78,7 +78,11 @@ export function writerFallback(input: WriterInput): WriterOutput {
   const d = (input.draft.trim() || `${POST_KINDS[input.kind].label} chez ${e.name}`).replace(/[.!]+$/, '');
   const lower = d.charAt(0).toLowerCase() + d.slice(1);
   const where = e.address ? `au ${e.address.replace(/,?\s*\d{5}.*$/, '')} à ${e.commune}` : `à ${e.commune}`;
-  const tag = (s: string) => `#${slugify(s).split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join('')}`;
+  const tag = (s: string) =>
+    `#${slugify(s)
+      .split('-')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join('')}`;
   return {
     fiche: `${hook} ${d}. Passez nous voir ${where}. ${cta}.`,
     facebook: `${hook} ${d} ${emoji}\n${cta} à ${e.commune}. Partagez à vos amis${food ? ' gourmands' : ''} !`.replace(/ \n/, '\n'),
@@ -308,13 +312,7 @@ function addDays(iso: string, n: number): string {
   return d.toISOString().slice(0, 10);
 }
 
-export function campaignFallback(
-  prompt: string,
-  territoryName: string,
-  candidates: CampaignCandidate[],
-  subscribers: number,
-  now = new Date(),
-): CampaignPlan {
+export function campaignFallback(prompt: string, territoryName: string, candidates: CampaignCandidate[], subscribers: number, now = new Date()): CampaignPlan {
   const q = prompt.toLowerCase();
   const families: Family[] = [];
   if (/producteur|terroir|ferme|local/.test(q)) families.push('PRODUCTEUR');
@@ -327,7 +325,10 @@ export function campaignFallback(
   const startsAt = isXmas ? (today > `${year}-12-01` ? today : `${year}-12-01`) : addDays(today, 14);
   const endsAt = isXmas ? `${year}-12-24` : addDays(startsAt, 21);
   const pool = candidates.filter((c) => (families.length ? families.includes(c.family) : true));
-  const selected = pool.filter((c) => c.completeness >= 60).concat(pool.filter((c) => c.completeness < 60)).slice(0, 40);
+  const selected = pool
+    .filter((c) => c.completeness >= 60)
+    .concat(pool.filter((c) => c.completeness < 60))
+    .slice(0, 40);
   const communesCount = new Set(selected.map((c) => c.commune)).size;
   const label = families.length === 1 ? FAMILIES[families[0]].plural : 'professionnels';
   const name = isXmas ? `Un Noël 100 % ${territoryName}` : `Le mois des ${label} de ${territoryName}`;

@@ -57,7 +57,10 @@ export default async function CampaignsPage() {
   list.sort((a, b) => ORDER[a.status] - ORDER[b.status] || a.startsAt.localeCompare(b.startsAt));
   const [[{ n: ests }], [{ n: nPosts }]] = await Promise.all([
     db.select({ n: count() }).from(establishments).where(estScope(ctx)),
-    db.select({ n: count() }).from(posts).where(and(eq(posts.territoryId, t), eq(posts.status, 'PUBLISHED'))),
+    db
+      .select({ n: count() })
+      .from(posts)
+      .where(and(eq(posts.territoryId, t), eq(posts.status, 'PUBLISHED'))),
   ]);
 
   return (
@@ -69,10 +72,27 @@ export default async function CampaignsPage() {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 14 }}>
         {list.map((c) => (
-          <Link key={c.id} href={`/collectivite/campagnes/${c.id}`} className="card-link" style={{ background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: 20, overflow: 'hidden', color: 'var(--text)' }}>
+          <Link
+            key={c.id}
+            href={`/collectivite/campagnes/${c.id}`}
+            className="card-link"
+            style={{ background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: 20, overflow: 'hidden', color: 'var(--text)' }}
+          >
             <div style={{ position: 'relative', height: 120 }}>
               <Photo src={sized(c.image, 600, 300)} alt="" label={c.name} color="#7A2E26" />
-              <span style={{ position: 'absolute', left: 12, top: 12, background: STATUS[c.status].bg, color: 'var(--ink)', fontSize: 11, fontWeight: 800, padding: '4px 9px', borderRadius: 999 }}>
+              <span
+                style={{
+                  position: 'absolute',
+                  left: 12,
+                  top: 12,
+                  background: STATUS[c.status].bg,
+                  color: 'var(--ink)',
+                  fontSize: 11,
+                  fontWeight: 800,
+                  padding: '4px 9px',
+                  borderRadius: 999,
+                }}
+              >
                 {STATUS[c.status].label}
               </span>
             </div>

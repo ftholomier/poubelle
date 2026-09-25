@@ -38,7 +38,8 @@ export default async function ClaimSearchPage({ searchParams }: Props) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <ClaimTitle>Retrouvez votre établissement</ClaimTitle>
         <p style={{ margin: 0, color: 'var(--muted)' }}>
-          {territory ? 'Votre collectivité a' : 'Les collectivités partenaires ont'} déjà créé {fmtInt(n)} fiches à partir des données publiques. La vôtre est sûrement là.
+          {territory ? 'Votre collectivité a' : 'Les collectivités partenaires ont'} déjà créé {fmtInt(n)} fiches à partir des données publiques. La vôtre est
+          sûrement là.
         </p>
         <form method="get" role="search" style={{ display: 'flex' }}>
           {territory ? <input type="hidden" name="territoire" value={territory.slug} /> : null}
@@ -89,7 +90,16 @@ export default async function ClaimSearchPage({ searchParams }: Props) {
                   {r.claimable ? (
                     <Link
                       href={`/pro/revendiquer/${r.id}`}
-                      style={{ border: 0, background: 'var(--green)', color: '#fff', padding: '10px 14px', borderRadius: 10, fontWeight: 700, whiteSpace: 'nowrap', textDecoration: 'none' }}
+                      style={{
+                        border: 0,
+                        background: 'var(--green)',
+                        color: '#fff',
+                        padding: '10px 14px',
+                        borderRadius: 10,
+                        fontWeight: 700,
+                        whiteSpace: 'nowrap',
+                        textDecoration: 'none',
+                      }}
                     >
                       C&apos;est moi
                     </Link>

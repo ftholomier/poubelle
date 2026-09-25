@@ -25,7 +25,11 @@ const base = '/collectivite/newsletter';
 
 async function scopedLetter(ctx: BoContext, raw: unknown) {
   const id = uuid.parse(raw);
-  const [n] = await db.select().from(newsletters).where(and(eq(newsletters.id, id), eq(newsletters.territoryId, ctx.territory.id))).limit(1);
+  const [n] = await db
+    .select()
+    .from(newsletters)
+    .where(and(eq(newsletters.id, id), eq(newsletters.territoryId, ctx.territory.id)))
+    .limit(1);
   if (!n || n.companyId) return null;
   if (ctx.commune && n.communeId !== ctx.commune.id) return null;
   return n;
@@ -42,7 +46,11 @@ export async function createNewsletterAction(form: FormData): Promise<void> {
   let { title, intro, subject } = draft;
   let blocks = draft.blocks;
   if (campaignId.success) {
-    const [c] = await db.select().from(campaigns).where(and(eq(campaigns.id, campaignId.data), eq(campaigns.territoryId, ctx.territory.id))).limit(1);
+    const [c] = await db
+      .select()
+      .from(campaigns)
+      .where(and(eq(campaigns.id, campaignId.data), eq(campaigns.territoryId, ctx.territory.id)))
+      .limit(1);
     if (c) {
       subject = c.aiPlan?.newsletterSubject || c.name;
       title = c.aiPlan?.pageTitle || c.name;
@@ -50,7 +58,10 @@ export async function createNewsletterAction(form: FormData): Promise<void> {
       blocks = [{ type: 'cta', label: 'Découvrir la sélection', url: `/campagnes/${c.slug}` }];
     }
   }
-  const defaults = await db.select({ id: audiences.id }).from(audiences).where(and(eq(audiences.territoryId, ctx.territory.id), ctx.commune ? eq(audiences.communeId, ctx.commune.id) : eq(audiences.isDefault, true)));
+  const defaults = await db
+    .select({ id: audiences.id })
+    .from(audiences)
+    .where(and(eq(audiences.territoryId, ctx.territory.id), ctx.commune ? eq(audiences.communeId, ctx.commune.id) : eq(audiences.isDefault, true)));
   const [n] = await db
     .insert(newsletters)
     .values({
@@ -66,7 +77,15 @@ export async function createNewsletterAction(form: FormData): Promise<void> {
       createdById: ctx.actor.user.id,
     })
     .returning({ id: newsletters.id });
-  await audit({ actor: { user: ctx.actor.user }, category: 'MODIFICATION', action: 'newsletter.create', summary: `Lettre « ${subject} » créée`, territoryId: ctx.territory.id, targetType: 'newsletter', targetId: n.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'MODIFICATION',
+    action: 'newsletter.create',
+    summary: `Lettre « ${subject} » créée`,
+    territoryId: ctx.territory.id,
+    targetType: 'newsletter',
+    targetId: n.id,
+  });
   redirect(`${base}?lettre=${n.id}`);
 }
 
@@ -90,14 +109,18 @@ export async function saveContentAction(_prev: NlState, form: FormData): Promise
   const file = form.get('hero');
   if (file instanceof File && file.size > 0) {
     try {
-      heroImageUrl = (await saveImageUpload(file, { ownerType: 'NEWSLETTER', ownerId: n.id, territoryId: ctx.territory.id, uploadedById: ctx.actor.user.id })).url;
+      heroImageUrl = (await saveImageUpload(file, { ownerType: 'NEWSLETTER', ownerId: n.id, territoryId: ctx.territory.id, uploadedById: ctx.actor.user.id }))
+        .url;
     } catch (err) {
       return { status: 'error', message: err instanceof MediaError ? err.message : 'Image refusée.' };
     }
   }
   const blocks: NewsletterBlock[] = n.blocks.filter((b) => b.type !== 'cta');
   if (d.ctaLabel && d.ctaUrl) blocks.push({ type: 'cta', label: d.ctaLabel, url: d.ctaUrl });
-  await db.update(newsletters).set({ subject: d.subject, preheader: d.preheader || null, title: d.title, intro: d.intro, heroImageUrl, blocks, updatedAt: new Date() }).where(eq(newsletters.id, n.id));
+  await db
+    .update(newsletters)
+    .set({ subject: d.subject, preheader: d.preheader || null, title: d.title, intro: d.intro, heroImageUrl, blocks, updatedAt: new Date() })
+    .where(eq(newsletters.id, n.id));
   revalidatePath(base);
   return { status: 'ok', message: 'Contenu enregistré.' };
 }
@@ -107,7 +130,10 @@ export async function autoFillAction(form: FormData): Promise<void> {
   const n = await scopedLetter(ctx, form.get('newsletterId'));
   if (!n || !editable(n)) return;
   const d = await autoCompose(ctx.territory, ctx.communeIds);
-  await db.update(newsletters).set({ subject: d.subject, title: d.title, intro: d.intro, heroImageUrl: d.heroImageUrl ?? n.heroImageUrl, blocks: d.blocks, updatedAt: new Date() }).where(eq(newsletters.id, n.id));
+  await db
+    .update(newsletters)
+    .set({ subject: d.subject, title: d.title, intro: d.intro, heroImageUrl: d.heroImageUrl ?? n.heroImageUrl, blocks: d.blocks, updatedAt: new Date() })
+    .where(eq(newsletters.id, n.id));
   revalidatePath(base);
   redirect(`${base}?lettre=${n.id}`);
 }
@@ -121,7 +147,13 @@ export async function addEstablishmentAction(_prev: NlState, form: FormData): Pr
   const [e] = await db
     .select({ id: establishments.id, name: establishments.name })
     .from(establishments)
-    .where(and(estScope(ctx), inArray(establishments.status, ['PRECREATED', 'TO_COMPLETE', 'CLAIMED', 'VALIDATED']), sql`f_unaccent(${establishments.name}) ilike f_unaccent(${`%${q}%`})`))
+    .where(
+      and(
+        estScope(ctx),
+        inArray(establishments.status, ['PRECREATED', 'TO_COMPLETE', 'CLAIMED', 'VALIDATED']),
+        sql`f_unaccent(${establishments.name}) ilike f_unaccent(${`%${q}%`})`,
+      ),
+    )
     .limit(1);
   if (!e) return { status: 'error', message: `Aucun établissement ne correspond à « ${q} ».` };
   const blocks = [...n.blocks];
@@ -154,8 +186,18 @@ export async function saveAudiencesAction(form: FormData): Promise<void> {
   const ctx = await loadBoContext();
   const n = await scopedLetter(ctx, form.get('newsletterId'));
   if (!n || !editable(n)) return;
-  const wanted = form.getAll('audience').map(String).filter((x) => uuid.safeParse(x).success);
-  const valid = wanted.length ? (await db.select({ id: audiences.id }).from(audiences).where(and(eq(audiences.territoryId, ctx.territory.id), inArray(audiences.id, wanted)))).map((a) => a.id) : [];
+  const wanted = form
+    .getAll('audience')
+    .map(String)
+    .filter((x) => uuid.safeParse(x).success);
+  const valid = wanted.length
+    ? (
+        await db
+          .select({ id: audiences.id })
+          .from(audiences)
+          .where(and(eq(audiences.territoryId, ctx.territory.id), inArray(audiences.id, wanted)))
+      ).map((a) => a.id)
+    : [];
   await db.update(newsletters).set({ audienceIds: valid, updatedAt: new Date() }).where(eq(newsletters.id, n.id));
   revalidatePath(base);
 }
@@ -189,7 +231,10 @@ export async function scheduleAction(_prev: NlState, form: FormData): Promise<Nl
     targetId: n.id,
   });
   revalidatePath(base);
-  return { status: 'ok', message: now ? `Envoi lancé à ${total.toLocaleString('fr-FR')} abonnés.` : `Envoi programmé pour ${total.toLocaleString('fr-FR')} abonnés.` };
+  return {
+    status: 'ok',
+    message: now ? `Envoi lancé à ${total.toLocaleString('fr-FR')} abonnés.` : `Envoi programmé pour ${total.toLocaleString('fr-FR')} abonnés.`,
+  };
 }
 
 export async function unscheduleAction(form: FormData): Promise<void> {

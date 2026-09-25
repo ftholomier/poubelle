@@ -86,7 +86,13 @@ export async function saveNewsAction(_prev: AgendaState, form: FormData): Promis
   } else {
     await db.insert(posts).values({ ...values, territoryId: ctx.territory.id, createdById: ctx.actor.user.id });
   }
-  await audit({ actor: { user: ctx.actor.user }, category: 'MODIFICATION', action: 'post.collectivite', summary: `Actualité « ${d.title} » ${future ? 'programmée' : 'publiée'}`, territoryId: ctx.territory.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'MODIFICATION',
+    action: 'post.collectivite',
+    summary: `Actualité « ${d.title} » ${future ? 'programmée' : 'publiée'}`,
+    territoryId: ctx.territory.id,
+  });
   done(ctx);
   return { status: 'ok', message: future ? 'Actualité programmée.' : 'Actualité publiée sur le portail.' };
 }
@@ -94,7 +100,10 @@ export async function saveNewsAction(_prev: AgendaState, form: FormData): Promis
 export async function archiveNewsAction(form: FormData): Promise<void> {
   const ctx = await loadBoContext();
   const id = z.string().uuid().parse(form.get('postId'));
-  await db.update(posts).set({ status: 'ARCHIVED', updatedAt: new Date() }).where(and(eq(posts.id, id), eq(posts.territoryId, ctx.territory.id)));
+  await db
+    .update(posts)
+    .set({ status: 'ARCHIVED', updatedAt: new Date() })
+    .where(and(eq(posts.id, id), eq(posts.territoryId, ctx.territory.id)));
   done(ctx);
 }
 
@@ -164,7 +173,13 @@ export async function saveEventAction(_prev: AgendaState, form: FormData): Promi
       createdById: ctx.actor.user.id,
     });
   }
-  await audit({ actor: { user: ctx.actor.user }, category: 'MODIFICATION', action: 'event.collectivite', summary: `Événement « ${d.title} » enregistré`, territoryId: ctx.territory.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'MODIFICATION',
+    action: 'event.collectivite',
+    summary: `Événement « ${d.title} » enregistré`,
+    territoryId: ctx.territory.id,
+  });
   done(ctx);
   return { status: 'ok', message: 'Événement enregistré dans l’agenda.' };
 }
@@ -172,7 +187,10 @@ export async function saveEventAction(_prev: AgendaState, form: FormData): Promi
 export async function archiveEventAction(form: FormData): Promise<void> {
   const ctx = await loadBoContext();
   const id = z.string().uuid().parse(form.get('eventId'));
-  await db.update(events).set({ status: 'ARCHIVED', updatedAt: new Date() }).where(and(eq(events.id, id), eq(events.territoryId, ctx.territory.id)));
+  await db
+    .update(events)
+    .set({ status: 'ARCHIVED', updatedAt: new Date() })
+    .where(and(eq(events.id, id), eq(events.territoryId, ctx.territory.id)));
   done(ctx);
 }
 
@@ -195,10 +213,30 @@ export async function saveMarketAction(_prev: AgendaState, form: FormData): Prom
   if (!communeAllowed(ctx, d.communeId)) return { status: 'error', message: 'Commune hors de votre périmètre.' };
   if (d.endTime <= d.startTime) return { status: 'error', message: 'L’heure de fin doit suivre l’heure de début.' };
   const commune = ctx.communes.find((c) => c.id === d.communeId);
-  const values = { name: d.name, communeId: d.communeId, place: d.place || null, weekday: d.weekday, startTime: d.startTime, endTime: d.endTime, description: d.description || null, lat: commune?.lat ?? null, lng: commune?.lng ?? null };
-  if (d.marketId) await db.update(markets).set(values).where(and(eq(markets.id, d.marketId), eq(markets.territoryId, ctx.territory.id)));
+  const values = {
+    name: d.name,
+    communeId: d.communeId,
+    place: d.place || null,
+    weekday: d.weekday,
+    startTime: d.startTime,
+    endTime: d.endTime,
+    description: d.description || null,
+    lat: commune?.lat ?? null,
+    lng: commune?.lng ?? null,
+  };
+  if (d.marketId)
+    await db
+      .update(markets)
+      .set(values)
+      .where(and(eq(markets.id, d.marketId), eq(markets.territoryId, ctx.territory.id)));
   else await db.insert(markets).values({ ...values, territoryId: ctx.territory.id });
-  await audit({ actor: { user: ctx.actor.user }, category: 'MODIFICATION', action: 'market.save', summary: `Marché « ${d.name} » enregistré`, territoryId: ctx.territory.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'MODIFICATION',
+    action: 'market.save',
+    summary: `Marché « ${d.name} » enregistré`,
+    territoryId: ctx.territory.id,
+  });
   done(ctx);
   return { status: 'ok', message: 'Marché enregistré.' };
 }
@@ -206,7 +244,11 @@ export async function saveMarketAction(_prev: AgendaState, form: FormData): Prom
 export async function toggleMarketAction(form: FormData): Promise<void> {
   const ctx = await loadBoContext();
   const id = z.string().uuid().parse(form.get('marketId'));
-  const [m] = await db.select().from(markets).where(and(eq(markets.id, id), eq(markets.territoryId, ctx.territory.id))).limit(1);
+  const [m] = await db
+    .select()
+    .from(markets)
+    .where(and(eq(markets.id, id), eq(markets.territoryId, ctx.territory.id)))
+    .limit(1);
   if (!m) return;
   await db.update(markets).set({ isActive: !m.isActive }).where(eq(markets.id, m.id));
   done(ctx);

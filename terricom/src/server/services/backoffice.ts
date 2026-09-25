@@ -54,14 +54,25 @@ export const loadBoContext = cache(async (): Promise<BoContext> => {
   const territoriesList = await getTerritoriesByIds(territoryIds);
   const scopes: BoScopeOption[] = [];
   for (const t of territoriesList) {
-    const territoryRole = actor.impersonation?.territoryId === t.id || actor.roles.some((r) => r.territoryId === t.id && (r.role === 'TERRITORY_ADMIN' || r.role === 'TERRITORY_EDITOR'));
+    const territoryRole =
+      actor.impersonation?.territoryId === t.id ||
+      actor.roles.some((r) => r.territoryId === t.id && (r.role === 'TERRITORY_ADMIN' || r.role === 'TERRITORY_EDITOR'));
     if (territoryRole) scopes.push({ key: `t:${t.id}`, label: t.name, sub: 'Territoire', level: 'TERRITORY' });
   }
   const communeRoles = actor.roles.filter((r) => (r.role === 'COMMUNE_ADMIN' || r.role === 'COMMUNE_EDITOR') && r.communeId);
   const communeRows = communeRoles.length
-    ? await db.select().from(communes).where(inArray(communes.id, communeRoles.map((r) => r.communeId!)))
+    ? await db
+        .select()
+        .from(communes)
+        .where(
+          inArray(
+            communes.id,
+            communeRoles.map((r) => r.communeId!),
+          ),
+        )
     : [];
-  for (const c of communeRows) scopes.push({ key: `c:${c.id}`, label: `Mairie ${/^[aeiouyhâéèêîôû]/i.test(c.name) ? 'd’' : 'de '}${c.name}`, sub: 'Commune', level: 'COMMUNE' });
+  for (const c of communeRows)
+    scopes.push({ key: `c:${c.id}`, label: `Mairie ${/^[aeiouyhâéèêîôû]/i.test(c.name) ? 'd’' : 'de '}${c.name}`, sub: 'Commune', level: 'COMMUNE' });
   if (!scopes.length) notFound();
 
   const jar = await cookies();
@@ -128,7 +139,10 @@ export function requireTerritoryLevel(ctx: BoContext) {
 /** Compteurs de la navigation (établissements du périmètre, revendications en attente). */
 export const boCounts = cache(async (ctx: BoContext) => {
   const [[ests], [pending]] = await Promise.all([
-    db.select({ n: count() }).from(establishments).where(and(estScope(ctx), ne(establishments.status, 'ARCHIVED'))),
+    db
+      .select({ n: count() })
+      .from(establishments)
+      .where(and(estScope(ctx), ne(establishments.status, 'ARCHIVED'))),
     db
       .select({ n: count() })
       .from(claims)

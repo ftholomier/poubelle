@@ -47,9 +47,7 @@ export const analyticsDaily = pgTable(
     uniques: integer().notNull().default(0),
   },
   (t) => [
-    unique('analytics_daily_uq')
-      .on(t.day, t.territoryId, t.establishmentId, t.type, t.source)
-      .nullsNotDistinct(),
+    unique('analytics_daily_uq').on(t.day, t.territoryId, t.establishmentId, t.type, t.source).nullsNotDistinct(),
     index('analytics_daily_territory_idx').on(t.territoryId, t.day),
   ],
 );

@@ -13,8 +13,7 @@ const MUTED = rgb(0.37, 0.4, 0.37);
 const GREEN = rgb(0.122, 0.42, 0.322);
 const LINE = rgb(0.894, 0.875, 0.827);
 
-const euros = (cents: number) =>
-  `${(cents / 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace(/ | /g, ' ')} €`;
+const euros = (cents: number) => `${(cents / 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace(/ | /g, ' ')} €`;
 const frDate = (iso: string) => {
   const [y, m, d] = iso.split('-');
   return `${d}/${m}/${y}`;
@@ -46,7 +45,12 @@ export async function invoicePdf(inv: Invoice): Promise<Uint8Array> {
   page.drawText('terricom', { x: m, y: H - m - 22, size: 24, font: display, color: INK });
   page.drawCircle({ x: m + display.widthOfTextAtSize('terricom', 24) + 5, y: H - m - 20, size: 3, color: rgb(0.957, 0.698, 0.4) });
   let y = H - m - 44;
-  for (const l of [env.COMPANY_LEGAL_NAME, ...env.COMPANY_ADDRESS.split(/\n|,\s*(?=\d{5})/), env.COMPANY_SIREN ? `SIREN ${env.COMPANY_SIREN}` : null, env.COMPANY_VAT_NUMBER ? `TVA ${env.COMPANY_VAT_NUMBER}` : null].filter(Boolean) as string[]) {
+  for (const l of [
+    env.COMPANY_LEGAL_NAME,
+    ...env.COMPANY_ADDRESS.split(/\n|,\s*(?=\d{5})/),
+    env.COMPANY_SIREN ? `SIREN ${env.COMPANY_SIREN}` : null,
+    env.COMPANY_VAT_NUMBER ? `TVA ${env.COMPANY_VAT_NUMBER}` : null,
+  ].filter(Boolean) as string[]) {
     page.drawText(l, { x: m, y, size: 9, font: body, color: MUTED });
     y -= 12;
   }
@@ -96,7 +100,13 @@ export async function invoicePdf(inv: Invoice): Promise<Uint8Array> {
     ty -= strong ? 22 : 16;
   }
   if (inv.status === 'PAID') {
-    page.drawText(`Acquittée le ${inv.paidAt ? frDate(inv.paidAt) : ''}${inv.paymentMethod ? ` (${inv.paymentMethod.toLowerCase()})` : ''}`, { x: m, y: ty + 40, size: 10, font: bold, color: GREEN });
+    page.drawText(`Acquittée le ${inv.paidAt ? frDate(inv.paidAt) : ''}${inv.paymentMethod ? ` (${inv.paymentMethod.toLowerCase()})` : ''}`, {
+      x: m,
+      y: ty + 40,
+      size: 10,
+      font: bold,
+      color: GREEN,
+    });
   }
   // Mentions légales
   const legal = [
@@ -126,6 +136,12 @@ export async function invoicePdf(inv: Invoice): Promise<Uint8Array> {
     ly -= 4;
   }
   page.drawLine({ start: { x: m, y: 40 }, end: { x: W - m, y: 40 }, thickness: 0.6, color: LINE });
-  page.drawText(`${env.COMPANY_LEGAL_NAME} — plateforme d'animation et de valorisation économique du territoire`, { x: m, y: 28, size: 7.5, font: body, color: MUTED });
+  page.drawText(`${env.COMPANY_LEGAL_NAME} — plateforme d'animation et de valorisation économique du territoire`, {
+    x: m,
+    y: 28,
+    size: 7.5,
+    font: body,
+    color: MUTED,
+  });
   return pdf.save();
 }

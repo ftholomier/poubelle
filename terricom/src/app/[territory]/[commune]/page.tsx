@@ -80,7 +80,10 @@ export default async function CommunePage({ params }: Props) {
       <section style={{ position: 'relative', height: 420, overflow: 'hidden', background: 'var(--ink)' }}>
         <Photo src={sized(commune.heroImageUrl ?? t.heroImageUrl, 2000)} alt="" eager style={{ position: 'absolute', inset: 0 }} color="#1F6B52" label=" " />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg,rgba(20,32,27,.85),rgba(20,32,27,.1))' }} />
-        <div className="container" style={{ position: 'relative', paddingTop: 70, paddingBottom: 70, color: '#fff', display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div
+          className="container"
+          style={{ position: 'relative', paddingTop: 70, paddingBottom: 70, color: '#fff', display: 'flex', flexDirection: 'column', gap: 14 }}
+        >
           <span
             style={{
               alignSelf: 'flex-start',
@@ -201,7 +204,16 @@ export default async function CommunePage({ params }: Props) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           {commune.mayorQuote ? (
             <figure
-              style={{ background: 'var(--ink)', color: 'var(--cream)', borderRadius: 20, padding: 24, display: 'flex', flexDirection: 'column', gap: 10, margin: 0 }}
+              style={{
+                background: 'var(--ink)',
+                color: 'var(--cream)',
+                borderRadius: 20,
+                padding: 24,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 10,
+                margin: 0,
+              }}
             >
               <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.08em', color: 'var(--amber)' }}>LE MOT DE LA MAIRIE</div>
               <blockquote className="display" style={{ fontWeight: 700, fontSize: 21, lineHeight: 1.3, margin: 0 }}>
@@ -224,7 +236,10 @@ export default async function CommunePage({ params }: Props) {
             <div className="card" style={{ borderRadius: 20, padding: 22 }}>
               <div style={{ fontWeight: 700, marginBottom: 12 }}>Marchés hebdomadaires</div>
               {markets.map((m) => (
-                <div key={m.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 12, padding: '10px 0', borderTop: '1px solid var(--line-2)', fontSize: 14 }}>
+                <div
+                  key={m.id}
+                  style={{ display: 'flex', justifyContent: 'space-between', gap: 12, padding: '10px 0', borderTop: '1px solid var(--line-2)', fontSize: 14 }}
+                >
                   <span>
                     {m.name}
                     {m.place ? ` · ${m.place}` : ''}

@@ -21,7 +21,10 @@ export default async function PublicationsPage({ params }: Props) {
     scheduledPosts(est.id, 10),
     pastPosts(est.id, 6),
     monthSchedule(est.id, now.year, now.month),
-    db.select({ n: count() }).from(subscribers).where(and(eq(subscribers.territoryId, est.territoryId), eq(subscribers.status, 'CONFIRMED'))),
+    db
+      .select({ n: count() })
+      .from(subscribers)
+      .where(and(eq(subscribers.territoryId, est.territoryId), eq(subscribers.status, 'CONFIRMED'))),
     db
       .select({ n: count() })
       .from(analyticsEvents)
@@ -64,9 +67,21 @@ export default async function PublicationsPage({ params }: Props) {
           <div className="card" style={{ borderRadius: 20, padding: 18 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
               <b>{MONTHS[now.month - 1]}</b>
-              <span style={{ fontSize: 12, color: 'var(--muted)' }}>{sched.length} programmée{sched.length > 1 ? 's' : ''}</span>
+              <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+                {sched.length} programmée{sched.length > 1 ? 's' : ''}
+              </span>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 4, fontSize: 11, textAlign: 'center', color: 'var(--muted)', marginBottom: 6 }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(7,1fr)',
+                gap: 4,
+                fontSize: 11,
+                textAlign: 'center',
+                color: 'var(--muted)',
+                marginBottom: 6,
+              }}
+            >
               {['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((d, i) => (
                 <span key={i}>{d}</span>
               ))}
@@ -99,13 +114,14 @@ export default async function PublicationsPage({ params }: Props) {
             <div className="card" style={{ borderRadius: 20, padding: 18, display: 'flex', flexDirection: 'column', gap: 2 }}>
               <b style={{ marginBottom: 8 }}>Programmées</b>
               {sched.map((p) => (
-                <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '9px 0', borderTop: '1px solid var(--line-2)', fontSize: 13 }}>
+                <div
+                  key={p.id}
+                  style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '9px 0', borderTop: '1px solid var(--line-2)', fontSize: 13 }}
+                >
                   <span>
                     <b>{p.title}</b>
                     <br />
-                    <span style={{ color: 'var(--muted)' }}>
-                      {p.publishAt ? `${fmtDayMonth(p.publishAt)} · ${fmtHourOf(p.publishAt)}` : ''}
-                    </span>
+                    <span style={{ color: 'var(--muted)' }}>{p.publishAt ? `${fmtDayMonth(p.publishAt)} · ${fmtHourOf(p.publishAt)}` : ''}</span>
                   </span>
                   <form action={deletePost}>
                     <input type="hidden" name="estId" value={est.id} />
@@ -122,7 +138,10 @@ export default async function PublicationsPage({ params }: Props) {
             <b style={{ marginBottom: 8 }}>Dernières publications</b>
             {past.length ? (
               past.map((p) => (
-                <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '9px 0', borderTop: '1px solid var(--line-2)', fontSize: 13 }}>
+                <div
+                  key={p.id}
+                  style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '9px 0', borderTop: '1px solid var(--line-2)', fontSize: 13 }}
+                >
                   <span style={{ fontWeight: 600 }}>{p.title}</span>
                   <span style={{ color: 'var(--green)', fontWeight: 700, whiteSpace: 'nowrap' }}>{fmtInt(p.viewCount)} vues</span>
                 </div>

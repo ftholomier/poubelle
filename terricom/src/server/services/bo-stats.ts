@@ -228,13 +228,21 @@ export async function liveFeed(ctx: BoContext, limit = 6): Promise<FeedItem[]> {
       group by c.id order by n desc limit 1`),
   ]);
   const feed: FeedItem[] = [];
-  for (const p of postsRows) feed.push({ text: `${p.name} a publié ${POST_VERB[p.kind] ?? 'une actualité'}`, at: new Date(p.at), color: p.kind === 'PROMO' ? '#F4B266' : '#C8892A' });
+  for (const p of postsRows)
+    feed.push({ text: `${p.name} a publié ${POST_VERB[p.kind] ?? 'une actualité'}`, at: new Date(p.at), color: p.kind === 'PROMO' ? '#F4B266' : '#C8892A' });
   for (const c of claimRows)
-    feed.push({ text: c.status === 'APPROVED' ? `${c.who} gère désormais ${c.name}` : `${c.who || 'Un professionnel'} a revendiqué ${c.name}`, at: new Date(c.at), color: '#3E6FB0' });
-  for (const s of planRows) feed.push({ text: `${s.name} est passé ${s.plan === 'PREMIUM' ? 'Premium' : 'Communication'}`, at: new Date(s.at), color: '#7A5BB5' });
-  for (const s of suspended) feed.push({ text: `${s.name} : fiche suspendue${s.reason ? ` (${s.reason.toLowerCase()})` : ''}`, at: new Date(s.at), color: '#D95C4E' });
+    feed.push({
+      text: c.status === 'APPROVED' ? `${c.who} gère désormais ${c.name}` : `${c.who || 'Un professionnel'} a revendiqué ${c.name}`,
+      at: new Date(c.at),
+      color: '#3E6FB0',
+    });
+  for (const s of planRows)
+    feed.push({ text: `${s.name} est passé ${s.plan === 'PREMIUM' ? 'Premium' : 'Communication'}`, at: new Date(s.at), color: '#7A5BB5' });
+  for (const s of suspended)
+    feed.push({ text: `${s.name} : fiche suspendue${s.reason ? ` (${s.reason.toLowerCase()})` : ''}`, at: new Date(s.at), color: '#D95C4E' });
   if (subs[0]?.n) feed.push({ text: `${subs[0].n} inscrit${subs[0].n > 1 ? 's' : ''} à la newsletter cette semaine`, at: new Date(), color: '#1F6B52' });
-  for (const p of passportsRows) if (p.n) feed.push({ text: `Circuit « ${p.name} » : ${p.n} passeport${p.n > 1 ? 's' : ''} ces derniers jours`, at: new Date(p.at), color: '#1F6B52' });
+  for (const p of passportsRows)
+    if (p.n) feed.push({ text: `Circuit « ${p.name} » : ${p.n} passeport${p.n > 1 ? 's' : ''} ces derniers jours`, at: new Date(p.at), color: '#1F6B52' });
   return feed.sort((a, b) => b.at.getTime() - a.at.getTime()).slice(0, limit);
 }
 

@@ -8,7 +8,10 @@ const idle: NlState = { status: 'idle' };
 function Msg({ state }: { state: NlState }) {
   if (state.status === 'idle') return null;
   return (
-    <div role={state.status === 'error' ? 'alert' : 'status'} style={{ fontSize: 13, fontWeight: 600, color: state.status === 'error' ? 'var(--danger-fg)' : 'var(--green)' }}>
+    <div
+      role={state.status === 'error' ? 'alert' : 'status'}
+      style={{ fontSize: 13, fontWeight: 600, color: state.status === 'error' ? 'var(--danger-fg)' : 'var(--green)' }}
+    >
       {state.message}
     </div>
   );
@@ -56,7 +59,20 @@ export function AudiencePicker({
               onChange={() => ref.current?.requestSubmit()}
               className="sr-only"
             />
-            <span aria-hidden="true" style={{ width: 18, height: 18, borderRadius: 5, border: '1.5px solid var(--green)', background: on ? 'var(--green)' : 'transparent', color: '#fff', fontSize: 11, display: 'grid', placeItems: 'center' }}>
+            <span
+              aria-hidden="true"
+              style={{
+                width: 18,
+                height: 18,
+                borderRadius: 5,
+                border: '1.5px solid var(--green)',
+                background: on ? 'var(--green)' : 'transparent',
+                color: '#fff',
+                fontSize: 11,
+                display: 'grid',
+                placeItems: 'center',
+              }}
+            >
               {on ? '✓' : ''}
             </span>
             <span>
@@ -88,7 +104,13 @@ export function ScheduleForm({ newsletterId, defaultDate, defaultTime }: { newsl
           </label>
           <input id="nl-time" name="time" type="time" className="input" defaultValue={defaultTime} style={{ flex: 1 }} />
         </div>
-        <button type="submit" name="mode" value="schedule" disabled={pending} style={{ border: 0, background: 'var(--green)', color: '#fff', padding: 12, borderRadius: 10, fontWeight: 800, cursor: 'pointer' }}>
+        <button
+          type="submit"
+          name="mode"
+          value="schedule"
+          disabled={pending}
+          style={{ border: 0, background: 'var(--green)', color: '#fff', padding: 12, borderRadius: 10, fontWeight: 800, cursor: 'pointer' }}
+        >
           {pending ? 'Programmation…' : 'Programmer l’envoi'}
         </button>
         <button type="submit" name="mode" value="now" disabled={pending} className="btn-link" style={{ fontSize: 13 }}>

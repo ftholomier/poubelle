@@ -1,25 +1,8 @@
 import { sql } from 'drizzle-orm';
-import {
-  boolean,
-  date,
-  index,
-  integer,
-  jsonb,
-  pgTable,
-  text,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { boolean, date, index, integer, jsonb, pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createdAt, pk, tstz, updatedAt } from './_common';
 import { companies } from './business';
-import {
-  contractKind,
-  contractStatus,
-  customerType,
-  invoiceStatus,
-  planKey,
-  subscriptionStatus,
-} from './enums';
+import { contractKind, contractStatus, customerType, invoiceStatus, planKey, subscriptionStatus } from './enums';
 import { territories } from './tenancy';
 
 export type PlanLimits = {
@@ -43,7 +26,10 @@ export const plans = pgTable('plans', {
   name: varchar({ length: 80 }).notNull(),
   priceMonthlyCents: integer().notNull().default(0),
   tagline: varchar({ length: 255 }).notNull().default(''),
-  features: text().array().notNull().default(sql`'{}'::text[]`),
+  features: text()
+    .array()
+    .notNull()
+    .default(sql`'{}'::text[]`),
   limits: jsonb().$type<PlanLimits>().notNull(),
   isActive: boolean().notNull().default(true),
   sortOrder: integer().notNull().default(0),
@@ -117,10 +103,7 @@ export const invoices = pgTable(
     notes: text(),
     createdAt: createdAt(),
   },
-  (t) => [
-    index('invoices_territory_idx').on(t.territoryId),
-    index('invoices_company_idx').on(t.companyId),
-  ],
+  (t) => [index('invoices_territory_idx').on(t.territoryId), index('invoices_company_idx').on(t.companyId)],
 );
 
 export const invoiceCounters = pgTable('invoice_counters', {

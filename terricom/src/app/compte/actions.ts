@@ -26,7 +26,11 @@ export async function updateProfileAction(_prev: AccountState, form: FormData): 
     .object({
       firstName: z.string().trim().min(1, 'Prénom requis').max(120),
       lastName: z.string().trim().min(1, 'Nom requis').max(120),
-      phone: z.string().trim().max(32).regex(/^[+0-9 .()-]*$/, 'Numéro de téléphone invalide'),
+      phone: z
+        .string()
+        .trim()
+        .max(32)
+        .regex(/^[+0-9 .()-]*$/, 'Numéro de téléphone invalide'),
       jobTitle: z.string().trim().max(160),
     })
     .safeParse(Object.fromEntries(form));
@@ -36,7 +40,14 @@ export async function updateProfileAction(_prev: AccountState, form: FormData): 
     .update(users)
     .set({ firstName: d.firstName, lastName: d.lastName, phone: d.phone || null, jobTitle: d.jobTitle || null, updatedAt: new Date() })
     .where(eq(users.id, user.id));
-  await audit({ actor: { user }, category: 'MODIFICATION', action: 'user.profile_updated', summary: 'Profil mis à jour', targetType: 'user', targetId: user.id });
+  await audit({
+    actor: { user },
+    category: 'MODIFICATION',
+    action: 'user.profile_updated',
+    summary: 'Profil mis à jour',
+    targetType: 'user',
+    targetId: user.id,
+  });
   revalidatePath('/compte', 'layout');
   return { status: 'ok', message: 'Profil enregistré.' };
 }
@@ -68,20 +79,37 @@ export async function regenerateCodesAction(_prev: AccountState, form: FormData)
 
 export async function revokeSessionAction(form: FormData): Promise<void> {
   const { user, session } = await requireSession();
-  const id = z.string().regex(/^[0-9a-f]{64}$/).parse(form.get('sessionId'));
+  const id = z
+    .string()
+    .regex(/^[0-9a-f]{64}$/)
+    .parse(form.get('sessionId'));
   if (id === session.id) {
     await destroySession();
     redirect('/connexion');
   }
   await revokeSession(user.id, id);
-  await audit({ actor: { user }, category: 'SECURITE', action: 'session.revoked', summary: 'Session fermée à distance', targetType: 'user', targetId: user.id });
+  await audit({
+    actor: { user },
+    category: 'SECURITE',
+    action: 'session.revoked',
+    summary: 'Session fermée à distance',
+    targetType: 'user',
+    targetId: user.id,
+  });
   revalidatePath('/compte/securite');
 }
 
 export async function revokeOthersAction(): Promise<void> {
   const { user } = await requireSession();
   await revokeOtherSessions(user.id);
-  await audit({ actor: { user }, category: 'SECURITE', action: 'session.revoked_all', summary: 'Toutes les autres sessions fermées', targetType: 'user', targetId: user.id });
+  await audit({
+    actor: { user },
+    category: 'SECURITE',
+    action: 'session.revoked_all',
+    summary: 'Toutes les autres sessions fermées',
+    targetType: 'user',
+    targetId: user.id,
+  });
   revalidatePath('/compte/securite');
 }
 
@@ -92,26 +120,45 @@ export async function revokeOthersAction(): Promise<void> {
 export async function deleteAccountAction(_prev: AccountState, form: FormData): Promise<AccountState> {
   const { user } = await requireSession();
   if (!(await verifyPassword(String(form.get('password') ?? ''), user.passwordHash))) return { status: 'error', message: 'Mot de passe incorrect.' };
-  if (String(form.get('confirm') ?? '').trim().toUpperCase() !== 'SUPPRIMER') return { status: 'error', message: 'Tapez SUPPRIMER pour confirmer.' };
+  if (
+    String(form.get('confirm') ?? '')
+      .trim()
+      .toUpperCase() !== 'SUPPRIMER'
+  )
+    return { status: 'error', message: 'Tapez SUPPRIMER pour confirmer.' };
   const roles = await db.select({ role: roleAssignments.role }).from(roleAssignments).where(eq(roleAssignments.userId, user.id));
   if (roles.some((r) => r.role === 'PLATFORM_ADMIN'))
     return { status: 'error', message: 'Un super administrateur ne peut pas supprimer son propre compte : demandez-le à un autre administrateur.' };
   // Titulaire unique d'une entreprise ayant d'autres collaborateurs : transmettre d'abord.
-  const owned = await db.select({ companyId: companyMembers.companyId }).from(companyMembers).where(and(eq(companyMembers.userId, user.id), eq(companyMembers.role, 'OWNER')));
+  const owned = await db
+    .select({ companyId: companyMembers.companyId })
+    .from(companyMembers)
+    .where(and(eq(companyMembers.userId, user.id), eq(companyMembers.role, 'OWNER')));
   if (owned.length) {
     const others = await db
       .select({ companyId: companyMembers.companyId, role: companyMembers.role })
       .from(companyMembers)
-      .where(and(inArray(companyMembers.companyId, owned.map((o) => o.companyId)), ne(companyMembers.userId, user.id)));
+      .where(
+        and(
+          inArray(
+            companyMembers.companyId,
+            owned.map((o) => o.companyId),
+          ),
+          ne(companyMembers.userId, user.id),
+        ),
+      );
     const orphan = owned.find((o) => others.some((x) => x.companyId === o.companyId) && !others.some((x) => x.companyId === o.companyId && x.role === 'OWNER'));
-    if (orphan) return { status: 'error', message: 'Nommez d’abord un autre titulaire dans « Équipe » : vos collaborateurs perdraient sinon l’accès à la fiche.' };
+    if (orphan)
+      return { status: 'error', message: 'Nommez d’abord un autre titulaire dans « Équipe » : vos collaborateurs perdraient sinon l’accès à la fiche.' };
   }
   const anonymous = `supprime-${sha256(user.id).slice(0, 12)}@invalid.terricom.fr`;
   await db.transaction(async (tx) => {
     await tx.delete(companyMembers).where(eq(companyMembers.userId, user.id));
     await tx.delete(roleAssignments).where(eq(roleAssignments.userId, user.id));
     await tx.delete(sessions).where(eq(sessions.userId, user.id));
-    await tx.insert(privacyRequests).values({ email: user.email, kind: 'DELETE', status: 'DONE', note: 'Suppression par l’utilisateur depuis son compte', completedAt: new Date() });
+    await tx
+      .insert(privacyRequests)
+      .values({ email: user.email, kind: 'DELETE', status: 'DONE', note: 'Suppression par l’utilisateur depuis son compte', completedAt: new Date() });
     await tx
       .update(users)
       .set({
@@ -130,7 +177,14 @@ export async function deleteAccountAction(_prev: AccountState, form: FormData): 
       })
       .where(eq(users.id, user.id));
   });
-  await audit({ actor: { id: user.id, label: 'Compte supprimé' }, category: 'RGPD', action: 'user.deleted', summary: 'Compte supprimé à la demande de son titulaire', targetType: 'user', targetId: user.id });
+  await audit({
+    actor: { id: user.id, label: 'Compte supprimé' },
+    category: 'RGPD',
+    action: 'user.deleted',
+    summary: 'Compte supprimé à la demande de son titulaire',
+    targetType: 'user',
+    targetId: user.id,
+  });
   await destroySession();
   redirect('/connexion?compte-supprime=1');
 }

@@ -331,3 +331,31 @@ export function ticketCreatedTemplate(p: {
   });
   return { to: p.to, subject: `[Support n°${p.number}] ${p.subject}`, html, text, template: 'ticket-created' };
 }
+
+export function claimReminderTemplate(p: { to: string; establishmentName: string; territory: TerritoryLike; url: string; views: number }): OutgoingEmail {
+  const { html, text } = renderEmail({
+    brand: brandOf(p.territory),
+    eyebrow: `Rappel · offert par ${p.territory.name}`,
+    title: p.views > 0 ? `${p.views} personnes ont consulté votre fiche ce mois-ci` : `${p.establishmentName}, votre fiche vous attend toujours`,
+    paragraphs: [
+      `La fiche de « ${p.establishmentName} » est en ligne sur le portail de ${p.territory.name}, mais elle n’est pas encore gérée par vous : horaires, photos et actualités restent à compléter.`,
+      'Cinq minutes suffisent pour la revendiquer, gratuitement.',
+    ],
+    cta: { label: 'Revendiquer ma fiche', url: p.url },
+    footer: `Vous ne souhaitez plus recevoir ces rappels ou voulez retirer votre fiche ? Répondez à ce message : ${p.territory.name} s’en occupe.`,
+  });
+  return { to: p.to, subject: `Rappel : la fiche de ${p.establishmentName} vous attend`, html, text, template: 'claim-reminder' };
+}
+
+export function pendingClaimsDigestTemplate(p: { to: string; territory: TerritoryLike; count: number; oldestHours: number; url: string }): OutgoingEmail {
+  const { html, text } = renderEmail({
+    brand: brandOf(p.territory),
+    eyebrow: 'Back-office · revendications',
+    title: `${p.count} revendication${p.count > 1 ? 's' : ''} en attente de validation`,
+    paragraphs: [
+      `La plus ancienne attend depuis ${p.oldestHours >= 48 ? `${Math.round(p.oldestHours / 24)} jours` : `${p.oldestHours} heures`}. Les professionnels ne peuvent pas modifier leur fiche avant votre validation.`,
+    ],
+    cta: { label: 'Traiter les revendications', url: p.url },
+  });
+  return { to: p.to, subject: `${p.count} revendication${p.count > 1 ? 's' : ''} à valider sur terricom`, html, text, template: 'claims-digest' };
+}

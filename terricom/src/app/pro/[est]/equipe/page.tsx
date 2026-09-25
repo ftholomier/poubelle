@@ -21,7 +21,9 @@ export default async function TeamPage({ params }: Props) {
     db
       .select()
       .from(tokens)
-      .where(and(eq(tokens.kind, 'INVITE_MEMBER'), isNull(tokens.usedAt), gt(tokens.expiresAt, new Date()), sql`${tokens.payload}->>'companyId' = ${est.companyId}`)),
+      .where(
+        and(eq(tokens.kind, 'INVITE_MEMBER'), isNull(tokens.usedAt), gt(tokens.expiresAt, new Date()), sql`${tokens.payload}->>'companyId' = ${est.companyId}`),
+      ),
   ]);
   const canManage = ctx.role !== 'MEMBER';
   return (
@@ -30,13 +32,17 @@ export default async function TeamPage({ params }: Props) {
         <div className="panel">
           <h2 className="panel-title">Personnes ayant accès à {est.name}</h2>
           {members.map(({ m, u }) => (
-            <div key={u.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center', borderTop: '1px solid var(--line-2)', paddingTop: 10 }}>
+            <div
+              key={u.id}
+              style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center', borderTop: '1px solid var(--line-2)', paddingTop: 10 }}
+            >
               <div>
                 <div style={{ fontWeight: 700 }}>
                   {fullName(u)} {u.id === ctx.actor.user.id ? <span style={{ fontWeight: 500, color: 'var(--muted)' }}>(vous)</span> : null}
                 </div>
                 <div style={{ fontSize: 12, color: 'var(--muted)' }}>
-                  {u.email} · {m.role === 'OWNER' ? 'Titulaire' : 'Collaborateur·rice'} · {u.mfaEnabled ? 'double authentification ✓' : 'sans double authentification'}
+                  {u.email} · {m.role === 'OWNER' ? 'Titulaire' : 'Collaborateur·rice'} ·{' '}
+                  {u.mfaEnabled ? 'double authentification ✓' : 'sans double authentification'}
                   {u.lastLoginAt ? ` · dernière connexion ${fmtStamp(u.lastLoginAt)}` : ''}
                 </div>
               </div>

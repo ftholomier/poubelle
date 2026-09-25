@@ -15,7 +15,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   if (!ctx) return new NextResponse('Non autorisé', { status: 401 });
   const { id } = await params;
   if (!/^[0-9a-f-]{36}$/.test(id)) return new NextResponse('Introuvable', { status: 404 });
-  const [c] = await db.select().from(circuits).where(and(eq(circuits.id, id), eq(circuits.territoryId, ctx.territory.id))).limit(1);
+  const [c] = await db
+    .select()
+    .from(circuits)
+    .where(and(eq(circuits.id, id), eq(circuits.territoryId, ctx.territory.id)))
+    .limit(1);
   if (!c) return new NextResponse('Introuvable', { status: 404 });
   const stops = await db
     .select({ secret: circuitStops.stampSecret, position: circuitStops.position, name: establishments.name })

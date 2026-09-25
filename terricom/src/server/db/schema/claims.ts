@@ -35,7 +35,10 @@ export const claims = pgTable(
     method: varchar({ length: 16 }).notNull().default('SIRET'),
 
     siretProvided: varchar({ length: 14 }),
-    checks: jsonb().$type<CheckResult[]>().notNull().default(sql`'[]'::jsonb`),
+    checks: jsonb()
+      .$type<CheckResult[]>()
+      .notNull()
+      .default(sql`'[]'::jsonb`),
     sireneHolder: varchar({ length: 255 }),
 
     codeHash: varchar({ length: 64 }),
@@ -55,10 +58,7 @@ export const claims = pgTable(
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
-  (t) => [
-    index('claims_territory_status_idx').on(t.territoryId, t.status),
-    index('claims_establishment_idx').on(t.establishmentId),
-  ],
+  (t) => [index('claims_territory_status_idx').on(t.territoryId, t.status), index('claims_establishment_idx').on(t.establishmentId)],
 );
 
 export type RevisionChange = { field: string; label: string; from: unknown; to: unknown };
@@ -74,7 +74,10 @@ export const establishmentRevisions = pgTable(
     userId: uuid().references(() => users.id, { onDelete: 'set null' }),
     source: recordOrigin().notNull().default('PRO'),
     summary: text().notNull(),
-    changes: jsonb().$type<RevisionChange[]>().notNull().default(sql`'[]'::jsonb`),
+    changes: jsonb()
+      .$type<RevisionChange[]>()
+      .notNull()
+      .default(sql`'[]'::jsonb`),
     createdAt: createdAt(),
   },
   (t) => [index('establishment_revisions_est_idx').on(t.establishmentId, t.createdAt)],

@@ -129,9 +129,7 @@ export type GeoCommune = {
 
 /** Communes membres d'un EPCI (par SIREN de l'EPCI). */
 export async function communesOfEpci(epciSiren: string): Promise<GeoCommune[] | null> {
-  return getJson<GeoCommune[]>(
-    `${env.GEO_API_URL}/epcis/${epciSiren}/communes?fields=nom,code,codesPostaux,codeDepartement,population,centre&format=json`,
-  );
+  return getJson<GeoCommune[]>(`${env.GEO_API_URL}/epcis/${epciSiren}/communes?fields=nom,code,codesPostaux,codeDepartement,population,centre&format=json`);
 }
 
 export async function communeByInsee(code: string): Promise<GeoCommune | null> {

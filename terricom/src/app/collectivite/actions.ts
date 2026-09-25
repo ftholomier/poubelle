@@ -10,6 +10,12 @@ export async function switchScopeAction(form: FormData): Promise<void> {
   const key = String(form.get('scope') ?? '');
   if (!ctx.scopes.some((s) => s.key === key)) return;
   const jar = await cookies();
-  jar.set(BO_SCOPE_COOKIE, key, { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/collectivite', maxAge: 60 * 60 * 24 * 90 });
+  jar.set(BO_SCOPE_COOKIE, key, {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    path: '/collectivite',
+    maxAge: 60 * 60 * 24 * 90,
+  });
   redirect('/collectivite');
 }

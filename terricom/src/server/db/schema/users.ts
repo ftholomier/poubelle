@@ -1,16 +1,5 @@
 import { sql } from 'drizzle-orm';
-import {
-  boolean,
-  index,
-  integer,
-  jsonb,
-  pgTable,
-  text,
-  timestamp,
-  unique,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { boolean, index, integer, jsonb, pgTable, text, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { citext, createdAt, pk, tstz, updatedAt } from './_common';
 import { staffRole, tokenKind, userStatus } from './enums';
 import { communes, territories } from './tenancy';
@@ -30,7 +19,10 @@ export const users = pgTable('users', {
   // Authentification forte
   mfaEnabled: boolean().notNull().default(false),
   mfaSecretEnc: text(),
-  mfaRecoveryCodes: text().array().notNull().default(sql`'{}'::text[]`),
+  mfaRecoveryCodes: text()
+    .array()
+    .notNull()
+    .default(sql`'{}'::text[]`),
 
   // Protection contre la force brute
   failedLoginCount: integer().notNull().default(0),
@@ -94,7 +86,10 @@ export const tokens = pgTable(
     tokenHash: varchar({ length: 64 }).notNull().unique(),
     userId: uuid().references(() => users.id, { onDelete: 'cascade' }),
     email: citext(),
-    payload: jsonb().$type<Record<string, unknown>>().notNull().default(sql`'{}'::jsonb`),
+    payload: jsonb()
+      .$type<Record<string, unknown>>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
     expiresAt: timestamp({ withTimezone: true }).notNull(),
     usedAt: tstz(),
     createdById: uuid().references(() => users.id, { onDelete: 'set null' }),

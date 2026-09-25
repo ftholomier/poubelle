@@ -46,9 +46,15 @@ export default async function DataPage() {
             Historique de vos demandes
           </h2>
           {history.map((h) => (
-            <div key={h.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 12, padding: '8px 0', borderTop: '1px solid var(--line-2)', fontSize: 14 }}>
+            <div
+              key={h.id}
+              style={{ display: 'flex', justifyContent: 'space-between', gap: 12, padding: '8px 0', borderTop: '1px solid var(--line-2)', fontSize: 14 }}
+            >
               <span>
-                {KIND[h.kind]} · <span style={{ color: h.status === 'DONE' ? 'var(--green)' : 'var(--brick)', fontWeight: 700 }}>{h.status === 'DONE' ? 'traitée' : h.status === 'OPEN' ? 'en cours' : 'refusée'}</span>
+                {KIND[h.kind]} ·{' '}
+                <span style={{ color: h.status === 'DONE' ? 'var(--green)' : 'var(--brick)', fontWeight: 700 }}>
+                  {h.status === 'DONE' ? 'traitée' : h.status === 'OPEN' ? 'en cours' : 'refusée'}
+                </span>
               </span>
               <span style={{ color: 'var(--muted)' }}>{fmtStamp(h.createdAt)}</span>
             </div>
@@ -61,8 +67,8 @@ export default async function DataPage() {
           Supprimer mon compte
         </h2>
         <p style={{ margin: 0, fontSize: 14, color: 'var(--muted)', lineHeight: 1.55 }}>
-          Votre compte sera anonymisé immédiatement et vos accès retirés. Les factures sont conservées 10 ans (obligation légale) et le journal
-          d&apos;audit conserve la trace anonymisée de vos actions. Vos fiches restent publiées mais ne seront plus gérées.
+          Votre compte sera anonymisé immédiatement et vos accès retirés. Les factures sont conservées 10 ans (obligation légale) et le journal d&apos;audit
+          conserve la trace anonymisée de vos actions. Vos fiches restent publiées mais ne seront plus gérées.
         </p>
         <DeleteAccountForm />
       </section>

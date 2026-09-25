@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import { LegalShell } from '@/components/portal/LegalShell';
 import { SiteShell } from '@/components/site/SiteChrome';
 
+// Rendu à la demande : chiffres réels et configuration lue à l'exécution (jamais figés à la compilation).
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = { title: 'Accessibilité', alternates: { canonical: '/accessibilite' } };
 
 export default function AccessibilityPage() {

@@ -17,8 +17,8 @@ export default async function AccessibilityPage({ params }: Props) {
   return (
     <LegalShell eyebrow="Informations" title="Déclaration d'accessibilité">
       <p>
-        {t.legalName} s&apos;engage à rendre ce portail accessible conformément à l&apos;article 47 de la loi n° 2005-102 du 11 février 2005 et au
-        Référentiel général d&apos;amélioration de l&apos;accessibilité (RGAA 4.1).
+        {t.legalName} s&apos;engage à rendre ce portail accessible conformément à l&apos;article 47 de la loi n° 2005-102 du 11 février 2005 et au Référentiel
+        général d&apos;amélioration de l&apos;accessibilité (RGAA 4.1).
       </p>
       <h2>État de conformité</h2>
       <p>
@@ -28,7 +28,10 @@ export default async function AccessibilityPage({ params }: Props) {
       </p>
       <h2>Contenus non accessibles</h2>
       <ul>
-        <li>Les cartes interactives ne sont pas pleinement utilisables au clavier et aux lecteurs d&apos;écran ; chaque carte est accompagnée d&apos;une liste équivalente.</li>
+        <li>
+          Les cartes interactives ne sont pas pleinement utilisables au clavier et aux lecteurs d&apos;écran ; chaque carte est accompagnée d&apos;une liste
+          équivalente.
+        </li>
         <li>Certaines photographies publiées par les professionnels peuvent être dépourvues de description.</li>
       </ul>
       <h2>Retour d&apos;information et contact</h2>
@@ -45,8 +48,8 @@ export default async function AccessibilityPage({ params }: Props) {
       <h2>Voies de recours</h2>
       <p>
         Si vous constatez un défaut d&apos;accessibilité vous empêchant d&apos;accéder à un contenu, et que vous n&apos;avez pas obtenu de réponse
-        satisfaisante, vous pouvez saisir le Défenseur des droits (formulaire en ligne, délégué territorial ou courrier gratuit : Défenseur des droits,
-        Libre réponse 71120, 75342 Paris CEDEX 07).
+        satisfaisante, vous pouvez saisir le Défenseur des droits (formulaire en ligne, délégué territorial ou courrier gratuit : Défenseur des droits, Libre
+        réponse 71120, 75342 Paris CEDEX 07).
       </p>
     </LegalShell>
   );

@@ -6,8 +6,7 @@ export type EmailBrand = { name: string; color: string; accent: string };
 
 export const TERRICOM_BRAND: EmailBrand = { name: 'terricom', color: '#1F6B52', accent: '#F4B266' };
 
-const esc = (s: string) =>
-  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 export function escapeHtml(s: string): string {
   return esc(s);
@@ -33,9 +32,7 @@ export function renderEmail(opts: {
   const button = opts.cta
     ? `<table role="presentation" cellspacing="0" cellpadding="0" style="margin:22px 0 6px"><tr><td style="background:${brand.color};border-radius:12px"><a href="${esc(opts.cta.url)}" style="display:inline-block;padding:13px 20px;font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none">${esc(opts.cta.label)}</a></td></tr></table>`
     : '';
-  const unsubscribe = opts.unsubscribeUrl
-    ? ` · <a href="${esc(opts.unsubscribeUrl)}" style="color:#5E655F">Se désinscrire</a>`
-    : '';
+  const unsubscribe = opts.unsubscribeUrl ? ` · <a href="${esc(opts.unsubscribeUrl)}" style="color:#5E655F">Se désinscrire</a>` : '';
   const html = `<!doctype html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(opts.title)}</title></head>
 <body style="margin:0;padding:0;background:#F7F4EC">

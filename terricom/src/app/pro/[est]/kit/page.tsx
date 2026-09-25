@@ -94,7 +94,19 @@ export default async function KitPage({ params, searchParams }: Props) {
             <div className="display" style={{ fontSize: 15 }}>
               {territory.name}
             </div>
-            <span style={{ background: s.accent, color: 'var(--ink)', fontWeight: 800, fontSize: 11, padding: '4px 8px', borderRadius: 6, transform: 'rotate(4deg)' }}>Fait ici</span>
+            <span
+              style={{
+                background: s.accent,
+                color: 'var(--ink)',
+                fontWeight: 800,
+                fontSize: 11,
+                padding: '4px 8px',
+                borderRadius: 6,
+                transform: 'rotate(4deg)',
+              }}
+            >
+              Fait ici
+            </span>
           </div>
           <div className="display" style={{ fontSize: 40, lineHeight: 0.95, letterSpacing: '-0.03em' }}>
             Retrouvez-nous en ligne !

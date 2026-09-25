@@ -25,7 +25,10 @@ export function CampaignAssistant({ defaultPrompt, analysing }: { defaultPrompt:
   const payload = plan && result?.ok ? JSON.stringify({ ...plan, selectedIds: result.picks.map((p) => p.id), prompt }) : '';
 
   return (
-    <section style={{ background: 'var(--ink)', color: 'var(--cream)', borderRadius: 24, padding: 26, display: 'flex', flexDirection: 'column', gap: 16 }} aria-label="Assistant territorial">
+    <section
+      style={{ background: 'var(--ink)', color: 'var(--cream)', borderRadius: 24, padding: 26, display: 'flex', flexDirection: 'column', gap: 16 }}
+      aria-label="Assistant territorial"
+    >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
         <h2 className="display" style={{ fontSize: 26, letterSpacing: '-0.02em', margin: 0 }}>
           ✦ Assistant territorial
@@ -42,20 +45,50 @@ export function CampaignAssistant({ defaultPrompt, analysing }: { defaultPrompt:
           onChange={(e) => setPrompt(e.target.value)}
           rows={2}
           maxLength={600}
-          style={{ flex: 1, minWidth: 280, border: '1.5px solid var(--dark-4)', background: 'var(--dark-5)', color: 'var(--cream)', borderRadius: 14, padding: 14, fontSize: 16, resize: 'vertical' }}
+          style={{
+            flex: 1,
+            minWidth: 280,
+            border: '1.5px solid var(--dark-4)',
+            background: 'var(--dark-5)',
+            color: 'var(--cream)',
+            borderRadius: 14,
+            padding: 14,
+            fontSize: 16,
+            resize: 'vertical',
+          }}
         />
         <button
           type="button"
           onClick={run}
           disabled={loading}
-          style={{ border: 0, background: 'var(--amber)', color: 'var(--ink)', padding: '0 22px', minHeight: 54, borderRadius: 14, fontWeight: 800, cursor: 'pointer', fontSize: 15 }}
+          style={{
+            border: 0,
+            background: 'var(--amber)',
+            color: 'var(--ink)',
+            padding: '0 22px',
+            minHeight: 54,
+            borderRadius: 14,
+            fontWeight: 800,
+            cursor: 'pointer',
+            fontSize: 15,
+          }}
         >
           {loading ? 'Préparation…' : plan ? 'Régénérer' : '✦ Préparer'}
         </button>
       </div>
       {loading ? (
         <div role="status" style={{ display: 'flex', gap: 10, alignItems: 'center', color: 'var(--sage)', fontSize: 14 }}>
-          <span aria-hidden="true" style={{ width: 18, height: 18, borderRadius: '50%', border: '3px solid var(--dark-4)', borderTopColor: 'var(--amber)', animation: 'spin 1s linear infinite' }} />
+          <span
+            aria-hidden="true"
+            style={{
+              width: 18,
+              height: 18,
+              borderRadius: '50%',
+              border: '3px solid var(--dark-4)',
+              borderTopColor: 'var(--amber)',
+              animation: 'spin 1s linear infinite',
+            }}
+          />
           {analysing}
         </div>
       ) : null}
@@ -90,7 +123,10 @@ export function CampaignAssistant({ defaultPrompt, analysing }: { defaultPrompt:
             <div style={{ background: 'var(--dark-2)', borderRadius: 18, padding: 18, display: 'flex', flexDirection: 'column', gap: 8 }}>
               <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', color: 'var(--amber)' }}>PLAN DE DIFFUSION</div>
               {plan.plan.map((p, i) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '62px 1fr', gap: 10, fontSize: 13, padding: '5px 0', borderTop: '1px solid var(--dark-3)' }}>
+                <div
+                  key={i}
+                  style={{ display: 'grid', gridTemplateColumns: '62px 1fr', gap: 10, fontSize: 13, padding: '5px 0', borderTop: '1px solid var(--dark-3)' }}
+                >
                   <b style={{ color: 'var(--amber)' }}>{p.date}</b>
                   <span>{p.text}</span>
                 </div>
@@ -99,16 +135,52 @@ export function CampaignAssistant({ defaultPrompt, analysing }: { defaultPrompt:
           </div>
           <form action={createAction} style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
             <input type="hidden" name="plan" value={payload} />
-            <button type="submit" name="invite" value="0" disabled={creating} style={{ border: 0, background: 'var(--amber)', color: 'var(--ink)', padding: '12px 18px', borderRadius: 12, fontWeight: 800, cursor: 'pointer' }}>
+            <button
+              type="submit"
+              name="invite"
+              value="0"
+              disabled={creating}
+              style={{ border: 0, background: 'var(--amber)', color: 'var(--ink)', padding: '12px 18px', borderRadius: 12, fontWeight: 800, cursor: 'pointer' }}
+            >
               Créer la campagne
             </button>
-            <button type="submit" name="invite" value="adjust" disabled={creating} style={{ border: '1.5px solid var(--dark-4)', background: 'transparent', color: 'var(--cream)', padding: '12px 18px', borderRadius: 12, fontWeight: 700, cursor: 'pointer' }}>
+            <button
+              type="submit"
+              name="invite"
+              value="adjust"
+              disabled={creating}
+              style={{
+                border: '1.5px solid var(--dark-4)',
+                background: 'transparent',
+                color: 'var(--cream)',
+                padding: '12px 18px',
+                borderRadius: 12,
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
               Ajuster la sélection
             </button>
-            <button type="submit" name="invite" value="1" disabled={creating || !result.picks.length} style={{ border: '1.5px solid var(--dark-4)', background: 'transparent', color: 'var(--cream)', padding: '12px 18px', borderRadius: 12, fontWeight: 700, cursor: 'pointer' }}>
+            <button
+              type="submit"
+              name="invite"
+              value="1"
+              disabled={creating || !result.picks.length}
+              style={{
+                border: '1.5px solid var(--dark-4)',
+                background: 'transparent',
+                color: 'var(--cream)',
+                padding: '12px 18px',
+                borderRadius: 12,
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
               Inviter les {result.picks.length} {who} à participer
             </button>
-            <span style={{ fontSize: 12, color: 'var(--sage-3)', marginLeft: 'auto' }}>{plan.source === 'ai' ? 'Proposition de l’IA · à relire' : 'Proposition automatique · à relire'}</span>
+            <span style={{ fontSize: 12, color: 'var(--sage-3)', marginLeft: 'auto' }}>
+              {plan.source === 'ai' ? 'Proposition de l’IA · à relire' : 'Proposition automatique · à relire'}
+            </span>
             {created.status === 'error' ? (
               <span role="alert" style={{ color: 'var(--rose)', fontSize: 13, width: '100%' }}>
                 {created.message}

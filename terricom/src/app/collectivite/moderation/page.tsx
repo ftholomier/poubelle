@@ -105,13 +105,7 @@ export default async function ModerationPage({ searchParams }: Props) {
       .from(posts)
       .leftJoin(establishments, eq(establishments.id, posts.establishmentId))
       .leftJoin(communes, eq(communes.id, posts.communeId))
-      .where(
-        and(
-          eq(posts.territoryId, ctx.territory.id),
-          eq(posts.status, 'PENDING'),
-          ctx.communeIds ? inArray(posts.communeId, ctx.communeIds) : undefined,
-        ),
-      )
+      .where(and(eq(posts.territoryId, ctx.territory.id), eq(posts.status, 'PENDING'), ctx.communeIds ? inArray(posts.communeId, ctx.communeIds) : undefined))
       .orderBy(asc(posts.createdAt)),
   ]);
 
@@ -135,7 +129,17 @@ export default async function ModerationPage({ searchParams }: Props) {
                 <Link
                   key={p.id}
                   href={`/collectivite/moderation?onglet=publications&publication=${p.id}`}
-                  style={{ display: 'grid', gridTemplateColumns: '44px 1fr', gap: 12, alignItems: 'center', padding: 12, borderRadius: 14, background: on ? 'var(--paper)' : 'transparent', border: `1.5px solid ${on ? 'var(--ink)' : 'var(--line)'}`, color: 'var(--text)' }}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '44px 1fr',
+                    gap: 12,
+                    alignItems: 'center',
+                    padding: 12,
+                    borderRadius: 14,
+                    background: on ? 'var(--paper)' : 'transparent',
+                    border: `1.5px solid ${on ? 'var(--ink)' : 'var(--line)'}`,
+                    color: 'var(--text)',
+                  }}
                 >
                   <span style={{ width: 44, height: 44, borderRadius: 10, overflow: 'hidden' }}>
                     <Photo src={sized(p.imageUrl ?? p.estCover, 100, 100)} alt="" label={p.estName ?? p.title} />
@@ -151,7 +155,18 @@ export default async function ModerationPage({ searchParams }: Props) {
               );
             })}
             {!postList.length ? (
-              <div style={{ padding: 30, textAlign: 'center', color: 'var(--muted)', background: 'var(--paper)', borderRadius: 14, border: '1px dashed var(--sand-3)' }}>Rien à modérer. Café mérité.</div>
+              <div
+                style={{
+                  padding: 30,
+                  textAlign: 'center',
+                  color: 'var(--muted)',
+                  background: 'var(--paper)',
+                  borderRadius: 14,
+                  border: '1px dashed var(--sand-3)',
+                }}
+              >
+                Rien à modérer. Café mérité.
+              </div>
             ) : null}
           </div>
           {cur ? (
@@ -166,8 +181,14 @@ export default async function ModerationPage({ searchParams }: Props) {
                 </div>
               ) : null}
               <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-                <span style={{ fontSize: 11, fontWeight: 800, padding: '3px 9px', borderRadius: 999, background: POST_KINDS[cur.kind].bg, color: 'var(--ink)' }}>{POST_KINDS[cur.kind].label}</span>
-                {cur.promoLabel ? <span style={{ fontSize: 11, fontWeight: 800, padding: '3px 9px', borderRadius: 999, background: 'var(--amber)' }}>{cur.promoLabel}</span> : null}
+                <span
+                  style={{ fontSize: 11, fontWeight: 800, padding: '3px 9px', borderRadius: 999, background: POST_KINDS[cur.kind].bg, color: 'var(--ink)' }}
+                >
+                  {POST_KINDS[cur.kind].label}
+                </span>
+                {cur.promoLabel ? (
+                  <span style={{ fontSize: 11, fontWeight: 800, padding: '3px 9px', borderRadius: 999, background: 'var(--amber)' }}>{cur.promoLabel}</span>
+                ) : null}
                 {cur.validTo ? <span style={{ fontSize: 12, color: 'var(--muted)' }}>jusqu&apos;au {cur.validTo.split('-').reverse().join('/')}</span> : null}
               </div>
               <h2 className="display" style={{ fontSize: 28, margin: 0, letterSpacing: '-0.02em' }}>
@@ -188,7 +209,12 @@ export default async function ModerationPage({ searchParams }: Props) {
 
   const cur = claimList.find((c) => c.id === sp.demande) ?? claimList[0];
   const history = cur
-    ? await db.select().from(establishmentRevisions).where(eq(establishmentRevisions.establishmentId, cur.estId)).orderBy(desc(establishmentRevisions.createdAt)).limit(6)
+    ? await db
+        .select()
+        .from(establishmentRevisions)
+        .where(eq(establishmentRevisions.establishmentId, cur.estId))
+        .orderBy(desc(establishmentRevisions.createdAt))
+        .limit(6)
     : [];
   const checkStyle = (ok: boolean | null) =>
     ok === true
@@ -214,7 +240,17 @@ export default async function ModerationPage({ searchParams }: Props) {
               <Link
                 key={c.id}
                 href={`/collectivite/moderation?demande=${c.id}`}
-                style={{ display: 'grid', gridTemplateColumns: '44px 1fr', gap: 12, alignItems: 'center', padding: 12, borderRadius: 14, background: on ? 'var(--paper)' : 'transparent', border: `1.5px solid ${on ? 'var(--ink)' : 'var(--line)'}`, color: 'var(--text)' }}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '44px 1fr',
+                  gap: 12,
+                  alignItems: 'center',
+                  padding: 12,
+                  borderRadius: 14,
+                  background: on ? 'var(--paper)' : 'transparent',
+                  border: `1.5px solid ${on ? 'var(--ink)' : 'var(--line)'}`,
+                  color: 'var(--text)',
+                }}
               >
                 <span style={{ width: 44, height: 44, borderRadius: '50%', overflow: 'hidden' }}>
                   <Photo src={sized(c.avatarUrl, 100, 100)} alt="" label={fullName(c)} color="#3E6FB0" />
@@ -234,7 +270,18 @@ export default async function ModerationPage({ searchParams }: Props) {
             );
           })}
           {!claimList.length ? (
-            <div style={{ padding: 30, textAlign: 'center', color: 'var(--muted)', background: 'var(--paper)', borderRadius: 14, border: '1px dashed var(--sand-3)' }}>Tout est validé. Café mérité.</div>
+            <div
+              style={{
+                padding: 30,
+                textAlign: 'center',
+                color: 'var(--muted)',
+                background: 'var(--paper)',
+                borderRadius: 14,
+                border: '1px dashed var(--sand-3)',
+              }}
+            >
+              Tout est validé. Café mérité.
+            </div>
           ) : null}
         </div>
         {cur ? (
@@ -247,7 +294,11 @@ export default async function ModerationPage({ searchParams }: Props) {
                 <div style={{ fontSize: 12, color: 'var(--muted)' }}>
                   {cur.estOrigin === 'PRO' && cur.estSuspendedReason?.startsWith('Création') ? 'Demande de création de fiche' : 'Demande de revendication'}
                 </div>
-                <Link href={`/collectivite/entreprises/${cur.estId}`} className="display" style={{ fontSize: 28, letterSpacing: '-0.02em', color: 'var(--text)' }}>
+                <Link
+                  href={`/collectivite/entreprises/${cur.estId}`}
+                  className="display"
+                  style={{ fontSize: 28, letterSpacing: '-0.02em', color: 'var(--text)' }}
+                >
                   {cur.estName}
                 </Link>
                 <div style={{ fontSize: 13, color: 'var(--muted)' }}>{[cur.estStreet, cur.communeName].filter(Boolean).join(', ')}</div>
@@ -293,9 +344,14 @@ export default async function ModerationPage({ searchParams }: Props) {
             <div>
               <b style={{ fontSize: 14 }}>Historique de la fiche</b>
               <div style={{ display: 'flex', flexDirection: 'column', marginTop: 8 }}>
-                {[{ at: cur.createdAt, text: 'Demande de revendication', color: '#3E6FB0' }, ...history.map((h) => ({ at: h.createdAt, text: h.summary, color: h.source === 'IMPORT' ? 'var(--faint)' : 'var(--green)' }))].map((h, i) => (
+                {[
+                  { at: cur.createdAt, text: 'Demande de revendication', color: '#3E6FB0' },
+                  ...history.map((h) => ({ at: h.createdAt, text: h.summary, color: h.source === 'IMPORT' ? 'var(--faint)' : 'var(--green)' })),
+                ].map((h, i) => (
                   <div key={i} style={{ display: 'grid', gridTemplateColumns: '90px 14px 1fr', gap: 12, alignItems: 'center', fontSize: 13, padding: '6px 0' }}>
-                    <span style={{ color: 'var(--muted)' }}>{new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'short', timeZone: 'Europe/Paris' }).format(h.at)}</span>
+                    <span style={{ color: 'var(--muted)' }}>
+                      {new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'short', timeZone: 'Europe/Paris' }).format(h.at)}
+                    </span>
                     <span style={{ width: 10, height: 10, borderRadius: '50%', background: h.color }} />
                     <span>{h.text}</span>
                   </div>

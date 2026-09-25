@@ -1,19 +1,11 @@
-import { and, eq, inArray, isNull, or } from 'drizzle-orm';
+import { and, eq, inArray, isNull, or, sql } from 'drizzle-orm';
 import Papa from 'papaparse';
 import { slugify } from '@/lib/slug';
 import { audit, type AuditActor } from '../audit';
 import { invalidate } from '../cache';
 import { shortCode } from '../crypto';
 import { db } from '../db';
-import {
-  categories,
-  companies,
-  establishments,
-  importBatches,
-  type ImportMapping,
-  type ImportReport,
-  type ImportRow,
-} from '../db/schema';
+import { categories, companies, establishments, importBatches, type ImportMapping, type ImportReport, type ImportRow } from '../db/schema';
 import { env } from '../env';
 import { isValidSiret } from '../integrations/public-data';
 import { logger } from '../logger';
@@ -54,7 +46,19 @@ export const IMPORT_FIELDS: { key: ImportField; label: string; required?: boolea
 export const SIRENE_ADDRESS = '__adresse_sirene__';
 
 const SYNONYMS: Record<ImportField, string[]> = {
-  name: ['denominationusuelleetablissement', 'denominationusuelle', 'enseigne1etablissement', 'enseigne', 'nomcommercial', 'nom', 'name', 'raisonsociale', 'denominationunitelegale', 'nomcomplet', 'etablissement'],
+  name: [
+    'denominationusuelleetablissement',
+    'denominationusuelle',
+    'enseigne1etablissement',
+    'enseigne',
+    'nomcommercial',
+    'nom',
+    'name',
+    'raisonsociale',
+    'denominationunitelegale',
+    'nomcomplet',
+    'etablissement',
+  ],
   siret: ['siret', 'numerosiret'],
   naf: ['activiteprincipaleetablissement', 'activiteprincipale', 'naf', 'codenaf', 'ape', 'codeape'],
   category: ['categorie', 'category', 'activite', 'secteur', 'type'],
@@ -97,7 +101,9 @@ export function parseCsv(buf: Buffer): { headers: string[]; rows: Record<string,
   text = text.replace(/^﻿/, '');
   const parsed = Papa.parse<Record<string, string>>(text, { header: true, skipEmptyLines: 'greedy', transformHeader: (h) => h.trim() });
   const headers = (parsed.meta.fields ?? []).filter(Boolean);
-  const rows = parsed.data.slice(0, MAX_IMPORT_ROWS).map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) => [k, typeof v === 'string' ? v.trim() : ''])));
+  const rows = parsed.data
+    .slice(0, MAX_IMPORT_ROWS)
+    .map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) => [k, typeof v === 'string' ? v.trim() : ''])));
   return { headers, rows };
 }
 
@@ -149,7 +155,10 @@ export async function analyzeRows(
       .select({ id: categories.id, name: categories.name, synonyms: categories.synonyms, nafCodes: categories.nafCodes })
       .from(categories)
       .where(and(eq(categories.isActive, true), or(isNull(categories.territoryId), eq(categories.territoryId, territoryId)))),
-    db.select({ id: establishments.id, siret: establishments.siret, name: establishments.name, communeId: establishments.communeId }).from(establishments).where(eq(establishments.territoryId, territoryId)),
+    db
+      .select({ id: establishments.id, siret: establishments.siret, name: establishments.name, communeId: establishments.communeId })
+      .from(establishments)
+      .where(eq(establishments.territoryId, territoryId)),
   ]);
   const byInsee = new Map(communesList.map((c) => [c.inseeCode, c]));
   const byName = new Map(communesList.map((c) => [norm(c.name), c]));
@@ -182,7 +191,10 @@ export async function analyzeRows(
     const catText = pick(r, mapping.category);
     const cat = (naf && byNaf.get(naf)) || (catText ? byCatName.get(norm(catText)) : undefined) || defaultCat;
     if (!cat) errors.push(naf ? `Activité ${naf} sans catégorie correspondante` : 'Catégorie inconnue');
-    const phone = pick(r, mapping.phone)?.replace(/[^\d+]/g, '').slice(0, 20) || null;
+    const phone =
+      pick(r, mapping.phone)
+        ?.replace(/[^\d+]/g, '')
+        .slice(0, 20) || null;
     const emailRaw = pick(r, mapping.email)?.toLowerCase() ?? null;
     const email = emailRaw && /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/.test(emailRaw) ? emailRaw : null;
     let website = pick(r, mapping.website);
@@ -252,15 +264,28 @@ export async function createCsvBatch(territoryId: string, userId: string, filena
 
 /** Nouvelle analyse avec une correspondance corrigée par l'agent. */
 export async function remapBatch(batchId: string, territoryId: string, mapping: ImportMapping, defaultCategoryId: string | null) {
-  const [batch] = await db.select().from(importBatches).where(and(eq(importBatches.id, batchId), eq(importBatches.territoryId, territoryId))).limit(1);
+  const [batch] = await db
+    .select()
+    .from(importBatches)
+    .where(and(eq(importBatches.id, batchId), eq(importBatches.territoryId, territoryId)))
+    .limit(1);
   if (!batch || batch.status !== 'ANALYZED') throw new Error('Import introuvable ou déjà traité.');
   const { rows, report } = await analyzeRows(territoryId, batch.rawRows, mapping, defaultCategoryId);
   await db.update(importBatches).set({ mapping, rows, report, defaultCategoryId, updatedAt: new Date() }).where(eq(importBatches.id, batchId));
 }
 
 /** Création des fiches précréées et fusion des doublons ; invitations facultatives. */
-export async function commitBatch(batchId: string, territoryId: string, actor: AuditActor & { user: { id: string } }, opts: { invite: boolean }): Promise<ImportReport> {
-  const [batch] = await db.select().from(importBatches).where(and(eq(importBatches.id, batchId), eq(importBatches.territoryId, territoryId))).limit(1);
+export async function commitBatch(
+  batchId: string,
+  territoryId: string,
+  actor: AuditActor & { user: { id: string } },
+  opts: { invite: boolean },
+): Promise<ImportReport> {
+  const [batch] = await db
+    .select()
+    .from(importBatches)
+    .where(and(eq(importBatches.id, batchId), eq(importBatches.territoryId, territoryId)))
+    .limit(1);
   if (!batch || batch.status !== 'ANALYZED') throw new Error('Import introuvable ou déjà traité.');
   await db.update(importBatches).set({ status: 'RUNNING', updatedAt: new Date() }).where(eq(importBatches.id, batchId));
   const territory = await getTerritoryById(territoryId);
@@ -268,7 +293,9 @@ export async function commitBatch(batchId: string, territoryId: string, actor: A
   const communeById = new Map(communesList.map((c) => [c.id, c]));
   const catNaf = new Map((await db.select({ id: categories.id, nafCodes: categories.nafCodes }).from(categories)).map((c) => [c.id, c.nafCodes[0] ?? null]));
   const slugTaken = new Set(
-    (await db.select({ c: establishments.communeId, s: establishments.slug }).from(establishments).where(eq(establishments.territoryId, territoryId))).map((r) => `${r.c}|${r.s}`),
+    (await db.select({ c: establishments.communeId, s: establishments.slug }).from(establishments).where(eq(establishments.territoryId, territoryId))).map(
+      (r) => `${r.c}|${r.s}`,
+    ),
   );
   const created: { id: string; name: string; email: string | null }[] = [];
   let updated = 0;
@@ -356,11 +383,24 @@ export async function commitBatch(batchId: string, territoryId: string, actor: A
         ...claimInvitationTemplate({ to: c.email!, establishmentName: c.name, territory, url: appUrl(`/pro/revendiquer/${c.id}`) }),
         territoryId,
       });
+      await db
+        .update(establishments)
+        .set({ invitedAt: new Date(), invitationCount: sql`${establishments.invitationCount} + 1` })
+        .where(eq(establishments.id, c.id));
       invited++;
     }
   }
-  const report: ImportReport = { ...batch.report, created: created.length, updated, invited, letterIds: opts.invite ? created.filter((x) => !x.email).map((x) => x.id) : [] };
-  await db.update(importBatches).set({ status: 'COMMITTED', report, committedAt: new Date(), rawRows: [], updatedAt: new Date() }).where(eq(importBatches.id, batchId));
+  const report: ImportReport = {
+    ...batch.report,
+    created: created.length,
+    updated,
+    invited,
+    letterIds: opts.invite ? created.filter((x) => !x.email).map((x) => x.id) : [],
+  };
+  await db
+    .update(importBatches)
+    .set({ status: 'COMMITTED', report, committedAt: new Date(), rawRows: [], updatedAt: new Date() })
+    .where(eq(importBatches.id, batchId));
   await audit({
     actor,
     category: 'IMPORT',
@@ -456,11 +496,17 @@ export async function runSireneImport(batchId: string): Promise<void> {
   const headers = ['siret', 'nom', 'activitePrincipale', 'adresse', 'codePostal', 'codeCommune', 'latitude', 'longitude'];
   const mapping = guessMapping(headers);
   const { rows, report } = await analyzeRows(batch.territoryId, raw, mapping, null);
-  await db.update(importBatches).set({ status: 'ANALYZED', headers, mapping, rawRows: raw, rows, report, updatedAt: new Date() }).where(eq(importBatches.id, batchId));
+  await db
+    .update(importBatches)
+    .set({ status: 'ANALYZED', headers, mapping, rawRows: raw, rows, report, updatedAt: new Date() })
+    .where(eq(importBatches.id, batchId));
 }
 
 /** Établissements à inviter par courrier (sans email) parmi une sélection. */
 export async function withoutEmail(ids: string[]) {
   if (!ids.length) return [];
-  return db.select({ id: establishments.id }).from(establishments).where(and(inArray(establishments.id, ids), isNull(establishments.email)));
+  return db
+    .select({ id: establishments.id })
+    .from(establishments)
+    .where(and(inArray(establishments.id, ids), isNull(establishments.email)));
 }

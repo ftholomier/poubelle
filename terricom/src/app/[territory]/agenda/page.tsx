@@ -84,13 +84,23 @@ export default async function AgendaPage({ params, searchParams }: Props) {
       </div>
 
       {featured ? (
-        <div className="split" style={{ ['--cols' as string]: 'minmax(0,1.3fr) minmax(0,1fr)', ['--gap' as string]: '22px', ['--align' as string]: 'start', marginBottom: 30 }}>
+        <div
+          className="split"
+          style={{ ['--cols' as string]: 'minmax(0,1.3fr) minmax(0,1fr)', ['--gap' as string]: '22px', ['--align' as string]: 'start', marginBottom: 30 }}
+        >
           <Link
             href={`${base}/agenda/${featured.ev.slug}`}
             className="card-lift"
             style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', minHeight: 380, color: '#fff', display: 'block' }}
           >
-            <Photo src={sized(featured.ev.imageUrl ?? featured.e?.coverUrl, 1400)} alt="" eager color="#2A3A33" label=" " style={{ position: 'absolute', inset: 0 }} />
+            <Photo
+              src={sized(featured.ev.imageUrl ?? featured.e?.coverUrl, 1400)}
+              alt=""
+              eager
+              color="#2A3A33"
+              label=" "
+              style={{ position: 'absolute', inset: 0 }}
+            />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,transparent 30%,rgba(20,32,27,.9))' }} />
             <div style={{ position: 'absolute', left: 26, bottom: 24, right: 26 }}>
               <span style={{ background: 'var(--amber)', color: 'var(--ink)', fontWeight: 800, fontSize: 12, padding: '5px 10px', borderRadius: 6 }}>

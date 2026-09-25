@@ -76,8 +76,16 @@ const exceptionsSchema = z
     z.object({
       date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
       closed: z.boolean(),
-      opensAt: z.string().regex(/^\d{2}:\d{2}$/).nullable().optional(),
-      closesAt: z.string().regex(/^\d{2}:\d{2}$/).nullable().optional(),
+      opensAt: z
+        .string()
+        .regex(/^\d{2}:\d{2}$/)
+        .nullable()
+        .optional(),
+      closesAt: z
+        .string()
+        .regex(/^\d{2}:\d{2}$/)
+        .nullable()
+        .optional(),
       label: z.string().max(160).nullable().optional(),
     }),
   )
@@ -130,11 +138,20 @@ export async function saveFiche(_prev: ActionState, form: FormData): Promise<Act
   for (const h of hours) if (h.opensAt >= h.closesAt) return { status: 'error', message: 'Une plage horaire se termine avant de commencer.' };
   const { categories, establishments, establishmentAttributes, attributes, exceptionalHours, openingHours } = await import('@/server/db/schema');
   const { inArray, isNull, or } = await import('drizzle-orm');
-  const [cat] = await db.select().from(categories).where(and(eq(categories.id, d.categoryId), or(isNull(categories.territoryId), eq(categories.territoryId, ctx.est.territoryId)))).limit(1);
+  const [cat] = await db
+    .select()
+    .from(categories)
+    .where(and(eq(categories.id, d.categoryId), or(isNull(categories.territoryId), eq(categories.territoryId, ctx.est.territoryId))))
+    .limit(1);
   if (!cat) return { status: 'error', message: 'Catégorie inconnue.' };
 
   const e = ctx.est;
-  const socials = { ...(e.socials as Record<string, string>), facebook: d.facebook || undefined, instagram: d.instagram || undefined, linkedin: d.linkedin || undefined };
+  const socials = {
+    ...(e.socials as Record<string, string>),
+    facebook: d.facebook || undefined,
+    instagram: d.instagram || undefined,
+    linkedin: d.linkedin || undefined,
+  };
   const before = {
     name: e.name,
     categoryId: e.categoryId,
@@ -206,7 +223,8 @@ export async function saveFiche(_prev: ActionState, form: FormData): Promise<Act
       })
       .where(eq(establishments.id, e.id));
     await tx.delete(openingHours).where(eq(openingHours.establishmentId, e.id));
-    if (hours.length) await tx.insert(openingHours).values(hours.map((h) => ({ establishmentId: e.id, weekday: h.weekday, opensAt: h.opensAt, closesAt: h.closesAt })));
+    if (hours.length)
+      await tx.insert(openingHours).values(hours.map((h) => ({ establishmentId: e.id, weekday: h.weekday, opensAt: h.opensAt, closesAt: h.closesAt })));
     const today = new Date().toISOString().slice(0, 10);
     await tx.delete(exceptionalHours).where(and(eq(exceptionalHours.establishmentId, e.id), sql`${exceptionalHours.date} >= ${today}`));
     const futureExc = exceptions.filter((x) => x.date >= today);
@@ -216,8 +234,8 @@ export async function saveFiche(_prev: ActionState, form: FormData): Promise<Act
           establishmentId: e.id,
           date: x.date,
           closed: x.closed,
-          opensAt: x.closed ? null : x.opensAt ?? null,
-          closesAt: x.closed ? null : x.closesAt ?? null,
+          opensAt: x.closed ? null : (x.opensAt ?? null),
+          closesAt: x.closed ? null : (x.closesAt ?? null),
           label: x.label || null,
         })),
       );
@@ -227,7 +245,11 @@ export async function saveFiche(_prev: ActionState, form: FormData): Promise<Act
         .select({ id: attributes.id, slug: attributes.slug })
         .from(attributes)
         .where(and(inArray(attributes.slug, after.attributes), or(isNull(attributes.territoryId), eq(attributes.territoryId, e.territoryId))));
-      if (attrRows.length) await tx.insert(establishmentAttributes).values(attrRows.map((a) => ({ establishmentId: e.id, attributeId: a.id }))).onConflictDoNothing();
+      if (attrRows.length)
+        await tx
+          .insert(establishmentAttributes)
+          .values(attrRows.map((a) => ({ establishmentId: e.id, attributeId: a.id })))
+          .onConflictDoNothing();
     }
     const ch = await recordRevision(e.id, before, after, { userId: ctx.actor.user.id, source: ctx.role === 'STAFF' ? 'COLLECTIVITE' : 'PRO' }, tx);
     await refreshSearchKeywords(e.id, tx);
@@ -250,7 +272,10 @@ export async function saveFiche(_prev: ActionState, form: FormData): Promise<Act
 }
 
 /** Réécriture de la description par l'assistant (quota de l'offre Essentiel). */
-export async function improveDescriptionAction(estId: string, current: string): Promise<{ ok: boolean; description?: string; seoTitle?: string; message?: string; source?: 'ai' | 'rules' }> {
+export async function improveDescriptionAction(
+  estId: string,
+  current: string,
+): Promise<{ ok: boolean; description?: string; seoTitle?: string; message?: string; source?: 'ai' | 'rules' }> {
   const ctx = await proCtx(estId);
   const { companyAiUses } = await import('@/server/ai/client');
   if (ctx.limits.aiPerMonth !== null && (await companyAiUses(ctx.est.companyId)) >= ctx.limits.aiPerMonth) {
@@ -284,10 +309,18 @@ export async function uploadPhotos(_prev: ActionState, form: FormData): Promise<
   if (!files.length) return { status: 'error', message: 'Choisissez au moins une photo.' };
   const { media } = await import('@/server/db/schema');
   const { count: countFn } = await import('drizzle-orm');
-  const [{ n }] = await db.select({ n: countFn() }).from(media).where(and(eq(media.establishmentId, ctx.est.id), eq(media.kind, 'IMAGE')));
+  const [{ n }] = await db
+    .select({ n: countFn() })
+    .from(media)
+    .where(and(eq(media.establishmentId, ctx.est.id), eq(media.kind, 'IMAGE')));
   if (Number(n) + files.length > MAX_PHOTOS) return { status: 'error', message: `${MAX_PHOTOS} photos maximum : supprimez-en avant d'en ajouter.` };
   const { saveImageUpload, MediaError } = await import('@/server/media');
-  const tag = z.string().max(64).optional().parse(form.get('tag') || undefined) ?? null;
+  const tag =
+    z
+      .string()
+      .max(64)
+      .optional()
+      .parse(form.get('tag') || undefined) ?? null;
   let added = 0;
   try {
     for (const [i, f] of files.slice(0, 10).entries()) {
@@ -320,7 +353,7 @@ async function afterPhotos(ctx: Awaited<ReturnType<typeof proCtx>>) {
     .where(and(eq(media.establishmentId, ctx.est.id), eq(media.kind, 'IMAGE')))
     .orderBy(asc(media.sortOrder), asc(media.createdAt))
     .limit(1);
-  const cover = first ? (first.variants as Record<string, string>).w1280 ?? first.url : null;
+  const cover = first ? ((first.variants as Record<string, string>).w1280 ?? first.url) : null;
   await db.update(establishments).set({ coverUrl: cover, lastActivityAt: new Date() }).where(eq(establishments.id, ctx.est.id));
   const { refreshCompleteness } = await import('@/server/services/establishments');
   await refreshCompleteness(ctx.est.id);
@@ -346,8 +379,14 @@ export async function photoAction(form: FormData): Promise<void> {
     await deleteMediaFiles(list[idx]).catch(() => {});
     list.splice(idx, 1);
   } else if (op === 'tag') {
-    const tag = z.string().max(64).parse(form.get('tag') ?? '');
-    await db.update(media).set({ tag: tag || null }).where(eq(media.id, id));
+    const tag = z
+      .string()
+      .max(64)
+      .parse(form.get('tag') ?? '');
+    await db
+      .update(media)
+      .set({ tag: tag || null })
+      .where(eq(media.id, id));
   } else {
     const [item] = list.splice(idx, 1);
     const to = op === 'first' ? 0 : op === 'up' ? Math.max(0, idx - 1) : Math.min(list.length, idx + 1);
@@ -378,7 +417,13 @@ export async function saveProduct(_prev: ActionState, form: FormData): Promise<A
   if (file instanceof File && file.size > 0) {
     const { saveImageUpload, MediaError } = await import('@/server/media');
     try {
-      const m = await saveImageUpload(file, { ownerType: 'PRODUCT', territoryId: ctx.est.territoryId, establishmentId: null, uploadedById: ctx.actor.user.id, alt: d.name });
+      const m = await saveImageUpload(file, {
+        ownerType: 'PRODUCT',
+        territoryId: ctx.est.territoryId,
+        establishmentId: null,
+        uploadedById: ctx.actor.user.id,
+        alt: d.name,
+      });
       imageUrl = (m.variants as Record<string, string>).w640 ?? m.url;
     } catch (err) {
       return { status: 'error', message: err instanceof MediaError ? err.message : "L'image n'a pas pu être enregistrée." };
@@ -392,7 +437,15 @@ export async function saveProduct(_prev: ActionState, form: FormData): Promise<A
   } else {
     const n = ctx.est.products.length;
     if (n >= 40) return { status: 'error', message: '40 produits maximum.' };
-    await db.insert(products).values({ establishmentId: ctx.est.id, name: d.name, priceText: d.priceText || null, description: d.description || null, kind: d.kind, imageUrl: imageUrl ?? null, sortOrder: n });
+    await db.insert(products).values({
+      establishmentId: ctx.est.id,
+      name: d.name,
+      priceText: d.priceText || null,
+      description: d.description || null,
+      kind: d.kind,
+      imageUrl: imageUrl ?? null,
+      sortOrder: n,
+    });
   }
   const { refreshCompleteness, refreshSearchKeywords } = await import('@/server/services/establishments');
   await refreshSearchKeywords(ctx.est.id);
@@ -491,7 +544,10 @@ export async function createPost(_prev: ActionState, form: FormData): Promise<Ac
   if (!ctx.limits.socialChannel) channels = channels.filter((c) => c !== 'SOCIAL');
   const { postsThisMonth } = await import('@/server/services/pro');
   if (ctx.limits.postsPerMonth !== null && (await postsThisMonth(ctx.est.id)) >= ctx.limits.postsPerMonth) {
-    return { status: 'error', message: `L'offre Essentiel comprend ${ctx.limits.postsPerMonth} publications par mois. Passez Premium pour publier sans limite.` };
+    return {
+      status: 'error',
+      message: `L'offre Essentiel comprend ${ctx.limits.postsPerMonth} publications par mois. Passez Premium pour publier sans limite.`,
+    };
   }
   const { fromParisLocal } = await import('@/lib/format');
   let publishAt: Date | null = null;
@@ -506,7 +562,13 @@ export async function createPost(_prev: ActionState, form: FormData): Promise<Ac
   if (file instanceof File && file.size > 0) {
     const { saveImageUpload, MediaError } = await import('@/server/media');
     try {
-      const m = await saveImageUpload(file, { ownerType: 'POST', territoryId: ctx.est.territoryId, establishmentId: null, uploadedById: ctx.actor.user.id, alt: d.title });
+      const m = await saveImageUpload(file, {
+        ownerType: 'POST',
+        territoryId: ctx.est.territoryId,
+        establishmentId: null,
+        uploadedById: ctx.actor.user.id,
+        alt: d.title,
+      });
       imageUrl = (m.variants as Record<string, string>).w1280 ?? m.url;
     } catch (err) {
       return { status: 'error', message: err instanceof MediaError ? err.message : "L'image n'a pas pu être enregistrée." };
@@ -568,7 +630,10 @@ export async function deletePost(form: FormData): Promise<void> {
   const ctx = await proCtx(form.get('estId'));
   const id = uuid.parse(form.get('postId'));
   const { posts } = await import('@/server/db/schema');
-  await db.update(posts).set({ status: 'ARCHIVED' }).where(and(eq(posts.id, id), eq(posts.establishmentId, ctx.est.id)));
+  await db
+    .update(posts)
+    .set({ status: 'ARCHIVED' })
+    .where(and(eq(posts.id, id), eq(posts.establishmentId, ctx.est.id)));
   refresh(ctx, `${ctx.base}/publications`);
 }
 
@@ -598,7 +663,12 @@ export async function changePlanAction(_prev: ActionState, form: FormData): Prom
   const { env } = await import('@/server/env');
   if (plan !== 'ESSENTIEL' && env.STRIPE_SECRET_KEY) {
     const { createCheckoutSession } = await import('@/server/services/stripe');
-    const url = await createCheckoutSession({ companyId: ctx.est.companyId, plan, estId: ctx.est.id, email: billing.success ? billing.data.billingEmail : ctx.actor.user.email });
+    const url = await createCheckoutSession({
+      companyId: ctx.est.companyId,
+      plan,
+      estId: ctx.est.id,
+      email: billing.success ? billing.data.billingEmail : ctx.actor.user.email,
+    });
     if (url) return { status: 'ok', redirectUrl: url };
   }
   const { changeCompanyPlan } = await import('@/server/services/billing');
@@ -625,16 +695,29 @@ export async function replyMessage(_prev: ActionState, form: FormData): Promise<
   const id = uuid.parse(form.get('messageId'));
   const reply = z.string().trim().min(2, 'Votre réponse est vide.').max(5000).safeParse(form.get('reply'));
   if (!reply.success) return { status: 'error', message: reply.error.issues[0]?.message };
-  const [msg] = await db.select().from(messages).where(and(eq(messages.id, id), eq(messages.establishmentId, ctx.est.id))).limit(1);
+  const [msg] = await db
+    .select()
+    .from(messages)
+    .where(and(eq(messages.id, id), eq(messages.establishmentId, ctx.est.id)))
+    .limit(1);
   if (!msg) return { status: 'error', message: 'Message introuvable.' };
   if (!msg.senderEmail) return { status: 'error', message: "Cette personne n'a pas laissé d'email : rappelez-la plutôt." };
   const { sendEmail } = await import('@/server/mail/send');
   const { messageReplyTemplate } = await import('@/server/mail/templates');
   await sendEmail({
-    ...messageReplyTemplate({ to: msg.senderEmail, establishmentName: ctx.est.name, reply: reply.data, original: msg.body, replyTo: ctx.est.email ?? ctx.actor.user.email }),
+    ...messageReplyTemplate({
+      to: msg.senderEmail,
+      establishmentName: ctx.est.name,
+      reply: reply.data,
+      original: msg.body,
+      replyTo: ctx.est.email ?? ctx.actor.user.email,
+    }),
     territoryId: ctx.est.territoryId,
   });
-  await db.update(messages).set({ status: 'REPLIED', repliedAt: new Date(), readAt: msg.readAt ?? new Date() }).where(eq(messages.id, id));
+  await db
+    .update(messages)
+    .set({ status: 'REPLIED', repliedAt: new Date(), readAt: msg.readAt ?? new Date() })
+    .where(eq(messages.id, id));
   refresh(ctx, `${ctx.base}/messages`);
   return { status: 'ok', message: 'Réponse envoyée par email.' };
 }
@@ -645,15 +728,35 @@ export async function respondAppointment(_prev: ActionState, form: FormData): Pr
   const ctx = await proCtx(form.get('estId'));
   const id = uuid.parse(form.get('appointmentId'));
   const decision = z.enum(['CONFIRMED', 'DECLINED']).parse(form.get('decision'));
-  const note = z.string().trim().max(1000).parse(form.get('note') ?? '');
+  const note = z
+    .string()
+    .trim()
+    .max(1000)
+    .parse(form.get('note') ?? '');
   const { appointments } = await import('@/server/db/schema');
-  const [a] = await db.select().from(appointments).where(and(eq(appointments.id, id), eq(appointments.establishmentId, ctx.est.id))).limit(1);
+  const [a] = await db
+    .select()
+    .from(appointments)
+    .where(and(eq(appointments.id, id), eq(appointments.establishmentId, ctx.est.id)))
+    .limit(1);
   if (!a) return { status: 'error', message: 'Demande introuvable.' };
-  await db.update(appointments).set({ status: decision, responseNote: note || null, respondedAt: new Date() }).where(eq(appointments.id, id));
+  await db
+    .update(appointments)
+    .set({ status: decision, responseNote: note || null, respondedAt: new Date() })
+    .where(eq(appointments.id, id));
   const when = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'full', timeStyle: 'short', timeZone: 'Europe/Paris' }).format(a.preferredAt);
   const { sendEmail } = await import('@/server/mail/send');
   const { appointmentResponseTemplate } = await import('@/server/mail/templates');
-  await sendEmail({ ...appointmentResponseTemplate({ to: a.email, establishmentName: ctx.est.name, confirmed: decision === 'CONFIRMED', when: `le ${when}`, note: note || null }), territoryId: ctx.est.territoryId });
+  await sendEmail({
+    ...appointmentResponseTemplate({
+      to: a.email,
+      establishmentName: ctx.est.name,
+      confirmed: decision === 'CONFIRMED',
+      when: `le ${when}`,
+      note: note || null,
+    }),
+    territoryId: ctx.est.territoryId,
+  });
   refresh(ctx, `${ctx.base}/rendez-vous`);
   return { status: 'ok', message: decision === 'CONFIRMED' ? 'Rendez-vous confirmé au client.' : 'Réponse envoyée au client.' };
 }
@@ -681,7 +784,12 @@ export async function saveJob(_prev: ActionState, form: FormData): Promise<Actio
   const d = parsed.data;
   const { jobs } = await import('@/server/db/schema');
   const { slugify } = await import('@/lib/slug');
-  const lines = (s: string) => s.split('\n').map((l) => l.replace(/^[-•*]\s*/, '').trim()).filter(Boolean).slice(0, 12);
+  const lines = (s: string) =>
+    s
+      .split('\n')
+      .map((l) => l.replace(/^[-•*]\s*/, '').trim())
+      .filter(Boolean)
+      .slice(0, 12);
   const values = {
     title: d.title,
     contractType: d.contractType,
@@ -694,12 +802,19 @@ export async function saveJob(_prev: ActionState, form: FormData): Promise<Actio
     applyEmail: d.applyEmail || null,
   };
   if (d.jobId) {
-    await db.update(jobs).set(values).where(and(eq(jobs.id, d.jobId), eq(jobs.establishmentId, ctx.est.id)));
+    await db
+      .update(jobs)
+      .set(values)
+      .where(and(eq(jobs.id, d.jobId), eq(jobs.establishmentId, ctx.est.id)));
   } else {
     if (!ctx.limits.jobs) {
       const { count: c } = await import('drizzle-orm');
-      const [{ n }] = await db.select({ n: c() }).from(jobs).where(and(eq(jobs.establishmentId, ctx.est.id), eq(jobs.status, 'PUBLISHED')));
-      if (Number(n) >= 1) return { status: 'error', message: 'L’offre Essentiel permet une offre d’emploi publiée à la fois. Passez Premium pour en publier davantage.' };
+      const [{ n }] = await db
+        .select({ n: c() })
+        .from(jobs)
+        .where(and(eq(jobs.establishmentId, ctx.est.id), eq(jobs.status, 'PUBLISHED')));
+      if (Number(n) >= 1)
+        return { status: 'error', message: 'L’offre Essentiel permet une offre d’emploi publiée à la fois. Passez Premium pour en publier davantage.' };
     }
     await db.insert(jobs).values({
       ...values,
@@ -786,7 +901,13 @@ export async function saveEvent(_prev: ActionState, form: FormData): Promise<Act
   if (file instanceof File && file.size > 0) {
     const { saveImageUpload, MediaError } = await import('@/server/media');
     try {
-      const m = await saveImageUpload(file, { ownerType: 'EVENT', territoryId: ctx.est.territoryId, establishmentId: null, uploadedById: ctx.actor.user.id, alt: d.title });
+      const m = await saveImageUpload(file, {
+        ownerType: 'EVENT',
+        territoryId: ctx.est.territoryId,
+        establishmentId: null,
+        uploadedById: ctx.actor.user.id,
+        alt: d.title,
+      });
       imageUrl = (m.variants as Record<string, string>).w1280 ?? m.url;
     } catch (err) {
       return { status: 'error', message: err instanceof MediaError ? err.message : "L'image n'a pas pu être enregistrée." };
@@ -810,7 +931,10 @@ export async function saveEvent(_prev: ActionState, form: FormData): Promise<Act
     ...(imageUrl ? { imageUrl } : {}),
   };
   if (d.eventId) {
-    await db.update(events).set(values).where(and(eq(events.id, d.eventId), eq(events.establishmentId, ctx.est.id)));
+    await db
+      .update(events)
+      .set(values)
+      .where(and(eq(events.id, d.eventId), eq(events.establishmentId, ctx.est.id)));
   } else {
     const { slugify } = await import('@/lib/slug');
     await db.insert(events).values({
@@ -835,7 +959,10 @@ export async function deleteEvent(form: FormData): Promise<void> {
   const ctx = await proCtx(form.get('estId'));
   const id = uuid.parse(form.get('eventId'));
   const { events } = await import('@/server/db/schema');
-  await db.update(events).set({ status: 'ARCHIVED' }).where(and(eq(events.id, id), eq(events.establishmentId, ctx.est.id)));
+  await db
+    .update(events)
+    .set({ status: 'ARCHIVED' })
+    .where(and(eq(events.id, id), eq(events.establishmentId, ctx.est.id)));
   refresh(ctx, `${ctx.base}/evenements`);
 }
 
@@ -866,10 +993,23 @@ export async function inviteMember(_prev: ActionState, form: FormData): Promise<
   const { appUrl } = await import('@/server/urls');
   const { fullName } = await import('@/lib/format');
   await sendEmail({
-    ...memberInvitationTemplate({ to: email.data, inviter: fullName(ctx.actor.user), companyName: co?.tradeName ?? ctx.est.name, url: appUrl(`/invitation/${token}`) }),
+    ...memberInvitationTemplate({
+      to: email.data,
+      inviter: fullName(ctx.actor.user),
+      companyName: co?.tradeName ?? ctx.est.name,
+      url: appUrl(`/invitation/${token}`),
+    }),
     territoryId: ctx.est.territoryId,
   });
-  await audit({ actor: actorOf(ctx), category: 'SECURITE', action: 'company.member_invited', summary: `Invitation de ${email.data} (${role === 'OWNER' ? 'titulaire' : 'collaborateur'})`, territoryId: ctx.est.territoryId, targetType: 'company', targetId: ctx.est.companyId });
+  await audit({
+    actor: actorOf(ctx),
+    category: 'SECURITE',
+    action: 'company.member_invited',
+    summary: `Invitation de ${email.data} (${role === 'OWNER' ? 'titulaire' : 'collaborateur'})`,
+    territoryId: ctx.est.territoryId,
+    targetType: 'company',
+    targetId: ctx.est.companyId,
+  });
   refresh(ctx, `${ctx.base}/equipe`);
   return { status: 'ok', message: `Invitation envoyée à ${email.data} (valable 7 jours).` };
 }
@@ -884,6 +1024,14 @@ export async function removeMember(form: FormData): Promise<void> {
   if (!target) return;
   if (target.role === 'OWNER' && members.filter((m) => m.role === 'OWNER').length <= 1) return; // au moins un titulaire
   await db.delete(companyMembers).where(and(eq(companyMembers.companyId, ctx.est.companyId), eq(companyMembers.userId, userId)));
-  await audit({ actor: actorOf(ctx), category: 'SECURITE', action: 'company.member_removed', summary: 'Accès d’un collaborateur retiré', territoryId: ctx.est.territoryId, targetType: 'user', targetId: userId });
+  await audit({
+    actor: actorOf(ctx),
+    category: 'SECURITE',
+    action: 'company.member_removed',
+    summary: 'Accès d’un collaborateur retiré',
+    territoryId: ctx.est.territoryId,
+    targetType: 'user',
+    targetId: userId,
+  });
   refresh(ctx, `${ctx.base}/equipe`);
 }

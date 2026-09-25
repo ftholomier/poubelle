@@ -41,7 +41,15 @@ export async function mfaAction(_prev: AuthState, form: FormData): Promise<AuthS
   const ok = await verifySecondFactor(s.user.id, code);
   if (!ok) {
     const info = await requestInfo();
-    await audit({ actor: { user: s.user }, category: 'SECURITE', action: 'auth.mfa_failed', summary: 'Code de double authentification refusé', targetType: 'user', targetId: s.user.id, ip: info.ip });
+    await audit({
+      actor: { user: s.user },
+      category: 'SECURITE',
+      action: 'auth.mfa_failed',
+      summary: 'Code de double authentification refusé',
+      targetType: 'user',
+      targetId: s.user.id,
+      ip: info.ip,
+    });
     return { status: 'error', message: 'Code incorrect ou expiré. Vérifiez l’heure de votre téléphone.' };
   }
   await markMfaVerified();
@@ -79,12 +87,22 @@ export async function resetPasswordAction(_prev: AuthState, form: FormData): Pro
   if (issue) return { status: 'error', message: issue };
   if (password !== confirm) return { status: 'error', message: 'Les deux mots de passe ne correspondent pas.' };
   await db.transaction(async (tx) => {
-    await tx.update(users).set({ passwordHash: await hashPassword(password), passwordChangedAt: new Date(), failedLoginCount: 0, lockedUntil: null }).where(eq(users.id, row.userId!));
+    await tx
+      .update(users)
+      .set({ passwordHash: await hashPassword(password), passwordChangedAt: new Date(), failedLoginCount: 0, lockedUntil: null })
+      .where(eq(users.id, row.userId!));
     await tx.update(tokens).set({ usedAt: new Date() }).where(eq(tokens.id, row.id));
     // Toutes les sessions ouvertes sont fermées après un changement de mot de passe.
     await tx.delete(sessions).where(eq(sessions.userId, row.userId!));
   });
-  await audit({ actor: { id: row.userId, label: row.email ?? 'Utilisateur' }, category: 'SECURITE', action: 'auth.password_reset', summary: 'Mot de passe réinitialisé', targetType: 'user', targetId: row.userId });
+  await audit({
+    actor: { id: row.userId, label: row.email ?? 'Utilisateur' },
+    category: 'SECURITE',
+    action: 'auth.password_reset',
+    summary: 'Mot de passe réinitialisé',
+    targetType: 'user',
+    targetId: row.userId,
+  });
   redirect('/connexion?mot-de-passe=1');
 }
 
@@ -97,8 +115,18 @@ export async function changePasswordAction(_prev: AuthState, form: FormData): Pr
   if (!(await verifyPassword(current, s.user.passwordHash))) return { status: 'error', message: 'Mot de passe actuel incorrect.' };
   const issue = passwordIssues(password);
   if (issue) return { status: 'error', message: issue };
-  await db.update(users).set({ passwordHash: await hashPassword(password), passwordChangedAt: new Date() }).where(eq(users.id, s.user.id));
+  await db
+    .update(users)
+    .set({ passwordHash: await hashPassword(password), passwordChangedAt: new Date() })
+    .where(eq(users.id, s.user.id));
   await revokeOtherSessions(s.user.id);
-  await audit({ actor: { user: s.user }, category: 'SECURITE', action: 'auth.password_changed', summary: 'Mot de passe modifié', targetType: 'user', targetId: s.user.id });
+  await audit({
+    actor: { user: s.user },
+    category: 'SECURITE',
+    action: 'auth.password_changed',
+    summary: 'Mot de passe modifié',
+    targetType: 'user',
+    targetId: s.user.id,
+  });
   return { status: 'ok', message: 'Mot de passe modifié. Vos autres sessions ont été fermées.' };
 }

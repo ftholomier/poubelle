@@ -16,15 +16,7 @@ import { claims, establishmentRevisions } from './claims';
 import { appointments, events, jobApplications, jobs, markets, messages, posts } from './content';
 import { dealActivities, dealContacts, dealDocuments, dealTasks, deals } from './crm';
 import { audiences, newsletterDeliveries, newsletters, subscriberAudiences, subscribers } from './newsletter';
-import {
-  attributes,
-  categories,
-  communeMemberships,
-  communes,
-  territories,
-  territoryDomains,
-  territoryModules,
-} from './tenancy';
+import { attributes, categories, communeMemberships, communes, territories, territoryDomains, territoryModules } from './tenancy';
 import { roleAssignments, sessions, users } from './users';
 
 export * from './enums';

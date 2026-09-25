@@ -199,14 +199,7 @@ export async function getPublicEstablishment(territoryId: string, communeSlug: s
     .innerJoin(communes, eq(communes.id, establishments.communeId))
     .innerJoin(categories, eq(categories.id, establishments.categoryId))
     .innerJoin(companies, eq(companies.id, establishments.companyId))
-    .where(
-      and(
-        eq(establishments.territoryId, territoryId),
-        eq(communes.slug, communeSlug),
-        eq(establishments.slug, slug),
-        publicStatusFilter(),
-      ),
-    )
+    .where(and(eq(establishments.territoryId, territoryId), eq(communes.slug, communeSlug), eq(establishments.slug, slug), publicStatusFilter()))
     .limit(1);
   const row = rows[0];
   if (!row) return null;
@@ -237,7 +230,11 @@ async function loadEstablishmentDetail(row: {
   const now = new Date();
   const today = parisDate(now);
   const [photos, prods, hours, exceptions, attrs, news, upcomingEvents, openJobs, pages, offers, secondary] = await Promise.all([
-    db.select().from(media).where(and(eq(media.establishmentId, e.id), eq(media.kind, 'IMAGE'), eq(media.isPrivate, false))).orderBy(asc(media.sortOrder), asc(media.createdAt)),
+    db
+      .select()
+      .from(media)
+      .where(and(eq(media.establishmentId, e.id), eq(media.kind, 'IMAGE'), eq(media.isPrivate, false)))
+      .orderBy(asc(media.sortOrder), asc(media.createdAt)),
     db.select().from(products).where(eq(products.establishmentId, e.id)).orderBy(asc(products.sortOrder)),
     db.select().from(openingHours).where(eq(openingHours.establishmentId, e.id)).orderBy(asc(openingHours.weekday), asc(openingHours.opensAt)),
     db
@@ -254,13 +251,7 @@ async function loadEstablishmentDetail(row: {
     db
       .select()
       .from(posts)
-      .where(
-        and(
-          eq(posts.establishmentId, e.id),
-          eq(posts.status, 'PUBLISHED'),
-          or(isNull(posts.expiresAt), gte(posts.expiresAt, now)),
-        ),
-      )
+      .where(and(eq(posts.establishmentId, e.id), eq(posts.status, 'PUBLISHED'), or(isNull(posts.expiresAt), gte(posts.expiresAt, now))))
       .orderBy(desc(posts.publishedAt))
       .limit(6),
     db
@@ -269,8 +260,16 @@ async function loadEstablishmentDetail(row: {
       .where(and(eq(events.establishmentId, e.id), eq(events.status, 'PUBLISHED'), gte(events.startsAt, new Date(now.getTime() - 86_400_000))))
       .orderBy(asc(events.startsAt))
       .limit(4),
-    db.select().from(jobs).where(and(eq(jobs.establishmentId, e.id), eq(jobs.status, 'PUBLISHED'))).orderBy(desc(jobs.publishedAt)),
-    db.select().from(establishmentPages).where(and(eq(establishmentPages.establishmentId, e.id), eq(establishmentPages.published, true))).orderBy(asc(establishmentPages.sortOrder)),
+    db
+      .select()
+      .from(jobs)
+      .where(and(eq(jobs.establishmentId, e.id), eq(jobs.status, 'PUBLISHED')))
+      .orderBy(desc(jobs.publishedAt)),
+    db
+      .select()
+      .from(establishmentPages)
+      .where(and(eq(establishmentPages.establishmentId, e.id), eq(establishmentPages.published, true)))
+      .orderBy(asc(establishmentPages.sortOrder)),
     db
       .select({ p: campaignParticipants, cp: campaigns })
       .from(campaignParticipants)
@@ -348,30 +347,37 @@ export async function completenessInput(establishmentId: string, tx: DbOrTx = db
   const [e] = await tx.select().from(establishments).where(eq(establishments.id, establishmentId)).limit(1);
   if (!e) return null;
   // Dans une transaction, un seul client : les requêtes sont enchaînées plutôt que parallèles.
-  const run = <T,>(fns: (() => Promise<T>)[]): Promise<T[]> =>
+  const run = <T>(fns: (() => Promise<T>)[]): Promise<T[]> =>
     tx === db ? Promise.all(fns.map((f) => f())) : fns.reduce<Promise<T[]>>(async (acc, f) => [...(await acc), await f()], Promise.resolve([]));
   const [photos, hoursCount, exc, prodCount, attrs, lastPost] = (await run<unknown>([
-    () => tx.select({ tag: media.tag }).from(media).where(and(eq(media.establishmentId, establishmentId), eq(media.kind, 'IMAGE'), eq(media.isPrivate, false))),
-    () => tx.select({ n: sql<number>`count(*)::int` }).from(openingHours).where(eq(openingHours.establishmentId, establishmentId)),
+    () =>
+      tx
+        .select({ tag: media.tag })
+        .from(media)
+        .where(and(eq(media.establishmentId, establishmentId), eq(media.kind, 'IMAGE'), eq(media.isPrivate, false))),
+    () =>
+      tx
+        .select({ n: sql<number>`count(*)::int` })
+        .from(openingHours)
+        .where(eq(openingHours.establishmentId, establishmentId)),
     () => tx.select({ date: exceptionalHours.date }).from(exceptionalHours).where(eq(exceptionalHours.establishmentId, establishmentId)),
-    () => tx.select({ n: sql<number>`count(*)::int` }).from(products).where(eq(products.establishmentId, establishmentId)),
-    () => tx
-      .select({ group: attributes.group })
-      .from(establishmentAttributes)
-      .innerJoin(attributes, eq(attributes.id, establishmentAttributes.attributeId))
-      .where(eq(establishmentAttributes.establishmentId, establishmentId)),
-    () => tx
-      .select({ at: sql<Date | null>`max(${posts.publishedAt})` })
-      .from(posts)
-      .where(and(eq(posts.establishmentId, establishmentId), eq(posts.status, 'PUBLISHED'))),
-  ])) as [
-    { tag: string | null }[],
-    { n: number }[],
-    { date: string }[],
-    { n: number }[],
-    { group: string }[],
-    { at: Date | null }[],
-  ];
+    () =>
+      tx
+        .select({ n: sql<number>`count(*)::int` })
+        .from(products)
+        .where(eq(products.establishmentId, establishmentId)),
+    () =>
+      tx
+        .select({ group: attributes.group })
+        .from(establishmentAttributes)
+        .innerJoin(attributes, eq(attributes.id, establishmentAttributes.attributeId))
+        .where(eq(establishmentAttributes.establishmentId, establishmentId)),
+    () =>
+      tx
+        .select({ at: sql<Date | null>`max(${posts.publishedAt})` })
+        .from(posts)
+        .where(and(eq(posts.establishmentId, establishmentId), eq(posts.status, 'PUBLISHED'))),
+  ])) as [{ tag: string | null }[], { n: number }[], { date: string }[], { n: number }[], { group: string }[], { at: Date | null }[]];
   return {
     name: e.name,
     street: e.street,
@@ -430,9 +436,7 @@ export async function recordRevision(
     changes.push({ field, label: FIELD_LABELS[field] ?? field, from: from ?? null, to: to ?? null });
   }
   if (!changes.length) return changes;
-  const summary =
-    meta.summary ??
-    `Modification : ${[...new Set(changes.map((c) => c.label))].slice(0, 4).join(', ')}${changes.length > 4 ? '…' : ''}`;
+  const summary = meta.summary ?? `Modification : ${[...new Set(changes.map((c) => c.label))].slice(0, 4).join(', ')}${changes.length > 4 ? '…' : ''}`;
   await tx.insert(establishmentRevisions).values({
     establishmentId,
     userId: meta.userId,

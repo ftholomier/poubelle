@@ -10,11 +10,14 @@ type Product = { id: string; name: string; priceText: string | null; description
 /** Produits phares et prestations affichés sur la fiche. */
 export function ProductManager({ estId, products }: { estId: string; products: Product[] }) {
   const [editing, setEditing] = useState<Product | 'new' | null>(null);
-  const [state, action, pending] = useActionState<ActionState, FormData>(async (prev, form) => {
-    const res = await saveProduct(prev, form);
-    if (res.status === 'ok') setEditing(null);
-    return res;
-  }, { status: 'idle' });
+  const [state, action, pending] = useActionState<ActionState, FormData>(
+    async (prev, form) => {
+      const res = await saveProduct(prev, form);
+      if (res.status === 'ok') setEditing(null);
+      return res;
+    },
+    { status: 'idle' },
+  );
   const current = editing && editing !== 'new' ? editing : null;
   return (
     <section id="produits" className="panel" style={{ scrollMarginTop: 90 }}>
@@ -58,7 +61,11 @@ export function ProductManager({ estId, products }: { estId: string; products: P
         </p>
       ) : null}
       {editing ? (
-        <form key={current?.id ?? 'new'} action={action} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 10, borderTop: '1px solid var(--line-2)', paddingTop: 12 }}>
+        <form
+          key={current?.id ?? 'new'}
+          action={action}
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 10, borderTop: '1px solid var(--line-2)', paddingTop: 12 }}
+        >
           <input type="hidden" name="estId" value={estId} />
           <input type="hidden" name="productId" value={current?.id ?? ''} />
           <input name="name" className="input" placeholder="Nom (ex. Pain au levain)" defaultValue={current?.name ?? ''} required maxLength={255} />
@@ -67,7 +74,14 @@ export function ProductManager({ estId, products }: { estId: string; products: P
             <option value="PRODUCT">Produit</option>
             <option value="SERVICE">Prestation</option>
           </select>
-          <input name="description" className="input" placeholder="Courte description (facultatif)" defaultValue={current?.description ?? ''} maxLength={1000} style={{ gridColumn: '1 / -1' }} />
+          <input
+            name="description"
+            className="input"
+            placeholder="Courte description (facultatif)"
+            defaultValue={current?.description ?? ''}
+            maxLength={1000}
+            style={{ gridColumn: '1 / -1' }}
+          />
           <FileDrop name="image" accept="image/*" label="+ Photo (facultatif)" />
           <div style={{ display: 'flex', gap: 8, alignItems: 'end' }}>
             <button type="submit" className="btn btn-brand btn-sm" disabled={pending}>
@@ -77,7 +91,11 @@ export function ProductManager({ estId, products }: { estId: string; products: P
               Annuler
             </button>
           </div>
-          {state.status === 'error' ? <div className="alert alert-error" style={{ gridColumn: '1 / -1' }}>{state.message}</div> : null}
+          {state.status === 'error' ? (
+            <div className="alert alert-error" style={{ gridColumn: '1 / -1' }}>
+              {state.message}
+            </div>
+          ) : null}
         </form>
       ) : null}
     </section>

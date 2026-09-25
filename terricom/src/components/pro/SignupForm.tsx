@@ -7,12 +7,34 @@ import { FAMILIES, type Family } from '@/lib/constants';
 
 type Territory = { id: string; name: string; communes: { id: string; name: string; postalCode: string | null; inseeCode: string }[] };
 type Category = { id: string; name: string; family: string };
-export type SignupPrefill = { siret: string; name: string; categoryId: string; activityLabel: string; street: string; communeId: string; phone: string; firstName: string; lastName: string; email: string; password: string };
+export type SignupPrefill = {
+  siret: string;
+  name: string;
+  categoryId: string;
+  activityLabel: string;
+  street: string;
+  communeId: string;
+  phone: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+};
 
 const idle: SignupState = { status: 'idle' };
 
 /** Formulaire d'inscription d'une activité absente de la base. */
-export function SignupForm({ territories, categories, loggedIn, prefill }: { territories: Territory[]; categories: Category[]; loggedIn: boolean; prefill: SignupPrefill | null }) {
+export function SignupForm({
+  territories,
+  categories,
+  loggedIn,
+  prefill,
+}: {
+  territories: Territory[];
+  categories: Category[];
+  loggedIn: boolean;
+  prefill: SignupPrefill | null;
+}) {
   const [state, action, pending] = useActionState(registerAction, idle);
   const [siret, setSiret] = useState(prefill?.siret ?? '');
   const [name, setName] = useState(prefill?.name ?? '');
@@ -42,7 +64,16 @@ export function SignupForm({ territories, categories, loggedIn, prefill }: { ter
         <label className="field">
           <span>Numéro SIRET</span>
           <div style={{ display: 'flex', gap: 8 }}>
-            <input name="siret" className="input" value={siret} onChange={(e) => setSiret(e.target.value)} inputMode="numeric" placeholder="123 456 789 00012" required style={{ fontFamily: 'var(--font-mono)' }} />
+            <input
+              name="siret"
+              className="input"
+              value={siret}
+              onChange={(e) => setSiret(e.target.value)}
+              inputMode="numeric"
+              placeholder="123 456 789 00012"
+              required
+              style={{ fontFamily: 'var(--font-mono)' }}
+            />
             <button type="button" className="btn btn-outline" onClick={search} disabled={searching || siret.replace(/\s/g, '').length !== 14}>
               {searching ? 'Recherche…' : 'Remplir'}
             </button>
@@ -116,10 +147,27 @@ export function SignupForm({ territories, categories, loggedIn, prefill }: { ter
         <fieldset style={{ border: 0, padding: 0, margin: '6px 0 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
           <legend style={{ fontWeight: 800, marginBottom: 10 }}>Votre accès</legend>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-            <input name="firstName" className="input" placeholder="Prénom" aria-label="Prénom" required autoComplete="given-name" defaultValue={prefill?.firstName} />
+            <input
+              name="firstName"
+              className="input"
+              placeholder="Prénom"
+              aria-label="Prénom"
+              required
+              autoComplete="given-name"
+              defaultValue={prefill?.firstName}
+            />
             <input name="lastName" className="input" placeholder="Nom" aria-label="Nom" required autoComplete="family-name" defaultValue={prefill?.lastName} />
           </div>
-          <input name="email" type="email" className="input" placeholder="Email professionnel" aria-label="Email professionnel" required autoComplete="email" defaultValue={prefill?.email} />
+          <input
+            name="email"
+            type="email"
+            className="input"
+            placeholder="Email professionnel"
+            aria-label="Email professionnel"
+            required
+            autoComplete="email"
+            defaultValue={prefill?.email}
+          />
           <input
             name="password"
             type="password"
@@ -144,12 +192,25 @@ export function SignupForm({ territories, categories, loggedIn, prefill }: { ter
       )}
       {state.status === 'error' ? (
         <div className="alert alert-error" role="alert">
-          {state.message}{' '}
-          {state.existingId ? <Link href={`/pro/revendiquer/${state.existingId}`}>Revendiquer la fiche existante →</Link> : null}
+          {state.message} {state.existingId ? <Link href={`/pro/revendiquer/${state.existingId}`}>Revendiquer la fiche existante →</Link> : null}
           {state.needsLogin ? <Link href="/connexion?next=/pro/inscription">Me connecter →</Link> : null}
         </div>
       ) : null}
-      <button type="submit" disabled={pending} style={{ border: 0, background: 'var(--green)', color: '#fff', padding: 14, borderRadius: 12, fontWeight: 700, cursor: 'pointer', fontSize: 15, opacity: pending ? 0.7 : 1 }}>
+      <button
+        type="submit"
+        disabled={pending}
+        style={{
+          border: 0,
+          background: 'var(--green)',
+          color: '#fff',
+          padding: 14,
+          borderRadius: 12,
+          fontWeight: 700,
+          cursor: 'pointer',
+          fontSize: 15,
+          opacity: pending ? 0.7 : 1,
+        }}
+      >
         {pending ? 'Envoi…' : 'Créer ma fiche'}
       </button>
     </form>

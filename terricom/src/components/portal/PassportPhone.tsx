@@ -53,8 +53,30 @@ export function PassportPhone({
 
   return (
     <div className="phone-mock">
-      <div style={{ width: '100%', height: '100%', borderRadius: 36, background: 'var(--cream)', overflow: 'hidden', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-        <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', width: 96, height: 26, borderRadius: 20, background: 'var(--ink)' }} />
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          borderRadius: 36,
+          background: 'var(--cream)',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'relative',
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            top: 10,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 96,
+            height: 26,
+            borderRadius: 20,
+            background: 'var(--ink)',
+          }}
+        />
         <div style={{ background: 'var(--brand)', color: '#fff', padding: '48px 20px 20px' }}>
           <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', color: 'var(--amber)' }}>MON PASSEPORT</div>
           <div className="display" style={{ fontSize: 24, lineHeight: 1.05, marginTop: 4 }}>
@@ -118,7 +140,11 @@ export function PassportPhone({
               <>
                 <div style={{ fontWeight: 800, fontSize: 14, color: 'var(--ink)' }}>Bravo, circuit réussi !</div>
                 <div style={{ fontSize: 12, color: 'var(--amber-fg-2)' }}>
-                  Votre code : <b className="mono" style={{ fontSize: 14, color: 'var(--ink)' }}>{rewardCode}</b> — présentez-le à l&apos;office de tourisme.
+                  Votre code :{' '}
+                  <b className="mono" style={{ fontSize: 14, color: 'var(--ink)' }}>
+                    {rewardCode}
+                  </b>{' '}
+                  — présentez-le à l&apos;office de tourisme.
                 </div>
               </>
             ) : (

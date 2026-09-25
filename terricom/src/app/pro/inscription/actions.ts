@@ -23,7 +23,13 @@ export async function lookupSiretAction(siret: string): Promise<SiretLookup> {
   const r = await lookupSiret(clean);
   if (!r) return { ok: false, message: 'Base SIRENE injoignable ou établissement introuvable : complétez les champs vous-même.' };
   if (!r.active) return { ok: false, message: 'Cet établissement est fermé dans la base SIRENE.' };
-  return { ok: true, message: `Trouvé : ${r.name}${r.city ? ` (${r.city})` : ''}`, name: r.name, street: r.address?.replace(/\s\d{5}\s.*$/, '') ?? '', inseeCode: r.inseeCode };
+  return {
+    ok: true,
+    message: `Trouvé : ${r.name}${r.city ? ` (${r.city})` : ''}`,
+    name: r.name,
+    street: r.address?.replace(/\s\d{5}\s.*$/, '') ?? '',
+    inseeCode: r.inseeCode,
+  };
 }
 
 export async function registerAction(_prev: SignupState, form: FormData): Promise<SignupState> {
@@ -35,7 +41,12 @@ export async function registerAction(_prev: SignupState, form: FormData): Promis
       activityLabel: z.string().trim().max(160).optional(),
       street: z.string().trim().min(3, 'Indiquez l’adresse').max(255),
       communeId: z.string().uuid('Choisissez votre commune'),
-      phone: z.string().trim().max(32).regex(/^[+0-9 .()-]*$/, 'Téléphone invalide').optional(),
+      phone: z
+        .string()
+        .trim()
+        .max(32)
+        .regex(/^[+0-9 .()-]*$/, 'Téléphone invalide')
+        .optional(),
       publicEmail: z.union([z.literal(''), z.string().trim().email('Email public invalide')]).optional(),
       website: z.union([z.literal(''), z.string().trim().url('Adresse du site invalide (https://…)')]).optional(),
     })
@@ -53,7 +64,8 @@ export async function registerAction(_prev: SignupState, form: FormData): Promis
     user = res.user;
     session = await getSession();
   }
-  if (!(await rateLimit(`signup-est:${user.id}`, 5, 86_400)).ok) return { status: 'error', message: 'Vous avez créé plusieurs fiches aujourd’hui : réessayez demain.' };
+  if (!(await rateLimit(`signup-est:${user.id}`, 5, 86_400)).ok)
+    return { status: 'error', message: 'Vous avez créé plusieurs fiches aujourd’hui : réessayez demain.' };
 
   let claimId: string;
   try {
@@ -75,7 +87,11 @@ export async function registerAction(_prev: SignupState, form: FormData): Promis
   } catch (err) {
     if (err instanceof ClaimError) {
       if (err.message.startsWith('EXISTS:'))
-        return { status: 'error', message: 'Cette entreprise a déjà une fiche : revendiquez-la plutôt que d’en créer une nouvelle.', existingId: err.message.slice(7) };
+        return {
+          status: 'error',
+          message: 'Cette entreprise a déjà une fiche : revendiquez-la plutôt que d’en créer une nouvelle.',
+          existingId: err.message.slice(7),
+        };
       return { status: 'error', message: err.message };
     }
     throw err;

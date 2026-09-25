@@ -6,6 +6,9 @@ import { MODULE_ORDER, MODULES, type ModuleKey } from '@/lib/constants';
 import { fmtInt } from '@/lib/format';
 import { pilotShowcase } from '@/server/services/marketing';
 
+// Rendu à la demande : chiffres réels et configuration lue à l'exécution (jamais figés à la compilation).
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Pour les collectivités',
   description:

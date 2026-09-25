@@ -89,12 +89,23 @@ export default async function CircuitsPage({ searchParams }: Props) {
       .limit(6),
     db.select({ n: count() }).from(passports).where(eq(passports.circuitId, cur.id)),
     db.select({ n: count() }).from(passportStamps).innerJoin(passports, eq(passports.id, passportStamps.passportId)).where(eq(passports.circuitId, cur.id)),
-    db.select({ n: count() }).from(passports).where(and(eq(passports.circuitId, cur.id), isNotNull(passports.completedAt))),
+    db
+      .select({ n: count() })
+      .from(passports)
+      .where(and(eq(passports.circuitId, cur.id), isNotNull(passports.completedAt))),
     qrSvg(portalUrl(ctx.territory, `/circuits/${cur.slug}`)),
   ]);
   const points = stops
     .filter((s) => s.lat !== null && s.lng !== null)
-    .map((s) => ({ id: s.estId, lat: s.lat!, lng: s.lng!, name: s.name, color: FAMILIES[s.family].color, subtitle: `${s.activity ?? ''} · ${s.commune}`, image: sized(s.coverUrl, 460, 220) }));
+    .map((s) => ({
+      id: s.estId,
+      lat: s.lat!,
+      lng: s.lng!,
+      name: s.name,
+      color: FAMILIES[s.family].color,
+      subtitle: `${s.activity ?? ''} · ${s.commune}`,
+      image: sized(s.coverUrl, 460, 220),
+    }));
 
   return (
     <div className="app-content">
@@ -117,8 +128,34 @@ export default async function CircuitsPage({ searchParams }: Props) {
             </form>
             <div style={{ fontSize: 13, color: 'var(--muted)' }}>Étapes · {stops.length}</div>
             {stops.map((s, i) => (
-              <div key={s.id} style={{ display: 'grid', gridTemplateColumns: '30px 48px 1fr auto', gap: 10, alignItems: 'center', padding: 8, border: '1px solid var(--line-2)', borderRadius: 12, background: '#fff' }}>
-                <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--ink)', color: 'var(--amber)', display: 'grid', placeItems: 'center', fontWeight: 800, fontSize: 12 }}>{i + 1}</div>
+              <div
+                key={s.id}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '30px 48px 1fr auto',
+                  gap: 10,
+                  alignItems: 'center',
+                  padding: 8,
+                  border: '1px solid var(--line-2)',
+                  borderRadius: 12,
+                  background: '#fff',
+                }}
+              >
+                <div
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: '50%',
+                    background: 'var(--ink)',
+                    color: 'var(--amber)',
+                    display: 'grid',
+                    placeItems: 'center',
+                    fontWeight: 800,
+                    fontSize: 12,
+                  }}
+                >
+                  {i + 1}
+                </div>
                 <span style={{ width: 48, height: 40, borderRadius: 8, overflow: 'hidden' }}>
                   <Photo src={sized(s.coverUrl, 100, 80)} alt="" label={s.name} color={FAMILIES[s.family].color} />
                 </span>
@@ -130,14 +167,41 @@ export default async function CircuitsPage({ searchParams }: Props) {
                   <form action={moveStopAction}>
                     <input type="hidden" name="circuitId" value={cur.id} />
                     <input type="hidden" name="stopId" value={s.id} />
-                    <button type="submit" aria-label={`Monter ${s.name}`} disabled={i === 0} style={{ border: 0, background: 'var(--sand)', borderRadius: 6, width: 24, height: 24, cursor: 'pointer', fontSize: 11, opacity: i === 0 ? 0.4 : 1 }}>
+                    <button
+                      type="submit"
+                      aria-label={`Monter ${s.name}`}
+                      disabled={i === 0}
+                      style={{
+                        border: 0,
+                        background: 'var(--sand)',
+                        borderRadius: 6,
+                        width: 24,
+                        height: 24,
+                        cursor: 'pointer',
+                        fontSize: 11,
+                        opacity: i === 0 ? 0.4 : 1,
+                      }}
+                    >
                       ↑
                     </button>
                   </form>
                   <form action={removeStopAction}>
                     <input type="hidden" name="circuitId" value={cur.id} />
                     <input type="hidden" name="stopId" value={s.id} />
-                    <button type="submit" aria-label={`Retirer ${s.name}`} style={{ border: 0, background: 'var(--danger-bg)', color: 'var(--danger-fg)', borderRadius: 6, width: 24, height: 24, cursor: 'pointer', fontSize: 11 }}>
+                    <button
+                      type="submit"
+                      aria-label={`Retirer ${s.name}`}
+                      style={{
+                        border: 0,
+                        background: 'var(--danger-bg)',
+                        color: 'var(--danger-fg)',
+                        borderRadius: 6,
+                        width: 24,
+                        height: 24,
+                        cursor: 'pointer',
+                        fontSize: 11,
+                      }}
+                    >
                       ×
                     </button>
                   </form>
@@ -150,7 +214,19 @@ export default async function CircuitsPage({ searchParams }: Props) {
                 <form key={a.id} action={addStopAction}>
                   <input type="hidden" name="circuitId" value={cur.id} />
                   <input type="hidden" name="estId" value={a.id} />
-                  <button type="submit" style={{ cursor: 'pointer', border: '1px dashed var(--green)', background: 'var(--mint-2)', color: 'var(--green)', padding: '6px 10px', borderRadius: 999, fontSize: 12, fontWeight: 700 }}>
+                  <button
+                    type="submit"
+                    style={{
+                      cursor: 'pointer',
+                      border: '1px dashed var(--green)',
+                      background: 'var(--mint-2)',
+                      color: 'var(--green)',
+                      padding: '6px 10px',
+                      borderRadius: 999,
+                      fontSize: 12,
+                      fontWeight: 700,
+                    }}
+                  >
                     + {a.name}
                   </button>
                 </form>
@@ -222,7 +298,18 @@ export default async function CircuitsPage({ searchParams }: Props) {
               ariaLabel={`Carte du circuit ${cur.name}`}
             />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(3,1fr)', gap: 14, alignItems: 'center', background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: 20, padding: 16 }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'auto repeat(3,1fr)',
+              gap: 14,
+              alignItems: 'center',
+              background: 'var(--paper)',
+              border: '1px solid var(--line)',
+              borderRadius: 20,
+              padding: 16,
+            }}
+          >
             <div role="img" aria-label="QR code du circuit" style={{ width: 84, height: 84 }} dangerouslySetInnerHTML={{ __html: qr }} />
             {[
               [opened?.n ?? 0, 'passeports ouverts'],

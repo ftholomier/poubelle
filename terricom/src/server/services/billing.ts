@@ -2,16 +2,7 @@ import { and, desc, eq, sql } from 'drizzle-orm';
 import type { PlanKey } from '@/lib/constants';
 import { parisDate } from '@/lib/format';
 import { db, type DbOrTx } from '../db';
-import {
-  companies,
-  companySubscriptions,
-  invoiceCounters,
-  invoices,
-  plans,
-  territoryContracts,
-  type InvoiceLine,
-  type PlanLimits,
-} from '../db/schema';
+import { companies, companySubscriptions, invoiceCounters, invoices, plans, territoryContracts, type InvoiceLine, type PlanLimits } from '../db/schema';
 
 export type Plan = typeof plans.$inferSelect;
 
@@ -107,10 +98,7 @@ export async function changeCompanyPlan(companyId: string, plan: PlanKey, provid
     if (plan === 'ESSENTIEL') return null;
     const periodEnd = new Date();
     periodEnd.setMonth(periodEnd.getMonth() + 1);
-    const [sub] = await tx
-      .insert(companySubscriptions)
-      .values({ companyId, plan, status: 'ACTIVE', provider, currentPeriodEnd: periodEnd })
-      .returning();
+    const [sub] = await tx.insert(companySubscriptions).values({ companyId, plan, status: 'ACTIVE', provider, currentPeriodEnd: periodEnd }).returning();
     const [co] = await tx.select().from(companies).where(eq(companies.id, companyId)).limit(1);
     const year = new Date().getFullYear();
     const number = await nextInvoiceNumber(tx, year);

@@ -119,11 +119,7 @@ export function FicheGallery({ photos, stamp, color, name }: { photos: GalleryPh
       <Modal open={index !== null} onClose={() => setIndex(null)} label={`Photos de ${name}`} width="min(1100px, 100%)" height="min(820px, 100%)">
         {index !== null ? (
           <div style={{ position: 'relative', flex: 1, background: 'var(--ink)', display: 'grid', placeItems: 'center', minHeight: 0 }}>
-            <img
-              src={photos[index].large}
-              alt={photos[index].alt}
-              style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' }}
-            />
+            <img src={photos[index].large} alt={photos[index].alt} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' }} />
             <div style={{ position: 'absolute', top: 14, right: 14, display: 'flex', gap: 8 }}>
               <span className="pill" style={{ background: 'rgba(255,255,255,.9)', color: 'var(--ink)' }}>
                 {index + 1} / {photos.length}

@@ -145,17 +145,15 @@ export async function addDealContactAction(_prev: ActionState, form: FormData): 
     })
     .safeParse(Object.fromEntries(form));
   if (!d.success) return { status: 'error', message: d.error.issues[0]?.message };
-  await db
-    .insert(dealContacts)
-    .values({
-      dealId: d.data.dealId,
-      name: d.data.name,
-      role: d.data.role || null,
-      tag: d.data.tag,
-      email: d.data.email || null,
-      phone: d.data.phone || null,
-      sortOrder: 10,
-    });
+  await db.insert(dealContacts).values({
+    dealId: d.data.dealId,
+    name: d.data.name,
+    role: d.data.role || null,
+    tag: d.data.tag,
+    email: d.data.email || null,
+    phone: d.data.phone || null,
+    sortOrder: 10,
+  });
   refresh();
   return { status: 'ok', message: 'Interlocuteur ajouté.' };
 }
@@ -255,16 +253,14 @@ export async function createDealAction(_prev: ActionState, form: FormData): Prom
     })
     .returning();
   if (v.contactName)
-    await db
-      .insert(dealContacts)
-      .values({
-        dealId: deal.id,
-        name: v.contactName,
-        role: v.contactRole || null,
-        tag: 'Décideur',
-        email: v.contactEmail || null,
-        phone: v.contactPhone || null,
-      });
+    await db.insert(dealContacts).values({
+      dealId: deal.id,
+      name: v.contactName,
+      role: v.contactRole || null,
+      tag: 'Décideur',
+      email: v.contactEmail || null,
+      phone: v.contactPhone || null,
+    });
   await logDealActivity(deal.id, 'Premier contact', v.source ? `Origine : ${v.source}` : 'Nouvelle affaire', actor.user.id, now);
   const group = groupOf(stage);
   for (const [text, due] of GROUP_ACTIONS[group]) await addDealTask(deal.id, text, due);

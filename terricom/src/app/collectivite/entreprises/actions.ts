@@ -36,9 +36,15 @@ function refreshPortal(ctx: BoContext) {
 
 /** Identifiants reçus du navigateur, restreints au périmètre de l'agent. */
 async function scopedIds(ctx: BoContext, raw: unknown): Promise<string[]> {
-  const ids = z.array(uuid).max(500).safeParse(JSON.parse(String(raw ?? '[]')));
+  const ids = z
+    .array(uuid)
+    .max(500)
+    .safeParse(JSON.parse(String(raw ?? '[]')));
   if (!ids.success || !ids.data.length) return [];
-  const rows = await db.select({ id: establishments.id }).from(establishments).where(and(estScope(ctx), inArray(establishments.id, ids.data)));
+  const rows = await db
+    .select({ id: establishments.id })
+    .from(establishments)
+    .where(and(estScope(ctx), inArray(establishments.id, ids.data)));
   return rows.map((r) => r.id);
 }
 
@@ -65,7 +71,15 @@ export async function startSireneImportAction(): Promise<void> {
   requireBoAdmin(ctx);
   if (!(await rateLimit(`sirene-import:${ctx.territory.id}`, 3, 3600)).ok) redirect('/collectivite/entreprises?import=1');
   const id = await createSireneBatch(ctx.territory.id, ctx.actor.user.id);
-  await audit({ actor: actorOf(ctx), category: 'IMPORT', action: 'import.sirene_started', summary: 'Import depuis la base SIRENE lancé', territoryId: ctx.territory.id, targetType: 'import', targetId: id });
+  await audit({
+    actor: actorOf(ctx),
+    category: 'IMPORT',
+    action: 'import.sirene_started',
+    summary: 'Import depuis la base SIRENE lancé',
+    territoryId: ctx.territory.id,
+    targetType: 'import',
+    targetId: id,
+  });
   redirect(`/collectivite/entreprises?import=1&lot=${id}`);
 }
 
@@ -110,17 +124,31 @@ export async function bulkInviteAction(_prev: BoState, form: FormData): Promise<
   if (!ids.length) return { status: 'error', message: 'Aucune fiche sélectionnée.' };
   if (!(await rateLimit(`bulk-invite:${ctx.actor.user.id}`, 20, 3600)).ok) return { status: 'error', message: 'Trop d’envois : réessayez dans une heure.' };
   const rows = await db
-    .select({ id: establishments.id, name: establishments.name, email: establishments.email, managed: sql<boolean>`exists (select 1 from company_members m where m.company_id = "establishments"."company_id")` })
+    .select({
+      id: establishments.id,
+      name: establishments.name,
+      email: establishments.email,
+      managed: sql<boolean>`exists (select 1 from company_members m where m.company_id = "establishments"."company_id")`,
+    })
     .from(establishments)
     .where(inArray(establishments.id, ids));
   let sent = 0;
   for (const r of rows) {
     if (r.managed || !r.email) continue;
-    await sendEmail({ ...claimInvitationTemplate({ to: r.email, establishmentName: r.name, territory: ctx.territory, url: appUrl(`/pro/revendiquer/${r.id}`) }), territoryId: ctx.territory.id });
+    await sendEmail({
+      ...claimInvitationTemplate({ to: r.email, establishmentName: r.name, territory: ctx.territory, url: appUrl(`/pro/revendiquer/${r.id}`) }),
+      territoryId: ctx.territory.id,
+    });
     sent++;
   }
   const letters = rows.filter((r) => !r.managed && !r.email).length;
-  await audit({ actor: actorOf(ctx), category: 'ENVOI', action: 'claim.invitations', summary: `${sent} invitation${sent > 1 ? 's' : ''} à revendiquer envoyée${sent > 1 ? 's' : ''}`, territoryId: ctx.territory.id });
+  await audit({
+    actor: actorOf(ctx),
+    category: 'ENVOI',
+    action: 'claim.invitations',
+    summary: `${sent} invitation${sent > 1 ? 's' : ''} à revendiquer envoyée${sent > 1 ? 's' : ''}`,
+    territoryId: ctx.territory.id,
+  });
   return {
     status: 'ok',
     message: `${sent} invitation${sent > 1 ? 's' : ''} envoyée${sent > 1 ? 's' : ''} par email${letters ? ` · ${letters} fiche${letters > 1 ? 's' : ''} sans email : imprimez les courriers` : ''}.`,
@@ -132,14 +160,26 @@ export async function bulkCampaignAction(_prev: BoState, form: FormData): Promis
   const ids = await scopedIds(ctx, form.get('ids'));
   const campaignId = uuid.safeParse(form.get('campaignId'));
   if (!ids.length || !campaignId.success) return { status: 'error', message: 'Choisissez une campagne.' };
-  const [c] = await db.select().from(campaigns).where(and(eq(campaigns.id, campaignId.data), eq(campaigns.territoryId, ctx.territory.id))).limit(1);
+  const [c] = await db
+    .select()
+    .from(campaigns)
+    .where(and(eq(campaigns.id, campaignId.data), eq(campaigns.territoryId, ctx.territory.id)))
+    .limit(1);
   if (!c) return { status: 'error', message: 'Campagne introuvable.' };
   const res = await db
     .insert(campaignParticipants)
     .values(ids.map((id) => ({ campaignId: c.id, establishmentId: id, status: 'INVITED' as const, invitedAt: new Date() })))
     .onConflictDoNothing()
     .returning({ id: campaignParticipants.establishmentId });
-  await audit({ actor: actorOf(ctx), category: 'MODIFICATION', action: 'campaign.invite', summary: `${res.length} établissement(s) invité(s) à « ${c.name} »`, territoryId: ctx.territory.id, targetType: 'campaign', targetId: c.id });
+  await audit({
+    actor: actorOf(ctx),
+    category: 'MODIFICATION',
+    action: 'campaign.invite',
+    summary: `${res.length} établissement(s) invité(s) à « ${c.name} »`,
+    territoryId: ctx.territory.id,
+    targetType: 'campaign',
+    targetId: c.id,
+  });
   revalidatePath('/collectivite/campagnes');
   return { status: 'ok', message: `${res.length} établissement${res.length > 1 ? 's' : ''} invité${res.length > 1 ? 's' : ''} à « ${c.name} ».` };
 }
@@ -180,7 +220,12 @@ export async function createEstablishmentAction(_prev: BoState, form: FormData):
   const [existingCo] = siren ? await db.select({ id: companies.id }).from(companies).where(eq(companies.siren, siren)).limit(1) : [];
   const companyId =
     existingCo?.id ??
-    (await db.insert(companies).values({ siren, legalName: d.name.toUpperCase(), tradeName: d.name, nafCode: cat.nafCodes[0] ?? null }).returning({ id: companies.id }))[0].id;
+    (
+      await db
+        .insert(companies)
+        .values({ siren, legalName: d.name.toUpperCase(), tradeName: d.name, nafCode: cat.nafCodes[0] ?? null })
+        .returning({ id: companies.id })
+    )[0].id;
   const [est] = await db
     .insert(establishments)
     .values({
@@ -207,7 +252,15 @@ export async function createEstablishmentAction(_prev: BoState, form: FormData):
     .returning({ id: establishments.id });
   await refreshSearchKeywords(est.id);
   await refreshCompleteness(est.id);
-  await audit({ actor: actorOf(ctx), category: 'MODIFICATION', action: 'establishment.create', summary: `Fiche créée : ${d.name} (${commune.name})`, territoryId: ctx.territory.id, targetType: 'establishment', targetId: est.id });
+  await audit({
+    actor: actorOf(ctx),
+    category: 'MODIFICATION',
+    action: 'establishment.create',
+    summary: `Fiche créée : ${d.name} (${commune.name})`,
+    territoryId: ctx.territory.id,
+    targetType: 'establishment',
+    targetId: est.id,
+  });
   refreshPortal(ctx);
   redirect(`/collectivite/entreprises/${est.id}`);
 }
@@ -224,9 +277,16 @@ export async function setStatusAction(_prev: BoState, form: FormData): Promise<B
   const id = uuid.parse(form.get('estId'));
   const op = z.enum(['validate', 'suspend', 'restore', 'archive']).parse(form.get('op'));
   if ((op === 'archive' || op === 'suspend') && ctx.access !== 'ADMIN') return { status: 'error', message: 'Réservé aux administrateurs.' };
-  const [e] = await db.select().from(establishments).where(and(estScope(ctx), eq(establishments.id, id))).limit(1);
+  const [e] = await db
+    .select()
+    .from(establishments)
+    .where(and(estScope(ctx), eq(establishments.id, id)))
+    .limit(1);
   if (!e) return { status: 'error', message: 'Fiche introuvable.' };
-  const reason = String(form.get('reason') ?? '').trim().slice(0, 300) || null;
+  const reason =
+    String(form.get('reason') ?? '')
+      .trim()
+      .slice(0, 300) || null;
   if (op === 'suspend' && !reason) return { status: 'error', message: 'Indiquez le motif de la suspension (il sera communiqué au professionnel).' };
   const def = STATUS_ACTIONS[op];
   let to: (typeof establishments.$inferSelect)['status'] = def.to;
@@ -238,7 +298,12 @@ export async function setStatusAction(_prev: BoState, form: FormData): Promise<B
     .update(establishments)
     .set({ status: to, suspendedReason: op === 'suspend' ? reason : null, archivedAt: op === 'archive' ? new Date() : null, updatedAt: new Date() })
     .where(eq(establishments.id, e.id));
-  await recordRevision(e.id, { status: e.status }, { status: to }, { userId: ctx.actor.user.id, source: 'COLLECTIVITE', summary: `${def.summary}${reason ? ` : ${reason}` : ''}` });
+  await recordRevision(
+    e.id,
+    { status: e.status },
+    { status: to },
+    { userId: ctx.actor.user.id, source: 'COLLECTIVITE', summary: `${def.summary}${reason ? ` : ${reason}` : ''}` },
+  );
   await audit({
     actor: actorOf(ctx),
     category: op === 'suspend' || op === 'archive' ? 'MODERATION' : 'VALIDATION',
@@ -259,7 +324,11 @@ export async function messageProAction(_prev: BoState, form: FormData): Promise<
   const id = uuid.parse(form.get('estId'));
   const body = z.string().trim().min(5, 'Message trop court').max(2000).safeParse(form.get('body'));
   if (!body.success) return { status: 'error', message: body.error.issues[0]?.message };
-  const [e] = await db.select().from(establishments).where(and(estScope(ctx), eq(establishments.id, id))).limit(1);
+  const [e] = await db
+    .select()
+    .from(establishments)
+    .where(and(estScope(ctx), eq(establishments.id, id)))
+    .limit(1);
   if (!e) return { status: 'error', message: 'Fiche introuvable.' };
   await db.insert(messages).values({
     establishmentId: e.id,
@@ -270,7 +339,15 @@ export async function messageProAction(_prev: BoState, form: FormData): Promise<
     senderEmail: ctx.territory.contactEmail ?? ctx.actor.user.email,
     body: body.data,
   });
-  await audit({ actor: actorOf(ctx), category: 'ENVOI', action: 'establishment.message', summary: `Message envoyé à ${e.name}`, territoryId: ctx.territory.id, targetType: 'establishment', targetId: e.id });
+  await audit({
+    actor: actorOf(ctx),
+    category: 'ENVOI',
+    action: 'establishment.message',
+    summary: `Message envoyé à ${e.name}`,
+    territoryId: ctx.territory.id,
+    targetType: 'establishment',
+    targetId: e.id,
+  });
   revalidatePath(`/collectivite/entreprises/${e.id}`);
   return { status: 'ok', message: 'Message envoyé : il apparaît dans la messagerie du professionnel.' };
 }
@@ -296,5 +373,8 @@ export async function remindHoursAction(_prev: BoState, form: FormData): Promise
         body: 'Bonjour, pouvez-vous vérifier et confirmer vos horaires sur votre fiche ? Des horaires à jour, ce sont des clients qui ne trouvent pas porte close. Merci !',
       })),
     );
-  return { status: 'ok', message: `${managed.length} relance${managed.length > 1 ? 's' : ''} envoyée${managed.length > 1 ? 's' : ''}${ids.length - managed.length ? ` · ${ids.length - managed.length} fiche(s) non revendiquée(s) ignorée(s)` : ''}.` };
+  return {
+    status: 'ok',
+    message: `${managed.length} relance${managed.length > 1 ? 's' : ''} envoyée${managed.length > 1 ? 's' : ''}${ids.length - managed.length ? ` · ${ids.length - managed.length} fiche(s) non revendiquée(s) ignorée(s)` : ''}.`,
+  };
 }

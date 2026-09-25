@@ -49,7 +49,16 @@ export default async function JobsPage({ params, searchParams }: Props) {
   return (
     <div>
       <section style={{ background: 'var(--leaf)' }}>
-        <div className="container split" style={{ paddingTop: 56, paddingBottom: 56, ['--cols' as string]: 'minmax(0,1.2fr) minmax(0,1fr)', ['--gap' as string]: '40px', ['--align' as string]: 'center' }}>
+        <div
+          className="container split"
+          style={{
+            paddingTop: 56,
+            paddingBottom: 56,
+            ['--cols' as string]: 'minmax(0,1.2fr) minmax(0,1fr)',
+            ['--gap' as string]: '40px',
+            ['--align' as string]: 'center',
+          }}
+        >
           <div>
             <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--leaf-fg)', marginBottom: 10 }}>
               {settings.jobsTitle ?? 'Travailler sur notre territoire'}
@@ -67,7 +76,9 @@ export default async function JobsPage({ params, searchParams }: Props) {
             </p>
           </div>
           <div className="hide-md" style={{ position: 'relative', height: 380 }} aria-hidden="true">
-            <div style={{ position: 'absolute', left: 0, top: 0, width: '68%', height: '78%', borderRadius: 22, overflow: 'hidden', transform: 'rotate(-3deg)' }}>
+            <div
+              style={{ position: 'absolute', left: 0, top: 0, width: '68%', height: '78%', borderRadius: 22, overflow: 'hidden', transform: 'rotate(-3deg)' }}
+            >
               <Photo src={sized(withPhoto[0]?.company.coverUrl ?? t.heroImageUrl, 900)} alt="" color="#3F8F4E" label=" " />
             </div>
             <div

@@ -83,7 +83,11 @@ export async function rejectClaimAction(_prev: ModState, form: FormData): Promis
 
 async function scopedPost(ctx: BoContext, raw: unknown) {
   const id = uuid.parse(raw);
-  const [p] = await db.select().from(posts).where(and(eq(posts.id, id), eq(posts.territoryId, ctx.territory.id))).limit(1);
+  const [p] = await db
+    .select()
+    .from(posts)
+    .where(and(eq(posts.id, id), eq(posts.territoryId, ctx.territory.id)))
+    .limit(1);
   if (!p) return null;
   if (ctx.communeIds && (!p.communeId || !ctx.communeIds.includes(p.communeId))) return null;
   return p;
@@ -101,7 +105,15 @@ export async function approvePostAction(_prev: ModState, form: FormData): Promis
     .where(eq(posts.id, p.id));
   if (!future && p.channels.includes('SOCIAL')) await enqueue('posts.social-sync', { postId: p.id }, { dedupeKey: `social:${p.id}` });
   if (p.establishmentId) await db.update(establishments).set({ lastActivityAt: now }).where(eq(establishments.id, p.establishmentId));
-  await audit({ actor: { user: ctx.actor.user }, category: 'MODERATION', action: 'post.approve', summary: `Publication validée : « ${p.title} »`, territoryId: ctx.territory.id, targetType: 'post', targetId: p.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'MODERATION',
+    action: 'post.approve',
+    summary: `Publication validée : « ${p.title} »`,
+    territoryId: ctx.territory.id,
+    targetType: 'post',
+    targetId: p.id,
+  });
   invalidate(`feed:${ctx.territory.id}`);
   done(ctx);
   redirect('/collectivite/moderation?onglet=publications&ok=publiee');
@@ -114,7 +126,10 @@ export async function rejectPostAction(_prev: ModState, form: FormData): Promise
   const note = z.string().trim().min(10, 'Expliquez le motif au professionnel.').max(600).safeParse(form.get('note'));
   if (!note.success) return { status: 'error', message: note.error.issues[0]?.message };
   const now = new Date();
-  await db.update(posts).set({ status: 'REJECTED', moderationNote: note.data, moderatedById: ctx.actor.user.id, moderatedAt: now, updatedAt: now }).where(eq(posts.id, p.id));
+  await db
+    .update(posts)
+    .set({ status: 'REJECTED', moderationNote: note.data, moderatedById: ctx.actor.user.id, moderatedAt: now, updatedAt: now })
+    .where(eq(posts.id, p.id));
   if (p.establishmentId)
     await db.insert(messages).values({
       establishmentId: p.establishmentId,
@@ -125,7 +140,15 @@ export async function rejectPostAction(_prev: ModState, form: FormData): Promise
       senderEmail: ctx.territory.contactEmail ?? ctx.actor.user.email,
       body: `Votre publication « ${p.title} » n'a pas été publiée : ${note.data}`,
     });
-  await audit({ actor: { user: ctx.actor.user }, category: 'MODERATION', action: 'post.reject', summary: `Publication refusée : « ${p.title} »`, territoryId: ctx.territory.id, targetType: 'post', targetId: p.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'MODERATION',
+    action: 'post.reject',
+    summary: `Publication refusée : « ${p.title} »`,
+    territoryId: ctx.territory.id,
+    targetType: 'post',
+    targetId: p.id,
+  });
   done(ctx);
   redirect('/collectivite/moderation?onglet=publications&ok=refusee');
 }

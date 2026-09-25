@@ -13,7 +13,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   if (!ctx) return new NextResponse('Non autorisé', { status: 401 });
   const { id } = await params;
   if (!/^[0-9a-f-]{36}$/.test(id)) return new NextResponse('Introuvable', { status: 404 });
-  const [batch] = await db.select().from(importBatches).where(and(eq(importBatches.id, id), eq(importBatches.territoryId, ctx.territory.id))).limit(1);
+  const [batch] = await db
+    .select()
+    .from(importBatches)
+    .where(and(eq(importBatches.id, id), eq(importBatches.territoryId, ctx.territory.id)))
+    .limit(1);
   if (!batch) return new NextResponse('Introuvable', { status: 404 });
   const body = toCsv(
     ['Ligne', 'Nom', 'SIRET', 'Commune', 'Catégorie', 'Traitement', 'Remarques'],

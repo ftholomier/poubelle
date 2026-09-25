@@ -4,6 +4,9 @@ import { SiteShell } from '@/components/site/SiteChrome';
 import { fmtInt } from '@/lib/format';
 import { pilotShowcase } from '@/server/services/marketing';
 
+// Rendu à la demande : chiffres réels et configuration lue à l'exécution (jamais figés à la compilation).
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Demander une démo',
   description: 'Une démonstration de 30 minutes en visio, préparée avec les entreprises de votre territoire.',

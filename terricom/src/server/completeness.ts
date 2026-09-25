@@ -41,8 +41,7 @@ export type CompletenessItem = {
 
 export function computeCompleteness(e: CompletenessInput, now: Date = new Date()): { score: number; items: CompletenessItem[] } {
   const items: CompletenessItem[] = [];
-  const push = (i: Omit<CompletenessItem, 'earned'> & { earned?: number }) =>
-    items.push({ ...i, earned: i.earned ?? (i.ok ? i.points : 0) });
+  const push = (i: Omit<CompletenessItem, 'earned'> & { earned?: number }) => items.push({ ...i, earned: i.earned ?? (i.ok ? i.points : 0) });
 
   const identityOk = Boolean(e.name && e.street && e.phone);
   push({
@@ -176,15 +175,16 @@ export function computeCompleteness(e: CompletenessInput, now: Date = new Date()
     section: 'photos',
   });
 
-  const score = Math.min(100, items.reduce((s, i) => s + i.earned, 0));
+  const score = Math.min(
+    100,
+    items.reduce((s, i) => s + i.earned, 0),
+  );
   return { score, items };
 }
 
 export function vitrineLevel(score: number): { name: string; bg: string; hint: string } {
-  if (score >= 100)
-    return { name: '★ Vitrine Or', bg: '#F4B266', hint: 'Fiche parfaite : vous êtes mis en avant sur la page de votre commune.' };
-  if (score >= 85)
-    return { name: '★ Vitrine Argent+', bg: '#E5E1D6', hint: 'Encore une action pour décrocher la Vitrine Or.' };
+  if (score >= 100) return { name: '★ Vitrine Or', bg: '#F4B266', hint: 'Fiche parfaite : vous êtes mis en avant sur la page de votre commune.' };
+  if (score >= 85) return { name: '★ Vitrine Argent+', bg: '#E5E1D6', hint: 'Encore une action pour décrocher la Vitrine Or.' };
   return {
     name: '★ Vitrine Argent',
     bg: '#E5E1D6',

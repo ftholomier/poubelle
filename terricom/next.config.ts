@@ -13,6 +13,16 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  // Polices de la charte lues à l'exécution pour les PDF (factures, kit vitrine, courriers, rapports).
+  outputFileTracingIncludes: {
+    '/**/*': [
+      './node_modules/@fontsource/bricolage-grotesque/files/bricolage-grotesque-latin-800-normal.woff',
+      './node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff',
+      './node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff',
+      './node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-700-normal.woff',
+      './drizzle/**/*',
+    ],
+  },
   poweredByHeader: false,
   reactStrictMode: true,
   serverExternalPackages: ['sharp', 'pg', 'pg-native', 'nodemailer', 'qrcode', '@anthropic-ai/sdk'],

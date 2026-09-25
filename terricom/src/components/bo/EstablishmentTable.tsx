@@ -25,7 +25,10 @@ const COLS = '36px 2.2fr 1.2fr 1.1fr 1.1fr 1.3fr 0.9fr 0.9fr';
 function Feedback({ state }: { state: BoState }) {
   if (state.status === 'idle') return null;
   return (
-    <span role={state.status === 'error' ? 'alert' : 'status'} style={{ color: state.status === 'error' ? 'var(--danger-fg)' : 'var(--green)', fontWeight: 700 }}>
+    <span
+      role={state.status === 'error' ? 'alert' : 'status'}
+      style={{ color: state.status === 'error' ? 'var(--danger-fg)' : 'var(--green)', fontWeight: 700 }}
+    >
       {state.message}
     </span>
   );
@@ -57,7 +60,19 @@ export function EstablishmentTable({ rows, campaigns, exportHref }: { rows: EstR
   return (
     <>
       {sel.length ? (
-        <div style={{ display: 'flex', gap: 14, alignItems: 'center', background: 'var(--mint)', borderRadius: 12, padding: '10px 14px', fontSize: 13, fontWeight: 600, flexWrap: 'wrap' }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: 14,
+            alignItems: 'center',
+            background: 'var(--mint)',
+            borderRadius: 12,
+            padding: '10px 14px',
+            fontSize: 13,
+            fontWeight: 600,
+            flexWrap: 'wrap',
+          }}
+        >
           <b>
             {sel.length} sélectionnée{sel.length > 1 ? 's' : ''}
           </b>
@@ -111,9 +126,18 @@ export function EstablishmentTable({ rows, campaigns, exportHref }: { rows: EstR
       <div style={{ background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: 18, overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto' }}>
           <div style={{ minWidth: 920 }} role="table" aria-label="Établissements">
-            <div role="row" className="bo-table-head" style={{ display: 'grid', gridTemplateColumns: COLS, gap: 12, padding: '12px 16px', borderBottom: '1px solid var(--line)' }}>
+            <div
+              role="row"
+              className="bo-table-head"
+              style={{ display: 'grid', gridTemplateColumns: COLS, gap: 12, padding: '12px 16px', borderBottom: '1px solid var(--line)' }}
+            >
               <span role="columnheader">
-                <button type="button" aria-label={all ? 'Tout désélectionner' : 'Tout sélectionner'} onClick={() => setSel(all ? [] : rows.map((r) => r.id))} style={box(all)}>
+                <button
+                  type="button"
+                  aria-label={all ? 'Tout désélectionner' : 'Tout sélectionner'}
+                  onClick={() => setSel(all ? [] : rows.map((r) => r.id))}
+                  style={box(all)}
+                >
                   {all ? '✓' : ''}
                 </button>
               </span>
@@ -131,14 +155,27 @@ export function EstablishmentTable({ rows, campaigns, exportHref }: { rows: EstR
                 <div
                   key={r.id}
                   role="row"
-                  style={{ display: 'grid', gridTemplateColumns: COLS, gap: 12, padding: '10px 16px', fontSize: 14, alignItems: 'center', borderBottom: '1px solid var(--line-3)', background: on ? 'var(--mint-2)' : 'transparent' }}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: COLS,
+                    gap: 12,
+                    padding: '10px 16px',
+                    fontSize: 14,
+                    alignItems: 'center',
+                    borderBottom: '1px solid var(--line-3)',
+                    background: on ? 'var(--mint-2)' : 'transparent',
+                  }}
                 >
                   <span role="cell">
                     <button type="button" aria-pressed={on} aria-label={`Sélectionner ${r.name}`} onClick={() => toggle(r.id)} style={box(on)}>
                       {on ? '✓' : ''}
                     </button>
                   </span>
-                  <Link role="cell" href={`/collectivite/entreprises/${r.id}`} style={{ display: 'flex', gap: 10, alignItems: 'center', minWidth: 0, color: 'var(--text)' }}>
+                  <Link
+                    role="cell"
+                    href={`/collectivite/entreprises/${r.id}`}
+                    style={{ display: 'flex', gap: 10, alignItems: 'center', minWidth: 0, color: 'var(--text)' }}
+                  >
                     <span style={{ width: 36, height: 36, borderRadius: 8, overflow: 'hidden', flexShrink: 0 }}>
                       <Photo src={r.image} alt="" label={r.name} color={r.color} />
                     </span>
@@ -149,7 +186,19 @@ export function EstablishmentTable({ rows, campaigns, exportHref }: { rows: EstR
                     {r.category}
                   </span>
                   <span role="cell">
-                    <span style={{ fontSize: 12, fontWeight: 700, padding: '4px 10px', borderRadius: 999, background: r.status.bg, color: r.status.fg, whiteSpace: 'nowrap' }}>{r.status.label}</span>
+                    <span
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 700,
+                        padding: '4px 10px',
+                        borderRadius: 999,
+                        background: r.status.bg,
+                        color: r.status.fg,
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {r.status.label}
+                    </span>
                   </span>
                   <span role="cell" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span style={{ flex: 1, height: 7, background: 'var(--sand)', borderRadius: 4, overflow: 'hidden' }}>

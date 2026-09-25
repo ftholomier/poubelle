@@ -92,9 +92,7 @@ export async function revokeSession(userId: string, sessionId: string): Promise<
 
 export async function revokeOtherSessions(userId: string): Promise<void> {
   const current = await currentSessionId();
-  await db
-    .delete(sessions)
-    .where(and(eq(sessions.userId, userId), current ? sql`${sessions.id} <> ${current}` : sql`true`));
+  await db.delete(sessions).where(and(eq(sessions.userId, userId), current ? sql`${sessions.id} <> ${current}` : sql`true`));
 }
 
 export async function listSessions(userId: string) {
@@ -106,14 +104,7 @@ export async function listSessions(userId: string) {
 }
 
 export async function purgeExpiredSessions(): Promise<number> {
-  const res = await db
-    .delete(sessions)
-    .where(
-      or(
-        lt(sessions.expiresAt, new Date()),
-        lt(sessions.createdAt, new Date(Date.now() - ABSOLUTE_DAYS * DAY)),
-      ),
-    );
+  const res = await db.delete(sessions).where(or(lt(sessions.expiresAt, new Date()), lt(sessions.createdAt, new Date(Date.now() - ABSOLUTE_DAYS * DAY))));
   return res.rowCount ?? 0;
 }
 
@@ -134,8 +125,5 @@ export async function startImpersonation(territoryId: string, ticket: string, mi
 export async function stopImpersonation(): Promise<void> {
   const id = await currentSessionId();
   if (!id) return;
-  await db
-    .update(sessions)
-    .set({ impersonationTerritoryId: null, impersonationExpiresAt: null, impersonationTicket: null })
-    .where(eq(sessions.id, id));
+  await db.update(sessions).set({ impersonationTerritoryId: null, impersonationExpiresAt: null, impersonationTicket: null }).where(eq(sessions.id, id));
 }

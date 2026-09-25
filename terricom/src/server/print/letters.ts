@@ -88,7 +88,8 @@ export async function claimLettersPdf(sender: LetterSender, items: LetterItem[],
     page.drawText('Le service développement économique', { x: 20 * MM, y: boxY - 16 * MM, size: 10, font: fonts.body, color: ink });
     page.drawText(sender.legalName, { x: 20 * MM, y: boxY - 21 * MM, size: 10, font: fonts.bold, color: ink });
     const foot = `Portail propulsé par terricom${sender.contactEmail ? ` · Contact : ${sender.contactEmail}` : ''} · Vous pouvez demander la suppression de votre fiche à tout moment.`;
-    for (const [i, line] of wrap(foot, fonts.body, 8, 170 * MM).entries()) page.drawText(line, { x: 20 * MM, y: 14 * MM - i * 4 * MM, size: 8, font: fonts.body, color: muted });
+    for (const [i, line] of wrap(foot, fonts.body, 8, 170 * MM).entries())
+      page.drawText(line, { x: 20 * MM, y: 14 * MM - i * 4 * MM, size: 8, font: fonts.body, color: muted });
   }
   return pdf.save();
 }

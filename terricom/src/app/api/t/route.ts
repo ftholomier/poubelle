@@ -50,7 +50,12 @@ export async function POST(req: NextRequest) {
   const source = detectSource({ referrer: d.referrer, src: d.src, ownHosts: [host] });
   const ua = req.headers.get('user-agent');
   if (d.type === 'POST_VIEW' && d.refIds?.length) {
-    await db.execute(sql`UPDATE posts SET view_count = view_count + 1 WHERE id IN (${sql.join(d.refIds.map((id) => sql`${id}::uuid`), sql`, `)})`);
+    await db.execute(
+      sql`UPDATE posts SET view_count = view_count + 1 WHERE id IN (${sql.join(
+        d.refIds.map((id) => sql`${id}::uuid`),
+        sql`, `,
+      )})`,
+    );
     return new NextResponse(null, { status: 204 });
   }
   await track({
@@ -60,7 +65,7 @@ export async function POST(req: NextRequest) {
     communeId: d.communeId,
     refId: d.refId,
     source,
-    query: d.type === 'EST_VIEW' && source === 'PLATFORM_SEARCH' ? d.q ?? null : null,
+    query: d.type === 'EST_VIEW' && source === 'PLATFORM_SEARCH' ? (d.q ?? null) : null,
     path: d.path,
     referrer: d.referrer,
     userAgent: ua,

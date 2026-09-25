@@ -9,6 +9,9 @@ import { env } from '@/server/env';
 import { qrDataUrl } from '@/server/qr';
 import { pilotShowcase, platformNumbers } from '@/server/services/marketing';
 
+// Rendu à la demande : chiffres réels et configuration lue à l'exécution (jamais figés à la compilation).
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'La marque',
   description: 'Charte graphique de terricom : plateforme de marque, logo, couleurs, typographie, ton, photographie et applications.',

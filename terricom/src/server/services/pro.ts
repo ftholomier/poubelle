@@ -36,7 +36,15 @@ export type ProContext = {
   unreadMessages: number;
   pendingAppointments: number;
   newApplications: number;
-  campaign: { id: string; name: string; slug: string; status: 'INVITED' | 'JOINED' | 'DECLINED'; offerLabel: string | null; startsAt: string; endsAt: string } | null;
+  campaign: {
+    id: string;
+    name: string;
+    slug: string;
+    status: 'INVITED' | 'JOINED' | 'DECLINED';
+    offerLabel: string | null;
+    startsAt: string;
+    endsAt: string;
+  } | null;
   base: string;
 };
 
@@ -73,20 +81,23 @@ export const loadProContext = cache(async (estId: string): Promise<ProContext> =
     getEnabledModules(est.territoryId),
     getTerritoryById(est.territoryId),
     completenessInput(est.id),
-    db.select({ n: count() }).from(messages).where(and(eq(messages.establishmentId, est.id), isNull(messages.readAt))),
-    db.select({ n: count() }).from(appointments).where(and(eq(appointments.establishmentId, est.id), eq(appointments.status, 'REQUESTED'))),
-    db.select({ n: count() }).from(jobApplications).where(and(eq(jobApplications.establishmentId, est.id), eq(jobApplications.status, 'NEW'))),
+    db
+      .select({ n: count() })
+      .from(messages)
+      .where(and(eq(messages.establishmentId, est.id), isNull(messages.readAt))),
+    db
+      .select({ n: count() })
+      .from(appointments)
+      .where(and(eq(appointments.establishmentId, est.id), eq(appointments.status, 'REQUESTED'))),
+    db
+      .select({ n: count() })
+      .from(jobApplications)
+      .where(and(eq(jobApplications.establishmentId, est.id), eq(jobApplications.status, 'NEW'))),
     db
       .select({ c: campaigns, p: campaignParticipants })
       .from(campaignParticipants)
       .innerJoin(campaigns, eq(campaigns.id, campaignParticipants.campaignId))
-      .where(
-        and(
-          eq(campaignParticipants.establishmentId, est.id),
-          inArray(campaigns.status, ['ACTIVE', 'SCHEDULED']),
-          gte(campaigns.endsAt, today),
-        ),
-      )
+      .where(and(eq(campaignParticipants.establishmentId, est.id), inArray(campaigns.status, ['ACTIVE', 'SCHEDULED']), gte(campaigns.endsAt, today)))
       .orderBy(asc(campaigns.startsAt))
       .limit(1),
   ]);
@@ -217,7 +228,9 @@ export async function viewSources(estId: string, days: number) {
   const rows = await db
     .select({ source: analyticsEvents.source, n: count() })
     .from(analyticsEvents)
-    .where(and(eq(analyticsEvents.establishmentId, estId), eq(analyticsEvents.type, 'EST_VIEW'), gte(analyticsEvents.occurredAt, new Date(Date.now() - days * DAY))))
+    .where(
+      and(eq(analyticsEvents.establishmentId, estId), eq(analyticsEvents.type, 'EST_VIEW'), gte(analyticsEvents.occurredAt, new Date(Date.now() - days * DAY))),
+    )
     .groupBy(analyticsEvents.source);
   const merged = new Map<string, { label: string; color: string; n: number }>();
   for (const r of rows) {

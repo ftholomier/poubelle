@@ -31,7 +31,10 @@ export default async function ProDashboard({ params }: Props) {
     establishmentKpis(est.id, 7),
     recentMessages(est.id, 3),
     scheduledPosts(est.id, 3),
-    db.select({ n: count() }).from(subscribers).where(and(eq(subscribers.territoryId, est.territoryId), eq(subscribers.status, 'CONFIRMED'))),
+    db
+      .select({ n: count() })
+      .from(subscribers)
+      .where(and(eq(subscribers.territoryId, est.territoryId), eq(subscribers.status, 'CONFIRMED'))),
     campaign ? db.select().from(campaigns).where(eq(campaigns.id, campaign.id)).limit(1) : Promise.resolve([]),
   ]);
   // Comparaison hebdomadaire seulement si le volume la rend significative.
@@ -45,7 +48,10 @@ export default async function ProDashboard({ params }: Props) {
         : weekDelta > -10
           ? `${hello}, semaine stable : ${k7.views.cur} vues. Une actualité relancerait la curiosité !`
           : `${hello}, ${Math.abs(weekDelta)}\u00a0% de vues en moins cette semaine : publiez une actualité !`;
-  const recs = completeness.items.filter((i) => i.action).sort((a, b) => b.points - b.earned - (a.points - a.earned)).slice(0, 4);
+  const recs = completeness.items
+    .filter((i) => i.action)
+    .sort((a, b) => b.points - b.earned - (a.points - a.earned))
+    .slice(0, 4);
   const kpis = [
     { label: 'Vues de la fiche', v: k30.views, d: deltaLabel(k30.views.cur, k30.views.prev, ' vs mois dernier') },
     { label: 'Appels', v: k30.calls, d: deltaLabel(k30.calls.cur, k30.calls.prev) },
@@ -130,7 +136,9 @@ export default async function ProDashboard({ params }: Props) {
               </Link>
             ))
           ) : (
-            <div style={{ fontSize: 14, color: 'var(--muted)' }}>Tout est parfait : votre fiche est complète. Pensez à publier une actualité chaque semaine.</div>
+            <div style={{ fontSize: 14, color: 'var(--muted)' }}>
+              Tout est parfait : votre fiche est complète. Pensez à publier une actualité chaque semaine.
+            </div>
           )}
         </div>
       </div>
@@ -161,7 +169,9 @@ export default async function ProDashboard({ params }: Props) {
         ) : (
           <div className="card" style={{ borderRadius: 22, padding: 22, display: 'flex', flexDirection: 'column', gap: 10 }}>
             <b>Kit vitrine</b>
-            <p style={{ margin: 0, fontSize: 14, color: 'var(--muted)' }}>Imprimez votre affichette avec QR code : chaque scan est compté dans vos statistiques.</p>
+            <p style={{ margin: 0, fontSize: 14, color: 'var(--muted)' }}>
+              Imprimez votre affichette avec QR code : chaque scan est compté dans vos statistiques.
+            </p>
             <Link href={`${base}/kit`} className="btn btn-dark btn-sm" style={{ alignSelf: 'flex-start' }}>
               Préparer mon kit
             </Link>
@@ -183,9 +193,28 @@ export default async function ProDashboard({ params }: Props) {
               <Link
                 key={m.id}
                 href={`${base}/messages?m=${m.id}`}
-                style={{ display: 'grid', gridTemplateColumns: '36px 1fr auto', gap: 10, padding: '10px 0', borderTop: '1px solid var(--line-2)', alignItems: 'center', color: 'var(--text)' }}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '36px 1fr auto',
+                  gap: 10,
+                  padding: '10px 0',
+                  borderTop: '1px solid var(--line-2)',
+                  alignItems: 'center',
+                  color: 'var(--text)',
+                }}
               >
-                <div style={{ width: 36, height: 36, borderRadius: '50%', background: MSG_BG[i % MSG_BG.length], display: 'grid', placeItems: 'center', fontWeight: 800, fontSize: 13 }}>
+                <div
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: '50%',
+                    background: MSG_BG[i % MSG_BG.length],
+                    display: 'grid',
+                    placeItems: 'center',
+                    fontWeight: 800,
+                    fontSize: 13,
+                  }}
+                >
                   {m.senderName.charAt(0).toUpperCase()}
                 </div>
                 <div style={{ minWidth: 0 }}>
@@ -213,15 +242,24 @@ export default async function ProDashboard({ params }: Props) {
               const at = p.publishAt ?? p.createdAt;
               const parts = parisParts(at);
               return (
-                <div key={p.id} style={{ display: 'grid', gridTemplateColumns: '56px 1fr', gap: 12, padding: '10px 0', borderTop: '1px solid var(--line-2)', alignItems: 'center' }}>
+                <div
+                  key={p.id}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '56px 1fr',
+                    gap: 12,
+                    padding: '10px 0',
+                    borderTop: '1px solid var(--line-2)',
+                    alignItems: 'center',
+                  }}
+                >
                   <div style={{ width: 56, height: 56, borderRadius: 10, overflow: 'hidden' }}>
                     <Photo src={sized(p.imageUrl, 120, 120)} alt="" label={p.title} color={POST_KINDS[p.kind as PostKind].bg} />
                   </div>
                   <div>
                     <div style={{ fontWeight: 700, fontSize: 14 }}>{p.title}</div>
                     <div style={{ fontSize: 12, color: 'var(--muted)' }}>
-                      {WEEKDAYS_SHORT[parts.weekday]} {fmtDayMonth(at)} · {fmtHourOf(at)} ·{' '}
-                      {p.channels.map((c) => CHANNEL_LABELS[c] ?? c).join(' + ')}
+                      {WEEKDAYS_SHORT[parts.weekday]} {fmtDayMonth(at)} · {fmtHourOf(at)} · {p.channels.map((c) => CHANNEL_LABELS[c] ?? c).join(' + ')}
                     </div>
                   </div>
                 </div>

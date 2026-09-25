@@ -26,7 +26,10 @@ export async function startEnrollment(userId: string): Promise<Enrollment | null
   let secret = user.mfaSecretEnc ? decrypt(user.mfaSecretEnc) : null;
   if (!secret) {
     secret = generateSecret();
-    await db.update(users).set({ mfaSecretEnc: encrypt(secret) }).where(eq(users.id, userId));
+    await db
+      .update(users)
+      .set({ mfaSecretEnc: encrypt(secret) })
+      .where(eq(users.id, userId));
   }
   const otpauth = otpauthUrl(secret, user.email);
   const qrSvg = await QRCode.toString(otpauth, { type: 'svg', margin: 1, errorCorrectionLevel: 'M', color: { dark: '#14201B', light: '#FFFFFF' } });
@@ -36,7 +39,11 @@ export async function startEnrollment(userId: string): Promise<Enrollment | null
 /** Génère 10 codes de secours (affichés une seule fois, stockés hachés). */
 function newRecoveryCodes(): { plain: string[]; hashes: string[] } {
   const plain = Array.from({ length: 10 }, () => {
-    const raw = randomToken(8).replace(/[^A-Za-z0-9]/g, '').toUpperCase().padEnd(8, 'X').slice(0, 8);
+    const raw = randomToken(8)
+      .replace(/[^A-Za-z0-9]/g, '')
+      .toUpperCase()
+      .padEnd(8, 'X')
+      .slice(0, 8);
     return `${raw.slice(0, 4)}-${raw.slice(4)}`;
   });
   return { plain, hashes: plain.map((c) => sha256(c.replace('-', ''))) };
@@ -55,7 +62,14 @@ export async function confirmEnrollment(userId: string, code: string): Promise<{
   const codes = newRecoveryCodes();
   await db.update(users).set({ mfaEnabled: true, mfaRecoveryCodes: codes.hashes }).where(eq(users.id, userId));
   await markMfaVerified();
-  await audit({ actor: { user }, category: 'SECURITE', action: 'mfa.enabled', summary: 'Double authentification activée', targetType: 'user', targetId: userId });
+  await audit({
+    actor: { user },
+    category: 'SECURITE',
+    action: 'mfa.enabled',
+    summary: 'Double authentification activée',
+    targetType: 'user',
+    targetId: userId,
+  });
   return { ok: true, recoveryCodes: codes.plain };
 }
 
@@ -65,7 +79,14 @@ export async function regenerateRecoveryCodes(userId: string): Promise<string[] 
   if (!user?.mfaEnabled) return null;
   const codes = newRecoveryCodes();
   await db.update(users).set({ mfaRecoveryCodes: codes.hashes }).where(eq(users.id, userId));
-  await audit({ actor: { user }, category: 'SECURITE', action: 'mfa.recovery_regenerated', summary: 'Nouveaux codes de secours générés', targetType: 'user', targetId: userId });
+  await audit({
+    actor: { user },
+    category: 'SECURITE',
+    action: 'mfa.recovery_regenerated',
+    summary: 'Nouveaux codes de secours générés',
+    targetType: 'user',
+    targetId: userId,
+  });
   return codes.plain;
 }
 
@@ -78,6 +99,13 @@ export async function disableMfa(userId: string, code: string): Promise<{ ok: bo
   const step = verifyTotp(decrypt(user.mfaSecretEnc), code);
   if (step === null || !(await consumeOnce(`totp:${userId}:${step}`, 120))) return { ok: false, message: 'Code incorrect.' };
   await db.update(users).set({ mfaEnabled: false, mfaSecretEnc: null, mfaRecoveryCodes: [] }).where(eq(users.id, userId));
-  await audit({ actor: { user }, category: 'SECURITE', action: 'mfa.disabled', summary: 'Double authentification désactivée', targetType: 'user', targetId: userId });
+  await audit({
+    actor: { user },
+    category: 'SECURITE',
+    action: 'mfa.disabled',
+    summary: 'Double authentification désactivée',
+    targetType: 'user',
+    targetId: userId,
+  });
   return { ok: true, message: 'Double authentification désactivée.' };
 }

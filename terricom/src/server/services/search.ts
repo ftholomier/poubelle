@@ -88,7 +88,10 @@ function categoryFilter(slugs: string[]): SQL {
   return or(
     inArray(categories.slug, slugs),
     sql`EXISTS (SELECT 1 FROM ${establishmentCategories} ec JOIN ${categories} k2 ON k2.id = ec.category_id
-      WHERE ec.establishment_id = ${establishments.id} AND k2.slug IN (${sql.join(slugs.map((s) => sql`${s}`), sql`, `)}))`,
+      WHERE ec.establishment_id = ${establishments.id} AND k2.slug IN (${sql.join(
+        slugs.map((s) => sql`${s}`),
+        sql`, `,
+      )}))`,
   )!;
 }
 
@@ -111,13 +114,13 @@ export async function searchTerritory(
   const conds: SQL[] = [eq(establishments.territoryId, territory.id), publicStatusFilter()];
   let rank: SQL | null = null;
 
-  const families = params.families?.length ? params.families : natural && !intent?.categorySlugs.length ? intent?.families ?? [] : [];
+  const families = params.families?.length ? params.families : natural && !intent?.categorySlugs.length ? (intent?.families ?? []) : [];
   if (families.length) conds.push(inArray(categories.family, families));
-  const cats = [...(params.categorySlugs ?? []), ...(natural ? intent?.categorySlugs ?? [] : [])];
+  const cats = [...(params.categorySlugs ?? []), ...(natural ? (intent?.categorySlugs ?? []) : [])];
   if (cats.length) conds.push(categoryFilter([...new Set(cats)]));
-  const attrs = [...new Set([...(params.attributeSlugs ?? []), ...(natural ? intent?.attributeSlugs ?? [] : [])])];
+  const attrs = [...new Set([...(params.attributeSlugs ?? []), ...(natural ? (intent?.attributeSlugs ?? []) : [])])];
   conds.push(...attributeFilter(attrs));
-  const communeSlugs = [...new Set([...(params.communeSlugs ?? []), ...(natural ? intent?.communeSlugs ?? [] : [])])];
+  const communeSlugs = [...new Set([...(params.communeSlugs ?? []), ...(natural ? (intent?.communeSlugs ?? []) : [])])];
   if (communeSlugs.length) conds.push(inArray(communes.slug, communeSlugs));
 
   const openNow = Boolean(params.openNow || (natural && intent?.openNow));
@@ -186,22 +189,24 @@ export async function searchTerritory(
     const top = items.slice(0, 6);
     const offers = top.length ? await activeOffers(top.map((t) => t.id)) : new Map();
     const answerKey = `answer:${territory.id}:${normalizeText(q)}:${top.map((t) => t.id).join(',')}`;
-    answer = await memo(answerKey, 600_000, async () => answerSearch(
-      q,
-      intent,
-      top.map((t) => ({
-        name: t.name,
-        activity: t.activity,
-        communeName: t.communeName,
-        family: t.family,
-        openLabel: t.open.shortLabel,
-        until: t.open.until,
-        distance: t.distance,
-        offer: offers.get(t.id)?.offer ?? null,
-        campaign: offers.get(t.id)?.campaign ?? null,
-      })),
-      { ...ctx, territoryId: territory.id },
-    ));
+    answer = await memo(answerKey, 600_000, async () =>
+      answerSearch(
+        q,
+        intent,
+        top.map((t) => ({
+          name: t.name,
+          activity: t.activity,
+          communeName: t.communeName,
+          family: t.family,
+          openLabel: t.open.shortLabel,
+          until: t.open.until,
+          distance: t.distance,
+          offer: offers.get(t.id)?.offer ?? null,
+          campaign: offers.get(t.id)?.campaign ?? null,
+        })),
+        { ...ctx, territoryId: territory.id },
+      ),
+    );
   }
   return { items, total, intent, answer };
 }

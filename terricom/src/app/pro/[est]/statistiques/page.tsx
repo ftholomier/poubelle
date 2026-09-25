@@ -25,7 +25,9 @@ function Premium({ allowed, base, children }: { allowed: boolean; base: string; 
       <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center' }}>
         <div className="card" style={{ borderRadius: 16, padding: '16px 18px', textAlign: 'center', boxShadow: 'var(--shadow-card)', maxWidth: 300 }}>
           <b>Statistiques avancées</b>
-          <p style={{ margin: '6px 0 10px', fontSize: 13, color: 'var(--muted)' }}>Heures de visite, recherches qui mènent à vous : inclus dans l&apos;offre Premium.</p>
+          <p style={{ margin: '6px 0 10px', fontSize: 13, color: 'var(--muted)' }}>
+            Heures de visite, recherches qui mènent à vous : inclus dans l&apos;offre Premium.
+          </p>
           <Link href={`${base}/offre`} className="btn btn-dark btn-sm">
             Découvrir Premium
           </Link>
@@ -51,7 +53,8 @@ export default async function StatsPage({ params, searchParams }: Props) {
   ]);
   // Au-delà de 90 jours, regroupement par semaine pour une courbe lisible.
   const bucket = days > 90 ? 7 : 1;
-  const group = (arr: number[]) => (bucket === 1 ? arr : arr.reduce<number[]>((acc, v, i) => (i % bucket ? ((acc[acc.length - 1] += v), acc) : [...acc, v]), []));
+  const group = (arr: number[]) =>
+    bucket === 1 ? arr : arr.reduce<number[]>((acc, v, i) => (i % bucket ? ((acc[acc.length - 1] += v), acc) : [...acc, v]), []);
   const cur = group(series.map((s) => s.cur));
   const prev = group(series.map((s) => s.prev));
   const peak = cur.indexOf(Math.max(...cur));
@@ -160,7 +163,10 @@ export default async function StatsPage({ params, searchParams }: Props) {
             <b style={{ marginBottom: 8 }}>Ce que les gens tapent pour vous trouver</b>
             {queries.length ? (
               queries.map((q) => (
-                <div key={q.q} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '8px 0', borderTop: '1px solid var(--line-2)', fontSize: 14 }}>
+                <div
+                  key={q.q}
+                  style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '8px 0', borderTop: '1px solid var(--line-2)', fontSize: 14 }}
+                >
                   <span>« {q.q} »</span>
                   <b>{fmtInt(Number(q.n))}</b>
                 </div>

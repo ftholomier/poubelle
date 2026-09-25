@@ -1,7 +1,15 @@
 import { and, desc, eq, inArray, isNull, ne } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { addEstablishmentAction, autoFillAction, createNewsletterAction, deleteDraftAction, removeItemAction, saveContentAction, unscheduleAction } from './actions';
+import {
+  addEstablishmentAction,
+  autoFillAction,
+  createNewsletterAction,
+  deleteDraftAction,
+  removeItemAction,
+  saveContentAction,
+  unscheduleAction,
+} from './actions';
 import { AudiencePicker, ScheduleForm } from '@/components/bo/NewsletterForms';
 import { ActionForm } from '@/components/pro/ActionForm';
 import { FileDrop } from '@/components/ui/FileDrop';
@@ -34,7 +42,14 @@ export default async function NewsletterPage({ searchParams }: Props) {
   const ctx = await loadBoContext();
   const sp = await searchParams;
   const list = await db
-    .select({ id: newsletters.id, number: newsletters.number, subject: newsletters.subject, status: newsletters.status, sentAt: newsletters.sentAt, scheduledAt: newsletters.scheduledAt })
+    .select({
+      id: newsletters.id,
+      number: newsletters.number,
+      subject: newsletters.subject,
+      status: newsletters.status,
+      sentAt: newsletters.sentAt,
+      scheduledAt: newsletters.scheduledAt,
+    })
     .from(newsletters)
     .where(
       and(
@@ -47,7 +62,14 @@ export default async function NewsletterPage({ searchParams }: Props) {
     .orderBy(desc(newsletters.createdAt))
     .limit(8);
   const currentId = sp.lettre ?? list.find((n) => n.status === 'DRAFT' || n.status === 'SCHEDULED')?.id ?? list[0]?.id;
-  const [n] = currentId && /^[0-9a-f-]{36}$/.test(currentId) ? await db.select().from(newsletters).where(and(eq(newsletters.id, currentId), eq(newsletters.territoryId, ctx.territory.id))).limit(1) : [];
+  const [n] =
+    currentId && /^[0-9a-f-]{36}$/.test(currentId)
+      ? await db
+          .select()
+          .from(newsletters)
+          .where(and(eq(newsletters.id, currentId), eq(newsletters.territoryId, ctx.territory.id)))
+          .limit(1)
+      : [];
 
   const newButton = (
     <form action={createNewsletterAction}>
@@ -70,7 +92,12 @@ export default async function NewsletterPage({ searchParams }: Props) {
     );
   }
 
-  const [html, audienceList, total, rates] = await Promise.all([previewHtml(n, ctx.territory), audienceStats(ctx.territory.id), recipientCount(ctx.territory.id, n.audienceIds), recentRates(ctx.territory.id)]);
+  const [html, audienceList, total, rates] = await Promise.all([
+    previewHtml(n, ctx.territory),
+    audienceStats(ctx.territory.id),
+    recipientCount(ctx.territory.id, n.audienceIds),
+    recentRates(ctx.territory.id),
+  ]);
   const body = html.slice(html.indexOf('<body'), html.lastIndexOf('</body>')).replace(/^<body[^>]*>/, '');
   const editable = n.status === 'DRAFT' || n.status === 'SCHEDULED';
   const estBlock = n.blocks.find((b): b is Extract<NewsletterBlock, { type: 'establishments' }> => b.type === 'establishments');
@@ -82,7 +109,12 @@ export default async function NewsletterPage({ searchParams }: Props) {
     : [];
   const cta = n.blocks.find((b): b is Extract<NewsletterBlock, { type: 'cta' }> => b.type === 'cta');
   const visibleAudiences = ctx.commune ? audienceList.filter((a) => !a.communeId || a.communeId === ctx.commune!.id) : audienceList;
-  const slot = n.scheduledAt ? { date: parisDate(n.scheduledAt), time: `${String(parisParts(n.scheduledAt).hour).padStart(2, '0')}:${String(parisParts(n.scheduledAt).minute).padStart(2, '0')}` } : nextFriday();
+  const slot = n.scheduledAt
+    ? {
+        date: parisDate(n.scheduledAt),
+        time: `${String(parisParts(n.scheduledAt).hour).padStart(2, '0')}:${String(parisParts(n.scheduledAt).minute).padStart(2, '0')}`,
+      }
+    : nextFriday();
 
   return (
     <div className="app-content">
@@ -96,7 +128,12 @@ export default async function NewsletterPage({ searchParams }: Props) {
         <div style={{ marginLeft: 'auto' }}>{newButton}</div>
       </div>
       <div className="split" style={{ ['--cols' as string]: 'minmax(0,1fr) 380px', ['--gap' as string]: '20px', ['--align' as string]: 'start' }}>
-        <div className="nl-preview" style={{ background: 'var(--sand)', borderRadius: 22, overflow: 'hidden' }} aria-label="Aperçu de la lettre" dangerouslySetInnerHTML={{ __html: body }} />
+        <div
+          className="nl-preview"
+          style={{ background: 'var(--sand)', borderRadius: 22, overflow: 'hidden' }}
+          aria-label="Aperçu de la lettre"
+          dangerouslySetInnerHTML={{ __html: body }}
+        />
         <div className="sticky-aside" style={{ display: 'flex', flexDirection: 'column', gap: 14, position: 'sticky', top: 90 }}>
           <section className="bo-card" style={{ padding: 18, display: 'flex', flexDirection: 'column', gap: 8 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
@@ -148,7 +185,11 @@ export default async function NewsletterPage({ searchParams }: Props) {
               <>
                 <div style={{ fontSize: 13, fontWeight: 700, marginTop: 4 }}>Adresses mises en avant</div>
                 {featured.map((f) => (
-                  <form key={f.id} action={removeItemAction} style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: 13, borderTop: '1px solid var(--line-2)', paddingTop: 6 }}>
+                  <form
+                    key={f.id}
+                    action={removeItemAction}
+                    style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: 13, borderTop: '1px solid var(--line-2)', paddingTop: 6 }}
+                  >
                     <input type="hidden" name="newsletterId" value={n.id} />
                     <input type="hidden" name="itemId" value={f.id} />
                     <span>{f.name}</span>
@@ -178,7 +219,9 @@ export default async function NewsletterPage({ searchParams }: Props) {
               <span>Destinataires</span>
               <b>{fmtInt(n.status === 'SENT' || n.status === 'SENDING' ? n.statsRecipients : total)}</b>
             </div>
-            <div style={{ fontSize: 12, color: 'var(--green)', fontWeight: 600 }}>✓ 100 % avec consentement explicite (double opt-in) · désinscription en 1 clic</div>
+            <div style={{ fontSize: 12, color: 'var(--green)', fontWeight: 600 }}>
+              ✓ 100 % avec consentement explicite (double opt-in) · désinscription en 1 clic
+            </div>
           </section>
           <section className="bo-card" style={{ padding: 18, display: 'flex', flexDirection: 'column', gap: 10 }}>
             <b>Envoi</b>
@@ -197,7 +240,9 @@ export default async function NewsletterPage({ searchParams }: Props) {
               <ScheduleForm newsletterId={n.id} defaultDate={slot.date} defaultTime={slot.time} />
             ) : (
               <div style={{ fontSize: 14 }}>
-                {n.status === 'SENDING' ? `Envoi en cours : ${fmtInt(n.statsSent)} / ${fmtInt(n.statsRecipients)}` : `Envoyée à ${fmtInt(n.statsSent)} abonnés${n.sentAt ? ` le ${fmtStamp(n.sentAt)}` : ''}.`}
+                {n.status === 'SENDING'
+                  ? `Envoi en cours : ${fmtInt(n.statsSent)} / ${fmtInt(n.statsRecipients)}`
+                  : `Envoyée à ${fmtInt(n.statsSent)} abonnés${n.sentAt ? ` le ${fmtStamp(n.sentAt)}` : ''}.`}
               </div>
             )}
             {n.status === 'DRAFT' ? (
@@ -209,7 +254,11 @@ export default async function NewsletterPage({ searchParams }: Props) {
               </form>
             ) : null}
           </section>
-          <section className="bo-card" style={{ padding: 18, display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8, textAlign: 'center' }} aria-label="Statistiques des dernières lettres">
+          <section
+            className="bo-card"
+            style={{ padding: 18, display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8, textAlign: 'center' }}
+            aria-label="Statistiques des dernières lettres"
+          >
             {n.status === 'SENT'
               ? [
                   [n.statsSent ? n.statsOpens / n.statsSent : 0, 'ouverture'],

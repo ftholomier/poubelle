@@ -171,9 +171,7 @@ export function composeAnswer(query: string, intent: SearchIntent, results: Answ
   }
   if (intent.kind === 'gift') {
     const inCampaign = results.filter((r) => r.campaign);
-    const tail = inCampaign.length
-      ? ` ${inCampaign.length} d'entre eux participent à « ${inCampaign[0].campaign} ».`
-      : '';
+    const tail = inCampaign.length ? ` ${inCampaign.length} d'entre eux participent à « ${inCampaign[0].campaign} ».` : '';
     return {
       text: `Pour offrir local : ${listFr(results.slice(0, 4).map((r) => `${r.name} (${r.activity.toLowerCase()}, ${r.communeName})`))}.${tail}`,
       meta: `${n} idée${n > 1 ? 's' : ''}${inCampaign.length ? ` · ${inCampaign.length} offre${inCampaign.length > 1 ? 's' : ''} en cours` : ''}`,

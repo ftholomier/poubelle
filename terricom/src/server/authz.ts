@@ -35,10 +35,7 @@ export const getActor = cache(async (): Promise<Actor | null> => {
       .select({ role: roleAssignments.role, territoryId: roleAssignments.territoryId, communeId: roleAssignments.communeId })
       .from(roleAssignments)
       .where(eq(roleAssignments.userId, s.user.id)),
-    db
-      .select({ companyId: companyMembers.companyId, role: companyMembers.role })
-      .from(companyMembers)
-      .where(eq(companyMembers.userId, s.user.id)),
+    db.select({ companyId: companyMembers.companyId, role: companyMembers.role }).from(companyMembers).where(eq(companyMembers.userId, s.user.id)),
   ]);
   const imp =
     s.session.impersonationTerritoryId && s.session.impersonationExpiresAt && s.session.impersonationExpiresAt > new Date()

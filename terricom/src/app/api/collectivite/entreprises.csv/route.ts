@@ -24,7 +24,10 @@ export async function GET(req: NextRequest) {
   if (!ctx) return new NextResponse('Non autorisé', { status: 401 });
   const sp = req.nextUrl.searchParams;
   const conds: SQL[] = [estScope(ctx)];
-  const ids = (sp.get('ids') ?? '').split(',').filter((x) => /^[0-9a-f-]{36}$/.test(x)).slice(0, 5000);
+  const ids = (sp.get('ids') ?? '')
+    .split(',')
+    .filter((x) => /^[0-9a-f-]{36}$/.test(x))
+    .slice(0, 5000);
   if (ids.length) conds.push(inArray(establishments.id, ids));
   const st = STATUS_KEYS[sp.get('statut') ?? ''];
   conds.push(st ? eq(establishments.status, st) : ne(establishments.status, 'ARCHIVED'));
@@ -67,7 +70,23 @@ export async function GET(req: NextRequest) {
     territoryId: ctx.territory.id,
   });
   const body = toCsv(
-    ['Nom', 'SIRET', 'Statut', 'Commune', 'Catégorie', 'Adresse', 'Code postal', 'Téléphone', 'Email', 'Site web', 'Complétude (%)', 'Offre', 'Revendiquée', 'Dernière activité', 'Fiche publique'],
+    [
+      'Nom',
+      'SIRET',
+      'Statut',
+      'Commune',
+      'Catégorie',
+      'Adresse',
+      'Code postal',
+      'Téléphone',
+      'Email',
+      'Site web',
+      'Complétude (%)',
+      'Offre',
+      'Revendiquée',
+      'Dernière activité',
+      'Fiche publique',
+    ],
     rows.map((r) => [
       r.name,
       r.siret,

@@ -37,9 +37,24 @@ export async function createAccountFromForm(form: FormData, context: string): Pr
   if (existing) return { ok: false, exists: true, message: 'Un compte existe déjà avec cette adresse : connectez-vous pour continuer votre demande.' };
   const [user] = await db
     .insert(users)
-    .values({ email: d.email, firstName: d.firstName, lastName: d.lastName, jobTitle: d.role || null, passwordHash: await hashPassword(d.password), passwordChangedAt: new Date() })
+    .values({
+      email: d.email,
+      firstName: d.firstName,
+      lastName: d.lastName,
+      jobTitle: d.role || null,
+      passwordHash: await hashPassword(d.password),
+      passwordChangedAt: new Date(),
+    })
     .returning();
-  await audit({ actor: { user }, category: 'AUTH', action: 'user.signup', summary: `Création de compte (${context})`, targetType: 'user', targetId: user.id, ip: info.ip });
+  await audit({
+    actor: { user },
+    category: 'AUTH',
+    action: 'user.signup',
+    summary: `Création de compte (${context})`,
+    targetType: 'user',
+    targetId: user.id,
+    ip: info.ip,
+  });
   await createSession(user.id, { mfaVerified: true });
   return { ok: true, user };
 }

@@ -19,31 +19,47 @@ export type InfraStatus = { source: 'kubernetes' | 'direct'; components: InfraCo
 const SA_DIR = '/var/run/secrets/kubernetes.io/serviceaccount';
 let cache: { at: number; value: InfraStatus } | null = null;
 
-function k8sGet<T>(path: string): Promise<T | null> {
+/** Espace de noms courant quand l'application tourne dans Kubernetes (compte de service monté), sinon null. */
+export function k8sNamespace(): string | null {
+  if (!process.env.KUBERNETES_SERVICE_HOST || !existsSync(`${SA_DIR}/namespace`)) return null;
+  return readFileSync(`${SA_DIR}/namespace`, 'utf8').trim();
+}
+
+/** Appel à l'API du cluster avec le jeton du compte de service (droits limités par RBAC). */
+export function k8sRequest<T>(method: string, path: string, body?: unknown, contentType = 'application/json'): Promise<{ status: number; data: T | null }> {
   const host = process.env.KUBERNETES_SERVICE_HOST;
   const port = Number(process.env.KUBERNETES_SERVICE_PORT ?? 443);
-  if (!host || !existsSync(`${SA_DIR}/token`)) return Promise.resolve(null);
+  if (!host || !existsSync(`${SA_DIR}/token`)) return Promise.resolve({ status: 0, data: null });
   const token = readFileSync(`${SA_DIR}/token`, 'utf8').trim();
   const ca = readFileSync(`${SA_DIR}/ca.crt`);
+  const payload = body === undefined ? undefined : JSON.stringify(body);
+  const headers: Record<string, string | number> = { authorization: `Bearer ${token}`, accept: 'application/json' };
+  if (payload) {
+    headers['content-type'] = contentType;
+    headers['content-length'] = Buffer.byteLength(payload);
+  }
   return new Promise((resolve) => {
-    const req = request(
-      { host, port, path, method: 'GET', ca, headers: { authorization: `Bearer ${token}`, accept: 'application/json' }, timeout: 3000 },
-      (res) => {
-        let body = '';
-        res.on('data', (c) => (body += c));
-        res.on('end', () => {
-          try {
-            resolve(res.statusCode === 200 ? (JSON.parse(body) as T) : null);
-          } catch {
-            resolve(null);
-          }
-        });
-      },
-    );
+    const req = request({ host, port, path, method, ca, headers, timeout: 5000 }, (res) => {
+      let raw = '';
+      res.on('data', (c) => (raw += c));
+      res.on('end', () => {
+        try {
+          resolve({ status: res.statusCode ?? 0, data: raw ? (JSON.parse(raw) as T) : null });
+        } catch {
+          resolve({ status: res.statusCode ?? 0, data: null });
+        }
+      });
+    });
     req.on('timeout', () => req.destroy());
-    req.on('error', () => resolve(null));
+    req.on('error', () => resolve({ status: 0, data: null }));
+    if (payload) req.write(payload);
     req.end();
   });
+}
+
+async function k8sGet<T>(path: string): Promise<T | null> {
+  const res = await k8sRequest<T>('GET', path);
+  return res.status === 200 ? res.data : null;
 }
 
 type Workload = {
@@ -54,8 +70,8 @@ type Workload = {
 type CronJob = { metadata: { name: string }; status?: { lastSuccessfulTime?: string; lastScheduleTime?: string } };
 
 async function fromKubernetes(): Promise<InfraStatus | null> {
-  if (!process.env.KUBERNETES_SERVICE_HOST || !existsSync(`${SA_DIR}/namespace`)) return null;
-  const ns = readFileSync(`${SA_DIR}/namespace`, 'utf8').trim();
+  const ns = k8sNamespace();
+  if (!ns) return null;
   const [deps, sets, crons] = await Promise.all([
     k8sGet<{ items: Workload[] }>(`/apis/apps/v1/namespaces/${ns}/deployments`),
     k8sGet<{ items: Workload[] }>(`/apis/apps/v1/namespaces/${ns}/statefulsets`),

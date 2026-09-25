@@ -83,22 +83,10 @@ export function Wordmark({
 }
 
 /** Logo principal horizontal : symbole + mot-symbole. */
-export function Logo({
-  size = 24,
-  onDark = false,
-  gap,
-}: {
-  size?: number;
-  onDark?: boolean;
-  gap?: number;
-}) {
+export function Logo({ size = 24, onDark = false, gap }: { size?: number; onDark?: boolean; gap?: number }) {
   return (
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: gap ?? Math.round(size * 0.35) }}>
-      <Symbol
-        size={Math.round(size * 1.05)}
-        bg={onDark ? 'var(--amber)' : 'var(--green)'}
-        fg={onDark ? 'var(--ink)' : 'var(--amber)'}
-      />
+      <Symbol size={Math.round(size * 1.05)} bg={onDark ? 'var(--amber)' : 'var(--green)'} fg={onDark ? 'var(--ink)' : 'var(--amber)'} />
       <Wordmark size={size} color={onDark ? 'var(--cream)' : 'var(--ink)'} />
     </span>
   );
@@ -119,7 +107,15 @@ export function TerritoryBadge({
   logoUrl?: string | null;
 }) {
   if (logoUrl) {
-    return <img src={logoUrl} alt="" width={size} height={size} style={{ width: size, height: size, borderRadius: size * 0.3, objectFit: 'cover', transform: 'rotate(-4deg)' }} />;
+    return (
+      <img
+        src={logoUrl}
+        alt=""
+        width={size}
+        height={size}
+        style={{ width: size, height: size, borderRadius: size * 0.3, objectFit: 'cover', transform: 'rotate(-4deg)' }}
+      />
+    );
   }
   return (
     <span

@@ -32,7 +32,11 @@ export async function unsubscribe(token: string) {
       .where(and(eq(newsletterDeliveries.subscriberId, sub.id), gte(newsletterDeliveries.sentAt, new Date(Date.now() - 30 * 86_400_000))))
       .orderBy(desc(newsletterDeliveries.sentAt))
       .limit(1);
-    if (last) await db.update(newsletters).set({ statsUnsubscribes: sql`${newsletters.statsUnsubscribes} + 1` }).where(eq(newsletters.id, last.newsletterId));
+    if (last)
+      await db
+        .update(newsletters)
+        .set({ statsUnsubscribes: sql`${newsletters.statsUnsubscribes} + 1` })
+        .where(eq(newsletters.id, last.newsletterId));
   }
   return sub;
 }

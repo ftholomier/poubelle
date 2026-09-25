@@ -75,14 +75,24 @@ export async function saveBrandingAction(_prev: PersoState, form: FormData): Pro
     const file = form.get(field);
     if (file instanceof File && file.size > 0) {
       try {
-        patch[key] = (await saveImageUpload(file, { ownerType: 'TERRITORY', ownerId: ctx.territory.id, territoryId: ctx.territory.id, uploadedById: ctx.actor.user.id })).url;
+        patch[key] = (
+          await saveImageUpload(file, { ownerType: 'TERRITORY', ownerId: ctx.territory.id, territoryId: ctx.territory.id, uploadedById: ctx.actor.user.id })
+        ).url;
       } catch (err) {
         return { status: 'error', message: err instanceof MediaError ? err.message : 'Image refusée.' };
       }
     }
   }
   await db.update(territories).set(patch).where(eq(territories.id, ctx.territory.id));
-  await audit({ actor: { user: ctx.actor.user }, category: 'CONFIGURATION', action: 'territory.branding', summary: 'Identité visuelle du portail mise à jour', territoryId: ctx.territory.id, targetType: 'territory', targetId: ctx.territory.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'territory.branding',
+    summary: 'Identité visuelle du portail mise à jour',
+    territoryId: ctx.territory.id,
+    targetType: 'territory',
+    targetId: ctx.territory.id,
+  });
   refreshAll(ctx);
   return { status: 'ok', message: 'Portail mis à jour : les changements sont en ligne.' };
 }
@@ -117,8 +127,19 @@ export async function saveSettingsAction(_prev: PersoState, form: FormData): Pro
     footerText: d.footerText || undefined,
     requireMfaForAll: form.get('requireMfaForAll') === 'on',
   };
-  await db.update(territories).set({ settings, contactEmail: d.contactEmail || null, updatedAt: new Date() }).where(eq(territories.id, ctx.territory.id));
-  await audit({ actor: { user: ctx.actor.user }, category: 'CONFIGURATION', action: 'territory.settings', summary: 'Paramètres du territoire mis à jour', territoryId: ctx.territory.id, targetType: 'territory', targetId: ctx.territory.id });
+  await db
+    .update(territories)
+    .set({ settings, contactEmail: d.contactEmail || null, updatedAt: new Date() })
+    .where(eq(territories.id, ctx.territory.id));
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'territory.settings',
+    summary: 'Paramètres du territoire mis à jour',
+    territoryId: ctx.territory.id,
+    targetType: 'territory',
+    targetId: ctx.territory.id,
+  });
   refreshAll(ctx);
   return { status: 'ok', message: 'Paramètres enregistrés.' };
 }
@@ -139,17 +160,33 @@ export async function addDomainAction(_prev: PersoState, form: FormData): Promis
   const [taken] = await db.select({ t: territoryDomains.territoryId }).from(territoryDomains).where(eq(territoryDomains.host, host)).limit(1);
   if (taken && taken.t !== ctx.territory.id) return { status: 'error', message: 'Cette adresse est déjà utilisée par un autre portail.' };
   if (!taken) await db.insert(territoryDomains).values({ territoryId: ctx.territory.id, host, isPrimary: true });
-  await db.update(territoryDomains).set({ isPrimary: false }).where(and(eq(territoryDomains.territoryId, ctx.territory.id), ne(territoryDomains.host, host)));
+  await db
+    .update(territoryDomains)
+    .set({ isPrimary: false })
+    .where(and(eq(territoryDomains.territoryId, ctx.territory.id), ne(territoryDomains.host, host)));
   await db.update(territoryDomains).set({ isPrimary: true }).where(eq(territoryDomains.host, host));
-  await audit({ actor: { user: ctx.actor.user }, category: 'CONFIGURATION', action: 'domain.add', summary: `Adresse du portail : ${host}`, territoryId: ctx.territory.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'domain.add',
+    summary: `Adresse du portail : ${host}`,
+    territoryId: ctx.territory.id,
+  });
   revalidatePath('/collectivite/personnalisation');
-  return { status: 'ok', message: `Ajoutez chez votre hébergeur DNS un enregistrement CNAME « ${host} » vers « portails.${env.PLATFORM_DOMAIN} », puis cliquez sur Vérifier.` };
+  return {
+    status: 'ok',
+    message: `Ajoutez chez votre hébergeur DNS un enregistrement CNAME « ${host} » vers « portails.${env.PLATFORM_DOMAIN} », puis cliquez sur Vérifier.`,
+  };
 }
 
 export async function verifyDomainAction(_prev: PersoState, form: FormData): Promise<PersoState> {
   const ctx = await adminCtx();
   const host = String(form.get('host') ?? '');
-  const [d] = await db.select().from(territoryDomains).where(and(eq(territoryDomains.territoryId, ctx.territory.id), eq(territoryDomains.host, host))).limit(1);
+  const [d] = await db
+    .select()
+    .from(territoryDomains)
+    .where(and(eq(territoryDomains.territoryId, ctx.territory.id), eq(territoryDomains.host, host)))
+    .limit(1);
   if (!d) return { status: 'error', message: 'Adresse introuvable.' };
   if (!(await rateLimit(`dns:${ctx.territory.id}`, 20, 3600)).ok) return { status: 'error', message: 'Trop de vérifications : réessayez plus tard.' };
   const target = `portails.${env.PLATFORM_DOMAIN}`;
@@ -166,9 +203,18 @@ export async function verifyDomainAction(_prev: PersoState, form: FormData): Pro
     }
   }
   if (!ok) return { status: 'error', message: `Le DNS de ${host} ne pointe pas encore vers ${target}. La propagation peut prendre quelques heures.` };
-  await db.update(territoryDomains).set({ verifiedAt: new Date().toISOString().slice(0, 10) }).where(eq(territoryDomains.id, d.id));
+  await db
+    .update(territoryDomains)
+    .set({ verifiedAt: new Date().toISOString().slice(0, 10) })
+    .where(eq(territoryDomains.id, d.id));
   if (d.isPrimary) await db.update(territories).set({ primaryHost: host }).where(eq(territories.id, ctx.territory.id));
-  await audit({ actor: { user: ctx.actor.user }, category: 'CONFIGURATION', action: 'domain.verified', summary: `Adresse ${host} vérifiée : le certificat HTTPS est émis automatiquement`, territoryId: ctx.territory.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'domain.verified',
+    summary: `Adresse ${host} vérifiée : le certificat HTTPS est émis automatiquement`,
+    territoryId: ctx.territory.id,
+  });
   refreshAll(ctx);
   return { status: 'ok', message: `${host} est vérifiée. Le certificat HTTPS est émis automatiquement sous quelques minutes.` };
 }
@@ -209,7 +255,13 @@ export async function inviteStaffAction(_prev: PersoState, form: FormData): Prom
     }),
     territoryId: ctx.territory.id,
   });
-  await audit({ actor: { user: ctx.actor.user }, category: 'SECURITE', action: 'staff.invited', summary: `Invitation de ${d.email} (${STAFF_ROLES[d.role as StaffRole]}${commune ? ` · ${commune.name}` : ''})`, territoryId: ctx.territory.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'SECURITE',
+    action: 'staff.invited',
+    summary: `Invitation de ${d.email} (${STAFF_ROLES[d.role as StaffRole]}${commune ? ` · ${commune.name}` : ''})`,
+    territoryId: ctx.territory.id,
+  });
   revalidatePath('/collectivite/personnalisation');
   return { status: 'ok', message: `Invitation envoyée à ${d.email} (valable 7 jours).` };
 }
@@ -217,22 +269,41 @@ export async function inviteStaffAction(_prev: PersoState, form: FormData): Prom
 export async function revokeRoleAction(form: FormData): Promise<void> {
   const ctx = await adminCtx();
   const id = z.string().uuid().parse(form.get('roleId'));
-  const [r] = await db.select().from(roleAssignments).where(and(eq(roleAssignments.id, id), eq(roleAssignments.territoryId, ctx.territory.id))).limit(1);
+  const [r] = await db
+    .select()
+    .from(roleAssignments)
+    .where(and(eq(roleAssignments.id, id), eq(roleAssignments.territoryId, ctx.territory.id)))
+    .limit(1);
   if (!r) return;
   if (r.role === 'TERRITORY_ADMIN') {
-    const [{ n }] = await db.select({ n: count() }).from(roleAssignments).where(and(eq(roleAssignments.territoryId, ctx.territory.id), eq(roleAssignments.role, 'TERRITORY_ADMIN')));
+    const [{ n }] = await db
+      .select({ n: count() })
+      .from(roleAssignments)
+      .where(and(eq(roleAssignments.territoryId, ctx.territory.id), eq(roleAssignments.role, 'TERRITORY_ADMIN')));
     if (Number(n) <= 1) return; // au moins un administrateur
   }
   await db.delete(roleAssignments).where(eq(roleAssignments.id, r.id));
   const [u] = await db.select().from(users).where(eq(users.id, r.userId)).limit(1);
-  await audit({ actor: { user: ctx.actor.user }, category: 'SECURITE', action: 'staff.revoked', summary: `Accès retiré : ${u ? fullName(u) : r.userId} (${STAFF_ROLES[r.role]})`, territoryId: ctx.territory.id, targetType: 'user', targetId: r.userId });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'SECURITE',
+    action: 'staff.revoked',
+    summary: `Accès retiré : ${u ? fullName(u) : r.userId} (${STAFF_ROLES[r.role]})`,
+    territoryId: ctx.territory.id,
+    targetType: 'user',
+    targetId: r.userId,
+  });
   revalidatePath('/collectivite/personnalisation');
 }
 
 export async function mfaReminderAction(form: FormData): Promise<void> {
   const ctx = await adminCtx();
   const userId = z.string().uuid().parse(form.get('userId'));
-  const [r] = await db.select({ id: roleAssignments.id }).from(roleAssignments).where(and(eq(roleAssignments.userId, userId), eq(roleAssignments.territoryId, ctx.territory.id))).limit(1);
+  const [r] = await db
+    .select({ id: roleAssignments.id })
+    .from(roleAssignments)
+    .where(and(eq(roleAssignments.userId, userId), eq(roleAssignments.territoryId, ctx.territory.id)))
+    .limit(1);
   const [u] = r ? await db.select().from(users).where(eq(users.id, userId)).limit(1) : [];
   if (!u || u.mfaEnabled) return;
   await sendEmail({

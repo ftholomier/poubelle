@@ -23,14 +23,26 @@ export function CampaignInvite({
     <div id="campagne" style={{ position: 'relative', borderRadius: 22, overflow: 'hidden', minHeight: 260, color: '#FFF3E6', background: '#5E1F1A' }}>
       <Photo src={image} alt="" color="#5E1F1A" label=" " style={{ position: 'absolute', inset: 0, opacity: 0.4 }} />
       <div style={{ position: 'relative', padding: 24, display: 'flex', flexDirection: 'column', gap: 10, height: '100%' }}>
-        <span style={{ alignSelf: 'flex-start', background: 'var(--amber)', color: 'var(--ink)', fontWeight: 800, fontSize: 11, padding: '4px 9px', borderRadius: 6, letterSpacing: '0.05em' }}>
+        <span
+          style={{
+            alignSelf: 'flex-start',
+            background: 'var(--amber)',
+            color: 'var(--ink)',
+            fontWeight: 800,
+            fontSize: 11,
+            padding: '4px 9px',
+            borderRadius: 6,
+            letterSpacing: '0.05em',
+          }}
+        >
           INVITATION DE LA COLLECTIVITÉ
         </span>
         <div className="display" style={{ fontSize: 28, lineHeight: 1 }}>
           Participez à « {campaign.name} »
         </div>
         <div style={{ fontSize: 14, color: '#F3D5C9' }}>
-          Ajoutez une offre : elle apparaîtra {campaign.advent ? "dans le calendrier de l'Avent, " : ''}dans la newsletter ({subscribers.toLocaleString('fr-FR')} abonnés) et sur la page campagne.
+          Ajoutez une offre : elle apparaîtra {campaign.advent ? "dans le calendrier de l'Avent, " : ''}dans la newsletter (
+          {subscribers.toLocaleString('fr-FR')} abonnés) et sur la page campagne.
         </div>
         {open && !joined ? (
           <form action={action} style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
@@ -54,7 +66,14 @@ export function CampaignInvite({
               type="button"
               onClick={() => !joined && setOpen(true)}
               className="btn"
-              style={{ border: 0, background: joined ? 'var(--leaf)' : 'var(--amber)', color: 'var(--ink)', padding: '11px 16px', borderRadius: 10, fontWeight: 800 }}
+              style={{
+                border: 0,
+                background: joined ? 'var(--leaf)' : 'var(--amber)',
+                color: 'var(--ink)',
+                padding: '11px 16px',
+                borderRadius: 10,
+                fontWeight: 800,
+              }}
             >
               {joined ? `✓ Vous participez${campaign.offerLabel ? ` · ${campaign.offerLabel}` : ''}` : 'Participer avec une offre'}
             </button>

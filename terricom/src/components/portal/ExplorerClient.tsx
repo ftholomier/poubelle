@@ -6,14 +6,7 @@ import { MapView, type MapPoint } from '@/components/maps/MapView';
 import { Icon } from '@/components/ui/Icon';
 import { Photo } from '@/components/ui/Photo';
 import type { Family } from '@/lib/constants';
-import {
-  EXPLORER_FAMILIES,
-  EXPLORER_TOGGLES,
-  explorerQueryString,
-  type ExplorerResponse,
-  type ExplorerState,
-  type ExplorerToggle,
-} from '@/lib/explorer';
+import { EXPLORER_FAMILIES, EXPLORER_TOGGLES, explorerQueryString, type ExplorerResponse, type ExplorerState, type ExplorerToggle } from '@/lib/explorer';
 import { sized } from '@/lib/images';
 
 type Props = {
@@ -259,9 +252,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--muted)', paddingTop: 4 }}>
           <span aria-live="polite">
-            {loading ? (
-              <span className="spinner" style={{ width: 12, height: 12, verticalAlign: -1, marginRight: 6 }} aria-hidden="true" />
-            ) : null}
+            {loading ? <span className="spinner" style={{ width: 12, height: 12, verticalAlign: -1, marginRight: 6 }} aria-hidden="true" /> : null}
             <b style={{ color: 'var(--text)' }}>{data.total.toLocaleString('fr-FR')}</b> adresse{data.total > 1 ? 's' : ''}
           </span>
           <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>

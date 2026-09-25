@@ -69,10 +69,19 @@ export default async function CampaignPage({ params }: Props) {
     <div style={{ background: c.colorBgDark, color: c.colorText }}>
       <Beacon type="CAMPAIGN_VIEW" territoryId={t.id} refId={c.id} />
       <section style={{ position: 'relative', overflow: 'hidden' }}>
-        {c.heroImageUrl ? <Photo src={sized(c.heroImageUrl, 2000)} alt="" eager color={c.colorBgDark} label=" " style={{ position: 'absolute', inset: 0, opacity: 0.35 }} /> : null}
+        {c.heroImageUrl ? (
+          <Photo src={sized(c.heroImageUrl, 2000)} alt="" eager color={c.colorBgDark} label=" " style={{ position: 'absolute', inset: 0, opacity: 0.35 }} />
+        ) : null}
         <div
           className="container split"
-          style={{ position: 'relative', paddingTop: 70, paddingBottom: 50, ['--cols' as string]: 'minmax(0,1.2fr) minmax(0,1fr)', ['--gap' as string]: '40px', ['--align' as string]: 'end' }}
+          style={{
+            position: 'relative',
+            paddingTop: 70,
+            paddingBottom: 50,
+            ['--cols' as string]: 'minmax(0,1.2fr) minmax(0,1fr)',
+            ['--gap' as string]: '40px',
+            ['--align' as string]: 'end',
+          }}
         >
           <div>
             <span

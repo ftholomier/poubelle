@@ -1,12 +1,4 @@
-import {
-  doublePrecision,
-  index,
-  integer,
-  pgTable,
-  text,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { doublePrecision, index, integer, pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createdAt, pk, tstz, updatedAt } from './_common';
 import { dealStage, territoryKind } from './enums';
 import { territories } from './tenancy';

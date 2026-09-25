@@ -311,7 +311,9 @@ export default async function TerritoryHome({ params }: Props) {
               </Link>
             ) : null}
             {blocks.has('newsletter') && modules.has('NEWSLETTER') ? (
-              <div style={{ background: 'var(--ink)', color: 'var(--cream)', borderRadius: 24, padding: 34, display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div
+                style={{ background: 'var(--ink)', color: 'var(--cream)', borderRadius: 24, padding: 34, display: 'flex', flexDirection: 'column', gap: 14 }}
+              >
                 <div className="eyebrow-800" style={{ color: 'var(--amber)' }}>
                   {newsletterName}
                 </div>

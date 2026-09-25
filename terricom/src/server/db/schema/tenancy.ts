@@ -1,19 +1,5 @@
 import { sql } from 'drizzle-orm';
-import {
-  boolean,
-  date,
-  doublePrecision,
-  index,
-  integer,
-  jsonb,
-  pgTable,
-  primaryKey,
-  text,
-  unique,
-  uniqueIndex,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { boolean, date, doublePrecision, index, integer, jsonb, pgTable, primaryKey, text, unique, uniqueIndex, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createdAt, pk, updatedAt } from './_common';
 import { activityFamily, attributeGroup, moduleKey, territoryKind, territoryStatus } from './enums';
 
@@ -49,15 +35,7 @@ export type TerritorySettings = {
   requireMfaForAll?: boolean;
 };
 
-export type HomeBlock =
-  | 'search'
-  | 'openNow'
-  | 'campaign'
-  | 'map'
-  | 'feed'
-  | 'circuits'
-  | 'jobs'
-  | 'newsletter';
+export type HomeBlock = 'search' | 'openNow' | 'campaign' | 'map' | 'feed' | 'circuits' | 'jobs' | 'newsletter';
 
 export const HOME_BLOCKS: { key: HomeBlock; label: string }[] = [
   { key: 'search', label: 'Recherche intelligente' },
@@ -94,7 +72,10 @@ export const territories = pgTable(
     heroTitle: text(),
     heroSubtitle: text(),
     heroImageUrl: text(),
-    homeBlocks: jsonb().$type<HomeBlock[]>().notNull().default(sql`'["search","openNow","campaign","map","feed","circuits","jobs","newsletter"]'::jsonb`),
+    homeBlocks: jsonb()
+      .$type<HomeBlock[]>()
+      .notNull()
+      .default(sql`'["search","openNow","campaign","map","feed","circuits","jobs","newsletter"]'::jsonb`),
     primaryHost: varchar({ length: 255 }),
 
     // Carte
@@ -104,7 +85,10 @@ export const territories = pgTable(
 
     contactEmail: varchar({ length: 255 }),
     websiteUrl: text(),
-    settings: jsonb().$type<TerritorySettings>().notNull().default(sql`'{}'::jsonb`),
+    settings: jsonb()
+      .$type<TerritorySettings>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
 
     // Quotas contractuels
     quotaEstablishments: integer().notNull().default(1500),
@@ -154,7 +138,10 @@ export const communes = pgTable(
     inseeCode: varchar({ length: 5 }).notNull().unique(),
     name: varchar({ length: 160 }).notNull(),
     slug: varchar({ length: 160 }).notNull().unique(),
-    postalCodes: text().array().notNull().default(sql`'{}'::text[]`),
+    postalCodes: text()
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
     departmentCode: varchar({ length: 3 }),
     population: integer(),
     lat: doublePrecision(),
@@ -189,7 +176,9 @@ export const communeMemberships = pgTable(
     territoryId: uuid()
       .notNull()
       .references(() => territories.id, { onDelete: 'cascade' }),
-    validFrom: date({ mode: 'string' }).notNull().default(sql`current_date`),
+    validFrom: date({ mode: 'string' })
+      .notNull()
+      .default(sql`current_date`),
     validTo: date({ mode: 'string' }),
     createdAt: createdAt(),
   },
@@ -210,16 +199,19 @@ export const categories = pgTable(
     family: activityFamily().notNull(),
     slug: varchar({ length: 120 }).notNull(),
     name: varchar({ length: 160 }).notNull(),
-    nafCodes: text().array().notNull().default(sql`'{}'::text[]`),
-    synonyms: text().array().notNull().default(sql`'{}'::text[]`),
+    nafCodes: text()
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
+    synonyms: text()
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
     sortOrder: integer().notNull().default(0),
     isActive: boolean().notNull().default(true),
     createdAt: createdAt(),
   },
-  (t) => [
-    unique('categories_territory_slug_uq').on(t.territoryId, t.slug).nullsNotDistinct(),
-    index('categories_family_idx').on(t.family),
-  ],
+  (t) => [unique('categories_territory_slug_uq').on(t.territoryId, t.slug).nullsNotDistinct(), index('categories_family_idx').on(t.family)],
 );
 
 /** Services, moyens de paiement, accessibilité, labels. */

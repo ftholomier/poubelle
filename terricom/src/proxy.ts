@@ -14,7 +14,7 @@ const PLATFORM_HOSTS = new Set(
     .filter(Boolean),
 );
 const RESERVED_SUBDOMAINS = new Set(['www', 'pro', 'app', 'api', 'admin', 'console', 'static', 'cdn', 'mail']);
-const PASSTHROUGH = /^\/(_next|api|media|fonts|q\/|favicon|icon|apple-icon|robots\.txt|sitemap\.xml|manifest|sw\.js|opengraph)/;
+const PASSTHROUGH = /^\/(_next|api|media|fonts|q\/|favicon|icon|apple-icon|robots\.txt|sitemap\.xml|manifest|sw\.js|opengraph|\.well-known)/;
 
 type HostMode = { kind: 'platform' } | { kind: 'pro' } | { kind: 'territory'; param: string };
 

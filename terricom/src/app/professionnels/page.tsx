@@ -6,6 +6,9 @@ import { fmtEuros, fmtInt } from '@/lib/format';
 import { getPlans } from '@/server/services/billing';
 import { platformNumbers } from '@/server/services/marketing';
 
+// Rendu à la demande : chiffres réels et configuration lue à l'exécution (jamais figés à la compilation).
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Pour les professionnels',
   description:

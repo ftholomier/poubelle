@@ -1,4 +1,4 @@
-import { and, eq, inArray } from 'drizzle-orm';
+import { and, eq, inArray, sql } from 'drizzle-orm';
 import { db } from '../db';
 import { communes, establishments } from '../db/schema';
 import { claimLettersPdf } from '../print/letters';
@@ -10,11 +10,26 @@ import { estScope } from './backoffice';
 export async function invitationLetters(ctx: BoContext, ids: string[]): Promise<Uint8Array | null> {
   if (!ids.length) return null;
   const rows = await db
-    .select({ id: establishments.id, name: establishments.name, street: establishments.street, postalCode: establishments.postalCode, communeName: communes.name })
+    .select({
+      id: establishments.id,
+      name: establishments.name,
+      street: establishments.street,
+      postalCode: establishments.postalCode,
+      communeName: communes.name,
+    })
     .from(establishments)
     .innerJoin(communes, eq(communes.id, establishments.communeId))
     .where(and(estScope(ctx), inArray(establishments.id, ids.slice(0, 1000))));
   if (!rows.length) return null;
+  await db
+    .update(establishments)
+    .set({ invitedAt: new Date(), invitationCount: sql`${establishments.invitationCount} + 1` })
+    .where(
+      inArray(
+        establishments.id,
+        rows.map((r) => r.id),
+      ),
+    );
   const t = ctx.territory;
   return claimLettersPdf(
     { name: t.name, legalName: t.legalName, colorPrimary: t.colorPrimary, colorAccent: t.colorAccent, contactEmail: t.contactEmail },

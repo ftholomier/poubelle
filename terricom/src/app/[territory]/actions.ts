@@ -106,7 +106,11 @@ export async function subscribeNewsletter(_prev: SubscribeState, form: FormData)
       .select({ id: audiences.id })
       .from(audiences)
       .where(and(eq(audiences.territoryId, territoryId), eq(audiences.isDefault, true)));
-    if (defaults.length) await db.insert(subscriberAudiences).values(defaults.map((a) => ({ subscriberId, audienceId: a.id }))).onConflictDoNothing();
+    if (defaults.length)
+      await db
+        .insert(subscriberAudiences)
+        .values(defaults.map((a) => ({ subscriberId, audienceId: a.id })))
+        .onConflictDoNothing();
   }
   await sendEmail({
     ...newsletterConfirmTemplate({
@@ -167,7 +171,14 @@ export async function sendContactMessage(_prev: FormState, form: FormData): Prom
       territoryId: est.territoryId,
     });
   }
-  await track({ type: 'CONTACT_SENT', territoryId: est.territoryId, establishmentId: est.id, communeId: est.communeId, userAgent: info.userAgent, ip: info.ip });
+  await track({
+    type: 'CONTACT_SENT',
+    territoryId: est.territoryId,
+    establishmentId: est.id,
+    communeId: est.communeId,
+    userAgent: info.userAgent,
+    ip: info.ip,
+  });
   return {
     status: 'ok',
     message: recipients.size
@@ -265,7 +276,10 @@ export async function requestAppointment(_prev: FormState, form: FormData): Prom
   });
   const when = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'full', timeStyle: 'short', timeZone: 'Europe/Paris' }).format(preferredAt);
   for (const to of await ownersEmails(est.companyId)) {
-    await sendEmail({ ...appointmentRequestTemplate({ to, establishmentName: est.name, client: d.fullName, when, url: appUrl(`/pro/${est.id}/rendez-vous`) }), territoryId: est.territoryId });
+    await sendEmail({
+      ...appointmentRequestTemplate({ to, establishmentName: est.name, client: d.fullName, when, url: appUrl(`/pro/${est.id}/rendez-vous`) }),
+      territoryId: est.territoryId,
+    });
   }
   const info = await requestInfo();
   await track({ type: 'APPOINTMENT_REQUEST', territoryId: est.territoryId, establishmentId: est.id, userAgent: info.userAgent, ip: info.ip });

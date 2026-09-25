@@ -47,7 +47,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: { absolute: `${title} · ${t.name}` },
     description,
     alternates: { canonical: url },
-    openGraph: { type: 'website', title, description, url, siteName: t.name, locale: 'fr_FR', images: cover ? [{ url: cover, width: 1400, height: 933, alt: e.name }] : undefined },
+    openGraph: {
+      type: 'website',
+      title,
+      description,
+      url,
+      siteName: t.name,
+      locale: 'fr_FR',
+      images: cover ? [{ url: cover, width: 1400, height: 933, alt: e.name }] : undefined,
+    },
     twitter: { card: cover ? 'summary_large_image' : 'summary', title, description },
     // Une fiche précréée par import, jamais complétée, reste accessible mais n'est pas proposée aux moteurs.
     robots: e.status === 'PRECREATED' && !e.description ? { index: false, follow: true } : undefined,
@@ -99,14 +107,22 @@ export default async function FichePage({ params }: Props) {
 
   const mapPoints = [
     ...(e.lat && e.lng ? [{ id: e.id, lat: e.lat, lng: e.lng, name: e.name, color: e.color }] : []),
-    ...related.filter((r) => r.lat && r.lng).map((r) => ({ id: r.id, lat: r.lat!, lng: r.lng!, name: r.name, color: r.color, subtitle: r.activity, href: `${base}${r.path}` })),
+    ...related
+      .filter((r) => r.lat && r.lng)
+      .map((r) => ({ id: r.id, lat: r.lat!, lng: r.lng!, name: r.name, color: r.color, subtitle: r.activity, href: `${base}${r.path}` })),
   ];
   const claimed = ['CLAIMED', 'VALIDATED'].includes(e.status);
   const hostLabel = url.replace(/^https?:\/\//, '');
 
   return (
     <div>
-      <JsonLd data={localBusinessJsonLd(e, url, photos.slice(0, 6).map((p) => p.large))} />
+      <JsonLd
+        data={localBusinessJsonLd(
+          e,
+          url,
+          photos.slice(0, 6).map((p) => p.large),
+        )}
+      />
       <JsonLd
         data={breadcrumbJsonLd([
           { name: t.name, url: portalUrl(t, '/') },
@@ -117,7 +133,10 @@ export default async function FichePage({ params }: Props) {
       />
       <Beacon type="EST_VIEW" establishmentId={e.id} territoryId={t.id} communeId={e.communeId} />
 
-      <div className="container" style={{ paddingTop: 18, display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', fontSize: 13, color: 'var(--muted)' }}>
+      <div
+        className="container"
+        style={{ paddingTop: 18, display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', fontSize: 13, color: 'var(--muted)' }}
+      >
         <Link href={`${base}/explorer`} style={{ color: 'var(--green)', fontWeight: 700 }}>
           ← Carte
         </Link>
@@ -143,7 +162,10 @@ export default async function FichePage({ params }: Props) {
         <FicheGallery photos={photos} stamp={localMade ? `Fait en ${t.name}` : null} color={e.color} name={e.name} />
       </div>
 
-      <div className="container split" style={{ ['--cols' as string]: 'minmax(0,1fr) 380px', ['--gap' as string]: '40px', ['--align' as string]: 'start', paddingTop: 30, paddingBottom: 60 }}>
+      <div
+        className="container split"
+        style={{ ['--cols' as string]: 'minmax(0,1fr) 380px', ['--gap' as string]: '40px', ['--align' as string]: 'start', paddingTop: 30, paddingBottom: 60 }}
+      >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 34, minWidth: 0 }}>
           <div>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
@@ -162,7 +184,10 @@ export default async function FichePage({ params }: Props) {
             {tags.length ? (
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                 {tags.map((tg) => (
-                  <span key={tg.slug} style={{ fontSize: 13, padding: '6px 12px', borderRadius: 999, background: 'var(--mint)', color: 'var(--green)', fontWeight: 600 }}>
+                  <span
+                    key={tg.slug}
+                    style={{ fontSize: 13, padding: '6px 12px', borderRadius: 999, background: 'var(--mint)', color: 'var(--green)', fontWeight: 600 }}
+                  >
                     {tg.label}
                   </span>
                 ))}
@@ -283,7 +308,9 @@ export default async function FichePage({ params }: Props) {
                     href={`${base}/emploi/${j.slug}`}
                     style={{ background: 'var(--leaf)', borderRadius: 18, padding: 20, display: 'flex', flexDirection: 'column', gap: 6, color: 'inherit' }}
                   >
-                    <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.07em', textTransform: 'uppercase', color: 'var(--leaf-fg)' }}>On recrute</div>
+                    <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.07em', textTransform: 'uppercase', color: 'var(--leaf-fg)' }}>
+                      On recrute
+                    </div>
                     <div className="display" style={{ fontSize: 22 }}>
                       {j.title}
                     </div>
@@ -326,10 +353,23 @@ export default async function FichePage({ params }: Props) {
             className="card"
             style={{ borderRadius: 20, padding: 20, display: 'flex', flexDirection: 'column', gap: 16, boxShadow: 'var(--shadow-card)', scrollMarginTop: 90 }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, color: e.open.unknown ? 'var(--muted)' : e.open.open ? 'var(--open)' : 'var(--closed)' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                fontWeight: 700,
+                color: e.open.unknown ? 'var(--muted)' : e.open.open ? 'var(--open)' : 'var(--closed)',
+              }}
+            >
               <span
                 className={e.open.open ? 'live-dot' : undefined}
-                style={{ width: 9, height: 9, borderRadius: '50%', background: e.open.unknown ? 'var(--faint)' : e.open.open ? 'var(--open)' : 'var(--closed)' }}
+                style={{
+                  width: 9,
+                  height: 9,
+                  borderRadius: '50%',
+                  background: e.open.unknown ? 'var(--faint)' : e.open.open ? 'var(--open)' : 'var(--closed)',
+                }}
               />
               {e.open.unknown ? 'Horaires non renseignés' : e.open.longLabel}
             </div>

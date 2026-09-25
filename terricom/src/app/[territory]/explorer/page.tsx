@@ -30,7 +30,11 @@ export default async function ExplorerPage({ params, searchParams }: Props) {
   const state = parseExplorerParams(await searchParams);
   const t = portal.territory;
   const ai = portal.modules.has('AI');
-  const [res, cards, communes] = await Promise.all([searchTerritory(t, { ...toSearchParams(state), limit: 5000, ai }), allCards(t.id), getTerritoryCommunes(t.id)]);
+  const [res, cards, communes] = await Promise.all([
+    searchTerritory(t, { ...toSearchParams(state), limit: 5000, ai }),
+    allCards(t.id),
+    getTerritoryCommunes(t.id),
+  ]);
   const filtered = Boolean(state.q || state.family || state.toggles.length || state.commune);
   return (
     <ExplorerClient

@@ -23,9 +23,7 @@ export default async function CommunesPage({ params }: Props) {
   const portal = await getPortal(territory);
   const { base, territory: t } = portal;
   const [communes, counts] = await Promise.all([getTerritoryCommunes(t.id), communeCounts(t.id)]);
-  const list = communes
-    .map((c) => ({ ...c, pros: counts.get(c.id) ?? 0 }))
-    .sort((a, b) => b.pros - a.pros || a.name.localeCompare(b.name, 'fr'));
+  const list = communes.map((c) => ({ ...c, pros: counts.get(c.id) ?? 0 })).sort((a, b) => b.pros - a.pros || a.name.localeCompare(b.name, 'fr'));
   const max = Math.max(1, ...list.map((c) => c.pros));
   return (
     <div className="container" style={{ paddingTop: 40, paddingBottom: 60 }}>
@@ -41,7 +39,12 @@ export default async function CommunesPage({ params }: Props) {
       <div className="split" style={{ ['--cols' as string]: 'minmax(0,1.2fr) minmax(0,1fr)', ['--align' as string]: 'start' }}>
         <div className="auto-grid" style={{ ['--min' as string]: '220px', ['--gap' as string]: '12px' }}>
           {list.map((c) => (
-            <Link key={c.id} href={`${base}/${c.slug}`} className="card card-link card-lift" style={{ borderRadius: 16, padding: 18, display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <Link
+              key={c.id}
+              href={`${base}/${c.slug}`}
+              className="card card-link card-lift"
+              style={{ borderRadius: 16, padding: 18, display: 'flex', flexDirection: 'column', gap: 8 }}
+            >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
                 <span className="display" style={{ fontSize: 20 }}>
                   {c.name}
@@ -60,7 +63,10 @@ export default async function CommunesPage({ params }: Props) {
             </Link>
           ))}
         </div>
-        <div className="sticky-aside" style={{ position: 'sticky', top: 90, height: 560, borderRadius: 20, overflow: 'hidden', border: '1px solid var(--line)' }}>
+        <div
+          className="sticky-aside"
+          style={{ position: 'sticky', top: 90, height: 560, borderRadius: 20, overflow: 'hidden', border: '1px solid var(--line)' }}
+        >
           <MapView
             mode="heat"
             heat={list.filter((c) => c.lat && c.lng).map((c) => ({ name: c.name, lat: c.lat!, lng: c.lng!, value: c.pros }))}

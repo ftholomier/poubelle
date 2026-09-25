@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: terricom
+  labels:
+    # Pods conformes au profil « restricted » (non-root, sans privilèges, seccomp).
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted

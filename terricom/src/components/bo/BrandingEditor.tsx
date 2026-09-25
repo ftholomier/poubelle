@@ -33,7 +33,18 @@ export function BrandingEditor({
   host,
   children,
 }: {
-  initial: { colorPrimary: string; colorAccent: string; initials: string; name: string; tagline: string; heroTitle: string; heroSubtitle: string; heroImageUrl: string | null; logoUrl: string | null; blocks: string[] };
+  initial: {
+    colorPrimary: string;
+    colorAccent: string;
+    initials: string;
+    name: string;
+    tagline: string;
+    heroTitle: string;
+    heroSubtitle: string;
+    heroImageUrl: string | null;
+    logoUrl: string | null;
+    blocks: string[];
+  };
   allBlocks: Block[];
   host: string;
   /** Contenu affiché sous l'aperçu (équipe & rôles), hors du formulaire. */
@@ -66,7 +77,20 @@ export function BrandingEditor({
                 <Photo src={initial.logoUrl} alt="" label={initials} color={main} />
               </span>
             ) : (
-              <div className="display" style={{ width: 64, height: 64, borderRadius: 16, background: main, color: acc, display: 'grid', placeItems: 'center', fontSize: 24, transform: 'rotate(-4deg)' }}>
+              <div
+                className="display"
+                style={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: 16,
+                  background: main,
+                  color: acc,
+                  display: 'grid',
+                  placeItems: 'center',
+                  fontSize: 24,
+                  transform: 'rotate(-4deg)',
+                }}
+              >
                 {initials}
               </div>
             )}
@@ -78,7 +102,14 @@ export function BrandingEditor({
               </label>
               <label style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
                 Initiales
-                <input form={FORM} name="initials" value={initials} onChange={(e) => setInitials(e.target.value.toUpperCase().slice(0, 4))} className="input" style={{ width: 70, padding: '4px 8px' }} />
+                <input
+                  form={FORM}
+                  name="initials"
+                  value={initials}
+                  onChange={(e) => setInitials(e.target.value.toUpperCase().slice(0, 4))}
+                  className="input"
+                  style={{ width: 70, padding: '4px 8px' }}
+                />
               </label>
             </div>
           </div>
@@ -96,7 +127,14 @@ export function BrandingEditor({
                   }}
                   aria-pressed={on}
                   aria-label={`Palette ${a} et ${b}`}
-                  style={{ display: 'flex', borderRadius: 12, overflow: 'hidden', border: `3px solid ${on ? 'var(--ink)' : 'transparent'}`, padding: 0, cursor: 'pointer' }}
+                  style={{
+                    display: 'flex',
+                    borderRadius: 12,
+                    overflow: 'hidden',
+                    border: `3px solid ${on ? 'var(--ink)' : 'transparent'}`,
+                    padding: 0,
+                    cursor: 'pointer',
+                  }}
                 >
                   <span style={{ width: 34, height: 40, background: a }} />
                   <span style={{ width: 34, height: 40, background: b }} />
@@ -104,8 +142,20 @@ export function BrandingEditor({
               );
             })}
             <label style={{ display: 'flex', gap: 4, alignItems: 'center', fontSize: 12, color: 'var(--muted)' }}>
-              <input type="color" value={main} onChange={(e) => setMain(e.target.value)} aria-label="Couleur principale" style={{ width: 34, height: 34, border: 0, padding: 0 }} />
-              <input type="color" value={acc} onChange={(e) => setAcc(e.target.value)} aria-label="Couleur d’accent" style={{ width: 34, height: 34, border: 0, padding: 0 }} />
+              <input
+                type="color"
+                value={main}
+                onChange={(e) => setMain(e.target.value)}
+                aria-label="Couleur principale"
+                style={{ width: 34, height: 34, border: 0, padding: 0 }}
+              />
+              <input
+                type="color"
+                value={acc}
+                onChange={(e) => setAcc(e.target.value)}
+                aria-label="Couleur d’accent"
+                style={{ width: 34, height: 34, border: 0, padding: 0 }}
+              />
               sur mesure
             </label>
           </div>
@@ -115,7 +165,15 @@ export function BrandingEditor({
           </label>
           <label className="field">
             <span>Titre de la page d’accueil (« | » : retour à la ligne, « & » : couleur d’accent)</span>
-            <input form={FORM} name="heroTitle" className="input" value={heroTitle} onChange={(e) => setHeroTitle(e.target.value)} maxLength={200} placeholder={`${initial.name}, fait main & fait ici.`} />
+            <input
+              form={FORM}
+              name="heroTitle"
+              className="input"
+              value={heroTitle}
+              onChange={(e) => setHeroTitle(e.target.value)}
+              maxLength={200}
+              placeholder={`${initial.name}, fait main & fait ici.`}
+            />
           </label>
           <label className="field">
             <span>Sous-titre</span>
@@ -133,9 +191,26 @@ export function BrandingEditor({
             if (!b) return null;
             const on = enabled.includes(key);
             return (
-              <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderTop: '1px solid var(--line-2)', fontSize: 14, gap: 10 }}>
+              <div
+                key={key}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '8px 0',
+                  borderTop: '1px solid var(--line-2)',
+                  fontSize: 14,
+                  gap: 10,
+                }}
+              >
                 <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <button type="button" onClick={() => move(i)} aria-label={`Monter « ${b.label} »`} disabled={i === 0} style={{ border: 0, background: 'none', cursor: i === 0 ? 'default' : 'pointer', color: 'var(--muted)', padding: 0 }}>
+                  <button
+                    type="button"
+                    onClick={() => move(i)}
+                    aria-label={`Monter « ${b.label} »`}
+                    disabled={i === 0}
+                    style={{ border: 0, background: 'none', cursor: i === 0 ? 'default' : 'pointer', color: 'var(--muted)', padding: 0 }}
+                  >
                     ⋮⋮
                   </button>
                   {b.label}
@@ -146,9 +221,29 @@ export function BrandingEditor({
                   aria-checked={on}
                   aria-label={b.label}
                   onClick={() => setEnabled((e) => (on ? e.filter((x) => x !== key) : [...e, key]))}
-                  style={{ cursor: 'pointer', width: 40, height: 22, borderRadius: 11, background: on ? 'var(--green)' : '#D8D2C4', position: 'relative', border: 0, padding: 0 }}
+                  style={{
+                    cursor: 'pointer',
+                    width: 40,
+                    height: 22,
+                    borderRadius: 11,
+                    background: on ? 'var(--green)' : '#D8D2C4',
+                    position: 'relative',
+                    border: 0,
+                    padding: 0,
+                  }}
                 >
-                  <span style={{ position: 'absolute', top: 2, left: on ? 20 : 2, width: 18, height: 18, borderRadius: '50%', background: '#fff', transition: 'left .15s' }} />
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: 2,
+                      left: on ? 20 : 2,
+                      width: 18,
+                      height: 18,
+                      borderRadius: '50%',
+                      background: '#fff',
+                      transition: 'left .15s',
+                    }}
+                  />
                 </button>
               </div>
             );
@@ -166,8 +261,34 @@ export function BrandingEditor({
           <div style={{ position: 'relative', height: 260 }}>
             <Photo src={initial.heroImageUrl} alt="" label=" " color={main} style={{ position: 'absolute', inset: 0 }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,transparent,rgba(20,32,27,.8))' }} />
-            <div style={{ position: 'absolute', left: 0, right: 0, top: 0, display: 'flex', gap: 10, alignItems: 'center', padding: '12px 16px', background: main }}>
-              <div style={{ width: 26, height: 26, borderRadius: 8, background: acc, color: main, display: 'grid', placeItems: 'center', fontSize: 11, fontWeight: 800 }}>{initials}</div>
+            <div
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                top: 0,
+                display: 'flex',
+                gap: 10,
+                alignItems: 'center',
+                padding: '12px 16px',
+                background: main,
+              }}
+            >
+              <div
+                style={{
+                  width: 26,
+                  height: 26,
+                  borderRadius: 8,
+                  background: acc,
+                  color: main,
+                  display: 'grid',
+                  placeItems: 'center',
+                  fontSize: 11,
+                  fontWeight: 800,
+                }}
+              >
+                {initials}
+              </div>
               <b style={{ color: '#fff', fontSize: 13 }}>{initial.name}</b>
             </div>
             <div className="display" style={{ position: 'absolute', left: 18, bottom: 18, right: 18, color: '#fff', fontSize: 30, lineHeight: 0.95 }}>
@@ -180,14 +301,28 @@ export function BrandingEditor({
               ) : null}
             </div>
           </div>
-          <div style={{ padding: '12px 16px', fontSize: 12, color: 'var(--muted)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <div
+            style={{
+              padding: '12px 16px',
+              fontSize: 12,
+              color: 'var(--muted)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 10,
+              flexWrap: 'wrap',
+            }}
+          >
             <span>Aperçu en direct · publié après validation</span>
             <button type="submit" form={FORM} disabled={pending} className="btn btn-brand btn-sm">
               {pending ? 'Publication…' : 'Valider et publier'}
             </button>
           </div>
           {state.status !== 'idle' ? (
-            <div role="status" style={{ padding: '0 16px 12px', fontSize: 13, fontWeight: 600, color: state.status === 'error' ? 'var(--danger-fg)' : 'var(--green)' }}>
+            <div
+              role="status"
+              style={{ padding: '0 16px 12px', fontSize: 13, fontWeight: 600, color: state.status === 'error' ? 'var(--danger-fg)' : 'var(--green)' }}
+            >
               {state.message}
             </div>
           ) : null}

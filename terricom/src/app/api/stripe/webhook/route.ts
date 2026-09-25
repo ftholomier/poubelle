@@ -13,10 +13,24 @@ export async function POST(req: NextRequest) {
   try {
     if (event.type === 'checkout.session.completed' && meta.companyId && meta.plan) {
       await changeCompanyPlan(meta.companyId, meta.plan as 'PREMIUM' | 'COMMUNICATION', 'STRIPE');
-      await audit({ actor: 'Stripe', category: 'FACTURATION', action: 'company.plan_paid', summary: `Abonnement ${meta.plan} payé par carte`, targetType: 'company', targetId: meta.companyId });
+      await audit({
+        actor: 'Stripe',
+        category: 'FACTURATION',
+        action: 'company.plan_paid',
+        summary: `Abonnement ${meta.plan} payé par carte`,
+        targetType: 'company',
+        targetId: meta.companyId,
+      });
     } else if (event.type === 'customer.subscription.deleted' && meta.companyId) {
       await changeCompanyPlan(meta.companyId, 'ESSENTIEL', 'STRIPE');
-      await audit({ actor: 'Stripe', category: 'FACTURATION', action: 'company.plan_canceled', summary: 'Abonnement résilié (retour à Essentiel)', targetType: 'company', targetId: meta.companyId });
+      await audit({
+        actor: 'Stripe',
+        category: 'FACTURATION',
+        action: 'company.plan_canceled',
+        summary: 'Abonnement résilié (retour à Essentiel)',
+        targetType: 'company',
+        targetId: meta.companyId,
+      });
     }
   } catch (err) {
     logger.error('stripe.webhook_failed', { err, type: event.type });

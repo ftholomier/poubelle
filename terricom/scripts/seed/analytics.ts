@@ -143,9 +143,29 @@ export async function seedAnalytics(ctx: Ctx): Promise<void> {
     cur[cur.length - 1] += 1284 - cur.reduce((a, b) => a + b, 0);
     const prev = V.map((x, i) => Math.round(x * scale * 0.82 + (i % 5) * 1.2));
     const hourW: [number, number][] = [
-      [7, 6], [8, 9], [9, 12], [10, 14], [11, 12], [12, 9], [13, 5], [14, 5], [15, 6], [16, 7], [17, 9], [18, 10], [19, 5], [20, 3], [21, 2],
+      [7, 6],
+      [8, 9],
+      [9, 12],
+      [10, 14],
+      [11, 12],
+      [12, 9],
+      [13, 5],
+      [14, 5],
+      [15, 6],
+      [16, 7],
+      [17, 9],
+      [18, 10],
+      [19, 5],
+      [20, 3],
+      [21, 2],
     ];
-    const srcW: [string, number][] = [['PLATFORM_SEARCH', 38], ['GOOGLE', 27], ['MAP', 16], ['NEWSLETTER', 12], ['QR', 7]];
+    const srcW: [string, number][] = [
+      ['PLATFORM_SEARCH', 38],
+      ['GOOGLE', 27],
+      ['MAP', 16],
+      ['NEWSLETTER', 12],
+      ['QR', 7],
+    ];
     const queries: [string, number][] = [
       ['pain levain ornans', 84],
       ['boulangerie ouverte dimanche', 61],
@@ -172,7 +192,12 @@ export async function seedAnalytics(ctx: Ctx): Promise<void> {
     cur.forEach((n, i) => {
       for (let k = 0; k < n; k++) {
         const src = r.weighted(srcW);
-        push('EST_VIEW', 29 - i, src, src === 'PLATFORM_SEARCH' && queryPool.length && r.chance(0.6) ? queryPool.splice(r.int(0, queryPool.length - 1), 1)[0] : null);
+        push(
+          'EST_VIEW',
+          29 - i,
+          src,
+          src === 'PLATFORM_SEARCH' && queryPool.length && r.chance(0.6) ? queryPool.splice(r.int(0, queryPool.length - 1), 1)[0] : null,
+        );
       }
     });
     prev.forEach((n, i) => {
@@ -193,7 +218,9 @@ export async function seedAnalytics(ctx: Ctx): Promise<void> {
       const params: unknown[] = [ctx.territoryId, ctx.b1];
       chunk.forEach(([ts, type, src, q, dev, vh], j) => {
         const b = 3 + j * 6;
-        values.push(`($${b}::timestamptz, $1, (SELECT commune_id FROM establishments WHERE id = $2), $2, $${b + 1}::analytics_type, $${b + 2}::traffic_source, $${b + 3}, $${b + 4}, $${b + 5})`);
+        values.push(
+          `($${b}::timestamptz, $1, (SELECT commune_id FROM establishments WHERE id = $2), $2, $${b + 1}::analytics_type, $${b + 2}::traffic_source, $${b + 3}, $${b + 4}, $${b + 5})`,
+        );
         params.push(ts, type, src, q, dev, vh);
       });
       await client.query(
@@ -210,7 +237,10 @@ export async function seedAnalytics(ctx: Ctx): Promise<void> {
       'Livrez-vous les entreprises pour des petits-déjeuners ?',
       'Quels sont vos horaires le jour de l’Ascension ?',
     ];
-    for (const [n, from] of [[20, 3], [19, 30]] as const) {
+    for (const [n, from] of [
+      [20, 3],
+      [19, 30],
+    ] as const) {
       for (let k = 0; k < n; k++) {
         const created = new Date(ctx.now.getTime() - (from + r.int(0, 26)) * 86_400_000);
         await client.query(

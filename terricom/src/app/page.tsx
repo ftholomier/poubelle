@@ -8,6 +8,9 @@ import { env } from '@/server/env';
 import { getPlans } from '@/server/services/billing';
 import { pilotShowcase } from '@/server/services/marketing';
 
+// Rendu à la demande : chiffres réels et configuration lue à l'exécution (jamais figés à la compilation).
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: { absolute: 'terricom — Le territoire, en vitrine.' },
   description:

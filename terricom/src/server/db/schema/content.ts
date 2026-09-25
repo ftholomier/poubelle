@@ -1,33 +1,8 @@
 import { sql } from 'drizzle-orm';
-import {
-  boolean,
-  date,
-  doublePrecision,
-  index,
-  integer,
-  jsonb,
-  pgTable,
-  smallint,
-  text,
-  time,
-  timestamp,
-  unique,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { boolean, date, doublePrecision, index, integer, jsonb, pgTable, smallint, text, time, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { citext, createdAt, pk, tstz, updatedAt } from './_common';
 import { establishments, media } from './business';
-import {
-  appointmentStatus,
-  authorType,
-  contractType,
-  eventKind,
-  inboxStatus,
-  jobStatus,
-  postKind,
-  postStatus,
-  publishStatus,
-} from './enums';
+import { appointmentStatus, authorType, contractType, eventKind, inboxStatus, jobStatus, postKind, postStatus, publishStatus } from './enums';
 import { communes, territories } from './tenancy';
 import { users } from './users';
 
@@ -66,9 +41,16 @@ export const posts = pgTable(
     ctaLabel: varchar({ length: 64 }),
     ctaUrl: text(),
 
-    channels: text().array().$type<PostChannel[]>().notNull().default(sql`'{FICHE}'::text[]`),
+    channels: text()
+      .array()
+      .$type<PostChannel[]>()
+      .notNull()
+      .default(sql`'{FICHE}'::text[]`),
     campaignId: uuid(),
-    variants: jsonb().$type<PostVariants>().notNull().default(sql`'{}'::jsonb`),
+    variants: jsonb()
+      .$type<PostVariants>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
     aiGenerated: boolean().notNull().default(false),
 
     publishAt: tstz(),
@@ -122,7 +104,10 @@ export const events = pgTable(
     accessibilityText: varchar({ length: 255 }),
     registrationUrl: text(),
     capacity: integer(),
-    program: jsonb().$type<ProgramItem[]>().notNull().default(sql`'[]'::jsonb`),
+    program: jsonb()
+      .$type<ProgramItem[]>()
+      .notNull()
+      .default(sql`'[]'::jsonb`),
     imageUrl: text(),
     status: publishStatus().notNull().default('PUBLISHED'),
     isFeatured: boolean().notNull().default(false),
@@ -183,8 +168,14 @@ export const jobs = pgTable(
     salaryText: varchar({ length: 160 }),
     workTimeText: varchar({ length: 160 }),
     description: text().notNull().default(''),
-    missions: text().array().notNull().default(sql`'{}'::text[]`),
-    profile: text().array().notNull().default(sql`'{}'::text[]`),
+    missions: text()
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
+    profile: text()
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
     applyEmail: varchar({ length: 255 }),
     publishedAt: tstz(),
     expiresAt: tstz(),
@@ -192,10 +183,7 @@ export const jobs = pgTable(
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
-  (t) => [
-    unique('jobs_territory_slug_uq').on(t.territoryId, t.slug),
-    index('jobs_territory_status_idx').on(t.territoryId, t.status),
-  ],
+  (t) => [unique('jobs_territory_slug_uq').on(t.territoryId, t.slug), index('jobs_territory_status_idx').on(t.territoryId, t.status)],
 );
 
 export const jobApplications = pgTable(
@@ -215,7 +203,9 @@ export const jobApplications = pgTable(
     cvMediaId: uuid().references(() => media.id, { onDelete: 'set null' }),
     status: inboxStatus().notNull().default('NEW'),
     consentAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-    purgeAfter: date({ mode: 'string' }).notNull().default(sql`(current_date + interval '24 months')::date`),
+    purgeAfter: date({ mode: 'string' })
+      .notNull()
+      .default(sql`(current_date + interval '24 months')::date`),
     createdAt: createdAt(),
   },
   (t) => [index('job_applications_est_idx').on(t.establishmentId, t.createdAt)],
@@ -243,7 +233,9 @@ export const messages = pgTable(
     readAt: tstz(),
     repliedAt: tstz(),
     ipHash: varchar({ length: 64 }),
-    purgeAfter: date({ mode: 'string' }).notNull().default(sql`(current_date + interval '36 months')::date`),
+    purgeAfter: date({ mode: 'string' })
+      .notNull()
+      .default(sql`(current_date + interval '36 months')::date`),
     createdAt: createdAt(),
   },
   (t) => [index('messages_est_idx').on(t.establishmentId, t.createdAt)],

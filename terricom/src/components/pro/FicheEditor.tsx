@@ -58,11 +58,14 @@ const fmt = (t: string) => {
 
 export function FicheEditor(p: FicheEditorProps) {
   const toast = useToast();
-  const [state, action, pending] = useActionState<ActionState, FormData>(async (prev, form) => {
-    const res = await saveFiche(prev, form);
-    if (res.status === 'ok') toast(res.message ?? 'Enregistré');
-    return res;
-  }, { status: 'idle' });
+  const [state, action, pending] = useActionState<ActionState, FormData>(
+    async (prev, form) => {
+      const res = await saveFiche(prev, form);
+      if (res.status === 'ok') toast(res.message ?? 'Enregistré');
+      return res;
+    },
+    { status: 'idle' },
+  );
   const [description, setDescription] = useState(p.values.description);
   const [improving, startImprove] = useTransition();
   const [improved, setImproved] = useState<string | null>(null);
@@ -79,10 +82,7 @@ export function FicheEditor(p: FicheEditorProps) {
   const [exceptions, setExceptions] = useState<Exception[]>(p.exceptions);
   const [attrs, setAttrs] = useState<Set<string>>(new Set(p.attributes));
 
-  const hoursJson = useMemo(
-    () => JSON.stringify(days.flatMap((d, wd) => (d.open ? d.ranges.map((r) => ({ weekday: wd, ...r })) : []))),
-    [days],
-  );
+  const hoursJson = useMemo(() => JSON.stringify(days.flatMap((d, wd) => (d.open ? d.ranges.map((r) => ({ weekday: wd, ...r })) : []))), [days]);
   const updateDay = (wd: number, fn: (d: Day) => Day) => setDays((all) => all.map((d, i) => (i === wd ? fn(d) : d)));
   const copyToWeek = (wd: number) => setDays((all) => all.map((d, i) => (i < 5 ? { open: all[wd].open, ranges: all[wd].ranges.map((r) => ({ ...r })) } : d)));
 
@@ -130,11 +130,25 @@ export function FicheEditor(p: FicheEditorProps) {
           </label>
           <label style={label}>
             Activité affichée
-            <input form="fiche-form" name="activityLabel" className="input" defaultValue={p.values.activityLabel} placeholder="ex. Boulangerie-pâtisserie" maxLength={160} />
+            <input
+              form="fiche-form"
+              name="activityLabel"
+              className="input"
+              defaultValue={p.values.activityLabel}
+              placeholder="ex. Boulangerie-pâtisserie"
+              maxLength={160}
+            />
           </label>
           <label style={label}>
             Accroche
-            <input form="fiche-form" name="tagline" className="input" defaultValue={p.values.tagline} placeholder="Une phrase qui vous résume" maxLength={255} />
+            <input
+              form="fiche-form"
+              name="tagline"
+              className="input"
+              defaultValue={p.values.tagline}
+              placeholder="Une phrase qui vous résume"
+              maxLength={255}
+            />
           </label>
         </div>
         <label id="description" style={{ ...label, scrollMarginTop: 90 }}>
@@ -145,7 +159,8 @@ export function FicheEditor(p: FicheEditorProps) {
             </button>
           </span>
           <textarea
-            form="fiche-form" name="description"
+            form="fiche-form"
+            name="description"
             rows={5}
             className="textarea"
             value={description}
@@ -153,7 +168,9 @@ export function FicheEditor(p: FicheEditorProps) {
             maxLength={5000}
             style={{ lineHeight: 1.5 }}
           />
-          <span style={{ fontWeight: 500, fontSize: 12 }}>{description.trim() ? description.trim().split(/\s+/).length : 0} mots · visez 60 et plus pour Google</span>
+          <span style={{ fontWeight: 500, fontSize: 12 }}>
+            {description.trim() ? description.trim().split(/\s+/).length : 0} mots · visez 60 et plus pour Google
+          </span>
         </label>
       </section>
 
@@ -186,7 +203,14 @@ export function FicheEditor(p: FicheEditorProps) {
           </label>
           <label style={label}>
             Instagram
-            <input form="fiche-form" name="instagram" className="input" defaultValue={p.values.instagram} placeholder="https://instagram.com/…" maxLength={500} />
+            <input
+              form="fiche-form"
+              name="instagram"
+              className="input"
+              defaultValue={p.values.instagram}
+              placeholder="https://instagram.com/…"
+              maxLength={500}
+            />
           </label>
           <label style={label}>
             LinkedIn
@@ -194,7 +218,14 @@ export function FicheEditor(p: FicheEditorProps) {
           </label>
           <label style={label}>
             Zone d&apos;intervention
-            <input form="fiche-form" name="serviceArea" className="input" defaultValue={p.values.serviceArea} placeholder="ex. 25 km autour d’Ornans" maxLength={255} />
+            <input
+              form="fiche-form"
+              name="serviceArea"
+              className="input"
+              defaultValue={p.values.serviceArea}
+              placeholder="ex. 25 km autour d’Ornans"
+              maxLength={255}
+            />
           </label>
           <label style={label}>
             Tarifs indicatifs
@@ -203,7 +234,14 @@ export function FicheEditor(p: FicheEditorProps) {
         </div>
         <label style={label}>
           Informations d&apos;accessibilité
-          <input form="fiche-form" name="accessibilityInfo" className="input" defaultValue={p.values.accessibilityInfo} placeholder="ex. Plain-pied, place PMR devant la boutique" maxLength={500} />
+          <input
+            form="fiche-form"
+            name="accessibilityInfo"
+            className="input"
+            defaultValue={p.values.accessibilityInfo}
+            placeholder="ex. Plain-pied, place PMR devant la boutique"
+            maxLength={500}
+          />
         </label>
       </section>
 
@@ -221,7 +259,12 @@ export function FicheEditor(p: FicheEditorProps) {
               type="button"
               className="btn-link"
               style={{ fontSize: 13 }}
-              onClick={() => setExceptions((xs) => [...xs, { date: new Date(Date.now() + 7 * 86_400_000).toISOString().slice(0, 10), closed: true, opensAt: null, closesAt: null, label: 'Congés' }])}
+              onClick={() =>
+                setExceptions((xs) => [
+                  ...xs,
+                  { date: new Date(Date.now() + 7 * 86_400_000).toISOString().slice(0, 10), closed: true, opensAt: null, closesAt: null, label: 'Congés' },
+                ])
+              }
             >
               + Horaires exceptionnels
             </button>
@@ -257,7 +300,12 @@ export function FicheEditor(p: FicheEditorProps) {
                       style={{ width: 108, padding: 7 }}
                     />
                     {d.ranges.length > 1 ? (
-                      <button type="button" className="btn-link" aria-label="Retirer cette plage" onClick={() => updateDay(wd, (x) => ({ ...x, ranges: x.ranges.filter((_, j) => j !== ri) }))}>
+                      <button
+                        type="button"
+                        className="btn-link"
+                        aria-label="Retirer cette plage"
+                        onClick={() => updateDay(wd, (x) => ({ ...x, ranges: x.ranges.filter((_, j) => j !== ri) }))}
+                      >
                         ×
                       </button>
                     ) : null}
@@ -283,7 +331,13 @@ export function FicheEditor(p: FicheEditorProps) {
                 </button>
               </div>
             ) : (
-              <button type="button" onClick={() => setEditing(wd)} className="btn-link" style={{ color: 'var(--text)', fontWeight: 500, textAlign: 'left' }} title="Modifier les horaires">
+              <button
+                type="button"
+                onClick={() => setEditing(wd)}
+                className="btn-link"
+                style={{ color: 'var(--text)', fontWeight: 500, textAlign: 'left' }}
+                title="Modifier les horaires"
+              >
                 {d.ranges.map((r) => `${fmt(r.opensAt)} – ${fmt(r.closesAt)}`).join(', ')}
               </button>
             )}
@@ -314,7 +368,15 @@ export function FicheEditor(p: FicheEditorProps) {
                   <input
                     type="checkbox"
                     checked={x.closed}
-                    onChange={(e) => setExceptions((xs) => xs.map((y, j) => (j === i ? { ...y, closed: e.target.checked, opensAt: e.target.checked ? null : '09:00', closesAt: e.target.checked ? null : '12:00' } : y)))}
+                    onChange={(e) =>
+                      setExceptions((xs) =>
+                        xs.map((y, j) =>
+                          j === i
+                            ? { ...y, closed: e.target.checked, opensAt: e.target.checked ? null : '09:00', closesAt: e.target.checked ? null : '12:00' }
+                            : y,
+                        ),
+                      )
+                    }
                   />
                   Fermé
                 </label>
@@ -338,7 +400,12 @@ export function FicheEditor(p: FicheEditorProps) {
                     />
                   </>
                 ) : null}
-                <button type="button" className="btn-link" style={{ color: 'var(--danger-fg)' }} onClick={() => setExceptions((xs) => xs.filter((_, j) => j !== i))}>
+                <button
+                  type="button"
+                  className="btn-link"
+                  style={{ color: 'var(--danger-fg)' }}
+                  onClick={() => setExceptions((xs) => xs.filter((_, j) => j !== i))}
+                >
                   Retirer
                 </button>
               </div>
@@ -397,7 +464,14 @@ export function FicheEditor(p: FicheEditorProps) {
         <section className="panel">
           <h2 className="panel-title">Prise de rendez-vous</h2>
           <label style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 14 }}>
-            <input type="checkbox" form="fiche-form" name="appointmentsEnabled" value="on" defaultChecked={p.values.appointmentsEnabled} style={{ accentColor: 'var(--green)', width: 18, height: 18 }} />
+            <input
+              type="checkbox"
+              form="fiche-form"
+              name="appointmentsEnabled"
+              value="on"
+              defaultChecked={p.values.appointmentsEnabled}
+              style={{ accentColor: 'var(--green)', width: 18, height: 18 }}
+            />
             Proposer la demande de rendez-vous sur ma fiche
           </label>
           <label style={label}>

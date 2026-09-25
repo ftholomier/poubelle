@@ -1,20 +1,5 @@
 import { sql } from 'drizzle-orm';
-import {
-  boolean,
-  date,
-  doublePrecision,
-  index,
-  integer,
-  jsonb,
-  pgTable,
-  primaryKey,
-  smallint,
-  text,
-  time,
-  unique,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { boolean, date, doublePrecision, index, integer, jsonb, pgTable, primaryKey, smallint, text, time, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createdAt, pk, tsvector, tstz, updatedAt } from './_common';
 import { companyMemberRole, establishmentStatus, planKey, recordOrigin } from './enums';
 import { attributes, categories, communes, territories } from './tenancy';
@@ -102,7 +87,10 @@ export const establishments = pgTable(
     phone: varchar({ length: 32 }),
     email: varchar({ length: 255 }),
     website: text(),
-    socials: jsonb().$type<Socials>().notNull().default(sql`'{}'::jsonb`),
+    socials: jsonb()
+      .$type<Socials>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
 
     logoUrl: text(),
     coverUrl: text(),
@@ -115,12 +103,18 @@ export const establishments = pgTable(
     appointmentsEnabled: boolean().notNull().default(false),
     appointmentInfo: text(),
     themeColor: varchar({ length: 9 }),
-    translations: jsonb().$type<Record<string, { description?: string; tagline?: string }>>().notNull().default(sql`'{}'::jsonb`),
+    translations: jsonb()
+      .$type<Record<string, { description?: string; tagline?: string }>>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
 
     isFeatured: boolean().notNull().default(false),
     completeness: integer().notNull().default(0),
     hoursConfirmedAt: tstz(),
     lastActivityAt: tstz(),
+    /** Dernière invitation à revendiquer la fiche (email ou courrier) et nombre d'envois (relances automatiques). */
+    invitedAt: tstz(),
+    invitationCount: integer().notNull().default(0),
     publishedAt: tstz(),
     suspendedReason: text(),
     archivedAt: tstz(),
@@ -170,10 +164,7 @@ export const establishmentAttributes = pgTable(
       .notNull()
       .references(() => attributes.id, { onDelete: 'cascade' }),
   },
-  (t) => [
-    primaryKey({ columns: [t.establishmentId, t.attributeId] }),
-    index('establishment_attributes_attr_idx').on(t.attributeId),
-  ],
+  (t) => [primaryKey({ columns: [t.establishmentId, t.attributeId] }), index('establishment_attributes_attr_idx').on(t.attributeId)],
 );
 
 /** Horaires hebdomadaires ; plusieurs créneaux possibles par jour (0 = lundi … 6 = dimanche). */
@@ -226,7 +217,10 @@ export const media = pgTable(
     sizeBytes: integer(),
     width: integer(),
     height: integer(),
-    variants: jsonb().$type<MediaVariants>().notNull().default(sql`'{}'::jsonb`),
+    variants: jsonb()
+      .$type<MediaVariants>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
     alt: varchar({ length: 255 }),
     tag: varchar({ length: 64 }),
     sortOrder: integer().notNull().default(0),
@@ -234,10 +228,7 @@ export const media = pgTable(
     uploadedById: uuid().references(() => users.id, { onDelete: 'set null' }),
     createdAt: createdAt(),
   },
-  (t) => [
-    index('media_establishment_idx').on(t.establishmentId, t.sortOrder),
-    index('media_owner_idx').on(t.ownerType, t.ownerId),
-  ],
+  (t) => [index('media_establishment_idx').on(t.establishmentId, t.sortOrder), index('media_owner_idx').on(t.ownerType, t.ownerId)],
 );
 
 /** Produits & services présentés sur la fiche, avec tarif indicatif. */

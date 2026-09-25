@@ -1,16 +1,5 @@
 import { sql } from 'drizzle-orm';
-import {
-  boolean,
-  index,
-  integer,
-  jsonb,
-  pgTable,
-  primaryKey,
-  text,
-  unique,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { boolean, index, integer, jsonb, pgTable, primaryKey, text, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { citext, createdAt, pk, tstz, updatedAt } from './_common';
 import { companies } from './business';
 import { audienceKind, deliveryStatus, newsletterStatus, subscriberStatus } from './enums';
@@ -44,10 +33,7 @@ export const subscribers = pgTable(
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
-  (t) => [
-    unique('subscribers_territory_email_uq').on(t.territoryId, t.email),
-    index('subscribers_territory_status_idx').on(t.territoryId, t.status),
-  ],
+  (t) => [unique('subscribers_territory_email_uq').on(t.territoryId, t.email), index('subscribers_territory_status_idx').on(t.territoryId, t.status)],
 );
 
 export const audiences = pgTable(
@@ -104,8 +90,14 @@ export const newsletters = pgTable(
     title: varchar({ length: 255 }).notNull(),
     intro: text().notNull().default(''),
     heroImageUrl: text(),
-    blocks: jsonb().$type<NewsletterBlock[]>().notNull().default(sql`'[]'::jsonb`),
-    audienceIds: uuid().array().notNull().default(sql`'{}'::uuid[]`),
+    blocks: jsonb()
+      .$type<NewsletterBlock[]>()
+      .notNull()
+      .default(sql`'[]'::jsonb`),
+    audienceIds: uuid()
+      .array()
+      .notNull()
+      .default(sql`'{}'::uuid[]`),
     status: newsletterStatus().notNull().default('DRAFT'),
     scheduledAt: tstz(),
     sentAt: tstz(),
@@ -140,10 +132,7 @@ export const newsletterDeliveries = pgTable(
     error: text(),
     createdAt: createdAt(),
   },
-  (t) => [
-    unique('newsletter_deliveries_uq').on(t.newsletterId, t.email),
-    index('newsletter_deliveries_status_idx').on(t.newsletterId, t.status),
-  ],
+  (t) => [unique('newsletter_deliveries_uq').on(t.newsletterId, t.email), index('newsletter_deliveries_status_idx').on(t.newsletterId, t.status)],
 );
 
 /** Contacts clients consentis d'une entreprise (offre Communication). */

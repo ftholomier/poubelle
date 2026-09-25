@@ -19,7 +19,11 @@ type Props = { params: Promise<{ territory: string; commune: string; category: s
 const load = cache(async (territoryParam: string, communeSlug: string, categorySlug: string) => {
   const portal = await getPortal(territoryParam);
   const commune = await getCommuneInTerritory(portal.territory.id, communeSlug);
-  const [category] = await db.select().from(categories).where(and(eq(categories.slug, categorySlug), eq(categories.isActive, true))).limit(1);
+  const [category] = await db
+    .select()
+    .from(categories)
+    .where(and(eq(categories.slug, categorySlug), eq(categories.isActive, true)))
+    .limit(1);
   if (!commune || !category) return { portal, commune: null, category: null, items: [] };
   const cards = await allCards(portal.territory.id);
   const items = cards
@@ -83,7 +87,10 @@ export default async function CategoryPage({ params }: Props) {
             </div>
           )}
         </div>
-        <div className="sticky-aside" style={{ position: 'sticky', top: 90, height: 460, borderRadius: 20, overflow: 'hidden', border: '1px solid var(--line)' }}>
+        <div
+          className="sticky-aside"
+          style={{ position: 'sticky', top: 90, height: 460, borderRadius: 20, overflow: 'hidden', border: '1px solid var(--line)' }}
+        >
           <MapView
             mode="mini"
             points={toMapPoints(d.items, base)}

@@ -44,13 +44,7 @@ export function ApplyForm({ jobId, companyName }: { jobId: string; companyName: 
         }}
       >
         {file ? `✓ ${file}` : '+ Déposer mon CV (PDF)'}
-        <input
-          type="file"
-          name="cv"
-          accept="application/pdf"
-          className="sr-only"
-          onChange={(e) => setFile(e.target.files?.[0]?.name ?? null)}
-        />
+        <input type="file" name="cv" accept="application/pdf" className="sr-only" onChange={(e) => setFile(e.target.files?.[0]?.name ?? null)} />
       </label>
       <textarea name="message" rows={3} className="textarea" placeholder="Quelques mots sur vous (facultatif)" maxLength={3000} />
       <label className="checkbox" style={{ fontSize: 12, color: 'var(--muted)' }}>
@@ -62,10 +56,17 @@ export function ApplyForm({ jobId, companyName }: { jobId: string; companyName: 
           {state.message}
         </div>
       ) : null}
-      <button type="submit" className="btn btn-brand" disabled={pending} style={{ justifyContent: 'center', padding: 14, borderRadius: 12, fontWeight: 800, fontSize: 15 }}>
+      <button
+        type="submit"
+        className="btn btn-brand"
+        disabled={pending}
+        style={{ justifyContent: 'center', padding: 14, borderRadius: 12, fontWeight: 800, fontSize: 15 }}
+      >
         {pending ? 'Envoi…' : 'Envoyer ma candidature'}
       </button>
-      <div style={{ fontSize: 11, color: 'var(--muted)' }}>Vos données sont transmises uniquement à l&apos;employeur (RGPD) et supprimées au plus tard 2 ans après votre candidature.</div>
+      <div style={{ fontSize: 11, color: 'var(--muted)' }}>
+        Vos données sont transmises uniquement à l&apos;employeur (RGPD) et supprimées au plus tard 2 ans après votre candidature.
+      </div>
     </form>
   );
 }

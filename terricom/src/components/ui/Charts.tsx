@@ -34,8 +34,7 @@ export function LineChart({
 }) {
   const mx = Math.max(10, ...current, ...(previous ?? [])) * 1.1;
   const n = Math.max(2, current.length);
-  const pts = (a: number[]) =>
-    a.map((v, i) => `${((i / (n - 1)) * 600).toFixed(1)},${(195 - (v / mx) * 180).toFixed(1)}`).join(' ');
+  const pts = (a: number[]) => a.map((v, i) => `${((i / (n - 1)) * 600).toFixed(1)},${(195 - (v / mx) * 180).toFixed(1)}`).join(' ');
   const area = `M0,200 L${pts(current).split(' ').join(' L')} L600,200 Z`;
   const pk = peakIndex ?? current.indexOf(Math.max(...current));
   return (
@@ -46,7 +45,15 @@ export function LineChart({
         <polyline points={pts(previous)} fill="none" stroke="#C9C2B2" strokeWidth={2} strokeDasharray="4 5" vectorEffect="non-scaling-stroke" />
       ) : null}
       {pk >= 0 && current.length ? (
-        <circle cx={(pk / (n - 1)) * 600} cy={195 - (current[pk] / mx) * 180} r={6} fill="#F4B266" stroke="#14201B" strokeWidth={2} vectorEffect="non-scaling-stroke" />
+        <circle
+          cx={(pk / (n - 1)) * 600}
+          cy={195 - (current[pk] / mx) * 180}
+          r={6}
+          fill="#F4B266"
+          stroke="#14201B"
+          strokeWidth={2}
+          vectorEffect="non-scaling-stroke"
+        />
       ) : null}
     </svg>
   );
@@ -161,7 +168,21 @@ export function Ring({
 }
 
 /** Barre horizontale étiquetée (sources de trafic, podium). */
-export function LabeledBar({ label, value, suffix = '%', color = 'var(--green)', max = 100, right }: { label: ReactNode; value: number; suffix?: string; color?: string; max?: number; right?: ReactNode }) {
+export function LabeledBar({
+  label,
+  value,
+  suffix = '%',
+  color = 'var(--green)',
+  max = 100,
+  right,
+}: {
+  label: ReactNode;
+  value: number;
+  suffix?: string;
+  color?: string;
+  max?: number;
+  right?: ReactNode;
+}) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, gap: 8 }}>

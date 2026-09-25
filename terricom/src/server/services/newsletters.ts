@@ -2,7 +2,7 @@ import { and, asc, count, desc, eq, gte, inArray, isNull, lte, ne, sql } from 'd
 import { PUBLIC_STATUSES } from '@/lib/constants';
 import { fmtEventBadge } from '@/lib/format';
 import { sized } from '@/lib/images';
-import { hmacSha256, randomToken } from '../crypto';
+import { hmacSha256, randomToken, safeEqual } from '../crypto';
 import { db } from '../db';
 import {
   audiences,
@@ -56,7 +56,9 @@ export async function resolveBlocks(territory: TerritoryLike, blocks: Newsletter
             communeSlug: communes.slug,
             communeName: communes.name,
             categorySlug: categories.slug,
-            lastPost: sql<string | null>`(select coalesce(p.promo_label || ' · ', '') || p.title from posts p where p.establishment_id = "establishments"."id" and p.status = 'PUBLISHED' and p.published_at >= now() - interval '30 days' order by p.published_at desc limit 1)`,
+            lastPost: sql<
+              string | null
+            >`(select coalesce(p.promo_label || ' · ', '') || p.title from posts p where p.establishment_id = "establishments"."id" and p.status = 'PUBLISHED' and p.published_at >= now() - interval '30 days' order by p.published_at desc limit 1)`,
           })
           .from(establishments)
           .innerJoin(communes, eq(communes.id, establishments.communeId))
@@ -65,7 +67,16 @@ export async function resolveBlocks(territory: TerritoryLike, blocks: Newsletter
       : Promise.resolve([]),
     postIds.length
       ? db
-          .select({ id: posts.id, title: posts.title, imageUrl: posts.imageUrl, estName: establishments.name, estCover: establishments.coverUrl, estSlug: establishments.slug, communeSlug: communes.slug, categorySlug: categories.slug })
+          .select({
+            id: posts.id,
+            title: posts.title,
+            imageUrl: posts.imageUrl,
+            estName: establishments.name,
+            estCover: establishments.coverUrl,
+            estSlug: establishments.slug,
+            communeSlug: communes.slug,
+            categorySlug: categories.slug,
+          })
           .from(posts)
           .leftJoin(establishments, eq(establishments.id, posts.establishmentId))
           .leftJoin(communes, eq(communes.id, establishments.communeId))
@@ -74,7 +85,15 @@ export async function resolveBlocks(territory: TerritoryLike, blocks: Newsletter
       : Promise.resolve([]),
     eventIds.length
       ? db
-          .select({ id: events.id, title: events.title, slug: events.slug, startsAt: events.startsAt, endsAt: events.endsAt, locationName: events.locationName, imageUrl: events.imageUrl })
+          .select({
+            id: events.id,
+            title: events.title,
+            slug: events.slug,
+            startsAt: events.startsAt,
+            endsAt: events.endsAt,
+            locationName: events.locationName,
+            imageUrl: events.imageUrl,
+          })
           .from(events)
           .where(and(eq(events.territoryId, territory.id), inArray(events.id, eventIds), eq(events.status, 'PUBLISHED')))
       : Promise.resolve([]),
@@ -85,7 +104,12 @@ export async function resolveBlocks(territory: TerritoryLike, blocks: Newsletter
   const out: ResolvedBlock[] = [];
   for (const b of blocks) {
     if (b.type === 'text') out.push({ type: 'text', text: b.text });
-    else if (b.type === 'cta') out.push({ type: 'cta', label: b.label, url: /^https?:\/\//.test(b.url) ? b.url : portalUrl(territory, b.url.replace(new RegExp(`^/${territory.slug}`), '')) });
+    else if (b.type === 'cta')
+      out.push({
+        type: 'cta',
+        label: b.label,
+        url: /^https?:\/\//.test(b.url) ? b.url : portalUrl(territory, b.url.replace(new RegExp(`^/${territory.slug}`), '')),
+      });
     else if (b.type === 'establishments') {
       const items = b.ids
         .map((id) => estById.get(id))
@@ -180,7 +204,15 @@ export async function autoCompose(territory: TerritoryLike, communeIds: string[]
     db
       .select({ id: events.id, title: events.title, startsAt: events.startsAt, locationName: events.locationName, imageUrl: events.imageUrl })
       .from(events)
-      .where(and(eq(events.territoryId, territory.id), eq(events.status, 'PUBLISHED'), gte(events.startsAt, now), lte(events.startsAt, in10), communeIds ? inArray(events.communeId, communeIds) : undefined))
+      .where(
+        and(
+          eq(events.territoryId, territory.id),
+          eq(events.status, 'PUBLISHED'),
+          gte(events.startsAt, now),
+          lte(events.startsAt, in10),
+          communeIds ? inArray(events.communeId, communeIds) : undefined,
+        ),
+      )
       .orderBy(desc(events.isFeatured), asc(events.startsAt))
       .limit(3),
     db
@@ -204,7 +236,12 @@ export async function autoCompose(territory: TerritoryLike, communeIds: string[]
   const lead = upcoming[0];
   const blocks: NewsletterBlock[] = [];
   if (upcoming.length > 1) blocks.push({ type: 'events', ids: upcoming.slice(1).map((e) => e.id), title: 'Aussi au programme' });
-  if (estIds.length) blocks.push({ type: 'establishments', ids: estIds, title: `${estIds.length === 1 ? 'Une adresse' : `${estIds.length === 2 ? 'Deux' : 'Trois'} adresses`} à découvrir` });
+  if (estIds.length)
+    blocks.push({
+      type: 'establishments',
+      ids: estIds,
+      title: `${estIds.length === 1 ? 'Une adresse' : `${estIds.length === 2 ? 'Deux' : 'Trois'} adresses`} à découvrir`,
+    });
   blocks.push({ type: 'cta', label: "Voir tout l'agenda", url: '/agenda' });
   const title = lead ? `Ce week-end : ${lead.title.charAt(0).toLowerCase()}${lead.title.slice(1)}` : `Les nouveautés de ${territory.name}`;
   const intro = lead
@@ -221,7 +258,7 @@ function signedClick(token: string, url: string): string {
 }
 
 export function verifyClick(token: string, url: string, sig: string): boolean {
-  return hmacSha256(env.SESSION_SECRET, `${token}|${url}`).slice(0, 16) === sig;
+  return safeEqual(hmacSha256(env.SESSION_SECRET, `${token}|${url}`).slice(0, 16), sig);
 }
 
 /** Prépare les envois (une ligne par destinataire) puis confie l'envoi au worker, par lots. */
@@ -242,7 +279,10 @@ export async function dispatchNewsletter(newsletterId: string): Promise<number> 
       .onConflictDoNothing();
   }
   const [{ total }] = await db.select({ total: count() }).from(newsletterDeliveries).where(eq(newsletterDeliveries.newsletterId, n.id));
-  await db.update(newsletters).set({ status: 'SENDING', statsRecipients: Number(total), updatedAt: new Date() }).where(eq(newsletters.id, n.id));
+  await db
+    .update(newsletters)
+    .set({ status: 'SENDING', statsRecipients: Number(total), updatedAt: new Date() })
+    .where(eq(newsletters.id, n.id));
   await enqueue('newsletter.send-batch', { newsletterId: n.id }, { dedupeKey: `nl-batch:${n.id}:0` });
   return Number(total);
 }
@@ -298,7 +338,10 @@ export async function sendNewsletterBatch(newsletterId: string, size = 200): Pro
       sent++;
     } catch (err) {
       logger.warn('newsletter.delivery_failed', { id: d.id, err: err instanceof Error ? err.message : String(err) });
-      await db.update(newsletterDeliveries).set({ status: 'FAILED', error: String(err).slice(0, 500) }).where(eq(newsletterDeliveries.id, d.id));
+      await db
+        .update(newsletterDeliveries)
+        .set({ status: 'FAILED', error: String(err).slice(0, 500) })
+        .where(eq(newsletterDeliveries.id, d.id));
     }
   }
   const [{ remaining }] = await db
@@ -334,7 +377,11 @@ export async function trackOpen(token: string): Promise<void> {
     .set({ openedAt: new Date() })
     .where(and(eq(newsletterDeliveries.token, token), isNull(newsletterDeliveries.openedAt)))
     .returning({ newsletterId: newsletterDeliveries.newsletterId });
-  if (d) await db.update(newsletters).set({ statsOpens: sql`${newsletters.statsOpens} + 1` }).where(eq(newsletters.id, d.newsletterId));
+  if (d)
+    await db
+      .update(newsletters)
+      .set({ statsOpens: sql`${newsletters.statsOpens} + 1` })
+      .where(eq(newsletters.id, d.newsletterId));
 }
 
 export async function trackClick(token: string): Promise<void> {
@@ -344,7 +391,11 @@ export async function trackClick(token: string): Promise<void> {
     .set({ clickedAt: new Date(), openedAt: sql`coalesce(${newsletterDeliveries.openedAt}, now())` })
     .where(and(eq(newsletterDeliveries.token, token), isNull(newsletterDeliveries.clickedAt)))
     .returning({ newsletterId: newsletterDeliveries.newsletterId });
-  if (d) await db.update(newsletters).set({ statsClicks: sql`${newsletters.statsClicks} + 1` }).where(eq(newsletters.id, d.newsletterId));
+  if (d)
+    await db
+      .update(newsletters)
+      .set({ statsClicks: sql`${newsletters.statsClicks} + 1` })
+      .where(eq(newsletters.id, d.newsletterId));
 }
 
 /** Taux cumulés des dernières lettres envoyées (ouverture, clics, désinscriptions). */
@@ -357,7 +408,14 @@ export async function recentRates(territoryId: string) {
       unsubscribes: sql<number>`coalesce(sum(${newsletters.statsUnsubscribes}), 0)::int`,
     })
     .from(newsletters)
-    .where(and(eq(newsletters.territoryId, territoryId), eq(newsletters.status, 'SENT'), isNull(newsletters.companyId), gte(newsletters.sentAt, new Date(Date.now() - 90 * 86_400_000))));
+    .where(
+      and(
+        eq(newsletters.territoryId, territoryId),
+        eq(newsletters.status, 'SENT'),
+        isNull(newsletters.companyId),
+        gte(newsletters.sentAt, new Date(Date.now() - 90 * 86_400_000)),
+      ),
+    );
   const base = Math.max(1, r?.recipients ?? 0);
   return { opens: (r?.opens ?? 0) / base, clicks: (r?.clicks ?? 0) / base, unsubscribes: (r?.unsubscribes ?? 0) / base, hasData: (r?.recipients ?? 0) > 0 };
 }

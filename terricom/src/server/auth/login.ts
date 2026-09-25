@@ -14,9 +14,7 @@ const LOCK_MINUTES = 15;
 // Empreinte factice : même coût de calcul que l'utilisateur existe ou non (pas d'énumération de comptes).
 let dummyHash: Promise<string> | null = null;
 
-export type LoginResult =
-  | { ok: true; userId: string; mfa: boolean }
-  | { ok: false; reason: 'invalid' | 'locked' | 'throttled' | 'disabled'; message: string };
+export type LoginResult = { ok: true; userId: string; mfa: boolean } | { ok: false; reason: 'invalid' | 'locked' | 'throttled' | 'disabled'; message: string };
 
 /** Vérification des identifiants, avec verrouillage progressif et journalisation. */
 export async function authenticate(emailRaw: string, password: string): Promise<LoginResult> {
@@ -88,7 +86,14 @@ export async function verifySecondFactor(userId: string, code: string): Promise<
       .update(users)
       .set({ mfaRecoveryCodes: user.mfaRecoveryCodes.filter((c) => c !== hash) })
       .where(eq(users.id, userId));
-    await audit({ actor: { user }, category: 'SECURITE', action: 'auth.recovery_code', summary: 'Connexion avec un code de secours', targetType: 'user', targetId: userId });
+    await audit({
+      actor: { user },
+      category: 'SECURITE',
+      action: 'auth.recovery_code',
+      summary: 'Connexion avec un code de secours',
+      targetType: 'user',
+      targetId: userId,
+    });
     return true;
   }
   return false;
@@ -114,7 +119,11 @@ export function safeNext(next: unknown): string | null {
 
 /** Jeton de réinitialisation de mot de passe (1 h, usage unique). */
 export async function createPasswordResetToken(email: string): Promise<{ token: string; userId: string } | null> {
-  const [user] = await db.select().from(users).where(and(eq(users.email, email.trim().toLowerCase()), eq(users.status, 'ACTIVE'))).limit(1);
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(and(eq(users.email, email.trim().toLowerCase()), eq(users.status, 'ACTIVE')))
+    .limit(1);
   if (!user) return null;
   const token = randomToken(32);
   await db.insert(tokens).values({

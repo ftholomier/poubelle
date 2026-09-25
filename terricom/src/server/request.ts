@@ -16,9 +16,7 @@ export async function requestInfo() {
 }
 
 export function isBot(userAgent: string): boolean {
-  return /bot|crawl|spider|slurp|facebookexternalhit|embedly|preview|lighthouse|headless|monitor|curl|wget|python-requests|go-http-client/i.test(
-    userAgent,
-  );
+  return /bot|crawl|spider|slurp|facebookexternalhit|embedly|preview|lighthouse|headless|monitor|curl|wget|python-requests|go-http-client/i.test(userAgent);
 }
 
 export function deviceType(userAgent: string): 'mobile' | 'tablet' | 'desktop' {
@@ -30,6 +28,8 @@ export function deviceType(userAgent: string): 'mobile' | 'tablet' | 'desktop' {
 /** Origine publique de la requête (derrière l'ingress : en-têtes X-Forwarded-*). */
 export function publicOrigin(h: Headers): string {
   const host = (h.get('x-forwarded-host') ?? h.get('host') ?? 'localhost:3000').split(',')[0].trim();
-  const proto = (h.get('x-forwarded-proto') ?? '').split(',')[0].trim() || (/^(localhost|127\.|\[::1\])/.test(host) || host.endsWith('.localhost') || host.includes('.localhost:') ? 'http' : 'https');
+  const proto =
+    (h.get('x-forwarded-proto') ?? '').split(',')[0].trim() ||
+    (/^(localhost|127\.|\[::1\])/.test(host) || host.endsWith('.localhost') || host.includes('.localhost:') ? 'http' : 'https');
   return `${proto}://${host}`;
 }

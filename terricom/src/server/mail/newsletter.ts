@@ -43,7 +43,9 @@ export function renderNewsletter(v: NewsletterView): { html: string; text: strin
       const title = b.title ? `<div style="font-family:${DISPLAY};font-weight:800;font-size:16px;color:#14201B;margin:6px 0 10px">${esc(b.title)}</div>` : '';
       const cards = b.items
         .map(
-          (it) => `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #EFEBE2;border-radius:10px;margin:0 0 10px;border-collapse:separate;overflow:hidden"><tr>
+          (
+            it,
+          ) => `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #EFEBE2;border-radius:10px;margin:0 0 10px;border-collapse:separate;overflow:hidden"><tr>
 <td width="90" style="width:90px;padding:0;vertical-align:top">${
             it.image
               ? `<a href="${esc(link(it.url))}"><img src="${esc(it.image)}" width="90" height="80" alt="" style="display:block;width:90px;height:80px;object-fit:cover;border:0;border-radius:10px 0 0 10px"></a>`
@@ -87,7 +89,11 @@ ${pixel}
     v.intro,
     '',
     ...v.blocks.flatMap((b) =>
-      b.type === 'text' ? [b.text, ''] : b.type === 'cta' ? [`${b.label} : ${b.url}`, ''] : [...(b.title ? [b.title] : []), ...b.items.map((i) => `• ${i.name} — ${i.text} (${i.url})`), ''],
+      b.type === 'text'
+        ? [b.text, '']
+        : b.type === 'cta'
+          ? [`${b.label} : ${b.url}`, '']
+          : [...(b.title ? [b.title] : []), ...b.items.map((i) => `• ${i.name} — ${i.text} (${i.url})`), ''],
     ),
     `Se désinscrire : ${v.unsubscribeUrl}`,
   ].join('\n');

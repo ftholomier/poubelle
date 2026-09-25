@@ -6,6 +6,9 @@ import { MODULE_ORDER, MODULES } from '@/lib/constants';
 import { fmtEuros } from '@/lib/format';
 import { getPlans } from '@/server/services/billing';
 
+// Rendu à la demande : chiffres réels et configuration lue à l'exécution (jamais figés à la compilation).
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Tarifs',
   description:

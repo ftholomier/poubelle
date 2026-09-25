@@ -22,21 +22,19 @@ export function ActionForm({
 }) {
   const toast = useToast();
   const [resetKey, setResetKey] = useState(0);
-  const [state, run, pending] = useActionState<ActionState, FormData>(async (prev, form) => {
-    const res = await action(prev, form);
-    if (res.status === 'ok') {
-      if (res.message) toast(res.message);
-      if (resetOnSuccess) setResetKey((k) => k + 1);
-    }
-    return res;
-  }, { status: 'idle' });
+  const [state, run, pending] = useActionState<ActionState, FormData>(
+    async (prev, form) => {
+      const res = await action(prev, form);
+      if (res.status === 'ok') {
+        if (res.message) toast(res.message);
+        if (resetOnSuccess) setResetKey((k) => k + 1);
+      }
+      return res;
+    },
+    { status: 'idle' },
+  );
   return (
-    <form
-      action={run}
-      style={style}
-      className={className}
-      key={resetKey}
-    >
+    <form action={run} style={style} className={className} key={resetKey}>
       {typeof children === 'function' ? children(pending) : children}
       {state.status === 'error' ? (
         <div className="alert alert-error" role="alert" style={{ marginTop: 8 }}>

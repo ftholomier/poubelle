@@ -26,7 +26,19 @@ export function PhotoManager({ estId, photos, max }: { estId: string; photos: It
           <div key={ph.id} style={{ position: 'relative', aspectRatio: '1', borderRadius: 12, overflow: 'hidden', background: 'var(--sand)' }}>
             <Photo src={ph.src} alt="" label={String(i + 1)} />
             {i === 0 || ph.tag ? (
-              <span style={{ position: 'absolute', left: 6, top: 6, background: 'var(--amber)', fontSize: 10, fontWeight: 800, padding: '2px 6px', borderRadius: 4, color: 'var(--ink)' }}>
+              <span
+                style={{
+                  position: 'absolute',
+                  left: 6,
+                  top: 6,
+                  background: 'var(--amber)',
+                  fontSize: 10,
+                  fontWeight: 800,
+                  padding: '2px 6px',
+                  borderRadius: 4,
+                  color: 'var(--ink)',
+                }}
+              >
                 {i === 0 ? 'Principale' : ph.tag}
               </span>
             ) : null}
@@ -82,7 +94,14 @@ export function PhotoManager({ estId, photos, max }: { estId: string; photos: It
               <form action={photoAction} onSubmit={(e) => !confirm('Supprimer cette photo ?') && e.preventDefault()}>
                 <input type="hidden" name="estId" value={estId} />
                 <input type="hidden" name="photoId" value={ph.id} />
-                <button name="op" value="delete" className="btn btn-light btn-xs" aria-label="Supprimer" title="Supprimer" style={{ padding: 4, color: 'var(--danger-fg)' }}>
+                <button
+                  name="op"
+                  value="delete"
+                  className="btn btn-light btn-xs"
+                  aria-label="Supprimer"
+                  title="Supprimer"
+                  style={{ padding: 4, color: 'var(--danger-fg)' }}
+                >
                   <Icon name="trash" size={13} />
                 </button>
               </form>

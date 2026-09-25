@@ -42,18 +42,21 @@ export function PostStudio({
   const [selected, setSelected] = useState<Set<string>>(new Set(['FICHE', 'COMMUNE', 'TERRITOIRE']));
   const [schedule, setSchedule] = useState(false);
   const composerRef = useRef<HTMLDivElement>(null);
-  const [state, action, pending] = useActionState<ActionState, FormData>(async (prev, form) => {
-    const res = await createPost(prev, form);
-    if (res.status === 'ok') {
-      toast(res.message ?? 'Publié');
-      setVariants(null);
-      setDraft('');
-      setTitle('');
-      setBody('');
-      setSchedule(false);
-    }
-    return res;
-  }, { status: 'idle' });
+  const [state, action, pending] = useActionState<ActionState, FormData>(
+    async (prev, form) => {
+      const res = await createPost(prev, form);
+      if (res.status === 'ok') {
+        toast(res.message ?? 'Publié');
+        setVariants(null);
+        setDraft('');
+        setTitle('');
+        setBody('');
+        setSchedule(false);
+      }
+      return res;
+    },
+    { status: 'idle' },
+  );
 
   const generate = () =>
     startGen(async () => {
@@ -128,7 +131,16 @@ export function PostStudio({
             type="button"
             onClick={generate}
             disabled={generating || draft.trim().length < 3}
-            style={{ border: 0, background: 'var(--ink)', color: 'var(--amber)', padding: '0 20px', minHeight: 50, borderRadius: 12, fontWeight: 800, fontSize: 14 }}
+            style={{
+              border: 0,
+              background: 'var(--ink)',
+              color: 'var(--amber)',
+              padding: '0 20px',
+              minHeight: 50,
+              borderRadius: 12,
+              fontWeight: 800,
+              fontSize: 14,
+            }}
           >
             {generating ? 'Rédaction…' : '✦ Rédiger pour tous mes canaux'}
           </button>
@@ -202,7 +214,9 @@ export function PostStudio({
             </div>
           ))}
           <div style={{ gridColumn: '1 / -1', fontSize: 12, color: 'var(--muted)' }}>
-            {variants.source === 'ai' ? '✦ Rédigé par l’assistant IA : relisez avant de publier.' : 'Proposition générée automatiquement : personnalisez-la avant de publier.'}
+            {variants.source === 'ai'
+              ? '✦ Rédigé par l’assistant IA : relisez avant de publier.'
+              : 'Proposition générée automatiquement : personnalisez-la avant de publier.'}
           </div>
         </div>
       ) : null}
@@ -228,8 +242,24 @@ export function PostStudio({
           }
         />
         <b style={{ fontSize: 16 }}>Votre publication</b>
-        <input name="title" className="input" placeholder="Titre (ex. Le pain au Comté est de retour)" value={title} onChange={(e) => setTitle(e.target.value)} required maxLength={255} />
-        <textarea name="body" className="textarea" rows={4} placeholder="Texte affiché sur votre fiche" value={body} onChange={(e) => setBody(e.target.value)} maxLength={5000} />
+        <input
+          name="title"
+          className="input"
+          placeholder="Titre (ex. Le pain au Comté est de retour)"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          maxLength={255}
+        />
+        <textarea
+          name="body"
+          className="textarea"
+          rows={4}
+          placeholder="Texte affiché sur votre fiche"
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+          maxLength={5000}
+        />
         {kind === 'PROMO' ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 10 }}>
             <input name="promoLabel" className="input" placeholder="Offre en gros caractères (ex. -10 %)" maxLength={32} />

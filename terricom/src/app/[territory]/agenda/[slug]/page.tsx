@@ -28,7 +28,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { portal, data } = await load(territory, slug);
   if (!data) return { title: 'Événement introuvable', robots: { index: false } };
   const ev = data.event;
-  const description = truncate(`${fmtLongDate(ev.startsAt)}, ${fmtEventHours(ev.startsAt, ev.endsAt)} · ${ev.locationName ?? ''}. ${ev.summary ?? ev.description}`, 158);
+  const description = truncate(
+    `${fmtLongDate(ev.startsAt)}, ${fmtEventHours(ev.startsAt, ev.endsAt)} · ${ev.locationName ?? ''}. ${ev.summary ?? ev.description}`,
+    158,
+  );
   const image = sized(ev.imageUrl ?? data.organizer?.coverUrl, 1200);
   return {
     title: ev.title,
@@ -75,7 +78,10 @@ export default async function EventPage({ params }: Props) {
           organizer: organizer ? { name: organizer.name, url: portalUrl(t, organizer.path) } : ev.organizerName ? { name: ev.organizerName } : null,
         })}
       />
-      <div className="container" style={{ paddingTop: 18, display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', fontSize: 13, color: 'var(--muted)' }}>
+      <div
+        className="container"
+        style={{ paddingTop: 18, display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', fontSize: 13, color: 'var(--muted)' }}
+      >
         <Link href={`${base}/agenda`} style={{ color: 'var(--green)', fontWeight: 700 }}>
           ← Agenda
         </Link>
@@ -89,7 +95,17 @@ export default async function EventPage({ params }: Props) {
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(20,32,27,0) 35%,rgba(20,32,27,.9))' }} />
           <span
             className="display"
-            style={{ position: 'absolute', left: 22, top: 22, background: k.bg, color: 'var(--ink)', fontSize: 14, padding: '7px 12px', borderRadius: 10, transform: 'rotate(-3deg)' }}
+            style={{
+              position: 'absolute',
+              left: 22,
+              top: 22,
+              background: k.bg,
+              color: 'var(--ink)',
+              fontSize: 14,
+              padding: '7px 12px',
+              borderRadius: 10,
+              transform: 'rotate(-3deg)',
+            }}
           >
             {k.label}
           </span>
@@ -160,7 +176,10 @@ export default async function EventPage({ params }: Props) {
         </aside>
       </div>
 
-      <div className="container split" style={{ paddingTop: 30, paddingBottom: 60, ['--cols' as string]: 'minmax(0,1.6fr) minmax(320px,1fr)', ['--align' as string]: 'start' }}>
+      <div
+        className="container split"
+        style={{ paddingTop: 30, paddingBottom: 60, ['--cols' as string]: 'minmax(0,1.6fr) minmax(320px,1fr)', ['--align' as string]: 'start' }}
+      >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 26, minWidth: 0 }}>
           <p style={{ fontSize: 19, lineHeight: 1.6, margin: 0, textWrap: 'pretty', whiteSpace: 'pre-line' }}>{ev.description || ev.summary}</p>
           {program.length ? (
@@ -169,7 +188,10 @@ export default async function EventPage({ params }: Props) {
                 Au programme
               </h2>
               {program.map((p, i) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '140px 1fr', gap: 16, padding: '14px 0', borderTop: '1px solid var(--line)', fontSize: 15 }}>
+                <div
+                  key={i}
+                  style={{ display: 'grid', gridTemplateColumns: '140px 1fr', gap: 16, padding: '14px 0', borderTop: '1px solid var(--line)', fontSize: 15 }}
+                >
                   <b style={{ color: 'var(--brick)' }}>{p.label}</b>
                   <span>{p.text}</span>
                 </div>

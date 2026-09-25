@@ -57,7 +57,12 @@ export default async function AccountLayout({ children }: { children: ReactNode 
               fallback="Mon compte"
             />
             <div style={{ marginLeft: 'auto' }}>
-              <UserMenu name={name} email={actor.user.email} avatarUrl={actor.user.avatarUrl} links={spaces.flatMap((s) => ('href' in s ? [{ href: s.href, label: s.label }] : []))} />
+              <UserMenu
+                name={name}
+                email={actor.user.email}
+                avatarUrl={actor.user.avatarUrl}
+                links={spaces.flatMap((s) => ('href' in s ? [{ href: s.href, label: s.label }] : []))}
+              />
             </div>
           </header>
           {children}

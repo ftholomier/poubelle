@@ -46,11 +46,7 @@ function weekdayOf(date: string): number {
 }
 
 /** Créneaux effectifs d'une date donnée (exceptions prioritaires). Minutes depuis minuit. */
-export function slotsForDate(
-  hours: HoursSlot[],
-  exceptions: HoursException[],
-  date: string,
-): { from: number; to: number }[] {
+export function slotsForDate(hours: HoursSlot[], exceptions: HoursException[], date: string): { from: number; to: number }[] {
   const exc = exceptions.filter((e) => e.date === date);
   if (exc.length) {
     if (exc.some((e) => e.closed)) return [];
@@ -95,8 +91,7 @@ export function openStatus(hours: HoursSlot[], exceptions: HoursException[], now
   const p = parisParts(now);
   const minute = p.hour * 60 + p.minute;
 
-  const openTonight =
-    isOpenAtMinute(hours, exceptions, today, 20 * 60) || isOpenAtMinute(hours, exceptions, today, 21 * 60 + 30);
+  const openTonight = isOpenAtMinute(hours, exceptions, today, 20 * 60) || isOpenAtMinute(hours, exceptions, today, 21 * 60 + 30);
 
   if (unknown) {
     return {
@@ -164,10 +159,7 @@ export function openStatus(hours: HoursSlot[], exceptions: HoursException[], now
 }
 
 /** Lignes du tableau d'horaires hebdomadaire (Lundi … Dimanche). */
-export function weeklyRows(
-  hours: HoursSlot[],
-  now: Date = new Date(),
-): { day: string; label: string; isToday: boolean; closed: boolean }[] {
+export function weeklyRows(hours: HoursSlot[], now: Date = new Date()): { day: string; label: string; isToday: boolean; closed: boolean }[] {
   const todayWd = parisParts(now).weekday;
   return WEEKDAYS.map((day, wd) => {
     const slots = hours

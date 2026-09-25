@@ -26,7 +26,12 @@ export default async function AppointmentsPage({ params }: Props) {
       {!est.appointmentsEnabled ? (
         <div className="alert alert-info">
           La prise de rendez-vous n&apos;est pas activée sur votre fiche.{' '}
-          {limits.appointments ? <Link href={`${base}/fiche`}>Activez-la dans « Ma fiche »</Link> : <Link href={`${base}/offre`}>Incluse dans l’offre Premium</Link>}.
+          {limits.appointments ? (
+            <Link href={`${base}/fiche`}>Activez-la dans « Ma fiche »</Link>
+          ) : (
+            <Link href={`${base}/offre`}>Incluse dans l’offre Premium</Link>
+          )}
+          .
         </div>
       ) : null}
       {list.length ? (

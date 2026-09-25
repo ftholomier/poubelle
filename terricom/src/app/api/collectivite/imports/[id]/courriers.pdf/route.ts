@@ -11,7 +11,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   if (!ctx) return new NextResponse('Non autorisé', { status: 401 });
   const { id } = await params;
   if (!/^[0-9a-f-]{36}$/.test(id)) return new NextResponse('Introuvable', { status: 404 });
-  const [batch] = await db.select({ report: importBatches.report }).from(importBatches).where(and(eq(importBatches.id, id), eq(importBatches.territoryId, ctx.territory.id))).limit(1);
+  const [batch] = await db
+    .select({ report: importBatches.report })
+    .from(importBatches)
+    .where(and(eq(importBatches.id, id), eq(importBatches.territoryId, ctx.territory.id)))
+    .limit(1);
   const pdf = batch ? await invitationLetters(ctx, batch.report.letterIds ?? []) : null;
   if (!pdf) return new NextResponse('Aucun courrier à imprimer', { status: 404 });
   return new NextResponse(Buffer.from(pdf), {

@@ -1,0 +1,62 @@
+# Cloisonnement réseau : seules les entrées attendues atteignent les pods.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+spec:
+  podSelector: {}
+  policyTypes: ['Ingress']
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: web-from-ingress
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: terricom-web
+  policyTypes: ['Ingress']
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+      ports:
+        - port: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: clamav-from-app
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: terricom-clamav
+  policyTypes: ['Ingress']
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/part-of: terricom
+      ports:
+        - port: 3310
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: worker-health
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: terricom-worker
+  policyTypes: ['Ingress']
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+      ports:
+        - port: 9090

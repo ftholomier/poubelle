@@ -32,7 +32,12 @@ export default async function FicheEditorPage({ params }: Props) {
   const socials = (est.socials ?? {}) as Record<string, string | undefined>;
   const audit = [...completeness.items].sort((a, b) => Number(a.ok) - Number(b.ok)).slice(0, 7);
   const url = portalUrl(ctx.territory, est.path);
-  const crumbs = url.replace(/^https?:\/\//, '').split('/').filter(Boolean).slice(0, -1).join(' › ');
+  const crumbs = url
+    .replace(/^https?:\/\//, '')
+    .split('/')
+    .filter(Boolean)
+    .slice(0, -1)
+    .join(' › ');
   const today = weeklyRows(est.hours).find((r) => r.isToday);
   const seoTitle = `${est.name} à ${est.commune.name} – ${est.tagline ?? est.activity}`;
   const snippet = [
@@ -71,7 +76,13 @@ export default async function FicheEditorPage({ params }: Props) {
             appointmentsEnabled: est.appointmentsEnabled,
           }}
           hours={est.hours}
-          exceptions={est.exceptions.map((x) => ({ date: x.date, closed: x.closed, opensAt: x.opensAt?.slice(0, 5) ?? null, closesAt: x.closesAt?.slice(0, 5) ?? null, label: x.label ?? null }))}
+          exceptions={est.exceptions.map((x) => ({
+            date: x.date,
+            closed: x.closed,
+            opensAt: x.opensAt?.slice(0, 5) ?? null,
+            closesAt: x.closesAt?.slice(0, 5) ?? null,
+            label: x.label ?? null,
+          }))}
           attributes={est.attributes.map((a) => a.slug)}
           categories={cats}
           allAttributes={attrs}
@@ -82,7 +93,14 @@ export default async function FicheEditorPage({ params }: Props) {
             <ProductManager
               key="products"
               estId={est.id}
-              products={est.products.map((pr) => ({ id: pr.id, name: pr.name, priceText: pr.priceText, description: pr.description, imageUrl: pr.imageUrl, kind: pr.kind }))}
+              products={est.products.map((pr) => ({
+                id: pr.id,
+                name: pr.name,
+                priceText: pr.priceText,
+                description: pr.description,
+                imageUrl: pr.imageUrl,
+                kind: pr.kind,
+              }))}
             />
           }
         />
@@ -102,13 +120,27 @@ export default async function FicheEditorPage({ params }: Props) {
             ))}
           </div>
           <div className="card" style={{ borderRadius: 18, padding: 18, display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.06em', color: 'var(--muted)', textTransform: 'uppercase' }}>Aperçu moteur de recherche</div>
+            <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.06em', color: 'var(--muted)', textTransform: 'uppercase' }}>
+              Aperçu moteur de recherche
+            </div>
             <div style={{ fontSize: 12, color: 'var(--muted-3)' }}>{crumbs}</div>
             <div style={{ fontSize: 18, color: '#2A4FA8', lineHeight: 1.25 }}>{truncate(seoTitle, 70)}</div>
-            <div style={{ fontSize: 13, color: '#4A4F4B', lineHeight: 1.45 }}>{truncate(snippet, 160) || 'Ajoutez une description pour enrichir cet extrait.'}</div>
+            <div style={{ fontSize: 13, color: '#4A4F4B', lineHeight: 1.45 }}>
+              {truncate(snippet, 160) || 'Ajoutez une description pour enrichir cet extrait.'}
+            </div>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 4 }}>
               {['Schema.org LocalBusiness ✓', 'OpenGraph ✓', indexed ? 'Sitemap ✓' : 'Sitemap : description requise'].map((b) => (
-                <span key={b} style={{ fontSize: 11, fontWeight: 700, background: b.includes('requise') ? 'var(--warn-bg)' : 'var(--mint)', color: b.includes('requise') ? 'var(--warn-fg)' : 'var(--green)', padding: '3px 8px', borderRadius: 6 }}>
+                <span
+                  key={b}
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    background: b.includes('requise') ? 'var(--warn-bg)' : 'var(--mint)',
+                    color: b.includes('requise') ? 'var(--warn-fg)' : 'var(--green)',
+                    padding: '3px 8px',
+                    borderRadius: 6,
+                  }}
+                >
                   {b}
                 </span>
               ))}

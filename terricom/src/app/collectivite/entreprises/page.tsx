@@ -34,11 +34,24 @@ function qs(sp: Record<string, string | undefined>, patch: Record<string, string
 }
 
 async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefined }) {
-  const batch = lot && /^[0-9a-f-]{36}$/.test(lot)
-    ? (await db.select().from(importBatches).where(and(eq(importBatches.id, lot), eq(importBatches.territoryId, ctx.territory.id))).limit(1))[0]
-    : undefined;
+  const batch =
+    lot && /^[0-9a-f-]{36}$/.test(lot)
+      ? (
+          await db
+            .select()
+            .from(importBatches)
+            .where(and(eq(importBatches.id, lot), eq(importBatches.territoryId, ctx.territory.id)))
+            .limit(1)
+        )[0]
+      : undefined;
   const history = await db
-    .select({ id: importBatches.id, filename: importBatches.filename, status: importBatches.status, report: importBatches.report, createdAt: importBatches.createdAt })
+    .select({
+      id: importBatches.id,
+      filename: importBatches.filename,
+      status: importBatches.status,
+      report: importBatches.report,
+      createdAt: importBatches.createdAt,
+    })
     .from(importBatches)
     .where(eq(importBatches.territoryId, ctx.territory.id))
     .orderBy(desc(importBatches.createdAt))
@@ -48,7 +61,15 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
       {n} · {label}
     </span>
   );
-  const panel = { background: 'var(--ink)', color: 'var(--cream)', borderRadius: 20, padding: 22, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 18 } as const;
+  const panel = {
+    background: 'var(--ink)',
+    color: 'var(--cream)',
+    borderRadius: 20,
+    padding: 22,
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))',
+    gap: 18,
+  } as const;
   if (!batch) {
     return (
       <section style={panel} aria-label="Importer des établissements">
@@ -62,7 +83,18 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
             Récupère les établissements actifs de vos {ctx.communes.length} communes depuis l&apos;API publique Recherche d&apos;entreprises (données INSEE).
           </p>
           <form action={startSireneImportAction}>
-            <button type="submit" style={{ border: '1.5px solid var(--dark-4)', background: 'transparent', color: 'var(--cream)', padding: '10px 14px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }}>
+            <button
+              type="submit"
+              style={{
+                border: '1.5px solid var(--dark-4)',
+                background: 'transparent',
+                color: 'var(--cream)',
+                padding: '10px 14px',
+                borderRadius: 10,
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
               Interroger la base SIRENE
             </button>
           </form>
@@ -71,9 +103,15 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
           {step(3, 'DERNIERS IMPORTS')}
           {history.length ? (
             history.map((h) => (
-              <Link key={h.id} href={`/collectivite/entreprises?import=1&lot=${h.id}`} style={{ color: 'var(--cream)', display: 'flex', justifyContent: 'space-between', gap: 8 }}>
+              <Link
+                key={h.id}
+                href={`/collectivite/entreprises?import=1&lot=${h.id}`}
+                style={{ color: 'var(--cream)', display: 'flex', justifyContent: 'space-between', gap: 8 }}
+              >
                 <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.filename}</span>
-                <span style={{ color: 'var(--sage-2)', whiteSpace: 'nowrap' }}>{h.status === 'COMMITTED' ? `${h.report.created ?? 0} créées` : h.status === 'FAILED' ? 'échec' : 'à valider'}</span>
+                <span style={{ color: 'var(--sage-2)', whiteSpace: 'nowrap' }}>
+                  {h.status === 'COMMITTED' ? `${h.report.created ?? 0} créées` : h.status === 'FAILED' ? 'échec' : 'à valider'}
+                </span>
               </Link>
             ))
           ) : (
@@ -86,7 +124,17 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
   if (batch.status === 'PENDING' || batch.status === 'RUNNING') {
     return (
       <section style={{ ...panel, display: 'flex', alignItems: 'center', gap: 12 }}>
-        <span aria-hidden="true" style={{ width: 18, height: 18, borderRadius: '50%', border: '3px solid var(--dark-4)', borderTopColor: 'var(--amber)', animation: 'spin 1s linear infinite' }} />
+        <span
+          aria-hidden="true"
+          style={{
+            width: 18,
+            height: 18,
+            borderRadius: '50%',
+            border: '3px solid var(--dark-4)',
+            borderTopColor: 'var(--amber)',
+            animation: 'spin 1s linear infinite',
+          }}
+        />
         <span>{batch.source === 'SIRENE' ? 'Interrogation de la base SIRENE, commune par commune…' : 'Création des fiches en cours…'}</span>
         <ImportPoller />
       </section>
@@ -107,7 +155,9 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
   if (batch.status === 'COMMITTED') {
     return (
       <section style={{ ...panel, display: 'flex', flexDirection: 'column', gap: 8 }}>
-        <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', color: 'var(--amber)' }}>IMPORT TERMINÉ · {fmtStamp(batch.committedAt ?? batch.updatedAt)}</span>
+        <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', color: 'var(--amber)' }}>
+          IMPORT TERMINÉ · {fmtStamp(batch.committedAt ?? batch.updatedAt)}
+        </span>
         <b style={{ fontSize: 18 }}>
           {fmtInt(r.created ?? 0)} fiches précréées · {fmtInt(r.updated ?? 0)} fiches complétées
           {r.invited ? ` · ${fmtInt(r.invited)} invitations envoyées` : ''}
@@ -128,7 +178,11 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
       </section>
     );
   }
-  const cats = await db.select({ id: categories.id, name: categories.name }).from(categories).where(or(isNull(categories.territoryId), eq(categories.territoryId, ctx.territory.id))).orderBy(asc(categories.name));
+  const cats = await db
+    .select({ id: categories.id, name: categories.name })
+    .from(categories)
+    .where(or(isNull(categories.territoryId), eq(categories.territoryId, ctx.territory.id)))
+    .orderBy(asc(categories.name));
   const mapped = IMPORT_FIELDS.filter((f) => batch.mapping[f.key]);
   return (
     <section style={panel} aria-label="Importer des établissements">
@@ -157,7 +211,14 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
         <details>
           <summary style={{ cursor: 'pointer', color: 'var(--amber)', fontWeight: 700 }}>Ajuster ({mapped.length} colonnes reconnues)</summary>
           <div style={{ marginTop: 8 }}>
-            <MappingForm batchId={batch.id} headers={batch.headers} fields={IMPORT_FIELDS} mapping={batch.mapping} categories={cats} defaultCategoryId={batch.defaultCategoryId} />
+            <MappingForm
+              batchId={batch.id}
+              headers={batch.headers}
+              fields={IMPORT_FIELDS}
+              mapping={batch.mapping}
+              categories={cats}
+              defaultCategoryId={batch.defaultCategoryId}
+            />
           </div>
         </details>
       </div>
@@ -251,20 +312,32 @@ export default async function EstablishmentsPage({ searchParams }: Props) {
   const totalN = Number(total);
   const pages = Math.max(1, Math.ceil(totalN / PAGE_SIZE));
   const pageLinks = [...new Set([1, page - 1, page, page + 1, pages].filter((p) => p >= 1 && p <= pages))].sort((a, b) => a - b);
-  const exportHref = qs({ statut: sp.statut, q: q || undefined, commune: sp.commune, filtre: sp.filtre }, {}).replace('/collectivite/entreprises', '/api/collectivite/entreprises.csv');
+  const exportHref = qs({ statut: sp.statut, q: q || undefined, commune: sp.commune, filtre: sp.filtre }, {}).replace(
+    '/collectivite/entreprises',
+    '/api/collectivite/entreprises.csv',
+  );
 
   return (
     <div className="app-content" style={{ gap: 16 }}>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
         {chips.map((c) => (
-          <Link key={c.label} href={qs(sp, { statut: c.key, page: null })} className="bo-chip" aria-current={(sp.statut ?? null) === c.key ? 'true' : undefined}>
+          <Link
+            key={c.label}
+            href={qs(sp, { statut: c.key, page: null })}
+            className="bo-chip"
+            aria-current={(sp.statut ?? null) === c.key ? 'true' : undefined}
+          >
             {c.label}
             <small>{fmtInt(c.n)}</small>
           </Link>
         ))}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {ctx.access === 'ADMIN' ? (
-            <Link href={sp.import ? qs(sp, { import: null, lot: null }) : qs(sp, { import: '1' })} className="btn btn-outline btn-sm" style={{ border: '1.5px solid var(--ink)', color: 'var(--ink)' }}>
+            <Link
+              href={sp.import ? qs(sp, { import: null, lot: null }) : qs(sp, { import: '1' })}
+              className="btn btn-outline btn-sm"
+              style={{ border: '1.5px solid var(--ink)', color: 'var(--ink)' }}
+            >
               ↥ Importer (CSV / SIRENE)
             </Link>
           ) : null}

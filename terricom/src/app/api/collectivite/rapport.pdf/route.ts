@@ -21,7 +21,11 @@ export async function GET(req: NextRequest) {
     accent: ctx.territory.colorAccent,
     periodLabel: PERIODS[period].label,
     kpis: [
-      { label: 'Visiteurs', value: fmtInt(s.kpis.visitors), detail: s.growth !== null ? `${s.growth >= 0 ? '+' : ''}${s.growth} % depuis le lancement` : undefined },
+      {
+        label: 'Visiteurs',
+        value: fmtInt(s.kpis.visitors),
+        detail: s.growth !== null ? `${s.growth >= 0 ? '+' : ''}${s.growth} % depuis le lancement` : undefined,
+      },
       { label: 'Recherches', value: fmtInt(s.kpis.searches), detail: `dont ${nlShare} % en langage naturel` },
       { label: 'Fiches consultées', value: fmtInt(s.kpis.est_views) },
       { label: 'Clics téléphone', value: fmtInt(s.kpis.calls) },
@@ -39,7 +43,13 @@ export async function GET(req: NextRequest) {
     signal: s.signal,
     communes: [...s.communesData].sort((a, b) => b.total - a.total).filter((c) => !s.commune || c.id === s.commune),
   });
-  await audit({ actor: { user: ctx.actor.user }, category: 'CONFIGURATION', action: 'report.generated', summary: `Rapport d'activité généré (${PERIODS[period].label})`, territoryId: ctx.territory.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'report.generated',
+    summary: `Rapport d'activité généré (${PERIODS[period].label})`,
+    territoryId: ctx.territory.id,
+  });
   return new NextResponse(Buffer.from(bytes), {
     headers: {
       'content-type': 'application/pdf',

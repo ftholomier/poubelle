@@ -32,7 +32,9 @@ export default async function ConfirmPage({ params, searchParams }: Props) {
             <h1 className="h-page" style={{ fontSize: 36, margin: 0 }}>
               Ce lien n&apos;est plus valide
             </h1>
-            <p style={{ fontSize: 17, color: 'var(--muted)', margin: 0 }}>Il a peut-être déjà été utilisé. Vous pouvez vous réinscrire depuis la page d&apos;accueil.</p>
+            <p style={{ fontSize: 17, color: 'var(--muted)', margin: 0 }}>
+              Il a peut-être déjà été utilisé. Vous pouvez vous réinscrire depuis la page d&apos;accueil.
+            </p>
           </>
         )}
         <Link href={portal.base || '/'} className="btn btn-dark">

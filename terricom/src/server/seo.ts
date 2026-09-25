@@ -181,7 +181,13 @@ export function jobPostingJsonLd(j: {
     hiringOrganization: { '@type': 'Organization', name: j.company.name, sameAs: j.company.url, logo: j.company.logo ?? undefined },
     jobLocation: {
       '@type': 'Place',
-      address: { '@type': 'PostalAddress', streetAddress: j.street ?? undefined, addressLocality: j.locality, postalCode: j.postalCode ?? undefined, addressCountry: 'FR' },
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: j.street ?? undefined,
+        addressLocality: j.locality,
+        postalCode: j.postalCode ?? undefined,
+        addressCountry: 'FR',
+      },
     },
     directApply: true,
   });
@@ -213,8 +219,5 @@ function prune<T>(v: T): T {
 
 /** Sérialisation sûre pour une balise <script type="application/ld+json">. */
 export function jsonLdString(data: unknown): string {
-  return JSON.stringify(data)
-    .replace(/</g, '\\u003c')
-    .replaceAll(String.fromCharCode(0x2028), '\\u2028')
-    .replaceAll(String.fromCharCode(0x2029), '\\u2029');
+  return JSON.stringify(data).replace(/</g, '\\u003c').replaceAll(String.fromCharCode(0x2028), '\\u2028').replaceAll(String.fromCharCode(0x2029), '\\u2029');
 }

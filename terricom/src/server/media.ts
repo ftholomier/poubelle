@@ -99,11 +99,7 @@ export async function saveImageUpload(input: File | Buffer, ctx: UploadContext) 
   let height = meta.height ?? null;
   for (const w of WIDTHS) {
     if (meta.width && w > meta.width * 1.2 && w !== 320) continue;
-    const { data, info } = await base
-      .clone()
-      .resize({ width: w, withoutEnlargement: true })
-      .webp({ quality: 80 })
-      .toBuffer({ resolveWithObject: true });
+    const { data, info } = await base.clone().resize({ width: w, withoutEnlargement: true }).webp({ quality: 80 }).toBuffer({ resolveWithObject: true });
     const key = `${prefix}-${w}.webp`;
     await storage().put(key, data, 'image/webp');
     variants[`w${w}` as keyof MediaVariants] = storage().publicUrl(key);
@@ -170,7 +166,13 @@ export async function deleteMediaFiles(row: { storageKey: string | null; kind: s
     await storage().delete(row.storageKey);
     return;
   }
-  await Promise.all(WIDTHS.map((w) => storage().delete(`${row.storageKey}-${w}.webp`).catch(() => {})));
+  await Promise.all(
+    WIDTHS.map((w) =>
+      storage()
+        .delete(`${row.storageKey}-${w}.webp`)
+        .catch(() => {}),
+    ),
+  );
 }
 
 /** Choisit la déclinaison la plus adaptée à une largeur d'affichage. */

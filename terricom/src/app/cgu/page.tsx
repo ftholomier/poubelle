@@ -4,6 +4,9 @@ import { LegalShell } from '@/components/portal/LegalShell';
 import { SiteShell } from '@/components/site/SiteChrome';
 import { env } from '@/server/env';
 
+// Rendu à la demande : chiffres réels et configuration lue à l'exécution (jamais figés à la compilation).
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = { title: 'Conditions générales d’utilisation', alternates: { canonical: '/cgu' } };
 
 export default function CguPage() {

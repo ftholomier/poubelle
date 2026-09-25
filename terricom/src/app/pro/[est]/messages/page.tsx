@@ -25,7 +25,10 @@ export default async function MessagesPage({ params, searchParams }: Props) {
     .limit(200);
   const selected = list.find((m) => m.id === sp.m) ?? list[0] ?? null;
   if (selected && !selected.readAt) {
-    await db.update(messages).set({ readAt: new Date(), status: selected.status === 'NEW' ? 'READ' : selected.status }).where(and(eq(messages.id, selected.id), isNull(messages.readAt)));
+    await db
+      .update(messages)
+      .set({ readAt: new Date(), status: selected.status === 'NEW' ? 'READ' : selected.status })
+      .where(and(eq(messages.id, selected.id), isNull(messages.readAt)));
   }
   return (
     <div className="app-content">
@@ -38,7 +41,10 @@ export default async function MessagesPage({ params, searchParams }: Props) {
         </Link>
       </div>
       {list.length ? (
-        <div className="split" style={{ ['--cols' as string]: 'minmax(260px,380px) minmax(0,1fr)', ['--gap' as string]: '18px', ['--align' as string]: 'start' }}>
+        <div
+          className="split"
+          style={{ ['--cols' as string]: 'minmax(260px,380px) minmax(0,1fr)', ['--gap' as string]: '18px', ['--align' as string]: 'start' }}
+        >
           <div className="card" style={{ borderRadius: 18, overflow: 'hidden' }}>
             {list.map((m, i) => (
               <Link
@@ -55,7 +61,18 @@ export default async function MessagesPage({ params, searchParams }: Props) {
                   background: selected?.id === m.id ? 'var(--mint-2)' : 'transparent',
                 }}
               >
-                <div style={{ width: 36, height: 36, borderRadius: '50%', background: BG[i % BG.length], display: 'grid', placeItems: 'center', fontWeight: 800, fontSize: 13 }}>
+                <div
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: '50%',
+                    background: BG[i % BG.length],
+                    display: 'grid',
+                    placeItems: 'center',
+                    fontWeight: 800,
+                    fontSize: 13,
+                  }}
+                >
                   {m.senderName.charAt(0).toUpperCase()}
                 </div>
                 <div style={{ minWidth: 0 }}>
@@ -78,7 +95,8 @@ export default async function MessagesPage({ params, searchParams }: Props) {
                     {selected.senderName}
                   </div>
                   <div style={{ fontSize: 13, color: 'var(--muted)' }}>
-                    {[selected.senderEmail, selected.senderPhone ? fmtPhone(selected.senderPhone) : null].filter(Boolean).join(' · ')} · reçu le {fmtStamp(selected.createdAt)}
+                    {[selected.senderEmail, selected.senderPhone ? fmtPhone(selected.senderPhone) : null].filter(Boolean).join(' · ')} · reçu le{' '}
+                    {fmtStamp(selected.createdAt)}
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
@@ -98,21 +116,32 @@ export default async function MessagesPage({ params, searchParams }: Props) {
                 </div>
               </div>
               {selected.subject ? <b>{selected.subject}</b> : null}
-              <div style={{ background: 'var(--cream)', borderRadius: 12, padding: 16, fontSize: 15, lineHeight: 1.6, whiteSpace: 'pre-line' }}>{selected.body}</div>
+              <div style={{ background: 'var(--cream)', borderRadius: 12, padding: 16, fontSize: 15, lineHeight: 1.6, whiteSpace: 'pre-line' }}>
+                {selected.body}
+              </div>
               {selected.senderEmail ? (
                 <ActionForm action={replyMessage} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   <input type="hidden" name="estId" value={est.id} />
                   <input type="hidden" name="messageId" value={selected.id} />
                   <label className="field">
                     <span>Votre réponse (envoyée par email à {selected.senderEmail})</span>
-                    <textarea name="reply" rows={5} className="textarea" required maxLength={5000} placeholder={`Bonjour ${selected.senderName.split(' ')[0]},`} />
+                    <textarea
+                      name="reply"
+                      rows={5}
+                      className="textarea"
+                      required
+                      maxLength={5000}
+                      placeholder={`Bonjour ${selected.senderName.split(' ')[0]},`}
+                    />
                   </label>
                   <button type="submit" className="btn btn-brand" style={{ alignSelf: 'flex-start' }}>
                     Envoyer la réponse
                   </button>
                 </ActionForm>
               ) : (
-                <div className="alert alert-info">Pas d&apos;email laissé : rappelez cette personne au {selected.senderPhone ? fmtPhone(selected.senderPhone) : 'numéro indiqué'}.</div>
+                <div className="alert alert-info">
+                  Pas d&apos;email laissé : rappelez cette personne au {selected.senderPhone ? fmtPhone(selected.senderPhone) : 'numéro indiqué'}.
+                </div>
               )}
               <p style={{ margin: 0, fontSize: 12, color: 'var(--muted)' }}>
                 Les messages sont conservés 3 ans puis supprimés automatiquement (RGPD). Ne réutilisez pas ces coordonnées à des fins commerciales sans accord.

@@ -185,8 +185,14 @@ export async function loadClaimTarget(estId: string) {
     .limit(1);
   if (!row) return null;
   const [[members], [hours]] = await Promise.all([
-    db.select({ n: sql<number>`count(*)::int` }).from(companyMembers).where(eq(companyMembers.companyId, row.est.companyId)),
-    db.select({ n: sql<number>`count(*)::int` }).from(openingHours).where(eq(openingHours.establishmentId, estId)),
+    db
+      .select({ n: sql<number>`count(*)::int` })
+      .from(companyMembers)
+      .where(eq(companyMembers.companyId, row.est.companyId)),
+    db
+      .select({ n: sql<number>`count(*)::int` })
+      .from(openingHours)
+      .where(eq(openingHours.establishmentId, estId)),
   ]);
   const managed = (members?.n ?? 0) > 0;
   return { ...row, managed, hasHours: (hours?.n ?? 0) > 0, claimable: !managed && row.est.status !== 'SUSPENDED' && row.est.status !== 'ARCHIVED' };
@@ -206,7 +212,12 @@ export function claimInfoRows(t: ClaimTarget): { k: string; v: string; s: string
       s: e.lat !== null && e.lng !== null ? '✓ OSM' : 'à confirmer',
       ok: e.lat !== null && e.lng !== null,
     },
-    { k: 'Activité', v: `${e.activityLabel ?? t.categoryName}${t.company.nafCode ? ` (${t.company.nafCode})` : ''}`, s: t.company.nafCode ? '✓ NAF' : '✓ Fiche', ok: true },
+    {
+      k: 'Activité',
+      v: `${e.activityLabel ?? t.categoryName}${t.company.nafCode ? ` (${t.company.nafCode})` : ''}`,
+      s: t.company.nafCode ? '✓ NAF' : '✓ Fiche',
+      ok: true,
+    },
     { k: 'Téléphone', v: e.phone ? fmtPhone(e.phone) : '—', s: e.phone ? 'à confirmer' : 'à compléter', ok: false },
     { k: 'Horaires', v: t.hasHours ? 'Renseignés par la collectivité' : '—', s: t.hasHours ? 'à vérifier' : 'à compléter', ok: false },
   ];
@@ -253,10 +264,13 @@ export function siretVerdict(
   }
   if (!holder) return { ok: null, message: 'Base SIRENE momentanément injoignable : la collectivité vérifiera.', holder: null, strong: false };
   const h = norm(holder);
-  const nameMatch = claimant ? norm(claimant.lastName).split(' ').some((part) => part.length >= 2 && h.split(' ').includes(part)) : false;
+  const nameMatch = claimant
+    ? norm(claimant.lastName)
+        .split(' ')
+        .some((part) => part.length >= 2 && h.split(' ').includes(part))
+    : false;
   if (nameMatch) return { ok: true, message: `Correspond à « ${holder} » dans la base SIRENE`, holder, strong: true };
-  if (LEGAL_FORMS.test(h) || !claimant)
-    return { ok: true, message: `Correspond à « ${holder} » dans la base SIRENE`, holder, strong: false };
+  if (LEGAL_FORMS.test(h) || !claimant) return { ok: true, message: `Correspond à « ${holder} » dans la base SIRENE`, holder, strong: false };
   return { ok: false, message: `SIRET de la fiche, mais titulaire différent (« ${holder} »).`, holder, strong: false };
 }
 
@@ -301,7 +315,11 @@ function evaluate(ev: Evidence): { checks: CheckResult[]; risk: RiskLevel; holde
   if (ev.kbis) checks.push({ ok: null, label: 'Kbis déposé', detail: 'À contrôler : daté de moins de 3 mois' });
   if (ev.otherPending > 0) {
     high = true;
-    checks.push({ ok: false, label: 'Demande concurrente', detail: `${ev.otherPending} autre${ev.otherPending > 1 ? 's' : ''} demande${ev.otherPending > 1 ? 's' : ''} en cours` });
+    checks.push({
+      ok: false,
+      label: 'Demande concurrente',
+      detail: `${ev.otherPending} autre${ev.otherPending > 1 ? 's' : ''} demande${ev.otherPending > 1 ? 's' : ''} en cours`,
+    });
   }
   if (ev.target.managed) {
     high = true;
@@ -444,7 +462,11 @@ export async function reviewerLabel(communeId: string, communeName: string, terr
 
 /** Saisie du code reçu par SMS ou par courrier. */
 export async function verifyClaimCode(claimId: string, userId: string, code: string): Promise<{ ok: boolean; message: string; approved?: boolean }> {
-  const [c] = await db.select().from(claims).where(and(eq(claims.id, claimId), eq(claims.userId, userId))).limit(1);
+  const [c] = await db
+    .select()
+    .from(claims)
+    .where(and(eq(claims.id, claimId), eq(claims.userId, userId)))
+    .limit(1);
   if (!c || !OPEN_CLAIM_STATUSES.includes(c.status as (typeof OPEN_CLAIM_STATUSES)[number])) return { ok: false, message: 'Demande introuvable.' };
   if (c.codeVerifiedAt) return { ok: true, message: 'Code déjà validé.' };
   if (!c.codeHash || !c.codeSentAt) return { ok: false, message: 'Aucun code n’a été envoyé pour cette demande.' };
@@ -476,7 +498,15 @@ export async function verifyClaimCode(claimId: string, userId: string, code: str
     .update(claims)
     .set({ codeVerifiedAt: new Date(), codeEnc: null, checks: result.checks, riskLevel: result.risk, updatedAt: new Date() })
     .where(eq(claims.id, c.id));
-  await audit({ actor: { user: u }, category: 'MODIFICATION', action: 'claim.code_verified', summary: `Code de vérification saisi pour « ${t.est.name} »`, territoryId: c.territoryId, targetType: 'establishment', targetId: c.establishmentId });
+  await audit({
+    actor: { user: u },
+    category: 'MODIFICATION',
+    action: 'claim.code_verified',
+    summary: `Code de vérification saisi pour « ${t.est.name} »`,
+    territoryId: c.territoryId,
+    targetType: 'establishment',
+    targetId: c.establishmentId,
+  });
   const settings = (t.territory.settings ?? {}) as TerritorySettings;
   if (settings.claimValidation === 'AUTO' && result.risk === 'LOW') {
     await approveClaim(c.id, 'Système', 'Validation automatique (code vérifié)');
@@ -492,7 +522,11 @@ export function letterCodeOf(c: { codeEnc: string | null }): string | null {
 
 /** Complément demandé : le demandeur dépose un Kbis. */
 export async function addClaimDocument(claimId: string, userId: string, kbisMediaId: string): Promise<void> {
-  const [c] = await db.select().from(claims).where(and(eq(claims.id, claimId), eq(claims.userId, userId))).limit(1);
+  const [c] = await db
+    .select()
+    .from(claims)
+    .where(and(eq(claims.id, claimId), eq(claims.userId, userId)))
+    .limit(1);
   if (!c || !OPEN_CLAIM_STATUSES.includes(c.status as (typeof OPEN_CLAIM_STATUSES)[number])) throw new ClaimError('Demande introuvable.');
   const checks = c.checks.filter((k) => k.label !== 'Kbis déposé');
   checks.push({ ok: null, label: 'Kbis déposé', detail: 'À contrôler : daté de moins de 3 mois' });
@@ -561,7 +595,10 @@ export async function approveClaim(claimId: string, reviewer: Reviewer, note?: s
       establishmentId: ctx.est.id,
       userId: ctx.user.id,
       source: 'PRO',
-      summary: typeof reviewer === 'string' && reviewer === 'Système' ? 'Revendication validée automatiquement' : `Revendication validée par ${who.charAt(0).toLowerCase()}${who.slice(1)}`,
+      summary:
+        typeof reviewer === 'string' && reviewer === 'Système'
+          ? 'Revendication validée automatiquement'
+          : `Revendication validée par ${who.charAt(0).toLowerCase()}${who.slice(1)}`,
     });
   });
   await refreshCompleteness(ctx.est.id);
@@ -576,7 +613,12 @@ export async function approveClaim(claimId: string, reviewer: Reviewer, note?: s
     metadata: { claimId },
   });
   await sendEmail({
-    ...claimApprovedTemplate({ to: ctx.user.email, firstName: ctx.user.firstName || 'et bienvenue', establishmentName: ctx.est.name, url: appUrl(`/pro/${ctx.est.id}`) }),
+    ...claimApprovedTemplate({
+      to: ctx.user.email,
+      firstName: ctx.user.firstName || 'et bienvenue',
+      establishmentName: ctx.est.name,
+      url: appUrl(`/pro/${ctx.est.id}`),
+    }),
     territoryId: ctx.est.territoryId,
   });
   invalidatePortal(ctx.est.territoryId);
@@ -600,14 +642,21 @@ export async function requestClaimInfo(claimId: string, reviewer: Reviewer, note
     metadata: { claimId },
   });
   await sendEmail({
-    ...claimNeedsInfoTemplate({ to: ctx.user.email, firstName: ctx.user.firstName, establishmentName: ctx.est.name, note, url: appUrl(`/pro/revendiquer/suivi/${claimId}`) }),
+    ...claimNeedsInfoTemplate({
+      to: ctx.user.email,
+      firstName: ctx.user.firstName,
+      establishmentName: ctx.est.name,
+      note,
+      url: appUrl(`/pro/revendiquer/suivi/${claimId}`),
+    }),
     territoryId: ctx.est.territoryId,
   });
 }
 
 export async function rejectClaim(claimId: string, reviewer: Reviewer, note: string): Promise<void> {
   const ctx = await claimWithContext(claimId);
-  if (!ctx || !OPEN_CLAIM_STATUSES.includes(ctx.claim.status as (typeof OPEN_CLAIM_STATUSES)[number])) throw new ClaimError('Cette demande a déjà été traitée.');
+  if (!ctx || !OPEN_CLAIM_STATUSES.includes(ctx.claim.status as (typeof OPEN_CLAIM_STATUSES)[number]))
+    throw new ClaimError('Cette demande a déjà été traitée.');
   await db
     .update(claims)
     .set({ status: 'REJECTED', reviewerId: reviewerId(reviewer), reviewedAt: new Date(), decisionNote: note, codeEnc: null, updatedAt: new Date() })

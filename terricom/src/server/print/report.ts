@@ -95,9 +95,22 @@ export async function activityReportPdf(d: ReportData, now = new Date()): Promis
   d.months.forEach((m, i) => {
     const x = M + i * colW + 1.5 * MM;
     const h = Math.max(1, (m.value / maxV) * chartH);
-    page.drawRectangle({ x, y: y - chartH - 6 * MM, width: colW - 3 * MM, height: h, color: hex(i === d.months.length - 1 ? d.accent : m.value ? d.color : '#E4DFD3') });
+    page.drawRectangle({
+      x,
+      y: y - chartH - 6 * MM,
+      width: colW - 3 * MM,
+      height: h,
+      color: hex(i === d.months.length - 1 ? d.accent : m.value ? d.color : '#E4DFD3'),
+    });
     page.drawText(m.label, { x, y: y - chartH - 11 * MM, size: 7, font: fonts.body, color: muted });
-    if (m.value) page.drawText(m.value >= 1000 ? `${(m.value / 1000).toFixed(1).replace('.', ',')}k` : String(m.value), { x, y: y - chartH - 5 * MM + h + 1.5 * MM, size: 6.5, font: fonts.bold, color: muted });
+    if (m.value)
+      page.drawText(m.value >= 1000 ? `${(m.value / 1000).toFixed(1).replace('.', ',')}k` : String(m.value), {
+        x,
+        y: y - chartH - 5 * MM + h + 1.5 * MM,
+        size: 6.5,
+        font: fonts.bold,
+        color: muted,
+      });
   });
   y -= chartH + 24 * MM;
   y = title(page, 'Ce que recherchent les habitants', y);
@@ -149,7 +162,9 @@ export async function activityReportPdf(d: ReportData, now = new Date()): Promis
       header();
     }
     const vals = [c.name, fr(c.total), fr(c.claimed), fr(c.views), fr(c.calls), fr(c.directions)];
-    vals.forEach((v, i) => page.drawText(i === 0 ? (wrap(v, fonts.bold, 9, 58 * MM)[0] ?? v) : v, { x: cols[i].x, y, size: 9, font: i === 0 ? fonts.bold : fonts.body, color: ink }));
+    vals.forEach((v, i) =>
+      page.drawText(i === 0 ? (wrap(v, fonts.bold, 9, 58 * MM)[0] ?? v) : v, { x: cols[i].x, y, size: 9, font: i === 0 ? fonts.bold : fonts.body, color: ink }),
+    );
     page.drawLine({ start: { x: M, y: y - 2.5 * MM }, end: { x: W - M, y: y - 2.5 * MM }, thickness: 0.4, color: line });
     y -= 7 * MM;
   }

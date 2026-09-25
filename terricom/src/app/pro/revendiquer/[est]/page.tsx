@@ -16,7 +16,33 @@ export const metadata: Metadata = { title: 'Revendiquer ma fiche', robots: { ind
 
 type Props = { params: Promise<{ est: string }>; searchParams: Promise<Record<string, string | undefined>> };
 
-const ACTIVITY_WORDS = new Set(['BOULANGERIE', 'BOUCHERIE', 'PHARMACIE', 'GARAGE', 'FERME', 'CABINET', 'EPICERIE', 'ÉPICERIE', 'FROMAGERIE', 'FRUITIERE', 'FRUITIÈRE', 'PIZZERIA', 'BOUTIQUE', 'CHAUFFAGE', 'TERRES', 'TABLE', 'MAISON', 'ATELIER', 'SARL', 'SAS', 'SASU', 'EURL', 'SCEA', 'EARL', 'GAEC']);
+const ACTIVITY_WORDS = new Set([
+  'BOULANGERIE',
+  'BOUCHERIE',
+  'PHARMACIE',
+  'GARAGE',
+  'FERME',
+  'CABINET',
+  'EPICERIE',
+  'ÉPICERIE',
+  'FROMAGERIE',
+  'FRUITIERE',
+  'FRUITIÈRE',
+  'PIZZERIA',
+  'BOUTIQUE',
+  'CHAUFFAGE',
+  'TERRES',
+  'TABLE',
+  'MAISON',
+  'ATELIER',
+  'SARL',
+  'SAS',
+  'SASU',
+  'EURL',
+  'SCEA',
+  'EARL',
+  'GAEC',
+]);
 
 /** Identité fictive préremplie en démonstration, cohérente avec le titulaire SIRENE. */
 function demoIdentity(legalName: string) {
@@ -26,7 +52,14 @@ function demoIdentity(legalName: string) {
     .filter((t) => t.length > 2 && !ACTIVITY_WORDS.has(t));
   const pick = tokens.reduce((best, t) => (t.length > best.length ? t : best), '') || 'Martin';
   const lastName = pick.charAt(0) + pick.slice(1).toLowerCase();
-  return { firstName: 'Camille', lastName, email: `camille.${slugify(lastName)}.${randomToken(3).replace(/[^a-z0-9]/gi, '').toLowerCase()}@exemple.fr`, password: 'Terricom2026!' };
+  return {
+    firstName: 'Camille',
+    lastName,
+    email: `camille.${slugify(lastName)}.${randomToken(3)
+      .replace(/[^a-z0-9]/gi, '')
+      .toLowerCase()}@exemple.fr`,
+    password: 'Terricom2026!',
+  };
 }
 
 function formatSiret(s: string | null): string {
@@ -55,11 +88,12 @@ export default async function ClaimEstablishmentPage({ params, searchParams }: P
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <ClaimTitle>Cette fiche est déjà gérée</ClaimTitle>
           <p style={{ margin: 0, color: 'var(--muted)', lineHeight: 1.5 }}>
-            « {t.est.name} » est déjà administrée par un compte professionnel{t.est.status === 'SUSPENDED' ? ' ou suspendue par la collectivité' : ''}. Vous avez repris
-            l&apos;activité ou pensez qu&apos;il s&apos;agit d&apos;une erreur ? Contactez {t.territory.name}
+            « {t.est.name} » est déjà administrée par un compte professionnel{t.est.status === 'SUSPENDED' ? ' ou suspendue par la collectivité' : ''}. Vous
+            avez repris l&apos;activité ou pensez qu&apos;il s&apos;agit d&apos;une erreur ? Contactez {t.territory.name}
             {t.territory.contactEmail ? (
               <>
-                {' '}à <a href={`mailto:${t.territory.contactEmail}`}>{t.territory.contactEmail}</a>
+                {' '}
+                à <a href={`mailto:${t.territory.contactEmail}`}>{t.territory.contactEmail}</a>
               </>
             ) : null}
             .
@@ -82,7 +116,8 @@ export default async function ClaimEstablishmentPage({ params, searchParams }: P
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <ClaimTitle>Sécurisez votre accès</ClaimTitle>
             <p style={{ margin: 0, color: 'var(--muted)' }}>
-              La double authentification protège votre vitrine même si votre mot de passe est dérobé : à chaque connexion, un code à usage unique vous sera demandé.
+              La double authentification protège votre vitrine même si votre mot de passe est dérobé : à chaque connexion, un code à usage unique vous sera
+              demandé.
             </p>
             <MfaEnrollForm secret={enrollment.secret} qrSvg={enrollment.qrSvg} next={`${base}?etape=identite`} skip={`${base}?etape=identite`} />
           </div>
@@ -118,13 +153,18 @@ export default async function ClaimEstablishmentPage({ params, searchParams }: P
           {session ? (
             <>
               <p style={{ margin: 0, color: 'var(--muted)' }}>
-                Vous êtes connecté·e en tant que <b style={{ color: 'var(--text)' }}>{fullName(session.user)}</b> ({session.user.email}). La fiche sera rattachée à ce compte.
+                Vous êtes connecté·e en tant que <b style={{ color: 'var(--text)' }}>{fullName(session.user)}</b> ({session.user.email}). La fiche sera
+                rattachée à ce compte.
               </p>
               <div style={{ display: 'flex', gap: 10 }}>
                 <Link href={base} className="btn btn-outline" style={{ padding: '13px 18px' }}>
                   Retour
                 </Link>
-                <Link href={`${base}?etape=${session.user.mfaEnabled ? 'identite' : 'securite'}`} className="btn btn-brand" style={{ flex: 1, justifyContent: 'center', padding: 13 }}>
+                <Link
+                  href={`${base}?etape=${session.user.mfaEnabled ? 'identite' : 'securite'}`}
+                  className="btn btn-brand"
+                  style={{ flex: 1, justifyContent: 'center', padding: 13 }}
+                >
                   Continuer
                 </Link>
               </div>

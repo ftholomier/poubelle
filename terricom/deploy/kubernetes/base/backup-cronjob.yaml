@@ -1,0 +1,79 @@
+# Sauvegarde logique quotidienne (pg_dump, format personnalisé) déposée sur le stockage objet,
+# en complément de l'archivage continu des WAL de CloudNativePG (restauration à un instant donné).
+# La console lit la date du dernier succès de cette tâche (Audit & sécurité → Infrastructure).
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: terricom-backup
+spec:
+  schedule: '15 2 * * *'
+  timeZone: Europe/Paris
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 3600
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: terricom-backup
+            app.kubernetes.io/component: backup
+            app.kubernetes.io/part-of: terricom
+        spec:
+          restartPolicy: OnFailure
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 70
+            runAsGroup: 70
+            seccompProfile:
+              type: RuntimeDefault
+          initContainers:
+            - name: dump
+              image: postgres:16-alpine
+              command:
+                - sh
+                - -c
+                - pg_dump --format=custom --no-owner --dbname="$DATABASE_URL" --file=/backup/terricom-$(date +%Y%m%d-%H%M).dump && ls -l /backup
+              env:
+                - name: DATABASE_URL
+                  valueFrom:
+                    secretKeyRef: { name: terricom-secrets, key: DATABASE_URL }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ['ALL']
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+          containers:
+            - name: upload
+              image: rclone/rclone:1
+              args: ['copy', '/backup', 'objstore:terricom-sauvegardes/postgres', '--s3-no-check-bucket']
+              env:
+                - name: RCLONE_CONFIG_OBJSTORE_TYPE
+                  value: s3
+                - name: RCLONE_CONFIG_OBJSTORE_PROVIDER
+                  value: Other
+                - name: RCLONE_CONFIG_OBJSTORE_ENDPOINT
+                  valueFrom:
+                    secretKeyRef: { name: terricom-secrets, key: S3_ENDPOINT }
+                - name: RCLONE_CONFIG_OBJSTORE_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef: { name: terricom-secrets, key: S3_ACCESS_KEY_ID }
+                - name: RCLONE_CONFIG_OBJSTORE_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef: { name: terricom-secrets, key: S3_SECRET_ACCESS_KEY }
+                - name: RCLONE_CONFIG_OBJSTORE_SERVER_SIDE_ENCRYPTION
+                  value: AES256
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ['ALL']
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+          volumes:
+            - name: backup
+              emptyDir: {}

@@ -92,7 +92,11 @@ export type PassportView = { id: string; stamped: string[]; completedAt: Date | 
 export async function getVisitorPassport(circuitId: string): Promise<PassportView | null> {
   const token = (await passportTokens())[circuitId];
   if (!token) return null;
-  const [p] = await db.select().from(passports).where(eq(passports.tokenHash, sha256(token))).limit(1);
+  const [p] = await db
+    .select()
+    .from(passports)
+    .where(eq(passports.tokenHash, sha256(token)))
+    .limit(1);
   if (!p || p.circuitId !== circuitId) return null;
   const stamps = await db.select({ stopId: passportStamps.stopId }).from(passportStamps).where(eq(passportStamps.passportId, p.id));
   return { id: p.id, stamped: stamps.map((s) => s.stopId), completedAt: p.completedAt, rewardCode: p.rewardCode };
@@ -104,14 +108,21 @@ export async function ensureVisitorPassport(circuitId: string): Promise<string> 
   const tokens = await passportTokens();
   const existing = tokens[circuitId];
   if (existing) {
-    const [p] = await db.select({ id: passports.id }).from(passports).where(eq(passports.tokenHash, sha256(existing))).limit(1);
+    const [p] = await db
+      .select({ id: passports.id })
+      .from(passports)
+      .where(eq(passports.tokenHash, sha256(existing)))
+      .limit(1);
     if (p) {
       await db.update(passports).set({ lastSeenAt: new Date() }).where(eq(passports.id, p.id));
       return p.id;
     }
   }
   const token = randomToken(24);
-  const [row] = await db.insert(passports).values({ circuitId, tokenHash: sha256(token), lastSeenAt: new Date() }).returning({ id: passports.id });
+  const [row] = await db
+    .insert(passports)
+    .values({ circuitId, tokenHash: sha256(token), lastSeenAt: new Date() })
+    .returning({ id: passports.id });
   tokens[circuitId] = token;
   jar.set(PASSPORT_COOKIE, JSON.stringify(tokens), {
     httpOnly: true,
@@ -145,7 +156,8 @@ export async function stampPassport(passportId: string, stopId: string, opts: { 
     .from(passportStamps)
     .where(eq(passportStamps.passportId, passportId));
   const [p] = await db.select().from(passports).where(eq(passports.id, passportId)).limit(1);
-  const threshold = circuit.rewardThreshold ?? (await db.select({ id: circuitStops.id }).from(circuitStops).where(eq(circuitStops.circuitId, circuit.id))).length;
+  const threshold =
+    circuit.rewardThreshold ?? (await db.select({ id: circuitStops.id }).from(circuitStops).where(eq(circuitStops.circuitId, circuit.id))).length;
   if (Number(n) >= threshold && !p.completedAt) {
     await db
       .update(passports)
@@ -185,7 +197,11 @@ export async function stampVisitorPassportsAt(establishmentId: string): Promise<
     .where(and(eq(circuitStops.establishmentId, establishmentId), inArray(circuitStops.circuitId, ids), eq(circuits.status, 'PUBLISHED')));
   let first: { circuitSlug: string; position: number } | null = null;
   for (const r of rows) {
-    const [p] = await db.select({ id: passports.id, circuitId: passports.circuitId }).from(passports).where(eq(passports.tokenHash, sha256(tokens[r.circuit.id]))).limit(1);
+    const [p] = await db
+      .select({ id: passports.id, circuitId: passports.circuitId })
+      .from(passports)
+      .where(eq(passports.tokenHash, sha256(tokens[r.circuit.id])))
+      .limit(1);
     if (!p || p.circuitId !== r.circuit.id) continue;
     await stampPassport(p.id, r.stop.id);
     first ??= { circuitSlug: r.circuit.slug, position: r.stop.position };

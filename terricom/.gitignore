@@ -16,3 +16,4 @@ npm-debug.log*
 
 # Scripts de mise au point locaux (captures, sondes)
 /scripts/dev/
+/playwright/.cache/

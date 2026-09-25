@@ -25,18 +25,29 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   const code = row ? letterCodeOf(row.claim) : null;
   if (!row || !code) return new NextResponse('Aucun courrier à imprimer pour cette demande', { status: 404 });
   const t = ctx.territory;
-  const pdf = await claimLettersPdf({ name: t.name, legalName: t.legalName, colorPrimary: t.colorPrimary, colorAccent: t.colorAccent, contactEmail: t.contactEmail }, [
-    {
-      name: row.est.name,
-      street: row.est.street,
-      postalCode: row.est.postalCode,
-      communeName: row.communeName,
-      url: appUrl(`/pro/revendiquer/suivi/${row.claim.id}`),
-      displayUrl: appUrl('/pro').replace(/^https?:\/\//, ''),
-      code,
-    },
-  ]);
-  await audit({ actor: { user: ctx.actor.user }, category: 'ENVOI', action: 'claim.letter_printed', summary: `Courrier de vérification imprimé pour « ${row.est.name} »`, territoryId: t.id, targetType: 'claim', targetId: row.claim.id });
+  const pdf = await claimLettersPdf(
+    { name: t.name, legalName: t.legalName, colorPrimary: t.colorPrimary, colorAccent: t.colorAccent, contactEmail: t.contactEmail },
+    [
+      {
+        name: row.est.name,
+        street: row.est.street,
+        postalCode: row.est.postalCode,
+        communeName: row.communeName,
+        url: appUrl(`/pro/revendiquer/suivi/${row.claim.id}`),
+        displayUrl: appUrl('/pro').replace(/^https?:\/\//, ''),
+        code,
+      },
+    ],
+  );
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'ENVOI',
+    action: 'claim.letter_printed',
+    summary: `Courrier de vérification imprimé pour « ${row.est.name} »`,
+    territoryId: t.id,
+    targetType: 'claim',
+    targetId: row.claim.id,
+  });
   return new NextResponse(Buffer.from(pdf), {
     headers: { 'content-type': 'application/pdf', 'content-disposition': 'inline; filename="courrier-code.pdf"', 'cache-control': 'private, no-store' },
   });

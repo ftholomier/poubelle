@@ -17,7 +17,11 @@ export default async function BackOfficeDashboard() {
     communeStats(ctx),
     todoCounts(ctx),
     liveFeed(ctx),
-    db.select({ name: campaigns.name }).from(campaigns).where(and(eq(campaigns.territoryId, ctx.territory.id), eq(campaigns.status, 'ACTIVE'))).limit(1),
+    db
+      .select({ name: campaigns.name })
+      .from(campaigns)
+      .where(and(eq(campaigns.territoryId, ctx.territory.id), eq(campaigns.status, 'ACTIVE')))
+      .limit(1),
   ]);
   const total = Math.max(1, funnel.total);
   const bars = [
@@ -96,8 +100,22 @@ export default async function BackOfficeDashboard() {
             })}
           </div>
         </section>
-        <section style={{ background: 'var(--amber)', borderRadius: 22, padding: 22, display: 'flex', flexDirection: 'column', gap: 10, position: 'relative', overflow: 'hidden' }}>
-          <div aria-hidden="true" style={{ position: 'absolute', right: -40, top: -40, width: 170, height: 170, borderRadius: '50%', background: 'var(--amber-soft)' }} />
+        <section
+          style={{
+            background: 'var(--amber)',
+            borderRadius: 22,
+            padding: 22,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 10,
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            aria-hidden="true"
+            style={{ position: 'absolute', right: -40, top: -40, width: 170, height: 170, borderRadius: '50%', background: 'var(--amber-soft)' }}
+          />
           <div style={{ position: 'relative', fontSize: 12, fontWeight: 800, letterSpacing: '0.08em', color: 'var(--amber-fg)' }}>MÉTÉO DU COMMERCE LOCAL</div>
           <div className="display" style={{ position: 'relative', fontSize: 44, letterSpacing: '-0.03em', lineHeight: 0.95, color: 'var(--ink)' }}>
             {w.label}
@@ -135,7 +153,16 @@ export default async function BackOfficeDashboard() {
             key={t.l}
             href={t.href}
             className="card-link"
-            style={{ background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: 16, padding: 16, display: 'flex', gap: 12, alignItems: 'center', color: 'var(--text)' }}
+            style={{
+              background: 'var(--paper)',
+              border: '1px solid var(--line)',
+              borderRadius: 16,
+              padding: 16,
+              display: 'flex',
+              gap: 12,
+              alignItems: 'center',
+              color: 'var(--text)',
+            }}
           >
             <span className="display" style={{ fontSize: 30, color: t.c }}>
               {fmtInt(t.v)}
@@ -146,7 +173,16 @@ export default async function BackOfficeDashboard() {
       </div>
 
       <div className="split" style={{ ['--cols' as string]: 'minmax(0,1.5fr) minmax(0,1fr)', ['--gap' as string]: '18px' }}>
-        <section style={{ background: 'var(--paper)', border: '1px solid var(--line)', borderRadius: 22, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+        <section
+          style={{
+            background: 'var(--paper)',
+            border: '1px solid var(--line)',
+            borderRadius: 22,
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 20px', gap: 10, flexWrap: 'wrap' }}>
             <b>{communal ? 'Les établissements de la commune' : 'Densité économique par commune'}</b>
             <span style={{ fontSize: 12, color: 'var(--muted)' }}>établissements référencés</span>
@@ -156,7 +192,15 @@ export default async function BackOfficeDashboard() {
               mode="explore"
               tileUrl={env.MAP_TILE_URL}
               attribution={env.MAP_TILE_ATTRIBUTION}
-              points={points.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, name: p.name, color: FAMILIES[p.family as Family]?.color ?? '#1F6B52', subtitle: p.activity ?? undefined, href: `/collectivite/entreprises/${p.id}` }))}
+              points={points.map((p) => ({
+                id: p.id,
+                lat: p.lat,
+                lng: p.lng,
+                name: p.name,
+                color: FAMILIES[p.family as Family]?.color ?? '#1F6B52',
+                subtitle: p.activity ?? undefined,
+                href: `/collectivite/entreprises/${p.id}`,
+              }))}
               style={{ height: 380 }}
               ariaLabel="Carte des établissements de la commune"
             />
@@ -165,7 +209,9 @@ export default async function BackOfficeDashboard() {
               mode="heat"
               tileUrl={env.MAP_TILE_URL}
               attribution={env.MAP_TILE_ATTRIBUTION}
-              heat={communesData.filter((c) => c.lat !== null && c.lng !== null && c.total > 0).map((c) => ({ name: c.name, lat: c.lat!, lng: c.lng!, value: c.total }))}
+              heat={communesData
+                .filter((c) => c.lat !== null && c.lng !== null && c.total > 0)
+                .map((c) => ({ name: c.name, lat: c.lat!, lng: c.lng!, value: c.total }))}
               style={{ height: 380 }}
               ariaLabel="Carte de densité des établissements par commune"
             />
@@ -178,7 +224,19 @@ export default async function BackOfficeDashboard() {
           </div>
           {podium.map((p, i) => (
             <div key={p.id} style={{ display: 'grid', gridTemplateColumns: '30px minmax(0,1fr) 44px', gap: 10, alignItems: 'center' }}>
-              <div style={{ width: 28, height: 28, borderRadius: '50%', background: medal[i] ?? 'var(--sand)', color: 'var(--ink)', display: 'grid', placeItems: 'center', fontWeight: 800, fontSize: 12 }}>
+              <div
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: '50%',
+                  background: medal[i] ?? 'var(--sand)',
+                  color: 'var(--ink)',
+                  display: 'grid',
+                  placeItems: 'center',
+                  fontWeight: 800,
+                  fontSize: 12,
+                }}
+              >
                 {i + 1}
               </div>
               <div style={{ minWidth: 0 }}>
@@ -201,7 +259,18 @@ export default async function BackOfficeDashboard() {
         <b>En direct du territoire</b>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: '0 24px', marginTop: 8 }}>
           {feed.map((f, i) => (
-            <div key={i} style={{ display: 'grid', gridTemplateColumns: '10px 1fr auto', gap: 10, alignItems: 'center', padding: '10px 0', borderTop: '1px solid var(--line-2)', fontSize: 13 }}>
+            <div
+              key={i}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '10px 1fr auto',
+                gap: 10,
+                alignItems: 'center',
+                padding: '10px 0',
+                borderTop: '1px solid var(--line-2)',
+                fontSize: 13,
+              }}
+            >
               <span style={{ width: 8, height: 8, borderRadius: '50%', background: f.color }} />
               <span>{f.text}</span>
               <span style={{ color: 'var(--muted)', fontSize: 12, whiteSpace: 'nowrap' }}>{relativeTime(f.at)}</span>

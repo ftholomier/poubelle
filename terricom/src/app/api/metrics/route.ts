@@ -17,7 +17,7 @@ export async function GET(req: Request) {
       select (select count(*)::int from establishments where status <> 'ARCHIVED') as establishments,
              (select count(*)::int from territories where status = 'ACTIVE') as territories,
              (select count(*)::int from sessions where expires_at > now()) as sessions,
-             coalesce((select extract(epoch from now() - min(run_at))::int from queue_jobs where status = 'PENDING' and run_at <= now()), 0) as lag`),
+             coalesce((select extract(epoch from now() - min(run_at))::int from queue_jobs where status = 'QUEUED' and run_at <= now()), 0) as lag`),
   ]);
   const c = counts.rows[0];
   const lines = [

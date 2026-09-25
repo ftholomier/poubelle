@@ -5,6 +5,9 @@ import { fmtEuros } from '@/lib/format';
 import { env } from '@/server/env';
 import { getPlans } from '@/server/services/billing';
 
+// Rendu à la demande : chiffres réels et configuration lue à l'exécution (jamais figés à la compilation).
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = { title: 'Conditions générales de vente', alternates: { canonical: '/cgv' } };
 
 export default async function CgvPage() {

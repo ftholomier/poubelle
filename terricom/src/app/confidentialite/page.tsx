@@ -5,6 +5,9 @@ import { SiteShell } from '@/components/site/SiteChrome';
 import { RETENTION } from '@/lib/constants';
 import { env } from '@/server/env';
 
+// Rendu à la demande : chiffres réels et configuration lue à l'exécution (jamais figés à la compilation).
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = { title: 'Politique de confidentialité', alternates: { canonical: '/confidentialite' } };
 
 export default function PrivacyPage() {

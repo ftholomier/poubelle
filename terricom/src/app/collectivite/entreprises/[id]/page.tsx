@@ -17,7 +17,12 @@ export const metadata: Metadata = { title: 'Fiche entreprise' };
 
 type Props = { params: Promise<{ id: string }> };
 
-const ORIGIN = { IMPORT: 'Import (données publiques)', COLLECTIVITE: 'Créée par la collectivité', PRO: 'Créée par le professionnel', SYSTEM: 'Système' } as const;
+const ORIGIN = {
+  IMPORT: 'Import (données publiques)',
+  COLLECTIVITE: 'Créée par la collectivité',
+  PRO: 'Créée par le professionnel',
+  SYSTEM: 'Système',
+} as const;
 
 export default async function EstablishmentDetailPage({ params }: Props) {
   const { id } = await params;
@@ -36,7 +41,15 @@ export default async function EstablishmentDetailPage({ params }: Props) {
   const since = daysAgoDate(30);
   const [members, revisions, claimList, stats] = await Promise.all([
     db
-      .select({ id: users.id, firstName: users.firstName, lastName: users.lastName, email: users.email, role: companyMembers.role, mfa: users.mfaEnabled, lastLoginAt: users.lastLoginAt })
+      .select({
+        id: users.id,
+        firstName: users.firstName,
+        lastName: users.lastName,
+        email: users.email,
+        role: companyMembers.role,
+        mfa: users.mfaEnabled,
+        lastLoginAt: users.lastLoginAt,
+      })
       .from(companyMembers)
       .innerJoin(users, eq(users.id, companyMembers.userId))
       .where(eq(companyMembers.companyId, e.companyId)),
@@ -62,7 +75,16 @@ export default async function EstablishmentDetailPage({ params }: Props) {
     ['Adresse', [e.street, `${e.postalCode ?? ''} ${commune.name}`.trim()].filter(Boolean).join(', ')],
     ['Téléphone', e.phone ? fmtPhone(e.phone) : '—'],
     ['Email', e.email ?? '—'],
-    ['Site web', e.website ? <a href={e.website} target="_blank" rel="noopener noreferrer">{e.website.replace(/^https?:\/\//, '')}</a> : '—'],
+    [
+      'Site web',
+      e.website ? (
+        <a href={e.website} target="_blank" rel="noopener noreferrer">
+          {e.website.replace(/^https?:\/\//, '')}
+        </a>
+      ) : (
+        '—'
+      ),
+    ],
     ['SIRET', e.siret ? `${e.siret.slice(0, 3)} ${e.siret.slice(3, 6)} ${e.siret.slice(6, 9)} ${e.siret.slice(9)}` : '—'],
     ['Catégorie', `${cat.name} · ${FAMILIES[cat.family].label}`],
     ['Origine', ORIGIN[e.origin]],
@@ -70,7 +92,9 @@ export default async function EstablishmentDetailPage({ params }: Props) {
     ['Créée le', fmtShortDate(e.createdAt)],
   ];
   const statusOps = [
-    e.status !== 'VALIDATED' && e.status !== 'SUSPENDED' && e.status !== 'ARCHIVED' ? { op: 'validate', label: 'Valider la fiche', cls: 'btn btn-brand btn-sm' } : null,
+    e.status !== 'VALIDATED' && e.status !== 'SUSPENDED' && e.status !== 'ARCHIVED'
+      ? { op: 'validate', label: 'Valider la fiche', cls: 'btn btn-brand btn-sm' }
+      : null,
     e.status === 'SUSPENDED' || e.status === 'ARCHIVED' ? { op: 'restore', label: 'Réactiver', cls: 'btn btn-brand btn-sm' } : null,
     e.status !== 'ARCHIVED' && ctx.access === 'ADMIN' ? { op: 'archive', label: 'Archiver (activité cessée)', cls: 'btn btn-ghost btn-sm' } : null,
   ].filter(Boolean) as { op: string; label: string; cls: string }[];
@@ -92,7 +116,9 @@ export default async function EstablishmentDetailPage({ params }: Props) {
             {e.name}
           </h2>
           <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginTop: 6, flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 12, fontWeight: 700, padding: '4px 10px', borderRadius: 999, background: status.bg, color: status.fg }}>{status.label}</span>
+            <span style={{ fontSize: 12, fontWeight: 700, padding: '4px 10px', borderRadius: 999, background: status.bg, color: status.fg }}>
+              {status.label}
+            </span>
             <span style={{ fontSize: 13, color: 'var(--muted)' }}>Complétude {e.completeness} %</span>
             {e.suspendedReason ? <span style={{ fontSize: 13, color: 'var(--danger-fg)' }}>Motif : {e.suspendedReason}</span> : null}
           </div>
@@ -112,7 +138,10 @@ export default async function EstablishmentDetailPage({ params }: Props) {
           <section className="bo-card" style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             <b style={{ marginBottom: 8 }}>Informations</b>
             {info.map(([k, v]) => (
-              <div key={k} style={{ display: 'grid', gridTemplateColumns: '130px 1fr', gap: 12, padding: '7px 0', borderTop: '1px solid var(--line-2)', fontSize: 14 }}>
+              <div
+                key={k}
+                style={{ display: 'grid', gridTemplateColumns: '130px 1fr', gap: 12, padding: '7px 0', borderTop: '1px solid var(--line-2)', fontSize: 14 }}
+              >
                 <span style={{ color: 'var(--muted)' }}>{k}</span>
                 <span style={{ overflowWrap: 'anywhere' }}>{v}</span>
               </div>
@@ -136,8 +165,16 @@ export default async function EstablishmentDetailPage({ params }: Props) {
           <section className="bo-card" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             <b style={{ marginBottom: 6 }}>Historique de la fiche</b>
             {[
-              ...revisions.map((r) => ({ at: r.createdAt, text: r.summary, color: r.source === 'IMPORT' ? 'var(--faint)' : r.source === 'COLLECTIVITE' ? 'var(--green)' : '#3E6FB0' })),
-              ...claimList.map((c) => ({ at: c.createdAt, text: `Demande de revendication · ${fullName(c)} (${c.status === 'APPROVED' ? 'validée' : c.status === 'REJECTED' ? 'refusée' : c.status === 'CANCELLED' ? 'annulée' : 'en attente'})`, color: '#3E6FB0' })),
+              ...revisions.map((r) => ({
+                at: r.createdAt,
+                text: r.summary,
+                color: r.source === 'IMPORT' ? 'var(--faint)' : r.source === 'COLLECTIVITE' ? 'var(--green)' : '#3E6FB0',
+              })),
+              ...claimList.map((c) => ({
+                at: c.createdAt,
+                text: `Demande de revendication · ${fullName(c)} (${c.status === 'APPROVED' ? 'validée' : c.status === 'REJECTED' ? 'refusée' : c.status === 'CANCELLED' ? 'annulée' : 'en attente'})`,
+                color: '#3E6FB0',
+              })),
             ]
               .sort((a, b) => b.at.getTime() - a.at.getTime())
               .slice(0, 14)
@@ -162,18 +199,34 @@ export default async function EstablishmentDetailPage({ params }: Props) {
               ))}
             {managed ? (
               members.map((m) => (
-                <div key={m.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, fontSize: 14, borderTop: '1px solid var(--line-2)', paddingTop: 8 }}>
+                <div
+                  key={m.id}
+                  style={{ display: 'flex', justifyContent: 'space-between', gap: 10, fontSize: 14, borderTop: '1px solid var(--line-2)', paddingTop: 8 }}
+                >
                   <span>
                     <b>{fullName(m)}</b> · {m.role === 'OWNER' ? 'titulaire' : 'collaborateur'}
                     <br />
                     <span style={{ color: 'var(--muted)', fontSize: 13 }}>{m.email}</span>
                   </span>
-                  <span style={{ fontSize: 11, fontWeight: 800, padding: '3px 8px', borderRadius: 999, background: m.mfa ? 'var(--leaf)' : 'var(--warn-bg)', alignSelf: 'flex-start' }}>{m.mfa ? 'MFA' : 'Sans MFA'}</span>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 800,
+                      padding: '3px 8px',
+                      borderRadius: 999,
+                      background: m.mfa ? 'var(--leaf)' : 'var(--warn-bg)',
+                      alignSelf: 'flex-start',
+                    }}
+                  >
+                    {m.mfa ? 'MFA' : 'Sans MFA'}
+                  </span>
                 </div>
               ))
             ) : (
               <>
-                <p style={{ margin: 0, fontSize: 14, color: 'var(--muted)' }}>Aucun compte ne gère cette fiche. Invitez l&apos;entreprise à la revendiquer gratuitement.</p>
+                <p style={{ margin: 0, fontSize: 14, color: 'var(--muted)' }}>
+                  Aucun compte ne gère cette fiche. Invitez l&apos;entreprise à la revendiquer gratuitement.
+                </p>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
                   {e.email ? (
                     <ActionForm action={bulkInviteAction}>
@@ -205,7 +258,9 @@ export default async function EstablishmentDetailPage({ params }: Props) {
             </div>
             {e.status !== 'SUSPENDED' && e.status !== 'ARCHIVED' && ctx.access === 'ADMIN' ? (
               <details>
-                <summary style={{ cursor: 'pointer', fontSize: 14, fontWeight: 600, color: 'var(--danger-fg)' }}>Suspendre la fiche (masquée du public)</summary>
+                <summary style={{ cursor: 'pointer', fontSize: 14, fontWeight: 600, color: 'var(--danger-fg)' }}>
+                  Suspendre la fiche (masquée du public)
+                </summary>
                 <ActionForm action={setStatusAction} style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
                   <input type="hidden" name="estId" value={e.id} />
                   <input type="hidden" name="op" value="suspend" />

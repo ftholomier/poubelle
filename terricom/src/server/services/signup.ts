@@ -13,7 +13,12 @@ import { refreshCompleteness, refreshSearchKeywords } from './establishments';
  * puis publiée quand la collectivité valide la demande (même circuit qu'une revendication).
  */
 
-export type SignupTerritory = { id: string; name: string; slug: string; communes: { id: string; name: string; postalCode: string | null; inseeCode: string }[] };
+export type SignupTerritory = {
+  id: string;
+  name: string;
+  slug: string;
+  communes: { id: string; name: string; postalCode: string | null; inseeCode: string }[];
+};
 
 /** Territoires ouverts aux inscriptions et leurs communes. */
 export async function signupTerritories(territoryId?: string | null): Promise<SignupTerritory[]> {
@@ -45,7 +50,9 @@ export async function signupCategories(territoryIds: string[]) {
   return db
     .select({ id: categories.id, name: categories.name, family: categories.family })
     .from(categories)
-    .where(and(eq(categories.isActive, true), or(isNull(categories.territoryId), territoryIds.length ? inArray(categories.territoryId, territoryIds) : undefined)))
+    .where(
+      and(eq(categories.isActive, true), or(isNull(categories.territoryId), territoryIds.length ? inArray(categories.territoryId, territoryIds) : undefined)),
+    )
     .orderBy(asc(categories.name));
 }
 

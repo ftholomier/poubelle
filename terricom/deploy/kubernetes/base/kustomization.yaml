@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: terricom
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - rbac.yaml
+  - web.yaml
+  - worker.yaml
+  - clamav.yaml
+  - ingress.yaml
+  - networkpolicy.yaml
+  - backup-cronjob.yaml
+images:
+  - name: terricom-web
+    newName: ghcr.io/terricom/terricom-web
+    newTag: latest
+  - name: terricom-tools
+    newName: ghcr.io/terricom/terricom-tools
+    newTag: latest

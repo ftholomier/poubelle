@@ -1,14 +1,4 @@
-import {
-  createCipheriv,
-  createDecipheriv,
-  createHash,
-  createHmac,
-  randomBytes,
-  randomInt,
-  scrypt,
-  timingSafeEqual,
-  type ScryptOptions,
-} from 'node:crypto';
+import { createCipheriv, createDecipheriv, createHash, createHmac, randomBytes, randomInt, scrypt, timingSafeEqual, type ScryptOptions } from 'node:crypto';
 import { env } from './env';
 
 /** Jeton aléatoire URL-safe (256 bits par défaut). */
@@ -51,9 +41,7 @@ export function numericCode(length = 6): string {
 const SCRYPT: ScryptOptions & { N: number; r: number; p: number } = { N: 1 << 15, r: 8, p: 1, maxmem: 64 * 1024 * 1024 };
 
 function scryptAsync(password: string, salt: Buffer, keylen: number, opts: ScryptOptions): Promise<Buffer> {
-  return new Promise((resolve, reject) =>
-    scrypt(password.normalize('NFKC'), salt, keylen, opts, (err, key) => (err ? reject(err) : resolve(key))),
-  );
+  return new Promise((resolve, reject) => scrypt(password.normalize('NFKC'), salt, keylen, opts, (err, key) => (err ? reject(err) : resolve(key))));
 }
 
 export async function hashPassword(password: string): Promise<string> {

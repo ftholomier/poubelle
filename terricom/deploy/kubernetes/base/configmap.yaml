@@ -1,0 +1,32 @@
+# Configuration non secrète. Les secrets (DATABASE_URL, SESSION_SECRET, DATA_ENCRYPTION_KEY,
+# ANALYTICS_SALT, S3_*, SMTP_URL, ANTHROPIC_API_KEY, STRIPE_*, METRICS_TOKEN, SMS_WEBHOOK_TOKEN…)
+# sont fournis par le Secret « terricom-secrets » (voir overlays/production/externalsecret.yaml).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: terricom-config
+data:
+  NODE_ENV: production
+  APP_URL: https://terricom.fr
+  PLATFORM_DOMAIN: terricom.fr
+  PLATFORM_HOSTS: terricom.fr,www.terricom.fr
+  DEMO_MODE: 'false'
+  DATABASE_POOL_MAX: '10'
+  STORAGE_DRIVER: s3
+  S3_REGION: fr-par
+  S3_BUCKET: terricom-medias
+  MAIL_DRIVER: smtp
+  MAIL_FROM: 'terricom <bonjour@terricom.fr>'
+  SUPPORT_EMAIL: support@terricom.fr
+  SALES_EMAIL: bonjour@terricom.fr
+  AI_MODEL: claude-opus-5
+  CLAMAV_HOST: terricom-clamav
+  CLAMAV_PORT: '3310'
+  LOG_LEVEL: info
+  WORKER_CONCURRENCY: '4'
+  WORKER_HEALTH_PORT: '9090'
+  HEALTH_PROBE_URL: https://terricom.fr
+  K8S_CUSTOM_DOMAINS_INGRESS: terricom-custom-domains
+  K8S_WEB_SERVICE: terricom-web
+  K8S_INGRESS_CLASS: nginx
+  K8S_CLUSTER_ISSUER: letsencrypt-http01

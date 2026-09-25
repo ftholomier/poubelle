@@ -1508,7 +1508,8 @@ async function main() {
     const communeName =
       tourist || pro ? null : r.weighted(D.VAL_DE_LOUE_COMMUNES.map((c) => [c.name, c.name === 'Ornans' ? 1740 / 4120 : c.pop / 22400] as [string, number]));
     const status = r.chance(0.012) ? 'UNSUBSCRIBED' : r.chance(0.02) ? 'PENDING' : 'CONFIRMED';
-    const created = daysAgo(r.int(0, 200));
+    // Une inscription non confirmée est purgée au bout de 30 jours : les « en attente » sont donc récentes.
+    const created = status === 'PENDING' ? daysAgo(r.int(0, 20)) : daysAgo(r.int(0, 200));
     subRows.push({
       territoryId: vdl.id,
       email: `abonne${i + 1}@demo.terricom.test`,
@@ -1682,22 +1683,20 @@ async function main() {
       createdAt: daysAgo(r.int(2, 160)),
     }));
   await insertMany(S.claims, approvedClaims);
-  await db
-    .insert(S.claims)
-    .values({
-      establishmentId: estByKey.b1.id,
-      territoryId: vdl.id,
-      userId: sophieId,
-      status: 'APPROVED',
-      method: 'SIRET',
-      siretProvided: fixSiret('81234567800019'),
-      sireneHolder: 'MARTIN SOPHIE',
-      riskLevel: 'LOW',
-      reviewerId: anne.id,
-      reviewedAt: daysAgo(39),
-      createdAt: daysAgo(40),
-      checks: [{ ok: true, label: 'SIRET vérifié', detail: 'Titulaire : MARTIN SOPHIE' }],
-    });
+  await db.insert(S.claims).values({
+    establishmentId: estByKey.b1.id,
+    territoryId: vdl.id,
+    userId: sophieId,
+    status: 'APPROVED',
+    method: 'SIRET',
+    siretProvided: fixSiret('81234567800019'),
+    sireneHolder: 'MARTIN SOPHIE',
+    riskLevel: 'LOW',
+    reviewerId: anne.id,
+    reviewedAt: daysAgo(39),
+    createdAt: daysAgo(40),
+    checks: [{ ok: true, label: 'SIRET vérifié', detail: 'Titulaire : MARTIN SOPHIE' }],
+  });
 
   await db.insert(S.establishmentRevisions).values([
     { establishmentId: estByKey.b5.id, source: 'IMPORT', summary: 'Fiche précréée (import SIRENE)', createdAt: daysAgo(200) },
@@ -1988,26 +1987,24 @@ async function main() {
       body: 'Bonjour Claire, pour un rendu net sur les écrans haute densité, déposez un logo SVG ou un PNG de 600 px de large minimum depuis Personnalisation > Identité. Dites-nous si le problème persiste.',
       createdAt: new Date(logoTicket.createdAt.getTime() + 3 * 3_600_000),
     });
-  await db
-    .insert(S.privacyRequests)
-    .values([
-      ...Array.from({ length: 17 }, (_, i) => ({
-        email: `habitant${i + 1}@demo.terricom.test`,
-        kind: 'EXPORT' as const,
-        status: 'DONE' as const,
-        territoryId: vdl.id,
-        createdAt: daysAgo(150 - i * 8),
-        completedAt: daysAgo(149 - i * 8),
-      })),
-      ...Array.from({ length: 9 }, (_, i) => ({
-        email: `ancien${i + 1}@demo.terricom.test`,
-        kind: 'DELETE' as const,
-        status: 'DONE' as const,
-        territoryId: vdl.id,
-        createdAt: daysAgo(140 - i * 12),
-        completedAt: daysAgo(139 - i * 12),
-      })),
-    ]);
+  await db.insert(S.privacyRequests).values([
+    ...Array.from({ length: 17 }, (_, i) => ({
+      email: `habitant${i + 1}@demo.terricom.test`,
+      kind: 'EXPORT' as const,
+      status: 'DONE' as const,
+      territoryId: vdl.id,
+      createdAt: daysAgo(150 - i * 8),
+      completedAt: daysAgo(149 - i * 8),
+    })),
+    ...Array.from({ length: 9 }, (_, i) => ({
+      email: `ancien${i + 1}@demo.terricom.test`,
+      kind: 'DELETE' as const,
+      status: 'DONE' as const,
+      territoryId: vdl.id,
+      createdAt: daysAgo(140 - i * 12),
+      completedAt: daysAgo(139 - i * 12),
+    })),
+  ]);
 
   await db.insert(S.privacyRequests).values([
     { email: 'lea.moutot@exemple.test', kind: 'EXPORT', status: 'OPEN', territoryId: vdl.id, note: 'Reçue par email au DPO de la CC', createdAt: daysAgo(4) },
@@ -2024,18 +2021,16 @@ async function main() {
   // Désabonnements Premium récents (churn mensuel) : deux entreprises repassées en Essentiel.
   const churned = allEsts.filter((e) => e.plan === 'ESSENTIEL' && e.ownerId).slice(0, 2);
   if (churned.length)
-    await db
-      .insert(S.companySubscriptions)
-      .values(
-        churned.map((e, i) => ({
-          companyId: e.companyId,
-          plan: 'PREMIUM' as const,
-          status: 'CANCELED' as const,
-          provider: 'STRIPE',
-          startedAt: daysAgo(160 + i * 20),
-          canceledAt: daysAgo(9 + i * 12),
-        })),
-      );
+    await db.insert(S.companySubscriptions).values(
+      churned.map((e, i) => ({
+        companyId: e.companyId,
+        plan: 'PREMIUM' as const,
+        status: 'CANCELED' as const,
+        provider: 'STRIPE',
+        startedAt: daysAgo(160 + i * 20),
+        canceledAt: daysAgo(9 + i * 12),
+      })),
+    );
 
   // ─── Emails émis (boîte d'envoi de démonstration) ────────────────────────
   const T = await import('@/server/mail/templates');
@@ -2092,20 +2087,18 @@ async function main() {
       at: daysAgo(2, 14),
     },
   ];
-  await db
-    .insert(S.emails)
-    .values(
-      outbox.map(({ at, ...m }) => ({
-        to: m.to,
-        subject: m.subject,
-        html: m.html,
-        text: m.text,
-        template: m.template ?? null,
-        territoryId: m.territoryId,
-        status: 'OUTBOX' as const,
-        createdAt: at,
-      })),
-    );
+  await db.insert(S.emails).values(
+    outbox.map(({ at, ...m }) => ({
+      to: m.to,
+      subject: m.subject,
+      html: m.html,
+      text: m.text,
+      template: m.template ?? null,
+      territoryId: m.territoryId,
+      status: 'OUTBOX' as const,
+      createdAt: at,
+    })),
+  );
 
   // ─── Sondes de disponibilité (30 jours, une par minute) ───────────────────
   await db.execute(sql`

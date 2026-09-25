@@ -45,7 +45,11 @@ export function AdventCalendar({ doors, base, storageKey }: { doors: Door[]; bas
             <span style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>
               {shown ? d.title : d.open ? 'Cliquez !' : 'Patience…'}
               {shown && d.path ? (
-                <Link href={`${base}${d.path}`} onClick={(e) => e.stopPropagation()} style={{ display: 'block', marginTop: 4, color: 'var(--ink)', fontWeight: 800 }}>
+                <Link
+                  href={`${base}${d.path}`}
+                  onClick={(e) => e.stopPropagation()}
+                  style={{ display: 'block', marginTop: 4, color: 'var(--ink)', fontWeight: 800 }}
+                >
                   Voir →
                 </Link>
               ) : null}

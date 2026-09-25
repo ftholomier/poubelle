@@ -25,18 +25,35 @@ export async function acceptInvitation(_prev: InviteState, form: FormData): Prom
     const [existing] = await db.select().from(users).where(eq(users.email, row.email)).limit(1);
     if (existing) return { status: 'error', message: `Un compte existe déjà pour ${row.email} : connectez-vous d'abord, puis rouvrez ce lien.` };
     const parsed = z
-      .object({ firstName: z.string().trim().min(1, 'Prénom requis').max(120), lastName: z.string().trim().min(1, 'Nom requis').max(120), password: z.string() })
+      .object({
+        firstName: z.string().trim().min(1, 'Prénom requis').max(120),
+        lastName: z.string().trim().min(1, 'Nom requis').max(120),
+        password: z.string(),
+      })
       .safeParse(Object.fromEntries(form));
     if (!parsed.success) return { status: 'error', message: parsed.error.issues[0]?.message };
     const issue = passwordIssues(parsed.data.password);
     if (issue) return { status: 'error', message: issue };
     const [u] = await db
       .insert(users)
-      .values({ email: row.email, firstName: parsed.data.firstName, lastName: parsed.data.lastName, passwordHash: await hashPassword(parsed.data.password), emailVerifiedAt: new Date() })
+      .values({
+        email: row.email,
+        firstName: parsed.data.firstName,
+        lastName: parsed.data.lastName,
+        passwordHash: await hashPassword(parsed.data.password),
+        emailVerifiedAt: new Date(),
+      })
       .returning();
     userId = u.id;
   }
-  const payload = row.payload as { companyId?: string; role?: string; establishmentId?: string; staffRole?: string; territoryId?: string; communeId?: string | null };
+  const payload = row.payload as {
+    companyId?: string;
+    role?: string;
+    establishmentId?: string;
+    staffRole?: string;
+    territoryId?: string;
+    communeId?: string | null;
+  };
   await db.transaction(async (tx) => {
     if (row.kind === 'INVITE_MEMBER' && payload.companyId) {
       await tx
@@ -60,7 +77,15 @@ export async function acceptInvitation(_prev: InviteState, form: FormData): Prom
     }
     await tx.update(tokens).set({ usedAt: new Date() }).where(eq(tokens.id, row.id));
   });
-  await audit({ actor: { id: userId, label: row.email }, category: 'SECURITE', action: 'invitation.accepted', summary: `Invitation acceptée par ${row.email}`, territoryId: payload.territoryId ?? null, targetType: 'user', targetId: userId });
+  await audit({
+    actor: { id: userId, label: row.email },
+    category: 'SECURITE',
+    action: 'invitation.accepted',
+    summary: `Invitation acceptée par ${row.email}`,
+    territoryId: payload.territoryId ?? null,
+    targetType: 'user',
+    targetId: userId,
+  });
   if (!session || session.user.id !== userId) await createSession(userId, { mfaVerified: true });
   if (row.kind === 'INVITE_STAFF') redirect('/compte/securite?mfa=obligatoire');
   redirect(payload.establishmentId ? `/pro/${payload.establishmentId}` : '/pro');

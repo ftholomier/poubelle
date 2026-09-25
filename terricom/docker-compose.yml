@@ -1,0 +1,90 @@
+# terricom en local ou sur un serveur unique (démonstration, préproduction).
+#   cp .env.example .env   puis ajuster les secrets
+#   docker compose up -d --build
+#   docker compose --profile demo run --rm seed        (jeu de démonstration Val de Loue)
+# Services : PostgreSQL 16, web (Next.js), worker, migrations, Mailpit (emails : http://localhost:8025),
+# ClamAV en option (profil « antivirus »).
+name: terricom
+
+x-app-env: &app-env
+  env_file: .env
+  environment:
+    DATABASE_URL: postgres://terricom:${POSTGRES_PASSWORD:-terricom}@postgres:5432/terricom
+    MAIL_DRIVER: smtp
+    SMTP_URL: smtp://mailpit:1025
+    STORAGE_DRIVER: local
+    STORAGE_LOCAL_DIR: /app/storage
+    HEALTH_PROBE_URL: http://web:3000
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: terricom
+      POSTGRES_USER: terricom
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-terricom}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U terricom -d terricom']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    ports:
+      - '127.0.0.1:5432:5432'
+
+  migrate:
+    build: { context: ., target: tools }
+    image: terricom-tools:local
+    <<: *app-env
+    command: ['node', '--import', 'tsx', 'scripts/migrate.ts']
+    depends_on:
+      postgres: { condition: service_healthy }
+    restart: 'no'
+
+  seed:
+    image: terricom-tools:local
+    profiles: [demo]
+    <<: *app-env
+    command: ['node', '--import', 'tsx', 'scripts/seed.ts']
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+    restart: 'no'
+
+  web:
+    build: { context: ., target: web }
+    image: terricom-web:local
+    restart: unless-stopped
+    <<: *app-env
+    ports:
+      - '3000:3000'
+    volumes:
+      - storage:/app/storage
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+
+  worker:
+    image: terricom-tools:local
+    restart: unless-stopped
+    <<: *app-env
+    volumes:
+      - storage:/app/storage
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      web: { condition: service_started }
+
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:8025:8025'
+
+  clamav:
+    image: clamav/clamav:stable
+    profiles: [antivirus]
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  storage:

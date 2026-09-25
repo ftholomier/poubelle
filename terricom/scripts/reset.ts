@@ -3,9 +3,10 @@ import { loadEnvFile } from './_env';
 
 loadEnvFile();
 
-/** Réinitialise complètement la base (développement uniquement). */
+/** Réinitialise complètement la base (développement et instance de démonstration uniquement). */
 async function main() {
-  if (process.env.NODE_ENV === 'production') throw new Error('Interdit en production');
+  // Autorisé en production uniquement pour une instance de démonstration (DEMO_MODE=true).
+  if (process.env.NODE_ENV === 'production' && process.env.DEMO_MODE !== 'true') throw new Error('Interdit en production');
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
   await pool.query('DROP SCHEMA IF EXISTS public CASCADE; DROP SCHEMA IF EXISTS drizzle CASCADE; CREATE SCHEMA public;');
   console.log('✓ Base réinitialisée');

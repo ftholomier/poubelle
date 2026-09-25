@@ -27,10 +27,13 @@ export default async function LegalPage({ params }: Props) {
       <p>Le directeur ou la directrice de la publication est le représentant légal de la collectivité éditrice.</p>
       <h2>Plateforme et hébergement</h2>
       <p>
-        Ce portail est propulsé par la plateforme <a href={appUrl('/')}>terricom</a>, qui en assure la conception, la maintenance et
-        l&apos;hébergement pour le compte de la collectivité.
+        Ce portail est propulsé par la plateforme <a href={appUrl('/')}>terricom</a>, qui en assure la conception, la maintenance et l&apos;hébergement pour le
+        compte de la collectivité.
       </p>
-      <p>{s.hostingNotice ?? 'Les données sont hébergées en France, sur une infrastructure redondée (plusieurs zones de disponibilité) avec sauvegardes chiffrées quotidiennes.'}</p>
+      <p>
+        {s.hostingNotice ??
+          'Les données sont hébergées en France, sur une infrastructure redondée (plusieurs zones de disponibilité) avec sauvegardes chiffrées quotidiennes.'}
+      </p>
       <h2>Contenus des fiches</h2>
       <p>
         Les fiches sont initialisées à partir de la base SIRENE de l&apos;INSEE (données publiques, Licence Ouverte Etalab 2.0), puis complétées et mises à jour
@@ -39,7 +42,8 @@ export default async function LegalPage({ params }: Props) {
       <p>Une information vous semble erronée ? Utilisez le lien « Signaler une information erronée » présent sur chaque fiche.</p>
       <h2>Cartographie</h2>
       <p>
-        Fonds de carte © contributeurs OpenStreetMap, données disponibles sous licence ODbL. Les repères et informations affichés sont issus des fiches du portail.
+        Fonds de carte © contributeurs OpenStreetMap, données disponibles sous licence ODbL. Les repères et informations affichés sont issus des fiches du
+        portail.
       </p>
       <h2>Propriété intellectuelle</h2>
       <p>

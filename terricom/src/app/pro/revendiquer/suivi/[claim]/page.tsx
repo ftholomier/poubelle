@@ -46,7 +46,10 @@ export default async function ClaimFollowUpPage({ params }: Props) {
       <ClaimShell territory={territory} step={pendingStep + 1} steps={steps}>
         <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 18, alignItems: 'flex-start' }}>
           <Confetti />
-          <span className="display" style={{ background: 'var(--amber)', color: 'var(--ink)', fontSize: 15, padding: '8px 14px', borderRadius: 10, transform: 'rotate(-4deg)' }}>
+          <span
+            className="display"
+            style={{ background: 'var(--amber)', color: 'var(--ink)', fontSize: 15, padding: '8px 14px', borderRadius: 10, transform: 'rotate(-4deg)' }}
+          >
             Fiche validée !
           </span>
           <ClaimTitle size={44}>
@@ -103,7 +106,14 @@ export default async function ClaimFollowUpPage({ params }: Props) {
         {needsInfo ? null : (
           <div
             aria-hidden="true"
-            style={{ width: 64, height: 64, borderRadius: '50%', border: '5px solid var(--mint)', borderTopColor: 'var(--green)', animation: 'spin 1s linear infinite' }}
+            style={{
+              width: 64,
+              height: 64,
+              borderRadius: '50%',
+              border: '5px solid var(--mint)',
+              borderTopColor: 'var(--green)',
+              animation: 'spin 1s linear infinite',
+            }}
           />
         )}
         <ClaimTitle>{needsInfo ? `${reviewer} a besoin d’un complément` : `${reviewer} vérifie votre demande`}</ClaimTitle>
@@ -120,7 +130,9 @@ export default async function ClaimFollowUpPage({ params }: Props) {
           {claim.method === 'SIRET' ? (
             <Line tone={siretOk ? 'ok' : 'wait'}>{siretOk ? 'Identité vérifiée (SIRET)' : 'SIRET transmis · contrôle par la collectivité'}</Line>
           ) : claim.method === 'CODE' ? (
-            <Line tone={claim.codeVerifiedAt ? 'ok' : 'wait'}>{claim.codeVerifiedAt ? 'Identité vérifiée (code)' : `Code envoyé · ${claim.codeSentTo ?? ''}`}</Line>
+            <Line tone={claim.codeVerifiedAt ? 'ok' : 'wait'}>
+              {claim.codeVerifiedAt ? 'Identité vérifiée (code)' : `Code envoyé · ${claim.codeSentTo ?? ''}`}
+            </Line>
           ) : (
             <Line tone="ok">Kbis transmis</Line>
           )}

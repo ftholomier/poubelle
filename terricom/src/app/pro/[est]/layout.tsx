@@ -29,7 +29,9 @@ export default async function ProAppLayout({ children, params }: Props) {
     { separator: true },
     { href: `${base}/messages`, label: 'Messages', badge: ctx.unreadMessages ? String(ctx.unreadMessages) : null, badgeBg: 'var(--rose)' },
     { href: `${base}/evenements`, label: 'Événements' },
-    ...(modules.has('JOBS') ? [{ href: `${base}/emploi`, label: 'Recrutement', badge: ctx.newApplications ? String(ctx.newApplications) : null, badgeBg: 'var(--leaf)' }] : []),
+    ...(modules.has('JOBS')
+      ? [{ href: `${base}/emploi`, label: 'Recrutement', badge: ctx.newApplications ? String(ctx.newApplications) : null, badgeBg: 'var(--leaf)' }]
+      : []),
     ...(modules.has('APPOINTMENTS')
       ? [{ href: `${base}/rendez-vous`, label: 'Rendez-vous', badge: ctx.pendingAppointments ? String(ctx.pendingAppointments) : null, badgeBg: 'var(--sky)' }]
       : []),
@@ -69,12 +71,25 @@ export default async function ProAppLayout({ children, params }: Props) {
           <Link
             href={`${base}#campagne`}
             className="app-aside-extra"
-            style={{ marginTop: 'auto', background: 'var(--ink)', color: 'var(--cream)', borderRadius: 14, padding: 14, display: 'flex', flexDirection: 'column', gap: 6 }}
+            style={{
+              marginTop: 'auto',
+              background: 'var(--ink)',
+              color: 'var(--cream)',
+              borderRadius: 14,
+              padding: 14,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 6,
+            }}
           >
             <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', color: 'var(--amber)' }}>CAMPAGNE EN COURS</span>
             <span style={{ fontWeight: 700, fontSize: 14 }}>{campaign.name}</span>
             <span style={{ fontSize: 12, color: 'var(--sage)' }}>
-              {campaign.status === 'JOINED' ? `Vous participez${campaign.offerLabel ? ' · offre publiée' : ''}` : campaign.status === 'DECLINED' ? 'Invitation déclinée' : 'Invitation en attente'}
+              {campaign.status === 'JOINED'
+                ? `Vous participez${campaign.offerLabel ? ' · offre publiée' : ''}`
+                : campaign.status === 'DECLINED'
+                  ? 'Invitation déclinée'
+                  : 'Invitation en attente'}
             </span>
           </Link>
         ) : null}
@@ -84,7 +99,13 @@ export default async function ProAppLayout({ children, params }: Props) {
           <AppTitle titles={titles} fallback="Espace professionnel" />
           <div style={{ marginLeft: 'auto', display: 'flex', gap: 10, alignItems: 'center' }}>
             {publicUrl ? (
-              <a href={publicUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-sm hide-sm" style={{ border: '1.5px solid var(--ink)', color: 'var(--ink)' }}>
+              <a
+                href={publicUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline btn-sm hide-sm"
+                style={{ border: '1.5px solid var(--ink)', color: 'var(--ink)' }}
+              >
                 Voir ma fiche publique ↗
               </a>
             ) : null}

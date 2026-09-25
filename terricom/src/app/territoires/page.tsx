@@ -9,6 +9,9 @@ import { fmtInt } from '@/lib/format';
 import { env } from '@/server/env';
 import { liveTerritories, platformNumbers } from '@/server/services/marketing';
 
+// Rendu à la demande : chiffres réels et configuration lue à l'exécution (jamais figés à la compilation).
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Territoires en ligne',
   description: 'Les communautés de communes et communes qui mettent leur économie locale en vitrine avec terricom.',

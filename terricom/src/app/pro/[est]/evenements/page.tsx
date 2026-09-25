@@ -40,7 +40,18 @@ export default async function EventsProPage({ params, searchParams }: Props) {
             list.map((ev) => {
               const past = (ev.endsAt ?? ev.startsAt).getTime() < now;
               return (
-                <div key={ev.id} style={{ display: 'grid', gridTemplateColumns: '62px minmax(0,1fr) auto', gap: 12, alignItems: 'center', borderTop: '1px solid var(--line-2)', paddingTop: 10, opacity: past ? 0.6 : 1 }}>
+                <div
+                  key={ev.id}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '62px minmax(0,1fr) auto',
+                    gap: 12,
+                    alignItems: 'center',
+                    borderTop: '1px solid var(--line-2)',
+                    paddingTop: 10,
+                    opacity: past ? 0.6 : 1,
+                  }}
+                >
                   <DateBox date={ev.startsAt} kind={ev.kind as EventKind} />
                   <div style={{ minWidth: 0 }}>
                     <div style={{ fontWeight: 700 }}>{ev.title}</div>
@@ -69,14 +80,23 @@ export default async function EventsProPage({ params, searchParams }: Props) {
               );
             })
           ) : (
-            <p style={{ margin: 0, fontSize: 14, color: 'var(--muted)' }}>Atelier, dégustation, portes ouvertes : vos événements apparaissent dans l&apos;agenda du territoire.</p>
+            <p style={{ margin: 0, fontSize: 14, color: 'var(--muted)' }}>
+              Atelier, dégustation, portes ouvertes : vos événements apparaissent dans l&apos;agenda du territoire.
+            </p>
           )}
         </div>
         <ActionForm action={saveEvent} className="panel" resetOnSuccess={!editing} key={editing?.id ?? 'new'}>
           <input type="hidden" name="estId" value={est.id} />
           <input type="hidden" name="eventId" value={editing?.id ?? ''} />
           <h2 className="panel-title">{editing ? 'Modifier l’événement' : 'Nouvel événement'}</h2>
-          <input name="title" className="input" placeholder="Titre (ex. Atelier pain au levain pour enfants)" defaultValue={editing?.title} required maxLength={255} />
+          <input
+            name="title"
+            className="input"
+            placeholder="Titre (ex. Atelier pain au levain pour enfants)"
+            defaultValue={editing?.title}
+            required
+            maxLength={255}
+          />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 10 }}>
             <select name="kind" className="select" defaultValue={editing?.kind ?? 'ATELIER'}>
               {(Object.keys(EVENT_KINDS) as EventKind[]).map((k) => (
@@ -85,18 +105,46 @@ export default async function EventsProPage({ params, searchParams }: Props) {
                 </option>
               ))}
             </select>
-            <input name="date" type="date" className="input" min={editing ? undefined : tomorrowIso()} defaultValue={editing ? parisDate(editing.startsAt) : ''} required aria-label="Date" />
+            <input
+              name="date"
+              type="date"
+              className="input"
+              min={editing ? undefined : tomorrowIso()}
+              defaultValue={editing ? parisDate(editing.startsAt) : ''}
+              required
+              aria-label="Date"
+            />
             <input name="start" type="time" className="input" defaultValue={editing ? hhmm(editing.startsAt) : '10:00'} required aria-label="Début" />
             <input name="end" type="time" className="input" defaultValue={editing?.endsAt ? hhmm(editing.endsAt) : ''} aria-label="Fin" />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 10 }}>
-            <input name="locationName" className="input" placeholder={`Lieu (par défaut : ${est.name})`} defaultValue={editing?.locationName ?? ''} maxLength={255} />
+            <input
+              name="locationName"
+              className="input"
+              placeholder={`Lieu (par défaut : ${est.name})`}
+              defaultValue={editing?.locationName ?? ''}
+              maxLength={255}
+            />
             <input name="address" className="input" placeholder="Adresse (par défaut : la vôtre)" defaultValue={editing?.address ?? ''} maxLength={255} />
-            <input name="priceText" className="input" placeholder="Tarif (ex. Gratuit, 8 € sur inscription)" defaultValue={editing?.priceText ?? ''} maxLength={120} />
+            <input
+              name="priceText"
+              className="input"
+              placeholder="Tarif (ex. Gratuit, 8 € sur inscription)"
+              defaultValue={editing?.priceText ?? ''}
+              maxLength={120}
+            />
             <input name="capacity" type="number" min={1} className="input" placeholder="Places (facultatif)" defaultValue={editing?.capacity ?? ''} />
           </div>
           <input name="registrationUrl" className="input" placeholder="Lien d'inscription (facultatif)" defaultValue={editing?.registrationUrl ?? ''} />
-          <textarea name="description" rows={4} className="textarea" placeholder="Décrivez le déroulé, le public, ce qu'il faut apporter…" defaultValue={editing?.description ?? ''} required maxLength={5000} />
+          <textarea
+            name="description"
+            rows={4}
+            className="textarea"
+            placeholder="Décrivez le déroulé, le public, ce qu'il faut apporter…"
+            defaultValue={editing?.description ?? ''}
+            required
+            maxLength={5000}
+          />
           <FileDrop name="image" accept="image/*" label="+ Image (facultatif, sinon votre photo principale)" />
           <button type="submit" className="btn btn-brand" style={{ alignSelf: 'flex-start' }}>
             {editing ? 'Enregistrer' : 'Publier dans l’agenda'}

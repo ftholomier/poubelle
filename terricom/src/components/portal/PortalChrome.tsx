@@ -88,23 +88,49 @@ export function PortalFooter({ portal }: { portal: PortalContext }) {
         </div>
         <div style={col}>
           <b style={{ color: 'var(--cream)' }}>Découvrir</b>
-          <Link href={`${base}/explorer`} style={{ color: 'inherit' }}>Carte</Link>
-          {modules.has('CIRCUITS') ? <Link href={`${base}/circuits`} style={{ color: 'inherit' }}>Circuits</Link> : null}
-          <Link href={`${base}/agenda`} style={{ color: 'inherit' }}>Agenda</Link>
-          {modules.has('JOBS') ? <Link href={`${base}/emploi`} style={{ color: 'inherit' }}>Emploi</Link> : null}
-          <Link href={`${base}/actualites`} style={{ color: 'inherit' }}>Actualités</Link>
+          <Link href={`${base}/explorer`} style={{ color: 'inherit' }}>
+            Carte
+          </Link>
+          {modules.has('CIRCUITS') ? (
+            <Link href={`${base}/circuits`} style={{ color: 'inherit' }}>
+              Circuits
+            </Link>
+          ) : null}
+          <Link href={`${base}/agenda`} style={{ color: 'inherit' }}>
+            Agenda
+          </Link>
+          {modules.has('JOBS') ? (
+            <Link href={`${base}/emploi`} style={{ color: 'inherit' }}>
+              Emploi
+            </Link>
+          ) : null}
+          <Link href={`${base}/actualites`} style={{ color: 'inherit' }}>
+            Actualités
+          </Link>
         </div>
         <div style={col}>
           <b style={{ color: 'var(--cream)' }}>Professionnels</b>
-          <a href={appUrl(`/pro/inscription?territoire=${t.slug}`)} style={{ color: 'inherit' }}>Référencer mon activité</a>
-          <a href={appUrl(`/pro/revendiquer?territoire=${t.slug}`)} style={{ color: 'inherit' }}>Revendiquer ma fiche</a>
-          <a href={appUrl('/tarifs#professionnels')} style={{ color: 'inherit' }}>Offres Premium</a>
+          <a href={appUrl(`/pro/inscription?territoire=${t.slug}`)} style={{ color: 'inherit' }}>
+            Référencer mon activité
+          </a>
+          <a href={appUrl(`/pro/revendiquer?territoire=${t.slug}`)} style={{ color: 'inherit' }}>
+            Revendiquer ma fiche
+          </a>
+          <a href={appUrl('/tarifs#professionnels')} style={{ color: 'inherit' }}>
+            Offres Premium
+          </a>
         </div>
         <div style={col}>
           <b style={{ color: 'var(--cream)' }}>Informations</b>
-          <Link href={`${base}/mentions-legales`} style={{ color: 'inherit' }}>Mentions légales</Link>
-          <Link href={`${base}/donnees-personnelles`} style={{ color: 'inherit' }}>Données personnelles</Link>
-          <Link href={`${base}/accessibilite`} style={{ color: 'inherit' }}>Accessibilité</Link>
+          <Link href={`${base}/mentions-legales`} style={{ color: 'inherit' }}>
+            Mentions légales
+          </Link>
+          <Link href={`${base}/donnees-personnelles`} style={{ color: 'inherit' }}>
+            Données personnelles
+          </Link>
+          <Link href={`${base}/accessibilite`} style={{ color: 'inherit' }}>
+            Accessibilité
+          </Link>
           <a href={appUrl('/')} style={{ color: 'var(--sage-3)' }}>
             Propulsé par terricom.
           </a>

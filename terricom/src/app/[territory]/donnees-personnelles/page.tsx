@@ -82,8 +82,8 @@ export default async function PrivacyPage({ params }: Props) {
       </table>
       <h2>Cookies</h2>
       <p>
-        Ce portail n&apos;utilise aucun cookie publicitaire ni traceur tiers. Seuls des cookies techniques strictement nécessaires peuvent être déposés
-        (session des professionnels connectés, passeport de circuit) : ils ne requièrent pas de consentement.
+        Ce portail n&apos;utilise aucun cookie publicitaire ni traceur tiers. Seuls des cookies techniques strictement nécessaires peuvent être déposés (session
+        des professionnels connectés, passeport de circuit) : ils ne requièrent pas de consentement.
       </p>
       {modules.has('AI') ? (
         <>
@@ -96,14 +96,14 @@ export default async function PrivacyPage({ params }: Props) {
       ) : null}
       <h2>Vos droits</h2>
       <p>
-        Vous disposez d&apos;un droit d&apos;accès, de rectification, d&apos;effacement, de limitation, d&apos;opposition et de portabilité de vos données.
-        Pour les exercer, écrivez à {dpo ? <a href={`mailto:${dpo}`}>{dpo}</a> : 'la collectivité'}. Vous pouvez également introduire une réclamation auprès
-        de la CNIL (cnil.fr).
+        Vous disposez d&apos;un droit d&apos;accès, de rectification, d&apos;effacement, de limitation, d&apos;opposition et de portabilité de vos données. Pour
+        les exercer, écrivez à {dpo ? <a href={`mailto:${dpo}`}>{dpo}</a> : 'la collectivité'}. Vous pouvez également introduire une réclamation auprès de la
+        CNIL (cnil.fr).
       </p>
       <h2>Sécurité</h2>
       <p>
-        Les données sont hébergées en France, chiffrées en transit et au repos, sauvegardées quotidiennement. Les accès des agents et des professionnels
-        sont nominatifs, protégés par double authentification pour les administrateurs, et journalisés.
+        Les données sont hébergées en France, chiffrées en transit et au repos, sauvegardées quotidiennement. Les accès des agents et des professionnels sont
+        nominatifs, protégés par double authentification pour les administrateurs, et journalisés.
       </p>
     </LegalShell>
   );

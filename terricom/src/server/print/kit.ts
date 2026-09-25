@@ -183,7 +183,14 @@ export async function businessCard(input: KitInput, style: KitStyle = 'vert'): P
     recto.drawText(l, { x: 16, y: ly, size: 8.5, font: fonts.body, color: fg });
     ly += 12;
   }
-  recto.drawText(input.territoryName, { x: W - 16 - fonts.bold.widthOfTextAtSize(input.territoryName, 7.5), y: 14, size: 7.5, font: fonts.bold, color: fg, opacity: 0.8 });
+  recto.drawText(input.territoryName, {
+    x: W - 16 - fonts.bold.widthOfTextAtSize(input.territoryName, 7.5),
+    y: 14,
+    size: 7.5,
+    font: fonts.bold,
+    color: fg,
+    opacity: 0.8,
+  });
   const verso = pdf.addPage([W, H]);
   verso.drawRectangle({ x: 0, y: 0, width: W, height: H, color: rgb(1, 1, 1) });
   drawQr(verso, input.url, 16, 22, 112);

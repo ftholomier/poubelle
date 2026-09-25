@@ -48,11 +48,7 @@ export async function companyAiUses(companyId: string): Promise<number> {
 
 async function withinTerritoryQuota(territoryId: string | null | undefined): Promise<boolean> {
   if (!territoryId) return true;
-  const [t] = await db
-    .select({ quota: territories.quotaAiCreditsMonthly })
-    .from(territories)
-    .where(eq(territories.id, territoryId))
-    .limit(1);
+  const [t] = await db.select({ quota: territories.quotaAiCreditsMonthly }).from(territories).where(eq(territories.id, territoryId)).limit(1);
   if (!t) return true;
   return (await territoryCreditsUsed(territoryId)) < t.quota;
 }

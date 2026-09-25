@@ -26,8 +26,8 @@ export default async function InvitationPage({ params }: Props) {
             Invitation expirée
           </h2>
           <p style={{ margin: 0, color: 'var(--muted)' }}>
-            Ce lien n&apos;est plus valable : il a déjà été utilisé ou a dépassé sa durée de 7 jours. Demandez une nouvelle invitation à la personne qui vous l&apos;a
-            envoyée.
+            Ce lien n&apos;est plus valable : il a déjà été utilisé ou a dépassé sa durée de 7 jours. Demandez une nouvelle invitation à la personne qui vous
+            l&apos;a envoyée.
           </p>
           <Link href="/connexion" className="btn btn-outline" style={{ alignSelf: 'flex-start' }}>
             Aller à la connexion
@@ -36,22 +36,50 @@ export default async function InvitationPage({ params }: Props) {
       </AuthShell>
     );
   }
-  const payload = row.payload as { companyId?: string; establishmentId?: string; role?: string; staffRole?: StaffRole; territoryId?: string; communeId?: string | null };
+  const payload = row.payload as {
+    companyId?: string;
+    establishmentId?: string;
+    role?: string;
+    staffRole?: StaffRole;
+    territoryId?: string;
+    communeId?: string | null;
+  };
   const [inviter, session, existing] = await Promise.all([
-    row.createdById ? db.select().from(users).where(eq(users.id, row.createdById)).limit(1).then((r) => r[0] ?? null) : Promise.resolve(null),
+    row.createdById
+      ? db
+          .select()
+          .from(users)
+          .where(eq(users.id, row.createdById))
+          .limit(1)
+          .then((r) => r[0] ?? null)
+      : Promise.resolve(null),
     getSession(),
-    db.select({ id: users.id }).from(users).where(eq(users.email, row.email)).limit(1).then((r) => r[0] ?? null),
+    db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.email, row.email))
+      .limit(1)
+      .then((r) => r[0] ?? null),
   ]);
   let scope = '';
   let detail = '';
   if (row.kind === 'INVITE_MEMBER') {
     const [est] = payload.establishmentId
       ? await db.select({ name: establishments.name }).from(establishments).where(eq(establishments.id, payload.establishmentId)).limit(1)
-      : await db.select({ name: companies.tradeName }).from(companies).where(eq(companies.id, payload.companyId ?? '')).limit(1);
+      : await db
+          .select({ name: companies.tradeName })
+          .from(companies)
+          .where(eq(companies.id, payload.companyId ?? ''))
+          .limit(1);
     scope = `gérer « ${est?.name ?? 'l’entreprise'} »`;
-    detail = payload.role === 'OWNER' ? 'Vous aurez les mêmes droits que le ou la titulaire, abonnement compris.' : 'Vous pourrez modifier la fiche, publier des actualités et consulter les statistiques.';
+    detail =
+      payload.role === 'OWNER'
+        ? 'Vous aurez les mêmes droits que le ou la titulaire, abonnement compris.'
+        : 'Vous pourrez modifier la fiche, publier des actualités et consulter les statistiques.';
   } else {
-    const [t] = payload.territoryId ? await db.select({ name: territories.name }).from(territories).where(eq(territories.id, payload.territoryId)).limit(1) : [];
+    const [t] = payload.territoryId
+      ? await db.select({ name: territories.name }).from(territories).where(eq(territories.id, payload.territoryId)).limit(1)
+      : [];
     const [c] = payload.communeId ? await db.select({ name: communes.name }).from(communes).where(eq(communes.id, payload.communeId)).limit(1) : [];
     scope = `rejoindre ${c ? `la commune de ${c.name}` : (t?.name ?? 'la collectivité')}`;
     detail = `Rôle : ${payload.staffRole ? STAFF_ROLES[payload.staffRole] : 'agent'}. La double authentification est obligatoire pour les agents des collectivités.`;
@@ -81,7 +109,11 @@ export default async function InvitationPage({ params }: Props) {
             <p style={{ margin: 0 }}>
               Un compte existe déjà pour <b>{row.email}</b> : connectez-vous pour accepter l&apos;invitation.
             </p>
-            <Link href={`/connexion?next=${encodeURIComponent(`/invitation/${token}`)}`} className="btn btn-brand" style={{ justifyContent: 'center', padding: 14 }}>
+            <Link
+              href={`/connexion?next=${encodeURIComponent(`/invitation/${token}`)}`}
+              className="btn btn-brand"
+              style={{ justifyContent: 'center', padding: 14 }}
+            >
               Se connecter
             </Link>
           </>

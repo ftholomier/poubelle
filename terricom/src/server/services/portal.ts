@@ -82,11 +82,7 @@ export async function getFeaturedCampaign(territoryId: string, preferredSlug?: s
     if (pref) return pref;
   }
   const soon = new Date(Date.now() + 90 * 86_400_000).toISOString().slice(0, 10);
-  return (
-    rows.find((c) => c.mode === 'ADVENT' && c.startsAt <= soon) ??
-    rows.find((c) => c.status === 'ACTIVE' && c.startsAt <= today) ??
-    rows[0]
-  );
+  return rows.find((c) => c.mode === 'ADVENT' && c.startsAt <= soon) ?? rows.find((c) => c.status === 'ACTIVE' && c.startsAt <= today) ?? rows[0];
 }
 
 export function campaignNavLabel(name: string): string {
@@ -96,9 +92,7 @@ export function campaignNavLabel(name: string): string {
 
 /** Toutes les cartes publiques d'un territoire (liste, carte, compteurs), mises en cache 60 s. */
 export function allCards(territoryId: string): Promise<EstablishmentCard[]> {
-  return memo(`cards:${territoryId}`, 60_000, () =>
-    loadCards(and(eq(establishments.territoryId, territoryId), publicStatusFilter()), { limit: 5000 }),
-  );
+  return memo(`cards:${territoryId}`, 60_000, () => loadCards(and(eq(establishments.territoryId, territoryId), publicStatusFilter()), { limit: 5000 }));
 }
 
 export function toMapPoints(cards: EstablishmentCard[], base: string) {
@@ -168,7 +162,7 @@ export async function getFeed(
       bg: POST_KINDS[p.kind as PostKind].bg,
       title: p.title,
       body: p.body,
-      who: e?.name ?? (p.authorType === 'COMMUNE' ? 'Votre mairie' : t?.name ?? 'Le territoire'),
+      who: e?.name ?? (p.authorType === 'COMMUNE' ? 'Votre mairie' : (t?.name ?? 'Le territoire')),
       whoPath: e && c && k ? `/${c.slug}/${k.slug}/${e.slug}` : null,
       image: p.imageUrl ?? e?.coverUrl ?? null,
       publishedAt: p.publishedAt ?? p.createdAt,
@@ -219,7 +213,11 @@ export async function upcomingEvents(territoryId: string, opts: { limit?: number
 }
 
 export async function communeMarkets(communeId: string) {
-  return db.select().from(markets).where(and(eq(markets.communeId, communeId), eq(markets.isActive, true))).orderBy(asc(markets.weekday));
+  return db
+    .select()
+    .from(markets)
+    .where(and(eq(markets.communeId, communeId), eq(markets.isActive, true)))
+    .orderBy(asc(markets.weekday));
 }
 
 /** Compteurs par famille pour une commune (page commune). */
@@ -271,9 +269,18 @@ export async function getPublicCampaign(territoryId: string, slug: string) {
     .where(and(eq(campaignParticipants.campaignId, camp.id), eq(campaignParticipants.status, 'JOINED')));
   const offers = new Map(rows.map((r) => [r.id, r]));
   const cards = rows.length
-    ? (await loadCards(and(inArray(establishments.id, rows.map((r) => r.id)), publicStatusFilter()), { limit: 500 })).sort(
-        (a, b) => Number(Boolean(b.coverUrl)) - Number(Boolean(a.coverUrl)) || b.completeness - a.completeness,
-      )
+    ? (
+        await loadCards(
+          and(
+            inArray(
+              establishments.id,
+              rows.map((r) => r.id),
+            ),
+            publicStatusFilter(),
+          ),
+          { limit: 500 },
+        )
+      ).sort((a, b) => Number(Boolean(b.coverUrl)) - Number(Boolean(a.coverUrl)) || b.completeness - a.completeness)
     : [];
   const today = parisDate();
   const doors =
@@ -316,7 +323,7 @@ export async function getPublicEvent(territoryId: string, slug: string) {
     .limit(1);
   if (!row) return null;
   const organizer = row.ev.establishmentId
-    ? (await loadCards(and(eq(establishments.id, row.ev.establishmentId), publicStatusFilter()), { limit: 1 }))[0] ?? null
+    ? ((await loadCards(and(eq(establishments.id, row.ev.establishmentId), publicStatusFilter()), { limit: 1 }))[0] ?? null)
     : null;
   if (row.ev.establishmentId && !organizer) return null;
   return { event: row.ev, commune: row.c, organizer };

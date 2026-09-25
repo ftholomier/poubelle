@@ -17,8 +17,26 @@ import { FileDrop } from '@/components/ui/FileDrop';
 const idle: ClaimFormState = { status: 'idle' };
 
 const inputStyle = { border: '1px solid var(--line)', borderRadius: 10, padding: 13, fontSize: 15, width: '100%', background: '#fff' } as const;
-const backStyle = { border: '1px solid var(--line)', background: '#fff', padding: '13px 18px', borderRadius: 12, fontWeight: 700, cursor: 'pointer', color: 'var(--text)' } as const;
-const nextStyle = { flex: 1, border: 0, background: 'var(--green)', color: '#fff', padding: 13, borderRadius: 12, fontWeight: 700, cursor: 'pointer', fontSize: 15 } as const;
+const backStyle = {
+  border: '1px solid var(--line)',
+  background: '#fff',
+  padding: '13px 18px',
+  borderRadius: 12,
+  fontWeight: 700,
+  cursor: 'pointer',
+  color: 'var(--text)',
+} as const;
+const nextStyle = {
+  flex: 1,
+  border: 0,
+  background: 'var(--green)',
+  color: '#fff',
+  padding: 13,
+  borderRadius: 12,
+  fontWeight: 700,
+  cursor: 'pointer',
+  fontSize: 15,
+} as const;
 
 function ErrorLine({ state }: { state: ClaimFormState }) {
   if (state.status !== 'error') return null;
@@ -72,7 +90,16 @@ export function AccountForm({
       <label className="sr-only" htmlFor="c-email">
         Email professionnel
       </label>
-      <input id="c-email" name="email" type="email" placeholder="Email professionnel" autoComplete="email" required defaultValue={prefill?.email} style={inputStyle} />
+      <input
+        id="c-email"
+        name="email"
+        type="email"
+        placeholder="Email professionnel"
+        autoComplete="email"
+        required
+        defaultValue={prefill?.email}
+        style={inputStyle}
+      />
       <label className="sr-only" htmlFor="c-pass">
         Mot de passe
       </label>
@@ -124,7 +151,18 @@ export function MfaEnrollForm({ secret, qrSvg, next, skip }: { secret: string; q
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 14 }}>
           Conservez ces codes de secours en lieu sûr : chacun permet une connexion si vous perdez votre téléphone. Ils ne seront plus affichés.
         </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 8, fontFamily: 'var(--font-mono)', fontSize: 15, background: 'var(--cream)', borderRadius: 12, padding: 14 }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2,1fr)',
+            gap: 8,
+            fontFamily: 'var(--font-mono)',
+            fontSize: 15,
+            background: 'var(--cream)',
+            borderRadius: 12,
+            padding: 14,
+          }}
+        >
           {state.recoveryCodes.map((c) => (
             <span key={c}>{c}</span>
           ))}
@@ -155,7 +193,17 @@ export function MfaEnrollForm({ secret, qrSvg, next, skip }: { secret: string; q
       <label className="sr-only" htmlFor="mfa-code">
         Code à 6 chiffres
       </label>
-      <input id="mfa-code" name="code" className="input code-input" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9 ]{6,7}" maxLength={7} required placeholder="000000" />
+      <input
+        id="mfa-code"
+        name="code"
+        className="input code-input"
+        inputMode="numeric"
+        autoComplete="one-time-code"
+        pattern="[0-9 ]{6,7}"
+        maxLength={7}
+        required
+        placeholder="000000"
+      />
       <ErrorLine state={state} />
       <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
         <Link href={skip} style={{ ...backStyle, textDecoration: 'none' }}>
@@ -240,14 +288,28 @@ export function IdentityForm({ estId, back, siretPrefill, codeLabel }: { estId: 
             inputMode="numeric"
             placeholder="123 456 789 00012"
             aria-label="Numéro SIRET"
-            style={{ marginTop: 10, width: '100%', border: '1px solid var(--mint-4)', borderRadius: 10, padding: 12, fontSize: 15, fontFamily: 'var(--font-mono)', background: '#fff' }}
+            style={{
+              marginTop: 10,
+              width: '100%',
+              border: '1px solid var(--mint-4)',
+              borderRadius: 10,
+              padding: 12,
+              fontSize: 15,
+              fontFamily: 'var(--font-mono)',
+              background: '#fff',
+            }}
           />
           {checking ? (
             <div style={{ marginTop: 8, fontSize: 13, color: 'var(--muted)' }}>Vérification dans la base SIRENE…</div>
           ) : verdict ? (
             <div
               role="status"
-              style={{ marginTop: 8, fontSize: 13, fontWeight: 700, color: verdict.ok === true ? 'var(--green)' : verdict.ok === false ? 'var(--danger-fg)' : 'var(--brick)' }}
+              style={{
+                marginTop: 8,
+                fontSize: 13,
+                fontWeight: 700,
+                color: verdict.ok === true ? 'var(--green)' : verdict.ok === false ? 'var(--danger-fg)' : 'var(--brick)',
+              }}
             >
               {verdict.ok === true ? '✓ ' : verdict.ok === false ? '✗ ' : '● '}
               {verdict.message}
@@ -285,7 +347,17 @@ export function CodeEntryForm({ claimId }: { claimId: string }) {
       <label className="sr-only" htmlFor="claim-code">
         Code reçu
       </label>
-      <input id="claim-code" name="code" className="input" inputMode="numeric" pattern="[0-9 ]{6,7}" maxLength={7} required placeholder="Code à 6 chiffres" style={{ maxWidth: 190, fontFamily: 'var(--font-mono)', fontSize: 17 }} />
+      <input
+        id="claim-code"
+        name="code"
+        className="input"
+        inputMode="numeric"
+        pattern="[0-9 ]{6,7}"
+        maxLength={7}
+        required
+        placeholder="Code à 6 chiffres"
+        style={{ maxWidth: 190, fontFamily: 'var(--font-mono)', fontSize: 17 }}
+      />
       <button type="submit" className="btn btn-brand" disabled={pending}>
         {pending ? 'Vérification…' : 'Valider le code'}
       </button>

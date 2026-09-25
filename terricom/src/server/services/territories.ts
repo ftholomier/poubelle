@@ -54,13 +54,7 @@ export async function getCommuneInTerritory(territoryId: string, communeSlug: st
     .select({ c: communes })
     .from(communeMemberships)
     .innerJoin(communes, eq(communes.id, communeMemberships.communeId))
-    .where(
-      and(
-        eq(communeMemberships.territoryId, territoryId),
-        isNull(communeMemberships.validTo),
-        eq(communes.slug, communeSlug),
-      ),
-    )
+    .where(and(eq(communeMemberships.territoryId, territoryId), isNull(communeMemberships.validTo), eq(communes.slug, communeSlug)))
     .limit(1);
   return rows[0]?.c ?? null;
 }

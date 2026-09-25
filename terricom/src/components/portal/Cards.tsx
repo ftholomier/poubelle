@@ -27,10 +27,7 @@ export function OpenCard({ e, base }: { e: EstablishmentCard; base: string }) {
     <Link href={`${base}${e.path}`} className="card card-link card-lift" style={{ borderRadius: 18, overflow: 'hidden' }}>
       <div style={{ position: 'relative', height: 190 }}>
         <Photo src={sized(e.coverUrl, 700, 480)} alt="" color={e.color} label={e.name} />
-        <span
-          className="pill"
-          style={{ position: 'absolute', left: 12, top: 12, background: 'var(--paper)', color: 'var(--text)' }}
-        >
+        <span className="pill" style={{ position: 'absolute', left: 12, top: 12, background: 'var(--paper)', color: 'var(--text)' }}>
           {e.open.open ? (
             <>
               <span className="live-dot" style={{ width: 7, height: 7 }} />
@@ -171,19 +168,7 @@ export function DateBox({ date, kind, big = false }: { date: Date; kind: EventKi
   );
 }
 
-export function EventRow({
-  href,
-  title,
-  where,
-  kind,
-  startsAt,
-}: {
-  href: string;
-  title: string;
-  where: string;
-  kind: EventKind;
-  startsAt: Date;
-}) {
+export function EventRow({ href, title, where, kind, startsAt }: { href: string; title: string; where: string; kind: EventKind; startsAt: Date }) {
   return (
     <Link href={href} className="agenda-row">
       <DateBox date={startsAt} kind={kind} />

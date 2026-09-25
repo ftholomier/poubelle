@@ -31,8 +31,6 @@ export function AppNav({ items, label }: { items: NavItem[]; label: string }) {
 /** Titre de la barre supérieure, déduit de la page affichée. */
 export function AppTitle({ titles, fallback }: { titles: [string, string][]; fallback: string }) {
   const pathname = usePathname();
-  const hit = titles
-    .filter(([prefix]) => pathname === prefix || pathname.startsWith(`${prefix}/`))
-    .sort((a, b) => b[0].length - a[0].length)[0];
+  const hit = titles.filter(([prefix]) => pathname === prefix || pathname.startsWith(`${prefix}/`)).sort((a, b) => b[0].length - a[0].length)[0];
   return <h1 className="app-title">{hit?.[1] ?? fallback}</h1>;
 }

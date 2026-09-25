@@ -32,13 +32,15 @@ export function mimeFromKey(key: string): string {
 }
 
 function safeKey(key: string): string {
-  const clean = normalize(key).replace(/^(\.\.(\/|\\|$))+/, '').replace(/^[/\\]+/, '');
+  const clean = normalize(key)
+    .replace(/^(\.\.(\/|\\|$))+/, '')
+    .replace(/^[/\\]+/, '');
   if (clean.includes('..')) throw new Error('Clé de stockage invalide');
   return clean;
 }
 
 class LocalDriver implements StorageDriver {
-  private root = resolve(process.cwd(), env.STORAGE_LOCAL_DIR);
+  private root = resolve(/*turbopackIgnore: true*/ process.cwd(), env.STORAGE_LOCAL_DIR);
 
   private path(key: string) {
     const p = join(this.root, safeKey(key));
@@ -76,9 +78,7 @@ class S3Driver implements StorageDriver {
     endpoint: env.S3_ENDPOINT || undefined,
     forcePathStyle: Boolean(env.S3_ENDPOINT),
     credentials:
-      env.S3_ACCESS_KEY_ID && env.S3_SECRET_ACCESS_KEY
-        ? { accessKeyId: env.S3_ACCESS_KEY_ID, secretAccessKey: env.S3_SECRET_ACCESS_KEY }
-        : undefined,
+      env.S3_ACCESS_KEY_ID && env.S3_SECRET_ACCESS_KEY ? { accessKeyId: env.S3_ACCESS_KEY_ID, secretAccessKey: env.S3_SECRET_ACCESS_KEY } : undefined,
   });
 
   async put(key: string, body: Buffer, contentType: string): Promise<void> {

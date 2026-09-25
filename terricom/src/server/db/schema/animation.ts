@@ -1,19 +1,5 @@
 import { sql } from 'drizzle-orm';
-import {
-  date,
-  doublePrecision,
-  index,
-  integer,
-  jsonb,
-  numeric,
-  pgTable,
-  primaryKey,
-  smallint,
-  text,
-  unique,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core';
+import { date, doublePrecision, index, integer, jsonb, numeric, pgTable, primaryKey, smallint, text, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createdAt, pk, tstz, updatedAt } from './_common';
 import { establishments } from './business';
 import { campaignMode, campaignStatus, participantStatus, publishStatus } from './enums';
@@ -60,18 +46,21 @@ export const campaigns = pgTable(
     heroImageUrl: text(),
     cardImageUrl: text(),
     ctaLabel: varchar({ length: 64 }),
-    criteria: jsonb().$type<CampaignCriteria>().notNull().default(sql`'{}'::jsonb`),
-    aiPlan: jsonb().$type<CampaignAiPlan>().notNull().default(sql`'{}'::jsonb`),
+    criteria: jsonb()
+      .$type<CampaignCriteria>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
+    aiPlan: jsonb()
+      .$type<CampaignAiPlan>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
     invitationMessage: text(),
     highlightEventId: uuid(),
     createdById: uuid().references(() => users.id, { onDelete: 'set null' }),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
-  (t) => [
-    unique('campaigns_territory_slug_uq').on(t.territoryId, t.slug),
-    index('campaigns_territory_status_idx').on(t.territoryId, t.status),
-  ],
+  (t) => [unique('campaigns_territory_slug_uq').on(t.territoryId, t.slug), index('campaigns_territory_status_idx').on(t.territoryId, t.status)],
 );
 
 export const campaignParticipants = pgTable(
@@ -89,10 +78,7 @@ export const campaignParticipants = pgTable(
     invitedAt: tstz(),
     joinedAt: tstz(),
   },
-  (t) => [
-    primaryKey({ columns: [t.campaignId, t.establishmentId] }),
-    index('campaign_participants_est_idx').on(t.establishmentId),
-  ],
+  (t) => [primaryKey({ columns: [t.campaignId, t.establishmentId] }), index('campaign_participants_est_idx').on(t.establishmentId)],
 );
 
 /** Cases du calendrier de l'Avent d'une campagne. */

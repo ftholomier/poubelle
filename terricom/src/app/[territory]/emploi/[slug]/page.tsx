@@ -125,7 +125,16 @@ export default async function JobPage({ params }: Props) {
         </div>
       </section>
 
-      <div className="container split" style={{ paddingTop: 34, paddingBottom: 60, ['--cols' as string]: 'minmax(0,1.6fr) minmax(320px,1fr)', ['--gap' as string]: '32px', ['--align' as string]: 'start' }}>
+      <div
+        className="container split"
+        style={{
+          paddingTop: 34,
+          paddingBottom: 60,
+          ['--cols' as string]: 'minmax(0,1.6fr) minmax(320px,1fr)',
+          ['--gap' as string]: '32px',
+          ['--align' as string]: 'start',
+        }}
+      >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 28, minWidth: 0 }}>
           <div>
             <h2 className="h3" style={h3}>

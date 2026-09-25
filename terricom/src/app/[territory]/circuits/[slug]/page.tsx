@@ -51,7 +51,17 @@ export default async function CircuitPage({ params, searchParams }: Props) {
     qrDataUrl(portalUrl(t, `/circuits/${c.slug}`), { withSymbol: true }),
   ]);
   const stamped = passport?.stamped ?? [];
-  const points = stops.filter((s) => s.lat && s.lng).map((s) => ({ id: s.id, lat: s.lat!, lng: s.lng!, name: s.name, color: s.color, subtitle: `${s.activity} · ${s.communeName}`, href: s.path ? `${base}${s.path}` : undefined }));
+  const points = stops
+    .filter((s) => s.lat && s.lng)
+    .map((s) => ({
+      id: s.id,
+      lat: s.lat!,
+      lng: s.lng!,
+      name: s.name,
+      color: s.color,
+      subtitle: `${s.activity} · ${s.communeName}`,
+      href: s.path ? `${base}${s.path}` : undefined,
+    }));
   const justStamped = sp.tampon && /^\d+$/.test(sp.tampon) ? Number(sp.tampon) : null;
 
   return (
@@ -73,7 +83,10 @@ export default async function CircuitPage({ params, searchParams }: Props) {
       />
       {justStamped ? (
         <div className="alert alert-ok" role="status" style={{ marginBottom: 18 }}>
-          Étape {justStamped} tamponnée ! {passport?.rewardCode ? 'Circuit réussi : votre code de récompense vous attend dans le passeport.' : 'Continuez le circuit pour débloquer la récompense.'}
+          Étape {justStamped} tamponnée !{' '}
+          {passport?.rewardCode
+            ? 'Circuit réussi : votre code de récompense vous attend dans le passeport.'
+            : 'Continuez le circuit pour débloquer la récompense.'}
         </div>
       ) : sp.tampon === 'invalide' ? (
         <div className="alert alert-warn" role="status" style={{ marginBottom: 18 }}>
@@ -151,7 +164,16 @@ export default async function CircuitPage({ params, searchParams }: Props) {
                 <>
                   <div
                     className="display"
-                    style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--ink)', color: 'var(--amber)', display: 'grid', placeItems: 'center', fontSize: 15 }}
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: '50%',
+                      background: 'var(--ink)',
+                      color: 'var(--amber)',
+                      display: 'grid',
+                      placeItems: 'center',
+                      fontSize: 15,
+                    }}
                   >
                     {i + 1}
                   </div>
@@ -162,7 +184,16 @@ export default async function CircuitPage({ params, searchParams }: Props) {
                     <div style={{ fontWeight: 700 }}>{s.name}</div>
                     <div style={{ fontSize: 13, color: 'var(--muted)' }}>{[s.activity, s.communeName].filter(Boolean).join(' · ')}</div>
                   </div>
-                  <span style={{ fontSize: 12, fontWeight: 700, padding: '4px 9px', borderRadius: 999, background: on ? 'var(--leaf)' : 'var(--sand)', whiteSpace: 'nowrap' }}>
+                  <span
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 700,
+                      padding: '4px 9px',
+                      borderRadius: 999,
+                      background: on ? 'var(--leaf)' : 'var(--sand)',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
                     {on ? 'Tamponné' : 'À visiter'}
                   </span>
                 </>

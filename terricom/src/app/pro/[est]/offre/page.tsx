@@ -66,7 +66,8 @@ export default async function OfferPage({ params, searchParams }: Props) {
       {sub ? (
         <div className="card" style={{ borderRadius: 18, padding: 18, fontSize: 14, maxWidth: 720, margin: '0 auto', width: '100%' }}>
           Abonnement actif depuis le {fmtShortDate(sub.startedAt)}
-          {sub.currentPeriodEnd ? ` · prochaine échéance le ${fmtShortDate(sub.currentPeriodEnd)}` : ''} · paiement {sub.provider === 'STRIPE' ? 'par carte' : 'par virement'}.
+          {sub.currentPeriodEnd ? ` · prochaine échéance le ${fmtShortDate(sub.currentPeriodEnd)}` : ''} · paiement{' '}
+          {sub.provider === 'STRIPE' ? 'par carte' : 'par virement'}.
         </div>
       ) : null}
       {invoices.length ? (

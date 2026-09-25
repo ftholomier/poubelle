@@ -50,8 +50,7 @@ export function hotp(secret: string, counter: number, digits = 6): string {
   msg.writeBigUInt64BE(BigInt(counter));
   const mac = createHmac('sha1', key).update(msg).digest();
   const offset = mac[mac.length - 1] & 0xf;
-  const bin =
-    ((mac[offset] & 0x7f) << 24) | ((mac[offset + 1] & 0xff) << 16) | ((mac[offset + 2] & 0xff) << 8) | (mac[offset + 3] & 0xff);
+  const bin = ((mac[offset] & 0x7f) << 24) | ((mac[offset + 1] & 0xff) << 16) | ((mac[offset + 2] & 0xff) << 8) | (mac[offset + 3] & 0xff);
   return String(bin % 10 ** digits).padStart(digits, '0');
 }
 
