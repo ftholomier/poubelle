@@ -193,10 +193,12 @@ export async function saveAudiencesAction(form: FormData): Promise<void> {
   const valid = wanted.length
     ? (
         await db
-          .select({ id: audiences.id })
+          .select({ id: audiences.id, communeId: audiences.communeId, criteria: audiences.criteria })
           .from(audiences)
           .where(and(eq(audiences.territoryId, ctx.territory.id), inArray(audiences.id, wanted)))
-      ).map((a) => a.id)
+      )
+        .filter((a) => audienceVisible(ctx, a))
+        .map((a) => a.id)
     : [];
   await db.update(newsletters).set({ audienceIds: valid, updatedAt: new Date() }).where(eq(newsletters.id, n.id));
   revalidatePath(base);
@@ -280,4 +282,81 @@ export async function previewAction(newsletterId: string): Promise<string> {
   const ctx = await loadBoContext();
   const n = await scopedLetter(ctx, newsletterId);
   return n ? previewHtml(n, ctx.territory) : '';
+}
+
+/** Une mairie n'utilise que les audiences sans zone ou dont la zone comprend sa commune. */
+function audienceVisible(ctx: BoContext, a: { communeId: string | null; criteria: { communeIds?: string[] } }): boolean {
+  if (!ctx.commune) return true;
+  const zone = [...(a.criteria.communeIds ?? []), ...(a.communeId ? [a.communeId] : [])];
+  return !zone.length || zone.includes(ctx.commune.id);
+}
+
+/** Nouvelle audience : zone géographique (habitants), professionnels (familles, catégories) ou liste. */
+export async function createAudienceAction(_prev: NlState, form: FormData): Promise<NlState> {
+  const ctx = await loadBoContext();
+  if (ctx.level !== 'TERRITORY') return { status: 'error', message: 'Les audiences se créent au niveau du territoire.' };
+  const parsed = z
+    .object({
+      name: z.string().trim().min(3, 'Nom trop court').max(160),
+      description: z.string().trim().max(255),
+      kind: z.enum(['COMMUNE', 'BUSINESSES', 'MANUAL']),
+    })
+    .safeParse(Object.fromEntries([...form.entries()].filter(([, v]) => typeof v === 'string')));
+  if (!parsed.success) return { status: 'error', message: parsed.error.issues[0]?.message };
+  const d = parsed.data;
+  const communeIds = form
+    .getAll('communeIds')
+    .map(String)
+    .filter((id) => ctx.communes.some((c) => c.id === id));
+  const families = form
+    .getAll('families')
+    .map(String)
+    .filter((f) => ['COMMERCE', 'ARTISAN', 'PRODUCTEUR', 'RESTAURATION', 'SERVICES'].includes(f));
+  const categoryIds = form
+    .getAll('categoryIds')
+    .map(String)
+    .filter((id) => /^[0-9a-f-]{36}$/.test(id))
+    .slice(0, 40);
+  if (d.kind === 'COMMUNE' && !communeIds.length) return { status: 'error', message: 'Choisissez au moins une commune pour la zone.' };
+  const criteria = d.kind === 'COMMUNE' ? { communeIds } : d.kind === 'BUSINESSES' ? { families, categoryIds } : {};
+  const [a] = await db
+    .insert(audiences)
+    .values({ territoryId: ctx.territory.id, name: d.name, description: d.description || null, kind: d.kind, criteria, sortOrder: 50 })
+    .returning({ id: audiences.id });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'audience.create',
+    summary: `Audience « ${d.name} » créée`,
+    territoryId: ctx.territory.id,
+    targetType: 'audience',
+    targetId: a.id,
+  });
+  revalidatePath(base, 'layout');
+  return { status: 'ok', message: `Audience « ${d.name} » créée.` };
+}
+
+/** Suppression d'une audience (hors audience par défaut des inscriptions). */
+export async function deleteAudienceAction(form: FormData): Promise<void> {
+  const ctx = await loadBoContext();
+  if (ctx.level !== 'TERRITORY' || ctx.access !== 'ADMIN') return;
+  const id = z.string().uuid().parse(form.get('audienceId'));
+  const [a] = await db
+    .select()
+    .from(audiences)
+    .where(and(eq(audiences.id, id), eq(audiences.territoryId, ctx.territory.id)))
+    .limit(1);
+  if (!a || a.isDefault) return;
+  await db.delete(audiences).where(eq(audiences.id, a.id));
+  await db.execute(
+    sql`update newsletters set audience_ids = array_remove(audience_ids, ${a.id}::uuid) where territory_id = ${ctx.territory.id} and status in ('DRAFT', 'SCHEDULED')`,
+  );
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'audience.delete',
+    summary: `Audience « ${a.name} » supprimée`,
+    territoryId: ctx.territory.id,
+  });
+  revalidatePath(base, 'layout');
 }

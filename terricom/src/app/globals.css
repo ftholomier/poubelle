@@ -2577,3 +2577,8 @@ p {
   background: var(--c);
   box-shadow: 0 0 0 1.5px #fff;
 }
+
+.bo-details {
+  border-top: 1px solid var(--line-2);
+  padding-top: 8px;
+}

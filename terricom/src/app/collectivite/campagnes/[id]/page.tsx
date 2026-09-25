@@ -73,7 +73,8 @@ export default async function CampaignEditPage({ params, searchParams }: Props) 
       </Link>
       {!editable ? (
         <div className="alert alert-info" role="note">
-          Campagne pilotée par la {shortLegalName(ctx.territory.legalName)} : vous la consultez. Les établissements de votre commune qui y participent sont listés ci-dessous.
+          Campagne pilotée par la {shortLegalName(ctx.territory.legalName)} : vous la consultez. Les établissements de votre commune qui y participent sont
+          listés ci-dessous.
         </div>
       ) : null}
       {sp.ok === 'invites' ? (
@@ -415,6 +416,35 @@ export default async function CampaignEditPage({ params, searchParams }: Props) 
               {!participants.length ? <span style={{ fontSize: 13, color: 'var(--muted)' }}>Aucun établissement pour l’instant.</span> : null}
             </div>
           </section>
+
+          {c.status !== 'DRAFT' ? (
+            <section className="bo-card" style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
+              <img
+                src={`/api/collectivite/campagnes/${c.id}/qr.svg`}
+                alt={`QR code de la campagne ${c.name}`}
+                width={96}
+                height={96}
+                style={{ borderRadius: 10, background: '#fff', border: '1px solid var(--line)', padding: 6 }}
+              />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0, flex: 1 }}>
+                <b>QR code de la campagne</b>
+                <span style={{ fontSize: 13, color: 'var(--muted)' }}>
+                  Vers la page publique de l’opération, pour les vitrines, flyers et panneaux ; les visites par QR code sont comptées.
+                </span>
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', fontSize: 13, fontWeight: 700 }}>
+                  <a href={`/api/collectivite/campagnes/${c.id}/affiche.pdf`} download>
+                    Affiche A5 (PDF)
+                  </a>
+                  <a href={`/api/collectivite/campagnes/${c.id}/qr.png`} download>
+                    QR code (PNG)
+                  </a>
+                  <a href={`/api/collectivite/campagnes/${c.id}/qr.svg`} download>
+                    QR code (SVG)
+                  </a>
+                </div>
+              </div>
+            </section>
+          ) : null}
 
           {c.mode === 'ADVENT' ? (
             <section className="bo-card" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

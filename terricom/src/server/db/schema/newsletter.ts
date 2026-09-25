@@ -36,6 +36,8 @@ export const subscribers = pgTable(
   (t) => [unique('subscribers_territory_email_uq').on(t.territoryId, t.email), index('subscribers_territory_status_idx').on(t.territoryId, t.status)],
 );
 
+export type AudienceCriteria = { communeIds?: string[]; families?: string[]; categoryIds?: string[] };
+
 export const audiences = pgTable(
   'audiences',
   {
@@ -47,6 +49,11 @@ export const audiences = pgTable(
     description: varchar({ length: 255 }),
     kind: audienceKind().notNull().default('MANUAL'),
     communeId: uuid().references(() => communes.id, { onDelete: 'cascade' }),
+    /** Audience dynamique : zone (communes) pour les habitants, familles ou catégories pour les professionnels. */
+    criteria: jsonb()
+      .$type<AudienceCriteria>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
     isDefault: boolean().notNull().default(false),
     sortOrder: integer().notNull().default(0),
     createdAt: createdAt(),

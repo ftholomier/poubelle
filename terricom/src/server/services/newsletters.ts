@@ -1,4 +1,4 @@
-import { and, asc, count, desc, eq, gte, inArray, isNull, lte, ne, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, gte, inArray, isNull, lte, ne, or, sql, type SQL } from 'drizzle-orm';
 import { PUBLIC_STATUSES } from '@/lib/constants';
 import { fmtEventBadge } from '@/lib/format';
 import { sized } from '@/lib/images';
@@ -169,31 +169,121 @@ export async function previewHtml(n: NewsletterRow, territory: TerritoryLike): P
   return renderNewsletter(view).html;
 }
 
-/** Audiences du territoire avec le nombre d'abonnés confirmés. */
+/** Audiences du territoire avec le nombre de destinataires (abonnés confirmés, zones, professionnels). */
 export async function audienceStats(territoryId: string) {
-  return db
+  const list = await db
     .select({
       id: audiences.id,
       name: audiences.name,
       description: audiences.description,
       kind: audiences.kind,
       communeId: audiences.communeId,
-      n: sql<number>`(select count(*)::int from subscriber_audiences sa join subscribers s on s.id = sa.subscriber_id where sa.audience_id = "audiences"."id" and s.status = 'CONFIRMED')`,
+      criteria: audiences.criteria,
+      isDefault: audiences.isDefault,
     })
     .from(audiences)
     .where(eq(audiences.territoryId, territoryId))
     .orderBy(asc(audiences.sortOrder), asc(audiences.name));
+  const sizes = await Promise.all(list.map((a) => recipientCount(territoryId, [a.id])));
+  return list.map((a, i) => ({ ...a, n: sizes[i] }));
 }
 
-/** Nombre de destinataires distincts (abonnés confirmés) des audiences choisies. */
+type AudienceRow = { id: string; kind: string; communeId: string | null; criteria: { communeIds?: string[]; families?: string[]; categoryIds?: string[] } };
+
+/**
+ * Adresses des professionnels du territoire (gérants et collaborateurs des fiches actives),
+ * éventuellement limités à des familles d'activité ou à des catégories.
+ */
+function proEmails(territoryId: string, a: AudienceRow): SQL {
+  const fam = a.criteria.families?.length
+    ? sql`and k.family in (${sql.join(
+        a.criteria.families.map((f) => sql`${f}`),
+        sql`, `,
+      )})`
+    : sql``;
+  const cat = a.criteria.categoryIds?.length
+    ? sql`and e.category_id in (${sql.join(
+        a.criteria.categoryIds.map((c) => sql`${c}::uuid`),
+        sql`, `,
+      )})`
+    : sql``;
+  return sql`select lower(u.email) from users u join company_members cm on cm.user_id = u.id join establishments e on e.company_id = cm.company_id
+    join categories k on k.id = e.category_id
+    where e.territory_id = ${territoryId} and e.status in ('CLAIMED', 'VALIDATED', 'TO_COMPLETE') and u.deleted_at is null ${fam} ${cat}`;
+}
+
+async function loadAudiences(territoryId: string, audienceIds: string[]): Promise<AudienceRow[]> {
+  if (!audienceIds.length) return [];
+  return db
+    .select({ id: audiences.id, kind: audiences.kind, communeId: audiences.communeId, criteria: audiences.criteria })
+    .from(audiences)
+    .where(and(eq(audiences.territoryId, territoryId), inArray(audiences.id, audienceIds)));
+}
+
+/**
+ * Condition SQL « abonné destinataire » : membre inscrit de l'audience, habitant d'une commune de
+ * la zone, ou professionnel correspondant aux critères.
+ */
+function recipientWhere(territoryId: string, list: AudienceRow[]): SQL {
+  const ids = list.map((a) => a.id);
+  const zone = [...new Set(list.filter((a) => a.kind === 'COMMUNE').flatMap((a) => [...(a.criteria.communeIds ?? []), ...(a.communeId ? [a.communeId] : [])]))];
+  const pros = list.filter((a) => a.kind === 'BUSINESSES');
+  return and(
+    eq(subscribers.territoryId, territoryId),
+    eq(subscribers.status, 'CONFIRMED'),
+    or(
+      sql`exists (select 1 from subscriber_audiences sa where sa.subscriber_id = ${subscribers.id} and sa.audience_id in (${sql.join(
+        ids.map((i) => sql`${i}::uuid`),
+        sql`, `,
+      )}))`,
+      zone.length ? inArray(subscribers.communeId, zone) : undefined,
+      ...pros.map((a) => sql`lower(${subscribers.email}) in (${proEmails(territoryId, a)})`),
+    ),
+  )!;
+}
+
+/**
+ * Les professionnels visés deviennent des abonnés « PRO » (information de la collectivité aux
+ * entreprises, intérêt légitime) : ils reçoivent le lien de désinscription, qui est ensuite respecté.
+ */
+async function syncProSubscribers(territoryId: string, list: AudienceRow[]): Promise<void> {
+  for (const a of list.filter((x) => x.kind === 'BUSINESSES')) {
+    const missing = await db.execute<{ email: string }>(sql`select distinct x.email from (${proEmails(territoryId, a)}) as x(email)
+      where not exists (select 1 from subscribers s where s.territory_id = ${territoryId} and lower(s.email) = x.email)`);
+    for (const r of missing.rows)
+      await db
+        .insert(subscribers)
+        .values({
+          territoryId,
+          email: r.email,
+          status: 'CONFIRMED',
+          source: 'PRO',
+          consentText:
+            'Professionnel référencé sur le portail : informations de la collectivité aux entreprises (intérêt légitime, désinscription en un clic).',
+          confirmedAt: new Date(),
+          unsubscribeToken: randomToken(24),
+        })
+        .onConflictDoNothing();
+  }
+}
+
+/** Nombre de destinataires distincts des audiences choisies (y compris les professionnels pas encore abonnés). */
 export async function recipientCount(territoryId: string, audienceIds: string[]): Promise<number> {
-  if (!audienceIds.length) return 0;
+  const list = await loadAudiences(territoryId, audienceIds);
+  if (!list.length) return 0;
   const [r] = await db
-    .select({ n: sql<number>`count(distinct ${subscribers.id})::int` })
+    .select({ n: sql<number>`count(distinct lower(${subscribers.email}))::int` })
     .from(subscribers)
-    .innerJoin(subscriberAudiences, eq(subscriberAudiences.subscriberId, subscribers.id))
-    .where(and(eq(subscribers.territoryId, territoryId), eq(subscribers.status, 'CONFIRMED'), inArray(subscriberAudiences.audienceId, audienceIds)));
-  return r?.n ?? 0;
+    .where(recipientWhere(territoryId, list));
+  let n = r?.n ?? 0;
+  for (const a of list.filter((x) => x.kind === 'BUSINESSES')) {
+    const [m] = (
+      await db.execute<{ n: number }>(sql`select count(distinct x.email)::int as n from (${proEmails(territoryId, a)}) as x(email)
+        where not exists (select 1 from subscribers s where s.territory_id = ${territoryId} and lower(s.email) = x.email)`)
+    ).rows;
+    n += Number(m?.n ?? 0);
+  }
+  return n;
 }
 
 /** Proposition de contenu : événements du week-end et nouveautés des commerces. */
@@ -265,12 +355,10 @@ export function verifyClick(token: string, url: string, sig: string): boolean {
 export async function dispatchNewsletter(newsletterId: string): Promise<number> {
   const [n] = await db.select().from(newsletters).where(eq(newsletters.id, newsletterId)).limit(1);
   if (!n || (n.status !== 'SCHEDULED' && n.status !== 'SENDING')) return 0;
-  const rows = n.audienceIds.length
-    ? await db
-        .selectDistinct({ id: subscribers.id, email: subscribers.email })
-        .from(subscribers)
-        .innerJoin(subscriberAudiences, eq(subscriberAudiences.subscriberId, subscribers.id))
-        .where(and(eq(subscribers.territoryId, n.territoryId), eq(subscribers.status, 'CONFIRMED'), inArray(subscriberAudiences.audienceId, n.audienceIds)))
+  const list = await loadAudiences(n.territoryId, n.audienceIds);
+  await syncProSubscribers(n.territoryId, list);
+  const rows = list.length
+    ? await db.selectDistinct({ id: subscribers.id, email: subscribers.email }).from(subscribers).where(recipientWhere(n.territoryId, list))
     : [];
   for (let i = 0; i < rows.length; i += 500) {
     await db

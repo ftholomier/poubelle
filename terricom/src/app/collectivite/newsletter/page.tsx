@@ -4,7 +4,9 @@ import Link from 'next/link';
 import {
   addEstablishmentAction,
   autoFillAction,
+  createAudienceAction,
   createNewsletterAction,
+  deleteAudienceAction,
   deleteDraftAction,
   removeItemAction,
   saveContentAction,
@@ -18,6 +20,8 @@ import { fmtDecimal, fmtInt, fmtStamp, parisDate, parisParts } from '@/lib/forma
 import { db } from '@/server/db';
 import { establishments, newsletters, type NewsletterBlock } from '@/server/db/schema';
 import { loadBoContext } from '@/server/services/backoffice';
+import { pickableCategories } from '@/server/services/categories';
+import { FAMILIES, FAMILY_ORDER } from '@/lib/constants';
 import { audienceStats, previewHtml, recentRates, recipientCount } from '@/server/services/newsletters';
 
 export const metadata: Metadata = { title: 'Newsletter territoriale' };
@@ -108,7 +112,15 @@ export default async function NewsletterPage({ searchParams }: Props) {
         .where(and(eq(establishments.territoryId, ctx.territory.id), inArray(establishments.id, estBlock.ids)))
     : [];
   const cta = n.blocks.find((b): b is Extract<NewsletterBlock, { type: 'cta' }> => b.type === 'cta');
-  const visibleAudiences = ctx.commune ? audienceList.filter((a) => !a.communeId || a.communeId === ctx.commune!.id) : audienceList;
+  // Une mairie n'utilise que les audiences sans zone ou dont la zone comprend sa commune.
+  const visibleAudiences = ctx.commune
+    ? audienceList.filter((a) => {
+        const zone = [...(a.criteria.communeIds ?? []), ...(a.communeId ? [a.communeId] : [])];
+        return !zone.length || zone.includes(ctx.commune!.id);
+      })
+    : audienceList;
+  const withPros = visibleAudiences.some((a) => a.kind === 'BUSINESSES' && n.audienceIds.includes(a.id));
+  const cats = ctx.level === 'TERRITORY' ? await pickableCategories(ctx.territory.id) : [];
   const slot = n.scheduledAt
     ? {
         date: parisDate(n.scheduledAt),
@@ -220,8 +232,80 @@ export default async function NewsletterPage({ searchParams }: Props) {
               <b>{fmtInt(n.status === 'SENT' || n.status === 'SENDING' ? n.statsRecipients : total)}</b>
             </div>
             <div style={{ fontSize: 12, color: 'var(--green)', fontWeight: 600 }}>
-              ✓ 100 % avec consentement explicite (double opt-in) · désinscription en 1 clic
+              {withPros
+                ? '✓ Habitants : consentement explicite (double opt-in) · professionnels : information de la collectivité · désinscription en 1 clic'
+                : '✓ 100 % avec consentement explicite (double opt-in) · désinscription en 1 clic'}
             </div>
+            {ctx.level === 'TERRITORY' ? (
+              <details className="bo-details">
+                <summary style={{ fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Gérer les audiences</summary>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 10 }}>
+                  {visibleAudiences
+                    .filter((a) => !a.isDefault)
+                    .map((a) => (
+                      <form key={a.id} action={deleteAudienceAction} style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: 13 }}>
+                        <input type="hidden" name="audienceId" value={a.id} />
+                        <span>
+                          {a.name} · {fmtInt(a.n)}
+                        </span>
+                        {ctx.access === 'ADMIN' ? (
+                          <button type="submit" className="btn-link" style={{ color: 'var(--danger-fg)', fontSize: 12 }}>
+                            Supprimer
+                          </button>
+                        ) : null}
+                      </form>
+                    ))}
+                </div>
+                <ActionForm action={createAudienceAction} style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
+                  <input name="name" className="input" placeholder="Nom (ex. Plateau d’Amancey)" required aria-label="Nom de l’audience" />
+                  <input name="description" className="input" placeholder="Description (facultatif)" aria-label="Description" />
+                  <select name="kind" className="input" defaultValue="COMMUNE" aria-label="Type d’audience">
+                    <option value="COMMUNE">Zone géographique : les habitants abonnés de communes choisies</option>
+                    <option value="BUSINESSES">Professionnels : familles ou catégories d’activité</option>
+                    <option value="MANUAL">Liste (inscriptions, import)</option>
+                  </select>
+                  <fieldset style={{ border: '1px solid var(--line)', borderRadius: 10, padding: '8px 10px' }}>
+                    <legend style={{ fontSize: 12, fontWeight: 700, padding: '0 4px' }}>Communes de la zone</legend>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 12px', maxHeight: 120, overflowY: 'auto' }}>
+                      {ctx.communes.map((c) => (
+                        <label key={c.id} style={{ fontSize: 12, display: 'flex', gap: 4, alignItems: 'center' }}>
+                          <input type="checkbox" name="communeIds" value={c.id} />
+                          {c.name}
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
+                  <fieldset style={{ border: '1px solid var(--line)', borderRadius: 10, padding: '8px 10px' }}>
+                    <legend style={{ fontSize: 12, fontWeight: 700, padding: '0 4px' }}>Professionnels visés</legend>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 12px' }}>
+                      {FAMILY_ORDER.map((f) => (
+                        <label key={f} style={{ fontSize: 12, display: 'flex', gap: 4, alignItems: 'center' }}>
+                          <input type="checkbox" name="families" value={f} />
+                          {FAMILIES[f].label}
+                        </label>
+                      ))}
+                    </div>
+                    <select
+                      name="categoryIds"
+                      multiple
+                      className="input"
+                      aria-label="Catégories (facultatif)"
+                      style={{ marginTop: 6, height: 90, fontSize: 12 }}
+                    >
+                      {cats.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {c.name}
+                        </option>
+                      ))}
+                    </select>
+                    <span style={{ fontSize: 11, color: 'var(--muted)' }}>Sans choix : tous les professionnels du territoire.</span>
+                  </fieldset>
+                  <SubmitButton className="btn btn-outline btn-sm" pendingLabel="Création…" style={{ alignSelf: 'flex-start' }}>
+                    Créer l’audience
+                  </SubmitButton>
+                </ActionForm>
+              </details>
+            ) : null}
           </section>
           <section className="bo-card" style={{ padding: 18, display: 'flex', flexDirection: 'column', gap: 10 }}>
             <b>Envoi</b>

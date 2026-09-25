@@ -25,6 +25,7 @@ import {
 import { env } from '@/server/env';
 import { sendEmail } from '@/server/mail/send';
 import { ensureVisitorPassport, stampPassport } from '@/server/services/circuits';
+import { getTerritoryCommunes } from '@/server/services/territories';
 import {
   applicationAckTemplate,
   appointmentRequestTemplate,
@@ -67,6 +68,9 @@ export async function subscribeNewsletter(_prev: SubscribeState, form: FormData)
   const { territoryId } = parsed.data;
   const [t] = await db.select().from(territories).where(eq(territories.id, territoryId)).limit(1);
   if (!t) return { status: 'error', message: 'Territoire inconnu.' };
+  // Commune facultative, retenue seulement si elle fait partie du territoire (lettres par zone).
+  const rawCommune = String(form.get('communeId') ?? '');
+  const communeId = /^[0-9a-f-]{36}$/.test(rawCommune) && (await getTerritoryCommunes(territoryId)).some((c) => c.id === rawCommune) ? rawCommune : null;
   const settings = t.settings as { newsletterName?: string };
   const newsletterName = settings.newsletterName ?? `La lettre de ${t.name}`;
   const consentText = `J'accepte de recevoir « ${newsletterName} » de ${t.name}. Mes données ne sont jamais revendues (RGPD).`;
@@ -84,7 +88,15 @@ export async function subscribeNewsletter(_prev: SubscribeState, form: FormData)
   if (existing) {
     await db
       .update(subscribers)
-      .set({ status: 'PENDING', confirmTokenHash: sha256(token), consentText, consentAt: new Date(), consentIpHash: ipHash(info.ip), unsubscribedAt: null })
+      .set({
+        status: 'PENDING',
+        confirmTokenHash: sha256(token),
+        consentText,
+        consentAt: new Date(),
+        consentIpHash: ipHash(info.ip),
+        unsubscribedAt: null,
+        ...(communeId ? { communeId } : {}),
+      })
       .where(eq(subscribers.id, existing.id));
     subscriberId = existing.id;
   } else {
@@ -93,6 +105,7 @@ export async function subscribeNewsletter(_prev: SubscribeState, form: FormData)
       .values({
         territoryId,
         email: parsed.data.email,
+        communeId,
         status: 'PENDING',
         source: 'PORTAL',
         consentText,

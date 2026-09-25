@@ -11,6 +11,7 @@ import { fmtInt, fmtLongDate } from '@/lib/format';
 import type { HomeBlock } from '@/server/db/schema';
 import { allCards, countOpenJobs, getCircuits, getFeed, getPortal, toMapPoints } from '@/server/services/portal';
 import { portalUrl } from '@/server/urls';
+import { getTerritoryCommunes } from '@/server/services/territories';
 
 type Props = { params: Promise<{ territory: string }> };
 
@@ -324,6 +325,7 @@ export default async function TerritoryHome({ params }: Props) {
                 </div>
                 <NewsletterForm
                   territoryId={t.id}
+                  communes={(await getTerritoryCommunes(t.id)).map((c) => ({ id: c.id, name: c.name }))}
                   consentText={`J'accepte de recevoir la lettre d'information de ${t.name}. Mes données ne sont jamais revendues (RGPD).`}
                 />
               </div>

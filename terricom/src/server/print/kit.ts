@@ -203,3 +203,54 @@ export async function businessCard(input: KitInput, style: KitStyle = 'vert'): P
   verso.drawText(input.shortUrl, { x: tx, y: 30, size: 7, font: fonts.body, color: hex('#5E655F') });
   return pdf.save();
 }
+
+export type CampaignPosterInput = {
+  name: string;
+  tagline: string | null;
+  period: string;
+  territoryName: string;
+  organizer: string;
+  bg: string;
+  fg: string;
+  url: string;
+  displayUrl: string;
+};
+
+/** Affiche A5 d'une campagne : nom, dates, QR code vers la page de l'opération. */
+export async function campaignPosterA5(input: CampaignPosterInput): Promise<Uint8Array> {
+  const { pdf, fonts } = await newDoc();
+  pdf.setCreator('terricom — campagnes');
+  const W = 419.53;
+  const H = 595.28;
+  const page = pdf.addPage([W, H]);
+  const fg = hex(input.fg);
+  page.drawRectangle({ x: 0, y: 0, width: W, height: H, color: hex(input.bg) });
+  const m = 34;
+  page.drawText(input.territoryName, { x: m, y: H - m - 14, size: 14, font: fonts.display, color: fg });
+  // Pastille des dates, légèrement inclinée
+  const tw = fonts.bold.widthOfTextAtSize(input.period, 11) + 16;
+  page.drawRectangle({ x: m, y: H - m - 56, width: tw, height: 22, color: hex('#F4B266'), rotate: degrees(-3) });
+  page.drawText(input.period, { x: m + 8, y: H - m - 49, size: 11, font: fonts.bold, color: hex('#14201B'), rotate: degrees(-3) });
+  let y = H - m - 104;
+  const titleSize = input.name.length > 28 ? 32 : 38;
+  for (const line of wrap(input.name, fonts.display, titleSize, W - 2 * m).slice(0, 4)) {
+    page.drawText(line, { x: m, y, size: titleSize, font: fonts.display, color: fg });
+    y -= titleSize;
+  }
+  if (input.tagline) {
+    y -= 4;
+    for (const line of wrap(input.tagline, fonts.body, 13, W - 2 * m).slice(0, 3)) {
+      page.drawText(line, { x: m, y, size: 13, font: fonts.body, color: fg, opacity: 0.9 });
+      y -= 18;
+    }
+  }
+  const box = 190;
+  const bx = (W - box) / 2;
+  const by = 86;
+  roundedRect(page, bx, by, box, box, 18, rgb(1, 1, 1));
+  drawQr(page, input.url, bx + 15, by + 15, box - 30);
+  centerText(page, 'Scannez pour découvrir les commerces participants', fonts.bold, 11, 62, fg, W);
+  centerText(page, input.displayUrl, fonts.body, 9, 44, fg, W);
+  centerText(page, `${input.organizer} · terricom`, fonts.display, 8.5, 22, fg, W);
+  return pdf.save();
+}
