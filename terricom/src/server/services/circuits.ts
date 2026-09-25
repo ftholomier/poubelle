@@ -169,3 +169,26 @@ export async function circuitIdsForStops(stopIds: string[]) {
   if (!stopIds.length) return [];
   return db.select({ id: circuitStops.id, circuitId: circuitStops.circuitId }).from(circuitStops).where(inArray(circuitStops.id, stopIds));
 }
+
+/**
+ * Scan du QR code de vitrine d'un établissement : si le visiteur a ouvert le passeport
+ * d'un circuit dont c'est une étape, l'étape est tamponnée.
+ */
+export async function stampVisitorPassportsAt(establishmentId: string): Promise<{ circuitSlug: string; position: number } | null> {
+  const tokens = await passportTokens();
+  const ids = Object.keys(tokens).filter((id) => /^[0-9a-f-]{36}$/.test(id));
+  if (!ids.length) return null;
+  const rows = await db
+    .select({ stop: circuitStops, circuit: circuits })
+    .from(circuitStops)
+    .innerJoin(circuits, eq(circuits.id, circuitStops.circuitId))
+    .where(and(eq(circuitStops.establishmentId, establishmentId), inArray(circuitStops.circuitId, ids), eq(circuits.status, 'PUBLISHED')));
+  let first: { circuitSlug: string; position: number } | null = null;
+  for (const r of rows) {
+    const [p] = await db.select({ id: passports.id, circuitId: passports.circuitId }).from(passports).where(eq(passports.tokenHash, sha256(tokens[r.circuit.id]))).limit(1);
+    if (!p || p.circuitId !== r.circuit.id) continue;
+    await stampPassport(p.id, r.stop.id);
+    first ??= { circuitSlug: r.circuit.slug, position: r.stop.position };
+  }
+  return first;
+}

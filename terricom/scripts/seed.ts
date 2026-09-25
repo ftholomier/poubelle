@@ -25,6 +25,9 @@ async function main() {
   const D = await import('./seed/data');
   const R = await import('./seed/random');
   const { OTHER_TERRITORIES, DEALS } = await import('./seed/territories');
+  const { completeSiret } = await import('@/server/integrations/public-data');
+  /** SIRET des maquettes, avec une clé de contrôle valide. */
+  const fixSiret = (s: string) => completeSiret(s.slice(0, 13));
 
   const existing = await db.select({ id: S.territories.id }).from(S.territories).limit(1);
   if (existing.length && !process.argv.includes('--force')) {
@@ -64,7 +67,6 @@ async function main() {
 
   async function insertMany<T extends Record<string, unknown>>(table: Parameters<typeof db.insert>[0], rows: T[], chunk = 500) {
     for (let i = 0; i < rows.length; i += chunk) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await db.insert(table).values(rows.slice(i, i + chunk) as any);
     }
   }
@@ -309,7 +311,7 @@ async function main() {
         categoryId: cat.id,
         slug: slugify(e.name),
         name: e.name,
-        siret: e.siret,
+        siret: fixSiret(e.siret),
         status: e.status,
         origin: 'IMPORT',
         activityLabel: e.activity,
@@ -387,7 +389,7 @@ async function main() {
       const claimed = r.chance(claimRate);
       const status = claimed ? (r.chance(0.72) ? 'VALIDATED' : 'CLAIMED') : r.chance(0.8) ? 'PRECREATED' : 'TO_COMPLETE';
       const plan: 'ESSENTIEL' | 'PREMIUM' | 'COMMUNICATION' = claimed && r.chance(premiumRate) ? (r.chance(0.8) ? 'PREMIUM' : 'COMMUNICATION') : 'ESSENTIEL';
-      const siret = `${String(400000000 + siretSeq++).padStart(9, '0')}${String(r.int(10000, 99999))}`;
+      const siret = completeSiret(`${String(400000000 + siretSeq++).padStart(9, '0')}${String(r.int(1000, 9999))}`);
       const [company] = await db
         .insert(S.companies)
         .values({ siren: siret.slice(0, 9), legalName: name.toUpperCase(), tradeName: name, nafCode: cat.nafCodes[0] ?? null, plan, createdAt: daysAgo(r.int(150, 220)) })
@@ -549,7 +551,7 @@ async function main() {
     { est: 'b6', kind: 'NOUVEAUTE' as const, title: 'Arrivage : 12 nouveaux vins du Jura', body: 'Savagnins ouillés, crémants et deux vins jaunes de petits domaines : venez les goûter samedi.', at: daysAgo(3), img: D.I.vine, views: 301 },
     { est: 'b13', kind: 'HOURS' as const, title: 'Ouvert le dimanche matin en octobre', body: 'De 9h30 à 12h30, tous les dimanches du mois.', at: daysAgo(4), img: D.I.grocery, views: 97 },
     { est: 'b1', kind: 'PROMO' as const, title: 'Brioches du dimanche -10 % pour la rentrée', body: 'Commandez en boutique ou en click & collect.', at: daysAgo(6), img: D.I.bakery, promo: '-10 %', validTo: addIso(today, 12), views: 288 },
-    { est: 'b1', kind: 'HOURS' as const, title: 'Fermeture exceptionnelle le 25 décembre', body: 'Réouverture le 26 à 6h30. Les commandes de bûches sont ouvertes dès novembre.', at: daysAgo(9), img: D.I.store, views: 121 },
+    { est: 'b1', kind: 'HOURS' as const, title: 'Fermeture exceptionnelle le 25 décembre', body: 'Réouverture le 26 à 6h30. Les commandes de bûches sont ouvertes dès novembre.', at: daysAgo(38), img: D.I.store, views: 121 },
     { est: 'b14', kind: 'NEWS' as const, title: 'La Bleue de la Loue médaillée au concours de Pontarlier', body: 'Notre absinthe blanche décroche l’or : merci à toute l’équipe de la distillerie.', at: daysAgo(5), img: D.I.toast, views: 340 },
     { est: 'b2', kind: 'EVENT' as const, title: 'Dégustation Comté 24 mois vendredi', body: 'Trois affinages, trois caractères : venez goûter la différence.', at: daysAgo(2, 9), img: D.I.cheese, views: 176 },
     { est: 'b15', kind: 'NEWS' as const, title: 'Concert folk vendredi soir en terrasse', body: 'Le trio « Les Gorges » joue dès 19h, entrée libre.', at: daysAgo(7), img: D.I.food, views: 132 },
@@ -589,7 +591,7 @@ async function main() {
       body: '',
       imageUrl: D.U(img as string, 800),
       channels: ch as ('FICHE' | 'SOCIAL')[],
-      publishAt: new Date(now.getTime() + (inDays as number) * DAY),
+      publishAt: parisAt(addIso(today, inDays as number), (['08:00', '10:00', '07:00'] as const)[Math.min(2, Math.round((inDays as number) / 12))]),
       createdById: sophieId,
     })),
     {
@@ -1009,7 +1011,7 @@ async function main() {
       status: 'PENDING',
       claimantRole: 'Gérant·e',
       method: c.key === 'b12' ? 'KBIS' : c.key === 'b11' ? 'CODE' : 'SIRET',
-      siretProvided: c.siret,
+      siretProvided: fixSiret(c.siret),
       sireneHolder: c.holder,
       checks: c.checks,
       riskLevel: c.risk,
@@ -1023,7 +1025,7 @@ async function main() {
     .slice(0, 180)
     .map((e) => ({ establishmentId: e.id, territoryId: vdl.id, userId: e.ownerId!, status: 'APPROVED' as const, method: 'SIRET', riskLevel: 'LOW' as const, reviewerId: r.chance(0.6) ? claire.id : anne.id, reviewedAt: daysAgo(r.int(1, 150)), createdAt: daysAgo(r.int(2, 160)) }));
   await insertMany(S.claims, approvedClaims);
-  await db.insert(S.claims).values({ establishmentId: estByKey.b1.id, territoryId: vdl.id, userId: sophieId, status: 'APPROVED', method: 'SIRET', siretProvided: '81234567800019', sireneHolder: 'MARTIN SOPHIE', riskLevel: 'LOW', reviewerId: anne.id, reviewedAt: daysAgo(39), createdAt: daysAgo(40), checks: [{ ok: true, label: 'SIRET vérifié', detail: 'Titulaire : MARTIN SOPHIE' }] });
+  await db.insert(S.claims).values({ establishmentId: estByKey.b1.id, territoryId: vdl.id, userId: sophieId, status: 'APPROVED', method: 'SIRET', siretProvided: fixSiret('81234567800019'), sireneHolder: 'MARTIN SOPHIE', riskLevel: 'LOW', reviewerId: anne.id, reviewedAt: daysAgo(39), createdAt: daysAgo(40), checks: [{ ok: true, label: 'SIRET vérifié', detail: 'Titulaire : MARTIN SOPHIE' }] });
 
   await db.insert(S.establishmentRevisions).values([
     { establishmentId: estByKey.b5.id, source: 'IMPORT', summary: 'Fiche précréée (import SIRENE)', createdAt: daysAgo(200) },

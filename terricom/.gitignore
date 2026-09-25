@@ -13,3 +13,6 @@ next-env.d.ts
 /.data/
 npm-debug.log*
 .DS_Store
+
+# Scripts de mise au point locaux (captures, sondes)
+/scripts/dev/

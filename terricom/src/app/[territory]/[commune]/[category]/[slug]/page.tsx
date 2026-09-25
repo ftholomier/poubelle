@@ -425,7 +425,7 @@ export default async function FichePage({ params }: Props) {
           ) : null}
 
           <a
-            href={claimed ? appUrl('/pro/connexion') : appUrl(`/pro/revendiquer?fiche=${e.id}`)}
+            href={claimed ? appUrl('/connexion?next=/pro') : appUrl(`/pro/revendiquer?fiche=${e.id}`)}
             style={{
               background: 'var(--sand)',
               borderRadius: 14,

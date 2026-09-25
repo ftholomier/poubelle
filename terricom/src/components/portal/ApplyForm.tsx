@@ -65,7 +65,7 @@ export function ApplyForm({ jobId, companyName }: { jobId: string; companyName: 
       <button type="submit" className="btn btn-brand" disabled={pending} style={{ justifyContent: 'center', padding: 14, borderRadius: 12, fontWeight: 800, fontSize: 15 }}>
         {pending ? 'Envoi…' : 'Envoyer ma candidature'}
       </button>
-      <div style={{ fontSize: 11, color: 'var(--muted)' }}>Vos données sont transmises uniquement à l&apos;employeur (RGPD) et supprimées après 6 mois.</div>
+      <div style={{ fontSize: 11, color: 'var(--muted)' }}>Vos données sont transmises uniquement à l&apos;employeur (RGPD) et supprimées au plus tard 2 ans après votre candidature.</div>
     </form>
   );
 }

@@ -278,3 +278,29 @@ export function privacyExportTemplate(p: { to: string; url: string }): OutgoingE
   });
   return { to: p.to, subject: 'Export de vos données personnelles', html, text, template: 'privacy-export' };
 }
+
+export function messageReplyTemplate(p: { to: string; establishmentName: string; reply: string; original: string; replyTo: string | null }): OutgoingEmail {
+  const html = `<div style="font-size:15px;line-height:1.6;color:#1C2320;white-space:pre-line">${escapeHtml(p.reply)}</div><div style="margin-top:18px;padding-top:12px;border-top:1px solid #E4DFD3;font-size:13px;color:#5E655F">Votre message :<br>${escapeHtml(p.original).replace(/\n/g, '<br>')}</div>`;
+  const { html: body, text } = renderEmail({ eyebrow: p.establishmentName, title: `Réponse de ${p.establishmentName}`, html });
+  return {
+    to: p.to,
+    subject: `Réponse de ${p.establishmentName}`,
+    html: body,
+    text: `${text}\n\n${p.reply}`,
+    template: 'message-reply',
+    headers: p.replyTo ? { 'Reply-To': p.replyTo } : undefined,
+  };
+}
+
+export function applicationStatusTemplate(p: { to: string; jobTitle: string; companyName: string; accepted: boolean; note: string | null }): OutgoingEmail {
+  const { html, text } = renderEmail({
+    title: p.accepted ? `Votre candidature retient l'attention de ${p.companyName}` : `Votre candidature chez ${p.companyName}`,
+    paragraphs: [
+      p.accepted
+        ? `${p.companyName} souhaite échanger avec vous au sujet du poste « ${p.jobTitle} ». Vous serez recontacté·e très prochainement.`
+        : `Merci pour votre intérêt pour le poste « ${p.jobTitle} ». ${p.companyName} ne donnera pas suite cette fois-ci.`,
+      ...(p.note ? [p.note] : []),
+    ],
+  });
+  return { to: p.to, subject: `${p.companyName} — ${p.jobTitle}`, html, text, template: 'application-status' };
+}

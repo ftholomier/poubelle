@@ -136,9 +136,11 @@ const improveSchema = z.object({
 export function improveFallback(i: ImproveInput): { description: string; seoTitle: string; source: 'rules' } {
   const base = i.current.trim().replace(/\s+/g, ' ');
   const intro = base.length > 20 ? base.replace(/\.?$/, '.') : `${i.name} vous accueille à ${i.commune}.`;
-  const products = i.products.length ? ` Parmi nos incontournables : ${i.products.slice(0, 4).join(', ').toLowerCase()}.` : '';
-  const services = i.services.length ? ` Sur place : ${i.services.slice(0, 4).join(', ').toLowerCase()}.` : '';
-  const payments = i.payments.length ? ` Paiement accepté : ${i.payments.join(', ').toLowerCase()}.` : '';
+  // Minuscule initiale seulement : les sigles (AOP, PMR…) et noms propres restent intacts.
+  const lc = (s: string) => (/^[A-ZÀ-Ý][a-zà-ÿ]/.test(s) ? s.charAt(0).toLowerCase() + s.slice(1) : s);
+  const products = i.products.length ? ` Parmi nos incontournables : ${i.products.slice(0, 4).map(lc).join(', ')}.` : '';
+  const services = i.services.length ? ` Sur place : ${i.services.slice(0, 4).map(lc).join(', ')}.` : '';
+  const payments = i.payments.length ? ` Paiement accepté : ${i.payments.map(lc).join(', ')}.` : '';
   return {
     description: `${intro}${products}${services}${payments} Une adresse de ${i.territoryName} où l'on prend le temps de conseiller : poussez la porte !`,
     seoTitle: `${i.name} à ${i.commune} – ${i.activity}`.slice(0, 70),

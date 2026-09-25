@@ -1,4 +1,4 @@
-import { upcomingHoliday } from '@/lib/hours';
+import { holidayOf, upcomingHoliday } from '@/lib/hours';
 import { wordCount } from '@/lib/format';
 
 /**
@@ -102,7 +102,7 @@ export function computeCompleteness(e: CompletenessInput, now: Date = new Date()
 
   const holiday = upcomingHoliday(now, 45);
   const holidayOk = !holiday || e.exceptionalDates.includes(holiday.date);
-  const holidayName = holiday?.label === 'Noël' ? 'de Noël' : holiday ? `du ${holiday.label.toLowerCase()}` : '';
+  const holidayName = holiday ? holidayOf(holiday.label) : '';
   push({
     key: 'holidays',
     points: 6,

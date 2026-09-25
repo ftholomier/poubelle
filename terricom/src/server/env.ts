@@ -47,6 +47,17 @@ const schema = z.object({
   GEO_API_URL: z.string().default('https://geo.api.gouv.fr'),
   BAN_API_URL: z.string().default('https://api-adresse.data.gouv.fr'),
 
+  /** Identité légale de l'exploitant (mentions des factures). */
+  COMPANY_LEGAL_NAME: z.string().default('terricom'),
+  COMPANY_ADDRESS: z.string().default('Adresse du siège à configurer (COMPANY_ADDRESS)'),
+  COMPANY_SIREN: z.string().optional(),
+  COMPANY_VAT_NUMBER: z.string().optional(),
+  COMPANY_IBAN: z.string().optional(),
+
+  /** Passerelle SMS générique (POST JSON { to, text }) : codes de vérification des revendications. */
+  SMS_WEBHOOK_URL: z.string().url().optional(),
+  SMS_WEBHOOK_TOKEN: z.string().optional(),
+
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
 });

@@ -52,14 +52,14 @@ export default async function PrivacyPage({ params }: Props) {
             <td>Messages aux professionnels</td>
             <td>Nom, coordonnées, message</td>
             <td>Consentement</td>
-            <td>12 mois</td>
+            <td>3 ans après le dernier échange</td>
           </tr>
           {modules.has('JOBS') ? (
             <tr>
               <td>Candidatures</td>
               <td>Identité, coordonnées, CV, message — transmis au seul employeur</td>
               <td>Mesures précontractuelles</td>
-              <td>6 mois</td>
+              <td>2 ans maximum</td>
             </tr>
           ) : null}
           {modules.has('APPOINTMENTS') ? (

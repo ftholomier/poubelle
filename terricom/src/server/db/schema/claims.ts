@@ -39,6 +39,8 @@ export const claims = pgTable(
     sireneHolder: varchar({ length: 255 }),
 
     codeHash: varchar({ length: 64 }),
+    /** Code chiffré tant qu'il doit pouvoir être imprimé (courrier) ; effacé après vérification. */
+    codeEnc: text(),
     codeSentTo: varchar({ length: 255 }),
     codeSentAt: tstz(),
     codeVerifiedAt: tstz(),

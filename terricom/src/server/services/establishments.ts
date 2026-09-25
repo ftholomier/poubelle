@@ -347,21 +347,31 @@ export async function refreshCompleteness(establishmentId: string, tx: DbOrTx = 
 export async function completenessInput(establishmentId: string, tx: DbOrTx = db) {
   const [e] = await tx.select().from(establishments).where(eq(establishments.id, establishmentId)).limit(1);
   if (!e) return null;
-  const [photos, hoursCount, exc, prodCount, attrs, lastPost] = await Promise.all([
-    tx.select({ tag: media.tag }).from(media).where(and(eq(media.establishmentId, establishmentId), eq(media.kind, 'IMAGE'), eq(media.isPrivate, false))),
-    tx.select({ n: sql<number>`count(*)::int` }).from(openingHours).where(eq(openingHours.establishmentId, establishmentId)),
-    tx.select({ date: exceptionalHours.date }).from(exceptionalHours).where(eq(exceptionalHours.establishmentId, establishmentId)),
-    tx.select({ n: sql<number>`count(*)::int` }).from(products).where(eq(products.establishmentId, establishmentId)),
-    tx
+  // Dans une transaction, un seul client : les requêtes sont enchaînées plutôt que parallèles.
+  const run = <T,>(fns: (() => Promise<T>)[]): Promise<T[]> =>
+    tx === db ? Promise.all(fns.map((f) => f())) : fns.reduce<Promise<T[]>>(async (acc, f) => [...(await acc), await f()], Promise.resolve([]));
+  const [photos, hoursCount, exc, prodCount, attrs, lastPost] = (await run<unknown>([
+    () => tx.select({ tag: media.tag }).from(media).where(and(eq(media.establishmentId, establishmentId), eq(media.kind, 'IMAGE'), eq(media.isPrivate, false))),
+    () => tx.select({ n: sql<number>`count(*)::int` }).from(openingHours).where(eq(openingHours.establishmentId, establishmentId)),
+    () => tx.select({ date: exceptionalHours.date }).from(exceptionalHours).where(eq(exceptionalHours.establishmentId, establishmentId)),
+    () => tx.select({ n: sql<number>`count(*)::int` }).from(products).where(eq(products.establishmentId, establishmentId)),
+    () => tx
       .select({ group: attributes.group })
       .from(establishmentAttributes)
       .innerJoin(attributes, eq(attributes.id, establishmentAttributes.attributeId))
       .where(eq(establishmentAttributes.establishmentId, establishmentId)),
-    tx
+    () => tx
       .select({ at: sql<Date | null>`max(${posts.publishedAt})` })
       .from(posts)
       .where(and(eq(posts.establishmentId, establishmentId), eq(posts.status, 'PUBLISHED'))),
-  ]);
+  ])) as [
+    { tag: string | null }[],
+    { n: number }[],
+    { date: string }[],
+    { n: number }[],
+    { group: string }[],
+    { at: Date | null }[],
+  ];
   return {
     name: e.name,
     street: e.street,

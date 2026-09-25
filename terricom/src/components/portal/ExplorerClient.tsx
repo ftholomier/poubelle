@@ -309,7 +309,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
           {data.items.map((e) => (
             <Link
               key={e.id}
-              href={`${base}${e.path}?src=recherche`}
+              href={`${base}${e.path}?src=recherche${state.q ? `&q=${encodeURIComponent(state.q)}` : ''}`}
               className="result-card"
               onMouseEnter={() => setFocusId(e.id)}
               onFocus={() => setFocusId(e.id)}

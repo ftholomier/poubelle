@@ -42,7 +42,7 @@ export async function companyAiUses(companyId: string): Promise<number> {
   const [row] = await db
     .select({ n: sql<number>`count(*)::int` })
     .from(aiUsage)
-    .where(and(eq(aiUsage.companyId, companyId), gte(aiUsage.createdAt, monthStart())));
+    .where(and(eq(aiUsage.companyId, companyId), gte(aiUsage.createdAt, monthStart()), eq(aiUsage.fallback, false)));
   return Number(row?.n ?? 0);
 }
 

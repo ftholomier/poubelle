@@ -5,6 +5,7 @@ import { track } from '@/server/analytics';
 import { db } from '@/server/db';
 import { categories, communes, establishments, territories } from '@/server/db/schema';
 import { publicOrigin } from '@/server/request';
+import { stampVisitorPassportsAt } from '@/server/services/circuits';
 import { portalUrl } from '@/server/urls';
 
 /**
@@ -32,6 +33,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ code
     userAgent: req.headers.get('user-agent'),
     ip: (req.headers.get('x-forwarded-for')?.split(',')[0] ?? '').trim() || null,
   });
+  // Étape d'un circuit en cours pour ce visiteur : le scan vaut tampon.
+  const stamped = await stampVisitorPassportsAt(row.e.id).catch(() => null);
+  if (stamped) return NextResponse.redirect(portalUrl(row.t, `/circuits/${stamped.circuitSlug}?tampon=${stamped.position + 1}`), 302);
   const target = portalUrl(row.t, `/${row.c.slug}/${row.k.slug}/${row.e.slug}?src=qr`);
   return NextResponse.redirect(target, 302);
 }

@@ -112,6 +112,12 @@ export function isValidSiret(siret: string): boolean {
   return sum % 10 === 0;
 }
 
+/** Complète 13 chiffres avec la clé de contrôle (jeux de données de démonstration, tests). */
+export function completeSiret(first13: string): string {
+  for (let d = 0; d <= 9; d++) if (isValidSiret(`${first13}${d}`)) return `${first13}${d}`;
+  return `${first13}0`;
+}
+
 export type GeoCommune = {
   nom: string;
   code: string;

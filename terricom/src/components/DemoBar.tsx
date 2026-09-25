@@ -15,7 +15,7 @@ const LINKS: { key: Space; label: string; href: string }[] = [
  * Barre de démonstration (mode DEMO_MODE uniquement) : navigation rapide entre les quatre
  * espaces, avec connexion automatique au compte de démonstration correspondant.
  */
-export function DemoBar({ active, right }: { active: Space; right?: React.ReactNode }) {
+export function DemoBar({ active, right }: { active?: Space; right?: React.ReactNode }) {
   if (!env.DEMO_MODE) return null;
   const base = env.APP_URL.replace(/\/$/, '');
   return (

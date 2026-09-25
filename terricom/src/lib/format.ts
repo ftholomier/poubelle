@@ -266,3 +266,13 @@ export function fmtEventBadge(start: Date, end: Date | null): string {
 export function tomorrowIso(): string {
   return parisDate(new Date(Date.now() + 86_400_000));
 }
+
+/** Horodatage courant (rendu serveur, calculs de fenêtres glissantes). */
+export function nowMs(): number {
+  return Date.now();
+}
+
+/** Date située n jours avant maintenant. */
+export function daysAgoDate(n: number): Date {
+  return new Date(Date.now() - n * 86_400_000);
+}

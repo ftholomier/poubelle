@@ -223,6 +223,24 @@ export function frenchHolidays(year: number): { date: string; label: string }[] 
   ].sort((x, z) => x.date.localeCompare(z.date));
 }
 
+/** Complément du nom d'un jour férié : « de Noël », « de la Toussaint », « du 14 juillet »… */
+export function holidayOf(label: string): string {
+  const map: Record<string, string> = {
+    "Jour de l'an": 'du jour de l’an',
+    'Lundi de Pâques': 'du lundi de Pâques',
+    'Fête du travail': 'du 1er mai',
+    'Victoire 1945': 'du 8 mai',
+    Ascension: 'de l’Ascension',
+    'Lundi de Pentecôte': 'du lundi de Pentecôte',
+    'Fête nationale': 'du 14 juillet',
+    Assomption: 'du 15 août',
+    Toussaint: 'de la Toussaint',
+    Armistice: 'du 11 novembre',
+    Noël: 'de Noël',
+  };
+  return map[label] ?? `du ${label.toLowerCase()}`;
+}
+
 /** Prochain jour férié dans les N jours, s'il y en a un. */
 export function upcomingHoliday(now: Date = new Date(), withinDays = 45): { date: string; label: string } | null {
   const today = parisDate(now);
