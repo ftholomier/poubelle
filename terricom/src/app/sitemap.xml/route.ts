@@ -11,15 +11,31 @@ type Url = { loc: string; lastmod?: Date | null; priority?: number };
 async function territoryUrls(t: Territory, base: string): Promise<Url[]> {
   const [ests, coms, evs, jbs, circs, camps] = await Promise.all([
     db
-      .select({ slug: establishments.slug, c: communes.slug, k: categories.slug, updatedAt: establishments.updatedAt, desc: establishments.description, status: establishments.status })
+      .select({
+        slug: establishments.slug,
+        c: communes.slug,
+        k: categories.slug,
+        updatedAt: establishments.updatedAt,
+        desc: establishments.description,
+        status: establishments.status,
+      })
       .from(establishments)
       .innerJoin(communes, eq(communes.id, establishments.communeId))
       .innerJoin(categories, eq(categories.id, establishments.categoryId))
       .where(and(eq(establishments.territoryId, t.id), inArray(establishments.status, PUBLIC_STATUSES))),
     getTerritoryCommunes(t.id),
-    db.select({ slug: events.slug, updatedAt: events.updatedAt }).from(events).where(and(eq(events.territoryId, t.id), eq(events.status, 'PUBLISHED'))),
-    db.select({ slug: jobs.slug, updatedAt: jobs.updatedAt }).from(jobs).where(and(eq(jobs.territoryId, t.id), eq(jobs.status, 'PUBLISHED'))),
-    db.select({ slug: circuits.slug, updatedAt: circuits.updatedAt }).from(circuits).where(and(eq(circuits.territoryId, t.id), eq(circuits.status, 'PUBLISHED'))),
+    db
+      .select({ slug: events.slug, updatedAt: events.updatedAt })
+      .from(events)
+      .where(and(eq(events.territoryId, t.id), eq(events.status, 'PUBLISHED'))),
+    db
+      .select({ slug: jobs.slug, updatedAt: jobs.updatedAt })
+      .from(jobs)
+      .where(and(eq(jobs.territoryId, t.id), eq(jobs.status, 'PUBLISHED'))),
+    db
+      .select({ slug: circuits.slug, updatedAt: circuits.updatedAt })
+      .from(circuits)
+      .where(and(eq(circuits.territoryId, t.id), eq(circuits.status, 'PUBLISHED'))),
     db
       .select({ slug: campaigns.slug, updatedAt: campaigns.updatedAt })
       .from(campaigns)
@@ -61,8 +77,25 @@ export async function GET(req: Request) {
     const t = await resolveTerritoryParam(param);
     if (t && t.status !== 'CHURNED' && t.status !== 'SUSPENDED') urls = await territoryUrls(t, origin);
   } else {
-    urls = ['/', '/tarifs', '/marque', '/demo', '/pro'].map((p, i) => ({ loc: `${origin}${p === '/' ? '/' : p}`, priority: i === 0 ? 1 : 0.6 }));
-    const list = await db.select().from(territories).where(inArray(territories.status, ['ACTIVE', 'ONBOARDING']));
+    urls = [
+      '/',
+      '/collectivites',
+      '/professionnels',
+      '/territoires',
+      '/tarifs',
+      '/demo',
+      '/marque',
+      '/pro/revendiquer',
+      '/mentions-legales',
+      '/cgu',
+      '/cgv',
+      '/confidentialite',
+      '/accessibilite',
+    ].map((p, i) => ({ loc: `${origin}${p}`, priority: i === 0 ? 1 : i < 6 ? 0.8 : 0.4 }));
+    const list = await db
+      .select()
+      .from(territories)
+      .where(inArray(territories.status, ['ACTIVE', 'ONBOARDING']));
     for (const t of list) {
       // Un territoire servi sur son propre domaine est référencé sur ce domaine, pas ici.
       if (t.primaryHost && !env.DEMO_MODE) continue;

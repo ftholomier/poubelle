@@ -15,7 +15,7 @@ export type MapPoint = {
 };
 
 export type HeatPoint = { name: string; lat: number; lng: number; value: number };
-export type LabelPoint = { name: string; lat: number; lng: number; color: string; tooltip?: string };
+export type LabelPoint = { name: string; lat: number; lng: number; color: string; tooltip?: string; href?: string };
 
 export type MapMode = 'explore' | 'mini' | 'fiche' | 'circuit' | 'heat' | 'france' | 'picker';
 
@@ -43,8 +43,7 @@ type Props = {
 /** Au-delà de ce nombre de repères, ils sont regroupés (lisibilité et performances). */
 const CLUSTER_THRESHOLD = 80;
 
-const esc = (s: string) =>
-  s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 
 function popupHtml(p: MapPoint): string {
   return `<div class="tc-popup">${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy">` : ''}<div class="tc-popup-body"><b>${esc(p.name)}</b>${
@@ -129,7 +128,9 @@ export function MapView(props: Props) {
         const focus = pts.find((x) => x.id === p.focusId) ?? pts[0];
         for (const pt of pts) {
           if (pt === focus) continue;
-          L.marker([pt.lat, pt.lng], { icon: icon(pt, false, true) }).bindPopup(popupHtml(pt)).addTo(map);
+          L.marker([pt.lat, pt.lng], { icon: icon(pt, false, true) })
+            .bindPopup(popupHtml(pt))
+            .addTo(map);
         }
         if (focus) {
           L.marker([focus.lat, focus.lng], { icon: icon(focus, true), zIndexOffset: 1000, title: focus.name }).addTo(map);
@@ -179,6 +180,10 @@ export function MapView(props: Props) {
             icon: L.divIcon({ className: '', iconSize: [0, 0], html: `<div class="tc-terr" style="--c:${esc(t.color)}">${esc(t.name)}</div>` }),
           }).addTo(map);
           if (t.tooltip) m.bindTooltip(esc(t.tooltip));
+          if (t.href) {
+            const href = t.href;
+            m.on('click', () => window.location.assign(href));
+          }
         }
         map.setView(p.center ?? [46.6, 2.6], p.zoom ?? 6);
       } else if (p.mode === 'picker') {
@@ -245,13 +250,5 @@ export function MapView(props: Props) {
     m.openPopup();
   }, [props.focusId, props.mode]);
 
-  return (
-    <div
-      ref={el}
-      className={`map-root ${props.className ?? ''}`}
-      style={props.style}
-      role="region"
-      aria-label={props.ariaLabel ?? 'Carte interactive'}
-    />
-  );
+  return <div ref={el} className={`map-root ${props.className ?? ''}`} style={props.style} role="region" aria-label={props.ariaLabel ?? 'Carte interactive'} />;
 }

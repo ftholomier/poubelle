@@ -194,7 +194,7 @@ export async function addDealTask(dealId: string, text: string, dueText: string 
   await refreshNextAction(dealId);
 }
 
-export async function logDealActivity(dealId: string, kind: string, text: string, userId: string, occurredAt = new Date()) {
+export async function logDealActivity(dealId: string, kind: string, text: string, userId: string | null, occurredAt = new Date()) {
   await db.insert(dealActivities).values({ dealId, kind, text, userId, occurredAt });
   await db.update(deals).set({ lastInteractionAt: new Date(), updatedAt: new Date() }).where(eq(deals.id, dealId));
 }

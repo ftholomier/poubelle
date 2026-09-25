@@ -29,6 +29,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ spac
   await createSession(user.id, { mfaVerified: true });
   await audit({ actor: { user }, category: 'AUTH', action: 'auth.demo_login', summary: 'Connexion de démonstration', targetType: 'user', targetId: user.id });
   let path = account.path;
+  let estId: string | null = null;
   if (space === 'pro') {
     const [est] = await db
       .select({ id: establishments.id })
@@ -36,10 +37,14 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ spac
       .innerJoin(establishments, eq(establishments.companyId, companyMembers.companyId))
       .where(eq(companyMembers.userId, user.id))
       .limit(1);
-    if (est) path = `/pro/${est.id}`;
+    if (est) {
+      estId = est.id;
+      path = `/pro/${est.id}`;
+    }
   }
   const target = new URL(path, origin);
+  // ?vers=/chemin : écran précis ; {est} désigne la fiche du compte professionnel de démonstration.
   const next = req.nextUrl.searchParams.get('vers');
-  if (next && next.startsWith('/') && !next.startsWith('//')) target.pathname = next;
+  if (next && next.startsWith('/') && !next.startsWith('//') && (estId || !next.includes('{est}'))) target.pathname = next.replace('{est}', estId ?? '');
   return NextResponse.redirect(target, 302);
 }

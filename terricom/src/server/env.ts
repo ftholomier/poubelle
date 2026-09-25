@@ -38,6 +38,8 @@ const schema = z.object({
   MAIL_FROM: z.string().default('terricom <bonjour@terricom.fr>'),
   /** Boîte de l'équipe support (notification des nouveaux tickets). */
   SUPPORT_EMAIL: z.string().email().default('support@terricom.fr'),
+  /** Boîte de l'équipe commerciale (demandes de démonstration). */
+  SALES_EMAIL: z.string().email().default('bonjour@terricom.fr'),
 
   ANTHROPIC_API_KEY: z.string().optional(),
   AI_MODEL: z.string().default('claude-opus-5'),
@@ -58,6 +60,10 @@ const schema = z.object({
   COMPANY_SIREN: z.string().optional(),
   COMPANY_VAT_NUMBER: z.string().optional(),
   COMPANY_IBAN: z.string().optional(),
+  /** Mentions légales du site : directeur de la publication, hébergeur, contact DPO. */
+  PUBLICATION_DIRECTOR: z.string().optional(),
+  HOSTING_PROVIDER: z.string().default('Hébergeur à préciser (HOSTING_PROVIDER), infrastructure située en France'),
+  DPO_EMAIL: z.string().email().default('dpo@terricom.fr'),
 
   /** Passerelle SMS générique (POST JSON { to, text }) : codes de vérification des revendications. */
   SMS_WEBHOOK_URL: z.string().url().optional(),
