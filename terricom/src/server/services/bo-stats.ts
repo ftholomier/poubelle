@@ -172,7 +172,7 @@ export async function commerceWeather(ctx: BoContext, limit = 3): Promise<{ top:
 
 /** À faire : revendications, horaires obsolètes, publications à modérer, lettres prêtes. */
 export async function todoCounts(ctx: BoContext) {
-  const [r] = await rows<{ claims: number; stale: number; posts: number; letters: number }>(sql`
+  const [r] = await rows<{ claims: number; stale: number; posts: number; letters: number; sirene: number }>(sql`
     select
       (select count(*)::int from claims cl join establishments e on e.id = cl.establishment_id
         where cl.territory_id = ${ctx.territory.id} and cl.status in ('PENDING', 'NEEDS_INFO') ${communeFilter(ctx, 'e.commune_id')}) as claims,
@@ -182,9 +182,10 @@ export async function todoCounts(ctx: BoContext) {
           and (e.hours_confirmed_at is null or e.hours_confirmed_at < now() - interval '6 months')) as stale,
       (select count(*)::int from posts p where p.territory_id = ${ctx.territory.id} and p.status = 'PENDING' ${communeFilter(ctx, 'p.commune_id')}) as posts,
       (select count(*)::int from newsletters n where n.territory_id = ${ctx.territory.id} and n.company_id is null and n.status in ('DRAFT', 'SCHEDULED')
-        and ${ctx.commune ? sql`n.commune_id = ${ctx.commune.id}` : sql`n.commune_id is null`}) as letters
+        and ${ctx.commune ? sql`n.commune_id = ${ctx.commune.id}` : sql`n.commune_id is null`}) as letters,
+      (select count(*)::int from sirene_changes sc where sc.territory_id = ${ctx.territory.id} and sc.status = 'PENDING' ${communeFilter(ctx, 'sc.commune_id')}) as sirene
   `);
-  return r ?? { claims: 0, stale: 0, posts: 0, letters: 0 };
+  return r ?? { claims: 0, stale: 0, posts: 0, letters: 0, sirene: 0 };
 }
 
 export type FeedItem = { text: string; at: Date; color: string };

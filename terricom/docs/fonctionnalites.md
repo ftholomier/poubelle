@@ -92,19 +92,20 @@ messagerie (réponses structurées) avec un email de notification.
 
 Deux niveaux : **territoire** (intercommunalité) et **commune** (mairie, périmètre restreint à sa commune).
 
-| Rubrique            | Contenu                                                                                                                                                  |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Tableau de bord     | Adoption (objectif), activité, alertes                                                                                                                   |
-| Entreprises         | Liste filtrable, fiche détaillée, création, import CSV ou SIRENE avec correspondance des colonnes, invitations (email ou courrier PDF), export CSV       |
-| Revendications      | Validation des revendications, justificatifs, modération des publications                                                                                |
-| Campagnes           | Assistant IA, campagnes territoriales ou communales (une mairie ne modifie que les siennes), calendrier de l’Avent, participants, affiche A5 et QR codes |
-| Agenda & actualités | Événements, marchés, lieux économiques (zones d’activité, halles, tiers-lieux… placés sur la carte), agendas externes iCal synchronisés                  |
-| Newsletter          | Composition, audiences (manuelles, par zone, par activité, professionnels), programmation, statistiques                                                  |
-| Circuits            | Parcours, étapes, tampons imprimables                                                                                                                    |
-| Statistiques        | Audience du portail, rapport PDF, export CSV                                                                                                             |
-| Personnalisation    | Couleurs, logo, textes, blocs de l’accueil, domaine personnalisé, rôles et invitations, catégories propres au territoire (renommer, masquer, créer)      |
-| Langues du portail  | Traductions des textes du portail (anglais, allemand), proposition par l’IA, avancement et traduction des fiches (module Multilingue)                    |
-| API & données       | Clés de l’API publique (création, révocation), documentation                                                                                             |
+| Rubrique            | Contenu                                                                                                                                                                                                                                               |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tableau de bord     | Adoption (objectif), activité, alertes                                                                                                                                                                                                                |
+| Entreprises         | Liste filtrable, fiche détaillée, création, import CSV ou SIRENE avec correspondance des colonnes, invitations (email ou courrier PDF), export CSV                                                                                                    |
+| Mises à jour SIRENE | Passage mensuel automatique ; nouvelles entreprises à valider (fiche précréée + courrier) ; fermetures à archiver ou garder ; fichier stock des départements pour les grands territoires ; activités exclues (SCI, holdings…, codes NAF) ; historique |
+| Revendications      | Validation des revendications, justificatifs, modération des publications                                                                                                                                                                             |
+| Campagnes           | Assistant IA, campagnes territoriales ou communales (une mairie ne modifie que les siennes), calendrier de l’Avent, participants, affiche A5 et QR codes                                                                                              |
+| Agenda & actualités | Événements, marchés, lieux économiques (zones d’activité, halles, tiers-lieux… placés sur la carte), agendas externes iCal synchronisés                                                                                                               |
+| Newsletter          | Composition, audiences (manuelles, par zone, par activité, professionnels), programmation, statistiques                                                                                                                                               |
+| Circuits            | Parcours, étapes, tampons imprimables                                                                                                                                                                                                                 |
+| Statistiques        | Audience du portail, rapport PDF, export CSV                                                                                                                                                                                                          |
+| Personnalisation    | Couleurs, logo, textes, blocs de l’accueil, domaine personnalisé, rôles et invitations, catégories propres au territoire (renommer, masquer, créer)                                                                                                   |
+| Langues du portail  | Traductions des textes du portail (anglais, allemand), proposition par l’IA, avancement et traduction des fiches (module Multilingue)                                                                                                                 |
+| API & données       | Clés de l’API publique (création, révocation), documentation                                                                                                                                                                                          |
 
 ## Console plateforme (S1–S5)
 

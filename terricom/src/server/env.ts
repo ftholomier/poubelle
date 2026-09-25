@@ -65,6 +65,11 @@ const schema = z.object({
   MAP_TILE_ATTRIBUTION: z.string().default('© OpenStreetMap contributors'),
 
   SIRENE_API_URL: z.string().default('https://recherche-entreprises.api.gouv.fr'),
+  /** API Sirene officielle (INSEE) : clé gratuite sur portail-api.insee.fr ; sans clé, la synchronisation compare avec l'API Recherche d'entreprises. */
+  INSEE_SIRENE_API_KEY: z.string().optional(),
+  INSEE_SIRENE_API_URL: z.string().default('https://api.insee.fr/api-sirene/3.11'),
+  /** Fichiers stock SIRENE géolocalisés par département ({dep} = code du département). */
+  SIRENE_STOCK_URL: z.string().default('https://files.data.gouv.fr/geo-sirene/last/dep/geo_siret_{dep}.csv.gz'),
   GEO_API_URL: z.string().default('https://geo.api.gouv.fr'),
   BAN_API_URL: z.string().default('https://api-adresse.data.gouv.fr'),
 

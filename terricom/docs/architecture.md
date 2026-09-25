@@ -56,7 +56,8 @@ console (« Tâches de fond ») : suspension, exécution manuelle, relance des �
 
 Tâches à la demande : envoi d’emails, préparation et envoi par lots des lettres (territoire et
 entreprises), notifications push (`push.send`), traduction des fiches (`i18n.translate`), envoi aux
-connecteurs des entreprises (`connector.deliver`), géocodage et import SIRENE, diffusion sur les réseaux.
+connecteurs des entreprises (`connector.deliver`), géocodage et import SIRENE (API ou fichier stock :
+`import.sirene`, `import.stock`), synchronisation SIRENE d’un territoire (`sirene.sync`), diffusion sur les réseaux.
 
 | Tâche                                                                     | Fréquence     |
 | ------------------------------------------------------------------------- | ------------- |
@@ -65,6 +66,7 @@ connecteurs des entreprises (`connector.deliver`), géocodage et import SIRENE, 
 | Statut des campagnes                                                      | 15 min        |
 | Agrégats d’audience, index de recherche, agendas externes (iCal)          | horaire       |
 | Relances des fiches et récapitulatif des revendications                   | 9 h 30        |
+| Synchronisation SIRENE des territoires dus (tous les 28 jours au moins)   | 5 h 10        |
 | Factures échues                                                           | 7 h           |
 | Purge de rétention (RGPD, sessions, journaux)                             | 3 h 15        |
 

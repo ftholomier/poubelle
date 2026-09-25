@@ -3,7 +3,8 @@ import { logger } from '../logger';
 import { deliverEmail } from '../mail/send';
 import { deliverPush, type PushPayload } from '../push';
 import type { QueueName } from '../queue';
-import { runSireneImport } from '../services/imports';
+import { runSireneImport, runStockImport } from '../services/imports';
+import { enqueueDueSireneSyncs, runSireneSync } from '../services/sirene-sync';
 import { syncCustomDomains } from './domains';
 import { dispatchDueNewsletters, dispatchNewsletter, sendNewsletterBatch } from '../services/newsletters';
 import { translateEstablishment } from '../services/translations';
@@ -50,6 +51,9 @@ export const HANDLERS: Record<QueueName, Handler> = {
   'claims.reminders': () => claimReminders(),
   'import.geocode': (p) => geocodeEstablishment(str(p, 'establishmentId')),
   'import.sirene': (p) => runSireneImport(str(p, 'batchId')),
+  'import.stock': (p) => runStockImport(str(p, 'batchId')),
+  'sirene.sync': (p) => runSireneSync(str(p, 'territoryId'), p.trigger === 'MANUAL' ? 'MANUAL' : 'SCHEDULE'),
+  'sirene.sync-due': () => enqueueDueSireneSyncs(),
   'search.refresh': (p) => refreshSearch(p.full === true),
   'campaigns.status': () => updateCampaignStatuses(),
   'health.probe': () => healthProbe(),

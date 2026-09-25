@@ -31,6 +31,8 @@ export type TerritorySettings = {
   /** Objectif d'adoption affiché au tableau de bord (part de fiches revendiquées). */
   adoptionGoalPct?: number;
   adoptionGoalLabel?: string;
+  /** Import et synchronisation SIRENE : suivi mensuel automatique et activités exclues des imports. */
+  sirene?: { autoSync?: boolean; excludedGroups?: string[]; excludedNaf?: string[] };
   /** Double authentification exigée pour toute l'équipe (sinon : administrateurs seulement). */
   requireMfaForAll?: boolean;
   /** Marque blanche (option) : aucune mention de terricom sur le portail ni dans les emails du territoire. */

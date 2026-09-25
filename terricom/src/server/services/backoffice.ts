@@ -5,7 +5,7 @@ import { cache } from 'react';
 import { STAFF_ROLES, type StaffRole } from '@/lib/constants';
 import { requireActor, staffTerritoryIds, type Actor } from '../authz';
 import { db } from '../db';
-import { campaigns, claims, communes, establishments, type TerritorySettings } from '../db/schema';
+import { campaigns, claims, communes, establishments, sireneChanges, type TerritorySettings } from '../db/schema';
 import { getTerritoriesByIds, getTerritoryCommunes, type Commune, type Territory } from './territories';
 
 /**
@@ -154,7 +154,7 @@ export function requireTerritoryLevel(ctx: BoContext) {
 
 /** Compteurs de la navigation (établissements du périmètre, revendications en attente). */
 export const boCounts = cache(async (ctx: BoContext) => {
-  const [[ests], [pending]] = await Promise.all([
+  const [[ests], [pending], [sirene]] = await Promise.all([
     db
       .select({ n: count() })
       .from(establishments)
@@ -164,6 +164,16 @@ export const boCounts = cache(async (ctx: BoContext) => {
       .from(claims)
       .innerJoin(establishments, eq(establishments.id, claims.establishmentId))
       .where(and(estScope(ctx), inArray(claims.status, ['PENDING', 'NEEDS_INFO']))),
+    db
+      .select({ n: count() })
+      .from(sireneChanges)
+      .where(
+        and(
+          eq(sireneChanges.territoryId, ctx.territory.id),
+          eq(sireneChanges.status, 'PENDING'),
+          ctx.communeIds ? inArray(sireneChanges.communeId, ctx.communeIds) : undefined,
+        ),
+      ),
   ]);
-  return { establishments: Number(ests?.n ?? 0), pendingClaims: Number(pending?.n ?? 0) };
+  return { establishments: Number(ests?.n ?? 0), pendingClaims: Number(pending?.n ?? 0), pendingSirene: Number(sirene?.n ?? 0) };
 });

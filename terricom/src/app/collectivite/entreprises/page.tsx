@@ -1,7 +1,7 @@
 import { and, asc, count, desc, eq, inArray, isNull, ne, or, sql, type SQL } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { startSireneImportAction } from './actions';
+import { startSireneImportAction, startStockImportAction } from './actions';
 import { EstablishmentTable, type EstRow } from '@/components/bo/EstablishmentTable';
 import { CommitForm, ImportPoller, MappingForm, UploadForm } from '@/components/bo/ImportForms';
 import { ESTABLISHMENT_STATUS, FAMILIES, PLAN_LABELS, type EstablishmentStatus } from '@/lib/constants';
@@ -9,7 +9,7 @@ import { ageShort, fmtInt, fmtStamp } from '@/lib/format';
 import { sized } from '@/lib/images';
 import { db } from '@/server/db';
 import { campaigns, categories, communes, companies, establishments, importBatches } from '@/server/db/schema';
-import { estScope, loadBoContext, type BoContext } from '@/server/services/backoffice';
+import { boCounts, estScope, loadBoContext, type BoContext } from '@/server/services/backoffice';
 import { IMPORT_FIELDS } from '@/server/services/imports';
 
 export const metadata: Metadata = { title: 'Entreprises' };
@@ -32,6 +32,18 @@ function qs(sp: Record<string, string | undefined>, patch: Record<string, string
   const s = p.toString();
   return `/collectivite/entreprises${s ? `?${s}` : ''}`;
 }
+
+const darkButton = {
+  border: '1.5px solid var(--dark-4)',
+  background: 'transparent',
+  color: 'var(--cream)',
+  padding: '10px 14px',
+  borderRadius: 10,
+  fontWeight: 700,
+  cursor: 'pointer',
+} as const;
+
+const SOURCE_LABEL: Record<string, string> = { SIRENE: 'API SIRENE', STOCK: 'fichier stock SIRENE' };
 
 async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefined }) {
   const batch =
@@ -83,19 +95,16 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
             Récupère les établissements actifs de vos {ctx.communes.length} communes depuis l&apos;API publique Recherche d&apos;entreprises (données INSEE).
           </p>
           <form action={startSireneImportAction}>
-            <button
-              type="submit"
-              style={{
-                border: '1.5px solid var(--dark-4)',
-                background: 'transparent',
-                color: 'var(--cream)',
-                padding: '10px 14px',
-                borderRadius: 10,
-                fontWeight: 700,
-                cursor: 'pointer',
-              }}
-            >
+            <button type="submit" style={darkButton}>
               Interroger la base SIRENE
+            </button>
+          </form>
+          <p style={{ margin: '6px 0 0', color: 'var(--sage-2)', fontSize: 12 }}>
+            Grand territoire (plus de 1 000 établissements par commune) : lisez plutôt le fichier stock SIRENE complet de vos départements (data.gouv.fr).
+          </p>
+          <form action={startStockImportAction}>
+            <button type="submit" style={{ ...darkButton, padding: '7px 12px', fontSize: 13 }}>
+              Fichier stock SIRENE (grands territoires)
             </button>
           </form>
         </div>
@@ -135,7 +144,13 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
             animation: 'spin 1s linear infinite',
           }}
         />
-        <span>{batch.source === 'SIRENE' ? 'Interrogation de la base SIRENE, commune par commune…' : 'Création des fiches en cours…'}</span>
+        <span>
+          {batch.source === 'SIRENE'
+            ? 'Interrogation de la base SIRENE, commune par commune…'
+            : batch.source === 'STOCK'
+              ? 'Lecture du fichier stock SIRENE de vos départements (plusieurs minutes)…'
+              : 'Création des fiches en cours…'}
+        </span>
         <ImportPoller />
       </section>
     );
@@ -191,7 +206,7 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
         <div style={{ border: '2px dashed var(--dark-4)', borderRadius: 14, padding: 16 }}>
           <b style={{ overflowWrap: 'anywhere' }}>{batch.filename}</b>
           <div style={{ fontSize: 12, color: 'var(--sage-2)' }}>
-            {fmtInt(r.total)} lignes · {batch.headers.length} colonnes · {batch.source === 'SIRENE' ? 'API SIRENE' : 'UTF-8'}
+            {fmtInt(r.total)} lignes · {batch.headers.length} colonnes · {SOURCE_LABEL[batch.source] ?? 'UTF-8'}
           </div>
         </div>
         <Link href="/collectivite/entreprises?import=1" style={{ fontSize: 12, color: 'var(--sage)' }}>
@@ -226,6 +241,14 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
         {step(3, 'CONTRÔLE')}
         <div>✓ {fmtInt(r.valid)} fiches valides</div>
         <div style={{ color: 'var(--amber)' }}>● {fmtInt(r.merged + r.duplicatesInFile)} doublons fusionnés</div>
+        {r.excluded ? (
+          <div style={{ color: 'var(--sage-2)' }}>
+            ● {fmtInt(r.excluded)} activité{r.excluded > 1 ? 's' : ''} exclue{r.excluded > 1 ? 's' : ''} (SCI, holdings…){' '}
+            <Link href="/collectivite/entreprises/sirene#reglages" style={{ color: 'var(--sage)' }}>
+              réglages
+            </Link>
+          </div>
+        ) : null}
         <div style={{ color: r.errors ? 'var(--rose)' : 'var(--sage-2)' }}>
           ● {fmtInt(r.errors)} erreur{r.errors > 1 ? 's' : ''} bloquante{r.errors > 1 ? 's' : ''}
         </div>
@@ -243,6 +266,7 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
 export default async function EstablishmentsPage({ searchParams }: Props) {
   const ctx = await loadBoContext();
   const sp = await searchParams;
+  const { pendingSirene } = await boCounts(ctx);
   const status = sp.statut ? STATUS_KEYS[sp.statut] : undefined;
   const q = (sp.q ?? '').trim().slice(0, 80);
   const page = Math.max(1, Number(sp.page) || 1);
@@ -332,6 +356,9 @@ export default async function EstablishmentsPage({ searchParams }: Props) {
           </Link>
         ))}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Link href="/collectivite/entreprises/sirene" className="btn btn-outline btn-sm" style={{ border: '1.5px solid var(--ink)', color: 'var(--ink)' }}>
+            Mises à jour SIRENE{pendingSirene ? ` · ${fmtInt(pendingSirene)}` : ''}
+          </Link>
           {ctx.access === 'ADMIN' ? (
             <Link
               href={sp.import ? qs(sp, { import: null, lot: null }) : qs(sp, { import: '1' })}

@@ -26,6 +26,7 @@ export const SCHEDULES: ScheduleDef[] = [
   { name: 'billing.overdue', queue: 'billing.overdue', everyMinutes: 1440, at: '07:00', label: 'Factures échues' },
   { name: 'maintenance.purge', queue: 'maintenance.purge', everyMinutes: 1440, at: '03:15', label: 'Purge RGPD, sessions et journaux (rétention)' },
   { name: 'demo.reset', queue: 'demo.reset', everyMinutes: 1440, at: '04:30', label: 'Réinitialisation du jeu de démonstration', demoOnly: true },
+  { name: 'sirene.sync-due', queue: 'sirene.sync-due', everyMinutes: 1440, at: '05:10', label: 'Synchronisation SIRENE mensuelle (territoires dus)' },
   { name: 'agenda.sync', queue: 'agenda.sync', everyMinutes: 60, label: 'Synchronisation des agendas externes (iCal)' },
 ];
 
@@ -41,6 +42,9 @@ export const QUEUE_LABELS: Record<QueueName, string> = {
   'claims.reminders': 'Relances revendication',
   'import.geocode': 'Géocodage des imports',
   'import.sirene': 'Import SIRENE',
+  'import.stock': 'Import du fichier stock SIRENE',
+  'sirene.sync': 'Synchronisation SIRENE d’un territoire',
+  'sirene.sync-due': 'Synchronisations SIRENE à lancer',
   'search.refresh': 'Index de recherche',
   'campaigns.status': 'Statut des campagnes',
   'health.probe': 'Sonde de disponibilité',

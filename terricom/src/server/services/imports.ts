@@ -1,11 +1,12 @@
 import { and, eq, inArray, isNull, or, sql } from 'drizzle-orm';
 import Papa from 'papaparse';
+import { fromRecherche, fromStockRow, isExcludedActivity, stockUrls, type RechercheResult } from '@/lib/sirene';
 import { slugify } from '@/lib/slug';
 import { audit, type AuditActor } from '../audit';
 import { invalidate } from '../cache';
 import { shortCode } from '../crypto';
 import { db } from '../db';
-import { categories, companies, establishments, importBatches, type ImportMapping, type ImportReport, type ImportRow } from '../db/schema';
+import { categories, companies, establishments, importBatches, type ImportMapping, type ImportReport, type ImportRow, type SireneRecord } from '../db/schema';
 import { env } from '../env';
 import { isValidSiret } from '../integrations/public-data';
 import { logger } from '../logger';
@@ -22,6 +23,9 @@ import { getTerritoryById, getTerritoryCommunes } from './territories';
  */
 
 export const MAX_IMPORT_ROWS = 20_000;
+/** Fichier stock SIRENE (grands territoires) : lu en flux, filtré sur les communes du territoire. */
+export const MAX_STOCK_ROWS = 60_000;
+export const EXCLUDED_PREFIX = 'Activité exclue par le territoire';
 export const MAX_IMPORT_BYTES = 8 * 1024 * 1024;
 
 export type ImportField = keyof ImportMapping;
@@ -149,7 +153,7 @@ export async function analyzeRows(
   mapping: ImportMapping,
   defaultCategoryId: string | null,
 ): Promise<{ rows: ImportRow[]; report: ImportReport }> {
-  const [communesList, cats, existing] = await Promise.all([
+  const [communesList, cats, existing, territory] = await Promise.all([
     getTerritoryCommunes(territoryId),
     db
       .select({ id: categories.id, name: categories.name, synonyms: categories.synonyms, nafCodes: categories.nafCodes })
@@ -159,7 +163,9 @@ export async function analyzeRows(
       .select({ id: establishments.id, siret: establishments.siret, name: establishments.name, communeId: establishments.communeId })
       .from(establishments)
       .where(eq(establishments.territoryId, territoryId)),
+    getTerritoryById(territoryId),
   ]);
+  const sirene = territory?.settings.sirene;
   const byInsee = new Map(communesList.map((c) => [c.inseeCode, c]));
   const byName = new Map(communesList.map((c) => [norm(c.name), c]));
   const byNaf = new Map<string, (typeof cats)[number]>();
@@ -190,7 +196,8 @@ export async function analyzeRows(
     const naf = pick(r, mapping.naf)?.replace(/\./g, '').toUpperCase() ?? null;
     const catText = pick(r, mapping.category);
     const cat = (naf && byNaf.get(naf)) || (catText ? byCatName.get(norm(catText)) : undefined) || defaultCat;
-    if (!cat) errors.push(naf ? `Activité ${naf} sans catégorie correspondante` : 'Catégorie inconnue');
+    if (naf && isExcludedActivity(naf, sirene)) errors.push(`${EXCLUDED_PREFIX} (${naf})`);
+    else if (!cat) errors.push(naf ? `Activité ${naf} sans catégorie correspondante` : 'Catégorie inconnue');
     const phone =
       pick(r, mapping.phone)
         ?.replace(/[^\d+]/g, '')
@@ -244,51 +251,22 @@ export async function analyzeRows(
     valid: rows.filter((r) => r.action === 'CREATE').length,
     merged: rows.filter((r) => r.action === 'MERGE').length,
     duplicatesInFile: rows.filter((r) => r.action === 'SKIP' && r.errors[0]?.startsWith('Doublon')).length,
-    errors: rows.filter((r) => r.action === 'SKIP' && !r.errors[0]?.startsWith('Doublon')).length,
+    errors: rows.filter((r) => r.action === 'SKIP' && !r.errors[0]?.startsWith('Doublon') && !r.errors[0]?.startsWith(EXCLUDED_PREFIX)).length,
+    excluded: rows.filter((r) => r.errors[0]?.startsWith(EXCLUDED_PREFIX)).length,
   };
   return { rows, report };
 }
 
-/** Crée un lot à partir d'un fichier CSV déposé. */
-export async function createCsvBatch(territoryId: string, userId: string, filename: string, buf: Buffer) {
-  const { headers, rows: raw } = parseCsv(buf);
-  if (!headers.length || !raw.length) throw new Error('Fichier vide ou illisible : vérifiez qu’il s’agit bien d’un CSV avec une ligne d’en-têtes.');
-  const mapping = guessMapping(headers);
-  const { rows, report } = await analyzeRows(territoryId, raw, mapping, null);
-  const [batch] = await db
-    .insert(importBatches)
-    .values({ territoryId, createdById: userId, source: 'CSV', filename: filename.slice(0, 255), headers, mapping, rawRows: raw, rows, report })
-    .returning({ id: importBatches.id });
-  return batch.id;
-}
-
-/** Nouvelle analyse avec une correspondance corrigée par l'agent. */
-export async function remapBatch(batchId: string, territoryId: string, mapping: ImportMapping, defaultCategoryId: string | null) {
-  const [batch] = await db
-    .select()
-    .from(importBatches)
-    .where(and(eq(importBatches.id, batchId), eq(importBatches.territoryId, territoryId)))
-    .limit(1);
-  if (!batch || batch.status !== 'ANALYZED') throw new Error('Import introuvable ou déjà traité.');
-  const { rows, report } = await analyzeRows(territoryId, batch.rawRows, mapping, defaultCategoryId);
-  await db.update(importBatches).set({ mapping, rows, report, defaultCategoryId, updatedAt: new Date() }).where(eq(importBatches.id, batchId));
-}
-
-/** Création des fiches précréées et fusion des doublons ; invitations facultatives. */
-export async function commitBatch(
-  batchId: string,
+/**
+ * Crée (ou complète) des fiches précréées à partir de lignes contrôlées : entreprise retrouvée par SIREN ou
+ * créée, adresse lisible et unique, géocodage en tâche de fond. Utilisée par les imports et par la
+ * validation des nouveautés SIRENE.
+ */
+export async function createEstablishments(
   territoryId: string,
-  actor: AuditActor & { user: { id: string } },
-  opts: { invite: boolean },
-): Promise<ImportReport> {
-  const [batch] = await db
-    .select()
-    .from(importBatches)
-    .where(and(eq(importBatches.id, batchId), eq(importBatches.territoryId, territoryId)))
-    .limit(1);
-  if (!batch || batch.status !== 'ANALYZED') throw new Error('Import introuvable ou déjà traité.');
-  await db.update(importBatches).set({ status: 'RUNNING', updatedAt: new Date() }).where(eq(importBatches.id, batchId));
-  const territory = await getTerritoryById(territoryId);
+  rows: ImportRow[],
+  userId: string,
+): Promise<{ created: { id: string; name: string; email: string | null }[]; updated: number }> {
   const communesList = await getTerritoryCommunes(territoryId);
   const communeById = new Map(communesList.map((c) => [c.id, c]));
   const catNaf = new Map((await db.select({ id: categories.id, nafCodes: categories.nafCodes }).from(categories)).map((c) => [c.id, c.nafCodes[0] ?? null]));
@@ -301,7 +279,7 @@ export async function commitBatch(
   let updated = 0;
   const toGeocode: string[] = [];
 
-  for (const row of batch.rows) {
+  for (const row of rows) {
     if (row.action === 'SKIP' || !row.communeId || !row.categoryId) continue;
     try {
       if (row.action === 'MERGE' && row.existingId) {
@@ -359,7 +337,7 @@ export async function commitBatch(
           email: row.email,
           website: row.website,
           qrCode: shortCode(8),
-          createdById: actor.user.id,
+          createdById: userId,
         })
         .onConflictDoNothing()
         .returning({ id: establishments.id });
@@ -375,6 +353,50 @@ export async function commitBatch(
     await refreshCompleteness(c.id);
   }
   for (const id of toGeocode) await enqueue('import.geocode', { establishmentId: id }, { dedupeKey: `geocode:${id}` });
+  return { created, updated };
+}
+
+/** Crée un lot à partir d'un fichier CSV déposé. */
+export async function createCsvBatch(territoryId: string, userId: string, filename: string, buf: Buffer) {
+  const { headers, rows: raw } = parseCsv(buf);
+  if (!headers.length || !raw.length) throw new Error('Fichier vide ou illisible : vérifiez qu’il s’agit bien d’un CSV avec une ligne d’en-têtes.');
+  const mapping = guessMapping(headers);
+  const { rows, report } = await analyzeRows(territoryId, raw, mapping, null);
+  const [batch] = await db
+    .insert(importBatches)
+    .values({ territoryId, createdById: userId, source: 'CSV', filename: filename.slice(0, 255), headers, mapping, rawRows: raw, rows, report })
+    .returning({ id: importBatches.id });
+  return batch.id;
+}
+
+/** Nouvelle analyse avec une correspondance corrigée par l'agent. */
+export async function remapBatch(batchId: string, territoryId: string, mapping: ImportMapping, defaultCategoryId: string | null) {
+  const [batch] = await db
+    .select()
+    .from(importBatches)
+    .where(and(eq(importBatches.id, batchId), eq(importBatches.territoryId, territoryId)))
+    .limit(1);
+  if (!batch || batch.status !== 'ANALYZED') throw new Error('Import introuvable ou déjà traité.');
+  const { rows, report } = await analyzeRows(territoryId, batch.rawRows, mapping, defaultCategoryId);
+  await db.update(importBatches).set({ mapping, rows, report, defaultCategoryId, updatedAt: new Date() }).where(eq(importBatches.id, batchId));
+}
+
+/** Création des fiches précréées et fusion des doublons ; invitations facultatives. */
+export async function commitBatch(
+  batchId: string,
+  territoryId: string,
+  actor: AuditActor & { user: { id: string } },
+  opts: { invite: boolean },
+): Promise<ImportReport> {
+  const [batch] = await db
+    .select()
+    .from(importBatches)
+    .where(and(eq(importBatches.id, batchId), eq(importBatches.territoryId, territoryId)))
+    .limit(1);
+  if (!batch || batch.status !== 'ANALYZED') throw new Error('Import introuvable ou déjà traité.');
+  await db.update(importBatches).set({ status: 'RUNNING', updatedAt: new Date() }).where(eq(importBatches.id, batchId));
+  const territory = await getTerritoryById(territoryId);
+  const { created, updated } = await createEstablishments(territoryId, batch.rows, actor.user.id);
 
   let invited = 0;
   if (opts.invite && territory) {
@@ -418,26 +440,43 @@ export async function commitBatch(
 
 // ─── Import depuis la base SIRENE (API Recherche d'entreprises) ────────────
 
-type SearchResult = {
-  results: {
-    nom_complet: string;
-    activite_principale: string | null;
-    matching_etablissements?: {
-      siret: string;
-      adresse: string | null;
-      code_postal: string | null;
-      commune: string | null;
-      libelle_commune: string | null;
-      latitude: string | null;
-      longitude: string | null;
-      activite_principale?: string | null;
-      etat_administratif: string;
-      nom_commercial?: string | null;
-      liste_enseignes?: string[] | null;
-    }[];
-  }[];
-  total_pages?: number;
-};
+type SearchResult = { results: RechercheResult[]; total_pages?: number };
+
+const RAW_HEADERS = ['siret', 'nom', 'activitePrincipale', 'adresse', 'codePostal', 'codeCommune', 'latitude', 'longitude'];
+
+/** Enregistrements SIRENE → lignes brutes d'un lot (colonnes reconnues par guessMapping). */
+export function recordsToRaw(records: SireneRecord[]): Record<string, string>[] {
+  return records.map((r) => ({
+    siret: r.siret,
+    nom: r.name,
+    activitePrincipale: r.naf ?? '',
+    adresse: r.street ?? '',
+    codePostal: r.postalCode ?? '',
+    codeCommune: r.inseeCode,
+    latitude: r.lat === null ? '' : String(r.lat),
+    longitude: r.lng === null ? '' : String(r.lng),
+  }));
+}
+
+/** Établissements actifs d'une commune (API Recherche d'entreprises) ; complete = liste lue jusqu'au bout. */
+export async function scanCommune(inseeCode: string, max = 10_000): Promise<{ records: SireneRecord[]; complete: boolean }> {
+  const records: SireneRecord[] = [];
+  for (let page = 1; page <= 400 && records.length < max; page++) {
+    const url = `${env.SIRENE_API_URL}/search?code_commune=${inseeCode}&etat_administratif=A&per_page=25&page=${page}`;
+    const res = await fetch(url, { signal: AbortSignal.timeout(10_000), headers: { accept: 'application/json' } });
+    if (res.status === 429) {
+      await new Promise((r) => setTimeout(r, 1500));
+      page--;
+      continue;
+    }
+    if (!res.ok) throw new Error(`API SIRENE indisponible (HTTP ${res.status})`);
+    const data = (await res.json()) as SearchResult;
+    for (const r of data.results ?? []) records.push(...fromRecherche(r, inseeCode).filter((x) => x.active));
+    if (!data.total_pages || page >= data.total_pages) return { records, complete: true };
+    await new Promise((r) => setTimeout(r, 180)); // ≤ 7 requêtes/s
+  }
+  return { records, complete: false };
+}
 
 /** Crée un lot SIRENE à remplir par le worker. */
 export async function createSireneBatch(territoryId: string, userId: string): Promise<string> {
@@ -457,34 +496,9 @@ export async function runSireneImport(batchId: string): Promise<void> {
   const raw: Record<string, string>[] = [];
   try {
     for (const c of communesList) {
-      for (let page = 1; page <= 40 && raw.length < MAX_IMPORT_ROWS; page++) {
-        const url = `${env.SIRENE_API_URL}/search?code_commune=${c.inseeCode}&etat_administratif=A&per_page=25&page=${page}`;
-        const res = await fetch(url, { signal: AbortSignal.timeout(10_000), headers: { accept: 'application/json' } });
-        if (res.status === 429) {
-          await new Promise((r) => setTimeout(r, 1500));
-          page--;
-          continue;
-        }
-        if (!res.ok) throw new Error(`API SIRENE indisponible (HTTP ${res.status})`);
-        const data = (await res.json()) as SearchResult;
-        for (const r of data.results ?? []) {
-          for (const e of r.matching_etablissements ?? []) {
-            if (e.etat_administratif !== 'A' || e.commune !== c.inseeCode) continue;
-            raw.push({
-              siret: e.siret,
-              nom: e.nom_commercial || e.liste_enseignes?.[0] || r.nom_complet,
-              activitePrincipale: e.activite_principale ?? r.activite_principale ?? '',
-              adresse: (e.adresse ?? '').replace(/\s\d{5}\s.*$/, ''),
-              codePostal: e.code_postal ?? '',
-              codeCommune: e.commune ?? '',
-              latitude: e.latitude ?? '',
-              longitude: e.longitude ?? '',
-            });
-          }
-        }
-        if (!data.total_pages || page >= data.total_pages) break;
-        await new Promise((r) => setTimeout(r, 180)); // ≤ 7 requêtes/s
-      }
+      if (raw.length >= MAX_IMPORT_ROWS) break;
+      const { records } = await scanCommune(c.inseeCode, MAX_IMPORT_ROWS - raw.length);
+      raw.push(...recordsToRaw(records));
     }
   } catch (err) {
     await db
@@ -493,12 +507,108 @@ export async function runSireneImport(batchId: string): Promise<void> {
       .where(eq(importBatches.id, batchId));
     return;
   }
-  const headers = ['siret', 'nom', 'activitePrincipale', 'adresse', 'codePostal', 'codeCommune', 'latitude', 'longitude'];
+  const headers = RAW_HEADERS;
   const mapping = guessMapping(headers);
   const { rows, report } = await analyzeRows(batch.territoryId, raw, mapping, null);
   await db
     .update(importBatches)
     .set({ status: 'ANALYZED', headers, mapping, rawRows: raw, rows, report, updatedAt: new Date() })
+    .where(eq(importBatches.id, batchId));
+}
+
+// ─── Import depuis le fichier stock SIRENE géolocalisé (grands territoires) ─
+
+/** Crée un lot « fichier stock » à remplir par le worker (fichiers départementaux de data.gouv). */
+export async function createStockBatch(territoryId: string, userId: string): Promise<string> {
+  const [batch] = await db
+    .insert(importBatches)
+    .values({
+      territoryId,
+      createdById: userId,
+      source: 'STOCK',
+      filename: `Fichier stock SIRENE · ${new Date().toLocaleDateString('fr-FR')}`,
+      status: 'PENDING',
+    })
+    .returning({ id: importBatches.id });
+  await enqueue('import.stock', { batchId: batch.id }, { dedupeKey: `stock:${batch.id}`, maxAttempts: 2 });
+  return batch.id;
+}
+
+/** Lit un fichier stock (CSV, éventuellement compressé) en flux et garde les établissements actifs des communes. */
+export async function readStockFile(url: string, inseeCodes: Set<string>, max: number): Promise<SireneRecord[]> {
+  const { Readable } = await import('node:stream');
+  const { createGunzip } = await import('node:zlib');
+  const res = await fetch(url, { signal: AbortSignal.timeout(15 * 60_000) });
+  if (!res.ok || !res.body) throw new Error(`Fichier stock indisponible (HTTP ${res.status}) : ${url}`);
+  let input: NodeJS.ReadableStream = Readable.fromWeb(res.body as import('node:stream/web').ReadableStream);
+  if (/\.gz($|\?)/.test(url)) input = input.pipe(createGunzip());
+  const out: SireneRecord[] = [];
+  await new Promise<void>((resolve, reject) => {
+    const parser = Papa.parse(Papa.NODE_STREAM_INPUT, { header: true, skipEmptyLines: true });
+    parser.on('data', (row: Record<string, string>) => {
+      if (out.length >= max) return;
+      const r = fromStockRow(row, inseeCodes);
+      if (r) out.push(r);
+    });
+    parser.on('end', () => resolve());
+    parser.on('error', reject);
+    input.on('error', reject);
+    input.pipe(parser);
+  });
+  return out;
+}
+
+/** Complète les noms absents du fichier stock (dénomination de l'entreprise, par SIREN). */
+async function fillMissingNames(records: SireneRecord[], maxLookups = 3000): Promise<void> {
+  const missing = [...new Set(records.filter((r) => !r.name).map((r) => r.siret.slice(0, 9)))].slice(0, maxLookups);
+  const names = new Map<string, string>();
+  for (const siren of missing) {
+    try {
+      const res = await fetch(`${env.SIRENE_API_URL}/search?q=${siren}&per_page=1`, {
+        signal: AbortSignal.timeout(10_000),
+        headers: { accept: 'application/json' },
+      });
+      if (res.ok) {
+        const data = (await res.json()) as SearchResult;
+        const n = data.results?.[0]?.nom_complet;
+        if (n) names.set(siren, n);
+      }
+    } catch {
+      /* nom laissé vide : la ligne sera signalée « Nom manquant » */
+    }
+    await new Promise((r) => setTimeout(r, 160));
+  }
+  for (const r of records) if (!r.name) r.name = names.get(r.siret.slice(0, 9)) ?? '';
+}
+
+/** Tâche de fond : télécharge les fichiers des départements du territoire, filtre, puis analyse le lot. */
+export async function runStockImport(batchId: string): Promise<void> {
+  const [batch] = await db.select().from(importBatches).where(eq(importBatches.id, batchId)).limit(1);
+  if (!batch || batch.status !== 'PENDING') return;
+  const communesList = await getTerritoryCommunes(batch.territoryId);
+  const inseeCodes = new Set(communesList.map((c) => c.inseeCode));
+  const records: SireneRecord[] = [];
+  try {
+    for (const url of stockUrls(
+      communesList.map((c) => c.departmentCode ?? c.inseeCode.slice(0, 2)),
+      env.SIRENE_STOCK_URL,
+    )) {
+      records.push(...(await readStockFile(url, inseeCodes, MAX_STOCK_ROWS - records.length)));
+    }
+    await fillMissingNames(records);
+  } catch (err) {
+    await db
+      .update(importBatches)
+      .set({ status: 'FAILED', error: err instanceof Error ? err.message : String(err), updatedAt: new Date() })
+      .where(eq(importBatches.id, batchId));
+    return;
+  }
+  const raw = recordsToRaw(records);
+  const mapping = guessMapping(RAW_HEADERS);
+  const { rows, report } = await analyzeRows(batch.territoryId, raw, mapping, null);
+  await db
+    .update(importBatches)
+    .set({ status: 'ANALYZED', headers: RAW_HEADERS, mapping, rawRows: raw, rows, report, updatedAt: new Date() })
     .where(eq(importBatches.id, batchId));
 }
 

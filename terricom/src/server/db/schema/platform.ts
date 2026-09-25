@@ -1,9 +1,9 @@
 import { sql } from 'drizzle-orm';
-import { bigserial, boolean, index, integer, jsonb, pgTable, serial, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { bigserial, boolean, index, integer, jsonb, pgTable, serial, text, timestamp, uniqueIndex, uuid, varchar } from 'drizzle-orm/pg-core';
 import { citext, createdAt, pk, tstz, updatedAt } from './_common';
-import { companies } from './business';
+import { companies, establishments } from './business';
 import { aiFeature, auditCategory, emailStatus, privacyRequestKind, privacyRequestStatus, queueStatus, ticketStatus } from './enums';
-import { territories } from './tenancy';
+import { communes, territories } from './tenancy';
 import { users } from './users';
 
 /**
@@ -216,6 +216,8 @@ export type ImportReport = {
   duplicatesInFile: number;
   errors: number;
   total: number;
+  /** Lignes écartées par le réglage « activités exclues » du territoire. */
+  excluded?: number;
   created?: number;
   updated?: number;
   invited?: number;
@@ -262,6 +264,78 @@ export const importBatches = pgTable(
     updatedAt: updatedAt(),
   },
   (t) => [index('import_batches_territory_idx').on(t.territoryId, t.createdAt)],
+);
+
+/** Données d'un établissement telles que lues dans SIRENE (API INSEE, API Recherche d'entreprises ou fichier stock). */
+export type SireneRecord = {
+  siret: string;
+  name: string;
+  naf: string | null;
+  legalCategory?: string | null;
+  street: string | null;
+  postalCode: string | null;
+  inseeCode: string;
+  city?: string | null;
+  lat: number | null;
+  lng: number | null;
+  active: boolean;
+  createdOn?: string | null;
+  /** Date de la fermeture ou du dernier changement d'état (AAAA-MM-JJ). */
+  changedOn?: string | null;
+};
+
+/** Passages de la synchronisation SIRENE (mensuelle ou à la demande). */
+export const sireneSyncRuns = pgTable(
+  'sirene_sync_runs',
+  {
+    id: pk(),
+    territoryId: uuid()
+      .notNull()
+      .references(() => territories.id, { onDelete: 'cascade' }),
+    /** INSEE : API Sirene officielle (changements depuis la date « since ») ; RECHERCHE : comparaison avec l'API Recherche d'entreprises. */
+    source: varchar({ length: 16 }).notNull(),
+    trigger: varchar({ length: 16 }).notNull().default('SCHEDULE'),
+    status: varchar({ length: 16 }).notNull().default('RUNNING'),
+    since: tstz(),
+    creations: integer().notNull().default(0),
+    closures: integer().notNull().default(0),
+    ignored: integer().notNull().default(0),
+    error: text(),
+    startedAt: createdAt(),
+    finishedAt: tstz(),
+  },
+  (t) => [index('sirene_sync_runs_territory_idx').on(t.territoryId, t.startedAt)],
+);
+
+/**
+ * Changements détectés dans SIRENE, à valider par la collectivité : créations (nouvelle fiche proposée)
+ * et fermetures (fiche existante à archiver). Rien n'est publié ni archivé sans décision d'un agent.
+ */
+export const sireneChanges = pgTable(
+  'sirene_changes',
+  {
+    id: pk(),
+    territoryId: uuid()
+      .notNull()
+      .references(() => territories.id, { onDelete: 'cascade' }),
+    communeId: uuid()
+      .notNull()
+      .references(() => communes.id, { onDelete: 'cascade' }),
+    runId: uuid().references(() => sireneSyncRuns.id, { onDelete: 'set null' }),
+    kind: varchar({ length: 16 }).notNull(),
+    siret: varchar({ length: 14 }).notNull(),
+    record: jsonb().$type<SireneRecord>().notNull(),
+    categoryId: uuid(),
+    establishmentId: uuid().references(() => establishments.id, { onDelete: 'cascade' }),
+    status: varchar({ length: 16 }).notNull().default('PENDING'),
+    decidedById: uuid().references(() => users.id, { onDelete: 'set null' }),
+    decidedAt: tstz(),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('sirene_changes_pending_idx').on(t.territoryId, t.status, t.kind),
+    uniqueIndex('sirene_changes_siret_kind_uq').on(t.territoryId, t.siret, t.kind),
+  ],
 );
 
 /** Sondes de disponibilité (le worker interroge /api/health chaque minute). */

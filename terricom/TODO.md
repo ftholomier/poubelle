@@ -38,6 +38,10 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
       serveur autonome ; plus de bande vide en bas des espaces privés hors mode démonstration
 - [x] Présentation aux élus (`docs/presentation`, `npm run presentation`) : de la communauté de communes au
       commerce, sans vocabulaire technique ; PDF paysage avec étapes de construction, version HTML animée
+- [x] Teaser vidéo (`docs/teaser`, MP4 calé sur la musique fournie)
+- [x] Synchronisation SIRENE : passage mensuel automatique (API Sirene de l’INSEE avec clé gratuite, sinon API
+      Recherche d’entreprises), nouveautés à valider puis invitation par courrier, fermetures signalées à archiver
+      ou garder, fichier stock des départements pour les grands territoires, activités exclues par territoire
 
 ## En cours
 
@@ -54,4 +58,6 @@ Rien : toutes les fonctions du cahier des charges sont livrées (voir « Fait »
 ## Limites connues
 
 - Dans le bac à sable de développement, cartes, photos, API publiques et IA sont bloquées (fonctionnent en production).
+- Synchronisation SIRENE : API Sirene de l’INSEE et fichiers stock de data.gouv.fr non joignables depuis le bac
+  à sable ; logique testée (tests unitaires, jeu de démonstration, e2e), appels réels à vérifier en préproduction.
 - Les photos de démonstration proviennent d’Unsplash (URL externes) ; en production, les photos sont téléversées.

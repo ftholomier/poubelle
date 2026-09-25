@@ -2540,6 +2540,145 @@ Visite des caves le vendredi à 15 h, sur réservation.`,
       interval '1 minute' * (CASE WHEN c.slug LIKE 'noel%' THEN 25 ELSE 70 END)) AS ts
     WHERE c.status IN ('ACTIVE', 'ENDED') AND c.starts_at <= current_date`);
 
+  // ─── Synchronisation SIRENE : passages et propositions à valider ─────────
+  console.log('→ Synchronisation SIRENE (propositions à valider)');
+  const [syncOld] = await db
+    .insert(S.sireneSyncRuns)
+    .values({
+      territoryId: vdl.id,
+      source: 'RECHERCHE',
+      trigger: 'SCHEDULE',
+      status: 'DONE',
+      since: daysAgo(66),
+      creations: 4,
+      closures: 1,
+      ignored: 3,
+      startedAt: daysAgo(35, 5),
+      finishedAt: daysAgo(35, 5),
+    })
+    .returning();
+  const [syncRun] = await db
+    .insert(S.sireneSyncRuns)
+    .values({
+      territoryId: vdl.id,
+      source: 'RECHERCHE',
+      trigger: 'SCHEDULE',
+      status: 'DONE',
+      since: daysAgo(35),
+      creations: 5,
+      closures: 2,
+      ignored: 2,
+      startedAt: daysAgo(6, 5),
+      finishedAt: daysAgo(6, 5),
+    })
+    .returning();
+  const newcomers: [string, string, string, string, string][] = [
+    ['Ornans', 'Le Fournil de la Loue', 'boulangerie', '10.71C', '12 rue Saint-Laurent'],
+    ['Ornans', 'Atelier Vélo Loue', 'garage', '45.20A', '3 avenue du Président Wilson'],
+    ['Quingey', 'Épicerie du Pont', 'epicerie', '47.11B', '1 place de la Mairie'],
+    ['Amancey', 'Coiffure Élise', 'coiffure', '96.02A', '8 grande rue'],
+    ['Vuillafans', 'Miellerie des Côtes', 'apiculteur', '01.49Z', '5 chemin des Côtes'],
+  ];
+  const sireneRows: (typeof S.sireneChanges.$inferInsert)[] = newcomers.map(([commune, name, cat, naf, street], i) => {
+    const c = communeRows[commune];
+    const siret = fixSiret(`9${String(81234560 + i * 1111)}0001`);
+    return {
+      territoryId: vdl.id,
+      communeId: c.id,
+      runId: syncRun.id,
+      kind: 'CREATION',
+      siret,
+      categoryId: catBySlug.get(cat)?.id ?? null,
+      createdAt: daysAgo(6, 5),
+      record: {
+        siret,
+        name,
+        naf,
+        street,
+        postalCode: c.postalCodes[0],
+        inseeCode: c.inseeCode,
+        city: c.name,
+        lat: (c.lat ?? 47) + (i - 2) * 0.0012,
+        lng: (c.lng ?? 6) + (i - 2) * 0.0015,
+        active: true,
+        createdOn: daysAgo(20 + i * 4)
+          .toISOString()
+          .slice(0, 10),
+      },
+    };
+  });
+  const closing = allEsts.filter((e) => e.status === 'PRECREATED' && communeRows[e.commune]).slice(3, 5);
+  const closingRows = closing.length
+    ? await db
+        .select({
+          id: S.establishments.id,
+          siret: S.establishments.siret,
+          name: S.establishments.name,
+          street: S.establishments.street,
+          lat: S.establishments.lat,
+          lng: S.establishments.lng,
+        })
+        .from(S.establishments)
+        .where(
+          inArray(
+            S.establishments.id,
+            closing.map((e) => e.id),
+          ),
+        )
+    : [];
+  for (const [i, e] of closingRows.entries()) {
+    const c = communeRows[closing.find((x) => x.id === e.id)!.commune];
+    sireneRows.push({
+      territoryId: vdl.id,
+      communeId: c.id,
+      runId: syncRun.id,
+      kind: 'CLOSURE',
+      siret: e.siret!,
+      establishmentId: e.id,
+      createdAt: daysAgo(6, 5),
+      record: {
+        siret: e.siret!,
+        name: e.name.toUpperCase(),
+        naf: null,
+        street: e.street ?? '',
+        postalCode: c.postalCodes[0],
+        inseeCode: c.inseeCode,
+        city: c.name,
+        lat: e.lat,
+        lng: e.lng,
+        active: false,
+        changedOn: daysAgo(40 + i * 9)
+          .toISOString()
+          .slice(0, 10),
+      },
+    });
+  }
+  // Décisions du passage précédent (historique).
+  sireneRows.push({
+    territoryId: vdl.id,
+    communeId: communeRows['Lods'].id,
+    runId: syncOld.id,
+    kind: 'CREATION',
+    siret: fixSiret('9812000000001'),
+    status: 'REJECTED',
+    decidedById: claire.id,
+    decidedAt: daysAgo(33, 10),
+    createdAt: daysAgo(35, 5),
+    record: {
+      siret: fixSiret('9812000000001'),
+      name: 'SCI DU MOULIN',
+      naf: '68.20B',
+      street: '2 rue du Moulin',
+      postalCode: '25930',
+      inseeCode: '25339',
+      city: 'Lods',
+      lat: 47.0497,
+      lng: 6.2372,
+      active: true,
+    },
+  });
+  await db.insert(S.sireneChanges).values(sireneRows);
+
   // ─── Scores de complétude et index de recherche ──────────────────────────
   console.log('→ Index de recherche et complétude des fiches');
   await db.execute(sql`

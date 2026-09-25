@@ -15,7 +15,7 @@ import { sendEmail } from '@/server/mail/send';
 import { claimInvitationTemplate } from '@/server/mail/templates';
 import { estScope, loadBoContext, requireBoAdmin, type BoContext } from '@/server/services/backoffice';
 import { refreshCompleteness, refreshSearchKeywords, recordRevision } from '@/server/services/establishments';
-import { commitBatch, createCsvBatch, createSireneBatch, IMPORT_FIELDS, MAX_IMPORT_BYTES, remapBatch } from '@/server/services/imports';
+import { commitBatch, createCsvBatch, createSireneBatch, createStockBatch, IMPORT_FIELDS, MAX_IMPORT_BYTES, remapBatch } from '@/server/services/imports';
 import { appUrl } from '@/server/urls';
 import { slugify } from '@/lib/slug';
 
@@ -76,6 +76,24 @@ export async function startSireneImportAction(): Promise<void> {
     category: 'IMPORT',
     action: 'import.sirene_started',
     summary: 'Import depuis la base SIRENE lancé',
+    territoryId: ctx.territory.id,
+    targetType: 'import',
+    targetId: id,
+  });
+  redirect(`/collectivite/entreprises?import=1&lot=${id}`);
+}
+
+/** Grands territoires : lecture des fichiers stock SIRENE des départements (sans limite par commune). */
+export async function startStockImportAction(): Promise<void> {
+  const ctx = await loadBoContext();
+  requireBoAdmin(ctx);
+  if (!(await rateLimit(`stock-import:${ctx.territory.id}`, 2, 3600)).ok) redirect('/collectivite/entreprises?import=1');
+  const id = await createStockBatch(ctx.territory.id, ctx.actor.user.id);
+  await audit({
+    actor: actorOf(ctx),
+    category: 'IMPORT',
+    action: 'import.stock_started',
+    summary: 'Import depuis le fichier stock SIRENE lancé',
     territoryId: ctx.territory.id,
     targetType: 'import',
     targetId: id,

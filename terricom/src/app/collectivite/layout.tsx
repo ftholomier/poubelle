@@ -18,6 +18,7 @@ export const metadata: Metadata = { title: { default: 'Back-office', template: '
 const TITLES: [string, string][] = [
   ['/collectivite', 'Tableau de bord'],
   ['/collectivite/entreprises', 'Entreprises'],
+  ['/collectivite/entreprises/sirene', 'Mises à jour SIRENE'],
   ['/collectivite/moderation', 'Revendications & modération'],
   ['/collectivite/campagnes', 'Campagnes'],
   ['/collectivite/agenda', 'Agenda & actualités'],
@@ -38,6 +39,9 @@ export default async function BackOfficeLayout({ children }: { children: ReactNo
   const items: NavItem[] = [
     { href: '/collectivite', label: 'Tableau de bord', exact: true },
     { href: '/collectivite/entreprises', label: 'Entreprises', badge: fmtInt(counts.establishments), badgeBg: 'var(--dark-4)', badgeFg: 'var(--sage-4)' },
+    ...(counts.pendingSirene
+      ? [{ href: '/collectivite/entreprises/sirene', label: 'Mises à jour SIRENE', badge: String(counts.pendingSirene), badgeBg: 'var(--amber)' }]
+      : []),
     { href: '/collectivite/moderation', label: 'Revendications', badge: counts.pendingClaims ? String(counts.pendingClaims) : null, badgeBg: 'var(--amber)' },
     { href: '/collectivite/campagnes', label: 'Campagnes', badge: 'IA', badgeBg: 'var(--lilac)' },
     { href: '/collectivite/agenda', label: 'Agenda & actualités' },

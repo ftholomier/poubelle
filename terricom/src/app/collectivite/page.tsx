@@ -46,6 +46,7 @@ export default async function BackOfficeDashboard() {
     { v: todo.stale, l: 'fiches aux horaires obsolètes', c: 'var(--danger)', href: '/collectivite/entreprises?filtre=horaires' },
     { v: todo.posts, l: 'publications à modérer', c: '#7A5BB5', href: '/collectivite/moderation?onglet=publications' },
     { v: todo.letters, l: todo.letters > 1 ? 'newsletters en préparation' : 'newsletter prête à envoyer', c: 'var(--green)', href: '/collectivite/newsletter' },
+    ...(todo.sirene ? [{ v: todo.sirene, l: 'mises à jour SIRENE à valider', c: 'var(--amber-fg)', href: '/collectivite/entreprises/sirene' }] : []),
   ];
   const communal = ctx.level === 'COMMUNE';
   const [catPodium, points] = communal ? await Promise.all([categoryPodium(ctx), scopePoints(ctx)]) : [[], []];

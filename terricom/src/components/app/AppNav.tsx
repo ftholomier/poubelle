@@ -8,11 +8,17 @@ export type NavItem = { href: string; label: string; badge?: string | null; badg
 /** Navigation latérale des espaces connectés (élément actif selon l'URL). */
 export function AppNav({ items, label }: { items: NavItem[]; label: string }) {
   const pathname = usePathname();
+  const matches = (item: Exclude<NavItem, { separator: true }>) =>
+    item.exact ? pathname === item.href : pathname === item.href || pathname.startsWith(`${item.href}/`);
+  // Élément le plus précis : « Mises à jour SIRENE » plutôt que « Entreprises » sur /collectivite/entreprises/sirene.
+  const active = items
+    .filter((i): i is Exclude<NavItem, { separator: true }> => !('separator' in i) && matches(i))
+    .sort((a, b) => b.href.length - a.href.length)[0]?.href;
   return (
     <nav className="app-nav" aria-label={label}>
       {items.map((item, i) => {
         if ('separator' in item) return <div key={`sep-${i}`} className="app-nav-sep" role="separator" />;
-        const on = item.exact ? pathname === item.href : pathname === item.href || pathname.startsWith(`${item.href}/`);
+        const on = item.href === active;
         return (
           <Link key={item.href} href={item.href} className="app-nav-item" aria-current={on ? 'page' : undefined}>
             <span>{item.label}</span>

@@ -163,8 +163,20 @@ collectivite|commune|console`, `MOBILE=1`, `EXTRA=chemins`).
 - Captures : compilation de production lancée en mode démonstration sur un port libre (par exemple
   `PLATFORM_HOSTS=localhost:3100 PORT=3100`), puis `node scripts/dossier-captures.mjs http://localhost:3100`.
 
+## Synchronisation SIRENE
+
+- Fonctions pures (lecture des trois sources, exclusions, comparaison, échéance) : `src/lib/sirene.ts`, testées
+  dans `tests/unit/sirene.test.ts`. Connecteur INSEE : `src/server/integrations/insee-sirene.ts` (30 requêtes
+  par minute, pause de 2,1 s, attente d’une minute sur 429). Passage et décisions :
+  `src/server/services/sirene-sync.ts` ; écran : `/collectivite/entreprises/sirene`.
+- Une proposition est unique par (territoire, SIRET, type) : ne jamais supprimer `sirene_changes`, sinon les
+  décisions écartées reviennent.
+- Les nouveautés passent par `analyzeRows` comme un import (catégorie, commune, doublons, activités exclues).
+- Jeu de démonstration : 5 nouveautés et 2 fermetures en attente à Val de Loue ; le test e2e
+  `tests/e2e/sirene.spec.ts` les consomme (relancer `npm run db:reset` avant de le rejouer).
+
 ## Environnement de développement (bac à sable)
 
-Les API externes (tuiles OpenStreetMap, photos Unsplash, API Géo/SIRENE, Claude) sont bloquées dans le bac
+Les API externes (tuiles OpenStreetMap, photos Unsplash, API Géo/SIRENE/INSEE, fichiers data.gouv.fr, Claude) sont bloquées dans le bac
 à sable de développement : les cartes et photos y apparaissent vides, les assistants passent en mode règles.
 Tout fonctionne normalement en production avec l’accès réseau.

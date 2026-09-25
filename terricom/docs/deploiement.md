@@ -69,7 +69,10 @@ https:// {
 `ANTHROPIC_API_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `METRICS_TOKEN`,
 `SMS_WEBHOOK_URL`, `SMS_WEBHOOK_TOKEN`, `VAPID_PUBLIC_KEY` et `VAPID_PRIVATE_KEY` (notifications push, générées
 une fois avec `npx web-push generate-vapid-keys` : les changer invalide les abonnements existants), et en option
-`SOCIAL_WEBHOOK_URL`, `SOCIAL_WEBHOOK_SECRET`.
+`SOCIAL_WEBHOOK_URL`, `SOCIAL_WEBHOOK_SECRET`, `INSEE_SIRENE_API_KEY` (clé gratuite du portail des API de
+l’INSEE, application « API Sirene » en accès public : sans elle, la synchronisation relit les communes par
+l’API Recherche d’entreprises). `SIRENE_STOCK_URL` pointe par défaut sur les fichiers géolocalisés de
+data.gouv.fr (`{dep}` remplacé par le département).
 Les valeurs d’exemple de `.env.example` sont signalées dans la console (« Secrets en coffre-fort »).
 `OUTBOUND_ALLOW_PRIVATE` doit rester absent (ou `false`) en production : il lèverait la protection contre les
 appels vers le réseau interne (connecteurs, agendas externes).

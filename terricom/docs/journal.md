@@ -38,7 +38,8 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
 | `6dd80e9`            | Synchronisation                 | Flux iCal et RSS (territoire, fiches), connecteur signé des entreprises (Premium), agendas externes iCal importés chaque heure, protection SSRF, hors-ligne vérifié en production           |
 | `13b481a`            | Contrôles finaux                | Compilation de production, parcours automatique des 6 espaces (bureau et mobile, 0 signalement), 33 tests e2e et 57 tests unitaires, worker vérifié, base de démonstration réinitialisée    |
 | `f626383`            | Dossier de réalisation          | PDF de 30 pages à la charte, du design à l’hébergement, captures de la compilation de production ; `npm start` sur le serveur autonome ; coques pleine hauteur corrigées hors démonstration |
-| (ce lot)             | Présentation aux élus           | Diaporama paysage : communauté de communes → commune → commerce → habitants, puis accompagnement ; captures annotées, étapes animées                                                        |
+| `c98afab`            | Présentation aux élus           | Diaporama paysage : communauté de communes → commune → commerce → habitants, puis accompagnement ; captures annotées, étapes animées                                                        |
+| (ce lot)             | Synchronisation SIRENE          | Passage mensuel (INSEE ou Recherche d’entreprises), nouveautés et fermetures à valider par la collectivité, fichier stock pour les grands territoires, activités exclues par territoire     |
 
 ## Décisions
 
@@ -61,6 +62,11 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
 - **Synchronisation** : webhooks génériques signés (HMAC, comme les grands services de paiement) plutôt que
   des intégrations propriétaires une à une (Google, Meta) : l’entreprise branche l’outil de son choix ; flux
   iCal/RSS standard pour les sites ; agendas externes en iCal (format universel des offices de tourisme).
+- **SIRENE** : jamais de publication ni d’archivage automatique. La synchronisation propose, un agent décide ;
+  une décision (acceptée ou écartée) n’est plus reproposée. Les nouveautés sont des établissements créés depuis
+  le dernier passage (marge de 90 jours pour les déclarations tardives), pour ne pas rejouer l’import initial.
+  SIRENE ne donnant pas d’email, l’invitation se fait par courrier. Par défaut, SCI, holdings et administrations
+  sont exclues (non pertinentes pour un annuaire de commerces).
 - **Bac à sable** : les services externes y sont bloqués (cartes, photos, IA) ; ils fonctionnent en production.
 
 ## Vérifications à chaque lot
