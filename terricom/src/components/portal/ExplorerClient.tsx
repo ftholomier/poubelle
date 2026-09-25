@@ -6,7 +6,16 @@ import { MapView, type MapPoint } from '@/components/maps/MapView';
 import { Icon } from '@/components/ui/Icon';
 import { Photo } from '@/components/ui/Photo';
 import type { Family } from '@/lib/constants';
-import { EXPLORER_FAMILIES, EXPLORER_TOGGLES, explorerQueryString, type ExplorerResponse, type ExplorerState, type ExplorerToggle } from '@/lib/explorer';
+import {
+  EXPLORER_FAMILIES,
+  EXPLORER_TOGGLES,
+  explorerQueryString,
+  isFilteredState,
+  type ExplorerFilterGroup,
+  type ExplorerResponse,
+  type ExplorerState,
+  type ExplorerToggle,
+} from '@/lib/explorer';
 import { sized } from '@/lib/images';
 
 type Props = {
@@ -19,10 +28,11 @@ type Props = {
   map: { tileUrl: string; attribution: string };
   aiEnabled: boolean;
   communes: { slug: string; name: string }[];
+  filters: ExplorerFilterGroup[];
 };
 
 /** P2 — Explorer : liste filtrable, carte synchronisée et réponse de l'assistant. */
-export function ExplorerClient({ territorySlug, base, initialState, initial, filtered, points, map, aiEnabled, communes }: Props) {
+export function ExplorerClient({ territorySlug, base, initialState, initial, filtered, points, map, aiEnabled, communes, filters }: Props) {
   const [state, setState] = useState<ExplorerState>(initialState);
   const [query, setQuery] = useState(initialState.q);
   const [data, setData] = useState<ExplorerResponse>(initial);
@@ -33,6 +43,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
   const [focusId, setFocusId] = useState<string | null>(null);
   const [mapHidden, setMapHidden] = useState(true);
   const [locating, setLocating] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const firstRun = useRef(true);
   const reqId = useRef(0);
 
@@ -65,8 +76,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
       .then((d) => {
         if (id !== reqId.current) return;
         setData(d);
-        const isFiltered = Boolean(state.q || state.family || state.toggles.length || state.commune);
-        setVisibleIds(isFiltered ? d.ids : null);
+        setVisibleIds(isFilteredState(state) ? d.ids : null);
       })
       .catch((e: Error) => id === reqId.current && setError(e.message))
       .finally(() => id === reqId.current && setLoading(false));
@@ -82,6 +92,10 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
   const setFamily = (family: Family | null) => setState((s) => ({ ...s, family }));
   const toggle = (key: ExplorerToggle) =>
     setState((s) => ({ ...s, toggles: s.toggles.includes(key) ? s.toggles.filter((k) => k !== key) : [...s.toggles, key] }));
+
+  const toggleAttr = (slug: string) =>
+    setState((s) => ({ ...s, attrs: s.attrs.includes(slug) ? s.attrs.filter((a) => a !== slug) : [...s.attrs, slug].slice(0, 12) }));
+  const attrLabel = useMemo(() => new Map(filters.flatMap((g) => g.options.map((o) => [o.slug, o.label] as const))), [filters]);
 
   const loadMore = async () => {
     setLoadingMore(true);
@@ -249,6 +263,58 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
             );
           })}
         </div>
+
+        {filters.length ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+              <button
+                type="button"
+                className="btn-link"
+                aria-expanded={moreOpen}
+                aria-controls="explore-more"
+                onClick={() => setMoreOpen((o) => !o)}
+                style={{ fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 5 }}
+              >
+                <Icon name="filter" size={14} />
+                {moreOpen ? 'Moins de filtres' : 'Plus de filtres'}
+                {state.attrs.length ? ` (${state.attrs.length})` : ''}
+              </button>
+              {!moreOpen
+                ? state.attrs.map((slug) => (
+                    <button
+                      key={slug}
+                      type="button"
+                      onClick={() => toggleAttr(slug)}
+                      aria-label={`Retirer le filtre ${attrLabel.get(slug) ?? slug}`}
+                      className="explore-chip on"
+                    >
+                      ✓ {attrLabel.get(slug) ?? slug} <Icon name="x" size={12} />
+                    </button>
+                  ))
+                : null}
+            </div>
+            {moreOpen ? (
+              <div id="explore-more" className="explore-more">
+                {filters.map((g) => (
+                  <fieldset key={g.group}>
+                    <legend>{g.label}</legend>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                      {g.options.map((o) => {
+                        const on = state.attrs.includes(o.slug);
+                        return (
+                          <button key={o.slug} type="button" aria-pressed={on} onClick={() => toggleAttr(o.slug)} className={`explore-chip${on ? ' on' : ''}`}>
+                            {on ? '✓' : '+'} {o.label}
+                            <span className="explore-chip-count">{o.count.toLocaleString('fr-FR')}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </fieldset>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--muted)', paddingTop: 4 }}>
           <span aria-live="polite">

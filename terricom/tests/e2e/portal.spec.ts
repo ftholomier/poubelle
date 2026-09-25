@@ -17,6 +17,19 @@ test.describe('portail du territoire', () => {
     expect(jsonLd.join(' ')).toMatch(/"@type":\s*"(LocalBusiness|Bakery|Store|Restaurant)/);
   });
 
+  test('filtres avancés : accessibilité et labels', async ({ page }) => {
+    await page.goto('/valdeloue/explorer');
+    const count = page.locator('[aria-live=polite] b').first();
+    const total = Number((await count.textContent())?.replace(/\s/g, ''));
+    await page.getByRole('button', { name: /Plus de filtres/ }).click();
+    await page
+      .getByRole('button', { name: /Accès PMR/ })
+      .first()
+      .click();
+    await expect(page).toHaveURL(/attributs=acces-pmr/);
+    await expect.poll(async () => Number((await count.textContent())?.replace(/\s/g, ''))).toBeLessThan(total);
+  });
+
   test('plan du site et robots', async ({ request }) => {
     const sitemap = await request.get('/sitemap.xml');
     expect(sitemap.ok()).toBeTruthy();

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { ExplorerClient } from '@/components/portal/ExplorerClient';
-import { parseExplorerParams, toSearchParams } from '@/lib/explorer';
-import { allCards, getPortal, toMapPoints } from '@/server/services/portal';
+import { isFilteredState, parseExplorerParams, toSearchParams } from '@/lib/explorer';
+import { allCards, explorerFilters, getPortal, toMapPoints } from '@/server/services/portal';
 import { searchTerritory, toExplorerItem } from '@/server/services/search';
 import { getTerritoryCommunes } from '@/server/services/territories';
 import { portalUrl } from '@/server/urls';
@@ -15,7 +15,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const { territory } = await params;
   const state = parseExplorerParams(await searchParams);
   const { territory: t } = await getPortal(territory);
-  const filtered = Boolean(state.q || state.family || state.toggles.length || state.commune);
+  const filtered = isFilteredState(state);
   return {
     title: state.q ? `« ${state.q} »` : 'Explorer la carte',
     description: `Commerces, artisans, producteurs, restaurants et services de ${t.name} : une carte libre, filtrable en un geste.`,
@@ -30,12 +30,13 @@ export default async function ExplorerPage({ params, searchParams }: Props) {
   const state = parseExplorerParams(await searchParams);
   const t = portal.territory;
   const ai = portal.modules.has('AI');
-  const [res, cards, communes] = await Promise.all([
+  const [res, cards, communes, filters] = await Promise.all([
     searchTerritory(t, { ...toSearchParams(state), limit: 5000, ai }),
     allCards(t.id),
     getTerritoryCommunes(t.id),
+    explorerFilters(t.id),
   ]);
-  const filtered = Boolean(state.q || state.family || state.toggles.length || state.commune);
+  const filtered = isFilteredState(state);
   return (
     <>
       <h1 className="sr-only">
@@ -51,6 +52,7 @@ export default async function ExplorerPage({ params, searchParams }: Props) {
         map={portal.mapConfig}
         aiEnabled={ai}
         communes={communes.map((c) => ({ slug: c.slug, name: c.name }))}
+        filters={filters}
       />
     </>
   );

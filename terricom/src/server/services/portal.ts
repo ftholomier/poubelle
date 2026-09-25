@@ -2,6 +2,7 @@ import { and, asc, count, desc, eq, gte, inArray, isNull, lte, or, sql } from 'd
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { FAMILIES, FAMILY_ORDER, type Family, type ModuleKey, POST_KINDS, type PostKind, PUBLIC_STATUSES } from '@/lib/constants';
+import type { ExplorerFilterGroup } from '@/lib/explorer';
 import { parisDate } from '@/lib/format';
 import { memo } from '../cache';
 import { db } from '../db';
@@ -65,6 +66,37 @@ export function countPublicEstablishments(territoryId: string): Promise<number> 
       .from(establishments)
       .where(and(eq(establishments.territoryId, territoryId), publicStatusFilter()));
     return Number(row?.n ?? 0);
+  });
+}
+
+const FILTER_GROUPS: [string, string][] = [
+  ['SERVICE', 'Services'],
+  ['ACCESSIBILITY', 'Accessibilité'],
+  ['LABEL', 'Labels & certifications'],
+  ['PAYMENT', 'Moyens de paiement'],
+];
+
+/** Filtres avancés de l'explorateur : attributs réellement présents sur les fiches publiques du territoire. */
+export function explorerFilters(territoryId: string): Promise<ExplorerFilterGroup[]> {
+  return memo(`cards:${territoryId}:filters`, 300_000, async () => {
+    const rows = await db.execute<{ slug: string; label: string; group: string; n: number }>(sql`
+      select a.slug, a.label, a."group" as group, count(distinct e.id)::int as n
+      from attributes a
+      join establishment_attributes ea on ea.attribute_id = a.id
+      join establishments e on e.id = ea.establishment_id
+      where e.territory_id = ${territoryId}
+        and e.status in ('PRECREATED', 'TO_COMPLETE', 'CLAIMED', 'VALIDATED')
+        and a."group" in ('SERVICE', 'ACCESSIBILITY', 'LABEL', 'PAYMENT')
+        and (a.territory_id is null or a.territory_id = ${territoryId})
+      group by a.slug, a.label, a."group", a.sort_order
+      order by a.sort_order, a.label`);
+    return FILTER_GROUPS.map(([group, label]) => ({
+      group,
+      label,
+      options: rows.rows
+        .filter((r) => r.group === group && !['click-collect'].includes(r.slug))
+        .map((r) => ({ slug: r.slug, label: r.label, count: Number(r.n) })),
+    })).filter((g) => g.options.length);
   });
 }
 

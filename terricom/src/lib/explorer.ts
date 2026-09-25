@@ -11,10 +11,15 @@ export const EXPLORER_TOGGLES = [
 
 export type ExplorerToggle = (typeof EXPLORER_TOGGLES)[number]['key'];
 
+/** Groupe de filtres avancés (attributs présents sur les fiches du territoire, avec leur nombre). */
+export type ExplorerFilterGroup = { group: string; label: string; options: { slug: string; label: string; count: number }[] };
+
 export type ExplorerState = {
   q: string;
   family: Family | null;
   toggles: ExplorerToggle[];
+  /** Filtres avancés : services, labels, paiement, accessibilité (identifiants d'attributs). */
+  attrs: string[];
   commune: string | null;
   near: { lat: number; lng: number } | null;
 };
@@ -50,6 +55,15 @@ function get(p: Params, key: string): string | null {
 }
 
 const TOGGLE_KEYS = new Set<string>(EXPLORER_TOGGLES.map((t) => t.key));
+const ATTR_SLUG = /^[a-z0-9][a-z0-9-]{1,79}$/;
+
+/** Attributs déjà proposés en filtres rapides (exclus des filtres avancés). */
+export const QUICK_ATTRIBUTES = new Set<string>(EXPLORER_TOGGLES.flatMap((t) => ('attribute' in t ? [t.attribute] : [])));
+
+/** Filtres actifs (hors recherche textuelle et position). */
+export function isFilteredState(s: ExplorerState): boolean {
+  return Boolean(s.q || s.family || s.toggles.length || s.attrs.length || s.commune);
+}
 
 export function parseExplorerParams(p: Params): ExplorerState {
   const lat = Number(get(p, 'lat'));
@@ -61,6 +75,14 @@ export function parseExplorerParams(p: Params): ExplorerState {
       .split(',')
       .map((s) => s.trim())
       .filter((s): s is ExplorerToggle => TOGGLE_KEYS.has(s)),
+    attrs: [
+      ...new Set(
+        (get(p, 'attributs') ?? '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter((s) => ATTR_SLUG.test(s) && !QUICK_ATTRIBUTES.has(s)),
+      ),
+    ].slice(0, 12),
     commune: get(p, 'commune')?.slice(0, 80) || null,
     near: Number.isFinite(lat) && Number.isFinite(lng) && lat !== 0 && Math.abs(lat) <= 90 && Math.abs(lng) <= 180 ? { lat, lng } : null,
   };
@@ -71,6 +93,7 @@ export function explorerQueryString(s: ExplorerState, extra: Record<string, stri
   if (s.q) u.set('q', s.q);
   if (s.family) u.set('famille', FAMILIES[s.family].slug);
   if (s.toggles.length) u.set('filtres', s.toggles.join(','));
+  if (s.attrs.length) u.set('attributs', s.attrs.join(','));
   if (s.commune) u.set('commune', s.commune);
   if (s.near) {
     u.set('lat', s.near.lat.toFixed(4));
@@ -86,7 +109,7 @@ export function toSearchParams(s: ExplorerState) {
   return {
     q: s.q || undefined,
     families: s.family ? [s.family] : undefined,
-    attributeSlugs: EXPLORER_TOGGLES.flatMap((t) => ('attribute' in t && s.toggles.includes(t.key) ? [t.attribute] : [])),
+    attributeSlugs: [...EXPLORER_TOGGLES.flatMap((t) => ('attribute' in t && s.toggles.includes(t.key) ? [t.attribute] : [])), ...s.attrs],
     communeSlugs: s.commune ? [s.commune] : undefined,
     openNow: s.toggles.includes('ouvert'),
     openTonight: s.toggles.includes('soir'),
