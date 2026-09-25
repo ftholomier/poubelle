@@ -67,7 +67,7 @@ export default async function BackOfficeDashboard() {
             <b style={{ fontSize: 16 }}>Adoption de la plateforme</b>
             <span style={{ fontSize: 12, color: 'var(--muted)' }}>{goalLabel}</span>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 10, alignItems: 'end' }}>
+          <div className="bo-adoption">
             {bars.map((b) => {
               const pct = Math.round((b.v / total) * 100);
               return (

@@ -19,24 +19,11 @@ export function DemoBar({ active, right }: { active?: Space; right?: React.React
   if (!env.DEMO_MODE) return null;
   const base = env.APP_URL.replace(/\/$/, '');
   return (
-    <div
-      className="no-print"
-      style={{
-        background: '#14201B',
-        color: '#F7F4EC',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 18,
-        padding: '9px 20px',
-        flexWrap: 'wrap',
-        fontSize: 13,
-        borderBottom: '1px solid #2A3A33',
-      }}
-    >
+    <div className="no-print demo-bar">
       <a href={`${base}/`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: '#F7F4EC' }}>
         terricom<span style={{ color: '#F4B266' }}>.</span>
       </a>
-      <nav aria-label="Espaces de démonstration" style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+      <nav aria-label="Espaces de démonstration" className="demo-bar-nav">
         {LINKS.map((l) => (
           <a
             key={l.key}
@@ -52,9 +39,7 @@ export function DemoBar({ active, right }: { active?: Space; right?: React.React
           </a>
         ))}
       </nav>
-      <div style={{ marginLeft: 'auto', color: '#7F9087', display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
-        {right ?? 'Démonstration · données fictives'}
-      </div>
+      <div className="demo-bar-note">{right ?? 'Démonstration · données fictives'}</div>
     </div>
   );
 }

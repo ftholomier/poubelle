@@ -2387,3 +2387,83 @@ p {
     gap: 4px !important;
   }
 }
+
+/* Barre de démonstration : une ligne défilante sur mobile */
+.demo-bar {
+  background: #14201b;
+  color: #f7f4ec;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 9px 20px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  border-bottom: 1px solid #2a3a33;
+}
+.demo-bar-nav {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.demo-bar-note {
+  margin-left: auto;
+  color: #7f9087;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+@media (max-width: 720px) {
+  .demo-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 8px 12px;
+    scrollbar-width: none;
+  }
+  .demo-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .demo-bar > *,
+  .demo-bar-nav a,
+  .demo-bar-note > * {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .demo-bar-nav,
+  .demo-bar-note {
+    flex-wrap: nowrap;
+  }
+  .demo-bar-note {
+    margin-left: 6px;
+  }
+}
+
+/* Chiffres d'adoption du tableau de bord : deux colonnes sur petit écran */
+.bo-adoption {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+@media (max-width: 560px) {
+  .bo-adoption {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 18px;
+  }
+}
+
+/* En-tête du tableau de bord professionnel : anneau au-dessus du texte sur petit écran */
+.pro-hero {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+@media (max-width: 560px) {
+  .pro-hero {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+    gap: 16px;
+  }
+}

@@ -63,15 +63,12 @@ export default async function ProDashboard({ params }: Props) {
     <div className="app-content">
       <div className="split" style={{ ['--cols' as string]: 'minmax(0,1.4fr) minmax(0,1fr)', ['--gap' as string]: '18px' }}>
         <div
+          className="pro-hero"
           style={{
             background: 'var(--green)',
             color: '#fff',
             borderRadius: 22,
             padding: 26,
-            display: 'grid',
-            gridTemplateColumns: 'auto minmax(0,1fr)',
-            gap: 24,
-            alignItems: 'center',
             position: 'relative',
             overflow: 'hidden',
           }}
