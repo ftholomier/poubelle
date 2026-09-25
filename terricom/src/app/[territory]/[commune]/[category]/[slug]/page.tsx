@@ -11,8 +11,8 @@ import { CustomFormCard, FollowCard } from '@/components/portal/FicheExtras';
 import { Photo } from '@/components/ui/Photo';
 import { contrastRatio, isHexColor } from '@/lib/color';
 import { CONTRACT_TYPES, POST_KINDS, type PostKind } from '@/lib/constants';
-import { directionsHref, fmtLongDate, fmtPhone, relativeTime, tomorrowIso, truncate } from '@/lib/format';
-import { weeklyRows } from '@/lib/hours';
+import { directionsHref, fmtPhone, tomorrowIso, truncate } from '@/lib/format';
+import { activityL, attributeNameL, categoryNameL, contractL, longDateL, openLabels, postKindL, relativeL, weeklyRowsL } from '@/lib/i18n/format';
 import { sized, variantUrl } from '@/lib/images';
 import { themeStyle, visibleSections } from '@/lib/minisite';
 import type { MiniSite, MiniSiteSection, Socials, TerritorySettings } from '@/server/db/schema';
@@ -20,6 +20,8 @@ import { breadcrumbJsonLd, localBusinessJsonLd } from '@/server/seo';
 import { planLimits } from '@/server/services/billing';
 import { getPublicEstablishment, relatedCards } from '@/server/services/establishments';
 import { getPortal } from '@/server/services/portal';
+import { withLang } from '@/lib/i18n';
+import { portalT } from '@/server/i18n';
 import { appUrl, portalUrl } from '@/server/urls';
 
 type Props = { params: Promise<{ territory: string; commune: string; category: string; slug: string }> };
@@ -39,26 +41,30 @@ function photosOf(e: NonNullable<Awaited<ReturnType<typeof getPublicEstablishmen
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { territory, commune, slug } = await params;
   const { portal, e } = await load(territory, commune, slug);
-  if (!e) return { title: 'Adresse introuvable', robots: { index: false } };
+  const tr = await portalT(portal);
+  if (!e) return { title: tr('common.notFound'), robots: { index: false } };
   const t = portal.territory;
+  const L = tr.locale;
   const url = portalUrl(t, e.path);
-  const title = `${e.name} — ${e.activity} à ${e.commune.name}`;
+  const activity = activityL(e, L);
+  const tx = L === 'fr' ? null : e.translations?.[L];
+  const title = tr('fiche.metaTitle', { name: e.name, activity, commune: e.commune.name });
   const description = truncate(
-    [e.tagline, e.description].filter(Boolean).join('. ') || `${e.activity} à ${e.commune.name} : horaires, adresse, téléphone et actualités.`,
+    [tx?.tagline ?? e.tagline, tx?.description ?? e.description].filter(Boolean).join('. ') || tr('fiche.metaDesc', { activity, commune: e.commune.name }),
     158,
   );
   const cover = photosOf(e)[0]?.large;
   return {
     title: { absolute: `${title} · ${t.name}` },
     description,
-    alternates: { canonical: url },
+    alternates: { canonical: withLang(url, tr.locale) },
     openGraph: {
       type: 'website',
       title,
       description,
       url,
       siteName: t.name,
-      locale: 'fr_FR',
+      locale: { fr: 'fr_FR', en: 'en_GB', de: 'de_DE' }[L],
       images: cover ? [{ url: cover, width: 1400, height: 933, alt: e.name }] : undefined,
     },
     twitter: { card: cover ? 'summary_large_image' : 'summary', title, description },
@@ -77,14 +83,23 @@ export default async function FichePage({ params }: Props) {
   if (category !== e.category.slug) permanentRedirect(`${base}${e.path}`);
 
   const settings = (t.settings ?? {}) as TerritorySettings;
+  const tr = await portalT(portal);
+  const L = tr.locale;
+  const activity = activityL(e, L);
+  // Description et accroche traduites (IA) ; à défaut, texte français signalé comme tel.
+  const tx = L === 'fr' ? null : e.translations?.[L];
+  const description = tx?.description ?? e.description;
+  const tagline = tx?.tagline ?? e.tagline;
+  const langNote = L === 'fr' || !(e.description || e.tagline) ? null : tx?.description || tx?.tagline ? tr('fiche.translated') : tr('common.originalFrench');
   const url = portalUrl(t, e.path);
   const photos = photosOf(e);
   const related = await relatedCards(t.id, e.communeId, e.id, 4);
-  const hours = weeklyRows(e.hours);
+  const hours = weeklyRowsL(e.hours, L, tr('fiche.closedDay'));
+  const attr = (a: { slug: string; label: string }) => attributeNameL(a.slug, a.label, L);
   const tags = e.attributes.filter((a) => ['HIGHLIGHT', 'SERVICE', 'LABEL'].includes(a.group)).slice(0, 6);
-  const payments = e.attributes.filter((a) => a.group === 'PAYMENT').map((a) => a.label);
-  const accessibility = e.attributes.filter((a) => a.group === 'ACCESSIBILITY').map((a) => a.label);
-  const services = e.attributes.filter((a) => a.group === 'SERVICE').map((a) => a.label);
+  const payments = e.attributes.filter((a) => a.group === 'PAYMENT').map((a) => (L === 'fr' ? a.label : attr(a)));
+  const accessibility = e.attributes.filter((a) => a.group === 'ACCESSIBILITY').map(attr);
+  const services = e.attributes.filter((a) => a.group === 'SERVICE').map(attr);
   const labels = e.attributes.filter((a) => a.group === 'LABEL');
   const socials = e.socials as Socials;
   const socialLinks: [string, string][] = [];
@@ -104,7 +119,7 @@ export default async function FichePage({ params }: Props) {
   const offer = e.campaignOffer?.offerLabel
     ? {
         big: e.campaignOffer.offerLabel,
-        title: `Offre « ${e.campaignOffer.campaign.name} »`,
+        title: tr('fiche.offerTitle', { name: e.campaignOffer.campaign.name }),
         text: e.campaignOffer.offerDescription ?? e.campaignOffer.campaign.description ?? '',
         href: `${base}/campagnes/${e.campaignOffer.campaign.slug}`,
       }
@@ -143,15 +158,15 @@ export default async function FichePage({ params }: Props) {
   if (!order.includes('contact')) order.push('contact');
 
   const tabFor: Partial<Record<MiniSiteSection, { id: string; label: string }>> = {
-    presentation: { id: 'presentation', label: 'Présentation' },
-    produits: e.products.length ? { id: 'produits', label: 'Produits' } : undefined,
-    actualites: hasNews ? { id: 'actualites', label: 'Actualités' } : undefined,
-    formulaires: forms.length ? { id: 'demandes', label: forms.length === 1 ? truncate(forms[0].title, 26) : 'Demandes' } : undefined,
-    contact: hasJobs ? { id: 'recrutement', label: 'Recrutement' } : { id: 'message', label: 'Contact' },
+    presentation: { id: 'presentation', label: tr('fiche.tab.presentation') },
+    produits: e.products.length ? { id: 'produits', label: tr('fiche.tab.products') } : undefined,
+    actualites: hasNews ? { id: 'actualites', label: tr('fiche.tab.news') } : undefined,
+    formulaires: forms.length ? { id: 'demandes', label: forms.length === 1 ? truncate(forms[0].title, 26) : tr('fiche.tab.requests') } : undefined,
+    contact: hasJobs ? { id: 'recrutement', label: tr('fiche.tab.jobs') } : { id: 'message', label: tr('fiche.tab.contact') },
   };
   const tabs = order.flatMap((k) => (tabFor[k] ? [tabFor[k]] : []));
   const contactTab = tabs.findIndex((tb) => tb.id === 'recrutement' || tb.id === 'message');
-  tabs.splice(contactTab < 0 ? tabs.length : contactTab, 0, { id: 'acces', label: 'Accès' });
+  tabs.splice(contactTab < 0 ? tabs.length : contactTab, 0, { id: 'acces', label: tr('fiche.tab.access') });
 
   const mapPoints = [
     ...(e.lat && e.lng ? [{ id: e.id, lat: e.lat, lng: e.lng, name: e.name, color: e.color }] : []),
@@ -164,15 +179,19 @@ export default async function FichePage({ params }: Props) {
   const blocks: Record<MiniSiteSection, ReactNode> = {
     presentation: (
       <section id="presentation" style={{ scrollMarginTop: 130, display: 'flex', flexDirection: 'column', gap: 18 }}>
-        <h2 className="sr-only">Présentation</h2>
-        {e.tagline && e.description ? <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--muted-2)', margin: 0 }}>{e.tagline}</p> : null}
-        <p style={{ fontSize: 19, lineHeight: 1.6, margin: 0, maxWidth: 720, textWrap: 'pretty', whiteSpace: 'pre-line' }}>
-          {e.description ?? e.tagline ?? `${e.name} vous accueille à ${e.commune.name}. ${e.activity} : poussez la porte !`}
+        <h2 className="sr-only">{tr('fiche.tab.presentation')}</h2>
+        {tagline && description ? <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--muted-2)', margin: 0 }}>{tagline}</p> : null}
+        <p
+          style={{ fontSize: 19, lineHeight: 1.6, margin: 0, maxWidth: 720, textWrap: 'pretty', whiteSpace: 'pre-line' }}
+          lang={L !== 'fr' && !tx?.description && e.description ? 'fr' : undefined}
+        >
+          {description ?? tagline ?? tr('fiche.defaultDesc', { name: e.name, commune: e.commune.name, activity })}
         </p>
+        {langNote ? <p style={{ margin: 0, fontSize: 12, color: 'var(--muted)' }}>{langNote}</p> : null}
         {labels.length ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <h3 className="h3" style={{ margin: '6px 0 0' }}>
-              Labels &amp; certifications
+              {tr('fiche.labels')}
             </h3>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {labels.map((l) => (
@@ -193,7 +212,7 @@ export default async function FichePage({ params }: Props) {
                   <span aria-hidden="true" style={{ color: 'var(--green)' }}>
                     ✓
                   </span>
-                  {l.label}
+                  {attr(l)}
                 </li>
               ))}
             </ul>
@@ -201,11 +220,11 @@ export default async function FichePage({ params }: Props) {
         ) : null}
         {!claimed ? (
           <div className="alert alert-info" style={{ fontSize: 14 }}>
-            Cette fiche a été créée à partir des données publiques des entreprises. Vous êtes le ou la gérante ?{' '}
+            {tr('fiche.unclaimed.1')}{' '}
             <a href={appUrl(`/pro/revendiquer?fiche=${e.id}`)} style={{ fontWeight: 700 }}>
-              Revendiquez-la gratuitement
+              {tr('fiche.unclaimed.2')}
             </a>{' '}
-            pour ajouter photos, horaires et actualités.
+            {tr('fiche.unclaimed.3')}
           </div>
         ) : null}
       </section>
@@ -213,7 +232,7 @@ export default async function FichePage({ params }: Props) {
     pages: pages.length ? (
       <section aria-labelledby="pages-title">
         <h2 id="pages-title" className="h3" style={{ fontSize: 26, margin: '0 0 14px' }}>
-          À découvrir aussi
+          {tr('fiche.alsoDiscover')}
         </h2>
         <div className="auto-grid" style={{ ['--min' as string]: '220px', ['--gap' as string]: '12px' }}>
           {pages.map((pg) => (
@@ -231,7 +250,7 @@ export default async function FichePage({ params }: Props) {
               <div style={{ padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 4 }}>
                 <b style={{ fontSize: 16 }}>{pg.title}</b>
                 <span style={{ fontSize: 13, color: 'var(--muted)' }}>{truncate(pg.body.replace(/[#*\[\]()]/g, ''), 90)}</span>
-                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--green)' }}>Lire la page →</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--green)' }}>{tr('fiche.readPage')}</span>
               </div>
             </Link>
           ))}
@@ -248,14 +267,14 @@ export default async function FichePage({ params }: Props) {
           {offer.text ? <div style={{ fontSize: 14, color: 'var(--amber-fg-2)' }}>{truncate(offer.text, 160)}</div> : null}
         </div>
         <Link href={offer.href} className="btn btn-dark btn-sm" style={{ whiteSpace: 'nowrap' }}>
-          J&apos;en profite
+          {tr('fiche.offerCta')}
         </Link>
       </div>
     ) : null,
     produits: e.products.length ? (
       <section id="produits" style={{ scrollMarginTop: 130 }}>
         <h2 className="h3" style={{ fontSize: 26, margin: '0 0 14px' }}>
-          Produits &amp; savoir-faire
+          {tr('fiche.products')}
         </h2>
         <div className="auto-grid" style={{ ['--min' as string]: '200px', ['--gap' as string]: '12px' }}>
           {e.products.map((p) => (
@@ -275,35 +294,35 @@ export default async function FichePage({ params }: Props) {
     actualites: hasNews ? (
       <section id="actualites" style={{ scrollMarginTop: 130 }}>
         <h2 className="h3" style={{ fontSize: 26, margin: '0 0 14px' }}>
-          Actualités
+          {tr('fiche.tab.news')}
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           {e.events.map((ev) => (
             <Link key={ev.id} href={`${base}/agenda/${ev.slug}`} className="news-row" style={{ color: 'inherit' }}>
               <span className="tag" style={{ alignSelf: 'flex-start', justifySelf: 'start', background: POST_KINDS.EVENT.bg }}>
-                Événement
+                {tr('fiche.event')}
               </span>
               <div>
                 <div style={{ fontWeight: 700, fontSize: 16 }}>{ev.title}</div>
                 <div style={{ fontSize: 14, color: 'var(--muted)' }}>
-                  {fmtLongDate(ev.startsAt)}
+                  {longDateL(ev.startsAt, L)}
                   {ev.priceText ? ` · ${ev.priceText}` : ''}
                 </div>
               </div>
-              <span style={{ fontSize: 12, color: 'var(--green)', fontWeight: 700 }}>Voir →</span>
+              <span style={{ fontSize: 12, color: 'var(--green)', fontWeight: 700 }}>{tr('common.see')}</span>
             </Link>
           ))}
           {e.news.map((n) => (
             <article key={n.id} className="news-row">
               <span className="tag" style={{ alignSelf: 'flex-start', justifySelf: 'start', background: POST_KINDS[n.kind as PostKind].bg }}>
-                {POST_KINDS[n.kind as PostKind].short}
+                {postKindL(n.kind as PostKind, POST_KINDS[n.kind as PostKind].short, L)}
               </span>
               <div>
                 <h3 style={{ fontWeight: 700, fontSize: 16, margin: 0, fontFamily: 'var(--font-body)' }}>{n.title}</h3>
                 {n.body ? <div style={{ fontSize: 14, color: 'var(--muted)' }}>{truncate(n.body, 180)}</div> : null}
               </div>
               <time dateTime={(n.publishedAt ?? n.createdAt).toISOString()} style={{ fontSize: 12, color: 'var(--muted)' }}>
-                {relativeTime(n.publishedAt ?? n.createdAt)}
+                {relativeL(n.publishedAt ?? n.createdAt, L)}
               </time>
             </article>
           ))}
@@ -312,7 +331,7 @@ export default async function FichePage({ params }: Props) {
     ) : null,
     formulaires: forms.length ? (
       <section id="demandes" style={{ scrollMarginTop: 130, display: 'flex', flexDirection: 'column', gap: 14 }}>
-        <h2 className="sr-only">Demandes</h2>
+        <h2 className="sr-only">{tr('fiche.tab.requests')}</h2>
         {forms.map((f) => (
           <div key={f.id} id={`form-${f.id}`} style={{ scrollMarginTop: 130 }}>
             <CustomFormCard form={{ id: f.id, title: f.title, intro: f.intro, fields: f.fields, submitLabel: f.submitLabel }} name={e.name} />
@@ -332,12 +351,14 @@ export default async function FichePage({ params }: Props) {
                 href={`${base}/emploi/${j.slug}`}
                 style={{ background: 'var(--leaf)', borderRadius: 18, padding: 20, display: 'flex', flexDirection: 'column', gap: 6, color: 'inherit' }}
               >
-                <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.07em', textTransform: 'uppercase', color: 'var(--leaf-fg)' }}>On recrute</div>
+                <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.07em', textTransform: 'uppercase', color: 'var(--leaf-fg)' }}>
+                  {tr('fiche.hiring')}
+                </div>
                 <div className="display" style={{ fontSize: 22 }}>
                   {j.title}
                 </div>
                 <div style={{ fontSize: 14, color: 'var(--leaf-fg-2)' }}>
-                  {[CONTRACT_TYPES[j.contractType].label, j.startText, e.commune.name].filter(Boolean).join(' · ')}
+                  {[contractL(j.contractType, CONTRACT_TYPES[j.contractType].label, L), j.startText, e.commune.name].filter(Boolean).join(' · ')}
                 </div>
               </Link>
             ))
@@ -353,7 +374,7 @@ export default async function FichePage({ params }: Props) {
   const heroFg = contrastRatio(heroBg, '#ffffff') >= contrastRatio(heroBg, '#14201b') ? '#ffffff' : '#14201b';
   const identity = (
     <span style={{ fontSize: 12, fontWeight: 800, color: colorHero ? heroFg : e.color, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
-      {e.activity} · {e.commune.name}
+      {activity} · {e.commune.name}
     </span>
   );
   return (
@@ -380,9 +401,9 @@ export default async function FichePage({ params }: Props) {
         style={{ paddingTop: 18, display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', fontSize: 13, color: 'var(--muted)' }}
       >
         <Link href={`${base}/explorer`} style={{ color: 'var(--green)', fontWeight: 700 }}>
-          ← Carte
+          {tr('fiche.backMap')}
         </Link>
-        <nav aria-label="Fil d'Ariane">
+        <nav aria-label={tr('fiche.breadcrumb')}>
           <Link href={base || '/'} style={{ color: 'inherit' }}>
             {t.name}
           </Link>{' '}
@@ -392,7 +413,7 @@ export default async function FichePage({ params }: Props) {
           </Link>{' '}
           ›{' '}
           <Link href={`${base}/${e.commune.slug}/${e.category.slug}`} style={{ color: 'inherit' }}>
-            {e.category.name}
+            {categoryNameL(e.category.slug, e.category.name, L)}
           </Link>
         </nav>
         <span className="mono hide-sm" style={{ marginLeft: 'auto', fontSize: 12, background: 'var(--sand)', padding: '4px 9px', borderRadius: 6 }}>
@@ -400,12 +421,22 @@ export default async function FichePage({ params }: Props) {
         </span>
       </div>
 
-      {site && pages.length ? <EstSiteNav base={base} path={e.path} name={e.name} pages={pages} current={null} /> : null}
+      {site && pages.length ? (
+        <EstSiteNav
+          base={base}
+          path={e.path}
+          pages={pages}
+          current={null}
+          labels={{ aria: tr('fiche.sitePages', { name: e.name }), home: tr('fiche.siteHome'), contact: tr('fiche.tab.contact') }}
+        />
+      ) : null}
 
       {colorHero ? (
         <div className="container" style={{ marginTop: 14 }}>
           <div className="est-hero" style={{ background: heroBg, color: heroFg }}>
-            {e.logoUrl ? <img src={sized(e.logoUrl, 200, 200) ?? e.logoUrl} alt={`Logo ${e.name}`} width={88} height={88} className="est-hero-logo" /> : null}
+            {e.logoUrl ? (
+              <img src={sized(e.logoUrl, 200, 200) ?? e.logoUrl} alt={tr('fiche.logo', { name: e.name })} width={88} height={88} className="est-hero-logo" />
+            ) : null}
             <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               {identity}
               <h1 className="display" style={{ fontSize: 'clamp(40px,5vw,72px)', letterSpacing: '-0.035em', lineHeight: 0.95, margin: 0 }}>
@@ -428,7 +459,7 @@ export default async function FichePage({ params }: Props) {
       ) : null}
 
       <div className="container" style={{ marginTop: 14 }}>
-        <FicheGallery photos={photos} stamp={localMade ? `Fait en ${t.name}` : null} color={e.color} name={e.name} />
+        <FicheGallery photos={photos} stamp={localMade ? tr('fiche.madeIn', { name: t.name }) : null} color={e.color} name={e.name} />
       </div>
 
       <div
@@ -440,8 +471,8 @@ export default async function FichePage({ params }: Props) {
             e.status === 'VALIDATED' || tags.length ? (
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
                 {e.status === 'VALIDATED' ? (
-                  <span className="mint-tag" title="Informations vérifiées par la collectivité">
-                    ✓ Fiche vérifiée
+                  <span className="mint-tag" title={tr('fiche.verifiedTitle')}>
+                    {tr('fiche.verified')}
                   </span>
                 ) : null}
                 {tags.map((tg) => (
@@ -449,7 +480,7 @@ export default async function FichePage({ params }: Props) {
                     key={tg.slug}
                     style={{ fontSize: 13, padding: '6px 12px', borderRadius: 999, background: 'var(--mint)', color: 'var(--green)', fontWeight: 600 }}
                   >
-                    {tg.label}
+                    {attr(tg)}
                   </span>
                 ))}
               </div>
@@ -459,7 +490,7 @@ export default async function FichePage({ params }: Props) {
               {e.logoUrl ? (
                 <img
                   src={sized(e.logoUrl, 160, 160) ?? e.logoUrl}
-                  alt={`Logo ${e.name}`}
+                  alt={tr('fiche.logo', { name: e.name })}
                   width={72}
                   height={72}
                   style={{ width: 72, height: 72, borderRadius: 18, objectFit: 'contain', background: '#fff', border: '1px solid var(--line)', flexShrink: 0 }}
@@ -469,8 +500,8 @@ export default async function FichePage({ params }: Props) {
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
                   {identity}
                   {e.status === 'VALIDATED' ? (
-                    <span className="mint-tag" title="Informations vérifiées par la collectivité">
-                      ✓ Fiche vérifiée
+                    <span className="mint-tag" title={tr('fiche.verifiedTitle')}>
+                      {tr('fiche.verified')}
                     </span>
                   ) : null}
                 </div>
@@ -487,7 +518,7 @@ export default async function FichePage({ params }: Props) {
                         key={tg.slug}
                         style={{ fontSize: 13, padding: '6px 12px', borderRadius: 999, background: 'var(--mint)', color: 'var(--green)', fontWeight: 600 }}
                       >
-                        {tg.label}
+                        {attr(tg)}
                       </span>
                     ))}
                   </div>
@@ -515,7 +546,7 @@ export default async function FichePage({ params }: Props) {
           {related.length ? (
             <section>
               <h2 className="h3" style={{ fontSize: 26, margin: '0 0 14px' }}>
-                Aussi à {e.commune.name}
+                {tr('fiche.alsoIn', { commune: e.commune.name })}
               </h2>
               <div className="auto-grid" style={{ ['--min' as string]: '200px', ['--gap' as string]: '12px' }}>
                 {related.map((r) => (
@@ -558,7 +589,7 @@ export default async function FichePage({ params }: Props) {
                   background: e.open.unknown ? 'var(--faint)' : e.open.open ? 'var(--open)' : 'var(--closed)',
                 }}
               />
-              {e.open.unknown ? 'Horaires non renseignés' : e.open.longLabel}
+              {openLabels(e.open, L).long}
             </div>
             <FicheActions
               establishmentId={e.id}
@@ -574,7 +605,7 @@ export default async function FichePage({ params }: Props) {
                 {[e.street, [e.postalCode ?? e.commune.postalCodes?.[0], e.commune.name].filter(Boolean).join(' ')].filter(Boolean).join(', ')}
               </div>
               {e.phone ? <div style={{ color: 'var(--muted)' }}>{fmtPhone(e.phone)}</div> : null}
-              {e.serviceArea ? <div style={{ color: 'var(--muted)' }}>Intervient : {e.serviceArea}</div> : null}
+              {e.serviceArea ? <div style={{ color: 'var(--muted)' }}>{tr('fiche.serviceArea', { area: e.serviceArea })}</div> : null}
               {e.email ? (
                 <div>
                   <a href={`mailto:${e.email}`} style={{ fontWeight: 600 }}>
@@ -584,7 +615,7 @@ export default async function FichePage({ params }: Props) {
               ) : null}
             </address>
             {socialLinks.length ? (
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }} aria-label="Réseaux sociaux">
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }} aria-label={tr('fiche.socials')}>
                 {socialLinks.map(([label, href]) => (
                   <a
                     key={label}
@@ -607,13 +638,13 @@ export default async function FichePage({ params }: Props) {
                   points={mapPoints}
                   tileUrl={portal.mapConfig.tileUrl}
                   attribution={portal.mapConfig.attribution}
-                  ariaLabel="Plan d'accès"
+                  ariaLabel={tr('fiche.mapAria')}
                   style={{ width: '100%', height: '100%' }}
                 />
               </div>
             ) : null}
             <div>
-              <h2 style={{ fontWeight: 700, fontSize: 14, margin: '0 0 6px', fontFamily: 'var(--font-body)' }}>Horaires</h2>
+              <h2 style={{ fontWeight: 700, fontSize: 14, margin: '0 0 6px', fontFamily: 'var(--font-body)' }}>{tr('fiche.hours')}</h2>
               {e.hours.length ? (
                 hours.map((h) => (
                   <div
@@ -632,12 +663,13 @@ export default async function FichePage({ params }: Props) {
                   </div>
                 ))
               ) : (
-                <div style={{ fontSize: 13, color: 'var(--muted)' }}>Appelez avant de vous déplacer.</div>
+                <div style={{ fontSize: 13, color: 'var(--muted)' }}>{tr('fiche.callFirst')}</div>
               )}
               {nextException ? (
                 <div style={{ fontSize: 12, color: 'var(--warn-fg)', marginTop: 8, fontWeight: 600 }}>
-                  {nextException.label ? `${nextException.label} : fermé le ` : 'Fermeture exceptionnelle le '}
-                  {fmtLongDate(nextException.date).toLowerCase()}
+                  {nextException.label
+                    ? tr('fiche.closedOn', { label: nextException.label, date: longDateL(nextException.date, L).toLowerCase() })
+                    : tr('fiche.closedException', { date: longDateL(nextException.date, L).toLowerCase() })}
                 </div>
               ) : null}
             </div>
@@ -645,26 +677,26 @@ export default async function FichePage({ params }: Props) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 13, borderTop: '1px solid var(--line)', paddingTop: 14 }}>
                 {payments.length ? (
                   <div style={rowLine}>
-                    <span style={{ color: 'var(--muted)' }}>Paiement</span>
+                    <span style={{ color: 'var(--muted)' }}>{tr('fiche.payment')}</span>
                     <b style={{ textAlign: 'right' }}>{payments.map((p) => (p === 'Carte bancaire' ? 'CB' : p)).join(' · ')}</b>
                   </div>
                 ) : null}
                 {e.priceInfo ? (
                   <div style={rowLine}>
-                    <span style={{ color: 'var(--muted)' }}>Tarifs</span>
+                    <span style={{ color: 'var(--muted)' }}>{tr('fiche.prices')}</span>
                     <b style={{ textAlign: 'right' }}>{e.priceInfo}</b>
                   </div>
                 ) : null}
                 {accessibility.length ? (
                   <div style={rowLine}>
-                    <span style={{ color: 'var(--muted)' }}>Accessibilité</span>
+                    <span style={{ color: 'var(--muted)' }}>{tr('fiche.accessibility')}</span>
                     <b style={{ textAlign: 'right' }}>{accessibility.join(' · ')}</b>
                   </div>
                 ) : null}
                 {e.accessibilityInfo ? <div style={{ color: 'var(--muted)', fontSize: 12 }}>{e.accessibilityInfo}</div> : null}
                 {services.length ? (
                   <div style={rowLine}>
-                    <span style={{ color: 'var(--muted)' }}>Services</span>
+                    <span style={{ color: 'var(--muted)' }}>{tr('fiche.services')}</span>
                     <b style={{ textAlign: 'right' }}>{services.slice(0, 3).join(' · ')}</b>
                   </div>
                 ) : null}
@@ -699,14 +731,15 @@ export default async function FichePage({ params }: Props) {
               gap: 10,
             }}
           >
-            C&apos;est votre commerce ?<b style={{ color: 'var(--green)' }}>{claimed ? 'Gérer cette fiche →' : 'Revendiquer cette fiche →'}</b>
+            {tr('fiche.yours')}
+            <b style={{ color: 'var(--green)' }}>{claimed ? tr('fiche.manage') : tr('fiche.claim')}</b>
           </a>
           {t.contactEmail ? (
             <a
               href={`mailto:${t.contactEmail}?subject=${encodeURIComponent(`Signalement : ${e.name}`)}&body=${encodeURIComponent(`Fiche : ${url}\n\nInformation à corriger :\n`)}`}
               style={{ fontSize: 12, color: 'var(--muted)', textAlign: 'center' }}
             >
-              Signaler une information erronée
+              {tr('fiche.report')}
             </a>
           ) : null}
         </aside>

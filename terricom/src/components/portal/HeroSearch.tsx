@@ -2,10 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useT } from './I18n';
 
 /** Recherche en langage naturel de l'accueil (« un fromage à offrir », « réparer ma chaudière »…). */
 export function HeroSearch({ base, prompts }: { base: string; prompts: { label: string; query: string }[] }) {
   const router = useRouter();
+  const t = useT();
   const [q, setQ] = useState('');
   const go = (query: string) => router.push(`${base}/explorer${query ? `?q=${encodeURIComponent(query)}` : ''}`);
   return (
@@ -22,18 +24,11 @@ export function HeroSearch({ base, prompts }: { base: string; prompts: { label: 
           ✦
         </div>
         <label htmlFor="hero-q" className="sr-only">
-          Rechercher un commerce, un artisan, un produit ou un service
+          {t('search.label')}
         </label>
-        <input
-          id="hero-q"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Demandez ce que vous voulez : « un fromage à offrir », « réparer ma chaudière »…"
-          autoComplete="off"
-          enterKeyHint="search"
-        />
+        <input id="hero-q" value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('search.placeholder')} autoComplete="off" enterKeyHint="search" />
         <button type="submit" className="btn btn-brand" style={{ padding: '0 26px', borderRadius: 12 }}>
-          Rechercher
+          {t('search.submit')}
         </button>
       </form>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 14 }}>

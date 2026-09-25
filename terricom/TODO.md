@@ -24,14 +24,19 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
       candidatures, revendications), page « Mon compte », invitation dans la messagerie pro
 - [x] PWA : manifeste par portail et pour l’espace pro, icônes générées, service worker (hors-ligne des pages
       publiques, jamais des espaces privés), page hors-ligne, installation
+- [x] Portail multilingue (module `MULTILINGUAL`) : interface complète en anglais et en allemand, sélecteur de
+      langue mémorisé, `hreflang`, canoniques et plan du site par langue, emails de double validation traduits,
+      traductions IA des fiches (tâche `i18n.translate`) et des textes du portail (« Langues du portail »),
+      version rédigée par le professionnel, repli sur le français, pages légales en français
 
 ## En cours
 
-- [ ] Portail multilingue (module `MULTILINGUAL`) : interface en anglais, traductions des fiches par l’IA,
-      sélecteur de langue, `hreflang`
+- [ ] Contrôles finaux (voir ci-dessous)
 
 ## À faire ensuite
 
+- [ ] Multilingue, pistes suivantes : traduction des publications, événements et offres d’emploi ; autres langues
+      (espagnol, italien, néerlandais : l’IA les gère déjà) ; lettre du territoire par langue d’abonné
 - [ ] Test e2e de la marque blanche
 - [ ] Vérifier le hors-ligne sur une compilation de production (`npm run build && npm start`)
 - [ ] Contrôles finaux : `next build`, tests complets, parcours de tous les espaces, `db:reset`

@@ -1,4 +1,6 @@
 import { and, eq, inArray, isNull, or, sql, type SQL } from 'drizzle-orm';
+import type { Locale } from '@/lib/i18n';
+import { activityL, openLabels, tagL } from '@/lib/i18n/format';
 import { cache } from 'react';
 import type { Family } from '@/lib/constants';
 import { fmtDistance, haversine, parisDate } from '@/lib/format';
@@ -245,18 +247,18 @@ export async function activeOffers(ids: string[]): Promise<Map<string, { offer: 
 }
 
 /** Réduit un résultat aux champs affichés par l'explorateur. */
-export function toExplorerItem(i: SearchResultItem): import('@/lib/explorer').ExplorerItem {
+export function toExplorerItem(i: SearchResultItem, locale: Locale = 'fr'): import('@/lib/explorer').ExplorerItem {
   return {
     id: i.id,
     name: i.name,
     path: i.path,
-    activity: i.activity,
+    activity: activityL(i, locale),
     color: i.color,
     communeName: i.communeName,
     coverUrl: i.coverUrl,
     isOpen: i.open.open,
-    openLabel: i.open.unknown ? '' : i.open.shortLabel,
-    tags: i.tags.slice(0, 3),
+    openLabel: i.open.unknown ? '' : openLabels(i.open, locale).short,
+    tags: i.tags.slice(0, 3).map((t, n) => tagL(i.tagKeys?.[n], t, locale)),
     distance: i.distance,
   };
 }

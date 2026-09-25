@@ -3,12 +3,14 @@
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { useStoredValue } from '@/lib/hooks/useStoredValue';
+import { useT } from './I18n';
 
 type Door = { day: number; open: boolean; title: string | null; path: string | null };
 
 /** Calendrier de l'Avent : les cases du jour et des jours passés se révèlent au clic. */
 export function AdventCalendar({ doors, base, storageKey }: { doors: Door[]; base: string; storageKey: string }) {
   const [raw, setRaw] = useStoredValue(storageKey);
+  const t = useT();
   const revealed = useMemo<number[]>(() => {
     try {
       const v = JSON.parse(raw ?? '[]');
@@ -36,21 +38,27 @@ export function AdventCalendar({ doors, base, storageKey }: { doors: Door[]; bas
             disabled={!d.open}
             onClick={() => toggle(d.day)}
             aria-pressed={shown}
-            aria-label={d.open ? `Case du ${d.day}${shown && d.title ? ` : ${d.title}` : ''}` : `Case du ${d.day}, pas encore ouverte`}
+            aria-label={
+              d.open
+                ? shown && d.title
+                  ? t('advent.doorTitle', { day: d.day, title: d.title })
+                  : t('advent.door', { day: d.day })
+                : t('advent.doorClosed', { day: d.day })
+            }
             style={{ background: bg, color: fg, borderColor: bd, cursor: d.open ? 'pointer' : 'default' }}
           >
             <span className="display" style={{ fontSize: 30, lineHeight: 1 }}>
               {d.day}
             </span>
             <span style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>
-              {shown ? d.title : d.open ? 'Cliquez !' : 'Patience…'}
+              {shown ? d.title : d.open ? t('advent.click') : t('advent.wait')}
               {shown && d.path ? (
                 <Link
                   href={`${base}${d.path}`}
                   onClick={(e) => e.stopPropagation()}
                   style={{ display: 'block', marginTop: 4, color: 'var(--ink)', fontWeight: 800 }}
                 >
-                  Voir →
+                  {t('common.see')}
                 </Link>
               ) : null}
             </span>

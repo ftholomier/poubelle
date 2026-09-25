@@ -2,6 +2,7 @@
 
 import { useStoredValue } from '@/lib/hooks/useStoredValue';
 import { useToast } from '@/components/ui/Feedback';
+import { useT } from './I18n';
 
 /** « Ajouter à mon agenda » (.ics), itinéraire et partage d'un événement. */
 export function EventActions({
@@ -18,6 +19,7 @@ export function EventActions({
   title: string;
 }) {
   const toast = useToast();
+  const t = useT();
   const key = `agenda:${id}`;
   const [stored, setStored] = useStoredValue(key);
   const saved = stored === '1';
@@ -25,7 +27,7 @@ export function EventActions({
     try {
       if (navigator.share) return await navigator.share({ title, url: shareUrl });
       await navigator.clipboard.writeText(shareUrl);
-      toast('Lien de l’événement copié.');
+      toast(t('ea.copied'));
     } catch {
       /* partage annulé */
     }
@@ -47,7 +49,7 @@ export function EventActions({
           fontSize: 15,
         }}
       >
-        {saved ? '✓ Dans mon agenda' : 'Ajouter à mon agenda'}
+        {saved ? t('ea.saved') : t('ea.add')}
       </a>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
         {directionsUrl ? (
@@ -58,11 +60,11 @@ export function EventActions({
             className="btn btn-outline"
             style={{ justifyContent: 'center', border: '1.5px solid var(--ink)', padding: 11, borderRadius: 12 }}
           >
-            Itinéraire
+            {t('ea.directions')}
           </a>
         ) : (
           <span className="btn btn-outline" aria-disabled="true" style={{ justifyContent: 'center', opacity: 0.45 }}>
-            Itinéraire
+            {t('ea.directions')}
           </span>
         )}
         <button
@@ -71,7 +73,7 @@ export function EventActions({
           onClick={share}
           style={{ justifyContent: 'center', border: '1px solid var(--line)', background: '#fff', padding: 11, borderRadius: 12, fontWeight: 700 }}
         >
-          Partager
+          {t('ea.share')}
         </button>
       </div>
     </>

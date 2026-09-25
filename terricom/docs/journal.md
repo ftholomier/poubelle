@@ -33,8 +33,8 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
 | `02d1a68`            | Multi-établissements            | Ajout d’un établissement de la même entreprise                                                                                                                                 |
 | `8184f32`            | Offres Premium et Communication | Clients abonnés (double opt-in, lettres, export), formulaires personnalisés, pages supplémentaires, mini-site                                                                  |
 | `490a82a`, `0fd587b` | Plateforme                      | Marque blanche, indicateurs d’usage et de rentabilité, API publique v1, documentation (fonctionnalités, développement, journal, API, TODO), contrôles `npm run check`          |
-| (ce lot)             | PWA et notifications            | Manifeste par portail, icônes générées, service worker (hors-ligne des pages publiques), notifications push (messages, formulaires, rendez-vous, candidatures, revendications) |
-| (en cours)           | Multilingue                     | Portail en anglais et en allemand (module `MULTILINGUAL`), traductions des fiches                                                                                              |
+| `8cbf74c`            | PWA et notifications            | Manifeste par portail, icônes générées, service worker (hors-ligne des pages publiques), notifications push (messages, formulaires, rendez-vous, candidatures, revendications) |
+| (ce lot)             | Multilingue                     | Portail en anglais et en allemand (module `MULTILINGUAL`) : interface, formats, SEO par langue, emails visiteurs ; traductions IA des fiches et des textes, saisie manuelle    |
 
 ## Décisions
 
@@ -50,6 +50,10 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
 - **API publique** : clé par usage et par territoire, empreinte seule en base, données publiées uniquement.
 - **Notifications push** : clés VAPID en variables d’environnement ; envoi différé par la file de tâches ;
   abonnements expirés supprimés automatiquement.
+- **Multilingue** : libellés dans un dictionnaire typé (pas de bibliothèque externe), même adresse de page avec
+  `?lang=` plutôt qu’un préfixe `/en/` (aucune route dupliquée, compatible avec les domaines personnalisés) ;
+  contenus traduits par l’IA en tâche de fond, version du professionnel prioritaire, français en repli ; pages
+  légales en français uniquement (texte qui fait foi).
 - **Bac à sable** : les services externes y sont bloqués (cartes, photos, IA) ; ils fonctionnent en production.
 
 ## Vérifications à chaque lot

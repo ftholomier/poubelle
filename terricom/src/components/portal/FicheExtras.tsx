@@ -3,15 +3,17 @@
 import { useActionState } from 'react';
 import { followEstablishment, submitCustomForm, type FormState } from '@/app/[territory]/actions';
 import type { FormField } from '@/server/db/schema';
+import { useT } from './I18n';
 
 /** Abonnement aux nouveautés d'un commerce (lettre client, double opt-in). */
 export function FollowCard({ establishmentId, name }: { establishmentId: string; name: string }) {
   const [state, action, pending] = useActionState<FormState, FormData>(followEstablishment, { status: 'idle' });
+  const t = useT();
   if (state.status === 'ok') {
     return (
       <div className="card follow-card" role="status">
         <span className="stamp" style={{ alignSelf: 'flex-start' }}>
-          Merci !
+          {t('fx.thanks')}
         </span>
         <div style={{ fontSize: 14, lineHeight: 1.5 }}>{state.message}</div>
       </div>
@@ -20,27 +22,27 @@ export function FollowCard({ establishmentId, name }: { establishmentId: string;
   return (
     <form action={action} className="card follow-card">
       <div>
-        <div style={{ fontWeight: 700 }}>Suivre {name}</div>
-        <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.45 }}>Nouveautés, offres et événements par email. Quatre envois par mois au plus.</div>
+        <div style={{ fontWeight: 700 }}>{t('fx.follow', { name })}</div>
+        <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.45 }}>{t('fx.followText')}</div>
       </div>
       <input type="hidden" name="establishmentId" value={establishmentId} />
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="sr-only" aria-hidden="true" />
       <label className="sr-only" htmlFor={`follow-email-${establishmentId}`}>
-        Votre email
+        {t('fx.yourEmail')}
       </label>
       <input
         id={`follow-email-${establishmentId}`}
         name="email"
         type="email"
         className="input"
-        placeholder="Votre email"
+        placeholder={t('fx.yourEmail')}
         autoComplete="email"
         required
         maxLength={254}
       />
       <label className="checkbox" style={{ fontSize: 12, color: 'var(--muted)' }}>
         <input type="checkbox" name="consent" required />
-        <span>J&apos;accepte de recevoir les emails de {name}. Désinscription en un clic.</span>
+        <span>{t('fx.followConsent', { name })}</span>
       </label>
       {state.status === 'error' ? (
         <div className="alert alert-error" role="alert">
@@ -48,7 +50,7 @@ export function FollowCard({ establishmentId, name }: { establishmentId: string;
         </div>
       ) : null}
       <button type="submit" className="btn btn-dark" disabled={pending} style={{ padding: 11, borderRadius: 10, justifyContent: 'center' }}>
-        {pending ? 'Envoi…' : 'Je m’abonne'}
+        {pending ? t('common.sending') : t('fx.subscribe')}
       </button>
     </form>
   );
@@ -57,6 +59,7 @@ export function FollowCard({ establishmentId, name }: { establishmentId: string;
 export type PublicForm = { id: string; title: string; intro: string | null; fields: FormField[]; submitLabel: string };
 
 function Field({ formId, field }: { formId: string; field: FormField }) {
+  const t = useT();
   const id = `cf-${formId}-${field.id}`;
   const name = `f_${field.id}`;
   const label = (
@@ -95,7 +98,7 @@ function Field({ formId, field }: { formId: string; field: FormField }) {
       ) : field.type === 'select' ? (
         <select id={id} name={name} className="select" required={field.required} defaultValue="" aria-describedby={describedBy}>
           <option value="" disabled={field.required}>
-            Choisir…
+            {t('fx.choose')}
           </option>
           {(field.options ?? []).map((o) => (
             <option key={o} value={o}>
@@ -123,11 +126,12 @@ function Field({ formId, field }: { formId: string; field: FormField }) {
 /** Formulaire personnalisé du professionnel (devis, réservation, inscription…). */
 export function CustomFormCard({ form, name }: { form: PublicForm; name: string }) {
   const [state, action, pending] = useActionState<FormState, FormData>(submitCustomForm, { status: 'idle' });
+  const t = useT();
   if (state.status === 'ok') {
     return (
       <div className="card custom-form" role="status">
         <span className="stamp" style={{ alignSelf: 'flex-start' }}>
-          Demande envoyée
+          {t('fx.sent')}
         </span>
         <div style={{ fontSize: 15, lineHeight: 1.5 }}>{state.message}</div>
       </div>
@@ -146,7 +150,7 @@ export function CustomFormCard({ form, name }: { form: PublicForm; name: string 
       <div className="custom-form-grid">
         <div className="field">
           <label htmlFor={`cf-${form.id}-name`}>
-            Votre nom
+            {t('fc.yourName')}
             <span aria-hidden="true" style={{ color: 'var(--danger-fg)' }}>
               {' '}
               *
@@ -156,7 +160,7 @@ export function CustomFormCard({ form, name }: { form: PublicForm; name: string 
         </div>
         <div className="field">
           <label htmlFor={`cf-${form.id}-email`}>
-            Email
+            {t('fc.email')}
             <span aria-hidden="true" style={{ color: 'var(--danger-fg)' }}>
               {' '}
               *
@@ -165,7 +169,7 @@ export function CustomFormCard({ form, name }: { form: PublicForm; name: string 
           <input id={`cf-${form.id}-email`} name="email" type="email" className="input" autoComplete="email" required maxLength={254} />
         </div>
         <div className="field">
-          <label htmlFor={`cf-${form.id}-phone`}>Téléphone</label>
+          <label htmlFor={`cf-${form.id}-phone`}>{t('fc.phone')}</label>
           <input id={`cf-${form.id}-phone`} name="phone" type="tel" className="input" autoComplete="tel" maxLength={32} />
         </div>
         {form.fields.map((f) => (
@@ -174,7 +178,7 @@ export function CustomFormCard({ form, name }: { form: PublicForm; name: string 
       </div>
       <label className="checkbox" style={{ fontSize: 12, color: 'var(--muted)' }}>
         <input type="checkbox" name="consent" required />
-        <span>J&apos;accepte que ces informations soient transmises à {name} pour traiter ma demande.</span>
+        <span>{t('fx.formConsent', { name })}</span>
       </label>
       {state.status === 'error' ? (
         <div className="alert alert-error" role="alert">
@@ -182,7 +186,7 @@ export function CustomFormCard({ form, name }: { form: PublicForm; name: string 
         </div>
       ) : null}
       <button type="submit" className="btn btn-brand" disabled={pending} style={{ alignSelf: 'flex-start' }}>
-        {pending ? 'Envoi…' : form.submitLabel}
+        {pending ? t('common.sending') : form.submitLabel}
       </button>
     </form>
   );

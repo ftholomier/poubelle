@@ -8,7 +8,11 @@ import { Beacon } from '@/components/portal/Beacon';
 import { ApplyForm } from '@/components/portal/ApplyForm';
 import { Photo } from '@/components/ui/Photo';
 import { CONTRACT_TYPES, type ContractType } from '@/lib/constants';
-import { relativeTime, truncate } from '@/lib/format';
+import { truncate } from '@/lib/format';
+import { activityL, contractL, relativeL } from '@/lib/i18n/format';
+import { territoryText } from '@/lib/i18n/territory';
+import { withLang } from '@/lib/i18n';
+import { portalT } from '@/server/i18n';
 import { sized } from '@/lib/images';
 import type { TerritorySettings } from '@/server/db/schema';
 import { jobPostingJsonLd } from '@/server/seo';
@@ -26,13 +30,15 @@ const load = cache(async (territoryParam: string, slug: string) => {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { territory, slug } = await params;
   const { portal, data } = await load(territory, slug);
-  if (!data) return { title: 'Offre introuvable', robots: { index: false } };
+  const tr = await portalT(portal);
+  if (!data) return { title: tr('job.notFound'), robots: { index: false } };
   const { job, company } = data;
-  const title = `${job.title} (${CONTRACT_TYPES[job.contractType as ContractType].label}) — ${company.name}, ${company.communeName}`;
+  const contract = contractL(job.contractType, CONTRACT_TYPES[job.contractType as ContractType].label, tr.locale);
+  const title = `${job.title} (${contract}) — ${company.name}, ${company.communeName}`;
   return {
     title,
     description: truncate(job.description, 158),
-    alternates: { canonical: portalUrl(portal.territory, `/emploi/${job.slug}`) },
+    alternates: { canonical: withLang(portalUrl(portal.territory, `/emploi/${job.slug}`), tr.locale) },
     openGraph: { title, description: truncate(job.description, 200), images: company.coverUrl ? [{ url: sized(company.coverUrl, 1200)! }] : undefined },
   };
 }
@@ -44,15 +50,18 @@ export default async function JobPage({ params }: Props) {
   const { portal, data } = await load(territory, slug);
   if (!data) notFound();
   const { base, territory: t } = portal;
+  const tr = await portalT(portal);
+  const L = tr.locale;
   const { job, company, address } = data;
   const ct = CONTRACT_TYPES[job.contractType as ContractType];
+  const ctLabel = contractL(job.contractType, ct.label, L);
   const settings = (t.settings ?? {}) as TerritorySettings;
   const url = portalUrl(t, `/emploi/${job.slug}`);
   const tiles = [
-    { label: 'Début', value: job.startText },
-    { label: 'Rémunération', value: job.salaryText },
-    { label: 'Temps de travail', value: job.workTimeText },
-    { label: 'Publiée', value: job.publishedAt ? relativeTime(job.publishedAt) : null },
+    { label: tr('job.start'), value: job.startText },
+    { label: tr('job.salary'), value: job.salaryText },
+    { label: tr('job.workTime'), value: job.workTimeText },
+    { label: tr('job.published'), value: job.publishedAt ? relativeL(job.publishedAt, L) : null },
   ].filter((x) => x.value);
 
   return (
@@ -79,10 +88,10 @@ export default async function JobPage({ params }: Props) {
         <div className="container" style={{ paddingTop: 18, paddingBottom: 40, display: 'flex', flexDirection: 'column', gap: 22 }}>
           <div style={{ display: 'flex', gap: 10, fontSize: 13, color: 'var(--leaf-fg)', flexWrap: 'wrap' }}>
             <Link href={`${base}/emploi`} style={{ fontWeight: 700, color: 'var(--ink)' }}>
-              ← Offres d&apos;emploi
+              {tr('job.back')}
             </Link>
             <span>
-              {settings.jobsTitle ?? 'Emploi'} › {ct.label}
+              {territoryText(t, 'jobsTitle', L) ?? tr('nav.jobs')} › {ctLabel}
             </span>
           </div>
           <div style={{ display: 'flex', gap: 22, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -102,7 +111,7 @@ export default async function JobPage({ params }: Props) {
                   marginBottom: 8,
                 }}
               >
-                {ct.label}
+                {ctLabel}
               </span>
               <h1 className="display" style={{ fontSize: 'clamp(36px,4.6vw,62px)', letterSpacing: '-0.035em', lineHeight: 0.95, margin: '0 0 8px' }}>
                 {job.title}
@@ -138,14 +147,17 @@ export default async function JobPage({ params }: Props) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 28, minWidth: 0 }}>
           <div>
             <h2 className="h3" style={h3}>
-              Le poste
+              {tr('job.position')}
             </h2>
-            <p style={{ fontSize: 17, lineHeight: 1.6, margin: 0, textWrap: 'pretty', whiteSpace: 'pre-line' }}>{job.description}</p>
+            <p lang={L === 'fr' ? undefined : 'fr'} style={{ fontSize: 17, lineHeight: 1.6, margin: 0, textWrap: 'pretty', whiteSpace: 'pre-line' }}>
+              {job.description}
+            </p>
+            {L !== 'fr' ? <p style={{ fontSize: 12, color: 'var(--muted)', margin: '8px 0 0' }}>{tr('common.originalFrench')}</p> : null}
           </div>
           {job.missions.length ? (
             <div>
               <h2 className="h3" style={h3}>
-                Vos missions
+                {tr('job.missions')}
               </h2>
               {job.missions.map((m, i) => (
                 <div key={i} style={{ display: 'flex', gap: 12, padding: '12px 0', borderTop: '1px solid var(--line)', fontSize: 16 }}>
@@ -158,7 +170,7 @@ export default async function JobPage({ params }: Props) {
           {job.profile.length ? (
             <div>
               <h2 className="h3" style={h3}>
-                Profil recherché
+                {tr('job.profile')}
               </h2>
               {job.profile.map((m, i) => (
                 <div key={i} style={{ display: 'flex', gap: 12, padding: '12px 0', borderTop: '1px solid var(--line)', fontSize: 16 }}>
@@ -184,14 +196,12 @@ export default async function JobPage({ params }: Props) {
                   transform: 'rotate(-3deg)',
                 }}
               >
-                Vivre ici
+                {tr('job.living')}
               </span>
               <div className="display" style={{ fontSize: 28, lineHeight: 1 }}>
-                {settings.livingTitle ?? `Vivre et travailler à ${t.name}.`}
+                {territoryText(t, 'livingTitle', L) ?? tr('job.livingTitleDefault', { name: t.name })}
               </div>
-              <div style={{ fontSize: 14, color: 'var(--sage-4)' }}>
-                {settings.livingText ?? 'La collectivité vous accompagne pour vous installer : logement, écoles, transports.'}
-              </div>
+              <div style={{ fontSize: 14, color: 'var(--sage-4)' }}>{territoryText(t, 'livingText', L) ?? tr('job.livingTextDefault')}</div>
             </div>
           </div>
         </div>
@@ -210,9 +220,9 @@ export default async function JobPage({ params }: Props) {
             <div>
               <div style={{ fontWeight: 700 }}>{company.name}</div>
               <div style={{ fontSize: 13, color: 'var(--muted)' }}>
-                {company.activity} · {company.communeName}
+                {activityL(company, L)} · {company.communeName}
               </div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--green)', marginTop: 2 }}>Voir l&apos;entreprise →</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--green)', marginTop: 2 }}>{tr('job.seeCompany')}</div>
             </div>
           </Link>
           {company.lat && company.lng ? (
@@ -223,7 +233,7 @@ export default async function JobPage({ params }: Props) {
                 points={[{ id: company.id, lat: company.lat, lng: company.lng, name: company.name, color: company.color }]}
                 tileUrl={portal.mapConfig.tileUrl}
                 attribution={portal.mapConfig.attribution}
-                ariaLabel="Lieu de travail"
+                ariaLabel={tr('job.mapAria')}
                 style={{ width: '100%', height: '100%' }}
               />
             </div>

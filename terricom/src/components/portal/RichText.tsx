@@ -30,7 +30,7 @@ function inline(text: string, keyBase: string): ReactNode[] {
   return out;
 }
 
-export function RichText({ text, className }: { text: string; className?: string }) {
+export function RichText({ text, className, lang }: { text: string; className?: string; lang?: string }) {
   const blocks: ReactNode[] = [];
   const lines = text.replace(/\r\n?/g, '\n').split('\n');
   let para: string[] = [];
@@ -71,5 +71,9 @@ export function RichText({ text, className }: { text: string; className?: string
   }
   flushPara();
   flushList();
-  return <div className={`rich-text${className ? ` ${className}` : ''}`}>{blocks}</div>;
+  return (
+    <div className={`rich-text${className ? ` ${className}` : ''}`} lang={lang}>
+      {blocks}
+    </div>
+  );
 }

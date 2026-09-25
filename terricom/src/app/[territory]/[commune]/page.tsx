@@ -8,7 +8,10 @@ import { Beacon } from '@/components/portal/Beacon';
 import { EventRow } from '@/components/portal/Cards';
 import { Photo } from '@/components/ui/Photo';
 import { FAMILIES, type EventKind } from '@/lib/constants';
-import { fmtInt, fmtTimeShort, relativeTime, WEEKDAYS_SHORT } from '@/lib/format';
+import { fmtTimeShort } from '@/lib/format';
+import { familyL, intL, postKindL, relativeL, shortDateL, timeL, WEEKDAY_SHORT_NAMES } from '@/lib/i18n/format';
+import { withLang } from '@/lib/i18n';
+import { portalT } from '@/server/i18n';
 import { sized } from '@/lib/images';
 import { breadcrumbJsonLd } from '@/server/seo';
 import { allCards, communeCampaigns, communeMarkets, familyCounts, getFeed, getPortal, toMapPoints, upcomingEvents } from '@/server/services/portal';
@@ -26,14 +29,15 @@ const load = cache(async (territoryParam: string, communeSlug: string) => {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { territory, commune: slug } = await params;
   const { portal, commune } = await load(territory, slug);
-  if (!commune) return { title: 'Commune introuvable', robots: { index: false } };
+  const tr = await portalT(portal);
+  if (!commune) return { title: tr('commune.notFound'), robots: { index: false } };
   const counts = await familyCounts(portal.territory.id, commune.id);
-  const title = `Commerces, artisans et producteurs à ${commune.name}`;
-  const description = `${fmtInt(counts.total)} professionnels à ${commune.name} (${commune.postalCodes[0] ?? ''}) : horaires, adresses, actualités, marchés et bons plans locaux.`;
+  const title = tr('commune.metaTitle', { name: commune.name });
+  const description = tr('commune.metaDesc', { n: intL(counts.total, tr.locale), name: commune.name, cp: commune.postalCodes[0] ?? '' });
   return {
     title,
     description,
-    alternates: { canonical: portalUrl(portal.territory, `/${commune.slug}`) },
+    alternates: { canonical: withLang(portalUrl(portal.territory, `/${commune.slug}`), tr.locale) },
     openGraph: { title, description, images: commune.heroImageUrl ? [{ url: sized(commune.heroImageUrl, 1200)! }] : undefined },
   };
 }
@@ -43,6 +47,8 @@ export default async function CommunePage({ params }: Props) {
   const { portal, commune } = await load(territory, slug);
   if (!commune) notFound();
   const { base, territory: t } = portal;
+  const tr = await portalT(portal);
+  const L = tr.locale;
   const [counts, feed, markets, events, cards, operations] = await Promise.all([
     familyCounts(t.id, commune.id),
     getFeed(t.id, { communeId: commune.id, limit: 4, channel: 'COMMUNE' }),
@@ -54,16 +60,18 @@ export default async function CommunePage({ params }: Props) {
   const points = toMapPoints(
     cards.filter((c) => c.communeId === commune.id),
     base,
+    L,
   );
-  const tagline = (commune.tagline ?? `Les ${'{pros}'} professionnels de ${commune.name} : commerces, artisans, producteurs et services.`).replace(
+  // L'accroche rédigée par la commune est en français : traduction générique dans les autres langues.
+  const tagline = (L === 'fr' && commune.tagline ? commune.tagline : tr('commune.taglineDefault', { n: '{pros}', name: commune.name })).replace(
     '{pros}',
-    fmtInt(counts.total),
+    intL(counts.total, L),
   );
   const tiles = [
-    { value: counts.total, label: 'professionnels', color: 'var(--ink)', href: `${base}/explorer?commune=${commune.slug}` },
+    { value: counts.total, label: tr.n('common.pros', counts.total), color: 'var(--ink)', href: `${base}/explorer?commune=${commune.slug}` },
     ...counts.byFamily.map((f) => ({
       value: f.count,
-      label: f.label,
+      label: familyL(f.family, f.label, L),
       color: f.color,
       href: `${base}/explorer?commune=${commune.slug}&famille=${FAMILIES[f.family].slug}`,
     })),
@@ -97,7 +105,8 @@ export default async function CommunePage({ params }: Props) {
               textTransform: 'uppercase',
             }}
           >
-            Commune{commune.population ? ` · ${fmtInt(commune.population)} habitants` : ''}
+            {tr('commune.badge')}
+            {commune.population ? ` · ${tr('commune.inhabitants', { n: intL(commune.population, L) })}` : ''}
           </span>
           <h1 className="display" style={{ fontSize: 'clamp(56px,7vw,104px)', letterSpacing: '-0.04em', lineHeight: 0.9, margin: 0 }}>
             {commune.name}
@@ -124,7 +133,7 @@ export default async function CommunePage({ params }: Props) {
               }}
             >
               <div className="display" style={{ fontSize: 36, letterSpacing: '-0.03em' }}>
-                {fmtInt(tile.value)}
+                {intL(tile.value, L)}
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, fontWeight: 600, color: 'var(--muted)' }}>
                 <span>{tile.label}</span>
@@ -138,7 +147,7 @@ export default async function CommunePage({ params }: Props) {
       <section className="container split" style={{ ['--cols' as string]: 'minmax(0,1.3fr) minmax(0,1fr)', paddingTop: 44, paddingBottom: 60 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           <h2 className="h-section" style={{ fontSize: 32, margin: 0 }}>
-            À la une à {commune.name}
+            {tr('commune.headline', { name: commune.name })}
           </h2>
           {feed.length ? (
             feed.map((f) => {
@@ -149,11 +158,11 @@ export default async function CommunePage({ params }: Props) {
                   </div>
                   <div style={{ padding: '14px 14px 14px 0', display: 'flex', flexDirection: 'column', gap: 6 }}>
                     <span className="tag" style={{ alignSelf: 'flex-start', background: f.bg }}>
-                      {f.kindLabel}
+                      {postKindL(f.kind, f.kindLabel, L)}
                     </span>
                     <div style={{ fontWeight: 700, fontSize: 16 }}>{f.title}</div>
                     <div style={{ fontSize: 12, color: 'var(--muted)' }}>
-                      {f.who} · {relativeTime(f.publishedAt)}
+                      {f.who} · {relativeL(f.publishedAt, L)}
                     </div>
                   </div>
                 </>
@@ -180,13 +189,13 @@ export default async function CommunePage({ params }: Props) {
             })
           ) : (
             <div className="card card-pad" style={{ color: 'var(--muted)' }}>
-              Pas encore d&apos;actualité publiée à {commune.name}. Les professionnels de la commune peuvent publier depuis leur espace.
+              {tr('commune.noNews', { name: commune.name })}
             </div>
           )}
           {events.length ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
               <h3 className="h3" style={{ margin: 0 }}>
-                Prochains rendez-vous
+                {tr('commune.nextEvents')}
               </h3>
               {events.map(({ ev, c }) => (
                 <EventRow
@@ -196,6 +205,7 @@ export default async function CommunePage({ params }: Props) {
                   where={[ev.locationName, c?.name].filter(Boolean).join(' · ')}
                   kind={ev.kind as EventKind}
                   startsAt={ev.startsAt}
+                  L={L}
                 />
               ))}
             </div>
@@ -216,7 +226,7 @@ export default async function CommunePage({ params }: Props) {
                 margin: 0,
               }}
             >
-              <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.08em', color: 'var(--amber)' }}>LE MOT DE LA MAIRIE</div>
+              <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.08em', color: 'var(--amber)' }}>{tr('commune.mayorWord')}</div>
               <blockquote className="display" style={{ fontWeight: 700, fontSize: 21, lineHeight: 1.3, margin: 0 }}>
                 « {commune.mayorQuote.replace(/^«\s*|\s*»$/g, '')} »
               </blockquote>
@@ -235,7 +245,7 @@ export default async function CommunePage({ params }: Props) {
           ) : null}
           {operations.length ? (
             <div className="card" style={{ borderRadius: 20, padding: 22, display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <div style={{ fontWeight: 700 }}>Opérations commerciales</div>
+              <div style={{ fontWeight: 700 }}>{tr('commune.operations')}</div>
               {operations.map((o) => (
                 <Link
                   key={o.id}
@@ -255,11 +265,9 @@ export default async function CommunePage({ params }: Props) {
                     {o.name}
                   </b>
                   <span style={{ fontSize: 12, opacity: 0.9 }}>
-                    {o.own
-                      ? `Opération de ${commune.name}`
-                      : `${fmtInt(o.joined)} professionnel${o.joined > 1 ? 's' : ''} de ${commune.name} participe${o.joined > 1 ? 'nt' : ''}`}
+                    {o.own ? tr('commune.opOwn', { name: commune.name }) : tr.n('commune.opJoined', o.joined, { name: commune.name })}
                     {' · '}
-                    {o.startsAt.split('-').reverse().slice(0, 2).join('/')} → {o.endsAt.split('-').reverse().slice(0, 2).join('/')}
+                    {shortDateL(o.startsAt, L)} → {shortDateL(o.endsAt, L)}
                   </span>
                 </Link>
               ))}
@@ -267,7 +275,7 @@ export default async function CommunePage({ params }: Props) {
           ) : null}
           {markets.length ? (
             <div className="card" style={{ borderRadius: 20, padding: 22 }}>
-              <div style={{ fontWeight: 700, marginBottom: 12 }}>Marchés hebdomadaires</div>
+              <div style={{ fontWeight: 700, marginBottom: 12 }}>{tr('commune.markets')}</div>
               {markets.map((m) => (
                 <div
                   key={m.id}
@@ -278,7 +286,8 @@ export default async function CommunePage({ params }: Props) {
                     {m.place ? ` · ${m.place}` : ''}
                   </span>
                   <b style={{ whiteSpace: 'nowrap' }}>
-                    {WEEKDAYS_SHORT[m.weekday]} {fmtTimeShort(m.startTime)}–{fmtTimeShort(m.endTime)}
+                    {WEEKDAY_SHORT_NAMES[L][m.weekday]} {L === 'fr' ? fmtTimeShort(m.startTime) : timeL(m.startTime, L)}–
+                    {L === 'fr' ? fmtTimeShort(m.endTime) : timeL(m.endTime, L)}
                   </b>
                 </div>
               ))}
@@ -292,12 +301,12 @@ export default async function CommunePage({ params }: Props) {
               zoom={14}
               tileUrl={portal.mapConfig.tileUrl}
               attribution={portal.mapConfig.attribution}
-              ariaLabel={`Carte des professionnels de ${commune.name}`}
+              ariaLabel={tr('commune.mapAria', { name: commune.name })}
               style={{ width: '100%', height: '100%' }}
             />
           </div>
           <Link href={`${base}/explorer?commune=${commune.slug}`} className="btn btn-dark" style={{ alignSelf: 'flex-start' }}>
-            Explorer {commune.name} sur la carte
+            {tr('commune.explore', { name: commune.name })}
           </Link>
         </div>
       </section>

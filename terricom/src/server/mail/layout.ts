@@ -27,6 +27,8 @@ export function renderEmail(opts: {
   cta?: { label: string; url: string };
   footer?: string;
   unsubscribeUrl?: string;
+  /** Langue du message (emails envoyés aux visiteurs d'un portail multilingue). */
+  lang?: 'fr' | 'en' | 'de';
 }): { html: string; text: string } {
   const brand = opts.brand ?? TERRICOM_BRAND;
   const defaultFooter = brand.whiteLabel
@@ -36,9 +38,11 @@ export function renderEmail(opts: {
   const button = opts.cta
     ? `<table role="presentation" cellspacing="0" cellpadding="0" style="margin:22px 0 6px"><tr><td style="background:${brand.color};border-radius:12px"><a href="${esc(opts.cta.url)}" style="display:inline-block;padding:13px 20px;font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none">${esc(opts.cta.label)}</a></td></tr></table>`
     : '';
-  const unsubscribe = opts.unsubscribeUrl ? ` · <a href="${esc(opts.unsubscribeUrl)}" style="color:#5E655F">Se désinscrire</a>` : '';
+  const lang = opts.lang ?? 'fr';
+  const unsubscribeLabel = { fr: 'Se désinscrire', en: 'Unsubscribe', de: 'Abmelden' }[lang];
+  const unsubscribe = opts.unsubscribeUrl ? ` · <a href="${esc(opts.unsubscribeUrl)}" style="color:#5E655F">${unsubscribeLabel}</a>` : '';
   const html = `<!doctype html>
-<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(opts.title)}</title></head>
+<html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(opts.title)}</title></head>
 <body style="margin:0;padding:0;background:#F7F4EC">
 <span style="display:none;max-height:0;overflow:hidden;opacity:0">${esc(opts.preheader ?? opts.title)}</span>
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#F7F4EC;padding:28px 12px">
@@ -60,7 +64,7 @@ ${body}${button}
     opts.cta ? `${opts.cta.label} : ${opts.cta.url}` : '',
     '',
     opts.footer ?? (brand.whiteLabel ? `— ${brand.name}` : '— terricom'),
-    opts.unsubscribeUrl ? `Se désinscrire : ${opts.unsubscribeUrl}` : '',
+    opts.unsubscribeUrl ? `${unsubscribeLabel} : ${opts.unsubscribeUrl}` : '',
   ]
     .filter((l) => l !== undefined)
     .join('\n');

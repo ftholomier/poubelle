@@ -1034,3 +1034,120 @@ export const ADVENT_EST: Record<number, string> = {
   20: 'b8',
   22: 'b1',
 };
+
+// ─── Portail multilingue (module MULTILINGUAL) ─────────────────────────────
+// Traductions de démonstration ; les autres fiches restent en français (mention « Texte original en français »).
+
+export const TERRITORY_TRANSLATIONS = {
+  en: {
+    tagline: 'Shops & local know-how',
+    heroTitle: 'The Val de Loue,|handmade & made here.',
+    heroSubtitle: 'Craftspeople, producers, restaurants and shops from 24 villages and towns. Find them, step inside, support them.',
+    newsletterName: 'The Friday letter',
+    jobsTitle: 'Working in the Val de Loue',
+    jobsIntro: 'A job, a river, a life here.',
+    footerText: 'An initiative of the Val de Loue community of municipalities and its 24 villages and towns.',
+    circuitsTitle: 'Follow the river Loue',
+    livingTitle: 'A river, forests, and 20 minutes from Besançon.',
+    livingText: 'Housing, schools, transport: the local authority helps you settle in.',
+  },
+  de: {
+    tagline: 'Geschäfte & Handwerkskunst',
+    heroTitle: 'Das Val de Loue,|handgemacht & von hier.',
+    heroSubtitle: 'Handwerker, Erzeuger, Restaurants und Geschäfte aus 24 Gemeinden. Finden, eintreten, unterstützen.',
+    newsletterName: 'Der Freitagsbrief',
+    jobsTitle: 'Arbeiten im Val de Loue',
+    jobsIntro: 'Ein Beruf, ein Fluss, ein Leben hier.',
+    footerText: 'Eine Initiative des Gemeindeverbands Val de Loue und seiner 24 Gemeinden.',
+    circuitsTitle: 'Immer der Loue entlang',
+    livingTitle: 'Ein Fluss, Wälder und 20 Minuten bis Besançon.',
+    livingText: 'Wohnen, Schulen, Verkehr: Die Gemeinde unterstützt Sie beim Ankommen.',
+  },
+};
+
+export const LISTING_TRANSLATIONS: Record<string, { en: { tagline: string; description: string }; de: { tagline: string; description: string } }> = {
+  b1: {
+    en: {
+      tagline: 'Natural sourdough bread and Franche-Comté galettes',
+      description:
+        'Since 1987, the Martin family has kneaded sourdough loaves every night using flour from the Vuillafans mill. Pastries made with PDO butter, Franche-Comté galettes and, on Saturdays, wood-fired baking.',
+    },
+    de: {
+      tagline: 'Natursauerteigbrot und Galettes aus der Franche-Comté',
+      description:
+        'Seit 1987 knetet die Familie Martin jede Nacht Sauerteigbrote mit Mehl aus der Mühle von Vuillafans. Feingebäck mit AOP-Butter, Galettes aus der Franche-Comté und samstags Brot aus dem Holzofen.',
+    },
+  },
+  b2: {
+    en: {
+      tagline: 'Comté matured on site, from 12 to 36 months',
+      description:
+        'A cheese cooperative on the Amancey plateau: every day, milk from 18 neighbouring farms becomes PDO Comté, matured in our cellars for 12 to 36 months. The shop is open to the public, with a guided tasting on Fridays and gift boxes all year round. We also offer Morbier, home-made cancoillotte and a selection of Jura wines to go with your cheese board.',
+    },
+    de: {
+      tagline: 'Vor Ort gereifter Comté, 12 bis 36 Monate',
+      description:
+        'Käsereigenossenschaft auf dem Plateau von Amancey: Aus der Milch von 18 Nachbarhöfen entsteht täglich AOP-Comté, der in unseren Kellern 12 bis 36 Monate reift. Laden für alle geöffnet, kommentierte Verkostung am Freitag und Geschenkboxen das ganze Jahr. Außerdem Morbier, hausgemachte Cancoillotte und eine Auswahl an Jura-Weinen zur Käseplatte.',
+    },
+  },
+  b3: {
+    en: {
+      tagline: 'Loue trout and seasonal cooking, terrace on the river',
+      description:
+        'On the banks of the Loue, the Relais seats up to 80 guests on its summer terrace. Local produce on the menu: Loue trout in vin jaune, morels, Comté from the plateau and home-made desserts. Set lunch menu on weekdays, à la carte in the evening and at weekends. Booking recommended on Saturday evenings and bank holidays; groups and family meals on request.',
+    },
+    de: {
+      tagline: 'Loue-Forelle und saisonale Küche, Terrasse am Fluss',
+      description:
+        'Am Ufer der Loue bietet das Relais im Sommer bis zu 80 Plätze auf der Terrasse. Küche mit regionalen Produkten: Loue-Forelle in Vin jaune, Morcheln, Comté vom Plateau und hausgemachte Desserts. Mittags unter der Woche Tagesmenü, abends und am Wochenende à la carte. Reservierung am Samstagabend und an Feiertagen empfohlen; Gruppen und Familienfeiern auf Anfrage.',
+    },
+  },
+  b6: {
+    en: {
+      tagline: 'Jura wines, local spirits and gift boxes',
+      description:
+        'An independent wine shop in the heart of Ornans: over 400 wines and spirits, including 120 Jura wines (savagnin, vin jaune, crémant), spirits from the valley and a fine selection of craft beers. Tastings on Saturdays, personalised gift boxes for individuals and companies, click & collect and delivery across the Val de Loue.',
+    },
+    de: {
+      tagline: 'Jura-Weine, Spirituosen der Region und Geschenkboxen',
+      description:
+        'Unabhängige Weinhandlung im Herzen von Ornans: über 400 Artikel, darunter 120 Jura-Weine (Savagnin, Vin jaune, Crémant), Spirituosen aus dem Tal und eine schöne Auswahl an Craft-Bieren. Verkostungen am Samstag, individuelle Geschenkboxen für Privat- und Firmenkunden, Click & Collect und Lieferung im Val de Loue.',
+    },
+  },
+  b9: {
+    en: {
+      tagline: 'Fine chocolates and the “Loue gourmande” box',
+      description:
+        'An artisan chocolate maker founded by Pierre Vuillemin: ganaches with herbs from the Jura mountains, old-style pralinés and the famous “galet de la Loue”. Everything is made in our workshop behind the shop, with fair-trade couverture chocolate. Custom gift boxes for companies and holidays, shipped anywhere in France.',
+    },
+    de: {
+      tagline: 'Feine Schokoladen und die Box „Loue gourmande“',
+      description:
+        'Handwerkliche Chocolaterie, gegründet von Pierre Vuillemin: Ganaches mit Kräutern aus dem Jura, Pralinés nach alter Art und der berühmte „Galet de la Loue“. Alles entsteht in unserer Werkstatt hinter dem Laden, mit Kuvertüre aus fairem Handel. Individuelle Geschenkboxen für Unternehmen und Feiertage, Versand in ganz Frankreich.',
+    },
+  },
+  b14: {
+    en: {
+      tagline: 'Absinthe and fruit brandies from the valley since 1920',
+      description:
+        'A family distillery since 1920 in Mouthier-Haute-Pierre, home of the cherry of the same name. Copper stills, absinthe distilled to the great-grandfather’s recipe, kirsch, gentian and pear brandies. Guided tours of the workshop with tasting, shop open Monday to Saturday and orders shipped within 48 hours.',
+    },
+    de: {
+      tagline: 'Absinth und Obstbrände aus dem Tal seit 1920',
+      description:
+        'Familienbrennerei seit 1920 in Mouthier-Haute-Pierre, der Heimat der gleichnamigen Kirsche. Kupferbrennblasen, Absinth nach dem Rezept des Urgroßvaters, Kirsch-, Enzian- und Birnenbrände. Führungen durch die Brennerei mit Verkostung, Laden von Montag bis Samstag geöffnet, Versand der Bestellungen innerhalb von 48 Stunden.',
+    },
+  },
+  b15: {
+    en: {
+      tagline: 'Country bistro opposite the Courbet museum',
+      description:
+        'Opposite the Courbet museum, a country bistro for your morning coffee as well as dinner: croûte aux morilles, Morteau sausage, sharing boards and wine by the glass. Terrace on the square in fine weather, live music on the first Friday of the month.',
+    },
+    de: {
+      tagline: 'Landbistro gegenüber dem Courbet-Museum',
+      description:
+        'Gegenüber dem Courbet-Museum ein Landbistro für den Morgenkaffee wie für das Abendessen: Croûte aux morilles, Morteau-Wurst, Platten zum Teilen und offene Weine. Bei schönem Wetter Terrasse auf dem Platz, Konzerte am ersten Freitag im Monat.',
+    },
+  },
+};

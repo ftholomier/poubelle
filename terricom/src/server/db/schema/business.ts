@@ -5,6 +5,10 @@ import { companyMemberRole, establishmentStatus, planKey, recordOrigin } from '.
 import { attributes, categories, communes, territories } from './tenancy';
 import { users } from './users';
 
+/** Traductions d'une fiche (module MULTILINGUAL) : texte traduit et empreinte du texte français d'origine. */
+export type EstablishmentTranslations = Partial<
+  Record<'en' | 'de', { tagline?: string; description?: string; hash?: string; source?: 'ai' | 'manual'; translatedAt?: string }>
+>;
 export type Socials = {
   facebook?: string;
   instagram?: string;
@@ -122,7 +126,7 @@ export const establishments = pgTable(
       .notNull()
       .default(sql`'{}'::jsonb`),
     translations: jsonb()
-      .$type<Record<string, { description?: string; tagline?: string }>>()
+      .$type<EstablishmentTranslations>()
       .notNull()
       .default(sql`'{}'::jsonb`),
 

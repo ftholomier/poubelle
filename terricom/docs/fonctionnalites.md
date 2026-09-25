@@ -101,6 +101,7 @@ Deux niveaux : **territoire** (intercommunalité) et **commune** (mairie, périm
 | Circuits            | Parcours, étapes, tampons imprimables                                                                                                                    |
 | Statistiques        | Audience du portail, rapport PDF, export CSV                                                                                                             |
 | Personnalisation    | Couleurs, logo, textes, blocs de l’accueil, domaine personnalisé, rôles et invitations, catégories propres au territoire (renommer, masquer, créer)      |
+| Langues du portail  | Traductions des textes du portail (anglais, allemand), proposition par l’IA, avancement et traduction des fiches (module Multilingue)                    |
 | API & données       | Clés de l’API publique (création, révocation), documentation                                                                                             |
 
 ## Console plateforme (S1–S5)
@@ -127,6 +128,24 @@ Lecture seule des données publiées d’un territoire, clé par usage : voir [a
 - **Notifications push** (« Mon compte » → Notifications, par appareil) : nouveaux messages et réponses aux
   formulaires, demandes de rendez-vous, candidatures pour les professionnels ; revendications à valider pour
   les agents du territoire et de la commune. Un essai peut être envoyé depuis la page.
+
+## Portail multilingue (module `MULTILINGUAL`)
+
+- **Langues** : français (par défaut), anglais, allemand. Le visiteur choisit sa langue dans l’en-tête ; le
+  choix est mémorisé (cookie `tc_lang`) et chaque page a une adresse par langue (`?lang=en`), annoncée aux
+  moteurs de recherche (liens `hreflang`, adresse canonique propre à chaque langue, plan du site).
+- **Interface traduite** : menus, filtres, horaires (« Open · 19:00 », jours de la semaine), dates, catégories,
+  services et labels, types d’événements et de contrats, formulaires, messages de confirmation, pages de
+  confirmation et de désinscription, emails de double validation envoyés aux visiteurs.
+- **Contenus** : les textes de la collectivité sont traduits dans « Langues du portail » (saisie ou proposition
+  par l’IA, à relire) ; l’accroche et la description des fiches sont traduites par l’IA après chaque
+  modification (tâche de fond `i18n.translate`), le professionnel peut rédiger sa propre version (prioritaire)
+  depuis « Ma fiche ».
+- **Repli** : sans IA (clé absente, quota atteint, refus), le texte français est affiché avec la mention
+  « Texte original en français ». Les pages légales restent en français, qui fait foi, avec un avertissement
+  dans la langue du visiteur. Les publications, événements et offres d’emploi restent dans la langue de leur
+  auteur.
+- Les espaces professionnel, collectivité et console restent en français.
 
 ## Marque blanche
 

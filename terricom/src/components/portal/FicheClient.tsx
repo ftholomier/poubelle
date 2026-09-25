@@ -6,12 +6,14 @@ import { Modal, useToast } from '@/components/ui/Feedback';
 import { Icon } from '@/components/ui/Icon';
 import { Photo } from '@/components/ui/Photo';
 import { sendBeacon } from './Beacon';
+import { useT } from './I18n';
 
 type GalleryPhoto = { src: string; large: string; alt: string };
 
 /** Galerie de la fiche (1 grande + 4 vignettes) avec visionneuse plein écran. */
 export function FicheGallery({ photos, stamp, color, name }: { photos: GalleryPhoto[]; stamp?: string | null; color: string; name: string }) {
   const [index, setIndex] = useState<number | null>(null);
+  const t = useT();
   const shown = photos.slice(0, 5);
   const extra = photos.length - shown.length;
 
@@ -65,7 +67,7 @@ export function FicheGallery({ photos, stamp, color, name }: { photos: GalleryPh
             key={p.src + i}
             type="button"
             onClick={() => setIndex(i)}
-            aria-label={`Agrandir la photo ${i + 1} sur ${photos.length}`}
+            aria-label={t('fc.enlarge', { i: i + 1, n: photos.length })}
             style={{
               position: 'relative',
               border: 0,
@@ -110,13 +112,13 @@ export function FicheGallery({ photos, stamp, color, name }: { photos: GalleryPh
                   fontWeight: 700,
                 }}
               >
-                + {extra} photo{extra > 1 ? 's' : ''}
+                {t.n('fc.morePhotos', extra)}
               </span>
             ) : null}
           </button>
         ))}
       </div>
-      <Modal open={index !== null} onClose={() => setIndex(null)} label={`Photos de ${name}`} width="min(1100px, 100%)" height="min(820px, 100%)">
+      <Modal open={index !== null} onClose={() => setIndex(null)} label={t('fc.photosOf', { name })} width="min(1100px, 100%)" height="min(820px, 100%)">
         {index !== null ? (
           <div style={{ position: 'relative', flex: 1, background: 'var(--ink)', display: 'grid', placeItems: 'center', minHeight: 0 }}>
             <img src={photos[index].large} alt={photos[index].alt} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' }} />
@@ -124,7 +126,7 @@ export function FicheGallery({ photos, stamp, color, name }: { photos: GalleryPh
               <span className="pill" style={{ background: 'rgba(255,255,255,.9)', color: 'var(--ink)' }}>
                 {index + 1} / {photos.length}
               </span>
-              <button type="button" className="btn btn-light btn-sm" onClick={() => setIndex(null)} aria-label="Fermer">
+              <button type="button" className="btn btn-light btn-sm" onClick={() => setIndex(null)} aria-label={t('common.close')}>
                 <Icon name="x" size={16} />
               </button>
             </div>
@@ -133,7 +135,7 @@ export function FicheGallery({ photos, stamp, color, name }: { photos: GalleryPh
                 <button
                   type="button"
                   className="btn btn-light btn-sm"
-                  aria-label="Photo précédente"
+                  aria-label={t('fc.prev')}
                   onClick={() => setIndex((index - 1 + photos.length) % photos.length)}
                   style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }}
                 >
@@ -142,7 +144,7 @@ export function FicheGallery({ photos, stamp, color, name }: { photos: GalleryPh
                 <button
                   type="button"
                   className="btn btn-light btn-sm"
-                  aria-label="Photo suivante"
+                  aria-label={t('fc.next')}
                   onClick={() => setIndex((index + 1) % photos.length)}
                   style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)' }}
                 >
@@ -176,6 +178,7 @@ export function FicheActions({
   name: string;
 }) {
   const toast = useToast();
+  const t = useT();
   const track = (type: string) => sendBeacon({ type, establishmentId, territoryId });
   const share = async () => {
     track('SHARE_CLICK');
@@ -185,7 +188,7 @@ export function FicheActions({
         return;
       }
       await navigator.clipboard.writeText(shareUrl);
-      toast('Lien copié : collez-le où vous voulez.');
+      toast(t('fc.linkCopied'));
     } catch {
       /* partage annulé */
     }
@@ -205,11 +208,11 @@ export function FicheActions({
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
       {phone ? (
         <a href={`tel:${phone.replace(/[^+\d]/g, '')}`} className="btn btn-brand" style={primary} onClick={() => track('PHONE_CLICK')}>
-          Appeler
+          {t('fc.call')}
         </a>
       ) : (
         <span className="btn btn-brand" style={{ ...primary, opacity: 0.45 }} aria-disabled="true">
-          Appeler
+          {t('fc.call')}
         </span>
       )}
       {directionsUrl ? (
@@ -221,24 +224,24 @@ export function FicheActions({
           style={{ ...primary, border: '1.5px solid var(--ink)' }}
           onClick={() => track('DIRECTIONS_CLICK')}
         >
-          Itinéraire
+          {t('fc.directions')}
         </a>
       ) : (
         <span className="btn btn-outline" style={{ ...primary, opacity: 0.45 }} aria-disabled="true">
-          Itinéraire
+          {t('fc.directions')}
         </span>
       )}
       {website ? (
         <a href={website} target="_blank" rel="noopener noreferrer" className="btn" style={secondary} onClick={() => track('WEBSITE_CLICK')}>
-          Site web
+          {t('fc.website')}
         </a>
       ) : (
         <span className="btn" style={{ ...secondary, color: 'var(--faint)' }} aria-disabled="true">
-          Site web
+          {t('fc.website')}
         </span>
       )}
       <button type="button" className="btn" style={secondary} onClick={share}>
-        Partager
+        {t('fc.share')}
       </button>
     </div>
   );
@@ -247,25 +250,26 @@ export function FicheActions({
 /** « Envoyer un message » : un champ, puis les coordonnées une fois la saisie commencée. */
 export function ContactCard({ establishmentId, name }: { establishmentId: string; name: string }) {
   const [state, action, pending] = useActionState<FormState, FormData>(sendContactMessage, { status: 'idle' });
+  const t = useT();
   const [body, setBody] = useState('');
   const expanded = body.trim().length > 0;
   if (state.status === 'ok') {
     return (
       <div className="card" style={{ borderRadius: 18, padding: 20, display: 'flex', flexDirection: 'column', gap: 10 }} role="status">
         <span className="stamp" style={{ alignSelf: 'flex-start' }}>
-          Message envoyé !
+          {t('fc.msgSent')}
         </span>
-        <div style={{ fontSize: 14, lineHeight: 1.5 }}>{state.message ?? `${name} vous répondra directement.`}</div>
+        <div style={{ fontSize: 14, lineHeight: 1.5 }}>{state.message ?? t('fc.replyDirect', { name })}</div>
       </div>
     );
   }
   return (
     <form action={action} className="card" style={{ borderRadius: 18, padding: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <div style={{ fontWeight: 700 }}>Envoyer un message</div>
+      <div style={{ fontWeight: 700 }}>{t('fc.sendMessage')}</div>
       <input type="hidden" name="establishmentId" value={establishmentId} />
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="sr-only" aria-hidden="true" />
       <label htmlFor="contact-body" className="sr-only">
-        Votre message
+        {t('fc.yourMessage')}
       </label>
       {expanded ? (
         <textarea
@@ -280,25 +284,18 @@ export function ContactCard({ establishmentId, name }: { establishmentId: string
           autoFocus
         />
       ) : (
-        <input
-          id="contact-body"
-          name="body"
-          className="input"
-          placeholder="Votre question, une commande…"
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-        />
+        <input id="contact-body" name="body" className="input" placeholder={t('fc.msgPlaceholder')} value={body} onChange={(e) => setBody(e.target.value)} />
       )}
       {expanded ? (
         <>
-          <input name="name" className="input" placeholder="Votre nom" autoComplete="name" required maxLength={120} />
+          <input name="name" className="input" placeholder={t('fc.yourName')} aria-label={t('fc.yourName')} autoComplete="name" required maxLength={120} />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-            <input name="email" type="email" className="input" placeholder="Email" autoComplete="email" maxLength={254} />
-            <input name="phone" type="tel" className="input" placeholder="Téléphone" autoComplete="tel" maxLength={32} />
+            <input name="email" type="email" className="input" placeholder={t('fc.email')} aria-label={t('fc.email')} autoComplete="email" maxLength={254} />
+            <input name="phone" type="tel" className="input" placeholder={t('fc.phone')} aria-label={t('fc.phone')} autoComplete="tel" maxLength={32} />
           </div>
           <label className="checkbox" style={{ fontSize: 12, color: 'var(--muted)' }}>
             <input type="checkbox" name="consent" required />
-            <span>J&apos;accepte que mes coordonnées soient transmises à {name} pour me répondre.</span>
+            <span>{t('fc.msgConsent', { name })}</span>
           </label>
         </>
       ) : null}
@@ -308,7 +305,7 @@ export function ContactCard({ establishmentId, name }: { establishmentId: string
         </div>
       ) : null}
       <button type="submit" className="btn btn-brand" disabled={pending || !expanded} style={{ padding: 11, borderRadius: 10, justifyContent: 'center' }}>
-        {pending ? 'Envoi…' : 'Envoyer'}
+        {pending ? t('common.sending') : t('common.send')}
       </button>
     </form>
   );
@@ -327,11 +324,12 @@ export function AppointmentCard({
   minDate: string;
 }) {
   const [state, action, pending] = useActionState<FormState, FormData>(requestAppointment, { status: 'idle' });
+  const t = useT();
   const [open, setOpen] = useState(false);
   if (state.status === 'ok') {
     return (
       <div className="card" style={{ borderRadius: 20, padding: 20 }} role="status">
-        <span className="stamp">Demande envoyée !</span>
+        <span className="stamp">{t('fc.requestSent')}</span>
         <p style={{ fontSize: 14, margin: '10px 0 0' }}>{state.message}</p>
       </div>
     );
@@ -339,38 +337,38 @@ export function AppointmentCard({
   return (
     <div className="card" style={{ borderRadius: 20, padding: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
-        <b style={{ fontSize: 16 }}>Prendre rendez-vous</b>
+        <b style={{ fontSize: 16 }}>{t('fc.booking')}</b>
         <Icon name="calendar" size={18} />
       </div>
       {info ? <div style={{ fontSize: 13, color: 'var(--muted)' }}>{info}</div> : null}
       {!open ? (
         <button type="button" className="btn btn-dark" onClick={() => setOpen(true)} style={{ justifyContent: 'center' }}>
-          Choisir un créneau
+          {t('fc.chooseSlot')}
         </button>
       ) : (
         <form action={action} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <input type="hidden" name="establishmentId" value={establishmentId} />
           <input type="text" name="website" tabIndex={-1} autoComplete="off" className="sr-only" aria-hidden="true" />
           {services.length ? (
-            <select name="service" className="select" defaultValue="">
-              <option value="">Motif du rendez-vous</option>
+            <select name="service" className="select" defaultValue="" aria-label={t('fc.reason')}>
+              <option value="">{t('fc.reason')}</option>
               {services.map((s) => (
                 <option key={s}>{s}</option>
               ))}
             </select>
           ) : (
-            <input name="service" className="input" placeholder="Motif (ex. révision, devis…)" maxLength={200} />
+            <input name="service" className="input" placeholder={t('fc.reasonPlaceholder')} aria-label={t('fc.reason')} maxLength={200} />
           )}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-            <input name="date" type="date" className="input" min={minDate} required aria-label="Date souhaitée" />
-            <input name="time" type="time" className="input" min="07:00" max="20:00" step={900} required aria-label="Heure souhaitée" />
+            <input name="date" type="date" className="input" min={minDate} required aria-label={t('fc.date')} />
+            <input name="time" type="time" className="input" min="07:00" max="20:00" step={900} required aria-label={t('fc.time')} />
           </div>
-          <input name="fullName" className="input" placeholder="Prénom et nom" autoComplete="name" required />
-          <input name="email" type="email" className="input" placeholder="Email" autoComplete="email" required />
-          <input name="phone" type="tel" className="input" placeholder="Téléphone (facultatif)" autoComplete="tel" />
+          <input name="fullName" className="input" placeholder={t('fc.fullName')} aria-label={t('fc.fullName')} autoComplete="name" required />
+          <input name="email" type="email" className="input" placeholder={t('fc.email')} aria-label={t('fc.email')} autoComplete="email" required />
+          <input name="phone" type="tel" className="input" placeholder={t('fc.phoneOptional')} aria-label={t('fc.phoneOptional')} autoComplete="tel" />
           <label className="checkbox" style={{ fontSize: 12, color: 'var(--muted)' }}>
             <input type="checkbox" name="consent" required />
-            <span>J&apos;accepte que ces informations soient transmises au professionnel pour organiser le rendez-vous.</span>
+            <span>{t('fc.bookingConsent')}</span>
           </label>
           {state.status === 'error' ? (
             <div className="alert alert-error" role="alert">
@@ -378,9 +376,9 @@ export function AppointmentCard({
             </div>
           ) : null}
           <button type="submit" className="btn btn-brand" disabled={pending} style={{ justifyContent: 'center' }}>
-            {pending ? 'Envoi…' : 'Envoyer la demande'}
+            {pending ? t('common.sending') : t('fc.sendRequest')}
           </button>
-          <div style={{ fontSize: 11, color: 'var(--muted)' }}>Le professionnel confirme le créneau par email.</div>
+          <div style={{ fontSize: 11, color: 'var(--muted)' }}>{t('fc.confirmByEmail')}</div>
         </form>
       )}
     </div>
@@ -390,6 +388,7 @@ export function AppointmentCard({
 /** Onglets d'ancrage de la fiche, avec suivi de la section visible. */
 export function FicheTabs({ tabs }: { tabs: { id: string; label: string }[] }) {
   const [active, setActive] = useState(tabs[0]?.id);
+  const tr = useT();
   useEffect(() => {
     const els = tabs.map((t) => document.getElementById(t.id)).filter(Boolean) as HTMLElement[];
     const obs = new IntersectionObserver(
@@ -403,7 +402,7 @@ export function FicheTabs({ tabs }: { tabs: { id: string; label: string }[] }) {
     return () => obs.disconnect();
   }, [tabs]);
   return (
-    <nav className="fiche-tabs" aria-label="Sections de la fiche">
+    <nav className="fiche-tabs" aria-label={tr('fc.sections')}>
       {tabs.map((t) => (
         <a key={t.id} href={`#${t.id}`} className={active === t.id ? 'is-active' : undefined} aria-current={active === t.id ? 'true' : undefined}>
           {t.label}

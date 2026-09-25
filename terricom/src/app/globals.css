@@ -2921,3 +2921,92 @@ p {
   font-weight: 700;
   color: var(--muted);
 }
+
+/* Sélecteur de langue du portail (module multilingue) */
+.lang-switch {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px;
+  background: var(--paper);
+}
+.lang-switch button {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted-2);
+  padding: 5px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.lang-switch button[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--cream);
+}
+.lang-switch button:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 1px;
+}
+
+/* Back-office : traductions des textes du portail */
+.i18n-row {
+  border: 0;
+  border-top: 1px solid var(--line-2);
+  margin: 0;
+  padding: 12px 0 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.i18n-row legend {
+  font-weight: 700;
+  font-size: 14px;
+  padding: 0;
+  float: left;
+  margin-bottom: 2px;
+}
+.i18n-row legend + * {
+  clear: both;
+}
+.i18n-source,
+.i18n-input {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+}
+.i18n-source {
+  font-size: 13px;
+  color: var(--muted);
+  white-space: pre-line;
+  line-height: 1.45;
+}
+.i18n-lang {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  background: var(--sand);
+  border-radius: 6px;
+  padding: 3px 0;
+  text-align: center;
+  align-self: start;
+  margin-top: 6px;
+}
+.i18n-source .i18n-lang {
+  margin-top: 0;
+}
+
+/* Traductions de la fiche (espace pro) : largeur de la colonne principale de l'éditeur */
+.fiche-translations {
+  max-width: calc(100% - 382px);
+  margin-top: 18px;
+}
+@media (max-width: 980px) {
+  .fiche-translations {
+    max-width: none;
+  }
+}

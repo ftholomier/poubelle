@@ -74,6 +74,10 @@ export function proxy(req: NextRequest) {
   requestHeaders.set('content-security-policy', csp);
   requestHeaders.set('x-pathname', url.pathname);
   requestHeaders.delete('x-terricom-portal-mode');
+  // Langue demandée par l'adresse (?lang=en) : lue par les composants serveur du portail.
+  requestHeaders.delete('x-terricom-lang');
+  const lang = url.searchParams.get('lang');
+  if (lang && /^(fr|en|de)$/.test(lang)) requestHeaders.set('x-terricom-lang', lang);
 
   let res: NextResponse;
   if (mode.kind === 'territory' && !PASSTHROUGH.test(url.pathname)) {

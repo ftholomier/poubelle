@@ -27,6 +27,8 @@ export type OpenStatus = {
   openTonight: boolean;
   /** Aucune donnée d'horaires */
   unknown: boolean;
+  /** Données brutes pour les libellés traduits : minutes depuis minuit, décalage en jours, jour (0 = lundi). */
+  raw?: { untilMin?: number | null; nextMin?: number; nextOffset?: number; nextWeekday?: number; temporarilyClosed?: boolean };
 };
 
 const toMin = (t: string) => {
@@ -126,6 +128,7 @@ export function openStatus(hours: HoursSlot[], exceptions: HoursException[], now
       longLabel: untilLabel ? `Ouvert maintenant · ferme à ${untilLabel}` : 'Ouvert maintenant',
       openTonight,
       unknown: false,
+      raw: { untilMin: until },
     };
   }
 
@@ -144,6 +147,7 @@ export function openStatus(hours: HoursSlot[], exceptions: HoursException[], now
         longLabel: `Fermé · ouvre ${when ? `${when} ` : ''}à ${time}`,
         openTonight,
         unknown: false,
+        raw: { nextMin: slots[0].from, nextOffset: offset, nextWeekday: weekdayOf(date) },
       };
     }
   }
@@ -155,18 +159,24 @@ export function openStatus(hours: HoursSlot[], exceptions: HoursException[], now
     longLabel: 'Fermé temporairement',
     openTonight: false,
     unknown: false,
+    raw: { temporarilyClosed: true },
   };
 }
 
-/** Lignes du tableau d'horaires hebdomadaire (Lundi … Dimanche). */
-export function weeklyRows(hours: HoursSlot[], now: Date = new Date()): { day: string; label: string; isToday: boolean; closed: boolean }[] {
+/** Lignes du tableau d'horaires hebdomadaire (Lundi … Dimanche), libellés français par défaut. */
+export function weeklyRows(
+  hours: HoursSlot[],
+  now: Date = new Date(),
+  opts: { dayNames?: readonly string[]; closed?: string; time?: (t: string) => string } = {},
+): { day: string; label: string; isToday: boolean; closed: boolean }[] {
   const todayWd = parisParts(now).weekday;
-  return WEEKDAYS.map((day, wd) => {
+  const time = opts.time ?? fmtTime;
+  return (opts.dayNames ?? WEEKDAYS).map((day, wd) => {
     const slots = hours
       .filter((h) => h.weekday === wd)
       .sort((a, b) => toMin(a.opensAt) - toMin(b.opensAt))
-      .map((h) => `${fmtTime(h.opensAt)} – ${fmtTime(h.closesAt)}`);
-    return { day, label: slots.length ? slots.join(', ') : 'Fermé', isToday: wd === todayWd, closed: !slots.length };
+      .map((h) => `${time(h.opensAt)} – ${time(h.closesAt)}`);
+    return { day, label: slots.length ? slots.join(', ') : (opts.closed ?? 'Fermé'), isToday: wd === todayWd, closed: !slots.length };
   });
 }
 

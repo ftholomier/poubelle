@@ -26,6 +26,14 @@ async function main() {
   const R = await import('./seed/random');
   const { OTHER_TERRITORIES, DEALS } = await import('./seed/territories');
   const { completeSiret } = await import('@/server/integrations/public-data');
+  const { sourceHash } = await import('@/server/services/translations');
+  /** Traductions de démonstration, marquées à jour (empreinte du texte français). */
+  const listingTranslations = (key: string, tagline: string | null, description: string | null) => {
+    const hash = sourceHash({ tagline: tagline ?? '', description: description ?? '' });
+    const x = D.LISTING_TRANSLATIONS[key];
+    const at = new Date().toISOString();
+    return { en: { ...x.en, hash, source: 'ai' as const, translatedAt: at }, de: { ...x.de, hash, source: 'ai' as const, translatedAt: at } };
+  };
   /** SIRET des maquettes, avec une clé de contrôle valide. */
   const fixSiret = (s: string) => completeSiret(s.slice(0, 13));
 
@@ -259,6 +267,7 @@ async function main() {
         livingTitle: 'Une rivière, des forêts, et 20 minutes de Besançon.',
         livingText: 'Logement, écoles, transport : la collectivité vous accompagne pour vous installer.',
         directionsProvider: 'google',
+        translations: D.TERRITORY_TRANSLATIONS,
       },
       quotaEstablishments: 1500,
       quotaEmailsMonthly: 40000,
@@ -274,7 +283,7 @@ async function main() {
     (['PORTAL', 'MAP', 'NEWSLETTER', 'IMPORT', 'CAMPAIGNS', 'AI', 'CIRCUITS', 'JOBS', 'APPOINTMENTS', 'MULTILINGUAL'] as const).map((m) => ({
       territoryId: vdl.id,
       module: m,
-      enabled: m !== 'MULTILINGUAL',
+      enabled: true,
     })),
   );
   const [madeIn] = await db
@@ -521,6 +530,7 @@ async function main() {
         activityLabel: e.activity,
         tagline: e.tagline ?? null,
         description: e.description,
+        translations: D.LISTING_TRANSLATIONS[e.key] ? listingTranslations(e.key, e.tagline ?? null, e.description) : {},
         street: e.street,
         postalCode: commune.postalCodes[0],
         lat: e.lat,

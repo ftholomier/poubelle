@@ -11,6 +11,8 @@ export type CircuitStopView = {
   position: number;
   name: string;
   activity: string;
+  /** Catégorie de l'étape (traduction de l'activité sur le portail multilingue). */
+  categorySlug?: string;
   communeName: string;
   color: string;
   coverUrl: string | null;
@@ -64,6 +66,7 @@ export async function getCircuitDetail(territoryId: string, slug: string) {
       position: s.position,
       name: e?.name ?? s.name ?? `Étape ${s.position + 1}`,
       activity: e?.activityLabel ?? k?.name ?? '',
+      categorySlug: k?.slug,
       communeName: c?.name ?? '',
       color: k ? FAMILIES[k.family as Family].color : '#1F6B52',
       coverUrl: e?.coverUrl ?? null,

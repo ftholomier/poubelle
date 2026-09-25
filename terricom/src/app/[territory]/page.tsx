@@ -7,7 +7,10 @@ import { MapView } from '@/components/maps/MapView';
 import { Photo } from '@/components/ui/Photo';
 import { sized } from '@/lib/images';
 import { FAMILIES, FAMILY_ORDER } from '@/lib/constants';
-import { fmtInt, fmtLongDate } from '@/lib/format';
+import { fmtInt } from '@/lib/format';
+import { FAMILY_NAMES, longDateL } from '@/lib/i18n/format';
+import { territoryText } from '@/lib/i18n/territory';
+import { portalT } from '@/server/i18n';
 import type { HomeBlock } from '@/server/db/schema';
 import { allCards, countOpenJobs, getCircuits, getFeed, getPortal, toMapPoints } from '@/server/services/portal';
 import { portalUrl } from '@/server/urls';
@@ -38,6 +41,8 @@ export default async function TerritoryHome({ params }: Props) {
   const { territory: param } = await params;
   const portal = await getPortal(param);
   const { territory: t, base, modules, featuredCampaign: camp } = portal;
+  const tr = await portalT(portal);
+  const L = tr.locale;
   const blocks = new Set(t.homeBlocks as HomeBlock[]);
   const [cards, feed, circuits, jobsCount] = await Promise.all([
     allCards(t.id),
@@ -53,14 +58,18 @@ export default async function TerritoryHome({ params }: Props) {
     ...withPhoto.filter((c) => !c.open.open && c.isFeatured),
     ...withPhoto.filter((c) => !c.open.open && !c.isFeatured && c.open.next),
   ].slice(0, 4);
-  const settings = t.settings as { newsletterName?: string; jobsTitle?: string };
-  const newsletterName = settings.newsletterName ?? `La lettre de ${t.name}`;
+  const newsletterName = territoryText(t, 'newsletterName', L) ?? tr('home.newsletterDefault', { name: t.name });
+  // Les requêtes restent en français : la recherche du portail les comprend quelle que soit la langue affichée.
   const prompts = [
-    { label: '✦ Où offrir local pour Noël ?', query: 'où offrir local pour noël' },
-    { label: '✦ Restaurants ouverts ce soir', query: 'quels restaurants ouverts ce soir' },
-    { label: `✦ Réparer ma chaudière`, query: 'un artisan pour réparer ma chaudière' },
-    { label: 'Producteurs bio', query: 'bio' },
+    { label: tr('home.prompt.gift'), query: 'où offrir local pour noël' },
+    { label: tr('home.prompt.dinner'), query: 'quels restaurants ouverts ce soir' },
+    { label: tr('home.prompt.boiler'), query: 'un artisan pour réparer ma chaudière' },
+    { label: tr('home.prompt.organic'), query: 'bio' },
   ];
+  const dateOf = (d: string) => {
+    const s = longDateL(d, L);
+    return L === 'fr' ? s.replace(/^\w+ /, '').toLowerCase() : s.replace(/^[^ ]+ /, '');
+  };
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -92,9 +101,9 @@ export default async function TerritoryHome({ params }: Props) {
               {fmtInt(portal.prosCount)}
             </div>
             <div style={{ fontSize: 13, fontWeight: 600, marginTop: 4 }}>
-              pros près
+              {tr('home.prosNear.1')}
               <br />
-              de chez vous
+              {tr('home.prosNear.2')}
             </div>
           </div>
         </div>
@@ -114,7 +123,7 @@ export default async function TerritoryHome({ params }: Props) {
             }}
           >
             <span className="live-dot" style={{ background: 'var(--pulse)' }} />
-            {fmtInt(openCount)} {openCount > 1 ? 'commerces ouverts' : 'commerce ouvert'} en ce moment
+            {tr.n('home.openNow', openCount, { n: fmtInt(openCount) })}
           </div>
           <h1
             className="text-balance"
@@ -128,9 +137,9 @@ export default async function TerritoryHome({ params }: Props) {
               maxWidth: 960,
             }}
           >
-            <HeroTitle text={t.heroTitle ?? `${t.name},|fait main & fait ici.`} />
+            <HeroTitle text={territoryText(t, 'heroTitle', L) ?? tr('home.heroDefault', { name: t.name })} />
           </h1>
-          <p style={{ fontSize: 19, maxWidth: 560, margin: '0 0 28px', color: '#E5ECE8', lineHeight: 1.45 }}>{t.heroSubtitle}</p>
+          <p style={{ fontSize: 19, maxWidth: 560, margin: '0 0 28px', color: '#E5ECE8', lineHeight: 1.45 }}>{territoryText(t, 'heroSubtitle', L)}</p>
           {blocks.has('search') ? <HeroSearch base={base} prompts={prompts} /> : null}
         </div>
       </section>
@@ -138,17 +147,17 @@ export default async function TerritoryHome({ params }: Props) {
       {blocks.has('openNow') && openCards.length ? (
         <section className="container" style={{ paddingTop: 56, paddingBottom: 20 }}>
           <SectionHead
-            eyebrow="Maintenant"
-            title={openCards.some((c) => c.open.open) ? 'Ouvert près de vous' : 'Bientôt ouvert près de vous'}
+            eyebrow={tr('home.now')}
+            title={openCards.some((c) => c.open.open) ? tr('home.openNear') : tr('home.soonOpen')}
             action={
               <Link href={`${base}/explorer`} style={{ fontWeight: 700 }}>
-                Tout voir sur la carte →
+                {tr('home.seeMap')}
               </Link>
             }
           />
           <div className="auto-grid" style={{ ['--min' as string]: '260px' }}>
             {openCards.map((e) => (
-              <OpenCard key={e.id} e={e} base={base} />
+              <OpenCard key={e.id} e={e} base={base} L={L} />
             ))}
           </div>
         </section>
@@ -171,18 +180,18 @@ export default async function TerritoryHome({ params }: Props) {
                   letterSpacing: '.04em',
                 }}
               >
-                CAMPAGNE DU TERRITOIRE
+                {tr('home.campaignTag')}
               </span>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(34px,4vw,56px)', lineHeight: 0.95, letterSpacing: '-0.03em' }}>
                 {camp.name}
               </div>
               <div style={{ fontSize: 16, color: camp.colorTextSoft, maxWidth: 420 }}>{camp.description}</div>
               <div style={{ fontSize: 13, fontWeight: 700, color: camp.colorTextSoft }}>
-                Du {fmtLongDate(camp.startsAt).replace(/^\w+ /, '').toLowerCase()} au {fmtLongDate(camp.endsAt).replace(/^\w+ /, '').toLowerCase()}
+                {tr('home.campaignDates', { from: dateOf(camp.startsAt), to: dateOf(camp.endsAt) })}
               </div>
               <div style={{ display: 'flex', gap: 10, marginTop: 6 }}>
                 <span style={{ background: camp.colorText, color: camp.colorBg, padding: '11px 18px', borderRadius: 12, fontWeight: 700 }}>
-                  {camp.ctaLabel ?? 'Découvrir la campagne'}
+                  {(L === 'fr' ? camp.ctaLabel : null) ?? tr('home.campaignCta')}
                 </span>
               </div>
             </div>
@@ -194,14 +203,13 @@ export default async function TerritoryHome({ params }: Props) {
       {blocks.has('map') && modules.has('MAP') ? (
         <section className="container split" style={{ ['--cols' as string]: 'minmax(0,1fr) minmax(0,1.4fr)', paddingTop: 30, paddingBottom: 30 }}>
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16 }}>
-            <div className="eyebrow">La carte vivante</div>
+            <div className="eyebrow">{tr('home.mapEyebrow')}</div>
             <h2 className="h-section" style={{ lineHeight: 1 }}>
-              Tout le territoire,
-              <br />à portée de clic.
+              {tr('home.mapTitle.1')}
+              <br />
+              {tr('home.mapTitle.2')}
             </h2>
-            <p style={{ fontSize: 16, color: 'var(--muted)', lineHeight: 1.5 }}>
-              Commerces, artisans, producteurs, marchés et événements : une carte libre basée sur OpenStreetMap, filtrable en un geste.
-            </p>
+            <p style={{ fontSize: 16, color: 'var(--muted)', lineHeight: 1.5 }}>{tr('home.mapText')}</p>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {FAMILY_ORDER.map((f) => (
                 <Link
@@ -221,13 +229,13 @@ export default async function TerritoryHome({ params }: Props) {
                   }}
                 >
                   <span className="chip-dot" style={{ width: 10, height: 10, background: FAMILIES[f].color }} />
-                  {FAMILIES[f].label}
+                  {L === 'fr' ? FAMILIES[f].label : FAMILY_NAMES[L][f].label}
                 </Link>
               ))}
             </div>
             <div>
               <Link href={`${base}/explorer`} className="btn btn-dark">
-                Explorer la carte
+                {tr('home.mapCta')}
               </Link>
             </div>
           </div>
@@ -237,7 +245,7 @@ export default async function TerritoryHome({ params }: Props) {
               tileUrl={portal.mapConfig.tileUrl}
               attribution={portal.mapConfig.attribution}
               points={toMapPoints(cards, base)}
-              ariaLabel={`Carte des professionnels de ${t.name}`}
+              ariaLabel={tr('home.mapAria', { name: t.name })}
             />
           </div>
         </section>
@@ -246,17 +254,17 @@ export default async function TerritoryHome({ params }: Props) {
       {blocks.has('feed') && feed.length ? (
         <section className="container" style={{ paddingTop: 50, paddingBottom: 20 }}>
           <SectionHead
-            eyebrow="Le fil du territoire"
-            title="Quoi de neuf chez vos pros"
+            eyebrow={tr('home.feedEyebrow')}
+            title={tr('home.feedTitle')}
             action={
               <Link href={`${base}/actualites`} style={{ fontWeight: 700 }}>
-                Toutes les actualités →
+                {tr('home.feedAll')}
               </Link>
             }
           />
           <div className="auto-grid" style={{ ['--min' as string]: '300px' }}>
             {feed.map((f) => (
-              <FeedCard key={f.id} f={f} base={base} />
+              <FeedCard key={f.id} f={f} base={base} L={L} />
             ))}
           </div>
           <Beacon type="POST_VIEW" territoryId={t.id} refIds={feed.map((f) => f.id)} />
@@ -266,17 +274,17 @@ export default async function TerritoryHome({ params }: Props) {
       {circuits.length ? (
         <section className="container" style={{ paddingTop: 50, paddingBottom: 20 }}>
           <SectionHead
-            eyebrow="Balades"
-            title="Circuits à tamponner"
+            eyebrow={tr('home.circuitsEyebrow')}
+            title={tr('home.circuitsTitle')}
             action={
               <Link href={`${base}/circuits`} style={{ fontWeight: 700 }}>
-                Tous les circuits →
+                {tr('home.circuitsAll')}
               </Link>
             }
           />
           <div className="auto-grid" style={{ ['--min' as string]: '300px' }}>
             {circuits.map((c) => (
-              <CircuitCard key={c.id} c={c} href={`${base}/circuits/${c.slug}`} />
+              <CircuitCard key={c.id} c={c} href={`${base}/circuits/${c.slug}`} stopsLabel={tr.n('circuit.stops', c.stopCount)} />
             ))}
           </div>
         </section>
@@ -300,15 +308,13 @@ export default async function TerritoryHome({ params }: Props) {
                 }}
               >
                 <div className="eyebrow-800" style={{ color: 'var(--leaf-fg)' }}>
-                  {settings.jobsTitle ?? `Travailler à ${t.name}`}
+                  {territoryText(t, 'jobsTitle', L) ?? tr('home.jobsTitle', { name: t.name })}
                 </div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 64, lineHeight: 0.9, letterSpacing: '-0.04em' }}>
-                  {jobsCount} offre{jobsCount > 1 ? 's' : ''}
+                  {tr.n('home.jobs', jobsCount)}
                 </div>
-                <div style={{ fontSize: 16, color: 'var(--leaf-fg-2)', maxWidth: 360 }}>
-                  CDI, saisonniers, alternances : les entreprises d&apos;ici recrutent, à 20 minutes de chez vous.
-                </div>
-                <div style={{ marginTop: 'auto', fontWeight: 700 }}>Voir les offres →</div>
+                <div style={{ fontSize: 16, color: 'var(--leaf-fg-2)', maxWidth: 360 }}>{tr('home.jobsText')}</div>
+                <div style={{ marginTop: 'auto', fontWeight: 700 }}>{tr('home.jobsCta')}</div>
               </Link>
             ) : null}
             {blocks.has('newsletter') && modules.has('NEWSLETTER') ? (
@@ -319,14 +325,14 @@ export default async function TerritoryHome({ params }: Props) {
                   {newsletterName}
                 </div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 34, lineHeight: 1, letterSpacing: '-0.02em' }}>
-                  Le week-end local,
+                  {tr('home.newsletterTitle.1')}
                   <br />
-                  dans votre boîte mail.
+                  {tr('home.newsletterTitle.2')}
                 </div>
                 <NewsletterForm
                   territoryId={t.id}
                   communes={(await getTerritoryCommunes(t.id)).map((c) => ({ id: c.id, name: c.name }))}
-                  consentText={`J'accepte de recevoir la lettre d'information de ${t.name}. Mes données ne sont jamais revendues (RGPD).`}
+                  consentText={tr('home.newsletterConsent', { name: t.name })}
                 />
               </div>
             ) : null}

@@ -86,6 +86,9 @@ nouvelle option s’ajoute aussi à la console (`src/app/console/facturation/`) 
 | Menu du site de la marque modifié                                         | Classe `.site-nav` réutilisée                                                  | Préfixe `.est-nav`                                                                                  |
 | Nom accessible d’un champ trop long (le lecteur d’écran lit toute l’aide) | `<small>` d’aide placé dans le `<label>`                                       | `<small>` hors du label, relié par `aria-describedby`                                               |
 | Tableau des sections partagé modifié                                      | `push()` sur une constante exportée                                            | `visibleSections()` renvoie une copie                                                               |
+| Échec d’hydratation du portail traduit                                    | `<script nonce>` en ligne dans un composant (le navigateur masque le `nonce`)  | Composant client `HtmlLang` (effet) plutôt qu’un script en ligne                                    |
+| Règle ESLint `react-hooks/immutability` sur `document.cookie`             | Écriture d’une valeur globale dans le corps d’un composant                     | Fonction de module appelée par le gestionnaire (`switchTo`)                                         |
+| Action serveur en ligne qui échoue à la sérialisation                     | Fonction (traducteur `tr`) capturée par la fermeture                           | Ne capturer que des valeurs simples (`langParam`)                                                   |
 
 ## Application installable (PWA) et notifications
 
@@ -98,12 +101,40 @@ nouvelle option s’ajoute aussi à la console (`src/app/console/facturation/`) 
   (tests) refuse les notifications : lancer Playwright avec `channel: 'chromium'` pour obtenir l’autorisation ;
   l’abonnement reste impossible dans un contexte privé ou sans accès au service push (bac à sable).
 
+## Portail multilingue (i18n)
+
+- **Dictionnaire** : `src/lib/i18n/messages.ts` — objet `fr` de référence (`MessageKey`), `en` et `de` typés
+  `Record<MessageKey, string>` : une clé oubliée dans une langue est une **erreur de compilation**. Pluriels :
+  clés `.one` / `.other` et `t.n('clé', n)`. Variables : `{name}`.
+- **Traducteur** : `translator(locale)` (`src/lib/i18n/index.ts`) ; côté serveur `portalT(portal)`
+  (`src/server/i18n.ts`, langue lue dans `?lang=` via l’en-tête `x-terricom-lang` posé par le proxy, puis le
+  cookie `tc_lang`, français sans le module `MULTILINGUAL`) ; côté client `useT()` et `useLocale()`
+  (`src/components/portal/I18n.tsx`, fournisseur posé par la mise en page du portail).
+- **Formats** : fonctions `…L(…, locale)` de `src/lib/i18n/format.ts` (heures, dates, jours, pastilles
+  d’ouverture, catégories, services, types d’événements et de contrats, entiers) ; en français elles
+  renvoient exactement le rendu d’origine de la maquette.
+- **Textes de la collectivité** : `territoryText(t, clé, locale)` lit `settings.translations[locale]`, sinon le
+  français. Nouveau texte traduisible : l’ajouter à `TerritoryTexts` (schéma) et à `TERRITORY_TEXT_FIELDS`
+  (`src/server/services/translations.ts`).
+- **Fiches** : `establishments.translations` (`EstablishmentTranslations` : texte, empreinte `hash` du
+  français d’origine, `source` `ai` ou `manual`). La sauvegarde de la fiche appelle
+  `queueEstablishmentTranslation` (tâche `i18n.translate`, clé de déduplication liée à l’empreinte) ; sans IA
+  rien n’est mis en file et le français reste affiché (mention « Texte original en français »).
+- **SEO** : `withLang(url, locale)` pour les adresses canoniques, `OG_LOCALE` pour Open Graph ; `hreflang`
+  dans la mise en page du portail et dans `sitemap.xml`.
+- **Contenu rédigé en français** affiché sur une page traduite : lui mettre `lang="fr"` (lecteurs d’écran).
+  `<html lang>` est corrigé par `HtmlLang` ; le conteneur du portail porte déjà la langue.
+- Les espaces pro, collectivité et console restent en français (pas de `portalT` hors du portail).
+
 ## Tests
 
 - Unitaires (`tests/unit`) : formats, horaires, recherche, sécurité, couleurs et sections du mini-site,
   rendu des lettres d’entreprise, texte enrichi (pas d’interprétation HTML ni de lien `javascript:`).
 - Bout en bout (`tests/e2e`) : portail (recherche, filtres, mini-site, offre Essentiel), espaces de
   démonstration (pro Essentiel et Communication, collectivité, mairie, console), site, sécurité, mobile.
+- Multilingue (`tests/e2e/platform.spec.ts`) : langue par adresse, sélecteur mémorisé, fiche traduite, pages
+  légales, écran « Langues du portail ». `scripts/dev/i18n_scan.mjs <fichier-de-chemins> en|de` repère les
+  textes d’interface restés en français (hors contenus marqués `lang="fr"`).
 - Outils de vérification dans `scripts/dev/` (non versionnés) : `crawl.mjs` parcourt un espace et signale
   erreurs, textes suspects, débordements, défauts d’accessibilité (`SPACE=anon|pro|pro-communication|
 collectivite|commune|console`, `MOBILE=1`, `EXTRA=chemins`).

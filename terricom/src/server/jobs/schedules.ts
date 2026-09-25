@@ -46,4 +46,5 @@ export const QUEUE_LABELS: Record<QueueName, string> = {
   'billing.overdue': 'Factures échues',
   'domains.sync': 'Domaines personnalisés',
   'demo.reset': 'Réinitialisation démo',
+  'i18n.translate': 'Traduction des fiches (portail multilingue)',
 };

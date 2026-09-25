@@ -19,7 +19,7 @@ export function DemoBar({ active, right }: { active?: Space; right?: React.React
   if (!env.DEMO_MODE) return null;
   const base = env.APP_URL.replace(/\/$/, '');
   return (
-    <div className="no-print demo-bar">
+    <div className="no-print demo-bar" lang="fr">
       <a href={`${base}/`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: '#F7F4EC' }}>
         terricom<span style={{ color: '#F4B266' }}>.</span>
       </a>

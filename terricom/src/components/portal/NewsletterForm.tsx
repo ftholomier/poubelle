@@ -2,6 +2,7 @@
 
 import { useActionState } from 'react';
 import { subscribeNewsletter, type SubscribeState } from '@/app/[territory]/actions';
+import { useT } from './I18n';
 
 /** Inscription à la lettre du territoire (double opt-in, consentement explicite). */
 export function NewsletterForm({
@@ -17,6 +18,7 @@ export function NewsletterForm({
   dark?: boolean;
 }) {
   const [state, action, pending] = useActionState<SubscribeState, FormData>(subscribeNewsletter, { status: 'idle' });
+  const t = useT();
   if (state.status === 'ok') {
     return (
       <div style={{ background: 'var(--brand)', borderRadius: 12, padding: 14, fontWeight: 600, color: '#fff' }} role="status">
@@ -30,29 +32,29 @@ export function NewsletterForm({
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="sr-only" aria-hidden="true" />
       <div style={{ display: 'flex', gap: 8 }}>
         <label htmlFor="nl-email" className="sr-only">
-          Votre adresse email
+          {t('nl.email')}
         </label>
         <input
           id="nl-email"
           name="email"
           type="email"
           required
-          placeholder="votre@email.fr"
+          placeholder={t('nl.placeholder')}
           autoComplete="email"
           style={{ flex: 1, minWidth: 0, border: 0, borderRadius: 10, padding: 13, fontSize: 15 }}
         />
         <button type="submit" className="btn btn-amber" disabled={pending} style={{ borderRadius: 10, padding: '0 18px' }}>
-          {pending ? '…' : "S'inscrire"}
+          {pending ? '…' : t('nl.subscribe')}
         </button>
       </div>
       {communes.length > 1 ? (
         <select
           name="communeId"
           defaultValue=""
-          aria-label="Votre commune (facultatif)"
+          aria-label={t('nl.commune')}
           style={{ border: 0, borderRadius: 10, padding: '10px 12px', fontSize: 14, color: 'var(--text)', background: '#fff' }}
         >
-          <option value="">Ma commune (facultatif : pour les nouvelles près de chez moi)</option>
+          <option value="">{t('nl.communeNone')}</option>
           {communes.map((c) => (
             <option key={c.id} value={c.id}>
               {c.name}

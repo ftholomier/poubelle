@@ -134,34 +134,80 @@ export function memberInvitationTemplate(p: { to: string; inviter: string; compa
   return { to: p.to, subject: `Invitation à gérer ${p.companyName}`, html, text, template: 'member-invitation' };
 }
 
-export function newsletterConfirmTemplate(p: { to: string; territory: TerritoryLike; newsletterName: string; url: string }): OutgoingEmail {
-  const { html, text } = renderEmail({
-    brand: brandOf(p.territory),
-    eyebrow: p.newsletterName,
-    title: 'Confirmez votre inscription',
-    paragraphs: [
-      `Vous avez demandé à recevoir « ${p.newsletterName} » de ${p.territory.name}. Un clic pour confirmer (double validation, comme le veut le RGPD).`,
-      'Sans confirmation, aucun email ne vous sera envoyé et votre adresse sera effacée sous 30 jours.',
-    ],
-    cta: { label: 'Je confirme', url: p.url },
-    footer: 'Vos données ne sont jamais revendues. Désinscription en un clic depuis chaque lettre.',
-  });
-  return { to: p.to, subject: `Confirmez votre inscription à « ${p.newsletterName} »`, html, text, template: 'newsletter-confirm' };
+type VisitorLang = 'fr' | 'en' | 'de';
+
+/** Textes des emails de double validation envoyés aux visiteurs, dans la langue du portail. */
+const CONFIRM_TEXTS: Record<VisitorLang, Record<string, string>> = {
+  fr: {
+    nlTitle: 'Confirmez votre inscription',
+    nlIntro: 'Vous avez demandé à recevoir « {list} » de {territory}. Un clic pour confirmer (double validation, comme le veut le RGPD).',
+    nlFooter: 'Vos données ne sont jamais revendues. Désinscription en un clic depuis chaque lettre.',
+    nlSubject: 'Confirmez votre inscription à « {list} »',
+    followTitle: 'Confirmez votre abonnement',
+    followIntro: 'Vous avez demandé à recevoir les nouveautés et les offres de {name}. Un clic pour confirmer (double validation, comme le veut le RGPD).',
+    followFooter: 'Votre adresse n’est transmise qu’à {name}, jamais revendue. Désinscription en un clic depuis chaque email.',
+    followSubject: 'Confirmez votre abonnement à {name}',
+    noConfirm: 'Sans confirmation, aucun email ne vous sera envoyé et votre adresse sera effacée sous 30 jours.',
+    cta: 'Je confirme',
+  },
+  en: {
+    nlTitle: 'Confirm your subscription',
+    nlIntro: 'You asked to receive “{list}” from {territory}. One click to confirm (double opt-in, as required by the GDPR).',
+    nlFooter: 'Your details are never sold. Unsubscribe in one click from any issue.',
+    nlSubject: 'Confirm your subscription to “{list}”',
+    followTitle: 'Confirm your subscription',
+    followIntro: 'You asked to receive news and offers from {name}. One click to confirm (double opt-in, as required by the GDPR).',
+    followFooter: 'Your address is shared only with {name} and never sold. Unsubscribe in one click from any email.',
+    followSubject: 'Confirm your subscription to {name}',
+    noConfirm: 'Without confirmation, no email will be sent and your address will be deleted within 30 days.',
+    cta: 'Confirm',
+  },
+  de: {
+    nlTitle: 'Bestätigen Sie Ihre Anmeldung',
+    nlIntro: 'Sie möchten „{list}“ von {territory} erhalten. Ein Klick genügt zur Bestätigung (Double-Opt-in gemäß DSGVO).',
+    nlFooter: 'Ihre Daten werden niemals verkauft. Abmeldung mit einem Klick in jeder Ausgabe.',
+    nlSubject: 'Bestätigen Sie Ihre Anmeldung für „{list}“',
+    followTitle: 'Bestätigen Sie Ihr Abonnement',
+    followIntro: 'Sie möchten Neuheiten und Angebote von {name} erhalten. Ein Klick genügt zur Bestätigung (Double-Opt-in gemäß DSGVO).',
+    followFooter: 'Ihre Adresse wird nur an {name} weitergegeben und niemals verkauft. Abmeldung mit einem Klick in jeder E-Mail.',
+    followSubject: 'Bestätigen Sie Ihr Abonnement bei {name}',
+    noConfirm: 'Ohne Bestätigung erhalten Sie keine E-Mails, und Ihre Adresse wird innerhalb von 30 Tagen gelöscht.',
+    cta: 'Bestätigen',
+  },
+};
+
+function confirmText(lang: VisitorLang, key: string, vars: Record<string, string> = {}): string {
+  return CONFIRM_TEXTS[lang][key].replace(/\{(\w+)\}/g, (_, k: string) => vars[k] ?? '');
 }
 
-export function followConfirmTemplate(p: { to: string; territory: TerritoryLike; establishmentName: string; url: string }): OutgoingEmail {
+export function newsletterConfirmTemplate(p: { to: string; territory: TerritoryLike; newsletterName: string; url: string; lang?: VisitorLang }): OutgoingEmail {
+  const lang = p.lang ?? 'fr';
+  const vars = { list: p.newsletterName, territory: p.territory.name };
   const { html, text } = renderEmail({
     brand: brandOf(p.territory),
-    eyebrow: p.establishmentName,
-    title: 'Confirmez votre abonnement',
-    paragraphs: [
-      `Vous avez demandé à recevoir les nouveautés et les offres de ${p.establishmentName}. Un clic pour confirmer (double validation, comme le veut le RGPD).`,
-      'Sans confirmation, aucun email ne vous sera envoyé et votre adresse sera effacée sous 30 jours.',
-    ],
-    cta: { label: 'Je confirme', url: p.url },
-    footer: `Votre adresse n’est transmise qu’à ${p.establishmentName}, jamais revendue. Désinscription en un clic depuis chaque email.`,
+    lang,
+    eyebrow: p.newsletterName,
+    title: confirmText(lang, 'nlTitle'),
+    paragraphs: [confirmText(lang, 'nlIntro', vars), confirmText(lang, 'noConfirm')],
+    cta: { label: confirmText(lang, 'cta'), url: p.url },
+    footer: confirmText(lang, 'nlFooter'),
   });
-  return { to: p.to, subject: `Confirmez votre abonnement à ${p.establishmentName}`, html, text, template: 'follow-confirm' };
+  return { to: p.to, subject: confirmText(lang, 'nlSubject', vars), html, text, template: 'newsletter-confirm' };
+}
+
+export function followConfirmTemplate(p: { to: string; territory: TerritoryLike; establishmentName: string; url: string; lang?: VisitorLang }): OutgoingEmail {
+  const lang = p.lang ?? 'fr';
+  const vars = { name: p.establishmentName };
+  const { html, text } = renderEmail({
+    brand: brandOf(p.territory),
+    lang,
+    eyebrow: p.establishmentName,
+    title: confirmText(lang, 'followTitle'),
+    paragraphs: [confirmText(lang, 'followIntro', vars), confirmText(lang, 'noConfirm')],
+    cta: { label: confirmText(lang, 'cta'), url: p.url },
+    footer: confirmText(lang, 'followFooter', vars),
+  });
+  return { to: p.to, subject: confirmText(lang, 'followSubject', vars), html, text, template: 'follow-confirm' };
 }
 
 export function contactMessageTemplate(p: {

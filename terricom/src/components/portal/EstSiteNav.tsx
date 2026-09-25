@@ -4,27 +4,28 @@ import Link from 'next/link';
 export function EstSiteNav({
   base,
   path,
-  name,
   pages,
   current,
+  labels,
 }: {
   base: string;
   path: string;
-  name: string;
   pages: { id: string; slug: string; title: string }[];
   current: string | null;
+  /** Libellés dans la langue du visiteur : nom du menu, « Accueil », « Contact ». */
+  labels: { aria: string; home: string; contact: string };
 }) {
   return (
-    <nav className="container est-nav" aria-label={`Pages de ${name}`}>
+    <nav className="container est-nav" aria-label={labels.aria}>
       <Link href={`${base}${path}`} aria-current={current === null ? 'page' : undefined}>
-        Accueil
+        {labels.home}
       </Link>
       {pages.map((pg) => (
         <Link key={pg.id} href={`${base}${path}/${pg.slug}`} aria-current={current === pg.slug ? 'page' : undefined}>
           {pg.title}
         </Link>
       ))}
-      <Link href={`${base}${path}#message`}>Contact</Link>
+      <Link href={`${base}${path}#message`}>{labels.contact}</Link>
     </nav>
   );
 }

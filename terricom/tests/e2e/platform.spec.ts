@@ -51,3 +51,40 @@ test.describe('plateforme : API publique, application installable', () => {
     await expect(page.locator('link[rel="manifest"]')).toHaveAttribute('href', '/manifest.webmanifest?territoire=valdeloue');
   });
 });
+
+test.describe('portail multilingue', () => {
+  test('langue par adresse, sélecteur mémorisé, fiche traduite et retour au français', async ({ page }) => {
+    await page.goto('/valdeloue?lang=en');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.getByRole('navigation', { name: 'Portal navigation' }).getByRole('link', { name: 'Explore' })).toBeVisible();
+    await expect(page.locator('link[rel="alternate"][hreflang="de"]')).toHaveAttribute('href', /lang=de/);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /lang=en/);
+
+    await page.getByRole('group', { name: 'Change language' }).getByRole('button', { name: 'DE' }).click();
+    await expect(page).toHaveURL(/lang=de/);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+
+    // Sans paramètre, la préférence mémorisée s'applique ; la fiche affiche sa traduction.
+    await page.goto('/valdeloue/ornans/boulangerie/boulangerie-martin');
+    await expect(page.getByText('Natursauerteigbrot').first()).toBeVisible();
+    await expect(page.getByText('Automatisch aus dem Französischen übersetzt.')).toBeVisible();
+
+    // Les pages légales restent en français, avec un avertissement dans la langue du visiteur.
+    await page.goto('/valdeloue/mentions-legales');
+    await expect(page.getByText('Diese Seite ist nur auf Französisch verfügbar.')).toBeVisible();
+
+    await page.goto('/valdeloue');
+    await page.getByRole('group', { name: 'Sprache wechseln' }).getByRole('button', { name: 'FR' }).click();
+    await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
+    await expect(page.getByRole('navigation', { name: 'Navigation du portail' }).getByRole('link', { name: 'Explorer' })).toBeVisible();
+  });
+
+  test('back-office : traductions des textes du portail', async ({ page }) => {
+    await page.goto('/demo/entrer/collectivite?vers=/collectivite/personnalisation/langues');
+    await expect(page.getByLabel('Accroche du portail (Anglais)')).toHaveValue('Shops & local know-how');
+    await page.getByLabel('Nom de la newsletter (Allemand)').fill('Der Freitagsbrief');
+    await page.getByRole('button', { name: 'Enregistrer les traductions' }).click();
+    await expect(page.getByText('Traductions enregistrées')).toBeVisible();
+    await expect(page.getByText(/fiches? traduites? sur/)).toBeVisible();
+  });
+});

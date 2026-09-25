@@ -1,4 +1,6 @@
 import { and, asc, count, desc, eq, gte, inArray, isNull, lte, or, sql } from 'drizzle-orm';
+import { INTL, translator, type Locale } from '@/lib/i18n';
+import { activityL, timeL, WEEKDAY_NAMES } from '@/lib/i18n/format';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { FAMILIES, FAMILY_ORDER, type Family, type ModuleKey, POST_KINDS, type PostKind, PUBLIC_STATUSES } from '@/lib/constants';
@@ -90,7 +92,8 @@ export type MapOverlay = {
 };
 
 /** Couches de la carte : événements des 60 prochains jours, marchés hebdomadaires, lieux économiques. */
-export async function mapOverlays(territoryId: string, base: string): Promise<MapOverlay[]> {
+export async function mapOverlays(territoryId: string, base: string, locale: Locale = 'fr'): Promise<MapOverlay[]> {
+  const tr = translator(locale);
   const until = new Date(Date.now() + 60 * 86_400_000);
   const [evs, mks, pois] = await Promise.all([
     upcomingEvents(territoryId, { limit: 200 }),
@@ -116,13 +119,13 @@ export async function mapOverlays(territoryId: string, base: string): Promise<Ma
         name: ev.title,
         color: '#7A5BB5',
         subtitle: [
-          ev.startsAt.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Paris' }),
+          ev.startsAt.toLocaleDateString(INTL[locale], { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Paris' }),
           ev.locationName ?? c?.name,
         ]
           .filter(Boolean)
           .join(' · '),
         href: `${base}/agenda/${ev.slug}`,
-        linkLabel: 'Voir l’événement',
+        linkLabel: tr('map.seeEvent'),
       })),
     ...mks
       .filter(({ m }) => m.lat != null && m.lng != null)
@@ -133,9 +136,13 @@ export async function mapOverlays(territoryId: string, base: string): Promise<Ma
         lng: m.lng!,
         name: m.name,
         color: '#C8892A',
-        subtitle: `Chaque ${WEEKDAYS_LONG[m.weekday] ?? ''} ${fmtTimeShort(m.startTime)}–${fmtTimeShort(m.endTime)}${m.place ? ` · ${m.place}` : ''}`,
+        subtitle: `${tr('map.every', {
+          day: locale === 'fr' ? (WEEKDAYS_LONG[m.weekday] ?? '') : WEEKDAY_NAMES[locale][m.weekday],
+          from: locale === 'fr' ? fmtTimeShort(m.startTime) : timeL(m.startTime, locale),
+          to: locale === 'fr' ? fmtTimeShort(m.endTime) : timeL(m.endTime, locale),
+        })}${m.place ? ` · ${m.place}` : ''}`,
         href: `${base}/${c.slug}`,
-        linkLabel: `Voir ${c.name}`,
+        linkLabel: tr('map.see', { name: c.name }),
       })),
     ...pois.map((p) => ({
       id: `poi:${p.id}`,
@@ -144,9 +151,9 @@ export async function mapOverlays(territoryId: string, base: string): Promise<Ma
       lng: p.lng,
       name: p.name,
       color: '#14201B',
-      subtitle: [POI_KINDS[p.kind].label, p.address].filter(Boolean).join(' · '),
+      subtitle: [locale === 'fr' ? POI_KINDS[p.kind].label : tr(`poi.${p.kind}`), p.address].filter(Boolean).join(' · '),
       href: p.url ?? undefined,
-      linkLabel: 'Site internet',
+      linkLabel: tr('map.website'),
     })),
   ];
 }
@@ -204,7 +211,8 @@ export function allCards(territoryId: string): Promise<EstablishmentCard[]> {
   return memo(`cards:${territoryId}`, 60_000, () => loadCards(and(eq(establishments.territoryId, territoryId), publicStatusFilter()), { limit: 5000 }));
 }
 
-export function toMapPoints(cards: EstablishmentCard[], base: string) {
+export function toMapPoints(cards: EstablishmentCard[], base: string, locale: Locale = 'fr') {
+  const linkLabel = locale === 'fr' ? undefined : translator(locale)('map.seeListing');
   return cards
     .filter((c) => c.lat !== null && c.lng !== null)
     .map((c) => ({
@@ -213,9 +221,10 @@ export function toMapPoints(cards: EstablishmentCard[], base: string) {
       lng: c.lng!,
       name: c.name,
       color: c.color,
-      subtitle: `${c.activity} · ${c.communeName}`,
+      subtitle: `${activityL(c, locale)} · ${c.communeName}`,
       image: c.coverUrl ? c.coverUrl.replace(/w=\d+/, 'w=460').replace(/&h=\d+/, '') : null,
       href: `${base}${c.path}?src=carte`,
+      linkLabel,
     }));
 }
 

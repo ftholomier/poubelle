@@ -12,12 +12,15 @@ import { Photo } from '@/components/ui/Photo';
 import { isHexColor } from '@/lib/color';
 import { themeStyle } from '@/lib/minisite';
 import { directionsHref, fmtPhone, truncate } from '@/lib/format';
+import { OG_LOCALE, withLang } from '@/lib/i18n';
+import { openLabels } from '@/lib/i18n/format';
 import { sized } from '@/lib/images';
 import type { MiniSite, TerritorySettings } from '@/server/db/schema';
 import { breadcrumbJsonLd } from '@/server/seo';
 import { planLimits } from '@/server/services/billing';
 import { getPublicEstablishment } from '@/server/services/establishments';
 import { getPortal } from '@/server/services/portal';
+import { portalT } from '@/server/i18n';
 import { portalUrl } from '@/server/urls';
 
 type Props = { params: Promise<{ territory: string; commune: string; category: string; slug: string; page: string }> };
@@ -40,8 +43,9 @@ const plain = (body: string) =>
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { territory, commune, slug, page: pageSlug } = await params;
   const { portal, e, page } = await load(territory, commune, slug, pageSlug);
-  if (!e || !page) return { title: 'Page introuvable', robots: { index: false } };
-  const url = portalUrl(portal.territory, `${e.path}/${page.slug}`);
+  const tr = await portalT(portal);
+  if (!e || !page) return { title: tr('common.notFound'), robots: { index: false } };
+  const url = withLang(portalUrl(portal.territory, `${e.path}/${page.slug}`), tr.locale);
   const title = `${page.title} — ${e.name}`;
   const description = truncate(plain(page.body) || `${e.name}, ${e.activity} à ${e.commune.name}.`, 158);
   return {
@@ -54,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       url,
       siteName: portal.territory.name,
-      locale: 'fr_FR',
+      locale: OG_LOCALE[tr.locale],
       images: page.coverUrl ? [{ url: sized(page.coverUrl, 1400)! }] : undefined,
     },
   };
@@ -74,6 +78,7 @@ export default async function EstablishmentExtraPage({ params }: Props) {
   const pages = e.pages;
   const url = portalUrl(t, `${e.path}/${page.slug}`);
   const claimed = ['CLAIMED', 'VALIDATED'].includes(e.status);
+  const tr = await portalT(portal);
 
   return (
     <div style={themeVars} className={site ? 'est-site' : undefined}>
@@ -91,9 +96,9 @@ export default async function EstablishmentExtraPage({ params }: Props) {
         style={{ paddingTop: 18, display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', fontSize: 13, color: 'var(--muted)' }}
       >
         <Link href={`${base}${e.path}`} style={{ color: 'var(--green)', fontWeight: 700 }}>
-          ← {e.name}
+          {tr('fiche.backTo', { name: e.name })}
         </Link>
-        <nav aria-label="Fil d'Ariane">
+        <nav aria-label={tr('fiche.breadcrumb')}>
           <Link href={base || '/'} style={{ color: 'inherit' }}>
             {t.name}
           </Link>{' '}
@@ -107,7 +112,13 @@ export default async function EstablishmentExtraPage({ params }: Props) {
           </Link>
         </nav>
       </div>
-      <EstSiteNav base={base} path={e.path} name={e.name} pages={pages} current={page.slug} />
+      <EstSiteNav
+        base={base}
+        path={e.path}
+        pages={pages}
+        current={page.slug}
+        labels={{ aria: tr('fiche.sitePages', { name: e.name }), home: tr('fiche.siteHome'), contact: tr('fiche.tab.contact') }}
+      />
 
       <div
         className="container split"
@@ -136,13 +147,14 @@ export default async function EstablishmentExtraPage({ params }: Props) {
               <Photo src={sized(page.coverUrl, 1400, 600)} alt="" color={e.color} label={page.title} eager />
             </div>
           ) : null}
-          <RichText text={page.body} />
+          <RichText text={page.body} lang={tr.locale !== 'fr' ? 'fr' : undefined} />
+          {tr.locale !== 'fr' ? <p style={{ margin: 0, fontSize: 12, color: 'var(--muted)' }}>{tr('common.originalFrench')}</p> : null}
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 10 }}>
             <Link href={`${base}${e.path}`} className="btn btn-outline btn-sm">
-              Voir toute la fiche
+              {tr('fiche.seeAll')}
             </Link>
             <Link href={`${base}${e.path}#message`} className="btn btn-brand btn-sm">
-              Écrire à {e.name}
+              {tr('fiche.writeTo', { name: e.name })}
             </Link>
           </div>
         </article>
@@ -166,7 +178,7 @@ export default async function EstablishmentExtraPage({ params }: Props) {
                   background: e.open.unknown ? 'var(--faint)' : e.open.open ? 'var(--open)' : 'var(--closed)',
                 }}
               />
-              {e.open.unknown ? 'Horaires non renseignés' : e.open.longLabel}
+              {openLabels(e.open, tr.locale).long}
             </div>
             <FicheActions
               establishmentId={e.id}

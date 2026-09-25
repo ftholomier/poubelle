@@ -35,6 +35,22 @@ export type TerritorySettings = {
   requireMfaForAll?: boolean;
   /** Marque blanche (option) : aucune mention de terricom sur le portail ni dans les emails du territoire. */
   whiteLabel?: boolean;
+  /** Textes du portail traduits (module multilingue) ; à défaut, le texte français est affiché. */
+  translations?: Partial<Record<'en' | 'de', TerritoryTexts>>;
+};
+
+/** Textes du portail traduisibles (réglages du territoire), pour le module MULTILINGUAL. */
+export type TerritoryTexts = {
+  tagline?: string;
+  heroTitle?: string;
+  heroSubtitle?: string;
+  newsletterName?: string;
+  jobsTitle?: string;
+  jobsIntro?: string;
+  livingTitle?: string;
+  livingText?: string;
+  circuitsTitle?: string;
+  footerText?: string;
 };
 
 export type HomeBlock = 'search' | 'openNow' | 'campaign' | 'map' | 'feed' | 'circuits' | 'jobs' | 'newsletter';

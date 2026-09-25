@@ -237,9 +237,14 @@ export default async function PersonalizationPage() {
             ))}
           </div>
           <span style={{ fontSize: 12, color: 'var(--muted)' }}>Pour activer un module, contactez votre interlocuteur terricom.</span>
-          <Link href="/collectivite/personnalisation/categories" className="btn btn-outline btn-sm" style={{ alignSelf: 'flex-start', marginTop: 6 }}>
-            Catégories du portail →
-          </Link>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 6 }}>
+            <Link href="/collectivite/personnalisation/categories" className="btn btn-outline btn-sm">
+              Catégories du portail →
+            </Link>
+            <Link href="/collectivite/personnalisation/langues" className="btn btn-outline btn-sm">
+              Langues du portail →
+            </Link>
+          </div>
         </section>
         <section className="bo-card" style={{ padding: 20, borderRadius: 20 }}>
           <b>Règles du territoire</b>

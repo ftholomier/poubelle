@@ -54,6 +54,8 @@ export type EstablishmentCard = {
   lng: number | null;
   phone: string | null;
   tags: string[];
+  /** Clés des étiquettes (identifiant d'attribut, ou « open-tonight »), pour leur traduction. */
+  tagKeys: string[];
   attributeSlugs: string[];
   open: OpenStatus;
   isFeatured: boolean;
@@ -164,8 +166,13 @@ export async function loadCards(
       now,
     );
     const a = attrBy.get(e.id) ?? [];
-    const tags = a.filter((x) => TAG_GROUPS.has(x.group)).map((x) => x.label);
-    if (st.openTonight && family === 'RESTAURATION' && !tags.includes('Ouvert ce soir')) tags.unshift('Ouvert ce soir');
+    const tagged = a.filter((x) => TAG_GROUPS.has(x.group));
+    const tags = tagged.map((x) => x.label);
+    const tagKeys = tagged.map((x) => x.slug);
+    if (st.openTonight && family === 'RESTAURATION' && !tags.includes('Ouvert ce soir')) {
+      tags.unshift('Ouvert ce soir');
+      tagKeys.unshift('open-tonight');
+    }
     return {
       id: e.id,
       slug: e.slug,
@@ -187,6 +194,7 @@ export async function loadCards(
       lng: e.lng,
       phone: e.phone,
       tags,
+      tagKeys,
       attributeSlugs: a.map((x) => x.slug),
       open: st,
       isFeatured: e.isFeatured,

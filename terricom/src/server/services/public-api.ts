@@ -294,7 +294,10 @@ async function serializeEstablishments(t: Territory, rows: EstRow[]) {
       status: e.status === 'VALIDATED' ? 'verified' : e.status === 'CLAIMED' ? 'claimed' : 'unclaimed',
       tagline: e.tagline,
       description: e.description,
-      translations: e.translations,
+      // Traductions publiées (portail multilingue) : texte seul, sans les informations internes de suivi.
+      translations: Object.fromEntries(
+        Object.entries(e.translations ?? {}).map(([l, x]) => [l, { tagline: x?.tagline ?? null, description: x?.description ?? null }]),
+      ),
       address: { street: e.street, postal_code: e.postalCode, city: r.communeName },
       geo: e.lat !== null && e.lng !== null ? { lat: e.lat, lng: e.lng } : null,
       contact: { phone: e.phone, email: e.email, website: e.website, socials },

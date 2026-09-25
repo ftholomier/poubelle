@@ -25,6 +25,8 @@ const TITLES: [string, string][] = [
   ['/collectivite/circuits', 'Circuits & parcours'],
   ['/collectivite/statistiques', 'Statistiques'],
   ['/collectivite/personnalisation', 'Personnalisation & rôles'],
+  ['/collectivite/personnalisation/categories', 'Catégories du portail'],
+  ['/collectivite/personnalisation/langues', 'Langues du portail'],
   ['/collectivite/api', 'API & données ouvertes'],
   ['/collectivite/support', 'Aide & support'],
 ];

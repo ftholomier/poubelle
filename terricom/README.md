@@ -2,7 +2,8 @@
 
 **Le territoire, en vitrine.** Plateforme SaaS d’animation et de valorisation économique des territoires :
 une fiche référencée pour chaque commerce, artisan et producteur, offerte par la collectivité ; un portail
-public par territoire (carte, recherche en langage naturel, campagnes, circuits, agenda, emploi) ; un espace
+public par territoire (carte, recherche en langage naturel, campagnes, circuits, agenda, emploi, en français,
+anglais et allemand, installable sur mobile) ; un espace
 entreprise pour tenir sa vitrine ; un back-office pour les intercommunalités et les communes ; une console
 pour l’exploitant.
 
@@ -70,13 +71,14 @@ Next.js 16 (App Router, composants serveur, actions serveur), React 19, TypeScri
 Drizzle ORM, recherche plein texte PostgreSQL, file de tâches PostgreSQL (`FOR UPDATE SKIP LOCKED`),
 Leaflet et OpenStreetMap, génération PDF (pdf-lib, polices de la charte), Claude (Anthropic) pour les
 assistants avec repli déterministe sans IA, stockage objet compatible S3, SMTP, Stripe pour les abonnements,
-Web Push (VAPID) pour les notifications, API publique REST documentée en OpenAPI.
+Web Push (VAPID) pour les notifications, API publique REST documentée en OpenAPI, portail multilingue
+(dictionnaire typé, `Intl`, traductions de contenus par l’IA avec repli sur le français).
 
 ```
 src/
   app/            pages et routes (site, [territory] portail, pro, collectivite, console, api)
   components/     interface (charte terricom) : portal, pro, bo, console, site, maps, ui
-  lib/            fonctions pures partagées (formats, horaires, constantes, slugs)
+  lib/            fonctions pures partagées (formats, horaires, constantes, slugs, i18n du portail)
   server/         domaine : auth, authz (RBAC), audit, db (schéma), services, jobs, mail, print, ai
 scripts/          migrations, graine, worker
 drizzle/          migrations SQL versionnées

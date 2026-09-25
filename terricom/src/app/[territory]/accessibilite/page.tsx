@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { LegalShell } from '@/components/portal/LegalShell';
+import { portalT } from '@/server/i18n';
 import { getPortal } from '@/server/services/portal';
 import { portalUrl } from '@/server/urls';
 
@@ -13,9 +14,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function AccessibilityPage({ params }: Props) {
   const { territory } = await params;
-  const { territory: t } = await getPortal(territory);
+  const portal = await getPortal(territory);
+  const { territory: t } = portal;
+  const tr = await portalT(portal);
   return (
-    <LegalShell eyebrow="Informations" title="Déclaration d'accessibilité">
+    <LegalShell eyebrow="Informations" locale={tr.locale} frenchOnlyNote={tr('common.frenchOnly')} title="Déclaration d'accessibilité">
       <p>
         {t.legalName} s&apos;engage à rendre ce portail accessible conformément à l&apos;article 47 de la loi n° 2005-102 du 11 février 2005 et au Référentiel
         général d&apos;amélioration de l&apos;accessibilité (RGAA 4.1).

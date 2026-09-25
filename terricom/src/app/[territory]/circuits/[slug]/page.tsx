@@ -8,8 +8,11 @@ import { Beacon } from '@/components/portal/Beacon';
 import { PassportPhone } from '@/components/portal/PassportPhone';
 import { Photo } from '@/components/ui/Photo';
 import { fmtDecimal } from '@/lib/format';
+import { activityL } from '@/lib/i18n/format';
+import { territoryText } from '@/lib/i18n/territory';
+import { withLang } from '@/lib/i18n';
+import { portalT } from '@/server/i18n';
 import { sized } from '@/lib/images';
-import type { TerritorySettings } from '@/server/db/schema';
 import { env } from '@/server/env';
 import { qrDataUrl } from '@/server/qr';
 import { getCircuitDetail, getVisitorPassport, listPublishedCircuits } from '@/server/services/circuits';
@@ -27,12 +30,13 @@ const load = cache(async (territoryParam: string, slug: string) => {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { territory, slug } = await params;
   const { portal, detail } = await load(territory, slug);
-  if (!detail) return { title: 'Circuit introuvable', robots: { index: false } };
+  const tr = await portalT(portal);
+  if (!detail) return { title: tr('circuit.notFound'), robots: { index: false } };
   const c = detail.circuit;
   return {
-    title: `${c.name} — circuit`,
-    description: c.description || `${detail.stops.length} étapes : ${c.meta ?? ''}`,
-    alternates: { canonical: portalUrl(portal.territory, `/circuits/${c.slug}`) },
+    title: tr('circuit.metaTitle', { name: c.name }),
+    description: c.description || `${tr.n('circuit.stops', detail.stops.length)} : ${c.meta ?? ''}`,
+    alternates: { canonical: withLang(portalUrl(portal.territory, `/circuits/${c.slug}`), tr.locale) },
     openGraph: { title: c.name, description: c.meta ?? undefined, images: c.imageUrl ? [{ url: sized(c.imageUrl, 1200)! }] : undefined },
   };
 }
@@ -44,7 +48,8 @@ export default async function CircuitPage({ params, searchParams }: Props) {
   if (!detail) notFound();
   const { base, territory: t } = portal;
   const { circuit: c, stops } = detail;
-  const settings = (t.settings ?? {}) as TerritorySettings;
+  const tr = await portalT(portal);
+  const L = tr.locale;
   const [all, passport, qr] = await Promise.all([
     listPublishedCircuits(t.id),
     getVisitorPassport(c.id),
@@ -59,8 +64,9 @@ export default async function CircuitPage({ params, searchParams }: Props) {
       lng: s.lng!,
       name: s.name,
       color: s.color,
-      subtitle: `${s.activity} · ${s.communeName}`,
+      subtitle: `${activityL(s, L)} · ${s.communeName}`,
       href: s.path ? `${base}${s.path}` : undefined,
+      linkLabel: tr('map.seeListing'),
     }));
   const justStamped = sp.tampon && /^\d+$/.test(sp.tampon) ? Number(sp.tampon) : null;
 
@@ -83,27 +89,24 @@ export default async function CircuitPage({ params, searchParams }: Props) {
       />
       {justStamped ? (
         <div className="alert alert-ok" role="status" style={{ marginBottom: 18 }}>
-          Étape {justStamped} tamponnée !{' '}
-          {passport?.rewardCode
-            ? 'Circuit réussi : votre code de récompense vous attend dans le passeport.'
-            : 'Continuez le circuit pour débloquer la récompense.'}
+          {tr('circuit.stamped', { n: justStamped })} {passport?.rewardCode ? tr('circuit.rewardReady') : tr('circuit.keepGoing')}
         </div>
       ) : sp.tampon === 'invalide' ? (
         <div className="alert alert-warn" role="status" style={{ marginBottom: 18 }}>
-          Ce QR code n&apos;est pas reconnu. Vérifiez qu&apos;il s&apos;agit bien d&apos;une étape d&apos;un circuit en cours.
+          {tr('circuit.invalid')}
         </div>
       ) : null}
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', gap: 16, flexWrap: 'wrap', marginBottom: 22 }}>
         <div>
           <div className="eyebrow" style={{ marginBottom: 6 }}>
-            Circuits du territoire
+            {tr('circuit.eyebrow')}
           </div>
           <h1 className="display" style={{ fontSize: 'clamp(38px,5vw,52px)', letterSpacing: '-0.035em', margin: 0, lineHeight: 1 }}>
-            {settings.circuitsTitle ?? 'Balades & circuits'}
+            {territoryText(t, 'circuitsTitle', L) ?? tr('circuit.titleDefault')}
           </h1>
         </div>
-        <nav aria-label="Choisir un circuit" style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+        <nav aria-label={tr('circuit.choose')} style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {all.map((x) => {
             const on = x.id === c.id;
             return (
@@ -136,7 +139,7 @@ export default async function CircuitPage({ params, searchParams }: Props) {
               points={points}
               tileUrl={portal.mapConfig.tileUrl}
               attribution={portal.mapConfig.attribution}
-              ariaLabel={`Carte du circuit ${c.name}`}
+              ariaLabel={tr('circuit.mapAria', { name: c.name })}
               style={{ width: '100%', height: '100%' }}
             />
           </div>
@@ -152,7 +155,7 @@ export default async function CircuitPage({ params, searchParams }: Props) {
               </span>
             ) : null}
             <span>
-              <b>{stops.length}</b> étapes
+              <b>{stops.length}</b> {tr.n('circuit.stopsWord', stops.length)}
             </span>
             {c.travelMode ? <span style={{ color: 'var(--muted)' }}>{c.travelMode}</span> : null}
           </div>
@@ -182,7 +185,7 @@ export default async function CircuitPage({ params, searchParams }: Props) {
                   </div>
                   <div>
                     <div style={{ fontWeight: 700 }}>{s.name}</div>
-                    <div style={{ fontSize: 13, color: 'var(--muted)' }}>{[s.activity, s.communeName].filter(Boolean).join(' · ')}</div>
+                    <div style={{ fontSize: 13, color: 'var(--muted)' }}>{[activityL(s, L), s.communeName].filter(Boolean).join(' · ')}</div>
                   </div>
                   <span
                     style={{
@@ -194,7 +197,7 @@ export default async function CircuitPage({ params, searchParams }: Props) {
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    {on ? 'Tamponné' : 'À visiter'}
+                    {on ? tr('circuit.stampedBadge') : tr('circuit.toVisit')}
                   </span>
                 </>
               );
@@ -226,10 +229,10 @@ export default async function CircuitPage({ params, searchParams }: Props) {
             demo={env.DEMO_MODE}
           />
           <div className="card" style={{ display: 'flex', gap: 12, alignItems: 'center', borderRadius: 16, padding: 12, width: 320, maxWidth: '100%' }}>
-            <img src={qr} alt={`QR code du circuit ${c.name}`} width={72} height={72} style={{ flexShrink: 0 }} />
+            <img src={qr} alt={tr('circuit.qrAlt', { name: c.name })} width={72} height={72} style={{ flexShrink: 0 }} />
             <div style={{ fontSize: 13 }}>
-              <b>Partager le circuit</b>
-              <div style={{ color: 'var(--muted)' }}>À imprimer à l&apos;office de tourisme ou sur les panneaux.</div>
+              <b>{tr('circuit.share')}</b>
+              <div style={{ color: 'var(--muted)' }}>{tr('circuit.shareHint')}</div>
             </div>
           </div>
         </div>

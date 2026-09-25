@@ -17,6 +17,9 @@ import {
   type ExplorerToggle,
 } from '@/lib/explorer';
 import { sized } from '@/lib/images';
+import { INTL } from '@/lib/i18n';
+import { familyL } from '@/lib/i18n/format';
+import { useLocale, useT } from './I18n';
 
 type Props = {
   territorySlug: string;
@@ -34,6 +37,9 @@ type Props = {
 
 /** P2 — Explorer : liste filtrable, carte synchronisée et réponse de l'assistant. */
 export function ExplorerClient({ territorySlug, base, initialState, initial, filtered, points, map, aiEnabled, communes, filters, overlays }: Props) {
+  const t = useT();
+  const locale = useLocale();
+  const num = (n: number) => n.toLocaleString(INTL[locale]);
   const [state, setState] = useState<ExplorerState>(initialState);
   const [query, setQuery] = useState(initialState.q);
   const [data, setData] = useState<ExplorerResponse>(initial);
@@ -56,16 +62,17 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
 
   const fetchPage = useCallback(
     async (s: ExplorerState, offset: number) => {
-      const res = await fetch(`/api/portal/search${explorerQueryString(s, { t: territorySlug, offset: String(offset) })}`, {
+      const extra = { t: territorySlug, offset: String(offset), ...(locale !== 'fr' ? { lang: locale } : {}) };
+      const res = await fetch(`/api/portal/search${explorerQueryString(s, extra)}`, {
         headers: { accept: 'application/json' },
       });
       if (!res.ok) {
         const body = (await res.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(body?.error ?? 'La recherche a échoué, réessayez.');
+        throw new Error(body?.error ?? t('explorer.searchFailed'));
       }
       return (await res.json()) as ExplorerResponse;
     },
-    [territorySlug],
+    [territorySlug, locale, t],
   );
 
   // Nouvelle recherche à chaque changement d'état (la saisie est temporisée).
@@ -92,8 +99,8 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
   useEffect(() => {
     const trimmed = query.trim();
     if (trimmed === state.q) return;
-    const t = setTimeout(() => setState((s) => ({ ...s, q: trimmed })), trimmed.length > 8 ? 550 : 300);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setState((s) => ({ ...s, q: trimmed })), trimmed.length > 8 ? 550 : 300);
+    return () => clearTimeout(timer);
   }, [query, state.q]);
 
   const setFamily = (family: Family | null) => setState((s) => ({ ...s, family }));
@@ -126,7 +133,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
       },
       () => {
         setLocating(false);
-        setError('Position indisponible : les distances restent calculées depuis le centre du territoire.');
+        setError(t('explorer.noPosition'));
       },
       { enableHighAccuracy: false, timeout: 8000, maximumAge: 300_000 },
     );
@@ -150,13 +157,13 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
             ✦
           </div>
           <label htmlFor="explore-q" className="sr-only">
-            Rechercher par nom, produit ou besoin
+            {t('explorer.searchLabel')}
           </label>
           <input
             id="explore-q"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Nom, produit, besoin…"
+            placeholder={t('explorer.placeholder')}
             autoComplete="off"
             enterKeyHint="search"
             style={{ flex: 1, minWidth: 0, border: 0, outline: 'none', fontSize: 15, padding: '10px 4px', background: 'transparent' }}
@@ -164,7 +171,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
           {query ? (
             <button
               type="button"
-              aria-label="Effacer la recherche"
+              aria-label={t('explorer.clear')}
               onClick={() => {
                 setQuery('');
                 setState((s) => ({ ...s, q: '' }));
@@ -193,7 +200,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
                 textTransform: 'uppercase',
               }}
             >
-              ✦ Réponse de l&apos;assistant
+              {t('explorer.answer')}
             </div>
             <div style={{ fontSize: 15, lineHeight: 1.5 }}>{data.answer!.text}</div>
             <div style={{ fontSize: 12, color: 'var(--sage-2)' }}>{data.answer!.meta}</div>
@@ -202,12 +209,12 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
 
         {state.commune ? (
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13 }}>
-            <span style={{ color: 'var(--muted)' }}>Commune :</span>
+            <span style={{ color: 'var(--muted)' }}>{t('explorer.communeLabel')}</span>
             <button
               type="button"
               className="pill"
               onClick={() => setState((s) => ({ ...s, commune: null }))}
-              aria-label="Retirer le filtre de commune"
+              aria-label={t('explorer.removeCommune')}
               style={{ background: 'var(--ink)', color: 'var(--cream)', border: 0, fontWeight: 700 }}
             >
               <Icon name="pin" size={13} />
@@ -217,7 +224,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
           </div>
         ) : null}
 
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }} role="group" aria-label="Familles d'activité">
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }} role="group" aria-label={t('explorer.families')}>
           {EXPLORER_FAMILIES.map((f) => {
             const on = state.family === f.key;
             return (
@@ -240,21 +247,21 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
                 }}
               >
                 <span style={{ width: 9, height: 9, borderRadius: '50%', background: f.color }} />
-                {f.label}
+                {f.key ? familyL(f.key, f.label, locale) : t('explorer.all')}
               </button>
             );
           })}
         </div>
 
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }} role="group" aria-label="Filtres rapides">
-          {EXPLORER_TOGGLES.map((t) => {
-            const on = state.toggles.includes(t.key);
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }} role="group" aria-label={t('explorer.quick')}>
+          {EXPLORER_TOGGLES.map((tg) => {
+            const on = state.toggles.includes(tg.key);
             return (
               <button
-                key={t.key}
+                key={tg.key}
                 type="button"
                 aria-pressed={on}
-                onClick={() => toggle(t.key)}
+                onClick={() => toggle(tg.key)}
                 style={{
                   padding: '6px 11px',
                   borderRadius: 8,
@@ -265,7 +272,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
                   color: on ? 'var(--green)' : 'var(--muted)',
                 }}
               >
-                {on ? '✓' : '+'} {t.label}
+                {on ? '✓' : '+'} {t(`toggle.${tg.key}`)}
               </button>
             );
           })}
@@ -283,7 +290,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
                 style={{ fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 5 }}
               >
                 <Icon name="filter" size={14} />
-                {moreOpen ? 'Moins de filtres' : 'Plus de filtres'}
+                {moreOpen ? t('explorer.lessFilters') : t('explorer.moreFilters')}
                 {state.attrs.length ? ` (${state.attrs.length})` : ''}
               </button>
               {!moreOpen
@@ -292,7 +299,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
                       key={slug}
                       type="button"
                       onClick={() => toggleAttr(slug)}
-                      aria-label={`Retirer le filtre ${attrLabel.get(slug) ?? slug}`}
+                      aria-label={t('explorer.removeFilter', { label: attrLabel.get(slug) ?? slug })}
                       className="explore-chip on"
                     >
                       ✓ {attrLabel.get(slug) ?? slug} <Icon name="x" size={12} />
@@ -311,7 +318,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
                         return (
                           <button key={o.slug} type="button" aria-pressed={on} onClick={() => toggleAttr(o.slug)} className={`explore-chip${on ? ' on' : ''}`}>
                             {on ? '✓' : '+'} {o.label}
-                            <span className="explore-chip-count">{o.count.toLocaleString('fr-FR')}</span>
+                            <span className="explore-chip-count">{num(o.count)}</span>
                           </button>
                         );
                       })}
@@ -326,13 +333,13 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--muted)', paddingTop: 4 }}>
           <span aria-live="polite">
             {loading ? <span className="spinner" style={{ width: 12, height: 12, verticalAlign: -1, marginRight: 6 }} aria-hidden="true" /> : null}
-            <b style={{ color: 'var(--text)' }}>{data.total.toLocaleString('fr-FR')}</b> adresse{data.total > 1 ? 's' : ''}
+            <b style={{ color: 'var(--text)' }}>{num(data.total)}</b> {t.n('explorer.places', data.total)}
           </span>
           <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-            <span>Tri : {state.near ? 'les plus proches' : 'recommandés'}</span>
+            <span>{t('explorer.sort', { how: state.near ? t('explorer.sortNear') : t('explorer.sortReco') })}</span>
             {state.near ? (
               <button type="button" className="btn-link" onClick={() => setState((s) => ({ ...s, near: null }))} style={{ fontSize: 13 }}>
-                Réinitialiser
+                {t('explorer.reset')}
               </button>
             ) : (
               <button
@@ -341,15 +348,15 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
                 onClick={locate}
                 disabled={locating}
                 style={{ fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 4 }}
-                title="Trier depuis ma position"
+                title={t('explorer.sortFromMe')}
               >
                 <Icon name="target" size={14} />
-                {locating ? 'Localisation…' : 'Autour de moi'}
+                {locating ? t('explorer.locating') : t('explorer.aroundMe')}
               </button>
             )}
             <button type="button" className="btn btn-dark btn-xs explore-toggle" onClick={() => setMapHidden((h) => !h)}>
               <Icon name={mapHidden ? 'map' : 'menu'} size={14} />
-              {mapHidden ? 'Carte' : 'Liste'}
+              {mapHidden ? t('explorer.map') : t('explorer.list')}
             </button>
           </span>
         </div>
@@ -362,10 +369,8 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
 
         {data.items.length === 0 && !loading ? (
           <div className="card card-pad" style={{ textAlign: 'center', color: 'var(--muted)' }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 18, color: 'var(--text)', marginBottom: 6 }}>
-              Aucune adresse ne correspond
-            </div>
-            Essayez un autre mot, ou retirez un filtre.
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 18, color: 'var(--text)', marginBottom: 6 }}>{t('explorer.none')}</div>
+            {t('explorer.noneHint')}
           </div>
         ) : null}
 
@@ -407,13 +412,13 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
 
         {data.items.length < data.total ? (
           <button type="button" className="btn btn-outline" onClick={loadMore} disabled={loadingMore} style={{ alignSelf: 'center' }}>
-            {loadingMore ? 'Chargement…' : `Afficher plus d'adresses (${(data.total - data.items.length).toLocaleString('fr-FR')})`}
+            {loadingMore ? t('explorer.loading') : t('explorer.more', { n: num(data.total - data.items.length) })}
           </button>
         ) : null}
       </div>
       <div className="explore-map">
         {overlays.length ? (
-          <div className="map-layers" role="group" aria-label="Afficher sur la carte">
+          <div className="map-layers" role="group" aria-label={t('explorer.layers')}>
             {(Object.keys(OVERLAY_STYLE) as OverlayKind[])
               .filter((k) => layerCounts[k])
               .map((k) => {
@@ -421,7 +426,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
                 return (
                   <button key={k} type="button" aria-pressed={on} onClick={() => setLayers((ls) => (ls.includes(k) ? ls.filter((x) => x !== k) : [...ls, k]))}>
                     <span className="dot" style={{ ['--c' as string]: OVERLAY_STYLE[k].color }} aria-hidden="true" />
-                    {OVERLAY_STYLE[k].label} · {layerCounts[k]}
+                    {t(`overlay.${k}`)} · {layerCounts[k]}
                   </button>
                 );
               })}
@@ -437,7 +442,7 @@ export function ExplorerClient({ territorySlug, base, initialState, initial, fil
           points={mapPoints}
           visibleIds={visibleIds}
           focusId={focusId}
-          ariaLabel="Carte des adresses du territoire"
+          ariaLabel={t('explorer.mapAria')}
           style={{ width: '100%', height: '100%', minHeight: 320 }}
         />
       </div>

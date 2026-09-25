@@ -5,7 +5,9 @@ import { cache } from 'react';
 import { JsonLd } from '@/components/JsonLd';
 import { MapView } from '@/components/maps/MapView';
 import { ResultRow } from '@/components/portal/Cards';
-import { fmtInt, pluralize } from '@/lib/format';
+import { categoryNameL, intL } from '@/lib/i18n/format';
+import { withLang } from '@/lib/i18n';
+import { portalT } from '@/server/i18n';
 import { breadcrumbJsonLd } from '@/server/seo';
 import { territoryCategoryList } from '@/server/services/categories';
 import { allCards, getPortal, toMapPoints } from '@/server/services/portal';
@@ -31,12 +33,17 @@ const load = cache(async (territoryParam: string, communeSlug: string, categoryS
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { territory, commune, category } = await params;
   const d = await load(territory, commune, category);
-  if (!d.commune || !d.category) return { title: 'Page introuvable', robots: { index: false } };
-  const title = `${d.category.name} à ${d.commune.name}`;
+  const tr = await portalT(d.portal);
+  if (!d.commune || !d.category) return { title: tr('common.notFound'), robots: { index: false } };
+  const catName = categoryNameL(d.category.slug, d.category.name, tr.locale);
+  const title = tr('category.title', { category: catName, commune: d.commune.name });
   return {
     title,
-    description: `${fmtInt(d.items.length)} ${d.category.name.toLowerCase()} à ${d.commune.name} : horaires d'ouverture, adresses, téléphones et actualités.`,
-    alternates: { canonical: portalUrl(d.portal.territory, `/${d.commune.slug}/${d.category.slug}`) },
+    description:
+      tr.locale === 'fr'
+        ? `${intL(d.items.length, 'fr')} ${d.category.name.toLowerCase()} à ${d.commune.name} : horaires d'ouverture, adresses, téléphones et actualités.`
+        : tr('category.metaDesc', { n: intL(d.items.length, tr.locale), category: catName, commune: d.commune.name }),
+    alternates: { canonical: withLang(portalUrl(d.portal.territory, `/${d.commune.slug}/${d.category.slug}`), tr.locale) },
     robots: d.items.length ? undefined : { index: false, follow: true },
   };
 }
@@ -46,16 +53,19 @@ export default async function CategoryPage({ params }: Props) {
   const d = await load(territory, commune, category);
   if (!d.commune || !d.category) notFound();
   const { base, territory: t } = d.portal;
+  const tr = await portalT(d.portal);
+  const L = tr.locale;
+  const categoryName = categoryNameL(d.category.slug, d.category.name, L);
   return (
     <div className="container" style={{ paddingTop: 28, paddingBottom: 60 }}>
       <JsonLd
         data={breadcrumbJsonLd([
           { name: t.name, url: portalUrl(t, '/') },
           { name: d.commune.name, url: portalUrl(t, `/${d.commune.slug}`) },
-          { name: d.category.name, url: portalUrl(t, `/${d.commune.slug}/${d.category.slug}`) },
+          { name: categoryName, url: portalUrl(t, `/${d.commune.slug}/${d.category.slug}`) },
         ])}
       />
-      <nav aria-label="Fil d'Ariane" style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 14 }}>
+      <nav aria-label={tr('fiche.breadcrumb')} style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 14 }}>
         <Link href={base || '/'} style={{ color: 'inherit' }}>
           {t.name}
         </Link>{' '}
@@ -63,22 +73,21 @@ export default async function CategoryPage({ params }: Props) {
         <Link href={`${base}/${d.commune.slug}`} style={{ color: 'inherit' }}>
           {d.commune.name}
         </Link>{' '}
-        › {d.category.name}
+        › {categoryName}
       </nav>
       <div className="eyebrow" style={{ marginBottom: 6 }}>
-        {pluralize(d.items.length, 'adresse', 'adresses')}
+        {tr.n('common.places', d.items.length, { n: intL(d.items.length, L) })}
       </div>
       <h1 className="h-page" style={{ margin: '0 0 24px' }}>
-        {d.category.name} à {d.commune.name}
+        {tr('category.title', { category: categoryName, commune: d.commune.name })}
       </h1>
       <div className="split" style={{ ['--cols' as string]: 'minmax(0,1fr) minmax(0,1fr)', ['--align' as string]: 'start' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {d.items.length ? (
-            d.items.map((e) => <ResultRow key={e.id} e={e} href={`${base}${e.path}`} />)
+            d.items.map((e) => <ResultRow key={e.id} e={e} href={`${base}${e.path}`} L={L} />)
           ) : (
             <div className="card card-pad" style={{ color: 'var(--muted)' }}>
-              Aucune adresse dans cette catégorie pour le moment.{' '}
-              <Link href={`${base}/explorer?commune=${d.commune.slug}`}>Voir tous les professionnels de {d.commune.name}</Link>
+              {tr('category.empty')} <Link href={`${base}/explorer?commune=${d.commune.slug}`}>{tr('category.seeAll', { name: d.commune.name })}</Link>
             </div>
           )}
         </div>
@@ -88,11 +97,12 @@ export default async function CategoryPage({ params }: Props) {
         >
           <MapView
             mode="mini"
-            points={toMapPoints(d.items, base)}
+            points={toMapPoints(d.items, base, L)}
             center={d.commune.lat && d.commune.lng ? [d.commune.lat, d.commune.lng] : undefined}
             zoom={14}
             tileUrl={d.portal.mapConfig.tileUrl}
             attribution={d.portal.mapConfig.attribution}
+            ariaLabel={tr('category.mapAria', { category: categoryName, commune: d.commune.name })}
             style={{ width: '100%', height: '100%' }}
           />
         </div>

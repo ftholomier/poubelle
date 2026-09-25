@@ -6,6 +6,7 @@ import type { QueueName } from '../queue';
 import { runSireneImport } from '../services/imports';
 import { syncCustomDomains } from './domains';
 import { dispatchDueNewsletters, dispatchNewsletter, sendNewsletterBatch } from '../services/newsletters';
+import { translateEstablishment } from '../services/translations';
 import {
   billingDaily,
   claimReminders,
@@ -53,6 +54,7 @@ export const HANDLERS: Record<QueueName, Handler> = {
   'billing.overdue': () => billingDaily(),
   'domains.sync': () => syncCustomDomains(),
   'demo.reset': () => demoReset(),
+  'i18n.translate': (p) => translateEstablishment(str(p, 'establishmentId')),
 };
 
 export async function runJob(queue: string, payload: Payload): Promise<unknown> {

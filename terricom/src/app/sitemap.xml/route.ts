@@ -4,11 +4,20 @@ import { db } from '@/server/db';
 import { campaigns, categories, circuits, communes, companies, establishmentPages, establishments, events, jobs, plans, territories } from '@/server/db/schema';
 import { env } from '@/server/env';
 import { publicOrigin } from '@/server/request';
-import { getTerritoryCommunes, resolveTerritoryParam, type Territory } from '@/server/services/territories';
+import { LOCALES, withLang } from '@/lib/i18n';
+import { getEnabledModules, getTerritoryCommunes, resolveTerritoryParam, type Territory } from '@/server/services/territories';
 
-type Url = { loc: string; lastmod?: Date | null; priority?: number };
+/** langs : versions traduites de la page (portail multilingue), annoncées par des liens hreflang. */
+type Url = { loc: string; lastmod?: Date | null; priority?: number; langs?: boolean };
+
+const TRANSLATED = LOCALES.filter((l) => l !== 'fr');
 
 async function territoryUrls(t: Territory, base: string): Promise<Url[]> {
+  const multilingual = (await getEnabledModules(t.id)).has('MULTILINGUAL');
+  return (await territoryPages(t, base)).map((u) => ({ ...u, langs: multilingual }));
+}
+
+async function territoryPages(t: Territory, base: string): Promise<Url[]> {
   const [ests, coms, evs, jbs, circs, camps, extra] = await Promise.all([
     db
       .select({
@@ -78,10 +87,18 @@ async function territoryUrls(t: Territory, base: string): Promise<Url[]> {
 
 function xml(urls: Url[]): string {
   const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
+  const alt = (u: Url) =>
+    u.langs
+      ? [
+          `<xhtml:link rel="alternate" hreflang="fr" href="${esc(u.loc)}"/>`,
+          ...TRANSLATED.map((l) => `<xhtml:link rel="alternate" hreflang="${l}" href="${esc(withLang(u.loc, l))}"/>`),
+          `<xhtml:link rel="alternate" hreflang="x-default" href="${esc(u.loc)}"/>`,
+        ].join('')
+      : '';
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls
     .map(
       (u) =>
-        `  <url><loc>${esc(u.loc)}</loc>${u.lastmod ? `<lastmod>${u.lastmod.toISOString().slice(0, 10)}</lastmod>` : ''}${u.priority !== undefined ? `<priority>${u.priority.toFixed(1)}</priority>` : ''}</url>`,
+        `  <url><loc>${esc(u.loc)}</loc>${u.lastmod ? `<lastmod>${u.lastmod.toISOString().slice(0, 10)}</lastmod>` : ''}${u.priority !== undefined ? `<priority>${u.priority.toFixed(1)}</priority>` : ''}${alt(u)}</url>`,
     )
     .join('\n')}\n</urlset>\n`;
 }

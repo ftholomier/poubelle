@@ -3,30 +3,29 @@ import Link from 'next/link';
 import { EventRow } from '@/components/portal/Cards';
 import { Photo } from '@/components/ui/Photo';
 import { EVENT_KINDS, type EventKind } from '@/lib/constants';
-import { fmtEventBadge, truncate } from '@/lib/format';
+import { truncate } from '@/lib/format';
+import { eventBadgeL, eventKindL } from '@/lib/i18n/format';
+import { withLang } from '@/lib/i18n';
+import { portalT } from '@/server/i18n';
 import { sized } from '@/lib/images';
 import { getPortal, upcomingEvents } from '@/server/services/portal';
 import { portalUrl } from '@/server/urls';
 
 type Props = { params: Promise<{ territory: string }>; searchParams: Promise<Record<string, string | undefined>> };
 
-const FILTERS: { key: EventKind | null; label: string }[] = [
-  { key: null, label: 'Tout' },
-  { key: 'MARCHE', label: 'Marchés' },
-  { key: 'PORTES_OUVERTES', label: 'Portes ouvertes' },
-  { key: 'DEGUSTATION', label: 'Dégustations' },
-  { key: 'ATELIER', label: 'Ateliers' },
-];
+const FILTERS: (EventKind | null)[] = [null, 'MARCHE', 'PORTES_OUVERTES', 'DEGUSTATION', 'ATELIER'];
 
 const slugOf = (k: EventKind) => k.toLowerCase().replace(/_/g, '-');
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { territory } = await params;
-  const { territory: t } = await getPortal(territory);
+  const portal = await getPortal(territory);
+  const { territory: t } = portal;
+  const tr = await portalT(portal);
   return {
-    title: 'Agenda : marchés, portes ouvertes, dégustations',
-    description: `Les rendez-vous des commerçants, artisans et producteurs de ${t.name} : marchés, ateliers, dégustations et portes ouvertes.`,
-    alternates: { canonical: portalUrl(t, '/agenda') },
+    title: tr('agenda.metaTitle'),
+    description: tr('agenda.metaDesc', { name: t.name }),
+    alternates: { canonical: withLang(portalUrl(t, '/agenda'), tr.locale) },
   };
 }
 
@@ -35,8 +34,10 @@ export default async function AgendaPage({ params, searchParams }: Props) {
   const sp = await searchParams;
   const portal = await getPortal(territory);
   const { base, territory: t } = portal;
+  const tr = await portalT(portal);
+  const L = tr.locale;
   const all = await upcomingEvents(t.id, { limit: 200 });
-  const active = FILTERS.find((f) => f.key && slugOf(f.key) === sp.type)?.key ?? null;
+  const active = FILTERS.find((f) => f && slugOf(f) === sp.type) ?? null;
   const list = active ? all.filter((r) => r.ev.kind === active) : all;
   const featured = all.find((r) => r.ev.isFeatured) ?? all[0];
   const others = list.filter((r) => r.ev.id !== featured?.ev.id);
@@ -46,20 +47,20 @@ export default async function AgendaPage({ params, searchParams }: Props) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', gap: 16, flexWrap: 'wrap', marginBottom: 26 }}>
         <div>
           <div className="eyebrow" style={{ marginBottom: 6 }}>
-            Agenda
+            {tr('agenda.eyebrow')}
           </div>
           <h1 className="display" style={{ fontSize: 'clamp(38px,5vw,52px)', letterSpacing: '-0.035em', margin: 0, lineHeight: 1 }}>
-            Ça se passe ici
+            {tr('agenda.h1')}
           </h1>
         </div>
-        <nav aria-label="Filtrer par type" style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+        <nav aria-label={tr('agenda.filterAria')} style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {FILTERS.map((f) => {
-            const on = f.key === active;
-            const n = f.key ? all.filter((r) => r.ev.kind === f.key).length : all.length;
+            const on = f === active;
+            const n = f ? all.filter((r) => r.ev.kind === f).length : all.length;
             return (
               <Link
-                key={f.label}
-                href={f.key ? `${base}/agenda?type=${slugOf(f.key)}` : `${base}/agenda`}
+                key={f ?? 'all'}
+                href={f ? `${base}/agenda?type=${slugOf(f)}` : `${base}/agenda`}
                 aria-current={on ? 'page' : undefined}
                 scroll={false}
                 style={{
@@ -75,7 +76,7 @@ export default async function AgendaPage({ params, searchParams }: Props) {
                   fontSize: 13,
                 }}
               >
-                {f.label}
+                {f ? eventKindL(f, L, EVENT_KINDS, true) : tr('agenda.all')}
                 <span style={{ fontSize: 11, opacity: 0.7 }}>{n}</span>
               </Link>
             );
@@ -101,7 +102,7 @@ export default async function AgendaPage({ params, searchParams }: Props) {
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,transparent 30%,rgba(20,32,27,.9))' }} />
             <div style={{ position: 'absolute', left: 26, bottom: 24, right: 26 }}>
               <span style={{ background: 'var(--amber)', color: 'var(--ink)', fontWeight: 800, fontSize: 12, padding: '5px 10px', borderRadius: 6 }}>
-                {fmtEventBadge(featured.ev.startsAt, featured.ev.endsAt)}
+                {eventBadgeL(featured.ev.startsAt, featured.ev.endsAt, L)}
               </span>
               <div className="display" style={{ fontSize: 40, letterSpacing: '-0.03em', marginTop: 10, lineHeight: 1 }}>
                 {featured.ev.title}
@@ -119,18 +120,21 @@ export default async function AgendaPage({ params, searchParams }: Props) {
                   where={[e?.name ?? ev.locationName, c?.name].filter(Boolean).join(' · ')}
                   kind={ev.kind as EventKind}
                   startsAt={ev.startsAt}
+                  L={L}
                 />
               ))
             ) : (
               <div className="card card-pad" style={{ color: 'var(--muted)' }}>
-                Aucun autre rendez-vous {active ? `de type « ${EVENT_KINDS[active].label.toLowerCase()} » ` : ''}pour le moment.
+                {active
+                  ? tr('agenda.noOtherKind', { kind: L === 'fr' ? EVENT_KINDS[active].label.toLowerCase() : eventKindL(active, L, EVENT_KINDS) })
+                  : tr('agenda.noOther')}
               </div>
             )}
           </div>
         </div>
       ) : (
         <div className="card card-pad" style={{ color: 'var(--muted)' }}>
-          Pas d&apos;événement annoncé pour le moment. Revenez bientôt !
+          {tr('agenda.none')}
         </div>
       )}
     </div>

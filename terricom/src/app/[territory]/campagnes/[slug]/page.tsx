@@ -5,8 +5,11 @@ import { cache } from 'react';
 import { AdventCalendar } from '@/components/portal/AdventCalendar';
 import { Beacon } from '@/components/portal/Beacon';
 import { Photo } from '@/components/ui/Photo';
-import { fmtInt, fmtLongDate, parisParts } from '@/lib/format';
+import { parisParts } from '@/lib/format';
 import { sized } from '@/lib/images';
+import { INTL, type Locale, withLang } from '@/lib/i18n';
+import { activityL, intL, longDateL } from '@/lib/i18n/format';
+import { portalT } from '@/server/i18n';
 import { getPortal, getPublicCampaign } from '@/server/services/portal';
 import { portalUrl } from '@/server/urls';
 
@@ -20,11 +23,15 @@ const load = cache(async (territoryParam: string, slug: string) => {
 
 const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
-function periodLabel(start: string, end: string): string {
+const monthName = (m: number, locale: Locale) =>
+  locale === 'fr' ? MONTHS[m - 1] : new Intl.DateTimeFormat(INTL[locale], { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, m - 1, 15)));
+
+/** « 1er → 24 décembre », « 1 → 24 December », « 1. → 24. Dezember ». */
+function periodLabel(start: string, end: string, locale: Locale): string {
   const [, sm, sd] = start.split('-').map(Number);
   const [, em, ed] = end.split('-').map(Number);
-  const day = (d: number) => (d === 1 ? '1er' : String(d));
-  return sm === em ? `${day(sd)} → ${day(ed)} ${MONTHS[em - 1]}` : `${day(sd)} ${MONTHS[sm - 1]} → ${day(ed)} ${MONTHS[em - 1]}`;
+  const day = (d: number) => (locale === 'fr' ? (d === 1 ? '1er' : String(d)) : locale === 'de' ? `${d}.` : String(d));
+  return sm === em ? `${day(sd)} → ${day(ed)} ${monthName(em, locale)}` : `${day(sd)} ${monthName(sm, locale)} → ${day(ed)} ${monthName(em, locale)}`;
 }
 
 function daysBetween(from: string, to: string): number {
@@ -34,12 +41,13 @@ function daysBetween(from: string, to: string): number {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { territory, slug } = await params;
   const { portal, data } = await load(territory, slug);
-  if (!data) return { title: 'Campagne introuvable', robots: { index: false } };
+  const tr = await portalT(portal);
+  if (!data) return { title: tr('campaign.notFound'), robots: { index: false } };
   const c = data.campaign;
   return {
     title: c.name,
-    description: c.description || c.tagline || `${c.name} : les offres des commerces de ${portal.territory.name}.`,
-    alternates: { canonical: portalUrl(portal.territory, `/campagnes/${c.slug}`) },
+    description: c.description || c.tagline || tr('campaign.metaDesc', { name: c.name, territory: portal.territory.name }),
+    alternates: { canonical: withLang(portalUrl(portal.territory, `/campagnes/${c.slug}`), tr.locale) },
     openGraph: { title: c.name, description: c.tagline ?? undefined, images: c.heroImageUrl ? [{ url: sized(c.heroImageUrl, 1200)! }] : undefined },
   };
 }
@@ -49,6 +57,8 @@ export default async function CampaignPage({ params }: Props) {
   const { portal, data } = await load(territory, slug);
   if (!data) notFound();
   const { base, territory: t } = portal;
+  const tr = await portalT(portal);
+  const L = tr.locale;
   const { campaign: c, owner, participants, calendar, today } = data;
   const offers = participants.filter((p) => p.offer).length;
   const advent = c.mode === 'ADVENT';
@@ -56,12 +66,12 @@ export default async function CampaignPage({ params }: Props) {
   const ended = c.endsAt < today;
   const christmas = `${c.endsAt.slice(0, 4)}-12-25`;
   const countdown = ended
-    ? { big: 'Fin', small: 'campagne terminée' }
+    ? { big: tr('campaign.end'), small: tr('campaign.ended') }
     : !started
-      ? { big: `J-${daysBetween(today, c.startsAt)}`, small: 'avant le lancement' }
+      ? { big: tr('campaign.days', { n: daysBetween(today, c.startsAt) }), small: tr('campaign.beforeLaunch') }
       : advent
-        ? { big: `J-${Math.max(0, daysBetween(today, christmas))}`, small: 'avant Noël' }
-        : { big: `J-${daysBetween(today, c.endsAt)}`, small: 'avant la fin' };
+        ? { big: tr('campaign.days', { n: Math.max(0, daysBetween(today, christmas)) }), small: tr('campaign.beforeXmas') }
+        : { big: tr('campaign.days', { n: daysBetween(today, c.endsAt) }), small: tr('campaign.beforeEnd') };
   const todayParts = parisParts(new Date());
   // Thème clair (texte foncé) : fond principal plutôt que sa variante sombre, pour garder le contraste.
   const lightText = isLight(c.colorText);
@@ -100,11 +110,11 @@ export default async function CampaignPage({ params }: Props) {
                 marginBottom: 18,
               }}
             >
-              {periodLabel(c.startsAt, c.endsAt)}
+              {periodLabel(c.startsAt, c.endsAt, L)}
             </span>
             {owner ? (
               <div style={{ fontSize: 13, fontWeight: 700, color: soft, marginBottom: 8 }}>
-                Une opération de la commune de{' '}
+                {tr('campaign.byCommune')}{' '}
                 <Link href={`${base}/${owner.slug}`} style={{ color: 'inherit', textDecoration: 'underline' }}>
                   {owner.name}
                 </Link>
@@ -118,15 +128,15 @@ export default async function CampaignPage({ params }: Props) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
             <div style={{ background: 'rgba(255,243,230,.1)', borderRadius: 16, padding: 16 }}>
               <div className="display" style={{ fontSize: 40 }}>
-                {fmtInt(participants.length)}
+                {intL(participants.length, L)}
               </div>
-              <div style={{ fontSize: 13, color: soft }}>commerces</div>
+              <div style={{ fontSize: 13, color: soft }}>{tr('campaign.shops')}</div>
             </div>
             <div style={{ background: 'rgba(255,243,230,.1)', borderRadius: 16, padding: 16 }}>
               <div className="display" style={{ fontSize: 40 }}>
-                {fmtInt(offers)}
+                {intL(offers, L)}
               </div>
-              <div style={{ fontSize: 13, color: soft }}>offres actives</div>
+              <div style={{ fontSize: 13, color: soft }}>{tr('campaign.activeOffers')}</div>
             </div>
             <div style={{ background: 'var(--amber)', color: 'var(--ink)', borderRadius: 16, padding: 16 }}>
               <div className="display" style={{ fontSize: 40 }}>
@@ -142,14 +152,14 @@ export default async function CampaignPage({ params }: Props) {
         <section className="container" style={{ paddingTop: 30, paddingBottom: 50 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: 18, gap: 14, flexWrap: 'wrap' }}>
             <h2 className="display" style={{ fontSize: 36, letterSpacing: '-0.02em', margin: 0 }}>
-              Le calendrier de l&apos;Avent du territoire
+              {tr('campaign.adventTitle')}
             </h2>
             <span style={{ fontSize: 14, color: soft }}>
               {started && !ended
-                ? `Cliquez sur une case déjà ouverte · aujourd'hui : ${todayParts.day} ${MONTHS[todayParts.month - 1]}`
+                ? tr('campaign.adventToday', { date: `${todayParts.day}${L === 'de' ? '.' : ''} ${monthName(todayParts.month, L)}` })
                 : ended
-                  ? 'Le calendrier est terminé : merci à tous !'
-                  : `Première case le ${fmtLongDate(c.startsAt).toLowerCase()}`}
+                  ? tr('campaign.adventOver')
+                  : tr('campaign.adventFirst', { date: L === 'fr' ? longDateL(c.startsAt, L).toLowerCase() : longDateL(c.startsAt, L) })}
             </span>
           </div>
           <AdventCalendar doors={calendar} base={base} storageKey={`advent:${c.id}`} />
@@ -159,7 +169,7 @@ export default async function CampaignPage({ params }: Props) {
       <section style={{ background: lightText ? c.colorText : 'var(--cream)', color: 'var(--text)' }}>
         <div className="container" style={{ paddingTop: 50, paddingBottom: 60 }}>
           <h2 className="display" style={{ fontSize: 36, letterSpacing: '-0.02em', margin: '0 0 20px' }}>
-            Les commerces participants
+            {tr('campaign.participants')}
           </h2>
           {participants.length ? (
             <div className="auto-grid" style={{ ['--min' as string]: '240px', ['--gap' as string]: '16px' }}>
@@ -194,20 +204,20 @@ export default async function CampaignPage({ params }: Props) {
                   <div style={{ padding: '12px 14px' }}>
                     <div style={{ fontWeight: 700, fontSize: 16 }}>{e.name}</div>
                     <div style={{ fontSize: 13, color: 'var(--muted)' }}>
-                      {e.activity} · {e.communeName}
+                      {activityL(e, L)} · {e.communeName}
                     </div>
                   </div>
                 </Link>
               ))}
             </div>
           ) : (
-            <p style={{ color: 'var(--muted)' }}>Les inscriptions des commerces sont en cours : revenez bientôt !</p>
+            <p style={{ color: 'var(--muted)' }}>{tr('campaign.noParticipants')}</p>
           )}
           <div style={{ marginTop: 26, display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
             <a href={`/pro?territoire=${t.slug}`} className="btn btn-dark">
-              Vous êtes commerçant ? Participez
+              {tr('campaign.proCta')}
             </a>
-            <span style={{ fontSize: 13, color: 'var(--muted)' }}>Participation gratuite, depuis votre espace professionnel.</span>
+            <span style={{ fontSize: 13, color: 'var(--muted)' }}>{tr('campaign.proHint')}</span>
           </div>
         </div>
       </section>

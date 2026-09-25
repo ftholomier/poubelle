@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { LegalShell } from '@/components/portal/LegalShell';
 import type { TerritorySettings } from '@/server/db/schema';
+import { portalT } from '@/server/i18n';
 import { getPortal } from '@/server/services/portal';
 import { appUrl, portalUrl } from '@/server/urls';
 
@@ -14,10 +15,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function LegalPage({ params }: Props) {
   const { territory } = await params;
-  const { territory: t } = await getPortal(territory);
+  const portal = await getPortal(territory);
+  const { territory: t } = portal;
+  const tr = await portalT(portal);
   const s = (t.settings ?? {}) as TerritorySettings;
   return (
-    <LegalShell eyebrow="Informations" title="Mentions légales">
+    <LegalShell eyebrow="Informations" locale={tr.locale} frenchOnlyNote={tr('common.frenchOnly')} title="Mentions légales">
       <h2>Éditeur du portail</h2>
       <p>
         {s.legalPublisher ?? t.legalName}

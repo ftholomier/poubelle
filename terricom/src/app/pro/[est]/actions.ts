@@ -256,6 +256,17 @@ export async function saveFiche(_prev: ActionState, form: FormData): Promise<Act
     await refreshCompleteness(e.id, tx);
     return ch;
   });
+  if ((after.tagline ?? '') !== (e.tagline ?? '') || (after.description ?? '') !== (e.description ?? '')) {
+    // Portail multilingue : traduction automatique de l'accroche et de la description (tâche de fond).
+    const { queueEstablishmentTranslation } = await import('@/server/services/translations');
+    await queueEstablishmentTranslation({
+      id: e.id,
+      territoryId: e.territoryId,
+      tagline: after.tagline,
+      description: after.description,
+      translations: e.translations,
+    });
+  }
   if (changes.length) {
     await audit({
       actor: actorOf(ctx),
@@ -269,6 +280,42 @@ export async function saveFiche(_prev: ActionState, form: FormData): Promise<Act
   }
   refresh(ctx, `${ctx.base}/fiche`);
   return { status: 'ok', message: changes.length ? 'Enregistré · publié instantanément' : 'Aucune modification à enregistrer.' };
+}
+
+// ─── Traductions de la fiche (portail multilingue) ─────────────────────────
+
+/** Traduction rédigée par le professionnel (prioritaire), ou retour à la traduction automatique. */
+export async function saveListingTranslation(_prev: ActionState, form: FormData): Promise<ActionState> {
+  const ctx = await proCtx(form.get('estId'));
+  if (!ctx.modules.has('MULTILINGUAL')) return { status: 'error', message: 'Le portail de votre territoire n’est pas multilingue.' };
+  const parsed = z
+    .object({
+      locale: z.enum(['en', 'de']),
+      mode: z.enum(['manual', 'auto']),
+      tagline: z.string().trim().max(255).default(''),
+      description: z.string().trim().max(5000).default(''),
+    })
+    .safeParse(Object.fromEntries(form));
+  if (!parsed.success) return { status: 'error', message: parsed.error.issues[0]?.message };
+  const d = parsed.data;
+  const { manualListingTranslation, queueEstablishmentTranslation } = await import('@/server/services/translations');
+  const { establishments } = await import('@/server/db/schema');
+  const e = ctx.est;
+  const next = manualListingTranslation(e, d.locale, d.mode === 'manual' ? { tagline: d.tagline, description: d.description } : null);
+  await db.update(establishments).set({ translations: next }).where(eq(establishments.id, e.id));
+  // Retour à l'automatique : la traduction par l'IA est reprogrammée (sans IA, le texte français s'affiche).
+  if (d.mode === 'auto') await queueEstablishmentTranslation({ ...e, translations: next });
+  await audit({
+    actor: actorOf(ctx),
+    category: 'MODIFICATION',
+    action: 'establishment.translation',
+    summary: `Fiche « ${e.name} » : traduction (${d.locale.toUpperCase()}) ${d.mode === 'manual' ? 'rédigée par le professionnel' : 'rendue automatique'}`,
+    territoryId: e.territoryId,
+    targetType: 'establishment',
+    targetId: e.id,
+  });
+  refresh(ctx, `${ctx.base}/fiche`);
+  return { status: 'ok', message: d.mode === 'manual' ? 'Traduction enregistrée : elle est en ligne.' : 'La traduction automatique est rétablie.' };
 }
 
 /** Réécriture de la description par l'assistant (quota de l'offre Essentiel). */

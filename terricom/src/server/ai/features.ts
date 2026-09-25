@@ -397,11 +397,13 @@ ${candidates
 
 const translateSchema = z.object({ text: z.string() });
 
-export async function translateText(text: string, lang: 'en' | 'de' | 'es' | 'it' | 'nl', ctx: AiContext): Promise<string | null> {
-  const names = { en: 'anglais', de: 'allemand', es: 'espagnol', it: 'italien', nl: 'néerlandais' };
+type TranslationLang = 'en' | 'de' | 'es' | 'it' | 'nl';
+const LANG_NAMES: Record<TranslationLang, string> = { en: 'anglais', de: 'allemand', es: 'espagnol', it: 'italien', nl: 'néerlandais' };
+
+export async function translateText(text: string, lang: TranslationLang, ctx: AiContext): Promise<string | null> {
   const ai = await structuredCall({
     feature: 'TRANSLATE',
-    system: `Traduis fidèlement du français vers l'${names[lang]} un texte de présentation d'un commerce local. Conserve les noms propres. Ne rajoute rien.`,
+    system: `Traduis fidèlement du français vers l'${LANG_NAMES[lang]} un texte de présentation d'un commerce local. Conserve les noms propres. Ne rajoute rien.`,
     schema: translateSchema,
     effort: 'low',
     maxTokens: 3000,
@@ -409,4 +411,34 @@ export async function translateText(text: string, lang: 'en' | 'de' | 'es' | 'it
     user: text,
   });
   return ai?.text ?? null;
+}
+
+const fieldsSchema = z.object({ items: z.array(z.object({ key: z.string(), text: z.string() })) });
+
+/**
+ * Traduit plusieurs champs en un seul appel (fiche d'un commerce, textes du portail).
+ * Renvoie null sans IA ou en cas d'échec : l'appelant garde alors le texte français (repli).
+ */
+export async function translateFields(
+  fields: Record<string, string>,
+  lang: TranslationLang,
+  ctx: AiContext,
+  context: string,
+): Promise<Record<string, string> | null> {
+  const entries = Object.entries(fields).filter(([, v]) => v.trim());
+  if (!entries.length) return {};
+  const ai = await structuredCall({
+    feature: 'TRANSLATE',
+    system: `Tu traduis du français vers l'${LANG_NAMES[lang]} les textes d'un portail de l'économie locale (${context}).
+Règles : traduction fidèle et naturelle pour des visiteurs ; conserve les noms propres (commerces, communes, produits du terroir) ; conserve la mise en forme, les retours à la ligne et les caractères spéciaux (|, &, **, #) ; n'ajoute ni ne retire d'information. Renvoie chaque champ avec sa clé d'origine.`,
+    schema: fieldsSchema,
+    effort: 'low',
+    maxTokens: 6000,
+    ctx,
+    user: JSON.stringify(entries.map(([key, text]) => ({ key, text }))),
+  });
+  if (!ai) return null;
+  const out: Record<string, string> = {};
+  for (const it of ai.items) if (it.key in fields && it.text.trim()) out[it.key] = it.text.trim();
+  return out;
 }

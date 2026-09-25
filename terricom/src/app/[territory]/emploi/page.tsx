@@ -4,31 +4,27 @@ import { notFound } from 'next/navigation';
 import { JobCard } from '@/components/portal/Cards';
 import { Photo } from '@/components/ui/Photo';
 import { CONTRACT_TYPES, type ContractType } from '@/lib/constants';
-import { pluralize } from '@/lib/format';
+import { contractL, intL } from '@/lib/i18n/format';
+import { territoryText } from '@/lib/i18n/territory';
+import { withLang } from '@/lib/i18n';
+import { portalT } from '@/server/i18n';
 import { sized } from '@/lib/images';
-import type { TerritorySettings } from '@/server/db/schema';
 import { getPortal, listPublicJobs } from '@/server/services/portal';
 import { portalUrl } from '@/server/urls';
 
 type Props = { params: Promise<{ territory: string }>; searchParams: Promise<Record<string, string | undefined>> };
 
-const FILTERS: { key: ContractType | null; label: string }[] = [
-  { key: null, label: 'Toutes' },
-  { key: 'CDI', label: 'CDI' },
-  { key: 'SAISONNIER', label: 'Saisonnier' },
-  { key: 'ALTERNANCE', label: 'Alternance' },
-  { key: 'STAGE', label: 'Stage' },
-  { key: 'CDD', label: 'CDD' },
-];
+const FILTERS: (ContractType | null)[] = [null, 'CDI', 'SAISONNIER', 'ALTERNANCE', 'STAGE', 'CDD'];
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { territory } = await params;
-  const { territory: t } = await getPortal(territory);
-  const settings = (t.settings ?? {}) as TerritorySettings;
+  const portal = await getPortal(territory);
+  const { territory: t } = portal;
+  const tr = await portalT(portal);
   return {
-    title: settings.jobsTitle ?? `Emploi à ${t.name}`,
-    description: `Les offres d'emploi des entreprises de ${t.name} : CDI, saisonniers, alternances et stages, près de chez vous.`,
-    alternates: { canonical: portalUrl(t, '/emploi') },
+    title: territoryText(t, 'jobsTitle', tr.locale) ?? tr('jobs.metaTitle', { name: t.name }),
+    description: tr('jobs.metaDesc', { name: t.name }),
+    alternates: { canonical: withLang(portalUrl(t, '/emploi'), tr.locale) },
   };
 }
 
@@ -38,13 +34,14 @@ export default async function JobsPage({ params, searchParams }: Props) {
   const portal = await getPortal(territory);
   if (!portal.modules.has('JOBS')) notFound();
   const { base, territory: t } = portal;
-  const settings = (t.settings ?? {}) as TerritorySettings;
+  const tr = await portalT(portal);
+  const L = tr.locale;
   const all = await listPublicJobs(t.id);
-  const active = FILTERS.find((f) => f.key && f.key.toLowerCase() === sp.contrat)?.key ?? null;
+  const active = FILTERS.find((f) => f && f.toLowerCase() === sp.contrat) ?? null;
   const list = active ? all.filter((j) => j.job.contractType === active) : all;
   const withPhoto = all.filter((j) => j.company.coverUrl);
-  const intro = settings.jobsIntro ?? 'Travailler près de chez soi.';
-  const filters = FILTERS.filter((f) => !f.key || all.some((j) => j.job.contractType === f.key));
+  const intro = territoryText(t, 'jobsIntro', L) ?? tr('jobs.introDefault');
+  const filters = FILTERS.filter((f) => !f || all.some((j) => j.job.contractType === f));
 
   return (
     <div>
@@ -61,7 +58,7 @@ export default async function JobsPage({ params, searchParams }: Props) {
         >
           <div>
             <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--leaf-fg)', marginBottom: 10 }}>
-              {settings.jobsTitle ?? 'Travailler sur notre territoire'}
+              {territoryText(t, 'jobsTitle', L) ?? tr('jobs.eyebrowDefault')}
             </div>
             <h1 className="display" style={{ fontSize: 'clamp(46px,5.6vw,84px)', letterSpacing: '-0.04em', lineHeight: 0.9, margin: '0 0 16px' }}>
               {intro.split(/,\s*/).map((part, i, arr) => (
@@ -72,7 +69,7 @@ export default async function JobsPage({ params, searchParams }: Props) {
               ))}
             </h1>
             <p style={{ fontSize: 18, color: 'var(--leaf-fg-2)', maxWidth: 480, margin: 0 }}>
-              {pluralize(all.length, 'offre publiée', 'offres publiées')} par les entreprises de {t.name}, mises à jour chaque jour.
+              {tr.n('jobs.count', all.length, { n: intL(all.length, L), name: t.name })}
             </p>
           </div>
           <div className="hide-md" style={{ position: 'relative', height: 380 }} aria-hidden="true">
@@ -100,13 +97,13 @@ export default async function JobsPage({ params, searchParams }: Props) {
         </div>
       </section>
       <section className="container" style={{ paddingTop: 36, paddingBottom: 60 }}>
-        <nav aria-label="Filtrer par contrat" style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 18 }}>
+        <nav aria-label={tr('jobs.filterAria')} style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 18 }}>
           {filters.map((f) => {
-            const on = f.key === active;
+            const on = f === active;
             return (
               <Link
-                key={f.label}
-                href={f.key ? `${base}/emploi?contrat=${f.key.toLowerCase()}` : `${base}/emploi`}
+                key={f ?? 'all'}
+                href={f ? `${base}/emploi?contrat=${f.toLowerCase()}` : `${base}/emploi`}
                 scroll={false}
                 aria-current={on ? 'page' : undefined}
                 style={{
@@ -119,7 +116,7 @@ export default async function JobsPage({ params, searchParams }: Props) {
                   color: on ? '#fff' : 'var(--ink)',
                 }}
               >
-                {f.label}
+                {f ? contractL(f, CONTRACT_TYPES[f].label, L) : tr('jobs.all')}
               </Link>
             );
           })}
@@ -135,12 +132,17 @@ export default async function JobsPage({ params, searchParams }: Props) {
                 commune={company.communeName}
                 contract={job.contractType as ContractType}
                 image={company.coverUrl}
+                L={L}
               />
             ))}
           </div>
         ) : (
           <div className="card card-pad" style={{ color: 'var(--muted)' }}>
-            Aucune offre {active ? `en ${CONTRACT_TYPES[active].label.toLowerCase()} ` : ''}pour le moment.
+            {active
+              ? tr('jobs.noneKind', {
+                  kind: L === 'de' ? contractL(active, CONTRACT_TYPES[active].label, L) : contractL(active, CONTRACT_TYPES[active].label, L).toLowerCase(),
+                })
+              : tr('jobs.none')}
           </div>
         )}
       </section>

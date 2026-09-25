@@ -429,3 +429,84 @@ export async function deleteCategoryAction(form: FormData): Promise<void> {
   });
   categoriesDone(ctx);
 }
+
+// ─── Langues du portail (module MULTILINGUAL) ──────────────────────────────
+
+async function multilingualCtx(): Promise<BoContext> {
+  const ctx = await adminCtx();
+  const { getEnabledModules } = await import('@/server/services/territories');
+  if (!(await getEnabledModules(ctx.territory.id)).has('MULTILINGUAL')) throw new Error('Module Multilingue non activé pour ce territoire');
+  return ctx;
+}
+
+/** Traductions des textes du portail saisies (ou relues) par la collectivité. */
+export async function saveTerritoryTranslationsAction(_prev: PersoState, form: FormData): Promise<PersoState> {
+  const ctx = await multilingualCtx();
+  const { TERRITORY_TEXT_FIELDS, TRANSLATED_LOCALES } = await import('@/server/services/translations');
+  const settings = (ctx.territory.settings ?? {}) as TerritorySettings;
+  const translations: NonNullable<TerritorySettings['translations']> = {};
+  for (const l of TRANSLATED_LOCALES) {
+    const texts: Record<string, string> = {};
+    for (const f of TERRITORY_TEXT_FIELDS) {
+      const v = String(form.get(`${l}:${f.key}`) ?? '').trim();
+      if (v.length > 600) return { status: 'error', message: `« ${f.label} » (${l.toUpperCase()}) : 600 caractères au plus.` };
+      if (v) texts[f.key] = v;
+    }
+    if (Object.keys(texts).length) translations[l] = texts;
+  }
+  await db
+    .update(territories)
+    .set({ settings: { ...settings, translations }, updatedAt: new Date() })
+    .where(eq(territories.id, ctx.territory.id));
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'territory.translations',
+    summary: 'Traductions des textes du portail mises à jour',
+    territoryId: ctx.territory.id,
+    targetType: 'territory',
+    targetId: ctx.territory.id,
+  });
+  refreshAll(ctx);
+  return { status: 'ok', message: 'Traductions enregistrées : elles sont en ligne.' };
+}
+
+/** Propose par l'IA les traductions manquantes des textes du portail. */
+export async function autoTranslateTerritoryAction(): Promise<PersoState> {
+  const ctx = await multilingualCtx();
+  const limit = await rateLimit(`i18n-territory:${ctx.territory.id}`, 5, 3600);
+  if (!limit.ok) return { status: 'error', message: 'Trop de demandes : réessayez dans une heure.' };
+  const { translateTerritoryTexts } = await import('@/server/services/translations');
+  const filled = await translateTerritoryTexts(ctx.territory.id);
+  if (filled === null)
+    return { status: 'error', message: 'Assistant IA indisponible : saisissez les traductions à la main (le français reste affiché en attendant).' };
+  refreshAll(ctx);
+  return {
+    status: 'ok',
+    message: filled
+      ? `${filled} texte${filled > 1 ? 's' : ''} traduit${filled > 1 ? 's' : ''} : relisez-les avant diffusion.`
+      : 'Tous les textes ont déjà une traduction.',
+  };
+}
+
+/** Programme la traduction des fiches publiques sans traduction à jour. */
+export async function translateListingsAction(): Promise<PersoState> {
+  const ctx = await multilingualCtx();
+  const { aiEnabled } = await import('@/server/ai/client');
+  if (!aiEnabled()) return { status: 'error', message: 'Assistant IA indisponible : les fiches restent affichées en français.' };
+  const { queueTerritoryListingTranslations } = await import('@/server/services/translations');
+  const queued = await queueTerritoryListingTranslations(ctx.territory.id);
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'territory.translate_listings',
+    summary: `Traduction de ${queued} fiche${queued > 1 ? 's' : ''} programmée`,
+    territoryId: ctx.territory.id,
+    targetType: 'territory',
+    targetId: ctx.territory.id,
+  });
+  return {
+    status: 'ok',
+    message: queued ? `${queued} fiche${queued > 1 ? 's' : ''} en cours de traduction (quelques minutes).` : 'Toutes les fiches sont déjà traduites.',
+  };
+}

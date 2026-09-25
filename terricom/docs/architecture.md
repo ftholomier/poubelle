@@ -55,7 +55,8 @@ fois par créneau grâce à une mise à jour conditionnelle de `job_schedules` ;
 console (« Tâches de fond ») : suspension, exécution manuelle, relance des échecs.
 
 Tâches à la demande : envoi d’emails, préparation et envoi par lots des lettres (territoire et
-entreprises), notifications push (`push.send`), géocodage et import SIRENE, diffusion sur les réseaux.
+entreprises), notifications push (`push.send`), traduction des fiches (`i18n.translate`), géocodage et
+import SIRENE, diffusion sur les réseaux.
 
 | Tâche                                                                     | Fréquence     |
 | ------------------------------------------------------------------------- | ------------- |
@@ -77,7 +78,8 @@ Une recherche en langage naturel (« où offrir local pour Noël ? ») est inter
 ## Intelligence artificielle
 
 `src/server/ai/` : rédaction des publications (variantes par canal), amélioration de texte, audit de fiche,
-assistant de campagnes, recherche. Chaque appel est journalisé (`ai_usage`), décompté des quotas du
+assistant de campagnes, recherche, traduction des contenus du portail multilingue (`translateFields` : plusieurs
+champs en un appel). Chaque appel est journalisé (`ai_usage`), décompté des quotas du
 territoire, et dispose d’un **repli sans IA** : en l’absence de clé ou en cas d’erreur, un résultat
 déterministe est produit et l’utilisateur n’est jamais bloqué. Aucune donnée personnelle n’est transmise.
 
@@ -99,6 +101,15 @@ en-têtes `List-Unsubscribe` en un clic, double consentement des abonnés.
 
 `/api/v1` (lecture seule, clé par territoire, 120 requêtes/min, CORS) : territoire, communes, catégories,
 fiches, agenda, actualités ; description OpenAPI sur `/api/v1/openapi.json`. Détails : [api.md](api.md).
+
+## Portail multilingue
+
+Module `MULTILINGUAL` : le portail est servi en français, anglais ou allemand selon `?lang=` (en-tête
+`x-terricom-lang` posé par le proxy) ou la préférence mémorisée (cookie `tc_lang`). Les libellés viennent d’un
+dictionnaire typé (`src/lib/i18n`), les formats (heures, dates, nombres) d’`Intl` ; les textes de la collectivité
+(`territories.settings.translations`) et les fiches (`establishments.translations`) sont traduits par l’IA ou à
+la main, avec repli sur le français. Adresses par langue annoncées par `hreflang` (pages et plan du site).
+Les espaces privés restent en français.
 
 ## Notifications et application installable
 

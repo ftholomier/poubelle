@@ -19,7 +19,8 @@ export type QueueName =
   | 'health.probe'
   | 'billing.overdue'
   | 'domains.sync'
-  | 'demo.reset';
+  | 'demo.reset'
+  | 'i18n.translate';
 
 export type EnqueueOptions = { runAt?: Date; dedupeKey?: string; maxAttempts?: number };
 

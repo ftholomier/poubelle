@@ -1,10 +1,12 @@
 import { asc, eq, isNull, or } from 'drizzle-orm';
 import { FicheEditor, SaveFicheButton } from '@/components/pro/FicheEditor';
+import { ListingTranslations } from '@/components/pro/ListingTranslations';
 import { PhotoManager } from '@/components/pro/PhotoManager';
 import { ProductManager } from '@/components/pro/ProductManager';
 import { fmtStamp, truncate } from '@/lib/format';
 import { upcomingHoliday, weeklyRows } from '@/lib/hours';
 import { variantUrl } from '@/lib/images';
+import { aiEnabled } from '@/server/ai/client';
 import { db } from '@/server/db';
 import { attributes, establishmentRevisions } from '@/server/db/schema';
 import { pickableCategories } from '@/server/services/categories';
@@ -164,6 +166,11 @@ export default async function FicheEditorPage({ params }: Props) {
           ) : null}
         </div>
       </div>
+      {ctx.modules.has('MULTILINGUAL') ? (
+        <div className="fiche-translations">
+          <ListingTranslations estId={est.id} tagline={est.tagline} description={est.description} translations={est.translations} aiEnabled={aiEnabled()} />
+        </div>
+      ) : null}
     </div>
   );
 }
