@@ -18,6 +18,10 @@ export type PlanLimits = {
   customerNewsletter: boolean;
   contactsExport: boolean;
   customQr: boolean;
+  /** Formulaires personnalisés sur la fiche (devis, réservation, inscription…). */
+  customForms?: boolean;
+  /** Pages supplémentaires de la fiche. */
+  extraPages?: boolean;
 };
 
 /** Offres entreprises, modifiables par l'exploitant (personnalisation des offres). */

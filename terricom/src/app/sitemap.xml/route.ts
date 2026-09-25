@@ -1,7 +1,7 @@
-import { and, eq, inArray } from 'drizzle-orm';
+import { and, eq, inArray, sql } from 'drizzle-orm';
 import { PUBLIC_STATUSES } from '@/lib/constants';
 import { db } from '@/server/db';
-import { campaigns, categories, circuits, communes, establishments, events, jobs, territories } from '@/server/db/schema';
+import { campaigns, categories, circuits, communes, companies, establishmentPages, establishments, events, jobs, plans, territories } from '@/server/db/schema';
 import { env } from '@/server/env';
 import { publicOrigin } from '@/server/request';
 import { getTerritoryCommunes, resolveTerritoryParam, type Territory } from '@/server/services/territories';
@@ -9,7 +9,7 @@ import { getTerritoryCommunes, resolveTerritoryParam, type Territory } from '@/s
 type Url = { loc: string; lastmod?: Date | null; priority?: number };
 
 async function territoryUrls(t: Territory, base: string): Promise<Url[]> {
-  const [ests, coms, evs, jbs, circs, camps] = await Promise.all([
+  const [ests, coms, evs, jbs, circs, camps, extra] = await Promise.all([
     db
       .select({
         slug: establishments.slug,
@@ -40,6 +40,23 @@ async function territoryUrls(t: Territory, base: string): Promise<Url[]> {
       .select({ slug: campaigns.slug, updatedAt: campaigns.updatedAt })
       .from(campaigns)
       .where(and(eq(campaigns.territoryId, t.id), inArray(campaigns.status, ['ACTIVE', 'SCHEDULED']))),
+    // Pages supplémentaires publiées, tant que l'offre de l'entreprise les inclut.
+    db
+      .select({ page: establishmentPages.slug, slug: establishments.slug, c: communes.slug, k: categories.slug, updatedAt: establishmentPages.updatedAt })
+      .from(establishmentPages)
+      .innerJoin(establishments, eq(establishments.id, establishmentPages.establishmentId))
+      .innerJoin(communes, eq(communes.id, establishments.communeId))
+      .innerJoin(categories, eq(categories.id, establishments.categoryId))
+      .innerJoin(companies, eq(companies.id, establishments.companyId))
+      .innerJoin(plans, eq(plans.key, companies.plan))
+      .where(
+        and(
+          eq(establishments.territoryId, t.id),
+          inArray(establishments.status, PUBLIC_STATUSES),
+          eq(establishmentPages.published, true),
+          sql`coalesce((${plans.limits}->>'extraPages')::boolean, false)`,
+        ),
+      ),
   ]);
   return [
     { loc: `${base}/`, priority: 1 },
@@ -51,6 +68,7 @@ async function territoryUrls(t: Territory, base: string): Promise<Url[]> {
     ...coms.map((c) => ({ loc: `${base}/${c.slug}`, priority: 0.7 })),
     // Les fiches précréées jamais complétées ne sont pas proposées aux moteurs (contenu trop pauvre).
     ...ests.filter((e) => e.status !== 'PRECREATED' || e.desc).map((e) => ({ loc: `${base}/${e.c}/${e.k}/${e.slug}`, lastmod: e.updatedAt, priority: 0.9 })),
+    ...extra.map((p) => ({ loc: `${base}/${p.c}/${p.k}/${p.slug}/${p.page}`, lastmod: p.updatedAt, priority: 0.5 })),
     ...evs.map((e) => ({ loc: `${base}/agenda/${e.slug}`, lastmod: e.updatedAt, priority: 0.6 })),
     ...jbs.map((j) => ({ loc: `${base}/emploi/${j.slug}`, lastmod: j.updatedAt, priority: 0.6 })),
     ...circs.map((c) => ({ loc: `${base}/circuits/${c.slug}`, lastmod: c.updatedAt, priority: 0.5 })),

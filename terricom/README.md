@@ -6,13 +6,13 @@ public par territoire (carte, recherche en langage naturel, campagnes, circuits,
 entreprise pour tenir sa vitrine ; un back-office pour les intercommunalités et les communes ; une console
 pour l’exploitant.
 
-| Espace | Adresse | Pour qui |
-| --- | --- | --- |
-| Site de la marque | `/` · `/collectivites` · `/professionnels` · `/tarifs` · `/demo` · `/marque` | Prospects |
-| Portail d’un territoire | `https://<territoire>.terricom.fr`, domaine personnalisé ou `/<territoire>` | Habitants, visiteurs |
-| Espace entreprise | `/pro` | Professionnels |
-| Back-office | `/collectivite` | Admins territoriaux et communaux |
-| Console | `/console` | Exploitant (super admin, support, commerciaux) |
+| Espace                  | Adresse                                                                      | Pour qui                                       |
+| ----------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------- |
+| Site de la marque       | `/` · `/collectivites` · `/professionnels` · `/tarifs` · `/demo` · `/marque` | Prospects                                      |
+| Portail d’un territoire | `https://<territoire>.terricom.fr`, domaine personnalisé ou `/<territoire>`  | Habitants, visiteurs                           |
+| Espace entreprise       | `/pro`                                                                       | Professionnels                                 |
+| Back-office             | `/collectivite`                                                              | Admins territoriaux et communaux               |
+| Console                 | `/console`                                                                   | Exploitant (super admin, support, commerciaux) |
 
 ## Démarrage rapide
 
@@ -41,26 +41,27 @@ npm run worker                   # tâches de fond (autre terminal)
 Avec `DEMO_MODE=true`, la barre de démonstration permet d’entrer dans chaque espace sans mot de passe.
 Comptes (mot de passe `Terricom2026!`, code de double authentification : secret TOTP `JBSWY3DPEHPK3PXP`) :
 
-| Rôle | Email |
-| --- | --- |
-| Super administrateur | camille@terricom.fr |
-| Admin territoriale (CC du Val de Loue) | c.duval@cc-valdeloue.fr |
-| Chargé de communication | t.girod@cc-valdeloue.fr |
-| Admin communale (Ornans) | commerce@ornans.fr |
-| Professionnelle (boulangerie) | sophie@boulangerie-martin.fr |
+| Rôle                                                           | Email                        |
+| -------------------------------------------------------------- | ---------------------------- |
+| Super administrateur                                           | camille@terricom.fr          |
+| Admin territoriale (CC du Val de Loue)                         | c.duval@cc-valdeloue.fr      |
+| Chargé de communication                                        | t.girod@cc-valdeloue.fr      |
+| Admin communale (Ornans)                                       | commerce@ornans.fr           |
+| Professionnelle (boulangerie)                                  | sophie@boulangerie-martin.fr |
+| Caviste, offre Communication (mini-site, formulaires, clients) | julie@cave-comtoise.fr       |
 
 ## Scripts
 
-| Commande | Rôle |
-| --- | --- |
-| `npm run dev` / `build` / `start` | Application Next.js |
-| `npm run worker` | File de tâches et tâches planifiées |
-| `npm run db:generate` | Nouvelle migration depuis le schéma Drizzle |
-| `npm run db:migrate` | Applique les migrations (verrou consultatif, sûr en parallèle) |
-| `npm run db:seed` / `db:reset` | Jeu de démonstration / réinitialisation complète |
-| `npm run typecheck` · `lint` | Contrôles statiques |
-| `npm test` | Tests unitaires (Vitest) |
-| `npm run test:e2e` | Parcours de bout en bout (Playwright, serveur lancé) |
+| Commande                          | Rôle                                                           |
+| --------------------------------- | -------------------------------------------------------------- |
+| `npm run dev` / `build` / `start` | Application Next.js                                            |
+| `npm run worker`                  | File de tâches et tâches planifiées                            |
+| `npm run db:generate`             | Nouvelle migration depuis le schéma Drizzle                    |
+| `npm run db:migrate`              | Applique les migrations (verrou consultatif, sûr en parallèle) |
+| `npm run db:seed` / `db:reset`    | Jeu de démonstration / réinitialisation complète               |
+| `npm run typecheck` · `lint`      | Contrôles statiques                                            |
+| `npm test`                        | Tests unitaires (Vitest)                                       |
+| `npm run test:e2e`                | Parcours de bout en bout (Playwright, serveur lancé)           |
 
 ## Pile technique
 

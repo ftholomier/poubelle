@@ -7,6 +7,24 @@ test.describe('espaces de démonstration', () => {
     await expect(page.getByText(/Boulangerie Martin/).first()).toBeVisible();
   });
 
+  test('offre Communication : clients abonnés, mini-site et formulaires', async ({ page }) => {
+    await page.goto('/demo/entrer/pro-communication');
+    await page.waitForURL(/\/pro\/[0-9a-f-]{36}/);
+    await page.getByRole('link', { name: 'Clients', exact: true }).click();
+    await expect(page.getByText('Abonnés actifs')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Exporter mes contacts (CSV)' })).toBeVisible();
+    await page.getByRole('link', { name: 'Mini-site & formulaires' }).click();
+    await expect(page.getByRole('link', { name: 'Modifier' }).first()).toBeVisible();
+    await page.getByRole('link', { name: 'Mini-site', exact: true }).click();
+    await expect(page.getByRole('checkbox', { name: 'Activer le mini-site sur ma fiche' })).toBeChecked();
+  });
+
+  test('offre Essentiel : fonctions supérieures présentées sans être accessibles', async ({ page }) => {
+    await page.goto('/demo/entrer/pro?vers=/pro/{est}/clients');
+    await expect(page.getByRole('heading', { name: 'Écrivez directement à vos clients' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Découvrir l’offre Communication' })).toBeVisible();
+  });
+
   test('back-office collectivité : tableau de bord et entreprises', async ({ page }) => {
     await page.goto('/demo/entrer/collectivite');
     await page.waitForURL(/\/collectivite/);

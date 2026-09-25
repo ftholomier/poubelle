@@ -1,7 +1,7 @@
 import { sql } from 'drizzle-orm';
 import { boolean, index, integer, jsonb, pgTable, primaryKey, text, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { citext, createdAt, pk, tstz, updatedAt } from './_common';
-import { companies } from './business';
+import { companies, establishments } from './business';
 import { audienceKind, deliveryStatus, newsletterStatus, subscriberStatus } from './enums';
 import { communes, territories } from './tenancy';
 import { users } from './users';
@@ -91,6 +91,8 @@ export const newsletters = pgTable(
       .references(() => territories.id, { onDelete: 'cascade' }),
     communeId: uuid().references(() => communes.id, { onDelete: 'set null' }),
     companyId: uuid().references(() => companies.id, { onDelete: 'cascade' }),
+    /** Lettre d'entreprise : fiche au nom de laquelle elle est envoyée. */
+    establishmentId: uuid().references(() => establishments.id, { onDelete: 'set null' }),
     number: integer(),
     subject: varchar({ length: 255 }).notNull(),
     preheader: varchar({ length: 255 }),
@@ -150,14 +152,20 @@ export const companyContacts = pgTable(
     companyId: uuid()
       .notNull()
       .references(() => companies.id, { onDelete: 'cascade' }),
+    /** Fiche depuis laquelle le client s'est abonné. */
+    establishmentId: uuid().references(() => establishments.id, { onDelete: 'set null' }),
     email: citext().notNull(),
     fullName: varchar({ length: 255 }),
     source: varchar({ length: 32 }).notNull().default('MANUAL'),
     consentText: text(),
     consentAt: tstz(),
+    /** Double opt-in : l'abonnement n'est actif qu'une fois l'adresse confirmée. */
+    confirmTokenHash: varchar({ length: 64 }),
+    confirmedAt: tstz(),
     subscribed: boolean().notNull().default(true),
+    unsubscribedAt: tstz(),
     unsubscribeToken: varchar({ length: 48 }).notNull().unique(),
     createdAt: createdAt(),
   },
-  (t) => [unique('company_contacts_uq').on(t.companyId, t.email)],
+  (t) => [unique('company_contacts_uq').on(t.companyId, t.email), index('company_contacts_company_idx').on(t.companyId, t.subscribed)],
 );

@@ -15,6 +15,7 @@ import {
   circuits,
   companies,
   companyMembers,
+  establishmentForms,
   establishments,
   jobApplications,
   jobs,
@@ -27,11 +28,13 @@ import {
 import { env } from '@/server/env';
 import { sendEmail } from '@/server/mail/send';
 import { ensureVisitorPassport, stampPassport } from '@/server/services/circuits';
+import { requestFollow } from '@/server/services/customers';
 import { getTerritoryCommunes } from '@/server/services/territories';
 import {
   applicationAckTemplate,
   appointmentRequestTemplate,
   contactMessageTemplate,
+  followConfirmTemplate,
   jobApplicationTemplate,
   newsletterConfirmTemplate,
 } from '@/server/mail/templates';
@@ -57,6 +60,19 @@ async function ownersEmails(companyId: string): Promise<string[]> {
     .innerJoin(users, eq(users.id, companyMembers.userId))
     .where(eq(companyMembers.companyId, companyId));
   return rows.map((r) => r.email);
+}
+
+/** Établissement public et offre de son entreprise (contrôle des fonctions payantes côté serveur). */
+async function publicEstablishment(id: string) {
+  const [row] = await db
+    .select({ est: establishments, plan: companies.plan })
+    .from(establishments)
+    .innerJoin(companies, eq(companies.id, establishments.companyId))
+    .where(eq(establishments.id, id))
+    .limit(1);
+  if (!row || !PUBLIC_STATUSES.includes(row.est.status)) return null;
+  const { planLimits } = await import('@/server/services/billing');
+  return { ...row, limits: await planLimits(row.plan) };
 }
 
 // ─── Newsletter : inscription en double opt-in ─────────────────────────────
@@ -329,4 +345,126 @@ export async function demoToggleStamp(stopId: string): Promise<{ ok: boolean }> 
   const passportId = await ensureVisitorPassport(stop.circuitId);
   await stampPassport(passportId, stopId, { toggle: true });
   return { ok: true };
+}
+
+// ─── Suivre un commerce (newsletter client, offre Communication) ───────────
+export async function followEstablishment(_prev: FormState, form: FormData): Promise<FormState> {
+  if (form.get('website')) return { status: 'ok', message: "C'est noté !" };
+  const parsed = z
+    .object({
+      establishmentId: z.string().uuid(),
+      email,
+      fullName: z.string().trim().max(120).optional(),
+      consent: z.literal('on', { message: 'Merci de cocher la case de consentement.' }),
+    })
+    .safeParse(Object.fromEntries(form));
+  if (!parsed.success) return { status: 'error', message: parsed.error.issues[0]?.message ?? 'Formulaire invalide.' };
+  if (!(await throttle('follow', 6, 3600))) return { status: 'error', message: 'Trop de tentatives, réessayez dans une heure.' };
+  const d = parsed.data;
+  const row = await publicEstablishment(d.establishmentId);
+  if (!row || !row.limits.customerNewsletter) return { status: 'error', message: 'Cet établissement ne propose pas encore de lettre.' };
+  const [t] = await db.select().from(territories).where(eq(territories.id, row.est.territoryId)).limit(1);
+  if (!t) return { status: 'error', message: 'Territoire inconnu.' };
+  const consentText = `J'accepte de recevoir les nouveautés et offres de ${row.est.name} par email, via ${t.name}. Désinscription en un clic.`;
+  const res = await requestFollow({
+    companyId: row.est.companyId,
+    establishmentId: row.est.id,
+    email: d.email,
+    fullName: d.fullName || null,
+    consentText,
+  });
+  if (res.already) return { status: 'ok', message: `Vous suivez déjà ${row.est.name}. À très vite dans votre boîte mail !` };
+  await sendEmail({
+    ...followConfirmTemplate({ to: d.email, territory: t, establishmentName: row.est.name, url: portalUrl(t, `/suivre/confirmer?token=${res.token}`) }),
+    territoryId: t.id,
+  });
+  return { status: 'ok', message: 'Presque fini : confirmez votre abonnement grâce au lien reçu par email.' };
+}
+
+// ─── Formulaires personnalisés (offre Premium) ─────────────────────────────
+export async function submitCustomForm(_prev: FormState, form: FormData): Promise<FormState> {
+  if (form.get('website')) return { status: 'ok', message: 'Merci, votre demande est envoyée.' };
+  const base = z
+    .object({
+      formId: z.string().uuid(),
+      name: z.string().trim().min(2, 'Indiquez votre nom').max(120),
+      email,
+      phone: z.string().trim().max(32).optional(),
+      consent: z.literal('on', { message: 'Merci d’accepter la transmission de votre demande.' }),
+    })
+    .safeParse({
+      formId: form.get('formId'),
+      name: form.get('name'),
+      email: form.get('email'),
+      phone: form.get('phone') ?? undefined,
+      consent: form.get('consent') ?? undefined,
+    });
+  if (!base.success) return { status: 'error', message: base.error.issues[0]?.message };
+  const d = base.data;
+  const [f] = await db
+    .select()
+    .from(establishmentForms)
+    .where(and(eq(establishmentForms.id, d.formId), eq(establishmentForms.isActive, true)))
+    .limit(1);
+  if (!f) return { status: 'error', message: 'Ce formulaire n’est plus disponible.' };
+  const row = await publicEstablishment(f.establishmentId);
+  if (!row || !row.limits.customForms) return { status: 'error', message: 'Ce formulaire n’est plus disponible.' };
+  // Validation champ par champ d'après la définition enregistrée par le professionnel.
+  const answers: { label: string; value: string }[] = [];
+  for (const field of f.fields) {
+    const raw = form.get(`f_${field.id}`);
+    let value = typeof raw === 'string' ? raw.trim() : '';
+    if (field.type === 'checkbox') value = raw === 'on' ? 'Oui' : '';
+    if (!value) {
+      if (field.required) return { status: 'error', message: `Le champ « ${field.label} » est obligatoire.` };
+      continue;
+    }
+    const max = field.type === 'textarea' ? 3000 : 300;
+    if (value.length > max) return { status: 'error', message: `Le champ « ${field.label} » est trop long.` };
+    if (field.type === 'email' && !z.string().email().safeParse(value).success)
+      return { status: 'error', message: `« ${field.label} » : adresse email invalide.` };
+    if (field.type === 'number' && !/^-?\d+([.,]\d+)?$/.test(value)) return { status: 'error', message: `« ${field.label} » : nombre attendu.` };
+    if (field.type === 'date' && !/^\d{4}-\d{2}-\d{2}$/.test(value)) return { status: 'error', message: `« ${field.label} » : date invalide.` };
+    if (field.type === 'select' && !(field.options ?? []).includes(value)) return { status: 'error', message: `« ${field.label} » : choix invalide.` };
+    answers.push({ label: field.label, value });
+  }
+  if (!(await throttle('custom-form', 6, 3600))) return { status: 'error', message: 'Trop de demandes envoyées, réessayez plus tard.' };
+  const est = row.est;
+  const info = await requestInfo();
+  const body = answers.map((a) => `${a.label} : ${a.value}`).join('\n') || '(aucune précision)';
+  await db.insert(messages).values({
+    establishmentId: est.id,
+    territoryId: est.territoryId,
+    source: 'FORM',
+    senderName: d.name,
+    senderEmail: d.email,
+    senderPhone: d.phone || null,
+    subject: f.title,
+    body,
+    formId: f.id,
+    answers,
+    ipHash: ipHash(info.ip),
+  });
+  const recipients = new Set([...(await ownersEmails(est.companyId)), ...(est.email ? [est.email] : [])]);
+  for (const to of recipients) {
+    const mail = contactMessageTemplate({
+      to,
+      establishmentName: est.name,
+      senderName: d.name,
+      senderEmail: d.email,
+      senderPhone: d.phone || null,
+      body,
+      url: appUrl(`/pro/${est.id}/messages`),
+    });
+    await sendEmail({ ...mail, subject: `${f.title} : nouvelle demande de ${d.name}`, template: 'custom-form', territoryId: est.territoryId });
+  }
+  await track({
+    type: 'CONTACT_SENT',
+    territoryId: est.territoryId,
+    establishmentId: est.id,
+    communeId: est.communeId,
+    userAgent: info.userAgent,
+    ip: info.ip,
+  });
+  return { status: 'ok', message: f.successText || `Merci ! ${est.name} a bien reçu votre demande et vous répondra par email.` };
 }

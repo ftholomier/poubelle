@@ -1,18 +1,23 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, permanentRedirect } from 'next/navigation';
-import { cache, type CSSProperties } from 'react';
+import { cache, Fragment, type CSSProperties, type ReactNode } from 'react';
 import { JsonLd } from '@/components/JsonLd';
 import { MapView } from '@/components/maps/MapView';
 import { Beacon } from '@/components/portal/Beacon';
 import { AppointmentCard, ContactCard, FicheActions, FicheGallery, FicheTabs } from '@/components/portal/FicheClient';
+import { EstSiteNav } from '@/components/portal/EstSiteNav';
+import { CustomFormCard, FollowCard } from '@/components/portal/FicheExtras';
 import { Photo } from '@/components/ui/Photo';
+import { contrastRatio, isHexColor } from '@/lib/color';
 import { CONTRACT_TYPES, POST_KINDS, type PostKind } from '@/lib/constants';
 import { directionsHref, fmtLongDate, fmtPhone, relativeTime, tomorrowIso, truncate } from '@/lib/format';
 import { weeklyRows } from '@/lib/hours';
 import { sized, variantUrl } from '@/lib/images';
-import type { Socials, TerritorySettings } from '@/server/db/schema';
+import { themeStyle, visibleSections } from '@/lib/minisite';
+import type { MiniSite, MiniSiteSection, Socials, TerritorySettings } from '@/server/db/schema';
 import { breadcrumbJsonLd, localBusinessJsonLd } from '@/server/seo';
+import { planLimits } from '@/server/services/billing';
 import { getPublicEstablishment, relatedCards } from '@/server/services/establishments';
 import { getPortal } from '@/server/services/portal';
 import { appUrl, portalUrl } from '@/server/urls';
@@ -108,13 +113,45 @@ export default async function FichePage({ params }: Props) {
       : null;
 
   const hasNews = e.news.length > 0 || e.events.length > 0;
-  const tabs = [
-    { id: 'presentation', label: 'Présentation' },
-    ...(e.products.length ? [{ id: 'produits', label: 'Produits' }] : []),
-    ...(hasNews ? [{ id: 'actualites', label: 'Actualités' }] : []),
-    { id: 'acces', label: 'Accès' },
-    ...(e.jobs.length && modules.has('JOBS') ? [{ id: 'recrutement', label: 'Recrutement' }] : [{ id: 'message', label: 'Contact' }]),
-  ];
+  const claimed = ['CLAIMED', 'VALIDATED'].includes(e.status);
+  // Fonctions de l'offre de l'entreprise : pages, formulaires, abonnement, mini-site.
+  const limits = await planLimits(e.plan);
+  const pages = limits.extraPages ? e.pages : [];
+  const forms = limits.customForms ? e.forms : [];
+  const mini = (e.miniSite ?? {}) as MiniSite;
+  const site = Boolean(limits.miniSite && mini.enabled);
+  const theme = site && isHexColor(e.themeColor) ? e.themeColor : null;
+  const themeVars = themeStyle(theme);
+  const hasJobs = e.jobs.length > 0 && modules.has('JOBS');
+  const bookable = e.appointmentsEnabled && modules.has('APPOINTMENTS') && limits.appointments;
+  const directions = e.lat && e.lng ? directionsHref(e.lat, e.lng, settings.directionsProvider) : null;
+  const ctaTarget =
+    site && mini.cta?.label
+      ? resolveCta(mini.cta.href, {
+          base,
+          path: e.path,
+          phone: e.phone,
+          directions,
+          rdv: bookable,
+          forms: forms.map((f) => f.id),
+          pages: pages.map((p) => p.slug),
+        })
+      : null;
+  const cta = ctaTarget && mini.cta ? { ...ctaTarget, label: mini.cta.label } : null;
+  const order = visibleSections(mini, site);
+  // Le formulaire de contact reste toujours proposé (en fin de page s'il n'a pas été placé).
+  if (!order.includes('contact')) order.push('contact');
+
+  const tabFor: Partial<Record<MiniSiteSection, { id: string; label: string }>> = {
+    presentation: { id: 'presentation', label: 'Présentation' },
+    produits: e.products.length ? { id: 'produits', label: 'Produits' } : undefined,
+    actualites: hasNews ? { id: 'actualites', label: 'Actualités' } : undefined,
+    formulaires: forms.length ? { id: 'demandes', label: forms.length === 1 ? truncate(forms[0].title, 26) : 'Demandes' } : undefined,
+    contact: hasJobs ? { id: 'recrutement', label: 'Recrutement' } : { id: 'message', label: 'Contact' },
+  };
+  const tabs = order.flatMap((k) => (tabFor[k] ? [tabFor[k]] : []));
+  const contactTab = tabs.findIndex((tb) => tb.id === 'recrutement' || tb.id === 'message');
+  tabs.splice(contactTab < 0 ? tabs.length : contactTab, 0, { id: 'acces', label: 'Accès' });
 
   const mapPoints = [
     ...(e.lat && e.lng ? [{ id: e.id, lat: e.lat, lng: e.lng, name: e.name, color: e.color }] : []),
@@ -122,11 +159,205 @@ export default async function FichePage({ params }: Props) {
       .filter((r) => r.lat && r.lng)
       .map((r) => ({ id: r.id, lat: r.lat!, lng: r.lng!, name: r.name, color: r.color, subtitle: r.activity, href: `${base}${r.path}` })),
   ];
-  const claimed = ['CLAIMED', 'VALIDATED'].includes(e.status);
   const hostLabel = url.replace(/^https?:\/\//, '');
 
+  const blocks: Record<MiniSiteSection, ReactNode> = {
+    presentation: (
+      <section id="presentation" style={{ scrollMarginTop: 130, display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <h2 className="sr-only">Présentation</h2>
+        {e.tagline && e.description ? <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--muted-2)', margin: 0 }}>{e.tagline}</p> : null}
+        <p style={{ fontSize: 19, lineHeight: 1.6, margin: 0, maxWidth: 720, textWrap: 'pretty', whiteSpace: 'pre-line' }}>
+          {e.description ?? e.tagline ?? `${e.name} vous accueille à ${e.commune.name}. ${e.activity} : poussez la porte !`}
+        </p>
+        {labels.length ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <h3 className="h3" style={{ margin: '6px 0 0' }}>
+              Labels &amp; certifications
+            </h3>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {labels.map((l) => (
+                <li
+                  key={l.slug}
+                  style={{
+                    display: 'inline-flex',
+                    gap: 6,
+                    alignItems: 'center',
+                    fontSize: 14,
+                    fontWeight: 700,
+                    padding: '7px 12px',
+                    borderRadius: 10,
+                    background: 'var(--paper)',
+                    border: '1px solid var(--line)',
+                  }}
+                >
+                  <span aria-hidden="true" style={{ color: 'var(--green)' }}>
+                    ✓
+                  </span>
+                  {l.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        {!claimed ? (
+          <div className="alert alert-info" style={{ fontSize: 14 }}>
+            Cette fiche a été créée à partir des données publiques des entreprises. Vous êtes le ou la gérante ?{' '}
+            <a href={appUrl(`/pro/revendiquer?fiche=${e.id}`)} style={{ fontWeight: 700 }}>
+              Revendiquez-la gratuitement
+            </a>{' '}
+            pour ajouter photos, horaires et actualités.
+          </div>
+        ) : null}
+      </section>
+    ),
+    pages: pages.length ? (
+      <section aria-labelledby="pages-title">
+        <h2 id="pages-title" className="h3" style={{ fontSize: 26, margin: '0 0 14px' }}>
+          À découvrir aussi
+        </h2>
+        <div className="auto-grid" style={{ ['--min' as string]: '220px', ['--gap' as string]: '12px' }}>
+          {pages.map((pg) => (
+            <Link
+              key={pg.id}
+              href={`${base}${e.path}/${pg.slug}`}
+              className="card card-link"
+              style={{ borderRadius: 14, overflow: 'hidden', color: 'inherit' }}
+            >
+              {pg.coverUrl ? (
+                <div style={{ height: 120 }}>
+                  <Photo src={sized(pg.coverUrl, 500, 260)} alt="" color={e.color} label={pg.title} />
+                </div>
+              ) : null}
+              <div style={{ padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <b style={{ fontSize: 16 }}>{pg.title}</b>
+                <span style={{ fontSize: 13, color: 'var(--muted)' }}>{truncate(pg.body.replace(/[#*\[\]()]/g, ''), 90)}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--green)' }}>Lire la page →</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+    ) : null,
+    offre: offer ? (
+      <div className="promo-banner">
+        <div className="display" style={{ fontSize: 40, lineHeight: 1, color: 'var(--ink)' }}>
+          {offer.big}
+        </div>
+        <div>
+          <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--ink)' }}>{offer.title}</div>
+          {offer.text ? <div style={{ fontSize: 14, color: 'var(--amber-fg-2)' }}>{truncate(offer.text, 160)}</div> : null}
+        </div>
+        <Link href={offer.href} className="btn btn-dark btn-sm" style={{ whiteSpace: 'nowrap' }}>
+          J&apos;en profite
+        </Link>
+      </div>
+    ) : null,
+    produits: e.products.length ? (
+      <section id="produits" style={{ scrollMarginTop: 130 }}>
+        <h2 className="h3" style={{ fontSize: 26, margin: '0 0 14px' }}>
+          Produits &amp; savoir-faire
+        </h2>
+        <div className="auto-grid" style={{ ['--min' as string]: '200px', ['--gap' as string]: '12px' }}>
+          {e.products.map((p) => (
+            <div key={p.id} className="card" style={{ borderRadius: 14, overflow: 'hidden' }}>
+              <div style={{ height: 130 }}>
+                <Photo src={sized(p.imageUrl, 500, 300)} alt="" color={e.color} label={p.name} />
+              </div>
+              <div style={{ padding: '12px 14px' }}>
+                <div style={{ fontWeight: 700 }}>{p.name}</div>
+                {p.priceText ? <div style={{ fontSize: 13, color: 'var(--muted)' }}>{p.priceText}</div> : null}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    ) : null,
+    actualites: hasNews ? (
+      <section id="actualites" style={{ scrollMarginTop: 130 }}>
+        <h2 className="h3" style={{ fontSize: 26, margin: '0 0 14px' }}>
+          Actualités
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {e.events.map((ev) => (
+            <Link key={ev.id} href={`${base}/agenda/${ev.slug}`} className="news-row" style={{ color: 'inherit' }}>
+              <span className="tag" style={{ alignSelf: 'flex-start', justifySelf: 'start', background: POST_KINDS.EVENT.bg }}>
+                Événement
+              </span>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 16 }}>{ev.title}</div>
+                <div style={{ fontSize: 14, color: 'var(--muted)' }}>
+                  {fmtLongDate(ev.startsAt)}
+                  {ev.priceText ? ` · ${ev.priceText}` : ''}
+                </div>
+              </div>
+              <span style={{ fontSize: 12, color: 'var(--green)', fontWeight: 700 }}>Voir →</span>
+            </Link>
+          ))}
+          {e.news.map((n) => (
+            <article key={n.id} className="news-row">
+              <span className="tag" style={{ alignSelf: 'flex-start', justifySelf: 'start', background: POST_KINDS[n.kind as PostKind].bg }}>
+                {POST_KINDS[n.kind as PostKind].short}
+              </span>
+              <div>
+                <h3 style={{ fontWeight: 700, fontSize: 16, margin: 0, fontFamily: 'var(--font-body)' }}>{n.title}</h3>
+                {n.body ? <div style={{ fontSize: 14, color: 'var(--muted)' }}>{truncate(n.body, 180)}</div> : null}
+              </div>
+              <time dateTime={(n.publishedAt ?? n.createdAt).toISOString()} style={{ fontSize: 12, color: 'var(--muted)' }}>
+                {relativeTime(n.publishedAt ?? n.createdAt)}
+              </time>
+            </article>
+          ))}
+        </div>
+      </section>
+    ) : null,
+    formulaires: forms.length ? (
+      <section id="demandes" style={{ scrollMarginTop: 130, display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <h2 className="sr-only">Demandes</h2>
+        {forms.map((f) => (
+          <div key={f.id} id={`form-${f.id}`} style={{ scrollMarginTop: 130 }}>
+            <CustomFormCard form={{ id: f.id, title: f.title, intro: f.intro, fields: f.fields, submitLabel: f.submitLabel }} name={e.name} />
+          </div>
+        ))}
+      </section>
+    ) : null,
+    contact: (
+      <section
+        id={hasJobs ? 'recrutement' : 'message'}
+        style={{ scrollMarginTop: 130, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 14 }}
+      >
+        {hasJobs
+          ? e.jobs.map((j) => (
+              <Link
+                key={j.id}
+                href={`${base}/emploi/${j.slug}`}
+                style={{ background: 'var(--leaf)', borderRadius: 18, padding: 20, display: 'flex', flexDirection: 'column', gap: 6, color: 'inherit' }}
+              >
+                <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.07em', textTransform: 'uppercase', color: 'var(--leaf-fg)' }}>On recrute</div>
+                <div className="display" style={{ fontSize: 22 }}>
+                  {j.title}
+                </div>
+                <div style={{ fontSize: 14, color: 'var(--leaf-fg-2)' }}>
+                  {[CONTRACT_TYPES[j.contractType].label, j.startText, e.commune.name].filter(Boolean).join(' · ')}
+                </div>
+              </Link>
+            ))
+          : null}
+        <div id={hasJobs ? 'message' : undefined} style={{ scrollMarginTop: 130 }}>
+          <ContactCard establishmentId={e.id} name={e.name} />
+        </div>
+      </section>
+    ),
+  };
+  const colorHero = site && mini.hero === 'color';
+  const heroBg = theme ?? e.color;
+  const heroFg = contrastRatio(heroBg, '#ffffff') >= contrastRatio(heroBg, '#14201b') ? '#ffffff' : '#14201b';
+  const identity = (
+    <span style={{ fontSize: 12, fontWeight: 800, color: colorHero ? heroFg : e.color, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+      {e.activity} · {e.commune.name}
+    </span>
+  );
   return (
-    <div>
+    <div style={themeVars} className={site ? 'est-site' : undefined}>
       <JsonLd
         data={localBusinessJsonLd(
           e,
@@ -169,6 +400,33 @@ export default async function FichePage({ params }: Props) {
         </span>
       </div>
 
+      {site && pages.length ? <EstSiteNav base={base} path={e.path} name={e.name} pages={pages} current={null} /> : null}
+
+      {colorHero ? (
+        <div className="container" style={{ marginTop: 14 }}>
+          <div className="est-hero" style={{ background: heroBg, color: heroFg }}>
+            {e.logoUrl ? <img src={sized(e.logoUrl, 200, 200) ?? e.logoUrl} alt={`Logo ${e.name}`} width={88} height={88} className="est-hero-logo" /> : null}
+            <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {identity}
+              <h1 className="display" style={{ fontSize: 'clamp(40px,5vw,72px)', letterSpacing: '-0.035em', lineHeight: 0.95, margin: 0 }}>
+                {e.name}
+              </h1>
+              {mini.headline ? <p style={{ margin: 0, fontSize: 19, lineHeight: 1.45, maxWidth: 640 }}>{mini.headline}</p> : null}
+              {cta ? (
+                <a
+                  href={cta.href}
+                  className="btn"
+                  style={{ alignSelf: 'flex-start', background: heroFg, color: heroBg, borderRadius: 999, fontWeight: 800, marginTop: 4 }}
+                  {...(cta.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  {cta.label}
+                </a>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       <div className="container" style={{ marginTop: 14 }}>
         <FicheGallery photos={photos} stamp={localMade ? `Fait en ${t.name}` : null} color={e.color} name={e.name} />
       </div>
@@ -178,204 +436,81 @@ export default async function FichePage({ params }: Props) {
         style={{ ['--cols' as string]: 'minmax(0,1fr) 380px', ['--gap' as string]: '40px', ['--align' as string]: 'start', paddingTop: 30, paddingBottom: 60 }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 34, minWidth: 0 }}>
-          <div style={{ display: 'flex', gap: 18, alignItems: 'flex-start' }}>
-            {e.logoUrl ? (
-              <img
-                src={sized(e.logoUrl, 160, 160) ?? e.logoUrl}
-                alt={`Logo ${e.name}`}
-                width={72}
-                height={72}
-                style={{ width: 72, height: 72, borderRadius: 18, objectFit: 'contain', background: '#fff', border: '1px solid var(--line)', flexShrink: 0 }}
-              />
-            ) : null}
-            <div style={{ minWidth: 0 }}>
-              <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
-                <span style={{ fontSize: 12, fontWeight: 800, color: e.color, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
-                  {e.activity} · {e.commune.name}
-                </span>
+          {colorHero ? (
+            e.status === 'VALIDATED' || tags.length ? (
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
                 {e.status === 'VALIDATED' ? (
                   <span className="mint-tag" title="Informations vérifiées par la collectivité">
                     ✓ Fiche vérifiée
                   </span>
                 ) : null}
+                {tags.map((tg) => (
+                  <span
+                    key={tg.slug}
+                    style={{ fontSize: 13, padding: '6px 12px', borderRadius: 999, background: 'var(--mint)', color: 'var(--green)', fontWeight: 600 }}
+                  >
+                    {tg.label}
+                  </span>
+                ))}
               </div>
-              <h1 className="display" style={{ fontSize: 'clamp(40px,4.6vw,64px)', letterSpacing: '-0.035em', lineHeight: 0.95, margin: '0 0 16px' }}>
-                {e.name}
-              </h1>
-              {tags.length ? (
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  {tags.map((tg) => (
-                    <span
-                      key={tg.slug}
-                      style={{ fontSize: 13, padding: '6px 12px', borderRadius: 999, background: 'var(--mint)', color: 'var(--green)', fontWeight: 600 }}
-                    >
-                      {tg.label}
-                    </span>
-                  ))}
-                </div>
+            ) : null
+          ) : (
+            <div style={{ display: 'flex', gap: 18, alignItems: 'flex-start' }}>
+              {e.logoUrl ? (
+                <img
+                  src={sized(e.logoUrl, 160, 160) ?? e.logoUrl}
+                  alt={`Logo ${e.name}`}
+                  width={72}
+                  height={72}
+                  style={{ width: 72, height: 72, borderRadius: 18, objectFit: 'contain', background: '#fff', border: '1px solid var(--line)', flexShrink: 0 }}
+                />
               ) : null}
+              <div style={{ minWidth: 0 }}>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
+                  {identity}
+                  {e.status === 'VALIDATED' ? (
+                    <span className="mint-tag" title="Informations vérifiées par la collectivité">
+                      ✓ Fiche vérifiée
+                    </span>
+                  ) : null}
+                </div>
+                <h1 className="display" style={{ fontSize: 'clamp(40px,4.6vw,64px)', letterSpacing: '-0.035em', lineHeight: 0.95, margin: '0 0 16px' }}>
+                  {e.name}
+                </h1>
+                {site && mini.headline ? (
+                  <p style={{ margin: '0 0 14px', fontSize: 18, lineHeight: 1.45, color: 'var(--muted-3)', maxWidth: 640 }}>{mini.headline}</p>
+                ) : null}
+                {tags.length ? (
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                    {tags.map((tg) => (
+                      <span
+                        key={tg.slug}
+                        style={{ fontSize: 13, padding: '6px 12px', borderRadius: 999, background: 'var(--mint)', color: 'var(--green)', fontWeight: 600 }}
+                      >
+                        {tg.label}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+                {cta ? (
+                  <a
+                    href={cta.href}
+                    className="btn btn-dark"
+                    style={{ marginTop: 16, borderRadius: 999 }}
+                    {...(cta.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  >
+                    {cta.label}
+                  </a>
+                ) : null}
+              </div>
             </div>
-          </div>
+          )}
 
           <FicheTabs tabs={tabs} />
 
-          <section id="presentation" style={{ scrollMarginTop: 130, display: 'flex', flexDirection: 'column', gap: 18 }}>
-            <h2 className="sr-only">Présentation</h2>
-            {e.tagline && e.description ? <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--muted-2)', margin: 0 }}>{e.tagline}</p> : null}
-            <p style={{ fontSize: 19, lineHeight: 1.6, margin: 0, maxWidth: 720, textWrap: 'pretty', whiteSpace: 'pre-line' }}>
-              {e.description ?? e.tagline ?? `${e.name} vous accueille à ${e.commune.name}. ${e.activity} : poussez la porte !`}
-            </p>
-            {e.pages.map((pg) => (
-              <div key={pg.id}>
-                <h3 className="h3" style={{ margin: '6px 0 8px' }}>
-                  {pg.title}
-                </h3>
-                <p style={{ fontSize: 16, lineHeight: 1.6, margin: 0, maxWidth: 720, whiteSpace: 'pre-line' }}>{pg.body}</p>
-              </div>
-            ))}
-            {labels.length ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <h3 className="h3" style={{ margin: '6px 0 0' }}>
-                  Labels &amp; certifications
-                </h3>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  {labels.map((l) => (
-                    <li
-                      key={l.slug}
-                      style={{
-                        display: 'inline-flex',
-                        gap: 6,
-                        alignItems: 'center',
-                        fontSize: 14,
-                        fontWeight: 700,
-                        padding: '7px 12px',
-                        borderRadius: 10,
-                        background: 'var(--paper)',
-                        border: '1px solid var(--line)',
-                      }}
-                    >
-                      <span aria-hidden="true" style={{ color: 'var(--green)' }}>
-                        ✓
-                      </span>
-                      {l.label}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-            {!claimed ? (
-              <div className="alert alert-info" style={{ fontSize: 14 }}>
-                Cette fiche a été créée à partir des données publiques des entreprises. Vous êtes le ou la gérante ?{' '}
-                <a href={appUrl(`/pro/revendiquer?fiche=${e.id}`)} style={{ fontWeight: 700 }}>
-                  Revendiquez-la gratuitement
-                </a>{' '}
-                pour ajouter photos, horaires et actualités.
-              </div>
-            ) : null}
-          </section>
-
-          {offer ? (
-            <div className="promo-banner">
-              <div className="display" style={{ fontSize: 40, lineHeight: 1, color: 'var(--ink)' }}>
-                {offer.big}
-              </div>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--ink)' }}>{offer.title}</div>
-                {offer.text ? <div style={{ fontSize: 14, color: 'var(--amber-fg-2)' }}>{truncate(offer.text, 160)}</div> : null}
-              </div>
-              <Link href={offer.href} className="btn btn-dark btn-sm" style={{ whiteSpace: 'nowrap' }}>
-                J&apos;en profite
-              </Link>
-            </div>
-          ) : null}
-
-          {e.products.length ? (
-            <section id="produits" style={{ scrollMarginTop: 130 }}>
-              <h2 className="h3" style={{ fontSize: 26, margin: '0 0 14px' }}>
-                Produits &amp; savoir-faire
-              </h2>
-              <div className="auto-grid" style={{ ['--min' as string]: '200px', ['--gap' as string]: '12px' }}>
-                {e.products.map((p) => (
-                  <div key={p.id} className="card" style={{ borderRadius: 14, overflow: 'hidden' }}>
-                    <div style={{ height: 130 }}>
-                      <Photo src={sized(p.imageUrl, 500, 300)} alt="" color={e.color} label={p.name} />
-                    </div>
-                    <div style={{ padding: '12px 14px' }}>
-                      <div style={{ fontWeight: 700 }}>{p.name}</div>
-                      {p.priceText ? <div style={{ fontSize: 13, color: 'var(--muted)' }}>{p.priceText}</div> : null}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          ) : null}
-
-          {hasNews ? (
-            <section id="actualites" style={{ scrollMarginTop: 130 }}>
-              <h2 className="h3" style={{ fontSize: 26, margin: '0 0 14px' }}>
-                Actualités
-              </h2>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {e.events.map((ev) => (
-                  <Link key={ev.id} href={`${base}/agenda/${ev.slug}`} className="news-row" style={{ color: 'inherit' }}>
-                    <span className="tag" style={{ alignSelf: 'flex-start', justifySelf: 'start', background: POST_KINDS.EVENT.bg }}>
-                      Événement
-                    </span>
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: 16 }}>{ev.title}</div>
-                      <div style={{ fontSize: 14, color: 'var(--muted)' }}>
-                        {fmtLongDate(ev.startsAt)}
-                        {ev.priceText ? ` · ${ev.priceText}` : ''}
-                      </div>
-                    </div>
-                    <span style={{ fontSize: 12, color: 'var(--green)', fontWeight: 700 }}>Voir →</span>
-                  </Link>
-                ))}
-                {e.news.map((n) => (
-                  <article key={n.id} className="news-row">
-                    <span className="tag" style={{ alignSelf: 'flex-start', justifySelf: 'start', background: POST_KINDS[n.kind as PostKind].bg }}>
-                      {POST_KINDS[n.kind as PostKind].short}
-                    </span>
-                    <div>
-                      <h3 style={{ fontWeight: 700, fontSize: 16, margin: 0, fontFamily: 'var(--font-body)' }}>{n.title}</h3>
-                      {n.body ? <div style={{ fontSize: 14, color: 'var(--muted)' }}>{truncate(n.body, 180)}</div> : null}
-                    </div>
-                    <time dateTime={(n.publishedAt ?? n.createdAt).toISOString()} style={{ fontSize: 12, color: 'var(--muted)' }}>
-                      {relativeTime(n.publishedAt ?? n.createdAt)}
-                    </time>
-                  </article>
-                ))}
-              </div>
-            </section>
-          ) : null}
-
-          <section
-            id={e.jobs.length && modules.has('JOBS') ? 'recrutement' : 'message'}
-            style={{ scrollMarginTop: 130, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 14 }}
-          >
-            {modules.has('JOBS')
-              ? e.jobs.map((j) => (
-                  <Link
-                    key={j.id}
-                    href={`${base}/emploi/${j.slug}`}
-                    style={{ background: 'var(--leaf)', borderRadius: 18, padding: 20, display: 'flex', flexDirection: 'column', gap: 6, color: 'inherit' }}
-                  >
-                    <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.07em', textTransform: 'uppercase', color: 'var(--leaf-fg)' }}>
-                      On recrute
-                    </div>
-                    <div className="display" style={{ fontSize: 22 }}>
-                      {j.title}
-                    </div>
-                    <div style={{ fontSize: 14, color: 'var(--leaf-fg-2)' }}>
-                      {[CONTRACT_TYPES[j.contractType].label, j.startText, e.commune.name].filter(Boolean).join(' · ')}
-                    </div>
-                  </Link>
-                ))
-              : null}
-            <div id={e.jobs.length && modules.has('JOBS') ? 'message' : undefined} style={{ scrollMarginTop: 130 }}>
-              <ContactCard establishmentId={e.id} name={e.name} />
-            </div>
-          </section>
+          {order.map((k) => (
+            <Fragment key={k}>{blocks[k]}</Fragment>
+          ))}
 
           {related.length ? (
             <section>
@@ -429,7 +564,7 @@ export default async function FichePage({ params }: Props) {
               establishmentId={e.id}
               territoryId={t.id}
               phone={e.phone}
-              directionsUrl={e.lat && e.lng ? directionsHref(e.lat, e.lng, settings.directionsProvider) : null}
+              directionsUrl={directions}
               website={e.website}
               shareUrl={url}
               name={e.name}
@@ -537,14 +672,18 @@ export default async function FichePage({ params }: Props) {
             ) : null}
           </div>
 
-          {e.appointmentsEnabled && modules.has('APPOINTMENTS') ? (
-            <AppointmentCard
-              establishmentId={e.id}
-              info={e.appointmentInfo}
-              services={e.products.filter((p) => p.kind === 'SERVICE').map((p) => p.name)}
-              minDate={tomorrowIso()}
-            />
+          {bookable ? (
+            <div id="rendez-vous" style={{ scrollMarginTop: 90 }}>
+              <AppointmentCard
+                establishmentId={e.id}
+                info={e.appointmentInfo}
+                services={e.products.filter((p) => p.kind === 'SERVICE').map((p) => p.name)}
+                minDate={tomorrowIso()}
+              />
+            </div>
           ) : null}
+
+          {limits.customerNewsletter && claimed ? <FollowCard establishmentId={e.id} name={e.name} /> : null}
 
           <a
             href={claimed ? appUrl('/connexion?next=/pro') : appUrl(`/pro/revendiquer?fiche=${e.id}`)}
@@ -574,4 +713,19 @@ export default async function FichePage({ params }: Props) {
       </div>
     </div>
   );
+}
+
+/** Destination du bouton principal du mini-site. */
+function resolveCta(
+  href: string,
+  o: { base: string; path: string; phone: string | null; directions: string | null; rdv: boolean; forms: string[]; pages: string[] },
+): { href: string; external?: boolean } | null {
+  if (href === 'tel') return o.phone ? { href: `tel:${o.phone.replace(/\s/g, '')}` } : null;
+  if (href === 'itineraire') return o.directions ? { href: o.directions, external: true } : null;
+  if (href === 'contact') return { href: '#message' };
+  if (href === 'rdv') return o.rdv ? { href: '#rendez-vous' } : null;
+  if (href.startsWith('form:')) return o.forms.includes(href.slice(5)) ? { href: `#form-${href.slice(5)}` } : null;
+  if (href.startsWith('page:')) return o.pages.includes(href.slice(5)) ? { href: `${o.base}${o.path}/${href.slice(5)}` } : null;
+  if (/^https:\/\/[^\s]+$/.test(href)) return { href, external: true };
+  return null;
 }

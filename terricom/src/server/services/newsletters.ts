@@ -8,6 +8,7 @@ import {
   audiences,
   categories,
   communes,
+  companyContacts,
   establishments,
   events,
   newsletterDeliveries,
@@ -375,6 +376,26 @@ export async function dispatchNewsletter(newsletterId: string): Promise<number> 
   return Number(total);
 }
 
+/** Expéditeur d'une lettre d'entreprise : la fiche au nom de laquelle elle part. */
+async function letterSender(territory: TerritoryLike, companyId: string, establishmentId: string | null) {
+  const [row] = await db
+    .select({ e: establishments, communeSlug: communes.slug, communeName: communes.name, categorySlug: categories.slug })
+    .from(establishments)
+    .innerJoin(communes, eq(communes.id, establishments.communeId))
+    .innerJoin(categories, eq(categories.id, establishments.categoryId))
+    .where(and(eq(establishments.companyId, companyId), establishmentId ? eq(establishments.id, establishmentId) : undefined))
+    .orderBy(asc(establishments.createdAt))
+    .limit(1);
+  if (!row) return null;
+  const color = row.e.themeColor && /^#[0-9a-f]{6}$/i.test(row.e.themeColor) ? row.e.themeColor : territory.colorPrimary;
+  return {
+    name: row.e.name,
+    color,
+    url: portalUrl(territory, `/${row.communeSlug}/${row.categorySlug}/${row.e.slug}`),
+    address: [row.e.name, row.e.street, [row.e.postalCode, row.communeName].filter(Boolean).join(' ')].filter(Boolean).join(' · '),
+  };
+}
+
 /** Envoie un lot ; se replanifie tant qu'il reste des destinataires. */
 export async function sendNewsletterBatch(newsletterId: string, size = 200): Promise<{ sent: number; remaining: number }> {
   const [n] = await db.select().from(newsletters).where(eq(newsletters.id, newsletterId)).limit(1);
@@ -382,43 +403,55 @@ export async function sendNewsletterBatch(newsletterId: string, size = 200): Pro
   const { getTerritoryById } = await import('./territories');
   const territory = await getTerritoryById(n.territoryId);
   if (!territory) return { sent: 0, remaining: 0 };
+  const sender = n.companyId ? await letterSender(territory, n.companyId, n.establishmentId) : null;
+  if (n.companyId && !sender) return { sent: 0, remaining: 0 };
   const batch = await db
-    .select({ d: newsletterDeliveries, unsubscribeToken: subscribers.unsubscribeToken })
+    .select({ d: newsletterDeliveries, subscriberToken: subscribers.unsubscribeToken, contactToken: companyContacts.unsubscribeToken })
     .from(newsletterDeliveries)
     .leftJoin(subscribers, eq(subscribers.id, newsletterDeliveries.subscriberId))
+    .leftJoin(companyContacts, eq(companyContacts.id, newsletterDeliveries.contactId))
     .where(and(eq(newsletterDeliveries.newsletterId, n.id), eq(newsletterDeliveries.status, 'QUEUED')))
     .limit(size);
   const blocks = await resolveBlocks(territory, n.blocks);
-  const name = newsletterName(territory);
+  const name = sender ? sender.name : newsletterName(territory);
   let sent = 0;
-  for (const { d, unsubscribeToken } of batch) {
+  for (const { d, subscriberToken, contactToken } of batch) {
     try {
-      const unsubscribeUrl = portalUrl(territory, `/newsletter/desinscription?token=${unsubscribeToken ?? ''}`);
+      const token = (sender ? contactToken : subscriberToken) ?? '';
+      const unsubscribeUrl = sender
+        ? portalUrl(territory, `/suivre/desinscription?token=${token}`)
+        : portalUrl(territory, `/newsletter/desinscription?token=${token}`);
       const { html, text } = renderNewsletter({
-        brandName: territory.name,
-        number: n.number,
-        color: territory.colorPrimary,
+        brandName: sender ? sender.name : territory.name,
+        number: sender ? null : n.number,
+        color: sender ? sender.color : territory.colorPrimary,
         accent: territory.colorAccent,
         title: n.title,
         intro: n.intro,
         preheader: n.preheader,
         heroImageUrl: sized(n.heroImageUrl, 1100, 500),
-        blocks,
+        blocks: sender ? [...blocks, { type: 'cta', label: 'Voir notre fiche', url: sender.url }] : blocks,
         newsletterName: name,
         unsubscribeUrl,
-        preferencesUrl: unsubscribeUrl,
+        preferencesUrl: sender ? null : unsubscribeUrl,
         link: (url) => signedClick(d.token, url),
         openPixelUrl: appUrl(`/api/n/o/${d.token}`),
+        ...(sender
+          ? {
+              reason: `Vous recevez cet email car vous avez choisi de suivre ${sender.name} sur ${territory.name}.`,
+              sender: `Envoyé par ${sender.address}, via ${territory.name}.`,
+            }
+          : {}),
       });
       await sendEmail({
         to: d.email,
         subject: n.subject,
         html,
         text,
-        template: 'newsletter',
+        template: sender ? 'customer-letter' : 'newsletter',
         territoryId: n.territoryId,
         headers: {
-          'List-Unsubscribe': `<${appUrl(`/api/newsletter/unsubscribe?token=${unsubscribeToken ?? ''}`)}>`,
+          'List-Unsubscribe': `<${appUrl(sender ? `/api/suivre/desinscription?token=${token}` : `/api/newsletter/unsubscribe?token=${token}`)}>`,
           'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
         },
       });

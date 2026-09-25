@@ -141,6 +141,21 @@ export function newsletterConfirmTemplate(p: { to: string; territory: TerritoryL
   return { to: p.to, subject: `Confirmez votre inscription à « ${p.newsletterName} »`, html, text, template: 'newsletter-confirm' };
 }
 
+export function followConfirmTemplate(p: { to: string; territory: TerritoryLike; establishmentName: string; url: string }): OutgoingEmail {
+  const { html, text } = renderEmail({
+    brand: brandOf(p.territory),
+    eyebrow: p.establishmentName,
+    title: 'Confirmez votre abonnement',
+    paragraphs: [
+      `Vous avez demandé à recevoir les nouveautés et les offres de ${p.establishmentName}. Un clic pour confirmer (double validation, comme le veut le RGPD).`,
+      'Sans confirmation, aucun email ne vous sera envoyé et votre adresse sera effacée sous 30 jours.',
+    ],
+    cta: { label: 'Je confirme', url: p.url },
+    footer: `Votre adresse n’est transmise qu’à ${p.establishmentName}, jamais revendue. Désinscription en un clic depuis chaque email.`,
+  });
+  return { to: p.to, subject: `Confirmez votre abonnement à ${p.establishmentName}`, html, text, template: 'follow-confirm' };
+}
+
 export function contactMessageTemplate(p: {
   to: string;
   establishmentName: string;

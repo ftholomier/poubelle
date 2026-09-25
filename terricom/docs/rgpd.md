@@ -7,6 +7,20 @@
 | Portail du territoire : fiches, newsletter, messages, candidatures, rendez-vous, circuits, mesure d’audience | la collectivité | sous-traitant (article 28) : convention de traitement annexée au contrat |
 | Comptes des professionnels et des agents, facturation des options, site terricom.fr, démonstrations | terricom | responsable de traitement |
 
+## Clients abonnés d’une entreprise (offre Communication)
+
+L’entreprise est responsable du traitement de ses contacts clients ; terricom en est le sous-traitant (conditions
+générales de vente). La collectivité n’y a pas accès : ni affichage dans le back-office, ni export.
+
+| Traitement | Données | Base légale | Conservation (purge automatique) |
+| --- | --- | --- | --- |
+| Abonnement depuis la fiche | email, nom facultatif, texte et date du consentement | consentement (double confirmation par email) | non confirmé : 30 jours ; désinscription conservée pour la garantir |
+| Ajout manuel par le professionnel | email, nom facultatif, attestation d’accord | consentement recueilli par l’entreprise, attesté à l’ajout | jusqu’à la désinscription ou la suppression par l’entreprise |
+| Lettres de l’entreprise | destinataires, ouvertures, clics | consentement | statistiques agrégées sur la lettre ; 4 envois au plus par 30 jours |
+
+Une personne désinscrite ne peut pas être réinscrite par l’entreprise : elle seule peut se réabonner depuis la
+fiche. L’export CSV des contacts (offre Communication) est journalisé dans l’audit (catégorie RGPD).
+
 ## Registre des traitements (portail d’un territoire)
 
 | Traitement | Données | Base légale | Conservation (purge automatique) |
@@ -14,6 +28,7 @@
 | Fiches des établissements | données publiques SIRENE, contenus publiés par les professionnels | mission d’intérêt public / intérêt légitime (animation économique) | tant que l’établissement est actif ; opposition possible |
 | Lettre d’information | email, commune, centres d’intérêt, preuve du consentement | consentement (double confirmation) | inscription non confirmée : 30 jours ; sans ouverture : 3 ans |
 | Messages aux professionnels | identité, coordonnées, message | consentement | 3 ans (champ `purge_after`) |
+| Formulaires personnalisés des professionnels (devis, réservation…) | identité, coordonnées, réponses | consentement | 3 ans, avec la messagerie (champ `purge_after`) |
 | Candidatures | identité, coordonnées, CV, message | mesures précontractuelles | 2 ans, CV supprimé avec la candidature |
 | Demandes de rendez-vous | identité, coordonnées, créneau | mesures précontractuelles | 12 mois |
 | Passeport des circuits | jeton anonyme, étapes tamponnées | exécution du service | 12 mois après la dernière utilisation |

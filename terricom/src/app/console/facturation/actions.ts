@@ -199,6 +199,8 @@ export async function updatePlanAction(_prev: ActionState, form: FormData): Prom
     'customerNewsletter',
     'contactsExport',
     'customQr',
+    'customForms',
+    'extraPages',
   ];
   const limits: PlanLimits = {
     ...plan.limits,

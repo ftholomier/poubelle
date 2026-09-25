@@ -98,6 +98,8 @@ async function main() {
         customerNewsletter: false,
         contactsExport: false,
         customQr: false,
+        customForms: false,
+        extraPages: false,
       },
     },
     {
@@ -113,6 +115,7 @@ async function main() {
         'Statistiques avancées',
         "Offres d'emploi",
         'Prise de rendez-vous',
+        'Formulaires personnalisés et pages supplémentaires',
       ],
       limits: {
         postsPerMonth: null,
@@ -127,6 +130,8 @@ async function main() {
         customerNewsletter: false,
         contactsExport: false,
         customQr: true,
+        customForms: true,
+        extraPages: true,
       },
     },
     {
@@ -149,6 +154,8 @@ async function main() {
         customerNewsletter: true,
         contactsExport: true,
         customQr: true,
+        customForms: true,
+        extraPages: true,
       },
     },
   ]);
@@ -1852,6 +1859,267 @@ async function main() {
       createdAt: daysAgo(3, 9),
     },
   ]);
+  // ─── Offres Premium et Communication : pages, formulaires, mini-site, clients ───
+  console.log('→ Mini-site, pages, formulaires et clients (offres Premium et Communication)');
+  const cave = estByKey.b6;
+  const fromagerie = estByKey.b2;
+  const fid = () =>
+    shortCode(8)
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, 'x');
+  const [coffretForm, plateauForm] = await db
+    .insert(S.establishmentForms)
+    .values([
+      {
+        establishmentId: cave.id,
+        title: 'Commander un coffret',
+        intro:
+          'Pour un anniversaire, un cadeau d’entreprise ou les fêtes : dites-nous l’occasion et le budget, nous composons le coffret et vous prévenons quand il est prêt.',
+        submitLabel: 'Envoyer ma demande',
+        successText: 'Merci ! Julie vous rappelle sous 24 heures pour composer votre coffret.',
+        fields: [
+          { id: fid(), label: 'Occasion', type: 'select', required: true, options: ['Anniversaire', 'Cadeau d’entreprise', 'Fêtes de fin d’année', 'Autre'] },
+          { id: fid(), label: 'Budget par coffret', type: 'select', required: true, options: ['30 €', '50 €', '80 €', '120 € et plus'] },
+          { id: fid(), label: 'Nombre de coffrets', type: 'number', required: true },
+          { id: fid(), label: 'Retrait souhaité le', type: 'date', required: false, help: 'Comptez 48 heures de préparation.' },
+          { id: fid(), label: 'Goûts et précisions', type: 'textarea', required: false },
+        ],
+        sortOrder: 0,
+        createdAt: daysAgo(60),
+      },
+      {
+        establishmentId: fromagerie.id,
+        title: 'Plateau de fromages sur commande',
+        intro: 'Plateaux composés et découpés par nos affineurs, à retirer à la boutique.',
+        submitLabel: 'Commander le plateau',
+        fields: [
+          { id: fid(), label: 'Nombre de convives', type: 'number', required: true },
+          { id: fid(), label: 'Date de retrait', type: 'date', required: true },
+          {
+            id: fid(),
+            label: 'Formule',
+            type: 'select',
+            required: true,
+            options: ['Tout Comté (3 affinages)', 'Franc-comtois (5 fromages)', 'Grand plateau (8 fromages)'],
+          },
+          { id: fid(), label: 'Découpe en portions', type: 'checkbox', required: false },
+        ],
+        sortOrder: 0,
+        createdAt: daysAgo(45),
+      },
+    ])
+    .returning();
+  await db.insert(S.establishmentPages).values([
+    {
+      establishmentId: cave.id,
+      title: 'Dégustations du samedi',
+      slug: 'degustations-du-samedi',
+      coverUrl: D.U(D.I.toast, 1280),
+      body: `Chaque samedi de 10 h à 12 h 30, nous ouvrons quatre bouteilles autour d’un thème : un domaine, un cépage ou une appellation du Jura.
+
+## Au programme ce trimestre
+- **Savagnin ouillé ou sous voile** : deux visages d’un même cépage
+- **Crémants du Jura** : brut, extra-brut et rosé
+- **Vins jaunes** : trois millésimes de Château-Chalon
+
+La dégustation est gratuite et sans inscription. Pour les groupes de plus de six personnes, [écrivez-nous](mailto:julie@cave-comtoise.fr).`,
+      sortOrder: 0,
+      createdAt: daysAgo(80),
+      updatedAt: daysAgo(12),
+    },
+    {
+      establishmentId: cave.id,
+      title: 'Coffrets entreprises',
+      slug: 'coffrets-entreprises',
+      coverUrl: D.U(D.I.board, 1280),
+      body: `Remerciez vos clients et vos équipes avec des produits du Val de Loue.
+
+## Comment ça marche
+- Choisissez un budget, de 30 à 150 € par coffret
+- Nous composons une sélection : vins, spiritueux, Comté et douceurs de nos voisins
+- Carte personnalisée et livraison dans tout le Doubs
+
+Devis gratuit sous 48 heures : utilisez le formulaire « Commander un coffret » de notre fiche.`,
+      sortOrder: 1,
+      createdAt: daysAgo(70),
+      updatedAt: daysAgo(30),
+    },
+    {
+      establishmentId: fromagerie.id,
+      title: 'Notre affinage',
+      slug: 'notre-affinage',
+      coverUrl: D.U(D.I.cheese, 1280),
+      body: `Le lait de 18 fermes voisines arrive chaque matin à la fruitière. Les meules de Comté passent ensuite de 12 à 36 mois dans nos caves, retournées et frottées à la main.
+
+## Trois affinages à la boutique
+- **12 mois** : fruité, notes de lait frais
+- **18 mois** : noisette et beurre
+- **36 mois** : puissant, cristaux de tyrosine
+
+Visite des caves le vendredi à 15 h, sur réservation.`,
+      sortOrder: 0,
+      createdAt: daysAgo(90),
+      updatedAt: daysAgo(20),
+    },
+  ]);
+  await db
+    .update(S.establishments)
+    .set({
+      themeColor: '#7a2e3b',
+      miniSite: {
+        enabled: true,
+        hero: 'color',
+        headline: 'Plus de 400 références, 120 vins du Jura et les conseils d’une caviste passionnée, au cœur d’Ornans.',
+        cta: { label: 'Commander un coffret', href: `form:${coffretForm.id}` },
+        sections: ['presentation', 'offre', 'pages', 'produits', 'formulaires', 'actualites', 'contact'],
+      },
+    })
+    .where(eq(S.establishments.id, cave.id));
+  // Réponses reçues par les formulaires.
+  const [occ, budget, nb, , gouts] = coffretForm.fields;
+  await db.insert(S.messages).values([
+    {
+      establishmentId: cave.id,
+      territoryId: vdl.id,
+      source: 'FORM',
+      senderName: 'Hélène Grosjean',
+      senderEmail: 'h.grosjean@exemple.test',
+      senderPhone: '0612457890',
+      subject: coffretForm.title,
+      formId: coffretForm.id,
+      answers: [
+        { label: occ.label, value: 'Cadeau d’entreprise' },
+        { label: budget.label, value: '50 €' },
+        { label: nb.label, value: '24' },
+        { label: gouts!.label, value: 'Pour nos clients artisans : plutôt vins blancs et un Comté 18 mois.' },
+      ],
+      body: `${occ.label} : Cadeau d’entreprise\n${budget.label} : 50 €\n${nb.label} : 24`,
+      createdAt: hoursAgo(5),
+    },
+    {
+      establishmentId: cave.id,
+      territoryId: vdl.id,
+      source: 'FORM',
+      senderName: 'Thomas Billot',
+      senderEmail: 'thomas.billot@exemple.test',
+      subject: coffretForm.title,
+      formId: coffretForm.id,
+      answers: [
+        { label: occ.label, value: 'Anniversaire' },
+        { label: budget.label, value: '80 €' },
+        { label: nb.label, value: '1' },
+      ],
+      body: `${occ.label} : Anniversaire\n${budget.label} : 80 €\n${nb.label} : 1`,
+      readAt: daysAgo(2),
+      status: 'READ',
+      createdAt: daysAgo(3, 18),
+    },
+    {
+      establishmentId: fromagerie.id,
+      territoryId: vdl.id,
+      source: 'FORM',
+      senderName: 'Isabelle Pourcelot',
+      senderEmail: 'i.pourcelot@exemple.test',
+      subject: plateauForm.title,
+      formId: plateauForm.id,
+      answers: [
+        { label: plateauForm.fields[0].label, value: '12' },
+        { label: plateauForm.fields[2].label, value: 'Franc-comtois (5 fromages)' },
+        { label: plateauForm.fields[3].label, value: 'Oui' },
+      ],
+      body: 'Plateau franc-comtois pour 12 personnes, découpé.',
+      createdAt: daysAgo(1, 11),
+    },
+  ]);
+  // Clients abonnés de la cave : inscrits depuis la fiche (double opt-in), quelques ajouts manuels.
+  const firstNames = [
+    'Claire',
+    'Julien',
+    'Nathalie',
+    'Pierre',
+    'Sandrine',
+    'Nicolas',
+    'Aurélie',
+    'Laurent',
+    'Émilie',
+    'Olivier',
+    'Camille',
+    'Sébastien',
+    'Marion',
+    'Vincent',
+  ];
+  const lastNames = ['Bourgeois', 'Vuillemin', 'Girardot', 'Jeannin', 'Cuenot', 'Monnier', 'Tissot', 'Faivre', 'Perrin', 'Roy', 'Mairot', 'Pheulpin'];
+  const contactRows: (typeof S.companyContacts.$inferInsert)[] = [];
+  const seenMails = new Set<string>();
+  for (let i = 0; contactRows.length < 38 && i < 200; i++) {
+    const f = r.pick(firstNames);
+    const l = r.pick(lastNames);
+    const email = `${slugify(f)}.${slugify(l)}@exemple.test`;
+    if (seenMails.has(email)) continue;
+    seenMails.add(email);
+    const n = contactRows.length;
+    const manual = n % 9 === 4;
+    const pending = n >= 33 && n < 36;
+    const gone = n >= 36;
+    // Les abonnements non confirmés sont récents : au-delà de 30 jours, la purge RGPD les efface.
+    const at = daysAgo(pending ? r.int(1, 12) : r.int(3, 120));
+    contactRows.push({
+      companyId: cave.companyId,
+      establishmentId: cave.id,
+      email,
+      fullName: r.chance(0.6) ? `${f} ${l}` : null,
+      source: manual ? 'MANUAL' : 'FICHE',
+      consentText: manual
+        ? 'Accord du client attesté par Julie Faivre (ajout manuel)'
+        : `J'accepte de recevoir les nouveautés et offres de La Cave Comtoise par email, via Val de Loue. Désinscription en un clic.`,
+      consentAt: at,
+      confirmedAt: pending ? null : at,
+      subscribed: !gone,
+      unsubscribedAt: gone ? daysAgo(r.int(1, 20)) : null,
+      unsubscribeToken: randomToken(24),
+      createdAt: at,
+    });
+  }
+  await db.insert(S.companyContacts).values(contactRows);
+  await db.insert(S.newsletters).values([
+    {
+      territoryId: vdl.id,
+      companyId: cave.companyId,
+      establishmentId: cave.id,
+      subject: 'Arrivage : les vins jaunes 2017 sont là',
+      title: 'Les vins jaunes 2017 sont arrivés',
+      intro: '',
+      blocks: [{ type: 'text', text: 'Bonjour à toutes et à tous, trois domaines, trois styles : venez les goûter samedi.' }],
+      status: 'SENT',
+      sentAt: daysAgo(12, 10),
+      statsRecipients: 31,
+      statsSent: 31,
+      statsOpens: 19,
+      statsClicks: 7,
+      statsUnsubscribes: 1,
+      createdById: cave.ownerId,
+      createdAt: daysAgo(12, 9),
+    },
+    {
+      territoryId: vdl.id,
+      companyId: cave.companyId,
+      establishmentId: cave.id,
+      subject: 'Samedi : dégustation des crémants du Jura',
+      title: 'Samedi, on ouvre les crémants',
+      intro: '',
+      blocks: [{ type: 'text', text: 'Brut, extra-brut et rosé : quatre crémants à découvrir samedi de 10 h à 12 h 30.' }],
+      status: 'SENT',
+      sentAt: daysAgo(26, 10),
+      statsRecipients: 28,
+      statsSent: 28,
+      statsOpens: 16,
+      statsClicks: 5,
+      statsUnsubscribes: 0,
+      createdById: cave.ownerId,
+      createdAt: daysAgo(26, 9),
+    },
+  ]);
+
   await db.insert(S.jobApplications).values({
     jobId: (await db.select({ id: S.jobs.id }).from(S.jobs).where(eq(S.jobs.establishmentId, estByKey.b1.id)).limit(1))[0].id,
     establishmentId: estByKey.b1.id,
@@ -2340,6 +2608,7 @@ Comptes de démonstration (mot de passe : ${DEMO_PASSWORD})
   Admin communale Ornans ..... commerce@ornans.fr         (MFA)
   Admin communal Quingey ..... mairie@quingey.fr
   Professionnelle (boulangère) sophie@boulangerie-martin.fr
+  Caviste (offre Communication) julie@cave-comtoise.fr
 Code MFA : secret TOTP ${DEMO_TOTP_SECRET} (à ajouter dans une application d'authentification)
 `);
   void inArray;

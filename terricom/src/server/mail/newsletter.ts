@@ -23,11 +23,16 @@ export type NewsletterView = {
   blocks: ResolvedBlock[];
   newsletterName: string;
   unsubscribeUrl: string;
-  preferencesUrl: string;
+  /** Lien « Gérer mes préférences » (absent pour les lettres d'entreprise). */
+  preferencesUrl?: string | null;
   /** Réécriture des liens (mesure des clics) ; identité en aperçu. */
   link?: (url: string) => string;
   /** Pixel de mesure d'ouverture (absent en aperçu). */
   openPixelUrl?: string | null;
+  /** Raison de l'envoi, affichée en pied (lettres d'entreprise). */
+  reason?: string;
+  /** Identité et adresse de l'expéditeur (lettres d'entreprise). */
+  sender?: string | null;
 };
 
 const FONT = "'Instrument Sans',Arial,Helvetica,sans-serif";
@@ -77,7 +82,7 @@ ${hero}
 <div style="font-family:${DISPLAY};font-weight:800;font-size:28px;line-height:1;letter-spacing:-0.5px;color:#14201B;margin:0 0 14px">${esc(v.title)}</div>
 <p style="margin:0 0 14px;font-size:14px;line-height:1.6;color:#3D443F">${esc(v.intro)}</p>
 ${blocks}
-<div style="font-size:11px;color:#9A9F95;border-top:1px solid #EFEBE2;padding-top:12px;margin-top:6px;line-height:1.5">Vous recevez cet email car vous êtes inscrit·e à la lettre ${esc(v.brandName)}. <a href="${esc(v.unsubscribeUrl)}" style="color:#9A9F95">Se désinscrire</a> · <a href="${esc(v.preferencesUrl)}" style="color:#9A9F95">Gérer mes préférences</a></div>
+<div style="font-size:11px;color:#9A9F95;border-top:1px solid #EFEBE2;padding-top:12px;margin-top:6px;line-height:1.5">${v.sender ? `${esc(v.sender)}<br>` : ''}${esc(v.reason ?? `Vous recevez cet email car vous êtes inscrit·e à la lettre ${v.brandName}.`)} <a href="${esc(v.unsubscribeUrl)}" style="color:#9A9F95">Se désinscrire</a>${v.preferencesUrl ? ` · <a href="${esc(v.preferencesUrl)}" style="color:#9A9F95">Gérer mes préférences</a>` : ''}</div>
 ${pixel}
 </td></tr></table>
 </td></tr></table></body></html>`;
@@ -95,6 +100,7 @@ ${pixel}
           ? [`${b.label} : ${b.url}`, '']
           : [...(b.title ? [b.title] : []), ...b.items.map((i) => `• ${i.name} — ${i.text} (${i.url})`), ''],
     ),
+    ...(v.sender ? [v.sender] : []),
     `Se désinscrire : ${v.unsubscribeUrl}`,
   ].join('\n');
   return { html, text };

@@ -85,6 +85,20 @@
       "when": 1790313337886,
       "tag": "0011_audience_criteria",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1790313943066,
+      "tag": "0012_company_contacts_optin",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1790314290209,
+      "tag": "0013_forms_pages_minisite",
+      "breakpoints": true
     }
   ]
 }

@@ -30,10 +30,30 @@ test.describe('portail du territoire', () => {
     await expect.poll(async () => Number((await count.textContent())?.replace(/\s/g, ''))).toBeLessThan(total);
   });
 
+  test('mini-site d’un commerce : bandeau, pages et formulaire personnalisé', async ({ page }) => {
+    await page.goto('/valdeloue/ornans/caviste/la-cave-comtoise');
+    const nav = page.getByRole('navigation', { name: 'Pages de La Cave Comtoise' });
+    await expect(nav).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Commander un coffret' }).first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Commander un coffret' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Je m’abonne' })).toBeVisible();
+    await nav.getByRole('link', { name: 'Dégustations du samedi' }).click();
+    await expect(page.getByRole('heading', { level: 1, name: 'Dégustations du samedi' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 2, name: 'Au programme ce trimestre' })).toBeVisible();
+  });
+
+  test('offre Essentiel : ni pages, ni formulaires, ni abonnement', async ({ page }) => {
+    await page.goto('/valdeloue/ornans/boulangerie/boulangerie-martin');
+    await expect(page.getByRole('heading', { level: 1, name: 'Boulangerie Martin' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Je m’abonne' })).toHaveCount(0);
+    await expect(page.locator('form.custom-form')).toHaveCount(0);
+  });
+
   test('plan du site et robots', async ({ request }) => {
     const sitemap = await request.get('/sitemap.xml');
     expect(sitemap.ok()).toBeTruthy();
     expect(await sitemap.text()).toContain('/valdeloue/explorer');
+    expect(await sitemap.text()).toContain('/la-cave-comtoise/degustations-du-samedi');
     const robots = await request.get('/robots.txt');
     expect(await robots.text()).toMatch(/Sitemap:/i);
   });

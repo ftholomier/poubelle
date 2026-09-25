@@ -13,6 +13,7 @@ import {
   companies,
   establishmentAttributes,
   establishmentCategories,
+  establishmentForms,
   establishmentPages,
   establishmentRevisions,
   establishments,
@@ -254,7 +255,7 @@ async function loadEstablishmentDetail(row: {
     .where(and(eq(territoryCategories.territoryId, e.territoryId), eq(territoryCategories.categoryId, e.categoryId)))
     .limit(1);
   if (override?.label) row = { ...row, k: { ...row.k, name: override.label } };
-  const [photos, prods, hours, exceptions, attrs, news, upcomingEvents, openJobs, pages, offers, secondary] = await Promise.all([
+  const [photos, prods, hours, exceptions, attrs, news, upcomingEvents, openJobs, pages, offers, secondary, forms] = await Promise.all([
     db
       .select()
       .from(media)
@@ -313,6 +314,11 @@ async function loadEstablishmentDetail(row: {
       .from(establishmentCategories)
       .innerJoin(categories, eq(categories.id, establishmentCategories.categoryId))
       .where(eq(establishmentCategories.establishmentId, e.id)),
+    db
+      .select()
+      .from(establishmentForms)
+      .where(and(eq(establishmentForms.establishmentId, e.id), eq(establishmentForms.isActive, true)))
+      .orderBy(asc(establishmentForms.sortOrder), asc(establishmentForms.createdAt)),
   ]);
   const slots: HoursSlot[] = hours.map((h) => ({ weekday: h.weekday, opensAt: h.opensAt, closesAt: h.closesAt }));
   const exc: HoursException[] = exceptions.map((x) => ({ date: x.date, closed: x.closed, opensAt: x.opensAt, closesAt: x.closesAt, label: x.label }));
@@ -336,6 +342,7 @@ async function loadEstablishmentDetail(row: {
     events: upcomingEvents,
     jobs: openJobs,
     pages,
+    forms,
     campaignOffer: offers[0] ? { ...offers[0].p, campaign: offers[0].cp } : null,
     secondaryCategories: secondary,
     open: openStatus(slots, exc, now),

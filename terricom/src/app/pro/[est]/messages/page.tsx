@@ -77,7 +77,10 @@ export default async function MessagesPage({ params, searchParams }: Props) {
                 </div>
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontWeight: m.readAt ? 600 : 800, fontSize: 14 }}>{m.senderName}</div>
-                  <div style={{ fontSize: 13, color: 'var(--muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.body}</div>
+                  <div style={{ fontSize: 13, color: 'var(--muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {m.formId && m.subject ? `${m.subject} · ` : ''}
+                    {m.body}
+                  </div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
                   <span style={{ fontSize: 12, color: 'var(--muted)' }}>{fmtInboxTime(m.createdAt)}</span>
@@ -115,10 +118,30 @@ export default async function MessagesPage({ params, searchParams }: Props) {
                   </form>
                 </div>
               </div>
-              {selected.subject ? <b>{selected.subject}</b> : null}
-              <div style={{ background: 'var(--cream)', borderRadius: 12, padding: 16, fontSize: 15, lineHeight: 1.6, whiteSpace: 'pre-line' }}>
-                {selected.body}
-              </div>
+              {selected.subject ? (
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                  {selected.formId ? (
+                    <span className="tag" style={{ background: 'var(--lilac)' }}>
+                      Formulaire
+                    </span>
+                  ) : null}
+                  <b>{selected.subject}</b>
+                </div>
+              ) : null}
+              {selected.answers?.length ? (
+                <dl className="answers-list">
+                  {selected.answers.map((a, i) => (
+                    <div key={i}>
+                      <dt>{a.label}</dt>
+                      <dd>{a.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : (
+                <div style={{ background: 'var(--cream)', borderRadius: 12, padding: 16, fontSize: 15, lineHeight: 1.6, whiteSpace: 'pre-line' }}>
+                  {selected.body}
+                </div>
+              )}
               {selected.senderEmail ? (
                 <ActionForm action={replyMessage} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   <input type="hidden" name="estId" value={est.id} />

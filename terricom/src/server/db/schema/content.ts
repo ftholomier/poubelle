@@ -1,7 +1,7 @@
 import { sql } from 'drizzle-orm';
 import { boolean, date, doublePrecision, index, integer, jsonb, pgTable, smallint, text, time, timestamp, unique, uuid, varchar } from 'drizzle-orm/pg-core';
 import { citext, createdAt, pk, tstz, updatedAt } from './_common';
-import { establishments, media } from './business';
+import { establishmentForms, establishments, media } from './business';
 import { appointmentStatus, authorType, contractType, eventKind, inboxStatus, jobStatus, poiKind, postKind, postStatus, publishStatus } from './enums';
 import { communes, territories } from './tenancy';
 import { users } from './users';
@@ -229,6 +229,9 @@ export const messages = pgTable(
     senderPhone: varchar({ length: 32 }),
     subject: varchar({ length: 255 }),
     body: text().notNull(),
+    /** Réponse à un formulaire personnalisé : formulaire d'origine et réponses champ par champ. */
+    formId: uuid().references(() => establishmentForms.id, { onDelete: 'set null' }),
+    answers: jsonb().$type<{ label: string; value: string }[]>(),
     status: inboxStatus().notNull().default('NEW'),
     readAt: tstz(),
     repliedAt: tstz(),

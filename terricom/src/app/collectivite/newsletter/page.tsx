@@ -71,7 +71,7 @@ export default async function NewsletterPage({ searchParams }: Props) {
       ? await db
           .select()
           .from(newsletters)
-          .where(and(eq(newsletters.id, currentId), eq(newsletters.territoryId, ctx.territory.id)))
+          .where(and(eq(newsletters.id, currentId), eq(newsletters.territoryId, ctx.territory.id), isNull(newsletters.companyId)))
           .limit(1)
       : [];
 

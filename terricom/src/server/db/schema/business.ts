@@ -47,6 +47,20 @@ export const companyMembers = pgTable(
   (t) => [primaryKey({ columns: [t.companyId, t.userId] }), index('company_members_user_idx').on(t.userId)],
 );
 
+/** Réglages du mini-site (offre Communication). */
+export type MiniSite = {
+  enabled?: boolean;
+  /** En-tête : grande photo ou aplat de la couleur de marque. */
+  hero?: 'photo' | 'color';
+  /** Accroche de l'en-tête. */
+  headline?: string | null;
+  /** Bouton principal de l'en-tête. */
+  cta?: { label: string; href: string } | null;
+  /** Ordre et visibilité des sections de la page d'accueil. */
+  sections?: MiniSiteSection[];
+};
+export type MiniSiteSection = 'presentation' | 'offre' | 'produits' | 'actualites' | 'pages' | 'formulaires' | 'contact';
+
 /**
  * Établissement : l'unité présentée au public (une boutique, un atelier, un restaurant).
  * territory_id est dénormalisé depuis le rattachement courant de la commune
@@ -103,6 +117,10 @@ export const establishments = pgTable(
     appointmentsEnabled: boolean().notNull().default(false),
     appointmentInfo: text(),
     themeColor: varchar({ length: 9 }),
+    miniSite: jsonb()
+      .$type<MiniSite>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
     translations: jsonb()
       .$type<Record<string, { description?: string; tagline?: string }>>()
       .notNull()
@@ -261,10 +279,38 @@ export const establishmentPages = pgTable(
     title: varchar({ length: 160 }).notNull(),
     slug: varchar({ length: 160 }).notNull(),
     body: text().notNull().default(''),
+    coverUrl: text(),
     sortOrder: integer().notNull().default(0),
     published: boolean().notNull().default(true),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
   (t) => [unique('establishment_pages_slug_uq').on(t.establishmentId, t.slug)],
+);
+
+export type FormFieldType = 'text' | 'textarea' | 'email' | 'tel' | 'date' | 'number' | 'select' | 'checkbox';
+export type FormField = { id: string; label: string; type: FormFieldType; required: boolean; options?: string[]; help?: string | null };
+
+/** Formulaires personnalisés de la fiche (offre Premium) : les réponses arrivent dans la messagerie. */
+export const establishmentForms = pgTable(
+  'establishment_forms',
+  {
+    id: pk(),
+    establishmentId: uuid()
+      .notNull()
+      .references(() => establishments.id, { onDelete: 'cascade' }),
+    title: varchar({ length: 160 }).notNull(),
+    intro: text(),
+    fields: jsonb()
+      .$type<FormField[]>()
+      .notNull()
+      .default(sql`'[]'::jsonb`),
+    submitLabel: varchar({ length: 60 }).notNull().default('Envoyer'),
+    successText: text(),
+    isActive: boolean().notNull().default(true),
+    sortOrder: integer().notNull().default(0),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index('establishment_forms_est_idx').on(t.establishmentId, t.sortOrder)],
 );

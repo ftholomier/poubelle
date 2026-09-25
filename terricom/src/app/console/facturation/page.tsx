@@ -34,6 +34,8 @@ const FLAGS: [string, string][] = [
   ['customerNewsletter', 'Newsletter clients'],
   ['contactsExport', 'Export des contacts'],
   ['customQr', 'QR codes personnalisés'],
+  ['customForms', 'Formulaires personnalisés'],
+  ['extraPages', 'Pages supplémentaires'],
 ];
 
 export default async function BillingPage({ searchParams }: Props) {

@@ -9,6 +9,8 @@ import { publicOrigin } from '@/server/request';
 
 const ACCOUNTS: Record<string, { email: string; path: string }> = {
   pro: { email: 'sophie@boulangerie-martin.fr', path: '/pro' },
+  // Commerce abonné à l'offre Communication : mini-site, formulaires, clients abonnés.
+  'pro-communication': { email: 'julie@cave-comtoise.fr', path: '/pro' },
   collectivite: { email: 'c.duval@cc-valdeloue.fr', path: '/collectivite' },
   commune: { email: 'commerce@ornans.fr', path: '/collectivite' },
   console: { email: 'camille@terricom.fr', path: '/console' },
@@ -30,7 +32,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ spac
   await audit({ actor: { user }, category: 'AUTH', action: 'auth.demo_login', summary: 'Connexion de démonstration', targetType: 'user', targetId: user.id });
   let path = account.path;
   let estId: string | null = null;
-  if (space === 'pro') {
+  if (space.startsWith('pro')) {
     const [est] = await db
       .select({ id: establishments.id })
       .from(companyMembers)

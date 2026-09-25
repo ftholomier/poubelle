@@ -271,6 +271,10 @@ export async function purgeRetention(): Promise<Record<string, number>> {
         and coalesce(s.confirmed_at, s.created_at) < now() - make_interval(months => ${RETENTION.subscribersInactiveMonths})
         and not exists (select 1 from newsletter_deliveries d where d.subscriber_id = s.id and d.opened_at > now() - make_interval(months => ${RETENTION.subscribersInactiveMonths}))`),
   );
+  // Clients d'entreprise : abonnements jamais confirmés effacés au bout de 30 jours (annoncé dans l'email de confirmation).
+  await run('companyContactsPending', () =>
+    del(sql`delete from company_contacts where subscribed and confirmed_at is null and coalesce(consent_at, created_at) < now() - interval '30 days'`),
+  );
   await run('importBatches', () => del(sql`delete from import_batches where created_at < now() - interval '12 months'`));
 
   // Candidatures (avec leur CV) et justificatifs de revendication : suppression des fichiers puis des lignes.

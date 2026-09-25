@@ -22,6 +22,10 @@ export default function ProLayout({ children }: { children: ReactNode }) {
             <a href="/demo/entrer/pro" style={{ color: 'var(--amber)', fontWeight: 600 }}>
               2. Gérer au quotidien
             </a>
+            ·{/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+            <a href="/demo/entrer/pro-communication" style={{ color: 'var(--amber)', fontWeight: 600 }}>
+              3. Offre Communication
+            </a>
           </>
         }
       />
