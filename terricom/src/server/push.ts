@@ -46,7 +46,10 @@ export async function deletePushSubscription(userId: string, endpoint: string) {
 }
 
 export async function userSubscriptionCount(userId: string): Promise<number> {
-  const [r] = await db.select({ n: sql<number>`count(*)::int` }).from(pushSubscriptions).where(eq(pushSubscriptions.userId, userId));
+  const [r] = await db
+    .select({ n: sql<number>`count(*)::int` })
+    .from(pushSubscriptions)
+    .where(eq(pushSubscriptions.userId, userId));
   return Number(r?.n ?? 0);
 }
 
@@ -59,7 +62,11 @@ export async function deliverPush(userIds: string[], payload: PushPayload): Prom
   const body = JSON.stringify(payload);
   for (const s of subs) {
     try {
-      await webpush.sendNotification({ endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } }, body, { TTL: 86_400, urgency: 'normal', topic: payload.tag?.slice(0, 32) });
+      await webpush.sendNotification({ endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } }, body, {
+        TTL: 86_400,
+        urgency: 'normal',
+        topic: payload.tag?.slice(0, 32),
+      });
       await db.update(pushSubscriptions).set({ failures: 0, lastSuccessAt: new Date() }).where(eq(pushSubscriptions.id, s.id));
       sent++;
     } catch (err) {

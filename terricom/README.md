@@ -60,6 +60,7 @@ Comptes (mot de passe `Terricom2026!`, code de double authentification : secret 
 | `npm run db:migrate`              | Applique les migrations (verrou consultatif, sûr en parallèle) |
 | `npm run db:seed` / `db:reset`    | Jeu de démonstration / réinitialisation complète               |
 | `npm run typecheck` · `lint`      | Contrôles statiques                                            |
+| `npm run check`                   | Formate les fichiers modifiés, types, lint, tests unitaires    |
 | `npm test`                        | Tests unitaires (Vitest)                                       |
 | `npm run test:e2e`                | Parcours de bout en bout (Playwright, serveur lancé)           |
 

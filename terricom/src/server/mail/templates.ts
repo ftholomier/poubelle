@@ -5,7 +5,12 @@ type TerritoryLike = { name: string; colorPrimary: string; colorAccent: string; 
 
 const brandOf = (t?: TerritoryLike | null): EmailBrand =>
   t
-    ? { name: t.name, color: t.colorPrimary, accent: t.colorAccent, whiteLabel: Boolean((t.settings as { whiteLabel?: boolean } | null | undefined)?.whiteLabel) }
+    ? {
+        name: t.name,
+        color: t.colorPrimary,
+        accent: t.colorAccent,
+        whiteLabel: Boolean((t.settings as { whiteLabel?: boolean } | null | undefined)?.whiteLabel),
+      }
     : TERRICOM_BRAND;
 
 export function verifyEmailTemplate(p: { to: string; firstName: string; url: string }): OutgoingEmail {

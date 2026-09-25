@@ -343,8 +343,8 @@ export default async function ConsoleTerritories({ searchParams }: Props) {
                       style={{ display: 'flex', gap: 6, alignItems: 'center', fontSize: 13, fontWeight: 600, paddingBottom: 10 }}
                       title="Aucune mention de terricom sur le portail ni dans les emails du territoire"
                     >
-                      <input type="checkbox" name="whiteLabel" defaultChecked={Boolean((panel.territory.settings as TerritorySettings | null)?.whiteLabel)} /> Marque
-                      blanche
+                      <input type="checkbox" name="whiteLabel" defaultChecked={Boolean((panel.territory.settings as TerritorySettings | null)?.whiteLabel)} />{' '}
+                      Marque blanche
                     </label>
                     <SubmitButton className="btn btn-outline btn-sm" pendingLabel="…">
                       Appliquer
