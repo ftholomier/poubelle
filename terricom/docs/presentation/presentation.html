@@ -97,6 +97,15 @@ body { font-family: 'Instrument', system-ui, sans-serif; color: var(--ink); back
 .divider .num { font-family: 'Bricolage'; font-weight: 800; font-size: 210px; line-height: .8; letter-spacing: -0.06em; color: var(--amber); }
 .amber.divider .num { color: var(--ink); }
 
+
+/* Diapositives « À l'écran » : grande capture annotée */
+.zgrid { display: grid; grid-template-columns: 790px 1fr; gap: 30px; margin-top: 18px; align-items: center; }
+.zl { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px; }
+.zl li { display: grid; grid-template-columns: 38px 1fr; gap: 12px; font-size: 16.5px; line-height: 1.35; color: var(--text2); }
+.zl li b { display: block; font-family: 'Bricolage'; font-size: 19px; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1px; }
+.ecran { display: inline-flex; align-items: center; gap: 8px; }
+.ecran::before { content: 'À l’écran'; background: var(--ink); color: var(--amber); border-radius: 999px; padding: 3px 10px; font-size: 12px; letter-spacing: .08em; }
+
 /* Étapes (construction progressive) */
 .later { visibility: hidden; }
 
@@ -237,6 +246,16 @@ body.screen .hint { display: block; position: fixed; bottom: 10px; right: 14px; 
 </section>
 
 <section class="slide">
+  <div class="kicker ecran">Valider une demande</div>
+  <h2 class="t" style="font-size:40px">Un commerçant réclame sa fiche : <em>vous validez.</em></h2>
+  <div class="zgrid">
+    <div class="browser anim" style="--d:.05s"><div class="bar"><i></i><i></i><i></i><span>Votre espace collectivité · Revendications</span></div><div class="shotwrap"><img src="../dossier/captures/c-revendications.jpg" alt=""><span class="callout pop" style="left:21%;top:20%;--d:0.50s">1</span><span class="callout pop" style="left:50%;top:27%;--d:0.65s">2</span><span class="callout pop" style="left:49%;top:42%;--d:0.80s">3</span><span class="callout pop" style="left:46%;top:57%;--d:0.95s">4</span></div></div>
+    <ol class="zl"><li class="anim" style="--d:0.15s"><span class="nb">1</span><span><b>Les demandes en attente</b>Chacune avec son niveau de confiance : risque faible, à vérifier…</span></li><li class="anim" style="--d:0.27s"><span class="nb">2</span><span><b>Les vérifications faites pour vous</b>Numéro d’entreprise, adresse email, téléphone : tout est comparé.</span></li><li class="anim" style="--d:0.39s"><span class="nb">3</span><span><b>L’historique de la fiche</b>Qui a fait quoi, et quand.</span></li><li class="anim" style="--d:0.51s"><span class="nb">4</span><span><b>Un clic pour décider</b>Valider, demander un justificatif ou refuser.</span></li></ol>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>1 · La communauté de communes</span><span class="n"></span></div>
+</section>
+
+<section class="slide">
   <div class="kicker">Communauté de communes · Campagnes</div>
   <h2 class="t">Des campagnes <em>clés en main.</em></h2>
   <div class="split">
@@ -249,6 +268,16 @@ body.screen .hint { display: block; position: fixed; bottom: 10px; right: 14px; 
       <div class="browser anim" style="--d:.15s;position:absolute;left:0;top:0;width:600px"><div class="bar"><i></i><i></i><i></i><span>Votre espace collectivité · Campagnes</span></div><div class="shotwrap"><img src="../dossier/captures/c-campagnes.jpg" alt=""><span class="callout pop" style="left:22%;top:78%;--d:.8s">2</span></div></div>
       <div class="browser anim" style="--d:.45s;position:absolute;right:0;bottom:0;width:440px"><div class="bar"><i></i><i></i><i></i><span>Le portail · la campagne</span></div><div class="shotwrap"><img src="../dossier/captures/p-campagne.jpg" alt=""><span class="callout pop" style="left:6%;top:9%;--d:1s">1</span></div></div>
     </div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>1 · La communauté de communes</span><span class="n"></span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker ecran">L’assistant de campagne</div>
+  <h2 class="t" style="font-size:40px">Une phrase, et <em>la campagne est prête.</em></h2>
+  <div class="zgrid">
+    <div class="browser anim" style="--d:.05s"><div class="bar"><i></i><i></i><i></i><span>Votre espace collectivité · Campagnes</span></div><div class="shotwrap"><img src="../dossier/captures/c-ia.jpg" alt=""><span class="callout pop" style="left:22%;top:49%;--d:0.50s">1</span><span class="callout pop" style="left:23%;top:62%;--d:0.65s">2</span><span class="callout pop" style="left:48%;top:62%;--d:0.80s">3</span><span class="callout pop" style="left:73%;top:62%;--d:0.95s">4</span><span class="callout pop" style="left:23%;top:92%;--d:1.10s">5</span></div></div>
+    <ol class="zl"><li class="anim" style="--d:0.15s"><span class="nb">1</span><span><b>Votre idée</b>« Mettre en avant les producteurs locaux avant Noël. »</span></li><li class="anim" style="--d:0.27s"><span class="nb">2</span><span><b>Les participants</b>40 producteurs choisis, fiches complètes en priorité.</span></li><li class="anim" style="--d:0.39s"><span class="nb">3</span><span><b>La page de la campagne</b>Titre et texte rédigés, avec de vrais noms de commerces.</span></li><li class="anim" style="--d:0.51s"><span class="nb">4</span><span><b>Le calendrier</b>Invitations, mise en ligne, lettre aux habitants, réseaux sociaux.</span></li><li class="anim" style="--d:0.63s"><span class="nb">5</span><span><b>Vous décidez</b>Créer, ajuster la sélection, inviter les producteurs.</span></li></ol>
   </div>
   <div class="foot"><span class="brand">terricom<i>.</i></span><span>1 · La communauté de communes</span><span class="n"></span></div>
 </section>
@@ -371,6 +400,26 @@ body.screen .hint { display: block; position: fixed; bottom: 10px; right: 14px; 
 </section>
 
 <section class="slide">
+  <div class="kicker ecran">L’espace de la mairie</div>
+  <h2 class="t" style="font-size:40px">La mairie d’Ornans <em>chez elle.</em></h2>
+  <div class="zgrid">
+    <div class="browser anim" style="--d:.05s"><div class="bar"><i></i><i></i><i></i><span>Espace mairie d’Ornans · Tableau de bord</span></div><div class="shotwrap"><img src="../dossier/captures/k-tableau.jpg" alt=""><span class="callout pop" style="left:22%;top:14%;--d:0.50s">1</span><span class="callout pop" style="left:62%;top:14%;--d:0.65s">2</span><span class="callout pop" style="left:22%;top:58%;--d:0.80s">3</span><span class="callout pop" style="left:69%;top:58%;--d:0.95s">4</span></div></div>
+    <ol class="zl"><li class="anim" style="--d:0.15s"><span class="nb">1</span><span><b>Sa commune seulement</b>214 établissements, 153 fiches déjà réclamées.</span></li><li class="anim" style="--d:0.27s"><span class="nb">2</span><span><b>La météo de son commerce</b>Un résumé simple de la semaine à Ornans.</span></li><li class="anim" style="--d:0.39s"><span class="nb">3</span><span><b>Ses commerces sur la carte</b>Rue par rue, quartier par quartier.</span></li><li class="anim" style="--d:0.51s"><span class="nb">4</span><span><b>Les activités qui avancent</b>Libraires, apiculteurs, informaticiens…</span></li></ol>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>2 · La commune</span><span class="n"></span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker ecran">Les opérations de la mairie</div>
+  <h2 class="t" style="font-size:40px">Ses opérations, <em>et celles du territoire.</em></h2>
+  <div class="zgrid">
+    <div class="browser anim" style="--d:.05s"><div class="bar"><i></i><i></i><i></i><span>Espace mairie d’Ornans · Campagnes</span></div><div class="shotwrap"><img src="../dossier/captures/k-campagnes.jpg" alt=""><span class="callout pop" style="left:42%;top:18%;--d:0.50s">1</span><span class="callout pop" style="left:22%;top:18%;--d:0.65s">2</span><span class="callout pop" style="left:22%;top:80%;--d:0.80s">3</span></div></div>
+    <ol class="zl"><li class="anim" style="--d:0.15s"><span class="nb">1</span><span><b>Son opération</b>« Quinzaine commerciale d’Ornans », créée et gérée par la mairie.</span></li><li class="anim" style="--d:0.27s"><span class="nb">2</span><span><b>Les campagnes du territoire</b>Visibles, pour y faire participer ses commerces, sans pouvoir les modifier.</span></li><li class="anim" style="--d:0.39s"><span class="nb">3</span><span><b>L’assistant aussi</b>La mairie prépare ses propres opérations en une phrase.</span></li></ol>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>2 · La commune</span><span class="n"></span></div>
+</section>
+
+<section class="slide">
   <div class="kicker">Commune · La vie locale</div>
   <h2 class="t">Agenda, marchés, emploi : <em>la vie locale au même endroit.</em></h2>
   <div class="grid2" style="margin-top:26px;gap:28px;flex:1;align-items:start">
@@ -429,6 +478,18 @@ body.screen .hint { display: block; position: fixed; bottom: 10px; right: 14px; 
 </section>
 
 <section class="slide">
+  <div class="kicker ecran">Réclamer sa fiche</div>
+  <h2 class="t" style="font-size:40px">Deux écrans, <em>deux minutes.</em></h2>
+  <div class="grid2" style="gap:26px;margin-top:22px">
+    <div class="anim" style="--d:.1s"><div class="browser"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/pro/revendiquer</span></div><div class="shotwrap"><img src="../dossier/captures/r-recherche.jpg" alt=""><span class="callout pop" style="left:56%;top:29%;--d:.6s">1</span><span class="callout pop" style="left:92%;top:38%;--d:.75s">2</span></div></div>
+      <p style="font-size:17px;line-height:1.4;color:var(--text2);margin:14px 4px 0"><span class="nb" style="display:inline-grid;width:28px;height:28px;font-size:14px;margin-right:6px">1</span>Il tape le nom de son commerce… <span class="nb" style="display:inline-grid;width:28px;height:28px;font-size:14px;margin:0 6px">2</span>et clique sur « C’est moi ».</p></div>
+    <div class="anim" style="--d:.3s"><div class="browser"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/pro/revendiquer · vérification</span></div><div class="shotwrap"><img src="../dossier/captures/r-etape.jpg" alt=""><span class="callout pop" style="left:57%;top:23%;--d:.9s">3</span><span class="callout pop" style="left:75%;top:52%;--d:1.05s">4</span></div></div>
+      <p style="font-size:17px;line-height:1.4;color:var(--text2);margin:14px 4px 0"><span class="nb" style="display:inline-grid;width:28px;height:28px;font-size:14px;margin-right:6px">3</span>Il vérifie les informations déjà connues… <span class="nb" style="display:inline-grid;width:28px;height:28px;font-size:14px;margin:0 6px">4</span>et confirme. La collectivité valide ensuite.</p></div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Le commerce</span><span class="n"></span></div>
+</section>
+
+<section class="slide">
   <div class="kicker">Commerce · Son tableau de bord</div>
   <h2 class="t">Un tableau de bord <em>qui dit quoi faire.</em></h2>
   <div class="split">
@@ -445,6 +506,16 @@ body.screen .hint { display: block; position: fixed; bottom: 10px; right: 14px; 
 </section>
 
 <section class="slide">
+  <div class="kicker ecran">Le kit vitrine</div>
+  <h2 class="t" style="font-size:40px">Le kit vitrine, <em>prêt à imprimer.</em></h2>
+  <div class="zgrid">
+    <div class="browser anim" style="--d:.05s"><div class="bar"><i></i><i></i><i></i><span>Espace professionnel · Kit vitrine & QR code</span></div><div class="shotwrap"><img src="../dossier/captures/e-kit.jpg" alt=""><span class="callout pop" style="left:22%;top:12%;--d:0.50s">1</span><span class="callout pop" style="left:24%;top:26%;--d:0.65s">2</span><span class="callout pop" style="left:34%;top:75%;--d:0.80s">3</span><span class="callout pop" style="left:62%;top:32%;--d:0.95s">4</span><span class="callout pop" style="left:93%;top:12%;--d:1.10s">5</span></div></div>
+    <ol class="zl"><li class="anim" style="--d:0.15s"><span class="nb">1</span><span><b>Aux couleurs choisies</b>Vert, crème ou nuit : trois styles d’affichette.</span></li><li class="anim" style="--d:0.27s"><span class="nb">2</span><span><b>L’affichette de vitrine</b>« Retrouvez-nous en ligne ! », au nom du territoire.</span></li><li class="anim" style="--d:0.39s"><span class="nb">3</span><span><b>Le QR code</b>Scanné en vitrine, il ouvre la fiche… et tamponne le passeport du circuit.</span></li><li class="anim" style="--d:0.51s"><span class="nb">4</span><span><b>Tout à télécharger</b>Affichette, autocollant, carte de visite.</span></li><li class="anim" style="--d:0.63s"><span class="nb">5</span><span><b>Les scans comptés</b>118 scans ce mois pour la boulangerie.</span></li></ol>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Le commerce</span><span class="n"></span></div>
+</section>
+
+<section class="slide">
   <div class="kicker">Commerce · Publier</div>
   <h2 class="t">Publier une nouveauté <em>en une phrase.</em></h2>
   <div class="split">
@@ -455,6 +526,16 @@ body.screen .hint { display: block; position: fixed; bottom: 10px; right: 14px; 
     </ul>
     <div class="browser anim" style="--d:.15s"><div class="bar"><i></i><i></i><i></i><span>Espace professionnel · Publications</span></div><div class="shotwrap"><img src="../dossier/captures/e-publications.jpg" alt="">
       <span class="callout pop" style="left:22%;top:25%;--d:.6s">1</span><span class="callout pop" style="left:60%;top:25%;--d:.8s">2</span><span class="callout pop" style="left:22%;top:75%;--d:1s">3</span></div></div>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Le commerce</span><span class="n"></span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker ecran">L’assistant de rédaction</div>
+  <h2 class="t" style="font-size:40px">Une phrase, <em>quatre textes prêts.</em></h2>
+  <div class="zgrid">
+    <div class="browser anim" style="--d:.05s"><div class="bar"><i></i><i></i><i></i><span>Espace professionnel · Publications</span></div><div class="shotwrap"><img src="../dossier/captures/e-ia.jpg" alt=""><span class="callout pop" style="left:22%;top:24%;--d:0.50s">1</span><span class="callout pop" style="left:22%;top:38%;--d:0.65s">2</span><span class="callout pop" style="left:49%;top:38%;--d:0.80s">3</span><span class="callout pop" style="left:22%;top:74%;--d:0.95s">4</span><span class="callout pop" style="left:80%;top:12%;--d:1.10s">5</span></div></div>
+    <ol class="zl"><li class="anim" style="--d:0.15s"><span class="nb">1</span><span><b>Ce que le commerçant écrit</b>« Galettes comtoises au beurre AOP tout le week-end. »</span></li><li class="anim" style="--d:0.27s"><span class="nb">2</span><span><b>Pour sa fiche</b>Un texte clair et informatif.</span></li><li class="anim" style="--d:0.39s"><span class="nb">3</span><span><b>Pour Facebook</b>Chaleureux, avec une invitation à passer.</span></li><li class="anim" style="--d:0.51s"><span class="nb">4</span><span><b>Pour Instagram et LinkedIn</b>Chacun dans son style. Il copie ou publie.</span></li><li class="anim" style="--d:0.63s"><span class="nb">5</span><span><b>Son calendrier</b>Les publications programmées du mois.</span></li></ol>
   </div>
   <div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Le commerce</span><span class="n"></span></div>
 </section>
@@ -481,6 +562,16 @@ body.screen .hint { display: block; position: fixed; bottom: 10px; right: 14px; 
     </div>
   </div>
   <p data-step="1" style="margin:16px 0 0;font-size:17px;color:var(--muted)">Aucune carte bancaire n'est demandée pour l'offre Essentiel. Les options sont un choix libre du commerçant.</p>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Le commerce</span><span class="n"></span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker ecran">Mon offre</div>
+  <h2 class="t" style="font-size:40px">Le commerçant <em>choisit lui-même.</em></h2>
+  <div class="zgrid">
+    <div class="browser anim" style="--d:.05s"><div class="bar"><i></i><i></i><i></i><span>Espace professionnel · Mon offre</span></div><div class="shotwrap"><img src="../dossier/captures/e-offre.jpg" alt=""><span class="callout pop" style="left:18%;top:46%;--d:0.50s">1</span><span class="callout pop" style="left:45%;top:46%;--d:0.65s">2</span><span class="callout pop" style="left:72%;top:46%;--d:0.80s">3</span><span class="callout pop" style="left:58%;top:74%;--d:0.95s">4</span></div></div>
+    <ol class="zl"><li class="anim" style="--d:0.15s"><span class="nb">1</span><span><b>Essentiel, offert</b>Financé par la communauté de communes : c’est l’offre actuelle.</span></li><li class="anim" style="--d:0.27s"><span class="nb">2</span><span><b>Premium</b>Pour gagner du temps et des clients.</span></li><li class="anim" style="--d:0.39s"><span class="nb">3</span><span><b>Communication</b>Pour fidéliser et avoir son mini-site.</span></li><li class="anim" style="--d:0.51s"><span class="nb">4</span><span><b>Un bouton pour changer</b>Sans engagement ; la fiche reste gratuite pour toujours.</span></li></ol>
+  </div>
   <div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Le commerce</span><span class="n"></span></div>
 </section>
 
@@ -600,6 +691,16 @@ body.screen .hint { display: block; position: fixed; bottom: 10px; right: 14px; 
   <div class="foot"><span class="brand">terricom<i>.</i></span><span>5 · L'accompagnement</span><span class="n"></span></div>
 </section>
 
+<section class="slide">
+  <div class="kicker ecran">Aide et support</div>
+  <h2 class="t" style="font-size:40px">Une question ? <em>Une réponse suivie.</em></h2>
+  <div class="zgrid">
+    <div class="browser anim" style="--d:.05s"><div class="bar"><i></i><i></i><i></i><span>Votre espace collectivité · Aide & support</span></div><div class="shotwrap"><img src="../dossier/captures/c-support.jpg" alt=""><span class="callout pop" style="left:47%;top:15%;--d:0.50s">1</span><span class="callout pop" style="left:24%;top:30%;--d:0.65s">2</span><span class="callout pop" style="left:56%;top:36%;--d:0.80s">3</span></div></div>
+    <ol class="zl"><li class="anim" style="--d:0.15s"><span class="nb">1</span><span><b>Une nouvelle demande</b>Depuis votre espace, en quelques lignes.</span></li><li class="anim" style="--d:0.27s"><span class="nb">2</span><span><b>Le suivi</b>Chaque demande garde son état : en cours, en attente, résolue.</span></li><li class="anim" style="--d:0.39s"><span class="nb">3</span><span><b>La réponse de l’équipe</b>Un vrai interlocuteur, avec des conseils concrets.</span></li></ol>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>5 · L’accompagnement</span><span class="n"></span></div>
+</section>
+
 <section class="slide dark">
   <div class="kicker">Accompagnement · Confiance</div>
   <h2 class="t">Hébergé en France, <em>protégé, conforme.</em></h2>
@@ -614,6 +715,16 @@ body.screen .hint { display: block; position: fixed; bottom: 10px; right: 14px; 
     <div class="card" style="background:var(--ink2);border:0"><h3 style="color:var(--cream)">Tout est tracé</h3><p style="color:var(--sage2)">Chaque action importante est enregistrée dans un journal que personne ne peut modifier.</p></div>
   </div>
   <div class="foot"><span class="brand">terricom<i>.</i></span><span>5 · L'accompagnement</span><span class="n"></span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker ecran">Sécurité du compte</div>
+  <h2 class="t" style="font-size:40px">Des accès <em>bien protégés.</em></h2>
+  <div class="zgrid">
+    <div class="browser anim" style="--d:.05s"><div class="bar"><i></i><i></i><i></i><span>Mon compte · Sécurité</span></div><div class="shotwrap"><img src="../dossier/captures/u-securite.jpg" alt=""><span class="callout pop" style="left:21%;top:14%;--d:0.50s">1</span><span class="callout pop" style="left:24%;top:31%;--d:0.65s">2</span><span class="callout pop" style="left:21%;top:77%;--d:0.80s">3</span><span class="callout pop" style="left:64%;top:88%;--d:0.95s">4</span></div></div>
+    <ol class="zl"><li class="anim" style="--d:0.15s"><span class="nb">1</span><span><b>La double vérification</b>Un code sur le téléphone en plus du mot de passe.</span></li><li class="anim" style="--d:0.27s"><span class="nb">2</span><span><b>Obligatoire pour les agents</b>Elle ne peut pas être désactivée par erreur.</span></li><li class="anim" style="--d:0.39s"><span class="nb">3</span><span><b>Les connexions visibles</b>Chaque appareil connecté est listé.</span></li><li class="anim" style="--d:0.51s"><span class="nb">4</span><span><b>Déconnecter à distance</b>Un téléphone perdu ? Un clic suffit.</span></li></ol>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>5 · L’accompagnement</span><span class="n"></span></div>
 </section>
 
 <section class="slide">
@@ -653,6 +764,16 @@ body.screen .hint { display: block; position: fixed; bottom: 10px; right: 14px; 
 </section>
 
 <!-- ═══════════ PILOTE ═══════════ -->
+<section class="slide">
+  <div class="kicker ecran">Les tarifs</div>
+  <h2 class="t" style="font-size:40px">Des tarifs <em>publics et clairs.</em></h2>
+  <div class="zgrid">
+    <div class="browser anim" style="--d:.05s"><div class="bar"><i></i><i></i><i></i><span>terricom.fr/tarifs</span></div><div class="shotwrap"><img src="../dossier/captures/m-tarifs.jpg" alt=""><span class="callout pop" style="left:4%;top:13%;--d:0.50s">1</span><span class="callout pop" style="left:10%;top:74%;--d:0.65s">2</span><span class="callout pop" style="left:10%;top:91%;--d:0.80s">3</span></div></div>
+    <ol class="zl"><li class="anim" style="--d:0.15s"><span class="nb">1</span><span><b>Le principe</b>La collectivité finance, les professionnels en profitent gratuitement.</span></li><li class="anim" style="--d:0.27s"><span class="nb">2</span><span><b>La licence du territoire</b>Selon le nombre de communes et d’établissements.</span></li><li class="anim" style="--d:0.39s"><span class="nb">3</span><span><b>Tout est inclus</b>Portail, carte, campagnes, lettres, hébergement en France, sauvegardes, assistance, mises à jour.</span></li></ol>
+  </div>
+  <div class="foot"><span class="brand">terricom<i>.</i></span><span>Budget</span><span class="n"></span></div>
+</section>
+
 <section class="slide green">
   <div class="kicker">Le territoire pilote</div>
   <h2 class="t">Le Val de Loue, <em>déjà en vitrine.</em></h2>
