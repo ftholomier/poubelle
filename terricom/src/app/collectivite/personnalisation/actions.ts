@@ -1,7 +1,7 @@
 'use server';
 
 import { resolveCname, resolve4 } from 'node:dns/promises';
-import { and, count, eq, ne } from 'drizzle-orm';
+import { and, count, eq, isNull, ne, or } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { STAFF_ROLES, type StaffRole } from '@/lib/constants';
@@ -10,7 +10,20 @@ import { rateLimit } from '@/server/auth/rate-limit';
 import { invalidate } from '@/server/cache';
 import { randomToken, sha256 } from '@/server/crypto';
 import { db } from '@/server/db';
-import { HOME_BLOCKS, roleAssignments, territories, territoryDomains, tokens, users, type HomeBlock, type TerritorySettings } from '@/server/db/schema';
+import {
+  categories,
+  HOME_BLOCKS,
+  roleAssignments,
+  territories,
+  territoryCategories,
+  territoryDomains,
+  tokens,
+  users,
+  type HomeBlock,
+  type TerritorySettings,
+} from '@/server/db/schema';
+import { territoryCategoryList } from '@/server/services/categories';
+import { slugify } from '@/lib/slug';
 import { env } from '@/server/env';
 import { sendEmail } from '@/server/mail/send';
 import { securityAlertTemplate, staffInvitationTemplate } from '@/server/mail/templates';
@@ -315,4 +328,104 @@ export async function mfaReminderAction(form: FormData): Promise<void> {
     territoryId: ctx.territory.id,
   });
   revalidatePath('/collectivite/personnalisation');
+}
+
+function categoriesDone(ctx: BoContext) {
+  invalidate(`cards:${ctx.territory.id}`);
+  revalidatePath('/collectivite/personnalisation/categories');
+  revalidatePath('/', 'layout');
+}
+
+/** Noms affichés et catégories masquées du portail. */
+export async function saveCategoriesAction(_prev: PersoState, form: FormData): Promise<PersoState> {
+  const ctx = await adminCtx();
+  const list = await territoryCategoryList(ctx.territory.id);
+  let changed = 0;
+  for (const c of list) {
+    const raw = String(form.get(`label:${c.id}`) ?? '')
+      .trim()
+      .slice(0, 160);
+    const label = raw && raw !== c.baseName ? raw : null;
+    const hidden = form.get(`hidden:${c.id}`) === 'on';
+    const currentLabel = c.name !== c.baseName ? c.name : null;
+    if (label === currentLabel && hidden === c.hidden) continue;
+    const key = and(eq(territoryCategories.territoryId, ctx.territory.id), eq(territoryCategories.categoryId, c.id));
+    if (!label && !hidden) await db.delete(territoryCategories).where(key);
+    else
+      await db
+        .insert(territoryCategories)
+        .values({ territoryId: ctx.territory.id, categoryId: c.id, label, hidden })
+        .onConflictDoUpdate({ target: [territoryCategories.territoryId, territoryCategories.categoryId], set: { label, hidden, updatedAt: new Date() } });
+    changed++;
+  }
+  if (!changed) return { status: 'ok', message: 'Aucune modification.' };
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'categories.update',
+    summary: `${changed} catégorie${changed > 1 ? 's' : ''} personnalisée${changed > 1 ? 's' : ''}`,
+    territoryId: ctx.territory.id,
+  });
+  categoriesDone(ctx);
+  return { status: 'ok', message: `${changed} catégorie${changed > 1 ? 's' : ''} mise${changed > 1 ? 's' : ''} à jour.` };
+}
+
+/** Catégorie propre au territoire (ex. « Distillerie » ou « Fruitière à comté »). */
+export async function addCategoryAction(_prev: PersoState, form: FormData): Promise<PersoState> {
+  const ctx = await adminCtx();
+  const parsed = z
+    .object({
+      family: z.enum(['COMMERCE', 'ARTISAN', 'PRODUCTEUR', 'RESTAURATION', 'SERVICES']),
+      name: z.string().trim().min(3, 'Nom trop court').max(160),
+      synonyms: z.string().trim().max(400),
+    })
+    .safeParse(Object.fromEntries(form));
+  if (!parsed.success) return { status: 'error', message: parsed.error.issues[0]?.message };
+  const d = parsed.data;
+  const slug = slugify(d.name);
+  if (!slug) return { status: 'error', message: 'Nom invalide.' };
+  const [taken] = await db
+    .select({ id: categories.id, territoryId: categories.territoryId, name: categories.name })
+    .from(categories)
+    .where(and(eq(categories.slug, slug), or(isNull(categories.territoryId), eq(categories.territoryId, ctx.territory.id))))
+    .limit(1);
+  if (taken)
+    return {
+      status: 'error',
+      message: taken.territoryId
+        ? 'Cette catégorie existe déjà pour votre territoire.'
+        : `La catégorie « ${taken.name} » existe déjà : renommez-la plutôt ci-dessous.`,
+    };
+  const synonyms = d.synonyms
+    .split(',')
+    .map((x) => x.trim().toLowerCase())
+    .filter(Boolean)
+    .slice(0, 20);
+  await db.insert(categories).values({ territoryId: ctx.territory.id, family: d.family, slug, name: d.name, synonyms, sortOrder: 900 });
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'categories.create',
+    summary: `Catégorie « ${d.name} » créée`,
+    territoryId: ctx.territory.id,
+  });
+  categoriesDone(ctx);
+  return { status: 'ok', message: `Catégorie « ${d.name} » ajoutée.` };
+}
+
+/** Suppression d'une catégorie propre au territoire, si aucune fiche ne l'utilise. */
+export async function deleteCategoryAction(form: FormData): Promise<void> {
+  const ctx = await adminCtx();
+  const id = z.string().uuid().parse(form.get('categoryId'));
+  const c = (await territoryCategoryList(ctx.territory.id)).find((x) => x.id === id);
+  if (!c || !c.own || c.count > 0) return;
+  await db.delete(categories).where(and(eq(categories.id, id), eq(categories.territoryId, ctx.territory.id)));
+  await audit({
+    actor: { user: ctx.actor.user },
+    category: 'CONFIGURATION',
+    action: 'categories.delete',
+    summary: `Catégorie « ${c.name} » supprimée`,
+    territoryId: ctx.territory.id,
+  });
+  categoriesDone(ctx);
 }

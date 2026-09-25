@@ -23,8 +23,10 @@ import {
   openingHours,
   posts,
   products,
+  territoryCategories,
   type RevisionChange,
 } from '../db/schema';
+import { categoryDisplayName } from './categories';
 
 export type Establishment = typeof establishments.$inferSelect;
 
@@ -89,11 +91,12 @@ export async function loadCards(
         updatedAt: establishments.updatedAt,
       },
       c: { id: communes.id, name: communes.name, slug: communes.slug },
-      k: { id: categories.id, name: categories.name, slug: categories.slug, family: categories.family },
+      k: { id: categories.id, name: categoryDisplayName, slug: categories.slug, family: categories.family },
     })
     .from(establishments)
     .innerJoin(communes, eq(communes.id, establishments.communeId))
     .innerJoin(categories, eq(categories.id, establishments.categoryId))
+    .leftJoin(territoryCategories, and(eq(territoryCategories.territoryId, establishments.territoryId), eq(territoryCategories.categoryId, establishments.categoryId)))
     .where(where)
     .orderBy(...(opts.orderBy ?? [desc(establishments.isFeatured), desc(establishments.completeness), asc(establishments.name)]))
     .limit(opts.limit ?? 500)
@@ -229,6 +232,13 @@ async function loadEstablishmentDetail(row: {
   const { e } = row;
   const now = new Date();
   const today = parisDate(now);
+  // Nom de catégorie personnalisé par le territoire.
+  const [override] = await db
+    .select({ label: territoryCategories.label })
+    .from(territoryCategories)
+    .where(and(eq(territoryCategories.territoryId, e.territoryId), eq(territoryCategories.categoryId, e.categoryId)))
+    .limit(1);
+  if (override?.label) row = { ...row, k: { ...row.k, name: override.label } };
   const [photos, prods, hours, exceptions, attrs, news, upcomingEvents, openJobs, pages, offers, secondary] = await Promise.all([
     db
       .select()

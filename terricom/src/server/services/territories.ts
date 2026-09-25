@@ -72,8 +72,9 @@ export const getEnabledModules = cache(async (territoryId: string): Promise<Set<
 });
 
 /**
- * Change le rattachement d'une commune (fusion ou changement d'intercommunalité) :
- * clôt l'ancien rattachement, en ouvre un nouveau et déplace les établissements.
+ * Change le rattachement d'une commune (fusion ou changement d'intercommunalité) : clôt l'ancien
+ * rattachement (historique), en ouvre un nouveau et déplace fiches, contenus, marchés, lieux,
+ * agents communaux et opérations communales.
  */
 export async function moveCommune(communeId: string, toTerritoryId: string): Promise<void> {
   await db.transaction(async (tx) => {
@@ -86,6 +87,12 @@ export async function moveCommune(communeId: string, toTerritoryId: string): Pro
     await tx.execute(sql`UPDATE posts SET territory_id = ${toTerritoryId} WHERE commune_id = ${communeId}`);
     await tx.execute(sql`UPDATE events SET territory_id = ${toTerritoryId} WHERE commune_id = ${communeId}`);
     await tx.execute(sql`UPDATE jobs SET territory_id = ${toTerritoryId} WHERE commune_id = ${communeId}`);
+    await tx.execute(sql`UPDATE markets SET territory_id = ${toTerritoryId} WHERE commune_id = ${communeId}`);
+    await tx.execute(sql`UPDATE points_of_interest SET territory_id = ${toTerritoryId} WHERE commune_id = ${communeId}`);
+    // Les agents de la mairie suivent leur commune ; ses opérations commerciales aussi (sauf homonymie).
+    await tx.execute(sql`UPDATE role_assignments SET territory_id = ${toTerritoryId} WHERE commune_id = ${communeId}`);
+    await tx.execute(sql`UPDATE campaigns c SET territory_id = ${toTerritoryId} WHERE c.commune_id = ${communeId}
+      AND NOT EXISTS (SELECT 1 FROM campaigns o WHERE o.territory_id = ${toTerritoryId} AND o.slug = c.slug)`);
   });
 }
 

@@ -1,5 +1,5 @@
 import { and, eq, isNull, sql } from 'drizzle-orm';
-import { db } from '../db';
+import { db, type DbOrTx } from '../db';
 import { audiences, communeMemberships, communes, deals, territories, territoryContracts, territoryDomains, territoryModules, tokens } from '../db/schema';
 import {
   MODULE_ORDER,
@@ -14,6 +14,7 @@ import {
 import { slugify, uniqueSlug } from '@/lib/slug';
 import { communeByInsee, communesOfEpci, type GeoCommune } from '../integrations/public-data';
 import { env } from '../env';
+import { moveCommune } from './territories';
 import { randomToken, sha256 } from '../crypto';
 
 /**
@@ -365,4 +366,107 @@ export async function dealPrefill(dealId: string) {
 
 export function suggestedSlug(name: string): string {
   return slugify(name.replace(/^(communaut[ée] de communes|communaut[ée] d['’]agglom[ée]ration|cc|ca)\s+(du|de la|des|de l['’]|de|d['’])?\s*/i, ''));
+}
+
+/** Communes rattachées (en cours) et historique des rattachements clos d'un territoire. */
+export async function territoryCommunes(territoryId: string) {
+  const current = await rows<{ id: string; name: string; insee_code: string; valid_from: string; establishments: number }>(sql`
+    select c.id, c.name, c.insee_code, m.valid_from::text, (select count(*)::int from establishments e where e.commune_id = c.id and e.status <> 'ARCHIVED') as establishments
+    from commune_memberships m join communes c on c.id = m.commune_id
+    where m.territory_id = ${territoryId} and m.valid_to is null order by c.name`);
+  const past = await rows<{ name: string; valid_from: string; valid_to: string; now_in: string | null }>(sql`
+    select c.name, m.valid_from::text, m.valid_to::text,
+      (select t.name from commune_memberships m2 join territories t on t.id = m2.territory_id where m2.commune_id = c.id and m2.valid_to is null) as now_in
+    from commune_memberships m join communes c on c.id = m.commune_id
+    where m.territory_id = ${territoryId} and m.valid_to is not null order by m.valid_to desc limit 20`);
+  return { current, past };
+}
+
+/** Crée la commune dans le référentiel local si besoin (données de l'API Géo). */
+async function ensureCommune(tx: DbOrTx, c: GeoCommune) {
+  const [row] = await tx.select().from(communes).where(eq(communes.inseeCode, c.code)).limit(1);
+  if (row) return row;
+  const slugC = await uniqueSlug(c.nom, async (cand) => {
+    const [x] = await tx.select({ id: communes.id }).from(communes).where(eq(communes.slug, cand)).limit(1);
+    return Boolean(x);
+  });
+  const [created] = await tx
+    .insert(communes)
+    .values({
+      inseeCode: c.code,
+      name: c.nom,
+      slug: slugC,
+      postalCodes: c.codesPostaux ?? [],
+      departmentCode: c.codeDepartement || null,
+      population: c.population ?? null,
+      lat: c.centre ? c.centre.coordinates[1] : null,
+      lng: c.centre ? c.centre.coordinates[0] : null,
+    })
+    .returning();
+  return created;
+}
+
+export type AttachResult = { attached: string[]; transferred: string[]; skipped: { code: string; reason: string }[] };
+
+/**
+ * Rattache des communes à un territoire (codes INSEE). Une commune déjà membre d'un autre territoire
+ * n'est transférée que si `transfer` est demandé : l'ancien rattachement est clos (historique) et ses
+ * fiches, publications, événements et offres suivent la commune.
+ */
+export async function attachCommunes(territoryId: string, inseeCodes: string[], transfer: boolean): Promise<AttachResult> {
+  const { found, missing } = await resolveCommunes({ inseeCodes });
+  const result: AttachResult = { attached: [], transferred: [], skipped: missing.map((code) => ({ code, reason: 'code INSEE inconnu' })) };
+  for (const c of found) {
+    const row = await ensureCommune(db, c);
+    const [current] = await db
+      .select({ territoryId: communeMemberships.territoryId, name: territories.name })
+      .from(communeMemberships)
+      .innerJoin(territories, eq(territories.id, communeMemberships.territoryId))
+      .where(and(eq(communeMemberships.communeId, row.id), isNull(communeMemberships.validTo)))
+      .limit(1);
+    if (current?.territoryId === territoryId) {
+      result.skipped.push({ code: c.code, reason: `${c.nom} est déjà rattachée` });
+      continue;
+    }
+    if (current && !transfer) {
+      result.skipped.push({ code: c.code, reason: `${c.nom} appartient à ${current.name} (cochez « transférer »)` });
+      continue;
+    }
+    if (current) {
+      await moveCommune(row.id, territoryId);
+      result.transferred.push(`${c.nom} (depuis ${current.name})`);
+    } else {
+      await db.insert(communeMemberships).values({ communeId: row.id, territoryId });
+      result.attached.push(c.nom);
+    }
+  }
+  return result;
+}
+
+/**
+ * Détache une commune du territoire. Sans fiche, le rattachement est simplement clos ; avec des
+ * fiches, un territoire de destination est obligatoire (fusion, changement d'intercommunalité).
+ */
+export async function detachCommune(territoryId: string, communeId: string, toTerritoryId: string | null): Promise<{ ok: boolean; message: string }> {
+  const [m] = await db
+    .select({ id: communeMemberships.id, name: communes.name })
+    .from(communeMemberships)
+    .innerJoin(communes, eq(communes.id, communeMemberships.communeId))
+    .where(and(eq(communeMemberships.communeId, communeId), eq(communeMemberships.territoryId, territoryId), isNull(communeMemberships.validTo)))
+    .limit(1);
+  if (!m) return { ok: false, message: 'Commune non rattachée à ce territoire.' };
+  if (toTerritoryId) {
+    if (toTerritoryId === territoryId) return { ok: false, message: 'Choisissez un autre territoire.' };
+    const [dest] = await db.select({ name: territories.name }).from(territories).where(eq(territories.id, toTerritoryId)).limit(1);
+    if (!dest) return { ok: false, message: 'Territoire de destination introuvable.' };
+    await moveCommune(communeId, toTerritoryId);
+    return { ok: true, message: `${m.name} transférée vers ${dest.name}, avec ses fiches et contenus.` };
+  }
+  const [{ n }] = await rows<{ n: number }>(sql`select count(*)::int as n from establishments where commune_id = ${communeId} and status <> 'ARCHIVED'`);
+  if (Number(n) > 0) return { ok: false, message: `${m.name} compte ${n} fiche(s) : choisissez le territoire qui la reprend.` };
+  await db
+    .update(communeMemberships)
+    .set({ validTo: sql`current_date` })
+    .where(eq(communeMemberships.id, m.id));
+  return { ok: true, message: `${m.name} détachée du territoire.` };
 }

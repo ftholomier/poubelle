@@ -1,4 +1,4 @@
-import { and, asc, eq, isNull, or } from 'drizzle-orm';
+import { asc, eq, isNull, or } from 'drizzle-orm';
 import { FicheEditor, SaveFicheButton } from '@/components/pro/FicheEditor';
 import { PhotoManager } from '@/components/pro/PhotoManager';
 import { ProductManager } from '@/components/pro/ProductManager';
@@ -6,7 +6,8 @@ import { fmtStamp, truncate } from '@/lib/format';
 import { upcomingHoliday, weeklyRows } from '@/lib/hours';
 import { variantUrl } from '@/lib/images';
 import { db } from '@/server/db';
-import { attributes, categories, establishmentRevisions } from '@/server/db/schema';
+import { attributes, establishmentRevisions } from '@/server/db/schema';
+import { pickableCategories } from '@/server/services/categories';
 import { loadProContext } from '@/server/services/pro';
 import { portalUrl } from '@/server/urls';
 
@@ -17,11 +18,7 @@ export default async function FicheEditorPage({ params }: Props) {
   const ctx = await loadProContext(estId);
   const { est, completeness } = ctx;
   const [cats, attrs, revisions] = await Promise.all([
-    db
-      .select({ id: categories.id, name: categories.name, family: categories.family })
-      .from(categories)
-      .where(and(eq(categories.isActive, true), or(isNull(categories.territoryId), eq(categories.territoryId, est.territoryId))))
-      .orderBy(asc(categories.name)),
+    pickableCategories(est.territoryId, est.categoryId),
     db
       .select({ slug: attributes.slug, label: attributes.label, group: attributes.group })
       .from(attributes)

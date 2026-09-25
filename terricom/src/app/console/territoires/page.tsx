@@ -1,16 +1,23 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { setTerritoryStatusAction, startSupportAccessAction, toggleModuleAction, updateQuotasAction } from './actions';
+import {
+  attachCommunesAction,
+  detachCommuneAction,
+  setTerritoryStatusAction,
+  startSupportAccessAction,
+  toggleModuleAction,
+  updateQuotasAction,
+} from './actions';
 import { ActionForm } from '@/components/pro/ActionForm';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import { TERRITORY_STATUS, type TerritoryStatus } from '@/lib/constants';
 import { fmtEuros, fmtInt, fullName } from '@/lib/format';
 import { requirePlatformStaff } from '@/server/authz';
 import { groupOf } from '@/server/services/crm';
-import { listClients, territoryPanel } from '@/server/services/console-territories';
+import { listClients, territoryCommunes, territoryPanel } from '@/server/services/console-territories';
 import { db } from '@/server/db';
-import { deals } from '@/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { deals, territories } from '@/server/db/schema';
+import { asc, eq } from 'drizzle-orm';
 
 export const metadata: Metadata = { title: 'Territoires & abonnements' };
 
@@ -26,6 +33,12 @@ export default async function ConsoleTerritories({ searchParams }: Props) {
   const selected = selectedDeal ?? clients.find((c) => c.kind === 'territory' && c.id === sp.t) ?? clients.find((c) => c.kind === 'territory');
   const panel = selected?.kind === 'territory' ? await territoryPanel(selected.id) : null;
   const [deal] = selectedDeal ? await db.select().from(deals).where(eq(deals.id, selectedDeal.id)).limit(1) : [];
+  const [membership, allTerritories] = panel
+    ? await Promise.all([
+        territoryCommunes(panel.territory.id),
+        db.select({ id: territories.id, name: territories.name }).from(territories).orderBy(asc(territories.name)),
+      ])
+    : [null, []];
   const canAdmin = actor.isPlatformAdmin;
   const canSupport = actor.isPlatformAdmin || actor.roles.some((r) => r.role === 'PLATFORM_SUPPORT');
   const impersonatingHere = panel && actor.impersonation?.territoryId === panel.territory.id;
@@ -332,6 +345,86 @@ export default async function ConsoleTerritories({ searchParams }: Props) {
                   </ActionForm>
                 ) : null}
               </section>
+
+              {membership ? (
+                <section className="console-card" style={{ borderRadius: 20, padding: 18, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  <b>Communes rattachées ({membership.current.length})</b>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, maxHeight: 150, overflowY: 'auto' }}>
+                    {membership.current.map((c) => (
+                      <span
+                        key={c.id}
+                        title={`INSEE ${c.insee_code} · depuis le ${c.valid_from.split('-').reverse().join('/')}`}
+                        style={{ fontSize: 12, padding: '4px 9px', borderRadius: 999, background: 'var(--sand)' }}
+                      >
+                        {c.name} · {fmtInt(c.establishments)}
+                      </span>
+                    ))}
+                  </div>
+                  {canAdmin ? (
+                    <details className="console-details">
+                      <summary>Rattacher, détacher ou transférer une commune</summary>
+                      <ActionForm action={attachCommunesAction} style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 10 }}>
+                        <input type="hidden" name="territoryId" value={panel.territory.id} />
+                        <label className="field">
+                          <span>Codes INSEE à rattacher</span>
+                          <input name="codes" className="input" placeholder="ex. 25424, 25178" required />
+                        </label>
+                        <label style={{ display: 'flex', gap: 6, alignItems: 'center', fontSize: 13 }}>
+                          <input type="checkbox" name="transfer" /> Transférer une commune qui appartient à un autre territoire (fiches et contenus suivent)
+                        </label>
+                        <SubmitButton className="btn btn-outline btn-sm" pendingLabel="Rattachement…" style={{ alignSelf: 'flex-start' }}>
+                          Rattacher
+                        </SubmitButton>
+                      </ActionForm>
+                      <ActionForm action={detachCommuneAction} style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 14 }}>
+                        <input type="hidden" name="territoryId" value={panel.territory.id} />
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                          <label className="field">
+                            <span>Commune</span>
+                            <select name="communeId" className="input" required>
+                              {membership.current.map((c) => (
+                                <option key={c.id} value={c.id}>
+                                  {c.name} ({fmtInt(c.establishments)} fiches)
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                          <label className="field">
+                            <span>Reprise par</span>
+                            <select name="to" className="input" defaultValue="">
+                              <option value="">Aucun territoire (détacher)</option>
+                              {allTerritories
+                                .filter((x) => x.id !== panel.territory.id)
+                                .map((x) => (
+                                  <option key={x.id} value={x.id}>
+                                    {x.name}
+                                  </option>
+                                ))}
+                            </select>
+                          </label>
+                        </div>
+                        <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+                          Une commune qui compte des fiches doit être reprise par un territoire. Le rattachement actuel est clos et conservé dans l’historique.
+                        </span>
+                        <SubmitButton className="btn btn-outline btn-sm" pendingLabel="…" style={{ alignSelf: 'flex-start' }}>
+                          Détacher ou transférer
+                        </SubmitButton>
+                      </ActionForm>
+                    </details>
+                  ) : null}
+                  {membership.past.length ? (
+                    <div style={{ fontSize: 12, color: 'var(--muted)' }}>
+                      <b style={{ color: 'var(--text)' }}>Historique</b>
+                      {membership.past.map((m, i) => (
+                        <div key={i}>
+                          {m.name} : {m.valid_from.split('-').reverse().join('/')} → {m.valid_to.split('-').reverse().join('/')}
+                          {m.now_in ? ` · aujourd’hui ${m.now_in}` : ' · non rattachée'}
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+                </section>
+              ) : null}
             </>
           ) : selectedDeal && deal ? (
             <>

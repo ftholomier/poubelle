@@ -1,4 +1,3 @@
-import { and, eq } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -7,9 +6,8 @@ import { JsonLd } from '@/components/JsonLd';
 import { MapView } from '@/components/maps/MapView';
 import { ResultRow } from '@/components/portal/Cards';
 import { fmtInt, pluralize } from '@/lib/format';
-import { db } from '@/server/db';
-import { categories } from '@/server/db/schema';
 import { breadcrumbJsonLd } from '@/server/seo';
+import { territoryCategoryList } from '@/server/services/categories';
 import { allCards, getPortal, toMapPoints } from '@/server/services/portal';
 import { getCommuneInTerritory } from '@/server/services/territories';
 import { portalUrl } from '@/server/urls';
@@ -19,11 +17,8 @@ type Props = { params: Promise<{ territory: string; commune: string; category: s
 const load = cache(async (territoryParam: string, communeSlug: string, categorySlug: string) => {
   const portal = await getPortal(territoryParam);
   const commune = await getCommuneInTerritory(portal.territory.id, communeSlug);
-  const [category] = await db
-    .select()
-    .from(categories)
-    .where(and(eq(categories.slug, categorySlug), eq(categories.isActive, true)))
-    .limit(1);
+  // Catégorie commune ou propre au territoire, avec le nom affiché choisi par la collectivité.
+  const category = (await territoryCategoryList(portal.territory.id)).find((c) => c.slug === categorySlug) ?? null;
   if (!commune || !category) return { portal, commune: null, category: null, items: [] };
   const cards = await allCards(portal.territory.id);
   const items = cards

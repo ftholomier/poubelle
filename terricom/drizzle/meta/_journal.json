@@ -71,6 +71,13 @@
       "when": 1790312428099,
       "tag": "0009_points_of_interest",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1790312863262,
+      "tag": "0010_territory_categories",
+      "breakpoints": true
     }
   ]
 }

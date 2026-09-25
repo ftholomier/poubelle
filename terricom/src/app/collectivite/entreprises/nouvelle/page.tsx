@@ -1,27 +1,17 @@
-import { and, asc, eq, isNull, or } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createEstablishmentAction } from '../actions';
 import { ActionForm } from '@/components/pro/ActionForm';
 import { SubmitButton } from '@/components/ui/SubmitButton';
 import { FAMILIES, type Family } from '@/lib/constants';
-import { db } from '@/server/db';
-import { categories } from '@/server/db/schema';
+import { pickableCategories } from '@/server/services/categories';
 import { loadBoContext } from '@/server/services/backoffice';
 
 export const metadata: Metadata = { title: 'Ajouter une entreprise' };
 
 export default async function NewEstablishmentPage() {
   const ctx = await loadBoContext();
-  const cats = await db
-    .select({
-      id: categories.id,
-      name: categories.name,
-      family: categories.family,
-    })
-    .from(categories)
-    .where(and(eq(categories.isActive, true), or(isNull(categories.territoryId), eq(categories.territoryId, ctx.territory.id))))
-    .orderBy(asc(categories.name));
+  const cats = await pickableCategories(ctx.territory.id);
   const byFamily = new Map<Family, typeof cats>();
   for (const c of cats) byFamily.set(c.family, [...(byFamily.get(c.family) ?? []), c]);
   return (

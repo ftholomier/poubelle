@@ -15,7 +15,7 @@ import { db } from '@/server/db';
 import { supportTickets, territories } from '@/server/db/schema';
 import { sendEmail } from '@/server/mail/send';
 import { staffInvitationTemplate } from '@/server/mail/templates';
-import { createTerritory, inviteTerritoryAdmin, setTerritoryModule } from '@/server/services/console-territories';
+import { attachCommunes, createTerritory, detachCommune, inviteTerritoryAdmin, setTerritoryModule } from '@/server/services/console-territories';
 import { appUrl } from '@/server/urls';
 
 async function consoleActor(roles?: StaffRole[]): Promise<Actor | null> {
@@ -268,4 +268,66 @@ export async function createTerritoryAction(_prev: ActionState, form: FormData):
         .slice(0, 600),
     );
   redirect(`/console/territoires?${qs}`);
+}
+
+/** Rattache des communes (codes INSEE séparés par des virgules ou des espaces), avec transfert explicite. */
+export async function attachCommunesAction(_prev: ActionState, form: FormData): Promise<ActionState> {
+  const actor = await consoleActor(['PLATFORM_ADMIN']);
+  if (!actor) return { status: 'error', message: 'Réservé aux administrateurs de la plateforme.' };
+  const parsed = z.object({ territoryId: z.string().uuid(), codes: z.string().trim().min(5).max(2000) }).safeParse(Object.fromEntries(form));
+  if (!parsed.success) return { status: 'error', message: 'Indiquez au moins un code INSEE (5 caractères).' };
+  const t = await territoryOf(parsed.data.territoryId);
+  if (!t) return { status: 'error', message: 'Territoire introuvable.' };
+  const codes = [...new Set(parsed.data.codes.split(/[\s,;]+/).map((c) => c.trim().toUpperCase()))]
+    .filter((c) => /^[0-9][0-9AB][0-9]{3}$/.test(c))
+    .slice(0, 200);
+  if (!codes.length) return { status: 'error', message: 'Codes INSEE invalides (ex. 25424).' };
+  const r = await attachCommunes(t.id, codes, form.get('transfer') === 'on');
+  if (r.attached.length || r.transferred.length)
+    await audit({
+      actor: { user: actor.user },
+      category: 'CONFIGURATION',
+      action: 'territory.communes.attach',
+      summary: `Communes rattachées à ${t.name} : ${[...r.attached, ...r.transferred.map((x) => `${x}, transférée`)].join(', ')}`,
+      territoryId: t.id,
+      targetType: 'territory',
+      targetId: t.id,
+    });
+  refresh(t);
+  const parts = [
+    r.attached.length ? `${r.attached.length} rattachée(s)` : '',
+    r.transferred.length ? `${r.transferred.length} transférée(s)` : '',
+    r.skipped.length ? `ignorées : ${r.skipped.map((x) => x.reason).join(' ; ')}` : '',
+  ].filter(Boolean);
+  return { status: r.attached.length || r.transferred.length ? 'ok' : 'error', message: parts.join(' · ') || 'Aucune commune rattachée.' };
+}
+
+/** Détache une commune (sans fiche) ou la transfère avec ses contenus vers un autre territoire. */
+export async function detachCommuneAction(_prev: ActionState, form: FormData): Promise<ActionState> {
+  const actor = await consoleActor(['PLATFORM_ADMIN']);
+  if (!actor) return { status: 'error', message: 'Réservé aux administrateurs de la plateforme.' };
+  const parsed = z
+    .object({ territoryId: z.string().uuid(), communeId: z.string().uuid(), to: z.union([z.literal(''), z.string().uuid()]) })
+    .safeParse(Object.fromEntries(form));
+  if (!parsed.success) return { status: 'error', message: 'Requête invalide.' };
+  const t = await territoryOf(parsed.data.territoryId);
+  if (!t) return { status: 'error', message: 'Territoire introuvable.' };
+  const r = await detachCommune(t.id, parsed.data.communeId, parsed.data.to || null);
+  if (r.ok) {
+    await audit({
+      actor: { user: actor.user },
+      category: 'CONFIGURATION',
+      action: parsed.data.to ? 'territory.communes.transfer' : 'territory.communes.detach',
+      summary: `${t.name} : ${r.message}`,
+      territoryId: t.id,
+      targetType: 'territory',
+      targetId: t.id,
+    });
+    refresh(t);
+    if (parsed.data.to) {
+      const dest = await territoryOf(parsed.data.to);
+      if (dest) refresh(dest);
+    }
+  }
+  return { status: r.ok ? 'ok' : 'error', message: r.message };
 }

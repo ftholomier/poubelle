@@ -13,6 +13,7 @@ import {
   campaignParticipants,
   campaigns,
   categories,
+  territoryCategories,
   communeMemberships,
   communes,
   establishmentAttributes,
@@ -49,8 +50,15 @@ export type SearchResponse = {
 export const getVocabulary = cache(async (territoryId: string): Promise<SearchVocabulary> => {
   const [cats, attrs, coms] = await Promise.all([
     db
-      .select({ slug: categories.slug, name: categories.name, family: categories.family, synonyms: categories.synonyms })
+      .select({
+        slug: categories.slug,
+        name: categories.name,
+        family: categories.family,
+        synonyms: categories.synonyms,
+        label: territoryCategories.label,
+      })
       .from(categories)
+      .leftJoin(territoryCategories, and(eq(territoryCategories.categoryId, categories.id), eq(territoryCategories.territoryId, territoryId)))
       .where(and(or(isNull(categories.territoryId), eq(categories.territoryId, territoryId)), eq(categories.isActive, true))),
     db
       .select({ slug: attributes.slug, label: attributes.label })
@@ -63,7 +71,12 @@ export const getVocabulary = cache(async (territoryId: string): Promise<SearchVo
       .where(and(eq(communeMemberships.territoryId, territoryId), isNull(communeMemberships.validTo))),
   ]);
   return {
-    categories: cats.map((c) => ({ ...c, family: c.family as Family })),
+    // Le nom choisi par le territoire est compris comme un synonyme de la catégorie.
+    categories: cats.map(({ label, ...c }) => ({
+      ...c,
+      family: c.family as Family,
+      synonyms: label && label !== c.name ? [...c.synonyms, label.toLowerCase()] : c.synonyms,
+    })),
     attributes: attrs,
     communes: coms,
   };

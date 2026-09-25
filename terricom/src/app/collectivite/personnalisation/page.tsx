@@ -1,5 +1,6 @@
 import { and, asc, eq, gt, isNull } from 'drizzle-orm';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { addDomainAction, inviteStaffAction, mfaReminderAction, revokeRoleAction, saveSettingsAction, verifyDomainAction } from './actions';
 import { BrandingEditor } from '@/components/bo/BrandingEditor';
 import { ActionForm } from '@/components/pro/ActionForm';
@@ -236,6 +237,9 @@ export default async function PersonalizationPage() {
             ))}
           </div>
           <span style={{ fontSize: 12, color: 'var(--muted)' }}>Pour activer un module, contactez votre interlocuteur terricom.</span>
+          <Link href="/collectivite/personnalisation/categories" className="btn btn-outline btn-sm" style={{ alignSelf: 'flex-start', marginTop: 6 }}>
+            Catégories du portail →
+          </Link>
         </section>
         <section className="bo-card" style={{ padding: 20, borderRadius: 20 }}>
           <b>Règles du territoire</b>

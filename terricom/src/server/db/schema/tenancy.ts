@@ -214,6 +214,23 @@ export const categories = pgTable(
   (t) => [unique('categories_territory_slug_uq').on(t.territoryId, t.slug).nullsNotDistinct(), index('categories_family_idx').on(t.family)],
 );
 
+/** Catégories vues par un territoire : nom affiché sur son portail, catégorie masquée des choix. */
+export const territoryCategories = pgTable(
+  'territory_categories',
+  {
+    territoryId: uuid()
+      .notNull()
+      .references(() => territories.id, { onDelete: 'cascade' }),
+    categoryId: uuid()
+      .notNull()
+      .references(() => categories.id, { onDelete: 'cascade' }),
+    label: varchar({ length: 160 }),
+    hidden: boolean().notNull().default(false),
+    updatedAt: updatedAt(),
+  },
+  (t) => [primaryKey({ columns: [t.territoryId, t.categoryId] })],
+);
+
 /** Services, moyens de paiement, accessibilité, labels. */
 export const attributes = pgTable(
   'attributes',
