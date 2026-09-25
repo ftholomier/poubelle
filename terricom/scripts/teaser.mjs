@@ -1,5 +1,5 @@
 // Teaser vidéo terricom (MP4 1920×1080, 30 i/s) : images calculées depuis docs/teaser/clip.html, musique
-// docs/teaser/musique.wav (scripts/teaser_musique.py). Nécessite un ffmpeg avec libx264 (variable FFMPEG).
+// docs/teaser/musique.mp3 (« Epic Cinematic Music », Jonas Blakewood, libre de droits). Nécessite un ffmpeg avec libx264 (variable FFMPEG).
 // Usage : FFMPEG=/chemin/ffmpeg node scripts/teaser.mjs [--apercu 12.3]
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, rmSync } from 'node:fs';
@@ -51,7 +51,7 @@ execFileSync(
     '-i',
     path.join(frames, 'f%05d.jpg'),
     '-i',
-    path.join(root, 'docs/teaser/musique.wav'),
+    path.join(root, 'docs/teaser/musique.mp3'),
     '-c:v',
     'libx264',
     '-preset',
@@ -63,8 +63,11 @@ execFileSync(
     '-c:a',
     'aac',
     '-b:a',
-    '192k',
-    '-shortest',
+    '256k',
+    '-af',
+    'apad',
+    '-t',
+    String(duration),
     '-movflags',
     '+faststart',
     out,
