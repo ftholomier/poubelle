@@ -121,7 +121,9 @@ export async function runSireneSync(
     // Nouveautés : mêmes contrôles qu'un import (activités exclues, catégorie, commune, doublons).
     const raw = recordsToRaw(creations);
     const { rows } = await analyzeRows(territoryId, raw, guessMapping(RAW_HEADERS), null);
-    const toPropose = rows.map((row, i) => ({ row, record: creations[i] })).filter(({ row }) => row.action === 'CREATE' && row.communeId && row.categoryId);
+    const toPropose = rows
+      .map((row, i) => ({ row, record: creations[i] }))
+      .filter(({ row }) => (row.action === 'CREATE' || row.review) && row.communeId && row.categoryId);
     const ignored = creations.length - toPropose.length;
 
     const values = [
@@ -131,7 +133,7 @@ export async function runSireneSync(
         runId: run.id,
         kind: 'CREATION',
         siret: record.siret,
-        record,
+        record: row.review ? { ...record, reviewReason: row.review } : record,
         categoryId: row.categoryId,
       })),
       ...confirmed
@@ -270,6 +272,11 @@ export async function acceptCreations(ctx: BoContext, ids: string[]): Promise<{ 
   const { rows } = await analyzeRows(ctx.territory.id, recordsToRaw(changes.map((c) => c.record)), guessMapping(RAW_HEADERS), null);
   // La catégorie retenue lors de la détection reste valable si le rapprochement ne la retrouve plus.
   rows.forEach((r, i) => {
+    // Cas « à vérifier » : l'agent a tranché, la fiche est créée.
+    if (r.review && r.categoryId && r.communeId) {
+      r.action = 'CREATE';
+      r.review = null;
+    }
     if (!r.categoryId && changes[i].categoryId && r.communeId && r.name && r.errors.every((e) => e.startsWith('Activité'))) {
       r.categoryId = changes[i].categoryId;
       r.errors = [];

@@ -209,6 +209,8 @@ export type ImportRow = {
   /** CREATE : nouvelle fiche ; MERGE : complète une fiche existante ; SKIP : ligne en erreur ou doublon du fichier */
   action: 'CREATE' | 'MERGE' | 'SKIP';
   existingId?: string | null;
+  /** Cas douteux (société déclarée en holding ou immobilier…) : proposé à la validation d'un agent, pas créé d'office. */
+  review?: string | null;
   errors: string[];
 };
 
@@ -220,6 +222,8 @@ export type ImportReport = {
   total: number;
   /** Lignes écartées par le réglage « activités exclues » du territoire. */
   excluded?: number;
+  /** Lignes mises de côté « à vérifier » (file des mises à jour SIRENE). */
+  review?: number;
   created?: number;
   updated?: number;
   invited?: number;
@@ -281,6 +285,8 @@ export type SireneRecord = {
   lat: number | null;
   lng: number | null;
   active: boolean;
+  /** Motif quand la proposition demande une vérification (activité déclarée ambiguë). */
+  reviewReason?: string | null;
   createdOn?: string | null;
   /** Date de la fermeture ou du dernier changement d'état (AAAA-MM-JJ). */
   changedOn?: string | null;

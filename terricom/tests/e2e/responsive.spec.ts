@@ -10,7 +10,7 @@ test.describe('mobile', () => {
   });
 
   test('revendication : recherche de sa fiche', async ({ page }) => {
-    await page.goto('/pro/revendiquer?q=Martin');
+    await page.goto('/pro/revendiquer?q=Boulangerie%20Martin');
     await expect(page.getByText(/Boulangerie Martin/).first()).toBeVisible();
   });
 });

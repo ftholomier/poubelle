@@ -7,27 +7,40 @@ import type { SireneRecord } from '@/server/db/schema';
 
 // ─── Activités exclues des imports (réglage du territoire) ─────────────────
 
-export const EXCLUSION_GROUPS: { key: string; label: string; hint: string; naf: string[] }[] = [
+/** `individualsOnly` : seuls les entrepreneurs individuels (catégorie juridique 1xxx) sont écartés, pas les sociétés. */
+export const EXCLUSION_GROUPS: { key: string; label: string; hint: string; naf: string[]; individualsOnly?: boolean }[] = [
   {
     key: 'immobilier',
     label: 'Sociétés civiles et location immobilière',
-    hint: 'SCI, location de biens, marchands de biens (68.10, 68.20)',
-    naf: ['6810', '6820'],
+    hint: 'SCI, location de biens, promotion, copropriétés (68.10, 68.20, 41.10, 81.10)',
+    naf: ['6810', '6820', '4110', '8110'],
   },
   {
     key: 'holdings',
     label: 'Holdings et sièges sociaux',
-    hint: 'Sociétés de participation, fonds, sièges (64.20, 64.30, 70.10)',
-    naf: ['6420', '6430', '7010'],
+    hint: 'Sociétés de participation, fonds, sièges (64.20, 64.30, 66.30, 70.10)',
+    naf: ['6420', '6430', '6630', '7010'],
   },
-  { key: 'administrations', label: 'Administrations et associations', hint: 'Collectivités, services publics, associations (84, 94)', naf: ['84', '94'] },
+  {
+    key: 'administrations',
+    label: 'Administrations et associations',
+    hint: 'Collectivités, services publics, organismes publics, associations (84, 94)',
+    naf: ['84', '94'],
+  },
+  {
+    key: 'energie',
+    label: 'Particuliers producteurs d’énergie',
+    hint: 'Panneaux solaires sur le toit d’un particulier (35.11) ; les sociétés du secteur restent',
+    naf: ['351'],
+    individualsOnly: true,
+  },
   { key: 'sante', label: 'Professions de santé', hint: 'Médecins, dentistes, infirmiers, kinés… (86.2, 86.9)', naf: ['862', '869'] },
   { key: 'juridique', label: 'Professions juridiques et comptables', hint: 'Avocats, notaires, experts-comptables (69)', naf: ['69'] },
   { key: 'finance', label: 'Banques, assurances, finance', hint: 'Agences bancaires, assurances, courtiers (64, 65, 66)', naf: ['64', '65', '66'] },
 ];
 
 /** Réglage par défaut d'un territoire qui n'a encore rien choisi. */
-export const DEFAULT_EXCLUDED_GROUPS = ['immobilier', 'holdings', 'administrations'];
+export const DEFAULT_EXCLUDED_GROUPS = ['immobilier', 'holdings', 'administrations', 'energie'];
 
 export type SireneSettings = { autoSync?: boolean; excludedGroups?: string[]; excludedNaf?: string[] };
 
@@ -50,15 +63,77 @@ export function parseNafList(text: string): string[] {
 
 export function excludedPrefixes(settings: SireneSettings | undefined): string[] {
   const groups = settings?.excludedGroups ?? DEFAULT_EXCLUDED_GROUPS;
-  return [...EXCLUSION_GROUPS.filter((g) => groups.includes(g.key)).flatMap((g) => g.naf), ...(settings?.excludedNaf ?? [])];
+  return [...EXCLUSION_GROUPS.filter((g) => groups.includes(g.key) && !g.individualsOnly).flatMap((g) => g.naf), ...(settings?.excludedNaf ?? [])];
 }
 
-/** Activité exclue par le territoire ? (préfixe de code NAF, ou société civile immobilière par sa forme juridique) */
-export function isExcludedActivity(naf: string | null | undefined, settings: SireneSettings | undefined, legalCategory?: string | null): boolean {
+/** Activités d'un organisme public utiles aux visiteurs (station, camping, gîte, musée, office de tourisme…) : conservées. */
+const PUBLIC_VISITOR_NAF = ['55', '56', '4939C', '93', '91', '79', '47', '8551'];
+
+/** Enseigne commerciale dans le nom d'un entrepreneur individuel, « Jean Dupont (jp Services Plomberie) »,
+ * à distinguer du nom de naissance « Jeanne Dupont (martin) » (un seul mot). */
+function hasTradeName(name: string | null | undefined): boolean {
+  const m = name?.match(/\(([^()]*)\)\s*$/);
+  return Boolean(m && /[\s/'’&\d.-]/.test(m[1].trim()));
+}
+
+/** Nom qui évoque une activité ouverte au public (école de ski, club, gîte, chalet…) : jamais exclu d'office. */
+const PUBLIC_ACTIVITY_NAME =
+  /\b(g[iî]tes?|chalets?|chambres? d|h[oô]tel|appart|studios?|locations?|camping|auberge|refuge|fermes?|loc|immo\w*|\w*locations?|ski|sports?|loisirs?|[eé]coles?|moniteurs?|clubs?|centre|mus[eé]e|office|march[eé]|restaurant|caf[eé]|boutique|atelier|foyer)\b/i;
+
+export type ExclusionVerdict = { verdict: 'EXCLUDE' | 'REVIEW'; reason: string } | null;
+
+/**
+ * Tri des activités à l'import, contrôlé par la forme juridique autant que par le code NAF :
+ * EXCLUDE quand ce n'est certainement pas un commerce (SCI, particulier qui loue son logement, copropriété,
+ * mairie, association…), REVIEW quand une société commerciale ou un entrepreneur à enseigne est déclaré dans
+ * une activité patrimoniale (holding, siège, immobilier) : un agent tranche. null : l'établissement est gardé.
+ * Sans forme juridique connue (fichier CSV), le code NAF suffit à exclure.
+ */
+export function sireneExclusion(
+  naf: string | null | undefined,
+  settings: SireneSettings | undefined,
+  legalCategory?: string | null,
+  name?: string | null,
+): ExclusionVerdict {
   const code = nafKey(naf);
   const groups = settings?.excludedGroups ?? DEFAULT_EXCLUDED_GROUPS;
-  if (legalCategory === '6540' && groups.includes('immobilier')) return true;
-  return Boolean(code) && excludedPrefixes(settings).some((p) => code.startsWith(p));
+  const legal = legalCategory?.trim() || null;
+  const exclude = (reason: string): ExclusionVerdict => ({ verdict: 'EXCLUDE', reason });
+  const review = (reason: string): ExclusionVerdict => ({ verdict: 'REVIEW', reason });
+
+  if (legal?.startsWith('7') && groups.includes('administrations')) {
+    if (code && PUBLIC_VISITOR_NAF.some((p) => code.startsWith(p))) return null;
+    return exclude('organisme public');
+  }
+  if (legal === '6540' && groups.includes('immobilier')) return exclude('société civile immobilière');
+  if (!code) return null;
+  if ((settings?.excludedNaf ?? []).some((p) => code.startsWith(p))) return exclude(`code ${naf} exclu par le territoire`);
+  const group = EXCLUSION_GROUPS.find((g) => groups.includes(g.key) && g.naf.some((p) => code.startsWith(p)));
+  if (!group) return null;
+  if (group.individualsOnly) return legal?.startsWith('1') ? exclude('particulier producteur d’énergie') : null;
+  if (group.key === 'administrations' && name && PUBLIC_ACTIVITY_NAME.test(name))
+    return review(`association ou organisme au nom d’activité ouverte au public (${naf})`);
+  if (group.key !== 'immobilier' && group.key !== 'holdings') return exclude(group.label.toLowerCase());
+  if (!legal) return exclude(group.label.toLowerCase());
+  if (legal === '2110' && name && PUBLIC_ACTIVITY_NAME.test(name)) return review(`indivision au nom d’activité touristique (${naf})`);
+  if (legal.startsWith('65') || legal === '2110' || legal === '9110')
+    return exclude(legal === '9110' ? 'copropriété' : legal === '2110' ? 'indivision' : 'société civile');
+  if (legal.startsWith('1')) {
+    return hasTradeName(name) || (name && PUBLIC_ACTIVITY_NAME.test(name))
+      ? review(`entrepreneur à enseigne déclaré en ${group.key === 'immobilier' ? 'immobilier' : 'holding'} (${naf})`)
+      : exclude(group.key === 'immobilier' ? 'particulier : location de son logement' : 'particulier : gestion de patrimoine');
+  }
+  return review(`société déclarée en ${group.key === 'immobilier' ? 'immobilier' : 'holding ou siège social'} (${naf})`);
+}
+
+/** Activité certainement exclue par le territoire ? (les cas « à vérifier » ne le sont pas) */
+export function isExcludedActivity(
+  naf: string | null | undefined,
+  settings: SireneSettings | undefined,
+  legalCategory?: string | null,
+  name?: string | null,
+): boolean {
+  return sireneExclusion(naf, settings, legalCategory, name)?.verdict === 'EXCLUDE';
 }
 
 // ─── Lecture des sources ───────────────────────────────────────────────────
@@ -104,7 +179,8 @@ export function sireneStreet(num?: string | null, rep?: string | null, type?: st
 function clean(v: unknown): string | null {
   if (typeof v !== 'string') return null;
   const t = v.trim();
-  return t && t !== '[ND]' && t !== 'NULL' ? t : null;
+  // « [ND] », « [NON-DIFFUSIBLE] » : champ masqué à la demande de l'entrepreneur (droit d'opposition).
+  return t && t !== 'NULL' && !/^\[?(ND|NON.?DIFFUSIBLE)\]?$/i.test(t) ? t : null;
 }
 
 /** Nom affiché : enseigne, sinon dénomination usuelle, sinon dénomination de l'entreprise (ou nom et prénom). */
@@ -222,8 +298,8 @@ export function fromRecherche(r: RechercheResult, inseeCode: string): SireneReco
       name,
       naf: e.activite_principale ?? r.activite_principale ?? null,
       legalCategory: r.nature_juridique ?? null,
-      street: e.adresse ? titleCase(e.adresse.replace(/\s\d{5}\s.*$/, '')) : null,
-      postalCode: e.code_postal ?? null,
+      street: clean(e.adresse) ? titleCase(e.adresse!.replace(/\s\d{5}\s.*$/, '')) : null,
+      postalCode: clean(e.code_postal),
       inseeCode,
       city: e.libelle_commune ? titleCase(e.libelle_commune) : null,
       lat: Number.isFinite(lat) && e.latitude ? lat : null,

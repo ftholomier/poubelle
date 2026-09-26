@@ -249,6 +249,14 @@ async function ImportPanel({ ctx, lot }: { ctx: BoContext; lot: string | undefin
             </Link>
           </div>
         ) : null}
+        {r.review ? (
+          <div style={{ color: 'var(--amber)' }}>
+            ● {fmtInt(r.review)} cas à vérifier (holding, immobilier…) : proposés dans les{' '}
+            <Link href="/collectivite/entreprises/sirene" style={{ color: 'var(--amber)' }}>
+              mises à jour SIRENE
+            </Link>
+          </div>
+        ) : null}
         <div style={{ color: r.errors ? 'var(--rose)' : 'var(--sage-2)' }}>
           ● {fmtInt(r.errors)} erreur{r.errors > 1 ? 's' : ''} bloquante{r.errors > 1 ? 's' : ''}
         </div>

@@ -4,3 +4,4 @@ drizzle
 storage
 package-lock.json
 scripts/seed/haut-doubs-etablissements.json
+docs/demo/haut-doubs-controle.csv

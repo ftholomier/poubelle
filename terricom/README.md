@@ -64,6 +64,7 @@ fiches précréées (`npm run demo:sirene` fige la liste, puis `npm run db:reset
 | `npm run dev` / `build` / `start` | Application Next.js (`start` : serveur autonome de production) |
 | `npm run worker`                  | File de tâches et tâches planifiées                            |
 | `npm run demo:sirene`             | Fige les entreprises réelles du Haut-Doubs (API SIRENE)        |
+| `npm run demo:controle`           | Rapport de contrôle de l’import réel (CSV)                     |
 | `npm run db:generate`             | Nouvelle migration depuis le schéma Drizzle                    |
 | `npm run db:migrate`              | Applique les migrations (verrou consultatif, sûr en parallèle) |
 | `npm run db:seed` / `db:reset`    | Jeu de démonstration / réinitialisation complète               |

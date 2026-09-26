@@ -1,12 +1,22 @@
 import { and, eq, inArray, isNull, or, sql } from 'drizzle-orm';
 import Papa from 'papaparse';
-import { fromRecherche, fromStockRow, isExcludedActivity, stockUrls, type RechercheResult } from '@/lib/sirene';
+import { fromRecherche, fromStockRow, sireneExclusion, stockUrls, type RechercheResult } from '@/lib/sirene';
 import { slugify } from '@/lib/slug';
 import { audit, type AuditActor } from '../audit';
 import { invalidate } from '../cache';
 import { shortCode } from '../crypto';
 import { db } from '../db';
-import { categories, companies, establishments, importBatches, type ImportMapping, type ImportReport, type ImportRow, type SireneRecord } from '../db/schema';
+import {
+  categories,
+  companies,
+  establishments,
+  importBatches,
+  sireneChanges,
+  type ImportMapping,
+  type ImportReport,
+  type ImportRow,
+  type SireneRecord,
+} from '../db/schema';
 import { env } from '../env';
 import { isValidSiret } from '../integrations/public-data';
 import { logger } from '../logger';
@@ -186,6 +196,8 @@ export async function analyzeRows(
   const existingBySiret = new Map(existing.filter((e) => e.siret).map((e) => [e.siret!, e.id]));
   const existingByName = new Map(existing.map((e) => [`${norm(e.name)}|${e.communeId}`, e.id]));
   const seen = new Map<string, number>();
+  // Forme juridique (colonne SIRENE officielle) : SCI et organismes publics exclus selon les réglages.
+  const legalHeader = Object.keys(raw[0] ?? {}).find((h) => key(h) === 'categoriejuridiqueunitelegale');
 
   const rows: ImportRow[] = raw.map((r, i) => {
     const errors: string[] = [];
@@ -203,7 +215,9 @@ export async function analyzeRows(
     const naf = pick(r, mapping.naf)?.replace(/\./g, '').toUpperCase() ?? null;
     const catText = pick(r, mapping.category);
     const cat = (naf && (byNaf.get(naf) ?? byNafClass.get(naf.slice(0, 4)))) || (catText ? byCatName.get(norm(catText)) : undefined) || defaultCat;
-    if (naf && isExcludedActivity(naf, sirene)) errors.push(`${EXCLUDED_PREFIX} (${naf})`);
+    const legal = legalHeader ? r[legalHeader]?.trim() || null : null;
+    const verdict = sireneExclusion(naf, sirene, legal, name);
+    if (verdict?.verdict === 'EXCLUDE') errors.push(`${EXCLUDED_PREFIX} : ${verdict.reason}`);
     else if (!cat) errors.push(naf ? `Activité ${naf} sans catégorie correspondante` : 'Catégorie inconnue');
     const phone =
       pick(r, mapping.phone)
@@ -239,6 +253,11 @@ export async function analyzeRows(
       row.action = 'SKIP';
       return row;
     }
+    if (verdict?.verdict === 'REVIEW') {
+      row.action = 'SKIP';
+      row.review = verdict.reason;
+      return row;
+    }
     const dupKey = row.siret ?? `${norm(name)}|${row.communeId}`;
     const first = seen.get(dupKey);
     if (first) {
@@ -261,6 +280,7 @@ export async function analyzeRows(
     duplicatesInFile: rows.filter((r) => r.action === 'SKIP' && r.errors[0]?.startsWith('Doublon')).length,
     errors: rows.filter((r) => r.action === 'SKIP' && !r.errors[0]?.startsWith('Doublon') && !r.errors[0]?.startsWith(EXCLUDED_PREFIX)).length,
     excluded: rows.filter((r) => r.errors[0]?.startsWith(EXCLUDED_PREFIX)).length,
+    review: rows.filter((r) => r.review).length,
   };
   return { rows, report };
 }
@@ -364,6 +384,49 @@ export async function createEstablishments(
   return { created, updated };
 }
 
+/**
+ * Lignes « à vérifier » d'un import : proposées dans la file des mises à jour SIRENE (nouveautés à valider),
+ * où un agent décide de créer la fiche ou de l'écarter. Renvoie le nombre de propositions ajoutées.
+ */
+export async function queueForReview(territoryId: string, rows: ImportRow[], runId: string | null = null): Promise<number> {
+  const communesList = await getTerritoryCommunes(territoryId);
+  const inseeById = new Map(communesList.map((c) => [c.id, c.inseeCode]));
+  const values = rows
+    .filter((r) => r.review && r.siret && r.communeId)
+    .map((r) => ({
+      territoryId,
+      communeId: r.communeId!,
+      runId,
+      kind: 'CREATION',
+      siret: r.siret!,
+      categoryId: r.categoryId,
+      record: {
+        siret: r.siret!,
+        name: r.name,
+        naf: formatNaf(r.naf),
+        street: r.street,
+        postalCode: r.postalCode,
+        inseeCode: inseeById.get(r.communeId!)!,
+        city: r.communeName,
+        lat: r.lat,
+        lng: r.lng,
+        active: true,
+        reviewReason: r.review,
+      } satisfies SireneRecord,
+    }));
+  let n = 0;
+  for (let i = 0; i < values.length; i += 500) {
+    n += (
+      await db
+        .insert(sireneChanges)
+        .values(values.slice(i, i + 500))
+        .onConflictDoNothing()
+        .returning({ id: sireneChanges.id })
+    ).length;
+  }
+  return n;
+}
+
 /** « 4711B » → « 47.11B » (forme des codes NAF en base). */
 function formatNaf(naf: string | null | undefined): string | null {
   return naf && /^\d{4}[A-Z]$/.test(naf) ? `${naf.slice(0, 2)}.${naf.slice(2)}` : null;
@@ -410,6 +473,7 @@ export async function commitBatch(
   await db.update(importBatches).set({ status: 'RUNNING', updatedAt: new Date() }).where(eq(importBatches.id, batchId));
   const territory = await getTerritoryById(territoryId);
   const { created, updated } = await createEstablishments(territoryId, batch.rows, actor.user.id);
+  await queueForReview(territoryId, batch.rows);
 
   let invited = 0;
   if (opts.invite && territory) {
@@ -455,7 +519,7 @@ export async function commitBatch(
 
 type SearchResult = { results: RechercheResult[]; total_pages?: number };
 
-const RAW_HEADERS = ['siret', 'nom', 'activitePrincipale', 'adresse', 'codePostal', 'codeCommune', 'latitude', 'longitude'];
+const RAW_HEADERS = ['siret', 'nom', 'activitePrincipale', 'adresse', 'codePostal', 'codeCommune', 'latitude', 'longitude', 'categorieJuridiqueUniteLegale'];
 
 /** Enregistrements SIRENE → lignes brutes d'un lot (colonnes reconnues par guessMapping). */
 export function recordsToRaw(records: SireneRecord[]): Record<string, string>[] {
@@ -468,6 +532,7 @@ export function recordsToRaw(records: SireneRecord[]): Record<string, string>[] 
     codeCommune: r.inseeCode,
     latitude: r.lat === null ? '' : String(r.lat),
     longitude: r.lng === null ? '' : String(r.lng),
+    categorieJuridiqueUniteLegale: r.legalCategory ?? '',
   }));
 }
 

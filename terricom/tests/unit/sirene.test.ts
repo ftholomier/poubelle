@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   diffSirene,
+  sireneExclusion,
   fromInsee,
   fromRecherche,
   fromStockRow,
@@ -48,6 +49,35 @@ describe('activités exclues', () => {
     expect(isExcludedActivity('56.10A', s)).toBe(true);
     expect(isExcludedActivity('56.10C', s)).toBe(false);
     expect(isExcludedActivity(null, s)).toBe(false);
+  });
+
+  it('écarte les particuliers producteurs d’énergie, pas les sociétés du secteur', () => {
+    expect(isExcludedActivity('35.11Z', undefined, '1000')).toBe(true);
+    expect(isExcludedActivity('35.11Z', undefined, '5499')).toBe(false);
+    expect(isExcludedActivity('35.11Z', undefined, null)).toBe(false);
+    expect(isExcludedActivity('35.30Z', undefined, '7210')).toBe(true);
+    expect(isExcludedActivity('35.11Z', { excludedGroups: [] }, '1000')).toBe(false);
+  });
+
+  it('contrôle la forme juridique avant d’exclure (cas réels du Haut-Doubs)', () => {
+    // Station de ski, camping municipal : organismes publics gardés.
+    expect(sireneExclusion('49.39C', undefined, '7355', 'Syndicat Mixte Du Mont D’Or')).toBeNull();
+    expect(sireneExclusion('55.30Z', undefined, '7210', 'Camping Municipal')).toBeNull();
+    expect(sireneExclusion('84.11Z', undefined, '7210', 'Mairie')?.verdict).toBe('EXCLUDE');
+    // Société commerciale déclarée en siège social : à vérifier, pas exclue.
+    expect(sireneExclusion('70.10Z', undefined, '5499', 'Les Bateaux Du Lac Saint Point')?.verdict).toBe('REVIEW');
+    expect(sireneExclusion('66.30Z', undefined, '6599', 'Sc Aline Battistolo')?.verdict).toBe('EXCLUDE');
+    // Particulier : location de son logement exclue, artisan à enseigne à vérifier.
+    expect(sireneExclusion('68.20A', undefined, '1000', 'Alexandra Meuleau (menigoz)')?.verdict).toBe('EXCLUDE');
+    expect(sireneExclusion('68.20A', undefined, '1000', 'Jeremy Poinsignon (jp Services Plomberie)')?.verdict).toBe('REVIEW');
+    expect(sireneExclusion('68.20A', undefined, '2110', 'Indivision Huguet')?.verdict).toBe('EXCLUDE');
+    expect(sireneExclusion('81.10Z', undefined, '9110', 'Copr Le Montaneige')?.verdict).toBe('EXCLUDE');
+    expect(sireneExclusion('10.71C', undefined, '5499', 'Boulangerie')).toBeNull();
+    expect(sireneExclusion('94.11Z', undefined, '9220', 'Ecole Du Ski Francais')?.verdict).toBe('REVIEW');
+    expect(sireneExclusion('94.99Z', undefined, '9220', 'Acca Commu Chasse Agree')?.verdict).toBe('EXCLUDE');
+    expect(sireneExclusion('68.20A', undefined, '1000', 'Gites La Grange')?.verdict).toBe('REVIEW');
+    expect(sireneExclusion('68.20A', undefined, '2110', 'Chalet Le Havre Du Lac')?.verdict).toBe('REVIEW');
+    expect(sireneExclusion('68.20B', undefined, '6540', 'Au Cafe Des Amis')?.verdict).toBe('EXCLUDE');
   });
 
   it('normalise les codes NAF saisis librement', () => {

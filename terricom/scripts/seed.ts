@@ -830,7 +830,7 @@ async function main() {
     const HD = (await import('./seed/haut-doubs-communes.json')).default;
     const { existsSync, readFileSync } = await import('node:fs');
     const fixture = `${process.cwd()}/scripts/seed/haut-doubs-etablissements.json`;
-    const { analyzeRows, createEstablishments, guessMapping, recordsToRaw } = await import('@/server/services/imports');
+    const { analyzeRows, createEstablishments, guessMapping, queueForReview, recordsToRaw } = await import('@/server/services/imports');
     const metabief = HD.find((c) => c.name === 'Métabief')!;
     const [hd] = await db
       .insert(S.territories)
@@ -855,7 +855,7 @@ async function main() {
           postModeration: 'POST',
           newsletterName: 'La lettre des Lacs et Montagnes',
           jobsTitle: 'Travailler dans le Haut-Doubs',
-          sirene: { autoSync: true, excludedGroups: ['immobilier', 'holdings', 'administrations'] },
+          sirene: { autoSync: true, excludedGroups: ['immobilier', 'holdings', 'administrations', 'energie'] },
         },
         createdAt: daysAgo(40),
       })
@@ -931,16 +931,24 @@ async function main() {
         committedAt: daysAgo(38),
         createdAt: daysAgo(38),
       });
-      await db.insert(S.sireneSyncRuns).values({
-        territoryId: hd.id,
-        source: 'RECHERCHE',
-        trigger: 'SCHEDULE',
-        status: 'DONE',
-        since: daysAgo(38),
-        startedAt: daysAgo(10, 5),
-        finishedAt: daysAgo(10, 5),
-      });
-      console.log(`  ${created.length} fiches précréées sur ${data.records.length} établissements SIRENE (${report.excluded ?? 0} activités exclues)`);
+      const [hdRun] = await db
+        .insert(S.sireneSyncRuns)
+        .values({
+          territoryId: hd.id,
+          source: 'RECHERCHE',
+          trigger: 'SCHEDULE',
+          status: 'DONE',
+          since: daysAgo(38),
+          startedAt: daysAgo(10, 5),
+          finishedAt: daysAgo(10, 5),
+        })
+        .returning();
+      // Cas douteux (société déclarée en holding ou immobilier, artisan à enseigne…) : file de validation.
+      const toReview = await queueForReview(hd.id, rows, hdRun.id);
+      await db.update(S.sireneSyncRuns).set({ creations: toReview }).where(eq(S.sireneSyncRuns.id, hdRun.id));
+      console.log(
+        `  ${created.length} fiches précréées sur ${data.records.length} établissements SIRENE (${report.excluded ?? 0} activités exclues, ${toReview} à vérifier)`,
+      );
     } else {
       console.log('  Établissements absents : lancer `npm run demo:sirene` (accès à recherche-entreprises.api.gouv.fr requis).');
     }

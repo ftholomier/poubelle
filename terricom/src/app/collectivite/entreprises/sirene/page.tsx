@@ -75,7 +75,7 @@ function Row({ c, admin, children }: { c: Change; admin: boolean; children: Reac
         cursor: admin ? 'pointer' : undefined,
       }}
     >
-      {admin ? <input type="checkbox" name="id" value={c.id} defaultChecked aria-label={c.record.name} /> : null}
+      {admin ? <input type="checkbox" name="id" value={c.id} defaultChecked={!c.record.reviewReason} aria-label={c.record.name} /> : null}
       {children}
     </label>
   );
@@ -177,7 +177,7 @@ export default async function SireneUpdatesPage({ searchParams }: Props) {
       <Section
         title="Nouvelles entreprises"
         count={creations.length}
-        hint="Établissements créés depuis le dernier passage, hors activités exclues. Une fois acceptés, ils deviennent des fiches précréées à inviter par courrier."
+        hint="Établissements créés depuis le dernier passage, hors activités exclues, et cas « à vérifier » (société déclarée en holding ou en immobilier, artisan à enseigne…), non cochés par défaut. Une fois acceptés, ils deviennent des fiches précréées à inviter par courrier."
       >
         {creations.length ? (
           <form style={{ display: 'flex', flexDirection: 'column' }}>
@@ -190,6 +190,24 @@ export default async function SireneUpdatesPage({ searchParams }: Props) {
                   <Row key={c.id} c={c} admin={admin}>
                     <span style={{ minWidth: 0 }}>
                       <b style={{ display: 'block' }}>{c.record.name}</b>
+                      {c.record.reviewReason ? (
+                        <span
+                          className="bo-chip"
+                          style={{
+                            padding: '2px 8px',
+                            fontSize: 11,
+                            background: 'var(--warn-bg)',
+                            color: 'var(--warn-fg)',
+                            borderColor: 'transparent',
+                            margin: '3px 0',
+                            display: 'flex',
+                            width: 'fit-content',
+                            whiteSpace: 'normal',
+                          }}
+                        >
+                          À vérifier : {c.record.reviewReason}
+                        </span>
+                      ) : null}
                       <span style={{ fontSize: 12, color: 'var(--muted)' }}>
                         {address(c)} · SIRET {c.siret}
                       </span>

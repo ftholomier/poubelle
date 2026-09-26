@@ -42,13 +42,14 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
 - [x] Synchronisation SIRENE : passage mensuel automatique (API Sirene de l’INSEE avec clé gratuite, sinon API
       Recherche d’entreprises), nouveautés à valider puis invitation par courrier, fermetures signalées à archiver
       ou garder, fichier stock des départements pour les grands territoires, activités exclues par territoire
+- [x] Territoire réel de démonstration « Lacs et Montagnes du Haut-Doubs » : 32 communes officielles, 3 753
+      établissements SIRENE actifs contrôlés un par un (forme juridique, code NAF, nom) : 1 968 fiches
+      précréées, 219 cas « à vérifier » dans la file SIRENE, 1 566 exclusions certaines (SCI, particuliers
+      loueurs, copropriétés, services publics…), rapport `docs/demo/haut-doubs-controle.csv`
 
 ## En cours
 
-- [ ] Territoire de démonstration réel « Lacs et Montagnes du Haut-Doubs » : territoire, 32 communes officielles
-      (codes INSEE, codes postaux, populations, positions), comptes et accès démo en place ; reste à figer les
-      entreprises réelles avec `npm run demo:sirene` (accès réseau à `recherche-entreprises.api.gouv.fr`
-      nécessaire), puis `npm run db:reset` et contrôle visuel.
+Rien en cours.
 
 ## Pistes pour la suite (hors cahier des charges initial)
 

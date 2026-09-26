@@ -81,11 +81,11 @@ export default async function BackOfficeLayout({ children }: { children: ReactNo
           </div>
           {env.DEMO_MODE ? (
             <nav className="bo-scope-tabs" aria-label="Périmètre">
-              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+              {}
               <a href={`/demo/entrer/${demoKey}`} aria-current={ctx.level === 'TERRITORY' ? 'true' : undefined}>
                 Territoire
               </a>
-              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+              {}
               <a
                 href={`/demo/entrer/${demoKey === 'haut-doubs' ? 'haut-doubs-commune' : 'commune'}`}
                 aria-current={ctx.level === 'COMMUNE' ? 'true' : undefined}

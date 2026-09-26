@@ -183,6 +183,11 @@ collectivite|commune|console`, `MOBILE=1`, `EXTRA=chemins`).
   `scripts/seed/haut-doubs-etablissements.json` (établissements actifs et diffusibles). Le jeu de démonstration
   l’importe avec `analyzeRows` et `createEstablishments` (activités exclues, catégories, doublons) ; ce qui
   n’a pas de catégorie tombe dans « Autres activités ». Sans ce fichier, le territoire est créé sans entreprises.
+- `npm run demo:sirene` passe par le proxy de l’environnement avec `NODE_USE_ENV_PROXY=1` (fetch de Node) ; la
+  liste est lue commune par commune, établissements actifs et diffusibles (y compris en diffusion partielle :
+  nom public, adresse masquée).
+- `npm run demo:controle` écrit `docs/demo/haut-doubs-controle.csv` : décision (gardée, à vérifier, exclue) et
+  motif pour chaque établissement ; à relire après tout changement de `sireneExclusion` (`src/lib/sirene.ts`).
 - Relancer `npm run demo:sirene` pour rafraîchir la liste (mensuellement si besoin), puis `npm run db:reset`.
 
 ## Environnement de développement (bac à sable)

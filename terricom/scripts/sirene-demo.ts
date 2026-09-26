@@ -1,23 +1,33 @@
 // Fige les établissements réels d'un territoire de démonstration (API Recherche d'entreprises, données SIRENE de
 // l'INSEE) dans scripts/seed/haut-doubs-etablissements.json, lu ensuite par le jeu de démonstration sans réseau.
-// Usage : npm run demo:sirene   (quelques minutes : 7 requêtes par seconde au plus)
+// Usage : npm run demo:sirene   (quelques minutes : 7 requêtes par seconde au plus ; derrière un proxy,
+// NODE_USE_ENV_PROXY=1 fait passer le fetch de Node par HTTPS_PROXY)
 import { writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { fromRecherche, type RechercheResult } from '../src/lib/sirene';
 import type { SireneRecord } from '../src/server/db/schema';
 import communes from './seed/haut-doubs-communes.json';
 
 const API = process.env.SIRENE_API_URL ?? 'https://recherche-entreprises.api.gouv.fr';
-const out = path.join(path.dirname(fileURLToPath(import.meta.url)), 'seed/haut-doubs-etablissements.json');
+const out = path.join(process.cwd(), 'scripts/seed/haut-doubs-etablissements.json');
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 async function page(insee: string, n: number): Promise<{ results: RechercheResult[]; total_pages: number }> {
   for (let attempt = 0; ; attempt++) {
-    const res = await fetch(`${API}/search?code_commune=${insee}&etat_administratif=A&per_page=25&page=${n}`, {
-      headers: { accept: 'application/json' },
-      signal: AbortSignal.timeout(20_000),
-    });
+    let res: Response;
+    try {
+      res = await fetch(`${API}/search?code_commune=${insee}&etat_administratif=A&per_page=25&page=${n}`, {
+        headers: { accept: 'application/json' },
+        signal: AbortSignal.timeout(20_000),
+      });
+    } catch (err) {
+      // Coupure réseau passagère : nouvelle tentative, puis abandon explicite.
+      if (attempt < 6) {
+        await sleep(2000 * (attempt + 1));
+        continue;
+      }
+      throw err;
+    }
     if (res.ok) return (await res.json()) as { results: RechercheResult[]; total_pages: number };
     if ((res.status === 429 || res.status >= 500) && attempt < 6) {
       await sleep(1500 * (attempt + 1));

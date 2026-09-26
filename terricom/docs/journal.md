@@ -67,6 +67,12 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
   le dernier passage (marge de 90 jours pour les déclarations tardives), pour ne pas rejouer l’import initial.
   SIRENE ne donnant pas d’email, l’invitation se fait par courrier. Par défaut, SCI, holdings et administrations
   sont exclues (non pertinentes pour un annuaire de commerces).
+- **Exclure seulement ce qui est certain** : le code NAF seul trompe (commerces déclarés « siège social »,
+  artisans à enseigne en « location de logement », École du Ski Français en association, station de ski
+  gérée par un syndicat mixte). La forme juridique tranche : SCI, sociétés civiles, indivisions, copropriétés,
+  particuliers sans enseigne et services publics non touristiques sont exclus ; sociétés commerciales,
+  entrepreneurs à enseigne et associations au nom d’activité ouverte au public vont « à vérifier » dans la file
+  SIRENE, où un agent décide. Sans forme juridique (CSV), le code NAF suffit, comme avant.
 - **Territoire réel de démonstration** : entreprises réelles uniquement en fiches précréées, avec les seules
   données publiques SIRENE (nom, activité, adresse, position) ; aucun contenu inventé (description, horaires,
   avis) n’est attribué à une vraie entreprise. La liste est figée dans le dépôt pour une démo sans réseau.
