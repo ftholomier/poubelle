@@ -40,22 +40,24 @@ npm run worker                   # tâches de fond (autre terminal)
 ```
 
 Avec `DEMO_MODE=true`, la barre de démonstration permet d’entrer dans chaque espace sans mot de passe.
+
+La démonstration présente un territoire **réel** : la communauté de communes des **Lacs et Montagnes du
+Haut-Doubs**, ses 32 communes et ses entreprises de la base SIRENE, importées en fiches précréées et contrôlées
+une par une (`npm run demo:sirene` fige la liste, `npm run demo:controle` en donne le rapport). Rien n’y est
+inventé, sauf un **commerce de démonstration** fictif et quelques **exemples** (campagne, actualité, événement,
+lettre), tous signalés comme tels.
+
 Comptes (mot de passe `Terricom2026!`, code de double authentification : secret TOTP `JBSWY3DPEHPK3PXP`) :
 
-| Rôle                                                           | Email                                |
-| -------------------------------------------------------------- | ------------------------------------ |
-| Super administrateur                                           | camille@terricom.fr                  |
-| Admin territoriale (CC du Val de Loue)                         | c.duval@cc-valdeloue.fr              |
-| Chargé de communication                                        | t.girod@cc-valdeloue.fr              |
-| Admin communale (Ornans)                                       | commerce@ornans.fr                   |
-| Professionnelle (boulangerie)                                  | sophie@boulangerie-martin.fr         |
-| Caviste, offre Communication (mini-site, formulaires, clients) | julie@cave-comtoise.fr               |
-| Admin territoriale (Lacs et Montagnes du Haut-Doubs)           | collectivite@haut-doubs.exemple.test |
-| Admin communale (Métabief)                                     | mairie@metabief.exemple.test         |
+| Rôle                                              | Email                                 |
+| ------------------------------------------------- | ------------------------------------- |
+| Super administrateur                              | camille@terricom.fr                   |
+| Admin territoriale (CC Lacs et Montagnes)         | collectivite@haut-doubs.exemple.test  |
+| Admin communale (Métabief)                        | mairie@metabief.exemple.test          |
+| Commerce de démonstration (fictif, offre Premium) | commerce@demo-haut-doubs.exemple.test |
 
-Le territoire **Lacs et Montagnes du Haut-Doubs** (lien « Haut-Doubs » de la barre de démonstration) reprend les
-32 communes réelles de la communauté de communes et ses entreprises réelles de la base SIRENE, importées comme
-fiches précréées (`npm run demo:sirene` fige la liste, puis `npm run db:reset`).
+**Tests automatiques** : ils reposent sur un jeu fictif (territoire « Val de Loue », autres clients,
+prospects), chargé seulement avec `DEMO_DATASET=fictif npm run db:reset` et jamais montré en démonstration.
 
 ## Scripts
 

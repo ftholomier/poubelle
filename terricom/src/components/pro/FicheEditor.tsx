@@ -227,7 +227,7 @@ export function FicheEditor(p: FicheEditorProps) {
               name="serviceArea"
               className="input"
               defaultValue={p.values.serviceArea}
-              placeholder="ex. 25 km autour d’Ornans"
+              placeholder="ex. 25 km autour de votre commune"
               maxLength={255}
             />
           </label>

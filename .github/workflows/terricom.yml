@@ -71,6 +71,8 @@ jobs:
       DATABASE_URL: postgres://terricom:terricom@localhost:5432/terricom
       APP_URL: http://localhost:3000
       DEMO_MODE: 'true'
+      # Tests automatiques : jeu fictif (Val de Loue) en plus du territoire réel.
+      DEMO_DATASET: fictif
       MAIL_DRIVER: outbox
       E2E_START: '1'
     steps:

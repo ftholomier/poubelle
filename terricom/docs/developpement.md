@@ -177,6 +177,14 @@ collectivite|commune|console`, `MOBILE=1`, `EXTRA=chemins`).
 
 ## Territoire réel de démonstration (Haut-Doubs)
 
+- **Deux jeux** : par défaut, `npm run db:reset` ne laisse que le Haut-Doubs réel (le jeu fictif est construit
+  puis retiré en fin de script ; le journal d’audit, inaltérable, ne reçoit aucun événement fictif). Les tests
+  Playwright exigent `DEMO_DATASET=fictif npm run db:reset` (Val de Loue, autres clients, prospects) ; la CI le fait.
+- La barre de démonstration et `/demo/entrer/<espace>` choisissent le premier compte présent (jeu fictif, sinon
+  Haut-Doubs) : aucun réglage à changer entre les deux jeux.
+- Seul contenu inventé : le « Commerce de démonstration » (sans SIRET) et des exemples titrés « Exemple de
+  démonstration ». Ne jamais attribuer photos, horaires, avis ou statistiques à une vraie entreprise.
+
 - Communes : `scripts/seed/haut-doubs-communes.json` (découpage officiel Etalab, `@etalab/decoupage-administratif`,
   positions calculées depuis les contours des communes).
 - Entreprises : `npm run demo:sirene` interroge l’API Recherche d’entreprises commune par commune et écrit

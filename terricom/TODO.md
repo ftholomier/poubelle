@@ -46,6 +46,9 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
       établissements SIRENE actifs contrôlés un par un (forme juridique, code NAF, nom) : 1 968 fiches
       précréées, 219 cas « à vérifier » dans la file SIRENE, 1 566 exclusions certaines (SCI, particuliers
       loueurs, copropriétés, services publics…), rapport `docs/demo/haut-doubs-controle.csv`
+- [x] Démonstration 100 % Haut-Doubs pour le premier prospect : jeu fictif retiré de la démo (gardé pour les
+      tests, `DEMO_DATASET=fictif`), commerce de démonstration signalé, exemples signalés, libellé « territoire de
+      démonstration » (et non « pilote ») sur le site
 
 ## En cours
 
@@ -60,6 +63,9 @@ Rien en cours.
       si le pilote l’exprime (§ 29, e-commerce volontairement non prioritaire)
 
 ## Limites connues
+
+- Le dossier de réalisation, la présentation aux élus et le teaser montrent encore des captures du jeu fictif
+  (Val de Loue) : à régénérer sur le Haut-Doubs si on les présente au prospect.
 
 - Dans le bac à sable de développement, cartes, photos, API publiques et IA sont bloquées (fonctionnent en production).
 - Synchronisation SIRENE : API Sirene de l’INSEE et fichiers stock de data.gouv.fr non joignables depuis le bac

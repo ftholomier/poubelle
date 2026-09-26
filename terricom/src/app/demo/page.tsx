@@ -43,8 +43,8 @@ export default async function DemoPage() {
           </ul>
           {pilot ? (
             <div className="mk-card" style={{ padding: 18, fontSize: 14, color: '#4A514C' }}>
-              Territoire pilote : <b>{pilot.territory.name}</b> · {fmtInt(pilot.communes)} communes · {fmtInt(pilot.establishments)} fiches en ligne.{' '}
-              <a href={pilot.links.home}>Voir le portail →</a>
+              {pilot.territory.isPilot ? 'Territoire pilote' : 'Territoire de démonstration'} : <b>{pilot.territory.name}</b> · {fmtInt(pilot.communes)}{' '}
+              communes · {fmtInt(pilot.establishments)} fiches en ligne. <a href={pilot.links.home}>Voir le portail →</a>
             </div>
           ) : null}
         </div>

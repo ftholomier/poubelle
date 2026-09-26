@@ -54,7 +54,7 @@ Règles impératives :
 - Pas de superlatifs creux (« une offre riche et diversifiée »), pas de jargon marketing.
 - Respecte le ton demandé : Chaleureux (proche, bienveillant), Pro (sobre, factuel), Fun (enjoué, rythmé).
 - Mentionne la commune ; l'adresse seulement si elle est fournie.
-- Les hashtags Instagram sont sans accents et en CamelCase (#ValDeLoue, #FaitIci).`;
+- Les hashtags Instagram sont sans accents et en CamelCase (#FaitIci, #CommerceLocal).`;
 
 function emojiFor(family: Family, activity: string): string {
   const a = activity.toLowerCase();

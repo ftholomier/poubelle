@@ -10,7 +10,7 @@ import { portalUrl } from '../urls';
  */
 
 export type Showcase = {
-  territory: { slug: string; name: string; primaryHost: string | null; colorPrimary: string; heroImageUrl: string | null };
+  territory: { slug: string; name: string; primaryHost: string | null; colorPrimary: string; heroImageUrl: string | null; isPilot: boolean };
   establishments: number;
   communes: number;
   links: {
@@ -50,7 +50,10 @@ export const pilotShowcase = cache(async (): Promise<Showcase | null> => {
       .leftJoin(companyMembers, eq(companyMembers.companyId, establishments.companyId))
       .leftJoin(users, eq(users.id, companyMembers.userId))
       .where(and(eq(establishments.territoryId, t.id), eq(establishments.status, 'VALIDATED')))
-      .orderBy(sql`${users.email} = 'sophie@boulangerie-martin.fr' desc nulls last`, desc(establishments.completeness))
+      .orderBy(
+        sql`${users.email} in ('sophie@boulangerie-martin.fr', 'commerce@demo-haut-doubs.exemple.test') desc nulls last`,
+        desc(establishments.completeness),
+      )
       .limit(1),
     db
       .select({ slug: campaigns.slug })
@@ -61,7 +64,7 @@ export const pilotShowcase = cache(async (): Promise<Showcase | null> => {
   ]);
   const u = (p: string) => portalUrl(t, p);
   return {
-    territory: { slug: t.slug, name: t.name, primaryHost: t.primaryHost, colorPrimary: t.colorPrimary, heroImageUrl: t.heroImageUrl },
+    territory: { slug: t.slug, name: t.name, primaryHost: t.primaryHost, colorPrimary: t.colorPrimary, heroImageUrl: t.heroImageUrl, isPilot: t.isPilot },
     establishments: counts?.establishments ?? 0,
     communes: counts?.communes ?? 0,
     links: {

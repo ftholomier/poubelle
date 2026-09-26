@@ -101,9 +101,9 @@ export default async function PresentationPage() {
     ['Le territoire vu par un habitant', 'On cherche « où offrir local pour Noël » et l’assistant répond.', L?.home ?? null],
     ['La carte vivante', 'Filtrer, cliquer, arriver sur une fiche prête pour Google.', L?.explore ?? null],
     ['Le calendrier de l’Avent', 'L’animation commerciale rendue ludique.', L?.campaign ?? null],
-    ['Une boulangère prend la main', 'Revendication vérifiée en 5 étapes.', '/pro/revendiquer'],
+    ['Un commerçant prend la main', 'Revendication vérifiée en 5 étapes.', '/pro/revendiquer'],
     ['L’IA rédige pour elle', 'Une phrase donne 6 publications prêtes.', enter('pro', '/pro/{est}/publications')],
-    ['La collectivité pilote', 'Adoption, météo du commerce, campagne en un clic.', enter('collectivite')],
+    ['La collectivité pilote le commerce', 'Adoption, météo du commerce, campagne en un clic.', enter('collectivite')],
   ];
   const mvp = [
     'Multi-territoires',
@@ -169,7 +169,9 @@ export default async function PresentationPage() {
           </div>
           <div style={{ position: 'relative', maxWidth: 1320, width: '100%', margin: '0 auto', padding: '0 32px 64px', color: '#fff' }}>
             <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--amber)', marginBottom: 16 }}>
-              {pilot ? `Territoire partenaire pilote · ${pilot.territory.name}` : 'Plateforme des territoires'}
+              {pilot
+                ? `${pilot.territory.isPilot ? 'Territoire partenaire pilote' : 'Territoire de démonstration'} · ${pilot.territory.name}`
+                : 'Plateforme des territoires'}
             </div>
             <h1
               className="display"

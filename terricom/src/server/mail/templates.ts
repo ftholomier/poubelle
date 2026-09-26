@@ -312,7 +312,7 @@ export function demoRequestAckTemplate(p: { to: string; name: string }): Outgoin
     title: `Merci ${p.name}, on vous rappelle très vite`,
     paragraphs: [
       'Votre demande de démonstration est bien arrivée. Un membre de l’équipe terricom vous contacte sous 48 h ouvrées pour caler un créneau de 30 minutes.',
-      'En attendant, découvrez le portail pilote du Val de Loue sur terricom.fr.',
+      'En attendant, découvrez le portail de démonstration sur terricom.fr.',
     ],
   });
   return { to: p.to, subject: 'Votre demande de démo terricom', html, text, template: 'demo-ack' };

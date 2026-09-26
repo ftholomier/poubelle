@@ -14,7 +14,7 @@ export default function ProLayout({ children }: { children: ReactNode }) {
         right={
           <>
             Parcours :
-            <Link href="/pro/revendiquer?territoire=valdeloue&q=Boulangerie%20Ornans" style={{ color: 'var(--amber)', fontWeight: 600 }}>
+            <Link href="/pro/revendiquer?territoire=haut-doubs&q=M%C3%A9tabief" style={{ color: 'var(--amber)', fontWeight: 600 }}>
               1. Revendiquer sa fiche
             </Link>
             ·{/* Gestionnaire de route (connexion de démonstration) : navigation complète, pas de préchargement. */}

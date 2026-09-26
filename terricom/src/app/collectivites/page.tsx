@@ -48,7 +48,7 @@ export default async function CollectivitesPage() {
             </Link>
             {pilot ? (
               <a href={pilot.links.home} className="btn btn-outline" style={{ border: '1.5px solid var(--ink)', color: 'var(--ink)' }}>
-                Voir le territoire pilote
+                {pilot.territory.isPilot ? 'Voir le territoire pilote' : 'Voir le territoire de démonstration'}
               </a>
             ) : null}
           </>

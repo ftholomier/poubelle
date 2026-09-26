@@ -821,6 +821,7 @@ async function main() {
     await db.insert(S.roleAssignments).values({ userId: admin.id, role: 'TERRITORY_ADMIN', territoryId: tr.id, createdById: camille.id });
   }
 
+  let demoEstId = '';
   // ─── Lacs et Montagnes du Haut-Doubs : communes et entreprises réelles ────
   // 32 communes du découpage officiel (Etalab) et établissements actifs de la base SIRENE, figés dans
   // scripts/seed/haut-doubs-etablissements.json par `npm run demo:sirene`, puis importés par le moteur
@@ -905,6 +906,174 @@ async function main() {
       { userId: hdAdmin.id, role: 'TERRITORY_ADMIN', territoryId: hd.id, createdById: camille.id },
       { userId: hdCommune.id, role: 'COMMUNE_ADMIN', territoryId: hd.id, communeId: hdCommunes['Métabief'].id, createdById: hdAdmin.id },
     ]);
+
+    // Commerce de démonstration (fictif, signalé comme tel) : montre l'espace entreprise sans rien attribuer
+    // à une vraie entreprise du territoire. Pas de SIRET.
+    const demoOwner = await mkUser({ email: 'commerce@demo-haut-doubs.exemple.test', first: 'Commerçant', last: 'de démonstration', job: 'Gérant (exemple)' });
+    const [demoCo] = await db
+      .insert(S.companies)
+      .values({
+        siren: null,
+        legalName: 'COMMERCE DE DÉMONSTRATION',
+        tradeName: 'Commerce de démonstration',
+        nafCode: '47.29Z',
+        plan: 'PREMIUM',
+        createdAt: daysAgo(30),
+      })
+      .returning();
+    const metab = hdCommunes['Métabief'];
+    const [demoEst] = await db
+      .insert(S.establishments)
+      .values({
+        companyId: demoCo.id,
+        communeId: metab.id,
+        territoryId: hd.id,
+        categoryId: catBySlug.get('epicerie')!.id,
+        slug: 'commerce-de-demonstration',
+        name: 'Commerce de démonstration',
+        status: 'VALIDATED',
+        origin: 'PRO',
+        activityLabel: 'Épicerie fine (exemple)',
+        tagline: 'Fiche d’exemple pour la démonstration terricom : ce commerce n’existe pas.',
+        description:
+          'Exemple de démonstration. Cette fiche montre ce qu’un commerçant du Haut-Doubs peut publier une fois sa fiche revendiquée : présentation, photos, horaires, actualités, promotions et événements. Aucune entreprise réelle n’est représentée ici.',
+        street: 'Adresse d’exemple',
+        postalCode: metab.postalCodes[0],
+        lat: (metab.lat ?? 46.76) + 0.0015,
+        lng: (metab.lng ?? 6.35) + 0.0012,
+        coverUrl: D.U(D.I.grocery, 1200),
+        hoursConfirmedAt: daysAgo(3),
+        lastActivityAt: daysAgo(1),
+        publishedAt: daysAgo(28),
+        qrCode: shortCode(8),
+        createdAt: daysAgo(30),
+      })
+      .returning();
+    demoEstId = demoEst.id;
+    memberRows.push({ companyId: demoCo.id, userId: demoOwner.id, role: 'OWNER' });
+    subscriptionRows.push({
+      companyId: demoCo.id,
+      plan: 'PREMIUM',
+      status: 'ACTIVE',
+      startedAt: daysAgo(28),
+      currentPeriodEnd: new Date(now.getTime() + 30 * DAY),
+    });
+    for (const wd of [2, 3, 4, 5, 6]) {
+      hoursRows.push({ establishmentId: demoEst.id, weekday: wd, opensAt: '09:00', closesAt: '12:30' });
+      hoursRows.push({ establishmentId: demoEst.id, weekday: wd, opensAt: '14:30', closesAt: '19:00' });
+    }
+    await db.insert(S.posts).values([
+      {
+        territoryId: hd.id,
+        communeId: metab.id,
+        establishmentId: demoEst.id,
+        authorType: 'ESTABLISHMENT',
+        kind: 'NOUVEAUTE',
+        status: 'PUBLISHED',
+        title: 'Exemple de démonstration : arrivage de produits du Haut-Doubs',
+        body: 'Publication d’exemple : un commerçant annonce ses nouveautés en deux minutes depuis son téléphone, l’assistant l’aide à rédiger.',
+        imageUrl: D.U(D.I.cheese, 1200),
+        publishedAt: daysAgo(1),
+        createdAt: daysAgo(1),
+      },
+      {
+        territoryId: hd.id,
+        communeId: metab.id,
+        establishmentId: demoEst.id,
+        authorType: 'ESTABLISHMENT',
+        kind: 'PROMO',
+        status: 'PUBLISHED',
+        title: 'Exemple de démonstration : -10 % pour les habitants cette semaine',
+        body: 'Promotion d’exemple, datée et mise en avant sur le portail et dans la lettre du territoire.',
+        promoLabel: '-10 %',
+        validTo: addIso(today, 7),
+        publishedAt: daysAgo(3),
+        createdAt: daysAgo(3),
+      },
+    ]);
+
+    // Audience simulée du seul commerce de démonstration (fictif) : son tableau de bord n'est pas vide.
+    await db.execute(sql`
+      INSERT INTO analytics_events (occurred_at, territory_id, commune_id, establishment_id, type, source, visitor_hash, device)
+      SELECT d + (random() * interval '12 hours') + interval '8 hours', ${hd.id}, ${metab.id}, ${demoEst.id}, t.type::analytics_type,
+             (ARRAY['PLATFORM_SEARCH','GOOGLE','MAP','DIRECT','QR','NEWSLETTER'])[1 + floor(random() * 6)::int]::traffic_source,
+             left(md5(random()::text), 32), (ARRAY['mobile','mobile','desktop'])[1 + floor(random() * 3)::int]
+      FROM generate_series(now() - interval '45 days', now() - interval '1 day', interval '1 day') AS d
+      CROSS JOIN (VALUES ('EST_VIEW', 26), ('PHONE_CLICK', 2), ('DIRECTIONS_CLICK', 3), ('WEBSITE_CLICK', 1), ('SHARE_CLICK', 1)) AS t(type, n)
+      CROSS JOIN LATERAL generate_series(1, greatest(0, round(t.n * (0.5 + random()))::int)) AS k`);
+
+    // Contenus d'exemple de la communauté de communes, tous signalés « Exemple de démonstration ».
+    await db.insert(S.posts).values({
+      territoryId: hd.id,
+      authorType: 'TERRITORY',
+      kind: 'NEWS',
+      status: 'PUBLISHED',
+      title: 'Exemple de démonstration : le portail des commerces des Lacs et Montagnes',
+      body: 'Actualité d’exemple publiée par la collectivité : présentation du portail aux habitants, invitation des commerçants à revendiquer leur fiche.',
+      imageUrl: D.U(D.I.mountains, 1400),
+      publishedAt: daysAgo(2),
+      createdAt: daysAgo(2),
+    });
+    const nextSat = addIso(today, ((6 - new Date(`${today}T12:00:00`).getDay() + 7) % 7) + 7);
+    await db.insert(S.events).values({
+      territoryId: hd.id,
+      communeId: metab.id,
+      authorType: 'TERRITORY',
+      organizerName: 'Exemple de démonstration',
+      slug: slugify(`exemple-marche-des-producteurs-${nextSat}`),
+      title: 'Exemple de démonstration : marché des producteurs',
+      kind: 'MARCHE',
+      summary: 'Événement d’exemple pour montrer l’agenda du territoire.',
+      description:
+        'Événement d’exemple : la collectivité, une mairie ou un commerçant publie un événement, il apparaît dans l’agenda, sur la carte et dans la lettre.',
+      startsAt: parisAt(nextSat, '09:00'),
+      endsAt: parisAt(nextSat, '13:00'),
+      locationName: 'Lieu d’exemple',
+      priceText: 'Exemple',
+      imageUrl: D.U(D.I.market, 1400),
+      lat: metab.lat,
+      lng: metab.lng,
+      program: [],
+      createdById: hdAdmin.id,
+      status: 'PUBLISHED',
+    });
+    await db.insert(S.campaigns).values({
+      territoryId: hd.id,
+      slug: 'exemple-noel-chez-vos-commercants',
+      name: 'Exemple de démonstration : Noël chez vos commerçants',
+      tagline: 'Campagne d’exemple, préparée avec l’assistant',
+      description:
+        'Campagne d’exemple : la collectivité fixe une période et des critères, les commerçants concernés sont invités à proposer une offre, la page campagne et la lettre se remplissent d’elles-mêmes.',
+      startsAt: `${now.getFullYear()}-12-01`,
+      endsAt: `${now.getFullYear()}-12-24`,
+      status: 'DRAFT',
+      mode: 'ADVENT',
+      heroImageUrl: D.U(D.I.xmas2, 2000),
+      cardImageUrl: D.U(D.I.xmas, 1200),
+      ctaLabel: 'Ouvrir le calendrier',
+      criteria: { families: ['COMMERCE', 'ARTISAN', 'PRODUCTEUR'] },
+      invitationMessage: 'Message d’exemple : ajoutez une offre, elle apparaîtra dans le calendrier de l’Avent et la lettre.',
+      createdById: hdAdmin.id,
+      createdAt: daysAgo(4),
+    });
+    const [hdAudience] = await db
+      .insert(S.audiences)
+      .values({ territoryId: hd.id, name: 'Habitants abonnés', description: 'Audience par défaut (aucun abonné dans la démonstration)', isDefault: true })
+      .returning();
+    await db.insert(S.newsletters).values({
+      territoryId: hd.id,
+      audienceIds: [hdAudience.id],
+      createdById: hdAdmin.id,
+      subject: 'Exemple de démonstration : la lettre des Lacs et Montagnes',
+      title: 'Exemple de démonstration : la lettre des Lacs et Montagnes',
+      intro: 'Lettre d’exemple : les nouveautés des commerçants, l’agenda et les campagnes se rassemblent automatiquement.',
+      heroImageUrl: D.U(D.I.mountains, 1100, 500),
+      blocks: [
+        { type: 'establishments', ids: [demoEst.id], title: 'Exemple de bloc « commerces à découvrir »' },
+        { type: 'cta', label: 'Voir l’agenda', url: '/haut-doubs/agenda' },
+      ],
+      status: 'DRAFT',
+    });
 
     if (existsSync(fixture)) {
       const data = JSON.parse(readFileSync(fixture, 'utf8')) as { fetchedAt: string; records: Parameters<typeof recordsToRaw>[0] };
@@ -2911,7 +3080,35 @@ Visite des caves le vendredi à 15 h, sur réservation.`,
     },
   ];
   auditEntries.sort((a, b) => a.at!.getTime() - b.at!.getTime());
-  for (const a of auditEntries) await audit(a);
+  // Journal inaltérable : en démonstration réelle, aucun événement fictif n'y est écrit.
+  if (process.env.DEMO_DATASET === 'fictif') for (const a of auditEntries) await audit(a);
+
+  // ─── Démonstration réelle : seul le Haut-Doubs reste ──────────────────────
+  // Par défaut, la démonstration ne montre que le territoire réel. Le jeu fictif (Val de Loue, autres clients,
+  // prospects) ne sert qu'aux tests automatiques : DEMO_DATASET=fictif npm run db:reset.
+  if (process.env.DEMO_DATASET !== 'fictif') {
+    console.log('→ Démonstration réelle : retrait du jeu fictif');
+    const keep = territoryBySlug['haut-doubs'].id;
+    await db.execute(sql`delete from establishments where territory_id <> ${keep}`);
+    await db.execute(sql`delete from territories where id <> ${keep}`);
+    await db.execute(sql`delete from communes c where not exists (select 1 from commune_memberships m where m.commune_id = c.id)`);
+    await db.execute(sql`delete from companies c where not exists (select 1 from establishments e where e.company_id = c.id)`);
+    await db.execute(sql`delete from deals`);
+    await db.execute(sql`delete from support_tickets`);
+    await db.execute(sql`delete from emails`);
+    // Statistiques de visite simulées : jamais sur de vraies entreprises (seul le commerce de démonstration en garde).
+    await db.execute(sql`delete from analytics_events where establishment_id is distinct from ${demoEstId}`);
+    await db.execute(sql`delete from analytics_daily where establishment_id is distinct from ${demoEstId}`);
+    await db.execute(sql`delete from ai_usage`);
+    await db.execute(sql`delete from privacy_requests`);
+    await db.execute(sql`delete from invoices`);
+    await db.execute(sql`delete from health_probes`);
+    // Comptes fictifs : ni rôle restant, ni entreprise (l'équipe terricom garde ses rôles plateforme).
+    await db.execute(sql`delete from users u where not exists (select 1 from role_assignments r where r.user_id = u.id)
+      and not exists (select 1 from company_members m where m.user_id = u.id)`);
+    await db.execute(sql`delete from queue_jobs where payload ? 'establishmentId' and not exists
+      (select 1 from establishments e where e.id::text = queue_jobs.payload->>'establishmentId')`);
+  }
 
   const counts = await db.execute<{ t: string; n: number }>(
     sql`SELECT 'establishments' t, count(*)::int n FROM establishments UNION ALL SELECT 'users', count(*)::int FROM users UNION ALL SELECT 'analytics_events', count(*)::int FROM analytics_events UNION ALL SELECT 'subscribers', count(*)::int FROM subscribers`,

@@ -41,22 +41,22 @@ export default async function SignupPage({ searchParams }: Props) {
       password: '',
     };
   else if (env.DEMO_MODE) {
-    const ornans = territories.flatMap((t) => t.communes).find((c) => c.name === 'Ornans') ?? territories[0]?.communes[0];
+    const commune = territories.flatMap((t) => t.communes).find((c) => c.name === 'Métabief') ?? territories[0]?.communes[0];
     const cat = categories.find((c) => /c[ée]ramique|poterie|artisan/i.test(c.name)) ?? categories[0];
     const suffix = randomToken(3)
       .replace(/[^a-z0-9]/gi, '')
       .toLowerCase();
     prefill = {
       siret: completeSiret(`9${numericCode(12)}`),
-      name: 'Atelier Terre & Loue',
+      name: 'Atelier de démonstration',
       categoryId: cat?.id ?? '',
       activityLabel: 'Céramiste',
-      street: '3 rue de la Froidière',
-      communeId: ornans?.id ?? '',
+      street: 'Adresse d’exemple',
+      communeId: commune?.id ?? '',
       phone: '06 12 34 56 78',
-      firstName: 'Léna',
-      lastName: 'Roussel',
-      email: `lena.roussel.${suffix}@exemple.fr`,
+      firstName: 'Prénom',
+      lastName: 'Exemple',
+      email: `demo.${suffix}@exemple.fr`,
       password: 'Terricom2026!',
     };
   }

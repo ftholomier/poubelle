@@ -78,7 +78,7 @@ export default async function PortalLayout({ children, params }: Props) {
       <I18nProvider locale={tr.locale}>
         <ToastProvider>
           {t.slug === 'haut-doubs' ? (
-            <DemoBar active="haut-doubs" right="Entreprises réelles (SIRENE) · fiches précréées" />
+            <DemoBar active="portail" real right="Entreprises réelles (SIRENE) · fiches précréées" />
           ) : (
             <DemoBar active="portail" right="Maquette interactive · démonstration" />
           )}

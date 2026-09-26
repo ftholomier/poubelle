@@ -278,14 +278,7 @@ export default async function AgendaPage({ searchParams }: Props) {
               style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}
             >
               <input type="hidden" name="eventId" value={editing?.id ?? ''} />
-              <input
-                name="title"
-                className="input"
-                placeholder="Titre (ex. Marché de Noël d’Ornans)"
-                defaultValue={editing?.title ?? ''}
-                required
-                aria-label="Titre"
-              />
+              <input name="title" className="input" placeholder="Titre (ex. Marché de Noël)" defaultValue={editing?.title ?? ''} required aria-label="Titre" />
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                 <select name="kind" className="input" defaultValue={editing?.kind ?? 'ANIMATION'} aria-label="Type">
                   {Object.entries(EVENT_KINDS).map(([k, v]) => (

@@ -65,11 +65,7 @@ export default async function BackOfficeLayout({ children }: { children: ReactNo
 
   return (
     <ToastProvider>
-      {ctx.territory.slug === 'haut-doubs' ? (
-        <DemoBar active="haut-doubs" right="Entreprises réelles (SIRENE) · fiches précréées" />
-      ) : (
-        <DemoBar active="collectivite" />
-      )}
+      <DemoBar active="collectivite" real={ctx.territory.slug === 'haut-doubs'} />
       <div className="app-shell bo">
         <aside className="app-aside">
           <div style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '4px 8px 14px' }}>
