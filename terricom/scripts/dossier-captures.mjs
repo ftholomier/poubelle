@@ -9,16 +9,16 @@ const HIDE =
 
 const SHOTS = [
   // [nom, espace (null = public), chemin, largeur, hauteur, échelle, sélecteur facultatif]
-  ['p-accueil', null, '/valdeloue', 1440, 900, 1.5],
-  ['p-ouvert', null, '/valdeloue', 1440, 900, 1.5, 'section:has(h2:text("Ouvert près de vous"))'],
-  ['p-explorer', null, '/valdeloue/explorer', 1440, 900, 1.5],
-  ['p-fiche', null, '/valdeloue/ornans/boulangerie/boulangerie-martin', 1440, 900, 1.5],
-  ['p-campagne', null, '/valdeloue/campagnes/noel-chez-vos-commercants', 1440, 900, 1.5],
-  ['p-circuit', null, '/valdeloue/circuits/fil-de-la-loue', 1440, 900, 1.5],
-  ['p-agenda', null, '/valdeloue/agenda', 1440, 900, 1.5],
-  ['m-accueil', null, '/valdeloue', 390, 844, 2],
-  ['m-fiche', null, '/valdeloue/ornans/boulangerie/boulangerie-martin', 390, 844, 2],
-  ['m-explorer-de', null, '/valdeloue/explorer?lang=de', 390, 844, 2],
+  ['p-accueil', null, '/haut-doubs', 1440, 900, 1.5],
+  ['p-ouvert', null, '/haut-doubs', 1440, 900, 1.5, 'section:has(h2:text("Ouvert près de vous"))'],
+  ['p-explorer', null, '/haut-doubs/explorer', 1440, 900, 1.5],
+  ['p-fiche', null, '/haut-doubs/jougne/boulangerie/boulangerie-de-demonstration', 1440, 900, 1.5],
+  ['p-campagne', null, '/haut-doubs/campagnes/exemple-noel-chez-vos-commercants', 1440, 900, 1.5],
+  ['p-circuit', null, '/haut-doubs/circuits/exemple-circuit-des-savoir-faire', 1440, 900, 1.5],
+  ['p-agenda', null, '/haut-doubs/agenda', 1440, 900, 1.5],
+  ['m-accueil', null, '/haut-doubs', 390, 844, 2],
+  ['m-fiche', null, '/haut-doubs/jougne/boulangerie/boulangerie-de-demonstration', 390, 844, 2],
+  ['m-explorer-de', null, '/haut-doubs/explorer?lang=de', 390, 844, 2],
   ['e-tableau', 'pro', '/pro/{est}', 1440, 900, 1.5],
   ['e-publications', 'pro', '/pro/{est}/publications', 1440, 900, 1.5],
   ['e-fiche', 'pro', '/pro/{est}/fiche', 1440, 900, 1.5],
@@ -32,7 +32,7 @@ const SHOTS = [
   ['s-simulateur', 'console', '/console/simulateur', 1440, 900, 1.5],
   ['m-site', null, '/', 1440, 900, 1.5],
   ['m-marque', null, '/marque', 1440, 900, 1.5],
-  ['p-minisite', null, '/valdeloue/ornans/caviste/la-cave-comtoise', 1440, 900, 1.5],
+  ['p-minisite', null, '/haut-doubs/metabief/epicerie/commerce-de-demonstration', 1440, 900, 1.5],
   ['e-synchro', 'pro-communication', '/pro/{est}/synchronisation', 1440, 900, 1.5],
   ['c-personnalisation', 'collectivite', '/collectivite/personnalisation', 1440, 900, 1.5],
   ['c-circuits', 'collectivite', '/collectivite/circuits', 1440, 900, 1.5],
@@ -40,8 +40,8 @@ const SHOTS = [
   ['s-audit', 'console', '/console/audit', 1440, 900, 1.5],
   ['s-facturation', 'console', '/console/facturation', 1440, 900, 1.5],
   ['s-ia', 'console', '/console/ia', 1440, 900, 1.5],
-  ['p-commune', null, '/valdeloue/ornans', 1440, 900, 1.5],
-  ['p-emploi', null, '/valdeloue/emploi', 1440, 900, 1.5],
+  ['p-commune', null, '/haut-doubs/metabief', 1440, 900, 1.5],
+  ['p-emploi', null, '/haut-doubs/emploi', 1440, 900, 1.5],
 ];
 // ONLY=nom1,nom2 : ne refaire que ces captures.
 const ONLY = process.env.ONLY ? new Set(process.env.ONLY.split(',')) : null;

@@ -44,17 +44,18 @@ Avec `DEMO_MODE=true`, la barre de démonstration permet d’entrer dans chaque 
 La démonstration présente un territoire **réel** : la communauté de communes des **Lacs et Montagnes du
 Haut-Doubs**, ses 32 communes et ses entreprises de la base SIRENE, importées en fiches précréées et contrôlées
 une par une (`npm run demo:sirene` fige la liste, `npm run demo:controle` en donne le rapport). Rien n’y est
-inventé, sauf un **commerce de démonstration** fictif et quelques **exemples** (campagne, actualité, événement,
+inventé, sauf trois établissements **de démonstration** fictifs (commerce, boulangerie, atelier) et quelques **exemples** (campagne, actualité, événement,
 lettre), tous signalés comme tels.
 
 Comptes (mot de passe `Terricom2026!`, code de double authentification : secret TOTP `JBSWY3DPEHPK3PXP`) :
 
-| Rôle                                              | Email                                 |
-| ------------------------------------------------- | ------------------------------------- |
-| Super administrateur                              | camille@terricom.fr                   |
-| Admin territoriale (CC Lacs et Montagnes)         | collectivite@haut-doubs.exemple.test  |
-| Admin communale (Métabief)                        | mairie@metabief.exemple.test          |
-| Commerce de démonstration (fictif, offre Premium) | commerce@demo-haut-doubs.exemple.test |
+| Rôle                                                    | Email                                    |
+| ------------------------------------------------------- | ---------------------------------------- |
+| Super administrateur                                    | camille@terricom.fr                      |
+| Admin territoriale (CC Lacs et Montagnes)               | collectivite@haut-doubs.exemple.test     |
+| Admin communale (Métabief)                              | mairie@metabief.exemple.test             |
+| Commerce de démonstration (fictif, offre Communication) | commerce@demo-haut-doubs.exemple.test    |
+| Boulangerie de démonstration (fictive, offre Essentiel) | boulangerie@demo-haut-doubs.exemple.test |
 
 **Tests automatiques** : ils reposent sur un jeu fictif (territoire « Val de Loue », autres clients,
 prospects), chargé seulement avec `DEMO_DATASET=fictif npm run db:reset` et jamais montré en démonstration.

@@ -182,7 +182,9 @@ collectivite|commune|console`, `MOBILE=1`, `EXTRA=chemins`).
   Playwright exigent `DEMO_DATASET=fictif npm run db:reset` (Val de Loue, autres clients, prospects) ; la CI le fait.
 - La barre de démonstration et `/demo/entrer/<espace>` choisissent le premier compte présent (jeu fictif, sinon
   Haut-Doubs) : aucun réglage à changer entre les deux jeux.
-- Seul contenu inventé : le « Commerce de démonstration » (sans SIRET) et des exemples titrés « Exemple de
+- Captures des documents : `node scripts/dossier-captures.mjs` sur une compilation de production en démonstration
+  réelle, puis `npm run dossier`, `npm run presentation` et `FFMPEG=… node scripts/teaser.mjs`.
+- Seul contenu inventé : les « Commerce », « Boulangerie » et « Atelier de démonstration » (sans SIRET) et des exemples titrés « Exemple de
   démonstration ». Ne jamais attribuer photos, horaires, avis ou statistiques à une vraie entreprise.
 
 - Communes : `scripts/seed/haut-doubs-communes.json` (découpage officiel Etalab, `@etalab/decoupage-administratif`,

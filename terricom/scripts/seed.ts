@@ -862,9 +862,13 @@ async function main() {
       })
       .returning();
     territoryBySlug['haut-doubs'] = hd;
-    await db
-      .insert(S.territoryModules)
-      .values((['PORTAL', 'MAP', 'NEWSLETTER', 'IMPORT', 'CAMPAIGNS'] as const).map((m) => ({ territoryId: hd.id, module: m, enabled: true })));
+    await db.insert(S.territoryModules).values(
+      (['PORTAL', 'MAP', 'NEWSLETTER', 'IMPORT', 'CAMPAIGNS', 'AI', 'CIRCUITS', 'JOBS', 'MULTILINGUAL'] as const).map((m) => ({
+        territoryId: hd.id,
+        module: m,
+        enabled: true,
+      })),
+    );
     await db.insert(S.territoryDomains).values({ territoryId: hd.id, host: 'haut-doubs.terricom.fr', verifiedAt: parisDate(daysAgo(38)) });
     const hdCommunes: Record<string, typeof S.communes.$inferSelect> = {};
     for (const c of HD) {
@@ -917,7 +921,7 @@ async function main() {
         legalName: 'COMMERCE DE DÉMONSTRATION',
         tradeName: 'Commerce de démonstration',
         nafCode: '47.29Z',
-        plan: 'PREMIUM',
+        plan: 'COMMUNICATION',
         createdAt: daysAgo(30),
       })
       .returning();
@@ -953,12 +957,13 @@ async function main() {
     memberRows.push({ companyId: demoCo.id, userId: demoOwner.id, role: 'OWNER' });
     subscriptionRows.push({
       companyId: demoCo.id,
-      plan: 'PREMIUM',
+      plan: 'COMMUNICATION',
       status: 'ACTIVE',
       startedAt: daysAgo(28),
       currentPeriodEnd: new Date(now.getTime() + 30 * DAY),
     });
-    for (const wd of [2, 3, 4, 5, 6]) {
+    // Du mardi au samedi (weekday : 0 = lundi).
+    for (const wd of [1, 2, 3, 4, 5]) {
       hoursRows.push({ establishmentId: demoEst.id, weekday: wd, opensAt: '09:00', closesAt: '12:30' });
       hoursRows.push({ establishmentId: demoEst.id, weekday: wd, opensAt: '14:30', closesAt: '19:00' });
     }
@@ -1037,25 +1042,28 @@ async function main() {
       createdById: hdAdmin.id,
       status: 'PUBLISHED',
     });
-    await db.insert(S.campaigns).values({
-      territoryId: hd.id,
-      slug: 'exemple-noel-chez-vos-commercants',
-      name: 'Exemple de démonstration : Noël chez vos commerçants',
-      tagline: 'Campagne d’exemple, préparée avec l’assistant',
-      description:
-        'Campagne d’exemple : la collectivité fixe une période et des critères, les commerçants concernés sont invités à proposer une offre, la page campagne et la lettre se remplissent d’elles-mêmes.',
-      startsAt: `${now.getFullYear()}-12-01`,
-      endsAt: `${now.getFullYear()}-12-24`,
-      status: 'DRAFT',
-      mode: 'ADVENT',
-      heroImageUrl: D.U(D.I.xmas2, 2000),
-      cardImageUrl: D.U(D.I.xmas, 1200),
-      ctaLabel: 'Ouvrir le calendrier',
-      criteria: { families: ['COMMERCE', 'ARTISAN', 'PRODUCTEUR'] },
-      invitationMessage: 'Message d’exemple : ajoutez une offre, elle apparaîtra dans le calendrier de l’Avent et la lettre.',
-      createdById: hdAdmin.id,
-      createdAt: daysAgo(4),
-    });
+    const [hdCampaign] = await db
+      .insert(S.campaigns)
+      .values({
+        territoryId: hd.id,
+        slug: 'exemple-noel-chez-vos-commercants',
+        name: 'Exemple de démonstration : Noël chez vos commerçants',
+        tagline: 'Campagne d’exemple, préparée avec l’assistant',
+        description:
+          'Campagne d’exemple : la collectivité fixe une période et des critères, les commerçants concernés sont invités à proposer une offre, la page campagne et la lettre se remplissent d’elles-mêmes.',
+        startsAt: `${now.getFullYear()}-12-01`,
+        endsAt: `${now.getFullYear()}-12-24`,
+        status: 'SCHEDULED',
+        mode: 'ADVENT',
+        heroImageUrl: D.U(D.I.xmas2, 2000),
+        cardImageUrl: D.U(D.I.xmas, 1200),
+        ctaLabel: 'Ouvrir le calendrier',
+        criteria: { families: ['COMMERCE', 'ARTISAN', 'PRODUCTEUR'] },
+        invitationMessage: 'Message d’exemple : ajoutez une offre, elle apparaîtra dans le calendrier de l’Avent et la lettre.',
+        createdById: hdAdmin.id,
+        createdAt: daysAgo(4),
+      })
+      .returning();
     const [hdAudience] = await db
       .insert(S.audiences)
       .values({ territoryId: hd.id, name: 'Habitants abonnés', description: 'Audience par défaut (aucun abonné dans la démonstration)', isDefault: true })
@@ -1074,6 +1082,205 @@ async function main() {
       ],
       status: 'DRAFT',
     });
+
+    // Troisième établissement fictif : fiche gratuite (Essentiel) complète, sans mini-site, pour montrer la fiche type.
+    const bakeryOwner = await mkUser({
+      email: 'boulangerie@demo-haut-doubs.exemple.test',
+      first: 'Boulanger',
+      last: 'de démonstration',
+      job: 'Artisan (exemple)',
+    });
+    const [bakeryCo] = await db
+      .insert(S.companies)
+      .values({
+        siren: null,
+        legalName: 'BOULANGERIE DE DÉMONSTRATION',
+        tradeName: 'Boulangerie de démonstration',
+        nafCode: '10.71C',
+        plan: 'ESSENTIEL',
+        createdAt: daysAgo(30),
+      })
+      .returning();
+    const joug = hdCommunes['Jougne'];
+    const [bakeryEst] = await db
+      .insert(S.establishments)
+      .values({
+        companyId: bakeryCo.id,
+        communeId: joug.id,
+        territoryId: hd.id,
+        categoryId: catBySlug.get('boulangerie')!.id,
+        slug: 'boulangerie-de-demonstration',
+        name: 'Boulangerie de démonstration',
+        status: 'VALIDATED',
+        origin: 'PRO',
+        activityLabel: 'Boulangerie-pâtisserie (exemple)',
+        tagline: 'Fiche d’exemple pour la démonstration terricom : cette boulangerie n’existe pas.',
+        description:
+          'Exemple de démonstration. La fiche gratuite, offerte par la collectivité : présentation, horaires, photos, bouton d’appel et d’itinéraire, bien référencée sur Google. Aucune entreprise réelle n’est représentée ici.',
+        street: 'Adresse d’exemple',
+        postalCode: joug.postalCodes[0],
+        lat: (joug.lat ?? 46.76) + 0.001,
+        lng: (joug.lng ?? 6.4) + 0.001,
+        phone: '0300000000',
+        coverUrl: D.U(D.I.bread, 1200),
+        hoursConfirmedAt: daysAgo(2),
+        lastActivityAt: daysAgo(2),
+        publishedAt: daysAgo(25),
+        qrCode: shortCode(8),
+        createdAt: daysAgo(25),
+      })
+      .returning();
+    memberRows.push({ companyId: bakeryCo.id, userId: bakeryOwner.id, role: 'OWNER' });
+    // weekday : 0 = lundi … 6 = dimanche ; fermé le lundi, dimanche matin seulement.
+    for (const wd of [1, 2, 3, 4, 5, 6]) {
+      hoursRows.push({ establishmentId: bakeryEst.id, weekday: wd, opensAt: '06:30', closesAt: wd === 6 ? '12:30' : '19:00' });
+    }
+
+    // Second établissement fictif : fiche précréée avec une revendication en attente (écran de validation).
+    const [atelierCo] = await db
+      .insert(S.companies)
+      .values({ siren: null, legalName: 'ATELIER DE DÉMONSTRATION', tradeName: 'Atelier de démonstration', nafCode: '16.29Z', createdAt: daysAgo(30) })
+      .returning();
+    const malb = hdCommunes['Malbuisson'];
+    const [atelierEst] = await db
+      .insert(S.establishments)
+      .values({
+        companyId: atelierCo.id,
+        communeId: malb.id,
+        territoryId: hd.id,
+        categoryId: catBySlug.get('artisanat-production')!.id,
+        slug: 'atelier-de-demonstration',
+        name: 'Atelier de démonstration',
+        status: 'PRECREATED',
+        origin: 'COLLECTIVITE',
+        activityLabel: 'Tournerie sur bois (exemple)',
+        tagline: 'Fiche d’exemple pour la démonstration terricom : cet atelier n’existe pas.',
+        street: 'Adresse d’exemple',
+        postalCode: malb.postalCodes[0],
+        lat: (malb.lat ?? 46.8) + 0.001,
+        lng: (malb.lng ?? 6.3) - 0.0012,
+        publishedAt: daysAgo(20),
+        qrCode: shortCode(8),
+        createdAt: daysAgo(20),
+      })
+      .returning();
+    const claimant = await mkUser({ email: 'revendication@demo-haut-doubs.exemple.test', first: 'Prénom', last: 'Exemple', createdAt: hoursAgo(20) });
+    await db.insert(S.claims).values({
+      establishmentId: atelierEst.id,
+      territoryId: hd.id,
+      userId: claimant.id,
+      status: 'PENDING',
+      claimantRole: 'Gérant·e (exemple)',
+      method: 'CODE',
+      checks: [
+        { ok: true, label: 'Code reçu par courrier', detail: 'Saisi correctement (exemple de démonstration)' },
+        { ok: true, label: 'Domaine email', detail: 'Cohérent' },
+      ],
+      riskLevel: 'LOW',
+      createdAt: hoursAgo(20),
+      updatedAt: hoursAgo(20),
+    });
+    // Offre d'emploi, circuit et mini-site d'exemple, portés par les établissements fictifs.
+    await db.insert(S.jobs).values({
+      territoryId: hd.id,
+      communeId: metab.id,
+      establishmentId: demoEst.id,
+      slug: 'exemple-vendeur-saison-hiver',
+      title: 'Exemple de démonstration : vendeur·se pour la saison d’hiver',
+      contractType: 'CDD',
+      status: 'PUBLISHED',
+      startText: 'Décembre',
+      salaryText: 'Selon profil (exemple)',
+      workTimeText: 'Temps plein',
+      description: 'Offre d’exemple : les commerçants publient leurs offres, elles apparaissent sur le portail « Travailler dans le Haut-Doubs ».',
+      missions: ['Accueil et conseil (exemple)', 'Mise en rayon (exemple)'],
+      profile: ['Sens du contact (exemple)'],
+      publishedAt: daysAgo(2),
+      createdAt: daysAgo(2),
+      expiresAt: new Date(now.getTime() + 60 * DAY),
+    });
+    const [demoCircuit] = await db
+      .insert(S.circuits)
+      .values({
+        territoryId: hd.id,
+        slug: 'exemple-circuit-des-savoir-faire',
+        name: 'Exemple de démonstration : circuit des savoir-faire',
+        meta: 'Circuit d’exemple',
+        description:
+          'Circuit d’exemple : la collectivité relie des étapes, les visiteurs font tamponner leur passeport numérique en scannant le QR code en vitrine.',
+        distanceKm: '12',
+        durationText: 'Une demi-journée',
+        travelMode: 'Voiture ou vélo',
+        rewardText: '2 tampons = une surprise (exemple)',
+        rewardThreshold: 2,
+        imageUrl: D.U(D.I.mountains, 1200),
+        tagColor: '#F4B266',
+        createdById: hdAdmin.id,
+      })
+      .returning();
+    await db
+      .insert(S.circuitStops)
+      .values([demoEst.id, atelierEst.id].map((id, position) => ({ circuitId: demoCircuit.id, position, establishmentId: id, stampSecret: randomToken(12) })));
+    const [demoForm] = await db
+      .insert(S.establishmentForms)
+      .values({
+        establishmentId: demoEst.id,
+        title: 'Commander un panier (exemple)',
+        intro: 'Formulaire d’exemple : le commerçant crée ses propres formulaires, les réponses arrivent dans sa messagerie.',
+        submitLabel: 'Envoyer ma demande',
+        fields: [
+          { id: 'occasion', label: 'Occasion', type: 'select', required: true, options: ['Cadeau', 'Repas', 'Autre'] },
+          { id: 'retrait', label: 'Retrait souhaité le', type: 'date', required: false },
+          { id: 'precisions', label: 'Précisions', type: 'textarea', required: false },
+        ],
+        sortOrder: 0,
+        createdAt: daysAgo(20),
+      })
+      .returning();
+    await db.insert(S.establishmentPages).values({
+      establishmentId: demoEst.id,
+      title: 'Nos producteurs (exemple)',
+      slug: 'nos-producteurs',
+      coverUrl: D.U(D.I.cheese, 1280),
+      body: `Page d’exemple : un commerçant ajoute des pages à sa fiche, sans site séparé.
+
+## Ce qu’on peut y mettre
+- Ses producteurs, ses savoir-faire
+- Ses services, ses tarifs
+- Ses actualités de saison`,
+      sortOrder: 0,
+      createdAt: daysAgo(18),
+      updatedAt: daysAgo(5),
+    });
+    await db
+      .update(S.establishments)
+      .set({
+        themeColor: '#1E4D5C',
+        miniSite: {
+          enabled: true,
+          hero: 'color',
+          headline: 'Exemple de mini-site : la fiche devient un petit site, sans rien installer.',
+          cta: { label: 'Commander un panier', href: `form:${demoForm.id}` },
+          sections: ['presentation', 'offre', 'pages', 'produits', 'formulaires', 'actualites', 'contact'],
+        },
+      })
+      .where(eq(S.establishments.id, demoEst.id));
+    await db.insert(S.campaignParticipants).values({
+      campaignId: hdCampaign.id,
+      establishmentId: demoEst.id,
+      status: 'JOINED',
+      offerLabel: '-10 % (exemple)',
+      invitedAt: daysAgo(4),
+      joinedAt: daysAgo(3),
+    });
+    await db.insert(S.adventDoors).values(
+      Array.from({ length: 24 }, (_, i) => ({
+        campaignId: hdCampaign.id,
+        day: i + 1,
+        title: `Surprise d’exemple n° ${i + 1}`,
+        establishmentId: i % 6 === 0 ? demoEst.id : null,
+      })),
+    );
 
     if (existsSync(fixture)) {
       const data = JSON.parse(readFileSync(fixture, 'utf8')) as { fetchedAt: string; records: Parameters<typeof recordsToRaw>[0] };
@@ -3105,7 +3312,8 @@ Visite des caves le vendredi à 15 h, sur réservation.`,
     await db.execute(sql`delete from health_probes`);
     // Comptes fictifs : ni rôle restant, ni entreprise (l'équipe terricom garde ses rôles plateforme).
     await db.execute(sql`delete from users u where not exists (select 1 from role_assignments r where r.user_id = u.id)
-      and not exists (select 1 from company_members m where m.user_id = u.id)`);
+      and not exists (select 1 from company_members m where m.user_id = u.id)
+      and not exists (select 1 from claims c where c.user_id = u.id)`);
     await db.execute(sql`delete from queue_jobs where payload ? 'establishmentId' and not exists
       (select 1 from establishments e where e.id::text = queue_jobs.payload->>'establishmentId')`);
   }
