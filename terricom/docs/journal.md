@@ -40,6 +40,7 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
 | `f626383`            | Dossier de réalisation          | PDF de 30 pages à la charte, du design à l’hébergement, captures de la compilation de production ; `npm start` sur le serveur autonome ; coques pleine hauteur corrigées hors démonstration |
 | `c98afab`            | Présentation aux élus           | Diaporama paysage : communauté de communes → commune → commerce → habitants, puis accompagnement ; captures annotées, étapes animées                                                        |
 | `55009de`            | Synchronisation SIRENE          | Passage mensuel (INSEE ou Recherche d’entreprises), nouveautés et fermetures à valider par la collectivité, fichier stock pour les grands territoires, activités exclues par territoire     |
+| —                    | Stratégie des fondateurs        | PDF paysage interne (45 pages) : marché national, offre, grille tarifaire unique par population, vente, webmarketing, modèle sur cinq ans, trois scénarios                                  |
 
 ## Décisions
 
@@ -76,6 +77,10 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
 - **Territoire réel de démonstration** : entreprises réelles uniquement en fiches précréées, avec les seules
   données publiques SIRENE (nom, activité, adresse, position) ; aucun contenu inventé (description, horaires,
   avis) n’est attribué à une vraie entreprise. La liste est figée dans le dépôt pour une démo sans réseau.
+- **Grille nationale unique** (document stratégie) : licence annuelle tout compris par tranche de population de
+  la CC (4 900 à 16 900 € HT), publique et non négociée ; mise en service 1 900 € + 50 € par commune, offerte en
+  2027 ; trois ans toujours sous le seuil de 60 000 € HT (achat sur devis). Le Haut-Doubs est à 7 900 € HT par an.
+  Hypothèses et simulations dans `docs/strategie/modele.py`, document produit par `docs/strategie/generer.py`.
 - **Bac à sable** : les services externes y sont bloqués (cartes, photos, IA) ; ils fonctionnent en production.
 
 ## Vérifications à chaque lot

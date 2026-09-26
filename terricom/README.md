@@ -77,6 +77,7 @@ prospects), chargé seulement avec `DEMO_DATASET=fictif npm run db:reset` et jam
 | `npm run test:e2e`                | Parcours de bout en bout (Playwright, serveur lancé)           |
 | `npm run dossier`                 | Dossier de réalisation en PDF (`docs/dossier`)                 |
 | `npm run presentation`            | Présentation aux élus en PDF paysage (`docs/presentation`)     |
+| `npm run strategie`               | Stratégie des fondateurs en PDF paysage (`docs/strategie`)     |
 
 ## Pile technique
 
@@ -113,6 +114,8 @@ tests/            unit (Vitest), e2e (Playwright)
 - [RGPD et registre des traitements](docs/rgpd.md)
 - [Présentation aux élus (PDF paysage)](docs/presentation/terricom-presentation-elus.pdf), aussi jouable avec
   animations dans un navigateur (`docs/presentation/presentation.html`, flèches du clavier)
+- [Stratégie des fondateurs (PDF paysage, interne)](docs/strategie/terricom-strategie-fondateurs.pdf) : marché
+  national, offre, grille tarifaire et pourquoi, vente, webmarketing, modèle économique et simulations sur cinq ans
 - [Dossier de réalisation (PDF, 30 pages à la charte)](docs/dossier/terricom-dossier-de-realisation.pdf) : le projet
   expliqué à chaque niveau (design, ergonomie, fonctionnalités, IA, technique, hébergement, sécurité, RGPD, qualité)
 

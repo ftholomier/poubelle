@@ -21,6 +21,7 @@
     "check": "bash scripts/check.sh",
     "dossier": "node scripts/dossier.mjs",
     "presentation": "node scripts/presentation.mjs",
+    "strategie": "node scripts/strategie.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",

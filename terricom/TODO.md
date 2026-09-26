@@ -38,6 +38,8 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
       serveur autonome ; plus de bande vide en bas des espaces privés hors mode démonstration
 - [x] Présentation aux élus (`docs/presentation`, `npm run presentation`) : de la communauté de communes au
       commerce, sans vocabulaire technique ; PDF paysage avec étapes de construction, version HTML animée
+- [x] Stratégie des fondateurs (`docs/strategie`, `npm run strategie`) : grille nationale unique par population,
+      mise en service, offre de lancement 2027, vente à distance, webmarketing, modèle et trois scénarios 2027–2031
 - [x] Teaser vidéo (`docs/teaser`, MP4 calé sur la musique fournie)
 - [x] Synchronisation SIRENE : passage mensuel automatique (API Sirene de l’INSEE avec clé gratuite, sinon API
       Recherche d’entreprises), nouveautés à valider puis invitation par courrier, fermetures signalées à archiver
