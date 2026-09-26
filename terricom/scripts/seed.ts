@@ -821,6 +821,131 @@ async function main() {
     await db.insert(S.roleAssignments).values({ userId: admin.id, role: 'TERRITORY_ADMIN', territoryId: tr.id, createdById: camille.id });
   }
 
+  // ─── Lacs et Montagnes du Haut-Doubs : communes et entreprises réelles ────
+  // 32 communes du découpage officiel (Etalab) et établissements actifs de la base SIRENE, figés dans
+  // scripts/seed/haut-doubs-etablissements.json par `npm run demo:sirene`, puis importés par le moteur
+  // d'import de la plateforme (mêmes contrôles qu'en production). Fiches précréées : rien n'est inventé.
+  {
+    console.log('→ Lacs et Montagnes du Haut-Doubs (communes et entreprises réelles)');
+    const HD = (await import('./seed/haut-doubs-communes.json')).default;
+    const { existsSync, readFileSync } = await import('node:fs');
+    const fixture = `${process.cwd()}/scripts/seed/haut-doubs-etablissements.json`;
+    const { analyzeRows, createEstablishments, guessMapping, recordsToRaw } = await import('@/server/services/imports');
+    const metabief = HD.find((c) => c.name === 'Métabief')!;
+    const [hd] = await db
+      .insert(S.territories)
+      .values({
+        slug: 'haut-doubs',
+        name: 'Lacs et Montagnes du Haut-Doubs',
+        legalName: 'Communauté de communes des Lacs et Montagnes du Haut-Doubs',
+        kind: 'CC',
+        status: 'ACTIVE',
+        population: HD.reduce((n, c) => n + c.pop, 0),
+        departmentCode: '25',
+        initials: 'LM',
+        colorPrimary: '#1E4D5C',
+        colorAccent: '#F4B266',
+        heroTitle: 'Lacs et Montagnes du Haut-Doubs,|fait main & fait ici.',
+        heroSubtitle: 'Commerces, artisans, producteurs et prestataires des 32 communes, du Mont d’Or au lac de Saint-Point.',
+        heroImageUrl: D.U(D.I.mountains, 2000),
+        centerLat: metabief.lat,
+        centerLng: metabief.lng,
+        settings: {
+          claimValidation: 'MANUAL',
+          postModeration: 'POST',
+          newsletterName: 'La lettre des Lacs et Montagnes',
+          jobsTitle: 'Travailler dans le Haut-Doubs',
+          sirene: { autoSync: true, excludedGroups: ['immobilier', 'holdings', 'administrations'] },
+        },
+        createdAt: daysAgo(40),
+      })
+      .returning();
+    territoryBySlug['haut-doubs'] = hd;
+    await db
+      .insert(S.territoryModules)
+      .values((['PORTAL', 'MAP', 'NEWSLETTER', 'IMPORT', 'CAMPAIGNS'] as const).map((m) => ({ territoryId: hd.id, module: m, enabled: true })));
+    await db.insert(S.territoryDomains).values({ territoryId: hd.id, host: 'haut-doubs.terricom.fr', verifiedAt: parisDate(daysAgo(38)) });
+    const hdCommunes: Record<string, typeof S.communes.$inferSelect> = {};
+    for (const c of HD) {
+      const [cr] = await db
+        .insert(S.communes)
+        .values({
+          inseeCode: c.insee,
+          name: c.name,
+          slug: slugify(c.name),
+          postalCodes: c.postalCodes,
+          departmentCode: '25',
+          population: c.pop,
+          lat: c.lat,
+          lng: c.lng,
+        })
+        .returning();
+      hdCommunes[c.name] = cr;
+      await db.insert(S.communeMemberships).values({ communeId: cr.id, territoryId: hd.id, validFrom: '2017-01-01' });
+    }
+    await db.insert(S.territoryContracts).values({
+      territoryId: hd.id,
+      kind: 'SETUP',
+      label: 'Démonstration : import SIRENE des 32 communes',
+      amountCents: 0,
+      startsAt: parisDate(daysAgo(40)),
+      status: 'ACTIVE',
+      signedAt: parisDate(daysAgo(40)),
+    });
+    const hdAdmin = await mkUser({
+      email: 'collectivite@haut-doubs.exemple.test',
+      first: 'Agent',
+      last: 'Développement économique',
+      job: 'Développement économique',
+      mfa: true,
+    });
+    const hdCommune = await mkUser({ email: 'mairie@metabief.exemple.test', first: 'Agent', last: 'Mairie de Métabief', job: 'Secrétariat de mairie' });
+    adminBySlug['haut-doubs'] = hdAdmin;
+    await db.insert(S.roleAssignments).values([
+      { userId: hdAdmin.id, role: 'TERRITORY_ADMIN', territoryId: hd.id, createdById: camille.id },
+      { userId: hdCommune.id, role: 'COMMUNE_ADMIN', territoryId: hd.id, communeId: hdCommunes['Métabief'].id, createdById: hdAdmin.id },
+    ]);
+
+    if (existsSync(fixture)) {
+      const data = JSON.parse(readFileSync(fixture, 'utf8')) as { fetchedAt: string; records: Parameters<typeof recordsToRaw>[0] };
+      const raw = recordsToRaw(data.records);
+      const mapping = guessMapping(Object.keys(raw[0] ?? {}));
+      const fallback = catBySlug.get('autres-activites')!.id;
+      const { rows, report } = await analyzeRows(hd.id, raw, mapping, fallback);
+      const { created } = await createEstablishments(
+        hd.id,
+        rows.filter((x) => x.action === 'CREATE'),
+        hdAdmin.id,
+      );
+      await db.insert(S.importBatches).values({
+        territoryId: hd.id,
+        createdById: hdAdmin.id,
+        source: 'SIRENE',
+        filename: `Base SIRENE · ${new Date(data.fetchedAt).toLocaleDateString('fr-FR')}`,
+        status: 'COMMITTED',
+        headers: Object.keys(raw[0] ?? {}),
+        mapping,
+        rawRows: [],
+        rows: [],
+        report: { ...report, created: created.length, updated: 0, letterIds: created.map((c) => c.id).slice(0, 500) },
+        committedAt: daysAgo(38),
+        createdAt: daysAgo(38),
+      });
+      await db.insert(S.sireneSyncRuns).values({
+        territoryId: hd.id,
+        source: 'RECHERCHE',
+        trigger: 'SCHEDULE',
+        status: 'DONE',
+        since: daysAgo(38),
+        startedAt: daysAgo(10, 5),
+        finishedAt: daysAgo(10, 5),
+      });
+      console.log(`  ${created.length} fiches précréées sur ${data.records.length} établissements SIRENE (${report.excluded ?? 0} activités exclues)`);
+    } else {
+      console.log('  Établissements absents : lancer `npm run demo:sirene` (accès à recherche-entreprises.api.gouv.fr requis).');
+    }
+  }
+
   await insertMany(S.companyMembers, memberRows);
   await insertMany(S.companySubscriptions, subscriptionRows);
   await insertMany(S.openingHours, hoursRows);
@@ -2794,6 +2919,8 @@ Comptes de démonstration (mot de passe : ${DEMO_PASSWORD})
   Admin communal Quingey ..... mairie@quingey.fr
   Professionnelle (boulangère) sophie@boulangerie-martin.fr
   Caviste (offre Communication) julie@cave-comtoise.fr
+  Admin Haut-Doubs (CC) ...... collectivite@haut-doubs.exemple.test (MFA)
+  Admin communale Métabief ... mairie@metabief.exemple.test
 Code MFA : secret TOTP ${DEMO_TOTP_SECRET} (à ajouter dans une application d'authentification)
 `);
   void inArray;

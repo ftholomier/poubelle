@@ -42,14 +42,20 @@ npm run worker                   # tâches de fond (autre terminal)
 Avec `DEMO_MODE=true`, la barre de démonstration permet d’entrer dans chaque espace sans mot de passe.
 Comptes (mot de passe `Terricom2026!`, code de double authentification : secret TOTP `JBSWY3DPEHPK3PXP`) :
 
-| Rôle                                                           | Email                        |
-| -------------------------------------------------------------- | ---------------------------- |
-| Super administrateur                                           | camille@terricom.fr          |
-| Admin territoriale (CC du Val de Loue)                         | c.duval@cc-valdeloue.fr      |
-| Chargé de communication                                        | t.girod@cc-valdeloue.fr      |
-| Admin communale (Ornans)                                       | commerce@ornans.fr           |
-| Professionnelle (boulangerie)                                  | sophie@boulangerie-martin.fr |
-| Caviste, offre Communication (mini-site, formulaires, clients) | julie@cave-comtoise.fr       |
+| Rôle                                                           | Email                                |
+| -------------------------------------------------------------- | ------------------------------------ |
+| Super administrateur                                           | camille@terricom.fr                  |
+| Admin territoriale (CC du Val de Loue)                         | c.duval@cc-valdeloue.fr              |
+| Chargé de communication                                        | t.girod@cc-valdeloue.fr              |
+| Admin communale (Ornans)                                       | commerce@ornans.fr                   |
+| Professionnelle (boulangerie)                                  | sophie@boulangerie-martin.fr         |
+| Caviste, offre Communication (mini-site, formulaires, clients) | julie@cave-comtoise.fr               |
+| Admin territoriale (Lacs et Montagnes du Haut-Doubs)           | collectivite@haut-doubs.exemple.test |
+| Admin communale (Métabief)                                     | mairie@metabief.exemple.test         |
+
+Le territoire **Lacs et Montagnes du Haut-Doubs** (lien « Haut-Doubs » de la barre de démonstration) reprend les
+32 communes réelles de la communauté de communes et ses entreprises réelles de la base SIRENE, importées comme
+fiches précréées (`npm run demo:sirene` fige la liste, puis `npm run db:reset`).
 
 ## Scripts
 
@@ -57,6 +63,7 @@ Comptes (mot de passe `Terricom2026!`, code de double authentification : secret 
 | --------------------------------- | -------------------------------------------------------------- |
 | `npm run dev` / `build` / `start` | Application Next.js (`start` : serveur autonome de production) |
 | `npm run worker`                  | File de tâches et tâches planifiées                            |
+| `npm run demo:sirene`             | Fige les entreprises réelles du Haut-Doubs (API SIRENE)        |
 | `npm run db:generate`             | Nouvelle migration depuis le schéma Drizzle                    |
 | `npm run db:migrate`              | Applique les migrations (verrou consultatif, sûr en parallèle) |
 | `npm run db:seed` / `db:reset`    | Jeu de démonstration / réinitialisation complète               |

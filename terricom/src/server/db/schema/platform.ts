@@ -193,6 +193,8 @@ export type ImportRow = {
   line: number;
   name: string;
   siret: string | null;
+  /** Code NAF de l'établissement (fichier ou SIRENE), sans point. */
+  naf?: string | null;
   categoryId: string | null;
   categoryName: string | null;
   communeId: string | null;

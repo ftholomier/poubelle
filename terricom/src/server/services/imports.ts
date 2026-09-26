@@ -169,7 +169,14 @@ export async function analyzeRows(
   const byInsee = new Map(communesList.map((c) => [c.inseeCode, c]));
   const byName = new Map(communesList.map((c) => [norm(c.name), c]));
   const byNaf = new Map<string, (typeof cats)[number]>();
-  for (const c of cats) for (const n of c.nafCodes) byNaf.set(n.replace(/\./g, '').toUpperCase(), c);
+  // Code exact, sinon classe NAF (4 chiffres) : « 47.11F » rejoint la catégorie de « 47.11B ».
+  const byNafClass = new Map<string, (typeof cats)[number]>();
+  for (const c of cats)
+    for (const n of c.nafCodes) {
+      const k = n.replace(/\./g, '').toUpperCase();
+      byNaf.set(k, c);
+      if (!byNafClass.has(k.slice(0, 4))) byNafClass.set(k.slice(0, 4), c);
+    }
   const byCatName = new Map<string, (typeof cats)[number]>();
   for (const c of cats) {
     byCatName.set(norm(c.name), c);
@@ -195,7 +202,7 @@ export async function analyzeRows(
     if (!commune) errors.push(insee || city ? `Commune hors du territoire (${city ?? insee})` : 'Commune manquante');
     const naf = pick(r, mapping.naf)?.replace(/\./g, '').toUpperCase() ?? null;
     const catText = pick(r, mapping.category);
-    const cat = (naf && byNaf.get(naf)) || (catText ? byCatName.get(norm(catText)) : undefined) || defaultCat;
+    const cat = (naf && (byNaf.get(naf) ?? byNafClass.get(naf.slice(0, 4)))) || (catText ? byCatName.get(norm(catText)) : undefined) || defaultCat;
     if (naf && isExcludedActivity(naf, sirene)) errors.push(`${EXCLUDED_PREFIX} (${naf})`);
     else if (!cat) errors.push(naf ? `Activité ${naf} sans catégorie correspondante` : 'Catégorie inconnue');
     const phone =
@@ -212,6 +219,7 @@ export async function analyzeRows(
       line,
       name,
       siret: siret && isValidSiret(siret) ? siret : null,
+      naf,
       categoryId: cat?.id ?? null,
       categoryName: cat?.name ?? null,
       communeId: commune?.id ?? null,
@@ -308,7 +316,7 @@ export async function createEstablishments(
       if (!companyId) {
         const [co] = await db
           .insert(companies)
-          .values({ siren, legalName: row.name.toUpperCase(), tradeName: row.name, nafCode: catNaf.get(row.categoryId) ?? null })
+          .values({ siren, legalName: row.name.toUpperCase(), tradeName: row.name, nafCode: formatNaf(row.naf) ?? catNaf.get(row.categoryId) ?? null })
           .returning({ id: companies.id });
         companyId = co.id;
       }
@@ -354,6 +362,11 @@ export async function createEstablishments(
   }
   for (const id of toGeocode) await enqueue('import.geocode', { establishmentId: id }, { dedupeKey: `geocode:${id}` });
   return { created, updated };
+}
+
+/** « 4711B » → « 47.11B » (forme des codes NAF en base). */
+function formatNaf(naf: string | null | undefined): string | null {
+  return naf && /^\d{4}[A-Z]$/.test(naf) ? `${naf.slice(0, 2)}.${naf.slice(2)}` : null;
 }
 
 /** Crée un lot à partir d'un fichier CSV déposé. */

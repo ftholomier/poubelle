@@ -1,6 +1,6 @@
 import { env } from '@/server/env';
 
-type Space = 'presentation' | 'portail' | 'pro' | 'collectivite' | 'console' | 'marque';
+type Space = 'presentation' | 'portail' | 'pro' | 'collectivite' | 'console' | 'marque' | 'haut-doubs';
 
 const LINKS: { key: Space; label: string; href: string }[] = [
   { key: 'presentation', label: 'Présentation', href: '/' },
@@ -9,6 +9,7 @@ const LINKS: { key: Space; label: string; href: string }[] = [
   { key: 'collectivite', label: 'Back-office collectivité', href: '/demo/entrer/collectivite' },
   { key: 'console', label: 'Console plateforme', href: '/demo/entrer/console' },
   { key: 'marque', label: 'La marque', href: '/marque' },
+  { key: 'haut-doubs', label: 'Haut-Doubs (données réelles)', href: '/haut-doubs' },
 ];
 
 /**
@@ -27,7 +28,7 @@ export function DemoBar({ active, right }: { active?: Space; right?: React.React
         {LINKS.map((l) => (
           <a
             key={l.key}
-            href={`${base}${l.href}`}
+            href={`${base}${active === 'haut-doubs' && l.key === 'collectivite' ? '/demo/entrer/haut-doubs' : l.href}`}
             aria-current={l.key === active ? 'page' : undefined}
             style={
               l.key === active

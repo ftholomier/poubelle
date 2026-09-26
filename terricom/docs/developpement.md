@@ -175,6 +175,16 @@ collectivite|commune|console`, `MOBILE=1`, `EXTRA=chemins`).
 - Jeu de démonstration : 5 nouveautés et 2 fermetures en attente à Val de Loue ; le test e2e
   `tests/e2e/sirene.spec.ts` les consomme (relancer `npm run db:reset` avant de le rejouer).
 
+## Territoire réel de démonstration (Haut-Doubs)
+
+- Communes : `scripts/seed/haut-doubs-communes.json` (découpage officiel Etalab, `@etalab/decoupage-administratif`,
+  positions calculées depuis les contours des communes).
+- Entreprises : `npm run demo:sirene` interroge l’API Recherche d’entreprises commune par commune et écrit
+  `scripts/seed/haut-doubs-etablissements.json` (établissements actifs et diffusibles). Le jeu de démonstration
+  l’importe avec `analyzeRows` et `createEstablishments` (activités exclues, catégories, doublons) ; ce qui
+  n’a pas de catégorie tombe dans « Autres activités ». Sans ce fichier, le territoire est créé sans entreprises.
+- Relancer `npm run demo:sirene` pour rafraîchir la liste (mensuellement si besoin), puis `npm run db:reset`.
+
 ## Environnement de développement (bac à sable)
 
 Les API externes (tuiles OpenStreetMap, photos Unsplash, API Géo/SIRENE/INSEE, fichiers data.gouv.fr, Claude) sont bloquées dans le bac

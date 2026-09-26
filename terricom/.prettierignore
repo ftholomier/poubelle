@@ -3,3 +3,4 @@ node_modules
 drizzle
 storage
 package-lock.json
+scripts/seed/haut-doubs-etablissements.json

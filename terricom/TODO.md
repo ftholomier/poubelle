@@ -45,7 +45,10 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
 
 ## En cours
 
-Rien : toutes les fonctions du cahier des charges sont livrées (voir « Fait »).
+- [ ] Territoire de démonstration réel « Lacs et Montagnes du Haut-Doubs » : territoire, 32 communes officielles
+      (codes INSEE, codes postaux, populations, positions), comptes et accès démo en place ; reste à figer les
+      entreprises réelles avec `npm run demo:sirene` (accès réseau à `recherche-entreprises.api.gouv.fr`
+      nécessaire), puis `npm run db:reset` et contrôle visuel.
 
 ## Pistes pour la suite (hors cahier des charges initial)
 

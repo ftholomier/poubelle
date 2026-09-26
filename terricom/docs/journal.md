@@ -39,7 +39,7 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
 | `13b481a`            | Contrôles finaux                | Compilation de production, parcours automatique des 6 espaces (bureau et mobile, 0 signalement), 33 tests e2e et 57 tests unitaires, worker vérifié, base de démonstration réinitialisée    |
 | `f626383`            | Dossier de réalisation          | PDF de 30 pages à la charte, du design à l’hébergement, captures de la compilation de production ; `npm start` sur le serveur autonome ; coques pleine hauteur corrigées hors démonstration |
 | `c98afab`            | Présentation aux élus           | Diaporama paysage : communauté de communes → commune → commerce → habitants, puis accompagnement ; captures annotées, étapes animées                                                        |
-| (ce lot)             | Synchronisation SIRENE          | Passage mensuel (INSEE ou Recherche d’entreprises), nouveautés et fermetures à valider par la collectivité, fichier stock pour les grands territoires, activités exclues par territoire     |
+| `55009de`            | Synchronisation SIRENE          | Passage mensuel (INSEE ou Recherche d’entreprises), nouveautés et fermetures à valider par la collectivité, fichier stock pour les grands territoires, activités exclues par territoire     |
 
 ## Décisions
 
@@ -67,6 +67,9 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
   le dernier passage (marge de 90 jours pour les déclarations tardives), pour ne pas rejouer l’import initial.
   SIRENE ne donnant pas d’email, l’invitation se fait par courrier. Par défaut, SCI, holdings et administrations
   sont exclues (non pertinentes pour un annuaire de commerces).
+- **Territoire réel de démonstration** : entreprises réelles uniquement en fiches précréées, avec les seules
+  données publiques SIRENE (nom, activité, adresse, position) ; aucun contenu inventé (description, horaires,
+  avis) n’est attribué à une vraie entreprise. La liste est figée dans le dépôt pour une démo sans réseau.
 - **Bac à sable** : les services externes y sont bloqués (cartes, photos, IA) ; ils fonctionnent en production.
 
 ## Vérifications à chaque lot

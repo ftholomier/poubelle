@@ -1,0 +1,290 @@
+[
+  {
+    "insee": "25318",
+    "name": "Jougne",
+    "postal": "25370",
+    "postalCodes": ["25370"],
+    "pop": 1937,
+    "lat": 46.7641,
+    "lng": 6.4038
+  },
+  {
+    "insee": "25254",
+    "name": "Les Fourgs",
+    "postal": "25300",
+    "postalCodes": ["25300"],
+    "pop": 1443,
+    "lat": 46.8401,
+    "lng": 6.4157
+  },
+  {
+    "insee": "25380",
+    "name": "Métabief",
+    "postal": "25370",
+    "postalCodes": ["25370"],
+    "pop": 1375,
+    "lat": 46.7647,
+    "lng": 6.3538
+  },
+  {
+    "insee": "25320",
+    "name": "Labergement-Sainte-Marie",
+    "postal": "25160",
+    "postalCodes": ["25160"],
+    "pop": 1273,
+    "lat": 46.7793,
+    "lng": 6.2769
+  },
+  {
+    "insee": "25413",
+    "name": "Mouthe",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 1037,
+    "lat": 46.6817,
+    "lng": 6.2056
+  },
+  {
+    "insee": "25307",
+    "name": "Les Hôpitaux-Neufs",
+    "postal": "25370",
+    "postalCodes": ["25370"],
+    "pop": 967,
+    "lat": 46.7857,
+    "lng": 6.391
+  },
+  {
+    "insee": "25405",
+    "name": "Montperreux",
+    "postal": "25160",
+    "postalCodes": ["25160"],
+    "pop": 940,
+    "lat": 46.8206,
+    "lng": 6.3444
+  },
+  {
+    "insee": "25361",
+    "name": "Malbuisson",
+    "postal": "25160",
+    "postalCodes": ["25160"],
+    "pop": 903,
+    "lat": 46.7989,
+    "lng": 6.3116
+  },
+  {
+    "insee": "25494",
+    "name": "Rochejean",
+    "postal": "25370",
+    "postalCodes": ["25370"],
+    "pop": 754,
+    "lat": 46.7264,
+    "lng": 6.3041
+  },
+  {
+    "insee": "25442",
+    "name": "Oye-et-Pallet",
+    "postal": "25160",
+    "postalCodes": ["25160"],
+    "pop": 709,
+    "lat": 46.8518,
+    "lng": 6.339
+  },
+  {
+    "insee": "25348",
+    "name": "Longevilles-Mont-d'Or",
+    "postal": "25370",
+    "postalCodes": ["25370"],
+    "pop": 625,
+    "lat": 46.7452,
+    "lng": 6.3303
+  },
+  {
+    "insee": "25486",
+    "name": "Remoray-Boujeons",
+    "postal": "25160",
+    "postalCodes": ["25160"],
+    "pop": 466,
+    "lat": 46.7595,
+    "lng": 6.2176
+  },
+  {
+    "insee": "25308",
+    "name": "Les Hôpitaux-Vieux",
+    "postal": "25370",
+    "postalCodes": ["25370"],
+    "pop": 462,
+    "lat": 46.8034,
+    "lng": 6.3912
+  },
+  {
+    "insee": "25142",
+    "name": "Chaux-Neuve",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 338,
+    "lat": 46.6559,
+    "lng": 6.1524
+  },
+  {
+    "insee": "25295",
+    "name": "Les Grangettes",
+    "postal": "25160",
+    "postalCodes": ["25160"],
+    "pop": 334,
+    "lat": 46.8322,
+    "lng": 6.3153
+  },
+  {
+    "insee": "25459",
+    "name": "La Planée",
+    "postal": "25160",
+    "postalCodes": ["25160"],
+    "pop": 332,
+    "lat": 46.8417,
+    "lng": 6.2722
+  },
+  {
+    "insee": "25525",
+    "name": "Saint-Point-Lac",
+    "postal": "25160",
+    "postalCodes": ["25160"],
+    "pop": 306,
+    "lat": 46.8107,
+    "lng": 6.2957
+  },
+  {
+    "insee": "25514",
+    "name": "Saint-Antoine",
+    "postal": "25370",
+    "postalCodes": ["25370"],
+    "pop": 305,
+    "lat": 46.7824,
+    "lng": 6.3334
+  },
+  {
+    "insee": "25362",
+    "name": "Malpas",
+    "postal": "25160",
+    "postalCodes": ["25160"],
+    "pop": 300,
+    "lat": 46.8276,
+    "lng": 6.2888
+  },
+  {
+    "insee": "25121",
+    "name": "Chapelle-des-Bois",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 268,
+    "lat": 46.6068,
+    "lng": 6.1081
+  },
+  {
+    "insee": "25263",
+    "name": "Gellin",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 267,
+    "lat": 46.7255,
+    "lng": 6.2388
+  },
+  {
+    "insee": "25565",
+    "name": "Touillon-et-Loutelet",
+    "postal": "25370",
+    "postalCodes": ["25370"],
+    "pop": 262,
+    "lat": 46.7933,
+    "lng": 6.3518
+  },
+  {
+    "insee": "25619",
+    "name": "Les Villedieu",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 233,
+    "lat": 46.7139,
+    "lng": 6.2658
+  },
+  {
+    "insee": "25534",
+    "name": "Sarrageois",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 197,
+    "lat": 46.7039,
+    "lng": 6.2346
+  },
+  {
+    "insee": "25096",
+    "name": "Brey-et-Maison-du-Bois",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 188,
+    "lat": 46.7467,
+    "lng": 6.2414
+  },
+  {
+    "insee": "25451",
+    "name": "Petite-Chaux",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 177,
+    "lat": 46.6796,
+    "lng": 6.1633
+  },
+  {
+    "insee": "25464",
+    "name": "Les Pontets",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 141,
+    "lat": 46.7213,
+    "lng": 6.1634
+  },
+  {
+    "insee": "25252",
+    "name": "Fourcatier-et-Maison-Neuve",
+    "postal": "25370",
+    "postalCodes": ["25370"],
+    "pop": 130,
+    "lat": 46.7639,
+    "lng": 6.3134
+  },
+  {
+    "insee": "25131",
+    "name": "Châtelblanc",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 117,
+    "lat": 46.6652,
+    "lng": 6.1066
+  },
+  {
+    "insee": "25179",
+    "name": "Le Crouzet",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 51,
+    "lat": 46.7067,
+    "lng": 6.1317
+  },
+  {
+    "insee": "25483",
+    "name": "Reculfoz",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 45,
+    "lat": 46.7108,
+    "lng": 6.1483
+  },
+  {
+    "insee": "25501",
+    "name": "Rondefontaine",
+    "postal": "25240",
+    "postalCodes": ["25240"],
+    "pop": 38,
+    "lat": 46.7332,
+    "lng": 6.1827
+  }
+]

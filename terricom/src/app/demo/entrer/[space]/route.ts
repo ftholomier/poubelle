@@ -14,6 +14,9 @@ const ACCOUNTS: Record<string, { email: string; path: string }> = {
   collectivite: { email: 'c.duval@cc-valdeloue.fr', path: '/collectivite' },
   commune: { email: 'commerce@ornans.fr', path: '/collectivite' },
   console: { email: 'camille@terricom.fr', path: '/console' },
+  // Territoire aux données réelles : 32 communes et entreprises de la base SIRENE.
+  'haut-doubs': { email: 'collectivite@haut-doubs.exemple.test', path: '/collectivite' },
+  'haut-doubs-commune': { email: 'mairie@metabief.exemple.test', path: '/collectivite' },
 };
 
 /**

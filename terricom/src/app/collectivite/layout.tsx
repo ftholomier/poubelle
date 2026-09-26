@@ -61,10 +61,15 @@ export default async function BackOfficeLayout({ children }: { children: ReactNo
       : `1 commune · ${fmtInt(counts.establishments)} établissements`;
   const portal = ctx.commune ? portalUrl(t, `/${ctx.commune.slug}`) : portalUrl(t);
   const name = fullName(ctx.actor.user);
+  const demoKey = t.slug === 'haut-doubs' ? 'haut-doubs' : 'collectivite';
 
   return (
     <ToastProvider>
-      <DemoBar active="collectivite" />
+      {ctx.territory.slug === 'haut-doubs' ? (
+        <DemoBar active="haut-doubs" right="Entreprises réelles (SIRENE) · fiches précréées" />
+      ) : (
+        <DemoBar active="collectivite" />
+      )}
       <div className="app-shell bo">
         <aside className="app-aside">
           <div style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '4px 8px 14px' }}>
@@ -77,11 +82,14 @@ export default async function BackOfficeLayout({ children }: { children: ReactNo
           {env.DEMO_MODE ? (
             <nav className="bo-scope-tabs" aria-label="Périmètre">
               {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-              <a href="/demo/entrer/collectivite" aria-current={ctx.level === 'TERRITORY' ? 'true' : undefined}>
+              <a href={`/demo/entrer/${demoKey}`} aria-current={ctx.level === 'TERRITORY' ? 'true' : undefined}>
                 Territoire
               </a>
               {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-              <a href="/demo/entrer/commune" aria-current={ctx.level === 'COMMUNE' ? 'true' : undefined}>
+              <a
+                href={`/demo/entrer/${demoKey === 'haut-doubs' ? 'haut-doubs-commune' : 'commune'}`}
+                aria-current={ctx.level === 'COMMUNE' ? 'true' : undefined}
+              >
                 Commune
               </a>
             </nav>
