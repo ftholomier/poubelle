@@ -1,6 +1,6 @@
-"""Fichier des intercommunalités de France pour la prospection : une ligne par communauté de communes (et, sur un
-second onglet, par communauté d'agglomération, communauté urbaine ou métropole), avec les coordonnées publiées
-dans l'Annuaire de l'administration de Service-public.fr.
+"""Fichier des intercommunalités de France pour la prospection, avec les coordonnées publiées dans l'Annuaire de
+l'administration de Service-public.fr. Onglets : toutes les intercommunalités, puis les communautés de communes,
+puis les communautés d'agglomération, communautés urbaines et métropoles.
 
 Sources ouvertes (Licence Ouverte Etalab 2.0) :
   - geo.api.gouv.fr : liste officielle des EPCI, population, départements, régions, communes membres ;
@@ -97,6 +97,102 @@ def siege(siren):
     return rue.title() if rue else '', s.get('code_postal') or '', (s.get('libelle_commune') or '').title()
 
 
+def onglet_ca_modele_b(wb, cc):
+    """Chiffre d'affaires du modèle B (abonnement territorial) pour chaque communauté de communes.
+
+    Paramètres modifiables en tête d'onglet ; tous les montants sont des formules Excel qui en dépendent.
+    """
+    ws = wb.create_sheet('CA modèle B', 1)
+    vert = PatternFill('solid', fgColor='1F6B52')
+    creme = PatternFill('solid', fgColor='F7F4EC')
+    ambre = PatternFill('solid', fgColor='FBE6C9')
+    gras = Font(bold=True)
+    euros = '# ##0 €'
+
+    ws['A1'] = 'Modèle B : abonnement territorial, chiffre d’affaires par communauté de communes'
+    ws['A1'].font = Font(bold=True, size=14, color='1F6B52')
+    ws['A2'] = 'Abonnement annuel HT = socle + prix par habitant × population, plafonné. Modifiez les cases jaunes : tout se recalcule.'
+    ws['A2'].font = Font(italic=True, color='5B625D')
+    params = [('Socle annuel HT', 10000, euros), ('Prix par habitant HT', 0.20, '0.00 €'), ('Plafond annuel HT', 59000, euros), ('Mise en service HT (1re année)', 5000, euros), ('Seuil de dispense de procédure HT', 60000, euros)]
+    for i, (lib, val, fmt) in enumerate(params):
+        r = 4 + i
+        ws.cell(r, 1, lib).font = gras
+        c = ws.cell(r, 2, val)
+        c.number_format = fmt
+        c.fill = PatternFill('solid', fgColor='FFF2B3')
+    socle, hab, plafond, mes, seuil = '$B$4', '$B$5', '$B$6', '$B$7', '$B$8'
+
+    debut = 20  # première ligne de données
+    fin = debut + len(cc) - 1
+    # synthèse
+    ws['D4'] = 'Si toutes les CC signaient'
+    ws['D4'].font = gras
+    synthese = [
+        ('Communautés de communes', f'=COUNTA(A{debut}:A{fin})', '# ##0'),
+        ('Abonnements annuels récurrents', f'=SUM(E{debut}:E{fin})', euros),
+        ('Mises en service', f'=SUM(F{debut}:F{fin})', euros),
+        ('Chiffre d’affaires de la 1re année', f'=SUM(G{debut}:G{fin})', euros),
+        ('Chiffre d’affaires sur 3 ans', f'=SUM(H{debut}:H{fin})', euros),
+        ('Abonnement moyen par CC', f'=AVERAGE(E{debut}:E{fin})', euros),
+        ('CC au-dessus du seuil sur 3 ans', f'=COUNTIF(I{debut}:I{fin},"Oui")', '# ##0'),
+    ]
+    for i, (lib, f, fmt) in enumerate(synthese):
+        ws.cell(5 + i, 4, lib)
+        c = ws.cell(5 + i, 5, f)
+        c.number_format = fmt
+        c.font = gras
+    ws['G4'] = 'Selon la part des CC clientes'
+    ws['G4'].font = gras
+    ws['G5'], ws['H5'], ws['I5'] = 'Part des CC', 'CC clientes', 'Abonnements / an'
+    for c in ('G5', 'H5', 'I5'):
+        ws[c].font = gras
+    for i, part in enumerate((0.01, 0.05, 0.10, 0.20, 0.30, 0.50)):
+        r = 6 + i
+        ws.cell(r, 7, part).number_format = '0 %'
+        ws.cell(r, 8, f'=ROUND(G{r}*$E$5,0)').number_format = '# ##0'
+        ws.cell(r, 9, f'=G{r}*$E$6').number_format = euros
+    ws.cell(13, 7, 'Moyenne : chaque CC cliente rapporte en moyenne l’abonnement moyen ci-contre.').font = Font(italic=True, color='5B625D')
+
+    entetes = ['Communauté de communes', 'Département', 'Code', 'Population', 'Abonnement annuel HT', 'Mise en service HT', 'Total 1re année HT', 'Total 3 ans HT', 'Au-dessus du seuil sur 3 ans', 'Coût par habitant / an']
+    for c, e in enumerate(entetes, start=1):
+        cell = ws.cell(debut - 1, c, e)
+        cell.font = Font(bold=True, color='FFFFFF')
+        cell.fill = vert
+        cell.alignment = Alignment(vertical='center', wrap_text=True)
+    ws.row_dimensions[debut - 1].height = 32
+    for i, l in enumerate(cc):
+        r = debut + i
+        ws.cell(r, 1, l[0])
+        ws.cell(r, 2, l[4])
+        ws.cell(r, 3, l[3])
+        ws.cell(r, 4, l[6]).number_format = '# ##0'
+        ws.cell(r, 5, f'=MIN({socle}+{hab}*D{r},{plafond})').number_format = euros
+        ws.cell(r, 6, f'={mes}').number_format = euros
+        ws.cell(r, 7, f'=E{r}+F{r}').number_format = euros
+        ws.cell(r, 8, f'=3*E{r}+F{r}').number_format = euros
+        ws.cell(r, 9, f'=IF(H{r}>{seuil},"Oui","Non")')
+        ws.cell(r, 10, f'=IF(D{r}>0,E{r}/D{r},"")').number_format = '0.00 €'
+        if i % 2:
+            for c in range(1, 11):
+                ws.cell(r, c).fill = creme
+    total = fin + 1
+    ws.cell(total, 1, 'TOTAL').font = gras
+    ws.cell(total, 4, f'=SUM(D{debut}:D{fin})').number_format = '# ##0'
+    for col in 'EFGH':
+        c = ws[f'{col}{total}']
+        c.value = f'=SUM({col}{debut}:{col}{fin})'
+        c.number_format = euros
+    for c in range(1, 11):
+        ws.cell(total, c).fill = ambre
+        ws.cell(total, c).font = gras
+    for col, w in zip('ABCDEFGHIJ', (46, 22, 8, 12, 20, 18, 18, 16, 16, 14)):
+        ws.column_dimensions[col].width = w
+    ws.column_dimensions['D'].width = 34
+    ws.freeze_panes = f'B{debut}'
+    ws.auto_filter.ref = f'A{debut - 1}:J{fin}'
+    wb.calculation.fullCalcOnLoad = True
+
+
 def main():
     epcis = cached('epcis.json', f'{GEO}/epcis?fields=nom,code,type,population,codesDepartements,codesRegions&format=json')
     deps = {d['code']: d['nom'] for d in cached('departements.json', f'{GEO}/departements?fields=nom,code')}
@@ -175,7 +271,9 @@ def main():
     liens = {13: 'mailto:', 14: '', 15: '', 16: ''}
 
     wb = Workbook()
-    for i, (cle, titre) in enumerate((('CC', 'Communautés de communes'), ('AUTRES', 'Agglos, CU, métropoles'))):
+    lignes['TOUTES'] = sorted(lignes['CC'] + lignes['AUTRES'], key=lambda l: (l[3], l[0]))
+    onglets = (('TOUTES', 'Toutes les intercommunalités'), ('CC', 'Communautés de communes'), ('AUTRES', 'Agglos, CU, métropoles'))
+    for i, (cle, titre) in enumerate(onglets):
         ws = wb.active if i == 0 else wb.create_sheet()
         ws.title = titre
         ws.append(entetes)
@@ -199,6 +297,8 @@ def main():
         ws.freeze_panes = 'B2'
         ws.auto_filter.ref = ws.dimensions
 
+    onglet_ca_modele_b(wb, lignes['CC'])
+
     src = wb.create_sheet('Sources')
     for ligne in [
         ['Intercommunalités de France : coordonnées publiques'],
@@ -209,6 +309,7 @@ def main():
         ['Adresse du siège (EPCI sans fiche dans l’annuaire)', 'Registre SIRENE, recherche-entreprises.api.gouv.fr'],
         ['Licence', 'Licence Ouverte Etalab 2.0 : réutilisation libre, source à mentionner'],
         [],
+        ['Toutes les intercommunalités (premier onglet)', len(lignes['TOUTES'])],
         ['Communautés de communes', len(lignes['CC'])],
         ['Autres intercommunalités', len(lignes['AUTRES'])],
         ['Sans fiche dans l’annuaire', ', '.join(sans_fiche) or 'aucune'],

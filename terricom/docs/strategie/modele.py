@@ -1,4 +1,7 @@
-"""Modèle économique terricom : trois scénarios sur cinq ans (2027-2031).
+"""Modèle économique terricom : trois scénarios sur cinq ans (2027-2031), pour deux modèles de prix.
+
+Modèle A : grille nationale par tranches de population. Modèle B : abonnement territorial
+10 000 € + 0,20 € par habitant, plafonné à 59 000 € HT par an, mise en service 5 000 € HT.
 
 Toutes les hypothèses sont en tête de fichier, commentées ; `python3 docs/strategie/modele.py` affiche les
 résultats et `modele.resultats()` les fournit au générateur du document.
@@ -26,6 +29,27 @@ SERVICES_PART = 0.06        # formation sur site, campagnes clés en main, impre
 ENT_PAR_TERRITOIRE = 1200   # fiches par CC après tri (≈ 0,055 par habitant ; Haut-Doubs, touristique : 1 968)
 ARPU_PRO = 280              # € HT/an par commerçant payant (mix Premium mensuel/annuel et Communication)
 FRAIS_PAIEMENT = 0.02
+
+# ─── Modèle B : abonnement territorial (note de cadrage des fondateurs) ────────
+B_SOCLE = 10000             # € HT / an
+B_PAR_HABITANT = 0.20       # € HT / habitant / an
+B_PLAFOND = 59000           # € HT / an
+B_MISE_EN_SERVICE = 5000    # € HT, facturée la première année
+# Calculé sur les populations des 989 CC (geo.api.gouv.fr, 2026) : aucune n'atteint le plafond.
+B_LICENCE_MOYENNE = 14307   # € HT / an (modèle A : ≈ 9 190 €)
+B_MARCHE = 14_149_860       # € HT / an si toutes les CC étaient clientes (modèle A : ≈ 9,1 M€)
+B_POP_SEUIL = 41667         # au-delà, 3 ans d'abonnement + mise en service dépassent 60 000 € HT
+B_CC_AU_DESSUS_SEUIL = 86   # CC concernées : procédure de publicité (MAPA) ou centrale d'achat
+
+
+def licence_b(population):
+    return min(B_SOCLE + B_PAR_HABITANT * population, B_PLAFOND)
+
+
+TARIFS = {
+    'A': {'label': 'Modèle A · grille par tranches', 'licence': LICENCE_MOYENNE, 'mes': MISE_EN_SERVICE, 'offre': OFFRE_LANCEMENT_ANNEES, 'indexation': HAUSSE_LICENCE},
+    'B': {'label': 'Modèle B · abonnement territorial', 'licence': B_LICENCE_MOYENNE, 'mes': B_MISE_EN_SERVICE, 'offre': [], 'indexation': 0.0},
+}
 
 SCENARIOS = {
     'prudent': {
@@ -66,7 +90,8 @@ MARKETING_FIXE = 30000           # salons nationaux, contenus, site, webinaires 
 MARKETING_PART = 0.05
 
 
-def simuler(cle, conversion=1.0, signatures=1.0, pros_actifs=True):
+def simuler(cle, conversion=1.0, signatures=1.0, pros_actifs=True, tarif='A'):
+    t = TARIFS[tarif]
     s = dict(SCENARIOS[cle])
     s['nouveaux'] = [round(n * signatures) for n in s['nouveaux']]
     s['conversion'] = [c * conversion if pros_actifs else 0 for c in s['conversion']]
@@ -80,13 +105,13 @@ def simuler(cle, conversion=1.0, signatures=1.0, pros_actifs=True):
             c[1] *= 1 - s['attrition']
         n = s['nouveaux'][i]
         for k in range(n):
-            cohortes.append([i, 1.0, LICENCE_MOYENNE])
+            cohortes.append([i, 1.0, t['licence']])
         signes += n
         actifs = sum(c[1] for c in cohortes)
-        licences = sum(c[1] * c[2] * (1 + HAUSSE_LICENCE) ** (i - c[0]) for c in cohortes)
+        licences = sum(c[1] * c[2] * (1 + t['indexation']) ** (i - c[0]) for c in cohortes)
         # les nouveaux territoires signent en moyenne en milieu d'année : demi-licence la 1re année
         licences -= sum(0.5 * c[1] * c[2] for c in cohortes if c[0] == i)
-        mes = 0 if annee in OFFRE_LANCEMENT_ANNEES else n * MISE_EN_SERVICE
+        mes = 0 if annee in t['offre'] else n * t['mes']
         services = SERVICES_PART * licences
         pros = 0.0
         for c in cohortes:
@@ -98,7 +123,7 @@ def simuler(cle, conversion=1.0, signatures=1.0, pros_actifs=True):
         commerciaux = max(0, -(-int(round(directs - 6)) // CAPACITE_COMMERCIAL))
         csm = -(-int(actifs) // 35) if actifs >= 8 else 0
         devs = (1 if annee >= 2028 else 0) + int(actifs) // 50
-        commission = COMMISSION_PARTENAIRE * n * s['partenaires'][i] * LICENCE_MOYENNE
+        commission = COMMISSION_PARTENAIRE * n * s['partenaires'][i] * t['licence']
         couts = {
             'infra': INFRA_FIXE + INFRA_PAR_TERRITOIRE * actifs,
             'paiement': FRAIS_PAIEMENT * pros,
@@ -114,21 +139,22 @@ def simuler(cle, conversion=1.0, signatures=1.0, pros_actifs=True):
         lignes.append({
             'annee': annee, 'nouveaux': n, 'actifs': actifs, 'licences': licences, 'mes': mes, 'services': services,
             'pros': pros, 'ca': ca, 'couts': couts, 'charges': total, 'resultat': resultat, 'tresorerie': tresorerie,
-            'arr': sum(c[1] * c[2] * (1 + HAUSSE_LICENCE) ** (i - c[0]) for c in cohortes) * (1 + SERVICES_PART) + pros * (1 if i == 0 else 1),
+            'arr': sum(c[1] * c[2] * (1 + t['indexation']) ** (i - c[0]) for c in cohortes) * (1 + SERVICES_PART) + pros * (1 if i == 0 else 1),
             'equipe_n': 2 + commerciaux + csm + devs, 'payants': pros / ARPU_PRO,
             'commerciaux': commerciaux, 'csm': csm, 'devs': devs, 'part_marche': actifs / 990,
         })
     return lignes
 
 
-def resultats():
-    return {k: simuler(k) for k in SCENARIOS}
+def resultats(tarif='A'):
+    return {k: simuler(k, tarif=tarif) for k in SCENARIOS}
 
 
 if __name__ == '__main__':
     k = lambda v: f"{v / 1000:>7.0f} k€"
-    for cle, lignes in resultats().items():
-        print(f"\n== {SCENARIOS[cle]['label']}")
+    for tarif in TARIFS:
+      for cle, lignes in resultats(tarif).items():
+        print(f"\n== {TARIFS[tarif]['label']} · {SCENARIOS[cle]['label']}")
         print('année  nouv actifs   licences     MES  services     pros        CA   charges  résultat  trésorerie équipe payants')
         for l in lignes:
-            print(f"{l['annee']}  {l['nouveaux']:>4} {l['actifs']:>6.1f} {k(l['licences'])} {k(l['mes'])} {k(l['services'])} {k(l['pros'])} {k(l['ca'])} {k(l['charges'])} {k(l['resultat'])} {k(l['tresorerie'])} {l['equipe_n']:>5} {l['payants']:>7.0f}")
+              print(f"{l['annee']}  {l['nouveaux']:>4} {l['actifs']:>6.1f} {k(l['licences'])} {k(l['mes'])} {k(l['services'])} {k(l['pros'])} {k(l['ca'])} {k(l['charges'])} {k(l['resultat'])} {k(l['tresorerie'])} {l['equipe_n']:>5} {l['payants']:>7.0f}")

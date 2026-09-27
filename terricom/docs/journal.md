@@ -95,6 +95,16 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
   commune, animation, communauté) et en opposition assumée aux places de marché locales, avec le constat de la
   Cour des comptes (septembre 2023) cité fidèlement. Aucun prix sur le site public : la proposition se fait en
   rendez-vous. Captures produites par `scripts/teaser/captures-site.mjs` sur la démo Haut-Doubs.
+- **Deux modèles de prix** : le document des fondateurs présente désormais les deux options, à arbitrer.
+  - Modèle A : la grille par tranches.
+  - Modèle B : l’abonnement territorial issu de la note de cadrage des fondateurs, soit 10 000 € + 0,20 € par
+    habitant, plafonné à 59 000 € HT, avec 5 000 € de mise en service.
+
+  `modele.py` simule chaque scénario avec l’un ou l’autre (`tarif='A'|'B'`). Calculées sur les populations
+  réelles des 989 CC, les moyennes sont de 9 190 € (A) contre 14 307 € (B). Avec B, 86 CC dépassent le seuil
+  de 60 000 € HT sur trois ans. Le fichier `prospection/intercommunalites-france.xlsx` donne le chiffre
+  d’affaires du modèle B pour chaque CC.
+
 - **Formulaires du site commercial** : pas de service tiers ; la plateforme les reçoit comme le formulaire
   `/demo` de l’application, avec la même logique (service `site-requests.ts`). Une personne qui écrit plusieurs
   fois rejoint son affaire ouverte au lieu d’en créer une nouvelle. Un message d’entreprise n’est pas un prospect :

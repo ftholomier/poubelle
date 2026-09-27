@@ -44,6 +44,10 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
 - [x] Teaser refait sur « The Mountain » (1 min 53) : naissance de la marque sans le nom jusqu’à la révélation,
       plan topographique réel du Haut-Doubs, captures animées de l’application avec curseur (portail, carte, Métabief,
       assistant de campagne, SIRENE, espace commerçant, téléphones), fond de carte réel et photos libres du territoire
+- [x] Stratégie des fondateurs : modèle B (abonnement territorial 10 000 € + 0,20 €/hab., plafond 59 000 €,
+      mise en service 5 000 €) ajouté à côté de la grille A, comparaison et simulations A/B ; décision à prendre
+- [x] Prospection : fichier Excel des 1 255 intercommunalités avec coordonnées et chiffre d’affaires du modèle B
+      par communauté de communes (`../prospection`)
 - [x] Site commercial terricom.fr (`../site-terricom`) : 15 pages statiques pour les élus (accueil, élus, solution,
       communes, entreprises, différence, démonstration, accompagnement, confiance, questions, contact, légal),
       captures et film du Haut-Doubs, formulaires par courriel, sans tarif public ; version nationale : photos de

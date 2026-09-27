@@ -1,124 +1,663 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8"><title>terricom · Stratégie commerciale et modèle économique</title>
-<style>
-@font-face { font-family: 'Bricolage'; font-weight: 200 800; src: url('../../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-opsz-normal.woff2') format('woff2-variations'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
-@font-face { font-family: 'Bricolage'; font-weight: 200 800; src: url('../../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-ext-opsz-normal.woff2') format('woff2-variations'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+20A0-20AB,U+20AD-20C0,U+2C60-2C7F,U+A720-A7FF; }
-@font-face { font-family: 'Instrument'; font-weight: 400 700; src: url('../../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2') format('woff2-variations'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
-@font-face { font-family: 'Instrument'; font-weight: 400 700; src: url('../../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-ext-wght-normal.woff2') format('woff2-variations'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+20A0-20AB,U+20AD-20C0,U+2C60-2C7F,U+A720-A7FF; }
+<style>@font-face {
+  font-family: 'Bricolage';
+  font-weight: 200 800;
+  src: url('../../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-opsz-normal.woff2') format('woff2-variations');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Bricolage';
+  font-weight: 200 800;
+  src: url('../../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-ext-opsz-normal.woff2') format('woff2-variations');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+20A0-20AB, U+20AD-20C0, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Instrument';
+  font-weight: 400 700;
+  src: url('../../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Instrument';
+  font-weight: 400 700;
+  src: url('../../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-ext-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+20A0-20AB, U+20AD-20C0, U+2C60-2C7F, U+A720-A7FF;
+}
 
 :root {
-  --ink: #14201B; --ink2: #2A3A33; --green: #1F6B52; --green2: #2E8466; --amber: #F4B266; --cream: #F7F4EC; --paper: #FFFDF8;
-  --line: #E4DFD3; --brick: #C8702A; --text2: #4A514C; --muted: #6B726D; --sage: #AEBDB5; --sage2: #D6E0DA;
-  --mint: #E1ECE5; --lilac: #DCD3F3; --sky: #CDE3F2; --rose: #F6C9C1; --sand: #EFEBE1; --wine: #6E2A2A;
+  --ink: #14201b;
+  --ink2: #2a3a33;
+  --green: #1f6b52;
+  --green2: #2e8466;
+  --amber: #f4b266;
+  --cream: #f7f4ec;
+  --paper: #fffdf8;
+  --line: #e4dfd3;
+  --brick: #c8702a;
+  --text2: #4a514c;
+  --muted: #6b726d;
+  --sage: #aebdb5;
+  --sage2: #d6e0da;
+  --mint: #e1ece5;
+  --lilac: #dcd3f3;
+  --sky: #cde3f2;
+  --rose: #f6c9c1;
+  --sand: #efebe1;
+  --wine: #6e2a2a;
 }
-@page { size: 1280px 720px; margin: 0; }
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
-body { font-family: 'Instrument', system-ui, sans-serif; color: var(--ink); background: #1d1f1e; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+@page {
+  size: 1280px 720px;
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Instrument', system-ui, sans-serif;
+  color: var(--ink);
+  background: #1d1f1e;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
 
-.slide { width: 1280px; height: 720px; position: relative; overflow: hidden; background: var(--cream); padding: 52px 72px 70px; display: flex; flex-direction: column; break-after: page; }
-.slide:last-child { break-after: auto; }
-.slide > * { flex-shrink: 0; }
-.slide.dark { background: var(--ink); color: var(--cream); }
-.slide.green { background: var(--green); color: #fff; }
-.slide.amber { background: var(--amber); }
-.slide.wine { background: var(--wine); color: #fff; }
-.slide.sand { background: var(--sand); }
+.slide {
+  width: 1280px;
+  height: 720px;
+  position: relative;
+  overflow: hidden;
+  background: var(--cream);
+  padding: 52px 72px 70px;
+  display: flex;
+  flex-direction: column;
+  break-after: page;
+}
+.slide:last-child {
+  break-after: auto;
+}
+.slide > * {
+  flex-shrink: 0;
+}
+.slide.dark {
+  background: var(--ink);
+  color: var(--cream);
+}
+.slide.green {
+  background: var(--green);
+  color: #fff;
+}
+.slide.amber {
+  background: var(--amber);
+}
+.slide.wine {
+  background: var(--wine);
+  color: #fff;
+}
+.slide.sand {
+  background: var(--sand);
+}
 
-.kicker { font-size: 15px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--brick); }
-.dark .kicker, .green .kicker, .wine .kicker { color: var(--amber); }
-.t { font-family: 'Bricolage'; font-weight: 800; letter-spacing: -0.038em; font-size: 50px; line-height: 1.02; margin: 10px 0 0; }
-.t em { font-style: normal; color: var(--green); }
-.dark .t em, .green .t em, .wine .t em { color: var(--amber); }
-.sub { font-size: 22px; line-height: 1.42; color: var(--text2); margin: 14px 0 0; max-width: 1050px; }
-.dark .sub { color: var(--sage2); } .green .sub, .wine .sub { color: #E4EFE9; }
+.kicker {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brick);
+}
+.dark .kicker,
+.green .kicker,
+.wine .kicker {
+  color: var(--amber);
+}
+.t {
+  font-family: 'Bricolage';
+  font-weight: 800;
+  letter-spacing: -0.038em;
+  font-size: 50px;
+  line-height: 1.02;
+  margin: 10px 0 0;
+}
+.t em {
+  font-style: normal;
+  color: var(--green);
+}
+.dark .t em,
+.green .t em,
+.wine .t em {
+  color: var(--amber);
+}
+.sub {
+  font-size: 22px;
+  line-height: 1.42;
+  color: var(--text2);
+  margin: 14px 0 0;
+  max-width: 1050px;
+}
+.dark .sub {
+  color: var(--sage2);
+}
+.green .sub,
+.wine .sub {
+  color: #e4efe9;
+}
 
-.split { display: grid; grid-template-columns: 410px 1fr; gap: 44px; flex: 1; min-height: 0; margin-top: 24px; align-items: center; }
-.split.rev { grid-template-columns: 1fr 410px; }
-.points { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 18px; }
-.points li { display: grid; grid-template-columns: 38px 1fr; gap: 14px; align-items: start; font-size: 18px; line-height: 1.38; color: var(--text2); }
-.points li b { display: block; font-family: 'Bricolage'; font-size: 22px; letter-spacing: -0.015em; color: var(--ink); line-height: 1.15; margin-bottom: 2px; }
-.dark .points li, .green .points li { color: var(--sage2); } .dark .points li b, .green .points li b { color: #fff; }
-.nb { width: 38px; height: 38px; border-radius: 50%; background: var(--amber); color: var(--ink); font-family: 'Bricolage'; font-weight: 800; font-size: 19px; display: grid; place-items: center; }
-.nb.g { background: var(--green); color: #fff; }
+.split {
+  display: grid;
+  grid-template-columns: 410px 1fr;
+  gap: 44px;
+  flex: 1;
+  min-height: 0;
+  margin-top: 24px;
+  align-items: center;
+}
+.split.rev {
+  grid-template-columns: 1fr 410px;
+}
+.points {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.points li {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 14px;
+  align-items: start;
+  font-size: 18px;
+  line-height: 1.38;
+  color: var(--text2);
+}
+.points li b {
+  display: block;
+  font-family: 'Bricolage';
+  font-size: 22px;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  line-height: 1.15;
+  margin-bottom: 2px;
+}
+.dark .points li,
+.green .points li {
+  color: var(--sage2);
+}
+.dark .points li b,
+.green .points li b {
+  color: #fff;
+}
+.nb {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--amber);
+  color: var(--ink);
+  font-family: 'Bricolage';
+  font-weight: 800;
+  font-size: 19px;
+  display: grid;
+  place-items: center;
+}
+.nb.g {
+  background: var(--green);
+  color: #fff;
+}
 
-.browser { border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: var(--paper); box-shadow: 0 22px 50px rgba(20,32,27,.20); position: relative; }
-.browser .bar { height: 28px; display: flex; align-items: center; gap: 6px; padding: 0 12px; background: var(--sand); border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted); }
-.browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: #D3CCBC; display: inline-block; }
-.browser .bar span { margin-left: 8px; background: var(--paper); border-radius: 6px; padding: 1px 10px; }
-.shotwrap { position: relative; }
-.shotwrap img { display: block; width: 100%; }
-.shotwrap.cut img { height: var(--h); object-fit: cover; object-position: top; }
-.callout { position: absolute; width: 40px; height: 40px; border-radius: 50%; background: var(--amber); color: var(--ink); font-family: 'Bricolage'; font-weight: 800; font-size: 20px; display: grid; place-items: center; box-shadow: 0 0 0 6px rgba(244,178,102,.35), 0 6px 14px rgba(0,0,0,.25); transform: translate(-50%, -50%); }
+.browser {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: 0 22px 50px rgba(20, 32, 27, 0.2);
+  position: relative;
+}
+.browser .bar {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  background: var(--sand);
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+}
+.browser .bar i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d3ccbc;
+  display: inline-block;
+}
+.browser .bar span {
+  margin-left: 8px;
+  background: var(--paper);
+  border-radius: 6px;
+  padding: 1px 10px;
+}
+.shotwrap {
+  position: relative;
+}
+.shotwrap img {
+  display: block;
+  width: 100%;
+}
+.shotwrap.cut img {
+  height: var(--h);
+  object-fit: cover;
+  object-position: top;
+}
+.callout {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--amber);
+  color: var(--ink);
+  font-family: 'Bricolage';
+  font-weight: 800;
+  font-size: 20px;
+  display: grid;
+  place-items: center;
+  box-shadow:
+    0 0 0 6px rgba(244, 178, 102, 0.35),
+    0 6px 14px rgba(0, 0, 0, 0.25);
+  transform: translate(-50%, -50%);
+}
 
-.phone { background: var(--ink); border-radius: 34px; padding: 8px; box-shadow: 0 22px 50px rgba(20,32,27,.25); }
-.phone img { display: block; width: 100%; border-radius: 27px; }
+.phone {
+  background: var(--ink);
+  border-radius: 34px;
+  padding: 8px;
+  box-shadow: 0 22px 50px rgba(20, 32, 27, 0.25);
+}
+.phone img {
+  display: block;
+  width: 100%;
+  border-radius: 27px;
+}
 
-.stamp { display: inline-block; background: var(--amber); color: var(--ink); font-family: 'Bricolage'; font-weight: 800; font-size: 22px; padding: 10px 18px; border-radius: 14px; transform: rotate(-4deg); white-space: nowrap; box-shadow: 0 8px 18px rgba(0,0,0,.12); }
-.card { background: var(--paper); border: 1px solid var(--line); border-radius: 22px; padding: 22px 24px; }
-.card h3 { font-family: 'Bricolage'; font-weight: 800; font-size: 25px; letter-spacing: -0.02em; margin: 0 0 8px; line-height: 1.1; }
-.card p { margin: 0; font-size: 18px; line-height: 1.42; color: var(--text2); }
-.card.green { background: var(--green); border: 0; } .card.green h3 { color: #fff; } .card.green p { color: #E4EFE9; }
-.card.ink { background: var(--ink); border: 0; } .card.ink h3 { color: var(--cream); } .card.ink p { color: var(--sage2); }
-.card.amber { background: var(--amber); border: 0; } .card.amber p { color: var(--ink); }
-.card.mint { background: var(--mint); border: 0; }
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.recap .card p { font-size: 21px; line-height: 1.45; } .recap .card h3 { font-size: 28px; margin-bottom: 14px; }
-.steps h3 { font-size: 28px !important; } .steps p { font-size: 19px !important; }
-.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-.big { font-family: 'Bricolage'; font-weight: 800; letter-spacing: -0.045em; line-height: .95; }
-.ico { width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; font-family: 'Bricolage'; font-weight: 800; font-size: 28px; margin-bottom: 14px; }
+.stamp {
+  display: inline-block;
+  background: var(--amber);
+  color: var(--ink);
+  font-family: 'Bricolage';
+  font-weight: 800;
+  font-size: 22px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  transform: rotate(-4deg);
+  white-space: nowrap;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 22px 24px;
+}
+.card h3 {
+  font-family: 'Bricolage';
+  font-weight: 800;
+  font-size: 25px;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  line-height: 1.1;
+}
+.card p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.42;
+  color: var(--text2);
+}
+.card.green {
+  background: var(--green);
+  border: 0;
+}
+.card.green h3 {
+  color: #fff;
+}
+.card.green p {
+  color: #e4efe9;
+}
+.card.ink {
+  background: var(--ink);
+  border: 0;
+}
+.card.ink h3 {
+  color: var(--cream);
+}
+.card.ink p {
+  color: var(--sage2);
+}
+.card.amber {
+  background: var(--amber);
+  border: 0;
+}
+.card.amber p {
+  color: var(--ink);
+}
+.card.mint {
+  background: var(--mint);
+  border: 0;
+}
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.recap .card p {
+  font-size: 21px;
+  line-height: 1.45;
+}
+.recap .card h3 {
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+.steps h3 {
+  font-size: 28px !important;
+}
+.steps p {
+  font-size: 19px !important;
+}
+.grid4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.big {
+  font-family: 'Bricolage';
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+.ico {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-family: 'Bricolage';
+  font-weight: 800;
+  font-size: 28px;
+  margin-bottom: 14px;
+}
 
-.foot { position: absolute; left: 72px; right: 72px; bottom: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); }
-.dark .foot, .green .foot, .wine .foot { color: var(--sage); }
-.foot .brand { font-family: 'Bricolage'; font-weight: 800; font-size: 16px; letter-spacing: -0.02em; color: var(--ink); }
-.dark .foot .brand, .green .foot .brand, .wine .foot .brand { color: var(--cream); }
-.foot .brand i, .wm i { color: var(--amber); font-style: normal; }
-.foot .n { font-weight: 700; }
+.foot {
+  position: absolute;
+  left: 72px;
+  right: 72px;
+  bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+.dark .foot,
+.green .foot,
+.wine .foot {
+  color: var(--sage);
+}
+.foot .brand {
+  font-family: 'Bricolage';
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.dark .foot .brand,
+.green .foot .brand,
+.wine .foot .brand {
+  color: var(--cream);
+}
+.foot .brand i,
+.wm i {
+  color: var(--amber);
+  font-style: normal;
+}
+.foot .n {
+  font-weight: 700;
+}
 
-.mark { width: 34px; height: 34px; border-radius: 50% 50% 50% 14%; transform: rotate(-45deg); background: var(--amber); display: inline-grid; place-items: center; flex-shrink: 0; }
-.mark span { transform: rotate(45deg); font-family: 'Bricolage'; font-weight: 800; font-size: 22px; line-height: 1; color: var(--ink); margin-top: -3px; }
-.wm { font-family: 'Bricolage'; font-weight: 800; letter-spacing: -0.05em; line-height: .9; }
-.blob { position: absolute; border-radius: 50% 50% 50% 12%; }
+.mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 50% 50% 50% 14%;
+  transform: rotate(-45deg);
+  background: var(--amber);
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.mark span {
+  transform: rotate(45deg);
+  font-family: 'Bricolage';
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--ink);
+  margin-top: -3px;
+}
+.wm {
+  font-family: 'Bricolage';
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+.blob {
+  position: absolute;
+  border-radius: 50% 50% 50% 12%;
+}
 
 /* Échelle des niveaux (intercalaires) */
-.ladder { display: flex; flex-direction: column; gap: 12px; width: 440px; }
-.ladder div { border-radius: 18px; padding: 16px 20px; border: 2px solid rgba(255,255,255,.18); color: rgba(255,255,255,.55); font-family: 'Bricolage'; font-weight: 700; font-size: 22px; display: flex; align-items: center; gap: 14px; }
-.ladder div small { font-family: 'Instrument'; font-weight: 500; font-size: 15px; margin-left: auto; white-space: nowrap; }
-.ladder div.on { background: var(--amber); border-color: var(--amber); color: var(--ink); transform: translateX(-14px) rotate(-1deg); box-shadow: 0 12px 26px rgba(0,0,0,.25); }
-.amber .ladder div { border-color: rgba(20,32,27,.2); color: rgba(20,32,27,.5); }
-.amber .ladder div.on { background: var(--ink); border-color: var(--ink); color: var(--amber); }
-.divider { justify-content: center; }
-.divider .num { font-family: 'Bricolage'; font-weight: 800; font-size: 210px; line-height: .8; letter-spacing: -0.06em; color: var(--amber); }
-.amber.divider .num { color: var(--ink); }
-
+.ladder {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 440px;
+}
+.ladder div {
+  border-radius: 18px;
+  padding: 16px 20px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.55);
+  font-family: 'Bricolage';
+  font-weight: 700;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.ladder div small {
+  font-family: 'Instrument';
+  font-weight: 500;
+  font-size: 15px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+.ladder div.on {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--ink);
+  transform: translateX(-14px) rotate(-1deg);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+}
+.amber .ladder div {
+  border-color: rgba(20, 32, 27, 0.2);
+  color: rgba(20, 32, 27, 0.5);
+}
+.amber .ladder div.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--amber);
+}
+.divider {
+  justify-content: center;
+}
+.divider .num {
+  font-family: 'Bricolage';
+  font-weight: 800;
+  font-size: 210px;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: var(--amber);
+}
+.amber.divider .num {
+  color: var(--ink);
+}
 
 /* Diapositives « À l'écran » : grande capture annotée */
-.zgrid { display: grid; grid-template-columns: 790px 1fr; gap: 30px; margin-top: 18px; align-items: center; }
-.zl { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px; }
-.zl li { display: grid; grid-template-columns: 38px 1fr; gap: 12px; font-size: 16.5px; line-height: 1.35; color: var(--text2); }
-.zl li b { display: block; font-family: 'Bricolage'; font-size: 19px; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1px; }
-.ecran { display: inline-flex; align-items: center; gap: 8px; }
-.ecran::before { content: 'À l’écran'; background: var(--ink); color: var(--amber); border-radius: 999px; padding: 3px 10px; font-size: 12px; letter-spacing: .08em; }
+.zgrid {
+  display: grid;
+  grid-template-columns: 790px 1fr;
+  gap: 30px;
+  margin-top: 18px;
+  align-items: center;
+}
+.zl {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.zl li {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 12px;
+  font-size: 16.5px;
+  line-height: 1.35;
+  color: var(--text2);
+}
+.zl li b {
+  display: block;
+  font-family: 'Bricolage';
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 1px;
+}
+.ecran {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.ecran::before {
+  content: 'À l’écran';
+  background: var(--ink);
+  color: var(--amber);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
 
 /* Étapes (construction progressive) */
-.later { visibility: hidden; }
+.later {
+  visibility: hidden;
+}
 
 /* Mode écran : une diapositive à la fois, animations */
-body.screen { overflow: hidden; height: 100vh; display: grid; place-items: center; }
-body.screen .slide { display: none; position: absolute; left: 50%; top: 50%; transform-origin: center; }
-body.screen .slide.active { display: flex; }
-body.screen .later { visibility: visible; opacity: 0; transform: translateY(16px); }
-body.screen [data-step] { transition: opacity .5s ease, transform .5s ease; }
-body.screen .slide.active .anim { animation: rise .7s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--d, 0s); }
-@keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
-body.screen .slide.active .pop { animation: pop .6s cubic-bezier(.3,1.6,.5,1) both; animation-delay: var(--d, .4s); }
-@keyframes pop { from { opacity: 0; transform: translate(-50%,-50%) scale(.2); } to { opacity: 1; transform: translate(-50%,-50%) scale(1); } }
-body.screen .slide.active .stamp.pop { animation-name: popst; }
-@keyframes popst { from { opacity: 0; transform: rotate(-20deg) scale(.3); } to { opacity: 1; transform: rotate(-4deg) scale(1); } }
-.hint { display: none; }
-body.screen .hint { display: block; position: fixed; bottom: 10px; right: 14px; color: #8a918d; font: 12px 'Instrument'; }
-@media (prefers-reduced-motion: reduce) { body.screen .slide.active .anim, body.screen .slide.active .pop { animation: none; } }
+body.screen {
+  overflow: hidden;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+body.screen .slide {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center;
+}
+body.screen .slide.active {
+  display: flex;
+}
+body.screen .later {
+  visibility: visible;
+  opacity: 0;
+  transform: translateY(16px);
+}
+body.screen [data-step] {
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+body.screen .slide.active .anim {
+  animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--d, 0s);
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+body.screen .slide.active .pop {
+  animation: pop 0.6s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  animation-delay: var(--d, 0.4s);
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+body.screen .slide.active .stamp.pop {
+  animation-name: popst;
+}
+@keyframes popst {
+  from {
+    opacity: 0;
+    transform: rotate(-20deg) scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-4deg) scale(1);
+  }
+}
+.hint {
+  display: none;
+}
+body.screen .hint {
+  display: block;
+  position: fixed;
+  bottom: 10px;
+  right: 14px;
+  color: #8a918d;
+  font: 12px 'Instrument';
+}
+@media (prefers-reduced-motion: reduce) {
+  body.screen .slide.active .anim,
+  body.screen .slide.active .pop {
+    animation: none;
+  }
+}
 
 .tb { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 16.5px; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
 .tb th { text-align: left; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 800; padding: 12px 16px; background: var(--sand); }
@@ -137,17 +676,17 @@ h2.t + .points, p.sub + .points { margin-top: 26px; }
 <div style="position:relative;display:flex;justify-content:space-between;font-size:14px;color:var(--sage)"><span>terricom.fr</span><span>Document interne · fondateurs · septembre 2026</span></div>
 <div style="position:relative;margin-top:92px;display:flex;align-items:center;gap:18px"><span class="mark" style="width:70px;height:70px"><span style="font-size:44px">t</span></span><span class="wm" style="font-size:86px;color:var(--cream)">terricom<i>.</i></span></div>
 <h1 class="t" style="position:relative;font-size:58px;color:var(--cream);margin-top:28px;max-width:900px">Aller chercher <em>toutes les communautés de communes.</em></h1>
-<p class="sub" style="position:relative;max-width:840px">Marché, offre, tarifs, stratégie commerciale et web, modèle économique et simulations sur cinq ans : ce que nous proposons, chiffres à l’appui, et pourquoi.</p>
-<div style="position:relative;margin-top:auto;display:flex;gap:10px;flex-wrap:wrap"><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">1 · Le marché</span><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">2 · Notre solution</span><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">3 · Nos tarifs</span><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">4 · Vendre partout</span><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">5 · Webmarketing</span><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">6 · Modèle et simulations</span><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">7 · Plan d’action</span></div>
+<p class="sub" style="position:relative;max-width:840px">Marché, offre, deux modèles de prix à arbitrer, stratégie commerciale et web, modèle économique et simulations sur cinq ans : ce que nous proposons, chiffres à l’appui, et pourquoi.</p>
+<div style="position:relative;margin-top:auto;display:flex;gap:10px;flex-wrap:wrap"><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">1 · Le marché</span><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">2 · Notre solution</span><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">3 · Nos tarifs (A ou B)</span><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">4 · Vendre partout</span><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">5 · Webmarketing</span><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">6 · Modèle et simulations</span><span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">7 · Plan d’action</span></div>
 </section>
 <section class="slide "><div class="kicker">Synthèse</div><h2 class="t">Ce que nous proposons, <em>en une page.</em></h2>
 <div class="grid3" style="margin-top:26px">
-<div class="card green"><h3>Une grille nationale unique</h3><p>La même pour tous, publique, par tranche de population : de 4 900 € à 16 900 € HT par an pour une communauté de communes, tout compris. Environ 0,43 € par habitant en moyenne.</p></div>
-<div class="card ink"><h3>Toujours sous le seuil</h3><p>Trois ans de licence et la mise en service restent sous 60 000 € HT pour toutes les CC : signature sur simple devis, sans appel d’offres.</p></div>
+<div class="card green"><h3>Deux modèles de prix à arbitrer</h3><p><b>A</b> · grille par tranches : 4 900 € à 16 900 € HT par an, ≈ 9 189 € en moyenne. <b>B</b> · abonnement territorial : 10 000 € + 0,20 € par habitant (plafond 59 000 €), ≈ 14 307 € en moyenne.</p></div>
+<div class="card ink"><h3>Le seuil de 60 000 € HT</h3><p>Avec A, trois ans et la mise en service restent sous le seuil pour toutes les CC : signature sur devis. Avec B, 86 CC le dépassent (plus de 41 667 hab.) : procédure de publicité ou centrale d’achat.</p></div>
 <div class="card amber"><h3>Rentable sans les commerçants</h3><p>Les licences suffisent à équilibrer le modèle. Les abonnements des commerçants sont un bonus, pas un pari : c’est là qu’ont échoué les places de marché locales.</p></div>
 <div class="card"><h3>Une démo sur leur territoire</h3><p>Chaque CC voit son portail rempli de ses vraies entreprises avant le premier rendez-vous. C’est notre arme pour couvrir les 989 CC depuis la visio.</p></div>
-<div class="card"><h3>Objectif 2031</h3><p>Scénario central : 157 CC clientes (16 % du marché), 2,44 M€ de chiffre d’affaires, 1,38 M€ de résultat.</p></div>
-<div class="card"><h3>Ce qu’il faut décider</h3><p>Valider la grille, lancer l’offre 2027, lever 300 k€ environ, recruter un premier commercial en 2028.</p></div>
+<div class="card"><h3>Objectif 2031</h3><p>Scénario central : 157 CC clientes (16 % du marché), 2,44 M€ de chiffre d’affaires avec A, 3,21 M€ avec B à signatures égales.</p></div>
+<div class="card"><h3>Ce qu’il faut décider</h3><p>Choisir le modèle de prix (A ou B), lancer l’offre 2027, lever 300 k€ environ, recruter un premier commercial en 2028.</p></div>
 </div><div class="foot"><span class="brand">terricom<i>.</i></span><span>Synthèse</span><span class="n">1</span></div></section>
 <section class="slide green divider"><div class="num">1</div><h2 class="t" style="font-size:62px;margin-top:22px">Le marché : <em>989 portes à ouvrir.</em></h2><p class="sub">Qui achète, combien de clients possibles, avec quel budget et à quel moment.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>Document interne · fondateurs</span><span class="n">2</span></div></section>
 <section class="slide "><div class="kicker">1 · Le marché national</div><h2 class="t">Un marché <em>clair et dénombrable.</em></h2><p class="sub">Le découpage officiel des intercommunalités (Etalab, millésime 2025) : pas d’estimation, un comptage.</p>
@@ -201,19 +740,35 @@ h2.t + .points, p.sub + .points { margin-top: 26px; }
 <div class="card"><h3>Pour les services</h3><p>Moins de tableaux et d’annuaires à tenir : la base se met à jour seule, les campagnes se préparent en une phrase.</p></div>
 <div class="card"><h3>Pour les commerçants</h3><p>Une fiche offerte, juste et bien placée sur Google ; des options s’ils veulent aller plus loin, sans engagement.</p></div>
 </div><div class="foot"><span class="brand">terricom<i>.</i></span><span>2 · Notre solution</span><span class="n">11</span></div></section>
-<section class="slide amber divider"><div class="num">3</div><h2 class="t" style="font-size:62px;margin-top:22px">Nos tarifs : <em>une grille, pour tout le monde.</em></h2><p class="sub">Les mêmes règles pour les 989 communautés de communes, publiques et sans négociation. Et pourquoi ces montants.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>Document interne · fondateurs</span><span class="n">12</span></div></section>
-<section class="slide "><div class="kicker">3 · Nos principes de prix</div><h2 class="t">Six règles, <em>et leur raison.</em></h2><ol class="points"><li><span class="nb">1</span><span><b>La collectivité paie, le commerçant jamais obligé</b>La fiche reste gratuite pour chaque entreprise : c’est ce qui garantit l’exhaustivité et évite l’échec des places de marché.</span></li><li><span class="nb">2</span><span><b>Une grille nationale, publique, identique</b>Même prix pour deux CC de même taille : pas de négociation, pas de soupçon, un argument de transparence pour des acheteurs publics.</span></li><li><span class="nb">3</span><span><b>La population comme seul critère</b>Donnée officielle, connue de tous, liée à la valeur (habitants touchés, nombre d’entreprises). Pas de compteur d’usage à surveiller.</span></li><li><span class="nb">4</span><span><b>Tout compris</b>Aucun module payant côté collectivité : on ne vend pas « la newsletter en plus ». Plus simple à acheter, plus simple à faire adopter.</span></li><li><span class="nb">5</span><span><b>Sous 60 000 € HT sur trois ans</b>Signature sur devis pour toutes les CC, sans appel d’offres : le cycle de vente passe de 12 mois à 3 à 6 mois.</span></li><li><span class="nb">6</span><span><b>Dégressif par habitant</b>Une petite CC paie plus par habitant (0,67 €) qu’une grande (0,27 €) : le coût de mise en route ne dépend pas de la taille, la capacité à payer si.</span></li></ol><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">13</span></div></section>
-<section class="slide "><div class="kicker">3 · La grille nationale</div><h2 class="t">Licence annuelle, <em>tout compris.</em></h2><p class="sub">Portail, back-office de la CC et de toutes ses communes, fiches gratuites pour toutes les entreprises, synchronisation SIRENE, assistant IA, trois langues, hébergement en France, support et mises à jour.</p><table class="tb" style="margin-top:20px"><colgroup><col style="width:24%"><col style="width:16%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:18%"></colgroup><thead><tr><th>Population de la CC</th><th>Licence HT / an</th><th>Soit par mois</th><th>Par habitant</th><th>CC concernées</th><th>3 ans + mise en service</th></tr></thead><tbody><tr><td>moins de 10 000 hab.</td><td><b>4 900 €</b></td><td>408 €</td><td>≈ 0,67 €</td><td>217</td><td>18 396 €</td></tr><tr><td>10 000 à 20 000</td><td><b>7 900 €</b></td><td>658 €</td><td>≈ 0,52 €</td><td>310</td><td>27 577 €</td></tr><tr><td>20 000 à 35 000</td><td><b>10 900 €</b></td><td>908 €</td><td>≈ 0,42 €</td><td>322</td><td>36 758 €</td></tr><tr><td>35 000 à 50 000</td><td><b>13 900 €</b></td><td>1 158 €</td><td>≈ 0,33 €</td><td>100</td><td>45 940 €</td></tr><tr><td>50 000 et plus</td><td><b>16 900 €</b></td><td>1 408 €</td><td>≈ 0,27 €</td><td>40</td><td>55 121 €</td></tr></tbody></table><p style="font-size:15px;color:var(--muted);margin-top:10px">Indexation de 2 % par an au contrat. Colonne de droite : trois ans de licence et une mise en service de 30 communes, toujours sous 60 000 € HT (au plus 55 471 € pour les plus grandes CC).</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">14</span></div></section>
-<section class="slide "><div class="kicker">3 · Pourquoi ces montants</div><h2 class="t">Des prix <em>faciles à défendre.</em></h2>
+<section class="slide amber divider"><div class="num">3</div><h2 class="t" style="font-size:62px;margin-top:22px">Nos tarifs : <em>deux modèles à arbitrer.</em></h2><p class="sub">Modèle A : une grille nationale par tranches de population. Modèle B : un abonnement territorial calculé sur la population. Les mêmes règles pour les 989 communautés de communes dans les deux cas.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>Document interne · fondateurs</span><span class="n">12</span></div></section>
+<section class="slide "><div class="kicker">3 · Principes communs</div><h2 class="t">Six règles, <em>et leur raison.</em></h2><p class="sub">Elles valent pour les deux modèles, sauf le seuil de 60 000 € HT, tenu par A pour toutes les CC et par B jusqu’à 41 667 habitants.</p><ol class="points"><li><span class="nb">1</span><span><b>La collectivité paie, le commerçant jamais obligé</b>La fiche reste gratuite pour chaque entreprise : c’est ce qui garantit l’exhaustivité et évite l’échec des places de marché.</span></li><li><span class="nb">2</span><span><b>Une grille nationale, publique, identique</b>Même prix pour deux CC de même taille : pas de négociation, pas de soupçon, un argument de transparence pour des acheteurs publics.</span></li><li><span class="nb">3</span><span><b>La population comme seul critère</b>Donnée officielle, connue de tous, liée à la valeur (habitants touchés, nombre d’entreprises). Pas de compteur d’usage à surveiller.</span></li><li><span class="nb">4</span><span><b>Tout compris</b>Aucun module payant côté collectivité : on ne vend pas « la newsletter en plus ». Plus simple à acheter, plus simple à faire adopter.</span></li><li><span class="nb">5</span><span><b>Sous 60 000 € HT sur trois ans</b>Signature sur devis pour toutes les CC, sans appel d’offres : le cycle de vente passe de 12 mois à 3 à 6 mois.</span></li><li><span class="nb">6</span><span><b>Dégressif par habitant</b>Une petite CC paie plus par habitant (0,67 €) qu’une grande (0,27 €) : le coût de mise en route ne dépend pas de la taille, la capacité à payer si.</span></li></ol><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">13</span></div></section>
+<section class="slide "><div class="kicker">3 · Modèle A · La grille nationale</div><h2 class="t">Licence annuelle, <em>tout compris.</em></h2><p class="sub">Portail, back-office de la CC et de toutes ses communes, fiches gratuites pour toutes les entreprises, synchronisation SIRENE, assistant IA, trois langues, hébergement en France, support et mises à jour.</p><table class="tb" style="margin-top:20px"><colgroup><col style="width:24%"><col style="width:16%"><col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:18%"></colgroup><thead><tr><th>Population de la CC</th><th>Licence HT / an</th><th>Soit par mois</th><th>Par habitant</th><th>CC concernées</th><th>3 ans + mise en service</th></tr></thead><tbody><tr><td>moins de 10 000 hab.</td><td><b>4 900 €</b></td><td>408 €</td><td>≈ 0,67 €</td><td>217</td><td>18 396 €</td></tr><tr><td>10 000 à 20 000</td><td><b>7 900 €</b></td><td>658 €</td><td>≈ 0,52 €</td><td>310</td><td>27 577 €</td></tr><tr><td>20 000 à 35 000</td><td><b>10 900 €</b></td><td>908 €</td><td>≈ 0,42 €</td><td>322</td><td>36 758 €</td></tr><tr><td>35 000 à 50 000</td><td><b>13 900 €</b></td><td>1 158 €</td><td>≈ 0,33 €</td><td>100</td><td>45 940 €</td></tr><tr><td>50 000 et plus</td><td><b>16 900 €</b></td><td>1 408 €</td><td>≈ 0,27 €</td><td>40</td><td>55 121 €</td></tr></tbody></table><p style="font-size:15px;color:var(--muted);margin-top:10px">Indexation de 2 % par an au contrat. Colonne de droite : trois ans de licence et une mise en service de 30 communes, toujours sous 60 000 € HT (au plus 55 471 € pour les plus grandes CC).</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">14</span></div></section>
+<section class="slide "><div class="kicker">3 · Modèle A · Pourquoi ces montants</div><h2 class="t">Des prix <em>faciles à défendre.</em></h2>
 <div class="grid2" style="margin-top:22px"><ol class="points"><li><span class="nb">1</span><span><b>0,43 € par habitant en moyenne</b>Au milieu de ce que facturait La Poste (0,22 à 0,50 €), mais sans commission et avec bien plus de services. Un élu raisonne en euros par habitant : c’est le chiffre à donner.</span></li><li><span class="nb">2</span><span><b>Moins d’un sixième d’un manager de commerce</b>7 900 € pour une CC de 15 000 habitants, contre 50 à 60 k€ par an pour un poste : l’outil qui démultiplie ce poste, ou qui en tient lieu dans les petites CC.</span></li><li><span class="nb">3</span><span><b>Pas plus cher qu’une application d’information</b>Rapporté à la commune (21 en moyenne), la licence représente 230 à 520 € par commune et par an, dans la fourchette des applications d’information municipale.</span></li></ol><ol class="points"><li><span class="nb">4</span><span><b>Assez haut pour être rentable</b>Servir une CC nous coûte environ 1 900 € par an (hébergement, emails, IA, part de support) : marge brute d’environ 80 %.</span></li><li><span class="nb">5</span><span><b>Assez bas pour éviter le marché public</b>Même la plus grande CC reste sous 60 000 € HT sur trois ans, mise en service comprise.</span></li><li><span class="nb">6</span><span><b>Des tranches rondes</b>4 900, 7 900, 10 900, 13 900, 16 900 : faciles à retenir et à inscrire au budget, en hausse de 3 000 € par tranche.</span></li></ol></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">15</span></div></section>
-<section class="slide "><div class="kicker">3 · Mise en service et offre de lancement</div><h2 class="t">Payer le travail réel, <em>une seule fois.</em></h2>
+<section class="slide "><div class="kicker">3 · Modèle A · Mise en service et offre de lancement</div><h2 class="t">Payer le travail réel, <em>une seule fois.</em></h2>
 <div class="grid3" style="margin-top:24px">
 <div class="card green"><h3>Mise en service</h3><div class="big" style="font-size:34px;color:var(--amber);margin:6px 0 10px;white-space:nowrap">1 900 € + 50 € / commune</div><p>Import et contrôle SIRENE, paramétrage, formation de la CC et des mairies en visio, courriers d’invitation aux entreprises. CC médiane (21 communes) : 2 950 € HT.</p></div>
 <div class="card amber"><h3>Offre de lancement 2027</h3><div class="big" style="font-size:44px;margin:6px 0 10px">Offerte</div><p style="color:var(--ink)">Pour toute CC qui signe en 2027, quelle que soit sa taille. Même règle pour tous, limitée dans le temps : elle crée l’urgence sans casser la grille.</p></div>
 <div class="card ink"><h3>Engagement trois ans</h3><div class="big" style="font-size:44px;color:var(--amber);margin:6px 0 10px">Prix bloqué</div><p>Pas d’indexation pendant trois ans pour qui s’engage : simple à expliquer, bon pour la visibilité budgétaire, et nous gagnons en rétention.</p></div>
 </div>
 <p class="sub" style="font-size:19px">Pourquoi pas une remise sur la licence ? Parce qu’une remise se négocie ensuite à chaque renouvellement et se compare entre voisins. Offrir la mise en service ne coûte qu’une fois.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">16</span></div></section>
-<section class="slide "><div class="kicker">3 · Pour tout le monde</div><h2 class="t">Communes seules, agglomérations : <em>la même logique.</em></h2><table class="tb" style="margin-top:22px"><colgroup><col style="width:36%"><col style="width:30%"><col style="width:34%"></colgroup><thead><tr><th>Collectivité</th><th>Tarif HT / an</th><th>Règle</th></tr></thead><tbody><tr><td>Commune membre d’une CC cliente</td><td><b>Incluse</b></td><td>Accès mairie offert, aucune licence en plus</td></tr><tr><td>Commune seule, moins de 2 000 hab.</td><td><b>790 €</b></td><td>Sa commune seulement ; déduite si la CC signe dans les 12 mois</td></tr><tr><td>Commune seule, 2 000 à 5 000 hab.</td><td><b>1 490 €</b></td><td>Idem</td></tr><tr><td>Commune seule, 5 000 à 10 000 hab.</td><td><b>2 490 €</b></td><td>Idem</td></tr><tr><td>Commune seule, 10 000 hab. et plus</td><td><b>3 900 €</b></td><td>Idem</td></tr><tr><td>Communauté d’agglomération, urbaine, métropole</td><td><b>16 900 € + 0,10 € / hab. au-delà de 50 000</b></td><td>CA médiane (84 000 hab.) : 20 300 € ; sur devis au-delà de 250 000 hab.</td></tr></tbody></table><p style="font-size:16px;color:var(--text2);margin-top:12px">La commune seule est une porte d’entrée : une mairie convaincue devient notre meilleur ambassadeur auprès de sa CC, et sa licence est déduite si la CC signe.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">17</span></div></section>
+<section class="slide "><div class="kicker">3 · Modèle B · L’abonnement territorial</div><h2 class="t">10 000 € + 0,20 € par habitant, <em>plafonné à 59 000 €.</em></h2><p class="sub">Un seul abonnement pour tout le territoire, sans licence par commune.</p><div class="split" style="grid-template-columns:1fr 430px;gap:28px;margin-top:14px"><table class="tb" style="font-size:14px"><colgroup><col style="width:30%"><col style="width:28%"><col style="width:20%"><col style="width:22%"></colgroup><thead><tr><th>Population</th><th>Abonnement HT / an</th><th>Par habitant</th><th>Par mois</th></tr></thead><tbody><tr><td>5 000</td><td><b>11 000 €</b></td><td>2,20 €</td><td>917 €</td></tr><tr><td>10 000</td><td><b>12 000 €</b></td><td>1,20 €</td><td>1 000 €</td></tr><tr><td>20 000</td><td><b>14 000 €</b></td><td>0,70 €</td><td>1 167 €</td></tr><tr><td>30 000</td><td><b>16 000 €</b></td><td>0,53 €</td><td>1 333 €</td></tr><tr><td>40 000</td><td><b>18 000 €</b></td><td>0,45 €</td><td>1 500 €</td></tr><tr><td>50 000</td><td><b>20 000 €</b></td><td>0,40 €</td><td>1 667 €</td></tr><tr><td>75 000</td><td><b>25 000 €</b></td><td>0,33 €</td><td>2 083 €</td></tr><tr><td>100 000</td><td><b>30 000 €</b></td><td>0,30 €</td><td>2 500 €</td></tr><tr><td>200 000</td><td><b>50 000 €</b></td><td>0,25 €</td><td>4 167 €</td></tr><tr><td>250 000 et plus</td><td><b>59 000 € au plus</b></td><td>dégressif</td><td>4 917 €</td></tr></tbody></table><div><ol class="points"><li><span class="nb">1</span><span><b>Un socle, puis la taille</b>Hébergement, sécurité, maintenance, support et évolutions coûtent la même chose quelle que soit la population : le socle de 10 000 € les finance, les 0,20 € par habitant tiennent compte de la taille.</span></li><li><span class="nb">2</span><span><b>Dégressif par habitant</b>2,20 € pour 5 000 habitants, 0,30 € pour 100 000 : le total monte avec la population, le coût par habitant baisse.</span></li><li><span class="nb">3</span><span><b>Une formule, pas une grille</b>Le prix se calcule devant l’élu, avec la population officielle : pas d’effet de seuil entre deux tranches.</span></li></ol></div></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">17</span></div></section>
+<section class="slide "><div class="kicker">3 · Modèle B · Mise en service et première année</div><h2 class="t">Une mise en service de <em>5 000 € HT.</em></h2>
+<div class="grid3" style="margin-top:24px">
+<div class="card green"><h3>Mise en service</h3><div class="big" style="font-size:44px;color:var(--amber);margin:6px 0 10px">5 000 € HT</div><p>Facturée la première année : paramétrage du territoire, personnalisation graphique, configuration des communes, préparation et import des données, comptes et droits, formation, accompagnement au lancement.</p></div>
+<div class="card"><h3>Première année, exemples</h3><p>20 000 habitants : 14 000 € + 5 000 € = <b>19 000 €</b><br>40 000 habitants : 18 000 € + 5 000 € = <b>23 000 €</b><br>100 000 habitants : 30 000 € + 5 000 € = <b>35 000 €</b></p></div>
+<div class="card ink"><h3>Le positionnement</h3><p>Pas le prix d’un site internet : celui d’une infrastructure numérique territoriale mutualisée, qui relie intercommunalité, communes, entreprises, habitants et visiteurs.</p></div>
+</div>
+<div class="card amber" style="margin-top:20px"><p style="font-size:19px;color:var(--ink)">« Pour un tarif calculé simplement selon la population, votre communauté de communes équipe l’ensemble de son territoire d’une plateforme numérique commune : intercommunalité, communes, entreprises, commerces, habitants et visiteurs. »</p></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">18</span></div></section>
+<section class="slide "><div class="kicker">3 · A ou B</div><h2 class="t">Les deux modèles, <em>côte à côte.</em></h2><p class="sub">Prix annuel HT, puis trois ans avec la mise en service (A : +2 %/an, 30 communes ; B : sans indexation). En rouge : au-dessus de 60 000 € HT.</p><table class="tb" style="margin-top:14px;font-size:15px"><colgroup><col style="width:15%"><col style="width:17%"><col style="width:19%"><col style="width:11%"><col style="width:19%"><col style="width:19%"></colgroup><thead><tr><th>Population</th><th>A · licence / an</th><th>B · abonnement / an</th><th>Écart</th><th>A · 3 ans + MES</th><th>B · 3 ans + MES</th></tr></thead><tbody><tr><td>5 000</td><td>4 900 €</td><td><b>11 000 €</b></td><td>+124 %</td><td>18 396 €</td><td><span style="color:#1F6B52"><b>38 000 €</b></span></td></tr><tr><td>10 000</td><td>7 900 €</td><td><b>12 000 €</b></td><td>+52 %</td><td>27 577 €</td><td><span style="color:#1F6B52"><b>41 000 €</b></span></td></tr><tr><td>20 000</td><td>10 900 €</td><td><b>14 000 €</b></td><td>+28 %</td><td>36 758 €</td><td><span style="color:#1F6B52"><b>47 000 €</b></span></td></tr><tr><td>30 000</td><td>10 900 €</td><td><b>16 000 €</b></td><td>+47 %</td><td>36 758 €</td><td><span style="color:#1F6B52"><b>53 000 €</b></span></td></tr><tr><td>40 000</td><td>13 900 €</td><td><b>18 000 €</b></td><td>+29 %</td><td>45 940 €</td><td><span style="color:#1F6B52"><b>59 000 €</b></span></td></tr><tr><td>50 000</td><td>16 900 €</td><td><b>20 000 €</b></td><td>+18 %</td><td>55 121 €</td><td><span style="color:#9C3328"><b>65 000 €</b></span></td></tr><tr><td>100 000</td><td>16 900 €</td><td><b>30 000 €</b></td><td>+78 %</td><td>55 121 €</td><td><span style="color:#9C3328"><b>95 000 €</b></span></td></tr></tbody></table>
+<p style="font-size:17px;color:var(--text2);margin-top:14px"><b>En moyenne</b> : 9 189 € par CC et par an avec A, 14 307 € avec B (+56 %). <b>Marché des 989 CC</b> : 9,09 M€ par an avec A, 14,15 M€ avec B. <b>Plafond</b> : aucune CC ne l’atteint ; il ne joue que pour 36 agglomérations et métropoles.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">19</span></div></section>
+<section class="slide "><div class="kicker">3 · A ou B</div><h2 class="t">Ce que chaque modèle <em>apporte, et ce qu’il demande.</em></h2>
+<div class="grid2" style="margin-top:22px">
+<div class="card"><h3>Modèle A · grille par tranches</h3><p><b>Pour</b> : prix bas, faciles à inscrire au budget des petites CC (217 CC de moins de 10 000 habitants à 4 900 €) ; toutes les CC restent sous 60 000 € HT sur trois ans, donc signature sur devis ; mise en service offerte en 2027 pour créer l’urgence.<br><br><b>Contre</b> : revenu par client plus faible, rentabilité plus lente ; effets de seuil entre deux tranches (19 999 et 20 001 habitants).</p></div>
+<div class="card green"><h3>Modèle B · abonnement territorial</h3><p><b>Pour</b> : +56 % de revenu moyen par CC ; une formule simple, expliquée en une phrase, sans effet de seuil ; message de mutualisation (« tout le territoire pour un seul abonnement ») ; la mise en service de 5 000 € finance le travail réel.<br><br><b>Contre</b> : la plus petite CC paie 11 000 € au lieu de 4 900 € : un frein possible pour les 527 CC de moins de 20 000 habitants ; 86 CC dépassent 60 000 € HT sur trois ans.</p></div>
+</div>
+<div class="card ink" style="margin-top:18px"><p style="font-size:18px">Au-delà de 41 667 habitants, B impose une procédure adaptée avec publicité (MAPA), ou le passage par une centrale d’achat publique : quelques semaines de plus, pas un appel d’offres européen. Découper en contrats d’un an pour rester sous le seuil n’est pas une solution : la valeur s’apprécie sur toute la durée du besoin (à valider avec un juriste). Une voie médiane reste possible : B, avec un socle réduit pour les CC de moins de 10 000 habitants.</p></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">20</span></div></section>
+<section class="slide "><div class="kicker">3 · Pour tout le monde</div><h2 class="t">Communes seules, agglomérations : <em>la même logique.</em></h2><table class="tb" style="margin-top:22px"><colgroup><col style="width:36%"><col style="width:30%"><col style="width:34%"></colgroup><thead><tr><th>Collectivité</th><th>Tarif HT / an</th><th>Règle</th></tr></thead><tbody><tr><td>Commune membre d’une CC cliente</td><td><b>Incluse</b></td><td>Accès mairie offert, aucune licence en plus</td></tr><tr><td>Commune seule, moins de 2 000 hab.</td><td><b>790 €</b></td><td>Sa commune seulement ; déduite si la CC signe dans les 12 mois</td></tr><tr><td>Commune seule, 2 000 à 5 000 hab.</td><td><b>1 490 €</b></td><td>Idem</td></tr><tr><td>Commune seule, 5 000 à 10 000 hab.</td><td><b>2 490 €</b></td><td>Idem</td></tr><tr><td>Commune seule, 10 000 hab. et plus</td><td><b>3 900 €</b></td><td>Idem</td></tr><tr><td>Communauté d’agglomération, urbaine, métropole</td><td><b>16 900 € + 0,10 € / hab. au-delà de 50 000</b></td><td>CA médiane (84 000 hab.) : 20 300 € ; sur devis au-delà de 250 000 hab.</td></tr></tbody></table><p style="font-size:16px;color:var(--text2);margin-top:12px">La commune seule est une porte d’entrée : une mairie convaincue devient notre meilleur ambassadeur auprès de sa CC, et sa licence est déduite si la CC signe.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">21</span></div></section>
 <section class="slide "><div class="kicker">3 · Les commerçants</div><h2 class="t">Gratuit pour exister, <em>options pour gagner des clients.</em></h2>
 <div class="grid3" style="margin-top:22px">
 <div class="card"><h3>Essentiel · 0 €</h3><p>Payé par la collectivité. Fiche complète, photos, horaires, carte, QR code, 3 publications par mois, statistiques essentielles.</p></div>
@@ -223,26 +778,27 @@ h2.t + .points, p.sub + .points { margin-top: 26px; }
 <div class="grid2" style="margin-top:18px">
 <div class="card mint"><h3>Pourquoi 24 € ?</h3><p>Juste sous PagesJaunes+ (à partir de 25 €, 33 à 78 € pour les offres complètes) avec plus de services, et sans engagement. Sous 30 € par mois, un commerçant décide seul, sans comptable.</p></div>
 <div class="card amber"><h3>« Premium offert par la collectivité »</h3><p style="color:var(--ink)">La CC peut offrir le Premium à ses commerçants pour une campagne : 120 € HT par commerce et par an (moitié prix), à partir de 20 commerces. Elle transforme son budget en adoption ; nous gagnons des utilisateurs actifs.</p></div>
-</div><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">18</span></div></section>
+</div><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">22</span></div></section>
 <section class="slide "><div class="kicker">3 · Services et limites</div><h2 class="t">Ce que nous vendons en plus, <em>ce que nous refusons.</em></h2>
 <div class="grid2" style="margin-top:22px">
 <div class="card"><h3>Services à la demande</h3><p>• Formation sur site : 790 € HT la journée, hors frais de déplacement<br>• Campagne clé en main (conception, textes, visuels, lettre) : 1 490 € HT<br>• Kits vitrine imprimés pour tous les commerçants : au coût d’impression + 15 %<br>• Rapport annuel pour le conseil communautaire : inclus</p></div>
 <div class="card ink"><h3>Ce que nous ne faisons pas</h3><p>• Aucune commission sur les ventes des commerçants<br>• Aucun module payant côté collectivité<br>• Aucune remise hors grille, sauf via une centrale d’achat publique<br>• Aucun engagement imposé au commerçant<br>• Aucune revente de données</p></div>
 </div>
-<p class="sub" style="font-size:19px">Chaque refus est un argument de vente : les élus ont tous en tête une plateforme qui a coûté cher pour peu de résultats.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">19</span></div></section>
-<section class="slide "><div class="kicker">3 · Exemple</div><h2 class="t">Les Lacs et Montagnes du Haut-Doubs <em>sur la grille.</em></h2>
+<p class="sub" style="font-size:19px">Chaque refus est un argument de vente : les élus ont tous en tête une plateforme qui a coûté cher pour peu de résultats.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">23</span></div></section>
+<section class="slide "><div class="kicker">3 · Exemple</div><h2 class="t">Les Lacs et Montagnes du Haut-Doubs, <em>modèle A et modèle B.</em></h2>
 <div class="grid4" style="margin-top:26px">
 <div class="card green"><div class="big" style="font-size:54px;color:var(--amber)">7 900 €</div><p style="margin-top:8px">HT par an : tranche 10 000–20 000 habitants (16 920 hab.)</p></div>
 <div class="card"><div class="big" style="font-size:54px;color:var(--green)">3 500 €</div><p style="margin-top:8px">mise en service (1 900 € + 32 communes × 50 €), <b>offerte en 2027</b></p></div>
 <div class="card"><div class="big" style="font-size:54px;color:var(--green)">0,47 €</div><p style="margin-top:8px">par habitant et par an ; 247 € par commune</p></div>
 <div class="card"><div class="big" style="font-size:54px;color:var(--green)">24 177 €</div><p style="margin-top:8px">HT sur 3 ans, bien sous le seuil de 60 000 €</p></div>
 </div>
-<div class="card ink" style="margin-top:20px"><p style="font-size:19px">Ce chiffre remplace les montants évoqués oralement (9 600 € affichés, 7 500 € remisés) : avec une grille nationale, le Haut-Doubs paie exactement ce que paiera toute CC de sa taille. S’il s’engage sur trois ans, son prix reste à 7 900 € par an, et la mise en service est offerte s’il signe en 2027. Côté commerçants : 3 % d’abonnés parmi ses 1 968 fiches représenteraient environ 16 500 € HT par an.</p></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">20</span></div></section>
-<section class="slide green divider"><div class="num">4</div><h2 class="t" style="font-size:62px;margin-top:22px">Vendre partout : <em>989 CC depuis un bureau.</em></h2><p class="sub">Une démonstration automatique, la visio, des relais nationaux et un calendrier calé sur les budgets.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>Document interne · fondateurs</span><span class="n">21</span></div></section>
+<div class="card amber" style="margin-top:20px"><p style="font-size:19px;color:var(--ink)"><b>Avec le modèle B</b> : 13 384 € HT par an (10 000 € + 16 920 × 0,20 €), soit 0,79 € par habitant, plus 5 000 € de mise en service ; 45 152 € HT sur trois ans, sous le seuil de 60 000 €.</p></div>
+<div class="card ink" style="margin-top:14px"><p style="font-size:17px">Avec A, ce chiffre remplace les montants évoqués oralement (9 600 € affichés, 7 500 € remisés) : avec une grille nationale, le Haut-Doubs paie exactement ce que paiera toute CC de sa taille. S’il s’engage sur trois ans, son prix reste à 7 900 € par an, et la mise en service est offerte s’il signe en 2027. Côté commerçants : 3 % d’abonnés parmi ses 1 968 fiches représenteraient environ 16 500 € HT par an.</p></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>3 · Nos tarifs</span><span class="n">24</span></div></section>
+<section class="slide green divider"><div class="num">4</div><h2 class="t" style="font-size:62px;margin-top:22px">Vendre partout : <em>989 CC depuis un bureau.</em></h2><p class="sub">Une démonstration automatique, la visio, des relais nationaux et un calendrier calé sur les budgets.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>Document interne · fondateurs</span><span class="n">25</span></div></section>
 <section class="slide "><div class="kicker">4 · L’ambition</div><h2 class="t">Toutes les CC, <em>par étapes.</em></h2>
 <div class="split" style="grid-template-columns:600px 1fr;margin-top:14px">
 <div><svg viewBox="0 0 580 320" width="580" height="320" style="overflow:visible"><rect x="22.0" y="260.8" width="71.9" height="9.2" rx="8" fill="#1F6B52"/><text x="58.0" y="250.8" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="22" fill="#14201B">6</text><text x="58.0" y="296" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2027</text><rect x="138.0" y="230.7" width="71.9" height="39.3" rx="8" fill="#1F6B52"/><text x="174.0" y="220.7" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="22" fill="#14201B">26</text><text x="174.0" y="296" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2028</text><rect x="254.0" y="179.4" width="71.9" height="90.6" rx="8" fill="#1F6B52"/><text x="290.0" y="169.4" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="22" fill="#14201B">59</text><text x="290.0" y="296" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2029</text><rect x="370.0" y="111.3" width="71.9" height="158.7" rx="8" fill="#1F6B52"/><text x="406.0" y="101.3" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="22" fill="#14201B">104</text><text x="406.0" y="296" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2030</text><rect x="486.0" y="28.9" width="71.9" height="241.1" rx="8" fill="#1F6B52"/><text x="522.0" y="18.9" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="22" fill="#14201B">157</text><text x="522.0" y="296" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2031</text></svg><p style="font-size:14px;color:var(--muted)">CC clientes en fin d’année, scénario central.</p></div>
-<ol class="points"><li><span class="nb">1</span><span><b>2027 : prouver</b>6 CC, dont le Haut-Doubs, suivies de près. Des résultats publiés.</span></li><li><span class="nb">2</span><span><b>2028-2029 : répéter</b>20 puis 35 nouvelles CC par an grâce aux références, aux relais et à la visio.</span></li><li><span class="nb">3</span><span><b>2030-2031 : s’imposer</b>157 CC en 2031 (16 % du marché), 273 dans le scénario ambitieux (28 %).</span></li></ol></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>4 · Vendre partout</span><span class="n">22</span></div></section>
+<ol class="points"><li><span class="nb">1</span><span><b>2027 : prouver</b>6 CC, dont le Haut-Doubs, suivies de près. Des résultats publiés.</span></li><li><span class="nb">2</span><span><b>2028-2029 : répéter</b>20 puis 35 nouvelles CC par an grâce aux références, aux relais et à la visio.</span></li><li><span class="nb">3</span><span><b>2030-2031 : s’imposer</b>157 CC en 2031 (16 % du marché), 273 dans le scénario ambitieux (28 %).</span></li></ol></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>4 · Vendre partout</span><span class="n">26</span></div></section>
 <section class="slide "><div class="kicker">4 · Le moteur</div><h2 class="t">La démonstration <em>sur leur propre territoire.</em></h2><p class="sub">Ce que nous avons fait pour le Haut-Doubs, automatisé pour les 989 CC : leurs communes et leurs vraies entreprises dans un portail prêt à visiter.</p>
 <div class="grid4" style="margin-top:26px">
 <div class="card"><h3>1 · Générer</h3><p>Un script crée la démo de n’importe quelle CC depuis SIRENE et le découpage officiel, en quelques minutes.</p></div>
@@ -250,8 +806,8 @@ h2.t + .points, p.sub + .points { margin-top: 26px; }
 <div class="card"><h3>3 · Montrer</h3><p>30 minutes de visio sur leur portail, pas sur un territoire inconnu : l’élu reconnaît sa boulangerie.</p></div>
 <div class="card"><h3>4 · Transformer</h3><p>Le portail est déjà prêt : signer, c’est simplement l’ouvrir au public.</p></div>
 </div>
-<div class="card green" style="margin-top:20px"><p style="font-size:20px">C’est ce qui rend la cible nationale atteignable : le coût d’une démo tombe presque à zéro, et chaque démo est unique. Aucun concurrent ne peut montrer à un élu son propre territoire avant même le premier appel.</p></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>4 · Vendre partout</span><span class="n">23</span></div></section>
-<section class="slide "><div class="kicker">4 · L’entonnoir</div><h2 class="t">Pour signer 20 CC en 2028, <em>ce qu’il faut.</em></h2><div style="margin-top:22px"><div style="display:grid;grid-template-columns:520px 1fr;gap:18px;align-items:center;margin-bottom:9px"><div style="height:52px;display:flex;justify-content:center"><div style="width:100%;background:#14201B;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:Bricolage;font-weight:800;font-size:22px">600</div></div><div style="font-size:17px;color:var(--text2);line-height:1.3"><b style="font-family:Bricolage;font-size:19px;color:var(--ink)">CC contactées</b><br>Emailing ciblé, LinkedIn, relais, salons : 60 % du marché touché dans l’année</div></div><div style="display:grid;grid-template-columns:520px 1fr;gap:18px;align-items:center;margin-bottom:9px"><div style="height:52px;display:flex;justify-content:center"><div style="width:30%;background:#1F6B52;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:Bricolage;font-weight:800;font-size:22px">180</div></div><div style="font-size:17px;color:var(--text2);line-height:1.3"><b style="font-family:Bricolage;font-size:19px;color:var(--ink)">Démos ouvertes</b><br>30 % ouvrent le lien vers leur propre territoire</div></div><div style="display:grid;grid-template-columns:520px 1fr;gap:18px;align-items:center;margin-bottom:9px"><div style="height:52px;display:flex;justify-content:center"><div style="width:16%;background:#2E8466;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:Bricolage;font-weight:800;font-size:22px">90</div></div><div style="font-size:17px;color:var(--text2);line-height:1.3"><b style="font-family:Bricolage;font-size:19px;color:var(--ink)">Rendez-vous en visio</b><br>La moitié accepte 30 minutes</div></div><div style="display:grid;grid-template-columns:520px 1fr;gap:18px;align-items:center;margin-bottom:9px"><div style="height:52px;display:flex;justify-content:center"><div style="width:16%;background:#C8702A;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:Bricolage;font-weight:800;font-size:22px">40</div></div><div style="font-size:17px;color:var(--text2);line-height:1.3"><b style="font-family:Bricolage;font-size:19px;color:var(--ink)">Présentations aux élus</b><br>Bureau ou commission économique</div></div><div style="display:grid;grid-template-columns:520px 1fr;gap:18px;align-items:center;margin-bottom:9px"><div style="height:52px;display:flex;justify-content:center"><div style="width:16%;background:#F4B266;color:#14201B;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:Bricolage;font-weight:800;font-size:22px">20</div></div><div style="font-size:17px;color:var(--text2);line-height:1.3"><b style="font-family:Bricolage;font-size:19px;color:var(--ink)">Signatures</b><br>Une sur deux, étalées sur le cycle budgétaire</div></div></div><p style="font-size:15px;color:var(--muted)">Taux de conversion prudents, à mesurer dès les 50 premières démos et à corriger.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>4 · Vendre partout</span><span class="n">24</span></div></section>
+<div class="card green" style="margin-top:20px"><p style="font-size:20px">C’est ce qui rend la cible nationale atteignable : le coût d’une démo tombe presque à zéro, et chaque démo est unique. Aucun concurrent ne peut montrer à un élu son propre territoire avant même le premier appel.</p></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>4 · Vendre partout</span><span class="n">27</span></div></section>
+<section class="slide "><div class="kicker">4 · L’entonnoir</div><h2 class="t">Pour signer 20 CC en 2028, <em>ce qu’il faut.</em></h2><div style="margin-top:22px"><div style="display:grid;grid-template-columns:520px 1fr;gap:18px;align-items:center;margin-bottom:9px"><div style="height:52px;display:flex;justify-content:center"><div style="width:100%;background:#14201B;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:Bricolage;font-weight:800;font-size:22px">600</div></div><div style="font-size:17px;color:var(--text2);line-height:1.3"><b style="font-family:Bricolage;font-size:19px;color:var(--ink)">CC contactées</b><br>Emailing ciblé, LinkedIn, relais, salons : 60 % du marché touché dans l’année</div></div><div style="display:grid;grid-template-columns:520px 1fr;gap:18px;align-items:center;margin-bottom:9px"><div style="height:52px;display:flex;justify-content:center"><div style="width:30%;background:#1F6B52;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:Bricolage;font-weight:800;font-size:22px">180</div></div><div style="font-size:17px;color:var(--text2);line-height:1.3"><b style="font-family:Bricolage;font-size:19px;color:var(--ink)">Démos ouvertes</b><br>30 % ouvrent le lien vers leur propre territoire</div></div><div style="display:grid;grid-template-columns:520px 1fr;gap:18px;align-items:center;margin-bottom:9px"><div style="height:52px;display:flex;justify-content:center"><div style="width:16%;background:#2E8466;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:Bricolage;font-weight:800;font-size:22px">90</div></div><div style="font-size:17px;color:var(--text2);line-height:1.3"><b style="font-family:Bricolage;font-size:19px;color:var(--ink)">Rendez-vous en visio</b><br>La moitié accepte 30 minutes</div></div><div style="display:grid;grid-template-columns:520px 1fr;gap:18px;align-items:center;margin-bottom:9px"><div style="height:52px;display:flex;justify-content:center"><div style="width:16%;background:#C8702A;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:Bricolage;font-weight:800;font-size:22px">40</div></div><div style="font-size:17px;color:var(--text2);line-height:1.3"><b style="font-family:Bricolage;font-size:19px;color:var(--ink)">Présentations aux élus</b><br>Bureau ou commission économique</div></div><div style="display:grid;grid-template-columns:520px 1fr;gap:18px;align-items:center;margin-bottom:9px"><div style="height:52px;display:flex;justify-content:center"><div style="width:16%;background:#F4B266;color:#14201B;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:Bricolage;font-weight:800;font-size:22px">20</div></div><div style="font-size:17px;color:var(--text2);line-height:1.3"><b style="font-family:Bricolage;font-size:19px;color:var(--ink)">Signatures</b><br>Une sur deux, étalées sur le cycle budgétaire</div></div></div><p style="font-size:15px;color:var(--muted)">Taux de conversion prudents, à mesurer dès les 50 premières démos et à corriger.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>4 · Vendre partout</span><span class="n">28</span></div></section>
 <section class="slide "><div class="kicker">4 · Les canaux</div><h2 class="t">Démultiplier sans <em>multiplier les commerciaux.</em></h2>
 <div class="grid3" style="margin-top:22px">
 <div class="card green"><h3>Direct, en visio</h3><p>Les fondateurs signent 6 CC par an, puis un commercial sédentaire en signe environ 14 : démo, visio, déplacement seulement pour la présentation aux élus.</p></div>
@@ -260,54 +816,58 @@ h2.t + .points, p.sub + .points { margin-top: 26px; }
 <div class="card"><h3>Centrales d’achat</h3><p>Référencement UGAP puis centrales régionales dès 2028 : l’acheteur est dispensé de mise en concurrence, y compris pour les agglomérations au-delà du seuil.</p></div>
 <div class="card"><h3>Événements</h3><p>Salon des maires et des collectivités locales (novembre, Paris), congrès d’Intercommunalités de France, rencontres Action cœur de ville (acte III en 2027, commerce prioritaire).</p></div>
 <div class="card ink"><h3>Bouche-à-oreille</h3><p>Chaque portail porte « propulsé par terricom » ; les CC voisines se regardent. Une référence par département vaut une campagne.</p></div>
-</div><div class="foot"><span class="brand">terricom<i>.</i></span><span>4 · Vendre partout</span><span class="n">25</span></div></section>
-<section class="slide "><div class="kicker">4 · Le calendrier commercial</div><h2 class="t">Caler nos efforts <em>sur les budgets.</em></h2><table class="tb" style="margin-top:22px"><colgroup><col style="width:20%"><col style="width:32%"><col style="width:48%"></colgroup><thead><tr><th>Période</th><th>Côté collectivité</th><th>Ce que nous faisons</th></tr></thead><tbody><tr><td>Septembre – novembre</td><td>Préparation du budget, débat d’orientation</td><td><b>Temps fort de prospection</b> : démos, visios, présentations ; objectif « inscrit au budget »</td></tr><tr><td>Décembre – avril</td><td>Vote du budget (au plus tard le 15 avril)</td><td>Relances, devis, délibérations, <b>signatures</b></td></tr><tr><td>Mai – juin</td><td>Exécution</td><td><b>Mises en service</b>, formations, lancements presse</td></tr><tr><td>Juillet – août</td><td>Ralenti</td><td>Études de cas, contenus, préparation de la saison, démos générées en masse</td></tr><tr><td>Toute l’année</td><td>Achats sous le seuil sur crédits votés</td><td>Signatures d’opportunité, communes seules</td></tr></tbody></table><p style="font-size:16px;color:var(--text2);margin-top:12px">Fenêtre immédiate : les exécutifs élus en 2026 construisent leur premier budget complet pour 2027. Prospecter dès octobre 2026.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>4 · Vendre partout</span><span class="n">26</span></div></section>
-<section class="slide "><div class="kicker">4 · Les objections</div><h2 class="t">Ce qu’on nous dira, <em>ce qu’on répond.</em></h2><table class="tb" style="margin-top:20px"><colgroup><col style="width:32%"><col style="width:68%"></colgroup><thead><tr><th>Objection</th><th>Réponse</th></tr></thead><tbody><tr><td>« On n’a pas le budget. »</td><td>Moins de 50 centimes par habitant, sans appel d’offres, mise en service offerte en 2027 ; finançable dans le cadre d’un poste de manager de commerce cofinancé.</td></tr><tr><td>« Les commerçants ont déjà Google. »</td><td>Une entreprise sur deux seulement ; et Google ne fait ni campagnes, ni lettre du territoire, ni statistiques pour la collectivité.</td></tr><tr><td>« Les commerçants n’adhèrent jamais. »</td><td>Ils n’ont pas à adhérer : leur fiche existe et reste gratuite. Ceux qui s’impliquent vont plus loin.</td></tr><tr><td>« On a eu une place de marché, c’était un fiasco. »</td><td>Nous ne vendons rien en ligne et ne prenons aucune commission : c’est l’inverse de ce modèle.</td></tr><tr><td>« Et nos données ? »</td><td>Hébergement en France, RGPD, export complet à tout moment, aucune revente.</td></tr><tr><td>« Vous êtes une petite structure. »</td><td>Grille publique, contrat annuel, données exportables : aucun risque d’enfermement ; et références publiées.</td></tr></tbody></table><div class="foot"><span class="brand">terricom<i>.</i></span><span>4 · Vendre partout</span><span class="n">27</span></div></section>
-<section class="slide dark divider"><div class="num">5</div><h2 class="t" style="font-size:62px;margin-top:22px">Webmarketing : <em>être trouvé, être crédible.</em></h2><p class="sub">Un site qui génère des démos, des contenus pour les services et les élus, et une mécanique de conversion côté commerçants.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>Document interne · fondateurs</span><span class="n">28</span></div></section>
-<section class="slide "><div class="kicker">5 · Acquisition des collectivités</div><h2 class="t">Faire venir <em>les services économiques.</em></h2><ol class="points"><li><span class="nb">1</span><span><b>« Votre territoire en vitrine » sur terricom.fr</b>Le visiteur choisit sa CC dans une liste : il découvre les chiffres de ses entreprises (établissements, créations, fermetures, secteurs) et demande sa démo. Chaque demande est un contact qualifié.</span></li><li><span class="nb">2</span><span><b>Le baromètre SIRENE de chaque CC</b>Un PDF gratuit par intercommunalité, généré automatiquement : « l’économie de votre territoire en 2 pages ». Un prétexte utile pour écrire au service économique, et un contenu repris dans les bulletins.</span></li><li><span class="nb">3</span><span><b>Référencement sur les recherches métier</b>Guides pratiques : « animer le commerce de centre-bourg », « financer un manager de commerce », « réussir une campagne de Noël » ; des pages qui répondent aux questions que se posent les agents.</span></li><li><span class="nb">4</span><span><b>LinkedIn, webinaires, lettre trimestrielle</b>Élus et agents y sont actifs. Un webinaire mensuel de 30 minutes, une lettre trimestrielle aux collectivités, des études de cas chiffrées.</span></li></ol><div class="foot"><span class="brand">terricom<i>.</i></span><span>5 · Webmarketing</span><span class="n">29</span></div></section>
-<section class="slide "><div class="kicker">5 · Contenus et prospection</div><h2 class="t">Un plan <em>simple et régulier.</em></h2><table class="tb" style="margin-top:22px"><colgroup><col style="width:52%"><col style="width:24%"><col style="width:24%"></colgroup><thead><tr><th>Action</th><th>Fréquence</th><th>Objectif</th></tr></thead><tbody><tr><td>Emailing aux services économiques des CC (données publiques, désinscription en un clic)</td><td>1 campagne / mois, par tranche de taille</td><td>Ouvertures de démos</td></tr><tr><td>Publication LinkedIn des fondateurs (cas concrets, chiffres SIRENE)</td><td>2 par semaine</td><td>Notoriété auprès des élus et DGS</td></tr><tr><td>Webinaire « 30 minutes pour animer le commerce local »</td><td>1 par mois</td><td>20 à 40 inscrits, démos</td></tr><tr><td>Étude de cas publiée (Haut-Doubs puis chaque référence)</td><td>Tous les 2 mois</td><td>Crédibilité, relais presse locale</td></tr><tr><td>Baromètres SIRENE par CC</td><td>Mise à jour trimestrielle</td><td>Prétexte de contact, référencement</td></tr><tr><td>Présence aux salons nationaux et régionaux</td><td>2 à 4 par an</td><td>Rendez-vous qualifiés</td></tr></tbody></table><div class="foot"><span class="brand">terricom<i>.</i></span><span>5 · Webmarketing</span><span class="n">30</span></div></section>
+</div><div class="foot"><span class="brand">terricom<i>.</i></span><span>4 · Vendre partout</span><span class="n">29</span></div></section>
+<section class="slide "><div class="kicker">4 · Le calendrier commercial</div><h2 class="t">Caler nos efforts <em>sur les budgets.</em></h2><table class="tb" style="margin-top:22px"><colgroup><col style="width:20%"><col style="width:32%"><col style="width:48%"></colgroup><thead><tr><th>Période</th><th>Côté collectivité</th><th>Ce que nous faisons</th></tr></thead><tbody><tr><td>Septembre – novembre</td><td>Préparation du budget, débat d’orientation</td><td><b>Temps fort de prospection</b> : démos, visios, présentations ; objectif « inscrit au budget »</td></tr><tr><td>Décembre – avril</td><td>Vote du budget (au plus tard le 15 avril)</td><td>Relances, devis, délibérations, <b>signatures</b></td></tr><tr><td>Mai – juin</td><td>Exécution</td><td><b>Mises en service</b>, formations, lancements presse</td></tr><tr><td>Juillet – août</td><td>Ralenti</td><td>Études de cas, contenus, préparation de la saison, démos générées en masse</td></tr><tr><td>Toute l’année</td><td>Achats sous le seuil sur crédits votés</td><td>Signatures d’opportunité, communes seules</td></tr></tbody></table><p style="font-size:16px;color:var(--text2);margin-top:12px">Fenêtre immédiate : les exécutifs élus en 2026 construisent leur premier budget complet pour 2027. Prospecter dès octobre 2026.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>4 · Vendre partout</span><span class="n">30</span></div></section>
+<section class="slide "><div class="kicker">4 · Les objections</div><h2 class="t">Ce qu’on nous dira, <em>ce qu’on répond.</em></h2><table class="tb" style="margin-top:20px"><colgroup><col style="width:32%"><col style="width:68%"></colgroup><thead><tr><th>Objection</th><th>Réponse</th></tr></thead><tbody><tr><td>« On n’a pas le budget. »</td><td>Moins de 50 centimes par habitant, sans appel d’offres, mise en service offerte en 2027 ; finançable dans le cadre d’un poste de manager de commerce cofinancé.</td></tr><tr><td>« Les commerçants ont déjà Google. »</td><td>Une entreprise sur deux seulement ; et Google ne fait ni campagnes, ni lettre du territoire, ni statistiques pour la collectivité.</td></tr><tr><td>« Les commerçants n’adhèrent jamais. »</td><td>Ils n’ont pas à adhérer : leur fiche existe et reste gratuite. Ceux qui s’impliquent vont plus loin.</td></tr><tr><td>« On a eu une place de marché, c’était un fiasco. »</td><td>Nous ne vendons rien en ligne et ne prenons aucune commission : c’est l’inverse de ce modèle.</td></tr><tr><td>« Et nos données ? »</td><td>Hébergement en France, RGPD, export complet à tout moment, aucune revente.</td></tr><tr><td>« Vous êtes une petite structure. »</td><td>Grille publique, contrat annuel, données exportables : aucun risque d’enfermement ; et références publiées.</td></tr></tbody></table><div class="foot"><span class="brand">terricom<i>.</i></span><span>4 · Vendre partout</span><span class="n">31</span></div></section>
+<section class="slide dark divider"><div class="num">5</div><h2 class="t" style="font-size:62px;margin-top:22px">Webmarketing : <em>être trouvé, être crédible.</em></h2><p class="sub">Un site qui génère des démos, des contenus pour les services et les élus, et une mécanique de conversion côté commerçants.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>Document interne · fondateurs</span><span class="n">32</span></div></section>
+<section class="slide "><div class="kicker">5 · Acquisition des collectivités</div><h2 class="t">Faire venir <em>les services économiques.</em></h2><ol class="points"><li><span class="nb">1</span><span><b>« Votre territoire en vitrine » sur terricom.fr</b>Le visiteur choisit sa CC dans une liste : il découvre les chiffres de ses entreprises (établissements, créations, fermetures, secteurs) et demande sa démo. Chaque demande est un contact qualifié.</span></li><li><span class="nb">2</span><span><b>Le baromètre SIRENE de chaque CC</b>Un PDF gratuit par intercommunalité, généré automatiquement : « l’économie de votre territoire en 2 pages ». Un prétexte utile pour écrire au service économique, et un contenu repris dans les bulletins.</span></li><li><span class="nb">3</span><span><b>Référencement sur les recherches métier</b>Guides pratiques : « animer le commerce de centre-bourg », « financer un manager de commerce », « réussir une campagne de Noël » ; des pages qui répondent aux questions que se posent les agents.</span></li><li><span class="nb">4</span><span><b>LinkedIn, webinaires, lettre trimestrielle</b>Élus et agents y sont actifs. Un webinaire mensuel de 30 minutes, une lettre trimestrielle aux collectivités, des études de cas chiffrées.</span></li></ol><div class="foot"><span class="brand">terricom<i>.</i></span><span>5 · Webmarketing</span><span class="n">33</span></div></section>
+<section class="slide "><div class="kicker">5 · Contenus et prospection</div><h2 class="t">Un plan <em>simple et régulier.</em></h2><table class="tb" style="margin-top:22px"><colgroup><col style="width:52%"><col style="width:24%"><col style="width:24%"></colgroup><thead><tr><th>Action</th><th>Fréquence</th><th>Objectif</th></tr></thead><tbody><tr><td>Emailing aux services économiques des CC (données publiques, désinscription en un clic)</td><td>1 campagne / mois, par tranche de taille</td><td>Ouvertures de démos</td></tr><tr><td>Publication LinkedIn des fondateurs (cas concrets, chiffres SIRENE)</td><td>2 par semaine</td><td>Notoriété auprès des élus et DGS</td></tr><tr><td>Webinaire « 30 minutes pour animer le commerce local »</td><td>1 par mois</td><td>20 à 40 inscrits, démos</td></tr><tr><td>Étude de cas publiée (Haut-Doubs puis chaque référence)</td><td>Tous les 2 mois</td><td>Crédibilité, relais presse locale</td></tr><tr><td>Baromètres SIRENE par CC</td><td>Mise à jour trimestrielle</td><td>Prétexte de contact, référencement</td></tr><tr><td>Présence aux salons nationaux et régionaux</td><td>2 à 4 par an</td><td>Rendez-vous qualifiés</td></tr></tbody></table><div class="foot"><span class="brand">terricom<i>.</i></span><span>5 · Webmarketing</span><span class="n">34</span></div></section>
 <section class="slide "><div class="kicker">5 · Côté commerçants</div><h2 class="t">Transformer une fiche offerte <em>en client Premium.</em></h2>
-<div class="grid2" style="margin-top:22px"><ol class="points"><li><span class="nb">1</span><span><b>Le lancement fait par la collectivité</b>Courrier et email d’invitation, affichette avec QR code : la fiche est déjà là, il suffit de la réclamer.</span></li><li><span class="nb">2</span><span><b>Des séquences automatiques</b>J+2 « complétez vos horaires », J+7 « voici vos premières vues », J+30 « l’assistant peut écrire pour vous » : l’envie de Premium vient des résultats.</span></li><li><span class="nb">3</span><span><b>Des essais au bon moment</b>Premium offert un mois pendant les campagnes (Noël, rentrée) : c’est là que la valeur se voit.</span></li></ol><ol class="points"><li><span class="nb">4</span><span><b>Mesurer par territoire</b>Taux de revendication, de complétude et de conversion suivis chaque mois, partagés avec la CC.</span></li><li><span class="nb">5</span><span><b>Objectif réaliste</b>1 % des fiches abonnées la première année, 3 à 4 % au bout de trois ans : prudent au regard des places de marché (moins de 25 % d’adhésion, mais gratuite).</span></li><li><span class="nb">6</span><span><b>Ne jamais forcer</b>Aucune fonction essentielle derrière le paiement : la confiance des commerçants est aussi celle des élus.</span></li></ol></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>5 · Webmarketing</span><span class="n">31</span></div></section>
+<div class="grid2" style="margin-top:22px"><ol class="points"><li><span class="nb">1</span><span><b>Le lancement fait par la collectivité</b>Courrier et email d’invitation, affichette avec QR code : la fiche est déjà là, il suffit de la réclamer.</span></li><li><span class="nb">2</span><span><b>Des séquences automatiques</b>J+2 « complétez vos horaires », J+7 « voici vos premières vues », J+30 « l’assistant peut écrire pour vous » : l’envie de Premium vient des résultats.</span></li><li><span class="nb">3</span><span><b>Des essais au bon moment</b>Premium offert un mois pendant les campagnes (Noël, rentrée) : c’est là que la valeur se voit.</span></li></ol><ol class="points"><li><span class="nb">4</span><span><b>Mesurer par territoire</b>Taux de revendication, de complétude et de conversion suivis chaque mois, partagés avec la CC.</span></li><li><span class="nb">5</span><span><b>Objectif réaliste</b>1 % des fiches abonnées la première année, 3 à 4 % au bout de trois ans : prudent au regard des places de marché (moins de 25 % d’adhésion, mais gratuite).</span></li><li><span class="nb">6</span><span><b>Ne jamais forcer</b>Aucune fonction essentielle derrière le paiement : la confiance des commerçants est aussi celle des élus.</span></li></ol></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>5 · Webmarketing</span><span class="n">35</span></div></section>
 <section class="slide "><div class="kicker">5 · Budget et indicateurs</div><h2 class="t">Ce qu’on dépense, <em>ce qu’on mesure.</em></h2>
 <div class="split" style="grid-template-columns:560px 1fr;margin-top:10px">
 <div><svg viewBox="0 0 540 290" width="540" height="290" style="overflow:visible"><rect x="20.5" y="195.0" width="67.0" height="45.0" rx="8" fill="#C8702A"/><text x="54.0" y="185.0" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="22" fill="#14201B">32 k€</text><text x="54.0" y="266" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2027</text><rect x="128.5" y="177.4" width="67.0" height="62.6" rx="8" fill="#C8702A"/><text x="162.0" y="167.4" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="22" fill="#14201B">44 k€</text><text x="162.0" y="266" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2028</text><rect x="236.5" y="144.1" width="67.0" height="95.9" rx="8" fill="#C8702A"/><text x="270.0" y="134.1" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="22" fill="#14201B">68 k€</text><text x="270.0" y="266" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2029</text><rect x="344.5" y="93.2" width="67.0" height="146.8" rx="8" fill="#C8702A"/><text x="378.0" y="83.2" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="22" fill="#14201B">104 k€</text><text x="378.0" y="266" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2030</text><rect x="452.5" y="25.7" width="67.0" height="214.3" rx="8" fill="#C8702A"/><text x="486.0" y="15.7" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="22" fill="#14201B">152 k€</text><text x="486.0" y="266" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2031</text></svg><p style="font-size:14px;color:var(--muted)">Budget marketing, scénario central : 30 k€ fixes (salons, site, contenus) + 5 % du chiffre d’affaires.</p></div>
-<table class="tb" style=""><colgroup><col style="width:64%"><col style="width:36%"></colgroup><thead><tr><th>Indicateur</th><th>Cible 2027</th></tr></thead><tbody><tr><td>Démos générées puis ouvertes</td><td>> 30 %</td></tr><tr><td>Démo ouverte → rendez-vous</td><td>> 40 %</td></tr><tr><td>Rendez-vous → signature</td><td>> 20 %</td></tr><tr><td>Coût d’acquisition par CC</td><td>< 6 000 €</td></tr><tr><td>Fiches revendiquées à 12 mois</td><td>> 20 %</td></tr><tr><td>Renouvellement des licences</td><td>> 92 %</td></tr></tbody></table></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>5 · Webmarketing</span><span class="n">32</span></div></section>
-<section class="slide green divider"><div class="num">6</div><h2 class="t" style="font-size:62px;margin-top:22px">Modèle économique : <em>les chiffres.</em></h2><p class="sub">Quatre sources de revenus, des coûts maîtrisés, trois scénarios sur cinq ans et le besoin de financement.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>Document interne · fondateurs</span><span class="n">33</span></div></section>
+<table class="tb" style=""><colgroup><col style="width:64%"><col style="width:36%"></colgroup><thead><tr><th>Indicateur</th><th>Cible 2027</th></tr></thead><tbody><tr><td>Démos générées puis ouvertes</td><td>> 30 %</td></tr><tr><td>Démo ouverte → rendez-vous</td><td>> 40 %</td></tr><tr><td>Rendez-vous → signature</td><td>> 20 %</td></tr><tr><td>Coût d’acquisition par CC</td><td>< 6 000 €</td></tr><tr><td>Fiches revendiquées à 12 mois</td><td>> 20 %</td></tr><tr><td>Renouvellement des licences</td><td>> 92 %</td></tr></tbody></table></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>5 · Webmarketing</span><span class="n">36</span></div></section>
+<section class="slide green divider"><div class="num">6</div><h2 class="t" style="font-size:62px;margin-top:22px">Modèle économique : <em>les chiffres.</em></h2><p class="sub">Quatre sources de revenus, des coûts maîtrisés, trois scénarios sur cinq ans, le besoin de financement. Les pages suivantes sont calculées avec le modèle A ; la comparaison avec le modèle B suit.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>Document interne · fondateurs</span><span class="n">37</span></div></section>
 <section class="slide "><div class="kicker">6 · Le modèle</div><h2 class="t">Quatre sources de revenus, <em>une seule indispensable.</em></h2>
 <div class="grid4" style="margin-top:24px">
-<div class="card green"><h3>Licences</h3><p>Récurrent, prévisible, payé par la collectivité. ≈ 9 189 € HT par CC en moyenne. <b>Le socle du modèle.</b></p></div>
-<div class="card"><h3>Mises en service</h3><p>≈ 3 200 € HT par nouvelle CC, une fois (offerte en 2027).</p></div>
+<div class="card green"><h3>Licences</h3><p>Récurrent, prévisible, payé par la collectivité. ≈ 9 189 € HT par CC en moyenne avec A, ≈ 14 307 € avec B. <b>Le socle du modèle.</b></p></div>
+<div class="card"><h3>Mises en service</h3><p>≈ 3 200 € HT par nouvelle CC avec A (offerte en 2027), 5 000 € avec B, une fois.</p></div>
 <div class="card"><h3>Services</h3><p>Formation sur site, campagnes clés en main, impressions : ≈ 6 % des licences.</p></div>
 <div class="card amber"><h3>Abonnements commerçants</h3><p style="color:var(--ink)">≈ 280 € HT par abonné et par an. Un bonus qui grandit avec l’ancienneté des territoires.</p></div>
 </div>
 <div class="grid2" style="margin-top:20px">
 <div class="card mint"><h3>Ce que coûte une CC servie</h3><p>≈ 540 € d’hébergement, emails et IA, et une part de support et de mise en service : ≈ 1 900 € par an, soit une marge brute d’environ 80 % sur la licence.</p></div>
 <div class="card mint"><h3>Ce que coûte l’entreprise</h3><p>Deux fondateurs rémunérés (hypothèse : 90 k€ chargés à deux), puis commerciaux, accompagnement et développement recrutés au rythme des signatures. Hébergement en France : 7 800 € par an de socle.</p></div>
-</div><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">34</span></div></section>
+</div><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">38</span></div></section>
 <section class="slide "><div class="kicker">6 · Les hypothèses</div><h2 class="t">Trois scénarios, <em>des hypothèses explicites.</em></h2><table class="tb" style="margin-top:22px"><colgroup><col style="width:14%"><col style="width:30%"><col style="width:13%"><col style="width:25%"><col style="width:18%"></colgroup><thead><tr><th>Scénario</th><th>Nouvelles CC par an (2027 → 2031)</th><th>Départs / an</th><th>Fiches abonnées (an 1 → 3 → 5)</th><th>Part apportée par partenaires</th></tr></thead><tbody><tr><td>Prudent</td><td>4 · 10 · 18 · 26 · 32</td><td>8 %</td><td>0,5 % → 1,5 % → 2,0 %</td><td>10 % → 25 %</td></tr><tr><td>Central</td><td>6 · 20 · 35 · 48 · 60</td><td>6 %</td><td>1,0 % → 3,0 % → 4,0 %</td><td>15 % → 30 %</td></tr><tr><td>Ambitieux</td><td>10 · 35 · 60 · 85 · 100</td><td>5 %</td><td>1,5 % → 4,5 % → 6,0 %</td><td>20 % → 35 %</td></tr></tbody></table>
 <div class="grid3" style="margin-top:18px">
 <div class="card"><h3>Prix</h3><p>Licence moyenne 9 189 € (grille nationale pondérée par le nombre de CC par tranche), +2 %/an ; mise en service 3 200 €, offerte en 2027.</p></div>
 <div class="card"><h3>Territoires</h3><p>1 200 fiches par CC en moyenne après tri (Haut-Doubs : 1 968) ; signature en milieu d’année la première fois.</p></div>
 <div class="card"><h3>Équipe</h3><p>1 commercial par tranche de 14 signatures au-delà de 6 ; 1 chargé d’accompagnement pour 35 CC ; 1 développeur dès 2028, +1 par 50 CC.</p></div>
-</div><p style="font-size:14px;color:var(--muted);margin-top:10px">Toutes les hypothèses sont dans docs/strategie/modele.py : les changer régénère ce document.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">35</span></div></section>
+</div><p style="font-size:14px;color:var(--muted);margin-top:10px">Toutes les hypothèses sont dans docs/strategie/modele.py : les changer régénère ce document.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">39</span></div></section>
 <section class="slide "><div class="kicker">6 · Chiffre d’affaires</div><h2 class="t">Scénario central : <em>2,44 M€ en 2031.</em></h2>
 <div class="split" style="grid-template-columns:680px 1fr;margin-top:6px">
 <div><svg viewBox="0 0 660 340" width="660" height="340" style="overflow:visible"><rect x="27.7" y="297.0" width="76.6" height="3.0" fill="#1F6B52"/><rect x="27.7" y="296.8" width="76.6" height="0.2" fill="#AEBDB5"/><rect x="27.7" y="295.7" width="76.6" height="1.1" fill="#F4B266"/><text x="66.0" y="285.7" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="19" fill="#14201B">39 k€</text><text x="66.0" y="326" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2027</text><rect x="159.7" y="284.1" width="76.6" height="15.9" fill="#1F6B52"/><rect x="159.7" y="276.1" width="76.6" height="8.0" fill="#AEBDB5"/><rect x="159.7" y="268.3" width="76.6" height="7.8" fill="#F4B266"/><text x="198.0" y="258.3" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="19" fill="#14201B">289 k€</text><text x="198.0" y="326" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2028</text><rect x="291.7" y="257.5" width="76.6" height="42.5" fill="#1F6B52"/><rect x="291.7" y="242.6" width="76.6" height="14.8" fill="#AEBDB5"/><rect x="291.7" y="216.4" width="76.6" height="26.2" fill="#F4B266"/><text x="330.0" y="206.4" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="19" fill="#14201B">762 k€</text><text x="330.0" y="326" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2029</text><rect x="423.7" y="218.1" width="76.6" height="81.9" fill="#1F6B52"/><rect x="423.7" y="196.3" width="76.6" height="21.8" fill="#AEBDB5"/><rect x="423.7" y="137.2" width="76.6" height="59.1" fill="#F4B266"/><text x="462.0" y="127.2" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="19" fill="#14201B">1,48 M€</text><text x="462.0" y="326" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2030</text><rect x="555.7" y="168.0" width="76.6" height="132.0" fill="#1F6B52"/><rect x="555.7" y="139.0" width="76.6" height="29.0" fill="#AEBDB5"/><rect x="555.7" y="32.1" width="76.6" height="106.9" fill="#F4B266"/><text x="594.0" y="22.1" text-anchor="middle" font-family="Bricolage" font-weight="800" font-size="19" fill="#14201B">2,44 M€</text><text x="594.0" y="326" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2031</text></svg>
 <div style="display:flex;gap:18px;font-size:15px;color:var(--text2);margin-top:4px"><span><b style="color:#1F6B52">■</b> Licences</span><span><b style="color:#AEBDB5">■</b> Mises en service et services</span><span><b style="color:#F4B266">■</b> Abonnements commerçants</span></div></div>
-<table class="tb" style=""><colgroup><col style="width:40%"><col style="width:20%"><col style="width:20%"><col style="width:20%"></colgroup><thead><tr><th></th><th>2027</th><th>2029</th><th>2031</th></tr></thead><tbody><tr><td>CC clientes</td><td>6</td><td>59</td><td>157</td></tr><tr><td>Licences</td><td>28 k€</td><td>388 k€</td><td>1,20 M€</td></tr><tr><td>Commerçants abonnés</td><td>36</td><td>852</td><td>3 479</td></tr><tr><td>Chiffre d’affaires</td><td><b>39 k€</b></td><td><b>762 k€</b></td><td><b>2,44 M€</b></td></tr><tr><td>Résultat</td><td>-112 k€</td><td>193 k€</td><td>1,38 M€</td></tr><tr><td>Équipe</td><td>2</td><td>8</td><td>14</td></tr></tbody></table></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">36</span></div></section>
+<table class="tb" style=""><colgroup><col style="width:40%"><col style="width:20%"><col style="width:20%"><col style="width:20%"></colgroup><thead><tr><th></th><th>2027</th><th>2029</th><th>2031</th></tr></thead><tbody><tr><td>CC clientes</td><td>6</td><td>59</td><td>157</td></tr><tr><td>Licences</td><td>28 k€</td><td>388 k€</td><td>1,20 M€</td></tr><tr><td>Commerçants abonnés</td><td>36</td><td>852</td><td>3 479</td></tr><tr><td>Chiffre d’affaires</td><td><b>39 k€</b></td><td><b>762 k€</b></td><td><b>2,44 M€</b></td></tr><tr><td>Résultat</td><td>-112 k€</td><td>193 k€</td><td>1,38 M€</td></tr><tr><td>Équipe</td><td>2</td><td>8</td><td>14</td></tr></tbody></table></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">40</span></div></section>
 <section class="slide "><div class="kicker">6 · Trois scénarios</div><h2 class="t">Chiffre d’affaires et résultat, <em>année par année.</em></h2><table class="tb" style="margin-top:22px"><colgroup><col style="width:16%"><col style="width:13%"><col style="width:13%"><col style="width:13%"><col style="width:13%"><col style="width:13%"><col style="width:19%"></colgroup><thead><tr><th>Scénario</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th><th>2031</th><th>CC 2031 · part</th></tr></thead><tbody><tr><td><b>Prudent</b></td><td>23 k€</td><td>138 k€</td><td>334 k€</td><td>633 k€</td><td>1,02 M€</td><td>82</td></tr><tr><td><span style="color:var(--muted)">résultat</span></td><td><span style="color:#9C3328">-126 k€</span></td><td><span style="color:#9C3328">-192 k€</span></td><td><span style="color:#9C3328">-19 k€</span></td><td><span style="color:#1F6B52">141 k€</span></td><td><span style="color:#1F6B52">375 k€</span></td><td>8 %</td></tr><tr><td><b>Central</b></td><td>39 k€</td><td>289 k€</td><td>762 k€</td><td>1,48 M€</td><td>2,44 M€</td><td>157</td></tr><tr><td><span style="color:var(--muted)">résultat</span></td><td><span style="color:#9C3328">-112 k€</span></td><td><span style="color:#9C3328">-59 k€</span></td><td><span style="color:#1F6B52">193 k€</span></td><td><span style="color:#1F6B52">735 k€</span></td><td><span style="color:#1F6B52">1,38 M€</span></td><td>16 %</td></tr><tr><td><b>Ambitieux</b></td><td>74 k€</td><td>561 k€</td><td>1,53 M€</td><td>3,09 M€</td><td>5,16 M€</td><td>273</td></tr><tr><td><span style="color:var(--muted)">résultat</span></td><td><span style="color:#9C3328">-189 k€</span></td><td><span style="color:#1F6B52">74 k€</span></td><td><span style="color:#1F6B52">710 k€</span></td><td><span style="color:#1F6B52">1,85 M€</span></td><td><span style="color:#1F6B52">3,52 M€</span></td><td>28 %</td></tr></tbody></table>
 <div class="grid3" style="margin-top:18px">
 <div class="card"><h3>Prudent</h3><p>Équilibre en 2030, 82 CC en 2031 : une belle PME, sans financement extérieur important au-delà de l’amorçage.</p></div>
 <div class="card green"><h3>Central</h3><p>Équilibre en 2029, 157 CC et 2,44 M€ en 2031 ; 14 personnes.</p></div>
 <div class="card ink"><h3>Ambitieux</h3><p>Leader national : 273 CC, 5,16 M€ en 2031 ; suppose des relais et une centrale d’achat efficaces dès 2028.</p></div>
-</div><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">37</span></div></section>
+</div><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">41</span></div></section>
 <section class="slide "><div class="kicker">6 · Trésorerie</div><h2 class="t">Le besoin de financement : <em>250 à 400 k€.</em></h2>
 <div class="split" style="grid-template-columns:660px 1fr;margin-top:8px">
 <div><svg viewBox="0 0 560 320" width="560" height="320" style="overflow:visible"><line x1="20" x2="540" y1="244.2" y2="244.2" stroke="#AEBDB5" stroke-dasharray="5 5"/><text x="0" y="249.2" text-anchor="start" font-family="Instrument" font-size="13" fill="#6B726D">0</text><polyline points="40.0,248.9 160.0,256.0 280.0,256.7 400.0,251.5 520.0,237.6" fill="none" stroke="#AEBDB5" stroke-width="4" stroke-linejoin="round"/><circle cx="40.0" cy="248.9" r="5" fill="#AEBDB5"/><circle cx="160.0" cy="256.0" r="5" fill="#AEBDB5"/><circle cx="280.0" cy="256.7" r="5" fill="#AEBDB5"/><circle cx="400.0" cy="251.5" r="5" fill="#AEBDB5"/><circle cx="520.0" cy="237.6" r="5" fill="#AEBDB5"/><text x="530.0" y="242.6" font-family="Bricolage" font-weight="800" font-size="16" fill="#AEBDB5">Prudent 179 k€</text><polyline points="40.0,248.3 160.0,250.5 280.0,243.4 400.0,216.2 520.0,165.0" fill="none" stroke="#1F6B52" stroke-width="4" stroke-linejoin="round"/><circle cx="40.0" cy="248.3" r="5" fill="#1F6B52"/><circle cx="160.0" cy="250.5" r="5" fill="#1F6B52"/><circle cx="280.0" cy="243.4" r="5" fill="#1F6B52"/><circle cx="400.0" cy="216.2" r="5" fill="#1F6B52"/><circle cx="520.0" cy="165.0" r="5" fill="#1F6B52"/><text x="530.0" y="170.0" font-family="Bricolage" font-weight="800" font-size="16" fill="#1F6B52">Central 2,14 M€</text><polyline points="40.0,251.2 160.0,248.5 280.0,222.2 400.0,153.6 520.0,23.3" fill="none" stroke="#C8702A" stroke-width="4" stroke-linejoin="round"/><circle cx="40.0" cy="251.2" r="5" fill="#C8702A"/><circle cx="160.0" cy="248.5" r="5" fill="#C8702A"/><circle cx="280.0" cy="222.2" r="5" fill="#C8702A"/><circle cx="400.0" cy="153.6" r="5" fill="#C8702A"/><circle cx="520.0" cy="23.3" r="5" fill="#C8702A"/><text x="530.0" y="28.3" font-family="Bricolage" font-weight="800" font-size="16" fill="#C8702A">Ambitieux 5,97 M€</text><text x="40.0" y="308" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2027</text><text x="160.0" y="308" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2028</text><text x="280.0" y="308" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2029</text><text x="400.0" y="308" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2030</text><text x="520.0" y="308" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2031</text></svg><p style="font-size:14px;color:var(--muted)">Trésorerie cumulée générée par l’activité, avant financement.</p></div>
-<ol class="points"><li><span class="nb">1</span><span><b>Creux de trésorerie</b>337 k€ (prudent), 171 k€ (central), 189 k€ (ambitieux), atteint en 2028-2029.</span></li><li><span class="nb">2</span><span><b>Sans aucun commerçant payant</b>Le creux central passe à 275 k€ et l’entreprise reste rentable en 2031 (478 k€ de résultat).</span></li><li><span class="nb">3</span><span><b>Comment financer</b>Prêts d’honneur et Bpifrance (bourse French Tech, prêt d’amorçage), puis un tour d’amorçage de 300 à 400 k€ avec une marge de sécurité de six mois.</span></li></ol></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">38</span></div></section>
+<ol class="points"><li><span class="nb">1</span><span><b>Creux de trésorerie</b>337 k€ (prudent), 171 k€ (central), 189 k€ (ambitieux), atteint en 2028-2029.</span></li><li><span class="nb">2</span><span><b>Sans aucun commerçant payant</b>Le creux central passe à 275 k€ et l’entreprise reste rentable en 2031 (478 k€ de résultat).</span></li><li><span class="nb">3</span><span><b>Comment financer</b>Prêts d’honneur et Bpifrance (bourse French Tech, prêt d’amorçage), puis un tour d’amorçage de 300 à 400 k€ avec une marge de sécurité de six mois.</span></li></ol></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">42</span></div></section>
 <section class="slide "><div class="kicker">6 · Sensibilité</div><h2 class="t">Ce qui fait vraiment <em>bouger le résultat.</em></h2><p class="sub">Chiffre d’affaires et résultat 2031 du scénario central, selon le rythme de signatures et l’adoption par les commerçants.</p><table class="tb" style="margin-top:22px"><colgroup><col style="width:31%"><col style="width:23%"><col style="width:23%"><col style="width:23%"></colgroup><thead><tr><th>Adoption commerçants</th><th>Signatures −30 %</th><th>Signatures prévues</th><th>Signatures +30 %</th></tr></thead><tbody><tr><td>aucun de fiches abonnées à maturité</td><td>1,02 M€ · <span style='color:#1F6B52'>260 k€</span></td><td>1,47 M€ · <span style='color:#1F6B52'>478 k€</span></td><td>1,91 M€ · <span style='color:#1F6B52'>696 k€</span></td></tr><tr><td>2 % de fiches abonnées à maturité</td><td>1,36 M€ · <span style='color:#1F6B52'>575 k€</span></td><td>1,95 M€ · <span style='color:#1F6B52'>931 k€</span></td><td>2,54 M€ · <span style='color:#1F6B52'>1,29 M€</span></td></tr><tr><td>4 % de fiches abonnées à maturité</td><td>1,70 M€ · <span style='color:#1F6B52'>890 k€</span></td><td>2,44 M€ · <span style='color:#1F6B52'>1,38 M€</span></td><td>3,18 M€ · <span style='color:#1F6B52'>1,88 M€</span></td></tr><tr><td>6 % de fiches abonnées à maturité</td><td>2,04 M€ · <span style='color:#1F6B52'>1,21 M€</span></td><td>2,93 M€ · <span style='color:#1F6B52'>1,84 M€</span></td><td>3,81 M€ · <span style='color:#1F6B52'>2,47 M€</span></td></tr></tbody></table>
-<div class="card ink" style="margin-top:18px"><p style="font-size:19px">Le rythme de signatures des CC compte plus que l’adoption par les commerçants : c’est la preuve qu’il faut concentrer l’énergie commerciale sur les collectivités, et traiter l’abonnement des commerçants comme un accélérateur.</p></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">39</span></div></section>
-<section class="slide dark divider"><div class="num">7</div><h2 class="t" style="font-size:62px;margin-top:22px">Plan d’action : <em>les douze prochains mois.</em></h2><p class="sub">Ce que nous faisons dès maintenant, les risques à surveiller et les décisions à prendre.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>Document interne · fondateurs</span><span class="n">40</span></div></section>
+<div class="card ink" style="margin-top:18px"><p style="font-size:19px">Le rythme de signatures des CC compte plus que l’adoption par les commerçants : c’est la preuve qu’il faut concentrer l’énergie commerciale sur les collectivités, et traiter l’abonnement des commerçants comme un accélérateur.</p></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">43</span></div></section>
+<section class="slide "><div class="kicker">6 · Modèle A ou modèle B</div><h2 class="t">Les mêmes scénarios, <em>avec l’abonnement territorial.</em></h2><p class="sub">Mêmes signatures, départs, commerçants et coûts ; seuls changent le prix par CC et la mise en service.</p><table class="tb" style="margin-top:14px;font-size:14.5px"><colgroup><col style="width:14%"><col style="width:10.75%"><col style="width:10.75%"><col style="width:10.75%"><col style="width:10.75%"><col style="width:10.75%"><col style="width:10.75%"><col style="width:10.75%"><col style="width:10.75%"></colgroup><thead><tr><th>Scénario</th><th>CA 2029 · A</th><th>CA 2029 · B</th><th>CA 2031 · A</th><th>CA 2031 · B</th><th>Résultat 2031 · A</th><th>Résultat 2031 · B</th><th>Creux · A</th><th>Creux · B</th></tr></thead><tbody><tr><td><b>Prudent</b></td><td>334 k€</td><td>480 k€</td><td>1,02 M€</td><td><b>1,41 M€</b></td><td>375 k€</td><td><b>745 k€</b></td><td>337 k€</td><td>228 k€</td></tr><tr><td><b>Central</b></td><td>762 k€</td><td>1,04 M€</td><td>2,44 M€</td><td><b>3,21 M€</b></td><td>1,38 M€</td><td><b>2,09 M€</b></td><td>171 k€</td><td>68 k€</td></tr><tr><td><b>Ambitieux</b></td><td>1,53 M€</td><td>2,02 M€</td><td>5,16 M€</td><td><b>6,49 M€</b></td><td>3,52 M€</td><td><b>4,75 M€</b></td><td>189 k€</td><td>116 k€</td></tr></tbody></table>
+<div class="split" style="grid-template-columns:580px 1fr;margin-top:10px">
+<div><svg viewBox="0 0 540 230" width="540" height="230" style="overflow:visible"><line x1="20" x2="520" y1="167.2" y2="167.2" stroke="#AEBDB5" stroke-dasharray="5 5"/><text x="0" y="172.2" text-anchor="start" font-family="Instrument" font-size="13" fill="#6B726D">0</text><polyline points="40.0,171.8 155.0,174.2 270.0,166.3 385.0,136.5 500.0,80.4" fill="none" stroke="#1F6B52" stroke-width="4" stroke-linejoin="round"/><circle cx="40.0" cy="171.8" r="5" fill="#1F6B52"/><circle cx="155.0" cy="174.2" r="5" fill="#1F6B52"/><circle cx="270.0" cy="166.3" r="5" fill="#1F6B52"/><circle cx="385.0" cy="136.5" r="5" fill="#1F6B52"/><circle cx="500.0" cy="80.4" r="5" fill="#1F6B52"/><text x="510.0" y="85.4" font-family="Bricolage" font-weight="800" font-size="16" fill="#1F6B52">A 2,14 M€</text><polyline points="40.0,170.0 155.0,167.9 270.0,149.4 385.0,100.7 500.0,15.8" fill="none" stroke="#C8702A" stroke-width="4" stroke-linejoin="round"/><circle cx="40.0" cy="170.0" r="5" fill="#C8702A"/><circle cx="155.0" cy="167.9" r="5" fill="#C8702A"/><circle cx="270.0" cy="149.4" r="5" fill="#C8702A"/><circle cx="385.0" cy="100.7" r="5" fill="#C8702A"/><circle cx="500.0" cy="15.8" r="5" fill="#C8702A"/><text x="510.0" y="20.8" font-family="Bricolage" font-weight="800" font-size="16" fill="#C8702A">B 3,73 M€</text><polyline points="40.0,171.1 155.0,173.0 270.0,159.7 385.0,127.3 500.0,65.5" fill="none" stroke="#AEBDB5" stroke-width="4" stroke-linejoin="round"/><circle cx="40.0" cy="171.1" r="5" fill="#AEBDB5"/><circle cx="155.0" cy="173.0" r="5" fill="#AEBDB5"/><circle cx="270.0" cy="159.7" r="5" fill="#AEBDB5"/><circle cx="385.0" cy="127.3" r="5" fill="#AEBDB5"/><circle cx="500.0" cy="65.5" r="5" fill="#AEBDB5"/><text x="510.0" y="70.5" font-family="Bricolage" font-weight="800" font-size="16" fill="#AEBDB5">B −25 % 2,51 M€</text><text x="40.0" y="218" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2027</text><text x="155.0" y="218" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2028</text><text x="270.0" y="218" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2029</text><text x="385.0" y="218" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2030</text><text x="500.0" y="218" text-anchor="middle" font-family="Instrument" font-size="15" fill="#4A514C">2031</text></svg><p style="font-size:13px;color:var(--muted);margin:0">Trésorerie cumulée, scénario central, avant financement (B −25 % : un quart de signatures en moins).</p></div>
+<ol class="points"><li><span class="nb">1</span><span><b>Plus de revenu, plus tôt</b>Central : équilibre dès 2028 avec B ; creux de 68 k€ contre 171 k€ avec A.</span></li><li><span class="nb">2</span><span><b>Même avec moins de signatures</b>Un quart de signatures en moins : B fait encore 2,39 M€ de CA et 1,52 M€ de résultat en 2031.</span></li><li><span class="nb">3</span><span><b>La vraie question</b>Les petites CC signent-elles à 11 000 € ? À tester dès les premiers rendez-vous de 2027.</span></li></ol></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>6 · Modèle et simulations</span><span class="n">44</span></div></section>
+<section class="slide dark divider"><div class="num">7</div><h2 class="t" style="font-size:62px;margin-top:22px">Plan d’action : <em>les douze prochains mois.</em></h2><p class="sub">Ce que nous faisons dès maintenant, les risques à surveiller et les décisions à prendre.</p><div class="foot"><span class="brand">terricom<i>.</i></span><span>Document interne · fondateurs</span><span class="n">45</span></div></section>
 <section class="slide "><div class="kicker">7 · Feuille de route</div><h2 class="t">Les douze prochains mois, <em>trimestre par trimestre.</em></h2>
 <div class="grid4" style="margin-top:24px">
 <div class="card green"><h3>T4 2026</h3><p>Valider la grille, publier la page Tarifs · Signer le Haut-Doubs · Industrialiser la démo automatique · 300 démos générées pour les CC de Bourgogne-Franche-Comté et des régions voisines · Salon des maires</p></div>
@@ -315,9 +875,9 @@ h2.t + .points, p.sub + .points { margin-top: 26px; }
 <div class="card"><h3>T2 2027</h3><p>Mises en service et lancements presse · Étude de cas Haut-Doubs publiée · Premiers partenariats (associations de maires, CCI) · Préparer le référencement en centrale d’achat</p></div>
 <div class="card"><h3>T3 2027</h3><p>Baromètres SIRENE pour toutes les CC · Démos générées pour les 989 CC · Recrutement du premier commercial sédentaire · Préparer la saison budgétaire 2028</p></div>
 </div>
-<div class="card ink" style="margin-top:18px"><p style="font-size:19px">Objectif fin 2027 : 6 CC clientes, 50 démos ouvertes par mois, 3 relais actifs, 1 étude de cas chiffrée.</p></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>7 · Plan d’action</span><span class="n">41</span></div></section>
-<section class="slide "><div class="kicker">7 · Risques</div><h2 class="t">Ce qui peut mal tourner, <em>et la parade.</em></h2><table class="tb" style="margin-top:22px"><colgroup><col style="width:36%"><col style="width:64%"></colgroup><thead><tr><th>Risque</th><th>Parade</th></tr></thead><tbody><tr><td>Cycle de vente plus long que prévu</td><td>Grille sous le seuil, offre datée, prospection calée sur les budgets, communes seules comme porte d’entrée</td></tr><tr><td>Faible adoption par les commerçants</td><td>Modèle rentable sans eux ; fiches déjà remplies ; campagnes et Premium offert par la collectivité</td></tr><tr><td>Un grand acteur copie l’idée</td><td>Avance produit, démos sur mesure, références, prix public bas et clair</td></tr><tr><td>Qualité des données SIRENE</td><td>Tri contrôlé (forme juridique + activité + nom), file « à vérifier », synchronisation mensuelle</td></tr><tr><td>Mise en service qui ne passe pas à l’échelle</td><td>Outillage (import, invitations, formation en visio enregistrée), un chargé d’accompagnement pour 35 CC</td></tr><tr><td>Dépendance à deux fondateurs</td><td>Documentation, recrutements anticipés, procédures d’exploitation écrites</td></tr></tbody></table><div class="foot"><span class="brand">terricom<i>.</i></span><span>7 · Plan d’action</span><span class="n">42</span></div></section>
-<section class="slide "><div class="kicker">7 · À décider</div><h2 class="t">Les décisions <em>des fondateurs.</em></h2><ol class="points"><li><span class="nb">1</span><span><b>Valider la grille nationale</b>4 900 à 16 900 € HT par CC, communes seules, agglomérations, commerçants à 24 et 49 €.</span></li><li><span class="nb">2</span><span><b>Lancer l’offre 2027</b>Mise en service offerte pour toute signature en 2027, prix bloqué pour trois ans d’engagement.</span></li><li><span class="nb">3</span><span><b>Choisir le scénario de pilotage</b>Central recommandé : 6 CC en 2027, 20 en 2028, un commercial dès 2028.</span></li><li><span class="nb">4</span><span><b>Financer</b>Lever 300 à 400 k€ (prêts d’honneur, Bpifrance, amorçage) avant mi-2027.</span></li><li><span class="nb">5</span><span><b>Fixer la rémunération des fondateurs</b>Hypothèse du modèle : 90 k€ chargés à deux ; à ajuster.</span></li><li><span class="nb">6</span><span><b>Industrialiser la démo</b>Priorité produit numéro un : une démo par CC, générée en quelques minutes.</span></li></ol><div class="foot"><span class="brand">terricom<i>.</i></span><span>7 · Plan d’action</span><span class="n">43</span></div></section>
+<div class="card ink" style="margin-top:18px"><p style="font-size:19px">Objectif fin 2027 : 6 CC clientes, 50 démos ouvertes par mois, 3 relais actifs, 1 étude de cas chiffrée.</p></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>7 · Plan d’action</span><span class="n">46</span></div></section>
+<section class="slide "><div class="kicker">7 · Risques</div><h2 class="t">Ce qui peut mal tourner, <em>et la parade.</em></h2><table class="tb" style="margin-top:22px"><colgroup><col style="width:36%"><col style="width:64%"></colgroup><thead><tr><th>Risque</th><th>Parade</th></tr></thead><tbody><tr><td>Cycle de vente plus long que prévu</td><td>Grille sous le seuil, offre datée, prospection calée sur les budgets, communes seules comme porte d’entrée</td></tr><tr><td>Faible adoption par les commerçants</td><td>Modèle rentable sans eux ; fiches déjà remplies ; campagnes et Premium offert par la collectivité</td></tr><tr><td>Un grand acteur copie l’idée</td><td>Avance produit, démos sur mesure, références, prix public bas et clair</td></tr><tr><td>Qualité des données SIRENE</td><td>Tri contrôlé (forme juridique + activité + nom), file « à vérifier », synchronisation mensuelle</td></tr><tr><td>Mise en service qui ne passe pas à l’échelle</td><td>Outillage (import, invitations, formation en visio enregistrée), un chargé d’accompagnement pour 35 CC</td></tr><tr><td>Dépendance à deux fondateurs</td><td>Documentation, recrutements anticipés, procédures d’exploitation écrites</td></tr></tbody></table><div class="foot"><span class="brand">terricom<i>.</i></span><span>7 · Plan d’action</span><span class="n">47</span></div></section>
+<section class="slide "><div class="kicker">7 · À décider</div><h2 class="t">Les décisions <em>des fondateurs.</em></h2><ol class="points"><li><span class="nb">1</span><span><b>Choisir le modèle de prix : A ou B</b>A : grille de 4 900 à 16 900 € HT par CC, toutes sous le seuil. B : 10 000 € + 0,20 € par habitant (plafond 59 000 €), mise en service 5 000 € ; +56 % par client, 86 CC au-dessus du seuil. Communes seules, agglomérations et commerçants (24 et 49 €) inchangés.</span></li><li><span class="nb">2</span><span><b>Lancer l’offre 2027</b>A : mise en service offerte pour toute signature en 2027. B : la garder facturée, ou l’offrir de la même façon. Dans les deux cas, prix bloqué pour trois ans d’engagement.</span></li><li><span class="nb">3</span><span><b>Choisir le scénario de pilotage</b>Central recommandé : 6 CC en 2027, 20 en 2028, un commercial dès 2028.</span></li><li><span class="nb">4</span><span><b>Financer</b>Lever 300 à 400 k€ (prêts d’honneur, Bpifrance, amorçage) avant mi-2027.</span></li><li><span class="nb">5</span><span><b>Fixer la rémunération des fondateurs</b>Hypothèse du modèle : 90 k€ chargés à deux ; à ajuster.</span></li><li><span class="nb">6</span><span><b>Industrialiser la démo</b>Priorité produit numéro un : une démo par CC, générée en quelques minutes.</span></li></ol><div class="foot"><span class="brand">terricom<i>.</i></span><span>7 · Plan d’action</span><span class="n">48</span></div></section>
 <section class="slide "><div class="kicker">Sources</div><h2 class="t">Les chiffres cités <em>et leur origine.</em></h2><div style="columns:2;column-gap:40px;margin-top:20px;font-size:14.5px;line-height:1.5;color:var(--text2)">
 <p style="margin:0 0 8px"><b>Intercommunalités</b> : découpage administratif officiel (Etalab, @etalab/decoupage-administratif 6.0, populations Insee) : 989 CC, 230 CA, 14 CU, 21 métropoles, 34 969 communes ; DGCL, BIS 195 et Bilan statistique 2025.</p>
 <p style="margin:0 0 8px"><b>Vacance commerciale</b> : Codata Digest 2026 (millésime 2025), 11,7 % en pied d’immeuble.</p>
@@ -330,5 +890,6 @@ h2.t + .points, p.sub + .points { margin-top: 26px; }
 <p style="margin:0 0 8px"><b>Usage des fiches Google</b> : Baromètre France Num 2025, environ une entreprise sur deux.</p>
 <p style="margin:0 0 8px"><b>Budget des collectivités</b> : collectivites-locales.gouv.fr, cycle budgétaire (vote au plus tard le 15 avril).</p>
 <p style="margin:0 0 8px"><b>Haut-Doubs</b> : base SIRENE (API Recherche d’entreprises, septembre 2026), rapport docs/demo/haut-doubs-controle.csv.</p>
-<p style="margin:0"><b>Simulations</b> : docs/strategie/modele.py (hypothèses modifiables). Chiffres à revérifier avant toute diffusion externe.</p></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>Sources</span><span class="n">44</span></div></section>
+<p style="margin:0 0 8px"><b>Modèle B</b> : note de cadrage des fondateurs « modèle économique et tarification » (2026) ; moyennes calculées sur les 989 CC (populations geo.api.gouv.fr).</p>
+<p style="margin:0"><b>Simulations</b> : docs/strategie/modele.py (hypothèses modifiables). Chiffres à revérifier avant toute diffusion externe.</p></div><div class="foot"><span class="brand">terricom<i>.</i></span><span>Sources</span><span class="n">49</span></div></section>
 </body></html>

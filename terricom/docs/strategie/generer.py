@@ -148,6 +148,17 @@ cen = {l['annee']: l for l in C}
 pru = {l['annee']: l for l in R['prudent']}
 amb = {l['annee']: l for l in R['ambitieux']}
 sans_pros = M.simuler('central', pros_actifs=False)
+RB = M.resultats('B')
+cenB = {l['annee']: l for l in RB['central']}
+pruB = {l['annee']: l for l in RB['prudent']}
+ambB = {l['annee']: l for l in RB['ambitieux']}
+B_moins = {l['annee']: l for l in M.simuler('central', signatures=0.75, tarif='B')}
+HD_B = M.licence_b(16920)
+HD_B_3ANS = 3 * HD_B + M.B_MISE_EN_SERVICE
+
+
+def prix_a(pop):
+    return next(t[4] for t in T if t[1] <= pop < t[2])
 
 # 0 — Couverture
 slide(f'''
@@ -156,19 +167,19 @@ slide(f'''
 <div style="position:relative;display:flex;justify-content:space-between;font-size:14px;color:var(--sage)"><span>terricom.fr</span><span>Document interne · fondateurs · septembre 2026</span></div>
 <div style="position:relative;margin-top:92px;display:flex;align-items:center;gap:18px"><span class="mark" style="width:70px;height:70px"><span style="font-size:44px">t</span></span><span class="wm" style="font-size:86px;color:var(--cream)">terricom<i>.</i></span></div>
 <h1 class="t" style="position:relative;font-size:58px;color:var(--cream);margin-top:28px;max-width:900px">Aller chercher <em>toutes les communautés de communes.</em></h1>
-<p class="sub" style="position:relative;max-width:840px">Marché, offre, tarifs, stratégie commerciale et web, modèle économique et simulations sur cinq ans : ce que nous proposons, chiffres à l’appui, et pourquoi.</p>
-<div style="position:relative;margin-top:auto;display:flex;gap:10px;flex-wrap:wrap">{''.join(f'<span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">{x}</span>' for x in ['1 · Le marché', '2 · Notre solution', '3 · Nos tarifs', '4 · Vendre partout', '5 · Webmarketing', '6 · Modèle et simulations', '7 · Plan d’action'])}</div>
+<p class="sub" style="position:relative;max-width:840px">Marché, offre, deux modèles de prix à arbitrer, stratégie commerciale et web, modèle économique et simulations sur cinq ans : ce que nous proposons, chiffres à l’appui, et pourquoi.</p>
+<div style="position:relative;margin-top:auto;display:flex;gap:10px;flex-wrap:wrap">{''.join(f'<span style="border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--sage2)">{x}</span>' for x in ['1 · Le marché', '2 · Notre solution', '3 · Nos tarifs (A ou B)', '4 · Vendre partout', '5 · Webmarketing', '6 · Modèle et simulations', '7 · Plan d’action'])}</div>
 ''', 'dark', '')
 
 # 1 — Synthèse
 slide(tete('Synthèse', 'Ce que nous proposons, <em>en une page.</em>') + f'''
 <div class="grid3" style="margin-top:26px">
-<div class="card green"><h3>Une grille nationale unique</h3><p>La même pour tous, publique, par tranche de population : de {eur(4900)} à {eur(16900)} HT par an pour une communauté de communes, tout compris. Environ 0,43 € par habitant en moyenne.</p></div>
-<div class="card ink"><h3>Toujours sous le seuil</h3><p>Trois ans de licence et la mise en service restent sous {eur(60000)} HT pour toutes les CC : signature sur simple devis, sans appel d’offres.</p></div>
+<div class="card green"><h3>Deux modèles de prix à arbitrer</h3><p><b>A</b> · grille par tranches : {eur(4900)} à {eur(16900)} HT par an, ≈ {eur(M.LICENCE_MOYENNE)} en moyenne. <b>B</b> · abonnement territorial : {eur(10000)} + 0,20 € par habitant (plafond {eur(59000)}), ≈ {eur(M.B_LICENCE_MOYENNE)} en moyenne.</p></div>
+<div class="card ink"><h3>Le seuil de 60 000 € HT</h3><p>Avec A, trois ans et la mise en service restent sous le seuil pour toutes les CC : signature sur devis. Avec B, {M.B_CC_AU_DESSUS_SEUIL} CC le dépassent (plus de {nb(M.B_POP_SEUIL)} hab.) : procédure de publicité ou centrale d’achat.</p></div>
 <div class="card amber"><h3>Rentable sans les commerçants</h3><p>Les licences suffisent à équilibrer le modèle. Les abonnements des commerçants sont un bonus, pas un pari : c’est là qu’ont échoué les places de marché locales.</p></div>
 <div class="card"><h3>Une démo sur leur territoire</h3><p>Chaque CC voit son portail rempli de ses vraies entreprises avant le premier rendez-vous. C’est notre arme pour couvrir les 989 CC depuis la visio.</p></div>
-<div class="card"><h3>Objectif 2031</h3><p>Scénario central : {nb(cen[2031]['actifs'])} CC clientes ({pct(cen[2031]['part_marche'])} du marché), {keur(cen[2031]['ca'])} de chiffre d’affaires, {keur(cen[2031]['resultat'])} de résultat.</p></div>
-<div class="card"><h3>Ce qu’il faut décider</h3><p>Valider la grille, lancer l’offre 2027, lever {keur(300000)} environ, recruter un premier commercial en 2028.</p></div>
+<div class="card"><h3>Objectif 2031</h3><p>Scénario central : {nb(cen[2031]['actifs'])} CC clientes ({pct(cen[2031]['part_marche'])} du marché), {keur(cen[2031]['ca'])} de chiffre d’affaires avec A, {keur(cenB[2031]['ca'])} avec B à signatures égales.</p></div>
+<div class="card"><h3>Ce qu’il faut décider</h3><p>Choisir le modèle de prix (A ou B), lancer l’offre 2027, lever {keur(300000)} environ, recruter un premier commercial en 2028.</p></div>
 </div>''', '', 'Synthèse')
 
 # ═══ 1 LE MARCHÉ ═══
@@ -255,9 +266,9 @@ slide(tete('2 · Notre promesse', 'Une phrase, <em>trois bénéfices.</em>') + '
 </div>''', '', '2 · Notre solution')
 
 # ═══ 3 TARIFS ═══
-intercalaire('3', 'Nos tarifs : <em>une grille, pour tout le monde.</em>', 'Les mêmes règles pour les 989 communautés de communes, publiques et sans négociation. Et pourquoi ces montants.', 'amber')
+intercalaire('3', 'Nos tarifs : <em>deux modèles à arbitrer.</em>', 'Modèle A : une grille nationale par tranches de population. Modèle B : un abonnement territorial calculé sur la population. Les mêmes règles pour les 989 communautés de communes dans les deux cas.', 'amber')
 
-slide(tete('3 · Nos principes de prix', 'Six règles, <em>et leur raison.</em>') + points([
+slide(tete('3 · Principes communs', 'Six règles, <em>et leur raison.</em>', 'Elles valent pour les deux modèles, sauf le seuil de 60 000 € HT, tenu par A pour toutes les CC et par B jusqu’à 41 667 habitants.') + points([
     ('La collectivité paie, le commerçant jamais obligé', 'La fiche reste gratuite pour chaque entreprise : c’est ce qui garantit l’exhaustivité et évite l’échec des places de marché.'),
     ('Une grille nationale, publique, identique', 'Même prix pour deux CC de même taille : pas de négociation, pas de soupçon, un argument de transparence pour des acheteurs publics.'),
     ('La population comme seul critère', 'Donnée officielle, connue de tous, liée à la valeur (habitants touchés, nombre d’entreprises). Pas de compteur d’usage à surveiller.'),
@@ -270,11 +281,11 @@ grille = []
 POP_MOY = [7260, 15093, 26238, 41590, 62721]  # population moyenne réelle des CC de chaque tranche
 for (lib, lo, hi, n_, prix), pm in zip(T, POP_MOY):
     grille.append([lib, f'<b>{eur(prix)}</b>', f'{eur(prix / 12)}', f'≈ {prix / pm:.2f} €'.replace('.', ','), nb(n_), eur(prix * (1 + 1.02 + 1.0404) + 1900 + 50 * 30)])
-slide(tete('3 · La grille nationale', 'Licence annuelle, <em>tout compris.</em>', 'Portail, back-office de la CC et de toutes ses communes, fiches gratuites pour toutes les entreprises, synchronisation SIRENE, assistant IA, trois langues, hébergement en France, support et mises à jour.') + tableau(
+slide(tete('3 · Modèle A · La grille nationale', 'Licence annuelle, <em>tout compris.</em>', 'Portail, back-office de la CC et de toutes ses communes, fiches gratuites pour toutes les entreprises, synchronisation SIRENE, assistant IA, trois langues, hébergement en France, support et mises à jour.') + tableau(
     ['Population de la CC', 'Licence HT / an', 'Soit par mois', 'Par habitant', 'CC concernées', '3 ans + mise en service'],
     grille, ['24%', '16%', '14%', '14%', '14%', '18%'], 'margin-top:20px') + f'<p style="font-size:15px;color:var(--muted);margin-top:10px">Indexation de 2 % par an au contrat. Colonne de droite : trois ans de licence et une mise en service de 30 communes, toujours sous {eur(60000)} HT (au plus {eur(TOP_3ANS)} pour les plus grandes CC).</p>', '', '3 · Nos tarifs')
 
-slide(tete('3 · Pourquoi ces montants', 'Des prix <em>faciles à défendre.</em>') + '''
+slide(tete('3 · Modèle A · Pourquoi ces montants', 'Des prix <em>faciles à défendre.</em>') + '''
 <div class="grid2" style="margin-top:22px">''' + points([
     ('0,43 € par habitant en moyenne', 'Au milieu de ce que facturait La Poste (0,22 à 0,50 €), mais sans commission et avec bien plus de services. Un élu raisonne en euros par habitant : c’est le chiffre à donner.'),
     ('Moins d’un sixième d’un manager de commerce', '7 900 € pour une CC de 15 000 habitants, contre 50 à 60 k€ par an pour un poste : l’outil qui démultiplie ce poste, ou qui en tient lieu dans les petites CC.'),
@@ -285,13 +296,50 @@ slide(tete('3 · Pourquoi ces montants', 'Des prix <em>faciles à défendre.</em
     ('Des tranches rondes', '4 900, 7 900, 10 900, 13 900, 16 900 : faciles à retenir et à inscrire au budget, en hausse de 3 000 € par tranche.'),
 ], 4) + '</div>', '', '3 · Nos tarifs')
 
-slide(tete('3 · Mise en service et offre de lancement', 'Payer le travail réel, <em>une seule fois.</em>') + f'''
+slide(tete('3 · Modèle A · Mise en service et offre de lancement', 'Payer le travail réel, <em>une seule fois.</em>') + f'''
 <div class="grid3" style="margin-top:24px">
 <div class="card green"><h3>Mise en service</h3><div class="big" style="font-size:34px;color:var(--amber);margin:6px 0 10px;white-space:nowrap">1 900 € + 50 € / commune</div><p>Import et contrôle SIRENE, paramétrage, formation de la CC et des mairies en visio, courriers d’invitation aux entreprises. CC médiane (21 communes) : 2 950 € HT.</p></div>
 <div class="card amber"><h3>Offre de lancement 2027</h3><div class="big" style="font-size:44px;margin:6px 0 10px">Offerte</div><p style="color:var(--ink)">Pour toute CC qui signe en 2027, quelle que soit sa taille. Même règle pour tous, limitée dans le temps : elle crée l’urgence sans casser la grille.</p></div>
 <div class="card ink"><h3>Engagement trois ans</h3><div class="big" style="font-size:44px;color:var(--amber);margin:6px 0 10px">Prix bloqué</div><p>Pas d’indexation pendant trois ans pour qui s’engage : simple à expliquer, bon pour la visibilité budgétaire, et nous gagnons en rétention.</p></div>
 </div>
 <p class="sub" style="font-size:19px">Pourquoi pas une remise sur la licence ? Parce qu’une remise se négocie ensuite à chaque renouvellement et se compare entre voisins. Offrir la mise en service ne coûte qu’une fois.</p>''', '', '3 · Nos tarifs')
+
+grilleB = []
+for pop in (5000, 10000, 20000, 30000, 40000, 50000, 75000, 100000, 200000):
+    v = M.licence_b(pop)
+    grilleB.append([nb(pop), f'<b>{eur(v)}</b>', f'{v / pop:.2f} €'.replace('.', ','), eur(v / 12)])
+grilleB.append(['250 000 et plus', f'<b>{eur(59000)} au plus</b>', 'dégressif', eur(59000 / 12)])
+slide(tete('3 · Modèle B · L’abonnement territorial', f'{eur(10000)} + 0,20 € par habitant, <em>plafonné à {eur(59000)}.</em>', 'Un seul abonnement pour tout le territoire, sans licence par commune.') + '<div class="split" style="grid-template-columns:1fr 430px;gap:28px;margin-top:14px">' + tableau(
+    ['Population', 'Abonnement HT / an', 'Par habitant', 'Par mois'], grilleB, ['30%', '28%', '20%', '22%'], 'font-size:14px') + '<div>' + points([
+    ('Un socle, puis la taille', 'Hébergement, sécurité, maintenance, support et évolutions coûtent la même chose quelle que soit la population : le socle de 10 000 € les finance, les 0,20 € par habitant tiennent compte de la taille.'),
+    ('Dégressif par habitant', '2,20 € pour 5 000 habitants, 0,30 € pour 100 000 : le total monte avec la population, le coût par habitant baisse.'),
+    ('Une formule, pas une grille', 'Le prix se calcule devant l’élu, avec la population officielle : pas d’effet de seuil entre deux tranches.'),
+]) + '</div></div>', '', '3 · Nos tarifs')
+
+slide(tete('3 · Modèle B · Mise en service et première année', f'Une mise en service de <em>{eur(5000)} HT.</em>') + f'''
+<div class="grid3" style="margin-top:24px">
+<div class="card green"><h3>Mise en service</h3><div class="big" style="font-size:44px;color:var(--amber);margin:6px 0 10px">{eur(5000)} HT</div><p>Facturée la première année : paramétrage du territoire, personnalisation graphique, configuration des communes, préparation et import des données, comptes et droits, formation, accompagnement au lancement.</p></div>
+<div class="card"><h3>Première année, exemples</h3><p>20 000 habitants : {eur(M.licence_b(20000))} + {eur(5000)} = <b>{eur(M.licence_b(20000) + 5000)}</b><br>40 000 habitants : {eur(M.licence_b(40000))} + {eur(5000)} = <b>{eur(M.licence_b(40000) + 5000)}</b><br>100 000 habitants : {eur(M.licence_b(100000))} + {eur(5000)} = <b>{eur(M.licence_b(100000) + 5000)}</b></p></div>
+<div class="card ink"><h3>Le positionnement</h3><p>Pas le prix d’un site internet : celui d’une infrastructure numérique territoriale mutualisée, qui relie intercommunalité, communes, entreprises, habitants et visiteurs.</p></div>
+</div>
+<div class="card amber" style="margin-top:20px"><p style="font-size:19px;color:var(--ink)">« Pour un tarif calculé simplement selon la population, votre communauté de communes équipe l’ensemble de son territoire d’une plateforme numérique commune : intercommunalité, communes, entreprises, commerces, habitants et visiteurs. »</p></div>''', '', '3 · Nos tarifs')
+
+comp = []
+for pop in (5000, 10000, 20000, 30000, 40000, 50000, 100000):
+    a, b = prix_a(pop), M.licence_b(pop)
+    a3 = a * (1 + 1.02 + 1.0404) + 1900 + 50 * 30
+    b3 = 3 * b + M.B_MISE_EN_SERVICE
+    comp.append([nb(pop), eur(a), f'<b>{eur(b)}</b>', f'+{(b / a - 1) * 100:.0f} %', eur(a3), f'<span style="color:{"#9C3328" if b3 > 60000 else "#1F6B52"}"><b>{eur(b3)}</b></span>'])
+slide(tete('3 · A ou B', 'Les deux modèles, <em>côte à côte.</em>', 'Prix annuel HT, puis trois ans avec la mise en service (A : +2 %/an, 30 communes ; B : sans indexation). En rouge : au-dessus de 60 000 € HT.') + tableau(
+    ['Population', 'A · licence / an', 'B · abonnement / an', 'Écart', 'A · 3 ans + MES', 'B · 3 ans + MES'], comp, ['15%', '17%', '19%', '11%', '19%', '19%'], 'margin-top:14px;font-size:15px') + f'''
+<p style="font-size:17px;color:var(--text2);margin-top:14px"><b>En moyenne</b> : {eur(M.LICENCE_MOYENNE)} par CC et par an avec A, {eur(M.B_LICENCE_MOYENNE)} avec B (+{(M.B_LICENCE_MOYENNE / M.LICENCE_MOYENNE - 1) * 100:.0f} %). <b>Marché des 989 CC</b> : {keur(M.MARCHE_LICENCES)} par an avec A, {keur(M.B_MARCHE)} avec B. <b>Plafond</b> : aucune CC ne l’atteint ; il ne joue que pour 36 agglomérations et métropoles.</p>''', '', '3 · Nos tarifs')
+
+slide(tete('3 · A ou B', 'Ce que chaque modèle <em>apporte, et ce qu’il demande.</em>') + '''
+<div class="grid2" style="margin-top:22px">
+<div class="card"><h3>Modèle A · grille par tranches</h3><p><b>Pour</b> : prix bas, faciles à inscrire au budget des petites CC (217 CC de moins de 10 000 habitants à 4 900 €) ; toutes les CC restent sous 60 000 € HT sur trois ans, donc signature sur devis ; mise en service offerte en 2027 pour créer l’urgence.<br><br><b>Contre</b> : revenu par client plus faible, rentabilité plus lente ; effets de seuil entre deux tranches (19 999 et 20 001 habitants).</p></div>
+<div class="card green"><h3>Modèle B · abonnement territorial</h3><p><b>Pour</b> : +56 % de revenu moyen par CC ; une formule simple, expliquée en une phrase, sans effet de seuil ; message de mutualisation (« tout le territoire pour un seul abonnement ») ; la mise en service de 5 000 € finance le travail réel.<br><br><b>Contre</b> : la plus petite CC paie 11 000 € au lieu de 4 900 € : un frein possible pour les 527 CC de moins de 20 000 habitants ; 86 CC dépassent 60 000 € HT sur trois ans.</p></div>
+</div>
+<div class="card ink" style="margin-top:18px"><p style="font-size:18px">Au-delà de 41 667 habitants, B impose une procédure adaptée avec publicité (MAPA), ou le passage par une centrale d’achat publique : quelques semaines de plus, pas un appel d’offres européen. Découper en contrats d’un an pour rester sous le seuil n’est pas une solution : la valeur s’apprécie sur toute la durée du besoin (à valider avec un juriste). Une voie médiane reste possible : B, avec un socle réduit pour les CC de moins de 10 000 habitants.</p></div>''', '', '3 · Nos tarifs')
 
 slide(tete('3 · Pour tout le monde', 'Communes seules, agglomérations : <em>la même logique.</em>') + tableau(
     ['Collectivité', 'Tarif HT / an', 'Règle'],
@@ -322,14 +370,15 @@ slide(tete('3 · Services et limites', 'Ce que nous vendons en plus, <em>ce que 
 </div>
 <p class="sub" style="font-size:19px">Chaque refus est un argument de vente : les élus ont tous en tête une plateforme qui a coûté cher pour peu de résultats.</p>''', '', '3 · Nos tarifs')
 
-slide(tete('3 · Exemple', 'Les Lacs et Montagnes du Haut-Doubs <em>sur la grille.</em>') + f'''
+slide(tete('3 · Exemple', 'Les Lacs et Montagnes du Haut-Doubs, <em>modèle A et modèle B.</em>') + f'''
 <div class="grid4" style="margin-top:26px">
 <div class="card green"><div class="big" style="font-size:54px;color:var(--amber)">7 900 €</div><p style="margin-top:8px">HT par an : tranche 10 000–20 000 habitants (16 920 hab.)</p></div>
 <div class="card"><div class="big" style="font-size:54px;color:var(--green)">3 500 €</div><p style="margin-top:8px">mise en service (1 900 € + 32 communes × 50 €), <b>offerte en 2027</b></p></div>
 <div class="card"><div class="big" style="font-size:54px;color:var(--green)">0,47 €</div><p style="margin-top:8px">par habitant et par an ; 247 € par commune</p></div>
 <div class="card"><div class="big" style="font-size:54px;color:var(--green)">{eur(HD_3ANS)}</div><p style="margin-top:8px">HT sur 3 ans, bien sous le seuil de 60 000 €</p></div>
 </div>
-<div class="card ink" style="margin-top:20px"><p style="font-size:19px">Ce chiffre remplace les montants évoqués oralement (9 600 € affichés, 7 500 € remisés) : avec une grille nationale, le Haut-Doubs paie exactement ce que paiera toute CC de sa taille. S’il s’engage sur trois ans, son prix reste à 7 900 € par an, et la mise en service est offerte s’il signe en 2027. Côté commerçants : 3 % d’abonnés parmi ses 1 968 fiches représenteraient environ 16 500 € HT par an.</p></div>''', '', '3 · Nos tarifs')
+<div class="card amber" style="margin-top:20px"><p style="font-size:19px;color:var(--ink)"><b>Avec le modèle B</b> : {eur(HD_B)} HT par an (10 000 € + 16 920 × 0,20 €), soit 0,79 € par habitant, plus {eur(M.B_MISE_EN_SERVICE)} de mise en service ; {eur(HD_B_3ANS)} HT sur trois ans, sous le seuil de 60 000 €.</p></div>
+<div class="card ink" style="margin-top:14px"><p style="font-size:17px">Avec A, ce chiffre remplace les montants évoqués oralement (9 600 € affichés, 7 500 € remisés) : avec une grille nationale, le Haut-Doubs paie exactement ce que paiera toute CC de sa taille. S’il s’engage sur trois ans, son prix reste à 7 900 € par an, et la mise en service est offerte s’il signe en 2027. Côté commerçants : 3 % d’abonnés parmi ses 1 968 fiches représenteraient environ 16 500 € HT par an.</p></div>''', '', '3 · Nos tarifs')
 
 # ═══ 4 VENDRE PARTOUT ═══
 intercalaire('4', 'Vendre partout : <em>989 CC depuis un bureau.</em>', 'Une démonstration automatique, la visio, des relais nationaux et un calendrier calé sur les budgets.')
@@ -439,12 +488,12 @@ slide(tete('5 · Budget et indicateurs', 'Ce qu’on dépense, <em>ce qu’on me
 ], ['64%', '36%']) + '</div>', '', '5 · Webmarketing')
 
 # ═══ 6 MODÈLE ET SIMULATIONS ═══
-intercalaire('6', 'Modèle économique : <em>les chiffres.</em>', 'Quatre sources de revenus, des coûts maîtrisés, trois scénarios sur cinq ans et le besoin de financement.', 'green')
+intercalaire('6', 'Modèle économique : <em>les chiffres.</em>', 'Quatre sources de revenus, des coûts maîtrisés, trois scénarios sur cinq ans, le besoin de financement. Les pages suivantes sont calculées avec le modèle A ; la comparaison avec le modèle B suit.', 'green')
 
 slide(tete('6 · Le modèle', 'Quatre sources de revenus, <em>une seule indispensable.</em>') + f'''
 <div class="grid4" style="margin-top:24px">
-<div class="card green"><h3>Licences</h3><p>Récurrent, prévisible, payé par la collectivité. ≈ {eur(M.LICENCE_MOYENNE)} HT par CC en moyenne. <b>Le socle du modèle.</b></p></div>
-<div class="card"><h3>Mises en service</h3><p>≈ {eur(M.MISE_EN_SERVICE)} HT par nouvelle CC, une fois (offerte en 2027).</p></div>
+<div class="card green"><h3>Licences</h3><p>Récurrent, prévisible, payé par la collectivité. ≈ {eur(M.LICENCE_MOYENNE)} HT par CC en moyenne avec A, ≈ {eur(M.B_LICENCE_MOYENNE)} avec B. <b>Le socle du modèle.</b></p></div>
+<div class="card"><h3>Mises en service</h3><p>≈ {eur(M.MISE_EN_SERVICE)} HT par nouvelle CC avec A (offerte en 2027), {eur(M.B_MISE_EN_SERVICE)} avec B, une fois.</p></div>
 <div class="card"><h3>Services</h3><p>Formation sur site, campagnes clés en main, impressions : ≈ 6 % des licences.</p></div>
 <div class="card amber"><h3>Abonnements commerçants</h3><p style="color:var(--ink)">≈ {M.ARPU_PRO} € HT par abonné et par an. Un bonus qui grandit avec l’ancienneté des territoires.</p></div>
 </div>
@@ -507,6 +556,19 @@ slide(tete('6 · Sensibilité', 'Ce qui fait vraiment <em>bouger le résultat.</
     ['Adoption commerçants', 'Signatures −30 %', 'Signatures prévues', 'Signatures +30 %'], sens, ['31%', '23%', '23%', '23%'], 'margin-top:22px') + '''
 <div class="card ink" style="margin-top:18px"><p style="font-size:19px">Le rythme de signatures des CC compte plus que l’adoption par les commerçants : c’est la preuve qu’il faut concentrer l’énergie commerciale sur les collectivités, et traiter l’abonnement des commerçants comme un accélérateur.</p></div>''', '', '6 · Modèle et simulations')
 
+ligAB = []
+for k, a_, b_ in (('prudent', pru, pruB), ('central', cen, cenB), ('ambitieux', amb, ambB)):
+    ligAB.append([f"<b>{M.SCENARIOS[k]['label']}</b>", keur(a_[2029]['ca']), keur(b_[2029]['ca']), keur(a_[2031]['ca']), f"<b>{keur(b_[2031]['ca'])}</b>", keur(a_[2031]['resultat']), f"<b>{keur(b_[2031]['resultat'])}</b>", keur(-min(0, min(l['tresorerie'] for l in R[k]))), keur(-min(0, min(l['tresorerie'] for l in RB[k])))])
+slide(tete('6 · Modèle A ou modèle B', 'Les mêmes scénarios, <em>avec l’abonnement territorial.</em>', 'Mêmes signatures, départs, commerçants et coûts ; seuls changent le prix par CC et la mise en service.') + tableau(
+    ['Scénario', 'CA 2029 · A', 'CA 2029 · B', 'CA 2031 · A', 'CA 2031 · B', 'Résultat 2031 · A', 'Résultat 2031 · B', 'Creux · A', 'Creux · B'], ligAB, ['14%'] + ['10.75%'] * 8, 'margin-top:14px;font-size:14.5px') + f'''
+<div class="split" style="grid-template-columns:580px 1fr;margin-top:10px">
+<div>{courbes([('A', [cen[y]['tresorerie'] for y in M.ANNEES]), ('B', [cenB[y]['tresorerie'] for y in M.ANNEES]), ('B −25 %', [B_moins[y]['tresorerie'] for y in M.ANNEES])], [str(y) for y in M.ANNEES], ['#1F6B52', '#C8702A', '#AEBDB5'], w=540, h=190)}<p style="font-size:13px;color:var(--muted);margin:0">Trésorerie cumulée, scénario central, avant financement (B −25 % : un quart de signatures en moins).</p></div>
+''' + points([
+    ('Plus de revenu, plus tôt', f'Central : équilibre dès 2028 avec B ; creux de {keur(-min(l["tresorerie"] for l in RB["central"]))} contre {keur(-min(l["tresorerie"] for l in C))} avec A.'),
+    ('Même avec moins de signatures', f'Un quart de signatures en moins : B fait encore {keur(B_moins[2031]["ca"])} de CA et {keur(B_moins[2031]["resultat"])} de résultat en 2031.'),
+    ('La vraie question', 'Les petites CC signent-elles à 11 000 € ? À tester dès les premiers rendez-vous de 2027.'),
+]) + '</div>', '', '6 · Modèle et simulations')
+
 # ═══ 7 PLAN D'ACTION ═══
 intercalaire('7', 'Plan d’action : <em>les douze prochains mois.</em>', 'Ce que nous faisons dès maintenant, les risques à surveiller et les décisions à prendre.', 'dark')
 
@@ -531,8 +593,8 @@ slide(tete('7 · Risques', 'Ce qui peut mal tourner, <em>et la parade.</em>') + 
     ], ['36%', '64%'], 'margin-top:22px'), '', '7 · Plan d’action')
 
 slide(tete('7 · À décider', 'Les décisions <em>des fondateurs.</em>') + points([
-    ('Valider la grille nationale', '4 900 à 16 900 € HT par CC, communes seules, agglomérations, commerçants à 24 et 49 €.'),
-    ('Lancer l’offre 2027', 'Mise en service offerte pour toute signature en 2027, prix bloqué pour trois ans d’engagement.'),
+    ('Choisir le modèle de prix : A ou B', 'A : grille de 4 900 à 16 900 € HT par CC, toutes sous le seuil. B : 10 000 € + 0,20 € par habitant (plafond 59 000 €), mise en service 5 000 € ; +56 % par client, 86 CC au-dessus du seuil. Communes seules, agglomérations et commerçants (24 et 49 €) inchangés.'),
+    ('Lancer l’offre 2027', 'A : mise en service offerte pour toute signature en 2027. B : la garder facturée, ou l’offrir de la même façon. Dans les deux cas, prix bloqué pour trois ans d’engagement.'),
     ('Choisir le scénario de pilotage', 'Central recommandé : 6 CC en 2027, 20 en 2028, un commercial dès 2028.'),
     ('Financer', 'Lever 300 à 400 k€ (prêts d’honneur, Bpifrance, amorçage) avant mi-2027.'),
     ('Fixer la rémunération des fondateurs', 'Hypothèse du modèle : 90 k€ chargés à deux ; à ajuster.'),
@@ -551,6 +613,7 @@ slide(tete('Sources', 'Les chiffres cités <em>et leur origine.</em>') + '''<div
 <p style="margin:0 0 8px"><b>Usage des fiches Google</b> : Baromètre France Num 2025, environ une entreprise sur deux.</p>
 <p style="margin:0 0 8px"><b>Budget des collectivités</b> : collectivites-locales.gouv.fr, cycle budgétaire (vote au plus tard le 15 avril).</p>
 <p style="margin:0 0 8px"><b>Haut-Doubs</b> : base SIRENE (API Recherche d’entreprises, septembre 2026), rapport docs/demo/haut-doubs-controle.csv.</p>
+<p style="margin:0 0 8px"><b>Modèle B</b> : note de cadrage des fondateurs « modèle économique et tarification » (2026) ; moyennes calculées sur les 989 CC (populations geo.api.gouv.fr).</p>
 <p style="margin:0"><b>Simulations</b> : docs/strategie/modele.py (hypothèses modifiables). Chiffres à revérifier avant toute diffusion externe.</p></div>''', '', 'Sources')
 
 # ─── Assemblage ────────────────────────────────────────────────────────────
