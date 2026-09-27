@@ -43,7 +43,8 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
 | —                    | Stratégie des fondateurs           | PDF paysage interne (45 pages) : marché national, offre, grille tarifaire unique par population, vente, webmarketing, modèle sur cinq ans, trois scénarios                                                                  |
 | `b0fc15c`            | Teaser « The Mountain »            | Marque révélée à 36 s, plan topographique réel, captures animées image par image avec curseur, fond de carte Overture rendu pour l’occasion, photos Commons ; accord « 1 artisan » corrigé dans l’assistant de campagne     |
 | `8d6542c`            | Site commercial terricom.fr        | Site statique autonome (`site-terricom/`) destiné aux élus : 15 pages, captures réelles du Haut-Doubs, film, formulaires par courriel ; aucun tarif public (vente en direct)                                                |
-| —                    | Site commercial, version nationale | Message national (le Haut-Doubs devient le territoire de démonstration signalé), photos de toute la France, l’application en action en boucles vidéo (scènes filmées pour le site), démonstration par onglets, film intégré |
+| `cb19206`            | Site commercial, version nationale | Message national (le Haut-Doubs devient le territoire de démonstration signalé), photos de toute la France, l’application en action en boucles vidéo (scènes filmées pour le site), démonstration par onglets, film intégré |
+| —                    | Formulaires du site commercial     | `POST /api/site/demonstration` et `/api/site/contact` : affaire dans le suivi commercial (sans doublon), courriels à l’équipe et à l’expéditeur, CORS limité à `SITE_ORIGINS`, messagerie en secours côté site              |
 
 ## Décisions
 
@@ -94,6 +95,11 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
   commune, animation, communauté) et en opposition assumée aux places de marché locales, avec le constat de la
   Cour des comptes (septembre 2023) cité fidèlement. Aucun prix sur le site public : la proposition se fait en
   rendez-vous. Captures produites par `scripts/teaser/captures-site.mjs` sur la démo Haut-Doubs.
+- **Formulaires du site commercial** : pas de service tiers ; la plateforme les reçoit comme le formulaire
+  `/demo` de l’application, avec la même logique (service `site-requests.ts`). Une personne qui écrit plusieurs
+  fois rejoint son affaire ouverte au lieu d’en créer une nouvelle. Un message d’entreprise n’est pas un prospect :
+  il est seulement transmis à l’équipe. Si la plateforme est injoignable, le site ouvre la messagerie de
+  l’internaute avec la demande préremplie.
 - **Site commercial, version nationale** : le discours s’adresse à toute la France. Le Haut-Doubs n’illustre
   qu’en tant que territoire de démonstration, toujours signalé comme tel. Les photos d’ambiance viennent de
   plusieurs régions (Wikimedia Commons, crédits sous chaque photo). L’application est montrée en train d’être

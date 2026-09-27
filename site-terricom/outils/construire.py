@@ -10,6 +10,7 @@ Raccourcis utilisables dans les pages :
   {{photo:nom|texte alternatif|lieu}}              photo, avec son crédit (et le nom du lieu, facultatif)
   {{icon:nom}}                                     pictogramme
   {{cta}}                                          bandeau final commun
+  {{api}}                                          adresse des formulaires (variable TERRICOM_API)
 
 Usage : python3 outils/construire.py   (puis python3 outils/verifier.py)
 """
@@ -22,6 +23,8 @@ ICI = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGES = os.path.join(ICI, 'pages')
 PUB = os.path.join(ICI, 'public')
 SITE = 'https://terricom.fr'
+# Adresse des formulaires : l'application terricom (voir terricom/src/app/api/site). Modifiable à la construction.
+API = os.environ.get('TERRICOM_API', 'https://terricom.fr/api/site').rstrip('/')
 TAILLES = json.load(open(os.path.join(ICI, 'outils', 'tailles.json')))
 CREDITS = json.load(open(os.path.join(ICI, 'outils', 'credits.json')))
 ANIMS = json.load(open(os.path.join(ICI, 'outils', 'animations.json')))
@@ -189,7 +192,7 @@ def expand(html):
     html = re.sub(r'\{\{photo:([^}]*)\}\}', m_photo, html)
     html = re.sub(r'\{\{icon:([a-z]+)\}\}', lambda m: icon(m.group(1)), html)
     html = re.sub(r'\{\{credit:([a-z-]+)\}\}', lambda m: f'<a href="{CREDITS.get(m.group(1), {}).get("page", "credits.html")}">{credit_text(m.group(1))}</a>', html)
-    html = html.replace('{{cta}}', CTA)
+    html = html.replace('{{cta}}', CTA).replace('{{api}}', API)
     if '{{credits}}' in html:
         items = ''.join(
             f'<li>{c["title"].rsplit(".", 1)[0]} : {c["artist"]}, {c["license"]} (<a href="{c["page"]}">source</a>)</li>'

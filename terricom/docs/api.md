@@ -112,3 +112,23 @@ Dans le back-office (« Agenda & actualités » → « Agendas externes »), une
 l’adresse iCalendar d’un agenda existant (office de tourisme, association). Les événements à venir (un an,
 500 au plus) sont importés, mis à jour chaque heure (tâche `agenda.sync`) et retirés s’ils disparaissent de
 la source ou sont annulés (`STATUS:CANCELLED`). Les récurrences ne sont pas développées (première occurrence).
+
+## Formulaires du site commercial (terricom.fr)
+
+Le site commercial statique (`site-terricom/`) envoie ses deux formulaires à la plateforme :
+
+| Point d’accès                  | Champs (JSON ou formulaire)                                                                                                                 |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `POST /api/site/demonstration` | `collectivite`, `type` (`CC`, `CA`, `COMMUNE`, `AUTRE`), `communes`, `nom`, `fonction`, `email`, `tel`, `format`, `message`, `consentement` |
+| `POST /api/site/contact`       | `nom`, `email`, `collectivite`, `objet`, `message`, `consentement`                                                                          |
+
+- Réponse JSON `{ ok, message }` : `200` enregistré, `422` formulaire incomplet (message en français),
+  `429` demande déjà reçue (3 par heure et par adresse IP, 2 par jour et par adresse électronique),
+  `403` origine non autorisée.
+- Inter-origines : seules les adresses de `SITE_ORIGINS` et celle de l’application sont autorisées (`OPTIONS`
+  pris en charge). Champ piège `website` : s’il est rempli, la réponse est `200` et rien n’est enregistré.
+- Une demande de démonstration, ou un message d’une collectivité, crée une affaire au stade « prospect »
+  dans le suivi commercial de la console. S’il existe déjà une affaire ouverte pour la même adresse, la demande
+  s’y ajoute. L’équipe est prévenue sur `SALES_EMAIL` (avec `Reply-To` vers l’expéditeur), et l’expéditeur
+  reçoit un accusé de réception. Code : `src/app/api/site/[form]/route.ts`, `src/lib/site-forms.ts`,
+  `src/server/services/site-requests.ts` (partagé avec le formulaire `/demo` de l’application).

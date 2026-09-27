@@ -1663,3 +1663,34 @@ table.compare {
   text-overflow: ellipsis;
   text-align: right;
 }
+
+/* Champ piège à robots, invisible pour les personnes */
+.hp {
+  position: absolute !important;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.form {
+  position: relative;
+}
+.form-status.ok {
+  color: var(--green);
+  font-weight: 600;
+}
+.form-status.err {
+  color: #b3261e;
+  font-weight: 600;
+}
+.form.sent .field,
+.form.sent .row,
+.form.sent .check,
+.form.sent .actions {
+  display: none;
+}
+.form.sent .form-status {
+  font-size: 19px;
+  line-height: 1.5;
+  margin: 0;
+}

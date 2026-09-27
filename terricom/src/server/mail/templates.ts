@@ -318,6 +318,17 @@ export function demoRequestAckTemplate(p: { to: string; name: string }): Outgoin
   return { to: p.to, subject: 'Votre demande de démo terricom', html, text, template: 'demo-ack' };
 }
 
+export function contactAckTemplate(p: { to: string; name: string }): OutgoingEmail {
+  const { html, text } = renderEmail({
+    title: 'Merci, votre message est bien arrivé',
+    paragraphs: [
+      `Bonjour ${p.name}, nous avons bien reçu votre message. Un membre de l’équipe terricom vous répond sous deux jours ouvrés.`,
+      'Si votre demande est urgente, vous pouvez répondre directement à ce courriel.',
+    ],
+  });
+  return { to: p.to, subject: 'Votre message à terricom', html, text, template: 'contact-ack' };
+}
+
 export function securityAlertTemplate(p: { to: string; title: string; detail: string }): OutgoingEmail {
   const { html, text } = renderEmail({
     eyebrow: 'Sécurité du compte',

@@ -59,25 +59,64 @@ if ('IntersectionObserver' in window && !reduce) {
   document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
 }
 
-// Formulaires : le message est préparé dans la messagerie de l'élu ou de l'agent (aucune donnée ne transite
-// par un serveur tiers). Destinataire et objet sont portés par l'attribut data-mailto.
-document.querySelectorAll('form[data-mailto]').forEach((form) => {
-  form.addEventListener('submit', (e) => {
+// Formulaires : envoyés à la plateforme terricom (data-endpoint), qui enregistre la demande dans le suivi
+// commercial, prévient l'équipe et envoie un accusé de réception. Si le serveur est injoignable, la demande est
+// préparée dans la messagerie de l'internaute (data-mailto), pour qu'elle ne soit jamais perdue.
+function mailtoFallback(form) {
+  const lines = [];
+  for (const el of form.elements) {
+    if (!el.name || el.name === 'consentement' || el.name === 'website' || el.type === 'submit') continue;
+    const v = el.tagName === 'SELECT' ? el.selectedOptions[0]?.textContent : el.value;
+    if (!String(v ?? '').trim()) continue;
+    const label = el.closest('.field')?.querySelector('label')?.textContent ?? el.name;
+    lines.push(`${label.replace(/\s*\*$/, '')} : ${v}`);
+  }
+  const subject = form.dataset.subject ?? 'Demande depuis terricom.fr';
+  window.location.href = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+}
+
+document.querySelectorAll('form[data-endpoint], form[data-mailto]').forEach((form) => {
+  const status = form.querySelector('.form-status');
+  const button = form.querySelector('button[type=submit]');
+  const say = (text, kind) => {
+    if (!status) return;
+    status.textContent = text;
+    status.className = `form-status ${kind ?? ''}`.trim();
+  };
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!form.reportValidity()) return;
-    const data = new FormData(form);
-    const lines = [];
-    for (const [k, v] of data.entries()) {
-      if (!String(v).trim() || k === 'consentement') continue;
-      const label = form.querySelector(`[name="${k}"]`)?.closest('.field')?.querySelector('label')?.textContent ?? k;
-      lines.push(`${label.replace(/\s*\*$/, '')} : ${v}`);
+    if (!form.dataset.endpoint) {
+      mailtoFallback(form);
+      say('Votre messagerie s’ouvre avec la demande préremplie : il ne reste qu’à l’envoyer.');
+      return;
     }
-    const subject = form.dataset.subject ?? 'Demande depuis terricom.fr';
-    const href = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
-    window.location.href = href;
-    const status = form.querySelector('.form-status');
-    if (status)
-      status.textContent = 'Votre messagerie s’ouvre avec la demande préremplie : il ne reste qu’à l’envoyer. Nous répondons sous deux jours ouvrés.';
+    const data = Object.fromEntries(new FormData(form));
+    if (button) button.disabled = true;
+    say('Envoi en cours…');
+    try {
+      const res = await fetch(form.dataset.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (res.ok && body.ok) {
+        form.classList.add('sent');
+        say(body.message ?? 'Merci ! Votre demande est bien arrivée.', 'ok');
+        status?.focus?.();
+        return;
+      }
+      if (res.status >= 500) throw new Error('serveur');
+      say(body.message ?? 'Merci de vérifier le formulaire.', 'err');
+    } catch {
+      if (form.dataset.mailto) {
+        mailtoFallback(form);
+        say(`Notre serveur ne répond pas pour le moment : votre messagerie s’ouvre avec la demande préremplie, il ne reste qu’à l’envoyer à ${form.dataset.mailto}.`, 'err');
+      } else say('Notre serveur ne répond pas pour le moment. Merci de réessayer dans quelques minutes.', 'err');
+    } finally {
+      if (button) button.disabled = false;
+    }
   });
 });
 

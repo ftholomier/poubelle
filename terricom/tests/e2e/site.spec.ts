@@ -44,3 +44,42 @@ test.describe('site de la marque', () => {
     await expect(page.getByText('Le territoire, en vitrine.').first()).toBeVisible();
   });
 });
+
+test.describe('formulaires du site commercial statique (site-terricom)', () => {
+  const demo = {
+    collectivite: 'Communauté de communes du Test national',
+    type: 'CC',
+    communes: '18',
+    nom: 'Alex Testeur',
+    email: `alex.${Date.now()}@exemple.test`,
+    format: 'Une visioconférence de trente minutes',
+    consentement: 'on',
+  };
+
+  test('enregistre une demande de démonstration envoyée en JSON', async ({ request }) => {
+    const res = await request.post('/api/site/demonstration', { data: demo });
+    expect(res.status()).toBe(200);
+    expect(await res.json()).toMatchObject({ ok: true });
+  });
+
+  test('refuse un formulaire incomplet avec un message en français', async ({ request }) => {
+    const res = await request.post('/api/site/contact', { data: { nom: 'Alex' } });
+    expect(res.status()).toBe(422);
+    expect((await res.json()).message).toBe('Indiquez votre adresse électronique.');
+  });
+
+  test('n’accepte que les origines autorisées', async ({ request, baseURL }) => {
+    const bad = await request.post('/api/site/contact', { data: {}, headers: { Origin: 'https://ailleurs.example' } });
+    expect(bad.status()).toBe(403);
+    // L'origine de l'application est toujours autorisée (en production s'y ajoutent celles de SITE_ORIGINS).
+    const origin = new URL(baseURL ?? 'http://localhost:3000').origin;
+    const pre = await request.fetch('/api/site/contact', { method: 'OPTIONS', headers: { Origin: origin, 'Access-Control-Request-Method': 'POST' } });
+    expect(pre.status()).toBe(204);
+    expect(pre.headers()['access-control-allow-origin']).toBe(origin);
+  });
+
+  test('ignore silencieusement les robots (champ piège rempli)', async ({ request }) => {
+    const res = await request.post('/api/site/contact', { data: { website: 'http://spam.example' } });
+    expect(res.status()).toBe(200);
+  });
+});

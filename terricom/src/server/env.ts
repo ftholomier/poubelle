@@ -45,6 +45,8 @@ const schema = z.object({
   SUPPORT_EMAIL: z.string().email().default('support@terricom.fr'),
   /** Boîte de l'équipe commerciale (demandes de démonstration). */
   SALES_EMAIL: z.string().email().default('bonjour@terricom.fr'),
+  /** Origines autorisées à envoyer les formulaires du site commercial statique (site-terricom/), séparées par des virgules. */
+  SITE_ORIGINS: z.string().default('https://terricom.fr,https://www.terricom.fr'),
 
   ANTHROPIC_API_KEY: z.string().optional(),
   AI_MODEL: z.string().default('claude-opus-5'),

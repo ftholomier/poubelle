@@ -114,8 +114,12 @@
         <li>Sans engagement, et sans démarchage de vos entreprises.</li>
       </ul>
     </div>
-    <form class="form card reveal" data-mailto="bonjour@terricom.fr" data-subject="Demande de démonstration terricom">
+    <form class="form card reveal" data-endpoint="https://terricom.fr/api/site/demonstration" data-mailto="bonjour@terricom.fr" data-subject="Demande de démonstration terricom">
       <div class="field"><label for="collectivite">Votre collectivité *</label><input id="collectivite" name="collectivite" required autocomplete="organization" placeholder="Communauté de communes, commune…"></div>
+      <div class="row">
+        <div class="field"><label for="type">Type de collectivité</label><select id="type" name="type"><option value="CC">Communauté de communes</option><option value="CA">Communauté d’agglomération</option><option value="COMMUNE">Commune</option><option value="AUTRE">Autre</option></select></div>
+        <div class="field"><label for="communes">Nombre de communes</label><input id="communes" name="communes" type="number" min="1" max="500" inputmode="numeric"></div>
+      </div>
       <div class="row">
         <div class="field"><label for="nom">Nom et prénom *</label><input id="nom" name="nom" required autocomplete="name"></div>
         <div class="field"><label for="fonction">Fonction *</label><input id="fonction" name="fonction" required placeholder="Président, vice-présidente, DGS…"></div>
@@ -126,9 +130,10 @@
       </div>
       <div class="field"><label for="format">Vous préférez</label><select id="format" name="format"><option>Une visioconférence de trente minutes</option><option>Une présentation dans nos locaux</option><option>Une présentation en bureau communautaire</option></select></div>
       <div class="field"><label for="message">Un mot sur votre projet</label><textarea id="message" name="message" placeholder="Vos communes, vos priorités, votre calendrier…"></textarea></div>
+      <div class="hp" aria-hidden="true"><label for="website">Ne pas remplir</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
       <label class="check"><input type="checkbox" name="consentement" required> <span>J’accepte que terricom utilise ces informations pour me recontacter au sujet de ma demande. Elles ne sont ni cédées ni utilisées à d’autres fins (<a href="confidentialite.html">confidentialité</a>).</span></label>
       <div class="actions"><button class="btn btn-amber" type="submit">Envoyer ma demande <span class="arr">→</span></button></div>
-      <p class="form-status" role="status" aria-live="polite"></p>
+      <p class="form-status" role="status" aria-live="polite" tabindex="-1"></p>
     </form>
   </div>
 </section>
