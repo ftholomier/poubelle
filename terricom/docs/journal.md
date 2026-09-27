@@ -41,7 +41,8 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
 | `c98afab`            | Présentation aux élus           | Diaporama paysage : communauté de communes → commune → commerce → habitants, puis accompagnement ; captures annotées, étapes animées                                                                                    |
 | `55009de`            | Synchronisation SIRENE          | Passage mensuel (INSEE ou Recherche d’entreprises), nouveautés et fermetures à valider par la collectivité, fichier stock pour les grands territoires, activités exclues par territoire                                 |
 | —                    | Stratégie des fondateurs        | PDF paysage interne (45 pages) : marché national, offre, grille tarifaire unique par population, vente, webmarketing, modèle sur cinq ans, trois scénarios                                                              |
-| —                    | Teaser « The Mountain »         | Marque révélée à 36 s, plan topographique réel, captures animées image par image avec curseur, fond de carte Overture rendu pour l’occasion, photos Commons ; accord « 1 artisan » corrigé dans l’assistant de campagne |
+| `b0fc15c`            | Teaser « The Mountain »         | Marque révélée à 36 s, plan topographique réel, captures animées image par image avec curseur, fond de carte Overture rendu pour l’occasion, photos Commons ; accord « 1 artisan » corrigé dans l’assistant de campagne |
+| —                    | Site commercial terricom.fr     | Site statique autonome (`site-terricom/`) destiné aux élus : 15 pages, captures réelles du Haut-Doubs, film, formulaires par courriel ; aucun tarif public (vente en direct)                                            |
 
 ## Décisions
 
@@ -86,6 +87,12 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
   CSS pilotées) ; les tuiles de carte ne sont rendues que pour les vues réellement filmées (relevé des tuiles
   manquantes pendant une première passe) ; photos Commons substituées aux photos Unsplash uniquement pendant la capture.
 - **Bac à sable** : les services externes y sont bloqués (cartes, photos, IA) ; ils fonctionnent en production.
+
+- **Site commercial** : dossier `site-terricom/` hors de l’application, HTML statique sans dépendance, à
+  déposer sur n’importe quel hébergement. Discours tourné vers les élus (fierté du territoire, place de chaque
+  commune, animation, communauté) et en opposition assumée aux places de marché locales, avec le constat de la
+  Cour des comptes (septembre 2023) cité fidèlement. Aucun prix sur le site public : la proposition se fait en
+  rendez-vous. Captures produites par `scripts/teaser/captures-site.mjs` sur la démo Haut-Doubs.
 
 ## Vérifications à chaque lot
 

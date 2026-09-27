@@ -44,6 +44,9 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
 - [x] Teaser refait sur « The Mountain » (1 min 53) : naissance de la marque sans le nom jusqu’à la révélation,
       plan topographique réel du Haut-Doubs, captures animées de l’application avec curseur (portail, carte, Métabief,
       assistant de campagne, SIRENE, espace commerçant, téléphones), fond de carte réel et photos libres du territoire
+- [x] Site commercial terricom.fr (`../site-terricom`) : 15 pages statiques pour les élus (accueil, élus, solution,
+      communes, entreprises, différence, démonstration, accompagnement, confiance, questions, contact, légal),
+      captures et film du Haut-Doubs, formulaires par courriel, sans tarif public
 - [x] Synchronisation SIRENE : passage mensuel automatique (API Sirene de l’INSEE avec clé gratuite, sinon API
       Recherche d’entreprises), nouveautés à valider puis invitation par courrier, fermetures signalées à archiver
       ou garder, fichier stock des départements pour les grands territoires, activités exclues par territoire
@@ -62,6 +65,9 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
 Rien en cours.
 
 ## Pistes pour la suite (hors cahier des charges initial)
+
+- [ ] Site commercial : compléter les mentions légales (raison sociale, SIREN, adresse, directeur de publication,
+      hébergeur), brancher les formulaires sur un service d’envoi, choisir une mesure d’audience sans cookie
 
 - [ ] Multilingue, pistes suivantes : traduction des publications, événements et offres d’emploi ; autres langues
       (espagnol, italien, néerlandais : l’IA les gère déjà) ; lettre du territoire par langue d’abonné

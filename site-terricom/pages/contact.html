@@ -1,0 +1,49 @@
+<!--
+titre: Contact
+description: Écrivez à l'équipe terricom : une question, une démonstration pour votre territoire, des documents pour votre conseil. Réponse sous deux jours ouvrés.
+-->
+<section class="hero hero-topo">
+  <div class="wrap hero-page">
+    <div class="head">
+      <span class="eyebrow">Contact</span>
+      <h1>Parlons de <em>votre territoire.</em></h1>
+      <p class="lead">Une question, une démonstration, des documents pour votre conseil : écrivez-nous, nous répondons sous deux jours ouvrés. Nous ne démarchons jamais les entreprises de votre territoire sans votre accord.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split" style="align-items:start">
+    <div class="text reveal">
+      <div class="card">
+        <div class="icon">{{icon:mail}}</div>
+        <h3>Par courriel</h3>
+        <p><a href="mailto:bonjour@terricom.fr">bonjour@terricom.fr</a> pour toute demande.<br><a href="mailto:accessibilite@terricom.fr">accessibilite@terricom.fr</a> pour signaler une difficulté d’accès.<br><a href="mailto:dpo@terricom.fr">dpo@terricom.fr</a> pour vos données personnelles.</p>
+      </div>
+      <div class="card">
+        <div class="icon">{{icon:calendar}}</div>
+        <h3>Une démonstration</h3>
+        <p>Préparée sur votre territoire, présentée en trente minutes. <a href="demonstration.html#demande">Demander la démonstration</a>.</p>
+      </div>
+      <div class="card">
+        <div class="icon">{{icon:users}}</div>
+        <h3>Salons et rencontres</h3>
+        <p>Retrouvez-nous au Salon des maires et des collectivités locales, aux rencontres des intercommunalités et dans les réseaux de la revitalisation des centres-bourgs.</p>
+      </div>
+    </div>
+    <form class="form card reveal" data-mailto="bonjour@terricom.fr" data-subject="Question depuis terricom.fr">
+      <div class="row">
+        <div class="field"><label for="nom">Nom et prénom *</label><input id="nom" name="nom" required autocomplete="name"></div>
+        <div class="field"><label for="email">Adresse électronique *</label><input id="email" name="email" type="email" required autocomplete="email"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="collectivite">Collectivité ou entreprise</label><input id="collectivite" name="collectivite" autocomplete="organization"></div>
+        <div class="field"><label for="objet">Objet</label><select id="objet" name="objet"><option>Une question sur terricom</option><option>Une démonstration pour notre territoire</option><option>Des documents pour notre conseil</option><option>Un devis</option><option>Je suis une entreprise</option><option>Autre</option></select></div>
+      </div>
+      <div class="field"><label for="message">Votre message *</label><textarea id="message" name="message" required></textarea></div>
+      <label class="check"><input type="checkbox" name="consentement" required> <span>J’accepte que terricom utilise ces informations pour répondre à ma demande (<a href="confidentialite.html">confidentialité</a>).</span></label>
+      <div class="actions"><button class="btn btn-amber" type="submit">Envoyer <span class="arr">→</span></button></div>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
