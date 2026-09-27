@@ -6,3 +6,6 @@ package-lock.json
 scripts/seed/haut-doubs-etablissements.json
 docs/demo/haut-doubs-controle.csv
 docs/strategie/strategie.html
+docs/teaser/teaser.html
+scripts/teaser/carte.html
+scripts/teaser/sombre.html

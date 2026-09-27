@@ -114,6 +114,8 @@ tests/            unit (Vitest), e2e (Playwright)
 - [RGPD et registre des traitements](docs/rgpd.md)
 - [Présentation aux élus (PDF paysage)](docs/presentation/terricom-presentation-elus.pdf), aussi jouable avec
   animations dans un navigateur (`docs/presentation/presentation.html`, flèches du clavier)
+- [Teaser vidéo (1 min 53)](docs/teaser/terricom-teaser.mp4) : la marque, puis l’application filmée sur le
+  Haut-Doubs ; fabrication décrite dans [docs/teaser/README.md](docs/teaser/README.md)
 - [Stratégie des fondateurs (PDF paysage, interne)](docs/strategie/terricom-strategie-fondateurs.pdf) : marché
   national, offre, grille tarifaire et pourquoi, vente, webmarketing, modèle économique et simulations sur cinq ans
 - [Dossier de réalisation (PDF, 30 pages à la charte)](docs/dossier/terricom-dossier-de-realisation.pdf) : le projet

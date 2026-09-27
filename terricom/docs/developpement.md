@@ -183,7 +183,10 @@ collectivite|commune|console`, `MOBILE=1`, `EXTRA=chemins`).
 - La barre de démonstration et `/demo/entrer/<espace>` choisissent le premier compte présent (jeu fictif, sinon
   Haut-Doubs) : aucun réglage à changer entre les deux jeux.
 - Captures des documents : `node scripts/dossier-captures.mjs` sur une compilation de production en démonstration
-  réelle, puis `npm run dossier`, `npm run presentation` et `FFMPEG=… node scripts/teaser.mjs`.
+  réelle, puis `npm run dossier` et `npm run presentation`.
+- Teaser : chaîne complète dans `docs/teaser/README.md` (données Overture et relief, tuiles MapLibre servies à
+  l’application par `MAP_TILE_URL`, photos Commons, captures image par image avec curseur via `scripts/teaser/scenes.mjs`,
+  composition `docs/teaser/teaser.html`). Tout le volumineux va dans `.teaser/` (ignoré par git).
 - Stratégie des fondateurs : hypothèses dans `docs/strategie/modele.py` ; `cd docs/strategie && python3 generer.py`
   écrit `strategie.html`, puis `npm run strategie` produit le PDF (échoue si un bloc déborde d’une diapositive).
 - Seul contenu inventé : les « Commerce », « Boulangerie » et « Atelier de démonstration » (sans SIRET) et des exemples titrés « Exemple de

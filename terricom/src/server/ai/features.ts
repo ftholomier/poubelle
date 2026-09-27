@@ -330,27 +330,31 @@ export function campaignFallback(prompt: string, territoryName: string, candidat
     .concat(pool.filter((c) => c.completeness < 60))
     .slice(0, 40);
   const communesCount = new Set(selected.map((c) => c.commune)).size;
-  const label = families.length === 1 ? FAMILIES[families[0]].plural : 'professionnels';
-  const name = isXmas ? `Un Noël 100 % ${territoryName}` : `Le mois des ${label} de ${territoryName}`;
+  const n = selected.length;
+  const plural = families.length === 1 ? FAMILIES[families[0]].plural : 'professionnels';
+  // Accord au singulier quand un seul établissement est retenu (« 1 artisan vous ouvre ses portes »).
+  const label = n > 1 ? plural : plural.replace(/s$/, '');
+  const open = n > 1 ? 'vous ouvrent leurs portes' : 'vous ouvre ses portes';
+  const name = isXmas ? `Un Noël 100 % ${territoryName}` : `Le mois des ${plural} de ${territoryName}`;
   const cited = selected.slice(0, 3).map((c) => c.name);
   const inv = addDays(startsAt, -6);
   return {
     name,
-    tagline: isXmas ? `${selected.length} ${label} vous ouvrent leurs portes jusqu'au 24 décembre` : `${selected.length} ${label} à découvrir`,
+    tagline: isXmas ? `${n} ${label} ${open} jusqu'au 24 décembre` : `${n} ${label} à découvrir`,
     families,
     attributeSlugs: isXmas ? ['idees-cadeaux'] : [],
     selectedIds: selected.map((c) => c.id),
     criteriaText: `Critères : ${families.length ? families.map((f) => FAMILIES[f].plural).join(', ') : 'toutes activités'}, fiche complète en priorité, ${communesCount} commune${communesCount > 1 ? 's' : ''} représentée${communesCount > 1 ? 's' : ''}.`,
     pageTitle: name,
     pageText: isXmas
-      ? `« Cette année, glissez sous le sapin ${cited.length ? `un cadeau de chez ${cited.join(', ')}` : 'des produits d’ici'}. ${selected.length} ${label} vous ouvrent leurs portes jusqu'au 24 décembre. »`
-      : `« ${selected.length} ${label} de ${territoryName} vous attendent${cited.length ? `, de ${cited.join(' à ')}` : ''}. Poussez la porte ! »`,
-    newsletterSubject: isXmas ? `Noël se prépare chez vos ${label}` : `Ce mois-ci, place aux ${label}`,
-    newsletterIntro: `Découvrez la sélection ${isXmas ? 'de Noël ' : ''}de ${territoryName} : ${selected.length} adresses près de chez vous.`,
+      ? `« Cette année, glissez sous le sapin ${cited.length ? `un cadeau de chez ${cited.join(', ')}` : 'des produits d’ici'}. ${n} ${label} ${open} jusqu'au 24 décembre. »`
+      : `« ${n} ${label} de ${territoryName} ${n > 1 ? 'vous attendent' : 'vous attend'}${cited.length ? `, de ${cited.join(' à ')}` : ''}. Poussez la porte ! »`,
+    newsletterSubject: isXmas ? `Noël se prépare chez vos ${plural}` : `Ce mois-ci, place aux ${plural}`,
+    newsletterIntro: `Découvrez la sélection ${isXmas ? 'de Noël ' : ''}de ${territoryName} : ${n > 1 ? `${n} adresses` : 'une adresse'} près de chez vous.`,
     startsAt,
     endsAt,
     plan: [
-      { date: fmtShort(inv), text: `Invitation des ${selected.length} ${label} à publier une offre` },
+      { date: fmtShort(inv), text: n > 1 ? `Invitation des ${n} ${label} à publier une offre` : `Invitation d’un ${label} à publier une offre` },
       { date: fmtShort(startsAt), text: 'Mise en ligne de la page thématique' },
       { date: fmtShort(addDays(startsAt, 2)), text: `Newsletter habitants · ${subscribers.toLocaleString('fr-FR')} abonnés` },
       { date: `${fmtShort(addDays(startsAt, 5)).split(' ')[0]}–${fmtShort(addDays(endsAt, -4))}`, text: '6 publications réseaux programmées' },

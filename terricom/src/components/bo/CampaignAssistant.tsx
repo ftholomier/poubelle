@@ -102,7 +102,7 @@ export function CampaignAssistant({ defaultPrompt, analysing }: { defaultPrompt:
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 14 }}>
             <div style={{ background: 'var(--dark-2)', borderRadius: 18, padding: 18, display: 'flex', flexDirection: 'column', gap: 10 }}>
               <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', color: 'var(--amber)' }}>
-                SÉLECTION · {result.picks.length} {who.toUpperCase()}
+                SÉLECTION · {result.picks.length} {(result.picks.length > 1 ? who : who.replace(/s$/, '')).toUpperCase()}
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 6 }}>
                 {result.picks.slice(0, 12).map((p) => (
@@ -176,7 +176,7 @@ export function CampaignAssistant({ defaultPrompt, analysing }: { defaultPrompt:
                 cursor: 'pointer',
               }}
             >
-              Inviter les {result.picks.length} {who} à participer
+              {result.picks.length > 1 ? `Inviter les ${result.picks.length} ${who} à participer` : 'Inviter la sélection à participer'}
             </button>
             <span style={{ fontSize: 12, color: 'var(--sage-3)', marginLeft: 'auto' }}>
               {plan.source === 'ai' ? 'Proposition de l’IA · à relire' : 'Proposition automatique · à relire'}

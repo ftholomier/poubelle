@@ -18,3 +18,6 @@ npm-debug.log*
 /scripts/dev/
 /playwright/.cache/
 __pycache__/
+
+# Fabrication du teaser (données carto, tuiles, captures, images) : volumineux, régénérable
+/.teaser/

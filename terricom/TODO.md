@@ -41,6 +41,9 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
 - [x] Stratégie des fondateurs (`docs/strategie`, `npm run strategie`) : grille nationale unique par population,
       mise en service, offre de lancement 2027, vente à distance, webmarketing, modèle et trois scénarios 2027–2031
 - [x] Teaser vidéo (`docs/teaser`, MP4 calé sur la musique fournie)
+- [x] Teaser refait sur « The Mountain » (1 min 53) : naissance de la marque sans le nom jusqu’à la révélation,
+      plan topographique réel du Haut-Doubs, captures animées de l’application avec curseur (portail, carte, Métabief,
+      assistant de campagne, SIRENE, espace commerçant, téléphones), fond de carte réel et photos libres du territoire
 - [x] Synchronisation SIRENE : passage mensuel automatique (API Sirene de l’INSEE avec clé gratuite, sinon API
       Recherche d’entreprises), nouveautés à valider puis invitation par courrier, fermetures signalées à archiver
       ou garder, fichier stock des départements pour les grands territoires, activités exclues par territoire
