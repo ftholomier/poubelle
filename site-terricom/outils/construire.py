@@ -4,8 +4,10 @@ le gabarit commun (en-tête, navigation, pied de page) et écrite dans public/. 
 Raccourcis utilisables dans les pages :
   {{shot:nom|adresse affichée|texte alternatif}}   capture de l'application dans un cadre de navigateur
   {{phone:nom|texte alternatif}}                   capture mobile dans un cadre de téléphone
+  {{anim:nom|adresse affichée|description}}        l'application en action (boucle vidéo muette), cadre de navigateur
+  {{animphone:nom|description}}                    idem sur téléphone
   {{img:chemin|texte alternatif|classe}}           image de public/assets/img (WebP, dimensions renseignées)
-  {{photo:nom|texte alternatif}}                   photo du territoire, avec son crédit
+  {{photo:nom|texte alternatif|lieu}}              photo, avec son crédit (et le nom du lieu, facultatif)
   {{icon:nom}}                                     pictogramme
   {{cta}}                                          bandeau final commun
 
@@ -22,6 +24,7 @@ PUB = os.path.join(ICI, 'public')
 SITE = 'https://terricom.fr'
 TAILLES = json.load(open(os.path.join(ICI, 'outils', 'tailles.json')))
 CREDITS = json.load(open(os.path.join(ICI, 'outils', 'credits.json')))
+ANIMS = json.load(open(os.path.join(ICI, 'outils', 'animations.json')))
 
 NAV = [
     ('elus.html', 'Pour les élus'),
@@ -105,6 +108,32 @@ def m_phone(m):
     return f'<figure class="phone reveal">{picture(f"assets/img/app/{name}.webp", name, alt, sizes="300px")}</figure>'
 
 
+PAUSE = (
+    '<button class="anim-toggle" type="button" aria-label="Mettre l’animation en pause">'
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M8 5h3v14H8zM13 5h3v14h-3z"/>'
+    '<path class="i-play" d="M8 5l11 7-11 7z"/></svg></button>'
+)
+
+
+def video(name, alt):
+    a = ANIMS[name]
+    return (
+        f'<video class="loop" muted loop playsinline preload="none" width="{a["w"]}" height="{a["h"]}" '
+        f'poster="assets/img/app/anim-{name}.webp" data-src="assets/video/app/{name}.mp4" '
+        f'data-webm="assets/video/app/{name}.webm" aria-label="{alt}"></video>{PAUSE}'
+    )
+
+
+def m_anim(m):
+    name, url, alt = (m.group(1).split('|') + ['', ''])[:3]
+    return f'<figure class="shot anim reveal"><div class="bar"><i></i><i></i><i></i><span>{url}</span></div>{video(name, alt)}</figure>'
+
+
+def m_animphone(m):
+    name, alt = (m.group(1).split('|') + [''])[:2]
+    return f'<figure class="phone anim reveal">{video(name, alt)}</figure>'
+
+
 def m_img(m):
     path, alt, cls = (m.group(1).split('|') + ['', ''])[:3]
     key = os.path.splitext(os.path.basename(path))[0]
@@ -119,10 +148,11 @@ def credit_text(name):
 
 
 def m_photo(m):
-    name, alt = (m.group(1).split('|') + [''])[:2]
+    name, alt, lieu = (m.group(1).split('|') + ['', ''])[:3]
     c = CREDITS.get(name, {})
     cred = f'<figcaption class="credit"><a href="{c.get("page", "credits.html")}">{credit_text(name)}</a></figcaption>' if c else ''
-    return f'<figure class="photo" style="position:relative;margin:0">{picture(f"assets/img/photos/{name}.webp", name, alt, "", True, "(max-width: 900px) 100vw, 1200px")}{cred}</figure>'
+    lieu = f'<span class="lieu">{lieu}</span>' if lieu else ''
+    return f'<figure class="photo" style="position:relative;margin:0">{picture(f"assets/img/photos/{name}.webp", name, alt, "", True, "(max-width: 900px) 100vw, 1200px")}{lieu}{cred}</figure>'
 
 
 CTA = """<section class="section dark cta-final">
@@ -153,6 +183,8 @@ def insecables(html):
 def expand(html):
     html = re.sub(r'\{\{shot:([^}]*)\}\}', m_shot, html)
     html = re.sub(r'\{\{phone:([^}]*)\}\}', m_phone, html)
+    html = re.sub(r'\{\{anim:([^}]*)\}\}', m_anim, html)
+    html = re.sub(r'\{\{animphone:([^}]*)\}\}', m_animphone, html)
     html = re.sub(r'\{\{img:([^}]*)\}\}', m_img, html)
     html = re.sub(r'\{\{photo:([^}]*)\}\}', m_photo, html)
     html = re.sub(r'\{\{icon:([a-z]+)\}\}', lambda m: icon(m.group(1)), html)
@@ -235,7 +267,7 @@ def layout(page, meta, body):
       <div>
         <a class="logo" href="index.html" aria-label="terricom, accueil">{LOGO}<span>terricom<i>.</i></span></a>
         <p class="baseline">Le territoire, <em>en vitrine.</em></p>
-        <p>La plateforme des communautés de communes qui mettent en lumière leurs communes, leurs commerces, leurs artisans et leurs producteurs. Conçue, développée et hébergée en France.</p>
+        <p>La plateforme des communautés de communes et des communes de France qui mettent en lumière leurs commerces, leurs artisans et leurs producteurs. Conçue, développée et hébergée en France.</p>
       </div>
       <div>
         <h2>Découvrir</h2>

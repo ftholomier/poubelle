@@ -81,3 +81,93 @@ document.querySelectorAll('form[data-mailto]').forEach((form) => {
   });
 });
 
+
+// L'application en action : boucles vidéo muettes, chargées et lues seulement quand elles sont visibles.
+// Avec « réduire les animations », rien ne démarre seul : l'image d'attente reste, le bouton lance la lecture.
+const loops = [...document.querySelectorAll('video.loop')];
+const h264 = document.createElement('video').canPlayType('video/mp4; codecs="avc1.640028"') !== '';
+const load = (v) => {
+  if (!v.src && v.dataset.src) v.src = h264 || !v.dataset.webm ? v.dataset.src : v.dataset.webm;
+};
+const play = (v) => {
+  const fig = v.closest('.anim');
+  if (fig?.classList.contains('paused') || v.closest('[hidden]')) return;
+  load(v);
+  v.play().catch(() => {});
+};
+if (reduce) loops.forEach((v) => v.closest('.anim')?.classList.add('paused'));
+if ('IntersectionObserver' in window) {
+  const vio = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) play(e.target);
+        else e.target.pause();
+      }
+    },
+    { threshold: 0.35 },
+  );
+  loops.forEach((v) => vio.observe(v));
+} else if (!reduce) loops.forEach(play);
+document.querySelectorAll('.anim-toggle').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const fig = btn.closest('.anim');
+    const v = fig.querySelector('video');
+    const paused = !fig.classList.contains('paused');
+    fig.classList.toggle('paused', paused);
+    btn.setAttribute('aria-label', paused ? 'Lire l’animation' : 'Mettre l’animation en pause');
+    if (paused) v.pause();
+    else {
+      load(v);
+      v.play().catch(() => {});
+    }
+    fig.closest('[data-showcase]')?.dispatchEvent(new CustomEvent('manuel'));
+  });
+});
+
+// Démonstration par étapes : un onglet par usage ; on passe au suivant à la fin de chaque boucle,
+// jusqu'à ce que le visiteur choisisse lui-même.
+document.querySelectorAll('[data-showcase]').forEach((sc) => {
+  const tabs = [...sc.querySelectorAll('[role=tab]')];
+  let auto = !reduce;
+  let current = 0;
+  const select = (i, focus = false) => {
+    current = i;
+    tabs.forEach((t, k) => {
+      const on = k === i;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls'));
+      panel.hidden = !on;
+      const v = panel.querySelector('video');
+      t.querySelector('.prog').style.width = '0';
+      if (!v) return;
+      if (on) {
+        v.currentTime = 0;
+        play(v);
+      } else v.pause();
+    });
+    if (focus) tabs[i].focus();
+  };
+  sc.addEventListener('manuel', () => (auto = false));
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => {
+      auto = false;
+      select(i);
+    });
+    t.addEventListener('keydown', (e) => {
+      const d = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+      if (!d) return;
+      e.preventDefault();
+      auto = false;
+      select((i + d + tabs.length) % tabs.length, true);
+    });
+    const v = document.getElementById(t.getAttribute('aria-controls')).querySelector('video');
+    let last = 0;
+    v?.addEventListener('timeupdate', () => {
+      if (current !== i) return;
+      t.querySelector('.prog').style.width = `${(100 * v.currentTime) / (v.duration || 1)}%`;
+      if (auto && v.currentTime < last - 0.5) select((i + 1) % tabs.length);
+      last = v.currentTime;
+    });
+  });
+});

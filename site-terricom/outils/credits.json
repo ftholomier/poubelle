@@ -82,5 +82,47 @@
   "artist": "René Hourdry",
   "license": "CC BY-SA 4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Jougne_Eglise_30.jpg"
+ },
+ "bastide": {
+  "title": "Monpazier - Place des Cornières 27.jpg",
+  "artist": "Renhour48",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Monpazier_-_Place_des_Corni%C3%A8res_27.jpg"
+ },
+ "alsace": {
+  "title": "July 2020 PBH Eguisheim 01.jpg",
+  "artist": "pollobarca2",
+  "license": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:July_2020_PBH_Eguisheim_01.jpg"
+ },
+ "bretagne": {
+  "title": "Rochefort-en-Terre - place du Puits (04).jpg",
+  "artist": "Fab5669",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Rochefort-en-Terre_-_place_du_Puits_(04).jpg"
+ },
+ "correze": {
+  "title": "Collonges-la-Rouge 1886.jpg",
+  "artist": "A1AA1A",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Collonges-la-Rouge_1886.jpg"
+ },
+ "lot": {
+  "title": "Saint-Cirq-Lapopie - Place du Sombral - 1.jpg",
+  "artist": "Benjamin Smith",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Saint-Cirq-Lapopie_-_Place_du_Sombral_-_1.jpg"
+ },
+ "halle": {
+  "title": "Sainte-Sévère-sur-Indre Halle place 1795.jpg",
+  "artist": "Daniel Jolivet",
+  "license": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sainte-S%C3%A9v%C3%A8re-sur-Indre_Halle_place_1795.jpg"
+ },
+ "provence": {
+  "title": "Place Genty Pentaly à Gordes.jpg",
+  "artist": "Mathieu BROSSAIS",
+  "license": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Place_Genty_Pentaly_%C3%A0_Gordes.jpg"
  }
 }

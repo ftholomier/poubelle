@@ -1,0 +1,57 @@
+{
+ "bo-ia": {
+  "duree": 13.1,
+  "h": 720,
+  "w": 1280
+ },
+ "mobile": {
+  "duree": 6.7,
+  "h": 1169,
+  "w": 540
+ },
+ "site-commune": {
+  "duree": 9.0,
+  "h": 720,
+  "w": 1280
+ },
+ "site-fiche": {
+  "duree": 6.4,
+  "h": 720,
+  "w": 1280
+ },
+ "site-mairie": {
+  "duree": 8.8,
+  "h": 720,
+  "w": 1280
+ },
+ "site-newsletter": {
+  "duree": 7.1,
+  "h": 720,
+  "w": 1280
+ },
+ "site-pro": {
+  "duree": 11.2,
+  "h": 720,
+  "w": 1280
+ },
+ "site-recherche": {
+  "duree": 9.5,
+  "h": 720,
+  "w": 1280
+ },
+ "site-sirene": {
+  "duree": 9.3,
+  "h": 720,
+  "w": 1280
+ },
+ "site-stats": {
+  "duree": 9.0,
+  "h": 720,
+  "w": 1280
+ },
+ "site-tableau": {
+  "duree": 10.3,
+  "h": 720,
+  "w": 1280
+ }
+}

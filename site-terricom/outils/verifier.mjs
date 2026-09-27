@@ -11,7 +11,7 @@ const ICI = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PUB = path.join(ICI, 'public');
 const require = createRequire(path.join(ICI, '..', 'terricom', 'package.json'));
 const { chromium } = require('@playwright/test');
-const TYPES = { html: 'text/html', css: 'text/css', js: 'text/javascript', json: 'application/json', webp: 'image/webp', jpg: 'image/jpeg', png: 'image/png', svg: 'image/svg+xml', woff2: 'font/woff2', mp4: 'video/mp4', xml: 'application/xml', txt: 'text/plain', webmanifest: 'application/manifest+json' };
+const TYPES = { html: 'text/html', css: 'text/css', js: 'text/javascript', json: 'application/json', webp: 'image/webp', jpg: 'image/jpeg', png: 'image/png', svg: 'image/svg+xml', woff2: 'font/woff2', mp4: 'video/mp4', webm: 'video/webm', xml: 'application/xml', txt: 'text/plain', webmanifest: 'application/manifest+json' };
 
 // 1. Liens et ressources
 const pages = readdirSync(PUB).filter((f) => f.endsWith('.html'));

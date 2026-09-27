@@ -682,6 +682,154 @@ h2 em {
   background: #0b1310;
   z-index: 2;
 }
+/* ---------- l'application en action (boucles vidéo) ---------- */
+.shot video,
+.phone video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #efebe1;
+}
+.shot video {
+  aspect-ratio: 16 / 9;
+}
+.phone video {
+  border-radius: 34px;
+  aspect-ratio: 540 / 1169;
+}
+.anim-toggle {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 3;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 32, 27, 0.72);
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.anim-toggle svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+.anim-toggle .i-play,
+.anim.paused .anim-toggle .i-pause {
+  display: none;
+}
+.anim.paused .anim-toggle .i-play {
+  display: block;
+}
+.anim:hover .anim-toggle,
+.anim.paused .anim-toggle,
+.anim-toggle:focus-visible {
+  opacity: 1;
+}
+@media (hover: none) {
+  .anim-toggle {
+    opacity: 0.85;
+  }
+}
+.phone .anim-toggle {
+  right: 22px;
+  bottom: 22px;
+}
+
+/* Démonstration par étapes : onglets à gauche, application à droite */
+.showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
+  gap: 40px;
+  align-items: center;
+}
+.showcase .tabs {
+  display: grid;
+  gap: 10px;
+}
+.showcase .tab {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 14px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  padding: 18px 20px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.showcase .tab b {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--brick);
+  padding-top: 3px;
+}
+.showcase .tab strong {
+  display: block;
+  font-family: var(--display);
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.showcase .tab small {
+  display: none;
+  margin-top: 6px;
+  font-size: 15px;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+.showcase .tab[aria-selected='true'] {
+  background: #fffdf8;
+  border-color: transparent;
+  box-shadow: var(--shadow);
+}
+.showcase .tab[aria-selected='true'] small {
+  display: block;
+}
+.showcase .tab .prog {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0;
+  background: var(--amber);
+}
+.dark .showcase .tab {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.dark .showcase .tab[aria-selected='true'] {
+  background: #22322b;
+}
+.showcase .panels > [hidden] {
+  display: none;
+}
+@media (max-width: 960px) {
+  .showcase {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .showcase .panels {
+    order: -1;
+  }
+  .showcase .tabs {
+    gap: 8px;
+  }
+  .showcase .tab {
+    padding: 14px 16px;
+  }
+}
+
 .stack {
   position: relative;
 }
@@ -1459,4 +1607,59 @@ table.compare {
     opacity: 1;
     transform: none;
   }
+}
+
+/* Mosaïque de territoires */
+.mosaic {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.mosaic .photo img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
+}
+.mosaic .photo:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.mosaic .photo:first-child img {
+  height: 100%;
+}
+.photo .lieu {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(20, 32, 27, 0.72);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+@media (max-width: 700px) {
+  .mosaic {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .mosaic .photo:first-child {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+.mosaic .credit a {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mosaic .credit {
+  left: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
 }

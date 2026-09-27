@@ -1,8 +1,24 @@
 # Site commercial terricom.fr
 
-Site de présentation de terricom, écrit pour les élus des communautés de communes et des communes. Il met en
-avant le territoire, la place de chaque commune, l’animation et la communauté, et prend le contre-pied des places
-de marché locales. **Aucun tarif n’y figure** : la proposition se fait en rendez-vous.
+Site de présentation de terricom, écrit pour les élus des communautés de communes et des communes de toute la
+France. Il met en avant le territoire, la place de chaque commune, l’animation et la communauté, et prend le
+contre-pied des places de marché locales. **Aucun tarif n’y figure** : la proposition se fait en rendez-vous.
+
+Le message est national. Les Lacs et Montagnes du Haut-Doubs n’apparaissent que comme territoire de
+démonstration, et toujours présentés comme tels. Les photos d’ambiance viennent de toute la France : Périgord,
+Alsace, Bretagne, Corrèze, Lot, Berry, Provence et Haut-Doubs.
+
+**L’application en action.** Les écrans sont montrés en train d’être utilisés, en boucles vidéo courtes et muettes :
+
+- une recherche d’habitant ;
+- une campagne préparée par l’assistant ;
+- l’accueil des nouvelles entreprises ;
+- l’espace d’une mairie ;
+- un commerçant qui publie ;
+- le téléphone.
+
+Chaque boucle ne se charge qu’à l’approche et se met en pause hors de l’écran. Avec « réduire les animations »,
+rien ne démarre seul. Le film de 1 min 53 est intégré à l’accueil et à la page Démonstration.
 
 Le site est en HTML statique, sans dépendance à l’exécution. Pour le mettre en ligne, il suffit de déposer le
 contenu de `public/` sur n’importe quel hébergement : serveur web, stockage objet ou CDN.
@@ -27,7 +43,8 @@ contenu de `public/` sur n’importe quel hébergement : serveur web, stockage o
 
 ```text
 pages/            contenu de chaque page (en-tête de métadonnées en commentaire HTML)
-outils/           construire.py (gabarit commun), medias.py (images et vidéo), verifier.mjs (contrôles)
+outils/           construire.py (gabarit commun), medias.py (images et film), animations.py (boucles vidéo),
+                  verifier.mjs (contrôles)
 public/           site construit, prêt à déployer (versionné)
 sources/          médias bruts, non versionnés (captures PNG, photos, teaser)
 ```
@@ -39,7 +56,9 @@ Raccourcis disponibles :
 
 - `{{shot:nom|adresse|alt}}` : capture dans un cadre de navigateur
 - `{{phone:nom|alt}}` : capture dans un cadre de téléphone
-- `{{photo:nom|alt}}` : photo avec son crédit
+- `{{anim:nom|adresse|description}}` : l’application en action (boucle vidéo), dans un cadre de navigateur
+- `{{animphone:nom|description}}` : la même chose dans un cadre de téléphone
+- `{{photo:nom|alt|lieu}}` : photo avec son crédit ; le nom du lieu est facultatif
 - `{{img:chemin|alt|classe}}` : image
 - `{{icon:nom}}` : icône
 - `{{cta}}` : bandeau d’appel final
@@ -48,13 +67,16 @@ Raccourcis disponibles :
 ## Régénérer
 
 ```bash
-# 1. Captures de l'application (depuis terricom/, serveur de production lancé avec le fond de carte réel)
+# 1. Captures et scènes de l'application (depuis terricom/, serveur de production lancé avec le fond de carte
+#    réel, voir terricom/docs/teaser/README.md)
 bash scripts/teaser/preparer.sh
-node scripts/teaser/captures-site.mjs            # → ../site-terricom/sources/captures
+node scripts/teaser/captures-site.mjs            # captures fixes → ../site-terricom/sources/captures
+node scripts/teaser/scenes-site.mjs              # scènes filmées → .teaser/clips/site-*
 npm run db:reset                                 # retire les préparations de capture
 
-# 2. Médias (Pillow ; FFMPEG=chemin de ffmpeg pour la vidéo)
-python3 outils/medias.py
+# 2. Médias (Pillow ; FFMPEG=chemin de ffmpeg pour les vidéos)
+python3 outils/medias.py                         # photos, captures, film
+TEASER_DIR=../terricom/.teaser python3 outils/animations.py   # boucles vidéo et images d'attente
 
 # 3. Pages
 python3 outils/construire.py
@@ -69,7 +91,8 @@ node outils/verifier.mjs --captures /tmp/site
   Haut-Doubs. Cette démonstration n’engage pas cette collectivité, et le site le précise.
 - Les contenus d’exemple sont signalés « de démonstration » ; aucun contenu inventé n’est attribué à une entreprise
   réelle.
-- Les photos viennent de Wikimedia Commons, sous licence libre ; leurs crédits sont sur la page Crédits.
+- Les photos viennent de Wikimedia Commons, sous licence libre. Leurs crédits figurent sous chaque photo et sur la
+  page Crédits.
 - Les formulaires ouvrent la messagerie avec la demande préremplie (`mailto:bonjour@terricom.fr`). Aucune donnée
   n’est envoyée à un serveur.
 
