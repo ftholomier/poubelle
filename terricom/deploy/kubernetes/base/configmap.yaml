@@ -18,7 +18,7 @@ data:
   MAIL_DRIVER: smtp
   MAIL_FROM: 'terricom <bonjour@terricom.fr>'
   SUPPORT_EMAIL: support@terricom.fr
-  SALES_EMAIL: bonjour@terricom.fr
+  SALES_EMAIL: ftholomier@gmail.com
   AI_MODEL: claude-opus-5
   CLAMAV_HOST: terricom-clamav
   CLAMAV_PORT: '3310'

@@ -96,7 +96,7 @@ node outils/verifier.mjs --captures /tmp/site
 - Les formulaires (démonstration et contact) sont envoyés à la plateforme terricom : `POST /api/site/demonstration`
   et `POST /api/site/contact` (code dans `terricom/src/app/api/site`). La demande d’une collectivité devient une
   affaire du suivi commercial de la console, ou s’ajoute à l’affaire déjà ouverte pour la même adresse.
-  L’équipe est prévenue sur `SALES_EMAIL` (une réponse part directement à l’expéditeur), et l’expéditeur reçoit un
+  L’équipe est prévenue sur `SALES_EMAIL` (ftholomier@gmail.com ; une réponse part directement à l’expéditeur), et l’expéditeur reçoit un
   accusé de réception. Si la plateforme ne répond pas, le formulaire ouvre la messagerie avec la demande
   préremplie : rien n’est perdu.
 - L’adresse de la plateforme est fixée à la construction : `TERRICOM_API` (par défaut
