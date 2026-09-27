@@ -77,13 +77,13 @@ description: Découvrez terricom sur notre territoire de démonstration, les Lac
     </div>
     <form class="form card reveal" data-endpoint="{{api}}/demonstration" data-mailto="ftholomier@gmail.com" data-subject="Demande de démonstration terricom">
       <div class="field"><label for="collectivite">Votre collectivité *</label><input id="collectivite" name="collectivite" required autocomplete="organization" placeholder="Communauté de communes, commune…"></div>
-      <div class="row">
+      <div class="row r21">
         <div class="field"><label for="type">Type de collectivité</label><select id="type" name="type"><option value="CC">Communauté de communes</option><option value="CA">Communauté d’agglomération</option><option value="COMMUNE">Commune</option><option value="AUTRE">Autre</option></select></div>
-        <div class="field"><label for="communes">Nombre de communes</label><input id="communes" name="communes" type="number" min="1" max="500" inputmode="numeric"></div>
+        <div class="field"><label for="communes">Communes</label><input id="communes" name="communes" type="number" min="1" max="500" inputmode="numeric" placeholder="ex. 24" aria-label="Nombre de communes"></div>
       </div>
       <div class="row">
         <div class="field"><label for="nom">Nom et prénom *</label><input id="nom" name="nom" required autocomplete="name"></div>
-        <div class="field"><label for="fonction">Fonction *</label><input id="fonction" name="fonction" required placeholder="Président, vice-présidente, DGS…"></div>
+        <div class="field"><label for="fonction">Fonction *</label><input id="fonction" name="fonction" required placeholder="Maire, DGS…"></div>
       </div>
       <div class="row">
         <div class="field"><label for="email">Adresse électronique *</label><input id="email" name="email" type="email" required autocomplete="email"></div>
