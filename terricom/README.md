@@ -119,6 +119,8 @@ tests/            unit (Vitest), e2e (Playwright)
 - [Stratégie des fondateurs (PDF paysage, interne)](docs/strategie/terricom-strategie-fondateurs.pdf) : marché
   national, offre, grille tarifaire et pourquoi, vente, webmarketing, modèle économique et simulations sur cinq ans
 - [Site commercial terricom.fr](../site-terricom/README.md) : site statique pour les élus, dossier `site-terricom/`
+- [Fonctionnalités à développer (PDF, note de cadrage à la charte)](docs/cadrage/terricom-fonctionnalites-a-developper.pdf) :
+  les 24 fonctionnalités cohérentes avec le positionnement, par thème, et la frontière à conserver (`npm run cadrage`)
 - [Dossier de réalisation (PDF, 30 pages à la charte)](docs/dossier/terricom-dossier-de-realisation.pdf) : le projet
   expliqué à chaque niveau (design, ergonomie, fonctionnalités, IA, technique, hébergement, sécurité, RGPD, qualité)
 

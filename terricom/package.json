@@ -22,6 +22,7 @@
     "dossier": "node scripts/dossier.mjs",
     "presentation": "node scripts/presentation.mjs",
     "strategie": "node scripts/strategie.mjs",
+    "cadrage": "python3 docs/cadrage/generer.py && node scripts/cadrage.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
