@@ -1,0 +1,12 @@
+{
+  "name": "suisse-immo-si-jur-06",
+  "private": true,
+  "description": "Fiche juridique SI-JUR-06 (prospection téléphonique) : génération du Word",
+  "scripts": {
+    "build": "sh build.sh"
+  },
+  "dependencies": {
+    "docx": "^9.7.2",
+    "jszip": "^3.10.1"
+  }
+}
