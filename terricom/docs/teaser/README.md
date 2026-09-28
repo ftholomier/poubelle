@@ -80,3 +80,31 @@ npm run db:reset
 
 La composition (séquences, repères musicaux, textes) est dans `teaser.html` ; les scénarios filmés dans
 `scripts/teaser/scenes.mjs`.
+
+## Film de présentation aux élus
+
+`terricom-elus.mp4` : 1 min 54, 1920 × 1080, même musique que le teaser. Il s’adresse aux élus des communautés
+de communes et des communes : l’esprit de la solution, ce que chacun y gagne, les fonctionnalités. Pas de logo au
+début : la marque et l’adresse terricom.fr n’apparaissent qu’à la fin. **Aucun tarif.**
+
+| Temps (s) | Image                                                                                                          |
+| --------- | -------------------------------------------------------------------------------------------------------------- |
+| 0 – 19    | Photos de toute la France : « Dans chaque territoire, des commerçants, des artisans, des producteurs… »        |
+| 19 – 36   | L’enjeu pour la CC : le contour officiel du territoire se trace, 32 communes, 1 971 entreprises SIRENE         |
+| 36 – 45   | Grand impact : « Une plateforme d’animation économique du territoire », habitants, collectivité, entreprises   |
+| 45 – 54   | Pour les habitants : recherche, carte, mobile                                                                  |
+| 54 – 91   | La collectivité : tableau de bord, SIRENE, campagne en une phrase, lettre ; chaque commune ; chaque entreprise |
+| 91 – 104  | Les résultats à présenter au conseil, ce que chacun y gagne, « Le territoire, en vitrine. »                    |
+| 104 – fin | Logo, terricom.fr, crédits                                                                                     |
+
+Les écrans sont les boucles réelles de l’application du site commercial (`site-terricom/public/assets/video/app`),
+lues image par image ; la carte est dessinée à partir des contours officiels (geo.api.gouv.fr) et des
+établissements de la base de démonstration. Photos : `site-terricom/sources` (crédits dans
+`site-terricom/outils/credits.json`).
+
+```bash
+npm run db:reset                                   # base de démonstration réelle (repères)
+FFMPEG=/chemin/ffmpeg scripts/teaser/elus-donnees.sh
+node scripts/teaser/rendu-elus.mjs --apercu 10 30 50   # aperçus
+FFMPEG=/chemin/ffmpeg node scripts/teaser/rendu-elus.mjs
+```

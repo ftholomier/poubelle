@@ -72,6 +72,8 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
       postal, formule, paiement Stripe ou virement), vitrine nationale `/france`, levier commercial par
       intercommunalité (SIREN de l’EPCI), console « Adhésions directes », bascule automatique à l’adhésion de la
       commune ou de la CC, site commercial et stratégie des fondateurs mis à jour (sans tarif sur le site public)
+- [x] Film de présentation aux élus (`docs/teaser/terricom-elus.mp4`) : même musique que le teaser, logo et
+      adresse seulement à la fin, aucun tarif
 
 ## En cours
 
