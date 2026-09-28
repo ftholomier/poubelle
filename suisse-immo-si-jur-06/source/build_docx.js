@@ -1,5 +1,6 @@
 // Génère le Word (.docx) de la fiche SI-JUR-06 à partir de content.json.
-// Usage : node build_docx.js <sortie.docx>
+// Usage : node build_docx.js <sortie.docx> [--form]
+//   --form  le formulaire seul, sur une page, sans pied de page ni note
 //
 // Polices de la marque intégrées au fichier (normal + gras), champs à compléter
 // en contrôles de contenu Word, cases à cocher cliquables.
@@ -16,6 +17,7 @@ const {
 const HERE = __dirname;
 const C = JSON.parse(fs.readFileSync(path.join(HERE, 'content.json'), 'utf8'));
 const OUT = process.argv[2] || 'doc.docx';
+const FORM_ONLY = process.argv.includes('--form');
 
 const MM = 56.6929;
 const mm = (v) => Math.round(v * MM);
@@ -50,7 +52,13 @@ function runs(str, style = {}) {
     if (m.index > last) out.push(new TextRun({ ...base, text: str.slice(last, m.index) }));
     if (m[1] !== undefined) out.push(new TextRun({ ...base, text: m[1], bold: true, color: boldColor || COL.ink }));
     else if (m[2]) out.push(placeholder(m[2], m[3]));
-    else if (m[4]) out.push(checkbox());
+    else if (m[4]) {
+      out.push(checkbox());
+      if (str[re.lastIndex] === ' ') {
+        out.push(new TextRun({ ...base, text: '\u00a0' }));
+        re.lastIndex += 1;
+      }
+    }
     last = re.lastIndex;
   }
   if (last < str.length) out.push(new TextRun({ ...base, text: str.slice(last) }));
@@ -271,6 +279,12 @@ function toc(b) {
 }
 
 function annexHead(b) {
+  if (FORM_ONLY) {
+    return [p([new TextRun({ font: F.display, bold: true, size: 36, color: COL.ink, text: b.title })], {
+      spacing: { after: mm(5.5), ...EX(18, 1.25) },
+      border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: COL.rule, space: 5 } },
+    })];
+  }
   return [
     p([
       new TextRun({ font: F.tag, size: 15, color: 'FFFFFF', allCaps: true, characterSpacing: 24, text: ` ${b.tag} `,
@@ -287,32 +301,35 @@ function annexHead(b) {
 
 function form(b) {
   const fs9 = body({ size: 17, color: COL.ink });
+  // Page dédiée : plus d'air entre les lignes et pour la signature.
+  const L = FORM_ONLY ? { ident: 1.85, fp: 1.6, choice: 1.55, after: 2.3, choiceAfter: 1.8, sig: 12.5 }
+    : { ident: 1.72, fp: 1.56, choice: 1.5, after: 1.9, choiceAfter: 1.1, sig: 8 };
   const children = [];
   for (const part of b.parts) {
     if (part.t === 'ident') {
       part.lines.forEach((l, i) => {
         const last = i === part.lines.length - 1;
         children.push(p(runs(l, fs9), {
-          spacing: { after: last ? mm(2.4) : 0, ...EX(8.5, 1.72) },
+          spacing: { after: last ? mm(2.4) : 0, ...EX(8.5, L.ident) },
           border: last ? { bottom: { style: BorderStyle.SINGLE, size: 4, color: 'DCD5CA', space: 5 } } : undefined,
         }));
       });
     } else if (part.t === 'fp') {
       children.push(p(runs(part.text, fs9), {
-        spacing: { before: part.gap ? mm(2) : 0, after: mm(1.9), ...EX(8.5, 1.56) },
+        spacing: { before: part.gap ? mm(FORM_ONLY ? 3 : 2) : 0, after: mm(L.after), ...EX(8.5, L.fp) },
       }));
     } else if (part.t === 'choices') {
       for (const [, txt] of part.items) {
         children.push(p([checkbox(), new TextRun({ text: '\t' }), ...runs(txt, fs9)], {
           tabStops: [{ type: TabStopType.LEFT, position: mm(6) }],
           indent: { left: mm(6), hanging: mm(6) },
-          spacing: { after: mm(1.1), ...EX(8.5, 1.5) },
+          spacing: { after: mm(L.choiceAfter), ...EX(8.5, L.choice) },
         }));
       }
     } else if (part.t === 'signature') {
       children.push(p(runs(part.label, fs9), { spacing: { before: mm(1.5), after: 0, ...EX(8.5, 1.5) } }));
       children.push(p([], {
-        spacing: { before: mm(8), after: 0, line: 40, lineRule: 'exact' },
+        spacing: { before: mm(L.sig), after: 0, line: 40, lineRule: 'exact' },
         border: { bottom: { style: BorderStyle.DOTTED, size: 6, color: COL.rule, space: 1 } },
       }));
     }
@@ -358,7 +375,7 @@ function block(b) {
     case 'annex_head': return annexHead(b);
     case 'form': return form(b);
     case 'reserved': return [p(runs(b.text, { font: F.tag, size: 14, color: COL.muted, boldColor: COL.ink }),
-      { spacing: { before: mm(3), ...EX(7, 2.0) } })];
+      { spacing: { before: mm(FORM_ONLY ? 4.5 : 3), ...EX(7, 2.0) } })];
     default: throw new Error(b.t);
   }
 }
@@ -367,7 +384,8 @@ function block(b) {
 
 function build() {
   const children = [];
-  C.pages.forEach((blocks, i) => {
+  const pages = FORM_ONLY ? C.pages.slice(-1) : C.pages;
+  pages.forEach((blocks, i) => {
     const els = blocks.flatMap(block);
     if (i > 0) {
       // saut de page porté par le premier paragraphe de la page
@@ -395,7 +413,7 @@ function build() {
 
   return new Document({
     creator: 'Suisse Immo',
-    title: `${C.ref} — ${C.title}`,
+    title: FORM_ONLY ? 'Formulaire de recueil du consentement' : `${C.ref} — ${C.title}`,
     subject: 'Prospection téléphonique : le consentement préalable',
     keywords: 'Suisse Immo, SI-JUR-06, démarchage téléphonique, consentement',
     description: 'Fiche juridique du réseau Suisse Immo et formulaire de recueil du consentement.',
@@ -427,10 +445,12 @@ function build() {
       properties: {
         page: {
           size: { width: PAGE_W, height: 16838 },
-          margin: { top: mm(16), bottom: mm(19), left: MARGIN_X, right: MARGIN_X, header: mm(8), footer: mm(10) },
+          margin: FORM_ONLY
+            ? { top: mm(15), bottom: mm(12), left: MARGIN_X, right: MARGIN_X, header: mm(8), footer: mm(6) }
+            : { top: mm(16), bottom: mm(19), left: MARGIN_X, right: MARGIN_X, header: mm(8), footer: mm(10) },
         },
       },
-      footers: { default: footer },
+      ...(FORM_ONLY ? {} : { footers: { default: footer } }),
       children,
     }],
   });
@@ -469,7 +489,13 @@ async function finalize(buf) {
     + `<w:color w:val="${COL.rule}"/></w:rPr><w:t>\u2610</w:t></w:r>`);
   zip.file('word/document.xml', doc);
 
-  // Pied de page : un run par élément de champ, chacun avec la mise en forme du texte.
+  if (!FORM_ONLY) await rewriteFooter(zip);
+
+  return finishFonts(zip, count);
+}
+
+// Pied de page : un run par élément de champ, chacun avec la mise en forme du texte.
+async function rewriteFooter(zip) {
   let foot = await zip.file('word/footer1.xml').async('string');
   foot = foot.replace(/<w:r><w:rPr>((?:(?!<\/w:rPr>).)*)<\/w:rPr><w:t xml:space="preserve">p\.([^<]*)<\/w:t><w:fldChar[\s\S]*?<\/w:r>/, (all, rpr, sp) => {
     const R = (inner) => `<w:r><w:rPr>${rpr}</w:rPr>${inner}</w:r>`;
@@ -480,7 +506,9 @@ async function finalize(buf) {
   });
   if (!foot.includes('NUMPAGES')) throw new Error('pied de page non réécrit');
   zip.file('word/footer1.xml', foot);
+}
 
+async function finishFonts(zip, count) {
   // 2. Styles gras : « Famille__B » devient l'embedBold de « Famille ».
   let ft = await zip.file('word/fontTable.xml').async('string');
   for (const fam of ['Inter', 'Bricolage Grotesque']) {

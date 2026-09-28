@@ -1,6 +1,6 @@
 """Renseigne les métadonnées du PDF de la fiche (Chromium n'écrit que le titre).
 
-Usage : python3 pdf_meta.py <fichier.pdf>
+Usage : python3 pdf_meta.py <fichier.pdf> [--form]
 """
 
 import os
@@ -11,10 +11,10 @@ import pymupdf
 from content import CONTENT
 
 
-def main(path):
+def main(path, form_only=False):
     doc = pymupdf.open(path)
     doc.set_metadata({
-        "title": f"{CONTENT['ref']} — {CONTENT['title']}",
+        "title": "Formulaire de recueil du consentement" if form_only else f"{CONTENT['ref']} — {CONTENT['title']}",
         "author": "Suisse Immo",
         "subject": "Prospection téléphonique : le consentement préalable (depuis le 11 août 2026)",
         "keywords": "Suisse Immo, SI-JUR-06, démarchage téléphonique, consentement, agents commerciaux",
@@ -29,4 +29,4 @@ def main(path):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main(sys.argv[1], form_only="--form" in sys.argv)

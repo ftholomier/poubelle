@@ -65,7 +65,7 @@ def main(src, boxes_path, out):
             doc.xref_set_key(annot.xref, "AP", f"<< /N {blank} 0 R >>")
 
     doc.set_metadata({
-        "title": "SI-JUR-06 — Formulaire de recueil du consentement (à remplir)",
+        "title": "Formulaire de recueil du consentement (à remplir)",
         "author": "Suisse Immo",
         "subject": "Prospection téléphonique : recueil du consentement préalable",
         "keywords": "Suisse Immo, SI-JUR-06, consentement, démarchage téléphonique, formulaire",

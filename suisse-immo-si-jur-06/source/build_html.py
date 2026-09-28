@@ -1,8 +1,9 @@
 """Génère le HTML A4 de la fiche SI-JUR-06 à partir de content.py.
 
-Usage : python3 build_html.py <sortie.html> [--inline] [--fillable]
+Usage : python3 build_html.py <sortie.html> [--inline] [--form] [--fillable]
   --inline    polices et logo intégrés (fichier autonome)
-  --fillable  seulement l'annexe, champs vides pour le PDF remplissable
+  --form      le formulaire seul, sur une page, sans pied de page ni note
+  --fillable  le formulaire seul, champs vides pour le PDF remplissable
 """
 
 import base64
@@ -48,7 +49,9 @@ def inline(s: str, fillable: bool = False) -> str:
 
     out = re.sub(r"\[\[([a-z_]+)(?:\|([^\]]+))?\]\]([.,;)]?)",
                  lambda m: f'<span class="nw">{field(m)}{m.group(3)}</span>' if m.group(3) else field(m), out)
-    out = re.sub(r"\{\{cb:([a-z_]+)\}\}", r'<span class="cb" data-field="\1"></span>', out)
+    # la case reste sur la même ligne que le premier mot de son libellé
+    out = re.sub(r"\{\{cb:([a-z_]+)\}\} (\S+)",
+                 r'<span class="nw"><span class="cb" data-field="\1"></span> \2</span>', out)
     return out
 
 
@@ -209,6 +212,22 @@ tr:last-child td{border-bottom:1px solid var(--line)}
 .reserved{margin:3.5mm 0 0;font-family:var(--tag);font-weight:500;font-size:7pt;line-height:2;color:var(--muted)}
 .reserved strong{color:var(--ink);font-weight:500}
 .reserved .ph{font-size:6.2pt}
+
+/* formulaire seul, sur sa propre page */
+.form-only .page{padding:15mm 18mm 0}
+.form-only .page-body{height:calc(297mm - 15mm - 12mm)}
+.form-title{margin:0 0 5.5mm;padding-bottom:2.6mm;border-bottom:1.3px solid var(--rule);font-size:18pt}
+.form-only .form{font-size:8.9pt;line-height:1.6;padding:5.6mm 6mm 5.4mm}
+.form-only .form p{margin-bottom:2.3mm}
+.form-only .form p.gap{margin-top:4.5mm}
+.form-only .form p.ident{line-height:1.85;margin-bottom:3mm;padding-bottom:2.6mm}
+.form-only .ph{line-height:11pt}
+.form-only .choices{margin:.8mm 0 2.8mm}
+.form-only .choices li{margin-bottom:1.8mm}
+.form-only .sig{margin-top:4mm}
+.form-only .sig-line{height:13mm}
+.form-only .reserved{margin-top:4.5mm;font-size:7.2pt;line-height:2.05}
+.form-only .reserved .ph{font-size:6.3pt}
 """
 
 
@@ -228,7 +247,7 @@ def render_table(b, fillable):
             f"<thead><tr>{head}</tr></thead><tbody>{''.join(rows)}</tbody></table>")
 
 
-def render_block(b, fillable=False) -> str:
+def render_block(b, fillable=False, form_only=False) -> str:
     t = b["t"]
     if t == "cover":
         meta = "".join(f'<div><span class="label">{esc(k)}</span>{inline(v)}</div>' for k, v in b["meta"])
@@ -275,6 +294,8 @@ def render_block(b, fillable=False) -> str:
     if t == "table":
         return render_table(b, fillable)
     if t == "annex_head":
+        if form_only:
+            return f'<h2 class="form-title">{esc(b["title"])}</h2>'
         return (f'<div class="annex-head"><span class="tag">{esc(b["tag"])}</span>'
                 f'<h2>{esc(b["title"])}</h2></div><p class="annex-note">{inline(b["note"])}</p>')
     if t == "form":
@@ -298,30 +319,36 @@ def render_block(b, fillable=False) -> str:
     raise ValueError(t)
 
 
-def render(inline_assets=False, fillable=False) -> str:
+def render(inline_assets=False, fillable=False, form_only=False) -> str:
+    form_only = form_only or fillable
     total = CONTENT["total"]
     left, center = CONTENT["footer"]
     pages = []
     for i, blocks in enumerate(CONTENT["pages"], start=1):
-        if fillable and i != total:
+        if form_only and i != total:
             continue
-        body = "".join(render_block(b, fillable) for b in blocks)
-        pages.append(
-            f'<section class="page" id="p{i}"><div class="page-body">{body}</div>'
+        body = "".join(render_block(b, fillable, form_only) for b in blocks)
+        footer = "" if form_only else (
             f'<footer class="pf"><span>{esc(left)}</span><span>{esc(center)}</span>'
-            f'<span>{"Annexe" if fillable else f"p.&nbsp;{i}/{total}"}</span></footer></section>')
-    title = f'{CONTENT["ref"]} — {CONTENT["title"]} · Suisse Immo'
+            f'<span>p.&nbsp;{i}/{total}</span></footer>')
+        pages.append(f'<section class="page" id="p{i}"><div class="page-body">{body}</div>{footer}</section>')
+    body_attr = ' class="form-only"' if form_only else ""
+    if form_only:
+        title = "Formulaire de recueil du consentement · Suisse Immo"
+    else:
+        title = f'{CONTENT["ref"]} — {CONTENT["title"]} · Suisse Immo'
     return (
         '<!doctype html><html lang="fr"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         f"<title>{esc(title)}</title>"
         f"<style>{font_faces(inline_assets)}\n{CSS}</style></head>"
-        f'<body>{"".join(pages)}</body></html>'
+        f'<body{body_attr}>{"".join(pages)}</body></html>'
     )
 
 
 if __name__ == "__main__":
     out = Path(sys.argv[1])
-    doc = render(inline_assets="--inline" in sys.argv, fillable="--fillable" in sys.argv)
+    doc = render(inline_assets="--inline" in sys.argv, fillable="--fillable" in sys.argv,
+                 form_only="--form" in sys.argv)
     out.write_text(doc, encoding="utf-8")
     print("écrit", out, f"{len(doc) // 1024} Ko")

@@ -20,12 +20,17 @@ node render.cjs fiche.html "$OUT/$NAME.pdf"
 python3 pdf_meta.py "$OUT/$NAME.pdf"
 python3 build_html.py "$OUT/$NAME.html" --inline
 
-# Formulaire seul, à remplir sur tablette
-python3 build_html.py annexe.html --fillable
-node render.cjs annexe.html annexe-base.pdf --boxes champs.json
-python3 build_fillable.py annexe-base.pdf champs.json "$OUT/SI-JUR-06_Formulaire-consentement_a-remplir.pdf"
-
 # Word éditable, polices intégrées
 node build_docx.js "$OUT/$NAME.docx"
 
-rm -f fiche.html annexe.html annexe-base.pdf champs.json
+# Formulaire seul, sur une page : PDF à imprimer, Word, PDF à remplir sur tablette
+FORM=SI-JUR-06_Formulaire-consentement
+python3 build_html.py formulaire.html --form
+node render.cjs formulaire.html "$OUT/$FORM.pdf"
+python3 pdf_meta.py "$OUT/$FORM.pdf" --form
+node build_docx.js "$OUT/$FORM.docx" --form
+python3 build_html.py annexe.html --fillable
+node render.cjs annexe.html annexe-base.pdf --boxes champs.json
+python3 build_fillable.py annexe-base.pdf champs.json "$OUT/${FORM}_a-remplir.pdf"
+
+rm -f fiche.html formulaire.html annexe.html annexe-base.pdf champs.json

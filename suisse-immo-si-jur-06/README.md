@@ -10,8 +10,10 @@ depuis le 11 août 2026), plus un formulaire de recueil du consentement en annex
 |---|---|
 | `SI-JUR-06_Prospection-telephonique_Suisse-Immo.pdf` | Fiche complète, A4, prête à imprimer ou à diffuser |
 | `SI-JUR-06_Prospection-telephonique_Suisse-Immo.docx` | Version Word modifiable, avec les polices de la marque intégrées, les champs à compléter sous forme de zones de saisie et des cases à cocher cliquables |
-| `SI-JUR-06_Formulaire-consentement_a-remplir.pdf` | Annexe seule, en PDF à remplir sur tablette : 27 champs, cases à cocher et champ de signature |
 | `SI-JUR-06_Prospection-telephonique_Suisse-Immo.html` | Version web autonome (polices et logo intégrés) |
+| `SI-JUR-06_Formulaire-consentement.pdf` | Formulaire seul sur une page, sans note ni pied de page, prêt à imprimer |
+| `SI-JUR-06_Formulaire-consentement.docx` | Le même formulaire en Word, avec zones de saisie et cases à cocher |
+| `SI-JUR-06_Formulaire-consentement_a-remplir.pdf` | Le même formulaire en PDF à remplir sur tablette : 27 champs, cases à cocher et champ de signature |
 
 ## Partis pris
 
@@ -46,7 +48,7 @@ Le texte se modifie à un seul endroit, `source/content.py`, puis :
 ```sh
 cd source
 npm install          # docx, jszip
-sh build.sh          # écrit les quatre livrables dans ../livrables
+sh build.sh          # écrit les sept livrables dans ../livrables
 ```
 
 Prérequis : Python 3 avec `pymupdf`, `fonttools` et `brotli`, ainsi que Node 18
