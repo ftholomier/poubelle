@@ -95,6 +95,9 @@ Rien en cours.
 - [ ] Adresses web des clients (mis de côté) : sous-domaine en terricom.fr demandé depuis le back-office (CC,
       communes, entreprises) et domaine propre branché sur la fiche ou le mini-site. Proposition et décisions à
       prendre : [docs/cadrage/adresses-web.md](docs/cadrage/adresses-web.md)
+- [ ] Compte habitant facultatif (mis de côté) : connexion sans mot de passe par lien sécurisé envoyé par email ;
+      passeport des circuits sur tous les appareils, abonnements, favoris, alertes de sa commune. Proposition :
+      [docs/cadrage/compte-habitant.md](docs/cadrage/compte-habitant.md)
 - [ ] Connecteurs natifs (fiche Google, Meta) en complément du connecteur générique signé
 - [ ] Revenus « à terme » du cahier des charges (§ 24) : cartes cadeaux territoriales ; place de marché seulement
       si le pilote l’exprime (§ 29, e-commerce volontairement non prioritaire)
