@@ -19,7 +19,9 @@ Alsace, Bretagne, Corrèze, Lot, Berry, Provence et Haut-Doubs.
 
 Chaque boucle ne se charge qu’à l’approche et se met en pause hors de l’écran. Avec « réduire les animations »,
 rien ne démarre seul. Le film de présentation aux élus (1 min 54, `terricom/docs/teaser/terricom-elus.mp4`) est
-intégré à l’accueil et à la page Démonstration.
+intégré à l’accueil et à la page Démonstration. Le teaser (1 min 53, `terricom/docs/teaser/terricom-teaser.mp4`) a sa
+propre page, `terricom.fr/teaser`, qui ne montre que la vidéo. Dans l’en-tête, le bouton d’action « Demandez une
+démo » mène au formulaire de la page Démonstration.
 
 Le site est en HTML statique, sans dépendance à l’exécution. Pour le mettre en ligne, il suffit de déposer le
 contenu de `public/` sur n’importe quel hébergement : serveur web, stockage objet ou CDN.
@@ -38,6 +40,7 @@ contenu de `public/` sur n’importe quel hébergement : serveur web, stockage o
 | `accompagnement`        | De la démonstration au lancement, puis l’animation toute l’année                |
 | `confiance`             | Données, hébergement, RGPD, accessibilité                                       |
 | `questions`, `contact`  | Questions fréquentes, contact                                                   |
+| `teaser`                | Le teaser seul, en plein écran, sans menu : lien direct `terricom.fr/teaser`    |
 | `mentions-legales`, `confidentialite`, `credits`, `404` | Pages légales et utilitaires                    |
 
 ## Organisation
@@ -51,7 +54,8 @@ sources/          médias bruts, non versionnés (captures PNG, photos, teaser)
 ```
 
 `construire.py` enveloppe chaque page dans le gabarit commun : en-tête, menu, pied de page, SEO, Open Graph et
-JSON-LD. Il écrit aussi `sitemap.xml`, remplace les raccourcis et pose les espaces insécables du français.
+JSON-LD. Une page dont l’en-tête porte `gabarit: nu` est écrite sans en-tête ni pied de page, avec des
+adresses absolues (c’est le cas de `teaser`). Il écrit aussi `sitemap.xml`, remplace les raccourcis et pose les espaces insécables du français.
 
 Raccourcis disponibles :
 
