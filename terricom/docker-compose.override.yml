@@ -1,0 +1,44 @@
+# Surcharge de développement local, chargée automatiquement par `docker compose`
+# (aucun -f nécessaire) en plus de docker-compose.yml. Ne pas déployer ce fichier en préproduction/production.
+#
+# Monte le code source dans les conteneurs web/worker et lance next dev / tsx --watch :
+# les modifications sont prises en compte sans rebuild d'image.
+#   docker compose up -d --build   (une fois, pour construire le stage `dev`)
+#   ... puis modifier le code : rechargement automatique.
+#
+# Après un changement de package.json/package-lock.json, les dépendances du volume ne se
+# mettent pas à jour toutes seules : `docker compose down` puis
+# `docker volume rm terricom_dev_node_modules` avant de relancer avec --build.
+#
+# Images taguées différemment de la prod (terricom-web:dev / terricom-tools:dev) : web et worker
+# partagent sinon les tags terricom-web:local / terricom-tools:local avec migrate et seed, qui
+# attendent l'image de prod (stage `tools`, code copié en dur) — un même tag pointant vers le
+# stage dev les casserait (scripts/migrate.ts absent de l'image, non copié dans ce stage).
+services:
+  web:
+    image: terricom-web:dev
+    build:
+      context: .
+      target: dev
+    command: ['npm', 'run', 'dev']
+    environment:
+      NODE_ENV: development
+    volumes:
+      - .:/app
+      - dev_node_modules:/app/node_modules
+      - /app/.next
+
+  worker:
+    image: terricom-tools:dev
+    build:
+      context: .
+      target: dev
+    command: ['npm', 'run', 'dev:worker']
+    environment:
+      NODE_ENV: development
+    volumes:
+      - .:/app
+      - dev_node_modules:/app/node_modules
+
+volumes:
+  dev_node_modules:

@@ -61,3 +61,10 @@ EXPOSE 9090
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
   CMD node -e "fetch('http://127.0.0.1:9090/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 CMD ["node", "--import", "tsx", "scripts/worker.ts"]
+
+# ── Image dev : hot-reload local (jamais publiée, voir docker-compose.override.yml) ────────────
+# Dépendances complètes déjà installées (stage deps) ; le code source est monté en volume au lancement.
+FROM deps AS dev
+ENV NODE_ENV=development
+EXPOSE 3000 9090
+CMD ["npm", "run", "dev"]
