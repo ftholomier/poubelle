@@ -132,6 +132,13 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
   (0,5 Mo chacune environ). Elles sont lues seulement à l’écran, avec un bouton pause, et rien ne démarre seul
   si le visiteur a demandé à réduire les animations.
 
+- **Connexion depuis le portail** : l’en-tête du portail d’une communauté de communes ou d’une commune
+  propose « Se connecter » à côté de « Vous êtes pro ? », et le pied de page « Espace élus et agents ». Les deux
+  mènent à la connexion unique de la plateforme ; chacun est ensuite dirigé vers son espace (console,
+  back-office, espace entreprise ou compte), directement s’il est déjà connecté. Le portail ne lit pas la
+  session : posée sur le domaine de la plateforme, elle n’est pas visible sur un sous-domaine ou un domaine de
+  collectivité.
+
 ## Vérifications à chaque lot
 
 `tsc`, ESLint, Prettier, Vitest, Playwright (portail et espaces), parcours automatique des espaces concernés

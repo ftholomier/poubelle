@@ -28,6 +28,8 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
       langue mémorisé, `hreflang`, canoniques et plan du site par langue, emails de double validation traduits,
       traductions IA des fiches (tâche `i18n.translate`) et des textes du portail (« Langues du portail »),
       version rédigée par le professionnel, repli sur le français, pages légales en français
+- [x] Accès à la connexion depuis le portail : « Se connecter » dans l’en-tête, « Espace élus et agents » en pied
+      de page
 - [x] Synchronisation des contenus : flux iCal et RSS (territoire, fiches), connecteur signé des entreprises
       (Premium : publications, fiche, événements, offres d’emploi), agendas externes iCal importés chaque heure
 - [x] Marque blanche testée de bout en bout ; hors-ligne vérifié sur la compilation de production
