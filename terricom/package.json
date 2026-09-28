@@ -12,6 +12,7 @@
     "build": "next build",
     "start": "bash scripts/start.sh",
     "worker": "tsx scripts/worker.ts",
+    "dev:worker": "tsx watch scripts/worker.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx scripts/migrate.ts",
     "db:seed": "tsx scripts/seed.ts",
