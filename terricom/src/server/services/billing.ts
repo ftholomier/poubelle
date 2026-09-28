@@ -1,6 +1,7 @@
 import { and, desc, eq, sql } from 'drizzle-orm';
 import type { PlanKey } from '@/lib/constants';
 import { parisDate } from '@/lib/format';
+import { intervalLabel, monthlyEquivalentCents, subscriptionName, subscriptionPriceCents, type BillingInterval } from '@/lib/pricing';
 import { db, type DbOrTx } from '../db';
 import { companies, companySubscriptions, invoiceCounters, invoices, plans, territoryContracts, type InvoiceLine, type PlanLimits } from '../db/schema';
 
@@ -87,8 +88,18 @@ export async function createInvoice(p: {
 }
 
 /** Changement d'offre d'une entreprise : clôt l'abonnement courant, en ouvre un nouveau, facture au prorata du mois. */
-export async function changeCompanyPlan(companyId: string, plan: PlanKey, provider: 'MANUAL' | 'STRIPE' = 'MANUAL') {
+export type PlanChangeOptions = {
+  /** Adhésion directe (aucune collectivité partenaire) : prix direct, voir lib/pricing.ts. */
+  direct?: boolean;
+  interval?: BillingInterval;
+  /** Référence de l'abonnement chez le prestataire de paiement (Stripe). */
+  providerRef?: string | null;
+};
+
+export async function changeCompanyPlan(companyId: string, plan: PlanKey, provider: 'MANUAL' | 'STRIPE' = 'MANUAL', opts: PlanChangeOptions = {}) {
   const target = await getPlan(plan);
+  const direct = Boolean(opts.direct);
+  const interval = opts.interval ?? 'MONTH';
   return db.transaction(async (tx) => {
     await tx
       .update(companySubscriptions)
@@ -97,12 +108,19 @@ export async function changeCompanyPlan(companyId: string, plan: PlanKey, provid
     await tx.update(companies).set({ plan }).where(eq(companies.id, companyId));
     if (plan === 'ESSENTIEL') return null;
     const periodEnd = new Date();
-    periodEnd.setMonth(periodEnd.getMonth() + 1);
-    const [sub] = await tx.insert(companySubscriptions).values({ companyId, plan, status: 'ACTIVE', provider, currentPeriodEnd: periodEnd }).returning();
+    if (interval === 'YEAR') periodEnd.setFullYear(periodEnd.getFullYear() + 1);
+    else periodEnd.setMonth(periodEnd.getMonth() + 1);
+    const [sub] = await tx
+      .insert(companySubscriptions)
+      .values({ companyId, plan, status: 'ACTIVE', provider, providerRef: opts.providerRef ?? null, currentPeriodEnd: periodEnd, direct, interval })
+      .returning();
     const [co] = await tx.select().from(companies).where(eq(companies.id, companyId)).limit(1);
     const year = new Date().getFullYear();
     const number = await nextInvoiceNumber(tx, year);
-    const lines: InvoiceLine[] = [{ label: `Abonnement ${target.name} — 1 mois`, quantity: 1, unitCents: target.priceMonthlyCents, vatRate: 20 }];
+    const unitCents = subscriptionPriceCents({ plan, direct, interval, planMonthlyCents: target.priceMonthlyCents });
+    const lines: InvoiceLine[] = [
+      { label: `Abonnement ${subscriptionName(plan, direct, target.name)} — ${intervalLabel(interval)}`, quantity: 1, unitCents, vatRate: 20 },
+    ];
     await tx.insert(invoices).values({
       number,
       customerType: 'COMPANY',
@@ -139,18 +157,28 @@ export async function territoryLicence(territoryId: string) {
   return c ?? null;
 }
 
-/** Revenu récurrent : licences annuelles actives + abonnements Premium actifs (annualisés). */
-export async function recurringRevenue(): Promise<{ licencesCents: number; premiumCents: number; arrCents: number; premiumCount: number }> {
+/** Revenu récurrent : licences annuelles actives + abonnements des entreprises actifs (annualisés, prix direct compris). */
+export async function recurringRevenue(): Promise<{
+  licencesCents: number;
+  premiumCents: number;
+  arrCents: number;
+  premiumCount: number;
+  directCount: number;
+}> {
   const [lic] = await db
     .select({ n: sql<number>`coalesce(sum(${territoryContracts.amountCents}), 0)::int` })
     .from(territoryContracts)
     .where(and(eq(territoryContracts.kind, 'LICENCE'), eq(territoryContracts.status, 'ACTIVE')));
-  const prem = await db.execute<{ cents: number; n: number }>(sql`
-    SELECT coalesce(sum(p.price_monthly_cents), 0)::int AS cents, count(*)::int AS n
-    FROM company_subscriptions s JOIN plans p ON p.key = s.plan
-    WHERE s.status = 'ACTIVE'
-  `);
-  const premiumCents = Number(prem.rows[0]?.cents ?? 0) * 12;
+  const subs = await db
+    .select({ plan: companySubscriptions.plan, direct: companySubscriptions.direct, interval: companySubscriptions.interval, cents: plans.priceMonthlyCents })
+    .from(companySubscriptions)
+    .innerJoin(plans, eq(plans.key, companySubscriptions.plan))
+    .where(eq(companySubscriptions.status, 'ACTIVE'));
+  const monthly = subs.reduce(
+    (sum, r) => sum + monthlyEquivalentCents({ plan: r.plan, direct: r.direct, interval: r.interval as BillingInterval, planMonthlyCents: r.cents }),
+    0,
+  );
+  const premiumCents = monthly * 12;
   const licencesCents = Number(lic?.n ?? 0);
-  return { licencesCents, premiumCents, arrCents: licencesCents + premiumCents, premiumCount: Number(prem.rows[0]?.n ?? 0) };
+  return { licencesCents, premiumCents, arrCents: licencesCents + premiumCents, premiumCount: subs.length, directCount: subs.filter((r) => r.direct).length };
 }

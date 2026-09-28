@@ -12,6 +12,7 @@ const TABS = [
 
 const SUB = [
   { href: '/console/crm', label: 'Suivi commercial' },
+  { href: '/console/adhesions', label: 'Adhésions directes' },
   { href: '/console/facturation', label: 'Facturation' },
   { href: '/console/support', label: 'Support' },
   { href: '/console/emails', label: 'Emails' },

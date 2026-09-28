@@ -12,6 +12,8 @@ type Plan = {
   description: string;
   features: string[];
   popular: boolean;
+  /** Prix annuel affiché (dix mois facturés pour douze), pour les offres payantes. */
+  yearPrice?: string;
 };
 
 /** Cartes d'offres (E7) et souscription : l'Essentiel reste gratuit, pour toujours. */
@@ -21,15 +23,19 @@ export function PlanPicker({
   current,
   canChange,
   billing,
+  direct = false,
 }: {
   estId: string;
   plans: Plan[];
   current: string;
   canChange: boolean;
   billing: { name: string; email: string; address: string };
+  /** Adhésion directe : aucune collectivité n'offre la fiche ; « Essentiel » vaut résiliation. */
+  direct?: boolean;
 }) {
   const toast = useToast();
   const [choice, setChoice] = useState<Plan | null>(null);
+  const [interval, setBillingInterval] = useState<'MONTH' | 'YEAR'>('MONTH');
   const [party, setParty] = useState(false);
   const [state, action, pending] = useActionState<ActionState & { upgraded?: boolean; redirectUrl?: string }, FormData>(
     async (prev, form) => {
@@ -130,7 +136,15 @@ export function PlanPicker({
                   cursor: cur ? 'default' : 'pointer',
                 }}
               >
-                {cur ? 'Votre offre actuelle' : pl.key === 'ESSENTIEL' ? 'Revenir à l’Essentiel' : 'Choisir'}
+                {cur
+                  ? direct && pl.key === 'ESSENTIEL'
+                    ? 'Aucune adhésion en cours'
+                    : 'Votre offre actuelle'
+                  : pl.key === 'ESSENTIEL'
+                    ? direct
+                      ? 'Résilier mon adhésion'
+                      : 'Revenir à l’Essentiel'
+                    : 'Choisir'}
               </button>
             </div>
           );
@@ -141,18 +155,39 @@ export function PlanPicker({
         <form action={action} className="panel" style={{ borderRadius: 20, maxWidth: 720, margin: '0 auto', width: '100%' }}>
           <input type="hidden" name="estId" value={estId} />
           <input type="hidden" name="plan" value={choice.key} />
+          <input type="hidden" name="interval" value={interval} />
           <h2 className="panel-title" style={{ fontSize: 20 }}>
-            {choice.key === 'ESSENTIEL' ? 'Revenir à l’offre Essentiel' : `Passer à l’offre ${choice.name} — ${choice.price}${choice.unit}`}
+            {choice.key === 'ESSENTIEL'
+              ? direct
+                ? 'Résilier mon adhésion'
+                : 'Revenir à l’offre Essentiel'
+              : `${direct ? 'Adhérer' : 'Passer à l’offre'} ${choice.name} — ${interval === 'YEAR' && choice.yearPrice ? `${choice.yearPrice} HT / an` : `${choice.price}${choice.unit}`}`}
           </h2>
           {choice.key === 'ESSENTIEL' ? (
             <p style={{ margin: 0, color: 'var(--muted)' }}>
-              Votre fiche reste en ligne gratuitement. Les fonctions de l&apos;offre payante (programmation, diffusion newsletter, statistiques avancées…)
-              seront désactivées.
+              {direct
+                ? 'Sans collectivité partenaire pour l’offrir, votre fiche sera retirée de la vitrine terricom. Vous pourrez la réactiver à tout moment, et elle vous sera offerte dès que votre commune ou votre intercommunalité adhérera.'
+                : 'Votre fiche reste en ligne gratuitement. Les fonctions de l’offre payante (programmation, diffusion newsletter, statistiques avancées…) seront désactivées.'}
             </p>
           ) : (
             <>
+              {choice.yearPrice ? (
+                <div className="seg" role="radiogroup" aria-label="Périodicité" style={{ display: 'flex', gap: 8 }}>
+                  {(['MONTH', 'YEAR'] as const).map((iv) => (
+                    <label key={iv} className="checkbox" style={{ fontSize: 14 }}>
+                      <input type="radio" name="_interval" checked={interval === iv} onChange={() => setBillingInterval(iv)} />
+                      <span>{iv === 'MONTH' ? `Mensuel · ${choice.price}${choice.unit}` : `Annuel · ${choice.yearPrice} HT (deux mois offerts)`}</span>
+                    </label>
+                  ))}
+                </div>
+              ) : null}
               <p style={{ margin: 0, color: 'var(--muted)', fontSize: 14 }}>
-                Sans engagement : résiliable à tout moment depuis cette page. Facture mensuelle, paiement par virement ou par carte.
+                {interval === 'YEAR'
+                  ? 'Engagement d’un an, deux mois offerts. Paiement par virement ou par carte.'
+                  : 'Sans engagement : résiliable à tout moment depuis cette page. Facture mensuelle, paiement par virement ou par carte.'}
+                {direct
+                  ? ' Si votre commune ou votre intercommunalité adhère à terricom, votre fiche devient offerte et votre abonnement passe automatiquement au tarif de l’option équivalente.'
+                  : ''}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 10 }}>
                 <input name="billingName" className="input" placeholder="Raison sociale" defaultValue={billing.name} required />

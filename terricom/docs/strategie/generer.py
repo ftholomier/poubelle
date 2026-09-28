@@ -363,6 +363,17 @@ slide(tete('3 · Les commerçants', 'Gratuit pour exister, <em>options pour gagn
 <div class="card amber"><h3>« Premium offert par la collectivité »</h3><p style="color:var(--ink)">La CC peut offrir le Premium à ses commerçants pour une campagne : 120 € HT par commerce et par an (moitié prix), à partir de 20 commerces. Elle transforme son budget en adoption ; nous gagnons des utilisateurs actifs.</p></div>
 </div>''', '', '3 · Nos tarifs')
 
+slide(tete('3 · L’adhésion directe', 'Sans collectivité partenaire, <em>l’entreprise adhère seule.</em>') + '''
+<div class="grid3" style="margin-top:22px">
+<div class="card green"><h3>Adhésion · 29 € HT / mois</h3><p>ou 290 € HT par an. Fiche complète dans la vitrine nationale terricom, et tout le Premium : assistant, publications illimitées, statistiques, emploi, rendez-vous, formulaires.</p></div>
+<div class="card ink"><h3>Adhésion Communication · 49 € HT / mois</h3><p>ou 490 € HT par an. Tout l’Adhésion, plus lettres à ses propres clients, réseaux sociaux, mini-site.</p></div>
+<div class="card mint"><h3>La vitrine nationale</h3><p>Un portail terricom France qui met en avant chaque adhérent, commune par commune : l’animation existe avant même la collectivité.</p></div>
+</div>
+<div class="grid2" style="margin-top:18px">
+<div class="card amber"><h3>La bascule automatique</h3><p style="color:var(--ink)">Le jour où la commune ou la CC adhère, la fiche rejoint son portail, offerte ; l’Adhésion devient le Premium (29 → 24 €), l’Adhésion Communication reste à 49 €. Sans démarche, sans rupture.</p></div>
+<div class="card"><h3>Le levier commercial</h3><p>Chaque adhésion alimente l’affaire de sa CC dans notre suivi commercial. En rendez-vous : « 14 entreprises de votre territoire paient déjà pour être visibles ; en adhérant, vous leur offrez leur fiche. »</p></div>
+</div>''', '', '3 · Nos tarifs')
+
 slide(tete('3 · Services et limites', 'Ce que nous vendons en plus, <em>ce que nous refusons.</em>') + '''
 <div class="grid2" style="margin-top:22px">
 <div class="card"><h3>Services à la demande</h3><p>• Formation sur site : 790 € HT la journée, hors frais de déplacement<br>• Campagne clé en main (conception, textes, visuels, lettre) : 1 490 € HT<br>• Kits vitrine imprimés pour tous les commerçants : au coût d’impression + 15 %<br>• Rapport annuel pour le conseil communautaire : inclus</p></div>
@@ -595,10 +606,10 @@ slide(tete('7 · Risques', 'Ce qui peut mal tourner, <em>et la parade.</em>') + 
 slide(tete('7 · À décider', 'Les décisions <em>des fondateurs.</em>') + points([
     ('Choisir le modèle de prix : A ou B', 'A : grille de 4 900 à 16 900 € HT par CC, toutes sous le seuil. B : 10 000 € + 0,20 € par habitant (plafond 59 000 €), mise en service 5 000 € ; +56 % par client, 86 CC au-dessus du seuil. Communes seules, agglomérations et commerçants (24 et 49 €) inchangés.'),
     ('Lancer l’offre 2027', 'A : mise en service offerte pour toute signature en 2027. B : la garder facturée, ou l’offrir de la même façon. Dans les deux cas, prix bloqué pour trois ans d’engagement.'),
+    ('Valider l’adhésion directe', 'En place : 29 et 49 € HT par mois, bascule à l’adhésion de la CC. L’inclure dans nos prévisions (non comptée) ?'),
     ('Choisir le scénario de pilotage', 'Central recommandé : 6 CC en 2027, 20 en 2028, un commercial dès 2028.'),
-    ('Financer', 'Lever 300 à 400 k€ (prêts d’honneur, Bpifrance, amorçage) avant mi-2027.'),
-    ('Fixer la rémunération des fondateurs', 'Hypothèse du modèle : 90 k€ chargés à deux ; à ajuster.'),
-    ('Industrialiser la démo', 'Priorité produit numéro un : une démo par CC, générée en quelques minutes.'),
+    ('Financer et se rémunérer', 'Lever 300 à 400 k€ (prêts d’honneur, Bpifrance, amorçage) avant mi-2027 ; 90 k€ chargés à deux pour les fondateurs, à ajuster.'),
+        ('Industrialiser la démo', 'Priorité produit numéro un : une démo par CC, générée en quelques minutes.'),
 ]), '', '7 · Plan d’action')
 
 slide(tete('Sources', 'Les chiffres cités <em>et leur origine.</em>') + '''<div style="columns:2;column-gap:40px;margin-top:20px;font-size:14.5px;line-height:1.5;color:var(--text2)">

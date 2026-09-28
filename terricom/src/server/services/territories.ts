@@ -1,8 +1,8 @@
-import { and, asc, eq, inArray, isNull, sql } from 'drizzle-orm';
+import { and, asc, eq, inArray, isNull, or, sql } from 'drizzle-orm';
 import { cache } from 'react';
 import { MODULE_ORDER, type ModuleKey } from '@/lib/constants';
 import { db } from '../db';
-import { communeMemberships, communes, territories, territoryDomains, territoryModules } from '../db/schema';
+import { communeMemberships, communes, establishments, territories, territoryDomains, territoryModules } from '../db/schema';
 
 export type Territory = typeof territories.$inferSelect;
 export type Commune = typeof communes.$inferSelect;
@@ -38,25 +38,75 @@ export async function resolveTerritoryParam(param: string): Promise<Territory | 
   return getTerritoryBySlug(decoded);
 }
 
-/** Communes actuellement rattachées au territoire. */
+/**
+ * Communes du territoire : celles qui lui sont rattachées, et celles où il a des fiches sans rattachement
+ * (vitrine nationale : les communes de ses adhérents directs). Pour un territoire partenaire, les deux coïncident.
+ */
 export const getTerritoryCommunes = cache(async (territoryId: string): Promise<Commune[]> => {
   const rows = await db
     .select({ c: communes })
-    .from(communeMemberships)
-    .innerJoin(communes, eq(communes.id, communeMemberships.communeId))
-    .where(and(eq(communeMemberships.territoryId, territoryId), isNull(communeMemberships.validTo)))
+    .from(communes)
+    .where(
+      or(
+        inArray(
+          communes.id,
+          db
+            .select({ id: communeMemberships.communeId })
+            .from(communeMemberships)
+            .where(and(eq(communeMemberships.territoryId, territoryId), isNull(communeMemberships.validTo))),
+        ),
+        inArray(communes.id, db.selectDistinct({ id: establishments.communeId }).from(establishments).where(eq(establishments.territoryId, territoryId))),
+      ),
+    )
     .orderBy(asc(communes.name));
   return rows.map((r) => r.c);
 });
 
 export async function getCommuneInTerritory(territoryId: string, communeSlug: string): Promise<Commune | null> {
-  const rows = await db
-    .select({ c: communes })
-    .from(communeMemberships)
-    .innerJoin(communes, eq(communes.id, communeMemberships.communeId))
-    .where(and(eq(communeMemberships.territoryId, territoryId), isNull(communeMemberships.validTo), eq(communes.slug, communeSlug)))
-    .limit(1);
-  return rows[0]?.c ?? null;
+  const list = await getTerritoryCommunes(territoryId);
+  return list.find((c) => c.slug === communeSlug) ?? null;
+}
+
+/** Adresse de la vitrine nationale (terricom.fr/france). */
+export const NATIONAL_SLUG = 'france';
+
+export function isNational(t: Pick<Territory, 'settings'> | null | undefined): boolean {
+  return Boolean(t?.settings?.national);
+}
+
+/**
+ * Vitrine nationale terricom : territoire technique des entreprises en adhésion directe. Créé à la demande
+ * (idempotent) ; aucune commune ne lui est rattachée, aucune licence ni équipe territoriale.
+ */
+export async function ensureNationalTerritory(): Promise<Territory> {
+  const [found] = await db.select().from(territories).where(eq(territories.slug, NATIONAL_SLUG)).limit(1);
+  if (found) return found;
+  const [created] = await db
+    .insert(territories)
+    .values({
+      slug: NATIONAL_SLUG,
+      name: 'terricom France',
+      legalName: 'terricom',
+      kind: 'AUTRE',
+      status: 'ACTIVE',
+      initials: 'FR',
+      tagline: 'Les entreprises adhérentes, partout en France',
+      heroTitle: 'Les commerces et savoir-faire de France',
+      heroSubtitle:
+        'Commerçants, artisans, producteurs et prestataires qui ont rejoint terricom directement, en attendant que leur commune ou leur intercommunalité les rejoigne.',
+      homeBlocks: ['search', 'openNow', 'campaign', 'map', 'feed', 'newsletter'],
+      centerLat: 46.6,
+      centerLng: 2.4,
+      defaultZoom: 6,
+      contactEmail: 'bonjour@terricom.fr',
+      quotaEstablishments: 100000,
+      settings: { national: true, claimValidation: 'AUTO', postModeration: 'POST', sirene: { autoSync: false } },
+    })
+    .onConflictDoNothing()
+    .returning();
+  if (created) return created;
+  const [again] = await db.select().from(territories).where(eq(territories.slug, NATIONAL_SLUG)).limit(1);
+  return again;
 }
 
 /** Modules activés pour un territoire (absents = activés par défaut pour le socle MVP). */

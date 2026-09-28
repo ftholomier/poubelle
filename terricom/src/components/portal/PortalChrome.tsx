@@ -122,7 +122,7 @@ export function PortalFooter({ portal, t: tr }: { portal: PortalContext; t: Tran
         </div>
         <div style={col}>
           <b style={{ color: 'var(--cream)' }}>{tr('footer.pros')}</b>
-          <a href={appUrl(`/pro/inscription?territoire=${t.slug}`)} style={{ color: 'inherit' }}>
+          <a href={appUrl(settings.national ? '/pro/adhesion' : `/pro/inscription?territoire=${t.slug}`)} style={{ color: 'inherit' }}>
             {tr('footer.register')}
           </a>
           <a href={appUrl(`/pro/revendiquer?territoire=${t.slug}`)} style={{ color: 'inherit' }}>

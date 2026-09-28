@@ -10,6 +10,8 @@ export const deals = pgTable(
   {
     id: pk(),
     name: varchar({ length: 255 }).notNull(),
+    /** SIREN de la collectivité (intercommunalité ou commune), pour rapprocher adhésions directes et prospects. */
+    siren: varchar({ length: 9 }),
     kind: territoryKind().notNull().default('CC'),
     communesCount: integer().notNull().default(1),
     population: integer(),

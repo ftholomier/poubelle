@@ -61,6 +61,23 @@ Les droits sont définis dans la table `plans` (colonne `limits`, modifiable dep
 **côté serveur** à chaque action et à chaque affichage public ; l’interface présente les fonctions non
 incluses avec un lien vers « Mon offre ».
 
+### Adhésion directe (collectivité non partenaire)
+
+Une entreprise dont ni la commune ni la communauté de communes n’a adhéré peut rejoindre terricom seule, sur
+`/pro/adhesion` : SIRET (préremplissage SIRENE), code postal et commune, formule, facturation, compte.
+
+- **Formules** : Adhésion (fiche + tout le Premium) à 29 € HT par mois, Adhésion Communication à 49 € HT par
+  mois ; paiement annuel à dix mois (deux offerts). Pas d’offre gratuite : sans adhésion, la fiche n’est pas
+  publiée. Paiement par carte (Stripe) ou par virement (facture immédiate).
+- **Vitrine nationale** : les fiches paraissent dans le portail `terricom.fr/france` (« terricom France »), avec
+  carte, recherche et pages par commune.
+- **Commune déjà couverte** : le parcours le détecte et renvoie vers l’inscription gratuite du territoire.
+- **Levier commercial** : chaque adhésion crée ou alimente l’affaire de l’intercommunalité (SIREN de l’EPCI)
+  dans le suivi commercial ; la console « Adhésions directes » compte adhérents et revenu par intercommunalité.
+- **Bascule** : dès que la commune ou la CC adhère (création du territoire ou rattachement de communes), la fiche
+  rejoint son portail, offerte ; l’abonnement passe au prix de l’option équivalente (Adhésion → Premium),
+  l’entreprise est prévenue par courriel.
+
 ### Clients abonnés (offre Communication)
 
 - Bouton « Suivre » sur la fiche et ses pages : email, consentement explicite, **double opt-in** par email.
@@ -113,7 +130,7 @@ Deux niveaux : **territoire** (intercommunalité) et **commune** (mairie, périm
 | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Vue d’ensemble                                                    | ARR, territoires, établissements, conversion et churn des offres, carte des territoires, revenu mensuel, pipeline, santé du service ; **usage et rentabilité par territoire** (panier moyen des offres, entreprises actives, vues des campagnes, coût d’exploitation estimé, marge) |
 | Territoires                                                       | Clients et prospects, modules, quotas, statut, **marque blanche**, communes rattachées (ajout, transfert, détachement), accès support temporaire journalisé                                                                                                                         |
-| Suivi commercial                                                  | CRM (étapes, contacts, activités, tâches, documents) ; demandes de démonstration et de contact de terricom.fr reçues comme affaires                                                                                                                                                 |
+| Suivi commercial                                                  | CRM (étapes, contacts, activités, tâches, documents) ; demandes de démonstration et de contact de terricom.fr reçues comme affaires ; **adhésions directes** par intercommunalité (levier commercial)                                                                               |
 | Facturation                                                       | Factures, licences à renouveler, offres des entreprises (prix, droits)                                                                                                                                                                                                              |
 | IA, emails, tâches de fond, audit & sécurité, support, simulateur | Consommation IA, boîte d’envoi, file de tâches, journal chaîné, demandes RGPD, tickets, simulateur de devis                                                                                                                                                                         |
 

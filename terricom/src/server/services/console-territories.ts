@@ -14,7 +14,8 @@ import {
 import { slugify, uniqueSlug } from '@/lib/slug';
 import { communeByInsee, communesOfEpci, type GeoCommune } from '../integrations/public-data';
 import { env } from '../env';
-import { moveCommune } from './territories';
+import { absorbDirectMembers } from './direct';
+import { moveCommune, NATIONAL_SLUG } from './territories';
 import { randomToken, sha256 } from '../crypto';
 
 /**
@@ -46,6 +47,7 @@ export async function listClients(): Promise<ClientRow[]> {
     rows<{
       id: string;
       name: string;
+      slug: string;
       kind: TerritoryKind;
       status: TerritoryStatus;
       is_pilot: boolean;
@@ -55,7 +57,7 @@ export async function listClients(): Promise<ClientRow[]> {
       premium: number;
       licence: number | null;
     }>(sql`
-      select t.id, t.name, t.kind, t.status, t.is_pilot, t.primary_host,
+      select t.id, t.name, t.slug, t.kind, t.status, t.is_pilot, t.primary_host,
         (select count(*)::int from commune_memberships m where m.territory_id = t.id and m.valid_to is null) as communes,
         (select count(*)::int from establishments e where e.territory_id = t.id and e.status <> 'ARCHIVED') as establishments,
         (select count(distinct s.company_id)::int from company_subscriptions s
@@ -75,7 +77,7 @@ export async function listClients(): Promise<ClientRow[]> {
       kind: 'territory' as const,
       id: t.id,
       name: t.name,
-      typeLabel: TERRITORY_KINDS[t.kind]?.label ?? t.kind,
+      typeLabel: t.slug === NATIONAL_SLUG ? 'Vitrine nationale · adhésions directes' : (TERRITORY_KINDS[t.kind]?.label ?? t.kind),
       statusLabel: `${TERRITORY_STATUS[t.status].label}${t.is_pilot ? ' · pilote' : ''}`,
       color: TERRITORY_STATUS[t.status].color,
       communes: t.communes,
@@ -234,7 +236,7 @@ export async function createTerritory(input: NewTerritoryInput): Promise<NewTerr
   const centre = found.find((c) => c.centre)?.centre?.coordinates;
   const population = input.population ?? (found.reduce((a, c) => a + (c.population ?? 0), 0) || null);
 
-  return db.transaction(async (tx) => {
+  const created = await db.transaction(async (tx) => {
     const [t] = await tx
       .insert(territories)
       .values({
@@ -333,6 +335,9 @@ export async function createTerritory(input: NewTerritoryInput): Promise<NewTerr
       await tx.update(deals).set({ territoryId: t.id, stage: 'SIGNED', probability: 100, updatedAt: new Date() }).where(eq(deals.id, input.dealId));
     return { id: t.id, slug, attached, skipped };
   });
+  // Les adhérents directs de ces communes rejoignent le nouveau portail ; leur fiche devient offerte.
+  await absorbDirectMembers(created.id);
+  return created;
 }
 
 /** Invitation du premier administrateur territorial (lien valable 7 jours). */
@@ -440,6 +445,7 @@ export async function attachCommunes(territoryId: string, inseeCodes: string[], 
       result.attached.push(c.nom);
     }
   }
+  if (result.attached.length || result.transferred.length) await absorbDirectMembers(territoryId);
   return result;
 }
 

@@ -16,13 +16,13 @@ import {
   campaigns,
   categories,
   territoryCategories,
-  communeMemberships,
   communes,
   establishmentAttributes,
   establishmentCategories,
   establishments,
 } from '../db/schema';
 import { loadCards, publicStatusFilter, type EstablishmentCard } from './establishments';
+import { getTerritoryCommunes } from './territories';
 
 export type SearchParams = {
   q?: string;
@@ -66,11 +66,7 @@ export const getVocabulary = cache(async (territoryId: string): Promise<SearchVo
       .select({ slug: attributes.slug, label: attributes.label })
       .from(attributes)
       .where(or(isNull(attributes.territoryId), eq(attributes.territoryId, territoryId))),
-    db
-      .select({ slug: communes.slug, name: communes.name })
-      .from(communeMemberships)
-      .innerJoin(communes, eq(communes.id, communeMemberships.communeId))
-      .where(and(eq(communeMemberships.territoryId, territoryId), isNull(communeMemberships.validTo))),
+    getTerritoryCommunes(territoryId).then((list) => list.map((c) => ({ slug: c.slug, name: c.name }))),
   ]);
   return {
     // Le nom choisi par le territoire est compris comme un synonyme de la catégorie.

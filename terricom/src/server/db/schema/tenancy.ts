@@ -37,6 +37,11 @@ export type TerritorySettings = {
   requireMfaForAll?: boolean;
   /** Marque blanche (option) : aucune mention de terricom sur le portail ni dans les emails du territoire. */
   whiteLabel?: boolean;
+  /**
+   * Vitrine nationale terricom : territoire technique qui accueille les entreprises en adhésion directe
+   * (aucune collectivité partenaire). Ses communes sont celles de ses fiches ; il n'a ni licence ni équipe.
+   */
+  national?: boolean;
   /** Textes du portail traduits (module multilingue) ; à défaut, le texte français est affiché. */
   translations?: Partial<Record<'en' | 'de', TerritoryTexts>>;
 };
@@ -166,6 +171,9 @@ export const communes = pgTable(
     population: integer(),
     lat: doublePrecision(),
     lng: doublePrecision(),
+    /** Intercommunalité de la commune (API Géo), même hors territoire partenaire : suivi commercial. */
+    epciSiren: varchar({ length: 9 }),
+    epciName: varchar({ length: 255 }),
 
     tagline: text(),
     description: text(),

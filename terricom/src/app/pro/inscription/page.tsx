@@ -79,6 +79,10 @@ export default async function SignupPage({ searchParams }: Props) {
         ) : (
           <div className="alert alert-info">Aucun territoire partenaire n&apos;accepte encore les inscriptions ici.</div>
         )}
+        <div className="alert alert-info">
+          Votre commune n&apos;est pas dans la liste ? Elle n&apos;a pas encore rejoint terricom : <Link href="/pro/adhesion">adhérez directement</Link>, votre
+          fiche vous sera offerte le jour où votre collectivité adhère.
+        </div>
         <span style={{ fontSize: 13, color: 'var(--muted)' }}>
           Votre fiche existe peut-être déjà :{' '}
           <Link href={`/pro/revendiquer${territory ? `?territoire=${territory.slug}` : ''}`}>rechercher et revendiquer</Link>.

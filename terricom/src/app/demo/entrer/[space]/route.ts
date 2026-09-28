@@ -18,6 +18,8 @@ const ACCOUNTS: Record<string, { emails: string[]; path: string }> = {
   collectivite: { emails: ['c.duval@cc-valdeloue.fr', 'collectivite@haut-doubs.exemple.test'], path: '/collectivite' },
   commune: { emails: ['commerce@ornans.fr', 'mairie@metabief.exemple.test'], path: '/collectivite' },
   console: { emails: ['camille@terricom.fr'], path: '/console' },
+  // Entreprise en adhésion directe (aucune collectivité partenaire) : fiche dans la vitrine nationale.
+  'pro-direct': { emails: ['adherent@demo-direct.exemple.test'], path: '/pro' },
   // Territoire aux données réelles : 32 communes et entreprises de la base SIRENE.
   'haut-doubs': { emails: ['collectivite@haut-doubs.exemple.test'], path: '/collectivite' },
   'haut-doubs-commune': { emails: ['mairie@metabief.exemple.test'], path: '/collectivite' },

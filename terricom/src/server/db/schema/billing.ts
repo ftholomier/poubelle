@@ -57,6 +57,10 @@ export const companySubscriptions = pgTable(
     currentPeriodEnd: tstz(),
     cancelAtPeriodEnd: boolean().notNull().default(false),
     canceledAt: tstz(),
+    /** Adhésion directe : entreprise hors territoire partenaire, qui paie aussi sa fiche (voir lib/pricing.ts). */
+    direct: boolean().notNull().default(false),
+    /** Périodicité : MONTH ou YEAR (dix mois facturés pour douze). */
+    interval: varchar({ length: 8 }).notNull().default('MONTH'),
     createdAt: createdAt(),
   },
   (t) => [index('company_subscriptions_company_idx').on(t.companyId)],

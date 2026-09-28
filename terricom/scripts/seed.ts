@@ -3318,6 +3318,98 @@ Visite des caves le vendredi à 15 h, sur réservation.`,
       (select 1 from establishments e where e.id::text = queue_jobs.payload->>'establishmentId')`);
   }
 
+  // ─── Vitrine nationale : adhésions directes ───────────────────────────────
+  // Entreprises dont ni la commune ni l'intercommunalité ne sont partenaires : elles adhèrent seules (et paient).
+  // Deux communes hors territoire partenaire (référentiel officiel, API Géo), et une fiche d'exemple signalée.
+  console.log('→ Vitrine nationale (adhésions directes)');
+  const { ensureNationalTerritory } = await import('@/server/services/territories');
+  const national = await ensureNationalTerritory();
+  await db
+    .insert(S.communes)
+    .values([
+      {
+        inseeCode: '25462',
+        name: 'Pontarlier',
+        slug: 'pontarlier',
+        postalCodes: ['25300'],
+        departmentCode: '25',
+        population: 18067,
+        lat: 46.9167,
+        lng: 6.3796,
+        epciSiren: '242500338',
+        epciName: 'CC du Grand Pontarlier',
+      },
+      {
+        inseeCode: '25411',
+        name: 'Morteau',
+        slug: 'morteau',
+        postalCodes: ['25500'],
+        departmentCode: '25',
+        population: 6953,
+        lat: 47.0643,
+        lng: 6.5891,
+        epciSiren: '242504116',
+        epciName: 'CC du Val de Morteau',
+      },
+    ])
+    .onConflictDoNothing();
+  const [pontarlier] = await db.select().from(S.communes).where(eq(S.communes.inseeCode, '25462')).limit(1);
+  const directOwner = await mkUser({ email: 'adherent@demo-direct.exemple.test', first: 'Artisan', last: 'de démonstration', job: 'Gérant (exemple)' });
+  const [directCo] = await db
+    .insert(S.companies)
+    .values({
+      siren: null,
+      legalName: 'ATELIER DE DÉMONSTRATION',
+      tradeName: 'Atelier de démonstration',
+      nafCode: '90.03A',
+      plan: 'PREMIUM',
+      createdAt: daysAgo(12),
+    })
+    .returning();
+  const [directEst] = await db
+    .insert(S.establishments)
+    .values({
+      companyId: directCo.id,
+      communeId: pontarlier.id,
+      territoryId: national.id,
+      categoryId: catBySlug.get('metiers-d-art')!.id,
+      slug: 'atelier-de-demonstration',
+      name: 'Atelier de démonstration (adhésion directe)',
+      status: 'CLAIMED',
+      origin: 'PRO',
+      activityLabel: 'Céramiste (exemple)',
+      tagline: 'Fiche d’exemple : une entreprise qui adhère directement à terricom. Cet atelier n’existe pas.',
+      description:
+        'Exemple de démonstration. Sa commune n’a pas encore rejoint terricom : l’entreprise a adhéré directement, sa fiche figure dans la vitrine nationale. Le jour où sa collectivité adhère, la fiche rejoint le portail du territoire et lui est offerte.',
+      street: 'Adresse d’exemple',
+      postalCode: '25300',
+      lat: (pontarlier.lat ?? 46.9) + 0.002,
+      lng: (pontarlier.lng ?? 6.38) - 0.0015,
+      hoursConfirmedAt: daysAgo(2),
+      lastActivityAt: daysAgo(1),
+      publishedAt: daysAgo(10),
+      qrCode: shortCode(8),
+      createdAt: daysAgo(12),
+    })
+    .returning();
+  await db.insert(S.companyMembers).values({ companyId: directCo.id, userId: directOwner.id, role: 'OWNER' });
+  await db.insert(S.companySubscriptions).values({
+    companyId: directCo.id,
+    plan: 'PREMIUM',
+    status: 'ACTIVE',
+    direct: true,
+    interval: 'MONTH',
+    startedAt: daysAgo(10),
+    currentPeriodEnd: new Date(now.getTime() + 20 * DAY),
+  });
+  for (const wd of [1, 2, 3, 4, 5]) await db.insert(S.openingHours).values({ establishmentId: directEst.id, weekday: wd, opensAt: '10:00', closesAt: '18:30' });
+  await refreshCompleteness(directEst.id);
+  // Jeu de test : l'adhésion alimente le suivi commercial de l'intercommunalité (levier).
+  if (process.env.DEMO_DATASET === 'fictif') {
+    const { recordDirectLever } = await import('@/server/services/direct');
+    await recordDirectLever(directCo.id);
+  }
+
   const counts = await db.execute<{ t: string; n: number }>(
     sql`SELECT 'establishments' t, count(*)::int n FROM establishments UNION ALL SELECT 'users', count(*)::int FROM users UNION ALL SELECT 'analytics_events', count(*)::int FROM analytics_events UNION ALL SELECT 'subscribers', count(*)::int FROM subscribers`,
   );
@@ -3334,6 +3426,7 @@ Comptes de démonstration (mot de passe : ${DEMO_PASSWORD})
   Caviste (offre Communication) julie@cave-comtoise.fr
   Admin Haut-Doubs (CC) ...... collectivite@haut-doubs.exemple.test (MFA)
   Admin communale Métabief ... mairie@metabief.exemple.test
+  Adhérent direct (exemple) .. adherent@demo-direct.exemple.test
 Code MFA : secret TOTP ${DEMO_TOTP_SECRET} (à ajouter dans une application d'authentification)
 `);
   void inArray;

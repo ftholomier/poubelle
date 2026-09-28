@@ -125,6 +125,9 @@ export type GeoCommune = {
   codeDepartement: string;
   population?: number;
   centre?: { type: 'Point'; coordinates: [number, number] };
+  /** Intercommunalité (demandée par communeByInsee). */
+  codeEpci?: string;
+  epci?: { code: string; nom: string };
 };
 
 /** Communes membres d'un EPCI (par SIREN de l'EPCI). */
@@ -133,7 +136,15 @@ export async function communesOfEpci(epciSiren: string): Promise<GeoCommune[] | 
 }
 
 export async function communeByInsee(code: string): Promise<GeoCommune | null> {
-  return getJson<GeoCommune>(`${env.GEO_API_URL}/communes/${code}?fields=nom,code,codesPostaux,codeDepartement,population,centre&format=json`);
+  return getJson<GeoCommune>(`${env.GEO_API_URL}/communes/${code}?fields=nom,code,codesPostaux,codeDepartement,population,centre,codeEpci,epci&format=json`);
+}
+
+/** Communes d'un code postal (adhésion directe sans résultat SIRENE). */
+export async function communesByPostalCode(postalCode: string): Promise<GeoCommune[] | null> {
+  if (!/^\d{5}$/.test(postalCode)) return null;
+  return getJson<GeoCommune[]>(
+    `${env.GEO_API_URL}/communes?codePostal=${postalCode}&fields=nom,code,codesPostaux,codeDepartement,population,centre,codeEpci,epci&format=json`,
+  );
 }
 
 type BanResponse = { features: { geometry: { coordinates: [number, number] }; properties: { score: number; label: string; citycode: string } }[] };

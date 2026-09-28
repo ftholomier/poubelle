@@ -120,6 +120,13 @@
       "when": 1790361696976,
       "tag": "0016_sirene_sync",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1790588584281,
+      "tag": "0017_direct_membership",
+      "breakpoints": true
     }
   ]
 }

@@ -68,6 +68,10 @@ Suivi du développement : ce qui est fait, en cours et restant. Mis à jour à c
       démonstration » (et non « pilote ») sur le site
 - [x] Dossier de réalisation, présentation aux élus et teaser refaits sur le Haut-Doubs : 45 captures du
       territoire réel, textes et chiffres réels (1 968 entreprises, 32 communes, 3 753 établissements contrôlés)
+- [x] Adhésion directe des entreprises sans collectivité partenaire : parcours `/pro/adhesion` (SIRET, code
+      postal, formule, paiement Stripe ou virement), vitrine nationale `/france`, levier commercial par
+      intercommunalité (SIREN de l’EPCI), console « Adhésions directes », bascule automatique à l’adhésion de la
+      commune ou de la CC, site commercial et stratégie des fondateurs mis à jour (sans tarif sur le site public)
 
 ## En cours
 
@@ -89,6 +93,9 @@ Rien en cours.
       si le pilote l’exprime (§ 29, e-commerce volontairement non prioritaire)
 
 ## Limites connues
+
+- Adhésion directe : la mise à jour du prix Stripe à la bascule demande les clés Stripe (sinon journalisée) ;
+  les adhésions directes ne sont pas encore comptées dans le modèle financier des fondateurs.
 
 - Dans le bac à sable de développement, cartes, photos, API publiques et IA sont bloquées (fonctionnent en production).
 - Synchronisation SIRENE : API Sirene de l’INSEE et fichiers stock de data.gouv.fr non joignables depuis le bac

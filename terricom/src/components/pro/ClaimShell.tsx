@@ -4,6 +4,17 @@ import { Photo } from '@/components/ui/Photo';
 
 export const CLAIM_STEPS = ['Recherche', 'Vérification des infos', 'Compte', 'Identité', 'Validation', 'C’est parti'] as const;
 export const SIGNUP_STEPS = ['Votre activité', 'Validation', 'C’est parti'] as const;
+export const DIRECT_STEPS = ['Votre entreprise', 'Votre formule', 'C’est parti'] as const;
+
+const DEFAULT_PITCH = {
+  title: ['Votre vitrine numérique,', 'offerte par votre territoire.'] as [string, string],
+  points: ['Gratuit, sans carte bancaire', 'Référencé sur Google, sans créer de site', 'Visible sur la carte, les circuits et la newsletter du territoire'],
+};
+
+export const DIRECT_PITCH = {
+  title: ['Votre vitrine numérique,', 'sans attendre votre commune.'] as [string, string],
+  points: ['Fiche publiée dans la vitrine nationale terricom', 'Sans engagement, résiliable à tout moment', 'Offerte dès que votre collectivité adhère'],
+};
 
 type TerritoryBrand = { name: string; initials: string; logoUrl: string | null; colorPrimary: string; colorAccent: string } | null;
 
@@ -16,11 +27,13 @@ export function ClaimShell({
   step,
   children,
   steps = CLAIM_STEPS,
+  pitch = DEFAULT_PITCH,
 }: {
   territory: TerritoryBrand;
   step: number;
   children: ReactNode;
   steps?: readonly string[];
+  pitch?: { title: [string, string]; points: string[] };
 }) {
   return (
     <main className="auth-shell">
@@ -46,14 +59,14 @@ export function ClaimShell({
             )}
           </div>
           <h1 className="display" style={{ fontSize: 'clamp(40px,4.4vw,64px)', letterSpacing: '-0.035em', lineHeight: 0.95, margin: '0 0 16px' }}>
-            Votre vitrine numérique,
+            {pitch.title[0]}
             <br />
-            offerte par votre territoire.
+            {pitch.title[1]}
           </h1>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: 15, color: '#E0E8E3' }}>
-            <div>✓ Gratuit, sans carte bancaire</div>
-            <div>✓ Référencé sur Google, sans créer de site</div>
-            <div>✓ Visible sur la carte, les circuits et la newsletter du territoire</div>
+            {pitch.points.map((p) => (
+              <div key={p}>✓ {p}</div>
+            ))}
           </div>
         </div>
       </div>

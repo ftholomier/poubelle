@@ -140,6 +140,17 @@ nouvelle option s’ajoute aussi à la console (`src/app/console/facturation/`) 
   `<html lang>` est corrigé par `HtmlLang` ; le conteneur du portail porte déjà la langue.
 - Les espaces pro, collectivité et console restent en français (pas de `portalT` hors du portail).
 
+## Adhésion directe et territoire national
+
+- Le territoire `france` (`settings.national: true`, créé par `ensureNationalTerritory()`) héberge les fiches
+  des adhérents directs ; son slug est réservé.
+- `getTerritoryCommunes()` renvoie les communes rattachées **et** celles qui ont une fiche dans le territoire :
+  le portail national fonctionne sans rattachement. Toute requête « communes du territoire » doit passer par elle.
+- Prix : `src/lib/pricing.ts` (seule source des prix directs et du calcul annuel) ; `companySubscriptions.direct`
+  et `.interval`. Cycle de vie et bascule : `src/server/services/direct.ts` (`absorbDirectMembers` est appelée
+  par `createTerritory` et `attachCommunes`).
+- Fiche non payée ou résiliée : `SUSPENDED` avec `suspendedReason` = `PENDING_PAYMENT` ou `DIRECT_CANCELED`.
+
 ## Tests
 
 - Unitaires (`tests/unit`) : formats, horaires, recherche, sécurité, couleurs et sections du mini-site,

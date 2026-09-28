@@ -259,6 +259,7 @@ export const MONTHS_SHORT = ['jan', 'fév', 'mar', 'avr', 'mai', 'juin', 'juil',
 /** Mots réservés : ne peuvent pas servir d'identifiant de territoire dans les URL. */
 export const RESERVED_SLUGS = new Set([
   'api',
+  'france',
   'pro',
   'collectivite',
   'console',

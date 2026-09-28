@@ -743,7 +743,11 @@ export async function changePlanAction(_prev: ActionState, form: FormData): Prom
   const ctx = await proCtx(form.get('estId'));
   if (ctx.role === 'MEMBER') return { status: 'error', message: "Seul le ou la titulaire du compte peut changer d'offre." };
   const plan = z.enum(['ESSENTIEL', 'PREMIUM', 'COMMUNICATION']).parse(form.get('plan'));
-  if (plan === ctx.plan) return { status: 'ok', message: 'C’est déjà votre offre.' };
+  const interval = form.get('interval') === 'YEAR' ? 'YEAR' : 'MONTH';
+  const { activateDirectMember, companyIsDirect, suspendDirectMember } = await import('@/server/services/direct');
+  // Adhésion directe : pas de collectivité qui offre la fiche, prix direct et fiche retirée à la résiliation.
+  const direct = await companyIsDirect(ctx.est.companyId);
+  if (plan === ctx.plan && !(direct && ctx.est.status === 'SUSPENDED')) return { status: 'ok', message: 'C’est déjà votre offre.' };
   const billing = z
     .object({
       billingName: z.string().trim().min(2, 'Indiquez la raison sociale à facturer').max(255),
@@ -768,11 +772,17 @@ export async function changePlanAction(_prev: ActionState, form: FormData): Prom
       plan,
       estId: ctx.est.id,
       email: billing.success ? billing.data.billingEmail : ctx.actor.user.email,
+      direct,
+      interval,
     });
     if (url) return { status: 'ok', redirectUrl: url };
   }
   const { changeCompanyPlan } = await import('@/server/services/billing');
-  await changeCompanyPlan(ctx.est.companyId, plan, 'MANUAL');
+  await changeCompanyPlan(ctx.est.companyId, plan, 'MANUAL', { direct, interval });
+  if (direct) {
+    if (plan === 'ESSENTIEL') await suspendDirectMember(ctx.est.companyId);
+    else await activateDirectMember(ctx.est.companyId);
+  }
   await audit({
     actor: actorOf(ctx),
     category: 'FACTURATION',
@@ -783,6 +793,8 @@ export async function changePlanAction(_prev: ActionState, form: FormData): Prom
     targetId: ctx.est.companyId,
   });
   refresh(ctx, `${ctx.base}/offre`);
+  if (direct && plan === 'ESSENTIEL')
+    return { status: 'ok', message: 'Adhésion résiliée : votre fiche est retirée de la vitrine terricom. Vous pouvez la réactiver à tout moment.' };
   return plan === 'ESSENTIEL'
     ? { status: 'ok', message: 'Vous êtes revenu·e à l’offre Essentiel. Votre fiche reste en ligne, gratuitement.' }
     : { status: 'ok', upgraded: true, message: 'Bienvenue ! Vos nouvelles fonctionnalités sont actives. La facture est disponible ci-dessous.' };

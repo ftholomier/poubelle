@@ -1,7 +1,8 @@
 # terricom
 
 **Le territoire, en vitrine.** Plateforme SaaS d’animation et de valorisation économique des territoires :
-une fiche référencée pour chaque commerce, artisan et producteur, offerte par la collectivité ; un portail
+une fiche référencée pour chaque commerce, artisan et producteur, offerte par la collectivité (ou, sans
+collectivité partenaire, par adhésion directe dans la vitrine nationale) ; un portail
 public par territoire (carte, recherche en langage naturel, campagnes, circuits, agenda, emploi, en français,
 anglais et allemand, installable sur mobile) ; un espace
 entreprise pour tenir sa vitrine ; un back-office pour les intercommunalités et les communes ; une console
@@ -11,7 +12,7 @@ pour l’exploitant.
 | ----------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------- |
 | Site de la marque       | `/` · `/collectivites` · `/professionnels` · `/tarifs` · `/demo` · `/marque` | Prospects                                      |
 | Portail d’un territoire | `https://<territoire>.terricom.fr`, domaine personnalisé ou `/<territoire>`  | Habitants, visiteurs                           |
-| Espace entreprise       | `/pro`                                                                       | Professionnels                                 |
+| Espace entreprise       | `/pro` · adhésion directe `/pro/adhesion` · vitrine nationale `/france`      | Professionnels                                 |
 | Back-office             | `/collectivite`                                                              | Admins territoriaux et communaux               |
 | Console                 | `/console`                                                                   | Exploitant (super admin, support, commerciaux) |
 
@@ -44,7 +45,7 @@ Avec `DEMO_MODE=true`, la barre de démonstration permet d’entrer dans chaque 
 La démonstration présente un territoire **réel** : la communauté de communes des **Lacs et Montagnes du
 Haut-Doubs**, ses 32 communes et ses entreprises de la base SIRENE, importées en fiches précréées et contrôlées
 une par une (`npm run demo:sirene` fige la liste, `npm run demo:controle` en donne le rapport). Rien n’y est
-inventé, sauf trois établissements **de démonstration** fictifs (commerce, boulangerie, atelier) et quelques **exemples** (campagne, actualité, événement,
+inventé, sauf quatre établissements **de démonstration** fictifs (commerce, boulangerie, atelier, adhérent direct) et quelques **exemples** (campagne, actualité, événement,
 lettre), tous signalés comme tels.
 
 Comptes (mot de passe `Terricom2026!`, code de double authentification : secret TOTP `JBSWY3DPEHPK3PXP`) :
@@ -56,6 +57,7 @@ Comptes (mot de passe `Terricom2026!`, code de double authentification : secret 
 | Admin communale (Métabief)                              | mairie@metabief.exemple.test             |
 | Commerce de démonstration (fictif, offre Communication) | commerce@demo-haut-doubs.exemple.test    |
 | Boulangerie de démonstration (fictive, offre Essentiel) | boulangerie@demo-haut-doubs.exemple.test |
+| Adhérent direct de démonstration (fictif, Pontarlier)   | adherent@demo-direct.exemple.test        |
 
 **Tests automatiques** : ils reposent sur un jeu fictif (territoire « Val de Loue », autres clients,
 prospects), chargé seulement avec `DEMO_DATASET=fictif npm run db:reset` et jamais montré en démonstration.
