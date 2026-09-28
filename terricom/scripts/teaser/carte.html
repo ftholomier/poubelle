@@ -1,0 +1,115 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://local/maplibre-gl.css">
+<style>
+@font-face { font-family: 'Inst'; font-weight: 400 700; src: url('https://local/fonts/instrument-sans-latin-wght-normal.woff2') format('woff2'); }
+@font-face { font-family: 'InstI'; font-weight: 400 700; font-style: italic; src: url('https://local/fonts/instrument-sans-latin-wght-italic.woff2') format('woff2'); }
+html,body{margin:0;background:#F3EFE6}
+#map{position:absolute;left:0;top:0}
+#lab{position:absolute;left:0;top:0;pointer-events:none}
+</style>
+<script src="https://local/maplibre-gl.js"></script>
+</head><body><div id="map"></div><canvas id="lab"></canvas>
+<script>
+const SET = new URLSearchParams(location.search).get('set') || 'core';
+const Z = (a) => ['interpolate', ['exponential', 1.6], ['zoom'], ...a];
+const style = {
+  version: 8,
+  sources: {
+    dem: { type: 'raster-dem', tiles: ['https://local/dem/{z}/{x}/{y}.png'], encoding: 'terrarium', tileSize: 256, maxzoom: 14 },
+    lc: { type: 'geojson', data: 'https://local/geo/' + SET + '/landcover.json', tolerance: 0.6 },
+    lu: { type: 'geojson', data: 'https://local/geo/' + SET + '/landuse.json', tolerance: 0.4 },
+    lul: { type: 'geojson', data: 'https://local/geo/' + SET + '/landuse_line.json' },
+    wp: { type: 'geojson', data: 'https://local/geo/' + SET + '/water_poly.json', tolerance: 0.3 },
+    wl: { type: 'geojson', data: 'https://local/geo/' + SET + '/water_line.json' },
+    rd: { type: 'geojson', data: 'https://local/geo/' + SET + '/roads.json', tolerance: 0.35 },
+    bd: { type: 'geojson', data: 'https://local/geo/' + SET + '/buildings.json', tolerance: 0.2 },
+    cm: { type: 'geojson', data: 'https://local/geo/' + SET + '/communes.json' },
+  },
+  layers: [
+    { id: 'bg', type: 'background', paint: { 'background-color': '#F2EEE4' } },
+    { id: 'lc', type: 'fill', source: 'lc', paint: { 'fill-antialias': false, 'fill-color': ['match', ['get', 'c'],
+      'forest', '#D3E1C8', 'shrub', '#E2E8D3', 'grass', '#E5EBD6', 'crop', '#EEEBDB', 'wetland', '#D6E6DF', 'urban', '#EAE4D7', 'barren', '#EAE6DC', '#F2EEE4'] } },
+    { id: 'lu', type: 'fill', source: 'lu', paint: { 'fill-antialias': false, 'fill-color': ['match', ['get', 'c'],
+      'residential', '#E9E3D6', 'meadow', '#E6ECD8', 'farmland', '#EEEBDA', 'grass', '#E1EAD3', 'industrial', '#E6DFD9', 'pitch', '#D6E6C9',
+      'cemetery', '#D9E2D0', 'forest', '#D3E1C8', 'wood', '#D3E1C8', 'park', '#D8E7CC', 'garden', '#DDE8D0', 'farmyard', '#EBE3D1',
+      'retail', '#EFE1D3', 'commercial', '#EDE3D8', 'parking', '#E8E3DA', 'downhill', '#E9F0EC', 'nordic', 'rgba(0,0,0,0)', '#EFEBE1'],
+      'fill-opacity': ['match', ['get', 'c'], 'nordic', 0, 'hike', 0, 'meadow', 0.75, 1] } },
+    { id: 'hs', type: 'hillshade', source: 'dem', paint: { 'hillshade-exaggeration': ['interpolate', ['linear'], ['zoom'], 11, 0.42, 14, 0.3, 16, 0.18], 'hillshade-shadow-color': '#4E5A4C', 'hillshade-highlight-color': '#FFFDF6', 'hillshade-accent-color': '#6B7563', 'hillshade-illumination-direction': 315 } },
+    { id: 'piste', type: 'line', source: 'lul', minzoom: 12, filter: ['==', ['get', 'c'], 'downhill'], paint: { 'line-color': '#8FB6D4', 'line-width': Z([12, 1, 16, 4]), 'line-opacity': 0.8 } },
+    { id: 'nordic', type: 'line', source: 'lul', minzoom: 13, filter: ['==', ['get', 'c'], 'nordic'], paint: { 'line-color': '#9DB891', 'line-width': Z([13, 0.8, 16, 2.2]), 'line-dasharray': [3, 2] } },
+    { id: 'wl', type: 'line', source: 'wl', paint: { 'line-color': '#A8CCDC', 'line-width': ['interpolate', ['linear'], ['zoom'], 9, ['match', ['get', 'c'], 'river', 1.2, 0.3], 12, ['match', ['get', 'c'], 'river', 3, 0.8], 16, ['match', ['get', 'c'], 'river', 7, 2.4]] } },
+    { id: 'wp', type: 'fill', source: 'wp', filter: ['!=', ['get', 'c'], 'swimming_pool'], paint: { 'fill-color': '#B7D6E3' } },
+    { id: 'wpo', type: 'line', source: 'wp', minzoom: 11, filter: ['!=', ['get', 'c'], 'swimming_pool'], paint: { 'line-color': '#A3C8D8', 'line-width': 1 } },
+    { id: 'pool', type: 'fill', source: 'wp', minzoom: 15, filter: ['==', ['get', 'c'], 'swimming_pool'], paint: { 'fill-color': '#A9D5E6' } },
+    { id: 'bd', type: 'fill', source: 'bd', minzoom: 13, paint: { 'fill-color': '#DFD6C6', 'fill-opacity': ['interpolate', ['linear'], ['zoom'], 13, 0.5, 15, 1] } },
+    { id: 'bdo', type: 'line', source: 'bd', minzoom: 15, paint: { 'line-color': '#CFC4B0', 'line-width': 0.8 } },
+    { id: 'cm', type: 'line', source: 'cm', minzoom: 10, paint: { 'line-color': '#A99F8C', 'line-width': Z([10, 0.8, 16, 2]), 'line-dasharray': [4, 3], 'line-opacity': 0.7 } },
+    // routes : pistes et chemins, puis voirie par ordre d'importance (enveloppe puis intérieur)
+    { id: 'track', type: 'line', source: 'rd', minzoom: 13, filter: ['in', ['get', 'c'], ['literal', ['track', 'path', 'footway', 'cycleway', 'bridleway', 'steps']]], paint: { 'line-color': '#BFB4A0', 'line-width': Z([13, 0.6, 16, 1.6]), 'line-dasharray': [2.5, 2] } },
+    { id: 'rail', type: 'line', source: 'rd', minzoom: 9, filter: ['==', ['get', 't'], 'rail'], paint: { 'line-color': '#A39B8E', 'line-width': Z([9, 0.8, 16, 3]) } },
+    { id: 'railx', type: 'line', source: 'rd', minzoom: 12, filter: ['==', ['get', 't'], 'rail'], paint: { 'line-color': '#F7F4EC', 'line-width': Z([12, 0.5, 16, 1.8]), 'line-dasharray': [4, 4] } },
+    ...['minor', 'tertiary', 'secondary', 'primary', 'motorway'].flatMap((k) => {
+      const f = {
+        minor: ['in', ['get', 'c'], ['literal', ['residential', 'service', 'unclassified', 'living_street', 'pedestrian', 'unknown']]],
+        tertiary: ['==', ['get', 'c'], 'tertiary'], secondary: ['==', ['get', 'c'], 'secondary'], primary: ['in', ['get', 'c'], ['literal', ['primary', 'trunk']]], motorway: ['==', ['get', 'c'], 'motorway'],
+      }[k];
+      const w = { minor: [12, 0.6, 14, 2.4, 16, 7], tertiary: [9, 0.5, 12, 1.6, 14, 4, 16, 10], secondary: [9, 0.9, 12, 2.4, 14, 5, 16, 12], primary: [9, 1.3, 12, 3, 14, 6, 16, 14], motorway: [9, 1.6, 12, 3.4, 14, 7, 16, 16] }[k];
+      const mz = { minor: 12, tertiary: 9, secondary: 9, primary: 8, motorway: 8 }[k];
+      const col = { minor: '#FFFFFF', tertiary: '#FFFDF7', secondary: '#FBE6BE', primary: '#F8D49A', motorway: '#F4B266' }[k];
+      const cas = { minor: '#D8CFBF', tertiary: '#CDC2AE', secondary: '#DDBF8C', primary: '#D7A968', motorway: '#C98E45' }[k];
+      return [
+        { id: k + '-c', type: 'line', source: 'rd', minzoom: mz, filter: ['all', ['==', ['get', 't'], 'road'], f], layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': cas, 'line-width': Z(w.map((v, i) => (i % 2 ? v + (v > 2 ? 1.6 : 0.6) : v))) } },
+        { id: k, type: 'line', source: 'rd', minzoom: mz, filter: ['all', ['==', ['get', 't'], 'road'], f], layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': col, 'line-width': Z(w) } },
+      ];
+    }),
+  ],
+};
+let map, labels = null;
+window.ready = new Promise(async (res) => {
+  await document.fonts.load('600 16px Inst'); await document.fonts.load('italic 500 16px InstI');
+  labels = await (await fetch('https://local/geo/' + SET + '/labels.json')).json();
+  res();
+});
+window.setup = (size) => {
+  const el = document.getElementById('map'); el.style.width = el.style.height = size + 'px';
+  const c = document.getElementById('lab'); c.width = c.height = size; c.style.width = c.style.height = size + 'px';
+  map = new maplibregl.Map({ container: 'map', style, center: [6.35, 46.77], zoom: 10, interactive: false, attributionControl: false, fadeDuration: 0, preserveDrawingBuffer: true, pixelRatio: 1 });
+  return new Promise((r) => map.once('idle', r));
+};
+const W = (lng, lat, z) => { const s = 512 * 2 ** z; const x = (lng + 180) / 360 * s; const y = (1 - Math.asinh(Math.tan(lat * Math.PI / 180)) / Math.PI) / 2 * s; return [x, y]; };
+function placed(z) {
+  // Placement global et déterministe : même résultat d'une métatuile à l'autre.
+  const L = labels.features.map((f) => {
+    const p = f.properties; const [x, y] = W(...f.geometry.coordinates, z);
+    let size, font, color, pri;
+    if (p.k === 'lake') { if (z < 11 && p.a < 2e-5) return null; size = z < 12 ? 24 : z < 14 ? 27 : 30; font = `italic 500 ${size}px InstI`; color = '#4F86A0'; pri = 2 + p.a * 1e4; }
+    else { if (z < 10 && !p.hd) return null; size = z < 10 ? 20 : z < 12 ? 23 : z < 14 ? 27 : 30; font = `${p.hd ? 700 : 600} ${size}px Inst`; color = p.hd ? '#3B4540' : '#7C817C'; pri = p.hd ? 1 : 0; }
+    return { ...p, x, y, size, font, color, pri };
+  }).filter(Boolean).sort((a, b) => b.pri - a.pri || a.n.localeCompare(b.n));
+  const ctx = document.getElementById('lab').getContext('2d'); const keep = [];
+  for (const l of L) {
+    ctx.font = l.font; const w = ctx.measureText(l.n).width; const bx = [l.x - w / 2 - 6, l.y - l.size / 2 - 5, l.x + w / 2 + 6, l.y + l.size / 2 + 5];
+    if (keep.some((k) => bx[0] < k.b[2] && bx[2] > k.b[0] && bx[1] < k.b[3] && bx[3] > k.b[1])) continue;
+    keep.push({ ...l, b: bx });
+  }
+  return keep;
+}
+const cache = {};
+window.render = async (z, cx, cy, size) => {
+  // cx, cy : coin haut-gauche du rendu en pixels monde (zoom z, tuiles 512).
+  const s = 512 * 2 ** z; const mx = cx + size / 2, my = cy + size / 2;
+  const lng = mx / s * 360 - 180; const lat = Math.atan(Math.sinh(Math.PI * (1 - 2 * my / s))) * 180 / Math.PI;
+  map.jumpTo({ center: [lng, lat], zoom: z });
+  await new Promise((r) => { if (map.loaded() && !map.isMoving()) map.once('idle', r); else map.once('idle', r); map.triggerRepaint(); });
+  const c = document.getElementById('lab'); const ctx = c.getContext('2d'); ctx.clearRect(0, 0, size, size);
+  if (z >= 9) {
+    const keep = cache[z] ??= placed(z);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+    for (const l of keep) {
+      const x = l.x - cx, y = l.y - cy; if (x < -300 || y < -60 || x > size + 300 || y > size + 60) continue;
+      ctx.font = l.font; ctx.lineWidth = 7; ctx.strokeStyle = 'rgba(247,244,236,0.92)'; ctx.strokeText(l.n, x, y); ctx.fillStyle = l.color; ctx.fillText(l.n, x, y);
+    }
+  }
+};
+</script></body></html>

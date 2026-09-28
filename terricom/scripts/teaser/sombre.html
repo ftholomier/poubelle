@@ -1,0 +1,41 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#14201B}#map{position:absolute;left:0;top:0}</style>
+<script src="https://local/maplibre-gl.js"></script>
+<script src="https://local/mlcontour.js"></script>
+</head><body><div id="map"></div>
+<script>
+// Plan topographique sombre du territoire : relief, courbes de niveau, lacs, communes.
+window.go = (opts) => new Promise((res) => {
+  const { w, h, center, zoom, mode } = opts;
+  const el = document.getElementById('map'); el.style.width = w + 'px'; el.style.height = h + 'px';
+  const dem = new mlcontour.DemSource({ url: 'https://local/dem/{z}/{x}/{y}.png', encoding: 'terrarium', maxzoom: 13, worker: false });
+  dem.setupMaplibre(maplibregl);
+  const layers = [{ id: 'bg', type: 'background', paint: { 'background-color': '#14201B' } }];
+  if (mode !== 'lignes') layers.push({ id: 'hs', type: 'hillshade', source: 'demr', paint: { 'hillshade-exaggeration': 0.55, 'hillshade-shadow-color': '#08100C', 'hillshade-highlight-color': '#2C4038', 'hillshade-accent-color': '#0E1813' } });
+  layers.push(
+    { id: 'wp', type: 'fill', source: 'wp', filter: ['all', ['!=', ['get', 'c'], 'swimming_pool'], ['!=', ['get', 'c'], 'basin']], paint: { 'fill-color': mode === 'lignes' ? '#14201B' : '#1B4A3B' } },
+    { id: 'wpo', type: 'line', source: 'wp', filter: ['in', ['get', 'c'], ['literal', ['lake', 'water', 'reservoir', 'river']]], paint: { 'line-color': '#2F7D62', 'line-width': 1.4 } },
+    { id: 'wl', type: 'line', source: 'wl', filter: ['in', ['get', 'c'], ['literal', ['river']]], paint: { 'line-color': '#2F7D62', 'line-width': 1.3 } },
+    { id: 'ct', type: 'line', source: 'ct', 'source-layer': 'contours', paint: { 'line-color': ['match', ['get', 'level'], 1, '#3D7A63', '#27463B'], 'line-width': ['match', ['get', 'level'], 1, 1.3, 0.7], 'line-opacity': 0.9 } },
+    { id: 'rd', type: 'line', source: 'rd', filter: ['in', ['get', 'c'], ['literal', ['primary', 'secondary', 'trunk', 'motorway']]], paint: { 'line-color': '#34493F', 'line-width': 1.1 } },
+    { id: 'cm', type: 'line', source: 'cm', filter: ['==', ['get', 'hd'], true], paint: { 'line-color': '#3F5A4E', 'line-width': 1, 'line-dasharray': [3, 3] } },
+  );
+  const map = new maplibregl.Map({
+    container: 'map', center, zoom, interactive: false, attributionControl: false, fadeDuration: 0, preserveDrawingBuffer: true, pixelRatio: 1,
+    style: {
+      version: 8,
+      sources: {
+        demr: { type: 'raster-dem', tiles: ['https://local/dem/{z}/{x}/{y}.png'], encoding: 'terrarium', tileSize: 256, maxzoom: 13 },
+        ct: { type: 'vector', tiles: [dem.contourProtocolUrl({ thresholds: { 9: [100, 500], 10: [50, 250], 11: [25, 100], 12: [20, 100], 13: [10, 50], 14: [10, 50] }, elevationKey: 'ele', levelKey: 'level', contourLayer: 'contours' })], maxzoom: 14 },
+        wp: { type: 'geojson', data: 'https://local/geo/wide/water_poly.json' },
+        wl: { type: 'geojson', data: 'https://local/geo/wide/water_line.json' },
+        rd: { type: 'geojson', data: 'https://local/geo/wide/roads.json' },
+        cm: { type: 'geojson', data: 'https://local/geo/wide/communes.json' },
+      },
+      layers,
+    },
+  });
+  map.once('idle', () => res());
+});
+</script></body></html>

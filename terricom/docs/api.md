@@ -1,0 +1,134 @@
+# API publique v1
+
+Accès en lecture seule aux **données publiées** d’un territoire : fiches, communes, catégories, agenda,
+actualités. Usages : site de l’office de tourisme ou de la collectivité en marque blanche, application
+mobile, borne, open data, connecteurs.
+
+- Adresse de base : `https://terricom.fr/api/v1` (description OpenAPI 3.1 : `/api/v1/openapi.json`, sans clé)
+- Authentification : `Authorization: Bearer tc_xxxxxxxx_…` (ou en-tête `X-Api-Key`) ; jamais dans l’URL
+- Une clé est rattachée à **un territoire** ; elle se crée et se révoque dans le back-office
+  (« API & données », administrateurs du territoire). Seule l’empreinte SHA-256 est conservée : la clé
+  complète n’est affichée qu’une fois. Création et révocation sont journalisées (catégorie Sécurité).
+- Limite : 120 requêtes par minute et par clé (`X-RateLimit-Limit`, `X-RateLimit-Remaining`,
+  `X-RateLimit-Reset`, `Retry-After` sur 429)
+- CORS ouvert en lecture (`GET`, `OPTIONS`) pour les sites en marque blanche
+- Pagination : `page` (à partir de 1) et `per_page` (20 par défaut, 100 au plus) ; réponse
+  `{ "data": [...], "meta": { "page", "per_page", "total" } }`
+- Erreurs : `{ "error": { "code", "message" } }` avec les statuts 400, 401, 403, 404, 429, 500
+
+## Points d’accès
+
+| Requête                    | Réponse                                                                                                                                        |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GET /territory`           | Le territoire : nom, adresse du portail, couleurs, logo, nombre de communes et de fiches                                                       |
+| `GET /communes`            | Communes : code INSEE, codes postaux, position, nombre de fiches, adresse sur le portail                                                       |
+| `GET /categories`          | Catégories présentes, avec le nom personnalisé par le territoire                                                                               |
+| `GET /establishments`      | Fiches publiées. Filtres : `commune` (slug), `category` (slug), `q` (nom, activité), `updated_since` (ISO 8601, synchronisation incrémentale)  |
+| `GET /establishments/{id}` | Une fiche : adresse, position, contacts, réseaux, photos, horaires hebdomadaires et exceptionnels, `open_now`, labels et services, traductions |
+| `GET /events`              | Événements à venir, ou entre `from` et `to` (ISO 8601)                                                                                         |
+| `GET /posts`               | Actualités et offres publiées ; `kind=promo` pour les seules offres                                                                            |
+
+Les horaires utilisent `weekday` de 0 (lundi) à 6 (dimanche) et des heures `HH:MM` (heure de Paris).
+Le champ `status` d’une fiche vaut `verified` (vérifiée par la collectivité), `claimed` (tenue par le
+professionnel) ou `unclaimed` (données publiques SIRENE).
+
+## Exemple
+
+```bash
+curl -H "Authorization: Bearer $TERRICOM_KEY" \
+  "https://terricom.fr/api/v1/establishments?commune=ornans&category=boulangerie&per_page=50"
+```
+
+```json
+{
+  "data": [
+    {
+      "id": "…",
+      "name": "Boulangerie Martin",
+      "url": "https://valdeloue.terricom.fr/ornans/boulangerie/boulangerie-martin",
+      "activity": "Boulangerie",
+      "commune": { "slug": "ornans", "name": "Ornans", "insee_code": "25434" },
+      "status": "verified",
+      "geo": { "lat": 47.1068, "lng": 6.1432 },
+      "hours": [{ "weekday": 0, "opens": "06:30", "closes": "19:00" }],
+      "open_now": true,
+      "updated_at": "2026-09-25T08:12:00.000Z"
+    }
+  ],
+  "meta": { "page": 1, "per_page": 50, "total": 1 }
+}
+```
+
+## Mise en œuvre
+
+`src/server/services/public-api.ts` (clés, authentification, limitation, sérialisation),
+`src/server/services/openapi.ts` (description), routes `src/app/api/v1/**/route.ts`, page de gestion
+`src/app/collectivite/api/`. Les données exposées sont exactement celles du portail public : aucune donnée
+personnelle d’abonné, de client ou d’auteur de message n’est accessible.
+
+## Flux publics (sans clé)
+
+Pour reprendre les contenus sur un site sans développement (widget RSS, agenda partagé) :
+
+| Adresse                                                      | Contenu                                                           |
+| ------------------------------------------------------------ | ----------------------------------------------------------------- |
+| `/<territoire>/agenda.ics`                                   | Agenda du territoire (iCalendar, abonnement `webcal://` possible) |
+| `/<territoire>/actualites.xml`                               | Actualités et offres des professionnels (RSS 2.0)                 |
+| `/<territoire>/<commune>/<catégorie>/<fiche>/agenda.ics`     | Événements d’un établissement                                     |
+| `/<territoire>/<commune>/<catégorie>/<fiche>/actualites.xml` | Actualités d’un établissement                                     |
+
+Sur un domaine dédié (`commerces.exemple.fr`), le préfixe `/<territoire>` disparaît. Les flux sont annoncés
+dans les pages (`<link rel="alternate">`), mis en cache 15 minutes et ouverts en CORS.
+
+## Connecteur des entreprises (webhooks)
+
+Offres Premium et Communication (« Synchronisation » dans l’espace pro) : à chaque contenu publié, la
+plateforme envoie un `POST` JSON à l’adresse choisie par l’entreprise (scénario Make, Zapier, n8n, site).
+
+```json
+{
+  "id": "0b4c…",
+  "type": "post.published",
+  "created_at": "2026-09-25T08:00:00.000Z",
+  "territory": { "slug": "valdeloue", "name": "Val de Loue" },
+  "establishment": { "id": "…", "name": "La Cave Comtoise", "url": "https://…" },
+  "data": { "title": "…", "body": "…", "variants": { "facebook": "…", "instagram": "…" } }
+}
+```
+
+- Types : `post.published`, `listing.updated` (coordonnées, description, horaires), `event.published`,
+  `job.published`, `test`.
+- En-têtes : `X-Terricom-Event`, `X-Terricom-Delivery` (identifiant unique), `X-Terricom-Timestamp`
+  (secondes), `X-Terricom-Signature: sha256=<HMAC-SHA256 hexadécimal de « horodatage.corps »>` avec le secret
+  de l’entreprise (`whsec_…`, renouvelable). Refuser les messages trop anciens (plus de 5 minutes).
+- Réponse attendue : un statut 2xx. Sinon l’envoi est retenté (5 tentatives, délai croissant) ; une erreur
+  4xx autre que 408, 425 ou 429 est définitive.
+- Seules les adresses `https://` publiques sont acceptées (adresses internes et redirections vers elles
+  refusées).
+
+## Agendas externes (synchronisation entrante)
+
+Dans le back-office (« Agenda & actualités » → « Agendas externes »), une collectivité ou une mairie ajoute
+l’adresse iCalendar d’un agenda existant (office de tourisme, association). Les événements à venir (un an,
+500 au plus) sont importés, mis à jour chaque heure (tâche `agenda.sync`) et retirés s’ils disparaissent de
+la source ou sont annulés (`STATUS:CANCELLED`). Les récurrences ne sont pas développées (première occurrence).
+
+## Formulaires du site commercial (terricom.fr)
+
+Le site commercial statique (`site-terricom/`) envoie ses deux formulaires à la plateforme :
+
+| Point d’accès                  | Champs (JSON ou formulaire)                                                                                                                 |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `POST /api/site/demonstration` | `collectivite`, `type` (`CC`, `CA`, `COMMUNE`, `AUTRE`), `communes`, `nom`, `fonction`, `email`, `tel`, `format`, `message`, `consentement` |
+| `POST /api/site/contact`       | `nom`, `email`, `collectivite`, `objet`, `message`, `consentement`                                                                          |
+
+- Réponse JSON `{ ok, message }` : `200` enregistré, `422` formulaire incomplet (message en français),
+  `429` demande déjà reçue (3 par heure et par adresse IP, 2 par jour et par adresse électronique),
+  `403` origine non autorisée.
+- Inter-origines : seules les adresses de `SITE_ORIGINS` et celle de l’application sont autorisées (`OPTIONS`
+  pris en charge). Champ piège `website` : s’il est rempli, la réponse est `200` et rien n’est enregistré.
+- Une demande de démonstration, ou un message d’une collectivité, crée une affaire au stade « prospect »
+  dans le suivi commercial de la console. S’il existe déjà une affaire ouverte pour la même adresse, la demande
+  s’y ajoute. L’équipe est prévenue sur `SALES_EMAIL` (avec `Reply-To` vers l’expéditeur), et l’expéditeur
+  reçoit un accusé de réception. Code : `src/app/api/site/[form]/route.ts`, `src/lib/site-forms.ts`,
+  `src/server/services/site-requests.ts` (partagé avec le formulaire `/demo` de l’application).

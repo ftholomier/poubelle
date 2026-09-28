@@ -1,0 +1,93 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { ClaimShell, ClaimTitle, SIGNUP_STEPS } from '@/components/pro/ClaimShell';
+import { SignupForm, type SignupPrefill } from '@/components/pro/SignupForm';
+import { fullName } from '@/lib/format';
+import { getSession } from '@/server/auth/session';
+import { numericCode, randomToken } from '@/server/crypto';
+import { env } from '@/server/env';
+import { completeSiret } from '@/server/integrations/public-data';
+import { signupCategories, signupTerritories } from '@/server/services/signup';
+import { resolveTerritoryParam } from '@/server/services/territories';
+
+export const metadata: Metadata = {
+  title: 'Référencer mon activité',
+  description:
+    'Votre activité n’apparaît pas sur le portail de votre territoire ? Créez gratuitement sa fiche : votre collectivité la valide avant publication.',
+};
+
+type Props = { searchParams: Promise<Record<string, string | undefined>> };
+
+export default async function SignupPage({ searchParams }: Props) {
+  const sp = await searchParams;
+  const territory = sp.territoire ? await resolveTerritoryParam(sp.territoire) : null;
+  const [session, territories] = await Promise.all([getSession(), signupTerritories(territory?.id ?? null)]);
+  const categories = await signupCategories(territories.map((t) => t.id));
+  let prefill: SignupPrefill | null = null;
+  // Nouvel établissement d'une entreprise déjà présente : le SIREN est prérempli (reste le NIC).
+  const siren = sp.siren && /^\d{9}$/.test(sp.siren) && session ? sp.siren : null;
+  if (siren)
+    prefill = {
+      siret: siren,
+      name: '',
+      categoryId: '',
+      activityLabel: '',
+      street: '',
+      communeId: '',
+      phone: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    };
+  else if (env.DEMO_MODE) {
+    const commune = territories.flatMap((t) => t.communes).find((c) => c.name === 'Métabief') ?? territories[0]?.communes[0];
+    const cat = categories.find((c) => /c[ée]ramique|poterie|artisan/i.test(c.name)) ?? categories[0];
+    const suffix = randomToken(3)
+      .replace(/[^a-z0-9]/gi, '')
+      .toLowerCase();
+    prefill = {
+      siret: completeSiret(`9${numericCode(12)}`),
+      name: 'Atelier de démonstration',
+      categoryId: cat?.id ?? '',
+      activityLabel: 'Céramiste',
+      street: 'Adresse d’exemple',
+      communeId: commune?.id ?? '',
+      phone: '06 12 34 56 78',
+      firstName: 'Prénom',
+      lastName: 'Exemple',
+      email: `demo.${suffix}@exemple.fr`,
+      password: 'Terricom2026!',
+    };
+  }
+  return (
+    <ClaimShell territory={territory} step={0} steps={SIGNUP_STEPS}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 560 }}>
+        <ClaimTitle>Référencez votre activité</ClaimTitle>
+        <p style={{ margin: 0, color: 'var(--muted)' }}>
+          Gratuit et sans engagement. {territory ? territory.name : 'Votre collectivité'} vérifie chaque nouvelle fiche avant sa publication, sous 48 h en
+          moyenne.
+        </p>
+        {session ? (
+          <div className="alert alert-info" role="status">
+            Connecté·e en tant que {fullName(session.user)} : la fiche sera rattachée à ce compte.
+            {siren ? ' Complétez le numéro SIRET du nouvel établissement (les 5 derniers chiffres).' : ''}
+          </div>
+        ) : null}
+        {territories.length ? (
+          <SignupForm territories={territories} categories={categories} loggedIn={Boolean(session)} prefill={prefill} />
+        ) : (
+          <div className="alert alert-info">Aucun territoire partenaire n&apos;accepte encore les inscriptions ici.</div>
+        )}
+        <div className="alert alert-info">
+          Votre commune n&apos;est pas dans la liste ? Elle n&apos;a pas encore rejoint terricom : <Link href="/pro/adhesion">adhérez directement</Link>, votre
+          fiche vous sera offerte le jour où votre collectivité adhère.
+        </div>
+        <span style={{ fontSize: 13, color: 'var(--muted)' }}>
+          Votre fiche existe peut-être déjà :{' '}
+          <Link href={`/pro/revendiquer${territory ? `?territoire=${territory.slug}` : ''}`}>rechercher et revendiquer</Link>.
+        </span>
+      </div>
+    </ClaimShell>
+  );
+}

@@ -1,0 +1,233 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { cache } from 'react';
+import { AdventCalendar } from '@/components/portal/AdventCalendar';
+import { Beacon } from '@/components/portal/Beacon';
+import { Photo } from '@/components/ui/Photo';
+import { parisParts } from '@/lib/format';
+import { sized } from '@/lib/images';
+import { INTL, type Locale, withLang } from '@/lib/i18n';
+import { activityL, intL, longDateL } from '@/lib/i18n/format';
+import { portalT } from '@/server/i18n';
+import { getPortal, getPublicCampaign } from '@/server/services/portal';
+import { portalUrl } from '@/server/urls';
+
+type Props = { params: Promise<{ territory: string; slug: string }> };
+
+const load = cache(async (territoryParam: string, slug: string) => {
+  const portal = await getPortal(territoryParam);
+  if (!portal.modules.has('CAMPAIGNS')) return { portal, data: null };
+  return { portal, data: await getPublicCampaign(portal.territory.id, slug) };
+});
+
+const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+
+const monthName = (m: number, locale: Locale) =>
+  locale === 'fr' ? MONTHS[m - 1] : new Intl.DateTimeFormat(INTL[locale], { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, m - 1, 15)));
+
+/** « 1er → 24 décembre », « 1 → 24 December », « 1. → 24. Dezember ». */
+function periodLabel(start: string, end: string, locale: Locale): string {
+  const [, sm, sd] = start.split('-').map(Number);
+  const [, em, ed] = end.split('-').map(Number);
+  const day = (d: number) => (locale === 'fr' ? (d === 1 ? '1er' : String(d)) : locale === 'de' ? `${d}.` : String(d));
+  return sm === em ? `${day(sd)} → ${day(ed)} ${monthName(em, locale)}` : `${day(sd)} ${monthName(sm, locale)} → ${day(ed)} ${monthName(em, locale)}`;
+}
+
+function daysBetween(from: string, to: string): number {
+  return Math.round((Date.parse(`${to}T12:00:00Z`) - Date.parse(`${from}T12:00:00Z`)) / 86_400_000);
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { territory, slug } = await params;
+  const { portal, data } = await load(territory, slug);
+  const tr = await portalT(portal);
+  if (!data) return { title: tr('campaign.notFound'), robots: { index: false } };
+  const c = data.campaign;
+  return {
+    title: c.name,
+    description: c.description || c.tagline || tr('campaign.metaDesc', { name: c.name, territory: portal.territory.name }),
+    alternates: { canonical: withLang(portalUrl(portal.territory, `/campagnes/${c.slug}`), tr.locale) },
+    openGraph: { title: c.name, description: c.tagline ?? undefined, images: c.heroImageUrl ? [{ url: sized(c.heroImageUrl, 1200)! }] : undefined },
+  };
+}
+
+export default async function CampaignPage({ params }: Props) {
+  const { territory, slug } = await params;
+  const { portal, data } = await load(territory, slug);
+  if (!data) notFound();
+  const { base, territory: t } = portal;
+  const tr = await portalT(portal);
+  const L = tr.locale;
+  const { campaign: c, owner, participants, calendar, today } = data;
+  const offers = participants.filter((p) => p.offer).length;
+  const advent = c.mode === 'ADVENT';
+  const started = c.startsAt <= today;
+  const ended = c.endsAt < today;
+  const christmas = `${c.endsAt.slice(0, 4)}-12-25`;
+  const countdown = ended
+    ? { big: tr('campaign.end'), small: tr('campaign.ended') }
+    : !started
+      ? { big: tr('campaign.days', { n: daysBetween(today, c.startsAt) }), small: tr('campaign.beforeLaunch') }
+      : advent
+        ? { big: tr('campaign.days', { n: Math.max(0, daysBetween(today, christmas)) }), small: tr('campaign.beforeXmas') }
+        : { big: tr('campaign.days', { n: daysBetween(today, c.endsAt) }), small: tr('campaign.beforeEnd') };
+  const todayParts = parisParts(new Date());
+  // Thème clair (texte foncé) : fond principal plutôt que sa variante sombre, pour garder le contraste.
+  const lightText = isLight(c.colorText);
+  const pageBg = lightText ? c.colorBgDark : c.colorBg;
+  const soft = isLight(c.colorTextSoft) === lightText ? c.colorTextSoft : c.colorText;
+
+  return (
+    <div style={{ background: pageBg, color: c.colorText }}>
+      <Beacon type="CAMPAIGN_VIEW" territoryId={t.id} refId={c.id} />
+      <section style={{ position: 'relative', overflow: 'hidden' }}>
+        {c.heroImageUrl ? (
+          <Photo src={sized(c.heroImageUrl, 2000)} alt="" eager color={pageBg} label=" " style={{ position: 'absolute', inset: 0, opacity: 0.35 }} />
+        ) : null}
+        <div
+          className="container split"
+          style={{
+            position: 'relative',
+            paddingTop: 70,
+            paddingBottom: 50,
+            ['--cols' as string]: 'minmax(0,1.2fr) minmax(0,1fr)',
+            ['--gap' as string]: '40px',
+            ['--align' as string]: 'end',
+          }}
+        >
+          <div>
+            <span
+              style={{
+                display: 'inline-block',
+                background: 'var(--amber)',
+                color: 'var(--ink)',
+                fontWeight: 800,
+                fontSize: 13,
+                padding: '6px 12px',
+                borderRadius: 8,
+                transform: 'rotate(-3deg)',
+                marginBottom: 18,
+              }}
+            >
+              {periodLabel(c.startsAt, c.endsAt, L)}
+            </span>
+            {owner ? (
+              <div style={{ fontSize: 13, fontWeight: 700, color: soft, marginBottom: 8 }}>
+                {tr('campaign.byCommune')}{' '}
+                <Link href={`${base}/${owner.slug}`} style={{ color: 'inherit', textDecoration: 'underline' }}>
+                  {owner.name}
+                </Link>
+              </div>
+            ) : null}
+            <h1 className="display" style={{ fontSize: 'clamp(52px,6.5vw,100px)', letterSpacing: '-0.04em', lineHeight: 0.88, margin: '0 0 18px' }}>
+              {c.name}
+            </h1>
+            <p style={{ fontSize: 19, color: soft, maxWidth: 560, margin: 0 }}>{c.description || c.tagline}</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
+            <div style={{ background: 'rgba(255,243,230,.1)', borderRadius: 16, padding: 16 }}>
+              <div className="display" style={{ fontSize: 40 }}>
+                {intL(participants.length, L)}
+              </div>
+              <div style={{ fontSize: 13, color: soft }}>{tr('campaign.shops')}</div>
+            </div>
+            <div style={{ background: 'rgba(255,243,230,.1)', borderRadius: 16, padding: 16 }}>
+              <div className="display" style={{ fontSize: 40 }}>
+                {intL(offers, L)}
+              </div>
+              <div style={{ fontSize: 13, color: soft }}>{tr('campaign.activeOffers')}</div>
+            </div>
+            <div style={{ background: 'var(--amber)', color: 'var(--ink)', borderRadius: 16, padding: 16 }}>
+              <div className="display" style={{ fontSize: 40 }}>
+                {countdown.big}
+              </div>
+              <div style={{ fontSize: 13 }}>{countdown.small}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {advent && calendar.length ? (
+        <section className="container" style={{ paddingTop: 30, paddingBottom: 50 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: 18, gap: 14, flexWrap: 'wrap' }}>
+            <h2 className="display" style={{ fontSize: 36, letterSpacing: '-0.02em', margin: 0 }}>
+              {tr('campaign.adventTitle')}
+            </h2>
+            <span style={{ fontSize: 14, color: soft }}>
+              {started && !ended
+                ? tr('campaign.adventToday', { date: `${todayParts.day}${L === 'de' ? '.' : ''} ${monthName(todayParts.month, L)}` })
+                : ended
+                  ? tr('campaign.adventOver')
+                  : tr('campaign.adventFirst', { date: L === 'fr' ? longDateL(c.startsAt, L).toLowerCase() : longDateL(c.startsAt, L) })}
+            </span>
+          </div>
+          <AdventCalendar doors={calendar} base={base} storageKey={`advent:${c.id}`} />
+        </section>
+      ) : null}
+
+      <section style={{ background: lightText ? c.colorText : 'var(--cream)', color: 'var(--text)' }}>
+        <div className="container" style={{ paddingTop: 50, paddingBottom: 60 }}>
+          <h2 className="display" style={{ fontSize: 36, letterSpacing: '-0.02em', margin: '0 0 20px' }}>
+            {tr('campaign.participants')}
+          </h2>
+          {participants.length ? (
+            <div className="auto-grid" style={{ ['--min' as string]: '240px', ['--gap' as string]: '16px' }}>
+              {participants.map((e) => (
+                <Link
+                  key={e.id}
+                  href={`${base}${e.path}?src=campagne`}
+                  className="card-lift"
+                  style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', border: '1px solid #F0DCCB', color: 'inherit' }}
+                >
+                  <div style={{ position: 'relative', height: 160 }}>
+                    <Photo src={sized(e.coverUrl, 500, 320)} alt="" color={e.color} label={e.name} />
+                    {e.offer ? (
+                      <span
+                        style={{
+                          position: 'absolute',
+                          right: 10,
+                          top: 10,
+                          background: 'var(--danger)',
+                          color: '#fff',
+                          fontWeight: 800,
+                          fontSize: 12,
+                          padding: '5px 9px',
+                          borderRadius: 999,
+                          transform: 'rotate(5deg)',
+                        }}
+                      >
+                        {e.offer}
+                      </span>
+                    ) : null}
+                  </div>
+                  <div style={{ padding: '12px 14px' }}>
+                    <div style={{ fontWeight: 700, fontSize: 16 }}>{e.name}</div>
+                    <div style={{ fontSize: 13, color: 'var(--muted)' }}>
+                      {activityL(e, L)} · {e.communeName}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p style={{ color: 'var(--muted)' }}>{tr('campaign.noParticipants')}</p>
+          )}
+          <div style={{ marginTop: 26, display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+            <a href={`/pro?territoire=${t.slug}`} className="btn btn-dark">
+              {tr('campaign.proCta')}
+            </a>
+            <span style={{ fontSize: 13, color: 'var(--muted)' }}>{tr('campaign.proHint')}</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/** Couleur claire (luminance perçue) : sert de fond à la liste des participants, sinon crème. */
+function isLight(hex: string): boolean {
+  const n = parseInt(hex.replace('#', '').slice(0, 6), 16);
+  if (Number.isNaN(n)) return false;
+  return 0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255) > 170;
+}

@@ -1,0 +1,42 @@
+# Entrée HTTPS de la plateforme :
+#  - terricom.fr, www.terricom.fr et *.terricom.fr (un portail par territoire) : certificat générique
+#    émis par cert-manager avec un défi DNS-01 ;
+#  - portails.terricom.fr : cible des CNAME des domaines personnalisés des collectivités, dont les
+#    certificats sont gérés par l'Ingress « terricom-custom-domains » que le worker synchronise.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: terricom
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns01
+    nginx.ingress.kubernetes.io/proxy-body-size: 16m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '60'
+    # Limitation de débit en complément de celle de l'application (connexion, formulaires).
+    nginx.ingress.kubernetes.io/limit-rps: '30'
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: '5'
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location = /api/metrics { deny all; return 403; }
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: ['terricom.fr', 'www.terricom.fr', '*.terricom.fr']
+      secretName: terricom-wildcard-tls
+  rules:
+    - host: terricom.fr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: terricom-web, port: { number: 80 } } }
+    - host: www.terricom.fr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: terricom-web, port: { number: 80 } } }
+    - host: '*.terricom.fr'
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: terricom-web, port: { number: 80 } } }

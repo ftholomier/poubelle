@@ -1,0 +1,30 @@
+# Initialisation du jeu de démonstration (à lancer une fois, puis remis à zéro chaque nuit par le worker).
+#   kubectl -n terricom-demo apply -f deploy/kubernetes/overlays/demo/seed-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: terricom-demo-seed
+spec:
+  backoffLimit: 1
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: seed
+          image: ghcr.io/terricom/terricom-tools:latest
+          command: ['node', '--import', 'tsx', 'scripts/seed.ts']
+          envFrom:
+            - configMapRef:
+                name: terricom-config
+            - secretRef:
+                name: terricom-secrets
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ['ALL']

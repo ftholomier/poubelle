@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>terricom · film de présentation aux élus</title>
+<style>
+@font-face { font-family: 'Bricolage'; font-weight: 200 800; src: url('../fonts/bricolage-grotesque-latin-opsz-normal.woff2') format('woff2-variations'); }
+@font-face { font-family: 'Instrument'; font-weight: 400 700; src: url('../fonts/instrument-sans-latin-wght-normal.woff2') format('woff2-variations'); }
+html, body { margin: 0; background: #000; }
+canvas { display: block; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script>
+// Film de présentation aux élus, calé sur « The Mountain » (110 BPM, une mesure = 2,184 s).
+// Repères musicaux : 1,48 premier son · 18,95 premier impact · 36,45 grand impact · 45,15 · 54-56 silence puis reprise
+// 65,03 · 73,35 · 82,55 · 91 coupure · 93,4 coda · 104,35 · fin.
+// Pas de logo avant la fin, aucun tarif. Territoire de démonstration : Lacs et Montagnes du Haut-Doubs (données réelles).
+const W = 1920, H = 1080, DURATION = 114;
+const C = { ink: '#14201B', green: '#1F6B52', amber: '#F4B266', cream: '#F7F4EC', paper: '#FFFDF8', brick: '#C8702A', sage: '#CFE3D6', muted: '#8FA197' };
+const FAM = { COMMERCE: '#C8892A', ARTISAN: '#3E6FB0', PRODUCTEUR: '#3F8F4E', RESTAURATION: '#D95C4E', SERVICES: '#7A5BB5' };
+const cv = document.getElementById('c');
+const g = cv.getContext('2d');
+
+// ---------- utilitaires ----------
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const P = (t, a, b) => clamp((t - a) / (b - a));
+const eo = (p) => 1 - Math.pow(1 - p, 3);
+const eio = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+const back = (p) => { const c = 1.9; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+const rnd = (k) => { const x = Math.sin(k * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+// entrée puis sortie : 0 → 1 → 0
+const io = (t, a, b, fi = 0.5, fo = 0.5) => Math.min(eo(P(t, a, a + fi)), 1 - eo(P(t, b - fo, b)));
+const D = 'Bricolage', T = 'Instrument';
+function font(w, s, f = D) { g.font = `${w} ${s}px ${f}`; }
+function text(str, x, y, { w = 800, s = 100, f = D, color = C.cream, align = 'left', ls = -0.04, base = 'alphabetic', alpha = 1 } = {}) {
+  g.save(); font(w, s, f); g.letterSpacing = `${ls * s}px`; g.textAlign = align; g.textBaseline = base; g.globalAlpha *= alpha; g.fillStyle = color; g.fillText(str, x, y); g.restore();
+}
+function measure(str, w, s, ls = -0.04, f = D) { g.save(); font(w, s, f); g.letterSpacing = `${ls * s}px`; const m = g.measureText(str).width; g.restore(); return m; }
+function rich(parts, x, y, s, { align = 'left', ls = -0.045, alpha = 1 } = {}) {
+  const ws = parts.map(([t, , w]) => measure(t, w ?? 800, s, ls));
+  const tot = ws.reduce((a, b) => a + b, 0);
+  let cx = align === 'center' ? x - tot / 2 : align === 'right' ? x - tot : x;
+  parts.forEach(([t, col, w], i) => { text(t, cx, y, { w: w ?? 800, s, color: col, ls, alpha }); cx += ws[i]; });
+  return tot;
+}
+// Texte sur plusieurs lignes : chaque ligne glisse et apparaît l'une après l'autre.
+function lines(arr, x, y, s, t, t0, { lh = 1.05, stagger = 0.18, align = 'left', color = C.cream, w = 800, f = D, ls = -0.04, out = Infinity, alpha = 1 } = {}) {
+  arr.forEach((ln, i) => {
+    const p = eo(P(t, t0 + i * stagger, t0 + i * stagger + 0.7)) * (1 - eo(P(t, out, out + 0.45)));
+    if (p <= 0) return;
+    const yy = y + i * s * lh + (1 - p) * s * 0.35;
+    g.save(); g.globalAlpha *= p * alpha;
+    if (Array.isArray(ln)) rich(ln, x, yy, s, { align, ls }); else text(ln, x, yy, { s, color, align, w, f, ls });
+    g.restore();
+  });
+}
+function fill(col, a = 1) { g.save(); g.globalAlpha = a; g.fillStyle = col; g.fillRect(0, 0, W, H); g.restore(); }
+function rr(x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, r); }
+function mark(cx, cy, size, { bg = C.green, fg = C.amber, rot = -45, letter = 1, alpha = 1 } = {}) {
+  g.save(); g.globalAlpha *= alpha; g.translate(cx, cy); g.rotate((rot * Math.PI) / 180);
+  const s = size, r = [s * 0.5, s * 0.5, s * 0.5, s * 0.14];
+  g.beginPath(); g.roundRect(-s / 2, -s / 2, s, s, r); g.fillStyle = bg; g.fill();
+  if (letter > 0) { g.rotate((-rot * Math.PI) / 180); g.globalAlpha *= letter; font(800, s * 0.64); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = fg; g.fillText('t', 0, -s * 0.06); }
+  g.restore();
+}
+function wordmark(x, y, s, { color = C.cream, dot = C.amber, align = 'left', dotDrop = 1 } = {}) {
+  const w = measure('terricom', 800, s, -0.05);
+  const x0 = align === 'center' ? x - (w + s * 0.22) / 2 : x;
+  text('terricom', x0, y, { s, color, ls: -0.05 });
+  if (dotDrop > 0) { const yy = y - (1 - back(dotDrop)) * s * 0.9; g.save(); g.globalAlpha *= clamp(dotDrop * 3); text('.', x0 + w, yy, { s, color: dot, ls: -0.05 }); g.restore(); }
+  return { x0, w };
+}
+function grain(t, a = 0.05) {
+  g.save(); g.globalAlpha = a;
+  for (let i = 0; i < 1200; i++) { const k = Math.floor(t * 30) * 1200 + i; g.fillStyle = rnd(k * 3.1) > 0.5 ? '#fff' : '#000'; g.fillRect(rnd(k) * W, rnd(k * 1.7) * H, 2, 2); }
+  g.restore();
+}
+function vignette(a = 0.55) {
+  const gr = g.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, H * 1.05);
+  gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, `rgba(0,0,0,${a})`); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+}
+function shade(from = 0.15, to = 0.85, dir = 'bottom') {
+  const gr = dir === 'bottom' ? g.createLinearGradient(0, 0, 0, H) : g.createLinearGradient(0, 0, W, 0);
+  gr.addColorStop(0, `rgba(12,20,16,${from})`); gr.addColorStop(1, `rgba(12,20,16,${to})`); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+}
+function flash(t, at, dur = 0.35, col = '#fff', a = 0.85) { const p = P(t, at, at + dur); if (p > 0 && p < 1) fill(col, a * (1 - eo(p))); }
+function pill(str, x, y, { s = 26, bg = 'rgba(247,244,236,.12)', fg = C.cream, border = 'rgba(247,244,236,.28)', alpha = 1 } = {}) {
+  const w = measure(str, 600, s, 0, T) + s * 1.3, h = s * 1.9;
+  g.save(); g.globalAlpha *= alpha; rr(x, y, w, h, h / 2); g.fillStyle = bg; g.fill(); g.strokeStyle = border; g.lineWidth = 1.5; g.stroke();
+  text(str, x + s * 0.65, y + h / 2 + 1, { s, f: T, w: 600, color: fg, base: 'middle', ls: 0 }); g.restore();
+  return w;
+}
+// rangée de pastilles de fonctions, qui apparaissent l'une après l'autre
+function chips(list, x, y, t, t0, { s = 24, gap = 12, out = Infinity, maxW = 1700 } = {}) {
+  let cx = x, cy = y;
+  list.forEach((c, i) => {
+    const p = eo(P(t, t0 + i * 0.12, t0 + i * 0.12 + 0.5)) * (1 - eo(P(t, out, out + 0.4)));
+    const w = measure(c, 600, s, 0, T) + s * 1.3;
+    if (cx + w > x + maxW) { cx = x; cy += s * 2.3; }
+    if (p > 0) { g.save(); g.translate(0, (1 - p) * 14); pill(c, cx, cy, { s, alpha: p }); g.restore(); }
+    cx += w + gap;
+  });
+}
+function eyebrow(str, x, y, { alpha = 1, color = C.amber, s = 26, align = 'left' } = {}) {
+  g.save(); g.globalAlpha *= alpha;
+  if (align === 'left') { g.fillStyle = color; g.fillRect(x, y - s * 0.38, 44, 3); text(str.toUpperCase(), x + 60, y, { s, f: T, w: 700, color, ls: 0.14 }); }
+  else text(str.toUpperCase(), x, y, { s, f: T, w: 700, color, ls: 0.14, align });
+  g.restore();
+}
+
+// ---------- ressources ----------
+const img = {}, loops = {};
+const load = (src) => new Promise((r) => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; });
+const PHOTOS = ['halle', 'pain', 'comte-cave', 'bastide', 'lot', 'alsace', 'bretagne', 'provence', 'correze', 'metabief', 'noel', 'territoire', 'montdor-vue', 'malbuisson', 'jougne', 'remoray'];
+let pins = [], communes = [], epci = [], bounds = null;
+async function preload() {
+  for (const p of PHOTOS) img[p] = await load(`../photos/${p}.jpg`);
+  img.topo = await load('../img/topo.png');
+  img.lumineuse = await load('../img/carte-lumineuse.jpg');
+  Object.assign(loops, await (await fetch('../loops.json')).json());
+  pins = await (await fetch('../pins.json')).json();
+  try {
+    const fc = await (await fetch('../communes.json')).json();
+    communes = fc.features.map((f) => ({ nom: f.properties.nom, pop: f.properties.population, rings: (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates).map((p) => p[0]) }));
+  } catch { communes = []; }
+  try {
+    const f = await (await fetch('../epci.json')).json();
+    epci = (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates).map((p) => p[0]);
+  } catch { epci = []; }
+  const pts = epci.length ? epci.flat() : communes.length ? communes.flatMap((c) => c.rings.flat()) : pins.map((p) => [p[0], p[1]]);
+  bounds = pts.reduce((b, [x, y]) => ({ x0: Math.min(b.x0, x), x1: Math.max(b.x1, x), y0: Math.min(b.y0, y), y1: Math.max(b.y1, y) }), { x0: 99, x1: -99, y0: 99, y1: -99 });
+  // repères : du centre vers l'extérieur, avec du hasard
+  const cx = (bounds.x0 + bounds.x1) / 2, cy = (bounds.y0 + bounds.y1) / 2;
+  pins = pins.map((p, i) => ({ lng: p[0], lat: p[1], fam: p[2] ?? 'SERVICES', d: Math.hypot(p[0] - cx, (p[1] - cy) * 1.45) + rnd(i) * 0.05 })).sort((a, b) => a.d - b.d);
+  await document.fonts.load('800 100px Bricolage'); await document.fonts.load('400 100px Bricolage'); await document.fonts.load('600 40px Instrument'); await document.fonts.load('700 40px Instrument'); await document.fonts.ready;
+}
+const cache = new Map();
+async function frame(name, f) {
+  const n = loops[name] ?? 1; f = Math.max(1, Math.min(n, Math.round(f) + 1));
+  const key = `${name}/${f}`;
+  if (cache.has(key)) return cache.get(key);
+  const im = await load(`../loops/${name}/f${String(f).padStart(4, '0')}.jpg`);
+  cache.set(key, im); if (cache.size > 120) cache.delete(cache.keys().next().value);
+  return im;
+}
+
+// ---------- photos ----------
+function photo(name, t, t0, t1, { z0 = 1.05, z1 = 1.18, fx0 = 0.5, fy0 = 0.5, fx1 = 0.5, fy1 = 0.5, alpha = 1 } = {}) {
+  const im = img[name]; if (!im) { fill(C.ink, alpha); return; }
+  const p = eio(P(t, t0, t1)); const z = lerp(z0, z1, p), fx = lerp(fx0, fx1, p), fy = lerp(fy0, fy1, p);
+  const cover = Math.max(W / im.width, H / im.height) * z; const dw = im.width * cover, dh = im.height * cover;
+  const x = clamp(W / 2 - fx * dw, W - dw, 0), y = clamp(H / 2 - fy * dh, H - dh, 0);
+  g.save(); g.globalAlpha *= alpha; g.drawImage(im, x, y, dw, dh); g.restore();
+}
+
+// ---------- carte du territoire (contours officiels, établissements SIRENE) ----------
+function proj(box) {
+  const k = Math.cos(((bounds.y0 + bounds.y1) / 2) * Math.PI / 180);
+  const gw = (bounds.x1 - bounds.x0) * k, gh = bounds.y1 - bounds.y0;
+  const s = Math.min(box.w / gw, box.h / gh);
+  const ox = box.x + (box.w - gw * s) / 2, oy = box.y + (box.h - gh * s) / 2;
+  return ([lng, lat]) => [ox + (lng - bounds.x0) * k * s, oy + (bounds.y1 - lat) * s];
+}
+function mapBg(t, a = 1) {
+  fill('#0E1813');
+  if (img.topo) { g.save(); g.globalAlpha = 0.55 * a; const z = 1.1 + t * 0.002; const dw = W * z, dh = H * z; g.drawImage(img.topo, (W - dw) / 2 - t * 2, (H - dh) / 2, dw, dh); g.restore(); }
+}
+function communesDraw(pr, p, { stroke = 'rgba(207,227,214,.35)', lw = 1.3 } = {}) {
+  if (p <= 0) return;
+  g.save(); g.strokeStyle = stroke; g.lineWidth = lw; g.lineJoin = 'round';
+  communes.forEach((c, i) => {
+    const q = clamp(p * communes.length - i * 0.5); if (q <= 0) return;
+    g.globalAlpha = q;
+    for (const ring of c.rings) { g.beginPath(); ring.forEach((pt, j) => { const [x, y] = pr(pt); j ? g.lineTo(x, y) : g.moveTo(x, y); }); g.closePath(); g.stroke(); }
+  });
+  g.restore();
+}
+function outline(pr, p) {
+  if (p <= 0 || !epci.length) return;
+  g.save(); g.strokeStyle = C.amber; g.lineWidth = 3.5; g.lineJoin = 'round'; g.shadowColor = C.amber; g.shadowBlur = 18;
+  for (const ring of epci) {
+    const n = Math.floor(ring.length * clamp(p)); g.beginPath();
+    for (let i = 0; i < n; i++) { const [x, y] = pr(ring[i]); i ? g.lineTo(x, y) : g.moveTo(x, y); }
+    g.stroke();
+  }
+  g.restore();
+}
+function pinsDraw(pr, t, t0, t1, { size = 10, glow = 10 } = {}) {
+  const n = pins.length; let shown = 0;
+  for (let i = 0; i < n; i++) {
+    const p = pins[i]; const ti = t0 + (i / n) * (t1 - t0);
+    const q = P(t, ti, ti + 0.45); if (q <= 0) continue; shown++;
+    const [X, Y] = pr([p.lng, p.lat]); const drop = (1 - eo(q)) * 40;
+    g.save(); g.globalAlpha = clamp(q * 3); g.shadowColor = FAM[p.fam] ?? C.amber; g.shadowBlur = glow;
+    mark(X, Y - size * 0.7 - drop, size * back(q), { bg: FAM[p.fam] ?? C.amber, letter: 0 }); g.restore();
+  }
+  return shown;
+}
+
+// ---------- fenêtres d'application ----------
+function chrome(x, y, w, h, url) {
+  const bar = 46;
+  g.save(); g.shadowColor = 'rgba(0,0,0,.5)'; g.shadowBlur = 60; g.shadowOffsetY = 26; rr(x, y, w, h + bar, 18); g.fillStyle = '#EFEBE1'; g.fill(); g.restore();
+  g.save(); rr(x, y, w, bar + 20, [18, 18, 0, 0]); g.fillStyle = '#EFEBE1'; g.fill();
+  ['#E7776B', '#E8C170', '#7CC48E'].forEach((c, i) => { g.beginPath(); g.arc(x + 24 + i * 22, y + bar / 2, 6.5, 0, Math.PI * 2); g.fillStyle = c; g.fill(); });
+  const uw = Math.min(560, w * 0.46); rr(x + w / 2 - uw / 2, y + 9, uw, bar - 18, 9); g.fillStyle = '#FFFDF8'; g.fill();
+  text(url, x + w / 2, y + bar / 2 + 1, { s: 15, f: T, w: 500, base: 'middle', ls: 0, color: '#4A514C', align: 'center' });
+  g.restore();
+  return { x, y: y + bar, w, h };
+}
+function shot(im, x, y, w, h, { z = 1, fx = 0.5, fy = 0.5, r = [0, 0, 18, 18] } = {}) {
+  if (!im) return;
+  const iw = im.width, ih = im.height; const sw = iw / z, sh = ih / z;
+  const sx = clamp(fx * iw - sw / 2, 0, iw - sw), sy = clamp(fy * ih - sh / 2, 0, ih - sh);
+  g.save(); rr(x, y, w, h, r); g.clip(); g.drawImage(im, sx, sy, sw, sh, x, y, w, h); g.restore();
+}
+// Fenêtre de navigateur qui lit une boucle de l'application (lecture à partir de l'instant t0, vitesse sp).
+async function win(name, t, t0, { x = 720, y = 150, w = 1120, url = 'haut-doubs.terricom.fr', z = 1, fx = 0.5, fy = 0.5, alpha = 1, sp = 1, from = 0 } = {}) {
+  const im = await frame(name, from + (t - t0) * 30 * sp); const h = w * 9 / 16;
+  const p = eo(P(t, t0, t0 + 0.6));
+  g.save(); g.globalAlpha *= alpha * p; g.translate(0, (1 - p) * 60);
+  const a = chrome(x, y, w, h, url); shot(im, a.x, a.y, a.w, a.h, { z, fx, fy }); g.restore();
+}
+async function phone(name, t, t0, cx, cy, hgt, { alpha = 1, rot = 0, sp = 1, from = 0 } = {}) {
+  const im = await frame(name, from + (t - t0) * 30 * sp); const w = hgt * 540 / 1168;
+  const p = eo(P(t, t0, t0 + 0.7));
+  g.save(); g.globalAlpha *= alpha * p; g.translate(cx, cy + (1 - p) * 120); g.rotate((rot * Math.PI) / 180);
+  g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 70; g.shadowOffsetY = 30; rr(-w / 2 - 14, -hgt / 2 - 14, w + 28, hgt + 28, 58); g.fillStyle = '#0B1310'; g.fill(); g.shadowColor = 'transparent';
+  if (im) { g.save(); rr(-w / 2, -hgt / 2, w, hgt, 46); g.clip(); g.drawImage(im, -w / 2, -hgt / 2, w, hgt); g.restore(); }
+  rr(-w * 0.16, -hgt / 2 + 10, w * 0.32, 26, 13); g.fillStyle = '#0B1310'; g.fill();
+  g.restore();
+}
+// Fond des séquences « application » : encre, relief discret, halo vert.
+function appBg(t) {
+  fill(C.ink);
+  if (img.topo) { g.save(); g.globalAlpha = 0.22; g.drawImage(img.topo, -t * 3 % 200 - 100, -60, W * 1.15, H * 1.15); g.restore(); }
+  const gr = g.createRadialGradient(W * 0.7, H * 0.45, 50, W * 0.7, H * 0.45, W * 0.7);
+  gr.addColorStop(0, 'rgba(31,107,82,.35)'); gr.addColorStop(1, 'rgba(31,107,82,0)'); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+}
+// Colonne de gauche des séquences « application » : rubrique, titre, texte, fonctions.
+function side(t, t0, t1, { kicker, title, body = [], feats = [] }) {
+  const out = t1 - 0.45, x = 110;
+  eyebrow(kicker, x, 260, { alpha: io(t, t0, t1, 0.5, 0.45) });
+  lines(title, x, 350, 66, t, t0 + 0.15, { lh: 1.02, out });
+  const yb = 350 + title.length * 66 * 1.02 + 30;
+  lines(body, x, yb, 30, t, t0 + 0.55, { lh: 1.35, color: '#CFD9D3', w: 500, f: T, ls: 0, stagger: 0.1, out });
+  if (feats.length) chips(feats, x, yb + body.length * 30 * 1.35 + 30, t, t0 + 1, { s: 21, maxW: 560, out });
+}
+
+// ---------- déroulé ----------
+async function render(t) {
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.clearRect(0, 0, W, H);
+
+  // 1 · 0 – 18,95 : les territoires de France, leurs commerces, artisans et producteurs
+  if (t < 19.2) {
+    fill('#000');
+    const seq = [
+      ['halle', 0, 5.2, { fx0: 0.45, fx1: 0.55 }],
+      ['pain', 4.6, 8.4, { z0: 1.15, z1: 1.3 }],
+      ['comte-cave', 7.8, 11.4, { fy0: 0.6, fy1: 0.4 }],
+      ['bastide', 10.8, 14.6, { fx0: 0.6, fx1: 0.45 }],
+      ['alsace', 14.0, 16.6, {}],
+      ['bretagne', 16.0, 19.2, { z0: 1.1, z1: 1.25 }],
+    ];
+    for (const [n, a, b, o] of seq) { const al = Math.min(P(t, a, a + 0.8), 1 - P(t, b - 0.6, b)); if (al > 0) photo(n, t, a, b, { ...o, alpha: al }); }
+    shade(0.1, 0.7);
+    fill('#000', 1 - P(t, 0.3, 2.2));
+    const L = 150, B = 860;
+    lines(['Dans chaque territoire,'], L, B, 92, t, 1.6, { out: 5.2 });
+    lines([[['des ', C.cream], ['commerçants', C.amber], [', des ', C.cream], ['artisans', C.amber], [',', C.cream]], [['des ', C.cream], ['producteurs', C.amber], ['.', C.cream]]], L, B - 92, 92, t, 5.6, { out: 10.6 });
+    lines(['Ce sont eux qui font vivre', 'nos communes.'], L, B - 92, 92, t, 11.0, { out: 14.4 });
+    lines(['Mais en ligne,', [['on ne les ', C.cream], ['voit', C.amber], [' pas.', C.cream]]], L, B - 92, 92, t, 14.8, { out: 18.5 });
+    vignette(0.45); grain(t, 0.04);
+  }
+
+  // 2 · 18,95 – 36,45 : l'enjeu pour la communauté de communes, le territoire se dessine
+  if (t >= 18.95 && t < 36.8) {
+    mapBg(t);
+    const zoom = lerp(1, 1.08, eio(P(t, 19, 36.4)));
+    const box = { x: 760 - (zoom - 1) * 500, y: 90 - (zoom - 1) * 300, w: 1100 * zoom, h: 900 * zoom };
+    const pr = proj(box);
+    outline(pr, eio(P(t, 19.3, 22.8)));
+    communesDraw(pr, P(t, 21.5, 25));
+    const shown = pinsDraw(pr, t, 25.8, 31.5, { size: 8, glow: 4 });
+    shade(0.0, 0.0);
+    const gr = g.createLinearGradient(0, 0, 900, 0); gr.addColorStop(0, 'rgba(10,18,14,.92)'); gr.addColorStop(1, 'rgba(10,18,14,0)'); g.fillStyle = gr; g.fillRect(0, 0, 1000, H);
+    const x = 110;
+    eyebrow('L’enjeu pour la collectivité', x, 300, { alpha: io(t, 19.3, 36.2) });
+    lines(['Le développement', 'économique, c’est', [['la ', C.cream], ['compétence', C.amber], [' de la CC.', C.cream]]], x, 400, 70, t, 19.6, { out: 25.2 });
+    lines(['Comment faire', 'connaître chaque', [['entreprise, dans ', C.cream], ['chaque', C.amber]], 'commune ?'], x, 400, 70, t, 25.6, { out: 30.9 });
+    lines([[['Tout le territoire', C.cream]], [['est ', C.cream], ['déjà là', C.amber], ['.', C.cream]]], x, 400, 70, t, 31.3, { out: 36.2 });
+    // compteurs
+    const cp = io(t, 26.2, 36.2, 0.6, 0.4);
+    if (cp > 0) {
+      g.save(); g.globalAlpha = cp;
+      text(String(Math.min(32, Math.round(32 * P(t, 19.5, 23.5)))), x, 790, { s: 96, color: C.amber });
+      text('communes', x, 836, { s: 28, f: T, w: 600, color: '#CFD9D3', ls: 0 });
+      text(shown.toLocaleString('fr-FR'), x + 300, 790, { s: 96, color: C.amber });
+      text('entreprises, commerces, artisans', x + 300, 836, { s: 28, f: T, w: 600, color: '#CFD9D3', ls: 0 });
+      g.restore();
+    }
+    lines(['issues du registre officiel des entreprises (SIRENE)'], x, 900, 24, t, 31.6, { color: C.muted, w: 500, f: T, ls: 0, out: 36.2 });
+    text('Territoire de démonstration : Lacs et Montagnes du Haut-Doubs', W - 60, H - 40, { s: 20, f: T, w: 500, color: C.muted, ls: 0, align: 'right', alpha: io(t, 20, 36.2) });
+    fill('#000', 1 - P(t, 18.95, 19.5));
+    vignette(0.5); grain(t, 0.03);
+  }
+
+  // 3 · 36,45 – 45,15 : la réponse
+  if (t >= 36.45 && t < 45.4) {
+    if (img.lumineuse) { const z = lerp(1.25, 1.05, eo(P(t, 36.45, 45))); const dw = W * z, dh = H * z; g.drawImage(img.lumineuse, (W - dw) / 2, (H - dh) / 2, dw, dh); } else fill(C.ink);
+    fill('#0B1310', 0.6);
+    eyebrow('Une seule plateforme', W / 2, 300, { align: 'center', alpha: io(t, 36.6, 45.1) });
+    lines([[['Une plateforme d’', C.cream], ['animation', C.amber]], 'économique du territoire.'], W / 2, 420, 92, t, 36.6, { align: 'center', out: 44.7 });
+    const cols = [
+      ['Les habitants', 'trouvent, près de chez eux,', 'qui fait quoi.'],
+      ['La collectivité et les mairies', 'animent, mesurent,', 'valorisent.'],
+      ['Chaque entreprise', 'reçoit sa vitrine,', 'offerte par le territoire.'],
+    ];
+    cols.forEach((c, i) => {
+      const a = 39.2 + i * 0.9, p = eo(P(t, a, a + 0.6)) * (1 - eo(P(t, 44.7, 45.1)));
+      if (p <= 0) return;
+      const cx = W / 2 + (i - 1) * 560, y = 700 + (1 - p) * 40;
+      g.save(); g.globalAlpha = p; rr(cx - 250, y - 70, 500, 230, 26); g.fillStyle = 'rgba(247,244,236,.08)'; g.fill(); g.strokeStyle = 'rgba(244,178,102,.5)'; g.lineWidth = 1.5; g.stroke();
+      text(c[0], cx, y, { s: 36, color: C.amber, align: 'center' });
+      text(c[1], cx, y + 60, { s: 28, f: T, w: 500, color: C.cream, align: 'center', ls: 0 });
+      text(c[2], cx, y + 100, { s: 28, f: T, w: 500, color: C.cream, align: 'center', ls: 0 });
+      g.restore();
+    });
+    flash(t, 36.45, 0.5, '#FFF4E0', 0.9);
+    vignette(0.5); grain(t, 0.03);
+  }
+
+  // 4 · 45,15 – 54 : pour les habitants
+  if (t >= 45.15 && t < 54.2) {
+    appBg(t);
+    await win('site-recherche', t, 45.3, { x: 700, y: 170, w: 1060, sp: 1.05 });
+    await phone('mobile', t, 47.2, 1640, 700, 640, { rot: 4, sp: 1 });
+    side(t, 45.3, 54, { kicker: 'Pour les habitants', title: ['Trouver, en', [['une phrase', C.amber], [',', C.cream]], 'qui fait quoi.'], body: ['Un portail aux couleurs du territoire :', 'carte, recherche, communes, agenda.'], feats: ['Carte interactive', 'Recherche en langage naturel', 'Ouvert maintenant', 'Agenda', 'Circuits', 'Emploi local', 'Français · anglais · allemand', 'Sur mobile'] });
+    fill('#000', 1 - P(t, 45.15, 45.5));
+  }
+
+  // 5 · 54 – 56 : silence
+  if (t >= 54 && t < 56.1) {
+    fill('#0B1310');
+    lines([[['Et pour la ', C.cream], ['collectivité', C.amber], [' ?', C.cream]]], W / 2, 580, 110, t, 54.15, { align: 'center', out: 55.8 });
+  }
+
+  // 6 · 56 – 65,03 : la communauté de communes pilote
+  if (t >= 56 && t < 65.2) {
+    appBg(t);
+    if (t < 60.6) await win('site-tableau', t, 56.1, { x: 700, y: 170, w: 1120, sp: 1.2 });
+    else await win('site-sirene', t, 60.6, { x: 700, y: 170, w: 1120, sp: 1.3, url: 'haut-doubs.terricom.fr/collectivite' });
+    if (t < 60.6) side(t, 56.1, 60.6, { kicker: 'La communauté de communes', title: ['Toute l’économie', [['locale', C.amber], [', d’un', C.cream]], 'seul regard.'], body: ['Tableau de bord, carte de densité,', 'podium des communes, en direct.'], feats: ['Tableau de bord', 'Carte de densité', 'Fil d’activité', 'Rapport pour le conseil'] });
+    else side(t, 60.6, 65, { kicker: 'Aucune saisie', title: ['Les entreprises', [['arrivent', C.amber], [' toutes', C.cream]], 'seules.'], body: ['Registre officiel SIRENE, chaque mois :', 'nouveautés et fermetures à valider.'], feats: ['Fiches précréées', 'Mises à jour mensuelles', 'Vous gardez la main'] });
+    flash(t, 56, 0.4, '#fff', 0.7);
+  }
+
+  // 7 · 65,03 – 73,35 : animer
+  if (t >= 65.03 && t < 73.5) {
+    appBg(t);
+    if (t < 69.4) await win('bo-ia', t, 65.1, { x: 700, y: 170, w: 1120, sp: 1.9, url: 'haut-doubs.terricom.fr/collectivite' });
+    else await win('site-newsletter', t, 69.4, { x: 700, y: 170, w: 1120, sp: 1.3, url: 'haut-doubs.terricom.fr/collectivite' });
+    if (t < 69.4) side(t, 65.1, 69.4, { kicker: 'Animer le territoire', title: [[['Une campagne', C.cream]], [['en ', C.cream], ['une phrase', C.amber], ['.', C.cream]]], body: ['L’assistant prépare la page,', 'la sélection et le calendrier.'], feats: ['Noël', 'Fête des mères', 'Quinzaine commerciale', 'Assistant IA'] });
+    else side(t, 69.4, 73.3, { kicker: 'Communiquer', title: ['La lettre du', [['territoire', C.amber], [', prête', C.cream]], 'à envoyer.'], body: ['Actualités, agenda, commerces :', 'elle se remplit d’elle-même.'], feats: ['Newsletter', 'Actualités', 'Agenda', 'QR codes et affiches'] });
+    flash(t, 65.03, 0.35, '#fff', 0.6);
+  }
+
+  // 8 · 73,35 – 82,55 : chaque commune
+  if (t >= 73.35 && t < 82.7) {
+    appBg(t);
+    if (t < 78) await win('site-commune', t, 73.45, { x: 700, y: 170, w: 1120, sp: 1.1 });
+    else await win('site-mairie', t, 78, { x: 700, y: 170, w: 1120, sp: 1.3, url: 'haut-doubs.terricom.fr/collectivite' });
+    if (t < 78) side(t, 73.45, 78, { kicker: 'Chaque commune', title: ['Son centre-bourg', [['mis en ', C.cream], ['valeur', C.amber], ['.', C.cream]]], body: ['Une page par commune : commerces,', 'rendez-vous, opérations.'], feats: ['Page de la commune', 'Marchés et événements', 'Opérations commerciales'] });
+    else side(t, 78, 82.5, { kicker: 'Chaque mairie', title: [[['Son ', C.cream], ['espace', C.amber], [',', C.cream]], 'ses chiffres,', 'ses opérations.'], body: ['Aucune commune laissée de côté :', 'chacune agit, la CC coordonne.'], feats: ['Espace mairie', 'Statistiques communales', 'Campagnes communales'] });
+    flash(t, 73.35, 0.35, '#fff', 0.6);
+  }
+
+  // 9 · 82,55 – 91 : chaque entreprise
+  if (t >= 82.55 && t < 91.1) {
+    appBg(t);
+    if (t < 87) await win('site-pro', t, 82.65, { x: 700, y: 170, w: 1120, sp: 1.5, url: 'haut-doubs.terricom.fr/pro' });
+    else await win('site-fiche', t, 87, { x: 700, y: 170, w: 1120, sp: 1.1 });
+    if (t < 87) side(t, 82.65, 87, { kicker: 'Chaque entreprise', title: [[['Sa ', C.cream], ['vitrine', C.amber], [',', C.cream]], 'offerte par', 'le territoire.'], body: ['Elle publie en une phrase : l’assistant', 'écrit pour sa fiche et ses réseaux.'], feats: ['Fiche complète', 'Publications', 'Kit vitrine et QR code', 'Statistiques'] });
+    else side(t, 87, 90.9, { kicker: 'Référencée partout', title: [[['Des clients', C.cream]], [['qui ', C.cream], ['poussent', C.amber]], 'la porte.'], body: ['Photos, horaires, itinéraire, appel :', 'et visible sur Google.'], feats: ['Horaires', 'Itinéraire', 'Appel', 'Référencement'] });
+    flash(t, 82.55, 0.35, '#fff', 0.6);
+  }
+
+  // 10 · 91 – 93,4 : coupure, les résultats
+  if (t >= 91 && t < 93.6) {
+    appBg(t);
+    await win('site-stats', t, 91.0, { x: 420, y: 250, w: 1080, sp: 1.6, url: 'haut-doubs.terricom.fr/collectivite' });
+    fill('#0B1310', 0.25);
+    lines([[['Et des ', C.cream], ['résultats', C.amber], [' à présenter au conseil.', C.cream]]], W / 2, 170, 64, t, 91.05, { align: 'center', out: 93.2 });
+  }
+
+  // 11 · 93,4 – 104,35 : ce que chacun y gagne
+  if (t >= 93.4 && t < 104.6) {
+    const al = P(t, 93.4, 94.2);
+    photo('territoire', t, 93.4, 104.6, { z0: 1.05, z1: 1.2, alpha: 1 });
+    fill('#0B1310', 0.66 * al + 0.1);
+    eyebrow('Ce que chacun y gagne', W / 2, 190, { align: 'center', alpha: io(t, 93.6, 99.6) });
+    const cols = [
+      ['La communauté de communes', ['Toute son économie visible,', 'animée et mesurée.', 'Une politique qui se voit.']],
+      ['Chaque commune', ['Son centre-bourg valorisé,', 'son espace, ses opérations.', 'Aucune laissée de côté.']],
+      ['Les entreprises', ['Une vitrine offerte,', 'des outils simples,', 'des clients en plus.']],
+    ];
+    cols.forEach(([h, b], i) => {
+      const a = 94 + i * 1.1, p = eo(P(t, a, a + 0.7)) * (1 - eo(P(t, 99.3, 99.8)));
+      if (p <= 0) return;
+      const cx = W / 2 + (i - 1) * 580, y = 420 + (1 - p) * 40;
+      g.save(); g.globalAlpha = p;
+      mark(cx, y - 70, 70, { bg: [C.green, C.amber, '#3E6FB0'][i], fg: i === 1 ? C.ink : C.amber, letter: 0 });
+      text(h, cx, y + 40, { s: 40, color: C.amber, align: 'center' });
+      b.forEach((ln, j) => text(ln, cx, y + 110 + j * 46, { s: 32, f: T, w: 500, color: C.cream, align: 'center', ls: 0 }));
+      g.restore();
+    });
+    lines([[['Le territoire, ', C.cream], ['en vitrine', C.amber], ['.', C.cream]]], W / 2, 580, 120, t, 100.0, { align: 'center', out: 104.1 });
+    lines(['Une plateforme d’animation territoriale, pour toute la France.'], W / 2, 680, 34, t, 100.8, { align: 'center', color: '#CFD9D3', w: 500, f: T, ls: 0, out: 104.1 });
+    vignette(0.5); grain(t, 0.03);
+  }
+
+  // 12 · 104,35 – fin : logo et adresse
+  if (t >= 104.35) {
+    fill(C.ink);
+    const p = eo(P(t, 104.4, 105.4));
+    g.save(); g.globalAlpha = p; mark(W / 2, 400 - (1 - p) * 40, 150 * back(P(t, 104.4, 105.2)), { bg: C.green }); g.restore();
+    g.save(); g.globalAlpha = eo(P(t, 105, 105.8)); wordmark(W / 2, 640, 150, { align: 'center', dotDrop: P(t, 105.3, 106.2) }); g.restore();
+    text('terricom.fr', W / 2, 760, { s: 48, f: T, w: 600, color: C.amber, align: 'center', ls: 0.02, alpha: eo(P(t, 106.2, 107)) });
+    text('Démonstration sur votre territoire, sur simple demande.', W / 2, 830, { s: 28, f: T, w: 500, color: '#CFD9D3', align: 'center', ls: 0, alpha: eo(P(t, 106.8, 107.6)) });
+    text('Images : territoire de démonstration Lacs et Montagnes du Haut-Doubs, entreprises issues de SIRENE · photos Wikimedia Commons (licences libres) · musique « The Mountain »', W / 2, H - 40, { s: 17, f: T, w: 500, color: C.muted, align: 'center', ls: 0, alpha: eo(P(t, 107.5, 108.5)) });
+    fill('#000', P(t, DURATION - 1.6, DURATION));
+    grain(t, 0.025);
+  }
+}
+
+window.clip = { preload, render, duration: DURATION };
+</script>
+</body>
+</html>

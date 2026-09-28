@@ -1,0 +1,3439 @@
+/**
+ * Jeu de données de démonstration : territoire pilote du Val de Loue (conforme aux maquettes),
+ * cinq autres territoires clients, pipeline commercial, statistiques d'usage simulées.
+ *
+ *   npm run db:seed           (base vide)
+ *   npm run db:reset          (réinitialise, migre et réensemence)
+ */
+import { loadEnvFile } from './_env';
+
+loadEnvFile();
+
+const DEMO_PASSWORD = 'Terricom2026!';
+const DEMO_TOTP_SECRET = 'JBSWY3DPEHPK3PXP';
+
+async function main() {
+  const started = Date.now();
+  const { db, pool } = await import('@/server/db');
+  const S = await import('@/server/db/schema');
+  const { sql, eq, inArray } = await import('drizzle-orm');
+  const { hashPassword, encrypt, randomToken, shortCode, sha256 } = await import('@/server/crypto');
+  const { slugify } = await import('@/lib/slug');
+  const { refreshCompleteness } = await import('@/server/services/establishments');
+  const { audit } = await import('@/server/audit');
+  const { parisDate } = await import('@/lib/format');
+  const D = await import('./seed/data');
+  const R = await import('./seed/random');
+  const { OTHER_TERRITORIES, DEALS } = await import('./seed/territories');
+  const { completeSiret } = await import('@/server/integrations/public-data');
+  const { sourceHash } = await import('@/server/services/translations');
+  /** Traductions de démonstration, marquées à jour (empreinte du texte français). */
+  const listingTranslations = (key: string, tagline: string | null, description: string | null) => {
+    const hash = sourceHash({ tagline: tagline ?? '', description: description ?? '' });
+    const x = D.LISTING_TRANSLATIONS[key];
+    const at = new Date().toISOString();
+    return { en: { ...x.en, hash, source: 'ai' as const, translatedAt: at }, de: { ...x.de, hash, source: 'ai' as const, translatedAt: at } };
+  };
+  /** SIRET des maquettes, avec une clé de contrôle valide. */
+  const fixSiret = (s: string) => completeSiret(s.slice(0, 13));
+
+  const existing = await db.select({ id: S.territories.id }).from(S.territories).limit(1);
+  if (existing.length && !process.argv.includes('--force')) {
+    console.log('ℹ La base contient déjà des données. Utilisez « npm run db:reset » pour repartir de zéro.');
+    await pool.end();
+    return;
+  }
+
+  const r = R.rng(20260925);
+  const now = new Date();
+  const DAY = 86_400_000;
+  const daysAgo = (n: number, h = 10) => {
+    const d = new Date(now.getTime() - n * DAY - (now.getHours() - h) * 3_600_000);
+    // Jamais dans le futur (graine lancée tôt le matin).
+    return d > now ? new Date(now.getTime() - (5 + n) * 60_000) : d;
+  };
+  const hoursAgo = (n: number) => new Date(now.getTime() - n * 3_600_000);
+  const isoDay = (d: Date) => parisDate(d);
+  const addIso = (iso: string, n: number) => {
+    const d = new Date(`${iso}T12:00:00Z`);
+    d.setUTCDate(d.getUTCDate() + n);
+    return d.toISOString().slice(0, 10);
+  };
+  /** Date à heure locale de Paris. */
+  const parisAt = (iso: string, hhmm: string) => {
+    const probe = new Date(`${iso}T12:00:00Z`);
+    const off = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Paris', timeZoneName: 'shortOffset' })
+      .formatToParts(probe)
+      .find((p) => p.type === 'timeZoneName')!
+      .value.replace('GMT', '');
+    const [sign, hh] = [off.startsWith('-') ? '-' : '+', off.replace(/[+-]/, '').padStart(2, '0')];
+    return new Date(`${iso}T${hhmm}:00${sign}${hh}:00`);
+  };
+  const today = isoDay(now);
+  const weekdayOf = (iso: string) => (new Date(`${iso}T12:00:00Z`).getUTCDay() + 6) % 7;
+  /** Prochain jour de semaine donné (0 = lundi), au moins minAhead jours plus tard. */
+  const nextWeekday = (wd: number, minAhead = 1) => {
+    let d = addIso(today, minAhead);
+    while (weekdayOf(d) !== wd) d = addIso(d, 1);
+    return d;
+  };
+
+  async function insertMany<T extends Record<string, unknown>>(table: Parameters<typeof db.insert>[0], rows: T[], chunk = 500) {
+    for (let i = 0; i < rows.length; i += chunk) {
+      await db.insert(table).values(rows.slice(i, i + chunk) as any);
+    }
+  }
+
+  console.log('→ Offres et référentiels');
+  await db.insert(S.plans).values([
+    {
+      key: 'ESSENTIEL',
+      name: 'Essentiel',
+      priceMonthlyCents: 0,
+      tagline: 'Offert par votre collectivité',
+      sortOrder: 1,
+      features: ['Fiche complète et référencée', 'Photos, horaires, carte', '3 publications / mois', 'QR code vitrine', 'Statistiques essentielles'],
+      limits: {
+        postsPerMonth: 3,
+        aiPerMonth: 5,
+        scheduling: false,
+        newsletterChannel: false,
+        socialChannel: false,
+        advancedStats: false,
+        jobs: false,
+        appointments: false,
+        miniSite: false,
+        customerNewsletter: false,
+        contactsExport: false,
+        customQr: false,
+        customForms: false,
+        extraPages: false,
+        contentSync: false,
+      },
+    },
+    {
+      key: 'PREMIUM',
+      name: 'Premium',
+      priceMonthlyCents: 2400,
+      tagline: 'Pour transformer les vues en clients',
+      sortOrder: 2,
+      features: [
+        'Assistant IA de rédaction',
+        'Publications illimitées et programmées',
+        'Diffusion newsletter territoriale',
+        'Statistiques avancées',
+        "Offres d'emploi",
+        'Prise de rendez-vous',
+        'Formulaires personnalisés et pages supplémentaires',
+        'Synchronisation de vos contenus (connecteur)',
+      ],
+      limits: {
+        postsPerMonth: null,
+        aiPerMonth: null,
+        scheduling: true,
+        newsletterChannel: true,
+        socialChannel: false,
+        advancedStats: true,
+        jobs: true,
+        appointments: true,
+        miniSite: false,
+        customerNewsletter: false,
+        contactsExport: false,
+        customQr: true,
+        customForms: true,
+        extraPages: true,
+        contentSync: true,
+      },
+    },
+    {
+      key: 'COMMUNICATION',
+      name: 'Communication',
+      priceMonthlyCents: 4900,
+      tagline: 'Votre mini-agence marketing',
+      sortOrder: 3,
+      features: ['Tout Premium', 'Newsletter à vos clients', 'Publication réseaux sociaux', 'Mini-site personnalisable', 'Export des contacts consentis'],
+      limits: {
+        postsPerMonth: null,
+        aiPerMonth: null,
+        scheduling: true,
+        newsletterChannel: true,
+        socialChannel: true,
+        advancedStats: true,
+        jobs: true,
+        appointments: true,
+        miniSite: true,
+        customerNewsletter: true,
+        contactsExport: true,
+        customQr: true,
+        customForms: true,
+        extraPages: true,
+        contentSync: true,
+      },
+    },
+  ]);
+
+  const catRows = await db
+    .insert(S.categories)
+    .values(D.CATEGORIES.map((c, i) => ({ family: c.family, slug: c.slug, name: c.name, nafCodes: c.naf, synonyms: c.synonyms, sortOrder: i })))
+    .returning();
+  const catBySlug = new Map(catRows.map((c) => [c.slug, c]));
+  const catImg = new Map(D.CATEGORIES.map((c) => [c.slug, c.img]));
+  const attrRows = await db
+    .insert(S.attributes)
+    .values(D.ATTRIBUTES.map((a, i) => ({ slug: a.slug, label: a.label, group: a.group, isFilter: a.isFilter ?? false, sortOrder: i })))
+    .returning();
+  const attrBySlug = new Map(attrRows.map((a) => [a.slug, a]));
+
+  console.log('→ Comptes de la plateforme');
+  const demoHash = await hashPassword(DEMO_PASSWORD);
+  const mfaSecretEnc = encrypt(DEMO_TOTP_SECRET);
+  const mkUser = async (u: { email: string; first: string; last: string; mfa?: boolean; avatar?: string; job?: string; login?: boolean; createdAt?: Date }) => {
+    const [row] = await db
+      .insert(S.users)
+      .values({
+        email: u.email,
+        firstName: u.first,
+        lastName: u.last,
+        passwordHash: u.login === false ? null : demoHash,
+        emailVerifiedAt: new Date(),
+        mfaEnabled: Boolean(u.mfa),
+        mfaSecretEnc: u.mfa ? mfaSecretEnc : null,
+        avatarUrl: u.avatar ?? null,
+        jobTitle: u.job ?? null,
+        lastLoginAt: u.login === false ? null : daysAgo(r.int(0, 6)),
+        createdAt: u.createdAt ?? daysAgo(200),
+      })
+      .returning();
+    return row;
+  };
+  const camille = await mkUser({
+    email: 'camille@terricom.fr',
+    first: 'Camille',
+    last: 'Moreau',
+    mfa: true,
+    avatar: D.U(D.I.p2, 120, 120),
+    job: 'Responsable des partenariats territoriaux',
+  });
+  const support = await mkUser({ email: 'support@terricom.fr', first: 'Support', last: 'terricom', mfa: true, job: 'Assistance' });
+  const sales = await mkUser({
+    email: 'alexandre@terricom.fr',
+    first: 'Alexandre',
+    last: 'Perrot',
+    mfa: true,
+    avatar: D.U(D.I.p3, 120, 120),
+    job: 'Développement commercial',
+  });
+  await db.insert(S.roleAssignments).values([
+    { userId: camille.id, role: 'PLATFORM_ADMIN' },
+    { userId: camille.id, role: 'PLATFORM_SALES' },
+    { userId: support.id, role: 'PLATFORM_SUPPORT' },
+    { userId: sales.id, role: 'PLATFORM_SALES' },
+  ]);
+
+  // ─── Territoire pilote : Val de Loue ──────────────────────────────────────
+  console.log('→ Territoire pilote du Val de Loue');
+  const [vdl] = await db
+    .insert(S.territories)
+    .values({
+      slug: 'valdeloue',
+      name: 'Val de Loue',
+      legalName: 'Communauté de communes du Val de Loue',
+      kind: 'CC',
+      status: 'ACTIVE',
+      isPilot: true,
+      siren: '200071835',
+      population: 22400,
+      departmentCode: '25',
+      initials: 'VL',
+      tagline: 'Commerces & savoir-faire',
+      colorPrimary: '#1F6B52',
+      colorAccent: '#F4B266',
+      heroTitle: 'Le Val de Loue,|fait main & fait ici.',
+      heroSubtitle: 'Artisans, producteurs, restaurants et commerces de 24 communes. Trouvez, poussez la porte, soutenez.',
+      heroImageUrl: D.U(D.I.valley, 2000),
+      centerLat: 47.1062,
+      centerLng: 6.1446,
+      defaultZoom: 11,
+      contactEmail: 'economie@cc-valdeloue.fr',
+      websiteUrl: 'https://www.cc-valdeloue.fr',
+      settings: {
+        claimValidation: 'MANUAL',
+        postModeration: 'POST',
+        newsletterName: 'La lettre du vendredi',
+        newsletterSenderName: 'Val de Loue',
+        newsletterReplyTo: 'economie@cc-valdeloue.fr',
+        jobsTitle: 'Travailler en Val de Loue',
+        jobsIntro: 'Un métier, une rivière, une vie ici.',
+        footerText: 'Une initiative de la Communauté de communes du Val de Loue et de ses 24 communes.',
+        dpoEmail: 'dpo@cc-valdeloue.fr',
+        legalPublisher: 'Communauté de communes du Val de Loue, 2 place de l’Hôtel de Ville, 25290 Ornans',
+        circuitsTitle: 'Suivez le fil de la Loue',
+        livingTitle: 'Une rivière, des forêts, et 20 minutes de Besançon.',
+        livingText: 'Logement, écoles, transport : la collectivité vous accompagne pour vous installer.',
+        directionsProvider: 'google',
+        translations: D.TERRITORY_TRANSLATIONS,
+      },
+      quotaEstablishments: 1500,
+      quotaEmailsMonthly: 40000,
+      quotaAiCreditsMonthly: 5000,
+      createdAt: daysAgo(210),
+    })
+    .returning();
+  await db.insert(S.territoryDomains).values([
+    { territoryId: vdl.id, host: 'valdeloue.terricom.fr', isPrimary: false, verifiedAt: addIso(today, -200) },
+    { territoryId: vdl.id, host: 'commerces.valdeloue.fr', isPrimary: false, verifiedAt: addIso(today, -190) },
+  ]);
+  await db.insert(S.territoryModules).values(
+    (['PORTAL', 'MAP', 'NEWSLETTER', 'IMPORT', 'CAMPAIGNS', 'AI', 'CIRCUITS', 'JOBS', 'APPOINTMENTS', 'MULTILINGUAL'] as const).map((m) => ({
+      territoryId: vdl.id,
+      module: m,
+      enabled: true,
+    })),
+  );
+  const [madeIn] = await db
+    .insert(S.attributes)
+    .values({ territoryId: vdl.id, group: 'LABEL', slug: 'made-in-val-de-loue', label: 'Made in Val de Loue', isFilter: false, sortOrder: 100 })
+    .returning();
+
+  const communeRows: Record<string, typeof S.communes.$inferSelect> = {};
+  for (const c of D.VAL_DE_LOUE_COMMUNES) {
+    const [row] = await db
+      .insert(S.communes)
+      .values({
+        inseeCode: c.insee,
+        name: c.name,
+        slug: slugify(c.name),
+        postalCodes: [c.postal],
+        departmentCode: '25',
+        population: c.pop,
+        lat: c.lat,
+        lng: c.lng,
+      })
+      .returning();
+    communeRows[c.name] = row;
+    await db.insert(S.communeMemberships).values({ communeId: row.id, territoryId: vdl.id, validFrom: '2026-01-01' });
+  }
+  await db
+    .update(S.communes)
+    .set({
+      tagline: 'La « petite Venise comtoise » et ses {pros} professionnels, de la rue Pierre Vernier aux bords de Loue.',
+      description:
+        'Ville natale de Gustave Courbet, Ornans aligne ses maisons sur pilotis au-dessus de la Loue. Commerces de centre-bourg, artisans et producteurs y font vivre la « petite Venise comtoise ».',
+      heroImageUrl: D.U(D.I.mountains, 2000),
+      mayorQuote: 'Nos commerçants font vivre le centre-bourg. Cette plateforme leur donne la vitrine numérique qu’ils méritent, gratuitement.',
+      mayorName: 'Anne Roussel',
+      mayorRole: 'Adjointe au commerce',
+      mayorPhotoUrl: D.U(D.I.p4, 120, 120),
+    })
+    .where(eq(S.communes.id, communeRows['Ornans'].id));
+  await db
+    .update(S.communes)
+    .set({
+      tagline: 'Porte d’entrée du Val de Loue côté Besançon, bourg commerçant et marché du samedi.',
+      heroImageUrl: D.U(D.I.forest, 2000),
+      mayorQuote: 'À Quingey, chaque commerce compte : la plateforme nous aide à les faire connaître au-delà du bourg.',
+      mayorName: 'Hugo Lambert',
+      mayorRole: 'Conseiller délégué au commerce',
+      mayorPhotoUrl: D.U(D.I.p1, 120, 120),
+    })
+    .where(eq(S.communes.id, communeRows['Quingey'].id));
+
+  await db.insert(S.markets).values([
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      name: 'Marché du centre',
+      place: 'Place Courbet',
+      weekday: 5,
+      startTime: '08:00',
+      endTime: '13:00',
+      lat: 47.1063,
+      lng: 6.1452,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      name: 'Producteurs bio',
+      place: 'Halle',
+      weekday: 2,
+      startTime: '16:00',
+      endTime: '19:00',
+      lat: 47.1071,
+      lng: 6.1437,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Quingey'].id,
+      name: 'Marché de Quingey',
+      place: 'Place de la Mairie',
+      weekday: 5,
+      startTime: '08:00',
+      endTime: '12:30',
+      lat: 47.1029,
+      lng: 5.8838,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Amancey'].id,
+      name: 'Marché des producteurs',
+      place: 'Place du village',
+      weekday: 4,
+      startTime: '16:30',
+      endTime: '19:30',
+      lat: 47.0409,
+      lng: 6.0745,
+    },
+  ]);
+  // Lieux économiques de la carte (zones d'activités, tourisme, tiers-lieu, halle).
+  await db.insert(S.pointsOfInterest).values([
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      kind: 'OFFICE_TOURISME',
+      name: 'Office de tourisme Destination Loue Lison',
+      address: '7 rue Pierre Vernier, Ornans',
+      description: 'Accueil des visiteurs, billetterie, boutique des produits du territoire.',
+      lat: 47.1058,
+      lng: 6.1459,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      kind: 'ZONE_ACTIVITE',
+      name: 'Zone d’activités des Prés de la Loue',
+      address: 'Route de Besançon, Ornans',
+      description: '32 entreprises : artisans du bâtiment, garages, négoce agricole.',
+      lat: 47.1112,
+      lng: 6.1318,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      kind: 'HALLE',
+      name: 'Halle d’Ornans',
+      address: 'Place de la Halle, Ornans',
+      description: 'Marché des producteurs bio le mercredi, animations saisonnières.',
+      lat: 47.1071,
+      lng: 6.1437,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Quingey'].id,
+      kind: 'TIERS_LIEU',
+      name: 'La Fabrique, tiers-lieu de Quingey',
+      address: 'Ancienne gare, Quingey',
+      description: 'Coworking, atelier partagé et permanences de la chambre de métiers.',
+      lat: 47.1011,
+      lng: 5.8871,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Tarcenay-Foucherans'].id,
+      kind: 'PEPINIERE',
+      name: 'Pépinière d’entreprises du Plateau',
+      address: 'Rue des Artisans, Tarcenay-Foucherans',
+      description: 'Bureaux et ateliers pour les entreprises de moins de trois ans.',
+      lat: 47.1601,
+      lng: 6.1154,
+    },
+  ]);
+
+  console.log('→ Agents de la collectivité');
+  const claire = await mkUser({
+    email: 'c.duval@cc-valdeloue.fr',
+    first: 'Claire',
+    last: 'Duval',
+    mfa: true,
+    avatar: D.U(D.I.p4, 120, 120),
+    job: 'Directrice du développement économique',
+  });
+  const thomas = await mkUser({
+    email: 't.girod@cc-valdeloue.fr',
+    first: 'Thomas',
+    last: 'Girod',
+    mfa: true,
+    avatar: D.U(D.I.p3, 120, 120),
+    job: 'Chargé de communication',
+  });
+  const anne = await mkUser({
+    email: 'commerce@ornans.fr',
+    first: 'Anne',
+    last: 'Roussel',
+    mfa: true,
+    avatar: D.U(D.I.p2, 120, 120),
+    job: 'Adjointe au commerce',
+  });
+  const hugo = await mkUser({
+    email: 'mairie@quingey.fr',
+    first: 'Hugo',
+    last: 'Lambert',
+    mfa: false,
+    avatar: D.U(D.I.p1, 120, 120),
+    job: 'Conseiller délégué au commerce',
+  });
+  await db.insert(S.roleAssignments).values([
+    { userId: claire.id, role: 'TERRITORY_ADMIN', territoryId: vdl.id, createdById: camille.id },
+    { userId: thomas.id, role: 'TERRITORY_EDITOR', territoryId: vdl.id, createdById: claire.id },
+    { userId: anne.id, role: 'COMMUNE_ADMIN', territoryId: vdl.id, communeId: communeRows['Ornans'].id, createdById: claire.id },
+    { userId: hugo.id, role: 'COMMUNE_ADMIN', territoryId: vdl.id, communeId: communeRows['Quingey'].id, createdById: claire.id },
+  ]);
+
+  // ─── Établissements détaillés ─────────────────────────────────────────────
+  console.log('→ Établissements des maquettes');
+  type EstRef = {
+    id: string;
+    companyId: string;
+    name: string;
+    category: string;
+    commune: string;
+    status: string;
+    lat: number;
+    lng: number;
+    ownerId: string | null;
+    plan: string;
+  };
+  const estByKey: Record<string, EstRef> = {};
+  const allEsts: EstRef[] = [];
+  const hoursRows: (typeof S.openingHours.$inferInsert)[] = [];
+  const attrLinks: (typeof S.establishmentAttributes.$inferInsert)[] = [];
+  const mediaRows: (typeof S.media.$inferInsert)[] = [];
+  const productRows: (typeof S.products.$inferInsert)[] = [];
+  const memberRows: (typeof S.companyMembers.$inferInsert)[] = [];
+  const subscriptionRows: (typeof S.companySubscriptions.$inferInsert)[] = [];
+
+  for (const e of D.ESTABLISHMENTS) {
+    const commune = communeRows[e.commune];
+    const cat = catBySlug.get(e.category)!;
+    const [company] = await db
+      .insert(S.companies)
+      .values({
+        siren: e.siret.slice(0, 9),
+        legalName: e.legalName,
+        tradeName: e.name,
+        nafCode: D.CATEGORIES.find((c) => c.slug === e.category)!.naf[0],
+        plan: e.plan,
+        billingEmail: e.owner?.email ?? null,
+        billingName: e.name,
+        billingAddress: `${e.street}, ${commune.postalCodes[0]} ${commune.name}`,
+        createdAt: daysAgo(200),
+      })
+      .returning();
+    const claimed = ['CLAIMED', 'VALIDATED', 'SUSPENDED', 'TO_COMPLETE'].includes(e.status) && e.owner;
+    const [est] = await db
+      .insert(S.establishments)
+      .values({
+        companyId: company.id,
+        communeId: commune.id,
+        territoryId: vdl.id,
+        categoryId: cat.id,
+        slug: slugify(e.name),
+        name: e.name,
+        siret: fixSiret(e.siret),
+        status: e.status,
+        origin: 'IMPORT',
+        activityLabel: e.activity,
+        tagline: e.tagline ?? null,
+        description: e.description,
+        translations: D.LISTING_TRANSLATIONS[e.key] ? listingTranslations(e.key, e.tagline ?? null, e.description) : {},
+        street: e.street,
+        postalCode: commune.postalCodes[0],
+        lat: e.lat,
+        lng: e.lng,
+        phone: e.phone,
+        email: e.email ?? null,
+        website: e.website ?? null,
+        socials:
+          e.plan !== 'ESSENTIEL'
+            ? { facebook: `https://facebook.com/${slugify(e.name)}`, instagram: `https://instagram.com/${slugify(e.name).replace(/-/g, '')}` }
+            : {},
+        coverUrl: D.U(e.cover, 1200),
+        isFeatured: ['b1', 'b9', 'b3', 'b2'].includes(e.key),
+        hoursConfirmedAt: e.status === 'VALIDATED' ? daysAgo(r.int(5, 60)) : null,
+        lastActivityAt: daysAgo(e.updatedDaysAgo),
+        publishedAt: daysAgo(190),
+        suspendedReason: e.status === 'SUSPENDED' ? 'Fiche inactive depuis 5 mois, sans réponse aux relances.' : null,
+        appointmentsEnabled: e.key === 'b5' || e.key === 'b12',
+        qrCode: shortCode(8),
+        createdAt: daysAgo(200),
+        updatedAt: daysAgo(e.updatedDaysAgo),
+      })
+      .returning();
+    let ownerId: string | null = null;
+    if (claimed && e.owner) {
+      const owner = await mkUser({
+        email: e.owner.email,
+        first: e.owner.first,
+        last: e.owner.last,
+        createdAt: daysAgo(e.key === 'b1' ? 40 : 150),
+        avatar: e.key === 'b1' ? D.U(D.I.p2, 100, 100) : undefined,
+      });
+      ownerId = owner.id;
+      memberRows.push({ companyId: company.id, userId: owner.id, role: 'OWNER' });
+    }
+    if (e.plan !== 'ESSENTIEL') {
+      subscriptionRows.push({
+        companyId: company.id,
+        plan: e.plan,
+        status: 'ACTIVE',
+        provider: 'MANUAL',
+        startedAt: daysAgo(r.int(40, 180)),
+        currentPeriodEnd: new Date(now.getTime() + r.int(3, 28) * DAY),
+      });
+    }
+    for (const [wd, o, c] of e.hours) hoursRows.push({ establishmentId: est.id, weekday: wd, opensAt: o, closesAt: c });
+    for (const slug of e.attrs) attrLinks.push({ establishmentId: est.id, attributeId: attrBySlug.get(slug)!.id });
+    if (['b1', 'b9', 'b2', 'b14', 'b8'].includes(e.key)) attrLinks.push({ establishmentId: est.id, attributeId: madeIn.id });
+    (e.gallery ?? [[e.cover, 'Principale']]).forEach(([img, tag], i) =>
+      mediaRows.push({
+        territoryId: vdl.id,
+        establishmentId: est.id,
+        ownerType: 'ESTABLISHMENT',
+        ownerId: est.id,
+        url: D.U(img, 1280),
+        variants: { w320: D.U(img, 320), w640: D.U(img, 640), w1280: D.U(img, 1280), w1920: D.U(img, 1920) },
+        tag,
+        sortOrder: i,
+        alt: `${e.name} — photo ${i + 1}`,
+      }),
+    );
+    (e.products ?? []).forEach(([n, p, img], i) =>
+      productRows.push({ establishmentId: est.id, name: n, priceText: p, imageUrl: D.U(img, 500, 300), sortOrder: i }),
+    );
+    const ref: EstRef = {
+      id: est.id,
+      companyId: company.id,
+      name: e.name,
+      category: e.category,
+      commune: e.commune,
+      status: e.status,
+      lat: e.lat,
+      lng: e.lng,
+      ownerId,
+      plan: e.plan,
+    };
+    estByKey[e.key] = ref;
+    allEsts.push(ref);
+  }
+  // Boulangerie Martin : horaires de fin d'année déjà saisis, pas encore ceux de la Toussaint.
+  const sophieId = estByKey.b1.ownerId!;
+
+  // ─── Volume : fiches précréées par import SIRENE puis revendiquées ───────
+  console.log('→ Génération des fiches du territoire (import SIRENE simulé)');
+  const genEsts: EstRef[] = [];
+  const usedSlugs = new Set(D.ESTABLISHMENTS.map((e) => `${communeRows[e.commune].id}:${slugify(e.name)}`));
+  let siretSeq = 10_000;
+  async function generateFor(territoryId: string, communeRow: typeof S.communes.$inferSelect, count: number, claimRate: number, premiumRate: number) {
+    for (let i = 0; i < count; i++) {
+      const catSlug = r.weighted(R.CATEGORY_WEIGHTS);
+      const cat = catBySlug.get(catSlug)!;
+      let name = r.pick(R.NAME_PATTERNS[catSlug] ?? [(rr: typeof r) => `${cat.name} ${rr.pick(R.SURNAMES)}`])(r);
+      let guard = 0;
+      while (usedSlugs.has(`${communeRow.id}:${slugify(name)}`) && guard++ < 10)
+        name = guard < 5 ? `${name} ${r.pick(['& Fils', 'Frères', 'et Cie', communeRow.name])}` : `${name} ${guard}`;
+      usedSlugs.add(`${communeRow.id}:${slugify(name)}`);
+      const claimed = r.chance(claimRate);
+      const status = claimed ? (r.chance(0.72) ? 'VALIDATED' : 'CLAIMED') : r.chance(0.8) ? 'PRECREATED' : 'TO_COMPLETE';
+      const plan: 'ESSENTIEL' | 'PREMIUM' | 'COMMUNICATION' = claimed && r.chance(premiumRate) ? (r.chance(0.8) ? 'PREMIUM' : 'COMMUNICATION') : 'ESSENTIEL';
+      const siret = completeSiret(`${String(400000000 + siretSeq++).padStart(9, '0')}${String(r.int(1000, 9999))}`);
+      const [company] = await db
+        .insert(S.companies)
+        .values({
+          siren: siret.slice(0, 9),
+          legalName: name.toUpperCase(),
+          tradeName: name,
+          nafCode: cat.nafCodes[0] ?? null,
+          plan,
+          createdAt: daysAgo(r.int(150, 220)),
+        })
+        .returning();
+      const spread = Math.min(0.012, 0.0025 + (communeRow.population ?? 500) / 900_000);
+      const lat = (communeRow.lat ?? 47) + (r.next() - 0.5) * spread;
+      const lng = (communeRow.lng ?? 6) + (r.next() - 0.5) * spread * 1.4;
+      const img = catImg.get(catSlug)!;
+      const activity = cat.name;
+      const street = `${r.int(1, 48)} ${r.pick(R.STREETS)}`;
+      const recentlyActive = claimed && r.chance(0.45);
+      const [est] = await db
+        .insert(S.establishments)
+        .values({
+          companyId: company.id,
+          communeId: communeRow.id,
+          territoryId,
+          categoryId: cat.id,
+          slug: slugify(name),
+          name,
+          siret,
+          status,
+          origin: 'IMPORT',
+          activityLabel: activity,
+          description: claimed ? R.descriptionFor(name, activity, communeRow.name, r) : null,
+          street,
+          postalCode: communeRow.postalCodes[0],
+          lat,
+          lng,
+          phone: claimed || r.chance(0.6) ? R.phoneNumber(r) : null,
+          email: claimed ? `contact@${slugify(name)}.exemple.test` : null,
+          website: claimed && r.chance(0.3) ? `https://${slugify(name)}.exemple.test` : null,
+          coverUrl: status === 'VALIDATED' || (status === 'CLAIMED' && r.chance(0.6)) ? D.U(img, 1200) : null,
+          hoursConfirmedAt: claimed ? (r.chance(0.9) ? daysAgo(r.int(5, 150)) : daysAgo(r.int(200, 400))) : null,
+          lastActivityAt: recentlyActive ? daysAgo(r.int(0, 29)) : claimed ? daysAgo(r.int(31, 160)) : null,
+          publishedAt: daysAgo(r.int(150, 200)),
+          qrCode: shortCode(8),
+          createdAt: daysAgo(r.int(150, 210)),
+          updatedAt: claimed ? daysAgo(r.int(0, 90)) : daysAgo(r.int(150, 200)),
+        })
+        .returning();
+      let ownerId: string | null = null;
+      if (claimed) {
+        const first = r.pick(R.FIRSTNAMES);
+        const last = r.pick(R.SURNAMES);
+        const [owner] = await db
+          .insert(S.users)
+          .values({
+            email: `${slugify(first)}.${slugify(last)}.${est.id.slice(0, 6)}@exemple.test`,
+            firstName: first,
+            lastName: last,
+            emailVerifiedAt: daysAgo(100),
+            createdAt: daysAgo(r.int(20, 160)),
+          })
+          .returning();
+        ownerId = owner.id;
+        memberRows.push({ companyId: company.id, userId: owner.id, role: 'OWNER' });
+        if (plan !== 'ESSENTIEL')
+          subscriptionRows.push({
+            companyId: company.id,
+            plan,
+            status: 'ACTIVE',
+            provider: r.chance(0.5) ? 'STRIPE' : 'MANUAL',
+            startedAt: daysAgo(r.int(10, 200)),
+            currentPeriodEnd: new Date(now.getTime() + r.int(2, 29) * DAY),
+          });
+      }
+      for (const [wd, o, c] of R.hoursFor(catSlug, r))
+        if (claimed || r.chance(0.5)) hoursRows.push({ establishmentId: est.id, weekday: wd, opensAt: o, closesAt: c });
+      for (const slug of R.attributesFor(catSlug, r))
+        if (claimed || r.chance(0.3)) attrLinks.push({ establishmentId: est.id, attributeId: attrBySlug.get(slug)!.id });
+      if (status === 'VALIDATED' || status === 'CLAIMED') {
+        const n = status === 'VALIDATED' ? r.int(3, 6) : r.int(0, 2);
+        const pool2 = r.shuffle([img, D.I.store, D.I.team, D.I.crafts, D.I.board2, D.I.workshop]);
+        for (let k = 0; k < n; k++)
+          mediaRows.push({
+            territoryId,
+            establishmentId: est.id,
+            ownerType: 'ESTABLISHMENT',
+            ownerId: est.id,
+            url: D.U(pool2[k], 1280),
+            variants: { w320: D.U(pool2[k], 320), w640: D.U(pool2[k], 640), w1280: D.U(pool2[k], 1280) },
+            tag: k === 0 ? 'Principale' : r.chance(0.3) ? 'Intérieur' : null,
+            sortOrder: k,
+          });
+        if (status === 'VALIDATED' && r.chance(0.6))
+          for (let k = 0; k < r.int(2, 4); k++)
+            productRows.push({
+              establishmentId: est.id,
+              name: `${activity} — prestation ${k + 1}`,
+              priceText: r.chance(0.5) ? 'Sur devis' : `${r.int(5, 60)} €`,
+              sortOrder: k,
+            });
+      }
+      const ref: EstRef = { id: est.id, companyId: company.id, name, category: catSlug, commune: communeRow.name, status, lat, lng, ownerId, plan };
+      genEsts.push(ref);
+      allEsts.push(ref);
+    }
+  }
+  for (const c of D.VAL_DE_LOUE_COMMUNES) {
+    const detailed = D.ESTABLISHMENTS.filter((e) => e.commune === c.name).length;
+    await generateFor(vdl.id, communeRows[c.name], c.count - detailed, c.claimRate / 100, 0.22);
+  }
+
+  // ─── Autres territoires clients ───────────────────────────────────────────
+  console.log('→ Autres territoires clients');
+  const territoryBySlug: Record<string, typeof S.territories.$inferSelect> = { valdeloue: vdl };
+  const adminBySlug: Record<string, { id: string; firstName: string | null; lastName: string | null }> = { valdeloue: claire };
+  for (const t of OTHER_TERRITORIES) {
+    const [tr] = await db
+      .insert(S.territories)
+      .values({
+        slug: t.slug,
+        name: t.name,
+        legalName: t.legalName,
+        kind: t.kind,
+        status: t.status,
+        population: t.population,
+        departmentCode: t.dept,
+        initials: t.initials,
+        colorPrimary: t.colorPrimary,
+        colorAccent: t.colorAccent,
+        heroTitle: `${t.name},|fait main & fait ici.`,
+        heroSubtitle: `Commerces, artisans et producteurs de ${t.name}. Trouvez, poussez la porte, soutenez.`,
+        heroImageUrl: D.U(t.hero, 2000),
+        centerLat: t.communes[0].lat,
+        centerLng: t.communes[0].lng,
+        settings: { claimValidation: 'MANUAL', postModeration: 'POST', newsletterName: 'La lettre locale', jobsTitle: `Travailler à ${t.name}` },
+        createdAt: new Date(`${t.signedAt}T09:00:00Z`),
+      })
+      .returning();
+    territoryBySlug[t.slug] = tr;
+    await db
+      .insert(S.territoryModules)
+      .values((['PORTAL', 'MAP', 'NEWSLETTER', 'IMPORT', 'CAMPAIGNS'] as const).map((m) => ({ territoryId: tr.id, module: m, enabled: true })));
+    await db.insert(S.territoryDomains).values({ territoryId: tr.id, host: `${t.slug}.terricom.fr`, verifiedAt: t.signedAt });
+    for (const c of t.communes) {
+      const [cr] = await db
+        .insert(S.communes)
+        .values({
+          inseeCode: c.insee,
+          name: c.name,
+          slug: slugify(c.name),
+          postalCodes: [c.postal],
+          departmentCode: t.dept,
+          population: c.pop,
+          lat: c.lat,
+          lng: c.lng,
+        })
+        .returning();
+      await db.insert(S.communeMemberships).values({ communeId: cr.id, territoryId: tr.id, validFrom: t.signedAt });
+      await generateFor(tr.id, cr, c.count, t.claimRate, t.premiumRate);
+    }
+    await db.insert(S.territoryContracts).values([
+      {
+        territoryId: tr.id,
+        kind: 'LICENCE',
+        label: `Licence annuelle ${t.name}`,
+        amountCents: t.licenceCents,
+        startsAt: t.signedAt,
+        endsAt: addIso(t.signedAt, 365),
+        status: 'ACTIVE',
+        signedAt: t.signedAt,
+      },
+      {
+        territoryId: tr.id,
+        kind: 'SETUP',
+        label: 'Mise en service (paramétrage, import, formation)',
+        amountCents: t.setupCents,
+        startsAt: t.signedAt,
+        status: 'ACTIVE',
+        signedAt: t.signedAt,
+      },
+    ]);
+    const admin = await mkUser({ email: `admin@${t.slug}.exemple.test`, first: 'Admin', last: t.name, mfa: true, login: false });
+    adminBySlug[t.slug] = admin;
+    await db.insert(S.roleAssignments).values({ userId: admin.id, role: 'TERRITORY_ADMIN', territoryId: tr.id, createdById: camille.id });
+  }
+
+  let demoEstId = '';
+  // ─── Lacs et Montagnes du Haut-Doubs : communes et entreprises réelles ────
+  // 32 communes du découpage officiel (Etalab) et établissements actifs de la base SIRENE, figés dans
+  // scripts/seed/haut-doubs-etablissements.json par `npm run demo:sirene`, puis importés par le moteur
+  // d'import de la plateforme (mêmes contrôles qu'en production). Fiches précréées : rien n'est inventé.
+  {
+    console.log('→ Lacs et Montagnes du Haut-Doubs (communes et entreprises réelles)');
+    const HD = (await import('./seed/haut-doubs-communes.json')).default;
+    const { existsSync, readFileSync } = await import('node:fs');
+    const fixture = `${process.cwd()}/scripts/seed/haut-doubs-etablissements.json`;
+    const { analyzeRows, createEstablishments, guessMapping, queueForReview, recordsToRaw } = await import('@/server/services/imports');
+    const metabief = HD.find((c) => c.name === 'Métabief')!;
+    const [hd] = await db
+      .insert(S.territories)
+      .values({
+        slug: 'haut-doubs',
+        name: 'Lacs et Montagnes du Haut-Doubs',
+        legalName: 'Communauté de communes des Lacs et Montagnes du Haut-Doubs',
+        kind: 'CC',
+        status: 'ACTIVE',
+        population: HD.reduce((n, c) => n + c.pop, 0),
+        departmentCode: '25',
+        initials: 'LM',
+        colorPrimary: '#1E4D5C',
+        colorAccent: '#F4B266',
+        heroTitle: 'Lacs et Montagnes du Haut-Doubs,|fait main & fait ici.',
+        heroSubtitle: 'Commerces, artisans, producteurs et prestataires des 32 communes, du Mont d’Or au lac de Saint-Point.',
+        heroImageUrl: D.U(D.I.mountains, 2000),
+        centerLat: metabief.lat,
+        centerLng: metabief.lng,
+        settings: {
+          claimValidation: 'MANUAL',
+          postModeration: 'POST',
+          newsletterName: 'La lettre des Lacs et Montagnes',
+          jobsTitle: 'Travailler dans le Haut-Doubs',
+          sirene: { autoSync: true, excludedGroups: ['immobilier', 'holdings', 'administrations', 'energie'] },
+        },
+        createdAt: daysAgo(40),
+      })
+      .returning();
+    territoryBySlug['haut-doubs'] = hd;
+    await db.insert(S.territoryModules).values(
+      (['PORTAL', 'MAP', 'NEWSLETTER', 'IMPORT', 'CAMPAIGNS', 'AI', 'CIRCUITS', 'JOBS', 'MULTILINGUAL'] as const).map((m) => ({
+        territoryId: hd.id,
+        module: m,
+        enabled: true,
+      })),
+    );
+    await db.insert(S.territoryDomains).values({ territoryId: hd.id, host: 'haut-doubs.terricom.fr', verifiedAt: parisDate(daysAgo(38)) });
+    const hdCommunes: Record<string, typeof S.communes.$inferSelect> = {};
+    for (const c of HD) {
+      const [cr] = await db
+        .insert(S.communes)
+        .values({
+          inseeCode: c.insee,
+          name: c.name,
+          slug: slugify(c.name),
+          postalCodes: c.postalCodes,
+          departmentCode: '25',
+          population: c.pop,
+          lat: c.lat,
+          lng: c.lng,
+        })
+        .returning();
+      hdCommunes[c.name] = cr;
+      await db.insert(S.communeMemberships).values({ communeId: cr.id, territoryId: hd.id, validFrom: '2017-01-01' });
+    }
+    await db.insert(S.territoryContracts).values({
+      territoryId: hd.id,
+      kind: 'SETUP',
+      label: 'Démonstration : import SIRENE des 32 communes',
+      amountCents: 0,
+      startsAt: parisDate(daysAgo(40)),
+      status: 'ACTIVE',
+      signedAt: parisDate(daysAgo(40)),
+    });
+    const hdAdmin = await mkUser({
+      email: 'collectivite@haut-doubs.exemple.test',
+      first: 'Agent',
+      last: 'Développement économique',
+      job: 'Développement économique',
+      mfa: true,
+    });
+    const hdCommune = await mkUser({ email: 'mairie@metabief.exemple.test', first: 'Agent', last: 'Mairie de Métabief', job: 'Secrétariat de mairie' });
+    adminBySlug['haut-doubs'] = hdAdmin;
+    await db.insert(S.roleAssignments).values([
+      { userId: hdAdmin.id, role: 'TERRITORY_ADMIN', territoryId: hd.id, createdById: camille.id },
+      { userId: hdCommune.id, role: 'COMMUNE_ADMIN', territoryId: hd.id, communeId: hdCommunes['Métabief'].id, createdById: hdAdmin.id },
+    ]);
+
+    // Commerce de démonstration (fictif, signalé comme tel) : montre l'espace entreprise sans rien attribuer
+    // à une vraie entreprise du territoire. Pas de SIRET.
+    const demoOwner = await mkUser({ email: 'commerce@demo-haut-doubs.exemple.test', first: 'Commerçant', last: 'de démonstration', job: 'Gérant (exemple)' });
+    const [demoCo] = await db
+      .insert(S.companies)
+      .values({
+        siren: null,
+        legalName: 'COMMERCE DE DÉMONSTRATION',
+        tradeName: 'Commerce de démonstration',
+        nafCode: '47.29Z',
+        plan: 'COMMUNICATION',
+        createdAt: daysAgo(30),
+      })
+      .returning();
+    const metab = hdCommunes['Métabief'];
+    const [demoEst] = await db
+      .insert(S.establishments)
+      .values({
+        companyId: demoCo.id,
+        communeId: metab.id,
+        territoryId: hd.id,
+        categoryId: catBySlug.get('epicerie')!.id,
+        slug: 'commerce-de-demonstration',
+        name: 'Commerce de démonstration',
+        status: 'VALIDATED',
+        origin: 'PRO',
+        activityLabel: 'Épicerie fine (exemple)',
+        tagline: 'Fiche d’exemple pour la démonstration terricom : ce commerce n’existe pas.',
+        description:
+          'Exemple de démonstration. Cette fiche montre ce qu’un commerçant du Haut-Doubs peut publier une fois sa fiche revendiquée : présentation, photos, horaires, actualités, promotions et événements. Aucune entreprise réelle n’est représentée ici.',
+        street: 'Adresse d’exemple',
+        postalCode: metab.postalCodes[0],
+        lat: (metab.lat ?? 46.76) + 0.0015,
+        lng: (metab.lng ?? 6.35) + 0.0012,
+        coverUrl: D.U(D.I.grocery, 1200),
+        hoursConfirmedAt: daysAgo(3),
+        lastActivityAt: daysAgo(1),
+        publishedAt: daysAgo(28),
+        qrCode: shortCode(8),
+        createdAt: daysAgo(30),
+      })
+      .returning();
+    demoEstId = demoEst.id;
+    memberRows.push({ companyId: demoCo.id, userId: demoOwner.id, role: 'OWNER' });
+    subscriptionRows.push({
+      companyId: demoCo.id,
+      plan: 'COMMUNICATION',
+      status: 'ACTIVE',
+      startedAt: daysAgo(28),
+      currentPeriodEnd: new Date(now.getTime() + 30 * DAY),
+    });
+    // Du mardi au samedi (weekday : 0 = lundi).
+    for (const wd of [1, 2, 3, 4, 5]) {
+      hoursRows.push({ establishmentId: demoEst.id, weekday: wd, opensAt: '09:00', closesAt: '12:30' });
+      hoursRows.push({ establishmentId: demoEst.id, weekday: wd, opensAt: '14:30', closesAt: '19:00' });
+    }
+    await db.insert(S.posts).values([
+      {
+        territoryId: hd.id,
+        communeId: metab.id,
+        establishmentId: demoEst.id,
+        authorType: 'ESTABLISHMENT',
+        kind: 'NOUVEAUTE',
+        status: 'PUBLISHED',
+        title: 'Exemple de démonstration : arrivage de produits du Haut-Doubs',
+        body: 'Publication d’exemple : un commerçant annonce ses nouveautés en deux minutes depuis son téléphone, l’assistant l’aide à rédiger.',
+        imageUrl: D.U(D.I.cheese, 1200),
+        publishedAt: daysAgo(1),
+        createdAt: daysAgo(1),
+      },
+      {
+        territoryId: hd.id,
+        communeId: metab.id,
+        establishmentId: demoEst.id,
+        authorType: 'ESTABLISHMENT',
+        kind: 'PROMO',
+        status: 'PUBLISHED',
+        title: 'Exemple de démonstration : -10 % pour les habitants cette semaine',
+        body: 'Promotion d’exemple, datée et mise en avant sur le portail et dans la lettre du territoire.',
+        promoLabel: '-10 %',
+        validTo: addIso(today, 7),
+        publishedAt: daysAgo(3),
+        createdAt: daysAgo(3),
+      },
+    ]);
+
+    // Audience simulée du seul commerce de démonstration (fictif) : son tableau de bord n'est pas vide.
+    await db.execute(sql`
+      INSERT INTO analytics_events (occurred_at, territory_id, commune_id, establishment_id, type, source, visitor_hash, device)
+      SELECT d + (random() * interval '12 hours') + interval '8 hours', ${hd.id}, ${metab.id}, ${demoEst.id}, t.type::analytics_type,
+             (ARRAY['PLATFORM_SEARCH','GOOGLE','MAP','DIRECT','QR','NEWSLETTER'])[1 + floor(random() * 6)::int]::traffic_source,
+             left(md5(random()::text), 32), (ARRAY['mobile','mobile','desktop'])[1 + floor(random() * 3)::int]
+      FROM generate_series(now() - interval '45 days', now() - interval '1 day', interval '1 day') AS d
+      CROSS JOIN (VALUES ('EST_VIEW', 26), ('PHONE_CLICK', 2), ('DIRECTIONS_CLICK', 3), ('WEBSITE_CLICK', 1), ('SHARE_CLICK', 1)) AS t(type, n)
+      CROSS JOIN LATERAL generate_series(1, greatest(0, round(t.n * (0.5 + random()))::int)) AS k`);
+
+    // Contenus d'exemple de la communauté de communes, tous signalés « Exemple de démonstration ».
+    await db.insert(S.posts).values({
+      territoryId: hd.id,
+      authorType: 'TERRITORY',
+      kind: 'NEWS',
+      status: 'PUBLISHED',
+      title: 'Exemple de démonstration : le portail des commerces des Lacs et Montagnes',
+      body: 'Actualité d’exemple publiée par la collectivité : présentation du portail aux habitants, invitation des commerçants à revendiquer leur fiche.',
+      imageUrl: D.U(D.I.mountains, 1400),
+      publishedAt: daysAgo(2),
+      createdAt: daysAgo(2),
+    });
+    const nextSat = addIso(today, ((6 - new Date(`${today}T12:00:00`).getDay() + 7) % 7) + 7);
+    await db.insert(S.events).values({
+      territoryId: hd.id,
+      communeId: metab.id,
+      authorType: 'TERRITORY',
+      organizerName: 'Exemple de démonstration',
+      slug: slugify(`exemple-marche-des-producteurs-${nextSat}`),
+      title: 'Exemple de démonstration : marché des producteurs',
+      kind: 'MARCHE',
+      summary: 'Événement d’exemple pour montrer l’agenda du territoire.',
+      description:
+        'Événement d’exemple : la collectivité, une mairie ou un commerçant publie un événement, il apparaît dans l’agenda, sur la carte et dans la lettre.',
+      startsAt: parisAt(nextSat, '09:00'),
+      endsAt: parisAt(nextSat, '13:00'),
+      locationName: 'Lieu d’exemple',
+      priceText: 'Exemple',
+      imageUrl: D.U(D.I.market, 1400),
+      lat: metab.lat,
+      lng: metab.lng,
+      program: [],
+      createdById: hdAdmin.id,
+      status: 'PUBLISHED',
+    });
+    const [hdCampaign] = await db
+      .insert(S.campaigns)
+      .values({
+        territoryId: hd.id,
+        slug: 'exemple-noel-chez-vos-commercants',
+        name: 'Exemple de démonstration : Noël chez vos commerçants',
+        tagline: 'Campagne d’exemple, préparée avec l’assistant',
+        description:
+          'Campagne d’exemple : la collectivité fixe une période et des critères, les commerçants concernés sont invités à proposer une offre, la page campagne et la lettre se remplissent d’elles-mêmes.',
+        startsAt: `${now.getFullYear()}-12-01`,
+        endsAt: `${now.getFullYear()}-12-24`,
+        status: 'SCHEDULED',
+        mode: 'ADVENT',
+        heroImageUrl: D.U(D.I.xmas2, 2000),
+        cardImageUrl: D.U(D.I.xmas, 1200),
+        ctaLabel: 'Ouvrir le calendrier',
+        criteria: { families: ['COMMERCE', 'ARTISAN', 'PRODUCTEUR'] },
+        invitationMessage: 'Message d’exemple : ajoutez une offre, elle apparaîtra dans le calendrier de l’Avent et la lettre.',
+        createdById: hdAdmin.id,
+        createdAt: daysAgo(4),
+      })
+      .returning();
+    const [hdAudience] = await db
+      .insert(S.audiences)
+      .values({ territoryId: hd.id, name: 'Habitants abonnés', description: 'Audience par défaut (aucun abonné dans la démonstration)', isDefault: true })
+      .returning();
+    await db.insert(S.newsletters).values({
+      territoryId: hd.id,
+      audienceIds: [hdAudience.id],
+      createdById: hdAdmin.id,
+      subject: 'Exemple de démonstration : la lettre des Lacs et Montagnes',
+      title: 'Exemple de démonstration : la lettre des Lacs et Montagnes',
+      intro: 'Lettre d’exemple : les nouveautés des commerçants, l’agenda et les campagnes se rassemblent automatiquement.',
+      heroImageUrl: D.U(D.I.mountains, 1100, 500),
+      blocks: [
+        { type: 'establishments', ids: [demoEst.id], title: 'Exemple de bloc « commerces à découvrir »' },
+        { type: 'cta', label: 'Voir l’agenda', url: '/haut-doubs/agenda' },
+      ],
+      status: 'DRAFT',
+    });
+
+    // Troisième établissement fictif : fiche gratuite (Essentiel) complète, sans mini-site, pour montrer la fiche type.
+    const bakeryOwner = await mkUser({
+      email: 'boulangerie@demo-haut-doubs.exemple.test',
+      first: 'Boulanger',
+      last: 'de démonstration',
+      job: 'Artisan (exemple)',
+    });
+    const [bakeryCo] = await db
+      .insert(S.companies)
+      .values({
+        siren: null,
+        legalName: 'BOULANGERIE DE DÉMONSTRATION',
+        tradeName: 'Boulangerie de démonstration',
+        nafCode: '10.71C',
+        plan: 'ESSENTIEL',
+        createdAt: daysAgo(30),
+      })
+      .returning();
+    const joug = hdCommunes['Jougne'];
+    const [bakeryEst] = await db
+      .insert(S.establishments)
+      .values({
+        companyId: bakeryCo.id,
+        communeId: joug.id,
+        territoryId: hd.id,
+        categoryId: catBySlug.get('boulangerie')!.id,
+        slug: 'boulangerie-de-demonstration',
+        name: 'Boulangerie de démonstration',
+        status: 'VALIDATED',
+        origin: 'PRO',
+        activityLabel: 'Boulangerie-pâtisserie (exemple)',
+        tagline: 'Fiche d’exemple pour la démonstration terricom : cette boulangerie n’existe pas.',
+        description:
+          'Exemple de démonstration. La fiche gratuite, offerte par la collectivité : présentation, horaires, photos, bouton d’appel et d’itinéraire, bien référencée sur Google. Aucune entreprise réelle n’est représentée ici.',
+        street: 'Adresse d’exemple',
+        postalCode: joug.postalCodes[0],
+        lat: (joug.lat ?? 46.76) + 0.001,
+        lng: (joug.lng ?? 6.4) + 0.001,
+        phone: '0300000000',
+        coverUrl: D.U(D.I.bread, 1200),
+        hoursConfirmedAt: daysAgo(2),
+        lastActivityAt: daysAgo(2),
+        publishedAt: daysAgo(25),
+        qrCode: shortCode(8),
+        createdAt: daysAgo(25),
+      })
+      .returning();
+    memberRows.push({ companyId: bakeryCo.id, userId: bakeryOwner.id, role: 'OWNER' });
+    // weekday : 0 = lundi … 6 = dimanche ; fermé le lundi, dimanche matin seulement.
+    for (const wd of [1, 2, 3, 4, 5, 6]) {
+      hoursRows.push({ establishmentId: bakeryEst.id, weekday: wd, opensAt: '06:30', closesAt: wd === 6 ? '12:30' : '19:00' });
+    }
+
+    // Second établissement fictif : fiche précréée avec une revendication en attente (écran de validation).
+    const [atelierCo] = await db
+      .insert(S.companies)
+      .values({ siren: null, legalName: 'ATELIER DE DÉMONSTRATION', tradeName: 'Atelier de démonstration', nafCode: '16.29Z', createdAt: daysAgo(30) })
+      .returning();
+    const malb = hdCommunes['Malbuisson'];
+    const [atelierEst] = await db
+      .insert(S.establishments)
+      .values({
+        companyId: atelierCo.id,
+        communeId: malb.id,
+        territoryId: hd.id,
+        categoryId: catBySlug.get('artisanat-production')!.id,
+        slug: 'atelier-de-demonstration',
+        name: 'Atelier de démonstration',
+        status: 'PRECREATED',
+        origin: 'COLLECTIVITE',
+        activityLabel: 'Tournerie sur bois (exemple)',
+        tagline: 'Fiche d’exemple pour la démonstration terricom : cet atelier n’existe pas.',
+        street: 'Adresse d’exemple',
+        postalCode: malb.postalCodes[0],
+        lat: (malb.lat ?? 46.8) + 0.001,
+        lng: (malb.lng ?? 6.3) - 0.0012,
+        publishedAt: daysAgo(20),
+        qrCode: shortCode(8),
+        createdAt: daysAgo(20),
+      })
+      .returning();
+    const claimant = await mkUser({ email: 'revendication@demo-haut-doubs.exemple.test', first: 'Prénom', last: 'Exemple', createdAt: hoursAgo(20) });
+    await db.insert(S.claims).values({
+      establishmentId: atelierEst.id,
+      territoryId: hd.id,
+      userId: claimant.id,
+      status: 'PENDING',
+      claimantRole: 'Gérant·e (exemple)',
+      method: 'CODE',
+      checks: [
+        { ok: true, label: 'Code reçu par courrier', detail: 'Saisi correctement (exemple de démonstration)' },
+        { ok: true, label: 'Domaine email', detail: 'Cohérent' },
+      ],
+      riskLevel: 'LOW',
+      createdAt: hoursAgo(20),
+      updatedAt: hoursAgo(20),
+    });
+    // Offre d'emploi, circuit et mini-site d'exemple, portés par les établissements fictifs.
+    await db.insert(S.jobs).values({
+      territoryId: hd.id,
+      communeId: metab.id,
+      establishmentId: demoEst.id,
+      slug: 'exemple-vendeur-saison-hiver',
+      title: 'Exemple de démonstration : vendeur·se pour la saison d’hiver',
+      contractType: 'CDD',
+      status: 'PUBLISHED',
+      startText: 'Décembre',
+      salaryText: 'Selon profil (exemple)',
+      workTimeText: 'Temps plein',
+      description: 'Offre d’exemple : les commerçants publient leurs offres, elles apparaissent sur le portail « Travailler dans le Haut-Doubs ».',
+      missions: ['Accueil et conseil (exemple)', 'Mise en rayon (exemple)'],
+      profile: ['Sens du contact (exemple)'],
+      publishedAt: daysAgo(2),
+      createdAt: daysAgo(2),
+      expiresAt: new Date(now.getTime() + 60 * DAY),
+    });
+    const [demoCircuit] = await db
+      .insert(S.circuits)
+      .values({
+        territoryId: hd.id,
+        slug: 'exemple-circuit-des-savoir-faire',
+        name: 'Exemple de démonstration : circuit des savoir-faire',
+        meta: 'Circuit d’exemple',
+        description:
+          'Circuit d’exemple : la collectivité relie des étapes, les visiteurs font tamponner leur passeport numérique en scannant le QR code en vitrine.',
+        distanceKm: '12',
+        durationText: 'Une demi-journée',
+        travelMode: 'Voiture ou vélo',
+        rewardText: '2 tampons = une surprise (exemple)',
+        rewardThreshold: 2,
+        imageUrl: D.U(D.I.mountains, 1200),
+        tagColor: '#F4B266',
+        createdById: hdAdmin.id,
+      })
+      .returning();
+    await db
+      .insert(S.circuitStops)
+      .values([demoEst.id, atelierEst.id].map((id, position) => ({ circuitId: demoCircuit.id, position, establishmentId: id, stampSecret: randomToken(12) })));
+    const [demoForm] = await db
+      .insert(S.establishmentForms)
+      .values({
+        establishmentId: demoEst.id,
+        title: 'Commander un panier (exemple)',
+        intro: 'Formulaire d’exemple : le commerçant crée ses propres formulaires, les réponses arrivent dans sa messagerie.',
+        submitLabel: 'Envoyer ma demande',
+        fields: [
+          { id: 'occasion', label: 'Occasion', type: 'select', required: true, options: ['Cadeau', 'Repas', 'Autre'] },
+          { id: 'retrait', label: 'Retrait souhaité le', type: 'date', required: false },
+          { id: 'precisions', label: 'Précisions', type: 'textarea', required: false },
+        ],
+        sortOrder: 0,
+        createdAt: daysAgo(20),
+      })
+      .returning();
+    await db.insert(S.establishmentPages).values({
+      establishmentId: demoEst.id,
+      title: 'Nos producteurs (exemple)',
+      slug: 'nos-producteurs',
+      coverUrl: D.U(D.I.cheese, 1280),
+      body: `Page d’exemple : un commerçant ajoute des pages à sa fiche, sans site séparé.
+
+## Ce qu’on peut y mettre
+- Ses producteurs, ses savoir-faire
+- Ses services, ses tarifs
+- Ses actualités de saison`,
+      sortOrder: 0,
+      createdAt: daysAgo(18),
+      updatedAt: daysAgo(5),
+    });
+    await db
+      .update(S.establishments)
+      .set({
+        themeColor: '#1E4D5C',
+        miniSite: {
+          enabled: true,
+          hero: 'color',
+          headline: 'Exemple de mini-site : la fiche devient un petit site, sans rien installer.',
+          cta: { label: 'Commander un panier', href: `form:${demoForm.id}` },
+          sections: ['presentation', 'offre', 'pages', 'produits', 'formulaires', 'actualites', 'contact'],
+        },
+      })
+      .where(eq(S.establishments.id, demoEst.id));
+    await db.insert(S.campaignParticipants).values({
+      campaignId: hdCampaign.id,
+      establishmentId: demoEst.id,
+      status: 'JOINED',
+      offerLabel: '-10 % (exemple)',
+      invitedAt: daysAgo(4),
+      joinedAt: daysAgo(3),
+    });
+    await db.insert(S.adventDoors).values(
+      Array.from({ length: 24 }, (_, i) => ({
+        campaignId: hdCampaign.id,
+        day: i + 1,
+        title: `Surprise d’exemple n° ${i + 1}`,
+        establishmentId: i % 6 === 0 ? demoEst.id : null,
+      })),
+    );
+
+    if (existsSync(fixture)) {
+      const data = JSON.parse(readFileSync(fixture, 'utf8')) as { fetchedAt: string; records: Parameters<typeof recordsToRaw>[0] };
+      const raw = recordsToRaw(data.records);
+      const mapping = guessMapping(Object.keys(raw[0] ?? {}));
+      const fallback = catBySlug.get('autres-activites')!.id;
+      const { rows, report } = await analyzeRows(hd.id, raw, mapping, fallback);
+      const { created } = await createEstablishments(
+        hd.id,
+        rows.filter((x) => x.action === 'CREATE'),
+        hdAdmin.id,
+      );
+      await db.insert(S.importBatches).values({
+        territoryId: hd.id,
+        createdById: hdAdmin.id,
+        source: 'SIRENE',
+        filename: `Base SIRENE · ${new Date(data.fetchedAt).toLocaleDateString('fr-FR')}`,
+        status: 'COMMITTED',
+        headers: Object.keys(raw[0] ?? {}),
+        mapping,
+        rawRows: [],
+        rows: [],
+        report: { ...report, created: created.length, updated: 0, letterIds: created.map((c) => c.id).slice(0, 500) },
+        committedAt: daysAgo(38),
+        createdAt: daysAgo(38),
+      });
+      const [hdRun] = await db
+        .insert(S.sireneSyncRuns)
+        .values({
+          territoryId: hd.id,
+          source: 'RECHERCHE',
+          trigger: 'SCHEDULE',
+          status: 'DONE',
+          since: daysAgo(38),
+          startedAt: daysAgo(10, 5),
+          finishedAt: daysAgo(10, 5),
+        })
+        .returning();
+      // Cas douteux (société déclarée en holding ou immobilier, artisan à enseigne…) : file de validation.
+      const toReview = await queueForReview(hd.id, rows, hdRun.id);
+      await db.update(S.sireneSyncRuns).set({ creations: toReview }).where(eq(S.sireneSyncRuns.id, hdRun.id));
+      console.log(
+        `  ${created.length} fiches précréées sur ${data.records.length} établissements SIRENE (${report.excluded ?? 0} activités exclues, ${toReview} à vérifier)`,
+      );
+    } else {
+      console.log('  Établissements absents : lancer `npm run demo:sirene` (accès à recherche-entreprises.api.gouv.fr requis).');
+    }
+  }
+
+  await insertMany(S.companyMembers, memberRows);
+  await insertMany(S.companySubscriptions, subscriptionRows);
+  await insertMany(S.openingHours, hoursRows);
+  await insertMany(S.establishmentAttributes, attrLinks);
+  await insertMany(S.media, mediaRows);
+  await insertMany(S.products, productRows);
+
+  // Horaires exceptionnels (Noël déjà saisis chez certains)
+  await db.insert(S.exceptionalHours).values([
+    { establishmentId: estByKey.b1.id, date: `${now.getFullYear()}-12-25`, closed: true, label: 'Noël' },
+    { establishmentId: estByKey.b1.id, date: `${now.getFullYear()}-12-24`, closed: false, opensAt: '06:30', closesAt: '17:00', label: 'Veille de Noël' },
+    { establishmentId: estByKey.b9.id, date: `${now.getFullYear()}-11-01`, closed: true, label: 'Toussaint' },
+    { establishmentId: estByKey.b6.id, date: `${now.getFullYear()}-11-01`, closed: true, label: 'Toussaint' },
+  ]);
+
+  // ─── Contrat du territoire pilote ─────────────────────────────────────────
+  await db.insert(S.territoryContracts).values([
+    {
+      territoryId: vdl.id,
+      kind: 'LICENCE',
+      label: 'Licence annuelle — territoire partenaire pilote',
+      amountCents: 900000,
+      startsAt: '2026-03-01',
+      endsAt: '2027-02-28',
+      status: 'ACTIVE',
+      signedAt: '2026-02-10',
+      notes: 'Conditions pilote : retours mensuels, témoignage et étude de cas.',
+    },
+    {
+      territoryId: vdl.id,
+      kind: 'SETUP',
+      label: 'Mise en service : paramétrage, import SIRENE, formation des 24 communes',
+      amountCents: 500000,
+      startsAt: '2026-02-10',
+      status: 'ACTIVE',
+      signedAt: '2026-02-10',
+    },
+  ]);
+
+  // ─── Publications (fil du territoire) ────────────────────────────────────
+  console.log('→ Publications, événements, emplois');
+  const postRows: (typeof S.posts.$inferInsert)[] = [
+    {
+      est: 'b9',
+      kind: 'PROMO' as const,
+      title: 'Coffret « Loue gourmande » : -15 % jusqu’à la fin du mois',
+      body: 'Ganaches aux herbes, galets de la Loue et pralinés à l’ancienne : le coffret star passe à 23,80 € jusqu’au 31. Emballage cadeau offert.',
+      at: hoursAgo(2),
+      img: D.I.choco,
+      promo: '-15 %',
+      validTo: addIso(today, 20),
+      views: 186,
+    },
+    {
+      est: 'b1',
+      kind: 'NOUVEAUTE' as const,
+      title: 'Le pain au Comté est de retour le vendredi',
+      body: 'Tous les vendredis et samedis, notre pain au levain garni de Comté 18 mois du Plateau. Pensez à le réserver !',
+      at: daysAgo(1),
+      img: D.I.bread,
+      views: 412,
+    },
+    {
+      est: 'b3',
+      kind: 'EVENT' as const,
+      title: 'Soirée truite & vin jaune, samedi 20h',
+      body: 'Menu unique à 38 € : truite de la Loue au vin jaune, morilles et dessert au kirsch de Mouthier. Réservation conseillée.',
+      at: daysAgo(1, 16),
+      img: D.I.terrace,
+      views: 233,
+    },
+    {
+      est: 'b8',
+      kind: 'EVENT' as const,
+      title: "Portes ouvertes de l'atelier, dimanche",
+      body: 'Démonstrations de tournage toutes les heures et cuisson raku à 15h.',
+      at: daysAgo(2),
+      img: D.I.pottery,
+      views: 158,
+    },
+    {
+      est: 'b6',
+      kind: 'NOUVEAUTE' as const,
+      title: 'Arrivage : 12 nouveaux vins du Jura',
+      body: 'Savagnins ouillés, crémants et deux vins jaunes de petits domaines : venez les goûter samedi.',
+      at: daysAgo(3),
+      img: D.I.vine,
+      views: 301,
+    },
+    {
+      est: 'b13',
+      kind: 'HOURS' as const,
+      title: 'Ouvert le dimanche matin en octobre',
+      body: 'De 9h30 à 12h30, tous les dimanches du mois.',
+      at: daysAgo(4),
+      img: D.I.grocery,
+      views: 97,
+    },
+    {
+      est: 'b1',
+      kind: 'PROMO' as const,
+      title: 'Brioches du dimanche -10 % pour la rentrée',
+      body: 'Commandez en boutique ou en click & collect.',
+      at: daysAgo(6),
+      img: D.I.bakery,
+      promo: '-10 %',
+      validTo: addIso(today, 12),
+      views: 288,
+    },
+    {
+      est: 'b1',
+      kind: 'HOURS' as const,
+      title: 'Fermeture exceptionnelle le 25 décembre',
+      body: 'Réouverture le 26 à 6h30. Les commandes de bûches sont ouvertes dès novembre.',
+      at: daysAgo(38),
+      img: D.I.store,
+      views: 121,
+    },
+    {
+      est: 'b14',
+      kind: 'NEWS' as const,
+      title: 'La Bleue de la Loue médaillée au concours de Pontarlier',
+      body: 'Notre absinthe blanche décroche l’or : merci à toute l’équipe de la distillerie.',
+      at: daysAgo(5),
+      img: D.I.toast,
+      views: 340,
+    },
+    {
+      est: 'b2',
+      kind: 'EVENT' as const,
+      title: 'Dégustation Comté 24 mois vendredi',
+      body: 'Trois affinages, trois caractères : venez goûter la différence.',
+      at: daysAgo(2, 9),
+      img: D.I.cheese,
+      views: 176,
+    },
+    {
+      est: 'b15',
+      kind: 'NEWS' as const,
+      title: 'Concert folk vendredi soir en terrasse',
+      body: 'Le trio « Les Gorges » joue dès 19h, entrée libre.',
+      at: daysAgo(7),
+      img: D.I.food,
+      views: 132,
+    },
+    {
+      est: 'b3',
+      kind: 'JOB' as const,
+      title: 'On recrute pour la saison prochaine',
+      body: 'Serveur·se saison été, logement possible. Candidatez depuis notre fiche.',
+      at: daysAgo(5, 11),
+      img: D.I.terrace,
+      views: 88,
+    },
+  ].map((p) => ({
+    territoryId: vdl.id,
+    communeId: communeRows[D.ESTABLISHMENTS.find((e) => e.key === p.est)!.commune].id,
+    establishmentId: estByKey[p.est].id,
+    authorType: 'ESTABLISHMENT' as const,
+    kind: p.kind,
+    status: 'PUBLISHED' as const,
+    title: p.title,
+    body: p.body,
+    imageUrl: D.U(p.img, 800),
+    promoLabel: 'promo' in p ? (p.promo as string) : null,
+    validTo: 'validTo' in p ? (p.validTo as string) : null,
+    channels: ['FICHE', 'COMMUNE', 'TERRITOIRE'] as ('FICHE' | 'COMMUNE' | 'TERRITOIRE')[],
+    publishedAt: p.at,
+    createdAt: p.at,
+    viewCount: p.views,
+    createdById: estByKey[p.est].ownerId,
+  }));
+  // Publications programmées de Sophie + publications territoriales + publications à modérer
+  postRows.push(
+    ...[
+      ['Galettes -10 % : précommandes de Noël', 'PROMO', 8, D.I.bakery, ['FICHE', 'SOCIAL']],
+      ['Atelier pain au levain pour enfants', 'EVENT', 12, D.I.cook, ['FICHE', 'NEWSLETTER']],
+      ['Horaires de la Toussaint', 'HOURS', 30, D.I.store, ['FICHE', 'COMMUNE']],
+    ].map(([title, kind, inDays, img, ch]) => ({
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      establishmentId: estByKey.b1.id,
+      authorType: 'ESTABLISHMENT' as const,
+      kind: kind as 'PROMO',
+      status: 'SCHEDULED' as const,
+      title: title as string,
+      body: '',
+      imageUrl: D.U(img as string, 800),
+      channels: ch as ('FICHE' | 'SOCIAL')[],
+      publishAt: parisAt(addIso(today, inDays as number), (['08:00', '10:00', '07:00'] as const)[Math.min(2, Math.round((inDays as number) / 12))]),
+      createdById: sophieId,
+    })),
+    {
+      territoryId: vdl.id,
+      authorType: 'TERRITORY',
+      kind: 'NEWS',
+      status: 'PUBLISHED',
+      title: '812 professionnels désormais en vitrine sur le portail',
+      body: 'Six mois après le lancement, plus de 370 entreprises ont pris la main sur leur fiche. Merci à toutes et à tous !',
+      imageUrl: D.U(D.I.market, 800),
+      channels: ['TERRITOIRE'],
+      publishedAt: daysAgo(8),
+      createdById: thomas.id,
+      viewCount: 540,
+    },
+    {
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      authorType: 'COMMUNE',
+      kind: 'NEWS',
+      status: 'PUBLISHED',
+      title: 'Travaux rue Pierre Vernier : les commerces restent ouverts',
+      body: 'Stationnement gratuit place Courbet pendant toute la durée du chantier.',
+      imageUrl: D.U(D.I.store, 800),
+      channels: ['COMMUNE'],
+      publishedAt: daysAgo(3, 14),
+      createdById: anne.id,
+      viewCount: 210,
+    },
+  );
+  const genClaimedVdl = genEsts.filter((e) => allEsts.includes(e) && ['CLAIMED', 'VALIDATED'].includes(e.status) && communeRows[e.commune]);
+  for (const [i, e] of r.sample(genClaimedVdl, 4).entries()) {
+    postRows.push({
+      territoryId: vdl.id,
+      communeId: communeRows[e.commune].id,
+      establishmentId: e.id,
+      authorType: 'ESTABLISHMENT',
+      kind: i % 2 ? 'PROMO' : 'NEWS',
+      status: 'PENDING',
+      title: ['Grande braderie de fin de saison', '-50 % sur tout le magasin ce week-end', 'Nouveau : nous livrons à domicile', 'Soirée dégustation vendredi'][
+        i
+      ],
+      body: [
+        'Du vendredi au dimanche, on fait de la place avant la nouvelle saison : fins de séries, articles d’exposition et petits prix sur tout le stock. Venez tôt, les quantités sont limitées !',
+        'Ce week-end seulement, profitez de -50 % sur toute la boutique (hors nouveautés). Offre valable samedi et dimanche, dans la limite des stocks disponibles.',
+        'Bonne nouvelle : nous livrons désormais à domicile dans un rayon de 15 km, du mardi au samedi. Commande par téléphone la veille avant 18 h, livraison offerte dès 30 €.',
+        'Vendredi à partir de 18 h 30, soirée dégustation en présence de producteurs du Val de Loue : comté, vins du Jura et douceurs locales. Entrée libre, réservation conseillée.',
+      ][i],
+      channels: ['FICHE', 'TERRITOIRE'],
+      createdAt: hoursAgo(3 + i * 5),
+      createdById: e.ownerId,
+    });
+  }
+  // Activité récente des pros générés
+  for (const e of r.sample(genClaimedVdl, 60)) {
+    const at = daysAgo(r.int(0, 60), r.int(8, 18));
+    postRows.push({
+      territoryId: vdl.id,
+      communeId: communeRows[e.commune].id,
+      establishmentId: e.id,
+      authorType: 'ESTABLISHMENT',
+      kind: r.pick(['NEWS', 'PROMO', 'NOUVEAUTE', 'HOURS'] as const),
+      status: 'PUBLISHED',
+      title: r.pick([
+        'Nouveaux horaires pour la rentrée',
+        'Arrivage de la semaine',
+        'Offre spéciale ce mois-ci',
+        'Merci pour votre fidélité !',
+        'Nous recrutons un apprenti',
+        'Fermeture pour congés du 20 au 27',
+      ]),
+      body: 'Retrouvez tous les détails en boutique.',
+      channels: ['FICHE', 'COMMUNE'],
+      publishedAt: at,
+      createdAt: at,
+      viewCount: r.int(20, 260),
+      createdById: e.ownerId,
+    });
+  }
+  await insertMany(S.posts, postRows);
+
+  // ─── Événements (agenda) ─────────────────────────────────────────────────
+  const sat1 = nextWeekday(5, 2);
+  const fri1 = nextWeekday(4, 1);
+  const sun1 = nextWeekday(6, 2);
+  const wed1 = nextWeekday(2, 4);
+  const EVT: (Omit<typeof S.events.$inferInsert, 'slug' | 'territoryId'> & { est?: string })[] = [
+    {
+      est: 'b2',
+      title: 'Dégustation Comté 24 mois',
+      kind: 'DEGUSTATION',
+      startsAt: parisAt(fri1, '17:00'),
+      endsAt: parisAt(fri1, '19:00'),
+      locationName: 'Fromagerie du Plateau',
+      address: 'Route de Salins, Amancey',
+      priceText: 'Gratuit',
+      imageUrl: D.U(D.I.cheese, 1400),
+      description:
+        "Trois affinages, trois caractères : l'équipe de la Fromagerie du Plateau vous fait goûter ses Comté de 12, 18 et 24 mois, accompagnés d'un vin jaune du Jura.",
+    },
+    {
+      title: "Fête de la pomme & marché d'automne",
+      kind: 'MARCHE',
+      startsAt: parisAt(addIso(sat1, 7), '09:00'),
+      endsAt: parisAt(addIso(sat1, 7), '18:00'),
+      organizerName: "Mairie d'Ornans",
+      locationName: 'Place Courbet',
+      address: 'Place Gustave Courbet, Ornans',
+      priceText: 'Entrée libre',
+      isFeatured: true,
+      imageUrl: D.U(D.I.market, 1400),
+      description:
+        "60 exposants, pressoir à l'ancienne, jus de pomme des vergers de la vallée, animations pour les enfants et concert de la fanfare à 16h. Organisé par la Mairie d'Ornans et l'union des commerçants.",
+      lat: 47.1063,
+      lng: 6.1455,
+    },
+    {
+      est: 'b8',
+      title: "Portes ouvertes de l'atelier",
+      kind: 'PORTES_OUVERTES',
+      startsAt: parisAt(sun1, '10:00'),
+      endsAt: parisAt(sun1, '17:00'),
+      locationName: 'Céramiques Lison',
+      address: 'Rue de la Source, Nans-sous-Sainte-Anne',
+      priceText: 'Gratuit',
+      imageUrl: D.U(D.I.pottery, 1400),
+      description:
+        "Poussez la porte de l'atelier : démonstrations de tournage toutes les heures, pièces uniques à prix doux et cuisson raku en extérieur à 15h.",
+    },
+    {
+      est: 'b1',
+      title: 'Atelier pain au levain pour enfants',
+      kind: 'ATELIER',
+      startsAt: parisAt(wed1, '14:00'),
+      endsAt: parisAt(wed1, '16:00'),
+      locationName: 'Boulangerie Martin',
+      address: '12 rue Pierre Vernier, Ornans',
+      priceText: '8 € · sur inscription',
+      capacity: 10,
+      imageUrl: D.U(D.I.cook, 1400),
+      description: 'Les petits boulangers de 6 à 12 ans façonnent leur pain au levain avec Sophie. 10 places, goûter offert.',
+    },
+    {
+      title: 'Marché de nuit',
+      kind: 'MARCHE',
+      startsAt: parisAt(addIso(fri1, 7), '17:00'),
+      endsAt: parisAt(addIso(fri1, 7), '22:00'),
+      organizerName: 'Mairie de Quingey',
+      locationName: 'Halle couverte',
+      address: 'Halle couverte, Quingey',
+      priceText: 'Entrée libre',
+      imageUrl: D.U(D.I.crowd, 1400),
+      description: 'Producteurs, artisans et food-trucks sous la halle illuminée, avec un concert de fanfare à 19h.',
+      lat: 47.1031,
+      lng: 5.8829,
+    },
+    {
+      est: 'b14',
+      title: 'Visite & dégustation de la distillerie',
+      kind: 'DEGUSTATION',
+      startsAt: parisAt(addIso(sat1, 14), '15:00'),
+      endsAt: parisAt(addIso(sat1, 14), '17:00'),
+      locationName: 'Distillerie du Val',
+      address: 'Mouthier-Haute-Pierre',
+      priceText: '12 € · dès 18 ans',
+      imageUrl: D.U(D.I.toast, 1400),
+      description: "Des alambics en cuivre à la dégustation : l'histoire de l'absinthe et des eaux-de-vie de la vallée, racontée par ceux qui les distillent.",
+    },
+    {
+      est: 'b11',
+      title: "Atelier bougies à la cire d'abeille",
+      kind: 'ATELIER',
+      startsAt: parisAt(addIso(sat1, 21), '14:00'),
+      endsAt: parisAt(addIso(sat1, 21), '16:00'),
+      locationName: 'Miellerie des Côtes',
+      address: 'Chemin des ruchers, Lods',
+      priceText: '15 € · sur inscription',
+      imageUrl: D.U(D.I.board2, 1400),
+      description: 'Roulez vos bougies à la cire des ruches du plateau et repartez avec un pot de miel de sapin.',
+    },
+    {
+      est: 'b16',
+      title: "Portes ouvertes de l'ébénisterie",
+      kind: 'PORTES_OUVERTES',
+      startsAt: parisAt(addIso(sun1, 14), '10:00'),
+      endsAt: parisAt(addIso(sun1, 14), '16:00'),
+      locationName: 'Ébénisterie Rolland',
+      address: '15 Grande rue, Amancey',
+      priceText: 'Gratuit',
+      imageUrl: D.U(D.I.vases, 1400),
+      description:
+        "Mobilier sur mesure, marqueterie et restauration : l'atelier ouvre ses portes, avec une vente de planches à découper en chutes de bois local.",
+    },
+    {
+      title: "Marché de Noël d'Ornans",
+      kind: 'MARCHE',
+      startsAt: parisAt(`${now.getFullYear()}-12-12`, '10:00'),
+      endsAt: parisAt(`${now.getFullYear()}-12-12`, '20:00'),
+      organizerName: "Mairie d'Ornans",
+      locationName: 'Place Courbet',
+      address: 'Place Gustave Courbet, Ornans',
+      priceText: 'Entrée libre',
+      isFeatured: true,
+      imageUrl: D.U(D.I.market, 1400),
+      description:
+        "60 exposants, vin chaud des producteurs, atelier bougies pour les enfants et arrivée du Père Noël en barque sur la Loue à 17h. Organisé par la Mairie d'Ornans et l'union des commerçants.",
+      lat: 47.1063,
+      lng: 6.1455,
+    },
+  ];
+  const { EVENT_PROGRAM_TEMPLATES } = await import('@/lib/constants');
+  await db.insert(S.events).values(
+    EVT.map(({ est, ...e }) => {
+      const ref = est ? estByKey[est] : null;
+      const communeName = ref?.commune ?? (e.address?.includes('Quingey') ? 'Quingey' : 'Ornans');
+      return {
+        ...e,
+        territoryId: vdl.id,
+        communeId: communeRows[communeName].id,
+        establishmentId: ref?.id ?? null,
+        authorType: ref ? ('ESTABLISHMENT' as const) : ('COMMUNE' as const),
+        slug: slugify(`${e.title}-${isoDay(e.startsAt as Date)}`),
+        lat: e.lat ?? ref?.lat ?? null,
+        lng: e.lng ?? ref?.lng ?? null,
+        accessibilityText: 'Accès PMR',
+        program: EVENT_PROGRAM_TEMPLATES[e.kind as 'MARCHE'] ?? [],
+        createdById: ref?.ownerId ?? anne.id,
+        status: 'PUBLISHED' as const,
+      };
+    }),
+  );
+
+  // ─── Emplois ──────────────────────────────────────────────────────────────
+  await db.insert(S.jobs).values(
+    D.JOBS.map((j) => {
+      const ref = estByKey[j.est];
+      return {
+        territoryId: vdl.id,
+        communeId: communeRows[ref.commune].id,
+        establishmentId: ref.id,
+        slug: slugify(`${j.title}-${ref.name}`),
+        title: j.title,
+        contractType: j.contract,
+        status: 'PUBLISHED' as const,
+        startText: j.start,
+        salaryText: j.salary,
+        workTimeText: j.time,
+        description: j.desc,
+        missions: j.missions,
+        profile: j.profile,
+        publishedAt: daysAgo(j.daysAgo),
+        createdAt: daysAgo(j.daysAgo),
+        expiresAt: new Date(now.getTime() + 60 * DAY),
+      };
+    }),
+  );
+  // Offres complémentaires des entreprises générées (37 offres au total sur le territoire)
+  // Intitulés cohérents avec le métier de chaque entreprise.
+  type Ct = 'CDI' | 'CDD' | 'ALTERNANCE' | 'SAISONNIER' | 'STAGE';
+  const jobTitles: Record<string, [string, Ct][]> = {
+    coiffure: [
+      ['Coiffeur·se', 'CDI'],
+      ['Apprenti·e coiffeur·se', 'ALTERNANCE'],
+    ],
+    'institut-beaute': [['Esthéticien·ne', 'CDI']],
+    boucherie: [
+      ['Apprenti·e boucher·e', 'ALTERNANCE'],
+      ['Boucher·e qualifié·e', 'CDI'],
+    ],
+    boulangerie: [['Vendeur·se en boulangerie', 'CDD']],
+    maconnerie: [['Maçon·ne qualifié·e', 'CDI']],
+    electricien: [
+      ['Électricien·ne', 'CDI'],
+      ['Apprenti·e électricien·ne', 'ALTERNANCE'],
+    ],
+    couvreur: [['Couvreur·se', 'CDI']],
+    peintre: [['Peintre en bâtiment', 'CDI']],
+    menuiserie: [['Menuisier·ère poseur·se', 'CDI']],
+    'plombier-chauffagiste': [['Plombier·e chauffagiste', 'CDI']],
+    garage: [['Mécanicien·ne automobile', 'CDI']],
+    superette: [['Employé·e polyvalent·e', 'CDD']],
+    epicerie: [['Employé·e polyvalent·e', 'CDD']],
+    restaurant: [
+      ['Commis de cuisine', 'SAISONNIER'],
+      ['Serveur·se', 'SAISONNIER'],
+    ],
+    pizzeria: [['Pizzaïolo', 'CDI']],
+    bistrot: [['Serveur·se', 'SAISONNIER']],
+    auberge: [['Commis de cuisine', 'SAISONNIER']],
+    'pret-a-porter': [['Vendeur·se', 'CDD']],
+    librairie: [['Libraire', 'CDD']],
+    fleuriste: [['Fleuriste', 'CDI']],
+    pharmacie: [['Préparateur·rice en pharmacie', 'CDI']],
+    conseil: [
+      ['Assistant·e administratif·ve', 'CDI'],
+      ['Stagiaire communication', 'STAGE'],
+    ],
+    informatique: [['Technicien·ne informatique', 'CDI']],
+    hebergement: [['Réceptionniste saison', 'SAISONNIER']],
+    paysagiste: [['Ouvrier·ère paysagiste', 'SAISONNIER']],
+    ferme: [['Ouvrier·ère agricole', 'SAISONNIER']],
+    fromagerie: [['Fromager·ère', 'CDI']],
+  };
+  const extraJobs = r
+    .sample(
+      genClaimedVdl.filter((e) => jobTitles[e.category]),
+      29,
+    )
+    .map((e, i) => {
+      const [title, contract] = r.pick(jobTitles[e.category]);
+      return {
+        territoryId: vdl.id,
+        communeId: communeRows[e.commune].id,
+        establishmentId: e.id,
+        slug: slugify(`${title}-${e.name}-${i}`),
+        title,
+        contractType: contract,
+        status: 'PUBLISHED' as const,
+        startText: r.pick(['Dès que possible', 'Novembre 2026', 'Janvier 2027', 'Printemps 2027']),
+        salaryText: r.pick(['Selon profil', 'SMIC + primes', '1 900 – 2 200 € brut', 'Grille conventionnelle']),
+        workTimeText: r.pick(['Temps plein', '35 h', '28 h / semaine', 'Temps partiel possible']),
+        description: `${e.name} renforce son équipe à ${e.commune} : rejoignez une entreprise locale où chaque personne compte.`,
+        missions: ['Accueillir et conseiller la clientèle', "Participer à la vie de l'entreprise"],
+        profile: ['Sérieux et motivation', 'Débutant·e accepté·e'],
+        publishedAt: daysAgo(r.int(1, 40)),
+        createdAt: daysAgo(r.int(1, 40)),
+      };
+    });
+  await db.insert(S.jobs).values(extraJobs);
+
+  // Agenda externe synchronisé (office de tourisme fictif, servi en mode démo par /demo/agenda-externe.ics).
+  {
+    const { importIcsText } = await import('@/server/services/calendar-sync');
+    const { demoExternalAgendaIcs } = await import('@/server/demo/external-agenda');
+    const [feed] = await db
+      .insert(S.calendarFeeds)
+      .values({
+        territoryId: vdl.id,
+        name: 'Office de tourisme Loue-Lison',
+        url: `${process.env.APP_URL ?? 'http://localhost:3000'}/demo/agenda-externe.ics`,
+        kind: 'ANIMATION',
+        createdById: claire.id,
+        createdAt: daysAgo(40),
+      })
+      .returning();
+    const res = await importIcsText(feed, demoExternalAgendaIcs());
+    await db
+      .update(S.calendarFeeds)
+      .set({ lastSyncAt: daysAgo(0, 7), lastCount: res.imported, lastStatus: `${res.imported} événements à venir` })
+      .where(eq(S.calendarFeeds.id, feed.id));
+  }
+
+  // ─── Circuits ─────────────────────────────────────────────────────────────
+  console.log('→ Circuits, campagnes, newsletter');
+  for (const [i, c] of D.CIRCUITS.entries()) {
+    const [circ] = await db
+      .insert(S.circuits)
+      .values({
+        territoryId: vdl.id,
+        slug: c.slug,
+        name: c.name,
+        meta: c.meta,
+        description: c.description,
+        distanceKm: c.km,
+        durationText: c.dur,
+        travelMode: c.mode,
+        rewardText: c.reward,
+        rewardThreshold: c.threshold,
+        imageUrl: D.U(c.img, 1200),
+        tagColor: c.tagColor,
+        sortOrder: i,
+        createdById: claire.id,
+      })
+      .returning();
+    const stops = await db
+      .insert(S.circuitStops)
+      .values(c.stops.map((k, pos) => ({ circuitId: circ.id, position: pos, establishmentId: estByKey[k].id, stampSecret: randomToken(12) })))
+      .returning();
+    // Passeports ouverts par les visiteurs (statistiques C6)
+    const passportsCount = i === 0 ? 312 : i === 1 ? 64 : 88;
+    for (let p = 0; p < passportsCount; p++) {
+      const created = daysAgo(r.int(0, 120));
+      const nStamps = r.weighted([
+        [0, 2],
+        [1, 3],
+        [2, 3],
+        [3, 2],
+        [4, 1.5],
+        [5, 1.2],
+        [6, 0.5],
+        [7, 0.4],
+      ] as [number, number][]);
+      const completed = nStamps >= c.threshold;
+      const [pp] = await db
+        .insert(S.passports)
+        .values({
+          circuitId: circ.id,
+          tokenHash: sha256(randomToken(16)),
+          createdAt: created,
+          lastSeenAt: created,
+          completedAt: completed ? created : null,
+          rewardCode: completed ? shortCode(6) : null,
+          rewardClaimedAt: completed && r.chance(0.5) ? created : null,
+        })
+        .returning();
+      const chosen = r.sample(stops, Math.min(nStamps, stops.length));
+      if (chosen.length) await db.insert(S.passportStamps).values(chosen.map((s) => ({ passportId: pp.id, stopId: s.id, stampedAt: created })));
+    }
+  }
+
+  // ─── Campagnes ────────────────────────────────────────────────────────────
+  const year = now.getFullYear();
+  const [noel] = await db
+    .insert(S.campaigns)
+    .values({
+      territoryId: vdl.id,
+      slug: 'noel-chez-vos-commercants',
+      name: 'Noël chez vos commerçants',
+      tagline: "Un calendrier de l'Avent avec une surprise par jour",
+      description:
+        "Chaque jour, une case s'ouvre : une remise, un atelier, une dégustation. 42 commerces du Val de Loue jouent le jeu, et le marché de Noël d'Ornans vous attend le 12 décembre.",
+      startsAt: `${year}-12-01`,
+      endsAt: `${year}-12-24`,
+      status: 'SCHEDULED',
+      mode: 'ADVENT',
+      colorBg: '#7A2E26',
+      colorBgDark: '#5E1F1A',
+      colorText: '#FFF3E6',
+      colorTextSoft: '#F3D5C9',
+      heroImageUrl: D.U(D.I.xmas2, 2000),
+      cardImageUrl: D.U(D.I.xmas, 1200),
+      ctaLabel: 'Ouvrir le calendrier',
+      criteria: { families: ['COMMERCE', 'ARTISAN', 'PRODUCTEUR'], attributeSlugs: ['idees-cadeaux'] },
+      invitationMessage: "Ajoutez une offre : elle apparaîtra dans le calendrier de l'Avent, la newsletter et la page campagne.",
+      createdById: claire.id,
+      createdAt: daysAgo(12),
+    })
+    .returning();
+  const [rentree] = await db
+    .insert(S.campaigns)
+    .values({
+      territoryId: vdl.id,
+      slug: 'rentree-chez-vos-commercants',
+      name: 'La rentrée chez vos commerçants',
+      tagline: 'Des offres locales pour bien démarrer l’automne',
+      description: "Jusqu'à mi-octobre, les commerces du Val de Loue vous réservent leurs offres de rentrée.",
+      startsAt: addIso(today, -24),
+      endsAt: addIso(today, 20),
+      status: 'ACTIVE',
+      mode: 'STANDARD',
+      colorBg: '#1F6B52',
+      colorBgDark: '#14201B',
+      colorText: '#F7F4EC',
+      colorTextSoft: '#CFE3D6',
+      heroImageUrl: D.U(D.I.market, 2000),
+      cardImageUrl: D.U(D.I.market, 1200),
+      criteria: { families: ['COMMERCE'] },
+      createdById: thomas.id,
+      createdAt: daysAgo(40),
+    })
+    .returning();
+  const [artisanat] = await db
+    .insert(S.campaigns)
+    .values({
+      territoryId: vdl.id,
+      slug: 'semaine-de-l-artisanat',
+      name: "Semaine de l'artisanat",
+      tagline: "Portes ouvertes d'ateliers",
+      description: 'Une semaine pour découvrir les ateliers du territoire : démonstrations, visites et rencontres.',
+      startsAt: `${year + 1}-03-22`,
+      endsAt: `${year + 1}-03-29`,
+      status: 'SCHEDULED',
+      cardImageUrl: D.U(D.I.crafts, 1200),
+      heroImageUrl: D.U(D.I.crafts, 2000),
+      criteria: { families: ['ARTISAN'] },
+      createdById: claire.id,
+    })
+    .returning();
+  const [madeInCamp] = await db
+    .insert(S.campaigns)
+    .values({
+      territoryId: vdl.id,
+      slug: 'made-in-val-de-loue',
+      name: 'Made in Val de Loue',
+      tagline: 'Sélection fabrication locale',
+      description: 'La sélection permanente des produits fabriqués sur le territoire.',
+      startsAt: addIso(today, -60),
+      endsAt: `${year + 2}-12-31`,
+      status: 'DRAFT',
+      cardImageUrl: D.U(D.I.pottery, 1200),
+      heroImageUrl: D.U(D.I.pottery, 2000),
+      criteria: { attributeSlugs: ['fabrication-locale'] },
+      createdById: thomas.id,
+    })
+    .returning();
+
+  const noelPool = [
+    ...['b1', 'b9', 'b8', 'b2', 'b6', 'b14', 'b11', 'b13', 'b15'].map((k) => estByKey[k]),
+    ...r.sample(
+      genClaimedVdl.filter((e) =>
+        [
+          'boulangerie',
+          'boucherie',
+          'fleuriste',
+          'epicerie',
+          'caviste',
+          'pret-a-porter',
+          'librairie',
+          'chocolatier',
+          'fromagerie',
+          'ferme',
+          'apiculteur',
+          'metiers-d-art',
+        ].includes(e.category),
+      ),
+      60,
+    ),
+    // 42 commerces visibles : la boulangerie Martin est seulement invitée et Céramiques Lison est suspendue.
+  ].slice(0, 44);
+  await db.insert(S.campaignParticipants).values(
+    noelPool.map((e) => {
+      const key = Object.entries(estByKey).find(([, v]) => v.id === e.id)?.[0];
+      const offer = key && D.OFFERS[key] ? D.OFFERS[key] : null;
+      return {
+        campaignId: noel.id,
+        establishmentId: e.id,
+        status: key === 'b1' ? ('INVITED' as const) : ('JOINED' as const),
+        offerLabel: key === 'b1' ? null : (offer ?? r.pick(['-10 %', 'Surprise en boutique', 'Emballage offert', 'Dégustation'])),
+        invitedAt: daysAgo(12),
+        joinedAt: key === 'b1' ? null : daysAgo(r.int(1, 11)),
+      };
+    }),
+  );
+  await db
+    .insert(S.adventDoors)
+    .values(
+      D.ADVENT.map((title, i) => ({ campaignId: noel.id, day: i + 1, title, establishmentId: D.ADVENT_EST[i + 1] ? estByKey[D.ADVENT_EST[i + 1]].id : null })),
+    );
+  await db.insert(S.campaignParticipants).values(
+    r
+      .sample(
+        genClaimedVdl.filter((e) => ['boulangerie', 'boucherie', 'coiffure', 'pret-a-porter', 'fleuriste', 'librairie', 'epicerie'].includes(e.category)),
+        18,
+      )
+      .map((e) => ({
+        campaignId: rentree.id,
+        establishmentId: e.id,
+        status: 'JOINED' as const,
+        offerLabel: r.pick(['-10 %', '-15 % sur la 2e pièce', 'Carte fidélité doublée', 'Café offert']),
+        joinedAt: daysAgo(r.int(5, 20)),
+      })),
+  );
+  await db.insert(S.campaignParticipants).values(
+    r
+      .sample(
+        genClaimedVdl.filter((e) => ['menuiserie', 'maconnerie', 'couvreur', 'peintre', 'metiers-d-art', 'ebeniste', 'boulangerie'].includes(e.category)),
+        27,
+      )
+      .map((e) => ({ campaignId: artisanat.id, establishmentId: e.id, status: 'INVITED' as const, invitedAt: daysAgo(3) })),
+  );
+  const fab = await db
+    .select({ id: S.establishmentAttributes.establishmentId })
+    .from(S.establishmentAttributes)
+    .where(eq(S.establishmentAttributes.attributeId, attrBySlug.get('fabrication-locale')!.id));
+  await db.insert(S.campaignParticipants).values(
+    r
+      .sample(
+        fab.map((f) => f.id).filter((id) => allEsts.find((e) => e.id === id && communeRows[e.commune])),
+        64,
+      )
+      .map((id) => ({ campaignId: madeInCamp.id, establishmentId: id, status: 'JOINED' as const, joinedAt: daysAgo(r.int(1, 50)) })),
+  );
+
+  // Opération communale portée par la mairie d'Ornans (sélection déterministe : le tirage
+  // aléatoire du reste du jeu de données reste inchangé).
+  const [quinzaine] = await db
+    .insert(S.campaigns)
+    .values({
+      territoryId: vdl.id,
+      communeId: communeRows['Ornans'].id,
+      slug: 'quinzaine-commerciale-d-ornans',
+      name: 'Quinzaine commerciale d’Ornans',
+      tagline: 'Les commerces du centre-ville fêtent l’automne',
+      description:
+        "Pendant quinze jours, les commerçants d'Ornans vous réservent une offre, et chaque achat donne une chance de gagner un panier garni de produits d'ici. Une opération de la Mairie d'Ornans.",
+      startsAt: addIso(today, 8),
+      endsAt: addIso(today, 22),
+      status: 'SCHEDULED',
+      mode: 'STANDARD',
+      colorBg: '#C8892A',
+      colorBgDark: '#8A5A14',
+      colorText: '#14201B',
+      colorTextSoft: '#3D2A0B',
+      heroImageUrl: D.U(D.I.store, 2000),
+      cardImageUrl: D.U(D.I.store, 1200),
+      criteria: { families: ['COMMERCE'], communeIds: [communeRows['Ornans'].id] },
+      invitationMessage: "La Mairie d'Ornans organise sa quinzaine commerciale : proposez une offre, elle sera mise en avant sur la page de la commune.",
+      createdById: anne.id,
+      createdAt: daysAgo(6),
+    })
+    .returning();
+  const SHOPS = [
+    'boulangerie',
+    'boucherie',
+    'coiffure',
+    'pret-a-porter',
+    'fleuriste',
+    'librairie',
+    'epicerie',
+    'caviste',
+    'chocolatier',
+    'fromagerie',
+    'opticien',
+    'bricolage',
+    'tabac-presse',
+    'cordonnerie',
+    'institut-de-beaute',
+  ];
+  const quinzainePool = genClaimedVdl.filter((e) => e.commune === 'Ornans' && SHOPS.includes(e.category)).slice(0, 14);
+  const quinzaineOffers = ['-10 %', 'Café offert', 'Carte fidélité doublée', '-15 % sur la 2e pièce', 'Surprise en boutique'];
+  if (quinzainePool.length)
+    await db.insert(S.campaignParticipants).values(
+      quinzainePool.map((e, i) => ({
+        campaignId: quinzaine.id,
+        establishmentId: e.id,
+        status: i < 9 ? ('JOINED' as const) : ('INVITED' as const),
+        offerLabel: i < 9 ? quinzaineOffers[i % quinzaineOffers.length] : null,
+        invitedAt: daysAgo(5),
+        joinedAt: i < 9 ? daysAgo(1 + (i % 4)) : null,
+      })),
+    );
+
+  // ─── Newsletter : audiences, abonnés, lettres ─────────────────────────────
+  const [audH, audT, audE, audO, audC] = await db
+    .insert(S.audiences)
+    .values([
+      { territoryId: vdl.id, name: 'Habitants', description: 'Toutes communes', kind: 'MANUAL', isDefault: true, sortOrder: 0 },
+      { territoryId: vdl.id, name: 'Touristes', description: 'Inscrits via office de tourisme', kind: 'MANUAL', sortOrder: 1 },
+      { territoryId: vdl.id, name: 'Entreprises', description: 'Lettre pro mensuelle', kind: 'BUSINESSES', sortOrder: 2 },
+      { territoryId: vdl.id, name: 'Ornans', description: 'Zone géographique', kind: 'COMMUNE', communeId: communeRows['Ornans'].id, sortOrder: 3 },
+      { territoryId: vdl.id, name: 'Amateurs de circuits', description: 'Passeports ouverts', kind: 'CIRCUIT', sortOrder: 4 },
+    ])
+    .returning();
+  const consentText = "J'accepte de recevoir la lettre d'information du Val de Loue. Mes données ne sont jamais revendues (RGPD).";
+  const subRows: (typeof S.subscribers.$inferInsert)[] = [];
+  const subAud: { idx: number; aud: string }[] = [];
+  const total = 5620;
+  for (let i = 0; i < total; i++) {
+    const tourist = i >= 4120 && i < 5500;
+    const pro = i >= 5500;
+    const communeName =
+      tourist || pro ? null : r.weighted(D.VAL_DE_LOUE_COMMUNES.map((c) => [c.name, c.name === 'Ornans' ? 1740 / 4120 : c.pop / 22400] as [string, number]));
+    const status = r.chance(0.012) ? 'UNSUBSCRIBED' : r.chance(0.02) ? 'PENDING' : 'CONFIRMED';
+    // Une inscription non confirmée est purgée au bout de 30 jours : les « en attente » sont donc récentes.
+    const created = status === 'PENDING' ? daysAgo(r.int(0, 20)) : daysAgo(r.int(0, 200));
+    subRows.push({
+      territoryId: vdl.id,
+      email: `abonne${i + 1}@demo.terricom.test`,
+      communeId: communeName ? communeRows[communeName].id : null,
+      status: status as 'CONFIRMED',
+      source: tourist ? 'OFFICE_TOURISME' : pro ? 'IMPORT' : 'PORTAL',
+      consentText,
+      consentAt: created,
+      confirmedAt: status === 'CONFIRMED' ? created : null,
+      unsubscribedAt: status === 'UNSUBSCRIBED' ? daysAgo(r.int(0, 30)) : null,
+      unsubscribeToken: randomToken(24),
+      createdAt: created,
+    });
+    if (!tourist && !pro) subAud.push({ idx: i, aud: audH.id });
+    if (tourist) subAud.push({ idx: i, aud: audT.id });
+    if (pro) subAud.push({ idx: i, aud: audE.id });
+    if (communeName === 'Ornans') subAud.push({ idx: i, aud: audO.id });
+    if (i % 18 === 0) subAud.push({ idx: i, aud: audC.id });
+  }
+  const insertedSubs: { id: string }[] = [];
+  for (let i = 0; i < subRows.length; i += 500)
+    insertedSubs.push(
+      ...(await db
+        .insert(S.subscribers)
+        .values(subRows.slice(i, i + 500))
+        .returning({ id: S.subscribers.id })),
+    );
+  await insertMany(
+    S.subscriberAudiences,
+    subAud.map((s) => ({ subscriberId: insertedSubs[s.idx].id, audienceId: s.aud })),
+  );
+
+  const nlBase = { territoryId: vdl.id, audienceIds: [audH.id, audT.id], createdById: thomas.id };
+  for (const [n, subject, sentDays, opens] of [
+    [45, 'La rentrée gourmande du Val de Loue', 28, 0.46],
+    [46, 'Trois ateliers à découvrir ce week-end', 21, 0.49],
+    [47, 'Le marché de nuit revient à Quingey', 14, 0.47],
+  ] as [number, string, number, number][]) {
+    const recipients = 5320;
+    await db.insert(S.newsletters).values({
+      ...nlBase,
+      number: n,
+      subject,
+      title: subject,
+      intro: 'Les nouveautés de vos commerçants, artisans et producteurs.',
+      heroImageUrl: D.U(D.I.market, 1100, 500),
+      status: 'SENT',
+      sentAt: daysAgo(sentDays, 8),
+      scheduledAt: daysAgo(sentDays, 8),
+      statsRecipients: recipients,
+      statsSent: recipients - 12,
+      statsOpens: Math.round(recipients * opens),
+      statsClicks: Math.round(recipients * 0.11),
+      statsUnsubscribes: Math.round(recipients * 0.003),
+      statsBounces: 12,
+    });
+  }
+  await db.insert(S.newsletters).values({
+    ...nlBase,
+    number: 48,
+    subject: "Ce week-end, la fête de la pomme s'installe à Ornans",
+    preheader: '60 exposants place Courbet, et trois adresses à découvrir',
+    title: "Ce week-end, la fête de la pomme s'installe à Ornans",
+    intro: 'Samedi, 60 exposants place Courbet. Et pour prolonger, trois adresses qui ont des nouveautés cette semaine :',
+    heroImageUrl: D.U(D.I.market, 1100, 500),
+    blocks: [
+      { type: 'establishments', ids: [estByKey.b9.id, estByKey.b2.id, estByKey.b8.id], title: 'Trois adresses à découvrir' },
+      { type: 'cta', label: "Voir tout l'agenda", url: '/valdeloue/agenda' },
+    ],
+    status: 'DRAFT',
+    scheduledAt: parisAt(addIso(sat1, 6), '08:00'),
+  });
+
+  // ─── Revendications en attente (C3) ───────────────────────────────────────
+  console.log('→ Revendications, messages, historique');
+  const claimants = [
+    {
+      key: 'b5',
+      first: 'Julien',
+      last: 'Mougin',
+      email: 'julien@chauffage-mougin.fr',
+      avatar: D.I.p1,
+      risk: 'LOW' as const,
+      hours: 2,
+      siret: '79012345600018',
+      holder: 'MOUGIN JULIEN',
+      checks: [
+        { ok: true, label: 'SIRET vérifié', detail: 'Titulaire : MOUGIN JULIEN' },
+        { ok: true, label: 'Domaine email', detail: 'chauffage-mougin.fr = site de la fiche' },
+        { ok: false, label: 'Téléphone', detail: 'Numéro différent de celui importé' },
+      ],
+    },
+    {
+      key: 'b12',
+      first: 'Marc',
+      last: 'Petit',
+      email: 'marc.petit@gmail.com',
+      avatar: D.I.p3,
+      risk: 'MEDIUM' as const,
+      hours: 26,
+      siret: '31234567800017',
+      holder: 'SARL GARAGE DES TILLEULS',
+      checks: [
+        { ok: false, label: 'SIRET', detail: 'Nom du gérant différent' },
+        { ok: false, label: 'Email personnel', detail: 'Domaine non professionnel' },
+        { ok: true, label: 'Kbis déposé', detail: 'Daté de moins de 3 mois' },
+      ],
+    },
+    {
+      key: 'b11',
+      first: 'Léa',
+      last: 'Bouvier',
+      email: 'contact@miellerie-cotes.fr',
+      avatar: D.I.p2,
+      risk: 'LOW' as const,
+      hours: 30,
+      siret: '90123456700015',
+      holder: 'BOUVIER LEA',
+      checks: [
+        { ok: true, label: 'SIRET vérifié', detail: 'Titulaire : BOUVIER LEA' },
+        { ok: true, label: 'Code courrier', detail: 'Saisi il y a 2 jours' },
+        { ok: true, label: 'Téléphone', detail: 'Identique à la fiche' },
+      ],
+    },
+    {
+      key: 'b16',
+      first: 'Paul',
+      last: 'Rolland',
+      email: 'paul@rolland-ebeniste.fr',
+      avatar: D.I.p1,
+      risk: 'LOW' as const,
+      hours: 72,
+      siret: '75312468900014',
+      holder: 'ROLLAND PAUL',
+      checks: [
+        { ok: true, label: 'SIRET vérifié', detail: 'Titulaire : ROLLAND PAUL' },
+        { ok: true, label: 'Domaine email', detail: 'Cohérent' },
+      ],
+    },
+  ];
+  for (const c of claimants) {
+    const u = await mkUser({ email: c.email, first: c.first, last: c.last, avatar: D.U(c.avatar, 100, 100), createdAt: hoursAgo(c.hours) });
+    await db.insert(S.claims).values({
+      establishmentId: estByKey[c.key].id,
+      territoryId: vdl.id,
+      userId: u.id,
+      status: 'PENDING',
+      claimantRole: 'Gérant·e',
+      method: c.key === 'b12' ? 'KBIS' : c.key === 'b11' ? 'CODE' : 'SIRET',
+      siretProvided: fixSiret(c.siret),
+      sireneHolder: c.holder,
+      checks: c.checks,
+      riskLevel: c.risk,
+      createdAt: hoursAgo(c.hours),
+      updatedAt: hoursAgo(c.hours),
+    });
+  }
+  // Revendications déjà traitées (historique d'adoption)
+  const approvedClaims = genEsts
+    .filter((e) => e.ownerId && communeRows[e.commune])
+    .slice(0, 180)
+    .map((e) => ({
+      establishmentId: e.id,
+      territoryId: vdl.id,
+      userId: e.ownerId!,
+      status: 'APPROVED' as const,
+      method: 'SIRET',
+      riskLevel: 'LOW' as const,
+      reviewerId: r.chance(0.6) ? claire.id : anne.id,
+      reviewedAt: daysAgo(r.int(1, 150)),
+      createdAt: daysAgo(r.int(2, 160)),
+    }));
+  await insertMany(S.claims, approvedClaims);
+  await db.insert(S.claims).values({
+    establishmentId: estByKey.b1.id,
+    territoryId: vdl.id,
+    userId: sophieId,
+    status: 'APPROVED',
+    method: 'SIRET',
+    siretProvided: fixSiret('81234567800019'),
+    sireneHolder: 'MARTIN SOPHIE',
+    riskLevel: 'LOW',
+    reviewerId: anne.id,
+    reviewedAt: daysAgo(39),
+    createdAt: daysAgo(40),
+    checks: [{ ok: true, label: 'SIRET vérifié', detail: 'Titulaire : MARTIN SOPHIE' }],
+  });
+
+  await db.insert(S.establishmentRevisions).values([
+    { establishmentId: estByKey.b5.id, source: 'IMPORT', summary: 'Fiche précréée (import SIRENE)', createdAt: daysAgo(200) },
+    { establishmentId: estByKey.b5.id, source: 'COLLECTIVITE', userId: thomas.id, summary: 'Photos ajoutées par la collectivité', createdAt: daysAgo(120) },
+    { establishmentId: estByKey.b12.id, source: 'IMPORT', summary: 'Fiche précréée (import SIRENE)', createdAt: daysAgo(200) },
+    { establishmentId: estByKey.b11.id, source: 'IMPORT', summary: 'Fiche précréée (import SIRENE)', createdAt: daysAgo(200) },
+    { establishmentId: estByKey.b11.id, source: 'COLLECTIVITE', userId: hugo.id, summary: 'Horaires complétés par la mairie', createdAt: daysAgo(90) },
+    { establishmentId: estByKey.b16.id, source: 'IMPORT', summary: 'Fiche précréée (import SIRENE)', createdAt: daysAgo(200) },
+    { establishmentId: estByKey.b1.id, source: 'IMPORT', summary: 'Fiche précréée (import SIRENE)', createdAt: daysAgo(200) },
+    { establishmentId: estByKey.b1.id, source: 'PRO', userId: sophieId, summary: 'Revendication validée par la mairie d’Ornans', createdAt: daysAgo(39) },
+    { establishmentId: estByKey.b1.id, source: 'PRO', userId: sophieId, summary: 'Modification : Description, Photos', createdAt: daysAgo(2) },
+  ]);
+
+  // Messages reçus par Boulangerie Martin (E2)
+  await db.insert(S.messages).values([
+    {
+      establishmentId: estByKey.b1.id,
+      territoryId: vdl.id,
+      senderName: 'Julie P.',
+      senderEmail: 'julie.p@exemple.test',
+      body: 'Bonjour, peut-on commander 2 galettes pour le 6 janvier ?',
+      createdAt: hoursAgo(2),
+    },
+    {
+      establishmentId: estByKey.b1.id,
+      territoryId: vdl.id,
+      senderName: 'Marc D.',
+      senderEmail: 'marc.d@exemple.test',
+      body: 'Faites-vous du pain sans gluten ?',
+      createdAt: daysAgo(1, 15),
+    },
+    {
+      establishmentId: estByKey.b1.id,
+      territoryId: vdl.id,
+      source: 'COLLECTIVITE',
+      fromUserId: anne.id,
+      senderName: "Mairie d'Ornans",
+      senderEmail: 'commerce@ornans.fr',
+      body: 'Merci de confirmer vos horaires de la Toussaint pour la page de la commune.',
+      createdAt: daysAgo(3, 9),
+    },
+  ]);
+  // ─── Offres Premium et Communication : pages, formulaires, mini-site, clients ───
+  console.log('→ Mini-site, pages, formulaires et clients (offres Premium et Communication)');
+  const cave = estByKey.b6;
+  const fromagerie = estByKey.b2;
+  const fid = () =>
+    shortCode(8)
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, 'x');
+  const [coffretForm, plateauForm] = await db
+    .insert(S.establishmentForms)
+    .values([
+      {
+        establishmentId: cave.id,
+        title: 'Commander un coffret',
+        intro:
+          'Pour un anniversaire, un cadeau d’entreprise ou les fêtes : dites-nous l’occasion et le budget, nous composons le coffret et vous prévenons quand il est prêt.',
+        submitLabel: 'Envoyer ma demande',
+        successText: 'Merci ! Julie vous rappelle sous 24 heures pour composer votre coffret.',
+        fields: [
+          { id: fid(), label: 'Occasion', type: 'select', required: true, options: ['Anniversaire', 'Cadeau d’entreprise', 'Fêtes de fin d’année', 'Autre'] },
+          { id: fid(), label: 'Budget par coffret', type: 'select', required: true, options: ['30 €', '50 €', '80 €', '120 € et plus'] },
+          { id: fid(), label: 'Nombre de coffrets', type: 'number', required: true },
+          { id: fid(), label: 'Retrait souhaité le', type: 'date', required: false, help: 'Comptez 48 heures de préparation.' },
+          { id: fid(), label: 'Goûts et précisions', type: 'textarea', required: false },
+        ],
+        sortOrder: 0,
+        createdAt: daysAgo(60),
+      },
+      {
+        establishmentId: fromagerie.id,
+        title: 'Plateau de fromages sur commande',
+        intro: 'Plateaux composés et découpés par nos affineurs, à retirer à la boutique.',
+        submitLabel: 'Commander le plateau',
+        fields: [
+          { id: fid(), label: 'Nombre de convives', type: 'number', required: true },
+          { id: fid(), label: 'Date de retrait', type: 'date', required: true },
+          {
+            id: fid(),
+            label: 'Formule',
+            type: 'select',
+            required: true,
+            options: ['Tout Comté (3 affinages)', 'Franc-comtois (5 fromages)', 'Grand plateau (8 fromages)'],
+          },
+          { id: fid(), label: 'Découpe en portions', type: 'checkbox', required: false },
+        ],
+        sortOrder: 0,
+        createdAt: daysAgo(45),
+      },
+    ])
+    .returning();
+  await db.insert(S.establishmentPages).values([
+    {
+      establishmentId: cave.id,
+      title: 'Dégustations du samedi',
+      slug: 'degustations-du-samedi',
+      coverUrl: D.U(D.I.toast, 1280),
+      body: `Chaque samedi de 10 h à 12 h 30, nous ouvrons quatre bouteilles autour d’un thème : un domaine, un cépage ou une appellation du Jura.
+
+## Au programme ce trimestre
+- **Savagnin ouillé ou sous voile** : deux visages d’un même cépage
+- **Crémants du Jura** : brut, extra-brut et rosé
+- **Vins jaunes** : trois millésimes de Château-Chalon
+
+La dégustation est gratuite et sans inscription. Pour les groupes de plus de six personnes, [écrivez-nous](mailto:julie@cave-comtoise.fr).`,
+      sortOrder: 0,
+      createdAt: daysAgo(80),
+      updatedAt: daysAgo(12),
+    },
+    {
+      establishmentId: cave.id,
+      title: 'Coffrets entreprises',
+      slug: 'coffrets-entreprises',
+      coverUrl: D.U(D.I.board, 1280),
+      body: `Remerciez vos clients et vos équipes avec des produits du Val de Loue.
+
+## Comment ça marche
+- Choisissez un budget, de 30 à 150 € par coffret
+- Nous composons une sélection : vins, spiritueux, Comté et douceurs de nos voisins
+- Carte personnalisée et livraison dans tout le Doubs
+
+Devis gratuit sous 48 heures : utilisez le formulaire « Commander un coffret » de notre fiche.`,
+      sortOrder: 1,
+      createdAt: daysAgo(70),
+      updatedAt: daysAgo(30),
+    },
+    {
+      establishmentId: fromagerie.id,
+      title: 'Notre affinage',
+      slug: 'notre-affinage',
+      coverUrl: D.U(D.I.cheese, 1280),
+      body: `Le lait de 18 fermes voisines arrive chaque matin à la fruitière. Les meules de Comté passent ensuite de 12 à 36 mois dans nos caves, retournées et frottées à la main.
+
+## Trois affinages à la boutique
+- **12 mois** : fruité, notes de lait frais
+- **18 mois** : noisette et beurre
+- **36 mois** : puissant, cristaux de tyrosine
+
+Visite des caves le vendredi à 15 h, sur réservation.`,
+      sortOrder: 0,
+      createdAt: daysAgo(90),
+      updatedAt: daysAgo(20),
+    },
+  ]);
+  await db
+    .update(S.establishments)
+    .set({
+      themeColor: '#7a2e3b',
+      miniSite: {
+        enabled: true,
+        hero: 'color',
+        headline: 'Plus de 400 références, 120 vins du Jura et les conseils d’une caviste passionnée, au cœur d’Ornans.',
+        cta: { label: 'Commander un coffret', href: `form:${coffretForm.id}` },
+        sections: ['presentation', 'offre', 'pages', 'produits', 'formulaires', 'actualites', 'contact'],
+      },
+    })
+    .where(eq(S.establishments.id, cave.id));
+  // Réponses reçues par les formulaires.
+  const [occ, budget, nb, , gouts] = coffretForm.fields;
+  await db.insert(S.messages).values([
+    {
+      establishmentId: cave.id,
+      territoryId: vdl.id,
+      source: 'FORM',
+      senderName: 'Hélène Grosjean',
+      senderEmail: 'h.grosjean@exemple.test',
+      senderPhone: '0612457890',
+      subject: coffretForm.title,
+      formId: coffretForm.id,
+      answers: [
+        { label: occ.label, value: 'Cadeau d’entreprise' },
+        { label: budget.label, value: '50 €' },
+        { label: nb.label, value: '24' },
+        { label: gouts!.label, value: 'Pour nos clients artisans : plutôt vins blancs et un Comté 18 mois.' },
+      ],
+      body: `${occ.label} : Cadeau d’entreprise\n${budget.label} : 50 €\n${nb.label} : 24`,
+      createdAt: hoursAgo(5),
+    },
+    {
+      establishmentId: cave.id,
+      territoryId: vdl.id,
+      source: 'FORM',
+      senderName: 'Thomas Billot',
+      senderEmail: 'thomas.billot@exemple.test',
+      subject: coffretForm.title,
+      formId: coffretForm.id,
+      answers: [
+        { label: occ.label, value: 'Anniversaire' },
+        { label: budget.label, value: '80 €' },
+        { label: nb.label, value: '1' },
+      ],
+      body: `${occ.label} : Anniversaire\n${budget.label} : 80 €\n${nb.label} : 1`,
+      readAt: daysAgo(2),
+      status: 'READ',
+      createdAt: daysAgo(3, 18),
+    },
+    {
+      establishmentId: fromagerie.id,
+      territoryId: vdl.id,
+      source: 'FORM',
+      senderName: 'Isabelle Pourcelot',
+      senderEmail: 'i.pourcelot@exemple.test',
+      subject: plateauForm.title,
+      formId: plateauForm.id,
+      answers: [
+        { label: plateauForm.fields[0].label, value: '12' },
+        { label: plateauForm.fields[2].label, value: 'Franc-comtois (5 fromages)' },
+        { label: plateauForm.fields[3].label, value: 'Oui' },
+      ],
+      body: 'Plateau franc-comtois pour 12 personnes, découpé.',
+      createdAt: daysAgo(1, 11),
+    },
+  ]);
+  // Clients abonnés de la cave : inscrits depuis la fiche (double opt-in), quelques ajouts manuels.
+  const firstNames = [
+    'Claire',
+    'Julien',
+    'Nathalie',
+    'Pierre',
+    'Sandrine',
+    'Nicolas',
+    'Aurélie',
+    'Laurent',
+    'Émilie',
+    'Olivier',
+    'Camille',
+    'Sébastien',
+    'Marion',
+    'Vincent',
+  ];
+  const lastNames = ['Bourgeois', 'Vuillemin', 'Girardot', 'Jeannin', 'Cuenot', 'Monnier', 'Tissot', 'Faivre', 'Perrin', 'Roy', 'Mairot', 'Pheulpin'];
+  const contactRows: (typeof S.companyContacts.$inferInsert)[] = [];
+  const seenMails = new Set<string>();
+  for (let i = 0; contactRows.length < 38 && i < 200; i++) {
+    const f = r.pick(firstNames);
+    const l = r.pick(lastNames);
+    const email = `${slugify(f)}.${slugify(l)}@exemple.test`;
+    if (seenMails.has(email)) continue;
+    seenMails.add(email);
+    const n = contactRows.length;
+    const manual = n % 9 === 4;
+    const pending = n >= 33 && n < 36;
+    const gone = n >= 36;
+    // Les abonnements non confirmés sont récents : au-delà de 30 jours, la purge RGPD les efface.
+    const at = daysAgo(pending ? r.int(1, 12) : r.int(3, 120));
+    contactRows.push({
+      companyId: cave.companyId,
+      establishmentId: cave.id,
+      email,
+      fullName: r.chance(0.6) ? `${f} ${l}` : null,
+      source: manual ? 'MANUAL' : 'FICHE',
+      consentText: manual
+        ? 'Accord du client attesté par Julie Faivre (ajout manuel)'
+        : `J'accepte de recevoir les nouveautés et offres de La Cave Comtoise par email, via Val de Loue. Désinscription en un clic.`,
+      consentAt: at,
+      confirmedAt: pending ? null : at,
+      subscribed: !gone,
+      unsubscribedAt: gone ? daysAgo(r.int(1, 20)) : null,
+      unsubscribeToken: randomToken(24),
+      createdAt: at,
+    });
+  }
+  await db.insert(S.companyContacts).values(contactRows);
+  await db.insert(S.newsletters).values([
+    {
+      territoryId: vdl.id,
+      companyId: cave.companyId,
+      establishmentId: cave.id,
+      subject: 'Arrivage : les vins jaunes 2017 sont là',
+      title: 'Les vins jaunes 2017 sont arrivés',
+      intro: '',
+      blocks: [{ type: 'text', text: 'Bonjour à toutes et à tous, trois domaines, trois styles : venez les goûter samedi.' }],
+      status: 'SENT',
+      sentAt: daysAgo(12, 10),
+      statsRecipients: 31,
+      statsSent: 31,
+      statsOpens: 19,
+      statsClicks: 7,
+      statsUnsubscribes: 1,
+      createdById: cave.ownerId,
+      createdAt: daysAgo(12, 9),
+    },
+    {
+      territoryId: vdl.id,
+      companyId: cave.companyId,
+      establishmentId: cave.id,
+      subject: 'Samedi : dégustation des crémants du Jura',
+      title: 'Samedi, on ouvre les crémants',
+      intro: '',
+      blocks: [{ type: 'text', text: 'Brut, extra-brut et rosé : quatre crémants à découvrir samedi de 10 h à 12 h 30.' }],
+      status: 'SENT',
+      sentAt: daysAgo(26, 10),
+      statsRecipients: 28,
+      statsSent: 28,
+      statsOpens: 16,
+      statsClicks: 5,
+      statsUnsubscribes: 0,
+      createdById: cave.ownerId,
+      createdAt: daysAgo(26, 9),
+    },
+  ]);
+
+  await db.insert(S.jobApplications).values({
+    jobId: (await db.select({ id: S.jobs.id }).from(S.jobs).where(eq(S.jobs.establishmentId, estByKey.b1.id)).limit(1))[0].id,
+    establishmentId: estByKey.b1.id,
+    fullName: 'Lucas Grosjean',
+    email: 'lucas.g@exemple.test',
+    message: "Bonjour, j'entre en CAP boulanger en septembre et je cherche un maître d'apprentissage passionné.",
+    createdAt: daysAgo(1, 11),
+  });
+
+  // ─── Pipeline commercial (CRM) ────────────────────────────────────────────
+  console.log('→ CRM, facturation, audit');
+  const stageLog: [string, string, string][] = [
+    ['Premier contact', 'Échange au salon des maires', 'PROSPECT'],
+    ['Appel', 'Qualification du besoin, 24 min', 'FIRST_CONTACT'],
+    ['Démo', 'Démo en visio avec 4 élus', 'DEMO'],
+    ['Proposition', 'Envoi proposition commerciale v1', 'PROPOSAL'],
+    ['Négociation', 'Réunion sur le tarif et le périmètre', 'NEGOTIATION'],
+    ['Signature', 'Délibération votée en conseil', 'SIGNED'],
+    ['Onboarding', 'Kick-off et import des données', 'ONBOARDING'],
+    ['Bilan', "Point d'usage à 3 mois", 'ACTIVE'],
+  ];
+  const stageOrder = ['PROSPECT', 'FIRST_CONTACT', 'DEMO', 'PROPOSAL', 'NEGOTIATION', 'SIGNED', 'ONBOARDING', 'ACTIVE'];
+  const NOTE: Record<string, string> = {
+    PROSPECT:
+      "Territoire au tissu commercial fragile, forte attente sur la redynamisation des centres-bourgs. Budget à inscrire au prochain exercice : viser une démo avant le débat d'orientation budgétaire.",
+    NEGOTIATION:
+      'Intérêt fort du vice-président. Point d’attention : la DGS souhaite comparer avec la solution régionale. Argument clé : gratuité pour les entreprises et fiches précréées dès J1.',
+    ONBOARDING: 'Contrat signé. Référent technique identifié, import des données en cours. Objectif : 30 % de fiches revendiquées à 3 mois.',
+    ACTIVE: 'Client satisfait, adoption au-dessus de la moyenne. Potentiel de montée en gamme sur les modules seconde génération (IA, circuits).',
+  };
+  const ACTIONS: Record<string, [string, string][]> = {
+    pro: [
+      ['Qualifier le besoin (appel 20 min)', 'cette sem.'],
+      ['Envoyer la plaquette terricom.fr', 'J+2'],
+      ['Proposer une démo en ligne', 'J+7'],
+    ],
+    neg: [
+      ['Envoyer la proposition chiffrée', 'fait ?'],
+      ['Préparer la note pour le conseil communautaire', 'J+3'],
+      ['Répondre aux questions RGPD / hébergement', 'J+5'],
+    ],
+    onb: [
+      ['Import SIRENE et contrôle des doublons', 'en cours'],
+      ['Former les administrateurs communaux', 'J+4'],
+      ['Planifier le lancement presse', 'J+20'],
+    ],
+    act: [
+      ["Bilan d'usage trimestriel", 'janv.'],
+      ['Proposer le module Assistant IA', 'févr.'],
+      ["Recueillir un témoignage d'élu", 'mars'],
+    ],
+  };
+  for (const [i, d] of DEALS.entries()) {
+    const stageIdx = stageOrder.indexOf(d.stage);
+    const [deal] = await db
+      .insert(S.deals)
+      .values({
+        name: d.name,
+        kind: d.kind,
+        communesCount: d.communes,
+        population: d.pop,
+        stage: d.stage,
+        probability: d.prob,
+        licenceCents: d.licence,
+        setupCents: d.communes > 30 ? 800000 : d.communes > 10 ? 500000 : 200000,
+        ownerId: i % 3 === 2 ? sales.id : camille.id,
+        territoryId: d.territory ? territoryBySlug[d.territory].id : null,
+        nextAction: d.next,
+        notes: NOTE[d.stage] ?? NOTE[stageIdx >= 6 ? 'ACTIVE' : stageIdx >= 3 ? 'NEGOTIATION' : 'PROSPECT'],
+        source: r.pick(['Salon des maires', 'Recommandation', 'Démo en ligne', 'Appel entrant']),
+        lat: d.lat,
+        lng: d.lng,
+        lastInteractionAt: daysAgo(2 + i * 2),
+        createdAt: daysAgo(12 + i * 2 + stageIdx * 18),
+      })
+      .returning();
+    await db.insert(S.dealContacts).values([
+      { dealId: deal.id, name: d.contact, role: 'Vice-président·e développement économique', tag: 'Décideur', sortOrder: 0 },
+      {
+        dealId: deal.id,
+        name: r.pick(['Martine Rolland', 'Sylvie Carrez', 'Jean-Marc Boillot']),
+        role: 'Directrice générale des services',
+        tag: 'Influence',
+        sortOrder: 1,
+      },
+      {
+        dealId: deal.id,
+        name: r.pick(['Kevin Morel', 'Laura Pichon', 'Nathan Vidal']),
+        role: 'Chargé·e de mission commerce',
+        tag: 'Utilisateur',
+        sortOrder: 2,
+      },
+    ]);
+    const logs = stageLog
+      .slice(0, stageIdx + 1)
+      // La dernière étape correspond à la dernière interaction ; les précédentes s'espacent de 18 jours.
+      .map(([kind, text], k) => ({ dealId: deal.id, kind, text, occurredAt: daysAgo(2 + i * 2 + (stageIdx - k) * 18), userId: camille.id }));
+    await db.insert(S.dealActivities).values(logs);
+    const group = stageIdx >= 7 ? 'act' : stageIdx >= 5 ? 'onb' : stageIdx >= 3 ? 'neg' : 'pro';
+    await db.insert(S.dealTasks).values(ACTIONS[group].map(([text, due], k) => ({ dealId: deal.id, text, dueText: due, sortOrder: k })));
+    const docs: [string, number][] = [
+      ['Plaquette terricom.pdf', 0],
+      ['Support de démo.pdf', 2],
+      ['Proposition commerciale v2.pdf', 3],
+      ['Contrat signé.pdf', 5],
+      ['Convention RGPD.pdf', 5],
+    ];
+    await db.insert(S.dealDocuments).values(docs.filter(([, s]) => stageIdx >= s).map(([name]) => ({ dealId: deal.id, name })));
+  }
+
+  // ─── Factures ─────────────────────────────────────────────────────────────
+  const { createInvoice } = await import('@/server/services/billing');
+  await createInvoice({
+    customerType: 'TERRITORY',
+    territoryId: vdl.id,
+    customerName: 'Communauté de communes du Val de Loue',
+    customerAddress: '2 place de l’Hôtel de Ville, 25290 Ornans',
+    issuedAt: '2026-02-10',
+    lines: [{ label: 'Mise en service : paramétrage, import SIRENE, formation', quantity: 1, unitCents: 500000, vatRate: 20 }],
+    status: 'PAID',
+    paidAt: '2026-03-18',
+    paymentMethod: 'MANDAT_ADMINISTRATIF',
+    chorusRef: 'CPP-2026-004512',
+  });
+  await createInvoice({
+    customerType: 'TERRITORY',
+    territoryId: vdl.id,
+    customerName: 'Communauté de communes du Val de Loue',
+    customerAddress: '2 place de l’Hôtel de Ville, 25290 Ornans',
+    issuedAt: '2026-03-01',
+    lines: [{ label: 'Licence annuelle terricom — territoire pilote (mars 2026 – février 2027)', quantity: 1, unitCents: 900000, vatRate: 20 }],
+    status: 'PAID',
+    paidAt: '2026-04-06',
+    paymentMethod: 'MANDAT_ADMINISTRATIF',
+    chorusRef: 'CPP-2026-006021',
+  });
+  for (const t of OTHER_TERRITORIES) {
+    await createInvoice({
+      customerType: 'TERRITORY',
+      territoryId: territoryBySlug[t.slug].id,
+      customerName: t.legalName,
+      issuedAt: t.signedAt,
+      lines: [
+        { label: 'Mise en service', quantity: 1, unitCents: t.setupCents, vatRate: 20 },
+        { label: 'Licence annuelle terricom', quantity: 1, unitCents: t.licenceCents, vatRate: 20 },
+      ],
+      status: t.status === 'ACTIVE' ? 'PAID' : 'ISSUED',
+      paidAt: t.status === 'ACTIVE' ? addIso(t.signedAt, 35) : undefined,
+      paymentMethod: 'MANDAT_ADMINISTRATIF',
+    });
+  }
+
+  // ─── Utilisation IA, tickets, RGPD ────────────────────────────────────────
+  const premiumCompanies = allEsts.filter((e) => e.plan !== 'ESSENTIEL' && e.ownerId).map((e) => e.companyId);
+  const aiRows = Array.from({ length: 420 }, () => {
+    const feature = r.weighted([
+      ['WRITER', 5],
+      ['IMPROVE', 2],
+      ['SEARCH', 6],
+      ['TERRITORIAL', 1],
+    ] as ['WRITER' | 'IMPROVE' | 'SEARCH' | 'TERRITORIAL', number][]);
+    return {
+      territoryId: vdl.id,
+      companyId: (feature === 'WRITER' || feature === 'IMPROVE') && premiumCompanies.length ? r.pick(premiumCompanies) : null,
+      feature,
+      model: 'claude-opus-5',
+      inputTokens: r.int(900, 4000),
+      outputTokens: r.int(300, 1500),
+      credits: r.int(2, 8),
+      createdAt: new Date(now.getFullYear(), now.getMonth(), r.int(1, Math.max(1, now.getDate())), r.int(8, 20)),
+    };
+  });
+  await insertMany(S.aiUsage, aiRows);
+  const TICKETS: [string, string, string, 'OPEN' | 'PENDING' | 'RESOLVED', string][] = [
+    [
+      'Import CSV : colonnes non reconnues',
+      'haut-jura',
+      "Bonjour, notre fichier de la CCI a des colonnes « Enseigne » et « Adresse complète » que l'assistant d'import ne propose pas. Faut-il retravailler le fichier ?",
+      'OPEN',
+      'NORMAL',
+    ],
+    [
+      'Ajouter un administrateur communal',
+      'pays-de-lure',
+      'La mairie de Lure souhaite un deuxième agent. Comment lui donner accès uniquement à sa commune ?',
+      'OPEN',
+      'LOW',
+    ],
+    [
+      'Logo du portail flou sur mobile',
+      'valdeloue',
+      'Notre logo apparaît pixelisé sur iPhone dans l’en-tête du portail. Le fichier fourni fait 300 px de large.',
+      'PENDING',
+      'NORMAL',
+    ],
+    [
+      'Question sur la facturation Chorus Pro',
+      'grand-figeac',
+      'Notre service financier a besoin du numéro d’engagement sur la facture de mise en service. Pouvez-vous la rééditer ?',
+      'OPEN',
+      'HIGH',
+    ],
+    [
+      'Newsletter : domaine d’envoi personnalisé',
+      'quimperle',
+      'Nous aimerions envoyer la lettre depuis actu@quimperle-co.bzh. Quels enregistrements DNS ajouter ?',
+      'OPEN',
+      'NORMAL',
+    ],
+    [
+      'Doublons après import SIRENE',
+      'haut-jura',
+      'Une vingtaine d’établissements apparaissent deux fois (siège et établissement secondaire). Peut-on les fusionner en masse ?',
+      'OPEN',
+      'HIGH',
+    ],
+    ['Formation des agents de la mairie', 'dole', 'Pourriez-vous nous proposer une session en visio pour les trois agents de l’accueil ?', 'OPEN', 'LOW'],
+  ];
+  const ticketRows = await db
+    .insert(S.supportTickets)
+    .values(
+      TICKETS.map(([subject, t, body, status, priority], i) => ({
+        subject,
+        territoryId: territoryBySlug[t].id,
+        status,
+        priority,
+        body,
+        createdAt: daysAgo(i + 1),
+        createdById: adminBySlug[t].id,
+      })),
+    )
+    .returning();
+  await db.insert(S.ticketMessages).values(
+    ticketRows.map((t) => {
+      const author = Object.entries(territoryBySlug).find(([, tr]) => tr.id === t.territoryId)?.[0] ?? 'valdeloue';
+      const a = adminBySlug[author];
+      return { ticketId: t.id, authorId: a.id, authorLabel: `${a.firstName ?? ''} ${a.lastName ?? ''}`.trim(), body: t.body, createdAt: t.createdAt };
+    }),
+  );
+  const logoTicket = ticketRows.find((t) => t.subject.startsWith('Logo'));
+  if (logoTicket)
+    await db.insert(S.ticketMessages).values({
+      ticketId: logoTicket.id,
+      authorId: support.id,
+      authorLabel: 'Support terricom',
+      fromSupport: true,
+      body: 'Bonjour Claire, pour un rendu net sur les écrans haute densité, déposez un logo SVG ou un PNG de 600 px de large minimum depuis Personnalisation > Identité. Dites-nous si le problème persiste.',
+      createdAt: new Date(logoTicket.createdAt.getTime() + 3 * 3_600_000),
+    });
+  await db.insert(S.privacyRequests).values([
+    ...Array.from({ length: 17 }, (_, i) => ({
+      email: `habitant${i + 1}@demo.terricom.test`,
+      kind: 'EXPORT' as const,
+      status: 'DONE' as const,
+      territoryId: vdl.id,
+      createdAt: daysAgo(150 - i * 8),
+      completedAt: daysAgo(149 - i * 8),
+    })),
+    ...Array.from({ length: 9 }, (_, i) => ({
+      email: `ancien${i + 1}@demo.terricom.test`,
+      kind: 'DELETE' as const,
+      status: 'DONE' as const,
+      territoryId: vdl.id,
+      createdAt: daysAgo(140 - i * 12),
+      completedAt: daysAgo(139 - i * 12),
+    })),
+  ]);
+
+  await db.insert(S.privacyRequests).values([
+    { email: 'lea.moutot@exemple.test', kind: 'EXPORT', status: 'OPEN', territoryId: vdl.id, note: 'Reçue par email au DPO de la CC', createdAt: daysAgo(4) },
+    {
+      email: 'paul.vernier@exemple.test',
+      kind: 'DELETE',
+      status: 'OPEN',
+      territoryId: vdl.id,
+      note: 'Courrier reçu en mairie d’Ornans',
+      createdAt: daysAgo(2),
+    },
+  ]);
+
+  // Désabonnements Premium récents (churn mensuel) : deux entreprises repassées en Essentiel.
+  const churned = allEsts.filter((e) => e.plan === 'ESSENTIEL' && e.ownerId).slice(0, 2);
+  if (churned.length)
+    await db.insert(S.companySubscriptions).values(
+      churned.map((e, i) => ({
+        companyId: e.companyId,
+        plan: 'PREMIUM' as const,
+        status: 'CANCELED' as const,
+        provider: 'STRIPE',
+        startedAt: daysAgo(160 + i * 20),
+        canceledAt: daysAgo(9 + i * 12),
+      })),
+    );
+
+  // ─── Emails émis (boîte d'envoi de démonstration) ────────────────────────
+  const T = await import('@/server/mail/templates');
+  const outbox = [
+    {
+      ...T.claimInvitationTemplate({
+        to: 'contact@ferme-des-granges.exemple.test',
+        establishmentName: 'Ferme des Granges',
+        territory: vdl,
+        url: `${process.env.APP_URL ?? 'http://localhost:3000'}/pro/revendiquer`,
+      }),
+      territoryId: vdl.id,
+      at: daysAgo(6, 9),
+    },
+    {
+      ...T.staffInvitationTemplate({
+        to: 'agent.accueil@ornans.fr',
+        inviter: 'Claire Duval',
+        scopeName: 'Commune d’Ornans',
+        roleLabel: 'Agent communal',
+        url: `${process.env.APP_URL ?? 'http://localhost:3000'}/invitation/demo`,
+      }),
+      territoryId: vdl.id,
+      at: daysAgo(4, 11),
+    },
+    {
+      ...T.newsletterConfirmTemplate({
+        to: 'lea.moutot@exemple.test',
+        territory: vdl,
+        newsletterName: 'La lettre du Val de Loue',
+        url: `${process.env.APP_URL ?? 'http://localhost:3000'}/valdeloue`,
+      }),
+      territoryId: vdl.id,
+      at: daysAgo(3, 18),
+    },
+    {
+      ...T.ticketReplyTemplate({
+        to: 'c.duval@cc-valdeloue.fr',
+        number: 3,
+        subject: 'Logo du portail flou sur mobile',
+        reply: 'Bonjour Claire, pour un rendu net sur les écrans haute densité, déposez un logo SVG ou un PNG de 600 px de large minimum.',
+        resolved: false,
+      }),
+      territoryId: vdl.id,
+      at: daysAgo(3, 15),
+    },
+    {
+      ...T.securityAlertTemplate({
+        to: 'h.lambert@cc-valdeloue.fr',
+        title: 'Votre compte a été verrouillé temporairement',
+        detail: 'Plusieurs tentatives de connexion ont échoué. Par sécurité, votre compte est verrouillé 15 minutes.',
+      }),
+      territoryId: vdl.id,
+      at: daysAgo(2, 14),
+    },
+  ];
+  await db.insert(S.emails).values(
+    outbox.map(({ at, ...m }) => ({
+      to: m.to,
+      subject: m.subject,
+      html: m.html,
+      text: m.text,
+      template: m.template ?? null,
+      territoryId: m.territoryId,
+      status: 'OUTBOX' as const,
+      createdAt: at,
+    })),
+  );
+
+  // ─── Sondes de disponibilité (30 jours, une par minute) ───────────────────
+  await db.execute(sql`
+    INSERT INTO health_probes (at, ok, latency_ms)
+    SELECT ts, (n % 4801) <> 17, 118 + (random() * 48)::int
+    FROM (SELECT ts, row_number() OVER (ORDER BY ts) AS n
+          FROM generate_series(now() - interval '30 days', now() - interval '1 minute', interval '1 minute') AS ts) g`);
+
+  // ─── Statistiques d'audience simulées ────────────────────────────────────
+  console.log("→ Statistiques d'audience (simulation depuis le lancement pilote)");
+  const { seedAnalytics } = await import('./seed/analytics');
+  await seedAnalytics({ db, sql, territoryId: vdl.id, b1: estByKey.b1.id, launch: '2026-03-02', now });
+  // Vues des pages de campagne (opérations commerciales en cours ou passées), de leur lancement à aujourd'hui.
+  await db.execute(sql`
+    INSERT INTO analytics_events (occurred_at, territory_id, ref_id, type, source, visitor_hash, path, device)
+    SELECT ts, c.territory_id, c.id, 'CAMPAIGN_VIEW', (ARRAY['DIRECT','SOCIAL','NEWSLETTER','QR','GOOGLE'])[1 + floor(random() * 5)::int]::traffic_source,
+      left(md5(c.id::text || ts::text || random()::text), 32), '/campagnes/' || c.slug,
+      (ARRAY['mobile','mobile','desktop','tablet'])[1 + floor(random() * 4)::int]
+    FROM campaigns c
+    CROSS JOIN LATERAL generate_series(greatest(c.starts_at::timestamptz, now() - interval '60 days'), least(c.ends_at::timestamptz + interval '1 day', now()),
+      interval '1 minute' * (CASE WHEN c.slug LIKE 'noel%' THEN 25 ELSE 70 END)) AS ts
+    WHERE c.status IN ('ACTIVE', 'ENDED') AND c.starts_at <= current_date`);
+
+  // ─── Synchronisation SIRENE : passages et propositions à valider ─────────
+  console.log('→ Synchronisation SIRENE (propositions à valider)');
+  const [syncOld] = await db
+    .insert(S.sireneSyncRuns)
+    .values({
+      territoryId: vdl.id,
+      source: 'RECHERCHE',
+      trigger: 'SCHEDULE',
+      status: 'DONE',
+      since: daysAgo(66),
+      creations: 4,
+      closures: 1,
+      ignored: 3,
+      startedAt: daysAgo(35, 5),
+      finishedAt: daysAgo(35, 5),
+    })
+    .returning();
+  const [syncRun] = await db
+    .insert(S.sireneSyncRuns)
+    .values({
+      territoryId: vdl.id,
+      source: 'RECHERCHE',
+      trigger: 'SCHEDULE',
+      status: 'DONE',
+      since: daysAgo(35),
+      creations: 5,
+      closures: 2,
+      ignored: 2,
+      startedAt: daysAgo(6, 5),
+      finishedAt: daysAgo(6, 5),
+    })
+    .returning();
+  const newcomers: [string, string, string, string, string][] = [
+    ['Ornans', 'Le Fournil de la Loue', 'boulangerie', '10.71C', '12 rue Saint-Laurent'],
+    ['Ornans', 'Atelier Vélo Loue', 'garage', '45.20A', '3 avenue du Président Wilson'],
+    ['Quingey', 'Épicerie du Pont', 'epicerie', '47.11B', '1 place de la Mairie'],
+    ['Amancey', 'Coiffure Élise', 'coiffure', '96.02A', '8 grande rue'],
+    ['Vuillafans', 'Miellerie des Côtes', 'apiculteur', '01.49Z', '5 chemin des Côtes'],
+  ];
+  const sireneRows: (typeof S.sireneChanges.$inferInsert)[] = newcomers.map(([commune, name, cat, naf, street], i) => {
+    const c = communeRows[commune];
+    const siret = fixSiret(`9${String(81234560 + i * 1111)}0001`);
+    return {
+      territoryId: vdl.id,
+      communeId: c.id,
+      runId: syncRun.id,
+      kind: 'CREATION',
+      siret,
+      categoryId: catBySlug.get(cat)?.id ?? null,
+      createdAt: daysAgo(6, 5),
+      record: {
+        siret,
+        name,
+        naf,
+        street,
+        postalCode: c.postalCodes[0],
+        inseeCode: c.inseeCode,
+        city: c.name,
+        lat: (c.lat ?? 47) + (i - 2) * 0.0012,
+        lng: (c.lng ?? 6) + (i - 2) * 0.0015,
+        active: true,
+        createdOn: daysAgo(20 + i * 4)
+          .toISOString()
+          .slice(0, 10),
+      },
+    };
+  });
+  const closing = allEsts.filter((e) => e.status === 'PRECREATED' && communeRows[e.commune]).slice(3, 5);
+  const closingRows = closing.length
+    ? await db
+        .select({
+          id: S.establishments.id,
+          siret: S.establishments.siret,
+          name: S.establishments.name,
+          street: S.establishments.street,
+          lat: S.establishments.lat,
+          lng: S.establishments.lng,
+        })
+        .from(S.establishments)
+        .where(
+          inArray(
+            S.establishments.id,
+            closing.map((e) => e.id),
+          ),
+        )
+    : [];
+  for (const [i, e] of closingRows.entries()) {
+    const c = communeRows[closing.find((x) => x.id === e.id)!.commune];
+    sireneRows.push({
+      territoryId: vdl.id,
+      communeId: c.id,
+      runId: syncRun.id,
+      kind: 'CLOSURE',
+      siret: e.siret!,
+      establishmentId: e.id,
+      createdAt: daysAgo(6, 5),
+      record: {
+        siret: e.siret!,
+        name: e.name.toUpperCase(),
+        naf: null,
+        street: e.street ?? '',
+        postalCode: c.postalCodes[0],
+        inseeCode: c.inseeCode,
+        city: c.name,
+        lat: e.lat,
+        lng: e.lng,
+        active: false,
+        changedOn: daysAgo(40 + i * 9)
+          .toISOString()
+          .slice(0, 10),
+      },
+    });
+  }
+  // Décisions du passage précédent (historique).
+  sireneRows.push({
+    territoryId: vdl.id,
+    communeId: communeRows['Lods'].id,
+    runId: syncOld.id,
+    kind: 'CREATION',
+    siret: fixSiret('9812000000001'),
+    status: 'REJECTED',
+    decidedById: claire.id,
+    decidedAt: daysAgo(33, 10),
+    createdAt: daysAgo(35, 5),
+    record: {
+      siret: fixSiret('9812000000001'),
+      name: 'SCI DU MOULIN',
+      naf: '68.20B',
+      street: '2 rue du Moulin',
+      postalCode: '25930',
+      inseeCode: '25339',
+      city: 'Lods',
+      lat: 47.0497,
+      lng: 6.2372,
+      active: true,
+    },
+  });
+  await db.insert(S.sireneChanges).values(sireneRows);
+
+  // ─── Scores de complétude et index de recherche ──────────────────────────
+  console.log('→ Index de recherche et complétude des fiches');
+  await db.execute(sql`
+    UPDATE establishments e SET search_keywords = trim(concat_ws(' ',
+      (SELECT k.name || ' ' || array_to_string(k.synonyms, ' ') FROM categories k WHERE k.id = e.category_id),
+      (SELECT string_agg(a.label, ' ') FROM establishment_attributes ea JOIN attributes a ON a.id = ea.attribute_id WHERE ea.establishment_id = e.id),
+      (SELECT string_agg(p.name, ' ') FROM products p WHERE p.establishment_id = e.id),
+      (SELECT c.name FROM communes c WHERE c.id = e.commune_id)))`);
+  const ids = allEsts.map((e) => e.id);
+  for (let i = 0; i < ids.length; i += 50) await Promise.all(ids.slice(i, i + 50).map((id) => refreshCompleteness(id)));
+
+  // ─── Journal d'audit ──────────────────────────────────────────────────────
+  const auditEntries: Parameters<typeof audit>[0][] = [
+    {
+      at: daysAgo(205, 9),
+      actor: 'Système',
+      category: 'IMPORT',
+      action: 'import.sirene',
+      summary: `Import SIRENE Val de Loue : ${allEsts.filter((e) => communeRows[e.commune]).length} fiches créées`,
+      territoryId: vdl.id,
+    },
+    {
+      at: daysAgo(3, 16),
+      actor: { user: camille },
+      category: 'CONFIGURATION',
+      action: 'module.enabled',
+      summary: 'Module « Assistant IA » activé pour Val de Loue',
+      territoryId: vdl.id,
+    },
+    {
+      at: daysAgo(3, 10),
+      actor: 'Système',
+      category: 'RGPD',
+      action: 'privacy.export',
+      summary: 'Export RGPD généré pour un habitant (demande n°17)',
+      territoryId: vdl.id,
+    },
+    {
+      at: daysAgo(2, 11),
+      actor: { user: claire },
+      category: 'MODERATION',
+      action: 'establishment.suspend',
+      summary: 'A suspendu « Céramiques Lison » (inactive 5 mois)',
+      territoryId: vdl.id,
+      targetType: 'establishment',
+      targetId: estByKey.b8.id,
+    },
+    {
+      at: daysAgo(2, 14),
+      actor: { user: hugo },
+      category: 'SECURITE',
+      action: 'auth.locked',
+      summary: 'Connexion refusée : 5 tentatives, compte verrouillé 15 min',
+      territoryId: vdl.id,
+    },
+    {
+      at: daysAgo(2, 17),
+      actor: { user: thomas },
+      category: 'ENVOI',
+      action: 'newsletter.schedule',
+      summary: 'Newsletter n°47 programmée (5 320 destinataires)',
+      territoryId: vdl.id,
+    },
+    {
+      at: daysAgo(2, 18),
+      actor: 'Système',
+      category: 'IMPORT',
+      action: 'import.sirene',
+      summary: 'Import SIRENE Haut-Jura : 90 fiches créées',
+      territoryId: territoryBySlug['haut-jura'].id,
+    },
+    {
+      at: daysAgo(1, 8),
+      actor: { user: anne },
+      category: 'MODIFICATION',
+      action: 'establishment.update',
+      summary: 'A modifié les horaires de « Boulangerie Martin »',
+      territoryId: vdl.id,
+      targetType: 'establishment',
+      targetId: estByKey.b1.id,
+    },
+    {
+      at: daysAgo(1, 9),
+      actor: { id: support.id, label: 'Support terricom' },
+      category: 'SUPPORT',
+      action: 'support.impersonation_start',
+      summary: 'Accès support ouvert sur Haut-Jura (ticket #1, 30 min)',
+      territoryId: territoryBySlug['haut-jura'].id,
+    },
+    {
+      at: daysAgo(0, 9),
+      actor: { user: claire },
+      category: 'VALIDATION',
+      action: 'claim.approve',
+      summary: 'A validé la revendication « Ferme des Granges »',
+      territoryId: vdl.id,
+    },
+  ];
+  auditEntries.sort((a, b) => a.at!.getTime() - b.at!.getTime());
+  // Journal inaltérable : en démonstration réelle, aucun événement fictif n'y est écrit.
+  if (process.env.DEMO_DATASET === 'fictif') for (const a of auditEntries) await audit(a);
+
+  // ─── Démonstration réelle : seul le Haut-Doubs reste ──────────────────────
+  // Par défaut, la démonstration ne montre que le territoire réel. Le jeu fictif (Val de Loue, autres clients,
+  // prospects) ne sert qu'aux tests automatiques : DEMO_DATASET=fictif npm run db:reset.
+  if (process.env.DEMO_DATASET !== 'fictif') {
+    console.log('→ Démonstration réelle : retrait du jeu fictif');
+    const keep = territoryBySlug['haut-doubs'].id;
+    await db.execute(sql`delete from establishments where territory_id <> ${keep}`);
+    await db.execute(sql`delete from territories where id <> ${keep}`);
+    await db.execute(sql`delete from communes c where not exists (select 1 from commune_memberships m where m.commune_id = c.id)`);
+    await db.execute(sql`delete from companies c where not exists (select 1 from establishments e where e.company_id = c.id)`);
+    await db.execute(sql`delete from deals`);
+    await db.execute(sql`delete from support_tickets`);
+    await db.execute(sql`delete from emails`);
+    // Statistiques de visite simulées : jamais sur de vraies entreprises (seul le commerce de démonstration en garde).
+    await db.execute(sql`delete from analytics_events where establishment_id is distinct from ${demoEstId}`);
+    await db.execute(sql`delete from analytics_daily where establishment_id is distinct from ${demoEstId}`);
+    await db.execute(sql`delete from ai_usage`);
+    await db.execute(sql`delete from privacy_requests`);
+    await db.execute(sql`delete from invoices`);
+    await db.execute(sql`delete from health_probes`);
+    // Comptes fictifs : ni rôle restant, ni entreprise (l'équipe terricom garde ses rôles plateforme).
+    await db.execute(sql`delete from users u where not exists (select 1 from role_assignments r where r.user_id = u.id)
+      and not exists (select 1 from company_members m where m.user_id = u.id)
+      and not exists (select 1 from claims c where c.user_id = u.id)`);
+    await db.execute(sql`delete from queue_jobs where payload ? 'establishmentId' and not exists
+      (select 1 from establishments e where e.id::text = queue_jobs.payload->>'establishmentId')`);
+  }
+
+  // ─── Vitrine nationale : adhésions directes ───────────────────────────────
+  // Entreprises dont ni la commune ni l'intercommunalité ne sont partenaires : elles adhèrent seules (et paient).
+  // Deux communes hors territoire partenaire (référentiel officiel, API Géo), et une fiche d'exemple signalée.
+  console.log('→ Vitrine nationale (adhésions directes)');
+  const { ensureNationalTerritory } = await import('@/server/services/territories');
+  const national = await ensureNationalTerritory();
+  await db
+    .insert(S.communes)
+    .values([
+      {
+        inseeCode: '25462',
+        name: 'Pontarlier',
+        slug: 'pontarlier',
+        postalCodes: ['25300'],
+        departmentCode: '25',
+        population: 18067,
+        lat: 46.9167,
+        lng: 6.3796,
+        epciSiren: '242500338',
+        epciName: 'CC du Grand Pontarlier',
+      },
+      {
+        inseeCode: '25411',
+        name: 'Morteau',
+        slug: 'morteau',
+        postalCodes: ['25500'],
+        departmentCode: '25',
+        population: 6953,
+        lat: 47.0643,
+        lng: 6.5891,
+        epciSiren: '242504116',
+        epciName: 'CC du Val de Morteau',
+      },
+    ])
+    .onConflictDoNothing();
+  const [pontarlier] = await db.select().from(S.communes).where(eq(S.communes.inseeCode, '25462')).limit(1);
+  const directOwner = await mkUser({ email: 'adherent@demo-direct.exemple.test', first: 'Artisan', last: 'de démonstration', job: 'Gérant (exemple)' });
+  const [directCo] = await db
+    .insert(S.companies)
+    .values({
+      siren: null,
+      legalName: 'ATELIER DE DÉMONSTRATION',
+      tradeName: 'Atelier de démonstration',
+      nafCode: '90.03A',
+      plan: 'PREMIUM',
+      createdAt: daysAgo(12),
+    })
+    .returning();
+  const [directEst] = await db
+    .insert(S.establishments)
+    .values({
+      companyId: directCo.id,
+      communeId: pontarlier.id,
+      territoryId: national.id,
+      categoryId: catBySlug.get('metiers-d-art')!.id,
+      slug: 'atelier-de-demonstration',
+      name: 'Atelier de démonstration (adhésion directe)',
+      status: 'CLAIMED',
+      origin: 'PRO',
+      activityLabel: 'Céramiste (exemple)',
+      tagline: 'Fiche d’exemple : une entreprise qui adhère directement à terricom. Cet atelier n’existe pas.',
+      description:
+        'Exemple de démonstration. Sa commune n’a pas encore rejoint terricom : l’entreprise a adhéré directement, sa fiche figure dans la vitrine nationale. Le jour où sa collectivité adhère, la fiche rejoint le portail du territoire et lui est offerte.',
+      street: 'Adresse d’exemple',
+      postalCode: '25300',
+      lat: (pontarlier.lat ?? 46.9) + 0.002,
+      lng: (pontarlier.lng ?? 6.38) - 0.0015,
+      hoursConfirmedAt: daysAgo(2),
+      lastActivityAt: daysAgo(1),
+      publishedAt: daysAgo(10),
+      qrCode: shortCode(8),
+      createdAt: daysAgo(12),
+    })
+    .returning();
+  await db.insert(S.companyMembers).values({ companyId: directCo.id, userId: directOwner.id, role: 'OWNER' });
+  await db.insert(S.companySubscriptions).values({
+    companyId: directCo.id,
+    plan: 'PREMIUM',
+    status: 'ACTIVE',
+    direct: true,
+    interval: 'MONTH',
+    startedAt: daysAgo(10),
+    currentPeriodEnd: new Date(now.getTime() + 20 * DAY),
+  });
+  for (const wd of [1, 2, 3, 4, 5]) await db.insert(S.openingHours).values({ establishmentId: directEst.id, weekday: wd, opensAt: '10:00', closesAt: '18:30' });
+  await refreshCompleteness(directEst.id);
+  // Jeu de test : l'adhésion alimente le suivi commercial de l'intercommunalité (levier).
+  if (process.env.DEMO_DATASET === 'fictif') {
+    const { recordDirectLever } = await import('@/server/services/direct');
+    await recordDirectLever(directCo.id);
+  }
+
+  const counts = await db.execute<{ t: string; n: number }>(
+    sql`SELECT 'establishments' t, count(*)::int n FROM establishments UNION ALL SELECT 'users', count(*)::int FROM users UNION ALL SELECT 'analytics_events', count(*)::int FROM analytics_events UNION ALL SELECT 'subscribers', count(*)::int FROM subscribers`,
+  );
+  console.log(`\n✓ Jeu de démonstration créé en ${Math.round((Date.now() - started) / 1000)} s`);
+  for (const row of counts.rows) console.log(`   ${row.t.padEnd(18)} ${row.n}`);
+  console.log(`
+Comptes de démonstration (mot de passe : ${DEMO_PASSWORD})
+  Super administrateur ....... camille@terricom.fr        (MFA)
+  Admin territoriale (CC) .... c.duval@cc-valdeloue.fr    (MFA)
+  Chargé de communication .... t.girod@cc-valdeloue.fr    (MFA)
+  Admin communale Ornans ..... commerce@ornans.fr         (MFA)
+  Admin communal Quingey ..... mairie@quingey.fr
+  Professionnelle (boulangère) sophie@boulangerie-martin.fr
+  Caviste (offre Communication) julie@cave-comtoise.fr
+  Admin Haut-Doubs (CC) ...... collectivite@haut-doubs.exemple.test (MFA)
+  Admin communale Métabief ... mairie@metabief.exemple.test
+  Adhérent direct (exemple) .. adherent@demo-direct.exemple.test
+Code MFA : secret TOTP ${DEMO_TOTP_SECRET} (à ajouter dans une application d'authentification)
+`);
+  void inArray;
+  await pool.end();
+}
+
+main().catch(async (err) => {
+  console.error('✗ Échec du seed', err);
+  process.exit(1);
+});

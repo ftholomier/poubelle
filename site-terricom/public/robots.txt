@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://terricom.fr/sitemap.xml

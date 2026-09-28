@@ -1,0 +1,1 @@
+ALTER TABLE "audiences" ADD COLUMN "criteria" jsonb DEFAULT '{}'::jsonb NOT NULL;

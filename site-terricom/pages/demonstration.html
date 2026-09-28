@@ -1,0 +1,100 @@
+<!--
+titre: La démonstration
+description: Découvrez terricom sur notre territoire de démonstration, les Lacs et Montagnes du Haut-Doubs, puis demandez la démonstration préparée sur votre propre territoire, où qu’il soit en France.
+-->
+<section class="hero hero-photo">
+  <div class="bg">{{img:photos/territoire.webp|Le lac de Saint-Point depuis le belvédère de Montperreux|eager}}</div>
+  <div class="wrap hero-page" style="width:100%">
+    <div class="head">
+      <span class="eyebrow" style="color:#F4B266">La démonstration</span>
+      <h1>Voyez-le sur <em>un vrai territoire.</em></h1>
+      <p class="lead" style="color:#e8eee9">Pas de maquette, pas de commerces imaginaires : pour vous montrer terricom tel qu’il sera chez vous, nous l’avons construit sur un territoire réel, les Lacs et Montagnes du Haut-Doubs, avec les entreprises de leurs 32 communes. Votre démonstration, elle, sera construite sur votre territoire, où qu’il soit en France.</p>
+      <div class="actions"><a class="btn btn-amber" href="#demande">Demander la démonstration de notre territoire <span class="arr">→</span></a><a class="btn btn-line" href="#film" style="color:#fff">Le film</a></div>
+    </div>
+  </div>
+  <p class="credit">{{credit:territoire}}</p>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="stats reveal">
+      <div><b data-count="32">32</b><span>communes, du bourg-centre aux hameaux de montagne</span></div>
+      <div><b data-count="3753">3 753</b><span>établissements du registre SIRENE examinés un par un</span></div>
+      <div><b data-count="1968">1 968</b><span>entreprises en vitrine, chacune sur la carte</span></div>
+      <div><b data-count="219">219</b><span>cas douteux proposés à la validation plutôt qu’exclus d’office</span></div>
+    </div>
+    <p class="sources">Données publiques SIRENE (Insee) de septembre 2026. Démonstration réalisée à titre d’illustration, sans engagement de la communauté de communes des Lacs et Montagnes du Haut-Doubs. Les seuls contenus d’exemple (« … de démonstration ») sont signalés comme tels.</p>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Notre territoire de démonstration</span>
+      <h2>Ce que voient <em>les habitants.</em></h2>
+    </div>
+    <div class="gallery">
+      <div class="wide">{{shot:portail-accueil|haut-doubs.terricom.fr|Accueil du portail des Lacs et Montagnes du Haut-Doubs, avec la photo du lac de Saint-Point}}</div>
+      <div>{{shot:carte-metabief|haut-doubs.terricom.fr/explorer|Carte des fromageries autour de Métabief, sur un fond de carte détaillé avec relief et pistes de ski}}<p class="figcap">La carte, jusqu’au détail des villages : ici, les fromageries autour de Métabief.</p></div>
+      <div>{{shot:commune-metabief|haut-doubs.terricom.fr/metabief|Page de Métabief}}<p class="figcap">Métabief : 229 professionnels, dont 16 commerces et 14 artisans.</p></div>
+      <div>{{shot:emploi|haut-doubs.terricom.fr/emploi|Page emploi du territoire}}<p class="figcap">« Travailler près de chez soi » : les offres des entreprises locales.</p></div>
+      <div>{{shot:portail-ouvert|haut-doubs.terricom.fr|Section « Bientôt ouvert près de vous » et campagne du territoire}}<p class="figcap">« Ouvert près de vous » et la campagne du moment, dès l’accueil.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section dark" id="film">
+  <div class="wrap">
+    <div class="head center">
+      <span class="eyebrow">Le film</span>
+      <h2>Une minute cinquante-quatre <em>pour tout comprendre.</em></h2>
+    </div>
+    <div class="video reveal">
+      <video controls preload="none" playsinline poster="assets/video/affiche.jpg" width="1280" height="720">
+        <source src="assets/video/film.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="gallery mt">
+      <div class="third">{{anim:site-tableau|terricom.fr/collectivite|Tableau de bord de la communauté de communes}}<p class="figcap">Le tableau de bord de la communauté de communes.</p></div>
+      <div class="third">{{anim:bo-ia|terricom.fr/collectivite/campagnes|Assistant de campagne}}<p class="figcap">Une campagne de Noël préparée à partir d’une phrase.</p></div>
+      <div class="third">{{anim:site-pro|terricom.fr/pro/publications|Assistant de publication d’un commerce}}<p class="figcap">Un commerce publie sur tous ses canaux en une phrase.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="demande">
+  <div class="wrap split" style="align-items:start">
+    <div class="text reveal">
+      <span class="eyebrow">Votre démonstration</span>
+      <h2>Nous la préparons <em>sur votre territoire.</em></h2>
+      <p class="lead">Indiquez-nous votre collectivité : nous construisons un portail avec vos communes, vos entreprises et votre carte, puis nous vous le présentons en trente minutes, en visioconférence ou dans vos locaux.</p>
+      <ul class="list">
+        <li>Une démonstration personnelle, visible par vous seuls, pendant trente jours.</li>
+        <li>Les chiffres de votre territoire : entreprises par commune et par activité.</li>
+        <li>Une note de présentation pour vos élus, si vous le souhaitez.</li>
+        <li>Sans engagement, et sans démarchage de vos entreprises.</li>
+      </ul>
+    </div>
+    <form class="form card reveal" data-endpoint="{{api}}/demonstration" data-mailto="ftholomier@gmail.com" data-subject="Demande de démonstration terricom">
+      <div class="field"><label for="collectivite">Votre collectivité *</label><input id="collectivite" name="collectivite" required autocomplete="organization" placeholder="Communauté de communes, commune…"></div>
+      <div class="row r21">
+        <div class="field"><label for="type">Type de collectivité</label><select id="type" name="type"><option value="CC">Communauté de communes</option><option value="CA">Communauté d’agglomération</option><option value="COMMUNE">Commune</option><option value="AUTRE">Autre</option></select></div>
+        <div class="field"><label for="communes">Communes</label><input id="communes" name="communes" type="number" min="1" max="500" inputmode="numeric" placeholder="ex. 24" aria-label="Nombre de communes"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="nom">Nom et prénom *</label><input id="nom" name="nom" required autocomplete="name"></div>
+        <div class="field"><label for="fonction">Fonction *</label><input id="fonction" name="fonction" required placeholder="Maire, DGS…"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="email">Adresse électronique *</label><input id="email" name="email" type="email" required autocomplete="email"></div>
+        <div class="field"><label for="tel">Téléphone</label><input id="tel" name="tel" type="tel" autocomplete="tel"></div>
+      </div>
+      <div class="field"><label for="format">Vous préférez</label><select id="format" name="format"><option>Une visioconférence de trente minutes</option><option>Une présentation dans nos locaux</option><option>Une présentation en bureau communautaire</option></select></div>
+      <div class="field"><label for="message">Un mot sur votre projet</label><textarea id="message" name="message" placeholder="Vos communes, vos priorités, votre calendrier…"></textarea></div>
+      <div class="hp" aria-hidden="true"><label for="website">Ne pas remplir</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+      <label class="check"><input type="checkbox" name="consentement" required> <span>J’accepte que terricom utilise ces informations pour me recontacter au sujet de ma demande. Elles ne sont ni cédées ni utilisées à d’autres fins (<a href="confidentialite.html">confidentialité</a>).</span></label>
+      <div class="actions"><button class="btn btn-amber" type="submit">Envoyer ma demande <span class="arr">→</span></button></div>
+      <p class="form-status" role="status" aria-live="polite" tabindex="-1"></p>
+    </form>
+  </div>
+</section>

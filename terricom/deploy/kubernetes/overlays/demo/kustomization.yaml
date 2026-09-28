@@ -1,0 +1,65 @@
+# Instance de démonstration (demo.terricom.fr) : données fictives remises à zéro chaque nuit,
+# connexion directe aux espaces depuis la barre de démonstration.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: terricom-demo
+resources:
+  - ../../base
+patches:
+  - target: { kind: Namespace, name: terricom }
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: terricom-demo
+  - target: { kind: ConfigMap, name: terricom-config }
+    patch: |-
+      - op: replace
+        path: /data/DEMO_MODE
+        value: 'true'
+      - op: replace
+        path: /data/APP_URL
+        value: https://demo.terricom.fr
+      - op: replace
+        path: /data/PLATFORM_HOSTS
+        value: demo.terricom.fr
+      - op: replace
+        path: /data/HEALTH_PROBE_URL
+        value: https://demo.terricom.fr
+      - op: replace
+        path: /data/K8S_CUSTOM_DOMAINS_INGRESS
+        value: ''
+  - target: { kind: Deployment, name: terricom-web }
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 2
+  - target: { kind: HorizontalPodAutoscaler, name: terricom-web }
+    patch: |-
+      - op: replace
+        path: /spec/minReplicas
+        value: 2
+      - op: replace
+        path: /spec/maxReplicas
+        value: 4
+  - target: { kind: Deployment, name: terricom-worker }
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target: { kind: Ingress, name: terricom }
+    patch: |-
+      - op: replace
+        path: /spec/tls/0/hosts
+        value: ['demo.terricom.fr']
+      - op: replace
+        path: /spec/rules
+        value:
+          - host: demo.terricom.fr
+            http:
+              paths:
+                - path: /
+                  pathType: Prefix
+                  backend: { service: { name: terricom-web, port: { number: 80 } } }
+      - op: replace
+        path: /metadata/annotations/cert-manager.io~1cluster-issuer
+        value: letsencrypt-http01

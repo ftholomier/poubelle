@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>terricom · teaser</title>
+<style>
+@font-face { font-family: 'Bricolage'; font-weight: 200 800; src: url('../fonts/bricolage-grotesque-latin-opsz-normal.woff2') format('woff2-variations'); }
+@font-face { font-family: 'Instrument'; font-weight: 400 700; src: url('../fonts/instrument-sans-latin-wght-normal.woff2') format('woff2-variations'); }
+html, body { margin: 0; background: #000; }
+canvas { display: block; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script>
+// Teaser terricom calé sur « The Mountain » (épique, 110 BPM : une mesure = 2,184 s).
+// Repères : 1,48 premier son · 18,95 premier impact · 36,45 révélation du nom · 45,15 · 54-56 silence puis reprise
+// 65,03 · 73,35 · 82,55 · 91 coupure · 93,4 coda · 104,35 logo · fin 113.
+const W = 1920, H = 1080, DURATION = 113;
+const C = { ink: '#14201B', green: '#1F6B52', amber: '#F4B266', cream: '#F7F4EC', paper: '#FFFDF8', brick: '#C8702A', sage: '#CFE3D6', muted: '#8FA197' };
+const FAM = { COMMERCE: '#C8892A', ARTISAN: '#3E6FB0', PRODUCTEUR: '#3F8F4E', RESTAURATION: '#D95C4E', SERVICES: '#7A5BB5' };
+const cv = document.getElementById('c');
+const g = cv.getContext('2d');
+
+// ---------- utilitaires ----------
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const P = (t, a, b) => clamp((t - a) / (b - a));
+const eo = (p) => 1 - Math.pow(1 - p, 3);
+const eio = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+const eoq = (p) => 1 - Math.pow(1 - p, 5);
+const back = (p) => { const c = 1.9; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+const rnd = (k) => { const x = Math.sin(k * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const D = 'Bricolage', T = 'Instrument';
+function font(w, s, f = D) { g.font = `${w} ${s}px ${f}`; }
+function text(str, x, y, { w = 800, s = 100, f = D, color = C.cream, align = 'left', ls = -0.04, base = 'alphabetic', alpha = 1 } = {}) {
+  g.save(); font(w, s, f); g.letterSpacing = `${ls * s}px`; g.textAlign = align; g.textBaseline = base; g.globalAlpha *= alpha; g.fillStyle = color; g.fillText(str, x, y); g.restore();
+}
+function measure(str, w, s, ls = -0.04, f = D) { g.save(); font(w, s, f); g.letterSpacing = `${ls * s}px`; const m = g.measureText(str).width; g.restore(); return m; }
+// Texte composé de morceaux [texte, couleur, graisse]
+function rich(parts, x, y, s, { align = 'left', ls = -0.045, alpha = 1 } = {}) {
+  const ws = parts.map(([t, , w]) => measure(t, w ?? 800, s, ls));
+  let tot = ws.reduce((a, b) => a + b, 0);
+  let cx = align === 'center' ? x - tot / 2 : align === 'right' ? x - tot : x;
+  parts.forEach(([t, col, w], i) => { text(t, cx, y, { w: w ?? 800, s, color: col, ls, alpha }); cx += ws[i]; });
+  return tot;
+}
+function fill(col, a = 1) { g.save(); g.globalAlpha = a; g.fillStyle = col; g.fillRect(0, 0, W, H); g.restore(); }
+function rr(x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, r); }
+
+// Symbole : carré aux trois coins arrondis, pivoté (repère de carte), « t » au centre.
+function mark(cx, cy, size, { bg = C.green, fg = C.amber, rot = -45, radius = 1, letter = 1, stroke = null, lw = 3, dash = null, alpha = 1 } = {}) {
+  g.save(); g.globalAlpha *= alpha; g.translate(cx, cy); g.rotate((rot * Math.PI) / 180);
+  const s = size, r = [s * 0.5 * radius, s * 0.5 * radius, s * 0.5 * radius, s * 0.14 * radius];
+  g.beginPath(); g.roundRect(-s / 2, -s / 2, s, s, r);
+  if (bg) { g.fillStyle = bg; g.fill(); }
+  if (stroke) { g.strokeStyle = stroke; g.lineWidth = lw; if (dash) g.setLineDash(dash); g.stroke(); }
+  if (letter > 0) {
+    g.rotate((-rot * Math.PI) / 180); g.globalAlpha *= letter;
+    font(800, s * 0.64); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = fg; g.fillText('t', 0, -s * 0.06);
+  }
+  g.restore();
+}
+function wordmark(x, y, s, { color = C.cream, dot = C.amber, align = 'left', dotDrop = 1 } = {}) {
+  const w = measure('terricom', 800, s, -0.05);
+  const x0 = align === 'center' ? x - (w + s * 0.22) / 2 : x;
+  text('terricom', x0, y, { s, color, ls: -0.05 });
+  if (dotDrop > 0) {
+    const yy = y - (1 - back(dotDrop)) * s * 0.9;
+    g.save(); g.globalAlpha *= clamp(dotDrop * 3); text('.', x0 + w, yy, { s, color: dot, ls: -0.05 }); g.restore();
+  }
+  return { x0, w };
+}
+function grain(t, a = 0.06) {
+  g.save(); g.globalAlpha = a;
+  for (let i = 0; i < 1400; i++) { const k = Math.floor(t * 30) * 1400 + i; g.fillStyle = rnd(k * 3.1) > 0.5 ? '#fff' : '#000'; g.fillRect(rnd(k) * W, rnd(k * 1.7) * H, 2, 2); }
+  g.restore();
+}
+function vignette(a = 0.55) {
+  const gr = g.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, H * 1.05);
+  gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, `rgba(0,0,0,${a})`); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+}
+function tag(str, x, y, p, { bg = C.amber, fg = C.ink, s = 46, rot = -3 } = {}) {
+  if (p <= 0) return;
+  const w = measure(str, 800, s, -0.02) + s * 1.1, h = s * 1.7;
+  g.save(); g.translate(x, y); g.rotate((rot * Math.PI) / 180); const sc = back(clamp(p)); g.scale(sc, sc); g.globalAlpha = clamp(p * 2);
+  g.shadowColor = 'rgba(0,0,0,.35)'; g.shadowBlur = 30; g.shadowOffsetY = 12; rr(-w / 2, -h / 2, w, h, 20); g.fillStyle = bg; g.fill(); g.shadowColor = 'transparent';
+  text(str, 0, 0, { s, color: fg, align: 'center', base: 'middle', ls: -0.02 }); g.restore();
+}
+function flash(t, at, dur = 0.35, col = '#fff', a = 0.9) { const p = P(t, at, at + dur); if (p > 0 && p < 1) fill(col, a * (1 - eo(p))); }
+
+// ---------- ressources ----------
+const img = {}, meta = {}, clips = {};
+const load = (src) => new Promise((r) => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; });
+const PHOTOS = ['territoire', 'metabief', 'montdor-vue', 'remoray-aerien', 'noel', 'comte-cave', 'jougne', 'malbuisson'];
+const CLIPS = ['portail', 'commune', 'fiche', 'bo-ia', 'bo-sirene', 'bo-tableau', 'bo-stats', 'bo-newsletter', 'pro-pub', 'mairie', 'mobile'];
+let pins = [], outline = [], communes = [];
+async function preload() {
+  img.topo = await load('../topo.png');
+  meta.topo = await (await fetch('../topo.json')).json();
+  for (const p of PHOTOS) img[p] = await load(`../photos-web/${p}.jpg`);
+  pins = await (await fetch('pins.json')).json();
+  const ter = await (await fetch('territoire.json')).json();
+  const geom = ter.features[0].geometry;
+  outline = (geom.type === 'Polygon' ? [geom.coordinates] : geom.coordinates).map((poly) => poly[0]);
+  communes = (await (await fetch('communes-hd.json')).json()).features.map((f) => (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates).map((p) => p[0]));
+  for (const c of CLIPS) clips[c] = await (await fetch(`../clips/${c}/clip.json`)).json().catch(() => ({ frames: 1, marks: {} }));
+  // ordre d'apparition des repères : du centre (Métabief) vers l'extérieur, avec du hasard
+  pins = pins.map((p, i) => ({ lng: p[0], lat: p[1], fam: p[2], k: i, d: Math.hypot(p[0] - 6.358, (p[1] - 46.767) * 1.45) + rnd(i) * 0.05 })).sort((a, b) => a.d - b.d);
+  await document.fonts.load('800 100px Bricolage'); await document.fonts.load('400 100px Bricolage'); await document.fonts.load('600 40px Instrument'); await document.fonts.ready;
+}
+const frameCache = new Map();
+async function frame(name, f) {
+  const n = clips[name]?.frames ?? 1; f = Math.max(0, Math.min(n - 1, Math.round(f)));
+  const key = `${name}/${f}`;
+  if (frameCache.has(key)) return frameCache.get(key);
+  const im = await load(`../clips/${name}/f${String(f).padStart(5, '0')}.jpg`);
+  frameCache.set(key, im);
+  if (frameCache.size > 90) frameCache.delete(frameCache.keys().next().value);
+  return im;
+}
+const mk = (name, m) => clips[name]?.marks?.[m] ?? 0;
+// Image du clip à l'instant t : la marque `m` tombe à l'instant `at`, lecture à la vitesse `sp`.
+const fAt = (name, t, m, at, sp = 1) => mk(name, m) + (t - at) * 30 * sp;
+
+// ---------- carte sombre ----------
+function topoXY(lng, lat) {
+  const m = meta.topo, ws = 512 * Math.pow(2, m.zoom);
+  const X = (l) => ((l + 180) / 360) * ws, Y = (b) => ((1 - Math.asinh(Math.tan((b * Math.PI) / 180)) / Math.PI) / 2) * ws;
+  return [X(lng) - X(m.lng) + m.w / 2, Y(lat) - Y(m.lat) + m.h / 2];
+}
+// cam : centre (lng, lat) et échelle (1 = image 3840 affichée à moitié)
+function camT(cam) {
+  // l'image doit toujours couvrir l'écran : échelle minimale et décalage borné
+  const [x, y] = topoXY(cam.lng, cam.lat); const m = meta.topo; const s = Math.max(cam.s * 0.5, W / m.w, H / m.h);
+  return { s, ox: clamp(W / 2 - x * s, W - m.w * s, 0), oy: clamp(H / 2 - y * s, H - m.h * s, 0) };
+}
+function drawTopo(cam, a = 1) {
+  const k = camT(cam); g.save(); g.globalAlpha = a; g.fillStyle = '#131E19'; g.fillRect(0, 0, W, H); g.drawImage(img.topo, k.ox, k.oy, img.topo.width * k.s, img.topo.height * k.s); g.restore(); return k;
+}
+function pathGeo(rings, k) { g.beginPath(); for (const ring of rings) ring.forEach(([lng, lat], i) => { const [x, y] = topoXY(lng, lat); const X = k.ox + x * k.s, Y = k.oy + y * k.s; i ? g.lineTo(X, Y) : g.moveTo(X, Y); }); }
+function outlineDraw(k, p, { col = C.amber, lw = 3, glow = 18 } = {}) {
+  if (p <= 0) return;
+  g.save(); g.strokeStyle = col; g.lineWidth = lw; g.lineJoin = 'round'; g.shadowColor = col; g.shadowBlur = glow;
+  for (const ring of outline) {
+    const n = Math.floor(ring.length * clamp(p)); g.beginPath();
+    for (let i = 0; i < n; i++) { const [x, y] = topoXY(...ring[i]); const X = k.ox + x * k.s, Y = k.oy + y * k.s; i ? g.lineTo(X, Y) : g.moveTo(X, Y); }
+    g.stroke();
+  }
+  g.restore();
+}
+function dimOutside(k, a) { g.save(); g.beginPath(); g.rect(0, 0, W, H); for (const ring of outline) ring.forEach(([lng, lat], i) => { const [x, y] = topoXY(lng, lat); const X = k.ox + x * k.s, Y = k.oy + y * k.s; i ? g.lineTo(X, Y) : g.moveTo(X, Y); }); g.fillStyle = `rgba(8,14,11,${a})`; g.fill('evenodd'); g.restore(); }
+function pinsDraw(k, t, t0, t1, { size = 9, glow = 0, all = false } = {}) {
+  const n = pins.length;
+  for (let i = 0; i < n; i++) {
+    const p = pins[i]; const ti = all ? t0 : t0 + (i / n) * (t1 - t0);
+    const q = P(t, ti, ti + 0.45); if (q <= 0) continue;
+    const [x, y] = topoXY(p.lng, p.lat); const X = k.ox + x * k.s, Y = k.oy + y * k.s;
+    if (X < -20 || X > W + 20 || Y < -20 || Y > H + 20) continue;
+    const drop = (1 - eo(q)) * 40;
+    g.save(); g.globalAlpha = clamp(q * 3);
+    if (glow) { g.shadowColor = FAM[p.fam]; g.shadowBlur = glow; }
+    mark(X, Y - size * 0.7 - drop, size * back(q), { bg: FAM[p.fam], letter: 0 });
+    g.restore();
+  }
+}
+
+// ---------- fenêtres d'application ----------
+function chrome(x, y, w, h, url, { dark = false } = {}) {
+  const bar = 46;
+  g.save(); g.shadowColor = 'rgba(0,0,0,.5)'; g.shadowBlur = 60; g.shadowOffsetY = 26; rr(x, y, w, h + bar, 18); g.fillStyle = dark ? '#1C2A24' : '#EFEBE1'; g.fill(); g.restore();
+  g.save(); rr(x, y, w, bar + 20, [18, 18, 0, 0]); g.fillStyle = dark ? '#1C2A24' : '#EFEBE1'; g.fill();
+  ['#E7776B', '#E8C170', '#7CC48E'].forEach((c, i) => { g.beginPath(); g.arc(x + 24 + i * 22, y + bar / 2, 6.5, 0, Math.PI * 2); g.fillStyle = c; g.fill(); });
+  const uw = Math.min(560, w * 0.46); rr(x + w / 2 - uw / 2, y + 9, uw, bar - 18, 9); g.fillStyle = dark ? '#2A3A33' : '#FFFDF8'; g.fill();
+  text('🔒', x + w / 2 - uw / 2 + 12, y + bar / 2 + 1, { s: 13, f: T, w: 500, base: 'middle', ls: 0, color: '#8A8F86' });
+  text(url, x + w / 2 - uw / 2 + 34, y + bar / 2 + 1, { s: 15, f: T, w: 500, base: 'middle', ls: 0, color: dark ? '#CFE3D6' : '#4A514C' });
+  g.restore();
+  return { x, y: y + bar, w, h };
+}
+// Dessine l'image de capture dans une zone, avec un recadrage (zoom z centré sur fx, fy en fraction de l'écran capturé).
+function shot(im, x, y, w, h, { z = 1, fx = 0.5, fy = 0.5, r = [0, 0, 18, 18] } = {}) {
+  if (!im) return;
+  const iw = im.width, ih = im.height; const sw = iw / z, sh = ih / z;
+  const sx = clamp(fx * iw - sw / 2, 0, iw - sw), sy = clamp(fy * ih - sh / 2, 0, ih - sh);
+  g.save(); rr(x, y, w, h, r); g.clip(); g.drawImage(im, sx, sy, sw, sh, x, y, w, h); g.restore();
+}
+async function win(name, f, { x = 160, y = 70, w = 1600, url = 'haut-doubs.terricom.fr', z = 1, fx = 0.5, fy = 0.5, alpha = 1, scale = 1, dark = false } = {}) {
+  const im = await frame(name, f); const h = w * 810 / 1440;
+  g.save(); g.globalAlpha = alpha; const cx = x + w / 2, cy = y + (h + 46) / 2; g.translate(cx, cy); g.scale(scale, scale); g.translate(-cx, -cy);
+  const a = chrome(x, y, w, h, url, { dark }); shot(im, a.x, a.y, a.w, a.h, { z, fx, fy }); g.restore();
+}
+async function phone(name, f, cx, cy, hgt, { alpha = 1, rot = 0 } = {}) {
+  const im = await frame(name, f); const w = hgt * 390 / 844;
+  g.save(); g.globalAlpha = alpha; g.translate(cx, cy); g.rotate((rot * Math.PI) / 180);
+  g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 70; g.shadowOffsetY = 30; rr(-w / 2 - 14, -hgt / 2 - 14, w + 28, hgt + 28, 58); g.fillStyle = '#0B1310'; g.fill(); g.shadowColor = 'transparent';
+  if (im) { g.save(); rr(-w / 2, -hgt / 2, w, hgt, 46); g.clip(); g.drawImage(im, -w / 2, -hgt / 2, w, hgt); g.restore(); }
+  rr(-w * 0.16, -hgt / 2 + 10, w * 0.32, 26, 13); g.fillStyle = '#0B1310'; g.fill();
+  g.restore();
+}
+function bgInk(t, { topo = 0.18, cam = { lng: 6.3, lat: 46.72, s: 1.2 } } = {}) {
+  fill(C.ink); if (topo > 0) { const k = drawTopo({ ...cam, lng: cam.lng + t * 0.0008 }, topo); }
+}
+function card(t, t0, lines, { bg = C.ink, s = 150 } = {}) {
+  fill(bg);
+  lines.forEach((parts, i) => {
+    const p = eoq(P(t, t0 + i * 0.12, t0 + i * 0.12 + 0.45));
+    g.save(); g.translate(0, (1 - p) * 60); rich(parts, W / 2, H / 2 + (i - (lines.length - 1) / 2) * s * 1.02 + s * 0.34, s, { align: 'center', alpha: p }); g.restore();
+  });
+}
+
+// ---------- séquences ----------
+async function genese(t) {
+  fill('#0E1612');
+  // recul : la carte du territoire apparaît sous le repère, qui rejoint Métabief
+  const zo = eio(P(t, 16.8, 18.95));
+  let cx = W / 2, cy = H / 2 - 10;
+  if (zo > 0) {
+    const k = drawTopo({ lng: 6.3585, lat: 46.767, s: lerp(6, 1.25, zo) }, zo);
+    const [mx, my] = topoXY(6.3585, 46.767);
+    cx = lerp(cx, k.ox + mx * k.s, zo); cy = lerp(cy, k.oy + my * k.s - 12, zo);
+  }
+  g.save(); g.globalAlpha = 1 - zo;
+  // grille de construction (15 px de module comme sur la charte)
+  const gp = eio(P(t, 3.9, 6.4));
+  if (gp > 0) {
+    g.save(); g.strokeStyle = 'rgba(47,125,98,.5)'; g.lineWidth = 1;
+    for (let i = -30; i <= 30; i++) {
+      const d = i * 30; const L = gp * 1100 * (1 - Math.abs(i) / 34);
+      g.beginPath(); g.moveTo(cx + d, cy - L); g.lineTo(cx + d, cy + L); g.moveTo(cx - L, cy + d); g.lineTo(cx + L, cy + d); g.stroke();
+    }
+    g.strokeStyle = 'rgba(244,178,102,.55)'; g.beginPath(); g.moveTo(cx - 1200 * gp, cy); g.lineTo(cx + 1200 * gp, cy); g.moveTo(cx, cy - 700 * gp); g.lineTo(cx, cy + 700 * gp); g.stroke();
+    g.restore();
+  }
+  g.restore();
+  const S = 250 * lerp(1, 0.09, eio(P(t, 17.0, 18.95)));
+  g.save(); g.globalAlpha = 1 - zo;
+  // cercle au compas
+  const cp = eio(P(t, 5.9, 7.6));
+  if (cp > 0) { g.save(); g.strokeStyle = 'rgba(207,227,214,.55)'; g.lineWidth = 1.5; g.setLineDash([6, 8]); g.beginPath(); g.arc(cx, cy, S * 0.72, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * cp); g.stroke(); g.restore(); }
+  g.restore();
+  // carré, arrondis, rotation, lettre, couleur
+  const sq = eio(P(t, 6.3, 8.0)), rad = eio(P(t, 8.3, 9.9)), rot = eio(P(t, 10.23, 11.9)), let_ = eo(P(t, 12.65, 13.9)), col = eo(P(t, 14.73, 15.6));
+  if (sq > 0) {
+    g.save(); g.globalAlpha = sq;
+    mark(cx, cy, S * lerp(0.6, 1, sq), { bg: col > 0 ? `rgba(31,107,82,${col})` : null, stroke: col < 1 ? C.sage : null, lw: 2.5, dash: col < 1 ? [10, 8] : null, rot: -45 * rot, radius: rad, letter: 0 });
+    if (let_ > 0) { g.save(); g.beginPath(); g.rect(cx - S, cy + S * 0.4 - S * 0.9 * let_, S * 2, S * 2); g.clip(); mark(cx, cy, S, { bg: null, fg: col > 0.5 ? C.amber : C.cream, rot: -45 * rot, radius: rad, letter: 1 }); g.restore(); }
+    g.restore();
+  }
+  // le point ambre : début de tout, puis il glisse à la pointe du repère
+  const dp = eo(P(t, 1.48, 2.3));
+  if (dp > 0) {
+    const tip = [cx, cy + S * 0.707 * 0.93]; const mv = eio(P(t, 10.6, 12.2));
+    const x = lerp(cx, tip[0], mv), y = lerp(cy, tip[1], mv); const pulse = 1 + Math.sin(t * 3.2) * 0.08 * (1 - mv);
+    g.save(); g.shadowColor = C.amber; g.shadowBlur = 40 * (1 - mv * 0.5); g.beginPath(); g.arc(x, y, Math.max(3, 11 * (S / 250)) * dp * pulse * (1 - mv * 0.35), 0, Math.PI * 2); g.fillStyle = C.amber; g.fill(); g.restore();
+  }
+  // annotations techniques
+  const notes = [
+    [1.9, 3.9, '46°46′ N · 6°21′ E'],
+    [4.2, 6.1, 'module 15 px'],
+    [6.3, 8.3, 'carré 1:1'],
+    [8.4, 10.2, 'rayons 50 % · 14 %'],
+    [10.4, 12.6, '45° · un repère de carte'],
+    [12.8, 14.7, 'Bricolage Grotesque · ExtraBold'],
+  ];
+  for (const [a, b, s] of notes) {
+    const p = P(t, a, a + 0.5) * (1 - P(t, b - 0.3, b));
+    if (p > 0) { const n = Math.floor(s.length * clamp(P(t, a, a + 0.6))); text(s.slice(0, n), 120, H - 110, { s: 26, f: T, w: 500, color: C.sage, ls: 0.06, alpha: p }); text(`0${notes.findIndex((x) => x[2] === s) + 1}`, 120, H - 150, { s: 18, f: T, w: 700, color: C.amber, ls: 0.1, alpha: p }); }
+  }
+  // nuancier
+  const sw = [['Encre', '#14201B', 'Pantone 5463 C'], ['Vert Loue', '#1F6B52', 'Pantone 7727 C'], ['Ambre', '#F4B266', 'Pantone 1355 C'], ['Crème', '#F7F4EC', 'Pantone 9224 C']];
+  sw.forEach(([n, hex, pms], i) => {
+    const p = eoq(P(t, 14.9 + i * 0.22, 15.7 + i * 0.22)) * (1 - P(t, 17.2, 17.7));
+    if (p <= 0) return;
+    const x = 1300 + i * 140, y = 720 + (1 - p) * 80;
+    g.save(); g.globalAlpha = p; rr(x, y, 120, 150, 18); g.fillStyle = hex; g.fill(); g.strokeStyle = 'rgba(255,255,255,.15)'; g.stroke();
+    text(n, x + 12, y + 118, { s: 16, f: T, w: 700, color: i === 3 || i === 2 ? C.ink : C.cream, ls: 0 }); text(hex, x + 12, y + 138, { s: 13, f: T, w: 500, color: i === 3 || i === 2 ? '#4A514C' : C.sage, ls: 0 }); g.restore();
+  });
+  vignette(0.6); grain(t, 0.05);
+  fill('#000', 1 - eo(P(t, 0, 1.4)));
+}
+
+const WORDS = [
+  [21.4, 23.62, [['terri', C.cream], ['toire', C.sage, 300]]],
+  [23.62, 25.78, [['com', C.cream], ['merce', C.sage, 300]]],
+  [25.78, 27.93, [['com', C.cream], ['munauté', C.sage, 300]]],
+  [27.93, 30.12, [['com', C.cream], ['munication', C.sage, 300]]],
+];
+async function montee(t) {
+  // carte du territoire, contour qui se trace, repères qui tombent
+  const cam = { lng: lerp(6.3585, 6.255, eio(P(t, 18.95, 30))), lat: lerp(46.767, 46.712, eio(P(t, 18.95, 30))), s: lerp(1.25, 0.92, eio(P(t, 18.95, 30))) + Math.sin(t * 0.5) * 0.01 };
+  fill('#0E1612');
+  const k = drawTopo(cam, 1);
+  dimOutside(k, 0.55 * P(t, 19, 22));
+  outlineDraw(k, eio(P(t, 18.95, 23.5)));
+  pinsDraw(k, t, 19.4, 29.5, { size: 10 });
+  // compteur
+  const n = Math.round(pins.length * clamp(P(t, 19.4, 29.9)));
+  const cp = P(t, 19.6, 20.2);
+  if (cp > 0) {
+    text(n.toLocaleString('fr-FR'), W - 110, 170, { s: 110, color: C.amber, align: 'right', alpha: cp });
+    text('entreprises', W - 110, 212, { s: 30, f: T, w: 600, color: C.sage, align: 'right', ls: 0.02, alpha: cp });
+    const c2 = P(t, 21.2, 21.7); text('32 communes', W - 110, 262, { s: 30, f: T, w: 600, color: C.cream, align: 'right', ls: 0.02, alpha: c2 });
+  }
+  vignette(0.5);
+  // grands mots
+  for (const [a, b, parts] of WORDS) {
+    if (t < a || t >= b) continue;
+    const p = eoq(P(t, a, a + 0.35)); const out = P(t, b - 0.2, b);
+    g.save(); g.fillStyle = `rgba(8,14,11,${0.35 * p})`; g.fillRect(0, 0, W, H);
+    const s = 250 * (1 + (t - a) * 0.025);
+    g.translate(0, (1 - p) * 70); rich(parts, W / 2, H / 2 + 80, s, { align: 'center', alpha: p * (1 - out) }); g.restore();
+  }
+  flash(t, 18.95, 0.5, '#fff', 0.7);
+  for (const h of [21.4, 23.62, 25.78, 27.93]) flash(t, h, 0.25, C.amber, 0.35);
+  grain(t, 0.04);
+}
+
+// montage accéléré d'éléments de la charte (30,12 → 35,35)
+const CUTS = [30.12, 30.67, 31.21, 31.76, 32.08, 32.62, 33.17, 33.72, 34.26, 34.52, 34.8, 35.08, 35.35];
+async function charte(t) {
+  const i = CUTS.findIndex((c, j) => t >= c && t < (CUTS[j + 1] ?? 99));
+  const lt = t - CUTS[i]; const z = 1 + lt * 0.12;
+  g.save(); g.translate(W / 2, H / 2); g.scale(z, z); g.translate(-W / 2, -H / 2);
+  const sw = (bg, name, hex, pms, fg) => { fill(bg); text(name, 160, H / 2 + 40, { s: 190, color: fg }); text(`${hex} · ${pms}`, 168, H / 2 + 120, { s: 40, f: T, w: 600, color: fg, ls: 0.04, alpha: 0.75 }); };
+  switch (i) {
+    case 0: sw(C.green, 'Vert Loue', '#1F6B52', 'Pantone 7727 C', '#fff'); break;
+    case 1: sw(C.amber, 'Ambre', '#F4B266', 'Pantone 1355 C', C.ink); break;
+    case 2: sw(C.ink, 'Encre', '#14201B', 'Pantone 5463 C', C.cream); break;
+    case 3: sw(C.cream, 'Crème', '#F7F4EC', 'Pantone 9224 C', C.ink); break;
+    case 4: fill(C.ink); text('Aa', W / 2 - 40, H / 2 + 230, { s: 640, color: C.cream, align: 'center', ls: -0.06 }); text('Bricolage Grotesque', W - 140, H - 120, { s: 40, f: T, w: 600, color: C.amber, align: 'right', ls: 0.02 }); break;
+    case 5: fill(C.cream); text('Aa', W / 2, H / 2 + 200, { s: 560, color: C.ink, align: 'center', f: T, w: 500, ls: -0.03 }); text('Instrument Sans', W - 140, H - 120, { s: 40, f: T, w: 600, color: C.green, align: 'right', ls: 0.02 }); break;
+    case 6: {
+      fill(C.cream);
+      Object.entries(FAM).forEach(([f, col], j) => { const x = 260 + j * 350; mark(x, H / 2 - 40, 150, { bg: col, fg: '#fff', letter: 0 }); text(f[0] + f.slice(1).toLowerCase(), x, H / 2 + 140, { s: 40, f: T, w: 700, color: C.ink, align: 'center', ls: 0 }); });
+      break;
+    }
+    case 7: fill(C.green); { const w = measure('Ouvert maintenant', 800, 120, -0.03) + 240; rr(W / 2 - w / 2, H / 2 - 110, w, 220, 110); g.fillStyle = C.paper; g.fill(); g.beginPath(); g.arc(W / 2 - w / 2 + 110, H / 2, 26, 0, Math.PI * 2); g.fillStyle = '#3F8F4E'; g.fill(); text('Ouvert maintenant', W / 2 + 50, H / 2 + 42, { s: 120, color: C.ink, align: 'center', ls: -0.03 }); } break;
+    case 8: fill(C.ink); { const w = measure('✓ Fiche vérifiée', 800, 130, -0.03) + 160; rr(W / 2 - w / 2, H / 2 - 115, w, 230, 40); g.fillStyle = '#DCEBE2'; g.fill(); text('✓ Fiche vérifiée', W / 2, H / 2 + 46, { s: 130, color: C.green, align: 'center', ls: -0.03 }); } break;
+    case 9: { fill('#0E1612'); const k = drawTopo({ lng: 6.3585, lat: 46.767, s: 2.4 }, 1); pinsDraw(k, 99, 0, 0, { size: 16, glow: 14, all: true }); vignette(0.6); } break;
+    case 10: fill(C.green); rr(160, H / 2 - 100, W - 320, 200, 100); g.fillStyle = C.paper; g.fill(); text('✦', 260, H / 2 + 30, { s: 80, color: C.brick, ls: 0 }); text('Demandez ce que vous voulez…', 380, H / 2 + 30, { s: 84, f: T, w: 500, color: '#8A8F86', ls: -0.01 }); break;
+    case 11: fill(C.amber); rr(W / 2 - 230, H / 2 - 230, 460, 460, 110); g.fillStyle = C.ink; g.fill(); mark(W / 2, H / 2, 260, { bg: C.amber, fg: C.ink }); break;
+    default: break;
+  }
+  g.restore();
+  flash(t, CUTS[i], 0.12, '#fff', 0.35);
+  grain(t, 0.04);
+}
+
+// révélation : « terri·toire » + « com·merce » → « terricom. »
+async function revelation(t) {
+  fill(C.ink);
+  const s = 230;
+  if (t < 36.45) {
+    const p = eoq(P(t, 35.35, 35.7)); const fade = eo(P(t, 35.62, 35.95)); const slide = eio(P(t, 35.9, 36.42));
+    const wa = measure('terri', 800, s, -0.05), wb = measure('toire', 300, s, -0.05), wc = measure('com', 800, s, -0.05), wd = measure('merce', 300, s, -0.05);
+    const gap = lerp(90, 0, slide);
+    const total = wa + wb * (1 - slide) + gap + wc + wd * (1 - slide);
+    let x = W / 2 - total / 2; const y = H / 2 + 80;
+    g.save(); g.globalAlpha = p;
+    text('terri', x, y, { s, color: C.cream, ls: -0.05 }); x += wa;
+    if (fade < 1) text('toire', x, y, { s, w: 300, color: C.sage, ls: -0.05, alpha: 1 - fade }); x += wb * (1 - slide) + gap;
+    text('com', x, y, { s, color: C.cream, ls: -0.05 }); x += wc;
+    if (fade < 1) text('merce', x, y, { s, w: 300, color: C.sage, ls: -0.05, alpha: 1 - fade });
+    g.restore();
+    grain(t, 0.04);
+    return;
+  }
+  // logo complet
+  const lt = t - 36.45;
+  const push = 1 + lt * 0.012;
+  g.save(); g.translate(W / 2, H / 2); g.scale(push, push); g.translate(-W / 2, -H / 2);
+  const mp = back(clamp(lt / 0.55)); const ww = measure('terricom', 800, s, -0.05) + s * 0.22; const msz = 170;
+  const total = msz + 40 + ww; const x0 = W / 2 - total / 2; const y = H / 2 + 70;
+  mark(x0 + msz / 2, H / 2 - 5, msz * mp, { bg: C.green, fg: C.amber, alpha: clamp(lt * 3) });
+  wordmark(x0 + msz + 40, y, s, { dotDrop: clamp((lt - 0.3) / 0.5) });
+  const sp = eoq(P(t, 38.88, 39.5));
+  if (sp > 0) { g.save(); g.translate(0, (1 - sp) * 30); rich([['Le territoire, ', C.cream], ['en vitrine.', C.amber]], W / 2, H / 2 + 230, 76, { align: 'center', alpha: sp }); g.restore(); }
+  g.restore();
+  flash(t, 36.45, 0.6, '#fff', 1);
+  vignette(0.45); grain(t, 0.035);
+}
+
+// ---------- montage des écrans ----------
+async function habitants(t) {
+  // 40,79 → 53,9 : portail → recherche → carte → Métabief
+  bgInk(t, { topo: 0.22 });
+  const intro = eoq(P(t, 40.79, 41.6));
+  const clipT = t < 51.0;
+  if (clipT) {
+    const f = fAt('portail', t, 'enter', 45.05);
+    // caméra : cadre large, puis rapprochement sur la carte, puis sur Métabief
+    const zc = lerp(1, 1.5, eio(P(t, 46.6, 48.2))) * lerp(1, 1.35, eio(P(t, 49.3, 50.3)));
+    const fx = lerp(0.5, 0.66, eio(P(t, 46.6, 48.2))), fy = lerp(0.5, 0.42, eio(P(t, 46.6, 48.2)));
+    await win('portail', Math.max(0, f), { y: lerp(1100, 70, intro), z: zc, fx, fy, url: t < 45.1 ? 'haut-doubs.terricom.fr' : 'haut-doubs.terricom.fr/explorer?q=fromagerie' });
+  } else {
+    const f = (t - 51.0) * 30;
+    const ip = eoq(P(t, 51.0, 51.5));
+    await win('commune', f, { url: 'haut-doubs.terricom.fr/metabief', scale: lerp(1.06, 1, ip) });
+    flash(t, 51.0, 0.2, '#fff', 0.5);
+  }
+  tag('Pour les habitants', 1500, 110, P(t, 41.3, 41.7) * (1 - P(t, 44.6, 44.9)));
+  tag('Toutes les entreprises, sur la carte', 1330, 1000, P(t, 45.2, 45.6) * (1 - P(t, 50.6, 50.9)), { bg: C.green, fg: '#fff', s: 40 });
+  tag('Chaque commune a sa vitrine', 1400, 1000, P(t, 51.2, 51.6) * (1 - P(t, 53.6, 53.85)), { s: 40 });
+  flash(t, 45.15, 0.25, '#fff', 0.25);
+}
+async function silence(t) {
+  // 53,9 → 55,93 : le back-office de la collectivité ; le curseur va vers « Préparer ». Clic sur la reprise.
+  fill('#0B1310');
+  const p = eo(P(t, 53.9, 54.4));
+  await win('bo-ia', fAt('bo-ia', t, 'click', 55.93), { url: 'terricom.fr/collectivite/campagnes', alpha: p, z: lerp(1.05, 1.28, eio(P(t, 53.9, 55.9))), fx: 0.62, fy: 0.5 });
+  tag('Pour la collectivité', 420, 1000, P(t, 54.2, 54.6), { bg: C.cream, s: 40 });
+}
+async function climax(t) {
+  bgInk(t, { topo: 0.2 });
+  if (t < 62.35) {
+    const f = fAt('bo-ia', t, 'click', 55.93);
+    const z = t < 58.2 ? lerp(1.28, 1.12, eio(P(t, 55.93, 56.8))) : lerp(1.12, 1.0, eio(P(t, 58.2, 59)));
+    await win('bo-ia', f, { url: t < 60.5 ? 'terricom.fr/collectivite/campagnes' : 'terricom.fr/collectivite/campagnes/noel', z, fx: 0.62, fy: 0.62 });
+    tag('Une campagne en une phrase', 1440, 1010, P(t, 56.3, 56.7) * (1 - P(t, 62.0, 62.3)), { s: 42 });
+    flash(t, 55.93, 0.5, '#fff', 0.8);
+  } else if (t < 65.03) {
+    const f = (t - 62.35) * 30 * 1.25;
+    await win('bo-sirene', f, { url: 'terricom.fr/collectivite/entreprises/sirene', z: 1.1, fx: 0.5, fy: 0.45 });
+    tag('Chaque mois, les nouvelles entreprises de la base SIRENE', 960, 1010, P(t, 62.5, 62.9) * (1 - P(t, 64.7, 64.98)), { s: 38, bg: C.green, fg: '#fff' });
+  } else if (t < 66.73) {
+    card(t, 65.03, [[['1 971 ', C.amber], ['entreprises.', C.cream]], [['0 ', C.amber], ['saisie.', C.cream]]], { s: 160 });
+  } else if (t < 71.65) {
+    const f = fAt('pro-pub', t, 'click', 69.45);
+    await win('pro-pub', f, { url: 'terricom.fr/pro/publications', z: lerp(1.25, 1.05, eio(P(t, 69.3, 70.2))), fx: 0.42, fy: t < 69.4 ? 0.3 : 0.55 });
+    tag('Chaque commerce publie en une phrase', 1380, 1010, P(t, 66.9, 67.3) * (1 - P(t, 71.3, 71.6)), { s: 40 });
+    flash(t, 66.73, 0.2, '#fff', 0.4);
+  } else if (t < 73.35) {
+    fill(C.green);
+    await phone('mobile', (t - 71.65) * 30 * 1.6, W / 2 - 330, H / 2 + 20, 900, { rot: -3 });
+    await phone('mobile', 170 + (t - 71.65) * 30, W / 2 + 330, H / 2 + 40, 900, { rot: 3 });
+    tag('Dans la poche des habitants', W / 2, 110, P(t, 71.8, 72.2), { s: 44, bg: C.cream });
+  } else if (t < 76.0) {
+    card(t, 73.35, [[['32 ', C.amber], ['communes.', C.cream]], [['Une ', C.cream], ['seule vitrine.', C.amber]]], { s: 150 });
+  } else if (t < 80.3) {
+    const f = (t - 76.0) * 30;
+    await win('bo-tableau', f, { url: 'terricom.fr/collectivite', z: lerp(1, 1.15, eio(P(t, 76, 80))), fx: 0.55, fy: 0.4 });
+    tag('Piloter le commerce du territoire', 1420, 1010, P(t, 76.2, 76.6) * (1 - P(t, 80.0, 80.28)), { s: 40, bg: C.green, fg: '#fff' });
+    flash(t, 76.0, 0.2, '#fff', 0.35);
+  } else if (t < 82.55) {
+    await win('bo-stats', (t - 80.3) * 30, { x: 60, y: 160, w: 1100, url: 'terricom.fr/collectivite/statistiques' });
+    await win('bo-newsletter', (t - 80.3) * 30, { x: 760, y: 330, w: 1100, url: 'terricom.fr/collectivite/newsletter' });
+    tag('Mesurer. Informer.', 1480, 170, P(t, 80.5, 80.9), { s: 44 });
+  } else if (t < 86.9) {
+    // mur d'écrans : tout le territoire en un outil
+    const lt = t - 82.55; const zoom = lerp(1.35, 0.92, eio(P(t, 82.55, 86.5)));
+    fill('#0B1310');
+    g.save(); g.translate(W / 2, H / 2); g.scale(zoom, zoom); g.translate(-W / 2, -H / 2);
+    const names = [['portail', 'haut-doubs.terricom.fr'], ['bo-tableau', 'terricom.fr/collectivite'], ['pro-pub', 'terricom.fr/pro'], ['commune', 'haut-doubs.terricom.fr/metabief'], ['bo-ia', 'terricom.fr/collectivite/campagnes'], ['mairie', 'terricom.fr/collectivite']];
+    for (let j = 0; j < 6; j++) {
+      const cx = j % 3, cy = Math.floor(j / 3); const w = 600;
+      const [n, u] = names[j];
+      await win(n, (clips[n].frames * 0.35) + lt * 30, { x: 30 + cx * 630, y: 150 + cy * 420, w, url: u, alpha: clamp((lt - j * 0.08) * 4) });
+    }
+    g.restore();
+    const tp = eoq(P(t, 83.0, 83.5));
+    if (tp > 0) { g.save(); g.fillStyle = `rgba(11,19,16,${0.55 * tp})`; g.fillRect(0, 0, W, H); g.restore(); rich([['Tout le territoire, ', C.cream], ['en un outil.', C.amber]], W / 2, H / 2 + 40, 118, { align: 'center', alpha: tp }); }
+    flash(t, 82.55, 0.5, '#fff', 0.8);
+  } else {
+    // accélération finale
+    const cuts = [86.9, 87.45, 88.0, 88.55, 89.1, 89.65, 90.2, 90.6];
+    const j = cuts.findIndex((c, i) => t >= c && t < (cuts[i + 1] ?? 99));
+    const lt = t - cuts[j];
+    const seq = [['fiche', 60, 'haut-doubs.terricom.fr/jougne/boulangerie'], ['mairie', 30, 'terricom.fr/collectivite'], ['commune', 20, 'haut-doubs.terricom.fr/metabief'], ['bo-sirene', 90, 'terricom.fr/collectivite/entreprises/sirene'], ['portail', 190, 'haut-doubs.terricom.fr/explorer'], ['pro-pub', 170, 'terricom.fr/pro/publications'], ['bo-ia', 260, 'terricom.fr/collectivite/campagnes'], ['fiche', 100, 'haut-doubs.terricom.fr/jougne/boulangerie']];
+    const [n, f0, u] = seq[Math.max(0, j)];
+    await win(n, f0 + lt * 30, { url: u, z: 1 + lt * 0.25, fx: 0.5, fy: 0.45 });
+    flash(t, cuts[j], 0.12, '#fff', 0.4);
+  }
+  grain(t, 0.03);
+}
+function photoKB(im, t, t0, t1, { z0 = 1.08, z1 = 1.18, fx0 = 0.5, fx1 = 0.55, fy = 0.5 } = {}) {
+  if (!im) return;
+  const p = P(t, t0, t1); const z = lerp(z0, z1, p); const fx = lerp(fx0, fx1, p);
+  const ar = im.width / im.height; let w = W * z, h = w / ar; if (h < H * z) { h = H * z; w = h * ar; }
+  g.drawImage(im, W / 2 - w * fx, H / 2 - h * fy, w, h);
+}
+async function coda(t) {
+  fill('#000');
+  if (t < 99.95) {
+    const a = eo(P(t, 93.15, 94.2));
+    g.save(); g.globalAlpha = a; photoKB(img['montdor-vue'], t, 93.15, 99.95, { z0: 1.05, z1: 1.16, fx0: 0.52, fx1: 0.46 }); g.restore();
+    if (t > 97.75) { g.save(); g.globalAlpha = eo(P(t, 97.75, 98.6)); photoKB(img.territoire, t, 97.75, 102, { z0: 1.06, z1: 1.12 }); g.restore(); }
+    const gr = g.createLinearGradient(0, H * 0.45, 0, H); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,.7)'); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+    const p1 = eoq(P(t, 93.5, 94.3)) * (1 - P(t, 97.4, 97.8));
+    text('Lacs et Montagnes', 120, H - 230, { s: 120, color: '#fff', alpha: p1 });
+    text('du Haut-Doubs', 120, H - 120, { s: 120, color: '#fff', alpha: p1 });
+    const p2 = eoq(P(t, 95.45, 96.1)) * (1 - P(t, 97.4, 97.8));
+    text('32 communes · 1 971 entreprises', W - 120, H - 124, { s: 40, f: T, w: 600, color: C.amber, align: 'right', ls: 0.02, alpha: p2 });
+    const p3 = eoq(P(t, 97.9, 98.6));
+    text('Du Mont d’Or au lac de Saint-Point,', 120, H - 200, { s: 70, color: '#fff', alpha: p3 });
+    text('chaque entreprise a sa vitrine.', 120, H - 110, { s: 70, color: C.amber, alpha: p3 });
+  } else if (t < 104.35) {
+    fill('#0E1612');
+    const k = drawTopo({ lng: 6.255, lat: 46.712, s: lerp(0.95, 1.05, P(t, 99.95, 104.35)) }, eo(P(t, 99.95, 100.8)));
+    dimOutside(k, 0.55); outlineDraw(k, 1, { lw: 2.5 }); pinsDraw(k, t, 100.0, 101.6, { size: 8, glow: 10 });
+    vignette(0.6);
+    const p = eoq(P(t, 102.15, 102.8));
+    g.save(); g.fillStyle = `rgba(14,22,18,${0.45 * p})`; g.fillRect(0, 0, W, H); g.restore();
+    rich([['Le territoire, ', C.cream], ['en vitrine.', C.amber]], W / 2, H / 2 + 45, 130, { align: 'center', alpha: p });
+    flash(t, 99.95, 0.4, '#fff', 0.3);
+  } else {
+    fill(C.ink);
+    const lt = t - 104.35; const s = 190; const msz = 140;
+    const ww = measure('terricom', 800, s, -0.05) + s * 0.22; const total = msz + 34 + ww; const x0 = W / 2 - total / 2;
+    mark(x0 + msz / 2, H / 2 - 60, msz * back(clamp(lt / 0.55)), { bg: C.amber, fg: C.ink, alpha: clamp(lt * 3) });
+    wordmark(x0 + msz + 34, H / 2 + 5, s, { dotDrop: clamp((lt - 0.3) / 0.5) });
+    const d = eoq(P(t, 106.5, 107.1));
+    if (d > 0) { const w = measure('terricom.fr', 600, 44, 0, T) + 80; g.save(); g.globalAlpha = d; rr(W / 2 - w / 2, H / 2 + 110, w, 74, 37); g.fillStyle = C.amber; g.fill(); text('terricom.fr', W / 2, H / 2 + 147, { s: 44, f: T, w: 600, color: C.ink, align: 'center', base: 'middle', ls: 0 }); g.restore(); }
+    const cr = eo(P(t, 108.7, 109.4));
+    text('Démonstration réalisée sur les données publiques des Lacs et Montagnes du Haut-Doubs (SIRENE, Insee). Fonds de carte : © OpenStreetMap, Overture Maps.', W / 2, H - 92, { s: 19, f: T, w: 500, color: C.muted, align: 'center', ls: 0, alpha: cr });
+    text('Photos : Wikimedia Commons (CC BY-SA 3.0 et 4.0, CC BY 4.0, CC0) · Wikipedro, René Hourdry, Zairon, Arnaud 25, Guy Waterval, DocteurCosmos, JGS25. Musique : « The Mountain ».', W / 2, H - 60, { s: 19, f: T, w: 500, color: C.muted, align: 'center', ls: 0, alpha: cr });
+    grain(t, 0.03);
+  }
+  fill('#000', eio(P(t, 110.9, 112.9)));
+}
+
+async function render(t) {
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0);
+  if (t < 18.95) await genese(t);
+  else if (t < 30.12) await montee(t);
+  else if (t < 35.35) await charte(t);
+  else if (t < 40.79) await revelation(t);
+  else if (t < 53.9) await habitants(t);
+  else if (t < 55.93) await silence(t);
+  else if (t < 91.0) await climax(t);
+  else if (t < 93.15) fill('#000');
+  else await coda(t);
+  // transitions générales
+  if (t >= 40.79 && t < 41.3) fill(C.ink, 1 - eo(P(t, 40.79, 41.3)));
+  g.restore();
+}
+window.clip = { preload, render, duration: DURATION };
+</script>
+</body>
+</html>

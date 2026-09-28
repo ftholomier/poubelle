@@ -1,0 +1,83 @@
+import { parisDate } from '@/lib/format';
+import { logger } from '../logger';
+import { deliverEmail } from '../mail/send';
+import { deliverPush, type PushPayload } from '../push';
+import type { QueueName } from '../queue';
+import { runSireneImport, runStockImport } from '../services/imports';
+import { enqueueDueSireneSyncs, runSireneSync } from '../services/sirene-sync';
+import { syncCustomDomains } from './domains';
+import { dispatchDueNewsletters, dispatchNewsletter, sendNewsletterBatch } from '../services/newsletters';
+import { translateEstablishment } from '../services/translations';
+import { deliverConnectorEvent, type ConnectorEvent } from '../services/connectors';
+import { syncCalendarFeeds } from '../services/calendar-sync';
+import {
+  billingDaily,
+  claimReminders,
+  demoReset,
+  geocodeEstablishment,
+  healthProbe,
+  publishDuePosts,
+  purgeRetention,
+  refreshSearch,
+  rollupAnalytics,
+  socialSync,
+  updateCampaignStatuses,
+} from './tasks';
+
+type Payload = Record<string, unknown>;
+type Handler = (payload: Payload) => Promise<unknown>;
+
+const str = (p: Payload, key: string): string => {
+  const v = p[key];
+  if (typeof v !== 'string' || !v) throw new Error(`Paramètre « ${key} » manquant`);
+  return v;
+};
+
+/** Correspondance file → traitement. Toute file déclarée dans QueueName doit avoir son traitement. */
+export const HANDLERS: Record<QueueName, Handler> = {
+  'email.send': (p) => deliverEmail(str(p, 'emailId')),
+  'push.send': (p) => {
+    const ids = Array.isArray(p.userIds) ? p.userIds.filter((x): x is string => typeof x === 'string') : [];
+    const payload = p.payload as PushPayload | undefined;
+    if (!payload || typeof payload.title !== 'string' || typeof payload.url !== 'string') throw new Error('Notification invalide');
+    return deliverPush(ids, payload);
+  },
+  'newsletter.dispatch': (p) => (typeof p.newsletterId === 'string' ? dispatchNewsletter(p.newsletterId) : dispatchDueNewsletters()),
+  'newsletter.send-batch': (p) => sendNewsletterBatch(str(p, 'newsletterId')),
+  'posts.publish-due': () => publishDuePosts(),
+  'posts.social-sync': (p) => socialSync(str(p, 'postId')),
+  'analytics.rollup': () => rollupAnalytics(),
+  'maintenance.purge': () => purgeRetention(),
+  'claims.reminders': () => claimReminders(),
+  'import.geocode': (p) => geocodeEstablishment(str(p, 'establishmentId')),
+  'import.sirene': (p) => runSireneImport(str(p, 'batchId')),
+  'import.stock': (p) => runStockImport(str(p, 'batchId')),
+  'sirene.sync': (p) => runSireneSync(str(p, 'territoryId'), p.trigger === 'MANUAL' ? 'MANUAL' : 'SCHEDULE'),
+  'sirene.sync-due': () => enqueueDueSireneSyncs(),
+  'search.refresh': (p) => refreshSearch(p.full === true),
+  'campaigns.status': () => updateCampaignStatuses(),
+  'health.probe': () => healthProbe(),
+  'billing.overdue': () => billingDaily(),
+  'domains.sync': () => syncCustomDomains(),
+  'demo.reset': () => demoReset(),
+  'i18n.translate': (p) => translateEstablishment(str(p, 'establishmentId')),
+  'connector.deliver': (p) =>
+    deliverConnectorEvent({
+      companyId: str(p, 'companyId'),
+      establishmentId: typeof p.establishmentId === 'string' ? p.establishmentId : null,
+      type: str(p, 'type') as ConnectorEvent,
+      data: (p.data ?? {}) as Record<string, unknown>,
+      deliveryId: str(p, 'deliveryId'),
+      createdAt: str(p, 'createdAt'),
+    }),
+  'agenda.sync': (p) => syncCalendarFeeds(typeof p.feedId === 'string' ? p.feedId : undefined),
+};
+
+export async function runJob(queue: string, payload: Payload): Promise<unknown> {
+  const handler = HANDLERS[queue as QueueName];
+  if (!handler) throw new Error(`File inconnue : ${queue}`);
+  const t0 = performance.now();
+  const result = await handler(payload);
+  logger.info('job.done', { queue, ms: Math.round(performance.now() - t0), day: parisDate(), result: typeof result === 'object' ? result : undefined });
+  return result;
+}
