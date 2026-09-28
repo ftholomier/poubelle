@@ -23,10 +23,23 @@ pour l’exploitant.
 ```bash
 cp .env.example .env            # ajuster SESSION_SECRET, DATA_ENCRYPTION_KEY, ANALYTICS_SALT
 docker compose up -d --build     # PostgreSQL, migrations, web, worker, Mailpit
-docker compose --profile demo run --rm seed   # jeu de démonstration « Val de Loue »
+docker compose --profile demo run --rm seed   # jeu de démonstration et comptes (base vide)
 ```
 
 Application : http://localhost:3000 · emails envoyés : http://localhost:8025
+
+Sous Windows (cmd), remplacer `cp` par `copy`. Les commandes suivantes se tapent dans le dossier `terricom`.
+
+Réinitialiser les comptes de démonstration quand la base contient déjà des données (**tout son contenu est
+effacé**) :
+
+```bash
+docker compose run --rm migrate node --import tsx scripts/reset.ts   # vide la base
+docker compose --profile demo run --rm seed                          # migrations, puis jeu de démonstration
+```
+
+La remise à zéro n’est autorisée que si `.env` contient `DEMO_MODE=true` (valeur de `.env.example`). Après avoir
+récupéré une nouvelle version du code, reconstruire les images avant tout : `docker compose up -d --build`.
 
 ### En développement
 
