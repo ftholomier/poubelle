@@ -18,7 +18,8 @@ Alsace, Bretagne, Corrèze, Lot, Berry, Provence et Haut-Doubs.
 - le téléphone.
 
 Chaque boucle ne se charge qu’à l’approche et se met en pause hors de l’écran. Avec « réduire les animations »,
-rien ne démarre seul. Le film de 1 min 53 est intégré à l’accueil et à la page Démonstration.
+rien ne démarre seul. Le film de présentation aux élus (1 min 54, `terricom/docs/teaser/terricom-elus.mp4`) est
+intégré à l’accueil et à la page Démonstration.
 
 Le site est en HTML statique, sans dépendance à l’exécution. Pour le mettre en ligne, il suffit de déposer le
 contenu de `public/` sur n’importe quel hébergement : serveur web, stockage objet ou CDN.
