@@ -92,6 +92,9 @@ Rien en cours.
 
 - [ ] Multilingue, pistes suivantes : traduction des publications, événements et offres d’emploi ; autres langues
       (espagnol, italien, néerlandais : l’IA les gère déjà) ; lettre du territoire par langue d’abonné
+- [ ] Adresses web des clients (mis de côté) : sous-domaine en terricom.fr demandé depuis le back-office (CC,
+      communes, entreprises) et domaine propre branché sur la fiche ou le mini-site. Proposition et décisions à
+      prendre : [docs/cadrage/adresses-web.md](docs/cadrage/adresses-web.md)
 - [ ] Connecteurs natifs (fiche Google, Meta) en complément du connecteur générique signé
 - [ ] Revenus « à terme » du cahier des charges (§ 24) : cartes cadeaux territoriales ; place de marché seulement
       si le pilote l’exprime (§ 29, e-commerce volontairement non prioritaire)
