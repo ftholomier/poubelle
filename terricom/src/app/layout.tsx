@@ -29,7 +29,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fr">
-      <body>
+      {/* Des extensions de navigateur (ColorZilla, Grammarly…) ajoutent des attributs à <body> avant React :
+          l'écart est ignoré sur cette seule balise, pas sur son contenu. */}
+      <body suppressHydrationWarning>
         {children}
         <PwaRegister />
       </body>

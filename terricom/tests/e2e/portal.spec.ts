@@ -5,6 +5,11 @@ test.describe('portail du territoire', () => {
     const res = await page.goto('/valdeloue');
     expect(res?.status()).toBe(200);
     await expect(page).toHaveTitle(/Val de Loue/);
+    // Premier menu : le site national terricom.fr.
+    await expect(page.getByRole('navigation', { name: 'Navigation du portail' }).getByRole('link', { name: 'terricom.fr' })).toHaveAttribute(
+      'href',
+      /^https?:\/\/[^/]+\/$/,
+    );
     // Accès à la connexion depuis le portail : en-tête (tous) et pied de page (élus et agents).
     await expect(page.getByRole('banner').getByRole('link', { name: 'Se connecter' })).toHaveAttribute('href', /\/connexion$/);
     await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Espace élus et agents' })).toHaveAttribute('href', /\/connexion$/);

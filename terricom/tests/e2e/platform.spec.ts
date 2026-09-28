@@ -56,7 +56,7 @@ test.describe('portail multilingue', () => {
   test('langue par adresse, sélecteur mémorisé, fiche traduite et retour au français', async ({ page }) => {
     await page.goto('/valdeloue?lang=en');
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('navigation', { name: 'Portal navigation' }).getByRole('link', { name: 'Explore' })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Portal navigation' }).getByRole('link', { name: 'Villages' })).toBeVisible();
     await expect(page.locator('link[rel="alternate"][hreflang="de"]')).toHaveAttribute('href', /lang=de/);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /lang=en/);
 
@@ -76,7 +76,7 @@ test.describe('portail multilingue', () => {
     await page.goto('/valdeloue');
     await page.getByRole('group', { name: 'Sprache wechseln' }).getByRole('button', { name: 'FR' }).click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
-    await expect(page.getByRole('navigation', { name: 'Navigation du portail' }).getByRole('link', { name: 'Explorer' })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Navigation du portail' }).getByRole('link', { name: 'Communes' })).toBeVisible();
   });
 
   test('back-office : traductions des textes du portail', async ({ page }) => {
