@@ -27,8 +27,9 @@ export async function DemoBar({ active, right, real }: { active?: Space; right?:
   const { fictif, real: hasReal } = await demoTerritories();
   // Démonstration réelle : le portail et le back-office sont ceux du Haut-Doubs ; le jeu fictif n'existe que
   // pour les tests, où le territoire réel garde son propre lien.
-  const links: { key: Space; label: string; href: string }[] = [
-    { key: 'presentation', label: 'Présentation', href: '/' },
+  // Premier lien : le site national terricom.fr, ouvert dans un nouvel onglet (adresse absolue, hors démonstration).
+  const links: { key: Space; label: string; href: string; external?: boolean }[] = [
+    { key: 'presentation', label: 'terricom.fr', href: `https://${env.PLATFORM_DOMAIN}/`, external: true },
     { key: 'portail', label: 'Portail public', href: fictif ? '/valdeloue' : '/haut-doubs' },
     { key: 'pro', label: 'Espace entreprise', href: '/demo/entrer/pro' },
     { key: 'collectivite', label: 'Back-office collectivité', href: '/demo/entrer/collectivite' },
@@ -47,10 +48,11 @@ export async function DemoBar({ active, right, real }: { active?: Space; right?:
         {links.map((l) => (
           <a
             key={l.key}
-            href={`${base}${current === 'haut-doubs' && l.key === 'collectivite' ? '/demo/entrer/haut-doubs' : l.href}`}
-            aria-current={l.key === current ? 'page' : undefined}
+            href={l.external ? l.href : `${base}${current === 'haut-doubs' && l.key === 'collectivite' ? '/demo/entrer/haut-doubs' : l.href}`}
+            {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}
+            aria-current={l.key === current && !l.external ? 'page' : undefined}
             style={
-              l.key === current
+              l.key === current && !l.external
                 ? { color: '#14201B', background: '#F4B266', padding: '6px 12px', borderRadius: 999, fontWeight: 600 }
                 : { color: '#AEBDB5', padding: '6px 12px', borderRadius: 999 }
             }

@@ -27,13 +27,8 @@ export function sectionFromPath(pathname: string, base: string): PortalSection {
 
 export function PortalHeader({ portal, section, t: tr }: { portal: PortalContext; section: PortalSection; t: Translate }) {
   const { territory: t, base, modules, featuredCampaign } = portal;
-  const settings = t.settings as TerritorySettings;
-  // Premier menu : lien vers le site national terricom.fr (la carte reste accessible depuis l'accueil, le pied de
-  // page et les communes). En marque blanche, aucune mention de terricom : le menu « Explorer » est conservé.
-  const items: { key: PortalSection | 'terricom'; label: string; href: string }[] = [
-    settings.whiteLabel
-      ? { key: 'explorer', label: tr('nav.explorer'), href: `${base}/explorer` }
-      : { key: 'terricom', label: 'terricom.fr', href: appUrl('/') },
+  const items: { key: PortalSection; label: string; href: string }[] = [
+    { key: 'explorer', label: tr('nav.explorer'), href: `${base}/explorer` },
     { key: 'communes', label: tr('nav.communes'), href: `${base}/communes` },
     { key: 'agenda', label: tr('nav.agenda'), href: `${base}/agenda` },
   ];

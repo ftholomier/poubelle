@@ -138,10 +138,10 @@ Communauté de communes du Val de Loue (Doubs), 24 communes, environ 800 fiches.
   back-office, espace entreprise ou compte), directement s’il est déjà connecté. Le portail ne lit pas la
   session : posée sur le domaine de la plateforme, elle n’est pas visible sur un sous-domaine ou un domaine de
   collectivité.
-- **Menu « terricom.fr » du portail** : le premier menu de l’en-tête du portail n’est plus « Explorer » mais
-  « terricom.fr », qui mène au site national. La carte reste accessible depuis l’accueil (« Explorer la carte »),
-  le pied de page et les pages des communes. En marque blanche, le menu « Explorer » est conservé. `<body>`
-  ignore les écarts d’hydratation dus aux extensions de navigateur (attributs ajoutés avant React).
+- **Lien « terricom.fr » de la barre de démonstration** : dans la barre de démonstration (`DEMO_MODE` seulement),
+  « Présentation » devient « terricom.fr » et ouvre le site national dans un nouvel onglet. Le portail garde son
+  menu « Explorer ». `<body>` ignore les écarts d’hydratation dus aux extensions de navigateur (attributs ajoutés
+  avant React).
 
 ## Vérifications à chaque lot
 
