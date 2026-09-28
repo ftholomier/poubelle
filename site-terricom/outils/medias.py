@@ -7,6 +7,7 @@ Sources attendues (voir README) :
   sources/images/*.jpg          images tirées du teaser
   sources/topo.png              plan topographique sombre (terricom/scripts/teaser/sombre.mjs)
   sources/film.mp4              film de présentation aux élus (terricom/docs/teaser/terricom-elus.mp4)
+  sources/teaser.mp4            teaser, page /teaser (terricom/docs/teaser/terricom-teaser.mp4)
 
 Usage : python3 outils/medias.py   (Pillow requis ; FFMPEG pour la vidéo)
 """
@@ -75,6 +76,11 @@ def main():
         subprocess.run([ff, '-y', '-loglevel', 'error', '-i', f'{SRC}/film.mp4', '-vf', 'scale=1280:720', '-c:v', 'libx264', '-preset', 'slow', '-crf', '27',
                         '-tune', 'film', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', f'{OUT}/video/film.mp4'], check=True)
         subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '43', '-i', f'{SRC}/film.mp4', '-frames:v', '1', '-vf', 'scale=1280:720', f'{OUT}/video/affiche.jpg'], check=True)
+    if os.path.exists(f'{SRC}/teaser.mp4'):
+        os.makedirs(f'{OUT}/video', exist_ok=True)
+        subprocess.run([ff, '-y', '-loglevel', 'error', '-i', f'{SRC}/teaser.mp4', '-vf', 'scale=1280:720', '-c:v', 'libx264', '-preset', 'slow', '-crf', '27',
+                        '-tune', 'film', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', f'{OUT}/video/teaser.mp4'], check=True)
+        subprocess.run([ff, '-y', '-loglevel', 'error', '-ss', '39.5', '-i', f'{SRC}/teaser.mp4', '-frames:v', '1', '-vf', 'scale=1280:720', f'{OUT}/video/affiche-teaser.jpg'], check=True)
     print('médias prêts')
 
 

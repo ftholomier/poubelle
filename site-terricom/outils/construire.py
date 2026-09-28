@@ -206,7 +206,50 @@ def expand(html):
     return html
 
 
+def layout_nu(page, meta, body):
+    # Page sans en-tête ni pied de page (gabarit: nu), ex. /teaser : adresses absolues, pour être servie aussi
+    # bien en /teaser qu'en /teaser/.
+    titre = meta['titre']
+    desc = meta['description']
+    url = f'{SITE}/{page.replace(".html", "")}'
+    return f"""<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{titre} · terricom</title>
+<meta name="description" content="{desc}">
+<link rel="canonical" href="{url}">
+<meta name="theme-color" content="#14201B">
+<meta property="og:type" content="video.other">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="terricom">
+<meta property="og:title" content="{titre}">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="{url}">
+<meta property="og:image" content="{SITE}{meta.get('image', '/assets/img/partage.jpg')}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/img/icone-180.png">
+<style>
+html, body {{ margin: 0; height: 100%; background: #14201B; }}
+body {{ display: flex; align-items: center; justify-content: center; }}
+main {{ width: 100%; height: 100%; }}
+video {{ display: block; width: 100%; height: 100%; max-height: 100vh; max-height: 100dvh; object-fit: contain; background: #000; }}
+</style>
+</head>
+<body class="page-{page.replace('.html', '')}">
+<main>
+{body}
+</main>
+</body>
+</html>
+"""
+
+
 def layout(page, meta, body):
+    if meta.get('gabarit') == 'nu':
+        return layout_nu(page, meta, body)
     titre = meta['titre']
     full = titre if page == 'index.html' else f'{titre} · terricom'
     desc = meta['description']
@@ -260,7 +303,7 @@ def layout(page, meta, body):
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation">Menu</button>
     <nav class="nav" id="navigation" aria-label="Navigation principale">
 {nav}
-      <a class="btn btn-amber" href="demonstration.html">Voir la démonstration</a>
+      <a class="btn btn-amber" href="demonstration.html#demande">Demandez une démo</a>
     </nav>
   </div>
 </header>
