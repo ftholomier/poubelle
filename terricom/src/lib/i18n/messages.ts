@@ -27,6 +27,7 @@ const fr = {
   'nav.circuits': 'Circuits',
   'nav.jobs': 'Emploi',
   'nav.pro': 'Vous êtes pro ?',
+  'nav.login': 'Se connecter',
 
   // Pied de page
   'footer.initiative': 'Une initiative de {legal}.',
@@ -42,6 +43,7 @@ const fr = {
   'footer.legal': 'Mentions légales',
   'footer.privacy': 'Données personnelles',
   'footer.accessibility': 'Accessibilité',
+  'footer.staff': 'Espace élus et agents',
   'footer.poweredBy': 'Propulsé par terricom.',
 
   // Accueil
@@ -503,6 +505,7 @@ const en: Dict = {
   'nav.circuits': 'Trails',
   'nav.jobs': 'Jobs',
   'nav.pro': 'Business owner?',
+  'nav.login': 'Log in',
 
   'footer.initiative': 'An initiative of {legal}.',
   'footer.initiativeCommunes': 'An initiative of {legal} and its {n} municipalities.',
@@ -517,6 +520,7 @@ const en: Dict = {
   'footer.legal': 'Legal notice',
   'footer.privacy': 'Personal data',
   'footer.accessibility': 'Accessibility',
+  'footer.staff': 'Staff and councillors',
   'footer.poweredBy': 'Powered by terricom.',
 
   'home.prosNear.1': 'local businesses',
@@ -973,6 +977,7 @@ const de: Dict = {
   'nav.circuits': 'Rundwege',
   'nav.jobs': 'Jobs',
   'nav.pro': 'Sie sind Unternehmer?',
+  'nav.login': 'Anmelden',
 
   'footer.initiative': 'Eine Initiative von {legal}.',
   'footer.initiativeCommunes': 'Eine Initiative von {legal} und seinen {n} Gemeinden.',
@@ -987,6 +992,7 @@ const de: Dict = {
   'footer.legal': 'Impressum',
   'footer.privacy': 'Datenschutz',
   'footer.accessibility': 'Barrierefreiheit',
+  'footer.staff': 'Bereich für Verwaltung',
   'footer.poweredBy': 'Bereitgestellt von terricom.',
 
   'home.prosNear.1': 'Betriebe',

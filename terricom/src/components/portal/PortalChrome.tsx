@@ -70,6 +70,10 @@ export function PortalHeader({ portal, section, t: tr }: { portal: PortalContext
         </nav>
         <div className="portal-header-cta">
           {modules.has('MULTILINGUAL') ? <LangSwitch /> : null}
+          {/* Connexion unique sur la plateforme : chacun est ensuite dirigé vers son espace (déjà connecté : directement). */}
+          <a href={appUrl('/connexion')} className="portal-login">
+            {tr('nav.login')}
+          </a>
           <a href={appUrl(`/pro?territoire=${t.slug}`)} className="btn btn-outline btn-sm" style={{ fontSize: 13 }}>
             {tr('nav.pro')}
           </a>
@@ -143,6 +147,9 @@ export function PortalFooter({ portal, t: tr }: { portal: PortalContext; t: Tran
           <Link href={`${base}/accessibilite`} style={{ color: 'inherit' }}>
             {tr('footer.accessibility')}
           </Link>
+          <a href={appUrl('/connexion')} style={{ color: 'inherit' }}>
+            {tr('footer.staff')}
+          </a>
           {settings.whiteLabel ? null : (
             <a href={appUrl('/')} style={{ color: 'var(--sage-3)' }}>
               {tr('footer.poweredBy')}
