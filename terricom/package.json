@@ -23,6 +23,7 @@
     "presentation": "node scripts/presentation.mjs",
     "strategie": "node scripts/strategie.mjs",
     "cadrage": "python3 docs/cadrage/generer.py && node scripts/cadrage.mjs",
+    "appel-elu": "python3 docs/prospection/generer.py && node scripts/appel-elu.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",

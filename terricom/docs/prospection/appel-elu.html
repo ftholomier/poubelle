@@ -1,0 +1,138 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>terricom · Appeler un élu</title>
+<style>@font-face { font-family: 'Bricolage'; font-weight: 200 800; src: url('../../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-opsz-normal.woff2') format('woff2-variations'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'Bricolage'; font-weight: 200 800; src: url('../../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-ext-opsz-normal.woff2') format('woff2-variations'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: 'Instrument'; font-weight: 400 700; src: url('../../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2') format('woff2-variations'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'Instrument'; font-weight: 400 700; src: url('../../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-ext-wght-normal.woff2') format('woff2-variations'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+
+:root {
+  --ink: #14201B; --ink2: #2A3A33; --green: #1F6B52; --amber: #F4B266; --cream: #F7F4EC; --paper: #FFFDF8;
+  --line: #E4DFD3; --brick: #C8702A; --text2: #4A514C; --muted: #6B726D; --sage: #AEBDB5; --sage2: #D6E0DA;
+  --leaf: #D6E8B4; --mint: #E1ECE5; --lilac: #DCD3F3; --sky: #CDE3F2; --rose: #F6C9C1; --sand: #EFEBE1;
+  --commerce: #C8892A; --artisan: #3E6FB0; --producteur: #3F8F4E; --resto: #D95C4E; --services: #7A5BB5;
+}
+
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: 'Instrument', system-ui, sans-serif; color: var(--ink); background: #9a9a9a; font-size: 12.2px; line-height: 1.5; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+@media screen { .page { margin: 12px auto; box-shadow: 0 6px 30px rgba(0,0,0,.25); } }
+@media print { body { background: none; } }
+.page { width: 210mm; height: 297mm; position: relative; overflow: hidden; background: var(--cream); break-after: page; padding: 16mm 17mm 22mm; display: flex; flex-direction: column; gap: 4mm; }
+.page:last-child { break-after: auto; }
+.page.dark { background: var(--ink); color: var(--cream); }
+.blob { position: absolute; border-radius: 50%; opacity: .9; }
+.foot { position: absolute; left: 17mm; right: 17mm; bottom: 9mm; display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 2.6mm; }
+.foot .brand { font-family: 'Bricolage'; font-weight: 800; font-size: 11px; color: var(--ink); letter-spacing: -0.02em; }
+.foot .brand i, .wm i { color: var(--amber); font-style: normal; }
+.foot .num { font-weight: 700; color: var(--ink); }
+.eyebrow { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--brick); }
+h1, h2, h3, h4 { font-family: 'Bricolage'; letter-spacing: -0.03em; margin: 0; }
+h1 em, h2 em { font-style: normal; color: var(--green); }
+.dark h1 em { color: var(--amber); }
+h2 { font-size: 30px; line-height: 1.02; font-weight: 800; }
+.mark { width: 34px; height: 34px; border-radius: 50% 50% 50% 14%; transform: rotate(-45deg); background: var(--amber); display: inline-grid; place-items: center; flex-shrink: 0; }
+.mark span { transform: rotate(45deg); font-family: 'Bricolage'; font-weight: 800; font-size: 22px; line-height: 1; color: var(--ink); margin-top: -3px; }
+.wm { font-family: 'Bricolage'; font-weight: 800; letter-spacing: -0.05em; line-height: .9; }
+.cover .top { position: relative; display: flex; justify-content: space-between; font-size: 10px; color: var(--sage); }
+.cover .logo { position: relative; display: flex; align-items: center; gap: 12px; margin-top: 30mm; }
+.cover .logo .mark { width: 16mm; height: 16mm; } .cover .logo .mark span { font-size: 38px; }
+.cover .logo .wm { font-size: 64px; color: var(--cream); }
+.cover h1 { position: relative; font-size: 44px; line-height: 1.02; font-weight: 800; color: var(--cream); max-width: 160mm; margin-top: 3mm; }
+.cover .lead { position: relative; font-size: 15px; line-height: 1.5; color: var(--sage2); max-width: 150mm; margin: 4mm 0 0; }
+.steps { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin-top: auto; }
+.steps div { border: 1px solid rgba(255,255,255,.25); border-radius: 14px; padding: 4mm; display: flex; flex-direction: column; gap: 2mm; }
+.steps b { font-family: 'Bricolage'; font-size: 26px; color: var(--amber); line-height: 1; }
+.steps span { font-size: 12px; color: var(--sage2); font-weight: 600; }
+.covnote { position: relative; font-size: 11px; color: var(--sage); margin-top: 5mm; max-width: 165mm; }
+.lead-d { font-size: 13.5px; line-height: 1.5; color: var(--ink2); margin: 0; }
+.script { display: flex; flex-direction: column; gap: 3mm; }
+.st1 { background: var(--paper); border: 1px solid var(--line); border-left: 5px solid var(--green); border-radius: 14px; padding: 4mm 5mm; }
+.st1.go { border-left-color: var(--amber); background: #FFF6EA; }
+.st1 .k { font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--green); }
+.st1.go .k { color: var(--brick); }
+.st1 p { margin: 1.2mm 0 0; font-size: 13.8px; line-height: 1.5; color: var(--ink); }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+.box { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 4mm 5mm; }
+.box.amber { background: #FBE6C9; border-color: #F0CFA0; }
+.box h4 { font-size: 14px; margin-bottom: 1.5mm; }
+.box p { margin: 0; font-size: 12px; color: var(--text2); }
+.keys { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.8mm; }
+.keys li { display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: start; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 2.4mm 4mm; }
+.keys .n { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: var(--ink); color: var(--amber); font-family: 'Bricolage'; font-weight: 800; font-size: 14px; }
+.keys b { font-family: 'Bricolage'; font-size: 16px; letter-spacing: -0.02em; }
+.keys p { margin: .5mm 0 0; font-size: 11.6px; color: var(--text2); }
+.final { background: var(--green); color: var(--cream); border-radius: 16px; padding: 5mm 6mm; }
+.final p { margin: 0; font-size: 14px; line-height: 1.5; }
+.final b { color: var(--amber); }
+.objs { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; }
+.obj { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 3.5mm 4mm; }
+.obj b { font-family: 'Bricolage'; font-size: 13.5px; letter-spacing: -0.01em; }
+.obj p { margin: 1mm 0 0; font-size: 11.5px; color: var(--text2); }
+.mail { font-size: 11px !important; line-height: 1.45; }
+.check { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2mm; }
+.check li { font-size: 11.8px; padding-left: 22px; position: relative; color: var(--text2); }
+.check li::before { content: ''; position: absolute; left: 0; top: 1px; width: 13px; height: 13px; border: 1.6px solid var(--green); border-radius: 4px; }
+</style></head><body>
+<section class="page dark cover">
+<div class="blob" style="width:150mm;height:150mm;right:-45mm;top:-55mm;background:var(--green)"></div>
+<div class="blob" style="width:70mm;height:70mm;left:-25mm;bottom:-30mm;background:#23332C"></div>
+<div class="top"><span>terricom.fr</span><span>Document interne · fiche d’appel</span></div>
+<div class="logo"><span class="mark"><span>t</span></span><span class="wm">terricom<i>.</i></span></div>
+<span class="eyebrow" style="color:var(--amber);margin-top:26mm">Prospection des collectivités</span>
+<h1>Appeler un élu, <em>décrocher le rendez-vous.</em></h1>
+<p class="lead">Un seul objectif au téléphone : obtenir 30 minutes pour montrer terricom. Pas de vente, pas de prix, pas de démonstration par téléphone. On donne envie, on propose deux créneaux, on raccroche.</p>
+<div class="steps">
+<div><b>1</b><span>Le script d’appel</span></div>
+<div><b>2</b><span>Dix phrases clés</span></div>
+<div><b>3</b><span>Les objections</span></div>
+<div><b>4</b><span>Après l’appel</span></div>
+</div>
+<div class="covnote">Qui appeler : le ou la vice-président(e) au développement économique de la communauté de communes, à défaut le président ou la présidente ; pour une commune seule, le maire ou l’adjoint au commerce.</div>
+</section>
+<section class="page ">
+<span class="eyebrow">1 · Le script d’appel</span>
+<h2>Une minute, <em>quatre temps.</em></h2>
+<p class="lead-d">À dire avec vos mots, pas à lire. Les crochets sont à adapter avant l’appel.</p>
+<div class="script">
+<div class="st1"><span class="k">Se présenter</span>
+<p>« Bonjour Monsieur / Madame [Nom], [Prénom Nom], je suis l’un des fondateurs de terricom. Je vous appelle au sujet du commerce et de l’économie locale de [nom de la communauté de communes]. Vous avez une minute ? »</p></div>
+<div class="st1"><span class="k">Dire pourquoi</span>
+<p>« Nous avons créé une plateforme d’animation économique pour les territoires : une vitrine en ligne pour toutes les entreprises de vos communes, commerçants, artisans, producteurs, et les outils pour que la communauté de communes et chaque mairie les fassent vivre toute l’année. »</p></div>
+<div class="st1"><span class="k">Donner envie</span>
+<p>« Ce qui plaît aux élus, c’est que tout est déjà prêt : les [nombre] entreprises de votre territoire y sont dès le départ, grâce au registre officiel. Et vous lancez une campagne, par exemple pour Noël, en une phrase. »</p></div>
+<div class="st1 go"><span class="k">Demander le rendez-vous</span>
+<p>« Je vous propose trente minutes pour vous le montrer, dans vos locaux ou en visio. Seriez-vous disponible [jour] à [heure], ou plutôt [jour] à [heure] ? »</p></div>
+</div>
+<div class="two">
+<div class="box"><h4>Si c’est oui</h4><p>« Parfait. Je vous envoie une confirmation par courriel aujourd’hui. Souhaitez-vous que j’invite aussi votre agent chargé du développement économique ? »</p></div>
+<div class="box"><h4>Si vous tombez sur le secrétariat</h4><p>« Je souhaite proposer à [M. / Mme Nom] une présentation de trente minutes d’un outil pour le commerce local de la communauté. Quel est le meilleur moment pour le ou la joindre, ou puis-je vous proposer deux créneaux ? »</p></div>
+</div>
+<div class="box amber"><h4>Message sur répondeur (20 secondes)</h4><p>« Bonjour [M. / Mme Nom], [Prénom Nom] de terricom. Je souhaite vous présenter en trente minutes une plateforme qui met en vitrine toutes les entreprises de [territoire] et aide la communauté à animer son commerce local. Je vous rappelle [jour] ; vous pouvez aussi me joindre au [numéro]. Belle journée. »</p></div>
+<div class="foot"><span class="brand">terricom<i>.</i></span><span>Appeler un élu · fiche de prospection</span><span class="num">2</span></div></section>
+<section class="page ">
+<span class="eyebrow">2 · Dix phrases clés</span>
+<h2>Ce qui fait <em>la force de terricom.</em></h2>
+<p class="lead-d">À placer dans la conversation, deux ou trois suffisent. La phrase en gras se retient ; la suite, si l’élu demande.</p>
+<ol class="keys"><li><span class="n">1</span><div><b>Toutes vos entreprises, en vitrine.</b><p>Chaque commerce, artisan et producteur de vos communes a sa fiche, visible sur la carte, dans la recherche et sur Google.</p></div></li><li><span class="n">2</span><div><b>Tout est prêt dès le premier jour.</b><p>Les entreprises viennent du registre officiel SIRENE, mis à jour chaque mois : aucune saisie pour vos services.</p></div></li><li><span class="n">3</span><div><b>Une fiche offerte par la collectivité.</b><p>Vos commerçants reçoivent un cadeau de leur communauté, pas un abonnement de plus ni un démarchage.</p></div></li><li><span class="n">4</span><div><b>Une campagne en une phrase.</b><p>Noël, fête des mères, quinzaine commerciale : l’assistant prépare la page, la sélection des commerces et le calendrier.</p></div></li><li><span class="n">5</span><div><b>Aucune commune laissée de côté.</b><p>Chaque commune a sa page, et chaque mairie son espace pour agir ; la communauté coordonne.</p></div></li><li><span class="n">6</span><div><b>Une politique économique qui se voit.</b><p>Les habitants voient ce que fait la communauté pour leurs commerces, et les commerçants aussi.</p></div></li><li><span class="n">7</span><div><b>Des résultats à présenter au conseil.</b><p>Visites, recherches, appels, itinéraires, commune par commune : le rapport se génère en un clic.</p></div></li><li><span class="n">8</span><div><b>Pas une place de marché de plus.</b><p>Pas de vente en ligne imposée, aucune commission : terricom amène les habitants à pousser la porte des commerces.</p></div></li><li><span class="n">9</span><div><b>Simple pour les commerçants.</b><p>Ils publient une nouveauté en une phrase ; l’assistant rédige pour leur fiche et leurs réseaux.</p></div></li><li><span class="n">10</span><div><b>Nous vous accompagnons.</b><p>Lancement, invitation des entreprises, animation toute l’année : vous n’êtes pas seuls avec un outil.</p></div></li></ol>
+<div class="final"><p>Si vous ne deviez en dire qu’une : <b>« Toutes les entreprises de votre territoire en vitrine, et les outils pour les faire vivre toute l’année. »</b></p></div>
+<div class="foot"><span class="brand">terricom<i>.</i></span><span>Appeler un élu · fiche de prospection</span><span class="num">3</span></div></section>
+<section class="page ">
+<span class="eyebrow">3 · Les objections</span>
+<h2>Une réponse courte, <em>puis revenir au <span style="white-space:nowrap">rendez-vous</span>.</em></h2>
+<div class="objs"><div class="obj"><b>« Nous avons déjà un site internet. »</b><p>« terricom ne le remplace pas : c’est la vitrine de toutes vos entreprises, reliée à votre site. Je vous montre la différence en trente minutes. »</p></div><div class="obj"><b>« Envoyez-moi une documentation. »</b><p>« Avec plaisir, je vous l’envoie aujourd’hui. Elle se comprend beaucoup mieux en la voyant : puis-je vous proposer trente minutes [jour] ou [jour] ? »</p></div><div class="obj"><b>« Nous n’avons pas de budget. »</b><p>« Je comprends. Le rendez-vous n’engage à rien, et il vous aidera à préparer le prochain budget avec des éléments concrets. »</p></div><div class="obj"><b>« Nous avons déjà essayé une place de marché, ça n’a pas marché. »</b><p>« C’est justement pour cela que terricom n’en est pas une : aucune vente en ligne imposée aux commerçants, aucune commission. »</p></div><div class="obj"><b>« Ce n’est pas le bon moment. »</b><p>« Quand serait-il plus opportun ? Je note de vous rappeler à ce moment-là. »</p></div><div class="obj"><b>(Un maire) « C’est la compétence de la communauté. »</b><p>« Tout à fait, et chaque commune y a son espace. Votre avis compte : puis-je vous le présenter, ou le présenter au vice-président concerné de votre part ? »</p></div></div>
+<span class="eyebrow" style="margin-top:3mm">4 · Après l’appel</span>
+<div class="two">
+<div class="box"><h4>Le courriel de confirmation, le jour même</h4>
+<p class="mail"><b>Objet :</b> terricom · notre rendez-vous du [jour]<br><br>Bonjour [Madame / Monsieur Nom],<br><br>Merci pour votre accueil au téléphone. Je vous confirme notre rendez-vous du [jour] à [heure], [lieu ou lien visio], pour vous présenter terricom, la plateforme d’animation économique du territoire.<br><br>Je vous joins un film de présentation de deux minutes ; vous pouvez aussi découvrir terricom sur terricom.fr.<br><br>Bien cordialement,<br>[Prénom Nom] · terricom · [téléphone]</p></div>
+<div class="box"><h4>À faire</h4>
+<ul class="check">
+<li>Noter l’appel dans le suivi commercial (console)</li>
+<li>Envoyer le courriel de confirmation</li>
+<li>Envoyer l’invitation d’agenda</li>
+<li>Préparer la démonstration : nombre d’entreprises et de communes du territoire</li>
+<li>Pas de réponse : rappeler sous 3 jours, puis 10 jours</li>
+<li>Un refus : noter la raison et la date de relance</li>
+</ul></div>
+</div>
+<div class="foot"><span class="brand">terricom<i>.</i></span><span>Appeler un élu · fiche de prospection</span><span class="num">4</span></div></section>
+</body></html>
