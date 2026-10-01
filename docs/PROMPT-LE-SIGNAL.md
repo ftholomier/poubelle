@@ -27,11 +27,12 @@ LIS D'ABORD, DANS CET ORDRE :
      pages, catalogue, prestations, et les deux décisions à prendre
   2. docs/le-signal-catalogue.json — les 13 bureaux déjà au format
      content/offices.json (prix, surfaces, statuts, photos)
-  3. README.md — ce que fait le socle, section par section
-  4. docs/REUTILISATION.md — ce qui est générique, ce qui est métier, dans
+  3. docs/le-signal-redirections.md — la table 301/410 complète, déjà écrite
+  4. README.md — ce que fait le socle, section par section
+  5. docs/REUTILISATION.md — ce qui est générique, ce qui est métier, dans
      quel ordre transposer. Les sections 4 (les six règles), 6 (ce qu'il faut
      remplacer) et 9 (les onze pièges déjà rencontrés) sont les plus utiles.
-  5. docs/HANDOFF-CLAUDE-CODE.md — la direction visuelle d'origine
+  6. docs/HANDOFF-CLAUDE-CODE.md — la direction visuelle d'origine
 
 PUIS VÉRIFIE LE RELEVÉ sur le site en ligne : il date du 1er octobre 2026, les
 tarifs et les disponibilités ont pu bouger. Attention, c'est l'apex qui
@@ -71,17 +72,28 @@ CE QUE TU ADAPTES :
     direction avant de la généraliser.
   - app/views/pages/* et public/media/* → pages et visuels du Signal
 
-DEUX DÉCISIONS QUE JE DOIS PRENDRE AVANT QUE TU CODES — pose-les-moi :
-  1. Le Signal vend en ligne (panier, commande, compte client WooCommerce).
-     Le socle iOiO n'a pas de boutique : il récolte des demandes et l'équipe
-     rappelle. On garde la vente en ligne, ou on bascule sur le modèle iOiO ?
-  2. Un seul lieu aujourd'hui. D'autres adresses sont-elles prévues ? Si oui
-     je garde la mécanique multi-lieux, sinon je la simplifie.
+DÉCISION DÉJÀ PRISE, NE LA REMETS PAS EN QUESTION : pas de vente en ligne.
+On bascule sur le modèle du iOiO. Le visiteur manifeste son intérêt, l'équipe
+rappelle. Aucune boutique, aucun paiement, aucune commande, aucun compte
+client. Conséquences à traiter, détaillées au § 7 du relevé :
+  - /panier/, /commander/ et /mon-compte/ renvoient un 410 Gone — surtout pas
+    un 301 vers l'accueil, que Google traite comme un soft 404
+  - les URL produit et /categorie-produit/… se redirigent en 301 vers la fiche
+    correspondante ou le catalogue filtré
+  - « Ajouter au panier » devient « Ce bureau m'intéresse » ; « Réservé » reste
+    et correspond au statut rented du socle
+  - le formulaire du socle remplace la commande : enregistrement dans
+    requests.json, email à l'équipe, accusé au visiteur, passage par l'anti-spam
 
-ET POSE-MOI AUSSI :
+POSE-MOI CES QUESTIONS AVANT DE CODER :
+  - un seul lieu aujourd'hui : d'autres adresses sont-elles prévues ? Si oui je
+    garde la mécanique multi-lieux du iOiO, sinon je la simplifie
   - faut-il le bilingue FR/EN comme sur le iOiO
   - garde-t-on l'assistant IA, les avis Google, la pop-up de sortie
   - la version audio de la présentation : on la reprend ?
+  - le bureau privé N°05 affiche un prix barré (450 € ramené à 400 €). Le socle
+    n'a pas de champ « prix précédent » : je l'ajoute, ou je n'affiche que le
+    prix courant ?
   - as-tu les photos en haute définition ? Celles du site font 1024 px, c'est
     trop peu pour le socle. Ne commence pas l'intégration sans les originaux.
   - l'email de contact, absent du site actuel
@@ -103,7 +115,7 @@ LE NIVEAU DE FINITION ATTENDU — c'est celui du projet que tu as sous les yeux 
   - commits en français, un par lot cohérent, expliquant la cause et pas
     seulement le symptôme
 
-Commence par lire les cinq documents, vérifier le relevé en ligne, puis
+Commence par lire les six documents, vérifier le relevé en ligne, puis
 pose-moi tes questions.
 ```
 
@@ -116,4 +128,5 @@ pose-moi tes questions.
   de téléphone d'avril 2025, donc les originaux font probablement 3000 px ;
 - le **logo vectoriel** du Signal ;
 - une **adresse email** de contact, absente du site actuel ;
-- la décision sur la vente en ligne, qui conditionne toute l'architecture.
+- l'accès à l'hébergement, pour vérifier les redirections en ligne une fois
+  le site basculé.

@@ -118,21 +118,42 @@ plusieurs itérations, alors que le code était correct.
 
 ---
 
-## 7. Deux différences qui demandent une décision
+## 7. La vente en ligne est abandonnée — décision prise
 
-1. **Le Signal vend en ligne.** Panier, commande et compte client WooCommerce
-   sont actifs. Le socle iOiO n'a pas de boutique : il récolte des demandes
-   de contact et de réservation, puis l'équipe rappelle. Faut-il garder la
-   vente en ligne — ce qui suppose de réintroduire paiement et commandes,
-   donc de sortir du périmètre « sans base de données » — ou basculer sur le
-   modèle du iOiO ?
-2. **Un seul lieu.** Toute la mécanique à deux adresses du iOiO (bascule
-   Carnot/Granvelle, filtres par lieu, cartes multiples) se simplifie, ou se
-   garde si d'autres lieux sont prévus.
+Le site actuel vend en ligne : panier, commande et compte client WooCommerce
+sont actifs. **Le client a tranché : on bascule sur le modèle du iOiO.** Pas
+de boutique, pas de paiement, pas de commande. Le visiteur manifeste son
+intérêt, l'équipe rappelle.
+
+Ce que cela implique concrètement :
+
+- **Trois URL disparaissent** : `/panier/`, `/commander/`, `/mon-compte/`.
+  Elles doivent renvoyer un **410 Gone** — et non un 301 vers l'accueil —
+  pour que les moteurs les retirent proprement de leur index. Un 301 vers une
+  page sans rapport est traité comme un soft 404 et traîne des mois.
+- **Les URL produit et catégorie** (`/categorie-produit/…`, les fiches de
+  bureaux) se redirigent en **301** vers leurs équivalents du nouveau site :
+  la fiche correspondante, ou le catalogue filtré.
+- **Le vocabulaire change** : « Ajouter au panier » devient « Ce bureau
+  m'intéresse », exactement comme sur le iOiO. « Réservé » reste, c'est le
+  statut `rented` du socle.
+- **Le formulaire remplace la commande.** Le socle enregistre la demande dans
+  `content/requests.json`, prévient l'équipe par email, envoie un accusé de
+  réception au visiteur, et passe le tout par l'anti-spam.
+- **Un détail de données à arbitrer** : le bureau privé N°05 affiche un prix
+  barré (450 € ramené à 400 €). Le modèle du socle n'a pas de champ « prix
+  précédent ». Soit on l'ajoute, soit on n'affiche que 400 €. À demander.
+
+## 8. Un seul lieu — à confirmer
+
+Toute la mécanique à deux adresses du iOiO (bascule Carnot/Granvelle, filtres
+par lieu, cartes multiples) se simplifie. À garder en l'état si d'autres
+adresses sont prévues : la retirer puis la réintroduire coûterait plus cher
+que de la laisser dormante.
 
 ---
 
-## 8. Ce qui existe sur le site actuel et mérite d'être repris
+## 9. Ce qui existe sur le site actuel et mérite d'être repris
 
 - la **version audio** de la présentation (« Tout savoir sur Le Signal en
   audio ») — original, à conserver ;
