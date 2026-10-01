@@ -246,6 +246,13 @@ if ($isPost) {
                 'type' => \in_array((string) ($input['type'] ?? ''), Config::TYPES, true) ? (string) $input['type'] : 'private',
                 'area' => trim(mb_substr((string) ($input['area'] ?? ''), 0, 40)),
                 'price' => max(0, (int) ($input['price'] ?? 0)),
+                // Un promo vide, nul ou au-dessus du tarif normal n'est pas une
+                // promotion : on l'enregistre à zéro, ce qui l'efface.
+                'pricePromo' => (static function (array $in): int {
+                    $promo = max(0, (int) ($in['pricePromo'] ?? 0));
+                    $full = max(0, (int) ($in['price'] ?? 0));
+                    return $promo > 0 && $full > 0 && $promo < $full ? $promo : 0;
+                })($input),
                 'currency' => 'EUR',
                 'period' => 'month',
                 'vat' => 'excl',

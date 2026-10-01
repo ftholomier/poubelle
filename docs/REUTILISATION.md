@@ -161,8 +161,8 @@ Environ **80 % du code**. Rien à y changer pour un autre métier :
 | `public/media/*` | 78 photos du iOiO | vos visuels |
 
 **Le modèle de données est le point central.** `Offices` suppose :
-un identifiant, un nom, un lieu, un type, un statut, un prix, des photos, des
-points forts, une version anglaise. Si votre métier a la même forme — une
+un identifiant, un nom, un lieu, un type, un statut, un tarif normal, un tarif
+promo facultatif, des photos, des points forts, une version anglaise. Si votre métier a la même forme — une
 collection d'objets qu'on filtre, qu'on active/désactive et qu'on présente en
 fiche — vous renommez et vous gardez toute la mécanique : filtres, compteurs,
 cartes, fiche, API JSON, assistant.

@@ -104,12 +104,19 @@ bin/                  seed, cron, user, router de développement
 | --- | --- |
 | **Tableau de bord** | compteurs réels, dernières demandes, état des intégrations, champs de contenu manquants |
 | **Pages & contenus** | tous les textes du site, champ par champ, en FR et en EN. Brouillon → publication, verrou d'édition 10 min, restauration de version, traduction assistée |
-| **Bureaux & dispos** | **le catalogue** : ajouter, modifier, réordonner, activer/désactiver, faire tourner la disponibilité (Disponible → Bientôt libre → Loué), prix, surface, description, points forts, photos, version anglaise |
+| **Bureaux & dispos** | **le catalogue** : ajouter, modifier, réordonner, activer/désactiver, faire tourner la disponibilité (Disponible → Bientôt libre → Loué), **tarif normal et tarif promo**, surface, description, points forts, photos, version anglaise |
 | **Photos** | téléversement (conversion WebP + dérivés), texte alternatif et légende FR/EN, suppression |
 | **L'actu** | articles avec éditeur WYSIWYG, brouillon/publié, image, version anglaise |
 | **Demandes** | contacts, réservations et rappels de disponibilités, avec statut |
 | **Assistant IA** | documents indexés, prompt système, suggestions, questions restées sans réponse, réindexation |
 | **Réglages & clés** | identité, coordonnées, les deux lieux, conversion, mesure d'audience, **clés API** (test de chaque intégration, recherche du Place ID par adresse, choix du modèle Gemini), comptes |
+
+**Tarif promotionnel.** Chaque bureau a deux champs : le tarif normal et un
+tarif promo facultatif. Renseigné, c'est le promo qui s'applique partout — carte,
+fiche, « à partir de », assistant — et le tarif normal s'affiche barré à côté.
+Vidé, tout revient au tarif normal. Un promo supérieur ou égal au tarif normal
+n'est pas une promotion : il est refusé à l'enregistrement plutôt que d'afficher
+une remise absurde. `Offices::effectivePrice()` est la seule source du prix réel.
 
 Le catalogue est la source unique : la page « Nos bureaux », les cartes de l'accueil,
 le compteur « il reste N places », le badge du hero, la carte « à partir de »,

@@ -91,9 +91,6 @@ POSE-MOI CES QUESTIONS AVANT DE CODER :
   - faut-il le bilingue FR/EN comme sur le iOiO
   - garde-t-on l'assistant IA, les avis Google, la pop-up de sortie
   - la version audio de la présentation : on la reprend ?
-  - le bureau privé N°05 affiche un prix barré (450 € ramené à 400 €). Le socle
-    n'a pas de champ « prix précédent » : je l'ajoute, ou je n'affiche que le
-    prix courant ?
   - as-tu les photos en haute définition ? Celles du site font 1024 px, c'est
     trop peu pour le socle. Ne commence pas l'intégration sans les originaux.
   - l'email de contact, absent du site actuel

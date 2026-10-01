@@ -480,6 +480,9 @@ h1, h2, h3, h4 { font-family: 'Bricolage Grotesque', 'Manrope', sans-serif; font
 .office-card__price { display: flex; align-items: baseline; gap: 7px; margin-top: 12px; flex-wrap: wrap; }
 .office-card__priceValue { font: 800 30px/1 'Bricolage Grotesque', sans-serif; }
 .office-card__priceNote { font: 700 12.5px/1 'Manrope', sans-serif; opacity: .6; }
+/* Tarif promotionnel : l'ancien prix reste lisible, barré, à côté du nouveau. */
+.price-old { font: 700 15px/1 'Manrope', sans-serif; opacity: .45; text-decoration-thickness: 2px; }
+.price-old--lg { font-size: 18px; }
 /* Le bouton respire : il ne colle plus au tarif ni au bord de la carte. */
 .office-card__cta { width: 100%; margin-top: 22px; }
 .office-card__cta.btn { margin-top: auto; }

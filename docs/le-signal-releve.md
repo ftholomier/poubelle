@@ -140,9 +140,10 @@ Ce que cela implique concrètement :
 - **Le formulaire remplace la commande.** Le socle enregistre la demande dans
   `content/requests.json`, prévient l'équipe par email, envoie un accusé de
   réception au visiteur, et passe le tout par l'anti-spam.
-- **Un détail de données à arbitrer** : le bureau privé N°05 affiche un prix
-  barré (450 € ramené à 400 €). Le modèle du socle n'a pas de champ « prix
-  précédent ». Soit on l'ajoute, soit on n'affiche que 400 €. À demander.
+- **Le prix barré est géré** : le socle a désormais deux champs par bureau,
+  tarif normal et tarif promo. Le bureau privé N°05 est donc saisi à 450 € de
+  tarif normal et 400 € de promo ; c'est déjà fait dans
+  `le-signal-catalogue.json`.
 
 ## 8. Un seul lieu — à confirmer
 

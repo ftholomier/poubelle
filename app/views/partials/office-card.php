@@ -39,6 +39,9 @@ $meta = static fn (array $parts): string => implode(' · ', array_filter(array_m
       <div class="office-card__sub"><?= Text::e($meta([(string) $office['siteLabel'], (string) $office['area']])) ?></div>
     <?php endif; ?>
     <div class="office-card__price">
+      <?php if (!empty($office['hasPromo'])): ?>
+        <s class="price-old"><?= Text::e((string) $office['priceFullLabel']) ?></s>
+      <?php endif; ?>
       <span class="office-card__priceValue"><?= Text::e((string) $office['priceLabel']) ?></span>
       <span class="office-card__priceNote"><?= Text::e($isList ? I18n::t('office.perMonthShort') : I18n::t('office.perMonth')) ?></span>
     </div>

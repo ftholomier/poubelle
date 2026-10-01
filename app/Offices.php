@@ -145,11 +145,23 @@ final class Offices
     {
         $prices = [];
         foreach (self::published() as $office) {
-            if (($office['status'] ?? '') !== 'rented' && (int) ($office['price'] ?? 0) > 0) {
-                $prices[] = (int) $office['price'];
+            if (($office['status'] ?? '') === 'rented') {
+                continue;
+            }
+            $price = self::effectivePrice($office);
+            if ($price > 0) {
+                $prices[] = $price;
             }
         }
         return $prices === [] ? null : min($prices);
+    }
+
+    /** Tarif réellement payé : la promotion si elle est valable, sinon le tarif normal. */
+    public static function effectivePrice(array $office): int
+    {
+        $price = (int) ($office['price'] ?? 0);
+        $promo = (int) ($office['pricePromo'] ?? 0);
+        return $promo > 0 && $price > 0 && $promo < $price ? $promo : $price;
     }
 
     public static function statusLabel(string $status): string
@@ -202,6 +214,12 @@ final class Offices
         $site = (string) ($office['site'] ?? 'carnot');
         $photos = array_values(array_filter((array) ($office['photos'] ?? []), static fn ($p): bool => \is_string($p) && $p !== ''));
         $price = (int) ($office['price'] ?? 0);
+        // Tarif promotionnel : s'il est renseigné, c'est lui qu'on paie, et le
+        // tarif normal s'affiche barré à côté. Un promo nul, négatif ou
+        // supérieur au tarif normal est ignoré : ce n'est pas une promotion.
+        $promo = (int) ($office['pricePromo'] ?? 0);
+        $hasPromo = $promo > 0 && $price > 0 && $promo < $price;
+        $effective = $hasPromo ? $promo : $price;
 
         return array_replace($office, [
             'id' => (string) ($office['id'] ?? ''),
@@ -216,8 +234,12 @@ final class Offices
             'typeLabel' => self::typeLabel($type),
             'site' => $site,
             'siteLabel' => self::siteLabel($site),
-            'price' => $price,
-            'priceLabel' => $price > 0 ? I18n::price($price) : I18n::t('office.onRequest'),
+            'price' => $effective,
+            'priceFull' => $price,
+            'pricePromo' => $hasPromo ? $promo : 0,
+            'hasPromo' => $hasPromo,
+            'priceLabel' => $effective > 0 ? I18n::price($effective) : I18n::t('office.onRequest'),
+            'priceFullLabel' => $hasPromo ? I18n::price($price) : '',
             'color' => (string) ($office['color'] ?? self::PALETTE[$index % \count(self::PALETTE)]),
             'photos' => $photos,
             'cover' => $photos[0] ?? '',

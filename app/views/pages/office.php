@@ -96,6 +96,9 @@ $isRented = ($office['status'] ?? '') === 'rented';
         <h1 class="aside-book__title"><?= Text::e((string) $office['name']) ?></h1>
         <div class="aside-book__meta"><?= Text::e(implode(' · ', array_filter([(string) $office['typeLabel'], (string) $office['area'], (string) $office['siteLabel']]))) ?></div>
         <div class="aside-book__price">
+          <?php if (!empty($office['hasPromo'])): ?>
+            <s class="price-old price-old--lg"><?= Text::e((string) $office['priceFullLabel']) ?></s>
+          <?php endif; ?>
           <span class="aside-book__priceValue"><?= Text::e((string) $office['priceLabel']) ?></span>
           <span class="aside-book__priceNote"><?= Text::e(I18n::t('office.perMonth')) ?></span>
         </div>

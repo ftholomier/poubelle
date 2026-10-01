@@ -115,6 +115,7 @@
             "i18n": {
                 "en": {
                     "name": "Carnot — Office 03",
+                    "area": "",
                     "description": "Private closed office available right now at 11 avenue Carnot. Wired and wifi high-speed internet, meeting room and fitted kitchen included.",
                     "features": [
                         "Closed office, 9 to 12 sqm",
@@ -886,6 +887,6 @@
             }
         }
     ],
-    "updatedAt": "2026-09-09T21:13:07+02:00",
-    "updatedBy": "import-ioio.fr"
+    "updatedAt": "2026-10-01T09:13:36+02:00",
+    "updatedBy": "frederic@le-digital.com"
 }

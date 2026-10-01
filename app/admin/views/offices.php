@@ -65,8 +65,14 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
             <input class="field" id="o-area" type="text" name="o[area]" value="<?= Text::e((string) ($o['area'] ?? '')) ?>" placeholder="11 m² ou Poste dédié">
           </div>
           <div>
-            <label class="label" for="o-price">TARIF HT / MOIS (€)</label>
+            <label class="label" for="o-price">TARIF NORMAL HT / MOIS (€)</label>
             <input class="field" id="o-price" type="number" min="0" step="5" name="o[price]" value="<?= (int) ($o['price'] ?? 0) ?>">
+          </div>
+          <div>
+            <label class="label" for="o-promo">TARIF PROMO HT / MOIS (€)</label>
+            <input class="field" id="o-promo" type="number" min="0" step="5" name="o[pricePromo]"
+                   value="<?= (int) ($o['pricePromo'] ?? 0) > 0 ? (int) $o['pricePromo'] : '' ?>" placeholder="vide = pas de promotion">
+            <div class="hint">Renseigné, c'est lui qui s'affiche, et le tarif normal apparaît barré à côté. Laissez vide pour revenir au tarif normal.</div>
           </div>
           <div>
             <label class="label" for="o-status">DISPONIBILITÉ</label>
@@ -163,7 +169,17 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
           </div>
           <span class="row__value"><?= Text::e(Offices::siteLabel((string) ($office['site'] ?? ''))) ?></span>
           <span class="row__value"><?= Text::e((string) ($office['area'] ?? '')) ?></span>
-          <span class="price"><strong><?= (int) ($office['price'] ?? 0) ?></strong><span>€</span></span>
+          <?php $full = (int) ($office['price'] ?? 0);
+                $promo = (int) ($office['pricePromo'] ?? 0);
+                $onSale = $promo > 0 && $full > 0 && $promo < $full; ?>
+          <span class="price">
+            <?php if ($onSale): ?>
+              <s class="price__old"><?= $full ?> €</s>
+              <strong><?= $promo ?></strong><span>€</span>
+            <?php else: ?>
+              <strong><?= $full ?></strong><span>€</span>
+            <?php endif; ?>
+          </span>
 
           <form method="post" action="<?= Text::e(Router::adminUrl()) ?>">
             <?= Csrf::field('admin') ?>

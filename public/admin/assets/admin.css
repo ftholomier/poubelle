@@ -204,6 +204,8 @@ select.field { appearance: none; background-image: linear-gradient(45deg, transp
 .price { display: inline-flex; align-items: baseline; gap: 5px; }
 .price strong { font: 800 17px/1 'Bricolage Grotesque', sans-serif; }
 .price span { font: 700 11.5px/1 'Manrope', sans-serif; opacity: .5; }
+.price { flex-wrap: wrap; }
+.price__old { font: 600 12.5px/1 'Manrope', sans-serif; opacity: .45; text-decoration-thickness: 1.5px; }
 
 .status-btn {
   justify-self: start; border: 2px solid var(--ink); cursor: pointer; padding: 8px 13px;

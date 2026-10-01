@@ -362,7 +362,9 @@ final class Facts
     {
         $prices = [];
         foreach ($offices as $office) {
-            $price = (int) ($office['price'] ?? 0);
+            // Le tarif annoncé par l'assistant est celui qu'on paie vraiment,
+            // promotion comprise.
+            $price = Offices::effectivePrice($office);
             if ($price > 0) {
                 $prices[] = $price;
             }
