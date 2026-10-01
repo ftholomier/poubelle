@@ -103,6 +103,11 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; letter-spac
 
 /* Apparition au scroll : posée en JS, l'état final reste lisible sans JS. */
 [data-reveal] { opacity: 1; }
+/* Sans JavaScript, rien d'optionnel n'est chargé (ni mesure d'audience, ni
+   assistant) : le bandeau de cookies n'a rien à demander et l'assistant ne
+   peut pas répondre. On les masque plutôt que d'afficher des boutons inertes. */
+html:not(.js) .consent, html:not(.js) .bot { display: none !important; }
+
 .js [data-reveal] {
   opacity: 0;
   transform: translateY(58px) scale(.965);
@@ -990,7 +995,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; letter-spac
 .quote__text mark, .contact-title mark { background: linear-gradient(transparent 58%, var(--yellow) 58%); color: inherit; padding: 0 .08em; }
 
 .grid--related { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.fiche .grid--included { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.fiche .grid--included { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
 @media (max-width: 880px) { .grid--related { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .grid--related { grid-template-columns: minmax(0, 1fr); } }
 .offices-note { margin: 8px 0 0; font: 700 15px/1.4 var(--font-text); }

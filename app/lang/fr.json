@@ -199,5 +199,10 @@
     "mail.leadCta": "Réserver une visite",
     "mail.leadFooter": "Vous recevez cet email parce que vous avez demandé les disponibilités sur notre site. Aucune relance commerciale.",
     "mail.view": "voir la fiche",
-    "mail.callUs": "Une question ? Appelez-nous au {phone}."
+    "mail.callUs": "Une question ? Appelez-nous au {phone}.",
+    "notice.okKicker": "C’EST ENVOYÉ",
+    "notice.okTitle": "Merci !",
+    "notice.errorKicker": "PAS ENCORE ENVOYÉ",
+    "notice.errorTitle": "Votre demande n’est pas partie",
+    "notice.back": "Revenir à la page"
 }

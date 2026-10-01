@@ -65,6 +65,7 @@ $analytics = $settings['analytics'] ?? [];
 <meta name="twitter:card" content="summary_large_image">
 <?php endif; ?>
 
+<script>document.documentElement.classList.add('js')</script>
 <link rel="icon" href="<?= Text::e($basePath) ?>/assets/img/lesignal-mark.svg" type="image/svg+xml">
 <link rel="icon" href="<?= Text::e($basePath) ?>/assets/img/favicon.png" type="image/png" sizes="416x416">
 <link rel="apple-touch-icon" href="<?= Text::e($basePath) ?>/assets/img/apple-touch-icon.png">

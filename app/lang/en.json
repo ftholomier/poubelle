@@ -199,5 +199,10 @@
     "mail.leadCta": "Book a visit",
     "mail.leadFooter": "You are receiving this email because you asked for availability on our website. No sales follow-up.",
     "mail.view": "see the office",
-    "mail.callUs": "Any questions? Call us on {phone}."
+    "mail.callUs": "Any questions? Call us on {phone}.",
+    "notice.okKicker": "SENT",
+    "notice.okTitle": "Thank you!",
+    "notice.errorKicker": "NOT SENT YET",
+    "notice.errorTitle": "Your request was not sent",
+    "notice.back": "Back to the page"
 }

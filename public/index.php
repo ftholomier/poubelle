@@ -210,7 +210,12 @@ switch ($route['name']) {
         break;
 
     case 'news':
-        echo View::page('news', ['posts' => Content::publishedPosts()]);
+        // Sans article publié, la page reste accessible mais hors index.
+        $posts = Content::publishedPosts();
+        echo View::page('news', [
+            'posts' => $posts,
+            'seo' => $posts === [] ? array_merge((array) ($page['seo'] ?? []), ['noindex' => true]) : (array) ($page['seo'] ?? []),
+        ]);
         break;
 
     case 'post':

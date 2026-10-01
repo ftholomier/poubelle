@@ -17,7 +17,50 @@ final class Api
     public static function respond(array $payload, int $status = 200): never
     {
         http_response_code($status);
+        if (self::isClassicForm()) {
+            self::renderNotice($payload);
+        }
         echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
+    /**
+     * Formulaire envoyé sans JavaScript : le navigateur attend une page, pas
+     * du JSON. Le script, lui, s'annonce par l'en-tête X-Requested-With.
+     */
+    private static function isClassicForm(): bool
+    {
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            return false;
+        }
+        $type = strtolower((string) ($_SERVER['CONTENT_TYPE'] ?? ''));
+        return str_contains($type, 'application/x-www-form-urlencoded') || str_contains($type, 'multipart/form-data');
+    }
+
+    /** Page de retour au gabarit du site, avec un lien vers la page d'origine. */
+    private static function renderNotice(array $payload): never
+    {
+        $ok = ($payload['ok'] ?? false) === true;
+        $message = (string) ($payload['message'] ?? $payload['error'] ?? '');
+        if ($message === '') {
+            $message = I18n::t($ok ? 'form.sentContact' : 'form.error');
+        }
+        // Retour uniquement vers une page de ce site (jamais une adresse tierce).
+        $referer = (string) ($_SERVER['HTTP_REFERER'] ?? '');
+        $sameHost = parse_url($referer, PHP_URL_HOST) === parse_url(Config::baseUrl(), PHP_URL_HOST);
+        $back = $referer !== '' && $sameHost ? $referer : Router::url('home', I18n::lang());
+
+        header('Content-Type: text/html; charset=UTF-8');
+        echo View::page('notice', [
+            'ok' => $ok,
+            'message' => $message,
+            'back' => $back,
+            'settings' => Content::settings(),
+            'route' => 'contact',
+            'params' => [],
+            'page' => [],
+            'seo' => ['title' => I18n::t($ok ? 'notice.okTitle' : 'notice.errorTitle'), 'noindex' => true],
+        ]);
         exit;
     }
 
