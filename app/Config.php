@@ -172,6 +172,14 @@ final class Config
             return rtrim($configured, '/');
         }
         $script = str_replace('\\', '/', (string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+        // Le serveur intégré de PHP (php -S … bin/router.php) renseigne
+        // SCRIPT_NAME avec l'adresse demandée dès qu'elle porte une extension :
+        // « /sitemap.xml », « /robots.txt ». Pris pour un sous-dossier, ce
+        // chemin faisait servir l'accueil à leur place. Seul un vrai script
+        // PHP dit où l'application est installée.
+        if (!str_ends_with($script, '.php')) {
+            return '';
+        }
         // On retire le fichier exécuté, quel que soit son nom : index.php mais
         // aussi chat.php, lead.php… sinon les liens fabriqués depuis un point
         // d'entrée de l'API héritent de son chemin.
