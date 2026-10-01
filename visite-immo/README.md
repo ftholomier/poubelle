@@ -48,7 +48,7 @@ visite-immo/
 2. Donner les droits d'écriture à PHP sur `app/` (pour `settings.json`).
 3. Donner les droits d'écriture à PHP sur `data/`.
 4. Ouvrir le site : au premier lancement, on crée le **compte administrateur**.
-5. Menu ☰ → **Réglages** (administrateurs uniquement) :
+5. Bouton ⚙️ en haut de l'écran, ou menu ☰ → **Paramètres** (administrateurs uniquement) :
    - **clé API Gemini** (https://aistudio.google.com/apikey) : dès qu'elle est saisie, l'appli la vérifie et charge
      la liste des modèles disponibles pour cette clé ;
    - **modèle d'analyse** (fiche, annonce, rapports) et **modèle de transcription**, choisis dans cette liste ;

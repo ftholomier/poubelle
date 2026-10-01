@@ -1,0 +1,6 @@
+# L'interface doit toujours être revalidée auprès du serveur : une mise à jour est visible immédiatement
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|js|css|webmanifest)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

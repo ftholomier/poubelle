@@ -5,6 +5,7 @@ import { Recorder, recordingSupported } from "./recorder.js";
 import { uploader } from "./uploader.js";
 
 const $app = document.getElementById("app");
+const APP_VERSION = "3"; // affichée dans le menu pour vérifier qu'on a la dernière version
 const state = { user: null, demo: null, sections: null };
 
 // ---------- Utilitaires ----------
@@ -70,7 +71,7 @@ function header(titre, { back = null, actions = "" } = {}) {
 function demoBanner() {
   if (!state.demo) return "";
   return `<div class="banner">Mode démo : aucune clé Gemini configurée, la transcription et l'analyse sont simulées.
-    ${state.user?.role === "admin" ? `<a href="#/reglages"><strong>Configurer Gemini →</strong></a>` : "Demandez à un administrateur de la configurer."}</div>`;
+    ${state.user?.role === "admin" ? `<a href="#/reglages"><strong>⚙️ Configurer Gemini →</strong></a>` : "Demandez à un administrateur de la configurer."}</div>`;
 }
 
 // ---------- Routeur ----------
@@ -165,7 +166,8 @@ async function viewHome() {
 }
 
 function menuButton() {
-  return `<button class="icon-btn" id="menu-btn" aria-label="Menu">☰</button>`;
+  const reglages = state.user?.role === "admin" ? `<a class="icon-btn" href="#/reglages" aria-label="Paramètres">⚙️</a>` : "";
+  return `${reglages}<button class="icon-btn" id="menu-btn" aria-label="Menu">☰</button>`;
 }
 
 function bindMenu() {
@@ -174,9 +176,14 @@ function bindMenu() {
     sheet.className = "sheet-bg";
     sheet.innerHTML = `<div class="sheet">
       <div class="sheet-user">${esc(state.user.nom)}<span class="muted"> · ${state.user.role === "admin" ? "Administrateur" : "Agent"}</span></div>
-      ${state.user.role === "admin" ? `<a href="#/reglages">⚙️ Réglages (IA, stockage, signature)</a><a href="#/equipe">👥 Gérer l'équipe</a>` : ""}
+      ${
+        state.user.role === "admin"
+          ? `<a href="#/reglages">⚙️ Paramètres (IA Gemini, stockage, signature)</a><a href="#/equipe">👥 Gérer l'équipe</a>`
+          : `<span class="sheet-off">⚙️ Paramètres : réservés aux administrateurs</span>`
+      }
       <a href="#/compte">🔑 Changer mon mot de passe</a>
       <button id="logout">↪ Se déconnecter</button>
+      <span class="sheet-version">Visite Immo · version ${APP_VERSION}</span>
     </div>`;
     sheet.onclick = (e) => e.target === sheet || e.target.closest("a") ? sheet.remove() : null;
     document.body.append(sheet);
@@ -681,7 +688,7 @@ async function viewUsers() {
 // ---------- Réglages (admin) ----------
 
 async function viewSettings() {
-  render(`${header("Réglages", { back: "#/" })}<main class="page"><div class="loader"></div></main>`);
+  render(`${header("Paramètres", { back: "#/" })}<main class="page"><div class="loader"></div></main>`);
   const cfg = await api("settings");
   let modeles = [];
 
@@ -727,7 +734,7 @@ async function viewSettings() {
         <p class="muted small">Le compte rendu est signé « <span id="sig"></span> ».</p>
       </section>
 
-      <button class="btn primary big">Enregistrer les réglages</button>
+      <button class="btn primary big">Enregistrer les paramètres</button>
       <div class="spacer"></div>
     </form>`;
 
@@ -787,7 +794,7 @@ async function viewSettings() {
       const body = Object.fromEntries(new FormData(form));
       const res = await api("settings", { method: "POST", body });
       state.demo = !res.cle_configuree;
-      toast("Réglages enregistrés ✓", "ok");
+      toast("Paramètres enregistrés ✓", "ok");
       viewSettings();
     } catch (err) {
       toast(err.message, "erreur");

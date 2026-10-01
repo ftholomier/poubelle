@@ -1,6 +1,6 @@
 // Service worker : l'interface s'ouvre même sans réseau. L'API n'est jamais mise en cache.
 
-const CACHE = "visite-immo-v2";
+const CACHE = "visite-immo-v3";
 const SHELL = ["./", "index.html", "css/app.css", "js/app.js", "js/api.js", "js/recorder.js", "js/uploader.js", "icon.svg", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
@@ -18,7 +18,7 @@ self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== "GET" || url.origin !== location.origin || url.pathname.includes("/api/")) return;
   e.respondWith(
-    fetch(e.request)
+    fetch(e.request, { cache: "no-cache" }) // revalide toujours : une mise à jour du site est visible immédiatement
       .then((res) => {
         const copy = res.clone();
         caches.open(CACHE).then((c) => c.put(e.request, copy));
