@@ -3,8 +3,13 @@
 Décompressez le zip, ouvrez Claude Code (ou l'agent de votre choix) **dans le
 dossier obtenu**, puis collez le texte ci-dessous tel quel.
 
-Le relevé du site existant est déjà fait : voir `docs/le-signal-releve.md` et
-`docs/le-signal-catalogue.json`. L'IA n'a donc pas à tout redécouvrir.
+Le relevé du site existant est déjà fait et **toutes les décisions sont
+prises** : l'IA n'a aucune question à poser, elle peut démarrer directement.
+
+Ce qui est tranché : pas de vente en ligne, mono-lieu, bilingue FR/EN,
+assistant IA et avis Google conservés, toutes les fonctionnalités du iOiO
+reprises, reprise intégrale du contenu existant, correction de toutes les
+fautes.
 
 ---
 
@@ -70,8 +75,9 @@ CE QUE TU ADAPTES :
   - Admin::PAGES → le schéma des champs éditables
   - content/* → le contenu du Signal
   - les variables CSS en tête de public/assets/css/site.css → la charte du
-    Signal (actuellement blanc/gris clair, noir, logo épuré). Propose-moi une
-    direction avant de la généraliser.
+    Signal (actuellement blanc/gris clair, noir, logo épuré en SVG). C'est le
+    seul point d'étape : montre-moi la charte appliquée à une page avant de
+    dérouler le reste.
   - app/views/pages/* et public/media/* → pages et visuels du Signal
 
 DÉCISION DÉJÀ PRISE, NE LA REMETS PAS EN QUESTION : pas de vente en ligne.
@@ -121,15 +127,40 @@ Rien n'est à réécrire, rien n'est à inventer. Le site actuel fait foi.
   - SIGNALE-MOI tout contenu que tu n'arrives pas à récupérer plutôt que de
     le remplacer par du texte générique.
 
-POSE-MOI CES QUESTIONS AVANT DE CODER :
-  - faut-il le bilingue FR/EN comme sur le iOiO
-  - garde-t-on l'assistant IA, les avis Google, la pop-up de sortie
-  - as-tu les photos en haute définition ? Celles du site font 1024 px, c'est
-    trop peu pour le socle. Ne commence pas l'intégration sans les originaux.
-  - l'email de contact, absent du site actuel
-  - hébergement et version de PHP
+QUATRIÈME CONSIGNE : TOUT PAREIL QUE LE iOiO. Le client a tranché, il n'y a
+plus rien à me demander. Tu reprends l'intégralité des fonctionnalités du
+socle, sans en retirer :
 
-Attends mes réponses avant la première ligne de code.
+  - bilingue FR / EN, URL propres dans les deux langues, hreflang, sitemap
+  - l'assistant IA, branché sur les données réelles du catalogue (Facts) :
+    adapte-le aux chiffres du Signal — 13 bureaux, un seul lieu, tarifs de
+    150 à 700 €, promotion comprise
+  - les avis Google. Le Signal n'en affiche pas aujourd'hui : utilise l'outil
+    « Trouver l'identifiant de la fiche Google » de Réglages → Clés API, en
+    saisissant « 95 Faubourg de Besançon, 25200 Montbéliard », pour récupérer
+    leur Place ID. Souviens-toi que l'API Places ne renvoie que cinq avis :
+    le socle les complète avec ceux saisis dans content/reviews.json.
+  - le bandeau cookies par catégories, la pop-up de sortie, le bandeau
+    défilant, la barre d'action collante
+  - l'album photo par lieu avec visionneuse plein écran, le carrousel de
+    témoignages, les cartes Google affichées directement
+  - l'anti-spam complet : jeton signé, pixel de présence, leurres, note de
+    suspicion, quarantaine, et l'écran de réglages qui va avec
+  - le back-office entier, y compris le test des clés API et le choix du
+    modèle Gemini dans la liste chargée depuis Google
+  - le tarif normal et le tarif promo
+  - le cron de maintenance : sauvegardes, réindexation, avis, ménage
+
+CINQUIÈME CONSIGNE : CORRIGE TOUTES LES FAUTES. Le site actuel en contient —
+« Location de buraux à Montbéliard » dans un titre de page, par exemple.
+Reprends les textes sur le fond, corrige l'orthographe, la grammaire, les
+espaces avant les signes doubles et la typographie française (apostrophes
+courbes, insécables). Le ton direct et familier du Signal reste intact :
+on corrige la langue, pas la voix.
+
+TU N'AS PLUS DE QUESTION À ME POSER AVANT DE COMMENCER. Préviens-moi seulement
+si tu butes sur un contenu que tu n'arrives pas à récupérer, ou si tu découvres
+une information qui contredit le relevé.
 
 ENSUITE, travaille dans cet ordre : charte → modèle métier → routes et
 redirections → schéma d'édition → vues → récupération des médias → contenu →
@@ -146,8 +177,9 @@ LE NIVEAU DE FINITION ATTENDU — c'est celui du projet que tu as sous les yeux 
   - commits en français, un par lot cohérent, expliquant la cause et pas
     seulement le symptôme
 
-Commence par lire les sept documents, vérifier le relevé en ligne, puis
-pose-moi tes questions.
+Commence par lire les sept documents et vérifier le relevé en ligne, puis
+lance-toi. Montre-moi la charte et une première page avant de dérouler le
+reste : c'est le seul point d'étape dont j'ai besoin.
 ```
 
 ---
