@@ -26,7 +26,7 @@ PHASE = 0.043200        # premier temps du morceau
 FPS = 60
 DUREE = 115.13333       # 6908 images
 
-JAUNE, VERT = '#FFD100', '#12B39A'
+JAUNE, VERT, ENCRE = '#FFD100', '#12B39A', '#0E0E0E'
 
 
 def t(k):
@@ -73,7 +73,7 @@ PLAN = [
     (8, 'photo', 'granvelle-openspace-06', 'push', None, {}),
 
     # ---- ACTE IV : apogee, un mot puis deux images, toutes les 4 croches
-    (4, 'card', 'mot-charges', None, None, dict(wipe=JAUNE)),
+    (4, 'card', 'mot-charges', None, None, dict(wipe=ENCRE)),
     (4, 'photo', 'granvelle-openspace-05', 'kick', None, dict(flash=True)),
     (4, 'photo', 'carnot-bureau-02', 'push', None, {}),
     (4, 'card', 'mot-internet', None, None, dict(flash=True)),
@@ -99,7 +99,7 @@ PLAN = [
     (2, 'photo', 'granvelle-bureau-03', 'kick', None, dict(flash=True)),
     (2, 'photo', 'granvelle-openspace-mezzanine', 'kick', None, dict(flash=True)),
     (2, 'photo', 'granvelle-openspace-01', 'kick', None, dict(flash=True)),
-    (3, 'card', 'mot-humeur', None, None, dict(flash=True, wipe=JAUNE)),
+    (3, 'card', 'mot-humeur', None, None, dict(flash=True, wipe=ENCRE)),
 
     # ---- ACTE V : la rupture, dans le trou du morceau
     (7, 'card', 'rupture', None, None, dict(dip=True)),
