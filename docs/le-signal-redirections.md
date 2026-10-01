@@ -1,66 +1,95 @@
 # Le Signal — table de redirections
 
-Les URL actuelles sont bourrées de mots-clés et disparaissent avec la refonte.
-Sans redirections, le référencement acquis est perdu : ces pages sont indexées
-et reçoivent du trafic.
+Les URL du site WordPress étaient bourrées de mots-clés
+(`/coworking-montbeliard-belfort-location-bureau-prive-openspace/` pour… les
+mentions légales). La refonte donne à chaque page **un seul groupe de mots
+recherchés** (`/coworking-montbeliard`, `/location-bureaux-montbeliard`) et
+redirige toutes les anciennes adresses, pour garder le référencement acquis.
 
-Deux règles, et une seule exception :
+Règles :
 
-- **301 permanent** vers l'équivalent sur le nouveau site, quand la page a un
-  successeur ;
-- **410 Gone** pour les pages de la boutique, qui n'ont plus de successeur.
-  Surtout pas un 301 vers l'accueil : Google le traite comme un soft 404 et la
-  page traîne des mois dans l'index.
+- **301 permanent, en un seul saut**, directement vers l'adresse finale :
+  jamais de chaîne de redirections ;
+- **410 Gone** pour la boutique (panier, commande, compte), qui n'a plus de
+  successeur. Surtout pas un 301 vers l'accueil : Google le traite comme un
+  soft 404 et la page traîne des mois dans l'index.
 
-À implémenter dans `public/.htaccess`, avant la règle de réécriture du routeur,
-ou dans `Router` si l'hébergement ne permet pas la réécriture.
+Implémentation : `app/Redirects.php`, appelé par `public/index.php` avant le
+routeur. En PHP plutôt que dans `.htaccess` : elles marchent sur tout
+hébergement, même sans `mod_rewrite`, et se testent avec le serveur de
+développement.
 
 ---
+
+## Nouvelles adresses
+
+| Page | Français | Anglais |
+| --- | --- | --- |
+| Accueil | `/` | `/en` |
+| Le Signal | `/coworking-montbeliard` | `/en/coworking-montbeliard` |
+| Nos bureaux | `/location-bureaux-montbeliard` | `/en/office-rental-montbeliard` |
+| Bureaux privés | `/location-bureaux-montbeliard/bureaux-prives` | `/en/office-rental-montbeliard/private-offices` |
+| Bureaux ouverts | `/location-bureaux-montbeliard/bureaux-ouverts` | `/en/office-rental-montbeliard/open-plan-desks` |
+| Bureaux disponibles | `/location-bureaux-montbeliard/bureaux-disponibles` | `/en/office-rental-montbeliard/available-offices` |
+| Fiche bureau | `/location-bureaux-montbeliard/prive-05` | `/en/office-rental-montbeliard/prive-05` |
+| Actualités | `/actualites` | `/en/news` |
+| Contact | `/contact` | `/en/contact` |
+| Mentions légales | `/mentions-legales` | `/en/legal-notice` |
+| Confidentialité | `/politique-de-confidentialite` | `/en/privacy-policy` |
+
+Les trois sélections (privés, ouverts, disponibles) reprennent les trois
+catégories de l'ancienne boutique : chacune a son titre, son texte, sa
+description et sa place dans le sitemap (back-office → Pages → Nos bureaux).
 
 ## Pages — 301
 
 | Ancienne URL | Nouvelle |
 | --- | --- |
-| `/location-bureaux-montbeliard-coworking/` | `/le-signal` |
-| `/louer-bureau-coworking-montbeliard-location-bureaux/` | `/nos-bureaux` |
+| `/location-bureaux-montbeliard-coworking/` | `/coworking-montbeliard` |
+| `/louer-bureau-coworking-montbeliard-location-bureaux/` | `/location-bureaux-montbeliard` |
 | `/location-bureaux-montbeliard-belfort-aire-urbaine-doubs/` | `/contact` |
 | `/coworking-montbeliard-belfort-location-bureau-prive-openspace/` | `/mentions-legales` |
+| `/coworking-montbeliard-le-signal/` | `/` |
+| `/episode/`, `/episode/le-signal-en-74-secondes/` (lecteur audio) | `/coworking-montbeliard` |
+| `/le-signal`, `/nos-bureaux`, `/boutique`, `/shop`, `/produit`, `/categorie-produit` | page correspondante |
 
-## Catégories produit — 301 vers le catalogue filtré
+## Catégories produit — 301 vers leur sélection
 
 | Ancienne URL | Nouvelle |
 | --- | --- |
-| `/categorie-produit/location-louer-bureaux-montbeliard/` | `/nos-bureaux?type=private` |
-| `/categorie-produit/location-louer-bureaux-coworking-montbeliard/` | `/nos-bureaux?type=openspace` |
-| `/categorie-produit/louer-bureaux-montbeliard-coworking/` | `/nos-bureaux?status=available` |
+| `/categorie-produit/location-louer-bureaux-montbeliard/` | `/location-bureaux-montbeliard/bureaux-prives` |
+| `/categorie-produit/location-louer-bureaux-coworking-montbeliard/` | `/location-bureaux-montbeliard/bureaux-ouverts` |
+| `/categorie-produit/louer-bureaux-montbeliard-coworking/` | `/location-bureaux-montbeliard/bureaux-disponibles` |
 
-## Boutique — 410 Gone
+## Boutique et WordPress — 410 Gone
 
-| URL | Traitement |
-| --- | --- |
-| `/panier/` | 410 |
-| `/commander/` | 410 |
-| `/mon-compte/` | 410 |
+`/panier/`, `/commander/`, `/mon-compte/` (et leurs sous-pages), `/feed/`,
+`/comments/feed/`, `/wp-login.php`, `/wp-admin/`.
 
 ## Fiches de bureaux — 301
 
-Les identifiants cibles sont ceux de `le-signal-catalogue.json`.
+La correspondance est lue dans le catalogue (`sourceUrl` de chaque bureau) :
+si un bureau change d'identifiant, sa redirection suit. Une ancienne fiche
+sans correspondance mène au catalogue.
 
 | Ancienne URL | Nouvelle | Bureau |
 | --- | --- | --- |
-| `/produit/location-bureau-coworking-montbeliard-1/` | `/nos-bureaux/openspace-01` | Bureau ouvert — N°01 |
-| `/produit/location-bureau-coworking-montbeliard-2/` | `/nos-bureaux/openspace-02` | Bureau ouvert — N°02 |
-| `/produit/location-bureau-coworking-montbeliard-3/` | `/nos-bureaux/openspace-03` | Bureau ouvert — N°03 |
-| `/produit/location-bureau-coworking-montbeliard-4/` | `/nos-bureaux/openspace-04` | Bureau ouvert — N°04 |
-| `/produit/location-bureau-coworking-montbeliard-5/` | `/nos-bureaux/openspace-05` | Bureau ouvert — N°05 |
-| `/produit/location-bureau-coworking-montbeliard-6/` | `/nos-bureaux/openspace-06` | Bureau ouvert — N°06 |
-| `/produit/location-bureau-montbeliard-1/` | `/nos-bureaux/prive-01` | Bureau privé — N°01 |
-| `/produit/location-bureau-montbeliard-2/` | `/nos-bureaux/prive-02` | Bureau privé — N°02 |
-| `/produit/location-bureau-montbeliard-3/` | `/nos-bureaux/prive-03` | Bureau privé — N°03 |
-| `/produit/location-bureau-montbeliard-4/` | `/nos-bureaux/prive-04` | Bureau privé — N°04 |
-| `/produit/location-bureau-montbeliard-5/` | `/nos-bureaux/prive-05` | Bureau privé — N°05 |
-| `/produit/location-bureau-montbeliard-6/` | `/nos-bureaux/prive-06` | Bureau privé — N°06 |
-| `/produit/location-bureau-montbeliard-7/` | `/nos-bureaux/prive-07` | Bureau privé — N°07 |
+| `/produit/location-bureau-coworking-montbeliard-1/` à `-6/` | `/location-bureaux-montbeliard/openspace-01` à `-06` | Bureau ouvert — n° 01 à 06 |
+| `/produit/location-bureau-montbeliard-1/` à `-7/` | `/location-bureaux-montbeliard/prive-01` à `-07` | Bureau privé — n° 01 à 07 |
+
+## Photos — 301
+
+Les photos de `/wp-content/uploads/…`, indexées par Google Images, mènent à
+leur version WebP d'après la source enregistrée dans la photothèque, y compris
+les vignettes WordPress (`…-800x600.jpg`). Le logo, les favicons et le MP3
+mènent à leurs nouveaux fichiers.
+
+## Adresse canonique — 301
+
+Une seule adresse par page : barre finale (`/contact/`), préfixe `/fr/`, slug
+d'une autre langue (`/office-rental-montbeliard/prive-05`) ou filtre seul en
+paramètre (`?type=private`) redirigent vers l'URL canonique. Sans préfixe,
+la page est toujours en français.
 
 ---
 
@@ -75,4 +104,6 @@ done < anciennes-urls.txt
 ```
 
 Attendu : `301` avec une destination qui répond `200`, ou `410` pour la
-boutique. Aucun `404`, aucune chaîne de deux redirections.
+boutique. Aucun `404`, aucune chaîne de deux redirections. Vérifié en
+développement sur les 40 adresses du sitemap de l'ancien site et de cette
+table.

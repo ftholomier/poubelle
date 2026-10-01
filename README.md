@@ -1,16 +1,21 @@
-# Le iOiO — site public + back-office
+# Le Signal — site public + back-office
 
-Refonte du site [ioio.fr](https://www.ioio.fr) : catalogue des bureaux des deux espaces
-de coworking bisontins (**Carnot** et **Granvelle**), avec un back-office complet pour
-gérer le catalogue, les contenus, les photos et l'assistant IA.
+Refonte de [le-signal.com](https://le-signal.com) : location de bureaux privés ou
+en open space et coworking dans une maison de maître, **95 Faubourg de Besançon à
+Montbéliard**. Catalogue de 13 bureaux, demandes rappelées par l'équipe (pas de
+vente en ligne), site bilingue français/anglais et back-office complet pour gérer
+le catalogue, les contenus, les photos, l'audio et l'assistant IA.
+
+Construit sur le socle du site du iOiO (même architecture, même back-office,
+mêmes garanties) : voir `docs/REUTILISATION.md`.
 
 **Techno : PHP 8.1+ natif, HTML, CSS et JavaScript natifs, données en fichiers JSON.
 Aucune base de données, aucun gestionnaire de paquets, aucune dépendance externe.**
 
-L'interface reprend au pixel près le design de référence livré avec le projet
-(`docs/HANDOFF-CLAUDE-CODE.md`) : encre `#0E0E0E`, jaune `#FFD100`, crème `#FFF8EA`,
-vert « disponible » `#12B39A`, sable « loué » `#EDE5D5`, titres Bricolage Grotesque,
-texte Manrope, bordures noires 2px, flat design strict.
+Charte du Signal, tirée de son logo : encre `#101820`, jaune `#FFCC00`, blanc,
+brume `#F2F3F5`, vert « disponible » `#3DDC97` ; titres Jost, texte Inter (polices
+hébergées sur le domaine) ; deux motifs, la **bulle de dialogue** (coins arrondis
+sauf un) et les **barres de signal**.
 
 ---
 
@@ -33,7 +38,7 @@ ou `php bin/seed.php --force` (réécrit tout).
 `storage/` et `bin/` restent hors racine web.
 
 ```
-DocumentRoot /var/www/ioio/public
+DocumentRoot /var/www/le-signal/public
 ```
 
 1. Copier les fichiers sur le serveur.
@@ -48,7 +53,7 @@ DocumentRoot /var/www/ioio/public
 4. Ouvrir `/admin/` et créer le compte administrateur.
 5. Programmer la maintenance nocturne :
    ```cron
-   20 3 * * * /usr/bin/php /var/www/ioio/bin/cron.php >> /var/www/ioio/storage/logs/cron.log 2>&1
+   20 3 * * * /usr/bin/php /var/www/le-signal/bin/cron.php >> /var/www/le-signal/storage/logs/cron.log 2>&1
    ```
 
 ### Hébergement mutualisé sans `DocumentRoot` déplaçable
@@ -73,8 +78,8 @@ Aucune base de données n'est requise.
 
 ```
 app/                  code applicatif, hors racine web
-├─ Config, Router, Content, Store, Auth, Csrf, Mailer, I18n, Media, Offices…
-├─ Ai/                Indexer (BM25 léger), Gemini, Docs
+├─ Config, Router, Redirects, Content, Store, Auth, Csrf, Mailer, I18n, Media, Offices…
+├─ Ai/                Indexer (BM25 léger), Gemini, Facts, Docs
 ├─ lang/{fr,en}.json  libellés d'interface
 ├─ views/             gabarits du site public
 └─ admin/views/       gabarits du back-office
@@ -94,8 +99,9 @@ public/               SEULE RACINE WEB
 ├─ admin/             back-office
 ├─ api/               endpoints JSON
 ├─ assets/{css,js,img}
-└─ media/             photos publiées (WebP + dérivés 1600/800/400)
-bin/                  seed, cron, user, router de développement
+└─ media/             photos publiées (WebP + dérivés 1600/800/400) et MP3
+bin/                  seed, import-media, cron, user, router de développement
+docs/                 relevé de le-signal.com, catalogue, médias, redirections
 ```
 
 ## 4. Le back-office
@@ -109,7 +115,7 @@ bin/                  seed, cron, user, router de développement
 | **L'actu** | articles avec éditeur WYSIWYG, brouillon/publié, image, version anglaise |
 | **Demandes** | contacts, réservations et rappels de disponibilités, avec statut |
 | **Assistant IA** | documents indexés, prompt système, suggestions, questions restées sans réponse, réindexation |
-| **Réglages & clés** | identité, coordonnées, les deux lieux, conversion, mesure d'audience, **clés API** (test de chaque intégration, recherche du Place ID par adresse, choix du modèle Gemini), comptes |
+| **Réglages & clés** | identité, coordonnées, le lieu (adresse, GPS), bandeau défilant, présentation audio, conversion, mesure d'audience, **clés API** (test de chaque intégration, recherche du Place ID par adresse, choix du modèle Gemini), comptes |
 
 **Tarif promotionnel.** Chaque bureau a deux champs : le tarif normal et un
 tarif promo facultatif. Renseigné, c'est le promo qui s'applique partout — carte,
@@ -206,24 +212,24 @@ hors racine web, en droits `0600`) ou dans `.env`, qui reste prioritaire.
 `app/Ai/Facts.php` calcule à chaque question l'état réel du catalogue :
 combien de bureaux sont libres au total, par lieu et par type, les fourchettes
 de prix, la liste nominative des bureaux disponibles avec leur tarif et leur URL,
-les adresses des deux lieux. Ces valeurs partent :
+l'adresse du lieu. Ces valeurs partent :
 
 - **dans le prompt de Gemini**, sous l'en-tête « DONNÉES DU CATALOGUE … elles font
   foi » — le modèle n'a donc jamais à deviner un chiffre, et le prompt système lui
   interdit d'écrire une URL ;
-- **directement en réponse** quand aucune clé n'est configurée : « Il reste 2 bureaux
-  libres en ce moment : Carnot — Bureau 03 (320 €) · Granvelle — Poste open space 12
-  (150 €). »
+- **directement en réponse** quand aucune clé n'est configurée : « Il reste 9 bureaux
+  libres en ce moment : Bureau privé — n° 01 (8 m², 240 €) · Bureau privé — n° 02
+  (9 m², 270 €) · … »
 
 Chaque réponse est accompagnée de **boutons d'action calculés côté serveur** —
-« Voir les 2 bureaux libres » vers `/nos-bureaux?status=available`, « Voir Carnot —
-Bureau 03 » vers sa fiche, « Réserver une visite » vers le contact. Ils sont justes
+« Voir les 9 bureaux libres » vers `/location-bureaux-montbeliard/bureaux-disponibles`,
+« Bureaux privés » vers leur sélection, le bureau lui-même vers sa fiche, « Réserver une visite » vers le contact. Ils sont justes
 quelle que soit la façon dont la réponse a été rédigée, puisqu'ils ne viennent pas
 du modèle.
 
 Les intentions sont repérées par préfixe (« disponibilités » reconnaît
 « disponible »), en français comme en anglais, et une relance sans mot-clé
-(« et à Carnot ? ») reprend l'intention du tour précédent.
+(« et en open space ? ») reprend l'intention du tour précédent.
 
 **La conversation suit le visiteur** : elle est conservée dans le `sessionStorage`
 du navigateur, donc d'une page à l'autre et pour la durée de l'onglet seulement.
@@ -259,9 +265,11 @@ côté serveur, rien ne survit à la fermeture de l'onglet.
 
 ## 7. Multilangue
 
-* URLs préfixées : `/nos-bureaux` en français, `/en/offices` en anglais.
-  `/fr/...` redirige en 301 vers l'URL courte.
-* Détection : premier segment d'URL → cookie `ioio_lang` → `Accept-Language` → français.
+* URLs à mots-clés : `/location-bureaux-montbeliard` en français,
+  `/en/office-rental-montbeliard` en anglais. `/fr/...` redirige en 301 vers l'URL courte.
+* La langue est donnée par l'adresse : sans préfixe, c'est toujours le français.
+  Une même URL ne sert jamais deux langues selon le navigateur (Google n'en
+  indexerait qu'une) ; le visiteur change de langue par le sélecteur.
 * `hreflang` réciproques + `x-default`, `og:locale`, `sitemap.xml` généré à la volée.
 * Trois niveaux : libellés d'interface (`app/lang/xx.json`), contenu éditorial
   (un JSON par page et par langue), champs de données (`i18n.<lang>.<champ>`).
@@ -269,7 +277,25 @@ côté serveur, rien ne survit à la fermeture de l'onglet.
 * Ajouter une langue = déposer `app/lang/xx.json`, ajouter le code dans
   `Config::LANGS` et les slugs dans `Router::ROUTES`. Aucun autre code à toucher.
 
-## 8. Conversion et mesure
+## 8. Référencement
+
+* Une adresse par page, un groupe de mots-clés par adresse (tableau complet dans
+  `docs/le-signal-redirections.md`) ; barre finale, slug d'une autre langue ou filtre
+  en paramètre redirigent en 301 vers l'URL canonique.
+* Les trois catégories de l'ancienne boutique deviennent des **sélections à page
+  propre** — bureaux privés, bureaux ouverts, bureaux disponibles — avec titre,
+  texte et description éditables, présentes dans le sitemap. Les autres
+  combinaisons de filtres restent consultables mais en `noindex`.
+* Titres et descriptions des fiches bureaux à partir d'un modèle éditable
+  (« {name} : {area} à louer à Montbéliard »).
+* Données structurées : `LocalBusiness`/`CoworkingSpace` (adresse, coordonnées GPS,
+  téléphone, fourchette de prix), liste des bureaux sur le catalogue, offre mensuelle
+  HT sur chaque fiche, FAQ si elle est remplie.
+* **Anciennes adresses** (`app/Redirects.php`) : chaque page, catégorie, fiche
+  produit et photo de l'ancien WordPress mène en 301, en un seul saut, à sa page
+  finale ; panier, commande et compte répondent 410.
+
+## 9. Conversion et mesure
 
 Barre CTA collante sur toutes les pages (halo animé configurable), pop-up de sortie
 (`mouseout` haut de page, variante mobile sur retour arrière ou inactivité, une fois
@@ -279,29 +305,30 @@ par session), preuves calculées depuis le catalogue, avis Google.
 `cta_sticky_contact`, `cta_sticky_reserve`, `exit_popup_open`, `exit_popup_submit`,
 `chat_open`, `chat_question`, `reserve_submit`, `contact_submit`.
 
-## 9. Provenance du contenu
+## 10. Provenance du contenu
 
-Tout le contenu éditorial, le catalogue et les photos sont **repris du site
-d'origine ioio.fr**, et non inventés :
+Tout le contenu est **repris du site d'origine le-signal.com**, mot pour mot,
+corrigé (orthographe, grammaire, typographie française) sans toucher au ton :
 
 | Donnée | Source |
 | --- | --- |
-| Catalogue (21 bureaux, tarifs, disponibilités, photos) | API WooCommerce `/wp-json/wc/store/v1/products` |
-| Textes « Nos espaces », accueil, contact | pages Elementor rendues |
-| Coordonnées, équipe, téléphone | page Contact |
-| Éditeur, SIRET, hébergeur | page Mentions légales |
-| Avis clients | widget Trustindex de la page d'accueil, textes non retouchés |
-| Articles | `/wp-json/wp/v2/posts` + pages rendues |
-| Photos | fichiers d'origine `wp-content/uploads`, en pleine résolution |
+| Catalogue (13 bureaux, surfaces, capacités, tarifs, promotion, disponibilités) | fiches produit WooCommerce (`docs/le-signal-catalogue.json`) |
+| Textes accueil, Le Signal, bureaux, fiches, contact | pages rendues du site |
+| Infographie « votre nouvel espace de travail » | transcrite en texte (cartes « Espaces de travail » et « L'expérience » de l'accueil) ; l'image reste dans la photothèque |
+| Éditeur, SIRET, directeur de publication, hébergeur | page Mentions légales |
+| Présentation audio « Le Signal en 74 secondes » | fichier MP3 d'origine, lecteur natif |
+| Photos (107), logo, favicons | fichiers d'origine `wp-content/uploads` (`docs/le-signal-import.json`) |
 
-Le catalogue réel : **21 bureaux**, dont 4 bureaux privés à Carnot (320 à 385 €
-HT/mois), 3 bureaux privés à Granvelle (350 à 360 €) et 14 postes en open space
-(150 €). Deux seulement sont disponibles : Carnot 03 et le poste open space 12.
+Les scripts de reprise sont rejouables : `php bin/seed.php --force` remet les
+contenus d'origine, `php bin/import-media.php docs/le-signal-import.json` les
+photos. Seuls les textes alternatifs des photos (absents de l'ancien site), la
+politique de confidentialité et la version anglaise ont été rédigés.
 
-## 10. Photos : politique de définition
+## 11. Photos : politique de définition
 
-Les 26 photos viennent des originaux de ioio.fr, converties en WebP, plafonnées à
-1600 px de large, avec des dérivés 800 et 400 px. Le site se protège en plus contre
+Les 107 photos viennent des originaux de le-signal.com, converties en WebP à leur
+pleine définition, avec des dérivés 1600, 800 et 400 px. Les 19 décors SVG du thème
+WordPress (`tire-*`) et le visuel de démonstration du thème n'ont pas été repris. Le site se protège en plus contre
 tout agrandissement, au cas où une petite image serait téléversée plus tard :
 
 * chaque emplacement déclare une **largeur minimale** (`View::image(..., ['minWidth' => 700])`) ;
@@ -314,12 +341,11 @@ tout agrandissement, au cas où une petite image serait téléversée plus tard 
 Largeurs minimales en place : diaporama 900, grande vue et carte d'espace 700,
 image d'article 400, carte de bureau et vignette de fiche 190.
 
-Chaque photo porte le nom de son sujet et l'identifiant de son lieu, si bien qu'un
-visuel de Granvelle ne peut pas se retrouver sur un bureau de Carnot. L'affectation
-photo → bureau est celle du site d'origine.
+Chaque photo porte le nom de son sujet et un texte alternatif FR/EN. L'affectation
+photo → bureau et l'ordre de l'album (42 photos) sont ceux du site d'origine.
 
 
-## 11. Cookies et consentement
+## 12. Cookies et consentement
 
 Bandeau affiché à la première visite : **Tout accepter**, **Tout refuser**,
 **Paramètres**. Trois catégories, pas une de plus :
@@ -328,26 +354,24 @@ Bandeau affiché à la première visite : **Tout accepter**, **Tout refuser**,
 | --- | --- | --- |
 | Strictement nécessaires | session anti-spam des formulaires, langue, fenêtres déjà fermées, mémorisation du choix (13 mois) | actives, comme le permet l'article 82 de la loi Informatique et Libertés |
 | Mesure d'audience | Plausible ou Matomo | **aucun script chargé**, aucun événement envoyé |
-| Assistant iOiO | envoi des questions à Google (API Gemini) | l'assistant répond uniquement depuis l'index local du site, **rien ne sort du serveur** |
+| Assistant du Signal | envoi des questions à Google (API Gemini) | l'assistant répond uniquement depuis l'index local du site, **rien ne sort du serveur** |
 
 **Plans Google Maps.** Sur décision de l'éditeur, les plans des pages Contact et
 fiche bureau sont **affichés directement**, sans clic et sans condition :
 l'`<iframe>` est rendue par PHP dès le chargement de la page (aucune clé API
 n'est nécessaire). Ils ne constituent donc pas une catégorie réglable ; le
-panneau le dit explicitement, puisque Google y dépose ses propres cookies. Le
-JavaScript ne sert plus qu'à changer d'adresse quand on clique une pastille de
-lieu. La liste des catégories est pilotée par `Consent::CATEGORIES` : le panneau
+panneau le dit explicitement, puisque Google y dépose ses propres cookies. La liste des catégories est pilotée par `Consent::CATEGORIES` : le panneau
 de paramétrage la suit automatiquement.
 
 Le choix est rejouable à tout moment par le lien « Cookies » du pied de page.
 Le bandeau se désactive dans **Réglages → Conversion**.
 
-Les polices Bricolage Grotesque et Manrope sont **hébergées sur le domaine**
+Les polices Jost et Inter sont **hébergées sur le domaine**
 (`public/assets/fonts`) : aucune requête vers `fonts.googleapis.com` ni
 `fonts.gstatic.com`, donc aucune adresse IP transmise à un tiers avant
 consentement. Le site n'appelle aucun domaine externe tant que rien n'est accepté.
 
-## 12. Accessibilité et performance
+## 13. Accessibilité et performance
 
 * Contraste conforme à la charte : le jaune est toujours un **fond**, jamais une encre.
 * Navigation au clavier, `aria-*` sur les composants interactifs, lien d'évitement,
@@ -356,10 +380,11 @@ consentement. Le site n'appelle aucun domaine externe tant que rien n'est accept
   révélations, en gardant l'état final lisible.
 * Images en WebP avec `srcset`, `loading="lazy"`, `width`/`height` connus : aucun
   décalage de mise en page.
-* Sans JavaScript : tous les contenus restent lisibles et les formulaires postent
-  normalement (réponse JSON, aucune page blanche).
+* Sans JavaScript : tous les contenus restent lisibles ; les formulaires postent
+  normalement et reçoivent une page de confirmation au gabarit du site ; le bandeau
+  de cookies et l'assistant, inutiles sans script, sont masqués.
 
-## 13. Outils en ligne de commande
+## 14. Outils en ligne de commande
 
 ```bash
 php bin/seed.php [--force]     # contenus de démonstration
@@ -370,17 +395,18 @@ php bin/user.php password email "NouveauMotDePasse"
 php bin/user.php delete email
 ```
 
-## 14. À compléter avant la mise en ligne
+## 15. À compléter avant la mise en ligne
 
-* Mentions légales et politique de confidentialité : les champs entre crochets
-  (`[forme juridique]`, `[SIRET]`, `[hébergeur]`…) se remplissent dans
-  **Pages & contenus → Mentions légales**.
-* Coordonnées : téléphone et adresse email dans **Réglages → Site & lieux**
-  (le téléphone laissé vide n'est simplement pas affiché).
-* Catalogue : vérifier dans **Bureaux & dispos** que les disponibilités sont à jour
-  au moment de la mise en ligne (elles ont été relevées sur ioio.fr).
-* Surfaces : le site d'origine n'indique pas de surface par bureau ; le champ est
-  vide et n'apparaît pas. À renseigner au back-office si vous le souhaitez.
-* Clés API si l'assistant Gemini, les avis Google ou la traduction sont souhaités.
+* **Adresse email de réception** (Réglages → Site & lieu) : l'ancien site n'en
+  affichait aucune. Sans elle, les demandes sont bien enregistrées et visibles dans
+  **Demandes**, mais aucune alerte email ne part vers l'équipe.
+* Catalogue : vérifier dans **Bureaux & dispos** les disponibilités et le bandeau du
+  bureau privé n° 05 (« Dernier bureau privé disponible (2 à 4 personnes) ») : au
+  relevé, les n° 01 et 02 étaient aussi libres et le n° 05 annoncé pour 2 personnes.
+* Clés API si l'assistant Gemini, les avis Google ou la traduction sont souhaités ;
+  pour les avis, l'outil « Trouver l'identifiant de la fiche Google » est prérempli
+  avec l'adresse.
 * Décommenter l'en-tête `Strict-Transport-Security` dans `public/.htaccess` une fois
   le certificat HTTPS en place.
+* Après bascule du domaine : contrôler les redirections avec le script de
+  `docs/le-signal-redirections.md` et soumettre `/sitemap.xml` dans la Search Console.
