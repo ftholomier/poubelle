@@ -1,3 +1,4 @@
-config.php
+app/config.php
+app/settings.json
 data/*
 !data/.htaccess

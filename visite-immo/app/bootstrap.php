@@ -3,10 +3,22 @@ declare(strict_types=1);
 
 // Point d'entrée commun : configuration, réponses JSON, session, stockage fichiers.
 
-$configFile = file_exists(__DIR__ . '/config.php') ? __DIR__ . '/config.php' : __DIR__ . '/config.sample.php';
-$CONFIG = require $configFile;
+define('APP_ROOT', dirname(__DIR__));
+define('SETTINGS_FILE', __DIR__ . '/settings.json'); // réglages faits dans l'appli
 
-define('DATA_DIR', rtrim($CONFIG['data_dir'], '/'));
+// Valeurs par défaut (config.php si présent, sinon config.sample.php), remplacées par les réglages de l'appli
+$configFile = file_exists(__DIR__ . '/config.php') ? __DIR__ . '/config.php' : __DIR__ . '/config.sample.php';
+$CONFIG = array_merge(require $configFile, is_file(SETTINGS_FILE) ? (json_decode((string) file_get_contents(SETTINGS_FILE), true) ?: []) : []);
+
+/** Chemin absolu du dossier de stockage (les chemins relatifs partent du dossier de l'appli). */
+function resolve_data_dir(string $path): string
+{
+    $path = rtrim(trim($path), '/\\');
+    $absolu = str_starts_with($path, '/') || preg_match('#^[A-Za-z]:[/\\\\]#', $path);
+    return $absolu ? $path : APP_ROOT . '/' . $path;
+}
+
+define('DATA_DIR', resolve_data_dir($CONFIG['data_dir']));
 define('USERS_FILE', DATA_DIR . '/users.json');
 
 // Formats audio acceptés (type MIME => extension)

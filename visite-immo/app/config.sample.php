@@ -1,19 +1,22 @@
 <?php
-// Copier ce fichier en config.php et renseigner les clés.
-// Sans clé, l'appli fonctionne en mode démo (transcription et analyse simulées).
+// Valeurs par défaut. Inutile d'éditer ce fichier : tout se règle dans l'appli
+// (menu ☰ → Réglages, réservé aux administrateurs). Les réglages faits dans l'appli
+// sont enregistrés dans app/settings.json et remplacent ces valeurs.
+// Sans clé Gemini, l'appli fonctionne en mode démo (transcription et analyse simulées).
 
 return [
-    // Analyse (fiche, annonce, rapports) : https://console.anthropic.com
-    'anthropic_api_key' => getenv('ANTHROPIC_API_KEY') ?: '',
-    'claude_model'      => 'claude-opus-5-5',
+    // Clé API Gemini : https://aistudio.google.com/apikey
+    'gemini_api_key'       => getenv('GEMINI_API_KEY') ?: '',
 
-    // Transcription audio : https://platform.openai.com
-    'openai_api_key'    => getenv('OPENAI_API_KEY') ?: '',
-    'transcribe_model'  => 'whisper-1',
+    // Modèle qui rédige la fiche, l'annonce et les rapports
+    'modele_analyse'       => 'gemini-2.5-flash',
 
-    // Dossier de stockage (hors du dossier public)
-    'data_dir'          => __DIR__ . '/../data',
+    // Modèle qui transcrit l'audio de la visite
+    'modele_transcription' => 'gemini-2.5-flash',
 
-    // Utilisé pour signer le rapport envoyé au vendeur
-    'agence'            => 'Mon Agence Immobilière',
+    // Dossier de stockage : chemin absolu, ou relatif au dossier de l'appli. Jamais dans public/.
+    'data_dir'             => 'data',
+
+    // Nom de l'agence, utilisé pour signer le compte rendu vendeur : « Nom de l'agent, <agence> »
+    'agence'               => 'Mon Agence Immobilière',
 ];

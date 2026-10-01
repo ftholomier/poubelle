@@ -27,6 +27,9 @@ try {
         'GET users'       => route_users_list(),
         'POST users'      => route_users_create(),
         'DELETE users'    => route_users_delete($id),
+        'GET settings'    => route_settings_get(),
+        'POST settings'   => route_settings_save(),
+        'POST models'     => route_models(),
         'GET fields'      => send_json(SECTIONS),
         'GET visits'      => route_visits_list(),
         'POST visits'     => route_visit_create(),
@@ -55,10 +58,7 @@ function route_status(): never
     send_json([
         'setup' => count(users()) === 0,
         'user'  => $u ? public_user($u) : null,
-        'demo'  => [
-            'transcription' => empty($CONFIG['openai_api_key']),
-            'analyse'       => empty($CONFIG['anthropic_api_key']),
-        ],
+        'demo'  => empty($CONFIG['gemini_api_key']),
     ]);
 }
 
@@ -166,6 +166,112 @@ function route_users_delete(string $id): never
     update_json(USERS_FILE, fn (array $users) => array_values(array_filter($users, fn ($u) => $u['id'] !== $id)));
     if (preg_match('/^u[a-f0-9]{12}$/', $id)) rrmdir(DATA_DIR . '/visites/' . $id); // ses visites partent avec lui
     send_json(['ok' => true]);
+}
+
+// ---------- Réglages (admin) ----------
+
+function settings_view(): array
+{
+    global $CONFIG;
+    $key = (string) $CONFIG['gemini_api_key'];
+    return [
+        'cle_configuree'       => $key !== '',
+        'cle_apercu'           => $key !== '' ? '…' . substr($key, -4) : '',
+        'modele_analyse'       => $CONFIG['modele_analyse'],
+        'modele_transcription' => $CONFIG['modele_transcription'],
+        'data_dir'             => $CONFIG['data_dir'],
+        'data_dir_absolu'      => DATA_DIR,
+        'agence'               => $CONFIG['agence'],
+    ];
+}
+
+function route_settings_get(): never
+{
+    require_admin();
+    send_json(settings_view());
+}
+
+/** Liste des modèles Gemini, avec la clé saisie (pour la vérifier) ou la clé enregistrée. */
+function route_models(): never
+{
+    global $CONFIG;
+    require_admin();
+    $key = trim((string) (json_input()['cle'] ?? '')) ?: (string) $CONFIG['gemini_api_key'];
+    if ($key === '') fail(400, "Saisissez d'abord une clé API Gemini.");
+    try {
+        send_json(gemini_models($key));
+    } catch (RuntimeException $e) {
+        fail(400, $e->getMessage());
+    }
+}
+
+function route_settings_save(): never
+{
+    global $CONFIG;
+    require_admin();
+    $in = json_input();
+    $settings = read_json(SETTINGS_FILE, []);
+
+    $cle = trim((string) ($in['cle'] ?? ''));
+    if ($cle !== '') $settings['gemini_api_key'] = $cle; // vide = on garde la clé actuelle
+    if (!empty($in['supprimer_cle'])) $settings['gemini_api_key'] = '';
+
+    foreach (['modele_analyse', 'modele_transcription'] as $k) {
+        if (!isset($in[$k])) continue;
+        $model = trim((string) $in[$k]);
+        if (!preg_match('/^[A-Za-z0-9._-]{2,80}$/', $model)) fail(400, 'Nom de modèle invalide.');
+        $settings[$k] = $model;
+    }
+
+    if (isset($in['agence'])) {
+        $agence = trim((string) $in['agence']);
+        if ($agence === '') fail(400, "Le nom de l'agence est obligatoire.");
+        $settings['agence'] = mb_substr($agence, 0, 120);
+    }
+
+    if (isset($in['data_dir']) && trim((string) $in['data_dir']) !== (string) $CONFIG['data_dir']) {
+        move_data_dir(trim((string) $in['data_dir']));
+        $settings['data_dir'] = trim((string) $in['data_dir']);
+    }
+
+    if (!is_writable(dirname(SETTINGS_FILE))) fail(500, 'Le dossier app/ doit être accessible en écriture pour enregistrer les réglages.');
+    write_json(SETTINGS_FILE, $settings);
+    @chmod(SETTINGS_FILE, 0600);
+
+    $CONFIG = array_merge($CONFIG, $settings);
+    send_json(settings_view());
+}
+
+/** Change le dossier de stockage en y déplaçant les données existantes (comptes et visites). */
+function move_data_dir(string $path): void
+{
+    if ($path === '') fail(400, 'Le dossier de stockage est obligatoire.');
+    $new = resolve_data_dir($path);
+    if (!is_dir($new) && !@mkdir($new, 0770, true)) fail(400, "Impossible de créer le dossier $new.");
+    $new = realpath($new);
+    $old = realpath(DATA_DIR) ?: DATA_DIR;
+    if ($new === $old) return;
+
+    $public = realpath(APP_ROOT . '/public');
+    if (str_starts_with($new . '/', $public . '/')) fail(400, 'Le dossier de stockage ne doit pas être dans public/ : il serait accessible depuis le web.');
+    if (str_starts_with($new . '/', $old . '/')) fail(400, "Le nouveau dossier ne peut pas être à l'intérieur de l'actuel.");
+    if (!is_writable($new)) fail(400, "PHP n'a pas le droit d'écrire dans $new.");
+    if (is_file("$new/users.json")) fail(400, 'Ce dossier contient déjà des données Visite Immo.');
+
+    copy_dir($old, $new);
+    foreach (array_diff(scandir($old), ['.', '..', '.htaccess']) as $f) {
+        is_dir("$old/$f") ? rrmdir("$old/$f") : unlink("$old/$f");
+    }
+}
+
+function copy_dir(string $from, string $to): void
+{
+    if (!is_dir($to)) mkdir($to, 0770, true);
+    foreach (array_diff(scandir($from), ['.', '..']) as $f) {
+        if (str_ends_with($f, '.lock')) continue;
+        if (is_dir("$from/$f")) copy_dir("$from/$f", "$to/$f");
+        elseif (!copy("$from/$f", "$to/$f")) fail(500, "Copie impossible : $from/$f");
+    }
 }
 
 // ---------- Visites ----------

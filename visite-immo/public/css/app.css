@@ -55,6 +55,9 @@ code { font-size: .85em; }
 .erreur { color: var(--red); }
 .orange-txt { color: var(--orange); }
 .rouge-txt { color: var(--red); }
+.vert-txt { color: var(--green); font-weight: 600; }
+#m-desc { white-space: pre-line; }
+.banner a { color: inherit; }
 
 .splash { display: grid; place-items: center; height: 100vh; font-size: 48px; }
 

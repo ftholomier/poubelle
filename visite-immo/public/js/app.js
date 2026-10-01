@@ -68,9 +68,9 @@ function header(titre, { back = null, actions = "" } = {}) {
 }
 
 function demoBanner() {
-  const d = state.demo;
-  if (!d || (!d.transcription && !d.analyse)) return "";
-  return `<div class="banner">Mode démo : ${[d.transcription && "transcription", d.analyse && "analyse IA"].filter(Boolean).join(" et ")} simulée(s). Ajoutez les clés API dans <code>app/config.php</code>.</div>`;
+  if (!state.demo) return "";
+  return `<div class="banner">Mode démo : aucune clé Gemini configurée, la transcription et l'analyse sont simulées.
+    ${state.user?.role === "admin" ? `<a href="#/reglages"><strong>Configurer Gemini →</strong></a>` : "Demandez à un administrateur de la configurer."}</div>`;
 }
 
 // ---------- Routeur ----------
@@ -91,6 +91,7 @@ async function route() {
     if (page === "continuer") return viewRecord(id);
     if (page === "visite") return viewVisit(id, hash.split("/")[3] || "fiche");
     if (page === "equipe") return viewUsers();
+    if (page === "reglages") return viewSettings();
     if (page === "compte") return viewAccount();
     return viewHome();
   } catch (e) {
@@ -173,7 +174,7 @@ function bindMenu() {
     sheet.className = "sheet-bg";
     sheet.innerHTML = `<div class="sheet">
       <div class="sheet-user">${esc(state.user.nom)}<span class="muted"> · ${state.user.role === "admin" ? "Administrateur" : "Agent"}</span></div>
-      ${state.user.role === "admin" ? `<a href="#/equipe">👥 Gérer l'équipe</a>` : ""}
+      ${state.user.role === "admin" ? `<a href="#/reglages">⚙️ Réglages (IA, stockage, signature)</a><a href="#/equipe">👥 Gérer l'équipe</a>` : ""}
       <a href="#/compte">🔑 Changer mon mot de passe</a>
       <button id="logout">↪ Se déconnecter</button>
     </div>`;
@@ -675,6 +676,124 @@ async function viewUsers() {
         viewUsers();
       }),
   );
+}
+
+// ---------- Réglages (admin) ----------
+
+async function viewSettings() {
+  render(`${header("Réglages", { back: "#/" })}<main class="page"><div class="loader"></div></main>`);
+  const cfg = await api("settings");
+  let modeles = [];
+
+  document.querySelector("main").innerHTML = `
+    <form id="f">
+      <section class="card">
+        <h2>Clé API Gemini</h2>
+        <label>Clé API
+          <input name="cle" type="password" autocomplete="off" spellcheck="false"
+            placeholder="${cfg.cle_configuree ? `Clé enregistrée (${esc(cfg.cle_apercu)})` : "Collez votre clé (AIza…)"}">
+        </label>
+        <p class="muted small">${cfg.cle_configuree ? "Laissez vide pour garder la clé actuelle. " : ""}Obtenir une clé : <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener"><u>Google AI Studio</u></a></p>
+        <button type="button" class="btn" id="load">🔄 Vérifier la clé et charger les modèles</button>
+        <p class="small" id="key-state"></p>
+      </section>
+
+      <section class="card">
+        <h2>Modèles</h2>
+        <label>Modèle pour l'analyse <span class="muted">(fiche, annonce, rapports)</span>
+          <select name="modele_analyse" id="m-analyse"></select>
+        </label>
+        <label>Modèle pour la transcription audio
+          <select name="modele_transcription" id="m-transcription"></select>
+        </label>
+        <p class="muted small" id="m-desc"></p>
+        <p class="muted small">Conseil : un modèle « Flash » suffit pour la transcription (rapide et économique) ; un modèle « Pro » rédige de meilleurs textes pour l'analyse.</p>
+      </section>
+
+      <section class="card">
+        <h2>Stockage</h2>
+        <label>Dossier de stockage
+          <input name="data_dir" value="${esc(cfg.data_dir)}" spellcheck="false" autocapitalize="none">
+        </label>
+        <p class="muted small">Chemin absolu, ou relatif au dossier de l'appli. Actuellement : <code>${esc(cfg.data_dir_absolu)}</code>.
+          Si vous le changez, les comptes et les visites y sont déplacés automatiquement. Il ne doit pas être dans <code>public/</code>.</p>
+      </section>
+
+      <section class="card">
+        <h2>Signature du compte rendu vendeur</h2>
+        <label>Nom de l'agence
+          <input name="agence" value="${esc(cfg.agence)}" required>
+        </label>
+        <p class="muted small">Le compte rendu est signé « <span id="sig"></span> ».</p>
+      </section>
+
+      <button class="btn primary big">Enregistrer les réglages</button>
+      <div class="spacer"></div>
+    </form>`;
+
+  const $ = (id) => document.getElementById(id);
+  const form = $("f");
+  const updateSig = () => ($("sig").textContent = `${state.user.nom}, ${form.agence.value || "…"}`);
+  updateSig();
+  form.agence.addEventListener("input", updateSig);
+
+  // Remplit les deux listes ; le modèle actuel reste sélectionné même s'il n'est pas (ou plus) proposé
+  const fillSelects = () => {
+    for (const [id, actuel] of [["m-analyse", form.modele_analyse.value || cfg.modele_analyse], ["m-transcription", form.modele_transcription.value || cfg.modele_transcription]]) {
+      const ids = modeles.map((m) => m.id);
+      const options = ids.includes(actuel) || !actuel ? modeles : [{ id: actuel, nom: `${actuel} (actuel)` }, ...modeles];
+      $(id).innerHTML = options.map((m) => `<option value="${esc(m.id)}" ${m.id === actuel ? "selected" : ""}>${esc(m.nom)}${m.nom !== m.id ? ` · ${esc(m.id)}` : ""}</option>`).join("");
+    }
+    showDesc();
+  };
+  const showDesc = () => {
+    const desc = (id) => modeles.find((m) => m.id === $(id).value)?.description;
+    $("m-desc").textContent = [desc("m-analyse") && `Analyse : ${desc("m-analyse")}`, desc("m-transcription") && `Transcription : ${desc("m-transcription")}`]
+      .filter(Boolean).join("\n");
+  };
+  $("m-analyse").onchange = showDesc;
+  $("m-transcription").onchange = showDesc;
+
+  const loadModels = async () => {
+    const cle = form.cle.value.trim();
+    if (!cle && !cfg.cle_configuree) {
+      $("key-state").innerHTML = `<span class="muted">Saisissez votre clé pour voir la liste des modèles.</span>`;
+      return;
+    }
+    $("load").disabled = true;
+    $("key-state").innerHTML = `<span class="muted">Vérification…</span>`;
+    try {
+      modeles = await api("models", { method: "POST", body: { cle } });
+      $("key-state").innerHTML = `<span class="vert-txt">✓ Clé valide : ${modeles.length} modèles disponibles.</span>`;
+      fillSelects();
+    } catch (e) {
+      $("key-state").innerHTML = `<span class="erreur">✗ ${esc(e.message)}</span>`;
+    } finally {
+      $("load").disabled = false;
+    }
+  };
+  $("load").onclick = loadModels;
+  // Clé collée : on vérifie tout de suite et on charge la liste
+  form.cle.addEventListener("change", () => form.cle.value.trim() && loadModels());
+
+  fillSelects(); // affiche au moins les modèles actuels
+  if (cfg.cle_configuree) loadModels();
+
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector("button.primary");
+    btn.disabled = true;
+    try {
+      const body = Object.fromEntries(new FormData(form));
+      const res = await api("settings", { method: "POST", body });
+      state.demo = !res.cle_configuree;
+      toast("Réglages enregistrés ✓", "ok");
+      viewSettings();
+    } catch (err) {
+      toast(err.message, "erreur");
+      btn.disabled = false;
+    }
+  };
 }
 
 function viewAccount() {
