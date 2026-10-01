@@ -15,7 +15,7 @@ final class Auth
     private const LOCK_MINUTES = 15;
     private const SESSION_TTL = 28_800;        // 8 h
     private const REMEMBER_TTL = 604_800;      // 7 jours
-    private const REMEMBER_COOKIE = 'ioio_remember';
+    private const REMEMBER_COOKIE = Config::COOKIE_PREFIX . 'remember';
     private const RESET_TTL = 1_800;           // 30 min
 
     /** Hash factice valide, comparé quand le compte n'existe pas (temps constant). */

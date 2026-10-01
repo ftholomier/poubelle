@@ -11,7 +11,7 @@ final class Session
         if (session_status() === PHP_SESSION_ACTIVE) {
             return;
         }
-        session_name('ioio_session');
+        session_name(Config::COOKIE_PREFIX . 'session');
         session_set_cookie_params([
             'lifetime' => 0,
             'path' => Config::basePath() . '/',

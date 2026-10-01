@@ -1,5 +1,5 @@
 /* =========================================================================
-   Le iOiO — comportements du site public.
+   Le Signal — comportements du site public.
    JavaScript natif, sans dépendance. Tout dégrade proprement sans JS :
    les formulaires postent normalement, les contenus sont déjà dans le HTML.
    ========================================================================= */
@@ -9,7 +9,7 @@
   var root = document.documentElement;
   root.classList.add('js');
 
-  var cfg = window.IOIO || {};
+  var cfg = window.SITE || {};
   var base = cfg.basePath || '';
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -18,7 +18,8 @@
 
   /* ------------------------------------------------------ consentement */
 
-  var CONSENT_COOKIE = 'ioio_consent';
+  var PREFIX = cfg.cookiePrefix || 'lesignal_';
+  var CONSENT_COOKIE = PREFIX + 'consent';
   var CONSENT_VERSION = 1;
 
   function readConsent() {
@@ -34,7 +35,7 @@
     var value = readConsent();
     return !!(value && value[category]);
   }
-  window.ioioConsent = consentAllows;
+  window.siteConsent = consentAllows;
 
   function writeConsent(choices) {
     var value = {
@@ -48,7 +49,7 @@
 
   /* Le script de mesure n'est injecté qu'après acceptation, sans rechargement. */
   function loadAnalytics() {
-    var cfg = (window.IOIO && window.IOIO.analytics) || {};
+    var cfg = (window.SITE && window.SITE.analytics) || {};
     if (!cfg.provider || cfg.provider === 'none' || document.querySelector('[data-analytics]')) { return; }
     var script = document.createElement('script');
     script.defer = true;
@@ -140,11 +141,11 @@
     try {
       if (typeof window.plausible === 'function') { window.plausible(name, { props: props || {} }); }
       if (window._paq && typeof window._paq.push === 'function') {
-        window._paq.push(['trackEvent', 'iOiO', name, JSON.stringify(props || {})]);
+        window._paq.push(['trackEvent', cfg.siteName || 'site', name, JSON.stringify(props || {})]);
       }
     } catch (e) { /* la mesure ne doit jamais casser la page */ }
   }
-  window.ioioTrack = track;
+  window.siteTrack = track;
 
   $$('[data-track]').forEach(function (el) {
     el.addEventListener('click', function () { track(el.getAttribute('data-track')); });
@@ -461,7 +462,7 @@
   var exitModal = $('[data-exit]');
   if (exitModal && cfg.exitIntent) {
     var shown = false;
-    var seenKey = 'ioio_exit_seen';
+    var seenKey = PREFIX + 'exit_seen';
 
     function alreadySeen() {
       try { return sessionStorage.getItem(seenKey) === '1'; } catch (e) { return false; }
@@ -493,7 +494,7 @@
     var isTouch = window.matchMedia('(hover: none)').matches;
     if (isTouch) {
       try {
-        history.pushState({ ioio: 1 }, '');
+        history.pushState({ exitGuard: 1 }, '');
         window.addEventListener('popstate', function () { openExit('popstate'); });
       } catch (e) { /* certains navigateurs bloquent pushState */ }
 
@@ -738,7 +739,7 @@
     });
   });
 
-  /* ----------------------------------------------------- assistant iOiO */
+  /* ----------------------------------------------- assistant du Signal */
 
   var bot = $('[data-bot]');
   if (bot) {
@@ -753,7 +754,7 @@
 
     /* La conversation suit le visiteur de page en page : elle est gardée dans
        sessionStorage, donc pour la durée de l'onglet, et jamais au-delà. */
-    var STORE = 'ioio_chat';
+    var STORE = PREFIX + 'chat';
     var MAX_KEPT = 40;
 
     function readStore() {

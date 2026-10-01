@@ -49,7 +49,7 @@ final class Router
         'privacy' => 'privacy',
     ];
 
-    public const COOKIE = 'ioio_lang';
+    public const COOKIE = Config::COOKIE_PREFIX . 'lang';
 
     /**
      * @return array{name:string,lang:string,params:array<string,string>}

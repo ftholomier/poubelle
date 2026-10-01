@@ -11,6 +11,8 @@ if (empty($settings['exit']['enabled'])) {
     return;
 }
 $minPrice = Offices::minPrice();
+// La preuve « avis Google » n'est affichée que s'il existe des avis à montrer.
+$hasReviews = !empty($settings['reviews']['enabled']) && App\Reviews::get(1)['reviews'] !== [];
 ?>
 <div class="exit" data-exit hidden role="dialog" aria-modal="true" aria-labelledby="exit-title">
   <div class="exit__card">
@@ -33,7 +35,7 @@ $minPrice = Offices::minPrice();
         <div class="alert" data-form-alert hidden role="status"></div>
       </form>
       <div class="exit__proof">
-        <span><?= Text::e(I18n::t('reviews.source')) ?> ★★★★★</span>
+        <?php if ($hasReviews): ?><span><?= Text::e(I18n::t('reviews.source')) ?> ★★★★★</span><?php endif; ?>
         <?php if ($minPrice !== null): ?>
           <span><?= Text::e(I18n::t('office.from')) ?> <?= Text::e(I18n::price($minPrice)) ?> <?= Text::e(I18n::t('office.perMonthShort')) ?></span>
         <?php endif; ?>

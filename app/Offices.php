@@ -12,7 +12,7 @@ final class Offices
     public const FILE = 'offices.json';
 
     /** Palette de la charte, utilisée comme couleur de vignette par défaut. */
-    public const PALETTE = ['#FFD100', '#12B39A', '#EDE5D5', '#FFF8EA'];
+    public const PALETTE = ['#FFCC00', '#F2F3F5', '#3DDC97', '#FFFFFF'];
 
     public static function all(): array
     {
@@ -173,13 +173,13 @@ final class Offices
         };
     }
 
-    /** Couleur de la pastille de statut, conforme à la charte. */
+    /** Couleur de la pastille de statut, conforme à la charte (variables de site.css). */
     public static function statusColor(string $status): string
     {
         return match ($status) {
-            'available' => '#12B39A',
-            'soon' => '#FFD100',
-            default => 'rgba(14,14,14,.12)',
+            'available' => 'var(--go)',
+            'soon' => 'var(--yellow)',
+            default => 'var(--mist)',
         };
     }
 
@@ -190,6 +190,20 @@ final class Offices
             'meeting' => I18n::t('type.meeting'),
             default => I18n::t('type.private'),
         };
+    }
+
+    /**
+     * Plus d'un lieu actif ? Tant que le site n'a qu'une adresse, le nom du
+     * lieu n'apporte rien sur une carte et les filtres par lieu restent
+     * masqués ; ils reviennent d'eux-mêmes si un second lieu est activé.
+     */
+    public static function multiSite(): bool
+    {
+        $active = array_filter(
+            (array) (Content::settings()['sites'] ?? []),
+            static fn ($s): bool => \is_array($s) && ($s['enabled'] ?? true) && (string) ($s['id'] ?? '') !== ''
+        );
+        return \count($active) > 1;
     }
 
     public static function siteLabel(string $site): string
@@ -211,7 +225,7 @@ final class Offices
     {
         $status = (string) ($office['status'] ?? 'available');
         $type = (string) ($office['type'] ?? 'private');
-        $site = (string) ($office['site'] ?? 'carnot');
+        $site = (string) ($office['site'] ?? Config::SITES[0]);
         $photos = array_values(array_filter((array) ($office['photos'] ?? []), static fn ($p): bool => \is_string($p) && $p !== ''));
         $price = (int) ($office['price'] ?? 0);
         // Tarif promotionnel : s'il est renseigné, c'est lui qu'on paie, et le
@@ -226,6 +240,10 @@ final class Offices
             'name' => Content::i18n($office, 'name', $lang, 'Bureau'),
             'description' => Content::i18n($office, 'description', $lang),
             'area' => Content::i18n($office, 'area', $lang),
+            // Capacité (« 1 personne », « 5 à 8 personnes ») et accroche
+            // commerciale facultative, affichée en bandeau sur la carte et la fiche.
+            'capacity' => Content::i18n($office, 'capacity', $lang),
+            'badge' => Content::i18n($office, 'badge', $lang),
             'features' => self::featuresFor($office, $lang),
             'status' => $status,
             'statusLabel' => self::statusLabel($status),

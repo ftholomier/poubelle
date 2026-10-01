@@ -2,10 +2,11 @@
 /**
  * Carte d'un bureau du catalogue.
  * @var array  $office  bureau décoré (Offices::decorate)
- * @var string $variant 'featured' (accueil, fond crème) ou 'list' (page bureaux, fond blanc)
+ * @var string $variant 'featured' (accueil, fond gris) ou 'list' (page bureaux, fond blanc)
  */
 
 use App\I18n;
+use App\Offices;
 use App\Text;
 use App\View;
 
@@ -19,24 +20,31 @@ $sizes = $spotlight
     : '(max-width: 560px) 100vw, (max-width: 880px) 45vw, (max-width: 1180px) 30vw, 290px';
 /** Assemble les fragments réellement renseignés. */
 $meta = static fn (array $parts): string => implode(' · ', array_filter(array_map('trim', $parts)));
+// Un seul lieu : son nom n'apprend rien au visiteur, on montre surface et capacité.
+$where = Offices::multiSite() ? (string) $office['siteLabel'] : '';
+$details = $meta([$where, (string) $office['area'], (string) ($office['capacity'] ?? '')]);
+$photoCount = \count((array) $office['photos']);
 ?>
-<article class="office-card<?= $isList ? ' office-card--white' : '' ?><?= $spotlight ? ' office-card--spot' : '' ?>" data-reveal<?= $delay > 0 ? ' data-delay="' . $delay . '"' : '' ?>>
+<article class="office-card<?= $isList ? ' office-card--white' : '' ?><?= $spotlight ? ' office-card--spot' : '' ?><?= ($office['status'] ?? '') === 'rented' ? ' office-card--rented' : '' ?>" data-reveal<?= $delay > 0 ? ' data-delay="' . $delay . '"' : '' ?>>
   <div class="office-card__media" style="background:<?= Text::e((string) $office['color']) ?>">
     <?= View::image((string) $office['cover'], (string) $office['name'], ['placeholder' => (string) $office['name'], 'minWidth' => 190, 'sizes' => $sizes]) ?>
-    <?php if (\count((array) $office['photos']) > 1): ?>
-      <span class="office-card__count"><?= \count((array) $office['photos']) ?> photos</span>
+    <?php if ((string) ($office['badge'] ?? '') !== ''): ?>
+      <span class="office-card__badge"><?= Text::e((string) $office['badge']) ?></span>
+    <?php endif; ?>
+    <?php if ($photoCount > 1): ?>
+      <span class="office-card__count"><?= $photoCount ?> photos</span>
     <?php endif; ?>
   </div>
   <div class="office-card__body<?= $isList ? ' office-card__body--lg' : '' ?>">
     <div class="office-card__row">
       <span class="status-pill" style="background:<?= Text::e((string) $office['statusColor']) ?>"><?= Text::e((string) $office['statusLabel']) ?></span>
-      <span class="meta-note"><?= Text::e($isList ? (string) $office['typeLabel'] : $meta([(string) $office['siteLabel'], (string) $office['area']])) ?></span>
+      <span class="meta-note"><?= Text::e((string) $office['typeLabel']) ?></span>
     </div>
     <h3 class="office-card__title<?= $isList ? ' office-card__title--lg' : '' ?>">
       <a href="<?= Text::e((string) $office['url']) ?>"><?= Text::e((string) $office['name']) ?></a>
     </h3>
-    <?php if ($isList): ?>
-      <div class="office-card__sub"><?= Text::e($meta([(string) $office['siteLabel'], (string) $office['area']])) ?></div>
+    <?php if ($details !== ''): ?>
+      <div class="office-card__sub"><?= Text::e($details) ?></div>
     <?php endif; ?>
     <div class="office-card__price">
       <?php if (!empty($office['hasPromo'])): ?>
@@ -48,8 +56,7 @@ $meta = static fn (array $parts): string => implode(' · ', array_filter(array_m
     <?php if (($office['status'] ?? '') === 'soon' && ($office['availableFrom'] ?? '') !== ''): ?>
       <div class="office-card__sub"><?= Text::e(I18n::t('office.availableFrom', ['date' => I18n::date((string) $office['availableFrom'], IntlDateFormatter::MEDIUM)])) ?></div>
     <?php endif; ?>
-    <a class="btn <?= $isList ? 'btn--ink office-card__cta' : 'btn--outline-yellow office-card__cta' ?>"
-       style="<?= $isList ? 'background-image:linear-gradient(var(--teal),var(--teal))' : '' ?>"
+    <a class="btn office-card__cta <?= $isList ? 'btn--ink btn--go-fill' : 'btn--outline-yellow' ?>"
        href="<?= Text::e((string) $office['url']) ?>"><?= Text::e((string) $office['cta']) ?></a>
   </div>
 </article>

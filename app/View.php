@@ -113,6 +113,30 @@ final class View
         return $html . '>';
     }
 
+    /**
+     * SVG de la charte insérés tels quels dans la page (logo de l'en-tête,
+     * pictogramme de l'assistant) : leurs couleurs se pilotent alors en CSS,
+     * ce qu'une balise <img> interdit. Seuls les fichiers de /assets/img sont
+     * acceptés ; le contenu est lu une fois par requête.
+     */
+    public static function svg(string $file, string $class = ''): string
+    {
+        static $cache = [];
+        $name = basename($file);
+        if (!str_ends_with($name, '.svg')) {
+            return '';
+        }
+        if (!isset($cache[$name])) {
+            $raw = @file_get_contents(Config::publicPath('assets/img/' . $name));
+            $cache[$name] = \is_string($raw) ? trim((string) preg_replace('/<\?xml[^>]*\?>|<!--.*?-->/s', '', $raw)) : '';
+        }
+        $svg = $cache[$name];
+        if ($svg === '' || $class === '') {
+            return $svg;
+        }
+        return (string) preg_replace('/<svg\b/', '<svg class="' . Text::e($class) . '" aria-hidden="true" focusable="false"', $svg, 1);
+    }
+
     /** Fond CSS d'un bloc décoratif (diaporama). */
     public static function bgUrl(string $path): string
     {

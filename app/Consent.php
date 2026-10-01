@@ -19,7 +19,7 @@ namespace App;
  */
 final class Consent
 {
-    public const COOKIE = 'ioio_consent';
+    public const COOKIE = Config::COOKIE_PREFIX . 'consent';
     public const VERSION = 1;
     public const CATEGORIES = ['analytics', 'ai'];
     private const TTL = 33_696_000; // 13 mois, durée maximale recommandée par la CNIL
@@ -82,7 +82,12 @@ final class Consent
     public static function inventory(): array
     {
         return [
-            'necessary' => ['ioio_session', 'ioio_lang', 'ioio_consent', 'ioio_exit_seen'],
+            'necessary' => [
+                Config::COOKIE_PREFIX . 'session',
+                Config::COOKIE_PREFIX . 'lang',
+                Config::COOKIE_PREFIX . 'consent',
+                Config::COOKIE_PREFIX . 'exit_seen',
+            ],
             'analytics' => ['plausible / matomo'],
             'ai' => ['—'],
         ];

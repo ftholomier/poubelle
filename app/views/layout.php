@@ -23,11 +23,13 @@ $seo = $seo ?? [];
 $route = $route ?? 'home';
 $params = $params ?? [];
 
-$siteName = (string) ($settings['site']['name'] ?? 'Le iOiO');
-$suffix = (string) ($settings['seo']['titleSuffix'] ?? $siteName);
+$siteName = (string) ($settings['site']['name'] ?? 'Le Signal');
+$siteSeo = (array) ($settings['seo'] ?? []);
+$suffix = Content::i18n($siteSeo, 'titleSuffix', $lang, $siteName);
 $title = trim((string) ($seo['title'] ?? ''));
 $fullTitle = $title === '' ? $suffix : ($title . ' — ' . $siteName);
-$description = (string) ($seo['description'] ?? $settings['seo']['description'] ?? '');
+$description = (string) ($seo['description'] ?? '');
+$description = $description !== '' ? $description : Content::i18n($siteSeo, 'description', $lang);
 $ogImage = (string) ($seo['ogImage'] ?? $settings['seo']['ogImage'] ?? '');
 $canonical = Router::absolute($route, $lang, $params);
 $alternates = Router::alternates($route, $params);
@@ -63,9 +65,10 @@ $analytics = $settings['analytics'] ?? [];
 <meta name="twitter:card" content="summary_large_image">
 <?php endif; ?>
 
-<link rel="icon" href="<?= Text::e($basePath) ?>/assets/img/ioio-mark.png">
-<link rel="apple-touch-icon" href="<?= Text::e($basePath) ?>/assets/img/ioio-mark.png">
-<meta name="theme-color" content="#0E0E0E">
+<link rel="icon" href="<?= Text::e($basePath) ?>/assets/img/lesignal-mark.svg" type="image/svg+xml">
+<link rel="icon" href="<?= Text::e($basePath) ?>/assets/img/favicon.png" type="image/png" sizes="416x416">
+<link rel="apple-touch-icon" href="<?= Text::e($basePath) ?>/assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#101820">
 
 <link rel="stylesheet" href="<?= Text::e($basePath) ?>/assets/css/fonts.css?v=<?= Text::e((string) @filemtime(Config::publicPath('assets/css/fonts.css'))) ?>">
 <link rel="stylesheet" href="<?= Text::e($basePath) ?>/assets/css/site.css?v=<?= Text::e((string) @filemtime(Config::publicPath('assets/css/site.css'))) ?>">
@@ -104,9 +107,11 @@ if (App\Consent::allows('analytics') && ($analytics['provider'] ?? 'none') === '
 <?= View::partial('partials/exit', ['settings' => $settings]) ?>
 
 <script>
-window.IOIO = {
+window.SITE = {
   basePath: <?= json_encode($basePath) ?>,
   lang: <?= json_encode($lang) ?>,
+  siteName: <?= json_encode($siteName, JSON_UNESCAPED_UNICODE) ?>,
+  cookiePrefix: <?= json_encode(Config::COOKIE_PREFIX) ?>,
   exitIntent: <?= !empty($settings['exit']['enabled']) ? 'true' : 'false' ?>,
   exitInactivity: <?= (int) ($settings['exit']['inactivitySeconds'] ?? 45) ?>,
   chatToken: <?= json_encode(Csrf::token('chat')) ?>,
