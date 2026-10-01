@@ -98,6 +98,8 @@
     "error.404Text": "This page does not exist or has moved. Let us start again from the home page or the office list.",
     "error.500Title": "Something went wrong",
     "error.500Text": "The site hit a problem. The team has been notified: please try again in a moment.",
+    "error.410Title": "This page no longer exists",
+    "error.410Text": "The online shop has closed: offices are no longer booked through a basket. Tell us which one you like and we will call you back to arrange a visit.",
     "error.home": "Back to home",
     "skip.content": "Skip to content",
     "meta.offices": "{count} offices available",

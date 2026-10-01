@@ -5,35 +5,55 @@ namespace App;
 
 /**
  * Routage par chemin propre et résolution de la locale.
- * La langue est détectée au premier segment (/en/…), sinon cookie, sinon
- * Accept-Language, sinon français.
+ * La langue est donnée par le premier segment (/en/…) ; sans préfixe, c'est
+ * le français.
  */
 final class Router
 {
-    /** Slugs par langue. La clé est le nom de route utilisé dans les vues. */
+    /**
+     * Slugs par langue. La clé est le nom de route utilisé dans les vues.
+     *
+     * Chaque adresse porte les mots que l'on tape dans Google (« location
+     * bureaux Montbéliard », « coworking Montbéliard ») sans le bourrage de
+     * l'ancien site : un seul groupe de mots-clés par page, lisible par un
+     * humain. Les anciennes adresses sont redirigées en 301 par Redirects.
+     */
     private const ROUTES = [
         'fr' => [
             'home' => '',
-            'spaces' => 'nos-espaces',
-            'offices' => 'nos-bureaux',
-            'office' => 'nos-bureaux/{id}',
-            'news' => 'l-actu',
-            'post' => 'l-actu/{slug}',
+            'spaces' => 'coworking-montbeliard',
+            'offices' => 'location-bureaux-montbeliard',
+            'office' => 'location-bureaux-montbeliard/{id}',
+            'news' => 'actualites',
+            'post' => 'actualites/{slug}',
             'contact' => 'contact',
             'legal' => 'mentions-legales',
             'privacy' => 'politique-de-confidentialite',
         ],
         'en' => [
             'home' => '',
-            'spaces' => 'our-spaces',
-            'offices' => 'offices',
-            'office' => 'offices/{id}',
+            'spaces' => 'coworking-montbeliard',
+            'offices' => 'office-rental-montbeliard',
+            'office' => 'office-rental-montbeliard/{id}',
             'news' => 'news',
             'post' => 'news/{slug}',
             'contact' => 'contact',
             'legal' => 'legal-notice',
             'privacy' => 'privacy-policy',
         ],
+    ];
+
+    /**
+     * Sélections du catalogue servies sous leur propre adresse : ce sont les
+     * pages que l'on cherche (« location bureau privé Montbéliard »), elles
+     * reprennent les trois catégories de l'ancienne boutique. Chacune a son
+     * titre, son texte et sa place dans le sitemap (contenu « facets » de la
+     * page offices). facette => [filtre, valeur, slug par langue].
+     */
+    public const FACETS = [
+        'private' => ['type', 'private', ['fr' => 'bureaux-prives', 'en' => 'private-offices']],
+        'openspace' => ['type', 'openspace', ['fr' => 'bureaux-ouverts', 'en' => 'open-plan-desks']],
+        'available' => ['status', 'available', ['fr' => 'bureaux-disponibles', 'en' => 'available-offices']],
     ];
 
     /** Page de contenu associée à chaque route (content/pages/<slug>.<lang>.json). */
@@ -67,27 +87,58 @@ final class Router
         if ($segments !== [] && \in_array($segments[0], Config::LANGS, true)) {
             $lang = array_shift($segments);
         }
-        $lang ??= self::detectLang();
+        // Sans préfixe, c'est toujours le français : une même adresse ne doit
+        // jamais servir deux langues selon le navigateur (Google n'indexerait
+        // qu'une version, au hasard). Le choix de langue passe par le sélecteur.
+        $lang ??= Config::DEFAULT_LANG;
         $path = implode('/', array_map('rawurldecode', $segments));
 
         foreach (self::ROUTES[$lang] ?? self::ROUTES[Config::DEFAULT_LANG] as $name => $pattern) {
             $params = self::match($pattern, $path);
             if ($params !== null) {
-                return ['name' => $name, 'lang' => $lang, 'params' => $params];
+                return self::facet(['name' => $name, 'lang' => $lang, 'params' => $params]);
             }
         }
 
-        // Tolérance : un slug d'une autre langue reste servi (utile après traduction d'URL).
+        // Tolérance : un slug d'une autre langue est reconnu ; le contrôleur
+        // frontal redirige alors en 301 vers l'adresse canonique.
         foreach (self::ROUTES as $routeLang => $routes) {
             foreach ($routes as $name => $pattern) {
                 $params = self::match($pattern, $path);
                 if ($params !== null) {
-                    return ['name' => $name, 'lang' => $routeLang, 'params' => $params];
+                    return self::facet(['name' => $name, 'lang' => $routeLang, 'params' => $params]);
                 }
             }
         }
 
         return ['name' => 'notfound', 'lang' => $lang, 'params' => []];
+    }
+
+    /** « location-bureaux-montbeliard/bureaux-prives » est une sélection, pas une fiche. */
+    private static function facet(array $route): array
+    {
+        if ($route['name'] !== 'office') {
+            return $route;
+        }
+        foreach (self::FACETS as $facet => [, , $slugs]) {
+            foreach ($slugs as $slug) {
+                if (($route['params']['id'] ?? '') === $slug) {
+                    return ['name' => 'offices', 'lang' => $route['lang'], 'params' => ['facet' => $facet]];
+                }
+            }
+        }
+        return $route;
+    }
+
+    /** Sélection correspondant à un filtre unique (?type=private…), sinon ''. */
+    public static function facetOf(string $key, string $value): string
+    {
+        foreach (self::FACETS as $facet => [$filter, $filterValue]) {
+            if ($filter === $key && $filterValue === $value) {
+                return $facet;
+            }
+        }
+        return '';
     }
 
     /** @return array<string,string>|null */
@@ -112,6 +163,10 @@ final class Router
     {
         $lang = $lang !== null && \in_array($lang, Config::LANGS, true) ? $lang : I18n::lang();
         $pattern = self::ROUTES[$lang][$name] ?? self::ROUTES[Config::DEFAULT_LANG][$name] ?? '';
+        if ($name === 'offices' && isset(self::FACETS[$params['facet'] ?? ''])) {
+            $pattern .= '/' . self::FACETS[$params['facet']][2][$lang];
+            unset($params['facet']);
+        }
         foreach ($params as $key => $value) {
             $pattern = str_replace('{' . $key . '}', rawurlencode((string) $value), $pattern);
         }
@@ -138,7 +193,7 @@ final class Router
      */
     public static function availableOffices(?string $lang = null): string
     {
-        return self::url('offices', $lang, [], ['status' => 'available']);
+        return self::url('offices', $lang, ['facet' => 'available']);
     }
 
     /** Page « Nos bureaux » filtrée sur un lieu. */

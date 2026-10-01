@@ -98,6 +98,8 @@
     "error.404Text": "Cette page n'existe pas ou a été déplacée. Reprenons depuis l'accueil ou la liste des bureaux.",
     "error.500Title": "Une erreur est survenue",
     "error.500Text": "Le site a rencontré un problème. L'équipe est prévenue : réessayez dans un instant.",
+    "error.410Title": "Cette page n’existe plus",
+    "error.410Text": "La boutique en ligne a fermé : on ne réserve plus un bureau par panier. Dites-nous lequel vous intéresse, on vous rappelle pour organiser une visite.",
     "error.home": "Retour à l'accueil",
     "skip.content": "Aller au contenu",
     "meta.offices": "{count} bureaux disponibles",

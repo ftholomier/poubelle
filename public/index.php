@@ -51,8 +51,27 @@ if ($path === Config::DEFAULT_LANG || str_starts_with($path, Config::DEFAULT_LAN
     exit;
 }
 
+// Anciennes adresses du site WordPress : 301 en un saut, 410 pour la boutique.
+$redirect = App\Redirects::resolve($path);
+if ($redirect !== null && $redirect['status'] === 301) {
+    header('Location: ' . $redirect['location'], true, 301);
+    exit;
+}
+
 $route = Router::resolve($uri);
 $lang = $route['lang'];
+
+// Une seule adresse par page : slug d'une autre langue, barre finale ou
+// casse différente redirigent en 301 vers l'URL canonique (requête conservée).
+if ($route['name'] !== 'notfound') {
+    $canonical = Router::url($route['name'], $lang, $route['params']);
+    $requested = (string) (parse_url($uri, PHP_URL_PATH) ?: '/');
+    if (rawurldecode($requested) !== rawurldecode($canonical)) {
+        $query = (string) parse_url($uri, PHP_URL_QUERY);
+        header('Location: ' . $canonical . ($query !== '' ? '?' . $query : ''), true, 301);
+        exit;
+    }
+}
 I18n::setLang($lang);
 Router::rememberLang($lang);
 
@@ -83,6 +102,18 @@ $notFound = static function () use ($settings): never {
     exit;
 };
 
+if ($redirect !== null) {
+    http_response_code(410);
+    echo View::page('error', [
+        'code' => 410,
+        'seo' => ['title' => I18n::t('error.410Title'), 'noindex' => true],
+        'route' => 'home',
+        'params' => [],
+        'settings' => $settings,
+    ]);
+    exit;
+}
+
 // Une page dépubliée au back-office ne doit plus être servie.
 if ($page !== [] && !Content::isPublished($page)) {
     $notFound();
@@ -101,11 +132,25 @@ switch ($route['name']) {
         break;
 
     case 'offices':
+        $facet = (string) ($route['params']['facet'] ?? '');
         $filters = [
             'site' => (string) ($_GET['site'] ?? ''),
             'type' => (string) ($_GET['type'] ?? ''),
             'status' => (string) ($_GET['status'] ?? ''),
         ];
+        // Un filtre seul qui a sa propre page (?type=private) y mène en 301.
+        $set = array_filter($filters, static fn (string $v): bool => $v !== '');
+        if ($facet === '' && \count($set) === 1 && \count($_GET) === 1) {
+            $target = Router::facetOf((string) array_key_first($set), (string) reset($set));
+            if ($target !== '') {
+                header('Location: ' . Router::url('offices', $lang, ['facet' => $target]), true, 301);
+                exit;
+            }
+        }
+        if ($facet !== '') {
+            [$facetKey, $facetValue] = Router::FACETS[$facet];
+            $filters[$facetKey] = $facetValue;
+        }
         foreach ($filters as $key => $value) {
             $allowed = match ($key) {
                 'site' => Config::SITES,
@@ -117,7 +162,23 @@ switch ($route['name']) {
             }
         }
         $offices = Offices::decorateAll(Offices::filter(Offices::published(), $filters), $lang);
-        echo View::page('offices', ['offices' => $offices, 'filters' => $filters]);
+        // Les combinaisons sans page dédiée restent consultables, hors index.
+        $facetPage = $facet !== '' ? (array) ($page['facets'][$facet] ?? []) : [];
+        $seo = (array) ($page['seo'] ?? []);
+        if ($facetPage !== []) {
+            $seo = array_merge($seo, array_filter((array) ($facetPage['seo'] ?? [])));
+        }
+        if ($set !== [] && $facet === '') {
+            $seo['noindex'] = true;
+        }
+        echo View::page('offices', [
+            'offices' => $offices,
+            'filters' => $filters,
+            'facet' => $facet,
+            'facetPage' => $facetPage,
+            'seo' => $seo,
+            'jsonLd' => Seo::offerList($offices, $lang),
+        ]);
         break;
 
     case 'office':

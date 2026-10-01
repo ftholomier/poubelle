@@ -61,7 +61,7 @@ $analytics = $settings['analytics'] ?? [];
 <meta property="og:locale:alternate" content="<?= Text::e($otherLang === 'fr' ? 'fr_FR' : 'en_GB') ?>">
 <?php endif; endforeach; ?>
 <?php if ($ogImage !== ''): ?>
-<meta property="og:image" content="<?= Text::e(Config::baseUrl() . $ogImage) ?>">
+<meta property="og:image" content="<?= Text::e(Config::baseUrl() . $basePath . $ogImage) ?>">
 <meta name="twitter:card" content="summary_large_image">
 <?php endif; ?>
 

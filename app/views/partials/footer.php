@@ -43,8 +43,8 @@ foreach (\array_slice(Offices::decorateAll(Offices::filter(Offices::published(),
       <div class="footer__links">
         <a class="footer__link" href="<?= Text::e(Router::url('spaces', $lang)) ?>"><?= Text::e(I18n::t('footer.spaces')) ?></a>
         <a class="footer__link" href="<?= Text::e(Router::url('offices', $lang)) ?>"><?= Text::e(I18n::t('footer.offices')) ?></a>
-        <a class="footer__link" href="<?= Text::e(Router::url('offices', $lang, [], ['type' => 'private'])) ?>"><?= Text::e(I18n::t('filter.private')) ?></a>
-        <a class="footer__link" href="<?= Text::e(Router::url('offices', $lang, [], ['type' => 'openspace'])) ?>"><?= Text::e(I18n::t('filter.openspace')) ?></a>
+        <a class="footer__link" href="<?= Text::e(Router::url('offices', $lang, ['facet' => 'private'])) ?>"><?= Text::e(I18n::t('filter.private')) ?></a>
+        <a class="footer__link" href="<?= Text::e(Router::url('offices', $lang, ['facet' => 'openspace'])) ?>"><?= Text::e(I18n::t('filter.openspace')) ?></a>
         <a class="footer__link" href="<?= Text::e(Router::availableOffices($lang)) ?>"><?= Text::e(I18n::t('footer.availability')) ?></a>
         <?php if (Content::publishedPosts() !== []): ?>
           <a class="footer__link" href="<?= Text::e(Router::url('news', $lang)) ?>"><?= Text::e(I18n::t('footer.news')) ?></a>

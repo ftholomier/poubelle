@@ -1,5 +1,12 @@
 <?php
-/** Nos bureaux : filtres (lieu, type, disponibilité) + grille du catalogue. */
+/**
+ * Nos bureaux : filtres (lieu, type, disponibilité) + grille du catalogue.
+ * Chaque sélection à page propre (bureaux privés, ouverts, disponibles) a son
+ * titre et son texte, saisis au back-office (« facets » de la page).
+ *
+ * @var string $facet     sélection courante ('' pour tout le catalogue)
+ * @var array  $facetPage contenu de cette sélection
+ */
 
 use App\Config;
 use App\Content;
@@ -18,14 +25,20 @@ $activeStatus = (string) ($filters['status'] ?? '');
 $filterCount = \count(array_filter([$activeSite, $activeType, $activeStatus], static fn (string $v): bool => $v !== ''));
 
 /**
- * Les pastilles sont exclusives : cliquer « Carnot » montre les bureaux de
- * Carnot, pas l'intersection avec le filtre précédent. Une pastille ne pose
+ * Les pastilles sont exclusives : cliquer « Bureaux privés » montre les
+ * bureaux privés, pas l'intersection avec le filtre précédent. Une pastille ne pose
  * donc qu'un seul paramètre dans l'URL, et recliquer la pastille active la
  * retire. Le compteur annonce exactement ce que le clic donnera.
  */
-$facetUrl = static fn (string $facet, string $value): string => $value === ''
-    ? Router::url('offices', $lang)
-    : Router::url('offices', $lang, [], [$facet => $value]);
+$facetUrl = static function (string $key, string $value) use ($lang): string {
+    if ($value === '') {
+        return Router::url('offices', $lang);
+    }
+    $facet = Router::facetOf($key, $value);
+    return $facet !== ''
+        ? Router::url('offices', $lang, ['facet' => $facet])
+        : Router::url('offices', $lang, [], [$key => $value]);
+};
 
 $countOf = static fn (array $criteria): int => \count(Offices::filter($all, $criteria));
 
@@ -40,13 +53,17 @@ $chip = static function (string $label, int $count, string $href, bool $active):
 ?>
 
 <section class="shell section--first" style="padding-top:60px">
-  <div class="kicker"><?= Text::e(Content::text($page, 'kicker')) ?></div>
-  <h1 class="offices-title"><?= Text::e(Content::text($page, 'title')) ?></h1>
-  <p class="section-lead"><?= Text::e(Content::text($page, 'text')) ?></p>
+  <?php $intro = static fn (string $key): string => (string) (($facetPage[$key] ?? '') !== '' ? $facetPage[$key] : Content::text($page, $key)); ?>
+  <div class="kicker kicker--signal"><?= Text::e($intro('kicker')) ?></div>
+  <h1 class="offices-title"><?= Text::e($intro('title')) ?></h1>
+  <p class="section-lead"><?= Text::e($intro('text')) ?></p>
+  <?php $priceNote = Content::text($page, 'priceNote'); if ($priceNote !== ''): ?>
+    <p class="offices-note"><?= Text::e($priceNote) ?></p>
+  <?php endif; ?>
 
-  <div class="filters" id="bureaux" role="group" aria-label="Filtres">
+  <div class="filters" id="bureaux" role="group" aria-label="<?= Text::e(I18n::t('filter.label')) ?>">
     <?= $chip(I18n::t('filter.all'), \count($all), Router::url('offices', $lang), $filterCount === 0) ?>
-    <?php foreach ((array) ($settings['sites'] ?? []) as $site):
+    <?php if (Offices::multiSite()) foreach ((array) ($settings['sites'] ?? []) as $site):
         if (($site['enabled'] ?? true) === false) { continue; }
         $id = (string) ($site['id'] ?? '');
         if ($id === '') { continue; } ?>
@@ -57,10 +74,10 @@ $chip = static function (string $label, int $count, string $href, bool $active):
           $activeSite === $id
       ) ?>
     <?php endforeach; ?>
-    <span class="filters__sep" aria-hidden="true"></span>
+    <?php if (Offices::multiSite()): ?><span class="filters__sep" aria-hidden="true"></span><?php endif; ?>
     <?php foreach (['private', 'openspace'] as $type): ?>
       <?= $chip(
-          Offices::typeLabel($type),
+          I18n::t('filter.' . $type),
           $countOf(['type' => $type]),
           $facetUrl('type', $activeType === $type ? '' : $type),
           $activeType === $type
