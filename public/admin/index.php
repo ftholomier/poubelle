@@ -19,6 +19,7 @@ use App\Content;
 use App\Csrf;
 use App\Diagnostics;
 use App\I18n;
+use App\Mailer;
 use App\Media;
 use App\Offices;
 use App\Requests;
@@ -48,6 +49,27 @@ $redirect = static function (string $screen = '', array $query = []): never {
 $render = static function (string $view, array $data = []) use ($screen): never {
     echo View::admin($view, array_replace(['screen' => $screen], $data));
     exit;
+};
+
+/**
+ * Rend compte d'une écriture au lieu d'annoncer un succès à l'aveugle.
+ *
+ * Un dossier non inscriptible est le défaut de déploiement le plus courant :
+ * sans ce contrôle, le back-office affiche « enregistré » et rien n'est écrit.
+ * On nomme alors le dossier fautif, seul renseignement utile à l'hébergeur.
+ */
+$ecrit = static function (bool $ok, string $succes, string $quoi = 'content'): void {
+    if ($ok) {
+        Session::flash($succes);
+        return;
+    }
+    $dossier = $quoi === 'storage' ? Config::storagePath() : Config::path($quoi);
+    Session::flash(
+        'Rien n’a été enregistré : le serveur n’a pas pu écrire dans « ' . $dossier . ' ». '
+        . 'Vérifiez les droits de ce dossier (il doit être inscriptible par le serveur web), '
+        . 'puis recommencez. Le détail est dans Journaux.',
+        'error'
+    );
 };
 
 // -------------------------------------------------------------- installation
@@ -169,10 +191,10 @@ if ($isPost) {
             $page = Admin::applySchema($page, Admin::pageSchema($slug), (array) ($_POST['f'] ?? []));
             $page['status'] = ($_POST['publish'] ?? '') !== '' ? 'published' : (string) ($_POST['status'] ?? 'draft');
             $page['nav'] = trim((string) ($_POST['nav'] ?? ($page['nav'] ?? Admin::PAGES[$slug] ?? $slug)));
-            Store::write($file, $page, $email);
+            $ok = Store::write($file, $page, $email);
             Store::acquireEditLock($lockKey, $email);
             Indexer::rebuild();
-            Session::flash($page['status'] === 'published' ? 'Page publiée en ligne.' : 'Brouillon enregistré.');
+            $ecrit($ok, $page['status'] === 'published' ? 'Page publiée en ligne.' : 'Brouillon enregistré.');
             $redirect('pages', ['slug' => $slug, 'lang' => $lang]);
 
         case 'page-translate':
@@ -191,8 +213,10 @@ if ($isPost) {
             $tree = $result['tree'];
             $tree['lang'] = $target;
             $tree['status'] = 'draft'; // relecture obligatoire avant publication
-            Store::write('pages/' . $slug . '.' . $target . '.json', $tree, $email);
-            Session::flash('Traduction écrite en brouillon : relisez-la puis publiez.');
+            $ecrit(
+                Store::write('pages/' . $slug . '.' . $target . '.json', $tree, $email),
+                'Traduction écrite en brouillon : relisez-la puis publiez.'
+            );
             $redirect('pages', ['slug' => $slug, 'lang' => $target]);
 
         case 'page-restore':
@@ -289,9 +313,9 @@ if ($isPost) {
                 $data['order'] = $data['order'] === 999 ? \count($offices) + 1 : $data['order'];
                 $offices[] = $data;
             }
-            Offices::save($offices, $email);
+            $ok = Offices::save($offices, $email);
             Indexer::rebuild();
-            Session::flash($found ? 'Bureau mis à jour.' : 'Bureau ajouté au catalogue.');
+            $ecrit($ok, $found ? 'Bureau mis à jour.' : 'Bureau ajouté au catalogue.');
             $redirect('offices');
 
         case 'office-delete':
@@ -362,8 +386,7 @@ if ($isPost) {
             $redirect('media');
 
         case 'media-delete':
-            Media::delete((string) ($_POST['path'] ?? ''), $email);
-            Session::flash('Photo supprimée.');
+            $ecrit(Media::delete((string) ($_POST['path'] ?? ''), $email), 'Photo supprimée.');
             $redirect('media');
 
         // ------------------------------------------------------------ l'actu
@@ -402,9 +425,9 @@ if ($isPost) {
             if (!$found) {
                 $posts[] = $post;
             }
-            Store::write('posts.json', ['_schema' => Config::SCHEMA, 'posts' => $posts], $email);
+            $ok = Store::write('posts.json', ['_schema' => Config::SCHEMA, 'posts' => $posts], $email);
             Indexer::rebuild();
-            Session::flash($found ? 'Article mis à jour.' : 'Article créé.');
+            $ecrit($ok, $found ? 'Article mis à jour.' : 'Article créé.');
             $redirect('posts');
 
         case 'post-delete':
@@ -413,9 +436,9 @@ if ($isPost) {
                 \is_array($data['posts'] ?? null) ? $data['posts'] : [],
                 static fn (array $p): bool => (string) ($p['slug'] ?? '') !== (string) ($_POST['slug'] ?? '')
             ));
-            Store::write('posts.json', ['_schema' => Config::SCHEMA, 'posts' => $posts], $email);
+            $ok = Store::write('posts.json', ['_schema' => Config::SCHEMA, 'posts' => $posts], $email);
             Indexer::rebuild();
-            Session::flash('Article supprimé.');
+            $ecrit($ok, 'Article supprimé.');
             $redirect('posts');
 
         // ---------------------------------------------------------- demandes
@@ -424,8 +447,7 @@ if ($isPost) {
             $redirect('requests');
 
         case 'request-delete':
-            Requests::delete((string) ($_POST['ref'] ?? ''), $email);
-            Session::flash('Demande supprimée.');
+            $ecrit(Requests::delete((string) ($_POST['ref'] ?? ''), $email), 'Demande supprimée.');
             $redirect('requests');
 
         // ------------------------------------------------------ assistant IA
@@ -456,8 +478,7 @@ if ($isPost) {
                 $suggestions = array_values(array_filter(array_map('trim', explode("\n", str_replace("\r\n", "\n", (string) ($_POST['suggestions'][$code] ?? ''))))));
                 $settings['ai']['suggestions'][$code] = \array_slice($suggestions, 0, 3);
             }
-            Store::write('settings.json', $settings, $email);
-            Session::flash('Assistant mis à jour.');
+            $ecrit(Store::write('settings.json', $settings, $email), 'Assistant mis à jour.');
             $redirect('docs');
 
         case 'ai-misses-clear':
@@ -471,7 +492,13 @@ if ($isPost) {
             $input = (array) ($_POST['s'] ?? []);
             $settings['site']['name'] = trim((string) ($input['name'] ?? $settings['site']['name'] ?? ''));
             $settings['site']['tagline'] = trim((string) ($input['tagline'] ?? ''));
-            $settings['contact']['email'] = filter_var(trim((string) ($input['email'] ?? '')), FILTER_VALIDATE_EMAIL) ?: '';
+            // Une adresse mal saisie conserve l'ancienne valeur : l'effacer en
+            // silence coupe la réception des demandes sans rien signaler.
+            $saisie = trim((string) ($input['email'] ?? ''));
+            $mauvaisEmail = $saisie !== '' && !filter_var($saisie, FILTER_VALIDATE_EMAIL);
+            $settings['contact']['email'] = $mauvaisEmail
+                ? (string) ($settings['contact']['email'] ?? '')
+                : $saisie;
             $settings['contact']['phone'] = trim((string) ($input['phone'] ?? ''));
             $settings['contact']['hours'] = trim((string) ($input['hours'] ?? ''));
             $settings['contact']['autoReply'] = !empty($input['autoReply']);
@@ -512,13 +539,33 @@ if ($isPost) {
                     'enabled' => !empty($site['enabled']),
                 ]);
             }
-            Store::write('settings.json', $settings, $email);
-            Session::flash('Réglages enregistrés.');
+            $ecrit(Store::write('settings.json', $settings, $email), 'Réglages enregistrés.');
+            if ($mauvaisEmail) {
+                Session::flash(
+                    '« ' . $saisie . ' » n’est pas une adresse email valide : l’email de contact '
+                    . 'n’a pas été modifié.',
+                    'error'
+                );
+            }
             $redirect('settings');
 
         case 'keys-save':
-            Admin::saveKeys((array) ($_POST['k'] ?? []), $email);
-            Session::flash('Clés API enregistrées (stockées hors racine web, en 0600).');
+            $cles = (array) ($_POST['k'] ?? []);
+            $mauvais = Admin::invalidKeys($cles);
+            if ($mauvais !== []) {
+                Session::flash(
+                    'Rien n’a été enregistré : ' . implode(' et ', $mauvais)
+                    . ' — ce n’est pas une adresse email valide.',
+                    'error'
+                );
+                $redirect('settings', ['tab' => 'keys']);
+            }
+            $ecrit(
+                Admin::saveKeys($cles, $email),
+                'Clés API enregistrées. Les demandes du site partent désormais vers '
+                . Mailer::inboxSource()['address'] . '.',
+                'storage'
+            );
             $redirect('settings', ['tab' => 'keys']);
 
         case 'key-test':
@@ -588,7 +635,7 @@ if ($isPost) {
                 $settings['antispam']['challengeAt'] + 1
             );
 
-            Session::flash(Store::write('settings.json', $settings, $email) ? 'Réglages anti-spam enregistrés.' : 'Enregistrement impossible.', 'ok');
+            $ecrit(Store::write('settings.json', $settings, $email), 'Réglages anti-spam enregistrés.');
             $redirect('settings', ['tab' => 'spam']);
 
         case 'request-spam':

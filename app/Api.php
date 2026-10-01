@@ -91,6 +91,12 @@ final class Api
             self::fail(I18n::t('form.throttled'), 429);
         }
 
+        // Le jeton a servi : il ne resservira pas. Un robot qui rejoue le même
+        // devra repasser par la question.
+        if ($judgement['nonce'] !== '') {
+            Spam::consume($judgement['nonce']);
+        }
+
         if ($verdict === 'challenge') {
             return ['quarantine' => false, 'score' => $judgement['score'], 'reasons' => $judgement['reasons']];
         }

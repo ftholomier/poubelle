@@ -27,8 +27,49 @@ final class Mailer
     /** Boîte qui reçoit les demandes du site. */
     public static function inbox(): string
     {
-        $settings = Content::settings();
-        return (string) (Config::get('MAIL_TO') ?? $settings['contact']['email'] ?? self::fromAddress());
+        return self::inboxSource()['address'];
+    }
+
+    /**
+     * La boîte de réception et d'où elle vient. Trois champs peuvent la
+     * définir, dans deux écrans différents : sans cette réponse explicite,
+     * on ne sait pas lequel s'applique, et c'est la première question qu'on
+     * se pose quand une demande n'arrive pas.
+     *
+     * @return array{address:string,origin:string,label:string,fallback:bool}
+     */
+    public static function inboxSource(): array
+    {
+        $mailTo = trim((string) (Config::get('MAIL_TO') ?? ''));
+        if (filter_var($mailTo, FILTER_VALIDATE_EMAIL)) {
+            return [
+                'address' => $mailTo,
+                'origin' => Config::isLockedByEnv('MAIL_TO') ? 'env' : 'key',
+                'label' => Config::isLockedByEnv('MAIL_TO')
+                    ? 'MAIL_TO, figé dans le fichier .env du serveur'
+                    : 'champ « Boîte qui reçoit les demandes » ci-dessous',
+                'fallback' => false,
+            ];
+        }
+
+        $contact = trim((string) (Content::settings()['contact']['email'] ?? ''));
+        if (filter_var($contact, FILTER_VALIDATE_EMAIL)) {
+            return [
+                'address' => $contact,
+                'origin' => 'contact',
+                'label' => 'email de contact, dans Réglages → Site & lieux',
+                'fallback' => false,
+            ];
+        }
+
+        // Dernier recours : l'adresse expéditrice, qui n'est le plus souvent
+        // qu'une boîte technique que personne ne relève.
+        return [
+            'address' => self::fromAddress(),
+            'origin' => 'from',
+            'label' => 'repli sur l’adresse expéditrice, faute de boîte renseignée',
+            'fallback' => true,
+        ];
     }
 
     public static function send(string $to, string $subject, string $html, string $text = '', string $replyTo = ''): bool

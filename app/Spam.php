@@ -155,6 +155,72 @@ final class Spam
         return $nonce === '' ? '' : Config::storagePath('locks/px-' . substr($nonce, 0, 32) . '.txt');
     }
 
+    // ------------------------------------------------------- jeton a usage unique
+
+    /**
+     * Brûle le jeton d'un envoi accepté.
+     *
+     * Sans cela, un seul affichage de page fournit un jeton valable six heures
+     * et réutilisable autant de fois qu'on veut : le robot charge la page une
+     * fois, puis poste en boucle avec le même jeton et le même pixel. C'est la
+     * faille qui laisse passer le plus de spam, et aucune note de suspicion ne
+     * la voit, puisque tous les signaux sont au vert.
+     *
+     * On ne brûle qu'un envoi réellement accepté : un tour de question doit
+     * pouvoir être rejoué par le visiteur qui répond.
+     */
+    public static function consume(string $nonce): void
+    {
+        $file = self::usedFile($nonce);
+        if ($file === '') {
+            return;
+        }
+        if (!is_dir(\dirname($file))) {
+            @mkdir(\dirname($file), 0775, true);
+        }
+        @file_put_contents($file, (string) time(), LOCK_EX);
+    }
+
+    public static function consumed(string $nonce): bool
+    {
+        $file = self::usedFile($nonce);
+        return $file !== '' && is_file($file);
+    }
+
+    private static function usedFile(string $nonce): string
+    {
+        $nonce = preg_replace('/[^a-f0-9]/', '', $nonce) ?? '';
+        return $nonce === '' ? '' : Config::storagePath('locks/us-' . substr($nonce, 0, 32) . '.txt');
+    }
+
+    /**
+     * Ménage des marqueurs laissés par les formulaires. Appelé par bin/cron.php :
+     * sans lui, storage/locks accumule un fichier par affichage de formulaire.
+     *
+     * @return int nombre de fichiers supprimés
+     */
+    public static function prune(): int
+    {
+        $config = self::config();
+        $ages = [
+            'px-*.txt' => max(3600, (int) $config['maxHours'] * 3600),   // le jeton associé a expiré
+            'us-*.txt' => max(3600, (int) $config['maxHours'] * 3600),
+            'msg-*.txt' => 86400,                                        // fenêtre du doublon
+            'mx-*.json' => 604800,                                       // cache MX
+            'strikes-*.json' => max(86400, (int) $config['blockHours'] * 3600),
+        ];
+        $n = 0;
+        foreach ($ages as $motif => $duree) {
+            foreach (glob(Config::storagePath('locks/' . $motif)) ?: [] as $file) {
+                if (filemtime($file) < time() - $duree) {
+                    @unlink($file);
+                    $n++;
+                }
+            }
+        }
+        return $n;
+    }
+
     // ------------------------------------------------------------------- note
 
     /**
@@ -193,16 +259,28 @@ final class Spam
             $add(3, 'page jamais affichée par un navigateur');
         }
 
-        // 4. Le contenu.
+        // 4. Le jeton a déjà servi : c'est un rejeu. Poids choisi pour déclencher
+        //    la question sans mettre d'office en quarantaine — un visiteur qui
+        //    renvoie son formulaire doit pouvoir le prouver en une addition.
+        if ($token['ok'] && $token['nonce'] !== '' && self::consumed($token['nonce'])) {
+            $add(6, 'formulaire déjà envoyé avec ce même jeton');
+        }
+
+        // 5. Le contenu.
         $message = (string) ($input['message'] ?? '');
         $name = (string) ($input['name'] ?? '');
         $blob = $name . ' ' . $message . ' ' . (string) ($input['subject'] ?? '');
 
+        // Un lien suffit à demander la question. Le démarchage automatique
+        // existe pour placer une adresse : lui faire poser un lien sans jamais
+        // répondre à une addition coûte peu au visiteur réel, qui écrit
+        // rarement une URL dans une première prise de contact — et qui, s'il
+        // le fait, répond « 5 » et son message part.
         $links = preg_match_all('#https?://|www\.|\[url#i', $blob);
         if ($links >= 3) {
-            $add(4, $links . ' liens dans le message');
+            $add(6, $links . ' liens dans le message');
         } elseif ($links >= 1) {
-            $add(2, 'lien dans le message');
+            $add(4, 'lien dans le message');
         }
         if (preg_match('#https?://|www\.#i', $name) === 1) {
             $add(4, 'lien dans le nom');
@@ -215,7 +293,9 @@ final class Spam
         }
         foreach ((array) $config['words'] as $word) {
             $word = trim((string) $word);
-            if ($word !== '' && mb_stripos($blob, $word) !== false) {
+            // En frontière de mot : « seo » ne doit pas se déclencher sur
+            // « Seoul », ni « loan » sur « Sloane ».
+            if ($word !== '' && preg_match('/(?<![\p{L}\d])' . preg_quote($word, '/') . '(?![\p{L}\d])/ui', $blob) === 1) {
                 $add(4, 'mot signalé « ' . $word . ' »');
                 break;
             }
@@ -224,7 +304,7 @@ final class Spam
             $add(3, 'message rédigé dans une autre langue que le formulaire');
         }
 
-        // 5. L'adresse email.
+        // 6. L'adresse email.
         $email = mb_strtolower(trim((string) ($input['email'] ?? '')));
         $domain = substr(strrchr($email, '@') ?: '', 1);
         if ($domain !== '') {
@@ -236,7 +316,7 @@ final class Spam
             }
         }
 
-        // 6. Le client qui envoie.
+        // 7. Le client qui envoie.
         $agent = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '');
         if (trim($agent) === '') {
             $add(2, 'aucun agent déclaré');
@@ -244,7 +324,7 @@ final class Spam
             $add(3, 'agent automatisé déclaré');
         }
 
-        // 7. Le même message déjà reçu récemment.
+        // 8. Le même message déjà reçu récemment.
         // Poids volontairement sous le seuil : un visiteur qui renvoie son
         // message ne doit pas être inquiété pour cela seul.
         if (self::seenRecently($message)) {

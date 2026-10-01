@@ -20,6 +20,7 @@ use App\Config;
 use App\Log;
 use App\RateLimit;
 use App\Reviews;
+use App\Spam;
 
 if (PHP_SAPI !== 'cli') {
     http_response_code(403);
@@ -58,6 +59,7 @@ if ($task === 'all' || $task === 'prune') {
         }
     }
     $say('Sessions expirées supprimées : ' . $removed . '.');
+    $say('Marqueurs anti-spam nettoyés : ' . Spam::prune() . ' fichier(s).');
 }
 
 if ($task === 'all' || $task === 'backup') {

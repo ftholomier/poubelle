@@ -316,14 +316,38 @@ final class Admin
             ['key' => 'GOOGLE_PLACE_ID', 'label' => 'Identifiant de la fiche Google', 'secret' => false, 'hint' => 'Place ID de la fiche Google Business Profile.'],
             ['key' => 'GOOGLE_TRANSLATE_KEY', 'label' => 'Clé API Google Translate', 'secret' => true, 'hint' => 'Bouton « Traduire en anglais » du back-office.'],
             ['key' => 'GOOGLE_API_REFERER', 'label' => 'Référent envoyé à Google', 'secret' => false, 'hint' => 'À renseigner si vos clés Google sont restreintes « Sites Web » : par exemple https://www.ioio.fr/. Par défaut, l’adresse publique du site.'],
-            ['key' => 'MAIL_FROM', 'label' => 'Adresse expéditrice', 'secret' => false, 'hint' => 'Doit appartenir au domaine du site pour ne pas finir en spam.'],
-            ['key' => 'MAIL_TO', 'label' => 'Boîte qui reçoit les demandes', 'secret' => false, 'hint' => 'Par défaut : l’email de contact des réglages.'],
+            ['key' => 'MAIL_FROM', 'label' => 'Adresse expéditrice', 'secret' => false, 'type' => 'email', 'hint' => 'Doit appartenir au domaine du site pour ne pas finir en spam.'],
+            ['key' => 'MAIL_TO', 'label' => 'Boîte qui reçoit les demandes', 'secret' => false, 'type' => 'email', 'hint' => 'C’est ici que partent les demandes du site. Laissez vide pour utiliser l’email de contact des réglages.'],
             ['key' => 'SMTP_HOST', 'label' => 'Serveur SMTP', 'secret' => false, 'hint' => 'Laissez vide pour utiliser la fonction mail() de l’hébergeur.'],
             ['key' => 'SMTP_PORT', 'label' => 'Port SMTP', 'secret' => false, 'hint' => '587 en TLS, 465 en SSL.'],
             ['key' => 'SMTP_SECURE', 'label' => 'Chiffrement SMTP', 'secret' => false, 'hint' => 'tls, ssl ou none.'],
             ['key' => 'SMTP_USER', 'label' => 'Utilisateur SMTP', 'secret' => false],
             ['key' => 'SMTP_PASS', 'label' => 'Mot de passe SMTP', 'secret' => true],
         ];
+    }
+
+    /**
+     * Adresses saisies qui ne sont pas des emails valides.
+     *
+     * Elles sont refusées plutôt qu'écrites : une adresse mal saisie dans
+     * MAIL_TO envoie les demandes du site dans le vide, sans que rien ne le
+     * signale.
+     *
+     * @return array<int,string> les libellés des champs fautifs
+     */
+    public static function invalidKeys(array $input): array
+    {
+        $mauvais = [];
+        foreach (self::keyDefs() as $def) {
+            if (($def['type'] ?? '') !== 'email' || !\array_key_exists($def['key'], $input)) {
+                continue;
+            }
+            $value = trim((string) $input[$def['key']]);
+            if ($value !== '' && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                $mauvais[] = (string) $def['label'];
+            }
+        }
+        return $mauvais;
     }
 
     /** Enregistre les clés dans storage/secrets.json (hors racine web, 0600). */

@@ -6,6 +6,7 @@ use App\Ai\Gemini;
 use App\Config;
 use App\Csrf;
 use App\Diagnostics;
+use App\Mailer;
 use App\Reviews;
 use App\Router;
 use App\Session;
@@ -190,6 +191,32 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
         Les valeurs sont écrites dans <strong>storage/secrets.json</strong>, hors racine web, en droits 0600. Une clé posée dans
         le fichier <strong>.env</strong> du serveur reste prioritaire et apparaît ici en lecture seule.
       </p>
+      <?php $boite = Mailer::inboxSource(); ?>
+      <div class="panel" style="margin-top:14px;padding:14px 16px;border-left:6px solid <?= $boite['fallback'] ? '#D92D20' : '#12B39A' ?>">
+        <div style="font:800 15px/1.3 'Bricolage Grotesque',sans-serif">
+          <?php if ($boite['fallback']): ?>
+            Aucune boîte de réception n’est renseignée
+          <?php else: ?>
+            Les demandes du site partent vers <?= Text::e($boite['address']) ?>
+          <?php endif; ?>
+        </div>
+        <div class="hint" style="margin-top:6px">
+          <?php if ($boite['fallback']): ?>
+            Elles partent pour l’instant vers <strong><?= Text::e($boite['address']) ?></strong>, une adresse
+            technique que personne ne relève. Renseignez la <strong>boîte qui reçoit les demandes</strong>
+            ci-dessous — c’est le seul champ à remplir.
+          <?php else: ?>
+            Source : <?= Text::e($boite['label']) ?>.
+            <?php if ($boite['origin'] === 'contact'): ?>
+              Pour recevoir ailleurs sans changer l’adresse affichée au public, remplissez la
+              <strong>boîte qui reçoit les demandes</strong> ci-dessous : elle est prioritaire.
+            <?php elseif ($boite['origin'] === 'env'): ?>
+              Tant qu’elle est posée dans le <strong>.env</strong>, le champ ci-dessous reste sans effet :
+              c’est sur le serveur qu’il faut la changer.
+            <?php endif; ?>
+          <?php endif; ?>
+        </div>
+      </div>
       <div class="grid-2" style="margin-top:16px">
         <?php foreach (Admin::keyDefs() as $def):
             $key = $def['key'];
