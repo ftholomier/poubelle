@@ -2,3 +2,6 @@ app/config.php
 app/settings.json
 data/*
 !data/.htaccess
+app/lib/tfpdf/font/unifont/*.mtx.php
+app/lib/tfpdf/font/unifont/*.cw.dat
+app/lib/tfpdf/font/unifont/*.cw127.php

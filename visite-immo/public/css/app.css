@@ -34,6 +34,7 @@
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
 
 html, body { margin: 0; }
 
@@ -106,7 +107,7 @@ code { font-size: .85em; }
 label { display: block; font-size: .85rem; font-weight: 600; color: var(--muted); margin-bottom: 12px; }
 input, select, textarea {
   display: block; width: 100%; margin-top: 5px;
-  font: inherit; font-size: 16px; /* évite le zoom auto sur iPhone */
+  font: inherit; font-size: 16px; font-weight: 400; /* évite le zoom auto sur iPhone */
   color: var(--text); background: var(--bg);
   border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px;
 }
@@ -269,3 +270,28 @@ textarea.doc { font-size: 15px; line-height: 1.6; background: var(--surface); }
 .toast.erreur { background: var(--red-dark); }
 .toast.ok { background: var(--green); }
 .toast.out { opacity: 0; }
+
+/* ---------- Envoi, paramètres ---------- */
+
+.sheet-form { padding: 20px 18px calc(20px + var(--safe-bottom)); gap: 4px; max-height: 92vh; overflow-y: auto; }
+.sheet-form h2 { font-size: 1.15rem; margin-bottom: 12px; }
+.sheet-form .btn.big { margin-top: 8px; }
+fieldset.pj { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px 2px; margin: 0 0 12px; }
+fieldset.pj legend { font-size: .85rem; font-weight: 600; color: var(--muted); padding: 0 4px; }
+fieldset.pj label.check { margin-bottom: 10px; }
+.envoi { display: grid; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.envoi:last-child { border-bottom: 0; }
+.color-row { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+.color-row input[type=color] { width: 56px; height: 40px; padding: 2px; margin: 0; }
+.logo-zone { display: grid; gap: 8px; }
+.label-like { font-size: .85rem; font-weight: 600; color: var(--muted); }
+.logo-preview { min-height: 64px; display: grid; place-items: center; padding: 12px; border: 1px dashed var(--line); border-radius: 12px; background: #fff; }
+.logo-preview img { max-height: 64px; max-width: 100%; }
+.logo-actions { display: flex; gap: 8px; }
+.logo-actions .btn { margin: 0; font-size: .9rem; }
+.row-2 { display: grid; grid-template-columns: 1fr 100px; gap: 10px; }
+.test-row { display: flex; gap: 8px; }
+.test-row input { margin: 0; }
+.test-row .btn { white-space: nowrap; }
+details.aide { margin-bottom: 12px; }
+details.aide summary { cursor: pointer; font-size: .9rem; color: var(--blue); }

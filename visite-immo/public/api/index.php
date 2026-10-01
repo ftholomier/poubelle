@@ -24,12 +24,19 @@ try {
         'POST login'      => route_login(),
         'POST logout'     => route_logout(),
         'POST password'   => route_password(),
+        'POST profile'    => route_profile(),
         'GET users'       => route_users_list(),
         'POST users'      => route_users_create(),
         'DELETE users'    => route_users_delete($id),
         'GET settings'    => route_settings_get(),
         'POST settings'   => route_settings_save(),
         'POST models'     => route_models(),
+        'POST mailtest'   => route_mail_test(),
+        'GET logo'        => route_logo_get(),
+        'POST logo'       => route_logo_upload(),
+        'DELETE logo'     => route_logo_delete(),
+        'GET pdf'         => route_pdf($id),
+        'POST send'       => route_send($id),
         'GET fields'      => send_json(SECTIONS),
         'GET visits'      => route_visits_list(),
         'POST visits'     => route_visit_create(),
@@ -64,6 +71,8 @@ function route_status(): never
         'setup' => count(users()) === 0,
         'user'  => $u ? public_user($u) : null,
         'demo'  => empty($CONFIG['gemini_api_key']),
+        'email' => email_configure(),
+        'agence' => $CONFIG['agence'],
         'version' => APP_VERSION,
     ]);
 }
@@ -141,6 +150,25 @@ function route_password(): never
     send_json(['ok' => true]);
 }
 
+/** E-mail et téléphone de l'agent : utilisés dans les PDF et comme adresse de réponse des e-mails. */
+function validate_contact(array $in): array
+{
+    $email = trim((string) ($in['email'] ?? ''));
+    if ($email !== '' && !valid_email($email)) fail(400, 'Adresse e-mail invalide.');
+    return ['email' => $email, 'telephone' => mb_substr(trim((string) ($in['telephone'] ?? '')), 0, 30)];
+}
+
+function route_profile(): never
+{
+    $me = require_user();
+    $in = json_input();
+    $contact = validate_contact($in);
+    $nom = trim((string) ($in['nom'] ?? $me['nom']));
+    if ($nom === '') fail(400, 'Le nom est obligatoire.');
+    update_json(USERS_FILE, fn (array $users) => array_map(fn ($u) => $u['id'] === $me['id'] ? [...$u, ...$contact, 'nom' => $nom] : $u, $users));
+    send_json(public_user([...$me, ...$contact, 'nom' => $nom]));
+}
+
 // ---------- Utilisateurs (admin) ----------
 
 function route_users_list(): never
@@ -155,10 +183,11 @@ function route_users_create(): never
     $in = json_input();
     [$login, $nom, $password] = validate_new_user($in);
     $role = ($in['role'] ?? '') === 'admin' ? 'admin' : 'agent';
+    $contact = validate_contact($in);
     $user = null;
-    update_json(USERS_FILE, function (array $users) use ($login, $nom, $password, $role, &$user) {
+    update_json(USERS_FILE, function (array $users) use ($login, $nom, $password, $role, $contact, &$user) {
         foreach ($users as $u) if ($u['login'] === $login) fail(400, 'Cet identifiant existe déjà.');
-        $user = new_user($login, $nom, $password, $role);
+        $user = new_user($login, $nom, $password, $role) + $contact;
         $users[] = $user;
         return $users;
     });
@@ -188,6 +217,18 @@ function settings_view(): array
         'data_dir'             => $CONFIG['data_dir'],
         'data_dir_absolu'      => DATA_DIR,
         'agence'               => $CONFIG['agence'],
+        'agence_coordonnees'   => $CONFIG['agence_coordonnees'] ?? '',
+        'couleur'              => $CONFIG['couleur'] ?? '#14213d',
+        'logo'                 => logo_path() !== null,
+        'email_methode'        => $CONFIG['email_methode'] ?? '',
+        'email_expediteur'     => $CONFIG['email_expediteur'] ?? '',
+        'email_expediteur_nom' => $CONFIG['email_expediteur_nom'] ?? '',
+        'smtp_host'            => $CONFIG['smtp_host'] ?? '',
+        'smtp_port'            => $CONFIG['smtp_port'] ?? 587,
+        'smtp_securite'        => $CONFIG['smtp_securite'] ?? 'tls',
+        'smtp_user'            => $CONFIG['smtp_user'] ?? '',
+        'smtp_pass_configure'  => !empty($CONFIG['smtp_pass']),
+        'email_configure'      => email_configure(),
     ];
 }
 
@@ -235,6 +276,28 @@ function route_settings_save(): never
         $settings['agence'] = mb_substr($agence, 0, 120);
     }
 
+    if (isset($in['agence_coordonnees'])) $settings['agence_coordonnees'] = mb_substr(trim((string) $in['agence_coordonnees']), 0, 400);
+    if (isset($in['couleur'])) {
+        if (!preg_match('/^#[0-9a-fA-F]{6}$/', (string) $in['couleur'])) fail(400, 'Couleur invalide.');
+        $settings['couleur'] = strtolower($in['couleur']);
+    }
+
+    // Envoi des e-mails
+    if (isset($in['email_methode'])) {
+        $methode = in_array($in['email_methode'], ['smtp', 'mail'], true) ? $in['email_methode'] : '';
+        $settings['email_methode'] = $methode;
+        $exp = trim((string) ($in['email_expediteur'] ?? ''));
+        if ($methode !== '' && !valid_email($exp)) fail(400, "Adresse de l'expéditeur invalide.");
+        $settings['email_expediteur'] = $exp;
+        $settings['email_expediteur_nom'] = mb_substr(trim((string) ($in['email_expediteur_nom'] ?? '')), 0, 80);
+        $settings['smtp_host'] = trim((string) ($in['smtp_host'] ?? ''));
+        $settings['smtp_port'] = (int) ($in['smtp_port'] ?? 587) ?: 587;
+        $settings['smtp_securite'] = in_array($in['smtp_securite'] ?? '', ['ssl', 'tls', 'aucune'], true) ? $in['smtp_securite'] : 'tls';
+        $settings['smtp_user'] = trim((string) ($in['smtp_user'] ?? ''));
+        if ((string) ($in['smtp_pass'] ?? '') !== '') $settings['smtp_pass'] = (string) $in['smtp_pass']; // vide = on garde
+        if ($methode === 'smtp' && $settings['smtp_host'] === '') fail(400, 'Indiquez le serveur SMTP.');
+    }
+
     if (isset($in['data_dir']) && trim((string) $in['data_dir']) !== (string) $CONFIG['data_dir']) {
         move_data_dir(trim((string) $in['data_dir']));
         $settings['data_dir'] = trim((string) $in['data_dir']);
@@ -278,6 +341,129 @@ function copy_dir(string $from, string $to): void
         if (is_dir("$from/$f")) copy_dir("$from/$f", "$to/$f");
         elseif (!copy("$from/$f", "$to/$f")) fail(500, "Copie impossible : $from/$f");
     }
+}
+
+// ---------- Logo ----------
+
+function route_logo_get(): never
+{
+    require_user();
+    $path = logo_path() ?? fail(404, 'Aucun logo.');
+    header('Content-Type: ' . (str_ends_with($path, '.png') ? 'image/png' : 'image/jpeg'));
+    header('Cache-Control: no-cache');
+    readfile($path);
+    exit;
+}
+
+/** Logo de l'agence : PNG ou JPG tels quels ; WebP et GIF convertis en PNG (GD). */
+function route_logo_upload(): never
+{
+    require_admin();
+    $f = $_FILES['logo'] ?? null;
+    if (!$f || $f['error'] !== UPLOAD_ERR_OK) fail(400, "Envoi du logo incomplet.");
+    if ($f['size'] > 5 * 1024 * 1024) fail(413, 'Logo trop lourd (5 Mo maximum).');
+    $type = (string) (new finfo(FILEINFO_MIME_TYPE))->file($f['tmp_name']);
+    $dir = DATA_DIR . '/marque';
+    if (!is_dir($dir)) mkdir($dir, 0770, true);
+    foreach (glob("$dir/logo.*") ?: [] as $old) unlink($old);
+
+    if ($type === 'image/png' || $type === 'image/jpeg') {
+        move_uploaded_file($f['tmp_name'], $dir . '/logo.' . ($type === 'image/png' ? 'png' : 'jpg'));
+    } elseif (in_array($type, ['image/webp', 'image/gif'], true) && function_exists('imagecreatefromstring')) {
+        $img = imagecreatefromstring((string) file_get_contents($f['tmp_name'])) ?: fail(415, 'Image illisible.');
+        imagesavealpha($img, true);
+        imagepng($img, "$dir/logo.png");
+    } else {
+        fail(415, 'Format non pris en charge : envoyez un PNG ou un JPG (le SVG n\'est pas accepté par les PDF).');
+    }
+    // Les PDF n'acceptent pas les PNG entrelacés ni en 16 bits : on les réenregistre si besoin
+    if (is_file("$dir/logo.png") && function_exists('imagecreatefrompng')) {
+        $data = (string) file_get_contents("$dir/logo.png");
+        if (strlen($data) > 28 && (ord($data[28]) === 1 || ord($data[24]) > 8)) { // entrelacé ou 16 bits
+            $img = imagecreatefrompng("$dir/logo.png");
+            imagesavealpha($img, true);
+            imageinterlace($img, false);
+            imagepng($img, "$dir/logo.png");
+        }
+    }
+    send_json(['ok' => true]);
+}
+
+function route_logo_delete(): never
+{
+    require_admin();
+    foreach (glob(DATA_DIR . '/marque/logo.*') ?: [] as $f) unlink($f);
+    send_json(['ok' => true]);
+}
+
+// ---------- PDF ----------
+
+function route_pdf(string $id): never
+{
+    $me = require_user();
+    $visit = load_visit($me, $id);
+    [$bin, $nom] = build_pdf((string) ($_GET['doc'] ?? ''), $visit, $me);
+    header('Content-Type: application/pdf');
+    header('Content-Length: ' . strlen($bin));
+    header(($_GET['dl'] ?? '') ? 'Content-Disposition: attachment; filename="' . $nom . '"' : 'Content-Disposition: inline; filename="' . $nom . '"');
+    header('Cache-Control: private, no-cache');
+    echo $bin;
+    exit;
+}
+
+// ---------- E-mails ----------
+
+function route_mail_test(): never
+{
+    global $CONFIG;
+    $me = require_admin();
+    $to = trim((string) (json_input()['to'] ?? ''));
+    if (!valid_email($to)) fail(400, 'Adresse de test invalide.');
+    $texte = "Bonjour,\n\nCet e-mail confirme que l'envoi depuis Visite Immo fonctionne.\n\nBonne journée,\n{$me['nom']}";
+    [$html, $images] = email_html($texte, $me);
+    try {
+        send_email(['to' => $to, 'sujet' => 'Test d\'envoi · ' . $CONFIG['agence'], 'texte' => $texte, 'html' => $html, 'images' => $images]);
+    } catch (RuntimeException $e) {
+        fail(502, $e->getMessage());
+    }
+    send_json(['ok' => true]);
+}
+
+/** Envoi d'un ou plusieurs documents PDF en pièces jointes. */
+function route_send(string $id): never
+{
+    $me = require_user();
+    $visit = load_visit($me, $id);
+    $in = json_input();
+    $to = trim((string) ($in['to'] ?? ''));
+    if (!valid_email($to)) fail(400, 'Adresse e-mail du destinataire invalide.');
+    $docs = array_values(array_intersect(array_keys(PDF_DOCS), (array) ($in['docs'] ?? [])));
+    if (!$docs) fail(400, 'Choisissez au moins un document à joindre.');
+    $sujet = trim((string) ($in['sujet'] ?? '')) ?: 'Votre visite · ' . titre_bien($visit);
+    $texte = trim((string) ($in['message'] ?? ''));
+    if ($texte === '') fail(400, 'Le message est vide.');
+
+    $pieces = [];
+    foreach ($docs as $doc) {
+        [$bin, $nom] = build_pdf($doc, $visit, $me);
+        $pieces[] = [$nom, $bin, 'application/pdf'];
+    }
+    [$html, $images] = email_html($texte, $me);
+    $bcc = !empty($in['copie']) && valid_email($me['email'] ?? '') ? [$me['email']] : [];
+    try {
+        send_email([
+            'to' => $to, 'bcc' => $bcc, 'reply_to' => $me['email'] ?? '',
+            'sujet' => $sujet, 'texte' => $texte, 'html' => $html, 'images' => $images, 'pieces' => $pieces,
+        ]);
+    } catch (RuntimeException $e) {
+        fail(502, $e->getMessage());
+    }
+
+    $visit = update_visit($me, $id, function (array $v) use ($to, $docs, $sujet, $bcc) {
+        $v['envois'][] = ['date' => date('c'), 'a' => $to, 'docs' => $docs, 'sujet' => $sujet, 'copie' => (bool) $bcc];
+        return $v;
+    });
+    send_json($visit);
 }
 
 // ---------- Visites ----------

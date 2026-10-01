@@ -5,7 +5,7 @@ import { Recorder, recordingSupported } from "./recorder.js";
 import { uploader } from "./uploader.js";
 
 const $app = document.getElementById("app");
-const APP_VERSION = "5"; // affichée dans le menu pour vérifier qu'on a la dernière version
+const APP_VERSION = "6"; // affichée dans le menu pour vérifier qu'on a la dernière version
 const state = { user: null, demo: null, sections: null };
 
 // ---------- Utilitaires ----------
@@ -177,7 +177,7 @@ function bindMenu() {
       <div class="sheet-user">${esc(state.user.nom)}<span class="muted"> · ${esc(state.user.login)} · ${state.user.role === "admin" ? "Administrateur" : "Agent"}</span></div>
       <a href="#/reglages">⚙️ Paramètres (IA Gemini, stockage, signature)</a>
       ${state.user.role === "admin" ? `<a href="#/equipe">👥 Gérer l'équipe</a>` : ""}
-      <a href="#/compte">🔑 Changer mon mot de passe</a>
+      <a href="#/compte">👤 Mon compte (coordonnées, mot de passe)</a>
       <button id="logout">↪ Se déconnecter</button>
       <span class="sheet-version">Visite Immo · version ${APP_VERSION}</span>
     </div>`;
@@ -398,7 +398,7 @@ async function viewVisit(id, onglet) {
 
   if (onglet === "fiche") renderFiche($c, visit, sections, saver);
   else if (onglet === "annonce") renderAnnonce($c, visit, saver);
-  else if (onglet === "rapport") renderTexte($c, visit, saver, "rapport_agent", "Rapport interne", "Pour vous uniquement : avis, risques, points à vérifier.");
+  else if (onglet === "rapport") renderTexte($c, visit, saver, "rapport_agent", "Rapport interne", "Pour vous uniquement : avis, risques, points à vérifier.", "rapport");
   else if (onglet === "vendeur") renderVendeur($c, visit, saver);
   else renderAudio($c, visit, pending);
 }
@@ -477,6 +477,9 @@ function renderFiche($c, visit, sections, saver) {
       )
       .join("")}
     <div class="card actions-card">
+      <button class="btn primary" data-pdf="fiche">📄 PDF de la fiche</button>
+      <button class="btn" data-send="fiche">✉️ Envoyer par e-mail</button>
+      <button class="btn" data-pdf="dossier">📚 Dossier complet (PDF interne)</button>
       <button class="btn" id="copy-fiche">📋 Copier la fiche</button>
       <button class="btn ghost" id="regen">↻ Régénérer avec l'IA</button>
       <p class="muted small">Vos corrections manuelles sont conservées lors d'une régénération.</p>
@@ -509,6 +512,7 @@ function renderFiche($c, visit, sections, saver) {
     ]);
     copier(lignes.join("\n"));
   };
+  bindDocActions($c, visit, saver);
   document.getElementById("regen").onclick = async () => {
     if (!confirm("Régénérer la fiche, l'annonce et les rapports à partir de l'audio ? Les textes modifiés seront remplacés (les champs corrigés à la main sont conservés).")) return;
     await saver.flush();
@@ -537,61 +541,157 @@ function renderAnnonce($c, visit, saver) {
       ${textArea("annonce", visit.annonce, 20)}
     </section>
     <div class="sticky-actions">
-      <button class="btn primary" id="copy">📋 Copier l'annonce</button>
+      <button class="btn primary" data-pdf="annonce">📄 PDF</button>
+      <button class="btn" data-send="annonce">✉️ Envoyer</button>
+      <button class="btn" id="copy">📋 Copier</button>
     </div>`;
   const count = () => (document.getElementById("count").textContent = `${$c.querySelector('[data-key="annonce"]').value.length} caractères`);
   count();
   bindTextAreas($c, saver, count);
+  bindDocActions($c, visit, saver);
   document.getElementById("copy").onclick = () =>
     copier(`${$c.querySelector('[data-key="titre_annonce"]').value}\n\n${$c.querySelector('[data-key="annonce"]').value}`);
 }
 
-function renderTexte($c, visit, saver, key, titre, aide) {
+function renderTexte($c, visit, saver, key, titre, aide, doc) {
   $c.innerHTML = `<section class="card">
       <h2>${titre}</h2>
       <p class="muted small">${aide}</p>
       ${textArea(key, visit[key], 26)}
     </section>
+    ${doc === "vendeur" ? historiqueEnvois(visit) : ""}
     <div class="sticky-actions">
+      ${doc === "vendeur" ? `<button class="btn primary" data-send="vendeur">✉️ Envoyer</button><button class="btn" data-pdf="vendeur">📄 PDF</button>` : `<button class="btn primary" data-pdf="${doc}">📄 PDF</button><button class="btn" data-send="${doc}">✉️ Envoyer</button>`}
       <button class="btn" id="copy">📋 Copier</button>
-      <button class="btn" id="print">🖨 PDF</button>
     </div>`;
   bindTextAreas($c, saver);
-  const value = () => $c.querySelector(`[data-key="${key}"]`).value;
-  document.getElementById("copy").onclick = () => copier(value());
-  document.getElementById("print").onclick = () => imprimer(`${titre} · ${visit.titre || ""}`, value());
+  bindDocActions($c, visit, saver);
+  document.getElementById("copy").onclick = () => copier($c.querySelector(`[data-key="${key}"]`).value);
 }
 
 function renderVendeur($c, visit, saver) {
-  const champs = champsOf(visit);
-  const email = champs.email_vendeur?.valeur || "";
-  renderTexte($c, visit, saver, "rapport_vendeur", "Compte rendu pour le vendeur", "À relire avant envoi. Ton professionnel, sans remarques internes.");
-  document.querySelector(".sticky-actions").insertAdjacentHTML(
-    "afterbegin",
-    `<button class="btn primary" id="send">✉️ Envoyer</button>`,
-  );
-  document.getElementById("send").onclick = async () => {
-    await saver.flush();
-    const texte = $c.querySelector('[data-key="rapport_vendeur"]').value;
-    const sujet = `Compte rendu de visite${visit.titre ? " · " + visit.titre : ""}`;
-    if (navigator.share && !email) {
-      try {
-        return await navigator.share({ title: sujet, text: texte });
-      } catch {
-        /* partage annulé : on tente l'e-mail */
-      }
-    }
-    location.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(sujet)}&body=${encodeURIComponent(texte)}`;
-  };
+  renderTexte($c, visit, saver, "rapport_vendeur", "Compte rendu pour le vendeur", "À relire avant envoi. Ton professionnel, sans remarques internes.", "vendeur");
 }
 
-function imprimer(titre, texte) {
-  const w = window.open("", "_blank");
-  if (!w) return toast("Autorisez les fenêtres pour générer le PDF", "erreur");
-  w.document.write(`<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>${esc(titre)}</title>
-    <style>body{font:12pt/1.55 Georgia,serif;max-width:700px;margin:40px auto;padding:0 20px;color:#111}h1{font:600 15pt system-ui,sans-serif;margin-bottom:24px}pre{white-space:pre-wrap;font:inherit}</style>
-    </head><body><h1>${esc(titre)}</h1><pre>${esc(texte)}</pre><script>onload=()=>print()<\/script></body></html>`);
-  w.document.close();
+// ---------- PDF et envoi par e-mail ----------
+
+const DOCS = {
+  vendeur: { label: "Compte rendu de visite", interne: false },
+  fiche: { label: "Fiche du bien", interne: false },
+  annonce: { label: "Annonce", interne: false },
+  rapport: { label: "Rapport de visite", interne: true },
+  dossier: { label: "Dossier complet", interne: true },
+};
+
+const pdfUrl = (id, doc, dl = false) => `api/?${new URLSearchParams({ r: "pdf", id, doc, ...(dl ? { dl: 1 } : {}) })}`;
+
+function bindDocActions($c, visit, saver) {
+  $c.querySelectorAll("[data-pdf]").forEach((b) => {
+    b.onclick = async () => {
+      await saver.flush(); // le PDF reprend les dernières corrections
+      window.open(pdfUrl(visit.id, b.dataset.pdf), "_blank");
+    };
+  });
+  $c.querySelectorAll("[data-send]").forEach((b) => {
+    b.onclick = async () => {
+      await saver.flush();
+      openSendSheet(visit, b.dataset.send);
+    };
+  });
+}
+
+function historiqueEnvois(visit) {
+  const envois = visit.envois || [];
+  if (!envois.length) return "";
+  return `<section class="card">
+    <h2>Envois</h2>
+    ${envois
+      .slice()
+      .reverse()
+      .map((e) => `<div class="envoi"><strong>${esc(e.a)}</strong><span class="muted small">${fmtDate(e.date)} · ${e.docs.map((d) => DOCS[d]?.label || d).join(", ")}${e.copie ? " · copie à moi" : ""}</span></div>`)
+      .join("")}
+  </section>`;
+}
+
+function messageParDefaut(visit, doc) {
+  const champs = champsOf(visit);
+  const vendeur = champs.nom_vendeur?.valeur || "";
+  const bien = visit.titre || champs.adresse?.valeur || "le bien";
+  const date = new Date(visit.cree_le).toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
+  const signature = `${state.user.nom}${state.agence ? "\n" + state.agence : ""}${state.user.telephone ? "\n" + state.user.telephone : ""}`;
+  const corps = {
+    vendeur: `Je vous remercie pour votre accueil lors de la visite du ${date}. Vous trouverez ci-joint le compte rendu de cette visite.`,
+    fiche: `Vous trouverez ci-joint la fiche détaillée du bien situé ${bien}.`,
+    annonce: `Vous trouverez ci-joint la présentation du bien situé ${bien}.`,
+    rapport: `Ci-joint le rapport de visite du bien situé ${bien}.`,
+    dossier: `Ci-joint le dossier complet de la visite du bien situé ${bien}.`,
+  }[doc];
+  return `Bonjour${doc === "vendeur" && vendeur ? " " + vendeur : ""},\n\n${corps}\n\nJe reste à votre disposition pour toute question.\n\nBien cordialement,\n${signature}`;
+}
+
+function openSendSheet(visit, doc) {
+  const champs = champsOf(visit);
+  const sheet = document.createElement("div");
+  sheet.className = "sheet-bg";
+  const fermer = () => sheet.remove();
+
+  if (!state.email) {
+    sheet.innerHTML = `<div class="sheet sheet-form"><h2>Envoyer par e-mail</h2>
+      <p>L'envoi d'e-mails n'est pas encore configuré.</p>
+      ${state.user.role === "admin" ? `<a class="btn primary" href="#/reglages">⚙️ Configurer l'envoi</a>` : `<p class="muted">Demandez à un administrateur de le configurer dans les Paramètres.</p>`}
+      <button class="btn ghost" data-close>Fermer</button></div>`;
+  } else {
+    const destinataire = ["vendeur", "fiche"].includes(doc) ? champs.email_vendeur?.valeur || "" : "";
+    const sujet = {
+      vendeur: `Compte rendu de visite · ${visit.titre || ""}`,
+      fiche: `Fiche du bien · ${visit.titre || ""}`,
+      annonce: visit.titre_annonce || `Présentation du bien · ${visit.titre || ""}`,
+      rapport: `Rapport de visite (interne) · ${visit.titre || ""}`,
+      dossier: `Dossier de visite (interne) · ${visit.titre || ""}`,
+    }[doc].replace(/ · $/, "");
+    sheet.innerHTML = `<form class="sheet sheet-form" id="send-form">
+      <h2>✉️ Envoyer par e-mail</h2>
+      <label>Destinataire<input name="to" type="email" required inputmode="email" autocomplete="email" value="${esc(destinataire)}" placeholder="adresse@client.fr"></label>
+      <label>Objet<input name="sujet" required value="${esc(sujet)}"></label>
+      <label>Message<textarea name="message" rows="8" required>${esc(messageParDefaut(visit, doc))}</textarea></label>
+      <fieldset class="pj">
+        <legend>Pièces jointes (PDF)</legend>
+        ${Object.entries(DOCS)
+          .map(([k, d]) => `<label class="check"><input type="checkbox" name="docs" value="${k}" ${k === doc ? "checked" : ""}> ${d.label}${d.interne ? ' <span class="badge rouge">interne</span>' : ""}</label>`)
+          .join("")}
+      </fieldset>
+      <label class="check"><input type="checkbox" name="copie" ${state.user.email ? "checked" : "disabled"}> M'envoyer une copie ${state.user.email ? `<span class="muted small">(${esc(state.user.email)})</span>` : '<span class="muted small">(ajoutez votre e-mail dans Mon compte)</span>'}</label>
+      <button class="btn primary big" id="send-btn">Envoyer</button>
+      <button type="button" class="btn ghost" data-close>Annuler</button>
+    </form>`;
+  }
+  sheet.addEventListener("click", (e) => (e.target === sheet || e.target.closest("[data-close]") ? fermer() : null));
+  document.body.append(sheet);
+
+  const form = sheet.querySelector("#send-form");
+  if (!form) return;
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const docs = fd.getAll("docs");
+    if (!docs.length) return toast("Cochez au moins un document à joindre", "erreur");
+    const internes = docs.filter((d) => DOCS[d].interne);
+    if (internes.length && fd.get("to") !== state.user.email && !confirm(`Attention : ${internes.map((d) => DOCS[d].label).join(" et ")} ${internes.length > 1 ? "sont des documents internes" : "est un document interne"}. L'envoyer quand même à ${fd.get("to")} ?`)) return;
+    const btn = sheet.querySelector("#send-btn");
+    btn.disabled = true;
+    btn.textContent = "Envoi en cours…";
+    try {
+      const v = await api("send", { method: "POST", query: { id: visit.id }, body: { to: fd.get("to"), sujet: fd.get("sujet"), message: fd.get("message"), docs, copie: fd.has("copie") } });
+      visit.envois = v.envois;
+      fermer();
+      toast(`E-mail envoyé à ${fd.get("to")} ✓`, "ok");
+      if (location.hash.endsWith("/vendeur")) route();
+    } catch (err) {
+      toast(err.message, "erreur");
+      btn.disabled = false;
+      btn.textContent = "Envoyer";
+    }
+  };
 }
 
 function renderAudio($c, visit, pending) {
@@ -617,6 +717,7 @@ function renderAudio($c, visit, pending) {
       <h2>Transcription</h2>
       <div class="transcript">${esc(transcript) || '<span class="muted">Pas encore de transcription.</span>'}</div>
     </section>
+    ${historiqueEnvois(visit)}
     <section class="card danger-zone">
       <h2>Archivage</h2>
       <p class="muted small">Visite créée le ${fmtDate(visit.cree_le)}. Accord du vendeur recueilli le ${fmtDate(visit.consentement_le)}.</p>
@@ -657,6 +758,8 @@ async function viewUsers() {
       <h2>Ajouter un agent</h2>
       <label>Nom<input name="nom" required placeholder="Prénom Nom"></label>
       <label>Identifiant<input name="login" required autocapitalize="none"></label>
+      <label>E-mail <span class="muted">(facultatif)</span><input name="email" type="email"></label>
+      <label>Téléphone <span class="muted">(facultatif)</span><input name="telephone" type="tel"></label>
       <label>Mot de passe provisoire<input name="password" required minlength="8"></label>
       <label class="check"><input type="checkbox" name="role" value="admin"> Administrateur (peut gérer l'équipe)</label>
       <button class="btn primary">Créer le compte</button>
@@ -729,11 +832,67 @@ async function viewSettings() {
       </section>
 
       <section class="card">
-        <h2>Signature du compte rendu vendeur</h2>
+        <h2>Identité de l'agence</h2>
         <label>Nom de l'agence
           <input name="agence" value="${esc(cfg.agence)}" required>
         </label>
-        <p class="muted small">Le compte rendu est signé « <span id="sig"></span> ».</p>
+        <p class="muted small">Il signe le compte rendu vendeur : « <span id="sig"></span> ».</p>
+        <label>Coordonnées <span class="muted">(en-tête des PDF et pied des e-mails)</span>
+          <textarea name="agence_coordonnees" rows="3" placeholder="Adresse&#10;Téléphone · e-mail&#10;Carte professionnelle">${esc(cfg.agence_coordonnees)}</textarea>
+        </label>
+        <label>Couleur principale <span class="muted">(PDF et e-mails)</span>
+          <span class="color-row"><input type="color" name="couleur" value="${esc(cfg.couleur)}"><code id="couleur-hex">${esc(cfg.couleur)}</code></span>
+        </label>
+        <div class="logo-zone">
+          <span class="label-like">Logo <span class="muted">(PNG ou JPG, fond transparent idéal)</span></span>
+          <div class="logo-preview" id="logo-preview">${cfg.logo ? `<img src="api/?r=logo&t=${Date.now()}" alt="Logo">` : '<span class="muted small">Aucun logo : le nom de l\'agence est écrit à la place.</span>'}</div>
+          <div class="logo-actions">
+            <label class="btn"><span id="logo-label">📤 ${cfg.logo ? "Changer le logo" : "Ajouter le logo"}</span><input type="file" id="logo-file" accept="image/png,image/jpeg,image/webp" hidden></label>
+            <button type="button" class="btn danger-ghost" id="logo-del" ${cfg.logo ? "" : "hidden"}>Retirer</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Envoi des e-mails</h2>
+        <label>Méthode d'envoi
+          <select name="email_methode" id="email-methode">
+            <option value="" ${!cfg.email_methode ? "selected" : ""}>Désactivé</option>
+            <option value="smtp" ${cfg.email_methode === "smtp" ? "selected" : ""}>Serveur SMTP (recommandé)</option>
+            <option value="mail" ${cfg.email_methode === "mail" ? "selected" : ""}>Fonction mail() de l'hébergeur</option>
+          </select>
+        </label>
+        <div id="email-fields">
+          <label>Adresse de l'expéditeur<input name="email_expediteur" type="email" value="${esc(cfg.email_expediteur)}" placeholder="contact@votre-agence.fr"></label>
+          <label>Nom de l'expéditeur<input name="email_expediteur_nom" value="${esc(cfg.email_expediteur_nom)}" placeholder="${esc(cfg.agence)}"></label>
+          <p class="muted small">Les réponses des clients arrivent directement chez l'agent qui a envoyé le document (son e-mail, défini dans « Mon compte »).</p>
+        </div>
+        <div id="smtp-fields">
+          <div class="row-2">
+            <label>Serveur SMTP<input name="smtp_host" value="${esc(cfg.smtp_host)}" placeholder="ssl0.ovh.net" autocapitalize="none" spellcheck="false"></label>
+            <label>Port<input name="smtp_port" type="number" value="${esc(cfg.smtp_port)}" inputmode="numeric"></label>
+          </div>
+          <label>Sécurité
+            <select name="smtp_securite">
+              <option value="ssl" ${cfg.smtp_securite === "ssl" ? "selected" : ""}>SSL (port 465)</option>
+              <option value="tls" ${cfg.smtp_securite === "tls" ? "selected" : ""}>STARTTLS (port 587)</option>
+              <option value="aucune" ${cfg.smtp_securite === "aucune" ? "selected" : ""}>Aucune (déconseillé)</option>
+            </select>
+          </label>
+          <label>Identifiant<input name="smtp_user" value="${esc(cfg.smtp_user)}" autocomplete="off" autocapitalize="none" spellcheck="false"></label>
+          <label>Mot de passe<input name="smtp_pass" type="password" autocomplete="new-password" placeholder="${cfg.smtp_pass_configure ? "Enregistré : laisser vide pour le garder" : ""}"></label>
+          <details class="aide"><summary>Réglages courants</summary>
+            <p class="small"><strong>OVH</strong> : ssl0.ovh.net · 465 · SSL · identifiant = adresse e-mail complète<br>
+            <strong>o2switch</strong> : mail.votre-domaine.fr · 465 · SSL<br>
+            <strong>Gmail / Google Workspace</strong> : smtp.gmail.com · 465 · SSL · mot de passe d'application<br>
+            <strong>Microsoft 365</strong> : smtp.office365.com · 587 · STARTTLS</p>
+          </details>
+        </div>
+        <div class="test-row" id="test-row">
+          <input id="test-to" type="email" placeholder="Votre adresse pour le test" value="${esc(state.user.email || "")}">
+          <button type="button" class="btn" id="test-btn">Envoyer un test</button>
+        </div>
+        <p class="muted small" id="test-hint">Enregistrez d'abord les paramètres, puis envoyez-vous un e-mail de test.</p>
       </section>
 
       <button class="btn primary big">Enregistrer les paramètres</button>
@@ -743,6 +902,57 @@ async function viewSettings() {
   const $ = (id) => document.getElementById(id);
   const form = $("f");
   const updateSig = () => ($("sig").textContent = `${state.user.nom}, ${form.agence.value || "…"}`);
+  form.couleur.addEventListener("input", () => ($("couleur-hex").textContent = form.couleur.value));
+  const majEmail = () => {
+    const m = $("email-methode").value;
+    $("email-fields").hidden = !m;
+    $("smtp-fields").hidden = m !== "smtp";
+    $("test-row").hidden = $("test-hint").hidden = !m;
+  };
+  $("email-methode").onchange = majEmail;
+  majEmail();
+  $("test-btn").onclick = async () => {
+    const to = $("test-to").value.trim();
+    if (!to) return toast("Indiquez une adresse pour le test", "erreur");
+    $("test-btn").disabled = true;
+    $("test-btn").textContent = "Envoi…";
+    try {
+      await api("mailtest", { method: "POST", body: { to } });
+      toast(`E-mail de test envoyé à ${to} ✓`, "ok");
+    } catch (e) {
+      toast(e.message, "erreur");
+    } finally {
+      $("test-btn").disabled = false;
+      $("test-btn").textContent = "Envoyer un test";
+    }
+  };
+  // Le logo s'enregistre tout de suite, sans recharger l'écran (les autres champs saisis restent en place)
+  const afficherLogo = (present) => {
+    $("logo-preview").innerHTML = present
+      ? `<img src="api/?r=logo&t=${Date.now()}" alt="Logo">`
+      : '<span class="muted small">Aucun logo : le nom de l\'agence est écrit à la place.</span>';
+    $("logo-label").textContent = present ? "📤 Changer le logo" : "📤 Ajouter le logo";
+    $("logo-del").hidden = !present;
+  };
+  $("logo-file").onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const fd = new FormData();
+    fd.append("logo", file);
+    try {
+      await api("logo", { method: "POST", form: fd });
+      afficherLogo(true);
+      toast("Logo enregistré ✓", "ok");
+    } catch (err) {
+      toast(err.message, "erreur");
+    }
+    e.target.value = "";
+  };
+  $("logo-del").addEventListener("click", async () => {
+    if (!confirm("Retirer le logo ?")) return;
+    await api("logo", { method: "DELETE" });
+    afficherLogo(false);
+  });
   updateSig();
   form.agence.addEventListener("input", updateSig);
 
@@ -796,6 +1006,8 @@ async function viewSettings() {
       const body = Object.fromEntries(new FormData(form));
       const res = await api("settings", { method: "POST", body });
       state.demo = !res.cle_configuree;
+      state.email = res.email_configure;
+      state.agence = res.agence;
       toast("Paramètres enregistrés ✓", "ok");
       viewSettings();
     } catch (err) {
@@ -806,19 +1018,37 @@ async function viewSettings() {
 }
 
 function viewAccount() {
+  const u = state.user;
   render(`${header("Mon compte", { back: "#/" })}<main class="page">
+    <form class="card" id="profil">
+      <h2>Mes coordonnées</h2>
+      <p class="muted small">Elles apparaissent sur les PDF (encadré contact, signature). Votre e-mail reçoit les réponses des clients.</p>
+      <label>Nom<input name="nom" required value="${esc(u.nom)}"></label>
+      <label>E-mail<input name="email" type="email" value="${esc(u.email)}" inputmode="email" autocomplete="email"></label>
+      <label>Téléphone<input name="telephone" type="tel" value="${esc(u.telephone)}" autocomplete="tel"></label>
+      <button class="btn primary">Enregistrer</button>
+    </form>
     <form class="card" id="f">
       <h2>Changer mon mot de passe</h2>
       <label>Mot de passe actuel<input name="ancien" type="password" required autocomplete="current-password"></label>
       <label>Nouveau mot de passe<input name="nouveau" type="password" required minlength="8" autocomplete="new-password"></label>
-      <button class="btn primary">Enregistrer</button>
+      <button class="btn">Changer le mot de passe</button>
     </form></main>`);
+  document.getElementById("profil").onsubmit = async (e) => {
+    e.preventDefault();
+    try {
+      state.user = await api("profile", { method: "POST", body: Object.fromEntries(new FormData(e.target)) });
+      toast("Coordonnées enregistrées ✓", "ok");
+    } catch (err) {
+      toast(err.message, "erreur");
+    }
+  };
   document.getElementById("f").onsubmit = async (e) => {
     e.preventDefault();
     try {
       await api("password", { method: "POST", body: Object.fromEntries(new FormData(e.target)) });
       toast("Mot de passe modifié ✓", "ok");
-      go("/");
+      e.target.reset();
     } catch (err) {
       toast(err.message, "erreur");
     }
@@ -851,6 +1081,8 @@ function viewAccount() {
     state.user = s.user;
     state.setup = s.setup;
     state.demo = s.demo;
+    state.email = s.email;
+    state.agence = s.agence;
   } catch (e) {
     render(`<main class="page"><p class="erreur center">${esc(e.message)}</p><button class="btn" onclick="location.reload()">Réessayer</button></main>`);
     return;

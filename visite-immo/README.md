@@ -30,6 +30,9 @@ visite-immo/
 │   ├── bootstrap.php       session, utilisateurs, stockage JSON
 │   ├── fields.php          liste des champs de la fiche (modifiable)
 │   ├── ai.php              Gemini en cURL : liste des modèles, transcription, génération
+│   ├── pdf.php             mise en page des documents PDF
+│   ├── mailer.php          envoi d'e-mails (client SMTP natif ou mail())
+│   ├── lib/tfpdf/          bibliothèque PDF tFPDF + police Archivo
 │   └── demo.php            données simulées quand il n'y a pas de clé
 ├── data/                ← stockage (hors web, créé automatiquement)
 │   ├── users.json
@@ -53,10 +56,15 @@ visite-immo/
      la liste des modèles disponibles pour cette clé ;
    - **modèle d'analyse** (fiche, annonce, rapports) et **modèle de transcription**, choisis dans cette liste ;
    - **dossier de stockage** : en le changeant, les comptes et visites y sont déplacés automatiquement ;
-   - **nom de l'agence**, qui signe le compte rendu vendeur (« Nom de l'agent, Agence »).
+   - **identité de l'agence** : nom (signature du compte rendu vendeur), coordonnées, couleur principale et **logo**,
+     repris dans les PDF et les e-mails ;
+   - **envoi des e-mails** : serveur SMTP (OVH, o2switch, Gmail, Microsoft 365…) ou fonction `mail()` de l'hébergeur,
+     avec un bouton « Envoyer un test ».
    Sans clé, l'appli tourne en **mode démo** (transcription et analyse simulées) pour tester l'interface.
-6. Menu ☰ → « Gérer l'équipe » pour ajouter les agents. Chaque agent ne voit que ses propres visites.
-7. Sur le téléphone : ouvrir le site puis « Ajouter à l'écran d'accueil » pour l'avoir comme une appli.
+6. Chaque agent renseigne son e-mail et son téléphone dans **Mon compte** : ils apparaissent sur les PDF, et les
+   clients qui répondent à un e-mail écrivent directement à l'agent.
+7. Menu ☰ → « Gérer l'équipe » pour ajouter les agents. Chaque agent ne voit que ses propres visites.
+8. Sur le téléphone : ouvrir le site puis « Ajouter à l'écran d'accueil » pour l'avoir comme une appli.
 
 ### Prérequis
 
@@ -66,6 +74,21 @@ visite-immo/
 - `max_execution_time` à 300 s si possible (la génération prend 20 à 60 s).
 
 Test en local : `php -S localhost:8000 -t public` puis http://localhost:8000 (le micro est autorisé sur localhost).
+
+## Documents PDF et e-mails
+
+Depuis chaque visite, boutons **📄 PDF** et **✉️ Envoyer** :
+
+| Document | Contenu | Destiné à |
+|---|---|---|
+| Fiche du bien | chiffres clés, étiquette DPE, caractéristiques (sans la partie vendeur) | client, acquéreur |
+| Annonce | titre, chiffres clés, description, encadré contact de l'agent | acquéreur |
+| Compte rendu de visite | courrier au vendeur, sur papier à en-tête | vendeur |
+| Rapport de visite | rapport interne, marqué « CONFIDENTIEL » | agence uniquement |
+| Dossier complet | tout, y compris la partie vendeur et le rapport interne | agence uniquement |
+
+L'envoi : saisir l'adresse du client, l'objet et le message (préremplis), cocher les PDF à joindre, « Envoyer ».
+L'appli demande confirmation avant d'envoyer un document interne. Chaque envoi est consigné dans la visite.
 
 ## Personnaliser la fiche
 
@@ -80,3 +103,10 @@ Types disponibles : `text`, `textarea`, `number`, `bool`, `select` (avec `option
 - Les champs **corrigés à la main** ne sont jamais écrasés quand on régénère la fiche.
 - Toute l'IA passe par **Gemini** (Google) : la transcription aussi, l'audio est envoyé directement au modèle choisi.
 - La clé API est stockée dans `app/settings.json` (protégé par `.htaccess`, jamais renvoyée en entier à l'appli).
+
+## Crédits
+
+- [tFPDF](https://github.com/Setasign/tFPDF) 1.33 (licence LGPL), légèrement modifiée pour que son cache de polices
+  fonctionne après un déménagement de serveur.
+- Police [Archivo](https://github.com/Omnibus-Type/Archivo) (SIL Open Font License 1.1), en versions fixes extraites
+  de la police variable officielle.

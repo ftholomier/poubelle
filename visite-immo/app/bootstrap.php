@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 // Point d'entrée commun : configuration, réponses JSON, session, stockage fichiers.
 
-define('APP_VERSION', '5'); // à garder identique à APP_VERSION dans public/js/app.js
+define('APP_VERSION', '6'); // à garder identique à APP_VERSION dans public/js/app.js
 define('APP_ROOT', dirname(__DIR__));
 define('SETTINGS_FILE', __DIR__ . '/settings.json'); // réglages faits dans l'appli
 
@@ -27,6 +27,8 @@ const AUDIO_TYPES = ['audio/webm' => 'webm', 'audio/mp4' => 'm4a', 'audio/ogg' =
 
 require __DIR__ . '/fields.php';
 require __DIR__ . '/ai.php';
+require __DIR__ . '/pdf.php';
+require __DIR__ . '/mailer.php';
 
 // ---------- Réponses ----------
 
@@ -118,7 +120,7 @@ function users(): array
 
 function public_user(array $u): array
 {
-    return ['id' => $u['id'], 'login' => $u['login'], 'nom' => $u['nom'], 'role' => $u['role']];
+    return ['id' => $u['id'], 'login' => $u['login'], 'nom' => $u['nom'], 'role' => $u['role'], 'email' => $u['email'] ?? '', 'telephone' => $u['telephone'] ?? ''];
 }
 
 function current_user(): ?array
@@ -204,4 +206,14 @@ function full_transcript(array $v): string
         if (($m['transcription'] ?? '') !== '') $parts[] = trim($m['transcription']);
     }
     return implode("\n\n", $parts);
+}
+
+// ---------- Logo de l'agence ----------
+
+function logo_path(): ?string
+{
+    foreach (['png', 'jpg'] as $ext) {
+        if (is_file(DATA_DIR . "/marque/logo.$ext")) return DATA_DIR . "/marque/logo.$ext";
+    }
+    return null;
 }
