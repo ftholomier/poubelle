@@ -128,27 +128,76 @@ final class Media
         $base = $base === '' ? 'photo' : mb_substr($base, 0, 60);
         $name = $base . '-' . substr(bin2hex(random_bytes(4)), 0, 6);
 
-        $dir = Config::publicPath(self::DIR);
-        if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
-            return ['ok' => false, 'error' => 'Dossier /public/media inaccessible en écriture.'];
+        $converted = self::convert($tmp, $name);
+        if (!$converted['ok']) {
+            return ['ok' => false, 'error' => $converted['error']];
         }
 
-        $source = self::openImage($tmp, $mime);
+        $items = self::all();
+        array_unshift($items, [
+            'path' => $converted['path'],
+            'name' => (string) ($file['name'] ?? $name),
+            'alt' => $alt !== '' ? $alt : $base,
+            'caption' => '',
+            'site' => Config::SITES[0],
+            'width' => $converted['width'],
+            'height' => $converted['height'],
+            'bytes' => $converted['bytes'],
+            'derivatives' => $converted['derivatives'],
+            'at' => (new \DateTimeImmutable())->format(\DATE_ATOM),
+            'by' => $by,
+            'i18n' => new \stdClass(),
+        ]);
+        Store::write(self::FILE, ['_schema' => Config::SCHEMA, 'media' => $items], $by);
+
+        return ['ok' => true, 'path' => $converted['path']];
+    }
+
+    /**
+     * Convertit une image (JPEG, PNG ou WebP) en WebP sous /public/media :
+     * le fichier maître à sa définition d'origine, jamais agrandi, puis les
+     * dérivés 1600/800/400 plus étroits que lui. La transparence des PNG est
+     * conservée. Rien n'est écrit dans la photothèque : c'est à l'appelant
+     * d'enregistrer la fiche, une seule fois pour tout un lot.
+     *
+     * @return array{ok:bool,error:string,path:string,width:int,height:int,bytes:int,derivatives:array<int,string>}
+     */
+    public static function convert(string $file, string $name): array
+    {
+        $fail = static fn (string $error): array => ['ok' => false, 'error' => $error, 'path' => '', 'width' => 0, 'height' => 0, 'bytes' => 0, 'derivatives' => []];
+
+        $name = Text::slug($name);
+        if ($name === '') {
+            return $fail('Nom de fichier invalide.');
+        }
+        $info = @getimagesize($file);
+        $mime = \is_array($info) ? (string) ($info['mime'] ?? '') : '';
+        if (!isset(self::MIMES[$mime])) {
+            return $fail('Format non accepté : JPEG, PNG ou WebP uniquement.');
+        }
+        $dir = Config::publicPath(self::DIR);
+        if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+            return $fail('Dossier /public/media inaccessible en écriture.');
+        }
+        $source = self::openImage($file, $mime);
         if ($source === null) {
-            return ['ok' => false, 'error' => 'Image illisible.'];
+            return $fail('Image illisible.');
         }
         $width = imagesx($source);
         $height = imagesy($source);
 
-        $master = self::DIR . '/' . $name . '.webp';
+        if (!self::writeWebp($source, $dir . '/' . $name . '.webp', 86)) {
+            imagedestroy($source);
+            return $fail('Conversion WebP impossible sur ce serveur.');
+        }
+
         $derivatives = [];
-        $ok = self::writeWebp($source, $dir . '/' . $name . '.webp', 86);
         foreach (self::SIZES as $size) {
             if ($width <= $size) {
                 continue;
             }
-            $resized = imagescale($source, $size);
-            if ($resized === false) {
+            $resized = self::resize($source, $size);
+            if ($resized === null) {
                 continue;
             }
             if (self::writeWebp($resized, $dir . '/' . $name . '-' . $size . '.webp', 82)) {
@@ -157,28 +206,53 @@ final class Media
             imagedestroy($resized);
         }
         imagedestroy($source);
+        clearstatcache();
 
-        if (!$ok) {
-            return ['ok' => false, 'error' => 'Conversion WebP impossible sur ce serveur.'];
-        }
-
-        $items = self::all();
-        array_unshift($items, [
-            'path' => '/' . $master,
-            'name' => (string) ($file['name'] ?? $name),
-            'alt' => $alt !== '' ? $alt : $base,
-            'caption' => '',
+        return [
+            'ok' => true,
+            'error' => '',
+            'path' => '/' . self::DIR . '/' . $name . '.webp',
             'width' => $width,
             'height' => $height,
-            'bytes' => filesize($dir . '/' . $name . '.webp') ?: 0,
+            'bytes' => (int) (filesize($dir . '/' . $name . '.webp') ?: 0),
             'derivatives' => $derivatives,
-            'at' => (new \DateTimeImmutable())->format(\DATE_ATOM),
-            'by' => $by,
-            'i18n' => new \stdClass(),
-        ]);
-        Store::write(self::FILE, ['_schema' => Config::SCHEMA, 'media' => $items], $by);
+        ];
+    }
 
-        return ['ok' => true, 'path' => '/' . $master];
+    /**
+     * Ajoute ou remplace des fiches de la photothèque, en une seule écriture.
+     * Une fiche dont le chemin existe déjà remplace l'ancienne.
+     *
+     * @param array<int,array<string,mixed>> $entries
+     */
+    public static function register(array $entries, string $by): bool
+    {
+        $byPath = [];
+        foreach (self::all() as $item) {
+            $byPath[(string) ($item['path'] ?? '')] = $item;
+        }
+        foreach ($entries as $entry) {
+            $path = (string) ($entry['path'] ?? '');
+            if ($path !== '') {
+                $byPath[$path] = $entry;
+            }
+        }
+        return Store::write(self::FILE, ['_schema' => Config::SCHEMA, 'media' => array_values($byPath)], $by);
+    }
+
+    /** Réduction de qualité (rééchantillonnage), transparence comprise. */
+    private static function resize(\GdImage $source, int $width): ?\GdImage
+    {
+        $height = (int) max(1, round(imagesy($source) * $width / max(1, imagesx($source))));
+        $target = imagecreatetruecolor($width, $height);
+        if ($target === false) {
+            return null;
+        }
+        imagealphablending($target, false);
+        imagesavealpha($target, true);
+        imagefill($target, 0, 0, imagecolorallocatealpha($target, 0, 0, 0, 127));
+        imagecopyresampled($target, $source, 0, 0, 0, 0, $width, $height, imagesx($source), imagesy($source));
+        return $target;
     }
 
     public static function update(string $path, array $fields, string $by): bool

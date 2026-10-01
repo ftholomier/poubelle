@@ -35,7 +35,7 @@ final class Http
                 CURLOPT_FOLLOWLOCATION => false,
                 CURLOPT_SSL_VERIFYPEER => true,
                 CURLOPT_SSL_VERIFYHOST => 2,
-                CURLOPT_USERAGENT => 'iOiO/1.0 (+' . Config::baseUrl() . ')',
+                CURLOPT_USERAGENT => 'LeSignal/1.0 (+' . Config::baseUrl() . ')',
             ]);
             if ($body !== null) {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $body);

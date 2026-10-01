@@ -18,8 +18,14 @@ final class Config
     public const LANGS = ['fr', 'en'];
     public const DEFAULT_LANG = 'fr';
 
-    /** Sites (lieux) gérés par le catalogue. */
-    public const SITES = ['carnot', 'granvelle'];
+    /**
+     * Lieux gérés par le catalogue. Le Signal n'a qu'une adresse : l'entrée
+     * unique est conservée plutôt que supprimée, pour que le champ « site »
+     * reste dans le modèle. Si une seconde adresse ouvre, il suffit de
+     * l'ajouter ici et dans les réglages : les filtres par lieu se rallument
+     * d'eux-mêmes dès qu'il y a plus d'un lieu actif.
+     */
+    public const SITES = ['montbeliard'];
 
     /** Statuts de disponibilité d'un bureau. */
     public const STATUSES = ['available', 'soon', 'rented'];
@@ -239,8 +245,14 @@ final class Config
         }
         // Disque en lecture seule : on reste fonctionnel le temps de la requête.
         Log::write('error', 'Clé de signature non enregistrable : ' . $file);
-        return hash('sha256', self::root() . '|ioio|fallback');
+        return hash('sha256', self::root() . '|lesignal|fallback');
     }
+
+    /**
+     * Préfixe des cookies et des clés de stockage du navigateur. Il figure en
+     * clair dans le panneau de consentement : il doit porter le nom du site.
+     */
+    public const COOKIE_PREFIX = 'lesignal_';
 
     public static function isDebug(): bool
     {
