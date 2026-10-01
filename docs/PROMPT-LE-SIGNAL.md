@@ -27,12 +27,14 @@ LIS D'ABORD, DANS CET ORDRE :
      pages, catalogue, prestations, et les deux décisions à prendre
   2. docs/le-signal-catalogue.json — les 13 bureaux déjà au format
      content/offices.json (prix, surfaces, statuts, photos)
-  3. docs/le-signal-redirections.md — la table 301/410 complète, déjà écrite
-  4. README.md — ce que fait le socle, section par section
-  5. docs/REUTILISATION.md — ce qui est générique, ce qui est métier, dans
+  3. docs/le-signal-medias.json — les 133 médias du site avec leur URL, type,
+     dimensions et texte alternatif
+  4. docs/le-signal-redirections.md — la table 301/410 complète, déjà écrite
+  5. README.md — ce que fait le socle, section par section
+  6. docs/REUTILISATION.md — ce qui est générique, ce qui est métier, dans
      quel ordre transposer. Les sections 4 (les six règles), 6 (ce qu'il faut
      remplacer) et 9 (les onze pièges déjà rencontrés) sont les plus utiles.
-  6. docs/HANDOFF-CLAUDE-CODE.md — la direction visuelle d'origine
+  7. docs/HANDOFF-CLAUDE-CODE.md — la direction visuelle d'origine
 
 PUIS VÉRIFIE LE RELEVÉ sur le site en ligne : il date du 1er octobre 2026, les
 tarifs et les disponibilités ont pu bouger. Attention, c'est l'apex qui
@@ -85,12 +87,43 @@ client. Conséquences à traiter, détaillées au § 7 du relevé :
   - le formulaire du socle remplace la commande : enregistrement dans
     requests.json, email à l'équipe, accusé au visiteur, passage par l'anti-spam
 
+DEUXIÈME DÉCISION DÉJÀ PRISE : MONO-LIEU. Le Signal n'a qu'une adresse,
+95 Faubourg de Besançon à Montbéliard. Retire la mécanique à deux lieux du
+iOiO : plus de filtre par lieu dans l'interface, plus de bascule entre deux
+cartes sur la page contact, un seul bloc de présentation. Garde une seule
+entrée dans Config::SITES plutôt que de supprimer le champ : si une seconde
+adresse ouvre un jour, il suffira de rallumer les filtres.
+
+TROISIÈME CONSIGNE, LA PLUS IMPORTANTE : TU REPRENDS TOUT LE CONTENU EXISTANT.
+Rien n'est à réécrire, rien n'est à inventer. Le site actuel fait foi.
+
+  - TÉLÉCHARGE les 133 médias listés dans docs/le-signal-medias.json depuis
+    le-signal.com, convertis les images en WebP par la photothèque du socle
+    (Media::importExisting), et reporte le texte alternatif de chaque image —
+    il est dans le manifeste.
+  - LES 27 PHOTOS DU CATALOGUE sont déjà rattachées à leur bureau dans
+    le-signal-catalogue.json. Respecte ce rattachement : sur le projet iOiO,
+    des photos réaffectées au hasard entre les lieux et les types ont coûté
+    plusieurs itérations.
+  - LE FICHIER AUDIO est à reprendre :
+    /wp-content/uploads/2026/02/Votre_bureau_cle_en_main_a_Montbeliard.mp3
+    Le socle n'a pas de lecteur. Ajoute-en un en natif : <audio controls
+    preload="none">, jamais de lecture automatique, repli en lien de
+    téléchargement, fichier dans public/media/, chemin éditable au back-office.
+  - LE LOGO : prends lesignal.svg, la version vectorielle. Les favicons sont
+    favicon.png (416) et cropped-favicon.png (512).
+  - LES TEXTES : reprends ceux des pages relevées au § 3 et § 5 du relevé,
+    mot pour mot quand ils sont bons, en corrigeant uniquement les fautes
+    manifestes (le titre de page « Location de buraux à Montbéliard » en
+    contient une). Garde le ton direct et familier du site.
+  - N'IMPORTE PAS les 19 SVG nommés tire-* : ce sont les décorations du thème
+    WordPress acheté, pas du contenu du Signal.
+  - SIGNALE-MOI tout contenu que tu n'arrives pas à récupérer plutôt que de
+    le remplacer par du texte générique.
+
 POSE-MOI CES QUESTIONS AVANT DE CODER :
-  - un seul lieu aujourd'hui : d'autres adresses sont-elles prévues ? Si oui je
-    garde la mécanique multi-lieux du iOiO, sinon je la simplifie
   - faut-il le bilingue FR/EN comme sur le iOiO
   - garde-t-on l'assistant IA, les avis Google, la pop-up de sortie
-  - la version audio de la présentation : on la reprend ?
   - as-tu les photos en haute définition ? Celles du site font 1024 px, c'est
     trop peu pour le socle. Ne commence pas l'intégration sans les originaux.
   - l'email de contact, absent du site actuel
@@ -99,7 +132,8 @@ POSE-MOI CES QUESTIONS AVANT DE CODER :
 Attends mes réponses avant la première ligne de code.
 
 ENSUITE, travaille dans cet ordre : charte → modèle métier → routes et
-redirections → schéma d'édition → vues → contenu → assistant → clés et tests.
+redirections → schéma d'édition → vues → récupération des médias → contenu →
+lecteur audio → assistant → clés et tests.
 
 LE NIVEAU DE FINITION ATTENDU — c'est celui du projet que tu as sous les yeux :
   - vérifie chaque écran dans un vrai navigateur, à 1440, 1100, 820 et 390 px
@@ -112,7 +146,7 @@ LE NIVEAU DE FINITION ATTENDU — c'est celui du projet que tu as sous les yeux 
   - commits en français, un par lot cohérent, expliquant la cause et pas
     seulement le symptôme
 
-Commence par lire les six documents, vérifier le relevé en ligne, puis
+Commence par lire les sept documents, vérifier le relevé en ligne, puis
 pose-moi tes questions.
 ```
 

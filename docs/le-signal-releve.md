@@ -101,22 +101,55 @@ N°02 sont également libres : **à faire confirmer**.
 
 ---
 
-## 6. Les photos — le point de vigilance
+## 6. Les médias — inventaire complet
 
-27 photos dans le catalogue, servies en **1024 × 768** et **768 × 1024**
-(redimensionnées par WordPress), environ 700 Ko chacune en JPEG.
+`docs/le-signal-medias.json` liste les **133 médias** du site avec leur URL,
+leur type, leurs dimensions et le texte alternatif : 113 images, 1 fichier
+audio, 19 SVG.
 
-C'est **insuffisant** pour le socle : les visuels y sont servis en WebP avec
-des dérivés jusqu'à 1600 px, et une photo de 1024 px s'affiche floue sur un
-écran à forte densité. Les noms de fichiers (`20250408_103444.jpg`) indiquent
-des photos de téléphone d'avril 2025 : **les originaux existent forcément** et
-font probablement 3000 px de large.
+**Tout est à reprendre**, en téléchargeant depuis le site.
 
-**Réclamer les originaux avant de commencer.** Sur le projet iOiO, des
-visuels basse définition ont donné une impression de site bâclé pendant
-plusieurs itérations, alors que le code était correct.
+### Les 27 photos du catalogue
 
----
+Elles sont rattachées aux bureaux dans `le-signal-catalogue.json`.
+Toutes font **1024 × 768** ou **768 × 1024** — c'est la définition maximale
+disponible sur le serveur, les originaux de téléphone n'y sont pas.
+
+C'est juste suffisant : le socle sert en WebP avec des dérivés 400/800/1600,
+et une source de 1024 px donne une image correcte jusqu'à environ 500 px
+d'affichage, mais molle au-delà sur un écran à forte densité. **Réclamez les
+originaux au client** — les noms (`20250408_103444.jpg`) indiquent des photos
+prises au téléphone en avril 2025, elles existent forcément en 3000 px. En
+attendant, on intègre ce qui existe.
+
+### Les visuels de lieu
+
+Quelques images sont nettement plus grandes et conviennent aux bandeaux :
+`location_bureau_montbeliard-1` à `-4` en **1920 × 1440**, et `maison.jpg`
+en **1826 × 1826**.
+
+### L'audio
+
+Le site propose une présentation audio, à reprendre :
+`/wp-content/uploads/2026/02/Votre_bureau_cle_en_main_a_Montbeliard.mp3`
+
+Le socle n'a pas de lecteur. Il en faut un, en natif : une balise `<audio
+controls preload="none">`, sans lecture automatique, avec un repli en lien de
+téléchargement. Le fichier se place dans `public/media/`, le chemin devient
+éditable au back-office.
+
+### Le logo
+
+- **`lesignal.svg`** — version vectorielle, c'est celle à utiliser
+- `lesignal_b.png` — 1920 × 574
+- `favicon.png` 416 × 416 et `cropped-favicon.png` 512 × 512
+
+### Ce qu'il ne faut PAS reprendre
+
+Les 19 SVG nommés `tire-*` (`tire-section-bg2.svg`, `tire-services-icon5.svg`,
+`tire-team-pic1.svg`…) appartiennent au **thème WordPress** utilisé, pas au
+Signal. Ce sont des décorations génériques. Les importer reviendrait à
+transporter l'habillage d'un thème acheté dans un site fait sur mesure.
 
 ## 7. La vente en ligne est abandonnée — décision prise
 
@@ -145,14 +178,17 @@ Ce que cela implique concrètement :
   tarif normal et 400 € de promo ; c'est déjà fait dans
   `le-signal-catalogue.json`.
 
-## 8. Un seul lieu — à confirmer
+## 8. Un seul lieu — décision prise
 
-Toute la mécanique à deux adresses du iOiO (bascule Carnot/Granvelle, filtres
-par lieu, cartes multiples) se simplifie. À garder en l'état si d'autres
-adresses sont prévues : la retirer puis la réintroduire coûterait plus cher
-que de la laisser dormante.
+**Mono-lieu.** Le Signal n'a qu'une adresse, 95 Faubourg de Besançon à
+Montbéliard, et la mécanique à deux lieux du iOiO est retirée : plus de champ
+`site` discriminant dans les filtres, plus de bascule entre deux cartes sur la
+page contact, un seul bloc sur la page de présentation.
 
----
+`Config::SITES` conserve une seule entrée (`montbeliard`) plutôt que d'être
+supprimée : le champ reste dans le modèle, les filtres par lieu disparaissent
+de l'interface. Si une seconde adresse ouvre un jour, il suffira de rallumer
+les filtres au lieu de tout réécrire.
 
 ## 9. Ce qui existe sur le site actuel et mérite d'être repris
 
