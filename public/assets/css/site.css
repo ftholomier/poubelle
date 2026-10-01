@@ -636,7 +636,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; letter-spac
 .place__title { margin: 18px 0 0; font: 700 clamp(36px, 4vw, 58px)/1 var(--font-display); letter-spacing: -.03em; }
 .place__text { margin: 18px 0 24px; font: 400 18px/1.6 var(--font-text); color: rgba(var(--ink-rgb), .8); }
 .place__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
-.place .chip { background: var(--white); }
+.place .chip:not(.chip--go) { background: var(--white); }
 @media (max-width: 880px) {
   .place { grid-template-columns: minmax(0, 1fr); }
   .place__media { min-height: 300px; border-right: 0; border-bottom: 2px solid var(--ink); }
