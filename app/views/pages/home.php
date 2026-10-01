@@ -35,12 +35,14 @@ $phone = (string) ($settings['contact']['phone'] ?? '');
 $tel = preg_replace('/[^0-9+]/', '', $phone) ?? '';
 
 /** Un bouton d'accueil peut viser une page filtrée : « status » se saisit au back-office. */
-$ctaUrl = static fn (array $cta, string $default): string => Router::url(
-    (string) (($cta['route'] ?? '') !== '' ? $cta['route'] : $default),
-    $lang,
-    [],
-    ['status' => (string) ($cta['status'] ?? '')]
-);
+// Un bouton qui promet « les bureaux disponibles » mène à leur page propre.
+$ctaUrl = static function (array $cta, string $default) use ($lang): string {
+    $route = (string) (($cta['route'] ?? '') !== '' ? $cta['route'] : $default);
+    $facet = Router::facetOf('status', (string) ($cta['status'] ?? ''));
+    return $route === 'offices' && $facet !== ''
+        ? Router::url('offices', $lang, ['facet' => $facet])
+        : Router::url($route, $lang);
+};
 $ctaPrimary = (array) ($hero['ctaPrimary'] ?? []);
 $ctaSecondary = (array) ($hero['ctaSecondary'] ?? []);
 ?>
@@ -287,25 +289,7 @@ $ctaSecondary = (array) ($hero['ctaSecondary'] ?? []);
 </section>
 <?php endif; ?>
 
-<section class="shell section">
-  <div class="band" data-reveal>
-    <div class="band__bubble band__bubble--1" aria-hidden="true"></div>
-    <div class="band__bubble band__bubble--2" aria-hidden="true"></div>
-    <div class="band__inner">
-      <div class="kicker kicker--signal kicker--light"><?= Text::e(Content::text($page, 'band.kicker')) ?></div>
-      <h2 class="band__title"><?= Text::e(View::fill(Content::text($page, 'band.title'), ['count' => $available])) ?></h2>
-      <p class="band__text"><?= Text::e(Content::text($page, 'band.text')) ?></p>
-      <div class="band__actions">
-        <a class="btn btn--yellow-paper btn--lift" href="<?= Text::e(Router::url('contact', $lang)) ?>" data-track="band_contact"><?= Text::e(Content::text($page, 'band.cta1')) ?></a>
-        <?php if ($tel !== ''): ?>
-          <a class="btn btn--outline-paper" href="tel:<?= Text::e($tel) ?>" data-track="band_phone">
-            <span class="btn__phone" aria-hidden="true"></span><?= Text::e(Content::text($page, 'band.cta2', $phone)) ?>
-          </a>
-        <?php endif; ?>
-      </div>
-    </div>
-  </div>
-</section>
+<?= View::partial('partials/band', ['band' => (array) ($page['band'] ?? []), 'fill' => ['count' => $available]]) ?>
 
 <?php if ($faqItems !== []): ?>
 <section class="shell shell--narrow section" style="padding-bottom:40px">

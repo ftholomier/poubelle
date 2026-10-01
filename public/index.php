@@ -187,13 +187,22 @@ switch ($route['name']) {
             $notFound();
         }
         $office = Offices::decorate($raw, $lang);
+        // Titre et description à mots-clés, d'après les modèles de la page « Nos bureaux ».
+        $officeFill = [
+            'name' => $office['name'],
+            'area' => $office['area'],
+            'capacity' => $office['capacity'],
+            'price' => $office['priceLabel'],
+        ];
+        $officeTitle = View::fill(Content::text($page, 'fiche.seoTitle'), $officeFill);
+        $officeDescription = View::fill(Content::text($page, 'fiche.seoDescription'), $officeFill);
         echo View::page('office', [
             'office' => $office,
             'seo' => [
-                'title' => $office['name'] . ' — ' . $office['priceLabel'] . ' ' . I18n::t('office.perMonthShort'),
+                'title' => $officeTitle !== '' ? $officeTitle : $office['name'],
                 'description' => $office['description'] !== ''
                     ? Text::excerpt($office['description'], 170)
-                    : Content::text($page, 'seo.description'),
+                    : ($officeDescription !== '' ? $officeDescription : Content::text($page, 'seo.description')),
                 'ogImage' => $office['cover'] !== '' ? $office['cover'] : Content::text($page, 'seo.ogImage'),
             ],
             'jsonLd' => Seo::office($office, $lang),

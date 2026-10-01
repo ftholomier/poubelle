@@ -400,8 +400,16 @@ final class Gemini
                         }
                         $sources = [];
                         foreach ((array) ($entry['sources'] ?? []) as $source) {
+                            // Une source désigne une route (« spaces ») plutôt qu'une
+                            // adresse : elle suit les changements d'URL et la langue.
+                            $route = \is_array($source) ? (string) ($source['route'] ?? '') : '';
                             $sources[] = \is_array($source)
-                                ? ['label' => (string) ($source['label'] ?? ''), 'url' => (string) ($source['url'] ?? '')]
+                                ? [
+                                    'label' => Content::i18n($source, 'label', $lang),
+                                    'url' => $route !== '' && \in_array($route, Router::routeNames(), true)
+                                        ? Router::url($route, $lang)
+                                        : (string) ($source['url'] ?? ''),
+                                ]
                                 : ['label' => (string) $source, 'url' => ''];
                         }
                         return [

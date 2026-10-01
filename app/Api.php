@@ -121,6 +121,21 @@ final class Api
     }
 
     /** Langue demandée par le formulaire, repli sur la détection habituelle. */
+    /**
+     * Téléphone et case de consentement : l'équipe rappelle chaque demande,
+     * l'un et l'autre sont donc obligatoires (comme sur l'ancien formulaire).
+     * Le contrôle du navigateur ne suffit pas : un envoi direct (curl) passe ici.
+     */
+    public static function requireCallback(array $input, string $phone): void
+    {
+        if (\strlen((string) preg_replace('/\D/', '', $phone)) < 8) {
+            self::fail(I18n::t('form.phoneRequired'), 422);
+        }
+        if ((string) ($input['consent'] ?? '') !== '1') {
+            self::fail(I18n::t('form.consentRequired'), 422);
+        }
+    }
+
     public static function lang(array $input): string
     {
         $lang = self::str($input, 'lang', 5);

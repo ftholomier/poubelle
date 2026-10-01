@@ -1,5 +1,9 @@
 <?php
-/** Contact : coordonnées des deux lieux + formulaire + plan. */
+/**
+ * Contact : « Réservez votre bureau sans plus attendre », téléphone, adresse,
+ * formulaire (nom, téléphone, email, message, consentement au rappel), plan.
+ * Un seul lieu : une seule carte, affichée directement.
+ */
 
 use App\Config;
 use App\Content;
@@ -10,51 +14,50 @@ use App\View;
 
 $lang = I18n::lang();
 $sites = array_values(array_filter((array) ($settings['sites'] ?? []), static fn ($s): bool => \is_array($s) && ($s['enabled'] ?? true)));
+$site = $sites[0] ?? [];
+$address = trim((string) ($site['address'] ?? '') . ', ' . (string) ($site['zip'] ?? '') . ' ' . (string) ($site['city'] ?? ''), ' ,');
+$phone = (string) ($settings['contact']['phone'] ?? '');
+$tel = (string) preg_replace('/[^0-9+]/', '', $phone);
+$email = (string) ($settings['contact']['email'] ?? '');
 $needs = Content::list($page, 'needs');
 $firstNeed = (string) ($needs[0] ?? '');
+$embed = View::mapEmbed($address);
 ?>
-<section class="shell section--first" style="padding-top:60px">
+<section class="shell section--first contact-page">
   <div class="contact-grid">
     <div data-reveal>
-      <div class="kicker"><?= Text::e(Content::text($page, 'kicker')) ?></div>
-      <h1 class="contact-title"><?= Text::e(Content::text($page, 'title')) ?></h1>
+      <div class="kicker kicker--signal"><?= Text::e(Content::text($page, 'kicker')) ?></div>
+      <h1 class="contact-title">
+        <?= Text::e(Content::text($page, 'title')) ?>
+        <mark><?= Text::e(Content::text($page, 'highlight')) ?></mark>
+        <?= Text::e(Content::text($page, 'titleEnd')) ?>
+      </h1>
       <p class="contact-lead"><?= Text::e(Content::text($page, 'text')) ?></p>
 
-      <div class="address-list">
-        <?php foreach ($sites as $site): ?>
-          <div class="address" style="background:<?= Text::e((string) ($site['color'] ?? '#FFD100')) ?>">
-            <div class="address__name"><?= Text::e((string) ($site['name'] ?? '')) ?></div>
-            <div class="address__lines"><?= Text::e((string) ($site['address'] ?? '') . ', ' . (string) ($site['zip'] ?? '') . ' ' . (string) ($site['city'] ?? '')) ?></div>
-            <div class="address__note"><?= Text::e(Content::i18n($site, 'note', $lang)) ?></div>
-            <?php if (!empty($site['mapUrl'])): ?>
-              <a class="address__link link-underline link-underline--sm" href="<?= Text::url((string) $site['mapUrl']) ?>" target="_blank" rel="noopener"><?= Text::e(I18n::t('contact.mapNote')) ?></a>
-            <?php endif; ?>
-          </div>
-        <?php endforeach; ?>
-
-        <?php $team = array_values(array_filter((array) ($settings['contact']['team'] ?? []), 'is_array')); ?>
-        <?php if ($team !== []): ?>
-        <div class="hours">
-          <div class="hours__label"><?= Text::e(I18n::t('contact.team')) ?></div>
-          <?php foreach ($team as $member): ?>
-            <div class="hours__value"><strong><?= Text::e((string) ($member['name'] ?? '')) ?></strong></div>
-          <?php endforeach; ?>
-          <?php if (!empty($settings['contact']['phone'])): ?>
-            <div class="hours__value"><a href="tel:<?= Text::e(preg_replace('/[^0-9+]/', '', (string) $settings['contact']['phone']) ?? '') ?>"><?= Text::e((string) $settings['contact']['phone']) ?></a></div>
-          <?php endif; ?>
-        </div>
+      <div class="contact-cards">
+        <?php if ($tel !== ''): ?>
+        <a class="contact-card contact-card--phone" href="tel:<?= Text::e($tel) ?>" data-track="contact_phone">
+          <span class="contact-card__icon contact-card__icon--phone" aria-hidden="true"></span>
+          <span class="contact-card__label"><?= Text::e(I18n::t('office.phone')) ?></span>
+          <span class="contact-card__value"><?= Text::e($phone) ?></span>
+        </a>
         <?php endif; ?>
+        <?php if ($address !== ''): ?>
+        <a class="contact-card" href="#plan">
+          <span class="contact-card__icon contact-card__icon--pin" aria-hidden="true"></span>
+          <span class="contact-card__label"><?= Text::e(I18n::t('office.address')) ?></span>
+          <span class="contact-card__value"><?= Text::e((string) ($site['address'] ?? '')) ?><br><?= Text::e(trim((string) ($site['zip'] ?? '') . ' ' . (string) ($site['city'] ?? ''))) ?></span>
+          <span class="contact-card__more"><?= Text::e(I18n::t('contact.mapNote')) ?></span>
+        </a>
+        <?php endif; ?>
+      </div>
 
-        <div class="hours">
-          <div class="hours__label"><?= Text::e(I18n::t('contact.hoursLabel')) ?></div>
-          <div class="hours__value"><?= Text::e(Content::i18n((array) ($settings['contact'] ?? []), 'hours', $lang)) ?></div>
-          <?php if (!empty($settings['contact']['email'])): ?>
-            <div class="hours__value"><a href="mailto:<?= Text::e((string) $settings['contact']['email']) ?>"><?= Text::e((string) $settings['contact']['email']) ?></a></div>
-          <?php endif; ?>
-          <?php if (!empty($settings['contact']['phone'])): ?>
-            <div class="hours__value"><a href="tel:<?= Text::e(preg_replace('/[^0-9+]/', '', (string) $settings['contact']['phone']) ?? '') ?>"><?= Text::e((string) $settings['contact']['phone']) ?></a></div>
-          <?php endif; ?>
-        </div>
+      <div class="hours">
+        <div class="hours__label"><?= Text::e(I18n::t('contact.hoursLabel')) ?></div>
+        <div class="hours__value"><?= Text::e(Content::i18n((array) ($settings['contact'] ?? []), 'hours', $lang)) ?></div>
+        <?php if ($email !== ''): ?>
+          <div class="hours__value"><a href="mailto:<?= Text::e($email) ?>"><?= Text::e($email) ?></a></div>
+        <?php endif; ?>
       </div>
     </div>
 
@@ -63,19 +66,25 @@ $firstNeed = (string) ($needs[0] ?? '');
           data-success="<?= Text::e(I18n::t('form.sentContact')) ?>" data-failure="<?= Text::e(I18n::t('form.error')) ?>">
       <?= Csrf::field('contact') ?>
       <input type="hidden" name="lang" value="<?= Text::e($lang) ?>">
-      <input type="hidden" name="need" value="<?= Text::e($firstNeed) ?>" data-needs-input data-default="<?= Text::e($firstNeed) ?>">
+      <?php if ($needs !== []): ?>
+        <input type="hidden" name="need" value="<?= Text::e($firstNeed) ?>" data-needs-input data-default="<?= Text::e($firstNeed) ?>">
+      <?php endif; ?>
       <?= App\Spam::fields('contact') ?>
 
-      <div class="form__title"><?= Text::e(I18n::t('form.contactTitle')) ?></div>
+      <div class="kicker kicker--signal"><?= Text::e(Content::text($page, 'formKicker')) ?></div>
+      <h2 class="form__title">
+        <?= Text::e(Content::text($page, 'formTitle')) ?>
+        <span class="form__titleHighlight"><?= Text::e(Content::text($page, 'formHighlight')) ?></span>
+      </h2>
 
       <label class="sr-only" for="c-name"><?= Text::e(I18n::t('form.name')) ?></label>
       <input class="field" id="c-name" type="text" name="name" required maxlength="120" autocomplete="name" placeholder="<?= Text::e(I18n::t('form.name')) ?>">
 
+      <label class="sr-only" for="c-phone"><?= Text::e(I18n::t('form.phone')) ?></label>
+      <input class="field" id="c-phone" type="tel" name="phone" required maxlength="40" autocomplete="tel" placeholder="<?= Text::e(I18n::t('form.phone')) ?>">
+
       <label class="sr-only" for="c-email"><?= Text::e(I18n::t('form.emailSimple')) ?></label>
       <input class="field" id="c-email" type="email" name="email" required maxlength="160" autocomplete="email" placeholder="<?= Text::e(I18n::t('form.emailSimple')) ?>">
-
-      <label class="sr-only" for="c-phone"><?= Text::e(I18n::t('form.phone')) ?></label>
-      <input class="field" id="c-phone" type="tel" name="phone" maxlength="40" autocomplete="tel" placeholder="<?= Text::e(I18n::t('form.phone')) ?>">
 
       <?php if ($needs !== []): ?>
       <div class="needs" data-needs role="group" aria-label="<?= Text::e(I18n::t('form.message')) ?>">
@@ -86,7 +95,12 @@ $firstNeed = (string) ($needs[0] ?? '');
       <?php endif; ?>
 
       <label class="sr-only" for="c-message"><?= Text::e(I18n::t('form.message')) ?></label>
-      <textarea class="field" id="c-message" name="message" rows="5" maxlength="4000" placeholder="<?= Text::e(I18n::t('form.message')) ?>"></textarea>
+      <textarea class="field" id="c-message" name="message" rows="4" required maxlength="4000" placeholder="<?= Text::e(I18n::t('form.message')) ?>"></textarea>
+
+      <label class="check">
+        <input type="checkbox" name="consent" value="1" required>
+        <span><?= Text::e(I18n::t('form.consentCheck')) ?></span>
+      </label>
 
       <button class="btn btn--ink btn--block btn--square" type="submit"><?= Text::e(I18n::t('form.submitContact')) ?></button>
       <div class="alert" data-form-alert hidden role="status"></div>
@@ -94,27 +108,18 @@ $firstNeed = (string) ($needs[0] ?? '');
     </form>
   </div>
 
-  <?php
-  $first = $sites[0] ?? [];
-  $firstAddress = trim((string) ($first['address'] ?? '') . ', ' . (string) ($first['zip'] ?? '') . ' ' . (string) ($first['city'] ?? ''));
-  ?>
-  <?php $embed = View::mapEmbed($firstAddress); ?>
-  <div class="map map--lg<?= $embed !== '' ? ' is-loaded' : '' ?>" data-reveal data-map
-       data-embed="<?= Text::e($embed) ?>"
-       data-label="<?= Text::e((string) ($first['name'] ?? '')) ?>">
-    <?php if ($embed !== ''): ?>
-      <iframe class="map__frame" src="<?= Text::e($embed) ?>" loading="lazy"
-              title="<?= Text::e((string) ($first['name'] ?? '')) ?>"
-              referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+  <?php if ($embed !== ''): ?>
+  <div class="map map--lg is-loaded" id="plan" data-reveal>
+    <iframe class="map__frame" src="<?= Text::e($embed) ?>" loading="lazy"
+            title="<?= Text::e(I18n::t('contact.mapNote') . ' — ' . (string) ($site['name'] ?? '')) ?>"
+            referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    <?php if (!empty($site['mapUrl'])): ?>
+      <a class="map__open" href="<?= Text::url((string) $site['mapUrl']) ?>" target="_blank" rel="noopener"><?= Text::e(I18n::t('contact.mapNote')) ?> ↗</a>
     <?php endif; ?>
-    <div class="map__switch">
-      <?php foreach (\array_slice($sites, 0, 2) as $i => $site):
-          $address = trim((string) ($site['address'] ?? '') . ', ' . (string) ($site['zip'] ?? '') . ' ' . (string) ($site['city'] ?? '')); ?>
-        <button type="button" class="map__tag<?= $i === 0 ? ' is-active' : '' ?>" data-map-place
-                data-embed="<?= Text::e(View::mapEmbed($address)) ?>"
-                data-label="<?= Text::e((string) ($site['name'] ?? '')) ?>"
-                style="background:<?= Text::e((string) ($site['color'] ?? '#FFD100')) ?>"><?= Text::e((string) ($site['shortName'] ?? '')) ?></button>
-      <?php endforeach; ?>
-    </div>
   </div>
+  <?php endif; ?>
 </section>
+
+<div class="shell section">
+  <?= View::partial('partials/audio', ['kicker' => Content::text(Content::page('home', $lang), 'audio.kicker')]) ?>
+</div>

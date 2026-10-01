@@ -126,9 +126,10 @@ final class View
         if (!str_ends_with($name, '.svg')) {
             return '';
         }
+        // Le <title> d'un SVG en ligne serait un second titre de page pour les robots : le lien porte déjà son libellé.
         if (!isset($cache[$name])) {
             $raw = @file_get_contents(Config::publicPath('assets/img/' . $name));
-            $cache[$name] = \is_string($raw) ? trim((string) preg_replace('/<\?xml[^>]*\?>|<!--.*?-->/s', '', $raw)) : '';
+            $cache[$name] = \is_string($raw) ? trim((string) preg_replace('/<\?xml[^>]*\?>|<!--.*?-->|<title>.*?<\/title>/s', '', $raw)) : '';
         }
         $svg = $cache[$name];
         if ($svg === '' || $class === '') {

@@ -18,7 +18,7 @@ final class Admin
         'pages' => ['label' => 'Pages & contenus', 'title' => 'Pages & contenus', 'sub' => 'Édition champ par champ, brouillon puis publication, une version par enregistrement'],
         'offices' => ['label' => 'Bureaux & dispos', 'title' => 'Bureaux & dispos', 'sub' => 'Ce tableau pilote directement la page « Nos bureaux » du site'],
         'media' => ['label' => 'Photos', 'title' => 'Photothèque', 'sub' => 'Photos des espaces et des bureaux, textes alternatifs et légendes'],
-        'posts' => ['label' => "L'actu", 'title' => "L'actu", 'sub' => 'Articles publiés sur le site et repris par l’assistant'],
+        'posts' => ['label' => 'Actualités', 'title' => 'Actualités', 'sub' => 'Articles publiés sur le site et repris par l’assistant'],
         'requests' => ['label' => 'Demandes', 'title' => 'Demandes', 'sub' => 'Contacts, réservations et rappels de disponibilités'],
         'docs' => ['label' => 'Assistant IA', 'title' => 'Assistant IA', 'sub' => 'Documents, prompt système et questions restées sans réponse'],
         'settings' => ['label' => 'Réglages & clés', 'title' => 'Réglages & clés API', 'sub' => 'Identité du site, coordonnées, intégrations et comptes'],
@@ -27,9 +27,9 @@ final class Admin
     /** Pages éditables, dans l'ordre d'affichage. */
     public const PAGES = [
         'home' => 'Accueil',
-        'spaces' => 'Nos espaces',
-        'offices' => 'Nos bureaux',
-        'news' => "L'actu",
+        'spaces' => 'Le Signal',
+        'offices' => 'Nos bureaux et fiches',
+        'news' => 'Actualités',
         'contact' => 'Contact',
         'legal' => 'Mentions légales',
         'privacy' => 'Politique de confidentialité',
@@ -69,16 +69,27 @@ final class Admin
                     ['path' => 'hero.cardBadge.line1', 'label' => 'Vignette — ligne 1', 'type' => 'text'],
                     ['path' => 'hero.cardBadge.line2', 'label' => 'Vignette — ligne 2', 'type' => 'text'],
                 ]],
-                ['title' => 'Nos espaces', 'fields' => [
-                    ['path' => 'places.kicker', 'label' => 'Surtitre', 'type' => 'text'],
-                    ['path' => 'places.title', 'label' => 'Titre', 'type' => 'text'],
-                    ['path' => 'places.cta', 'label' => 'Bouton', 'type' => 'text'],
+                ['title' => 'Le lieu', 'fields' => [
+                    ['path' => 'place.kicker', 'label' => 'Surtitre', 'type' => 'text'],
+                    ['path' => 'place.title', 'label' => 'Titre', 'type' => 'text'],
+                    ['path' => 'place.text', 'label' => 'Texte', 'type' => 'textarea'],
+                    ['path' => 'place.cta', 'label' => 'Bouton principal (contact)', 'type' => 'text'],
+                    ['path' => 'place.ctaSecondary', 'label' => 'Bouton secondaire (page Le Signal)', 'type' => 'text'],
+                    ['path' => 'place.photo', 'label' => 'Photo', 'type' => 'media', 'max' => 1],
                 ]],
                 ['title' => 'Disponibilités', 'fields' => [
                     ['path' => 'availability.kicker', 'label' => 'Surtitre', 'type' => 'text'],
                     ['path' => 'availability.title', 'label' => 'Titre', 'type' => 'text'],
                 ]],
-                ['title' => 'Étapes', 'fields' => [
+                ['title' => 'Espaces de travail', 'fields' => [
+                    ['path' => 'spaces.kicker', 'label' => 'Surtitre', 'type' => 'text'],
+                    ['path' => 'spaces.title', 'label' => 'Titre', 'type' => 'text'],
+                    ['path' => 'spaces.items', 'label' => 'Cartes', 'type' => 'repeat', 'fields' => [
+                        ['path' => 'title', 'label' => 'Titre', 'type' => 'text'],
+                        ['path' => 'text', 'label' => 'Texte', 'type' => 'textarea'],
+                    ]],
+                ]],
+                ['title' => 'L’expérience', 'fields' => [
                     ['path' => 'steps.title', 'label' => 'Titre', 'type' => 'text'],
                     ['path' => 'steps.items', 'label' => 'Étapes', 'type' => 'repeat', 'fields' => [
                         ['path' => 'n', 'label' => 'Numéro', 'type' => 'text'],
@@ -87,12 +98,14 @@ final class Admin
                         ['path' => 'color', 'label' => 'Fond', 'type' => 'color'],
                     ]],
                 ]],
-                ['title' => 'Avis et bande de conversion', 'fields' => [
+                ['title' => 'Audio, avis et bandeau de contact', 'fields' => [
+                    ['path' => 'audio.kicker', 'label' => 'Surtitre du lecteur audio', 'type' => 'text', 'hint' => 'Le fichier, le titre et le sous-titre se règlent dans Réglages → Site.'],
                     ['path' => 'reviews.title', 'label' => 'Titre des avis', 'type' => 'text'],
-                    ['path' => 'band.title', 'label' => 'Bande — titre', 'type' => 'text', 'hint' => '{count} = nombre de postes libres.'],
-                    ['path' => 'band.text', 'label' => 'Bande — texte', 'type' => 'textarea'],
-                    ['path' => 'band.cta1', 'label' => 'Bande — bouton 1', 'type' => 'text'],
-                    ['path' => 'band.cta2', 'label' => 'Bande — bouton 2', 'type' => 'text'],
+                    ['path' => 'band.kicker', 'label' => 'Bandeau — surtitre', 'type' => 'text', 'hint' => 'Ce bandeau « N’attendez plus ! » est repris en bas des pages Le Signal et des fiches bureaux.'],
+                    ['path' => 'band.title', 'label' => 'Bandeau — titre', 'type' => 'text', 'hint' => '{count} = nombre de bureaux libres.'],
+                    ['path' => 'band.text', 'label' => 'Bandeau — texte', 'type' => 'textarea'],
+                    ['path' => 'band.cta1', 'label' => 'Bandeau — bouton contact', 'type' => 'text'],
+                    ['path' => 'band.cta2', 'label' => 'Bandeau — bouton téléphone', 'type' => 'text', 'hint' => 'Vide : le numéro des réglages est affiché.'],
                 ]],
                 ['title' => 'Questions fréquentes', 'fields' => [
                     ['path' => 'faq.title', 'label' => 'Titre', 'type' => 'text'],
@@ -106,35 +119,87 @@ final class Admin
                 $seo,
                 ['title' => 'En-tête', 'fields' => [
                     ['path' => 'kicker', 'label' => 'Surtitre', 'type' => 'text'],
-                    ['path' => 'title', 'label' => 'Titre', 'type' => 'text'],
-                    ['path' => 'text', 'label' => 'Accroche', 'type' => 'textarea'],
+                    ['path' => 'title', 'label' => 'Titre (h1)', 'type' => 'text'],
+                    ['path' => 'lead', 'label' => 'Accroche', 'type' => 'textarea'],
+                    ['path' => 'text', 'label' => 'Texte', 'type' => 'textarea'],
+                    ['path' => 'cta', 'label' => 'Bouton', 'type' => 'text'],
+                    ['path' => 'photo', 'label' => 'Photo', 'type' => 'media', 'max' => 1],
                 ]],
-                ['title' => 'Les deux lieux', 'fields' => [
-                    ['path' => 'spaces', 'label' => 'Espaces', 'type' => 'repeat', 'fields' => [
-                        ['path' => 'id', 'label' => 'Identifiant du lieu (carnot / granvelle)', 'type' => 'text'],
-                        ['path' => 'tag', 'label' => 'Étiquette', 'type' => 'text'],
-                        ['path' => 'text', 'label' => 'Description', 'type' => 'textarea'],
-                        ['path' => 'cta', 'label' => 'Bouton', 'type' => 'text'],
-                        ['path' => 'bg', 'label' => 'Fond de section', 'type' => 'color'],
-                        ['path' => 'access', 'label' => 'À proximité', 'type' => 'list'],
-                        ['path' => 'photos', 'label' => 'Photos (3 : grande, puis deux petites)', 'type' => 'media'],
-                        ['path' => 'amenities', 'label' => 'Équipements', 'type' => 'repeat', 'fields' => [
-                            ['path' => 'title', 'label' => 'Titre', 'type' => 'text'],
-                            ['path' => 'text', 'label' => 'Texte', 'type' => 'textarea'],
-                            ['path' => 'color', 'label' => 'Couleur', 'type' => 'color'],
-                        ]],
+                ['title' => 'Offre de location', 'fields' => [
+                    ['path' => 'offer.kicker', 'label' => 'Surtitre', 'type' => 'text'],
+                    ['path' => 'offer.title', 'label' => 'Titre', 'type' => 'text'],
+                    ['path' => 'offer.subtitle', 'label' => 'Sous-titre', 'type' => 'text'],
+                    ['path' => 'offer.line', 'label' => 'Pastille', 'type' => 'text'],
+                    ['path' => 'offer.text', 'label' => 'Texte (en gras)', 'type' => 'textarea'],
+                    ['path' => 'offer.text2', 'label' => 'Texte', 'type' => 'textarea'],
+                    ['path' => 'offer.parking', 'label' => 'Titre accès', 'type' => 'text'],
+                    ['path' => 'offer.access', 'label' => 'Tout est à proximité (une ligne par pastille)', 'type' => 'list'],
+                    ['path' => 'offer.cta', 'label' => 'Bouton', 'type' => 'text'],
+                ]],
+                ['title' => 'Équipements', 'fields' => [
+                    ['path' => 'amenities', 'label' => 'Équipements', 'type' => 'repeat', 'fields' => [
+                        ['path' => 'title', 'label' => 'Titre', 'type' => 'text'],
+                        ['path' => 'text', 'label' => 'Texte', 'type' => 'textarea'],
                     ]],
+                ]],
+                ['title' => 'Nos bureaux privés', 'fields' => [
+                    ['path' => 'private.title', 'label' => 'Titre', 'type' => 'text'],
+                    ['path' => 'private.line', 'label' => 'Résumé', 'type' => 'text', 'hint' => '{count}, {minArea}, {maxArea}, {min} et {max} sont calculés depuis le catalogue des bureaux privés.'],
+                    ['path' => 'private.cta', 'label' => 'Bouton', 'type' => 'text'],
+                ]],
+                ['title' => 'Album photo', 'fields' => [
+                    ['path' => 'album.kicker', 'label' => 'Surtitre', 'type' => 'text'],
+                    ['path' => 'album.title', 'label' => 'Titre', 'type' => 'text'],
+                    ['path' => 'album.text', 'label' => 'Texte', 'type' => 'textarea'],
+                    ['path' => 'album.photos', 'label' => 'Photos de l’album (dans l’ordre)', 'type' => 'media', 'hint' => 'Vide : toutes les photos de la photothèque.'],
+                    ['path' => 'audio.kicker', 'label' => 'Surtitre du lecteur audio', 'type' => 'text'],
                 ]],
             ],
             'offices' => [
                 $seo,
-                ['title' => 'En-tête', 'fields' => [
+                ['title' => 'Catalogue', 'fields' => [
                     ['path' => 'kicker', 'label' => 'Surtitre', 'type' => 'text'],
-                    ['path' => 'title', 'label' => 'Titre', 'type' => 'text'],
+                    ['path' => 'title', 'label' => 'Titre (h1)', 'type' => 'text'],
                     ['path' => 'text', 'label' => 'Accroche', 'type' => 'textarea'],
+                    ['path' => 'priceNote', 'label' => 'Mention sous l’accroche', 'type' => 'text'],
+                    ['path' => 'included', 'label' => 'Prestations incluses (une par ligne)', 'type' => 'list'],
                 ]],
-                ['title' => 'Compris dans le loyer', 'fields' => [
-                    ['path' => 'included', 'label' => 'Prestations incluses', 'type' => 'list'],
+                ['title' => 'Sélection « Bureaux privés »', 'fields' => [
+                    ['path' => 'facets.private.kicker', 'label' => 'Surtitre', 'type' => 'text'],
+                    ['path' => 'facets.private.title', 'label' => 'Titre (h1)', 'type' => 'text'],
+                    ['path' => 'facets.private.text', 'label' => 'Accroche', 'type' => 'textarea'],
+                    ['path' => 'facets.private.seo.title', 'label' => 'Titre SEO', 'type' => 'text'],
+                    ['path' => 'facets.private.seo.description', 'label' => 'Description SEO', 'type' => 'textarea'],
+                ]],
+                ['title' => 'Sélection « Bureaux ouverts »', 'fields' => [
+                    ['path' => 'facets.openspace.kicker', 'label' => 'Surtitre', 'type' => 'text'],
+                    ['path' => 'facets.openspace.title', 'label' => 'Titre (h1)', 'type' => 'text'],
+                    ['path' => 'facets.openspace.text', 'label' => 'Accroche', 'type' => 'textarea'],
+                    ['path' => 'facets.openspace.seo.title', 'label' => 'Titre SEO', 'type' => 'text'],
+                    ['path' => 'facets.openspace.seo.description', 'label' => 'Description SEO', 'type' => 'textarea'],
+                ]],
+                ['title' => 'Sélection « Bureaux disponibles »', 'fields' => [
+                    ['path' => 'facets.available.kicker', 'label' => 'Surtitre', 'type' => 'text'],
+                    ['path' => 'facets.available.title', 'label' => 'Titre (h1)', 'type' => 'text'],
+                    ['path' => 'facets.available.text', 'label' => 'Accroche', 'type' => 'textarea'],
+                    ['path' => 'facets.available.seo.title', 'label' => 'Titre SEO', 'type' => 'text'],
+                    ['path' => 'facets.available.seo.description', 'label' => 'Description SEO', 'type' => 'textarea'],
+                ]],
+                ['title' => 'Fiches bureaux', 'fields' => [
+                    ['path' => 'fiche.seoTitle', 'label' => 'Titre SEO des fiches', 'type' => 'text', 'hint' => '{name}, {area}, {capacity} et {price} sont remplacés par ceux du bureau.'],
+                    ['path' => 'fiche.seoDescription', 'label' => 'Description SEO des fiches', 'type' => 'textarea', 'hint' => 'Mêmes jetons. Utilisée quand le bureau n’a pas de description propre.'],
+                    ['path' => 'fiche.allIncluded', 'label' => 'Mention sous les photos', 'type' => 'text'],
+                    ['path' => 'fiche.access', 'label' => 'Accès', 'type' => 'textarea'],
+                    ['path' => 'fiche.access2', 'label' => 'Accès — suite', 'type' => 'textarea'],
+                    ['path' => 'fiche.visitCta', 'label' => 'Bouton visite', 'type' => 'text'],
+                    ['path' => 'fiche.types.private.title', 'label' => 'Bureau privé — titre', 'type' => 'text'],
+                    ['path' => 'fiche.types.private.text', 'label' => 'Bureau privé — texte', 'type' => 'textarea'],
+                    ['path' => 'fiche.types.openspace.title', 'label' => 'Bureau ouvert — titre', 'type' => 'text'],
+                    ['path' => 'fiche.types.openspace.text', 'label' => 'Bureau ouvert — texte', 'type' => 'textarea'],
+                    ['path' => 'fiche.quote.before', 'label' => 'Citation — début', 'type' => 'text'],
+                    ['path' => 'fiche.quote.brand', 'label' => 'Citation — nom en gras', 'type' => 'text'],
+                    ['path' => 'fiche.quote.middle', 'label' => 'Citation — suite', 'type' => 'text'],
+                    ['path' => 'fiche.quote.highlight', 'label' => 'Citation — fin surlignée', 'type' => 'text'],
                 ]],
             ],
             'news' => [
@@ -148,11 +213,16 @@ final class Admin
                 $seo,
                 ['title' => 'En-tête', 'fields' => [
                     ['path' => 'kicker', 'label' => 'Surtitre', 'type' => 'text'],
-                    ['path' => 'title', 'label' => 'Titre', 'type' => 'text'],
+                    ['path' => 'title', 'label' => 'Titre — début', 'type' => 'text'],
+                    ['path' => 'highlight', 'label' => 'Titre — mot surligné', 'type' => 'text'],
+                    ['path' => 'titleEnd', 'label' => 'Titre — fin', 'type' => 'text'],
                     ['path' => 'text', 'label' => 'Accroche', 'type' => 'textarea'],
                 ]],
                 ['title' => 'Formulaire', 'fields' => [
-                    ['path' => 'needs', 'label' => 'Choix « votre besoin »', 'type' => 'list'],
+                    ['path' => 'formKicker', 'label' => 'Surtitre', 'type' => 'text'],
+                    ['path' => 'formTitle', 'label' => 'Titre', 'type' => 'text'],
+                    ['path' => 'formHighlight', 'label' => 'Sous-titre', 'type' => 'text'],
+                    ['path' => 'needs', 'label' => 'Choix « votre besoin » (facultatif, une ligne par choix)', 'type' => 'list'],
                 ]],
             ],
         ];

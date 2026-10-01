@@ -6,12 +6,14 @@ declare(strict_types=1);
 require __DIR__ . '/../../app/bootstrap.php';
 
 use App\Api;
+use App\Content;
 use App\I18n;
 use App\Mailer;
 use App\Offices;
 use App\Requests;
 use App\Router;
 use App\Text;
+use App\View;
 
 Api::boot();
 Api::requireMethod('POST');
@@ -42,20 +44,21 @@ if ($guard['quarantine']) {
     Api::respond(['ok' => true, 'ref' => $saved['ref'], 'message' => I18n::t('exit.sent')]);
 }
 
-// Réponse immédiate au visiteur : la liste réelle des bureaux libres.
+// Réponse immédiate au visiteur, dans sa langue : la liste réelle des bureaux libres.
+$siteName = (string) (Content::settings()['site']['name'] ?? 'Le Signal');
 $rows = '';
 foreach (Offices::decorateAll(Offices::filter(Offices::published(), ['status' => 'available']), $lang) as $office) {
     $rows .= '<p>• <strong>' . Text::e($office['name']) . '</strong> — ' . Text::e($office['area'])
-        . ' — ' . Text::e($office['priceLabel']) . ' HT/mois — '
-        . '<a href="' . Text::e($office['url'] === '' ? '#' : Router::absolute('office', $lang, ['id' => (string) $office['id']])) . '">voir la fiche</a></p>';
+        . ' — ' . Text::e($office['priceLabel']) . ' ' . Text::e(I18n::t('office.perMonthShort')) . ' — '
+        . '<a href="' . Text::e(Router::absolute('office', $lang, ['id' => (string) $office['id']])) . '">' . Text::e(I18n::t('mail.view')) . '</a></p>';
 }
 Mailer::send(
     $email,
-    'Les bureaux libres au iOiO',
-    '<p>Bonjour,</p><p>Voici ce qui est réellement disponible aujourd\'hui :</p>'
-    . ($rows !== '' ? $rows : '<p>Tout est loué pour le moment — nous vous prévenons dès qu\'une place se libère.</p>')
-    . '<p><a class="btn" href="' . Text::e(Router::absolute('contact', $lang)) . '">Réserver une visite</a></p>'
-    . '<p class="muted">Vous recevez cet email parce que vous avez demandé les disponibilités sur notre site. Aucune relance commerciale.</p>'
+    View::fill(I18n::t('mail.leadSubject'), ['site' => $siteName]),
+    '<p>' . Text::e(I18n::t('mail.leadIntro')) . '</p>'
+    . ($rows !== '' ? $rows : '<p>' . Text::e(I18n::t('mail.leadNone')) . '</p>')
+    . '<p><a class="btn" href="' . Text::e(Router::absolute('contact', $lang)) . '">' . Text::e(I18n::t('mail.leadCta')) . '</a></p>'
+    . '<p class="muted">' . Text::e(I18n::t('mail.leadFooter')) . '</p>'
 );
 
 Mailer::send(Mailer::inbox(), 'Nouvelle demande de dispos', '<p>' . Text::e($email) . ' a demandé les disponibilités (réf. ' . Text::e($saved['ref']) . ').</p>');

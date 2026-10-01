@@ -5,7 +5,8 @@ namespace App;
 
 /**
  * Envoi d'emails : mail() par défaut, SMTP si les réglages sont renseignés
- * (back-office ou .env). Gabarits texte + HTML à la charte iOiO.
+ * (back-office ou .env). Gabarits texte + HTML à la charte du site : nom,
+ * logo et coordonnées sont lus dans les réglages, rien n'est écrit en dur.
  */
 final class Mailer
 {
@@ -21,7 +22,7 @@ final class Mailer
 
     public static function fromName(): string
     {
-        return Config::get('MAIL_FROM_NAME') ?? (string) (Content::settings()['site']['name'] ?? 'Le iOiO');
+        return Config::get('MAIL_FROM_NAME') ?? (string) (Content::settings()['site']['name'] ?? 'Le Signal');
     }
 
     /** Boîte qui reçoit les demandes du site. */
@@ -51,19 +52,18 @@ final class Mailer
 
     public static function sendPasswordReset(string $to, string $link): bool
     {
-        $html = '<p>Vous avez demandé la réinitialisation de votre mot de passe du back-office du iOiO.</p>'
+        $name = self::fromName();
+        $html = '<p>Vous avez demandé la réinitialisation de votre mot de passe du back-office ' . Text::e($name) . '.</p>'
             . '<p><a class="btn" href="' . Text::e($link) . '">Choisir un nouveau mot de passe</a></p>'
-            . '<p class="muted">Ce lien est valable 30 minutes et ne fonctionne qu\'une seule fois. '
-            . 'Si vous n\'êtes pas à l\'origine de cette demande, ignorez cet email : rien ne change.</p>'
+            . '<p class="muted">Ce lien est valable 30 minutes et ne fonctionne qu’une seule fois. '
+            . 'Si vous n’êtes pas à l’origine de cette demande, ignorez cet email : rien ne change.</p>'
             . '<p class="muted">' . Text::e($link) . '</p>';
-        return self::send($to, 'Réinitialisation de votre mot de passe — Le iOiO', $html);
+        return self::send($to, 'Réinitialisation de votre mot de passe — ' . $name, $html);
     }
-
-    // ------------------------------------------------------------- transports
 
     private static function sendMail(string $to, string $subject, string $html, string $text, string $replyTo): bool
     {
-        $boundary = 'ioio' . bin2hex(random_bytes(8));
+        $boundary = 'site' . bin2hex(random_bytes(8));
         $headers = self::headers($replyTo, $boundary);
         $body = self::multipart($boundary, $text, $html);
         $subject = self::encodeHeader($subject);
@@ -124,7 +124,7 @@ final class Mailer
                 && $cmd(base64_encode($pass), '235');
         }
 
-        $boundary = 'ioio' . bin2hex(random_bytes(8));
+        $boundary = 'site' . bin2hex(random_bytes(8));
         $headers = array_merge(self::headers($replyTo, $boundary), [
             'To: ' . $to,
             'Subject: ' . self::encodeHeader($subject),
@@ -150,7 +150,7 @@ final class Mailer
             'From: ' . self::encodeHeader(self::fromName()) . ' <' . self::fromAddress() . '>',
             'MIME-Version: 1.0',
             'Content-Type: multipart/alternative; boundary="' . $boundary . '"',
-            'X-Mailer: iOiO',
+            'X-Mailer: ' . self::encodeHeader(self::fromName()),
         ];
         if ($replyTo !== '' && filter_var($replyTo, FILTER_VALIDATE_EMAIL)) {
             $headers[] = 'Reply-To: ' . $replyTo;
@@ -195,25 +195,43 @@ final class Mailer
             : $value;
     }
 
-    /** Gabarit HTML aux couleurs de la marque (flat, bordures noires). */
+    /**
+     * Gabarit HTML aux couleurs de la marque : bandeau encre avec le logo
+     * blanc, bouton jaune, pied avec l'adresse et le téléphone. Le logo est
+     * une image PNG (les SVG ne s'affichent pas dans Gmail ni Outlook).
+     */
     private static function wrap(string $title, string $content): string
     {
-        return '<!doctype html><html lang="fr"><head><meta charset="utf-8">'
+        $settings = Content::settings();
+        $name = self::fromName();
+        $logo = (string) ($settings['site']['logoMail'] ?? '');
+        $site = (array) (($settings['sites'] ?? [])[0] ?? []);
+        $address = trim((string) ($site['address'] ?? '') . ', ' . (string) ($site['zip'] ?? '') . ' ' . (string) ($site['city'] ?? ''), ' ,');
+        $phone = (string) ($settings['contact']['phone'] ?? '');
+        $home = Config::baseUrl() . Config::basePath() . '/';
+        $brand = $logo !== '' && is_file(Config::publicPath(ltrim($logo, '/')))
+            ? '<img src="' . Text::e(Config::baseUrl() . Config::basePath() . $logo) . '" alt="' . Text::e($name) . '" width="180" style="display:block;width:180px;max-width:60%;height:auto;border:0">'
+            : Text::e($name);
+
+        return '<!doctype html><html lang="' . Text::e(I18n::lang()) . '"><head><meta charset="utf-8">'
             . '<meta name="viewport" content="width=device-width,initial-scale=1"><title>' . Text::e($title) . '</title></head>'
-            . '<body style="margin:0;background:#FFF8EA;font-family:Manrope,Helvetica,Arial,sans-serif;color:#0E0E0E">'
-            . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FFF8EA;padding:28px 16px">'
+            . '<body style="margin:0;background:#F2F3F5;font-family:Inter,Helvetica,Arial,sans-serif;color:#101820">'
+            . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F2F3F5;padding:28px 16px">'
             . '<tr><td align="center">'
-            . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FFFFFF;border:2px solid #0E0E0E;border-radius:22px;overflow:hidden">'
-            . '<tr><td style="background:#0E0E0E;color:#FFF8EA;padding:22px 26px;font-size:20px;font-weight:800;letter-spacing:-.02em">Le iOiO</td></tr>'
+            . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FFFFFF;border-radius:26px 26px 26px 7px;overflow:hidden">'
+            . '<tr><td style="background:#101820;color:#FFFFFF;padding:22px 26px;font-size:20px;font-weight:700;letter-spacing:-.02em">'
+            . '<a href="' . Text::e($home) . '" style="color:#FFFFFF;text-decoration:none">' . $brand . '</a></td></tr>'
+            . '<tr><td style="height:6px;background:#FFCC00;font-size:0;line-height:0">&nbsp;</td></tr>'
             . '<tr><td style="padding:26px;font-size:15px;line-height:1.6">'
             . str_replace(
                 ['<p>', '<p class="muted">', '<a class="btn"'],
-                ['<p style="margin:0 0 14px">', '<p style="margin:0 0 14px;opacity:.65;font-size:13px">', '<a style="display:inline-block;padding:14px 22px;border-radius:999px;background:#FFD100;color:#0E0E0E;font-weight:800;text-decoration:none"'],
+                ['<p style="margin:0 0 14px">', '<p style="margin:0 0 14px;color:#5B636B;font-size:13px">', '<a style="display:inline-block;padding:14px 22px;border-radius:999px 999px 999px 9px;background:#FFCC00;color:#101820;font-weight:700;text-decoration:none"'],
                 $content
             )
             . '</td></tr>'
-            . '<tr><td style="padding:18px 26px;border-top:2px solid #0E0E0E;background:#FFF8EA;font-size:12px;opacity:.7">'
-            . Text::e(self::fromName()) . ' — ' . Text::e(Config::baseUrl())
+            . '<tr><td style="padding:18px 26px;background:#F2F3F5;font-size:12px;color:#5B636B">'
+            . Text::e(implode(' — ', array_filter([$name, $address, $phone])))
+            . '<br><a href="' . Text::e($home) . '" style="color:#5B636B">' . Text::e(preg_replace('#^https?://#', '', rtrim($home, '/')) ?? '') . '</a>'
             . '</td></tr></table></td></tr></table></body></html>';
     }
 }

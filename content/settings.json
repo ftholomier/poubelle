@@ -211,7 +211,12 @@
                 "sources": [
                     {
                         "label": "Page Le Signal",
-                        "url": "/le-signal"
+                        "route": "spaces",
+                        "i18n": {
+                            "en": {
+                                "label": "Le Signal page"
+                            }
+                        }
                     }
                 ],
                 "i18n": {
@@ -234,7 +239,12 @@
                 "sources": [
                     {
                         "label": "Page Le Signal",
-                        "url": "/le-signal"
+                        "route": "spaces",
+                        "i18n": {
+                            "en": {
+                                "label": "Le Signal page"
+                            }
+                        }
                     }
                 ],
                 "i18n": {
@@ -261,7 +271,12 @@
                 "sources": [
                     {
                         "label": "Page Le Signal",
-                        "url": "/le-signal"
+                        "route": "spaces",
+                        "i18n": {
+                            "en": {
+                                "label": "Le Signal page"
+                            }
+                        }
                     }
                 ],
                 "i18n": {
@@ -281,16 +296,21 @@
                     "furnished"
                 ],
                 "enabled": true,
-                "answer": "Le mobilier est à disposition si besoin : bureau, fauteuil, rangement. Vous pouvez aussi venir avec le vôtre.",
+                "answer": "Le mobilier est à disposition si besoin : bureau, fauteuil, rangement.",
                 "sources": [
                     {
                         "label": "Page Le Signal",
-                        "url": "/le-signal"
+                        "route": "spaces",
+                        "i18n": {
+                            "en": {
+                                "label": "Le Signal page"
+                            }
+                        }
                     }
                 ],
                 "i18n": {
                     "en": {
-                        "answer": "Furniture is available if you need it: desk, chair, storage. You can also bring your own."
+                        "answer": "Furniture is available if you need it: desk, chair, storage."
                     }
                 }
             },
@@ -311,7 +331,12 @@
                 "sources": [
                     {
                         "label": "Page Contact",
-                        "url": "/contact"
+                        "route": "contact",
+                        "i18n": {
+                            "en": {
+                                "label": "Contact page"
+                            }
+                        }
                     }
                 ],
                 "i18n": {

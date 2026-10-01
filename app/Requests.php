@@ -41,7 +41,7 @@ final class Requests
             'spamScore' => 0,
             'spamReasons' => [],
             'at' => (new \DateTimeImmutable())->format(\DATE_ATOM),
-            'ip' => hash('sha256', RateLimit::ip() . '|ioio'), // pseudonymisée : jamais l'IP en clair
+            'ip' => hash('sha256', RateLimit::ip() . '|' . Config::COOKIE_PREFIX), // pseudonymisée : jamais l'IP en clair
         ], $payload, ['ref' => $ref]));
 
         // Rétention : 24 mois annoncés dans les mentions légales.

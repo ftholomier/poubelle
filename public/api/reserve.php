@@ -1,17 +1,22 @@
 <?php
 declare(strict_types=1);
 
-/** POST : réservation d'un bureau depuis sa fiche. */
+/**
+ * POST : « Ce bureau m'intéresse » depuis une fiche. Pas de vente en ligne :
+ * la demande est enregistrée, l'équipe est prévenue et rappelle le visiteur.
+ */
 
 require __DIR__ . '/../../app/bootstrap.php';
 
 use App\Api;
+use App\Content;
 use App\I18n;
 use App\Mailer;
 use App\Offices;
 use App\Requests;
 use App\Router;
 use App\Text;
+use App\View;
 
 Api::boot();
 Api::requireMethod('POST');
@@ -29,10 +34,11 @@ $officeId = Api::str($input, 'officeId', 80);
 if ($name === '' || $email === '') {
     Api::fail(I18n::t('form.required'), 422);
 }
+Api::requireCallback($input, $phone);
 
 $office = Offices::findPublished($officeId);
 if ($office === null) {
-    Api::fail('Ce bureau n\'est plus disponible à la réservation.', 404);
+    Api::fail(I18n::t('form.error'), 404);
 }
 $decorated = Offices::decorate($office, $lang);
 
@@ -49,23 +55,32 @@ $saved = Requests::add([
     'startDate' => $startDate,
     'lang' => $lang,
     'source' => 'fiche-bureau',
+    'consent' => true,
 ]);
 
-$html = '<p><strong>Nouvelle réservation</strong> (réf. ' . Text::e($saved['ref']) . ')</p>'
-    . '<p>Bureau : ' . Text::e($decorated['name']) . ' — ' . Text::e($decorated['priceLabel']) . ' HT/mois — ' . Text::e($decorated['statusLabel']) . '</p>'
-    . '<p>' . Text::e($name) . ' — ' . Text::e($email) . ($phone !== '' ? ' — ' . Text::e($phone) : '') . '</p>'
+$settings = Content::settings();
+$siteName = (string) ($settings['site']['name'] ?? 'Le Signal');
+$sitePhone = (string) ($settings['contact']['phone'] ?? '');
+$isRented = ($office['status'] ?? '') === 'rented';
+
+// Message à l'équipe : toujours en français, avec ce qu'il faut pour rappeler.
+$html = '<p><strong>' . ($isRented ? 'Intérêt pour un bureau réservé' : 'Nouvelle demande pour un bureau') . '</strong> (réf. ' . Text::e($saved['ref']) . ')</p>'
+    . '<p>Bureau : ' . Text::e(Offices::decorate($office, 'fr')['name']) . ' — ' . Text::e($decorated['priceLabel']) . ' HT/mois — ' . Text::e(Offices::statusLabel((string) ($office['status'] ?? ''))) . '</p>'
+    . '<p>' . Text::e($name) . ' — <a href="tel:' . Text::e((string) preg_replace('/[^0-9+]/', '', $phone)) . '">' . Text::e($phone) . '</a> — ' . Text::e($email) . '</p>'
     . ($startDate !== '' ? '<p>Entrée souhaitée : ' . Text::e($startDate) . '</p>' : '')
-    . '<p><a class="btn" href="' . Text::e(Router::absolute('office', $lang, ['id' => $officeId])) . '">Voir la fiche</a></p>';
+    . '<p class="muted">Consentement au rappel téléphonique donné. Langue du visiteur : ' . Text::e($lang) . '.</p>'
+    . '<p><a class="btn" href="' . Text::e(Router::absolute('office', 'fr', ['id' => $officeId])) . '">Voir la fiche</a></p>';
 // En quarantaine, rien ne part : ni l'alerte à l'équipe, ni l'accusé au visiteur.
 if (!$guard['quarantine']) {
-    Mailer::send(Mailer::inbox(), 'Réservation — ' . $decorated['name'], $html, '', $email);
+    Mailer::send(Mailer::inbox(), ($isRented ? 'Intérêt (réservé) — ' : 'Demande bureau — ') . Offices::decorate($office, 'fr')['name'] . ' — ' . $name, $html, '', $email);
+    $fill = ['name' => $name, 'office' => $decorated['name'], 'price' => $decorated['priceLabel'], 'site' => $siteName, 'ref' => $saved['ref'], 'phone' => $sitePhone];
     Mailer::send(
         $email,
-        'Votre demande pour ' . $decorated['name'] . ' — Le iOiO',
-        '<p>Bonjour ' . Text::e($name) . ',</p>'
-        . '<p>Nous avons bien reçu votre demande pour <strong>' . Text::e($decorated['name']) . '</strong> ('
-        . Text::e($decorated['priceLabel']) . ' HT/mois, tout compris). Nous revenons vers vous sous 24 h ouvrées avec deux créneaux de visite.</p>'
-        . '<p class="muted">Référence : ' . Text::e($saved['ref']) . '</p>'
+        View::fill(I18n::t('mail.reserveSubject'), $fill),
+        '<p>' . Text::e(View::fill(I18n::t('mail.hello'), $fill)) . '</p>'
+        . '<p>' . Text::e(View::fill(I18n::t($isRented ? 'mail.notifyBody' : 'mail.reserveBody'), $fill)) . '</p>'
+        . ($sitePhone !== '' ? '<p>' . Text::e(View::fill(I18n::t('mail.callUs'), $fill)) . '</p>' : '')
+        . '<p class="muted">' . Text::e(View::fill(I18n::t('mail.ref'), $fill)) . '</p>'
     );
 }
 
