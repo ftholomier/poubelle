@@ -1,5 +1,6 @@
 <?php
-// Génération des documents PDF (vrais PDF, polices intégrées) avec tFPDF.
+// Génération des documents PDF (vrais PDF, polices intégrées) avec tFPDF, à la charte Synapse :
+// fond crème, encre noire, surlignage citron, étiquette orange, cartes à contour noir, bandeau noir.
 // Documents : fiche du bien, annonce, rapport interne, compte rendu vendeur, dossier complet.
 
 require_once __DIR__ . '/lib/tfpdf/tfpdf.php';
@@ -16,16 +17,24 @@ const PDF_DOCS = [
 // Couleurs officielles des étiquettes DPE / GES
 const DPE_COULEURS = ['A' => [0, 150, 64], 'B' => [81, 184, 72], 'C' => [170, 204, 36], 'D' => [255, 222, 0], 'E' => [251, 176, 0], 'F' => [235, 100, 30], 'G' => [215, 33, 27]];
 
+// Charte Synapse
+const C_CREME = [244, 241, 234];
+const C_PAPIER = [255, 253, 248];
+const C_ENCRE = [17, 17, 20];
+const C_GRIS = [109, 107, 100];
+const C_LIGNE = [214, 208, 195];
+const C_CITRON = [212, 242, 46];
+const C_ORANGE = [255, 107, 53];
+const C_VERT = [46, 125, 58];
+const C_ROUGE = [232, 85, 43];
+
 class VisitePdf extends tFPDF
 {
-    public array $brand = [20, 33, 61];
+    public array $brand = C_VERT;
     public string $agence = '';
     public string $coordonnees = '';
     public ?string $logo = null;
     public string $docLabel = '';
-    protected array $ink = [24, 28, 38];
-    protected array $muted = [110, 116, 130];
-    protected array $line = [222, 225, 232];
 
     public function __construct()
     {
@@ -35,68 +44,77 @@ class VisitePdf extends tFPDF
         $this->AddFont('Archivo', 'I', 'Archivo-Italic.ttf', true);
         $this->AddFont('ArchivoSemi', '', 'Archivo-SemiBold.ttf', true);
         $this->AddFont('ArchivoBlack', '', 'Archivo-ExtraBold.ttf', true);
+        $this->AddFont('Mono', '', 'JetBrainsMono-Medium.ttf', true);
         $this->SetMargins(18, 18, 18);
-        $this->SetAutoPageBreak(true, 22);
+        $this->SetAutoPageBreak(true, 26);
         $this->AliasNbPages();
-        $this->SetCreator('Visite Immo', true);
-    }
-
-    // ---------- En-tête et pied de page ----------
-
-    public function Header(): void
-    {
-        if ($this->PageNo() === 1) {
-            // Papier à en-tête : logo à gauche, agence à droite
-            $logoBas = 14;
-            if ($this->logo && is_file($this->logo)) {
-                [$w, $h] = @getimagesize($this->logo) ?: [1, 1];
-                $hauteur = min(16, 52 * $h / max($w, 1));
-                $this->Image($this->logo, 18, 13, 0, $hauteur);
-                $logoBas = 13 + $hauteur;
-            } else {
-                $this->SetXY(18, 14);
-                $this->font('black', 15, $this->brand);
-                $this->Cell(100, 7, $this->agence);
-                $logoBas = 22;
-            }
-            $this->SetXY(110, 13);
-            $this->font('semi', 9.5, $this->ink);
-            $this->Cell(82, 5, $this->agence, 0, 2, 'R');
-            $this->font('', 8, $this->muted);
-            foreach (array_filter(array_map('trim', explode("\n", $this->coordonnees))) as $l) $this->Cell(82, 3.9, $l, 0, 2, 'R');
-            $y = max($logoBas, $this->GetY()) + 5;
-            $this->SetDrawColor(...$this->brand);
-            $this->SetLineWidth(0.7);
-            $this->Line(18, $y, 192, $y);
-            $this->SetY($y + 8);
-        } else {
-            $this->SetXY(18, 10);
-            $this->font('semi', 8, $this->muted);
-            $this->Cell(87, 4, $this->agence);
-            $this->Cell(87, 4, mb_strtoupper($this->docLabel), 0, 0, 'R');
-            $this->SetDrawColor(...$this->line);
-            $this->SetLineWidth(0.3);
-            $this->Line(18, 16, 192, 16);
-            $this->SetY(24);
-        }
-    }
-
-    public function Footer(): void
-    {
-        $this->SetY(-14);
-        $this->SetDrawColor(...$this->line);
-        $this->SetLineWidth(0.3);
-        $this->Line(18, $this->GetY(), 192, $this->GetY());
-        $this->Ln(2.5);
-        $this->font('', 7.5, $this->muted);
-        $this->Cell(140, 4, $this->agence . ($this->docLabel ? ' · ' . $this->docLabel : ''));
-        $this->Cell(34, 4, 'Page ' . $this->PageNo() . ' / {nb}', 0, 0, 'R');
+        $this->SetCreator('Visite Immo · Synapse', true);
     }
 
     // Texte aligné à gauche par défaut (le justifié étire les mots des titres)
     public function MultiCell($w, $h, $txt, $border = 0, $align = 'L', $fill = false)
     {
         parent::MultiCell($w, $h, $txt, $border, $align, $fill);
+    }
+
+    // ---------- En-tête et pied de page ----------
+
+    public function Header(): void
+    {
+        // Fond crème sur toute la page
+        $this->SetFillColor(...C_CREME);
+        $this->Rect(0, 0, $this->w, $this->h, 'F');
+
+        if ($this->PageNo() === 1) {
+            $bas = 30;
+            if ($this->logo && is_file($this->logo)) {
+                [$w, $h] = @getimagesize($this->logo) ?: [1, 1];
+                $hauteur = min(17, 70 * $h / max($w, 1));
+                $this->Image($this->logo, 18, 13, 0, $hauteur);
+                $bas = 13 + $hauteur;
+            } else {
+                $this->SetXY(18, 14);
+                $this->font('black', 20, C_ENCRE);
+                $this->Cell(100, 9, $this->agence);
+                $bas = 24;
+            }
+            $this->SetXY(108, 14);
+            $this->font('mono', 6.8, C_ENCRE);
+            $this->Cell(84, 4, mb_strtoupper($this->agence), 0, 2, 'R');
+            $this->font('mono', 6.6, C_GRIS);
+            foreach (array_filter(array_map('trim', explode("\n", $this->coordonnees))) as $l) $this->Cell(84, 3.7, mb_strtoupper($l), 0, 2, 'R');
+            $this->SetY(max($bas, $this->GetY()) + 9);
+        } else {
+            $this->SetXY(18, 10);
+            $this->font('mono', 6.8, C_GRIS);
+            $this->Cell(87, 4, mb_strtoupper($this->agence));
+            $this->Cell(87, 4, mb_strtoupper($this->docLabel), 0, 0, 'R');
+            $this->SetDrawColor(...C_ENCRE);
+            $this->SetLineWidth(0.35);
+            $this->Line(18, 16, 192, 16);
+            $this->SetY(24);
+        }
+    }
+
+    /** Bandeau noir en bas de page, façon « ticker », avec étoiles citron. */
+    public function Footer(): void
+    {
+        $y = $this->h - 17;
+        $this->SetFillColor(...C_ENCRE);
+        $this->roundedRect(18, $y, 174, 8, 2);
+        $morceaux = [mb_strtoupper($this->agence), mb_strtoupper($this->docLabel), 'PAGE ' . $this->PageNo() . ' / {nb}'];
+        $this->font('mono', 6.6, C_CREME);
+        $x = 23;
+        foreach ($morceaux as $i => $m) {
+            if ($i > 0) {
+                $this->star($x + 2.2, $y + 4, 1.5, C_CITRON);
+                $x += 6;
+            }
+            $this->SetXY($x, $y + 2);
+            $w = $this->GetStringWidth(str_replace('{nb}', '99', $m)) + 1;
+            $this->Cell($w, 4, $m);
+            $x += $w + 1.5;
+        }
     }
 
     // ---------- Outils de mise en page ----------
@@ -106,15 +124,10 @@ class VisitePdf extends tFPDF
         match ($style) {
             'black' => $this->SetFont('ArchivoBlack', '', $size),
             'semi'  => $this->SetFont('ArchivoSemi', '', $size),
+            'mono'  => $this->SetFont('Mono', '', $size),
             default => $this->SetFont('Archivo', $style, $size),
         };
         $this->SetTextColor(...$color);
-    }
-
-    /** Couleur de marque éclaircie (0 = couleur pure, 1 = blanc). */
-    public function tint(float $ratio): array
-    {
-        return array_map(fn ($c) => (int) round($c + (255 - $c) * $ratio), $this->brand);
     }
 
     public function ensureSpace(float $h): void
@@ -150,74 +163,145 @@ class VisitePdf extends tFPDF
         $this->_out(sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c', $x1 * $this->k, ($h - $y1) * $this->k, $x2 * $this->k, ($h - $y2) * $this->k, $x3 * $this->k, ($h - $y3) * $this->k));
     }
 
-    /** Étiquette, grand titre et ligne d'informations en tête de document. */
+    /** Étoile à cinq branches (la police n'a pas le caractère ★). */
+    public function star(float $cx, float $cy, float $r, array $color): void
+    {
+        $this->SetFillColor(...$color);
+        $pts = [];
+        for ($i = 0; $i < 10; $i++) {
+            $a = -M_PI / 2 + $i * M_PI / 5;
+            $rr = $i % 2 ? $r * 0.45 : $r;
+            $pts[] = sprintf('%.2F %.2F', ($cx + $rr * cos($a)) * $this->k, ($this->h - ($cy + $rr * sin($a))) * $this->k);
+        }
+        $this->_out($pts[0] . ' m ' . implode(' l ', array_slice($pts, 1)) . ' l h f');
+    }
+
+    /** Étiquette orange légèrement inclinée, en police machine à écrire. */
+    public function tag(string $texte, array $fond = C_ORANGE, array $encre = C_ENCRE, float $angle = 2): float
+    {
+        $texte = mb_strtoupper($texte);
+        $this->font('mono', 7.2, $encre);
+        $w = $this->GetStringWidth($texte) + 7;
+        $x = $this->GetX(); $y = $this->GetY();
+        // rotation autour du coin gauche de l'étiquette
+        $a = deg2rad($angle); $cx = $x * $this->k; $cy = ($this->h - $y - 3.2) * $this->k;
+        $this->_out(sprintf('q %.5F %.5F %.5F %.5F %.2F %.2F cm', cos($a), sin($a), -sin($a), cos($a), $cx - cos($a) * $cx + sin($a) * $cy, $cy - sin($a) * $cx - cos($a) * $cy));
+        $this->SetFillColor(...$fond);
+        $this->roundedRect($x, $y, $w, 6.4, 1.4);
+        $this->SetXY($x, $y + 1.2);
+        $this->Cell($w, 4, $texte, 0, 0, 'C');
+        $this->_out('Q');
+        return $w;
+    }
+
+    /** Découpe un texte en lignes qui tiennent dans la largeur donnée (police courante). */
+    public function wrap(string $texte, float $largeur): array
+    {
+        $lignes = [];
+        $courante = '';
+        foreach (preg_split('/\s+/u', trim($texte)) as $mot) {
+            $essai = $courante === '' ? $mot : "$courante $mot";
+            if ($courante !== '' && $this->GetStringWidth($essai) > $largeur) {
+                $lignes[] = $courante;
+                $courante = $mot;
+            } else {
+                $courante = $essai;
+            }
+        }
+        if ($courante !== '') $lignes[] = $courante;
+        return $lignes;
+    }
+
+    /** Étiquette, grand titre (dernière ligne surlignée citron) et ligne d'informations. */
     public function titleBlock(string $label, string $titre, string $meta, ?string $pastille = null): void
     {
-        $this->font('semi', 8.5, $this->brand);
-        $this->Cell($this->GetStringWidth(mb_strtoupper($label)) + 2, 5, mb_strtoupper($label));
+        $y = $this->GetY();
+        $this->SetX(19);
+        $w = $this->tag($label);
         if ($pastille) {
-            $this->SetFillColor(215, 33, 27);
-            $this->font('semi', 7, [255, 255, 255]);
-            $w = $this->GetStringWidth($pastille) + 5;
-            $this->roundedRect($this->GetX() + 2, $this->GetY() + 0.4, $w, 4.4, 2.2);
-            $this->SetX($this->GetX() + 2);
-            $this->Cell($w, 5, $pastille, 0, 0, 'C');
+            $this->SetXY(19 + $w + 4, $y - 0.6);
+            $this->tag($pastille, C_ENCRE, C_CITRON, 0);
         }
-        $this->Ln(7);
-        $this->font('black', 21, $this->ink);
-        $this->MultiCell(0, 9, $titre);
-        $this->Ln(1);
-        $this->font('', 9.5, $this->muted);
+        $this->SetY($y + 12);
+
+        $taille = 25;
+        $this->font('black', $taille, C_ENCRE);
+        $lignes = $this->wrap($titre, 174);
+        if (count($lignes) > 3) {
+            $taille = 19;
+            $this->font('black', $taille, C_ENCRE);
+            $lignes = $this->wrap($titre, 174);
+        }
+        $hauteur = $taille * 0.42;
+        foreach ($lignes as $i => $l) {
+            if ($i === count($lignes) - 1) {
+                $this->SetFillColor(...C_CITRON);
+                $this->Rect(17, $this->GetY() + 0.6, $this->GetStringWidth($l) + 3, $hauteur - 0.4, 'F');
+            }
+            $this->SetX(18.5);
+            $this->Cell(0, $hauteur, $l, 0, 1);
+        }
+        $this->Ln(3);
+        $this->font('', 10, [59, 59, 64]);
         $this->MultiCell(0, 5, $meta);
-        $this->Ln(6);
+        $this->Ln(7);
     }
 
     public function sectionTitle(string $titre): void
     {
-        $this->ensureSpace(18);
-        $y = $this->GetY();
-        $this->SetFillColor(...$this->brand);
-        $this->Rect(18, $y + 0.6, 1.3, 4.6, 'F');
-        $this->SetX(22);
-        $this->font('semi', 10.5, $this->ink);
-        $this->Cell(0, 6, mb_strtoupper($titre));
-        $this->Ln(8);
+        $this->ensureSpace(20);
+        $this->font('mono', 8, C_VERT);
+        $this->Cell(0, 5, mb_strtoupper($titre), 0, 1);
+        $this->SetDrawColor(...C_ENCRE);
+        $this->SetLineWidth(0.35);
+        $this->Line(18, $this->GetY() + 0.5, 192, $this->GetY() + 0.5);
+        $this->Ln(4.5);
     }
 
-    /** Rangée de chiffres clés dans des cartouches arrondis. */
+    /** Rangée de chiffres clés : cartes à contour noir, le prix en carte noire. */
     public function statBoxes(array $stats): void
     {
         if (!$stats) return;
         $stats = array_slice($stats, 0, 5);
         $gap = 3;
         $w = (174 - $gap * (count($stats) - 1)) / count($stats);
-        $h = 19;
+        $h = 21;
         $this->ensureSpace($h + 6);
         $y = $this->GetY();
+        $couleursLabel = [C_ORANGE, C_VERT, C_ORANGE, C_VERT];
         foreach ($stats as $i => $s) {
             $x = 18 + $i * ($w + $gap);
+            $this->SetDrawColor(...C_ENCRE);
+            $this->SetLineWidth(0.35);
             if (isset($s['dpe'])) {
-                $this->SetFillColor(...(DPE_COULEURS[$s['dpe']] ?? $this->brand));
-                $this->roundedRect($x, $y, $w, $h, 2.5);
+                $this->SetFillColor(...(DPE_COULEURS[$s['dpe']] ?? C_VERT));
+                $this->roundedRect($x, $y, $w, $h, 2.5, 'FD');
                 $clair = in_array($s['dpe'], ['C', 'D', 'E'], true);
-                $this->SetXY($x, $y + 2.6);
-                $this->font('black', 16, $clair ? $this->ink : [255, 255, 255]);
-                $this->Cell($w, 8, $s['dpe'], 0, 2, 'C');
-                $this->font('semi', 7.5, $clair ? $this->ink : [255, 255, 255]);
-                $this->Cell($w, 4.5, $s['label'], 0, 0, 'C');
+                $this->SetXY($x, $y + 3.2);
+                $this->font('mono', 6.4, $clair ? C_ENCRE : [255, 255, 255]);
+                $this->Cell($w, 3.5, mb_strtoupper($s['label']), 0, 2, 'C');
+                $this->font('black', 17, $clair ? C_ENCRE : [255, 255, 255]);
+                $this->Cell($w, 9, $s['dpe'], 0, 0, 'C');
                 continue;
             }
-            $this->SetFillColor(...$this->tint(0.92));
-            $this->roundedRect($x, $y, $w, $h, 2.5);
-            $this->SetXY($x, $y + 3);
-            $taille = 14;
-            $this->font('black', $taille, $this->brand);
-            while ($this->GetStringWidth($s['valeur']) > $w - 4 && $taille > 8) $this->font('black', --$taille, $this->brand);
-            $this->Cell($w, 7.5, $s['valeur'], 0, 2, 'C');
-            $this->font('', 7.5, $this->muted);
-            $this->Cell($w, 4, $s['label'], 0, 0, 'C');
+            $sombre = !empty($s['sombre']);
+            $this->SetFillColor(...($sombre ? C_ENCRE : C_PAPIER));
+            $this->roundedRect($x, $y, $w, $h, 2.5, 'FD');
+            $this->SetXY($x + 3.5, $y + 3.4);
+            $this->font('mono', 6.2, $sombre ? C_CITRON : $couleursLabel[$i % 4]);
+            $this->Cell($w - 7, 3.5, mb_strtoupper($s['label']), 0, 2);
+            $taille = 14.5;
+            $this->font('black', $taille, $sombre ? C_CREME : C_ENCRE);
+            while ($this->GetStringWidth($s['valeur']) > $w - 7 && $taille > 8) $this->font('black', --$taille, $sombre ? C_CREME : C_ENCRE);
+            $this->SetX($x + 3.5);
+            $this->Cell($w - 7, 9, $s['valeur'], 0, 2);
+            if (!empty($s['detail'])) {
+                $this->SetX($x + 3.5);
+                $this->font('mono', 5.8, $sombre ? [200, 198, 190] : C_GRIS);
+                $this->Cell($w - 7, 3, mb_strtoupper($s['detail']), 0, 0);
+            }
         }
-        $this->SetY($y + $h + 8);
+        $this->SetY($y + $h + 9);
     }
 
     /** Tableau libellé / valeur sur deux colonnes ; les textes longs prennent toute la largeur. */
@@ -227,7 +311,7 @@ class VisitePdf extends tFPDF
         $longs = array_values(array_filter($rows, fn ($r) => $r['long']));
         $colW = 84;
         for ($i = 0; $i < count($courts); $i += 2) {
-            $this->ensureSpace(11);
+            $this->ensureSpace(12);
             $y = $this->GetY();
             $hauteur = 0;
             foreach ([0, 1] as $c) {
@@ -235,30 +319,30 @@ class VisitePdf extends tFPDF
                 $r = $courts[$i + $c];
                 $x = 18 + $c * ($colW + 6);
                 $this->SetXY($x, $y);
-                $this->font('', 7.5, $this->muted);
+                $this->font('mono', 6.4, C_GRIS);
                 $this->Cell($colW, 4, mb_strtoupper($r['label']), 0, 2);
-                $this->font('semi', 10.5, $this->ink);
+                $this->font('semi', 10.5, C_ENCRE);
                 $this->MultiCell($colW, 5, $r['valeur']);
                 $hauteur = max($hauteur, $this->GetY() - $y);
             }
-            $this->SetY($y + $hauteur + 1.5);
-            $this->SetDrawColor(...$this->line);
+            $this->SetY($y + $hauteur + 1.8);
+            $this->SetDrawColor(...C_LIGNE);
             $this->SetLineWidth(0.2);
             $this->Line(18, $this->GetY(), 192, $this->GetY());
-            $this->Ln(2.5);
+            $this->Ln(2.8);
         }
         foreach ($longs as $r) {
             $this->ensureSpace(14);
-            $this->font('', 7.5, $this->muted);
+            $this->font('mono', 6.4, C_GRIS);
             $this->Cell(0, 4, mb_strtoupper($r['label']), 0, 2);
-            $this->font('', 10.5, $this->ink);
+            $this->font('', 10.5, C_ENCRE);
             $this->MultiCell(0, 5.2, $r['valeur']);
-            $this->Ln(1.5);
-            $this->SetDrawColor(...$this->line);
+            $this->Ln(1.8);
+            $this->SetDrawColor(...C_LIGNE);
             $this->Line(18, $this->GetY(), 192, $this->GetY());
-            $this->Ln(2.5);
+            $this->Ln(2.8);
         }
-        $this->Ln(4);
+        $this->Ln(5);
     }
 
     /**
@@ -272,44 +356,46 @@ class VisitePdf extends tFPDF
             if ($ligne === '') { $this->Ln(2.6); continue; }
             $lettres = preg_replace('/[^\p{L}]/u', '', $ligne);
             if (mb_strlen($lettres) >= 3 && $lettres === mb_strtoupper($lettres) && !str_starts_with($ligne, '-') && mb_strlen($ligne) < 70) {
-                $this->Ln(2);
+                $this->Ln(2.5);
                 $this->sectionTitle(rtrim($ligne, ' :'));
                 continue;
             }
             if (preg_match('/^\s*[-•]\s+(.*)$/u', $ligne, $m)) {
                 $this->ensureSpace(7);
                 $y = $this->GetY();
-                $this->SetFillColor(...$this->brand);
-                $this->roundedRect(20, $y + 2, 1.6, 1.6, 0.8);
+                $this->SetFillColor(...C_CITRON);
+                $this->SetDrawColor(...C_ENCRE);
+                $this->SetLineWidth(0.25);
+                $this->roundedRect(19.5, $y + 1.6, 2.4, 2.4, 0.5, 'FD');
                 $this->SetX(25);
-                $this->font('', $taille, $this->ink);
+                $this->font('', $taille, C_ENCRE);
                 $this->MultiCell(0, $taille * 0.52, $m[1]);
-                $this->Ln(1);
+                $this->Ln(1.2);
                 continue;
             }
             $this->ensureSpace(7);
-            $this->font('', $taille, $this->ink);
-            $this->MultiCell(0, $taille * 0.55, $ligne);
-            $this->Ln(1);
+            $this->font('', $taille, C_ENCRE);
+            $this->MultiCell(0, $taille * 0.56, $ligne);
+            $this->Ln(1.2);
         }
     }
 
-    /** Encadré de contact de l'agent. */
+    /** Carte noire de contact de l'agent (comme la carte « La priorité » de la charte). */
     public function contactBox(array $agent): void
     {
         $lignes = array_filter([$agent['telephone'] ?? '', $agent['email'] ?? '']);
-        $this->ensureSpace(24);
+        $this->ensureSpace(28);
         $y = $this->GetY() + 3;
-        $this->SetFillColor(...$this->tint(0.92));
-        $this->roundedRect(18, $y, 174, 18, 2.5);
-        $this->SetXY(24, $y + 3.5);
-        $this->font('', 7.5, $this->muted);
+        $this->SetFillColor(...C_ENCRE);
+        $this->roundedRect(18, $y, 174, 22, 3);
+        $this->SetXY(25, $y + 4.5);
+        $this->font('mono', 6.8, C_CITRON);
         $this->Cell(0, 4, 'VOTRE CONTACT', 0, 2);
-        $this->font('semi', 11, $this->ink);
-        $this->Cell(0, 5.5, $agent['nom'] . ' · ' . $this->agence, 0, 2);
-        $this->font('', 9.5, $this->brand);
+        $this->font('black', 13, C_CREME);
+        $this->Cell(0, 7, $agent['nom'] . ' · ' . $this->agence, 0, 2);
+        $this->font('', 9.5, C_CREME);
         $this->Cell(0, 4.5, implode('   ·   ', $lignes), 0, 2);
-        $this->SetY($y + 24);
+        $this->SetY($y + 28);
     }
 }
 
@@ -339,8 +425,9 @@ function chiffres_cles(array $champs): array
     $v = fn ($k) => fiche_valeur($champs, $k);
     $stats = [];
     if ($v('prix_souhaite') !== '') {
-        $stats[] = ['valeur' => fmt_nombre($v('prix_souhaite')) . "\u{00A0}€", 'label' => is_numeric($v('surface_habitable')) && (float) $v('surface_habitable') > 0 && is_numeric($v('prix_souhaite'))
-            ? 'Prix · ' . fmt_nombre((string) round((float) $v('prix_souhaite') / (float) $v('surface_habitable'))) . "\u{00A0}€/m²" : 'Prix'];
+        $stats[] = ['valeur' => fmt_nombre($v('prix_souhaite')) . "\u{00A0}€", 'label' => 'Prix', 'sombre' => true,
+            'detail' => is_numeric($v('surface_habitable')) && (float) $v('surface_habitable') > 0 && is_numeric($v('prix_souhaite'))
+                ? fmt_nombre((string) round((float) $v('prix_souhaite') / (float) $v('surface_habitable'))) . "\u{00A0}€/m²" : ''];
     }
     if ($v('surface_habitable') !== '') $stats[] = ['valeur' => fmt_nombre($v('surface_habitable')) . "\u{00A0}m²", 'label' => 'Surface habitable'];
     $pieces = array_filter([$v('nb_pieces') !== '' ? $v('nb_pieces') . ' p.' : '', $v('nb_chambres') !== '' ? $v('nb_chambres') . ' ch.' : '']);
@@ -376,7 +463,6 @@ function pdf_nouveau(string $label): VisitePdf
     $pdf = new VisitePdf();
     $pdf->agence = (string) $CONFIG['agence'];
     $pdf->coordonnees = (string) ($CONFIG['agence_coordonnees'] ?? '');
-    $pdf->brand = hex_rgb((string) ($CONFIG['couleur'] ?? '')) ?? [20, 33, 61];
     $pdf->logo = logo_path();
     $pdf->docLabel = $label;
     $pdf->SetAuthor($pdf->agence, true);
@@ -439,17 +525,19 @@ function rendre_vendeur(VisitePdf $pdf, array $visit, array $agent): void
     // Bloc destinataire, à droite comme un courrier
     $vendeur = fiche_valeur($champs, 'nom_vendeur');
     $pdf->SetX(118);
-    $pdf->font('semi', 10, [24, 28, 38]);
+    $pdf->font('semi', 10, C_ENCRE);
     if ($vendeur) $pdf->MultiCell(74, 5, $vendeur);
     $pdf->SetX(118);
-    $pdf->font('', 9.5, [110, 116, 130]);
+    $pdf->font('', 9.5, C_GRIS);
     $pdf->MultiCell(74, 4.8, trim(fiche_valeur($champs, 'adresse') . "\n" . fiche_valeur($champs, 'ville')));
     $pdf->Ln(6);
     $pdf->SetX(118);
     $pdf->Cell(74, 5, 'Le ' . fmt_date_fr(null));
     $pdf->Ln(12);
-    $pdf->font('semi', 10.5, $pdf->brand);
-    $pdf->MultiCell(0, 5.5, 'Objet : compte rendu de la visite du ' . fmt_date_fr($visit['cree_le']) . ' · ' . titre_bien($visit));
+    $pdf->font('mono', 7.5, C_VERT);
+    $pdf->Cell(0, 4, 'OBJET', 0, 1);
+    $pdf->font('black', 12, C_ENCRE);
+    $pdf->MultiCell(0, 5.8, 'Compte rendu de la visite du ' . fmt_date_fr($visit['cree_le']) . ' · ' . titre_bien($visit));
     $pdf->Ln(5);
     $pdf->richText($visit['rapport_vendeur'], 10.5);
 }

@@ -3,7 +3,12 @@
 // les fichiers CSS/JS portent un numéro de version calculé à partir de leur date de modification,
 // ce qui empêche tout cache (navigateur, service worker, hébergeur) de servir une ancienne version.
 
+require __DIR__ . '/../app/bootstrap.php';
+
 header('Cache-Control: no-cache, no-store, must-revalidate');
+
+// Identité de l'agence (Paramètres) appliquée à l'interface dès le premier affichage
+$theme = ['logo' => uploaded_logo_path() !== null, 'agence' => (string) $CONFIG['agence']];
 header('Content-Type: text/html; charset=utf-8');
 
 $assets = ['css/app.css', 'js/app.js', 'js/api.js', 'js/recorder.js', 'js/uploader.js'];
@@ -20,9 +25,9 @@ foreach (['js/api.js', 'js/recorder.js', 'js/uploader.js'] as $f) $importmap['im
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Visite Immo</title>
+  <title>Synapse · Visite Immo</title>
   <meta name="description" content="Enregistrez vos visites, l'IA rédige la fiche, l'annonce et les rapports.">
-  <meta name="theme-color" content="#14213d">
+  <meta name="theme-color" content="#f4f1ea">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -31,10 +36,11 @@ foreach (['js/api.js', 'js/recorder.js', 'js/uploader.js'] as $f) $importmap['im
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon-180.png">
   <link rel="stylesheet" href="<?= $url('css/app.css') ?>">
+  <script>window.THEME = <?= json_encode($theme, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) ?>;</script>
   <script type="importmap"><?= json_encode($importmap, JSON_UNESCAPED_SLASHES) ?></script>
 </head>
 <body>
-  <div id="app"><div class="splash">🏠🎙️</div></div>
+  <div id="app"><div class="splash"><img src="img/synapse-icone.svg" alt=""></div></div>
   <script type="module" src="<?= $url('js/app.js') ?>"></script>
 </body>
 </html>

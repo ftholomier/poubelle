@@ -179,28 +179,30 @@ function smtp_send(string $from, array $destinataires, string $message): void
 
 // ---------- Mise en forme ----------
 
-/** E-mail HTML sobre aux couleurs de l'agence, avec le logo intégré. */
+/** E-mail HTML à la charte Synapse (fond crème, carte à contour noir, bandeau noir), avec le logo intégré. */
 function email_html(string $texte, array $agent): array
 {
     global $CONFIG;
-    $couleur = preg_match('/^#[0-9a-f]{6}$/i', (string) ($CONFIG['couleur'] ?? '')) ? $CONFIG['couleur'] : '#14213d';
     $agence = htmlspecialchars((string) $CONFIG['agence']);
     $logo = logo_path();
     $images = [];
-    $entete = "<div style=\"font:800 20px Arial,sans-serif;color:$couleur\">$agence</div>";
-    if ($logo) {
+    $entete = "<div style=\"font:900 26px Arial,Helvetica,sans-serif;letter-spacing:-1px;color:#111114\">$agence</div>";
+    if ($logo && is_file($logo)) {
         $images['logo@visite-immo'] = [$logo, str_ends_with($logo, '.png') ? 'image/png' : 'image/jpeg'];
-        $entete = "<img src=\"cid:logo@visite-immo\" alt=\"$agence\" style=\"max-height:48px;max-width:220px\">";
+        $entete = "<img src=\"cid:logo@visite-immo\" alt=\"$agence\" height=\"52\" style=\"height:52px;max-width:240px;display:block\">";
     }
     $corps = nl2br(htmlspecialchars($texte));
     $coord = nl2br(htmlspecialchars(trim((string) ($CONFIG['agence_coordonnees'] ?? ''))));
+    $mono = "font-family:'JetBrains Mono',Menlo,Consolas,'Courier New',monospace;letter-spacing:1px;text-transform:uppercase";
     $html = <<<HTML
-<!doctype html><html lang="fr"><body style="margin:0;background:#f3f4f7;padding:24px 12px;font-family:Arial,Helvetica,sans-serif">
+<!doctype html><html lang="fr"><body style="margin:0;background:#f4f1ea;padding:28px 12px;font-family:Arial,Helvetica,sans-serif">
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td align="center">
-<table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width:600px;width:100%;background:#fff;border-radius:12px;overflow:hidden">
-<tr><td style="padding:24px 28px;border-bottom:3px solid $couleur">$entete</td></tr>
-<tr><td style="padding:28px;font-size:15px;line-height:1.6;color:#1b1f2a">$corps</td></tr>
-<tr><td style="padding:18px 28px;background:#f7f8fa;font-size:12px;line-height:1.5;color:#6b7280"><strong style="color:#1b1f2a">$agence</strong><br>$coord</td></tr>
+<table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width:600px;width:100%">
+<tr><td style="padding:0 4px 18px">$entete</td></tr>
+<tr><td style="background:#fffdf8;border:1.5px solid #111114;border-radius:12px;padding:28px;font-size:15px;line-height:1.65;color:#111114">$corps</td></tr>
+<tr><td style="padding:18px 4px 6px;font-size:11px;line-height:1.6;color:#6d6b64;$mono"><strong style="color:#111114">$agence</strong><br>$coord</td></tr>
+<tr><td style="padding-top:10px"><div style="background:#111114;color:#f4f1ea;border-radius:10px;padding:10px 14px;font-size:10px;$mono;text-align:center">
+$agence <span style="color:#d4f22e">&#9733;</span> On connecte l'immo <span style="color:#d4f22e">&#9733;</span> On ne raconte pas de salades</div></td></tr>
 </table></td></tr></table></body></html>
 HTML;
     return [$html, $images];

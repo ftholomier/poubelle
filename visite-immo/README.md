@@ -1,4 +1,8 @@
-# Visite Immo
+# Visite Immo · Synapse
+
+Interface, PDF et e-mails à la charte **Synapse** : fond crème, encre noire, surlignage citron, étiquettes
+orange, polices Archivo et JetBrains Mono. Logo vectoriel dans `public/img/` (`synapse-logo.svg`,
+`synapse-logo-clair.svg` pour fond sombre, `synapse-icone.svg`).
 
 Appli mobile (PWA) pour agents immobiliers : l'agent enregistre la visite avec son téléphone, puis un bouton
 « Créer la fiche » produit automatiquement :
@@ -56,8 +60,8 @@ visite-immo/
      la liste des modèles disponibles pour cette clé ;
    - **modèle d'analyse** (fiche, annonce, rapports) et **modèle de transcription**, choisis dans cette liste ;
    - **dossier de stockage** : en le changeant, les comptes et visites y sont déplacés automatiquement ;
-   - **identité de l'agence** : nom (signature du compte rendu vendeur), coordonnées, couleur principale et **logo**,
-     repris dans les PDF et les e-mails ;
+   - **identité de l'agence** : nom (signature du compte rendu vendeur), coordonnées et logo (le logo Synapse
+     par défaut ; un logo déposé ici le remplace partout : interface, PDF, e-mails) ;
    - **envoi des e-mails** : serveur SMTP (OVH, o2switch, Gmail, Microsoft 365…) ou fonction `mail()` de l'hébergeur,
      avec un bouton « Envoyer un test ».
    Sans clé, l'appli tourne en **mode démo** (transcription et analyse simulées) pour tester l'interface.
@@ -108,5 +112,7 @@ Types disponibles : `text`, `textarea`, `number`, `bool`, `select` (avec `option
 
 - [tFPDF](https://github.com/Setasign/tFPDF) 1.33 (licence LGPL), légèrement modifiée pour que son cache de polices
   fonctionne après un déménagement de serveur.
-- Police [Archivo](https://github.com/Omnibus-Type/Archivo) (SIL Open Font License 1.1), en versions fixes extraites
-  de la police variable officielle.
+- Polices [Archivo](https://github.com/Omnibus-Type/Archivo) et [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono)
+  (SIL Open Font License 1.1), en versions fixes extraites des polices variables officielles.
+- Logo Synapse redessiné en vectoriel d'après le logo fourni : le texte est tracé à partir des polices, le bol et les
+  feuilles sont redessinés. À remplacer par le fichier officiel s'il existe.

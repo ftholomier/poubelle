@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 // Point d'entrée commun : configuration, réponses JSON, session, stockage fichiers.
 
-define('APP_VERSION', '6'); // à garder identique à APP_VERSION dans public/js/app.js
+define('APP_VERSION', '8'); // à garder identique à APP_VERSION dans public/js/app.js
 define('APP_ROOT', dirname(__DIR__));
 define('SETTINGS_FILE', __DIR__ . '/settings.json'); // réglages faits dans l'appli
 
@@ -210,10 +210,16 @@ function full_transcript(array $v): string
 
 // ---------- Logo de l'agence ----------
 
-function logo_path(): ?string
+function uploaded_logo_path(): ?string
 {
     foreach (['png', 'jpg'] as $ext) {
         if (is_file(DATA_DIR . "/marque/logo.$ext")) return DATA_DIR . "/marque/logo.$ext";
     }
     return null;
+}
+
+/** Logo utilisé dans les PDF et les e-mails : celui de l'agence, sinon le logo Synapse fourni. */
+function logo_path(): ?string
+{
+    return uploaded_logo_path() ?? __DIR__ . '/assets/synapse-logo.png';
 }

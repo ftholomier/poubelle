@@ -5,7 +5,7 @@ import { Recorder, recordingSupported } from "./recorder.js";
 import { uploader } from "./uploader.js";
 
 const $app = document.getElementById("app");
-const APP_VERSION = "6"; // affichée dans le menu pour vérifier qu'on a la dernière version
+const APP_VERSION = "8"; // affichée dans le menu pour vérifier qu'on a la dernière version
 const state = { user: null, demo: null, sections: null };
 
 // ---------- Utilitaires ----------
@@ -60,9 +60,20 @@ function render(html) {
   window.scrollTo(0, 0);
 }
 
+const theme = window.THEME || {};
+const logoSrc = () => `api/?r=logo&v=${theme.logoV || 1}`;
+/** Logo : celui déposé dans les Paramètres, sinon le logo Synapse (version claire en mode sombre). */
+function logoImg(cls = "") {
+  if (theme.logo) return `<img class="${cls}" src="${logoSrc()}" alt="${esc(theme.agence || "")}">`;
+  return `<picture><source srcset="img/synapse-logo-clair.svg" media="(prefers-color-scheme: dark)"><img class="${cls}" src="img/synapse-logo.svg" alt="Synapse"></picture>`;
+}
+function logoMark() {
+  return `<a class="logo" href="#/">${logoImg()}</a>`;
+}
+
 function header(titre, { back = null, actions = "" } = {}) {
   return `<header class="bar">
-    ${back ? `<a class="icon-btn" href="${back}" aria-label="Retour">←</a>` : `<span class="logo">🏠</span>`}
+    ${back ? `<a class="icon-btn" href="${back}" aria-label="Retour">←</a>` : logoMark()}
     <h1>${esc(titre)}</h1>
     <div class="bar-actions">${actions}</div>
   </header>`;
@@ -111,9 +122,10 @@ window.addEventListener("session-expired", () => {
 function viewLogin() {
   const setup = state.setup;
   render(`<main class="page login">
-    <div class="login-logo">🏠🎙️</div>
-    <h1>Visite Immo</h1>
-    <p class="muted">${setup ? "Première utilisation : créez le compte administrateur." : "Enregistrez vos visites, l'IA rédige la fiche."}</p>
+    ${logoImg("login-img")}
+    <div><span class="tag">Visite immo · l'outil des agents</span></div>
+    <h1>Vous parlez.<br><mark>L'IA rédige.</mark><br>Vous signez.</h1>
+    <p class="muted">${setup ? "Première utilisation : créez le compte administrateur." : "Enregistrez la visite, la fiche, l'annonce et les rapports sont prêts en une minute."}</p>
     <form id="f" class="card">
       ${setup ? `<label>Votre nom<input name="nom" required autocomplete="name" placeholder="Prénom Nom"></label>` : ""}
       <label>Identifiant<input name="login" required autocapitalize="none" autocomplete="username"></label>
@@ -121,6 +133,7 @@ function viewLogin() {
       <button class="btn primary big">${setup ? "Créer le compte" : "Se connecter"}</button>
       <p class="erreur" id="err"></p>
     </form>
+    <div class="ticker">Enregistrez <b>★</b> Créez la fiche <b>★</b> Envoyez le PDF <b>★</b> On ne raconte pas de salades</div>
   </main>`);
   document.getElementById("f").onsubmit = async (e) => {
     e.preventDefault();
@@ -142,7 +155,7 @@ function viewLogin() {
 // ---------- Accueil : mes visites ----------
 
 async function viewHome() {
-  render(`${header("Mes visites", { actions: menuButton() })}<main class="page"><div class="loader"></div></main>`);
+  render(`${header("", { actions: menuButton() })}<main class="page"><div class="loader"></div></main>`);
   bindMenu();
   const [visites, pending] = await Promise.all([api("visits"), uploader.pending()]);
   const enAttente = new Set(pending.map((p) => p.visitId));
@@ -161,7 +174,9 @@ async function viewHome() {
         .join("")
     : `<div class="vide"><p>Aucune visite pour l'instant.</p><p class="muted">Appuyez sur le bouton rouge pour enregistrer votre première visite.</p></div>`;
 
-  document.querySelector("main").innerHTML = `${demoBanner()}${items}<div class="spacer"></div>`;
+  const prenom = (state.user.nom || "").split(" ")[0];
+  const hero = `<div class="home-hero"><span class="tag">${visites.length} visite${visites.length > 1 ? "s" : ""}</span><h2 style="margin-top:14px">Bonjour ${esc(prenom)}.<br><mark>Vos visites.</mark></h2></div>`;
+  document.querySelector("main").innerHTML = `${hero}${demoBanner()}${items}<div class="spacer"></div>`;
   document.querySelector("main").insertAdjacentHTML("afterend", `<a class="fab" href="#/nouvelle"><span class="dot"></span> Nouvelle visite</a>`);
 }
 
@@ -840,12 +855,9 @@ async function viewSettings() {
         <label>Coordonnées <span class="muted">(en-tête des PDF et pied des e-mails)</span>
           <textarea name="agence_coordonnees" rows="3" placeholder="Adresse&#10;Téléphone · e-mail&#10;Carte professionnelle">${esc(cfg.agence_coordonnees)}</textarea>
         </label>
-        <label>Couleur principale <span class="muted">(PDF et e-mails)</span>
-          <span class="color-row"><input type="color" name="couleur" value="${esc(cfg.couleur)}"><code id="couleur-hex">${esc(cfg.couleur)}</code></span>
-        </label>
         <div class="logo-zone">
-          <span class="label-like">Logo <span class="muted">(PNG ou JPG, fond transparent idéal)</span></span>
-          <div class="logo-preview" id="logo-preview">${cfg.logo ? `<img src="api/?r=logo&t=${Date.now()}" alt="Logo">` : '<span class="muted small">Aucun logo : le nom de l\'agence est écrit à la place.</span>'}</div>
+          <span class="label-like">Logo <span class="muted">(par défaut : logo Synapse ; déposez un PNG ou JPG pour le remplacer)</span></span>
+          <div class="logo-preview" id="logo-preview">${cfg.logo ? `<img src="api/?r=logo&t=${Date.now()}" alt="Logo">` : '<img src="img/synapse-logo.svg" alt="Synapse">'}</div>
           <div class="logo-actions">
             <label class="btn"><span id="logo-label">📤 ${cfg.logo ? "Changer le logo" : "Ajouter le logo"}</span><input type="file" id="logo-file" accept="image/png,image/jpeg,image/webp" hidden></label>
             <button type="button" class="btn danger-ghost" id="logo-del" ${cfg.logo ? "" : "hidden"}>Retirer</button>
@@ -902,7 +914,6 @@ async function viewSettings() {
   const $ = (id) => document.getElementById(id);
   const form = $("f");
   const updateSig = () => ($("sig").textContent = `${state.user.nom}, ${form.agence.value || "…"}`);
-  form.couleur.addEventListener("input", () => ($("couleur-hex").textContent = form.couleur.value));
   const majEmail = () => {
     const m = $("email-methode").value;
     $("email-fields").hidden = !m;
@@ -930,7 +941,7 @@ async function viewSettings() {
   const afficherLogo = (present) => {
     $("logo-preview").innerHTML = present
       ? `<img src="api/?r=logo&t=${Date.now()}" alt="Logo">`
-      : '<span class="muted small">Aucun logo : le nom de l\'agence est écrit à la place.</span>';
+      : '<img src="img/synapse-logo.svg" alt="Synapse">';
     $("logo-label").textContent = present ? "📤 Changer le logo" : "📤 Ajouter le logo";
     $("logo-del").hidden = !present;
   };
@@ -942,6 +953,7 @@ async function viewSettings() {
     try {
       await api("logo", { method: "POST", form: fd });
       afficherLogo(true);
+      appliquerTheme({ logo: true, logoV: Date.now() });
       toast("Logo enregistré ✓", "ok");
     } catch (err) {
       toast(err.message, "erreur");
@@ -952,6 +964,7 @@ async function viewSettings() {
     if (!confirm("Retirer le logo ?")) return;
     await api("logo", { method: "DELETE" });
     afficherLogo(false);
+    appliquerTheme({ logo: false });
   });
   updateSig();
   form.agence.addEventListener("input", updateSig);
@@ -1008,6 +1021,7 @@ async function viewSettings() {
       state.demo = !res.cle_configuree;
       state.email = res.email_configure;
       state.agence = res.agence;
+      appliquerTheme({ logo: res.logo, agence: res.agence });
       toast("Paramètres enregistrés ✓", "ok");
       viewSettings();
     } catch (err) {
@@ -1053,6 +1067,10 @@ function viewAccount() {
       toast(err.message, "erreur");
     }
   };
+}
+
+function appliquerTheme(t) {
+  Object.assign(theme, t);
 }
 
 // ---------- Démarrage ----------

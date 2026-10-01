@@ -219,7 +219,7 @@ function settings_view(): array
         'agence'               => $CONFIG['agence'],
         'agence_coordonnees'   => $CONFIG['agence_coordonnees'] ?? '',
         'couleur'              => $CONFIG['couleur'] ?? '#14213d',
-        'logo'                 => logo_path() !== null,
+        'logo'                 => uploaded_logo_path() !== null,
         'email_methode'        => $CONFIG['email_methode'] ?? '',
         'email_expediteur'     => $CONFIG['email_expediteur'] ?? '',
         'email_expediteur_nom' => $CONFIG['email_expediteur_nom'] ?? '',
@@ -347,7 +347,7 @@ function copy_dir(string $from, string $to): void
 
 function route_logo_get(): never
 {
-    require_user();
+    // Public : le logo s'affiche aussi sur l'écran de connexion
     $path = logo_path() ?? fail(404, 'Aucun logo.');
     header('Content-Type: ' . (str_ends_with($path, '.png') ? 'image/png' : 'image/jpeg'));
     header('Cache-Control: no-cache');

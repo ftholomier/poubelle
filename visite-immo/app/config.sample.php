@@ -18,5 +18,5 @@ return [
     'data_dir'             => 'data',
 
     // Nom de l'agence, utilisé pour signer le compte rendu vendeur : « Nom de l'agent, <agence> »
-    'agence'               => 'Mon Agence Immobilière',
+    'agence'               => 'Synapse',
 ];

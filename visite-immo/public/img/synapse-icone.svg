@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#F4F1EA"/><g transform="translate(64 58) scale(6)"><g id="bol">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Synapse"><title>Synapse</title>
+<g id="bol">
   <path d="M31 31 C24 22 25 12 32 5 C39 12 40 22 33 31 Z" fill="#2E7D3A"/>
   <path d="M26 31 C17 28 12 20 13 11 C21 12 27 19 28 30 Z" fill="#E8552B"/>
   <path d="M38 31 C47 28 52 20 51 11 C43 12 37 19 36 30 Z" fill="#F29A2E"/>
@@ -8,4 +9,4 @@
   <path d="M11.5 35.5 H52.5 C51.5 44.5 43 50.5 32 50.5 C21 50.5 12.5 44.5 11.5 35.5 Z" fill="#A8D88F"/>
   <path d="M21 35.5 L32 46 L43 35.5" fill="none" stroke="#2E7D3A" stroke-width="3.4" stroke-linejoin="round"/>
   <rect x="22" y="55" width="20" height="5" rx="1.5" fill="#2E7D3A"/>
-</g></g></svg>
+</g></svg>
