@@ -1,6 +1,6 @@
 // Service worker : l'interface s'ouvre même sans réseau. L'API n'est jamais mise en cache.
 
-const CACHE = "visite-immo-v3";
+const CACHE = "visite-immo-v4";
 const SHELL = ["./", "index.html", "css/app.css", "js/app.js", "js/api.js", "js/recorder.js", "js/uploader.js", "icon.svg", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {

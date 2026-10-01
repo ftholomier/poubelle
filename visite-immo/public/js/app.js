@@ -5,7 +5,7 @@ import { Recorder, recordingSupported } from "./recorder.js";
 import { uploader } from "./uploader.js";
 
 const $app = document.getElementById("app");
-const APP_VERSION = "3"; // affichée dans le menu pour vérifier qu'on a la dernière version
+const APP_VERSION = "4"; // affichée dans le menu pour vérifier qu'on a la dernière version
 const state = { user: null, demo: null, sections: null };
 
 // ---------- Utilitaires ----------
@@ -166,8 +166,7 @@ async function viewHome() {
 }
 
 function menuButton() {
-  const reglages = state.user?.role === "admin" ? `<a class="icon-btn" href="#/reglages" aria-label="Paramètres">⚙️</a>` : "";
-  return `${reglages}<button class="icon-btn" id="menu-btn" aria-label="Menu">☰</button>`;
+  return `<a class="icon-btn" href="#/reglages" aria-label="Paramètres">⚙️</a><button class="icon-btn" id="menu-btn" aria-label="Menu">☰</button>`;
 }
 
 function bindMenu() {
@@ -175,12 +174,9 @@ function bindMenu() {
     const sheet = document.createElement("div");
     sheet.className = "sheet-bg";
     sheet.innerHTML = `<div class="sheet">
-      <div class="sheet-user">${esc(state.user.nom)}<span class="muted"> · ${state.user.role === "admin" ? "Administrateur" : "Agent"}</span></div>
-      ${
-        state.user.role === "admin"
-          ? `<a href="#/reglages">⚙️ Paramètres (IA Gemini, stockage, signature)</a><a href="#/equipe">👥 Gérer l'équipe</a>`
-          : `<span class="sheet-off">⚙️ Paramètres : réservés aux administrateurs</span>`
-      }
+      <div class="sheet-user">${esc(state.user.nom)}<span class="muted"> · ${esc(state.user.login)} · ${state.user.role === "admin" ? "Administrateur" : "Agent"}</span></div>
+      <a href="#/reglages">⚙️ Paramètres (IA Gemini, stockage, signature)</a>
+      ${state.user.role === "admin" ? `<a href="#/equipe">👥 Gérer l'équipe</a>` : ""}
       <a href="#/compte">🔑 Changer mon mot de passe</a>
       <button id="logout">↪ Se déconnecter</button>
       <span class="sheet-version">Visite Immo · version ${APP_VERSION}</span>
@@ -689,6 +685,12 @@ async function viewUsers() {
 
 async function viewSettings() {
   render(`${header("Paramètres", { back: "#/" })}<main class="page"><div class="loader"></div></main>`);
+  if (state.user.role !== "admin") {
+    document.querySelector("main").innerHTML = `<div class="card"><h2>Accès réservé</h2>
+      <p>Vous êtes connecté avec le compte <strong>${esc(state.user.login)}</strong> (${esc(state.user.nom)}), qui est un compte <strong>Agent</strong>.</p>
+      <p class="muted">Les paramètres (clé Gemini, modèles, stockage, signature) se règlent avec un compte <strong>Administrateur</strong> : le premier compte créé, ou un compte créé avec la case « Administrateur » cochée.</p></div>`;
+    return;
+  }
   const cfg = await api("settings");
   let modeles = [];
 

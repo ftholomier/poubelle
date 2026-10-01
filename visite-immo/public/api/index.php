@@ -55,6 +55,11 @@ function route_status(): never
 {
     global $CONFIG;
     $u = current_user();
+    // Filet de sécurité : s'il n'existe plus aucun administrateur, le compte connecté le devient
+    if ($u && !in_array('admin', array_column(users(), 'role'), true)) {
+        update_json(USERS_FILE, fn (array $users) => array_map(fn ($x) => $x['id'] === $u['id'] ? [...$x, 'role' => 'admin'] : $x, $users));
+        $u['role'] = 'admin';
+    }
     send_json([
         'setup' => count(users()) === 0,
         'user'  => $u ? public_user($u) : null,
