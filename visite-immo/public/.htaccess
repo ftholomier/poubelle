@@ -1,3 +1,6 @@
+# La page d'accueil est index.php (même si un ancien index.html traîne encore sur le serveur)
+DirectoryIndex index.php
+
 # L'interface doit toujours être revalidée auprès du serveur : une mise à jour est visible immédiatement
 <IfModule mod_headers.c>
   <FilesMatch "\.(html|js|css|webmanifest)$">

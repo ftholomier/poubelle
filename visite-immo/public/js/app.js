@@ -5,7 +5,7 @@ import { Recorder, recordingSupported } from "./recorder.js";
 import { uploader } from "./uploader.js";
 
 const $app = document.getElementById("app");
-const APP_VERSION = "4"; // affichée dans le menu pour vérifier qu'on a la dernière version
+const APP_VERSION = "5"; // affichée dans le menu pour vérifier qu'on a la dernière version
 const state = { user: null, demo: null, sections: null };
 
 // ---------- Utilitaires ----------
@@ -829,8 +829,25 @@ function viewAccount() {
 
 (async function init() {
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+  if (location.search.includes("maj=")) history.replaceState(null, "", location.pathname + location.hash); // nettoie l'URL après une mise à jour
   try {
     const s = await api("status");
+    // Le serveur a une version plus récente que l'interface affichée : on recharge une fois
+    if (s.version && s.version !== APP_VERSION) {
+      let dejaFait = false;
+      try {
+        dejaFait = sessionStorage.getItem("reload-version") === s.version;
+        sessionStorage.setItem("reload-version", s.version);
+      } catch {
+        /* stockage indisponible */
+      }
+      if (!dejaFait) {
+        const regs = (await navigator.serviceWorker?.getRegistrations?.()) || [];
+        await Promise.all(regs.map((r) => r.update().catch(() => {})));
+        location.replace(location.pathname + "?maj=" + Date.now() + location.hash);
+        return;
+      }
+    }
     state.user = s.user;
     state.setup = s.setup;
     state.demo = s.demo;

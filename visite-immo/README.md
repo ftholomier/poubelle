@@ -35,7 +35,7 @@ visite-immo/
 │   ├── users.json
 │   └── visites/<agent>/<visite>/visite.json + audio/
 └── public/              ← racine du site
-    ├── index.html, manifest.webmanifest, sw.js, icônes
+    ├── index.php (page de l'appli), manifest.webmanifest, sw.js, icônes
     ├── api/index.php       API JSON (/api/?r=…)
     ├── css/app.css
     └── js/                 app.js, recorder.js, uploader.js, api.js

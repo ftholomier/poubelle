@@ -64,6 +64,7 @@ function route_status(): never
         'setup' => count(users()) === 0,
         'user'  => $u ? public_user($u) : null,
         'demo'  => empty($CONFIG['gemini_api_key']),
+        'version' => APP_VERSION,
     ]);
 }
 
