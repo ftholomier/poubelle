@@ -16,7 +16,7 @@ CARDS = os.path.join(ICI, 'cards')
 os.makedirs(CLIPS, exist_ok=True)
 # resolution de travail du Ken Burns : 2x la sortie, pour un mouvement sans saccade
 TW, TH = 3840, 2160
-ECLAIR = 0.10       # duree de l'eclair sur la coupe
+ECLAIR = 0.09       # duree de l'eclair sur la coupe
 VOLET = 0.20        # duree du volet de couleur
 
 
@@ -96,7 +96,7 @@ def clip_photo(s, n, dur, sortie):
     lance([FF, '-y', '-hide_banner', '-loglevel', 'error'] + entrees +
           ['-filter_complex', chaine, '-map', '[v]', '-frames:v', str(n),
            '-c:v', 'libx264', '-preset', 'medium', '-crf', '14',
-           '-pix_fmt', 'yuv420p', '-r', str(FPS), '-x264-params', 'keyint=30:scenecut=0',
+           '-pix_fmt', 'yuv420p', '-r', str(FPS), '-x264-params', 'keyint=%d:scenecut=0' % FPS,
            sortie], s['id'])
 
 
@@ -130,7 +130,7 @@ def clip_carton(s, n, dur, sortie):
     lance([FF, '-y', '-hide_banner', '-loglevel', 'error'] + entrees +
           ['-filter_complex', chaine, '-map', '[v]', '-frames:v', str(n),
            '-c:v', 'libx264', '-preset', 'medium', '-crf', '14',
-           '-pix_fmt', 'yuv420p', '-r', str(FPS), '-x264-params', 'keyint=30:scenecut=0',
+           '-pix_fmt', 'yuv420p', '-r', str(FPS), '-x264-params', 'keyint=%d:scenecut=0' % FPS,
            sortie], s['id'])
 
 

@@ -83,6 +83,7 @@ CARTONS['mot-charges'] = mot('CHARGES<br>COMPRISES', '#FFD100', '#0E0E0E', '#0E0
 CARTONS['mot-internet'] = mot('INTERNET<br>TRÈS HAUT DÉBIT', '#0E0E0E', '#FFF8EA', '#FFD100')
 CARTONS['mot-menage'] = mot('MÉNAGE<br>INCLUS', '#12B39A', '#0E0E0E', '#0E0E0E')
 CARTONS['mot-reunion'] = mot('SALLE<br>DE RÉUNION', '#FFF8EA', '#0E0E0E', '#12B39A')
+CARTONS['mot-mobilier'] = mot('MOBILIER<br>COMPRIS', '#12B39A', '#0E0E0E', '#0E0E0E')
 CARTONS['mot-acces'] = mot('ACCÈS<br>24 H / 24', '#0E0E0E', '#FFD100', '#FFF8EA')
 CARTONS['mot-humeur'] = mot('BONNE HUMEUR<br>À VOLONTÉ', '#FFD100', '#0E0E0E', '#0E0E0E')
 

@@ -1,107 +1,153 @@
 # -*- coding: utf-8 -*-
-"""Conducteur du film iOiO. Toutes les bornes sont des attaques reelles du
-   morceau (voir analyse_musique.py). Le rythme se resserre acte apres acte :
-   2,6 s a l'ouverture, 2,45 s dans les deux lieux, 1,4 s a l'apogee.
+"""Conducteur du film iOiO.
 
-   ken   : le mouvement, qui repart vite a chaque coupe puis ralentit
+   Tout est pose sur la grille metrique du morceau, mesuree par
+   analyse_musique.py : croche U = 0,272736 s (109,996 BPM), phase 0,0432 s.
+   Une coupe n'est jamais donnee en secondes mais en nombre de croches : elle
+   ne peut donc pas tomber a cote du temps. La densite se resserre acte apres
+   acte — 8 croches a l'ouverture (une mesure), 4 a l'apogee, 2 (un temps
+   plein) sur la rafale finale.
+
+   ken   : le mouvement, qui repart vite a la coupe puis ralentit
            push / pull  zoom avant ou arriere, amorti
            kick         demarre zoome et se detend d'un coup sur le temps
            swipe-l / -r balayage lateral amorti
-   biais : position verticale du cadrage (0,5 = centre), pour varier un plan repris
-   flash : eclair de deux images sur la coupe
-   wipe  : volet de couleur qui decouvre le plan en quatre images
+   flash : eclair sur la coupe
+   wipe  : volet de couleur qui decouvre le plan
+   biais : cadrage vertical, pose automatiquement selon le rang de reprise
 """
 import os
 
 RACINE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MEDIA = os.path.join(RACINE, 'public', 'media') + os.sep
 
+U = 0.272736            # la croche, mesuree par analyse_musique.py
+PHASE = 0.043200        # premier temps du morceau
+FPS = 60
+DUREE = 115.13333       # 6908 images
+
 JAUNE, VERT = '#FFD100', '#12B39A'
 
 
-def ph(i, t0, t1, src, ken, ov=None, **kw):
-    d = dict(id=i, t0=t0, t1=t1, kind='photo', src=src + '.webp', ken=ken)
-    if ov:
-        d['overlay'] = ov
-    d.update(kw)
-    return d
+def t(k):
+    """Instant de la k-ieme croche."""
+    return PHASE + k * U
 
 
-def ca(i, t0, t1, carton, **kw):
-    d = dict(id=i, t0=t0, t1=t1, kind='card', card=carton)
-    d.update(kw)
-    return d
+# ---------------------------------------------------------------- conducteur
+# (duree en croches, type, contenu, mouvement, incrustation, options)
+PLAN = [
+    # ---- ACTE I : ouverture. Le film part a 0, la grille le rattrape a k=12.
+    (12, 'card', 'intro', None, None, {}),
+    (12, 'card', 'titre', None, None, {}),
+    (8, 'photo', 'granvelle-bureau-01', 'push', 'l01', {}),
+    (8, 'photo', 'granvelle-openspace-04', 'kick', 'l02', dict(flash=True)),
+    (8, 'photo', 'granvelle-openspace-03', 'swipe-r', 'l03', {}),
+    (8, 'photo', 'granvelle-facade', 'pull', 'l04', {}),
+    (8, 'photo', 'carnot-accueil', 'kick', 'l05', dict(flash=True)),
+    (8, 'photo', 'granvelle-coin-detente', 'push', None, {}),
 
+    # ---- ACTE II : Carnot, une mesure par plan
+    (12, 'card', 'chap-carnot', None, None, dict(wipe=JAUNE)),
+    (8, 'photo', 'carnot-bureau-02', 'push', 't01', {}),
+    (8, 'photo', 'carnot-bureau-01', 'swipe-l', None, {}),
+    (8, 'photo', 'carnot-salle-reunion', 'kick', 't02', dict(flash=True)),
+    (8, 'photo', 'carnot-bureau-03', 'pull', None, {}),
+    (8, 'photo', 'carnot-cuisine', 'push', 't03', {}),
+    (8, 'photo', 'carnot-bureau-04', 'swipe-r', None, {}),
+    (8, 'photo', 'carnot-couloir', 'kick', 't04', dict(flash=True)),
+    (8, 'photo', 'carnot-accueil', 'pull', None, {}),
+    (8, 'photo', 'carnot-bureau-vue', 'push', 't05', {}),
+    (8, 'photo', 'carnot-salle-reunion', 'swipe-l', None, {}),
 
-SHOTS = [
-    # ---------- ACTE I — ouverture (une ligne de texte par plan) ----------
-    ca('a01', 0.00, 3.12, 'intro'),
-    ca('a02', 3.12, 7.00, 'titre'),
-    ph('a03', 7.00, 9.60, 'granvelle-bureau-01', 'push', 'l01'),
-    ph('a04', 9.60, 12.12, 'granvelle-openspace-04', 'kick', 'l02', flash=True),
-    ph('a05', 12.12, 14.82, 'granvelle-openspace-03', 'swipe-r', 'l03'),
-    ph('a06', 14.82, 17.40, 'granvelle-facade', 'pull', 'l04'),
-    ph('a07', 17.40, 19.84, 'carnot-accueil', 'kick', 'l05', flash=True),
+    # ---- ACTE III : Granvelle
+    (12, 'card', 'chap-granvelle', None, None, dict(wipe=VERT)),
+    (8, 'photo', 'granvelle-openspace-01', 'push', 't06', {}),
+    (8, 'photo', 'granvelle-openspace-04', 'swipe-l', None, {}),
+    (8, 'photo', 'granvelle-bureau-01', 'kick', 't07', dict(flash=True)),
+    (8, 'photo', 'granvelle-bureau-03', 'pull', None, {}),
+    (8, 'photo', 'granvelle-coin-detente', 'push', 't08', {}),
+    (8, 'photo', 'granvelle-openspace-02', 'swipe-r', None, {}),
+    (8, 'photo', 'granvelle-openspace-mezzanine', 'kick', 't09', dict(flash=True)),
+    (8, 'photo', 'granvelle-bureau-03b', 'pull', None, {}),
+    (8, 'photo', 'granvelle-openspace-06', 'push', None, {}),
 
-    # ---------- ACTE II — Carnot ----------
-    ca('b01', 19.84, 23.50, 'chap-carnot', wipe=JAUNE),
-    ph('b02', 23.50, 25.98, 'carnot-bureau-02', 'push', 't01'),
-    ph('b03', 25.98, 28.56, 'carnot-bureau-01', 'swipe-l'),
-    ph('b04', 28.56, 31.04, 'carnot-salle-reunion', 'kick', 't02', flash=True),
-    ph('b05', 31.04, 33.52, 'carnot-bureau-03', 'pull'),
-    ph('b06', 33.52, 35.94, 'carnot-cuisine', 'push', 't03'),
-    ph('b07', 35.94, 38.50, 'carnot-bureau-04', 'swipe-r'),
-    ph('b08', 38.50, 41.24, 'carnot-couloir', 'kick', 't04', flash=True),
-    ph('b09', 41.24, 43.52, 'carnot-accueil', 'push', biais=0.28),
-    ph('b10', 43.52, 45.44, 'carnot-bureau-vue', 'pull', 't05'),
+    # ---- ACTE IV : apogee, un mot puis deux images, toutes les 4 croches
+    (4, 'card', 'mot-charges', None, None, dict(wipe=JAUNE)),
+    (4, 'photo', 'granvelle-openspace-05', 'kick', None, dict(flash=True)),
+    (4, 'photo', 'carnot-bureau-02', 'push', None, {}),
+    (4, 'card', 'mot-internet', None, None, dict(flash=True)),
+    (4, 'photo', 'granvelle-openspace-07', 'kick', None, {}),
+    (4, 'photo', 'granvelle-cuisine', 'swipe-l', None, {}),
+    (4, 'card', 'mot-menage', None, None, dict(flash=True)),
+    (4, 'photo', 'granvelle-openspace-casiers', 'kick', None, {}),
+    (4, 'photo', 'carnot-cuisine', 'pull', None, {}),
+    (4, 'card', 'mot-reunion', None, None, dict(flash=True)),
+    (4, 'photo', 'granvelle-bureau-02', 'kick', None, {}),
+    (4, 'photo', 'carnot-salle-reunion', 'swipe-r', None, {}),
+    (4, 'card', 'mot-mobilier', None, None, dict(flash=True)),
+    (4, 'photo', 'granvelle-bureau-02b', 'kick', None, {}),
+    (4, 'photo', 'granvelle-openspace-03', 'push', None, {}),
+    (4, 'card', 'mot-acces', None, None, dict(flash=True)),
+    (4, 'photo', 'granvelle-openspace-06', 'kick', None, {}),
+    (4, 'photo', 'carnot-bureau-01', 'pull', None, {}),
 
-    # ---------- ACTE III — Granvelle ----------
-    ca('c01', 45.44, 49.00, 'chap-granvelle', wipe=VERT),
-    ph('c02', 49.00, 51.56, 'granvelle-openspace-01', 'push', 't06'),
-    ph('c03', 51.56, 54.06, 'granvelle-openspace-04', 'swipe-l', biais=0.30),
-    ph('c04', 54.06, 56.46, 'granvelle-bureau-01', 'kick', 't07', flash=True),
-    ph('c05', 56.46, 58.96, 'granvelle-bureau-03', 'pull'),
-    ph('c06', 58.96, 61.56, 'granvelle-coin-detente', 'push', 't08'),
-    ph('c07', 61.56, 64.20, 'granvelle-openspace-02', 'swipe-r'),
-    ph('c08', 64.20, 66.70, 'granvelle-openspace-mezzanine', 'kick', 't09', flash=True),
-    ph('c09', 66.70, 69.08, 'granvelle-bureau-03b', 'pull'),
+    # ---- rafale finale : une coupe par temps (2 croches)
+    (2, 'photo', 'granvelle-facade', 'kick', None, dict(flash=True)),
+    (2, 'photo', 'carnot-couloir', 'kick', None, dict(flash=True)),
+    (2, 'photo', 'granvelle-openspace-02', 'kick', None, dict(flash=True)),
+    (2, 'photo', 'granvelle-bureau-03', 'kick', None, dict(flash=True)),
+    (2, 'photo', 'granvelle-openspace-mezzanine', 'kick', None, dict(flash=True)),
+    (2, 'photo', 'granvelle-openspace-01', 'kick', None, dict(flash=True)),
+    (3, 'card', 'mot-humeur', None, None, dict(flash=True, wipe=JAUNE)),
 
-    # ---------- ACTE IV — apogee : une coupe toutes les 1,4 s ----------
-    ca('d01', 69.08, 70.34, 'mot-charges', wipe=JAUNE),
-    ph('d02', 70.34, 71.82, 'granvelle-openspace-05', 'kick', flash=True),
-    ph('d03', 71.82, 73.18, 'carnot-bureau-02', 'push', biais=0.70),
-    ca('d04', 73.18, 74.44, 'mot-internet', flash=True),
-    ph('d05', 74.44, 75.92, 'granvelle-openspace-06', 'kick'),
-    ph('d06', 75.92, 77.22, 'granvelle-cuisine', 'swipe-l'),
-    ca('d07', 77.22, 78.82, 'mot-menage', flash=True),
-    ph('d08', 78.82, 80.20, 'granvelle-openspace-07', 'kick'),
-    ph('d09', 80.20, 81.74, 'carnot-salle-reunion', 'pull', biais=0.30),
-    ca('d10', 81.74, 83.28, 'mot-reunion', flash=True),
-    ph('d11', 83.28, 84.64, 'granvelle-openspace-casiers', 'kick'),
-    ph('d12', 84.64, 86.16, 'granvelle-bureau-02b', 'swipe-r'),
-    ca('d13', 86.16, 87.62, 'mot-acces', flash=True),
-    ph('d14', 87.62, 88.92, 'granvelle-openspace-03', 'kick', biais=0.70),
-    ph('d15', 88.92, 90.36, 'granvelle-bureau-02', 'push', biais=0.38),
-    ca('d16', 90.36, 91.38, 'mot-humeur', flash=True),
+    # ---- ACTE V : la rupture, dans le trou du morceau
+    (7, 'card', 'rupture', None, None, dict(dip=True)),
 
-    # ---------- ACTE V — la rupture, dans le trou du morceau ----------
-    ca('e01', 91.38, 93.12, 'rupture', dip=True),
+    # ---- ACTE VI : les chiffres
+    (8, 'photo', 'granvelle-facade', 'pull', 'n01', dict(wipe=JAUNE)),
+    (8, 'photo', 'granvelle-openspace-04', 'push', 'n02', {}),
+    (8, 'photo', 'granvelle-bureau-01', 'kick', 'n03', dict(flash=True)),
+    (8, 'photo', 'carnot-bureau-vue', 'swipe-l', None, {}),
+    (8, 'card', 'zero', None, None, {}),
 
-    # ---------- ACTE VI — les chiffres ----------
-    ph('f01', 93.12, 95.32, 'granvelle-facade', 'pull', 'n01', wipe=JAUNE, biais=0.34),
-    ph('f02', 95.32, 97.60, 'granvelle-openspace-04', 'push', 'n02', biais=0.72),
-    ph('f03', 97.60, 99.70, 'granvelle-bureau-01', 'kick', 'n03', flash=True, biais=0.30),
-    ph('f04', 99.70, 102.08, 'carnot-salle-reunion', 'swipe-l', biais=0.70),
-    ca('f05', 102.08, 104.36, 'zero'),
+    # ---- ACTE VII : les trois coups, sur les frappes isolees k=382/390/398
+    (8, 'card', 'venez', None, None, dict(flash=True)),
+    (8, 'card', 'place', None, None, dict(flash=True)),
+    (8, 'card', 'url', None, None, dict(flash=True)),
 
-    # ---------- ACTE VII — les trois coups espaces ----------
-    ca('g01', 104.36, 106.22, 'venez', flash=True),
-    ca('g02', 106.22, 108.46, 'place', flash=True),
-    ca('g03', 108.46, 110.64, 'url', flash=True),
-
-    # ---------- ACTE VIII — carton de fin ----------
-    ca('h01', 110.64, 115.12, 'fin'),
+    # ---- ACTE VIII : carton de fin
+    (16, 'card', 'fin', None, None, {}),
 ]
 
-DUREE = 115.12
-FPS = 30
+# ------------------------------------------------- construction des plans
+BIAIS = (0.50, 0.30, 0.70, 0.40)       # cadrage selon le rang de reprise
+_prefixes = {'card': 'c', 'photo': 'p'}
+
+
+def _construit():
+    shots, k, vus, num = [], 0, {}, 0
+    for duree, genre, contenu, ken, ov, opts in PLAN:
+        num += 1
+        t0 = 0.0 if k == 0 else t(k)
+        t1 = t(k + duree)
+        s = dict(id='%s%02d' % (_prefixes[genre], num), kind=genre,
+                 t0=round(t0, 6), t1=round(t1, 6), k0=k, ku=duree)
+        if genre == 'photo':
+            rang = vus.get(contenu, 0)
+            vus[contenu] = rang + 1
+            s.update(src=contenu + '.webp', ken=ken or 'push',
+                     biais=BIAIS[rang % len(BIAIS)])
+            if ov:
+                s['overlay'] = ov
+        else:
+            s['card'] = contenu
+        s.update(opts)
+        shots.append(s)
+        k += duree
+    # le dernier plan va jusqu'au bout du morceau
+    shots[-1]['t1'] = DUREE
+    return shots
+
+
+SHOTS = _construit()

@@ -7,7 +7,8 @@ FF = os.environ.get('FFMPEG', 'ffmpeg')
 MUSIQUE = (sys.argv[1] if len(sys.argv) > 1
            else os.environ.get('MUSIQUE')
            or os.path.join(ICI, 'musique.mp3'))
-FPS = 30
+import sys as _s; _s.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from storyboard import FPS
 m = json.load(open(os.path.join(ICI, 'montage.json')))
 DUR = m['secondes']
 FONDU = 1.70                    # le carton de fin part au noir sur la fin
@@ -37,7 +38,7 @@ lance([FF, '-y', '-hide_banner', '-loglevel', 'error',
        '-map', '[v]', '-map', '[a]',
        '-c:v', 'libx264', '-preset', 'slow', '-crf', '19',
        '-profile:v', 'high', '-level', '4.1', '-pix_fmt', 'yuv420p',
-       '-x264-params', 'keyint=60:min-keyint=30',
+       '-x264-params', 'keyint=%d:min-keyint=%d' % (2 * FPS, FPS),
        '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2',
        '-movflags', '+faststart', '-t', '%.4f' % DUR, final], 'encode final')
 
