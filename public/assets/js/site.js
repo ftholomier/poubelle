@@ -531,6 +531,22 @@
     }
   }
 
+  /* ------------------------------------------------- présentation audio */
+
+  // L'égaliseur s'anime pendant la lecture ; un seul lecteur joue à la fois.
+  $$('[data-audio]').forEach(function (block) {
+    var player = $('[data-audio-player]', block);
+    if (!player) { return; }
+    player.addEventListener('play', function () {
+      $$('[data-audio-player]').forEach(function (other) { if (other !== player) { other.pause(); } });
+      block.classList.add('is-playing');
+      if (window.siteTrack) { window.siteTrack('audio_play'); }
+    });
+    ['pause', 'ended'].forEach(function (name) {
+      player.addEventListener(name, function () { block.classList.remove('is-playing'); });
+    });
+  });
+
   /* --------------------------------------------------- album photo (lightbox) */
 
   var lightbox = $('[data-lightbox]');

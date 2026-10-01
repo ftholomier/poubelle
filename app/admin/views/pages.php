@@ -43,7 +43,7 @@ $updatedBy = (string) ($page['updatedBy'] ?? '');
           <a class="tab<?= $code === $lang ? ' is-active' : '' ?>" href="<?= Text::e(Router::adminUrl('pages', ['slug' => $slug, 'lang' => $code])) ?>"><?= Text::e(strtoupper($code)) ?></a>
         <?php endforeach; ?>
         <span class="toolbar__sep" aria-hidden="true"></span>
-        <span class="badge" style="background:<?= $status === 'published' ? '#12B39A' : '#EDE5D5' ?>"><?= $status === 'published' ? 'EN LIGNE' : 'BROUILLON' ?></span>
+        <span class="badge" style="background:<?= $status === 'published' ? '#3DDC97' : '#DCDFE4' ?>"><?= $status === 'published' ? 'EN LIGNE' : 'BROUILLON' ?></span>
         <a class="link-underline" href="<?= Text::e(Config::basePath() . Router::url($slug === 'home' ? 'home' : ($slug === 'spaces' ? 'spaces' : ($slug === 'offices' ? 'offices' : ($slug === 'news' ? 'news' : ($slug === 'contact' ? 'contact' : ($slug === 'privacy' ? 'privacy' : 'legal'))))), $lang)) ?>" target="_blank" rel="noopener">Voir la page</a>
 
         <span class="lock<?= $locked ? ' lock--taken' : '' ?>">
@@ -61,7 +61,7 @@ $updatedBy = (string) ($page['updatedBy'] ?? '');
         <input class="field" id="nav" type="text" name="nav" value="<?= Text::e((string) ($page['nav'] ?? Admin::PAGES[$slug] ?? '')) ?>">
 
         <?php foreach ($schema as $section): ?>
-          <h2 style="margin:30px 0 0;font:800 19px/1 'Bricolage Grotesque',sans-serif;padding-top:18px;border-top:2px solid rgba(14,14,14,.12)"><?= Text::e((string) $section['title']) ?></h2>
+          <h2 style="margin:30px 0 0;font:700 19px/1 'Jost',sans-serif;padding-top:18px;border-top:2px solid rgba(16,24,32,.12)"><?= Text::e((string) $section['title']) ?></h2>
           <?php foreach ((array) $section['fields'] as $field):
               $path = (string) $field['path'];
               $name = 'f' . implode('', array_map(static fn (string $k): string => '[' . $k . ']', explode('.', $path)));
@@ -84,7 +84,7 @@ $updatedBy = (string) ($page['updatedBy'] ?? '');
       </div>
     </form>
 
-    <div class="panel__body" style="border-top:2px solid #0E0E0E;background:#FFF8EA">
+    <div class="panel__body" style="border-top:2px solid #101820;background:#F2F3F5">
       <div class="grid-2">
         <?php if ($lang !== Config::DEFAULT_LANG): ?>
           <form method="post" action="<?= Text::e(Router::adminUrl()) ?>">

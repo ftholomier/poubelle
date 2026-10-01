@@ -22,7 +22,7 @@ $body = Content::i18n($post, 'body', $lang);
     <div class="article__date" style="margin-top:26px"><?= Text::e(I18n::date((string) ($post['date'] ?? ''), IntlDateFormatter::LONG)) ?></div>
     <h1 class="article__title"><?= Text::e($title) ?></h1>
     <?php if (!empty($post['image'])): ?>
-      <div class="article__media" style="background:<?= Text::e((string) ($post['color'] ?? '#FFD100')) ?>">
+      <div class="article__media" style="background:<?= Text::e((string) ($post['color'] ?? '#FFCC00')) ?>">
         <?= View::image((string) $post['image'], $title, ['eager' => true, 'minWidth' => 700, 'sizes' => '(max-width: 880px) 100vw, 760px']) ?>
       </div>
     <?php endif; ?>
@@ -37,7 +37,7 @@ $body = Content::i18n($post, 'body', $lang);
           $url = Router::url('post', $lang, ['slug' => (string) ($item['slug'] ?? '')]);
           $itemTitle = Content::i18n($item, 'title', $lang); ?>
         <article class="post-card" data-reveal data-delay="<?= $i * 110 ?>">
-          <div class="post-card__media" style="background:<?= Text::e((string) ($item['color'] ?? '#FFD100')) ?>">
+          <div class="post-card__media" style="background:<?= Text::e((string) ($item['color'] ?? '#FFCC00')) ?>">
             <?= View::image((string) ($item['image'] ?? ''), $itemTitle, ['placeholder' => $itemTitle, 'minWidth' => 400, 'sizes' => '(max-width: 880px) 100vw, 380px']) ?>
             <a class="post-card__link" href="<?= Text::e($url) ?>"><span class="sr-only"><?= Text::e($itemTitle) ?></span></a>
           </div>

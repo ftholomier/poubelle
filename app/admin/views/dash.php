@@ -28,7 +28,7 @@ $missing = Content::missing();
       <div class="kpi__value"><?= Requests::countSince('-30 days') ?></div>
       <div class="kpi__note"><?= $newRequests ?> non traitée(s)</div>
     </div>
-    <div class="kpi" style="background:#FFD100">
+    <div class="kpi" style="background:#FFCC00">
       <div class="kpi__label">POSTES LIBRES</div>
       <div class="kpi__value"><?= $available ?></div>
       <div class="kpi__note"><?= $soon ?> bientôt libre(s) · <?= $disabled ?> désactivé(s)</div>
@@ -38,7 +38,7 @@ $missing = Content::missing();
       <div class="kpi__value"><?= (int) ($pagesCount ?? 0) ?></div>
       <div class="kpi__note"><?= \count(Admin::PAGES) ?> pages × <?= \count(Config::LANGS) ?> langues</div>
     </div>
-    <div class="kpi" style="background:#12B39A">
+    <div class="kpi" style="background:#3DDC97">
       <div class="kpi__label">EXTRAITS INDEXÉS</div>
       <div class="kpi__value"><?= (int) ($stats['count'] ?? 0) ?></div>
       <div class="kpi__note"><?= Text::e(($stats['builtAt'] ?? '') !== '' ? 'indexé ' . Admin::humanDate((string) $stats['builtAt']) : 'jamais indexé') ?></div>
@@ -97,7 +97,7 @@ $missing = Content::missing();
 
   <div class="panels">
     <section class="panel panel--pad">
-      <h2 style="margin:0 0 12px;font:800 19px/1 'Bricolage Grotesque',sans-serif">Raccourcis</h2>
+      <h2 style="margin:0 0 12px;font:700 19px/1 'Jost',sans-serif">Raccourcis</h2>
       <div class="stack">
         <a class="btn btn--outline" href="<?= Text::e(Router::adminUrl('offices')) ?>">Mettre à jour les disponibilités</a>
         <a class="btn btn--outline" href="<?= Text::e(Router::adminUrl('media')) ?>">Ajouter des photos</a>
@@ -111,7 +111,7 @@ $missing = Content::missing();
     </section>
 
     <section class="panel panel--pad">
-      <h2 style="margin:0 0 12px;font:800 19px/1 'Bricolage Grotesque',sans-serif">État des intégrations</h2>
+      <h2 style="margin:0 0 12px;font:700 19px/1 'Jost',sans-serif">État des intégrations</h2>
       <div class="stack">
         <?php
         $integrations = [
@@ -122,7 +122,7 @@ $missing = Content::missing();
         ];
         foreach ($integrations as [$label, $on, $note]): ?>
           <div class="guard">
-            <div class="guard__title"><?= Text::e($label) ?> <span class="badge" style="background:<?= $on ? '#12B39A' : '#EDE5D5' ?>;margin-left:6px"><?= $on ? 'ACTIF' : 'REPLI' ?></span></div>
+            <div class="guard__title"><?= Text::e($label) ?> <span class="badge" style="background:<?= $on ? '#3DDC97' : '#DCDFE4' ?>;margin-left:6px"><?= $on ? 'ACTIF' : 'REPLI' ?></span></div>
             <div class="guard__text"><?= Text::e($note) ?></div>
           </div>
         <?php endforeach; ?>
@@ -132,12 +132,12 @@ $missing = Content::missing();
   </div>
 
   <?php if ($missing !== []): ?>
-  <section class="panel panel--pad" style="margin-top:18px;background:#FFD100">
-    <h2 style="margin:0 0 8px;font:800 19px/1 'Bricolage Grotesque',sans-serif">Champs de contenu manquants</h2>
+  <section class="panel panel--pad" style="margin-top:18px;background:#FFCC00">
+    <h2 style="margin:0 0 8px;font:700 19px/1 'Jost',sans-serif">Champs de contenu manquants</h2>
     <p class="muted" style="margin:0 0 12px">Le front a appliqué une valeur par défaut. À compléter dans « Pages & contenus ».</p>
     <div class="tags">
       <?php foreach (\array_slice($missing, 0, 12) as $path): ?>
-        <span class="tag tag--yellow" style="background:#FFF8EA"><?= Text::e($path) ?></span>
+        <span class="tag tag--yellow" style="background:#F2F3F5"><?= Text::e($path) ?></span>
       <?php endforeach; ?>
     </div>
   </section>

@@ -86,11 +86,11 @@ final class Text
 
         $doc = new \DOMDocument('1.0', 'UTF-8');
         $previous = libxml_use_internal_errors(true);
-        $doc->loadHTML('<?xml encoding="UTF-8"><div id="ioio-root">' . $html . '</div>', LIBXML_NOERROR | LIBXML_NOWARNING);
+        $doc->loadHTML('<?xml encoding="UTF-8"><div id="site-root">' . $html . '</div>', LIBXML_NOERROR | LIBXML_NOWARNING);
         libxml_clear_errors();
         libxml_use_internal_errors($previous);
 
-        $root = $doc->getElementById('ioio-root');
+        $root = $doc->getElementById('site-root');
         if ($root === null) {
             return '';
         }

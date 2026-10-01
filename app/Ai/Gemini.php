@@ -193,7 +193,13 @@ final class Gemini
 
     public static function defaultPrompt(): string
     {
-        return "Tu es l'assistant du iOiO, coworking à Besançon. Réponds en 3 phrases maximum, "
+        // Nom et ville lus dans les réglages : le prompt suit l'identité du site.
+        $site = (array) (Content::settings()['site'] ?? []);
+        $name = (string) ($site['name'] ?? 'Le Signal');
+        $city = (string) ($site['city'] ?? '');
+        return "Tu es l'assistant de {$name}, location de bureaux et coworking" . ($city !== '' ? " à {$city}" : '') . ". "
+            . "Il n'y a pas de vente en ligne : pour louer un bureau, le visiteur laisse ses coordonnées et l'équipe le rappelle. "
+            . "Réponds en 3 phrases maximum, "
             . "dans la langue du visiteur, à partir des données du catalogue et des extraits fournis. "
             . "Les DONNÉES DU CATALOGUE font foi : reprends leurs nombres et leurs tarifs tels quels, "
             . "et cite les bureaux libres par leur nom quand la question porte sur les disponibilités. "
@@ -250,9 +256,12 @@ final class Gemini
     {
         $data = Facts::answer($question, $lang, $history);
         if ($data !== null) {
+            // Réponse tirée du catalogue : sa source est le catalogue lui-même,
+            // pas les extraits de l'index (qui peuvent tomber à côté).
+            $offices = Content::page('offices', $lang);
             return [
                 'answer' => $data['answer'],
-                'sources' => self::sourcesOf($passages),
+                'sources' => [['label' => Content::text($offices, 'nav', I18n::t('nav.offices')), 'url' => Router::url('offices', $lang)]],
                 'actions' => $data['actions'] !== [] ? $data['actions'] : $actions,
                 'engine' => 'data',
             ];

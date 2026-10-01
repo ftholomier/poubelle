@@ -26,7 +26,7 @@ $basePath = Config::basePath();
   <?php elseif ($type === 'color'): ?>
     <div style="display:flex;gap:10px;align-items:center">
       <input class="field" id="<?= Text::e($id) ?>" type="text" name="<?= Text::e($name) ?>" value="<?= Text::e(\is_scalar($value) ? (string) $value : '') ?>" style="max-width:160px" data-color-text>
-      <input type="color" value="<?= Text::e(preg_match('/^#[0-9A-Fa-f]{6}$/', (string) $value) === 1 ? (string) $value : '#FFD100') ?>" data-color-picker aria-label="Choisir la couleur" style="width:52px;height:52px;border:2px solid #0E0E0E;border-radius:12px;background:none;cursor:pointer;padding:2px">
+      <input type="color" value="<?= Text::e(preg_match('/^#[0-9A-Fa-f]{6}$/', (string) $value) === 1 ? (string) $value : '#FFCC00') ?>" data-color-picker aria-label="Choisir la couleur" style="width:52px;height:52px;border:2px solid #101820;border-radius:12px;background:none;cursor:pointer;padding:2px">
     </div>
 
   <?php elseif ($type === 'textarea'): ?>

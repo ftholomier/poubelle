@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Back-office du iOiO.
+ * Back-office du site.
  * Un seul point d'entrée : ?screen=… pour l'affichage, POST + action=… pour
  * les écritures. Chaque écriture passe par Store (atomique + versionnée).
  */
@@ -73,7 +73,7 @@ if (!Auth::isInstalled()) {
         Media::importExisting('install');
         Indexer::rebuild();
         Auth::attempt((string) ($_POST['email'] ?? ''), (string) ($_POST['password'] ?? ''));
-        Session::flash('Compte créé. Bienvenue dans le back-office du iOiO.');
+        Session::flash('Compte créé. Bienvenue dans le back-office.');
         $redirect('dash');
     }
     $render('install');
@@ -245,6 +245,8 @@ if ($isPost) {
                 'name' => trim(mb_substr((string) ($input['name'] ?? ''), 0, 120)),
                 'type' => \in_array((string) ($input['type'] ?? ''), Config::TYPES, true) ? (string) $input['type'] : 'private',
                 'area' => trim(mb_substr((string) ($input['area'] ?? ''), 0, 40)),
+                'capacity' => trim(mb_substr((string) ($input['capacity'] ?? ''), 0, 60)),
+                'badge' => trim(mb_substr((string) ($input['badge'] ?? ''), 0, 160)),
                 'price' => max(0, (int) ($input['price'] ?? 0)),
                 // Un promo vide, nul ou au-dessus du tarif normal n'est pas une
                 // promotion : on l'enregistre à zéro, ce qui l'efface.
@@ -261,13 +263,15 @@ if ($isPost) {
                 'enabled' => !empty($input['enabled']),
                 'featured' => !empty($input['featured']),
                 'order' => (int) ($input['order'] ?? 999),
-                'color' => preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($input['color'] ?? '')) === 1 ? (string) $input['color'] : '#FFD100',
+                'color' => preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($input['color'] ?? '')) === 1 ? (string) $input['color'] : '#FFCC00',
                 'description' => trim(mb_substr((string) ($input['description'] ?? ''), 0, 2000)),
                 'features' => array_values(array_filter(array_map('trim', explode("\n", str_replace("\r\n", "\n", (string) ($input['features'] ?? '')))))),
                 'photos' => $photos,
                 'i18n' => ['en' => [
                     'name' => trim((string) ($input['en_name'] ?? '')),
                     'area' => trim((string) ($input['en_area'] ?? '')),
+                    'capacity' => trim((string) ($input['en_capacity'] ?? '')),
+                    'badge' => trim((string) ($input['en_badge'] ?? '')),
                     'description' => trim((string) ($input['en_description'] ?? '')),
                     'features' => array_values(array_filter(array_map('trim', explode("\n", str_replace("\r\n", "\n", (string) ($input['en_features'] ?? '')))))),
                 ]],
@@ -381,7 +385,7 @@ if ($isPost) {
                 'excerpt' => trim(mb_substr((string) ($input['excerpt'] ?? ''), 0, 400)),
                 'body' => Text::sanitizeHtml((string) ($input['body'] ?? '')),
                 'image' => trim((string) ($input['image'] ?? '')),
-                'color' => preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($input['color'] ?? '')) === 1 ? (string) $input['color'] : '#FFD100',
+                'color' => preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($input['color'] ?? '')) === 1 ? (string) $input['color'] : '#FFCC00',
                 'i18n' => ['en' => [
                     'title' => trim((string) ($input['en_title'] ?? '')),
                     'excerpt' => trim((string) ($input['en_excerpt'] ?? '')),
@@ -490,6 +494,49 @@ if ($isPost) {
             $settings['analytics']['domain'] = trim((string) ($input['analyticsDomain'] ?? ''));
             $settings['analytics']['src'] = trim((string) ($input['analyticsSrc'] ?? ''));
 
+            // Version anglaise : vide = le texte français est repris.
+            $en = (array) ($input['en'] ?? []);
+            $settings['top']['i18n']['en']['line1'] = trim((string) ($en['topLine1'] ?? ''));
+            $settings['top']['i18n']['en']['line2'] = trim((string) ($en['topLine2'] ?? ''));
+            $settings['contact']['i18n']['en']['hours'] = trim((string) ($en['hours'] ?? ''));
+            $settings['seo']['i18n']['en']['titleSuffix'] = trim((string) ($en['titleSuffix'] ?? ''));
+            $settings['seo']['i18n']['en']['description'] = trim((string) ($en['seoDescription'] ?? ''));
+
+            // Bandeau défilant : une ligne par argument, les couleurs suivent le rang.
+            if (isset($input['marquee'])) {
+                $lines = static fn (string $raw): array => array_map('trim', explode("\n", str_replace("\r\n", "\n", $raw)));
+                $labels = array_values(array_filter($lines((string) $input['marquee']), static fn (string $l): bool => $l !== ''));
+                $labelsEn = $lines((string) ($input['marqueeEn'] ?? ''));
+                $palette = ['#FFCC00', '#FFFFFF', '#FFCC00', '#FFFFFF', '#3DDC97', '#FFFFFF'];
+                $old = array_values((array) ($settings['marquee'] ?? []));
+                $settings['marquee'] = [];
+                foreach ($labels as $k => $label) {
+                    $settings['marquee'][] = [
+                        'label' => $label,
+                        'color' => (string) ($old[$k]['color'] ?? $palette[$k % \count($palette)]),
+                        'i18n' => ['en' => ['label' => (string) ($labelsEn[$k] ?? '')]],
+                    ];
+                }
+            }
+
+            // Audio : seul un fichier .mp3 présent dans public/media est accepté.
+            $audio = (array) ($input['audio'] ?? []);
+            $src = '/' . ltrim(trim((string) ($audio['src'] ?? '')), '/');
+            $validSrc = str_starts_with($src, '/media/') && str_ends_with(strtolower($src), '.mp3')
+                && !str_contains($src, '..') && is_file(Config::publicPath(ltrim($src, '/')));
+            $audioWarning = !$validSrc && trim((string) ($audio['src'] ?? '')) !== '';
+            $settings['audio'] = array_replace((array) ($settings['audio'] ?? []), [
+                'enabled' => !empty($audio['enabled']),
+                'src' => $validSrc ? $src : (string) ($settings['audio']['src'] ?? ''),
+                'title' => trim((string) ($audio['title'] ?? '')),
+                'subtitle' => trim((string) ($audio['subtitle'] ?? '')),
+                'duration' => trim((string) ($audio['duration'] ?? '')),
+            ]);
+            $settings['audio']['i18n']['en'] = [
+                'title' => trim((string) ($audio['titleEn'] ?? '')),
+                'subtitle' => trim((string) ($audio['subtitleEn'] ?? '')),
+            ];
+
             foreach ((array) ($input['sites'] ?? []) as $i => $site) {
                 if (!isset($settings['sites'][$i])) {
                     continue;
@@ -508,12 +555,22 @@ if ($isPost) {
                     'cta' => trim((string) ($site['cta'] ?? '')),
                     'mapUrl' => trim((string) ($site['mapUrl'] ?? '')),
                     'photo' => trim((string) ($site['photo'] ?? '')),
-                    'color' => preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($site['color'] ?? '')) === 1 ? (string) $site['color'] : ($settings['sites'][$i]['color'] ?? '#FFD100'),
+                    'color' => preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($site['color'] ?? '')) === 1 ? (string) $site['color'] : ($settings['sites'][$i]['color'] ?? '#FFCC00'),
                     'enabled' => !empty($site['enabled']),
+                    'lat' => is_numeric($site['lat'] ?? null) ? (float) $site['lat'] : ($settings['sites'][$i]['lat'] ?? ''),
+                    'lng' => is_numeric($site['lng'] ?? null) ? (float) $site['lng'] : ($settings['sites'][$i]['lng'] ?? ''),
+                ]);
+                $siteEn = (array) ($site['en'] ?? []);
+                $settings['sites'][$i]['i18n']['en'] = array_replace((array) ($settings['sites'][$i]['i18n']['en'] ?? []), [
+                    'note' => trim((string) ($siteEn['note'] ?? '')),
+                    'description' => trim((string) ($siteEn['description'] ?? '')),
+                    'chips' => array_values(array_filter(array_map('trim', explode("\n", str_replace("\r\n", "\n", (string) ($siteEn['chips'] ?? '')))))),
                 ]);
             }
             Store::write('settings.json', $settings, $email);
-            Session::flash('Réglages enregistrés.');
+            $audioWarning
+                ? Session::flash('Réglages enregistrés, sauf le fichier audio : introuvable dans public/media, l’ancien est conservé.', 'error')
+                : Session::flash('Réglages enregistrés.');
             $redirect('settings');
 
         case 'keys-save':

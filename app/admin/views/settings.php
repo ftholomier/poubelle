@@ -1,5 +1,5 @@
 <?php
-/** Réglages : identité et lieux, clés API, comptes. */
+/** Réglages : identité et lieu, bandeau, audio, clés API, comptes. */
 
 use App\Admin;
 use App\Ai\Gemini;
@@ -35,7 +35,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
 ?>
 <div class="screen">
   <div class="tablist">
-    <?php foreach (['site' => 'Site & lieux', 'keys' => 'Clés API & emails', 'spam' => 'Anti-spam', 'users' => 'Comptes'] as $key => $label): ?>
+    <?php foreach (['site' => 'Site & lieu', 'keys' => 'Clés API & emails', 'spam' => 'Anti-spam', 'users' => 'Comptes'] as $key => $label): ?>
       <a class="tab<?= $tab === $key ? ' is-active' : '' ?>" href="<?= Text::e(Router::adminUrl('settings', ['tab' => $key])) ?>"><?= Text::e($label) ?></a>
     <?php endforeach; ?>
   </div>
@@ -46,7 +46,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
     <input type="hidden" name="action" value="settings-save">
 
     <section class="panel panel--pad" style="margin-top:18px">
-      <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Identité</h2>
+      <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Identité</h2>
       <div class="grid-2" style="margin-top:14px">
         <div>
           <label class="label" for="s-name">NOM DU SITE</label>
@@ -88,10 +88,64 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
         </div>
       </div>
       <label class="check" style="margin-top:18px"><input type="checkbox" name="s[autoReply]" value="1" <?= !empty($settings['contact']['autoReply']) ? 'checked' : '' ?>><span>Envoyer un accusé de réception aux demandes de contact</span></label>
+
+      <h3 style="margin:28px 0 0;font:700 16px/1 'Jost',sans-serif">Version anglaise</h3>
+      <p class="muted" style="margin:6px 0 0">Vide : le texte français est repris tel quel sur le site anglais.</p>
+      <?php $en = static fn (array $node, string $key): string => (string) ($node['i18n']['en'][$key] ?? ''); ?>
+      <div class="grid-2" style="margin-top:14px">
+        <div><label class="label" for="s-top1en">BANDEAU HAUT — ARGUMENT 1 (EN)</label>
+          <input class="field" id="s-top1en" type="text" name="s[en][topLine1]" value="<?= Text::e($en((array) ($settings['top'] ?? []), 'line1')) ?>"></div>
+        <div><label class="label" for="s-top2en">BANDEAU HAUT — ARGUMENT 2 (EN)</label>
+          <input class="field" id="s-top2en" type="text" name="s[en][topLine2]" value="<?= Text::e($en((array) ($settings['top'] ?? []), 'line2')) ?>"></div>
+        <div><label class="label" for="s-hoursen">HORAIRES DE VISITE (EN)</label>
+          <input class="field" id="s-hoursen" type="text" name="s[en][hours]" value="<?= Text::e($en((array) ($settings['contact'] ?? []), 'hours')) ?>"></div>
+        <div><label class="label" for="s-suffixen">TITRE PAR DÉFAUT (EN)</label>
+          <input class="field" id="s-suffixen" type="text" name="s[en][titleSuffix]" value="<?= Text::e($en((array) ($settings['seo'] ?? []), 'titleSuffix')) ?>"></div>
+      </div>
+      <label class="label" style="margin-top:14px" for="s-seodescen">DESCRIPTION PAR DÉFAUT (EN)</label>
+      <input class="field" id="s-seodescen" type="text" name="s[en][seoDescription]" value="<?= Text::e($en((array) ($settings['seo'] ?? []), 'description')) ?>">
     </section>
 
     <section class="panel panel--pad" style="margin-top:18px">
-      <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Conversion</h2>
+      <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Bandeau défilant de l’accueil</h2>
+      <p class="muted" style="margin:8px 0 0">Un argument par ligne. La ligne anglaise correspond à la ligne française de même rang.</p>
+      <?php $marquee = array_values(array_filter((array) ($settings['marquee'] ?? []), 'is_array')); ?>
+      <div class="grid-2" style="margin-top:14px">
+        <div><label class="label" for="s-marquee">ARGUMENTS (FR)</label>
+          <textarea class="field" id="s-marquee" name="s[marquee]" rows="9"><?= Text::e(implode("\n", array_map(static fn (array $m): string => (string) ($m['label'] ?? ''), $marquee))) ?></textarea></div>
+        <div><label class="label" for="s-marqueeen">ARGUMENTS (EN)</label>
+          <textarea class="field" id="s-marqueeen" name="s[marqueeEn]" rows="9"><?= Text::e(implode("\n", array_map(static fn (array $m): string => (string) ($m['i18n']['en']['label'] ?? ''), $marquee))) ?></textarea></div>
+      </div>
+    </section>
+
+    <section class="panel panel--pad" style="margin-top:18px">
+      <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Présentation audio</h2>
+      <p class="muted" style="margin:8px 0 0">Lecteur affiché sur l’accueil, la page Le Signal, les fiches et la page contact. Jamais de lecture automatique : rien n’est téléchargé avant que le visiteur appuie sur lecture.</p>
+      <?php
+      $audio = (array) ($settings['audio'] ?? []);
+      $mp3 = array_map(static fn (string $f): string => '/media/' . basename($f), glob(Config::publicPath('media') . '/*.mp3') ?: []);
+      ?>
+      <label class="check" style="margin-top:14px"><input type="checkbox" name="s[audio][enabled]" value="1" <?= !empty($audio['enabled']) ? 'checked' : '' ?>><span>Afficher le lecteur</span></label>
+      <div class="grid-2" style="margin-top:14px">
+        <div><label class="label" for="s-audiosrc">FICHIER MP3</label>
+          <input class="field" id="s-audiosrc" type="text" name="s[audio][src]" list="mp3-files" value="<?= Text::e((string) ($audio['src'] ?? '')) ?>" placeholder="/media/presentation.mp3">
+          <datalist id="mp3-files"><?php foreach ($mp3 as $file): ?><option value="<?= Text::e($file) ?>"><?php endforeach; ?></datalist>
+          <p class="muted" style="margin:6px 0 0">Déposez le fichier dans public/media (FTP), puis choisissez-le ici.</p></div>
+        <div><label class="label" for="s-audiodur">DURÉE AFFICHÉE</label>
+          <input class="field" id="s-audiodur" type="text" name="s[audio][duration]" value="<?= Text::e((string) ($audio['duration'] ?? '')) ?>" placeholder="1:14"></div>
+        <div><label class="label" for="s-audiotitle">TITRE</label>
+          <input class="field" id="s-audiotitle" type="text" name="s[audio][title]" value="<?= Text::e((string) ($audio['title'] ?? '')) ?>"></div>
+        <div><label class="label" for="s-audiosub">SOUS-TITRE</label>
+          <input class="field" id="s-audiosub" type="text" name="s[audio][subtitle]" value="<?= Text::e((string) ($audio['subtitle'] ?? '')) ?>"></div>
+        <div><label class="label" for="s-audiotitleen">TITRE (EN)</label>
+          <input class="field" id="s-audiotitleen" type="text" name="s[audio][titleEn]" value="<?= Text::e($en($audio, 'title')) ?>"></div>
+        <div><label class="label" for="s-audiosuben">SOUS-TITRE (EN)</label>
+          <input class="field" id="s-audiosuben" type="text" name="s[audio][subtitleEn]" value="<?= Text::e($en($audio, 'subtitle')) ?>"></div>
+      </div>
+    </section>
+
+    <section class="panel panel--pad" style="margin-top:18px">
+      <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Conversion</h2>
       <div class="grid-2" style="margin-top:14px">
         <div>
           <label class="check"><input type="checkbox" name="s[stickyEnabled]" value="1" <?= !empty($settings['sticky']['enabled']) ? 'checked' : '' ?>><span>Barre CTA collante</span></label>
@@ -122,15 +176,15 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
               <option value="<?= Text::e($value) ?>" <?= ($settings['analytics']['provider'] ?? 'none') === $value ? 'selected' : '' ?>><?= Text::e($label) ?></option>
             <?php endforeach; ?>
           </select>
-          <input class="field" style="margin-top:10px" type="text" name="s[analyticsDomain]" value="<?= Text::e((string) ($settings['analytics']['domain'] ?? '')) ?>" placeholder="domaine Plausible (ex. ioio.fr)">
+          <input class="field" style="margin-top:10px" type="text" name="s[analyticsDomain]" value="<?= Text::e((string) ($settings['analytics']['domain'] ?? '')) ?>" placeholder="domaine Plausible (ex. le-signal.com)">
           <input class="field" style="margin-top:10px" type="text" name="s[analyticsSrc]" value="<?= Text::e((string) ($settings['analytics']['src'] ?? '')) ?>" placeholder="URL du script Matomo">
         </div>
       </div>
     </section>
 
     <section class="panel panel--pad" style="margin-top:18px">
-      <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Les deux lieux</h2>
-      <p class="muted" style="margin:8px 0 0">Ces informations alimentent l'accueil, la page « Nos espaces », la page contact et les données structurées.</p>
+      <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Le lieu</h2>
+      <p class="muted" style="margin:8px 0 0">Adresse, accès et coordonnées GPS : ils alimentent l’accueil, la page Le Signal, les fiches, la page contact, l’assistant et les données lues par Google (fiche locale).</p>
       <?php foreach ((array) ($settings['sites'] ?? []) as $i => $site): ?>
         <div class="repeat-item" style="margin-top:16px">
           <div class="repeat-item__head">
@@ -152,8 +206,8 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
             <div><label class="label">BOUTON</label><input class="field" type="text" name="s[sites][<?= $i ?>][cta]" value="<?= Text::e((string) ($site['cta'] ?? '')) ?>"></div>
             <div><label class="label">COULEUR</label>
               <div style="display:flex;gap:10px;align-items:center">
-                <input class="field" type="text" name="s[sites][<?= $i ?>][color]" value="<?= Text::e((string) ($site['color'] ?? '#FFD100')) ?>" data-color-text>
-                <input type="color" value="<?= Text::e(preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($site['color'] ?? '')) === 1 ? (string) $site['color'] : '#FFD100') ?>" data-color-picker aria-label="Couleur" style="width:52px;height:52px;border:2px solid #0E0E0E;border-radius:12px;background:none;cursor:pointer;padding:2px">
+                <input class="field" type="text" name="s[sites][<?= $i ?>][color]" value="<?= Text::e((string) ($site['color'] ?? '#FFCC00')) ?>" data-color-text>
+                <input type="color" value="<?= Text::e(preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($site['color'] ?? '')) === 1 ? (string) $site['color'] : '#FFCC00') ?>" data-color-picker aria-label="Couleur" style="width:52px;height:52px;border:2px solid #101820;border-radius:12px;background:none;cursor:pointer;padding:2px">
               </div>
             </div>
           </div>
@@ -163,6 +217,16 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
           <textarea class="field" name="s[sites][<?= $i ?>][description]" rows="2"><?= Text::e((string) ($site['description'] ?? '')) ?></textarea>
           <label class="label" style="margin-top:14px">ÉTIQUETTES (UNE PAR LIGNE)</label>
           <textarea class="field" name="s[sites][<?= $i ?>][chips]" rows="3"><?= Text::e(implode("\n", array_map('strval', (array) ($site['chips'] ?? [])))) ?></textarea>
+          <div class="grid-2" style="margin-top:14px">
+            <div><label class="label">LATITUDE</label><input class="field" type="text" inputmode="decimal" name="s[sites][<?= $i ?>][lat]" value="<?= Text::e(is_numeric($site['lat'] ?? null) ? (string) json_encode((float) $site['lat']) : '') ?>"></div>
+            <div><label class="label">LONGITUDE</label><input class="field" type="text" inputmode="decimal" name="s[sites][<?= $i ?>][lng]" value="<?= Text::e(is_numeric($site['lng'] ?? null) ? (string) json_encode((float) $site['lng']) : '') ?>"></div>
+          </div>
+          <label class="label" style="margin-top:14px">NOTE D’ACCÈS (EN)</label>
+          <input class="field" type="text" name="s[sites][<?= $i ?>][en][note]" value="<?= Text::e($en($site, 'note')) ?>">
+          <label class="label" style="margin-top:14px">DESCRIPTION (EN)</label>
+          <textarea class="field" name="s[sites][<?= $i ?>][en][description]" rows="2"><?= Text::e($en($site, 'description')) ?></textarea>
+          <label class="label" style="margin-top:14px">ÉTIQUETTES (EN, UNE PAR LIGNE)</label>
+          <textarea class="field" name="s[sites][<?= $i ?>][en][chips]" rows="3"><?= Text::e(implode("\n", array_map('strval', (array) ($site['i18n']['en']['chips'] ?? [])))) ?></textarea>
           <label class="label" style="margin-top:14px">LIEN GOOGLE MAPS</label>
           <input class="field" type="text" name="s[sites][<?= $i ?>][mapUrl]" value="<?= Text::e((string) ($site['mapUrl'] ?? '')) ?>">
           <?= View::admin('_field', [
@@ -185,7 +249,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
     <?= Csrf::field('admin') ?>
     <input type="hidden" name="action" value="keys-save">
     <section class="panel panel--pad" style="margin-top:18px">
-      <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Clés API et envoi d'emails</h2>
+      <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Clés API et envoi d'emails</h2>
       <p class="muted" style="margin:8px 0 0">
         Les valeurs sont écrites dans <strong>storage/secrets.json</strong>, hors racine web, en droits 0600. Une clé posée dans
         le fichier <strong>.env</strong> du serveur reste prioritaire et apparaît ici en lecture seule.
@@ -199,8 +263,8 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
           <div>
             <label class="label" for="k-<?= Text::e($key) ?>">
               <?= Text::e(mb_strtoupper((string) $def['label'])) ?>
-              <?php if ($locked): ?><span class="badge" style="background:#EDE5D5;margin-left:6px">.ENV</span>
-              <?php elseif ($set): ?><span class="badge" style="background:#12B39A;margin-left:6px">EN PLACE</span><?php endif; ?>
+              <?php if ($locked): ?><span class="badge" style="background:#DCDFE4;margin-left:6px">.ENV</span>
+              <?php elseif ($set): ?><span class="badge" style="background:#3DDC97;margin-left:6px">EN PLACE</span><?php endif; ?>
             </label>
             <?php if (($def['choices'] ?? '') === 'gemini' && $geminiModels !== []): ?>
               <select class="field" id="k-<?= Text::e($key) ?>" name="k[<?= Text::e($key) ?>]" <?= $locked ? 'disabled' : '' ?>>
@@ -244,13 +308,13 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
   </form>
 
   <section class="panel panel--pad" style="margin-top:18px">
-    <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Tester les intégrations</h2>
+    <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Tester les intégrations</h2>
     <p class="muted" style="margin:8px 0 14px">
       Chaque test fait un vrai appel avec la clé enregistrée — la plus petite requête possible — et affiche
       la réponse obtenue. Rien n'est modifié sur le site. Le test d'envoi expédie un email réel à la boîte configurée.
     </p>
 
-    <div class="panel__scroll" style="border:2px solid #0E0E0E">
+    <div class="panel__scroll" style="border:2px solid #101820">
       <div class="row row--head row--tests"><span>INTÉGRATION</span><span>RÉSULTAT</span><span style="text-align:right">ACTION</span></div>
       <?php foreach (Diagnostics::TARGETS as $target):
           $test = (array) ($keyTests[$target] ?? []);
@@ -264,7 +328,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
             <?php if ($test === []): ?>
               <span class="row__sub" style="margin:0"><?= $ready ? 'Jamais testé.' : 'Clé absente : le site fonctionne sans, en mode dégradé.' ?></span>
             <?php else: ?>
-              <span class="badge" style="background:<?= ($test['ok'] ?? false) ? '#12B39A' : '#FF6B5B' ?>">
+              <span class="badge" style="background:<?= ($test['ok'] ?? false) ? '#3DDC97' : '#FF6B5B' ?>">
                 <?= ($test['ok'] ?? false) ? 'OK' : 'ÉCHEC' ?>
               </span>
               <span class="row__sub" style="margin-left:8px"><?= (int) ($test['ms'] ?? 0) ?> ms · <?= Text::e(Admin::humanDate((string) ($test['at'] ?? ''))) ?></span>
@@ -285,7 +349,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
   </section>
 
   <section class="panel panel--pad" style="margin-top:18px">
-    <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Trouver l'identifiant de la fiche Google</h2>
+    <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Trouver l'identifiant de la fiche Google</h2>
     <p class="muted" style="margin:8px 0 14px">
       <?php if (!Reviews::canSearch()): ?>
         Renseignez d'abord la clé API Google Places ci-dessus : vous pourrez ensuite chercher l'établissement
@@ -303,19 +367,19 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
       <label class="sr-only" for="place-q">Adresse ou nom de l'établissement</label>
       <input class="field" id="place-q" type="search" name="q" maxlength="200"
              value="<?= Text::e((string) ($placeSearch['q'] ?? '')) ?>"
-             placeholder="11 avenue Carnot, 25000 Besançon" <?= Reviews::canSearch() ? '' : 'disabled' ?>>
+             placeholder="95 Faubourg de Besançon, 25200 Montbéliard" <?= Reviews::canSearch() ? '' : 'disabled' ?>>
       <button class="btn btn--ink" type="submit" <?= Reviews::canSearch() ? '' : 'disabled' ?>>Rechercher</button>
     </form>
 
     <?php if ($placeResults !== []): ?>
-      <div class="panel__scroll" style="max-height:360px;overflow:auto;border:2px solid #0E0E0E;margin-top:16px">
+      <div class="panel__scroll" style="max-height:360px;overflow:auto;border:2px solid #101820;margin-top:16px">
         <div class="row row--head row--places"><span>ÉTABLISSEMENT</span><span>AVIS</span><span style="text-align:right">ACTION</span></div>
         <?php foreach ($placeResults as $place): $id = (string) ($place['id'] ?? ''); ?>
           <div class="row row--places<?= $id === $placeCurrent ? ' is-current' : '' ?>">
             <div>
               <div class="row__title">
                 <?= Text::e((string) ($place['name'] ?? '')) ?>
-                <?php if ($id === $placeCurrent): ?><span class="badge" style="background:#12B39A;margin-left:6px">FICHE ACTUELLE</span><?php endif; ?>
+                <?php if ($id === $placeCurrent): ?><span class="badge" style="background:#3DDC97;margin-left:6px">FICHE ACTUELLE</span><?php endif; ?>
               </div>
               <div class="row__sub"><?= Text::e((string) ($place['address'] ?? '')) ?></div>
               <div class="row__sub" style="font-family:ui-monospace,monospace;opacity:.75"><?= Text::e($id) ?></div>
@@ -342,7 +406,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
   </section>
 
   <section class="panel panel--pad" style="margin-top:18px">
-    <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Modèles Gemini disponibles</h2>
+    <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Modèles Gemini disponibles</h2>
     <p class="muted" style="margin:8px 0 14px">
       <?php if (!Gemini::configured()): ?>
         Aucune clé API Gemini enregistrée. Renseignez-la ci-dessus : le catalogue des modèles de votre compte
@@ -358,7 +422,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
     </p>
 
     <?php if ($geminiModels !== []): ?>
-      <div class="panel__scroll" style="max-height:340px;overflow:auto;border:2px solid #0E0E0E">
+      <div class="panel__scroll" style="max-height:340px;overflow:auto;border:2px solid #101820">
         <div class="row row--head row--models"><span>MODÈLE</span><span>DESCRIPTION</span><span style="text-align:right">CONTEXTE</span></div>
         <?php foreach ($geminiModels as $model): $id = (string) ($model['id'] ?? ''); ?>
           <div class="row row--models<?= $id === $geminiCurrent ? ' is-current' : '' ?>">
@@ -366,9 +430,9 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
               <div class="row__title"><?= Text::e($id) ?></div>
               <div class="row__sub">
                 <?= Text::e((string) ($model['label'] ?? '')) ?>
-                <?php if ($id === $geminiCurrent): ?><span class="badge" style="background:#12B39A;margin-left:6px">ACTIF</span><?php endif; ?>
-                <?php if ($id === Gemini::MODEL_DEFAULT): ?><span class="badge" style="background:#FFD100;margin-left:6px">RECOMMANDÉ</span><?php endif; ?>
-                <?php if (!empty($model['preview'])): ?><span class="badge" style="background:#EDE5D5;margin-left:6px">PRÉVERSION</span><?php endif; ?>
+                <?php if ($id === $geminiCurrent): ?><span class="badge" style="background:#3DDC97;margin-left:6px">ACTIF</span><?php endif; ?>
+                <?php if ($id === Gemini::MODEL_DEFAULT): ?><span class="badge" style="background:#FFCC00;margin-left:6px">RECOMMANDÉ</span><?php endif; ?>
+                <?php if (!empty($model['preview'])): ?><span class="badge" style="background:#DCDFE4;margin-left:6px">PRÉVERSION</span><?php endif; ?>
               </div>
             </div>
             <div class="row__sub"><?= Text::e(mb_strimwidth((string) ($model['description'] ?? ''), 0, 150, '…')) ?></div>
@@ -388,7 +452,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
   </section>
 
   <section class="panel panel--pad" style="margin-top:18px">
-    <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Avis Google</h2>
+    <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Avis Google</h2>
     <p class="muted" style="margin:8px 0 14px">
       <?php if (Reviews::configured()): ?>
         Cache : <?= \count((array) ($reviewsCache['reviews'] ?? [])) ?> avis ·
@@ -412,7 +476,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
     <input type="hidden" name="action" value="antispam-save">
 
     <section class="panel panel--pad" style="margin-top:18px">
-      <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Protection des formulaires</h2>
+      <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Protection des formulaires</h2>
       <p class="muted" style="margin:8px 0 0">
         Chaque envoi reçoit une note de suspicion. Sous le premier seuil il passe sans rien demander ; au-dessus,
         une question simple est posée au visiteur ; au-dessus du second, l'envoi part en quarantaine dans
@@ -478,7 +542,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
   </form>
 
   <section class="panel panel--pad" style="margin-top:18px">
-    <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Ce qui est vérifié, dans l'ordre</h2>
+    <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Ce qui est vérifié, dans l'ordre</h2>
     <ol class="muted" style="margin:12px 0 0;padding-left:20px;line-height:1.8">
       <li><strong>Jeton signé</strong> posé à l'affichage du formulaire : ni omissible, ni antidatable.</li>
       <li><strong>Pixel de présence</strong> : un vrai navigateur charge l'image du formulaire, un script non.</li>
@@ -511,7 +575,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
                 <button class="btn btn--sm btn--danger" type="submit">Supprimer</button>
               </form>
             <?php else: ?>
-              <span class="badge" style="background:#FFD100">VOUS</span>
+              <span class="badge" style="background:#FFCC00">VOUS</span>
             <?php endif; ?>
           </div>
         </div>
@@ -521,7 +585,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
 
   <div class="panels">
     <section class="panel panel--pad">
-      <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Ajouter un compte</h2>
+      <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Ajouter un compte</h2>
       <form method="post" action="<?= Text::e(Router::adminUrl()) ?>" style="margin-top:14px">
         <?= Csrf::field('admin') ?>
         <input type="hidden" name="action" value="user-add">
@@ -539,7 +603,7 @@ $placeCurrent = (string) (Config::get('GOOGLE_PLACE_ID') ?? '');
     </section>
 
     <section class="panel panel--pad">
-      <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Changer mon mot de passe</h2>
+      <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Changer mon mot de passe</h2>
       <form method="post" action="<?= Text::e(Router::adminUrl()) ?>" style="margin-top:14px">
         <?= Csrf::field('admin') ?>
         <input type="hidden" name="action" value="user-password">

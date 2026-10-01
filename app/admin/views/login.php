@@ -14,7 +14,7 @@ echo View::admin('_head', ['title' => 'Connexion']);
 ?>
 <div class="auth">
   <div class="auth__side">
-    <img class="auth__logo" src="<?= Text::e(Config::basePath()) ?>/assets/img/ioio-logo.png" alt="Le iOiO">
+    <img class="auth__logo" src="<?= Text::e(Config::basePath()) ?>/assets/img/lesignal-light.svg" alt="<?= Text::e((string) (App\Content::settings()['site']['name'] ?? 'Le Signal')) ?>">
     <div>
       <div class="auth__kicker">BACK-OFFICE</div>
       <h1 class="auth__title">Le contenu du site, sans toucher au code.</h1>
@@ -31,13 +31,13 @@ echo View::admin('_head', ['title' => 'Connexion']);
         <?= Csrf::field('login') ?>
         <input type="hidden" name="action" value="login">
         <h2>Connexion</h2>
-        <p>Accès réservé à l'équipe du iOiO.</p>
+        <p>Accès réservé à l’équipe <?= Text::e((string) (App\Content::settings()['site']['name'] ?? '')) ?>.</p>
 
         <?php if (!empty($flash)): ?><div class="flash flash--<?= Text::e((string) $flash['type']) ?>" style="margin:0 0 18px"><?= Text::e((string) $flash['message']) ?></div><?php endif; ?>
         <?php if (!empty($error)): ?><div class="flash flash--error" style="margin:0 0 18px"><?= Text::e((string) $error) ?></div><?php endif; ?>
 
         <label class="label" for="email">EMAIL</label>
-        <input class="field" id="email" type="email" name="email" required autocomplete="username" placeholder="prenom@ioio.fr">
+        <input class="field" id="email" type="email" name="email" required autocomplete="username" placeholder="prenom@exemple.fr">
 
         <label class="label label--mt" for="password">MOT DE PASSE</label>
         <input class="field" id="password" type="password" name="password" required autocomplete="current-password" placeholder="••••••••••">
@@ -59,7 +59,7 @@ echo View::admin('_head', ['title' => 'Connexion']);
         <p>On vous envoie un lien de réinitialisation valable 30 minutes, utilisable une seule fois.</p>
 
         <label class="label" for="femail">EMAIL DU COMPTE</label>
-        <input class="field" id="femail" type="email" name="email" required autocomplete="username" placeholder="prenom@ioio.fr">
+        <input class="field" id="femail" type="email" name="email" required autocomplete="username" placeholder="prenom@exemple.fr">
 
         <button class="btn btn--yellow btn--block" type="submit" style="margin-top:20px">Envoyer le lien</button>
         <a class="btn btn--outline btn--block" href="<?= Text::e(Router::adminUrl()) ?>" style="margin-top:12px">Retour à la connexion</a>

@@ -1,5 +1,5 @@
 <?php
-/** Assistant iOiO : lanceur + panneau (bas à droite, jamais plus haut). */
+/** Assistant du site : lanceur + panneau (bas à droite, jamais plus haut). */
 
 use App\Ai\Gemini;
 use App\I18n;

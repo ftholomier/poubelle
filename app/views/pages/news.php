@@ -8,7 +8,7 @@ use App\Text;
 use App\View;
 
 $lang = I18n::lang();
-$palette = ['#FFD100', '#12B39A', '#EDE5D5'];
+$palette = ['#FFCC00', '#3DDC97', '#F2F3F5'];
 ?>
 <section class="shell section--first" style="padding-top:60px">
   <div class="kicker"><?= Text::e(Content::text($page, 'kicker')) ?></div>

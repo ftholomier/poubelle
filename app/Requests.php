@@ -113,10 +113,10 @@ final class Requests
     public static function statusColor(string $status): string
     {
         return match ($status) {
-            'new' => '#FFD100',
-            'visit' => '#12B39A',
-            'followup' => '#FFD100',
-            default => '#EDE5D5',
+            'new' => '#FFCC00',
+            'visit' => '#3DDC97',
+            'followup' => '#FFCC00',
+            default => '#DCDFE4',
         };
     }
 

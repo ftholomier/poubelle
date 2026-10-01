@@ -11,7 +11,7 @@ echo View::admin('_head', ['title' => 'Installation']);
 ?>
 <div class="auth">
   <div class="auth__side">
-    <img class="auth__logo" src="<?= Text::e(Config::basePath()) ?>/assets/img/ioio-logo.png" alt="Le iOiO">
+    <img class="auth__logo" src="<?= Text::e(Config::basePath()) ?>/assets/img/lesignal-light.svg" alt="<?= Text::e((string) (App\Content::settings()['site']['name'] ?? 'Le Signal')) ?>">
     <div>
       <div class="auth__kicker">INSTALLATION</div>
       <h1 class="auth__title">Créons votre compte administrateur.</h1>
@@ -35,7 +35,7 @@ echo View::admin('_head', ['title' => 'Installation']);
       <input class="field" id="iname" type="text" name="name" placeholder="Fanny">
 
       <label class="label label--mt" for="iemail">EMAIL</label>
-      <input class="field" id="iemail" type="email" name="email" required autocomplete="username" placeholder="prenom@ioio.fr">
+      <input class="field" id="iemail" type="email" name="email" required autocomplete="username" placeholder="prenom@exemple.fr">
 
       <label class="label label--mt" for="ipass">MOT DE PASSE (10 CARACTÈRES MINIMUM)</label>
       <input class="field" id="ipass" type="password" name="password" required minlength="10" autocomplete="new-password">

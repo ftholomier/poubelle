@@ -117,7 +117,8 @@ final class Diagnostics
         }
 
         if (!Config::has('GOOGLE_PLACE_ID')) {
-            $search = Reviews::searchPlaces('coworking Besançon', 1);
+            $site = (array) (Content::settings()['site'] ?? []);
+            $search = Reviews::searchPlaces(trim('coworking ' . (string) ($site['city'] ?? '')), 1);
             return $search['ok']
                 ? ['ok' => true, 'detail' => "La clé fonctionne. Il reste à choisir l'identifiant de la fiche ci-dessus."]
                 : ['ok' => false, 'detail' => $search['error'] . self::remedy((string) $search['error'])];
@@ -150,7 +151,7 @@ final class Diagnostics
             return ['ok' => false, 'detail' => 'Aucune clé API Google Translate enregistrée.'];
         }
 
-        $source = 'Bonjour, bienvenue au iOiO.';
+        $source = 'Bonjour, bienvenue chez ' . (string) (Content::settings()['site']['name'] ?? 'nous') . '.';
         $result = Translator::translate([$source], 'en');
         if (($result['ok'] ?? false) !== true) {
             $error = (string) ($result['error'] ?? 'Traduction refusée.');
@@ -178,7 +179,7 @@ final class Diagnostics
 
         $sent = Mailer::send(
             $to,
-            'Test d\'envoi — back-office du iOiO',
+            'Test d\'envoi — back-office ' . Mailer::fromName(),
             '<p>Cet email confirme que l\'envoi fonctionne depuis le back-office du site.</p>'
             . '<p class="muted">Voie utilisée : ' . Text::e($via) . '.<br>'
             . 'Expéditeur : ' . Text::e(Mailer::fromAddress()) . '.</p>'

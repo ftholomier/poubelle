@@ -65,7 +65,7 @@ if ($task === 'all' || $task === 'backup') {
     if (!is_dir($dir)) {
         @mkdir($dir, 0775, true);
     }
-    $archive = $dir . '/ioio-' . date('Y-m-d') . '.tar.gz';
+    $archive = $dir . '/site-' . date('Y-m-d') . '.tar.gz';
 
     $command = sprintf(
         'tar -czf %s -C %s content storage/docs 2>&1',
@@ -81,7 +81,7 @@ if ($task === 'all' || $task === 'backup') {
 
     // Rétention 14 jours.
     $removed = 0;
-    foreach (glob($dir . '/ioio-*.tar.gz') ?: [] as $file) {
+    foreach (glob($dir . '/site-*.tar.gz') ?: [] as $file) {
         if (filemtime($file) < time() - 1_209_600) {
             @unlink($file);
             $removed++;

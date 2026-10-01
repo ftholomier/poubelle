@@ -1,5 +1,5 @@
 /* =========================================================================
-   Back-office iOiO — interactions. JavaScript natif, aucune dépendance.
+   Back-office — interactions. JavaScript natif, aucune dépendance.
    Tout reste utilisable sans JS : les formulaires postent normalement.
    ========================================================================= */
 (function () {

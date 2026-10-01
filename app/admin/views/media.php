@@ -25,7 +25,7 @@ echo View::admin('_layout_start', get_defined_vars());
       <div class="grid-2" style="margin-top:16px">
         <div>
           <label class="label" for="alt">TEXTE ALTERNATIF PAR DÉFAUT</label>
-          <input class="field" id="alt" type="text" name="alt" placeholder="Bureau privé de l'espace Carnot">
+          <input class="field" id="alt" type="text" name="alt" placeholder="Bureau privé n° 05, lumineux, parquet au sol">
           <div class="hint">Décrit la photo pour les lecteurs d'écran et pour Google. Modifiable ensuite photo par photo.</div>
         </div>
         <div style="display:flex;align-items:flex-end">
@@ -35,10 +35,10 @@ echo View::admin('_layout_start', get_defined_vars());
     </form>
   </section>
 
-  <?php $lowres = array_filter($media, static fn (array $m): bool => (int) ($m['width'] ?? 0) < 800); ?>
+  <?php $lowres = array_filter($media, static fn (array $m): bool => max((int) ($m['width'] ?? 0), (int) ($m['height'] ?? 0)) < 800); ?>
   <?php if ($lowres !== []): ?>
     <div class="flash flash--error" style="margin-top:18px">
-      <?= \count($lowres) ?> photo(s) en basse définition : elles proviennent des vignettes de l’ancien site et ne peuvent pas remplir les grands emplacements sans devenir floues.
+      <?= \count($lowres) ?> photo(s) en basse définition (moins de 800 px sur leur plus grand côté) : elles ne peuvent pas remplir les grands emplacements sans devenir floues.
       Déposez les fichiers d’origine pour les remplacer — les affectations aux bureaux et aux espaces sont conservées.
     </div>
   <?php endif; ?>
@@ -59,8 +59,8 @@ echo View::admin('_layout_start', get_defined_vars());
             <?= Text::e(Docs::humanSize((int) ($item['bytes'] ?? 0))) ?> ·
             <?= Text::e(Admin::humanDate((string) ($item['at'] ?? ''))) ?>
           </div>
-          <?php if ((int) ($item['width'] ?? 0) < 800): ?>
-            <div class="badge" style="background:#FFD100;margin-top:8px;display:inline-block">BASSE DÉFINITION</div>
+          <?php if (max((int) ($item['width'] ?? 0), (int) ($item['height'] ?? 0)) < 800): ?>
+            <div class="badge" style="background:#FFCC00;margin-top:8px;display:inline-block">BASSE DÉFINITION</div>
             <div class="hint">Trop petite pour les grands emplacements : le site affiche une vignette de marque à la place. Remplacez-la par l’originale (1600 px de large conseillés).</div>
           <?php endif; ?>
 

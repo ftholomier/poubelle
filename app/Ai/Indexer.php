@@ -5,6 +5,7 @@ namespace App\Ai;
 
 use App\Config;
 use App\Content;
+use App\I18n;
 use App\Log;
 use App\Offices;
 use App\Router;
@@ -167,11 +168,27 @@ final class Indexer
     /** @return array<int,array{text:string,source:array,title:string}> */
     private static function pageTexts(string $lang): array
     {
+        // Libellés (type, statut, « HT/mois ») dans la langue indexée.
+        $previous = I18n::lang();
+        I18n::setLang($lang);
+        try {
+            return self::collectPageTexts($lang);
+        } finally {
+            I18n::setLang($previous);
+        }
+    }
+
+    private static function collectPageTexts(string $lang): array
+    {
         $entries = [];
 
         foreach (array_unique(Router::PAGE_OF_ROUTE) as $slug) {
             $page = Content::page($slug, $lang);
             if ($page === [] || !Content::isPublished($page)) {
+                continue;
+            }
+            // Une page Actualités sans article n'a rien à apprendre à l'assistant.
+            if ($slug === 'news' && Content::publishedPosts() === []) {
                 continue;
             }
             $routeName = array_search($slug, Router::PAGE_OF_ROUTE, true) ?: 'home';
@@ -189,15 +206,18 @@ final class Indexer
         foreach (Offices::published() as $office) {
             $decorated = Offices::decorate($office, $lang);
             $officeLines[] = sprintf(
-                '%s — %s, %s, %s, %s. Statut : %s. %s %s',
+                '%s — %s. %s. %s %s',
                 $decorated['name'],
-                $decorated['typeLabel'],
-                $decorated['area'],
-                $decorated['siteLabel'],
-                $decorated['priceLabel'] . ' HT/mois',
+                implode(', ', array_filter([
+                    $decorated['typeLabel'],
+                    $decorated['area'],
+                    $decorated['capacity'],
+                    Offices::multiSite() ? $decorated['siteLabel'] : '',
+                    $decorated['priceLabel'] . ' ' . I18n::t('office.perMonthShort'),
+                ])),
                 $decorated['statusLabel'],
                 $decorated['description'],
-                implode(', ', $decorated['features'])
+                implode(', ', array_filter(array_merge($decorated['features'], [$decorated['badge']])))
             );
         }
         if ($officeLines !== []) {

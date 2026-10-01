@@ -68,11 +68,11 @@ $showForm = $creating || $editingPost !== null;
 
         <label class="label" style="margin-top:18px" for="p-color">COULEUR DE VIGNETTE</label>
         <div style="display:flex;gap:10px;align-items:center">
-          <input class="field" id="p-color" type="text" name="p[color]" value="<?= Text::e((string) ($p['color'] ?? '#FFD100')) ?>" style="max-width:160px" data-color-text>
-          <input type="color" value="<?= Text::e(preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($p['color'] ?? '')) === 1 ? (string) $p['color'] : '#FFD100') ?>" data-color-picker aria-label="Couleur" style="width:52px;height:52px;border:2px solid #0E0E0E;border-radius:12px;background:none;cursor:pointer;padding:2px">
+          <input class="field" id="p-color" type="text" name="p[color]" value="<?= Text::e((string) ($p['color'] ?? '#FFCC00')) ?>" style="max-width:160px" data-color-text>
+          <input type="color" value="<?= Text::e(preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($p['color'] ?? '')) === 1 ? (string) $p['color'] : '#FFCC00') ?>" data-color-picker aria-label="Couleur" style="width:52px;height:52px;border:2px solid #101820;border-radius:12px;background:none;cursor:pointer;padding:2px">
         </div>
 
-        <h3 style="margin:26px 0 0;font:800 17px/1 'Bricolage Grotesque',sans-serif;padding-top:18px;border-top:2px solid rgba(14,14,14,.12)">Version anglaise</h3>
+        <h3 style="margin:26px 0 0;font:700 17px/1 'Jost',sans-serif;padding-top:18px;border-top:2px solid rgba(16,24,32,.12)">Version anglaise</h3>
         <label class="label" style="margin-top:14px" for="p-entitle">TITRE (EN)</label>
         <input class="field" id="p-entitle" type="text" name="p[en_title]" value="<?= Text::e((string) ($en['title'] ?? '')) ?>">
         <label class="label" style="margin-top:18px" for="p-enexcerpt">CHAPEAU (EN)</label>
@@ -103,13 +103,13 @@ $showForm = $creating || $editingPost !== null;
             <?php if (!empty($post['image'])): ?>
               <img class="thumb" src="<?= Text::e(Config::basePath() . (string) $post['image']) ?>" alt="" loading="lazy">
             <?php else: ?>
-              <span class="thumb" style="background:<?= Text::e((string) ($post['color'] ?? '#FFD100')) ?>"></span>
+              <span class="thumb" style="background:<?= Text::e((string) ($post['color'] ?? '#FFCC00')) ?>"></span>
             <?php endif; ?>
             <div>
               <div class="row__title"><?= Text::e((string) ($post['title'] ?? '')) ?></div>
               <div class="row__sub"><?= Text::e((string) ($post['date'] ?? '')) ?> · /<?= Text::e($slug) ?></div>
             </div>
-            <span class="badge" style="background:<?= ($post['status'] ?? '') === 'published' ? '#12B39A' : '#EDE5D5' ?>"><?= ($post['status'] ?? '') === 'published' ? 'PUBLIÉ' : 'BROUILLON' ?></span>
+            <span class="badge" style="background:<?= ($post['status'] ?? '') === 'published' ? '#3DDC97' : '#DCDFE4' ?>"><?= ($post['status'] ?? '') === 'published' ? 'PUBLIÉ' : 'BROUILLON' ?></span>
             <div class="row__actions">
               <a class="btn btn--sm btn--outline" href="<?= Text::e(Router::adminUrl('posts', ['edit' => $slug])) ?>">Modifier</a>
               <form method="post" action="<?= Text::e(Router::adminUrl()) ?>" data-confirm="Supprimer cet article ?">

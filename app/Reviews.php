@@ -13,20 +13,30 @@ final class Reviews
     public const CACHE = 'reviews.cache.json';
     public const MANUAL = 'reviews.json';
     private const TTL = 86_400;
+    private const RETRY_AFTER = 3_600;
 
     /**
      * @return array{rating:float,count:int,reviews:array<int,array>,source:string,updatedAt:string,url:string}
      */
     public static function get(int $limit = 4): array
     {
+        static $checked = false;
         $cache = Store::read(self::CACHE);
         $fresh = (strtotime((string) ($cache['fetchedAt'] ?? '')) ?: 0) + self::TTL > time();
+        // Après un échec (clé refusée, Google injoignable), on attend une heure
+        // avant de réessayer : sinon chaque page vue relancerait l'appel et
+        // paierait son délai d'attente.
+        $backoff = (strtotime((string) ($cache['failedAt'] ?? '')) ?: 0) + self::RETRY_AFTER > time();
 
-        if (!$fresh && self::configured()) {
+        if (!$fresh && !$backoff && !$checked && self::configured()) {
+            $checked = true;
             $fetched = self::fetchFromGoogle();
             if ($fetched !== null) {
                 Store::write(self::CACHE, $fetched);
                 $cache = $fetched;
+            } else {
+                $cache['failedAt'] = (new \DateTimeImmutable())->format(\DATE_ATOM);
+                Store::write(self::CACHE, $cache);
             }
         }
 

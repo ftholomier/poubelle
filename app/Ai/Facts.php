@@ -27,8 +27,8 @@ final class Facts
         'price' => ['prix', 'tarif', 'tarifs', 'combien', 'cout', 'coute', 'loyer', 'mensuel', 'budget', 'cher',
             'price', 'prices', 'cost', 'rate', 'rates', 'monthly', 'much'],
         'location' => ['adresse', 'situe', 'situee', 'trouve', 'localisation', 'venir', 'acces', 'acceder', 'plan',
-            'carte', 'parking', 'tram', 'bus', 'gare', 'quartier', 'centre', 'ville', 'besancon',
-            'where', 'address', 'located', 'location', 'access', 'directions', 'station', 'map'],
+            'carte', 'parking', 'bus', 'gare', 'tgv', 'autoroute', 'quartier', 'centre', 'ville', 'montbeliard',
+            'belfort', 'where', 'address', 'located', 'location', 'access', 'directions', 'station', 'map', 'motorway'],
         'visit' => ['visite', 'visiter', 'rdv', 'rendez', 'reserver', 'reservation', 'essayer', 'essai',
             'visit', 'viewing', 'book', 'booking', 'tour', 'try'],
         'included' => ['compris', 'inclus', 'charge', 'charges', 'internet', 'fibre', 'wifi', 'menage', 'cafe',
@@ -38,8 +38,6 @@ final class Facts
         'meeting' => ['reunion', 'meeting', 'salle', 'client', 'clients', 'visio', 'room'],
     ];
 
-    /** Lieux reconnus dans la question. */
-    private const SITE_WORDS = ['carnot' => 'carnot', 'granvelle' => 'granvelle'];
 
     /** Types reconnus dans la question. */
     private const TYPE_WORDS = [
@@ -70,13 +68,15 @@ final class Facts
             $atSite = Offices::filter($published, ['site' => $id]);
             $sites[$id] = [
                 'id' => $id,
-                'name' => (string) ($site['shortName'] ?? $site['name'] ?? ucfirst($id)),
-                'address' => (string) ($site['address'] ?? ''),
+                'name' => (string) ($site['name'] ?? $site['shortName'] ?? ucfirst($id)),
+                'shortName' => (string) ($site['shortName'] ?? ''),
+                'address' => trim((string) ($site['address'] ?? '') . ', ' . (string) ($site['zip'] ?? '') . ' ' . (string) ($site['city'] ?? ''), ' ,'),
                 'note' => Content::i18n($site, 'note', $lang),
                 'total' => \count($atSite),
                 'available' => \count(Offices::filter($atSite, ['status' => 'available'])),
                 'minPrice' => self::minOf($atSite),
-                'url' => Router::officesAtSite($id, $lang),
+                // Un seul lieu : sa page de présentation ; plusieurs : ses bureaux.
+                'url' => Offices::multiSite() ? Router::officesAtSite($id, $lang) : Router::url('spaces', $lang),
             ];
         }
 
@@ -126,10 +126,10 @@ final class Facts
             $lines[] = $site['name'] . ' — ' . $site['address'] . ' : ' . $site['total'] . ' bureaux, '
                 . $site['available'] . ' libre(s)'
                 . ($site['minPrice'] !== null ? ', à partir de ' . I18n::price($site['minPrice']) . ' HT/mois' : '')
-                . '. Page filtrée : ' . $site['url'];
+                . '. Page : ' . $site['url'];
         }
 
-        foreach (['private' => 'Bureaux privés', 'openspace' => 'Postes en open space'] as $type => $label) {
+        foreach (['private' => 'Bureaux privés', 'openspace' => 'Bureaux ouverts (open space)'] as $type => $label) {
             $t = $s['byType'][$type];
             $range = $t['minPrice'] === null ? 'tarif sur demande'
                 : ($t['minPrice'] === $t['maxPrice']
@@ -141,7 +141,7 @@ final class Facts
         if ($s['availableList'] !== []) {
             $lines[] = 'Liste exacte des bureaux libres :';
             foreach ($s['availableList'] as $office) {
-                $lines[] = '- ' . $office['name'] . ' (' . $office['siteLabel'] . ', ' . $office['typeLabel'] . ') — '
+                $lines[] = '- ' . $office['name'] . ' (' . implode(', ', array_filter([Offices::multiSite() ? $office['siteLabel'] : '', $office['typeLabel'], $office['area']])) . ') — '
                     . $office['price'] . ' — ' . $office['url'];
             }
         } else {
@@ -244,16 +244,20 @@ final class Facts
 
         $details = [];
         foreach (\array_slice($scope, 0, 4) as $office) {
-            $details[] = $office['name'] . ' (' . $office['siteLabel'] . ', ' . $office['price'] . ')';
+            $details[] = $office['name'] . ' (' . implode(', ', array_filter([Offices::multiSite() ? $office['siteLabel'] : $office['area'], $office['price']])) . ')';
         }
         $answer = I18n::t($count === 1 ? 'bot.dataOne' : 'bot.dataMany', ['count' => $count])
             . ' ' . implode(' · ', $details) . '.';
 
         // Une question ciblée sur un lieu renvoie vers les bureaux de ce lieu ;
         // le libellé doit dire cela, pas « les bureaux libres ».
-        $actions = [$site !== '' && isset($s['sites'][$site])
-            ? ['label' => I18n::t('bot.actionSite', ['name' => $s['sites'][$site]['name']]), 'url' => $s['sites'][$site]['url']]
-            : ['label' => self::availableLabel($count), 'url' => $s['urls']['available']]];
+        // Le bouton mène exactement à ce qu'annonce la réponse : un type précis
+        // a sa propre page (bureaux privés, bureaux ouverts).
+        $actions = [match (true) {
+            $site !== '' && isset($s['sites'][$site]) => ['label' => I18n::t('bot.actionSite', ['name' => $s['sites'][$site]['name']]), 'url' => $s['sites'][$site]['url']],
+            $type !== '' => ['label' => I18n::t('filter.' . $type), 'url' => Router::url('offices', $lang, ['facet' => $type])],
+            default => ['label' => self::availableLabel($count), 'url' => $s['urls']['available']],
+        }];
         if ($count === 1) {
             $actions[] = ['label' => I18n::t('bot.actionOffice', ['name' => $scope[0]['name']]), 'url' => $scope[0]['url']];
         }
@@ -298,8 +302,8 @@ final class Facts
         $colon = $lang === Config::DEFAULT_LANG ? ' : ' : ': ';
         $parts = [];
         foreach ($s['sites'] as $site) {
-            $parts[] = $site['name'] . $colon . rtrim($site['address'], '.')
-                . ($site['note'] !== '' ? ' (' . rtrim($site['note'], '.') . ')' : '') . '.';
+            $parts[] = $site['name'] . $colon . rtrim($site['address'], '.') . '.'
+                . ($site['note'] !== '' ? ' ' . rtrim($site['note'], '.') . '.' : '');
         }
         return [
             'answer' => implode(' ', $parts),
@@ -312,7 +316,11 @@ final class Facts
 
     private static function visitAnswer(array $s, string $lang): array
     {
-        $answer = I18n::t('bot.dataVisit');
+        $first = reset($s['sites']) ?: [];
+        $answer = I18n::t('bot.dataVisit', [
+            'address' => (string) ($first['address'] ?? ''),
+            'phone' => (string) (Content::settings()['contact']['phone'] ?? ''),
+        ]);
         $actions = [['label' => I18n::t('bot.actionVisit'), 'url' => $s['urls']['contact']]];
         if ($s['available'] > 0) {
             $actions[] = ['label' => self::availableLabel($s['available']), 'url' => $s['urls']['available']];
@@ -339,6 +347,7 @@ final class Facts
                 'siteLabel' => (string) $office['siteLabel'],
                 'type' => (string) $office['type'],
                 'typeLabel' => (string) $office['typeLabel'],
+                'area' => (string) $office['area'],
                 'price' => (string) $office['priceLabel'],
                 'url' => (string) $office['url'],
             ];
@@ -394,7 +403,7 @@ final class Facts
     }
 
     /**
-     * Intentions de la question. Une relance du type « et à Carnot ? » ne
+     * Intentions de la question. Une relance du type « et en open space ? » ne
      * contient aucun mot-clé : on reprend alors l'intention du dernier tour,
      * ce qui rend la conversation réellement suivie.
      *
@@ -428,10 +437,16 @@ final class Facts
         return [];
     }
 
+    /** Lieu nommé dans la question ; sans objet quand le site n'en a qu'un. */
     private static function siteOf(array $tokens): string
     {
-        foreach (self::SITE_WORDS as $word => $id) {
-            if (\in_array($word, $tokens, true)) {
+        if (!Offices::multiSite()) {
+            return '';
+        }
+        foreach ((array) (Content::settings()['sites'] ?? []) as $site) {
+            $id = (string) ($site['id'] ?? '');
+            $words = array_merge([$id], Indexer::tokenize((string) ($site['shortName'] ?? '')));
+            if ($id !== '' && array_intersect($words, $tokens) !== []) {
                 return $id;
             }
         }

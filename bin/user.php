@@ -4,9 +4,9 @@ declare(strict_types=1);
 /**
  * Gestion des comptes en ligne de commande (dépannage, serveur sans accès web).
  *   php bin/user.php list
- *   php bin/user.php add prenom@ioio.fr "MotDePasseSolide" [admin|editor]
- *   php bin/user.php password prenom@ioio.fr "NouveauMotDePasse"
- *   php bin/user.php delete prenom@ioio.fr
+ *   php bin/user.php add prenom@exemple.fr "MotDePasseSolide" [admin|editor]
+ *   php bin/user.php password prenom@exemple.fr "NouveauMotDePasse"
+ *   php bin/user.php delete prenom@exemple.fr
  */
 
 require __DIR__ . '/../app/bootstrap.php';

@@ -12,7 +12,7 @@ use App\View;
 
 echo View::admin('_layout_start', get_defined_vars());
 
-$stateColors = ['indexed' => '#12B39A', 'pending' => '#FFD100', 'error' => '#EDE5D5'];
+$stateColors = ['indexed' => '#3DDC97', 'pending' => '#FFCC00', 'error' => '#DCDFE4'];
 $stateLabels = ['indexed' => 'Indexé', 'pending' => 'En attente', 'error' => 'Illisible'];
 ?>
 <div class="screen">
@@ -39,7 +39,7 @@ $stateLabels = ['indexed' => 'Indexé', 'pending' => 'En attente', 'error' => 'I
                 </div>
               </div>
               <span class="row__value"><?= (int) ($doc['chunks'] ?? 0) ?> extraits</span>
-              <span class="badge" style="background:<?= Text::e($stateColors[$state] ?? '#EDE5D5') ?>"><?= Text::e($stateLabels[$state] ?? $state) ?></span>
+              <span class="badge" style="background:<?= Text::e($stateColors[$state] ?? '#DCDFE4') ?>"><?= Text::e($stateLabels[$state] ?? $state) ?></span>
               <div class="row__actions">
                 <form method="post" action="<?= Text::e(Router::adminUrl()) ?>" data-confirm="Supprimer ce document et le retirer de l'index ?">
                   <?= Csrf::field('admin') ?>
@@ -92,25 +92,25 @@ $stateLabels = ['indexed' => 'Indexé', 'pending' => 'En attente', 'error' => 'I
 
     <div style="display:flex;flex-direction:column;gap:18px">
       <section class="panel panel--ink">
-        <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif;color:#FFD100">Prompt système de l'assistant</h2>
+        <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif;color:#FFCC00">Prompt système de l'assistant</h2>
         <form method="post" action="<?= Text::e(Router::adminUrl()) ?>">
           <?= Csrf::field('admin') ?>
           <input type="hidden" name="action" value="ai-prompt">
-          <textarea class="field" name="prompt" rows="7" style="margin-top:14px;background:rgba(255,248,234,.07);color:#FFF8EA;border-color:rgba(255,248,234,.3)"><?= Text::e(Gemini::systemPrompt()) ?></textarea>
+          <textarea class="field" name="prompt" rows="7" style="margin-top:14px;background:rgba(255,255,255,.07);color:#F2F3F5;border-color:rgba(255,255,255,.3)"><?= Text::e(Gemini::systemPrompt()) ?></textarea>
           <div class="tags">
             <span class="tag tag--yellow"><?= Text::e(Gemini::model()) ?></span>
             <span class="tag">température 0,2</span>
             <span class="tag">400 jetons max</span>
             <span class="tag">20 questions/h par IP</span>
-            <span class="tag" style="background:<?= Gemini::configured() ? '#12B39A' : 'rgba(255,248,234,.12)' ?>;color:<?= Gemini::configured() ? '#0E0E0E' : '#FFF8EA' ?>">
+            <span class="tag" style="background:<?= Gemini::configured() ? '#3DDC97' : 'rgba(255,255,255,.12)' ?>;color:<?= Gemini::configured() ? '#101820' : '#F2F3F5' ?>">
               <?= Gemini::configured() ? 'clé API en place' : 'sans clé : index local' ?>
             </span>
           </div>
-          <label class="check" style="margin-top:16px;color:#FFF8EA"><input type="checkbox" name="enabled" value="1" <?= !empty($settings['ai']['enabled']) ? 'checked' : '' ?>><span>Afficher l'assistant sur le site</span></label>
+          <label class="check" style="margin-top:16px;color:#F2F3F5"><input type="checkbox" name="enabled" value="1" <?= !empty($settings['ai']['enabled']) ? 'checked' : '' ?>><span>Afficher l'assistant sur le site</span></label>
 
           <?php foreach (Config::LANGS as $code): ?>
-            <label class="label" style="margin-top:16px;color:#FFF8EA;opacity:.7" for="sug-<?= Text::e($code) ?>">SUGGESTIONS <?= Text::e(strtoupper($code)) ?> (3 LIGNES)</label>
-            <textarea class="field" id="sug-<?= Text::e($code) ?>" name="suggestions[<?= Text::e($code) ?>]" rows="3" style="background:rgba(255,248,234,.07);color:#FFF8EA;border-color:rgba(255,248,234,.3)"><?= Text::e(implode("\n", array_map('strval', (array) ($settings['ai']['suggestions'][$code] ?? [])))) ?></textarea>
+            <label class="label" style="margin-top:16px;color:#F2F3F5;opacity:.7" for="sug-<?= Text::e($code) ?>">SUGGESTIONS <?= Text::e(strtoupper($code)) ?> (3 LIGNES)</label>
+            <textarea class="field" id="sug-<?= Text::e($code) ?>" name="suggestions[<?= Text::e($code) ?>]" rows="3" style="background:rgba(255,255,255,.07);color:#F2F3F5;border-color:rgba(255,255,255,.3)"><?= Text::e(implode("\n", array_map('strval', (array) ($settings['ai']['suggestions'][$code] ?? [])))) ?></textarea>
           <?php endforeach; ?>
 
           <button class="btn btn--yellow" type="submit" style="margin-top:16px">Enregistrer l'assistant</button>
@@ -119,7 +119,7 @@ $stateLabels = ['indexed' => 'Indexé', 'pending' => 'En attente', 'error' => 'I
 
       <section class="panel panel--yellow">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-          <h2 style="margin:0;font:800 19px/1 'Bricolage Grotesque',sans-serif">Questions sans réponse</h2>
+          <h2 style="margin:0;font:700 19px/1 'Jost',sans-serif">Questions sans réponse</h2>
           <?php if ($misses !== []): ?>
             <form method="post" action="<?= Text::e(Router::adminUrl()) ?>">
               <?= Csrf::field('admin') ?>
@@ -144,10 +144,10 @@ $stateLabels = ['indexed' => 'Indexé', 'pending' => 'En attente', 'error' => 'I
       </section>
 
       <section class="panel panel--pad">
-        <h2 style="margin:0 0 10px;font:800 19px/1 'Bricolage Grotesque',sans-serif">Sources indexées</h2>
+        <h2 style="margin:0 0 10px;font:700 19px/1 'Jost',sans-serif">Sources indexées</h2>
         <div class="stack">
           <?php foreach ((array) ($stats['bySource'] ?? []) as $label => $count): ?>
-            <div class="miss" style="background:#FFF8EA">
+            <div class="miss" style="background:#F2F3F5">
               <span class="miss__q"><?= Text::e((string) $label) ?></span>
               <span class="miss__n"><?= (int) $count ?></span>
             </div>

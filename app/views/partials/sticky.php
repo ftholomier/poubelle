@@ -1,7 +1,7 @@
 <?php
 /**
  * Barre CTA collante, présente sur toutes les pages.
- * Le halo (animation ioioHalo) est porté par le bouton choisi au back-office.
+ * Le halo (animation sgHalo) est porté par le bouton choisi au back-office.
  */
 
 use App\I18n;

@@ -22,7 +22,7 @@ $lastUpdate = (string) ($catalogue['updatedAt'] ?? '');
     <div class="side__brand">
       <span class="side__mark" aria-hidden="true"></span>
       <span>
-        <span class="side__name">Le iOiO</span>
+        <span class="side__name"><?= Text::e((string) (App\Content::settings()['site']['name'] ?? 'Le Signal')) ?></span>
         <span class="side__role">BACK-OFFICE</span>
       </span>
     </div>

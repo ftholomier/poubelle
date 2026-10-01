@@ -19,7 +19,7 @@ foreach ($offices as $office) {
     }
 }
 $showForm = $creating || $editingOffice !== null;
-$statusColors = ['available' => '#12B39A', 'soon' => '#FFD100', 'rented' => '#EDE5D5'];
+$statusColors = ['available' => '#3DDC97', 'soon' => '#FFCC00', 'rented' => '#DCDFE4'];
 $statusLabels = ['available' => 'Disponible', 'soon' => 'Bientôt libre', 'rented' => 'Loué'];
 $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meeting' => 'Salle de réunion'];
 ?>
@@ -40,8 +40,9 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
         <div class="grid-2">
           <div>
             <label class="label" for="o-name">NOM DU BUREAU</label>
-            <input class="field" id="o-name" type="text" name="o[name]" required value="<?= Text::e((string) ($o['name'] ?? '')) ?>" placeholder="Carnot — Bureau 05">
+            <input class="field" id="o-name" type="text" name="o[name]" required value="<?= Text::e((string) ($o['name'] ?? '')) ?>" placeholder="Bureau privé — n° 08">
           </div>
+          <?php if (Offices::multiSite()): ?>
           <div>
             <label class="label" for="o-site">ESPACE</label>
             <select class="field" id="o-site" name="o[site]">
@@ -52,6 +53,9 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
               <?php endforeach; ?>
             </select>
           </div>
+          <?php else: ?>
+            <input type="hidden" name="o[site]" value="<?= Text::e(Config::SITES[0]) ?>">
+          <?php endif; ?>
           <div>
             <label class="label" for="o-type">TYPE</label>
             <select class="field" id="o-type" name="o[type]">
@@ -62,7 +66,11 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
           </div>
           <div>
             <label class="label" for="o-area">SURFACE / FORMULE</label>
-            <input class="field" id="o-area" type="text" name="o[area]" value="<?= Text::e((string) ($o['area'] ?? '')) ?>" placeholder="11 m² ou Poste dédié">
+            <input class="field" id="o-area" type="text" name="o[area]" value="<?= Text::e((string) ($o['area'] ?? '')) ?>" placeholder="13 m²">
+          </div>
+          <div>
+            <label class="label" for="o-capacity">CAPACITÉ</label>
+            <input class="field" id="o-capacity" type="text" name="o[capacity]" value="<?= Text::e((string) ($o['capacity'] ?? '')) ?>" placeholder="2 personnes">
           </div>
           <div>
             <label class="label" for="o-price">TARIF NORMAL HT / MOIS (€)</label>
@@ -93,8 +101,8 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
           <div>
             <label class="label" for="o-color">COULEUR DE VIGNETTE</label>
             <div style="display:flex;gap:10px;align-items:center">
-              <input class="field" id="o-color" type="text" name="o[color]" value="<?= Text::e((string) ($o['color'] ?? '#FFD100')) ?>" data-color-text>
-              <input type="color" value="<?= Text::e(preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($o['color'] ?? '')) === 1 ? (string) $o['color'] : '#FFD100') ?>" data-color-picker aria-label="Couleur" style="width:52px;height:52px;border:2px solid #0E0E0E;border-radius:12px;background:none;cursor:pointer;padding:2px">
+              <input class="field" id="o-color" type="text" name="o[color]" value="<?= Text::e((string) ($o['color'] ?? '#FFCC00')) ?>" data-color-text>
+              <input type="color" value="<?= Text::e(preg_match('/^#[0-9A-Fa-f]{6}$/', (string) ($o['color'] ?? '')) === 1 ? (string) $o['color'] : '#FFCC00') ?>" data-color-picker aria-label="Couleur" style="width:52px;height:52px;border:2px solid #101820;border-radius:12px;background:none;cursor:pointer;padding:2px">
             </div>
           </div>
         </div>
@@ -103,6 +111,10 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
           <label class="check"><input type="checkbox" name="o[enabled]" value="1" <?= ($o['enabled'] ?? true) ? 'checked' : '' ?>><span>Visible sur le site</span></label>
           <label class="check"><input type="checkbox" name="o[featured]" value="1" <?= !empty($o['featured']) ? 'checked' : '' ?>><span>Mis en avant</span></label>
         </div>
+
+        <label class="label" style="margin-top:18px" for="o-badge">BANDEAU SUR LA PHOTO</label>
+        <input class="field" id="o-badge" type="text" name="o[badge]" maxlength="160" value="<?= Text::e((string) ($o['badge'] ?? '')) ?>" placeholder="Dernier bureau privé disponible — à réserver en urgence !">
+        <div class="hint">Affiché sur la vignette et en haut de la fiche tant que le bureau n’est pas réservé. Vide : pas de bandeau.</div>
 
         <label class="label" style="margin-top:18px" for="o-desc">DESCRIPTION</label>
         <textarea class="field" id="o-desc" name="o[description]" rows="4"><?= Text::e((string) ($o['description'] ?? '')) ?></textarea>
@@ -119,7 +131,7 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
             'media' => $media,
         ]); ?>
 
-        <h3 style="margin:26px 0 0;font:800 17px/1 'Bricolage Grotesque',sans-serif;padding-top:18px;border-top:2px solid rgba(14,14,14,.12)">Version anglaise</h3>
+        <h3 style="margin:26px 0 0;font:700 17px/1 'Jost',sans-serif;padding-top:18px;border-top:2px solid rgba(16,24,32,.12)">Version anglaise</h3>
         <div class="grid-2" style="margin-top:12px">
           <div>
             <label class="label" for="o-enname">NOM (EN)</label>
@@ -128,6 +140,14 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
           <div>
             <label class="label" for="o-enarea">SURFACE (EN)</label>
             <input class="field" id="o-enarea" type="text" name="o[en_area]" value="<?= Text::e((string) ($en['area'] ?? '')) ?>">
+          </div>
+          <div>
+            <label class="label" for="o-encap">CAPACITÉ (EN)</label>
+            <input class="field" id="o-encap" type="text" name="o[en_capacity]" value="<?= Text::e((string) ($en['capacity'] ?? '')) ?>">
+          </div>
+          <div>
+            <label class="label" for="o-enbadge">BANDEAU (EN)</label>
+            <input class="field" id="o-enbadge" type="text" name="o[en_badge]" value="<?= Text::e((string) ($en['badge'] ?? '')) ?>">
           </div>
         </div>
         <label class="label" style="margin-top:18px" for="o-endesc">DESCRIPTION (EN)</label>
@@ -160,7 +180,7 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
             <?php if ($cover !== ''): ?>
               <img class="swatch" style="width:34px;height:34px;object-fit:cover" src="<?= Text::e(Config::basePath() . $cover) ?>" alt="" loading="lazy">
             <?php else: ?>
-              <span class="swatch" style="background:<?= Text::e((string) ($office['color'] ?? '#FFD100')) ?>"></span>
+              <span class="swatch" style="background:<?= Text::e((string) ($office['color'] ?? '#FFCC00')) ?>"></span>
             <?php endif; ?>
             <span style="min-width:0">
               <span class="row__title"><?= Text::e((string) ($office['name'] ?? '')) ?></span>
@@ -185,7 +205,7 @@ $typeLabels = ['private' => 'Bureau privé', 'openspace' => 'Openspace', 'meetin
             <?= Csrf::field('admin') ?>
             <input type="hidden" name="action" value="office-status">
             <input type="hidden" name="id" value="<?= Text::e($id) ?>">
-            <button class="status-btn" type="submit" style="background:<?= Text::e($statusColors[$status] ?? '#EDE5D5') ?>" title="Cliquer pour faire tourner le statut"><?= Text::e($statusLabels[$status] ?? $status) ?></button>
+            <button class="status-btn" type="submit" style="background:<?= Text::e($statusColors[$status] ?? '#DCDFE4') ?>" title="Cliquer pour faire tourner le statut"><?= Text::e($statusLabels[$status] ?? $status) ?></button>
           </form>
 
           <div class="row__actions">
