@@ -35,3 +35,4 @@ tools/video/build/
 /*.mp4
 __pycache__/
 *.pyc
+/*.mp3
