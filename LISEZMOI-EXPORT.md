@@ -15,9 +15,11 @@ Ce paquet sert de **socle à reproduire pour un autre site**.
 
 | Vous voulez… | Lisez |
 | --- | --- |
-| comprendre ce que fait le site | **`README.md`** — 14 sections, tout y est |
-| réutiliser le socle ailleurs | **`docs/REUTILISATION.md`** — générique vs métier, marche à suivre, pièges |
 | lancer l'IA sur le-signal.com | **`docs/PROMPT-LE-SIGNAL.md`** — le texte à copier-coller |
+| savoir ce qu'il y a sur le-signal.com | **`docs/le-signal-releve.md`** — relevé complet, déjà fait |
+| le catalogue du Signal, prêt à importer | `docs/le-signal-catalogue.json` — 13 bureaux au bon format |
+| comprendre ce que fait le socle | **`README.md`** — 14 sections, tout y est |
+| réutiliser le socle ailleurs | **`docs/REUTILISATION.md`** — générique vs métier, marche à suivre, pièges |
 | la direction visuelle d'origine | `docs/HANDOFF-CLAUDE-CODE.md` |
 
 ---
@@ -47,6 +49,8 @@ README.md                      la documentation complète du site
 LISEZMOI-EXPORT.md             ce fichier
 docs/REUTILISATION.md          guide de transposition vers un autre site
 docs/PROMPT-LE-SIGNAL.md       le prompt prêt à coller
+docs/le-signal-releve.md       relevé du site le-signal.com (1er octobre 2026)
+docs/le-signal-catalogue.json  les 13 bureaux du Signal, au format du socle
 docs/HANDOFF-CLAUDE-CODE.md    la direction visuelle d'origine
 
 app/                           29 classes + vues + traductions (hors racine web)

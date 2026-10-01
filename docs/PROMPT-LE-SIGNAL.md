@@ -3,8 +3,8 @@
 Décompressez le zip, ouvrez Claude Code (ou l'agent de votre choix) **dans le
 dossier obtenu**, puis collez le texte ci-dessous tel quel.
 
-Si vous utilisez une interface sans accès au dossier, joignez d'abord le zip à
-la conversation, puis collez le même texte.
+Le relevé du site existant est déjà fait : voir `docs/le-signal-releve.md` et
+`docs/le-signal-catalogue.json`. L'IA n'a donc pas à tout redécouvrir.
 
 ---
 
@@ -13,22 +13,30 @@ Tu as dans ce dossier le code source complet d'un site que j'ai fait développer
 pour Le iOiO, un coworking à Besançon : site vitrine + catalogue + back-office,
 en PHP natif, sans base de données, sans framework et sans aucune dépendance.
 
-Ta mission : refaire le site https://www.le-signal.com sur exactement ce socle
+Ta mission : refaire le site https://le-signal.com sur exactement ce socle
 — même technologie, même ergonomie, même niveau de finition — avec le contenu,
 le métier et l'identité du Signal.
 
-AVANT DE COMMENCER, lis dans cet ordre :
-  1. README.md — ce que fait le site, section par section
-  2. docs/REUTILISATION.md — ce qui est générique, ce qui est métier, et dans
-     quel ordre transposer. Les sections 4 (les six règles), 6 (ce qui est à
-     remplacer) et 9 (les pièges déjà rencontrés) sont les plus importantes.
-  3. docs/HANDOFF-CLAUDE-CODE.md — la direction visuelle d'origine
+Bonne nouvelle : Le Signal fait le MÊME MÉTIER que le iOiO. Coworking, bureaux
+privés et bureaux ouverts, même propriétaire, même numéro de téléphone. Le
+modèle de données est réutilisable presque tel quel : un seul lieu au lieu de
+deux, 13 bureaux au lieu de 21, les mêmes types et les mêmes statuts.
 
-PUIS analyse le-signal.com toi-même : parcours toutes les pages, relève
-l'activité réelle, les prestations, les références, l'équipe, les coordonnées,
-le ton éditorial, les visuels et les appels à l'action. Ne devine rien, ne
-réinvente pas le contenu : c'est le site existant qui fait foi. Si des pages
-sont inaccessibles, dis-le-moi au lieu de combler.
+LIS D'ABORD, DANS CET ORDRE :
+  1. docs/le-signal-releve.md — le relevé complet du site existant : identité,
+     pages, catalogue, prestations, et les deux décisions à prendre
+  2. docs/le-signal-catalogue.json — les 13 bureaux déjà au format
+     content/offices.json (prix, surfaces, statuts, photos)
+  3. README.md — ce que fait le socle, section par section
+  4. docs/REUTILISATION.md — ce qui est générique, ce qui est métier, dans
+     quel ordre transposer. Les sections 4 (les six règles), 6 (ce qu'il faut
+     remplacer) et 9 (les onze pièges déjà rencontrés) sont les plus utiles.
+  5. docs/HANDOFF-CLAUDE-CODE.md — la direction visuelle d'origine
+
+PUIS VÉRIFIE LE RELEVÉ sur le site en ligne : il date du 1er octobre 2026, les
+tarifs et les disponibilités ont pu bouger. Attention, c'est l'apex qui
+répond : https://le-signal.com, pas www. Si quelque chose diffère, c'est le
+site qui fait foi — dis-le-moi, ne corrige pas en silence.
 
 LES RÈGLES À NE PAS ENFREINDRE (elles font tenir l'ensemble) :
   - PHP natif, JS natif, JSON, HTML, CSS. Aucune base de données, aucun
@@ -46,62 +54,66 @@ LES RÈGLES À NE PAS ENFREINDRE (elles font tenir l'ensemble) :
 CE QUE TU GARDES TEL QUEL (environ 80 % du code) :
   Store, Content, Config, Session, Csrf, Auth, RateLimit, Spam, Api, Mailer,
   Http, Log, Text, Media, Seo, I18n, Consent, Diagnostics, Translator, View,
-  Router (la mécanique, pas la table de routes), l'assistant (Indexer, Gemini,
-  Docs), tout le back-office et tout l'anti-spam.
+  la mécanique du Router, l'assistant (Indexer, Gemini, Docs), tout le
+  back-office et tout l'anti-spam.
 
-CE QUE TU REMPLACES :
-  - app/Offices.php → l'objet métier du Signal (garde la mécanique : filtres,
-    statuts, décoration, compteurs — change le vocabulaire et les champs)
-  - app/Ai/Facts.php → les chiffres réels du Signal pour l'assistant
-  - Router::ROUTES → les URL du Signal, en français et en anglais
+CE QUE TU ADAPTES :
+  - app/Offices.php → un seul lieu (« montbeliard ») au lieu de deux ; garde
+    les types private/openspace et les statuts tels quels
+  - app/Ai/Facts.php → les chiffres du Signal
+  - Router::ROUTES → des URL propres (/nos-bureaux, /contact…) ET une table de
+    redirections 301 depuis les URL actuelles, qui sont bourrées de mots-clés :
+    sans cela le référencement acquis est perdu
   - Admin::PAGES → le schéma des champs éditables
-  - content/* → tout le contenu
+  - content/* → le contenu du Signal
   - les variables CSS en tête de public/assets/css/site.css → la charte du
-    Signal, reprise de leur identité existante
-  - app/views/pages/* → les pages du Signal
-  - public/media/* → leurs visuels
+    Signal (actuellement blanc/gris clair, noir, logo épuré). Propose-moi une
+    direction avant de la généraliser.
+  - app/views/pages/* et public/media/* → pages et visuels du Signal
 
-AVANT DE DÉVELOPPER, POSE-MOI DES QUESTIONS. Au minimum :
-  - l'objet métier central du Signal et ses champs (ce qui remplace « bureau »)
-  - les pages à conserver, à fusionner, à supprimer
-  - faut-il garder le bilingue FR/EN
-  - faut-il garder l'assistant IA, les avis, la pop-up de sortie
-  - ce qui doit absolument être repris de l'identité actuelle, et ce que je
-    t'autorise à moderniser
-  - où le site sera hébergé et avec quelle version de PHP
+DEUX DÉCISIONS QUE JE DOIS PRENDRE AVANT QUE TU CODES — pose-les-moi :
+  1. Le Signal vend en ligne (panier, commande, compte client WooCommerce).
+     Le socle iOiO n'a pas de boutique : il récolte des demandes et l'équipe
+     rappelle. On garde la vente en ligne, ou on bascule sur le modèle iOiO ?
+  2. Un seul lieu aujourd'hui. D'autres adresses sont-elles prévues ? Si oui
+     je garde la mécanique multi-lieux, sinon je la simplifie.
+
+ET POSE-MOI AUSSI :
+  - faut-il le bilingue FR/EN comme sur le iOiO
+  - garde-t-on l'assistant IA, les avis Google, la pop-up de sortie
+  - la version audio de la présentation : on la reprend ?
+  - as-tu les photos en haute définition ? Celles du site font 1024 px, c'est
+    trop peu pour le socle. Ne commence pas l'intégration sans les originaux.
+  - l'email de contact, absent du site actuel
+  - hébergement et version de PHP
 
 Attends mes réponses avant la première ligne de code.
 
-ENSUITE, travaille dans cet ordre : charte → modèle métier → routes → schéma
-d'édition → vues → contenu → assistant → clés et tests.
+ENSUITE, travaille dans cet ordre : charte → modèle métier → routes et
+redirections → schéma d'édition → vues → contenu → assistant → clés et tests.
 
 LE NIVEAU DE FINITION ATTENDU — c'est celui du projet que tu as sous les yeux :
   - vérifie chaque écran dans un vrai navigateur, à 1440, 1100, 820 et 390 px
   - zéro erreur console, zéro débordement horizontal
-  - teste les formulaires pour de vrai, y compris un envoi depuis curl qui doit
-    être bloqué
+  - teste les formulaires pour de vrai, y compris un envoi depuis curl qui
+    doit être bloqué par l'anti-spam
   - teste le site sans aucune clé API, puis avec
   - lis docs/REUTILISATION.md section 9 avant de toucher aux images, aux
     grilles CSS, aux filtres et aux emails : les pièges y sont déjà listés
   - commits en français, un par lot cohérent, expliquant la cause et pas
     seulement le symptôme
 
-Commence par lire les trois documents, analyser le-signal.com, puis pose-moi
-tes questions.
+Commence par lire les cinq documents, vérifier le relevé en ligne, puis
+pose-moi tes questions.
 ```
 
 ---
 
-## Si vous voulez aller plus vite
+## Ce qu'il faudra fournir en plus
 
-Donnez-lui en plus, dès le départ :
-
-- un export du contenu actuel du Signal (textes, photos en bonne définition) ;
-- la charte graphique si elle existe (couleurs exactes, polices, logo vectoriel) ;
-- la liste des pages à conserver ;
-- les accès d'hébergement, pour qu'il puisse déployer et vérifier en ligne.
-
-Les photos sont le point le plus souvent sous-estimé : sur ce projet, des
-visuels récupérés en basse définition ont donné une impression de site bâclé
-pendant plusieurs itérations, alors que le code était correct. Fournissez les
-originaux.
+- **les photos originales** — celles du site sont redimensionnées à 1024 px ;
+  les noms de fichiers (`20250408_103444.jpg`) montrent que ce sont des photos
+  de téléphone d'avril 2025, donc les originaux font probablement 3000 px ;
+- le **logo vectoriel** du Signal ;
+- une **adresse email** de contact, absente du site actuel ;
+- la décision sur la vente en ligne, qui conditionne toute l'architecture.
