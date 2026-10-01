@@ -5,7 +5,7 @@ bande-son. Tout est natif : du Python sans dépendance, un Chromium piloté par
 Playwright pour les textes, `ffmpeg` pour l'image et le son. Aucun service
 tiers, aucun montage à la main.
 
-Résultat de référence : **1920 × 1080, 30 i/s, 1 min 55 s, 34 plans.**
+Résultat de référence : **1920 × 1080, 30 i/s, 1 min 55 s, 52 plans.**
 
 ## Pourquoi cette chaîne
 
@@ -69,16 +69,35 @@ demi-image de l'attaque visée.
 
 ## Le montage de référence
 
-| Temps | Acte | Contenu |
-|---|---|---|
-| 0 – 19,8 s | Ouverture | Les yoyos de la marque, le titre, trois plans larges |
-| 19,8 – 45,4 s | Carnot | Carton de lieu puis cinq plans étiquetés |
-| 45,4 – 69,1 s | Granvelle | Carton de lieu puis quatre plans étiquetés |
-| 69,1 – 91,4 s | Apogée | Montage alterné mot/photo, une coupe toutes les ~2,4 s |
-| 91,4 – 93,1 s | Rupture | « Tout est compris. » dans le trou de la musique |
-| 93,1 – 104,4 s | Les chiffres | 2 adresses · 21 postes · 150 € · 0 € de frais cachés |
-| 104,4 – 110,6 s | Les trois coups | Un carton par frappe espacée |
-| 110,6 – 115,1 s | Fin | Logo, site, téléphone, fondu au noir |
+Le rythme se resserre acte après acte : c'est ce qui fait monter le film.
+
+| Temps | Acte | Durée des plans | Contenu |
+|---|---|---|---|
+| 0 – 19,8 s | Ouverture | 2,6 s | Les yoyos de la marque, le titre, cinq plans — **une ligne de texte par plan** |
+| 19,8 – 45,4 s | Carnot | 2,45 s | Carton de lieu (volet jaune) puis neuf plans |
+| 45,4 – 69,1 s | Granvelle | 2,45 s | Carton de lieu (volet vert) puis huit plans |
+| 69,1 – 91,4 s | Apogée | **1,4 s** | Six cartons-mots entrecoupés de rafales de deux photos |
+| 91,4 – 93,1 s | Rupture | 1,7 s | « Tout est compris. » dans le trou de la musique |
+| 93,1 – 104,4 s | Les chiffres | 2,25 s | 2 adresses · 21 postes · 150 € HT · 0 € de frais cachés |
+| 104,4 – 110,6 s | Les trois coups | 2 s | Un carton par frappe espacée |
+| 110,6 – 115,1 s | Fin | 4,5 s | Logo, site, téléphone, fondu au noir |
+
+### Ce qui rend la coupe audible
+
+Une coupe posée sur un temps ne suffit pas : elle se voit, elle ne s'entend
+pas. Trois procédés s'y ajoutent, déclarés plan par plan dans le conducteur.
+
+- **Mouvement amorti** (`ken`). Le Ken Burns ne va pas à vitesse constante :
+  il part vite sur la coupe et ralentit (`1-exp(-2.8·p)`). L'œil lit le
+  démarrage comme une frappe. `kick` va plus loin : le plan arrive déjà zoomé
+  et se détend d'un coup sur le premier dixième de seconde.
+- **Éclair** (`flash`). Trois images surexposées qui s'éteignent, sur les
+  accents forts.
+- **Volet** (`wipe`). Un aplat jaune ou vert couvre la première image puis
+  sort du cadre en six images. Réservé aux changements d'acte.
+
+Le texte monte d'autant plus vite que le plan est court : le fondu de
+l'incrustation est calculé sur la durée du plan, pas en valeur fixe.
 
 ## Pièges rencontrés
 

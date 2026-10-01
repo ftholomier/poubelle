@@ -82,7 +82,8 @@ def mot(texte, fond, encre, accent):
 CARTONS['mot-charges'] = mot('CHARGES<br>COMPRISES', '#FFD100', '#0E0E0E', '#0E0E0E')
 CARTONS['mot-internet'] = mot('INTERNET<br>TRÈS HAUT DÉBIT', '#0E0E0E', '#FFF8EA', '#FFD100')
 CARTONS['mot-menage'] = mot('MÉNAGE<br>INCLUS', '#12B39A', '#0E0E0E', '#0E0E0E')
-CARTONS['mot-acces'] = mot('ACCÈS<br>24 H / 24', '#FFF8EA', '#0E0E0E', '#12B39A')
+CARTONS['mot-reunion'] = mot('SALLE<br>DE RÉUNION', '#FFF8EA', '#0E0E0E', '#12B39A')
+CARTONS['mot-acces'] = mot('ACCÈS<br>24 H / 24', '#0E0E0E', '#FFD100', '#FFF8EA')
 CARTONS['mot-humeur'] = mot('BONNE HUMEUR<br>À VOLONTÉ', '#FFD100', '#0E0E0E', '#0E0E0E')
 
 CARTONS['rupture'] = '''
@@ -161,24 +162,26 @@ def chiffre(valeur, note):
 
 JAUNE, VERT = '#FFD100', '#12B39A'
 INCRUSTS = {
-    'l01': phrase_bas('Un bureau qui donne envie', 'd’y aller le lundi.'),
-    'l02': phrase_bas('Deux adresses', 'au centre-ville de Besançon.'),
-    'l03': phrase_bas('Vous posez l’ordinateur.', 'Tout le reste est déjà là.'),
+    'l01': phrase_bas('Un bureau qui donne envie'),
+    'l02': phrase_bas('d’y aller le lundi.'),
+    'l03': phrase_bas('Deux adresses'),
+    'l04': phrase_bas('au centre-ville de Besançon.'),
+    'l05': phrase_bas('Tout le reste est déjà là.'),
 
-    't01': etiquette('Bureau privé', 'Carnot · à partir de 320 €/mois', JAUNE),
+    't01': etiquette('Bureau privé', 'Carnot · à partir de 320 € HT/mois', JAUNE),
     't02': etiquette('Salle de réunion', 'Vidéo-projection, comprise dans le loyer', JAUNE),
     't03': etiquette('Espace détente', 'Cuisine toute équipée, douche et WC', JAUNE),
     't04': etiquette('Parties communes', 'Tramway à 50 m, parc Micaud à deux pas', JAUNE),
     't05': etiquette('Accès badge', '7 j/7, 24 h/24', JAUNE),
 
-    't06': etiquette('Poste en open space', 'Granvelle · 150 €/mois', VERT),
-    't07': etiquette('Bureau privé', 'Granvelle · à partir de 350 €/mois', VERT),
+    't06': etiquette('Poste en open space', 'Granvelle · à partir de 150 € HT/mois', VERT),
+    't07': etiquette('Bureau privé', 'Granvelle · à partir de 350 € HT/mois', VERT),
     't08': etiquette('Coin détente', 'Fauteuils, casier à clé, vraie pause', VERT),
     't09': etiquette('Mezzanine', 'Pour les appels et les jours de concentration', VERT),
 
     'n01': chiffre('2 adresses', 'Carnot &amp; Granvelle · 170 m² au total'),
     'n02': chiffre('21 postes', '7 bureaux privés &amp; 14 postes en open space'),
-    'n03': chiffre('150 €', 'par mois, tout compris'),
+    'n03': chiffre('150 € HT', 'par mois et par poste, tout compris'),
 }
 
 CSS = '''
@@ -257,7 +260,7 @@ h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
 .voile-fort{background:linear-gradient(100deg,rgba(14,14,14,.93) 0%%,rgba(14,14,14,.8) 42%%,
     rgba(14,14,14,.18) 78%%,rgba(14,14,14,0) 100%%);}
 .phrase-bas{position:absolute;left:140px;bottom:140px;right:200px;}
-.phrase-bas h3{font-size:104px;color:var(--cream);line-height:1.02;text-transform:none;
+.phrase-bas h3{font-size:126px;color:var(--cream);line-height:1.02;text-transform:none;
   letter-spacing:-.028em;}
 .tiers{position:absolute;left:140px;bottom:132px;display:flex;align-items:center;gap:30px;}
 .puce{width:14px;height:92px;flex:0 0 14px;}
