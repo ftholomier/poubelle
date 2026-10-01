@@ -1,10 +1,8 @@
 <?php
-/** Bandeau haut : arguments + sélecteur de langue. */
+/** Bandeau haut : arguments (le sélecteur de langue est dans l'en-tête). */
 
-use App\Config;
 use App\Content;
 use App\I18n;
-use App\Router;
 use App\Text;
 
 $lang = I18n::lang();
@@ -19,19 +17,6 @@ $line2 = Content::i18n($top, 'line2', $lang);
       <?php if ($line1 !== '' && $line2 !== ''): ?><span class="topbar__sep">/</span><?php endif; ?>
       <?php if ($line2 !== ''): ?><span><?= Text::e($line2) ?></span><?php endif; ?>
     </div>
-    <?php if (\count(Config::LANGS) > 1): ?>
-    <div class="topbar__langs">
-      <span class="topbar__langLabel"><?= Text::e(I18n::t('top.langLabel')) ?></span>
-      <?php foreach (Config::LANGS as $code): ?>
-        <a class="lang<?= $code === $lang ? ' is-active' : '' ?>"
-           href="<?= Text::e(Router::url($route ?? 'home', $code, $params ?? [])) ?>"
-           hreflang="<?= Text::e($code) ?>"
-           lang="<?= Text::e($code) ?>"
-           rel="alternate"
-           <?= $code === $lang ? 'aria-current="true"' : '' ?>><?= Text::e(strtoupper($code)) ?></a>
-      <?php endforeach; ?>
-    </div>
-    <?php endif; ?>
   </div>
 </div>
 

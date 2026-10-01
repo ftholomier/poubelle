@@ -58,7 +58,7 @@ final class Admin
                     ['path' => 'hero.text', 'label' => 'Accroche', 'type' => 'textarea'],
                     ['path' => 'hero.ctaPrimary.label', 'label' => 'Bouton principal', 'type' => 'text'],
                     ['path' => 'hero.ctaSecondary.label', 'label' => 'Bouton secondaire', 'type' => 'text'],
-                    ['path' => 'hero.slides', 'label' => 'Diaporama', 'type' => 'media'],
+                    ['path' => 'hero.slides', 'label' => 'Diaporama', 'type' => 'media', 'hint' => 'Toutes les photos choisies défilent, dans un ordre tiré au sort à chaque visite. Seules celles de moins de 600 px sur leur petit côté sont écartées (elles seraient floues).'],
                     ['path' => 'hero.stats', 'label' => 'Chiffres clés', 'type' => 'repeat', 'fields' => [
                         ['path' => 'value', 'label' => 'Valeur', 'type' => 'text'],
                         ['path' => 'label', 'label' => 'Légende', 'type' => 'text'],

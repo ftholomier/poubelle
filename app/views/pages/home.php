@@ -17,10 +17,18 @@ $lang = I18n::lang();
 $hero = (array) Content::get($page, 'hero', []);
 $available = Offices::availableCount();
 $minPrice = Offices::minPrice();
-// Le diaporama occupe ~560 px de large : on écarte tout visuel qui y serait agrandi.
+// Le diaporama est carré (~560 px) et la photo le couvre : c'est son petit
+// côté qui doit suffire. Un critère sur la largeur écartait en silence toutes
+// les photos en portrait (768 × 1024) choisies au back-office.
 $slides = array_values(array_filter(
     Content::list($hero, 'slides'),
-    static fn ($src): bool => \is_string($src) && App\Media::dimensions($src)['width'] >= 900
+    static function ($src): bool {
+        if (!\is_string($src) || $src === '') {
+            return false;
+        }
+        $size = App\Media::dimensions($src);
+        return min($size['width'], $size['height']) >= App\Media::SLIDE_MIN;
+    }
 ));
 // Ordre tiré au sort à chaque visite : deux passages sur l'accueil ne montrent
 // pas la même photo d'ouverture, et toutes les pièces finissent par être vues.

@@ -9,6 +9,9 @@ namespace App;
  */
 final class Media
 {
+    /** Petit côté minimal d'une photo du diaporama de l'accueil (carré d'environ 560 px). */
+    public const SLIDE_MIN = 600;
+
     public const FILE = 'media.json';
     public const DIR = 'media';
     public const MAX_BYTES = 12_582_912; // 12 Mo

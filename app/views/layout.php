@@ -91,7 +91,7 @@ if (App\Consent::allows('analytics') && ($analytics['provider'] ?? 'none') === '
 <a class="skip" href="#contenu"><?= Text::e(I18n::t('skip.content')) ?></a>
 
 <?= View::partial('partials/topbar', ['settings' => $settings, 'route' => $route, 'params' => $params]) ?>
-<?= View::partial('partials/header', ['settings' => $settings, 'route' => $route]) ?>
+<?= View::partial('partials/header', ['settings' => $settings, 'route' => $route, 'params' => $params]) ?>
 
 <main id="contenu"<?= $route === 'home' ? '' : ' class="page-enter"' ?>>
 <?= $content ?>

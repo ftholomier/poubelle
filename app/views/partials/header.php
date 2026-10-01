@@ -1,6 +1,7 @@
 <?php
-/** En-tête collant : logo, navigation, CTA, barre de progression de lecture. */
+/** En-tête collant : logo, navigation, CTA, langues, barre de progression de lecture. */
 
+use App\Config;
 use App\Content;
 use App\I18n;
 use App\Router;
@@ -46,6 +47,19 @@ $tagline = (string) ($settings['site']['tagline'] ?? '');
       <?php endforeach; ?>
       <a class="nav__cta" href="<?= Text::e(Router::availableOffices($lang)) ?>" data-track="nav_reserve"><?= Text::e(I18n::t('nav.reserve')) ?></a>
     </nav>
+
+    <?php if (\count(Config::LANGS) > 1): ?>
+    <div class="header__langs" role="group" aria-label="<?= Text::e(I18n::t('top.langLabel')) ?>">
+      <?php foreach (Config::LANGS as $code): ?>
+        <a class="lang<?= $code === $lang ? ' is-active' : '' ?>"
+           href="<?= Text::e(Router::url($current, $code, $params ?? [])) ?>"
+           hreflang="<?= Text::e($code) ?>"
+           lang="<?= Text::e($code) ?>"
+           rel="alternate"
+           <?= $code === $lang ? 'aria-current="true"' : '' ?>><?= Text::e(strtoupper($code)) ?></a>
+      <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
   </div>
   <div class="header__progress" data-progress></div>
 </header>

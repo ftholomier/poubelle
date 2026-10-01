@@ -203,16 +203,17 @@ html:not(.js) .consent, html:not(.js) .bot { display: none !important; }
 @media (max-width: 1180px) {
   .topbar__facts > span:nth-child(n+2) { display: none; }
 }
-.topbar__langs { display: flex; align-items: center; gap: 6px; }
-.topbar__langLabel { opacity: .55; letter-spacing: .12em; font-size: 11px; }
+/* Langues : à droite du bouton « Je réserve », dans l'en-tête. */
+.header__langs { display: flex; align-items: center; gap: 4px; margin-left: -12px; }
 .lang {
-  border: 0; cursor: pointer; padding: 5px 11px; border-radius: 999px;
+  border: 0; cursor: pointer; padding: 7px 10px; border-radius: var(--bubble-pill);
   font: 700 12px/1 var(--font-text); letter-spacing: .06em;
-  background-color: rgba(var(--paper-rgb), .12); color: var(--paper);
+  background-color: var(--mist); color: var(--ink);
   transition: background-color .3s ease, color .3s ease, transform .5s var(--ease-pop);
 }
 .lang:hover, .lang:focus-visible { transform: translateY(-4px) scale(1.06); text-decoration: none; }
 .lang.is-active { background-color: var(--yellow); color: var(--ink); }
+.header.is-scrolled .lang:not(.is-active) { background-color: rgba(var(--paper-rgb), .14); color: var(--white); }
 
 .translate-banner { background: var(--yellow); border-bottom: 2px solid var(--ink); }
 .translate-banner__inner {
@@ -1263,8 +1264,10 @@ a.bot__action:hover { background: var(--yellow); color: var(--ink); text-decorat
     gap: 16px; max-height: 0; overflow: hidden; transition: max-height .4s var(--ease-soft);
   }
   .nav.is-open { max-height: 420px; padding-bottom: 12px; }
+  .header__langs { order: 1; margin-left: auto; }
+  .nav__toggle { order: 2; }
   .nav__toggle {
-    display: grid; place-items: center; margin-left: auto; width: 46px; height: 46px;
+    display: grid; place-items: center; width: 46px; height: 46px;
     border: 2px solid currentColor; border-radius: 14px; background: transparent;
     color: inherit; cursor: pointer; font: 700 18px/1 var(--font-text);
   }
