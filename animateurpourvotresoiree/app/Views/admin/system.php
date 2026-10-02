@@ -54,7 +54,7 @@ use App\Services\Import\Importer;
   <?php if ($importDone): ?>
     <div class="alert alert-success small mb-2"><div>Les données de l'ancien site sont en place depuis le <?= e(date_fr((string) $importDone['at'], 'long')) ?> : fiches, demandes de devis, messages, historique et photos. <strong>Aucune base de données ni fichier SQL n'est nécessaire</strong> : tout est enregistré dans des fichiers.</div></div>
   <?php else: ?>
-    <p class="small">Aucune donnée de l'ancien site n'est en place. Le plus simple : déposez le dossier <code>storage/data</code> et les photos (<code>public/media/pros</code>) livrés avec le site. Sinon, l'outil ci-dessous convertit une fois pour toutes l'export de l'ancienne base en fichiers.</p>
+    <p class="small">Aucune donnée de l'ancien site n'est en place. Le plus simple : déposez par FTP les archives de données livrées avec le site (<code>donnees….zip</code>) dans <code>storage/install/</code>, elles s'installent toutes seules. Sinon, l'outil ci-dessous convertit une fois pour toutes l'export de l'ancienne base en fichiers.</p>
   <?php endif; ?>
   <?php if (!$canEnv): ?><p class="muted small">Réservé au super-administrateur.</p><?php else: ?>
   <details<?= $importDone ? '' : ' open' ?>>

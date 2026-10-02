@@ -10,24 +10,25 @@ use App\Core\Response;
 
 /**
  * Données livrées avec le site (ancienne base déjà convertie en fichiers + photos des pros), regroupées dans
- * une seule archive pour que l'envoi par FTP reste rapide. Elle est décompressée automatiquement, par lots de
- * quelques secondes, dès la première visite, puis supprimée. Aucune base de données, aucune manipulation.
+ * une ou plusieurs archives (donnees.zip, ou donnees-1-sur-3.zip, donnees-2-sur-3.zip…) pour que l'envoi par
+ * FTP reste rapide. Elles sont décompressées automatiquement dès la première visite, par lots de quelques
+ * secondes, puis supprimées. Aucune base de données, aucune manipulation.
  */
 final class Bundle
 {
-    public const FILE = STORAGE_PATH . '/install/donnees.zip';
-    private const STATE = STORAGE_PATH . '/install/progression.json';
-    private const DONE = STORAGE_PATH . '/install/termine.json';
-    private const LOCK = STORAGE_PATH . '/install/installation.lock';
-    /** Seuls ces dossiers peuvent être écrits par l'archive. */
+    private const DIR = STORAGE_PATH . '/install';
+    private const STATE = self::DIR . '/progression.json';
+    private const DONE = self::DIR . '/termine.json';
+    private const LOCK = self::DIR . '/installation.lock';
+    /** Seuls ces dossiers peuvent être écrits par les archives. */
     private const PREFIXES = ['storage/data/', 'public/media/pros/'];
 
     public static function pending(): bool
     {
-        return is_file(self::FILE) && !is_file(self::DONE);
+        return !is_file(self::DONE) && self::present() !== [];
     }
 
-    /** Décompresse un lot (pendant $budget secondes au plus) puis renvoie la page de progression, rechargée automatiquement. */
+    /** Décompresse pendant $budget secondes au plus, puis renvoie la page de progression (rechargée automatiquement). */
     public static function handle(float $budget = 8.0): Response
     {
         @set_time_limit(120);
@@ -41,38 +42,62 @@ final class Bundle
         }
         if (!flock($fh, LOCK_EX | LOCK_NB)) {
             fclose($fh);
-            return self::page(null, self::percent());
+            return self::page(null, self::percent(self::state()));
         }
         try {
-            $zip = new \ZipArchive();
-            if ($zip->open(self::FILE) !== true) {
-                return self::page('L\'archive des données est illisible : renvoyez le fichier storage/install/donnees.zip par FTP (transfert binaire), puis rechargez cette page.');
+            $state = self::state();
+            $missing = self::missing($state);
+            if ($missing) {
+                $many = count($missing) > 1;
+                return self::page('Il manque ' . ($many ? 'les fichiers ' : 'le fichier ') . implode(', ', $missing) . ' : envoyez-' . ($many ? 'les' : 'le')
+                    . ' par FTP dans le dossier storage/install/ du site, sans ' . ($many ? 'les' : 'le') . ' décompresser. Cette page reprendra toute seule.', 0, 15);
             }
-            $total = $zip->numFiles;
-            $offset = (int) (Fs::readJson(self::STATE, ['offset' => 0])['offset'] ?? 0);
             $t0 = microtime(true);
-            while ($offset < $total && microtime(true) - $t0 < $budget) {
-                $names = [];
-                $end = min($total, $offset + 400);
-                for ($i = $offset; $i < $end; $i++) {
-                    $name = (string) $zip->getNameIndex($i);
-                    if (self::safe($name)) {
-                        $names[] = $name;
+            foreach (self::present() as $file) {
+                $name = basename($file);
+                if (preg_match('/-\d+-sur-(\d+)\.zip$/', $name, $m)) {
+                    $state['parts'] = max((int) $state['parts'], (int) $m[1]);
+                }
+                if (in_array($name, $state['done'], true)) {
+                    @unlink($file); // déjà installée
+                    continue;
+                }
+                $zip = new \ZipArchive();
+                if ($zip->open($file) !== true) {
+                    return self::page('L\'archive ' . $name . ' est illisible : renvoyez-la par FTP (transfert binaire) dans storage/install/, puis rechargez cette page.');
+                }
+                $total = $zip->numFiles;
+                $offset = $state['current'] === $name ? (int) $state['offset'] : 0;
+                while ($offset < $total && microtime(true) - $t0 < $budget) {
+                    $names = [];
+                    $end = min($total, $offset + 400);
+                    for ($i = $offset; $i < $end; $i++) {
+                        $entry = (string) $zip->getNameIndex($i);
+                        if (self::safe($entry)) {
+                            $names[] = $entry;
+                        }
                     }
+                    if ($names && !$zip->extractTo(BASE_PATH, $names)) {
+                        $zip->close();
+                        return self::page('Décompression impossible : vérifiez que les dossiers storage/ et public/media/ sont modifiables (droits d\'écriture), puis rechargez cette page.');
+                    }
+                    $offset = $end;
+                    $state = ['current' => $name, 'offset' => $offset, 'total' => $total] + $state;
+                    Fs::writeJson(self::STATE, $state);
                 }
-                if ($names && !$zip->extractTo(BASE_PATH, $names)) {
-                    $zip->close();
-                    return self::page('Décompression impossible : vérifiez que les dossiers storage/ et public/media/ sont modifiables (droits d\'écriture), puis rechargez cette page.');
+                $zip->close();
+                if ($offset < $total) {
+                    return self::page(null, self::percent($state));
                 }
-                $offset = $end;
-                Fs::writeJson(self::STATE, ['offset' => $offset, 'total' => $total]);
+                $state['done'][] = $name;
+                $state = ['current' => null, 'offset' => 0, 'total' => 0] + $state;
+                Fs::writeJson(self::STATE, $state);
+                @unlink($file);
+                if (microtime(true) - $t0 >= $budget) {
+                    return self::page(null, self::percent($state));
+                }
             }
-            $zip->close();
-            if ($offset < $total) {
-                return self::page(null, (int) floor($offset * 100 / max(1, $total)));
-            }
-            Fs::writeJson(self::DONE, ['at' => date('c'), 'files' => $total]);
-            @unlink(self::FILE);
+            Fs::writeJson(self::DONE, ['at' => date('c'), 'archives' => $state['done']]);
             @unlink(self::STATE);
             Cache::flush();
             Cache::flush('pages');
@@ -82,6 +107,47 @@ final class Bundle
             flock($fh, LOCK_UN);
             fclose($fh);
         }
+    }
+
+    /** @return string[] archives de données présentes, dans l'ordre */
+    private static function present(): array
+    {
+        $files = array_values(array_filter(glob(self::DIR . '/donnees*.zip') ?: [], static fn (string $f): bool => preg_match('/^donnees(-\d+-sur-\d+)?\.zip$/', basename($f)) === 1));
+        natsort($files);
+        return array_values($files);
+    }
+
+    /** @return string[] parties attendues ni présentes ni déjà installées */
+    private static function missing(array $state): array
+    {
+        $n = (int) $state['parts'];
+        foreach (self::present() as $f) {
+            if (preg_match('/-\d+-sur-(\d+)\.zip$/', $f, $m)) {
+                $n = max($n, (int) $m[1]);
+            }
+        }
+        $missing = [];
+        for ($k = 1; $k <= $n; $k++) {
+            $name = 'donnees-' . $k . '-sur-' . $n . '.zip';
+            if (!is_file(self::DIR . '/' . $name) && !in_array($name, $state['done'], true)) {
+                $missing[] = $name;
+            }
+        }
+        return $missing;
+    }
+
+    /** @return array{done:string[], current:?string, offset:int, total:int, parts:int} */
+    private static function state(): array
+    {
+        $s = Fs::readJson(self::STATE, []);
+        return (is_array($s) ? $s : []) + ['done' => [], 'current' => null, 'offset' => 0, 'total' => 0, 'parts' => 0];
+    }
+
+    private static function percent(array $state): int
+    {
+        $parts = max(1, (int) $state['parts'], count($state['done']) + count(self::present()));
+        $current = (int) $state['total'] > 0 ? (int) $state['offset'] / (int) $state['total'] : 0;
+        return (int) min(99, floor((count($state['done']) + $current) * 100 / $parts));
     }
 
     private static function safe(string $name): bool
@@ -97,21 +163,16 @@ final class Bundle
         return false;
     }
 
-    private static function percent(): int
+    /** Page autonome (aucune donnée n'est encore en place) : progression, attente d'un fichier ou erreur. */
+    private static function page(?string $error = null, int $percent = 0, int $refresh = 1): Response
     {
-        $s = Fs::readJson(self::STATE, ['offset' => 0, 'total' => 0]);
-        return (int) floor((int) ($s['offset'] ?? 0) * 100 / max(1, (int) ($s['total'] ?? 0)));
-    }
-
-    /** Page autonome (aucune donnée n'est encore en place) : progression ou message d'erreur. */
-    private static function page(?string $error = null, int $percent = 0): Response
-    {
-        $title = $error === null ? 'Installation en cours…' : 'Installation interrompue';
+        $waiting = $error !== null && $percent === 0 && $refresh > 1;
+        $title = $error === null ? 'Installation en cours…' : ($waiting ? 'Installation en attente' : 'Installation interrompue');
         $body = $error === null
-            ? '<p>Mise en place des fiches, demandes, messages et photos de l\'ancien site. Cette page se recharge toute seule : laissez-la ouverte (une à deux minutes).</p><div class="bar"><i style="width:' . $percent . '%"></i></div><p class="pct">' . $percent . ' %</p>'
+            ? '<p>Mise en place des fiches, demandes, messages et photos de l\'ancien site. Cette page se recharge toute seule : laissez-la ouverte (quelques minutes au plus).</p><div class="bar"><i style="width:' . $percent . '%"></i></div><p class="pct">' . $percent . ' %</p>'
             : '<p>' . htmlspecialchars($error, ENT_QUOTES, 'UTF-8') . '</p>';
         $html = '<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">'
-            . ($error === null ? '<meta http-equiv="refresh" content="1">' : '')
+            . ($error === null || $waiting ? '<meta http-equiv="refresh" content="' . $refresh . '">' : '')
             . '<title>' . $title . '</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#fff6e8;color:#1c1233;font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}'
             . 'main{max-width:520px;margin:24px;padding:32px;background:#fff;border:2px solid #1c1233;border-radius:18px;box-shadow:6px 6px 0 #1c1233}h1{margin:0 0 8px;font-size:24px}'
             . '.bar{height:14px;border:2px solid #1c1233;border-radius:99px;overflow:hidden;margin-top:18px}.bar i{display:block;height:100%;background:#ff4f3a}.pct{margin:8px 0 0;font-weight:700;text-align:right}</style></head>'

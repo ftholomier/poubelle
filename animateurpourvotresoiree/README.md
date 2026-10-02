@@ -28,11 +28,13 @@ directs, avis vérifiés, espace pro, back-office complet, assistant IA, applica
 Le site est livré **complet** : code, données de l'ancien site déjà converties et photos. Il n'y a ni
 base de données, ni fichier SQL, ni fichier de configuration à modifier.
 
-1. Décompressez le paquet sur votre ordinateur.
-2. Envoyez **tout son contenu** par FTP dans le dossier web de l'hébergement (`www/`, `public_html/`…),
-   fichiers cachés compris (`.htaccess`, `.ovhconfig`).
-3. Ouvrez le site : à la première visite, les données s'installent toutes seules (une à deux minutes,
-   la page se recharge d'elle-même).
+1. Décompressez le paquet du site sur votre ordinateur. Si les données sont livrées en plusieurs
+   fichiers (`donnees-2-sur-2.zip`…), copiez-les **tels quels, sans les décompresser**, dans le dossier
+   `storage/install/` du site (à côté de `donnees-1-sur-2.zip`).
+2. Envoyez **tout le contenu** du dossier par FTP dans le dossier web de l'hébergement (`www/`,
+   `public_html/`…), fichiers cachés compris (`.htaccess`, `.ovhconfig`).
+3. Ouvrez le site : à la première visite, les données s'installent toutes seules (quelques minutes au
+   plus, la page se recharge d'elle-même ; s'il manque un fichier de données, elle l'indique et attend).
 4. Connectez-vous au back-office (`/gestion/`) avec les identifiants fournis à la livraison, puis
    choisissez votre mot de passe.
 5. Dans le back-office, renseignez vos clés : **Configuration** (clé Gemini pour l'IA) et
@@ -64,8 +66,8 @@ back-office (`ADMIN_PATH` dans Configuration) pour une adresse moins devinable.
 ## Données de l'ancien site
 
 L'ancienne base a été **convertie une fois pour toutes en fichiers** et les photos ont été rapatriées ;
-le tout est livré dans `storage/install/donnees.zip`, que le site décompresse lui-même à la première
-visite (il supprime ensuite l'archive). Ces données ne sont pas dans le dépôt Git, qui est public, car
+le tout est livré dans `storage/install/` (une ou plusieurs archives `donnees….zip`), que le site
+décompresse lui-même à la première visite avant de supprimer les archives. Ces données ne sont pas dans le dépôt Git, qui est public, car
 elles contiennent les coordonnées des pros et de leurs clients.
 
 Ce qui a été repris :
@@ -180,7 +182,7 @@ config/         .env (créé automatiquement, non versionné) et .env.example
 deploy/         exemples Nginx, php.ini, crontab
 public/         seul dossier exposé : index.php, assets (CSS, JS, polices, icônes), media
 storage/        données JSON, caches, sessions, journaux, sauvegardes (non versionné) ;
-                install/donnees.zip : données livrées, décompressées à la première visite
+                install/ : archives des données livrées, décompressées à la première visite
 ```
 
 ## Commandes utiles
