@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 340" width="520" height="340">
+  <rect width="520" height="340" fill="#ffd23f"/>
+  <g stroke="#1c1233" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <circle cx="430" cy="70" r="44" fill="#fff6e8"/>
+    <path d="M386 70h88M430 26v88M399 39c18 14 44 14 62 0M399 101c18-14 44-14 62 0" fill="none" stroke-width="3"/>
+    <path d="M430 4v22" />
+    <rect x="70" y="150" width="380" height="150" rx="22" fill="#1c1233"/>
+    <circle cx="170" cy="225" r="62" fill="#ff4f3a"/>
+    <circle cx="170" cy="225" r="40" fill="#1c1233" stroke="#fff6e8" stroke-width="3"/>
+    <circle cx="170" cy="225" r="10" fill="#fff6e8"/>
+    <path d="M142 199c-8 8-12 16-12 26" fill="none" stroke="#fff6e8" stroke-width="3"/>
+    <rect x="262" y="175" width="160" height="104" rx="14" fill="#c8f560"/>
+    <path d="M290 260v-58M330 260v-40M370 260v-66M400 260v-28" stroke-width="10"/>
+    <circle cx="290" cy="216" r="9" fill="#fff6e8"/>
+    <circle cx="330" cy="238" r="9" fill="#fff6e8"/>
+    <circle cx="370" cy="206" r="9" fill="#fff6e8"/>
+    <circle cx="400" cy="244" r="9" fill="#fff6e8"/>
+    <path d="M112 128c0-44 36-78 80-78s80 34 80 78" fill="none" stroke-width="8"/>
+    <rect x="96" y="112" width="34" height="52" rx="12" fill="#8f7bff"/>
+    <rect x="254" y="112" width="34" height="52" rx="12" fill="#8f7bff"/>
+  </g>
+  <g fill="#1c1233">
+    <path d="M52 64l6 14 15 2-11 10 3 15-13-8-13 8 3-15-11-10 15-2z" fill="#fff6e8" stroke="#1c1233" stroke-width="3"/>
+    <path d="M318 46l4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1z" fill="#ff9ec7" stroke="#1c1233" stroke-width="3"/>
+  </g>
+  <g fill="none" stroke="#1c1233" stroke-width="4" stroke-linecap="round">
+    <path d="M470 180c14 12 14 36 0 48M488 166c24 20 24 56 0 76"/>
+    <path d="M40 200c-14 12-14 36 0 48"/>
+  </g>
+  <text x="66" y="44" font-family="'Instrument Serif',Georgia,serif" font-style="italic" font-size="34" fill="#1c1233">♪</text>
+  <text x="250" y="40" font-family="'Instrument Serif',Georgia,serif" font-style="italic" font-size="44" fill="#1c1233">♫</text>
+</svg>

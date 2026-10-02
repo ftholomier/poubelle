@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['athis mons','91027'],['athis val de rouvre','61007'],['attignat','01024'],['athee sur cher','37008'],['athies sous laon','02028'],['attiches','59022'],['attainville','95028'],['attichy','60025'],['attigny','08025'],['athies','62042'],['attenschwiller','68013'],['atton','54027'],['athis','51018'],['attin','62044'],['athee','21028'],['athesans etroitefontaine','70031'],['athies','80034'],['attignat oncin','73022'],['athee','53012'],['attilly','02029'],['attancourt','52021'],['attigneville','88015'],['athos aspis','64071'],['attray','45011'],['attigny','88016'],['athienville','54026'],['athie','89022'],['attilloncourt','57036'],['athie','21029'],['attricourt','70032']];

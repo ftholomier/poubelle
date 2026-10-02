@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['elancourt','78208'],['elbeuf','76231'],['elne','66065'],['elven','56053'],['elliant','29049'],['eloyes','88158'],['eleu dit leauwette','62291'],['elesmes','59190'],['eloie','90037'],['eloise','74109'],['elincourt sainte marguerite','60206'],['elnes','62292'],['elsenheim','67121'],['elzange','57191'],['ellon','14236'],['eletot','76232'],['elincourt','59191'],['elbeuf sur andelle','76230'],['elvange','57190'],['elbeuf en bray','76229'],['elbach','68079'],['ellecourt','76233'],['elise daucourt','51228'],['elencourt','60205']];

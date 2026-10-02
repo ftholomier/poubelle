@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['tulle','19272'],['tullins','38517'],['turckheim','68338'],['tucquegnieux','54536'],['tulette','26357'],['tuffalun','49003'],['tuffe val de la cheronne','72363'],['turretot','76716'],['turenne','19273'],['tuchan','11401'],['tupin et semons','69253'],['turny','89425'],['tubersent','62832'],['turquant','49358'],['tully','80770'],['tuzaguet','65455'],['tugeras saint maurice','17454'],['tursac','24559'],['turriers','04222'],['tupigny','02753'],['tufles','80764'],['tugny et pont','02752'],['tudeils','19271'],['tusson','16390'],['turcey','21648'],['turqueville','50609'],['turgon','16389'],['tudelle','32456'],['turgy','10388'],['turquestein blancrupt','57682']];

@@ -1,0 +1,1 @@
+<section class="error-page"><div class="code">500</div><h1 class="h2 mt-3">La sono a sauté…</h1><p class="lead" style="margin:16px auto 0">Une erreur technique est survenue, notre équipe est prévenue. Réessayez dans un instant.</p><p class="mt-3"><a class="btn btn-ink" href="/">Retour à l'accueil</a></p></section>

@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['hirson','02381'],['hillion','22081'],['hilsenheim','67196'],['hinges','62454'],['hirsingue','68138'],['hinx','40126'],['hindisheim','67197'],['hirtzbach','68139'],['hirel','35132'],['hirtzfelden','68140'],['hieres sur amby','38190'],['hiersac','16163'],['hipsheim','67200'],['hilsprich','57325'],['hindlingen','68137'],['hilbesheim','57324'],['hinckange','57326'],['hirschland','67201'],['higueres souye','64262'],['hiis','65221'],['hiesse','16164'],['his','31237'],['hibarette','65220'],['hierges','08226'],['hiermont','80440'],['hitte','65222'],['hinsbourg','67198'],['hinsingen','67199'],['hiesville','50246'],['hinacourt','02380']];

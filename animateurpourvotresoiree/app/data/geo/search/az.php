@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['azay le rideau','37014'],['azay sur cher','37015'],['azay le brule','79024'],['azille','11022'],['azay sur thouet','79025'],['aze','71016'],['azereix','65057'],['azur','40021'],['aze','41010'],['azay le ferron','36010'],['azerables','23015'],['azerailles','54038'],['azas','31038'],['azerat','24019'],['azy','18019'],['azelot','54037'],['azy sur marne','02042'],['azay sur indre','37016'],['azillanet','34020'],['azincourt','62069'],['azerat','43017'],['azat le ris','87006'],['azilone ampaza','2A026'],['azy le vif','58021'],['azannes et soumazannes','55024'],['azet','65058'],['azolette','69016'],['azat chatenet','23014'],['azoudange','57044'],['azeville','50026'],['azzana','2A027']];

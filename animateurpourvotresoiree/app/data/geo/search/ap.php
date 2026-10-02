@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['apatou','97360'],['apt','84003'],['apprieu','38013'],['appoigny','89013'],['apremont','85006'],['appietto','2A017'],['apach','57026'],['appeville annebault','27018'],['apremont','73017'],['apremont','60022'],['appenwihr','68008'],['appilly','60021'],['apinac','42006'],['apremont','70024'],['apremont la foret','55012'],['apremont','01011'],['appenans','25019'],['appenai sous belleme','61005'],['appeville','50016'],['aprey','52014'],['apchon','15009'],['apchat','63007'],['apremont','08017'],['apremont sur allier','18007'],['appelle','81015'],['appy','09012']];

@@ -1,0 +1,13 @@
+# Si l'hébergement ne permet pas de pointer le domaine sur le dossier public/,
+# ce fichier redirige tout vers public/ et interdit l'accès au reste du code.
+Options -Indexes
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule (^|/)\. - [F,L]
+    RewriteRule ^(app|bin|config|deploy|storage|vendor)(/|$) - [F,L]
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+<FilesMatch "\.(md|lock|sql|log|env|example|zip)$">
+    Require all denied
+</FilesMatch>

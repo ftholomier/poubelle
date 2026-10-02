@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['aytre','17028'],['ay champagne','51030'],['ayguesvives','31004'],['aydat','63026'],['ayse','74024'],['ay sur moselle','57043'],['ayguemorte les graves','33023'],['ayherre','64086'],['ayron','86017'],['aydoilles','88026'],['ayen','19015'],['ayrens','15016'],['aynac','46012'],['ayzac ost','65056'],['ayn','73027'],['ayros arbouix','65055'],['ayette','62068'],['ayssenes','12017'],['ayzieu','32025'],['ayguetinte','32024'],['ayencourt','80049'],['ayat sur sioule','63025'],['aydie','64084'],['aydius','64085'],['ayguatebia talau','66010']];

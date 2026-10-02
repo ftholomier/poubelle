@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['oissel sur seine','76484'],['oignies','62637'],['oissery','77344'],['oize','72226'],['oisy le verger','62638'],['oisseau','53170'],['oinville sur montcient','78460'],['oisemont','80606'],['oiry','51413'],['oisy','59446'],['oisseau le petit','72225'],['oizon','18170'],['oisy','02569'],['oiselay et grachaux','70393'],['oisly','41166'],['oinville sous auneau','28285'],['oisy','58198'],['oinville saint liphard','28284'],['oissy','80607'],['oigny en valois','02568'],['oisilly','21467'],['oison','45231'],['oigney','70392'],['oigny','21466']];

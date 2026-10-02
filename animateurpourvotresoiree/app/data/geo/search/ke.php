@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['kervignac','56094'],['kembs','68163'],['kerlouan','29091'],['kersaint plabennec','29095'],['keskastel','67234'],['kernilis','29093'],['kertzfeld','67233'],['kerbach','57360'],['kedange sur canner','57358'],['kermaria sulard','22090'],['kergloff','29089'],['kerfourn','56092'],['kerlaz','29090'],['kergrist','56093'],['kernoues','29094'],['kerfot','22086'],['kergrist moelou','22087'],['kerling les sierck','57361'],['kesseldorf','67235'],['kermoroc h','22091'],['kernascleden','56264'],['kerbors','22085'],['kerpert','22092'],['kerien','22088'],['keffenach','67232'],['kerprich aux bois','57362'],['kemplich','57359']];

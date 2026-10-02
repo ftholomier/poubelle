@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['urrugne','64545'],['urcuit','64540'],['urt','64546'],['urzy','58300'],['urmatt','67500'],['urimenil','88481'],['ury','77477'],['urschenheim','68345'],['urville','14719'],['urvillers','02756'],['urcel','02755'],['urbes','68344'],['ur','66218'],['uruffe','54538'],['urbeis','67499'],['urcay','03293'],['urepel','64543'],['urdens','32457'],['urtaca','2B332'],['urcerey','90098'],['urgons','40321'],['urgosse','32458'],['urciers','36227'],['urville','50610'],['urcy','21650'],['urau','31562'],['urbise','42317'],['urval','24560'],['urville','10390'],['urost','64544'],['urdos','64542'],['urbalacone','2A331'],['urville','88482'],['urbanya','66219'],['urs','09320'],['urtiere','25573']];

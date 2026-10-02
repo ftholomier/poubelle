@@ -1,0 +1,2 @@
+# Tâches planifiées : une ligne, toutes les minutes (crontab -e de l'utilisateur du site)
+* * * * * php /var/www/animateurpourvotresoiree/bin/cron.php > /dev/null 2>&1

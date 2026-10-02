@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['acheres','78005'],['achicourt','62004'],['acigne','35001'],['acoua','97601'],['achenheim','67001'],['acquigny','27003'],['acheres la foret','77001'],['acy','02003'],['achiet le grand','62005'],['achen','57006'],['acy en multien','60005'],['acquin westbecourt','62008'],['acq','62007'],['acheux en amienois','80003'],['achery','02002'],['acheville','62003'],['acheux en vimeu','80004'],['acy romance','08001'],['acon','27002'],['accous','64006'],['achy','60004'],['accons','07001'],['aclou','27001'],['acheres','18001'],['achiet le petit','62006'],['achun','58001'],['accolans','25005'],['achain','57004'],['achey','70003']];

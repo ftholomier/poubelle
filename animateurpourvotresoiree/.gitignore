@@ -1,0 +1,25 @@
+# Configuration (secrets) : seul le modèle est versionné
+/config/.env
+/config/.env.*
+!/config/.env.example
+
+# Données, caches, journaux, sauvegardes, imports (données personnelles) : jamais versionnés
+/storage/*
+!/storage/.htaccess
+!/storage/README.md
+
+# Médias envoyés (photos des pros, images téléversées)
+/public/media/*
+!/public/media/.htaccess
+!/public/media/blog/
+
+# Divers
+*.log
+*.sql
+*.zip
+.DS_Store
+Thumbs.db
+/node_modules/
+/vendor/
+.idea/
+.vscode/

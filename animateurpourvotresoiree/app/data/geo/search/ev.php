@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['evry courcouronnes','91228'],['evreux','27229'],['evian les bains','74119'],['evron','53097'],['evin malmaison','62321'],['evellys','56144'],['evry gregy sur yerre','77175'],['evenos','83053'],['evrecy','14257'],['evette salbert','90042'],['evran','22056'],['evaux les bains','23076'],['eveux','69083'],['evecquemont','78227'],['evans','39219'],['everly','77174'],['evergnicourt','02299'],['eve','60226'],['evry','89162'],['evillers','25229'],['evaux et menil','88166'],['evrange','57203'],['evisa','2A108'],['evriguet','56056'],['evricourt','60227'],['evigny','08160'],['evosges','01155'],['evres','55185']];

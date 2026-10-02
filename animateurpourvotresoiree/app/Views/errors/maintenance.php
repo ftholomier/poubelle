@@ -1,0 +1,2 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Maintenance</title><meta name="robots" content="noindex"><link rel="stylesheet" href="<?= asset('css/app.css') ?>"></head>
+<body><section class="error-page"><div class="logo" style="justify-content:center"><span class="logo-mark">A</span><span class="logo-word">animateur<em>pour</em>votresoirée</span></div><h1 class="h2 mt-4">On prépare la fête 🎉</h1><p class="lead" style="margin:16px auto 0"><?= e($message ?? '') ?></p></section></body></html>

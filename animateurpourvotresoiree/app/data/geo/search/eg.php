@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['eguilles','13032'],['egly','91207'],['egletons','19073'],['egreville','77168'],['eguisheim','68078'],['egriselles le bocage','89151'],['eguzon chantome','36070'],['egliseneuve pres billom','63146'],['eglise neuve de vergt','24160'],['egleny','89150'],['eguelshardt','57188'],['egat','66064'],['eglingen','68077'],['egry','45132'],['egliseneuve d entraigues','63144'],['egligny','77167'],['eglisolles','63147'],['eguenigue','90036'],['egliseneuve des liards','63145'],['eglise neuve d issac','24161'],['eguilly sous bois','10136'],['eguilly','21244']];

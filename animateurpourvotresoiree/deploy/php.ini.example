@@ -1,0 +1,17 @@
+; Réglages PHP recommandés (php.ini, .user.ini ou panneau de l'hébergeur)
+memory_limit = 256M
+max_execution_time = 120
+upload_max_filesize = 20M
+post_max_size = 64M
+max_file_uploads = 20
+expose_php = Off
+display_errors = Off
+log_errors = On
+session.cookie_httponly = 1
+session.use_strict_mode = 1
+opcache.enable = 1
+opcache.memory_consumption = 128
+opcache.max_accelerated_files = 20000
+opcache.validate_timestamps = 1
+opcache.revalidate_freq = 2
+; Extensions nécessaires : gd (avec WebP), mbstring, openssl, curl, zip, intl, fileinfo, dom, sodium (recommandé), exif (recommandé)

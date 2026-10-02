@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 280" width="460" height="280">
+  <rect width="460" height="280" fill="#8f7bff"/>
+  <g stroke="#1c1233" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <ellipse cx="210" cy="226" rx="120" ry="26" fill="#1c1233"/>
+    <path d="M140 222l14-138h112l14 138z" fill="#1c1233"/>
+    <path d="M150 128h120" stroke="#ff4f3a" stroke-width="18"/>
+    <ellipse cx="210" cy="84" rx="56" ry="12" fill="#2b1f4d"/>
+    <path d="M186 80c-10-32-6-56 6-60 12-4 16 22 10 58M226 80c4-34 14-54 26-52 12 3 6 30-10 56" fill="#fff6e8"/>
+    <path d="M196 62c-2-14 0-28 4-30M238 58c4-12 8-20 12-20" stroke="#ff9ec7" stroke-width="5" fill="none"/>
+    <rect x="300" y="60" width="16" height="150" rx="6" transform="rotate(28 308 135)" fill="#1c1233"/>
+    <rect x="300" y="60" width="16" height="30" rx="6" transform="rotate(28 308 135)" fill="#fff6e8"/>
+    <rect x="40" y="140" width="60" height="84" rx="10" transform="rotate(-14 70 182)" fill="#fff6e8"/>
+    <rect x="72" y="130" width="60" height="84" rx="10" transform="rotate(8 102 172)" fill="#fff6e8"/>
+  </g>
+  <text x="88" y="186" font-family="Arial,sans-serif" font-weight="800" font-size="30" fill="#ff4f3a" transform="rotate(8 102 172)">♥</text>
+  <text x="50" y="196" font-family="Arial,sans-serif" font-weight="800" font-size="26" fill="#1c1233" transform="rotate(-14 70 182)">♠</text>
+  <g fill="#ffd23f" stroke="#1c1233" stroke-width="3" stroke-linejoin="round">
+    <path d="M370 40l8 18 20 3-14 14 3 20-17-9-17 9 3-20-14-14 20-3z"/>
+    <path d="M410 120l5 11 12 2-9 8 2 12-10-6-10 6 2-12-9-8 12-2z" fill="#c8f560"/>
+    <path d="M60 40l5 11 12 2-9 8 2 12-10-6-10 6 2-12-9-8 12-2z" fill="#fff6e8"/>
+  </g>
+  <g fill="none" stroke="#fff6e8" stroke-width="4" stroke-linecap="round">
+    <path d="M352 104l-12-10M364 92l-4-16M376 104l14-8"/>
+  </g>
+</svg>

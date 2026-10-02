@@ -1,0 +1,3 @@
+<?php
+// Fichier généré par bin/build/build_geo.py — ne pas modifier à la main.
+return [['nux les mines','62617'],['nueil les aubiers','79195'],['nuits saint georges','21464'],['nuaille','49231'],['nuaille d aunis','17267'],['nuille sur vicoin','53168'],['nurieux volognat','01267'],['nucourt','95459'],['nuille le jalais','72224'],['nuncq hautecote','62631'],['nuisement sur coole','51409'],['nurlu','80601'],['nuits','89280'],['nuzejouls','46211'],['nuret le ferron','36144'],['nubecourt','55389'],['nueil sous faye','86181'],['nux les auxi','62616'],['nuars','58197'],['nullemont','76479'],['nully','52359']];
