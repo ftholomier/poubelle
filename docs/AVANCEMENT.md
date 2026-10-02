@@ -45,6 +45,8 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 - [ ] Référentiels, médiathèque, rubriques & menus & ordre des mosaïques
 - [ ] Éditorial : accueil, bandeau, slider, 100 moments
 - [ ] Réglages (secrets chiffrés), sauvegardes
+- [ ] Page d'attente (logo, texte WYSIWYG, compte à rebours optionnel, activable)
+- [ ] Éditeur WYSIWYG natif pour tous les champs de texte long
 
 ## Phase 4 — Interactif
 - [ ] Saisons, face-à-face, bilans compétition / stade, records

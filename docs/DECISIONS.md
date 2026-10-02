@@ -181,3 +181,10 @@ réellement développé.
   champs existants des fiches (taille, poids, pied, récit, statistiques, galerie…).
 - **Rôles** : la maquette montre 5 rôles ; **confirmé par le client : 2 niveaux**
   (administrateur / utilisateur), présentés dans le style de l'écran « Utilisateurs & rôles ».
+
+## Ajouts du 02/10 (pendant le développement)
+- **Page d'attente** (back-office › Réglages) : activable / désactivable ; reprend le logo,
+  texte géré en **WYSIWYG**, **compte à rebours optionnel** (date cible réglable).
+  Le back-office reste accessible ; les administrateurs connectés voient le site normalement.
+- **Tous les champs de texte long du back-office ont un éditeur WYSIWYG** (JS natif, sans
+  dépendance ; HTML nettoyé côté serveur : liste blanche de balises).
