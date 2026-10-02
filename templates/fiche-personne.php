@@ -32,7 +32,7 @@ $birth = $p['birth']['date']['text'] ?? '';
 if (($p['birth']['date']['precision'] ?? '') === 'day') {
     $birth = date_num($p['birth']['date']['iso']);
 }
-$cardNo = !empty($p['album']['in']) && !empty($p['album']['number']) ? (string) $p['album']['number'] : null;
+$cardNo = $albumNo ? str_pad((string) $albumNo, 3, '0', STR_PAD_LEFT) : null;
 $cardRows = array_values(array_filter([
     [t('Poste'), $isPlayer ? ($p['position'] ? ucfirst((string) $p['position']) : $cardRole) : $roleLabel],
     [t('Né le'), $birth],
@@ -96,6 +96,7 @@ $rowsHtml = function (array $list, bool $coach) {
     return (string) ob_get_clean();
 };
 ?>
+<?php if ($albumNo): ?><span hidden data-album-card="<?= (int) $doc['id'] ?>" data-album-n="<?= e($cardNo) ?>"></span><?php endif; ?>
 <section class="phero">
   <div class="wrap phero__inner">
     <div class="phero__cardcol">

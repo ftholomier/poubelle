@@ -30,6 +30,21 @@
     $$('[data-mpanel]').forEach(p => { p.hidden = p.dataset.mpanel !== tab.dataset.mtab; });
   }));
 
+  // Album du centenaire : visiter la fiche débloque la carte.
+  const albumCard = $('[data-album-card]');
+  if (albumCard) {
+    try {
+      const got = JSON.parse(localStorage.getItem('fcsm-album') || '[]');
+      const id = albumCard.dataset.albumCard;
+      if (!got.map(String).includes(id)) {
+        got.push(id);
+        localStorage.setItem('fcsm-album', JSON.stringify(got));
+        const en = document.documentElement.lang === 'en';
+        setTimeout(() => window.SR?.toast?.((en ? 'Album: card #' : 'Album : carte n° ') + albumCard.dataset.albumN + (en ? ' unlocked!' : ' débloquée !')), 900);
+      }
+    } catch (e) {}
+  }
+
   // Afficher les matchs suivants.
   $$('[data-more-btn]').forEach(btn => btn.addEventListener('click', () => {
     $$('tr[data-more]', btn.parentElement).forEach(tr => { tr.hidden = false; });

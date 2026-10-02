@@ -392,6 +392,7 @@ final class Fiche
             'years' => $years,
             'rubric' => $rubric,
             'related' => self::relatedForPerson($doc, $matches),
+            'albumNo' => self::albumNumber($id),
         ], [
             'title' => $seoTitle,
             'description' => $desc,
@@ -403,6 +404,17 @@ final class Fiche
             'styles' => ['css/fiche.css'],
             'scripts' => ['js/fiche.js'],
         ]);
+    }
+
+    /** Numéro de la carte de l'album du centenaire (null si la personne n'y figure pas). */
+    private static function albumNumber(int $id): ?int
+    {
+        foreach (Interactive::albumCards() as $c) {
+            if ($c['id'] === $id) {
+                return $c['n'];
+            }
+        }
+        return null;
     }
 
     public static function personYears(array $p): string

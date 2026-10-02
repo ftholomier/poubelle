@@ -134,7 +134,7 @@ final class Kernel
         $r->get('/centenaire/', fn ($q) => Front\Interactive::centenary($q));
         $r->get('/centenaire/100-moments/', fn ($q) => Front\Interactive::moments($q));
         $r->get('/reserves/', fn ($q) => Front\Interactive::reserves($q));
-        $r->get('/reserves/{collection}/', fn ($q, $c) => Front\Interactive::reserves($q, $c));
+        $r->get('/reserves/{collection}/', fn ($q, $collection) => Front\Interactive::reserves($q, $collection));
 
         // Communauté
         $r->get('/contact/', fn ($q) => Front\Community::contact($q));
@@ -144,8 +144,8 @@ final class Kernel
         $r->get('/faire-un-don/', fn ($q) => Front\Donations::page($q));
         $r->get('/faire-un-don/merci/', fn ($q) => Front\Donations::thanks($q));
         $r->get('/newsletter/', fn ($q) => Front\Community::newsletter($q));
-        $r->get('/newsletter/confirmer/{token}/', fn ($q, $t) => Front\Community::newsletterConfirm($q, $t));
-        $r->get('/newsletter/desinscription/{token}/', fn ($q, $t) => Front\Community::newsletterUnsubscribe($q, $t));
+        $r->get('/newsletter/confirmer/{token}/', fn ($q, $token) => Front\Community::newsletterConfirm($q, $token));
+        $r->get('/newsletter/desinscription/{token}/', fn ($q, $token) => Front\Community::newsletterUnsubscribe($q, $token));
         $r->get('/partage-et-newsletter/', fn ($q) => Front\Community::sharePage($q));
         return $r;
     }

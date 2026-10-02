@@ -10,6 +10,7 @@
  *   php bin/console.php backup           sauvegarde immédiate
  *   php bin/console.php rag              (ré)indexe les données pour l'assistant IA
  *   php bin/console.php images [largeur] pré-génère les vignettes
+ *   php bin/console.php geo [--hors-ligne]  géolocalise stades et lieux de naissance (carte)
  */
 
 declare(strict_types=1);
@@ -37,6 +38,11 @@ switch ($cmd) {
     case 'search':
         $n = \App\Services\Search::rebuild();
         echo "$n entrées dans l'index de recherche\n";
+        break;
+
+    case 'geo':
+        $r = \App\Services\Geo::run(10000, !in_array('--hors-ligne', $argv, true));
+        echo sprintf("%d stades et %d lieux géolocalisés, %d restants\n", $r['stades'], $r['lieux'], $r['restants']);
         break;
 
     case 'cron':
