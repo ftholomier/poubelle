@@ -92,7 +92,7 @@ Simple, ergonomique, intuitif **et** complet, pensé pour des historiens non tec
 - Rôles : administrateur, historien, modérateur.
 - Utilisable sur tablette.
 
-## Rubrique « INTERACTIF » (proposée, nom à confirmer)
+## Rubrique « INTERACTIF » (validée)
 Nouvelle entrée du menu principal regroupant les contenus où le visiteur agit,
 méga-menu en 3 colonnes :
 - **Explorer l'histoire** : face-à-face, bilans par compétition, bilans par stade,
@@ -103,4 +103,5 @@ méga-menu en 3 colonnes :
 - « Faire un don » reste un bouton permanent de l'en-tête.
 - Page d'arrivée `/interactif/` : mosaïque de grandes cartes illustrées.
 - URLs `/interactif/{outil}/` ; pages générées gardent leurs URLs (`/face-a-face/{club}/`…).
-- À vérifier sur la maquette : largeur du menu (7 entrées) ; « Accueil » retirable.
+- Menu principal : ACCUEIL (conservé), MATCHS, NOS LIONS, SUPPORTERS, INFRASTRUCTURES,
+  SYMBOLES, INTERACTIF.
