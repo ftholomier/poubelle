@@ -64,3 +64,19 @@ Adresses porteuses de mots-clés + **redirection 301 de chaque ancienne adresse*
 11. **Images de partage générées** automatiquement pour chaque fiche.
 12. **Newsletter « Ce jour-là »** hebdomadaire automatique.
 13. **Accessibilité** (RGAA : lecteurs d'écran, contrastes, navigation clavier).
+
+## Back-office (aussi important que le front)
+Simple, ergonomique, intuitif **et** complet, pensé pour des historiens non techniciens.
+- Masque de saisie dédié par type de fiche ; aides sous chaque champ ; vocabulaire métier.
+- Brouillon enregistré automatiquement, historique des versions + restauration,
+  alerte en cas de modification simultanée.
+- Recherche globale au clavier (Ctrl+K), compositions et statistiques saisies en grille,
+  joueurs choisis parmi les fiches existantes (création à la volée).
+- Aperçu « comme sur le site » ; statuts brouillon / à relire / publié + programmation.
+- Médiathèque : glisser-déposer, recadrage, légende et crédit obligatoires,
+  « où cette photo est utilisée ».
+- Écrans : tableau de bord, fiches, médiathèque, rubriques/menus/ordre des mosaïques,
+  accueil, frise, quiz, maillots, partenaires, cartes, contributions, messages, dons,
+  assistant IA, qualité, utilisateurs, réglages.
+- Rôles : administrateur, historien, modérateur.
+- Utilisable sur tablette.
