@@ -49,7 +49,14 @@ Adresses porteuses de mots-clés + **redirection 301 de chaque ancienne adresse*
    sauvegarde automatique quotidienne des données hors serveur.
 2. **Liens automatiques joueurs ↔ matchs** : noms des compositions reliés aux fiches ;
    chaque fiche joueur liste tous ses matchs (buts, cartons).
-3. **Pages face-à-face** par adversaire (bilan V/N/D, tous les matchs, records), générées.
+3. **Face-à-face** par adversaire, généré automatiquement :
+   - encadré sur chaque fiche match : bilan global, **bilan à la date du match**,
+     5 précédentes confrontations, lien vers la page complète ;
+   - page « Face-à-face » avec **choix de l'équipe** (suggestions + liste des adversaires),
+     filtres compétition / période / domicile-extérieur, bilan, graphique, records,
+     buteurs sochaliens, liste triable ; une URL par adversaire (`/face-a-face/{club}/`) ;
+   - **référentiel des clubs** (regroupement des variantes de noms, pré-rempli puis validé
+     dans le back-office ; logo, ville, stade).
 4. **Records** calculés automatiquement (buteurs, joueurs les plus utilisés, affluences,
    plus larges victoires, séries), filtres décennie / compétition.
 5. **« Contribuer au musée »** : propositions de corrections, photos, documents
