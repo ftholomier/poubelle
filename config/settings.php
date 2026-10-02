@@ -29,7 +29,7 @@ return [
             'counter_community' => ['label' => 'Compteur : membres de la communauté', 'type' => 'text', 'default' => '11000+'],
             'counter_videos' => ['label' => 'Compteur : vidéos YouTube', 'type' => 'text', 'default' => '1400+'],
             'counter_players_db' => ['label' => 'Compteur : joueurs présents dans la base', 'type' => 'text', 'default' => '1000+'],
-            'centenary_date' => ['label' => 'Date du centenaire (compte à rebours)', 'type' => 'date', 'default' => '2028-01-01'],
+            'centenary_date' => ['label' => 'Date du centenaire (compte à rebours)', 'type' => 'date', 'default' => '2028-05-20'],
             'centenary_text' => ['label' => 'Texte du compte à rebours', 'type' => 'textarea', 'default' => 'Le FCSM fêtera ses 100 ans. Aidez-nous à écrire son histoire avant le centenaire !'],
         ],
     ],

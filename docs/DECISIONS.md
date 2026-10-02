@@ -27,7 +27,7 @@ Récapitulatif des choix pris avec le client, à respecter pendant le développe
   dynamiquement depuis la clé API, questions conservées et consultables (RGPD).
 - Traduction : **FR et EN uniquement**.
 - Maquette : recherche plein écran, « Ce jour-là », compte à rebours centenaire
-  (1er janvier 2028), dons (Stripe + PayPal, ponctuel/mensuel, paliers, jauge, mur),
+  (**20 mai 2028**, date exacte de création du club), dons (Stripe + PayPal, ponctuel/mensuel, paliers, jauge, mur),
   frise 1928→2028, quiz, comparateur de maillots, contact dynamique + partenaires.
 - Cartographie : **OpenStreetMap** (Leaflet), cartes dynamiques avec listes et filtres.
 - Sécurité, antispam, cookies (consentement), SEO.
