@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#F3EDDF;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;background:#F3EDDF">
+<dc-import name="Header" active="" hint-size="100%,90px"></dc-import>
+<section style="background:#F6C400;border-bottom:2px solid #0E1F4D">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(36px,5vw,72px) clamp(16px,4vw,48px) 0;display:flex;flex-direction:column;gap:20px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase">Les records · calculés automatiquement</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(64px,10vw,150px);line-height:.88;text-transform:uppercase;flex-shrink:0">Le livre<br>des records</h1>
+<div style="display:flex;overflow-x:auto;scrollbar-width:none;border-top:2px solid #0E1F4D;margin-top:8px">
+<sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+<button onClick="{{ c.pick }}" style="all:unset;cursor:pointer;white-space:nowrap;padding:16px 20px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.06em;background:{{ c.bg }};color:{{ c.fg }};transition:background .2s" style-hover="background:#0E1F4D;color:#F6C400">{{ c.label }}</button>
+</sc-for>
+</div>
+</div>
+</section>
+<div style="max-width:1320px;margin:0 auto;padding:20px clamp(16px,4vw,48px);display:flex;gap:20px;flex-wrap:wrap;align-items:center;border-bottom:2px solid #0E1F4D">
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#3A4A75">Décennie</span><div style="display:flex;flex-wrap:wrap;gap:5px">
+<sc-for list="{{ decs }}" as="d" hint-placeholder-count="11"><button onClick="{{ d.pick }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:4px 9px;font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;background:{{ d.bg }};color:{{ d.fg }}">{{ d.label }}</button></sc-for>
+</div></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#3A4A75">Compétition</span><div style="display:flex;flex-wrap:wrap;gap:5px">
+<sc-for list="{{ comps }}" as="d" hint-placeholder-count="5"><button onClick="{{ d.pick }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:4px 9px;font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;background:{{ d.bg }};color:{{ d.fg }}">{{ d.label }}</button></sc-for>
+</div></div>
+</div>
+
+<main style="max-width:1320px;margin:0 auto;padding:clamp(40px,6vw,72px) clamp(16px,4vw,48px) clamp(56px,8vw,96px);display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:6px;flex:1 1 420px;min-width:0"><h2 ref="{{ hRef }}" style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(40px,5vw,68px);line-height:1;text-transform:uppercase">{{ cat.title }}</h2><span style="font-size:18px;color:#3A4A75">{{ scope }}</span></div>
+<button onClick="{{ share }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:12px 18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.1em;box-shadow:4px 4px 0 #0E1F4D;background:#FFFDF6" style-hover="background:#F6C400">{{ shareLabel }}</button>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:14px;align-items:end">
+<sc-for list="{{ podium }}" as="p" hint-placeholder-count="3">
+<a href="{{ cat.href }}" style="display:flex;flex-direction:column;align-items:center;gap:10px;transition:transform .25s cubic-bezier(.3,1.5,.5,1)" style-hover="transform:translateY(-6px)">
+<div style="width:min(100%,{{ p.img }});aspect-ratio:1;border:3px solid #0E1F4D;border-radius:50%;overflow:hidden;background:#E8DFC9"><image-slot id="{{ p.id }}" shape="circle" placeholder="Photo"></image-slot></div>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;text-transform:uppercase;text-align:center;line-height:1">{{ p.name }}</span>
+<div style="width:100%;height:{{ p.h }};background:{{ p.bg }};color:{{ p.fg }};border:2px solid #0E1F4D;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(40px,5vw,64px);line-height:.9">{{ p.v }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.14em;text-transform:uppercase">{{ p.rank }} · {{ cat.unit }}</span>
+</div>
+</a>
+</sc-for>
+</div>
+<div style="border:2px solid #0E1F4D;background:#FFFDF6">
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="7">
+<a href="{{ cat.href }}" style="display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(14,31,77,.15);transition:background .15s" style-hover="background:#F6C400">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;color:#1F3FA8">{{ r.rank }}</span>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px;text-transform:uppercase">{{ r.name }}</span><span style="font-size:15px;color:#3A4A75">{{ r.meta }}</span></div>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px">{{ r.v }}</span>
+</a>
+</sc-for>
+</div>
+<span style="font-style:italic;font-size:16px;color:#3A4A75">Classements recalculés à chaque nouvelle fiche publiée. Valeurs à brancher sur la base.</span>
+</main>
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { c: 0, dec: 'Toutes', comp: 'Toutes', copied: false };
+  hRef = React.createRef();
+  cats = [
+    { label: 'Buteurs', title: 'Meilleurs buteurs', unit: 'buts', href: 'Fiche%20Joueur.dc.html', item: 'Nom du joueur', meta: 'Période au club' },
+    { label: 'Matchs joués', title: 'Joueurs les plus utilisés', unit: 'matchs', href: 'Fiche%20Joueur.dc.html', item: 'Nom du joueur', meta: 'Poste · période' },
+    { label: 'Affluences', title: 'Plus grosses affluences', unit: 'spectateurs', href: 'Fiche%20Match.dc.html', item: 'Sochaux – Adversaire', meta: 'Date · stade' },
+    { label: 'Larges victoires', title: 'Plus larges victoires', unit: 'écart', href: 'Fiche%20Match.dc.html', item: 'Sochaux – Adversaire', meta: 'Date · compétition' },
+    { label: 'Séries', title: 'Plus longues séries d\'invincibilité', unit: 'matchs', href: 'Mosaique.dc.html?cat=matchs', item: 'Saison xxxx-xx', meta: 'Du xx/xx au xx/xx' },
+    { label: 'Entraîneurs', title: 'Entraîneurs les plus fidèles', unit: 'matchs', href: 'Fiche%20Joueur.dc.html', item: "Nom de l'entraîneur", meta: 'Période' },
+  ];
+  componentDidUpdate(pp, ps) { if (ps.c !== this.state.c && !matchMedia('(prefers-reduced-motion: reduce)').matches) this.hRef.current?.animate([{ opacity: 0, transform: 'translateY(20px)' }, { opacity: 1, transform: 'none' }], { duration: 450, easing: 'cubic-bezier(.2,.75,.2,1)' }); }
+  renderVals() {
+    const cat = this.cats[this.state.c];
+    const chip = (list, key) => list.map(label => ({ label: typeof label === 'number' ? "'" + String(label).slice(2) : label, bg: this.state[key] === label ? '#0E1F4D' : '#FFFDF6', fg: this.state[key] === label ? '#F6C400' : '#0E1F4D', pick: () => this.setState({ [key]: label }) }));
+    const sc = [this.state.dec === 'Toutes' ? 'Toutes époques' : 'Années ' + String(this.state.dec).slice(2), this.state.comp === 'Toutes' ? 'toutes compétitions' : this.state.comp].join(' · ');
+    return {
+      cat, scope: sc,
+      cats: this.cats.map((c, i) => ({ label: c.label, bg: i === this.state.c ? '#0E1F4D' : 'transparent', fg: i === this.state.c ? '#F6C400' : '#0E1F4D', pick: () => this.setState({ c: i, copied: false }) })),
+      decs: chip(['Toutes', 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020], 'dec'),
+      comps: chip(['Toutes', 'Championnat', 'Coupe de France', 'Coupe de la Ligue', "Coupe d'Europe"], 'comp'),
+      podium: [[2, '150px', '120px', '#E8DFC9'], [1, '190px', '170px', '#F6C400'], [3, '130px', '90px', '#FFFDF6']].map(([r, img, h, bg]) => ({ rank: r + (r === 1 ? 'er' : 'e'), id: 'rec-' + this.state.c + '-' + r, name: cat.item, v: 'xx', img, h, bg, fg: '#0E1F4D' })),
+      rows: [4, 5, 6, 7, 8, 9, 10].map(r => ({ rank: String(r).padStart(2, '0'), name: cat.item, meta: cat.meta, v: 'xx' })),
+      share: () => { navigator.clipboard?.writeText(location.href); this.setState({ copied: true }); }, shareLabel: this.state.copied ? 'Lien copié ✓' : 'Partager ce record',
+    };
+  }
+}
+</script>
+</body>
+</html>

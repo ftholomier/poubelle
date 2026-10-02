@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#F3EDDF;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}html{scroll-behavior:smooth}</style>
+</helmet>
+<div style="min-height:100vh;background:#F3EDDF">
+<dc-import name="Header" active="Interactif" hint-size="100%,90px"></dc-import>
+
+<section style="background:#0E1F4D;color:#F3EDDF">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(40px,6vw,88px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:clamp(32px,5vw,64px);align-items:center">
+<div style="display:flex;flex-direction:column;gap:20px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#F6C400">20 mai 1928 → 20 mai 2028</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(72px,11vw,170px);line-height:.85;text-transform:uppercase;flex-shrink:0">Cent<br><span style="color:#F6C400">ans.</span></h1>
+<p style="margin:0;font-size:21px;line-height:1.5;max-width:40ch">Jusqu'au centenaire, le musée publie chaque semaine un moment de l'histoire du club, et vous invite à composer le Onze de légende.</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<a href="#moments" style="background:#F6C400;color:#0E1F4D;padding:16px 24px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#F3EDDF;color:#0E1F4D">100 moments</a>
+<a href="#onze" style="border:2px solid #F3EDDF;color:#F3EDDF;padding:14px 22px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#F3EDDF;color:#0E1F4D">Voter le Onze</a>
+<a href="Album.dc.html" style="border:2px solid #F3EDDF;color:#F3EDDF;padding:14px 22px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#F3EDDF;color:#0E1F4D">L'album</a>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+<sc-for list="{{ countdown }}" as="c" hint-placeholder-count="4">
+<div style="border:2px solid #F6C400;padding:22px 8px;display:flex;flex-direction:column;align-items:center;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(44px,5.5vw,84px);line-height:1;color:#F6C400;font-variant-numeric:tabular-nums">{{ c.v }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase">{{ c.l }}</span></div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="moments" style="max-width:1320px;margin:0 auto;padding:clamp(56px,8vw,104px) clamp(16px,4vw,48px);display:flex;flex-direction:column;gap:28px;scroll-margin-top:20px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:10px;flex:1 1 420px;min-width:0"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#1F3FA8">Un moment par semaine</span><h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(44px,6vw,80px);line-height:1;text-transform:uppercase;flex-shrink:0">100 ans, 100 moments</h2></div>
+<div style="display:flex;flex-direction:column;gap:6px;min-width:260px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase">{{ published }} / 100 publiés</span><div style="height:14px;border:2px solid #0E1F4D;padding:2px"><div style="height:100%;width:{{ pubPct }};background:#F6C400"></div></div></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,108px),1fr));gap:8px">
+<sc-for list="{{ moments }}" as="m" hint-placeholder-count="30">
+<button onClick="{{ m.open }}" style="all:unset;cursor:{{ m.cursor }};position:relative;aspect-ratio:1;border:2px solid #0E1F4D;background:{{ m.bg }};color:{{ m.fg }};display:flex;flex-direction:column;justify-content:space-between;padding:8px;transition:transform .2s cubic-bezier(.3,1.5,.5,1)" style-hover="transform:scale(1.06);z-index:2">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;line-height:1">{{ m.n }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;line-height:1.1">{{ m.sub }}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ hasMoment }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));border:3px solid #0E1F4D;background:#FFFDF6;box-shadow:10px 10px 0 #F6C400">
+<div style="aspect-ratio:16/10;border-right:2px solid #0E1F4D;background:#E8DFC9"><image-slot id="{{ mom.id }}" shape="rect" placeholder="Image du moment"></image-slot></div>
+<div style="padding:28px;display:flex;flex-direction:column;gap:12px;justify-content:center">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#1F3FA8">Moment n° {{ mom.n }} · {{ mom.year }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:44px;text-transform:uppercase;line-height:1">{{ mom.title }}</span>
+<p style="margin:0;font-size:18px;line-height:1.5;color:#3A4A75">Récit, archives et liens vers les fiches liées à ce moment.</p>
+<a href="Frise.dc.html" style="align-self:flex-start;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.1em;border-bottom:3px solid #F6C400">Le situer sur la frise →</a>
+</div>
+</div>
+</sc-if>
+</section>
+
+<section id="onze" style="background:#1F3FA8;color:#F3EDDF;scroll-margin-top:20px">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(56px,8vw,104px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(32px,5vw,64px);align-items:start">
+<div style="display:flex;flex-direction:column;gap:20px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#F6C400">Vote du centenaire</span>
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(44px,6vw,80px);line-height:1;text-transform:uppercase;flex-shrink:0">Composez le Onze de légende</h2>
+<p style="margin:0;font-size:19px;line-height:1.5;max-width:42ch">Cliquez un poste sur le terrain, choisissez un joueur. Le Onze du public sera dévoilé le 20 mai 2028.</p>
+<div style="display:flex;flex-direction:column;gap:10px;background:#0E1F4D;border:2px solid #F6C400;padding:18px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;color:#F6C400">{{ pickTitle }}</span>
+<input value="{{ q }}" onChange="{{ onQ }}" placeholder="Chercher un joueur…" style="border:2px solid #F3EDDF;background:transparent;padding:11px;color:#F3EDDF;font-family:'Newsreader',serif;font-size:17px;outline:none">
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ cands }}" as="c" hint-placeholder-count="5">
+<button onClick="{{ c.pick }}" style="all:unset;cursor:pointer;border:2px solid #F3EDDF;padding:7px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-transform:uppercase;background:{{ c.bg }};color:{{ c.fg }}" style-hover="background:#F6C400;color:#0E1F4D;border-color:#F6C400">{{ c.name }}</button>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+<button onClick="{{ vote }}" style="all:unset;cursor:pointer;background:#F6C400;color:#0E1F4D;padding:16px 24px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:19px;text-transform:uppercase;letter-spacing:.1em;box-shadow:6px 6px 0 #0E1F4D;opacity:{{ voteOp }}">{{ voteLabel }}</button>
+<button onClick="{{ reset }}" style="all:unset;cursor:pointer;font-style:italic;font-size:17px;border-bottom:2px solid #F3EDDF">Recommencer</button>
+</div>
+<sc-if value="{{ voted }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:10px;border:2px solid #F3EDDF;padding:18px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;text-transform:uppercase;color:#F6C400">Merci ! Le vote du public, en direct</span>
+<sc-for list="{{ results }}" as="r" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:140px minmax(0,1fr) 48px;gap:10px;align-items:center"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-transform:uppercase">{{ r.name }}</span><div style="height:10px;background:rgba(243,237,223,.2)"><div style="height:100%;width:{{ r.w }};background:#F6C400"></div></div><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-align:right">{{ r.w }}</span></div>
+</sc-for>
+<span style="font-style:italic;font-size:14px;color:#C9CFE0">Pourcentages d'exemple.</span>
+<a href="Faire%20un%20don.dc.html" style="align-self:flex-start;color:#F6C400;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.1em;border-bottom:3px solid #F6C400">♥ Soutenir le centenaire</a>
+</div>
+</sc-if>
+</div>
+<div style="position:relative;aspect-ratio:3/4;max-width:560px;width:100%;justify-self:center;background:#0E1F4D;border:3px solid #F3EDDF;overflow:hidden">
+<div style="position:absolute;inset:16px;border:2px solid rgba(243,237,223,.4)"></div>
+<div style="position:absolute;left:16px;right:16px;top:50%;border-top:2px solid rgba(243,237,223,.4)"></div>
+<div style="position:absolute;left:50%;top:50%;width:26%;aspect-ratio:1;transform:translate(-50%,-50%);border:2px solid rgba(243,237,223,.4);border-radius:50%"></div>
+<div style="position:absolute;left:28%;right:28%;bottom:16px;height:14%;border:2px solid rgba(243,237,223,.4);border-bottom:0"></div>
+<sc-for list="{{ slots }}" as="s" hint-placeholder-count="11">
+<button onClick="{{ s.pick }}" style="all:unset;cursor:pointer;position:absolute;left:{{ s.x }};top:{{ s.y }};transform:translate(-50%,-50%) scale({{ s.sc }});display:flex;flex-direction:column;align-items:center;gap:5px;transition:transform .25s cubic-bezier(.3,1.5,.5,1)">
+<span style="width:52px;height:52px;border-radius:50%;border:3px solid {{ s.ring }};background:{{ s.bg }};color:#0E1F4D;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:{{ s.fs }}">{{ s.mark }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;white-space:nowrap;background:rgba(14,31,77,.85);color:#F3EDDF;padding:2px 7px">{{ s.label }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</section>
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { now: Date.now(), m: -1, slot: 0, picks: Array(11).fill(null), q: '', voted: false };
+  slotsDef = [['G', 50, 88], ['D', 15, 68], ['D', 38, 72], ['D', 62, 72], ['D', 85, 68], ['M', 25, 47], ['M', 50, 51], ['M', 75, 47], ['A', 20, 22], ['A', 50, 16], ['A', 80, 22]];
+  pool = { G: ['Joël Bats'], D: ['Dylan Tavares', 'Benjamin Youssouf', 'Ismaël Aaneba', 'Julien Vetro'], M: ['Bernard Genghini', 'Benoît Pedretti', 'Stéphane Dalmat', 'Victor Lobry', 'Boubacar Fofana'], A: ['Yannick Stopyra', 'Mathis Clairicia', 'Kapit Djoco', 'Bakary Diawara'] };
+  posName = { G: 'Gardien', D: 'Défenseur', M: 'Milieu', A: 'Attaquant' };
+  componentDidMount() {
+    this.t = setInterval(() => this.setState({ now: Date.now() }), 1000);
+    try { const s = JSON.parse(localStorage.getItem('fcsm-onze') || 'null'); if (s?.picks?.length === 11) this.setState({ picks: s.picks, voted: !!s.voted }); } catch (e) {}
+  }
+  componentWillUnmount() { clearInterval(this.t); }
+  save(p) { try { localStorage.setItem('fcsm-onze', JSON.stringify(p)); } catch (e) {} }
+  renderVals() {
+    const left = Math.max(0, new Date('2028-05-20T00:00:00').getTime() - this.state.now); const pad = n => String(n).padStart(2, '0');
+    const start = new Date('2026-06-11T00:00:00').getTime(); const published = Math.max(0, Math.min(100, Math.floor((this.state.now - start) / (7 * 864e5)) + 1));
+    const known = { 1: ['La fondation', '1928'], 4: ['Premier titre de champion', '1935'], 6: ['La Coupe à Colombes', '1937'], 7: ['Le second titre', '1938'] };
+    const mom = this.state.m >= 0 ? { n: pad(this.state.m + 1), id: 'moment-' + (this.state.m + 1), title: (known[this.state.m + 1] || ['À découvrir'])[0], year: (known[this.state.m + 1] || [, '19xx'])[1] } : null;
+    const { slot, picks, q, voted } = this.state; const pos = this.slotsDef[slot][0];
+    const taken = new Set(picks.filter(Boolean));
+    const cands = this.pool[pos].filter(n => !q.trim() || n.toLowerCase().includes(q.trim().toLowerCase()));
+    if (q.trim().length > 2 && !cands.some(n => n.toLowerCase() === q.trim().toLowerCase())) cands.push(q.trim());
+    const full = picks.every(Boolean);
+    return {
+      countdown: [[Math.floor(left / 864e5), 'jours'], [pad(Math.floor(left / 36e5) % 24), 'heures'], [pad(Math.floor(left / 6e4) % 60), 'min'], [pad(Math.floor(left / 1e3) % 60), 'sec']].map(([v, l]) => ({ v, l })),
+      published, pubPct: published + '%',
+      moments: Array.from({ length: 100 }, (_, i) => {
+        const pub = i < published, sel = i === this.state.m; const d = new Date(start + i * 7 * 864e5);
+        return { n: pad(i + 1), sub: pub ? (known[i + 1]?.[0] || 'Publié') : '🔒 ' + d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' }),
+          bg: sel ? '#0E1F4D' : pub ? (known[i + 1] ? '#F6C400' : '#FFFDF6') : '#E8DFC9', fg: sel ? '#F6C400' : pub ? '#0E1F4D' : '#8A8471', cursor: pub ? 'pointer' : 'not-allowed',
+          open: () => pub && this.setState({ m: i }) };
+      }),
+      hasMoment: !!mom, mom: mom || { n: '', id: 'moment-x', title: '', year: '' },
+      slots: this.slotsDef.map(([p, x, y], i) => ({ x: x + '%', y: y + '%', mark: picks[i] ? '✓' : p, fs: picks[i] ? '24px' : '20px', label: picks[i] ? picks[i].split(' ').slice(-1)[0] : this.posName[p], bg: picks[i] ? '#F6C400' : i === slot ? '#F3EDDF' : 'rgba(243,237,223,.25)', ring: i === slot ? '#F6C400' : '#F3EDDF', sc: i === slot ? 1.12 : 1, pick: () => this.setState({ slot: i, q: '' }) })),
+      pickTitle: `Poste ${slot + 1} · ${this.posName[pos]}`, q, onQ: e => this.setState({ q: e.target.value }),
+      cands: cands.map(name => ({ name, bg: picks[slot] === name ? '#F6C400' : taken.has(name) ? 'rgba(243,237,223,.15)' : 'transparent', fg: picks[slot] === name ? '#0E1F4D' : '#F3EDDF',
+        pick: () => { if (taken.has(name) && picks[slot] !== name) return; const p = picks.slice(); p[slot] = name; const nxt = p.findIndex(x => !x); this.setState({ picks: p, q: '', slot: nxt >= 0 ? nxt : slot }); this.save({ picks: p, voted }); } })),
+      voteLabel: voted ? 'Vote enregistré ✓' : full ? 'Valider mon Onze' : `${picks.filter(Boolean).length} / 11 postes`, voteOp: full ? 1 : .55,
+      vote: () => { if (!full) return; this.setState({ voted: true }); this.save({ picks, voted: true }); }, voted,
+      reset: () => { const p = Array(11).fill(null); this.setState({ picks: p, voted: false, slot: 0 }); this.save({ picks: p, voted: false }); },
+      results: picks.filter(Boolean).slice(0, 5).map((name, i) => ({ name: name.split(' ').slice(-1)[0], w: [72, 64, 58, 51, 47][i] + '%' })),
+    };
+  }
+}
+</script>
+</body>
+</html>

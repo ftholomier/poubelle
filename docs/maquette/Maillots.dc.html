@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#F3EDDF;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;background:#F3EDDF">
+<dc-import name="Header" active="Interactif" hint-size="100%,90px"></dc-import>
+<section style="max-width:1320px;margin:0 auto;padding:clamp(40px,6vw,80px) clamp(16px,4vw,48px);display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#1F3FA8">Symboles · Le comparateur</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(56px,8vw,112px);line-height:.92;text-transform:uppercase;flex-shrink:0">Un maillot,<br><span style="color:#1F3FA8">deux époques.</span></h1>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase">À gauche</span>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ leftEras }}" as="e" hint-placeholder-count="6">
+<button onClick="{{ e.pick }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:8px 12px;background:{{ e.bg }};color:{{ e.fg }};font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;transition:background .2s">{{ e.label }}</button>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase">À droite</span>
+<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+<sc-for list="{{ rightEras }}" as="e" hint-placeholder-count="6">
+<button onClick="{{ e.pick }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:8px 12px;background:{{ e.bg }};color:{{ e.fg }};font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;transition:background .2s">{{ e.label }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div ref="{{ boxRef }}" style="position:relative;aspect-ratio:16/10;max-height:72vh;border:3px solid #0E1F4D;box-shadow:12px 12px 0 #F6C400;background:#E8DFC9;overflow:hidden">
+<div style="position:absolute;inset:0;background:#E8DFC9"><image-slot id="{{ rightId }}" shape="rect" fit="contain" placeholder="{{ rightPh }}"></image-slot></div>
+<div style="position:absolute;inset:0;background:#FFFDF6;clip-path:{{ clip }}"><image-slot id="{{ leftId }}" shape="rect" fit="contain" placeholder="{{ leftPh }}"></image-slot></div>
+<div style="position:absolute;top:16px;left:16px;background:#0E1F4D;color:#F6C400;padding:6px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;pointer-events:none">{{ leftLabel }}</div>
+<div style="position:absolute;top:16px;right:16px;background:#F6C400;color:#0E1F4D;padding:6px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;pointer-events:none">{{ rightLabel }}</div>
+<div style="position:absolute;top:0;bottom:0;left:{{ pos }};width:4px;margin-left:-2px;background:#0E1F4D;pointer-events:none"></div>
+<div onPointerDown="{{ grab }}" style="position:absolute;top:50%;left:{{ pos }};transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:#F6C400;border:4px solid #0E1F4D;display:flex;align-items:center;justify-content:center;cursor:ew-resize;touch-action:none;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;box-shadow:0 6px 0 #0E1F4D;user-select:none">↔</div>
+</div>
+<span style="font-style:italic;font-size:17px;color:#3A4A75">Glissez la poignée jaune. Déposez une photo de maillot dans chaque époque pour alimenter le comparateur.</span>
+</section>
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { l: 2, r: 5, p: 50 };
+  boxRef = React.createRef();
+  eras = ['1930', '1950', '1970', '1980', '2000', '2020'];
+  componentDidMount() {
+    this.mv = e => { if (!this.drag) return; const b = this.boxRef.current.getBoundingClientRect(); this.setState({ p: Math.min(100, Math.max(0, (e.clientX - b.left) / b.width * 100)) }); };
+    this.upH = () => { this.drag = false; };
+    window.addEventListener('pointermove', this.mv); window.addEventListener('pointerup', this.upH);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { let t0 = performance.now(); const tick = now => { const k = (now - t0) / 1400; if (k > 1 || this.drag) return; this.setState({ p: 50 + Math.sin(k * Math.PI * 2) * 18 * (1 - k) }); requestAnimationFrame(tick); }; setTimeout(() => requestAnimationFrame(t => { t0 = t; tick(t); }), 500); }
+  }
+  componentWillUnmount() { window.removeEventListener('pointermove', this.mv); window.removeEventListener('pointerup', this.upH); }
+  renderVals() {
+    const lab = i => 'Années ' + this.eras[i];
+    const chips = (side, other) => this.eras.map((e, i) => { const on = this.state[side] === i, dis = this.state[other] === i;
+      return { label: e.slice(0, 2) === '19' ? "'" + e.slice(2) : e, bg: on ? '#0E1F4D' : dis ? '#E8DFC9' : 'transparent', fg: on ? '#F6C400' : '#0E1F4D', pick: () => !dis && this.setState({ [side]: i }) }; });
+    return {
+      leftEras: chips('l', 'r'), rightEras: chips('r', 'l'),
+      leftId: 'maillot-' + this.eras[this.state.l], rightId: 'maillot-' + this.eras[this.state.r],
+      leftPh: 'Maillot · ' + lab(this.state.l), rightPh: 'Maillot · ' + lab(this.state.r),
+      leftLabel: lab(this.state.l), rightLabel: lab(this.state.r),
+      pos: this.state.p + '%', clip: `inset(0 ${100 - this.state.p}% 0 0)`,
+      grab: e => { e.preventDefault(); this.drag = true; },
+    };
+  }
+}
+</script>
+</body>
+</html>

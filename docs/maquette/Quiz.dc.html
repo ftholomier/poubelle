@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#1F3FA8;color:#F3EDDF;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#F3EDDF;text-decoration:none}a:hover{color:#F6C400}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;background:#1F3FA8;display:flex;flex-direction:column">
+<dc-import name="Header" active="Interactif" hint-size="100%,90px"></dc-import>
+<main style="flex:1;max-width:980px;width:100%;margin:0 auto;padding:clamp(40px,6vw,88px) clamp(16px,4vw,48px);display:flex;flex-direction:column;gap:32px">
+
+<sc-if value="{{ isIntro }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:26px;align-items:flex-start">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#F6C400">Quiz supporters · 6 questions</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(60px,9vw,128px);line-height:.92;text-transform:uppercase">Êtes-vous un<br><span style="color:#F6C400">vrai Lionceau ?</span></h1>
+<p style="margin:0;font-size:21px;line-height:1.5;max-width:42ch">Six questions sur l'histoire du FCSM. Un seul essai par question, pas le droit de demander à papy.</p>
+<button onClick="{{ start }}" style="all:unset;cursor:pointer;background:#F6C400;color:#0E1F4D;padding:18px 30px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;text-transform:uppercase;letter-spacing:.1em;box-shadow:6px 6px 0 #0E1F4D;transition:transform .2s cubic-bezier(.3,1.5,.5,1)" style-hover="transform:translate(-3px,-3px)">C'est parti !</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isQuestion }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:16px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#F6C400;white-space:nowrap">Question {{ qNum }} / {{ qTotal }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;letter-spacing:.1em;white-space:nowrap">Score : {{ score }}</span>
+</div>
+<div style="display:flex;gap:6px">
+<sc-for list="{{ progress }}" as="p" hint-placeholder-count="6"><span style="flex:1;height:8px;background:{{ p.c }};transition:background .3s"></span></sc-for>
+</div>
+<h2 ref="{{ qRef }}" style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(40px,5.5vw,72px);line-height:1;text-transform:uppercase;text-wrap:balance">{{ q.q }}</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px">
+<sc-for list="{{ answers }}" as="a" hint-placeholder-count="4">
+<button onClick="{{ a.pick }}" style="all:unset;cursor:{{ a.cursor }};display:flex;align-items:center;gap:16px;padding:20px;border:3px solid {{ a.border }};background:{{ a.bg }};color:{{ a.fg }};transition:transform .2s cubic-bezier(.3,1.5,.5,1),background .2s;transform:{{ a.tf }}" style-hover="transform:translateY(-3px)">
+<span style="width:40px;height:40px;flex-shrink:0;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px">{{ a.letter }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:26px;text-transform:uppercase;line-height:1.05">{{ a.label }}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ answered }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;background:#0E1F4D;border:2px solid #F6C400;padding:20px 24px">
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;text-transform:uppercase;color:#F6C400">{{ verdict }}</span><span style="font-size:18px">{{ q.fact }}</span></div>
+<button onClick="{{ nextQ }}" style="all:unset;cursor:pointer;background:#F6C400;color:#0E1F4D;padding:14px 22px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#F3EDDF">{{ nextLabel }}</button>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:24px;align-items:center;text-align:center">
+<img ref="{{ lionRef }}" src="assets/logo-sochaux-retro.png" alt="" style="height:160px;width:auto">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(100px,16vw,200px);line-height:.85;color:#F6C400">{{ score }}/{{ qTotal }}</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(40px,6vw,76px);line-height:1;text-transform:uppercase">{{ rank }}</h1>
+<p style="margin:0;font-size:21px;max-width:40ch">{{ rankText }}</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+<button onClick="{{ share }}" style="all:unset;cursor:pointer;background:#F6C400;color:#0E1F4D;padding:16px 26px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:19px;text-transform:uppercase;letter-spacing:.1em;box-shadow:6px 6px 0 #0E1F4D" style-hover="background:#F3EDDF">{{ shareLabel }}</button>
+<button onClick="{{ start }}" style="all:unset;cursor:pointer;border:2px solid #F3EDDF;padding:14px 24px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:19px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#F3EDDF;color:#1F3FA8">Rejouer</button>
+</div>
+</div>
+</sc-if>
+</main>
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { step: 'intro', i: 0, pick: -1, score: 0, copied: false };
+  qRef = React.createRef(); lionRef = React.createRef();
+  qs = [
+    { q: 'En quelle année le club est-il fondé ?', a: ['1919', '1928', '1932', '1945'], c: 1, fact: 'Le FC Sochaux voit le jour en 1928.' },
+    { q: 'Comment surnomme-t-on les joueurs sochaliens ?', a: ['Les Aiglons', 'Les Canaris', 'Les Lionceaux', 'Les Dogues'], c: 2, fact: 'Le lion est l\'emblème du club… et de la région.' },
+    { q: 'Combien de titres de champion de France compte le club ?', a: ['Aucun', 'Un', 'Deux', 'Trois'], c: 2, fact: 'Deux titres, en 1935 et 1938.' },
+    { q: 'Quel est le nom du stade du FCSM ?', a: ['Stade Bonal', 'Stade de la Meinau', 'Stade Bollaert', 'Stade de l\'Abbé-Deschamps'], c: 0, fact: 'Le stade Auguste-Bonal, à Montbéliard.' },
+    { q: 'Quelle Coupe Sochaux remporte-t-il en 2004 ?', a: ['Coupe de France', 'Coupe de la Ligue', 'Trophée des champions', 'Coupe Intertoto'], c: 1, fact: 'La Coupe de la Ligue 2004.' },
+    { q: 'Contre qui Sochaux gagne-t-il la finale de Coupe de France 2007 ?', a: ['Lyon', 'Nantes', 'Marseille', 'Lens'], c: 2, fact: 'Victoire face à Marseille, au Stade de France.' },
+  ];
+  componentDidUpdate(pp, ps) {
+    const m = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (m && (ps.i !== this.state.i || ps.step !== this.state.step)) this.qRef.current?.animate([{ opacity: 0, transform: 'translateX(40px)' }, { opacity: 1, transform: 'none' }], { duration: 450, easing: 'cubic-bezier(.2,.75,.2,1)' });
+    if (m && ps.step !== 'result' && this.state.step === 'result') this.lionRef.current?.animate([{ transform: 'scale(.2) rotate(-30deg)', opacity: 0 }, { transform: 'scale(1.15) rotate(8deg)', opacity: 1, offset: .7 }, { transform: 'none' }], { duration: 900, easing: 'ease-out' });
+  }
+  renderVals() {
+    const { step, i, pick, score } = this.state; const q = this.qs[i]; const answered = pick >= 0; const n = this.qs.length;
+    const ranks = score >= 6 ? ['Lion d\'or', 'Sans faute. Vous connaissez Bonal par cœur.'] : score >= 4 ? ['Pilier de tribune', 'Très solide ! Encore un ou deux matchs d\'archives et c\'est parfait.'] : score >= 2 ? ['Lionceau en formation', 'Le centre de formation vous attend : la frise est faite pour vous.'] : ['Recrue de l\'intersaison', 'Pas grave : tout est dans le musée, il suffit de le visiter.'];
+    return {
+      isIntro: step === 'intro', isQuestion: step === 'q', isResult: step === 'result',
+      start: () => this.setState({ step: 'q', i: 0, pick: -1, score: 0, copied: false }),
+      q, qNum: i + 1, qTotal: n, score, answered,
+      progress: this.qs.map((_, k) => ({ c: k < i || (k === i && answered) ? '#F6C400' : k === i ? '#F3EDDF' : 'rgba(243,237,223,.25)' })),
+      answers: q.a.map((label, k) => {
+        const isC = k === q.c, isP = k === pick;
+        return { label, letter: 'ABCD'[k], cursor: answered ? 'default' : 'pointer',
+          bg: answered && isC ? '#F6C400' : answered && isP ? '#0E1F4D' : 'transparent', fg: answered && isC ? '#0E1F4D' : '#F3EDDF',
+          border: answered && isC ? '#F6C400' : answered && isP ? '#0E1F4D' : '#F3EDDF', tf: answered && isC ? 'scale(1.03)' : 'none',
+          pick: () => { if (answered) return; this.setState({ pick: k, score: score + (isC ? 1 : 0) }); } };
+      }),
+      verdict: pick === q.c ? 'Bien vu !' : 'Raté…',
+      nextLabel: i + 1 < n ? 'Question suivante →' : 'Voir mon score',
+      nextQ: () => i + 1 < n ? this.setState({ i: i + 1, pick: -1 }) : this.setState({ step: 'result' }),
+      rank: ranks[0], rankText: ranks[1],
+      shareLabel: this.state.copied ? 'Copié ✓' : 'Partager mon score',
+      share: () => { navigator.clipboard?.writeText(`J'ai fait ${score}/${n} au quiz Sochaux rétro ! Et vous ?`); this.setState({ copied: true }); },
+    };
+  }
+}
+</script>
+</body>
+</html>

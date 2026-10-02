@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#F3EDDF;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;background:#F3EDDF">
+<dc-import name="Header" active="" hint-size="100%,90px"></dc-import>
+<section style="max-width:1320px;margin:0 auto;padding:clamp(40px,6vw,88px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(32px,5vw,72px);align-items:start">
+<div style="display:flex;flex-direction:column;gap:22px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#1F3FA8">Contact & partenaires</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(56px,8vw,112px);line-height:.92;text-transform:uppercase;flex-shrink:0">Parlons<br><span style="color:#1F3FA8">jaune et bleu.</span></h1>
+<p style="margin:0;font-size:20px;line-height:1.5;max-width:42ch">Un partenariat, une archive à confier, une erreur à signaler ? On vous répond dans les plus brefs délais.</p>
+<div style="display:flex;flex-direction:column;border-top:2px solid #0E1F4D">
+<sc-for list="{{ reasons }}" as="r" hint-placeholder-count="4">
+<button onClick="{{ r.pick }}" style="all:unset;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 4px;border-bottom:2px solid #0E1F4D;background:{{ r.bg }};transition:background .2s,padding .2s" style-hover="padding-left:14px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:26px;text-transform:uppercase">{{ r.label }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px">{{ r.mark }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+<div style="background:#FFFDF6;border:3px solid #0E1F4D;box-shadow:12px 12px 0 #1F3FA8;padding:clamp(20px,3vw,36px);display:flex;flex-direction:column;gap:16px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:#1F3FA8">Objet : {{ reason }}</span>
+<sc-for list="{{ fields }}" as="f" hint-placeholder-count="3">
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.12em;text-transform:uppercase">{{ f.label }}</span><input placeholder="{{ f.ph }}" style="border:2px solid #0E1F4D;background:#F3EDDF;padding:14px;font-family:'Newsreader',serif;font-size:18px;color:#0E1F4D;outline:none"></label>
+</sc-for>
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.12em;text-transform:uppercase">Message</span><textarea rows="5" placeholder="Votre message…" style="border:2px solid #0E1F4D;background:#F3EDDF;padding:14px;font-family:'Newsreader',serif;font-size:18px;color:#0E1F4D;outline:none;resize:vertical"></textarea></label>
+<button onClick="{{ send }}" style="all:unset;cursor:pointer;text-align:center;background:#0E1F4D;color:#F6C400;padding:18px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#1F3FA8">{{ sendLabel }}</button>
+</div>
+</section>
+<section style="background:#E8DFC9;border-top:2px solid #0E1F4D">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(48px,6vw,88px) clamp(16px,4vw,48px);display:flex;flex-direction:column;gap:28px">
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(40px,5vw,64px);line-height:1;text-transform:uppercase">Ils soutiennent le musée</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:16px">
+<sc-for list="{{ partners }}" as="p" hint-placeholder-count="6">
+<div style="aspect-ratio:3/2;border:2px solid #0E1F4D;background:#FFFDF6;transition:transform .2s" style-hover="transform:translateY(-4px)"><image-slot id="{{ p }}" shape="rect" fit="contain" placeholder="Logo partenaire"></image-slot></div>
+</sc-for>
+</div>
+</div>
+</section>
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { r: 0, sent: false };
+  renderVals() {
+    const reasons = ['Devenir partenaire', 'Confier une archive', 'Signaler une erreur', 'Autre demande'];
+    return {
+      reasons: reasons.map((label, i) => ({ label, bg: i === this.state.r ? '#F6C400' : 'transparent', mark: i === this.state.r ? '●' : '→', pick: () => this.setState({ r: i, sent: false }) })),
+      reason: reasons[this.state.r],
+      fields: [{ label: 'Nom', ph: 'Prénom Nom' }, { label: 'E-mail', ph: 'vous@exemple.fr' }, { label: this.state.r === 0 ? 'Entreprise' : 'Téléphone (facultatif)', ph: this.state.r === 0 ? 'Nom de la structure' : '06 …' }],
+      send: () => this.setState({ sent: true }), sendLabel: this.state.sent ? 'Message envoyé ✓' : 'Envoyer',
+      partners: [1, 2, 3, 4, 5, 6].map(i => 'partner-' + i),
+    };
+  }
+}
+</script>
+</body>
+</html>

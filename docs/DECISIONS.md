@@ -125,3 +125,37 @@ méga-menu en 3 colonnes :
 - **Mentions légales / confidentialité** : base rédigée par Claude, à faire relire.
 - **Utilisateurs du back-office** : plus de 10 → invitations par e-mail,
   suivi d'activité par personne, deux niveaux (administrateur / utilisateur).
+
+## Maquette (reçue, validée) — `docs/maquette/`
+Design **à respecter strictement**, réécrit en HTML/CSS/JS natif (pas le runtime React de l'outil).
+- Couleurs : marine `#0E1F4D`, jaune `#F6C400`, crème `#F3EDDF`, bleu `#1F3FA8`,
+  papier `#FFFDF6`, sable `#E8DFC9`, texte secondaire `#3A4A75`.
+- Polices : Big Shoulders Display (titres/chiffres/boutons) + Newsreader (texte),
+  **auto-hébergées** (pas de Google Fonts côté visiteur, RGPD).
+- Style : bordures 2 px marine, ombres portées décalées, pas d'arrondis ; animations
+  (ticker, révélations, score, cartes) avec respect de `prefers-reduced-motion`.
+- Éléments ajoutés par la maquette : bandeau « En direct du musée », bouton taille du texte,
+  bande palmarès, « Grandes époques », « Réserves du musée », « Ils ont porté le lion »,
+  page Saison, album 120 cartes (Légende / Classique / Actuel), 100 moments hebdomadaires,
+  carto plein écran (stades, origines, épopées, lieux + curseur du temps), mosaïques avec
+  recherche / tri / mosaïque-liste / « Afficher plus », images de partage + newsletter,
+  back-office (versions + restauration, contributions, qualité, sauvegardes).
+- À dessiner dans le même style (absent de la maquette) : bulle assistant IA, fiches
+  entraîneur / dirigeant / personnage / article thématique, vidéo des matchs, autres écrans BO.
+- Frise : « 1928 → aujourd'hui » comme la maquette.
+
+### Arbitrages maquette ↔ site actuel
+- **Méga-menus pour toutes les rubriques** (Nos Lions, Supporters, Infrastructures,
+  Symboles créés dans le style du méga-menu MATCHS, avec toutes les sous-rubriques actuelles).
+- **Filtres Nos Lions** : toutes les sous-rubriques actuelles + filtre par poste.
+- **Composition** : terrain (titulaires) **+ tableau complet** (remplaçants, entraîneur,
+  buts, remplacements, cartons).
+- **Accueil** : bande palmarès **et** compteurs du musée.
+- **Fiches** : tout le contenu existant (identité complète, récits, chiffre clé, galerie,
+  statistiques) affiché dans le style de la maquette.
+- **Réserves du musée** : nouveau type de contenu **« Objet »** (photo, catégorie, date,
+  description, crédit, fiches liées), alimenté par les historiens et les contributions
+  validées ; pré-classement des médias existants à valider.
+- **Album** : sélection par les historiens dans le BO (dans l'album, rareté, numéro) ;
+  première sélection proposée par Claude.
+- **Grandes époques + légendes** : rédigées / proposées par Claude, à valider dans le BO.

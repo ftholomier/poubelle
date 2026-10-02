@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#F3EDDF;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;background:#F3EDDF">
+<dc-import name="Header" active="{{ activeLabel }}" hint-size="100%,90px"></dc-import>
+
+<section style="background:#0E1F4D;color:#F3EDDF">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(36px,5vw,72px) clamp(16px,4vw,48px) 0;display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><a href="Musee%20FCSM.dc.html" style="color:#C9CFE0;font-size:16px">Accueil</a><span style="color:#C9CFE0">/</span><span style="font-size:16px">{{ cat.label }}</span></div>
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:12px;flex:1 1 480px;min-width:0">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#F6C400">{{ cat.eyebrow }}</span>
+<h1 ref="{{ titleRef }}" style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(64px,10vw,150px);line-height:.88;text-transform:uppercase;flex-shrink:0">{{ cat.label }}</h1>
+<p style="margin:0;font-size:20px;line-height:1.45;max-width:46ch;color:#E7E2D4">{{ cat.intro }}</p>
+</div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(56px,7vw,96px);line-height:.9;color:#F6C400">{{ total }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.16em;text-transform:uppercase">{{ cat.unit }}</span></div>
+</div>
+<div style="display:flex;gap:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;border-top:1px solid rgba(243,237,223,.25);margin-top:8px">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+<button onClick="{{ t.pick }}" style="all:unset;cursor:pointer;white-space:nowrap;padding:16px 22px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.08em;background:{{ t.bg }};color:{{ t.fg }};transition:background .2s,color .2s" style-hover="color:#F6C400">{{ t.label }}</button>
+</sc-for>
+</div>
+</div>
+</section>
+
+<div style="position:sticky;top:0;z-index:20;background:#F3EDDF;border-bottom:2px solid #0E1F4D">
+<div style="max-width:1320px;margin:0 auto;padding:14px clamp(16px,4vw,48px);display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+<div style="display:flex;align-items:center;flex:1 1 280px;min-width:0;border:2px solid #0E1F4D;background:#FFFDF6">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E1F4D" stroke-width="2.6" style="margin:0 10px 0 14px;flex-shrink:0"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5L21 21"></path></svg>
+<input value="{{ q }}" onChange="{{ onQ }}" placeholder="{{ cat.searchPh }}" style="flex:1;min-width:0;border:0;background:transparent;padding:12px 12px 12px 0;font-family:'Newsreader',serif;font-size:18px;color:#0E1F4D;outline:none">
+</div>
+<div style="display:flex;border:2px solid #0E1F4D">
+<sc-for list="{{ sorts }}" as="s" hint-placeholder-count="3">
+<button onClick="{{ s.pick }}" style="all:unset;cursor:pointer;white-space:nowrap;padding:10px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.08em;background:{{ s.bg }};color:{{ s.fg }}">{{ s.label }}</button>
+</sc-for>
+</div>
+<div style="display:flex;border:2px solid #0E1F4D">
+<sc-for list="{{ views }}" as="v" hint-placeholder-count="2">
+<button onClick="{{ v.pick }}" aria-label="{{ v.label }}" style="all:unset;cursor:pointer;white-space:nowrap;padding:10px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.08em;background:{{ v.bg }};color:{{ v.fg }}">{{ v.icon }} {{ v.label }}</button>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="8">
+<button onClick="{{ f.pick }}" style="all:unset;cursor:pointer;white-space:nowrap;border:2px solid #0E1F4D;padding:7px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;background:{{ f.bg }};color:{{ f.fg }};transition:background .15s" style-hover="background:#F6C400;color:#0E1F4D">{{ f.label }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<main style="max-width:1320px;margin:0 auto;padding:28px clamp(16px,4vw,48px) clamp(56px,8vw,96px);display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:20px;text-transform:uppercase;letter-spacing:.06em">{{ countLabel }}</span>
+<sc-if value="{{ hasActiveFilter }}" hint-placeholder-val="{{ false }}"><button onClick="{{ reset }}" style="all:unset;cursor:pointer;font-style:italic;font-size:17px;border-bottom:2px solid #F6C400">Réinitialiser les filtres</button></sc-if>
+</div>
+
+<sc-if value="{{ isMatchs }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:16px;border:2px solid #0E1F4D;border-left:8px solid #F6C400;background:#FFFDF6;padding:20px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#1F3FA8">Décennie</span>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:6px">
+<sc-for list="{{ decadeTiles }}" as="d" hint-placeholder-count="11">
+<button onClick="{{ d.pick }}" style="all:unset;cursor:pointer;text-align:center;border:2px solid #0E1F4D;padding:8px 4px;background:{{ d.bg }};color:{{ d.fg }};font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;line-height:1;transition:transform .2s cubic-bezier(.3,1.5,.5,1)" style-hover="transform:translateY(-3px)">{{ d.label }}</button>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#1F3FA8">Saison · {{ decadeName }}</span>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ seasonChips }}" as="s" hint-placeholder-count="10">
+<button onClick="{{ s.pick }}" style="all:unset;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:8px;padding:9px 14px;background:{{ s.bg }};color:{{ s.fg }};border:2px solid #1F3FA8;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;transition:background .15s" style-hover="background:#F6C400;color:#0E1F4D;border-color:#0E1F4D">{{ s.label }}<span style="font-weight:600;font-size:14px;opacity:.8">{{ s.count }}</span></button>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="border:2px dashed #0E1F4D;padding:48px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:40px;text-transform:uppercase">Rien dans les réserves…</span>
+<span style="font-size:18px;color:#3A4A75">Essayez un autre filtre, ou proposez-nous une archive.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ isMatchGrid }}" hint-placeholder-val="{{ false }}">
+<div ref="{{ gridRef }}" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:20px">
+<sc-for list="{{ matchCards }}" as="m" hint-placeholder-count="8">
+<a href="Fiche%20Match.dc.html" style="display:flex;flex-direction:column;border:2px solid #0E1F4D;background:#FFFDF6;transition:transform .25s cubic-bezier(.3,1.5,.5,1),box-shadow .25s" style-hover="transform:translate(-4px,-4px);box-shadow:8px 8px 0 #F6C400">
+<div style="position:relative;aspect-ratio:4/3;border-bottom:2px solid #0E1F4D;background:#E8DFC9">
+<image-slot id="{{ m.id }}" shape="rect" placeholder="Photo du match"></image-slot>
+<span style="position:absolute;top:10px;left:10px;pointer-events:none;background:#0E1F4D;color:#F6C400;padding:4px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase">{{ m.comp }}</span>
+<span style="position:absolute;top:10px;right:10px;pointer-events:none;background:{{ m.resBg }};color:{{ m.resFg }};border:2px solid #0E1F4D;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:16px">{{ m.res }}</span>
+</div>
+<div style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#3A4A75">{{ m.date }}</span>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:baseline">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:23px;text-transform:uppercase;line-height:1.05;color:{{ m.hColor }}">{{ m.home }} <span style="font-weight:600;font-size:14px;color:#3A4A75">{{ m.homeDiv }}</span></span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;line-height:1;font-variant-numeric:tabular-nums">{{ m.hs }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:23px;text-transform:uppercase;line-height:1.05;color:{{ m.aColor }}">{{ m.away }} <span style="font-weight:600;font-size:14px;color:#3A4A75">{{ m.awayDiv }}</span></span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;line-height:1;font-variant-numeric:tabular-nums">{{ m.as }}</span>
+</div>
+<sc-if value="{{ m.hasTab }}" hint-placeholder-val="{{ false }}"><span style="align-self:flex-start;background:#F6C400;padding:2px 8px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.08em">TAB {{ m.tab }}</span></sc-if>
+</div>
+</a>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isMatchList }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;border-top:2px solid #0E1F4D">
+<sc-for list="{{ matchCards }}" as="m" hint-placeholder-count="6">
+<a href="Fiche%20Match.dc.html" style="display:grid;grid-template-columns:110px minmax(0,1fr) auto 34px;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid rgba(14,31,77,.2);transition:background .15s,padding .2s" style-hover="background:#FFFDF6;padding-left:10px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px">{{ m.date }}</span>
+<div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#1F3FA8">{{ m.comp }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px;text-transform:uppercase;line-height:1.1">{{ m.home }} – {{ m.away }}</span></div>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px;white-space:nowrap">{{ m.hs }}-{{ m.as }} <span style="font-size:15px;font-weight:700;color:#3A4A75">{{ m.tabShort }}</span></span>
+<span style="background:{{ m.resBg }};color:{{ m.resFg }};border:2px solid #0E1F4D;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:16px">{{ m.res }}</span>
+</a>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isGrid }}" hint-placeholder-val="{{ true }}">
+<div ref="{{ gridRef }}" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));grid-auto-rows:230px;grid-auto-flow:dense;gap:14px">
+<sc-for list="{{ items }}" as="it" hint-placeholder-count="12">
+<a href="{{ it.href }}" style="position:relative;grid-column:{{ it.col }};grid-row:{{ it.row }};border:2px solid #0E1F4D;background:#E8DFC9;overflow:hidden;display:block;transition:transform .25s cubic-bezier(.3,1.5,.5,1),box-shadow .25s" style-hover="transform:translate(-4px,-4px);box-shadow:8px 8px 0 #F6C400">
+<div style="position:absolute;inset:0"><image-slot id="{{ it.id }}" shape="rect" placeholder="{{ it.title }}"></image-slot></div>
+<div style="position:absolute;left:0;right:0;bottom:0;pointer-events:none;background:linear-gradient(transparent,rgba(14,31,77,.92) 55%);padding:56px 16px 14px;color:#F3EDDF;display:flex;flex-direction:column;gap:4px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#F6C400">{{ it.tag }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:{{ it.size }};text-transform:uppercase;line-height:1">{{ it.title }}</span>
+<span style="font-size:15px;color:#E7E2D4">{{ it.meta }}</span>
+</div>
+<sc-if value="{{ it.hasScore }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:10px;right:10px;pointer-events:none;background:#F6C400;color:#0E1F4D;padding:4px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px">{{ it.score }}</span></sc-if>
+</a>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isList }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;border-top:2px solid #0E1F4D">
+<sc-for list="{{ items }}" as="it" hint-placeholder-count="8">
+<a href="{{ it.href }}" style="display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:18px;align-items:center;padding:12px 0;border-bottom:1px solid rgba(14,31,77,.2);transition:background .15s,padding .2s" style-hover="background:#FFFDF6;padding-left:10px">
+<div style="width:88px;height:66px;border:2px solid #0E1F4D;background:#E8DFC9"><image-slot id="{{ it.id }}" shape="rect" placeholder=""></image-slot></div>
+<div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#1F3FA8">{{ it.tag }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;line-height:1.05">{{ it.title }}</span></div>
+<span style="font-size:16px;color:#3A4A75;text-align:right">{{ it.meta }} {{ it.score }}</span>
+</a>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasMore }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ more }}" style="all:unset;cursor:pointer;align-self:center;margin-top:12px;border:2px solid #0E1F4D;padding:14px 26px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.1em;box-shadow:5px 5px 0 #0E1F4D;transition:transform .2s" style-hover="background:#F6C400;transform:translate(-2px,-2px)">Afficher plus</button>
+</sc-if>
+</main>
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { cat: 'matchs', f: 'Tous', q: '', sort: 'recent', view: 'grid', limit: 16, dec: 2010, season: 0 };
+  titleRef = React.createRef(); gridRef = React.createRef();
+  cats = {
+    matchs: { label: 'Matchs', header: 'Matchs', eyebrow: 'Les archives des rencontres', unit: 'matchs archivés', intro: 'Fiches, résumés, compositions et photos de chaque rencontre retrouvée.', searchPh: 'Adversaire, saison, stade…', href: 'Fiche%20Match.dc.html',
+      filters: ['Tous', 'Championnat', 'Coupe de France', 'Coupe de la Ligue', "Coupe d'Europe", 'Coupe Charles Drago', 'Coupes diverses', 'Barrages', "Coupe d'été", 'Amical'],
+      items: [
+        ['Metz – Sochaux', 'Amical · 22/07/2026', 2026, ['Amical', 'Années 2020'], '4-1'], ['Sochaux – Neuchâtel Xamax', 'Amical · 02/10/2026', 2026, ['Amical', 'Années 2020'], '2-1'],
+        ['Finale Coupe de France', 'Sochaux – Marseille · 2007', 2007, ['Coupe de France', 'Années 2000'], '2-2 tab'], ['Finale Coupe de la Ligue', 'Sochaux – Nantes · 2004', 2004, ['Coupe de la Ligue', 'Années 2000']],
+        ['Demi-finale Coupe UEFA', 'Sochaux – AZ Alkmaar · 1981', 1981, ["Coupe d'Europe", 'Années 80']], ['Finale Coupe de France', 'Metz – Sochaux · 1988', 1988, ['Coupe de France', 'Années 80']],
+        ['Saison du titre', 'Championnat · 1934-35', 1935, ['Championnat', 'Années 30']], ['Finale Coupe de France', '1937', 1937, ['Coupe de France', 'Années 30']],
+        ['Saison du second titre', 'Championnat · 1937-38', 1938, ['Championnat', 'Années 30']], ['Coupe Charles Drago', 'Archives', 1960, ['Coupe Charles Drago']],
+        ['Match de championnat', 'Stade Bonal · 2026', 2026, ['Championnat', 'Années 2020']], ['Match de championnat', 'Stade Bonal · 2025', 2025, ['Championnat', 'Années 2020']],
+        ['Huitième de finale', 'Coupe de France · 2007', 2007, ['Coupe de France', 'Années 2000']], ['Match de Coupe UEFA', '1980', 1980, ["Coupe d'Europe", 'Années 80']],
+        ['Match de championnat', 'Années 80', 1984, ['Championnat', 'Années 80']], ['Amical de préparation', 'Été 2026', 2026, ['Amical', 'Années 2020']],
+        ['Match de championnat', 'Années 2000', 2003, ['Championnat', 'Années 2000']], ['Match de championnat', 'Années 30', 1933, ['Championnat', 'Années 30']],
+      ] },
+    joueurs: { label: 'Nos Lions', header: 'Nos Lions', eyebrow: 'Joueurs & entraîneurs', unit: 'portraits', intro: 'Ceux qui ont porté le lion sur le cœur, des pionniers aux Lionceaux d\'aujourd\'hui.', searchPh: 'Nom d\'un joueur…', href: 'Fiche%20Joueur.dc.html',
+      filters: ['Tous', 'Gardiens', 'Milieux', 'Attaquants', 'Entraîneurs', '│', 'Effectif actuel', 'Légendes'],
+      items: [
+        ['Albert Cartier', 'Entraîneur', 2015, ['Entraîneurs', 'Légendes']], ['Rafa Paez', 'Nos Lions', 2000, ['Légendes']], ['Stéphane Dalmat', 'Milieu', 2006, ['Milieux', 'Légendes']],
+        ['Bernard Genghini', 'Milieu', 1980, ['Milieux', 'Légendes']], ['Yannick Stopyra', 'Attaquant', 1983, ['Attaquants', 'Légendes']], ['Joël Bats', 'Gardien', 1978, ['Gardiens', 'Légendes']],
+        ['Benoît Pedretti', 'Milieu', 2003, ['Milieux', 'Légendes']], ['Stanley Abbott', 'Archives', 1935, ['Légendes']], ['Mathis Clairicia', 'Effectif 2026-27', 2026, ['Effectif actuel']],
+        ['Ismaël Aaneba', 'Effectif 2026-27', 2026, ['Effectif actuel']], ['Victor Lobry', 'Effectif 2026-27', 2026, ['Effectif actuel']], ['Boubacar Fofana', 'Effectif 2026-27', 2026, ['Effectif actuel']],
+        ['Bakary Diawara', 'Effectif 2026-27', 2026, ['Effectif actuel']], ['Kapit Djoco', 'Effectif 2026-27', 2026, ['Effectif actuel']], ['Julien Vetro', 'Effectif 2026-27', 2026, ['Effectif actuel']],
+      ] },
+    supporters: { label: 'Supporters', header: 'Supporters', eyebrow: 'La tribune', unit: 'souvenirs', intro: 'Écharpes, billets, tifos et déplacements : la mémoire de ceux qui chantent pour le lion.', searchPh: 'Un groupe, un déplacement, un objet…', href: 'Quiz.dc.html',
+      filters: ['Tous', 'Objets', 'Photos', 'Déplacements', 'Jeux'],
+      items: [['Quiz supporters', 'Êtes-vous un vrai Lionceau ?', 2026, ['Jeux']], ['Écharpes', 'Collection', 1990, ['Objets']], ['Billets de match', 'Collection', 1985, ['Objets']], ['Tifos de Bonal', 'Photos', 2007, ['Photos']], ['Finale 2007 au Stade de France', 'Déplacement', 2007, ['Déplacements', 'Photos']], ['Fanions', 'Collection', 1970, ['Objets']], ['Photos de famille au stade', 'Contributions', 1980, ['Photos']], ['Déplacements européens', 'Années 80', 1981, ['Déplacements']]] },
+    infra: { label: 'Infrastructures', header: 'Infrastructures', eyebrow: 'Les lieux du club', unit: 'lieux', intro: 'Stades, tribunes et terrains d\'entraînement : là où l\'histoire s\'est écrite.', searchPh: 'Un stade, une tribune…', href: 'Frise.dc.html',
+      filters: ['Tous', 'Stades', 'Formation', 'Frise'],
+      items: [['Le stade Bonal', 'Montbéliard', 2000, ['Stades']], ['Bonal d\'hier', 'Archives', 1950, ['Stades']], ['Les tribunes', 'Évolution', 1990, ['Stades']], ['Centre de formation', 'Les jeunes Lionceaux', 2000, ['Formation']], ['Frise 1928 → aujourd\'hui', 'Toute l\'histoire', 2028, ['Frise']], ['Terrains d\'entraînement', 'Archives', 1970, ['Formation']]] },
+    symboles: { label: 'Symboles', header: 'Symboles', eyebrow: 'Ce qui nous identifie', unit: 'pièces', intro: 'Écussons, maillots, affiches, couleurs : tout ce qui fait le jaune et le bleu.', searchPh: 'Un maillot, un écusson…', href: 'Maillots.dc.html',
+      filters: ['Tous', 'Maillots', 'Écussons', 'Affiches', 'Programmes'],
+      items: [['Comparateur de maillots', 'Deux époques', 2026, ['Maillots']], ['Maillots des années 30', 'Collection', 1935, ['Maillots']], ['Maillots des années 80', 'Collection', 1981, ['Maillots']], ['L\'écusson au fil du temps', 'Évolution', 2000, ['Écussons']], ['Le lion', 'Emblème', 1928, ['Écussons']], ['Affiches de match', 'Collection', 1970, ['Affiches']], ['Programmes', 'Collection', 1960, ['Programmes']], ['Maillots 2000', 'Collection', 2004, ['Maillots']], ['Affiches de finale', '2004 · 2007', 2007, ['Affiches']]] },
+  };
+  matches = [
+    ['Amical', 'Neuchâtel Xamax', 'L1 Sui', 'Sochaux', 'L1', '07/07/2010', '0-0', '4-5'],
+    ['Amical', 'Sochaux', 'L1', 'Deportivo Saprissa', 'L1 Costa Rica', '07/07/2010', '0-0', '4-3'],
+    ['Amical', 'FC Bâle', 'L1 Sui', 'Sochaux', 'L1', '10/07/2010', '5-0'],
+    ['Amical', 'Evian TG', 'L2', 'Sochaux', 'L1', '14/07/2010', '1-0'],
+    ['Amical', 'Metz', 'L2', 'Sochaux', 'L2', '22/07/2026', '4-1'],
+    ['Amical', 'Sochaux', 'L2', 'Neuchâtel Xamax', 'L2 Sui', '02/10/2026', '2-1'],
+  ];
+  seasonCounts = { 2010: [52, 50, 52, 50, 47, 53, 51, 53, 51, 37] };
+  componentDidMount() {
+    const p = new URLSearchParams(location.search); const c = p.get('cat'); const f = p.get('f'); const d = p.get('dec');
+    if (c && this.cats[c]) this.setState({ cat: c, f: f && this.cats[c].filters.includes(f) ? f : 'Tous', ...(d ? { dec: +d, season: 0 } : {}) });
+  }
+  componentDidUpdate(pp, ps) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (ps.cat !== this.state.cat) this.titleRef.current?.animate([{ opacity: 0, transform: 'translateY(30px)', clipPath: 'inset(0 0 100% 0)' }, { opacity: 1, transform: 'none', clipPath: 'inset(0 0 0 0)' }], { duration: 600, easing: 'cubic-bezier(.2,.75,.2,1)' });
+    if (ps.cat !== this.state.cat || ps.dec !== this.state.dec || ps.season !== this.state.season || ps.f !== this.state.f || ps.sort !== this.state.sort || ps.view !== this.state.view) {
+      [...(this.gridRef.current?.children || [])].forEach((c, i) => c.animate([{ opacity: 0, transform: 'scale(.94) translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 450, delay: Math.min(i, 12) * 35, easing: 'cubic-bezier(.2,.75,.2,1)', fill: 'backwards' }));
+    }
+  }
+  setCat(c) { this.setState({ cat: c, f: 'Tous', q: '', limit: 16 }); try { history.replaceState(null, '', '?cat=' + c); } catch (e) {} }
+  renderVals() {
+    const c = this.cats[this.state.cat], { f, q, sort, view, limit } = this.state;
+    const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    let list = c.items.map(([title, meta, year, tags, score], i) => ({ title, meta, year, tags, score: score || '', i }));
+    if (f !== 'Tous') list = list.filter(it => it.tags.includes(f));
+    if (q.trim()) list = list.filter(it => norm(it.title + ' ' + it.meta).includes(norm(q.trim())));
+    list.sort(sort === 'az' ? (a, b) => a.title.localeCompare(b.title, 'fr') : sort === 'old' ? (a, b) => a.year - b.year : (a, b) => b.year - a.year);
+    const shown = list.slice(0, limit);
+    const pattern = ['span 2/span 2', 'span 1/span 1', 'span 1/span 2', 'span 1/span 1', 'span 2/span 1', 'span 1/span 1', 'span 1/span 1', 'span 1/span 2'];
+    const isM = this.state.cat === 'matchs', dec = this.state.dec, si = this.state.season;
+    const sy = dec + si, seasonName = sy + ' - ' + (sy + 1);
+    const parseD = s => { const [d, m, y] = s.split('/').map(Number); return { y, m }; };
+    const seasonOf = s => { const { y, m } = parseD(s); return m >= 7 ? y : y - 1; };
+    let ms = this.matches.map((m, i) => ({ m, i })).filter(({ m }) => seasonOf(m[5]) === sy);
+    if (f !== 'Tous') ms = ms.filter(({ m }) => m[0] === f);
+    if (q.trim()) ms = ms.filter(({ m }) => norm(m.join(' ')).includes(norm(q.trim())));
+    const key = s => { const [d, mo, y] = s.split('/'); return y + mo + d; };
+    ms.sort((a, b) => sort === 'old' ? key(a.m[5]).localeCompare(key(b.m[5])) : sort === 'az' ? a.m[1].localeCompare(b.m[1], 'fr') : key(b.m[5]).localeCompare(key(a.m[5])));
+    const counts = this.seasonCounts[dec];
+    const matchCards = ms.map(({ m: [comp, home, homeDiv, away, awayDiv, date, score, tab], i }) => {
+      const [hs, as] = score.split('-').map(Number); const sHome = home === 'Sochaux';
+      const so = sHome ? hs : as, op = sHome ? as : hs; let res = so > op ? 'V' : so < op ? 'D' : 'N';
+      if (tab) { const [th, ta] = tab.split('-').map(Number); res = (sHome ? th > ta : ta > th) ? 'V' : 'D'; }
+      return { id: 'mm-' + i, comp, home, homeDiv: '(' + homeDiv + ')', away, awayDiv: '(' + awayDiv + ')', date, hs, as, tab: tab || '', hasTab: !!tab, tabShort: tab ? '(' + tab + ' tab)' : '',
+        hColor: sHome ? '#1F3FA8' : '#0E1F4D', aColor: sHome ? '#0E1F4D' : '#1F3FA8', res, resBg: res === 'V' ? '#F6C400' : res === 'N' ? '#FFFDF6' : '#0E1F4D', resFg: res === 'D' ? '#F3EDDF' : '#0E1F4D' };
+    });
+    const decList = [1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020];
+    return {
+      isMatchs: isM, isMatchGrid: isM && view === 'grid' && ms.length > 0, isMatchList: isM && view === 'list' && ms.length > 0, matchCards,
+      decadeTiles: decList.map(d => ({ label: d < 2000 ? "'" + String(d).slice(2) : String(d), bg: d === dec ? '#0E1F4D' : 'transparent', fg: d === dec ? '#F6C400' : '#0E1F4D', pick: () => this.setState({ dec: d, season: d === 1920 ? 8 : 0 }) })),
+      decadeName: 'Années ' + (dec < 2000 ? String(dec).slice(2) : dec),
+      seasonChips: Array.from({ length: 10 }, (_, k) => k).filter(k => dec !== 1920 || k >= 8).filter(k => dec + k <= 2026).map(k => ({ label: (dec + k) + ' - ' + (dec + k + 1), count: counts ? '(' + counts[k] + ')' : '', bg: k === si ? '#F6C400' : '#1F3FA8', fg: k === si ? '#0E1F4D' : '#F3EDDF', pick: () => this.setState({ season: k }) })),
+      activeLabel: c.header, cat: c, total: isM ? (counts ? counts.reduce((a, b) => a + b, 0) : this.matches.length) : c.items.length,
+      tabs: Object.entries(this.cats).map(([k, v]) => ({ label: v.label, bg: k === this.state.cat ? '#F6C400' : 'transparent', fg: k === this.state.cat ? '#0E1F4D' : '#F3EDDF', pick: () => this.setCat(k) })),
+      filters: c.filters.filter(x => x !== '│').map(label => ({ label, bg: label === f ? '#0E1F4D' : '#FFFDF6', fg: label === f ? '#F6C400' : '#0E1F4D', pick: () => this.setState({ f: label, limit: 16 }) })),
+      q, onQ: e => this.setState({ q: e.target.value }),
+      sorts: [['recent', 'Récent'], ['old', 'Ancien'], ['az', 'A–Z']].map(([k, label]) => ({ label, bg: sort === k ? '#0E1F4D' : 'transparent', fg: sort === k ? '#F6C400' : '#0E1F4D', pick: () => this.setState({ sort: k }) })),
+      views: [['grid', 'Mosaïque', '▦'], ['list', 'Liste', '☰']].map(([k, label, icon]) => ({ label, icon, bg: view === k ? '#0E1F4D' : 'transparent', fg: view === k ? '#F6C400' : '#0E1F4D', pick: () => this.setState({ view: k }) })),
+      isGrid: !isM && view === 'grid' && list.length > 0, isList: !isM && view === 'list' && list.length > 0, isEmpty: isM ? ms.length === 0 : list.length === 0,
+      countLabel: isM ? 'Saison ' + seasonName + ' · ' + ms.length + ' match' + (ms.length > 1 ? 's' : '') + (counts && f === 'Tous' && !q.trim() ? ' affichés sur ' + counts[si] : '') + (f !== 'Tous' ? ' · ' + f : '') : list.length + ' résultat' + (list.length > 1 ? 's' : '') + (f !== 'Tous' ? ' · ' + f : ''),
+      hasActiveFilter: f !== 'Tous' || !!q.trim(), reset: () => this.setState({ f: 'Tous', q: '' }),
+      items: shown.map((it, k) => { const [row, col] = pattern[k % pattern.length].split('/'); const big = row === 'span 2' && col === 'span 2';
+        return { ...it, id: 'mos-' + this.state.cat + '-' + it.i, href: c.href, tag: it.tags[0] || c.label, row, col, size: big ? '40px' : '26px', hasScore: !!it.score }; }),
+      hasMore: isM ? !!(counts && ms.length < counts[si] && f === 'Tous') : list.length > limit, more: () => this.setState({ limit: limit + 16 }),
+    };
+  }
+}
+</script>
+</body>
+</html>

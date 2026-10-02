@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#F3EDDF;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;display:grid;grid-template-columns:240px minmax(0,1fr);background:#F3EDDF">
+<aside style="background:#0E1F4D;color:#F3EDDF;display:flex;flex-direction:column;position:sticky;top:0;height:100vh">
+<a href="Musee%20FCSM.dc.html" style="display:flex;align-items:center;gap:10px;padding:18px;border-bottom:1px solid rgba(243,237,223,.2);color:#F3EDDF"><img src="assets/logo-sochaux-retro.png" alt="" style="height:44px;width:auto"><div style="display:flex;flex-direction:column;line-height:1"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:19px;text-transform:uppercase">Sochaux rétro</span><span style="font-size:13px;color:#C9CFE0;margin-top:3px">Back-office</span></div></a>
+<nav style="display:flex;flex-direction:column;padding:12px 0">
+<sc-for list="{{ nav }}" as="n" hint-placeholder-count="4">
+<button onClick="{{ n.go }}" style="all:unset;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-left:4px solid {{ n.line }};background:{{ n.bg }};font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:.06em;transition:background .15s" style-hover="background:#1F3FA8">{{ n.label }}<span style="background:#F6C400;color:#0E1F4D;padding:1px 7px;font-size:14px;visibility:{{ n.badgeVis }}">{{ n.badge }}</span></button>
+</sc-for>
+</nav>
+<div style="margin-top:auto;padding:16px 18px;border-top:1px solid rgba(243,237,223,.2);display:flex;flex-direction:column;gap:6px;font-size:14px">
+<span style="display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:50%;background:#7BD88F"></span>Sauvegarde hors serveur OK</span>
+<span style="color:#C9CFE0">Aujourd'hui, 03:00 · prochaine demain 03:00</span>
+</div>
+</aside>
+
+<main style="min-width:0;display:flex;flex-direction:column">
+<header style="display:flex;align-items:center;gap:16px;padding:14px 28px;border-bottom:2px solid #0E1F4D;background:#FFFDF6;position:sticky;top:0;z-index:5">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;text-transform:uppercase">{{ title }}</span>
+<input placeholder="Rechercher une fiche…" style="margin-left:auto;width:min(320px,40vw);border:2px solid #0E1F4D;background:#F3EDDF;padding:9px 12px;font-family:'Newsreader',serif;font-size:16px;color:#0E1F4D;outline:none">
+<span style="width:38px;height:38px;border-radius:50%;background:#F6C400;border:2px solid #0E1F4D;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900">MD</span>
+</header>
+
+<sc-if value="{{ isFiche }}" hint-placeholder-val="{{ true }}">
+<div style="padding:24px 28px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(300px,1fr);gap:24px;align-items:start">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;display:flex;flex-direction:column">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:2px solid #0E1F4D"><div style="display:flex;flex-direction:column"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#1F3FA8">Fiche match · #2026-0722</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;text-transform:uppercase">Metz – Sochaux</span></div><span style="font-size:14px;color:#3A4A75">{{ savedLabel }}</span></div>
+<div style="padding:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px">
+<sc-for list="{{ fields }}" as="f" hint-placeholder-count="6">
+<label style="display:flex;flex-direction:column;gap:5px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A4A75">{{ f.k }}</span><input value="{{ f.v }}" onChange="{{ f.on }}" style="border:2px solid {{ f.border }};background:{{ f.bg }};padding:10px;font-family:'Newsreader',serif;font-size:17px;color:#0E1F4D;outline:none;min-width:0"></label>
+</sc-for>
+</div>
+<div style="padding:0 18px 18px;display:flex;gap:10px">
+<button onClick="{{ save }}" style="all:unset;cursor:pointer;background:#0E1F4D;color:#F6C400;padding:12px 18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#1F3FA8">Enregistrer</button>
+<a href="Fiche%20Match.dc.html" style="border:2px solid #0E1F4D;padding:10px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.1em">Voir en ligne ↗</a>
+</div>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;display:flex;flex-direction:column">
+<div style="padding:14px 18px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;text-transform:uppercase">Historique</span><span style="font-size:14px;color:#3A4A75">{{ versionsCount }} versions</span></div>
+<sc-for list="{{ versions }}" as="v" hint-placeholder-count="5">
+<button onClick="{{ v.pick }}" style="all:unset;cursor:pointer;display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;padding:12px 18px;border-bottom:1px solid rgba(14,31,77,.15);background:{{ v.bg }}" style-hover="background:#F3EDDF">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;color:#1F3FA8">v{{ v.n }}</span>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:500">{{ v.msg }}</span><span style="font-size:13px;color:#3A4A75">{{ v.who }} · {{ v.when }}</span></div>
+</button>
+</sc-for>
+<sc-if value="{{ hasDiff }}" hint-placeholder-val="{{ false }}">
+<div style="padding:14px 18px;background:#F3EDDF;display:flex;flex-direction:column;gap:8px;border-top:2px solid #0E1F4D">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase">Changements de la v{{ sel.n }}</span>
+<sc-for list="{{ sel.diff }}" as="d" hint-placeholder-count="1">
+<div style="display:grid;grid-template-columns:100px 1fr;gap:8px;font-size:15px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;text-transform:uppercase">{{ d.k }}</span><span><span style="background:#F3C9C0;text-decoration:line-through;padding:0 4px">{{ d.a }}</span> → <span style="background:#CFE8C9;padding:0 4px">{{ d.b }}</span></span></div>
+</sc-for>
+<button onClick="{{ askRestore }}" style="all:unset;cursor:pointer;align-self:flex-start;border:2px solid #0E1F4D;background:#FFFDF6;padding:8px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.08em" style-hover="background:#F6C400">↺ Restaurer la version précédente</button>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isContrib }}" hint-placeholder-val="{{ false }}">
+<div style="padding:24px 28px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;border:2px solid #0E1F4D;align-self:flex-start">
+<sc-for list="{{ ctabs }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.pick }}" style="all:unset;cursor:pointer;padding:9px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.08em;background:{{ t.bg }};color:{{ t.fg }}">{{ t.label }} ({{ t.n }})</button></sc-for>
+</div>
+<sc-for list="{{ contribs }}" as="c" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:140px minmax(0,1fr) auto;gap:18px;align-items:center;background:#FFFDF6;border:2px solid #0E1F4D;padding:14px">
+<div style="aspect-ratio:4/3;border:2px solid #0E1F4D;background:#E8DFC9"><image-slot id="{{ c.id }}" shape="rect" placeholder="Envoi"></image-slot></div>
+<div style="display:flex;flex-direction:column;gap:5px;min-width:0">
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span style="background:#0E1F4D;color:#F6C400;padding:2px 8px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase">{{ c.type }}</span><span style="border:2px solid #0E1F4D;padding:0 6px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;background:{{ c.rBg }}">{{ c.rights }}</span><span style="font-size:14px;color:#3A4A75">{{ c.ref }}</span></div>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px;text-transform:uppercase;line-height:1.1">{{ c.title }}</span>
+<span style="font-size:15px;color:#3A4A75">{{ c.from }} · {{ c.when }} · fiche : {{ c.fiche }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<button onClick="{{ c.ok }}" style="all:unset;cursor:pointer;background:#F6C400;border:2px solid #0E1F4D;padding:8px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;text-align:center" style-hover="background:#0E1F4D;color:#F6C400">Valider</button>
+<button onClick="{{ c.ko }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:6px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;text-align:center" style-hover="background:#E8DFC9">Refuser</button>
+<button style="all:unset;cursor:pointer;font-size:14px;text-align:center;text-decoration:underline">Demander une info</button>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{ contribEmpty }}" hint-placeholder-val="{{ false }}"><div style="border:2px dashed #0E1F4D;padding:32px;text-align:center;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px;text-transform:uppercase">File vide · bravo !</div></sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isQualite }}" hint-placeholder-val="{{ false }}">
+<div style="padding:24px 28px;display:flex;flex-direction:column;gap:20px">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+<sc-for list="{{ kpis }}" as="k" hint-placeholder-count="5">
+<button onClick="{{ k.pick }}" style="all:unset;cursor:pointer;background:{{ k.bg }};border:2px solid #0E1F4D;padding:16px;display:flex;flex-direction:column;gap:4px;box-shadow:{{ k.sh }};transition:transform .2s" style-hover="transform:translateY(-3px)">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:48px;line-height:1">{{ k.n }}</span>
+<span style="font-size:16px;line-height:1.3">{{ k.label }}</span>
+</button>
+</sc-for>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr) 160px 110px;background:#0E1F4D;color:#F6C400;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase"><span style="padding:10px 14px">Gravité</span><span style="padding:10px 14px">Problème</span><span style="padding:10px 14px">Fiche</span><span style="padding:10px 14px"></span></div>
+<sc-for list="{{ issues }}" as="i" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr) 160px 110px;align-items:center;border-top:1px solid rgba(14,31,77,.15);font-size:16px">
+<span style="padding:10px 14px"><span style="background:{{ i.sBg }};color:{{ i.sFg }};border:2px solid #0E1F4D;padding:1px 8px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase">{{ i.sev }}</span></span>
+<span style="padding:10px 14px">{{ i.t }}</span><span style="padding:10px 14px;color:#3A4A75">{{ i.f }}</span>
+<button style="all:unset;cursor:pointer;margin:6px 14px;border:2px solid #0E1F4D;padding:4px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;text-align:center" style-hover="background:#F6C400">Corriger</button>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isBackup }}" hint-placeholder-val="{{ false }}">
+<div style="padding:24px 28px;display:flex;flex-direction:column;gap:16px">
+<div style="background:#0E1F4D;color:#F3EDDF;border:2px solid #0E1F4D;padding:18px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center">
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;text-transform:uppercase;color:#F6C400">Sauvegarde quotidienne automatique</span><span style="font-size:16px">Copie complète des fiches et médias, stockée hors du serveur. 30 jours conservés.</span></div>
+<button style="all:unset;cursor:pointer;background:#F6C400;color:#0E1F4D;padding:12px 18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.1em">Sauvegarder maintenant</button>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<sc-for list="{{ backups }}" as="b" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:28px minmax(0,1fr) 120px auto;gap:14px;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(14,31,77,.15);font-size:16px">
+<span style="width:12px;height:12px;border-radius:50%;background:#7BD88F;border:2px solid #0E1F4D"></span>
+<span><strong style="font-family:'Big Shoulders Display',sans-serif;font-size:18px">{{ b.d }}</strong> · 03:00</span><span style="color:#3A4A75">{{ b.size }}</span>
+<div style="display:flex;gap:8px"><button style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:4px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase" style-hover="background:#F6C400">Télécharger</button><button style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:4px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase" style-hover="background:#F6C400">Restaurer</button></div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</main>
+
+<sc-if value="{{ confirm }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:50;background:rgba(14,31,77,.6);display:flex;align-items:center;justify-content:center;padding:20px">
+<div style="background:#FFFDF6;border:3px solid #0E1F4D;box-shadow:10px 10px 0 #F6C400;padding:26px;max-width:460px;display:flex;flex-direction:column;gap:14px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px;text-transform:uppercase;line-height:1">Restaurer la v{{ restoreTo }} ?</span>
+<p style="margin:0;font-size:17px;line-height:1.45">La version actuelle n'est pas perdue : la restauration crée une nouvelle version, réversible à tout moment.</p>
+<div style="display:flex;gap:10px;justify-content:flex-end"><button onClick="{{ cancel }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:10px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase">Annuler</button><button onClick="{{ doRestore }}" style="all:unset;cursor:pointer;background:#0E1F4D;color:#F6C400;padding:12px 18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase">Restaurer</button></div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;right:24px;bottom:24px;z-index:60;background:#0E1F4D;color:#F6C400;border:2px solid #F6C400;padding:14px 18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:.06em">{{ toast }}</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { sec: 'fiche', sel: 0, confirm: false, toast: '', ctab: 'todo', handled: {}, kpi: -1,
+    vals: { 'Score': '4-1', 'Date': '22/07/2026', 'Stade': 'Stade municipal de Biesheim (68)', 'Spectateurs': '500', 'Arbitre': 'M. xx', 'Compétition': 'Amical' }, dirty: {},
+    versions: [
+      { n: 7, msg: 'Score corrigé', who: 'Marie D.', when: "aujourd'hui 14:02", diff: [['Score', '4-0', '4-1']] },
+      { n: 6, msg: 'Ajout de 3 photos (crédit L\'Est républicain)', who: 'Thomas R.', when: 'hier 21:40', diff: [['Galerie', '6 photos', '9 photos']] },
+      { n: 5, msg: 'Lieu du match mis à jour', who: 'Marie D.', when: '23/07 10:15', diff: [['Stade', 'Golbey', 'Stade municipal de Biesheim (68)']] },
+      { n: 4, msg: 'Affluence renseignée', who: 'Jean-Pierre L.', when: '23/07 09:02', diff: [['Spectateurs', '—', '500']] },
+      { n: 3, msg: 'Création de la fiche', who: 'Marie D.', when: '22/07 22:30', diff: [['Fiche', '—', 'créée']] },
+    ] };
+  contribs = [
+    { id: 'c1', type: 'Photo', title: 'Tribune de Bonal, années 80', from: 'Christine B.', when: 'il y a 2 h', fiche: 'Infrastructures · Bonal', rights: 'Droits cédés ✓', ok: true, ref: 'SR-2026-0142' },
+    { id: 'c2', type: 'Correction', title: 'Le buteur de la 78ᵉ est Clairicia', from: 'Lionceau68', when: 'hier', fiche: 'Metz – Sochaux 4-1', rights: 'Sans objet', ok: true, ref: 'SR-2026-0141' },
+    { id: 'c3', type: 'Document', title: 'Billet finale Coupe de France 2007', from: 'Famille M.', when: 'il y a 3 j', fiche: 'Finale 2007', rights: 'Droits non cochés ✗', ok: false, ref: 'SR-2026-0139' },
+    { id: 'c4', type: 'Témoignage', title: 'Mon premier match en 1981', from: 'J.-P. de Montbéliard', when: 'il y a 4 j', fiche: 'Saison 1980-81', rights: 'Droits cédés ✓', ok: true, ref: 'SR-2026-0137' },
+  ];
+  flash(t) { this.setState({ toast: t }); clearTimeout(this.tt); this.tt = setTimeout(() => this.setState({ toast: '' }), 2400); }
+  renderVals() {
+    const S = this.state; const todo = this.contribs.filter(c => !S.handled[c.id]);
+    const titles = { fiche: 'Fiches', contrib: 'Contributions', qualite: 'Qualité des données', backup: 'Sauvegardes' };
+    const v = S.versions[S.sel];
+    const kpis = [['12', 'fiches marquées « à venir »', '#F6C400'], ['38', 'photos sans crédit', '#FFFDF6'], ['4', 'tableaux utilisés deux fois', '#FFFDF6'], ['7', 'statistiques incohérentes', '#F3C9C0'], ['3', 'joueurs non reliés à leur fiche', '#FFFDF6']];
+    const issues = [['Haute', 'Total des buts ≠ somme des buteurs', 'Sochaux – Neuchâtel 2-1', 0], ['Haute', 'Même tableau de composition sur deux matchs', 'Amicaux 07/07/2010', 2], ['Moyenne', 'Photo sans crédit', 'Galerie Metz – Sochaux', 1], ['Moyenne', 'Fiche « à venir » depuis plus de 6 mois', 'Saison 1958-59', 0], ['Basse', 'Joueur cité dans la compo sans fiche', 'Pierre (G)', 4], ['Basse', 'Arbitre non renseigné', 'Metz – Sochaux 4-1', 3]];
+    const sevC = { Haute: ['#0E1F4D', '#F6C400'], Moyenne: ['#F6C400', '#0E1F4D'], Basse: ['#FFFDF6', '#0E1F4D'] };
+    return {
+      title: titles[S.sec],
+      nav: [['fiche', 'Fiches', ''], ['contrib', 'Contributions', todo.length], ['qualite', 'Qualité', kpis.length], ['backup', 'Sauvegardes', '']].map(([k, label, badge]) => ({ label, badge, badgeVis: badge ? 'visible' : 'hidden', bg: S.sec === k ? '#1F3FA8' : 'transparent', line: S.sec === k ? '#F6C400' : 'transparent', go: () => this.setState({ sec: k }) })),
+      isFiche: S.sec === 'fiche', isContrib: S.sec === 'contrib', isQualite: S.sec === 'qualite', isBackup: S.sec === 'backup',
+      fields: Object.entries(S.vals).map(([k, val]) => ({ k, v: val, border: S.dirty[k] ? '#1F3FA8' : '#0E1F4D', bg: S.dirty[k] ? '#FFF3C2' : '#F3EDDF', on: e => this.setState(s => ({ vals: { ...s.vals, [k]: e.target.value }, dirty: { ...s.dirty, [k]: true } })) })),
+      savedLabel: Object.keys(S.dirty).length ? 'Modifications non enregistrées' : 'Enregistré · v' + S.versions[0].n,
+      save: () => { const keys = Object.keys(S.dirty); if (!keys.length) return; const n = S.versions[0].n + 1; this.setState(s => ({ dirty: {}, sel: 0, versions: [{ n, msg: keys.join(', ') + ' modifié', who: 'Marie D.', when: "à l'instant", diff: keys.map(k => [k, '…', s.vals[k]]) }, ...s.versions] })); this.flash('Version v' + n + ' enregistrée'); },
+      versionsCount: S.versions.length,
+      versions: S.versions.map((x, i) => ({ ...x, bg: i === S.sel ? '#FFF3C2' : 'transparent', pick: () => this.setState({ sel: i }) })),
+      hasDiff: !!v, sel: v ? { n: v.n, diff: v.diff.map(([k, a, b]) => ({ k, a, b })) } : { n: '', diff: [] },
+      askRestore: () => this.setState({ confirm: true }), confirm: S.confirm, restoreTo: v ? v.n - 1 : '', cancel: () => this.setState({ confirm: false }),
+      doRestore: () => { const n = S.versions[0].n + 1; const to = v.n - 1; this.setState(s => ({ confirm: false, sel: 0, versions: [{ n, msg: 'Restauration de la v' + to, who: 'Marie D.', when: "à l'instant", diff: v.diff.map(([k, a, b]) => [k, b, a]) }, ...s.versions] })); this.flash('v' + to + ' restaurée · nouvelle version v' + n); },
+      toast: S.toast,
+      ctabs: [['todo', 'À valider', todo.length], ['ok', 'Validées', Object.values(S.handled).filter(x => x === 'ok').length], ['ko', 'Refusées', Object.values(S.handled).filter(x => x === 'ko').length]].map(([k, label, n]) => ({ label, n, bg: S.ctab === k ? '#0E1F4D' : '#FFFDF6', fg: S.ctab === k ? '#F6C400' : '#0E1F4D', pick: () => this.setState({ ctab: k }) })),
+      contribs: this.contribs.filter(c => S.ctab === 'todo' ? !S.handled[c.id] : S.handled[c.id] === S.ctab).map(c => ({ ...c, id: 'bo-' + c.id, rBg: c.ok ? '#CFE8C9' : '#F3C9C0',
+        ok: () => { this.setState(s => ({ handled: { ...s.handled, [c.id]: 'ok' } })); this.flash('Contribution validée et publiée'); },
+        ko: () => { this.setState(s => ({ handled: { ...s.handled, [c.id]: 'ko' } })); this.flash('Contribution refusée'); } })),
+      contribEmpty: S.ctab === 'todo' && !todo.length,
+      kpis: kpis.map(([n, label, bg], i) => ({ n, label, bg, sh: S.kpi === i ? '6px 6px 0 #0E1F4D' : 'none', pick: () => this.setState({ kpi: S.kpi === i ? -1 : i }) })),
+      issues: issues.filter(x => S.kpi < 0 || x[3] === S.kpi).map(([sev, t, f]) => ({ sev, t, f, sBg: sevC[sev][0], sFg: sevC[sev][1] })),
+      backups: Array.from({ length: 7 }, (_, i) => { const d = new Date(2026, 9, 2 - i); return { d: i === 0 ? "Aujourd'hui" : d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }), size: (4.2 - i * .01).toFixed(2) + ' Go' }; }),
+    };
+  }
+}
+</script>
+</body>
+</html>

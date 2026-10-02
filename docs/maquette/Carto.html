@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carto · Sochaux rétro</title>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
+<style>
+:root{--navy:#0E1F4D;--blue:#1F3FA8;--yellow:#F6C400;--cream:#F3EDDF;--sand:#E8DFC9;--paper:#FFFDF6;--muted:#3A4A75}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--cream);color:var(--navy);font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}
+a{color:var(--navy);text-decoration:none}a:hover{color:var(--blue)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+.top{height:76px;display:flex;align-items:center;gap:18px;padding:0 24px;border-bottom:2px solid var(--navy);background:var(--cream);position:relative;z-index:1001}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{height:54px;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}.brand:hover img{transform:rotate(-10deg) scale(1.08)}
+.brand b{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;text-transform:uppercase;line-height:1}
+.brand i{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+.tabs{display:flex;margin-left:auto;border:2px solid var(--navy);overflow-x:auto;scrollbar-width:none}
+.tab{padding:10px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:background .2s}
+.tab[aria-selected=true]{background:var(--navy);color:var(--yellow)}
+.tab:not([aria-selected=true]):hover{background:var(--yellow)}
+.back{font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.don{background:var(--yellow);border:2px solid var(--navy);box-shadow:4px 4px 0 var(--navy);padding:9px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.app{display:grid;grid-template-columns:minmax(300px,400px) minmax(0,1fr);height:calc(100vh - 76px)}
+.panel{border-right:2px solid var(--navy);display:flex;flex-direction:column;min-height:0;background:var(--cream)}
+.phead{padding:20px 22px 14px;display:flex;flex-direction:column;gap:8px;border-bottom:2px solid var(--navy)}
+.eyebrow{font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue)}
+.ptitle{margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:42px;line-height:.95;text-transform:uppercase}
+.pintro{margin:0;font-size:16px;line-height:1.4;color:var(--muted)}
+.filters{padding:12px 22px;display:flex;flex-direction:column;gap:10px;border-bottom:2px solid var(--navy);max-height:46vh;overflow:auto}
+.flabel{font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.chip{border:2px solid var(--navy);padding:4px 9px;font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;background:var(--paper);transition:background .15s;white-space:nowrap}
+.chip:hover{background:var(--yellow)}.chip.on{background:var(--navy);color:var(--yellow)}
+.chip.v.on{background:var(--yellow);color:var(--navy)}.chip.dd.on{background:var(--navy);color:var(--cream)}
+.toggles{display:flex;gap:8px;flex-wrap:wrap}
+.tg{display:flex;align-items:center;gap:8px;border:2px solid var(--navy);padding:5px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;background:var(--paper)}
+.tg i{width:28px;height:16px;border:2px solid var(--navy);border-radius:10px;position:relative;transition:background .2s}
+.tg i:after{content:'';position:absolute;top:1px;left:1px;width:10px;height:10px;border-radius:50%;background:var(--navy);transition:transform .25s cubic-bezier(.3,1.5,.5,1)}
+.tg.on i{background:var(--yellow)}.tg.on i:after{transform:translateX(12px)}
+.timeline{display:flex;align-items:center;gap:10px;margin-top:5px}
+.play{width:38px;height:38px;flex-shrink:0;background:var(--navy);color:var(--yellow);display:flex;align-items:center;justify-content:center;font-size:15px}
+.play:hover{background:var(--blue)}
+input[type=range]{flex:1;accent-color:var(--blue)}
+.year{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px;min-width:62px;text-align:right;font-variant-numeric:tabular-nums}
+.listhead{padding:10px 22px;display:flex;justify-content:space-between;align-items:baseline;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.08em;text-transform:uppercase}
+.list{flex:1;overflow:auto;min-height:0;padding:0 12px 16px}
+.row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;padding:9px 10px;border-bottom:1px solid rgba(14,31,77,.15);transition:background .15s,padding .2s}
+.row:hover,.row.hl{background:var(--paper);padding-left:16px}
+.row.sel{background:var(--yellow)}
+.rank{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;color:var(--blue)}
+.rname{font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:19px;text-transform:uppercase;line-height:1.05}
+.rmeta{font-size:13px;color:var(--muted)}
+.rnum{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;text-align:right}
+.bar{display:flex;height:6px;margin-top:4px;border:1px solid var(--navy)}
+.bar span{display:block;height:100%}
+.mapwrap{position:relative;min-width:0;overflow:hidden}
+#map{position:absolute;inset:0;background:#EDE5D2;font-family:'Newsreader',serif}
+.leaflet-tile-pane{filter:grayscale(1) sepia(.35) brightness(1.04) contrast(.88)}
+.leaflet-container a{color:var(--blue)}
+.leaflet-control-attribution{background:rgba(255,253,246,.85)!important;font-size:11px}
+.leaflet-tooltip.tt{background:var(--navy);color:var(--cream);border:2px solid var(--yellow);border-radius:0;box-shadow:none;font-size:15px;padding:7px 11px}
+.leaflet-tooltip.tt:before{display:none}
+.leaflet-tooltip.tt b{display:block;font-family:'Big Shoulders Display',sans-serif;font-size:19px;text-transform:uppercase;color:var(--yellow)}
+.leaflet-tooltip.lbl{background:none;border:0;box-shadow:none;padding:0 0 0 4px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;color:var(--navy);text-shadow:0 0 3px #F3EDDF,0 0 3px #F3EDDF,0 0 3px #F3EDDF}
+.leaflet-tooltip.lbl:before{display:none}
+.route{stroke-linecap:round}
+.cl{display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--navy);color:var(--yellow);border:3px solid var(--yellow);font-family:'Big Shoulders Display',sans-serif;font-weight:900;transition:transform .2s cubic-bezier(.3,1.5,.5,1)}
+.cl:hover{transform:scale(1.15)}
+.cl.one{background:var(--yellow);color:var(--navy);border-color:var(--navy)}
+.pin{width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid var(--navy);display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.pin span{transform:rotate(45deg);font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:15px}
+.pin.ind{border-style:dashed}
+.pin:hover{transform:rotate(-45deg) scale(1.15)}
+.legend{position:absolute;left:16px;bottom:24px;background:var(--paper);border:2px solid var(--navy);padding:10px 14px;display:flex;flex-direction:column;gap:6px;font-size:14px;z-index:800}
+.legend .d{font-family:'Big Shoulders Display',sans-serif;text-transform:uppercase;font-weight:800;font-size:13px;letter-spacing:.14em}
+.lg{display:flex;align-items:center;gap:8px}
+.sw{width:14px;height:14px;border:2px solid var(--navy);border-radius:50%}
+.note{font-style:italic;font-size:12px;color:var(--muted)}
+.zoom{position:absolute;right:16px;top:16px;display:flex;flex-direction:column;border:2px solid var(--navy);background:var(--paper);z-index:800}
+.zoom button{width:40px;height:40px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px}
+.zoom button+button{border-top:2px solid var(--navy)}
+.zoom button:hover{background:var(--yellow)}
+.drawer{position:absolute;right:16px;top:16px;bottom:24px;width:min(380px,calc(100% - 32px));background:var(--paper);border:3px solid var(--navy);box-shadow:10px 10px 0 var(--yellow);transform:translateX(calc(100% + 40px));transition:transform .45s cubic-bezier(.3,1.2,.5,1);z-index:900;display:flex;flex-direction:column;overflow:auto}
+.drawer.open{transform:none}
+.dhead{background:var(--navy);color:var(--cream);padding:18px 20px;display:flex;flex-direction:column;gap:4px;position:relative}
+.dhead .x{position:absolute;right:12px;top:12px;width:34px;height:34px;border:2px solid var(--cream);color:var(--cream);font-weight:900}
+.dhead .x:hover{background:var(--yellow);color:var(--navy);border-color:var(--yellow)}
+.dtitle{margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:34px;line-height:1;text-transform:uppercase;padding-right:40px}
+.dbody{padding:18px 20px;display:flex;flex-direction:column;gap:18px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:2px solid var(--navy)}
+.stats div{padding:10px 8px;border-right:2px solid var(--navy);display:flex;flex-direction:column}
+.stats div:last-child{border-right:0}
+.stats b{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;line-height:1}
+.stats span{font-size:13px;color:var(--muted)}
+.spark{display:flex;align-items:flex-end;gap:4px;height:90px;border-bottom:2px solid var(--navy)}
+.spark div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;gap:3px}
+.spark i{display:block;width:100%;background:var(--blue);transition:height .5s cubic-bezier(.3,1.3,.5,1)}
+.spark small{font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:11px}
+.mlist{display:flex;flex-direction:column}
+.mitem{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(14,31,77,.15);font-size:15px}
+.mitem b{font-family:'Big Shoulders Display',sans-serif;font-size:18px}
+.res{width:24px;height:24px;border:2px solid var(--navy);display:inline-flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:13px}
+.badge{display:inline-block;border:2px solid var(--navy);padding:1px 6px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-left:4px}
+.cta{align-self:flex-start;background:var(--navy);color:var(--yellow);padding:12px 18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;letter-spacing:.1em;text-transform:uppercase;transition:transform .2s}
+.cta:hover{transform:translateY(-2px);color:var(--yellow)}
+.steps{flex:1;overflow:auto;min-height:0;padding:8px 12px 16px}
+.step{display:grid;grid-template-columns:48px 1fr;gap:12px;text-align:left;width:100%;padding:12px 10px;border-bottom:1px solid rgba(14,31,77,.15);transition:background .2s}
+.step:hover{background:var(--paper)}
+.step.on{background:var(--yellow)}
+.step .n{width:44px;height:44px;border-radius:50%;border:3px solid var(--navy);display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:16px;background:var(--paper)}
+.step.on .n{background:var(--navy);color:var(--yellow)}
+.story{position:absolute;left:16px;right:72px;bottom:24px;max-width:640px;background:var(--navy);color:var(--cream);border:3px solid var(--yellow);padding:18px 22px;display:flex;gap:18px;align-items:center;z-index:850;transform:translateY(20px);opacity:0;pointer-events:none;transition:transform .4s,opacity .4s}
+.story.show{transform:none;opacity:1;pointer-events:auto}
+.story .yr{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:56px;line-height:.9;color:var(--yellow)}
+.story h3{margin:0 0 4px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;text-transform:uppercase}
+.story p{margin:0;font-size:16px;line-height:1.4}
+.snav{display:flex;gap:6px;margin-left:auto}
+.snav button{width:40px;height:40px;border:2px solid var(--cream);font-weight:900}
+.snav button:hover{background:var(--yellow);color:var(--navy);border-color:var(--yellow)}
+@media (max-width:1180px){.brand div,.back{display:none}.tab{padding:9px 12px;font-size:16px}}
+@media (max-width:860px){.app{grid-template-columns:1fr;grid-template-rows:56vh auto;height:auto}.panel{order:2;border-right:0;border-top:2px solid var(--navy)}.mapwrap{order:1;height:56vh}.brand div,.back,.don{display:none}.top{gap:10px;padding:0 12px}.tab{padding:8px 10px;font-size:15px}.list,.steps{max-height:60vh}}
+</style>
+</head>
+<body>
+<header class="top">
+<a class="brand" href="Musee%20FCSM.dc.html"><img src="assets/logo-sochaux-retro.png" alt="Sochaux rétro"><div><b>Sochaux rétro</b><i>La carto du musée</i></div></a>
+<nav class="tabs" role="tablist">
+<button class="tab" role="tab" data-tab="matchs" aria-selected="true">Les stades</button>
+<button class="tab" role="tab" data-tab="lions" aria-selected="false">Les origines</button>
+<button class="tab" role="tab" data-tab="epopees" aria-selected="false">Les épopées</button>
+<button class="tab" role="tab" data-tab="lieux" aria-selected="false">Les lieux</button>
+</nav>
+<a class="back" href="Musee%20FCSM.dc.html">← Musée</a>
+<a class="don" href="Faire%20un%20don.dc.html">♥ Faire un don</a>
+</header>
+<div class="app">
+<aside class="panel" id="panel"></aside>
+<div class="mapwrap" id="wrap">
+<div id="map"></div>
+<div class="legend" id="legend"></div>
+<div class="zoom" id="zoomctl"><button data-z="in" aria-label="Zoomer">+</button><button data-z="out" aria-label="Dézoomer">−</button><button data-z="reset" aria-label="Recentrer">⟲</button></div>
+<div class="drawer" id="drawer"></div>
+<div class="story" id="story"></div>
+</div>
+</div>
+<script>
+(async function () {
+  const C = { navy: '#0E1F4D', blue: '#1F3FA8', yellow: '#F6C400', cream: '#F3EDDF', sand: '#E8DFC9', paper: '#FFFDF6' };
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rng = (s => () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; })(1928);
+  const pick = w => { const r = rng(); let a = 0; for (const [k, p] of w) { a += p; if (r < a) return k; } return w[w.length - 1][0]; };
+  const HOME = [47.5122, 6.8111];
+  const DEC = [1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020];
+  const dlab = d => "'" + String(d).slice(2);
+
+  // ===== DATA · stades (lieux réels, volumes d'exemple) =====
+  const places = [
+    ['bonal', 'Stade Bonal', 'Montbéliard', HOME, 1], ['sdf', 'Stade de France', 'Saint-Denis', [48.9245, 2.3602]], ['parc', 'Parc des Princes', 'Paris', [48.8414, 2.2530]],
+    ['colombes', 'Stade de Colombes', 'Colombes', [48.9289, 2.2475]], ['biesheim', 'Stade municipal', 'Biesheim', [48.040, 7.545]], ['bale', 'FC Bâle', 'Bâle', [47.5415, 7.6203]],
+    ['neuch', 'Neuchâtel Xamax', 'Neuchâtel', [46.996, 6.943]], ['evian', 'Evian TG', 'Évian', [46.40, 6.59]], ['ffm', 'Eintracht Francfort', 'Francfort', [50.0686, 8.6455]],
+    ['az', 'AZ Alkmaar', 'Alkmaar', [52.6125, 4.7425]], ['velo', 'Vélodrome', 'Marseille', [43.2698, 5.3959]], ['gerland', 'Gerland', 'Lyon', [45.7238, 4.8322]],
+    ['gg', 'Geoffroy-Guichard', 'Saint-Étienne', [45.4608, 4.3903]], ['nantes', 'La Beaujoire', 'Nantes', [47.2560, -1.5245]], ['bdx', 'Lescure', 'Bordeaux', [44.829, -0.598]],
+    ['lens', 'Bollaert', 'Lens', [50.4329, 2.8150]], ['lille', 'Stade de Lille', 'Lille', [50.6119, 3.1305]], ['meinau', 'La Meinau', 'Strasbourg', [48.5598, 7.7550]],
+    ['metz', 'Saint-Symphorien', 'Metz', [49.1098, 6.1594]], ['nancy', 'Marcel-Picot', 'Nancy', [48.6953, 6.2108]], ['aux', 'Abbé-Deschamps', 'Auxerre', [47.7870, 3.5887]],
+    ['rennes', 'Route de Lorient', 'Rennes', [48.1075, -1.7130]], ['monaco', 'Louis-II', 'Monaco', [43.7276, 7.4155]], ['nice', 'Stade de Nice', 'Nice', [43.7139, 7.2635]],
+    ['mtp', 'La Mosson', 'Montpellier', [43.6222, 3.8120]], ['tlse', 'Stadium', 'Toulouse', [43.5833, 1.4340]], ['dijon', 'Gaston-Gérard', 'Dijon', [47.3245, 5.0682]],
+  ].map(([id, name, city, ll, home]) => ({ id, name, city, ll, home: !!home }));
+  const real = {
+    sdf: [[2004, 'Coupe de la Ligue', 'V', 'Finale · Sochaux – Nantes (tab)'], [2007, 'Coupe de France', 'V', 'Finale · Sochaux – Marseille (tab)']],
+    parc: [[1988, 'Coupe de France', '?', 'Finale · Metz – Sochaux']], colombes: [[1937, 'Coupe de France', 'V', 'Finale de la Coupe de France']],
+    biesheim: [[2026, 'Amical', 'D', 'Metz – Sochaux 4-1']], bale: [[2010, 'Amical', 'D', 'FC Bâle – Sochaux 5-0']],
+    neuch: [[2010, 'Amical', 'N', 'Neuchâtel Xamax – Sochaux 0-0 (4-5 tab)']], evian: [[2010, 'Amical', 'D', 'Evian TG – Sochaux 1-0']],
+    ffm: [[1981, 'Europe', '?', 'Coupe UEFA 1980-81']], az: [[1981, 'Europe', '?', 'Demi-finale Coupe UEFA 1980-81']],
+    bonal: [[2026, 'Amical', 'V', 'Sochaux – Neuchâtel Xamax 2-1'], [2010, 'Amical', 'N', 'Sochaux – Deportivo Saprissa 0-0 (4-3 tab)']],
+  };
+  const seasons = d3.range(1932, 2026).filter(y => y < 1939 || y > 1945);
+  const L1 = ['velo', 'gerland', 'gg', 'nantes', 'bdx', 'lens', 'lille', 'meinau', 'metz', 'nancy', 'aux', 'rennes', 'monaco', 'nice', 'mtp', 'tlse', 'dijon'];
+  places.forEach(p => {
+    p.recs = (real[p.id] || []).map(([y, comp, res, label]) => ({ y, comp, res, label }));
+    if (p.home) seasons.forEach(y => { for (let i = 0; i < 8; i++) p.recs.push({ y, comp: rng() < .85 ? 'Championnat' : 'Coupes nationales', res: pick([['V', .5], ['N', .27], ['D', .23]]) }); });
+    else if (L1.includes(p.id)) { const pr = .35 + rng() * .5; seasons.forEach(y => { if (rng() < pr) p.recs.push({ y, comp: rng() < .9 ? 'Championnat' : 'Coupes nationales', res: pick([['V', .26], ['N', .3], ['D', .44]]) }); }); }
+  });
+
+  // ===== DATA · origines (villes réelles, effectifs d'exemple sauf noms connus) =====
+  const cities = [
+    ['Montbéliard', 47.5097, 6.7983, '250', 8], ['Sochaux', 47.5085, 6.8270, '250', 3], ['Audincourt', 47.4833, 6.8500, '250', 3], ['Belfort', 47.6383, 6.8628, '250', 4],
+    ['Besançon', 47.2378, 6.0241, '250', 4], ['Mulhouse', 47.7508, 7.3359, '250', 4], ['Soultz-Haut-Rhin', 47.8875, 7.2306, '250', 1], ['Troyes', 48.2973, 4.0744, '250', 1],
+    ['Mont-de-Marsan', 43.8902, -0.4997, '250', 1], ['Joué-lès-Tours', 47.3522, 0.6625, '250', 1], ['Vittel', 48.2014, 5.9450, '250', 1], ['Paris', 48.8566, 2.3522, '250', 7],
+    ['Lyon', 45.7640, 4.8357, '250', 4], ['Marseille', 43.2965, 5.3698, '250', 3], ['Strasbourg', 48.5734, 7.7521, '250', 3], ['Nancy', 48.6921, 6.1844, '250', 2], ['Lille', 50.6292, 3.0573, '250', 2],
+    ['Genève', 46.2044, 6.1432, '756', 2], ['Bâle', 47.5596, 7.5886, '756', 2], ['Bruxelles', 50.8503, 4.3517, '056', 2], ['Amsterdam', 52.3676, 4.9041, '528', 1],
+    ['Belgrade', 44.7866, 20.4489, '688', 3], ['Zagreb', 45.8150, 15.9819, '191', 2], ['Varsovie', 52.2297, 21.0122, '616', 2], ['Copenhague', 55.6761, 12.5683, '208', 1],
+    ['Lisbonne', 38.7223, -9.1393, '620', 1], ['Madrid', 40.4168, -3.7038, '724', 1], ['Dakar', 14.7167, -17.4677, '686', 4], ['Abidjan', 5.3600, -4.0083, '384', 4],
+    ['Douala', 4.0511, 9.7679, '120', 3], ['Yaoundé', 3.8480, 11.5021, '120', 2], ['Bamako', 12.6392, -8.0029, '466', 3], ['Ouagadougou', 12.3714, -1.5197, '854', 2],
+    ['Conakry', 9.6412, -13.5784, '324', 2], ['Kinshasa', -4.4419, 15.2663, '180', 2], ['Accra', 5.6037, -0.1870, '288', 1], ['Taza', 34.2100, -4.0100, '504', 1],
+    ['Casablanca', 33.5731, -7.5898, '504', 2], ['Alger', 36.7538, 3.0588, '012', 3], ['Oran', 35.6971, -0.6308, '012', 2], ['Tunis', 36.8065, 10.1815, '788', 2],
+    ['Buenos Aires', -34.6037, -58.3816, '032', 2], ['Montevideo', -34.9011, -56.1645, '858', 1], ['São Paulo', -23.5505, -46.6333, '076', 1], ['Rio de Janeiro', -22.9068, -43.1729, '076', 1],
+  ];
+  const known = { 'Mont-de-Marsan': ['Joël Bats', 'Joueur', 'Gardien', 1970, 0, 1], 'Soultz-Haut-Rhin': ['Bernard Genghini', 'Joueur', 'Milieu', 1970, 1, 1], 'Troyes': ['Yannick Stopyra', 'Joueur', 'Attaquant', 1980, 0, 1], 'Audincourt': ['Benoît Pedretti', 'Joueur', 'Milieu', 1990, 1, 1], 'Joué-lès-Tours': ['Stéphane Dalmat', 'Joueur', 'Milieu', 2000, 0, 1], 'Vittel': ['Albert Cartier', 'Entraîneur', null, 2010, 0, 0] };
+  const POSTES = ['Gardien', 'Défenseur', 'Milieu', 'Attaquant'];
+  const people = [];
+  cities.forEach(([city, lat, lon, iso, w]) => {
+    const near = Math.hypot(lat - 47.51, (lon - 6.8) * .68) < 1.2;
+    const africa = ['686', '384', '120', '466', '854', '324', '180', '288'].includes(iso);
+    const n = Math.max(1, Math.round(w * (1.2 + rng() * 1.6)));
+    for (let i = 0; i < n; i++) {
+      const rub = pick([['Joueur', .86], ['Entraîneur', .07], ['Dirigeant', .07]]);
+      const dec = africa ? pick([[1990, .25], [2000, .35], [2010, .3], [2020, .1]]) : DEC[Math.floor(rng() * DEC.length)];
+      people.push({ name: null, city, ll: [lat, lon], iso, rub, poste: rub === 'Joueur' ? pick([['Gardien', .1], ['Défenseur', .32], ['Milieu', .33], ['Attaquant', .25]]) : null, dec, forme: rng() < (near ? .6 : .12), intl: rng() < .12 });
+    }
+    if (known[city]) { const [name, rub, poste, dec, forme, intl] = known[city]; people.push({ name, city, ll: [lat, lon], iso, rub, poste, dec, forme: !!forme, intl: !!intl }); }
+  });
+  const cname = Object.fromEntries([['250', 'France'], ['756', 'Suisse'], ['056', 'Belgique'], ['528', 'Pays-Bas'], ['688', 'Serbie'], ['191', 'Croatie'], ['616', 'Pologne'], ['208', 'Danemark'], ['620', 'Portugal'], ['724', 'Espagne'], ['686', 'Sénégal'], ['384', "Côte d'Ivoire"], ['120', 'Cameroun'], ['466', 'Mali'], ['854', 'Burkina Faso'], ['324', 'Guinée'], ['180', 'RD Congo'], ['288', 'Ghana'], ['504', 'Maroc'], ['012', 'Algérie'], ['788', 'Tunisie'], ['032', 'Argentine'], ['858', 'Uruguay'], ['076', 'Brésil']]);
+
+  // ===== DATA · épopées =====
+  const steps = [
+    { y: 1937, s: '1936-37', type: 'Finales nationales', t: 'Colombes', h: 'Coupe de France', p: 'Finale à Colombes : Sochaux remporte sa première Coupe de France.', ll: [48.9289, 2.2475], win: true },
+    { y: 1981, s: '1980-81', type: "Coupes d'Europe", t: 'Francfort', h: 'Coupe UEFA', p: "Sur la route de la demi-finale, le Lion traverse l'Allemagne.", ll: [50.0686, 8.6455] },
+    { y: 1981, s: '1980-81', type: "Coupes d'Europe", t: 'Alkmaar', h: 'Demi-finale UEFA', p: "Demi-finale de Coupe UEFA face à l'AZ : le sommet européen du club.", ll: [52.6125, 4.7425] },
+    { y: 1988, s: '1987-88', type: 'Finales nationales', t: 'Parc des Princes', h: 'Coupe de France', p: 'Finale face au FC Metz, au Parc des Princes.', ll: [48.8414, 2.2530] },
+    { y: 2004, s: '2003-04', type: 'Finales nationales', t: 'Stade de France', h: 'Coupe de la Ligue', p: "Finale face à Nantes : Sochaux s'impose aux tirs au but.", ll: [48.9245, 2.3602], win: true },
+    { y: 2007, s: '2006-07', type: 'Finales nationales', t: 'Stade de France', h: 'Coupe de France', p: "Finale face à l'OM : nouvelle victoire aux tirs au but.", ll: [48.9245, 2.3602], win: true },
+  ];
+
+  // ===== DATA · lieux du club =====
+  const LT = { Stade: ['S', C.yellow], Formation: ['F', C.blue], Patrimoine: ['P', C.paper], Supporters: ['♥', C.navy] };
+  const lieux = [
+    { n: 'Stade Auguste-Bonal', t: 'Stade', ll: HOME, d: "L'antre du Lion, à Montbéliard.", real: 1 },
+    { n: 'Usine Peugeot de Sochaux', t: 'Patrimoine', ll: [47.5065, 6.8395], d: "Le berceau industriel du club, fondé avec le soutien de Peugeot." },
+    { n: "Musée de l'Aventure Peugeot", t: 'Patrimoine', ll: [47.5137, 6.8282], d: "L'histoire de la marque au lion, voisine du club." },
+    { n: 'Centre de formation', t: 'Formation', ll: [47.5050, 6.8040], d: 'Là où grandissent les Lionceaux.' },
+    { n: "Terrains d'entraînement", t: 'Formation', ll: [47.5085, 6.8000], d: 'Les terrains annexes du club.' },
+    { n: 'Local des supporters', t: 'Supporters', ll: [47.5108, 6.8150], d: 'Point de rendez-vous des groupes.' },
+    { n: "Café d'avant-match", t: 'Supporters', ll: [47.5095, 6.7985], d: 'Le rituel du jour de match.' },
+    { n: 'Départ des déplacements', t: 'Supporters', ll: [47.5135, 6.8030], d: 'Où partent les bus de supporters.' },
+  ];
+
+  // ===== MAP =====
+  const map = L.map('map', { zoomControl: false, worldCopyJump: true, minZoom: 2 });
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap contributors' }).addTo(map);
+  let layer = L.layerGroup().addTo(map);
+  const world = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json');
+  const land = topojson.feature(world, world.objects.countries);
+  const panel = document.getElementById('panel'), legend = document.getElementById('legend'), drawer = document.getElementById('drawer'), story = document.getElementById('story');
+  const S = { tab: 'matchs', comp: 'Tous', dec: 'Toutes', lieu: 'Tous', res: 'Tous', year: 2026, sel: null, rub: 'Tous', poste: 'Tous', ldec: 'Toutes', forme: false, intl: false, lview: 'Villes', etype: 'Toutes', eseason: 'Toutes', step: -1, ltype: 'Tous', timer: null };
+  let home = () => {};
+  document.getElementById('zoomctl').onclick = e => { const z = e.target.dataset.z; if (z === 'in') map.zoomIn(); if (z === 'out') map.zoomOut(); if (z === 'reset') { closeDrawer(); home(); } };
+  const chipRow = (id, label, opts, cur, fmt = x => x, cls = () => '') => `<div><span class="flabel">${label}</span><div class="chips" id="${id}">${opts.map(o => `<button class="chip ${cls(o)}${String(o) === String(cur) ? ' on' : ''}" data-v="${o}">${fmt(o)}</button>`).join('')}</div></div>`;
+  const bindChips = (id, key, cb, parse = v => v) => panel.querySelector('#' + id).addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; S[key] = parse(b.dataset.v); panel.querySelectorAll('#' + id + ' .chip').forEach(c => c.classList.toggle('on', c === b)); cb(); });
+  const decParse = v => v === 'Toutes' ? v : +v;
+  const tally = recs => { const t = { n: recs.length, V: 0, N: 0, D: 0, '?': 0 }; recs.forEach(r => t[r.res]++); return t; };
+  const bar = t => `<div class="bar"><span style="width:${t.V / t.n * 100}%;background:${C.yellow}"></span><span style="width:${t.N / t.n * 100}%;background:${C.paper}"></span><span style="width:${t.D / t.n * 100}%;background:${C.navy}"></span><span style="width:${t['?'] / t.n * 100}%;background:${C.sand}"></span></div>`;
+  const spark = rows => { const mx = d3.max(rows, r => r.n) || 1; return `<div class="spark">${rows.map(r => `<div><i style="height:0" data-h="${r.n / mx * 70}"></i><small>${dlab(r.d)}</small></div>`).join('')}</div>`; };
+  function openDrawer(html) { drawer.innerHTML = html; drawer.classList.add('open'); drawer.querySelector('.x').onclick = closeDrawer; requestAnimationFrame(() => drawer.querySelectorAll('.spark i').forEach(i => i.style.height = i.dataset.h + 'px')); }
+  function closeDrawer() { drawer.classList.remove('open'); S.sel = null; panel.querySelectorAll('.row.sel').forEach(r => r.classList.remove('sel')); }
+  const head = (eb, title) => `<div class="dhead"><button class="x" aria-label="Fermer">✕</button><span class="eyebrow" style="color:${C.yellow}">${eb}</span><h2 class="dtitle">${title}</h2></div>`;
+  const stopTimer = () => { clearInterval(S.timer); S.timer = null; panel.querySelectorAll('[data-play]').forEach(b => b.textContent = b.dataset.play); };
+  const flyPad = { paddingTopLeft: [40, 40], paddingBottomRight: [420, 40] };
+
+  // ===== TAB · STADES =====
+  const recsOf = p => p.recs.filter(r => r.y <= S.year && (S.dec === 'Toutes' || Math.floor(r.y / 10) * 10 === S.dec) && (S.res === 'Tous' || r.res === S.res) && (S.comp === 'Tous' || r.comp === S.comp || (S.comp === 'Coupes nationales' && ['Coupe de France', 'Coupe de la Ligue'].includes(r.comp))));
+  const markers = {};
+  function tabMatchs() {
+    panel.innerHTML = `<div class="phead"><span class="eyebrow">Carto · Les stades</span><h1 class="ptitle">Partout où<br>le Lion a joué</h1><p class="pintro">Taille = nombre de matchs, couleur = bilan de Sochaux. Cliquez un stade pour la liste de ses matchs.</p></div>
+    <div class="filters">
+      ${chipRow('fComp', 'Compétition', ['Tous', 'Championnat', 'Coupes nationales', 'Coupe de France', 'Coupe de la Ligue', 'Europe', 'Amical'], S.comp)}
+      ${chipRow('fDec', 'Décennie', ['Toutes', ...DEC], S.dec, o => o === 'Toutes' ? o : dlab(o))}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${chipRow('fLieu', 'Lieu', ['Tous', 'Domicile', 'Extérieur'], S.lieu)}${chipRow('fRes', 'Résultat', ['Tous', 'V', 'N', 'D'], S.res, x => x, o => o === 'V' ? 'v' : o === 'D' ? 'dd' : '')}</div>
+      <div><span class="flabel">Remonter le temps</span><div class="timeline"><button class="play" data-play="▶" id="play" aria-label="Lecture">▶</button><input type="range" id="yr" min="1928" max="2026" value="${S.year}"><span class="year" id="yrl">${S.year}</span></div></div>
+    </div>
+    <div class="listhead"><span id="lcount"></span><span style="color:var(--muted)">matchs</span></div><div class="list" id="list"></div>`;
+    bindChips('fComp', 'comp', updMatchs); bindChips('fDec', 'dec', updMatchs, decParse); bindChips('fLieu', 'lieu', updMatchs); bindChips('fRes', 'res', updMatchs);
+    const yr = panel.querySelector('#yr'); yr.oninput = () => { S.year = +yr.value; stopTimer(); updMatchs(); };
+    panel.querySelector('#play').onclick = () => { if (S.timer) return stopTimer(); if (S.year >= 2026) S.year = 1928; panel.querySelector('#play').textContent = '❚❚'; S.timer = setInterval(() => { S.year++; if (S.year >= 2026) { S.year = 2026; stopTimer(); } updMatchs(); }, reduce ? 10 : 90); };
+    legend.innerHTML = `<span class="d">Bilan de Sochaux</span><div class="lg"><span class="sw" style="background:${C.yellow}"></span>Plus de victoires</div><div class="lg"><span class="sw" style="background:${C.paper}"></span>Équilibré</div><div class="lg"><span class="sw" style="background:${C.navy}"></span>Plus de défaites</div><div class="lg"><span class="sw" style="background:${C.blue}"></span>Stade Bonal</div><span class="note">Volumes d'exemple · à relier aux fiches matchs</span>`;
+    places.forEach(p => {
+      const m = L.circleMarker(p.ll, { radius: 0, weight: 1.5, color: C.navy, fillOpacity: .92 }).addTo(layer);
+      m.on('mouseover', () => hlPlace(p.id, true)).on('mouseout', () => hlPlace(p.id, false)).on('click', () => openPlace(p.id));
+      markers[p.id] = m;
+    });
+    home = () => map.flyToBounds(L.latLngBounds(places.map(p => p.ll)), { padding: [50, 50], duration: reduce ? 0 : 1 });
+    map.fitBounds(L.latLngBounds(places.map(p => p.ll)), { padding: [50, 50] });
+    updMatchs();
+  }
+  function updMatchs() {
+    panel.querySelector('#yrl').textContent = S.year; panel.querySelector('#yr').value = S.year;
+    const max = d3.max(places, p => p.recs.length), rs = d3.scaleSqrt().domain([0, max]).range([0, 34]);
+    const data = places.map(p => ({ p, t: (S.lieu === 'Tous' || (S.lieu === 'Domicile') === p.home) ? tally(recsOf(p)) : tally([]) }));
+    data.forEach(({ p, t }) => {
+      const m = markers[p.id]; const fill = p.home ? C.blue : t.V > t.D ? C.yellow : t.D > t.V ? C.navy : C.paper;
+      m.setRadius(t.n ? Math.max(5, rs(t.n)) : 0).setStyle({ fillColor: fill, opacity: t.n ? 1 : 0, fillOpacity: t.n ? .92 : 0 });
+      m.unbindTooltip().bindTooltip(`<b>${p.name}</b>${p.city} · ${t.n} match${t.n > 1 ? 's' : ''}<br>${t.V} V · ${t.N} N · ${t.D} D`, { className: 'tt', direction: 'top', offset: [0, -6] });
+      p._t = t;
+    });
+    const vis = data.filter(d => d.t.n).sort((a, b) => b.t.n - a.t.n);
+    vis.slice().reverse().forEach(d => markers[d.p.id].bringToFront());
+    panel.querySelector('#lcount').textContent = `${vis.length} stade${vis.length > 1 ? 's' : ''} · ${d3.sum(vis, d => d.t.n).toLocaleString('fr-FR')}`;
+    const list = panel.querySelector('#list');
+    list.innerHTML = vis.map((d, i) => `<button class="row${S.sel === d.p.id ? ' sel' : ''}" data-id="${d.p.id}"><span class="rank">${String(i + 1).padStart(2, '0')}</span><span><span class="rname">${d.p.name}</span><span class="rmeta"> · ${d.p.city}</span>${bar(d.t)}</span><span class="rnum">${d.t.n}</span></button>`).join('') || '<p class="pintro" style="padding:16px">Aucun match pour ces filtres.</p>';
+    list.querySelectorAll('.row').forEach(r => { r.onmouseenter = () => hlPlace(r.dataset.id, true); r.onmouseleave = () => hlPlace(r.dataset.id, false); r.onclick = () => openPlace(r.dataset.id); });
+  }
+  function hlPlace(id, on) {
+    const m = markers[id]; if (m) { m.setStyle({ color: on ? C.yellow : C.navy, weight: on ? 4 : 1.5 }); if (on) m.bringToFront(); }
+    const row = panel.querySelector(`.row[data-id="${id}"]`); if (row) { row.classList.toggle('hl', on); const l = panel.querySelector('#list'); if (on && !row.matches(':hover')) { const top = row.offsetTop - l.offsetTop; if (top < l.scrollTop || top > l.scrollTop + l.clientHeight - 60) l.scrollTo({ top: top - 80, behavior: 'smooth' }); } }
+  }
+  function openPlace(id) {
+    S.sel = id; const p = places.find(x => x.id === id); const recs = recsOf(p); const t = tally(recs);
+    const notable = recs.filter(r => r.label).sort((a, b) => b.y - a.y);
+    const rst = r => r === 'V' ? `background:${C.yellow}` : r === 'D' ? `background:${C.navy};color:${C.cream}` : `background:${C.paper}`;
+    openDrawer(`${head((p.home ? 'À domicile' : 'Déplacement') + ' · ' + p.city, p.name)}<div class="dbody">
+      <div class="stats"><div><b>${t.n}</b><span>matchs</span></div><div><b>${t.V}</b><span>victoires</span></div><div><b>${t.N}</b><span>nuls</span></div><div><b>${t.D}</b><span>défaites</span></div></div>${t.n ? bar(t) : ''}
+      <div><span class="flabel">Matchs par décennie</span>${spark(DEC.map(d => ({ d, n: recs.filter(r => Math.floor(r.y / 10) * 10 === d).length })))}</div>
+      ${notable.length ? `<div><span class="flabel">Dans les archives</span><div class="mlist">${notable.map(r => `<a class="mitem" href="Fiche%20Match.dc.html"><b>${r.y}</b><span>${r.label}<br><span class="rmeta">${r.comp}</span></span><span class="res" style="${rst(r.res)}">${r.res}</span></a>`).join('')}</div></div>` : ''}
+      <a class="cta" href="Mosaique.dc.html?cat=matchs">Tous les matchs joués ici →</a></div>`);
+    panel.querySelectorAll('.row').forEach(r => r.classList.toggle('sel', r.dataset.id === id));
+    map.flyTo(p.ll, Math.max(map.getZoom(), 9), { duration: reduce ? 0 : 1 });
+  }
+
+  // ===== TAB · ORIGINES =====
+  let geo;
+  const pFilter = p => (S.rub === 'Tous' || p.rub === S.rub) && (S.poste === 'Tous' || p.poste === S.poste) && (S.ldec === 'Toutes' || p.dec === S.ldec) && (!S.forme || p.forme) && (!S.intl || p.intl);
+  function tabLions() {
+    panel.innerHTML = `<div class="phead"><span class="eyebrow">Carto · Les origines</span><h1 class="ptitle">D'où viennent<br>nos Lions ?</h1><p class="pintro">Lieu de naissance des joueurs, entraîneurs et dirigeants, tiré des fiches (« né à Taza, Maroc »). Les points proches se regroupent : zoomez pour les séparer.</p></div>
+    <div class="filters">
+      ${chipRow('fView', 'Affichage', ['Villes', 'Pays'], S.lview)}
+      ${chipRow('fRub', 'Rubrique', ['Tous', 'Joueur', 'Entraîneur', 'Dirigeant'], S.rub, o => o === 'Tous' ? o : o + 's')}
+      ${chipRow('fPoste', 'Poste', ['Tous', ...POSTES], S.poste)}
+      ${chipRow('fLDec', "Décennie d'arrivée", ['Toutes', ...DEC], S.ldec, o => o === 'Toutes' ? o : dlab(o))}
+      <div class="toggles"><button class="tg${S.forme ? ' on' : ''}" data-k="forme"><i></i>Formés au club</button><button class="tg${S.intl ? ' on' : ''}" data-k="intl"><i></i>Internationaux</button></div>
+    </div>
+    <div class="listhead"><span id="lcount"></span><span style="color:var(--muted)">personnes</span></div><div class="list" id="list"></div>`;
+    bindChips('fView', 'lview', updLions); bindChips('fRub', 'rub', updLions); bindChips('fPoste', 'poste', updLions); bindChips('fLDec', 'ldec', updLions, decParse);
+    panel.querySelectorAll('.tg').forEach(b => b.onclick = () => { S[b.dataset.k] = !S[b.dataset.k]; b.classList.toggle('on', S[b.dataset.k]); updLions(); });
+    home = () => map.flyTo([30, 5], 3, { duration: reduce ? 0 : 1 });
+    map.setView([30, 5], 3);
+    map.on('zoomend', onZoomLions);
+    updLions();
+  }
+  function onZoomLions() { if (S.tab === 'lions' && S.lview === 'Villes') drawClusters(); }
+  let ppl = [];
+  function updLions() {
+    ppl = people.filter(pFilter);
+    const byCity = d3.rollups(ppl, v => v, p => p.city).map(([city, v]) => ({ city, v, ll: v[0].ll, iso: v[0].iso })).sort((a, b) => b.v.length - a.v.length);
+    const byIso = d3.rollups(ppl, v => v.length, p => p.iso).sort((a, b) => b[1] - a[1]);
+    panel.querySelector('#lcount').textContent = S.lview === 'Villes' ? `${byCity.length} villes · ${ppl.length}` : `${byIso.length} pays · ${ppl.length}`;
+    const list = panel.querySelector('#list');
+    if (S.lview === 'Villes') list.innerHTML = byCity.map((c, i) => `<button class="row" data-city="${c.city}"><span class="rank">${String(i + 1).padStart(2, '0')}</span><span><span class="rname">${c.city}</span><span class="rmeta"> · ${cname[c.iso]}</span></span><span class="rnum">${c.v.length}</span></button>`).join('');
+    else { const mx = byIso[0]?.[1] || 1; list.innerHTML = byIso.map(([iso, n], i) => `<button class="row" data-iso="${iso}"><span class="rank">${String(i + 1).padStart(2, '0')}</span><span><span class="rname">${cname[iso]}</span><div class="bar" style="border:0;background:rgba(14,31,77,.08)"><span style="width:${n / mx * 100}%;background:${C.blue}"></span></div></span><span class="rnum">${n}</span></button>`).join(''); }
+    if (!ppl.length) list.innerHTML = '<p class="pintro" style="padding:16px">Personne ne correspond à ces filtres.</p>';
+    list.querySelectorAll('.row').forEach(r => r.onclick = () => r.dataset.city ? openCity(r.dataset.city, true) : openCountry(r.dataset.iso));
+    layer.clearLayers(); geo = null;
+    if (S.lview === 'Villes') {
+      drawClusters();
+      legend.innerHTML = `<span class="d">Origines</span><div class="lg"><span class="sw" style="background:${C.yellow}"></span>Une personne</div><div class="lg"><span class="sw" style="background:${C.navy};border-color:${C.yellow}"></span>Groupe · cliquez pour zoomer</div><span class="note">Effectifs d'exemple · noms connus à vérifier</span>`;
+    } else {
+      const cnt = new Map(byIso), mx = d3.max(byIso, d => d[1]) || 1, col = d3.scaleSqrt().domain([0, mx]).range([.15, 1]), ip = d3.interpolateRgb(C.yellow, C.navy);
+      geo = L.geoJSON(land, { style: f => { const n = cnt.get(f.id); return { fillColor: n ? ip(col(n)) : 'transparent', fillOpacity: n ? .85 : 0, color: n ? C.navy : 'transparent', weight: 1 }; },
+        onEachFeature: (f, l) => { const n = cnt.get(f.id); if (!n) return; l.bindTooltip(`<b>${cname[f.id]}</b>${n} personne${n > 1 ? 's' : ''}`, { className: 'tt', sticky: true }); l.on('mouseover', () => l.setStyle({ weight: 3 })).on('mouseout', () => l.setStyle({ weight: 1 })).on('click', () => openCountry(f.id)); } }).addTo(layer);
+      legend.innerHTML = `<span class="d">Personnes par pays</span><div style="width:180px;height:12px;border:2px solid var(--navy);background:linear-gradient(90deg,${ip(.15)},${C.navy})"></div><div style="display:flex;justify-content:space-between;font-size:13px"><span>peu</span><span>beaucoup</span></div><span class="note">Effectifs d'exemple</span>`;
+    }
+  }
+  function drawClusters() {
+    layer.clearLayers(); const z = map.getZoom(), cell = 64, groups = new Map();
+    ppl.forEach(p => { const pt = map.project(p.ll, z); const key = Math.floor(pt.x / cell) + ':' + Math.floor(pt.y / cell); if (!groups.has(key)) groups.set(key, []); groups.get(key).push(p); });
+    groups.forEach(g => {
+      const lat = d3.mean(g, p => p.ll[0]), lon = d3.mean(g, p => p.ll[1]); const citiesIn = [...new Set(g.map(p => p.city))]; const one = citiesIn.length === 1;
+      const size = Math.round(26 + Math.sqrt(g.length) * 7);
+      const icon = L.divIcon({ className: '', html: `<div class="cl${g.length === 1 ? ' one' : ''}" style="width:${size}px;height:${size}px;font-size:${Math.min(22, 12 + Math.sqrt(g.length) * 2)}px">${g.length}</div>`, iconSize: [size, size], iconAnchor: [size / 2, size / 2] });
+      const m = L.marker([lat, lon], { icon }).addTo(layer);
+      m.bindTooltip(`<b>${one ? citiesIn[0] : citiesIn.length + ' villes'}</b>${g.length} personne${g.length > 1 ? 's' : ''}${one ? '' : '<br>' + citiesIn.slice(0, 4).join(', ') + (citiesIn.length > 4 ? '…' : '')}`, { className: 'tt', direction: 'top', offset: [0, -size / 2] });
+      m.on('click', () => one ? openCity(citiesIn[0]) : map.flyToBounds(L.latLngBounds(g.map(p => p.ll)), { padding: [80, 80], maxZoom: 12, duration: reduce ? 0 : .8 }));
+    });
+  }
+  function personList(v) {
+    const named = v.filter(p => p.name), anon = v.length - named.length;
+    return `<div class="mlist">${named.map(p => `<a class="mitem" href="Fiche%20Joueur.dc.html"><b>→</b><span>${p.name}${p.intl ? '<span class="badge">International</span>' : ''}${p.forme ? '<span class="badge">Formé au club</span>' : ''}</span><span class="rmeta">${p.poste || p.rub}</span></a>`).join('')}${anon ? `<div class="mitem"><b>+${anon}</b><span>fiche${anon > 1 ? 's' : ''} à relier depuis la base</span><span></span></div>` : ''}</div>`;
+  }
+  function originBody(v) {
+    const by = k => d3.rollup(v, x => x.length, p => p[k]);
+    const rub = by('rub'), po = by('poste');
+    return `<div class="stats"><div><b>${v.length}</b><span>au total</span></div><div><b>${rub.get('Joueur') || 0}</b><span>joueurs</span></div><div><b>${v.filter(p => p.forme).length}</b><span>formés</span></div><div><b>${v.filter(p => p.intl).length}</b><span>internat.</span></div></div>
+      <div><span class="flabel">Par poste</span><div class="chips">${POSTES.map(p => `<span class="chip">${p} · ${po.get(p) || 0}</span>`).join('')}</div></div>
+      <div><span class="flabel">Décennie d'arrivée</span>${spark(DEC.map(d => ({ d, n: v.filter(p => p.dec === d).length })))}</div>
+      <div><span class="flabel">Fiches</span>${personList(v)}</div>`;
+  }
+  function openCity(city, fly) {
+    const v = ppl.filter(p => p.city === city); if (!v.length) return;
+    openDrawer(`${head('Né(e)s à · ' + cname[v[0].iso], city)}<div class="dbody">${originBody(v)}<a class="cta" href="Mosaique.dc.html?cat=joueurs">Voir Nos Lions →</a></div>`);
+    if (fly) map.flyTo(v[0].ll, Math.max(map.getZoom(), 8), { duration: reduce ? 0 : 1 });
+  }
+  function openCountry(iso) {
+    const v = ppl.filter(p => p.iso === iso); if (!v.length) return;
+    openDrawer(`${head('Nos Lions · par pays', cname[iso])}<div class="dbody">${originBody(v)}<a class="cta" href="Mosaique.dc.html?cat=joueurs">Voir Nos Lions →</a></div>`);
+    const f = land.features.find(x => x.id === iso); if (f) map.flyToBounds(L.geoJSON(f).getBounds(), { ...flyPad, maxZoom: 6, duration: reduce ? 0 : 1 });
+  }
+
+  // ===== TAB · ÉPOPÉES =====
+  let routes = [];
+  const curve = (a, b) => { const pts = []; const dx = b[1] - a[1], dy = b[0] - a[0]; const c = [(a[0] + b[0]) / 2 + dx * .22, (a[1] + b[1]) / 2 - dy * .22]; for (let t = 0; t <= 1.0001; t += .04) pts.push([(1 - t) * (1 - t) * a[0] + 2 * (1 - t) * t * c[0] + t * t * b[0], (1 - t) * (1 - t) * a[1] + 2 * (1 - t) * t * c[1] + t * t * b[1]]); return pts; };
+  const visSteps = () => steps.map((s, i) => ({ ...s, i })).filter(s => (S.etype === 'Toutes' || s.type === S.etype) && (S.eseason === 'Toutes' || s.s === S.eseason));
+  function tabEpopees() {
+    const seasonsE = [...new Set(steps.map(s => s.s))];
+    panel.innerHTML = `<div class="phead"><span class="eyebrow">Carto · Les épopées</span><h1 class="ptitle">Les grandes<br>routes du Lion</h1><p class="pintro">Finales et nuits européennes, reliées à Montbéliard. Choisissez une étape ou lancez le récit.</p></div>
+    <div class="filters">${chipRow('fEType', 'Compétition', ['Toutes', "Coupes d'Europe", 'Finales nationales'], S.etype)}${chipRow('fESeason', 'Saison', ['Toutes', ...seasonsE], S.eseason)}<button class="cta" id="playStory" data-play="▶ Lancer le récit">▶ Lancer le récit</button></div>
+    <div class="steps" id="steps"></div>`;
+    bindChips('fEType', 'etype', updEpopees); bindChips('fESeason', 'eseason', updEpopees);
+    panel.querySelector('#playStory').onclick = () => { if (S.timer) return stopTimer(); const vs = visSteps(); if (!vs.length) return; let k = 0; goStep(vs[0].i); panel.querySelector('#playStory').textContent = '❚❚ Pause'; S.timer = setInterval(() => { k++; if (k >= vs.length) return stopTimer(); goStep(vs[k].i); }, 4200); };
+    legend.innerHTML = `<span class="d">Légende</span><div class="lg"><span class="sw" style="background:${C.blue}"></span>Montbéliard</div><div class="lg"><span class="sw" style="background:${C.yellow}"></span>Trophée remporté</div><div class="lg"><span class="sw" style="background:${C.paper}"></span>Étape</div>`;
+    home = () => map.flyToBounds(L.latLngBounds([HOME, ...steps.map(s => s.ll)]), { padding: [70, 70], duration: reduce ? 0 : 1 });
+    map.fitBounds(L.latLngBounds([HOME, ...steps.map(s => s.ll)]), { padding: [70, 70] });
+    L.circleMarker(HOME, { radius: 11, color: C.navy, weight: 2, fillColor: C.blue, fillOpacity: 1 }).bindTooltip('Montbéliard', { permanent: true, className: 'lbl', direction: 'right', offset: [10, 0] }).addTo(layer);
+    updEpopees();
+  }
+  function updEpopees() {
+    const vs = visSteps(); routes.forEach(r => layer.removeLayer(r.line).removeLayer(r.dot)); routes = [];
+    vs.forEach(s => {
+      const line = L.polyline(curve(HOME, s.ll), { color: C.blue, weight: 2, opacity: .5, dashArray: '4 7', className: 'route' }).addTo(layer);
+      const dot = L.circleMarker(s.ll, { radius: 9, color: C.navy, weight: 2, fillColor: s.win ? C.yellow : C.paper, fillOpacity: 1 }).addTo(layer).bindTooltip(`<b>${s.y} · ${s.t}</b>${s.h}`, { className: 'tt', direction: 'top', offset: [0, -8] });
+      dot.on('click', () => { stopTimer(); goStep(s.i); });
+      routes.push({ i: s.i, line, dot });
+    });
+    panel.querySelector('#steps').innerHTML = vs.map(s => `<button class="step${S.step === s.i ? ' on' : ''}" data-i="${s.i}"><span class="n">${s.y}</span><span><span class="rname">${s.t}</span><br><span class="rmeta">${s.h} · ${s.s}${s.win ? ' · trophée ★' : ''}</span></span></button>`).join('') || '<p class="pintro" style="padding:16px">Aucune étape pour ces filtres.</p>';
+    panel.querySelectorAll('.step').forEach(b => b.onclick = () => { stopTimer(); goStep(+b.dataset.i); });
+  }
+  function goStep(i) {
+    S.step = i; const s = steps[i];
+    panel.querySelectorAll('.step').forEach(b => b.classList.toggle('on', +b.dataset.i === i));
+    routes.forEach(r => { const on = r.i === i; r.line.setStyle({ color: on ? C.yellow : C.blue, weight: on ? 6 : 2, opacity: on ? 1 : .35, dashArray: on ? null : '4 7' }); if (on) { r.line.bringToFront(); r.dot.bringToFront(); } });
+    const r = routes.find(x => x.i === i); const el = r?.line.getElement();
+    if (el && !reduce) { const Lg = el.getTotalLength(); el.style.transition = 'none'; el.style.strokeDasharray = Lg; el.style.strokeDashoffset = Lg; el.getBoundingClientRect(); el.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.6,0,.3,1)'; el.style.strokeDashoffset = 0; setTimeout(() => { el.style.strokeDasharray = ''; el.style.transition = ''; }, 1500); }
+    map.flyToBounds(L.latLngBounds([HOME, s.ll]), { paddingTopLeft: [60, 60], paddingBottomRight: [60, 190], maxZoom: 9, duration: reduce ? 0 : 1.2 });
+    story.innerHTML = `<span class="yr">${s.y}</span><div><h3>${s.t} · ${s.h}${s.win ? ' ★' : ''}</h3><p>${s.p}</p></div><div class="snav"><button data-d="-1" aria-label="Précédent">←</button><button data-d="1" aria-label="Suivant">→</button></div>`;
+    story.classList.remove('show'); void story.offsetWidth; story.classList.add('show');
+    story.querySelectorAll('button').forEach(bt => bt.onclick = () => { stopTimer(); const vs = visSteps(); const k = vs.findIndex(x => x.i === S.step); const n = vs[(k + +bt.dataset.d + vs.length) % vs.length]; if (n) goStep(n.i); });
+  }
+
+  // ===== TAB · LIEUX =====
+  const lmk = [];
+  function tabLieux() {
+    panel.innerHTML = `<div class="phead"><span class="eyebrow">Carto · Les lieux du club</span><h1 class="ptitle">Le pays<br>du Lion</h1><p class="pintro">Bonal, la formation, le patrimoine Peugeot et les lieux des supporters, rue par rue.</p></div>
+    <div class="filters">${chipRow('fLT', 'Type de lieu', ['Tous', ...Object.keys(LT)], S.ltype)}</div>
+    <div class="listhead"><span id="lcount"></span><span style="color:var(--muted)">lieux</span></div><div class="list" id="list"></div>`;
+    bindChips('fLT', 'ltype', updLieux);
+    legend.innerHTML = `<span class="d">Types de lieux</span>${Object.entries(LT).map(([k, [g, c]]) => `<div class="lg"><span class="sw" style="background:${c}"></span>${k}</div>`).join('')}<div class="lg"><span class="sw" style="border-style:dashed"></span>Position indicative</div>`;
+    home = () => map.flyTo([47.5095, 6.815], 14, { duration: reduce ? 0 : 1 });
+    map.setView([47.5095, 6.815], 14);
+    lieux.forEach((l, i) => {
+      const [g, c] = LT[l.t]; const fg = c === C.navy || c === C.blue ? C.cream : C.navy;
+      const icon = L.divIcon({ className: '', html: `<div class="pin${l.real ? '' : ' ind'}" style="background:${c};color:${fg}"><span>${g}</span></div>`, iconSize: [34, 34], iconAnchor: [17, 34] });
+      const m = L.marker(l.ll, { icon }).addTo(layer).bindTooltip(`<b>${l.n}</b>${l.t}`, { className: 'tt', direction: 'top', offset: [0, -34] });
+      m.on('click', () => openLieu(i)); lmk[i] = m;
+    });
+    updLieux();
+  }
+  function updLieux() {
+    const vis = lieux.map((l, i) => ({ l, i })).filter(({ l }) => S.ltype === 'Tous' || l.t === S.ltype);
+    lieux.forEach((l, i) => { const show = vis.some(v => v.i === i); const el = lmk[i].getElement(); if (el) { el.style.opacity = show ? 1 : 0; el.style.pointerEvents = show ? 'auto' : 'none'; el.style.transition = 'opacity .3s'; } });
+    panel.querySelector('#lcount').textContent = vis.length + ' lieu' + (vis.length > 1 ? 'x' : '');
+    const list = panel.querySelector('#list');
+    list.innerHTML = vis.map(({ l, i }, k) => `<button class="row" data-i="${i}"><span class="rank">${LT[l.t][0]}</span><span><span class="rname">${l.n}</span><br><span class="rmeta">${l.t}${l.real ? '' : ' · position indicative'}</span></span><span class="rnum">→</span></button>`).join('');
+    list.querySelectorAll('.row').forEach(r => { const i = +r.dataset.i; r.onclick = () => openLieu(i); r.onmouseenter = () => { const e = lmk[i].getElement(); if (e) e.firstChild.style.transform = 'rotate(-45deg) scale(1.25)'; }; r.onmouseleave = () => { const e = lmk[i].getElement(); if (e) e.firstChild.style.transform = ''; }; });
+  }
+  function openLieu(i) {
+    const l = lieux[i];
+    openDrawer(`${head(l.t, l.n)}<div class="dbody"><p class="pintro" style="font-size:18px;color:var(--navy)">${l.d}</p>${l.real ? '' : '<span class="note">Position indicative, à confirmer.</span>'}<a class="cta" href="Mosaique.dc.html?cat=${l.t === 'Supporters' ? 'supporters' : 'infra'}">Voir dans le musée →</a></div>`);
+    map.flyTo(l.ll, 16, { duration: reduce ? 0 : 1 });
+  }
+
+  // ===== ROUTER =====
+  function render() {
+    stopTimer(); closeDrawer(); story.classList.remove('show'); S.step = -1; map.off('zoomend', onZoomLions); layer.clearLayers(); routes = [];
+    ({ matchs: tabMatchs, lions: tabLions, epopees: tabEpopees, lieux: tabLieux })[S.tab]();
+  }
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(t => t.onclick = () => { S.tab = t.dataset.tab; tabs.forEach(x => x.setAttribute('aria-selected', x === t)); try { history.replaceState(null, '', '?vue=' + S.tab); } catch (e) {} render(); });
+  const v = new URLSearchParams(location.search).get('vue'); if (['matchs', 'lions', 'epopees', 'lieux'].includes(v)) { S.tab = v; tabs.forEach(x => x.setAttribute('aria-selected', x.dataset.tab === v)); }
+  window.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+  new ResizeObserver(() => map.invalidateSize()).observe(document.getElementById('wrap'));
+  render();
+})();
+</script>
+</body>
+</html>

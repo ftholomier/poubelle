@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#E8DFC9;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;background:#E8DFC9">
+<dc-import name="Header" active="" hint-size="100%,90px"></dc-import>
+<section style="max-width:1320px;margin:0 auto;padding:clamp(40px,6vw,72px) clamp(16px,4vw,48px) 24px;display:flex;flex-direction:column;gap:14px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#1F3FA8">Rayonnement · gabarits automatiques</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(52px,7vw,104px);line-height:.92;text-transform:uppercase;flex-shrink:0">Images de partage<br>& newsletter</h1>
+<p style="margin:0;font-size:19px;max-width:56ch;color:#3A4A75">Chaque fiche génère son image (1200 × 630) pour Facebook, WhatsApp et X : photo + score, ou photo + nom. La newsletter « Ce jour-là » part chaque semaine, toute seule.</p>
+</section>
+
+<section style="max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,48px) 48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:28px">
+
+<figure style="margin:0;display:flex;flex-direction:column;gap:10px">
+<figcaption style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase">Fiche match</figcaption>
+<div style="container-type:inline-size;width:100%">
+<div style="position:relative;aspect-ratio:1200/630;background:#0E1F4D;border:2px solid #0E1F4D;overflow:hidden;color:#F3EDDF">
+<div style="position:absolute;inset:0 0 0 45%"><image-slot id="og-match" shape="rect" placeholder="Photo du match"></image-slot></div>
+<div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0E1F4D 44%,rgba(14,31,77,.2) 75%)"></div>
+<div style="position:absolute;left:5cqw;top:5cqw;bottom:5cqw;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none">
+<span style="background:#F6C400;color:#0E1F4D;align-self:flex-start;padding:.6cqw 1.4cqw;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:2.4cqw;letter-spacing:.14em;text-transform:uppercase">Amical · 22/07/2026</span>
+<div style="display:flex;flex-direction:column;gap:.5cqw;font-family:'Big Shoulders Display',sans-serif;font-weight:900;text-transform:uppercase;line-height:.9">
+<span style="font-size:6.5cqw">Metz</span><span style="font-size:15cqw;color:#F6C400">4 – 1</span><span style="font-size:6.5cqw">Sochaux</span>
+</div>
+<div style="display:flex;align-items:center;gap:1.4cqw"><img src="assets/logo-sochaux-retro.png" alt="" style="height:7cqw;width:auto"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:2.4cqw;letter-spacing:.1em;text-transform:uppercase">fcsochauxretro.com</span></div>
+</div>
+</div>
+</div>
+</figure>
+
+<figure style="margin:0;display:flex;flex-direction:column;gap:10px">
+<figcaption style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase">Fiche joueur</figcaption>
+<div style="container-type:inline-size;width:100%">
+<div style="position:relative;aspect-ratio:1200/630;background:#F6C400;border:2px solid #0E1F4D;overflow:hidden">
+<div style="position:absolute;right:5cqw;top:5cqw;bottom:5cqw;width:34cqw;border:.5cqw solid #0E1F4D;box-shadow:1.6cqw 1.6cqw 0 #0E1F4D;background:#E8DFC9"><image-slot id="og-joueur" shape="rect" placeholder="Portrait"></image-slot></div>
+<div style="position:absolute;left:5cqw;top:5cqw;bottom:5cqw;width:50cqw;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:2.4cqw;letter-spacing:.2em;text-transform:uppercase;color:#1F3FA8">Nos Lions · Milieu</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11cqw;line-height:.86;text-transform:uppercase">Stéphane<br>Dalmat</span>
+<div style="display:flex;align-items:center;gap:1.4cqw"><img src="assets/logo-sochaux-retro.png" alt="" style="height:7cqw;width:auto"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:2.4cqw;letter-spacing:.1em;text-transform:uppercase">Le musée en ligne du FCSM</span></div>
+</div>
+</div>
+</div>
+</figure>
+
+<figure style="margin:0;display:flex;flex-direction:column;gap:10px">
+<figcaption style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase">Face-à-face</figcaption>
+<div style="container-type:inline-size;width:100%">
+<div style="position:relative;aspect-ratio:1200/630;background:#1F3FA8;border:2px solid #0E1F4D;overflow:hidden;color:#F3EDDF;padding:5cqw;display:flex;flex-direction:column;justify-content:space-between">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:2.4cqw;letter-spacing:.2em;text-transform:uppercase;color:#F6C400">Historique complet</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:10cqw;line-height:.9;text-transform:uppercase">Sochaux <span style="color:#F6C400">×</span> Metz</span>
+<div style="display:flex;height:4cqw;border:.4cqw solid #F3EDDF"><div style="width:42%;background:#F6C400"></div><div style="width:24%;background:#F3EDDF"></div><div style="width:34%;background:#0E1F4D"></div></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:4cqw">xx V · xx N · xx D</span><img src="assets/logo-sochaux-retro.png" alt="" style="height:7cqw;width:auto"></div>
+</div>
+</div>
+</figure>
+
+<figure style="margin:0;display:flex;flex-direction:column;gap:10px">
+<figcaption style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase">Aperçu dans une messagerie</figcaption>
+<div style="background:#DCD3BE;border:2px solid #0E1F4D;padding:22px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;height:100%">
+<div style="background:#FFFDF6;border:1px solid rgba(14,31,77,.2);border-radius:12px 12px 2px 12px;max-width:380px;overflow:hidden;box-shadow:0 2px 0 rgba(14,31,77,.15)">
+<div style="container-type:inline-size"><div style="position:relative;aspect-ratio:1200/630;background:#0E1F4D;color:#F6C400;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:16cqw">4 – 1</div></div>
+<div style="padding:10px 12px;display:flex;flex-direction:column;gap:2px"><span style="font-weight:500;font-size:15px">Metz – Sochaux : 4-1 · Sochaux rétro</span><span style="font-size:13px;color:#3A4A75">Fiche du match, résumé, compo et galerie.</span><span style="font-size:12px;color:#1F3FA8">fcsochauxretro.com</span></div>
+<div style="padding:0 12px 10px;font-size:15px">Regarde ça, la prépa 2026 😅</div>
+</div>
+<span style="font-size:12px;color:#3A4A75">14:32 ✓✓</span>
+</div>
+</figure>
+</section>
+
+<section style="background:#0E1F4D;padding:clamp(48px,6vw,88px) clamp(16px,4vw,48px)">
+<div style="max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:40px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:14px;color:#F3EDDF">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#F6C400">Newsletter hebdomadaire</span>
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(44px,5vw,72px);line-height:1;text-transform:uppercase">« Ce jour-là »</h2>
+<p style="margin:0;font-size:19px;line-height:1.5">Générée automatiquement à partir des matchs de la semaine, avec le compte à rebours du centenaire et un rappel aux dons.</p>
+<div style="display:flex;border:2px solid #F3EDDF;max-width:440px"><input placeholder="Votre e-mail" style="flex:1;min-width:0;border:0;background:transparent;padding:14px;color:#F3EDDF;font-family:'Newsreader',serif;font-size:17px;outline:none"><button onClick="{{ sub }}" style="all:unset;cursor:pointer;background:#F6C400;color:#0E1F4D;padding:0 18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center">{{ subLabel }}</button></div>
+</div>
+<div style="max-width:600px;width:100%;justify-self:center;background:#FFFDF6;border:2px solid #F6C400">
+<div style="background:#1F3FA8;color:#F3EDDF;padding:18px 24px;display:flex;align-items:center;gap:12px"><img src="assets/logo-sochaux-retro.png" alt="" style="height:48px;width:auto"><div style="display:flex;flex-direction:column"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;text-transform:uppercase">Ce jour-là</span><span style="font-size:14px;color:#C9CFE0">Semaine du 28 septembre au 4 octobre</span></div></div>
+<div style="padding:22px 24px;display:flex;flex-direction:column;gap:16px">
+<div style="aspect-ratio:16/9;background:#E8DFC9;border:2px solid #0E1F4D"><image-slot id="nl-photo" shape="rect" placeholder="Photo du match de la semaine"></image-slot></div>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#1F3FA8">2 octobre 2026 · amical</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;text-transform:uppercase;line-height:1">Sochaux – Neuchâtel Xamax : 2-1</span>
+<p style="margin:0;font-size:16px;line-height:1.5">Retrouvez la fiche, la composition et les photos de la rencontre dans le musée.</p>
+<a href="Fiche%20Match.dc.html" style="align-self:flex-start;background:#0E1F4D;color:#F6C400;padding:11px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.1em">Lire la fiche</a>
+<div style="border-top:2px solid #0E1F4D;padding-top:14px;display:flex;flex-direction:column;gap:6px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.12em;text-transform:uppercase">Aussi cette semaine dans les archives</span>
+<span style="font-size:15px">· Un match de championnat des années 80</span><span style="font-size:15px">· Une affiche des années 50</span>
+</div>
+<div style="background:#F6C400;border:2px solid #0E1F4D;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;text-transform:uppercase">J-{{ daysLeft }} avant les 100 ans</span><a href="Faire%20un%20don.dc.html" style="background:#0E1F4D;color:#F6C400;padding:9px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.1em">♥ Faire un don</a></div>
+</div>
+<div style="padding:12px 24px;background:#E8DFC9;font-size:12px;color:#3A4A75;text-align:center">Vous recevez cet e-mail car vous êtes inscrit à la newsletter Sochaux rétro · Se désinscrire</div>
+</div>
+</div>
+</section>
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { sub: false };
+  renderVals() {
+    return {
+      daysLeft: Math.ceil((new Date('2028-05-20T00:00:00') - Date.now()) / 864e5),
+      sub: () => this.setState({ sub: true }), subLabel: this.state.sub ? 'Inscrit ✓' : "S'inscrire",
+    };
+  }
+}
+</script>
+</body>
+</html>

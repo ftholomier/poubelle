@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}</style>
+</helmet>
+<div onMouseLeave="{{ closeMega }}" style="position:relative;z-index:50;font-family:'Newsreader',Georgia,serif;color:#0E1F4D">
+
+<sc-if value="{{ showTicker }}" hint-placeholder-val="{{ true }}">
+<div style="background:#0E1F4D;color:#F3EDDF;font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.12em;text-transform:uppercase;height:36px;display:flex;align-items:center;overflow:hidden;position:relative">
+<span style="position:relative;z-index:2;flex-shrink:0;height:100%;display:flex;align-items:center;gap:8px;padding:0 16px;background:#F6C400;color:#0E1F4D;font-weight:900"><span data-hlive="" style="width:8px;height:8px;border-radius:50%;background:#0E1F4D;display:inline-block"></span>En direct du musée</span>
+<div style="flex:1;overflow:hidden;height:100%;display:flex;align-items:center">
+<div data-hticker="" style="display:flex;gap:40px;width:max-content;white-space:nowrap;padding-left:40px">
+<sc-for list="{{ tickerItems }}" as="t" hint-placeholder-count="10">
+<a href="{{ t.href }}" style="display:flex;gap:10px;align-items:center;color:#F3EDDF" style-hover="color:#F6C400"><span style="color:#F6C400">{{ t.k }}</span><span>{{ t.v }}</span><span style="color:#F6C400;margin-left:30px">★</span></a>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<div style="background:#F3EDDF;border-bottom:2px solid #0E1F4D;position:relative">
+<a href="Musee%20FCSM.dc.html" onMouseEnter="{{ closeMega }}" aria-label="Accueil Sochaux rétro" style="position:absolute;left:clamp(12px,3vw,40px);top:6px;z-index:3;display:block;filter:drop-shadow(0 4px 0 rgba(14,31,77,.25));transition:transform .35s cubic-bezier(.3,1.6,.5,1)" style-hover="transform:rotate(-8deg) scale(1.06)">
+<img src="assets/logo-sochaux-retro.png" alt="Sochaux rétro" style="height:{{ logoH }};width:auto;display:block">
+</a>
+<div style="padding-left:{{ padL }};padding-right:clamp(12px,3vw,40px)">
+
+<div style="height:48px;display:flex;align-items:center;gap:10px;border-bottom:{{ rowBorder }}">
+<sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase;white-space:nowrap">Sochaux rétro</span>
+<span style="font-style:italic;font-size:15px;color:#3A4A75;white-space:nowrap">Le musée en ligne du FCSM · depuis 1928</span>
+</sc-if>
+<button onClick="{{ openSearch }}" style="all:unset;cursor:pointer;margin-left:auto;height:34px;display:flex;align-items:center;gap:10px;border:2px solid #0E1F4D;background:#FFFDF6;padding:0 12px;min-width:{{ searchW }};font-size:15px;color:#3A4A75" style-hover="border-color:#1F3FA8">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E1F4D" stroke-width="2.6"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5L21 21"></path></svg><span style="display:{{ searchTextDisp }}">Un match, un joueur, une saison…</span>
+</button>
+<sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ cycleSize }}" aria-label="Taille du texte" title="Taille du texte" style="all:unset;cursor:pointer;height:34px;padding:0 9px;border:2px solid #0E1F4D;display:flex;align-items:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:17px" style-hover="background:#0E1F4D;color:#F6C400">A<span style="font-size:12px">A</span><span style="font-size:12px;font-weight:700;margin-left:5px">{{ sizeLabel }}</span></button>
+<div style="position:relative">
+<button onClick="{{ toggleLang }}" style="all:unset;cursor:pointer;height:34px;padding:0 10px;border:2px solid #0E1F4D;display:flex;align-items:center;gap:6px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.08em" style-hover="background:#0E1F4D;color:#F6C400">{{ lang }} ▾</button>
+<sc-if value="{{ langOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:calc(100% + 6px);right:0;background:#FFFDF6;border:2px solid #0E1F4D;box-shadow:4px 4px 0 #0E1F4D;display:flex;flex-direction:column;min-width:150px;z-index:5">
+<sc-for list="{{ langs }}" as="l" hint-placeholder-count="2">
+<button onClick="{{ l.pick }}" style="all:unset;cursor:pointer;padding:10px 14px;display:flex;justify-content:space-between;gap:12px;font-size:17px;background:{{ l.bg }}" style-hover="background:#F6C400"><span>{{ l.name }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800">{{ l.code }}</span></button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+<a href="Contribuer.dc.html" style="height:34px;display:flex;align-items:center;padding:0 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;border-bottom:2px solid #F6C400">Contribuer</a>
+</sc-if>
+<a href="Faire%20un%20don.dc.html" style="height:34px;display:flex;align-items:center;background:#F6C400;color:#0E1F4D;border:2px solid #0E1F4D;padding:0 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap;box-shadow:3px 3px 0 #0E1F4D;transition:transform .2s cubic-bezier(.3,1.5,.5,1),box-shadow .2s" style-hover="transform:translate(-2px,-2px);box-shadow:5px 5px 0 #0E1F4D;color:#0E1F4D">♥ Faire un don</a>
+<sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ toggleMenu }}" aria-label="Menu" style="all:unset;cursor:pointer;width:38px;height:38px;background:#0E1F4D;color:#F6C400;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px">{{ burgerIcon }}</button>
+</sc-if>
+</div>
+
+<sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+<nav style="height:58px;display:flex;align-items:stretch;justify-content:flex-end;gap:clamp(14px,2vw,30px);font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:19px;text-transform:uppercase;letter-spacing:.07em">
+<sc-for list="{{ nav }}" as="n" hint-placeholder-count="7">
+<a href="{{ n.href }}" onMouseEnter="{{ n.enter }}" style="display:flex;align-items:center;gap:6px;white-space:nowrap;color:{{ n.color }};border-bottom:4px solid {{ n.line }};border-top:4px solid transparent;transition:border-color .2s,color .2s" style-hover="border-bottom-color:#F6C400">{{ n.label }}<span style="font-size:12px;opacity:{{ n.caretOp }}">▾</span></a>
+</sc-for>
+</nav>
+</sc-if>
+</div>
+</div>
+
+<sc-if value="{{ megaMatchs }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:100%;left:0;right:0;background:#0E1F4D;color:#F3EDDF;border-top:3px solid #F6C400;box-shadow:0 18px 40px rgba(14,31,77,.35)">
+<div style="max-width:1320px;margin:0 auto;padding:32px clamp(16px,4vw,48px) 36px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,.8fr);gap:40px">
+<div style="display:flex;flex-direction:column;gap:16px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px;text-transform:uppercase;letter-spacing:.06em;color:#F6C400">Par compétition</span>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ competitions }}" as="c" hint-placeholder-count="8">
+<a href="{{ c.href }}" style="border:2px solid #F6C400;color:#F6C400;padding:8px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;transition:background .15s" style-hover="background:#F6C400;color:#0E1F4D">{{ c.label }}</a>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px;text-transform:uppercase;letter-spacing:.06em;color:#F6C400">Par décennie</span><a href="Mosaique.dc.html?cat=matchs" style="color:#F3EDDF;font-style:italic;font-size:16px">Tous les matchs →</a></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px">
+<sc-for list="{{ decades }}" as="d" hint-placeholder-count="11">
+<a href="{{ d.href }}" style="border:2px solid rgba(243,237,223,.35);padding:10px 12px;display:flex;flex-direction:column;color:#F3EDDF;transition:transform .2s cubic-bezier(.3,1.5,.5,1),background .2s,border-color .2s" style-hover="background:#1F3FA8;border-color:#F6C400;transform:translateY(-3px);color:#F3EDDF">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:34px;line-height:1">{{ d.short }}</span><span style="font-size:13px;font-style:italic;color:#C9CFE0">années {{ d.full }}</span>
+</a>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;border-left:1px solid rgba(243,237,223,.25);padding-left:32px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px;text-transform:uppercase;letter-spacing:.06em;color:#F6C400">Explorer</span>
+<sc-for list="{{ exploreMatchs }}" as="x" hint-placeholder-count="3">
+<a href="{{ x.href }}" style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:20px;text-transform:uppercase;color:#F3EDDF;transition:padding .2s,color .15s" style-hover="padding-left:8px;color:#F6C400">{{ x.label }}</a>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ megaInter }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:100%;left:0;right:0;background:#0E1F4D;color:#F3EDDF;border-top:3px solid #F6C400;box-shadow:0 18px 40px rgba(14,31,77,.35)">
+<div style="max-width:1320px;margin:0 auto;padding:28px clamp(16px,4vw,48px) 32px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px;text-transform:uppercase;letter-spacing:.06em;color:#F6C400">Interactif · jouez avec l'histoire</span><a href="Centenaire.dc.html" style="color:#F3EDDF;font-style:italic;font-size:16px">Le centenaire →</a></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px">
+<sc-for list="{{ interactif }}" as="x" hint-placeholder-count="7">
+<a href="{{ x.href }}" style="border:2px solid rgba(243,237,223,.35);padding:16px 14px;display:flex;flex-direction:column;gap:8px;color:#F3EDDF;transition:transform .2s cubic-bezier(.3,1.5,.5,1),background .2s,border-color .2s" style-hover="background:#1F3FA8;border-color:#F6C400;transform:translateY(-4px);color:#F3EDDF">
+<span style="width:42px;height:42px;border:2px solid #F6C400;color:#F6C400;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px">{{ x.icon }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;text-transform:uppercase;line-height:1">{{ x.label }}</span>
+<span style="font-size:14px;line-height:1.35;color:#C9CFE0">{{ x.d }}</span>
+</a>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ menu }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;top:100%;left:0;right:0;background:#0E1F4D;color:#F3EDDF;padding:12px clamp(16px,4vw,48px) 28px;display:flex;flex-direction:column;box-shadow:0 18px 40px rgba(14,31,77,.35);max-height:80vh;overflow:auto">
+<sc-for list="{{ nav }}" as="n" hint-placeholder-count="7">
+<a href="{{ n.href }}" style="padding:12px 0;border-bottom:1px solid rgba(243,237,223,.2);font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:28px;text-transform:uppercase;color:{{ n.mColor }}">{{ n.label }}</a>
+</sc-for>
+<span style="margin-top:18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#F6C400">Interactif</span>
+<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+<sc-for list="{{ interactif }}" as="x" hint-placeholder-count="7"><a href="{{ x.href }}" style="border:2px solid #F3EDDF;color:#F3EDDF;padding:8px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px">{{ x.label }}</a></sc-for>
+</div>
+<div style="display:flex;gap:8px;margin-top:20px;flex-wrap:wrap;align-items:center">
+<sc-for list="{{ langs }}" as="l" hint-placeholder-count="2"><button onClick="{{ l.pick }}" style="all:unset;cursor:pointer;border:2px solid #F6C400;padding:6px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;background:{{ l.mBg }};color:{{ l.mFg }}">{{ l.code }}</button></sc-for>
+<button onClick="{{ cycleSize }}" style="all:unset;cursor:pointer;border:2px solid #F3EDDF;padding:6px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px">Taille du texte · {{ sizeLabel }}</button>
+<a href="Contribuer.dc.html" style="color:#F6C400;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;border-bottom:2px solid #F6C400">Contribuer</a>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ search }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:100;background:rgba(14,31,77,.97);color:#F3EDDF;overflow:auto">
+<div style="max-width:960px;margin:0 auto;padding:clamp(24px,6vh,72px) clamp(16px,4vw,48px);display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:16px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#F6C400">Rechercher dans le musée</span>
+<button onClick="{{ closeSearch }}" style="all:unset;cursor:pointer;border:2px solid #F3EDDF;padding:8px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.1em;text-transform:uppercase" style-hover="background:#F6C400;color:#0E1F4D;border-color:#F6C400">Fermer ✕</button>
+</div>
+<input autoFocus="{{ true }}" value="{{ q }}" onChange="{{ onQ }}" placeholder="Un joueur, un match, une saison…" style="width:100%;background:transparent;border:0;border-bottom:4px solid #F6C400;padding:12px 0;color:#F3EDDF;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:clamp(36px,6vw,68px);text-transform:uppercase;outline:none">
+<span style="font-style:italic;font-size:18px;color:#C9CFE0">{{ resultsLabel }}</span>
+<div style="display:flex;flex-direction:column">
+<sc-for list="{{ results }}" as="r" hint-placeholder-count="5">
+<a href="{{ r.href }}" style="display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(243,237,223,.2);color:#F3EDDF;transition:padding .2s" style-hover="padding-left:12px;color:#F6C400">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#F6C400">{{ r.type }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:28px;text-transform:uppercase;line-height:1.05">{{ r.label }}</span>
+<span style="font-style:italic;font-size:16px;color:#C9CFE0">{{ r.meta }}</span>
+</a>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;1400px&quot;,&quot;height&quot;:&quot;560px&quot;},&quot;active&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Accueil&quot;,&quot;Matchs&quot;,&quot;Nos Lions&quot;,&quot;Supporters&quot;,&quot;Infrastructures&quot;,&quot;Symboles&quot;,&quot;Interactif&quot;,&quot;&quot;],&quot;default&quot;:&quot;Accueil&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showTicker&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { mega: null, search: false, q: '', lang: 'FR', langOpen: false, menu: false, zoom: 1, w: typeof window !== 'undefined' ? window.innerWidth : 1400 };
+  trackRef = React.createRef(); liveRef = React.createRef();
+  index = [
+    ['Joueur', 'Albert Cartier', 'Nos Lions', 'Fiche%20Joueur.dc.html'], ['Joueur', 'Rafa Paez', 'Nos Lions', 'Fiche%20Joueur.dc.html'], ['Joueur', 'Stéphane Dalmat', 'Nos Lions', 'Fiche%20Joueur.dc.html'],
+    ['Joueur', 'Bernard Genghini', 'Nos Lions', 'Fiche%20Joueur.dc.html'], ['Joueur', 'Yannick Stopyra', 'Nos Lions', 'Fiche%20Joueur.dc.html'], ['Joueur', 'Joël Bats', 'Nos Lions', 'Fiche%20Joueur.dc.html'],
+    ['Joueur', 'Mathis Clairicia', 'Nos Lions', 'Fiche%20Joueur.dc.html'], ['Joueur', 'Ismaël Aaneba', 'Nos Lions', 'Fiche%20Joueur.dc.html'],
+    ['Match', 'Metz – Sochaux 4-1', 'Amical · 22/07/2026', 'Fiche%20Match.dc.html'], ['Match', 'Sochaux – Neuchâtel Xamax 2-1', 'Amical · 02/10/2026', 'Fiche%20Match.dc.html'], ['Match', 'Finale Coupe de France 2007', 'Sochaux – Marseille', 'Fiche%20Match.dc.html'],
+    ['Saison', '2026-27', 'Saison en cours', 'Saison.dc.html'], ['Saison', '1934-35', 'Champion de France', 'Frise.dc.html'], ['Saison', '2006-07', 'Coupe de France', 'Frise.dc.html'],
+    ['Face-à-face', 'Sochaux × Metz', 'Historique', 'Face%20a%20face.dc.html'], ['Lieu', 'Stade Auguste-Bonal', 'Infrastructures', 'Carto.html?vue=lieux'], ['Objet', 'Maillots par époque', 'Symboles', 'Maillots.dc.html'],
+  ].map(([type, label, meta, href]) => ({ type, label, meta, href }));
+  startAnims() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const el = document.querySelector('[data-hticker]'); if (el && el !== this.tickEl) { this.tick?.cancel(); this.tickEl = el; this.tick = el.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-50%)' }], { duration: 60000, iterations: Infinity }); el.parentElement.onmouseenter = () => this.tick.pause(); el.parentElement.onmouseleave = () => this.tick.play(); }
+    const lv = document.querySelector('[data-hlive]'); if (lv && lv !== this.liveEl) { this.liveEl = lv; lv.animate([{ opacity: 1 }, { opacity: .2 }, { opacity: 1 }], { duration: 1400, iterations: Infinity }); }
+  }
+  componentDidMount() {
+    this.onResize = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this.onResize);
+    this.onKey = e => { if (e.key === 'Escape') this.setState({ search: false, mega: null }); }; window.addEventListener('keydown', this.onKey);
+    try { const z = parseFloat(localStorage.getItem('fcsm-textsize')); if (z) { this.setState({ zoom: z }); document.body.style.zoom = z; } } catch (e) {}
+    this.startAnims(); setTimeout(() => this.startAnims(), 300); setTimeout(() => this.startAnims(), 1200);
+  }
+  componentDidUpdate() { this.startAnims(); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); window.removeEventListener('keydown', this.onKey); this.tick?.cancel(); }
+  renderVals() {
+    const active = this.props.active ?? 'Accueil';
+    const wide = this.state.w >= 1100, z = this.state.zoom || 1;
+    const items = [['Accueil', 'Musee%20FCSM.dc.html'], ['Matchs', 'Mosaique.dc.html?cat=matchs', 'matchs'], ['Nos Lions', 'Mosaique.dc.html?cat=joueurs'], ['Supporters', 'Mosaique.dc.html?cat=supporters'], ['Infrastructures', 'Mosaique.dc.html?cat=infra'], ['Symboles', 'Mosaique.dc.html?cat=symboles'], ['Interactif', 'Centenaire.dc.html', 'interactif']];
+    const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const q = norm(this.state.q.trim());
+    const results = q ? this.index.filter(r => norm(r.label + ' ' + r.meta + ' ' + r.type).includes(q)) : this.index.filter((_, i) => [0, 2, 8, 10, 14].includes(i));
+    const decades = ['20', '30', '40', '50', '60', '70', '80', '90', '2000', '2010', '2020'];
+    const left = Math.ceil((new Date('2028-05-20T00:00:00') - Date.now()) / 864e5);
+    const today = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+    const tick = [
+      ['Ce jour-là · ' + today, 'Sochaux – Neuchâtel Xamax 2-1', 'Fiche%20Match.dc.html'], ['Centenaire', 'J-' + left + ' avant les 100 ans', 'Centenaire.dc.html'],
+      ['Dernier match fiché', 'Metz – Sochaux 4-1', 'Fiche%20Match.dc.html'], ['Nouveau', 'La carto des stades et des origines', 'Carto.html'],
+      ['Vote', 'Composez le Onze de légende', 'Centenaire.dc.html'], ['Contribuer', 'Vos archives enrichissent le musée', 'Contribuer.dc.html'],
+    ];
+    const tickerItems = [...tick, ...tick].map(([k, v, href]) => ({ k, v, href }));
+    return {
+      showTicker: this.props.showTicker ?? true, tickerItems,
+      wide, narrow: !wide, logoH: wide ? '100px' : '56px', padL: wide ? 'calc(clamp(12px,3vw,40px) + 110px)' : 'calc(clamp(12px,3vw,40px) + 62px)', rowBorder: wide ? '1px solid rgba(14,31,77,.18)' : '0',
+      searchW: wide ? '300px' : '38px', searchTextDisp: wide ? 'inline' : 'none',
+      nav: items.map(([label, href, mega]) => ({ label, href, color: label === active ? '#1F3FA8' : '#0E1F4D', mColor: label === active ? '#F6C400' : '#F3EDDF', line: label === active ? '#F6C400' : 'transparent', caretOp: mega ? .7 : 0, enter: () => this.setState({ mega: mega || null, langOpen: false }) })),
+      megaMatchs: wide && this.state.mega === 'matchs', megaInter: wide && this.state.mega === 'interactif',
+      closeMega: () => this.state.mega && this.setState({ mega: null }),
+      competitions: ['Championnat', 'Coupe de France', 'Coupe de la Ligue', "Coupe d'Europe", 'Coupe Charles Drago', 'Coupes diverses', 'Barrages', "Coupe d'été", 'Amical'].map(label => ({ label, href: 'Mosaique.dc.html?cat=matchs&f=' + encodeURIComponent(label) })),
+      decades: decades.map(d => ({ short: d.length === 2 ? "'" + d : d, full: d.length === 2 ? '19' + d : d, href: 'Mosaique.dc.html?cat=matchs&dec=' + (d.length === 2 ? '19' + d : d) })),
+      exploreMatchs: [['Saisons', 'Saison.dc.html'], ['Face-à-face', 'Face%20a%20face.dc.html'], ['Records', 'Records.dc.html']].map(([label, href]) => ({ label, href })),
+      interactif: [['◎', 'Carto', 'Stades, origines, épopées, lieux.', 'Carto.html'], ['?', 'Quiz', 'Êtes-vous un vrai Lionceau ?', 'Quiz.dc.html'], ['▦', 'Album', 'Collectionnez les cartes des Lions.', 'Album.dc.html'], ['XI', 'Onze de légende', 'Votez pour le centenaire.', 'Centenaire.dc.html'], ['100', '100 moments', 'Un moment par semaine.', 'Centenaire.dc.html'], ['↔', 'Maillots', 'Deux époques, un curseur.', 'Maillots.dc.html'], ['→', 'Frise', 'De 1928 à 2028.', 'Frise.dc.html']].map(([icon, label, d, href]) => ({ icon, label, d, href })),
+      search: this.state.search, q: this.state.q,
+      openSearch: () => this.setState({ search: true, mega: null, menu: false }), closeSearch: () => this.setState({ search: false, q: '' }),
+      onQ: e => this.setState({ q: e.target.value }),
+      results, resultsLabel: q ? (results.length ? results.length + ' résultat' + (results.length > 1 ? 's' : '') : 'Aucun résultat. Essayez « Bonal », « 2007 » ou un nom de joueur.') : 'Suggestions',
+      lang: this.state.lang, langOpen: this.state.langOpen, toggleLang: () => this.setState(s => ({ langOpen: !s.langOpen })),
+      langs: [['FR', 'Français'], ['EN', 'English']].map(([code, name]) => ({ code, name, bg: code === this.state.lang ? '#F6C400' : 'transparent', mBg: code === this.state.lang ? '#F6C400' : 'transparent', mFg: code === this.state.lang ? '#0E1F4D' : '#F6C400', pick: () => this.setState({ lang: code, langOpen: false }) })),
+      sizeLabel: Math.round(z * 100) + '%',
+      cycleSize: () => { const next = z >= 1.25 ? 1 : z >= 1.12 ? 1.25 : 1.12; this.setState({ zoom: next }); try { document.body.style.zoom = next; localStorage.setItem('fcsm-textsize', next); } catch (e) {} },
+      menu: this.state.menu && !wide, burgerIcon: this.state.menu ? '✕' : '☰', toggleMenu: () => this.setState(s => ({ menu: !s.menu })),
+    };
+  }
+}
+</script>
+</body>
+</html>

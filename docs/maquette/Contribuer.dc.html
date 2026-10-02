@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#F3EDDF;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;background:#F3EDDF">
+<dc-import name="Header" active="Supporters" hint-size="100%,90px"></dc-import>
+<section style="max-width:1320px;margin:0 auto;padding:clamp(40px,6vw,80px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:clamp(32px,5vw,72px);align-items:start">
+<div style="display:flex;flex-direction:column;gap:22px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#1F3FA8">Contribuer au musée</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(56px,8vw,112px);line-height:.92;text-transform:uppercase;flex-shrink:0">Les archives<br>dorment dans<br><span style="color:#1F3FA8">vos greniers.</span></h1>
+<p style="margin:0;font-size:20px;line-height:1.5;max-width:42ch">Une correction, une photo de famille au stade, un billet, un fanion : proposez-le. Chaque envoi est relu par l'équipe avant publication, avec votre nom en crédit.</p>
+<div style="display:flex;flex-direction:column;border-top:2px solid #0E1F4D">
+<sc-for list="{{ after }}" as="a" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start;padding:14px 0;border-bottom:1px solid rgba(14,31,77,.2)"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;color:#1F3FA8">{{ a.n }}</span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:21px;text-transform:uppercase">{{ a.t }}</span><span style="font-size:16px;color:#3A4A75">{{ a.d }}</span></div></div>
+</sc-for>
+</div>
+</div>
+
+<div style="background:#FFFDF6;border:3px solid #0E1F4D;box-shadow:12px 12px 0 #F6C400;display:flex;flex-direction:column">
+<div style="display:grid;grid-template-columns:repeat(4,1fr);border-bottom:2px solid #0E1F4D">
+<sc-for list="{{ stepper }}" as="s" hint-placeholder-count="4">
+<button onClick="{{ s.go }}" style="all:unset;cursor:pointer;padding:12px 8px;text-align:center;background:{{ s.bg }};color:{{ s.fg }};border-right:1px solid #0E1F4D;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.08em;transition:background .2s">{{ s.n }} · {{ s.label }}</button>
+</sc-for>
+</div>
+<div ref="{{ bodyRef }}" style="padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:16px">
+
+<sc-if value="{{ s0 }}" hint-placeholder-val="{{ true }}">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;text-transform:uppercase">Que souhaitez-vous proposer ?</span>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+<sc-for list="{{ types }}" as="t" hint-placeholder-count="4">
+<button onClick="{{ t.pick }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:16px;display:flex;flex-direction:column;gap:6px;background:{{ t.bg }};box-shadow:{{ t.sh }};transition:transform .2s cubic-bezier(.3,1.5,.5,1)" style-hover="transform:translateY(-3px)">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:34px;line-height:1">{{ t.icon }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px;text-transform:uppercase">{{ t.label }}</span>
+<span style="font-size:15px;line-height:1.35;color:#3A4A75">{{ t.d }}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ s1 }}" hint-placeholder-val="{{ false }}">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;text-transform:uppercase">{{ typeLabel }} · les détails</span>
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase">Fiche concernée (facultatif)</span><input placeholder="Un match, un joueur, une saison…" style="border:2px solid #0E1F4D;background:#F3EDDF;padding:13px;font-family:'Newsreader',serif;font-size:18px;color:#0E1F4D;outline:none"></label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase">Date (même approximative)</span><input placeholder="ex. années 80" style="border:2px solid #0E1F4D;background:#F3EDDF;padding:13px;font-family:'Newsreader',serif;font-size:18px;color:#0E1F4D;outline:none;min-width:0"></label>
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase">Lieu</span><input placeholder="ex. stade Bonal" style="border:2px solid #0E1F4D;background:#F3EDDF;padding:13px;font-family:'Newsreader',serif;font-size:18px;color:#0E1F4D;outline:none;min-width:0"></label>
+</div>
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase">Description</span><textarea rows="4" placeholder="Qui, quoi, l'histoire derrière…" style="border:2px solid #0E1F4D;background:#F3EDDF;padding:13px;font-family:'Newsreader',serif;font-size:18px;color:#0E1F4D;outline:none;resize:vertical"></textarea></label>
+<sc-if value="{{ needsFile }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ addFile }}" style="all:unset;cursor:pointer;border:3px dashed #1F3FA8;background:#F3EDDF;padding:26px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;transition:background .2s" style-hover="background:#F6C400">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;text-transform:uppercase">Glissez vos fichiers ici</span>
+<span style="font-size:15px;color:#3A4A75">JPG, PNG, PDF · scans en haute définition bienvenus</span>
+</button>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ files }}" as="f" hint-placeholder-count="0"><span style="border:2px solid #0E1F4D;background:#F6C400;padding:6px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px">📎 {{ f }}</span></sc-for>
+</div>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{ s2 }}" hint-placeholder-val="{{ false }}">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;text-transform:uppercase">Vous et vos droits</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase">Nom</span><input placeholder="Prénom Nom" style="border:2px solid #0E1F4D;background:#F3EDDF;padding:13px;font-family:'Newsreader',serif;font-size:18px;color:#0E1F4D;outline:none;min-width:0"></label>
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase">E-mail</span><input placeholder="vous@exemple.fr" style="border:2px solid #0E1F4D;background:#F3EDDF;padding:13px;font-family:'Newsreader',serif;font-size:18px;color:#0E1F4D;outline:none;min-width:0"></label>
+</div>
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase">Crédit affiché</span><input placeholder="ex. Collection famille Martin" style="border:2px solid #0E1F4D;background:#F3EDDF;padding:13px;font-family:'Newsreader',serif;font-size:18px;color:#0E1F4D;outline:none"></label>
+<button onClick="{{ toggleRights }}" style="all:unset;cursor:pointer;display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;border:2px solid #0E1F4D;padding:14px;background:{{ rightsBg }}">
+<span style="width:28px;height:28px;border:2px solid #0E1F4D;background:#FFFDF6;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px">{{ rightsMark }}</span>
+<span style="font-size:16px;line-height:1.45">Je suis l'auteur ou le détenteur des droits de ces documents, et j'autorise Sochaux rétro à les publier gratuitement sur le musée en ligne, avec mention du crédit ci-dessus.</span>
+</button>
+</sc-if>
+
+<sc-if value="{{ s3 }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:20px 0">
+<img ref="{{ lionRef }}" src="assets/logo-sochaux-retro.png" alt="" style="height:120px;width:auto">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:40px;text-transform:uppercase;line-height:1">Merci, Lionceau !</span>
+<p style="margin:0;font-size:18px;max-width:36ch">Votre contribution est dans la file de validation. Vous recevrez un e-mail dès sa publication.</p>
+<span style="background:#F6C400;border:2px solid #0E1F4D;padding:6px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;letter-spacing:.1em">N° de suivi · SR-2026-0142</span>
+</div>
+</sc-if>
+
+<div style="display:flex;justify-content:space-between;gap:10px;margin-top:8px">
+<button onClick="{{ prev }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:12px 18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.1em;visibility:{{ prevVis }}" style-hover="background:#E8DFC9">← Retour</button>
+<button onClick="{{ next }}" style="all:unset;cursor:pointer;background:{{ nextBg }};color:#F6C400;padding:14px 22px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;text-transform:uppercase;letter-spacing:.1em;opacity:{{ nextOp }}" style-hover="background:#1F3FA8">{{ nextLabel }}</button>
+</div>
+</div>
+</div>
+</section>
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { step: 0, type: -1, files: [], rights: false };
+  bodyRef = React.createRef(); lionRef = React.createRef();
+  types = [['✎', 'Une correction', 'Une date, un score, un nom à rectifier.'], ['▣', 'Une photo', "Au stade, à l'entraînement, en déplacement."], ['▤', 'Un document', 'Billet, programme, affiche, coupure de presse.'], ['❝', 'Un témoignage', 'Un souvenir de match, une anecdote.']];
+  componentDidUpdate(pp, ps) {
+    if (ps.step === this.state.step || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const dir = this.state.step > ps.step ? 1 : -1;
+    this.bodyRef.current?.animate([{ opacity: 0, transform: `translateX(${dir * 30}px)` }, { opacity: 1, transform: 'none' }], { duration: 380, easing: 'cubic-bezier(.2,.75,.2,1)' });
+    if (this.state.step === 3) this.lionRef.current?.animate([{ transform: 'scale(.3) rotate(-25deg)', opacity: 0 }, { transform: 'scale(1.12) rotate(6deg)', opacity: 1, offset: .7 }, { transform: 'none' }], { duration: 800 });
+  }
+  renderVals() {
+    const { step, type, rights } = this.state;
+    const can = step === 0 ? type >= 0 : step === 2 ? rights : true;
+    return {
+      s0: step === 0, s1: step === 1, s2: step === 2, s3: step === 3,
+      stepper: ['Type', 'Détails', 'Droits', 'Envoi'].map((label, i) => ({ n: i + 1, label, bg: i === step ? '#0E1F4D' : i < step ? '#F6C400' : 'transparent', fg: i === step ? '#F6C400' : '#0E1F4D', go: () => i < step && step < 3 && this.setState({ step: i }) })),
+      types: this.types.map(([icon, label, d], i) => ({ icon, label, d, bg: i === type ? '#F6C400' : '#FFFDF6', sh: i === type ? '5px 5px 0 #0E1F4D' : 'none', pick: () => this.setState({ type: i }) })),
+      typeLabel: type >= 0 ? this.types[type][1] : '', needsFile: type === 1 || type === 2,
+      files: this.state.files, addFile: () => this.setState(s => ({ files: [...s.files, `scan-${String(s.files.length + 1).padStart(2, '0')}.jpg`] })),
+      toggleRights: () => this.setState(s => ({ rights: !s.rights })), rightsMark: rights ? '✓' : '', rightsBg: rights ? '#F6C400' : '#F3EDDF',
+      prev: () => this.setState(s => ({ step: Math.max(0, s.step - 1) })), prevVis: step > 0 && step < 3 ? 'visible' : 'hidden',
+      next: () => { if (step === 3) return this.setState({ step: 0, type: -1, files: [], rights: false }); if (can) this.setState({ step: step + 1 }); },
+      nextLabel: step === 2 ? 'Envoyer ma contribution' : step === 3 ? 'Proposer autre chose' : 'Continuer →', nextBg: '#0E1F4D', nextOp: can ? 1 : .4,
+      after: [{ n: '01', t: 'Vous proposez', d: 'Correction, photo, document ou témoignage.' }, { n: '02', t: "L'équipe vérifie", d: 'Chaque envoi rejoint la file de validation du back-office.' }, { n: '03', t: 'On publie', d: 'Avec votre crédit, sur la fiche concernée.' }, { n: '04', t: 'On vous prévient', d: 'Un e-mail dès la mise en ligne.' }],
+    };
+  }
+}
+</script>
+</body>
+</html>

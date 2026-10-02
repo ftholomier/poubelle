@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#F3EDDF;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}
+a{color:#0E1F4D;text-decoration:none}
+a:hover{color:#1F3FA8}
+*{box-sizing:border-box}
+@keyframes fcsmBar{from{width:0}to{width:100%}}
+</style>
+</helmet>
+<div style="min-height:100vh;background:#F3EDDF">
+
+
+
+<dc-import name="Header" active="Accueil" hint-size="100%,90px"></dc-import>
+
+<sc-if value="{{ heroSlider }}" hint-placeholder-val="{{ true }}">
+<section onTouchStart="{{ touchStart }}" onTouchEnd="{{ touchEnd }}" style="position:relative;height:min(86vh,840px);min-height:600px;background:#0E1F4D;overflow:hidden;color:#F3EDDF">
+<sc-for list="{{ slides }}" as="s" hint-placeholder-count="1">
+<div data-slide="{{ s.id }}" style="position:absolute;inset:0;opacity:{{ s.opacity }};z-index:{{ s.z }};transition:opacity .9s ease"><image-slot id="{{ s.id }}" shape="rect" placeholder="{{ s.ph }}"></image-slot></div>
+</sc-for>
+<div style="position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(90deg,rgba(14,31,77,.92) 0%,rgba(14,31,77,.55) 45%,rgba(14,31,77,.05) 80%)"></div>
+<div style="position:absolute;inset:0;z-index:4;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;max-width:1320px;margin:0 auto;padding:clamp(40px,6vw,80px) clamp(16px,4vw,48px) 0">
+<div style="display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;align-items:flex-start">
+<div ref="{{ heroTextRef }}" style="display:flex;flex-direction:column;gap:22px;max-width:640px;flex:1 1 420px;min-width:0">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#F6C400">{{ cur.kind }}</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(60px,8.5vw,128px);line-height:.92;text-transform:uppercase;flex-shrink:0;text-wrap:balance">{{ cur.title }}</h1>
+<p style="margin:0;font-size:clamp(19px,1.6vw,23px);line-height:1.45;max-width:36ch;text-wrap:pretty">{{ cur.text }}</p>
+<a href="{{ cur.href }}" style="pointer-events:auto;align-self:flex-start;transition:transform .2s,background .2s;background:#F6C400;color:#0E1F4D;padding:16px 26px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#F3EDDF;color:#0E1F4D;transform:translateY(-3px)">En savoir plus</a>
+</div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:18px">
+<div style="display:flex;align-items:flex-start;gap:6px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;line-height:.85"><span ref="{{ numRef }}" style="font-size:clamp(72px,8vw,120px);display:inline-block">{{ curNum }}</span><span style="font-size:36px;color:#F6C400;margin-top:6px">/ {{ total }}</span></div>
+<div style="display:flex;gap:10px;pointer-events:auto">
+<button onClick="{{ prev }}" aria-label="Précédent" style="all:unset;cursor:pointer;width:52px;height:52px;border:2px solid #F3EDDF;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:24px" style-hover="background:#F6C400;border-color:#F6C400;color:#0E1F4D">←</button>
+<button onClick="{{ next }}" aria-label="Suivant" style="all:unset;cursor:pointer;width:52px;height:52px;border:2px solid #F3EDDF;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:24px" style-hover="background:#F6C400;border-color:#F6C400;color:#0E1F4D">→</button>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-top:1px solid rgba(243,237,223,.35);pointer-events:auto">
+<sc-for list="{{ thumbs }}" as="t" hint-placeholder-count="5">
+<button onClick="{{ t.go }}" style="all:unset;cursor:pointer;position:relative;padding:18px 16px 26px 0;display:flex;flex-direction:column;gap:4px;opacity:{{ t.op }}" style-hover="opacity:1">
+<div style="position:absolute;top:-1px;left:0;right:16px;height:3px">{{ t.bar }}</div>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.14em;color:#F6C400">{{ t.num }} · {{ t.kind }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:21px;text-transform:uppercase;line-height:1.05">{{ t.title }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ heroAffiche }}" hint-placeholder-val="{{ true }}">
+<section style="background:#1F3FA8;color:#F3EDDF;position:relative;overflow:hidden">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(40px,6vw,88px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(32px,5vw,72px);align-items:center">
+<div style="display:flex;flex-direction:column;gap:28px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#F6C400">Montbéliard · Stade Bonal · depuis 1928</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(64px,10vw,148px);line-height:.86;text-transform:uppercase;letter-spacing:-.01em">Près d'un siècle<br><span style="color:#F6C400">de jaune</span><br>et de bleu.</h1>
+<p style="margin:0;font-size:clamp(19px,1.6vw,23px);line-height:1.45;max-width:34ch;text-wrap:pretty">Maillots, affiches, photos et souvenirs de supporters : l'histoire des Lionceaux, rassemblée pièce par pièce.</p>
+<div style="display:flex;gap:14px;flex-wrap:wrap">
+<a href="#parcours" style="background:#F6C400;color:#0E1F4D;padding:16px 26px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#F3EDDF;color:#0E1F4D">Entrer dans le musée</a>
+<a href="#collections" style="border:2px solid #F3EDDF;color:#F3EDDF;padding:14px 24px;font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#F3EDDF;color:#1F3FA8">Les collections</a>
+</div>
+</div>
+<div style="position:relative;aspect-ratio:4/5;border:10px solid #F3EDDF;box-shadow:14px 14px 0 #F6C400;background:#F3EDDF">
+<image-slot id="hero-photo" shape="rect" placeholder="Photo d'archive — équipe ou match historique"></image-slot>
+<div style="position:absolute;right:-10px;bottom:-10px;background:#0E1F4D;color:#F6C400;padding:10px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;pointer-events:none">Pièce n° 0001</div>
+</div>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ heroPhoto }}" hint-placeholder-val="{{ false }}">
+<section style="position:relative;min-height:min(86vh,820px);display:flex;align-items:flex-end;background:#0E1F4D">
+<div style="position:absolute;inset:0"><image-slot id="hero-full" shape="rect" placeholder="Grande photo d'archive plein cadre"></image-slot></div>
+<div style="position:relative;width:100%;pointer-events:none;background:linear-gradient(transparent,rgba(14,31,77,.92) 55%);padding:120px clamp(16px,4vw,48px) clamp(32px,5vw,64px)">
+<div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:20px;color:#F3EDDF;pointer-events:auto">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#F6C400">Le musée en ligne des Lionceaux</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(60px,9vw,136px);line-height:.86;text-transform:uppercase">Sochaux, <span style="color:#F6C400">1928 —</span></h1>
+<a href="#parcours" style="align-self:flex-start;background:#F6C400;color:#0E1F4D;padding:16px 26px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.1em">Entrer dans le musée</a>
+</div>
+</div>
+</section>
+</sc-if>
+
+<section style="border-bottom:2px solid #0E1F4D;background:#F6C400">
+<div style="max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+<sc-for list="{{ palmares }}" as="p" hint-placeholder-count="4">
+<div data-reveal="" style="padding:26px clamp(16px,2.5vw,32px);border-right:2px solid #0E1F4D;display:flex;flex-direction:column;gap:4px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:44px;line-height:1" data-count="">{{ p.years }}</span>
+<span style="font-size:18px">{{ p.title }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="max-width:1320px;margin:0 auto;padding:clamp(56px,8vw,112px) clamp(16px,4vw,48px) 0">
+<div data-reveal="" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));border:2px solid #0E1F4D;background:#FFFDF6;box-shadow:12px 12px 0 #F6C400">
+<div style="aspect-ratio:16/10;border-right:2px solid #0E1F4D;background:#E8DFC9"><image-slot id="jour-photo" shape="rect" placeholder="Photo du match du jour"></image-slot></div>
+<div style="padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;gap:18px;justify-content:center">
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="background:#0E1F4D;color:#F6C400;padding:6px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.16em;text-transform:uppercase">Ce jour-là</span><span style="font-style:italic;font-size:18px;color:#3A4A75">2 octobre</span></div>
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(38px,4.6vw,64px);line-height:1;text-transform:uppercase">Sochaux – Neuchâtel Xamax</h2>
+<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:56px;line-height:1;color:#1F3FA8">2 – 1</span><span style="font-size:18px;color:#3A4A75">Match amical · 2026</span></div>
+<p style="margin:0;font-size:19px;line-height:1.5;text-wrap:pretty">Chaque jour, le musée ressort un match, une photo ou une affiche qui s'est joué à la même date.</p>
+<a href="Fiche%20Match.dc.html" style="align-self:flex-start;background:#0E1F4D;color:#F6C400;padding:16px 26px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.1em;transition:transform .2s" style-hover="transform:translateY(-3px);color:#F6C400">Lire la fiche du match</a>
+</div>
+</div>
+</section>
+
+<section id="parcours" style="max-width:1320px;margin:0 auto;padding:clamp(56px,8vw,112px) clamp(16px,4vw,48px)">
+<div data-reveal="" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:48px">
+<div style="display:flex;flex-direction:column;gap:10px;flex:1 1 420px;min-width:0">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#1F3FA8">Salle 1 · Le parcours</span>
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(44px,6vw,80px);line-height:1;flex-shrink:0;text-transform:uppercase">Les grandes époques</h2>
+</div>
+<p style="margin:0;max-width:40ch;font-size:19px;line-height:1.45;color:#3A4A75">Choisissez une époque pour parcourir ses saisons, ses joueurs et ses objets.</p>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border:2px solid #0E1F4D">
+<sc-for list="{{ eras }}" as="e" hint-placeholder-count="5">
+<button onClick="{{ e.select }}" style="all:unset;cursor:pointer;transition:background .25s,color .25s;padding:18px 20px;border-right:2px solid #0E1F4D;background:{{ e.bg }};color:{{ e.fg }};display:flex;flex-direction:column;gap:2px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;line-height:1">{{ e.range }}</span>
+<span style="font-size:16px;font-style:italic">{{ e.name }}</span>
+</button>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(28px,4vw,56px);margin-top:40px;align-items:start">
+<div style="aspect-ratio:3/2;border:2px solid #0E1F4D;background:#E8DFC9">
+<image-slot id="era-photo" shape="rect" placeholder="Photo représentative de l'époque"></image-slot>
+</div>
+<div ref="{{ eraRef }}" style="display:flex;flex-direction:column;gap:20px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(56px,7vw,96px);line-height:.85;color:#1F3FA8">{{ era.range }}</span>
+<h3 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:34px;text-transform:uppercase;line-height:1">{{ era.name }}</h3>
+<p style="margin:0;font-size:20px;line-height:1.5;text-wrap:pretty">{{ era.text }}</p>
+<div style="display:flex;flex-direction:column;border-top:2px solid #0E1F4D">
+<sc-for list="{{ era.facts }}" as="f" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:90px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid rgba(14,31,77,.25)">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px">{{ f.y }}</span>
+<span style="font-size:18px">{{ f.t }}</span>
+</div>
+</sc-for>
+</div>
+<a href="Frise.dc.html" style="align-self:flex-start;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:.1em;border-bottom:3px solid #F6C400;padding-bottom:4px">Visiter cette époque →</a>
+</div>
+</div>
+</section>
+
+<section id="collections" style="background:#0E1F4D;color:#F3EDDF">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(56px,8vw,112px) clamp(16px,4vw,48px)">
+<div data-reveal="" style="display:flex;flex-direction:column;gap:10px;margin-bottom:40px;min-width:0">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#F6C400">Salle 2 · Les collections</span>
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(44px,6vw,80px);line-height:1;flex-shrink:0;text-transform:uppercase">Les réserves du musée</h2>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:24px">
+<sc-for list="{{ collections }}" as="c" hint-placeholder-count="6">
+<a href="#" data-reveal="" style="display:flex;flex-direction:column;gap:14px;color:#F3EDDF" style-hover="color:#F6C400">
+<div style="aspect-ratio:4/3;background:#1A2D63;border:2px solid #F3EDDF;transition:transform .35s cubic-bezier(.3,1.4,.5,1),box-shadow .35s" style-hover="transform:rotate(-1.5deg) scale(1.03);box-shadow:10px 10px 0 #F6C400">
+<image-slot id="{{ c.id }}" shape="rect" placeholder="{{ c.ph }}"></image-slot>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:2px solid #F6C400;padding-bottom:10px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:28px;text-transform:uppercase;line-height:1">{{ c.name }}</span>
+<span style="font-style:italic;font-size:16px;color:#C9CFE0">{{ c.desc }}</span>
+</div>
+</a>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="legendes" style="max-width:1320px;margin:0 auto;padding:clamp(56px,8vw,112px) clamp(16px,4vw,48px)">
+<div data-reveal="" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:48px">
+<div style="display:flex;flex-direction:column;gap:10px;flex:1 1 420px;min-width:0">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#1F3FA8">Salle 3 · Les légendes</span>
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(44px,6vw,80px);line-height:1;flex-shrink:0;text-transform:uppercase">Ils ont porté le lion</h2>
+</div>
+<a href="Mosaique.dc.html?cat=joueurs" style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:.1em;border-bottom:3px solid #F6C400;padding-bottom:4px">Tous les joueurs →</a>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:24px">
+<sc-for list="{{ legends }}" as="l" hint-placeholder-count="4">
+<a href="Fiche%20Joueur.dc.html" data-reveal="" style="display:flex;flex-direction:column;background:#FFFDF6;border:2px solid #0E1F4D;transition:transform .25s cubic-bezier(.3,1.5,.5,1),box-shadow .25s" style-hover="box-shadow:10px 10px 0 #F6C400;transform:translate(-5px,-5px)">
+<div style="aspect-ratio:3/4;background:#E8DFC9;border-bottom:2px solid #0E1F4D">
+<image-slot id="{{ l.id }}" shape="rect" placeholder="Portrait d'archive"></image-slot>
+</div>
+<div style="padding:16px 18px;display:flex;flex-direction:column;gap:4px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:26px;text-transform:uppercase;line-height:1">{{ l.name }}</span>
+<span style="font-size:16px;color:#3A4A75;font-style:italic">{{ l.role }}</span>
+</div>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section style="background:#E8DFC9;border-top:2px solid #0E1F4D">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(56px,8vw,112px) clamp(16px,4vw,48px)">
+<div data-reveal="" style="display:flex;flex-direction:column;gap:10px;margin-bottom:40px;min-width:0"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#1F3FA8">Salle 4 · À vivre</span><h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(44px,6vw,80px);line-height:1;flex-shrink:0;text-transform:uppercase;">Jouez avec l'histoire</h2></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px">
+<a href="Quiz.dc.html" data-reveal="" style="display:flex;flex-direction:column;border:2px solid #0E1F4D;background:#FFFDF6;transition:transform .25s cubic-bezier(.3,1.5,.5,1),box-shadow .25s" style-hover="transform:translate(-5px,-5px);box-shadow:10px 10px 0 #1F3FA8">
+<div style="aspect-ratio:16/10;border-bottom:2px solid #0E1F4D;background:#E8DFC9"><image-slot id="teaser-quiz" shape="rect" placeholder="Visuel quiz : tribune, supporters"></image-slot></div>
+<div style="padding:20px;display:flex;flex-direction:column;gap:8px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#1F3FA8">Quiz supporters</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:32px;text-transform:uppercase;line-height:1">Êtes-vous un vrai Lionceau ?</span><span style="font-size:17px;line-height:1.45;color:#3A4A75">Six questions sur l'histoire du club, un score à partager.</span></div></a>
+<a href="Maillots.dc.html" data-reveal="" style="display:flex;flex-direction:column;border:2px solid #0E1F4D;background:#FFFDF6;transition:transform .25s cubic-bezier(.3,1.5,.5,1),box-shadow .25s" style-hover="transform:translate(-5px,-5px);box-shadow:10px 10px 0 #1F3FA8">
+<div style="aspect-ratio:16/10;border-bottom:2px solid #0E1F4D;background:#E8DFC9"><image-slot id="teaser-maillots" shape="rect" placeholder="Deux maillots côte à côte"></image-slot></div>
+<div style="padding:20px;display:flex;flex-direction:column;gap:8px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#1F3FA8">Symboles</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:32px;text-transform:uppercase;line-height:1">Le comparateur de maillots</span><span style="font-size:17px;line-height:1.45;color:#3A4A75">Faites glisser le curseur entre deux époques.</span></div></a>
+<a href="Frise.dc.html" data-reveal="" style="display:flex;flex-direction:column;border:2px solid #0E1F4D;background:#FFFDF6;transition:transform .25s cubic-bezier(.3,1.5,.5,1),box-shadow .25s" style-hover="transform:translate(-5px,-5px);box-shadow:10px 10px 0 #1F3FA8">
+<div style="aspect-ratio:16/10;border-bottom:2px solid #0E1F4D;background:#E8DFC9"><image-slot id="teaser-frise" shape="rect" placeholder="Photo d'archive ancienne"></image-slot></div>
+<div style="padding:20px;display:flex;flex-direction:column;gap:8px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#1F3FA8">Frise</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:32px;text-transform:uppercase;line-height:1">De 1928 à aujourd'hui</span><span style="font-size:17px;line-height:1.45;color:#3A4A75">Toute l'histoire du club sur une seule frise.</span></div></a>
+</div>
+</div>
+</section>
+
+<section id="don" style="background:#0E1F4D;color:#F3EDDF;position:relative;overflow:hidden">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(56px,8vw,112px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(32px,5vw,72px);align-items:center">
+<div data-reveal="" style="display:flex;flex-direction:column;gap:20px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#F6C400">Le centenaire</span>
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(44px,6vw,80px);line-height:1;flex-shrink:0;text-transform:uppercase;">Cent ans de lion. <span style="color:#F6C400">Aidez-nous à tout sauver.</span></h2>
+<p style="margin:0;font-size:20px;line-height:1.5;max-width:44ch;text-wrap:pretty">Chaque don sert à numériser des archives : affiches, photos, programmes, coupures de presse.</p>
+<a href="Faire%20un%20don.dc.html" style="align-self:flex-start;background:#F6C400;color:#0E1F4D;padding:16px 26px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.1em;transition:transform .2s" style-hover="transform:translateY(-3px);color:#0E1F4D">♥ Faire un don</a>
+</div>
+<div data-reveal="" style="display:flex;flex-direction:column;gap:16px">
+<a href="Centenaire.dc.html" style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:#F6C400;border-bottom:2px solid #F6C400;align-self:flex-start">100 ans, 100 moments · Onze de légende →</a>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.2em;text-transform:uppercase;color:#C9CFE0">Compte à rebours · 20 mai 1928 → 20 mai 2028</span>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+<sc-for list="{{ countdown }}" as="c" hint-placeholder-count="4">
+<div style="border:2px solid #F6C400;padding:18px 10px;display:flex;flex-direction:column;align-items:center;gap:6px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(40px,5vw,72px);line-height:1;color:#F6C400;font-variant-numeric:tabular-nums">{{ c.v }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase">{{ c.l }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<section id="saisons" style="border-top:2px solid #0E1F4D;border-bottom:2px solid #0E1F4D;background:#E8DFC9">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(48px,6vw,80px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:40px;align-items:center">
+<div style="display:flex;flex-direction:column;gap:14px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#1F3FA8">Les saisons</span>
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(40px,5vw,64px);line-height:1;text-transform:uppercase">Retrouvez une saison</h2>
+<p style="margin:0;font-size:19px;line-height:1.45;color:#3A4A75">Effectif, résultats, affiches et coupures de presse, saison après saison.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;border:2px solid #0E1F4D;background:#FFFDF6">
+<input placeholder="Ex. 1980-81, Genghini, Coupe de France…" style="flex:1;min-width:0;border:0;background:transparent;padding:18px 20px;font-family:'Newsreader',serif;font-size:19px;color:#0E1F4D;outline:none">
+<button style="all:unset;cursor:pointer;background:#0E1F4D;color:#F6C400;padding:0 24px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center">Chercher</button>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ decades }}" as="d" hint-placeholder-count="8">
+<a href="#" style="border:2px solid #0E1F4D;padding:6px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:17px" style-hover="background:#F6C400">{{ d }}</a>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<section id="contribuer" style="max-width:1320px;margin:0 auto;padding:clamp(56px,8vw,112px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:clamp(32px,5vw,72px);align-items:center">
+<div data-reveal="" style="aspect-ratio:1/1;max-height:460px;border:2px solid #0E1F4D;box-shadow:-12px 12px 0 #1F3FA8;background:#E8DFC9">
+<image-slot id="contrib-photo" shape="rect" placeholder="Objet de supporter : écharpe, billet, fanion…"></image-slot>
+</div>
+<div data-reveal="" style="display:flex;flex-direction:column;gap:22px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#1F3FA8">Contribuer</span>
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(44px,6vw,80px);line-height:1;flex-shrink:0;text-transform:uppercase">Votre grenier fait partie de l'histoire.</h2>
+<p style="margin:0;font-size:20px;line-height:1.5;max-width:44ch;text-wrap:pretty">Un billet de Bonal, une photo de famille au stade, un fanion oublié ? Confiez-nous une image : nous l'ajoutons aux collections, avec votre nom.</p>
+<a href="Contribuer.dc.html" style="align-self:flex-start;background:#0E1F4D;color:#F6C400;padding:16px 26px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#1F3FA8">Proposer un objet</a>
+</div>
+</section>
+
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;hero&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;slider&quot;,&quot;affiche&quot;,&quot;photo&quot;],&quot;default&quot;:&quot;slider&quot;,&quot;tsType&quot;:&quot;'slider'|'affiche'|'photo'&quot;},&quot;autoplay&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;animations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { era: 1, slide: 0, tick: 0 };
+  heroTextRef = React.createRef(); numRef = React.createRef(); eraRef = React.createRef(); startTicker() {}
+  get motion() { return this.props.animations !== false && !matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  ease = 'cubic-bezier(.2,.75,.2,1)';
+  stagger(root, d = 90) { if (!root || !this.motion) return; [...root.children].forEach((c, i) => c.animate([{ opacity: 0, transform: 'translateY(26px)', clipPath: 'inset(0 0 100% 0)' }, { opacity: 1, transform: 'none', clipPath: 'inset(0 0 0 0)' }], { duration: 650, delay: i * d, easing: this.ease, fill: 'backwards' })); }
+  kenBurns() { this.kb?.cancel(); if (!this.motion) return; const el = document.querySelector('[data-slide="' + this.slides[this.state.slide].id + '"]'); this.kb = el?.animate([{ transform: 'scale(1.12)' }, { transform: 'scale(1)' }], { duration: 8000, easing: 'ease-out', fill: 'forwards' }); }
+  heroIn() { this.stagger(this.heroTextRef.current); if (this.motion) this.numRef.current?.animate([{ opacity: 0, transform: 'translateY(-40px) rotate(-6deg)' }, { opacity: 1, transform: 'none' }], { duration: 600, easing: 'cubic-bezier(.3,1.5,.5,1)', fill: 'backwards' }); this.kenBurns(); }
+  countUp(el, delay) { const final = el.textContent, m = final.match(/^(\d+)(.*)$/); if (!m) return; const to = +m[1], from = to > 100 ? to - 80 : 0, t0 = performance.now() + delay;
+    const step = now => { const p = Math.min(1, Math.max(0, (now - t0) / 1300)), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(from + (to - from) * e) + m[2]; if (p < 1) requestAnimationFrame(step); else el.textContent = final; };
+    el.textContent = from + m[2]; requestAnimationFrame(step); }
+  setupReveal() { if (!this.motion) return; const els = [...document.querySelectorAll('[data-reveal]')]; els.forEach(e => e.style.opacity = '0');
+    this.io = new IntersectionObserver(ents => ents.forEach(en => { if (!en.isIntersecting) return; const el = en.target; this.io.unobserve(el);
+      const sibs = [...el.parentElement.children].filter(c => c.hasAttribute('data-reveal')), d = Math.max(0, sibs.indexOf(el)) * 100;
+      const a = el.animate([{ opacity: 0, transform: 'translateY(40px)' }, { opacity: 1, transform: 'none' }], { duration: 750, delay: d, easing: this.ease, fill: 'both' });
+      a.onfinish = () => { el.style.opacity = ''; a.cancel(); };
+      const c = el.querySelector('[data-count]'); if (c) this.countUp(c, d); }), { threshold: 0.15 });
+    els.forEach(e => this.io.observe(e)); }
+  componentDidUpdate(pp, ps) { this.startTicker(); if (ps.slide !== this.state.slide) this.heroIn(); if (ps.era !== this.state.era) this.stagger(this.eraRef.current, 70); }
+  slides = [
+    { id: 'slide-cartier', kind: 'Nos Lions', title: 'Albert Cartier', text: "Retour sur le parcours d'un homme de terrain au bord de la pelouse de Bonal.", ph: 'Photo plein cadre — Albert Cartier' },
+    { id: 'slide-paez', kind: 'Nos Lions', title: 'Rafa Paez', text: 'Souvenirs, statistiques et photos de ses saisons en jaune et bleu.', ph: 'Photo plein cadre — Rafa Paez' },
+    { id: 'slide-dalmat', kind: 'Nos Lions', title: 'Stéphane Dalmat', text: 'Le milieu de terrain raconté à travers les archives du club.', ph: 'Photo plein cadre — Stéphane Dalmat' },
+    { id: 'slide-2007', kind: 'Matchs', title: 'Finale 2007', text: 'Sochaux – Marseille au Stade de France : la soirée racontée minute par minute.', ph: 'Photo de la finale 2007' },
+    { id: 'slide-bonal', kind: 'Infrastructures', title: 'Le stade Bonal', text: "Des premières tribunes au stade d'aujourd'hui : l'histoire du chaudron sochalien.", ph: 'Photo du stade Bonal' },
+  ];
+  componentDidMount() { this.clock = setInterval(() => this.setState({ now: Date.now() }), 1000); this.startAuto(); this.heroIn(); this.setupReveal(); this.startTicker(); setTimeout(() => this.startTicker(), 300); }
+  componentWillUnmount() { clearInterval(this.timer); clearInterval(this.clock); this.io?.disconnect(); this.tick?.cancel(); this.kb?.cancel(); }
+  startAuto() { clearInterval(this.timer); if (this.props.autoplay === false) return; this.timer = setInterval(() => this.setState(s => ({ slide: (s.slide + 1) % this.slides.length, tick: s.tick + 1 })), 7000); }
+  go(i) { const n = this.slides.length; this.setState(s => ({ slide: (i + n) % n, tick: s.tick + 1 })); this.startAuto(); }
+  renderVals() {
+    const eras = [
+      { range: '1928–1945', name: 'Les pionniers', text: "Fondé avec le soutien de Peugeot, le club adopte très tôt le professionnalisme et s'impose parmi les meilleurs de France avant-guerre.", facts: [{ y: '1928', t: 'Fondation du club' }, { y: '1935', t: 'Premier titre de champion de France' }, { y: '1937', t: 'Coupe de France' }, { y: '1938', t: 'Second titre de champion' }] },
+      { range: '1946–1970', name: "L'après-guerre", text: "Le club se reconstruit et forme ses propres joueurs : le centre de formation sochalien commence à faire parler de lui.", facts: [{ y: '1955', t: 'Coupe Gambardella' }, { y: '1963', t: 'Coupe Gambardella' }, { y: '1964', t: 'Coupe Gambardella' }] },
+      { range: '1971–1990', name: "L'âge d'or de Bonal", text: "Une génération formée au club porte Sochaux jusqu'en demi-finale européenne et fait vibrer le stade Bonal.", facts: [{ y: '1981', t: 'Demi-finale de Coupe UEFA' }, { y: '1983', t: 'Coupe Gambardella' }, { y: '1988', t: 'Finale de Coupe de France' }] },
+      { range: '1991–2010', name: 'Le renouveau', text: "Retour au premier plan et nouveaux trophées : le Lion rugit de nouveau au Stade de France.", facts: [{ y: '2004', t: 'Coupe de la Ligue' }, { y: '2007', t: 'Coupe de France' }, { y: '2007', t: 'Coupe Gambardella' }] },
+      { range: '2011–auj.', name: "L'époque récente", text: "Des hauts, des bas, et une fidélité intacte des supporters jaune et bleu.", facts: [{ y: '2028', t: 'Centenaire du club' }] },
+    ];
+    const cur = eras[this.state.era];
+    const sl = this.state.slide, auto = this.props.autoplay !== false;
+    const pad = n => String(n).padStart(2, '0');
+    const left = Math.max(0, new Date('2028-05-20T00:00:00').getTime() - (this.state.now || Date.now()));
+    const cd = [[Math.floor(left / 864e5), 'jours'], [Math.floor(left / 36e5) % 24, 'heures'], [Math.floor(left / 6e4) % 60, 'min'], [Math.floor(left / 1e3) % 60, 'sec']];
+    return {
+      countdown: cd.map(([v, l]) => ({ v: l === 'jours' ? String(v) : pad(v), l })),
+      touchStart: e => { this.tx = e.touches[0].clientX; },
+      touchEnd: e => { const dx = e.changedTouches[0].clientX - (this.tx ?? 0); if (Math.abs(dx) > 50) this.go(sl + (dx < 0 ? 1 : -1)); },
+      heroSlider: (this.props.hero ?? 'slider') === 'slider',
+      slides: this.slides.map((s, i) => ({ ...s, opacity: i === sl ? 1 : 0, z: i === sl ? 2 : 1 })),
+      cur: { ...this.slides[sl], href: sl === 3 ? 'Fiche%20Match.dc.html' : sl === 4 ? 'Frise.dc.html' : 'Fiche%20Joueur.dc.html' }, curNum: pad(sl + 1), total: pad(this.slides.length),
+      prev: () => this.go(sl - 1), next: () => this.go(sl + 1),
+      thumbs: this.slides.map((s, i) => ({ ...s, num: pad(i + 1), op: i === sl ? 1 : 0.6, go: () => this.go(i),
+        bar: i === sl ? React.createElement('div', { key: 'b' + this.state.tick, style: { height: '100%', background: '#F6C400', width: auto ? 0 : '100%', animation: auto ? 'fcsmBar 7s linear forwards' : 'none' } }) : null })),
+      
+      heroAffiche: this.props.hero === 'affiche',
+      heroPhoto: this.props.hero === 'photo',
+      palmares: [
+        { years: '2×', title: 'Champion de France' },
+        { years: '2×', title: 'Coupe de France' },
+        { years: '1×', title: 'Coupe de la Ligue' },
+        { years: '1928', title: 'Année de fondation' },
+      ],
+      eras: eras.map((e, i) => ({ ...e, bg: i === this.state.era ? '#0E1F4D' : 'transparent', fg: i === this.state.era ? '#F6C400' : '#0E1F4D', select: () => this.setState({ era: i }) })),
+      era: cur,
+      collections: [
+        { id: 'col-maillots', name: 'Maillots', desc: 'tenues portées', ph: 'Maillot historique' },
+        { id: 'col-affiches', name: 'Affiches', desc: 'matchs & tournois', ph: 'Affiche de match' },
+        { id: 'col-programmes', name: 'Programmes', desc: 'feuilles de match', ph: 'Programme de match' },
+        { id: 'col-photos', name: 'Photos', desc: "d'équipe & de match", ph: "Photo d'équipe" },
+        { id: 'col-presse', name: 'Presse', desc: 'coupures & unes', ph: 'Coupure de presse' },
+        { id: 'col-supporters', name: 'Supporters', desc: 'écharpes, billets, fanions', ph: 'Objet de supporter' },
+      ],
+      legends: [
+        { id: 'leg-1', name: 'Bernard Genghini', role: 'Milieu' },
+        { id: 'leg-2', name: 'Yannick Stopyra', role: 'Attaquant' },
+        { id: 'leg-3', name: 'Joël Bats', role: 'Gardien' },
+        { id: 'leg-4', name: 'Benoît Pedretti', role: 'Milieu' },
+      ],
+      decades: ['1930', '1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', '2020'],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#F3EDDF;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;background:#F3EDDF">
+<dc-import name="Header" active="Nos Lions" hint-size="100%,90px"></dc-import>
+
+<section style="background:#1F3FA8;color:#F3EDDF">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(40px,6vw,88px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(40px,6vw,96px);align-items:center">
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px">
+<div onClick="{{ flip }}" style="width:min(100%,380px);aspect-ratio:5/7;perspective:1400px;cursor:pointer">
+<div style="position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.3,1.3,.5,1);transform:{{ cardTransform }}">
+<div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#F6C400;border:3px solid #0E1F4D;box-shadow:12px 12px 0 #0E1F4D;padding:14px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:center;color:#0E1F4D"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;letter-spacing:.06em">N° xx</span><img src="assets/logo-sochaux-retro.png" alt="" style="height:42px;width:auto"></div>
+<div style="flex:1;border:3px solid #0E1F4D;background:#E8DFC9;pointer-events:auto"><image-slot id="joueur-portrait" shape="rect" placeholder="Portrait du joueur"></image-slot></div>
+<div style="background:#0E1F4D;color:#F6C400;padding:10px 12px;display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:30px;text-transform:uppercase;line-height:1">Dalmat</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.12em;color:#F3EDDF">MILIEU</span></div>
+</div>
+<div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);background:#0E1F4D;border:3px solid #F6C400;box-shadow:12px 12px 0 #F6C400;padding:24px;display:flex;flex-direction:column;gap:14px;color:#F3EDDF">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px;text-transform:uppercase;color:#F6C400">Stéphane Dalmat</span>
+<sc-for list="{{ cardStats }}" as="s" hint-placeholder-count="6">
+<div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(243,237,223,.25);padding-bottom:8px"><span style="font-size:17px">{{ s.k }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px;color:#F6C400">{{ s.v }}</span></div>
+</sc-for>
+<span style="margin-top:auto;font-style:italic;font-size:15px;color:#C9CFE0">Carte n° xx · Collection Nos Lions</span>
+</div>
+</div>
+</div>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#F6C400">↻ Cliquez pour retourner la carte</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><a href="Musee%20FCSM.dc.html" style="color:#C9CFE0;font-size:16px">Accueil</a><span style="color:#C9CFE0">/</span><span style="font-size:16px">Nos Lions</span></div>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#F6C400">Nos Lions · Milieu de terrain</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(64px,9vw,136px);line-height:.9;text-transform:uppercase">Stéphane<br><span style="color:#F6C400">Dalmat</span></h1>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:2px solid #F3EDDF">
+<sc-for list="{{ big }}" as="b" hint-placeholder-count="3">
+<div style="padding:18px;border-right:2px solid #F3EDDF;display:flex;flex-direction:column;gap:4px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(40px,4vw,60px);line-height:1;color:#F6C400">{{ b.v }}</span><span style="font-size:16px">{{ b.k }}</span></div>
+</sc-for>
+</div>
+<p style="margin:0;font-size:20px;line-height:1.55;max-width:46ch;text-wrap:pretty">Biographie du joueur à compléter : arrivée au club, moments forts au stade Bonal, départ et carrière après Sochaux.</p>
+</div>
+</div>
+</section>
+
+<section style="max-width:1320px;margin:0 auto;padding:clamp(48px,6vw,88px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:clamp(32px,5vw,64px);align-items:start">
+<div style="display:flex;flex-direction:column;gap:20px">
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(36px,4vw,52px);line-height:1;text-transform:uppercase">Saison par saison</h2>
+<div style="border:2px solid #0E1F4D;background:#FFFDF6">
+<div style="display:grid;grid-template-columns:1.3fr 1.6fr repeat(3,1fr);background:#0E1F4D;color:#F6C400;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.12em;text-transform:uppercase">
+<span style="padding:12px 14px">Saison</span><span style="padding:12px 14px">Compétition</span><span style="padding:12px 14px;text-align:right">MJ</span><span style="padding:12px 14px;text-align:right">Buts</span><span style="padding:12px 14px;text-align:right">Passes</span>
+</div>
+<sc-for list="{{ seasons }}" as="s" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:1.3fr 1.6fr repeat(3,1fr);border-top:1px solid rgba(14,31,77,.15);font-size:18px;transition:background .15s" style-hover="background:#F6C400">
+<span style="padding:12px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:20px">{{ s.y }}</span><span style="padding:12px 14px">{{ s.c }}</span><span style="padding:12px 14px;text-align:right">xx</span><span style="padding:12px 14px;text-align:right">xx</span><span style="padding:12px 14px;text-align:right">xx</span>
+</div>
+</sc-for>
+</div>
+<span style="font-style:italic;font-size:16px;color:#3A4A75">MJ : matchs joués. Statistiques à renseigner depuis les archives.</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(36px,4vw,52px);line-height:1;text-transform:uppercase">Ses matchs marquants</h2>
+<sc-for list="{{ matches }}" as="m" hint-placeholder-count="3">
+<a href="Fiche%20Match.dc.html" style="display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:16px;align-items:center;padding:16px;border:2px solid #0E1F4D;background:#FFFDF6;transition:transform .2s cubic-bezier(.3,1.5,.5,1),box-shadow .2s" style-hover="transform:translate(-4px,-4px);box-shadow:8px 8px 0 #F6C400">
+<div style="aspect-ratio:1;background:#E8DFC9;border:2px solid #0E1F4D"><image-slot id="{{ m.id }}" shape="rect" placeholder="Photo"></image-slot></div>
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#1F3FA8">{{ m.meta }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:24px;text-transform:uppercase;line-height:1.05">{{ m.t }}</span></div>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px">→</span>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section style="max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,48px) clamp(48px,6vw,88px);display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(36px,4vw,52px);line-height:1;text-transform:uppercase">Tous ses matchs</h2><span style="font-size:16px;color:#3A4A75">Reliés automatiquement depuis les compositions des fiches matchs.</span></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<sc-for list="{{ careerTotals }}" as="t" hint-placeholder-count="4"><div style="border:2px solid #0E1F4D;background:#FFFDF6;padding:8px 14px;display:flex;flex-direction:column;align-items:center"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px;line-height:1">{{ t.v }}</span><span style="font-size:13px;color:#3A4A75">{{ t.k }}</span></div></sc-for>
+</div>
+</div>
+<div style="border:2px solid #0E1F4D;background:#FFFDF6">
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr) 90px 70px 70px 80px;background:#0E1F4D;color:#F6C400;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase"><span style="padding:11px 14px">Date</span><span style="padding:11px 14px">Match</span><span style="padding:11px 14px">Score</span><span style="padding:11px 14px;text-align:center">Buts</span><span style="padding:11px 14px;text-align:center">Cartons</span><span style="padding:11px 14px;text-align:right">Min.</span></div>
+<sc-for list="{{ allMatches }}" as="m" hint-placeholder-count="6">
+<a href="Fiche%20Match.dc.html" style="display:grid;grid-template-columns:110px minmax(0,1fr) 90px 70px 70px 80px;align-items:center;border-top:1px solid rgba(14,31,77,.15);font-size:16px;transition:background .15s" style-hover="background:#F6C400">
+<span style="padding:11px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px">xx/xx/xxxx</span>
+<span style="padding:11px 14px;display:flex;flex-direction:column"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:19px;text-transform:uppercase">{{ m.t }}</span><span style="font-size:13px;color:#3A4A75">{{ m.c }}</span></span>
+<span style="padding:11px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px">x-x</span>
+<span style="padding:11px 14px;text-align:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px">{{ m.g }}</span>
+<span style="padding:11px 14px;display:flex;justify-content:center;gap:4px"><span style="width:12px;height:16px;background:{{ m.card }};border:1px solid #0E1F4D;visibility:{{ m.cardVis }}"></span></span>
+<span style="padding:11px 14px;text-align:right;color:#3A4A75">{{ m.min }}'</span>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section style="border-top:2px solid #0E1F4D;background:#E8DFC9">
+<div style="max-width:1320px;margin:0 auto;padding:28px clamp(16px,4vw,48px);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">
+<a href="#" style="display:flex;flex-direction:column;gap:2px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#1F3FA8">← Joueur précédent</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px;text-transform:uppercase">Rafa Paez</span></a>
+<a href="#" style="display:flex;flex-direction:column;gap:2px;text-align:right"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#1F3FA8">Joueur suivant →</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px;text-transform:uppercase">Albert Cartier</span></a>
+</div>
+</section>
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { flipped: false };
+  renderVals() {
+    return {
+      flip: () => this.setState(s => ({ flipped: !s.flipped })),
+      cardTransform: this.state.flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+      cardStats: [['Poste', 'Milieu'], ['Né le', 'xx/xx/xxxx'], ['Au club', 'xxxx – xxxx'], ['Matchs', 'xx'], ['Buts', 'xx'], ['Sélections', 'xx']].map(([k, v]) => ({ k, v })),
+      big: [{ v: 'xx', k: 'matchs' }, { v: 'xx', k: 'buts' }, { v: 'xx', k: 'saisons' }],
+      seasons: [{ y: 'xxxx-xx', c: 'Ligue 1' }, { y: 'xxxx-xx', c: 'Coupe de France' }, { y: 'xxxx-xx', c: 'Ligue 1' }, { y: 'xxxx-xx', c: "Coupe d'Europe" }],
+      matches: [1, 2, 3].map(i => ({ id: 'joueur-m' + i, meta: 'Compétition · date', t: 'Match marquant ' + i })),
+      careerTotals: [{ v: 'xx', k: 'matchs' }, { v: 'xx', k: 'buts' }, { v: 'xx', k: 'jaunes' }, { v: 'xx', k: 'rouges' }],
+      allMatches: [['Sochaux – Adversaire', 'Ligue 1', 1, '#F6C400', 90], ['Adversaire – Sochaux', 'Ligue 1', '–', null, 90], ['Sochaux – Adversaire', 'Coupe de France', 2, null, 90], ['Adversaire – Sochaux', 'Ligue 1', '–', '#D9342B', 64], ['Sochaux – Adversaire', 'Ligue 1', '–', '#F6C400', 78], ['Adversaire – Sochaux', "Coupe d'Europe", 1, null, 90]].map(([t, c, g, card, min]) => ({ t, c, g, card: card || 'transparent', cardVis: card ? 'visible' : 'hidden', min })),
+    };
+  }
+}
+</script>
+</body>
+</html>

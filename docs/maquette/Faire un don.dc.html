@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#F3EDDF;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;background:#F3EDDF">
+<dc-import name="Header" active="" hint-size="100%,90px"></dc-import>
+
+<section style="background:#0E1F4D;color:#F3EDDF">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(40px,6vw,88px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:clamp(32px,5vw,72px);align-items:start">
+<div style="display:flex;flex-direction:column;gap:24px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#F6C400">Faire un don · Objectif centenaire 2028</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(60px,8vw,120px);line-height:.92;text-transform:uppercase">Sauvons<br><span style="color:#F6C400">100 ans</span><br>d'archives.</h1>
+<p style="margin:0;font-size:21px;line-height:1.5;max-width:40ch;text-wrap:pretty">Affiches qui jaunissent, photos qui pâlissent, programmes qui s'effritent : votre don finance leur numérisation et leur mise en ligne.</p>
+<div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:56px;line-height:1;color:#F6C400">{{ raisedLabel }}</span>
+<span style="font-size:18px;color:#C9CFE0">sur {{ goalLabel }} · {{ donors }} donateurs</span>
+</div>
+<div style="height:22px;border:2px solid #F3EDDF;padding:3px"><div ref="{{ barRef }}" style="height:100%;background:#F6C400;width:{{ pct }}"></div></div>
+<span style="font-style:italic;font-size:16px;color:#C9CFE0">Montants d'exemple, à relier à votre plateforme de collecte.</span>
+</div>
+</div>
+
+<div style="background:#F3EDDF;color:#0E1F4D;border:3px solid #F6C400;box-shadow:12px 12px 0 #F6C400;padding:clamp(20px,3vw,36px);display:flex;flex-direction:column;gap:20px">
+<div style="display:grid;grid-template-columns:1fr 1fr;border:2px solid #0E1F4D">
+<sc-for list="{{ freqs }}" as="f" hint-placeholder-count="2">
+<button onClick="{{ f.pick }}" style="all:unset;cursor:pointer;text-align:center;padding:12px;background:{{ f.bg }};color:{{ f.fg }};font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:.1em;transition:background .2s">{{ f.label }}</button>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+<sc-for list="{{ tiers }}" as="t" hint-placeholder-count="4">
+<button onClick="{{ t.pick }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:16px;display:flex;flex-direction:column;gap:6px;background:{{ t.bg }};box-shadow:{{ t.shadow }};transition:transform .2s cubic-bezier(.3,1.5,.5,1),background .2s" style-hover="transform:translateY(-3px)">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:44px;line-height:1">{{ t.amount }} €</span>
+<span style="font-size:16px;line-height:1.35">{{ t.impact }}</span>
+</button>
+</sc-for>
+</div>
+<label style="display:flex;align-items:center;border:2px solid #0E1F4D;background:#FFFDF6">
+<span style="padding:0 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:#3A4A75;white-space:nowrap">Autre montant</span>
+<input value="{{ custom }}" onChange="{{ onCustom }}" inputMode="numeric" placeholder="ex. 25" style="flex:1;min-width:0;border:0;background:transparent;padding:14px 0;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:24px;color:#0E1F4D;outline:none">
+<span style="padding:0 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px">€</span>
+</label>
+<div style="background:#E8DFC9;padding:14px 16px;font-size:18px;line-height:1.4">{{ impactLine }}</div>
+<button onClick="{{ give }}" style="all:unset;cursor:pointer;text-align:center;background:#0E1F4D;color:#F6C400;padding:18px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;text-transform:uppercase;letter-spacing:.08em;transition:transform .2s cubic-bezier(.3,1.5,.5,1)" style-hover="transform:scale(1.02);background:#1F3FA8">{{ ctaLabel }}</button>
+<sc-if value="{{ thanks }}" hint-placeholder-val="{{ false }}">
+<div style="border:2px solid #0E1F4D;background:#F6C400;padding:14px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:20px;text-transform:uppercase">Merci, Lionceau ! ♥ Redirection vers le paiement sécurisé…</div>
+</sc-if>
+<span style="font-size:15px;color:#3A4A75;text-align:center">Paiement sécurisé · reçu envoyé par e-mail</span>
+</div>
+</div>
+</section>
+
+<section style="max-width:1320px;margin:0 auto;padding:clamp(56px,8vw,112px) clamp(16px,4vw,48px);display:flex;flex-direction:column;gap:40px">
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(44px,6vw,80px);line-height:1;text-transform:uppercase">Où va votre don</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px">
+<sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+<div style="border:2px solid #0E1F4D;background:#FFFDF6;display:flex;flex-direction:column">
+<div style="aspect-ratio:16/10;border-bottom:2px solid #0E1F4D;background:#E8DFC9"><image-slot id="{{ s.id }}" shape="rect" placeholder="{{ s.ph }}"></image-slot></div>
+<div style="padding:20px;display:flex;flex-direction:column;gap:8px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:48px;line-height:1;color:#1F3FA8">{{ s.n }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:28px;text-transform:uppercase;line-height:1">{{ s.t }}</span><span style="font-size:18px;line-height:1.45;color:#3A4A75">{{ s.d }}</span></div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="background:#F6C400;border-top:2px solid #0E1F4D;border-bottom:2px solid #0E1F4D">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(48px,6vw,88px) clamp(16px,4vw,48px);display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(40px,5vw,64px);line-height:1;text-transform:uppercase">Le mur des donateurs</h2><span style="font-style:italic;font-size:18px">Votre nom ici, si vous le souhaitez.</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:10px">
+<sc-for list="{{ wall }}" as="w" hint-placeholder-count="12">
+<span style="border:2px solid #0E1F4D;background:{{ w.bg }};color:{{ w.fg }};padding:10px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:{{ w.size }};text-transform:uppercase;letter-spacing:.04em">{{ w.name }}</span>
+</sc-for>
+</div>
+</div>
+</section>
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { freq: 'once', tier: 1, custom: '', thanks: false };
+  barRef = React.createRef();
+  tiers = [[10, 'Numériser une affiche ou un programme'], [30, 'Restaurer et scanner une photo d\'équipe'], [50, 'Mettre en ligne une fiche match complète'], [100, 'Sauvegarder une saison entière d\'archives']];
+  componentDidMount() { if (!matchMedia('(prefers-reduced-motion: reduce)').matches) this.barRef.current?.animate([{ width: '0%' }, { width: this.pct }], { duration: 1600, delay: 300, easing: 'cubic-bezier(.2,.75,.2,1)', fill: 'backwards' }); }
+  get pct() { return Math.round(this.raised / this.goal * 100) + '%'; }
+  raised = 12450; goal = 28000;
+  renderVals() {
+    const fmt = n => n.toLocaleString('fr-FR') + ' €';
+    const custom = parseInt(this.state.custom, 10);
+    const amount = custom > 0 ? custom : this.tiers[this.state.tier][0];
+    const monthly = this.state.freq === 'month';
+    const impact = custom > 0 ? (custom >= 10 ? `Environ ${Math.floor(custom / 10)} affiche${custom >= 20 ? 's' : ''} numérisée${custom >= 20 ? 's' : ''} grâce à vous.` : 'Chaque euro compte pour les archives.') : this.tiers[this.state.tier][1] + '.';
+    return {
+      raisedLabel: fmt(this.raised), goalLabel: fmt(this.goal), donors: 214, pct: this.pct,
+      freqs: [['once', 'Une fois'], ['month', 'Chaque mois']].map(([k, label]) => ({ label, bg: this.state.freq === k ? '#0E1F4D' : 'transparent', fg: this.state.freq === k ? '#F6C400' : '#0E1F4D', pick: () => this.setState({ freq: k }) })),
+      tiers: this.tiers.map(([a, impact], i) => { const on = !(custom > 0) && i === this.state.tier; return { amount: a, impact, bg: on ? '#F6C400' : '#FFFDF6', shadow: on ? '5px 5px 0 #0E1F4D' : 'none', pick: () => this.setState({ tier: i, custom: '', thanks: false }) }; }),
+      custom: this.state.custom, onCustom: e => this.setState({ custom: e.target.value.replace(/\D/g, '').slice(0, 5), thanks: false }),
+      impactLine: (monthly ? 'Chaque mois : ' : '') + impact,
+      ctaLabel: `♥ Je donne ${amount} €${monthly ? ' / mois' : ''}`,
+      give: () => this.setState({ thanks: true }), thanks: this.state.thanks,
+      steps: [
+        { id: 'don-1', n: '01', t: 'On collecte', d: 'Supporters, anciens joueurs et familles nous confient leurs documents.', ph: 'Carton d\'archives' },
+        { id: 'don-2', n: '02', t: 'On numérise', d: 'Scan haute définition, restauration et légendage de chaque pièce.', ph: 'Scan d\'une affiche' },
+        { id: 'don-3', n: '03', t: 'On partage', d: 'Tout est mis en ligne gratuitement, pour tous les Lionceaux.', ph: 'Page du musée' },
+      ],
+      wall: ['Famille M.', 'Supporter anonyme', 'Les Lions du Doubs', 'J.-P. de Montbéliard', 'Tribune Est', 'Anonyme', 'Christine B.', 'Kop Bonal', 'Marc & Léa', 'Anonyme', 'Un Lionceau depuis 1981', 'Les anciens du Pays'].map((name, i) => ({ name, bg: i % 4 === 0 ? '#0E1F4D' : '#FFFDF6', fg: i % 4 === 0 ? '#F6C400' : '#0E1F4D', size: i % 3 === 0 ? '24px' : '18px' })),
+    };
+  }
+}
+</script>
+</body>
+</html>

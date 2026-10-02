@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#F3EDDF;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}html{scroll-behavior:smooth}</style>
+</helmet>
+<div style="min-height:100vh;background:#F3EDDF">
+<dc-import name="Header" active="Matchs" hint-size="100%,90px"></dc-import>
+
+<section style="position:relative;background:#0E1F4D;color:#F3EDDF;overflow:hidden">
+<div style="position:absolute;inset:0"><image-slot id="match-hero" shape="rect" placeholder="Photo d'action du match"></image-slot></div>
+<div style="position:relative;pointer-events:none;background:linear-gradient(180deg,rgba(14,31,77,.35),rgba(14,31,77,.92) 70%);padding:clamp(80px,14vw,180px) clamp(16px,4vw,48px) clamp(32px,5vw,56px)">
+<div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;pointer-events:auto">
+<a href="Musee%20FCSM.dc.html" style="color:#C9CFE0;font-size:16px">Accueil</a><span style="color:#C9CFE0">/</span><a href="#" style="color:#C9CFE0;font-size:16px">Matchs</a><span style="color:#C9CFE0">/</span><span style="font-size:16px">Années 2020</span>
+</div>
+<span style="align-self:flex-start;background:#F6C400;color:#0E1F4D;padding:6px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;letter-spacing:.16em;text-transform:uppercase">Amical · 3ᵉ match de préparation</span>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:clamp(16px,3vw,40px);align-items:center;border-top:2px solid rgba(243,237,223,.35);border-bottom:2px solid rgba(243,237,223,.35);padding:20px 0">
+<div style="display:flex;flex-direction:column;gap:4px;text-align:right">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(36px,5.5vw,80px);line-height:1;text-transform:uppercase">Metz</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.14em;color:#C9CFE0">LIGUE 2</span>
+</div>
+<div style="display:flex;align-items:center;gap:clamp(8px,1.5vw,18px);font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(64px,10vw,150px);line-height:.9;font-variant-numeric:tabular-nums">
+<span ref="{{ s1Ref }}">4</span><span style="color:#F6C400">–</span><span ref="{{ s2Ref }}" style="color:#F6C400">1</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(36px,5.5vw,80px);line-height:1;text-transform:uppercase;color:#F6C400">Sochaux</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.14em;color:#C9CFE0">LIGUE 2</span>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:20px">
+<sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#F6C400">{{ f.k }}</span><span style="font-size:18px">{{ f.v }}</span></div>
+</sc-for>
+</div>
+<div style="display:flex;gap:10px 28px;flex-wrap:wrap;font-size:17px;color:#E7E2D4">
+<span><strong style="font-family:'Big Shoulders Display',sans-serif;letter-spacing:.06em">METZ</strong> · Fall 7', 33', 47' · Deminguet 18'</span>
+<span><strong style="font-family:'Big Shoulders Display',sans-serif;letter-spacing:.06em;color:#F6C400">SOCHAUX</strong> · Clairicia 78'</span>
+<a href="Face%20a%20face.dc.html" style="pointer-events:auto;color:#F6C400;font-family:'Big Shoulders Display',sans-serif;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-bottom:2px solid #F6C400">Historique Sochaux × Metz →</a>
+</div>
+</div>
+</div>
+</section>
+
+<nav style="background:#F6C400;border-bottom:2px solid #0E1F4D;position:sticky;top:0;z-index:20">
+<div style="max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,48px);display:flex;gap:clamp(16px,3vw,36px);overflow-x:auto;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:.08em">
+<a href="#avant" style="padding:16px 0;white-space:nowrap">Avant-match</a><a href="#resume" style="padding:16px 0;white-space:nowrap">Résumé</a><a href="#reactions" style="padding:16px 0;white-space:nowrap">Réactions</a><a href="#breves" style="padding:16px 0;white-space:nowrap">Brèves</a><a href="#compo" style="padding:16px 0;white-space:nowrap">Composition</a><a href="#galerie" style="padding:16px 0;white-space:nowrap">Galerie</a>
+</div>
+</nav>
+
+<div style="max-width:1320px;margin:0 auto;padding:clamp(48px,6vw,88px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:clamp(32px,5vw,72px);align-items:start">
+<article style="display:flex;flex-direction:column;gap:56px;min-width:0">
+<section id="avant" style="display:flex;flex-direction:column;gap:16px;scroll-margin-top:70px">
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(36px,4vw,52px);line-height:1;text-transform:uppercase">Avant-match et enjeux</h2>
+<p style="margin:0;font-size:20px;line-height:1.6;text-wrap:pretty">Après deux premières victoires, Sochaux affronte un adversaire plus avancé dans sa préparation et d'un niveau supérieur. Prévu d'abord à Golbey puis à Vagney, le match a finalement lieu à Biesheim, en Alsace, en raison de la sécheresse.</p>
+<p style="margin:0;font-size:20px;line-height:1.6;text-wrap:pretty">Les Messins, relégués de Ligue 1, disposent d'un effectif très intéressant.</p>
+</section>
+
+<section id="resume" style="display:flex;flex-direction:column;gap:20px;scroll-margin-top:70px">
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(36px,4vw,52px);line-height:1;text-transform:uppercase">Résumé de la rencontre</h2>
+<div style="display:flex;flex-direction:column;border-left:3px solid #0E1F4D;margin-left:28px">
+<sc-for list="{{ timeline }}" as="t" hint-placeholder-count="8">
+<div data-reveal="" style="display:grid;grid-template-columns:56px minmax(0,1fr);gap:16px;align-items:start;margin-left:-29px;padding:10px 0">
+<span style="width:56px;height:56px;border-radius:50%;background:{{ t.dot }};color:{{ t.dotFg }};border:3px solid #0E1F4D;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px">{{ t.m }}'</span>
+<div style="display:flex;flex-direction:column;gap:6px;padding:8px 16px 12px;background:{{ t.bg }};border:{{ t.border }}">
+<sc-if value="{{ t.goal }}" hint-placeholder-val="{{ false }}"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;text-transform:uppercase;line-height:1">But ! {{ t.score }}</span></sc-if>
+<span style="font-size:18px;line-height:1.5">{{ t.text }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section id="reactions" style="display:flex;flex-direction:column;gap:20px;scroll-margin-top:70px">
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(36px,4vw,52px);line-height:1;text-transform:uppercase">Réactions d'après-match</h2>
+<sc-for list="{{ quotes }}" as="q" hint-placeholder-count="2">
+<figure data-reveal="" style="margin:0;padding:28px;background:#FFFDF6;border:2px solid #0E1F4D;display:flex;flex-direction:column;gap:14px;position:relative">
+<span style="position:absolute;top:-22px;left:20px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:80px;line-height:1;color:#F6C400">«</span>
+<blockquote style="margin:0;font-size:21px;line-height:1.5;font-style:italic;text-wrap:pretty">{{ q.text }}</blockquote>
+<figcaption style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:.08em">{{ q.who }}</figcaption>
+</figure>
+</sc-for>
+</section>
+
+<section id="breves" style="display:flex;flex-direction:column;gap:16px;scroll-margin-top:70px">
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(36px,4vw,52px);line-height:1;text-transform:uppercase">Brèves de la rencontre</h2>
+<sc-for list="{{ breves }}" as="b" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:40px minmax(0,1fr);gap:14px;padding:12px 0;border-bottom:1px solid rgba(14,31,77,.2)"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;color:#1F3FA8">{{ b.n }}</span><span style="font-size:19px;line-height:1.5">{{ b.t }}</span></div>
+</sc-for>
+</section>
+</article>
+
+<aside style="display:flex;flex-direction:column;gap:24px;width:100%;max-width:460px;justify-self:center">
+<div style="background:#F6C400;border:2px solid #0E1F4D;padding:28px;display:flex;flex-direction:column;gap:6px;box-shadow:8px 8px 0 #0E1F4D">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:96px;line-height:.9">3</span>
+<span style="font-size:19px;line-height:1.4">Première fois depuis 3 ans que Sochaux perd par 3 buts d'écart en préparation.</span>
+</div>
+<div id="compo" style="display:flex;flex-direction:column;gap:14px;scroll-margin-top:70px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:36px;line-height:1;text-transform:uppercase">Composition</h2><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:18px;color:#1F3FA8">4-3-3</span></div>
+<div style="position:relative;aspect-ratio:3/4;width:100%;max-width:460px;background:#1F3FA8;border:2px solid #0E1F4D;overflow:hidden">
+<div style="position:absolute;inset:14px;border:2px solid rgba(243,237,223,.5)"></div>
+<div style="position:absolute;left:14px;right:14px;top:50%;border-top:2px solid rgba(243,237,223,.5)"></div>
+<div style="position:absolute;left:50%;top:50%;width:26%;aspect-ratio:1;transform:translate(-50%,-50%);border:2px solid rgba(243,237,223,.5);border-radius:50%"></div>
+<div style="position:absolute;left:30%;right:30%;bottom:14px;height:13%;border:2px solid rgba(243,237,223,.5);border-bottom:0"></div>
+<div style="position:absolute;left:30%;right:30%;top:14px;height:13%;border:2px solid rgba(243,237,223,.5);border-top:0"></div>
+<sc-for list="{{ lineup }}" as="p" hint-placeholder-count="11">
+<a href="Fiche%20Joueur.dc.html" style="position:absolute;left:{{ p.x }};top:{{ p.y }};transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px;color:#F3EDDF;transition:transform .2s cubic-bezier(.3,1.5,.5,1)" style-hover="transform:translate(-50%,-50%) scale(1.12);color:#F6C400">
+<span style="width:40px;height:40px;border-radius:50%;background:#F6C400;color:#0E1F4D;border:2px solid #0E1F4D;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px">{{ p.n }}</span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;background:rgba(14,31,77,.75);padding:1px 6px">{{ p.name }}</span>
+</a>
+</sc-for>
+</div>
+</div>
+</aside>
+</div>
+
+<section id="galerie" style="background:#0E1F4D;color:#F3EDDF;scroll-margin-top:60px">
+<div style="max-width:1320px;margin:0 auto;padding:clamp(48px,6vw,88px) clamp(16px,4vw,48px);display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(40px,5vw,64px);line-height:1;text-transform:uppercase">Galerie du match</h2><span style="font-style:italic;font-size:17px;color:#C9CFE0">Photos : Sam Coulon – L'Est républicain</span></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));grid-auto-rows:200px;grid-auto-flow:dense;gap:12px">
+<sc-for list="{{ gallery }}" as="g" hint-placeholder-count="8">
+<div style="position:relative;grid-row:{{ g.rows }};grid-column:{{ g.cols }};border:2px solid #F3EDDF;background:#1A2D63">
+<image-slot id="{{ g.id }}" shape="rect" placeholder="{{ g.cap }}"></image-slot>
+<button onClick="{{ g.open }}" style="all:unset;cursor:zoom-in;position:absolute;right:8px;top:8px;background:#F6C400;color:#0E1F4D;padding:4px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.1em;text-transform:uppercase" style-hover="background:#F3EDDF">Agrandir</button>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<sc-if value="{{ lightbox }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeLb }}" style="position:fixed;inset:0;z-index:200;background:rgba(14,31,77,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px">
+<div onClick="{{ stop }}" style="width:min(92vw,1100px);height:min(72vh,720px);border:3px solid #F3EDDF"><image-slot id="{{ lb.id }}" shape="rect" fit="contain" placeholder="{{ lb.cap }}"></image-slot></div>
+<div onClick="{{ stop }}" style="display:flex;align-items:center;gap:20px;color:#F3EDDF;max-width:1100px;width:100%;justify-content:space-between">
+<button onClick="{{ lbPrev }}" style="all:unset;cursor:pointer;width:48px;height:48px;border:2px solid #F3EDDF;display:flex;align-items:center;justify-content:center;font-size:22px" style-hover="background:#F6C400;color:#0E1F4D">←</button>
+<span style="font-size:18px;font-style:italic;text-align:center;flex:1">{{ lb.cap }} · {{ lbPos }}</span>
+<button onClick="{{ lbNext }}" style="all:unset;cursor:pointer;width:48px;height:48px;border:2px solid #F3EDDF;display:flex;align-items:center;justify-content:center;font-size:22px" style-hover="background:#F6C400;color:#0E1F4D">→</button>
+</div>
+</div>
+</sc-if>
+
+<section style="max-width:1320px;margin:0 auto;padding:clamp(48px,6vw,88px) clamp(16px,4vw,48px);display:flex;flex-direction:column;gap:28px">
+<h2 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(36px,4vw,52px);line-height:1;text-transform:uppercase">Ce contenu peut vous intéresser</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:24px">
+<sc-for list="{{ related }}" as="r" hint-placeholder-count="3">
+<a href="{{ r.href }}" style="display:flex;flex-direction:column;border:2px solid #0E1F4D;background:#FFFDF6;transition:transform .25s cubic-bezier(.3,1.5,.5,1),box-shadow .25s" style-hover="transform:translate(-5px,-5px);box-shadow:10px 10px 0 #F6C400">
+<div style="aspect-ratio:16/10;border-bottom:2px solid #0E1F4D;background:#E8DFC9"><image-slot id="{{ r.id }}" shape="rect" placeholder="{{ r.title }}"></image-slot></div>
+<div style="padding:18px;display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#1F3FA8">{{ r.kind }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:26px;text-transform:uppercase;line-height:1.05">{{ r.title }}</span></div>
+</a>
+</sc-for>
+</div>
+</section>
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { lb: -1 };
+  s1Ref = React.createRef(); s2Ref = React.createRef();
+  gallery = [
+    ['Victor Lobry', 2, 2], ['Baghdadi', 1, 1], ['Kapit Djoco', 1, 1], ['Kapit Djoco', 2, 1], ['Bakary Diawara', 1, 2],
+    ['Sochaux – Metz', 1, 1], ['Le stade de Biesheim', 1, 1], ['Boubacar Fofana', 1, 2], ['Julien Vetro', 2, 1],
+  ].map(([n, r, c], i) => ({ id: 'match-g' + i, cap: n + ', Sochaux – Metz, pré-saison 2026-2027', rows: 'span ' + r, cols: 'span ' + c }));
+  componentDidMount() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    [this.s1Ref, this.s2Ref].forEach((r, i) => r.current?.animate([{ transform: 'translateY(-60px) rotate(-8deg)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 700, delay: 200 + i * 220, easing: 'cubic-bezier(.3,1.5,.5,1)', fill: 'backwards' }));
+    const els = [...document.querySelectorAll('[data-reveal]')]; els.forEach(e => e.style.opacity = '0');
+    this.io = new IntersectionObserver(es => es.forEach(en => { if (!en.isIntersecting) return; const el = en.target; this.io.unobserve(el);
+      const a = el.animate([{ opacity: 0, transform: 'translateX(-24px)' }, { opacity: 1, transform: 'none' }], { duration: 600, easing: 'cubic-bezier(.2,.75,.2,1)', fill: 'both' }); a.onfinish = () => { el.style.opacity = ''; a.cancel(); }; }), { threshold: .2 });
+    els.forEach(e => this.io.observe(e));
+    this.onKey = e => { if (this.state.lb < 0) return; if (e.key === 'Escape') this.setState({ lb: -1 }); if (e.key === 'ArrowRight') this.step(1); if (e.key === 'ArrowLeft') this.step(-1); };
+    window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { this.io?.disconnect(); window.removeEventListener('keydown', this.onKey); }
+  step(d) { const n = this.gallery.length; this.setState(s => ({ lb: (s.lb + d + n) % n })); }
+  renderVals() {
+    const tl = [
+      [2, "Coup franc pour Metz, repoussé par le gardien sochalien."],
+      [7, "Fall ouvre le score pour Metz.", '1-0'],
+      [16, "Bon mouvement côté gauche sochalien, la frappe est captée."],
+      [18, "Belle action messine conclue par Deminguet.", '2-0'],
+      [28, "Fofana s'amuse côté droit et élimine deux adversaires, mais sa frappe passe à côté."],
+      [33, "Les Messins construisent tranquillement, Fall surgit.", '3-0'],
+      [47, "Fall s'offre un triplé.", '4-0'],
+      [68, "Coup franc bien placé de Lobry qui heurte la barre transversale."],
+      [78, "Clairicia s'infiltre avec puissance et réduit le score.", '4-1'],
+    ];
+    const pos = [['Pierre', 50, 90], ['Tavares', 16, 70], ['Youssouf', 38, 74], ['Aaneba', 62, 74], ['Vetro', 84, 70], ['Lobry', 26, 50], ['Fofana', 50, 54], ['Diawara', 74, 50], ['Baghdadi', 20, 25], ['Djoco', 50, 18], ['Clairicia', 80, 25]];
+    const lb = this.gallery[this.state.lb];
+    return {
+      facts: [{ k: 'Date', v: 'Mercredi 22 juillet 2026' }, { k: 'Stade', v: 'Stade municipal de Biesheim (68)' }, { k: 'Spectateurs', v: '500' }, { k: 'Arbitre', v: 'M. xx' }],
+      timeline: tl.map(([m, text, score]) => ({ m, text, score, goal: !!score, sochaux: score === '4-1',
+        dot: score ? (score === '4-1' ? '#F6C400' : '#0E1F4D') : '#F3EDDF', dotFg: score && score !== '4-1' ? '#F6C400' : '#0E1F4D',
+        bg: score === '4-1' ? '#F6C400' : score ? '#FFFDF6' : 'transparent', border: score ? '2px solid #0E1F4D' : '2px solid transparent' })),
+      quotes: [
+        { text: "C'est une défaite logique face à une équipe qui est dans notre division, mais pas vraiment dans le même championnat.", who: 'Vincent Hognon' },
+        { text: "C'était satisfaisant car on a eu de très bonnes séquences. Il y a encore des choses à rectifier, mais c'est encourageant.", who: 'Jean Ruiz (FC Metz)' },
+      ],
+      breves: [
+        "Première lourde défaite dans cette préparation.",
+        "C'est la première fois que Sochaux s'incline par trois buts d'écart en préparation depuis l'été 2023.",
+        "Premier but sous les couleurs sochaliennes pour Mathis Clairicia.",
+        "Prochain rendez-vous dans trois jours face à Dijon, à Saint-Vit.",
+      ].map((t, i) => ({ t, n: String(i + 1).padStart(2, '0') })),
+      lineup: pos.map(([name, x, y], i) => ({ name, n: i + 1, x: x + '%', y: y + '%' })),
+      gallery: this.gallery.map((g, i) => ({ ...g, open: () => this.setState({ lb: i }) })),
+      lightbox: this.state.lb >= 0, lb: lb || this.gallery[0], lbPos: (this.state.lb + 1) + ' / ' + this.gallery.length,
+      closeLb: () => this.setState({ lb: -1 }), stop: e => e.stopPropagation(), lbPrev: () => this.step(-1), lbNext: () => this.step(1),
+      related: [
+        { id: 'rel-1', kind: 'Match · 02/10/2026', title: 'Sochaux – Neuchâtel Xamax 2-1', href: 'Fiche%20Match.dc.html' },
+        { id: 'rel-2', kind: 'Nos Lions', title: 'Ismaël Aaneba', href: 'Fiche%20Joueur.dc.html' },
+        { id: 'rel-3', kind: 'Nos Lions', title: 'Stanley Abbott', href: 'Fiche%20Joueur.dc.html' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

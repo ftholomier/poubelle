@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#E8DFC9;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;background:#E8DFC9">
+<dc-import name="Header" active="Interactif" hint-size="100%,90px"></dc-import>
+<section style="max-width:1320px;margin:0 auto;padding:clamp(40px,6vw,80px) clamp(16px,4vw,48px) 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:32px;align-items:end">
+<div style="display:flex;flex-direction:column;gap:16px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:#1F3FA8">L'album du centenaire</span>
+<h1 style="margin:0;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:clamp(60px,9vw,128px);line-height:.88;text-transform:uppercase;flex-shrink:0">Collectionnez<br>les Lions</h1>
+<p style="margin:0;font-size:19px;line-height:1.5;max-width:44ch">Chaque fiche joueur visitée débloque sa carte. Un sans-faute au quiz en offre une rare. Pas de compte : votre album est gardé dans ce navigateur.</p>
+</div>
+<div style="background:#0E1F4D;color:#F3EDDF;border:3px solid #F6C400;padding:22px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:64px;line-height:1;color:#F6C400">{{ owned }}<span style="font-size:32px;color:#F3EDDF"> / {{ total }}</span></span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase">cartes</span></div>
+<div style="height:16px;border:2px solid #F3EDDF;padding:2px"><div style="height:100%;width:{{ pct }};background:#F6C400;transition:width .6s cubic-bezier(.3,1.2,.5,1)"></div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ tiersSum }}" as="t" hint-placeholder-count="3"><span style="border:2px solid {{ t.c }};padding:4px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;color:{{ t.c }}">{{ t.label }} · {{ t.n }}</span></sc-for>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<a href="Quiz.dc.html" style="background:#F6C400;color:#0E1F4D;padding:10px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#F3EDDF;color:#0E1F4D">Gagner une carte rare</a>
+<button onClick="{{ share }}" style="all:unset;cursor:pointer;border:2px solid #F3EDDF;padding:8px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#F3EDDF;color:#0E1F4D">{{ shareLabel }}</button>
+</div>
+</div>
+</section>
+<div style="max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,48px) 18px;display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="3"><button onClick="{{ f.pick }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:7px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.06em;background:{{ f.bg }};color:{{ f.fg }}">{{ f.label }}</button></sc-for>
+</div>
+<main style="max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,48px) clamp(56px,8vw,96px);display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:18px">
+<sc-for list="{{ cards }}" as="c" hint-placeholder-count="12">
+<div style="aspect-ratio:5/7;perspective:1000px">
+<div data-card="{{ c.key }}" style="position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.3,1.3,.5,1);transform:{{ c.tf }}">
+<div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:3px solid #0E1F4D;background:repeating-linear-gradient(45deg,#1F3FA8 0 12px,#0E1F4D 12px 24px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:14px;text-align:center;color:#F3EDDF">
+<img src="assets/logo-sochaux-retro.png" alt="" style="height:64px;width:auto;opacity:.9">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;color:#F6C400">N° {{ c.n }}</span>
+<span style="font-size:14px;line-height:1.3;background:#0E1F4D;padding:4px 8px">{{ c.hint }}</span>
+<sc-if value="{{ c.canUnlock }}" hint-placeholder-val="{{ false }}"><button onClick="{{ c.unlock }}" style="all:unset;cursor:pointer;background:#F6C400;color:#0E1F4D;padding:7px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.08em" style-hover="background:#F3EDDF">Visiter la fiche</button></sc-if>
+</div>
+<a href="Fiche%20Joueur.dc.html" style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);background:{{ c.bg }};border:3px solid #0E1F4D;box-shadow:6px 6px 0 #0E1F4D;padding:10px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:17px">N° {{ c.n }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;border:2px solid #0E1F4D;padding:1px 6px;background:#FFFDF6">{{ c.tier }}</span></div>
+<div style="flex:1;border:2px solid #0E1F4D;background:#E8DFC9"><image-slot id="{{ c.id }}" shape="rect" placeholder="Portrait"></image-slot></div>
+<div style="background:#0E1F4D;color:#F6C400;padding:7px 9px;display:flex;flex-direction:column"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase;line-height:1">{{ c.name }}</span><span style="font-size:13px;color:#F3EDDF">{{ c.pos }}</span></div>
+</a>
+</div>
+</div>
+</sc-for>
+</main>
+<dc-import name="Footer" hint-size="100%,380px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { got: ['clairicia', 'dalmat'], f: 'Toutes', copied: false };
+  cards = [
+    ['bats', 'Joël Bats', 'Gardien', 'Légende'], ['genghini', 'Bernard Genghini', 'Milieu', 'Légende'], ['stopyra', 'Yannick Stopyra', 'Attaquant', 'Légende'],
+    ['pedretti', 'Benoît Pedretti', 'Milieu', 'Légende'], ['dalmat', 'Stéphane Dalmat', 'Milieu', 'Classique'], ['cartier', 'Albert Cartier', 'Entraîneur', 'Classique'],
+    ['paez', 'Rafa Paez', 'Nos Lions', 'Classique'], ['abbott', 'Stanley Abbott', 'Pionnier', 'Légende'], ['clairicia', 'Mathis Clairicia', 'Attaquant', 'Actuel'],
+    ['aaneba', 'Ismaël Aaneba', 'Défenseur', 'Actuel'], ['lobry', 'Victor Lobry', 'Milieu', 'Actuel'], ['fofana', 'Boubacar Fofana', 'Milieu', 'Actuel'],
+    ['diawara', 'Bakary Diawara', 'Milieu', 'Actuel'], ['djoco', 'Kapit Djoco', 'Attaquant', 'Actuel'], ['vetro', 'Julien Vetro', 'Défenseur', 'Actuel'],
+  ];
+  total = 120;
+  tierC = { 'Légende': '#F6C400', 'Classique': '#FFFDF6', 'Actuel': '#9FB0E6' };
+  componentDidMount() { try { const g = JSON.parse(localStorage.getItem('fcsm-album') || 'null'); if (Array.isArray(g)) this.setState({ got: g }); } catch (e) {} }
+  unlock(key) { const got = [...new Set([...this.state.got, key])]; this.setState({ got }); try { localStorage.setItem('fcsm-album', JSON.stringify(got)); } catch (e) {} }
+  renderVals() {
+    const got = new Set(this.state.got);
+    let list = this.cards.map((c, i) => ({ c, i, own: got.has(c[0]) }));
+    const locked = Array.from({ length: 9 }, (_, k) => ({ c: [null], i: this.cards.length + k, own: false, mystery: true }));
+    list = [...list, ...locked].filter(x => this.state.f === 'Toutes' || (this.state.f === 'Obtenues' ? x.own : !x.own));
+    return {
+      owned: got.size, total: this.total, pct: (got.size / this.total * 100).toFixed(1) + '%',
+      tiersSum: Object.keys(this.tierC).map(label => ({ label, c: label === 'Actuel' ? '#9FB0E6' : label === 'Légende' ? '#F6C400' : '#F3EDDF', n: this.cards.filter(c => c[3] === label && got.has(c[0])).length + ' / ' + this.cards.filter(c => c[3] === label).length })),
+      filters: ['Toutes', 'Obtenues', 'À trouver'].map(label => ({ label, bg: label === this.state.f ? '#0E1F4D' : '#FFFDF6', fg: label === this.state.f ? '#F6C400' : '#0E1F4D', pick: () => this.setState({ f: label }) })),
+      cards: list.map(({ c, i, own, mystery }) => ({
+        key: c[0] || 'm' + i, n: String(i + 1).padStart(3, '0'), id: 'album-' + (c[0] || i), name: c[1] || '?', pos: c[2] || '', tier: c[3] || '', bg: this.tierC[c[3]] || '#FFFDF6',
+        tf: own ? 'rotateY(180deg)' : 'rotateY(0deg)', canUnlock: !own && !mystery,
+        hint: mystery ? 'Carte mystère · à débloquer au fil du centenaire' : c[3] === 'Légende' ? 'Visitez sa fiche ou réussissez le quiz' : 'Visitez sa fiche joueur',
+        unlock: e => { e.preventDefault(); this.unlock(c[0]); },
+      })),
+      share: () => { navigator.clipboard?.writeText(`J'ai ${got.size}/${this.total} cartes dans l'album Sochaux rétro !`); this.setState({ copied: true }); }, shareLabel: this.state.copied ? 'Copié ✓' : 'Partager mon album',
+    };
+  }
+}
+</script>
+</body>
+</html>
