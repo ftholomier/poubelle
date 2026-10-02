@@ -273,16 +273,30 @@ final class Pages
 
     public static function search(Request $req): Response
     {
-        $q = trim($req->str('q'));
-        $type = $req->str('type');
-        $results = $q !== '' ? \App\Services\Search::query($q, 200, $type ?: null) : [];
-        $byType = [];
-        foreach (\App\Services\Search::query($q, 400) as $r) {
-            $byType[$r['type']] = ($byType[$r['type']] ?? 0) + 1;
-        }
-        return self::render('search', ['q' => $q, 'results' => $results, 'type' => $type, 'byType' => $byType], [
+        $q = trim(mb_substr($req->str('q'), 0, 120));
+        $type = in_array($req->str('type'), ['match', 'personne', 'article', 'page', 'objet', 'moment'], true) ? $req->str('type') : null;
+        $page = max(1, (int) $req->str('page', '1'));
+        $per = 20;
+        $r = \App\Services\Search::query($q, $type, $per, ($page - 1) * $per);
+        $pages = max(1, (int) ceil($r['total'] / $per));
+        $base = url('/recherche/');
+        $qs = fn (array $p) => \App\Front\Mosaic::qs(array_filter(['q' => $q, 'type' => $type] + $p, fn ($v) => $v !== null));
+        $suggest = $q !== '' ? array_slice(array_values(array_filter(\App\Services\Search::suggest($q), fn ($x) => in_array($x['type'], [t('Saison'), t('Face-à-face')], true))), 0, 3) : [];
+        return self::render('search', [
+            'q' => $q,
+            'r' => $r,
+            'type' => $type,
+            'pageNum' => $page,
+            'pages' => $pages,
+            'base' => $base,
+            'qs' => $qs,
+            'shortcuts' => $suggest,
+        ], [
             'title' => $q !== '' ? t('Recherche') . ' : ' . $q : t('Recherche'),
+            'description' => t('Rechercher un match, un joueur, une saison dans le musée en ligne du FC Sochaux-Montbéliard.'),
             'noindex' => true,
+            'body_class' => 'page-search',
+            'styles' => ['css/mosaic.css'],
         ]);
     }
 

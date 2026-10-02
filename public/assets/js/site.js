@@ -58,23 +58,16 @@
   }
 
   /* ---------------------------------------------------------- taille du texte */
-  const sizes = [1, 1.12, 1.25];
-  const applySize = (z) => {
-    document.documentElement.style.fontSize = z > 1 ? (z * 100) + '%' : '';
-    document.body.style.zoom = '';
-    $$('[data-textsize-label]').forEach(l => (l.textContent = Math.round(z * 100) + '%'));
-  };
   let zoom = 1;
   try { zoom = parseFloat(localStorage.getItem('fcsm-textsize')) || 1; } catch (e) {}
   // Le site est conçu en px (maquette) : on agrandit via zoom CSS, comme la maquette.
-  const applyZoom = (z) => { document.body.style.zoom = z > 1 ? z : ''; $$('[data-textsize-label]').forEach(l => (l.textContent = Math.round(z * 100) + '%')); };
+  const applyZoom = (z) => { document.documentElement.style.zoom = z > 1 ? z : ''; $$('[data-textsize-label]').forEach(l => (l.textContent = Math.round(z * 100) + '%')); };
   applyZoom(zoom);
   $$('[data-textsize]').forEach(b => b.addEventListener('click', () => {
     zoom = zoom >= 1.25 ? 1 : zoom >= 1.12 ? 1.25 : 1.12;
     try { localStorage.setItem('fcsm-textsize', String(zoom)); } catch (e) {}
     applyZoom(zoom);
   }));
-  void applySize; void sizes;
 
   /* ---------------------------------------------------------- recherche plein écran */
   const layer = $('[data-searchlayer]');

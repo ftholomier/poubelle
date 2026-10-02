@@ -174,6 +174,7 @@ final class Fiches
         self::addVersion($id, $doc, $user, $message ?: ($before ? self::summarize($diff) : 'Création de la fiche'), $diff);
         Index::put($doc);
         Derived::markDirty();
+        \App\Services\Search::put($doc);
         Activity::log($user, $before ? 'a modifié' : 'a créé', $doc);
         return $doc;
     }
@@ -209,6 +210,7 @@ final class Fiches
         JsonStore::delete(self::path($id));
         Index::remove($id);
         Derived::markDirty();
+        \App\Services\Search::remove($id);
         Activity::log($user, 'a supprimé définitivement', $doc);
     }
 

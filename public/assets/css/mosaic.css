@@ -141,3 +141,19 @@
 .mextra__img { width: 56px; height: 56px; border: 2px solid var(--navy); background: var(--sand); overflow: hidden; flex: none; display: block; }
 .mextra__img img { width: 100%; height: 100%; object-fit: cover; }
 .mextra__t { font-family: var(--display); font-weight: 800; font-size: 18px; text-transform: uppercase; line-height: 1.05; }
+
+/* Page de recherche */
+.searchbig { display: flex; gap: 0; max-width: 860px; border: 3px solid var(--cream); }
+.searchbig input { flex: 1; min-width: 0; border: 0; background: var(--paper); color: var(--navy); padding: 16px 18px; font-family: var(--serif); font-size: clamp(20px, 2.4vw, 28px); outline: none; }
+.searchbig .btn { border: 0; border-left: 3px solid var(--cream); box-shadow: none; }
+.sresults { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; border-top: 2px solid var(--navy); }
+.sres { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 18px; align-items: start; padding: 16px 0; border-bottom: 1px solid rgba(14,31,77,.2); transition: background .15s, padding .2s; }
+.sres:hover { background: var(--paper); padding-left: 10px; color: var(--navy); }
+.sres__img { width: 96px; height: 72px; border: 2px solid var(--navy); background: var(--sand); overflow: hidden; display: block; }
+.sres__img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; }
+.sres__body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.sres__type { font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--blue); }
+.sres__title { font-family: var(--display); font-weight: 800; font-size: 26px; text-transform: uppercase; line-height: 1.05; }
+.sres__snip { font-size: 17px; line-height: 1.5; color: var(--muted); }
+.sres__snip mark, .sresult mark { background: var(--yellow); color: var(--navy); padding: 0 2px; }
+@media (max-width: 560px) { .sres { grid-template-columns: 64px minmax(0, 1fr); } .sres__img { width: 64px; height: 64px; } .sres__title { font-size: 21px; } }
