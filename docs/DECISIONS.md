@@ -43,3 +43,24 @@ Adresses porteuses de mots-clés + **redirection 301 de chaque ancienne adresse*
 - Suffixes parasites supprimés ; homonymes distingués par les années.
 - Personne à plusieurs rôles : une seule adresse (premier rôle), présente dans toutes ses rubriques.
 - Adresse modifiable dans le back-office → redirection automatique depuis l'ancienne.
+
+## Fonctionnalités complémentaires (toutes validées)
+1. **Historique des versions** de chaque fiche (qui, quand, quoi, restauration) +
+   sauvegarde automatique quotidienne des données hors serveur.
+2. **Liens automatiques joueurs ↔ matchs** : noms des compositions reliés aux fiches ;
+   chaque fiche joueur liste tous ses matchs (buts, cartons).
+3. **Pages face-à-face** par adversaire (bilan V/N/D, tous les matchs, records), générées.
+4. **Records** calculés automatiquement (buteurs, joueurs les plus utilisés, affluences,
+   plus larges victoires, séries), filtres décennie / compétition.
+5. **« Contribuer au musée »** : propositions de corrections, photos, documents
+   (cession de droits), file de validation dans le back-office.
+6. **« 100 ans, 100 moments »** : série éditoriale liée à la frise et au compte à rebours.
+7. **Vote du « Onze de légende du centenaire »** (composition sur terrain, résultat global).
+8. **Album de cartes à collectionner** (cartes joueurs débloquées en visitant / via le quiz,
+   progression mémorisée dans le navigateur, sans compte).
+9. **Tableau de bord qualité** pour les historiens (fiches « à venir », photos sans crédit,
+   tableaux en double, statistiques incohérentes).
+10. **Pages saison enrichies** (effectif, résultats, buteurs calculés).
+11. **Images de partage générées** automatiquement pour chaque fiche.
+12. **Newsletter « Ce jour-là »** hebdomadaire automatique.
+13. **Accessibilité** (RGAA : lecteurs d'écran, contrastes, navigation clavier).
