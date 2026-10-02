@@ -90,11 +90,11 @@ Simple, ergonomique, intuitif **et** complet, pensé pour des historiens non tec
   accueil, frise, quiz, maillots, partenaires, cartes, contributions, messages, dons,
   assistant IA, qualité, utilisateurs, réglages.
 - **Deux niveaux d'accès** (remplace la proposition à 3 rôles) :
-  - **Administrateur** : tout, y compris utilisateurs, réglages (clés API, paiements,
-    e-mail), dons, suppression définitive, restauration de versions, rubriques et menus.
-  - **Utilisateur** : contenus (fiches, médias, frise, quiz, maillots, cartes, partenaires),
-    contributions des visiteurs et messages ; corbeille seulement (pas de suppression
-    définitive) ; pas d'accès aux réglages, aux utilisateurs ni aux données des donateurs.
+  - **Administrateur** : tout.
+  - **Utilisateur** : tout **sauf** gestion des utilisateurs et invitations,
+    réglages (clés API, paiements, e-mail…), suppression définitive et restauration
+    d'anciennes versions (il peut mettre à la corbeille et consulter l'historique).
+    Il a donc accès aux rubriques, menus, ordre des mosaïques et aux dons.
 - Utilisable sur tablette.
 
 ## Rubrique « INTERACTIF » (validée)
