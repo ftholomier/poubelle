@@ -85,7 +85,7 @@ final class Store
                 'score' => (int) ($m['spam']['score'] ?? 0),
                 'read' => !empty($m['read_at']),
                 'excerpt' => Str::limit(str_replace("\n", ' ', (string) ($m['message'] ?? '')), 140),
-            ], ['pro_id' => 'one', 'email' => 'one']],
+            ], ['pro_id' => 'one']],
             'reviews' => [static fn (array $r): array => [
                 'id' => $r['id'],
                 'status' => $r['status'] ?? 'pending',

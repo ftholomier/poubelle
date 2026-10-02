@@ -179,7 +179,7 @@ final class Settings
             'features' => ['favorites' => true, 'reviews' => true, 'pwa' => true, 'push' => true, 'phone_reveal' => true, 'map' => true],
             'links' => ['pro_website_rel' => 'noopener'],
             'maintenance' => ['message' => 'Le site fait peau neuve, revenez dans quelques minutes 🎉'],
-            'backup' => ['keep' => 14, 'include_media' => false],
+            'backup' => ['keep' => 7, 'include_media' => false],
         ];
     }
 

@@ -305,7 +305,7 @@ final class Cron
             return 'extension zip absente';
         }
         $name = Backup::create((bool) Settings::get('backup.include_media', false), false, 'auto');
-        $deleted = Backup::prune((int) Settings::get('backup.keep', 14));
+        $deleted = Backup::prune((int) Settings::get('backup.keep', 7));
         return $name . ($deleted ? " ($deleted ancienne(s) supprimée(s))" : '');
     }
 

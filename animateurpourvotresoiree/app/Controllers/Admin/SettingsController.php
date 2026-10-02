@@ -226,7 +226,7 @@ final class SettingsController extends AdminController
                 ],
                 'links' => ['pro_website_rel' => $mode('links_rel', ['noopener', 'nofollow noopener', 'ugc nofollow noopener'], 'noopener')],
                 'maintenance' => ['message' => Sanitizer::line((string) Request::input('maintenance_message', ''), 300)],
-                'backup' => ['keep' => max(1, min(90, Request::int('backup_keep', 14))), 'include_media' => Request::bool('backup_media')],
+                'backup' => ['keep' => max(1, min(90, Request::int('backup_keep', 7))), 'include_media' => Request::bool('backup_media')],
             ]);
             Cache::flush('pages');
             Cache::bump();

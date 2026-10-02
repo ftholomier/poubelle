@@ -29,6 +29,10 @@ directs, avis vérifiés, espace pro, back-office complet, assistant IA, applica
 `zip`, `intl`, `fileinfo`, `dom` (et de préférence `sodium`, `exif`, OPcache). Voir
 `deploy/php.ini.example`.
 
+**Espace disque** : comptez environ 400 Mo pour les données migrées (≈ 70 000 petits fichiers JSON,
+vérifiez la limite d'« inodes » sur un hébergement mutualisé), 40 à 60 Mo pour les photos des pros,
+et environ 45 Mo par sauvegarde (7 sauvegardes automatiques conservées par défaut).
+
 1. Copiez tout le dossier sur le serveur (par exemple `/var/www/animateurpourvotresoiree`).
 2. Faites pointer le domaine sur le dossier **`public/`** (Nginx : `deploy/nginx.conf` ; Apache :
    `public/.htaccess` est fourni). Si votre hébergement ne le permet pas, le `.htaccess` de la racine

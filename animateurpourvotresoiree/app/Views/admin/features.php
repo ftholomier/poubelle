@@ -65,7 +65,7 @@ $f = (array) $s['features'];
   <div class="box">
     <h2>Maintenance et sauvegardes</h2>
     <div class="field"><label for="mt-m">Message de maintenance</label><input id="mt-m" type="text" name="maintenance_message" value="<?= e((string) ($s['maintenance']['message'] ?? '')) ?>"><span class="hint">Le mode maintenance s'active dans <a href="<?= e(Url::admin('reglages')) ?>">Configuration</a>.</span></div>
-    <div class="form-grid"><div class="field"><label for="bk-k">Sauvegardes automatiques conservées</label><input id="bk-k" type="number" name="backup_keep" min="1" max="90" value="<?= (int) ($s['backup']['keep'] ?? 14) ?>"></div></div>
+    <div class="form-grid"><div class="field"><label for="bk-k">Sauvegardes automatiques conservées</label><input id="bk-k" type="number" name="backup_keep" min="1" max="90" value="<?= (int) ($s['backup']['keep'] ?? 7) ?>"></div></div>
     <?= $c('backup_media', !empty($s['backup']['include_media']), 'Inclure les photos dans les sauvegardes automatiques (plus volumineux)') ?>
   </div>
   <div class="form-actions"><button class="btn btn-coral" type="submit">Enregistrer</button></div>
