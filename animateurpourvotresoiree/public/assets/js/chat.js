@@ -121,13 +121,18 @@
     state.open = true;
     save(state);
   }
-  function close() {
+  function close(refocus = true) {
     if (panel) panel.hidden = true;
     launch.hidden = false;
-    launch.focus();
+    if (refocus) launch.focus();
     state.open = false;
     save(state);
   }
   launch.addEventListener('click', open);
+  // clic ou toucher en dehors de la fenêtre : elle se referme (sans voler le focus de ce qui a été cliqué)
+  document.addEventListener('pointerdown', (e) => {
+    if (!panel || panel.hidden || panel.contains(e.target) || launch.contains(e.target)) return;
+    close(false);
+  }, true);
   if (state.open && state.log.length) open();
 })();

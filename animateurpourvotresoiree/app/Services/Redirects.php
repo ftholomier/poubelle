@@ -77,7 +77,11 @@ final class Redirects
     public static function legacy(string $path, array $query): ?string
     {
         $p = strtolower($path);
-        $q = static fn (string $k): string => trim((string) ($query[$k] ?? ''));
+        // l'ancien site était en ISO-8859-1 : ses adresses (« %E9 » pour « é ») sont converties en UTF-8
+        $q = static function (string $k) use ($query): string {
+            $v = trim(is_string($query[$k] ?? null) ? $query[$k] : '');
+            return mb_check_encoding($v, 'UTF-8') ? $v : (string) mb_convert_encoding($v, 'UTF-8', 'Windows-1252');
+        };
         switch ($p) {
             case '/index.php':
             case '/index.html':
@@ -98,7 +102,7 @@ final class Redirects
             case '/depresultat.php':
                 return Url::dep(null, $q('dep'));
             case '/depresultatregion.php':
-                $r = Geo::fromOldRegion($q('num_region'));
+                $r = Geo::fromOldRegion($q('num_region')) ?? Geo::region($q('num_region')); // anciens codes, puis codes actuels
                 return $r ? Url::region(null, $r['code']) : Url::category(null);
             case '/villeresultat.php':
                 $ville = $q('ville');

@@ -23,6 +23,62 @@
     try { navigator.sendBeacon('/api/tick'); } catch (e) { /* ignoré */ }
   }
 
+  /* Listes déroulantes « jolies » (accueil : Quoi ?). La vraie liste reste dans le formulaire (envoi, sans JS). */
+  $$('select[data-pretty]').forEach((sel, k) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'pick';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pick-btn';
+    btn.id = 'pick-' + k;
+    btn.setAttribute('aria-haspopup', 'listbox');
+    btn.setAttribute('aria-expanded', 'false');
+    if (sel.getAttribute('aria-labelledby')) btn.setAttribute('aria-labelledby', sel.getAttribute('aria-labelledby') + ' ' + btn.id);
+    const panel = document.createElement('div');
+    panel.className = 'pick-panel';
+    panel.setAttribute('role', 'listbox');
+    panel.hidden = true;
+    const dot = (o) => `<span class="dot" style="background:${esc(o.dataset.color || '#ffd23f')}"></span>`;
+    const opts = Array.from(sel.options).map((o, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'pick-opt';
+      b.setAttribute('role', 'option');
+      b.innerHTML = dot(o) + (o.dataset.emoji ? `<span class="emo" aria-hidden="true">${esc(o.dataset.emoji)}</span>` : '') + `<span>${esc(o.textContent)}</span>`;
+      b.addEventListener('click', () => { choose(i); close(true); });
+      panel.appendChild(b);
+      return b;
+    });
+    const paint = () => {
+      const o = sel.options[sel.selectedIndex] || sel.options[0];
+      btn.innerHTML = dot(o) + `<span class="txt">${esc(o.textContent)}</span>`;
+      opts.forEach((b, i) => b.setAttribute('aria-selected', i === sel.selectedIndex ? 'true' : 'false'));
+    };
+    const choose = (i) => { sel.selectedIndex = i; sel.dispatchEvent(new Event('change', { bubbles: true })); paint(); };
+    const open = () => { panel.hidden = false; btn.setAttribute('aria-expanded', 'true'); (opts[sel.selectedIndex] || opts[0]).focus(); };
+    const close = (refocus) => { panel.hidden = true; btn.setAttribute('aria-expanded', 'false'); if (refocus) btn.focus(); };
+    btn.addEventListener('click', () => (panel.hidden ? open() : close(false)));
+    btn.addEventListener('keydown', (e) => { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); open(); } });
+    panel.addEventListener('keydown', (e) => {
+      const i = opts.indexOf(document.activeElement);
+      const cols = getComputedStyle(panel).gridTemplateColumns.split(' ').length;
+      const go = (j) => { e.preventDefault(); opts[Math.max(0, Math.min(opts.length - 1, j))].focus(); };
+      if (e.key === 'Escape') { e.preventDefault(); close(true); }
+      else if (e.key === 'ArrowDown') go(i + cols);
+      else if (e.key === 'ArrowUp') go(i - cols);
+      else if (e.key === 'ArrowRight') go(i + 1);
+      else if (e.key === 'ArrowLeft') go(i - 1);
+      else if (e.key === 'Home') go(0);
+      else if (e.key === 'End') go(opts.length - 1);
+      else if (e.key === 'Tab') close(false);
+    });
+    document.addEventListener('pointerdown', (e) => { if (!panel.hidden && !wrap.contains(e.target)) close(false); }, true);
+    sel.hidden = true;
+    wrap.append(btn, panel);
+    sel.after(wrap);
+    paint();
+  });
+
   /* ------------------------------------------------------------- toasts */
   APVS.toast = (msg, ms = 2600) => {
     const zone = $('.toast-zone');

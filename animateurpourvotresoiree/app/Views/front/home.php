@@ -15,20 +15,23 @@ $steps = (array) Settings::get('home.steps', []);
 $stepColors = ['var(--white)', 'var(--yellow)', 'var(--coral)'];
 ?>
 <section class="hero" data-screen-label="Hero">
+  <div class="hero-head">
+    <div class="badge badge-tilt hero-in" style="--d:0s">● <?= e($fill($h('badge'))) ?></div>
+    <?php $words = array_values(array_filter([[$h('title_1'), ''], [$h('title_2'), ''], [$h('title_em'), 'serif'], [$h('title_3'), '']], static fn ($w) => trim($w[0]) !== '')); ?>
+    <h1 class="hero-title"><?php foreach ($words as $i => [$w, $cls]): ?><span class="w hero-in<?= $cls ? ' ' . $cls : '' ?>" style="--d:<?= number_format(0.08 + $i * 0.09, 2, '.', '') ?>s"><?= e($w) ?></span><?= $i < count($words) - 1 ? ' ' : '' ?><?php endforeach; ?></h1>
+  </div>
   <div class="hero-grid">
     <div class="hero-copy">
-      <div class="badge badge-tilt">● <?= e($fill($h('badge'))) ?></div>
-      <h1><?= e($h('title_1')) ?><br><?= e($h('title_2')) ?> <span class="serif"><?= e($h('title_em')) ?></span> <?= e($h('title_3')) ?></h1>
-      <p class="hero-lead"><?= e($h('subtitle')) ?></p>
+      <p class="hero-lead hero-in" style="--d:.42s"><?= e($h('subtitle')) ?></p>
 
-      <form class="search-box" action="/recherche/" method="get" role="search" data-search-form>
-        <label class="search-field">
-          <span>Quoi ?</span>
-          <select name="cat" aria-label="Type de prestataire">
-            <option value="">Tous les pros</option>
-            <?php foreach ($cats as $slug => $c): ?><option value="<?= e($slug) ?>"><?= e($c['name']) ?></option><?php endforeach; ?>
+      <form class="search-box hero-in" style="--d:.5s" action="/recherche/" method="get" role="search" data-search-form>
+        <div class="search-field">
+          <span id="hero-quoi">Quoi ?</span>
+          <select name="cat" aria-labelledby="hero-quoi" data-pretty>
+            <option value="" data-color="#1c1233">Tous les pros</option>
+            <?php foreach ($cats as $slug => $c): ?><option value="<?= e($slug) ?>" data-color="<?= e($c['color'] ?? '#ffd23f') ?>" data-emoji="<?= e($c['emoji'] ?? '') ?>"><?= e($c['name']) ?></option><?php endforeach; ?>
           </select>
-        </label>
+        </div>
         <label class="search-field autocomplete">
           <span>Où ?</span>
           <input type="text" name="ou" placeholder="Lyon, Nantes…" autocomplete="off" data-commune-input aria-label="Ville ou code postal">
@@ -36,22 +39,25 @@ $stepColors = ['var(--white)', 'var(--yellow)', 'var(--coral)'];
         </label>
         <button type="submit" class="btn-go">C'est parti !</button>
       </form>
-      <div class="popular">
+
+      <div class="hero-cta hero-in" style="--d:.58s">
+        <a class="btn btn-ink" href="/devis/"><span aria-hidden="true">📣</span> Déposer ma demande</a>
+        <p><strong><?= e($h('hero_request_title')) ?></strong> <?= e($h('hero_request_text')) ?></p>
+      </div>
+
+      <div class="popular hero-in" style="--d:.66s">
         <span>Populaire :</span>
         <?php foreach ((array) Settings::get('home.popular', []) as $p): ?>
           <a class="pill-ghost" href="<?= e($p['url'] ?? '/recherche/') ?>"><?= e($p['label'] ?? '') ?></a>
         <?php endforeach; ?>
       </div>
-      <div class="hero-request">
-        <span class="hero-request-ico" aria-hidden="true">📣</span>
-        <div><strong><?= e($h('hero_request_title')) ?></strong><p><?= e($h('hero_request_text')) ?></p></div>
-        <a class="btn btn-sm btn-coral" href="/devis/">Déposer ma demande →</a>
-      </div>
     </div>
 
     <div class="hero-visual" aria-hidden="true">
+      <span class="confetti c1">✦</span><span class="confetti c2">●</span><span class="confetti c3">♪</span><span class="confetti c4">★</span><span class="confetti c5">✦</span><span class="confetti c6">●</span>
       <div class="frame frame-1"><img src="<?= e($img1) ?>" alt="" width="520" height="340" fetchpriority="high"></div>
       <div class="frame frame-2"><img src="<?= e($img2) ?>" alt="" width="460" height="280"></div>
+      <div class="eq-pill"><span class="eq"><i></i><i></i><i></i><i></i></span> Ça bouge ce soir</div>
       <div class="quote-card">
         <div class="stars"><?= $testimonial['stars'] ? '★★★★★' : '✦ ✦ ✦' ?></div>
         <p><?= e($testimonial['text']) ?></p>

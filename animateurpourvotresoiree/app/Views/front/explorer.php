@@ -45,10 +45,10 @@ $moreUrl = ($self ?? '/recherche/') . '?' . http_build_query(array_merge(array_d
       <button type="submit" class="btn-go">OK</button>
     </form>
 
-    <div class="explore-filters scroll" role="group" aria-label="Métiers" data-chips="cat">
-      <button type="button" class="chip<?= empty($state['cat']) ? ' is-on' : '' ?>" data-cat="" aria-pressed="<?= empty($state['cat']) ? 'true' : 'false' ?>"><span class="dot" style="background:#1c1233"></span>Tous</button>
+    <div class="explore-filters" role="group" aria-label="Métiers" data-chips="cat">
+      <button type="button" class="chip chip-sm<?= empty($state['cat']) ? ' is-on' : '' ?>" data-cat="" aria-pressed="<?= empty($state['cat']) ? 'true' : 'false' ?>"><span class="dot" style="background:#1c1233"></span>Tous</button>
       <?php foreach ($cats as $slug => $c): $on = ($state['cat'] ?? '') === $slug; ?>
-        <button type="button" class="chip<?= $on ? ' is-on' : '' ?>" data-cat="<?= e($slug) ?>" aria-pressed="<?= $on ? 'true' : 'false' ?>"><span class="dot" style="background:<?= e($c['color']) ?>"></span><?= e($c['name']) ?></button>
+        <button type="button" class="chip chip-sm<?= $on ? ' is-on' : '' ?>" data-cat="<?= e($slug) ?>" aria-pressed="<?= $on ? 'true' : 'false' ?>"><span class="dot" style="background:<?= e($c['color']) ?>"></span><?= e($c['name']) ?></button>
       <?php endforeach; ?>
     </div>
     <div class="explore-filters" role="group" aria-label="Filtres rapides">
