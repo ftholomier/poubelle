@@ -55,6 +55,10 @@ Adresses porteuses de mots-clés + **redirection 301 de chaque ancienne adresse*
    - page « Face-à-face » avec **choix de l'équipe** (suggestions + liste des adversaires),
      filtres compétition / période / domicile-extérieur, bilan, graphique, records,
      buteurs sochaliens, liste triable ; une URL par adversaire (`/face-a-face/{club}/`) ;
+   - même moteur de bilans décliné **par compétition** (ex. « Sochaux en Coupe de France » :
+     bilan, parcours par saison, meilleur parcours, buteurs, records) et **par stade**
+     (ex. « Sochaux à Bonal » : bilan à domicile, séries, affluences, records) ;
+     URLs `/bilans/coupe-de-france/`, `/bilans/stade-auguste-bonal/` ;
    - **référentiel des clubs** (regroupement des variantes de noms, pré-rempli puis validé
      dans le back-office ; logo, ville, stade).
 4. **Records** calculés automatiquement (buteurs, joueurs les plus utilisés, affluences,
