@@ -64,8 +64,8 @@ final class Pages
                 '@context' => 'https://schema.org',
                 '@type' => 'WebSite',
                 'name' => Settings::get('general.site_name', 'Sochaux Rétro'),
-                'url' => rtrim((string) Settings::get('general.base_url', ''), '/') . '/',
-                'potentialAction' => ['@type' => 'SearchAction', 'target' => rtrim((string) Settings::get('general.base_url', ''), '/') . '/recherche/?q={q}', 'query-input' => 'required name=q'],
+                'url' => base_url() . '/',
+                'potentialAction' => ['@type' => 'SearchAction', 'target' => base_url() . '/recherche/?q={q}', 'query-input' => 'required name=q'],
             ],
             'scripts' => ['js/home.js'],
         ]);

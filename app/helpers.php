@@ -220,3 +220,18 @@ function date_num(?string $iso): string
         default => $p[0],
     };
 }
+
+/** Adresse publique du site, sans barre finale (réglage, sinon déduite de la requête). */
+function base_url(): string
+{
+    $b = rtrim((string) Settings::get('general.base_url', ''), '/');
+    if ($b !== '') {
+        return $b;
+    }
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+    if ($host === '' || !preg_match('/^[a-z0-9.\-]+(:\d+)?$/i', $host)) {
+        return '';
+    }
+    $https = ($_SERVER['HTTPS'] ?? '') === 'on' || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https';
+    return ($https ? 'https://' : 'http://') . $host;
+}

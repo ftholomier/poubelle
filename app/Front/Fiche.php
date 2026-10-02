@@ -93,7 +93,7 @@ final class Fiche
         $seoTitle = $doc['seo']['title'] ?: trim($title . ($scoreTxt ? " ($scoreTxt)" : '') . ', ' . ($m['competition_label'] ?: $m['competition']) . ($m['date'] ? ', ' . date_fr($m['date']) : ''));
         $desc = $doc['seo']['description'] ?: trim(sprintf('%s : %s%s, %s. %s', $title, $scoreTxt ? "$scoreTxt, " : '', $m['competition_label'] ?: $m['competition'], $m['date'] ? date_fr($m['date']) : '', excerpt($resume['all_text'] ?: implode(' ', array_column($doc['sections'], 'html')), 150)));
 
-        $base = rtrim((string) Settings::get('general.base_url', ''), '/');
+        $base = base_url();
         $jsonld = [
             '@context' => 'https://schema.org',
             '@type' => 'SportsEvent',
@@ -360,7 +360,7 @@ final class Fiche
             $tot && $tot['matches'] ? $tot['matches'] . ' ' . t('matchs') . ', ' . $tot['goals'] . ' ' . t('buts') . '.' : '',
             excerpt(implode(' ', array_column($doc['sections'], 'html')), 120),
         ])));
-        $base = rtrim((string) Settings::get('general.base_url', ''), '/');
+        $base = base_url();
         $jsonld = array_filter([
             '@context' => 'https://schema.org',
             '@type' => 'Person',
@@ -665,7 +665,7 @@ final class Fiche
                 'datePublished' => $doc['date'],
                 'dateModified' => $doc['modified'],
                 'author' => ['@type' => 'Organization', 'name' => 'Sochaux Rétro'],
-                'image' => $doc['featured_image'] ? rtrim((string) Settings::get('general.base_url', ''), '/') . img($doc['featured_image'], 1200) : null,
+                'image' => $doc['featured_image'] ? base_url() . img($doc['featured_image'], 1200) : null,
             ],
         ]);
     }

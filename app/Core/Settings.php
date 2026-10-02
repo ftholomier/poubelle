@@ -48,9 +48,13 @@ final class Settings
     public static function get(string $key, mixed $default = null): mixed
     {
         $values = self::all();
-        $v = $values[$key] ?? null;
-        if ($v === null || $v === '') {
-            return $default ?? (self::defaults()[$key] ?? null);
+        // Jamais enregistré : valeur par défaut du schéma (config/settings.php), sinon celle de l'appel.
+        if (!array_key_exists($key, $values) || $values[$key] === null) {
+            return self::defaults()[$key] ?? $default;
+        }
+        $v = $values[$key];
+        if ($v === '') {
+            return '';
         }
         if (is_string($v) && str_starts_with($v, self::PREFIX)) {
             return self::decrypt($v);

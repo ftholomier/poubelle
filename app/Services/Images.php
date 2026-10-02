@@ -60,27 +60,11 @@ final class Images
         if ($w * $h > 120_000_000) {
             return false;
         }
-        ini_set('memory_limit', '1536M');
-        set_time_limit(120);
-        $im = match ($type) {
-            IMAGETYPE_JPEG => @imagecreatefromjpeg($src),
-            IMAGETYPE_PNG => @imagecreatefrompng($src),
-            IMAGETYPE_GIF => @imagecreatefromgif($src),
-            IMAGETYPE_WEBP => @imagecreatefromwebp($src),
-            IMAGETYPE_BMP => @imagecreatefrombmp($src),
-            default => false,
-        };
+        $im = self::open($src);
         if (!$im) {
             return false;
         }
-        if ($type === IMAGETYPE_JPEG && function_exists('exif_read_data')) {
-            $exif = @exif_read_data($src);
-            $o = $exif['Orientation'] ?? 1;
-            if (in_array($o, [3, 6, 8], true)) {
-                $im = imagerotate($im, [3 => 180, 6 => -90, 8 => 90][$o], 0);
-                [$w, $h] = [imagesx($im), imagesy($im)];
-            }
-        }
+        [$w, $h] = [imagesx($im), imagesy($im)];
         $tw = min($width, $w);
         $th = (int) max(1, round($h * $tw / $w));
         $out = imagecreatetruecolor($tw, $th);
@@ -99,6 +83,40 @@ final class Images
             rename($tmp, $dest);
         }
         return $ok;
+    }
+
+    /** Ouvre une image (JPEG, PNG, GIF, WebP, BMP) en tenant compte de l'orientation EXIF. */
+    public static function open(string $src): ?\GdImage
+    {
+        $info = @getimagesize($src);
+        if (!$info || $info[0] * $info[1] > 120_000_000) {
+            return null;
+        }
+        ini_set('memory_limit', '1536M');
+        set_time_limit(120);
+        $type = $info[2];
+        $im = match ($type) {
+            IMAGETYPE_JPEG => @imagecreatefromjpeg($src),
+            IMAGETYPE_PNG => @imagecreatefrompng($src),
+            IMAGETYPE_GIF => @imagecreatefromgif($src),
+            IMAGETYPE_WEBP => @imagecreatefromwebp($src),
+            IMAGETYPE_BMP => @imagecreatefrombmp($src),
+            default => false,
+        };
+        if (!$im) {
+            return null;
+        }
+        if ($type === IMAGETYPE_JPEG && function_exists('exif_read_data')) {
+            $exif = @exif_read_data($src);
+            $o = $exif['Orientation'] ?? 1;
+            if (in_array($o, [3, 6, 8], true)) {
+                $im = imagerotate($im, [3 => 180, 6 => -90, 8 => 90][$o], 0);
+            }
+        }
+        if (!imageistruecolor($im)) {
+            imagepalettetotruecolor($im);
+        }
+        return $im;
     }
 
     private static function copySvg(string $src, string $dest): bool

@@ -221,7 +221,7 @@ final class Site
     public static function meta(array $p, string $path): array
     {
         $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
-        $base = rtrim((string) Settings::get('general.base_url', ''), '/');
+        $base = base_url();
         $title = trim($p['title'] ?? '');
         $full = $title === '' ? "$site — " . t('Le musée en ligne du FCSM') : "$title | $site";
         $canonical = $p['canonical'] ?? I18n::switchUrl($path, I18n::lang());

@@ -113,7 +113,8 @@ final class Kernel
         $r->get('/robots.txt', fn () => Front\Seo::robots());
         $r->get('/sitemap.xml', fn () => Front\Seo::sitemap());
         $r->get('/recherche/', fn ($q) => Front\Pages::search($q));
-        $r->get('/partage/{id}.png', fn ($q, $id) => Front\Share::image((int) $id));
+        $r->get('/partage/{id}.png', fn ($q, $id) => ctype_digit($id) ? Front\Share::image((int) $id) : null);
+        $r->get('/partage/face-a-face/{club}.png', fn ($q, $club) => Front\Share::faceToFace($club));
 
         // Explorer l'histoire (calculé)
         $r->get('/matchs/{season}/', fn ($q, $season) => preg_match('/^\d{4}-\d{4}$/', $season) ? Front\Explore::season($q, $season) : null);
