@@ -68,6 +68,8 @@ h1, h2, h3, h4 { margin: 0; line-height: 1.05; letter-spacing: -0.02em; }
 .c-coral { color: var(--coral); } .c-cream { color: var(--cream); } .c-yellow { color: var(--yellow); } .c-lime { color: var(--lime); } .c-muted { color: var(--muted); }
 .mono { font-family: var(--mono); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
 .hidden { display: none !important; }
+/* l'attribut hidden doit toujours l'emporter (fenêtre de l'assistant, éditeur, listes…), même sur un display: flex */
+[hidden] { display: none !important; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 
 /* ------------------------------------------------------------------ header */
