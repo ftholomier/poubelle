@@ -26,13 +26,25 @@ function t(string $text, array $vars = []): string
     return $s;
 }
 
-/** URL d'une image redimensionnée à la volée (largeurs autorisées : voir ImageService). */
+/** URL d'une image redimensionnée à la volée, en WebP (largeurs : voir Services\Images::WIDTHS). */
 function img(?string $rel, int $width = 800): string
 {
     if (!$rel) {
         return '/assets/img/placeholder.svg';
     }
-    return '/media/' . $width . '/' . str_replace('%2F', '/', rawurlencode($rel));
+    if (str_ends_with(strtolower($rel), '.svg')) {
+        return '/media/full/' . str_replace('%2F', '/', rawurlencode($rel));
+    }
+    return '/media/' . $width . '/' . str_replace('%2F', '/', rawurlencode($rel)) . '.webp';
+}
+
+/** srcset WebP pour une image responsive. */
+function srcset(?string $rel, array $widths = [480, 800, 1200]): string
+{
+    if (!$rel || str_ends_with(strtolower($rel), '.svg')) {
+        return '';
+    }
+    return implode(', ', array_map(fn ($w) => img($rel, $w) . " {$w}w", $widths));
 }
 
 /** URL de l'image originale. */
@@ -118,6 +130,41 @@ function safe_html(?string $html): string
     $html = preg_replace('#<(script|style|iframe|object|embed|form|input|button|meta|link)\b[^>]*>#i', '', $html);
     $html = preg_replace('/\son\w+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $html);
     $html = preg_replace('/(href|src)\s*=\s*(["\'])\s*javascript:[^"\']*\2/i', '$1="#"', $html);
-    // Liens internes absolus de l'ancien site → relatifs.
-    return str_replace(['https://www.fcsochauxretro.com/', 'http://www.fcsochauxretro.com/'], '/', $html);
+    // Liens internes absolus de l'ancien site → relatifs ; images de l'ancien site → médiathèque.
+    $html = str_replace(['https://www.fcsochauxretro.com/', 'http://www.fcsochauxretro.com/'], '/', $html);
+    $html = preg_replace_callback('#(src)="/wp-content/uploads/([^"]+?)(-\d+x\d+)?(\.\w+)"#', function ($m) {
+        return 'src="' . img($m[2] . $m[4], 1200) . '" loading="lazy"';
+    }, $html);
+    // Liens vers d'anciennes adresses : redirigés par le serveur, on garde tels quels.
+    return $html;
+}
+
+/** Pictogramme « photo » des emplacements vides (maquette). */
+function icon_photo(): string
+{
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M4 18l5-5 4 4 3-3 4 4"/></svg>';
+}
+
+/** Compte à rebours (jours, heures, minutes, secondes) — animé par site.js. */
+function countdown_html(string $date, string $time = '00:00:00'): string
+{
+    $iso = str_contains($date, 'T') ? $date : $date . 'T' . $time;
+    $left = max(0, strtotime(str_replace('T', ' ', $iso)) - time());
+    $cells = [
+        ['d', (string) intdiv($left, 86400), t('jours')],
+        ['h', str_pad((string) (intdiv($left, 3600) % 24), 2, '0', STR_PAD_LEFT), t('heures')],
+        ['m', str_pad((string) (intdiv($left, 60) % 60), 2, '0', STR_PAD_LEFT), t('min')],
+        ['s', str_pad((string) ($left % 60), 2, '0', STR_PAD_LEFT), t('sec')],
+    ];
+    $h = '<div class="countdown" data-countdown="' . e($iso) . '" role="timer">';
+    foreach ($cells as [$k, $v, $l]) {
+        $h .= '<div class="countdown__cell"><b data-cd="' . $k . '">' . e($v) . '</b><span>' . e($l) . '</span></div>';
+    }
+    return $h . '</div>';
+}
+
+/** Numéro sur deux chiffres. */
+function pad2(int|string $n): string
+{
+    return str_pad((string) $n, 2, '0', STR_PAD_LEFT);
 }

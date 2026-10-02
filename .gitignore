@@ -4,3 +4,4 @@
 /public/media/
 /vendor/
 .DS_Store
+/storage/*.pid

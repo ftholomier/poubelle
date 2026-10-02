@@ -327,8 +327,15 @@ $redirects['/accueil-wordpress/'] = '/';
 // 5. Écriture
 // ---------------------------------------------------------------------------
 $dir = DATA . '/fiches';
+$legacyDir = DATA . '/legacy';
 ensure_dir($dir);
+ensure_dir($legacyDir);
 foreach ($docs as $id => $doc) {
+    // Archive brute (blocs HTML d'origine, tableaux bruts) : compressée, hors des fiches.
+    $archive = ['wp_id' => $id, 'url' => $doc['legacy']['url'], 'blocks' => $doc['legacy']['blocks'],
+        'table' => $doc['legacy']['table'], 'tables' => $doc['legacy']['tables'], 'table_title' => $doc['legacy']['table_title']];
+    write_file("$legacyDir/$id.json.gz", gzencode(json_encode($archive, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), 9));
+    unset($doc['legacy']['blocks'], $doc['legacy']['table'], $doc['legacy']['tables'], $doc['legacy']['table_title']);
     write_json("$dir/$id.json", $doc);
 }
 // Médias : enrichis des légendes trouvées dans les galeries (la galerie fait foi si la médiathèque est vide).

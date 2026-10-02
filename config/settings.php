@@ -2,7 +2,8 @@
 /**
  * Schéma des réglages modifiables dans le back-office (Réglages).
  *
- * Types : text, textarea, email, url, number, bool, select, secret, date, color.
+ * Types : text, wysiwyg (éditeur visuel : tous les textes longs), email, url, number, bool, select,
+ * secret, date, datetime, color, image.
  * Un champ « secret » est chiffré au repos et n'est jamais réaffiché en clair.
  * « options_from » indique une liste remplie dynamiquement (ex. modèles Gemini).
  */
@@ -20,17 +21,29 @@ return [
             'debug' => ['label' => 'Afficher les erreurs (développement)', 'type' => 'bool', 'default' => false],
         ],
     ],
+    'waiting' => [
+        'label' => "Page d'attente",
+        'fields' => [
+            'enabled' => ['label' => "Activer la page d'attente", 'type' => 'bool', 'default' => false, 'help' => "Les visiteurs voient uniquement cette page. Les membres connectés du back-office voient le site normalement."],
+            'title' => ['label' => 'Titre', 'type' => 'text', 'default' => 'Le musée ouvre bientôt ses portes'],
+            'text' => ['label' => 'Texte', 'type' => 'wysiwyg', 'default' => "<p>Sochaux Rétro prépare son nouveau musée en ligne : près d'un siècle de jaune et de bleu, rassemblé pièce par pièce.</p><p>Revenez très vite !</p>"],
+            'countdown' => ['label' => 'Afficher un compte à rebours', 'type' => 'bool', 'default' => false],
+            'countdown_date' => ['label' => 'Date et heure cibles du compte à rebours', 'type' => 'datetime', 'default' => '2026-12-01T10:00'],
+            'countdown_label' => ['label' => 'Intitulé du compte à rebours', 'type' => 'text', 'default' => "Ouverture dans"],
+            'show_social' => ['label' => 'Afficher les liens vers les réseaux sociaux', 'type' => 'bool', 'default' => true],
+        ],
+    ],
     'home' => [
         'label' => 'Accueil',
         'fields' => [
             'intro_title' => ['label' => 'Titre d’introduction', 'type' => 'text', 'default' => 'Musée numérique FCSM - Sochaux Rétro'],
-            'intro_text' => ['label' => 'Texte d’introduction', 'type' => 'textarea', 'default' => "Sochaux Rétro : l'histoire de notre club s'écrit maintenant ! Bienvenue au musée numérique de notre club, le Football Club Sochaux Montbéliard - FCSM.\nUn projet de Sochaux Rétro !"],
+            'intro_text' => ['label' => 'Texte d’introduction', 'type' => 'wysiwyg', 'default' => "Sochaux Rétro : l'histoire de notre club s'écrit maintenant ! Bienvenue au musée numérique de notre club, le Football Club Sochaux Montbéliard - FCSM.\nUn projet de Sochaux Rétro !"],
             'slider_count' => ['label' => 'Nombre de slides tirées au hasard dans « À la une »', 'type' => 'number', 'default' => 5],
             'counter_community' => ['label' => 'Compteur : membres de la communauté', 'type' => 'text', 'default' => '11000+'],
             'counter_videos' => ['label' => 'Compteur : vidéos YouTube', 'type' => 'text', 'default' => '1400+'],
             'counter_players_db' => ['label' => 'Compteur : joueurs présents dans la base', 'type' => 'text', 'default' => '1000+'],
             'centenary_date' => ['label' => 'Date du centenaire (compte à rebours)', 'type' => 'date', 'default' => '2028-05-20'],
-            'centenary_text' => ['label' => 'Texte du compte à rebours', 'type' => 'textarea', 'default' => 'Le FCSM fêtera ses 100 ans. Aidez-nous à écrire son histoire avant le centenaire !'],
+            'centenary_text' => ['label' => 'Texte du compte à rebours', 'type' => 'wysiwyg', 'default' => 'Le FCSM fêtera ses 100 ans. Aidez-nous à écrire son histoire avant le centenaire !'],
         ],
     ],
     'social' => [
@@ -50,8 +63,8 @@ return [
             'model' => ['label' => 'Modèle de réponse', 'type' => 'select', 'options_from' => 'gemini_generate_models', 'default' => ''],
             'embedding_model' => ['label' => 'Modèle d’embedding (recherche dans les données)', 'type' => 'select', 'options_from' => 'gemini_embedding_models', 'default' => ''],
             'assistant_name' => ['label' => 'Nom de l’assistant', 'type' => 'text', 'default' => 'Le guide du musée'],
-            'welcome' => ['label' => 'Message d’accueil', 'type' => 'textarea', 'default' => 'Bonjour ! Je connais tous les matchs, joueurs et personnages du musée Sochaux Rétro. Posez-moi votre question.'],
-            'system_prompt' => ['label' => 'Consignes de l’assistant', 'type' => 'textarea', 'default' => "Tu es le guide du musée numérique Sochaux Rétro, consacré à l'histoire du FC Sochaux-Montbéliard (FCSM).\nRéponds uniquement à partir des extraits du musée fournis. Si l'information n'y figure pas, dis-le simplement et propose une recherche proche.\nCite les fiches utilisées. Réponds dans la langue de la question, avec un ton chaleureux et précis."],
+            'welcome' => ['label' => 'Message d’accueil', 'type' => 'wysiwyg', 'default' => 'Bonjour ! Je connais tous les matchs, joueurs et personnages du musée Sochaux Rétro. Posez-moi votre question.'],
+            'system_prompt' => ['label' => 'Consignes de l’assistant', 'type' => 'wysiwyg', 'default' => "Tu es le guide du musée numérique Sochaux Rétro, consacré à l'histoire du FC Sochaux-Montbéliard (FCSM).\nRéponds uniquement à partir des extraits du musée fournis. Si l'information n'y figure pas, dis-le simplement et propose une recherche proche.\nCite les fiches utilisées. Réponds dans la langue de la question, avec un ton chaleureux et précis."],
             'temperature' => ['label' => 'Créativité (0 = factuel, 1 = libre)', 'type' => 'number', 'default' => 0.3, 'step' => 0.1, 'min' => 0, 'max' => 1],
             'max_output_tokens' => ['label' => 'Longueur maximale des réponses (jetons)', 'type' => 'number', 'default' => 800],
             'context_chunks' => ['label' => 'Nombre d’extraits envoyés à Gemini par question', 'type' => 'number', 'default' => 8],
@@ -85,10 +98,10 @@ return [
             'paypal_webhook_id' => ['label' => 'PayPal : identifiant du webhook', 'type' => 'text', 'default' => '', 'help' => 'Adresse du webhook à déclarer chez PayPal : /api/dons/paypal/webhook'],
             'tax_receipts' => ['label' => 'Émettre des reçus fiscaux (association d’intérêt général)', 'type' => 'bool', 'default' => false],
             'org_name' => ['label' => 'Nom de l’association', 'type' => 'text', 'default' => 'Sochaux Rétro'],
-            'org_address' => ['label' => 'Adresse de l’association', 'type' => 'textarea', 'default' => ''],
+            'org_address' => ['label' => 'Adresse de l’association', 'type' => 'wysiwyg', 'default' => ''],
             'org_rna' => ['label' => 'N° RNA ou SIREN', 'type' => 'text', 'default' => ''],
             'org_signatory' => ['label' => 'Signataire des reçus (nom, qualité)', 'type' => 'text', 'default' => ''],
-            'thanks_email' => ['label' => 'E-mail de remerciement', 'type' => 'textarea', 'default' => "Merci {prenom} !\n\nVotre don de {montant} aide Sochaux Rétro à préserver l'histoire du FCSM.\n\nL'équipe de Sochaux Rétro"],
+            'thanks_email' => ['label' => 'E-mail de remerciement', 'type' => 'wysiwyg', 'default' => "Merci {prenom} !\n\nVotre don de {montant} aide Sochaux Rétro à préserver l'histoire du FCSM.\n\nL'équipe de Sochaux Rétro"],
         ],
     ],
     'mail' => [
@@ -106,7 +119,7 @@ return [
     'privacy' => [
         'label' => 'Cookies et RGPD',
         'fields' => [
-            'cookie_text' => ['label' => 'Texte du bandeau cookies', 'type' => 'textarea', 'default' => 'Nous utilisons des cookies pour lire les vidéos YouTube et traiter les dons en ligne. Vous pouvez accepter ou refuser ces services.'],
+            'cookie_text' => ['label' => 'Texte du bandeau cookies', 'type' => 'wysiwyg', 'default' => 'Nous utilisons des cookies pour lire les vidéos YouTube et traiter les dons en ligne. Vous pouvez accepter ou refuser ces services.'],
             'analytics_id' => ['label' => 'Mesure d’audience (ID, facultatif)', 'type' => 'text', 'default' => ''],
             'legal_page' => ['label' => 'Adresse de la page Mentions légales', 'type' => 'text', 'default' => '/mentions-legales/'],
         ],

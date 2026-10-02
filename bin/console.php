@@ -1,0 +1,83 @@
+<?php
+/**
+ * Console d'administration (ligne de commande).
+ *
+ *   php bin/console.php index            reconstruit l'index des fiches
+ *   php bin/console.php derived          recalcule statistiques, liens, bilans, qualité
+ *   php bin/console.php search           reconstruit l'index de recherche
+ *   php bin/console.php cron             tâches planifiées (à lancer toutes les 5 min)
+ *   php bin/console.php admin <email> <nom>   crée un compte administrateur (mot de passe demandé)
+ *   php bin/console.php backup           sauvegarde immédiate
+ *   php bin/console.php rag              (ré)indexe les données pour l'assistant IA
+ *   php bin/console.php images [largeur] pré-génère les vignettes
+ */
+
+declare(strict_types=1);
+
+require __DIR__ . '/../app/bootstrap.php';
+
+use App\Data\Derived;
+use App\Data\Index;
+
+$cmd = $argv[1] ?? 'help';
+$t0 = microtime(true);
+
+switch ($cmd) {
+    case 'index':
+        $items = Index::rebuild();
+        echo count($items) . " fiches indexées\n";
+        break;
+
+    case 'derived':
+        $d = Derived::rebuild();
+        echo sprintf("%d matchs, %d apparitions, %d personnes reliées, %d saisons, %d adversaires, %d stades, %d alertes qualité (%.1fs)\n",
+            count($d['matches']), count($d['apps']), count($d['person_totals']), count($d['seasons']), count($d['clubs']), count($d['stades']), count($d['quality']), $d['duration']);
+        break;
+
+    case 'search':
+        $n = \App\Services\Search::rebuild();
+        echo "$n entrées dans l'index de recherche\n";
+        break;
+
+    case 'cron':
+        \App\Services\Cron::run();
+        break;
+
+    case 'admin':
+        [$email, $name] = [$argv[2] ?? '', $argv[3] ?? 'Administrateur'];
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            fwrite(STDERR, "E-mail invalide\n");
+            exit(1);
+        }
+        $pwd = getenv('ADMIN_PASSWORD') ?: (function () {
+            echo 'Mot de passe : ';
+            system('stty -echo 2>/dev/null');
+            $p = trim((string) fgets(STDIN));
+            system('stty echo 2>/dev/null');
+            echo "\n";
+            return $p;
+        })();
+        $u = \App\Core\Auth::createUser($email, $name, 'admin', $pwd);
+        echo "Compte administrateur créé : {$u['email']}\n";
+        break;
+
+    case 'backup':
+        $r = \App\Services\Backup::run(true);
+        echo json_encode($r, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "\n";
+        break;
+
+    case 'rag':
+        $r = \App\Services\Rag::reindex(fn ($m) => print("$m\n"));
+        echo json_encode($r, JSON_UNESCAPED_UNICODE) . "\n";
+        break;
+
+    case 'images':
+        $w = (int) ($argv[2] ?? 600);
+        $n = \App\Services\Images::warmup($w, fn ($m) => print("$m\n"));
+        echo "$n vignettes générées\n";
+        break;
+
+    default:
+        echo file_get_contents(__FILE__, false, null, 0, 900);
+}
+printf("(%.1fs)\n", microtime(true) - $t0);
