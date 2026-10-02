@@ -159,3 +159,25 @@ Design **à respecter strictement**, réécrit en HTML/CSS/JS natif (pas le runt
 - **Album** : sélection par les historiens dans le BO (dans l'album, rareté, numéro) ;
   première sélection proposée par Claude.
 - **Grandes époques + légendes** : rédigées / proposées par Claude, à valider dans le BO.
+
+## Back-office — maquette complète (v2, `docs/maquette/Back-office.dc.html`)
+**Maquette graphique** : le style est à respecter, le contenu est à adapter à ce qui est
+réellement développé.
+- Menu par groupes : Pilotage (tableau de bord, qualité, journal), Contenus (matchs,
+  personnes, saisons/adversaires/lieux, médiathèque), Éditorial (accueil, bandeau, 100 moments),
+  Interactif (quiz, onze, album), Communauté (contributions, messages, newsletter, dons),
+  Système (traductions EN, utilisateurs, sauvegardes).
+- Fiche match en onglets : Infos, Compo & événements, Récit, Médias, Partage & SEO,
+  Historique ; panneaux Publication (brouillon / à relire / planifié / publié),
+  « Mis à jour automatiquement », Contrôle qualité, Version EN.
+- Fiche personne : identité, naissance (géolocalisée pour la carto), au club, statuts,
+  matchs reliés automatiquement, carte de l'album (rareté).
+- Médiathèque : légende, crédit, droits, texte alternatif, « utilisée dans », alertes
+  (sans crédit, droits ?, doublon ?).
+- **Ajouts nécessaires** (absents de la maquette) : Réglages (clés API Gemini, Stripe,
+  PayPal, SMTP…), rubriques & menus & ordre des mosaïques, frise, maillots, objets
+  (réserves), partenaires, lieux de la carto, articles thématiques et pages (mentions
+  légales…), redirections, assistant IA (questions posées, réindexation), et tous les
+  champs existants des fiches (taille, poids, pied, récit, statistiques, galerie…).
+- **Rôles** : la maquette montre 5 rôles avec matrice de droits ; on conserve la décision
+  validée de **2 niveaux** (administrateur / utilisateur) sauf contre-ordre du client.

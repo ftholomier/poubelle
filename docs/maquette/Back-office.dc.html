@@ -12,149 +12,468 @@
 <script src="./image-slot.js"></script>
 <style>body{margin:0;background:#F3EDDF;color:#0E1F4D;font-family:'Newsreader',Georgia,serif;-webkit-font-smoothing:antialiased}a{color:#0E1F4D;text-decoration:none}a:hover{color:#1F3FA8}*{box-sizing:border-box}</style>
 </helmet>
-<div style="min-height:100vh;display:grid;grid-template-columns:240px minmax(0,1fr);background:#F3EDDF">
-<aside style="background:#0E1F4D;color:#F3EDDF;display:flex;flex-direction:column;position:sticky;top:0;height:100vh">
-<a href="Musee%20FCSM.dc.html" style="display:flex;align-items:center;gap:10px;padding:18px;border-bottom:1px solid rgba(243,237,223,.2);color:#F3EDDF"><img src="assets/logo-sochaux-retro.png" alt="" style="height:44px;width:auto"><div style="display:flex;flex-direction:column;line-height:1"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:19px;text-transform:uppercase">Sochaux rétro</span><span style="font-size:13px;color:#C9CFE0;margin-top:3px">Back-office</span></div></a>
-<nav style="display:flex;flex-direction:column;padding:12px 0">
-<sc-for list="{{ nav }}" as="n" hint-placeholder-count="4">
-<button onClick="{{ n.go }}" style="all:unset;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-left:4px solid {{ n.line }};background:{{ n.bg }};font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:.06em;transition:background .15s" style-hover="background:#1F3FA8">{{ n.label }}<span style="background:#F6C400;color:#0E1F4D;padding:1px 7px;font-size:14px;visibility:{{ n.badgeVis }}">{{ n.badge }}</span></button>
+<div style="min-height:100vh;display:grid;grid-template-columns:250px minmax(0,1fr);background:#F3EDDF">
+
+<aside style="background:#0E1F4D;color:#F3EDDF;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:auto">
+<a href="Musee%20FCSM.dc.html" style="display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid rgba(243,237,223,.2);color:#F3EDDF"><img src="assets/logo-sochaux-retro.png" alt="" style="height:42px;width:auto"><div style="display:flex;flex-direction:column;line-height:1"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:19px;text-transform:uppercase">Sochaux rétro</span><span style="font-size:13px;color:#C9CFE0;margin-top:3px">Back-office</span></div></a>
+<nav style="display:flex;flex-direction:column;padding:6px 0 14px">
+<sc-for list="{{ navGroups }}" as="g" hint-placeholder-count="6">
+<span style="padding:14px 18px 4px;font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#8E9AC0">{{ g.label }}</span>
+<sc-for list="{{ g.items }}" as="n" hint-placeholder-count="3">
+<button onClick="{{ n.go }}" style="all:unset;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:8px 18px;border-left:4px solid {{ n.line }};background:{{ n.bg }};font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.05em;transition:background .15s" style-hover="background:#1F3FA8">{{ n.label }}<span style="background:{{ n.bBg }};color:#0E1F4D;padding:0 7px;font-size:13px;visibility:{{ n.badgeVis }}">{{ n.badge }}</span></button>
+</sc-for>
 </sc-for>
 </nav>
-<div style="margin-top:auto;padding:16px 18px;border-top:1px solid rgba(243,237,223,.2);display:flex;flex-direction:column;gap:6px;font-size:14px">
-<span style="display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:50%;background:#7BD88F"></span>Sauvegarde hors serveur OK</span>
-<span style="color:#C9CFE0">Aujourd'hui, 03:00 · prochaine demain 03:00</span>
+<div style="margin-top:auto;padding:14px 18px;border-top:1px solid rgba(243,237,223,.2);display:flex;flex-direction:column;gap:4px;font-size:13px">
+<span style="display:flex;align-items:center;gap:8px"><span style="width:9px;height:9px;border-radius:50%;background:#7BD88F"></span>Sauvegarde hors serveur OK</span>
+<span style="color:#C9CFE0">Aujourd'hui 03:00 · J-{{ daysLeft }} centenaire</span>
 </div>
 </aside>
 
 <main style="min-width:0;display:flex;flex-direction:column">
-<header style="display:flex;align-items:center;gap:16px;padding:14px 28px;border-bottom:2px solid #0E1F4D;background:#FFFDF6;position:sticky;top:0;z-index:5">
-<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;text-transform:uppercase">{{ title }}</span>
-<input placeholder="Rechercher une fiche…" style="margin-left:auto;width:min(320px,40vw);border:2px solid #0E1F4D;background:#F3EDDF;padding:9px 12px;font-family:'Newsreader',serif;font-size:16px;color:#0E1F4D;outline:none">
-<span style="width:38px;height:38px;border-radius:50%;background:#F6C400;border:2px solid #0E1F4D;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900">MD</span>
+<header style="display:flex;align-items:center;gap:12px;padding:12px 26px;border-bottom:2px solid #0E1F4D;background:#FFFDF6;position:sticky;top:0;z-index:5">
+<div style="display:flex;flex-direction:column;line-height:1.05;flex:1 1 240px;min-width:180px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#1F3FA8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ crumb }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</span></div>
+<div style="display:flex;align-items:center;border:2px solid #0E1F4D;background:#F3EDDF;flex:0 1 260px;min-width:110px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E1F4D" stroke-width="2.6" style="margin:0 8px 0 10px;flex-shrink:0"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5L21 21"></path></svg><input placeholder="Rechercher partout (fiches, médias, personnes)…" style="flex:1;min-width:0;border:0;background:transparent;padding:9px 8px 9px 0;font-family:'Newsreader',serif;font-size:15px;color:#0E1F4D;outline:none"></div>
+<div style="position:relative">
+<button onClick="{{ toggleNew }}" style="all:unset;cursor:pointer;background:#F6C400;border:2px solid #0E1F4D;padding:8px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap">+ Nouveau</button>
+<sc-if value="{{ newOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;right:0;top:calc(100% + 6px);background:#FFFDF6;border:2px solid #0E1F4D;box-shadow:4px 4px 0 #0E1F4D;min-width:200px;display:flex;flex-direction:column;z-index:9">
+<sc-for list="{{ newItems }}" as="x" hint-placeholder-count="6"><button onClick="{{ x.go }}" style="all:unset;cursor:pointer;padding:10px 14px;font-size:16px;border-bottom:1px solid rgba(14,31,77,.12)" style-hover="background:#F6C400">{{ x.label }}</button></sc-for>
+</div>
+</sc-if>
+</div>
+<a href="Musee%20FCSM.dc.html" style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap">Site ↗</a>
+<div style="display:flex;align-items:center;gap:8px"><span style="width:36px;height:36px;border-radius:50%;background:#F6C400;border:2px solid #0E1F4D;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900">MD</span><div style="display:{{ roleDisp }};flex-direction:column;line-height:1.1;font-size:13px"><strong style="font-family:'Big Shoulders Display',sans-serif;font-size:15px">Marie D.</strong><span style="color:#3A4A75">Administratrice</span></div></div>
 </header>
 
-<sc-if value="{{ isFiche }}" hint-placeholder-val="{{ true }}">
-<div style="padding:24px 28px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(300px,1fr);gap:24px;align-items:start">
-<div style="background:#FFFDF6;border:2px solid #0E1F4D;display:flex;flex-direction:column">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:2px solid #0E1F4D"><div style="display:flex;flex-direction:column"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#1F3FA8">Fiche match · #2026-0722</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;text-transform:uppercase">Metz – Sochaux</span></div><span style="font-size:14px;color:#3A4A75">{{ savedLabel }}</span></div>
-<div style="padding:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px">
-<sc-for list="{{ fields }}" as="f" hint-placeholder-count="6">
-<label style="display:flex;flex-direction:column;gap:5px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A4A75">{{ f.k }}</span><input value="{{ f.v }}" onChange="{{ f.on }}" style="border:2px solid {{ f.border }};background:{{ f.bg }};padding:10px;font-family:'Newsreader',serif;font-size:17px;color:#0E1F4D;outline:none;min-width:0"></label>
+<sc-if value="{{ hasTabs }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:0;padding:0 26px;border-bottom:2px solid #0E1F4D;background:#F3EDDF;overflow-x:auto">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.go }}" style="all:unset;cursor:pointer;white-space:nowrap;padding:12px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.08em;border-bottom:4px solid {{ t.line }};color:{{ t.fg }}">{{ t.label }}<span style="margin-left:6px;font-size:13px;color:#1F3FA8">{{ t.count }}</span></button></sc-for>
+</div>
+</sc-if>
+
+<div style="padding:22px 26px 48px;display:flex;flex-direction:column;gap:20px">
+
+<sc-if value="{{ is.dash }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
+<sc-for list="{{ kpis }}" as="k" hint-placeholder-count="6">
+<button onClick="{{ k.go }}" style="all:unset;cursor:pointer;background:{{ k.bg }};border:2px solid #0E1F4D;padding:14px;display:flex;flex-direction:column;gap:2px;transition:transform .15s" style-hover="transform:translateY(-3px)">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:38px;line-height:1">{{ k.v }}</span><span style="font-size:15px">{{ k.k }}</span><span style="font-size:13px;color:#1F3FA8">{{ k.d }}</span>
+</button>
 </sc-for>
 </div>
-<div style="padding:0 18px 18px;display:flex;gap:10px">
-<button onClick="{{ save }}" style="all:unset;cursor:pointer;background:#0E1F4D;color:#F6C400;padding:12px 18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.1em" style-hover="background:#1F3FA8">Enregistrer</button>
-<a href="Fiche%20Match.dc.html" style="border:2px solid #0E1F4D;padding:10px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.1em">Voir en ligne ↗</a>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:16px">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">À faire</span><span style="font-size:14px;color:#3A4A75">{{ todoCount }} tâches</span></div>
+<sc-for list="{{ todos }}" as="t" hint-placeholder-count="5">
+<button onClick="{{ t.go }}" style="all:unset;cursor:pointer;display:grid;width:100%;box-sizing:border-box;grid-template-columns:12px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 16px;border-bottom:1px solid rgba(14,31,77,.12);font-size:16px" style-hover="background:#F3EDDF">
+<span style="width:10px;height:10px;border-radius:50%;background:{{ t.c }}"></span><span>{{ t.t }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;color:#1F3FA8">{{ t.a }} →</span>
+</button>
+</sc-for>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Audience · 30 jours</span><span style="font-size:14px;color:#3A4A75">Pages les plus vues : fiches matchs, Nos Lions, carto</span></div>
+<div style="display:flex;align-items:flex-end;gap:3px;height:120px;border-bottom:2px solid #0E1F4D">
+<sc-for list="{{ visits }}" as="v" hint-placeholder-count="30"><span style="flex:1;height:{{ v.h }};background:{{ v.c }}"></span></sc-for>
 </div>
 </div>
-<div style="background:#FFFDF6;border:2px solid #0E1F4D;display:flex;flex-direction:column">
-<div style="padding:14px 18px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;text-transform:uppercase">Historique</span><span style="font-size:14px;color:#3A4A75">{{ versionsCount }} versions</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px">
+<div style="background:#0E1F4D;color:#F3EDDF;border:2px solid #0E1F4D;padding:16px;display:flex;flex-direction:column;gap:10px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase;color:#F6C400">Centenaire · J-{{ daysLeft }}</span>
+<div style="display:flex;justify-content:space-between;font-size:15px"><span>100 moments publiés</span><strong>{{ momentsPub }} / 100</strong></div>
+<div style="height:10px;border:2px solid #F3EDDF;padding:1px"><div style="height:100%;width:{{ momentsPct }};background:#F6C400"></div></div>
+<div style="display:flex;justify-content:space-between;font-size:15px"><span>Prochain moment</span><strong>jeudi, 09:00</strong></div>
+<div style="display:flex;justify-content:space-between;font-size:15px"><span>Votes du Onze</span><strong>1 284</strong></div>
+<div style="display:flex;justify-content:space-between;font-size:15px"><span>Collecte</span><strong>12 450 € / 28 000 €</strong></div>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Activité récente</span></div>
+<sc-for list="{{ activity }}" as="a" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;padding:10px 16px;border-bottom:1px solid rgba(14,31,77,.12);font-size:15px">
+<span style="width:30px;height:30px;border-radius:50%;background:{{ a.c }};border:2px solid #0E1F4D;display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:12px">{{ a.i }}</span>
+<span><strong>{{ a.who }}</strong> {{ a.what }}<br><span style="font-size:13px;color:#3A4A75">{{ a.when }}</span></span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.list }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+<sc-for list="{{ listFilters }}" as="f" hint-placeholder-count="5"><button onClick="{{ f.go }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:6px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.06em;background:{{ f.bg }};color:{{ f.fg }}">{{ f.label }} · {{ f.n }}</button></sc-for>
+<span style="margin-left:auto;font-size:14px;color:#3A4A75">{{ listNote }}</span>
+<sc-if value="{{ bulk }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:6px;align-items:center;background:#0E1F4D;color:#F6C400;padding:6px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase">{{ bulkLabel }}<button style="all:unset;cursor:pointer;border:1px solid #F6C400;padding:2px 8px;margin-left:8px">Publier</button><button style="all:unset;cursor:pointer;border:1px solid #F6C400;padding:2px 8px">Exporter</button><button style="all:unset;cursor:pointer;border:1px solid #F6C400;padding:2px 8px">Traduire</button></div></sc-if>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;overflow-x:auto">
+<div style="display:grid;min-width:880px;grid-template-columns:{{ cols }};background:#0E1F4D;color:#F6C400;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase">
+<sc-for list="{{ heads }}" as="h" hint-placeholder-count="6"><span style="padding:10px 12px">{{ h }}</span></sc-for>
+</div>
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+<button onClick="{{ r.open }}" style="all:unset;cursor:pointer;display:grid;min-width:880px;grid-template-columns:{{ cols }};align-items:center;border-top:1px solid rgba(14,31,77,.12);font-size:15px;width:100%;background:{{ r.bg }}" style-hover="background:#FFF3C2">
+<span onClick="{{ r.check }}" style="padding:10px 12px"><span style="width:18px;height:18px;border:2px solid #0E1F4D;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;background:{{ r.chkBg }}">{{ r.chk }}</span></span>
+<sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5"><span style="padding:10px 12px;font-weight:{{ c.w }};color:{{ c.col }};font-family:{{ c.ff }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.v }}</span></sc-for>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.match }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+<div style="display:flex;flex-wrap:wrap;border:2px solid #0E1F4D;background:#FFFDF6">
+<sc-for list="{{ mTabs }}" as="t" hint-placeholder-count="6"><button onClick="{{ t.go }}" style="all:unset;cursor:pointer;white-space:nowrap;padding:10px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.08em;background:{{ t.bg }};color:{{ t.fg }};border-right:1px solid rgba(14,31,77,.2)">{{ t.label }}</button></sc-for>
+</div>
+
+<sc-if value="{{ mt.infos }}" hint-placeholder-val="{{ true }}">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px">
+<sc-for list="{{ mFields }}" as="f" hint-placeholder-count="9">
+<label style="display:flex;flex-direction:column;gap:5px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#3A4A75">{{ f.k }} <span style="color:#1F3FA8;text-transform:none;letter-spacing:0;font-family:'Newsreader',serif;font-style:italic">{{ f.hint }}</span></span><input value="{{ f.v }}" onChange="{{ f.on }}" style="border:2px solid {{ f.border }};background:{{ f.bg }};padding:9px;font-family:'Newsreader',serif;font-size:16px;color:#0E1F4D;outline:none;min-width:0"></label>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ mt.compo }}" hint-placeholder-val="{{ false }}">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;overflow-x:auto">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Composition Sochaux</span><span style="font-size:14px;color:#3A4A75">Chaque nom est relié automatiquement à sa fiche joueur</span><button style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:5px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase">Importer depuis un tableau</button></div>
+<div style="display:grid;min-width:760px;grid-template-columns:44px minmax(0,1.4fr) 70px 80px 60px 60px 80px minmax(0,1fr);background:#E8DFC9;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase"><span style="padding:8px 10px">N°</span><span style="padding:8px 10px">Joueur</span><span style="padding:8px 10px">Poste</span><span style="padding:8px 10px">Statut</span><span style="padding:8px 10px">Min.</span><span style="padding:8px 10px">Buts</span><span style="padding:8px 10px">Cartons</span><span style="padding:8px 10px">Fiche</span></div>
+<sc-for list="{{ compo }}" as="p" hint-placeholder-count="11">
+<div style="display:grid;min-width:760px;grid-template-columns:44px minmax(0,1.4fr) 70px 80px 60px 60px 80px minmax(0,1fr);align-items:center;border-top:1px solid rgba(14,31,77,.12);font-size:15px">
+<span style="padding:7px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:900">{{ p.n }}</span><span style="padding:7px 10px;font-weight:500">{{ p.name }}</span><span style="padding:7px 10px">{{ p.pos }}</span><span style="padding:7px 10px">{{ p.st }}</span><span style="padding:7px 10px">{{ p.min }}</span><span style="padding:7px 10px">{{ p.g }}</span><span style="padding:7px 10px"><span style="display:inline-block;width:11px;height:15px;border:1px solid #0E1F4D;background:{{ p.card }};visibility:{{ p.cardVis }}"></span></span>
+<span style="padding:7px 10px"><span style="border:2px solid #0E1F4D;padding:1px 7px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;background:{{ p.lBg }}">{{ p.link }}</span></span>
+</div>
+</sc-for>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Événements du match</span><button style="all:unset;cursor:pointer;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;color:#1F3FA8">+ Ajouter</button></div>
+<sc-for list="{{ events }}" as="e" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:60px 110px minmax(0,1fr) 80px;align-items:center;border-top:1px solid rgba(14,31,77,.12);font-size:15px;padding:0 6px"><span style="padding:8px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px">{{ e.m }}'</span><span style="padding:8px"><span style="background:{{ e.bg }};color:{{ e.fg }};border:2px solid #0E1F4D;padding:1px 7px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase">{{ e.type }}</span></span><span style="padding:8px">{{ e.who }}</span><span style="padding:8px;font-family:'Big Shoulders Display',sans-serif;font-weight:800">{{ e.score }}</span></div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ mt.recit }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ blocks }}" as="b" hint-placeholder-count="4">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;display:grid;grid-template-columns:34px minmax(0,1fr)">
+<div style="background:#E8DFC9;border-right:2px solid #0E1F4D;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:grab;font-weight:900;color:#3A4A75">⋮⋮</div>
+<div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">{{ b.t }}</span><span style="font-size:13px;color:#3A4A75">{{ b.kind }} · {{ b.words }} mots · EN : {{ b.en }}</span></div>
+<div style="display:flex;gap:4px;border-bottom:1px solid rgba(14,31,77,.15);padding-bottom:6px"><span style="border:1px solid #0E1F4D;padding:1px 7px;font-weight:700">G</span><span style="border:1px solid #0E1F4D;padding:1px 7px;font-style:italic">I</span><span style="border:1px solid #0E1F4D;padding:1px 7px">• Liste</span><span style="border:1px solid #0E1F4D;padding:1px 7px">🔗 Lien fiche</span><span style="border:1px solid #0E1F4D;padding:1px 7px">❝ Citation</span><span style="border:1px solid #0E1F4D;padding:1px 7px">⏱ Minute</span></div>
+<p style="margin:0;font-size:16px;line-height:1.5;color:#0E1F4D">{{ b.txt }}</p>
+</div>
+</div>
+</sc-for>
+<button style="all:unset;cursor:pointer;border:2px dashed #0E1F4D;padding:14px;text-align:center;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.08em" style-hover="background:#F6C400">+ Ajouter un bloc (texte, minute par minute, citation, encart chiffre, vidéo)</button>
+</sc-if>
+
+<sc-if value="{{ mt.medias }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px">
+<sc-for list="{{ mMedia }}" as="g" hint-placeholder-count="9">
+<div style="background:#FFFDF6;border:2px solid {{ g.border }};display:flex;flex-direction:column">
+<div style="position:relative;aspect-ratio:4/3;background:#E8DFC9;border-bottom:2px solid #0E1F4D"><image-slot id="{{ g.id }}" shape="rect" placeholder="Photo"></image-slot><sc-if value="{{ g.cover }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:6px;left:6px;pointer-events:none;background:#F6C400;border:2px solid #0E1F4D;padding:0 6px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase">Couverture</span></sc-if></div>
+<div style="padding:8px 10px;display:flex;flex-direction:column;gap:3px;font-size:13px"><span style="font-weight:500">{{ g.cap }}</span><span style="color:{{ g.cColor }}">{{ g.credit }}</span></div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ mt.seo }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:16px;display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ seoFields }}" as="f" hint-placeholder-count="3"><label style="display:flex;flex-direction:column;gap:5px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#3A4A75">{{ f.k }}</span><input value="{{ f.v }}" style="border:2px solid #0E1F4D;background:#F3EDDF;padding:9px;font-family:'Newsreader',serif;font-size:15px;color:#0E1F4D;outline:none"></label></sc-for>
+<sc-for list="{{ seoToggles }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.go }}" style="all:unset;cursor:pointer;display:flex;gap:10px;align-items:center;font-size:15px"><span style="width:20px;height:20px;border:2px solid #0E1F4D;background:{{ t.bg }};display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px">{{ t.mark }}</span>{{ t.label }}</button></sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase">Aperçu Google</span>
+<div style="background:#fff;border:2px solid #0E1F4D;padding:14px;font-family:Arial,sans-serif"><div style="font-size:13px;color:#202124">fcsochauxretro.com › matchs › 2026 › metz-sochaux</div><div style="font-size:19px;color:#1a0dab;margin:2px 0">Metz – Sochaux (4-1) · amical 22/07/2026 | Sochaux rétro</div><div style="font-size:14px;color:#4d5156">Résumé, composition, réactions et photos du 3ᵉ match de préparation à Biesheim.</div></div>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase">Image de partage générée</span>
+<div style="container-type:inline-size"><div style="aspect-ratio:1200/630;background:#0E1F4D;border:2px solid #0E1F4D;color:#F3EDDF;padding:5cqw;display:flex;flex-direction:column;justify-content:space-between;font-family:'Big Shoulders Display',sans-serif;font-weight:900;text-transform:uppercase"><span style="font-size:3cqw;color:#F6C400">Amical · 22/07/2026</span><span style="font-size:13cqw;line-height:.9">Metz <span style="color:#F6C400">4-1</span> Sochaux</span><span style="font-size:3cqw">fcsochauxretro.com</span></div></div>
+<a href="Partage.dc.html" style="font-size:14px;color:#1F3FA8">Voir tous les gabarits →</a>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ mt.histo }}" hint-placeholder-val="{{ false }}">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
 <sc-for list="{{ versions }}" as="v" hint-placeholder-count="5">
-<button onClick="{{ v.pick }}" style="all:unset;cursor:pointer;display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;padding:12px 18px;border-bottom:1px solid rgba(14,31,77,.15);background:{{ v.bg }}" style-hover="background:#F3EDDF">
+<button onClick="{{ v.pick }}" style="all:unset;cursor:pointer;display:grid;width:100%;box-sizing:border-box;grid-template-columns:50px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(14,31,77,.12);width:100%;background:{{ v.bg }}" style-hover="background:#F3EDDF">
 <span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;color:#1F3FA8">v{{ v.n }}</span>
-<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:500">{{ v.msg }}</span><span style="font-size:13px;color:#3A4A75">{{ v.who }} · {{ v.when }}</span></div>
+<span style="display:flex;flex-direction:column"><span style="font-size:16px;font-weight:500">{{ v.msg }}</span><span style="font-size:13px;color:#3A4A75">{{ v.who }} · {{ v.when }}</span></span>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;color:#1F3FA8">{{ v.cur }}</span>
 </button>
 </sc-for>
-<sc-if value="{{ hasDiff }}" hint-placeholder-val="{{ false }}">
-<div style="padding:14px 18px;background:#F3EDDF;display:flex;flex-direction:column;gap:8px;border-top:2px solid #0E1F4D">
-<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase">Changements de la v{{ sel.n }}</span>
-<sc-for list="{{ sel.diff }}" as="d" hint-placeholder-count="1">
-<div style="display:grid;grid-template-columns:100px 1fr;gap:8px;font-size:15px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;text-transform:uppercase">{{ d.k }}</span><span><span style="background:#F3C9C0;text-decoration:line-through;padding:0 4px">{{ d.a }}</span> → <span style="background:#CFE8C9;padding:0 4px">{{ d.b }}</span></span></div>
-</sc-for>
-<button onClick="{{ askRestore }}" style="all:unset;cursor:pointer;align-self:flex-start;border:2px solid #0E1F4D;background:#FFFDF6;padding:8px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.08em" style-hover="background:#F6C400">↺ Restaurer la version précédente</button>
+<div style="padding:14px 16px;background:#F3EDDF;display:flex;flex-direction:column;gap:8px;border-top:2px solid #0E1F4D">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase">Changements de la v{{ selV.n }}</span>
+<sc-for list="{{ selV.diff }}" as="d" hint-placeholder-count="1"><div style="display:grid;grid-template-columns:110px 1fr;gap:8px;font-size:15px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;text-transform:uppercase">{{ d.k }}</span><span><span style="background:#F3C9C0;text-decoration:line-through;padding:0 4px">{{ d.a }}</span> → <span style="background:#CFE8C9;padding:0 4px">{{ d.b }}</span></span></div></sc-for>
+<button onClick="{{ askRestore }}" style="all:unset;cursor:pointer;align-self:flex-start;border:2px solid #0E1F4D;background:#FFFDF6;padding:7px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase" style-hover="background:#F6C400">↺ Restaurer l'état d'avant</button>
+</div>
 </div>
 </sc-if>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:14px;position:static">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:14px;display:flex;flex-direction:column;gap:10px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;text-transform:uppercase">Publication</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+<sc-for list="{{ statuses }}" as="s" hint-placeholder-count="4"><button onClick="{{ s.go }}" style="all:unset;cursor:pointer;text-align:center;border:2px solid #0E1F4D;padding:5px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;background:{{ s.bg }};color:{{ s.fg }}">{{ s.label }}</button></sc-for>
+</div>
+<span style="font-size:13px;color:#3A4A75">{{ savedLabel }}</span>
+<div style="display:flex;gap:6px"><button onClick="{{ save }}" style="all:unset;cursor:pointer;flex:1;text-align:center;background:#0E1F4D;color:#F6C400;padding:10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase">Enregistrer</button><a href="Fiche%20Match.dc.html" style="border:2px solid #0E1F4D;padding:8px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase">Aperçu</a></div>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:14px;display:flex;flex-direction:column;gap:8px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;text-transform:uppercase">Mis à jour automatiquement</span>
+<sc-for list="{{ autoLinks }}" as="a" hint-placeholder-count="5"><a href="{{ a.href }}" style="display:flex;gap:8px;font-size:14px;line-height:1.3"><span style="color:#2E8B4A;font-weight:900">✓</span>{{ a.t }}</a></sc-for>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:14px;display:flex;flex-direction:column;gap:8px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;text-transform:uppercase">Contrôle qualité</span>
+<sc-for list="{{ checks }}" as="c" hint-placeholder-count="4"><span style="display:flex;gap:8px;font-size:14px;line-height:1.3"><span style="color:{{ c.c }};font-weight:900">{{ c.i }}</span>{{ c.t }}</span></sc-for>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;text-transform:uppercase">Version EN</span><span style="background:#F6C400;border:2px solid #0E1F4D;padding:1px 8px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px">60 %</span></div>
 </div>
 </div>
 </sc-if>
 
-<sc-if value="{{ isContrib }}" hint-placeholder-val="{{ false }}">
-<div style="padding:24px 28px;display:flex;flex-direction:column;gap:16px">
-<div style="display:flex;border:2px solid #0E1F4D;align-self:flex-start">
-<sc-for list="{{ ctabs }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.pick }}" style="all:unset;cursor:pointer;padding:9px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.08em;background:{{ t.bg }};color:{{ t.fg }}">{{ t.label }} ({{ t.n }})</button></sc-for>
+<sc-if value="{{ is.person }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:16px">
+<sc-for list="{{ pSections }}" as="s" hint-placeholder-count="3">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:16px;display:flex;flex-direction:column;gap:12px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">{{ s.t }}</span>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px">
+<sc-for list="{{ s.fields }}" as="f" hint-placeholder-count="3"><label style="display:flex;flex-direction:column;gap:5px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#3A4A75">{{ f.k }}</span><input value="{{ f.v }}" style="border:2px solid #0E1F4D;background:#F3EDDF;padding:9px;font-family:'Newsreader',serif;font-size:15px;color:#0E1F4D;outline:none;min-width:0"></label></sc-for>
 </div>
+<span style="font-size:14px;color:#1F3FA8;font-style:italic">{{ s.note }}</span>
+</div>
+</sc-for>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:16px;display:flex;flex-direction:column;gap:12px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Statuts & filtres carto</span>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<sc-for list="{{ pToggles }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.go }}" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;border:2px solid #0E1F4D;padding:6px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;background:{{ t.bg }}">{{ t.mark }} {{ t.label }}</button></sc-for>
+</div>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Matchs reliés automatiquement</span><span style="font-size:14px;color:#3A4A75">depuis les compositions</span></div>
+<sc-for list="{{ pMatches }}" as="m" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:100px minmax(0,1fr) 60px 60px;padding:9px 16px;border-top:1px solid rgba(14,31,77,.12);font-size:15px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800">{{ m.d }}</span><span>{{ m.t }}</span><span>{{ m.min }}'</span><span>{{ m.g }}</span></div></sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:14px;position:static">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:14px;display:flex;flex-direction:column;gap:10px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;text-transform:uppercase">Lieu de naissance</span>
+<div style="aspect-ratio:4/3;border:2px solid #0E1F4D;background:#E8DFC9;position:relative;overflow:hidden"><div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 23px,rgba(14,31,77,.08) 23px 24px),repeating-linear-gradient(90deg,transparent 0 23px,rgba(14,31,77,.08) 23px 24px)"></div><span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);font-size:28px">📍</span></div>
+<span style="font-size:14px"><strong>Joué-lès-Tours</strong>, France · 47.352, 0.663</span>
+<span style="font-size:13px;color:#2E8B4A">✓ Géolocalisé automatiquement · visible sur la carto</span>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:14px;display:flex;flex-direction:column;gap:10px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;text-transform:uppercase">Carte de l'album</span>
+<div style="aspect-ratio:5/7;width:150px;align-self:center;background:#FFFDF6;border:3px solid #0E1F4D;box-shadow:5px 5px 0 #0E1F4D;padding:6px;display:flex;flex-direction:column;gap:5px"><div style="flex:1;background:#E8DFC9;border:2px solid #0E1F4D"></div><div style="background:#0E1F4D;color:#F6C400;padding:4px;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:14px;text-transform:uppercase">Dalmat</div></div>
+<div style="display:flex;gap:4px">
+<sc-for list="{{ rarities }}" as="r" hint-placeholder-count="3"><button onClick="{{ r.go }}" style="all:unset;cursor:pointer;flex:1;text-align:center;border:2px solid #0E1F4D;padding:4px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;background:{{ r.bg }}">{{ r.label }}</button></sc-for>
+</div>
+<span style="font-size:13px;color:#3A4A75">Débloquée en visitant la fiche ou via le quiz.</span>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.media }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px;align-items:start">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">
+<sc-for list="{{ media }}" as="m" hint-placeholder-count="12">
+<button onClick="{{ m.pick }}" style="all:unset;cursor:pointer;display:flex;flex-direction:column;background:#FFFDF6;border:{{ m.border }}">
+<div style="position:relative;aspect-ratio:1;background:#E8DFC9;border-bottom:2px solid #0E1F4D"><image-slot id="{{ m.id }}" shape="rect" placeholder=""></image-slot><span style="position:absolute;top:5px;right:5px;pointer-events:none;background:{{ m.flagBg }};border:2px solid #0E1F4D;padding:0 5px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:11px;text-transform:uppercase;visibility:{{ m.flagVis }}">{{ m.flag }}</span></div>
+<span style="padding:6px 8px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</span>
+</button>
+</sc-for>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:14px;display:flex;flex-direction:column;gap:10px;position:static">
+<div style="aspect-ratio:4/3;background:#E8DFC9;border:2px solid #0E1F4D"><image-slot id="{{ selM.id }}" shape="rect" placeholder=""></image-slot></div>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;text-transform:uppercase">{{ selM.name }}</span>
+<sc-for list="{{ mediaFields }}" as="f" hint-placeholder-count="4"><label style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#3A4A75">{{ f.k }}</span><input value="{{ f.v }}" placeholder="{{ f.ph }}" style="border:2px solid {{ f.border }};background:#F3EDDF;padding:8px;font-family:'Newsreader',serif;font-size:14px;color:#0E1F4D;outline:none"></label></sc-for>
+<span style="font-size:13px;color:#3A4A75">Utilisée dans : {{ selM.used }}</span>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.edito }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px;align-items:start">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Slider d'accueil</span><span style="font-size:14px;color:#3A4A75">Réordonnez avec les flèches</span></div>
+<sc-for list="{{ slides }}" as="s" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:30px 70px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(14,31,77,.12)">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px;color:#1F3FA8">{{ s.n }}</span>
+<div style="height:46px;background:#E8DFC9;border:2px solid #0E1F4D"></div>
+<span style="display:flex;flex-direction:column"><strong style="font-family:'Big Shoulders Display',sans-serif;font-size:17px;text-transform:uppercase">{{ s.t }}</strong><span style="font-size:13px;color:#3A4A75">{{ s.k }}</span></span>
+<span style="display:flex;gap:4px"><button onClick="{{ s.up }}" style="all:unset;cursor:pointer;width:26px;height:26px;border:2px solid #0E1F4D;text-align:center;font-weight:900" style-hover="background:#F6C400">↑</button><button onClick="{{ s.down }}" style="all:unset;cursor:pointer;width:26px;height:26px;border:2px solid #0E1F4D;text-align:center;font-weight:900" style-hover="background:#F6C400">↓</button></span>
+</div>
+</sc-for>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Bandeau défilant</span><span style="font-size:14px;color:#3A4A75">auto + messages manuels</span></div>
+<sc-for list="{{ tickerMsgs }}" as="t" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(14,31,77,.12);font-size:15px">
+<span><strong style="font-family:'Big Shoulders Display',sans-serif;text-transform:uppercase;color:#1F3FA8">{{ t.k }}</strong> · {{ t.v }}</span>
+<span style="border:2px solid #0E1F4D;padding:0 6px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;background:{{ t.srcBg }}">{{ t.src }}</span>
+<button onClick="{{ t.toggle }}" style="all:unset;cursor:pointer;width:36px;height:20px;border:2px solid #0E1F4D;border-radius:12px;position:relative;background:{{ t.onBg }}"><span style="position:absolute;top:2px;left:{{ t.knob }};width:12px;height:12px;border-radius:50%;background:#0E1F4D;transition:left .2s"></span></button>
+</div>
+</sc-for>
+<div style="padding:10px 16px"><button style="all:unset;cursor:pointer;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;color:#1F3FA8">+ Ajouter un message</button></div>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;grid-column:1/-1">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between;align-items:center"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">100 moments · calendrier de publication</span><span style="font-size:14px;color:#3A4A75">1 moment / semaine · jeudi 09:00 · jusqu'au 20 mai 2028</span></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;padding:14px">
+<sc-for list="{{ planning }}" as="p" hint-placeholder-count="24">
+<div style="border:2px solid #0E1F4D;background:{{ p.bg }};color:{{ p.fg }};padding:6px 8px;display:flex;flex-direction:column;gap:2px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px">N° {{ p.n }}</span><span style="font-size:12px">{{ p.d }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:11px;text-transform:uppercase">{{ p.s }}</span></div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.inter }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:16px;align-items:start">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Quiz · questions</span><span style="font-size:14px;color:#3A4A75">Taux de bonnes réponses</span></div>
+<sc-for list="{{ quiz }}" as="q" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(14,31,77,.12);font-size:15px"><span>{{ q.q }}</span><div style="display:flex;align-items:center;gap:6px"><div style="flex:1;height:8px;background:#E8DFC9"><div style="height:100%;width:{{ q.p }};background:#1F3FA8"></div></div><strong style="font-family:'Big Shoulders Display',sans-serif">{{ q.p }}</strong></div></div>
+</sc-for>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Onze de légende · votes</span><span style="font-size:14px;color:#3A4A75">1 284 votants</span></div>
+<sc-for list="{{ onze }}" as="o" hint-placeholder-count="4">
+<div style="padding:10px 16px;border-bottom:1px solid rgba(14,31,77,.12);display:flex;flex-direction:column;gap:6px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#1F3FA8">{{ o.pos }}</span>
+<sc-for list="{{ o.c }}" as="c" hint-placeholder-count="2"><div style="display:grid;grid-template-columns:140px minmax(0,1fr) 44px;gap:8px;align-items:center;font-size:14px"><span>{{ c.n }}</span><div style="height:8px;background:#E8DFC9"><div style="height:100%;width:{{ c.p }};background:#F6C400;border-right:2px solid #0E1F4D"></div></div><strong style="font-family:'Big Shoulders Display',sans-serif;text-align:right">{{ c.p }}</strong></div></sc-for>
+</div>
+</sc-for>
+<div style="padding:10px 16px;display:flex;gap:8px"><button style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:5px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase">Gérer les candidats</button><button style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:5px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase">Programmer la révélation · 20/05/2028</button></div>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;grid-column:1/-1">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Album · règles de déblocage</span><span style="font-size:14px;color:#3A4A75">120 cartes · 15 actives</span></div>
+<sc-for list="{{ albumRules }}" as="r" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:120px minmax(0,1fr) 120px;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(14,31,77,.12);font-size:15px"><span style="border:2px solid #0E1F4D;padding:1px 8px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;background:{{ r.bg }};justify-self:start">{{ r.tier }}</span><span>{{ r.rule }}</span><span style="text-align:right;font-family:'Big Shoulders Display',sans-serif;font-weight:800">{{ r.n }}</span></div></sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.contrib }}" hint-placeholder-val="{{ false }}">
 <sc-for list="{{ contribs }}" as="c" hint-placeholder-count="3">
-<div style="display:grid;grid-template-columns:140px minmax(0,1fr) auto;gap:18px;align-items:center;background:#FFFDF6;border:2px solid #0E1F4D;padding:14px">
+<div style="display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:16px;align-items:center;background:#FFFDF6;border:2px solid #0E1F4D;padding:12px">
 <div style="aspect-ratio:4/3;border:2px solid #0E1F4D;background:#E8DFC9"><image-slot id="{{ c.id }}" shape="rect" placeholder="Envoi"></image-slot></div>
-<div style="display:flex;flex-direction:column;gap:5px;min-width:0">
-<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span style="background:#0E1F4D;color:#F6C400;padding:2px 8px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase">{{ c.type }}</span><span style="border:2px solid #0E1F4D;padding:0 6px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;background:{{ c.rBg }}">{{ c.rights }}</span><span style="font-size:14px;color:#3A4A75">{{ c.ref }}</span></div>
-<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px;text-transform:uppercase;line-height:1.1">{{ c.title }}</span>
-<span style="font-size:15px;color:#3A4A75">{{ c.from }} · {{ c.when }} · fiche : {{ c.fiche }}</span>
+<div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span style="background:#0E1F4D;color:#F6C400;padding:2px 8px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase">{{ c.type }}</span><span style="border:2px solid #0E1F4D;padding:0 6px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;background:{{ c.rBg }}">{{ c.rights }}</span><span style="font-size:13px;color:#3A4A75">{{ c.ref }}</span></div>
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:20px;text-transform:uppercase;line-height:1.1">{{ c.title }}</span>
+<span style="font-size:14px;color:#3A4A75">{{ c.from }} · {{ c.when }} · fiche : {{ c.fiche }}</span>
 </div>
-<div style="display:flex;flex-direction:column;gap:6px">
-<button onClick="{{ c.ok }}" style="all:unset;cursor:pointer;background:#F6C400;border:2px solid #0E1F4D;padding:8px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;text-align:center" style-hover="background:#0E1F4D;color:#F6C400">Valider</button>
-<button onClick="{{ c.ko }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:6px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase;text-align:center" style-hover="background:#E8DFC9">Refuser</button>
-<button style="all:unset;cursor:pointer;font-size:14px;text-align:center;text-decoration:underline">Demander une info</button>
+<div style="display:flex;flex-direction:column;gap:5px">
+<button onClick="{{ c.ok }}" style="all:unset;cursor:pointer;background:#F6C400;border:2px solid #0E1F4D;padding:6px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;text-align:center" style-hover="background:#0E1F4D;color:#F6C400">Valider</button>
+<button onClick="{{ c.ko }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:5px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;text-align:center" style-hover="background:#E8DFC9">Refuser</button>
+<button style="all:unset;cursor:pointer;font-size:13px;text-align:center;text-decoration:underline">Demander une info</button>
 </div>
 </div>
 </sc-for>
-<sc-if value="{{ contribEmpty }}" hint-placeholder-val="{{ false }}"><div style="border:2px dashed #0E1F4D;padding:32px;text-align:center;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:22px;text-transform:uppercase">File vide · bravo !</div></sc-if>
-</div>
+<sc-if value="{{ contribEmpty }}" hint-placeholder-val="{{ false }}"><div style="border:2px dashed #0E1F4D;padding:28px;text-align:center;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:20px;text-transform:uppercase">File vide · bravo !</div></sc-if>
 </sc-if>
 
-<sc-if value="{{ isQualite }}" hint-placeholder-val="{{ false }}">
-<div style="padding:24px 28px;display:flex;flex-direction:column;gap:20px">
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
-<sc-for list="{{ kpis }}" as="k" hint-placeholder-count="5">
-<button onClick="{{ k.pick }}" style="all:unset;cursor:pointer;background:{{ k.bg }};border:2px solid #0E1F4D;padding:16px;display:flex;flex-direction:column;gap:4px;box-shadow:{{ k.sh }};transition:transform .2s" style-hover="transform:translateY(-3px)">
-<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:48px;line-height:1">{{ k.n }}</span>
-<span style="font-size:16px;line-height:1.3">{{ k.label }}</span>
-</button>
-</sc-for>
+<sc-if value="{{ is.news }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px">
+<sc-for list="{{ newsKpis }}" as="k" hint-placeholder-count="4"><div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:12px"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:34px;line-height:1">{{ k.v }}</div><div style="font-size:14px">{{ k.k }}</div></div></sc-for>
 </div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px;align-items:start">
 <div style="background:#FFFDF6;border:2px solid #0E1F4D">
-<div style="display:grid;grid-template-columns:110px minmax(0,1fr) 160px 110px;background:#0E1F4D;color:#F6C400;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase"><span style="padding:10px 14px">Gravité</span><span style="padding:10px 14px">Problème</span><span style="padding:10px 14px">Fiche</span><span style="padding:10px 14px"></span></div>
-<sc-for list="{{ issues }}" as="i" hint-placeholder-count="6">
-<div style="display:grid;grid-template-columns:110px minmax(0,1fr) 160px 110px;align-items:center;border-top:1px solid rgba(14,31,77,.15);font-size:16px">
-<span style="padding:10px 14px"><span style="background:{{ i.sBg }};color:{{ i.sFg }};border:2px solid #0E1F4D;padding:1px 8px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase">{{ i.sev }}</span></span>
-<span style="padding:10px 14px">{{ i.t }}</span><span style="padding:10px 14px;color:#3A4A75">{{ i.f }}</span>
-<button style="all:unset;cursor:pointer;margin:6px 14px;border:2px solid #0E1F4D;padding:4px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase;text-align:center" style-hover="background:#F6C400">Corriger</button>
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Campagnes</span></div>
+<sc-for list="{{ campaigns }}" as="c" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:minmax(0,1fr) 90px 70px 70px;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(14,31,77,.12);font-size:15px"><span style="display:flex;flex-direction:column"><strong>{{ c.t }}</strong><span style="font-size:13px;color:#3A4A75">{{ c.d }}</span></span><span style="border:2px solid #0E1F4D;padding:0 6px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;background:{{ c.bg }};justify-self:start">{{ c.s }}</span><span>{{ c.o }}</span><span>{{ c.c }}</span></div></sc-for>
 </div>
-</sc-for>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;padding:14px;display:flex;flex-direction:column;gap:10px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Prochain envoi automatique</span>
+<span style="font-size:15px">« Ce jour-là » · lundi 5 octobre, 08:00 · 3 812 abonnés</span>
+<sc-for list="{{ nlBlocks }}" as="b" hint-placeholder-count="4"><div style="display:flex;gap:10px;align-items:center;border:2px solid #0E1F4D;padding:8px 10px;font-size:14px;background:#F3EDDF"><span style="font-weight:900;color:#2E8B4A">✓</span>{{ b }}</div></sc-for>
+<a href="Partage.dc.html" style="align-self:flex-start;background:#0E1F4D;color:#F6C400;padding:8px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase">Prévisualiser l'e-mail</a>
 </div>
 </div>
 </sc-if>
 
-<sc-if value="{{ isBackup }}" hint-placeholder-val="{{ false }}">
-<div style="padding:24px 28px;display:flex;flex-direction:column;gap:16px">
-<div style="background:#0E1F4D;color:#F3EDDF;border:2px solid #0E1F4D;padding:18px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center">
-<div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:24px;text-transform:uppercase;color:#F6C400">Sauvegarde quotidienne automatique</span><span style="font-size:16px">Copie complète des fiches et médias, stockée hors du serveur. 30 jours conservés.</span></div>
-<button style="all:unset;cursor:pointer;background:#F6C400;color:#0E1F4D;padding:12px 18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.1em">Sauvegarder maintenant</button>
+<sc-if value="{{ is.dons }}" hint-placeholder-val="{{ false }}">
+<div style="background:#0E1F4D;color:#F3EDDF;border:2px solid #0E1F4D;padding:18px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:44px;line-height:1;color:#F6C400">12 450 €</span><span style="font-size:16px">sur 28 000 € · 214 donateurs · 38 dons mensuels actifs</span></div>
+<div style="height:14px;border:2px solid #F3EDDF;padding:2px"><div style="height:100%;width:44%;background:#F6C400"></div></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px;align-items:start">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Derniers dons</span><button style="all:unset;cursor:pointer;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;color:#1F3FA8">Exporter CSV · reçus</button></div>
+<sc-for list="{{ dons }}" as="d" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:90px minmax(0,1fr) 90px 80px;gap:10px;align-items:center;padding:9px 16px;border-bottom:1px solid rgba(14,31,77,.12);font-size:15px"><span style="color:#3A4A75">{{ d.d }}</span><span>{{ d.n }}</span><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:18px">{{ d.a }}</span><span style="font-size:13px">{{ d.f }}</span></div></sc-for>
 </div>
 <div style="background:#FFFDF6;border:2px solid #0E1F4D">
-<sc-for list="{{ backups }}" as="b" hint-placeholder-count="6">
-<div style="display:grid;grid-template-columns:28px minmax(0,1fr) 120px auto;gap:14px;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(14,31,77,.15);font-size:16px">
-<span style="width:12px;height:12px;border-radius:50%;background:#7BD88F;border:2px solid #0E1F4D"></span>
-<span><strong style="font-family:'Big Shoulders Display',sans-serif;font-size:18px">{{ b.d }}</strong> · 03:00</span><span style="color:#3A4A75">{{ b.size }}</span>
-<div style="display:flex;gap:8px"><button style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:4px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase" style-hover="background:#F6C400">Télécharger</button><button style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:4px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase" style-hover="background:#F6C400">Restaurer</button></div>
-</div>
-</sc-for>
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Mur des donateurs · modération</span></div>
+<sc-for list="{{ wall }}" as="w" hint-placeholder-count="4"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid rgba(14,31,77,.12);font-size:15px"><span>« {{ w.n }} »</span><span style="display:flex;gap:6px"><button onClick="{{ w.ok }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:1px 8px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;background:{{ w.okBg }}">{{ w.okLabel }}</button></span></div></sc-for>
 </div>
 </div>
 </sc-if>
+
+<sc-if value="{{ is.messages }}" hint-placeholder-val="{{ false }}">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<sc-for list="{{ messages }}" as="m" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:10px 160px minmax(0,1fr) 140px 90px;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(14,31,77,.12);font-size:15px"><span style="width:9px;height:9px;border-radius:50%;background:{{ m.dot }}"></span><strong>{{ m.from }}</strong><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span style="border:2px solid #0E1F4D;padding:0 6px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;margin-right:8px">{{ m.tag }}</span>{{ m.t }}</span><span style="color:#3A4A75;font-size:14px">{{ m.who }}</span><span style="color:#3A4A75;font-size:14px;text-align:right">{{ m.when }}</span></div></sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.qualite }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+<sc-for list="{{ qKpis }}" as="k" hint-placeholder-count="5"><button onClick="{{ k.pick }}" style="all:unset;cursor:pointer;box-sizing:border-box;background:{{ k.bg }};border:2px solid #0E1F4D;padding:14px;display:flex;flex-direction:column;gap:3px;box-shadow:{{ k.sh }}"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:42px;line-height:1">{{ k.n }}</span><span style="font-size:15px;line-height:1.3">{{ k.label }}</span></button></sc-for>
+</div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<sc-for list="{{ issues }}" as="i" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:100px minmax(0,1fr) 200px 100px;align-items:center;border-top:1px solid rgba(14,31,77,.12);font-size:15px"><span style="padding:10px 14px"><span style="background:{{ i.sBg }};color:{{ i.sFg }};border:2px solid #0E1F4D;padding:1px 8px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase">{{ i.sev }}</span></span><span style="padding:10px 14px">{{ i.t }}</span><span style="padding:10px 14px;color:#3A4A75">{{ i.f }}</span><button onClick="{{ i.go }}" style="all:unset;cursor:pointer;margin:6px 14px;border:2px solid #0E1F4D;padding:3px 10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;text-align:center" style-hover="background:#F6C400">Corriger</button></div></sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.trad }}" hint-placeholder-val="{{ false }}">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<div style="padding:12px 16px;border-bottom:2px solid #0E1F4D;display:flex;justify-content:space-between;align-items:center"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase">Français → English</span><button style="all:unset;cursor:pointer;background:#0E1F4D;color:#F6C400;padding:6px 12px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase">Pré-traduire automatiquement</button></div>
+<sc-for list="{{ trad }}" as="t" hint-placeholder-count="7"><div style="display:grid;grid-template-columns:200px minmax(0,1fr) 70px 120px;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(14,31,77,.12);font-size:15px"><strong style="font-family:'Big Shoulders Display',sans-serif;font-size:17px;text-transform:uppercase">{{ t.s }}</strong><div style="height:10px;background:#E8DFC9;border:1px solid #0E1F4D"><div style="height:100%;width:{{ t.p }};background:#1F3FA8"></div></div><strong style="font-family:'Big Shoulders Display',sans-serif">{{ t.p }}</strong><span style="font-size:13px;color:#3A4A75">{{ t.n }}</span></div></sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.users }}" hint-placeholder-val="{{ false }}">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D;overflow-x:auto">
+<div style="display:grid;min-width:820px;grid-template-columns:minmax(0,1.2fr) 150px repeat(6,74px);background:#0E1F4D;color:#F6C400;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase"><span style="padding:10px 12px">Utilisateur</span><span style="padding:10px 12px">Rôle</span><span style="padding:10px 6px;text-align:center">Rédiger</span><span style="padding:10px 6px;text-align:center">Publier</span><span style="padding:10px 6px;text-align:center">Valider</span><span style="padding:10px 6px;text-align:center">Médias</span><span style="padding:10px 6px;text-align:center">Dons</span><span style="padding:10px 6px;text-align:center">Admin</span></div>
+<sc-for list="{{ users }}" as="u" hint-placeholder-count="5"><div style="display:grid;min-width:820px;grid-template-columns:minmax(0,1.2fr) 150px repeat(6,74px);align-items:center;border-top:1px solid rgba(14,31,77,.12);font-size:15px"><span style="padding:10px 12px;display:flex;flex-direction:column"><strong>{{ u.n }}</strong><span style="font-size:13px;color:#3A4A75">{{ u.last }}</span></span><span style="padding:10px 12px"><span style="border:2px solid #0E1F4D;padding:1px 7px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;background:{{ u.bg }}">{{ u.r }}</span></span><sc-for list="{{ u.p }}" as="p" hint-placeholder-count="6"><span style="padding:10px 6px;text-align:center;font-weight:900;color:{{ p.c }}">{{ p.v }}</span></sc-for></div></sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.journal }}" hint-placeholder-val="{{ false }}">
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<sc-for list="{{ journal }}" as="j" hint-placeholder-count="8"><div style="display:grid;grid-template-columns:130px 130px minmax(0,1fr) 110px;gap:12px;align-items:center;padding:9px 16px;border-bottom:1px solid rgba(14,31,77,.12);font-size:15px"><span style="color:#3A4A75;font-size:14px">{{ j.when }}</span><strong>{{ j.who }}</strong><span>{{ j.what }}</span><button style="all:unset;cursor:pointer;justify-self:end;border:2px solid #0E1F4D;padding:1px 8px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;visibility:{{ j.undo }}" style-hover="background:#F6C400">Annuler</button></div></sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.backup }}" hint-placeholder-val="{{ false }}">
+<div style="background:#0E1F4D;color:#F3EDDF;padding:16px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center"><div style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:22px;text-transform:uppercase;color:#F6C400">Sauvegarde quotidienne hors serveur</span><span style="font-size:15px">Fiches, médias, versions et réglages · 30 jours conservés · 2ᵉ copie hebdomadaire 12 mois</span></div><button style="all:unset;cursor:pointer;background:#F6C400;color:#0E1F4D;padding:10px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase">Sauvegarder maintenant</button></div>
+<div style="background:#FFFDF6;border:2px solid #0E1F4D">
+<sc-for list="{{ backups }}" as="b" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:24px minmax(0,1fr) 110px auto;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(14,31,77,.12);font-size:15px"><span style="width:11px;height:11px;border-radius:50%;background:#7BD88F;border:2px solid #0E1F4D"></span><span><strong style="font-family:'Big Shoulders Display',sans-serif;font-size:17px">{{ b.d }}</strong> · 03:00</span><span style="color:#3A4A75">{{ b.size }}</span><span style="display:flex;gap:6px"><button style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:2px 9px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase">Télécharger</button><button style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:2px 9px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase">Restaurer</button></span></div></sc-for>
+</div>
+</sc-if>
+</div>
 </main>
 
 <sc-if value="{{ confirm }}" hint-placeholder-val="{{ false }}">
 <div style="position:fixed;inset:0;z-index:50;background:rgba(14,31,77,.6);display:flex;align-items:center;justify-content:center;padding:20px">
-<div style="background:#FFFDF6;border:3px solid #0E1F4D;box-shadow:10px 10px 0 #F6C400;padding:26px;max-width:460px;display:flex;flex-direction:column;gap:14px">
-<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:28px;text-transform:uppercase;line-height:1">Restaurer la v{{ restoreTo }} ?</span>
-<p style="margin:0;font-size:17px;line-height:1.45">La version actuelle n'est pas perdue : la restauration crée une nouvelle version, réversible à tout moment.</p>
-<div style="display:flex;gap:10px;justify-content:flex-end"><button onClick="{{ cancel }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:10px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase">Annuler</button><button onClick="{{ doRestore }}" style="all:unset;cursor:pointer;background:#0E1F4D;color:#F6C400;padding:12px 18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:15px;text-transform:uppercase">Restaurer</button></div>
+<div style="background:#FFFDF6;border:3px solid #0E1F4D;box-shadow:10px 10px 0 #F6C400;padding:24px;max-width:460px;display:flex;flex-direction:column;gap:12px">
+<span style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:26px;text-transform:uppercase;line-height:1">Restaurer l'état d'avant la v{{ selV.n }} ?</span>
+<p style="margin:0;font-size:16px;line-height:1.45">Rien n'est perdu : la restauration crée une nouvelle version, elle-même réversible.</p>
+<div style="display:flex;gap:10px;justify-content:flex-end"><button onClick="{{ cancel }}" style="all:unset;cursor:pointer;border:2px solid #0E1F4D;padding:9px 14px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase">Annuler</button><button onClick="{{ doRestore }}" style="all:unset;cursor:pointer;background:#0E1F4D;color:#F6C400;padding:11px 16px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:14px;text-transform:uppercase">Restaurer</button></div>
 </div>
 </div>
 </sc-if>
 <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
-<div style="position:fixed;right:24px;bottom:24px;z-index:60;background:#0E1F4D;color:#F6C400;border:2px solid #F6C400;padding:14px 18px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:17px;text-transform:uppercase;letter-spacing:.06em">{{ toast }}</div>
+<div style="position:fixed;right:24px;bottom:24px;z-index:60;background:#0E1F4D;color:#F6C400;border:2px solid #F6C400;padding:13px 17px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.06em">{{ toast }}</div>
 </sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { sec: 'fiche', sel: 0, confirm: false, toast: '', ctab: 'todo', handled: {}, kpi: -1,
-    vals: { 'Score': '4-1', 'Date': '22/07/2026', 'Stade': 'Stade municipal de Biesheim (68)', 'Spectateurs': '500', 'Arbitre': 'M. xx', 'Compétition': 'Amical' }, dirty: {},
+  state = { sec: 'dash', tab: {}, mtab: 'infos', status: 'Publié', newOpen: false, toast: '', confirm: false, selV: 0, checked: {}, handled: {}, kpi: -1, mediaSel: 0, rarity: 'Classique', ptog: { forme: false, intl: false, carto: true }, seo: { daily: true, nl: true, index: true }, ticker: {}, slideOrder: [0, 1, 2, 3, 4], wallOk: {},
+    vals: { 'Compétition': 'Amical', 'Date': '22/07/2026', 'Saison': '2026-27', 'Domicile / extérieur': 'Extérieur', 'Adversaire': 'FC Metz (L2)', 'Stade': 'Stade municipal de Biesheim (68)', 'Score': '4-1', 'Spectateurs': '500', 'Arbitre': '' }, dirty: {},
     versions: [
       { n: 7, msg: 'Score corrigé', who: 'Marie D.', when: "aujourd'hui 14:02", diff: [['Score', '4-0', '4-1']] },
-      { n: 6, msg: 'Ajout de 3 photos (crédit L\'Est républicain)', who: 'Thomas R.', when: 'hier 21:40', diff: [['Galerie', '6 photos', '9 photos']] },
+      { n: 6, msg: '3 photos ajoutées (crédit L\'Est républicain)', who: 'Thomas R.', when: 'hier 21:40', diff: [['Galerie', '6 photos', '9 photos']] },
       { n: 5, msg: 'Lieu du match mis à jour', who: 'Marie D.', when: '23/07 10:15', diff: [['Stade', 'Golbey', 'Stade municipal de Biesheim (68)']] },
       { n: 4, msg: 'Affluence renseignée', who: 'Jean-Pierre L.', when: '23/07 09:02', diff: [['Spectateurs', '—', '500']] },
       { n: 3, msg: 'Création de la fiche', who: 'Marie D.', when: '22/07 22:30', diff: [['Fiche', '—', 'créée']] },
@@ -165,35 +484,113 @@ class Component extends DCLogic {
     { id: 'c3', type: 'Document', title: 'Billet finale Coupe de France 2007', from: 'Famille M.', when: 'il y a 3 j', fiche: 'Finale 2007', rights: 'Droits non cochés ✗', ok: false, ref: 'SR-2026-0139' },
     { id: 'c4', type: 'Témoignage', title: 'Mon premier match en 1981', from: 'J.-P. de Montbéliard', when: 'il y a 4 j', fiche: 'Saison 1980-81', rights: 'Droits cédés ✓', ok: true, ref: 'SR-2026-0137' },
   ];
+  lists = {
+    matchs: { heads: ['', 'Date', 'Match', 'Compétition', 'Score', 'Statut', 'Qualité', 'Modifié'], cols: '44px 100px minmax(0,1.6fr) minmax(0,1fr) 70px 100px 90px 120px', filters: [['Tous', 2431], ['Publiés', 2290], ['Brouillons', 86], ['Planifiés', 12], ['À relire', 43]], note: 'Trié par date · 2 431 fiches',
+      rows: [['02/10/2026', 'Sochaux – Neuchâtel Xamax', 'Amical', '2-1', 'Publié', '⚠ 1', "aujourd'hui"], ['22/07/2026', 'Metz – Sochaux', 'Amical', '4-1', 'Publié', '⚠ 1', "aujourd'hui"], ['14/07/2010', 'Evian TG – Sochaux', 'Amical', '1-0', 'Publié', '✓', '12/09'], ['10/07/2010', 'FC Bâle – Sochaux', 'Amical', '5-0', 'Publié', '✓', '12/09'], ['07/07/2010', 'Sochaux – Deportivo Saprissa', 'Amical', '0-0', 'À relire', '⚠ 2', '11/09'], ['07/07/2010', 'Neuchâtel Xamax – Sochaux', 'Amical', '0-0', 'À relire', '⚠ 2', '11/09'], ['2007', 'Sochaux – Marseille', 'Coupe de France', '2-2', 'Publié', '✓', '02/05'], ['2004', 'Sochaux – Nantes', 'Coupe de la Ligue', '1-1', 'Brouillon', '⚠ 3', '28/04']], open: 'match' },
+    personnes: { heads: ['', 'Nom', 'Rubrique', 'Poste', 'Naissance', 'Matchs', 'Carto', 'Statut'], cols: '44px minmax(0,1.4fr) 110px 100px minmax(0,1fr) 80px 80px 100px', filters: [['Toutes', 1874], ['Joueurs', 1612], ['Entraîneurs', 96], ['Dirigeants', 166], ['Sans lieu de naissance', 214]], note: 'Matchs comptés automatiquement',
+      rows: [['Stéphane Dalmat', 'Joueur', 'Milieu', 'Joué-lès-Tours', 'xx', '✓', 'Publié'], ['Joël Bats', 'Joueur', 'Gardien', 'Mont-de-Marsan', 'xx', '✓', 'Publié'], ['Bernard Genghini', 'Joueur', 'Milieu', 'Soultz-Haut-Rhin', 'xx', '✓', 'Publié'], ['Albert Cartier', 'Entraîneur', '—', 'Vittel', 'xx', '✓', 'Publié'], ['Mathis Clairicia', 'Joueur', 'Attaquant', '—', '2', '⚠', 'Brouillon'], ['Pierre (G)', 'Joueur', 'Gardien', '—', '1', '⚠', 'À créer']], open: 'person' },
+    referentiels: { heads: ['', 'Nom', 'Type', 'Fiches liées', 'Page générée', 'Carto', 'Mis à jour'], cols: '44px minmax(0,1.4fr) 120px 110px minmax(0,1fr) 80px 110px', filters: [['Tout', 0], ['Saisons', 95], ['Adversaires', 342], ['Stades & lieux', 188], ['Compétitions', 14]], note: 'Pages saison et face-à-face générées sans saisie',
+      rows: [['2026-27', 'Saison', '2', 'Saison.dc.html', '—', "aujourd'hui"], ['FC Metz', 'Adversaire', '91', 'Face-à-face', '—', "aujourd'hui"], ['Neuchâtel Xamax', 'Adversaire', '6', 'Face-à-face', '—', "aujourd'hui"], ['Stade Auguste-Bonal', 'Lieu', '1 412', 'Carto · lieux', '✓', 'hier'], ['Stade municipal de Biesheim', 'Stade', '1', 'Carto · stades', '✓', '23/07'], ['Coupe Charles Drago', 'Compétition', '24', 'Mosaïque', '—', '01/09']], open: null },
+  };
+  componentDidMount() { this.onR = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this.onR); this.onR(); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); }
   flash(t) { this.setState({ toast: t }); clearTimeout(this.tt); this.tt = setTimeout(() => this.setState({ toast: '' }), 2400); }
+  go(sec) { this.setState({ sec, newOpen: false }); }
   renderVals() {
-    const S = this.state; const todo = this.contribs.filter(c => !S.handled[c.id]);
-    const titles = { fiche: 'Fiches', contrib: 'Contributions', qualite: 'Qualité des données', backup: 'Sauvegardes' };
-    const v = S.versions[S.sel];
-    const kpis = [['12', 'fiches marquées « à venir »', '#F6C400'], ['38', 'photos sans crédit', '#FFFDF6'], ['4', 'tableaux utilisés deux fois', '#FFFDF6'], ['7', 'statistiques incohérentes', '#F3C9C0'], ['3', 'joueurs non reliés à leur fiche', '#FFFDF6']];
-    const issues = [['Haute', 'Total des buts ≠ somme des buteurs', 'Sochaux – Neuchâtel 2-1', 0], ['Haute', 'Même tableau de composition sur deux matchs', 'Amicaux 07/07/2010', 2], ['Moyenne', 'Photo sans crédit', 'Galerie Metz – Sochaux', 1], ['Moyenne', 'Fiche « à venir » depuis plus de 6 mois', 'Saison 1958-59', 0], ['Basse', 'Joueur cité dans la compo sans fiche', 'Pierre (G)', 4], ['Basse', 'Arbitre non renseigné', 'Metz – Sochaux 4-1', 3]];
+    const S = this.state; const pad = n => String(n).padStart(2, '0');
+    const daysLeft = Math.ceil((new Date('2028-05-20T00:00:00') - Date.now()) / 864e5);
+    const published = Math.max(0, Math.min(100, Math.floor((Date.now() - new Date('2026-06-11').getTime()) / (7 * 864e5)) + 1));
+    const todo = this.contribs.filter(c => !S.handled[c.id]);
+    const groups = [
+      ['Pilotage', [['dash', 'Tableau de bord'], ['qualite', 'Qualité', 7, '#F3C9C0'], ['journal', 'Journal']]],
+      ['Contenus', [['matchs', 'Matchs'], ['personnes', 'Personnes'], ['referentiels', 'Saisons, adversaires, lieux'], ['medias', 'Médiathèque', 38, '#F6C400']]],
+      ['Éditorial', [['edito', 'Accueil, bandeau, 100 moments']]],
+      ['Interactif', [['inter', 'Quiz, Onze, Album']]],
+      ['Communauté', [['contrib', 'Contributions', todo.length, '#F6C400'], ['messages', 'Messages', 3, '#F6C400'], ['news', 'Newsletter'], ['dons', 'Dons']]],
+      ['Système', [['trad', 'Traductions EN'], ['users', 'Utilisateurs & rôles'], ['backup', 'Sauvegardes']]],
+    ];
+    const allNav = groups.flatMap(g => g[1]);
+    const titleMap = Object.fromEntries(allNav.map(([k, l]) => [k, l])); titleMap.match = 'Metz – Sochaux · 4-1'; titleMap.person = 'Stéphane Dalmat';
+    const crumbMap = { match: 'Contenus › Matchs', person: 'Contenus › Personnes' };
+    const isList = ['matchs', 'personnes', 'referentiels'].includes(S.sec);
+    const L = isList ? this.lists[S.sec] : null; const fIdx = S.tab[S.sec] || 0;
+    const statusColor = s => ({ 'Publié': '#CFE8C9', 'Brouillon': '#E8DFC9', 'À relire': '#FFF3C2', 'Planifié': '#C9D6F3', 'À créer': '#F3C9C0' }[s] || 'transparent');
+    const v = S.versions[S.selV];
+    const kq = [['12', 'fiches marquées « à venir »', '#F6C400'], ['38', 'photos sans crédit', '#FFFDF6'], ['4', 'tableaux utilisés deux fois', '#FFFDF6'], ['7', 'statistiques incohérentes', '#F3C9C0'], ['3', 'joueurs non reliés à leur fiche', '#FFFDF6']];
+    const issues = [['Haute', 'Total des buts ≠ somme des buteurs', 'Sochaux – Neuchâtel 2-1', 0, 'match'], ['Haute', 'Même tableau de composition sur deux matchs', 'Amicaux 07/07/2010', 2, 'matchs'], ['Moyenne', 'Photo sans crédit', 'Galerie Metz – Sochaux', 1, 'medias'], ['Moyenne', 'Fiche « à venir » depuis plus de 6 mois', 'Saison 1958-59', 0, 'referentiels'], ['Basse', 'Joueur cité dans la compo sans fiche', 'Pierre (G)', 4, 'personnes'], ['Basse', 'Arbitre non renseigné', 'Metz – Sochaux 4-1', 3, 'match']];
     const sevC = { Haute: ['#0E1F4D', '#F6C400'], Moyenne: ['#F6C400', '#0E1F4D'], Basse: ['#FFFDF6', '#0E1F4D'] };
+    const slides = [['Albert Cartier', 'Nos Lions'], ['Rafa Paez', 'Nos Lions'], ['Stéphane Dalmat', 'Nos Lions'], ['Finale 2007', 'Matchs'], ['Le stade Bonal', 'Infrastructures']];
+    const move = (i, d) => { const o = S.slideOrder.slice(); const j = i + d; if (j < 0 || j >= o.length) return; [o[i], o[j]] = [o[j], o[i]]; this.setState({ slideOrder: o }); };
+    const tickerMsgs = [['Ce jour-là', 'match du jour (auto)', 'Auto'], ['Centenaire', 'J-xxx (auto)', 'Auto'], ['Dernier match fiché', 'Metz – Sochaux 4-1 (auto)', 'Auto'], ['Nouveau', 'La carto des stades et des origines', 'Manuel'], ['Vote', 'Composez le Onze de légende', 'Manuel'], ['Contribuer', 'Vos archives enrichissent le musée', 'Manuel']];
+    const media = Array.from({ length: 12 }, (_, i) => ({ i, name: ['metz-sochaux-lobry.jpg', 'metz-sochaux-baghdadi.jpg', 'bonal-1985-tribune.jpg', 'affiche-finale-2007.jpg', 'programme-1958.pdf', 'equipe-1935.jpg', 'billet-2004.jpg', 'dalmat-portrait.jpg', 'biesheim-stade.jpg', 'fanion-80s.jpg', 'maillot-1981.jpg', 'scan-presse-1937.jpg'][i], flag: [null, 'Sans crédit', null, 'Droits ?', null, 'Doublon ?', 'Sans crédit', null, null, 'Sans crédit', null, null][i] }));
+    const selM = media[S.mediaSel];
+    const P = (on) => on ? { v: '✓', c: '#2E8B4A' } : { v: '—', c: '#B8B09A' };
     return {
-      title: titles[S.sec],
-      nav: [['fiche', 'Fiches', ''], ['contrib', 'Contributions', todo.length], ['qualite', 'Qualité', kpis.length], ['backup', 'Sauvegardes', '']].map(([k, label, badge]) => ({ label, badge, badgeVis: badge ? 'visible' : 'hidden', bg: S.sec === k ? '#1F3FA8' : 'transparent', line: S.sec === k ? '#F6C400' : 'transparent', go: () => this.setState({ sec: k }) })),
-      isFiche: S.sec === 'fiche', isContrib: S.sec === 'contrib', isQualite: S.sec === 'qualite', isBackup: S.sec === 'backup',
-      fields: Object.entries(S.vals).map(([k, val]) => ({ k, v: val, border: S.dirty[k] ? '#1F3FA8' : '#0E1F4D', bg: S.dirty[k] ? '#FFF3C2' : '#F3EDDF', on: e => this.setState(s => ({ vals: { ...s.vals, [k]: e.target.value }, dirty: { ...s.dirty, [k]: true } })) })),
-      savedLabel: Object.keys(S.dirty).length ? 'Modifications non enregistrées' : 'Enregistré · v' + S.versions[0].n,
-      save: () => { const keys = Object.keys(S.dirty); if (!keys.length) return; const n = S.versions[0].n + 1; this.setState(s => ({ dirty: {}, sel: 0, versions: [{ n, msg: keys.join(', ') + ' modifié', who: 'Marie D.', when: "à l'instant", diff: keys.map(k => [k, '…', s.vals[k]]) }, ...s.versions] })); this.flash('Version v' + n + ' enregistrée'); },
-      versionsCount: S.versions.length,
-      versions: S.versions.map((x, i) => ({ ...x, bg: i === S.sel ? '#FFF3C2' : 'transparent', pick: () => this.setState({ sel: i }) })),
-      hasDiff: !!v, sel: v ? { n: v.n, diff: v.diff.map(([k, a, b]) => ({ k, a, b })) } : { n: '', diff: [] },
-      askRestore: () => this.setState({ confirm: true }), confirm: S.confirm, restoreTo: v ? v.n - 1 : '', cancel: () => this.setState({ confirm: false }),
-      doRestore: () => { const n = S.versions[0].n + 1; const to = v.n - 1; this.setState(s => ({ confirm: false, sel: 0, versions: [{ n, msg: 'Restauration de la v' + to, who: 'Marie D.', when: "à l'instant", diff: v.diff.map(([k, a, b]) => [k, b, a]) }, ...s.versions] })); this.flash('v' + to + ' restaurée · nouvelle version v' + n); },
+      roleDisp: (S.w || 1400) >= 1150 ? 'flex' : 'none',
+      daysLeft, momentsPub: published, momentsPct: published + '%',
+      navGroups: groups.map(([label, items]) => ({ label, items: items.map(([k, l, badge, bBg]) => { const on = S.sec === k || (k === 'matchs' && S.sec === 'match') || (k === 'personnes' && S.sec === 'person'); return { label: l, badge: badge || '', badgeVis: badge ? 'visible' : 'hidden', bBg: bBg || '#F6C400', bg: on ? '#1F3FA8' : 'transparent', line: on ? '#F6C400' : 'transparent', go: () => this.go(k) }; }) })),
+      title: titleMap[S.sec], crumb: crumbMap[S.sec] || groups.find(g => g[1].some(x => x[0] === S.sec))?.[0] || '',
+      newOpen: S.newOpen, toggleNew: () => this.setState({ newOpen: !S.newOpen }),
+      newItems: [['Fiche match', 'match'], ['Personne', 'person'], ['Moment du centenaire', 'edito'], ['Question de quiz', 'inter'], ['Message du bandeau', 'edito'], ['Campagne newsletter', 'news']].map(([label, k]) => ({ label, go: () => this.go(k) })),
+      is: Object.fromEntries(['dash', 'match', 'person', 'medias', 'edito', 'inter', 'contrib', 'news', 'dons', 'messages', 'qualite', 'trad', 'users', 'journal', 'backup'].map(k => [k, S.sec === k]).concat([['list', isList], ['media', S.sec === 'medias']])),
+      hasTabs: false, tabs: [],
+      kpis: [['2 431', 'fiches matchs', '+14 ce mois', 'matchs', '#FFFDF6'], ['1 874', 'personnes', '214 sans lieu de naissance', 'personnes', '#FFFDF6'], [String(todo.length), 'contributions à valider', 'plus ancienne : 4 j', 'contrib', '#F6C400'], ['7', 'alertes qualité', '2 hautes', 'qualite', '#F3C9C0'], ['1 240 €', 'dons ce mois', '12 450 € au total', 'dons', '#FFFDF6'], ['3 812', 'abonnés newsletter', '52 % d\'ouverture', 'news', '#FFFDF6']].map(([v2, k, d, sec, bg]) => ({ v: v2, k, d, bg, go: () => this.go(sec) })),
+      todos: [['#D9342B', 'Corriger le total des buts de Sochaux – Neuchâtel', 'Qualité', 'qualite'], ['#F6C400', `Valider ${todo.length} contributions`, 'File', 'contrib'], ['#F6C400', 'Créditer 38 photos', 'Médias', 'medias'], ['#1F3FA8', 'Relire le moment n° 18 (publié jeudi)', 'Éditorial', 'edito'], ['#1F3FA8', 'Répondre à 3 messages', 'Messages', 'messages']].map(([c, t, a, sec]) => ({ c, t, a, go: () => this.go(sec) })), todoCount: 5,
+      visits: Array.from({ length: 30 }, (_, i) => { const h = 35 + Math.round(Math.abs(Math.sin(i * .7)) * 45 + (i % 7 === 5 ? 20 : 0)); return { h: h + '%', c: i === 29 ? '#F6C400' : '#1F3FA8' }; }),
+      activity: [['MD', '#F6C400', 'Marie D.', 'a corrigé le score de Metz – Sochaux', 'il y a 12 min'], ['TR', '#FFFDF6', 'Thomas R.', 'a ajouté 3 photos à la galerie', 'hier 21:40'], ['♥', '#F3C9C0', 'Christine B.', 'a envoyé une photo (contribution)', 'il y a 2 h'], ['€', '#CFE8C9', 'Don', 'de 50 € · Famille M.', 'il y a 3 h'], ['JP', '#FFFDF6', 'Jean-Pierre L.', 'a créé la saison 2026-27', '20/07'], ['⚙', '#E8DFC9', 'Système', 'a recalculé les records et face-à-face', 'cette nuit']].map(([i, c, who, what, when]) => ({ i, c, who, what, when })),
+      listFilters: L ? L.filters.map(([label, n], i) => ({ label, n: n || '', bg: i === fIdx ? '#0E1F4D' : '#FFFDF6', fg: i === fIdx ? '#F6C400' : '#0E1F4D', go: () => this.setState({ tab: { ...S.tab, [S.sec]: i } }) })) : [],
+      listNote: L ? L.note : '', heads: L ? L.heads : [], cols: L ? L.cols : '1fr',
+      rows: L ? L.rows.map((r, i) => { const key = S.sec + i; const c = !!S.checked[key]; return { bg: c ? '#FFF3C2' : 'transparent', chk: c ? '✓' : '', chkBg: c ? '#F6C400' : '#FFFDF6',
+        check: e => { e.stopPropagation(); this.setState({ checked: { ...S.checked, [key]: !c } }); },
+        open: () => L.open && this.go(L.open),
+        cells: r.map((v2, j) => ({ v: v2, w: j === 1 || (S.sec !== 'matchs' && j === 0) ? 600 : 400, ff: "'Newsreader',serif", col: String(v2).startsWith('⚠') ? '#B5651D' : String(v2) === '✓' ? '#2E8B4A' : '#0E1F4D' })) }; }) : [],
+      bulk: isList && Object.entries(S.checked).some(([k, x]) => x && k.startsWith(S.sec)), bulkLabel: Object.entries(S.checked).filter(([k, x]) => x && k.startsWith(S.sec)).length + ' sélectionné(s)',
+      mTabs: [['infos', 'Infos'], ['compo', 'Compo & événements'], ['recit', 'Récit'], ['medias', 'Médias · 9'], ['seo', 'Partage & SEO'], ['histo', 'Historique · ' + S.versions.length]].map(([k, label]) => ({ label, bg: S.mtab === k ? '#0E1F4D' : 'transparent', fg: S.mtab === k ? '#F6C400' : '#0E1F4D', go: () => this.setState({ mtab: k }) })),
+      mt: Object.fromEntries(['infos', 'compo', 'recit', 'medias', 'seo', 'histo'].map(k => [k, S.mtab === k])),
+      mFields: Object.entries(S.vals).map(([k, val]) => ({ k, v: val, span: k === 'Stade' ? 'span 2' : 'auto', hint: { 'Saison': 'auto', 'Adversaire': '→ face-à-face', 'Stade': '→ carto' }[k] || '', border: S.dirty[k] ? '#1F3FA8' : (k === 'Arbitre' && !val ? '#D9342B' : '#0E1F4D'), bg: S.dirty[k] ? '#FFF3C2' : '#F3EDDF', on: e => this.setState({ vals: { ...S.vals, [k]: e.target.value }, dirty: { ...S.dirty, [k]: true } }) })),
+      compo: [['1', 'Pierre', 'G', 'Titulaire', 90, '', null, 'À créer'], ['2', 'Dylan Tavares', 'D', 'Titulaire', 90, '', null, 'Reliée'], ['4', 'Benjamin Youssouf', 'D', 'Titulaire', 90, '', '#F6C400', 'Reliée'], ['5', 'Ismaël Aaneba', 'D', 'Titulaire', 90, '', null, 'Reliée'], ['3', 'Julien Vetro', 'D', 'Titulaire', 90, '', null, 'Reliée'], ['8', 'Victor Lobry', 'M', 'Titulaire', 90, '', null, 'Reliée'], ['6', 'Boubacar Fofana', 'M', 'Titulaire', 90, '', null, 'Reliée'], ['10', 'Bakary Diawara', 'M', 'Titulaire', 90, '', null, 'Reliée'], ['7', 'Baghdadi', 'A', 'Titulaire', 90, '', null, 'À vérifier'], ['9', 'Kapit Djoco', 'A', 'Titulaire', 90, '', null, 'Reliée'], ['11', 'Mathis Clairicia', 'A', 'Titulaire', 90, '1', null, 'Reliée']].map(([n, name, pos, st, min, g, card, link]) => ({ n, name, pos, st, min, g, card: card || 'transparent', cardVis: card ? 'visible' : 'hidden', link, lBg: link === 'Reliée' ? '#CFE8C9' : link === 'À créer' ? '#F3C9C0' : '#FFF3C2' })),
+      events: [[7, 'But', 'Fall (Metz)', '1-0'], [18, 'But', 'Deminguet (Metz)', '2-0'], [33, 'But', 'Fall (Metz)', '3-0'], [47, 'But', 'Fall (Metz)', '4-0'], [68, 'Poteau', 'Victor Lobry', ''], [78, 'But', 'Mathis Clairicia', '4-1']].map(([m, type, who, score]) => ({ m, type, who, score, bg: type === 'But' ? (who.includes('Metz') ? '#0E1F4D' : '#F6C400') : '#FFFDF6', fg: type === 'But' && who.includes('Metz') ? '#F3EDDF' : '#0E1F4D' })),
+      blocks: [['Avant-match et enjeux', 'Texte', 92, '✓', "Après deux premières victoires, Sochaux affronte un adversaire plus avancé dans sa préparation…"], ['Résumé de la rencontre', 'Minute par minute', 214, '✓', "2' Coup franc pour Metz… 7' Fall ouvre le score… 78' Clairicia réduit le score."], ['Réactions d\'après-match', 'Citations', 88, '—', "« C'est une défaite logique… » — Vincent Hognon"], ['Encart chiffre', 'Chiffre clé', 14, '✓', "3 · Première fois depuis 3 ans que Sochaux perd par 3 buts d'écart en préparation."]].map(([t, kind, words, en, txt]) => ({ t, kind, words, en, txt })),
+      mMedia: Array.from({ length: 9 }, (_, i) => ({ id: 'match-g' + i, cap: ['Victor Lobry', 'Baghdadi', 'Kapit Djoco', 'Kapit Djoco', 'Bakary Diawara', 'Sochaux – Metz', 'Le stade de Biesheim', 'Boubacar Fofana', 'Julien Vetro'][i], credit: i === 6 ? '⚠ Crédit manquant' : 'Sam Coulon – L\'Est républicain', cColor: i === 6 ? '#D9342B' : '#3A4A75', border: i === 6 ? '#D9342B' : '#0E1F4D', cover: i === 0 })),
+      seoFields: [{ k: 'Titre (Google & partage)', v: 'Metz – Sochaux (4-1) · amical 22/07/2026' }, { k: 'Description', v: 'Résumé, composition, réactions et photos du 3ᵉ match de préparation à Biesheim.' }, { k: 'Adresse de la page', v: '/matchs/2026/metz-sochaux' }],
+      seoToggles: [['daily', 'Proposer dans « Ce jour-là » chaque 22 juillet'], ['nl', 'Inclure dans la newsletter de la semaine'], ['index', 'Visible par les moteurs de recherche']].map(([k, label]) => ({ label, mark: S.seo[k] ? '✓' : '', bg: S.seo[k] ? '#F6C400' : '#FFFDF6', go: () => this.setState({ seo: { ...S.seo, [k]: !S.seo[k] } }) })),
+      versions: S.versions.map((x, i) => ({ ...x, cur: i === 0 ? 'Actuelle' : '', bg: i === S.selV ? '#FFF3C2' : 'transparent', pick: () => this.setState({ selV: i }) })),
+      selV: v ? { n: v.n, diff: v.diff.map(([k, a, b]) => ({ k, a, b })) } : { n: '', diff: [] },
+      askRestore: () => this.setState({ confirm: true }), confirm: S.confirm, cancel: () => this.setState({ confirm: false }),
+      doRestore: () => { const n = S.versions[0].n + 1; this.setState(s => ({ confirm: false, selV: 0, versions: [{ n, msg: 'Restauration (annule la v' + v.n + ')', who: 'Marie D.', when: "à l'instant", diff: v.diff.map(([k, a, b]) => [k, b, a]) }, ...s.versions] })); this.flash('Restauré · nouvelle version v' + n); },
+      statuses: ['Brouillon', 'À relire', 'Planifié', 'Publié'].map(label => ({ label, bg: S.status === label ? '#0E1F4D' : 'transparent', fg: S.status === label ? '#F6C400' : '#0E1F4D', go: () => this.setState({ status: label }) })),
+      savedLabel: Object.keys(S.dirty).length ? 'Modifications non enregistrées' : 'Enregistré · v' + S.versions[0].n + ' · Marie D.',
+      save: () => { const keys = Object.keys(S.dirty); if (!keys.length) return this.flash('Rien à enregistrer'); const n = S.versions[0].n + 1; this.setState(s => ({ dirty: {}, selV: 0, versions: [{ n, msg: keys.join(', ') + ' modifié', who: 'Marie D.', when: "à l'instant", diff: keys.map(k => [k, '…', s.vals[k]]) }, ...s.versions] })); this.flash('Version v' + n + ' enregistrée'); },
+      autoLinks: [['Face-à-face Sochaux × Metz recalculé', 'Face%20a%20face.dc.html'], ['Saison 2026-27 : résultats et buteurs', 'Saison.dc.html'], ['10 fiches joueurs : « Tous ses matchs »', 'Fiche%20Joueur.dc.html'], ['Carto : stade de Biesheim', 'Carto.html'], ['Records : rien de nouveau', 'Records.dc.html']].map(([t, href]) => ({ t, href })),
+      checks: [['✓', '#2E8B4A', 'Score cohérent avec les buts'], ['⚠', '#B5651D', 'Arbitre non renseigné'], ['⚠', '#B5651D', '1 photo sans crédit'], ['⚠', '#B5651D', '1 joueur sans fiche (Pierre)']].map(([i, c, t]) => ({ i, c, t })),
+      pSections: [{ t: 'Identité', fields: [{ k: 'Prénom', v: 'Stéphane' }, { k: 'Nom', v: 'Dalmat' }, { k: 'Rubrique', v: 'Joueur' }, { k: 'Poste', v: 'Milieu' }, { k: 'Nationalité', v: 'France' }, { k: 'Surnom', v: '' }], note: '' }, { t: 'Naissance', fields: [{ k: 'Date', v: 'xx/xx/xxxx' }, { k: 'Ville', v: 'Joué-lès-Tours' }, { k: 'Pays', v: 'France' }], note: 'La ville est géolocalisée automatiquement pour la carto des origines.' }, { t: 'Au club', fields: [{ k: 'Arrivée', v: 'xxxx' }, { k: 'Départ', v: 'xxxx' }, { k: 'Numéros portés', v: 'xx' }], note: 'Décennie d\'arrivée utilisée par les filtres de la carto et des records.' }],
+      pToggles: [['forme', 'Formé au club'], ['intl', 'International'], ['carto', 'Visible sur la carto']].map(([k, label]) => ({ label, mark: S.ptog[k] ? '✓' : '○', bg: S.ptog[k] ? '#F6C400' : '#FFFDF6', go: () => this.setState({ ptog: { ...S.ptog, [k]: !S.ptog[k] } }) })),
+      pMatches: [['xx/xx/xxxx', 'Sochaux – Adversaire', 90, '1 but'], ['xx/xx/xxxx', 'Adversaire – Sochaux', 90, '—'], ['xx/xx/xxxx', 'Sochaux – Adversaire', 78, '—'], ['xx/xx/xxxx', 'Coupe de France', 90, '2 buts']].map(([d, t, min, g]) => ({ d, t, min, g })),
+      rarities: ['Légende', 'Classique', 'Actuel'].map(label => ({ label, bg: S.rarity === label ? '#F6C400' : '#FFFDF6', go: () => this.setState({ rarity: label }) })),
+      media: media.map(m => ({ id: 'bo-media-' + m.i, name: m.name, flag: m.flag || '', flagVis: m.flag ? 'visible' : 'hidden', flagBg: m.flag === 'Sans crédit' ? '#F3C9C0' : '#FFF3C2', border: m.i === S.mediaSel ? '3px solid #F6C400' : '2px solid #0E1F4D', pick: () => this.setState({ mediaSel: m.i }) })),
+      selM: { id: 'bo-media-' + selM.i, name: selM.name, used: ['Fiche Metz – Sochaux', 'Fiche Victor Lobry'].slice(0, (selM.i % 2) + 1).join(', ') },
+      mediaFields: [{ k: 'Légende', v: selM.name.replace(/[-.]/g, ' ').replace(/jpg|pdf/, ''), ph: '', border: '#0E1F4D' }, { k: 'Crédit', v: selM.flag === 'Sans crédit' ? '' : 'Sam Coulon – L\'Est républicain', ph: 'Obligatoire', border: selM.flag === 'Sans crédit' ? '#D9342B' : '#0E1F4D' }, { k: 'Droits', v: selM.flag === 'Droits ?' ? '' : 'Cession contributeur / partenaire presse', ph: 'À préciser', border: selM.flag === 'Droits ?' ? '#D9342B' : '#0E1F4D' }, { k: 'Texte alternatif (accessibilité)', v: '', ph: 'Décrire l\'image pour les lecteurs d\'écran', border: '#0E1F4D' }],
+      slides: S.slideOrder.map((idx, i) => ({ n: pad(i + 1), t: slides[idx][0], k: slides[idx][1], up: () => move(i, -1), down: () => move(i, 1) })),
+      tickerMsgs: tickerMsgs.map(([k, v2, src], i) => { const on = S.ticker[i] !== false; return { k, v: v2, src, srcBg: src === 'Auto' ? '#C9D6F3' : '#FFF3C2', onBg: on ? '#F6C400' : '#E8DFC9', knob: on ? '18px' : '2px', toggle: () => this.setState({ ticker: { ...S.ticker, [i]: !on } }) }; }),
+      planning: Array.from({ length: 24 }, (_, i) => { const n = published - 4 + i; const d = new Date(new Date('2026-06-11').getTime() + (n - 1) * 7 * 864e5); const st = n < published ? 'Publié' : n === published ? 'En ligne' : n === published + 1 ? 'À relire' : n < published + 5 ? 'Prêt' : 'À rédiger'; return { n: pad(n), d: d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: '2-digit' }), s: st, bg: { 'Publié': '#CFE8C9', 'En ligne': '#F6C400', 'À relire': '#FFF3C2', 'Prêt': '#C9D6F3', 'À rédiger': '#FFFDF6' }[st], fg: '#0E1F4D' }; }),
+      quiz: [['En quelle année le club est-il fondé ?', '91%'], ['Comment surnomme-t-on les joueurs ?', '88%'], ['Combien de titres de champion ?', '54%'], ['Quel est le nom du stade ?', '95%'], ['Quelle Coupe en 2004 ?', '61%'], ['Finale 2007 : contre qui ?', '73%']].map(([q, p]) => ({ q, p })),
+      onze: [['Gardien', [['Joël Bats', '81%'], ['Autre', '19%']]], ['Milieux', [['Bernard Genghini', '64%'], ['Benoît Pedretti', '52%'], ['Stéphane Dalmat', '38%']]], ['Attaquants', [['Yannick Stopyra', '58%'], ['Mathis Clairicia', '12%']]]].map(([pos, c]) => ({ pos, c: c.map(([n, p]) => ({ n, p })) })),
+      albumRules: [['Légende', 'Visiter la fiche + sans-faute au quiz', '24', '#F6C400'], ['Classique', 'Visiter la fiche joueur', '56', '#FFFDF6'], ['Actuel', 'Visiter la fiche joueur', '31', '#C9D6F3'], ['Mystère', 'Débloquée avec le moment du centenaire associé', '9', '#E8DFC9']].map(([tier, rule, n, bg]) => ({ tier, rule, n: n + ' cartes', bg })),
+      contribs: this.contribs.filter(c => !S.handled[c.id]).map(c => ({ ...c, id: 'bo-' + c.id, rBg: c.ok ? '#CFE8C9' : '#F3C9C0', ok: () => { this.setState({ handled: { ...S.handled, [c.id]: 'ok' } }); this.flash('Validée · publiée sur la fiche'); }, ko: () => { this.setState({ handled: { ...S.handled, [c.id]: 'ko' } }); this.flash('Refusée · e-mail envoyé'); } })),
+      contribEmpty: !todo.length,
+      newsKpis: [['3 812', 'abonnés'], ['52 %', "taux d'ouverture"], ['9 %', 'taux de clic'], ['+184', 'inscrits ce mois']].map(([v2, k]) => ({ v: v2, k })),
+      campaigns: [['Ce jour-là · S40', '5 oct. 08:00 · automatique', 'Planifiée', '—', '—', '#C9D6F3'], ['Ce jour-l à · S39', '28 sept. · automatique', 'Envoyée', '54 %', '10 %', '#CFE8C9'], ['Centenaire : votez le Onze', '21 sept. · manuelle', 'Envoyée', '61 %', '18 %', '#CFE8C9'], ['Ce jour-là · S38', '21 sept. · automatique', 'Envoyée', '49 %', '8 %', '#CFE8C9'], ['Appel aux dons · rentrée', 'brouillon', 'Brouillon', '—', '—', '#E8DFC9']].map(([t, d, s, o, c, bg]) => ({ t: t.replace('l à', 'là'), d, s, o, c, bg })),
+      nlBlocks: ['Match de la semaine : Sochaux – Neuchâtel 2-1', '2 autres archives tirées au sort', 'Compte à rebours J-' + daysLeft, 'Appel aux dons'],
+      dons: [['02/10', 'Famille M.', '50 €', 'Ponctuel'], ['02/10', 'Anonyme', '10 €', 'Mensuel'], ['01/10', 'Christine B.', '30 €', 'Ponctuel'], ['30/09', 'Kop Bonal', '100 €', 'Ponctuel'], ['29/09', 'Anonyme', '10 €', 'Mensuel'], ['28/09', 'Marc & Léa', '30 €', 'Ponctuel']].map(([d, n, a, f]) => ({ d, n, a, f })),
+      wall: ['Un Lionceau depuis 1981', 'Les anciens du Pays', 'Tribune Est', 'Marc & Léa'].map((n, i) => { const ok = !!S.wallOk[i]; return { n, okLabel: ok ? 'Affiché ✓' : 'Afficher', okBg: ok ? '#CFE8C9' : '#FFFDF6', ok: () => this.setState({ wallOk: { ...S.wallOk, [i]: !ok } }) }; }),
+      messages: [['#F6C400', 'Groupe Peugeot', 'Partenariat', 'Proposition de partenariat pour le centenaire', 'non attribué', 'il y a 1 h'], ['#F6C400', 'L. Moreau', 'Erreur', 'La date du match de 1958 semble fausse', 'Thomas R.', 'hier'], ['#F6C400', 'École de Sochaux', 'Autre', 'Visite pédagogique du musée en ligne', 'non attribué', 'hier'], ['#E8DFC9', 'Famille Martin', 'Archive', 'Nous avons des photos de 1937', 'Marie D.', '28/09'], ['#E8DFC9', 'Journaliste local', 'Presse', 'Interview sur le projet centenaire', 'Marie D.', '25/09']].map(([dot, from, tag, t, who, when]) => ({ dot, from, tag, t, who, when })),
+      qKpis: kq.map(([n, label, bg], i) => ({ n, label, bg, sh: S.kpi === i ? '6px 6px 0 #0E1F4D' : 'none', pick: () => this.setState({ kpi: S.kpi === i ? -1 : i }) })),
+      issues: issues.filter(x => S.kpi < 0 || x[3] === S.kpi).map(([sev, t, f, , sec]) => ({ sev, t, f, sBg: sevC[sev][0], sFg: sevC[sev][1], go: () => this.go(sec) })),
+      trad: [['Navigation & pages', '100%', 'complet'], ['Fiches matchs', '42%', '1 410 à traduire'], ['Fiches personnes', '35%', '1 218 à traduire'], ['100 moments', '78%', '4 à traduire'], ['Quiz', '100%', 'complet'], ['Carto', '90%', 'légendes'], ['Newsletter', '0%', 'FR uniquement']].map(([s, p, n]) => ({ s, p, n })),
+      users: [['Marie D.', 'Administratrice', '#F6C400', [1, 1, 1, 1, 1, 1], 'en ligne'], ['Thomas R.', 'Éditeur', '#C9D6F3', [1, 1, 1, 1, 0, 0], 'il y a 2 h'], ['Jean-Pierre L.', 'Historien', '#C9D6F3', [1, 0, 1, 0, 0, 0], 'hier'], ['Sophie K.', 'Trésorière', '#CFE8C9', [0, 0, 0, 0, 1, 0], 'il y a 3 j'], ['Lucas V.', 'Contributeur', '#FFFDF6', [1, 0, 0, 1, 0, 0], 'il y a 1 sem.']].map(([n, r, bg, p, last]) => ({ n, r, bg, last: 'Dernière connexion : ' + last, p: p.map(x => P(x)) })),
+      journal: [["aujourd'hui 14:02", 'Marie D.', 'Fiche Metz – Sochaux : score 4-0 → 4-1', 'visible'], ["aujourd'hui 11:20", 'Marie D.', 'Contribution SR-2026-0140 validée', 'visible'], ['hier 21:40', 'Thomas R.', '3 photos ajoutées à Metz – Sochaux', 'visible'], ['hier 18:05', 'Thomas R.', 'Message du bandeau « Nouveau : la carto » activé', 'visible'], ['hier 03:00', 'Système', 'Sauvegarde quotidienne réussie (4,20 Go)', 'hidden'], ['hier 02:30', 'Système', 'Records, face-à-face et pages saison recalculés', 'hidden'], ['30/09 16:44', 'Jean-Pierre L.', 'Saison 1958-59 : 3 matchs ajoutés', 'visible'], ['30/09 09:12', 'Sophie K.', 'Export des reçus fiscaux de septembre', 'hidden']].map(([when, who, what, undo]) => ({ when, who, what, undo })),
+      backups: Array.from({ length: 7 }, (_, i) => { const d = new Date(Date.now() - i * 864e5); return { d: i === 0 ? "Aujourd'hui" : d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }), size: (4.2 - i * .01).toFixed(2) + ' Go' }; }),
       toast: S.toast,
-      ctabs: [['todo', 'À valider', todo.length], ['ok', 'Validées', Object.values(S.handled).filter(x => x === 'ok').length], ['ko', 'Refusées', Object.values(S.handled).filter(x => x === 'ko').length]].map(([k, label, n]) => ({ label, n, bg: S.ctab === k ? '#0E1F4D' : '#FFFDF6', fg: S.ctab === k ? '#F6C400' : '#0E1F4D', pick: () => this.setState({ ctab: k }) })),
-      contribs: this.contribs.filter(c => S.ctab === 'todo' ? !S.handled[c.id] : S.handled[c.id] === S.ctab).map(c => ({ ...c, id: 'bo-' + c.id, rBg: c.ok ? '#CFE8C9' : '#F3C9C0',
-        ok: () => { this.setState(s => ({ handled: { ...s.handled, [c.id]: 'ok' } })); this.flash('Contribution validée et publiée'); },
-        ko: () => { this.setState(s => ({ handled: { ...s.handled, [c.id]: 'ko' } })); this.flash('Contribution refusée'); } })),
-      contribEmpty: S.ctab === 'todo' && !todo.length,
-      kpis: kpis.map(([n, label, bg], i) => ({ n, label, bg, sh: S.kpi === i ? '6px 6px 0 #0E1F4D' : 'none', pick: () => this.setState({ kpi: S.kpi === i ? -1 : i }) })),
-      issues: issues.filter(x => S.kpi < 0 || x[3] === S.kpi).map(([sev, t, f]) => ({ sev, t, f, sBg: sevC[sev][0], sFg: sevC[sev][1] })),
-      backups: Array.from({ length: 7 }, (_, i) => { const d = new Date(2026, 9, 2 - i); return { d: i === 0 ? "Aujourd'hui" : d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }), size: (4.2 - i * .01).toFixed(2) + ' Go' }; }),
     };
   }
 }
