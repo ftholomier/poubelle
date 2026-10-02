@@ -610,6 +610,36 @@
   APVS.pushAds = pushAds;
   if ($('ins.adsbygoogle')) window.addEventListener('load', pushAds);
 
+  /* ------------------------------------------------------------- mots qui défilent
+     « Le bon pro pour votre mariage / anniversaire / … » (accueil, pied de page) : un mot toutes les 2,5 s,
+     seulement quand la phrase est à l'écran ; rien ne bouge si le visiteur préfère réduire les animations. */
+  if (!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+    $$('.rot').forEach((rot) => {
+      const words = Array.from(rot.children);
+      if (words.length < 2) return;
+      rot.classList.add('is-js');
+      let i = 0;
+      let timer = null;
+      words[0].classList.add('is-on');
+      const next = () => {
+        const cur = words[i];
+        i = (i + 1) % words.length;
+        cur.classList.replace('is-on', 'is-off');
+        words[i].classList.remove('is-off');
+        words[i].classList.add('is-on');
+        setTimeout(() => cur.classList.remove('is-off'), 700);
+      };
+      const run = (on) => {
+        if (on && !timer) timer = setInterval(next, 2500);
+        if (!on && timer) { clearInterval(timer); timer = null; }
+      };
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((en) => run(en.some((x) => x.isIntersecting))).observe(rot);
+      } else run(true);
+      document.addEventListener('visibilitychange', () => run(!document.hidden && rot.getBoundingClientRect().bottom > 0 && rot.getBoundingClientRect().top < window.innerHeight));
+    });
+  }
+
   /* ------------------------------------------------------------- pied de page
      Apparition au défilement, compteurs qui s'animent, vague sur le grand logo, retour en haut ;
      animations en pause hors de l'écran ; rien de tout cela si le visiteur préfère réduire les animations. */

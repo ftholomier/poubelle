@@ -11,6 +11,7 @@ $field = static fn (string $k, string $label, string $hint = '', int $max = 200)
     <h2>En-tête (hero)</h2>
     <?= $field('badge', 'Badge', 'Ex. : {nb} pros prêts à mettre le feu') ?>
     <div class="form-grid"><?= $field('title_1', 'Titre — ligne 1') ?><?= $field('title_2', 'Titre — début ligne 2') ?><?= $field('title_em', 'Titre — mot en italique corail') ?><?= $field('title_3', 'Titre — fin') ?></div>
+    <div class="form-grid"><?= $field('rot_lead', 'Phrase sous le titre (début)', 'Suivie des mots qui défilent. Aussi utilisée en bas de page.', 80) ?><div class="field"><label for="h-rot_words">Mots qui défilent</label><textarea id="h-rot_words" name="rot_words" rows="2" maxlength="400"><?= e(implode(', ', (array) ($h['rot_words'] ?? []))) ?></textarea><span class="hint">Séparés par des virgules, 8 au plus. Ex. : mariage, anniversaire, soirée d'entreprise</span></div></div>
     <div class="field"><label for="h-subtitle">Sous-titre</label><textarea id="h-subtitle" name="subtitle" rows="2" maxlength="400"><?= $v('subtitle') ?></textarea></div>
     <div class="form-grid">
       <?php foreach ([1, 2] as $n): ?>

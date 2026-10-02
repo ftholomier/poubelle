@@ -37,6 +37,8 @@ final class Settings
                 'title_em' => 'leur',
                 'title_3' => 'métier.',
                 'subtitle' => "DJ, magiciens, animateurs enfants, groupes live, photobooths… L'annuaire des pros de l'animation et de l'événementiel, partout en France.",
+                'rot_lead' => 'Le bon pro pour votre',
+                'rot_words' => ['mariage', 'anniversaire', "soirée d'entreprise", 'baptême', 'réveillon'],
                 'popular' => [
                     ['label' => 'DJ mariage', 'url' => '/dj/'],
                     ['label' => 'Magicien', 'url' => '/magicien/'],

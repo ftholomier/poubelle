@@ -204,13 +204,14 @@ final class ContentController extends AdminController
     {
         if (Request::isPost()) {
             $h = [];
-            foreach (['badge', 'title_1', 'title_2', 'title_em', 'title_3', 'subtitle', 'hero_image_1_alt', 'hero_image_2_alt', 'sticker_1', 'sticker_2', 'sticker_3', 'testimonial_text', 'testimonial_author', 'pros_title', 'pros_title_em', 'events_title', 'events_title_em', 'how_title', 'how_title_em', 'hero_request_title', 'hero_request_text', 'request_kicker', 'request_title', 'request_title_em', 'request_text', 'request_note', 'join_kicker', 'join_title', 'join_title_em', 'join_text', 'stat1_value', 'stat1_label', 'stat2_value', 'stat2_label'] as $k) {
+            foreach (['badge', 'title_1', 'title_2', 'title_em', 'title_3', 'rot_lead', 'subtitle', 'hero_image_1_alt', 'hero_image_2_alt', 'sticker_1', 'sticker_2', 'sticker_3', 'testimonial_text', 'testimonial_author', 'pros_title', 'pros_title_em', 'events_title', 'events_title_em', 'how_title', 'how_title_em', 'hero_request_title', 'hero_request_text', 'request_kicker', 'request_title', 'request_title_em', 'request_text', 'request_note', 'join_kicker', 'join_title', 'join_title_em', 'join_text', 'stat1_value', 'stat1_label', 'stat2_value', 'stat2_label'] as $k) {
                 $h[$k] = Sanitizer::line((string) Request::input($k, ''), 400);
             }
             $h['sticker_show'] = Request::bool('sticker_show');
             $h['testimonial_use_reviews'] = Request::bool('testimonial_use_reviews');
             $h['local_links'] = Request::bool('local_links');
             $h['featured_count'] = max(4, min(24, Request::int('featured_count', 8)));
+            $h['rot_words'] = array_slice(array_values(array_filter(array_map(static fn ($t) => Sanitizer::line($t, 30), preg_split('/[\n,]+/', (string) Request::input('rot_words', '')) ?: []))), 0, 8);
             $h['ticker'] = array_values(array_filter(array_map(static fn ($t) => Sanitizer::line($t, 40), preg_split('/[\n,]+/', (string) Request::input('ticker', '')) ?: [])));
             $popular = [];
             foreach ((array) Request::arr('popular') as $row) {

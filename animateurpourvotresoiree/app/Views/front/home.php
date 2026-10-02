@@ -22,6 +22,8 @@ $stepColors = ['var(--white)', 'var(--yellow)', 'var(--coral)'];
   </div>
   <div class="hero-grid">
     <div class="hero-copy">
+      <?php $rotWords = array_values(array_filter((array) Settings::get('home.rot_words', []))); ?>
+      <?php if ($h('rot_lead') !== '' && $rotWords): ?><p class="hero-rot hero-in" style="--d:.36s"><?= e($h('rot_lead')) ?> <?= View::partial('front/partials/rotator', ['words' => $rotWords]) ?></p><?php endif; ?>
       <p class="hero-lead hero-in" style="--d:.42s"><?= e($h('subtitle')) ?></p>
 
       <form class="search-box hero-in" style="--d:.5s" action="/recherche/" method="get" role="search" data-search-form>

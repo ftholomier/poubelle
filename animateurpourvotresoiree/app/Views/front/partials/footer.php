@@ -34,7 +34,7 @@ $giant = ['animateur' => '', 'pour' => 'em', 'votresoirée' => ''];
     <div class="footer-cta reveal">
       <div>
         <p class="footer-kicker">✦ Gratuit · sans engagement</p>
-        <p class="footer-title">Le bon pro pour votre <span class="rot" aria-hidden="true"><span>mariage</span><span>anniversaire</span><span>soirée d'entreprise</span><span>baptême</span><span>réveillon</span></span><span class="sr-only">événement</span></p>
+        <p class="footer-title"><?= e((string) Settings::get('home.rot_lead', '') ?: 'Le bon pro pour votre') ?> <?= App\Core\View::partial('front/partials/rotator', ['words' => array_values(array_filter((array) Settings::get('home.rot_words', []))) ?: ['fête']]) ?></p>
         <p class="footer-lead">Décrivez votre fête en 2 minutes : les pros de votre secteur vous envoient leurs devis.</p>
       </div>
       <div class="footer-cta-btns">
