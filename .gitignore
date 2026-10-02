@@ -1,0 +1,6 @@
+# Données de travail non versionnées (régénérables ou trop volumineuses)
+/storage/*
+!/storage/.gitkeep
+/public/media/
+/vendor/
+.DS_Store
