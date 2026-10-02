@@ -14,6 +14,9 @@ use App\Core\Logger;
  */
 final class Push
 {
+    /** Services push des navigateurs (Chrome/Opera/Samsung, Firefox, Safari, Edge). */
+    private const HOSTS = ['fcm.googleapis.com', 'android.googleapis.com', 'push.services.mozilla.com', 'push.apple.com', 'notify.windows.com'];
+
     public static function available(): bool
     {
         return function_exists('openssl_pkey_derive') && defined('OPENSSL_KEYTYPE_EC') && (bool) Settings::get('features.push', true);
@@ -53,7 +56,7 @@ final class Push
         $endpoint = (string) ($sub['endpoint'] ?? '');
         $p256 = (string) ($sub['keys']['p256dh'] ?? '');
         $auth = (string) ($sub['keys']['auth'] ?? '');
-        if (!preg_match('#^https://#', $endpoint) || strlen(Crypto::b64uDecode($p256)) !== 65 || strlen(Crypto::b64uDecode($auth)) < 16) {
+        if (!self::endpointAllowed($endpoint) || strlen(Crypto::b64uDecode($p256)) !== 65 || strlen(Crypto::b64uDecode($auth)) < 16) {
             return null;
         }
         $hash = sha1($endpoint);
@@ -72,6 +75,24 @@ final class Push
             'ua' => mb_substr($ua, 0, 200),
             'fails' => 0,
         ]);
+    }
+
+    /**
+     * Seuls les services push des navigateurs sont acceptés comme destination : l'adresse est fournie par le
+     * navigateur, on ne laisse donc pas le serveur appeler n'importe quelle URL (réseau interne, etc.).
+     */
+    public static function endpointAllowed(string $endpoint): bool
+    {
+        if (strlen($endpoint) > 1000 || !preg_match('#^https://([a-z0-9.-]+)(?::443)?/#i', $endpoint, $m)) {
+            return false;
+        }
+        $host = strtolower($m[1]);
+        foreach (self::HOSTS as $allowed) {
+            if ($host === $allowed || str_ends_with($host, '.' . $allowed)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static function unsubscribe(string $endpoint): void
@@ -123,6 +144,9 @@ final class Push
     /** @return array{ok:bool, gone:bool, status:int} */
     public static function send(array $sub, array $payload): array
     {
+        if (!self::endpointAllowed((string) ($sub['endpoint'] ?? ''))) {
+            return ['ok' => false, 'gone' => true, 'status' => 0];
+        }
         try {
             $body = self::encrypt((string) json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), (string) $sub['p256dh'], (string) $sub['auth']);
             $res = Http::request('POST', (string) $sub['endpoint'], [
@@ -131,7 +155,7 @@ final class Push
                 'Content-Type' => 'application/octet-stream',
                 'Content-Encoding' => 'aes128gcm',
                 'Authorization' => 'vapid t=' . self::jwt((string) $sub['endpoint']) . ', k=' . self::publicKey(),
-            ], $body, 15);
+            ], $body, 15, false);
             $ok = $res['status'] >= 200 && $res['status'] < 300;
             if (!$ok) {
                 Logger::log('push', 'Push refusé', ['status' => $res['status'], 'body' => mb_substr($res['body'], 0, 300)], 'warning');

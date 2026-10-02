@@ -29,12 +29,12 @@ final class App
         $method = Request::method();
         $isAdmin = is_admin_path();
 
-        // HTTPS et domaine canonique
+        // HTTPS et domaine canonique (jamais vers le domaine annoncé par la requête, qui peut être falsifié)
+        $canonicalHost = strtolower((string) parse_url((string) Env::get('APP_URL', ''), PHP_URL_HOST));
         if (PHP_SAPI !== 'cli' && Env::bool('FORCE_HTTPS', true) && !Request::isSecure() && !self::isLocal()) {
-            (Response::redirect('https://' . Request::host() . Request::uri(), 301))->send();
+            (Response::redirect('https://' . ($canonicalHost !== '' ? $canonicalHost : Request::host()) . Request::uri(), 301))->send();
             return;
         }
-        $canonicalHost = strtolower((string) parse_url((string) Env::get('APP_URL', ''), PHP_URL_HOST));
         if ($canonicalHost !== '' && Request::host() !== $canonicalHost && !self::isLocal() && in_array($method, ['GET', 'HEAD'], true)
             && str_replace('www.', '', Request::host()) === str_replace('www.', '', $canonicalHost)) {
             (Response::redirect(rtrim((string) Env::get('APP_URL'), '/') . Request::uri(), 301))->send();
@@ -50,11 +50,13 @@ final class App
             return;
         }
 
-        // Cache de pages pour les visiteurs anonymes
+        // Cache de pages pour les visiteurs anonymes : domaine canonique et adresses sans paramètre (sauf une
+        // pagination), pour qu'on ne puisse pas remplir le disque avec des variantes d'une même page.
+        $plainQuery = $_GET === [] || (array_keys($_GET) === ['page'] && is_string($_GET['page']) && preg_match('/^\d{1,4}$/', $_GET['page']) === 1);
         $cacheable = in_array($method, ['GET', 'HEAD'], true) && !$isAdmin && Env::bool('PAGE_CACHE', true)
             && !isset($_COOKIE['apvs_sid']) && !str_starts_with($path, '/api/') && !str_starts_with($path, '/espace-pro')
-            && !self::isLocalDev() && !isset($_GET['nocache']);
-        $cacheKey = 'page:' . Request::host() . Request::uri();
+            && !self::isLocalDev() && $plainQuery && ($canonicalHost === '' || Request::host() === $canonicalHost || self::isLocal());
+        $cacheKey = 'page:' . Request::host() . $path . ($plainQuery && $_GET !== [] ? '?page=' . $_GET['page'] : '');
         if ($cacheable && ($hit = Cache::pageGet($cacheKey)) !== null) {
             Security::setNonce($hit['nonce']);
             $res = new Response($hit['body'], 200, $hit['headers'] + ['X-Cache' => 'HIT']);

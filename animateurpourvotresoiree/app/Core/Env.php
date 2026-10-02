@@ -72,7 +72,7 @@ final class Env
     public static function parse(string $content): array
     {
         $vars = [];
-        foreach (preg_split('/\R/', $content) as $line) {
+        foreach (preg_split('/\r\n|\r|\n/', $content) as $line) {
             $line = trim($line);
             if ($line === '' || $line[0] === '#') {
                 continue;
@@ -122,7 +122,7 @@ final class Env
                 @unlink($old);
             }
         }
-        $lines = $content === '' ? [] : preg_split('/\R/', $content);
+        $lines = $content === '' ? [] : preg_split('/\r\n|\r|\n/', $content);
         $done = [];
         foreach ($lines as $i => $line) {
             if (preg_match('/^\s*([A-Z][A-Z0-9_]*)\s*=/', $line, $m) && array_key_exists($m[1], $changes)) {
@@ -144,7 +144,8 @@ final class Env
 
     public static function quote(string $v): string
     {
-        $v = str_replace(["\r", "\n"], '', $v);
+        // aucun caractère de contrôle (retours à la ligne compris) : une valeur ne peut pas créer une autre clé
+        $v = (string) preg_replace('/[\x00-\x1F\x7F]/', '', $v);
         if ($v === '' || preg_match('/^[A-Za-z0-9_\-.,:\/@+=]+$/', $v)) {
             return $v;
         }
@@ -171,7 +172,7 @@ final class Env
         $vars['CRON_TOKEN'] = bin2hex(random_bytes(16));
         $vars['SETUP_TOKEN'] = bin2hex(random_bytes(12));
         $lines = [];
-        foreach (preg_split('/\R/', $tpl) as $line) {
+        foreach (preg_split('/\r\n|\r|\n/', $tpl) as $line) {
             if (preg_match('/^\s*([A-Z][A-Z0-9_]*)\s*=/', $line, $m)) {
                 $lines[] = $m[1] . '=' . self::quote((string) ($vars[$m[1]] ?? ''));
                 unset($vars[$m[1]]);

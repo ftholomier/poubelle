@@ -212,6 +212,8 @@
       })();
       return pending;
     };
+    // une preuve de travail ne sert qu'une fois : on en recalcule une après chaque envoi
+    form.powReset = () => { if (!field) return; field.value = ''; pending = null; if (status) status.textContent = ''; run(); };
     form.addEventListener('focusin', run, { once: true });
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((en) => { if (en.some((x) => x.isIntersecting)) { run(); io.disconnect(); } });
@@ -259,10 +261,9 @@
         if (d.redirect) { location.href = d.redirect; return; }
         if (out) { out.innerHTML = `<div class="alert alert-success">${esc(d.message || 'Merci !')}</div>`; }
         form.reset();
-        if (pow) pow.value = '';
-        form.dataset.protectReady = '';
-        protectForm(form);
+        if (form.powReset) form.powReset();
       } else {
+        if (form.powReset) form.powReset();
         const errs = d.errors || {};
         Object.keys(errs).forEach((k) => {
           const input = form.querySelector(`[name="${CSS.escape(k)}"]`);

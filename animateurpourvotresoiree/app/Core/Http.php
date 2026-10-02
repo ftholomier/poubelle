@@ -9,7 +9,7 @@ final class Http
     /**
      * @return array{status:int, body:string, headers:array<string,string>, error:?string}
      */
-    public static function request(string $method, string $url, array $headers = [], ?string $body = null, int $timeout = 20): array
+    public static function request(string $method, string $url, array $headers = [], ?string $body = null, int $timeout = 20, bool $follow = true): array
     {
         if (!preg_match('#^https?://#i', $url)) {
             return ['status' => 0, 'body' => '', 'headers' => [], 'error' => 'URL invalide'];
@@ -28,8 +28,8 @@ final class Http
                 CURLOPT_HTTPHEADER => $lines,
                 CURLOPT_TIMEOUT => $timeout,
                 CURLOPT_CONNECTTIMEOUT => min(10, $timeout),
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_MAXREDIRS => 4,
+                CURLOPT_FOLLOWLOCATION => $follow,
+                CURLOPT_MAXREDIRS => $follow ? 4 : 0,
                 CURLOPT_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
                 CURLOPT_HEADERFUNCTION => static function ($ch, string $h) use (&$respHeaders): int {
                     $p = strpos($h, ':');
@@ -55,8 +55,8 @@ final class Http
                 'content' => $body ?? '',
                 'timeout' => $timeout,
                 'ignore_errors' => true,
-                'follow_location' => 1,
-                'max_redirects' => 4,
+                'follow_location' => $follow ? 1 : 0,
+                'max_redirects' => $follow ? 4 : 1,
             ],
         ]);
         $res = @file_get_contents($url, false, $ctx);

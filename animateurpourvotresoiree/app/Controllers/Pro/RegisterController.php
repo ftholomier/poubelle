@@ -75,8 +75,6 @@ final class RegisterController extends Controller
         }
         if (!Str::emailValid($in['email'])) {
             $errors['email'] = 'Adresse email invalide.';
-        } elseif (Pros::emailTaken($in['email'])) {
-            $errors['email'] = 'Un compte existe déjà avec cet email : connectez-vous ou utilisez « mot de passe oublié ».';
         }
         if (!Str::phoneValid($in['phone'])) {
             $errors['phone'] = 'Indiquez un numéro de téléphone valide (il n\'est affiché qu\'à la demande des clients).';
@@ -112,6 +110,10 @@ final class RegisterController extends Controller
         if ($spam['decision'] === 'spam') {
             Logger::log('spam', 'Inscription pro rejetée', ['email' => $in['email'], 'score' => $spam['score']]);
             return $this->respond(true, 'Merci !');
+        }
+        // vérifié après l'anti-spam (limites de débit comprises) : pas de test en masse des adresses inscrites
+        if (Pros::emailTaken($in['email'])) {
+            return $this->respond(false, 'Merci de compléter les champs indiqués.', ['email' => 'Un compte existe déjà avec cet email : connectez-vous ou utilisez « mot de passe oublié ».']);
         }
         $company = $in['display_name'];
         $pro = Pros::create([

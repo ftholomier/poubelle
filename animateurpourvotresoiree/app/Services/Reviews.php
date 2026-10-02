@@ -36,7 +36,7 @@ final class Reviews
             self::afterVerified($rev, $pro);
         } else {
             $token = Crypto::sign(['r' => (int) $rev['id']], 'review', 86400 * 14);
-            Mail::send((string) $in['email'], 'review_verify', ['prenom' => $in['name'], 'fiche' => Pros::displayName($pro)], ['bouton_url' => '/avis/confirmer/' . $token . '/', 'bouton_label' => 'Confirmer mon avis']);
+            Mail::send((string) $in['email'], 'review_verify', ['prenom' => Leads::greetingName((string) $in['name']), 'fiche' => Pros::displayName($pro)], ['bouton_url' => '/avis/confirmer/' . $token . '/', 'bouton_label' => 'Confirmer mon avis']);
         }
         return $rev;
     }

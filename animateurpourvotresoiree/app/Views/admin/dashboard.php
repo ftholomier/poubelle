@@ -43,6 +43,7 @@ $me = App\Core\Auth::admin();
 
 <div class="adm-cols mt-3">
   <div>
+    <?php if (App\Core\Auth::adminCan('requests')): ?>
     <div class="box">
       <div class="box-head"><h2>Demandes de devis à modérer</h2><a class="link small" href="<?= e(Url::admin('demandes?statut=pending')) ?>">Tout voir</a></div>
       <?php if (!$req['pending']): ?><p class="muted">Rien à modérer 🎉</p><?php else: ?>
@@ -54,6 +55,8 @@ $me = App\Core\Auth::admin();
         </ul>
       <?php endif; ?>
     </div>
+    <?php endif; ?>
+    <?php if (App\Core\Auth::adminCan('pros')): ?>
     <div class="box">
       <div class="box-head"><h2>Dernières inscriptions</h2><a class="link small" href="<?= e(Url::admin('pros?tri=recent')) ?>">Tout voir</a></div>
       <?php if (!$latestPros): ?><p class="muted">Aucune inscription récente.</p><?php else: ?>
@@ -65,6 +68,7 @@ $me = App\Core\Auth::admin();
         </ul>
       <?php endif; ?>
     </div>
+    <?php endif; ?>
     <div class="box">
       <h2>Historique des demandes de devis (depuis l'ancien site)</h2>
       <?php $months = array_slice($monthly['requests'], -36, null, true); ?>

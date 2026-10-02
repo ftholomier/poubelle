@@ -48,7 +48,8 @@ self.addEventListener('fetch', (event) => {
   // Pages : réseau d'abord, copie en cache, page hors ligne en dernier recours.
   if (req.mode === 'navigate') {
     event.respondWith(fetch(req).then((res) => {
-      if (res.ok && res.headers.get('content-type')?.includes('text/html')) {
+      // jamais les pages personnelles (back-office, espace pro, visiteur connecté) : en-têtes no-store / private
+      if (res.ok && !/no-store|private/i.test(res.headers.get('cache-control') || '') && res.headers.get('content-type')?.includes('text/html')) {
         const copy = res.clone();
         caches.open(PAGES).then((c) => { c.put(req, copy); trim(PAGES, 60); });
       }

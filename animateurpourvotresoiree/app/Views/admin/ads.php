@@ -49,8 +49,9 @@ use App\Services\Ads;
       <div class="field"><label for="an-ga">Google Analytics 4 (G-…)</label><input id="an-ga" type="text" name="ga4" value="<?= e((string) ($analytics['ga4'] ?? '')) ?>"></div>
       <div class="field"><label for="an-px">Meta Pixel (identifiant)</label><input id="an-px" type="text" name="meta_pixel" value="<?= e((string) ($analytics['meta_pixel'] ?? '')) ?>"></div>
     </div>
-    <div class="field"><label for="an-head">Code HTML dans &lt;head&gt; (vérifications Search Console…)</label><textarea id="an-head" name="head_html" rows="3" class="code"><?= e((string) ($analytics['head_html'] ?? '')) ?></textarea></div>
-    <div class="field"><label for="an-body">Code HTML en fin de page</label><textarea id="an-body" name="body_html" rows="3" class="code"><?= e((string) ($analytics['body_html'] ?? '')) ?></textarea><span class="hint">Les balises &lt;script&gt; reçoivent automatiquement l'autorisation de sécurité (nonce).</span></div>
+    <?php $sa = App\Core\Auth::adminCan('env'); ?>
+    <div class="field"><label for="an-head">Code HTML dans &lt;head&gt; (vérifications Search Console…)</label><textarea id="an-head" name="head_html" rows="3" class="code"<?= $sa ? '' : ' disabled' ?>><?= e((string) ($analytics['head_html'] ?? '')) ?></textarea></div>
+    <div class="field"><label for="an-body">Code HTML en fin de page</label><textarea id="an-body" name="body_html" rows="3" class="code"<?= $sa ? '' : ' disabled' ?>><?= e((string) ($analytics['body_html'] ?? '')) ?></textarea><span class="hint"><?= $sa ? 'Les balises &lt;script&gt; reçoivent automatiquement l\'autorisation de sécurité (nonce). Réservé au super-administrateur.' : 'Modifiable uniquement par le super-administrateur.' ?></span></div>
   </div>
   <div class="form-actions"><button class="btn btn-coral" type="submit">Enregistrer</button></div>
 </form>

@@ -67,37 +67,41 @@ final class Auth
         return in_array('*', $perms, true) || in_array($permission, $perms, true);
     }
 
-    /** Étape 1 : identifiants. Renvoie 'ok', '2fa', 'locked' ou 'invalid'. */
+    /**
+     * Étape 1 : identifiants. Renvoie 'ok', '2fa', 'locked' ou 'invalid'.
+     * Blocage par adresse IP et par couple (compte, IP) : un attaquant ne peut pas bloquer
+     * le compte légitime depuis une autre adresse, et le message ne révèle pas si le compte existe.
+     */
     public static function attemptAdmin(string $email, string $password): string
     {
         $email = Str::email($email);
-        $ipKey = 'login-admin-ip:' . Request::ip();
-        if (RateLimiter::tooMany($ipKey, 20)) {
-            Logger::security('Connexion admin bloquée (trop de tentatives IP)', ['email' => $email]);
+        $ip = Request::ip();
+        $ipKey = 'login-admin-ip:' . $ip;
+        $pairKey = 'login-admin:' . sha1($email . '|' . $ip);
+        $max = max(3, Env::int('LOGIN_MAX_ATTEMPTS', 5));
+        if (RateLimiter::tooMany($ipKey, 20) || RateLimiter::tooMany($pairKey, $max)) {
+            Logger::security('Connexion admin bloquée (trop de tentatives)', ['email' => $email]);
             return 'locked';
         }
         $users = Store::admins()->find(static fn ($u) => strtolower($u['email'] ?? '') === $email, null, 1)['items'];
         $light = $users[0] ?? null;
         $user = $light ? Store::admins()->get((int) $light['id']) : null;
-        if ($user && !empty($user['locked_until']) && strtotime((string) $user['locked_until']) > time()) {
-            Logger::security('Connexion admin sur compte verrouillé', ['email' => $email]);
-            return 'locked';
-        }
         if (!$user || ($user['status'] ?? 'active') !== 'active' || !Crypto::verifyPassword($password, (string) ($user['password_hash'] ?? ''))) {
             RateLimiter::hit($ipKey, 3600);
+            RateLimiter::hit($pairKey, max(60, Env::int('LOGIN_LOCK_MINUTES', 15) * 60));
             if ($user) {
-                $fails = (int) ($user['failed_logins'] ?? 0) + 1;
-                $patch = ['failed_logins' => $fails];
-                if ($fails >= Env::int('LOGIN_MAX_ATTEMPTS', 5)) {
-                    $patch['locked_until'] = date('c', time() + Env::int('LOGIN_LOCK_MINUTES', 15) * 60);
-                    $patch['failed_logins'] = 0;
-                    \App\Services\Notify::admin('security', 'Compte admin verrouillé', 'Trop d\'échecs de connexion pour ' . $email . ' (IP ' . Request::ip() . ')', Url::admin('journal?canal=security'), 'danger');
+                $after = Store::admins()->update((int) $user['id'], static function (array $u): array {
+                    $u['failed_logins'] = (int) ($u['failed_logins'] ?? 0) + 1;
+                    return $u;
+                }, false);
+                if ((int) ($after['failed_logins'] ?? 0) % 10 === 0) {
+                    \App\Services\Notify::admin('security', 'Tentatives de connexion répétées', ((int) $after['failed_logins']) . ' échecs de connexion pour ' . $email . ' (dernière IP : ' . $ip . ')', Url::admin('journal?canal=security'), 'danger');
                 }
-                Store::admins()->update((int) $user['id'], $patch, false);
             }
             Logger::security('Échec de connexion admin', ['email' => $email]);
             return 'invalid';
         }
+        RateLimiter::clear($pairKey);
         if (Crypto::needsRehash((string) $user['password_hash'])) {
             Store::admins()->update((int) $user['id'], ['password_hash' => Crypto::hashPassword($password)], false);
         }
@@ -201,32 +205,31 @@ final class Auth
         return self::$pro = $pro;
     }
 
-    /** Connexion pro par identifiant (ancien login) ou email. */
+    /** Connexion pro par identifiant (ancien login) ou email. Blocage par IP et par couple (compte, IP). */
     public static function attemptPro(string $identifier, string $password): string
     {
         $identifier = trim($identifier);
-        $ipKey = 'login-pro-ip:' . Request::ip();
-        if (RateLimiter::tooMany($ipKey, 30)) {
+        $ip = Request::ip();
+        $ipKey = 'login-pro-ip:' . $ip;
+        $pairKey = 'login-pro:' . sha1(mb_strtolower($identifier) . '|' . $ip);
+        $max = max(3, Env::int('LOGIN_MAX_ATTEMPTS', 5) + 3);
+        if (RateLimiter::tooMany($ipKey, 30) || RateLimiter::tooMany($pairKey, $max)) {
             return 'locked';
         }
         $pro = \App\Services\Pros::findByLogin($identifier);
-        if ($pro && !empty($pro['locked_until']) && strtotime((string) $pro['locked_until']) > time()) {
-            return 'locked';
-        }
         if (!$pro || in_array($pro['status'] ?? '', ['deleted', 'rejected'], true) || !Crypto::verifyPassword($password, (string) ($pro['password_hash'] ?? ''))) {
             RateLimiter::hit($ipKey, 3600);
+            RateLimiter::hit($pairKey, max(60, Env::int('LOGIN_LOCK_MINUTES', 15) * 60));
             if ($pro) {
-                $fails = (int) ($pro['failed_logins'] ?? 0) + 1;
-                $patch = ['failed_logins' => $fails];
-                if ($fails >= Env::int('LOGIN_MAX_ATTEMPTS', 5) + 3) {
-                    $patch['locked_until'] = date('c', time() + Env::int('LOGIN_LOCK_MINUTES', 15) * 60);
-                    $patch['failed_logins'] = 0;
-                }
-                Store::pros()->update((int) $pro['id'], $patch, false);
+                Store::pros()->update((int) $pro['id'], static function (array $p): array {
+                    $p['failed_logins'] = (int) ($p['failed_logins'] ?? 0) + 1;
+                    return $p;
+                }, false);
             }
             Logger::security('Échec de connexion pro', ['login' => $identifier], 'notice');
             return 'invalid';
         }
+        RateLimiter::clear($pairKey);
         $patch = ['last_login_at' => date('c'), 'failed_logins' => 0, 'locked_until' => null];
         if (Crypto::needsRehash((string) $pro['password_hash'])) {
             $patch['password_hash'] = Crypto::hashPassword($password);

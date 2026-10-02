@@ -72,7 +72,9 @@ final class SeoController extends Controller
 
     public function manifest(): Response
     {
-        $admin = Request::query('app') === 'admin';
+        // la variante « administration » contient l'adresse du back-office : réservée aux administrateurs connectés
+        $askAdmin = Request::query('app') === 'admin';
+        $admin = $askAdmin && \App\Core\Auth::admin() !== null;
         $name = Settings::siteName();
         $data = [
             'id' => $admin ? Url::admin() : '/',
@@ -105,7 +107,7 @@ final class SeoController extends Controller
                 ['name' => 'Mon espace pro', 'short_name' => 'Espace pro', 'url' => '/espace-pro/', 'icons' => [['src' => '/assets/img/icon-192.png', 'sizes' => '192x192']]],
             ],
         ];
-        return new Response((string) json_encode($data, Fs::JSON_FLAGS | JSON_PRETTY_PRINT), 200, ['Content-Type' => 'application/manifest+json; charset=utf-8', 'Cache-Control' => 'public, max-age=86400']);
+        return new Response((string) json_encode($data, Fs::JSON_FLAGS | JSON_PRETTY_PRINT), 200, ['Content-Type' => 'application/manifest+json; charset=utf-8', 'Cache-Control' => $askAdmin ? 'private, no-store' : 'public, max-age=86400']);
     }
 
     public function serviceWorker(): Response
@@ -118,8 +120,8 @@ final class SeoController extends Controller
             $v .= (string) @filemtime(PUBLIC_PATH . '/assets/' . $f);
         }
         $version = 'apvs-' . substr(sha1($v . APP_VERSION), 0, 10);
-        $admin = '/' . trim((string) Env::get('ADMIN_PATH', 'gestion'), '/');
-        $js = 'const VERSION = ' . js($version) . ";\nconst CORE = " . js($core) . ";\nconst NO_CACHE = " . js(['/api/', '/espace-pro', $admin, '/e/', '/go/', '/cron/', '/connexion', '/deconnexion', '/inscription-pro', '/devis/merci', '/sw.js']) . ";\n"
+        // pas d'adresse du back-office ici (fichier public) : ses pages sont exclues du cache par leurs en-têtes « no-store »
+        $js = 'const VERSION = ' . js($version) . ";\nconst CORE = " . js($core) . ";\nconst NO_CACHE = " . js(['/api/', '/espace-pro', '/e/', '/go/', '/cron/', '/connexion', '/deconnexion', '/inscription-pro', '/devis/merci', '/sw.js']) . ";\n"
             . (string) file_get_contents(APP_PATH . '/Views/front/sw.js');
         return new Response($js, 200, ['Content-Type' => 'application/javascript; charset=utf-8', 'Cache-Control' => 'no-cache', 'Service-Worker-Allowed' => '/']);
     }

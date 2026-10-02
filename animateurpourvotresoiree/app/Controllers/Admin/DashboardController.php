@@ -201,21 +201,22 @@ final class DashboardController extends AdminController
         $isId = ctype_digit($q);
         $email = str_contains($q, '@') ? mb_strtolower($q) : '';
         $out = ['Pages du back-office' => [], 'Pros' => [], 'Demandes de devis' => [], 'Messages' => [], 'Contacts' => [], 'Contenus' => []];
+        // [libellé => [chemin, droit requis]] : chaque rôle ne voit que les rubriques et données auxquelles il a accès
         $menu = [
-            'tableau de bord' => '', 'statistiques' => 'statistiques', 'pros a valider' => 'pros?statut=pending', 'demandes a moderer' => 'demandes?statut=pending',
-            'messages a moderer' => 'messages?statut=pending', 'avis a moderer' => 'avis?statut=pending', 'emailing campagne' => 'emailing', 'modeles emails' => 'emailing/modeles',
-            'file d envoi emails' => 'emailing/file', 'prospects' => 'prospects', 'blog articles' => 'blog', 'pages' => 'pages', 'page d accueil' => 'accueil',
-            'metiers categories' => 'categories', 'occasions' => 'occasions', 'seo titres descriptions' => 'seo', 'pages locales' => 'seo/pages-locales',
-            'redirections 404' => 'seo/redirections', 'robots txt' => 'seo/robots', 'publicite adsense' => 'publicite', 'fonctionnement moderation' => 'reglages/fonctionnement',
-            'alertes notifications' => 'reglages/notifications', 'anti spam' => 'antispam', 'intelligence artificielle gemini' => 'ia', 'configuration env smtp' => 'reglages',
-            'maintenance sauvegardes import' => 'maintenance', 'journal logs' => 'journal', 'archives' => 'archives', 'utilisateurs' => 'utilisateurs', 'memo' => 'memo', 'mon compte 2fa' => 'mon-compte',
+            'tableau de bord' => ['', ''], 'statistiques' => ['statistiques', 'dashboard'], 'pros a valider' => ['pros?statut=pending', 'pros'], 'demandes a moderer' => ['demandes?statut=pending', 'requests'],
+            'messages a moderer' => ['messages?statut=pending', 'messages'], 'avis a moderer' => ['avis?statut=pending', 'reviews'], 'emailing campagne' => ['emailing', 'mailing'], 'modeles emails' => ['emailing/modeles', 'mailing'],
+            'file d envoi emails' => ['emailing/file', 'mailing'], 'prospects' => ['prospects', 'mailing'], 'blog articles' => ['blog', 'content'], 'pages' => ['pages', 'content'], 'page d accueil' => ['accueil', 'content'],
+            'metiers categories' => ['categories', 'content'], 'occasions' => ['occasions', 'content'], 'seo titres descriptions' => ['seo', 'seo'], 'pages locales' => ['seo/pages-locales', 'seo'],
+            'redirections 404' => ['seo/redirections', 'seo'], 'robots txt' => ['seo/robots', 'seo'], 'publicite adsense' => ['publicite', 'settings'], 'fonctionnement moderation' => ['reglages/fonctionnement', 'settings'],
+            'alertes notifications' => ['reglages/notifications', 'settings'], 'anti spam' => ['antispam', 'settings'], 'intelligence artificielle gemini' => ['ia', 'settings'], 'configuration env smtp' => ['reglages', 'env'],
+            'maintenance sauvegardes import' => ['maintenance', 'system'], 'journal logs' => ['journal', 'system'], 'archives' => ['archives', 'system'], 'utilisateurs' => ['utilisateurs', 'users'], 'memo' => ['memo', ''], 'mon compte 2fa' => ['mon-compte', ''],
         ];
-        foreach ($menu as $label => $path) {
-            if (str_contains($label, $n)) {
+        foreach ($menu as $label => [$path, $perm]) {
+            if (str_contains($label, $n) && ($perm === '' || Auth::adminCan($perm))) {
                 $out['Pages du back-office'][] = ['title' => Str::ucfirst($label), 'sub' => Url::admin($path), 'url' => Url::admin($path), 'kind' => 'menu', 'icon' => '→'];
             }
         }
-        foreach (Store::pros()->iterate() as $id => $p) {
+        foreach (Auth::adminCan('pros') ? Store::pros()->iterate() : [] as $id => $p) {
             if (count($out['Pros']) >= 8) {
                 break;
             }
@@ -227,7 +228,7 @@ final class DashboardController extends AdminController
                 $out['Pros'][] = ['title' => $p['name'], 'sub' => trim($p['city'] . ' · ' . (Pros::STATUSES[$p['status']] ?? $p['status']) . ' · ' . $p['email'], ' ·'), 'url' => Url::admin('pros/' . $id), 'kind' => '#' . $id, 'icon' => '👤'];
             }
         }
-        foreach (Store::requests()->iterate() as $id => $r) {
+        foreach (Auth::adminCan('requests') ? Store::requests()->iterate() : [] as $id => $r) {
             if (count($out['Demandes de devis']) >= 6) {
                 break;
             }
@@ -238,7 +239,7 @@ final class DashboardController extends AdminController
                 $out['Demandes de devis'][] = ['title' => ($r['name'] ?: $r['email']) . ' — ' . ($r['city'] ?: 'sans ville'), 'sub' => date_fr($r['created'], 'short') . ' · ' . (Leads::REQUEST_STATUSES[$r['status']] ?? $r['status']) . ' · ' . $r['excerpt'], 'url' => Url::admin('demandes/' . $id), 'kind' => '#' . $id, 'icon' => '📨'];
             }
         }
-        if ($email !== '' || mb_strlen($n) >= 4 || $isId) {
+        if (Auth::adminCan('messages') && ($email !== '' || mb_strlen($n) >= 4 || $isId)) {
             foreach (Store::messages()->iterate() as $id => $m) {
                 if (count($out['Messages']) >= 6) {
                     break;
@@ -249,7 +250,7 @@ final class DashboardController extends AdminController
                 }
             }
         }
-        foreach (Store::contacts()->iterate() as $id => $c) {
+        foreach (Auth::adminCan('messages') ? Store::contacts()->iterate() : [] as $id => $c) {
             if (count($out['Contacts']) >= 5) {
                 break;
             }
@@ -257,7 +258,7 @@ final class DashboardController extends AdminController
                 $out['Contacts'][] = ['title' => $c['name'] . ' — ' . $c['subject'], 'sub' => $c['email'] . ' · ' . date_fr($c['created'], 'short'), 'url' => Url::admin('contacts?id=' . $id), 'kind' => 'contact', 'icon' => '💬'];
             }
         }
-        foreach (Store::articles()->iterate() as $id => $a) {
+        foreach (Auth::adminCan('content') ? Store::articles()->iterate() : [] as $id => $a) {
             if (count($out['Contenus']) >= 5) {
                 break;
             }
@@ -265,7 +266,7 @@ final class DashboardController extends AdminController
                 $out['Contenus'][] = ['title' => $a['title'], 'sub' => 'Article · ' . $a['status'], 'url' => Url::admin('blog/' . $id), 'kind' => 'blog', 'icon' => '📝'];
             }
         }
-        foreach (Store::pages()->iterate() as $id => $pg) {
+        foreach (Auth::adminCan('content') ? Store::pages()->iterate() : [] as $id => $pg) {
             if (str_contains(Str::norm($pg['title'] . ' ' . $pg['slug']), $n)) {
                 $out['Contenus'][] = ['title' => $pg['title'], 'sub' => 'Page /' . $pg['slug'] . '/', 'url' => Url::admin('pages/' . $id), 'kind' => 'page', 'icon' => '📄'];
             }

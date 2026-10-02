@@ -41,7 +41,9 @@ et environ 45 Mo par sauvegarde (7 sauvegardes automatiques conservées par déf
 4. Ouvrez le site une première fois : le fichier `config/.env` est créé automatiquement à partir de
    `config/.env.example`, avec des clés secrètes générées (`APP_KEY`, `CRON_TOKEN`, `SETUP_TOKEN`).
 5. Renseignez au minimum dans `config/.env` : `APP_URL`, `APP_ENV=production`, `CONTACT_EMAIL`
-   et les paramètres SMTP (tout se modifie ensuite depuis le back-office).
+   et les paramètres SMTP (tout se modifie ensuite depuis le back-office). Derrière Cloudflare ou un
+   proxy qui gère le HTTPS, indiquez aussi `TRUSTED_PROXIES` (`cloudflare` ou les IP du proxy) : sinon
+   la redirection vers HTTPS tourne en boucle et l'anti-spam ne voit que l'IP du proxy.
 6. Allez sur `https://votre-site/gestion/setup` et saisissez le **jeton d'installation**
    (`SETUP_TOKEN` du fichier `config/.env`) pour créer le compte super-administrateur. Le jeton est
    effacé après usage. Alternative : `php bin/admin.php create`.
@@ -143,6 +145,11 @@ classement des pros. Clé à renseigner dans Configuration (`GEMINI_API_KEY`).
   durcies, limitation des tentatives de connexion, **double authentification TOTP** pour l'équipe,
   restriction possible du back-office par adresse IP, chemin du back-office personnalisable.
 - Mots de passe chiffrés en Argon2id ; secrets chiffrés au repos (2FA) ; journal d'audit des actions.
+- Chaque rôle ne voit que ses rubriques, recherche globale comprise ; configuration `.env`, codes de
+  suivi bruts, téléchargement et restauration des sauvegardes réservés au super-administrateur.
+- IP des visiteurs lue derrière un proxy seulement s'il est déclaré de confiance ; blocage des
+  connexions par IP et par couple compte + IP ; notifications push envoyées uniquement aux services
+  des navigateurs ; emails de confirmation sans texte libre (pas de relais de spam).
 - Anti-spam sans captcha visible : champ piège, délai minimal, preuve de travail calculée par le
   navigateur, limites de débit, listes noires, analyse du contenu, adresses jetables, MX, Turnstile
   et score IA facultatifs.

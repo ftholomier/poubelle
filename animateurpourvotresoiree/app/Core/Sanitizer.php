@@ -15,12 +15,16 @@ final class Sanitizer
     public static function html(string $html, array $opt = []): string
     {
         $opt += ['images' => false, 'tables' => false, 'link_rel' => 'nofollow noopener', 'headings' => true, 'max_length' => 60000];
+        $max = (int) $opt['max_length'];
+        if ($max > 0 && strlen($html) > $max * 8) {
+            $html = mb_strcut($html, 0, $max * 8, 'UTF-8'); // borne le travail du parseur
+        }
         $html = Str::clean($html);
         if ($html === '') {
             return '';
         }
         if (strip_tags($html) === $html) {
-            return Str::paragraphs($html);
+            return Str::paragraphs($max > 0 ? mb_substr($html, 0, $max) : $html);
         }
         $allowed = ['p' => [], 'br' => [], 'strong' => [], 'em' => [], 'u' => [], 's' => [], 'ul' => [], 'ol' => [], 'li' => [], 'blockquote' => [], 'a' => ['href', 'title'], 'hr' => [], 'sup' => [], 'sub' => []];
         if ($opt['headings']) {
@@ -50,8 +54,13 @@ final class Sanitizer
         // Texte orphelin hors paragraphe → paragraphes ; nettoyage des paragraphes vides.
         $out = self::wrapLooseText($out);
         $out = preg_replace('#<p>(\s|&nbsp;|<br\s*/?>)*</p>#i', '', $out) ?? $out;
-        $out = preg_replace('#(<br\s*/?>\s*){3,}#i', '<br><br>', $out) ?? $out;
-        return mb_substr(trim($out), 0, $opt['max_length']);
+        $out = trim(preg_replace('#(<br\s*/?>\s*){3,}#i', '<br><br>', $out) ?? $out);
+        if ($max > 0 && mb_strlen($out) > $max) {
+            // trop long : on coupe puis on repasse par le DOM, pour ne jamais laisser une balise ou un attribut ouvert
+            $cut = (string) preg_replace('/<[^>]*$/', '', mb_substr($out, 0, $max));
+            return self::html($cut, ['max_length' => 0] + $opt);
+        }
+        return $out;
     }
 
     private static function walk(\DOMNode $node, \DOMDocument $doc, array $allowed, array $opt): void

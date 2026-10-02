@@ -72,7 +72,7 @@ $config = [
 <meta name="robots" content="noindex, nofollow">
 <title><?= e($title ?? 'Administration') ?> — Back-office</title>
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
-<link rel="manifest" href="/manifest.webmanifest?app=admin">
+<link rel="manifest" href="/manifest.webmanifest?app=admin" crossorigin="use-credentials">
 <meta name="theme-color" content="#1c1233">
 <link rel="preload" href="/assets/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="<?= asset('css/app.css') ?>">

@@ -142,6 +142,15 @@ final class Leads
     {
         $ev = $r['event'];
         $c = $r['client'];
+        if (!$forPro) {
+            // copie envoyée à l'adresse saisie dans le formulaire : aucun texte libre (sinon relais de spam possible)
+            return [
+                'Événement' => self::EVENT_TYPES[$ev['type'] ?? 'autre'] ?? '',
+                'Date' => !empty($ev['date']) ? date_fr((string) $ev['date'], 'long') : '',
+                'Ville' => !empty($ev['insee']) ? (string) ($ev['city'] ?? '') . (!empty($ev['dep']) ? ' (' . $ev['dep'] . ')' : '') : '',
+                'Prestations' => implode(', ', array_map([Categories::class, 'name'], (array) ($ev['categories'] ?? []))),
+            ];
+        }
         $rows = [
             'Événement' => self::EVENT_TYPES[$ev['type'] ?? 'autre'] ?? '',
             'Date' => !empty($ev['date']) ? date_fr((string) $ev['date'], 'long') . (!empty($ev['date_flexible']) ? ' (flexible)' : '') : ($ev['date_text'] ?? ''),
@@ -161,6 +170,16 @@ final class Leads
         return $rows;
     }
 
+    /**
+     * Prénom affiché dans un email envoyé à une adresse saisie par un visiteur : seulement s'il ressemble
+     * à un prénom (lettres, espaces, tirets, apostrophes), pour qu'on ne puisse pas y glisser un lien.
+     */
+    public static function greetingName(string $name): string
+    {
+        $name = trim($name);
+        return preg_match("/^[\p{L}\p{M}][\p{L}\p{M}' .\-]{0,39}$/u", $name) ? $name : 'à vous';
+    }
+
     private static function confirmToClient(array $r): void
     {
         if (in_array($r['status'], ['spam'], true) || empty($r['client']['email'])) {
@@ -170,7 +189,7 @@ final class Leads
         $suite = $r['status'] === 'diffused'
             ? ($n > 0 ? "Elle a été transmise à $n professionnel" . ($n > 1 ? 's' : '') . " de votre secteur." : 'Elle va être transmise aux professionnels de votre secteur.')
             : 'Elle sera transmise aux professionnels de votre secteur après une rapide vérification par notre équipe.';
-        Mail::send((string) $r['client']['email'], 'request_confirmation', ['prenom' => $r['client']['first_name'] ?: 'à vous'], ['details' => Mail::details(self::requestDetails($r, false)), 'suite' => e($suite)]);
+        Mail::send((string) $r['client']['email'], 'request_confirmation', ['prenom' => self::greetingName((string) ($r['client']['first_name'] ?? ''))], ['details' => Mail::details(self::requestDetails($r, false)), 'suite' => e($suite)]);
     }
 
     // ---------------------------------------------------------- messages directs
@@ -202,7 +221,7 @@ final class Leads
         }
         if ($status !== 'spam') {
             $suite = $msg['status'] === 'delivered' ? '' : ' après une rapide vérification';
-            Mail::send((string) $in['email'], 'message_confirmation', ['prenom' => $in['name'], 'fiche' => Pros::displayName($pro)], ['suite' => e($suite), 'details' => Mail::details(['Votre message' => (string) $in['message']])]);
+            Mail::send((string) $in['email'], 'message_confirmation', ['prenom' => self::greetingName((string) $in['name']), 'fiche' => Pros::displayName($pro)], ['suite' => e($suite), 'details' => '']);
         }
         return $msg;
     }

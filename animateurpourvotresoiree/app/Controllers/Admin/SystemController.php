@@ -92,6 +92,9 @@ final class SystemController extends AdminController
                 $name = Backup::create(Request::bool('media'), $withEnv, 'manuelle');
                 return $this->done('Sauvegarde créée : ' . $name, 'maintenance#sauvegardes');
             case 'backup-delete':
+                if (!\App\Core\Auth::adminCan('env')) {
+                    throw new HttpException(403, 'Seul un super-administrateur peut supprimer une sauvegarde.');
+                }
                 Backup::delete((string) Request::input('name', ''));
                 $this->audit('Sauvegarde supprimée', ['fichier' => (string) Request::input('name', '')]);
                 return $this->done('Sauvegarde supprimée.', 'maintenance#sauvegardes');
@@ -170,6 +173,10 @@ final class SystemController extends AdminController
 
     public function download(string $name): Response
     {
+        // les sauvegardes contiennent toutes les données (et parfois la configuration) : super-administrateur uniquement
+        if (!\App\Core\Auth::adminCan('env')) {
+            throw new HttpException(403, 'Seul un super-administrateur peut télécharger une sauvegarde.');
+        }
         $path = Backup::path($name);
         if ($path === null) {
             throw new HttpException(404);

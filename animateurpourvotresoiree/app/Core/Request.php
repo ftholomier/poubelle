@@ -184,19 +184,48 @@ final class Request
         return strtolower((string) ($_SERVER['HTTP_HOST'] ?? parse_url((string) Env::get('APP_URL', 'http://localhost'), PHP_URL_HOST)));
     }
 
-    /** IP du client (en tenant compte des proxys de confiance déclarés dans TRUSTED_PROXIES). */
+    /** Plages d'adresses de Cloudflare (https://www.cloudflare.com/ips/). */
+    private const CLOUDFLARE = [
+        '173.245.48.0/20', '103.21.244.0/22', '103.22.200.0/22', '103.31.4.0/22', '141.101.64.0/18', '108.162.192.0/18',
+        '190.93.240.0/20', '188.114.96.0/20', '197.234.240.0/22', '198.41.128.0/17', '162.158.0.0/15', '104.16.0.0/13',
+        '104.24.0.0/14', '172.64.0.0/13', '131.0.72.0/22',
+        '2400:cb00::/32', '2606:4700::/32', '2803:f800::/32', '2405:b500::/32', '2405:8100::/32', '2a06:98c0::/29', '2c0f:f248::/32',
+    ];
+
+    /**
+     * IP du client. Les en-têtes de proxy ne sont pris en compte que si la requête provient
+     * réellement d'un proxy de confiance (TRUSTED_PROXIES = « cloudflare » ou liste d'IP/CIDR),
+     * sinon n'importe qui pourrait se faire passer pour une autre adresse.
+     */
     public static function ip(): string
     {
         if (self::$ip !== null) {
             return self::$ip;
         }
-        $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
-        if (self::fromTrustedProxy()) {
-            $cf = self::header('CF-Connecting-IP');
-            $xff = self::header('X-Forwarded-For');
-            $candidate = $cf ?: ($xff ? trim(explode(',', $xff)[0]) : null);
-            if ($candidate && filter_var($candidate, FILTER_VALIDATE_IP)) {
-                $ip = $candidate;
+        $remote = (string) ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
+        $ip = $remote;
+        $mode = trim((string) Env::get('TRUSTED_PROXIES', ''));
+        if (strtolower($mode) === 'cloudflare') {
+            if (Net::ipInList($remote, self::CLOUDFLARE)) {
+                $cf = trim((string) (self::header('CF-Connecting-IP') ?? ''));
+                if (filter_var($cf, FILTER_VALIDATE_IP)) {
+                    $ip = $cf;
+                }
+            }
+        } elseif ($mode !== '') {
+            $trusted = self::trustedList();
+            if (Net::ipInList($remote, $trusted)) {
+                // X-Forwarded-For lu de droite à gauche : première adresse qui n'est pas un proxy de confiance
+                $hops = array_reverse(array_map('trim', explode(',', (string) (self::header('X-Forwarded-For') ?? ''))));
+                foreach ($hops as $hop) {
+                    if (!filter_var($hop, FILTER_VALIDATE_IP)) {
+                        break;
+                    }
+                    $ip = $hop;
+                    if (!Net::ipInList($hop, $trusted)) {
+                        break;
+                    }
+                }
             }
         }
         return self::$ip = $ip;
@@ -208,22 +237,23 @@ final class Request
         return substr(hash_hmac('sha256', self::ip(), Crypto::key()), 0, 20);
     }
 
+    /** @return string[] */
+    private static function trustedList(): array
+    {
+        return array_values(array_filter(array_map('trim', preg_split('/[\s,;]+/', (string) Env::get('TRUSTED_PROXIES', '')) ?: [])));
+    }
+
     private static function fromTrustedProxy(): bool
     {
-        $trusted = trim((string) Env::get('TRUSTED_PROXIES', ''));
-        if ($trusted === '') {
+        $mode = trim((string) Env::get('TRUSTED_PROXIES', ''));
+        if ($mode === '') {
             return false;
         }
         $remote = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
-        if ($trusted === '*' || strtolower($trusted) === 'cloudflare') {
-            return true;
+        if (strtolower($mode) === 'cloudflare') {
+            return Net::ipInList($remote, self::CLOUDFLARE);
         }
-        foreach (array_map('trim', explode(',', $trusted)) as $range) {
-            if ($range !== '' && Net::ipInRange($remote, $range)) {
-                return true;
-            }
-        }
-        return false;
+        return Net::ipInList($remote, self::trustedList());
     }
 
     public static function baseUrl(): string

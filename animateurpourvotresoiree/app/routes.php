@@ -33,7 +33,11 @@ $router->middleware('pro', static function () {
     $path = Request::path();
     if (!empty($pro['must_change_password']) && Session::get('impersonate_from') === null
         && !in_array($path, ['/espace-pro/compte/', '/espace-pro/quitter-apercu'], true)) {
-        Session::flash('warning', 'Pour sécuriser votre compte, choisissez d\'abord un nouveau mot de passe.');
+        $msg = 'Pour sécuriser votre compte, choisissez d\'abord un nouveau mot de passe.';
+        if (Request::isAjax()) {
+            return Response::json(['error' => $msg], 403);
+        }
+        Session::flash('warning', $msg);
         return Response::redirect('/espace-pro/compte/#securite');
     }
     return null;
@@ -55,14 +59,20 @@ $router->middleware('admin', static function () {
     // Mot de passe provisoire ou double authentification obligatoire : passage par « Mon compte ».
     $me = Auth::admin();
     $path = Request::path();
-    if (!in_array($path, [Url::admin('mon-compte'), Url::admin('logout')], true) && !Request::isAjax()) {
+    if (!in_array($path, [Url::admin('mon-compte'), Url::admin('logout')], true)) {
+        $block = null;
         if (!empty($me['must_change_password'])) {
-            Session::flash('warning', 'Choisissez votre mot de passe personnel pour continuer.');
-            return Response::redirect(Url::admin('mon-compte#securite'));
+            $block = ['Choisissez votre mot de passe personnel pour continuer.', 'mon-compte#securite'];
+        } elseif (Env::bool('ADMIN_2FA_REQUIRED') && empty($me['totp_enabled'])) {
+            $block = ['La double authentification est obligatoire : activez-la pour continuer.', 'mon-compte#2fa'];
         }
-        if (Env::bool('ADMIN_2FA_REQUIRED') && empty($me['totp_enabled'])) {
-            Session::flash('warning', 'La double authentification est obligatoire : activez-la pour continuer.');
-            return Response::redirect(Url::admin('mon-compte#2fa'));
+        if ($block !== null) {
+            // appels AJAX compris : aucune action possible tant que le compte n'est pas sécurisé
+            if (Request::isAjax()) {
+                return Response::json(['error' => $block[0]], 403);
+            }
+            Session::flash('warning', $block[0]);
+            return Response::redirect(Url::admin($block[1]));
         }
     }
     return null;

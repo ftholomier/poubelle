@@ -290,8 +290,9 @@ final class SettingsController extends AdminController
             ], 'analytics' => [
                 'ga4' => preg_match('/^G-[A-Z0-9]{4,20}$/', (string) Request::input('ga4', '')) ? (string) Request::input('ga4') : '',
                 'meta_pixel' => preg_replace('/\D/', '', (string) Request::input('meta_pixel', '')) ?? '',
-                'head_html' => (string) Request::raw('head_html', ''),
-                'body_html' => (string) Request::raw('body_html', ''),
+                // code HTML/JS brut : réservé au super-administrateur (il s'exécute sur tout le site)
+                'head_html' => \App\Core\Auth::adminCan('env') ? (string) Request::raw('head_html', '') : (string) Settings::get('analytics.head_html', ''),
+                'body_html' => \App\Core\Auth::adminCan('env') ? (string) Request::raw('body_html', '') : (string) Settings::get('analytics.body_html', ''),
             ]]);
             Cache::flush('pages');
             Cache::bump();
