@@ -172,6 +172,8 @@ h1, h2, h3, h4 { margin: 0; line-height: 1.05; letter-spacing: -0.02em; }
 @media (max-width: 520px) { .hero-visual { min-height: 380px; } .quote-card { max-width: 200px; bottom: 6px; } }
 
 /* --------------------------------------------------------------- bandeau */
+/* le bandeau incliné dépasse de la page : on le coupe sur les côtés (pas de défilement horizontal sur mobile) */
+.ticker-clip { overflow: hidden; overflow: clip visible; padding: 12px 0; margin: -12px 0; }
 .ticker { background: var(--ink); color: var(--cream); border-top: var(--b); border-bottom: var(--b); transform: rotate(-1.2deg); margin: 0 -20px; padding: 16px 0; overflow: hidden; }
 .ticker-track { display: flex; gap: 36px; white-space: nowrap; font-size: 30px; font-weight: 800; letter-spacing: -0.02em; width: max-content; animation: ticker 38s linear infinite; }
 .ticker-track .serif { font-weight: 400; }
@@ -320,8 +322,9 @@ h1, h2, h3, h4 { margin: 0; line-height: 1.05; letter-spacing: -0.02em; }
 .result-card .hot-mini { font-size: 12px; font-weight: 800; background: var(--yellow); border: 1.5px solid var(--ink); border-radius: 8px; padding: 1px 7px; }
 .more-btn { align-self: center; }
 @media (max-width: 900px) {
-  .explore { grid-template-columns: 1fr; height: auto; min-height: 0; }
-  .explore-list { border-right: 0; overflow: visible; padding: 18px 16px 40px; }
+  /* minmax(0, 1fr) : la rangée de filtres défilante ne doit pas élargir la colonne au-delà de l'écran */
+  .explore { grid-template-columns: minmax(0, 1fr); height: auto; min-height: 0; }
+  .explore-list { border-right: 0; overflow: visible; padding: 18px 16px 40px; min-width: 0; }
   .explore-map { height: 60vh; order: -1; position: sticky; top: var(--header-h); z-index: 5; border-bottom: var(--b); }
   .explore.map-hidden .explore-map { display: none; }
   .explore-toggle { display: inline-flex !important; }

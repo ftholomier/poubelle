@@ -60,8 +60,8 @@ final class SettingsController extends AdminController
                 'TURNSTILE_SECRET_KEY' => ['Cloudflare Turnstile — clé secrète', 'secret', ''],
             ],
             'Cartes' => [
-                'MAP_TILE_URL' => ['Fond de carte (URL des tuiles)', 'text', 'OpenStreetMap / CARTO par défaut'],
-                'MAP_TILE_ATTRIBUTION' => ['Attribution de la carte', 'text', ''],
+                'MAP_TILE_URL' => ['Fond de carte (URL des tuiles)', 'text', 'Vide = OpenStreetMap, gratuit et sans clé (recommandé). Sinon, l\'adresse {z}/{x}/{y} d\'un autre fournisseur.'],
+                'MAP_TILE_ATTRIBUTION' => ['Attribution de la carte', 'text', 'Vide = mention OpenStreetMap'],
                 'GEO_API_URL' => ['API géographique', 'url', 'geo.api.gouv.fr (mise à jour des communes)'],
             ],
             'Notifications push' => [

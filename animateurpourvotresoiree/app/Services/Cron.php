@@ -161,6 +161,9 @@ final class Cron
         if (Push::available() && Push::publicKey() === '') {
             Push::ensureKeys(); // clés des notifications push générées au premier passage
         }
+        if (Geo::keylessCarto((string) Env::get('MAP_TILE_URL', ''))) {
+            Env::write(['MAP_TILE_URL' => '', 'MAP_TILE_ATTRIBUTION' => '']); // CARTO exige une clé : retour à OpenStreetMap
+        }
         $free = @disk_free_space(STORAGE_PATH);
         if ($free !== false && $free < 300 * 1024 * 1024) {
             $issues[] = 'Espace disque faible : ' . Fs::humanSize($free) . ' disponibles.';

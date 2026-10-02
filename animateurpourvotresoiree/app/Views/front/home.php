@@ -59,13 +59,13 @@ $stepColors = ['var(--white)', 'var(--yellow)', 'var(--coral)'];
   </div>
 </section>
 
-<div class="ticker" aria-hidden="true">
+<div class="ticker-clip"><div class="ticker" aria-hidden="true">
   <div class="ticker-track">
     <?php for ($loop = 0; $loop < 2; $loop++): foreach ($ticker as $i => $word): ?>
       <span class="<?= $i % 2 ? 'serif' : '' ?>"><?= e($word) ?></span><span class="star">✦</span>
     <?php endforeach; endfor; ?>
   </div>
-</div>
+</div></div>
 
 <section id="pros" class="section" data-screen-label="Pros" data-home-pros>
   <div class="section-head">

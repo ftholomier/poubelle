@@ -102,7 +102,7 @@
     L = await APVS.loadLeaflet();
     const wantCluster = points.length > CLUSTER_THRESHOLD;
     map = L.map(mapEl, { scrollWheelZoom: true, zoomControl: true, attributionControl: true, preferCanvas: false });
-    L.tileLayer(APVS.cfg.map.tiles, { attribution: APVS.cfg.map.attribution, maxZoom: 18, subdomains: 'abcd', detectRetina: true }).addTo(map);
+    L.tileLayer(APVS.cfg.map.tiles, { attribution: APVS.cfg.map.attribution, maxZoom: 19, subdomains: 'abc' }).addTo(map);
     cluster = wantCluster ? L.markerClusterGroup({
       showCoverageOnHover: false,
       maxClusterRadius: 46,

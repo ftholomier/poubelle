@@ -202,8 +202,8 @@ php -S localhost:8000 -t public bin/dev-router.php   # serveur de développement
 
 ## Crédits et licences
 
-- Cartes : [Leaflet](https://leafletjs.com) (BSD-2) et Leaflet.markercluster (MIT), fonds
-  © OpenStreetMap / CARTO.
+- Cartes : [Leaflet](https://leafletjs.com) (BSD-2) et Leaflet.markercluster (MIT), fond de carte
+  © contributeurs [OpenStreetMap](https://www.openstreetmap.org/copyright) (gratuit, sans clé).
 - QR codes : qrcode-generator de Kazuhiko Arase (MIT).
 - Polices : Bricolage Grotesque, Instrument Serif, DM Mono (SIL Open Font License, fichiers dans
   `public/assets/fonts/`).

@@ -16,7 +16,7 @@ $pro = Session::active() ? Auth::pro() : null;
 $aiChat = App\Services\Settings::aiOn('assistant');
 $config = [
     'csrf' => Session::active() ? App\Core\Csrf::token() : null,
-    'map' => ['tiles' => (string) env('MAP_TILE_URL', 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'), 'attribution' => (string) env('MAP_TILE_ATTRIBUTION', '© OpenStreetMap, © CARTO')],
+    'map' => App\Services\Geo::tiles(),
     'turnstile' => Settings::get('antispam.turnstile') ? (string) env('TURNSTILE_SITE_KEY', '') : '',
     'vapid' => Settings::get('features.push', true) ? App\Services\Push::publicKey() : '',
     'consent' => ['ga4' => (string) Settings::get('analytics.ga4', ''), 'pixel' => (string) Settings::get('analytics.meta_pixel', ''), 'ads' => Ads::enabled() && !Ads::demo() && !empty($meta['ads']) && Settings::get('ads.cmp', 'google') === 'own', 'adsClient' => Settings::get('ads.cmp', 'google') === 'own' ? Ads::client() : ''],

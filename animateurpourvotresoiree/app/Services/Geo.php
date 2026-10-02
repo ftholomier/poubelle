@@ -12,7 +12,30 @@ use App\Core\Str;
  */
 final class Geo
 {
+    /** Fond de carte par défaut : OpenStreetMap, gratuit et sans clé. */
+    public const TILES = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+    public const TILES_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
     private const DIR = APP_PATH . '/data/geo';
+
+    /**
+     * Fond de carte utilisé par le site (MAP_TILE_URL, OpenStreetMap si vide). Les fonds CARTO exigent
+     * désormais une clé : l'ancien réglage par défaut, sans clé, est remplacé par OpenStreetMap.
+     * @return array{tiles:string, attribution:string}
+     */
+    public static function tiles(): array
+    {
+        $url = trim((string) \App\Core\Env::get('MAP_TILE_URL', ''));
+        $attribution = trim((string) \App\Core\Env::get('MAP_TILE_ATTRIBUTION', ''));
+        if ($url === '' || self::keylessCarto($url)) {
+            return ['tiles' => self::TILES, 'attribution' => self::TILES_ATTRIBUTION];
+        }
+        return ['tiles' => $url, 'attribution' => $attribution !== '' ? $attribution : self::TILES_ATTRIBUTION];
+    }
+
+    public static function keylessCarto(string $url): bool
+    {
+        return str_contains($url, 'basemaps.cartocdn.com') && !str_contains($url, 'api_key');
+    }
     private static array $files = [];
 
     private static function load(string $rel): array

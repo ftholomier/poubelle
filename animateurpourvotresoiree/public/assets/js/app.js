@@ -384,7 +384,7 @@
       const L = await APVS.loadLeaflet();
       const d = JSON.parse(el.dataset.miniMap);
       const map = L.map(el, { scrollWheelZoom: false, zoomControl: true, attributionControl: true });
-      L.tileLayer(CFG.map.tiles, { attribution: CFG.map.attribution, maxZoom: 18, subdomains: 'abcd' }).addTo(map);
+      L.tileLayer(CFG.map.tiles, { attribution: CFG.map.attribution, maxZoom: 19, subdomains: 'abc' }).addTo(map);
       L.marker([d.lat, d.lng], { icon: APVS.pinIcon(L, d.color || '#ff4f3a', d.letter || '★', true) }).addTo(map);
       if (d.radius) L.circle([d.lat, d.lng], { radius: d.radius * 1000, color: '#1c1233', weight: 2, fillColor: '#ffd23f', fillOpacity: 0.15 }).addTo(map);
       map.setView([d.lat, d.lng], d.zoom || 10);
