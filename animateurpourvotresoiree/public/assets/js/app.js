@@ -451,22 +451,43 @@
     } else run();
   });
 
-  /* ------------------------------------------------------------- consentement */
+  /* ------------------------------------------------------------- consentement
+     Notre bandeau (Google Analytics, Meta Pixel, et la publicité quand le site gère lui-même le consentement) :
+     rien n'est chargé avant le choix, « Tout refuser » est aussi simple que « Tout accepter », chaque finalité
+     peut être choisie à part, le choix est gardé 6 mois puis redemandé, et « Gérer les cookies » (pied de page)
+     permet d'en changer à tout moment. Avec le message de Google (AdSense, recommandé), ce lien rouvre ce message. */
   const consentCfg = CFG.consent || {};
-  const needsConsent = !!(consentCfg.ga4 || consentCfg.pixel || consentCfg.ads);
-  const loadTrackers = (choice) => {
-    if (!choice || !choice.stats) return;
-    if (consentCfg.ga4 && !window.gtag) {
+  const purposes = [];
+  if (consentCfg.ga4) purposes.push({ k: 'stats', l: 'Mesure d\'audience', t: 'la mesure d\'audience', d: 'Google Analytics : pages consultées et parcours de visite, pour améliorer le site.' });
+  if (consentCfg.ads || consentCfg.pixel) {
+    const d = [consentCfg.ads ? 'annonces Google AdSense adaptées à vos centres d\'intérêt, qui financent ce service gratuit' : '', consentCfg.pixel ? 'mesure de nos campagnes sur Facebook et Instagram (Meta)' : ''].filter(Boolean).join(', ');
+    purposes.push({ k: 'ads', l: 'Publicité', t: consentCfg.ads ? 'la publicité, qui finance ce service gratuit' : 'la mesure de nos campagnes publicitaires', d: d.charAt(0).toUpperCase() + d.slice(1) + '.' });
+  }
+  const purposeKeys = purposes.map((p) => p.k).join(',');
+  const CONSENT_DAYS = 182; // 6 mois, durée recommandée par la CNIL
+  const readChoice = () => {
+    const c = store.get('consent', null);
+    if (!c || !c.at || Date.now() - c.at > CONSENT_DAYS * 864e5) return null;
+    // une nouvelle finalité a été ajoutée depuis le choix : on redemande
+    if (c.p !== undefined && purposes.some((p) => !String(c.p).split(',').includes(p.k))) return null;
+    return c;
+  };
+  const gtagConsent = (c) => ({ analytics_storage: c.stats ? 'granted' : 'denied', ad_storage: c.ads ? 'granted' : 'denied', ad_user_data: c.ads ? 'granted' : 'denied', ad_personalization: c.ads ? 'granted' : 'denied' });
+  const applyConsent = (c) => {
+    if (consentCfg.ga4 && c.stats && !window.gtag) {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('consent', 'default', gtagConsent(c));
+      window.gtag('js', new Date());
+      window.gtag('config', consentCfg.ga4, { anonymize_ip: true });
       const s = document.createElement('script');
       s.async = true;
       s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(consentCfg.ga4);
       document.head.appendChild(s);
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function () { window.dataLayer.push(arguments); };
-      window.gtag('js', new Date());
-      window.gtag('config', consentCfg.ga4, { anonymize_ip: true });
+    } else if (window.gtag) {
+      window.gtag('consent', 'update', gtagConsent(c));
     }
-    if (consentCfg.pixel && !window.fbq && choice.ads) {
+    if (consentCfg.pixel && c.ads && !window.fbq) {
       const f = (window.fbq = function () { f.callMethod ? f.callMethod.apply(f, arguments) : f.queue.push(arguments); });
       f.queue = []; f.loaded = true; f.version = '2.0';
       const s = document.createElement('script');
@@ -476,44 +497,83 @@
       window.fbq('init', consentCfg.pixel);
       window.fbq('track', 'PageView');
     }
+    /* Publicité gérée par notre bandeau : chargée seulement avec l'accord du visiteur (sans accord, pas d'annonce) */
+    if (consentCfg.adsHere && consentCfg.adsClient && c.ads && !window.__apvsAds) {
+      window.__apvsAds = true;
+      document.documentElement.classList.add('ads-on');
+      const s = document.createElement('script');
+      s.async = true;
+      s.crossOrigin = 'anonymous';
+      s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(consentCfg.adsClient);
+      s.onload = () => { if (APVS.pushAds) APVS.pushAds(); };
+      document.head.appendChild(s);
+    }
   };
-  /* Publicité avec notre propre bandeau : chargée après le choix (non personnalisée sans accord) */
-  const loadAds = (choice) => {
-    if (!consentCfg.ads || !consentCfg.adsClient || !choice || window.__apvsAds) return;
-    window.__apvsAds = true;
-    window.adsbygoogle = window.adsbygoogle || [];
-    if (!choice.ads) window.adsbygoogle.requestNonPersonalizedAds = 1;
-    const s = document.createElement('script');
-    s.async = true;
-    s.crossOrigin = 'anonymous';
-    s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(consentCfg.adsClient);
-    s.onload = () => { if (APVS.pushAds) APVS.pushAds(); };
-    document.head.appendChild(s);
+  /* Retrait d'un accord : on efface les cookies de mesure et de publicité déjà déposés, puis on recharge la page
+     pour arrêter les scripts concernés. */
+  const purgeCookies = () => {
+    const base = location.hostname.replace(/^www\./, '');
+    document.cookie.split(';').map((x) => x.split('=')[0].trim()).filter((n) => /^(_ga|_gid|_gat|_gcl_|_fbp|_fbc|__gads|__gpi|__eoi)/.test(n)).forEach((n) => {
+      ['', ';domain=' + location.hostname, ';domain=.' + base].forEach((d) => { document.cookie = n + '=;Max-Age=0;path=/' + d; });
+    });
   };
-  const showConsent = () => {
-    if ($('.consent')) return;
+  const saveConsent = (c) => {
+    const prev = readChoice();
+    store.set('consent', { stats: !!c.stats, ads: !!c.ads, p: purposeKeys, at: Date.now() });
+    if (prev && ((prev.stats && !c.stats) || (prev.ads && !c.ads))) {
+      purgeCookies();
+      if (window.gtag || window.fbq || window.__apvsAds) { location.reload(); return; }
+    }
+    applyConsent(c);
+  };
+  const googleChoices = (fallback) => {
+    window.googlefc = window.googlefc || {};
+    window.googlefc.callbackQueue = window.googlefc.callbackQueue || [];
+    let ready = false;
+    window.googlefc.callbackQueue.push({ CONSENT_API_READY: () => { ready = true; window.googlefc.showRevocationMessage(); } });
+    if (fallback) setTimeout(() => { if (!ready) fallback(); }, 2500);
+  };
+  const showConsent = (custom = false) => {
+    const old = $('.consent');
+    if (old) old.remove();
+    const cur = readChoice() || { stats: false, ads: false };
+    const partners = [consentCfg.ga4 || consentCfg.ads ? 'Google' : '', consentCfg.pixel ? 'Meta' : ''].filter(Boolean).join(' et ');
     const box = document.createElement('div');
     box.className = 'consent';
     box.setAttribute('role', 'dialog');
-    box.setAttribute('aria-label', 'Cookies');
-    box.innerHTML = '<p><strong>🍪 Petits cookies ?</strong> Nous utilisons des cookies de mesure d\'audience et de publicité pour financer ce service gratuit. Vous pouvez accepter, refuser ou choisir.</p><div class="row"><button class="btn btn-sm btn-ink" data-c="all">Tout accepter</button><button class="btn btn-sm" data-c="none">Tout refuser</button><button class="btn btn-sm btn-ghost" data-c="stats">Mesure d\'audience seulement</button></div>';
+    box.setAttribute('aria-labelledby', 'consent-title');
+    box.innerHTML = '<p id="consent-title" class="consent-title">🍪 Vos choix de cookies</p>'
+      + '<p>Avec votre accord, nous et nos partenaires (' + esc(partners) + ') utilisons des cookies pour ' + esc(purposes.map((p) => p.t).join(' et '))
+      + '. Vous pouvez tout accepter, tout refuser ou choisir, et changer d\'avis à tout moment via « Gérer les cookies » en bas de page. <a href="' + esc(consentCfg.policy || '/confidentialite/') + '">En savoir plus</a></p>'
+      + '<div class="consent-opts"' + (custom ? '' : ' hidden') + '>' + purposes.map((p) => '<label class="consent-opt"><input type="checkbox" value="' + p.k + '"' + (cur[p.k] ? ' checked' : '') + '><span><strong>' + esc(p.l) + '</strong><small>' + esc(p.d) + '</small></span></label>').join('')
+      + (consentCfg.cmp === 'google' ? '<p class="small">Publicité Google : <button type="button" class="linkish" data-c="google">choix pour les annonces</button></p>' : '')
+      + '<button type="button" class="btn btn-sm btn-ink" data-c="save">Enregistrer mes choix</button></div>'
+      + '<div class="row"><button type="button" class="btn btn-sm btn-ink" data-c="none">Tout refuser</button><button type="button" class="btn btn-sm btn-ink" data-c="all">Tout accepter</button>'
+      + '<button type="button" class="btn btn-sm btn-ghost" data-c="custom"' + (custom ? ' hidden' : '') + '>Personnaliser</button></div>';
     box.addEventListener('click', (e) => {
       const b = e.target.closest('[data-c]');
       if (!b) return;
-      const c = b.dataset.c === 'all' ? { stats: true, ads: true } : b.dataset.c === 'stats' ? { stats: true, ads: false } : { stats: false, ads: false };
-      store.set('consent', { ...c, at: Date.now() });
+      const act = b.dataset.c;
+      if (act === 'custom') { $('.consent-opts', box).hidden = false; b.hidden = true; const i = $('input', box); if (i) i.focus(); return; }
+      if (act === 'google') { googleChoices(); return; }
+      const c = { stats: false, ads: false };
+      purposes.forEach((p) => { c[p.k] = act === 'all' || (act === 'save' && $('input[value="' + p.k + '"]', box).checked); });
       box.remove();
-      loadTrackers(c); loadAds(c);
+      saveConsent(c);
     });
     document.body.appendChild(box);
+    if (custom) { const i = $('input', box) || $('button', box); if (i) i.focus(); }
   };
-  $$('[data-consent-open]').forEach((b) => {
-    if (!needsConsent) { b.classList.add('hidden'); return; }
-    b.addEventListener('click', showConsent);
-  });
-  if (needsConsent) {
-    const c = store.get('consent', null);
-    if (!c) setTimeout(showConsent, 900); else { loadTrackers(c); loadAds(c); }
+  const consentBtns = $$('[data-consent-open]');
+  if (purposes.length) {
+    consentBtns.forEach((b) => b.addEventListener('click', () => showConsent(true)));
+    const c = readChoice();
+    if (!c) setTimeout(() => showConsent(false), 900); else applyConsent(c);
+  } else if (consentCfg.cmp === 'google') {
+    // seul le message de Google (AdSense) recueille le consentement : le lien le rouvre
+    consentBtns.forEach((b) => b.addEventListener('click', () => googleChoices(() => { location.href = consentCfg.policy || '/confidentialite/'; })));
+  } else {
+    consentBtns.forEach((b) => b.classList.add('hidden'));
   }
 
   /* ------------------------------------------------------------- publicité */

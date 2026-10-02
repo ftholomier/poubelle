@@ -171,6 +171,12 @@ retire un jour le modèle choisi, le site bascule tout seul sur le modèle conse
 - Statistiques sans cookie ; Google Analytics, Meta Pixel et publicité personnalisée uniquement après
   consentement ; export et suppression des données par les pros ; conversations de l'assistant
   conservées 6 mois.
+- Cookies (règles CNIL) : rien n'est déposé avant le choix du visiteur. Publicité : message de Google
+  (AdSense › Confidentialité et messages › Réglementations européennes, avec le bouton « Ne pas
+  autoriser »), exigé par Google en Europe ; ou bandeau du site. Le bandeau du site (aussi utilisé pour
+  Analytics et Meta Pixel) propose « Tout accepter », « Tout refuser » (même présentation) et
+  « Personnaliser » ; le choix est gardé 6 mois, et le lien « Gérer les cookies » du pied de page
+  permet d'en changer (cookies effacés en cas de retrait).
 - ⚠️ Ne publiez jamais `config/.env`, `storage/`, les données livrées ni l'export SQL de l'ancien site
   (le `.gitignore` les exclut).
 

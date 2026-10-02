@@ -159,6 +159,7 @@ final class ContentController extends AdminController
                 Store::pages()->delete($id);
                 Cache::forget('footer_pages');
                 Cache::bump();
+                Seo::markSitemapDirty();
                 return $this->done('Page supprimée.', 'pages');
             }
             $title = Sanitizer::line((string) Request::input('title', ''), 160);

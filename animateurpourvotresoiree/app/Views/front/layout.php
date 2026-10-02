@@ -14,18 +14,21 @@ $canonical = $meta['canonical'] ?? Url::abs(Request::path());
 $ogImage = $meta['og_image'] ?: (Settings::get('seo.og_image') ?: '/assets/img/og-default.png');
 $pro = Session::active() ? Auth::pro() : null;
 $aiChat = App\Services\Settings::aiOn('assistant');
+$adsOn = Ads::enabled() && !Ads::demo();
+$cmp = (string) Settings::get('ads.cmp', 'google');
 $config = [
     'csrf' => Session::active() ? App\Core\Csrf::token() : null,
     'map' => App\Services\Geo::tiles(),
     'turnstile' => Settings::get('antispam.turnstile') ? (string) env('TURNSTILE_SITE_KEY', '') : '',
     'vapid' => Settings::get('features.push', true) ? App\Services\Push::publicKey() : '',
-    'consent' => ['ga4' => (string) Settings::get('analytics.ga4', ''), 'pixel' => (string) Settings::get('analytics.meta_pixel', ''), 'ads' => Ads::enabled() && !Ads::demo() && !empty($meta['ads']) && Settings::get('ads.cmp', 'google') === 'own', 'adsClient' => Settings::get('ads.cmp', 'google') === 'own' ? Ads::client() : ''],
+    // cmp : « google » = message de consentement d'AdSense (le lien « Gérer les cookies » le rouvre) ; « own » = notre bandeau gère aussi la publicité
+    'consent' => ['ga4' => (string) Settings::get('analytics.ga4', ''), 'pixel' => (string) Settings::get('analytics.meta_pixel', ''), 'cmp' => $adsOn ? $cmp : '', 'ads' => $adsOn && $cmp === 'own', 'adsHere' => $adsOn && $cmp === 'own' && !empty($meta['ads']), 'adsClient' => $adsOn && $cmp === 'own' ? Ads::client() : '', 'policy' => '/confidentialite/'],
     'chat' => $aiChat ? ['name' => (string) Settings::get('ai.assistant_name', 'Confetti'), 'greeting' => (string) Settings::get('ai.assistant_greeting', '')] : null,
     'pwa' => (bool) Settings::get('features.pwa', true),
     'tick' => App\Core\App::needsTick(),
 ];
 ?><!doctype html>
-<html lang="fr">
+<html lang="fr"<?= $adsOn && $cmp === 'own' ? ' class="ads-own"' : '' ?>>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">

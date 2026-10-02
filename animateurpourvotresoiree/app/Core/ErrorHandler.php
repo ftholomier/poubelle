@@ -48,6 +48,9 @@ final class ErrorHandler
             'line' => $e->getLine(),
             'trace' => array_slice(array_map(static fn ($f) => (isset($f['file']) ? self::short($f['file']) . ':' . ($f['line'] ?? '?') : '') . ' ' . ($f['class'] ?? '') . ($f['type'] ?? '') . ($f['function'] ?? ''), $e->getTrace()), 0, 12),
         ]);
+        if (self::updating($e)) {
+            return; // mise à jour du site en cours : journalisée seulement, l'alerte partira si l'erreur se reproduit ensuite
+        }
         try {
             if (RateLimiter::attempt('err-alert:' . $sig, 1, 3600)) {
                 Notify::admin('error', 'Erreur PHP : ' . mb_substr($e->getMessage(), 0, 120), self::short($e->getFile()) . ':' . $e->getLine(), Url::admin('journal?canal=error'), 'danger');
@@ -74,6 +77,24 @@ final class ErrorHandler
         } catch (\Throwable) {
             echo '<!doctype html><meta charset="utf-8"><title>Erreur</title><p style="font-family:sans-serif;padding:40px">Oups, une erreur est survenue. Réessayez dans un instant.</p>';
         }
+    }
+
+    /**
+     * Erreur dans un fichier du site modifié il y a moins de 5 minutes : très probablement un envoi par FTP en
+     * cours (fichier encore incomplet, ou appelant un fichier pas encore envoyé), donc passagère.
+     */
+    private static function updating(\Throwable $e): bool
+    {
+        $files = [$e->getFile()];
+        foreach (array_slice($e->getTrace(), 0, 12) as $f) {
+            $files[] = (string) ($f['file'] ?? '');
+        }
+        foreach (array_unique($files) as $f) {
+            if ($f !== '' && !str_starts_with($f, STORAGE_PATH . '/') && (int) @filemtime($f) > time() - 300) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static function short(string $file): string

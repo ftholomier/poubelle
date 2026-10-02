@@ -20,9 +20,10 @@ use App\Services\Ads;
   </div>
   <div class="box">
     <h2>Consentement (RGPD)</h2>
-    <?php foreach (['google' => ['Message de confidentialité Google (recommandé)', 'Activez le message RGPD dans AdSense › Confidentialité et messages : bannière certifiée TCF gérée par Google.'], 'npa' => ['Annonces non personnalisées par défaut', 'Le script AdSense diffuse des annonces non personnalisées tant que le consentement est inconnu.'], 'own' => ['Bandeau du site', 'Notre propre bandeau : la publicité est chargée après le choix du visiteur (non personnalisée sans accord).']] as $k => [$l, $d]): ?>
+    <?php foreach (['google' => ['Message de confidentialité Google (recommandé)', 'Exigé par Google pour les visiteurs européens depuis 2024 (message certifié TCF, gratuit). À activer une fois pour toutes dans AdSense › Confidentialité et messages › Réglementations européennes : créez le message pour ce site, cochez le bouton « Ne pas autoriser » (obligatoire en France, CNIL), puis publiez-le. Sans accord, Google peut encore afficher des annonces limitées, sans cookie. Le lien « Gérer les cookies » du pied de page rouvre ce message.'], 'npa' => ['Annonces non personnalisées, sans message', 'Déconseillé : même non personnalisées, les annonces utilisent des cookies (répétition, fraude), ce qui demande l\'accord des visiteurs européens.'], 'own' => ['Bandeau du site', 'Notre bandeau « Tout accepter / Tout refuser / Personnaliser » : la publicité n\'est chargée qu\'avec l\'accord du visiteur (sans accord, aucune annonce). Revenus moindres qu\'avec le message Google.']] as $k => [$l, $d]): ?>
       <label class="check"><input type="radio" name="cmp" value="<?= $k ?>"<?= ($ads['cmp'] ?? 'google') === $k ? ' checked' : '' ?>> <span><strong><?= e($l) ?></strong><br><span class="small muted"><?= e($d) ?></span></span></label>
     <?php endforeach; ?>
+    <p class="small muted mt-1">Pour vérifier que le message Google s'affiche, ouvrez <a href="/?fc=alwaysshow&amp;fctype=gdpr" target="_blank" rel="noopener">le site avec ?fc=alwaysshow&amp;fctype=gdpr</a> à la fin de l'adresse : la fenêtre « Autoriser / Ne pas autoriser » doit apparaître.</p>
   </div>
   <div class="box">
     <h2>Emplacements</h2>
@@ -44,7 +45,7 @@ use App\Services\Ads;
   </div>
   <div class="box">
     <h2>Mesure d'audience et codes de suivi</h2>
-    <p class="small muted">Le site mesure déjà son audience sans cookie. Google Analytics et Meta Pixel ne sont chargés qu'après consentement du visiteur.</p>
+    <p class="small muted">Le site mesure déjà son audience sans cookie. Google Analytics et Meta Pixel ne sont chargés qu'après consentement du visiteur (le bandeau « Tout accepter / Tout refuser / Personnaliser » s'affiche alors automatiquement). N'ajoutez pas de traceur dans les codes HTML ci-dessous : ils se chargent sans demander l'accord.</p>
     <div class="form-grid">
       <div class="field"><label for="an-ga">Google Analytics 4 (G-…)</label><input id="an-ga" type="text" name="ga4" value="<?= e((string) ($analytics['ga4'] ?? '')) ?>"></div>
       <div class="field"><label for="an-px">Meta Pixel (identifiant)</label><input id="an-px" type="text" name="meta_pixel" value="<?= e((string) ($analytics['meta_pixel'] ?? '')) ?>"></div>

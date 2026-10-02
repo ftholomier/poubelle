@@ -311,22 +311,40 @@ final class Seo
         return $x . '</urlset>';
     }
 
-    /** Régénère les sitemaps en cache (cron, si des fiches ont changé). */
+    /**
+     * Régénère les sitemaps en cache quand le contenu publié a changé (fiches, articles, pages), quand ils ont été
+     * marqués à refaire ou qu'ils ont plus d'un jour. Appelé par le cron et à chaque lecture d'un sitemap : des
+     * sitemaps générés avant l'installation des données (site encore vide) sont donc refaits d'eux-mêmes.
+     */
     public static function buildSitemaps(bool $force = false): bool
     {
         $flag = STORAGE_PATH . '/cache/sitemap.dirty';
         $dir = STORAGE_PATH . '/cache/sitemaps';
-        // plus anciens que l'installation des données livrées (générés quand le site était encore vide) : à refaire
-        $installed = (int) @filemtime(STORAGE_PATH . '/install/termine.json');
-        $stale = !is_file($dir . '/pros.xml') || ($installed > 0 && (int) @filemtime($dir . '/pros.xml') < $installed);
-        if (!$force && !is_file($flag) && is_dir($dir) && !$stale) {
+        $sig = self::sitemapSignature();
+        $meta = Fs::readJson($dir . '/meta.json', []);
+        $fresh = is_array($meta) && ($meta['sig'] ?? '') === $sig && (int) ($meta['at'] ?? 0) > time() - 86400 && is_file($dir . '/pros.xml');
+        if (!$force && $fresh && !is_file($flag)) {
             return false;
         }
         Fs::ensureDir($dir);
         foreach (self::sitemaps() as $name => $urls) {
             Fs::writeAtomic($dir . '/' . $name . '.xml', self::sitemapXml($urls));
         }
+        Fs::writeJson($dir . '/meta.json', ['at' => time(), 'sig' => $sig]);
         @unlink($flag);
         return true;
+    }
+
+    /** Empreinte légère du contenu publié (nombre et dernière mise à jour des fiches, des articles et des pages). */
+    private static function sitemapSignature(): string
+    {
+        $pros = Pros::publicIndex();
+        $last = '';
+        foreach ($pros as $p) {
+            $last = max($last, (string) ($p['updated'] ?? ''));
+        }
+        $blog = Blog::published(1);
+        $pages = Store::pages()->meta();
+        return sha1(implode('|', [count($pros), $last, $blog['total'], (string) ($blog['items'][0]['published'] ?? ''), (int) ($pages['count'] ?? 0), (int) ($pages['updated'] ?? 0)]));
     }
 }
