@@ -68,7 +68,7 @@ final class App
         $cacheable = in_array($method, ['GET', 'HEAD'], true) && !$isAdmin && Env::bool('PAGE_CACHE', true)
             && !isset($_COOKIE['apvs_sid']) && !str_starts_with($path, '/api/') && !str_starts_with($path, '/espace-pro')
             && !self::isLocalDev() && $plainQuery && ($canonicalHost === '' || Request::host() === $canonicalHost || self::isLocal());
-        $cacheKey = 'page:' . Request::host() . $path . ($plainQuery && $_GET !== [] ? '?page=' . $_GET['page'] : '');
+        $cacheKey = 'page:' . Request::host() . $path . ($plainQuery && $_GET !== [] ? '?page=' . $_GET['page'] : '') . '|' . self::codeStamp();
         if ($cacheable && ($hit = Cache::pageGet($cacheKey)) !== null) {
             Security::setNonce($hit['nonce']);
             $res = new Response($hit['body'], 200, $hit['headers'] + ['X-Cache' => 'HIT']);
@@ -160,6 +160,19 @@ final class App
     }
 
     /** Travaux après réponse : cron « du pauvre » si aucune tâche planifiée n'est configurée. */
+    /**
+     * Empreinte du code et de la configuration : un nouvel envoi par FTP (ou une modification de la
+     * configuration) rend aussitôt obsolètes les pages gardées en cache.
+     */
+    private static function codeStamp(): string
+    {
+        $t = 0;
+        foreach ([APP_PATH . '/routes.php', APP_PATH . '/Views/front/layout.php', PUBLIC_PATH . '/assets/js/app.js', PUBLIC_PATH . '/assets/js/explorer.js', PUBLIC_PATH . '/assets/css/app.css', CONFIG_PATH . '/.env'] as $f) {
+            $t = max($t, (int) @filemtime($f));
+        }
+        return (string) $t;
+    }
+
     /**
      * Vrai quand PHP ne peut pas terminer la réponse avant les tâches de fond (PHP en module Apache, par
      * exemple) : les navigateurs envoient alors un petit signal pour déclencher les tâches planifiées.
