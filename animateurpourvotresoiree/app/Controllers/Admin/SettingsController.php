@@ -6,7 +6,6 @@ namespace App\Controllers\Admin;
 use App\Core\Cache;
 use App\Core\Crypto;
 use App\Core\Env;
-use App\Core\Logger;
 use App\Core\Mailer;
 use App\Core\Request;
 use App\Core\Response;
@@ -53,8 +52,8 @@ final class SettingsController extends AdminController
             ],
             'Intelligence artificielle' => [
                 'GEMINI_API_KEY' => ['Clé API Google Gemini', 'secret', 'À créer sur aistudio.google.com (Get API key)'],
-                'GEMINI_MODEL' => ['Modèle principal', 'text', 'ex. gemini-2.5-flash'],
-                'GEMINI_MODEL_FAST' => ['Modèle rapide', 'text', 'ex. gemini-2.5-flash-lite (modération, classement)'],
+                'GEMINI_MODEL' => ['Modèle principal', 'ai-model', 'Assistant des visiteurs, rédaction'],
+                'GEMINI_MODEL_FAST' => ['Modèle rapide', 'ai-model', 'Modération, classement (plus rapide et moins cher)'],
             ],
             'Anti-spam' => [
                 'TURNSTILE_SITE_KEY' => ['Cloudflare Turnstile — clé du site', 'text', 'Facultatif : captcha invisible en complément'],
@@ -86,6 +85,14 @@ final class SettingsController extends AdminController
         ];
     }
 
+    /** Liste des modèles Gemini disponibles pour la clé saisie (ou enregistrée), pour les listes déroulantes. */
+    public function aiModels(): Response
+    {
+        $key = trim((string) Request::input('key', ''));
+        $r = Ai::listModels($key !== '' ? $key : null, Request::bool('refresh'));
+        return Response::json($r, $r['ok'] ? 200 : 422);
+    }
+
     public function env(): Response
     {
         $schema = self::envSchema();
@@ -99,10 +106,6 @@ final class SettingsController extends AdminController
             if ($action === 'test-ai') {
                 $r = Ai::generate([['role' => 'user', 'parts' => [['text' => 'Réponds simplement « OK » suivi du nom de ton modèle.']]]], ['role' => 'test', 'max_tokens' => 50, 'timeout' => 20]);
                 return $this->done($r['ok'] ? 'Gemini répond : ' . Str::limit($r['text'], 120) : 'Échec : ' . $r['error'], 'reglages', $r['ok'] ? 'success' : 'error');
-            }
-            if (!Crypto::verifyPassword((string) Request::raw('confirm_password', ''), (string) $me['password_hash'])) {
-                Logger::security('Modification du .env refusée (mot de passe incorrect)', ['admin' => $me['email']]);
-                return $this->done('Mot de passe incorrect : la configuration n\'a pas été modifiée.', 'reglages', 'error');
             }
             if ($action === 'rotate-cron') {
                 Env::write(['CRON_TOKEN' => Crypto::token(24)]);
@@ -136,6 +139,7 @@ final class SettingsController extends AdminController
                         'int' => $val === '' || ctype_digit($val),
                         'slug' => (bool) preg_match('/^[a-z0-9][a-z0-9\-]{2,39}$/', $val) && !in_array($val, ['api', 'espace-pro', 'blog', 'assets', 'media', 'recherche', 'devis', 'connexion', 'animateurs'], true),
                         'select' => array_key_exists($val, $keys[$key][3] ?? []),
+                        'ai-model' => $val === '' || (bool) preg_match('/^[a-z0-9][a-z0-9.\-]{1,80}$/', $val),
                         default => mb_strlen($val) <= 500,
                     };
                     if (!$ok) {

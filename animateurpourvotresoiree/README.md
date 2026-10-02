@@ -121,7 +121,7 @@ administrateur, modérateur, rédacteur. Recherche globale avec <kbd>Ctrl</kbd>+
 | Contenu | Blog (avec brouillons rédigés par l'IA), pages, page d'accueil, métiers, occasions, envoi d'images |
 | Référencement | Gabarits de titres et descriptions (mots-clés + localisation), textes des pages locales (manuels ou IA), redirections et pages 404, robots.txt |
 | Publicité | Identifiant AdSense, emplacements et formats, ads.txt, consentement (message Google ou bandeau du site), Analytics, codes de suivi |
-| Réglages | Configuration `.env` complète (secrets masqués, mot de passe requis, sauvegarde de l'ancien fichier), fonctionnement, alertes, anti-spam, IA |
+| Réglages | Configuration `.env` complète (secrets masqués, sauvegarde de l'ancien fichier, modèles Gemini proposés en direct), fonctionnement, alertes, anti-spam, IA |
 | Système | Sauvegardes (création, téléchargement, restauration), caches, index, import, journaux, archives, utilisateurs, mémo |
 
 ### Espace pro
@@ -135,7 +135,9 @@ vérifié »), statistiques, mode congés, notifications push, export de ses don
 
 Désactivable globalement ou rôle par rôle, avec un plafond d'appels quotidien : assistant des visiteurs
 (il cherche dans l'annuaire réel et prépare la demande de devis), modération anti-spam, rédaction SEO,
-classement des pros. Clé à renseigner dans Configuration (`GEMINI_API_KEY`).
+classement des pros. Clé à renseigner dans Configuration (`GEMINI_API_KEY`) : la liste des modèles
+disponibles sur votre compte Google s'affiche alors, avec les modèles conseillés présélectionnés. Si Google
+retire un jour le modèle choisi, le site bascule tout seul sur le modèle conseillé et vous prévient.
 
 ## Référencement
 

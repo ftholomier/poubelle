@@ -33,6 +33,102 @@ final class Ai
         return $m !== '' ? $m : (string) Env::get('GEMINI_MODEL', 'gemini-2.5-flash');
     }
 
+    /**
+     * Modèles Gemini disponibles pour une clé (la clé enregistrée par défaut), lus en direct chez Google
+     * puis gardés en cache 6 heures : seuls les modèles qui produisent du texte sont proposés.
+     * @return array{ok:bool, models:array<int,array{id:string,label:string,preview:bool}>, recommended:array{main:?string,fast:?string}, error:?string}
+     */
+    public static function listModels(?string $key = null, bool $refresh = false): array
+    {
+        $key = trim($key ?? (string) Env::get('GEMINI_API_KEY', ''));
+        if ($key === '') {
+            return ['ok' => false, 'models' => [], 'recommended' => ['main' => null, 'fast' => null], 'error' => 'Aucune clé API Gemini.'];
+        }
+        $cacheKey = 'gemini-models-' . substr(hash('sha256', $key), 0, 20);
+        if ($refresh) {
+            \App\Core\Cache::forget($cacheKey);
+        }
+        $cached = \App\Core\Cache::get($cacheKey);
+        if (is_array($cached)) {
+            return $cached;
+        }
+        $data = ['models' => []];
+        $token = '';
+        for ($page = 0; $page < 5; $page++) {
+            $res = Http::get('https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000' . ($token !== '' ? '&pageToken=' . rawurlencode($token) : ''), ['x-goog-api-key' => $key], 15);
+            $body = json_decode($res['body'], true) ?: [];
+            if ($res['status'] !== 200) {
+                $reason = (string) ($body['error']['details'][0]['reason'] ?? $body['error']['status'] ?? '');
+                $error = match (true) {
+                    $reason === 'API_KEY_INVALID' => 'Clé API invalide : vérifiez-la sur aistudio.google.com.',
+                    $res['status'] === 403 => 'Clé refusée par Google (API Gemini non activée pour ce projet ?).',
+                    $res['status'] === 429 => 'Trop de requêtes chez Google : réessayez dans une minute.',
+                    $res['status'] === 0 => 'Google ne répond pas : ' . ($res['error'] ?? 'connexion impossible') . '.',
+                    default => 'Erreur Google (' . $res['status'] . ') : ' . (string) ($body['error']['message'] ?? ''),
+                };
+                return ['ok' => false, 'models' => [], 'recommended' => ['main' => null, 'fast' => null], 'error' => $error];
+            }
+            $data['models'] = array_merge($data['models'], (array) ($body['models'] ?? []));
+            $token = (string) ($body['nextPageToken'] ?? '');
+            if ($token === '') {
+                break;
+            }
+        }
+        $out = ['ok' => true, 'error' => null] + self::parseModels($data);
+        \App\Core\Cache::set($cacheKey, $out, 21600);
+        return $out;
+    }
+
+    /**
+     * Garde les modèles « texte » utilisables par le site (pas d'images, de voix, d'embeddings…), les trie
+     * (versions stables récentes d'abord) et désigne les modèles conseillés : Flash et Flash-Lite stables.
+     * @return array{models:array<int,array{id:string,label:string,preview:bool}>, recommended:array{main:?string,fast:?string}}
+     */
+    public static function parseModels(array $data): array
+    {
+        $list = [];
+        foreach ((array) ($data['models'] ?? []) as $m) {
+            $id = (string) preg_replace('#^models/#', '', (string) ($m['name'] ?? ''));
+            if (!preg_match('/^gemini-[a-z0-9.\-]+$/', $id) || !in_array('generateContent', (array) ($m['supportedGenerationMethods'] ?? []), true)
+                || preg_match('/(embedding|tts|audio|image|imagen|veo|live|robotics|computer-use|aqa)/', $id)) {
+                continue;
+            }
+            $latest = str_ends_with($id, '-latest');
+            $list[$id] = [
+                'id' => $id,
+                'label' => (string) ($m['displayName'] ?? $id),
+                'preview' => (bool) preg_match('/(preview|exp)/', $id),
+                'latest' => $latest,
+                'version' => $latest ? 99.0 : (preg_match('/^gemini-(\d+(?:\.\d+)?)/', $id, $v) ? (float) $v[1] : 0.0),
+                'tier' => str_contains($id, 'lite') ? 'fast' : (str_contains($id, 'flash') ? 'main' : 'other'),
+            ];
+        }
+        uasort($list, static fn (array $a, array $b): int => [$a['preview'], -$a['version'], $a['tier'] === 'main' ? 0 : ($a['tier'] === 'fast' ? 1 : 2), $a['id']]
+            <=> [$b['preview'], -$b['version'], $b['tier'] === 'main' ? 0 : ($b['tier'] === 'fast' ? 1 : 2), $b['id']]);
+        $pick = static function (string $tier) use ($list): ?string {
+            foreach ([false, true] as $preview) {
+                foreach ($list as $m) {
+                    if ($m['tier'] === $tier && !$m['latest'] && $m['preview'] === $preview && !preg_match('/-\d{3}$/', $m['id'])) {
+                        return $m['id'];
+                    }
+                }
+            }
+            return null;
+        };
+        $main = $pick('main') ?? (array_key_first($list) ?: null);
+        return [
+            'models' => array_values(array_map(static fn (array $m): array => ['id' => $m['id'], 'label' => $m['label'], 'preview' => $m['preview']], $list)),
+            'recommended' => ['main' => $main, 'fast' => $pick('fast') ?? $main],
+        ];
+    }
+
+    /** Modèle conseillé (liste en cache), pour remplacer un modèle retiré par Google. */
+    public static function recommended(bool $fast = false): ?string
+    {
+        $r = self::listModels();
+        return $r['ok'] ? $r['recommended'][$fast ? 'fast' : 'main'] : null;
+    }
+
     /** Quota quotidien (protection du budget). */
     private static function usagePath(): string
     {
@@ -105,6 +201,16 @@ final class Ai
             $err = (string) ($data['error']['message'] ?? $res['error'] ?? ('HTTP ' . $res['status']));
             self::count($role, [], true);
             Logger::log('ai', 'Erreur Gemini', ['role' => $role, 'model' => $model, 'status' => $res['status'], 'error' => $err, 'ms' => $ms], 'error');
+            // modèle retiré par Google : on bascule sur le modèle conseillé du moment et on prévient l'équipe
+            if ($res['status'] === 404 && !isset($opts['model']) && empty($opts['_retry'])) {
+                $alt = self::recommended((bool) ($opts['fast'] ?? false));
+                if ($alt !== null && $alt !== $model) {
+                    if (\App\Core\RateLimiter::attempt('ai-model-missing', 1, 86400)) {
+                        Notify::admin('ai', 'Modèle Gemini introuvable', 'Le modèle ' . $model . ' n\'est plus proposé par Google : ' . $alt . ' est utilisé à la place. Choisissez un modèle dans Configuration.', Url::admin('reglages'), 'warning');
+                    }
+                    return self::generate($contents, ['model' => $alt, '_retry' => true] + $opts);
+                }
+            }
             return ['ok' => false, 'text' => '', 'calls' => [], 'raw' => $data, 'error' => $err];
         }
         $parts = $data['candidates'][0]['content']['parts'] ?? [];

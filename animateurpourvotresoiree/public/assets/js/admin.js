@@ -278,6 +278,53 @@
     window.addEventListener('beforeunload', (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
   });
 
+  /* Configuration : modèles Gemini proposés en direct dès que la clé API est renseignée */
+  const modelSelects = $$('select[data-ai-models]');
+  if (modelSelects.length) {
+    const keyInput = $('input[name="env[GEMINI_API_KEY]"]');
+    const status = $('[data-ai-models-status]');
+    const option = (value, label) => { const o = document.createElement('option'); o.value = value; o.textContent = label; return o; };
+    const fill = (sel, d) => {
+      const current = sel.dataset.current || '';
+      const rec = (d.recommended || {})[sel.dataset.aiModels] || '';
+      const ids = d.models.map((m) => m.id);
+      sel.innerHTML = '';
+      if (current && !ids.includes(current)) sel.appendChild(option(current, current + ' (actuel, plus proposé par Google)'));
+      d.models.forEach((m) => sel.appendChild(option(m.id, m.label + ' — ' + m.id + (m.preview ? ' (préversion)' : '') + (m.id === rec ? '  ★ conseillé' : ''))));
+      const next = current && ids.includes(current) ? current : (rec || current);
+      sel.value = next;
+      if (next !== current) sel.dispatchEvent(new Event('input', { bubbles: true })); // à enregistrer
+    };
+    let req = 0;
+    const load = async (refresh) => {
+      const key = keyInput ? keyInput.value.trim() : '';
+      if (!key && !(keyInput && keyInput.dataset.defined === '1')) {
+        if (status) status.textContent = 'La liste des modèles s\'affiche dès que la clé API est renseignée.';
+        return;
+      }
+      const n = ++req;
+      if (status) status.textContent = 'Chargement des modèles disponibles sur votre compte Google…';
+      try {
+        const d = await APVS.post(ADMIN + 'reglages/modeles-ia', { key, refresh: refresh ? 1 : 0 });
+        if (n !== req) return;
+        modelSelects.forEach((sel) => fill(sel, d));
+        if (status) {
+          status.textContent = d.models.length + ' modèles disponibles sur votre compte (★ = conseillé). ';
+          const again = document.createElement('button');
+          again.type = 'button';
+          again.className = 'link small';
+          again.textContent = 'Actualiser la liste';
+          again.addEventListener('click', () => load(true));
+          status.appendChild(again);
+        }
+      } catch (e) {
+        if (n === req && status) status.textContent = 'Liste des modèles indisponible : ' + e.message;
+      }
+    };
+    if (keyInput) keyInput.addEventListener('change', () => load(false));
+    load(false);
+  }
+
   /* Aperçu d'email dans un cadre isolé */
   $$('iframe[data-srcdoc-from]').forEach((fr) => {
     const src = $(fr.dataset.srcdocFrom);

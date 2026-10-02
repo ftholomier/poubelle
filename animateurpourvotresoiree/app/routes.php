@@ -244,6 +244,7 @@ $router->group($admin, ['admin', 'csrf'], static function ($r) use ($perm) {
     $r->any('/seo/robots', [Admin\SeoController::class, 'robots'], [$perm('seo')]);
 
     $r->any('/reglages', [Admin\SettingsController::class, 'env'], [$perm('env')]);
+    $r->post('/reglages/modeles-ia', [Admin\SettingsController::class, 'aiModels'], [$perm('env')]);
     $r->any('/reglages/fonctionnement', [Admin\SettingsController::class, 'features'], [$perm('settings')]);
     $r->any('/reglages/notifications', [Admin\SettingsController::class, 'notifications'], [$perm('settings')]);
     $r->any('/publicite', [Admin\SettingsController::class, 'ads'], [$perm('settings')]);
