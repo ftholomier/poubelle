@@ -331,6 +331,8 @@ h1, h2, h3, h4 { margin: 0; line-height: 1.05; letter-spacing: -0.02em; }
 
 /* Repères de carte */
 .map-root { width: 100%; height: 100%; font-family: var(--sans); background: #efe6d6; }
+/* les calques Leaflet (z-index 400 à 1000) restent dans la carte : jamais par-dessus l'en-tête collant */
+.leaflet-container { isolation: isolate; }
 .map-root .leaflet-tile-pane { filter: saturate(.75) sepia(.12) brightness(1.02); }
 .map-root .leaflet-container { font-family: var(--sans); }
 .apvs-pin { width: 32px; height: 32px; border-radius: 50% 50% 50% 4px; transform: rotate(-45deg); background: var(--c, var(--coral)); border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); display: grid; place-items: center; transition: transform .15s; }

@@ -85,6 +85,18 @@
     if (m && m._icon) m._icon.querySelector('.apvs-pin')?.classList.add('is-focus');
   };
 
+  // Partie de la carte cachée sous l'en-tête collant ou sous le bas de l'écran (page défilée) :
+  // la bulle s'ouvre toujours dans la zone réellement visible.
+  const keepPopupVisible = (m) => {
+    const popup = m.getPopup();
+    if (!popup) return;
+    const header = document.querySelector('.site-header');
+    const r = mapEl.getBoundingClientRect();
+    const top = Math.max(0, Math.round((header ? header.getBoundingClientRect().bottom : 0) - r.top));
+    const bottom = Math.max(0, Math.round(r.bottom - window.innerHeight));
+    popup.options.autoPanPaddingTopLeft = L.point(30, 30 + top);
+    popup.options.autoPanPaddingBottomRight = L.point(30, 30 + bottom);
+  };
   const initMap = async () => {
     if (map || !mapEl) return;
     L = await APVS.loadLeaflet();
@@ -104,7 +116,8 @@
       if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) continue;
       const m = L.marker([p.lat, p.lng], { icon: APVS.pinIcon(L, p.color, (p.name || '?').charAt(0).toUpperCase(), false), title: p.name, riseOnHover: true })
         .bindPopup(popupHtml(p), { maxWidth: 260, autoPanPadding: [30, 30] });
-      m.on('mouseover', () => highlightCard(p.id, true));
+      m.on('mouseover', () => { highlightCard(p.id, true); keepPopupVisible(m); });
+      m.on('mousedown', () => keepPopupVisible(m));
       m.on('mouseout', () => highlightCard(p.id, false));
       m.on('popupopen', () => setPinFocus(m));
       markers.set(p.id, m);
@@ -129,6 +142,7 @@
     if (!map) return;
     const m = markers.get(id);
     if (!m) return;
+    keepPopupVisible(m);
     if (cluster) {
       if (!cluster.hasLayer(m)) return; // repère masqué par le filtre
       cluster.zoomToShowLayer(m, () => { m.openPopup(); setPinFocus(m); });
