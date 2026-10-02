@@ -89,7 +89,12 @@ Simple, ergonomique, intuitif **et** complet, pensé pour des historiens non tec
 - Écrans : tableau de bord, fiches, médiathèque, rubriques/menus/ordre des mosaïques,
   accueil, frise, quiz, maillots, partenaires, cartes, contributions, messages, dons,
   assistant IA, qualité, utilisateurs, réglages.
-- Rôles : administrateur, historien, modérateur.
+- **Deux niveaux d'accès** (remplace la proposition à 3 rôles) :
+  - **Administrateur** : tout, y compris utilisateurs, réglages (clés API, paiements,
+    e-mail), dons, suppression définitive, restauration de versions, rubriques et menus.
+  - **Utilisateur** : contenus (fiches, médias, frise, quiz, maillots, cartes, partenaires),
+    contributions des visiteurs et messages ; corbeille seulement (pas de suppression
+    définitive) ; pas d'accès aux réglages, aux utilisateurs ni aux données des donateurs.
 - Utilisable sur tablette.
 
 ## Rubrique « INTERACTIF » (validée)
@@ -119,4 +124,4 @@ méga-menu en 3 colonnes :
   création des comptes avant la mise en ligne.
 - **Mentions légales / confidentialité** : base rédigée par Claude, à faire relire.
 - **Utilisateurs du back-office** : plus de 10 → invitations par e-mail,
-  suivi d'activité par personne, rôles.
+  suivi d'activité par personne, deux niveaux (administrateur / utilisateur).
