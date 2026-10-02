@@ -36,7 +36,7 @@ $moreUrl = ($self ?? '/recherche/') . '?' . http_build_query(array_merge(array_d
 
 <div class="explore<?= !empty($mapFirst) ? '' : ' map-hidden' ?>" data-explore
      data-state="<?= ej($state) ?>" data-filtered="<?= $filtered ? '1' : '0' ?>" data-total="<?= (int) $total ?>"
-     data-ids="<?= ej($filtered ? $result['ids'] : []) ?>" data-base="<?= e($self ?? '/recherche/') ?>" data-search-page="<?= !empty($search) ? '1' : '0' ?>">
+     data-ids="<?= ej($filtered ? $result['ids'] : []) ?>" data-focus="<?= ej($filtered ? ($result['focus'] ?? null) : null) ?>" data-center="<?= ej($filtered ? ($result['center'] ?? null) : null) ?>" data-base="<?= e($self ?? '/recherche/') ?>" data-search-page="<?= !empty($search) ? '1' : '0' ?>">
   <div class="explore-list">
     <form class="explore-search" action="/recherche/" method="get" role="search" data-explore-form>
       <label class="search-field"><span>Quoi ?</span><input type="search" name="q" value="<?= e($state['q'] ?? '') ?>" placeholder="Nom, style, besoin…" autocomplete="off" aria-label="Rechercher un pro, un style, un besoin"></label>

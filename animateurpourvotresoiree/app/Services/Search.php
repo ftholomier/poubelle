@@ -30,7 +30,7 @@ final class Search
 
     /**
      * @param array{q?:string,cat?:string,occasion?:string,region?:string,dep?:string,insee?:string,lat?:float,lng?:float,radius?:int,photo?:bool,reviews?:bool,sort?:string,page?:int,per?:int,ids?:int[]} $c
-     * @return array{total:int, ids:int[], items:array<int,array>, page:int, pages:int, center:?array}
+     * @return array{total:int, ids:int[], items:array<int,array>, page:int, pages:int, center:?array, focus:?int[]}
      */
     public static function run(array $c): array
     {
@@ -166,6 +166,8 @@ final class Search
             'page' => $page,
             'pages' => $pages,
             'center' => $lat !== null ? ['lat' => $lat, 'lng' => $lng] : null,
+            // lieu demandé : pros situés sur place (la carte se cadre sur eux, pas sur ceux qui viennent de loin)
+            'focus' => ($city || $dep !== '' || $region || $lat !== null) ? array_values(array_column(array_filter($rows, static fn (array $r): bool => $r['local'] === 3), 'id')) : null,
         ];
     }
 

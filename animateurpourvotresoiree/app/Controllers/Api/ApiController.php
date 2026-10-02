@@ -67,6 +67,7 @@ final class ApiController extends Controller
             'html' => $html,
             'count' => count($res['items']),
             'center' => $res['center'],
+            'focus' => $res['focus'],
         ]);
     }
 

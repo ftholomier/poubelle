@@ -31,6 +31,8 @@
   let total = Number(root.dataset.total || 0);
   let loaded = $$('.result-card', list).length;
   let visibleIds = root.dataset.filtered === '1' ? JSON.parse(root.dataset.ids || '[]') : null;
+  let focusIds = root.dataset.filtered === '1' ? JSON.parse(root.dataset.focus || 'null') : null; // pros situés sur le lieu demandé
+  let center = root.dataset.filtered === '1' ? JSON.parse(root.dataset.center || 'null') : null; // ville ou position demandée
   let reqId = 0;
 
   /* --------------------------------------------------------------- carte */
@@ -42,13 +44,25 @@
 
   const popupHtml = (p) => `<div class="map-pop" style="--c:${esc(p.color)}">${p.img ? `<img src="${esc(p.img)}" alt="" loading="lazy">` : '<div class="ph"></div>'}<div class="in"><b>${esc(p.name)}</b><small>${esc(p.sub)}</small><a class="go" href="${esc(p.url)}?src=carte">Voir la fiche</a></div></div>`;
 
+  // France métropolitaine (Corse comprise) : vue par défaut de la carte
+  const FRANCE = [[41.3, -5.3], [51.2, 9.7]];
+  const inFrance = (ll) => ll.lat >= 41.3 && ll.lat <= 51.2 && ll.lng >= -5.3 && ll.lng <= 9.7;
   const fit = (animate) => {
     if (!map) return;
-    const pts = [];
-    markers.forEach((m, id) => { if (!visibleIds || visibleIds.includes(id)) pts.push(m.getLatLng()); });
-    if (state.lat && state.lng && (!visibleIds || visibleIds.length === 0)) { map.setView([state.lat, state.lng], 10); return; }
+    if (!visibleIds) { map.fitBounds(FRANCE, { padding: [10, 10], animate: !!animate }); return; } // sans filtre : la France
+    // lieu demandé (département, région, ville, autour de moi) : on cadre sur les pros situés sur place ;
+    // s'il n'y en a aucun, on montre la ville ou la position demandée
+    const local = focusIds && focusIds.length ? focusIds : null;
+    if (!local && center) { map.setView([center.lat, center.lng], 10, { animate: !!animate }); return; }
+    const set = new Set(local || visibleIds);
+    let pts = [];
+    markers.forEach((m, id) => { if (set.has(id)) pts.push(m.getLatLng()); });
+    // les résultats d'outre-mer (ou des coordonnées aberrantes) ne doivent pas faire dézoomer sur le globe :
+    // s'il y a des résultats en métropole, on cadre sur eux ; sinon (recherche à La Réunion…) sur les autres
+    const metro = pts.filter(inFrance);
+    if (metro.length) pts = metro;
     if (pts.length) map.fitBounds(L.latLngBounds(pts), { padding: [40, 40], maxZoom: 12, animate: !!animate });
-    else map.setView([46.6, 2.4], 6);
+    else map.fitBounds(FRANCE, { padding: [10, 10], animate: !!animate });
   };
 
   const applyVisible = () => {
@@ -214,6 +228,8 @@
       total = d.total;
       loaded = d.count;
       visibleIds = filtered() ? d.ids : null;
+      focusIds = filtered() ? d.focus : null;
+      center = filtered() ? d.center : null;
       setCount();
       APVS.paintFavs && APVS.paintFavs();
       APVS.pushAds && APVS.pushAds();
