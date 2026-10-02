@@ -8,6 +8,7 @@
  *  html    HTML rendu de chaque article et page (contenu BeTheme + tableaux wpDataTables)
  *  orders  ordre d'affichage des articles dans chaque mosaïque de catégorie
  *  media   fichiers originaux des médias (sans les miniatures WordPress)
+ *  rest    métadonnées complètes par l'API REST (accessible avec le cookie d'accès)
  */
 
 declare(strict_types=1);
@@ -23,6 +24,7 @@ foreach ($steps as $s) {
         'html' => step_html(),
         'orders' => step_orders(),
         'media' => step_media(),
+        'rest' => step_rest(),
         default => throw new InvalidArgumentException("Étape inconnue : $s"),
     };
 }
@@ -133,4 +135,18 @@ function step_media(): void
     }
     write_json(IMPORT_DIR . '/media-errors.json', $errors);
     out(sprintf('Médias : %d OK, %d erreurs', $done, count($errors)));
+}
+
+function step_rest(): void
+{
+    login(); // l'extension de mot de passe protège aussi l'API REST
+    $dir = IMPORT_DIR . '/rest-full';
+    foreach (['categories' => [], 'tags' => [], 'users' => [], 'pages' => [], 'posts' => [], 'media' => []] as $route => $q) {
+        $file = "$dir/$route.json";
+        if (is_file($file)) {
+            out("$route déjà présent, ignoré");
+            continue;
+        }
+        write_json($file, rest_all($route, $q));
+    }
 }
