@@ -105,3 +105,18 @@ méga-menu en 3 colonnes :
 - URLs `/interactif/{outil}/` ; pages générées gardent leurs URLs (`/face-a-face/{club}/`…).
 - Menu principal : ACCUEIL (conservé), MATCHS, NOS LIONS, SUPPORTERS, INFRASTRUCTURES,
   SYMBOLES, INTERACTIF.
+
+## Réponses du client (questionnaire)
+- **Hébergement** : o2switch (actuel).
+- **Saisies WordPress** : **gel dès maintenant** — l'aspiration en cours est la version
+  définitive du contenu (pas de resynchronisation prévue avant la bascule).
+- **Reçus fiscaux** : statut inconnu → fonction développée **désactivée**, activable
+  dans les réglages.
+- **Quiz, frise, maillots** : pré-remplis par Claude à partir des fiches existantes,
+  à valider par les historiens dans le back-office.
+- **Gemini** : le client a déjà une clé (saisie dans les réglages du back-office).
+- **Stripe / PayPal** : aucun compte → développement et tests en mode test ;
+  création des comptes avant la mise en ligne.
+- **Mentions légales / confidentialité** : base rédigée par Claude, à faire relire.
+- **Utilisateurs du back-office** : plus de 10 → invitations par e-mail,
+  suivi d'activité par personne, rôles.
