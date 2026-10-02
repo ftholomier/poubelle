@@ -179,5 +179,5 @@ réellement développé.
   (réserves), partenaires, lieux de la carto, articles thématiques et pages (mentions
   légales…), redirections, assistant IA (questions posées, réindexation), et tous les
   champs existants des fiches (taille, poids, pied, récit, statistiques, galerie…).
-- **Rôles** : la maquette montre 5 rôles avec matrice de droits ; on conserve la décision
-  validée de **2 niveaux** (administrateur / utilisateur) sauf contre-ordre du client.
+- **Rôles** : la maquette montre 5 rôles ; **confirmé par le client : 2 niveaux**
+  (administrateur / utilisateur), présentés dans le style de l'écran « Utilisateurs & rôles ».
