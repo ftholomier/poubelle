@@ -168,3 +168,55 @@ function pad2(int|string $n): string
 {
     return str_pad((string) $n, 2, '0', STR_PAD_LEFT);
 }
+
+/**
+ * Vidéo normalisée pour l'affichage : URL d'intégration (chargée après consentement),
+ * lien d'origine et vignette locale éventuelle (récupérée par « console.php videos »).
+ * @return array{provider:string, id:?string, embed:string, link:string, thumb:?string, title:string}|null
+ */
+function video_embed(array $v): ?array
+{
+    $provider = $v['provider'] ?? '';
+    $id = $v['id'] ?? null;
+    $url = (string) ($v['url'] ?? '');
+    // Adresses YouTube mal saisies dans l'ancien site (« embed/https://www.youtube.com/watch?v=… »).
+    if ($provider === 'iframe' && preg_match('#(?:youtube(?:-nocookie)?\.com/(?:embed/|watch\?v=|shorts/)|youtu\.be/)([\w-]{11})#', $url, $m)) {
+        $provider = 'youtube';
+        $id = $m[1];
+        if (preg_match('#watch\?v=([\w-]{11})#', $url, $m2)) {
+            $id = $m2[1];
+        }
+    }
+    $thumbRel = $id ? '_video/' . $provider . '-' . $id . '.jpg' : null;
+    $thumb = $thumbRel && is_file(\App\Data\Media::ORIGINALS . '/' . $thumbRel) ? $thumbRel : null;
+    return match ($provider) {
+        'youtube' => ['provider' => 'youtube', 'id' => $id, 'embed' => 'https://www.youtube-nocookie.com/embed/' . rawurlencode((string) $id) . '?rel=0', 'link' => 'https://www.youtube.com/watch?v=' . rawurlencode((string) $id), 'thumb' => $thumb, 'title' => (string) ($v['title'] ?? '')],
+        'dailymotion' => ['provider' => 'dailymotion', 'id' => $id, 'embed' => 'https://geo.dailymotion.com/player.html?video=' . rawurlencode((string) $id), 'link' => 'https://www.dailymotion.com/video/' . rawurlencode((string) $id), 'thumb' => $thumb, 'title' => (string) ($v['title'] ?? '')],
+        'vimeo' => ['provider' => 'vimeo', 'id' => $id, 'embed' => 'https://player.vimeo.com/video/' . rawurlencode((string) $id) . '?dnt=1', 'link' => 'https://vimeo.com/' . rawurlencode((string) $id), 'thumb' => $thumb, 'title' => (string) ($v['title'] ?? '')],
+        'file' => ['provider' => 'file', 'id' => null, 'embed' => preg_replace('#^https?://(www\.)?fcsochauxretro\.com/wp-content/uploads/#', '/media/full/', $url), 'link' => $url, 'thumb' => null, 'title' => (string) ($v['title'] ?? '')],
+        'iframe' => $url !== '' && preg_match('#^https://#', $url) ? ['provider' => 'iframe', 'id' => null, 'embed' => $url, 'link' => $url, 'thumb' => null, 'title' => (string) ($v['title'] ?? '')] : null,
+        default => null,
+    };
+}
+
+/** Libellé « Photos : X » quand toute une galerie partage le même crédit. */
+function gallery_credit(array $items): ?string
+{
+    $credits = array_values(array_unique(array_filter(array_map(fn ($g) => trim((string) ($g['credit'] ?? '')), $items))));
+    $withCredit = count(array_filter($items, fn ($g) => trim((string) ($g['credit'] ?? '')) !== ''));
+    return count($credits) === 1 && $withCredit === count($items) ? $credits[0] : null;
+}
+
+/** Date courte jj/mm/aaaa à partir d'une date ISO (éventuellement partielle). */
+function date_num(?string $iso): string
+{
+    if (!$iso) {
+        return '';
+    }
+    $p = explode('-', substr($iso, 0, 10));
+    return match (count($p)) {
+        3 => "$p[2]/$p[1]/$p[0]",
+        2 => "$p[1]/$p[0]",
+        default => $p[0],
+    };
+}

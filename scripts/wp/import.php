@@ -246,10 +246,13 @@ foreach ($posts as $i => $p) {
         $doc['personne'] = build_person($doc, $parsed, $kind['roles'], $catSlugs, $report);
     } else {
         $lines = $parsed['header']['lines'] ?? [];
+        // En-tête d'origine (sans son premier titre) : chiffres d'un bilan, chapeau d'un article…
+        $headerHtml = preg_replace('#^\s*<h[1-6][^>]*>.*?</h[1-6]>#is', '', (string) ($parsed['header']['html'] ?? ''), 1);
         $doc['article'] = [
             'kind' => $kind['sub'] ?? 'article',
             'heading' => $lines[0] ?? '',
             'subtitle' => implode("\n", array_slice($lines, 1)),
+            'header_html' => trim((string) $headerHtml),
             'season' => null,
         ];
         if (($kind['sub'] ?? '') === 'bilan_saison' && preg_match('/(\d{4})\D+(\d{2,4})/', $title, $sm)) {
