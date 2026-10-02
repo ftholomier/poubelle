@@ -38,6 +38,15 @@ final class Session
         $_SESSION[$key] = $value;
     }
 
+    /** Lit une valeur et l'efface (message ou saisie à réafficher une seule fois). */
+    public static function pull(string $key, mixed $default = null): mixed
+    {
+        self::start();
+        $v = $_SESSION[$key] ?? $default;
+        unset($_SESSION[$key]);
+        return $v;
+    }
+
     public static function forget(string $key): void
     {
         self::start();

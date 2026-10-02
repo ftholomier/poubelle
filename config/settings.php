@@ -16,7 +16,7 @@ return [
             'site_tagline' => ['label' => 'Signature', 'type' => 'text', 'default' => 'Le musée en ligne du FCSM'],
             'base_url' => ['label' => 'Adresse du site', 'type' => 'url', 'default' => 'https://www.fcsochauxretro.com', 'help' => 'Sans barre oblique finale.'],
             'contact_email' => ['label' => 'E-mail de réception des messages', 'type' => 'email', 'default' => ''],
-            'maintenance' => ['label' => 'Mode maintenance', 'type' => 'bool', 'default' => false, 'help' => 'Le site public affiche une page d’attente ; le back-office reste accessible.'],
+            'domain_label' => ['label' => 'Adresse affichée sur les images de partage', 'type' => 'text', 'default' => 'fcsochauxretro.com'],
             'front_password' => ['label' => 'Mot de passe d’accès au site public (pré-lancement)', 'type' => 'secret', 'default' => '', 'help' => 'Laisser vide pour un site ouvert à tous.'],
             'debug' => ['label' => 'Afficher les erreurs (développement)', 'type' => 'bool', 'default' => false],
         ],
@@ -114,6 +114,29 @@ return [
             'smtp_secure' => ['label' => 'Sécurité', 'type' => 'select', 'options' => ['tls' => 'STARTTLS (587)', 'ssl' => 'SSL (465)', '' => 'Aucune'], 'default' => 'tls'],
             'smtp_user' => ['label' => 'Identifiant', 'type' => 'text', 'default' => ''],
             'smtp_password' => ['label' => 'Mot de passe', 'type' => 'secret', 'default' => ''],
+        ],
+    ],
+    'newsletter' => [
+        'label' => 'Newsletter « Ce jour-là »',
+        'fields' => [
+            'enabled' => ['label' => 'Envoyer la newsletter automatiquement', 'type' => 'bool', 'default' => false],
+            'weekday' => ['label' => 'Jour d’envoi', 'type' => 'select', 'options' => ['1' => 'Lundi', '2' => 'Mardi', '3' => 'Mercredi', '4' => 'Jeudi', '5' => 'Vendredi', '6' => 'Samedi', '7' => 'Dimanche'], 'default' => '1'],
+            'hour' => ['label' => 'Heure d’envoi', 'type' => 'number', 'default' => 8],
+            'subject' => ['label' => 'Objet', 'type' => 'text', 'default' => 'Ce jour-là · la semaine du {semaine}'],
+            'intro' => ['label' => 'Texte d’introduction', 'type' => 'wysiwyg', 'default' => '<p>Voici les matchs de cette semaine dans l’histoire du FC Sochaux-Montbéliard.</p>'],
+        ],
+    ],
+    'map' => [
+        'label' => 'Carte',
+        'fields' => [
+            'geocoding' => ['label' => 'Géolocaliser automatiquement stades et lieux de naissance (OpenStreetMap)', 'type' => 'bool', 'default' => true, 'help' => 'Une requête par seconde au plus, par la tâche planifiée.'],
+        ],
+    ],
+    'centenary' => [
+        'label' => 'Centenaire',
+        'fields' => [
+            'moments_start' => ['label' => 'Date de publication du moment n° 1', 'type' => 'date', 'default' => '2026-06-11', 'help' => 'Un nouveau moment est révélé chaque semaine.'],
+            'onze_reveal' => ['label' => 'Date de dévoilement du Onze du public', 'type' => 'date', 'default' => '2028-05-20'],
         ],
     ],
     'privacy' => [

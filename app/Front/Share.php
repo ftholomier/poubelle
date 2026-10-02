@@ -123,7 +123,7 @@ final class Share
         } else {
             self::paragraph($im, mb_strtoupper((string) ($m['event'] ?: $doc['title'])), 'BigShouldersDisplay-900', 60, 60, 160, 620, 4, $cream, 1.15);
         }
-        self::brand($im, 60, 560, (string) Settings::get('share.domain', 'fcsochauxretro.com'), $cream);
+        self::brand($im, 60, 560, (string) Settings::get('general.domain_label', 'fcsochauxretro.com'), $cream);
         return $im;
     }
 
@@ -174,7 +174,7 @@ final class Share
             self::tag($im, mb_strtoupper(\App\Data\Categories::label($cat)), 60, 60, [246, 196, 0], [14, 31, 77]);
         }
         self::paragraph($im, mb_strtoupper((string) $doc['title']), 'BigShouldersDisplay-900', 92, 60, 200, 1080, 3, [243, 237, 223], .9);
-        self::brand($im, 60, 560, (string) Settings::get('share.domain', 'fcsochauxretro.com'), [243, 237, 223]);
+        self::brand($im, 60, 560, (string) Settings::get('general.domain_label', 'fcsochauxretro.com'), [243, 237, 223]);
         return $im;
     }
 
