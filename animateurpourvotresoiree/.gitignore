@@ -7,6 +7,10 @@
 /storage/*
 !/storage/.htaccess
 !/storage/README.md
+# dossier d'accueil des archives de données livrées (les archives elles-mêmes ne sont jamais versionnées)
+!/storage/install/
+/storage/install/*
+!/storage/install/LISEZ-MOI.txt
 
 # Médias envoyés (photos des pros, images téléversées)
 /public/media/*

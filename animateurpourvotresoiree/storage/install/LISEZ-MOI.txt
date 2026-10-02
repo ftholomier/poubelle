@@ -1,0 +1,5 @@
+Déposez ici, tels quels (sans les décompresser), tous les fichiers de données livrés avec le site :
+donnees-1-sur-N.zip, donnees-2-sur-N.zip, etc.
+
+Envoyez ensuite tout le site par FTP. À la première visite, le site installe les données tout seul,
+puis supprime ces fichiers. S'il en manque un, la page l'indique et attend qu'il soit envoyé.

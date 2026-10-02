@@ -28,9 +28,9 @@ directs, avis vérifiés, espace pro, back-office complet, assistant IA, applica
 Le site est livré **complet** : code, données de l'ancien site déjà converties et photos. Il n'y a ni
 base de données, ni fichier SQL, ni fichier de configuration à modifier.
 
-1. Décompressez le paquet du site sur votre ordinateur. Si les données sont livrées en plusieurs
-   fichiers (`donnees-2-sur-2.zip`…), copiez-les **tels quels, sans les décompresser**, dans le dossier
-   `storage/install/` du site (à côté de `donnees-1-sur-2.zip`).
+1. Décompressez le paquet du site sur votre ordinateur, puis copiez les fichiers de données
+   (`donnees-1-sur-N.zip`, `donnees-2-sur-N.zip`…) **tels quels, sans les décompresser**, dans son dossier
+   `storage/install/`.
 2. Envoyez **tout le contenu** du dossier par FTP dans le dossier web de l'hébergement (`www/`,
    `public_html/`…), fichiers cachés compris (`.htaccess`, `.ovhconfig`).
 3. Ouvrez le site : à la première visite, les données s'installent toutes seules (quelques minutes au
