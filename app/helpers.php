@@ -235,3 +235,14 @@ function base_url(): string
     $https = ($_SERVER['HTTPS'] ?? '') === 'on' || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https';
     return ($https ? 'https://' : 'http://') . $host;
 }
+
+/** « Compétition · tour » sans répétition (un match amical a pour tour « Amical »). */
+function comp_round(?string $comp, ?string $round): string
+{
+    $comp = trim((string) $comp);
+    $round = trim((string) $round);
+    if ($round === '' || mb_strtolower($round) === mb_strtolower($comp)) {
+        return $comp;
+    }
+    return $comp === '' ? $round : "$comp · $round";
+}

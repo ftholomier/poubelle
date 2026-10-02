@@ -84,7 +84,7 @@ $rowsHtml = function (array $list, bool $coach) {
         ?>
         <tr<?= $i >= 25 ? ' data-more hidden' : '' ?>>
           <td class="date"><a href="<?= e(url($x['path'])) ?>"><?= e(date_num($x['date'])) ?></a></td>
-          <td class="m"><a href="<?= e(url($x['path'])) ?>"><b><?= e(trim($x['home'] . ' – ' . $x['away'], ' –') ?: ($x['event'] ?? $x['title'])) ?></b></a><small><?= e($x['label'] ?: $x['comp']) ?><?= !empty($x['round']) ? ' · ' . e($x['round']) : '' ?></small></td>
+          <td class="m"><a href="<?= e(url($x['path'])) ?>"><b><?= e(trim($x['home'] . ' – ' . $x['away'], ' –') ?: ($x['event'] ?? $x['title'])) ?></b></a><small><?= e(comp_round($x['label'] ?: $x['comp'], $x['round'] ?? null)) ?></small></td>
           <td class="score"><?php if ($x['result']): ?><span class="res res--<?= e($x['result']) ?>"><?= e($x['result']) ?></span> <?php endif; ?><?= e($score) ?><?= !empty($x['extra']) ? ' <small>' . e($x['extra']) . '</small>' : '' ?></td>
           <?php if (!$coach): ?>
           <td class="c"><?= $x['goals'] ? '<b>' . (int) $x['goals'] . '</b>' : '–' ?></td>

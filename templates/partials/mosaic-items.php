@@ -27,7 +27,7 @@ foreach ($items as $k => $s):
         if ($view === 'list'): ?>
 <a class="mrow" href="<?= e($href) ?>" data-item>
   <span class="mrow__date"><?= e(date_num($m['date'])) ?></span>
-  <span class="mrow__main"><span class="mrow__comp"><?= e($comp) ?><?= $m['round'] ? ' · ' . e($m['round']) : '' ?></span><span class="mrow__teams"><?= $noTeams ? e($m['event'] ?: $s['title']) : e($m['home']) . ' – ' . e($m['away']) ?></span></span>
+  <span class="mrow__main"><span class="mrow__comp"><?= e(comp_round($comp, $m['round'])) ?></span><span class="mrow__teams"><?= $noTeams ? e($m['event'] ?: $s['title']) : e($m['home']) . ' – ' . e($m['away']) ?></span></span>
   <span class="mrow__score"><?= $hasScore ? e($hs . '-' . $as) : '' ?><?php if ($tab): ?> <small>(<?= e($tab) ?> <?= e(t('tab')) ?>)</small><?php endif; ?></span>
   <?php if ($res): ?><span class="res res--<?= e($res) ?>"><?= e($res) ?></span><?php else: ?><span></span><?php endif; ?>
 </a>
@@ -39,7 +39,7 @@ foreach ($items as $k => $s):
     <?php if ($res): ?><span class="res res--<?= e($res) ?> mcard__res" title="<?= e(['V' => t('Victoire'), 'N' => t('Match nul'), 'D' => t('Défaite')][$res] ?? '') ?>"><?= e($res) ?></span><?php endif; ?>
   </span>
   <span class="mcard__body">
-    <span class="mcard__date"><?= e(date_num($m['date'])) ?><?= $m['round'] ? ' · ' . e($m['round']) : '' ?></span>
+    <span class="mcard__date"><?= e(date_num($m['date'])) ?><?= $m['round'] && mb_strtolower((string) $m['round']) !== mb_strtolower($comp) ? ' · ' . e($m['round']) : '' ?></span>
     <?php if ($noTeams): ?>
       <span class="mcard__event"><?= e($m['event'] ?: $s['title']) ?></span>
     <?php else: ?>

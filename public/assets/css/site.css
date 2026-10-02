@@ -111,11 +111,11 @@ p { margin: 0 0 1em; }
 .btn--yellow:hover { background: var(--cream); color: var(--navy); }
 .btn--navy { background: var(--navy); color: var(--yellow); }
 .btn--navy:hover { background: var(--blue); color: var(--yellow); }
-.btn--ghost-light { border: 2px solid var(--cream); color: var(--cream); padding: 14px 24px; font-weight: 700; }
+.btn--ghost-light { border: 2px solid var(--cream); color: var(--cream); background: transparent; padding: 14px 24px; font-weight: 700; }
 .btn--ghost-light:hover { background: var(--cream); color: var(--blue); }
 .btn--ghost { border: 2px solid var(--navy); color: var(--navy); background: transparent; padding: 14px 22px; }
 .btn--ghost:hover { background: var(--navy); color: var(--yellow); }
-.btn--shadow { border: 2px solid var(--navy); box-shadow: 6px 6px 0 var(--navy); }
+.btn--shadow { border: 2px solid var(--navy); box-shadow: 6px 6px 0 var(--navy); background: var(--paper); color: var(--navy); }
 .btn--shadow:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--navy); }
 .btn--sm { font-size: 15px; padding: 10px 16px; }
 .btn--block { width: 100%; }
