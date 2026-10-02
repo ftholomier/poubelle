@@ -32,7 +32,7 @@ Récapitulatif des choix pris avec le client, à respecter pendant le développe
 - Cartographie : **OpenStreetMap** (Leaflet), cartes dynamiques avec listes et filtres.
 - Sécurité, antispam, cookies (consentement), SEO.
 
-## URL — option B (validée)
+## URL — option B (validée, schéma validé)
 Adresses porteuses de mots-clés + **redirection 301 de chaque ancienne adresse** :
 - `/joueurs/{slug}/`, `/entraineurs/{slug}/`, `/dirigeants/{slug}/`,
   `/personnages-emblematiques/{slug}/`
