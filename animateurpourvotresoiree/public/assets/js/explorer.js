@@ -212,7 +212,17 @@
     if (moreCount) moreCount.textContent = Math.max(0, total - loaded).toLocaleString('fr-FR');
   };
 
+  // liens « Déposer ma demande » : métier et lieu de la recherche en cours pré-remplis dans le formulaire
+  const updateRequestLinks = () => {
+    const u = new URLSearchParams();
+    if (state.cat) u.set('cat', state.cat);
+    if (state.insee) u.set('insee', state.insee);
+    else if (state.dep) u.set('dep', state.dep);
+    $$('[data-request-link]').forEach((a) => { a.href = '/devis/' + (u.toString() ? '?' + u : ''); });
+  };
+
   const run = async () => {
+    updateRequestLinks();
     const id = ++reqId;
     const qs = params();
     // L'adresse suit les filtres (partage / rechargement) ; sur les pages SEO on bascule vers /recherche/.

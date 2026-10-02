@@ -75,7 +75,7 @@ $config = [
 <?= App\Core\View::partial('front/partials/footer') ?>
 <div class="toast-zone" aria-live="polite"></div>
 <?php if ($aiChat): ?>
-<button type="button" class="chat-launch" id="chat-launch" aria-haspopup="dialog"><span class="bubble">✨</span><span>Besoin d'aide ?</span></button>
+<button type="button" class="chat-launch" id="chat-launch" aria-haspopup="dialog" aria-label="Besoin d'aide ? Ouvrir l'assistant"><span class="bubble">✨</span><span>Besoin d'aide ?</span></button>
 <?php endif; ?>
 <script src="<?= asset('js/app.js') ?>" defer<?= Security::attr() ?>></script>
 <?php foreach ($meta['scripts'] as $s): ?><script src="<?= e($s) ?>" defer<?= Security::attr() ?>></script>

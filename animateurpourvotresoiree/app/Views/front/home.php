@@ -42,6 +42,11 @@ $stepColors = ['var(--white)', 'var(--yellow)', 'var(--coral)'];
           <a class="pill-ghost" href="<?= e($p['url'] ?? '/recherche/') ?>"><?= e($p['label'] ?? '') ?></a>
         <?php endforeach; ?>
       </div>
+      <div class="hero-request">
+        <span class="hero-request-ico" aria-hidden="true">📣</span>
+        <div><strong><?= e($h('hero_request_title')) ?></strong><p><?= e($h('hero_request_text')) ?></p></div>
+        <a class="btn btn-sm btn-coral" href="/devis/">Déposer ma demande →</a>
+      </div>
     </div>
 
     <div class="hero-visual" aria-hidden="true">
@@ -66,6 +71,37 @@ $stepColors = ['var(--white)', 'var(--yellow)', 'var(--coral)'];
     <?php endforeach; endfor; ?>
   </div>
 </div></div>
+
+<section id="demande" class="section" data-screen-label="Demande de devis" style="padding-bottom:0">
+  <div class="request">
+    <div>
+      <div class="kicker"><?= e($h('request_kicker')) ?></div>
+      <h2><?= e($h('request_title')) ?> <span class="serif"><?= e($h('request_title_em')) ?></span>.</h2>
+      <p><?= e($h('request_text')) ?></p>
+      <ol class="request-steps">
+        <?php foreach (array_slice((array) Settings::get('home.request_steps', []), 0, 3) as $i => $st): ?>
+          <li><span class="n"><?= $i + 1 ?></span><span><strong><?= e($st['t'] ?? '') ?></strong> <?= e($st['d'] ?? '') ?></span></li>
+        <?php endforeach; ?>
+      </ol>
+      <div class="actions">
+        <a class="btn btn-coral" href="/devis/">Déposer ma demande →</a>
+        <?php if (($note = $fill($h('request_note'))) !== ''): ?><span class="request-note"><?= e($note) ?></span><?php endif; ?>
+      </div>
+    </div>
+    <div class="request-demo" aria-hidden="true">
+      <div class="request-card">
+        <div class="request-card-head">📣 Votre demande</div>
+        <ul><li>💍 Mariage · Lyon (69)</li><li>📅 Samedi 12 juin</li><li>👥 120 invités</li><li>🎧 DJ et photobooth</li></ul>
+      </div>
+      <div class="request-sent">↓ envoyée à tous les pros du secteur</div>
+      <div class="request-replies">
+        <div class="reply"><span class="av" style="--c:var(--coral)">D</span><span><b>Un DJ</b> vous a répondu</span><small>2 h</small></div>
+        <div class="reply"><span class="av" style="--c:var(--lime)">P</span><span><b>Un photobooth</b> vous a répondu</span><small>5 h</small></div>
+        <div class="reply"><span class="av" style="--c:var(--white)">A</span><span><b>Un animateur</b> vous a répondu</span><small>1 j</small></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="pros" class="section" data-screen-label="Pros" data-home-pros>
   <div class="section-head">
@@ -113,7 +149,7 @@ $stepColors = ['var(--white)', 'var(--yellow)', 'var(--coral)'];
       </div>
     <?php endforeach; ?>
   </div>
-  <div class="mt-4"><a class="btn btn-coral" href="/devis/">Demander mes devis gratuits →</a></div>
+  <div class="mt-4"><a class="btn btn-coral" href="/devis/">Déposer ma demande →</a></div>
 </section>
 
 <section id="join" class="section" data-screen-label="Espace pro" style="padding-top:0;padding-bottom:110px">

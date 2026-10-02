@@ -79,6 +79,12 @@ $moreUrl = ($self ?? '/recherche/') . '?' . http_build_query(array_merge(array_d
       </span>
     </div>
 
+    <a class="request-banner" href="<?= e(Url::devis(array_filter(['cat' => $state['cat'] ?? null, 'insee' => $state['insee'] ?? null, 'dep' => $state['dep'] ?? null]))) ?>" data-request-link>
+      <span class="ico" aria-hidden="true">📣</span>
+      <span><strong>Pas le temps de comparer ?</strong> Déposez une seule demande : les pros du secteur la reçoivent et vous répondent.</span>
+      <span class="go">Déposer ma demande →</span>
+    </a>
+
     <div class="results" data-results>
       <?php foreach ($result['items'] as $i => $p): ?>
         <?= View::partial('front/partials/result-card', ['p' => $p]) ?>
@@ -92,7 +98,7 @@ $moreUrl = ($self ?? '/recherche/') . '?' . http_build_query(array_merge(array_d
     <div class="box box-cream mt-2">
       <strong>Pas le temps de comparer ?</strong>
       <p class="small mt-1" style="margin-bottom:12px">Décrivez votre événement une seule fois : votre demande est transmise aux pros du secteur, qui vous répondent directement.</p>
-      <a class="btn btn-sm btn-coral" href="<?= e(Url::devis(array_filter(['cat' => $state['cat'] ?? null, 'insee' => $state['insee'] ?? null, 'dep' => $state['dep'] ?? null]))) ?>">Demander des devis gratuits →</a>
+      <a class="btn btn-sm btn-coral" href="<?= e(Url::devis(array_filter(['cat' => $state['cat'] ?? null, 'insee' => $state['insee'] ?? null, 'dep' => $state['dep'] ?? null]))) ?>" data-request-link>Déposer ma demande →</a>
     </div>
   </div>
   <div class="explore-map">

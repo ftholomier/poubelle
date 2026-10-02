@@ -44,6 +44,17 @@ $field = static fn (string $k, string $label, string $hint = '', int $max = 200)
     <?php endfor; ?>
   </div>
   <div class="box">
+    <h2>Bloc « Déposer une demande » (appel d'offres)</h2>
+    <p class="small muted">Sous la recherche en haut de page, puis dans une section dédiée. <code>{demandes}</code> affiche le nombre de demandes transmises.</p>
+    <div class="form-grid"><?= $field('hero_request_title', 'Haut de page — accroche') ?><?= $field('hero_request_text', 'Haut de page — texte') ?></div>
+    <div class="form-grid"><?= $field('request_kicker', 'Section — sur-titre') ?><?= $field('request_title', 'Section — titre') ?><?= $field('request_title_em', '… en italique') ?></div>
+    <div class="field"><label for="h-req">Section — texte</label><textarea id="h-req" name="request_text" rows="3"><?= $v('request_text') ?></textarea></div>
+    <?= $field('request_note', 'Section — mention sous le bouton') ?>
+    <?php $rsteps = array_values((array) ($h['request_steps'] ?? [])); for ($i = 0; $i < 3; $i++): ?>
+      <div class="form-grid"><input class="input" type="text" name="request_steps[<?= $i ?>][t]" value="<?= e((string) ($rsteps[$i]['t'] ?? '')) ?>" placeholder="Étape <?= $i + 1 ?> — titre"><input class="input" type="text" name="request_steps[<?= $i ?>][d]" value="<?= e((string) ($rsteps[$i]['d'] ?? '')) ?>" placeholder="Description"></div>
+    <?php endfor; ?>
+  </div>
+  <div class="box">
     <h2>Bloc « Pour les pros »</h2>
     <div class="form-grid"><?= $field('join_kicker', 'Sur-titre') ?><?= $field('join_title', 'Titre') ?><?= $field('join_title_em', '… en italique') ?></div>
     <div class="field"><label for="h-join">Texte</label><textarea id="h-join" name="join_text" rows="2"><?= $v('join_text') ?></textarea></div>

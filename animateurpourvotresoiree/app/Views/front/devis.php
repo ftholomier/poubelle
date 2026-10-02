@@ -11,9 +11,14 @@ $types = ['mariage' => '💍 Mariage', 'anniversaire' => '🎂 Anniversaire', 'e
 ?>
 <section class="page-head" style="max-width:980px">
   <?= View::partial('front/partials/crumbs', ['crumbs' => [['Accueil', '/'], ['Demande de devis', '/devis/']]]) ?>
-  <div class="badge badge-tilt mt-2">● Gratuit · sans engagement · réponse en 24 h</div>
+  <div class="badge badge-tilt mt-2">● Appel d'offres gratuit · sans engagement · réponse en 24 h</div>
   <h1>Vos devis <span class="serif">en une minute</span></h1>
-  <p class="lead">Décrivez votre fête : nous transmettons votre demande aux professionnels de votre secteur, qui vous contactent directement. Aucune commission, aucun intermédiaire.</p>
+  <p class="lead">Décrivez votre fête une seule fois : votre demande est envoyée à tous les professionnels concernés de votre secteur (DJ, animateurs, magiciens…), qui vous contactent directement avec leurs propositions. Aucune commission, aucun intermédiaire.</p>
+  <ol class="request-steps request-steps-row">
+    <?php foreach (array_slice((array) App\Services\Settings::get('home.request_steps', []), 0, 3) as $i => $st): ?>
+      <li><span class="n"><?= $i + 1 ?></span><span><strong><?= e($st['t'] ?? '') ?></strong> <?= e($st['d'] ?? '') ?></span></li>
+    <?php endforeach; ?>
+  </ol>
 </section>
 
 <section class="section section-tight" style="max-width:980px" id="formulaire">

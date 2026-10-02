@@ -9,7 +9,7 @@ use App\Services\Settings;
       <a href="<?= Url::category('dj') ?>">DJ</a>
       <a href="<?= Url::category('magicien') ?>">Magiciens</a>
       <a href="<?= Url::category('animation-enfants') ?>">Animateurs enfants</a>
-      <a href="/devis/">Demander un devis</a>
+      <a href="/devis/">Déposer une demande de devis</a>
       <a href="/blog/">Blog</a>
       <a href="/contact/">Contact</a>
       <a href="/mentions-legales/">Mentions légales</a>

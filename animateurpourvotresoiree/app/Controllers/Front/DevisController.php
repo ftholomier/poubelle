@@ -60,7 +60,7 @@ final class DevisController extends Controller
             'prefill' => $prefill,
             'meta' => [
                 'title' => 'Demande de devis gratuite : DJ, animateur, groupe, magicien',
-                'description' => 'Décrivez votre événement en 1 minute : votre demande est transmise gratuitement aux pros de l\'animation de votre secteur, qui vous répondent directement.',
+                'description' => 'Appel d\'offres gratuit : décrivez votre événement en 1 minute, votre demande est transmise aux pros de l\'animation de votre secteur, qui vous répondent directement.',
                 'jsonld' => [Seo::breadcrumbs([['Accueil', '/'], ['Demande de devis', '/devis/']])],
                 'robots' => Request::queryString() !== '' ? 'noindex, follow' : 'index, follow',
                 'canonical' => \App\Core\Url::abs('/devis/'),
