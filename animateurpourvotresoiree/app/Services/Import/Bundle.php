@@ -98,6 +98,7 @@ final class Bundle
                 }
             }
             Fs::writeJson(self::DONE, ['at' => date('c'), 'archives' => $state['done']]);
+            @touch(STORAGE_PATH . '/cache/sitemap.dirty'); // sitemaps à refaire avec les données installées
             @unlink(self::STATE);
             Cache::flush();
             Cache::flush('pages');

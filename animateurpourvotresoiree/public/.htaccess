@@ -7,6 +7,8 @@ AddDefaultCharset UTF-8
     RewriteEngine On
     # Fichiers cachés (.env, .git…) : jamais servis
     RewriteRule (^|/)\.(?!well-known/) - [F,L]
+    # Fichiers générés par le site : jamais un vieux fichier resté sur le serveur (robots.txt de l'ancien site…)
+    RewriteRule ^(robots\.txt|sitemap\.xml|ads\.txt|manifest\.webmanifest|sw\.js)$ index.php [L]
     # Les fichiers réels (assets, médias) sont servis directement
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]

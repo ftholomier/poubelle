@@ -316,7 +316,10 @@ final class Seo
     {
         $flag = STORAGE_PATH . '/cache/sitemap.dirty';
         $dir = STORAGE_PATH . '/cache/sitemaps';
-        if (!$force && !is_file($flag) && is_dir($dir)) {
+        // plus anciens que l'installation des données livrées (générés quand le site était encore vide) : à refaire
+        $installed = (int) @filemtime(STORAGE_PATH . '/install/termine.json');
+        $stale = !is_file($dir . '/pros.xml') || ($installed > 0 && (int) @filemtime($dir . '/pros.xml') < $installed);
+        if (!$force && !is_file($flag) && is_dir($dir) && !$stale) {
             return false;
         }
         Fs::ensureDir($dir);
