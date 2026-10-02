@@ -44,6 +44,6 @@ set_exception_handler(function (Throwable $e) use ($debug): void {
     if ($debug) {
         echo '<pre>' . htmlspecialchars((string) $e) . '</pre>';
     } else {
-        echo \App\Core\View::render('errors/500', [], 'layout');
+        echo \App\Core\View::render('errors/500');
     }
 });

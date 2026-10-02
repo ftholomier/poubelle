@@ -30,7 +30,7 @@ final class Kernel
             if ($req->wantsJson()) {
                 return Response::json(['error' => 'Erreur interne'], 500);
             }
-            return Response::html(View::render('errors/500', ['page' => ['title' => 'Erreur']], 'layout'), 500);
+            return Response::html(View::render('errors/500'), 500);
         }
     }
 

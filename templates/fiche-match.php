@@ -29,7 +29,8 @@ if (!empty($m['score']['aet'])) {
     $extra[] = t('après prolongation');
 }
 if (!empty($m['score']['pens'])) {
-    $extra[] = t('tirs au but') . ' : ' . $m['score']['pens'];
+    $pp = $m['score']['pens'];
+    $extra[] = t('tirs au but') . ' : ' . (is_array($pp) ? ($pp['home'] ?? '?') . '-' . ($pp['away'] ?? '?') : $pp);
 } elseif (!empty($m['score']['extra']) && !$m['score']['aet']) {
     $extra[] = $m['score']['extra'];
 }

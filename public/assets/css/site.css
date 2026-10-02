@@ -617,3 +617,10 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 .prevnext__mid { font-family: var(--display); font-weight: 800; text-transform: uppercase; letter-spacing: .1em; border: 2px solid var(--navy); padding: 8px 14px; background: var(--paper); }
 .prevnext__mid:hover { background: var(--yellow); color: var(--navy); }
 @media (max-width: 700px) { .prevnext__inner { grid-template-columns: 1fr 1fr; } .prevnext__mid { grid-column: 1 / -1; grid-row: 1; justify-self: center; } }
+
+/* ---------------------------------------------------------------- page introuvable */
+.errpage { background: var(--cream); }
+.errpage__inner { padding-top: clamp(56px, 8vw, 120px); padding-bottom: clamp(56px, 8vw, 120px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: clamp(24px, 5vw, 72px); align-items: center; }
+.errpage__code { font-family: var(--display); font-weight: 900; font-size: clamp(140px, 24vw, 340px); line-height: .8; color: var(--yellow); -webkit-text-stroke: 4px var(--navy); text-shadow: 12px 12px 0 var(--navy); }
+.errpage__text { display: flex; flex-direction: column; gap: 18px; }
+.errpage .searchbar { max-width: 560px; }

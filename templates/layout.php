@@ -25,6 +25,8 @@ $lang = I18n::lang();
 <link rel="alternate" hreflang="<?= e($alt['lang']) ?>" href="<?= e($alt['href']) ?>">
 <?php endforeach; ?>
 <?php if ($meta['noindex']): ?><meta name="robots" content="noindex, follow"><?php endif; ?>
+<?php if (!empty($page['prev'])): ?><link rel="prev" href="<?= e($page['prev']) ?>"><?php endif; ?>
+<?php if (!empty($page['next'])): ?><link rel="next" href="<?= e($page['next']) ?>"><?php endif; ?>
 <meta property="og:site_name" content="<?= e($meta['site']) ?>">
 <meta property="og:locale" content="<?= $lang === 'en' ? 'en_GB' : 'fr_FR' ?>">
 <meta property="og:type" content="<?= e($meta['type']) ?>">

@@ -116,6 +116,9 @@ final class Categories
         if (!$c) {
             return $slug;
         }
+        if (!empty($c['label'])) {
+            return (string) $c['label'];
+        }
         $name = $c['name'];
         if (mb_strtoupper($name) === $name && mb_strlen($name) > 3) {
             $name = mb_convert_case(mb_strtolower($name), MB_CASE_TITLE);

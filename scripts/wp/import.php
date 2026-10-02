@@ -115,12 +115,38 @@ $catPath = function (string $slug) use (&$catPath, $cats, $technical): ?string {
 // Ordre d'affichage relevé sur les mosaïques actuelles.
 $orders = is_file(IMPORT_DIR . '/category-orders.json') ? read_json(IMPORT_DIR . '/category-orders.json') : [];
 
+// Intitulés affichés : accents rétablis (le nom WordPress d'origine reste dans « name »).
+$labelFixes = [
+    'matchs-fc-sochaux-retro-fcsm' => 'Matchs',
+    'nos-lions-fc-sochaux-retro-fcsm' => 'Nos Lions',
+    'joueurs-fc-sochaux-retro-fcsm' => 'Joueurs',
+    'entraineurs-fc-sochaux-retro-fcsm' => 'Entraîneurs',
+    'entraineurs-adjoints' => 'Entraîneurs adjoints',
+    'entraineurs-principaux' => 'Entraîneurs principaux',
+    'dirigeants-fc-sochaux-retro-fcsm' => 'Dirigeants',
+    'personnages-emblematiques-fc-sochaux-retro-fcsm' => 'Personnages emblématiques',
+    'a-lessai' => "À l'essai",
+    'directeurs-du-centre-de-formation' => 'Directeurs du centre de formation',
+    'presidents-dhonneur' => "Présidents d'honneur",
+];
+// Ordre des sous-rubriques (celui des méga-menus).
+$positions = [
+    'joueurs-fc-sochaux-retro-fcsm' => 1, 'entraineurs-fc-sochaux-retro-fcsm' => 2, 'dirigeants-fc-sochaux-retro-fcsm' => 3, 'personnages-emblematiques-fc-sochaux-retro-fcsm' => 4,
+    'entraineurs-principaux' => 1, 'entraineurs-adjoints' => 2,
+    'presidents' => 1, 'presidents-executifs' => 2, 'presidents-dhonneur' => 3, 'directeurs-sportifs' => 4, 'directeurs-du-centre-de-formation' => 5, 'administratifs' => 6,
+    'internationaux-fc-sochaux-retro-fcsm' => 1, 'internationaux-francais-fc-sochaux-retro-fcsm' => 2, 'formes-au-club-fc-sochaux-retro-fcsm' => 3, 'a-lessai' => 4,
+    'le-stade' => 1, 'la-pelouse' => 2, 'le-centre-de-formation' => 3,
+    'coupe-de-france' => 1, 'coupe-de-la-ligue' => 2, 'coupe-deurope' => 3, 'barrages' => 4, 'coupe-charles-drago' => 5, 'coupes-diverses' => 6, 'coupe-dete' => 7, 'amical' => 8,
+];
+
 $catOut = [];
 foreach ($cats as $slug => $c) {
     $catOut[$slug] = [
         'id' => $c['id'],
         'slug' => $slug,
         'name' => $c['name'],
+        'label' => $labelFixes[$slug] ?? null,
+        'position' => $positions[$slug] ?? (preg_match('/^annees-(\d+)/', $slug, $pm) ? (strlen($pm[1]) === 2 ? (int) ('19' . $pm[1]) : (int) $pm[1]) : null),
         'description' => $c['description'],
         'parent' => $c['parent_slug'],
         'path' => $catPath($slug),
