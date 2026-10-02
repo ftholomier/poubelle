@@ -285,7 +285,9 @@ function wp_parse_page(string $html, array $media): ?array
         'images' => [],
         'videos' => [],
         'table' => null,
+        'tables' => [],
         'table_title' => null,
+        'embeds' => [],
         'blocks' => [],
         'warnings' => [],
     ];
@@ -339,7 +341,10 @@ function wp_parse_page(string $html, array $media): ?array
                 $attr = $xp->query(".//div[contains(@class,'column_attr')]", $el)->item(0) ?? $el;
                 $tableEl = $xp->query('.//table', $attr)->item(0);
                 if ($tableEl instanceof DOMElement) {
-                    $out['table'] = wp_parse_table($tableEl);
+                    foreach ($xp->query('.//table', $attr) as $tb) {
+                        $out['tables'][] = wp_parse_table($tb);
+                    }
+                    $out['table'] ??= $out['tables'][0];
                     // Un intitulé (« Statistiques ») resté seul devient le titre du tableau.
                     if ($section !== null && $section['html'] === '' && $section['title']) {
                         $out['table_title'] ??= $section['title'];
@@ -437,8 +442,45 @@ function wp_parse_page(string $html, array $media): ?array
                 $out['table_title'] = wp_text($el);
                 break;
 
+            case 'plain_text':
+                $raw = wp_inner_html($el);
+                if (preg_match("/videoId\s*=\s*['\"]([\w-]+)['\"]/", $raw, $vm) && str_contains($raw, 'dailymotion')) {
+                    $out['videos'][] = ['provider' => 'dailymotion', 'id' => $vm[1], 'title' => ''];
+                    break;
+                }
+                if (preg_match('#<blockquote[^>]*class="twitter-tweet"#', $raw)) {
+                    preg_match_all('#href="(https://twitter\.com/[^/"]+/status/\d+)[^"]*"#', $raw, $tw);
+                    $quote = preg_match('#<blockquote.*?</blockquote>#s', $raw, $bq) ? $bq[0] : $raw;
+                    $out['embeds'][] = ['provider' => 'x', 'url' => $tw[1][0] ?? '', 'text' => implode("\n", wp_lines($quote))];
+                    break;
+                }
+                $lines = wp_lines($raw);
+                if ($lines) {
+                    $section ??= ['title' => null, 'html' => ''];
+                    $section['html'] .= "\n" . wp_clean_html($raw);
+                }
+                break;
+
+            case 'tabs':
+                foreach ($xp->query('.//table', $el) as $tb) {
+                    $out['tables'][] = wp_parse_table($tb);
+                }
+                if ($out['tables']) {
+                    $out['table'] ??= $out['tables'][0];
+                }
+                // Texte éventuel des onglets (hors titres d'exemple du thème)
+                $txt = array_filter(wp_lines(wp_inner_html($el)), fn ($l) => !preg_match('/^This is the/i', $l));
+                if (!$xp->query('.//table', $el)->length && $txt) {
+                    $section ??= ['title' => null, 'html' => ''];
+                    $section['html'] .= "\n<p>" . implode('</p><p>', array_map('htmlspecialchars', $txt)) . '</p>';
+                }
+                break;
+
             case 'button':
             case 'divider':
+            case 'divider_2':
+            case 'spacer':
+            case 'code':
             case 'placeholder':
                 break;
 
@@ -498,7 +540,14 @@ function wp_parse_table(DOMElement $t): array
     }
     preg_match('/wpdtSimpleTable-(\d+)/', $t->getAttribute('id'), $m);
     $h0 = mb_strtolower($headers[0] ?? '');
-    $kind = str_starts_with($h0, 'poste') ? 'lineup' : (str_starts_with($h0, 'saison') ? 'stats' : 'other');
+    $h1 = mb_strtolower($headers[1] ?? '');
+    $firstCol = array_map(fn ($r) => strtoupper(trim($r[0] ?? '')), $rows);
+    $looksLineup = $rows && count(array_filter($firstCol, fn ($c) => in_array($c, ['G', 'D', 'M', 'A', 'R', 'E', 'GB'], true))) >= count($rows) * 0.6;
+    $kind = match (true) {
+        str_starts_with($h0, 'poste') || (str_contains($h1, 'nom') && $looksLineup) => 'lineup',
+        str_starts_with($h0, 'saison') => 'stats',
+        default => 'other',
+    };
     return ['source_id' => isset($m[1]) ? (int) $m[1] : null, 'kind' => $kind, 'headers' => $headers, 'rows' => $rows];
 }
 
@@ -531,7 +580,8 @@ function wp_parse_match_title(string $title): ?array
         }
     }
     if ($ti === null) {
-        return null;
+        return $date === null ? null : ['round' => null, 'home' => ['name' => '', 'level' => null], 'away' => ['name' => '', 'level' => null],
+            'competition_code' => null, 'date' => $date, 'score' => null, 'score_raw' => '', 'event' => implode(' – ', array_slice($parts, 0, $di))];
     }
     [$home, $away] = array_map('trim', explode('/', $parts[$ti], 2)) + [1 => ''];
     $team = fn (string $s): array => preg_match('/^(.*?)\s*\(([^)]+)\)\s*$/u', $s, $m)

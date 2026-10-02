@@ -191,6 +191,11 @@ foreach ($posts as $i => $p) {
         ? ['kind' => 'page', 'roles' => []]
         : wp_classify($catSlugs, array_map(fn ($c) => ['parent_slug' => $c['parent']], $catOut));
 
+    // « Bilan de la saison… » : rangé dans Matchs mais c'est un article (avec classement).
+    if ($kind['kind'] === 'match' && preg_match('/^bilan\b/iu', $title)) {
+        $kind = ['kind' => 'article', 'roles' => [], 'sub' => 'bilan_saison'];
+    }
+
     $doc = [
         'id' => $p['id'],
         'type' => $kind['kind'],
@@ -215,6 +220,7 @@ foreach ($posts as $i => $p) {
         'gallery' => $parsed['gallery'],
         'images' => $parsed['images'],
         'videos' => $parsed['videos'],
+        'embeds' => $parsed['embeds'],
         'legacy' => [
             'wp_id' => $p['id'],
             'url' => $link,
@@ -224,6 +230,7 @@ foreach ($posts as $i => $p) {
             'header_html' => $parsed['header']['html'] ?? '',
             'header_lines' => $parsed['header']['lines'] ?? [],
             'table' => $parsed['table'],
+            'tables' => $parsed['tables'],
             'table_title' => $parsed['table_title'],
             'blocks' => $parsed['blocks'],
         ],
@@ -240,9 +247,30 @@ foreach ($posts as $i => $p) {
     } else {
         $lines = $parsed['header']['lines'] ?? [];
         $doc['article'] = [
+            'kind' => $kind['sub'] ?? 'article',
             'heading' => $lines[0] ?? '',
             'subtitle' => implode("\n", array_slice($lines, 1)),
+            'season' => null,
         ];
+        if (($kind['sub'] ?? '') === 'bilan_saison' && preg_match('/(\d{4})\D+(\d{2,4})/', $title, $sm)) {
+            $y2 = strlen($sm[2]) === 2 ? substr($sm[1], 0, 2) . $sm[2] : $sm[2];
+            $doc['article']['season'] = $sm[1] . '-' . $y2;
+        }
+    }
+    // Tableaux non repris comme composition ou statistiques : conservés et affichés tels quels.
+    $used = array_filter([$doc['match']['lineup']['source_table'] ?? null, $doc['personne']['stats']['source_table'] ?? null]);
+    foreach ($doc['match']['other_lineups'] ?? [] as $ol) {
+        $used[] = $ol['source_table'];
+    }
+    $doc['tables'] = [];
+    foreach ($parsed['tables'] as $tb) {
+        if ($tb['source_id'] !== null && in_array($tb['source_id'], $used, true)) {
+            continue;
+        }
+        if ($doc['type'] === 'personne' && $tb === ($parsed['tables'][0] ?? null) && isset($doc['personne']['stats'])) {
+            continue;
+        }
+        $doc['tables'][] = ['title' => '', 'headers' => $tb['headers'], 'rows' => $tb['rows'], 'source_table' => $tb['source_id']];
     }
     $docs[$p['id']] = $doc;
 }
@@ -382,6 +410,18 @@ function build_match(array $doc, array $parsed, array $catSlugs, array $catOut, 
     $away = $t['away'] ?? ['name' => '', 'level' => null];
     $sochauxHome = (bool) preg_match('/sochaux/iu', $home['name']) || !preg_match('/sochaux/iu', $away['name']);
     $score = $t['score'] ?? null;
+    // Score absent du titre (« 19/09/1998 -3-1 ») : repris de la fiche du match.
+    if (!$score) {
+        foreach ([$h['score_line'] ?? '', $doc['title']] as $src) {
+            if (preg_match('/(?::|\d{4}\s*-)\s*(\d+)\s*-\s*(\d+)\s*(.*)$/u', $src, $sm)) {
+                $extra = trim($sm[3]);
+                $pens = preg_match('/\(?\s*(\d+)\s*-\s*(\d+)\s*(?:t\.?a\.?b|tab|tirs)/iu', $extra, $pm) ? ['home' => (int) $pm[1], 'away' => (int) $pm[2]] : null;
+                $score = ['home' => (int) $sm[1], 'away' => (int) $sm[2], 'extra' => $extra ?: null,
+                    'aet' => (bool) preg_match('/a\.?\s*p\b|prolong/iu', $extra), 'pens' => $pens];
+                break;
+            }
+        }
+    }
     $result = null;
     if ($score) {
         [$us, $them] = $sochauxHome ? [$score['home'], $score['away']] : [$score['away'], $score['home']];
@@ -411,15 +451,22 @@ function build_match(array $doc, array $parsed, array $catSlugs, array $catOut, 
     }
 
     $lineup = null;
-    if (($parsed['table']['kind'] ?? null) === 'lineup') {
-        $lineup = [
-            'title' => $parsed['table_title'] ?: 'Composition Sochaux',
-            'headers' => $parsed['table']['headers'],
-            'rows' => array_map('wp_parse_lineup_row', $parsed['table']['rows']),
-            'source_table' => $parsed['table']['source_id'],
+    $otherLineups = [];
+    foreach ($parsed['tables'] as $ti => $tb) {
+        if ($tb['kind'] !== 'lineup') {
+            continue; // conservé dans « tables »
+        }
+        $l = [
+            'title' => $ti === 0 ? ($parsed['table_title'] ?: 'Composition Sochaux') : 'Composition',
+            'headers' => $tb['headers'],
+            'rows' => array_map('wp_parse_lineup_row', $tb['rows']),
+            'source_table' => $tb['source_id'],
         ];
-    } elseif ($parsed['table']) {
-        $report['warnings'][] = "Tableau inattendu sur un match ({$parsed['table']['kind']}) : {$doc['title']}";
+        if ($lineup === null) {
+            $lineup = $l;
+        } else {
+            $otherLineups[] = $l;
+        }
     }
 
     $goalsText = $h['goals_text'] ?? '';
@@ -450,6 +497,8 @@ function build_match(array $doc, array $parsed, array $catSlugs, array $catOut, 
         'reactions' => $reactions,
         'breves' => $breves,
         'lineup' => $lineup,
+        'other_lineups' => $otherLineups,
+        'event' => $t['event'] ?? null,
         'opponent_club' => null,
         'stadium_id' => null,
     ];
