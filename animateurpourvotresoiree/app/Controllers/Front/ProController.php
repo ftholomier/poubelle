@@ -196,42 +196,41 @@ final class ProController extends Controller
         if (!$pro || !Pros::isPublished($pro) || !Settings::get('features.reviews', true)) {
             throw new HttpException(404);
         }
+        // comme sur Google : une note et un texte libre, rien d'autre à remplir
         $in = [
             'rating' => (int) Request::input('rating', 0),
-            'name' => Sanitizer::line((string) Request::input('name', ''), 60),
-            'email' => Str::email((string) Request::input('email', '')),
-            'title' => Sanitizer::line((string) Request::input('title', ''), 90),
+            'name' => '',
+            'email' => '',
             'body' => Sanitizer::text((string) Request::input('body', ''), 3000),
-            'event_type' => array_key_exists((string) Request::input('event_type', ''), Leads::EVENT_TYPES) ? (string) Request::input('event_type') : '',
-            'event_date' => preg_match('/^\d{4}-\d{2}$/', (string) Request::input('event_date', '')) ? (string) Request::input('event_date') : '',
         ];
+        $back = Url::pro($pro) . '#avis';
+        $min = (int) Settings::get('reviews.min_length', 30);
         $errors = [];
         if ($in['rating'] < 1 || $in['rating'] > 5) {
-            $errors['rating'] = 'Choisissez une note.';
+            $errors['rating'] = 'Choisissez une note en cliquant sur les étoiles.';
         }
-        if (mb_strlen($in['name']) < 2) {
-            $errors['name'] = 'Indiquez votre prénom.';
-        }
-        if (!Str::emailValid($in['email'])) {
-            $errors['email'] = 'Email invalide (il ne sera pas publié).';
-        }
-        if (mb_strlen($in['body']) < (int) Settings::get('reviews.min_length', 30)) {
-            $errors['body'] = 'Racontez votre expérience en quelques phrases (' . (int) Settings::get('reviews.min_length', 30) . ' caractères minimum).';
+        if (mb_strlen(trim($in['body'])) < $min) {
+            $errors['body'] = 'Racontez votre expérience en quelques mots (' . $min . ' caractères minimum).';
         }
         if (!Request::bool('consent')) {
             $errors['consent'] = 'Merci de certifier votre avis.';
         }
         if ($errors) {
-            return $this->formResponse(false, 'Merci de corriger les champs indiqués.', $errors, Url::pro($pro) . '#avis');
+            return $this->formResponse(false, 'Merci de compléter votre avis.', $errors, $back);
         }
-        $spam = AntiSpam::evaluate('review', ['name' => $in['name'], 'email' => $in['email'], 'message' => $in['body']]);
+        $me = \App\Core\Session::active() ? \App\Core\Auth::pro() : null;
+        if ($me && (int) $me['id'] === $id) {
+            return $this->formResponse(false, 'Vous ne pouvez pas donner un avis sur votre propre fiche.', [], $back, 403);
+        }
+        $spam = AntiSpam::evaluate('review', ['name' => '', 'email' => '', 'message' => $in['body']]);
         if ($spam['blocked']) {
-            return $this->formResponse(false, (string) $spam['message'], [], Url::pro($pro) . '#avis', 429);
+            return $this->formResponse(false, (string) $spam['message'], [], $back, 429);
         }
-        if ($spam['decision'] !== 'spam') {
-            Reviews::create($pro, $in + ['spam' => ['score' => $spam['score'], 'decision' => $spam['decision']]]);
+        if (Reviews::alreadyReviewed($id)) {
+            return $this->formResponse(false, 'Vous avez déjà donné votre avis sur ce professionnel : merci !', [], $back, 429);
         }
-        return $this->formResponse(true, 'Merci ! Un email de confirmation vient de vous être envoyé : cliquez sur le lien pour valider votre avis.', [], Url::pro($pro) . '#avis');
+        $rev = $spam['decision'] !== 'spam' ? Reviews::create($pro, $in + ['spam' => ['score' => $spam['score'], 'decision' => $spam['decision']]]) : null;
+        return $this->formResponse(true, $rev && $rev['status'] === 'approved' ? 'Merci ! Votre avis est publié.' : 'Merci pour votre avis ! Il sera publié après une rapide relecture.', [], $back);
     }
 
     public function confirmReview(string $token): Response
@@ -255,22 +254,23 @@ final class ProController extends Controller
             return $this->view('front/thanks', ['title' => 'Lien expiré', 'text' => 'Cette invitation n\'est plus valide.', 'pro' => null, 'meta' => ['title' => 'Invitation expirée', 'robots' => 'noindex']]);
         }
         $used = Store::doc('review_invites')->get(sha1($token));
+        $error = null;
         if (Request::isPost() && !$used) {
+            // le client a été invité par le pro : son prénom et son email viennent de l'invitation
             $in = [
-                'rating' => max(1, min(5, (int) Request::input('rating', 5))),
-                'name' => Sanitizer::line((string) Request::input('name', (string) $inv['n']), 60),
+                'rating' => (int) Request::input('rating', 0),
+                'name' => Sanitizer::line((string) ($inv['n'] ?? ''), 60),
                 'email' => (string) $inv['e'],
-                'title' => Sanitizer::line((string) Request::input('title', ''), 90),
                 'body' => Sanitizer::text((string) Request::input('body', ''), 3000),
-                'event_type' => (string) Request::input('event_type', ''),
             ];
-            if (mb_strlen($in['body']) >= 15 && mb_strlen($in['name']) >= 2) {
+            if ($in['rating'] >= 1 && $in['rating'] <= 5 && mb_strlen(trim($in['body'])) >= 15) {
                 Reviews::create($pro, $in, true);
                 Store::doc('review_invites')->set(sha1($token), date('c'));
                 return $this->view('front/thanks', ['title' => 'Merci pour votre avis !', 'text' => 'Il sera publié après relecture, avec la mention « client vérifié ».', 'pro' => $pro, 'meta' => ['title' => 'Merci', 'robots' => 'noindex']]);
             }
+            $error = 'Choisissez une note et racontez votre expérience en quelques mots (15 caractères minimum).';
         }
-        return $this->view('front/review-invite', ['pro' => $pro, 'inv' => $inv, 'used' => (bool) $used, 'meta' => ['title' => 'Votre avis sur ' . Pros::displayName($pro), 'robots' => 'noindex, nofollow']]);
+        return $this->view('front/review-invite', ['pro' => $pro, 'inv' => $inv, 'used' => (bool) $used, 'error' => $error, 'old' => $error ? ['rating' => (int) Request::input('rating', 0), 'body' => (string) Request::input('body', '')] : [], 'meta' => ['title' => 'Votre avis sur ' . Pros::displayName($pro), 'robots' => 'noindex, nofollow']]);
     }
 
     private function formResponse(bool $ok, string $message, array $errors, string $redirect, int $status = 422): Response

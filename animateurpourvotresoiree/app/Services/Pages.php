@@ -35,6 +35,32 @@ final class Pages
         return $n;
     }
 
+    /**
+     * Formulaire d'avis simplifié (une note et un texte, sans email) : les CGU et la FAQ installées avec l'ancien texte
+     * par défaut sont mises à jour ; une page déjà réécrite à la main n'est pas touchée.
+     */
+    public static function upgradeReviewTexts(): int
+    {
+        $map = [
+            'Les avis sont vérifiés par email puis modérés.' => 'Les avis sont relus avant publication (un seul avis par client et par professionnel).',
+            'Chaque avis est confirmé par email puis relu avant publication.' => 'Chaque avis est relu avant publication, et un client ne peut noter un professionnel qu\'une fois.',
+        ];
+        $n = 0;
+        foreach (iterator_to_array(Store::pages()->iterate()) as $id => $row) {
+            if (!in_array($row['slug'], ['cgu', 'faq'], true)) {
+                continue;
+            }
+            $page = Store::pages()->get((int) $id);
+            $body = (string) ($page['body'] ?? '');
+            $new = strtr($body, $map);
+            if ($page && $new !== $body) {
+                Store::pages()->update((int) $id, ['body' => $new]);
+                $n++;
+            }
+        }
+        return $n;
+    }
+
     public static function defaults(): array
     {
         $s = static fn (string $k) => e((string) Settings::get('site.' . $k));
@@ -57,7 +83,7 @@ final class Pages
                     . "<h2>2. Service gratuit</h2><p>La consultation de l'annuaire, le dépôt de demandes de devis et l'inscription des professionnels sont gratuits. Le site est financé par la publicité.</p>"
                     . "<h2>3. Demandes de devis et messages</h2><p>Les demandes déposées par les visiteurs sont contrôlées (filtrage automatique et, si besoin, vérification manuelle) avant leur transmission aux professionnels concernés. Le visiteur accepte que ses coordonnées soient communiquées aux professionnels sélectionnés afin qu'ils puissent lui répondre.</p>"
                     . "<h2>4. Obligations des professionnels</h2><p>Le professionnel s'engage à exercer légalement son activité (statut déclaré, assurances, déclarations sociales et fiscales), à publier des informations exactes, à répondre loyalement aux demandes reçues et à respecter la <a href=\"/charte-qualite/\">charte qualité</a>. L'éditeur peut suspendre ou supprimer toute fiche ne respectant pas ces règles.</p>"
-                    . "<h2>5. Avis clients</h2><p>Les avis sont vérifiés par email puis modérés. Ils doivent relater une expérience réelle, sans propos injurieux ni données personnelles. Le professionnel dispose d'un droit de réponse public.</p>"
+                    . "<h2>5. Avis clients</h2><p>Les avis sont relus avant publication (un seul avis par client et par professionnel). Ils doivent relater une expérience réelle, sans propos injurieux ni données personnelles. Le professionnel dispose d'un droit de réponse public.</p>"
                     . "<h2>6. Responsabilité</h2><p>{$site} n'intervient pas dans la relation contractuelle entre le client et le professionnel et ne peut être tenu responsable des prestations réalisées, de leur prix ou de leur annulation.</p>"
                     . "<h2>7. Droit applicable</h2><p>Les présentes conditions sont soumises au droit français.</p>",
             ],
@@ -80,7 +106,7 @@ final class Pages
                 'title' => 'Questions fréquentes',
                 'body' => "<h2>Le service est-il gratuit ?</h2><p>Oui : la recherche, les demandes de devis et l'inscription des professionnels sont gratuites. Aucune commission n'est prélevée sur les prestations.</p>"
                     . "<h2>Comment fonctionne la demande de devis ?</h2><p>Vous décrivez votre événement en une minute. Votre demande est vérifiée puis transmise aux professionnels du secteur correspondant, qui vous contactent directement.</p>"
-                    . "<h2>Les avis sont-ils fiables ?</h2><p>Chaque avis est confirmé par email puis relu avant publication. Les avis « client vérifié » proviennent d'une invitation envoyée par le professionnel à son client.</p>"
+                    . "<h2>Les avis sont-ils fiables ?</h2><p>Chaque avis est relu avant publication, et un client ne peut noter un professionnel qu'une fois. Les avis « client vérifié » proviennent d'une invitation envoyée par le professionnel à son client.</p>"
                     . "<h2>Je suis un professionnel, comment apparaître dans l'annuaire ?</h2><p>Créez votre fiche gratuitement depuis la page <a href=\"/inscription-pro/\">Inscription pro</a>. Elle est publiée après une rapide vérification.</p>"
                     . "<h2>J'avais un compte sur l'ancien site, que devient-il ?</h2><p>Votre fiche a été conservée. Connectez-vous avec votre identifiant ou votre email et votre mot de passe habituel ; vous pourrez ensuite le changer.</p>",
             ],

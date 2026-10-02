@@ -164,6 +164,12 @@ final class Cron
         if (Geo::keylessCarto((string) Env::get('MAP_TILE_URL', ''))) {
             Env::write(['MAP_TILE_URL' => '', 'MAP_TILE_ATTRIBUTION' => '']); // CARTO exige une clé : retour à OpenStreetMap
         }
+        if (!Settings::get('upgrades.reviews_text', false)) {
+            if (Pages::upgradeReviewTexts() > 0) {
+                Cache::bump(); // CGU et FAQ : avis sans confirmation par email
+            }
+            Settings::set('upgrades.reviews_text', true);
+        }
         $free = @disk_free_space(STORAGE_PATH);
         if ($free !== false && $free < 300 * 1024 * 1024) {
             $issues[] = 'Espace disque faible : ' . Fs::humanSize($free) . ' disponibles.';

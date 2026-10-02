@@ -8,6 +8,7 @@ use App\Services\Categories;
 use App\Services\Geo;
 use App\Services\Leads;
 use App\Services\Pros;
+use App\Services\Reviews;
 use App\Services\Settings;
 
 /** @var array $pro @var ?array $cat @var ?array $commune @var ?array $dep @var array $reviews @var array $similar @var array $crumbs @var string $cityName */
@@ -118,14 +119,14 @@ $devisUrl = Url::devis(array_filter(['cat' => $cat['slug'] ?? null, 'insee' => $
 
     <h2 class="section-title" id="avis">Avis clients</h2>
     <?php if ($nbReviews > 0): ?>
-      <div class="rating-summary mb-2"><span class="big"><?= e(number_format($rating, 1, ',', '')) ?></span><span><span class="c-coral" style="font-size:22px;letter-spacing:2px"><?= str_repeat('★', (int) round($rating)) . str_repeat('☆', 5 - (int) round($rating)) ?></span><br><span class="muted"><?= $nbReviews ?> avis vérifié<?= $nbReviews > 1 ? 's' : '' ?></span></span></div>
+      <div class="rating-summary mb-2"><span class="big"><?= e(number_format($rating, 1, ',', '')) ?></span><span><span class="c-coral" style="font-size:22px;letter-spacing:2px"><?= str_repeat('★', (int) round($rating)) . str_repeat('☆', 5 - (int) round($rating)) ?></span><br><span class="muted"><?= $nbReviews ?> avis</span></span></div>
       <div class="reviews">
         <?php foreach ($reviews as $r): ?>
           <article class="review">
             <div class="row-wrap"><span class="stars"><?= str_repeat('★', (int) $r['rating']) . str_repeat('☆', 5 - (int) $r['rating']) ?></span><?php if (!empty($r['verified_client'])): ?><span class="verified">✓ Client vérifié</span><?php endif; ?></div>
             <?php if (!empty($r['title'])): ?><h3 style="font-size:18px;margin-top:8px"><?= e($r['title']) ?></h3><?php endif; ?>
             <p style="margin:8px 0 0"><?= nl2br(e($r['body'])) ?></p>
-            <div class="who"><?= e($r['author_name']) ?> · <?= e(date_fr((string) $r['created_at'], 'month')) ?><?= !empty($r['event_type']) ? ' · ' . e(Leads::EVENT_TYPES[$r['event_type']] ?? '') : '' ?></div>
+            <div class="who"><?= e(Reviews::author($r)) ?> · <?= e(date_fr((string) $r['created_at'], 'month')) ?><?= !empty($r['event_type']) ? ' · ' . e(Leads::EVENT_TYPES[$r['event_type']] ?? '') : '' ?></div>
             <?php if (!empty($r['reply']['body'])): ?><div class="reply"><strong>Réponse de <?= e($name) ?> :</strong> <?= nl2br(e($r['reply']['body'])) ?></div><?php endif; ?>
           </article>
         <?php endforeach; ?>
@@ -134,29 +135,23 @@ $devisUrl = Url::devis(array_filter(['cat' => $cat['slug'] ?? null, 'insee' => $
       <p class="muted">Aucun avis publié pour le moment. Vous avez fait appel à <?= e($name) ?> ? Soyez le premier à partager votre expérience.</p>
     <?php endif; ?>
     <?php if (Settings::get('features.reviews', true)): ?>
-      <details class="box mt-3" id="avis-form">
-        <summary style="cursor:pointer;font-weight:800;font-size:18px">✍️ Laisser un avis</summary>
-        <form class="form mt-2" method="post" action="/pro/<?= (int) $pro['id'] ?>/avis" data-ajax data-protect="review" novalidate>
-          <?= AntiSpam::fields('review') ?>
-          <fieldset class="field">
-            <legend class="label">Votre note <span class="req">*</span></legend>
-            <div class="star-input">
-              <?php for ($s = 5; $s >= 1; $s--): ?><input type="radio" id="star<?= $s ?>" name="rating" value="<?= $s ?>"<?= $s === 5 ? ' required' : '' ?>><label for="star<?= $s ?>" title="<?= $s ?> étoile<?= $s > 1 ? 's' : '' ?>">★</label><?php endfor; ?>
-            </div>
-          </fieldset>
-          <div class="form-grid">
-            <div class="field"><label for="rv-name">Prénom (affiché) <span class="req">*</span></label><input id="rv-name" type="text" name="name" maxlength="60" required autocomplete="given-name"></div>
-            <div class="field"><label for="rv-email">Email (non publié) <span class="req">*</span></label><input id="rv-email" type="email" name="email" maxlength="120" required autocomplete="email"></div>
-            <div class="field"><label for="rv-type">Événement</label><select id="rv-type" name="event_type"><option value="">—</option><?php foreach (Leads::EVENT_TYPES as $k => $l): ?><option value="<?= e($k) ?>"><?= e($l) ?></option><?php endforeach; ?></select></div>
-            <div class="field"><label for="rv-date">Mois de l'événement</label><input id="rv-date" type="month" name="event_date" max="<?= date('Y-m') ?>"></div>
+      <form class="box mt-3 review-form" id="avis-form" method="post" action="/pro/<?= (int) $pro['id'] ?>/avis" data-ajax data-protect="review" data-review-form novalidate>
+        <?= AntiSpam::fields('review') ?>
+        <fieldset class="field review-stars">
+          <legend>Vous avez fait appel à <?= e($name) ?> ? <strong>Donnez votre avis</strong></legend>
+          <div class="stars-row"><div class="star-input star-input-lg">
+            <?php foreach ([5 => 'Excellent !', 4 => 'Très bien', 3 => 'Correct', 2 => 'Décevant', 1 => 'Très décevant'] as $s => $word): ?><input type="radio" id="star<?= $s ?>" name="rating" value="<?= $s ?>" data-word="<?= e($word) ?>"><label for="star<?= $s ?>" title="<?= e($word) ?>">★<span class="sr-only"><?= $s ?> sur 5 : <?= e($word) ?></span></label><?php endforeach; ?>
           </div>
-          <div class="field"><label for="rv-title">Titre</label><input id="rv-title" type="text" name="title" maxlength="90" placeholder="Une soirée inoubliable !"></div>
-          <div class="field"><label for="rv-body">Votre avis <span class="req">*</span></label><textarea id="rv-body" name="body" maxlength="3000" required data-charcount="3000" placeholder="Ambiance, ponctualité, écoute, rapport qualité-prix…"></textarea></div>
+          <span class="star-hint" data-star-hint aria-live="polite">Cliquez sur une étoile</span></div>
+        </fieldset>
+        <div class="review-more">
+          <div class="field"><label for="rv-body" class="sr-only">Votre avis</label><textarea id="rv-body" name="body" rows="4" maxlength="3000" required data-charcount="3000" placeholder="Racontez votre expérience : ambiance, ponctualité, écoute, rapport qualité-prix…"></textarea></div>
           <label class="check field"><input type="checkbox" name="consent" value="1" required> <span>Je certifie avoir fait appel à ce professionnel et que mon avis est sincère.</span></label>
           <div class="row-wrap"><button type="submit" class="btn btn-ink">Publier mon avis</button><span class="pow-status"></span></div>
-          <div data-form-result></div>
-        </form>
-      </details>
+        </div>
+        <div data-form-result></div>
+        <p class="small muted review-note"><?= Settings::get('moderation.reviews_mode', 'manual') === 'auto' ? 'Avis contrôlés automatiquement avant publication' : 'Avis relus par notre équipe avant publication' ?> ; un seul avis par client et par professionnel. « Client vérifié » : avis déposé sur invitation du professionnel.</p>
+      </form>
     <?php endif; ?>
   </div>
 

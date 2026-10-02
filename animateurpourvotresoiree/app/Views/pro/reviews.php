@@ -34,7 +34,7 @@ $n = (int) ($pro['rating']['count'] ?? 0);
         </div>
         <?php if (!empty($r['title'])): ?><h3 class="mt-1" style="font-size:18px"><?= e($r['title']) ?></h3><?php endif; ?>
         <p><?= nl2br(e($r['body'])) ?></p>
-        <div class="who"><?= e($r['author_name']) ?> · <?= e(date_fr((string) ($r['created_at'] ?? ''), 'short')) ?><?= !empty($r['verified_client']) ? ' · <span class="verified">✓ Client vérifié</span>' : '' ?></div>
+        <div class="who"><?= e(App\Services\Reviews::author($r)) ?> · <?= e(date_fr((string) ($r['created_at'] ?? ''), 'short')) ?><?= !empty($r['verified_client']) ? ' · <span class="verified">✓ Client vérifié</span>' : '' ?></div>
         <?php if ($r['status'] === 'approved'): ?>
           <form method="post" action="/espace-pro/avis/repondre" class="reply-form mt-2">
             <?= csrf_field() ?>

@@ -16,7 +16,7 @@ $back = http_build_query(array_intersect_key($filters, ['statut' => 1, 'page' =>
     <div class="box">
       <div class="box-head">
         <div><span class="c-coral" style="font-size:18px"><?= str_repeat('★', (int) $r['rating']) ?><?= str_repeat('☆', 5 - (int) $r['rating']) ?></span> <strong><?= e((string) ($r['title'] ?? '')) ?></strong>
-          <div class="small muted"><?= e($r['author_name']) ?> (<?= e((string) ($r['author_email'] ?? '')) ?>) · sur <a href="<?= e(Url::admin('pros/' . $r['pro_id'])) ?>"><?= e($r['pro_name']) ?></a> · <?= e(date_fr((string) ($r['created_at'] ?? ''), 'datetime')) ?><?= !empty($r['verified_client']) ? ' · <span class="verified">✓ client vérifié</span>' : '' ?></div></div>
+          <div class="small muted"><?= e(App\Services\Reviews::author($r)) ?><?= !empty($r['author_email']) ? ' (' . e((string) $r['author_email']) . ')' : '' ?> · sur <a href="<?= e(Url::admin('pros/' . $r['pro_id'])) ?>"><?= e($r['pro_name']) ?></a> · <?= e(date_fr((string) ($r['created_at'] ?? ''), 'datetime')) ?><?= !empty($r['verified_client']) ? ' · <span class="verified">✓ client vérifié</span>' : '' ?></div></div>
         <span class="status-pill st-<?= e($r['status']) ?>"><?= e(Reviews::STATUSES[$r['status']] ?? $r['status']) ?></span>
       </div>
       <p><?= nl2br(e((string) $r['body'])) ?></p>

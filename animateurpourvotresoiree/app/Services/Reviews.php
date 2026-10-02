@@ -13,14 +13,21 @@ final class Reviews
 {
     public const STATUSES = ['unverified' => 'Email non confirmé', 'pending' => 'À modérer', 'approved' => 'Publié', 'rejected' => 'Refusé'];
 
+    /**
+     * Enregistre un avis. Avis du site (une note et un texte, comme sur Google) : relu avant publication, ou publié
+     * aussitôt en modération automatique si l'anti-spam est serein. Avis sur invitation du pro : « client vérifié ».
+     * Avec une adresse email (ancien formulaire), l'avis attend d'abord la confirmation par email.
+     */
     public static function create(array $pro, array $in, bool $invited = false): array
     {
+        $email = (string) ($in['email'] ?? '');
+        $confirm = !$invited && $email !== '';
         $rev = Store::reviews()->insert([
             'pro_id' => (int) $pro['id'],
-            'status' => $invited ? 'pending' : 'unverified',
+            'status' => $confirm ? 'unverified' : 'pending',
             'rating' => max(1, min(5, (int) $in['rating'])),
-            'author_name' => $in['name'],
-            'author_email' => $in['email'],
+            'author_name' => (string) ($in['name'] ?? ''),
+            'author_email' => $email,
             'title' => $in['title'] ?? '',
             'body' => $in['body'],
             'event_type' => $in['event_type'] ?? '',
@@ -32,13 +39,34 @@ final class Reviews
             'spam' => $in['spam'] ?? null,
         ]);
         Stats::hit('review', (int) $pro['id']);
-        if ($invited) {
-            self::afterVerified($rev, $pro);
-        } else {
+        if ($confirm) {
             $token = Crypto::sign(['r' => (int) $rev['id']], 'review', 86400 * 14);
-            Mail::send((string) $in['email'], 'review_verify', ['prenom' => Leads::greetingName((string) $in['name']), 'fiche' => Pros::displayName($pro)], ['bouton_url' => '/avis/confirmer/' . $token . '/', 'bouton_label' => 'Confirmer mon avis']);
+            Mail::send($email, 'review_verify', ['prenom' => Leads::greetingName((string) $in['name']), 'fiche' => Pros::displayName($pro)], ['bouton_url' => '/avis/confirmer/' . $token . '/', 'bouton_label' => 'Confirmer mon avis']);
+            return $rev;
         }
-        return $rev;
+        self::afterVerified($rev, $pro);
+        return Store::reviews()->get((int) $rev['id']) ?? $rev;
+    }
+
+    /** Un seul avis par visiteur (même connexion) et par pro sur 6 mois. */
+    public static function alreadyReviewed(int $proId): bool
+    {
+        $ip = Request::ipHash();
+        $since = date('c', strtotime('-180 days'));
+        foreach (Store::reviews()->ids('pro_id', $proId) as $rid) {
+            $r = Store::reviews()->get((int) $rid);
+            if ($r && ($r['ip_hash'] ?? '') === $ip && (string) ($r['created_at'] ?? '') >= $since && $r['status'] !== 'rejected') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Nom affiché : le prénom donné (anciens avis, invitations), sinon « Client ». */
+    public static function author(array $r): string
+    {
+        $n = trim((string) ($r['author_name'] ?? $r['author'] ?? ''));
+        return $n !== '' ? $n : 'Client';
     }
 
     public static function confirm(string $token): ?array

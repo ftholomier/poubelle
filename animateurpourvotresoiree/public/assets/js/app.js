@@ -346,6 +346,35 @@
     if (btn) btn.classList.remove('is-loading');
   }));
 
+  /* Avis façon Google : on choisit ses étoiles (le mot correspondant s'affiche), puis le champ libre apparaît */
+  $$('form[data-review-form]').forEach((form) => {
+    const hint = $('[data-star-hint]', form);
+    const radios = $$('input[name="rating"]', form);
+    const say = (r) => { if (hint) hint.textContent = r ? r.dataset.word : 'Cliquez sur une étoile'; };
+    const sync = () => {
+      const r = radios.find((x) => x.checked);
+      form.classList.toggle('has-rating', !!r);
+      say(r);
+    };
+    form.classList.add('js-review');
+    radios.forEach((r) => {
+      r.addEventListener('change', () => {
+        const first = !form.classList.contains('has-rating');
+        sync();
+        const ta = $('textarea', form);
+        if (first && ta) setTimeout(() => ta.focus({ preventScroll: true }), 60);
+      });
+      const label = form.querySelector('label[for="' + r.id + '"]');
+      if (label) {
+        label.addEventListener('mouseenter', () => say(r));
+        label.addEventListener('mouseleave', sync);
+      }
+    });
+    // après un envoi réussi (le formulaire est remis à zéro) : seul le message de remerciement reste
+    form.addEventListener('reset', () => { if (form.matches('[data-ajax]')) form.classList.add('is-done'); setTimeout(sync, 0); });
+    sync();
+  });
+
   /* ------------------------------------------------- fiche pro : téléphone, galerie, vidéos */
   document.addEventListener('click', async (e) => {
     const rev = e.target.closest('[data-reveal-phone]');
@@ -580,6 +609,58 @@
   const pushAds = () => { $$('ins.adsbygoogle:not([data-pushed])').forEach((ins) => { ins.dataset.pushed = '1'; try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { /* bloqueur */ } }); };
   APVS.pushAds = pushAds;
   if ($('ins.adsbygoogle')) window.addEventListener('load', pushAds);
+
+  /* ------------------------------------------------------------- pied de page
+     Apparition au défilement, compteurs qui s'animent, vague sur le grand logo, retour en haut ;
+     animations en pause hors de l'écran ; rien de tout cela si le visiteur préfère réduire les animations. */
+  const footer = $('[data-footer]');
+  if (footer) {
+    const reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const giant = $('[data-giant]', footer);
+    const below = footer.getBoundingClientRect().top > window.innerHeight;
+    let counted = !below || reduce;
+    const countUp = () => {
+      if (counted) return;
+      counted = true;
+      $$('[data-count]', footer).forEach((el) => {
+        const target = Number(el.dataset.count) || 0;
+        const t0 = performance.now();
+        const step = (t) => {
+          const p = Math.min(1, (t - t0) / 1400);
+          el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))).toLocaleString('fr-FR');
+          if (p < 1) requestAnimationFrame(step);
+        };
+        el.textContent = '0';
+        requestAnimationFrame(step);
+      });
+    };
+    if ('IntersectionObserver' in window) {
+      if (below && !reduce) footer.classList.add('fx');
+      footer.classList.add('watch');
+      new IntersectionObserver((en) => {
+        en.forEach((x) => {
+          footer.classList.toggle('in-view', x.isIntersecting);
+          if (x.isIntersecting) { footer.classList.add('revealed'); countUp(); }
+        });
+      }, { threshold: 0.05 }).observe(footer);
+      if (giant && !reduce) {
+        const io = new IntersectionObserver((en) => {
+          if (!en.some((x) => x.isIntersecting)) return;
+          io.disconnect();
+          giant.classList.add('wave');
+          setTimeout(() => giant.classList.remove('wave'), 2400);
+        }, { threshold: 0.6 });
+        io.observe(giant);
+      }
+    }
+    const toTop = $('[data-to-top]', footer);
+    if (toTop) toTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+      const logo = $('.site-header .logo');
+      if (logo) logo.focus({ preventScroll: true });
+    });
+  }
 
   /* ------------------------------------------------------------- PWA */
   if (CFG.pwa && 'serviceWorker' in navigator && location.protocol === 'https:' || (CFG.pwa && 'serviceWorker' in navigator && location.hostname === 'localhost')) {

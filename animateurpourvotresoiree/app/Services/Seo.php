@@ -149,7 +149,7 @@ final class Seo
             $ld['aggregateRating'] = ['@type' => 'AggregateRating', 'ratingValue' => round((float) $p['rating']['avg'], 1), 'reviewCount' => $count, 'bestRating' => 5, 'worstRating' => 1];
             $ld['review'] = array_map(static fn ($r) => [
                 '@type' => 'Review',
-                'author' => ['@type' => 'Person', 'name' => $r['author_name']],
+                'author' => ['@type' => 'Person', 'name' => Reviews::author($r)],
                 'datePublished' => substr((string) $r['created_at'], 0, 10),
                 'reviewRating' => ['@type' => 'Rating', 'ratingValue' => (int) $r['rating'], 'bestRating' => 5],
                 'reviewBody' => Str::limit((string) $r['body'], 500),

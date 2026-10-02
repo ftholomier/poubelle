@@ -720,7 +720,7 @@ final class DashboardController extends Controller
         foreach (Store::reviews()->ids('pro_id', (int) $pro['id']) as $rid) {
             $r = Store::reviews()->get($rid);
             if ($r && $r['status'] === 'approved') {
-                $data['reviews'][] = ['rating' => $r['rating'], 'author' => $r['author_name'], 'body' => $r['body'], 'reply' => $r['reply'], 'created_at' => $r['created_at'] ?? ''];
+                $data['reviews'][] = ['rating' => $r['rating'], 'author' => \App\Services\Reviews::author($r), 'body' => $r['body'], 'reply' => $r['reply'], 'created_at' => $r['created_at'] ?? ''];
             }
         }
         $data['statistiques'] = Fs::readJson(STORAGE_PATH . '/data/stats/pros/' . (int) $pro['id'] . '.json', []);

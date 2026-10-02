@@ -71,7 +71,7 @@ final class HomeController extends Controller
                 $r = Store::reviews()->get((int) $found['items'][0]['id']);
                 $pro = $r ? Store::pros()->get((int) $r['pro_id']) : null;
                 if ($r && $pro) {
-                    return ['stars' => true, 'text' => '« ' . $r['body'] . ' »', 'author' => $r['author_name'] . ($pro['city'] ?? '' ? ', ' . $pro['city'] : '')];
+                    return ['stars' => true, 'text' => '« ' . $r['body'] . ' »', 'author' => \App\Services\Reviews::author($r) . ($pro['city'] ?? '' ? ', ' . $pro['city'] : '')];
                 }
             }
         }
