@@ -26,6 +26,14 @@ use App\Services\Store;
 /** API JSON publique (explorateur, autocomplétion, favoris, anti-spam, statistiques). */
 final class ApiController extends Controller
 {
+    /** Signal des navigateurs : déclenche les tâches planifiées quand aucun cron n'est configuré (au plus une fois par minute). */
+    public function tick(): Response
+    {
+        ignore_user_abort(true);
+        \App\Services\Cron::maybeRun();
+        return new Response('', 204, ['Cache-Control' => 'no-store']);
+    }
+
     private function limit(string $key, int $max, int $window): ?Response
     {
         if (!RateLimiter::attempt('api:' . $key . ':' . Request::ip(), $max, $window)) {

@@ -22,6 +22,7 @@ $config = [
     'consent' => ['ga4' => (string) Settings::get('analytics.ga4', ''), 'pixel' => (string) Settings::get('analytics.meta_pixel', ''), 'ads' => Ads::enabled() && !Ads::demo() && !empty($meta['ads']) && Settings::get('ads.cmp', 'google') === 'own', 'adsClient' => Settings::get('ads.cmp', 'google') === 'own' ? Ads::client() : ''],
     'chat' => $aiChat ? ['name' => (string) Settings::get('ai.assistant_name', 'Confetti'), 'greeting' => (string) Settings::get('ai.assistant_greeting', '')] : null,
     'pwa' => (bool) Settings::get('features.pwa', true),
+    'tick' => App\Core\App::needsTick(),
 ];
 ?><!doctype html>
 <html lang="fr">

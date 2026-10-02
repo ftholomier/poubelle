@@ -13,9 +13,9 @@ directs, avis vérifiés, espace pro, back-office complet, assistant IA, applica
 
 ## Sommaire
 
-1. [Installation](#installation)
-2. [Migration de l'ancien site](#migration-de-lancien-site)
-3. [Tâches planifiées](#tâches-planifiées-cron)
+1. [Mise en ligne (FTP)](#mise-en-ligne-ftp)
+2. [Données de l'ancien site](#données-de-lancien-site)
+3. [Tâches automatiques](#tâches-automatiques)
 4. [Back-office](#back-office)
 5. [Référencement](#référencement)
 6. [Sécurité et RGPD](#sécurité-et-rgpd)
@@ -23,76 +23,84 @@ directs, avis vérifiés, espace pro, back-office complet, assistant IA, applica
 8. [Commandes utiles](#commandes-utiles)
 9. [Crédits et licences](#crédits-et-licences)
 
-## Installation
+## Mise en ligne (FTP)
 
-**Prérequis** : PHP 8.2 ou plus avec les extensions `gd` (avec WebP), `mbstring`, `openssl`, `curl`,
-`zip`, `intl`, `fileinfo`, `dom` (et de préférence `sodium`, `exif`, OPcache). Voir
-`deploy/php.ini.example`.
+Le site est livré **complet** : code, données de l'ancien site déjà converties et photos. Il n'y a ni
+base de données, ni fichier SQL, ni fichier de configuration à modifier.
 
-**Espace disque** : comptez environ 400 Mo pour les données migrées (≈ 70 000 petits fichiers JSON,
-vérifiez la limite d'« inodes » sur un hébergement mutualisé), 40 à 60 Mo pour les photos des pros,
-et environ 45 Mo par sauvegarde (7 sauvegardes automatiques conservées par défaut).
+1. Décompressez le paquet sur votre ordinateur.
+2. Envoyez **tout son contenu** par FTP dans le dossier web de l'hébergement (`www/`, `public_html/`…),
+   fichiers cachés compris (`.htaccess`, `.ovhconfig`).
+3. Ouvrez le site : à la première visite, les données s'installent toutes seules (une à deux minutes,
+   la page se recharge d'elle-même).
+4. Connectez-vous au back-office (`/gestion/`) avec les identifiants fournis à la livraison, puis
+   choisissez votre mot de passe.
+5. Dans le back-office, renseignez vos clés : **Configuration** (clé Gemini pour l'IA) et
+   **Publicité** (identifiant AdSense). C'est tout.
 
-1. Copiez tout le dossier sur le serveur (par exemple `/var/www/animateurpourvotresoiree`).
-2. Faites pointer le domaine sur le dossier **`public/`** (Nginx : `deploy/nginx.conf` ; Apache :
-   `public/.htaccess` est fourni). Si votre hébergement ne le permet pas, le `.htaccess` de la racine
-   redirige tout vers `public/` et bloque le reste.
-3. Donnez à PHP le droit d'écrire dans `storage/`, `config/` et `public/media/`.
-4. Ouvrez le site une première fois : le fichier `config/.env` est créé automatiquement à partir de
-   `config/.env.example`, avec des clés secrètes générées (`APP_KEY`, `CRON_TOKEN`, `SETUP_TOKEN`).
-5. Renseignez au minimum dans `config/.env` : `APP_URL`, `APP_ENV=production`, `CONTACT_EMAIL`
-   et les paramètres SMTP (tout se modifie ensuite depuis le back-office). Derrière Cloudflare ou un
-   proxy qui gère le HTTPS, indiquez aussi `TRUSTED_PROXIES` (`cloudflare` ou les IP du proxy) : sinon
-   la redirection vers HTTPS tourne en boucle et l'anti-spam ne voit que l'IP du proxy.
-6. Allez sur `https://votre-site/gestion/setup` et saisissez le **jeton d'installation**
-   (`SETUP_TOKEN` du fichier `config/.env`) pour créer le compte super-administrateur. Le jeton est
-   effacé après usage. Alternative : `php bin/admin.php create`.
-7. Activez la double authentification (Mon compte → 2FA), configurez le cron (ci-dessous), puis
-   changez l'adresse du back-office (`ADMIN_PATH`) pour une adresse moins devinable.
+Ce qui se règle tout seul :
 
-## Migration de l'ancien site
+- `config/.env` est créé à la première visite avec des clés secrètes uniques ; le domaine, l'email de
+  contact et l'envoi des emails (fonction d'envoi de l'hébergeur) sont préréglés. Un serveur SMTP peut
+  être ajouté plus tard dans Configuration, mais ce n'est pas obligatoire.
+- Cloudflare et les répartiteurs des hébergeurs sont reconnus automatiquement (vraie IP des visiteurs,
+  HTTPS sans boucle de redirection).
+- Le `.htaccess` de la racine envoie les visiteurs vers `public/` et interdit l'accès au code, aux
+  données et à la configuration. Si l'hébergement permet de faire pointer le domaine directement sur
+  `public/` (ou sous Nginx : `deploy/nginx.conf`), c'est encore mieux, mais pas nécessaire.
+- Le fichier `.ovhconfig` choisit PHP 8.3 sur les hébergements OVH ; ailleurs, si la version de PHP
+  est trop ancienne, le site affiche un message expliquant quoi changer.
 
-Le dump SQL de l'ancienne base est **converti** (aucune base MySQL n'est nécessaire) :
+**Prérequis** : PHP 8.2 ou plus avec les extensions courantes `gd` (avec WebP), `mbstring`, `openssl`,
+`curl`, `zip`, `intl`, `fileinfo`, `dom` (présentes chez la plupart des hébergeurs).
 
-- **Depuis le back-office** : Maintenance & import → déposez le fichier `.sql` (ou copiez-le par FTP
-  dans `storage/import/`), cliquez sur « Lancer la migration », puis « Rapatrier les photos ».
-- **En ligne de commande** :
+**Espace disque** : environ 450 Mo une fois installé (≈ 75 000 petits fichiers, à comparer à la limite
+d'« inodes » des offres mutualisées les plus modestes), plus environ 45 Mo par sauvegarde (7 sauvegardes
+automatiques conservées par défaut).
 
-  ```bash
-  php bin/import.php chemin/vers/dump.sql --photos
-  ```
+Ensuite, conseillé : activez la double authentification (Mon compte → 2FA) et changez l'adresse du
+back-office (`ADMIN_PATH` dans Configuration) pour une adresse moins devinable.
 
-Ce que fait la migration :
+## Données de l'ancien site
 
-- 2 068 fiches pros importées : les **actifs** sont publiés, les anciens membres restent consultables
-  dans le back-office (statut « Ancien membre ») ; textes réparés (accents perdus), noms et villes
-  normalisés, **métiers déduits automatiquement** (14 catégories, sans striptease), géolocalisation
-  à la commune (zones d'intervention reprises).
+L'ancienne base a été **convertie une fois pour toutes en fichiers** et les photos ont été rapatriées ;
+le tout est livré dans `storage/install/donnees.zip`, que le site décompresse lui-même à la première
+visite (il supprime ensuite l'archive). Ces données ne sont pas dans le dépôt Git, qui est public, car
+elles contiennent les coordonnées des pros et de leurs clients.
+
+Ce qui a été repris :
+
+- 2 068 fiches pros : les **actifs** sont publiés, les anciens membres restent consultables dans le
+  back-office (statut « Ancien membre ») ; textes réparés (accents perdus), noms et villes normalisés,
+  **métiers déduits automatiquement** (14 catégories, sans striptease), géolocalisation à la commune
+  (zones d'intervention reprises).
+- **Toutes les photos** encore présentes sur l'ancien site, y compris celles des anciens membres.
 - Les **identifiants des pros sont conservés** ; les mots de passe, stockés en clair dans l'ancienne
   base, sont **chiffrés (Argon2id)** et un changement est demandé à la première connexion.
 - Demandes de devis (≈ 7 600), messages aux pros (≈ 50 000), emails prospects (dédoublonnés),
-  historique mensuel depuis 2002, mémo, articles « Actualités » (devenus le blog) : tout est repris.
+  historique mensuel depuis 2002, mémo, articles « Actualités » (devenus le blog).
 - Les tables historiques (factures, parrainage, statistiques…) sont **archivées en lecture seule**
   (mots de passe masqués) : Back-office → Archives.
 - Les **anciennes adresses** (`fiche.php?id=…`, `depresultat.php`, `moteurresultat.php`, articles…)
   sont redirigées en **301** vers les nouvelles pages.
 
-La migration est rejouable : relancée, elle remplace les données importées (les photos déjà
-rapatriées sont conservées).
+Facultatif : l'outil de conversion reste disponible (Maintenance → « Reconvertir un export de
+l'ancienne base », ou `php bin/import.php export.sql --photos`) si vous vouliez un jour repartir d'un
+nouvel export de l'ancien site ; il remplace alors les données en place.
 
-## Tâches planifiées (cron)
+## Tâches automatiques
 
-Une seule ligne, toutes les minutes (`deploy/crontab.example`) :
+Rien à configurer : envoi progressif des emails, campagnes programmées, statistiques, sitemaps,
+contrôles de santé, récapitulatif quotidien des administrateurs, badge « très demandé », nettoyage,
+sauvegarde nocturne et bilan hebdomadaire des pros se déclenchent d'eux-mêmes au fil des visites.
+
+Facultatif, pour une exécution à heure fixe même sans visite : une tâche cron toutes les minutes
+(`deploy/crontab.example`) ou un service de cron en ligne appelant l'adresse secrète
+`https://votre-site/cron/{CRON_TOKEN}` (visible dans Configuration).
 
 ```cron
-* * * * * php /var/www/animateurpourvotresoiree/bin/cron.php > /dev/null 2>&1
+* * * * * php /chemin/vers/le/site/bin/cron.php > /dev/null 2>&1
 ```
-
-Elle gère : envoi progressif des emails, campagnes programmées, agrégation des statistiques,
-sitemaps, contrôles de santé, récapitulatif quotidien des administrateurs, badge « très demandé »,
-nettoyage (sessions, caches, journaux, données expirées), sauvegarde nocturne, bilan hebdomadaire
-des pros. Sans accès au cron, appelez l'adresse secrète `https://votre-site/cron/{CRON_TOKEN}`
-toutes les minutes avec un service de cron en ligne (adresse visible dans Configuration).
 
 ## Back-office
 
@@ -147,9 +155,10 @@ classement des pros. Clé à renseigner dans Configuration (`GEMINI_API_KEY`).
 - Mots de passe chiffrés en Argon2id ; secrets chiffrés au repos (2FA) ; journal d'audit des actions.
 - Chaque rôle ne voit que ses rubriques, recherche globale comprise ; configuration `.env`, codes de
   suivi bruts, téléchargement et restauration des sauvegardes réservés au super-administrateur.
-- IP des visiteurs lue derrière un proxy seulement s'il est déclaré de confiance ; blocage des
-  connexions par IP et par couple compte + IP ; notifications push envoyées uniquement aux services
-  des navigateurs ; emails de confirmation sans texte libre (pas de relais de spam).
+- IP des visiteurs lue derrière un proxy seulement s'il est de confiance (Cloudflare, réseau de
+  l'hébergeur ou proxys déclarés dans `TRUSTED_PROXIES`) ; blocage des connexions par IP et par
+  couple compte + IP ; notifications push envoyées uniquement aux services des navigateurs ; emails
+  de confirmation sans texte libre (pas de relais de spam).
 - Anti-spam sans captcha visible : champ piège, délai minimal, preuve de travail calculée par le
   navigateur, limites de débit, listes noires, analyse du contenu, adresses jetables, MX, Turnstile
   et score IA facultatifs.
@@ -158,7 +167,8 @@ classement des pros. Clé à renseigner dans Configuration (`GEMINI_API_KEY`).
 - Statistiques sans cookie ; Google Analytics, Meta Pixel et publicité personnalisée uniquement après
   consentement ; export et suppression des données par les pros ; conversations de l'assistant
   conservées 6 mois.
-- ⚠️ Ne publiez jamais `config/.env`, `storage/` ni le dump SQL (le `.gitignore` les exclut).
+- ⚠️ Ne publiez jamais `config/.env`, `storage/`, les données livrées ni l'export SQL de l'ancien site
+  (le `.gitignore` les exclut).
 
 ## Structure du projet
 
@@ -169,17 +179,18 @@ bin/            commandes : cron.php, import.php, admin.php, outils de générat
 config/         .env (créé automatiquement, non versionné) et .env.example
 deploy/         exemples Nginx, php.ini, crontab
 public/         seul dossier exposé : index.php, assets (CSS, JS, polices, icônes), media
-storage/        données JSON, caches, sessions, journaux, sauvegardes, imports (non versionné)
+storage/        données JSON, caches, sessions, journaux, sauvegardes (non versionné) ;
+                install/donnees.zip : données livrées, décompressées à la première visite
 ```
 
 ## Commandes utiles
 
 ```bash
-php bin/cron.php                 # tâches planifiées (à lancer chaque minute)
+php bin/cron.php                 # tâches planifiées (facultatif : elles tournent aussi sans cron)
 php bin/cron.php --list          # dernier passage de chaque tâche
 php bin/cron.php mail stats      # forcer certaines tâches
-php bin/import.php dump.sql      # migrer l'ancienne base (ajoutez --photos pour les photos)
-php bin/import.php --photos-only # rapatrier seulement les photos
+php bin/import.php export.sql    # reconvertir un export de l'ancienne base (facultatif)
+php bin/import.php --photos-only --all # rapatrier les photos manquantes
 php bin/admin.php create         # créer un super-administrateur
 php bin/admin.php reset email    # réinitialiser un accès (mot de passe + 2FA)
 php -S localhost:8000 -t public bin/dev-router.php   # serveur de développement

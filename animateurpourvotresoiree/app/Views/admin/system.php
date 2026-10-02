@@ -50,12 +50,18 @@ use App\Services\Import\Importer;
 </div>
 
 <div class="box mt-3" id="import">
-  <h2>Migration de l'ancienne base</h2>
-  <?php if ($importDone): ?><div class="alert alert-success small mb-2"><div>Migration effectuée <?= e(ago((string) $importDone['at'])) ?>. Relancer la migration remplace les fiches, demandes et messages par ceux du dump (les photos déjà rapatriées sont conservées).</div></div><?php endif; ?>
+  <h2>Données de l'ancien site</h2>
+  <?php if ($importDone): ?>
+    <div class="alert alert-success small mb-2"><div>Les données de l'ancien site sont en place depuis le <?= e(date_fr((string) $importDone['at'], 'long')) ?> : fiches, demandes de devis, messages, historique et photos. <strong>Aucune base de données ni fichier SQL n'est nécessaire</strong> : tout est enregistré dans des fichiers.</div></div>
+  <?php else: ?>
+    <p class="small">Aucune donnée de l'ancien site n'est en place. Le plus simple : déposez le dossier <code>storage/data</code> et les photos (<code>public/media/pros</code>) livrés avec le site. Sinon, l'outil ci-dessous convertit une fois pour toutes l'export de l'ancienne base en fichiers.</p>
+  <?php endif; ?>
   <?php if (!$canEnv): ?><p class="muted small">Réservé au super-administrateur.</p><?php else: ?>
-  <div class="adm-grid">
+  <details<?= $importDone ? '' : ' open' ?>>
+  <summary class="small"><strong>Reconvertir un export de l'ancienne base</strong> (facultatif<?= $importDone ? ', remplace les données actuelles' : '' ?>)</summary>
+  <div class="adm-grid mt-2">
     <div>
-      <p class="small"><strong>1. Déposer le dump SQL</strong> de l'ancienne base (<?= e((string) ini_get('upload_max_filesize')) ?> max par envoi ; sinon déposez-le par FTP dans <code>storage/import/</code>).</p>
+      <p class="small"><strong>1. Déposer l'export SQL</strong> de l'ancienne base (<?= e((string) ini_get('upload_max_filesize')) ?> max par envoi ; sinon déposez-le par FTP dans <code>storage/import/</code>).</p>
       <form method="post" action="<?= e(Url::admin('maintenance/import')) ?>" enctype="multipart/form-data" class="row-wrap"><?= csrf_field() ?><input type="file" name="dump" accept=".sql" class="small"><button class="btn btn-xs btn-ink" type="submit">Envoyer</button></form>
       <p class="small mt-1">Fichier détecté : <?= $dump ? '<code>' . e(basename($dump)) . '</code> (' . e(Fs::humanSize((int) filesize($dump))) . ')' : '<strong>aucun</strong>' ?></p>
     </div>
@@ -63,23 +69,24 @@ use App\Services\Import\Importer;
   </div>
   <?php if ($dump): ?>
   <div class="mt-2" data-runner="<?= e(Url::admin('maintenance/import')) ?>">
-    <p class="small"><strong>2. Lancer la migration</strong> (quelques minutes, ne fermez pas la page) :</p>
+    <p class="small"><strong>2. Lancer la conversion</strong> (quelques minutes, ne fermez pas la page) :</p>
     <ul class="steps-run">
       <?php $i = 1; foreach (Importer::STEPS as $step => [$label]): $st = $import['steps'][$step] ?? null; ?>
         <li data-step="<?= e($step) ?>" class="<?= !empty($st['done']) ? 'done' : '' ?>"><span class="st"><?= $i++ ?></span><span><?= e($label) ?><br><small><?= e((string) ($st['message'] ?? '')) ?></small></span></li>
       <?php endforeach; ?>
     </ul>
     <div class="progress mt-1"><i></i></div>
-    <button type="button" class="btn btn-sm btn-coral mt-2" data-runner-start data-confirm-text="Lancer la migration complète ? Les données actuelles (fiches, demandes, messages) seront remplacées par celles du dump.">Lancer la migration</button>
+    <button type="button" class="btn btn-sm btn-coral mt-2" data-runner-start data-confirm-text="Lancer la conversion complète ? Les données actuelles (fiches, demandes, messages) seront remplacées par celles de l'export.">Lancer la conversion</button>
     <pre class="log mt-1" data-runner-log style="max-height:200px"></pre>
   </div>
   <?php endif; ?>
   <div class="mt-3" data-runner="<?= e(Url::admin('maintenance/import')) ?>">
-    <p class="small"><strong>3. Rapatrier les photos</strong> depuis l'ancien site (<?= e((string) env('OLD_SITE_URL')) ?>) — <?= nf($photosTodo) ?> fiche(s) en ligne sans photo.</p>
+    <p class="small"><strong>3. Rapatrier les photos</strong> depuis l'ancien site (<?= e((string) env('OLD_SITE_URL')) ?>), seulement après une reconversion : les fiches déjà traitées sont ignorées. <?= nf($photosTodo) ?> fiche(s) en ligne sans photo (la plupart n'en avaient pas sur l'ancien site non plus).</p>
     <ul class="steps-run"><li data-step="photos"><span class="st">📷</span><span>Photos des pros en ligne<br><small></small></span></li></ul>
     <div class="progress mt-1"><i></i></div>
     <button type="button" class="btn btn-sm mt-1" data-runner-start>Lancer</button>
     <pre class="log mt-1" data-runner-log style="max-height:160px"></pre>
   </div>
+  </details>
   <?php endif; ?>
 </div>

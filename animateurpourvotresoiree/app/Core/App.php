@@ -29,15 +29,27 @@ final class App
         $method = Request::method();
         $isAdmin = is_admin_path();
 
-        // HTTPS et domaine canonique (jamais vers le domaine annoncé par la requête, qui peut être falsifié)
+        // HTTPS et domaine canonique
         $canonicalHost = strtolower((string) parse_url((string) Env::get('APP_URL', ''), PHP_URL_HOST));
         if (PHP_SAPI !== 'cli' && Env::bool('FORCE_HTTPS', true) && !Request::isSecure() && !self::isLocal()) {
-            (Response::redirect('https://' . ($canonicalHost !== '' ? $canonicalHost : Request::host()) . Request::uri(), 301))->send();
+            $host = Request::host();
+            if ($canonicalHost !== '' && ($host === $canonicalHost || str_replace('www.', '', $host) === str_replace('www.', '', $canonicalHost) || !preg_match('/^[a-z0-9.-]+(:\d+)?$/', $host))) {
+                $host = $canonicalHost; // www / sans www, ou en-tête Host invalide : domaine officiel
+            }
+            (Response::redirect('https://' . $host . Request::uri(), 301))->send();
             return;
         }
         if ($canonicalHost !== '' && Request::host() !== $canonicalHost && !self::isLocal() && in_array($method, ['GET', 'HEAD'], true)
             && str_replace('www.', '', Request::host()) === str_replace('www.', '', $canonicalHost)) {
             (Response::redirect(rtrim((string) Env::get('APP_URL'), '/') . Request::uri(), 301))->send();
+            return;
+        }
+
+        // Première visite après l'envoi par FTP : installation automatique des données livrées avec le site
+        if (\App\Services\Import\Bundle::pending()) {
+            $res = \App\Services\Import\Bundle::handle();
+            Security::headers($res);
+            $res->send();
             return;
         }
 
@@ -148,6 +160,15 @@ final class App
     }
 
     /** Travaux après réponse : cron « du pauvre » si aucune tâche planifiée n'est configurée. */
+    /**
+     * Vrai quand PHP ne peut pas terminer la réponse avant les tâches de fond (PHP en module Apache, par
+     * exemple) : les navigateurs envoient alors un petit signal pour déclencher les tâches planifiées.
+     */
+    public static function needsTick(): bool
+    {
+        return !function_exists('fastcgi_finish_request') && !function_exists('litespeed_finish_request');
+    }
+
     private static function afterResponse(): void
     {
         $finished = false;

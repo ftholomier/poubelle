@@ -63,6 +63,7 @@ $config = [
     'csrf' => Csrf::token(),
     'admin' => Url::admin(),
     'vapid' => App\Services\Push::publicKey(),
+    'tick' => App\Core\App::needsTick(),
 ];
 ?><!doctype html>
 <html lang="fr">

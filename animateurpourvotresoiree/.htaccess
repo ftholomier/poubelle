@@ -3,7 +3,7 @@
 Options -Indexes
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteRule (^|/)\. - [F,L]
+    RewriteRule (^|/)\.(?!well-known/) - [F,L]
     RewriteRule ^(app|bin|config|deploy|storage|vendor)(/|$) - [F,L]
     RewriteCond %{REQUEST_URI} !^/public/
     RewriteRule ^(.*)$ public/$1 [L]

@@ -16,6 +16,13 @@
   APVS.store = store;
   APVS.esc = esc;
 
+  /* Tâches planifiées sans cron serveur : quand l'hébergement ne peut pas les lancer après la page,
+     un petit signal (au plus une fois par minute et par navigateur) suffit à les déclencher. */
+  if (CFG.tick && navigator.sendBeacon && Date.now() - Number(store.get('tick', 0)) > 60000) {
+    store.set('tick', Date.now());
+    try { navigator.sendBeacon('/api/tick'); } catch (e) { /* ignoré */ }
+  }
+
   /* ------------------------------------------------------------- toasts */
   APVS.toast = (msg, ms = 2600) => {
     const zone = $('.toast-zone');

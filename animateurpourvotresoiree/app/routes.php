@@ -107,6 +107,7 @@ $router->get('/api/home-pros', [Api\ApiController::class, 'homePros']);
 $router->get('/api/communes', [Api\ApiController::class, 'communes']);
 $router->get('/api/favoris', [Api\ApiController::class, 'favoris']);
 $router->post('/api/challenge', [Api\ApiController::class, 'challenge']);
+$router->post('/api/tick', [Api\ApiController::class, 'tick']);
 $router->post('/api/track', [Api\ApiController::class, 'track']);
 $router->post('/api/pros/{id:\d+}/phone', [Api\ApiController::class, 'phone']);
 $router->post('/api/chat', [Api\ChatController::class, 'message']);

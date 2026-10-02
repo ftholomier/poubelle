@@ -176,7 +176,12 @@ final class Request
         if ((int) ($_SERVER['SERVER_PORT'] ?? 0) === 443) {
             return true;
         }
-        return self::fromTrustedProxy() && strtolower((string) self::header('X-Forwarded-Proto')) === 'https';
+        // Derrière Cloudflare ou le répartiteur de l'hébergeur, le HTTPS n'est signalé que par un en-tête. On le
+        // croit sans configuration : il ne sert qu'à décider de rediriger cette requête vers HTTPS, et l'ignorer
+        // ferait tourner la redirection en boucle (Cloudflare en mode « Flexible », par exemple).
+        $proto = strtolower(trim(explode(',', (string) (self::header('X-Forwarded-Proto') ?? ''))[0]));
+        return $proto === 'https' || strtolower((string) self::header('X-Forwarded-Ssl')) === 'on'
+            || str_contains((string) self::header('CF-Visitor'), '"https"');
     }
 
     public static function host(): string
@@ -192,10 +197,14 @@ final class Request
         '2400:cb00::/32', '2606:4700::/32', '2803:f800::/32', '2405:b500::/32', '2405:8100::/32', '2a06:98c0::/29', '2c0f:f248::/32',
     ];
 
+    /** Réseaux privés : une requête qui en provient est passée par un répartiteur de l'hébergeur. */
+    private const PRIVATE = ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '127.0.0.0/8', '::1/128', 'fc00::/7'];
+
     /**
-     * IP du client. Les en-têtes de proxy ne sont pris en compte que si la requête provient
-     * réellement d'un proxy de confiance (TRUSTED_PROXIES = « cloudflare » ou liste d'IP/CIDR),
-     * sinon n'importe qui pourrait se faire passer pour une autre adresse.
+     * IP du client. Les en-têtes de proxy ne sont pris en compte que si la requête provient réellement d'un
+     * proxy de confiance : Cloudflare (plages officielles) et réseau privé de l'hébergeur sont reconnus
+     * automatiquement, d'autres proxys peuvent être déclarés dans TRUSTED_PROXIES. Sinon n'importe qui
+     * pourrait se faire passer pour une autre adresse.
      */
     public static function ip(): string
     {
@@ -204,27 +213,23 @@ final class Request
         }
         $remote = (string) ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
         $ip = $remote;
-        $mode = trim((string) Env::get('TRUSTED_PROXIES', ''));
-        if (strtolower($mode) === 'cloudflare') {
-            if (Net::ipInList($remote, self::CLOUDFLARE)) {
-                $cf = trim((string) (self::header('CF-Connecting-IP') ?? ''));
-                if (filter_var($cf, FILTER_VALIDATE_IP)) {
-                    $ip = $cf;
-                }
+        if (Net::ipInList($remote, self::CLOUDFLARE)) {
+            $cf = trim((string) (self::header('CF-Connecting-IP') ?? ''));
+            if (filter_var($cf, FILTER_VALIDATE_IP)) {
+                return self::$ip = $cf;
             }
-        } elseif ($mode !== '') {
-            $trusted = self::trustedList();
-            if (Net::ipInList($remote, $trusted)) {
-                // X-Forwarded-For lu de droite à gauche : première adresse qui n'est pas un proxy de confiance
-                $hops = array_reverse(array_map('trim', explode(',', (string) (self::header('X-Forwarded-For') ?? ''))));
-                foreach ($hops as $hop) {
-                    if (!filter_var($hop, FILTER_VALIDATE_IP)) {
-                        break;
-                    }
-                    $ip = $hop;
-                    if (!Net::ipInList($hop, $trusted)) {
-                        break;
-                    }
+        }
+        $trusted = self::trustedList();
+        if (Net::ipInList($remote, $trusted)) {
+            // X-Forwarded-For lu de droite à gauche : première adresse qui n'est pas un proxy de confiance
+            $hops = array_reverse(array_map('trim', explode(',', (string) (self::header('X-Forwarded-For') ?? ''))));
+            foreach ($hops as $hop) {
+                if (!filter_var($hop, FILTER_VALIDATE_IP)) {
+                    break;
+                }
+                $ip = $hop;
+                if (!Net::ipInList($hop, $trusted)) {
+                    break;
                 }
             }
         }
@@ -237,23 +242,11 @@ final class Request
         return substr(hash_hmac('sha256', self::ip(), Crypto::key()), 0, 20);
     }
 
-    /** @return string[] */
+    /** @return string[] proxys de confiance : déclarés (TRUSTED_PROXIES), Cloudflare et réseaux privés */
     private static function trustedList(): array
     {
-        return array_values(array_filter(array_map('trim', preg_split('/[\s,;]+/', (string) Env::get('TRUSTED_PROXIES', '')) ?: [])));
-    }
-
-    private static function fromTrustedProxy(): bool
-    {
-        $mode = trim((string) Env::get('TRUSTED_PROXIES', ''));
-        if ($mode === '') {
-            return false;
-        }
-        $remote = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
-        if (strtolower($mode) === 'cloudflare') {
-            return Net::ipInList($remote, self::CLOUDFLARE);
-        }
-        return Net::ipInList($remote, self::trustedList());
+        $declared = array_filter(array_map('trim', preg_split('/[\s,;]+/', (string) Env::get('TRUSTED_PROXIES', '')) ?: []), static fn ($r) => $r !== '' && strtolower($r) !== 'cloudflare');
+        return array_merge(array_values($declared), self::CLOUDFLARE, self::PRIVATE);
     }
 
     public static function baseUrl(): string

@@ -151,6 +151,11 @@ final class Image
         $tmp = STORAGE_PATH . '/tmp/dl-' . bin2hex(random_bytes(6));
         Fs::ensureDir(dirname($tmp));
         file_put_contents($tmp, $res['body']);
+        // anciennes photos au format BMP (parfois nommées .JPG) : converties en PNG
+        if (self::mime($tmp) === 'image/bmp' && function_exists('imagecreatefrombmp') && ($bmp = @imagecreatefrombmp($tmp))) {
+            imagepng($bmp, $tmp);
+            imagedestroy($bmp);
+        }
         if (self::validatePath($tmp) !== null) {
             @unlink($tmp);
             return null;

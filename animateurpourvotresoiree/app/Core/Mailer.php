@@ -83,7 +83,9 @@ final class Mailer
                     foreach ($h as $k => $v) {
                         $hs .= $k . ': ' . str_replace(["\r", "\n"], '', $v) . "\r\n";
                     }
-                    if (!@mail(implode(', ', array_keys($to)), $headers['Subject'], $body, rtrim($hs), '-f' . $from)) {
+                    // certains hébergements refusent l'option -f (adresse de retour) : nouvel essai sans elle
+                    if (!@mail(implode(', ', array_keys($to)), $headers['Subject'], $body, rtrim($hs), '-f' . $from)
+                        && !@mail(implode(', ', array_keys($to)), $headers['Subject'], $body, rtrim($hs))) {
                         throw new \RuntimeException('mail() a échoué');
                     }
                     break;
