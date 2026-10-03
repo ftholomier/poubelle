@@ -67,7 +67,7 @@ $tones = ['yellow' => 'var(--yellow)', 'paper' => 'var(--paper)', 'sand' => 'var
       <tbody>
         <?php foreach ($groups as $g): ?>
         <tr>
-          <td class="strong"><?php if ($groupBy === 'decade'): ?><?= e(t('Années')) ?> <?= (int) $g['key'] < 2000 ? e(substr($g['key'], 2)) : e($g['key']) ?><?php else: ?><a href="<?= e(url('/matchs/' . $g['key'] . '/')) ?>"><?= e($g['key']) ?></a><?php endif; ?></td>
+          <td class="strong"><?php if ($groupBy === 'decade'): ?><?= e(decade_label((int) $g['key'])) ?><?php else: ?><a href="<?= e(url('/matchs/' . $g['key'] . '/')) ?>"><?= e($g['key']) ?></a><?php endif; ?></td>
           <td class="n"><?= (int) $g['n'] ?></td><td class="n"><?= (int) $g['V'] ?></td><td class="n"><?= (int) $g['N'] ?></td><td class="n"><?= (int) $g['D'] ?></td>
           <td class="n"><?= (int) $g['gf'] ?>-<?= (int) $g['ga'] ?></td>
           <?php if ($groupBy !== 'decade' && $mode === 'comp'): $l = $g['last']; ?><td><a href="<?= e(url($l['path'])) ?>"><?= e(($l['round'] ? $l['round'] . ' · ' : '') . Site::matchLabel($l)) ?></a></td><?php endif; ?>

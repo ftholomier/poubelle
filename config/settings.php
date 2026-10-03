@@ -146,6 +146,15 @@ return [
             'onze_reveal' => ['label' => 'Date de dévoilement du Onze du public', 'type' => 'date', 'default' => '2028-05-20'],
         ],
     ],
+    'backups' => [
+        'label' => 'Sauvegardes',
+        'fields' => [
+            'enabled' => ['label' => 'Sauvegarde automatique quotidienne', 'type' => 'bool', 'default' => true],
+            'hour' => ['label' => 'Heure de la sauvegarde', 'type' => 'number', 'default' => 3],
+            'keep' => ['label' => 'Nombre de sauvegardes conservées', 'type' => 'number', 'default' => 14],
+            'media_weekly' => ['label' => 'Inclure les photos chaque dimanche (archive volumineuse)', 'type' => 'bool', 'default' => false],
+        ],
+    ],
     'privacy' => [
         'label' => 'Cookies et RGPD',
         'fields' => [

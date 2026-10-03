@@ -74,7 +74,7 @@ function asset(string $path): string
     return '/assets/' . $path . '?v=' . $v;
 }
 
-/** Date française lisible : « 15 avril 2023 ». */
+/** Date lisible dans la langue de la page : « 1er avril 2023 », « 1 April 2023 ». */
 function date_fr(?string $iso, bool $withDay = false): string
 {
     if (!$iso) {
@@ -84,9 +84,15 @@ function date_fr(?string $iso, bool $withDay = false): string
     if ($ts === false) {
         return $iso;
     }
-    $months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-    $days = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
-    $s = (int) date('j', $ts) . ($withDay ? '' : '') . ' ' . $months[(int) date('n', $ts) - 1] . ' ' . date('Y', $ts);
+    $en = \App\Services\I18n::isEn();
+    $months = $en
+        ? ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        : ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+    $days = $en
+        ? ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        : ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+    $d = (int) date('j', $ts);
+    $s = ($d === 1 && !$en ? '1er' : (string) $d) . ' ' . $months[(int) date('n', $ts) - 1] . ' ' . date('Y', $ts);
     return $withDay ? ucfirst($days[(int) date('w', $ts)]) . ' ' . $s : $s;
 }
 
@@ -245,4 +251,25 @@ function comp_round(?string $comp, ?string $round): string
         return $comp;
     }
     return $comp === '' ? $round : "$comp · $round";
+}
+
+/** Libellé d'une décennie : « Années 80 » / « The '80s » ; $full : « années 1980 » / « the 1980s ». */
+function decade_label(int $decade, bool $full = false, bool $lower = false): string
+{
+    if (\App\Services\I18n::isEn()) {
+        $s = $full || $decade >= 2000 ? "The {$decade}s" : "The '" . substr((string) $decade, 2) . 's';
+    } else {
+        $s = 'Années ' . ($full || $decade >= 2000 ? $decade : substr((string) $decade, 2));
+    }
+    return $lower ? mb_strtolower(mb_substr($s, 0, 1)) . mb_substr($s, 1) : $s;
+}
+
+/** Nombre ordinal : 1er, 2e… / 1st, 2nd, 3rd, 4th… */
+function ordinal(int $n): string
+{
+    if (!\App\Services\I18n::isEn()) {
+        return $n === 1 ? '1er' : $n . 'e';
+    }
+    $s = in_array($n % 100, [11, 12, 13], true) ? 'th' : (['th', 'st', 'nd', 'rd'][$n % 10] ?? 'th');
+    return $n . $s;
 }

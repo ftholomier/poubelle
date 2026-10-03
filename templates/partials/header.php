@@ -77,7 +77,7 @@ $lang = I18n::lang();
           <div class="mega__head"><span class="mega__title"><?= e(t('Par décennie')) ?></span><a class="mega__all" href="<?= e(url('/matchs/')) ?>"><?= e(t('Tous les matchs')) ?> →</a></div>
           <div class="mega__decades">
             <?php foreach ($mg['decades'] as $d): ?>
-              <a class="mega__decade" href="<?= e($d['href']) ?>"><b><?= e($d['short']) ?></b><span><?= e(t('années')) ?> <?= e($d['full']) ?></span></a>
+              <a class="mega__decade" href="<?= e($d['href']) ?>"><b><?= e($d['short']) ?></b><span><?= e(decade_label((int) $d['full'], true, true)) ?></span></a>
             <?php endforeach; ?>
           </div>
         </div>
@@ -134,7 +134,7 @@ $lang = I18n::lang();
             <?php
             $mg = $item['mega'];
             $subs = match ($mg['kind']) {
-                'matchs' => array_merge($mg['competitions'], array_map(fn ($d) => ['label' => t('Années') . ' ' . $d['full'], 'href' => $d['href']], $mg['decades']), $mg['explore']),
+                'matchs' => array_merge($mg['competitions'], array_map(fn ($d) => ['label' => decade_label((int) $d['full'], true), 'href' => $d['href']], $mg['decades']), $mg['explore']),
                 'columns' => array_merge(...array_map(fn ($c) => array_merge([$c['all']], $c['subs']), $mg['cols'])),
                 'list' => $mg['col']['subs'],
                 default => [],

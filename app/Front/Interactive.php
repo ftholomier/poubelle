@@ -38,6 +38,7 @@ final class Interactive
     {
         $all = Collections::get('quiz', Seeds::quiz());
         $pool = array_values(array_filter($all, fn ($q) => ($q['active'] ?? true) && !empty($q['q']) && count($q['a'] ?? []) >= 2));
+        $pool = array_map(fn ($q) => Collections::loc($q, ['q', 'a', 'fact']), $pool);
         return Pages::render('interactif/quiz', ['pool' => $pool, 'count' => min(6, count($pool))], [
             'title' => t('Quiz : êtes-vous un vrai Lionceau ?'),
             'description' => t('Six questions sur l’histoire du FC Sochaux-Montbéliard. Testez vos connaissances et partagez votre score.'),
@@ -132,7 +133,7 @@ final class Interactive
 
     public static function jerseys(Request $req): Response
     {
-        $eras = Collections::get('maillots', Seeds::maillots());
+        $eras = array_map(fn ($e) => Collections::loc($e, ['label', 'text']), Collections::get('maillots', Seeds::maillots()));
         return Pages::render('interactif/maillots', ['eras' => array_values($eras)], [
             'title' => t('Maillots : un maillot, deux époques'),
             'description' => t('Comparez les maillots du FC Sochaux-Montbéliard d’une époque à l’autre.'),
@@ -144,7 +145,7 @@ final class Interactive
 
     public static function timeline(Request $req): Response
     {
-        $events = Collections::get('frise', Seeds::frise());
+        $events = array_map(fn ($e) => Collections::loc($e, ['title', 'text']), Collections::get('frise', Seeds::frise()));
         usort($events, fn ($a, $b) => (int) $a['year'] <=> (int) $b['year']);
         return Pages::render('interactif/frise', ['events' => $events], [
             'title' => t('La frise : de 1928 à aujourd’hui'),
@@ -174,7 +175,7 @@ final class Interactive
     /** Données de la carte (stades et matchs, origines, épopées, lieux). */
     public static function mapData(Request $req): Response
     {
-        $cacheFile = STORAGE_PATH . '/cache/carte.json';
+        $cacheFile = STORAGE_PATH . '/cache/carte-' . \App\Services\I18n::lang() . '.json';
         $derivedFile = STORAGE_PATH . '/cache/derived.php';
         if (is_file($cacheFile) && (!is_file($derivedFile) || filemtime($cacheFile) >= filemtime($derivedFile)) && filemtime($cacheFile) > time() - 3600) {
             $res = new Response((string) file_get_contents($cacheFile), 200, ['Content-Type' => 'application/json; charset=UTF-8']);
@@ -240,8 +241,8 @@ final class Interactive
         $data = [
             'places' => $places,
             'people' => $people,
-            'steps' => array_values(array_filter(Collections::get('epopees', Seeds::epopees()), fn ($x) => !empty($x['ll']))),
-            'lieux' => array_values(array_filter(Collections::get('lieux', Seeds::lieux()), fn ($x) => !empty($x['ll']))),
+            'steps' => array_values(array_map(fn ($x) => Collections::loc($x, ['type', 't', 'h', 'p']), array_filter(Collections::get('epopees', Seeds::epopees()), fn ($x) => !empty($x['ll'])))),
+            'lieux' => array_values(array_map(fn ($x) => Collections::loc($x, ['n', 't', 'd']), array_filter(Collections::get('lieux', Seeds::lieux()), fn ($x) => !empty($x['ll'])))),
             'home' => [47.5122, 6.8111],
             'now' => (int) date('Y'),
         ];

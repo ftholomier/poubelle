@@ -590,7 +590,7 @@ final class Explore
         foreach (['championnat', 'coupe-de-france', 'coupe-de-la-ligue', 'coupe-d-europe', 'amical'] as $k) {
             $compChips[] = ['label' => t(Mosaic::COMPS[$k][0]), 'href' => url('/records/') . $qs(['comp' => $k]), 'on' => $comp === $k];
         }
-        $scope = ($decade ? t('Années') . ' ' . ($decade < 2000 ? substr((string) $decade, 2) : $decade) : t('Toutes époques')) . ' · ' . ($comp ? t(Mosaic::COMPS[$comp][0]) : t('toutes compétitions officielles'));
+        $scope = ($decade ? decade_label($decade) : t('Toutes époques')) . ' · ' . ($comp ? t(Mosaic::COMPS[$comp][0]) : t('toutes compétitions officielles'));
         return Pages::render('records', [
             'cat' => $cat, 'title' => t($title), 'unit' => t($unit), 'rows' => $rows, 'tabs' => $tabs, 'decs' => $decs, 'compChips' => $compChips, 'scope' => $scope,
         ], [

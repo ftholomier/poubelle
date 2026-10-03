@@ -218,22 +218,31 @@ final class Site
     /**
      * @param array{title?:string,description?:string,image?:?string,type?:string,canonical?:string,jsonld?:array,noindex?:bool} $p
      */
+    /** Fiche affichée : sa traduction anglaise existe-t-elle ? (null = page d'interface, bilingue) */
+    public static ?bool $enAvailable = null;
+
     public static function meta(array $p, string $path): array
     {
+        $enOk = self::$enAvailable ?? true;
+        $untranslated = !$enOk && I18n::isEn();
         $site = (string) Settings::get('general.site_name', 'Sochaux Rétro');
         $base = base_url();
         $title = trim($p['title'] ?? '');
         $full = $title === '' ? "$site — " . t('Le musée en ligne du FCSM') : "$title | $site";
-        $canonical = $p['canonical'] ?? I18n::switchUrl($path, I18n::lang());
+        $canonical = $p['canonical'] ?? I18n::switchUrl($path, $untranslated ? I18n::DEFAULT : I18n::lang());
         return [
             'title' => $full,
             'description' => mb_substr(trim(preg_replace('/\s+/u', ' ', strip_tags((string) ($p['description'] ?? '')))) ?: t("L'histoire du FC Sochaux-Montbéliard depuis 1928 : matchs, joueurs, entraîneurs, dirigeants, supporters, stades et symboles."), 0, 300),
             'canonical' => $base . $canonical,
             'og_image' => $base . ($p['image'] ?? '/assets/img/partage-defaut.png'),
             'type' => $p['type'] ?? 'website',
-            'alternates' => array_map(fn ($l) => ['lang' => $l, 'href' => $base . I18n::switchUrl($path, $l)], I18n::enabled()),
+            'alternates' => array_merge(
+                array_map(fn ($l) => ['lang' => $l, 'href' => $base . I18n::switchUrl($path, $l)], $enOk ? I18n::enabled() : [I18n::DEFAULT]),
+                [['lang' => 'x-default', 'href' => $base . I18n::switchUrl($path, I18n::DEFAULT)]]
+            ),
             'jsonld' => $p['jsonld'] ?? null,
-            'noindex' => $p['noindex'] ?? false,
+            'noindex' => ($p['noindex'] ?? false) || $untranslated,
+            'untranslated' => $untranslated,
             'site' => $site,
         ];
     }

@@ -29,7 +29,24 @@ final class Seeds
             ['Contre quel club Sochaux joue-t-il la demi-finale de la Coupe UEFA 1980-1981 ?', ['Ipswich Town', 'AZ Alkmaar', 'Hambourg', 'Real Madrid'], 1, "Le sommet européen du club : une demi-finale face à l'AZ Alkmaar."],
             ['Contre quel adversaire Sochaux dispute-t-il la finale de la Coupe de France 1988 ?', ['Metz', 'Monaco', 'Bordeaux', 'Marseille'], 0, 'La finale face au FC Metz se joue au Parc des Princes.'],
         ];
-        return array_map(fn ($x) => ['q' => $x[0], 'a' => $x[1], 'c' => $x[2], 'fact' => $x[3], 'validated' => false], $q);
+        $en = [
+            ['In which year was FC Sochaux founded?', ['1919', '1928', '1932', '1945'], 'The club was founded on 20 May 1928: its centenary will be celebrated on 20 May 2028.'],
+            ['What nickname is given to Sochaux players?', ['Les Aiglons', 'Les Canaris', 'Les Lionceaux', 'Les Dogues'], 'The lion is the emblem of the club… and of the region.'],
+            ['How many French league titles has the club won?', ['None', 'One', 'Two', 'Three'], 'Two titles, in 1935 and 1938.'],
+            ['What is the name of FCSM’s stadium?', ['Stade Auguste-Bonal', 'Stade de la Meinau', 'Stade Bollaert', "Stade de l'Abbé-Deschamps"], 'Stade Auguste-Bonal, in Montbéliard.'],
+            ['Which trophy did Sochaux win in 2004?', ['Coupe de France', 'Coupe de la Ligue', 'Trophée des champions', 'Intertoto Cup'], 'The 2004 Coupe de la Ligue, against Nantes.'],
+            ['Against whom did Sochaux win the 2007 Coupe de France final?', ['Lyon', 'Nantes', 'Marseille', 'Lens'], 'Victory against OM at the Stade de France, on penalties.'],
+            ['In which year did Sochaux win its first Coupe de France?', ['1937', '1947', '1959', '1971'], 'In 1937: the club’s first Coupe de France.'],
+            ['In which year did the Stade de la Forge, the future Stade Bonal, open?', ['1928', '1931', '1946', '1962'], 'The Stade de la Forge, later renamed Stade Auguste-Bonal, opened in 1931.'],
+            ['Sochaux’s youth academy, one of the first in France, was created in…', ['1958', '1966', '1974', '1990'], 'France’s first youth academy opened in Sochaux in 1974.'],
+            ['How many goals did Sochaux score in the record 1987-1988 season?', ['97', '112', '128', '147'], '147 goals in a single season: a record!'],
+            ['Against which team did Sochaux win the 1983 Coupe Gambardella?', ['Lens', 'Nantes', 'Auxerre', 'Metz'], 'On 27 May 1983, in Lille, Sochaux beat Lens 1-0.'],
+            ['What is the name of the club mascot?', ['Le Sochalion', 'Lionel', 'The Lion King', 'Bonalou'], 'Le Sochalion livens up the stands at Bonal.'],
+            ['What are FC Sochaux-Montbéliard’s colours?', ['Red and white', 'Yellow and blue', 'Green and white', 'Blue and white'], 'Yellow and blue, the club’s colours since the very beginning.'],
+            ['Against which club did Sochaux play the 1980-1981 UEFA Cup semi-final?', ['Ipswich Town', 'AZ Alkmaar', 'Hamburg', 'Real Madrid'], 'The club’s European peak: a semi-final against AZ Alkmaar.'],
+            ['Against which opponent did Sochaux play the 1988 Coupe de France final?', ['Metz', 'Monaco', 'Bordeaux', 'Marseille'], 'The final against FC Metz was played at the Parc des Princes.'],
+        ];
+        return array_map(fn ($x, $e) => ['q' => $x[0], 'a' => $x[1], 'c' => $x[2], 'fact' => $x[3], 'q_en' => $e[0], 'a_en' => $e[1], 'fact_en' => $e[2], 'validated' => false], $q, $en);
     }
 
     public static function frise(): array
@@ -49,7 +66,22 @@ final class Seeds
             [2007, 'Deuxième Coupe de France', "Victoire face à l'OM au Stade de France, aux tirs au but.", 'y'],
             [2028, 'Le centenaire', 'Rendez-vous le 20 mai 2028.', 'n'],
         ];
-        return array_map(fn ($x) => ['year' => $x[0], 'title' => $x[1], 'text' => $x[2], 'tone' => $x[3], 'image' => null, 'href' => null, 'validated' => false], $e);
+        $en = [
+            ['The club is founded', 'FC Sochaux is born on 20 May 1928.'],
+            ['The Stade de la Forge opens', 'The future Stade Auguste-Bonal hosts its first matches.'],
+            ['First French league title', ''],
+            ['First Coupe de France', ''],
+            ['Second French league title', ''],
+            ['France’s first youth academy', ''],
+            ['UEFA Cup semi-final', 'Against AZ Alkmaar, the club’s European peak.'],
+            ['Coupe Gambardella', '1-0 win against Lens in the final, in Lille.'],
+            ['Coupe de France final', 'Against FC Metz, at the Parc des Princes. Record season: 147 goals.'],
+            ['A new Stade Bonal', 'The stadium is completely rebuilt.'],
+            ['Coupe de la Ligue', 'Victory against Nantes on penalties.'],
+            ['Second Coupe de France', 'Victory against OM at the Stade de France, on penalties.'],
+            ['The centenary', 'See you on 20 May 2028.'],
+        ];
+        return array_map(fn ($x, $t) => ['year' => $x[0], 'title' => $x[1], 'text' => $x[2], 'title_en' => $t[0], 'text_en' => $t[1], 'tone' => $x[3], 'image' => null, 'href' => null, 'validated' => false], $e, $en);
     }
 
     public static function maillots(): array
@@ -66,15 +98,22 @@ final class Seeds
             [2004, '2003-2004', 'Finales nationales', 'Stade de France', 'Coupe de la Ligue', "Finale face à Nantes : Sochaux s'impose aux tirs au but.", [48.9245, 2.3602], true],
             [2007, '2006-2007', 'Finales nationales', 'Stade de France', 'Coupe de France', "Finale face à l'OM : nouvelle victoire aux tirs au but.", [48.9245, 2.3602], true],
         ];
-        return array_map(fn ($x) => ['y' => $x[0], 's' => $x[1], 'type' => $x[2], 't' => $x[3], 'h' => $x[4], 'p' => $x[5], 'll' => $x[6], 'win' => $x[7], 'href' => null, 'validated' => false], $s);
+        $en = [
+            ['National finals', 'Coupe de France', 'Final at Colombes: Sochaux wins its first Coupe de France.'],
+            ['European cups', 'UEFA Cup semi-final', 'UEFA Cup semi-final against AZ: the club’s European peak.'],
+            ['National finals', 'Coupe de France', 'Final against FC Metz, at the Parc des Princes.'],
+            ['National finals', 'Coupe de la Ligue', 'Final against Nantes: Sochaux wins on penalties.'],
+            ['National finals', 'Coupe de France', 'Final against OM: another victory on penalties.'],
+        ];
+        return array_map(fn ($x, $e) => ['y' => $x[0], 's' => $x[1], 'type' => $x[2], 't' => $x[3], 'h' => $x[4], 'p' => $x[5], 'type_en' => $e[0], 'h_en' => $e[1], 'p_en' => $e[2], 'll' => $x[6], 'win' => $x[7], 'href' => null, 'validated' => false], $s, $en);
     }
 
     public static function lieux(): array
     {
         return [
-            ['n' => 'Stade Auguste-Bonal', 't' => 'Stade', 'll' => [47.5122, 6.8111], 'd' => "L'antre du Lion, à Montbéliard.", 'href' => '/infrastructures/le-stade/', 'validated' => true],
-            ['n' => "Musée de l'Aventure Peugeot", 't' => 'Patrimoine', 'll' => [47.5137, 6.8282], 'd' => "L'histoire de la marque au lion, voisine du club.", 'href' => null, 'validated' => false],
-            ['n' => 'Site Peugeot de Sochaux', 't' => 'Patrimoine', 'll' => [47.5065, 6.8395], 'd' => 'Le berceau industriel du club.', 'href' => null, 'validated' => false],
+            ['n' => 'Stade Auguste-Bonal', 't' => 'Stade', 't_en' => 'Stadium', 'll' => [47.5122, 6.8111], 'd' => "L'antre du Lion, à Montbéliard.", 'd_en' => 'The Lion’s den, in Montbéliard.', 'href' => '/infrastructures/le-stade/', 'validated' => true],
+            ['n' => "Musée de l'Aventure Peugeot", 'n_en' => 'Peugeot Adventure Museum', 't' => 'Patrimoine', 't_en' => 'Heritage', 'll' => [47.5137, 6.8282], 'd' => "L'histoire de la marque au lion, voisine du club.", 'd_en' => 'The story of the lion brand, the club’s neighbour.', 'href' => null, 'validated' => false],
+            ['n' => 'Site Peugeot de Sochaux', 'n_en' => 'Peugeot Sochaux plant', 't' => 'Patrimoine', 't_en' => 'Heritage', 'll' => [47.5065, 6.8395], 'd' => 'Le berceau industriel du club.', 'd_en' => 'The club’s industrial birthplace.', 'href' => null, 'validated' => false],
         ];
     }
 }

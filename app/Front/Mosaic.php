@@ -141,7 +141,7 @@ final class Mosaic
             $panel = [
                 'tiles' => array_values($tiles),
                 'allDecades' => $decade && !$catDecade ? ($comp ? $compBase . self::qs(!self::COMPS[$comp][1] ? ['f' => $comp] : []) : url('/matchs/')) : ($catDecade ? ($comp ? $compBase : url('/matchs/')) : null),
-                'decadeName' => $decade ? ($decade < 2000 ? t('Années') . ' ' . substr((string) $decade, 2) : t('Années') . ' ' . $decade) : null,
+                'decadeName' => $decade ? decade_label((int) $decade) : null,
                 'seasons' => array_map(fn ($se, $n) => ['label' => str_replace('-', ' - ', $se), 'count' => $n, 'on' => $season === $se, 'href' => $here . self::qs($keep + ['saison' => $se])], array_keys($seasons), $seasons),
                 'seasonAll' => $season ? $here . self::qs($keep) : null,
                 'seasonPage' => $season ? url('/matchs/' . $season . '/') : null,

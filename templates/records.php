@@ -3,7 +3,7 @@
 $podium = array_slice($rows, 0, 3);
 $rest = array_slice($rows, 3);
 $order = count($podium) === 3 ? [1, 0, 2] : array_keys($podium);
-$rankLabel = fn (int $r) => $r === 1 ? t('1er') : t('{n}e', ['n' => $r]);
+$rankLabel = fn (int $r) => ordinal($r);
 ?>
 <section class="rhead">
   <div class="wrap rhead__inner">

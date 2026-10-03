@@ -60,6 +60,7 @@ $chat = empty($page['no_chat']) && \App\Services\Rag::enabled();
 <?= \App\Core\View::partial('partials/header', ['active' => $page['active'] ?? '', 'path' => $path]) ?>
 <?php endif; ?>
 <main id="contenu">
+<?php if (!empty($meta['untranslated'])): ?><p class="i18n-note"><span class="wrap">This page has not been translated into English yet: here is the original French version. <a href="<?= e(\App\Services\I18n::switchUrl($path, 'fr')) ?>" hreflang="fr" lang="fr">Version française</a></span></p><?php endif; ?>
 <?= $content ?>
 </main>
 <?php if (empty($page['bare'])): ?>

@@ -18,6 +18,7 @@ final class Fiche
 {
     public static function show(Request $req, array $doc): Response
     {
+        Site::$enAvailable = !empty($doc['i18n']['en']['title']);
         $doc = self::localize($doc);
         return match ($doc['type']) {
             'match' => self::match($req, $doc),
@@ -29,13 +30,13 @@ final class Fiche
     /** Remplace les champs par leur traduction anglaise quand elle existe. */
     private static function localize(array $doc): array
     {
-        if (!I18n::isEn() || empty($doc['i18n']['en'])) {
+        if (!I18n::isEn() || empty($doc['i18n']['en']['title'])) {
             return $doc;
         }
         $en = $doc['i18n']['en'];
         foreach (['title', 'intro', 'sections', 'key_figure', 'seo'] as $k) {
             if (!empty($en[$k])) {
-                $doc[$k] = $en[$k];
+                $doc[$k] = is_array($en[$k]) && is_array($doc[$k] ?? null) && $k !== 'sections' ? $en[$k] + $doc[$k] : $en[$k];
             }
         }
         foreach (['highlights', 'reactions', 'breves'] as $k) {
@@ -43,8 +44,17 @@ final class Fiche
                 $doc['match'][$k] = $en['match'][$k];
             }
         }
-        if (!empty($en['personne']['subtitle']) && isset($doc['personne'])) {
-            $doc['personne']['subtitle'] = $en['personne']['subtitle'];
+        if (isset($doc['personne'])) {
+            foreach (['subtitle', 'nickname_text', 'fiche', 'honours', 'then'] as $k) {
+                if (!empty($en['personne'][$k])) {
+                    $doc['personne'][$k] = $en['personne'][$k];
+                }
+            }
+        }
+        foreach (['article', 'objet'] as $t) {
+            if (!empty($en[$t]) && isset($doc[$t])) {
+                $doc[$t] = $en[$t] + $doc[$t];
+            }
         }
         if (!empty($en['gallery']) && is_array($en['gallery'])) {
             foreach ($doc['gallery'] as $i => &$g) {

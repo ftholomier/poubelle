@@ -12,7 +12,7 @@
 <div class="wrap mbody">
   <?php foreach ($byDecade as $decade => $list): ?>
   <section class="sdec">
-    <h2 class="h-3"><?= e(t('Années')) ?> <?= $decade < 2000 ? e(substr((string) $decade, 2)) : (int) $decade ?></h2>
+    <h2 class="h-3"><?= e(decade_label((int) $decade)) ?></h2>
     <div class="sdec__grid">
       <?php foreach (array_reverse($list) as $s): $tot = max(1, $s['res']['V'] + $s['res']['N'] + $s['res']['D']); ?>
         <a class="scard<?= $s['season'] === $current ? ' is-current' : '' ?><?= !$s['n'] ? ' is-empty' : '' ?>" href="<?= e($s['href']) ?>">

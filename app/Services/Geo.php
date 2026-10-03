@@ -123,11 +123,12 @@ final class Geo
     }
 
     private static float $last = 0;
+    private static int $down = 0;
 
     private static function nominatim(string $q, string $kind = ''): ?array
     {
-        if (!Settings::get('map.geocoding', true)) {
-            return null;
+        if (!Settings::get('map.geocoding', true) || self::$down >= 3) {
+            return null; // service injoignable : on réessaiera au prochain passage
         }
         // Politique d'usage d'OpenStreetMap : 1 requête par seconde, identification du site.
         $wait = 1.05 - (microtime(true) - self::$last);
@@ -144,8 +145,12 @@ final class Geo
         $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         if ($code !== 200 || !$body) {
+            if ($code === 0 || $code === 403 || $code === 429 || $code >= 500) {
+                self::$down++;
+            }
             return null;
         }
+        self::$down = 0;
         $r = json_decode((string) $body, true)[0] ?? null;
         if (!$r) {
             return null;
@@ -216,7 +221,7 @@ final class Geo
                 $max--;
             }
         }
-        @unlink(STORAGE_PATH . '/cache/carte.json');
+        array_map('unlink', glob(STORAGE_PATH . '/cache/carte-*.json') ?: []);
         return $done;
     }
 }

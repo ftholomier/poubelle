@@ -655,3 +655,8 @@ a.card:hover, .card--hover:hover { transform: translate(-5px, -5px); box-shadow:
 .seg button:focus-visible { outline: 3px solid var(--yellow); }
 button.mchip { cursor: pointer; font: inherit; font-family: var(--display); font-weight: 700; font-size: 16px; }
 .between { display: flex; align-items: center; }
+
+/* Fiche non encore traduite (version anglaise) */
+.i18n-note { margin: 0; background: var(--butter); border-bottom: 2px solid var(--navy); font-size: 16px; padding: 10px 0; }
+.i18n-note .wrap { display: block; }
+.i18n-note a { border-bottom: 1px solid currentColor; font-weight: 600; }

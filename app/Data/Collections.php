@@ -39,6 +39,28 @@ final class Collections
         Activity::log($user, 'a modifié', ['title' => self::label($name), 'path' => '']);
     }
 
+    /**
+     * Version anglaise d'un élément de collection : champ « {nom}_en » s'il est rempli,
+     * sinon dictionnaire de l'interface, sinon texte français.
+     */
+    public static function loc(array $item, array $fields): array
+    {
+        if (!\App\Services\I18n::isEn()) {
+            return $item;
+        }
+        foreach ($fields as $f) {
+            $en = $item[$f . '_en'] ?? null;
+            if ($en !== null && $en !== '' && $en !== []) {
+                $item[$f] = $en;
+            } elseif (is_string($item[$f] ?? null) && $item[$f] !== '') {
+                $item[$f] = t($item[$f]);
+            } elseif (is_array($item[$f] ?? null)) {
+                $item[$f] = array_map(fn ($v) => is_string($v) ? t($v) : $v, $item[$f]);
+            }
+        }
+        return $item;
+    }
+
     public static function label(string $name): string
     {
         return [
