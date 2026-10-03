@@ -50,6 +50,13 @@
       f.submit();
     }
   }, true);
+  // <form data-busy="Contrôle en cours…"> : traitement de quelques secondes, bouton grisé pendant l'envoi.
+  document.addEventListener('submit', e => {
+    const f = e.target;
+    if (e.defaultPrevented || !f.matches('form[data-busy]')) return;
+    const b = e.submitter || $('button[type="submit"]', f);
+    if (b) setTimeout(() => { b.disabled = true; b.textContent = f.dataset.busy; }, 0);
+  });
 
   BO.post = async (url, data, isJson = true) => {
     const opt = { method: 'POST', credentials: 'same-origin', headers: { 'X-CSRF': CSRF, Accept: 'application/json' } };

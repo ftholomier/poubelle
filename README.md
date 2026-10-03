@@ -40,7 +40,9 @@ redirigées.
 **Back-office** (`/admin`) pour les historiens : fiches, compositions en grille,
 médiathèque, rubriques et menus (ordre des fiches de chaque décennie, saison ou rubrique
 par glisser-déposer avec trait d'insertion), accueil, outils interactifs, communauté, dons,
-traductions, qualité des données, **correcteur d'orthographe et de syntaxe** (Gemini et
+traductions, qualité des données (avec un bouton **Contrôler maintenant** : contrôle
+complet en quelques secondes, anomalies nouvelles et corrigées depuis le contrôle
+précédent), **correcteur d'orthographe et de syntaxe** (Gemini et
 règles du musée : chaque correction est proposée, l'historien accepte ou ignore ; relecture
 de fond de tout le musée dans Qualité › Orthographe), **coût de l'IA en temps réel**
 (dépense du jour et du mois, derniers appels, budget, relevé mensuel PDF et CSV à faire

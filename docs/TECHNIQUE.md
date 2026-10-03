@@ -151,8 +151,54 @@ Autres alertes :
 - « xx » de l'ancien site (`inconnu`, information inconnue, avec l'endroit : fiche
   d'identité, naissance, arbitre, texte…).
 
-L'écran Qualité les range en onglets, « Statistiques et dates » et « À compléter »
-(`inconnu`, `avenir`, `arbitre`, `video`). Les plus graves viennent d'abord, 300 par page.
+Contrôles des matchs (`matchChecks`, surtout utiles pour les fichiers modifiés hors du
+masque de saisie, qui calcule lui-même saison et résultat) : date absente ou impossible
+(`match-date`), date hors de la saison indiquée ou saison vide (`saison`, amicaux de juin
+et de juillet tolérés), résultat incohérent avec le score ou tirs au but sur un score non nul
+(`resultat`), score d'un match à venir ou match officiel joué sans score (`score`),
+composition d'un match officiel (`compo` : minute d'entrée sur une ligne de titulaire, plus
+de 11 titulaires, deux gardiens, moins de 9), même match saisi deux fois (`doublon-match`,
+même jour et même adversaire). Personnes : date impossible au calendrier (dans `dates`),
+aucune rubrique (`role`), même nom qu'une autre fiche sans dates de naissance différentes
+(`homonyme`). Toutes les fiches (`ficheChecks`) : titre vide (`titre`), adresse vide, mal
+formée ou partagée par deux fiches (`adresse`), rubrique supprimée (`rubrique`), image absente
+de la médiathèque ou de son fichier (`image`), fichier de fiche illisible ou mal numéroté
+(`fichier`), version anglaise dépassée (`traduction`, moyenne si elle avait été corrigée à
+la main).
+
+L'écran Qualité (`App\Admin\Quality::all()`) les range en onglets (`Quality::TABS`) :
+« Statistiques et dates », « À compléter » (`inconnu`, `avenir`, `arbitre`, `video`,
+`role`), « Liens joueurs » (sans fiche, `rapproche`, `homonyme`), « Adresses et médias »
+(`titre`, `adresse`, `rubrique`, `image`, `fichier`), « Traductions à revoir »
+(`traduction`)… S'y ajoutent les vérifications hors fiches de
+`App\Services\Controle::siteChecks()` : redirections (en boucle, en chaîne, vers une page
+absente ou non publiée, inutiles : `Kernel::isRoute()` reconnaît les pages calculées),
+référentiels (adversaire ou stade en double, graphie qui désigne deux entrées), rubriques
+orphelines, textes de l'interface dont les variables `{…}` ou les balises diffèrent en
+anglais. Les plus graves viennent d'abord, 300 par page ; « Corriger » ouvre la fiche à
+l'onglet concerné (`#infos`, `#compo`, `#seo`…).
+
+### Contrôle complet (bouton « Contrôler maintenant »)
+
+`App\Services\Controle::run()` (route `POST /admin/qualite/controler`, ouverte à tous les
+comptes ; `php bin/console.php controle` en ligne de commande) :
+1. remet l'index des fiches et la recherche à jour si des fichiers ont changé hors du
+   back-office (date de modification, statut ou adresse différents de l'index) ;
+2. recalcule toutes les données calculées (`Derived::rebuild()`) ;
+3. donne à chaque alerte une clé stable (`Controle::key()` : onglet, fiche ou nom, nature ;
+   le message, chiffres retirés, seulement pour les natures qui peuvent se répéter sur une
+   fiche) ;
+4. compare avec le contrôle précédent : nouvelles et corrigées ;
+5. enregistre `storage/controle.json` (clés par onglet, nouvelles, historique des 8 derniers
+   contrôles) et une ligne du journal.
+
+Un seul contrôle à la fois (verrou `storage/controle.lock`) ; environ 2 secondes pour
+~3 000 fiches. Une alerte est marquée « Nouveau » si elle est nouvelle au dernier contrôle
+ou absente de celui-ci (apparue depuis). Avant le premier contrôle, la comparaison se fait
+avec `app/Resources/controle-reference.json`, les clés des anomalies des données du dépôt au
+contrôle complet du 3 octobre 2026 (onglet Orthographe exclu : il dépend du correcteur de
+chaque serveur). Elle se réécrit avec `php bin/console.php controle-reference "libellé"`
+après une modification des vérifications ou des messages, données du dépôt à jour.
 À l'affichage public, les « xx » sont retirés des textes : `Fiche::hideUnknown()` dans
 `localize()`, `withoutUnknown()` pour la fiche d'identité, le résumé audio et les données
 schema.org. La fiche n'est pas modifiée.
@@ -528,6 +574,7 @@ sauvegarde, reçus annuels, purges RGPD.
 | `audio/` | fiches audio : texte lu et voix IA de chaque fiche, traitements groupés (§ 7 quinquies) ; `audio/jobs/` : fichiers d'échange temporaires | oui (sauf `jobs/`) ; les voix IA (`public/media/audio/`) avec les photos, le dimanche |
 | `retro/` | Rétro-Direct : spectateurs connectés, pic et réactions de chaque direct, « J'y étais ! » par match (§ 7 sexies) | oui |
 | `verrous.json` | fiches et écrans ouverts en ce moment (verrou de modification) | non (temporaire) |
+| `controle.json` | dernier contrôle complet (bouton « Contrôler maintenant ») : clés des alertes, nouvelles, historique | non (le contrôle suivant le refait ; sans lui, comparaison avec la référence livrée) |
 | `cache/`, `sessions/`, `ratelimit/`, `logs/`, `backups/`, `import/` | fichiers techniques (dont `cache/fil-jaune.json`, records du Fil jaune, et `cache/chiffres-*.json`, les 100 chiffres) | non |
 
 ## 11. Sécurité
@@ -602,5 +649,8 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   buts minute par minute, séries par blocs de saisons, quotas, passeurs, âges, mise en forme
   française et anglaise ; puis les 100 chiffres du musée et les garde-fous contre les données
   douteuses).
+- `php tests/controle.php` : contrôle complet (vérifications des matchs et des fiches,
+  redirections, clés stables des alertes, nouvelles et corrigées d'un contrôle à l'autre,
+  un seul contrôle à la fois) ; le fichier du dernier contrôle est remis en place.
 - `tests/smoke.js` (Playwright) : parcourt les pages du site et du back-office et signale
   les erreurs JavaScript et les blocages de la politique CSP.

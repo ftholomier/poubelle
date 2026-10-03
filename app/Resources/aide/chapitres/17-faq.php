@@ -73,6 +73,9 @@ HTML],
         ['id' => 'a-completer', 'title' => '… trouver les fiches à compléter', 'html' => <<<'HTML'
 <p>Pilotage › <b>Qualité</b> (onglets) et le bloc <b>À faire</b> du tableau de bord ; dans la médiathèque, les filtres « Sans crédit », « Sans légende », « Droits à préciser » ; dans les personnes, le filtre « Sans lieu de naissance ».</p>
 HTML],
+        ['id' => 'controler', 'title' => '… vérifier qu’une séance de saisie n’a rien cassé', 'html' => <<<'HTML'
+<p>Pilotage › <b>Qualité</b> › <b>Contrôler maintenant</b> : toutes les vérifications sont refaites et les anomalies apparues depuis le contrôle précédent s’affichent, marquées « Nouveau ».</p>
+HTML],
         ['id' => 'anglais', 'title' => '… traduire une fiche en anglais', 'html' => <<<'HTML'
 <p>Onglet <b>Version EN</b> › « Traduire avec Gemini » › relisez › Enregistrer. Ou en série : Système › Traductions EN › onglet Fiches.</p>
 HTML],

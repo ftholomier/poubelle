@@ -239,22 +239,41 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
 
 Le tableau **Qualité** liste ce qui mérite une vérification, par onglet :
 
-- **Statistiques incohérentes** : score différent de la somme des buteurs, date du titre
+- **Statistiques et dates** : score différent de la somme des buteurs, date du titre
   différente de la date du match, tableau de composition identique à celui d'un autre match
   (copié par erreur sur l'ancien site), statistiques personnelles incohérentes, tableau de
   statistiques identique sur plusieurs fiches de joueurs (modèle recopié : la fiche affiche
-  les chiffres d'un autre joueur), fiches « à venir ».
+  les chiffres d'un autre joueur), dates d'une personne impossibles ; matchs sans date,
+  rangés dans une autre saison, au résultat incohérent avec le score, officiels sans score,
+  saisis deux fois ; compositions avec un entrant noté titulaire, plus de 11 titulaires ou
+  deux gardiens.
+- **À compléter** : « xx » de l'ancien site, fiches « à venir », arbitre, liens vidéo
+  cassés, personne sans rubrique.
 - **Liens joueurs** : joueurs cités dans des compositions sans fiche (bouton « Créer la
-  fiche »), et noms reliés automatiquement à une fiche par rapprochement (autre graphie,
-  faute de frappe, nom incomplet) : à vérifier.
+  fiche »), noms reliés automatiquement à une fiche par rapprochement (autre graphie,
+  faute de frappe, nom incomplet) : à vérifier ; deux fiches de personnes au même nom
+  (doublon, ou homonymes à distinguer par la date de naissance).
+- **Adresses et médias** : deux fiches à la même adresse, adresse mal formée, rubrique ou
+  image supprimée, fichier de fiche abîmé ; redirections à revoir, adversaires ou stades
+  en double, rubriques orphelines.
 - **Orthographe & syntaxe** : les fiches pour lesquelles le correcteur propose des
   corrections (haute : au moins trois fautes de langue ; basse : ponctuation ou typographie
   seulement). « Corriger » ouvre la fiche avec le correcteur. Le **dictionnaire du musée**
   (lien au-dessus de la liste) contient les mots à ne jamais corriger ; les noms des joueurs,
   clubs et stades du musée sont déjà reconnus.
-- **Photos sans crédit**, **lieux de naissance inconnus** (carte), **traductions à revoir**.
+- **Photos sans crédit**, **lieux de naissance inconnus** (carte), **traductions à revoir**
+  (fiches dont le français a changé depuis la version anglaise, textes de l'interface mal
+  traduits).
 
 Chaque alerte disparaît d'elle-même une fois la fiche corrigée.
+
+**Contrôler maintenant** (en haut de l'écran, pour tous les comptes) refait toutes les
+vérifications sur toutes les fiches, en quelques secondes, et les compare au contrôle
+précédent : le message donne le nombre d'anomalies **nouvelles** et **corrigées**, la liste
+des nouvelles s'ouvre (tous onglets), chacune marquée « Nouveau » jusqu'au contrôle suivant.
+Une anomalie apparue entre deux contrôles est marquée tout de suite, et le tableau de bord
+la rappelle dans « À faire ». Le premier contrôle se compare au contrôle complet du
+3 octobre 2026. Bon réflexe : un contrôle à la fin de chaque séance de saisie.
 
 ## 9. Anglais
 

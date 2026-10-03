@@ -199,7 +199,15 @@ compléter avec l'endroit du « xx ».
   de naissance ou de décès, arbitres, minutes, chiffres clés…). Elles sont cachées sur le
   site public et listées dans Qualité › À compléter.
 - **Ligne de jeu « E »** (hors liste) : fiche 5963. Elle est gardée telle quelle.
-- **Brouillon d'essai** « Test elfsight » (13259) : à supprimer.
+- **Brouillon d'essai** « Test elfsight » (13259) : à supprimer, avec sa redirection
+  `/?p=13259` (signalée dans Qualité › Adresses et médias : elle mène à une page introuvable).
+
+**Trouvé par les vérifications ajoutées avec le bouton « Contrôler maintenant »** (§ 6)
+- **Minute d'entrée en jeu sur une ligne de titulaire** (matchs officiels) : le joueur
+  compte 90 minutes de jeu au lieu de son vrai temps. 22952 (Goutte, entré à la 46e mais noté
+  attaquant : remplaçant mal noté) ; 15349 (Dewilder, 81e), 3747 (Diego Michel, 72e) et 4332
+  (Faivre, 75e) : il n'y a que 10 autres titulaires, la minute est sans doute celle de sa
+  sortie, mal placée. Onglet Compo & événements de chaque match.
 
 ## 4. Droits et points à arbitrer
 
@@ -219,8 +227,48 @@ lieu à un reçu fiscal. Tout membre du back-office peut aujourd'hui le faire.
 
 ## 5. Refaire les contrôles
 
+Les données : Pilotage › Qualité › **Contrôler maintenant** (§ 6), ou
+`php bin/console.php controle`. Le code :
+
 ```
-for t in tests/*.php; do php $t | tail -1; done          # 10 suites, « Tout est bon. »
+for t in tests/*.php; do php $t | tail -1; done          # 11 suites, « Tout est bon. »
 SR_BASE=http://127.0.0.1:8080 node tests/smoke.js        # site public
 SR_EMAIL=… SR_PASSWORD=… node tests/smoke.js             # + tous les écrans du back-office
 ```
+
+## 6. Bouton « Contrôler maintenant » (ajouté après le contrôle)
+
+Demande du client : pouvoir refaire soi-même un contrôle complet et voir les anomalies du
+contenu saisi depuis le dernier contrôle.
+
+- En haut de Pilotage › Qualité, pour tous les comptes. En 2 secondes environ, toutes les
+  vérifications sont refaites sur toutes les fiches, puis comparées au contrôle précédent :
+  nombre d'anomalies **nouvelles** et **corrigées**, liste des nouvelles (tous onglets),
+  pastille « Nouveau » sur chacune jusqu'au contrôle suivant, rappel dans le tableau de bord,
+  historique des derniers contrôles, ligne dans le journal.
+- Le premier contrôle se compare à ce contrôle-ci : les anomalies des données du dépôt au
+  3 octobre sont livrées avec le code (`app/Resources/controle-reference.json` : 6 477
+  alertes, l'onglet Orthographe à part, car il dépend du correcteur de chaque serveur). Seul ce qui a été saisi ou modifié depuis apparaît comme
+  « nouveau ».
+- Si des fichiers ont été changés hors du back-office (envoi par FTP), l'index des fiches et
+  la recherche sont remis à jour au passage.
+- Vérifications ajoutées à cette occasion, recalculées aussi à chaque enregistrement :
+  - **matchs** : date absente ou impossible, date hors de la saison, résultat incohérent
+    avec le score, tirs au but sur un score non nul, match officiel joué sans score, score
+    d'un match à venir, même match saisi deux fois, composition (entrant noté titulaire,
+    plus de 11 titulaires, deux gardiens) ;
+  - **personnes** : date impossible (30 février), aucune rubrique, deux fiches au même nom
+    sans dates de naissance qui les distinguent ;
+  - **fiches** : titre vide, adresse vide, mal formée ou partagée, rubrique ou image
+    supprimée, fichier abîmé ;
+  - **site** : redirections (boucle, chaîne, page absente ou non publiée, inutiles),
+    adversaires et stades en double, rubriques orphelines, textes de l'interface mal
+    traduits, versions anglaises dépassées.
+- Nouvel onglet **Adresses et médias** ; l'onglet **Traductions à revoir**, toujours vide
+  jusqu'ici (rien ne le remplissait), liste maintenant les fiches et les textes concernés.
+- Sur les données actuelles, ces vérifications ne trouvent que les 4 compositions et la
+  redirection signalées au § 3. Au passage, un même rapprochement de nom pouvait apparaître
+  deux fois dans Liens joueurs (deux graphies affichées pareil) : il n'apparaît plus qu'une fois.
+- Essayé de bout en bout avec un compte historien : score modifié et fiche en double saisis,
+  contrôle → 4 nouvelles anomalies signalées ; correction, nouveau contrôle → aucune
+  nouvelle, 1 corrigée. `tests/controle.php` (49 vérifications).

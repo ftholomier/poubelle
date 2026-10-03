@@ -15,6 +15,8 @@
  *   php bin/console.php geo [--hors-ligne]  géolocalise stades et lieux de naissance (carte)
  *   php bin/console.php correcteur [secondes]  vérifie l'orthographe de toutes les fiches (sans plafond quotidien)
  *   php bin/console.php audio [secondes]       fiches audio : envoie et range les traitements groupés (voix et résumés IA)
+ *   php bin/console.php controle         contrôle complet (comme le bouton « Contrôler maintenant » de l'écran Qualité)
+ *   php bin/console.php controle-reference ["libellé"]  réécrit la référence livrée (anomalies déjà connues des données du dépôt)
  */
 
 declare(strict_types=1);
@@ -114,6 +116,16 @@ switch ($cmd) {
     case 'videos':
         $r = \App\Services\VideoThumbs::run(100000);
         echo sprintf("%d vignette(s) copiée(s), %d échec(s) (nouvel essai dans une semaine)\n", $r['faites'], $r['echecs']);
+        break;
+
+    case 'controle':
+        $r = \App\Services\Controle::run(null);
+        echo !empty($r['busy']) ? "Un contrôle est déjà en cours\n" : 'Contrôle terminé : ' . \App\Services\Controle::counts($r) . "\n";
+        break;
+
+    case 'controle-reference':
+        $n = \App\Services\Controle::writeReference($argv[2] ?? 'le contrôle complet du ' . date_fr(date('Y-m-d')));
+        echo "$n anomalies dans la référence\n";
         break;
 
     default:

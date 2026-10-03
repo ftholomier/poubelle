@@ -79,6 +79,7 @@ final class Router
         // Pilotage
         $r->get('/admin', fn ($q) => Dashboard::index($q));
         $r->get('/admin/qualite', fn ($q) => Dashboard::quality($q));
+        $r->post('/admin/qualite/controler', fn ($q) => Dashboard::control($q));
         $r->get('/admin/journal', fn ($q) => Dashboard::journal($q));
         $r->get('/admin/audience', fn ($q) => Dashboard::audience($q));
 

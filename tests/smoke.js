@@ -21,7 +21,7 @@ const FRONT = ['/', '/matchs/', '/nos-lions/', '/nos-lions/joueurs/', '/supporte
   '/interactif/fil-jaune/', '/interactif/fil-jaune/franck-sauzee/', '/interactif/fil-jaune/franck-sauzee/gilles-rousset/', '/en/interactif/fil-jaune/', '/joueurs/franck-sauzee/',
   '/interactif/souvenirs/', '/en/interactif/souvenirs/', '/matchs/1996-1997/sochaux-toulon-division-2-19-10-1996/',
   '/chiffres/', '/en/chiffres/'];
-const ADMIN = ['/admin', '/admin/qualite', '/admin/qualite?cat=orthographe', '/admin/collection/dictionnaire', '/admin/journal', '/admin/matchs', '/admin/personnes', '/admin/articles',
+const ADMIN = ['/admin', '/admin/qualite', '/admin/qualite?nouveau=1', '/admin/qualite?cat=site', '/admin/qualite?cat=orthographe', '/admin/collection/dictionnaire', '/admin/journal', '/admin/matchs', '/admin/personnes', '/admin/articles',
   '/admin/objets', '/admin/referentiels', '/admin/medias', '/admin/accueil', '/admin/moments', '/admin/rubriques',
   '/admin/redirections', '/admin/page-attente', '/admin/interactif', '/admin/onze', '/admin/retro-direct', '/admin/souvenirs', '/admin/aide/interactif', '/admin/contributions',
   '/admin/messages', '/admin/newsletter', '/admin/dons', '/admin/traductions', '/admin/assistant', '/admin/couts-ia', '/admin/reglages?groupe=couts', '/admin/audio', '/admin/reglages?groupe=audio',

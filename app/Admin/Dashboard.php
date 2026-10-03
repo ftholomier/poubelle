@@ -12,6 +12,7 @@ use App\Front\Community as FrontCommunity;
 use App\Front\Donations;
 use App\Front\Interactive;
 use App\Front\Site;
+use App\Services\Controle;
 use App\Services\Stats;
 
 /** Pilotage : tableau de bord, qualité, journal d'activité, audience. */
@@ -59,8 +60,18 @@ final class Dashboard extends Base
             }
         }
         $todos = [];
+        // Anomalies apparues depuis le dernier contrôle complet (bouton « Contrôler maintenant »).
+        $fresh = array_sum(array_map(fn ($l) => count(array_filter($l, fn ($i) => $i['new'])), $quality));
+        if ($fresh) {
+            $since = Controle::state()['since'];
+            $todos[] = ['#D9342B', 'Vérifier ' . $fresh . ' nouvelle' . ($fresh > 1 ? 's' : '') . ' anomalie' . ($fresh > 1 ? 's' : '') . ($since ? ' depuis ' . Controle::sinceLabel($since) : ''), 'Qualité', '/admin/qualite?nouveau=1'];
+        }
         if ($high) {
             $todos[] = ['#D9342B', "Corriger $high alerte" . ($high > 1 ? 's' : '') . ' qualité haute (statistiques incohérentes)', 'Qualité', '/admin/qualite'];
+        }
+        $broken = count(array_filter($quality['site'], fn ($q) => $q['sev'] === 'haute'));
+        if ($broken) {
+            $todos[] = ['#D9342B', "Corriger $broken anomalie" . ($broken > 1 ? 's' : '') . ' d’adresse ou de fichier (pages inaccessibles)', 'Qualité', '/admin/qualite?cat=site'];
         }
         if ($contribs) {
             $todos[] = ['#F6C400', 'Valider ' . count($contribs) . ' contribution' . (count($contribs) > 1 ? 's' : ''), 'Contributions', '/admin/contributions'];
@@ -72,7 +83,7 @@ final class Dashboard extends Base
             $todos[] = ['#1F3FA8', "Relire $toReview fiche" . ($toReview > 1 ? 's' : '') . ' « à relire »', 'Fiches', '/admin/matchs?statut=relire'];
         }
         if (count($quality['credits'])) {
-            $todos[] = ['#F6C400', 'Créditer ' . (count($quality['credits']) >= 500 ? '500+' : count($quality['credits'])) . ' photos', 'Médias', '/admin/medias?filtre=sans-credit'];
+            $todos[] = ['#F6C400', 'Créditer ' . number_format(count($quality['credits']), 0, ',', ' ') . ' photo' . (count($quality['credits']) > 1 ? 's' : ''), 'Médias', '/admin/medias?filtre=sans-credit'];
         }
         $spell = count(array_filter($quality['orthographe'], fn ($q) => $q['sev'] !== 'basse'));
         if ($spell) {
@@ -114,12 +125,41 @@ final class Dashboard extends Base
         $all = Quality::all();
         $cat = isset($all[$req->str('cat')]) ? $req->str('cat') : 'stats';
         $sev = $req->str('niveau');
-        $items = array_values(array_filter($all[$cat], fn ($i) => $sev === '' || $i['sev'] === $sev));
+        // « Nouvelles » : les anomalies apparues depuis le contrôle précédent, tous onglets confondus.
+        $fresh = $req->str('nouveau') === '1';
+        $newCounts = array_map(fn ($l) => count(array_filter($l, fn ($i) => $i['new'])), $all);
+        $source = $fresh ? array_merge(...array_values($all)) : $all[$cat];
+        $items = array_values(array_filter($source, fn ($i) => ($sev === '' || $i['sev'] === $sev) && (!$fresh || $i['new'])));
+        if ($fresh) {
+            // Les plus graves d'abord, dans l'ordre des onglets à gravité égale.
+            $rank = ['haute' => 0, 'moyenne' => 1, 'basse' => 2];
+            $keyed = [];
+            foreach ($items as $n => $i) {
+                $keyed[] = [$rank[$i['sev']] ?? 3, $n, $i];
+            }
+            usort($keyed, fn ($a, $b) => [$a[0], $a[1]] <=> [$b[0], $b[1]]);
+            $items = array_column($keyed, 2);
+        }
         // 300 alertes par page (toutes restent accessibles).
         $per = 300;
         $pages = max(1, (int) ceil(count($items) / $per));
         $page = min($pages, max(1, (int) $req->str('page')));
-        return self::html('admin/quality', ['all' => $all, 'cat' => $cat, 'sev' => $sev, 'items' => array_slice($items, ($page - 1) * $per, $per), 'total' => count($items), 'page' => $page, 'pages' => $pages, 'proof' => $cat === 'orthographe' ? \App\Services\Proofreader::summary() : null], ['title' => 'Qualité', 'crumb' => 'Pilotage', 'nav' => 'qualite']);
+        return self::html('admin/quality', ['all' => $all, 'cat' => $cat, 'sev' => $sev, 'fresh' => $fresh, 'newCounts' => $newCounts,
+            'items' => array_slice($items, ($page - 1) * $per, $per), 'total' => count($items), 'page' => $page, 'pages' => $pages,
+            'last' => Controle::last(), 'state' => Controle::state(),
+            'proof' => !$fresh && $cat === 'orthographe' ? \App\Services\Proofreader::summary() : null], ['title' => 'Qualité', 'crumb' => 'Pilotage', 'nav' => 'qualite']);
+    }
+
+    /** Bouton « Contrôler maintenant » : contrôle complet, puis liste des nouvelles anomalies. */
+    public static function control(Request $req): Response
+    {
+        $r = Controle::run(self::actor());
+        if (!empty($r['busy'])) {
+            return self::back('/admin/qualite', null, 'Un contrôle est déjà en cours : réessayez dans quelques secondes.');
+        }
+        $msg = 'Contrôle terminé en ' . number_format($r['ms'] / 1000, 1, ',', ' ') . ' s : ' . Controle::counts($r) . '.'
+            . ($r['repaired'] ? ' Index des fiches remis à jour (' . $r['repaired'] . ' fiche' . ($r['repaired'] > 1 ? 's' : '') . ' modifiée' . ($r['repaired'] > 1 ? 's' : '') . ' hors du back-office).' : '');
+        return self::back('/admin/qualite' . ($r['new'] ? '?nouveau=1' : ''), $msg);
     }
 
     public static function journal(Request $req): Response

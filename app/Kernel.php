@@ -166,6 +166,14 @@ final class Kernel
         return Front\Pages::notFound();
     }
 
+    /** Adresse d'une page calculée du site public (saisons, face-à-face, interactif…), /en compris. */
+    public static function isRoute(string $path): bool
+    {
+        static $routes = null;
+        $routes ??= self::routes();
+        return $routes->has(preg_replace('#^/en(?=/|$)#', '', $path) ?: '/');
+    }
+
     private static function routes(): Router
     {
         $r = new Router();

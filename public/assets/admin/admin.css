@@ -680,6 +680,13 @@ a.lstate:hover { background: var(--yellow); }
   .qrow__t { grid-column: 1 / -1; }
   .qrow > .btn { grid-column: 1 / -1; justify-self: start; }
 }
+.qrow .pill { margin-right: 4px; }
+/* Contrôle complet : dernier contrôle et bouton « Contrôler maintenant » */
+.ctrl__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.ctrl__text { flex: 1 1 420px; display: flex; flex-direction: column; gap: 6px; }
+.ctrl__text p { margin: 0; }
+.ctrl__hist { margin: 6px 0 0; padding-left: 18px; }
+.kpi small .pill { margin-right: 2px; }
 /* Liens dans un texte discret : soulignés (pas seulement colorés) */
 .muted a:not(.btn):not(.linkbtn), .xs a:not(.btn):not(.linkbtn) { text-decoration: underline; text-underline-offset: 2px; }
 

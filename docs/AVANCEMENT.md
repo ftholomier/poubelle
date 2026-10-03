@@ -248,6 +248,20 @@ Rapport détaillé : `docs/CONTROLE-2026-10.md`.
 
       Les « xx » sont cachés sur le site public (214 fiches).
 
+## Bouton « Contrôler maintenant » (03/10, demande du client) — terminé
+Détail : `docs/CONTROLE-2026-10.md`, § 6.
+- [x] Pilotage › Qualité › « Contrôler maintenant » (tous les comptes) : toutes les
+      vérifications refaites, comparaison avec le contrôle précédent (nouvelles, corrigées),
+      pastille « Nouveau », liste des nouvelles tous onglets, historique, journal, rappel
+      dans le tableau de bord ; index des fiches remis à jour après un envoi par FTP.
+- [x] Premier contrôle comparé au contrôle complet du 3 octobre (référence livrée avec le code).
+- [x] Nouvelles vérifications : matchs (date, saison, résultat, score, doublon,
+      composition), personnes (date impossible, rubrique, même nom), fiches (titre, adresse,
+      rubrique, image, fichier), site (redirections, référentiels, rubriques, textes
+      anglais) ; nouvel onglet « Adresses et médias » ; « Traductions à revoir » rempli.
+- [x] `tests/controle.php`, essai de bout en bout historien et administrateur, aide
+      (chapitre 12, FAQ, mémo, guide PDF) et captures.
+
 ## Points de données à revoir par les historiens (relevés pendant la recette)
 - Liste complète et à jour : `docs/CONTROLE-2026-10.md`, § 3. Elle comprend :
   - 10 compositions avec un joueur inscrit deux fois ;
@@ -255,7 +269,8 @@ Rapport détaillé : `docs/CONTROLE-2026-10.md`.
   - 65 matchs dont la date en toutes lettres diffère de la date ;
   - 37 matchs dont seul le jour de la semaine est faux ;
   - 2 séances de tirs au but non détaillées ;
-  - 2 liens vidéo cassés.
+  - 2 liens vidéo cassés ;
+  - 4 compositions avec une minute d'entrée sur une ligne de titulaire.
 - **Tableaux de statistiques recopiés** : 594 fiches de joueurs partagent l'un de 34 tableaux
   identiques (modèle de l'ancien site, par exemple « 1990-1991, 22 matchs, 4 buts » sur 137
   fiches) : ces fiches affichent les chiffres d'un autre joueur. Alerte « Tableau de

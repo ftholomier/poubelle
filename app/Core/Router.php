@@ -48,13 +48,25 @@ final class Router
         return null;
     }
 
+    /** Une page GET répond-elle à cette adresse ? (vérifié sans exécuter la page) */
+    public function has(string $path): bool
+    {
+        foreach ($this->routes as [$method, $pattern]) {
+            if (($method === 'GET' || $method === 'ANY') && self::match($pattern, $path) !== null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** @return array<string,string>|null */
     public static function match(string $pattern, string $path): ?array
     {
-        $regex = preg_replace_callback('#\{(\w+)(\*?)\}#', function ($m) {
+        static $regex = [];
+        $regex[$pattern] ??= '#^' . preg_replace_callback('#\{(\w+)(\*?)\}#', function ($m) {
             return $m[2] === '*' ? '(?P<' . $m[1] . '>.+?)' : '(?P<' . $m[1] . '>[^/]+)';
-        }, $pattern);
-        if (!preg_match('#^' . $regex . '/?$#u', $path, $m)) {
+        }, $pattern) . '/?$#u';
+        if (!preg_match($regex[$pattern], $path, $m)) {
             return null;
         }
         $out = [];

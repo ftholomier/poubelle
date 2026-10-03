@@ -76,7 +76,7 @@
         <tr><td>Quiz, frise, maillots, carte, partenaires</td><td>Interactif › Quiz, frise, carte…</td></tr>
         <tr><td>Rétro-Direct, kit souvenirs, « Ils y étaient »</td><td>Interactif › Rétro-Direct, Kit souvenirs ; témoignages : Contributions</td></tr>
         <tr><td>Contributions et messages des visiteurs</td><td>Communauté</td></tr>
-        <tr><td>Ce qui reste à vérifier</td><td>Pilotage › Qualité</td></tr>
+        <tr><td>Ce qui reste à vérifier, les nouvelles anomalies</td><td>Pilotage › Qualité › Contrôler maintenant</td></tr>
         <tr><td>Version anglaise</td><td>Système › Traductions EN, ou onglet Version EN</td></tr>
         <tr><td>Voix « Écouter » des fiches</td><td>carte Écouter de l’éditeur</td></tr>
         <tr><td>Une ancienne version, une fiche supprimée</td><td>onglet Historique ; « Voir la corbeille »</td></tr>
