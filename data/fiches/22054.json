@@ -15,7 +15,7 @@
     "a_la_une": true,
     "featured_image": "2026/08/les-sochaliens-exultent-ils-tiennent-leur-premier-succes-depuis-quatre-mois-photo-lionel-vadam-1742657120.jpg",
     "date": "2026-08-09T13:21:58",
-    "modified": "2026-08-12T14:12:14",
+    "modified": "2026-10-03T12:01:06+02:00",
     "author": "florian",
     "seo": {
         "title": "",
@@ -103,13 +103,13 @@
         "path": "/matchs-fc-sochaux-retro-fcsm/j26-sochaux-rouen-national-21-03-2025-2-1/",
         "slug": "j26-sochaux-rouen-national-21-03-2025-2-1",
         "seo_title": "J26 - Sochaux / Rouen - National - 21/03/2025 - 2-1 - FC Sochaux Retro - FCSM",
-        "header_html": "<h2><strong>Sochaux / Rouen : 2-1</strong></h2>\n<h4><strong>26e journée de National</strong></h4>\n<h4><strong>Vendredi 21 mars 2025</strong></h4>\n<h4><strong>Stade Auguste Bonal</strong></h4>\n<h4><strong>10 0001 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M. Jamet</strong></h4>\n<p>Buts : Durbant 74' (s.p) et Lecolier 84' pour Sochaux ; Benkaïd 34' pour Rouen</p>",
+        "header_html": "<h2><strong>Sochaux / Rouen : 2-1</strong></h2>\n<h4><strong>26e journée de National</strong></h4>\n<h4><strong>Vendredi 21 mars 2025</strong></h4>\n<h4><strong>Stade Auguste Bonal</strong></h4>\n<h4><strong>10 001 spectateurs</strong></h4>\n<h4><strong>Arbitrage : M. Jamet</strong></h4>\n<p>Buts : Durbant 74' (s.p) et Lecolier 84' pour Sochaux ; Benkaïd 34' pour Rouen</p>",
         "header_lines": [
             "Sochaux / Rouen : 2-1",
             "26e journée de National",
             "Vendredi 21 mars 2025",
             "Stade Auguste Bonal",
-            "10 0001 spectateurs",
+            "10 001 spectateurs",
             "Arbitrage : M. Jamet",
             "Buts : Durbant 74' (s.p) et Lecolier 84' pour Sochaux ; Benkaïd 34' pour Rouen"
         ]
@@ -144,8 +144,8 @@
         "score_line": "Sochaux / Rouen : 2-1",
         "result": "V",
         "stadium": "Stade Auguste Bonal",
-        "spectators": 100001,
-        "spectators_text": "10 0001 spectateurs",
+        "spectators": 10001,
+        "spectators_text": "10 001 spectateurs",
         "referee": "M. Jamet",
         "goals_text": "Durbant 74' (s.p) et Lecolier 84' pour Sochaux ; Benkaïd 34' pour Rouen",
         "goals": [

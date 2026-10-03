@@ -15,7 +15,7 @@
     "a_la_une": true,
     "featured_image": "2024/03/ASNL-FCSM-2011-2012-4.jpg",
     "date": "2024-03-08T12:40:59",
-    "modified": "2026-06-14T10:38:53",
+    "modified": "2026-10-03T12:01:06+02:00",
     "author": "gsanchez",
     "seo": {
         "title": "",
@@ -85,13 +85,13 @@
         "path": "/a-la-une/j03-nancy-sochaux-l1-21-08-2011-1-2/",
         "slug": "j03-nancy-sochaux-l1-21-08-2011-1-2",
         "seo_title": "J03 - Nancy / Sochaux - L1 - 21/08/2011 - 1-2 - FC Sochaux Retro - FCSM",
-        "header_html": "<h2><strong>.Nancy / Sochaux : 1-2<br></strong></h2>\n<h4><strong>3e journée de Ligue 1<br></strong></h4>\n<h4><strong>Dimanche 21 août 2011</strong></h4>\n<h4><strong>Stade Marcel Picot (54)<br></strong></h4>\n<h4><strong>15 126 000 spectateurs<br></strong></h4>\n<h4><strong>Arbitre : S. Lannoy</strong></h4>\n<p>Buts : Hadji 67' (s.p) pour Nancy ; Peybernes 53', Privat 64' pour Sochaux</p>",
+        "header_html": "<h2><strong>.Nancy / Sochaux : 1-2<br></strong></h2>\n<h4><strong>3e journée de Ligue 1<br></strong></h4>\n<h4><strong>Dimanche 21 août 2011</strong></h4>\n<h4><strong>Stade Marcel Picot (54)<br></strong></h4>\n<h4><strong>15 126 spectateurs<br></strong></h4>\n<h4><strong>Arbitre : S. Lannoy</strong></h4>\n<p>Buts : Hadji 67' (s.p) pour Nancy ; Peybernes 53', Privat 64' pour Sochaux</p>",
         "header_lines": [
             ".Nancy / Sochaux : 1-2",
             "3e journée de Ligue 1",
             "Dimanche 21 août 2011",
             "Stade Marcel Picot (54)",
-            "15 126 000 spectateurs",
+            "15 126 spectateurs",
             "Arbitre : S. Lannoy",
             "Buts : Hadji 67' (s.p) pour Nancy ; Peybernes 53', Privat 64' pour Sochaux"
         ]
@@ -126,8 +126,8 @@
         "score_line": ".Nancy / Sochaux : 1-2",
         "result": "V",
         "stadium": "Stade Marcel Picot (54)",
-        "spectators": 15126000,
-        "spectators_text": "15 126 000 spectateurs",
+        "spectators": 15126,
+        "spectators_text": "15 126 spectateurs",
         "referee": "S. Lannoy",
         "goals_text": "Hadji 67' (s.p) pour Nancy ; Peybernes 53', Privat 64' pour Sochaux",
         "goals": [

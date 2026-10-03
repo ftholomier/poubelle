@@ -127,13 +127,15 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 - [x] **Export PDF** (vrai document, moteur `app/Pdf`) : fiches match / personne / article / objet /
       moment, saisons, face-à-face, bilans, records ; FR et EN ; cache, limite par IP, noindex.
 - [x] Slider de l'accueil : silhouette « ? » écartée du tirage ; records : affluences impossibles
-      écartées et signalées dans Qualité (fiches 2112 et 22054 à corriger).
+      écartées et signalées dans Qualité.
+- [x] Affluences corrigées (fautes de frappe reprises de l'ancien site, chiffres vérifiés sur les
+      feuilles de match Wikipédia) : fiche 2112, Nancy–Sochaux du 21/08/2011, 15 126 000 → 15 126 ;
+      fiche 22054, Sochaux–Rouen du 21/03/2025, 100 001 → 10 001. Plus aucune alerte « affluence ».
 - [x] Infographie A4 de toutes les fonctionnalités : `docs/sochaux-retro-fonctionnalites.pdf`.
 - [x] Nettoyage : compte de test supprimé (le back-office repart sur « Premier accès »), données
       d'exemple des captures retirées, journaux et caches de test vidés.
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
-- Affluences improbables : fiche 2112 (15 126 000) et fiche 22054 (100 001) — alertes Qualité.
 - Comparateur de maillots : les époques n'ont pas encore de photos (Interactif › Maillots).
 - 100 moments : aucun moment écrit pour l'instant (les semaines passées affichent « Bientôt »).
 - Saison 2026-2027 : le match du 02/10/2026 est en tête de l'ordre manuel (place par défaut du
