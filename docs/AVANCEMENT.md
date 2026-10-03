@@ -102,3 +102,16 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 - 03/10 02:40 UTC — contrôle d'exhaustivité : pertes corrigées, compositions avec n° de maillot.
 - 03/10 03:15 UTC — CSP, vidéos Rutube, vignettes vidéo, statistiques des compositions,
   liens joueurs, données versionnées, guide de mise en ligne : développement terminé.
+
+## Aide et teaser (demande du 03/10, 06:31 UTC — en cours)
+Demande : rubrique « Aide » du back-office = vraie formation en ligne (texte, PDF, captures
+d'écran) pour rendre les historiens autonomes ; teaser vidéo promo calé sur la musique
+fournie (curseur qui navigue dans le back-office et le site, montée en puissance).
+- Réveils automatiques (send_later, à supprimer à la fin) : trig_01QFsVzpbiAUccqmZayCf5x1,
+  trig_01MoLdoE3wKnW2jgSDFDr6nf, trig_01JMyfRohknevGgPxyst9BkF, trig_019LzQSPQoJemcYKhyRt7Wu9,
+  trig_011AVAUWKkxLACHCUh68ECdv, trig_01CLYVCwRxMMuyYSaH4ECZj6, trig_01GrZeEvf6nTtYXGucYuzzjU.
+- [ ] Aide : écrans /admin/aide (modules, leçons, quiz, progression), aide contextuelle
+- [ ] Aide : captures d'écran annotées (app/Resources/aide/img), PDF guide + mémo
+- [ ] Teaser : analyse musique, captures, animation, rendu MP4 (1920×1080)
+- [ ] Tests, nettoyage (compte de capture, données), commit, envoi des fichiers
+
