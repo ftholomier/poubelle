@@ -301,7 +301,7 @@ $clean = fn (string $s): string => trim(preg_replace(['/^\s*[«"“]\s*/u', '/\s
                 <?php if ($r['href']): ?><a href="<?= e($r['href']) ?>"><?= e($r['name']) ?></a><?php else: ?><?= e($r['name']) ?><?php endif; ?>
                 <?= !empty($r['captain']) ? '<abbr title="' . e(t('Capitaine')) . '">(c)</abbr>' : '' ?>
               </td>
-              <td class="lineup__goals"><?= $r['goals_text'] !== '' ? '<span class="ball" aria-hidden="true">⚽</span> ' . e($r['goals_text']) : '' ?></td>
+              <td class="lineup__goals"><?= $r['goals_text'] !== '' ? (str_contains($r['goals_text'], '⚽') ? '' : '<span class="ball" aria-hidden="true">⚽</span> ') . e($r['goals_text']) : '' ?></td>
               <td class="lineup__sub"><?= e($r['sub_text']) ?></td>
               <td class="lineup__cards">
                 <?php foreach ($r['yellow'] as $c): ?><span class="cardmark cardmark--y" title="<?= e(t('Carton jaune')) ?> <?= e($c) ?>'"></span><?php endforeach; ?>

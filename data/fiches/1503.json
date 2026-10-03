@@ -272,6 +272,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
@@ -287,7 +288,8 @@
                     "number": null,
                     "extra": null,
                     "captain": false,
-                    "goals": [
+                    "goals": [],
+                    "own_goals": [
                         "76"
                     ],
                     "goals_text": "76' csc",
@@ -306,6 +308,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
@@ -322,6 +325,7 @@
                     "extra": null,
                     "captain": true,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
@@ -338,6 +342,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
@@ -354,6 +359,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
@@ -370,6 +376,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
@@ -386,6 +393,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": "85",
@@ -404,6 +412,7 @@
                     "goals": [
                         "36"
                     ],
+                    "own_goals": [],
                     "goals_text": "36'",
                     "sub_in": null,
                     "sub_out": null,
@@ -422,6 +431,7 @@
                     "goals": [
                         "54"
                     ],
+                    "own_goals": [],
                     "goals_text": "54'",
                     "sub_in": null,
                     "sub_out": "74",
@@ -438,6 +448,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": "70",
@@ -454,6 +465,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": "74",
                     "sub_out": null,
@@ -474,6 +486,7 @@
                     "goals": [
                         "84"
                     ],
+                    "own_goals": [],
                     "goals_text": "84'",
                     "sub_in": "70",
                     "sub_out": null,
@@ -490,6 +503,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": "85",
                     "sub_out": null,
@@ -506,6 +520,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,

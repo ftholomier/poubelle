@@ -229,11 +229,7 @@ final class FicheForm
                 $goalsText = Html::line($r['goals_text'] ?? '', 120);
                 $subText = Html::line($r['sub_text'] ?? '', 120);
                 $cardsText = Html::line($r['cards_text'] ?? '', 120);
-                preg_match_all("/(\d{1,3}(?:\+\d{1,2})?)\s*'?/", $goalsText, $gm);
-                $subIn = preg_match("/entr[ée]e?\s*(\d{1,3})/iu", $subText, $sm) ? $sm[1] : null;
-                $subOut = preg_match("/sorti[e]?\s*(\d{1,3})/iu", $subText, $so) ? $so[1] : null;
-                preg_match_all("/\bJ\s*(\d{1,3})/u", $cardsText, $ym);
-                preg_match_all("/\bR\s*(\d{1,3})/u", $cardsText, $rm);
+                $parsed = \App\Data\Lineup::parse($goalsText, $subText, $cardsText);
                 $pos = (string) ($r['position'] ?? '');
                 $extra = [];
                 foreach ((array) ($r['extra'] ?? []) as $ek => $ev) {
@@ -247,13 +243,14 @@ final class FicheForm
                     'number' => Html::line($r['number'] ?? '', 6) ?: null,
                     'extra' => $extra ?: null,
                     'captain' => (bool) ($r['captain'] ?? false),
-                    'goals' => $goalsText !== '' ? ($gm[1] ?: [$goalsText]) : [],
+                    'goals' => $parsed['goals'],
+                    'own_goals' => $parsed['own_goals'],
                     'goals_text' => $goalsText,
-                    'sub_in' => $subIn,
-                    'sub_out' => $subOut,
+                    'sub_in' => $parsed['sub_in'],
+                    'sub_out' => $parsed['sub_out'],
                     'sub_text' => $subText,
-                    'yellow' => $ym[1],
-                    'red' => $rm[1],
+                    'yellow' => $parsed['yellow'],
+                    'red' => $parsed['red'],
                     'cards_text' => $cardsText,
                     'person_id' => self::int($r['person_id'] ?? null),
                 ];

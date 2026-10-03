@@ -8,6 +8,9 @@
 
 declare(strict_types=1);
 
+// Lecture des cellules de composition : même règle que le back-office.
+require_once __DIR__ . '/../../app/Data/Lineup.php';
+
 // ---------------------------------------------------------------------------
 // Outils texte
 // ---------------------------------------------------------------------------
@@ -832,12 +835,6 @@ function wp_parse_lineup_row(array $r, ?array $cols = null): array
     $cell = fn (string $role) => trim(implode(' ', array_filter(array_map(fn ($i) => trim((string) ($r[$i] ?? '')), $cols[$role]), fn ($v) => $v !== '')));
     $name = $cell('name');
     $captain = (bool) preg_match('/\((c|cap\.?|capitaine)\)/iu', $name);
-    $minutes = function (string $s): array {
-        if (!preg_match_all("/(\d+)\s*['’]?(?:\s*\+\s*(\d+))?/u", $s, $mm, PREG_SET_ORDER)) {
-            return [];
-        }
-        return array_map(fn ($x) => isset($x[2]) && $x[2] !== '' ? "{$x[1]}+{$x[2]}" : $x[1], $mm);
-    };
     $sub = $cell('subs');
     $cards = $cell('cards');
     $goalsCell = $cell('goals');
@@ -848,19 +845,21 @@ function wp_parse_lineup_row(array $r, ?array $cols = null): array
             $extra[$label !== '' ? $label : 'Colonne ' . ($i + 1)] = trim((string) $r[$i]);
         }
     }
+    $parsed = \App\Data\Lineup::parse($goalsCell, $sub, $cards);
     return [
         'position' => strtoupper($cell('position')),
         'name' => trim(preg_replace('/\((c|cap\.?|capitaine)\)/iu', '', $name)),
         'number' => $number !== '' ? $number : null,
         'extra' => $extra ?: null,
         'captain' => $captain,
-        'goals' => $minutes($goalsCell),
+        'goals' => $parsed['goals'],
+        'own_goals' => $parsed['own_goals'],
         'goals_text' => $goalsCell,
-        'sub_in' => preg_match('/↑|entr[ée]e|rentr/iu', $sub) ? ($minutes($sub)[0] ?? '') : null,
-        'sub_out' => preg_match('/↓|sortie|sort\b|rempl/iu', $sub) ? ($minutes($sub)[0] ?? '') : null,
+        'sub_in' => $parsed['sub_in'],
+        'sub_out' => $parsed['sub_out'],
         'sub_text' => $sub,
-        'yellow' => preg_match('/🟨|\bJ\b|jaune|carton j/u', $cards) ? $minutes($cards) : [],
-        'red' => preg_match('/🟥|\bR\b|rouge|carton r/u', $cards) ? $minutes($cards) : [],
+        'yellow' => $parsed['yellow'],
+        'red' => $parsed['red'],
         'cards_text' => $cards,
         'person_id' => null,
     ];

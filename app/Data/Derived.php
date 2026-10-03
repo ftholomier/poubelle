@@ -305,7 +305,9 @@ final class Derived
                     $out = $r['sub_out'] ?? null;
                     $mi = fn ($v) => (int) explode('+', (string) $v)[0];
                     if ($pos === 'R') {
-                        $min = ($in !== null && $in !== '') ? max(1, $full - $mi($in)) : 0;
+                        // Entré puis sorti : temps passé entre les deux.
+                        $end = ($out !== null && $out !== '' && $mi($out) > $mi((string) $in)) ? $mi($out) : $full;
+                        $min = ($in !== null && $in !== '') ? max(1, $end - $mi($in)) : 0;
                     } else {
                         $min = ($out !== null && $out !== '') ? $mi($out) : $full;
                     }
@@ -322,7 +324,13 @@ final class Derived
                 }
             }
 
-            // Contrôles qualité du match
+            // Contrôles qualité du match (les buts contre son camp de l'adversaire, cités avec
+            // les buteurs sochaliens, comptent pour Sochaux sans figurer dans la composition).
+            foreach ($m['goals'] ?? [] as $gl) {
+                if (stripos((string) ($gl['team'] ?? ''), 'sochaux') !== false) {
+                    $teamGoals += preg_match_all('/c\s*\.?\s*s\s*\.?\s*c|contre son camp/iu', (string) ($gl['scorers'] ?? ''));
+                }
+            }
             if ($us !== null && $rows && $teamGoals > 0 && $teamGoals !== $us) {
                 $quality[] = ['sev' => 'haute', 'code' => 'buts', 'msg' => "Total des buts ($us) ≠ somme des buteurs de la composition ($teamGoals)", 'id' => $mid];
             }

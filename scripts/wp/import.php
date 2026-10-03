@@ -461,6 +461,19 @@ if ($extra) {
     $report['warnings'][] = count($extra) . ' image(s) hors médiathèque WordPress ajoutée(s) : php scripts/wp/media-extra.php pour les télécharger';
 }
 
+// Mesures faites sur les fichiers eux-mêmes (php bin/console.php medias : empreinte, poids,
+// dimensions réelles) : conservées d'un import à l'autre.
+$previous = is_file(DATA . '/media.json') ? (read_json(DATA . '/media.json') ?: []) : [];
+foreach ($media as $rel => &$mm) {
+    if (!empty($previous[$rel]['sha1'])) {
+        foreach (['sha1', 'size', 'width', 'height'] as $k) {
+            if (isset($previous[$rel][$k])) {
+                $mm[$k] = $previous[$rel][$k];
+            }
+        }
+    }
+}
+unset($mm);
 ksort($media);
 write_json(DATA . '/media.json', $media);
 write_json(DATA . '/categories.json', $catOut);
@@ -579,7 +592,12 @@ function build_match(array $doc, array $parsed, array $catSlugs, array $catOut, 
         $l = [
             'title' => $ti === 0 ? ($parsed['table_title'] ?: 'Composition Sochaux') : 'Composition',
             'headers' => $tb['headers'],
-            'rows' => array_map(fn ($row) => wp_parse_lineup_row($row, wp_lineup_columns($tb['headers'])), $tb['rows']),
+            // Lignes vides du tableau d'origine (poste seul, sans joueur ni donnée) : ignorées,
+            // comme dans le back-office ; le tableau brut reste dans l'archive data/legacy.
+            'rows' => array_values(array_filter(
+                array_map(fn ($row) => wp_parse_lineup_row($row, wp_lineup_columns($tb['headers'])), $tb['rows']),
+                fn ($r) => $r['name'] !== '' || $r['goals_text'] !== '' || $r['sub_text'] !== '' || $r['cards_text'] !== '' || $r['number'] !== null || $r['extra'] !== null
+            )),
             'source_table' => $tb['source_id'],
         ];
         if ($lineup === null) {

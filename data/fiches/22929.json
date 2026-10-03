@@ -140,6 +140,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
@@ -155,7 +156,8 @@
                     "number": null,
                     "extra": null,
                     "captain": false,
-                    "goals": [
+                    "goals": [],
+                    "own_goals": [
                         "19"
                     ],
                     "goals_text": "⚽ 19' csc",
@@ -174,6 +176,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
@@ -190,6 +193,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
@@ -206,6 +210,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
@@ -225,6 +230,7 @@
                         "43",
                         "70"
                     ],
+                    "own_goals": [],
                     "goals_text": "⚽ ⚽ 43' 70'",
                     "sub_in": null,
                     "sub_out": null,
@@ -241,6 +247,7 @@
                     "extra": null,
                     "captain": true,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
@@ -259,6 +266,7 @@
                     "goals": [
                         "71"
                     ],
+                    "own_goals": [],
                     "goals_text": "⚽ 71'",
                     "sub_in": null,
                     "sub_out": null,
@@ -277,6 +285,7 @@
                     "goals": [
                         "55"
                     ],
+                    "own_goals": [],
                     "goals_text": "⚽ 55'",
                     "sub_in": null,
                     "sub_out": null,
@@ -295,6 +304,7 @@
                     "goals": [
                         "56"
                     ],
+                    "own_goals": [],
                     "goals_text": "⚽ 56'",
                     "sub_in": null,
                     "sub_out": null,
@@ -311,6 +321,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
@@ -327,6 +338,7 @@
                     "extra": null,
                     "captain": false,
                     "goals": [],
+                    "own_goals": [],
                     "goals_text": "",
                     "sub_in": null,
                     "sub_out": null,
