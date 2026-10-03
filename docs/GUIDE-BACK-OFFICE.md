@@ -209,6 +209,13 @@ Bonne pratique : une photo sans crédit ni légende est signalée dans Qualité.
   mois en cours et les deux suivants : match choisi automatiquement ou par vous (autres
   propositions, ou n'importe quel match), mot d'introduction, PDF à vérifier ; liste des
   souvenirs publiés.
+- **Les chiffres du FCSM** (site, Matchs › Explorer et Interactif › Explorer l'histoire,
+  adresse `/chiffres/`) : 100 statistiques en 11 chapitres, rien à saisir. Elles viennent des
+  tableaux de statistiques des fiches joueurs (records de carrière depuis 1929), des fiches
+  match (compositions, buteurs, affluences), des temps forts (passes décisives, remontadas) et
+  des fiches des personnes (âges, tailles, origines). Un chiffre surprenant signale souvent une
+  donnée à corriger (date de naissance, composition recopiée) : corrigez la fiche, la page se
+  recalcule.
 - **Fil jaune** (site, Interactif › Jouer) : rien à saisir, le site relie les joueurs par les
   compositions des matchs (joueurs reliés à leur fiche). Chaque composition complétée,
   surtout d'avant 1980, ajoute des liens ; une chaîne étonnante signale parfois un homonyme
@@ -232,8 +239,9 @@ Le tableau **Qualité** liste ce qui mérite une vérification, par onglet :
 
 - **Statistiques incohérentes** : score différent de la somme des buteurs, date du titre
   différente de la date du match, tableau de composition identique à celui d'un autre match
-  (copié par erreur sur l'ancien site), statistiques personnelles incohérentes, fiches
-  « à venir ».
+  (copié par erreur sur l'ancien site), statistiques personnelles incohérentes, tableau de
+  statistiques identique sur plusieurs fiches de joueurs (modèle recopié : la fiche affiche
+  les chiffres d'un autre joueur), fiches « à venir ».
 - **Liens joueurs** : joueurs cités dans des compositions sans fiche (bouton « Créer la
   fiche »), et noms reliés automatiquement à une fiche par rapprochement (autre graphie,
   faute de frappe, nom incomplet) : à vérifier.

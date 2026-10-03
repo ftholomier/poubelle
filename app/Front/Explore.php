@@ -596,6 +596,21 @@ final class Explore
         return $rows;
     }
 
+    // ================================================================== LES CHIFFRES
+
+    /** « Les chiffres du FCSM » : 100 statistiques calculées (App\Services\Chiffres). */
+    public static function chiffres(Request $req): Response
+    {
+        $all = \App\Services\Chiffres::all();
+        $scope = $all['scope'];
+        return Pages::render('chiffres', ['chapters' => $all['chapters'], 'count' => $all['count'], 'scope' => $scope], [
+            'title' => t('Les chiffres du FCSM : {n} statistiques depuis 1929', ['n' => $all['count']]),
+            'description' => t('Meilleur buteur de l’histoire, recordman des matchs, plus longue invincibilité, but le plus rapide, affluences : {n} chiffres du FC Sochaux-Montbéliard calculés depuis les fiches du musée.', ['n' => $all['count']]),
+            'active' => 'matchs',
+            'styles' => ['css/explore.css', 'css/chiffres.css'],
+        ]);
+    }
+
     public static function records(Request $req): Response
     {
         $cat = isset(self::RECORDS[$req->str('cat')]) ? $req->str('cat') : 'buteurs';

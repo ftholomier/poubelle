@@ -162,15 +162,16 @@ final class Help extends Base
             return '<figure class="aide-fig">' . ($print ? $img : '<a href="' . e($src) . '" target="_blank" title="Agrandir">' . $img . '</a>')
                 . '<figcaption>' . e($m[2]) . '</figcaption></figure>';
         }, $html) ?? $html;
-        $boxes = ['astuce' => ['Astuce', 'tip'], 'attention' => ['Attention', 'warn'], 'wp' => ['Avant, dans WordPress', 'wp'], 'auto' => ['Automatique', 'auto']];
-        $html = preg_replace_callback('/\[\[(astuce|attention|wp|auto)\|(.*?)\]\]/us', function ($m) use ($boxes) {
-            [$label, $cls] = $boxes[$m[1]];
-            return '<aside class="aide-box aide-box--' . $cls . '"><b>' . e($label) . '</b><div>' . $m[2] . '</div></aside>';
-        }, $html) ?? $html;
+        // Liens d'abord : un renvoi placé dans un encadré ne doit pas le refermer avant l'heure.
         $html = preg_replace_callback('/\[\[ecran:(\/admin[^|\]]*)\|([^\]]+)\]\]/u', fn ($m) => '<a class="btn btn--sm aide-go" href="' . e(($print ? base_url() : '') . $m[1]) . '">' . e($m[2]) . ' →</a>', $html) ?? $html;
         $html = preg_replace_callback('/\[\[aide:([a-z0-9-]+)(?:#([a-z0-9-]+))?\|([^\]]+)\]\]/u', function ($m) use ($print) {
             $href = $print ? '#' . $m[1] . (($m[2] ?? '') !== '' ? '-' . $m[2] : '') : '/admin/aide/' . $m[1] . (($m[2] ?? '') !== '' ? '#' . $m[2] : '');
             return '<a href="' . e($href) . '">' . e($m[3]) . '</a>';
+        }, $html) ?? $html;
+        $boxes = ['astuce' => ['Astuce', 'tip'], 'attention' => ['Attention', 'warn'], 'wp' => ['Avant, dans WordPress', 'wp'], 'auto' => ['Automatique', 'auto']];
+        $html = preg_replace_callback('/\[\[(astuce|attention|wp|auto)\|(.*?)\]\]/us', function ($m) use ($boxes) {
+            [$label, $cls] = $boxes[$m[1]];
+            return '<aside class="aide-box aide-box--' . $cls . '"><b>' . e($label) . '</b><div>' . $m[2] . '</div></aside>';
         }, $html) ?? $html;
         return $html;
     }

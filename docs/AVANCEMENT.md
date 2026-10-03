@@ -105,9 +105,9 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
 
 ## Aide, teaser, recette et compléments (03/10, 06:31 → 10:10 UTC) — terminé
 - [x] Rubrique **Aide** du back-office : 17 chapitres (pas à pas, « Comment faire pour… »),
-      72 captures annotées, recherche, aide contextuelle depuis chaque écran ; guide PDF (87 p.
+      73 captures annotées, recherche, aide contextuelle depuis chaque écran ; guide PDF (88 p.
       avec le correcteur, les coûts de l’IA, le verrou de modification, les fiches audio, le
-      Rétro-Direct, le Fil jaune et le kit souvenirs) et mémo (2 p.) ; **pas de quiz ni de suivi de progression**
+      Rétro-Direct, le Fil jaune, le kit souvenirs et les chiffres du FCSM) et mémo (2 p.) ; **pas de quiz ni de suivi de progression**
       (précision du client).
 - [x] **Bulles « ? »** sur chaque écran, carte et champ du back-office (souris, clavier, toucher).
 - [x] **Teaser** 1 min 55 en 1920×1080 calé sur la musique fournie ; v2 : aucune mention de
@@ -200,8 +200,26 @@ Règle : cocher au fur et à mesure, pousser après chaque étape.
       chaque fiche de match : « J'y étais ! », souvenirs publiés depuis les contributions (texte
       et signature relus). `tests/souvenirs.php` ; essai complet (PDF et QR code lus,
       témoignage envoyé, publié, retiré ; choix du mois ; accessibilité).
+- [x] **Les chiffres du FCSM** (`/chiffres/`, Matchs › Explorer et Interactif › Explorer
+      l'histoire) : 100 statistiques en 11 chapitres, calculées depuis les tableaux de carrière
+      (records depuis 1929 : Courtois 254 buts, Rust 456 matchs), les matchs officiels racontés
+      (séries dans les seules saisons complètes : 32 matchs sans défaite en 1987-1988),
+      les temps forts (remontadas, victoires arrachées, passes décisives) et les fiches des
+      personnes (âges records, tailles, origines). Garde-fous contre les données douteuses
+      (compositions recopiées, tableaux de carrière recopiés, dates de naissance invraisemblables) ;
+      nouvelle alerte Qualité « tableau de statistiques identique » ; cache par langue calculé
+      d'avance. `tests/chiffres.php` ; parcours et accessibilité (axe) sans erreur, FR et EN.
 
 ## Points de données à revoir par les historiens (relevés pendant la recette)
+- **Tableaux de statistiques recopiés** : 594 fiches de joueurs partagent l'un de 34 tableaux
+  identiques (modèle de l'ancien site, par exemple « 1990-1991, 22 matchs, 4 buts » sur 137
+  fiches) : ces fiches affichent les chiffres d'un autre joueur. Alerte « Tableau de
+  statistiques identique » dans Qualité ; ces tableaux sont ignorés par « Les chiffres ».
+- Florent Ogier : né le 30/12/1976 d'après sa fiche, il aurait eu 39 ans à son arrivée en 2016
+  (année de naissance à vérifier) ; date écartée des âges records.
+- Sochaux–Lens du 24/07/1980 (fiche 23126) et Sochaux–Zalgiris Vilnius du 06/07/2002 (fiche
+  18075) : compositions d'une autre époque (alertes « buts » et « tableau » dans Qualité).
+- 94 fiches de personnes ont « xx » comme ville de naissance.
 - Comparateur de maillots : les époques n'ont pas encore de photos (Interactif › Maillots).
 - 100 moments : aucun moment écrit pour l'instant (les semaines passées affichent « Bientôt »).
 - Saison 2026-2027 : le match du 02/10/2026 est en tête de l'ordre manuel (place par défaut du

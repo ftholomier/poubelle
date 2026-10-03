@@ -17,6 +17,7 @@ final class Derived
 {
     private const CACHE = STORAGE_PATH . '/cache/derived.php';
     private const DIRTY = STORAGE_PATH . '/cache/derived.dirty';
+    private const VERSION = 5;
     private static ?array $data = null;
 
     public const OFFICIAL_EXCLUDED = ['Amical', "Coupe d'été", 'Coupes diverses'];
@@ -43,7 +44,7 @@ final class Derived
         }
         if (is_file(self::CACHE)) {
             $d = include self::CACHE;
-            if (is_array($d) && ($d['version'] ?? 0) === 4) {
+            if (is_array($d) && ($d['version'] ?? 0) === self::VERSION) {
                 if (is_file(self::DIRTY) && filemtime(self::DIRTY) >= filemtime(self::CACHE)) {
                     self::scheduleRebuild();
                 }
@@ -88,7 +89,7 @@ final class Derived
             // Un autre processus a peut-être reconstruit pendant l'attente.
             if (is_file(self::CACHE) && (!is_file(self::DIRTY) || filemtime(self::DIRTY) < filemtime(self::CACHE))) {
                 $d = include self::CACHE;
-                if (is_array($d) && ($d['version'] ?? 0) === 4) {
+                if (is_array($d) && ($d['version'] ?? 0) === self::VERSION) {
                     return $d;
                 }
             }
@@ -258,6 +259,7 @@ final class Derived
         // ---------------------------------------------------------- matchs
         $M = [];          // résumé par match
         $apps = [];       // apparitions : [person, match, goals, minutes, yellow, red, role, captain]
+        $scorers = [];    // buteurs sochaliens : match => [[person|null, nom, minutes, penaltys]]
         $unlinked = [];   // noms de composition sans fiche
         $quality = [];
         $tableUse = [];
@@ -372,6 +374,11 @@ final class Derived
                     // Remplaçant non entré : pas d'apparition, mais présence sur la feuille.
                     $role = 'bench';
                 }
+                if ($g > 0) {
+                    // Minutes des buts et penaltys marqués (« 32' s.p. », « 12' sp et 56' »).
+                    $scorers[$mid][] = [$pid ?: null, Names::display($name), array_values(array_map('strval', $r['goals'])),
+                        preg_match_all('/(?<![\p{L}])s\.?\s?p\.?(?![\p{L}])|\bpen(?:alty)?\b/iu', (string) ($r['goals_text'] ?? ''))];
+                }
                 if ($pid) {
                     $apps[] = [$pid, $mid, $g, $min, count($r['yellow'] ?? []), count($r['red'] ?? []), $role, (bool) ($r['captain'] ?? false), $pos];
                 } elseif ($doc['_visible']) {
@@ -411,6 +418,20 @@ final class Derived
                     $others = array_map(fn ($o) => $M[$o]['title'], array_diff($mids, [$mid]));
                     $quality[] = ['sev' => 'haute', 'code' => 'tableau', 'msg' => 'Même tableau de composition que : ' . implode(', ', array_slice($others, 0, 3)), 'id' => $mid];
                 }
+            }
+        }
+
+        // Tableaux de statistiques recopiés d'une fiche à l'autre (modèle de l'ancien site) :
+        // les chiffres affichés sont ceux d'un autre joueur.
+        $statSig = [];
+        foreach ($persons as $pid => $p) {
+            if (!empty($p['personne']['stats']['rows'])) {
+                $statSig[md5(json_encode($p['personne']['stats']['rows']))][] = $pid;
+            }
+        }
+        foreach ($statSig as $ids) {
+            foreach (count($ids) > 1 ? $ids : [] as $pid) {
+                $quality[] = ['sev' => 'moyenne', 'code' => 'stats-copie', 'msg' => 'Tableau de statistiques identique à celui de ' . (count($ids) - 1) . ' autre' . (count($ids) > 2 ? 's' : '') . ' fiche' . (count($ids) > 2 ? 's' : '') . ' (modèle recopié ?) : à vérifier', 'id' => $pid];
             }
         }
 
@@ -581,11 +602,12 @@ final class Derived
         }
 
         $data = [
-            'version' => 4,
+            'version' => self::VERSION,
             'built' => date('c'),
             'duration' => round(microtime(true) - $t0, 2),
             'matches' => $M,
             'apps' => $apps,
+            'scorers' => $scorers,
             'person_totals' => $personTotals,
             'by_person' => array_map(fn ($l) => array_map(fn ($a) => $a[1], $l), $byPerson),
             'seasons' => $seasons,

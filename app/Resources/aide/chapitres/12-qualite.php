@@ -13,6 +13,7 @@ return [
 <tr><td>Date du titre ≠ date de la fiche</td><td>la date du titre d’origine diffère de la date saisie</td><td>vérifier la vraie date</td></tr>
 <tr><td>Même tableau de composition que…</td><td>une composition copiée d’un autre match sur l’ancien site</td><td>saisir la bonne composition</td></tr>
 <tr><td>Statistiques incohérentes</td><td>le total d’un tableau de statistiques ne correspond pas à la somme des saisons</td><td>corriger le tableau</td></tr>
+<tr><td>Tableau de statistiques identique à celui de N autres fiches</td><td>le même tableau recopié sur plusieurs fiches de joueurs (modèle de l’ancien site) : la fiche affiche les chiffres d’un autre joueur</td><td>saisir le vrai tableau du joueur, ou vider l’onglet Statistiques en attendant</td></tr>
 <tr><td>Fiche marquée « à venir »</td><td>fiche annoncée sur l’ancien site mais pas encore rédigée</td><td>compléter ou laisser en brouillon</td></tr>
 </table>
 HTML],

@@ -30,9 +30,23 @@ HTML],
 <tr><td>Face-à-face</td><td>bilan contre chaque adversaire</td><td>fiches match (adversaire, score)</td></tr>
 <tr><td>Bilans</td><td>par compétition, par stade</td><td>fiches match (compétition, stade)</td></tr>
 <tr><td>Records</td><td>buteurs, joueurs les plus utilisés, affluences, séries</td><td>compositions, spectateurs, scores</td></tr>
+<tr><td>Les chiffres du FCSM</td><td>100 statistiques en 11 chapitres, de 1929 à aujourd’hui</td><td>tableaux de carrière des fiches joueurs, compositions, temps forts, fiches des personnes</td></tr>
 <tr><td>Carte</td><td>stades, origines des joueurs, épopées, lieux</td><td>fiches match et personnes, outils interactifs</td></tr>
 </table>
 [[img:site-explorer.webp|Une page face-à-face, entièrement calculée]]
+HTML],
+        ['id' => 'chiffres', 'title' => 'Les chiffres du FCSM : 100 statistiques', 'html' => <<<'HTML'
+<p>Matchs › Explorer › <b>Les chiffres</b> (adresse <a href="/chiffres/" target="_blank" rel="noopener">/chiffres/</a>, aussi dans Interactif › Explorer l’histoire) : cent statistiques du club en onze chapitres. Les monuments (meilleur buteur de l’histoire, recordman des matchs, club des 100 buts…), les buteurs, le chrono (but le plus rapide, remontadas, victoires arrachées), les gardiens et la défense (blanchissages, minutes d’invincibilité), les séries, les scores, les acteurs (passeurs, capitaines, entraîneurs), les adversaires, Bonal et les tribunes, les saisons, les Lions en portrait (âges records, tailles, origines). Chaque chiffre mène à la fiche du joueur ou du match concerné.</p>
+[[img:site-chiffres.webp|La page « Les chiffres du FCSM »]]
+<table>
+<tr><th>Source (badge)</th><th>Ce qui est utilisé</th></tr>
+<tr><td>Carrières</td><td>l’onglet Statistiques des fiches joueurs, saison par saison depuis 1929 (records de toute une carrière)</td></tr>
+<tr><td>Matchs racontés</td><td>les fiches match officielles (sans les amicaux) : scores, compositions, buteurs et minutes, affluences, stades</td></tr>
+<tr><td>Récits des matchs</td><td>les temps forts minute par minute dont les scores « (1-0) » retrouvent le score final : passes décisives, buts de la tête, remontadas, penaltys arrêtés</td></tr>
+<tr><td>Fiches des Lions</td><td>dates et lieux de naissance, taille, pied fort, « formé au club »</td></tr>
+</table>
+[[auto|<p>Tout est recalculé dès que les fiches changent (et d’avance par la tâche planifiée « Recalcul des statistiques »). Les séries ne sont comptées que dans les saisons racontées en entier, pour qu’un match manquant ne fausse rien. Sont mis de côté : une composition signalée « Même tableau de composition » ou « Total des buts ≠ buteurs » dans [[aide:qualite#tableau|le tableau Qualité]], un tableau de statistiques recopié sur plusieurs fiches, une date de naissance invraisemblable.</p>]]
+[[astuce|<p>Un chiffre surprenant est souvent le signe d’une donnée à corriger : un joueur « doyen » trop âgé révèle une date de naissance fausse, une série de buts improbable une composition recopiée. Corrigez la fiche : la page se met à jour toute seule.</p>]]
 HTML],
         ['id' => 'pdf', 'title' => 'Télécharger en PDF', 'html' => <<<'HTML'
 <p>Chaque fiche (match, joueur, entraîneur, dirigeant, article, objet, moment) et chaque page de synthèse (saison, face-à-face, bilans, livre des records) a un bouton <b>Télécharger en PDF</b>. Ce n’est pas une impression de la page : c’est un vrai document A4 mis en page aux couleurs du musée, avec le blason, les polices du site, des pages numérotées, des signets et des liens cliquables.</p>

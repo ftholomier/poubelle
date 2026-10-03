@@ -48,4 +48,5 @@ $rankLabel = fn (int $r) => ordinal($r);
   <?php endif; ?>
   <?php endif; ?>
   <span class="muted italic"><?= e(t('Classements recalculés à chaque nouvelle fiche publiée. Seuls les joueurs reliés à leur fiche sont comptés.')) ?></span>
+  <a class="btn btn--navy" style="align-self:flex-start" href="<?= e(url('/chiffres/')) ?>"><?= e(t('Les 100 chiffres du FCSM')) ?> →</a>
 </div>

@@ -103,6 +103,7 @@ recadrage). Les originaux sont dans `storage/media/originals/{année}/{mois}/` (
 | `carte-*.json`, `sitemap.xml`, `share/` | données de la carte, plan du site, images de partage | à la demande |
 | `pdf/` | PDF exportés (fiches, saisons, face-à-face, bilans, records) | à la demande ; nom lié à la date de modification de la fiche et aux données calculées, donc refait dès qu'un contenu change ; ménage des fichiers de plus de 30 jours |
 | `correcteur/` | réponses de Gemini au correcteur, une par texte (empreinte du texte, du modèle et des consignes) : un texte inchangé n'est jamais renvoyé | à la demande ; ménage des réponses inutilisées depuis 180 jours |
+| `chiffres-{fr,en}.json` | les 100 chiffres du FCSM (§ 7 nonies), déjà mis en forme dans chaque langue | refaits quand `derived.php`, `index.php` ou le dictionnaire anglais changent ; calculés d'avance par la tâche « statistiques » |
 
 Après une modification de fichiers faite à la main (envoi FTP de `data/`, script), vider
 `storage/cache/` ou lancer `php bin/console.php index`, `derived` et `search`.
@@ -120,6 +121,13 @@ indifférent), nom de famille seul si un seul joueur correspond à la période, 
 autrement écrit (apostrophe, trait d'union), une lettre de différence (deux pour un nom
 long), nom incomplet (« Carlao » → « Carlao Roberto Da Cruz », avec contrôle de période).
 Les rapprochements approchés sont signalés dans Qualité.
+
+`scorers` garde, pour chaque match, les buteurs sochaliens de la composition avec les minutes
+de leurs buts et leurs penaltys (« 32' s.p. », « sp », « pen. »). Alertes de qualité propres
+aux statistiques : total des buts ≠ buteurs (`buts`), composition recopiée d'un autre match
+(`tableau`), total d'un tableau de statistiques ≠ somme des saisons (`stats`) et tableau de
+statistiques identique sur plusieurs fiches de joueurs (`stats-copie`, modèle recopié de
+l'ancien site : 594 fiches à la reprise).
 
 ## 6. Images
 
@@ -376,6 +384,39 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
 - **Back-office** : Interactif › Kit souvenirs (`App\Admin\Kit`) : trois mois, choix du
   match, mot d'introduction, PDF ; souvenirs publiés.
 
+## 7 nonies. Les chiffres du FCSM (`App\Services\Chiffres`, `/chiffres/`)
+
+- **Sources** (badge de chaque chiffre) : *Carrières* (onglet Statistiques des fiches
+  joueurs, lu par `career()` : colonnes « compétition / Buts » rangées par `compKey()`, total
+  de la ligne s'il existe, « ? » = saison au club aux chiffres perdus), *Matchs racontés*
+  (matchs officiels de `Derived`, sans amicaux, Coupe d'été ni Coupes diverses ; apparitions
+  et `scorers`), *Récits des matchs* (temps forts : `goalSequence()` ne garde un match que si
+  les scores « (1-0) » avancent d'un but à la fois, dans l'ordre des minutes, jusqu'au score
+  final), *Fiches des Lions* (naissance au jour près, taille, pied, formé au club).
+- **Garde-fous** : séries comptées seulement dans les blocs de saisons racontées en entier
+  (28 matchs de championnat au moins ; `longestRun()` ne passe jamais d'un bloc à l'autre) ;
+  compositions signalées `tableau` ou `buts` écartées de tout ce qui vient des compositions ;
+  dates signalées `date` écartées des âges ; tableau de carrière recopié sur plusieurs fiches
+  gardé pour la seule fiche dont l'arrivée et le départ collent (`dropCopiedCareers()`),
+  sinon écarté ; date de naissance donnant moins de 15 ou plus de 45 ans le jour du match, ou
+  plus de 36 ans à l'arrivée au club, ignorée.
+- **Chapitres** (`CHAPTERS` : titre, chapeau, quota) et ordre de priorité (`ORDER`) : chaque
+  chapitre calcule plus de chiffres que son quota ; `quotas()` en retient 100 et comble un
+  chiffre manquant par les réserves des autres chapitres. Doublons évités (festival offensif
+  identique à la plus large victoire, plus longue fidélité du recordman des matchs,
+  invincibilité à Bonal faite de victoires seulement).
+- **Passes décisives** (`passer()`) : « passe / centre / corner / coup franc / remise… de X »
+  dans le récit d'un but sochalien, X reconnu parmi les joueurs de la composition du match ;
+  le buteur est retrouvé par la minute du but (`scorers`).
+- **Cache** : `all()` lit `storage/cache/chiffres-{langue}.json` (textes, nombres, dates et
+  adresses déjà dans la langue) ; signature : dates de `derived.php`, `index.php` et du
+  dictionnaire anglais. Calcul complet : 5 s environ ; `warm()` le fait d'avance pour chaque
+  langue dans la tâche « statistiques ».
+- **Page** : `Explore::chiffres()`, gabarit `templates/chiffres.php`, styles
+  `public/assets/css/chiffres.css` (compteurs animés par `site.js`, `data-count`, nombres
+  entiers seulement). Liens : méga-menu Matchs › Explorer, Interactif › Explorer l'histoire,
+  page des records, plan du site.
+
 ## 8. Back-office
 
 - `App\Admin\Router` : connexion obligatoire (sauf connexion, premier accès, invitation,
@@ -412,7 +453,7 @@ Pour changer la mise en page : `Pdf\Layout` (couleurs, polices, blocs) et
 
 Une ligne de cron toutes les 5 minutes (`php bin/console.php cron`) ; chaque tâche a sa
 fréquence, l'état est dans `storage/cron.json`, un verrou empêche deux passages simultanés :
-publication des fiches programmées, statistiques, audience, traductions, correcteur
+publication des fiches programmées, statistiques (et les 100 chiffres du FCSM), audience, traductions, correcteur
 d'orthographe, newsletter,
 géolocalisation (toutes les 10 min), médiathèque, vignettes des vidéos (toutes les heures),
 assistant IA (toutes les heures), dons (toutes les heures), plan du site (chaque jour),
@@ -432,7 +473,7 @@ sauvegarde, reçus annuels, purges RGPD.
 | `audio/` | fiches audio : texte lu et voix IA de chaque fiche, traitements groupés (§ 7 quinquies) ; `audio/jobs/` : fichiers d'échange temporaires | oui (sauf `jobs/`) ; les voix IA (`public/media/audio/`) avec les photos, le dimanche |
 | `retro/` | Rétro-Direct : spectateurs connectés, pic et réactions de chaque direct, « J'y étais ! » par match (§ 7 sexies) | oui |
 | `verrous.json` | fiches et écrans ouverts en ce moment (verrou de modification) | non (temporaire) |
-| `cache/`, `sessions/`, `ratelimit/`, `logs/`, `backups/`, `import/` | fichiers techniques (dont `cache/fil-jaune.json`, records du Fil jaune) | non |
+| `cache/`, `sessions/`, `ratelimit/`, `logs/`, `backups/`, `import/` | fichiers techniques (dont `cache/fil-jaune.json`, records du Fil jaune, et `cache/chiffres-*.json`, les 100 chiffres) | non |
 
 ## 11. Sécurité
 
@@ -481,5 +522,9 @@ back-office sont préservées) : il ne sert plus une fois le site en service.
   courte, liens, familles et records, défi du jour).
 - `php tests/souvenirs.php` : kit souvenirs (match du mois et choix des historiens, visages,
   quiz, PDF de 4 pages), « Ils y étaient » (témoignages publiés seulement), QR code.
+- `php tests/chiffres.php` : les chiffres du FCSM (tableaux de carrière et tableaux recopiés,
+  buts minute par minute, séries par blocs de saisons, quotas, passeurs, âges, mise en forme
+  française et anglaise ; puis les 100 chiffres du musée et les garde-fous contre les données
+  douteuses).
 - `tests/smoke.js` (Playwright) : parcourt les pages du site et du back-office et signale
   les erreurs JavaScript et les blocages de la politique CSP.

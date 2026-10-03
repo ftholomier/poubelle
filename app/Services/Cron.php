@@ -26,7 +26,7 @@ final class Cron
     /** Tâche => [intervalle en secondes, description] */
     public const TASKS = [
         'publication' => [0, 'Publication des fiches programmées'],
-        'statistiques' => [0, 'Recalcul des statistiques si nécessaire'],
+        'statistiques' => [0, 'Recalcul des statistiques (et des 100 chiffres du FCSM) si nécessaire'],
         'audience' => [0, 'Mesure d’audience anonyme (agrégation)'],
         'traductions' => [0, 'Traduction anglaise des fiches (Gemini)'],
         'correcteur' => [0, 'Correcteur d’orthographe : vérification des fiches nouvelles ou modifiées'],
@@ -111,11 +111,14 @@ final class Cron
                 return $n ? "$n fiche(s) publiée(s)" : null;
 
             case 'statistiques':
-                if (!Derived::isDirty()) {
-                    return null;
+                $done = null;
+                if (Derived::isDirty()) {
+                    $d = Derived::rebuild();
+                    $done = sprintf('%d matchs, %d personnes reliées (%.1f s)', count($d['matches']), count($d['person_totals']), $d['duration']);
                 }
-                $d = Derived::rebuild();
-                return sprintf('%d matchs, %d personnes reliées (%.1f s)', count($d['matches']), count($d['person_totals']), $d['duration']);
+                // « Les chiffres du FCSM » recalculés d'avance : le visiteur n'attend pas.
+                $n = Chiffres::warm();
+                return $n ? trim(($done ? $done . ' ; ' : '') . 'les 100 chiffres du FCSM recalculés') : $done;
 
             case 'audience':
                 $n = Stats::aggregate();

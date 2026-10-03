@@ -178,6 +178,7 @@ final class Kernel
         $r->get('/face-a-face/{club}/', fn ($q, $club) => Front\Explore::opponent($q, $club));
         $r->get('/bilans/{key}/', fn ($q, $key) => Front\Explore::bilan($q, $key));
         $r->get('/records/', fn ($q) => Front\Explore::records($q));
+        $r->get('/chiffres/', fn ($q) => Front\Explore::chiffres($q));
 
         // Interactif
         $r->get('/interactif/', fn ($q) => Front\Interactive::landing($q));

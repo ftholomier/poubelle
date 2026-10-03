@@ -100,6 +100,9 @@ HTML],
         ['id' => 'kit', 'title' => '… imprimer le kit souvenirs du mois pour des anciens supporters', 'html' => <<<'HTML'
 <p>Sur le site : Interactif › Participer › <b>Kit souvenirs</b> › « Télécharger le kit » (PDF de 4 pages A4). Pour changer le match ou ajouter un mot d’introduction : Interactif › <b>Kit souvenirs</b> du back-office. Voir [[aide:interactif#souvenirs|Le kit souvenirs]].</p>
 HTML],
+        ['id' => 'chiffres', 'title' => '… comprendre (ou corriger) un chiffre de la page « Les chiffres du FCSM »', 'html' => <<<'HTML'
+<p>Chaque chiffre porte un badge qui dit d’où il vient (Carrières, Matchs racontés, Récits des matchs, Fiches des Lions) et mène à la fiche concernée : corrigez cette fiche (tableau de statistiques, composition, temps forts, date de naissance) et la page se recalcule toute seule. Un joueur absent des records de carrière a souvent un tableau de statistiques recopié d’un autre joueur (alerte dans Pilotage › Qualité). Voir [[aide:site-public#chiffres|Les chiffres du FCSM]].</p>
+HTML],
         ['id' => 'pdf', 'title' => '… obtenir le PDF d’une fiche', 'html' => <<<'HTML'
 <p>Sur le site, bouton <b>Télécharger en PDF</b> sous le titre de la fiche (ou de la saison, du face-à-face, du bilan, des records). Dans le back-office : panneau Publication de la fiche › <b>Télécharger le PDF</b>. Le document reprend la dernière version enregistrée. Voir <a href="/admin/aide/site-public#pdf">Télécharger en PDF</a>.</p>
 HTML],

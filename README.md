@@ -16,7 +16,10 @@ redirigées.
   cartons), temps forts, réactions, vidéos, galerie, face-à-face avec l'adversaire.
 - Fiches joueurs, entraîneurs, dirigeants : carte à collectionner, identité, récit,
   statistiques, tous leurs matchs reliés automatiquement.
-- Explorer : saisons, face-à-face, bilans par compétition et par stade, records.
+- Explorer : saisons, face-à-face, bilans par compétition et par stade, records, et
+  **Les chiffres du FCSM** : 100 statistiques depuis 1929 en 11 chapitres (meilleur buteur
+  de l'histoire, recordman des matchs, plus longue invincibilité, but le plus rapide,
+  remontadas, affluences, âges records…), calculées automatiquement depuis les fiches.
 - INTERACTIF : **Rétro-Direct** (un grand match rejoué en direct, minute par minute, le
   jour de son anniversaire, et tous les matchs à revivre en accéléré), **Fil jaune** (deux
   joueurs reliés par les matchs joués ensemble, constellation des coéquipiers, défi du
